@@ -60,30 +60,6 @@
       "Example": "internal static AppAppearance Current { get private set }"
     },
     {
-      "File": "X.Desktop/Wpf/ConcreteParameters.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "ConcreteWorkspace.CommonCoefficients",
-      "Fingerprint": "4B07DF40F9B5ACF6957B7330304DF65E6D59824DA543FB7A5FD1A44B6AD8696F",
-      "Count": 1,
-      "Example": "private static readonly ( string Input , string Standard ) [ ] CommonCoefficients"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteViewports.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "ConcreteSectionViewport.Contours",
-      "Fingerprint": "C79D7D546E7E1FA1DD9C223C64E6405D93BF3312A612F38CF4217DD594964B2A",
-      "Count": 1,
-      "Example": "internal static readonly string [ ] Contours"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteWorkspace.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "ConcreteWorkspace.AllCalculations",
-      "Fingerprint": "27311B46027D60A3745C24C153281885FDA3AA2F1F481BEF62B20E1138DA8551",
-      "Count": 1,
-      "Example": "private static readonly string [ ] AllCalculations"
-    },
-    {
       "File": "X.Desktop/Wpf/Drawings.cs",
       "Rule": "P3-static-collection",
       "Owner": "StratigraphyDrawing.LayerColors",
@@ -194,14 +170,6 @@
       "Fingerprint": "ED1B04D902AFADC9B67752A534F46712090638F2A4B5318B3D9621ED2221FF2A",
       "Count": 1,
       "Example": "private static readonly ( string Document , string Legacy ) [ ] Keys"
-    },
-    {
-      "File": "src/ANTHEA.DesignTools.Presentation/ConcreteTimeEffectsViewModel.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "ConcreteTimeEffectsViewModel.Inputs",
-      "Fingerprint": "B0F2F82CA7FDFD670A259349227A2BC61CEC457CAD21F16C744391F26BBF15DF",
-      "Count": 1,
-      "Example": "private static readonly HashSet < string > Inputs"
     },
     {
       "File": "src/ANTHEA.ModelViewer.Presentation/ModelDisplayCatalog.cs",

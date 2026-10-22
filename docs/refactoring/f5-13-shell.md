@@ -647,3 +647,97 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Prof
 | D-2 | La risposta elastica del palo orizzontale (`ElasticPileViewModel`, `ElasticPileAnalysisSession`) calcola su un thread di fondo senza passare dal limitatore (rischio R6) | lasciata come oggi, come la vista storica; da decidere con (e)–(g) o in F5.15 se farla passare dal limitatore |
 | D-3 | Istanze condivise di tipi mutabili delle librerie, lette e mai scritte (11.3) | lasciate; seguito per le librerie |
 | D-4 | Istante scritto all'apertura di Bridge Design nei prezzi fissati: non è un risultato, ma cambia a ogni esecuzione | escluso dal confronto della prova di uscita, come nella cattura F3 |
+
+### 11.7 Parte (d) per la sezione c.a.
+
+Agente `f5-13-d2`, 22/10/2026, ramo `refactoring/f5-13-d2` da `refactoring/f5` a 19153431 (blocco 9, S9 e vista XAML della sezione c.a.,
+parti (a)–(d) della shell). Chiude le quattro voci P3 lasciate alla sezione c.a. in 11.3 e porta la sezione nella prova di uscita (11.4).
+Regola diurna: nessuna prova WPF eseguita.
+
+**Voci tolte.** Stessa ricetta di 11.2: cataloghi immutabili, stessi elementi nello stesso ordine, nessun risultato cambiato. Nessuna delle quattro
+era scritta durante un calcolo. `ConcreteWorkspace` e `ConcreteSectionViewport` sono della vista storica, che resta quella della Release: cambia
+solo il tipo. Il codice dei report non è toccato.
+
+| # | File e membro | Chi lo scrive e quando | Correzione | Commit |
+| --- | --- | --- | --- | --- |
+| C1 | `src/ANTHEA.DesignTools.Presentation/ConcreteTimeEffectsViewModel.cs`, `Inputs` (`HashSet<string>` privato, strumenti c.a.) | inizializzatore; letto da `OnPropertyChanged` (`Contains`) e dal rinnovo della convalida dei campi (`foreach`, che notifica le proprietà nell'ordine di inserimento) | `ImmutableArray<string>` nell'ordine della dichiarazione: `Contains` ordinale come prima; le otto notifiche nello stesso ordine (nomi distinti, nessuna in più) | f64b77b9 |
+| C2 | `X.Desktop/Wpf/ConcreteParameters.cs`, `ConcreteWorkspace.CommonCoefficients` | inizializzatore (copia di `ConcreteEditor.CommonCoefficients`); letto dai coefficienti della vista storica | `ImmutableArray` con le stesse coppie | e157454d |
+| C3 | `X.Desktop/Wpf/ConcreteViewports.cs`, `ConcreteSectionViewport.Contours` | inizializzatore (copia in `string[]` del catalogo immutabile di Application, F2.11c); letto dalle scelte dei contorni della vista storica, dalle figure del report del c.a. (`ModuleFigureRenderer.Concrete`) e dalle prove WPF | proprietà che restituisce il catalogo `ConcreteSheetPreparation.Contours` (`ImmutableArray`); `Ui.Choice` copia già le voci in un vettore nuovo, quindi `ItemsSource` resta uno `string[]` come leggono le prove | e157454d |
+| C4 | `X.Desktop/Wpf/ConcreteWorkspace.cs`, `ConcreteWorkspace.AllCalculations` | inizializzatore; letto dalle invalidazioni della vista storica (`HashSet`, `UnionWith`) | `ImmutableArray<string>`, stesso ordine | e157454d |
+
+Fuori dal prodotto è cambiata una riga: `supporto/test/Desktop/ConcreteSmokeChecks.cs`, `Array.IndexOf(Contours, c)` → `Contours.IndexOf(c)`.
+
+**Conteggi P3.** Baseline da 37 voci (base 19153431) a 36 (f64b77b9) e a 33 (e157454d), aggiornata nello stesso commit di ogni correzione;
+nessuna aggiunta. Sezione c.a. a zero voci. Le 33 rimaste sono quelle di 11.3 fuori dalla sezione c.a.: report congelati (R1, R2 e
+`PdfFonts` ×3), interfaccia globale (`Appearance` ×7, `ErrorLog.attached`, `StratigraphyDrawing.LayerColors`), stratigrafia, progetti,
+documenti e modelli (18), `JsonFallbackHook.Observer`.
+
+**Prova di uscita estesa** (`ParallelChecks`, b45770f1):
+- **Fogli**: le 11 fixture F3 di `str_palo`, aperte per prime, con `ConcreteSheetViewModel` creato dal modulo registrato
+  (`ConcreteSectionSheetModule`) nello stesso `WorkspaceSession` degli altri moduli: 106 casi. Nei giri paralleli ogni fixture ha due documenti
+  (due `SheetSession` dello stesso modulo) accanto agli altri moduli, come in 11.4: 212 fogli per giro.
+- **Calcolo**: la sezione non passa dal servizio del modulo né dal limitatore. Ha il suo coordinatore (decisione C1: una preparazione e i passi
+  paralleli di `ConcreteAnalysisSession` su thread di lavoro, il taglio sul thread dell'interfaccia). Il cancello conta quindi solo i calcoli dei
+  servizi. I lotti della sezione si contano a parte dallo stato `IsBusy` dei fogli: nella serie uno alla volta e nessuno in corso accanto ai
+  calcoli dei moduli; nei giri paralleli almeno due insieme e almeno uno in corso all'ingresso di un calcolo dei moduli. Le sezioni partono per
+  prime, quindi i loro lotti sono in corso quando partono i calcoli degli altri moduli.
+- **Attesa**: dopo «Calcola» il foglio si lascia fermare: nessun lotto in corso o in coda, nessuna resistenza rapida in corso (thread di lavoro con
+  il loro pianificatore, avviate dall'anteprima dell'apertura). L'attesa è svegliata dalle notifiche del foglio e degli ingressi, mai da una pausa.
+- **Impronta**: quella comune (risultato e dati bit per bit), più la riga di stato, gli errori delle verifiche e le resistenze rapide.
+  - Le fixture senza id nelle righe delle azioni ricevono l'id all'apertura (`Guid.NewGuid`): è un'identità, non un risultato, e cambia a ogni
+    apertura. La prima esecuzione è caduta proprio su questo (`corpus-sezione-ca-taglio-din-rettangolare`, riga SLU).
+  - Gli id generati si numerano per prima comparsa («<id generato n>»), come la cattura F3 numera i GUID (`GuidMap`). Quelli scritti nelle
+    fixture restano come sono.
+- **Esito**: PASS 437 controlli (erano 388: uno in più nella serie, due e 22 fogli in più per giro). In ogni esecuzione:
+  - serie 27–30 s, giri paralleli 38–44 s;
+  - picco del limitatore 23;
+  - 22 lotti della sezione insieme e 22 in corso all'ingresso di un calcolo dei moduli.
+
+Esecuzioni del 22/10 (cartelle in `supporto/artefatti/f5-13-d2/` del worktree, non versionate), tutte PASS 437:
+- `prova2` (dopo `prova1`, caduta sugli id generati);
+- `ripetizione-1`…`ripetizione-5`, 110–113 s l'una;
+- la suite `Presentation.Tests/paralleli` della corsa standard finale `f5-13-d2-finale` (11.7.1).
+
+Impronte della serie:
+- le 106 impronte (`paralleli/serie/`) sono identiche byte per byte fra `prova2` e le cinque ripetizioni, e così gli hash del riepilogo;
+- le 95 impronte già esistenti sono identiche byte per byte a quelle della base 19153431 (`base-paralleli`, PASS 388).
+
+Le correzioni C1–C4 e la sezione aggiunta non cambiano alcun risultato, e la prova non dipende dall'esecuzione.
+
+#### 11.7.1 Verifiche, suite di stanotte e ripresa
+
+- **A ogni commit**:
+  - build Release della soluzione; build `UiTests` di X.Desktop per e157454d (le prove WPF compilate, non eseguite);
+  - Architecture.Tests PASS 574, con 36 e poi 33 stati statici;
+  - `ConcreteTimeEffects.Checks` 379 PASS per f64b77b9.
+- **Profilo `standard` finale**, tag `f5-13-d2-finale`: esito nel rapporto dell'agente e in `ANTHEA-f5-ripresa\f5-agenti\f5-13-d2\avanzamento.md`.
+
+Suite `ui` da eseguire stanotte per i file toccati:
+
+| Suite | Perché |
+| --- | --- |
+| `ConcreteTimeEffects.UiChecks` | finestra degli effetti nel tempo su `ConcreteTimeEffectsViewModel` (C1: notifiche della convalida) |
+| `ui/check-sezione-historic`, `ui/f3-equivalence` | tracce e cattura F3 della vista storica della sezione c.a. (C2–C4) |
+| `ui/smoke`, `ui/smoke-mvvm` | `ConcreteSmokeChecks.VerifyWorkspace` (riga cambiata con `Contours.IndexOf`); il banco `-mvvm` lascia storica la sezione c.a. |
+| `ui/smoke-ca-extensions`, `ui/smoke-ca-features`, `ui/smoke-neutral-axis`, `ui/smoke-section-actions`, `ui/check-concrete-template-wizard`, `ui/check-concrete-design` | aprono la vista storica (`ConcreteWorkspace`) e le scelte dei contorni (C3) |
+| `ui/f3-report-chapters`, `ui/f3-report-chapters-sezione-mvvm`, `ui/f3-concrete-figures` | figure del report del c.a. (`ModuleFigureRenderer.Concrete` legge `ConcreteSectionViewport.Contours`) |
+| `ui/check-sezione-view` | la vista XAML legge `ConcreteSectionViewport.Contours` e disegna con `ConcreteSectionViewport` |
+| `ui/f3-scheduling`, `ui/check-field-form-parity` | ricalcoli e moduli della vista storica della sezione c.a. (C2, C4) |
+| `ui/check-palo-elastico-historic`, `ui/check-palo-orizzontale-view`, `ElasticPile.UiChecks` (con `anello-interno` e `nota-stress-block`) | il verificatore c.a. del palo apre la vista storica della sezione (`PileReinforcementEditor`, `PileConcreteVerifierView`) |
+
+**Cosa resta.** Per la sezione c.a. nessuna voce P3. Restano D-1…D-4 (11.6) e D-5 (sotto), da rivedere in F5.15; parti (e)–(g) di F5.13.
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-d2
+dotnet build ANTHEA.sln -c Release
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll supporto/artefatti/f5-13-d2/paralleli --paralleli
+dotnet tests/ANTHEA.Architecture.Tests/bin/Release/net8.0/ANTHEA.Architecture.Tests.dll supporto/artefatti/f5-13-d2/arch
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
+```
+
+#### 11.7.2 Domanda «da decidere»
+
+| # | Domanda | Opzione presa |
+| --- | --- | --- |
+| D-5 | La sezione c.a. calcola i suoi lotti fuori dal limitatore dell'applicazione: `ConcreteAnalysisSession` usa `Task.Run` per la preparazione, i domini e le tensioni. Anche le resistenze rapide, la sezione σ/ε, la curva M–χ e la ricerca delle armature girano su thread di lavoro con i loro pianificatori, fuori dal limitatore. Con molte sezioni aperte i lotti si sommano ai calcoli dei moduli (rischio R6, come D-2). | lasciata come oggi: C1 conserva l'orchestrazione della vista storica. La prova conta i lotti a parte e prova che i risultati non cambiano. Da decidere con (e)–(g) o in F5.15 se far passare i lotti dal limitatore |

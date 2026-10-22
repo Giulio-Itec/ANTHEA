@@ -185,7 +185,7 @@ internal sealed partial class ConcreteWorkspace
         var contourResult = Result;
         foreach (string contour in ConcreteSectionViewport.Contours)
         {
-            contourChoice.SelectedItem = contour; await Capture("contour_" + Array.IndexOf(ConcreteSectionViewport.Contours, contour));
+            contourChoice.SelectedItem = contour; await Capture("contour_" + ConcreteSectionViewport.Contours.IndexOf(contour));
             Assert(rare.View.Contour == contour && settings["sle"]!["SLE"].S("contour") == contour && ReferenceEquals(Result, contourResult), "Menu contour seleziona subito e non ricalcola " + contour);
             Assert(contour == "Solo geometria" || rare.View.ContourLegend.Length > 0, "Legenda contour " + contour);
         }

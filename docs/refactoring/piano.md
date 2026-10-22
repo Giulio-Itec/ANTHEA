@@ -772,6 +772,11 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
     da 126 a 37 voci, zero nelle cinque aree salvo le due liste di sezioni dei report congelati. Prova di uscita `--paralleli` (suite
     `Presentation.Tests/paralleli`, stadio regression): 95 fixture F3 in serie e in due giri paralleli con il limitatore di istanza, bit per
     bit. Domande D-1…D-4; suite `ui` da eseguire di notte nella sezione 11.5.2.
+  - **Parte (d) per la sezione c.a.** (22/10, ramo `refactoring/f5-13-d2`, da unire; [nota](f5-13-shell.md), sezione 11.7): le ultime quattro
+    voci P3 della sezione c.a. diventano cataloghi immutabili. Sono `ConcreteTimeEffectsViewModel.Inputs` e, nella vista storica, invariata,
+    `CommonCoefficients`, `Contours` e `AllCalculations`. Baseline P3 da 37 a 33 voci, zero nella sezione c.a. La prova `--paralleli`
+    comprende le 11 fixture `str_palo`: due fogli per fixture accanto agli altri moduli, lotti della sezione contati a parte dal limitatore,
+    PASS 437 in sei esecuzioni con impronte della serie identiche. Domanda D-5: la sezione calcola fuori dal limitatore.
 - [ ] F5.14 Chiusura: X.Desktop → ANTHEA.Desktop, terza revisione di AGENTS.md.
 - [ ] F5.15 [CP] Ridiscutere con l'utente le voci sfavorevoli o aperte del registro delle differenze R4-R21 (R4-R14 e R16-R21; R15 è corretta) (decisione del 7/10: "le guardiamo a fine refactoring"; estesa a R16-R21 dal coordinatore su delega, ratificata dall'utente il 15/10, E4). Nello stesso punto si rivedono tutte le scelte provvisorie del coordinatore sulle voci «da decidere» di F5 (decisione dell'utente del 17/10, [decisioni](decisioni.md), 17 ottobre tarda mattina).
 

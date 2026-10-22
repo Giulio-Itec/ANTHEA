@@ -1,5 +1,6 @@
 using Anthea.Application.Materials;
 using Anthea.Application.Concrete;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.Json.Nodes;
@@ -36,7 +37,8 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private readonly TextBlock status = Ui.Text("Dati della sezione · selezionare una scheda per iniziare", 12);
     private readonly ProgressBar progress = new() { Height = 3, IsIndeterminate = true, Visibility = Visibility.Collapsed };
     private bool calculationQueued;
-    private static readonly string[] AllCalculations = ["3D:SLU", "2D:SLU", "3D:SLV", "2D:SLV", "SLE", "SLE_FREQ", "SLE_QP", "Taglio"];
+    // Catalogo immutabile (F5.13 d, P3): stessi elementi, stesso ordine.
+    private static readonly ImmutableArray<string> AllCalculations = ["3D:SLU", "2D:SLU", "3D:SLV", "2D:SLV", "SLE", "SLE_FREQ", "SLE_QP", "Taglio"];
     private readonly HashSet<string> pendingCalculations = new(AllCalculations);
     private readonly Anthea.Application.Scheduling.RecalculationScheduler analysisScheduler = new();
     private bool initializing = true, disposed, synchronizing;
