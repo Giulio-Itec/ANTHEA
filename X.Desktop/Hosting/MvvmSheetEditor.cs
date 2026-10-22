@@ -31,7 +31,7 @@ namespace X.Desktop;
 /// <item>Results and reports: the generic path of SheetEditor (JSON of the result, Word document of the sheet, PDF rendered from it),
 /// or the PDF of the generator of the module where the historic sheet writes it so (<see cref="IModuleReportPdf"/>, T8). A material
 /// sheet (<see cref="IMaterialSheetViewModel"/>, F5.5) gives the chapter of the material and writes its report as SheetEditor does,
-/// Word and PDF from the document (<c>MaterialReportChapter.Write</c>, T8); the short report comes with the c.a. section (F5.10).</item>
+/// Word and PDF from the document (<c>MaterialReportChapter.Write</c>, T8); the short report of the c.a. section through <see cref="IModuleShortReport"/> (F5.10 S9).</item>
 /// </list>
 /// </summary>
 internal sealed class MvvmSheetEditor : ISheetEditor
@@ -112,10 +112,12 @@ internal sealed class MvvmSheetEditor : ISheetEditor
 
     public void ExportResult(string filename)
     {
-        if (!HasResults || Busy) throw new InvalidOperationException("Premere Calcola prima di esportare.");
+        // F5.10 S9: as SheetEditor, the RC section refuses with its message and its JSON carries also the data of the sheet.
+        bool concrete = Sheet is Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel;
+        if (!HasResults || Busy) throw new InvalidOperationException(concrete ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
         var exported = Result!;
         // F5.12 (BD7): as SheetEditor, the JSON of Bridge Design carries also the data of the sheet (the result is a new object at every read).
-        if (Sheet is Anthea.Presentation.Modules.BridgeDesign.BridgeDesignSheetViewModel) exported["dati"] = Data.DeepClone();
+        if (Sheet is Anthea.Presentation.Modules.BridgeDesign.BridgeDesignSheetViewModel || concrete) exported["dati"] = Data.DeepClone();
         Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(exported.ToJsonString(J.Options)));
     }
 
@@ -146,8 +148,9 @@ internal sealed class MvvmSheetEditor : ISheetEditor
 
     public byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => Sheet.Report.BuildReport(title, options, projectReport);
 
-    public byte[] BuildShortReport(string title) =>
-        throw new InvalidOperationException("Il report short è disponibile per le sezioni in calcestruzzo armato.");
+    /// <summary>The short report of a sheet that writes it (<see cref="IModuleShortReport"/>: the RC section, F5.10 S9), with the message of SheetEditor otherwise.</summary>
+    public byte[] BuildShortReport(string title) => Sheet.Report is IModuleShortReport report ? report.BuildShortReport(title)
+        : throw new InvalidOperationException("Il report short è disponibile per le sezioni in calcestruzzo armato.");
 
     public ReportProject.SheetContent MaterialReportContent() => Sheet is IMaterialSheetViewModel material ? material.ReportContent()
         : throw new InvalidOperationException("Capitolo dei materiali non disponibile per il modulo " + Module + ".");
