@@ -57,7 +57,7 @@
      <Button Style="{StaticResource Command}" Content="Calcola armature" Command="{Binding RunCommand}"/>
      <Button Style="{StaticResource Command}" Content="Ferma ricerca" Command="{Binding StopCommand}"/>
     </WrapPanel>
-    <ProgressBar Height="4" Minimum="0" Maximum="1" Margin="0,5,0,5" Value="{Binding Progress, Mode=OneWay}"/>
+    <ProgressBar Height="4" Minimum="0" Maximum="1" Margin="0,5,0,5" Value="{Binding Progress, Mode=OneWay}" AutomationProperties.Name="Avanzamento della ricerca"/>
     <TextBlock Style="{StaticResource T12}" Text="{Binding Status}"/>
    </StackPanel>
    <Grid x:Name="Rows" Tag="righe">
