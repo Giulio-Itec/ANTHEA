@@ -66,8 +66,10 @@ Versioni di prova consegnate (f5b, f5c, f5d) sul ramo `prova/f5-viste`:
      su 7,5 milioni (al massimo 9 livelli, riquadro 10×10) dal riferimento disegnato nello stesso processo; da sola PASS.
      Il confronto byte per byte delle immagini va reso robusto alla resa grafica (nelle prove).
 3. **Ambiente** (deroghe della 1.11.0 e della 1.12.0, ancora aperte):
-   - dopo la verifica dell'amministratore di Trend Micro, ripetere `ui/check-palo-verticale-view` e `ui/check-muri-view`;
-   - domanda S6: `DocumentFile.Write` rinomina le immagini;
+   - **S6 chiusa il 22/10** (scelta dell'utente «1 a»): `DocumentFile.Write` copia anche le immagini invece di rinominarle, merge
+     78ccba8e. La causa era la regola `NON_POLICY_JUST_ADC` di Trend Micro (`AEGIS_BM.log`), che chiudeva ANTHEA alla terza immagine
+     della sessione. Dopo la correzione, dal checkout principale `ui/check-palo-verticale-view` e `ui/check-bridge-design-view` sono
+     PASS (`supporto/artefatti/ci/20261022-225232-s6-verifica`). Resta da ripetere `ui/check-muri-view`;
    - ripetere `ui/check-contrast` a 96 DPI con i passi autonomi `mvvm-…`, senza cambiare la baseline;
    - le deroghe non vanno in `known-failures.json`.
 4. **Passaggio nella Release dei moduli F5 con la vista pronta.**
@@ -106,8 +108,6 @@ Versioni di prova consegnate (f5b, f5c, f5d) sul ramo `prova/f5-viste`:
 ## Domande aperte per l'utente
 
 - **Pubblicazione** di `refactoring/f5` (9 commit) con il tag `v1.12.1`.
-- **S6, antivirus.** Copiare anche le immagini in `DocumentFile.Write` (una riga, ma nel codice dei report congelato), oppure
-  aspettare la verifica di Trend Micro.
 - **Versione di prova unica** dei sette moduli F5 dal codice di oggi (passo 4).
 - **Scelte «da decidere»:** si rivedono tutte in F5.15. L'elenco è in decisioni.md (17 ottobre) e nei documenti `f5-*.md`:
   M15–M20, S13–S17, MU14–MU19, S1-a…S1-e, f5-6 5.3, [f5-suite-ui.md](f5-suite-ui.md), f5-7 5 / f5-8 6,
