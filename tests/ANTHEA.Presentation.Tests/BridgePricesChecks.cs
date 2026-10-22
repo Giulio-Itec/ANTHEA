@@ -105,7 +105,7 @@ internal static class BridgePricesChecks
             void Write(string name, string content) { zip.GetEntry(name)?.Delete(); using var s = new StreamWriter(zip.CreateEntry(name).Open()); s.Write(content); }
             var book = Read("xl/workbook.xml").Replace("Azioni", "Prezzario"); Write("xl/workbook.xml", book);
             XNamespace ns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
-            string[][] rows = [PriceCatalogueImport.Headers, ["A", "Calcestruzzo", "m³", "200.5", ""]];
+            string[][] rows = [[.. PriceCatalogueImport.Headers], ["A", "Calcestruzzo", "m³", "200.5", ""]];
             var sheet = new XElement(ns + "worksheet", new XElement(ns + "sheetData", rows.Select((row, k) => new XElement(ns + "row", new XAttribute("r", k + 1), row.Select((value, col) => new XElement(ns + "c", new XAttribute("r", ((char)('A' + col)).ToString() + (k + 1)), new XAttribute("t", "inlineStr"), new XElement(ns + "is", new XElement(ns + "t", value))))))));
             Write("xl/worksheets/sheet1.xml", sheet.ToString());
         }

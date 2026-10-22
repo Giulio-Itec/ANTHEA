@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using Anthea.Application.Modules;
 using Anthea.Reports;
@@ -9,8 +8,12 @@ namespace Anthea.Application.BridgeDesign;
 /// <summary>Read-only views and editor queries over the same completed native result.</summary>
 public static partial class BridgeDesignModel
 {
-    private static readonly ConditionalWeakTable<ModuleCalculation, Result> Views = new();
-    public static Result Read(ModuleCalculation calculation) => Views.GetValue(calculation, c => new(c.NativeAs<Native.Result>()));
+    /// <summary>The view of the result of <paramref name="calculation"/>, kept by the calculation (F5.13 d): built once, then the same instance.</summary>
+    public static Result Read(ModuleCalculation calculation)
+    {
+        ArgumentNullException.ThrowIfNull(calculation);
+        return calculation.View(c => new Result(c.NativeAs<Native.Result>()));
+    }
     public const string Module = Native.Module;
     public const string Scope = Native.Scope;
     public const string OptimizationScope = Native.OptimizationScope;

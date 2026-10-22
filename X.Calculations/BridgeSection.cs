@@ -3,6 +3,7 @@ using System.Text.Json.Nodes;
 using GPC.Model.Data.Concrete;
 using GPC.Model.Data.Steel;
 using GPC.Model.Materials;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 
@@ -11,18 +12,18 @@ public static partial class BridgeSection
 {
     public const string Module = "str_mista_ponte";
     public const string Method = HBridgeSection.Method;
-    public static readonly string[] Standards = ["NTC 2018 / EN 1994-2:2005", "EN 1994-2:2005"];
-    public static readonly string[] ConcreteNames = ConcreteMaterialCatalog.NativeConcrete().Select(m => m.Name).ToArray();
-    public static readonly string[] SteelNames = ["S235", "S275", "S355", "S420"];
-    public static readonly string[] RebarNames = ["B450A", "B450C", "B500A", "B500B", "B500C"];
+    public static readonly ImmutableArray<string> Standards = ["NTC 2018 / EN 1994-2:2005", "EN 1994-2:2005"];
+    public static readonly ImmutableArray<string> ConcreteNames = [.. ConcreteMaterialCatalog.NativeConcrete().Select(m => m.Name)];
+    public static readonly ImmutableArray<string> SteelNames = ["S235", "S275", "S355", "S420"];
+    public static readonly ImmutableArray<string> RebarNames = ["B450A", "B450C", "B500A", "B500B", "B500C"];
     /// <summary>The steel sections, in the order of <see cref="BridgeSteelSectionType"/></summary>
-    public static readonly string[] SectionTypes = ["H saldato", "H con anima inclinata", "Cassoncino"];
+    public static readonly ImmutableArray<string> SectionTypes = ["H saldato", "H con anima inclinata", "Cassoncino"];
     public const string ShrinkageKind = "Ritiro";
-    public static readonly string[] PhaseKinds = ["Solo acciaio", "Composta", "Soletta esclusa", ShrinkageKind];
+    public static readonly ImmutableArray<string> PhaseKinds = ["Solo acciaio", "Composta", "Soletta esclusa", ShrinkageKind];
     public static bool HasConcrete(string kind) => kind is "Composta" or ShrinkageKind;
-    public static readonly string[] HomoModes = ["Da φ", "Da n"];
+    public static readonly ImmutableArray<string> HomoModes = ["Da φ", "Da n"];
     public const string CommonLoadReference = "Quota comune", GrossLoadReference = "Baricentro omogeneizzato lordo", EffectiveLoadReference = "Baricentro efficace · iterativo";
-    public static readonly string[] LoadReferences = [GrossLoadReference, EffectiveLoadReference, CommonLoadReference];
+    public static readonly ImmutableArray<string> LoadReferences = [GrossLoadReference, EffectiveLoadReference, CommonLoadReference];
     public const string Scope = HBridgeSection.Scope;
     public static JsonObject Defaults() => J.Obj(("versione_mista", 1), ("nome", "Sezione composta da ponte"),
         ("normativa", Standards[0]), ("gamma_m0", "1.05"), ("gamma_c", "1.5"), ("alpha_cc", "0.85"), ("gamma_s", "1.15"),

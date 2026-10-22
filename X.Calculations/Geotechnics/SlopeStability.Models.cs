@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Gpc = GPC.Checkers.Geotechnics.Slopes;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations.Geotechnics;
 
@@ -50,7 +51,7 @@ public static class Slope
     public const string Formula = "F = Σ{[c′d·b + (V − u·b)·tanφ′d]/mα}/D; mα = cosα + sinα·tanφ′d/F. "
         + "D = Σ[V·(xG−xc) + H·(yc−yH) + M]/R; N′ = [V−u·l·cosα−c′d·l·sinα/F]/mα; l=b/cosα. "
         + "V=(1−kv)W+Vext. In non drenato φ=0, c=cu,d, u=0. η=γR/F.";
-    public static readonly string[] Notes = [Formula,
+    public static readonly ImmutableArray<string> Notes = [Formula,
         "Superfici circolari verso valle, ramo inferiore con centro fra gli estremi, anche con tangente verticale all’ingresso, passanti sotto l’intero muro; interstrato orizzontale. Ricerca a griglia e sulla famiglia tangente, raffinamento da sei minimi distinti: non garantisce il minimo assoluto. Ampliare il dominio e confrontare densità di ricerca e conci.",
         "Bishop semplificato: equilibrio dei momenti e verticale dei conci; forze tangenziali interconcio trascurate, equilibrio orizzontale non imposto. Non sono modellate fessure di trazione, superfici non circolari, pressioni idrodinamiche o degradazione ciclica.",
         "Il muro è una massa rigida; spinte muro–terreno e reazioni di fondazione sono interne alla massa e non si aggiungono. GPC.Geometry per area/baricentro dei corpi; carichi esterni senza inerzia aggiunta alla massa dei sovraccarichi."];

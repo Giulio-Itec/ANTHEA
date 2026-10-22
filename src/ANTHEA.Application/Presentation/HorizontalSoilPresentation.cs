@@ -27,7 +27,7 @@ public static class HorizontalSoilPresentation
     public static HorizontalSoilEditorState Prepare(JsonObject layer)
     {
         var soil = ElasticHorizontalPile.EnsureSoil(layer); ElasticHorizontalPile.InitializeMean(soil);
-        int mode = Array.IndexOf(ElasticHorizontalPile.Laws, soil.S("legge")); bool sand = layer.S("tipologia") == "Granulare";
+        int mode = ElasticHorizontalPile.Laws.IndexOf(soil.S("legge")); bool sand = layer.S("tipologia") == "Granulare";
         var clay = ViggianiHorizontalSoil.CohesiveTable.FirstOrDefault(r => r.Id == soil.S("riga_146") || r.Label == soil.S("riga_146"));
         string Category(string id) => ViggianiHorizontalSoil.CohesiveTable.Single(r => r.Id == id).Category;
         if (!sand && soil["categoria"] == null) soil["categoria"] = clay == null ? "Argilla n.c. / debolmente o.c." : Category(clay.Id);

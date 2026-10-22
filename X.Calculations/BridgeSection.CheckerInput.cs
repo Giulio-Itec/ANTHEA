@@ -28,7 +28,7 @@ public static partial class BridgeSection
                 SecondBottomThickness = J.Number(d["t_bottom2"]) ?? double.NaN,
                 // the second bottom plate is only for the H (its fields are hidden for the other sections)
                 SecondBottomEnabled = d.B("plate2") && d.S("sezione", SectionTypes[0]) == SectionTypes[0],
-                SectionType = (BridgeSteelSectionType)Array.IndexOf(SectionTypes, d.S("sezione", SectionTypes[0])),
+                SectionType = (BridgeSteelSectionType)SectionTypes.IndexOf(d.S("sezione", SectionTypes[0])),
                 WebOffset = J.Number(d["offset_anima"]) ?? double.NaN,
                 WebSpacing = J.Number(d["interasse_anime"]) ?? double.NaN,
             },
@@ -78,7 +78,7 @@ public static partial class BridgeSection
                 LengthFactor = J.Number(d["betaL_irr"]) ?? double.NaN,
                 CheckWelds = d.B("saldature_irr"),
                 WeldThroat = J.Number(d["aw_irr"]) ?? double.NaN,
-                Layout = (BridgeStiffenerLayout)Array.IndexOf(StiffenerSides, d.S("lati_irr")),
+                Layout = (BridgeStiffenerLayout)StiffenerSides.IndexOf(d.S("lati_irr")),
             },
             Support = new BridgeSupportStiffener
             {
@@ -100,8 +100,8 @@ public static partial class BridgeSection
                 FootprintWidth = J.Number(d["B_app"]) ?? double.NaN,
                 RigidEndPost = d.B("terminale_rigido"),
                 EndPostSpacing = J.Number(d["e_term"]) ?? double.NaN,
-                Layout = (BridgeStiffenerLayout)Array.IndexOf(StiffenerSides, d.S("lati_app")),
-                Location = (BridgeSupportLocation)Array.IndexOf(SupportLocations, d.S("pos_app")),
+                Layout = (BridgeStiffenerLayout)StiffenerSides.IndexOf(d.S("lati_app")),
+                Location = (BridgeSupportLocation)SupportLocations.IndexOf(d.S("pos_app")),
             },
             Studs = new BridgeStudOptions
             {
@@ -155,7 +155,7 @@ public static partial class BridgeSection
                 BracingThickness = J.Number(d["t_controvento"]) ?? double.NaN,
                 SpanLength = J.Number(d["L_campata"]) ?? double.NaN,
                 DiaphragmSpacing = J.Number(d["passo_diaframmi"]) ?? double.NaN,
-                DiaphragmKind = (BridgeDiaphragmKind)Array.IndexOf(DiaphragmKinds, d.S("tipo_diaframma")),
+                DiaphragmKind = (BridgeDiaphragmKind)DiaphragmKinds.IndexOf(d.S("tipo_diaframma")),
                 DiaphragmThickness = J.Number(d["t_diaframma"]) ?? double.NaN,
                 BracingArea = J.Number(d["A_diagonale"]) ?? double.NaN,
                 BracingRadius = J.Number(d["i_diagonale"]) ?? double.NaN,
@@ -171,9 +171,9 @@ public static partial class BridgeSection
     public static BridgePhase ToCheckerPhase(JsonObject p) => new()
     {
         Name = p.S("nome"), Active = p.B("attiva"),
-        Kind = (BridgePhaseKind)Array.IndexOf(PhaseKinds, p.S("tipo")),
-        Reference = (BridgeLoadReference)Array.IndexOf(LoadReferences, LoadReference(p)),
-        HomogenizationSource = (BridgeHomogenizationSource)Array.IndexOf(HomoModes, p.S("modo")),
+        Kind = (BridgePhaseKind)PhaseKinds.IndexOf(p.S("tipo")),
+        Reference = (BridgeLoadReference)LoadReferences.IndexOf(LoadReference(p)),
+        HomogenizationSource = (BridgeHomogenizationSource)HomoModes.IndexOf(p.S("modo")),
         ForceKN = J.Number(p["N"]) ?? double.NaN,
         MomentKNm = J.Number(p["Mx"]) ?? double.NaN,
         ShearKN = p.ContainsKey("V") ? J.Number(p["V"]) ?? double.NaN : 0,

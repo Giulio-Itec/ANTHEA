@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using System.Collections.ObjectModel;
 namespace Anthea.Application.Presentation;
 
 /// <summary>Existing preparation shared by the interactive sheet and its autonomous report.</summary>
@@ -6,7 +7,7 @@ public static class HorizontalSheetPresentation
 {
     /// <summary>Rule of the neighbours of Reese and Van Impe (PO-2).</summary>
     public const string ReeseVanImpeRule = PaloOrizzontale.ReeseVanImpeRule;
-    private static readonly Dictionary<string, double> ConcreteClasses = ConcreteMaterialCatalog.MaterialSheetClasses().ToDictionary(m => m.Name, m => m.Fck);
+    private static readonly ReadOnlyDictionary<string, double> ConcreteClasses = ConcreteMaterialCatalog.MaterialSheetClasses().ToDictionary(m => m.Name, m => m.Fck).AsReadOnly();
     public static string ConcreteClass(double strength) => ConcreteClasses.FirstOrDefault(p => p.Value == strength).Key ?? "Personalizzato";
     public static void PrepareGeneral(JsonObject data)
     {

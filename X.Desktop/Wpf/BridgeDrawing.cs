@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using X.Core;
+using System.Collections.Immutable;
 
 namespace X.Desktop;
 
@@ -32,7 +33,7 @@ internal sealed partial class BridgeDrawing : FrameworkElement
     private Vector pan;
     private Point? drag;
     private static readonly Brush Concrete = Ui.Brush("#DAE2E9"), Steel = Ui.Brush("#6889A6"), Bars = Ui.Brush("#C58A34"), Removed = Ui.Brush("#F19B3B");
-    private static readonly Brush[] Colors = [Ui.Brush("#607D8B"), Ui.Brush("#A66A15"), Ui.Brush("#127A83"), Ui.Brush("#8856A7"), Ui.Brush("#D25557")];
+    private static readonly ImmutableArray<Brush> Colors = [Ui.Brush("#607D8B"), Ui.Brush("#A66A15"), Ui.Brush("#127A83"), Ui.Brush("#8856A7"), Ui.Brush("#D25557")];
     internal BridgeDrawing()
     {
         ClipToBounds = true; Focusable = true;

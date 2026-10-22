@@ -36,7 +36,7 @@ internal static class EditorContractChecks
             preset.Input["only_view"] = true;
             Check(RebarEditor.Catalog().All(p => p.Input["only_view"] is null), "Catalogo acciai condiviso");
         }
-        void Copy(string[] owned, string[] native, Func<string[]> again)
+        void Copy(string[] owned, IReadOnlyList<string> native, Func<string[]> again)
         { Check(owned.SequenceEqual(native), "Catalogo modificato"); string first = native[0]; owned[0] = "only_view"; Check(native[0] == first && again()[0] == first, "Catalogo mutabile condiviso"); }
         Copy(ElasticPileEditor.ReinforcementKeys, ElasticHorizontalPile.ReinforcementKeys, () => ElasticPileEditor.ReinforcementKeys);
         Copy(ElasticPileEditor.InnerRingKeys, ElasticHorizontalPile.InnerRingKeys, () => ElasticPileEditor.InnerRingKeys);

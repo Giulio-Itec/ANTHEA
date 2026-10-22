@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Collections.Frozen;
+using System.Collections.Immutable;
 
 namespace Anthea.Wiki;
 
@@ -22,10 +24,10 @@ public static class WikiCatalog
     private static readonly Assembly Assembly = typeof(WikiCatalog).Assembly;
     public static Stream Resource(string name) => Assembly.GetManifestResourceStream("Wiki." + name)
         ?? throw new InvalidOperationException("Contenuto Wiki mancante: " + name);
-    public static readonly WikiArticle[] Articles = Read<WikiArticle[]>("index.json");
-    public static readonly WikiChapter[] Chapters = Read<WikiChapter[]>("chapters.json");
-    public static readonly WikiReference[] References = Read<WikiReference[]>("references.json");
-    public static readonly Dictionary<string, string> Aliases = Read<Dictionary<string, string>>("aliases.json");
+    public static readonly ImmutableArray<WikiArticle> Articles = [.. Read<WikiArticle[]>("index.json")];
+    public static readonly ImmutableArray<WikiChapter> Chapters = [.. Read<WikiChapter[]>("chapters.json")];
+    public static readonly ImmutableArray<WikiReference> References = [.. Read<WikiReference[]>("references.json")];
+    public static readonly FrozenDictionary<string, string> Aliases = Read<Dictionary<string, string>>("aliases.json").ToFrozenDictionary();
     public static WikiChapter Chapter(WikiArticle a) => Chapters.Single(c => c.Id == a.ChapterId);
     public static WikiArticle[] InChapter(string id) => Articles.Where(a => a.ChapterId == id && a.Status != "historical").OrderBy(a => a.Order).ToArray();
     private static readonly Lazy<Dictionary<string, int[]>> SearchIndex = new(() => Read<Dictionary<string, int[]>>("search.json"));

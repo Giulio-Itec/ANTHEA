@@ -1,15 +1,16 @@
 using System.Text.Json.Nodes;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 
 public static partial class BridgeConcept
 {
-    public static readonly string[] DeckTypes = GPC.Design.Bridges.BridgeConcept.DeckTypes.ToArray();
+    public static readonly ImmutableArray<string> DeckTypes = [.. GPC.Design.Bridges.BridgeConcept.DeckTypes];
     public static bool IsExtended(string family) => GPC.Design.Bridges.BridgeConcept.IsExtended(family);
     public static bool HasUpperStructure(string family) => GPC.Design.Bridges.BridgeConcept.HasUpperStructure(family);
     public static bool HasTowers(string family) => GPC.Design.Bridges.BridgeConcept.HasTowers(family);
-    public static readonly Parameter[] AdvancedSection = GPC.Design.Bridges.BridgeConcept.AdvancedSection.Select(FromNative).ToArray();
-    public static readonly Parameter[] AdvancedAssumptions = GPC.Design.Bridges.BridgeConcept.AdvancedAssumptions.Select(FromNative).ToArray();
+    public static readonly ImmutableArray<Parameter> AdvancedSection = [.. GPC.Design.Bridges.BridgeConcept.AdvancedSection.Select(FromNative)];
+    public static readonly ImmutableArray<Parameter> AdvancedAssumptions = [.. GPC.Design.Bridges.BridgeConcept.AdvancedAssumptions.Select(FromNative)];
     public sealed record StructuralLine(string Kind, double X1, double Z1, double X2, double Z2, int Count, double Area, double Force)
     { public double Length => ToNative(this).Length; public double Mass => ToNative(this).Mass; }
     public sealed record AdvancedGeometry(bool Orthotropic, bool GlobalBeam, double MainSpan, double Rise, double TowerHeight,

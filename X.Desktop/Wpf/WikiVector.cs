@@ -63,7 +63,7 @@ internal sealed class WikiVector : FrameworkElement
 
 internal static class WikiPalette
 {
-    internal static bool Dark { get => Appearance.Current != AppAppearance.Light; set => Appearance.Set(value ? AppAppearance.Dark : AppAppearance.Light, false); }
+    internal static bool Dark => Appearance.Current != AppAppearance.Light;
     internal static Brush Ink => Appearance.Ink;
     internal static Brush Accent => Appearance.Accent;
     internal static Brush Paper => Appearance.Paper;

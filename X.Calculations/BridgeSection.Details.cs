@@ -1,11 +1,12 @@
 using System.Text.Json.Nodes;
+using System.Collections.Immutable;
 namespace Anthea.Calculations;
 public static partial class BridgeSection
 {
-    public static readonly string[] StiffenerSides = ["Bilaterali simmetrici", "Solo sinistra", "Solo destra", "Bilaterali diversi"];
-    public static readonly string[] SupportLocations = ["Appoggio interno", "Estremità sinistra", "Estremità destra"];
+    public static readonly ImmutableArray<string> StiffenerSides = ["Bilaterali simmetrici", "Solo sinistra", "Solo destra", "Bilaterali diversi"];
+    public static readonly ImmutableArray<string> SupportLocations = ["Appoggio interno", "Estremità sinistra", "Estremità destra"];
     /// <summary>The intermediate diaphragms of the box, in the order of <see cref="BridgeDiaphragmKind"/></summary>
-    public static readonly string[] DiaphragmKinds = ["Piastra", "Controvento a X"];
+    public static readonly ImmutableArray<string> DiaphragmKinds = ["Piastra", "Controvento a X"];
     /// <summary>Box girder: torsion, distortion and diaphragms (disabled by default; the archives without the keys have no torsion)</summary>
     public static JsonObject BoxDefaults() => J.Obj(("torsione_cassoncino", false), ("t_controvento", 0), ("L_campata", 0), ("passo_diaframmi", 0),
         ("tipo_diaframma", DiaphragmKinds[0]), ("t_diaframma", 12), ("A_diagonale", 3000), ("i_diagonale", 30), ("beta_diagonale", 1),

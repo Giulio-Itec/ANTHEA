@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using GPC.Checkers.CompositeBridge.History;
+using System.Collections.Immutable;
 namespace Anthea.Calculations;
 
 public static partial class BridgeSection
@@ -19,13 +20,13 @@ public static partial class BridgeSection
         return new(result.Method, result.Scope, (JsonObject)data.DeepClone(), result.Geometry, result.Materials, result.Stages);
     }
     public const string LegacyCumulativeMethod = "Cumulativo · metodo precedente", CumulativeLinearMethod = "Cumulativo lineare";
-    public static readonly string[] CalculationMethods = [CumulativeLinearMethod, "Storico lineare", "Storico non lineare"];
-    public static readonly string[] NonlinearCreepModes = ["Istantaneo · φ = 0 nel calcolo", "Richiedi φ = 0 negli ingressi"];
+    public static readonly ImmutableArray<string> CalculationMethods = [CumulativeLinearMethod, "Storico lineare", "Storico non lineare"];
+    public static readonly ImmutableArray<string> NonlinearCreepModes = ["Istantaneo · φ = 0 nel calcolo", "Richiedi φ = 0 negli ingressi"];
     /// <summary>
     /// PON-2: the concrete in tension of the nonlinear history and of the M–κ / N–ε curves (HBridgeHistoryOptions.ConcreteTension of
     /// GPCChecker.CompositeBridge): «Trascurato» (default, also for the sheets saved before 16/10/2026) or «Tension stiffening».
     /// </summary>
-    public static readonly string[] ConcreteTensionModes = ["Trascurato", "Tension stiffening"];
+    public static readonly ImmutableArray<string> ConcreteTensionModes = ["Trascurato", "Tension stiffening"];
     public const string ConcreteTensionHelp = "Legame del calcestruzzo teso nello «Storico non lineare» e nelle curve M–κ e N–ε. "
         + "Trascurato (predefinito): il CLS non resiste a trazione (EN 1992-1-1 §6.1(2)P, sezione fessurata di EN 1994-2), con tensione nulla per ogni deformazione di trazione, anche prima della fessurazione: a favore di sicurezza per acciaio e barre. "
         + "Tension stiffening: CLS elastico fino a fctm, poi tensione media del calcestruzzo fessurato σ = fctm/(1 + √(500 ε)) (Collins e Mitchell 1991, MCFT); alla fessurazione la tensione scende a circa 0,82 fctm. "

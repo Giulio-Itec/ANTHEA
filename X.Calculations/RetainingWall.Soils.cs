@@ -1,10 +1,11 @@
 using System.Text.Json.Nodes;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 
 public static partial class RetainingWall
 {
-    public static readonly string[] FrictionModes = ["Assegnato", "Gettato in opera", "Prefabbricato liscio", "Liscio"];
+    public static readonly ImmutableArray<string> FrictionModes = ["Assegnato", "Gettato in opera", "Prefabbricato liscio", "Liscio"];
     public static (string Label, string Unit, string Origin) AuditMeaning(string key) => key switch
     {
         "Dv_m" => ("Quota terreno di valle Dv", "m", "H+t−Hlib"),

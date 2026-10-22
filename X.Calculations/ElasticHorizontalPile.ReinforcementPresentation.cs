@@ -1,10 +1,11 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 public static partial class ElasticHorizontalPile
 {
-    public static readonly string[] OrdinaryApprovalKeys=["azioni_progetto","taglio_confermato","barre_trattenute","zone_estremita","aderenza_buona"];
+    public static readonly ImmutableArray<string> OrdinaryApprovalKeys=["azioni_progetto","taglio_confermato","barre_trattenute","zone_estremita","aderenza_buona"];
     public static void ApproveReinforcementAssumptions(JsonObject root,bool seismic)
     {
         PrepareReinforcement(root);var d=root["elastico"]!["dettagli"]!;

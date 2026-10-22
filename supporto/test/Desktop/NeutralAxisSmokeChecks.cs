@@ -74,7 +74,7 @@ public sealed partial class MainWindow
             var resultView = BridgeContractTestData.Project(result);
             var drawing = new BridgeDrawing { Geometry = resultView.Geometry, Stage = resultView.Stages.Last(), Width = 1100, Height = 700 };
             drawing.Measure(new Size(1100,700)); drawing.Arrange(new Rect(0,0,1100,700)); drawing.UpdateLayout();
-            File.WriteAllBytes(Path.Combine(directory,"ponte_" + Array.IndexOf(BridgeSection.CalculationMethods,method) + ".png"),Ui.Snapshot(drawing));
+            File.WriteAllBytes(Path.Combine(directory,"ponte_" + BridgeSection.CalculationMethods.IndexOf(method) + ".png"),Ui.Snapshot(drawing));
             Check(drawing.NeutralAxisDisplay?.Start is not null, "Ponte: asse visibile " + method);
             Check(drawing.NeutralAxisDisplay!.Caption.Contains(stageCaption(method)), "Ponte: legenda distingue tensione e deformazione");
             drawing.ShowNeutralAxis = false; drawing.InvalidateVisual(); _ = Ui.Snapshot(drawing);

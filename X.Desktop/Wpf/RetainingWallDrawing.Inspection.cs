@@ -4,6 +4,7 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Collections.Immutable;
 
 namespace X.Desktop;
 
@@ -15,7 +16,7 @@ internal sealed partial class RetainingWallDrawing
     internal int SelectedLayer = -1, SelectedPressure = -1;
     internal event Action<string>? Inspected;
     internal event Action<string>? ActionSelected;
-    internal static readonly string[] LayerColors = ["#DBCDAE", "#B9D6C6", "#D2C2DC", "#D9C3A7", "#B9CFDC", "#DAD6A8"];
+    internal static readonly ImmutableArray<string> LayerColors = ["#DBCDAE", "#B9D6C6", "#D2C2DC", "#D9C3A7", "#B9CFDC", "#DAD6A8"];
     private readonly List<(Rect Area, string Text, string? Id)> hits = [];
     private readonly List<(Rect Area, Func<Point,string> Read)> plots = [];
     internal RetainingWallDrawing()

@@ -3,6 +3,8 @@ using System.Text.Json.Nodes;
 using GPC.Checkers.Geotechnics.Piles;
 using GPC.Model.Geotechnics;
 using GPC.Model.Standards;
+using System.Collections.ObjectModel;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 
@@ -17,17 +19,17 @@ public static class Calcolo
 {
     const double M = 1000, KPa = 1e-3, KN3 = 1e-6, Deg = Math.PI / 180;
     static readonly StandardNTC2018Geotechnics Ntc = new();
-    static readonly string[] Indagate = ["1","2","3","4","5","7","≥10"];
+    static readonly ImmutableArray<string> Indagate = ["1","2","3","4","5","7","≥10"];
     static int Profili(string verticali) => verticali == "≥10" ? 10 : int.Parse(verticali, CultureInfo.InvariantCulture);
     /// <summary>ξ3, ξ4 per numero di verticali indagate, da Model (StandardNTC2018Geotechnics.PileCorrelationFactors).</summary>
-    public static readonly Dictionary<string,(double Xi3,double Xi4)> Verticali = Indagate.ToDictionary(k => k, k => { var x = Ntc.PileCorrelationFactors(Profili(k)); return (x.Item1, x.Item2); });
-    static readonly Dictionary<string,PileInstallation> Tipi = new()
+    public static readonly ReadOnlyDictionary<string,(double Xi3,double Xi4)> Verticali = Indagate.ToDictionary(k => k, k => { var x = Ntc.PileCorrelationFactors(Profili(k)); return (x.Item1, x.Item2); }).AsReadOnly();
+    static readonly ReadOnlyDictionary<string,PileInstallation> Tipi = new Dictionary<string,PileInstallation>
     {
         ["Profilato d'acciaio"]=PileInstallation.DrivenSteelSection,["Tubo d'acciaio chiuso"]=PileInstallation.DrivenClosedSteelTube,["Calcestruzzo prefabbricato"]=PileInstallation.DrivenPrecastConcrete,
         ["Calcestruzzo gettato in opera"]=PileInstallation.DrivenCastInPlace,["Trivellato"]=PileInstallation.Bored,["Elica continua"]=PileInstallation.ContinuousFlightAuger
-    };
+    }.AsReadOnly();
     /// <summary>K sciolto e denso e regola di μ per tecnologia (Viggiani Tab. 13.2), dalla libreria.</summary>
-    public static readonly Dictionary<string,(double Sciolto,double Denso,string Mu)> Parametri = Tipi.ToDictionary(p => p.Key, p => AxialPileCapacity.ShaftCoefficients(p.Value));
+    public static readonly ReadOnlyDictionary<string,(double Sciolto,double Denso,string Mu)> Parametri = Tipi.ToDictionary(p => p.Key, p => AxialPileCapacity.ShaftCoefficients(p.Value)).AsReadOnly();
     static PileInstallation? Tecnologia(JsonNode? g)
     {
         string tipo=g.S("tipo_palo","Trivellato");if(tipo=="Battuto")tipo=g.S("sottotipo_palo_battuto","Profilato d'acciaio");

@@ -4,6 +4,8 @@ using GPC.Model.Materials;
 using GPC.Model.Sections;
 using GPC.Model.Data.Sections;
 using Bd = GPC.Checkers.Geotechnics.Piles.BustamanteDoix;
+using System.Collections.ObjectModel;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 
@@ -16,11 +18,11 @@ public static class BustamanteDoix
     public const string Versione = Bd.Version;
     public const string Fonte = Bd.Source;
     /// <summary>Terreni della tabella 13.12: famiglia degli abachi e intervalli di α IRS e IGU, dalla libreria.</summary>
-    public static readonly Dictionary<string,(string Family,double[] IRS,double[] IGU)> Terreni = Enum.GetValues<BustamanteDoixSoil>().ToDictionary(Bd.Label,
-        s => (Bd.Family(s), Range(s, MicropileInjection.IRS), Range(s, MicropileInjection.IGU)));
+    public static readonly ReadOnlyDictionary<string,(string Family,ImmutableArray<double> IRS,ImmutableArray<double> IGU)> Terreni = Enum.GetValues<BustamanteDoixSoil>().ToDictionary(Bd.Label,
+        s => (Bd.Family(s), ImmutableArray.Create(Range(s, MicropileInjection.IRS)), ImmutableArray.Create(Range(s, MicropileInjection.IGU)))).AsReadOnly();
     /// <summary>Abachi digitalizzati (p_l MPa, s MPa) della libreria: SG, AL, MC, R; 1 = IRS, 2 = IGU.</summary>
-    public static readonly Dictionary<string,(double X,double Y)[]> Curve = new[] { "SG", "AL", "MC", "R" }.SelectMany(f => new[] { f + "1", f + "2" })
-        .ToDictionary(c => c, c => Bd.Chart(c).Select(p => (p.LimitPressure, p.UnitResistance)).ToArray());
+    public static readonly ReadOnlyDictionary<string,ImmutableArray<(double X,double Y)>> Curve = new[] { "SG", "AL", "MC", "R" }.SelectMany(f => new[] { f + "1", f + "2" })
+        .ToDictionary(c => c, c => Bd.Chart(c).Select(p => (p.LimitPressure, p.UnitResistance)).ToImmutableArray()).AsReadOnly();
     static double[] Range(BustamanteDoixSoil soil, MicropileInjection injection) { var r = Bd.AlphaRange(soil, injection); return [r.Min, r.Max]; }
     internal static BustamanteDoixSoil Soil(string terreno) => Enum.GetValues<BustamanteDoixSoil>().Where(s => Bd.Label(s) == terreno).Select(s => (BustamanteDoixSoil?)s).FirstOrDefault()
         ?? throw new ArgumentException("Scegliere un terreno della tabella Viggiani 13.12.");
@@ -68,8 +70,8 @@ public static class BustamanteDoix
 public static class Chs
 {
     // Taglie proposte nel foglio; dimensioni e sezione dai cataloghi di ModelData.
-    static readonly Dictionary<double,double[]> Taglie=new() { [60.3]=[3.2,3.6,4,5,6.3,8],[76.1]=[3.2,3.6,4,5,6.3,8],[88.9]=[3.2,3.6,4,5,6.3,8,10],[114.3]=[3.6,4,5,6.3,8,10],[139.7]=[3.6,4,5,6.3,8],[168.3]=[5,6.3,8,10,12.5],[193.7]=[5,6.3,8,10,12.5,14.2,16],[219.1]=[5,6.3,8,10,12.5,14.2,16],[244.5]=[5,6.3,8,10,12.5,14.2,16],[273]=[5,6.3,8,10,12.5,14.2,16,17.5] };
-    public static readonly Dictionary<string,(double Diameter,double Thickness)> Catalogo = Build();
+    static readonly ReadOnlyDictionary<double,ImmutableArray<double>> Taglie=new Dictionary<double,ImmutableArray<double>> { [60.3]=[3.2,3.6,4,5,6.3,8],[76.1]=[3.2,3.6,4,5,6.3,8],[88.9]=[3.2,3.6,4,5,6.3,8,10],[114.3]=[3.6,4,5,6.3,8,10],[139.7]=[3.6,4,5,6.3,8],[168.3]=[5,6.3,8,10,12.5],[193.7]=[5,6.3,8,10,12.5,14.2,16],[219.1]=[5,6.3,8,10,12.5,14.2,16],[244.5]=[5,6.3,8,10,12.5,14.2,16],[273]=[5,6.3,8,10,12.5,14.2,16,17.5] }.AsReadOnly();
+    public static readonly ReadOnlyDictionary<string,(double Diameter,double Thickness)> Catalogo = Build().AsReadOnly();
     /// <summary>Acciaio del tubo: della sezione serve la densità di Model (7850 kg/m³).</summary>
     internal static readonly SteelMaterial Acciaio = new("S355", 210000, 355, 510);
     private static Dictionary<string,(double,double)> Build()

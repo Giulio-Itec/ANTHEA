@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 
@@ -9,7 +10,7 @@ public sealed record BridgeSlabLayout(bool HasPredalle, double PredalleThickness
 public static partial class BridgeSection
 {
     public const string SlabBottomReference = "Intradosso soletta", PredalleTopReference = "Estradosso predalle";
-    public static readonly string[] BottomRebarReferences = [PredalleTopReference, SlabBottomReference];
+    public static readonly ImmutableArray<string> BottomRebarReferences = [PredalleTopReference, SlabBottomReference];
     public const string PredalleScope = "La predalle è un riferimento geometrico compreso nello spessore totale della soletta. " +
         "Il calcolo mantiene un'unica soletta omogenea: nessun materiale, armatura propria, peso, fase o verifica aggiuntivi della predalle.";
 

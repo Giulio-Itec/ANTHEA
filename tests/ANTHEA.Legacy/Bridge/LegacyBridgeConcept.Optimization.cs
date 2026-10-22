@@ -29,7 +29,7 @@ public static partial class LegacyBridgeConcept
         var families = (options.KeepFamily ? Families.Where(f => f.Id == baseline.Family.Id) : Families).ToArray();
         int[] spans = options.KeepSpans ? [baseline.Spans.Length] : Enumerable.Range(options.MinSpans, options.MaxSpans - options.MinSpans + 1).ToArray();
         bool[] continuity = options.KeepContinuity ? [input.B("continuous")] : [true, false];
-        string[] piers = options.KeepPier ? [input.S("pier")] : Piers;
+        string[] piers = options.KeepPier ? [input.S("pier")] : [.. Piers];
         string[] foundations = options.KeepFoundation ? [baseline.Foundation] : Foundations.Skip(1).ToArray();
         bool Eligible(Family f, int n) => HasTowers(f.Id) ? n == 3 && baseline.Length / 2 >= f.MinSpan && baseline.Length / 2 <= f.MaxSpan
             : baseline.Length / n >= f.MinSpan && baseline.Length / n <= f.MaxSpan;
@@ -122,7 +122,7 @@ public static partial class LegacyBridgeConcept
                 }
                 else
                 {
-                    i["pile_length"] = foundation == "Plinto diretto" ? 0 : Math.Min(80, new[] { 10d, 15, 22, 30 }[Array.IndexOf(Soils, i.S("soil"))] * pileFactor);
+                    i["pile_length"] = foundation == "Plinto diretto" ? 0 : Math.Min(80, new[] { 10d, 15, 22, 30 }[Soils.IndexOf(i.S("soil"))] * pileFactor);
                     i["pile_count"] = 0; i["footing_size"] = 0;
                 }
                 if (!options.KeepDepth && depthFactor != 1)

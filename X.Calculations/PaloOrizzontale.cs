@@ -4,6 +4,8 @@ using System.Text.Json.Nodes;
 using GPC.Checkers.Geotechnics.Piles;
 using GPC.Model.Geotechnics;
 using GPC.Model.Standards;
+using System.Collections.Frozen;
+using System.Collections.Immutable;
 
 namespace Anthea.Calculations;
 
@@ -61,7 +63,7 @@ public static partial class PaloOrizzontale
     private static double Signed(JsonNode n, string key) => J.Number(n[key]) ?? throw new ArgumentException(key + ": numero finito richiesto.");
 
     // Messaggi della libreria nelle parole del foglio.
-    static readonly Dictionary<string, string> Messages = new()
+    static readonly FrozenDictionary<string, string> Messages = new Dictionary<string, string>
     {
         ["Mixed sequences: select the stratified model with distributed reactions."] = "Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite.",
         ["No finite lateral resistance can be mobilised (cohesive soils need L > 1.5D)."] = "Nessuna resistenza laterale finita mobilitabile (per coesivi occorre L > 1,5D).",
@@ -73,7 +75,7 @@ public static partial class PaloOrizzontale
         ["Resultant outside the limit diagram."] = "Risultante fuori dal diagramma limite.",
         ["The layers must cover the whole embedded length."] = "La stratigrafia deve coprire tutta la lunghezza infissa.",
         ["Resisting moment: a positive finite value is required."] = "Momento resistente: valore finito positivo richiesto."
-    };
+    }.ToFrozenDictionary();
     static T Library<T>(Func<T> calculation)
     {
         try { return calculation(); }
@@ -177,8 +179,8 @@ public static partial class PaloOrizzontale
     }
     public static JsonObject Efficiency(JsonObject data) => Gruppo(data).Json;
 
-    static readonly string[] Mechanisms = ["Corto", "Intermedio", "Lungo"];
-    static readonly string[] Sides = ["prima", "dopo", "nodo"];
+    static readonly ImmutableArray<string> Mechanisms = ["Corto", "Intermedio", "Lungo"];
+    static readonly ImmutableArray<string> Sides = ["prima", "dopo", "nodo"];
 
     /// <summary>Una verticale del risultato nel formato del foglio: m, kN, kN/m, kN/m², kNm, kPa.</summary>
     private static JsonObject Verticale(LateralSurveyResult r, double d, bool weights)

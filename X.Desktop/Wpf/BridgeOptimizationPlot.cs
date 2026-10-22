@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Collections.Immutable;
 
 namespace X.Desktop;
 
@@ -18,8 +19,8 @@ internal sealed partial class BridgeOptimizationPlot : FrameworkElement
     private BridgeDesignModel.OptimizationSolution[] solutions = [];
     private BridgeDesignModel.Result? baseline;
     private readonly List<(Point Point, BridgeDesignModel.OptimizationTrial Trial, int Rank)> hits = new();
-    private static readonly Brush[] Palette = [Ui.Brush("#0B5CAD"), Ui.Brush("#168B94"), Ui.Brush("#8462AB"), Ui.Brush("#C26817"), Ui.Brush("#337E46"), Ui.Brush("#B44866"), Ui.Brush("#526680"), Ui.Brush("#98682D"), Ui.Brush("#557C19"), Ui.Brush("#0082C2"), Ui.Brush("#BF3737"), Ui.Brush("#5724A3"), Ui.Brush("#BD277A"), Ui.Brush("#1D5951")];
-    private static readonly string[] FamilyLabels = ["Soletta", "Travi T", "Travi I c.a.p.", "Travi U", "Cassone c.a.p.", "Conci FCM", "Travi I acc.", "Cassone acc.", "Incorporate", "Ortotropa", "Arco", "Strallato", "Sospeso", "Reticolare"];
+    private static readonly ImmutableArray<Brush> Palette = [Ui.Brush("#0B5CAD"), Ui.Brush("#168B94"), Ui.Brush("#8462AB"), Ui.Brush("#C26817"), Ui.Brush("#337E46"), Ui.Brush("#B44866"), Ui.Brush("#526680"), Ui.Brush("#98682D"), Ui.Brush("#557C19"), Ui.Brush("#0082C2"), Ui.Brush("#BF3737"), Ui.Brush("#5724A3"), Ui.Brush("#BD277A"), Ui.Brush("#1D5951")];
+    private static readonly ImmutableArray<string> FamilyLabels = ["Soletta", "Travi T", "Travi I c.a.p.", "Travi U", "Cassone c.a.p.", "Conci FCM", "Travi I acc.", "Cassone acc.", "Incorporate", "Ortotropa", "Arco", "Strallato", "Sospeso", "Reticolare"];
     internal static Brush FamilyBrush(string id) => Palette[Math.Max(0, Array.FindIndex(BridgeDesignModel.Families, f => f.Id == id)) % Palette.Length];
     /// <summary>The colour of a typology in the legend under the charts, in the current appearance (as the historic legend; used by the XAML view, F5.12).</summary>
     internal static Brush LegendBrush(string id) => Appearance.Series(FamilyBrush(id));
@@ -74,7 +75,7 @@ internal sealed partial class BridgeOptimizationPlot : FrameworkElement
         if (Scatter) Expand(ref xmin, ref xmax); Expand(ref ymin, ref ymax);
         Point P(double x, double y) => new(left + (x - xmin) / (xmax - xmin) * (right - left), bottom - (y - ymin) / (ymax - ymin) * (bottom - top));
         var grid = new Pen(Ui.Brush("#E3EAF1"), 1);
-        string[] labels = Variable == 5 ? FamilyLabels : Variable == 6 ? ["Telaio", "Circolare", "Setto", "Martello", "Antenna"] : Variable == 7 ? ["Auto", "Diretta", "Pali Ø1,0", "Pali Ø1,5"] : ["Indipendente", "Continua"];
+        string[] labels = Variable == 5 ? [.. FamilyLabels] : Variable == 6 ? ["Telaio", "Circolare", "Setto", "Martello", "Antenna"] : Variable == 7 ? ["Auto", "Diretta", "Pali Ø1,0", "Pali Ø1,5"] : ["Indipendente", "Continua"];
         if (categorical)
         {
             for (int k = (int)Math.Ceiling(ymin); k <= Math.Floor(ymax); k++)
