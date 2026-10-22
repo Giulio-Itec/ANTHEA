@@ -1593,7 +1593,8 @@ schede: alla fine della giornata ogni scheda e ogni finestra del foglio è legat
 | `d7c94aeb` | questa sezione, schede 01–03 |
 | `cf493fe0` | schede 04–08 (`ConcreteStressPanelView` per famiglia, `ConcreteShearView`, `ConcreteDetailingView`, `ConcreteCurvatureView`, `ConcreteDesignView`), `ConcreteViewFrames`, suite sulle otto schede con i disegni letti dalla vista |
 | `1c671622` | finestre: «Nuovo materiale · …», wizard, «Sollecitazioni della sezione», «Proprietà / report della sezione» |
-| (commit della documentazione) | questa sezione aggiornata, esito della corsa finale |
+| `3591793d` | questa sezione aggiornata |
+| (commit della documentazione) | esito delle corse finali (20.7) |
 
 ### 20.2 Che cosa c'è
 
@@ -1710,3 +1711,12 @@ Con la build UiTests del ramo (`dotnet build X.Desktop/X.Desktop.csproj -c UiTes
 ```
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^(ui/check-sezione-(view|historic)|ui/f3-report-chapters(-sezione-mvvm)?|ui/smoke(-ca-extensions|-ca-features|-neutral-axis)?|ui/check-concrete-design|ui/f3-concrete-figures|ui/f3-scheduling|ui/check-field-form-parity|ui/f3-equivalence|ui/check-module-host-offscreen|Presentation.Tests/sezione-ca)$' -Tag s9-sera"
 ```
+
+### 20.7 Corse finali di giorno
+
+- **Standard** `-Profile standard -Tag s9-finale2` su `3591793d` (ultimo commit di codice e documenti della giornata):
+  `supporto/artefatti/ci/20261022-120044-s9-finale2`, PASS 77, KNOWN 0, NEW-FAIL 0. Una prima standard su `d7c94aeb` (schede 01–03):
+  `ci/20261022-113222-s9-finale`, PASS 77, NEW-FAIL 0.
+- **Tracce lunghe** sui binari della corsa: `--sezione-tracce` PASS 70, 57 scenari uguali alle tracce congelate
+  (`supporto/artefatti/f5-10-s9/s9-tracce-finale`).
+- **Architecture.Tests** PASS 574 dopo ogni commit della vista. Nessuna prova WPF eseguita (regola del giorno).
