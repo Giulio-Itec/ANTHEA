@@ -25,6 +25,7 @@ internal static class ShellChecks
         checks += ShellFinalViewsChecks.Run();
         // F5.13 c, night of 22-23/10 (section 10.1): what was left of part (c).
         checks += ShellOverviewChecks.Run();
+        checks += ShellTreeDragChecks.Run();
         return checks;
     }
 }

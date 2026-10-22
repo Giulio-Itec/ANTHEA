@@ -79,6 +79,7 @@ public sealed class ProjectNodeViewModel : ViewModelBase
         };
         Module = kind == ProjectNodeKind.Sheet ? node!.S("modulo_id") : null;
         CanRename = editable;
+        CanDrag = editable;
         CanDelete = editable;
         CanDuplicate = editable && kind is ProjectNodeKind.Project or ProjectNodeKind.Section;
         CanAddSection = editable && kind is ProjectNodeKind.Project or ProjectNodeKind.Section;
@@ -147,6 +148,12 @@ public sealed class ProjectNodeViewModel : ViewModelBase
     }
 
     public bool CanRename { get; }
+
+    /// <summary>
+    /// The node can be dragged (ProjectHierarchy.EnableProjectDrag): projects, sections and sheets outside read-only; a sheet by its row, a project
+    /// or section by its name. Models are not dragged.
+    /// </summary>
+    public bool CanDrag { get; }
     public bool CanDelete { get; }
     public bool CanDuplicate { get; }
     public bool CanAddSection { get; }
@@ -228,6 +235,7 @@ public sealed class ProjectTreeViewModel : ViewModelBase
     private ProjectNodeViewModel? selected;
     private ProjectNodeViewModel? renaming;
     private string summary = "";
+    private string dropHint = "";
     private bool isEmpty = true;
 
     public ProjectTreeViewModel(WorkspaceSession workspace, IMessageService messages)
@@ -467,6 +475,37 @@ public sealed class ProjectTreeViewModel : ViewModelBase
     }
 
     // ---- Drag and drop (ProjectHierarchy, ProjectSectionReorder)
+
+    /// <summary>
+    /// The hint of the drag over the tree (projectDropHint of MainWindow: «Inserisci in: …», «Prima di …», «Dopo …», «Sposta dentro: …»), shown over
+    /// the instruction of the header; empty outside a drag (F5.13 c, night of 22-23/10).
+    /// </summary>
+    public string DropHint { get => dropHint; private set => SetProperty(ref dropHint, value); }
+
+    /// <summary>A drag over <paramref name="target"/>: what the drop would do (<see cref="PreviewDrop"/>), with its hint in <see cref="DropHint"/>.</summary>
+    public ProjectDrop DragOver(ProjectNodeViewModel target, object payload, double relativeY)
+    {
+        var drop = PreviewDrop(target, payload, relativeY);
+        DropHint = drop.Hint;
+        return drop;
+    }
+
+    /// <summary>The drag left the node or ended: no hint.</summary>
+    public void ClearDropHint() => DropHint = "";
+
+    /// <summary>
+    /// The drop of the view (<see cref="Drop"/>) with the errors shown as messages, as the Safe of MainWindow around the drop; the hint is cleared.
+    /// True when the project changed.
+    /// </summary>
+    public bool CompleteDrop(ProjectNodeViewModel target, object payload, double relativeY)
+    {
+        ArgumentNullException.ThrowIfNull(target);
+        ArgumentNullException.ThrowIfNull(payload);
+        ClearDropHint();
+        bool changed = false;
+        Guard.Run(() => changed = Drop(target, payload, relativeY));
+        return changed;
+    }
 
     /// <summary>
     /// What a drop of <paramref name="payload"/> (a module id from the catalogue, or a sheet or section of the document) on

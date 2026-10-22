@@ -572,8 +572,91 @@
  </DataTemplate>
 
  <!-- ===================================================================================================== tree of the project -->
+ <!--
+   The nodes of the tree as ProjectTreeItem and ProjectChevron of MainWindow (night of 22-23/10), with theme tokens: the arrow in the colour of the
+   glyphs of the tree (Token.InkSecondary), readable in «Scuro» and «Molto scuro» (the arrows of the base template of WPF were not); rows at least 44
+   high with rounded corners and a line below, the guide of the children, the row under the mouse and the selected one with its border on the left.
+ -->
+ <Style x:Key="Shell.TreeChevron" TargetType="ToggleButton">
+  <Setter Property="Focusable" Value="False"/>
+  <Setter Property="Width" Value="20"/>
+  <Setter Property="Height" Value="28"/>
+  <Setter Property="Cursor" Value="Hand"/>
+  <Setter Property="Template">
+   <Setter.Value>
+    <ControlTemplate TargetType="ToggleButton">
+     <Border Background="Transparent">
+      <Path x:Name="Arrow" Data="M 0 0 L 4 4 L 0 8" Stroke="{DynamicResource Token.InkSecondary}" StrokeThickness="1.5" HorizontalAlignment="Center" VerticalAlignment="Center"
+       RenderTransformOrigin="0.5,0.5"/>
+     </Border>
+     <ControlTemplate.Triggers>
+      <Trigger Property="IsChecked" Value="True">
+       <Setter TargetName="Arrow" Property="RenderTransform"><Setter.Value><RotateTransform Angle="90"/></Setter.Value></Setter>
+      </Trigger>
+     </ControlTemplate.Triggers>
+    </ControlTemplate>
+   </Setter.Value>
+  </Setter>
+ </Style>
+ <Style x:Key="Shell.TreeItem" TargetType="TreeViewItem">
+  <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+  <Setter Property="VerticalContentAlignment" Value="Center"/>
+  <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+  <Setter Property="BorderBrush" Value="{DynamicResource Token.Divider}"/>
+  <Setter Property="BorderThickness" Value="0,0,0,1"/>
+  <Setter Property="Padding" Value="0"/>
+  <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+  <Setter Property="Template">
+   <Setter.Value>
+    <ControlTemplate TargetType="TreeViewItem">
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+      <Border x:Name="Row" Grid.ColumnSpan="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+       CornerRadius="4" MinHeight="44">
+       <Grid>
+        <Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+        <ToggleButton x:Name="Expander" Style="{StaticResource Shell.TreeChevron}" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"/>
+        <ContentPresenter x:Name="PART_Header" Grid.Column="1" ContentSource="Header" Margin="4,3,5,3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+       </Grid>
+      </Border>
+      <Border x:Name="Guide" Grid.Row="1" Margin="9,0,0,0" BorderBrush="{DynamicResource Token.TreeGuide}" BorderThickness="1,0,0,0"/>
+      <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1"/>
+     </Grid>
+     <ControlTemplate.Triggers>
+      <Trigger Property="HasItems" Value="False">
+       <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
+       <Setter TargetName="Guide" Property="Visibility" Value="Collapsed"/>
+      </Trigger>
+      <Trigger Property="IsExpanded" Value="False">
+       <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/>
+       <Setter TargetName="Guide" Property="Visibility" Value="Collapsed"/>
+      </Trigger>
+      <Trigger SourceName="Row" Property="IsMouseOver" Value="True">
+       <Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Hover.Row}"/>
+      </Trigger>
+      <Trigger Property="IsSelected" Value="True">
+       <Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/>
+       <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/>
+       <Setter TargetName="Row" Property="BorderThickness" Value="3,0,0,0"/>
+      </Trigger>
+     </ControlTemplate.Triggers>
+    </ControlTemplate>
+   </Setter.Value>
+  </Setter>
+  <Style.Triggers>
+   <!-- The rows of the projects on the background of the rows under the mouse, as today (ConfigureProjectNode). -->
+   <DataTrigger Binding="{Binding Depth}" Value="0">
+    <Setter Property="Background" Value="{DynamicResource Token.Hover.Row}"/>
+   </DataTrigger>
+  </Style.Triggers>
+ </Style>
  <HierarchicalDataTemplate DataType="{x:Type proj:ProjectNodeViewModel}" ItemsSource="{Binding Children}">
-  <DockPanel ToolTip="{Binding ToolTip}" MinHeight="32">
+  <!--
+    Night of 22-23/10: a sheet is dragged by its row, a project or section by its name (ProjectTreeInput; the drop on the nodes is in the style of the
+    nodes); a single click on the name of a project or section shows its overview after the double click time; the size of the names by depth.
+  -->
+  <DockPanel ToolTip="{Binding ToolTip}" MinHeight="32" views:ProjectTreeInput.DragRow="True">
    <!--
      The coherence badge of a section (ProjectSharing.AddCoherenceBadge, after the checkpoint of 22/10): the number of conflicts and notices, or «✓»,
      named by its title; it opens the comparison of the section.
@@ -593,8 +676,8 @@
     <Viewbox Stretch="Uniform"><ContentControl Focusable="False" IsTabStop="False" Content="{Binding Module, Converter={StaticResource ModuleIcon}}"/></Viewbox>
    </Button>
    <Grid>
-    <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Name}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
-     Visibility="{Binding IsRenaming, Converter={StaticResource WhenFalse}}">
+    <TextBlock x:Name="Label" Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Subheading}" FontWeight="SemiBold" Text="{Binding Name}" TextWrapping="NoWrap"
+     TextTrimming="CharacterEllipsis" Visibility="{Binding IsRenaming, Converter={StaticResource WhenFalse}}" views:ProjectTreeInput.DragName="True" views:ProjectTreeInput.SectionClick="True">
      <TextBlock.InputBindings>
       <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DoubleClickCommand}"/>
      </TextBlock.InputBindings>
@@ -619,6 +702,25 @@
    </DockPanel.ContextMenu>
   </DockPanel>
   <HierarchicalDataTemplate.Triggers>
+   <!-- The size of the names by depth (ConfigureProjectNode: 20, 17, 15, then 14; the sheets 14, not bold), on the typographic tokens. -->
+   <DataTrigger Binding="{Binding Depth}" Value="0">
+    <Setter TargetName="Label" Property="FontSize" Value="{DynamicResource Font.Title}"/>
+   </DataTrigger>
+   <DataTrigger Binding="{Binding Depth}" Value="1">
+    <Setter TargetName="Label" Property="FontSize" Value="{DynamicResource Font.Heading}"/>
+   </DataTrigger>
+   <DataTrigger Binding="{Binding IsSheet}" Value="True">
+    <Setter TargetName="Label" Property="FontSize" Value="{DynamicResource Font.Subheading}"/>
+    <Setter TargetName="Label" Property="FontWeight" Value="Normal"/>
+   </DataTrigger>
+   <!-- A project or section is dragged by its name (the cursor of MainWindow), outside read-only. -->
+   <MultiDataTrigger>
+    <MultiDataTrigger.Conditions>
+     <Condition Binding="{Binding IsSheet}" Value="False"/>
+     <Condition Binding="{Binding CanDrag}" Value="True"/>
+    </MultiDataTrigger.Conditions>
+    <Setter TargetName="Label" Property="Cursor" Value="SizeAll"/>
+   </MultiDataTrigger>
    <DataTrigger Binding="{Binding Badge.Warning}" Value="True">
     <Setter TargetName="Badge" Property="Background" Value="{DynamicResource Token.Badge.Warn}"/>
     <Setter TargetName="Badge" Property="Foreground" Value="{DynamicResource Token.Status.Warn}"/>

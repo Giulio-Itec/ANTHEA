@@ -275,6 +275,7 @@ internal static class ShellDraftChecks
 
                 // ---- Night of 22-23/10 (section 10.1 of the note): what was left of part (c).
                 await Overview(shell, presentation, services, main, output, bindings, project, abutment.S("id"), Check);
+                await TreeInput(shell, main, output, bindings, project, abutment.S("id"), pierId, pileSheet, Check);
             }
             finally
             {
@@ -363,6 +364,67 @@ internal static class ShellDraftChecks
             }
             finally { window.Close(); }
         }
+    }
+
+    /// <summary>
+    /// The tree of the project (night of 22-23/10, second item of section 10.1): the names by depth, the arrows in the token of the glyphs of the tree,
+    /// the drag over a node with its hint and indicator and the drop (through ProjectTreeInput, without a mouse: the check calls what the events of the
+    /// drag call), the single click on a section that shows its overview after the double click time, cancelled by another press.
+    /// </summary>
+    private static async Task TreeInput(ShellViewModel shell, Window main, string output, BindingErrors bindings, ProjectSession project, string abutmentId, string pierId,
+        SheetSession pileSheet, Action<bool, string> Check)
+    {
+        bindings.Step = "albero-mouse";
+        var workspace = shell.Workspace;
+        workspace.Activate(pileSheet);
+        await Idle(main);
+        TreeViewItem Item(string id) => Descendants<TreeViewItem>(main).Single(i => i.DataContext is ProjectNodeViewModel { Id: var node } && node == id);
+        TextBlock Label(TreeViewItem item) => Descendants<TextBlock>(item).First(t => t.Name == "Label" && ReferenceEquals(t.DataContext, item.DataContext));
+        string rootId = project.Projects.First().S("id");
+        var tree = (TreeView)main.FindName("Tree");
+
+        // The names by depth (20, 17, then 14 for the sheets in MainWindow) on the typographic tokens; the arrows in the colour of the glyphs of the tree.
+        double Size(string key) => (double)main.FindResource(key);
+        var sheetLabel = Label(Item(pileSheet.Id));
+        Check(Label(Item(rootId)).FontSize == Size("Font.Title") && Label(Item(abutmentId)).FontSize == Size("Font.Heading") && sheetLabel.FontSize == Size("Font.Subheading")
+            && sheetLabel.FontWeight == FontWeights.Normal && Label(Item(abutmentId)).FontWeight == FontWeights.SemiBold, "Albero: grandezza dei nomi per profondità");
+        var arrow = Descendants<System.Windows.Shapes.Path>(Item(rootId)).First(p => p.Name == "Arrow");
+        Check(ReferenceEquals(arrow.Stroke, main.FindResource("Token.InkSecondary")), "Albero: frecce nel colore dei glifi dell'albero");
+
+        // A section dragged over the top of another: «Prima di …» and the line above the row; over the middle of a section a sheet goes inside.
+        var pierItem = Item(pierId);
+        var abutment = project.Find(abutmentId)!;
+        var row = ProjectTreeInput.Row(Item(abutmentId));
+        Check(ProjectTreeInput.Over(Item(abutmentId), project.Find(pierId)!, new Point(8, row.ActualHeight * .1)) == DragDropEffects.Move
+            && shell.Tree.DropHint == "Prima di " + abutment.S("nome") && ProjectTreeInput.Indicator(tree) == ProjectDropPlace.Before, "Sezione sopra un'altra: «Prima di …» e la linea");
+        await Capture(main, output, "16-trascinamento.png", bindings);
+        var hint = (TextBlock)main.FindName("DropHint");
+        Check(hint.IsVisible && hint.Text == shell.Tree.DropHint, "Trascinamento: il suggerimento al posto dell'istruzione");
+        var sheet = project.Find(pileSheet.Id)!;
+        Check(ProjectTreeInput.Over(pierItem, sheet, new Point(8, ProjectTreeInput.Row(pierItem).ActualHeight * .5)) == DragDropEffects.Move
+            && shell.Tree.DropHint == "Inserisci in: " + project.Find(pierId)!.S("nome") && ProjectTreeInput.Indicator(tree) == ProjectDropPlace.Inside, "Foglio sopra un'altra sezione: «Inserisci in: …»");
+        Check(ProjectTreeInput.Over(Item(rootId), project.Find(pierId)!, new Point(8, 2)) == DragDropEffects.None && ProjectTreeInput.Indicator(tree) is null,
+            "Sezione sopra il suo progetto: nessun effetto, nessun indicatore");
+
+        // The drop: the abutment after the pier, the indicator and the hint gone.
+        Check(ProjectTreeInput.Drop(pierItem, abutment, new Point(8, ProjectTreeInput.Row(pierItem).ActualHeight * .9)) && ProjectTreeInput.Indicator(tree) is null && shell.Tree.DropHint == ""
+            && project.Projects.First().Array("strutture").OfType<JsonObject>().Select(s => s.S("id")).SequenceEqual([pierId, abutmentId]), "Rilascio: la spalla dopo la pila");
+        await Idle(main);
+
+        // A single click on the name of the pier: its overview after the double click time; another press in the window cancels the click.
+        var timer = ProjectTreeInput.Timer(main);
+        void Up(UIElement target) => target.RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left) { RoutedEvent = UIElement.MouseLeftButtonUpEvent });
+        Up(Label(Item(pierId)));
+        Check(timer.IsPending && ReferenceEquals(workspace.Active, pileSheet), "Clic sul nome della pila: in attesa del tempo del doppio clic");
+        main.RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left) { RoutedEvent = Mouse.PreviewMouseDownEvent });
+        Check(!timer.IsPending, "Un'altra pressione nella finestra annulla il clic (il doppio clic rinomina)");
+        Up(Label(Item(pierId)));
+        await Task.Delay(timer.Delay + TimeSpan.FromMilliseconds(300));
+        await Idle(main);
+        Check(!timer.IsPending && workspace.Active is null && shell.Center is SectionOverviewViewModel { Section: var shown } && shown?.S("id") == pierId,
+            "Clic singolo sulla pila: il suo riepilogo dopo " + timer.Delay.TotalMilliseconds + " ms");
+        Up(Label(Item(pileSheet.Id)));
+        Check(!timer.IsPending, "Clic sul nome di un foglio: nessun riepilogo");
     }
 
     /// <summary>A window outside the screen, never activated (the checks of the night share the desktop).</summary>
