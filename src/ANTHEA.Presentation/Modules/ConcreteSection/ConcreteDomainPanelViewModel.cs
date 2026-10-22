@@ -90,14 +90,15 @@ public sealed class ConcreteDomain2DViewModel : ObservableObject
 /// </list>
 /// The rows belong to the sheet; the panel writes the outputs of the rows of its limit state (η and outcome) as the historic panel. The drawing
 /// and the detail follow the selection only while the table is shown (<see cref="IsShown"/>), as the historic grid; until then they wait
-/// (<see cref="NeedsVisualRefresh"/>). The section σ/ε of the tab «Sezione σ / ε» is sub-step S7: here only its tab and its two check boxes.
+/// (<see cref="NeedsVisualRefresh"/>). The section σ/ε of the tab «Sezione σ / ε» is <see cref="Inspection"/> (sub-step S7): the panel gives it
+/// its inner tab and its two check boxes.
 /// </summary>
 public sealed class ConcreteDomainPanelViewModel : ObservableObject
 {
     private readonly ConcreteSheetViewModel sheet;
     private readonly Dictionary<string, ConcreteResults.Mesh> meshes = new(StringComparer.Ordinal);
     private string detail = "Selezionare una combinazione";
-    private int inspectionTab;
+    private int inspectionTab = -1;
     private bool attaching, neutralAxis, barValues;
     private double actionSize, resistanceSize, transparency;
     private string? outputKey;
@@ -144,6 +145,8 @@ public sealed class ConcreteDomainPanelViewModel : ObservableObject
         DisplayOptions = [new(this, "mostra_ed", "Sollecitazioni", true), new(this, "mostra_rd", "Resistenze", true), new(this, "tutte_rd", "Tutti i punti resistenti", false),
             new(this, "mostra_linee", "Linee di verifica", true), new(this, "colora_eta", "Colori η", false)];
         neutralAxis = Options.B("asse_neutro", true);
+        // The section σ/ε of the inner tab (S7), with the neutral axis of the options.
+        Inspection = new ConcreteSectionInspectionViewModel(sheet, this, neutralAxis);
         // The selection and the filter of the table move the drawing and the detail (onSelection of ActionTable, Refresh of WithFilters).
         Table.Table.SelectionChanged += (_, _) => UpdateSelection();
         Table.Table.FilterApplied += (_, _) => UpdateSelection();
@@ -197,38 +200,53 @@ public sealed class ConcreteDomainPanelViewModel : ObservableObject
         }
     }
 
-    /// <summary>«Asse neutro» of the section σ/ε (S7): saved in the options with Modified; allowed in a read-only revision.</summary>
+    /// <summary>«Asse neutro» of the section σ/ε: saved in the options with Modified, the map follows (S7); allowed in a read-only revision.</summary>
     public bool NeutralAxis
     {
         get => neutralAxis;
-        set { if (!SetProperty(ref neutralAxis, value)) return; Options["asse_neutro"] = value; sheet.RaiseModified(); }
+        set { if (!SetProperty(ref neutralAxis, value)) return; Options["asse_neutro"] = value; Inspection.ShowNeutralAxis(value); sheet.RaiseModified(); }
     }
 
-    /// <summary>«Valori σ/ε sulle barre» of the section σ/ε (S7, view only; not in a read-only revision).</summary>
-    public bool BarValues { get => barValues; set { if (sheet.CanEdit) SetProperty(ref barValues, value); } }
+    /// <summary>«Valori σ/ε sulle barre» of the section σ/ε: the map follows (S7, view only; not in a read-only revision).</summary>
+    public bool BarValues { get => barValues; set { if (sheet.CanEdit && SetProperty(ref barValues, value)) Inspection.ShowBarValues(value); } }
 
-    /// <summary>The inner tab of the panel: 0 «Dominio», 1 «Sezione σ / ε» (S7). The table is shown only with the first one.</summary>
+    /// <summary>The section σ/ε of the inner tab «Sezione σ / ε» (S7).</summary>
+    public ConcreteSectionInspectionViewModel Inspection { get; }
+
+    /// <summary>
+    /// The inner tab of the panel: -1 until the panel is on screen the first time (the historic tab control has no tab chosen until it is laid
+    /// out), then 0 «Dominio» or 1 «Sezione σ / ε». Every change updates the section σ/ε (S7).
+    /// </summary>
     public int InspectionTab
     {
         get => inspectionTab;
         set
         {
-            if (value is < 0 or > 1 || value == inspectionTab) return;
+            if (value is < -1 or > 1 || value == inspectionTab) return;
             inspectionTab = value; OnPropertyChanged();
-            Shown();
+            // The SelectionChanged of the historic inner tabs.
+            _ = Inspection.UpdateAsync();
         }
     }
 
-    /// <summary>The table of the panel is on screen: its main tab and the inner tab «Dominio».</summary>
-    public bool IsShown => sheet.SelectedTab == (ThreeD ? 1 : 2) && inspectionTab == 0;
+    /// <summary>
+    /// The table of the panel is on screen: its main tab is chosen. The table is under the inner tabs, so it stays visible also with «Sezione σ /
+    /// ε» (F5.10 S7, correcting S3: the trace ispezione/sezione-sigma-epsilon shows the 2D section updated after a calculation with that tab).
+    /// </summary>
+    public bool IsShown => sheet.SelectedTab == (ThreeD ? 1 : 2);
 
     /// <summary>The drawing and the detail wait for the table to be shown (NeedsVisualRefresh of the historic panel).</summary>
     internal bool NeedsVisualRefresh { get; set; } = true;
 
-    /// <summary>The table became visible (IsVisibleChanged of the historic grid): the panel is drawn again when it waits.</summary>
+    /// <summary>
+    /// The panel became visible (IsVisibleChanged of the historic grid): the first time the inner tabs choose «Dominio»; the panel is drawn again
+    /// when it waits.
+    /// </summary>
     internal void Shown()
     {
-        if (IsShown && NeedsVisualRefresh) RefreshPanel();
+        if (!IsShown) return;
+        if (inspectionTab == -1) InspectionTab = 0;
+        if (NeedsVisualRefresh) RefreshPanel();
     }
 
     /// <summary>The Wiki of the services (F1 of the fields of the windows of the panel).</summary>
@@ -239,6 +257,7 @@ public sealed class ConcreteDomainPanelViewModel : ObservableObject
     {
         Form.IsReadOnly = readOnly;
         SectionOnActionCommand.NotifyCanExecuteChanged();
+        Inspection.RefreshEditable();
     }
 
     // ---------------------------------------------------------------- options
@@ -321,7 +340,8 @@ public sealed class ConcreteDomainPanelViewModel : ObservableObject
         NeedsVisualRefresh = true;
         if (sheet.IsSynchronizing || attaching || !renderHidden && !IsShown) return;
         NeedsVisualRefresh = false;
-        // Sub-step S7: the section σ/ε of the selected row follows here (UpdateSectionInspection of the historic view).
+        // The section σ/ε of the selected row (UpdateSectionInspection of the historic view, S7).
+        _ = Inspection.UpdateAsync();
         var row = Table.Table.Selected; string? id = row?.Values.S("id");
         var checks = sheet.DomainChecks(Prefix + Key);
         var selectedCheck = id is null ? null : checks?.GetValueOrDefault(id);

@@ -6,7 +6,7 @@ using Anthea.Presentation.Forms;
 namespace Anthea.Presentation.Modules.ConcreteSection;
 
 /// <summary>
-/// What the tabs of the later sub-steps (S6 detailing, S7 M–χ, S9 summaries) do to the data and to the results
+/// What the tabs of the later sub-steps (S9 summaries) do to the data and to the results
 /// that the common part of the traces reads, until their ViewModels, and what the sheet keeps for the panels of S2–S5: the rows of the
 /// actions and of the shear with their outputs, the results published by the calculation, the automatic shear parameters, the derived values
 /// of the detailing, the summaries of the control panel and the export. Every write and its order are those of the historic view; the controls of those tabs
@@ -27,7 +27,6 @@ public sealed partial class ConcreteSheetViewModel
     private readonly Dictionary<string, ConcreteResults.TorsionResult> torsionResults = new(StringComparer.Ordinal);
     private readonly Dictionary<string, ConcreteCardsViewModel> summaries = new(StringComparer.Ordinal);
     private ConcreteDetailingPresentation? detailing;
-    private ConcreteResults.CurvatureResult? curvatureResult;
     private bool detailingBuilt, hasResults;
     private JsonObject? export;
 
@@ -74,7 +73,7 @@ public sealed partial class ConcreteSheetViewModel
     private void ResetState()
     {
         ClearResults(); shearResults.Clear(); torsionResults.Clear();
-        detailing = null; curvatureResult = null; detailingBuilt = false; shearBuilt = false; synchronizing = false;
+        detailing = null; detailingBuilt = false; shearBuilt = false; synchronizing = false;
         ResetResult();
     }
 
@@ -87,7 +86,7 @@ public sealed partial class ConcreteSheetViewModel
     {
         if (domainResults.Count == 0 && stressResults.Count == 0 && shearResults.Count == 0) { ResetResult(); return; }
         export = ConcreteResultExport.Create(Data, CollectVerificationSummaries(), domainResults, stressResults, shearResults, torsionResults,
-            detailing?.Checks ?? [], detailing?.DetailsText ?? "", detailing?.Anchorage, detailing?.AnchorageDetails.Text ?? "", curvatureResult, Calculation.ErrorsForExport);
+            detailing?.Checks ?? [], detailing?.DetailsText ?? "", detailing?.Anchorage, detailing?.AnchorageDetails.Text ?? "", Curvature?.Result, Calculation.ErrorsForExport);
     }
 
     private Dictionary<string, VerificationSummary> CollectVerificationSummaries() => ConcreteVerificationSummaries.Create(Settings,
@@ -374,8 +373,15 @@ public sealed partial class ConcreteSheetViewModel
 
     // ---------------------------------------------------------------- M–χ (S7): the curve is cleared by every change of the data
 
-    private void InvalidateCurvature()
+    /// <summary>The moment–curvature curve (tab 07, S7).</summary>
+    public ConcreteCurvatureViewModel Curvature { get; private set; } = null!;
+
+    // The tab 07, built after the detailing: no write.
+    private void CreateCurvaturePanel()
     {
-        curvatureResult = null; ResetExport();
+        Curvature = new ConcreteCurvatureViewModel(this);
+        OnPropertyChanged(nameof(Curvature));
     }
+
+    private void InvalidateCurvature() => Curvature.Invalidate();
 }
