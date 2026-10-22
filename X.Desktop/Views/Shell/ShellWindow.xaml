@@ -104,8 +104,18 @@
      </StackPanel>
      <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Tree.Summary}" Margin="0,10,0,0"/>
      <TreeView ItemsSource="{Binding Tree.Roots}" BorderThickness="0" Background="{DynamicResource Token.Paper}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-      <TreeView.ItemContainerStyle>
+      <!--
+        The alignments of the nodes in an implicit style: the style of the theme binds them to the parent ItemsControl, and a node built when the
+        tree is rebuilt (opening a sheet) and removed before the next layout left a binding error. In ItemContainerStyle alone they come too late.
+      -->
+      <TreeView.Resources>
        <Style TargetType="TreeViewItem">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+       </Style>
+      </TreeView.Resources>
+      <TreeView.ItemContainerStyle>
+       <Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
        </Style>
