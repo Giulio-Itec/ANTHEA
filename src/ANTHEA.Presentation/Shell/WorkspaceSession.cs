@@ -2,6 +2,7 @@ using System.Text.Json.Nodes;
 using Anthea.Application.Modules;
 using Anthea.Calculations;
 using Anthea.Presentation.Modules;
+using Anthea.Presentation.Projects;
 using Anthea.Presentation.Services;
 using X.Core;
 
@@ -425,7 +426,14 @@ public sealed class WorkspaceSession : IDisposable
         {
             if (project.Contains(sheet.Sheet))
             {
-                if (sheet.ChangedOutside) { sheet.Reopen(); reloaded.Add(sheet); }
+                if (sheet.ChangedOutside)
+                {
+                    // SH9: after the confirmation of another sheet, the reloaded tab says which sheet changed which of its common data.
+                    string? notice = source is null ? null : ReloadNotice(source, sheet);
+                    sheet.Reopen();
+                    sheet.SetReloadNotice(notice);
+                    reloaded.Add(sheet);
+                }
                 else sheet.Refresh();
                 continue;
             }
@@ -441,6 +449,18 @@ public sealed class WorkspaceSession : IDisposable
         }
         if (reloaded.Count > 0) SheetsReloaded?.Invoke(this, new SheetsReloadedEventArgs(source, reloaded, change));
         if (missing.Count > 0) services.Messages.Inform("ANTHEA", string.Join("\n", missing.Select(MissingSheet)));
+    }
+
+    /// <summary>
+    /// The notice of <paramref name="sheet"/>, reloaded after the confirmation of <paramref name="source"/> (SH9): the common data of the sheet that
+    /// differ from those it loaded last (ProjectSharedData.ChangedKeys), with the labels of the comparison.
+    /// </summary>
+    private static string ReloadNotice(SheetSession source, SheetSession sheet)
+    {
+        var before = (JsonObject)sheet.Sheet.DeepClone();
+        before["dati"] = sheet.LoadedData?.DeepClone();
+        var fields = ProjectSharedData.ChangedKeys(before, sheet.Sheet).Select(SharedDataCoordinator.FieldLabel).Distinct().Order(StringComparer.CurrentCulture).ToArray();
+        return ShellTexts.ReloadNotice(ShellTexts.SheetName(source.Sheet), fields);
     }
 
     /// <summary>Notice of a tab closed by undo or redo (proposal 3.7; provisional text, question SH5).</summary>

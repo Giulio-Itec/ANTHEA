@@ -14,7 +14,8 @@
  xmlns:nav="clr-namespace:Anthea.Presentation.Shell.Navigation;assembly=ANTHEA.Presentation"
  xmlns:proj="clr-namespace:Anthea.Presentation.Shell.Projects;assembly=ANTHEA.Presentation"
  xmlns:tabs="clr-namespace:Anthea.Presentation.Shell.Tabs;assembly=ANTHEA.Presentation"
- xmlns:cmd="clr-namespace:Anthea.Presentation.Shell.Commands;assembly=ANTHEA.Presentation">
+ xmlns:cmd="clr-namespace:Anthea.Presentation.Shell.Commands;assembly=ANTHEA.Presentation"
+ xmlns:shell="clr-namespace:Anthea.Presentation.Shell;assembly=ANTHEA.Presentation">
 
  <BooleanToVisibilityConverter x:Key="WhenTrue"/>
  <views:InverseVisibilityConverter x:Key="WhenFalse"/>
@@ -171,8 +172,26 @@
  </Style>
 
  <!-- ===================================================================================================== contents of the tabs -->
- <DataTemplate DataType="{x:Type tabs:SheetTabViewModel}">
+ <!--
+   Small screens (night of 22-23/10, MainWindow.LoadSheetEditor and DisplayAdaptation): the view of a module that follows the window takes the whole
+   tab; the others keep the minimum size of MainWindow (SheetLayout, 1120 × 600) and scroll in a smaller window.
+ -->
+ <DataTemplate x:Key="Shell.SheetFitting" DataType="{x:Type tabs:SheetTabViewModel}">
   <ContentPresenter Content="{Binding Content}"/>
+ </DataTemplate>
+ <DataTemplate x:Key="Shell.SheetScrolling" DataType="{x:Type tabs:SheetTabViewModel}">
+  <views:MinimumSizeViewport x:Name="Viewport" MinimumContentWidth="{x:Static shell:SheetLayout.SheetMinimumWidth}" MinimumContentHeight="{x:Static shell:SheetLayout.SheetMinimumHeight}">
+   <ContentPresenter Content="{Binding Content}"/>
+  </views:MinimumSizeViewport>
+ </DataTemplate>
+ <DataTemplate DataType="{x:Type tabs:SheetTabViewModel}">
+  <ContentControl x:Name="Sheet" Focusable="False" IsTabStop="False" Content="{Binding}" ContentTemplate="{StaticResource Shell.SheetScrolling}"
+   HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+  <DataTemplate.Triggers>
+   <DataTrigger Binding="{Binding FitsWindow}" Value="True">
+    <Setter TargetName="Sheet" Property="ContentTemplate" Value="{StaticResource Shell.SheetFitting}"/>
+   </DataTrigger>
+  </DataTemplate.Triggers>
  </DataTemplate>
  <DataTemplate DataType="{x:Type tabs:PageTabViewModel}">
   <ContentPresenter Content="{Binding Content}"/>
@@ -183,12 +202,16 @@
  <DataTemplate DataType="{x:Type proj:ModelTabViewModel}">
   <views:ModelTabView/>
  </DataTemplate>
+ <!-- The pages of the navigation keep the minimum size of the dashboard of MainWindow (SheetLayout, 870 × 680) and scroll in a smaller window. -->
  <DataTemplate DataType="{x:Type ex:ExampleLibraryViewModel}">
-  <Border Padding="42,24,42,36"><examples:ExampleLibraryView/></Border>
+  <views:MinimumSizeViewport MinimumContentWidth="{x:Static shell:SheetLayout.PageMinimumWidth}" MinimumContentHeight="{x:Static shell:SheetLayout.PageMinimumHeight}">
+   <Border Padding="42,24,42,36"><examples:ExampleLibraryView/></Border>
+  </views:MinimumSizeViewport>
  </DataTemplate>
 
  <!-- ===================================================================================================== home (MainWindow.ShowHome) -->
  <DataTemplate DataType="{x:Type nav:NavigationViewModel}">
+  <views:MinimumSizeViewport MinimumContentWidth="{x:Static shell:SheetLayout.PageMinimumWidth}" MinimumContentHeight="{x:Static shell:SheetLayout.PageMinimumHeight}">
   <Grid Margin="42,24,42,36">
    <Grid.RowDefinitions><RowDefinition Height="250"/><RowDefinition Height="*"/></Grid.RowDefinitions>
    <Border Background="{DynamicResource Token.CommandBar}" Margin="0,0,0,10">
@@ -222,10 +245,12 @@
     </ItemsControl.ItemTemplate>
    </ItemsControl>
   </Grid>
+  </views:MinimumSizeViewport>
  </DataTemplate>
 
  <!-- ===================================================================================================== «Moduli singoli» (ShowModules) -->
  <DataTemplate DataType="{x:Type nav:ModuleCatalogViewModel}">
+  <views:MinimumSizeViewport MinimumContentWidth="{x:Static shell:SheetLayout.PageMinimumWidth}" MinimumContentHeight="{x:Static shell:SheetLayout.PageMinimumHeight}">
   <DockPanel Margin="42,24,42,36">
    <StackPanel DockPanel.Dock="Top" Margin="0,0,0,24">
     <TextBlock Style="{StaticResource Shell.Display}" Text="{x:Static nav:ModuleCatalogViewModel.Title}"/>
@@ -298,6 +323,7 @@
     </ItemsControl>
    </ScrollViewer>
   </DockPanel>
+  </views:MinimumSizeViewport>
  </DataTemplate>
 
  <!-- ===================================================================================================== «Progetti»: overview and catalogue (ProjectPresentation) -->
@@ -495,6 +521,7 @@
 
  <!-- ===================================================================================================== «Modelli» (ShowModelsHub) -->
  <DataTemplate DataType="{x:Type proj:ModelsPageViewModel}">
+  <views:MinimumSizeViewport MinimumContentWidth="{x:Static shell:SheetLayout.PageMinimumWidth}" MinimumContentHeight="{x:Static shell:SheetLayout.PageMinimumHeight}">
   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
    <StackPanel Margin="42,24,42,36">
     <TextBlock Style="{StaticResource Shell.Display}" Text="{x:Static proj:ModelsPageViewModel.Title}"/>
@@ -537,6 +564,7 @@
     </StackPanel>
    </StackPanel>
   </ScrollViewer>
+  </views:MinimumSizeViewport>
  </DataTemplate>
 
  <!-- ===================================================================================================== bars above the content -->

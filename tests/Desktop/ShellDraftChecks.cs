@@ -277,6 +277,7 @@ internal static class ShellDraftChecks
                 await Overview(shell, presentation, services, main, output, bindings, project, abutment.S("id"), Check);
                 await TreeInput(shell, main, output, bindings, project, abutment.S("id"), pierId, pileSheet, Check);
                 await Catalogues(shell, main, output, bindings, project, pierId, pileSheet, Check);
+                await SmallScreens(shell, services, main, output, bindings, project, abutment.S("id"), pileSheet, strataSheet, Check);
             }
             finally
             {
@@ -466,6 +467,66 @@ internal static class ShellDraftChecks
         await Idle(main);
     }
 
+    /// <summary>
+    /// Small screens and the notice of a reloaded tab (night of 22-23/10, fourth item of section 10.1). SH9: the second concrete of the abutment changes its
+    /// class and is confirmed with «Aggiorna tutti i fogli collegati»; the first one, reloaded, says from which sheet and which data. Small screens: in a
+    /// window of 900 × 620 a sheet whose view does not follow the window (the stratigraphy) keeps 1120 × 600 and scrolls, the piles fill the tab, the home
+    /// page keeps 870 × 680 and scrolls (MainWindow.LoadSheetEditor and DisplayAdaptation.Viewport).
+    /// </summary>
+    private static async Task SmallScreens(ShellViewModel shell, DraftServices services, Window main, string output, BindingErrors bindings, ProjectSession project, string abutmentId,
+        SheetSession pileSheet, SheetSession strataSheet, Action<bool, string> Check)
+    {
+        bindings.Step = "avviso-ricaricata";
+        var workspace = shell.Workspace;
+        var sheets = project.Find(abutmentId)!.Array("fogli").OfType<JsonObject>().Where(s => s.S("modulo_id") == "mat_calcestruzzo").ToArray();
+        var first = workspace.OpenSheet(sheets[0]);
+        var second = workspace.OpenSheet(sheets[1]);
+        ((Anthea.Presentation.Modules.Materials.ConcreteMaterialSheetViewModel)second.ViewModel).SelectedClass = "C35/45";
+        services.UpdateLinkedSheets = true;
+        try { workspace.Activate(first); }
+        finally { services.UpdateLinkedSheets = false; }
+        await Capture(main, output, "19-avviso-ricaricata.png", bindings);
+        var notice = (FrameworkElement)main.FindName("ReloadNotice");
+        Check(first.ReloadNotice is { } text && text.StartsWith("Aggiornato da «" + sheets[1].S("nome") + "»", StringComparison.Ordinal) && notice.IsVisible
+            && Descendants<TextBlock>(notice).Any(t => t.Text == text) && ReferenceEquals(workspace.Active, first), "Scheda ricaricata: «" + first.ReloadNotice + "»");
+        workspace.Activate(second);
+        await Idle(main);
+        Check(first.ReloadNotice is null && !notice.IsVisible, "L'avviso sparisce quando la scheda ricaricata perde il fuoco (conferma)");
+
+        bindings.Step = "piccolo-schermo";
+        double width = main.Width, height = main.Height;
+        main.Width = 900; main.Height = 620;
+        try
+        {
+            // The whole shell keeps 1120 × 680 and scrolls; the tree closed by «▸» leaves the centre to the sheet.
+            workspace.Activate(strataSheet);
+            await Idle(main);
+            var shellViewport = (MinimumSizeViewport)main.FindName("ShellViewport");
+            Check(shellViewport is { ComputedHorizontalScrollBarVisibility: Visibility.Visible, ComputedVerticalScrollBarVisibility: Visibility.Visible }
+                && ((FrameworkElement)shellViewport.Content).Width == Anthea.Presentation.Shell.SheetLayout.WindowMinimumWidth, "Finestra piccola: la shell tiene 1120 × 680 e scorre");
+            shell.IsTreeOpen = false;
+            await Idle(main);
+            var viewport = Descendants<MinimumSizeViewport>((FrameworkElement)main.FindName("CenterContent")).SingleOrDefault();
+            Check(viewport is { ComputedHorizontalScrollBarVisibility: Visibility.Visible, Content: FrameworkElement { Width: Anthea.Presentation.Shell.SheetLayout.SheetMinimumWidth } },
+                "Finestra piccola: la stratigrafia tiene 1120 × 600 e scorre");
+            await Capture(main, output, "20-piccolo-schermo.png", bindings);
+            workspace.Activate(pileSheet);
+            await Idle(main);
+            Check(!Descendants<MinimumSizeViewport>((FrameworkElement)main.FindName("CenterContent")).Any(), "Finestra piccola: i pali seguono la finestra");
+            shell.Navigation.Select(ShellPage.Home);
+            await Idle(main);
+            var home = Descendants<MinimumSizeViewport>((FrameworkElement)main.FindName("CenterContent")).SingleOrDefault();
+            Check(home is { Content: FrameworkElement { ActualWidth: >= Anthea.Presentation.Shell.SheetLayout.PageMinimumWidth } } && home.ComputedVerticalScrollBarVisibility == Visibility.Visible,
+                "Finestra piccola: la Home tiene 870 × 680 e scorre");
+        }
+        finally
+        {
+            main.Width = width; main.Height = height;
+            shell.IsTreeOpen = true;
+            await Idle(main);
+        }
+    }
+
     /// <summary>A window outside the screen, never activated (the checks of the night share the desktop).</summary>
     private static T Offscreen<T>(T window) where T : Window
     {
@@ -627,7 +688,10 @@ internal static class ShellDraftChecks
         public void ReportFailure(string title, Exception error) => Failures.Add(title + ": " + error.Message);
         public void Inform(string title, string message) { }
         public void Warn(string title, string message) => Failures.Add(title + ": " + message);
-        public bool ConfirmSharedUpdate(SharedUpdatePrompt prompt) => false;
+        public bool ConfirmSharedUpdate(SharedUpdatePrompt prompt) => UpdateLinkedSheets;
+
+        /// <summary>The answer to «Aggiorna tutti i fogli collegati»: «Solo questo foglio» unless a step asks otherwise (SH9, night of 22-23/10).</summary>
+        internal bool UpdateLinkedSheets { get; set; }
         public bool ConfirmProjectMove(string destination, IReadOnlyList<string> changes) => false;
         public bool ConfirmClose(Func<bool> saveOrDiscard) => saveOrDiscard();
         public SaveChangesAnswer AskSaveChanges() => SaveChangesAnswer.Discard;

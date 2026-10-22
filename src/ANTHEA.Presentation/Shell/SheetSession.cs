@@ -65,6 +65,15 @@ public sealed class SheetSession : IDisposable
     /// <summary>The baseline of the shared data: the sheet at its last confirmation (MainWindow.sharedBaseline).</summary>
     public JsonObject? Baseline => baseline;
 
+    /// <summary>
+    /// The notice of a tab reloaded because another sheet confirmed shared data (SH9, F5.13 c, night of 22-23/10): which sheet and which common
+    /// data; null otherwise. It stays until this sheet is confirmed (it loses the focus, «Conferma modifiche») or reopened for another reason.
+    /// </summary>
+    public string? ReloadNotice { get; private set; }
+
+    /// <summary>The data of the document that the ViewModel loaded or confirmed last: the reference of the notice of a reload.</summary>
+    internal JsonNode? LoadedData => loaded;
+
     public bool IsDisposed => disposed;
 
     /// <summary>The ViewModel was recreated: the tab shows the new one (the old one is disposed).</summary>
@@ -101,7 +110,16 @@ public sealed class SheetSession : IDisposable
         baseline = (JsonObject)proposed.DeepClone();
         loaded = Sheet["dati"]!.DeepClone();
         (Owner as ProjectSession)?.Record();
+        if (ReloadNotice is not null) { ReloadNotice = null; StateChanged?.Invoke(this, EventArgs.Empty); }
         UpdateUnsaved();
+    }
+
+    /// <summary>The tab was reloaded by the confirmation of another sheet: the notice shows on it (null clears it).</summary>
+    internal void SetReloadNotice(string? notice)
+    {
+        if (ReloadNotice == notice) return;
+        ReloadNotice = notice;
+        StateChanged?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>The document was saved: the data confirmed now are the saved ones.</summary>
@@ -124,6 +142,7 @@ public sealed class SheetSession : IDisposable
         if (sheet is not null && sheet.S("modulo_id") != Module) throw new ArgumentException("Foglio di un altro modulo: " + sheet.S("modulo_id"), nameof(sheet));
         bool sameNode = sheet is null || ReferenceEquals(sheet, Sheet);
         Sheet = sheet ?? Sheet;
+        ReloadNotice = null;
         if (!sameNode) saved = Sheet["dati"]?.DeepClone();
         var previous = ViewModel;
         ViewModel = Create();

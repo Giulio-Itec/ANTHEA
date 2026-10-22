@@ -27,6 +27,7 @@ internal static class ShellChecks
         checks += ShellOverviewChecks.Run();
         checks += ShellTreeDragChecks.Run();
         checks += ShellCatalogueChecks.Run();
+        checks += ShellLayoutChecks.Run();
         return checks;
     }
 }
