@@ -72,30 +72,5 @@ internal static partial class ConcreteSectionSheetChecks
                 panel.DetailTab = detail;
             }
         }
-
-        /// <summary>The part «[sle]»: the family shown, then for every family form, table, details, tables of the bars and of the concrete, zones,
-        /// map and summary.</summary>
-        private void TraceServiceability(ConcreteSectionBlock block)
-        {
-            block.Add("famiglia " + Sheet.StressFamily.ToString(CultureInfo.InvariantCulture));
-            foreach (var panel in Sheet.StressPanels)
-            {
-                string key = panel.Key;
-                block.Form(FormState(key, panel.Form));
-                foreach (string line in TableState(key, panel.Table.Table).Lines()) block.Add(line);
-                block.Add(key + " schede " + panel.DetailTab.ToString(CultureInfo.InvariantCulture) + " · fessurazione " + (panel.CrackTabVisible ? "mostrata" : "nascosta"));
-                block.Text(key + " dettaglio", panel.Detail);
-                block.Text(key + " passaggi", panel.CrackDetail);
-                foreach (string line in TableState(key + "-barre", panel.Bars).Lines()) block.Add(line);
-                foreach (string line in TableState(key + "-cls", panel.Concrete).Lines()) block.Add(line);
-                block.Add(key + " zone " + panel.SelectedRegion.ToString(CultureInfo.InvariantCulture) + " di " + panel.Regions.Count.ToString(CultureInfo.InvariantCulture));
-                block.Add(key + " mappa " + Viewport(panel.Map) + " · legenda " + ConcreteSectionTrace.Quote(panel.Map.Legend));
-                block.Add(Cards(key + "-riepilogo", panel.Summary).Line());
-            }
-        }
-
-        // The stress state of a map as the historic trace writes it (TraceStressState).
-        private static string StressState(ConcreteResults.StressState? stress) => stress is null ? "-" :
-            ConcreteSectionTrace.Hash(new object?[] { stress.sigma_cls, stress.sigma_acciaio, stress.tensioni_barre, stress.BarStrains, stress.Status, stress.Ratio });
     }
 }

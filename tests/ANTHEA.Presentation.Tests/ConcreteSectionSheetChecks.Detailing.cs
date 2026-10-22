@@ -14,23 +14,6 @@ namespace Anthea.Presentation.Tests;
 /// </summary>
 internal static partial class ConcreteSectionSheetChecks
 {
-    private sealed partial class Side
-    {
-        // The forms of the detailing in the order of the historic view, the cover of the inputs, the anchorage, the summary, the topics, the
-        // checks of the anchorage and the note of the durability.
-        private void TraceDetailing(ConcreteSectionBlock block)
-        {
-            var detailing = Sheet.Detailing;
-            for (int i = 0; i < detailing.Forms.Count; i++) block.Form(FormState("dettagli-" + i.ToString(CultureInfo.InvariantCulture), detailing.Forms[i]));
-            block.Form(FormState("copriferro", detailing.CoverGeometry));
-            block.Form(FormState("ancoraggi", detailing.Anchorage));
-            block.Add(Cards("dettagli", detailing.Summary).Line());
-            foreach (var topic in detailing.Topics) block.Add(Cards("dettagli-" + topic.Key, topic.Checks).Line());
-            block.Add(Cards("ancoraggi", detailing.AnchorageChecks).Line());
-            block.Text("durabilita", detailing.DurabilityNote);
-        }
-    }
-
     private static async Task DetailingAsync(string root, Expect expect)
     {
         using (var sheet = OpenSheet(ConcreteSectionScenarios.FixtureData(root, "default")))

@@ -87,12 +87,12 @@ internal static partial class ConcreteSectionSheetChecks
                 editor.CloseRequested += Closed;
                 try
                 {
-                    log.Add("aperta · " + EditorState(editor));
+                    log.Add("aperta · " + ConcreteSectionSheetReader.EditorState(editor));
                     foreach (var inner in step.Dialog ?? [])
                     {
                         if (closed) { log.Add("chiusa: passo " + inner + " non eseguito"); continue; }
                         EditorStep(editor, inner);
-                        log.Add(inner + " · " + (closed ? "chiusa" : EditorState(editor)));
+                        log.Add(inner + " · " + (closed ? "chiusa" : ConcreteSectionSheetReader.EditorState(editor)));
                     }
                     if (!closed) log.Add("chiusa dalla traccia");
                 }
@@ -129,33 +129,6 @@ internal static partial class ConcreteSectionSheetChecks
                     break;
                 default: throw new ArgumentException("Passo della finestra sconosciuto: " + step.Kind);
             }
-        }
-
-        /// <summary>What the window shows: rows, selection, status, origins, notice (shown with the origins), previous actions, result, rows.</summary>
-        private static string EditorState(SectionActionsViewModel editor) =>
-            "righe " + editor.Rows.Count.ToString(CultureInfo.InvariantCulture) + " · selezionata "
-            + (editor.Selected is null ? -1 : editor.Rows.IndexOf(editor.Selected)).ToString(CultureInfo.InvariantCulture)
-            + " · stato " + ConcreteSectionTrace.Quote(editor.Status) + " · origini " + ConcreteSectionTrace.YesNo(editor.HasOrigins)
-            + " · avviso " + ConcreteSectionTrace.YesNo(editor.HasOrigins) + " · precedente " + ConcreteSectionTrace.YesNo(editor.Legacy)
-            + " · risultato " + (editor.Result is null ? "-" : ConcreteSectionTrace.StableHash(editor.Result))
-            + "\n" + string.Join("\n", editor.Rows.Select(r => "  " + string.Join(" | ", new[] { r.Id, r.Element, r.Name, r.State, r.N, r.Vx, r.Vy, r.T, r.Mx, r.My, r.Origin }
-                .Select(ConcreteSectionTrace.Quote)) + (r.Visible ? "" : " · nascosta")));
-
-        /// <summary>The part «[azioni]»: unified or historic actions, the file of the actions shown by the tables, the rows of every limit state
-        /// and of the shear with every value (inputs and outputs).</summary>
-        private void TraceActions(ConcreteSectionBlock block)
-        {
-            var actions = Sheet.Actions;
-            // The tables of the historic actions show the file next to their commands; the unified ones show no file.
-            block.Add("sollecitazioni uniche " + ConcreteSectionTrace.YesNo(SectionActionInputs.Unified(Sheet.Data)) + " · file "
-                + ConcreteSectionTrace.Quote(actions.Unified ? "" : actions.ExcelPath));
-            foreach (var (key, rows) in Sheet.ActionRowSets)
-            {
-                block.Add("azioni " + key + " · " + rows.Count.ToString(CultureInfo.InvariantCulture));
-                foreach (var row in rows) block.Add("  " + ConcreteSectionTrace.Canonical(row.Values));
-            }
-            block.Add("azioni taglio · " + Sheet.ShearRowCollection.Count.ToString(CultureInfo.InvariantCulture));
-            foreach (var row in Sheet.ShearRowCollection) block.Add("  " + ConcreteSectionTrace.Canonical(row.Values));
         }
     }
 }
