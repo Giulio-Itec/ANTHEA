@@ -34,7 +34,9 @@ dei sottopassi. Contiene:
 - il sottopasso S5 fatto il 21/10: taglio e torsione nel ViewModel, staffe in sola lettura, prove ed esiti (sezione 14);
 - il sottopasso S6 fatto il 22/10: dettagli costruttivi e ancoraggi nel ViewModel, prove ed esiti (sezione 15);
 - il sottopasso S7 fatto il 22/10: sezione σ/ε e momento–curvatura nel ViewModel, correzione dei pannelli dei domini (sezione 16);
-- il sottopasso S8 fatto il 22/10: progetto delle armature nel ViewModel, prove ed esiti (sezione 17); da dove parte S9 (sezione 18).
+- il sottopasso S8 fatto il 22/10: progetto delle armature nel ViewModel, prove ed esiti (sezione 17); da dove parte S9 (sezione 18);
+- il sottopasso S9 fatto il 22/10, parte ViewModel: report Word e breve con i generatori congelati, scenari `report/*`, percorso F3 completo
+  (sezione 19).
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7, riga F5.10 della sezione 8, rischi R3, R5 e R7, domanda Q17;
@@ -1477,4 +1479,96 @@ dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Te
 dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
+```
+
+## 19. S9 fatto (22/10)
+
+Sottopasso S9 «Report, riepiloghi» (sezione 4, S9; sezione 18), parte ViewModel, ramo `refactoring/f5-10-s9` da `refactoring/f5` `790b9081`
+(S6–S8 uniti), 22/10/2026, di giorno: niente stadio `ui` né harness WPF (regola del giorno). Decisioni applicate: report congelati dall'8/10
+(nessun generatore, capitolo o testo cambiato), C5 (comportamenti storici conservati), C7 (tracce lunghe nello stadio `ui`), C8 (i disegni
+del report restano WPF, alimentati dai dati del ViewModel). La Release resta storica. Il passaggio della Release (sezione 6, punto 6) è fuori
+da S9 per decisione dell'utente del 22/10 («i test per il passaggio alla release li facciamo a fine refactoring»).
+
+### 19.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `1802538b` | report Word e breve nel ViewModel, disegni del report come dati, report breve e risultati JSON nell'ospite, prove |
+| (commit della documentazione) | questa sezione, riga di `piano.md` |
+
+### 19.2 Che cosa c'è
+
+- **Riepiloghi del pannello di controllo** (`summaries`, `RefreshSummary`, `CollectVerificationSummaries`): erano già nel foglio da S1
+  (`ConcreteSheetViewModel.Checks.cs`, `Summaries` e `ShearDashboard` su `ConcreteCardsViewModel`); S9 non li cambia. Le tracce li confrontano in
+  ogni scenario (riquadri del riepilogo nella parte `[ingressi]`).
+- **Report Word** (`ConcreteSheetViewModel.Report.cs`, da `BuildReportDocument` di `ConcreteReport.cs`), nello stesso ordine della vista storica:
+  conferma del foglio; rifiuto con il messaggio storico se il calcolo è in corso, in coda o senza risultati; le sezioni scelte salvate in
+  `report_sezioni`, in ordine, con Modified (non nel report del progetto); dettagli ricalcolati (`RefreshDetailing`), esportazione letta di nuovo e
+  arricchita dei dati del foglio (`dati`); il pannello del dominio 2D aggiornato anche se nascosto quando la sua figura è chiesta e il dominio
+  esiste (`RefreshPanel(renderHidden: true)`); poi `ReportConcrete.CreateDocument` con le figure. Il capitolo del report del progetto passa ancora
+  per `ModuleReportService` e `ConcreteReportAnalysis` (capitolo autonomo, invariato).
+- **Report breve**: conferma, rifiuto con il messaggio storico, `ReportConcreteShort.Create` sui dati di calcolo e sull'esportazione.
+- **Figure** (Q3, C8): il foglio dà al disegnatore i dati semplici dei suoi disegni nel momento del report (`ConcreteReportDrawings`: dati,
+  esportazione, anteprima del pannello di controllo, i due pannelli dei domini con le righe mostrate in ordine, la selezione, domini e verifiche
+  dello stato limite, il grafico 2D con il suo zoom; le tre famiglie SLE con mappa, esiti e righe; la curva M–χ pubblicata).
+  `IConcreteSectionFigureRenderer` è in Presentation; nel desktop `ConcreteSectionFigureRenderer` (`X.Desktop/Wpf/ConcreteSectionDrawings.cs`)
+  costruisce i disegni WPF della vista storica da quei dati e chiama `ModuleFigureRenderer.ConcreteFigures`, invariato. Le stesse funzioni di
+  `ConcreteSectionDrawings` (sezione disegnata e grafico 2D dai dati) servono alla vista XAML.
+- **Ospite** (`MvvmSheetEditor`): il report breve passa da `IModuleShortReport` (interfaccia nuova, accanto a `IModuleReportPdf`); i
+  risultati JSON della sezione c.a. hanno il messaggio storico e i dati del foglio, come `SheetEditor.ExportResult`.
+- **Modulo**: `ConcreteSectionSheetModule` riceve il disegnatore delle figure, come la sezione composta (F5.11); `PendingReport` è tolto.
+
+### 19.3 Esiti
+
+- **Tracce** (`--sezione-tracce`): **57 scenari uguali alle tracce congelate, ogni parte in ogni scenario**, compresi `report/disponibilita` e
+  `report/dati-incompleti` (report completo e breve con il calcolo in coda, disponibili dopo il calcolo, di nuovo in coda dopo una modifica,
+  rifiutati con i dati non validi; il dominio 2D nascosto disegnato dal report). Nessun arresto atteso. PASS 70
+  (`supporto/artefatti/f5-10-s9/s9-tracce-1`).
+- **Percorso F3 completo** (stesso comando): per le 11 fixture il ViewModel fa quello che fa la cattura F3 (aperto, visitato, calcolato,
+  risultato, report e report breve con testo e struttura, stato, dati esportati, riaperto). 121 file confrontati: 108 uguali byte per byte al
+  riferimento della vista storica nella forma canonica della cattura, compresi `exported-data` e `reopened` interi con `report_sezioni`; 13 con
+  transizioni F4 (le quattro fixture precedenti a F5.10) uguali entro le transizioni ammesse, con il confronto di `ui/f3-equivalence`. Le
+  immagini delle figure non sono confrontate qui (solo le didascalie, nel testo, e le dimensioni, nella struttura): si confrontano stasera con
+  `ui/f3-report-chapters` e con il banco (sezione 20).
+- **Prove rapide** (`--sezione-rapide`): PASS 541 (518 prima di S9); in più `report/disponibilita` fra le tracce rapide e i controlli del report:
+  rifiuti con i messaggi storici, sezioni salvate in ordine con un Modified, report del progetto senza scritture, esportazione con i dati,
+  disegni chiesti una volta (domini 3D e 2D in ordine con righe e selezione della tabella, famiglie SLE, anteprima, curva), dominio 2D nascosto
+  disegnato, report breve uguale al generatore, nessuna richiesta all'ospite, curva pubblicata nei disegni, sola lettura, foglio senza disegnatore,
+  chiusura.
+- **Architecture.Tests** PASS 574 (`s9-arch-2`). Baseline F4 e P3 invariate.
+
+### 19.4 Comportamenti storici trovati in S9 (conservati, C5)
+
+1. **Il report cambia l'esportazione in cache**: aggiunge `dati` all'oggetto dei risultati, che resta così fino all'azzeramento successivo;
+   l'impronta del risultato cambia dopo il report (`report/disponibilita`).
+2. **Il report aggiorna il pannello del dominio 2D nascosto** (dettaglio, grafico, sezione σ/ε) quando la figura del 2D è chiesta
+   (`report/dati-incompleti`).
+3. **Report in sola lettura**: disponibile, e salva `report_sezioni` con Modified (famiglia del comportamento 5 della sezione 2).
+4. **Tre messaggi diversi** per lo stesso rifiuto: quello della finestra («…correggere gli eventuali dati non validi.»), quello del report
+   («…correggere i dati non validi prima di esportare il report.») e quello del report breve («Attendere l’aggiornamento delle verifiche prima di
+   esportare.»).
+5. **Modified anche con le stesse sezioni**: il report salva `report_sezioni` e segnala Modified anche quando le sezioni non cambiano.
+
+### 19.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S9-a · Zoom e spostamento dei disegni nel report.** La vista storica disegna il report dai suoi controlli: lo zoom e lo spostamento fatti col
+  mouse sull'anteprima, sulle mappe SLE e sulla curva M–χ entrano nelle figure. Il ViewModel dà i dati dei disegni, non lo stato della vista:
+  le figure sono disegnate adattate, come nel capitolo autonomo del progetto; il grafico 2D porta lo zoom del pannello (`Zoom`, che la vista
+  XAML aggiorna). Nessuna traccia lo copre. Alternativa: la vista registra i suoi disegni vivi presso il disegnatore.
+- **S9-b · `IModuleShortReport`.** Interfaccia nuova di Presentation per il report breve, accanto a `IModuleReportPdf` (T8). Alternativa: un
+  membro di `IModuleReportSource` con un'implementazione predefinita.
+- **S9-c · Foglio senza disegnatore.** Il costruttore senza disegnatore (usato solo dalle prove) rifiuta i report con «grafici» e scrive gli
+  altri senza figure; il modulo lo richiede sempre.
+
+### 19.6 Che cosa resta e come riprendere
+
+- **Vista XAML** (sezione 20).
+- **Stasera** (regola del giorno): le suite della sezione 18 e quelle della sezione 20.
+- **Passaggio della Release** con l'utente, a fine refactoring: sezione 6, punto 6, e la ricetta di [f5-ripresa.md](f5-ripresa.md).
+
+```
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
 ```

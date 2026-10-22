@@ -737,6 +737,9 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
         configurazione»); derivazioni in `ConcreteDetailingPresentation`, `ConcreteInspectionPresentation`, `ConcreteCurvaturePresentation` e
         `ConcreteDesignPresentation` chiamate anche dalla vista storica; 55 scenari uguali, ogni parte della traccia confrontata. Suite `ui/*`
         della vista storica da eseguire la sera (regola del giorno del 22/10).
+      - S9, parte ViewModel (ramo `refactoring/f5-10-s9`, 22/10, da unire; sezione 19 di [f5-10-sezione.md](f5-10-sezione.md)): report Word e
+        breve con i generatori congelati e le figure WPF alimentate dai dati del foglio (`IConcreteSectionFigureRenderer`), report breve
+        nell'ospite (`IModuleShortReport`); 57 scenari uguali (anche `report/*`), percorso F3 completo con i report uguale al riferimento.
     - **Suite UI indipendenti dall'implementazione** (merge 35bba417, [f5-suite-ui.md](f5-suite-ui.md)):
       - le 11 suite storiche generali, dei materiali e dei muri passano con la Release di oggi e, nelle varianti `-mvvm`, con
         i sette moduli MVVM;
