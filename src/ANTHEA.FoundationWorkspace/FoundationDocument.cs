@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.ExceptionServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Collections.Immutable;
 
 namespace Anthea.FoundationWorkspace;
 
@@ -10,13 +11,13 @@ namespace Anthea.FoundationWorkspace;
 public static class FoundationDocument
 {
     public const string Module = "geo_fondazioni_superficiali";
-    public static readonly string[] Methods = ["Eurocodice 7 · allegato D", "Terzaghi · Nγ tabulato", "Meyerhof", "Brinch Hansen · carico normale", "Vesić"];
-    public static readonly string[] Shapes = ["Rettangolare / quadrata", "Nastriforme · azioni per metro", "Circolare · carico centrato"];
-    public static readonly string[] Conditions = ["Drenata", "Non drenata"];
-    public static readonly string[] Profiles = ["NTC 2018 · A1+M1+R3", "Confronto caratteristico"];
-    public static readonly string[] Compressions = ["Rottura generale", "Riduzione Terzaghi · taglio locale", "Riduzione Vesić · densità relativa"];
+    public static readonly ImmutableArray<string> Methods = ["Eurocodice 7 · allegato D", "Terzaghi · Nγ tabulato", "Meyerhof", "Brinch Hansen · carico normale", "Vesić"];
+    public static readonly ImmutableArray<string> Shapes = ["Rettangolare / quadrata", "Nastriforme · azioni per metro", "Circolare · carico centrato"];
+    public static readonly ImmutableArray<string> Conditions = ["Drenata", "Non drenata"];
+    public static readonly ImmutableArray<string> Profiles = ["NTC 2018 · A1+M1+R3", "Confronto caratteristico"];
+    public static readonly ImmutableArray<string> Compressions = ["Rottura generale", "Riduzione Terzaghi · taglio locale", "Riduzione Vesić · densità relativa"];
     // Factor maps UI m/kN/kPa/degrees to the library mm/N/MPa/radians contract.
-    public static readonly (string Key,string Label,string Group,double Default,double Factor)[] Fields = [
+    public static readonly ImmutableArray<(string Key,string Label,string Group,double Default,double Factor)> Fields = [
         ("Width","Larghezza B [m]","Geometria",2,1000), ("Length","Lunghezza L [m]","Geometria",3,1000),
         ("Depth","Profondità D [m]","Geometria",1,1000),
         ("FrictionAngle","Angolo φ′ [°]","Strato portante",30,Math.PI/180), ("Cohesion","Coesione c′ [kPa]","Strato portante",0,.001),

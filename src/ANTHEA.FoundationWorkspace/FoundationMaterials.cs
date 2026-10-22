@@ -1,17 +1,18 @@
 using System.Globalization;
 using System.Text.Json.Nodes;
 using GPC.Model.Geotechnics;
+using System.Collections.Immutable;
 
 namespace Anthea.FoundationWorkspace;
 
 /// <summary>Persistence and mapping of the same soil and concrete keys used by the other ANTHEA modules.</summary>
 public static class FoundationMaterials
 {
-    public static readonly (string Key,string Label,double Scale)[] SoilFields = [
+    public static readonly ImmutableArray<(string Key,string Label,double Scale)> SoilFields = [
         ("spessore","Spessore [m]",1000),("peso_specifico","Peso specifico γ [kN/m³]",1e-6),
         ("peso_specifico_saturo","Peso specifico saturo γsat [kN/m³]",1e-6),("angolo_attrito","Angolo di attrito φ′ [°]",Math.PI/180),
         ("coesione_efficace","Coesione efficace c′ [kPa]",.001),("coesione_non_drenata","Coesione non drenata cu [kPa]",.001)];
-    public static readonly string[] LegacySoilKeys=["FrictionAngle","Cohesion","UndrainedStrength","UnitWeight","SaturatedUnitWeight","CoverUnitWeight","CoverSaturatedUnitWeight"];
+    public static readonly ImmutableArray<string> LegacySoilKeys=["FrictionAngle","Cohesion","UndrainedStrength","UnitWeight","SaturatedUnitWeight","CoverUnitWeight","CoverSaturatedUnitWeight"];
     public static JsonObject NewLayer()=>new(){["name"]="Strato",["spessore"]=10,["tipologia"]="Granulare",["peso_specifico"]=18,["peso_specifico_saturo"]=20,["angolo_attrito"]=30,["coesione_efficace"]=0,["coesione_non_drenata"]=75};
     public static void Complete(JsonObject data)
     {
