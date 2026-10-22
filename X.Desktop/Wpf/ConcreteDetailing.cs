@@ -53,18 +53,15 @@ internal sealed partial class ConcreteWorkspace
     {
         if(detailingForm is null)return;
         coverDetailingGeometry.Set("cover_mm",Input.S("cover_mm"),true);
-        var o=DetailingOptions;
-        bool lap=settings["ancoraggi"].S("tipo").StartsWith("Sovrapposizione");
-        foreach(string key in new[]{"percentuale","interferro","posizione"})anchorageForm.ShowField(key,lap);
-        bool plate=o.S("elemento") is "Soletta piena" or "Parete";
-        foreach(var form in detailingForms) foreach(string k in new[]{"as_secondaria","passo_secondaria"}) if(form.Editors.ContainsKey(k))form.ShowField(k,plate);
-        foreach(var form in detailingForms){if(form.Editors.ContainsKey("zona_critica"))form.ShowField("zona_critica",o.S("elemento")=="Soletta piena");if(form.Editors.ContainsKey("ancoraggio_appoggi"))form.ShowField("ancoraggio_appoggi",o.S("elemento")=="Trave");}
+        bool lap=ConcreteDetailingPresentation.Lap(settings);
+        foreach(string key in ConcreteDetailingPresentation.LapFields)anchorageForm.ShowField(key,lap);
+        foreach(var form in detailingForms) foreach(string k in form.Editors.Keys) if(ConcreteDetailingPresentation.ElementFieldShown(settings,k) is bool shown)form.ShowField(k,shown);
         var presentation = Anthea.Application.Concrete.ConcreteDetailingPresentation.Calculate(
             Input, settings, actions.ToDictionary(p => p.Key, p => p.Value.Select(r => r.Values).ToArray()));
         presentation.ApplyDerivedValues(settings);
         detailingResults = presentation.Checks; anchorageResult = presentation.Anchorage; exportResult = null;
         if (presentation.Exposure is not null) coverDetailingForm.Set("esposizione_sle", presentation.Exposure, true);
-        coverDetailingForm.Set("cmin_dur", J.Number(presentation.DurabilityCover)?.ToString("0.###") ?? "", true);
+        coverDetailingForm.Set("cmin_dur", ConcreteDetailingPresentation.DurabilityCoverText(presentation.DurabilityCover), true);
         durabilityNote.Text = presentation.DurabilityNote;
         if (presentation.LargeBarPrecautions is bool largeBars) anchorageForm.ShowField("cautele", largeBars);
         void Fill(VerificationCards view, Anthea.Application.Presentation.VerificationDetails source)
