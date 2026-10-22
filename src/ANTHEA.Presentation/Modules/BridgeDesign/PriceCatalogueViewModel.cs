@@ -58,10 +58,17 @@ public sealed record PriceRevisionItem(string Caption, JsonObject Document);
 /// <see cref="PriceCatalogueEditing"/> in ANTHEA.Application, moved without changes from this class, so that Presentation does not reference
 /// the calculation (rule P2). Members of the dialog service added (<see cref="Title"/>, <see cref="CloseRequested"/>, «Annulla» with
 /// <see cref="CancelCommand"/>): the historic view (BridgePricesView) still shows it in its own window and closes it at <see cref="Applied"/>.
+/// The files of the window («Importa CSV / Excel / JSON», «Modello CSV», «Esporta catalogo JSON») go through the file dialog service of the
+/// sheet (<see cref="ImportFileCommand"/>, <see cref="SaveTemplateCommand"/>, <see cref="SaveCatalogueCommand"/>, F5.12 view), with the
+/// filters, the names and the refusals of the historic window; the historic window keeps its own dialogs.
 /// </summary>
 public sealed partial class PriceCatalogueViewModel : ObservableObject, IDialogViewModel<JsonObject>
 {
+    /// <summary>Largest price list read by «Importa CSV / Excel / JSON», as the historic window.</summary>
+    public const long MaximumImportBytes = 20_000_000;
+
     private readonly PriceCatalogueEditing editing;
+    private readonly IFileDialogService? files;
     private bool initializing;
     private PriceProposal? proposed;
     private IReadOnlyDictionary<string, PriceAnalysisView> resolvedAnalyses = new Dictionary<string, PriceAnalysisView>();
@@ -95,8 +102,10 @@ public sealed partial class PriceCatalogueViewModel : ObservableObject, IDialogV
     public event EventHandler? CloseRequested;
 
     /// <param name="data">The data of the bridge (a copy is kept). Throws <see cref="ArgumentException"/> when the bridge cannot be priced.</param>
-    public PriceCatalogueViewModel(JsonObject data)
+    /// <param name="files">The file dialogs of the window (null: the commands of the files do nothing, as the historic window keeps its own).</param>
+    public PriceCatalogueViewModel(JsonObject data, IFileDialogService? files = null)
     {
+        this.files = files;
         initializing = true; editing = new PriceCatalogueEditing(data);
         foreach (var work in editing.Works)
         {
@@ -149,6 +158,45 @@ public sealed partial class PriceCatalogueViewModel : ObservableObject, IDialogV
         Preview();
     }
     public byte[] ExportCatalogue() => PriceCatalogueEditing.Export(Draft());
+
+    /// <summary>The filters of «Importa CSV / Excel / JSON», as the historic window.</summary>
+    public static IReadOnlyList<FileFilter> ImportFilters { get; } =
+        [new("Prezzari", "*.csv", "*.xlsx", "*.json"), new("CSV", "*.csv"), new("Excel", "*.xlsx"), new("Catalogo ANTHEA", "*.json")];
+
+    /// <summary>«Importa CSV / Excel / JSON»: the file chosen (at most 20 MB) read as a catalogue; a refusal goes into the status.</summary>
+    [RelayCommand]
+    private void ImportFile()
+    {
+        if (files?.OpenFile(new OpenFileRequest(ImportFilters)) is not { } path) return;
+        Run(() =>
+        {
+            if (new FileInfo(path).Length > MaximumImportBytes) throw new ArgumentException("Massimo 20 MB.");
+            Import(File.ReadAllBytes(path), path);
+        });
+    }
+
+    /// <summary>«Modello CSV»: the template of the catalogue in the file chosen.</summary>
+    [RelayCommand]
+    private void SaveTemplate()
+    {
+        if (files?.SaveFile(new SaveFileRequest([new FileFilter("Modello CSV", "*.csv")], "ANTHEA_Prezzario.csv")) is not { } path) return;
+        Run(() => X.Core.Archivio.ScriviAtomico(path, System.Text.Encoding.UTF8.GetBytes(PriceCatalogueImport.Template())));
+    }
+
+    /// <summary>«Esporta catalogo JSON»: the catalogue being edited in the file chosen.</summary>
+    [RelayCommand]
+    private void SaveCatalogue()
+    {
+        if (files?.SaveFile(new SaveFileRequest([new FileFilter("Catalogo ANTHEA", "*.json")], "ANTHEA_Prezzario.json")) is not { } path) return;
+        Run(() => X.Core.Archivio.ScriviAtomico(path, ExportCatalogue()));
+    }
+
+    // The refusals of the historic window: the message in the status, the editor unchanged.
+    private void Run(Action action)
+    {
+        try { action(); }
+        catch (Exception e) when (e is ArgumentException or IOException or InvalidDataException or UnauthorizedAccessException or System.Text.Json.JsonException) { Status = e.Message; }
+    }
     [RelayCommand]
     private void AddAnalysis()
     {

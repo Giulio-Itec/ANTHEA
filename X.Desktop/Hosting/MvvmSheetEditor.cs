@@ -113,7 +113,10 @@ internal sealed class MvvmSheetEditor : ISheetEditor
     public void ExportResult(string filename)
     {
         if (!HasResults || Busy) throw new InvalidOperationException("Premere Calcola prima di esportare.");
-        Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(Result!.ToJsonString(J.Options)));
+        var exported = Result!;
+        // F5.12 (BD7): as SheetEditor, the JSON of Bridge Design carries also the data of the sheet (the result is a new object at every read).
+        if (Sheet is Anthea.Presentation.Modules.BridgeDesign.BridgeDesignSheetViewModel) exported["dati"] = Data.DeepClone();
+        Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(exported.ToJsonString(J.Options)));
     }
 
     /// <summary>

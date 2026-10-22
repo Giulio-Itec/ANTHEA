@@ -208,7 +208,7 @@ public sealed partial class BridgeDesignSheetViewModel
     {
         if (!CanEdit) return;
         PriceCatalogueViewModel editor;
-        try { editor = new PriceCatalogueViewModel(Data); }
+        try { editor = new PriceCatalogueViewModel(Data, Context.Services.Files); }
         catch (ArgumentException e) { Status = e.Message; return; }
         await Context.Services.Dialogs.ShowDialogAsync(editor);
         if (editor.Result is not null && !IsDisposed) Mutate(() => editor.CommitTo(Data), true);

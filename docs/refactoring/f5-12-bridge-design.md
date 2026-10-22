@@ -282,3 +282,207 @@ documenti: sono provvisorie, con l'opzione presa, da rivedere con l'utente a F5.
 
 **Materiale da mostrare** (dopo i passi 1–3 della sezione 3): schermate nei tre aspetti, `--check-contrast`, confronto diretto a zero,
 `ui/f3-equivalence` con il modulo MVVM, l'editor dei prezzari sul servizio dei dialoghi, questa nota con le risposte.
+
+## 5. Vista fatta (22/10, di giorno)
+
+Agente f5-12-vista, ramo `refactoring/f5-12-vista` da `refactoring/f5` `5451a8cc`: punti 1 e 2 della sezione 3; le prove del punto 3 e del
+punto 5 (la sola parte che non riscrive suite storiche) sono **scritte e compilate ma non eseguite**, per la regola del giorno dell'utente
+(22/10: «i test sulla UI le facciamo stasera»). La Release resta **storica**: la vista nuova si apre solo con il banco UiTests
+(`--module-impl str_bridge_design=mvvm`) e con `ANTHEA.exe --interactive --module-impl str_bridge_design=mvvm`. Le scelte provvisorie della
+sezione 4 restano; le nuove sono nella sezione 5.6.
+
+### 5.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `6cdbde5e` | vista XAML `X.Desktop/Views/BridgeDesign`, editor dei prezzari come dialogo del servizio, pagina di «Stampa scheda», colore della legenda; comandi dei file nel ViewModel dell'editor |
+| `e88956d3` | ospite: `MvvmSheetEditor.ExportResult` con `dati` (BD7) |
+| `eefb4a57` | prove scritte e non eseguite: `ui/check-bridge-design-view`, sonda MVVM di `ui/f3-scheduling`, passo di contrasto autonomo, voci di `build/ci.ps1` |
+| `867df33c` | rilettura della prova: errori dello script del prezzario riportati dopo il clic, vista ospitata letta una volta |
+| (questo commit) | questa sezione |
+
+### 5.2 Vista
+
+**File** (`X.Desktop/Views/BridgeDesign`):
+- `BridgeDesignSheetView.xaml(.cs)`: la disposizione di `BridgeDesignWorkspace`.
+  - Pagina «Progetto»: titolo, sottotitolo e ambito; la colonna degli ingressi con le cinque schede (ognuna scorre entro 490) e, accanto (sotto,
+    sotto i 1100 di larghezza), la scheda del disegno con i pulsanti, il disegno, la configurazione e le esportazioni; le quattro metriche (su due
+    colonne sotto 850); le sei schede dei risultati; le alternative; la riga di stato.
+  - Pagina «Ottimizzazione»: «1 · Imposta la ricerca» accanto all'anteprima (sotto, sotto 1120); «2 · Variabili esplorate» e «3 · Famiglia di
+    soluzioni plausibili»; la legenda delle tipologie; «4 · Alternative ordinate…» con la graduatoria.
+- `BridgeDesignResources.xaml`: stili dei testi, carta, schede, pulsanti chiari e primari, caselle della ricerca; **un modello per ogni elemento**
+  (BD6), implicito per tipo: `BridgeDesignText` per ruolo, `BridgeDesignTable`, `BridgeDesignButton`, `BridgeDesignGroup`, `BridgeDesignMomentChart`,
+  `BridgeDesignParameter` (testo grezzo, bordo rosso, cursore), `BridgeDesignChoice`, `BridgeDesignOption`, `BridgeDesignFamilies` con le icone.
+  I parametri non usano il `FieldForm` compatto (D9), come deciso in BD6.
+- `BridgeDesignItems.cs`:
+  - `BridgeDesignGrid`: le tabelle di `Table`, con colonne a stella (la prima doppia; quelle di «Sezioni e quote» con le larghezze di
+    `ShowTechnical`), celle a capo, l'altezza massima della tabella storica riconosciuta dalle colonne, la selezione della graduatoria;
+  - `BridgeDesignSlider` (BD20);
+  - `BridgeDesignMomentHost` e `BridgeDesignFamilyIcon`: i disegni storici `BridgeConceptMomentPlot` e `BridgeFamilyIcon`, invariati (Q3);
+  - la rotella inoltrata alla pagina e i convertitori. Nessuno stato statico mutabile (P3).
+- `PriceCatalogueView.xaml(.cs)`: l'editor dei prezzari, DataTemplate di `PriceCatalogueViewModel` per `WpfDialogService`, con la disposizione di
+  `BridgePricesView` e la misura 1350 × 780 senza i bordi, come gli altri dialoghi del servizio (BD22).
+- `BridgeDesignTemplates.xaml`: i due DataTemplate, uniti da `App.xaml`.
+
+Fuori dalle viste:
+- `X.Desktop/Wpf/BridgeDesignPrintPage.cs`: la pagina di «Stampa scheda», copia di `BridgeDesignWorkspace.PrintPage` (BD18);
+- `BridgeOptimizationPlot.LegendBrush`: il colore di una tipologia nella legenda dei grafici.
+
+**Che cosa fa il code-behind** (Q3 e stato della vista):
+- i disegni storici sui dati del ViewModel: `DrawingData`, `DrawingResult` e `SectionView` per il disegno; `SolutionData`, `SolutionResult` e
+  `SolutionSection` per l'anteprima; `Cloud`, `CloudRank`, `FamilyFilter` e `ParetoOnly` per la nuvola; `Trace` e `Variable` per le variabili
+  esplorate. Il clic su un punto della nuvola seleziona la soluzione attraverso il foglio;
+- le due larghezze della vista storica;
+- i blocchi e i limiti della ricerca: le caselle mostrano i dizionari del foglio e scrivono con `SetLock`, `SetLimit` e `LeaveLimit` (BD19);
+- «Sezioni e quote» e «Applica soluzione selezionata» portano in vista i risultati;
+- «Stampa scheda» con la finestra di WPF (BD8).
+
+Nessuna scrittura del documento fuori dal ViewModel.
+
+**Sola lettura** (T2):
+- bloccati: parametri, scelte, opzioni, tipologie, blocchi, limiti, obiettivo, variabile, filtro, Pareto e i comandi che cambiano i dati;
+- disponibili, come nella vista storica dopo `RevisionInspection.Protect`: pagine, schede, «Prospetto», «Sezione», «Ottimizza», «Sezioni e quote»,
+  esportazioni, «Stampa scheda», «Suggerisci campate», «Interrompi», «Aggiorna elenco» e la selezione delle soluzioni;
+- «Gestisci prezzario…» bloccato (BD4).
+
+**ViewModel** (`6cdbde5e`): `PriceCatalogueViewModel` riceve il servizio dei file del foglio (parametro facoltativo) e ha i comandi «Importa CSV /
+Excel / JSON», «Modello CSV» ed «Esporta catalogo JSON», con i filtri, i nomi, il limite di 20 MB e i rifiuti della finestra storica (BD17). Le
+tracce senza WPF non cambiano (`--bridge-design` PASS 189).
+
+**Solo token di F5.3** (P7, `Architecture.Tests` PASS). Corpi: 10 e 11 → `Font.Caption`, 12 → `Font.Small`, 13 → `Font.Body`, 14 →
+`Font.Subheading`, 15 e 17 → `Font.Heading`, 21, 24 e 26 → `Font.Title` (BD14).
+
+### 5.3 Ospite
+
+- **BD7.** `MvvmSheetEditor.ExportResult` aggiunge `dati` al JSON del risultato di Bridge Design, come `SheetEditor`. Il risultato del foglio è un
+  oggetto nuovo a ogni lettura; i dati sono copiati.
+- **BD3.** Nessuna modifica: `MvvmSheetEditor.Busy` legge `IsBusy` del foglio, vero dall'avvio del motore al suo ritorno. La finestra quindi chiede
+  di attendere (report, JSON) durante un calcolo. La prova è nella parte `banco` della suite della vista.
+
+### 5.4 Prove scritte (non eseguite di giorno)
+
+`ui/check-bridge-design-view` (`tests/Desktop/BridgeDesignViewChecks*.cs`, comando `--check-bridge-design-view <radice> <cartella> [parti]`), con
+queste parti:
+- `tracce`: i 19 scenari guidati attraverso i controlli della vista, con il motore trattenuto delle tracce: pagine e schede, testo e cursore dei
+  parametri, scelte, opzioni, tipologie, pulsanti dei pannelli, alternative, l'editor dei prezzari mostrato dal suo DataTemplate, blocchi, limiti,
+  graduatoria, nuvola, variabile, filtro, Pareto. Lo stato si rilegge dai controlli (stato, metriche, configurazione, pagine, disegno, caselle e
+  testi della ricerca, avanzamento, pulsanti, anteprima, grafici); i pannelli dal ViewModel (MU19). Deve uguagliare le tracce congelate;
+- `disegni`: gli elenchi dei disegni della vista e i pixel delle figure del report per le 10 fixture, contro `disegni/elenco.txt`;
+- `esportazioni`: per le 10 fixture la visita della cattura F3, i tre aspetti, dati e risultato dopo il calcolo, il JSON con i dati (BD7), Word,
+  PDF, CSV delle quantità e delle quote e PNG, uguali alla vista storica;
+- `prezzario`: l'editor sul servizio dei dialoghi contro la finestra storica (titolo, misura, schede, colonne, testi, pulsanti); i file sul
+  servizio dei file; «Annulla»; «Applica prezzario»; il rifiuto in sola lettura (BD4);
+- `stampa`: la pagina uguale a quella storica (testi e pixel), la finestra della stampante solo con un risultato;
+- `schermate` (tre aspetti, disposizione stretta, vista storica), `aiuto` (F1 al navigatore), `nomi`, `sola-lettura` (diverso solo «Gestisci
+  prezzario…»), `banco` (banco, Release storica, BD3, BD7).
+
+Inoltre:
+- `ui/f3-scheduling-bridge-design-mvvm`: `F3BridgeDesignMvvmSchedulingChecks` sostituisce `BridgeDesignWorkspace.CheckF3Scheduling` quando il banco
+  apre Bridge Design con la vista MVVM (stesse barriere, ricerca in attesa del calcolo);
+- contrasto: passo autonomo `mvvm-str_bridge_design` in fondo a `supporto/test/Desktop/ContrastAudit.cs` (commenti `F5.12 begin/end`); con
+  `--baseline` solo Scuro e Molto scuro;
+- `tests/Shared/BridgeDesignTrace.cs`: `BridgeDesignItemBlocks` (gli elementi del ViewModel come blocchi della traccia), spostato da
+  `BridgeDesignSheetChecks` per usarlo anche nella prova della vista.
+
+### 5.5 Esiti di giorno
+
+| Prova | Esito |
+| --- | --- |
+| Build Release e UiTests | ok, nessun avviso nei file nuovi |
+| `Architecture.Tests` | PASS 571 controlli: P1–P7 (P7 sulle viste nuove), P3 126 invariata, nessuna voce F4 nuova |
+| `Presentation.Tests --bridge-design` | PASS 189: le tracce senza WPF non cambiano con i comandi dei file dell'editor dei prezzari |
+| Profilo quick dopo la vista, `supporto/artefatti/ci/20261022-094228-f512v-c1-quick` | PASS 55, NEW-FAIL 0 (uscita 1 solo per i file modificati durante la corsa) |
+| Corsa finale standard su `867df33c`, `supporto/artefatti/ci/20261022-100634-f512v-finale` (22 minuti) | PASS 77, KNOWN 0, **NEW-FAIL 0**; `Presentation.Tests` 4244 controlli |
+| Prove UI (`ui/check-bridge-design-view`, banco F3, sonda MVVM, smoke, contrasto) | **non eseguite** (regola del giorno): sezione 5.7 |
+
+Nessuna baseline cambiata (F4 3213, P3 126); tracce congelate, riferimento F3, `transitions-f4.json` e report congelati invariati.
+
+### 5.6 Differenze visibili e scelte da confermare («da decidere», con la scelta fatta)
+
+Differenze visibili, le stesse nei tre aspetti:
+- **Corpi** (BD14):
+  - titoli delle pagine da 24 a 22 punti, titolo del prezzario da 21 a 22, valori delle metriche da 26 a 22;
+  - titoli dei riquadri della ricerca e di «Sezioni e quote» da 17 a 16, titoli dei pannelli da 15 a 16;
+  - titoletti delle metriche da 10 a 11.
+- **Colori** (BD15):
+  - il bordo delle carte `#D8E0EB` diventa `Token.Border`;
+  - l'ambito `Ui.Blue` diventa `Token.Accent`;
+  - gli avvisi `#895C17` diventano `Token.Note.Foreground`;
+  - gli errori e il bordo di un valore non valido (`#CD5C5C`) diventano `Token.Status.Fail`;
+  - le luci della tipologia scelta `#BCCFE2` diventano `Token.OnCommandBar.Muted`.
+
+  Negli aspetti scuri i colori seguono l'aspetto.
+- **Prezzario** (BD16): nella scheda «Prezzario» il titolo e la nota del documento dei prezzi stanno nel riquadro che scorre (la vista storica li
+  metteva sopra). Senza documento la disposizione è quella storica.
+
+Scelte provvisorie della vista (da rivedere a F5.15):
+- **BD14 · Corpi.** Opzione presa: i valori delle metriche (26) a `Font.Title` (22), non a `Font.Display` (30), per non tagliarli nelle quattro
+  colonne; 15 e 17 a `Font.Heading` (16, D3). Alternativa: `Font.Display` per le metriche.
+- **BD15 · Colori.** Opzione presa: i token più vicini (sopra). Alternativa: token nuovi per `#BCCFE2` e `#CD5C5C`.
+- **BD16 · Riquadri dei pannelli.** Opzione presa: altezze e larghezze delle tabelle storiche riconosciute dalle colonne (un'informazione della
+  vista, non del ViewModel); pulsanti in barra sotto il confronto e sotto «Sezioni e quote», a tutta larghezza altrove, come la vista storica.
+  Alternativa: le misure come dati degli elementi del ViewModel.
+- **BD17 · File del prezzario.** Opzione presa: comandi del ViewModel dell'editor sul servizio dei file del foglio. Il parametro è facoltativo:
+  la finestra storica tiene i suoi dialoghi. Alternativa: dialoghi nel code-behind della vista.
+- **BD18 · Pagina di «Stampa scheda».** Opzione presa: costruita da `BridgeDesignPrintPage` in `X.Desktop/Wpf`, con i corpi e i colori storici,
+  perché è un documento (stampato nell'aspetto chiaro), non una vista. Alternativa: una pagina XAML con i token.
+- **BD19 · Blocchi e limiti della ricerca.** Opzione presa: il ViewModel espone dizionari; la vista li mostra con legami a una via e scrive con
+  `SetLock`, `SetLimit` e `LeaveLimit`. Alternativa: un elemento del ViewModel per ogni blocco e ogni limite.
+- **BD20 · Cursore.** Opzione presa: `BridgeDesignSlider`, senza legame a due vie sul valore e con l'intervallo impostato prima del valore. Così
+  un cursore riciclato o un intervallo provvisorio non può mai scrivere nei dati. Alternativa: legame a due vie, affidato all'ordine degli
+  attributi.
+- **BD21 · «Occupato».** Opzione presa: nessuna barra di avanzamento del calcolo (la vista storica non l'aveva); la riga di stato dice
+  «Aggiornamento del ponte e delle alternative…». Alternativa: la barra indeterminata delle altre viste.
+- **BD22 · Finestra del prezzario.** Opzione presa: la misura viene dalla vista (1334 × 741) e la finestra si adatta (`SizeToContent` di
+  `WpfDialogService`), come i dialoghi dei muri (MU10).
+
+### 5.7 Da eseguire stasera, e perché
+
+I comandi esatti sono nella sezione 5.9 e nel file di avanzamento dell'agente (`ANTHEA-f5-ripresa\f5-agenti\f5-12-vista\avanzamento.md`).
+1. `ui/check-bridge-design-view`: la prova della vista, mai eseguita. Se una traccia diverge, `tracce/differenze.txt` dà la prima riga diversa.
+2. Banco F3 (punto 3 della sezione 3):
+   - cattura storica e cattura con `--module-impl str_bridge_design=mvvm`;
+   - `tools/qa/f5_confronto_diretto.py`, atteso 0 differenze;
+   - `ui/f3-report-chapters` con il banco;
+   - `ui/f3-scheduling` e `ui/f3-scheduling-bridge-design-mvvm`.
+3. Le suite storiche che toccano i file cambiati:
+   - `ui/check-bridge-design-historic` (il disegno della ricerca ha un metodo in più);
+   - `ui/smoke-bridge-design`, `ui/smoke-bridge-prices`, `ui/smoke-bridge-traffic` (costruttore dell'editor dei prezzi);
+   - `ui/check-module-host-offscreen` (DataTemplate registrato);
+   - `ui/f3-equivalence` (Release storica, deve restare invariata).
+4. `ui/check-contrast` a 96 DPI con il passo `mvvm-str_bridge_design` (BD13), senza cambiare la baseline.
+
+### 5.8 Suite storiche: da riscrivere o togliere al passaggio della Release
+
+Non riscritte (fuori dal compito di oggi); vanno fatte prima del passaggio (punto 5 della sezione 3):
+- `supporto/test/Desktop/BridgeDesignSmokeChecks.cs` (`ui/smoke-bridge-design`), `BridgeDesignWorkspace.Tests.cs`, `BridgeOptimizationPlot.Tests.cs`;
+- `tests/Desktop/BridgePricesSmokeChecks.cs` (`ui/smoke-bridge-prices`, apre `BridgePricesView`) e `BridgeTrafficSmokeChecks.cs`
+  (`ui/smoke-bridge-traffic`).
+
+Al passaggio della Release, oltre al punto 6 della sezione 3:
+- togliere `ui/f3-scheduling-bridge-design-mvvm`, `$MvvmBridgeDesign` e il ramo storico di `F3SchedulingChecks`;
+- togliere il blocco `F5.12` di `ContrastAudit.cs` e passare le voci della Chiara a `modulo-str_bridge_design` (D12);
+- `BridgeDesignDrawing` e `BridgeConceptMomentPlot` chiamano `BridgeDesignWorkspace.F`: passarli a `BridgeDesignPresentation.F` prima di archiviare
+  la vista;
+- le parti di `ui/check-bridge-design-view` che aprono la vista storica (esportazioni, prezzario, stampa, nomi, sola lettura) passano al confronto
+  con valori attesi;
+- `ui/check-bridge-design-historic` va con la vista storica.
+
+La guida pratica non cambia: la disposizione descritta è quella di oggi (punto 7 della sezione 3).
+
+### 5.9 Come riprendere
+
+```
+cd <worktree>
+git log --oneline 5451a8cc..HEAD
+dotnet build X.Desktop\X.Desktop.csproj -c UiTests
+dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-bridge-design-view <radice> <cartella vuota> [tracce,disegni,esportazioni,prezzario,stampa,schermate,aiuto,nomi,sola-lettura,banco]
+dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-f3-equivalence <radice> <cartella>\storica
+dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-f3-equivalence <radice> <cartella>\mvvm --module-impl str_bridge_design=mvvm
+python -I tools\qa\f5_confronto_diretto.py --a <cartella>\storica --b <cartella>\mvvm --out <cartella>\confronto-diretto.json
+dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-f3-report-chapters <radice> <cartella>\capitoli --module-impl str_bridge_design=mvvm
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(check-bridge-design-view|check-bridge-design-historic|f3-scheduling|f3-scheduling-bridge-design-mvvm|smoke-bridge-design|smoke-bridge-prices|smoke-bridge-traffic|check-module-host-offscreen|f3-equivalence|f3-report-chapters)$' -Tag f512v-sera"
+```
+
+Poi, dopo l'ok dell'utente: versione portatile con la vista attiva, riscrittura delle suite della sezione 5.8, punto di controllo, passaggio della
+Release e archiviazione (punto 6 della sezione 3).

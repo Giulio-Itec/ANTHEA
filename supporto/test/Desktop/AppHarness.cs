@@ -335,6 +335,22 @@ public partial class App
             return;
         }
 
+        // F5.12: the XAML view of Bridge Design hosted by MvvmSheetEditor, off screen (tests/Desktop/BridgeDesignViewChecks*.cs); the bench opens the
+        // module with the MVVM view, the Release keeps the historic one until the user has tried it. A fourth argument (comma separated parts) runs
+        // only those parts, for the work on the view.
+        if (e.Args.Length is 3 or 4 && e.Args[0] == "--check-bridge-design-view")
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                int code = 0;
+                try { await BridgeDesignViewChecks.Run(e.Args[1], e.Args[2], e.Args.Length == 4 ? e.Args[3].Split(',') : null); }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
+                finally { Shutdown(code); }
+            }));
+            return;
+        }
+
         // F5.9: the XAML view of the retaining walls hosted by MvvmSheetEditor, off screen (tests/Desktop/RetainingWallViewChecks.cs); the bench
         // opens the walls with the MVVM view, the Release keeps the historic one until the user has tried it.
         if (e.Args.Length == 3 && e.Args[0] == "--check-muri-view")
