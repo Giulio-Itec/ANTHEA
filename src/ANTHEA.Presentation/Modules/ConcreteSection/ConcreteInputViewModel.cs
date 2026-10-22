@@ -377,10 +377,12 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
         }
     }
 
-    /// <summary>The read-only revision changed: the forms refuse or accept the user, the commands follow.</summary>
+    /// <summary>The read-only revision changed: the forms and the tables of the bars and of the cables refuse or accept the user, the commands follow.</summary>
     internal void RefreshEditable(bool readOnly)
     {
         foreach (var form in AllForms) form.IsReadOnly = readOnly;
+        // The grids of the view read IsReadOnly again (F5.10, traces through the view: the bars stayed editable in a read-only revision).
+        Bars.RefreshReadOnly(); Tendons.RefreshReadOnly();
         foreach (var command in new IRelayCommand[] { RestoreBarsCommand, ToggleHoleCommand, AddCableCommand, RemoveCableCommand, ResetCoefficientsCommand,
             NewConcreteMaterialCommand, NewSteelMaterialCommand, NewTendonMaterialCommand, ApplySavedMaterialCommand, OpenPropertiesCommand, OpenWizardCommand }) command.NotifyCanExecuteChanged();
         foreach (var layer in Layers) layer.ToggleCommand.NotifyCanExecuteChanged();
