@@ -1574,7 +1574,7 @@ dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Te
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
 ```
 
-## 20. Vista XAML della sezione c.a. (22/10, in corso)
+## 20. Vista XAML della sezione c.a. (22/10, schede 01–03 fatte)
 
 Stesso ramo `refactoring/f5-10-s9`, 22/10/2026, dopo S9, di giorno: la vista è scritta e compilata, le sue prove WPF si eseguono stasera
 (regola del giorno). Modelli: la vista di F5.11 (sezione 5 di [f5-11-sezione-mista.md](f5-11-sezione-mista.md)) e quella di F5.12. La Release
@@ -1588,7 +1588,9 @@ pannelli sono legati al ViewModel e quali restano.
 | `e4487034` | guscio della vista e scheda 01 «Pannello di controllo», tabella e barra dei filtri, aggiunte del ViewModel per la vista, prove rapide |
 | `7b1e4aaf` | suite `ui/check-sezione-view` (scritta, non eseguita) e `ui/f3-report-chapters-sezione-mvvm` (capitoli F3 con il foglio MVVM) |
 | `2a5283bb` | passo di contrasto autonomo `mvvm-str_palo` in `ContrastAudit.cs` (non eseguito) |
-| (commit della documentazione) | questa sezione |
+| `f9169397` | questa sezione, prima stesura |
+| `80e752d0` | schede 02 e 03 dei domini (`ConcreteDomainPanelView`), tabella delle azioni con i comandi, finestra «Scala…», F1 e sola lettura delle due schede nella suite |
+| (commit della documentazione) | questa sezione aggiornata |
 
 ### 20.2 Che cosa c'è
 
@@ -1604,8 +1606,19 @@ pannelli sono legati al ViewModel e quali restano.
   sezione con la barra storica («Proprietà / report…», «Assi», «ID», «Adatta», «PNG», «Espandi», quote), le tabelle delle barre (con «Ripristina
   barre da wizard») e dei cavi con la barra dei filtri, le resistenze a N assegnato, i riepiloghi con «Apri →» e la nota dei colori. I divisori
   salvano il rapporto in `layout` come `ConcreteLayout.cs`.
+- **Schede 02 «Dominio 3D» e 03 «Dominio 2D», intere** (`ConcreteDomainPanelView` su `ConcreteDomainPanelViewModel`, la disposizione di
+  `BuildDomainPanel`): opzioni di calcolo con «Sezione sull’azione selezionata» (2D), l'avviso, la legenda e le dimensioni dei punti; scheda interna
+  «Dominio» con il disegno e la barra storica (forze, vista e «Mesh» del 3D, «Adatta», «PNG», «Espandi», trasparenza, «Scala…», le cinque caselle,
+  «Legenda η» con i token Utilization) e scheda interna «Sezione σ / ε» (soluzione, mappa con contorno, «Asse neutro», «Proprietà…», «Valori σ/ε
+  sulle barre», piano delle deformazioni, valori, messaggio) legata a `InspectionTab`; «Dettagli combinazione» e «Riepilogo verifiche»; tabella
+  delle azioni dello stato limite con i comandi della vista storica (modello `ActionTable`: «+ Riga», «Duplica», «− Riga», «Copia», «Incolla»,
+  Excel, «Sfoglia…»; con le azioni uniche «Gestisci sollecitazioni…»; Ctrl+C, Ctrl+V e menu sulla tabella). «Adatta» e «Scala…» passano da
+  `FitRequested` e `ZoomRequested`; il reset del grafico 2D richiama `ChartViewReset` (i due Modified storici); lo zoom della rotellina del 2D resta
+  in `Zoom` del pannello (figura del report). DataTemplate della finestra «Scala…».
 - **Disegni** (Q3, C8): `ConcreteSectionDrawings` (`X.Desktop/Wpf`, accanto ai disegni) copia i dati di `ConcreteSectionDrawingViewModel` in
-  `ConcreteSectionViewport` e quelli di `ConcreteDomain2DViewModel` in `Plot`; serve alla vista e alle figure del report (S9).
+  `ConcreteSectionViewport`, quelli di `ConcreteDomain2DViewModel` in `Plot` e quelli di `ConcreteDomain3DViewModel` in `DomainViewport3D`; serve alla
+  vista e alle figure del report (S9). I divisori di tutte le schede seguono il gruppo scritto nel `Tag` della griglia (`ingressi`, `risultati`,
+  `righe`), come `RegisterWorkspaceSplit`.
 - **ViewModel, aggiunte per la vista**: `LayoutRatio`, `MoveLayout`, `LayoutChanged` (divisori), `OpenSummaryCommand` («Apri →»),
   `SummaryBlocks`, `Inputs.Group` (gruppi per chiave), `ShowDimensions` / `ShowCoverDimensions` / `ShowSpacingDimensions`, `ClearCommand` della barra
   dei filtri. Prove in `Presentation.Tests` (`ViewSupportAsync`, `--sezione-rapide` PASS 552).
@@ -1615,35 +1628,38 @@ pannelli sono legati al ViewModel e quali restano.
     taglio, sezione e piano σ/ε del 3D al punto limite e all'azione, dominio 2D, curva M–χ) uguali agli elenchi congelati di `disegni/elenco.txt`;
   - `esportazioni`: per le 11 fixture, sulla vista MVVM e su quella storica, dati all'apertura, dopo la visita F3 (i tre aspetti non scrivono) e dopo
     il calcolo, risultato, report Word con le figure (ogni parte, date normalizzate), PDF, report breve, JSON dei risultati, report della curva M–χ;
-  - `schermate` (scheda 01 nei tre aspetti e la storica), `aiuto` (F1 su ogni campo della scheda 01 al navigatore, F1 fuori dai campi alla guida),
-    `sola-lettura` (pulsanti e caselle della scheda 01 bloccati e liberi come nella vista storica).
+  - `schermate` (scheda 01 nei tre aspetti e la storica), `aiuto` (F1 su ogni campo delle schede 01–03 al navigatore, F1 fuori dai campi alla
+    guida), `sola-lettura` (pulsanti e caselle delle schede 01–03 bloccati e liberi come nella vista storica).
 - **`ui/f3-report-chapters-sezione-mvvm`**: `F3ReportChapterChecks` calcola la curva anche sul foglio MVVM del banco.
 - **Contrasto**: passo autonomo `mvvm-str_palo` in fondo a `ContrastAudit.cs`.
 
 ### 20.3 Esiti di giorno
 
-Build Release e UiTests senza errori; Architecture.Tests PASS 574 (P1–P7 sulla cartella nuova; i rapporti iniziali dei divisori sono letti dalle
-misure del XAML, senza letterali numerici: R2); `--sezione-rapide` PASS 552. Nessuna prova WPF eseguita (regola del giorno).
+Build Release e UiTests senza errori dopo ogni commit; Architecture.Tests PASS 574 (P1–P7 sulla cartella nuova; i rapporti iniziali dei divisori
+sono letti dalle misure del XAML, senza letterali numerici: R2); `--sezione-rapide` PASS 552. Nessuna prova WPF eseguita (regola del giorno): la
+vista non è ancora stata aperta, la suite della vista la apre stasera per la prima volta. Corsa finale standard nella sezione 20.7.
 
 ### 20.4 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
 
-- **SV-a · Schede 02–08.** Finché non sono legate mostrano un testo «Scheda non ancora nella vista XAML». La Release resta storica, quindi solo il
+- **SV-a · Schede 04–08.** Finché non sono legate mostrano un testo «Scheda non ancora nella vista XAML». La Release resta storica, quindi solo il
   banco le vede.
 - **SV-b · «PNG» ed «Espandi».** Nella vista, come la cornice storica (`ViewportFrame`): il percorso del PNG da una finestra del sistema (le prove
   ne danno uno), «Espandi» con una finestra della vista. Alternativa: un comando del foglio con `IFileDialogService`, come F5.11.
 - **SV-c · «Proprietà / report…».** Il comando chiede la finestra con `PropertiesRequested`; la vista non la apre ancora (manca la vista XAML di
   `ConcreteSectionPropertiesViewModel`): nel banco il pulsante non apre nulla.
 - **SV-d · Gruppi per chiave.** `Inputs.Group` espone i gruppi del pannello per chiave corta, per i binding; l'elenco `Groups` resta.
+- **SV-e · Finestre dei dialoghi.** «Nuovo materiale …», il wizard e «Sollecitazioni…» aprono i loro ViewModel con il servizio dei dialoghi, ma
+  le loro viste XAML mancano (le finestre storiche sono costruite in codice e non si riusano come DataTemplate): nel banco la finestra si apre senza
+  vista. Si scrivono con le schede che restano.
 
 ### 20.5 Che cosa resta della vista
 
-1. **Schede 02–08**, ognuna sul suo ViewModel: domini 3D e 2D (`ConcreteDomainPanelViewModel`: form, tabella delle azioni con i comandi e il menu
-   della vista storica, viewport 3D da `ConcreteDomain3DViewModel`, grafico 2D, barra con forze, caselle, punti, trasparenza, «Scala…», legenda,
-   scheda interna «Sezione σ / ε» da `ConcreteSectionInspectionViewModel`), tensioni e fessurazione (`ConcreteStressPanelViewModel` per famiglia),
-   taglio e torsione (`ConcreteShearViewModel`), dettagli (`ConcreteDetailingViewModel`), momento–curvatura (`ConcreteCurvatureViewModel`), progetto
-   delle armature (`ConcreteDesignViewModel`).
+1. **Schede 04–08**, ognuna sul suo ViewModel, con la tabella delle azioni (`ActionTable`) e i disegni di `ConcreteSectionDrawings` già pronti:
+   tensioni e fessurazione (`ConcreteStressPanelViewModel` per famiglia: form, tabella, schede dei risultati e dei dettagli, mappa, barre e
+   calcestruzzo, zone efficaci), taglio e torsione (`ConcreteShearViewModel`), dettagli (`ConcreteDetailingViewModel`), momento–curvatura
+   (`ConcreteCurvatureViewModel`), progetto delle armature (`ConcreteDesignViewModel`).
 2. **Finestre come DataTemplate** dei ViewModel di dialogo: `ConcreteMaterialDialogViewModel`, `ConcreteTemplateWizardViewModel`,
-   `ConcreteDomainScaleDialogViewModel`, `SectionActionsViewModel`; la finestra non modale di `ConcreteSectionPropertiesViewModel`.
+   `SectionActionsViewModel`; la finestra non modale di `ConcreteSectionPropertiesViewModel` (SV-c, SV-e). «Scala…» è fatta.
 3. **Tracce attraverso i controlli della vista** (gli scenari di `tests/Shared/ConcreteSectionTrace.cs`), nomi di automazione e sola lettura di tutte
    le schede nella suite della vista.
 4. Poi, con l'utente, a fine refactoring: versione di prova, passaggio della Release, archiviazione della vista storica e riscrittura delle suite
