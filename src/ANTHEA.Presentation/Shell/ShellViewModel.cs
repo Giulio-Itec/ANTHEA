@@ -164,7 +164,8 @@ public sealed class ShellViewModel : ViewModelBase
         showingWiki = true;
         try { Navigation.Select(ShellPage.Wiki); }
         finally { showingWiki = false; }
-        if (wiki is null || wiki.IsDisposed) wiki = new WikiTabViewModel(OpenWikiModule, ReturnToWork);
+        // The requests of the Wiki view are commands of the window: their errors go to the messages (MainWindow.ShowWiki wraps them in Safe).
+        if (wiki is null || wiki.IsDisposed) wiki = new WikiTabViewModel((module, example) => guard.Run(() => OpenWikiModule(module, example)), () => guard.Run(ReturnToWork));
         var tab = Windows.ShowWiki(wiki);
         if (!ReferenceEquals(tab.Content, wiki)) wiki = (WikiTabViewModel)tab.Content!;
         if (uri is not null) wiki.Navigate(uri);

@@ -143,6 +143,7 @@ public sealed class ModelTabViewModel : ViewModelBase
     private readonly ProjectSession project;
     private string title;
     private string renameText;
+    private bool readOnly;
 
     /// <param name="project">The open project.</param>
     /// <param name="container">The section of the model, in the document on screen.</param>
@@ -155,6 +156,7 @@ public sealed class ModelTabViewModel : ViewModelBase
         ArgumentNullException.ThrowIfNull(messages);
         if (!project.Contains(container)) throw new ArgumentException("Sezione non presente nel progetto aperto.", nameof(container));
         this.project = project;
+        readOnly = project.IsReadOnly;
         Container = container;
         ModelId = modelId;
         Snapshot = modelId is null ? null : ProjectModelStore.Read(container, modelId);
@@ -185,8 +187,8 @@ public sealed class ModelTabViewModel : ViewModelBase
     /// <summary>The path of the section, « · sola lettura» during the preview of a revision.</summary>
     public string PathText => ModelTexts.ContainerPath(Container) + (IsReadOnly ? " · sola lettura" : "");
 
-    /// <summary>The preview of an archived revision is on screen.</summary>
-    public bool IsReadOnly => project.IsReadOnly;
+    /// <summary>The preview of an archived revision is on screen (raised only when it changes: the view recreates the viewer then).</summary>
+    public bool IsReadOnly => readOnly;
 
     /// <summary>The text of the field «Nome del modello».</summary>
     public string RenameText { get => renameText; set => SetProperty(ref renameText, value ?? ""); }
@@ -260,8 +262,13 @@ public sealed class ModelTabViewModel : ViewModelBase
 
     private void RaiseState()
     {
-        OnPropertyChanged(nameof(IsReadOnly)); OnPropertyChanged(nameof(PathText));
-        NewModelCommand.NotifyCanExecuteChanged();
+        if (readOnly != project.IsReadOnly)
+        {
+            readOnly = project.IsReadOnly;
+            OnPropertyChanged(nameof(IsReadOnly));
+            NewModelCommand.NotifyCanExecuteChanged();
+        }
+        OnPropertyChanged(nameof(PathText));
     }
 
     private static IReadOnlyList<SheetTarget> ReadTargets(JsonObject container) => ProjectModelStore.DescendantSheets(container).Select(s => new SheetTarget(s.S("id"), s.S("nome"),

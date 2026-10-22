@@ -1,0 +1,149 @@
+<!--
+  DRAFT of the main window of the new shell (F5.13 c), for the user's checkpoint on the layout (docs/refactoring/f5-13-shell.md, section «Bozza
+  della disposizione per il punto di controllo»). It is NOT the window of the application: the Release opens MainWindow. It binds to
+  ShellViewModel and follows the arrangement of MainWindow with the sheets in tabs (proposal 4.2):
+  - the menus File, Strumenti and Aspetto of today, with the same shortcuts;
+  - on the left the navigation bar (Home, Progetti, Modelli, Moduli singoli, Esempi, Wiki) with the file commands, always visible;
+  - beside it, with a project open, the tree of the project, which closes with «▸»;
+  - in the centre the strip of the tabs, the project bar (undo and redo) with its revision bar, the bar of the sheet with the focus, the status
+    line of the shared data, the notice of the linked model, then the page or the tab on screen (ShellViewModel.Center).
+  Colours and font sizes are theme tokens only (P7); no state of its own (P3).
+-->
+<Window x:Class="X.Desktop.Views.Shell.ShellWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:views="clr-namespace:X.Desktop.Views.Shell"
+ xmlns:nav="clr-namespace:Anthea.Presentation.Shell.Navigation;assembly=ANTHEA.Presentation"
+ xmlns:cmd="clr-namespace:Anthea.Presentation.Shell.Commands;assembly=ANTHEA.Presentation"
+ xmlns:tabs="clr-namespace:Anthea.Presentation.Shell.Tabs;assembly=ANTHEA.Presentation"
+ Title="{Binding Title}" Width="1600" Height="990" MinWidth="760" MinHeight="480"
+ Style="{DynamicResource {x:Type Window}}" Background="{DynamicResource Token.Surface}">
+ <Window.Resources>
+  <ResourceDictionary>
+   <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="ShellTemplates.xaml"/>
+   </ResourceDictionary.MergedDictionaries>
+   <!-- An item of the menu «File»: title, command, shortcut text; a separator for the items without a command. -->
+   <Style x:Key="Shell.FileItem" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+    <Setter Property="Header" Value="{Binding Title}"/>
+    <Setter Property="Command" Value="{Binding Command}"/>
+    <Setter Property="InputGestureText" Value="{Binding Shortcut, Converter={StaticResource Shortcut}}"/>
+    <Style.Triggers>
+     <DataTrigger Binding="{Binding IsSeparator}" Value="True">
+      <Setter Property="Template">
+       <Setter.Value><ControlTemplate TargetType="MenuItem"><Separator Style="{DynamicResource AppearanceMenuSeparator}"/></ControlTemplate></Setter.Value>
+      </Setter>
+      <Setter Property="IsEnabled" Value="False"/>
+     </DataTrigger>
+    </Style.Triggers>
+   </Style>
+   <!-- An item of the menu «Aspetto»: the check mark of the current appearance (not toggled by the click: the ViewModel sets it). -->
+   <Style x:Key="Shell.AppearanceItem" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+    <Setter Property="Header" Value="{Binding Title}"/>
+    <Setter Property="Command" Value="{Binding SelectCommand}"/>
+    <Setter Property="IsChecked" Value="{Binding IsChecked, Mode=OneWay}"/>
+   </Style>
+  </ResourceDictionary>
+ </Window.Resources>
+
+ <DockPanel>
+  <Menu DockPanel.Dock="Top" Background="{DynamicResource Token.Paper}">
+   <MenuItem Header="_File" ItemsSource="{Binding Commands.File}" ItemContainerStyle="{StaticResource Shell.FileItem}"/>
+   <MenuItem Header="_Strumenti">
+    <MenuItem Header="{x:Static cmd:ShellCommandsViewModel.RheologyTitle}" Command="{Binding Commands.RheologyCommand}"/>
+   </MenuItem>
+   <MenuItem x:Name="AppearanceMenu" Header="{x:Static cmd:AppearanceMenuViewModel.Title}" ItemsSource="{Binding Appearance.Items}"
+    ItemContainerStyle="{StaticResource Shell.AppearanceItem}" SubmenuOpened="OnAppearanceOpened"/>
+  </Menu>
+
+  <Grid>
+   <Grid.ColumnDefinitions>
+    <ColumnDefinition Width="230"/>
+    <ColumnDefinition Width="Auto"/>
+    <ColumnDefinition Width="*"/>
+   </Grid.ColumnDefinitions>
+
+   <!-- Navigation bar (BuildShell): logo, subtitle, pages, file commands, footer. -->
+   <DockPanel Background="{DynamicResource Token.Paper}">
+    <Border DockPanel.Dock="Right" Width="1" Background="{DynamicResource Token.Border}"/>
+    <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource Shell.Muted}" Text="{Binding Navigation.Footer}" Margin="20"/>
+    <StackPanel Margin="20,22,20,22">
+     <Image Source="pack://application:,,,/ANTHEA;component/Assets/logo.png" Width="150" Height="150" Margin="0,0,0,16" Stretch="Uniform" HorizontalAlignment="Left"/>
+     <TextBlock Style="{StaticResource Shell.Muted}" Text="{x:Static nav:NavigationViewModel.Subtitle}" Margin="0,0,0,8"/>
+     <ItemsControl ItemsSource="{Binding Navigation.Items}">
+      <ItemsControl.ItemTemplate>
+       <DataTemplate DataType="{x:Type nav:NavigationItemViewModel}">
+        <Button Style="{StaticResource Shell.NavButton}" Content="{Binding Title}" Command="{Binding SelectCommand}"/>
+       </DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+     <WrapPanel Margin="0,10,0,0">
+      <Button Style="{StaticResource Shell.Button}" Content="📂" Width="37" Padding="2" ToolTip="Apri" AutomationProperties.Name="Apri" Command="{Binding Commands.OpenCommand}"/>
+      <Button Style="{StaticResource Shell.Button}" Content="Salva" ToolTip="Salva" Command="{Binding Commands.SaveCommand}"/>
+      <Button Style="{StaticResource Shell.Button}" Content="Salva con nome" ToolTip="Salva con nome" Command="{Binding Commands.SaveAsCommand}"/>
+     </WrapPanel>
+    </StackPanel>
+   </DockPanel>
+
+   <!-- Tree of the project (ProjectWorkspace, sheetProjectTree): with a project open, closed by «▸». -->
+   <Border Grid.Column="1" Width="330" Background="{DynamicResource Token.Paper}" BorderBrush="{DynamicResource Token.Border}" BorderThickness="0,0,1,0" Padding="14,12">
+    <Border.Visibility>
+     <MultiBinding Converter="{StaticResource AllTrue}">
+      <Binding Path="HasProject"/>
+      <Binding Path="IsTreeOpen"/>
+     </MultiBinding>
+    </Border.Visibility>
+    <DockPanel>
+     <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+      <TextBlock Style="{StaticResource Shell.Title}" Text="Struttura del progetto" Margin="0,0,0,8"/>
+      <StackPanel Orientation="Horizontal" Visibility="{Binding Tree.IsReadOnly, Converter={StaticResource WhenFalse}}">
+       <Button Style="{StaticResource Shell.Primary}" Content="+ Progetto" Command="{Binding Tree.AddProjectCommand}"/>
+       <Button Style="{StaticResource Shell.Button}" Content="+ Sezione" Command="{Binding Tree.AddSectionCommand}"/>
+      </StackPanel>
+      <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" Text="Organizza sezioni e fogli con il trascinamento." Margin="0,8,0,0"/>
+     </StackPanel>
+     <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Tree.Summary}" Margin="0,10,0,0"/>
+     <TreeView ItemsSource="{Binding Tree.Roots}" BorderThickness="0" Background="{DynamicResource Token.Paper}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+      <TreeView.ItemContainerStyle>
+       <Style TargetType="TreeViewItem">
+        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+       </Style>
+      </TreeView.ItemContainerStyle>
+     </TreeView>
+    </DockPanel>
+   </Border>
+
+   <!-- Centre: tabs, bars, page or tab on screen. -->
+   <DockPanel Grid.Column="2">
+    <DockPanel DockPanel.Dock="Top" Background="{DynamicResource Token.Surface}">
+     <Button DockPanel.Dock="Left" Style="{StaticResource Shell.Button}" Content="▸" Width="32" Padding="0" Margin="8,6,0,0" ToolTip="Mostra o nascondi l'albero del progetto"
+      AutomationProperties.Name="Albero del progetto" Command="{Binding ToggleTreeCommand}" Visibility="{Binding HasProject, Converter={StaticResource WhenTrue}}"/>
+     <ItemsControl Style="{StaticResource Shell.TabStrip}" DataContext="{Binding Windows}" ItemsSource="{Binding Main.Tabs}"/>
+    </DockPanel>
+    <Border DockPanel.Dock="Top" Height="1" Background="{DynamicResource Token.Border}"/>
+
+    <!-- Project bar (ProjectWorkspace): title, undo and redo; then the revision bar of the section or of the sheet. -->
+    <StackPanel DockPanel.Dock="Top" Visibility="{Binding HasProject, Converter={StaticResource WhenTrue}}">
+     <DockPanel Background="{DynamicResource Token.CommandBar}" MinHeight="48">
+      <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+       <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.UndoLabel}" ToolTip="{x:Static cmd:ShellCommandsViewModel.UndoToolTip}"
+        Command="{Binding Commands.UndoCommand}"/>
+       <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.RedoLabel}" ToolTip="{x:Static cmd:ShellCommandsViewModel.RedoToolTip}"
+        Command="{Binding Commands.RedoCommand}"/>
+      </StackPanel>
+      <TextBlock Style="{StaticResource Shell.OnBar}" FontSize="{DynamicResource Font.Title}" FontWeight="SemiBold" Text="ANTHEA   |   Progetti" Margin="20,8"/>
+     </DockPanel>
+     <ContentControl Content="{Binding Revisions}" Focusable="False"/>
+    </StackPanel>
+
+    <!-- Bar of the sheet with the focus, status line, notice of the model. -->
+    <views:SheetBarView DockPanel.Dock="Top" DataContext="{Binding SheetBar}" Visibility="{Binding IsVisible, Converter={StaticResource WhenTrue}}"/>
+    <ContentControl DockPanel.Dock="Top" Content="{Binding SharedStatus}" Focusable="False"/>
+    <ContentControl DockPanel.Dock="Top" Content="{Binding ModelReference}" Focusable="False"/>
+
+    <ContentControl Content="{Binding Center}" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+   </DockPanel>
+  </Grid>
+ </DockPanel>
+</Window>
