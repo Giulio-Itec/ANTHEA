@@ -98,6 +98,9 @@ public sealed class PageTabViewModel(ShellTabKind kind, string title, object? co
     public object? Content { get; } = content;
 
     public void Rename(string value) { title = value ?? throw new ArgumentNullException(nameof(value)); RaiseTitle(); }
+
+    /// <summary>The content of a closed tab is released with it (F5.13 c: the Wiki and the model tabs own their ViewModel).</summary>
+    protected override void OnDisposed() => (Content as IDisposable)?.Dispose();
 }
 
 /// <summary>The tabs of one window (proposal 4.1, TabHostViewModel): the main window or a detached one.</summary>
@@ -205,6 +208,25 @@ public sealed class ShellWindowsViewModel : ViewModelBase
         host.Selected = tab;
         Focus(host);
         foreach (var other in Tabs) other.IsActive = ReferenceEquals(other, tab);
+        TabSelected?.Invoke(this, tab);
+    }
+
+    /// <summary>A tab was selected (F5.13 c): the main window shows it in place of a page.</summary>
+    public event EventHandler<ShellTabViewModel>? TabSelected;
+
+    /// <summary>The page tabs open (the Wiki, the models), main window first.</summary>
+    public IEnumerable<PageTabViewModel> Pages => Tabs.OfType<PageTabViewModel>();
+
+    /// <summary>
+    /// A page tab (F5.13 c, a model): an open tab is selected, a new one opens in the window with the focus (SH19) and is selected.
+    /// </summary>
+    public PageTabViewModel ShowPage(PageTabViewModel tab)
+    {
+        ArgumentNullException.ThrowIfNull(tab);
+        if (tab.Kind == ShellTabKind.Wiki) throw new ArgumentException("La Wiki ha la sua scheda (ShowWiki).", nameof(tab));
+        if (tab.Host is null) Add(tab, activeHost);
+        Select(tab);
+        return tab;
     }
 
     /// <summary>A window got the focus (the user clicked it): its tab takes the focus of the shell.</summary>

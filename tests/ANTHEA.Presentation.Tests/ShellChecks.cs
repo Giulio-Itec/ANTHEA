@@ -19,6 +19,7 @@ internal static class ShellChecks
         // F5.13 c: the pieces of the shell that do not depend on the layout.
         checks += SheetExportsChecks.Run(output);
         checks += WindowTrackerChecks.Run();
+        checks += ShellPartCChecks.Run(output);
         return checks;
     }
 }
