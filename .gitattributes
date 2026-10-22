@@ -48,3 +48,4 @@ src/ANTHEA.Wiki/Content/sources.props text eol=crlf
 # Archived predecessor guides must preserve their original bytes and SHA-256.
 supporto/SUPERATI/paratie-albero-rev56-20261020/** -text
 supporto/SUPERATI/paratie-pretensione-rev57-20261021/** -text
+supporto/SUPERATI/rilascio-1130-rev58-20261023/** -text

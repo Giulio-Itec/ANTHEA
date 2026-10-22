@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 20 ottobre 2026 — revisione documentale 56
+Edizione 6 aggiornata il 23 ottobre 2026 — revisione documentale 58
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -155,6 +155,8 @@ Controllare sempre l'unità a fianco del valore. Nei moduli geotecnici le lunghe
 
 I campi vuoti servono anche a rappresentare una bozza incompleta. Non sostituire sistematicamente un dato sconosciuto con zero: in alcuni campi zero ha un significato fisico, in altri attiva un automatismo, in altri è un errore. Bridge Design indica esplicitamente «0 = auto» per i parametri che lo consentono. Quando un campo è temporaneamente incompleto, leggere il messaggio della scheda prima di considerare i risultati.
 
+Tab e Maiusc+Tab spostano il cursore sulla casella successiva o precedente e ne selezionano il contenuto: il valore digitato sostituisce quello presente. Con un clic il cursore resta nel punto indicato, per correggere solo una parte del valore. Le caselle di testo su più righe non selezionano il contenuto; nelle tabelle la modifica da tastiera segue il comportamento proprio della tabella.
+
 La finestra segue l'ingrandimento di Windows. I pannelli più stretti si dispongono verticalmente; le tabelle possono mantenere uno scorrimento proprio. I divisori nella composizione dei progetti permettono di allargare l'albero o il catalogo. Cercare prima la barra del pannello che contiene il dato: lo scorrimento della finestra e quello della tabella non sono necessariamente lo stesso comando.
 
 ## Progetti e gestione del lavoro
@@ -231,13 +233,15 @@ Il trasferimento dei materiali ai fogli compatibili riguarda le proprietà comun
 
 ### Compilazione ordinata
 
-Impostare tecnologia del palo, diametro, lunghezza, peso del materiale, azioni assiali e coefficienti. Compilare poi le stratigrafie. Ogni nuovo sondaggio parte con una riga da completare, non con un terreno automaticamente valido. Inserire nome, spessore, famiglia del terreno, addensamento dove richiesto, pesi di volume e parametri di resistenza.
+Impostare tecnologia del palo, diametro, lunghezza, peso del materiale, azioni assiali e coefficienti. Il Peso specifico CLS / palo può valere zero: il peso proprio non entra allora nelle azioni e il risultato lo segnala con un avviso; un valore negativo è rifiutato. Compilare poi le stratigrafie. Ogni nuovo sondaggio parte con una riga da completare, non con un terreno automaticamente valido. Inserire nome, spessore, famiglia del terreno, addensamento dove richiesto, pesi di volume e parametri di resistenza.
 
 Per un calcolo drenato occorrono i parametri efficaci. Per il ramo non drenato degli strati coesivi occorre Cu; il programma considera anche la posizione della falda per decidere il tratto nel quale applicare quel ramo. Non usare c′ e Cu come sinonimi. Negli strati granulari il contributo c′ alla resistenza laterale drenata è nullo, anche se il campo contiene un numero.
 
 Indicare la presenza e la profondità della falda. L'effetto sulle tensioni del terreno e l'opzione di sottospinta sul peso proprio sono aspetti distinti. Spuntare la sottospinta solo secondo l'ipotesi di peso immerso che si vuole applicare al palo; non aspettarsi che questo comando definisca da solo la stratigrafia satura. L'opzione riguarda soltanto la compressione drenata e quella non drenata senza base lorda: a trazione il peso sotto falda è sempre alleggerito, nella compressione non drenata con base lorda è sempre intero. Riepilogo, grafici e report confrontano ogni condizione con la propria azione.
 
 «Copia in» e «Copia da» permettono di riutilizzare gli strati fra sondaggi creando copie indipendenti. Controllare la destinazione prima di sovrascriverla. Il pulsante meno della riga elimina uno strato; quello della linguetta elimina la stratigrafia. Il colore identifica il terreno nel profilo e non costituisce un parametro di calcolo.
+
+Estendi, sulla scheda Stratigrafia, allarga la tabella degli strati e lascia a destra, per tutta l'altezza, la scheda Profilo stratigrafico con il palo: il disegno resta visibile mentre si modificano gli strati. Riduci ripristina la disposizione normale. Se la finestra è troppo stretta per affiancare le due schede, la stratigrafia estesa occupa da sola tutta la larghezza. La stessa disposizione vale per il micropalo verticale, per i pali e micropali orizzontali e per Modifica dati e strati della risposta elastica, che apre la stratigrafia estesa.
 
 ### Coefficienti e gruppo di pali
 

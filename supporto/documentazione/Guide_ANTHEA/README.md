@@ -1,11 +1,13 @@
 # Guide globali ANTHEA
 
-Edizione 6, 21 ottobre 2026. Guide pratica e teorica Rev57. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 23 ottobre 2026. Guide pratica e teorica Rev58. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev57.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev57.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev57.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev57.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev58.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev58.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev58.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev58.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+
+La Rev58 accompagna ANTHEA 1.13.0. Nella guida pratica: Tab e Maiusc+Tab selezionano il contenuto della casella raggiunta; nei pali la stratigrafia estesa lascia a destra il profilo con il palo; il peso specifico del palo può valere zero. Nella guida teorica: peso proprio nullo del palo verticale; taglio dei pali circolari con le barre come anello continuo, d = R + 2rs/π e As/2; sostegni delle paratie che si scaricano senza spostare l’allungamento plastico; ricerca lineare sull’energia potenziale e tolleranza con i termini di flessione; conci con φ = 0 nella stabilità globale di muri e paratie. Gli originali Rev57 sono conservati in `supporto/SUPERATI/rilascio-1130-rev58-20261023/`.
 
 La Rev57 corregge la pretensione dei tiranti fra le fasi delle paratie: una cella vuota mantiene la pretensione della fase precedente, un valore la sostituisce e 0 la rilascia; le riduzioni sono segnalate. Nella guida teorica sono aggiunti la legge del sostegno e un esempio numerico. Gli originali Rev56 sono conservati in `supporto/SUPERATI/paratie-pretensione-rev57-20261021/`.
 

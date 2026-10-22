@@ -1,0 +1,92 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "f892421f59a3e6bedf428d8b26eab3f94069f43758ad06b0a6c1dda07c9fdc59",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "c981b55f992ca11a4d8928528cac80f9d46b9aff16169be4c041ccf6443a5714",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "a207201e9f4bb3c91e549b3602bc2a986817415cf362b4281f34bf6072cfc18c",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "5fb170d1c051750a60218710353c172e1bbfadfaaaad52b29975b3c796bf92fb",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev57.docx",
+    "sha256": "e1b81ec890722aa26be97f55301d5646424e3eb854a992f7fd89604e67ef97ef",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev57.pdf",
+    "sha256": "c981b55f992ca11a4d8928528cac80f9d46b9aff16169be4c041ccf6443a5714",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev57.docx",
+    "sha256": "e3f80e32e5513af9c9336c5738278519592be2622b99671a3debadc0c3045a8c",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev57.pdf",
+    "sha256": "5fb170d1c051750a60218710353c172e1bbfadfaaaad52b29975b3c796bf92fb",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/README.md",
+    "sha256": "7bf71df6f4f0d3042a8f603cce5360099d74672ce5f686820e0e46a3ed5904e9",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "sha256": "5445f9e6453f79add36e492cacbc63c3ff8932efa566ddabe160d49e0613b49b",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "sha256": "8d1fd1eea53e481a71299fe37076d99b5be90be2a708c7a260193d385ed90553",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "sha256": "e66d20c37a048737520a8e06bd186524a8f7769391efdd82d6b7a301da4ad7cf",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "sha256": "7af8c33f3ddb78ece71c2e7c4c7cb3f91522b8e0517465bdd627804011942554",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "sha256": "5df8604fe81e763f32ec9d9b5f5cefeceba3e8bbe23ea4a7c1e2678c1c010e82",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "c8f73752fe4f3a199103d7dfd9e013cdc9da93311d461feabc9afe72ff9f69e0",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "422b004cd88688f45c4e0855acde734f460b369ab186ea9374583b874cf809a1",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/scripts/Build-AntheaGuides-Itec.py",
+    "sha256": "5bf062e9202f8df36ef33a799b019d412f921a3ca7d86758c81ad2b26f391f71",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  },
+  {
+    "origine": "supporto/scripts/Render-AntheaGuides-Itec.ps1",
+    "sha256": "aa214e7b676336d296c1a4209e614ddc85abfb7e391ebf3ef771f6ef01794055",
+    "motivo": "Sostituito dalla Rev58 (ANTHEA 1.13.0): stratigrafia estesa dei pali, Tab che seleziona il contenuto, peso specifico del palo nullo, taglio dei pali circolari con l'anello continuo, sostegni delle paratie che si scaricano, ricerca lineare sull'energia e conci con φ = 0 nella stabilità globale."
+  }
+]
