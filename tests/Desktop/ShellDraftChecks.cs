@@ -30,11 +30,13 @@ namespace X.Desktop;
 /// (docs/refactoring/f5-13-shell.md, «Bozza della disposizione per il punto di controllo»), off screen, never activated, without questions:
 /// <list type="bullet">
 /// <item>the examples of the Wiki give the same data through the shell (WikiExamples) and through MainWindow.WikiExamples;</item>
-/// <item>ShellWindow on ShellViewModel with the modules of the product (DesktopComposition.CreateModules) and a sample project (a bridge with an
+/// <item>ShellWindow on ShellViewModel, built by the composition root of the shell (ShellComposition), with the modules of the product
+/// (DesktopComposition.CreateModules) and a sample project (a bridge with an
 /// abutment and a pier, four sheets), PNG of the home, of «Moduli singoli», of «Progetti», of four tabs open (three sheets of the project and a
 /// single file), of «Modelli», of the Wiki tab, of a detached window with the main window beside it, of the tabs in «Scuro»;</item>
 /// <item>after the user's checkpoint of 22/10, from the tree of the project: a sheet at full page (11, then Esc and the toggle of the sheet bar)
-/// and a sheet opened in a new window, with the main window beside it in one image (12);</item>
+/// and a sheet opened in a new window, with the main window beside it in one image (12); the icons of the modules, the links and the groups of
+/// the overview, Ctrl+Z and Ctrl+Y of the project, the Wiki of the services on the tab, the rename in place and the keys of the tree;</item>
 /// <item>no binding error of WPF in all the captures (binding-errors.txt), the structure of the window at every step.</item>
 /// </list>
 /// Writes the PNG, binding-errors.txt, test.txt and esito.txt («PASS n controlli»). The draft is not the window of the application: the Release

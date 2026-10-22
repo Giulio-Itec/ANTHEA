@@ -769,6 +769,11 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
     `ISheetExports` sul codice di `MvvmSheetEditor`, `IWindowService`, menu «Aspetto», argomenti di avvio, Wiki e Modelli nei ViewModel
     (89 controlli senza WPF); bozza XAML della shell in `X.Desktop/Views/Shell` (non è la finestra della Release) con la cattura
     `ui/check-shell-draft` da eseguire di notte. **[CP]** sulla bozza: domande SH23–SH32 e le SH1–SH22 che la bozza rende visibili.
+  - **Punto di controllo della bozza** (22/10 sera): le dieci immagini approvate, SH5–SH32 con le opzioni della bozza. Ramo
+    `refactoring/f5-13-c2`, da unire ([nota](f5-13-shell.md), sezioni 9.2, 9.5, 10.1). Dall'albero un foglio si apre in una nuova finestra
+    o a pagina intera (Esc e «Esci da pagina intera»), richiesta dell'utente; poi Ctrl+Z/Ctrl+Y, riepilogo della sezione, rinomina in linea
+    e icone nell'albero, icone del catalogo, radice di composizione `ShellComposition` avviabile solo nella build UiTests
+    (`--interactive-shell`). Release invariata. Domande SH33–SH37.
   - **Parte (d)** (22/10, ramo `refactoring/f5-13-d`, da unire; [nota](f5-13-shell.md), sezione 11): stato statico E5 di ponte, muri, pali,
     fondazioni e Wiki. Viste dei risultati tenute dal calcolo (`ModuleCalculation.View`) al posto di tre `ConditionalWeakTable` statiche;
     cataloghi immutabili (`ImmutableArray`, `ReadOnlyDictionary` dove conta l'ordine, `FrozenDictionary` per le sole ricerche). Baseline P3
