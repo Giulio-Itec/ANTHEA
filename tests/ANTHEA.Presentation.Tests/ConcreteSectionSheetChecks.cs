@@ -83,6 +83,7 @@ internal static partial class ConcreteSectionSheetChecks
                 await InspectionAsync(root, expect);
                 await DesignAsync(root, expect);
                 await ReportAsync(root, expect);
+                await ViewSupportAsync(root, expect);
             }
             return expect.Count;
         }

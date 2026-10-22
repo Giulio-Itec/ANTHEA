@@ -1,0 +1,187 @@
+<!--
+  Resources of the view of the RC section sheet (F5.10, view after S9), merged by ConcreteSectionSheetView: the texts of Ui.Text in their sizes
+  (10 and 11 → Font.Caption, 12 → Font.Small, 13 → Font.Body, 14 and 15 → Font.Subheading, decision D8), Ui.Paper and the Panel of the historic
+  view, the groups (expanders), the light and the primary buttons, the notice, the converters, the cards of the summaries (ConcreteCardsViewModel),
+  the bar of the filters of a table (ConcreteTableFilterViewModel) and the blocks of the summaries of the control panel. Theme tokens only (rule P7).
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop"
+ xmlns:common="clr-namespace:X.Desktop.Views.Common"
+ xmlns:views="clr-namespace:X.Desktop.Views.ConcreteSection"
+ xmlns:concrete="clr-namespace:Anthea.Presentation.Modules.ConcreteSection;assembly=ANTHEA.Presentation">
+ <common:NegationConverter x:Key="Not"/>
+ <BooleanToVisibilityConverter x:Key="Visible"/>
+ <views:TextShownConverter x:Key="TextShown"/>
+ <views:PresentShownConverter x:Key="PresentShown"/>
+ <views:CardBrushConverter x:Key="CardBrush"/>
+
+ <!-- Texts: Ui.Text of the historic view (wrapping, vertically centred, ink). -->
+ <Style x:Key="T13" TargetType="TextBlock">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Body}"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  <Setter Property="TextWrapping" Value="Wrap"/>
+  <Setter Property="VerticalAlignment" Value="Center"/>
+ </Style>
+ <Style x:Key="T12" TargetType="TextBlock" BasedOn="{StaticResource T13}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+ </Style>
+ <Style x:Key="T12Bold" TargetType="TextBlock" BasedOn="{StaticResource T12}">
+  <Setter Property="FontWeight" Value="SemiBold"/>
+ </Style>
+ <Style x:Key="T12BoldMuted" TargetType="TextBlock" BasedOn="{StaticResource T12Bold}">
+  <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+ </Style>
+ <Style x:Key="T11" TargetType="TextBlock" BasedOn="{StaticResource T13}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Caption}"/>
+ </Style>
+ <Style x:Key="T11Bold" TargetType="TextBlock" BasedOn="{StaticResource T11}">
+  <Setter Property="FontWeight" Value="SemiBold"/>
+ </Style>
+ <Style x:Key="T11Muted" TargetType="TextBlock" BasedOn="{StaticResource T11}">
+  <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+ </Style>
+ <Style x:Key="T11BoldMuted" TargetType="TextBlock" BasedOn="{StaticResource T11Bold}">
+  <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+ </Style>
+ <Style x:Key="T14Bold" TargetType="TextBlock" BasedOn="{StaticResource T13}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Subheading}"/>
+  <Setter Property="FontWeight" Value="SemiBold"/>
+ </Style>
+
+ <!-- Ui.Paper with the padding of the panels of the historic view (14), the border of the cards (D12). -->
+ <Style x:Key="Paper" TargetType="Border">
+  <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+  <Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/>
+  <Setter Property="BorderThickness" Value="1"/>
+  <Setter Property="Padding" Value="14"/>
+ </Style>
+ <!-- The frame of a drawing (ViewportFrame of the historic view): paper, border, padding 8. -->
+ <Style x:Key="Frame" TargetType="Border" BasedOn="{StaticResource Paper}">
+  <Setter Property="Padding" Value="8"/>
+ </Style>
+ <!-- The heading of a Panel of the historic view: title (15, bold) and subtitle (11, muted), 10 above the body. -->
+ <Style x:Key="PanelHeading" TargetType="StackPanel">
+  <Setter Property="DockPanel.Dock" Value="Top"/>
+  <Setter Property="Margin" Value="0,0,0,10"/>
+ </Style>
+ <Style x:Key="PanelSubtitle" TargetType="TextBlock" BasedOn="{StaticResource T11Muted}">
+  <Setter Property="Margin" Value="0,5,0,0"/>
+ </Style>
+ <!-- Group of the historic view: an expander with the title (14, bold) as header. -->
+ <Style x:Key="Group" TargetType="Expander">
+  <Setter Property="Padding" Value="0,8,0,10"/>
+  <Setter Property="Margin" Value="0,4,0,4"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+ </Style>
+ <!-- Notice of the historic view: paper with the colours of the notes. -->
+ <Style x:Key="Notice" TargetType="Border">
+  <Setter Property="Background" Value="{DynamicResource Token.Note.Background}"/>
+  <Setter Property="BorderBrush" Value="{DynamicResource Token.Note.Border}"/>
+  <Setter Property="BorderThickness" Value="1"/>
+  <Setter Property="Padding" Value="10"/>
+  <Setter Property="Margin" Value="0,8,0,8"/>
+ </Style>
+ <Style x:Key="NoticeText" TargetType="TextBlock" BasedOn="{StaticResource T11}">
+  <Setter Property="Foreground" Value="{DynamicResource Token.Note.Foreground}"/>
+ </Style>
+ <!-- Ui.Button: a light button, with the implicit style of the theme (padding, margin, height), as the historic Ui.Button (S17). -->
+ <Style x:Key="Command" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+  <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+ </Style>
+ <!-- The small «Apri →» of the summaries of the control panel. -->
+ <Style x:Key="SmallCommand" TargetType="Button" BasedOn="{StaticResource Command}">
+  <Setter Property="Padding" Value="5,1,5,1"/>
+  <Setter Property="MinHeight" Value="20"/>
+  <Setter Property="FontSize" Value="{DynamicResource Font.Caption}"/>
+  <Setter Property="Margin" Value="0"/>
+  <Setter Property="HorizontalAlignment" Value="Right"/>
+ </Style>
+ <!-- The check boxes of the toolbar of a drawing. -->
+ <Style x:Key="Switch" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+  <Setter Property="Margin" Value="5,3,5,3"/>
+  <Setter Property="VerticalAlignment" Value="Center"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+ </Style>
+ <!-- Ui.Choice: a combo box with a margin of 2. -->
+ <Style x:Key="Choice" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+  <Setter Property="Margin" Value="2"/>
+ </Style>
+ <!-- Host of a FieldForm (DataTemplate of FormViewModel, Views/Common/FieldFormTemplates.xaml). -->
+ <Style x:Key="Form" TargetType="ContentControl">
+  <Setter Property="Focusable" Value="False"/>
+  <Setter Property="IsTabStop" Value="False"/>
+  <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+ </Style>
+ <!-- The splitters of the panels: Appearance.Surface, as the historic ones. -->
+ <Style x:Key="ColumnSplitter" TargetType="GridSplitter">
+  <Setter Property="Background" Value="{DynamicResource Token.Surface}"/>
+  <Setter Property="ResizeBehavior" Value="PreviousAndNext"/>
+  <Setter Property="Width" Value="6"/>
+  <Setter Property="HorizontalAlignment" Value="Center"/>
+  <Setter Property="VerticalAlignment" Value="Stretch"/>
+  <Setter Property="Grid.Column" Value="1"/>
+ </Style>
+ <Style x:Key="RowSplitter" TargetType="GridSplitter">
+  <Setter Property="Background" Value="{DynamicResource Token.Surface}"/>
+  <Setter Property="ResizeBehavior" Value="PreviousAndNext"/>
+  <Setter Property="Height" Value="6"/>
+  <Setter Property="HorizontalAlignment" Value="Stretch"/>
+  <Setter Property="VerticalAlignment" Value="Center"/>
+  <Setter Property="Grid.Row" Value="1"/>
+ </Style>
+
+ <!-- The cards of a summary (VerificationCards of the historic view, one column): the message, or the summaries with the colour of η. -->
+ <DataTemplate x:Key="SummaryCards" DataType="{x:Type concrete:ConcreteCardsViewModel}">
+  <StackPanel>
+   <TextBlock Style="{StaticResource T12}" Text="{Binding Message}" Visibility="{Binding Message, Converter={StaticResource TextShown}}"/>
+   <ItemsControl Focusable="False" ItemsSource="{Binding Cards}">
+    <ItemsControl.ItemTemplate>
+     <DataTemplate DataType="{x:Type concrete:ConcreteCard}">
+      <Border BorderBrush="{Binding Converter={StaticResource CardBrush}}" BorderThickness="5,0,0,0" Background="{DynamicResource Token.Paper}"
+       Padding="5,2,4,2" Margin="0,0,0,3" ToolTip="{Binding ToolTip}">
+       <StackPanel>
+        <DockPanel>
+         <TextBlock DockPanel.Dock="Right" Style="{StaticResource T12Bold}" Margin="6,0,0,0" Text="{Binding Value}"/>
+         <TextBlock Style="{StaticResource T11Bold}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Text="{Binding Heading}"/>
+        </DockPanel>
+        <TextBlock Style="{StaticResource T11}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Text="{Binding Explanation}"/>
+       </StackPanel>
+      </Border>
+     </DataTemplate>
+    </ItemsControl.ItemTemplate>
+   </ItemsControl>
+  </StackPanel>
+ </DataTemplate>
+
+ <!-- The bar of the filters of a table (WithFilters of the historic view): «Filtra», column, mode, text, order, «×». Usable in a read-only revision. -->
+ <DataTemplate x:Key="FilterBar" DataType="{x:Type concrete:ConcreteTableFilterViewModel}">
+  <WrapPanel>
+   <TextBlock Style="{StaticResource T11}" Text="Filtra" Margin="4,0,4,0"/>
+   <ComboBox Style="{StaticResource Choice}" MinWidth="105" ItemsSource="{Binding Fields}" DisplayMemberPath="Header" SelectedValuePath="Header" SelectedValue="{Binding Column}"
+    AutomationProperties.Name="Colonna del filtro"/>
+   <ComboBox Style="{StaticResource Choice}" Width="112" ItemsSource="{x:Static concrete:ConcreteTableFilterViewModel.Modes}" SelectedIndex="{Binding Mode}"
+    AutomationProperties.Name="Modo del filtro"/>
+   <TextBox MinWidth="95" Width="140" Margin="2" Text="{Binding Query, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Testo del filtro"
+    ToolTip="Filtro testo (senza distinzione maiuscole/minuscole). Non elimina righe né esclude combinazioni dal calcolo."/>
+   <ComboBox Style="{StaticResource Choice}" Width="158" ItemsSource="{x:Static concrete:ConcreteTableFilterViewModel.Orders}" SelectedIndex="{Binding Order}"
+    AutomationProperties.Name="Ordine della tabella"/>
+   <Button Style="{StaticResource Command}" Content="×" Command="{Binding ClearCommand}" AutomationProperties.Name="Azzera il filtro"/>
+  </WrapPanel>
+ </DataTemplate>
+
+ <!-- A block of the summaries of the control panel (SummaryBlock of the historic view): title, «Apri →», the cards. -->
+ <DataTemplate x:Key="SummaryBlock" DataType="{x:Type concrete:ConcreteSummaryBlock}">
+  <Border Background="{DynamicResource Token.Paper}" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Padding="7,4,7,3" Margin="0,0,0,4">
+   <StackPanel>
+    <DockPanel>
+     <Button DockPanel.Dock="Right" Style="{StaticResource SmallCommand}" Content="Apri →" CommandParameter="{Binding Key}"
+      Command="{Binding DataContext.OpenSummaryCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
+     <TextBlock Style="{StaticResource T12Bold}" Text="{Binding Title}"/>
+    </DockPanel>
+    <ContentControl Style="{StaticResource Form}" Content="{Binding Cards}" ContentTemplate="{StaticResource SummaryCards}"/>
+   </StackPanel>
+  </Border>
+ </DataTemplate>
+</ResourceDictionary>

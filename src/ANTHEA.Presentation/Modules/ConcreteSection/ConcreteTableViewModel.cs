@@ -5,6 +5,7 @@ using Anthea.Application.Presentation;
 using Anthea.Calculations;
 using Anthea.Presentation.Forms;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Anthea.Presentation.Modules.ConcreteSection;
 
@@ -78,6 +79,10 @@ public sealed class ConcreteTableFilterViewModel : ObservableObject
 
     /// <summary>«×»: clears the text and goes back to the order of insertion.</summary>
     public void Clear() { Query = ""; Order = 0; }
+
+    /// <summary>«×» of the bar of the XAML view (<see cref="Clear"/>); usable in a read-only revision, as the historic bar.</summary>
+    public IRelayCommand ClearCommand => clearCommand ??= new RelayCommand(Clear);
+    private IRelayCommand? clearCommand;
 
     /// <summary>The column whose header shows the order (clicked last), and whether it shows it ascending; null before the first click.</summary>
     public string? SortedColumn { get; private set; }

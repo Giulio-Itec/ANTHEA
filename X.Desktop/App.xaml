@@ -22,6 +22,7 @@
    <ResourceDictionary Source="Views/EmbeddedWalls/EmbeddedWallTemplates.xaml"/>
    <ResourceDictionary Source="Views/CompositeSection/CompositeSectionTemplates.xaml"/>
    <ResourceDictionary Source="Views/BridgeDesign/BridgeDesignTemplates.xaml"/>
+   <ResourceDictionary Source="Views/ConcreteSection/ConcreteSectionTemplates.xaml"/>
   </ResourceDictionary.MergedDictionaries>
   </ResourceDictionary>
  </Application.Resources>

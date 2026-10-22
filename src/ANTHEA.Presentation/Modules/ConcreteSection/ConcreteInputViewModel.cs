@@ -102,6 +102,7 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
             .Concat([new("Coefficienti da normativa", false), new("Materiali", true), new("Geometria", true), new("Armature", false), new("Staffe", false), new("Trefoli", false)])
             .ToArray();
         TendonGroup = new ConcreteGroupViewModel("Trefoli", true);
+        Group = Groups.ToDictionary(g => GroupKey(g.Title), StringComparer.Ordinal);
         // The viewport of the section: the dimensions saved in the sheet.
         Drawing.Dimensions = settings.B("quote_dimensioni", true); Drawing.CoverDimensions = settings.B("quote_copriferro", true); Drawing.SpacingDimensions = settings.B("quote_interferro", true);
         Bars = new ConcreteTableViewModel([new("id", "Barra", readOnly: true), new("x", "x [mm]"), new("y", "y [mm]"), new("phi", "Ø [mm]")], [], () => sheet.IsReadOnly);
@@ -161,6 +162,16 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
     public IReadOnlyList<ConcreteGroupViewModel> Groups { get; }
     /// <summary>The expander «Trefoli» of the materials.</summary>
     public ConcreteGroupViewModel TendonGroup { get; }
+
+    /// <summary>The groups of the panel by a short key, for the bindings of the XAML view: «valori» (only with values of a former document),
+    /// «coefficienti», «materiali», «geometria», «armature», «staffe», «trefoli».</summary>
+    public IReadOnlyDictionary<string, ConcreteGroupViewModel> Group { get; }
+
+    private static string GroupKey(string title) => title switch
+    {
+        "Coefficienti da normativa" => "coefficienti", "Materiali" => "materiali", "Geometria" => "geometria", "Armature" => "armature",
+        "Staffe" => "staffe", "Trefoli" => "trefoli", _ => "valori"
+    };
 
     /// <summary>Every form of the inputs, in the order of the panel.</summary>
     public IEnumerable<FormViewModel> AllForms => new[] { Standard, Coefficients, Materials, Geometry, Hole, Reinforcement }
@@ -243,6 +254,13 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
 
     /// <summary>The state of a check box of the dimensions.</summary>
     public bool Dimension(string key) => key == "quote_dimensioni" ? Drawing.Dimensions : key == "quote_copriferro" ? Drawing.CoverDimensions : Drawing.SpacingDimensions;
+
+    /// <summary>The check box «Dimensioni» of the XAML view (<see cref="SetDimension"/> with <c>quote_dimensioni</c>).</summary>
+    public bool ShowDimensions { get => Drawing.Dimensions; set { SetDimension("quote_dimensioni", value); OnPropertyChanged(); } }
+    /// <summary>The check box «Copriferro» of the XAML view (<see cref="SetDimension"/> with <c>quote_copriferro</c>).</summary>
+    public bool ShowCoverDimensions { get => Drawing.CoverDimensions; set { SetDimension("quote_copriferro", value); OnPropertyChanged(); } }
+    /// <summary>The check box «Interferro min.» of the XAML view (<see cref="SetDimension"/> with <c>quote_interferro</c>).</summary>
+    public bool ShowSpacingDimensions { get => Drawing.SpacingDimensions; set { SetDimension("quote_interferro", value); OnPropertyChanged(); } }
 
     // ---------------------------------------------------------------- rheology and properties
 
