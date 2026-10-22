@@ -21,7 +21,7 @@ namespace Anthea.Presentation.Modules.ConcreteSection;
 /// <see cref="Result"/>, <see cref="HasResults"/> and «Calcola» (<see cref="CalculateAsync"/>) of its own. The result is the historic export
 /// (ConcreteResultExport), built when read and kept until the next invalidation, as the historic view.</item>
 /// <item>Children: <see cref="Inputs"/> (inputs and materials, with the sections of the wizard: S1, S1b), <see cref="Actions"/> (S2), <see cref="Domain3D"/>
-/// and <see cref="Domain2D"/> (S3), <see cref="StressPanels"/> (S4), <see cref="Shear"/> (S5); the tabs of the later sub-steps (S6–S9) keep, until
+/// and <see cref="Domain2D"/> (S3), <see cref="StressPanels"/> (S4), <see cref="Shear"/> (S5), <see cref="Detailing"/> (S6); the tabs of the later sub-steps (S7–S9) keep, until
 /// their ViewModels, only the writes into the document and the results that the common part of the traces reads (ConcreteSheetViewModel.Checks.cs).</item>
 /// </list>
 /// Works without a project and without a window (requirement of section 5 for the verifier of the elastic pile): the host is only asked for
@@ -167,8 +167,8 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         CreateStressPanels();
         // 05 · Taglio e torsione (S5) and the links shown read-only in 06: no write.
         CreateShearPanel();
-        // 06 · Dettagli costruttivi: from here the detailing is refreshed.
-        detailingBuilt = true;
+        // 06 · Dettagli costruttivi (S6): no write; from here the detailing is refreshed.
+        CreateDetailingPanel();
         // 07 · Momento–curvatura: no write. 08 · Calcola armature.
         ConcreteEditor.PrepareDesign(Settings);
         tab = ConcreteSheetPresentation.InitialTab(Settings);
@@ -306,7 +306,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         foreach (var panel in DomainPanels) panel.RefreshEditable(IsReadOnly);
         foreach (var panel in StressPanels) panel.RefreshEditable(IsReadOnly);
         Shear?.RefreshEditable(IsReadOnly);
-        DetailingStirrups?.RefreshEditable(IsReadOnly);
+        Detailing?.RefreshEditable(IsReadOnly);
     }
 
     private void OnCalculationChanged(object? sender, PropertyChangedEventArgs e)

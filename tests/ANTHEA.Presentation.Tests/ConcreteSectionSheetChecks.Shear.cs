@@ -16,7 +16,7 @@ internal static partial class ConcreteSectionSheetChecks
         {
             var shear = Sheet.Shear;
             block.Form(FormState("taglio", shear.Form)); block.Form(FormState("torsione", shear.Torsion));
-            var stirrups = new[] { shear.Stirrups.Values, shear.Stirrups.Scheme, Sheet.DetailingStirrups.Values, Sheet.DetailingStirrups.Scheme };
+            var stirrups = new[] { shear.Stirrups.Values, shear.Stirrups.Scheme, Sheet.Detailing.Stirrups.Values, Sheet.Detailing.Stirrups.Scheme };
             for (int i = 0; i < stirrups.Length; i++) block.Form(FormState("staffe-" + (i + 2).ToString(System.Globalization.CultureInfo.InvariantCulture), stirrups[i]));
             block.Text("nota-automatici", shear.AutomaticNote);
             foreach (string line in TableState("taglio", shear.Table.Table).Lines()) block.Add(line);

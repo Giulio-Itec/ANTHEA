@@ -17,10 +17,10 @@ namespace Anthea.Presentation.Tests;
 
 /// <summary>
 /// The ViewModel of the RC section (F5.10, sub-steps S1: shell, calculation, inputs and materials; S2: actions; S1b: sections made by the
-/// wizard; S3: domains; S4: serviceability; S5: shear and torsion) against the traces of the historic view frozen in
-/// tests/fixtures/f5-sezione/storica, without WPF. Each scenario of the sub-steps (ingressi/*, azioni/*, domini/*, sle/*, taglio/*, percorso-f3/*,
+/// wizard; S3: domains; S4: serviceability; S5: shear and torsion; S6: detailing) against the traces of the historic view frozen in
+/// tests/fixtures/f5-sezione/storica, without WPF. Each scenario of the sub-steps (ingressi/*, azioni/*, domini/*, sle/*, taglio/*, dettagli/*, percorso-f3/*,
 /// calcolo/*, muri/*, esempi/*) is driven on the ViewModel as the user drives the historic controls; the common part of every state and the parts
-/// «[ingressi]», «[azioni]», «[domini]», «[sle]», «[taglio]» and «[wizard]» are compared line by
+/// «[ingressi]», «[azioni]», «[domini]», «[sle]», «[taglio]», «[dettagli]» and «[wizard]» are compared line by
 /// line, the parts of the sub-steps not migrated yet are left out by their label (section 4.0
 /// of docs/refactoring/f5-10-sezione.md). A step that belongs to a sub-step not migrated (the options of the domains, the stresses, the M–χ…)
 /// does nothing here: when the historic trace shows its effect, the comparison of that scenario stops there, at the place listed in
@@ -29,7 +29,7 @@ namespace Anthea.Presentation.Tests;
 /// </summary>
 internal static partial class ConcreteSectionSheetChecks
 {
-    private static readonly string[] OwnParts = ["ingressi", "azioni", "domini", "sle", "taglio", ConcreteSectionScenarios.WizardSection];
+    private static readonly string[] OwnParts = ["ingressi", "azioni", "domini", "sle", "taglio", "dettagli", ConcreteSectionScenarios.WizardSection];
     private static readonly string[] OtherParts = ConcreteSectionScenarios.AllSections.Except(OwnParts).ToArray();
 
     /// <summary>
@@ -44,7 +44,7 @@ internal static partial class ConcreteSectionSheetChecks
 
     /// <summary>The scenarios of the fast stage (decision C7: the long traces run in the ui stage, with --sezione-tracce).</summary>
     private static readonly string[] FastScenarios = ["calcolo/ricalcolo-revisione.txt", "ingressi/resistenze-rapide.txt", "percorso-f3/default.txt", "azioni/incolla.txt",
-        "ingressi/wizard-tipologie.txt", "sle/fessurazione.txt", "taglio/circolare-senza-staffe.txt"];
+        "ingressi/wizard-tipologie.txt", "sle/fessurazione.txt", "taglio/circolare-senza-staffe.txt", "dettagli/soletta.txt"];
 
     internal static int Run(string root, string output, bool full) => SingleThreadContext.Run(_ => RunAsync(root, output, full));
 
@@ -81,6 +81,7 @@ internal static partial class ConcreteSectionSheetChecks
                 await DomainsAsync(root, expect);
                 await ServiceabilityAsync(root, expect);
                 await ShearAsync(root, expect);
+                await DetailingAsync(root, expect);
             }
             return expect.Count;
         }
@@ -92,9 +93,9 @@ internal static partial class ConcreteSectionSheetChecks
     private static async Task TracesAsync(string root, string output, bool full, Expect expect)
     {
         string folder = Path.Combine(output, "sezione-ca");
-        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "domini" or "sle" or "taglio" or "percorso-f3" or "calcolo" or "muri" or "esempi")
+        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "domini" or "sle" or "taglio" or "dettagli" or "percorso-f3" or "calcolo" or "muri" or "esempi")
             .Where(s => full || FastScenarios.Contains(s.File.Replace('\\', '/'))).ToList();
-        expect.That(scenarios.Count == (full ? 49 : FastScenarios.Length), "Scenari S1, S2, S1b, S3, S4 e S5 della sezione c.a.: " + scenarios.Count);
+        expect.That(scenarios.Count == (full ? 51 : FastScenarios.Length), "Scenari S1, S2, S1b, S3, S4, S5 e S6 della sezione c.a.: " + scenarios.Count);
         var failures = new List<string>();
         var report = new List<string>();
         foreach (var scenario in scenarios)
@@ -317,7 +318,7 @@ internal static partial class ConcreteSectionSheetChecks
 
         // ---------------------------------------------------------------- controls of the inputs
 
-        private FormViewModel? Form(string target) => target switch
+        private FormViewModel? Form(string target, string? key = null) => target switch
         {
             "normativa" => Inputs.Standard,
             "coefficienti" => Inputs.Coefficients,
@@ -336,6 +337,8 @@ internal static partial class ConcreteSectionSheetChecks
             "SLE" or "SLE_FREQ" or "SLE_QP" => Sheet.StressPanel(target).Form,
             "taglio" => Sheet.Shear.Form,
             "torsione" => Sheet.Shear.Torsion,
+            "dettagli" => Sheet.Detailing.Forms.Single(f => f.Contains(key!)),
+            "ancoraggi" => Sheet.Detailing.Anchorage,
             _ => null
         };
 
@@ -374,17 +377,17 @@ internal static partial class ConcreteSectionSheetChecks
             if (IsActionStep(step)) return await ApplyActionAsync(step);
             switch (step.Kind)
             {
-                case ConcreteSectionStep.Field when Form(step.Target!) is { } form:
+                case ConcreteSectionStep.Field when Form(step.Target!, step.Key) is { } form:
                 {
                     if (form.Contains(step.Key!) && form[step.Key!] is { Kind: FieldKind.Text } field && Usable(form, field) && !field.IsInputReadOnly) field.EditText = step.Text!;
                     return (null, true);
                 }
-                case ConcreteSectionStep.Choice when Form(step.Target!) is { } form:
+                case ConcreteSectionStep.Choice when Form(step.Target!, step.Key) is { } form:
                 {
                     if (form.Contains(step.Key!) && form[step.Key!] is { Kind: FieldKind.Choice } field && Usable(form, field)) field.SelectedChoice = step.Text;
                     return (null, true);
                 }
-                case ConcreteSectionStep.Option when Form(step.Target!) is { } form:
+                case ConcreteSectionStep.Option when Form(step.Target!, step.Key) is { } form:
                 {
                     if (form.Contains(step.Key!) && form[step.Key!] is { Kind: FieldKind.Bool } field && Usable(form, field)) field.IsChecked = !field.IsChecked;
                     return (null, true);
@@ -408,6 +411,9 @@ internal static partial class ConcreteSectionSheetChecks
                     if (layer.IsShown && layer.ToggleCommand.CanExecute(null)) layer.ToggleCommand.Execute(null);
                     return (null, true);
                 }
+                case ConcreteSectionStep.Button when step.Target == "ancoraggi" && step.Key == "Aggiorna verifiche ancoraggi":
+                    if (Sheet.Detailing.UpdateAnchoragesCommand.CanExecute(null)) Sheet.Detailing.UpdateAnchoragesCommand.Execute(null);
+                    return (null, true);
                 case ConcreteSectionStep.Button when step.Target is "armatura" or "coefficienti" or "cavo" or "materiali-utente":
                 {
                     var command = (step.Target, step.Key) switch
@@ -576,6 +582,7 @@ internal static partial class ConcreteSectionSheetChecks
                 else if (section == "domini") TraceDomains(block);
                 else if (section == "sle") TraceServiceability(block);
                 else if (section == "taglio") TraceShear(block);
+                else if (section == "dettagli") TraceDetailing(block);
                 else if (section == ConcreteSectionScenarios.WizardSection) TraceWizard(block);
                 else TraceInputs(block);
                 state.Blocks.Add(block);

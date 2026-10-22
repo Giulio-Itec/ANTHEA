@@ -372,17 +372,6 @@ public sealed partial class ConcreteSheetViewModel
         RefreshSummary();
     }
 
-    // ---------------------------------------------------------------- detailing (S6): derived values and export
-
-    /// <summary>The detailing of the sheet (checks, anchorages, durability) and its derived values written into the settings.</summary>
-    internal void RefreshDetailing()
-    {
-        if (!detailingBuilt) return;
-        var presentation = ConcreteDetailingPresentation.Calculate(Input, Settings, actions.ToDictionary(p => p.Key, p => p.Value.Select(r => r.Values).ToArray()));
-        presentation.ApplyDerivedValues(Settings);
-        detailing = presentation; ResetExport();
-    }
-
     // ---------------------------------------------------------------- M–χ (S7): the curve is cleared by every change of the data
 
     private void InvalidateCurvature()
