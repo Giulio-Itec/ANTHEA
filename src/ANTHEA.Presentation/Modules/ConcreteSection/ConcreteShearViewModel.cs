@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Text.Json.Nodes;
 using Anthea.Application.Concrete;
 using Anthea.Calculations;
@@ -63,8 +64,8 @@ public sealed class ConcreteShearViewModel : ObservableObject
     /// <summary>The note of the torsion.</summary>
     public const string TorsionNote = "Torsione: As è la quota disponibile dopo pressoflessione. Staffe chiuse ortogonali all’asse; area di un ramo per torsione. Per Vx+Vy si adotta la somma conservativa dei contributi sul calcestruzzo, non una formula normativa di interazione biassiale. Modello delle pile: z/d = 0,75 piena, 0,60 cava.";
 
-    private static readonly string[] Axes = ["x", "y"];
-    private static readonly string[] Parameters = ["bw_", "d_", "asl_"];
+    private static ImmutableArray<string> Axes { get; } = ["x", "y"];
+    private static ImmutableArray<string> Parameters { get; } = ["bw_", "d_", "asl_"];
 
     private readonly ConcreteSheetViewModel sheet;
     private string detail = "Selezionare una combinazione", summary = "Taglio · da calcolare";
