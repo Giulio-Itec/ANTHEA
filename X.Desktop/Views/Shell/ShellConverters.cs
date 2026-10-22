@@ -58,3 +58,14 @@ internal sealed class ShortcutTextConverter : IValueConverter
         return new KeyGesture(key, shortcut.Shift ? ModifierKeys.Control | ModifierKeys.Shift : ModifierKeys.Control);
     }
 }
+
+/// <summary>
+/// The icon of a module (Ui.ModuleIcon, drawn in code as today, decision Q3), a new element at every conversion: the sheets of the tree of the
+/// project and the cards of «Moduli singoli» (after the checkpoint of 22/10). Nothing without a module.
+/// </summary>
+internal sealed class ModuleIconConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) => value is string { Length: > 0 } module ? Ui.ModuleIcon(module) : null;
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
+}

@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
 using System.Windows.Controls;
@@ -85,6 +86,8 @@ internal static class ShellDraftChecks
                 shell.Navigation.Select(ShellPage.Modules);
                 await Capture(main, output, "02-moduli-singoli.png", bindings);
                 Check(shell.Center is ModuleCatalogViewModel, "Moduli singoli al centro");
+                int icons = Descendants<Viewbox>(main).Count(v => v is { IsVisible: true, Child: ContentControl { Content: FrameworkElement } });
+                Check(icons > 0 && icons == shell.Navigation.Modules.Areas.Sum(a => a.Groups.Sum(g => g.Cards.Count)), "Icone dei moduli nelle schede del catalogo (" + icons + ")");
 
                 // A sample project: a bridge with an abutment and a pier, four sheets.
                 var document = ProjectDocuments.CreateArchive();
@@ -236,6 +239,37 @@ internal static class ShellDraftChecks
                 await Idle(main);
                 Check(shell.Center is PageTabViewModel { Kind: ShellTabKind.Wiki, Content: WikiTabViewModel wikiShown } && wikiShown.Uri == guide && services.WikiRequests == 0,
                     "Wiki dei servizi: la scheda della shell, non la finestra storica");
+
+                // The tree after the checkpoint: the button with the icon of a sheet opens it; F2 renames in place, Enter saves and Esc cancels; Enter
+                // on a node opens it (keys sent to the node, the check has no keyboard).
+                bindings.Step = "albero";
+                var source = PresentationSource.FromVisual(main);
+                void SendKey(UIElement target, Key key) => target.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, source, 0, key) { RoutedEvent = Keyboard.KeyDownEvent });
+                var openConcrete = Descendants<Button>(main).Single(b => AutomationProperties.GetName(b) == "Apri scheda Calcestruzzo delle fondazioni");
+                Check(openConcrete is { IsVisible: true, Content: Viewbox { Child: ContentControl { Content: FrameworkElement } } } && openConcrete.ToolTip as string == "Apri scheda · Calcestruzzo delle fondazioni",
+                    "Foglio dell'albero: il pulsante con l'icona del modulo");
+                await Press(openConcrete);
+                Check(ReferenceEquals(workspace.Active, concreteSheet) && shell.Center is SheetTabViewModel { Session: var opened } && ReferenceEquals(opened, concreteSheet), "Icona: il foglio nella sua scheda");
+                string pierId = pier.S("id");
+                TreeViewItem Item(string id) => Descendants<TreeViewItem>(main).Single(i => i.DataContext is ProjectNodeViewModel { Id: var node } && node == id);
+                TextBox Box(TreeViewItem item) => Descendants<TextBox>(item).Single(b => b.Name == "Rename" && ReferenceEquals(b.DataContext, item.DataContext));
+                SendKey(Item(pierId), Key.F2);
+                await Idle(main);
+                var renaming = Item(pierId);
+                Check(renaming.DataContext is ProjectNodeViewModel { IsRenaming: true } && Box(renaming) is { IsVisible: true, Text: "Pila 1" }, "F2: rinomina in linea con il nome attuale");
+                Box(renaming).Text = "Pila 1 nord";
+                SendKey(Box(renaming), Key.Enter);
+                await Idle(main);
+                Check(project.Find(pierId)!.S("nome") == "Pila 1 nord" && Item(pierId).DataContext is ProjectNodeViewModel { IsRenaming: false, Name: "Pila 1 nord" }, "Invio: nome salvato");
+                SendKey(Item(pierId), Key.F2);
+                await Idle(main);
+                Box(Item(pierId)).Text = "da scartare";
+                SendKey(Box(Item(pierId)), Key.Escape);
+                await Idle(main);
+                Check(project.Find(pierId)!.S("nome") == "Pila 1 nord" && Item(pierId).DataContext is ProjectNodeViewModel { IsRenaming: false }, "Esc: rinomina annullata");
+                SendKey(Item(strataId), Key.Enter);
+                await Idle(main);
+                Check(ReferenceEquals(workspace.Active, strataSheet), "Invio su un foglio dell'albero: la sua scheda");
             }
             finally
             {

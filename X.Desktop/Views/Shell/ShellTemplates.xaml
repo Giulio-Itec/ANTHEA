@@ -22,6 +22,7 @@
  <views:AllVisibleConverter x:Key="AllTrue"/>
  <views:TypeVisibilityConverter x:Key="OfType"/>
  <views:ShortcutTextConverter x:Key="Shortcut"/>
+ <views:ModuleIconConverter x:Key="ModuleIcon"/>
 
  <!-- Texts (Ui.Text of the historic shell): body, muted, headings, titles of the pages. -->
  <Style x:Key="Shell.Text" TargetType="TextBlock">
@@ -264,6 +265,10 @@
                 <DockPanel>
                  <Button x:Name="Open" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Style="{StaticResource Shell.Primary}" Content="Apri"
                   Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}" CommandParameter="{Binding}"/>
+                 <!-- The icon of the module (Ui.ModuleIcon, as ShowModules today; after the checkpoint of 22/10). -->
+                 <Viewbox DockPanel.Dock="Left" Width="80" Height="80" Margin="0,0,12,0" VerticalAlignment="Top" Stretch="Uniform">
+                  <ContentControl Focusable="False" IsTabStop="False" Content="{Binding Icon, Converter={StaticResource ModuleIcon}}"/>
+                 </Viewbox>
                  <StackPanel>
                   <TextBlock x:Name="Status" Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Caption}" FontWeight="SemiBold"
                    Foreground="{DynamicResource Token.Status.Ok}" Text="{Binding Status}"/>
@@ -543,11 +548,24 @@
    </Border>
    <TextBlock Style="{StaticResource Shell.Text}" Text=" •" FontWeight="Bold" Foreground="{DynamicResource Token.Accent}" DockPanel.Dock="Right"
     Visibility="{Binding IsUnsaved, Converter={StaticResource WhenTrue}}" ToolTip="Foglio non salvato"/>
-   <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Name}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis">
-    <TextBlock.InputBindings>
-     <MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenCommand}"/>
-    </TextBlock.InputBindings>
-   </TextBlock>
+   <!--
+     After the checkpoint of 22/10 (ProjectHierarchy.ConfigureProjectNode): a sheet has the button with the icon of its module, which opens it; the
+     double click on the name renames in place (F2 and «Rinomina» too; ProjectTreeKeys), a model opens; Enter on the node opens it.
+   -->
+   <Button DockPanel.Dock="Left" Style="{StaticResource Shell.Button}" Width="36" Height="36" Padding="3" Margin="0,0,10,0" Command="{Binding OpenCommand}"
+    ToolTip="{Binding OpenToolTip}" AutomationProperties.Name="{Binding OpenAutomationName, TargetNullValue=''}" Visibility="{Binding IsSheet, Converter={StaticResource WhenTrue}}">
+    <Viewbox Stretch="Uniform"><ContentControl Focusable="False" IsTabStop="False" Content="{Binding Module, Converter={StaticResource ModuleIcon}}"/></Viewbox>
+   </Button>
+   <Grid>
+    <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Name}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+     Visibility="{Binding IsRenaming, Converter={StaticResource WhenFalse}}">
+     <TextBlock.InputBindings>
+      <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DoubleClickCommand}"/>
+     </TextBlock.InputBindings>
+    </TextBlock>
+    <TextBox x:Name="Rename" MinWidth="180" Text="{Binding RenameText, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Nuovo nome"
+     Visibility="{Binding IsRenaming, Converter={StaticResource WhenTrue}}" views:ProjectTreeKeys.RenameBox="True"/>
+   </Grid>
    <DockPanel.ContextMenu>
     <ContextMenu>
      <MenuItem Header="Apri" Command="{Binding OpenCommand}"/>

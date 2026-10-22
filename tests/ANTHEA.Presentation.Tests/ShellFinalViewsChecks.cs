@@ -100,6 +100,15 @@ internal static class ShellFinalViewsChecks
             && ReferenceEquals(shell.Tree.Selected?.Node, copy) && project.IsDirty, "«Duplica sezione»: la copia dopo la sezione, nel riepilogo e nell'albero");
         expect.That(shell.DuplicateSectionCommand.CanExecute(copy) && !shell.DuplicateSectionCommand.CanExecute(null) && !shell.OpenLinkCommand.CanExecute(null), "Comandi del riepilogo");
 
+        // The double click on the name of a node renames in place (ProjectHierarchy: «Doppio clic per rinominare»).
+        var copyNode = shell.Tree.Find(copy)!;
+        copyNode.DoubleClickCommand.Execute(null);
+        expect.That(copyNode.IsRenaming && copyNode.RenameText == copy.S("nome"), "Doppio clic sul nome: rinomina in linea con il nome attuale");
+        copyNode.RenameText = "  Sezione duplicata  ";
+        copyNode.EndRename(true);
+        expect.That(project.Find(copy.S("id"))!.S("nome") == "Sezione duplicata" && shell.Tree.Find(project.Find(copy.S("id"))!) is { IsRenaming: false, Name: "Sezione duplicata" },
+            "Rinomina salvata, senza spazi ai lati");
+
         // The Wiki of the services: before the shell the historic window, then the tab of the shell.
         var historic = new RecordingWiki();
         var navigator = new ShellWikiNavigator(historic);

@@ -102,6 +102,8 @@ public sealed class ProjectNodeViewModel : ViewModelBase
         OpenInNewWindowCommand = GuardedCommands.Create(tree.Guard, () => tree.OpenElsewhere(this, SheetPlacement.NewWindow), () => IsSheet);
         OpenFullPageCommand = GuardedCommands.Create(tree.Guard, () => tree.OpenElsewhere(this, SheetPlacement.FullPage), () => IsSheet);
         BeginRenameCommand = GuardedCommands.Create(tree.Guard, () => tree.BeginRename(this), () => CanRename);
+        // The double click on the name (ProjectHierarchy): the rename in place, nothing while read-only; a model opens (it has no name to edit).
+        DoubleClickCommand = GuardedCommands.Create(tree.Guard, () => { if (kind == ProjectNodeKind.Model) tree.Open(this); else tree.BeginRename(this); });
         DuplicateCommand = GuardedCommands.Create(tree.Guard, () => tree.Duplicate(this), () => CanDuplicate);
         DeleteCommand = GuardedCommands.Create(tree.Guard, () => tree.Delete(this), () => CanDelete);
         AddSectionCommand = GuardedCommands.Create(tree.Guard, () => tree.AddSectionTo(this), () => CanAddSection);
@@ -178,6 +180,9 @@ public sealed class ProjectNodeViewModel : ViewModelBase
     public IRelayCommand OpenFullPageCommand { get; }
 
     public IRelayCommand BeginRenameCommand { get; }
+
+    /// <summary>Double click on the name: «Doppio clic per rinominare» (sheets, sections, projects), «Apri» for a model.</summary>
+    public IRelayCommand DoubleClickCommand { get; }
     public IRelayCommand DuplicateCommand { get; }
     public IRelayCommand DeleteCommand { get; }
     public IRelayCommand AddSectionCommand { get; }
