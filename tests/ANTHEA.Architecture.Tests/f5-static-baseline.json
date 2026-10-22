@@ -196,14 +196,6 @@
       "Example": "private static readonly ( string Document , string Legacy ) [ ] Keys"
     },
     {
-      "File": "src/ANTHEA.DesignTools.Presentation/ConcreteTimeEffectsViewModel.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "ConcreteTimeEffectsViewModel.Inputs",
-      "Fingerprint": "B0F2F82CA7FDFD670A259349227A2BC61CEC457CAD21F16C744391F26BBF15DF",
-      "Count": 1,
-      "Example": "private static readonly HashSet < string > Inputs"
-    },
-    {
       "File": "src/ANTHEA.ModelViewer.Presentation/ModelDisplayCatalog.cs",
       "Rule": "P3-static-collection",
       "Owner": "ModelDisplayCatalog.Palette",

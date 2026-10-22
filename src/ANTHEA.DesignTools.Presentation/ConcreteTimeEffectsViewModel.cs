@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -16,7 +17,8 @@ public sealed partial class ConcreteTimeEffectsViewModel : ObservableObject, IDa
     private static readonly CultureInfo Italian = CultureInfo.GetCultureInfo("it-IT");
     private readonly Dictionary<string, string> errors = new();
     private ConcreteTimeEffects? calculation;
-    private static readonly HashSet<string> Inputs = [nameof(Fck), nameof(Humidity), nameof(NotionalSize),
+    // The input properties, in the order of their notifications (the insertion order of the former HashSet); immutable catalogue (F5.13 d, P3).
+    private static readonly ImmutableArray<string> Inputs = [nameof(Fck), nameof(Humidity), nameof(NotionalSize),
         nameof(LoadingAge), nameof(Cement), nameof(StartAge), nameof(EndAge), nameof(Samples)];
     public IReadOnlyList<CementChoice> Cements { get; } = [
         new(ConcreteMaterialEuropeanCommon.CementTypes.ClassS, "S · lento"),
