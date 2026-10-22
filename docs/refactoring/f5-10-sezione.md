@@ -29,7 +29,9 @@ dei sottopassi. Contiene:
 - il riallineamento del 21/10 al codice dopo persistenza nativa, wizard e capsula (sezione 9);
 - il sottopasso S2 fatto il 21/10: le azioni, il modello di tabella dei pannelli, prove ed esiti (sezione 10);
 - il sottopasso S1b fatto il 21/10: sezioni da wizard e persistenza nativa nel ViewModel, con le tracce nuove (sezione 11);
-- il sottopasso S3 fatto il 21/10: i pannelli dei domini 3D e 2D nel ViewModel, disegni come dati, prove ed esiti (sezione 12).
+- il sottopasso S3 fatto il 21/10: i pannelli dei domini 3D e 2D nel ViewModel, disegni come dati, prove ed esiti (sezione 12);
+- il sottopasso S4 fatto il 21/10: le famiglie SLE nel ViewModel, la mappa delle tensioni come dati, prove ed esiti (sezione 13);
+- il sottopasso S5 fatto il 21/10: taglio e torsione nel ViewModel, staffe in sola lettura, prove ed esiti (sezione 14).
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7, riga F5.10 della sezione 8, rischi R3, R5 e R7, domanda Q17;
@@ -1008,6 +1010,213 @@ Piano di S4–S9 aggiornato (ordine invariato: S4, S5, poi S6, S7, S8, S9):
   e il resto della scheda «Sezione σ / ε».
 - **S8, S9** come nella sezione 4. Al passaggio (S9) la vista XAML dei domini lega il viewport 3D e il grafico 2D ai dati dei ViewModel
   (`Changed`, `FitRequested`, `ZoomRequested`, `ActionPicked`, `ChartViewReset`) e confronta gli elenchi di disegno del dominio 2D.
+
+```
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
+```
+
+## 13. S4 fatto (21/10)
+
+Sottopasso S4 «SLE e tensioni» (sezione 4, S4; sezione 12.6), ramo `refactoring/f5-10-s4` da `refactoring/f5` `d22550c4` (S1, S2, S1b, S3 e
+preparazione di F5.11 uniti), 21/10/2026. Decisioni applicate: C5 (comportamenti storici conservati, compresa la sola lettura che scrive), C7
+(tracce lunghe nello stadio `ui`), C8 (la mappa resta un disegno WPF, confrontata come dati). La Release resta storica; nessuna vista XAML
+(S1-d).
+
+### 13.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `f99eaff8` | derivazioni della scheda SLE in Application (`ConcreteStressPresentation`), chiamate dalla vista storica; baseline F4 spostata; Application.Tests |
+| `946d81d2` | famiglie SLE nel ViewModel (`ConcreteStressPanelViewModel`), mappa come dati, prove in `Presentation.Tests`, arresto delle tracce per occorrenza |
+| (questo commit) | questa sezione, riga di `piano.md`, esito della corsa finale |
+
+### 13.2 Che cosa c'è
+
+- **`ConcreteStressPanelViewModel`**, una per famiglia (`StressPanels`, `StressPanel("SLE" | "SLE_FREQ" | "SLE_QP")` del foglio), creata
+  all'apertura dopo i pannelli dei domini, senza scritture (da `StressPanel`, `BuildStressTabs`, `PublishStress`, `UpdateStressSelection` e
+  `SynchronizeHomogenization` di `ConcreteStress.cs`, `SynchronizeSharedSle` e `RefreshTendonOptions` di `ConcreteRefinements.cs`):
+  - form «Opzioni SLE comuni» su `sle.<famiglia>`, con i quattro gruppi storici; n e φ calcolati l'uno dall'altro (`SynchronizeHomogenization`),
+    con gli errori in un dizionario condiviso dalle tre famiglie (`HomogenizationErrors`); campi di φ e n abilitati dall'analisi lineare,
+    origine e rotazione dagli assi personalizzati, avviso dell'analisi non lineare; campi e casella dei trefoli solo con i cavi;
+  - una modifica passa da `StressOptionChanged` del foglio: omogeneizzazione, opzioni comuni copiate nelle altre famiglie e in `sle_comuni`
+    (`SynchronizeSharedSle`), campi abilitati; un'opzione della fessurazione ricalcola le tre famiglie, le altre azzerano prima i risultati
+    della famiglia;
+  - la tabella della famiglia è quella di S2 (`Actions.Stress[...]`): le colonne delle tensioni e della fessurazione seguono le verifiche
+    della famiglia, per indice come la griglia storica;
+  - dettaglio, passaggi della fessurazione, tabelle delle barre e dei vertici del calcestruzzo, zone efficaci e scheda della fessurazione della
+    riga selezionata, solo mentre la famiglia è mostrata (scheda 04 e famiglia scelta, `IsShown`), come la mappa storica (`IsVisibleChanged`);
+  - schede: famiglia mostrata (`StressFamily` del foglio, anche dalla scelta «Combinazione SLE»), colonna dei risultati (`VerificationTab`,
+    «Riepilogo verifiche» all'apertura), schede dei dettagli (`DetailTab`, -1 finché non sono mostrate la prima volta);
+  - barra della mappa: contorno, «Asse neutro» e zona efficace usabili anche in sola lettura (il contorno e l'asse scrivono con Modified, come
+    la vista storica); «σ/ε barre», «σ/ε trefoli», «σ/ε vertici CLS» rifiutate in sola lettura; una barra cliccata sulla mappa porta alla
+    scheda «Barre e trefoli» e alla sua riga; «Reologia del calcestruzzo…» con il comando degli ingressi.
+- **Mappa come dati** (Q3, C8): `ConcreteSectionDrawingViewModel` con tre proprietà nuove, `Stress`, `EffectiveRegion` e `Legend`. La legenda
+  è quella del disegno sullo schermo: la vista storica la scrive quando disegna, quindi solo mentre la famiglia è mostrata e la sezione
+  esiste; il ViewModel la aggiorna negli stessi momenti (domanda S4-a).
+- **Application** (`ConcreteStressPresentation`): uscite delle righe dopo il calcolo, campi abilitati dall'analisi, avviso non lineare,
+  dettaglio della riga, passaggi della fessurazione, righe delle barre e dei vertici, scala e legenda del contorno della mappa
+  (`ContourScale`). La vista storica le chiama al posto delle sue espressioni (`ConcreteStress.cs`, `ConcreteRefinements.cs` e il `Render` di
+  `ConcreteSectionViewport` per la scala); le uscite del foglio di S1 usano la stessa funzione. Nello spostamento si è tolta la prima
+  assegnazione del dettaglio, che la seconda sovrascriveva subito (nessun effetto).
+- **Prove delle tracce**: l'arresto atteso di uno scenario indica ora passo e occorrenza (`("attendi", 2)`), perché il nuovo arresto è un
+  «attendi» che compare più volte (domanda S4-d).
+- **Baseline F4**, solo spostamenti: le quattro voci R4 di `ConcreteWorkspace.UpdateStressSelection` (`options.D("n_armature")`, `phi`,
+  `n_trefoli`, `phi_trefoli`) diventano le quattro di `ConcreteStressPresentation.Detail`; 2 157 voci e 3 214 occorrenze invariate, nessuna
+  aggiunta. P3 invariata.
+
+### 13.3 Esiti
+
+- **Tracce** (`Presentation.Tests/sezione-ca`, parte comune, `[ingressi]`, `[azioni]`, `[domini]`, `[sle]` e `[wizard]`): 47 scenari uguali alle
+  tracce congelate (i 45 di S3 più `sle/opzioni-sle` e `sle/fessurazione`; la parte `[sle]` è confrontata anche in `percorso-f3/*`, `muri/*`,
+  `esempi/*`, `azioni/tabelle-storiche` e `ingressi/materiali-normativa` e `staffe-trefoli`), compresa la legenda della mappa con la cultura di
+  ogni passo. `calcolo/sola-lettura` è uguale fino al nuovo arresto atteso, il secondo «attendi»: dopo «Calcola curva» la curva M–χ (S7)
+  calcolata anche in sola lettura entra nel risultato esportato. 59 controlli con le tracce lunghe.
+- **Prove rapide** (`--sezione-rapide`): 355 controlli; in più lo scenario `sle/fessurazione` fra le tracce rapide, F1 dei campi delle tre
+  famiglie, la barriera del motore (una modifica durante il calcolo trattenuto lo supera: la famiglia mostra solo le tensioni della revisione
+  corrente), la sola lettura (opzioni, tabelle e caselle protette; contorno, asse neutro, famiglia e zona usabili), le opzioni comuni
+  copiate, l'errore dell'omogeneizzazione, la barra cliccata, le caselle dei valori, la legenda di una famiglia nascosta, «Reologia…» e Reload.
+- **Application.Tests**: 13 controlli di `ConcreteStressPresentation` (3 119), con valori scritti a mano: le tensioni della fixture `default`
+  sono quelle della sua traccia storica congelata.
+- **Vista storica**: `ui/check-sezione-historic` 57 scenari, 118 860 righe, 120 disegni 2D e 33 righe 3D uguali ai congelati dopo il passaggio della vista alle
+  derivazioni di Application (`ci/20261021-163125-s4-storica`).
+- **Corse**: `ci/20261021-163801-s4-a` su `f99eaff8` (Architecture.Tests 566, Application.Tests 3 119, Presentation.Tests 3 823:
+  PASS 7); `ci/20261021-164655-s4-b` sul ViewModel (Architecture.Tests 566, Presentation.Tests 3 898, `Presentation.Tests/sezione-ca` 59:
+  PASS 6). La corsa finale del ramo è nella sezione di S5.
+
+### 13.4 Comportamenti storici trovati in S4 (conservati, C5)
+
+1. **Colonne per indice con le sollecitazioni uniche.** Le colonne nascoste delle tabelle SLE si scelgono per indice (6 e 7 le tensioni, 8 la
+   fessurazione). Con le sollecitazioni uniche la colonna «Elemento» è la prima e gli indici cadono sulle colonne successive: la Rara nasconde
+   «Tensioni» e mostra «Fessurazione»; la Frequente nasconde «|σs|» e mostra «Tensioni» quando verifica la fessurazione; la Quasi permanente
+   nasconde «Tensioni» quando non la verifica; «Fessurazione» resta sempre visibile (fixture `sezione-a-t-sollecitazioni-uniche`).
+2. **Valori grezzi nelle altre famiglie.** Dopo una modifica di n o di φ in una famiglia, le altre mostrano i valori come sono scritti nei dati
+   («17.607108191890596»), la famiglia modificata il numero formattato («17,61»).
+3. **Legenda della mappa** (famiglia del comportamento 1 di S3): la scrive il disegno sullo schermo. Una famiglia nascosta conserva la legenda
+   del suo ultimo disegno anche dopo l'azzeramento dei risultati, e la cultura dei numeri segue il percorso (virgola nei passi dell'utente,
+   punto dopo la pubblicazione di un calcolo sulla macchina del banco).
+4. **Schede dei dettagli a -1.** Il controllo delle schede «Riepilogo / Barre e trefoli / Calcestruzzo / Fessurazione · passaggi» non ha una
+   scheda scelta finché non è mostrato la prima volta (la colonna dei risultati apre su «Riepilogo verifiche»); la visita F3 lo rimette a -1.
+5. **Sola lettura che scrive** (famiglia del comportamento 5): contorno della mappa e «Asse neutro» scrivono le opzioni con Modified anche
+   nella revisione in sola lettura.
+
+### 13.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S4-a · Legenda come dato.** `ConcreteSectionDrawingViewModel.Legend` è scritta dal ViewModel quando la famiglia è mostrata, come la
+  scrive il disegno storico; la vista XAML disegnerà la sua con la stessa funzione di Application (`ContourScale`). Alternativa: nessuna
+  proprietà, legenda solo nel disegno (le tracce la leggerebbero dal disegno).
+- **S4-b · Colonne per indice** (comportamento 1): conservate. Da decidere al passaggio (S9): correggere per chiave come differenza dichiarata.
+- **S4-c · Schede dei dettagli** (comportamento 4): `DetailTab` a -1 e selezione della prima scheda alla prima vista; la vista XAML dovrà
+  legarla così, o fissare la prima scheda come differenza dichiarata.
+- **S4-d · Arresto per occorrenza.** `ExpectedStops` indica passo e occorrenza del passo nella traccia; prima bastava il nome del passo.
+- **S4-e · Errori dell'omogeneizzazione.** Il dizionario condiviso vive nel foglio (`HomogenizationErrors`) e i form lo leggono negli stessi
+  momenti della vista storica: un avviso di una famiglia compare nelle altre solo quando si aggiornano.
+
+### 13.6 Che cosa resta e come riprendere
+
+- **S5 · Taglio e torsione** (sezione 12.6): `Actions.Shear`; campi della staffa circolare nascosti anche nei form delle staffe in sola
+  lettura (della scheda del taglio e di quella dei dettagli: la parte `[taglio]` della traccia li scrive tutti e quattro).
+- **S6–S9** come nella sezione 12.6. Al passaggio (S9) la vista XAML della scheda 04 lega la mappa (`ConcreteSectionViewport`) ai dati della
+  famiglia (`Map.Changed`, `BarClicked`) e confronta gli elenchi di disegno delle mappe (`disegni/elenco.txt`).
+
+```
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
+```
+
+## 14. S5 fatto (21/10)
+
+Sottopasso S5 «Taglio e torsione» (sezione 4, S5; sezione 12.6), stesso ramo `refactoring/f5-10-s4`, 21/10/2026, dopo S4. Decisioni applicate:
+C2 (il taglio resta sul thread dell'interfaccia, dentro il lotto del calcolo), C5 (comportamenti storici conservati), C7 (tracce lunghe nello
+stadio `ui`), C8 (la sezione del taglio resta un disegno WPF, confrontata come dati). La Release resta storica; nessuna vista XAML (S1-d).
+
+### 14.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `f7ea07dd` | derivazioni della scheda del taglio in Application (`ConcreteShearPresentation`), chiamate dalla vista storica; Application.Tests |
+| `5670695d` | taglio e torsione nel ViewModel (`ConcreteShearViewModel`), staffe in sola lettura delle schede 05 e 06, prove in `Presentation.Tests` |
+| (questo commit) | questa sezione, riga di `piano.md`, esito della corsa finale |
+
+### 14.2 Che cosa c'è
+
+- **`ConcreteShearViewModel`** (`Shear` del foglio), creato all'apertura dopo le famiglie SLE, senza scritture (da `BuildShearPanel`,
+  `RefreshAutomaticShear`, `UpdateShearSelection` e dai riepiloghi di `CalculateShear` di `ConcreteShear.cs`, da `BuildTorsionOptions` di
+  `ConcreteTorsion.cs`):
+  - le staffe in sola lettura («Staffe · dati comuni», `Stirrups`), il form del taglio su `taglio` (modello, parametri automatici o manuali,
+    direzioni Vx e Vy, eccentricità del Model Code) con i campi abilitati e mostrati come la vista storica, il form della torsione e del
+    modello circolare (`Torsion`), la nota dei parametri automatici;
+  - una modifica del taglio passa da `ShearOptionChanged` del foglio: il modello con staffe riporta le staffe negli ingressi (con
+    l'invalidazione del foglio), poi campi, parametri automatici, staffe dei disegni e ricalcolo del taglio; una modifica della torsione
+    ricalcola il taglio con due Modified (comportamento 2);
+  - la tabella è quella di S2 (`Actions.Shear`) con i suoi comandi;
+  - dettaglio della riga selezionata, sintesi sotto la tabella, riepilogo delle verifiche (`Worst`) e sezione disegnata come dati (`Drawing`):
+    il dettaglio e il disegno seguono la selezione solo mentre la scheda 05 è mostrata, come la griglia storica.
+- **Staffe in sola lettura** (`ConcreteStirrupsViewModel`): una coppia di form nella scheda del taglio e una nella scheda dei dettagli
+  (`DetailingStirrups` del foglio, che S6 prenderà nel suo ViewModel: la parte `[taglio]` della traccia scrive tutti e quattro i form). Ogni form
+  delle staffe, anche questi, passa da `ConcreteInputViewModel.SynchronizeStirrupForm`: valori dai dati, campi spenti senza staffe, campi della
+  staffa circolare nascosti per le sezioni da wizard.
+- **Calcolo** (C2): il taglio resta nel foglio (`CalculateShear` di `ConcreteSheetViewModel.Checks.cs`), sul thread dell'interfaccia dopo i
+  passi del lotto; il foglio scrive le uscite delle righe con `ConcreteShearPresentation.Outputs`, poi la sintesi, la prima riga selezionata,
+  il dettaglio e i riepiloghi. I parametri automatici (`RefreshAutomaticShear`) raggiungono il form del taglio.
+- **Wizard** (S1b): dopo «Applica sezione» il form del taglio mostra di nuovo le opzioni riscritte dal wizard, come `OpenTemplateWizard`.
+- **Application** (`ConcreteShearPresentation`): parametri automatici, modello con staffe e Model Code, nota dei parametri automatici, uscite
+  delle righe (taglio e torsione, o l'errore), sintesi, dettaglio della riga con la torsione. La vista storica le chiama al posto delle sue
+  espressioni (`ConcreteShear.cs`, `ConcreteTorsion.cs`).
+- **Baseline F4** e P3 invariate: il codice spostato non aveva voci.
+
+### 14.3 Esiti
+
+- **Tracce** (`Presentation.Tests/sezione-ca` lanciato a mano con `--sezione-tracce`, parte comune, `[ingressi]`, `[azioni]`, `[domini]`,
+  `[sle]`, `[taglio]` e `[wizard]`): 49 scenari uguali alle tracce congelate (i 47 di S4 più `taglio/taglio-torsione` e
+  `taglio/circolare-senza-staffe`; la parte `[taglio]` è confrontata anche in `percorso-f3/*`, `muri/*`, `esempi/*`, `ingressi/geometria-forme`,
+  `ingressi/staffe-trefoli`, `azioni/editor-sollecitazioni`, `azioni/sollecitazioni-uniche` e `calcolo/*`). `calcolo/sola-lettura` è uguale
+  fino all'arresto atteso di S4 (secondo «attendi», curva M–χ di S7). 61 controlli.
+- **Prove rapide** (`--sezione-rapide`): 407 controlli; in più lo scenario `taglio/circolare-senza-staffe` fra le tracce rapide, F1 dei form del
+  taglio, della torsione e delle staffe in sola lettura, la barriera del motore (il taglio aspetta il lotto trattenuto e mostra solo la
+  revisione corrente), la sola lettura con i comandi della tabella, le staffe in sola lettura di una sezione da wizard, i due Modified della
+  torsione, il modello con staffe, i parametri manuali, Reload.
+- **Application.Tests**: 8 controlli di `ConcreteShearPresentation` (3 127), con valori scritti a mano dalla traccia storica congelata.
+- **Vista storica**: `ui/check-sezione-historic` PASS dopo il passaggio della vista alle derivazioni di Application: 57 scenari e disegni uguali ai
+  congelati (`ci/20261021-170857-s5-storica`).
+- **Non verificato sullo stato finale** (fermo chiesto dal coordinatore il 21/10 sera): Architecture.Tests e l'intero Presentation.Tests (stadio
+  `fast`) su `5670695d`, e la **corsa finale** `-Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)'` del ramo, ancora da fare. Ultime
+  corse complete di queste due suite: `ci/20261021-164655-s4-b` su S4 (PASS 6).
+
+### 14.4 Comportamenti storici trovati in S5 (conservati, C5)
+
+1. **Valori dei parametri automatici con la cultura del percorso** (famiglia del comportamento 1 di S3): all'apertura il form mostra «800,00»,
+   dopo la pubblicazione di un calcolo «800.00» sulla macchina del banco.
+2. **Torsione con due Modified**: una modifica della torsione invalida il taglio (un Modified) e ne aggiunge un secondo.
+3. **Staffe assenti dal pannello di controllo**: il modello del taglio passa a «Senza staffe» solo come valore mostrato, senza ricalcolare i campi
+   abilitati del form del taglio (angolo e cot θ restano come erano finché il form non cambia).
+4. **Sezione del taglio senza messaggio**: il disegno della scheda 05 non riceve mai il messaggio della sezione, che resta «Inserire la geometria
+   della sezione» anche con una sezione valida (non è visibile perché la sezione c'è), e prende la sezione solo quando la scheda è mostrata.
+5. **Riepilogo delle verifiche scritto due volte**: dopo il calcolo la vista scrive il testo dei casi peggiori e lo sostituisce subito con le
+   schede dei riepiloghi; il ViewModel scrive solo le schede (nessuna differenza visibile).
+6. **Dettaglio «Dati modificati» dopo un calcolo**: il calcolo del taglio azzera il dettaglio e lo riscrive solo se la scheda 05 è mostrata;
+   con la scheda nascosta il dettaglio resta «Dati modificati · aggiornamento automatico in attesa» anche con i risultati correnti.
+
+### 14.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S5-d · Dettaglio dopo il calcolo dell'apertura.** Il calcolo azzera il dettaglio del taglio anche se la scheda è nascosta («Dati
+  modificati · aggiornamento automatico in attesa» finché la scheda non viene mostrata): conservato (comportamento 6).
+- **S5-a · Staffe in sola lettura della scheda 06.** Sono create con la scheda 05 (`DetailingStirrups` del foglio) perché la traccia del taglio le
+  scrive; S6 le sposterà nel suo ViewModel. Alternativa: una sola coppia condivisa dalle due schede (la vista storica ne ha due).
+- **S5-b · Sintesi del pannello di controllo.** Il foglio scrive ancora il testo del taglio nel riepilogo del pannello di controllo prima che i
+  riepiloghi lo sostituiscano, come la vista storica; il testo dei casi peggiori no (comportamento 5).
+- **S5-c · C2.** Confermato per F5.10: il calcolo del taglio resta sul thread dell'interfaccia. Spostarlo sullo sfondo è una differenza da
+  dichiarare dopo S9.
+
+### 14.6 Che cosa resta e come riprendere
+
+- **S6 · Dettagli** (sezione 12.6): prende `DetailingStirrups` e la capsula come pilastro (traccia `esempi/wizard-capsula`).
+- **S7, S8, S9** come nella sezione 12.6; `calcolo/sola-lettura` si ferma ancora al secondo «attendi» (curva M–χ, S7).
+- **Prima di unire il ramo**: la corsa finale (sopra) e la ripetizione da sole delle suite note per i tempi o l'antivirus, se cadono.
 
 ```
 dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release

@@ -17,9 +17,10 @@ namespace Anthea.Presentation.Tests;
 
 /// <summary>
 /// The ViewModel of the RC section (F5.10, sub-steps S1: shell, calculation, inputs and materials; S2: actions; S1b: sections made by the
-/// wizard; S3: domains) against the traces of the historic view frozen in tests/fixtures/f5-sezione/storica, without WPF. Each scenario of the
-/// sub-steps (ingressi/*, azioni/*, domini/*, percorso-f3/*, calcolo/*, muri/*, esempi/*) is driven on the ViewModel as the user drives the
-/// historic controls; the common part of every state and the parts «[ingressi]», «[azioni]», «[domini]» and «[wizard]» are compared line by
+/// wizard; S3: domains; S4: serviceability; S5: shear and torsion) against the traces of the historic view frozen in
+/// tests/fixtures/f5-sezione/storica, without WPF. Each scenario of the sub-steps (ingressi/*, azioni/*, domini/*, sle/*, taglio/*, percorso-f3/*,
+/// calcolo/*, muri/*, esempi/*) is driven on the ViewModel as the user drives the historic controls; the common part of every state and the parts
+/// «[ingressi]», «[azioni]», «[domini]», «[sle]», «[taglio]» and «[wizard]» are compared line by
 /// line, the parts of the sub-steps not migrated yet are left out by their label (section 4.0
 /// of docs/refactoring/f5-10-sezione.md). A step that belongs to a sub-step not migrated (the options of the domains, the stresses, the M–χ…)
 /// does nothing here: when the historic trace shows its effect, the comparison of that scenario stops there, at the place listed in
@@ -28,19 +29,22 @@ namespace Anthea.Presentation.Tests;
 /// </summary>
 internal static partial class ConcreteSectionSheetChecks
 {
-    private static readonly string[] OwnParts = ["ingressi", "azioni", "domini", ConcreteSectionScenarios.WizardSection];
+    private static readonly string[] OwnParts = ["ingressi", "azioni", "domini", "sle", "taglio", ConcreteSectionScenarios.WizardSection];
     private static readonly string[] OtherParts = ConcreteSectionScenarios.AllSections.Except(OwnParts).ToArray();
 
-    /// <summary>The scenarios whose comparison stops at a step of a sub-step not migrated yet, with that step (S4: the contour of the map of the
-    /// serviceability, saved in the options also in a read-only revision).</summary>
-    private static readonly Dictionary<string, string> ExpectedStops = new(StringComparer.Ordinal)
+    /// <summary>
+    /// The scenarios whose comparison stops at a step of a sub-step not migrated yet, with that step and its occurrence in the trace (a step such
+    /// as «attendi» comes back more times). Since S4: in the read-only revision the M–χ curve (S7) is calculated and enters the exported result,
+    /// visible at the wait after «Calcola curva», the second «attendi» of the scenario.
+    /// </summary>
+    private static readonly Dictionary<string, (string Step, int Occurrence)> ExpectedStops = new(StringComparer.Ordinal)
     {
-        ["calcolo/sola-lettura.txt"] = "menu SLE contorno «Solo geometria»",
+        ["calcolo/sola-lettura.txt"] = ("attendi", 2),
     };
 
     /// <summary>The scenarios of the fast stage (decision C7: the long traces run in the ui stage, with --sezione-tracce).</summary>
     private static readonly string[] FastScenarios = ["calcolo/ricalcolo-revisione.txt", "ingressi/resistenze-rapide.txt", "percorso-f3/default.txt", "azioni/incolla.txt",
-        "ingressi/wizard-tipologie.txt"];
+        "ingressi/wizard-tipologie.txt", "sle/fessurazione.txt", "taglio/circolare-senza-staffe.txt"];
 
     internal static int Run(string root, string output, bool full) => SingleThreadContext.Run(_ => RunAsync(root, output, full));
 
@@ -75,6 +79,8 @@ internal static partial class ConcreteSectionSheetChecks
                 await ActionsAsync(root, expect);
                 await WizardAsync(root, expect);
                 await DomainsAsync(root, expect);
+                await ServiceabilityAsync(root, expect);
+                await ShearAsync(root, expect);
             }
             return expect.Count;
         }
@@ -86,9 +92,9 @@ internal static partial class ConcreteSectionSheetChecks
     private static async Task TracesAsync(string root, string output, bool full, Expect expect)
     {
         string folder = Path.Combine(output, "sezione-ca");
-        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "domini" or "percorso-f3" or "calcolo" or "muri" or "esempi")
+        var scenarios = ConcreteSectionScenarios.All(root).Where(s => s.SubStep is "ingressi" or "azioni" or "domini" or "sle" or "taglio" or "percorso-f3" or "calcolo" or "muri" or "esempi")
             .Where(s => full || FastScenarios.Contains(s.File.Replace('\\', '/'))).ToList();
-        expect.That(scenarios.Count == (full ? 45 : FastScenarios.Length), "Scenari S1, S2, S1b e S3 della sezione c.a.: " + scenarios.Count);
+        expect.That(scenarios.Count == (full ? 49 : FastScenarios.Length), "Scenari S1, S2, S1b, S3, S4 e S5 della sezione c.a.: " + scenarios.Count);
         var failures = new List<string>();
         var report = new List<string>();
         foreach (var scenario in scenarios)
@@ -99,11 +105,12 @@ internal static partial class ConcreteSectionSheetChecks
             ConcreteSectionTrace.Write(Path.Combine(folder, scenario.File), lines);
             var expected = Filter(ConcreteSectionTrace.Read(Path.Combine(ConcreteSectionScenarios.Reference(root), scenario.File)));
             var actual = Filter(lines);
-            var (difference, step) = Difference(expected, actual);
-            ExpectedStops.TryGetValue(name, out var stop);
+            var (difference, step, occurrence) = Difference(expected, actual);
+            bool stops = ExpectedStops.TryGetValue(name, out var stop);
             string outcome;
-            if (difference is null) outcome = stop is null ? "uguale" : "uguale, ma era atteso l'arresto al passo «" + stop + "»";
-            else if (step is not null && foreign.Contains(step) && step == stop) outcome = "uguale fino al passo «" + step + "» (sottopasso non migrato)";
+            if (difference is null) outcome = !stops ? "uguale" : "uguale, ma era atteso l'arresto al passo «" + stop.Step + "» (" + stop.Occurrence.ToString(CultureInfo.InvariantCulture) + ")";
+            else if (stops && step is not null && foreign.Contains((step, occurrence)) && (step, occurrence) == stop)
+                outcome = "uguale fino al passo «" + step + "» (" + occurrence.ToString(CultureInfo.InvariantCulture) + ", sottopasso non migrato)";
             else outcome = "diverso: " + difference;
             report.Add(name + " · " + lines.Count.ToString(CultureInfo.InvariantCulture) + " righe · " + watch.Elapsed.TotalSeconds.ToString("0.0", CultureInfo.InvariantCulture) + " s · " + outcome);
             if (!outcome.StartsWith("uguale", StringComparison.Ordinal) || outcome.Contains("atteso", StringComparison.Ordinal)) failures.Add(name + ": " + outcome);
@@ -118,39 +125,47 @@ internal static partial class ConcreteSectionSheetChecks
     private static List<string> Filter(IEnumerable<string> lines) =>
         lines.Where(l => !OtherParts.Any(p => l.StartsWith("[" + p + "] ", StringComparison.Ordinal))).ToList();
 
-    /// <summary>The first different line (null when equal) and the step whose state holds it.</summary>
-    private static (string? Difference, string? Step) Difference(IReadOnlyList<string> expected, IReadOnlyList<string> actual)
+    /// <summary>The first different line (null when equal), the step whose state holds it and the occurrence of that step in the trace (1 for
+    /// the first time it appears).</summary>
+    private static (string? Difference, string? Step, int Occurrence) Difference(IReadOnlyList<string> expected, IReadOnlyList<string> actual)
     {
         string? step = null;
+        var seen = new Dictionary<string, int>(StringComparer.Ordinal);
         int count = Math.Min(expected.Count, actual.Count);
         for (int i = 0; i < count; i++)
         {
-            if (expected[i].StartsWith("== ", StringComparison.Ordinal)) step = expected[i][3..];
-            if (expected[i] != actual[i]) return ("riga " + (i + 1).ToString(CultureInfo.InvariantCulture) + " (" + step + "): attesa «" + expected[i] + "», ottenuta «" + actual[i] + "»", step);
+            if (expected[i].StartsWith("== ", StringComparison.Ordinal)) { step = expected[i][3..]; seen[step] = seen.GetValueOrDefault(step) + 1; }
+            if (expected[i] != actual[i])
+                return ("riga " + (i + 1).ToString(CultureInfo.InvariantCulture) + " (" + step + "): attesa «" + expected[i] + "», ottenuta «" + actual[i] + "»", step, Seen(step));
         }
-        if (expected.Count == actual.Count) return (null, null);
-        return ("righe " + expected.Count.ToString(CultureInfo.InvariantCulture) + " attese, " + actual.Count.ToString(CultureInfo.InvariantCulture) + " ottenute (" + step + ")", step);
+        if (expected.Count == actual.Count) return (null, null, 0);
+        return ("righe " + expected.Count.ToString(CultureInfo.InvariantCulture) + " attese, " + actual.Count.ToString(CultureInfo.InvariantCulture) + " ottenute (" + step + ")", step, Seen(step));
+        int Seen(string? name) => name is null ? 0 : seen.GetValueOrDefault(name);
     }
 
-    private static async Task<(List<string> Lines, HashSet<string> Foreign)> TraceAsync(string root, ConcreteSectionScenario scenario)
+    private static async Task<(List<string> Lines, HashSet<(string Step, int Occurrence)> Foreign)> TraceAsync(string root, ConcreteSectionScenario scenario)
     {
         var lines = new List<string>();
         var data = ConcreteSectionScenarios.FixtureData(root, scenario.Fixture);
         var guids = new ConcreteGuids(data);
         var memory = new ConcreteDataMemory();
         var side = new Side(data);
-        // A foreign step and every step after it can show the effects of a sub-step not migrated: the comparison may stop from there.
-        var foreign = new HashSet<string>(StringComparer.Ordinal);
+        // A foreign step and every step after it can show the effects of a sub-step not migrated: the comparison may stop from there. The steps
+        // are counted by their occurrence («attendi» comes back), as Difference counts them.
+        var foreign = new HashSet<(string, int)>();
+        var seen = new Dictionary<string, int>(StringComparer.Ordinal) { ["apertura"] = 1 };
         bool afterForeign = false;
         try
         {
             lines.AddRange(side.State(scenario.Sections, null).Lines("apertura", guids, memory));
             foreach (var step in scenario.Steps)
             {
+                string label = step.ToString();
+                seen[label] = seen.GetValueOrDefault(label) + 1;
                 var (message, own) = await side.ApplyAsync(step);
                 if (!own) afterForeign = true;
-                if (afterForeign) foreign.Add(step.ToString());
-                lines.AddRange(side.State(scenario.Sections, message).Lines(step.ToString(), guids, memory));
+                if (afterForeign) foreign.Add((label, seen[label]));
+                lines.AddRange(side.State(scenario.Sections, message).Lines(label, guids, memory));
             }
         }
         catch (Exception error) when (error is ArgumentException or InvalidOperationException or TimeoutException)
@@ -280,7 +295,8 @@ internal static partial class ConcreteSectionSheetChecks
         {
             foreach (var group in Inputs.Groups) group.IsExpanded = true;
             Inputs.TendonGroup.IsExpanded = true;
-            foreach (var form in Inputs.AllForms.Concat([Sheet.Domain3D.Form, Sheet.Domain2D.Form])) foreach (var group in form.Groups) group.IsExpanded = true;
+            foreach (var form in Inputs.AllForms.Concat([Sheet.Domain3D.Form, Sheet.Domain2D.Form]).Concat(Sheet.StressPanels.Select(p => p.Form)).Append(Sheet.Shear.Form))
+                foreach (var group in form.Groups) group.IsExpanded = true;
             int selected = Sheet.SelectedTab;
             for (int i = 0; i < ConcreteSheetViewModel.TabTitles.Length; i++) { Sheet.SelectedTab = i; Observe(); }
             Sheet.SelectedTab = selected;
@@ -291,6 +307,12 @@ internal static partial class ConcreteSectionSheetChecks
                 for (int i = 0; i < 2; i++) panel.InspectionTab = i;
                 panel.InspectionTab = inner;
             }
+            // The tab 04 (S4): the families, the columns of the results and the tabs of the details.
+            VisitServiceability();
+            // The tab 05 (S5): the column of the results, selected and restored.
+            int shearTab = Sheet.Shear.DetailTab;
+            for (int i = 0; i < 2; i++) Sheet.Shear.DetailTab = i;
+            Sheet.Shear.DetailTab = shearTab;
         }
 
         // ---------------------------------------------------------------- controls of the inputs
@@ -311,6 +333,9 @@ internal static partial class ConcreteSectionSheetChecks
             "rapide" => Inputs.QuickResistance,
             "3D" => Sheet.Domain3D.Form,
             "2D" => Sheet.Domain2D.Form,
+            "SLE" or "SLE_FREQ" or "SLE_QP" => Sheet.StressPanel(target).Form,
+            "taglio" => Sheet.Shear.Form,
+            "torsione" => Sheet.Shear.Torsion,
             _ => null
         };
 
@@ -345,6 +370,7 @@ internal static partial class ConcreteSectionSheetChecks
         private async Task<(string? Message, bool Own)> ApplyControlAsync(ConcreteSectionStep step)
         {
             if (ApplyDomainStep(step) is { } domain) return domain;
+            if (ApplyServiceabilityStep(step) is { } serviceability) return serviceability;
             if (IsActionStep(step)) return await ApplyActionAsync(step);
             switch (step.Kind)
             {
@@ -548,6 +574,8 @@ internal static partial class ConcreteSectionSheetChecks
                 var block = new ConcreteSectionBlock(section);
                 if (section == "azioni") TraceActions(block);
                 else if (section == "domini") TraceDomains(block);
+                else if (section == "sle") TraceServiceability(block);
+                else if (section == "taglio") TraceShear(block);
                 else if (section == ConcreteSectionScenarios.WizardSection) TraceWizard(block);
                 else TraceInputs(block);
                 state.Blocks.Add(block);
@@ -596,10 +624,10 @@ internal static partial class ConcreteSectionSheetChecks
 
         private static string Viewport(ConcreteSectionDrawingViewModel view) =>
             "sezione " + Section(view.Section) + " · trefoli " + ConcreteSectionTrace.Hash(view.Tendons.Select(t => new object[] { t.Id, t.X, t.Y, t.Area }).ToArray())
-            + " · messaggio " + ConcreteSectionTrace.Quote(view.Message) + " · tensioni - · contorno " + ConcreteSectionTrace.Quote(view.Contour)
+            + " · messaggio " + ConcreteSectionTrace.Quote(view.Message) + " · tensioni " + StressState(view.Stress) + " · contorno " + ConcreteSectionTrace.Quote(view.Contour)
             + " · opzioni " + string.Concat(new[] { view.Labels, view.Axes, view.ShowNeutralAxis, view.BarValues, view.TendonValues, view.ConcreteValues, view.Dimensions, view.CoverDimensions,
                 view.SpacingDimensions, view.Stirrups is not null }.Select(b => b ? "1" : "0"))
-            + " · barra " + ConcreteSectionTrace.Quote(view.SelectedBar) + " · zona " + ConcreteSectionTrace.Quote(null);
+            + " · barra " + ConcreteSectionTrace.Quote(view.SelectedBar) + " · zona " + ConcreteSectionTrace.Quote(view.EffectiveRegion?.Name);
 
         // The part «[wizard]» (S1b): the command, the editor hidden or disabled with the notes of the wizard, the hole, the note of the shear.
         private void TraceWizard(ConcreteSectionBlock block)

@@ -45,6 +45,20 @@ public sealed class ConcreteSectionDrawingViewModel : ObservableObject
     /// <summary>Identifier of the bar highlighted («B03»); empty for none.</summary>
     public string SelectedBar { get => selectedBar; set => SetProperty(ref selectedBar, value ?? ""); }
 
+    private ConcreteResults.StressState? stress;
+    private ConcreteResults.EffectiveRegion? effectiveRegion;
+    private string legend = "";
+
+    /// <summary>The stress state drawn by a stress map (F5.10 S4); null draws the geometry only.</summary>
+    public ConcreteResults.StressState? Stress { get => stress; set => SetProperty(ref stress, value); }
+    /// <summary>The effective zone of the cracking highlighted on a stress map (F5.10 S4); null for none.</summary>
+    public ConcreteResults.EffectiveRegion? EffectiveRegion { get => effectiveRegion; set => SetProperty(ref effectiveRegion, value); }
+    /// <summary>
+    /// The legend of the contour of a stress map when it was last drawn on screen (F5.10 S4: the ContourLegend of the historic viewport, from
+    /// <see cref="ConcreteStressPresentation.ContourScale"/>); empty without a contour. The module writes it.
+    /// </summary>
+    public string Legend { get => legend; set => SetProperty(ref legend, value ?? ""); }
+
     /// <summary>Asks the view to draw again (the InvalidateVisual of the historic view, after a group of changes).</summary>
     public void Invalidate() => Changed?.Invoke(this, EventArgs.Empty);
 

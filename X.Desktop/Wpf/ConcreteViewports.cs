@@ -91,7 +91,8 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
         dc.DrawRectangle(Ui.Brush("#F8FAFD"), null, new Rect(size)); barLocations.Clear(); NeutralAxisDisplay = null;
         if (Section is not ConcreteGeometry section || size.Width < 100 || size.Height < 100) { Text(dc, Message, 18, size.Height / 2, 13, width: size.Width - 36); return; }
         double xmin = section.Outline.Min(p => p[0]), xmax = section.Outline.Max(p => p[0]), ymin = section.Outline.Min(p => p[1]), ymax = section.Outline.Max(p => p[1]);
-        bool hasLegend = Stress is not null && Contour != "Solo geometria";
+        var contourScale = Anthea.Application.Concrete.ConcreteStressPresentation.ContourScale(Stress, Contour);
+        bool hasLegend = contourScale is not null;
         double plotWidth = size.Width - (hasLegend ? 105 : 0);
         bool dimensioned = Dimensions || CoverDimensions || SpacingDimensions;
         double scale = Math.Max(.01, Math.Min((plotWidth - (dimensioned ? 160 : 85)) / (xmax - xmin), (size.Height - (dimensioned ? 180 : 105)) / (ymax - ymin))) * zoom;
@@ -101,23 +102,11 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
         foreach(var hole in section.Holes)shape.Children.Add(Path(hole.Select(p=>P(p[0],p[1])),true));
         dc.DrawGeometry(Ui.Brush("#E3EAF1"), new Pen(Ui.Navy, 1.6), shape);
         double[] concreteValues = [], barValues = []; double lower = 0, upper = 1; bool ratios = false, bands = false;
-        if (Stress is ConcreteResults.StressState stress && Contour != "Solo geometria")
+        // The scale of the contour and its legend come from ANTHEA.Application (F5.10 S4: the ViewModel of the serviceability gives the same legend).
+        if (Stress is ConcreteResults.StressState stress && contourScale is not null)
         {
-            bool onlyBars = Contour.StartsWith("Barre"); ratios = Contour.Contains("tasso"); bands = Contour.Contains("bande");
-            bool strains = Contour.Contains("deformazioni"), fixedScale = Contour.Contains("scala resistenza");
-            if (!onlyBars)
-            {
-                // Include boundary extrema: internal samples miss the extreme strains at the edges.
-                var samples = strains
-                    ? stress.FiberStrains.Concat(stress.ConcreteVertices.Select(v => v.Strain))
-                    : stress.FiberStresses.Concat(stress.ConcreteVertices.Select(v => v.Stress));
-                concreteValues = (ratios ? samples.Select(v => Math.Abs(v) / Math.Max(1e-12, v < 0 ? stress.ConcreteCompressionStrength : stress.ConcreteTensionStrength)) : samples).ToArray();
-            }
-            if (onlyBars || ratios) barValues = ratios ? stress.tensioni_barre.Select((v, i) => Math.Abs(v) / Math.Max(1e-12, stress.BarStrengths.ElementAtOrDefault(i))).ToArray() : stress.tensioni_barre;
-            var values = concreteValues.Concat(barValues).ToArray();
-            lower = fixedScale ? -stress.ConcreteCompressionStrength : ratios ? 0 : Math.Min(0, values.DefaultIfEmpty(0).Min());
-            upper = fixedScale ? stress.ConcreteTensionStrength : Math.Max(ratios ? 1 : 0, values.DefaultIfEmpty(0).Max());
-            if (lower == upper) upper = lower + 1;
+            bool onlyBars = contourScale.OnlyBars, strains = contourScale.Strains; ratios = contourScale.Ratios; bands = contourScale.Bands;
+            concreteValues = contourScale.ConcreteValues; barValues = contourScale.BarValues; lower = contourScale.Lower; upper = contourScale.Upper;
             if (!onlyBars && stress.Raster is ConcreteResults.StressRaster raster)
             {
                 if (!ReferenceEquals(rasterState, stress) || rasterContour != Contour)
@@ -137,7 +126,7 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
                 dc.DrawImage(rasterImage, new Rect(P(raster.XMin, raster.YMax), P(raster.XMax, raster.YMin)));
                 dc.Pop(); dc.DrawGeometry(null, new Pen(Ui.Navy, 1.5), shape);
             }
-            ContourLegend = $"{EngineeringFormat.Number(lower)} … {EngineeringFormat.Number(upper)} {(strains ? "‰" : ratios ? "[-]" : "MPa")}";
+            ContourLegend = contourScale.Legend;
             Text(dc, Contour, 12, 10, 11, Ui.Navy, plotWidth - 18, true);
             double legendHeight = Math.Max(45, size.Height - 150), lx = size.Width - 95, ly = 52;
             Text(dc, strains ? "ε [‰]" : ratios ? "η [-]" : "σ [MPa]", lx, 28, 10);
@@ -145,7 +134,6 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
             {
                 var ranges = new[] { (1.1, ">1,00"), (.95, "0,90–1,00"), (.8, "0,70–0,90"), (.6, "0,50–0,70"), (.25, "0–0,50") };
                 for (int i = 0; i < ranges.Length; i++) { double y = ly + i * legendHeight / 5; dc.DrawRectangle(UtilizationPalette.Brush(ranges[i].Item1), null, new Rect(lx, y, 16, legendHeight / 5)); Text(dc, ranges[i].Item2, lx + 20, y + 3, 9, width: 80); }
-                ContourLegend = UtilizationPalette.Legend;
             }
             else
             {

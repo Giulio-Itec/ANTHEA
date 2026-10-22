@@ -143,7 +143,8 @@ internal static partial class ConcreteSectionSheetChecks
         using var sheet = OpenSheet(ConcreteSectionScenarios.FixtureData(root, "default"), services: services);
         await IdleAsync(sheet);
         var forms = sheet.Inputs.AllForms.Append(sheet.Inputs.CreateMaterialDialog("Calcestruzzo").Form).Append(sheet.Inputs.CreateWizardDialog().Form)
-            .Concat([sheet.Domain3D.Form, sheet.Domain2D.Form, sheet.Domain3D.CreateScaleDialog().Form]).ToList();
+            .Concat([sheet.Domain3D.Form, sheet.Domain2D.Form, sheet.Domain3D.CreateScaleDialog().Form]).Concat(sheet.StressPanels.Select(p => p.Form))
+            .Concat([sheet.Shear.Form, sheet.Shear.Torsion, sheet.Shear.Stirrups.Values, sheet.Shear.Stirrups.Scheme, sheet.DetailingStirrups.Values, sheet.DetailingStirrups.Scheme]).ToList();
         expect.That(forms.All(f => ReferenceEquals(f.WikiNavigator, wiki)), "Ogni form con il navigatore della Wiki dei servizi");
         int presses = 0;
         foreach (var form in forms)

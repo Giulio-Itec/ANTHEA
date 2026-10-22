@@ -20,11 +20,11 @@ internal sealed partial class ConcreteWorkspace
     private void RefreshAutomaticShear()
     {
         if (shearForm is null) return;
-        bool automatic = ShearOptions.S("parametri", "Automatici da sezione") == "Automatici da sezione";
-        bool stirrups = ShearOptions.S("modello") == "Con staffe";
+        bool automatic = ConcreteShearPresentation.Automatic(ShearOptions);
+        bool stirrups = ConcreteShearPresentation.WithLinks(ShearOptions);
+        bool mc = ConcreteShearPresentation.ModelCode(settings);
         foreach (string axis in new[] { "x", "y" })
-            foreach (string field in new[] { "bw_", "d_", "asl_" }) shearForm.Enable(field + axis, !automatic && (field != "asl_" || !stirrups || settings.S("normativa") == "Model Code 2010"));
-        bool mc = settings.S("normativa") == "Model Code 2010";
+            foreach (string field in new[] { "bw_", "d_", "asl_" }) shearForm.Enable(field + axis, !automatic && (field != "asl_" || !stirrups || mc));
         shearForm.ShowField("ancoraggio", automatic && (!stirrups || mc));
         foreach (string axis in new[] { "x", "y" }) shearForm.ShowField("eccentricita_mc_" + axis, mc);
         if (!automatic) { shearAutomaticNote.Text = Anthea.Application.Concrete.ConcreteInputPresentation.ManualShearNote(ShearOptions); return; }
@@ -35,7 +35,7 @@ internal sealed partial class ConcreteWorkspace
                 foreach (string field in new[] { "bw_", "d_", "asl_" })
                     shearForm.Set(field + axis, EngineeringFormat.Number(J.Number(ShearOptions[field + axis])), true);
             shearForm.Set("ancoraggio", ShearOptions.S("ancoraggio"), true);
-            shearAutomaticNote.Text = geometry.Shape=="Circolare"?"Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali.":"Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare.";
+            shearAutomaticNote.Text = ConcreteShearPresentation.AutomaticNote(geometry.Shape);
         }
         catch (ArgumentException ex)
         {
@@ -49,10 +49,10 @@ internal sealed partial class ConcreteWorkspace
         var options = ShearOptions;
         void EnableFields()
         {
-            bool stirrups = options.S("modello") == "Con staffe";
+            bool stirrups = ConcreteShearPresentation.WithLinks(options);
             foreach (var axis in new[] { "x", "y" })
             {
-                shearForm.Enable("asl_"+axis, !stirrups || settings.S("normativa") == "Model Code 2010");
+                shearForm.Enable("asl_"+axis, !stirrups || ConcreteShearPresentation.ModelCode(settings));
                 foreach (var field in new[] { "rami_", "alpha_", "cot_" }) shearForm.Enable(field+axis, stirrups);
             }
         }
@@ -103,8 +103,8 @@ internal sealed partial class ConcreteWorkspace
     private void InvalidateShear()
     {
         using var notifications = JsonRow.DeferNotifications(shearGrid?.Rows.AsEnumerable() ?? Enumerable.Empty<JsonRow>());
-        shearResults.Clear(); torsionResults.Clear(); shearSummary.Text = shearDashboard.Text = shearWorst.Text = "Taglio e torsione · da calcolare";
-        shearDetail.Text = "Dati modificati · aggiornamento automatico in attesa";
+        shearResults.Clear(); torsionResults.Clear(); shearSummary.Text = shearDashboard.Text = shearWorst.Text = ConcreteShearPresentation.Pending;
+        shearDetail.Text = ConcreteShearPresentation.DetailPending;
         if (shearGrid is not null) foreach (var row in shearGrid.Rows) foreach (var key in new[] {"VRdx","VRdy","eta_x","eta_y","eta_t","eta_vt","esito"}) row.Output(key,"—");
     }
     private void CalculateShear()
@@ -114,24 +114,17 @@ internal sealed partial class ConcreteWorkspace
         InvalidateShear();
         Anthea.Application.Concrete.ConcreteShearBatch.Calculate(Input, settings, shearGrid.Rows.Select(r => r.Values).ToArray(), (index, calculated, error) =>
         {
-            var row = shearGrid.Rows[index];
+            var row = shearGrid.Rows[index]; string id = row.Values.S("id");
             if (calculated is not null)
             {
-                var results = calculated.Shear;
-                shearResults[row.Values.S("id")] = results;
-                for (int i = 0; i < results.Length; i++)
-                {
-                    string axis = i == 0 ? "x" : "y";
-                    row.Output("VRd" + axis, results[i].VRd.ToString("0.00"));
-                    row.Output("eta_" + axis, results[i].Ratio?.ToString("0.00") ?? "—");
-                }
-                row.Output("esito", string.Join(" · ", results.Select((r, i) => (i == 0 ? "x: " : "y: ") + r.Status)));
-                ShowTorsion(row, calculated.Torsion);
+                shearResults[id] = calculated.Shear;
+                if (calculated.Torsion is not null) torsionResults[id] = calculated.Torsion;
+                foreach (var (key, value) in ConcreteShearPresentation.Outputs(calculated.Shear, calculated.Torsion)) row.Output(key, value);
             }
-            else { shearResults.Remove(row.Values.S("id"));torsionResults.Remove(row.Values.S("id"));foreach (var key in new[] {"VRdx","VRdy","eta_x","eta_y","eta_t","eta_vt"}) row.Output(key,"—"); row.Output("esito",error); }
+            else { shearResults.Remove(id); torsionResults.Remove(id); foreach (var (key, value) in ConcreteShearPresentation.FailedOutputs(error)) row.Output(key, value); }
         });
-        shearSummary.Text = shearDashboard.Text = $"Taglio: {shearResults.Count}/{shearGrid.Rows.Count} combinazioni calcolate · {shearResults.Values.Count(r=>r.Any(v=>v.Ratio>1))} oltre resistenza · {shearResults.Values.Count(r=>r.Any(v=>v.Ratio is null))} senza esito · dettagli da verificare.";
-        shearSummary.Text += $" Torsione: {torsionResults.Count} calcolate, {torsionResults.Values.Count(r=>!r.Passed)} non soddisfatte.";
+        shearDashboard.Text = ConcreteShearPresentation.ShearSummary(shearGrid.Rows.Count, shearResults.Values);
+        shearSummary.Text = ConcreteShearPresentation.Summary(shearGrid.Rows.Count, shearResults.Values, torsionResults.Values);
         shearWorst.Text = string.Join("\n\n", new[] { 0, 1 }.Select(i => WorstSummary(i == 0 ? "Taglio Vx" : "Taglio Vy", shearGrid.Rows.Count,
             shearGrid.Rows.Select(row => { var check = shearResults.GetValueOrDefault(row.Values.S("id"))?.ElementAtOrDefault(i); return (row.Values.S("nome"), check?.Ratio, check?.Status ?? row.Values.S("esito")); }))));
         if (shearGrid.SelectedItem is null && shearGrid.Rows.Count > 0) shearGrid.SelectedIndex = 0;
@@ -143,18 +136,8 @@ internal sealed partial class ConcreteWorkspace
         if (synchronizing || shearGrid?.IsVisible != true) return;
         try { shearView.Section = Anthea.Application.Concrete.ConcretePreview.PrepareGeometry(Input); } catch (ArgumentException) { shearView.Section = null; }
         shearView.InvalidateVisual();
-        if (shearGrid?.SelectedItem is not JsonRow row) { shearDetail.Text = "Inserire o selezionare una combinazione N–Vx–Vy."; return; }
-        shearDetail.Text = $"{row.Values.S("nome")} · {ShearOptions.S("modello")}\nN = {EngineeringFormat.Number(J.Number(row.Values["N"]))} kN (compressione negativa)\nVx / Vy = {EngineeringFormat.Number(J.Number(row.Values["Vx"]))} / {EngineeringFormat.Number(J.Number(row.Values["Vy"]))} kN\n\n";
-        if (!shearResults.TryGetValue(row.Values.S("id"), out var checks)) { shearDetail.Text += row.Values.S("esito", "Da calcolare"); return; }
-        for (int i = 0; i < checks.Length; i++)
-        {
-            var check = checks[i]; string axis = i == 0 ? "x" : "y";
-            shearDetail.Text += $"DIREZIONE V{axis}\nbw = {EngineeringFormat.Number(J.Number(ShearOptions["bw_" + axis]))} mm · d = {EngineeringFormat.Number(J.Number(ShearOptions["d_" + axis]))} mm\n";
-            if (ShearOptions.S("modello") == "Con staffe") shearDetail.Text += $"VRsd (staffe) = {check.VRsd:0.00} kN\nVRcd (puntone) = {check.VRcd:0.00} kN\ncot θ = {check.CotTheta:0.00}\nGoverna: {(check.VRsd <= check.VRcd ? "armatura trasversale" : "calcestruzzo compresso")}\n";
-            shearDetail.Text += $"VRd = {check.VRd:0.00} kN · η = {check.Ratio?.ToString("0.00") ?? "—"}\n{check.Status}\n\n";
-        }
-        foreach (var check in checks) { shearDetail.Text += check.Reference + "\n" + string.Join("\n", check.Details.Select(d => d.Format())) + "\n\n"; }
-        shearDetail.Text += TorsionSummary(row);
-        if(Input.S("shape")=="Circolare")shearDetail.Text+="\nTaglio circolare · "+ShearOptions.S("modello_circolare")+" · verificare la schematizzazione assegnata.";
+        if (shearGrid?.SelectedItem is not JsonRow row) { shearDetail.Text = ConcreteShearPresentation.NoSelection; return; }
+        string id = row.Values.S("id");
+        shearDetail.Text = ConcreteShearPresentation.Detail(row.Values, ShearOptions, Input.S("shape"), shearResults.GetValueOrDefault(id), torsionResults.GetValueOrDefault(id));
     }
 }
