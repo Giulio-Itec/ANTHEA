@@ -37,7 +37,7 @@ internal sealed partial class RetainingWallDrawing : FrameworkElement
         Point P(double x, double y) => new(38 + (x + .8) * scale, height - 100 - (y + groundDepth) * scale);
         double back = a + s, extra = Math.Max(.5, (drawingWidth - 40) / scale - b);
         DrawGround(dc, P, b + extra, groundDepth);
-        string[] colors = LayerColors;
+        var colors = LayerColors;
         double z = 0; int i = 0;
         foreach (var l in Data.Array("layers"))
         {

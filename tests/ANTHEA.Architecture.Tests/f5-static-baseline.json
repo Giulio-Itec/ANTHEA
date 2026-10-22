@@ -60,30 +60,6 @@
       "Example": "internal static AppAppearance Current { get private set }"
     },
     {
-      "File": "X.Desktop/Wpf/BridgeDrawing.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "BridgeDrawing.Colors",
-      "Fingerprint": "676C0179F016B91CDA6A1A01BA938F14B40F906959B3C35516135B065C2A0BF4",
-      "Count": 1,
-      "Example": "private static readonly Brush [ ] Colors"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeOptimizationPlot.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "BridgeOptimizationPlot.FamilyLabels",
-      "Fingerprint": "B28BF9AC35C3FF9C2D54D71FB41312E1FAFC2C3D41F3B2E0E2ACAFC2E1C146CC",
-      "Count": 1,
-      "Example": "private static readonly string [ ] FamilyLabels"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeOptimizationPlot.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "BridgeOptimizationPlot.Palette",
-      "Fingerprint": "66B235F5B154BD9900C8098331E6C2006FAD98CD0C66163AC20716B8D9BF9862",
-      "Count": 1,
-      "Example": "private static readonly Brush [ ] Palette"
-    },
-    {
       "File": "X.Desktop/Wpf/ConcreteParameters.cs",
       "Rule": "P3-static-collection",
       "Owner": "ConcreteWorkspace.CommonCoefficients",
@@ -122,30 +98,6 @@
       "Fingerprint": "72F4A636D0E2A21A819B5D25AA23B7D5ADECDA39DDEBA9B6E88B953271184828",
       "Count": 1,
       "Example": "private static bool attached"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalSoilEditor.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "HorizontalSoilEditor.Widths",
-      "Fingerprint": "88C1CAD28F5CF9D0F951FB63B76ADCD48A6CC53A3B2CA4E2525312F333EE17E8",
-      "Count": 1,
-      "Example": "internal static readonly double [ ] Widths"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallDrawing.Inspection.cs",
-      "Rule": "P3-static-collection",
-      "Owner": "RetainingWallDrawing.LayerColors",
-      "Fingerprint": "53FC42C4F57BA433328528492F5A93EEF260EC53613DAA2D07E63C8E2794A4C6",
-      "Count": 1,
-      "Example": "internal static readonly string [ ] LayerColors"
-    },
-    {
-      "File": "X.Desktop/Wpf/WikiVector.cs",
-      "Rule": "P3-static-setter",
-      "Owner": "WikiPalette.Dark",
-      "Fingerprint": "BFFF0BB85D66859228DD97727DCF67AE3745FD97CB37F62349659AAD687D6717",
-      "Count": 1,
-      "Example": "internal static bool Dark { get set }"
     },
     {
       "File": "src/ANTHEA.Application/Documents/Archivio.cs",

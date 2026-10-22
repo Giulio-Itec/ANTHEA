@@ -176,7 +176,7 @@ public sealed class WallInputGrid : DataGrid
         {
             WallRowMark.LayerIndex => row.GetIndex(),
             WallRowMark.GlobalLayer when SheetData is { } data && row.Item is JsonRowViewModel layer =>
-                Array.IndexOf(RetainingWallDrawing.LayerColors, RetainingWallDrawing.GlobalLayerColor(data, layer.Values)),
+                RetainingWallDrawing.LayerColors.IndexOf(RetainingWallDrawing.GlobalLayerColor(data, layer.Values)),
             _ => -1
         };
         if (swatch < 0) { row.ClearValue(BorderBrushProperty); row.ClearValue(BorderThicknessProperty); return; }

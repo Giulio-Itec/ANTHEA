@@ -5,6 +5,7 @@ using System.Windows.Media;
 using X.Core;
 using Anthea.Application.Presentation;
 using Anthea.Presentation.Modules.HorizontalPile;
+using System.Collections.Immutable;
 namespace X.Desktop;
 internal sealed record SoilRowContext(JsonObject Layer,Action Changed);
 internal sealed class HorizontalSoilEditor : ContentControl
@@ -15,7 +16,7 @@ internal sealed class HorizontalSoilEditor : ContentControl
     internal void Commit() { }
     void Bind(){if(row!=null)row.PropertyChanged-=RowChanged;row=DataContext as JsonRow;context=row?.Context as SoilRowContext;if(row!=null)row.PropertyChanged+=RowChanged;Build();}
     void RowChanged(object? sender,System.ComponentModel.PropertyChangedEventArgs e){if(context!=null&&type!=context.Layer.S("tipologia")){HorizontalSoilPresentation.Select(context.Layer,"tipologia",context.Layer.S("tipologia"));Build();}}
-    internal static readonly double[] Widths=[180,240,88,78,78,100,240];
+    internal static readonly ImmutableArray<double> Widths=[180,240,88,78,78,100,240];
     internal static FrameworkElement Header()
     {var panel=new StackPanel{Orientation=Orientation.Horizontal};foreach(var (s,i) in HorizontalPileFields.SoilHeadings().Select((s,i)=>(s,i)))panel.Children.Add(new TextBlock{Text=s,Width=Widths[i],TextAlignment=TextAlignment.Center,Foreground=Brushes.White});return panel;}
     void Build()

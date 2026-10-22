@@ -131,7 +131,7 @@ internal sealed partial class WikiView : UserControl
     }
     internal void SetDark(bool dark)
     {
-        WikiPalette.Dark = dark; BuildNavigation(); refreshPage(); ApplyPalette();
+        Appearance.Set(dark ? AppAppearance.Dark : AppAppearance.Light, false); BuildNavigation(); refreshPage(); ApplyPalette();
     }
     private void ApplyPalette()
     {
