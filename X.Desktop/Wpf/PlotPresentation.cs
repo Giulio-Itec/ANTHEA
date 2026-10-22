@@ -6,12 +6,13 @@ internal static class PlotPresentation
 {
     internal static Plot CurvaturePlot() => new()
     {
-        Title = "Momento–curvatura", XLabel = "Curvatura χ [1/m]", YLabel = "Momento M [kNm]",
-        AxisNumberFormat = "G4", InvertY = false, EmptyMessage = "Impostare N e direzione per calcolare la curva"
+        Title = Anthea.Application.Concrete.ConcreteCurvaturePresentation.Title, XLabel = Anthea.Application.Concrete.ConcreteCurvaturePresentation.XLabel,
+        YLabel = Anthea.Application.Concrete.ConcreteCurvaturePresentation.YLabel, AxisNumberFormat = Anthea.Application.Concrete.ConcreteCurvaturePresentation.AxisNumberFormat,
+        InvertY = false, EmptyMessage = Anthea.Application.Concrete.ConcreteCurvaturePresentation.EmptyMessage
     };
     internal static void ApplyCurvature(Plot target, Anthea.Application.Concrete.ConcreteResults.CurvatureResult source)
     {
-        target.Series = [new("M–χ", source.Points.Select(p => new[] { p.Curvature, p.Moment }).ToList(), Ui.Blue)];
+        target.Series = [new(Anthea.Application.Concrete.ConcreteCurvaturePresentation.SeriesName, Anthea.Application.Concrete.ConcreteCurvaturePresentation.Points(source), Ui.Blue)];
         target.InvalidateVisual();
     }
     internal static Serie Series(PlotSeriesData source) => new(source.Name, source.Points, Ui.Brush(source.Color), source.Dashed, source.Highlighted,

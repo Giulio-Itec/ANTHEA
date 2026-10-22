@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,8 +13,8 @@ internal sealed partial class ConcreteWorkspace
         internal readonly ConcreteSectionViewport View = new();
         internal readonly ConcreteStrainPlaneView Plane = new();
         internal readonly TextBox Values = new() { IsReadOnly = true, AcceptsReturn = true, TextWrapping = TextWrapping.Wrap, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
-        internal readonly ComboBox State = Ui.Choice(["Azione inserita", "Punto limite"], "Punto limite");
-        internal readonly TextBlock Message = Ui.Text("Selezionare una combinazione", 11);
+        internal readonly ComboBox State = Ui.Choice(ConcreteInspectionPresentation.States, ConcreteInspectionPresentation.States[ConcreteInspectionPresentation.DefaultState]);
+        internal readonly TextBlock Message = Ui.Text(ConcreteInspectionPresentation.NoSelection, 11);
         internal readonly TabControl Tabs = new();
         internal readonly Anthea.Application.Concrete.ConcreteInspectionSession Session = new();
     }
@@ -58,13 +59,13 @@ internal sealed partial class ConcreteWorkspace
         var s = panel.Inspection; s.Session.Invalidate();
         s.View.Stress = null; s.View.Section = preview.Section; s.View.Tendons = preview.Tendons; s.View.InvalidateVisual();
         s.Plane.Diagram=null;s.Plane.InvalidateVisual();
-        s.Values.Text = "Nessuna soluzione aggiornata disponibile.";
+        s.Values.Text = ConcreteInspectionPresentation.NoSolution;
         if (initializing || disposed || s.Tabs.SelectedIndex != 1) return;
         var row = panel.Grid?.SelectedItem as JsonRow;
         var check = row is null ? null : domainResults.GetValueOrDefault(panel.Prefix + panel.Key)?.GetValueOrDefault(row.Values.S("id"));
-        if (row is null || check?.LimitState is null) { s.Message.Text = "Selezionare una combinazione calcolata."; return; }
+        if (row is null || check?.LimitState is null) { s.Message.Text = ConcreteInspectionPresentation.SelectCalculated; return; }
         bool limit = s.State.SelectedIndex == 1; int version = revision;
-        s.Message.Text = limit ? "Lettura del piano già calcolato al limite…" : "Analisi dell’azione inserita…";
+        s.Message.Text = ConcreteInspectionPresentation.Pending(limit);
         try
         {
             var action = ReadAction(row);
@@ -72,16 +73,14 @@ internal sealed partial class ConcreteWorkspace
             completion.TryPublish(current =>
             {
                 if (disposed || version != revision) return;
-                if (current.Error is not null) { s.Message.Text = "Soluzione non disponibile: " + current.Error.Message; s.Values.Text = s.Message.Text; return; }
+                if (current.Error is not null) { s.Message.Text = ConcreteInspectionPresentation.Unavailable(current.Error.Message); s.Values.Text = s.Message.Text; return; }
                 var state = current.Value!;
                 s.View.Stress = state; s.View.InvalidateVisual();
                 s.Plane.Diagram = Anthea.Application.Concrete.ConcreteStrainDiagram.Read(state, preview.Section!); s.Plane.InvalidateVisual();
-                var force = limit ? check.Resistance!.Value : action;
-                s.Values.Text = Anthea.Application.Concrete.ConcreteResponsePresentation.InspectionText(state, force,
-                    limit ? "PUNTO LIMITE · assi locali" : "AZIONE INSERITA · assi " + panel.Options.S("assi"), preview.Section!);
-                s.Message.Text = limit ? "Piano nativo del punto resistente · nessuna nuova ricerca di Rd." : "Azione inserita completa · leggi dei materiali della sezione; compressione negativa.";
+                s.Values.Text = ConcreteInspectionPresentation.Values(state, check, action, limit, panel.Options, preview.Section!);
+                s.Message.Text = ConcreteInspectionPresentation.Completed(limit);
             });
         }
-        catch (Exception ex) { if (!disposed && version == revision) { s.Message.Text = "Soluzione non disponibile: " + ex.Message; s.Values.Text = s.Message.Text; } }
+        catch (Exception ex) { if (!disposed && version == revision) { s.Message.Text = ConcreteInspectionPresentation.Unavailable(ex.Message); s.Values.Text = s.Message.Text; } }
     }
 }
