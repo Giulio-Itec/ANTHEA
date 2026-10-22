@@ -11,6 +11,7 @@ internal static class ShellChecks
         checks += WorkspaceChecks.Run(output);
         checks += NavigationChecks.Run();
         checks += ProjectTreeChecks.Run();
+        checks += RevisionBarChecks.Run();
         return checks;
     }
 }
