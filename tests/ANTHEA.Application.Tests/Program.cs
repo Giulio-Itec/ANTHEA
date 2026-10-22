@@ -105,6 +105,12 @@ try
     checks += await ConcreteStressPresentationChecks.Run(root);
     // F5.10 S5: the derivations of the shear and torsion tab moved from the historic view (ConcreteShearPresentation).
     checks += ConcreteShearPresentationChecks.Run(root);
+    // F5.10 S6: the derivations of the detailing tab moved from the historic view (ConcreteDetailingPresentation).
+    checks += ConcreteDetailingPresentationChecks.Run();
+    // F5.10 S7: the derivations of the section σ/ε and of the moment–curvature tab moved from the historic view.
+    checks += ConcreteInspectionPresentationChecks.Run(root);
+    // F5.10 S8: the derivations of the reinforcement design moved from the historic view (ConcreteDesignPresentation).
+    checks += ConcreteDesignPresentationChecks.Run(root);
     checks += await ConcretePropertyChecks.Run();
     checks += ConcreteGeometryChecks.Run();
     checks += ConcreteEditorChecks.Run(root);

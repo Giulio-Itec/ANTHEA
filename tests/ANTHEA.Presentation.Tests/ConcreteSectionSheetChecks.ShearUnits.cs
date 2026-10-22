@@ -26,7 +26,7 @@ internal static partial class ConcreteSectionSheetChecks
                 && !table.PasteCommand.CanExecute(null) && !table.BrowseCommand.CanExecute(null) && !table.ImportCommand.CanExecute(null)
                 && table.CopyCommand.CanExecute(null) && table.TemplateCommand.CanExecute(null) && table.ExportCommand.CanExecute(null),
                 "Sola lettura: form, tabella e comandi protetti; copia, template ed esportazione disponibili");
-            expect.That(shear.Stirrups.Scheme["tipo_staffa"].IsVisible && sheet.DetailingStirrups.Scheme["tipo_staffa"].IsVisible
+            expect.That(shear.Stirrups.Scheme["tipo_staffa"].IsVisible && sheet.Detailing.Stirrups.Scheme["tipo_staffa"].IsVisible
                 && shear.Stirrups.Scheme["rami_x"].IsVisible && shear.Stirrups.Values["transverse_spacing_mm"].IsReadOnly,
                 "Staffe in sola lettura di una sezione circolare: campi della staffa circolare mostrati");
         }
@@ -34,7 +34,7 @@ internal static partial class ConcreteSectionSheetChecks
         using (var sheet = OpenSheet(ConcreteSectionScenarios.FixtureData(root, ConcreteSectionScenarios.ExamplePrefix + "wizard-circolare-cava")))
         {
             await IdleAsync(sheet);
-            var forms = new[] { sheet.Inputs.StirrupScheme, sheet.Shear.Stirrups.Scheme, sheet.DetailingStirrups.Scheme };
+            var forms = new[] { sheet.Inputs.StirrupScheme, sheet.Shear.Stirrups.Scheme, sheet.Detailing.Stirrups.Scheme };
             expect.That(forms.All(f => !f["tipo_staffa"].IsVisible && !f["schema_interno"].IsVisible && !f["rami_interni"].IsVisible && !f["rotazione_staffa"].IsVisible && f["rami_x"].IsVisible),
                 "Sezione da wizard: campi della staffa circolare nascosti anche nei form delle staffe in sola lettura del taglio e dei dettagli");
         }

@@ -5172,22 +5172,6 @@
       "Example": "viewSettings . D ( \"fase\" , - 1 )"
     },
     {
-      "File": "X.Desktop/Wpf/ConcreteDesign.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.RefreshDesignRanking",
-      "Fingerprint": "2C83710E8D2EE58D291D7AB4FA942F88840BCA212FAF709062B3863BF6BD18ED",
-      "Count": 1,
-      "Example": "DesignOptions . D ( \"mostra\" , 10 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteDesign.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteWorkspace.SelectDesign",
-      "Fingerprint": "8419BAD193A98CC6168C3FC9ECA51BBEBB2A3E3F00AE396848E327B54C3F2803",
-      "Count": 1,
-      "Example": "c . Detailing . D ( \"as_secondaria\" )"
-    },
-    {
       "File": "X.Desktop/Wpf/ConcreteDimensions.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "ConcreteSectionViewport.DrawDimensions.Dimension",
@@ -12202,6 +12186,22 @@
       "Fingerprint": "731495059D06429E371FC9745DDEFD7FDAC1E59D4DAD0C5CFBA4872D2C953987",
       "Count": 1,
       "Example": "3"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteDesignPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ConcreteDesignPresentation.RankingRows",
+      "Fingerprint": "3FFD7F4668F5C705891C98CCC2579DF1EC2726A2664EBF9C8A3F786651221327",
+      "Count": 1,
+      "Example": "options . D ( \"mostra\" , 10 )"
+    },
+    {
+      "File": "src/ANTHEA.Application/Concrete/ConcreteDesignPresentation.cs",
+      "Rule": "R4-implicit-number",
+      "Owner": "ConcreteDesignPresentation.Scope",
+      "Fingerprint": "05F34785C620DDA0E33079DC11074243D546AA33EB02F5E88B5AE6D4AFB35740",
+      "Count": 1,
+      "Example": "c . Detailing . D ( \"as_secondaria\" )"
     },
     {
       "File": "src/ANTHEA.Application/Concrete/ConcreteDomainChart.cs",

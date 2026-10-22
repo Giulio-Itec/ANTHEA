@@ -11,7 +11,7 @@ namespace Anthea.Presentation.Modules.ConcreteSection;
 /// The links of the section shown read-only in a tab (BuildStirrups(readOnly: true) of the historic view): their values on the inputs
 /// (present, diameter, spacing) and their scheme on the shear options; the fields of the circular scheme only for circular links, every field
 /// disabled without links (SynchronizeStirrups). The tab 05 «Taglio e torsione» has one (<see cref="ConcreteShearViewModel.Stirrups"/>), the tab
-/// 06 «Dettagli costruttivi» another (<see cref="ConcreteSheetViewModel.DetailingStirrups"/>, until the ViewModel of S6).
+/// 06 «Dettagli costruttivi» another (<see cref="ConcreteDetailingViewModel.Stirrups"/>, S6).
 /// </summary>
 public sealed class ConcreteStirrupsViewModel
 {

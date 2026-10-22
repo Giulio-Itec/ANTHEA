@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Text;
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
@@ -17,6 +18,28 @@ public sealed record ConcreteDetailingPresentation(IReadOnlyList<ConcreteResults
         options["cmin_dur"] = DurabilityCover?.DeepClone();
         if (Exposure is not null) options["esposizione_sle"] = Exposure;
     }
+    /// <summary>The fields of the anchorage form shown only for a lap (RefreshDetailing of the historic view, F5.10 S6).</summary>
+    public static ImmutableArray<string> LapFields { get; } = ["percentuale", "interferro", "posizione"];
+    /// <summary>The anchorage checks a lap («Sovrapposizione rettilinea»): the fields <see cref="LapFields"/> are shown.</summary>
+    public static bool Lap(JsonObject workspace) => workspace["ancoraggi"].S("tipo").StartsWith("Sovrapposizione");
+    /// <summary>
+    /// Whether a field of the forms of the detailing is shown for the element chosen (RefreshDetailing of the historic view, F5.10 S6): the
+    /// orthogonal bars for the solid slabs and the walls, the zone of maximum moment for the solid slabs, the supports for the beams; null for
+    /// the other fields, which are always shown.
+    /// </summary>
+    public static bool? ElementFieldShown(JsonObject workspace, string key)
+    {
+        string element = workspace["dettagli_costruttivi"].S("elemento");
+        return key switch
+        {
+            "as_secondaria" or "passo_secondaria" => element is "Soletta piena" or "Parete",
+            "zona_critica" => element == "Soletta piena",
+            "ancoraggio_appoggi" => element == "Trave",
+            _ => null
+        };
+    }
+    /// <summary>cmin,dur as its read-only field shows it (numbers with at most three decimals, empty otherwise).</summary>
+    public static string DurabilityCoverText(JsonNode? cover) => J.Number(cover)?.ToString("0.###") ?? "";
     public static string Topic(string name)
     {
         if(name.Contains("staffe",StringComparison.OrdinalIgnoreCase)||name.Contains("Trattenimento"))return "stirrups";

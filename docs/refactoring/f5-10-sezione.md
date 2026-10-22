@@ -31,7 +31,10 @@ dei sottopassi. Contiene:
 - il sottopasso S1b fatto il 21/10: sezioni da wizard e persistenza nativa nel ViewModel, con le tracce nuove (sezione 11);
 - il sottopasso S3 fatto il 21/10: i pannelli dei domini 3D e 2D nel ViewModel, disegni come dati, prove ed esiti (sezione 12);
 - il sottopasso S4 fatto il 21/10: le famiglie SLE nel ViewModel, la mappa delle tensioni come dati, prove ed esiti (sezione 13);
-- il sottopasso S5 fatto il 21/10: taglio e torsione nel ViewModel, staffe in sola lettura, prove ed esiti (sezione 14).
+- il sottopasso S5 fatto il 21/10: taglio e torsione nel ViewModel, staffe in sola lettura, prove ed esiti (sezione 14);
+- il sottopasso S6 fatto il 22/10: dettagli costruttivi e ancoraggi nel ViewModel, prove ed esiti (sezione 15);
+- il sottopasso S7 fatto il 22/10: sezione σ/ε e momento–curvatura nel ViewModel, correzione dei pannelli dei domini (sezione 16);
+- il sottopasso S8 fatto il 22/10: progetto delle armature nel ViewModel, prove ed esiti (sezione 17); da dove parte S9 (sezione 18).
 
 Riferimenti:
 - [proposta](f5-proposta-architettura.md), sezioni 3, 5, 7, riga F5.10 della sezione 8, rischi R3, R5 e R7, domanda Q17;
@@ -1222,5 +1225,256 @@ stadio `ui`), C8 (la sezione del taglio resta un disegno WPF, confrontata come d
 dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
 dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
 dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
+```
+
+## 15. S6 fatto (22/10)
+
+Sottopasso S6 «Dettagli costruttivi e ancoraggi» (sezione 4, S6; sezione 12.6), ramo `refactoring/f5-10-s6` da `refactoring/f5` `5451a8cc` (S4,
+S5 e la correzione P3 del taglio uniti), 22/10/2026, di giorno: niente stadio `ui` né harness WPF (regola del giorno dell'utente). Decisioni
+applicate: C5 (comportamenti storici conservati), C7 (tracce lunghe nello stadio `ui`), S5-a (le staffe in sola lettura della scheda 06 passano
+al ViewModel dei dettagli). La Release resta storica; nessuna vista XAML (S1-d).
+
+### 15.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `2146e171` | derivazioni rimaste nella scheda dei dettagli in Application (`ConcreteDetailingPresentation`), chiamate dalla vista storica; Application.Tests |
+| `38ca4549` | dettagli e ancoraggi nel ViewModel (`ConcreteDetailingViewModel`), prove in `Presentation.Tests` |
+| (commit della documentazione) | sezioni 15–17, righe di `piano.md`, esiti delle corse standard |
+
+### 15.2 Che cosa c'è
+
+- **`ConcreteDetailingViewModel`** (`Detailing` del foglio, scheda 06), creato all'apertura dopo il taglio, senza scritture (da
+  `BuildDetailingPanel` e `RefreshDetailing` di `ConcreteDetailing.cs`):
+  - i cinque form su `dettagli_costruttivi` nell'ordine della vista storica (`Forms`): elemento; inerte, esposizione condivisa SLE (calcolata),
+    vita utile, controllo dei copriferri, cmin,dur (calcolato), Δcdev; armatura (giunzione, barre ortogonali, zona critica); barre compresse
+    trattenute; appoggi;
+  - il copriferro netto degli ingressi in sola lettura (`CoverGeometry`), le staffe in sola lettura (`Stirrups`, prima `DetailingStirrups`
+    del foglio, S5-a) e il form dell'ancoraggio o della sovrapposizione (`Anchorage`, su `ancoraggi`);
+  - riepilogo dei dettagli, verifiche dei quattro temi nell'ordine delle righe della scheda (`Topics`: copriferro, armatura, staffe,
+    ancoraggi), verifiche dell'ancoraggio e nota della durabilità;
+  - «Aggiorna verifiche ancoraggi» (conferma delle bozze dell'ancoraggio, poi ricalcolo) e «Modifica … nel pannello di controllo →» (scheda
+    01): spenti in sola lettura, come i pulsanti storici.
+- **Callback storiche**: ogni modifica dei form ricalcola i dettagli con Modified; l'inerte massimo, condiviso con il taglio, ricalcola anche il
+  taglio; l'ancoraggio ricalcola i dettagli con Modified.
+- **Foglio** (`ConcreteSheetViewModel.Detailing.cs`, spostato da `ConcreteSheetViewModel.Checks.cs`): `RefreshDetailing` mostra i campi
+  dell'elemento e della sovrapposizione, calcola i dettagli dai dati e dalle righe delle azioni (`ConcreteDetailingPresentation.Calculate`,
+  già in Application), scrive i valori derivati nei dati, azzera l'esportazione e mostra le verifiche; si chiama negli stessi punti di prima
+  (ogni cambio di scheda, ogni invalidazione, le staffe, le opzioni SLE comuni).
+- **Componenti comuni**, aggiunta: `ConcreteCardsViewModel.Fill`, il `Fill` di `RefreshDetailing` (dettagli come riquadri, altrimenti il testo).
+- **Application** (`ConcreteDetailingPresentation`): campi della sovrapposizione (`LapFields`, `Lap`), campi mostrati per elemento
+  (`ElementFieldShown`), testo di cmin,dur (`DurabilityCoverText`). La vista storica le chiama al posto delle sue espressioni.
+- **Baseline F4** e P3 invariate: il codice spostato non aveva voci.
+
+### 15.3 Esiti
+
+- **Tracce** (`--sezione-tracce`, parte comune, `[ingressi]`, `[azioni]`, `[domini]`, `[sle]`, `[taglio]`, `[dettagli]` e `[wizard]`): 51 scenari
+  uguali alle tracce congelate (i 49 di S5 più `dettagli/dettagli-ancoraggi` e `dettagli/soletta`; la parte `[dettagli]` è confrontata anche in
+  `percorso-f3/*`, `muri/*`, `esempi/*` (compresa la capsula come pilastro di `esempi/wizard-capsula`), `sle/opzioni-sle` e
+  `calcolo/sola-lettura`). `calcolo/sola-lettura` è ancora uguale fino all'arresto atteso di S4 (secondo «attendi», curva M–χ di S7). PASS 63
+  (`supporto/artefatti/f5-10-s6/s6-tracce`; base prima di S6: PASS 61, `base-tracce`).
+- **Prove rapide** (`--sezione-rapide`): 441 controlli; in più lo scenario `dettagli/soletta` fra le tracce rapide, la bozza dell'ancoraggio
+  scritta da «Aggiorna verifiche ancoraggi» con un Modified, la sovrapposizione, la soletta (campi e esposizione condivisa), l'inerte condiviso
+  con il taglio, il pannello di controllo, Reload, la sola lettura, F1 dei form della scheda 06.
+- **Application.Tests**: 4 controlli di `ConcreteDetailingPresentation` con valori scritti a mano.
+- **Vista storica**: non verificata di giorno (regola del giorno): `ui/check-sezione-historic` va eseguita stasera.
+- **Corse** su `38ca4549`: quick `ci/20261022-090334-s6-quick` PASS 55, NEW-FAIL 0; standard `ci/20261022-093131-s6-standard` PASS 77
+  (build, fast, regression e wiki), KNOWN 0, NEW-FAIL 0; Presentation.Tests 4 278.
+
+### 15.4 Comportamenti storici trovati in S6 (conservati, C5)
+
+1. **Esposizione condivisa vuota all'apertura.** Finché l'elemento è «Da scegliere» il calcolo dei dettagli si ferma prima dell'esposizione: il
+   campo resta vuoto e `esposizione_sle` non si scrive nei dati; si scrive al primo ricalcolo con un elemento scelto.
+2. **Ricalcolo doppio di «Aggiorna verifiche ancoraggi».** Il pulsante conferma le bozze (ognuna ricalcola i dettagli con Modified) e poi
+   ricalcola ancora.
+3. **Pulsanti della scheda spenti in sola lettura**, compresi i due che portano al pannello di controllo, che non scrivono nulla.
+
+### 15.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S6-a · Pulsanti di navigazione in sola lettura.** «Modifica geometria / armature nel pannello di controllo →» restano spenti nella revisione
+  in sola lettura come oggi (comportamento 3), anche se cambiano solo la scheda. Alternativa: lasciarli attivi come differenza dichiarata.
+- **S6-b · Temi come elenco.** I quattro temi sono un elenco ordinato (`Topics`) con chiave, titolo e riquadri, al posto del dizionario della vista
+  storica; la vista XAML li dispone in righe come oggi.
+
+### 15.6 Che cosa resta e come riprendere
+
+- **S7 e S8** (sezioni 16 e 17).
+- **S9 · Report e passaggio** come nella sezione 4.
+- Stasera: `ui/check-sezione-historic` (la vista storica chiama le funzioni nuove di `ConcreteDetailingPresentation`).
+
+```
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
+```
+
+## 16. S7 fatto (22/10)
+
+Sottopasso S7 «Ispezione e momento–curvatura» (sezione 4, S7; sezione 12.6), stesso ramo `refactoring/f5-10-s6`, 22/10/2026, dopo S6.
+Decisioni applicate: C5 (comportamenti storici conservati, compresa la curva calcolata in sola lettura), C7 (tracce lunghe nello stadio `ui`),
+C8 (mappa σ/ε, piano delle deformazioni e curva restano disegni WPF, confrontati come dati). Ognuno conserva la sua sessione o il suo
+scheduler: una `ConcreteInspectionSession` per pannello, il `RecalculationScheduler` della curva. La Release resta storica; nessuna vista XAML.
+
+### 16.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `739cfbb9` | derivazioni della sezione σ/ε e della curva in Application (`ConcreteInspectionPresentation`, `ConcreteCurvaturePresentation`), chiamate dalla vista storica; Application.Tests |
+| `76ad2cab` | sezione σ/ε e momento–curvatura nel ViewModel, correzione di `IsShown` dei pannelli dei domini, prove in `Presentation.Tests` |
+| (commit della documentazione) | sezioni 15–17, righe di `piano.md`, esiti delle corse standard |
+
+### 16.2 Che cosa c'è
+
+- **`ConcreteSectionInspectionViewModel`** (`Inspection` di ogni pannello dei domini, da `SectionInspection`, `BuildSectionInspection` e
+  `UpdateSectionInspection` di `ConcreteInspection.cs`): soluzione mostrata (`State`: azione inserita o punto limite, all'apertura il punto
+  limite) e contorno della mappa (`Contour`, non salvato, senza Modified), entrambi usabili in sola lettura; messaggio, valori, mappa σ/ε
+  (`Map`, `ConcreteSectionDrawingViewModel`) e piano delle deformazioni (`Plane`, `ConcreteStrainDiagram`) come dati; «Proprietà…» (spento in
+  sola lettura). Ogni aggiornamento abbandona la soluzione in corso, azzera mappa, piano e valori (la mappa prende la sezione del pannello di
+  controllo) e, con la scheda «Sezione σ / ε» scelta e una riga calcolata selezionata, legge il piano del punto limite o analizza l'azione con
+  la sessione del pannello; pubblica solo la richiesta corrente sui dati correnti (revisione del calcolo invariata).
+- **Quando si aggiorna**, come la vista storica: a ogni `UpdateSelection` del pannello (tabella visibile), a ogni cambio della soluzione e
+  della scheda interna, a ogni invalidazione del foglio (prima dell'anteprima).
+- **Pannelli dei domini** (S3, correzione): `IsShown` dipende solo dalla scheda principale. La tabella storica sta sotto le schede interne,
+  quindi resta visibile anche con «Sezione σ / ε»: lo prova la traccia `ispezione/sezione-sigma-epsilon` (dopo un calcolo la sezione σ/ε del
+  2D si aggiorna con la scheda interna «Sezione σ / ε»). La scheda interna (`InspectionTab`) vale -1 finché il pannello non è mostrato la prima
+  volta, poi 0 «Dominio», come il TabControl storico; ogni cambio aggiorna la sezione σ/ε. «Asse neutro» e «Valori σ/ε sulle barre» arrivano
+  alla mappa.
+- **`ConcreteCurvatureViewModel`** (`Curvature` del foglio, scheda 07, da `ConcreteCurvature.cs`): form del percorso di carico su
+  `momento_curvatura` («CLS teso nelle risposte» mostra il suo predefinito senza scriverlo), «Calcola curva», «Interrompi» ed «Esporta CSV…»
+  (disponibili in sola lettura, come i pulsanti storici), testo e grafico (`Chart`: titoli, punti χ–M) come dati. La curva si calcola su una
+  copia dei dati con lo scheduler proprio; con gli stessi dati non si ricalcola; ogni modifica dei dati o del form la azzera; quella pubblicata
+  entra nell'esportazione dei risultati. Le prove usano `IsRunning` dei due ViewModel per aspettare la fine come la traccia storica.
+- **Application**: `ConcreteInspectionPresentation` (soluzioni, messaggi, valori della soluzione) e `ConcreteCurvaturePresentation` (messaggi,
+  firma, titoli e punti del grafico, testo, CSV). La vista storica le chiama (`ConcreteInspection.cs`, `ConcreteCurvature.cs`,
+  `PlotPresentation.cs`: titoli e punti della curva, gli stessi per la figura M–χ del report).
+- **Baseline F4** e P3 invariate.
+
+### 16.3 Esiti
+
+- **Tracce** (`--sezione-tracce`, ora anche `[ispezione]`): 53 scenari uguali alle tracce congelate (i 51 di S6 più `ispezione/sezione-sigma-epsilon`
+  e `ispezione/momento-curvatura`; la parte `[ispezione]` è confrontata anche in `percorso-f3/*`, `muri/*`, `esempi/*` e `calcolo/sola-lettura`).
+  `calcolo/sola-lettura` è uguale fino in fondo: nessun arresto atteso (l'unico passo di S8 rimasto, un campo della ricerca in sola lettura, non
+  ha effetti). Domini 3D come dati uguali. PASS 65 (`supporto/artefatti/f5-10-s6/s7-tracce`).
+- **Prove rapide** (`--sezione-rapide`): 459 controlli; in più `ispezione/sezione-sigma-epsilon` fra le tracce rapide; scheda interna a -1 prima della
+  prima vista; punto limite e azione inserita; soluzione abbandonata mai pubblicata; asse neutro (con Modified), valori sulle barre e contorno;
+  dati cambiati che azzerano le due sezioni e la soluzione di nuovo dopo il calcolo; curva calcolata ed esportata nel risultato, non
+  ricalcolata con gli stessi dati, CSV, form che la azzera, «Interrompi», sola lettura.
+- **Application.Tests**: 7 controlli con valori scritti a mano dalla traccia storica congelata (`ispezione/momento-curvatura`: MRd = 800,027
+  kNm, χy, χu, μχ = 7,085, 62 punti). Architecture.Tests PASS 573.
+- **Corsa standard**: S7 e S8 sono stati provati mentre girava la standard di S6, compilando in cartelle separate
+  (`-p:OutDir=supporto/artefatti/f5-10-s6/bin-*`) per non toccare i binari della corsa; la standard che li copre è quella sul commit di S8
+  (sezione 17.3).
+
+### 16.4 Comportamenti storici trovati in S7 (conservati, C5)
+
+1. **Messaggio della mappa σ/ε mai scritto**: la mappa mostra sempre «Inserire la geometria della sezione» come messaggio (non visibile con la
+   sezione), come la sezione del taglio (comportamento 4 di S5).
+2. **Messaggio rimasto dopo un aggiornamento abbandonato**: tornando alla scheda «Dominio» mentre la soluzione è in lettura (la visita F3), la
+   soluzione non si pubblica ma il messaggio resta «Lettura del piano già calcolato al limite…».
+3. **Sezione σ/ε azzerata con la sezione di prima**: un'invalidazione azzera le due sezioni σ/ε prima di aggiornare l'anteprima, quindi la mappa
+   tiene la sezione precedente finché il pannello non la aggiorna (dopo il calcolo, solo se il pannello è mostrato).
+4. **Curva in sola lettura**: «Calcola curva» è disponibile nella revisione in sola lettura, conferma il foglio e la curva entra nel risultato
+   esportato (il vecchio arresto atteso di `calcolo/sola-lettura`).
+5. **«Calcolo interrotto» dopo una modifica**: una modifica durante il calcolo della curva scrive «Dati modificati · ricalcolare la curva.», poi il
+   calcolo abbandonato lo sostituisce con «Calcolo interrotto; nessuna curva parziale pubblicata.».
+
+### 16.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S7-a · Correzione di S3.** `IsShown` dei pannelli dei domini non dipende più dalla scheda interna (sezione 16.2): le tracce di S3 restano
+  uguali (nessuno scenario di S3 seleziona la scheda interna con la tabella visibile). Da confermare all'unione.
+- **S7-b · Scheda interna a -1.** Il ViewModel espone -1 finché il pannello non è mostrato, come il TabControl storico; la vista XAML dovrà
+  legarla così o fissare «Dominio» fin dall'apertura come differenza dichiarata (come S4-c).
+- **S7-c · Messaggi rimasti** (comportamenti 1 e 2): conservati. Alternativa al passaggio: il messaggio della sezione del pannello di controllo e
+  l'azzeramento del messaggio quando la scheda interna non è «Sezione σ / ε».
+- **S7-d · Curva in sola lettura** (comportamento 4): conservata, come T6 per le chiavi di stato.
+
+## 17. S8 fatto (22/10)
+
+Sottopasso S8 «Progetto delle armature» (sezione 4, S8; sezione 12.6), stesso ramo, 22/10/2026, dopo S7. Decisioni applicate: C5, C7, C8 (la
+sezione della proposta resta un disegno WPF, confrontata come dati). La Release resta storica; nessuna vista XAML.
+
+### 17.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `6f0e2165` | derivazioni della ricerca in Application (`ConcreteDesignPresentation`), chiamate dalla vista storica; baseline F4 spostata; Application.Tests |
+| `bc3703e7` | progetto delle armature nel ViewModel (`ConcreteDesignViewModel`), prove in `Presentation.Tests` |
+| `88ebf046` | F1 dei form della curva e della ricerca nella prova della Wiki |
+| (commit della documentazione) | questa sezione, righe di `piano.md`, esiti delle corse standard |
+
+### 17.2 Che cosa c'è
+
+- **`ConcreteDesignViewModel`** (`Design` del foglio, scheda 08, da `ConcreteDesign.cs`), creato all'apertura dopo la preparazione delle sue opzioni,
+  senza scritture:
+  - form della ricerca su `calcola_armature` con i campi mostrati per forma della sezione, elemento dei dettagli, obiettivo, staffe e ricerca
+    completa (`Form`), limiti η max di ogni verifica (`Limits`), «Mostra le prime» (`Shown`);
+  - «Calcola armature» (`RunCommand`, asincrono e annullabile): conferma del foglio, risultati azzerati, ricerca su una copia dei dati con
+    `Task.Run`, avanzamento (`Progress`, `Status`, la migliore proposta mostrata) solo finché la ricerca è corrente; poi stato, alternative,
+    scarti e tempi, o «Ricerca non avviata: …», o «Ricerca interrotta.». «Ferma ricerca» (`StopCommand`) annulla;
+  - alternative (`Ranking`, `ConcreteTableViewModel` in sola lettura), proposta selezionata con descrizione, metriche, ambito, verifiche e
+    sezione con le staffe (`Preview`) come dati;
+  - «Applica configurazione» (`ApplyCommand`): conferma del foglio e controllo della ricerca, poi `ConcreteDesignPresentation.Apply` scrive la
+    proposta nei dati (gli stessi oggetti, svuotati e riempiti), il foglio rilegge i form della geometria, dell'armatura, dei secondi strati, dei
+    dettagli, dell'ancoraggio, del taglio e della torsione, svuota le barre e si invalida (`DesignApplied`), lo stato dice che cosa è applicato;
+  - ogni `Modified` del foglio (come `Modified += RefreshDesignFreshness` della vista storica) rinnova i campi mostrati e segna superata una
+    ricerca i cui dati sono cambiati («Applica» spento, ricerca in corso annullata);
+  - i tre comandi e i pulsanti «Sezione →», «Dettagli →», «SLE / esposizione →» sono spenti in sola lettura, come i pulsanti storici.
+- **Application** (`ConcreteDesignPresentation`): campi mostrati, firma dei dati, frazione e testo dell'avanzamento, stato, copertura, scarti,
+  descrizione senza configurazioni, righe delle alternative, metriche, ambito, verifiche, applicazione ai dati, testi fissi. La vista storica le
+  chiama al posto delle sue espressioni.
+- **Baseline F4**, solo spostamenti: le due voci R4 di `ConcreteDesign.cs` (`ConcreteWorkspace.RefreshDesignRanking`, `DesignOptions.D("mostra",
+  10)`; `ConcreteWorkspace.SelectDesign`, `c.Detailing.D("as_secondaria")`) diventano le due di `ConcreteDesignPresentation` (`RankingRows`,
+  `Scope`); 2 153 voci e 3 206 occorrenze invariate, nessuna aggiunta. P3 invariata.
+
+### 17.3 Esiti
+
+- **Tracce** (`--sezione-tracce`, ora anche `[armature]`): 55 scenari uguali alle tracce congelate (i 53 di S7 più `armature/ricerca-armature` e
+  `armature/opzioni-ricerca`; la parte `[armature]` è confrontata anche in `percorso-f3/*`, `muri/*`, `esempi/*` e `calcolo/sola-lettura`). Da S8
+  ogni parte della traccia è confrontata in tutti gli scenari dei sottopassi S1–S8; restano fuori solo gli scenari `report/*` (S9). PASS 67
+  (`supporto/artefatti/f5-10-s6/s8-tracce`).
+- **Prove rapide** (`--sezione-rapide`): 471 controlli; in più `armature/opzioni-ricerca` fra le tracce rapide; campi della ricerca che seguono i
+  dettagli; ricerca rifiutata (elenco non valido, esposizione mancante); ricerca breve sulla soletta della traccia con proposta, dati cambiati,
+  ricerca di nuovo e «Applica configurazione» (proposta nei dati, conferme da rifare, foglio invalidato, form riletti); «Ferma ricerca»; Reload;
+  sola lettura.
+- **Application.Tests**: 9 controlli di `ConcreteDesignPresentation` (testi e campi scritti a mano, una ricerca breve sulla soletta). Application.Tests
+  3 116, Architecture.Tests 574.
+- **Corsa standard** su `bc3703e7` (S7 e S8): `supporto/artefatti/ci/20261022-095402-s8-standard`, PASS 77 (build, fast, regression e wiki), KNOWN 0,
+  NEW-FAIL 0, nessun file tracciato modificato durante la corsa; Presentation.Tests 4 308, Application.Tests 3 116, Architecture.Tests 574.
+  Dopo la corsa, il commit di sole prove `88ebf046` porta F1 anche ai form della curva e della ricerca (`--sezione-rapide` 518,
+  Presentation.Tests 4 355).
+- **Vista storica**: non verificata di giorno (regola del giorno): le suite `ui/*` della sezione 18 vanno eseguite stasera.
+
+### 17.4 Comportamenti storici trovati in S8 (conservati, C5)
+
+1. **Stato dopo «Applica»**: l'invalidazione del foglio segna superata la ricerca (stato «Dati modificati…»), poi lo stato è sostituito da
+   «Configurazione applicata…»: «Applica» resta spento, ma lo stato non dice che la ricerca è superata.
+2. **Stato durante la ricerca**: all'avvio cambia solo la descrizione («Ricerca in corso…»); lo stato resta quello precedente (anche «Ricerca non
+   avviata: …») finché non arriva il primo avanzamento.
+3. **Campi della ricerca rinnovati a ogni Modified**, anche per modifiche che non li riguardano (tabella, schede).
+4. **Avanzamento in ritardo scartato**: un avanzamento che arriva dopo la fine, dopo un annullamento o dopo una modifica non cambia nulla.
+
+### 17.5 Domande «da decidere» (scelte provvisorie, da rivedere in F5.15)
+
+- **S8-a · Ascolto di `Modified`.** Il ViewModel si iscrive a `Modified` del foglio come la vista storica, invece di una chiamata esplicita del
+  foglio; si disiscrive alla chiusura e al Reload.
+- **S8-b · Pulsanti di navigazione in sola lettura.** Spenti come oggi (come S6-a).
+- **S8-c · Stato dopo «Applica»** (comportamento 1): conservato. Alternativa: dire nello stato che la ricerca va ripetuta.
+
+## 18. Da dove parte S9 e come riprendere
+
+- **S9 · Report, riepiloghi e passaggio** (sezione 4, S9): il report (`PendingReport` del foglio), i riepiloghi, gli scenari `report/*`, poi la
+  vista XAML e il passaggio della Release con l'utente (i report sono congelati dall'8/10).
+- **Stasera, con l'interfaccia** (regola del giorno del 22/10): `ui/check-sezione-historic` (la vista storica chiama le derivazioni nuove di S6,
+  S7 e S8), `ui/smoke-ca-extensions`, `ui/smoke-ca-features`, `ui/smoke-neutral-axis`, `ui/smoke`, `ui/check-concrete-design`,
+  `ui/f3-report-chapters`, `ui/f3-concrete-figures` (figura M–χ), `ui/f3-scheduling`, `ui/check-field-form-parity`, `ui/f3-equivalence` e
+  `Presentation.Tests/sezione-ca` (già PASS 67 di giorno con `--sezione-tracce`).
+
+```
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-rapide
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll <cartella> --sezione-tracce
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,fast,wiki,ui -Only '^(?!ui/check-contrast$)' -Tag <tag>"
 ```

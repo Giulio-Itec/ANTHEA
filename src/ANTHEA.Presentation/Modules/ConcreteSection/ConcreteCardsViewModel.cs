@@ -99,6 +99,18 @@ public sealed class ConcreteCardsViewModel : ObservableObject
             summary.Title + "\n" + summary.Status + "\n" + value + "\n" + footer + "\n");
     }
 
+    /// <summary>
+    /// Shows <paramref name="source"/> (Fill of the historic RefreshDetailing, F5.10 S6): its details as cards; without details its text as a
+    /// message, or nothing when it has no text.
+    /// </summary>
+    public void Fill(VerificationDetails source)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        if (source.Items.Count == 0) { if (source.Text.Length == 0) Start(); else Text = source.Text; return; }
+        Start();
+        foreach (var detail in source.Items) AddDetail(detail.Title, detail.Passed, detail.Values, detail.Explanation, detail.Reference);
+    }
+
     // As the historic cards, a message already shown stays above the cards added after it without Start.
     private void Add(ConcreteCard card, string addition)
     {
