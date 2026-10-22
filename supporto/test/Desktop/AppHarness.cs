@@ -476,6 +476,19 @@ public partial class App
             });
             return;
         }
+        // F5.13 c: the draft of the layout of the new shell, off screen and never activated, for the user's checkpoint (tests/Desktop/ShellDraftChecks.cs).
+        if (e.Args.Length == 2 && e.Args[0] == "--check-shell-draft")
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Dispatcher.InvokeAsync(async () =>
+            {
+                int code = 0;
+                try { await ShellDraftChecks.Run(e.Args[1]); }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString()); code = 1; }
+                finally { Shutdown(code); }
+            });
+            return;
+        }
         if (e.Args.Length == 2 && e.Args[0] == "--check-concrete-design") { StartConcreteDesign(e.Args[1]); return; }
         if (e.Args.Length == 3 && e.Args[0] == "--capture-validation") { StartValidationCapture(e.Args[1], e.Args[2]); return; }
         if (e.Args.Length >= 2 && SmokeFlags.Contains(e.Args[0])) { StartSmoke(e); return; }

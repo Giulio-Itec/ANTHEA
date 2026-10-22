@@ -462,6 +462,9 @@ Add-Suite @{ Name = 'ElasticPile.UiChecks/nota-stress-block'; Stage = 'ui'; Kind
 # Formerly ConcreteDesign.DesktopChecks (moved to supporto/SUPERATI/test in F1.6): ConcreteDesign.Checks writes ui-fixture.json first.
 Add-Suite @{ Name = 'ui/check-concrete-template-wizard'; Stage = 'ui'; Kind = 'check'; Args = @('--check-concrete-template-wizard', '{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-examples'; Stage = 'ui'; Kind = 'check'; Args = @('--check-examples', '{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+# F5.13 c: the draft of the layout of the new shell off screen (tests/Desktop/ShellDraftChecks.cs): PNG for the user's checkpoint, no binding error
+# of the draft, the examples of the Wiki equal to MainWindow.WikiExamples. Not the window of the application (the Release opens MainWindow).
+Add-Suite @{ Name = 'ui/check-shell-draft'; Stage = 'ui'; Kind = 'check'; Args = @('--check-shell-draft', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-concrete-design'; Stage = 'ui'; Kind = 'check'; Args = @('--check-concrete-design', '{out}'); Timeout = 900
     Before = @{ Project = (TestProject 'ConcreteDesign.Checks'); Args = @('{out}') }; Builds = @(@{ Project = (TestProject 'ConcreteDesign.Checks'); Configuration = 'Release' })
     Proof = @{ File = '{out}\ui-pass.txt'; Pattern = '^PASS' } }

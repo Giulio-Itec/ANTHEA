@@ -119,6 +119,13 @@ public sealed class NavigationViewModel : ViewModelBase
         Page = target;
     }
 
+    /// <summary>A tab without a sheet (the Wiki, a model) is shown in place of the page (F5.13 c): no page is on screen.</summary>
+    public void ShowTab()
+    {
+        ThrowIfDisposed();
+        Page = null;
+    }
+
     /// <summary>«Riprendi»: the last sheet takes the focus again.</summary>
     public void Resume()
     {

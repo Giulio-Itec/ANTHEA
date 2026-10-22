@@ -1,0 +1,10 @@
+<!--
+  DRAFT (F5.13 c): the Wiki tab (Q18 a, SH4). It hosts the historic WikiView with the requests of WikiTabViewModel (the module of an example, the
+  return to the work) and follows the articles asked by the shell. The margins are those of MainWindow.ShowWiki.
+-->
+<UserControl x:Class="X.Desktop.Views.Shell.WikiTabView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Background="{DynamicResource Token.Surface}">
+ <ContentControl x:Name="Host" Margin="20,14,20,18" Focusable="False"/>
+</UserControl>

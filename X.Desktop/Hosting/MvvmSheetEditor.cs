@@ -1,4 +1,4 @@
-using System.Text;
+using Anthea.Presentation.Shell.Commands;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -110,44 +110,22 @@ internal sealed class MvvmSheetEditor : ISheetEditor
 
     public void InspectRevision() => Sheet.IsReadOnly = true;
 
-    public void ExportResult(string filename)
-    {
-        if (!HasResults || Busy) throw new InvalidOperationException("Premere Calcola prima di esportare.");
-        var exported = Result!;
-        // F5.12 (BD7): as SheetEditor, the JSON of Bridge Design carries also the data of the sheet (the result is a new object at every read).
-        if (Sheet is Anthea.Presentation.Modules.BridgeDesign.BridgeDesignSheetViewModel) exported["dati"] = Data.DeepClone();
-        Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(exported.ToJsonString(J.Options)));
-    }
+    /// <summary>The JSON of the result (with the data for Bridge Design, BD7): the code shared with the new shell (F5.13 c, <see cref="SheetFileExports.WriteResult"/>).</summary>
+    public void ExportResult(string filename) => SheetFileExports.WriteResult(Sheet, filename);
 
     /// <summary>
     /// The DOCX of the report and the PDF beside it, written as SheetEditor.ExportReport writes them (decision T8 of 17/10/2026):
     /// a material sheet from the document of its chapter (F5.5); a module whose historic sheet writes the PDF with its own generator
     /// (<see cref="IModuleReportPdf"/>, the shallow foundations) with that generator; the others with the PDF rendered from the DOCX
-    /// (<see cref="ReportFiles.Write"/>).
+    /// (<see cref="ReportFiles.Write"/>). The code is shared with the new shell (F5.13 c, <see cref="SheetFileExports.WriteReport"/>).
     /// </summary>
-    public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
-    {
-        if (Sheet is IMaterialSheetViewModel)
-        {
-            // T8: the report of a material sheet written as SheetEditor writes it, DOCX and PDF from the same document.
-            Sheet.Commit();
-            Materiali.MaterialReportChapter.Write(filename, Module, title, Data);
-            return;
-        }
-        if (Sheet.Report is IModuleReportPdf edition)
-        {
-            byte[] word = BuildReport(title, options, projectReport), pdf = edition.BuildPdf(title, options, projectReport);
-            Archivio.ScriviAtomico(filename, word);
-            Archivio.ScriviAtomico(ReportFiles.PdfPath(filename), pdf);
-            return;
-        }
-        ReportFiles.Write(filename, BuildReport(title, options, projectReport), title);
-    }
+    public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false) =>
+        SheetFileExports.WriteReport(Sheet, filename, title, options, projectReport);
 
     public byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => Sheet.Report.BuildReport(title, options, projectReport);
 
-    public byte[] BuildShortReport(string title) =>
-        throw new InvalidOperationException("Il report short è disponibile per le sezioni in calcestruzzo armato.");
+    /// <summary>Refused as before for every hosted sheet (<see cref="SheetFileExports.ShortReport"/>, shared with the new shell).</summary>
+    public byte[] BuildShortReport(string title) => SheetFileExports.ShortReport(Sheet, title);
 
     public ReportProject.SheetContent MaterialReportContent() => Sheet is IMaterialSheetViewModel material ? material.ReportContent()
         : throw new InvalidOperationException("Capitolo dei materiali non disponibile per il modulo " + Module + ".");

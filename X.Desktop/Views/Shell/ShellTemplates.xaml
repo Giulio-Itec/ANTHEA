@@ -1,0 +1,534 @@
+<!--
+  Data templates and styles of the draft of the new shell (F5.13 c, for the user's checkpoint on the layout; docs/refactoring/f5-13-shell.md,
+  section «Bozza della disposizione per il punto di controllo»). Merged by ShellWindow and DetachedShellWindow, not by App.xaml: the Release
+  keeps MainWindow. One template per ViewModel type (decision Q3): the pages of the navigation (home, «Moduli singoli», «Progetti»,
+  «Modelli», «Esempi»), the tabs (a sheet shows the view of its module, found by type in the application resources; the Wiki and the models
+  their own view), the revision bar, the status line of the shared data, the notice of the linked model, the nodes of the tree. Texts,
+  orders and conditions come from the ViewModels (the historic ones of MainWindow); colours and font sizes are theme tokens only (P7).
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:views="clr-namespace:X.Desktop.Views.Shell"
+ xmlns:examples="clr-namespace:X.Desktop.Views.Examples"
+ xmlns:ex="clr-namespace:Anthea.Presentation.Examples;assembly=ANTHEA.Presentation"
+ xmlns:nav="clr-namespace:Anthea.Presentation.Shell.Navigation;assembly=ANTHEA.Presentation"
+ xmlns:proj="clr-namespace:Anthea.Presentation.Shell.Projects;assembly=ANTHEA.Presentation"
+ xmlns:tabs="clr-namespace:Anthea.Presentation.Shell.Tabs;assembly=ANTHEA.Presentation"
+ xmlns:cmd="clr-namespace:Anthea.Presentation.Shell.Commands;assembly=ANTHEA.Presentation">
+
+ <BooleanToVisibilityConverter x:Key="WhenTrue"/>
+ <views:InverseVisibilityConverter x:Key="WhenFalse"/>
+ <views:PresenceVisibilityConverter x:Key="WhenPresent"/>
+ <views:AllVisibleConverter x:Key="AllTrue"/>
+ <views:TypeVisibilityConverter x:Key="OfType"/>
+ <views:ShortcutTextConverter x:Key="Shortcut"/>
+
+ <!-- Texts (Ui.Text of the historic shell): body, muted, headings, titles of the pages. -->
+ <Style x:Key="Shell.Text" TargetType="TextBlock">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Body}"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  <Setter Property="TextWrapping" Value="Wrap"/>
+  <Setter Property="VerticalAlignment" Value="Center"/>
+ </Style>
+ <Style x:Key="Shell.Muted" TargetType="TextBlock" BasedOn="{StaticResource Shell.Text}">
+  <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+ </Style>
+ <Style x:Key="Shell.Heading" TargetType="TextBlock" BasedOn="{StaticResource Shell.Text}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Heading}"/>
+  <Setter Property="FontWeight" Value="SemiBold"/>
+ </Style>
+ <Style x:Key="Shell.Title" TargetType="TextBlock" BasedOn="{StaticResource Shell.Text}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Title}"/>
+  <Setter Property="FontWeight" Value="SemiBold"/>
+ </Style>
+ <Style x:Key="Shell.Display" TargetType="TextBlock" BasedOn="{StaticResource Shell.Text}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Display}"/>
+  <Setter Property="FontWeight" Value="SemiBold"/>
+ </Style>
+ <Style x:Key="Shell.OnBar" TargetType="TextBlock" BasedOn="{StaticResource Shell.Text}">
+  <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
+ </Style>
+ <Style x:Key="Shell.OnBarMuted" TargetType="TextBlock" BasedOn="{StaticResource Shell.Text}">
+  <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar.Muted}"/>
+  <Setter Property="FontSize" Value="{DynamicResource Font.Small}"/>
+ </Style>
+
+ <!-- Ui.Paper: the cards of the pages. -->
+ <Style x:Key="Shell.Card" TargetType="Border">
+  <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+  <Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/>
+  <Setter Property="BorderThickness" Value="1"/>
+  <Setter Property="CornerRadius" Value="4"/>
+  <Setter Property="Padding" Value="16"/>
+ </Style>
+
+ <!-- Buttons: with the implicit style of the theme (padding, margin, height, S17). -->
+ <Style x:Key="Shell.Button" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+  <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  <Setter Property="BorderBrush" Value="{DynamicResource Token.Border.Strong}"/>
+ </Style>
+ <Style x:Key="Shell.Primary" TargetType="Button" BasedOn="{StaticResource Shell.Button}">
+  <Setter Property="Background" Value="{DynamicResource Token.Selected}"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
+ </Style>
+ <!-- Commands of the Navy bars (ProjectCommandButton): the colour of the bar. -->
+ <Style x:Key="Shell.BarButton" TargetType="Button" BasedOn="{StaticResource Shell.Button}">
+  <Setter Property="Background" Value="{DynamicResource Token.CommandBar}"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
+  <Setter Property="BorderBrush" Value="Transparent"/>
+  <Setter Property="Height" Value="36"/>
+  <Setter Property="Padding" Value="10,2"/>
+  <Setter Property="Margin" Value="3"/>
+  <Setter Property="VerticalAlignment" Value="Center"/>
+ </Style>
+ <!-- Buttons of the navigation bar (BuildShell): 45 high, left aligned, semibold; the page on screen selected. -->
+ <Style x:Key="Shell.NavButton" TargetType="Button" BasedOn="{StaticResource Shell.Button}">
+  <Setter Property="Height" Value="45"/>
+  <Setter Property="HorizontalContentAlignment" Value="Left"/>
+  <Setter Property="FontWeight" Value="SemiBold"/>
+  <Setter Property="Margin" Value="0,2"/>
+  <Style.Triggers>
+   <DataTrigger Binding="{Binding IsSelected}" Value="True">
+    <Setter Property="Background" Value="{DynamicResource Token.Selection}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/>
+   </DataTrigger>
+  </Style.Triggers>
+ </Style>
+
+ <!-- Tabs: header of a sheet («•» not saved, «sola lettura» of a revision) and of a page (Wiki, model); the tab with the focus is marked. -->
+ <Style x:Key="Shell.TabFrame" TargetType="Border">
+  <Setter Property="Background" Value="{DynamicResource Token.Surface}"/>
+  <Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/>
+  <Setter Property="BorderThickness" Value="1,1,1,0"/>
+  <Setter Property="CornerRadius" Value="4,4,0,0"/>
+  <Setter Property="Margin" Value="0,0,2,0"/>
+  <Setter Property="Padding" Value="2,0"/>
+  <Style.Triggers>
+   <DataTrigger Binding="{Binding IsSelected}" Value="True">
+    <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+   </DataTrigger>
+   <DataTrigger Binding="{Binding IsActive}" Value="True">
+    <Setter Property="Background" Value="{DynamicResource Token.Selection}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/>
+   </DataTrigger>
+  </Style.Triggers>
+ </Style>
+ <Style x:Key="Shell.TabButton" TargetType="Button" BasedOn="{StaticResource Shell.Button}">
+  <Setter Property="Background" Value="Transparent"/>
+  <Setter Property="BorderBrush" Value="Transparent"/>
+  <Setter Property="Margin" Value="0"/>
+  <Setter Property="Padding" Value="8,4"/>
+  <Setter Property="MinHeight" Value="30"/>
+ </Style>
+ <ContextMenu x:Key="Shell.TabMenu" x:Shared="False">
+  <MenuItem Header="{x:Static tabs:ShellWindowsViewModel.MoveLabel}" Command="{Binding PlacementTarget.Tag.MoveToNewWindowCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+   CommandParameter="{Binding}"/>
+  <MenuItem Header="{x:Static tabs:ShellWindowsViewModel.ReattachLabel}" Command="{Binding PlacementTarget.Tag.ReattachCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+   CommandParameter="{Binding}"/>
+  <Separator/>
+  <MenuItem Header="Chiudi" Command="{Binding PlacementTarget.Tag.CloseCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}"/>
+ </ContextMenu>
+ <!-- The headers find the commands of the windows in the DataContext of the strip (ShellWindowsViewModel). -->
+ <DataTemplate x:Key="Shell.SheetTabHeader" DataType="{x:Type tabs:SheetTabViewModel}">
+  <Border Style="{StaticResource Shell.TabFrame}" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource Shell.TabMenu}">
+   <StackPanel Orientation="Horizontal">
+    <Button Style="{StaticResource Shell.TabButton}" Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}"
+     AutomationProperties.Name="{Binding Title}" ToolTip="{Binding Title}">
+     <StackPanel Orientation="Horizontal">
+      <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Title}" MaxWidth="260" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+      <TextBlock Style="{StaticResource Shell.Text}" Text=" •" FontWeight="Bold" Foreground="{DynamicResource Token.Accent}" Visibility="{Binding IsUnsaved, Converter={StaticResource WhenTrue}}"
+       ToolTip="Foglio non salvato"/>
+     </StackPanel>
+    </Button>
+    <Button Style="{StaticResource Shell.TabButton}" Content="×" Padding="6,2" ToolTip="Chiudi la scheda" AutomationProperties.Name="Chiudi la scheda"
+     Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}"/>
+   </StackPanel>
+  </Border>
+ </DataTemplate>
+ <DataTemplate x:Key="Shell.PageTabHeader" DataType="{x:Type tabs:PageTabViewModel}">
+  <Border Style="{StaticResource Shell.TabFrame}" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource Shell.TabMenu}">
+   <StackPanel Orientation="Horizontal">
+    <Button Style="{StaticResource Shell.TabButton}" Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}"
+     AutomationProperties.Name="{Binding Title}" ToolTip="{Binding Title}">
+     <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Title}" FontStyle="Italic" MaxWidth="260" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+    </Button>
+    <Button Style="{StaticResource Shell.TabButton}" Content="×" Padding="6,2" ToolTip="Chiudi la scheda" AutomationProperties.Name="Chiudi la scheda"
+     Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}"/>
+   </StackPanel>
+  </Border>
+ </DataTemplate>
+ <views:TabHeaderTemplateSelector x:Key="Shell.TabHeader" Sheet="{StaticResource Shell.SheetTabHeader}" Page="{StaticResource Shell.PageTabHeader}"/>
+ <!-- The strip of the tabs of one window: its DataContext is ShellWindowsViewModel, its items the tabs of the window. -->
+ <Style x:Key="Shell.TabStrip" TargetType="ItemsControl">
+  <Setter Property="ItemTemplateSelector" Value="{StaticResource Shell.TabHeader}"/>
+  <Setter Property="ItemsPanel">
+   <Setter.Value><ItemsPanelTemplate><WrapPanel Orientation="Horizontal"/></ItemsPanelTemplate></Setter.Value>
+  </Setter>
+  <Setter Property="Background" Value="{DynamicResource Token.Surface}"/>
+  <Setter Property="Padding" Value="8,6,8,0"/>
+ </Style>
+
+ <!-- ===================================================================================================== contents of the tabs -->
+ <DataTemplate DataType="{x:Type tabs:SheetTabViewModel}">
+  <ContentPresenter Content="{Binding Content}"/>
+ </DataTemplate>
+ <DataTemplate DataType="{x:Type tabs:PageTabViewModel}">
+  <ContentPresenter Content="{Binding Content}"/>
+ </DataTemplate>
+ <DataTemplate DataType="{x:Type nav:WikiTabViewModel}">
+  <views:WikiTabView/>
+ </DataTemplate>
+ <DataTemplate DataType="{x:Type proj:ModelTabViewModel}">
+  <views:ModelTabView/>
+ </DataTemplate>
+ <DataTemplate DataType="{x:Type ex:ExampleLibraryViewModel}">
+  <Border Padding="42,24,42,36"><examples:ExampleLibraryView/></Border>
+ </DataTemplate>
+
+ <!-- ===================================================================================================== home (MainWindow.ShowHome) -->
+ <DataTemplate DataType="{x:Type nav:NavigationViewModel}">
+  <Grid Margin="42,24,42,36">
+   <Grid.RowDefinitions><RowDefinition Height="250"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+   <Border Background="{DynamicResource Token.CommandBar}" Margin="0,0,0,10">
+    <DockPanel>
+     <Image Source="pack://application:,,,/ANTHEA;component/Assets/logo.png" Width="220" Height="220" Margin="24,8,20,8" Stretch="Uniform"/>
+     <StackPanel VerticalAlignment="Center" Margin="20">
+      <TextBlock Style="{StaticResource Shell.Display}" Foreground="{DynamicResource Token.OnCommandBar}" Text="{x:Static nav:NavigationViewModel.HomeTitle}"/>
+      <TextBlock Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Subheading}" Foreground="{DynamicResource Token.OnCommandBar.Muted}" Margin="0,6,0,12"
+       Text="{x:Static nav:NavigationViewModel.HomeText}"/>
+      <Button Style="{StaticResource Shell.Primary}" HorizontalAlignment="Left" Content="{Binding ResumeText}" Command="{Binding ResumeCommand}"
+       Visibility="{Binding ResumeText, Converter={StaticResource WhenPresent}}"/>
+     </StackPanel>
+    </DockPanel>
+   </Border>
+   <ItemsControl Grid.Row="1" ItemsSource="{Binding HomeCards}" Margin="0,10,0,0">
+    <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Rows="1"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+    <ItemsControl.ItemTemplate>
+     <DataTemplate DataType="{x:Type nav:HomeCard}">
+      <Border Style="{StaticResource Shell.Card}" Padding="34" Margin="0,0,12,0">
+       <DockPanel>
+        <Button DockPanel.Dock="Bottom" Style="{StaticResource Shell.Primary}" HorizontalAlignment="Left" MinWidth="185" Content="{Binding Button}"
+         Command="{Binding DataContext.OpenCardCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}"/>
+        <StackPanel>
+         <TextBlock Style="{StaticResource Shell.Display}" Text="{Binding Title}" Margin="0,0,0,24"/>
+         <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Heading}" Text="{Binding Description}" Margin="0,0,0,25"/>
+         <TextBlock Style="{StaticResource Shell.Text}" FontWeight="SemiBold" Text="{Binding Badge}"/>
+        </StackPanel>
+       </DockPanel>
+      </Border>
+     </DataTemplate>
+    </ItemsControl.ItemTemplate>
+   </ItemsControl>
+  </Grid>
+ </DataTemplate>
+
+ <!-- ===================================================================================================== «Moduli singoli» (ShowModules) -->
+ <DataTemplate DataType="{x:Type nav:ModuleCatalogViewModel}">
+  <DockPanel Margin="42,24,42,36">
+   <StackPanel DockPanel.Dock="Top" Margin="0,0,0,24">
+    <TextBlock Style="{StaticResource Shell.Display}" Text="{x:Static nav:ModuleCatalogViewModel.Title}"/>
+    <TextBlock Style="{StaticResource Shell.Muted}" Text="{x:Static nav:ModuleCatalogViewModel.Intro}"/>
+   </StackPanel>
+   <Border DockPanel.Dock="Left" Style="{StaticResource Shell.Card}" Width="185" Margin="0,0,16,0" VerticalAlignment="Top">
+    <StackPanel>
+     <TextBlock Style="{StaticResource Shell.Text}" FontWeight="SemiBold" Text="{x:Static nav:ModuleCatalogViewModel.DisciplinesTitle}" Margin="0,0,0,6"/>
+     <ItemsControl ItemsSource="{Binding Disciplines}">
+      <ItemsControl.ItemTemplate>
+       <DataTemplate>
+        <Button Style="{StaticResource Shell.Button}" Content="{Binding}" HorizontalContentAlignment="Left"
+         Command="{Binding DataContext.SelectDisciplineCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}"/>
+       </DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+    </StackPanel>
+   </Border>
+   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <ItemsControl ItemsSource="{Binding Areas}">
+     <ItemsControl.ItemTemplate>
+      <DataTemplate DataType="{x:Type nav:ModuleArea}">
+       <StackPanel>
+        <TextBlock Style="{StaticResource Shell.Title}" Text="{Binding Title}" Margin="0,10,0,14"/>
+        <ItemsControl ItemsSource="{Binding Groups}">
+         <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="2"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+         <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="{x:Type nav:ModuleGroup}">
+           <StackPanel Margin="0,0,14,14">
+            <Border Background="{DynamicResource Token.CommandBar}" Padding="8">
+             <TextBlock Style="{StaticResource Shell.OnBar}" FontWeight="SemiBold" Text="{Binding Header}"/>
+            </Border>
+            <ItemsControl ItemsSource="{Binding Cards}">
+             <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="{x:Type nav:ModuleCard}">
+               <Border Style="{StaticResource Shell.Card}" Height="200" Margin="0,0,0,8" Padding="12">
+                <DockPanel>
+                 <Button x:Name="Open" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Style="{StaticResource Shell.Primary}" Content="Apri"
+                  Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}" CommandParameter="{Binding}"/>
+                 <StackPanel>
+                  <TextBlock x:Name="Status" Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Caption}" FontWeight="SemiBold"
+                   Foreground="{DynamicResource Token.Status.Ok}" Text="{Binding Status}"/>
+                  <TextBlock Style="{StaticResource Shell.Heading}" Text="{Binding Title}"/>
+                  <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" Text="{Binding Subtitle}"/>
+                  <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" FontWeight="SemiBold" Text="{Binding Owner}"/>
+                 </StackPanel>
+                </DockPanel>
+               </Border>
+               <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding IsAvailable}" Value="False">
+                 <Setter TargetName="Open" Property="Content" Value="Dettagli"/>
+                 <Setter TargetName="Open" Property="Style" Value="{StaticResource Shell.Button}"/>
+                 <Setter TargetName="Status" Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+                </DataTrigger>
+               </DataTemplate.Triggers>
+              </DataTemplate>
+             </ItemsControl.ItemTemplate>
+            </ItemsControl>
+           </StackPanel>
+          </DataTemplate>
+         </ItemsControl.ItemTemplate>
+        </ItemsControl>
+       </StackPanel>
+      </DataTemplate>
+     </ItemsControl.ItemTemplate>
+    </ItemsControl>
+   </ScrollViewer>
+  </DockPanel>
+ </DataTemplate>
+
+ <!-- ===================================================================================================== «Progetti»: overview and catalogue (ProjectPresentation) -->
+ <DataTemplate DataType="{x:Type proj:SectionOverviewViewModel}">
+  <Grid Margin="14,12,14,14">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="47*"/><ColumnDefinition Width="12"/><ColumnDefinition Width="30*"/></Grid.ColumnDefinitions>
+   <Border Style="{StaticResource Shell.Card}" Padding="14">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+     <StackPanel>
+      <StackPanel Visibility="{Binding Section, Converter={StaticResource WhenPresent}, ConverterParameter=invert}">
+       <TextBlock Style="{StaticResource Shell.Muted}" FontWeight="SemiBold" FontSize="{DynamicResource Font.Small}" Text="{x:Static proj:SectionOverviewViewModel.EmptyCaption}"/>
+       <TextBlock Style="{StaticResource Shell.Title}" Text="{x:Static proj:SectionOverviewViewModel.EmptyTitle}"/>
+      </StackPanel>
+      <StackPanel Visibility="{Binding Section, Converter={StaticResource WhenPresent}}">
+       <TextBlock Style="{StaticResource Shell.Muted}" FontWeight="SemiBold" FontSize="{DynamicResource Font.Small}" Text="{x:Static proj:SectionOverviewViewModel.Caption}"/>
+       <TextBlock Style="{StaticResource Shell.Title}" Text="{Binding Name}" Margin="0,0,0,12"/>
+       <WrapPanel Margin="0,0,0,12">
+        <Border x:Name="Conflicts" Background="{DynamicResource Token.Badge.Ok}" CornerRadius="10" Padding="10,3" Margin="0,0,8,0">
+         <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding ConflictsText}"/>
+        </Border>
+        <Border Background="{DynamicResource Token.Badge.Warn}" CornerRadius="10" Padding="10,3" Margin="0,0,8,0" Visibility="{Binding HasNotices, Converter={StaticResource WhenTrue}}">
+         <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding NoticesText}"/>
+        </Border>
+        <Button Style="{StaticResource Shell.Button}" Content="{Binding CompareLabel}" IsEnabled="False" ToolTip="Bozza: il confronto si collega nella parte (c) dopo il punto di controllo"/>
+       </WrapPanel>
+       <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
+        <StackPanel>
+         <TextBlock Style="{StaticResource Shell.Heading}" Text="Dati comuni" Margin="0,0,0,6"/>
+         <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding CommonDataEmpty}" x:Name="NoCommonData" Visibility="Collapsed"/>
+         <ItemsControl x:Name="CommonRows" ItemsSource="{Binding CommonData}">
+          <ItemsControl.ItemTemplate>
+           <DataTemplate DataType="{x:Type proj:CommonDataRow}">
+            <DockPanel Margin="0,2">
+             <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding Label}" Width="220"/>
+             <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Value}"/>
+            </DockPanel>
+           </DataTemplate>
+          </ItemsControl.ItemTemplate>
+         </ItemsControl>
+        </StackPanel>
+       </Border>
+       <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
+        <StackPanel>
+         <TextBlock Style="{StaticResource Shell.Heading}" Text="Revisioni" Margin="0,0,0,6"/>
+         <TextBlock Style="{StaticResource Shell.Text}" FontWeight="SemiBold" Text="{Binding RevisionTitle}"/>
+         <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding RevisionDate}" Visibility="{Binding RevisionDate, Converter={StaticResource WhenPresent}}"/>
+         <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding RevisionNote}" Visibility="{Binding RevisionNote, Converter={StaticResource WhenPresent}}"/>
+        </StackPanel>
+       </Border>
+       <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
+        <StackPanel>
+         <TextBlock Style="{StaticResource Shell.Heading}" Text="Modelli di calcolo" Margin="0,0,0,6"/>
+         <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding ModelsText}"/>
+        </StackPanel>
+       </Border>
+       <ItemsControl ItemsSource="{Binding Notices}">
+        <ItemsControl.ItemTemplate>
+         <DataTemplate>
+          <Border Background="{DynamicResource Token.Warning.Background}" Padding="8,4" Margin="0,0,0,4">
+           <TextBlock Style="{StaticResource Shell.Text}" Foreground="{DynamicResource Token.Warning.Foreground}" Text="{Binding}"/>
+          </Border>
+         </DataTemplate>
+        </ItemsControl.ItemTemplate>
+       </ItemsControl>
+      </StackPanel>
+     </StackPanel>
+    </ScrollViewer>
+   </Border>
+   <!-- «Schede da aggiungere» (ProjectCatalogViewModel of the shell), hidden in the preview of a revision as today. -->
+   <Border Grid.Column="2" Style="{StaticResource Shell.Card}" Padding="14" DataContext="{Binding DataContext.Catalogue, RelativeSource={RelativeSource AncestorType=Window}}"
+    Visibility="{Binding DataContext.Tree.IsReadOnly, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource WhenFalse}}">
+    <DockPanel>
+     <StackPanel DockPanel.Dock="Top">
+      <TextBlock Style="{StaticResource Shell.Title}" Text="{x:Static proj:ProjectCatalogViewModel.Title}" Margin="0,0,0,8"/>
+      <TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{x:Static proj:ProjectCatalogViewModel.SearchAutomationName}" Margin="0,0,0,6"/>
+      <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" Text="{x:Static proj:ProjectCatalogViewModel.Hint}" Margin="0,0,0,8"/>
+      <TextBlock Style="{StaticResource Shell.Muted}" Text="{x:Static proj:ProjectCatalogViewModel.NoResults}" Visibility="{Binding HasNoResults, Converter={StaticResource WhenTrue}}"/>
+     </StackPanel>
+     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+      <ItemsControl ItemsSource="{Binding Groups}">
+       <ItemsControl.ItemTemplate>
+        <DataTemplate DataType="{x:Type proj:ProjectCatalogGroup}">
+         <Expander Header="{Binding Title}" IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource WhenTrue}}" Margin="0,0,0,6">
+          <ItemsControl ItemsSource="{Binding Cards}">
+           <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="{x:Type proj:ProjectCatalogCard}">
+             <Border Style="{StaticResource Shell.Card}" Padding="10,6" Margin="0,4,0,0" ToolTip="{Binding ToolTip}" Visibility="{Binding IsVisible, Converter={StaticResource WhenTrue}}">
+              <StackPanel>
+               <TextBlock Style="{StaticResource Shell.Text}" FontWeight="SemiBold" Text="{Binding Title}"/>
+               <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" Text="{Binding Subtitle}"/>
+              </StackPanel>
+             </Border>
+            </DataTemplate>
+           </ItemsControl.ItemTemplate>
+          </ItemsControl>
+         </Expander>
+        </DataTemplate>
+       </ItemsControl.ItemTemplate>
+      </ItemsControl>
+     </ScrollViewer>
+    </DockPanel>
+   </Border>
+  </Grid>
+  <DataTemplate.Triggers>
+   <DataTrigger Binding="{Binding HasConflicts}" Value="True">
+    <Setter TargetName="Conflicts" Property="Background" Value="{DynamicResource Token.Badge.Warn}"/>
+   </DataTrigger>
+   <Trigger SourceName="CommonRows" Property="ItemsControl.HasItems" Value="False">
+    <Setter TargetName="NoCommonData" Property="Visibility" Value="Visible"/>
+   </Trigger>
+  </DataTemplate.Triggers>
+ </DataTemplate>
+
+ <!-- ===================================================================================================== «Modelli» (ShowModelsHub) -->
+ <DataTemplate DataType="{x:Type proj:ModelsPageViewModel}">
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <StackPanel Margin="42,24,42,36">
+    <TextBlock Style="{StaticResource Shell.Display}" Text="{x:Static proj:ModelsPageViewModel.Title}"/>
+    <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Subheading}" Text="{x:Static proj:ModelsPageViewModel.Subtitle}"/>
+    <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" FontWeight="SemiBold" Text="{x:Static proj:ModelsPageViewModel.Draft}" Margin="0,4,0,16"/>
+    <StackPanel Visibility="{Binding HasProject, Converter={StaticResource WhenFalse}}">
+     <TextBlock Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Heading}" Text="{x:Static proj:ModelsPageViewModel.NoProject}" Margin="0,0,0,10"/>
+     <StackPanel Orientation="Horizontal">
+      <Button Style="{StaticResource Shell.Button}" Content="{x:Static proj:ModelsPageViewModel.OpenProjectLabel}" Command="{Binding OpenProjectCommand}"/>
+      <Button Style="{StaticResource Shell.Primary}" Content="{x:Static proj:ModelsPageViewModel.NewProjectLabel}" Command="{Binding NewProjectCommand}"/>
+     </StackPanel>
+    </StackPanel>
+    <StackPanel Visibility="{Binding HasProject, Converter={StaticResource WhenTrue}}">
+     <ItemsControl ItemsSource="{Binding Cards}">
+      <ItemsControl.ItemTemplate>
+       <DataTemplate DataType="{x:Type proj:ModelContainerCard}">
+        <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
+         <StackPanel>
+          <TextBlock Style="{StaticResource Shell.Heading}" Text="{Binding Path}"/>
+          <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding Summary}" Margin="0,0,0,6"/>
+          <WrapPanel>
+           <ItemsControl ItemsSource="{Binding Models}">
+            <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+             <DataTemplate DataType="{x:Type proj:ModelLink}">
+              <Button Style="{StaticResource Shell.Button}" Content="{Binding Name}" Command="{Binding DataContext.OpenModelCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}"
+               CommandParameter="{Binding}"/>
+             </DataTemplate>
+            </ItemsControl.ItemTemplate>
+           </ItemsControl>
+           <Button Style="{StaticResource Shell.Primary}" Content="{Binding NewModel.Name}" Command="{Binding DataContext.OpenModelCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}"
+            CommandParameter="{Binding NewModel}"/>
+          </WrapPanel>
+         </StackPanel>
+        </Border>
+       </DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+     <Button Style="{StaticResource Shell.Button}" HorizontalAlignment="Left" Content="{x:Static proj:ModelsPageViewModel.OrganizeLabel}" Command="{Binding OrganizeCommand}"/>
+    </StackPanel>
+   </StackPanel>
+  </ScrollViewer>
+ </DataTemplate>
+
+ <!-- ===================================================================================================== bars above the content -->
+ <!-- Revision bar of the project (UpdateProjectRevisionBar). -->
+ <DataTemplate DataType="{x:Type proj:RevisionBarViewModel}">
+  <Border Background="{DynamicResource Token.Paper}" BorderBrush="{DynamicResource Token.Border}" BorderThickness="0,0,0,1" Padding="14,4"
+   Visibility="{Binding IsVisible, Converter={StaticResource WhenTrue}}">
+   <DockPanel>
+    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+     <Button Style="{StaticResource Shell.Button}" Content="{x:Static proj:RevisionBarViewModel.DeleteLabel}" ToolTip="{Binding DeleteToolTip}" Command="{Binding DeleteCommand}"/>
+     <Button Style="{StaticResource Shell.Primary}" Content="{x:Static proj:RevisionBarViewModel.AddLabel}" ToolTip="{Binding AddToolTip}" Command="{Binding AddCommand}"/>
+    </StackPanel>
+    <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" Text="{Binding Caption}" Margin="0,0,8,0"/>
+    <TextBlock Style="{StaticResource Shell.Text}" FontWeight="SemiBold" Text="{Binding ScopeName}" Margin="0,0,12,0"/>
+    <ItemsControl ItemsSource="{Binding Tabs}" VerticalAlignment="Center">
+     <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+     <ItemsControl.ItemTemplate>
+      <DataTemplate DataType="{x:Type proj:RevisionTab}">
+       <Button x:Name="Revision" Style="{StaticResource Shell.Button}" Content="{Binding Label}" AutomationProperties.Name="{Binding AutomationName}"
+        Command="{Binding DataContext.SwitchCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}"/>
+       <DataTemplate.Triggers>
+        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+         <Setter TargetName="Revision" Property="Style" Value="{StaticResource Shell.Primary}"/>
+        </DataTrigger>
+       </DataTemplate.Triggers>
+      </DataTemplate>
+     </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" Text="{Binding Details}" Margin="12,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+   </DockPanel>
+  </Border>
+ </DataTemplate>
+ <!-- Status line of the shared data and of the cover above the sheet (RefreshSharedStatus). -->
+ <DataTemplate DataType="{x:Type proj:SharedStatusViewModel}">
+  <Border x:Name="Line" Background="{DynamicResource Token.Badge.Ok}" Padding="14,5" ToolTip="{Binding ToolTip}" Visibility="{Binding IsVisible, Converter={StaticResource WhenTrue}}">
+   <TextBlock x:Name="Text" Style="{StaticResource Shell.Text}" FontWeight="SemiBold" Foreground="{DynamicResource Token.Status.Coherent}" Text="{Binding Text}"/>
+  </Border>
+  <DataTemplate.Triggers>
+   <DataTrigger Binding="{Binding IsWarning}" Value="True">
+    <Setter TargetName="Line" Property="Background" Value="{DynamicResource Token.Warning.Background}"/>
+    <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource Token.Warning.Foreground}"/>
+   </DataTrigger>
+  </DataTemplate.Triggers>
+ </DataTemplate>
+ <!-- Notice of the model linked to the sheet (RefreshModelReference). -->
+ <DataTemplate DataType="{x:Type proj:ModelReferenceViewModel}">
+  <Border Background="{DynamicResource Token.Calculated}" Padding="14,5" Visibility="{Binding IsVisible, Converter={StaticResource WhenTrue}}">
+   <DockPanel>
+    <Button DockPanel.Dock="Right" Style="{StaticResource Shell.Button}" Content="{x:Static proj:ModelReferenceViewModel.OpenLabel}" Command="{Binding OpenCommand}"
+     Visibility="{Binding CanOpen, Converter={StaticResource WhenTrue}}"/>
+    <TextBlock Style="{StaticResource Shell.Text}" FontWeight="SemiBold" Text="{Binding Text}"/>
+   </DockPanel>
+  </Border>
+ </DataTemplate>
+
+ <!-- ===================================================================================================== tree of the project -->
+ <HierarchicalDataTemplate DataType="{x:Type proj:ProjectNodeViewModel}" ItemsSource="{Binding Children}">
+  <DockPanel ToolTip="{Binding ToolTip}" MinHeight="32">
+   <Border DockPanel.Dock="Right" CornerRadius="8" Padding="6,1" Margin="6,0,0,0" Background="{DynamicResource Token.Badge.Ok}" ToolTip="{Binding Badge.ToolTip}"
+    Visibility="{Binding Badge, Converter={StaticResource WhenPresent}}">
+    <TextBlock Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Badge.Title}"/>
+   </Border>
+   <TextBlock Style="{StaticResource Shell.Text}" Text=" •" FontWeight="Bold" Foreground="{DynamicResource Token.Accent}" DockPanel.Dock="Right"
+    Visibility="{Binding IsUnsaved, Converter={StaticResource WhenTrue}}" ToolTip="Foglio non salvato"/>
+   <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Name}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis">
+    <TextBlock.InputBindings>
+     <MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenCommand}"/>
+    </TextBlock.InputBindings>
+   </TextBlock>
+   <DockPanel.ContextMenu>
+    <ContextMenu>
+     <MenuItem Header="Apri" Command="{Binding OpenCommand}"/>
+     <MenuItem Header="Rinomina" Command="{Binding BeginRenameCommand}"/>
+     <MenuItem Header="Duplica" Command="{Binding DuplicateCommand}"/>
+     <MenuItem Header="Sottosezione" Command="{Binding AddSectionCommand}"/>
+     <MenuItem Header="Report Word della sezione" Command="{Binding ReportCommand}"/>
+     <MenuItem Header="Elimina" Command="{Binding DeleteCommand}"/>
+    </ContextMenu>
+   </DockPanel.ContextMenu>
+  </DockPanel>
+ </HierarchicalDataTemplate>
+</ResourceDictionary>

@@ -757,6 +757,10 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
     fogli, coordinatore dei documenti aperti, storia e revisioni con più schede, dati condivisi propagati alle schede aperte, e i
     ViewModel di navigazione, albero, revisioni, coerenza, schede staccabili e comandi in `src/ANTHEA.Presentation/Shell`; 314
     controlli senza WPF; shell storica e Release invariate. Domande provvisorie SH1–SH22. Restano (c)–(g).
+  - **Parte (c) fino al punto di controllo** (22/10, ramo `refactoring/f5-13-c`, da unire; [nota](f5-13-shell.md), sezioni 8–10):
+    `ISheetExports` sul codice di `MvvmSheetEditor`, `IWindowService`, menu «Aspetto», argomenti di avvio, Wiki e Modelli nei ViewModel
+    (89 controlli senza WPF); bozza XAML della shell in `X.Desktop/Views/Shell` (non è la finestra della Release) con la cattura
+    `ui/check-shell-draft` da eseguire di notte. **[CP]** sulla bozza: domande SH23–SH32 e le SH1–SH22 che la bozza rende visibili.
 - [ ] F5.14 Chiusura: X.Desktop → ANTHEA.Desktop, terza revisione di AGENTS.md.
 - [ ] F5.15 [CP] Ridiscutere con l'utente le voci sfavorevoli o aperte del registro delle differenze R4-R21 (R4-R14 e R16-R21; R15 è corretta) (decisione del 7/10: "le guardiamo a fine refactoring"; estesa a R16-R21 dal coordinatore su delega, ratificata dall'utente il 15/10, E4). Nello stesso punto si rivedono tutte le scelte provvisorie del coordinatore sulle voci «da decidere» di F5 (decisione dell'utente del 17/10, [decisioni](decisioni.md), 17 ottobre tarda mattina).
 
