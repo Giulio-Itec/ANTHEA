@@ -355,7 +355,8 @@ Parti della bozza ancora segnaposto: il riepilogo della sezione non ha i comandi
 cliccabili); il catalogo dei moduli non ha le icone e il «Riprendi» per modulo; l'albero non ha trascinamento né rinomina in linea; mancano
 l'adattamento ai piccoli schermi e le scorciatoie Ctrl+Z/Ctrl+Y. Nella shell nuova si aprono solo i moduli con il ViewModel MVVM (rischio R5);
 la sezione c.a. mostra la sua vista quando F5.10 S9 aggiunge i suoi template. Si completano dopo il punto di controllo, sulla disposizione
-scelta. Aggiornamento del 22/10 sera: quel che è stato completato dopo il punto di controllo è nella sezione 10.1.
+scelta. Aggiornamento del 22/10 sera: quel che è stato completato dopo il punto di controllo è nella sezione 10.1; il resto, compresi i moduli storici
+nella shell nuova (R5), nella sezione 10.2 (notte del 22–23/10).
 
 ### 9.2 Scelte per l'utente
 
@@ -500,6 +501,21 @@ Le dodici immagini sono in `C:\Users\g.pacini\Documents\Repository\ANTHEA-f5-rip
 | SH36 | Pagina intera e cambio di scheda | è uno stato della finestra, non del foglio: passare a un'altra scheda di un foglio la mantiene; non si ricorda fra le sessioni |
 | SH37 | Voci nuove nel menu dei nodi che non sono fogli | nascoste (le altre voci del menu restano disabilitate come nella bozza) |
 
+Scelte della notte del 22–23/10 (agente `f5-13-c3`, sezione 10.2), stesso criterio:
+
+| # | Domanda | Opzione presa |
+| --- | --- | --- |
+| SH38 | Badge di coerenza nell'albero | pulsante con il numero di conflitti e avvisi o «✓», con il titolo come nome di automazione e il suggerimento di oggi, come `AddCoherenceBadge`; apre il confronto della sezione (la bozza mostrava il titolo come testo, senza comando) |
+| SH39 | Elenco dei moduli la cui vista segue la finestra | tabella della shell in Presentation (`SheetLayout.FitsWindow`, l'elenco di `MainWindow.LoadSheetEditor`), non un membro dei descrittori dei moduli come dice la proposta 4.3: i descrittori non si toccano mentre i moduli migrano. Si può spostare nei descrittori al passaggio della Release |
+| SH40 | Finestre piccole | la shell intera tiene 1120 × 680, il cruscotto di MainWindow, e scorre; le pagine 870 × 680; i fogli che non seguono la finestra 1120 × 600 dentro la scheda. Navigazione e albero restano (SH23, SH24): «▸» e la pagina intera liberano spazio. Non prese: chiudere da solo l'albero o passare alla pagina intera sotto una certa larghezza |
+| SH41 | Moduli ancora storici nella shell nuova (R5) | si aprono come li sceglie la Release (`ModuleImplementations`): i 12 storici nel loro `SheetEditor` dentro la scheda, gli altri con il ViewModel; nella build UiTests `--module-impl` cambia la scelta, anche con `--interactive-shell`. La prova della bozza tiene tutti i moduli MVVM per le immagini del punto di controllo e disegna a parte la shell della Release (immagine 21) |
+| SH42 | Avviso nella scheda ricaricata (SH9) | «Aggiornato da «foglio»: campo, campo e altre n proprietà.» (cinque campi al più, come la riga di stato) in una riga sotto la barra del foglio, fondo `Token.Calculated`; solo dopo la conferma di un altro foglio con i dati condivisi propagati, non dopo annulla, revisioni, confronto o spostamenti; resta finché la scheda non viene confermata (perde il fuoco o «Conferma modifiche»). Per un foglio di una finestra staccata si vede nella barra della principale, come la barra del foglio (SH29) |
+| SH43 | Clic singolo sul nome di un modello nell'albero | lo apre dopo il tempo del doppio clic, come le sezioni; in MainWindow il nodo del modello era un pulsante e si apriva subito. Il doppio clic lo apre comunque |
+| SH44 | Indicatore del trascinamento | linea di due pixel con il punto prima o dopo la riga, come `SectionDropAdorner`, in `Token.Accent`; per l'inserimento dentro una sezione il contorno della riga nello stesso colore, al posto del fondo #D4E6F7 dell'intestazione (nessun token, e un fondo disegnato sopra coprirebbe il nome). Schede del catalogo al passaggio del mouse: `Token.Hover.Row` con il bordo `Token.Selection.Border`; presa in `Token.Drawing.Axis` |
+| SH45 | Grandezza dei nomi nell'albero | sui token tipografici: progetti `Font.Title` (22, oggi 20), sezioni di primo livello `Font.Heading` (16, oggi 17), le altre sezioni e i fogli `Font.Subheading` (14, oggi 15 al secondo livello), i fogli non in grassetto |
+| SH46 | Dialoghi della shell | nel dizionario dell'applicazione (`ShellDialogs.xaml` unito da App.xaml, come gli altri dialoghi delle viste MVVM), mostrati dal servizio dei dialoghi: confronto (900 × 650), collegamento dei sondaggi, riepilogo delle revisioni, nuova revisione e contenuti del report Word. Gli ultimi due prima non avevano vista nella shell. Il confronto conferma prima la scheda attiva, come `ShowCoherence` |
+| SH47 | F1 e «?» dei fogli storici nella shell | `WikiContextHelp` (file storico, non `SheetEditor`) cerca dopo MainWindow una finestra della shell (`IShellWikiHost`) e apre la scheda Wiki; con MainWindow, quindi nella Release, nulla cambia |
+
 ## 10. Parte (c): stato, verifiche e cosa resta
 
 Fatto il 22/10, fino al punto di controllo:
@@ -612,6 +628,9 @@ chiesta dall'utente (9.5); poi una parte di quel che restava della parte (c), in
 - ospite dei moduli storici nella shell nuova (R5); report short della sezione c.a. in `SheetFileExports`;
 - prove WPF della shell con finestre reali e fuoco; poi le parti (d)–(g).
 
+Aggiornamento della notte del 22–23/10: tutto l'elenco è fatto (sezione 10.2) tranne «Genera report», che viene con la parte (e), e le prove WPF
+con finestre reali e fuoco.
+
 Per riprendere:
 
 ```
@@ -620,6 +639,88 @@ dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c
 dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll supporto/artefatti/f5-13-c2/presentation --shell
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^(ui/check-shell-draft|ui/check-module-host-offscreen)$' -Tag <tag>"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
+```
+
+### 10.2 Il resto della parte (c) (notte del 22–23/10)
+
+Agente `f5-13-c3`, ramo `refactoring/f5-13-c3` da `refactoring/f5` 3733b1a6 (con la release AF delle librerie). Le voci della sezione 10.1, una per
+commit, con testi e comportamento di MainWindow; le scelte nuove sono SH38–SH47 (sezione 9.5).
+
+| Commit | Contenuto |
+| --- | --- |
+| 8505e216 | riepilogo della sezione: «Confronto e avvisi», «Riepilogo modifiche», «Dettaglio avvisi»; dialoghi della shell |
+| a3d63a1b | albero: trascinamento con indicatore, clic singolo su una sezione, testo per profondità, frecce in «Scuro» |
+| 517277d4 | catalogo: «Riprendi» per modulo, schede da aggiungere trascinabili e con il doppio clic |
+| 4d5de70b | piccoli schermi; avviso nella scheda ricaricata (SH9) |
+| 28a8ee6b | ospite dei moduli storici nella shell nuova (R5) |
+| 4ed99d4d | report short della sezione c.a. provato dalla shell |
+| commit di chiusura | questa sezione, SH38–SH47, voce in piano.md |
+
+**Cosa c'è adesso e come ci si arriva** (build UiTests, `ANTHEA.exe --interactive-shell`; la Release apre ancora MainWindow):
+
+- **Riepilogo della sezione** (pagina «Progetti», `ProjectPresentation.BuildSectionOverview`), nell'ordine di oggi:
+  - «Modelli di calcolo» con i pulsanti dei modelli e «+ Importa un modello» fuori dalla sola lettura (`AddModelsOverview`);
+  - «Controlli» con i due stati («!  1 conflitto», «✓  0 avvisi») e «Confronto e avvisi», che apre il dialogo «Confronto · sezione»
+    (`ShowCoherence`): conflitti con «Uniforma a questo» e la scelta della tipologia, strati mancanti, avvisi, «Collegamento stratigrafie» con il
+    suo dialogo. Il confronto si apre anche dal badge di coerenza dell'albero (SH38). Prima conferma la scheda attiva;
+  - «Riepilogo modifiche» nella scheda «Revisioni», con revisioni archiviate: il dialogo «Revisioni · sezione» (`ShowProjectRevisions`);
+    «Mostra questa revisione» lo chiude e mostra la revisione in sola lettura, con la sua barra;
+  - «Dettaglio avvisi», gruppo chiuso, solo con avvisi.
+
+  I dialoghi sono in `X.Desktop/Views/Shell/ShellDialogs.xaml` (SH46), con la nuova revisione e i contenuti del report Word, che prima non avevano
+  vista nella shell.
+- **Albero** (`ProjectHierarchy`, `ProjectSectionReorder`):
+  - un foglio si trascina dalla sua riga, un progetto o una sezione dal nome, fuori dalla sola lettura; sopra un nodo il suggerimento
+    («Inserisci in: …», «Prima di …», «Dopo …», «Sposta dentro: …») copre l'istruzione dell'intestazione e l'indicatore è disegnato sopra la riga
+    (SH44); il rilascio passa dalle regole di `PreviewDrop`/`Drop`, con le domande di oggi (spostamento con i dati condivisi);
+  - un clic sul nome di un progetto o di una sezione ne mostra il riepilogo dopo il tempo del doppio clic del sistema; un'altra pressione nella
+    finestra lo annulla, quindi il doppio clic rinomina come prima; un modello si apre (SH43);
+  - nomi per profondità sui token (SH45); nodi sul modello di `ProjectTreeItem`, con le frecce in `Token.InkSecondary`, leggibili in «Scuro»;
+  - il riepilogo di una sezione la seleziona nell'albero, come `ShowProjectOverview`: «+ Sezione» e il doppio clic del catalogo vanno lì.
+- **Cataloghi**: in «Moduli singoli» il modulo dell'ultimo foglio dice «Riprendi»; le schede di «Schede da aggiungere» hanno icona e presa, si
+  trascinano su una sezione (una copia) e con il doppio clic aggiungono il foglio alla sezione selezionata e lo aprono (`MainWindow.AddSheet`).
+- **Piccoli schermi** (SH40): la finestra resta nel monitor (`DisplayAdaptation.Attach`); la shell tiene 1120 × 680 e scorre; le pagine 870 × 680;
+  un foglio che non segue la finestra (sezione c.a., fondazioni, stratigrafia, palificata, spettri, paratie) tiene 1120 × 600 e scorre nella
+  sua scheda (`SheetLayout`, SH39; `MinimumSizeViewport` nelle viste).
+- **Avviso SH9** (SH42): dopo «Aggiorna tutti i fogli collegati» la scheda ricaricata dice «Aggiornato da «foglio»: …» in una riga sotto la barra.
+- **Moduli storici (R5, SH41)**: `ShellComposition` apre ogni modulo come la Release (`ReleaseSheetFactory`). I 12 moduli storici aprono il
+  `SheetEditor`, invariato, dietro `HistoricSheetViewModel` (l'adattatore della proposta 5.2): conferma, dati, risultato, calcolo, report e
+  sola lettura passano all'editor; copie, sezione di un muro, terreno e report diventano i comandi di `ISheetHost`; i file li scrive l'editor
+  (`DesktopSheetExports`). La vista (`HistoricSheetHost`) prende il controllo dell'editor, che resta lo stesso fra principale e finestre staccate.
+  F1 e i «?» aprono la scheda Wiki (SH47). Con `--module-impl modulo=mvvm` il modulo apre la vista MVVM, come nel banco di MainWindow.
+- **Report short c.a.**: «Report short» nella barra e «Report short CLS…» nel menu File, per la vista MVVM (`SheetFileExports.ShortReport`) e per
+  quella storica (`SheetEditor.BuildShortReport`); provato dalla shell.
+
+**Verifiche**:
+- `--shell` di Presentation.Tests: PASS 513 (46 controlli nuovi: `ShellOverviewChecks`, `ShellTreeDragChecks`, `ShellCatalogueChecks`,
+  `ShellLayoutChecks`). L'adattatore storico è WPF e si prova nella bozza.
+- `ui/check-shell-draft`: PASS 82 controlli, 21 immagini, nessun errore di binding della bozza. Le immagini nuove: 13-riepilogo, 14-confronto,
+  15-revisioni, 16-trascinamento, 17-moduli-riprendi, 18-schede-da-aggiungere, 19-avviso-ricaricata, 20-piccolo-schermo (900 × 620),
+  21-ospite-storico; le 01–12 cambiano dove cambiano riepilogo e albero. In `binding-errors-altre-viste.txt` restano i due errori `TabItem` della
+  vista dei materiali, già noti.
+- `ui/check-module-host-offscreen` PASS 51; `Architecture.Tests` PASS 574 a ogni commit, baseline invariate (nessun `DispatcherTimer` nuovo:
+  l'attesa del clic singolo è un ritardo che torna sul thread della finestra).
+- Corsa finale (standard più `ui/check-shell-draft` e `ui/check-module-host-offscreen`): esito nel rapporto dell'agente e in
+  `ANTHEA-f5-ripresa\f5-agenti\f5-13-c3\avanzamento.md`. Immagini in `ANTHEA-f5-ripresa\f5-agenti\f5-13-c3\immagini\`.
+
+File storici toccati: `X.Desktop/Wpf/WikiContextHelp.cs` (SH47, solo il ramo senza MainWindow), `App.xaml` (una riga, SH46). Nessun file di
+`SheetEditor`, `MainWindow`, `MvvmSheetEditor` o dei moduli. Suite da eseguire con il profilo full, oltre alle due della bozza: `ui/check-wiki-offscreen`
+(WikiContextHelp) e le suite delle viste MVVM che aprono dialoghi (App.xaml).
+
+**Cosa resta della parte (c)**:
+- «Genera report» del riepilogo e «Report Word della sezione» dell'albero, con la parte (e) (report congelati);
+- prove WPF della shell con finestre reali, fuoco e mouse (le prove di stanotte sono fuori dallo schermo, con finestre mai attivate: il
+  trascinamento e il clic singolo passano per i metodi che gli eventi chiamano, non per `DoDragDrop` e il mouse).
+
+Per riprendere:
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-c3
+dotnet build tests/ANTHEA.Presentation.Tests/ANTHEA.Presentation.Tests.csproj -c Release
+dotnet tests/ANTHEA.Presentation.Tests/bin/Release/net8.0/ANTHEA.Presentation.Tests.dll supporto/artefatti/f5-13-c3/presentation --shell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^(ui/check-shell-draft|ui/check-module-host-offscreen)$' -Tag <tag>"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
+X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe --interactive-shell [archivio [--models] | --wiki articolo] [--module-impl modulo=mvvm|historic]
 ```
 
 ## 11. Parte (d): stato statico e calcoli in parallelo
