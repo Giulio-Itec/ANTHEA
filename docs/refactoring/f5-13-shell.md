@@ -400,6 +400,38 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stag
 Le immagini sono nella cartella della suite dentro `supporto/artefatti/ci/<data>-f5-13-c-bozza/`, con `binding-errors.txt`,
 `binding-errors-altre-viste.txt`, `test.txt` ed `esito.txt`.
 
+### 9.4 Prima esecuzione e correzioni (sera del 22/10)
+
+Agente `f5-13-bozza-prova`, ramo `refactoring/f5-13-bozza-prova` da `refactoring/f5` c1dd1d1c. La corsa mirata del coordinatore
+(`ci\20261022-190511-mirate-22-10`) aveva scritto le immagini da 01 a 09 e fallito a `ShellDraftChecks.cs:126`.
+
+| Difetto | Causa | Correzione | Commit |
+| --- | --- | --- | --- |
+| In 04 e 09 la scheda di un foglio di **progetto** mostra solo la barra del foglio, stirata a tutta altezza, e l'ultima riga della vista del modulo | `SheetBarView` era un `DockPanel` con i comandi a sinistra e l'intestazione come ultimo figlio. Accanto a navigazione e albero restano circa 1040 px: con «Conferma modifiche», annulla e ripristina i comandi li occupano tutti, l'intestazione riceve larghezza zero e il sottotitolo va a capo a ogni lettera (circa 750 px). Il file singolo (05) non ha quei comandi, la finestra staccata (08) non ha la barra | una `WrapPanel` sola, alta almeno 68 px: ciò che non entra va alla riga sotto, la barra è alta quanto le sue righe; titolo e sottotitolo senza a capo. Stessi comandi, stesso ordine | 5042fc7d |
+| Controllo combinato a `ShellDraftChecks.cs:126` | `QuietWindow.IsActive` sempre falso: `MoveToNewWindow` chiede l'attivazione due volte (`OnActiveChanged` e `Select`); sul desktop la seconda non parte perché la finestra è già attiva. Il tracker è corretto | `QuietWindow` come una finestra vera (dopo `Activate` è attiva e segnala `Activated`); quattro controlli separati con i conteggi nel messaggio, più quello sulla creazione della finestra; nulla di allentato | b2e03b7a |
+| Due errori di binding di un `TreeViewItem` al passo 04, contati tra quelli «di altre viste» | albero del progetto della bozza: lo stile del tema lega gli allineamenti all'`ItemsControl` genitore e un nodo costruito alla ricostruzione dell'albero e tolto prima del layout restava senza sorgente | allineamenti in uno stile implicito del `TreeView` (in `ItemContainerStyle` non bastava); «TreeViewItem» ora conta come errore della bozza | 8203bc84, b2e03b7a |
+| Striscia vuota a destra e in basso in ogni immagine | la bitmap era grande quanto la finestra intera, cornice e titolo compresi | immagine dell'area client | b2e03b7a |
+
+Gli errori di binding ora riportano il passo («[04-schede] …»). Resta in `binding-errors-altre-viste.txt` un errore di un `TabItem`
+(`TabStripPlacement`) al passo 05, dalla vista dei materiali (acciaio per armature), non dalla bozza.
+
+Esito: `ui/check-shell-draft` PASS 16 controlli, dieci PNG compreso `10-scuro.png`, nessun errore di binding della bozza. Le dieci immagini
+per il punto di controllo sono in `C:\Users\g.pacini\Documents\Repository\ANTHEA-f5-ripresa\f5-agenti\f5-13-bozza-prova\immagini\` (area
+client, 96 DPI: principale 1586 × 953, staccata 1186 × 823).
+
+Da sapere guardando le immagini, prima di decidere SH5–SH32 (nessuna cambiata dalla prova):
+- **Larghezza per il foglio.** Con navigazione (SH23) e albero (SH24) sempre visibili restano circa 1025 px per il foglio. La barra di un
+  foglio di progetto va su due righe (04, 09, 10: «Approfondimenti ▾» e l'intestazione sotto). La vista del calcestruzzo (09, 10) scorre in
+  orizzontale e la colonna «Composizione» è tagliata. Nella vista del palo verticale (04) il menu «Nessuna riduzione» è tagliato. Con
+  l'albero chiuso da «▸» si guadagnano 330 px.
+- **File singolo con un archivio aperto (05).** Restano la barra «ANTHEA | Progetti» e le revisioni di «Spalla A», e l'albero evidenzia
+  ancora «Pali della spalla». Annulla e ripristina della barra del progetto valgono per il progetto, non per il file (SH21, SH31).
+- **Finestra staccata (08).** Ha solo la barra delle sue schede e «Riaggancia». Non ha la barra del foglio né quella del progetto: Salva,
+  report e «Conferma modifiche» del foglio staccato sono nella barra della principale, che segue il foglio con il fuoco (SH21, SH29).
+- **Scuro (10).** I testi si leggono. I triangoli dell'albero, del modello WPF di base senza token, si vedono appena; l'albero storico usa
+  `ProjectTreeItem` con le sue frecce.
+- **Pagina Progetti (03).** I dati comuni booleani si leggono «false» (testo del ViewModel, non della disposizione).
+
 ## 10. Parte (c): stato, verifiche e cosa resta
 
 Fatto il 22/10, fino al punto di controllo:
