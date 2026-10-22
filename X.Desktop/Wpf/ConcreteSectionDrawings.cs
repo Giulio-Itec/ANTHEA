@@ -44,6 +44,13 @@ internal static class ConcreteSectionDrawings
         target.SetActions(source.Actions, source.SelectedId, source.SelectedResistance);
     }
 
+    /// <summary>The M–χ chart from its data (ApplyCurvature of PlotPresentation; no curve: no series, as InvalidateCurvature).</summary>
+    internal static void Apply(Plot target, ConcreteCurvatureChartViewModel source)
+    {
+        target.Series = source.Points.Count == 0 ? [] : [new(source.SeriesName, [.. source.Points], Ui.Blue)];
+        target.InvalidateVisual();
+    }
+
     /// <summary>The plot of a 2D domain panel, as the historic DomainPanel builds it.</summary>
     internal static Plot DomainPlot() => new() { InvertY = false, CenteredAxes = true, Title = "Sezione del dominio", EmptyMessage = "Dominio in attesa di aggiornamento automatico" };
 

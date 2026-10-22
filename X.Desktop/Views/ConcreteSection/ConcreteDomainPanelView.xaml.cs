@@ -1,12 +1,9 @@
 using System.ComponentModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using Anthea.Application.Concrete;
 using Anthea.Application.Presentation;
 using Anthea.Presentation.Modules.ConcreteSection;
-using X.Core;
 
 namespace X.Desktop.Views.ConcreteSection;
 
@@ -135,31 +132,9 @@ public partial class ConcreteDomainPanelView : UserControl
 
     // ---------------------------------------------------------------- «PNG», «Espandi», «Adatta» of the frames (ViewportFrame of the historic view)
 
-    private ConcreteSectionSheetView? Sheet
-    {
-        get
-        {
-            for (DependencyObject? node = this; node is not null; node = VisualTreeHelper.GetParent(node) ?? LogicalTreeHelper.GetParent(node))
-                if (node is ConcreteSectionSheetView sheet) return sheet;
-            return null;
-        }
-    }
+    private void SavePng(FrameworkElement drawing, string title) => ConcreteViewFrames.SavePng(this, drawing, title);
 
-    private void SavePng(FrameworkElement drawing, string title)
-    {
-        var choose = Sheet?.ChooseImagePath ?? ConcreteSectionSheetView.ChooseImage;
-        if (choose("ANTHEA_" + title.Replace(' ', '_') + ".png") is not { } path) return;
-        try { Archivio.ScriviAtomico(path, drawing is DrawingView view ? view.Png() : Ui.DocumentSnapshot(drawing)); }
-        catch (Exception error) when (error is IOException or UnauthorizedAccessException) { MessageBox.Show(Window.GetWindow(this), error.Message, "Esportazione immagine"); }
-    }
-
-    private void Expand(ContentControl host, FrameworkElement drawing, string title)
-    {
-        host.Content = null;
-        var window = Ui.Dialog(this, title, drawing, 1200, 800);
-        window.Closed += (_, _) => { window.Content = null; host.Content = drawing; };
-        (Sheet?.ShowWindow ?? (w => w.ShowDialog()))(window);
-    }
+    private void Expand(ContentControl host, FrameworkElement drawing, string title) => ConcreteViewFrames.Expand(this, host, drawing, title);
 
     private void Png_Click(object sender, RoutedEventArgs e) { if (Drawing is { } drawing) SavePng(drawing, FrameTitle.Text); }
 

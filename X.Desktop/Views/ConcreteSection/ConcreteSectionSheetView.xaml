@@ -6,7 +6,7 @@
   of the cables, the resistances at given N and the summaries of the checks. The forms are compact FieldForm (D10); colours and font sizes are theme
   tokens only (rule P7). The code-behind draws the section from the plain data of the sheet (ConcreteSectionDrawings, Q3), keeps the splitters with
   the ratios saved in the sheet and opens the windows of the view; every write into the document goes through the ViewModel.
-  The tabs 02–08 are bound to their ViewModels panel by panel (section 20 of docs/refactoring/f5-10-sezione.md says which are done).
+  The tabs 02–08 are views of their own, each on the ViewModel of its panel (section 20 of docs/refactoring/f5-10-sezione.md).
 -->
 <UserControl x:Class="X.Desktop.Views.ConcreteSection.ConcreteSectionSheetView"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -232,7 +232,7 @@
      </Grid>
     </TabItem>
 
-    <!-- ================================================================ 02, 03 · Domini 3D e 2D; 04–08 bound panel by panel (section 20 of the note) -->
+    <!-- ================================================================ 02–08: the panels of the tabs, each on its ViewModel -->
     <TabItem Padding="14,9,14,9">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="02"/><TextBlock Style="{StaticResource T14Bold}" Text="  Dominio 3D"/></WrapPanel></TabItem.Header>
      <views:ConcreteDomainPanelView x:Name="Domain3DView" DataContext="{Binding Domain3D}"/>
@@ -243,23 +243,28 @@
     </TabItem>
     <TabItem Padding="14,9,14,9">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="04"/><TextBlock Style="{StaticResource T14Bold}" Text="  Tensioni e fessurazione"/></WrapPanel></TabItem.Header>
-     <TextBlock Style="{StaticResource T12}" Margin="16" Text="Scheda non ancora nella vista XAML (F5.10, sezione 20 della nota)."/>
+     <!-- The families of the serviceability: a tab control without headers, as the historic sleTabs; the family follows StressFamily. -->
+     <TabControl x:Name="StressTabs" Template="{StaticResource ContentOnlyTabs}" SelectedIndex="{Binding StressFamily}">
+      <TabItem Header="{Binding StressPanels[0].Label}"><views:ConcreteStressPanelView DataContext="{Binding StressPanels[0]}"/></TabItem>
+      <TabItem Header="{Binding StressPanels[1].Label}"><views:ConcreteStressPanelView DataContext="{Binding StressPanels[1]}"/></TabItem>
+      <TabItem Header="{Binding StressPanels[2].Label}"><views:ConcreteStressPanelView DataContext="{Binding StressPanels[2]}"/></TabItem>
+     </TabControl>
     </TabItem>
     <TabItem Padding="14,9,14,9">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="05"/><TextBlock Style="{StaticResource T14Bold}" Text="  Taglio e torsione"/></WrapPanel></TabItem.Header>
-     <TextBlock Style="{StaticResource T12}" Margin="16" Text="Scheda non ancora nella vista XAML (F5.10, sezione 20 della nota)."/>
+     <views:ConcreteShearView x:Name="ShearView" DataContext="{Binding Shear}"/>
     </TabItem>
     <TabItem Padding="14,9,14,9">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="06"/><TextBlock Style="{StaticResource T14Bold}" Text="  Dettagli costruttivi"/></WrapPanel></TabItem.Header>
-     <TextBlock Style="{StaticResource T12}" Margin="16" Text="Scheda non ancora nella vista XAML (F5.10, sezione 20 della nota)."/>
+     <views:ConcreteDetailingView x:Name="DetailingView" DataContext="{Binding Detailing}"/>
     </TabItem>
     <TabItem Padding="14,9,14,9">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="07"/><TextBlock Style="{StaticResource T14Bold}" Text="  Momento–curvatura"/></WrapPanel></TabItem.Header>
-     <TextBlock Style="{StaticResource T12}" Margin="16" Text="Scheda non ancora nella vista XAML (F5.10, sezione 20 della nota)."/>
+     <views:ConcreteCurvatureView x:Name="CurvatureView" DataContext="{Binding Curvature}"/>
     </TabItem>
     <TabItem Padding="14,9,14,9">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="08"/><TextBlock Style="{StaticResource T14Bold}" Text="  Calcola armature"/></WrapPanel></TabItem.Header>
-     <TextBlock Style="{StaticResource T12}" Margin="16" Text="Scheda non ancora nella vista XAML (F5.10, sezione 20 della nota)."/>
+     <views:ConcreteDesignView x:Name="DesignView" DataContext="{Binding Design}"/>
     </TabItem>
    </TabControl>
   </DockPanel>

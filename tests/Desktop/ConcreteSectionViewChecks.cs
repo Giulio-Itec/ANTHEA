@@ -30,20 +30,20 @@ namespace X.Desktop;
 /// outside the screen (never activated, no mouse). The Release keeps the historic view (decisions of 17/10 and 22/10). Parts:
 /// <list type="number">
 /// <item>«banco»: with the option the bench opens the MVVM view, the Release keeps the historic one.</item>
-/// <item>«disegni»: the drawings of the sheet fed by the plain data of the ViewModel through <see cref="ConcreteSectionDrawings"/> (the section of
-/// the control panel of the view, the stress maps of the three families with every contour of the Rara for two fixtures, the section of the shear,
-/// the section σ/ε and the strain plane of the 3D panel at the limit point and at the action, the 2D domain, the M–χ curve), for every F3 fixture,
-/// equal to the display lists of the historic view frozen in tests/fixtures/f5-sezione/disegni/elenco.txt.</item>
+/// <item>«disegni»: the drawings of the view, fed by the plain data of the ViewModel through <see cref="ConcreteSectionDrawings"/> (the section of
+/// the control panel, the stress maps of the three families with every contour of the Rara for two fixtures, the section of the shear, the section
+/// σ/ε and the strain plane of the 3D panel at the limit point and at the action, the 2D domain, the M–χ curve), for every F3 fixture, equal to the
+/// display lists of the historic view frozen in tests/fixtures/f5-sezione/disegni/elenco.txt.</item>
 /// <item>«esportazioni»: for each of the 11 F3 fixtures, on the same data, the MVVM view and the historic view: the data after the opening, after
 /// the visit of the F3 capture (and the three appearances that write nothing), after the calculation, the result; then the exports: the Word report
 /// with every part (figures included, dates normalized) and the PDF beside it, the short report, the JSON of the results, the report of the M–χ
 /// curve with its figure.</item>
 /// <item>«schermate»: the tab 01 of the view in Chiara, Scuro and Molto scuro (folder schermate; 144 DPI on this machine), and the historic one.</item>
-/// <item>«aiuto»: every F1 on a field of every form of the tab 01 reaches the IWikiNavigator of the services (lesson 1 of 17/10), F1 elsewhere the
-/// guide of the module.</item>
-/// <item>«sola-lettura»: in the tab 01 the controls that accept the user after InspectRevision are those of the historic view.</item>
+/// <item>«aiuto»: every F1 on a field of every form of the eight tabs reaches the IWikiNavigator of the services (lesson 1 of 17/10), F1 elsewhere
+/// the guide of the module.</item>
+/// <item>«sola-lettura»: in the eight tabs the buttons and check boxes that accept the user after InspectRevision are those of the historic view.</item>
 /// </list>
-/// The traces through the controls of the view (tests/Shared/ConcreteSectionTrace.cs) come with the tabs 02–08 of the view (section 20 of
+/// The traces through the controls of the view (tests/Shared/ConcreteSectionTrace.cs) are still to write (section 20 of
 /// docs/refactoring/f5-10-sezione.md). Writes dettaglio.txt and esito.txt («PASS n controlli …»).
 /// </summary>
 internal static class ConcreteSectionViewChecks
@@ -246,36 +246,34 @@ internal static class ConcreteSectionViewChecks
             {
                 await Show(ConcreteSheetViewModel.StressTab); sheet.StressFamily = panel.Index; await host.Settle();
                 if (panel.Map.Stress is null) continue;
-                var map = new ConcreteSectionViewport(); ConcreteSectionDrawings.Apply(map, panel.Map);
+                // The map of the family in the view (tab 04).
+                var map = CompositeSectionViewChecks.Walk(host.Root).OfType<ConcreteStressPanelView>().Single(v => ReferenceEquals(v.DataContext, panel)).Map;
                 list.Add(ConcreteSectionHistoricTrace.Record(output, id + " " + panel.Key + " 900x700", map, 900, 700));
                 if (id is not ("default" or "sle-fessurazione-assi") || panel.Key != "SLE") continue;
+                string shown = map.Contour;
                 foreach (string other in ConcreteSectionViewport.Contours)
                 {
                     map.Contour = other;
                     list.Add(ConcreteSectionHistoricTrace.Record(output, id + " " + panel.Key + " " + other + " 900x700", map, 900, 700));
                 }
+                map.Contour = shown;
             }
             await Show(ConcreteSheetViewModel.ShearTab);
-            var shear = new ConcreteSectionViewport(); ConcreteSectionDrawings.Apply(shear, sheet.Shear.Drawing);
-            list.Add(ConcreteSectionHistoricTrace.Record(output, id + " taglio 700x600", shear, 700, 600));
+            list.Add(ConcreteSectionHistoricTrace.Record(output, id + " taglio 700x600", host.View.ShearView.Drawing, 700, 600));
             await Show(1);
             var inspection = sheet.Domain3D.Inspection; sheet.Domain3D.InspectionTab = 1; await host.Settle();
             foreach (int state in new[] { 1, 0 })
             {
                 inspection.State = state; await host.Settle();
                 string label = state == 1 ? "limite" : "azione";
-                var view = new ConcreteSectionViewport(); ConcreteSectionDrawings.Apply(view, inspection.Map);
-                list.Add(ConcreteSectionHistoricTrace.Record(output, id + " ispezione 3D " + label + " 800x650", view, 800, 650));
-                list.Add(ConcreteSectionHistoricTrace.Record(output, id + " piano 3D " + label + " 800x650", new ConcreteStrainPlaneView { Diagram = inspection.Plane }, 800, 650));
+                list.Add(ConcreteSectionHistoricTrace.Record(output, id + " ispezione 3D " + label + " 800x650", host.View.Domain3DView.Map, 800, 650));
+                list.Add(ConcreteSectionHistoricTrace.Record(output, id + " piano 3D " + label + " 800x650", host.View.Domain3DView.Plane, 800, 650));
             }
             await Show(2);
-            var plot = ConcreteSectionDrawings.DomainPlot(); ConcreteSectionDrawings.Apply(plot, sheet.Domain2D.Chart!);
-            list.Add(ConcreteSectionHistoricTrace.Record(output, id + " dominio 2D 900x700", plot, 900, 700));
+            list.Add(ConcreteSectionHistoricTrace.Record(output, id + " dominio 2D 900x700", (Plot)host.View.Domain2DView.Drawing!, 900, 700));
             await Show(6);
             await sheet.Curvature.CalculateCommand.ExecuteAsync(null); await host.Settle();
-            var curve = PlotPresentation.CurvaturePlot();
-            if (sheet.Curvature.Result is { } result) PlotPresentation.ApplyCurvature(curve, result);
-            list.Add(ConcreteSectionHistoricTrace.Record(output, id + " momento-curvatura 900x650", curve, 900, 650));
+            list.Add(ConcreteSectionHistoricTrace.Record(output, id + " momento-curvatura 900x650", host.View.CurvatureView.Chart, 900, 650));
         }
         ConcreteSectionTrace.Write(Path.Combine(output, "elenco.txt"), list);
         string? difference = ConcreteSectionTrace.FirstDifference(ConcreteSectionTrace.Read(Path.Combine(ConcreteSectionScenarios.Drawings(root), "elenco.txt")), list);
@@ -453,8 +451,8 @@ internal static class ConcreteSectionViewChecks
 
     // ---------------------------------------------------------------- 6. read-only
 
-    /// <summary>The main tabs bound to their ViewModels so far (section 20 of docs/refactoring/f5-10-sezione.md): 01, 02 and 03.</summary>
-    private static readonly int[] BoundTabs = [0, 1, 2];
+    /// <summary>The main tabs of the view, every one bound to its ViewModel (section 20 of docs/refactoring/f5-10-sezione.md).</summary>
+    private static readonly int[] BoundTabs = [0, 1, 2, 3, 4, 5, 6, 7];
 
     /// <summary>The controls of the tab 01 that accept the user after InspectRevision, in the new view and in the historic view on the same data.</summary>
     private static async Task ReadOnly(string root)

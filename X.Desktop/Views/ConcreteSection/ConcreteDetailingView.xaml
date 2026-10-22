@@ -1,0 +1,134 @@
+<!--
+  The tab 06 «Dettagli costruttivi» of the RC section (F5.10 view after S9) on ConcreteDetailingViewModel, with the layout of BuildDetailingPanel of the
+  historic view: five rows, each with the inputs on the left and the checks on the right (the dividers of the group «ingressi»): the element and the
+  summary of the detailing; cover and spacing (the net cover of the inputs, «Modifica geometria nel pannello di controllo →», the durability, its
+  note); reinforcement («Modifica armature nel pannello di controllo →», the note); links (read-only, with «Modifica staffe…», and the retained bars);
+  anchorages and supports (the confirmation, the form of the anchorage or of the lap, «Aggiorna verifiche ancoraggi», the note) with the checks of the
+  anchorage. Theme tokens only (P7).
+-->
+<UserControl x:Class="X.Desktop.Views.ConcreteSection.ConcreteDetailingView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop"
+ xmlns:views="clr-namespace:X.Desktop.Views.ConcreteSection"
+ xmlns:concrete="clr-namespace:Anthea.Presentation.Modules.ConcreteSection;assembly=ANTHEA.Presentation">
+ <UserControl.Resources>
+  <ResourceDictionary>
+   <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="ConcreteSectionResources.xaml"/></ResourceDictionary.MergedDictionaries>
+   <Style x:Key="Row" TargetType="Grid">
+    <Setter Property="Margin" Value="0,10,0,0"/>
+   </Style>
+  </ResourceDictionary>
+ </UserControl.Resources>
+ <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+  <StackPanel>
+   <!-- Tipo di elemento · Riepilogo dei dettagli. -->
+   <Grid Style="{StaticResource Row}" Tag="ingressi">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="3*" MinWidth="285"/><ColumnDefinition Width="8"/><ColumnDefinition Width="7*" MinWidth="650"/></Grid.ColumnDefinitions>
+    <Border Style="{StaticResource Paper}">
+     <DockPanel>
+      <StackPanel Style="{StaticResource PanelHeading}"><TextBlock Style="{StaticResource T14Bold}" Text="Tipo di elemento"/></StackPanel>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding Element}"/>
+     </DockPanel>
+    </Border>
+    <GridSplitter Style="{StaticResource ColumnSplitter}"/>
+    <Border Grid.Column="2" Style="{StaticResource Paper}">
+     <DockPanel>
+      <StackPanel Style="{StaticResource PanelHeading}"><TextBlock Style="{StaticResource T14Bold}" Text="Riepilogo dei dettagli"/></StackPanel>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding Summary}" ContentTemplate="{StaticResource SummaryCards}"/>
+     </DockPanel>
+    </Border>
+   </Grid>
+   <!-- Interferro / copriferro. -->
+   <Grid Style="{StaticResource Row}" Tag="ingressi">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="3*" MinWidth="285"/><ColumnDefinition Width="8"/><ColumnDefinition Width="7*" MinWidth="650"/></Grid.ColumnDefinitions>
+    <Border Style="{StaticResource Paper}">
+     <DockPanel>
+      <StackPanel Style="{StaticResource PanelHeading}"><TextBlock Style="{StaticResource T14Bold}" Text="{Binding Topics[0].Title}"/></StackPanel>
+      <StackPanel>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding CoverGeometry}"/>
+       <Button Style="{StaticResource Command}" Content="Modifica geometria nel pannello di controllo →" Command="{Binding ShowControlPanelCommand}" HorizontalAlignment="Left"/>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding Cover}"/>
+       <TextBlock Style="{StaticResource T11}" Text="{Binding DurabilityNote}"/>
+      </StackPanel>
+     </DockPanel>
+    </Border>
+    <GridSplitter Style="{StaticResource ColumnSplitter}"/>
+    <Border Grid.Column="2" Style="{StaticResource Paper}">
+     <DockPanel>
+      <StackPanel Style="{StaticResource PanelHeading}"><TextBlock Style="{StaticResource T14Bold}" Text="{Binding Topics[0].Title, StringFormat=Verifiche · {0}}"/></StackPanel>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding Topics[0].Checks}" ContentTemplate="{StaticResource SummaryCards}"/>
+     </DockPanel>
+    </Border>
+   </Grid>
+   <!-- Armatura. -->
+   <Grid Style="{StaticResource Row}" Tag="ingressi">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="3*" MinWidth="285"/><ColumnDefinition Width="8"/><ColumnDefinition Width="7*" MinWidth="650"/></Grid.ColumnDefinitions>
+    <Border Style="{StaticResource Paper}">
+     <DockPanel>
+      <StackPanel Style="{StaticResource PanelHeading}"><TextBlock Style="{StaticResource T14Bold}" Text="{Binding Topics[1].Title}"/></StackPanel>
+      <StackPanel>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding Bars}"/>
+       <Button Style="{StaticResource Command}" Content="Modifica armature nel pannello di controllo →" Command="{Binding ShowControlPanelCommand}" HorizontalAlignment="Left"/>
+       <TextBlock Style="{StaticResource T11}" Text="{x:Static concrete:ConcreteDetailingViewModel.BarsNotice}"/>
+      </StackPanel>
+     </DockPanel>
+    </Border>
+    <GridSplitter Style="{StaticResource ColumnSplitter}"/>
+    <Border Grid.Column="2" Style="{StaticResource Paper}">
+     <DockPanel>
+      <StackPanel Style="{StaticResource PanelHeading}"><TextBlock Style="{StaticResource T14Bold}" Text="{Binding Topics[1].Title, StringFormat=Verifiche · {0}}"/></StackPanel>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding Topics[1].Checks}" ContentTemplate="{StaticResource SummaryCards}"/>
+     </DockPanel>
+    </Border>
+   </Grid>
+   <!-- Staffe. -->
+   <Grid Style="{StaticResource Row}" Tag="ingressi">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="3*" MinWidth="285"/><ColumnDefinition Width="8"/><ColumnDefinition Width="7*" MinWidth="650"/></Grid.ColumnDefinitions>
+    <Border Style="{StaticResource Paper}">
+     <DockPanel>
+      <StackPanel Style="{StaticResource PanelHeading}"><TextBlock Style="{StaticResource T14Bold}" Text="{Binding Topics[2].Title}"/></StackPanel>
+      <StackPanel>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding Stirrups.Values}"/>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding Stirrups.Scheme}"/>
+       <Button Style="{StaticResource Command}" Content="{Binding Stirrups.EditText}" Command="{Binding ShowControlPanelCommand}" HorizontalAlignment="Left"/>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding Retained}"/>
+      </StackPanel>
+     </DockPanel>
+    </Border>
+    <GridSplitter Style="{StaticResource ColumnSplitter}"/>
+    <Border Grid.Column="2" Style="{StaticResource Paper}">
+     <DockPanel>
+      <StackPanel Style="{StaticResource PanelHeading}"><TextBlock Style="{StaticResource T14Bold}" Text="{Binding Topics[2].Title, StringFormat=Verifiche · {0}}"/></StackPanel>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding Topics[2].Checks}" ContentTemplate="{StaticResource SummaryCards}"/>
+     </DockPanel>
+    </Border>
+   </Grid>
+   <!-- Ancoraggi / appoggi. -->
+   <Grid Style="{StaticResource Row}" Tag="ingressi">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="3*" MinWidth="285"/><ColumnDefinition Width="8"/><ColumnDefinition Width="7*" MinWidth="650"/></Grid.ColumnDefinitions>
+    <Border Style="{StaticResource Paper}">
+     <DockPanel>
+      <StackPanel Style="{StaticResource PanelHeading}"><TextBlock Style="{StaticResource T14Bold}" Text="{Binding Topics[3].Title}"/></StackPanel>
+      <StackPanel>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding Supports}"/>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding Anchorage}"/>
+       <Button Style="{StaticResource Command}" Content="Aggiorna verifiche ancoraggi" Command="{Binding UpdateAnchoragesCommand}" HorizontalAlignment="Left"/>
+       <TextBlock Style="{StaticResource T11}" Text="{x:Static concrete:ConcreteDetailingViewModel.AnchorageNotice}"/>
+      </StackPanel>
+     </DockPanel>
+    </Border>
+    <GridSplitter Style="{StaticResource ColumnSplitter}"/>
+    <Border Grid.Column="2" Style="{StaticResource Paper}">
+     <DockPanel>
+      <StackPanel Style="{StaticResource PanelHeading}"><TextBlock Style="{StaticResource T14Bold}" Text="{Binding Topics[3].Title, StringFormat=Verifiche · {0}}"/></StackPanel>
+      <StackPanel>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding Topics[3].Checks}" ContentTemplate="{StaticResource SummaryCards}"/>
+       <ContentControl Style="{StaticResource Form}" Content="{Binding AnchorageChecks}" ContentTemplate="{StaticResource SummaryCards}"/>
+      </StackPanel>
+     </DockPanel>
+    </Border>
+   </Grid>
+  </StackPanel>
+ </local:ChainedScrollViewer>
+</UserControl>

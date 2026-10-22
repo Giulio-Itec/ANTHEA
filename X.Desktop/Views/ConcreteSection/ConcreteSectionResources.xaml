@@ -133,11 +133,26 @@
   <Setter Property="Grid.Row" Value="1"/>
  </Style>
 
- <!-- The cards of a summary (VerificationCards of the historic view, one column): the message, or the summaries with the colour of η. -->
+ <!-- A tab control that shows only the selected content (the families of the serviceability, as the historic sleTabs). -->
+ <ControlTemplate x:Key="ContentOnlyTabs" TargetType="TabControl">
+  <ContentPresenter ContentSource="SelectedContent"/>
+ </ControlTemplate>
+
+ <!-- The cards of a summary (VerificationCards of the historic view, one or two columns): the message, or the summaries with the colour of η. -->
  <DataTemplate x:Key="SummaryCards" DataType="{x:Type concrete:ConcreteCardsViewModel}">
   <StackPanel>
    <TextBlock Style="{StaticResource T12}" Text="{Binding Message}" Visibility="{Binding Message, Converter={StaticResource TextShown}}"/>
    <ItemsControl Focusable="False" ItemsSource="{Binding Cards}">
+    <ItemsControl.Style>
+     <Style TargetType="ItemsControl">
+      <Setter Property="ItemsPanel"><Setter.Value><ItemsPanelTemplate><UniformGrid Columns="{Binding Columns}"/></ItemsPanelTemplate></Setter.Value></Setter>
+      <Style.Triggers>
+       <DataTrigger Binding="{Binding Columns}" Value="1">
+        <Setter Property="ItemsPanel"><Setter.Value><ItemsPanelTemplate><StackPanel/></ItemsPanelTemplate></Setter.Value></Setter>
+       </DataTrigger>
+      </Style.Triggers>
+     </Style>
+    </ItemsControl.Style>
     <ItemsControl.ItemTemplate>
      <DataTemplate DataType="{x:Type concrete:ConcreteCard}">
       <Border BorderBrush="{Binding Converter={StaticResource CardBrush}}" BorderThickness="5,0,0,0" Background="{DynamicResource Token.Paper}"
