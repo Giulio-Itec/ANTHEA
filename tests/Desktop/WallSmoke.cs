@@ -187,7 +187,7 @@ internal sealed class HistoricWallSmoke(RetainingWallWorkspace w) : WallSmoke
         await Task.CompletedTask;
     }
 
-    internal override string[] ReportFigureCaptions(bool global) => WallAdvancedChecks.ReportFigureCaptions(w, global);
+    internal override string[] ReportFigureCaptions(bool global) => WallAdvancedChecks.ReportFigureCaptions(w.CreateBarDrawing().PageCount, global);
 }
 
 /// <summary>f5-suite-ui: the XAML view of the walls (RetainingWallSheetView) driven through its controls, as RetainingWallViewChecks drives it.</summary>
@@ -261,8 +261,56 @@ internal sealed class MvvmWallSmoke : WallSmoke
     private WallInputGrid Grid(string table) => Named<WallInputGrid>(table switch
     {
         "valle" => "ValleyGrid", "monte" => "MountainGrid", "azioni" => "ActionGrid", "matrice" => "MatrixGrid", "matrice-globale" => "GlobalMatrixGrid",
+        "globale-monte" => "GlobalRearGrid", "globale-valle" => "GlobalValleyGrid",
         _ => throw new ArgumentException("Tabella sconosciuta: " + table)
     });
+
+    // ---- f5-pass-muri: what the offscreen checks of the archived RetainingWallWorkspace read and drove (OffscreenWall)
+
+    /// <summary>The view of the sheet.</summary>
+    internal RetainingWallSheetView SheetView => View;
+
+    /// <summary>The user selects a row of a table of the inputs.</summary>
+    internal void SelectRow(string table, int row) => Grid(table).SelectedIndex = row;
+
+    /// <summary>A click on the button bound to <paramref name="command"/> (with <paramref name="parameter"/>), built also in a closed group.</summary>
+    internal void Command(string command, string? parameter = null)
+    {
+        RetainingWallViewChecks.Realize(View); Layout();
+        Press(All.OfType<Button>().First(b => BoundPath(b, ButtonBase.CommandProperty) == command && Equals(b.CommandParameter, parameter)));
+    }
+
+    /// <summary>A click on the button with the caption, built also in a closed group or in a panel of results.</summary>
+    internal void Click(string caption) { RetainingWallViewChecks.Realize(View); Layout(); Press(Caption(caption)); }
+
+    /// <summary>The caption of the button bound to <paramref name="command"/>.</summary>
+    internal string? CommandCaption(string command) { RetainingWallViewChecks.Realize(View); return CommandButton(command).Content as string; }
+
+    /// <summary>The state of a check box of a form.</summary>
+    internal bool? IsChecked(string form, string key) => Editor<CheckBox>(form, key).IsChecked;
+
+    /// <summary>The user can change the field (a text field neither read-only nor disabled).</summary>
+    internal bool IsEditable(string form, string key) => EditorOf(form, key) is TextBox text ? !text.IsReadOnly && text.IsEnabled : EditorOf(form, key).IsEnabled;
+
+    /// <summary>The FieldForm of a form, built also in a closed group.</summary>
+    internal FieldForm FormView(string form)
+    {
+        var model = Sheet.Forms[form];
+        RetainingWallViewChecks.Realize(View); Layout();
+        return All.OfType<FieldForm>().First(f => ReferenceEquals(f.DataContext, model));
+    }
+
+    /// <summary>The calculations and the searches of the sheet finished (the work of a button that returns at once), within 120 s.</summary>
+    internal async Task WaitIdle()
+    {
+        for (int i = 0; i < 2400; i++)
+        {
+            await Sheet.PendingWork.WaitAsync(TimeSpan.FromSeconds(120));
+            if (!Sheet.IsBusy && Sheet.PendingWork.IsCompleted) return;
+            await Task.Delay(50);
+        }
+        throw new TimeoutException("Foglio dei muri ancora occupato dopo 120 s.");
+    }
 
     private JsonRowViewModel GridRow(string table, int row) => (JsonRowViewModel)Grid(table).Items[row];
 
@@ -433,4 +481,69 @@ internal sealed class MvvmWallSmoke : WallSmoke
 
     internal override string[] ReportFigureCaptions(bool global) =>
         WallAdvancedChecks.ReportFigureCaptions(new RetainingWallBarDrawing(Sheet.Calculation!.Input, Sheet.CreateBarSchedule()).PageCount, global);
+}
+
+/// <summary>
+/// f5-pass-muri: a sheet of the walls opened by the factory of the bench with the XAML view (as the Release opens it since the switch), in a
+/// window outside the screen never activated (no mouse, no keyboard of the user), driven through <see cref="MvvmWallSmoke"/>: the offscreen
+/// checks that drove the archived RetainingWallWorkspace (GlobalGuidanceChecks, WallAdvancedChecks, WallMaterialChecks, ReportAppearanceChecks).
+/// </summary>
+internal sealed class OffscreenWall : IDisposable
+{
+    private readonly Window window;
+    internal MvvmSheetEditor Editor { get; }
+    internal MvvmWallSmoke Wall { get; }
+    internal RetainingWallSheetViewModel Sheet => Wall.Sheet;
+    internal RetainingWallSheetView View => Wall.SheetView;
+
+    private OffscreenWall(MvvmSheetEditor editor, BenchSheetServices services, double width, double height)
+    {
+        Editor = editor;
+        Wall = new MvvmWallSmoke(editor, services);
+        window = new Window
+        {
+            Content = editor.View, Width = width, Height = height, Left = -32000, Top = -32000, WindowStartupLocation = WindowStartupLocation.Manual,
+            ShowActivated = false, ShowInTaskbar = false, WindowStyle = WindowStyle.None, ResizeMode = ResizeMode.NoResize, Title = "Muro fuori schermo"
+        };
+        Appearance.Watch(window);
+        window.Show();
+        window.UpdateLayout();
+    }
+
+    /// <summary>Opens the sheet on <paramref name="data"/> (a copy) and waits for the automatic calculation of the opening.</summary>
+    internal static async Task<OffscreenWall> OpenAsync(JsonObject data, double width = 1600, double height = 1000)
+    {
+        var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Argument, WallModel.Module + "=mvvm"]);
+        var editor = factory.Open(WallModel.Module, data) as MvvmSheetEditor ?? throw new InvalidOperationException("Il muro non si apre con la vista XAML.");
+        var host = new OffscreenWall(editor, ModuleHostBench.ScriptedServices(factory)!, width, height);
+        await host.Wall.WaitIdle();
+        await host.Settle();
+        return host;
+    }
+
+    /// <summary>Every window of the application outside the screen and never activated: nothing on the desktop of the user.</summary>
+    internal static bool NothingOnScreen => Application.Current.Windows.Cast<Window>().All(w => !w.ShowActivated && !w.ShowInTaskbar
+        && (w.Left + w.ActualWidth <= SystemParameters.VirtualScreenLeft || w.Top + w.ActualHeight <= SystemParameters.VirtualScreenTop));
+
+    internal async Task Settle()
+    {
+        window.UpdateLayout();
+        await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle);
+        window.UpdateLayout();
+    }
+
+    /// <summary>The sheet laid out at <paramref name="width"/>×<paramref name="height"/>, as an image.</summary>
+    internal async Task<byte[]> Png(double width, double height)
+    {
+        window.Width = width; window.Height = height;
+        await Settle();
+        return Ui.Snapshot((FrameworkElement)window.Content);
+    }
+
+    public void Dispose()
+    {
+        window.Content = null;
+        window.Close();
+        Editor.Dispose();
+    }
 }

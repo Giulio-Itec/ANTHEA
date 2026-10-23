@@ -112,7 +112,7 @@ internal sealed partial class RetainingWallDrawing : FrameworkElement
                 var p = P(x, h + t); dc.DrawLine(new Pen(Ui.Navy, 1), new(p.X, p.Y - 20), p);
                 dc.DrawLine(new Pen(Ui.Navy, 1), p, new(p.X - 3, p.Y - 6)); dc.DrawLine(new Pen(Ui.Navy, 1), p, new(p.X + 3, p.Y - 6));
             }
-            Text(dc, $"qk = {RetainingWallWorkspace.F(q)} kPa", P(back, h + t).X, P(0, h + t).Y - 38, size: 11);
+            Text(dc, $"qk = {Anthea.Application.Presentation.WallSheetPresentation.Number(q)} kPa", P(back, h + t).X, P(0, h + t).Y - 38, size: 11);
         }
         Text(dc, "Valle", 8, height - 52, size: 11); Text(dc, "Monte", P(b, 0).X - 30, height - 52, size: 11);
         Text(dc, $"H = {h:0.00} m", 3, P(0, h + t).Y + 18, size: 11);
@@ -143,7 +143,7 @@ internal sealed partial class RetainingWallDrawing : FrameworkElement
             Polygon(dc, [new(right, y0), new(right + pw * seg.Total0 / Math.Max(1, max), y0), new(right + pw * seg.Total1 / Math.Max(1, max), y1), new(right, y1)], Ui.Brush(idx == SelectedPressure ? "#82BFDC" : "#C8E0EE"), new Pen(Ui.Blue, 1));
             plots.Add((new Rect(right, y0, pw, Math.Max(1, y1 - y0)), point => { double f = Math.Clamp((point.Y - y0) / Math.Max(.001, y1 - y0), 0, 1); return $"{c.Name}: z={seg.Z0 + f * (seg.Z1 - seg.Z0):0.000} m · p={seg.Total0 + f * (seg.Total1 - seg.Total0):0.000} kPa · φd={seg.PhiDesign:0.00}° · K={seg.K:0.0000} · Kae={seg.Ke:0.0000} · Δp={seg.Dynamic:0.000} kPa"; }));
         }
-        Text(dc, RetainingWallWorkspace.F(max), right, height - 54, Ui.Blue, 11);
+        Text(dc, Anthea.Application.Presentation.WallSheetPresentation.Number(max), right, height - 54, Ui.Blue, 11);
         }
         if (c.Contact.Valid)
         {
