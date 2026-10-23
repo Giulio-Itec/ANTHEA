@@ -8,14 +8,12 @@ using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
-    // A window created with the production services (ConcreteShort.UiChecks) also closes without questions.
-    internal void FinishSmoke() { services = TestServices.Create(this); dirty = false; editor?.Dispose(); }
     internal async Task Smoke(string directory, JsonArray cases)
     {
         Directory.CreateDirectory(directory); var log = new List<string>();
-        async Task Capture(string name) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, name + ".png"), Ui.Snapshot(this)); }
+        async Task Capture(string name) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, name + ".png"), Ui.Snapshot(Window)); }
         ShowHome(); await Capture("home"); ShowModules(); await Capture("moduli"); ShowProjects(); await Capture("progetti");
         document = Archivio.Documento("geo_palo_verticale"); ShowSheet(document); await Capture("palo_vuoto"); await openSheet.WaitForAutomatic();
         foreach (var (kind, module, name) in new[] { ("palo", "geo_palo_verticale", "palo_storico_0"), ("micropalo", "geo_micropalo_verticale", "micropalo_IRS_45_Feld"), ("sezione", "str_palo", "") })
@@ -55,8 +53,8 @@ public sealed partial class MainWindow
         first = document["progetti"]![0]!["strutture"]![0]!["fogli"]![0]!.AsObject();
         second = document["progetti"]![0]!["strutture"]![0]!["fogli"]![1]!.AsObject();
         ShowProjects(); await Capture("progetti_popolati");
-        var projectNode = (TreeViewItem)tree.Items[0]; var structureNode = (TreeViewItem)projectNode.Items[0]; ((TreeViewItem)structureNode.Items[0]).IsSelected = true; ShowSheet(first);
-        openSheet.SetGeometryForSmoke("1100"); ShowProjects(); ((TreeViewItem)((TreeViewItem)((TreeViewItem)tree.Items[0]).Items[0]).Items[1]).IsSelected = true; Commit(); ShowSheet(second);
+        SelectInTree(first); ShowSheet(first);
+        openSheet.SetGeometryForSmoke("1100"); ShowProjects(); SelectInTree(second); Commit(); ShowSheet(second);
         if (first["dati"]?["input"].S("diameter_mm") != "1100" || currentSheet != second) throw new Exception("Cambio foglio non conserva i dati");
         Commit(); string archive = Path.Combine(directory, "progetti.programma"); DocumentService.Save(archive, document);
         if (!ConcretePersistenceComparison.Equivalent(DocumentService.Open(archive), document)) throw new Exception("Round trip progetti WPF");

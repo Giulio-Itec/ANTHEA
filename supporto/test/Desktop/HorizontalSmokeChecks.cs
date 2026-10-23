@@ -9,14 +9,14 @@ using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     // The layout sizes start at Full HD (1920 × 1080 DIP), larger than what Windows lets a window track on smaller
     // or scaled screens (2560 px at 150 % stops at 1724 DIP). Raise the Win32 maximum tracking size while the smoke runs,
     // so every requested size is really reached and checked on any screen.
     private Action AllowWindowBeyondScreen()
     {
-        var source = (HwndSource)PresentationSource.FromVisual(this)!;
+        var source = (HwndSource)PresentationSource.FromVisual(Window)!;
         HwndSourceHook hook = (IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled) =>
         {
             // WM_GETMINMAXINFO: hooks added later run first, before WPF reads the system limits.
@@ -49,7 +49,7 @@ public sealed partial class MainWindow
         dirty = false; currentSheet = null; ShowSheet(document); await openSheet.WaitForHorizontalAutomatic();
         if (editor!.Result is null) throw new Exception("Palo orizzontale: calcolo WPF fallito");
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-        File.WriteAllBytes(Path.Combine(directory, "orizzontale.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "orizzontale.png"), Ui.Snapshot(Window));
         await openSheet.VerifyHorizontal(directory);
         double width = Width, height = Height;
         foreach (var size in new[] { (1920,1080), (1600, 990), (1280, 720), (960, 640), (760, 480) })

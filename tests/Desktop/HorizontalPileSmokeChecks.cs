@@ -418,7 +418,11 @@ internal sealed class HorizontalPileSmoke
                     throw new Exception("Sezione non ridimensionata a destra dei dati");
             }
             if (scroll.ExtentWidth > scroll.ViewportWidth + 1) throw new Exception("Scorrimento orizzontale esterno");
-            if (View.ActualWidth > ((FrameworkElement)Window.Content).ActualWidth + 1) throw new Exception("Modulo più largo della finestra");
+            // SH40 (approved): below 1120 × 680 the new shell keeps its minimum and scrolls; the module is checked inside the scrolling area, as in
+            // ui/shell-smoke-display. Inside the window otherwise, and always in MainWindow.
+            var host = Window is X.Desktop.Views.Shell.ShellWindow shellWindow && shellWindow.FindName("ShellViewport") is X.Desktop.Views.Shell.MinimumSizeViewport { Content: FrameworkElement scrolled } outer
+                && (outer.ComputedHorizontalScrollBarVisibility == Visibility.Visible || outer.ComputedVerticalScrollBarVisibility == Visibility.Visible) ? scrolled : (FrameworkElement)Window.Content;
+            if (View.ActualWidth > host.ActualWidth + 1) throw new Exception("Modulo più largo della finestra");
             // The places of the panel (LayoutCards on the canvas of the historic view).
             var bounds = cards.Where(c => c.Visibility == Visibility.Visible).Select(c => LayoutInformation.GetLayoutSlot(c)).ToArray();
             for (int i = 0; i < bounds.Length; i++)
@@ -430,7 +434,18 @@ internal sealed class HorizontalPileSmoke
         await Expand(-1); scroll.ScrollToTop();
         await Settle(); Check();
         if (Math.Abs(Window.ActualWidth - int.Parse(size, CultureInfo.InvariantCulture)) > 2) throw new Exception($"Smoke viewport not resized: requested {size}, actual {Window.ActualWidth}");
-        if (size == "1920" && scroll.ExtentHeight > scroll.ViewportHeight + 1) throw new Exception($"Full HD main page scrolls vertically: {scroll.ExtentHeight}/{scroll.ViewportHeight}");
+        if (size == "1920" && Window is X.Desktop.Views.Shell.ShellWindow shell)
+        {
+            // G6 (F5-61), decided by the user on 24/10/2026: in the new shell the main page may scroll inside its tab at Full HD; the check is on the area of
+            // the tab, as for SH40: the module inside the area of its tab, the shell itself not scrolling.
+            var area = editor.View; var position = View.TranslatePoint(new Point(), area);
+            var outer = (X.Desktop.Views.Shell.MinimumSizeViewport)shell.FindName("ShellViewport");
+            if (position.X < -1 || position.Y < -1 || position.X + View.ActualWidth > area.ActualWidth + 1 || position.Y + View.ActualHeight > area.ActualHeight + 1)
+                throw new Exception($"Full HD: module outside the area of its tab ({position.X:0.#}, {position.Y:0.#}, {View.ActualWidth:0.#} × {View.ActualHeight:0.#} in {area.ActualWidth:0.#} × {area.ActualHeight:0.#})");
+            if (outer.ComputedVerticalScrollBarVisibility == Visibility.Visible || outer.ComputedHorizontalScrollBarVisibility == Visibility.Visible)
+                throw new Exception("Full HD: the shell scrolls around the tab");
+        }
+        else if (size == "1920" && scroll.ExtentHeight > scroll.ViewportHeight + 1) throw new Exception($"Full HD main page scrolls vertically: {scroll.ExtentHeight}/{scroll.ViewportHeight}");
         if (Cards.Count != 7 || Sheet.ModelForm.Contains("modalita")) throw new Exception("Numero schede o modello errato");
         if (!Ui.Descendants<TextBlock>(Cards[1]).Any(t => t.Text == "Efficienza") ||
             !Ui.Descendants<TextBlock>(Cards[2]).Any(t => t.Text == "Coefficienti normativa") || Sheet.FactorsForm.Contains("efficienza_metodo"))
