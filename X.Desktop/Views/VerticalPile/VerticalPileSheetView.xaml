@@ -180,7 +180,13 @@
    <Setter Property="Background" Value="{DynamicResource Token.Calculated}"/>
    <Setter Property="IsReadOnly" Value="True"/>
   </Style>
-  <Style x:Key="LayerChoice" TargetType="ComboBox" BasedOn="{StaticResource LayerControl}">
+  <!-- F5.13 g3: based on the ComboBox style of the theme (its template in Scuro and Molto scuro, rule S17), with the setters of LayerControl, as
+       LayerChoice of the horizontal pile; based on LayerControl the choices of the layers kept the light system template in the dark appearances. -->
+  <Style x:Key="LayerChoice" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+   <Setter Property="VerticalAlignment" Value="Center"/>
+   <Setter Property="Margin" Value="3"/>
+   <Setter Property="Height" Value="26"/>
+   <Setter Property="ToolTipService.ShowDuration" Value="20000"/>
    <Setter Property="HorizontalContentAlignment" Value="Center"/>
    <Setter Property="IsEnabled" Value="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=views:VerticalPileSheetView}}"/>
   </Style>

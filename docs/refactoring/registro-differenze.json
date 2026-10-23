@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-23",
+  "aggiornato": "2026-10-24",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -9779,6 +9779,28 @@
       "test": ["supporto/test/Desktop/HorizontalSmokeChecks.cs e SmokeChecks.cs (ui/smoke-horizontal, ui/smoke): restano su MainWindow finché la domanda non è decisa"],
       "revisione_f5_15": "G6 (f5-13-shell §14.7); opzione provvisoria: le due suite restano su MainWindow, che quindi non si archivia",
       "voci_collegate": []
+    },
+    {
+      "id": "F5-62",
+      "data": "2026-10-24",
+      "fase": "F5.13 parte (g), terza tappa (G2): ui/check-contrast sulla shell a 96 DPI (ramo refactoring/f5-13-g3)",
+      "titolo": "Palo e micropalo verticale: in Scuro e Molto scuro le scelte degli strati restavano col modello chiaro di sistema",
+      "famiglia": "interfaccia/tema",
+      "modulo": "F5.6 · Palo e micropalo verticale (vista XAML, tabella della stratigrafia)",
+      "categoria": "correzione",
+      "stato": "corretto",
+      "descrizione": "Prima corsa di ui/check-contrast a 96 DPI sulle viste MVVM (ci/20261024-005010-f5-13-g3-c96): Scuro 60 e Molto scuro 60 difetti, tutti nella tabella della stratigrafia della vista XAML del palo e del micropalo verticale. Le scelte «Tipologia», «Addensamento» e «Terreno» (stile LayerChoice) erano basate sullo stile LayerControl (TargetType Control) e non sullo stile ComboBox del tema: in Scuro e Molto scuro restava il modello di sistema, chiaro (area chiara del pulsante, gradiente #F0F0F0–#E5E5E5, e testo chiaro su fondo chiaro, rapporto 1,01). Correzione (decisione dell'utente «Correggi nei token»): LayerChoice è basato sullo stile ComboBox del tema, con gli stessi setter di LayerControl, come LayerChoice del palo orizzontale (regola S17 dei pulsanti). In Scuro e Molto scuro le scelte prendono il modello e i colori del tema (Token.Paper, Token.Ink); in Chiara cambia solo il margine interno del testo nella casella (Padding 4,2 del tema invece di quello di sistema), come nelle scelte degli strati del palo orizzontale.",
+      "documento": "docs/refactoring/f5-13-shell.md §14.5",
+      "codice": ["X.Desktop/Views/VerticalPile/VerticalPileSheetView.xaml (stile LayerChoice)"],
+      "segno": "Solo aspetto delle scelte degli strati: dati, calcolo, report e tracce invariati.",
+      "test": ["supporto/test/Desktop/ContrastAudit.cs e tests/Desktop/ShellContrastViews.cs (ui/check-contrast): Scuro 0 e Molto scuro 0 (ci/20261024-011608-f5-13-g3-c96b)"],
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«Correggi nei token» (24/10, 00:30): i difetti veri e piccoli delle viste nuove o della shell si correggono nel tema e si registrano come correzioni",
+        "esito": "corretta"
+      },
+      "revisione_f5_15": "G2 (f5-13-shell §14.7, f5-15 §15.3)",
+      "voci_collegate": ["F5-61"]
     }
   ]
 }
