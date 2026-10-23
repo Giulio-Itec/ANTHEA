@@ -34,6 +34,8 @@ l'archiviazione; **R** = controllo «la Release resta storica», da togliere nel
 
 ### 1.2 Muri di sostegno (`geo_muri_sostegno`)
 
+**Stato al 23/10 (f5-pass-geo): non fatto.** La Release resta storica; piano di ripresa in [f5-9-muri.md](f5-9-muri.md), sezione 6.
+
 | Suite | File | Che cosa legge | Effetto | Piano |
 | --- | --- | --- | --- | --- |
 | `ui/check-global-guidance-offscreen` | `supporto/test/Desktop/GlobalGuidanceChecks.cs` | `new RetainingWallWorkspace(...)` (3 volte) | A | `WallSmoke` (già esistente) su un foglio aperto dalla fabbrica del banco; variante `-mvvm` |

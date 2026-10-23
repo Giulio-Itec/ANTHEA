@@ -463,3 +463,38 @@ l'archiviazione i disegni chiameranno direttamente queste.
 10. Una revisione precedente (sola lettura): campi, tabelle e comandi di modifica bloccati; viste, valori (in sola lettura),
     report, CSV, distinta e calcolo globale disponibili.
 11. Report Word/PDF e aspetti Scuro e Molto scuro.
+
+## 6. Passaggio della Release: non fatto (23/10, agente f5-pass-geo)
+
+L'agente f5-pass-geo ha passato nella Release materiali, pali verticali, stratigrafia e fondazioni (ramo `refactoring/f5-pass-geo`) e si è
+fermato prima dei muri, per la quota (richiesta dell'utente: restare sotto il 70% della settimana; «meglio tre moduli finiti che cinque a
+metà»). La Release apre ancora i muri con la vista storica; nessun file dei muri è cambiato in questo ramo, salvo quanto segue.
+
+**Stato lasciato dagli altri passaggi.**
+- `$MvvmBench` di `build/ci.ps1` contiene solo `geo_muri_sostegno`. Restano le suite `-mvvm` che aprono i muri: `ui/smoke-retaining-wall-mvvm`,
+  `ui/smoke-global-stability-mvvm`, `ui/check-appearance-mvvm`, `ui/smoke-project-workspace-mvvm`, `ui/shell-smoke-project-workspace-mvvm`,
+  `ui/f3-scheduling-muri-mvvm`. Al passaggio dei muri si tolgono tutte insieme a `$MvvmBench` (ultimo dei sette).
+- `SheetEditor` non ha più i rami di materiali, pali verticali, stratigrafia e fondazioni; i rami `retainingWall` sono intatti.
+- `ModuleHostWpfChecks` ha l'elenco `ReleaseMvvm`: al passaggio si aggiunge `geo_muri_sostegno` e si toglie dall'elenco dei moduli storici.
+
+**Come riprendere (stessa procedura degli altri quattro passaggi).**
+1. Cattura dei valori della vista storica che `ui/check-muri-view` confronta aprendo `new SheetEditor` (`FixturesAndExports`: dati e
+   risultato, CSV delle verifiche e dei conci, «Word globale», distinta con le quattro esportazioni; `Help`; `AutomationNames`; `ReadOnly`):
+   righe `CATTURA` temporanee nel registro della prova, una corsa sulla base, poi costanti nella prova e tracce congelate
+   `tests/fixtures/f5-muri/storica` dove bastano (modello: `MaterialSheetViewChecks`, `ShallowFoundationViewChecks`). Le esportazioni della
+   vista storica si ricostruiscono con le funzioni dell'Application che essa chiamava (`WallExports.Csv`, `GlobalCsv`, `CreateGlobal`,
+   `CreateBarSchedule`, `DrawingPdf.Create`) sul risultato del ViewModel, al posto di `wall.Calculation`, `wall.CreateBarDrawing()` e
+   `RetainingWallWorkspace.BarFigures`.
+2. Riscrittura su `WallSmoke` (`MvvmWallSmoke`) con il foglio della fabbrica del banco di `GlobalGuidanceChecks`, `WallAdvancedChecks` e
+   `WallMaterialChecks`; `RetainingWallWorkspace.ParseHistory` diventa la funzione dell'Application usata dalla vista nuova; il sovraccarico
+   `ReportFigureCaptions(RetainingWallWorkspace…)` si toglie.
+3. `F3TypedSchedulingChecks.cs` e `F3WallParameterChecks.cs` (partial di `RetainingWallWorkspace`) si archiviano; in `F3SchedulingChecks`
+   resta solo il ramo `F3WallMvvmSchedulingChecks`.
+4. `ReportAppearanceChecks` (fuori dal runner): la parte dei muri sul foglio della fabbrica (`openSheet.Wall`).
+5. `Architecture.Tests` righe 123–124: i due controlli su `RetainingWallWorkspace.Advanced.cs` e `.Results.cs` passano ai file che
+   contengono ora il parser e l'angolo sismico (Application) o si tolgono con l'archiviazione; i disegni chiamano direttamente
+   `WallSheetPresentation.Number` e `WallModel.RebarLabel` (sezione 5.5).
+6. Commit del passaggio: riga `Mvvm`, archiviazione in `supporto/SUPERATI/ui-storica/muri/` (i dodici file `RetainingWallWorkspace*.cs`,
+   `MainWindow.RetainingWall.cs` se usato solo dalla vista storica, `tests/Desktop/RetainingWallHistoricTrace.cs`), rami `retainingWall` di
+   `SheetEditor`, `HistoricWallSmoke`, `--check-muri-historic`, blocco `RetainingWallContrastStep`, `$MvvmBench` e tutte le suite `-mvvm`,
+   voci F4 dei file archiviati; le 18 voci della Chiara del modulo vanno spostate alla prima corsa a 96 DPI (D12).
