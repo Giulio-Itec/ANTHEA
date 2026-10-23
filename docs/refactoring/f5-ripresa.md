@@ -47,6 +47,7 @@ Utilities e57b440. Copia del set in `supporto/artefatti/librerie-ae/gpc-release-
 
 | Stato | Passi |
 | --- | --- |
+| **Aggiornamento del 23/10, mattina** | Su `refactoring/f5` (dopo f4af0ae9) tutte le viste F5.5–F5.12 sono fatte, compresa la sezione c.a. completa: S1–S9, la vista XAML e le 57 tracce guidate dalla vista. Anche la shell F5.13 è fatta, parti (a)–(e): sessioni, ViewModel, viste approvate dall'utente, pagina intera e nuova finestra dall'albero, stato statico E5, suite di MainWindow trasferite e cattura del progetto. Full di fine modulo c.a. PASS 185 su e1d9976c; librerie AF; setup 1.13.0 pronto. Restano F5.13 (f) sessione di prova con l'utente e (g) ritiro di MainWindow/SheetEditor, i passaggi della Release (a fine refactoring), F5.14 e F5.15. Stato dettagliato: `Documents\Repository\ANTHEA-f5-ripresa\PIANO-prossima-parte.md`, sezione «Notte 22–23/10»; decisioni: [decisioni.md](decisioni.md), 22 ottobre. |
 | Chiusi | F5.1–F5.4. La palificata è MVVM anche nella Release. |
 | Viste fatte, Release ancora storica | F5.5 materiali, F5.6 palo verticale, F5.6b stratigrafia, F5.9 muri, F5.9b fondazioni, F5.7 + F5.8 palo orizzontale con la scheda elastica; F5.11 sezione composta da ponte (ramo `refactoring/f5-11-vista`, da unire: [nota](f5-11-sezione-mista.md), sezione 5). Banco a differenza zero per tutti. |
 | In corso | F5.10 sezione c.a.: fatti la parte A e S1; agente `f5-10-s2` su S2a (riallineamento) e S2 (azioni). F5.11: preparazione unita, vista fatta (agente `f5-11-vista`). |

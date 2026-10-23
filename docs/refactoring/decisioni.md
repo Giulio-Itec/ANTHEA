@@ -1769,3 +1769,39 @@ Ramo `refactoring/f5-ux-pali-tab`, da `refactoring/f5` 38a3bed1.
      accetta γ = 0 e `MicropileTube.Weight` accetta γ della malta = 0, con i relativi avvisi.
    - Il calcolo con γ = 0 funziona in ANTHEA solo dopo il set di librerie con quel ramo. Con le librerie attuali la
      libreria continua a rifiutare il valore.
+
+## 22 ottobre (giorno e sera) — decisioni dell'utente sul resto di F5 e sulla 1.13.0
+
+Coordinatore: sessione «Correggere pretensione tiranti paratie». Le parole fra virgolette sono dell'utente.
+
+1. **Prove ui e corsa full.**
+   - Di giorno niente prove ui: «i test sulla UI le facciamo stasera, intanto procedi con lo spostamento di codice». Gli agenti hanno usato solo build, fast, wiki e regression.
+   - La full si fa a fine modulo c.a.: «la corsa full non facciamola stasera. facciamola a fine modulo del ca». È stata fatta il 23/10 alle 01:30 su e1d9976c, a sezione c.a. finita: PASS 185, NEW-FAIL 0.
+   - La sera, solo le suite mirate: «Stasera solo le suite mirate elencate nel piano». Erano 65, con l'elenco in `ANTHEA-f5-ripresa\strumenti\suite-mirate-22-10.txt`.
+2. **Passaggi della Release.** «i test per il passaggio alla release li facciamo a fine refactoring». Fino ad allora la Release resta storica per i 12 moduli. La prova della versione portatile, la riscrittura delle suite storiche e `F3PileSegmentChecks` si fanno a fine lavorazione.
+3. **S6, antivirus.** «1 a»: `DocumentFile.Write` copia anche le immagini invece di rinominarle (merge 78ccba8e). L'utente ha autorizzato quella riga del codice dei report congelato. La regola `NON_POLICY_JUST_ADC` di Trend Micro non chiude più ANTHEA: palo verticale, Bridge Design e muri passano dal checkout principale.
+4. **Bozza della shell (F5.13 c).**
+   - «le 10 immagini vanno bene»: SH5–SH32 sono approvate con le opzioni della bozza.
+   - Richiesta in più: «dall'albero si possono aprire a pagina intera o staccare dalla finestra? se si, ok. altrimenti va implementato». È stata implementata con il merge 3733b1a6.
+5. **Librerie e rilascio.**
+   - «domani facciamo la versione 1.13.0 con tutte queste modifiche»;
+   - «domani allineamo tutte le librerie nuove. steel ha avuto un bel upgrade»;
+   - «fai una versione di tutte le librerie cambiate e allinea anthea a quelle».
+
+   Risultato:
+   - è installata la release AF ufficiale (be4e18e2), con Model 45c3976c e Checker f6916d8e già su origin. Non sono serviti commit di versione: GPCModel 5.20.0.0 e Geotechnics 0.19.0.0 restano «same unreleased version» (scelta del coordinatore, da confermare);
+   - il lavoro Codex `codex/steel-autonomy-class4` (Steel 2.32) non è incluso;
+   - il setup 1.13.0 è costruito da e1d9976c, con audit PASS (`installer-1.13.0.md`);
+   - tag, push e merge su main restano in attesa dell'ok.
+6. **Rami.** «puliamo tutti i rami che non servono più». Sono cancellati i rami acciaio Codex già uniti e `GlassChecker`/`MixedSectionView` di Model. Il bundle di sicurezza è in `ANTHEA-f5-ripresa\backup-rami`.
+7. **Da vedere a fine refactoring:**
+   - le paratie A2–A4;
+   - la prova portatile;
+   - F5.15;
+   - il contrasto a 96 DPI;
+   - la proposta dell'utente di un'impostazione dei separatori decimali di ANTHEA («facciamo una impostazione di anthea per i separatori?», collegata a V-a di f5-10).
+8. **Notte 22–23/10.** «hai 8 ore per lavorare ... fai tutto quello che puoi», con al massimo 3 agenti. Sono state unite in `refactoring/f5`:
+   - le tracce della sezione c.a. guidate dalla vista;
+   - la shell (c) completa e la parte (e);
+   - i rami paratie e pali della sessione paratie, con le differenze S2/φ = 0 approvate dall'utente;
+   - la preparazione della 1.13.0, con le guide Rev58.
