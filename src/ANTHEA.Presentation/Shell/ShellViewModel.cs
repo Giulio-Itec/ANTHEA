@@ -532,6 +532,8 @@ public sealed class ShellViewModel : ViewModelBase
             ShellPage.Examples => (object?)examples ?? Navigation,
             _ => Windows.Main.Selected ?? (object)Navigation
         };
+        // F5.13 e: the activation of the main window keeps the page on screen (ShellWindowsViewModel.WindowActivated).
+        Windows.MainShowsPage = Navigation.Page is not null || Windows.Main.Selected is null;
         KeepFullPageReachable();
     }
 

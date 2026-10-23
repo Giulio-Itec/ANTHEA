@@ -30,6 +30,7 @@ internal static class ShellChecks
         checks += ShellLayoutChecks.Run();
         // F5.13 e: the report of a section from the shell.
         checks += ShellReportChecks.Run();
+        checks += ShellPartEChecks.Run();
         return checks;
     }
 }

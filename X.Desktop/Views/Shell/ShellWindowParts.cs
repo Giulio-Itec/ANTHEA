@@ -93,6 +93,35 @@ internal static class ProjectTreeKeys
     private static void OnRenameBox(DependencyObject element, DependencyPropertyChangedEventArgs e)
     {
         if (element is not TextBox box || e.NewValue is not true) return;
+        // F5.13 e (ui/shell-smoke-projects): as MainWindow.BeginProjectRename, a press anywhere else in the window and the window losing the focus end the
+        // rename saving it, also when the keyboard focus does not move (a click on an empty area).
+        Window? window = null;
+        void Outside(object sender, MouseButtonEventArgs args)
+        {
+            if (args.OriginalSource is DependencyObject target && (ReferenceEquals(target, box) || box.IsAncestorOf(target))) return;
+            Finish();
+        }
+        void Deactivated(object? sender, EventArgs args) => Finish();
+        void Finish() { if (box.DataContext is ProjectNodeViewModel { IsRenaming: true } node) node.EndRename(true); }
+        void Detach()
+        {
+            if (window is null) return;
+            window.RemoveHandler(UIElement.PreviewMouseDownEvent, new MouseButtonEventHandler(Outside));
+            window.Deactivated -= Deactivated;
+            window = null;
+        }
+        box.IsVisibleChanged += (_, _) =>
+        {
+            Detach();
+            if (!box.IsVisible) return;
+            window = Window.GetWindow(box);
+            if (window is not null)
+            {
+                window.AddHandler(UIElement.PreviewMouseDownEvent, new MouseButtonEventHandler(Outside), true);
+                window.Deactivated += Deactivated;
+            }
+        };
+        box.Unloaded += (_, _) => Detach();
         box.IsVisibleChanged += (_, _) =>
         {
             if (box.IsVisible) box.Dispatcher.InvokeAsync(() => { box.Focus(); box.SelectAll(); }, System.Windows.Threading.DispatcherPriority.Input);
