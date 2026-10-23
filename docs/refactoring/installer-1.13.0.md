@@ -184,10 +184,14 @@ Notte del 23/10, coordinatore:
 - **Full** su e1d9976c (`supporto/artefatti/ci/20261023-013037-full-fine-ca-1.13.0`, 01:30–03:00): PASS 185, KNOWN 0, NEW-FAIL 0 al primo giro, senza ripetizioni. È anche la full di fine modulo della sezione c.a. voluta dall'utente.
 - **Setup:** `supporto/artefatti/rilascio-1.13.0/installer/ANTHEA-1.13.0-Setup-x64.exe`, 69 669 844 byte, SHA-256 `05B482C08868936EA8A005EB060150F521BD6FF14FE46774E446C84C0C379E35`, prodotto `1.13.0+e1d9976c0f0b900a28f143f325d06d055d28336a`.
 - **Audit:** `Audit-Installer.py` PASS (`audit-payload.json` accanto al setup); `7z t` senza errori.
+- **Pubblicazione (23/10, mattina).** L'utente ha scritto: «Sì: tag v1.13.0, push di refactoring/f5 e merge su main. Note di rilascio con i Limiti noti».
+  - Tag annotato `v1.13.0` su e1d9976c, con le note di rilascio e lo SHA-256 del setup. È pubblicato su origin.
+  - `refactoring/f5` pubblicato su origin (c1dd1d1c..6eef020d).
+  - `main` locale portato in avanzamento rapido da ae0e1df4 a 6eef020d. Il push di `main` aspetta l'ok esplicito: `origin/main` è ancora 8b9ce6d3 (1.10.0).
+  - Le note di rilascio approvate contengono i limiti noti.
 - **Decisioni dell'utente ancora aperte:**
-  - tag `v1.13.0`, push di `refactoring/f5`, merge su `main`;
   - tag `v1.12.1`;
-  - «Limiti noti» nelle note e loro distribuzione;
+  - distribuzione delle note con il setup;
   - campo P5.
 
 Il setup è costruito da e1d9976c. I commit unificati dopo, come il resto della shell F5.13, restano fuori dalla 1.13.0 se il tag va su e1d9976c.
