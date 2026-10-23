@@ -49,6 +49,8 @@ internal static partial class ShellSmoke
             {
                 case "projects": await Projects(bench); break;
                 case "project-workspace": await ProjectWorkspace(bench); break;
+                case "hierarchy": await Hierarchy(bench); break;
+                case "sharing": await Sharing(bench); break;
                 default: throw new ArgumentException("Suite della shell sconosciuta: " + suite);
             }
             bench.Pass(suite);
@@ -124,7 +126,7 @@ internal sealed class ShellSmokeBench : IDisposable
     }
 
     /// <summary>A dialog of the shell drawn as WpfDialogService shows it (a window around the ViewModel, its view from the resources of the application), off screen.</summary>
-    internal async Task CaptureDialog(object dialog, string title, string name)
+    internal async Task CaptureDialog(object dialog, string title, string name, Action<Window>? inspect = null)
     {
         var window = Offscreen(new Window { Title = title, Content = dialog, SizeToContent = SizeToContent.WidthAndHeight });
         window.Show();
@@ -133,6 +135,7 @@ internal sealed class ShellSmokeBench : IDisposable
             window.UpdateLayout();
             await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);
             File.WriteAllBytes(Path.Combine(Output, name), Ui.Snapshot(window));
+            inspect?.Invoke(window);
         }
         finally { window.Content = null; window.Close(); }
     }
