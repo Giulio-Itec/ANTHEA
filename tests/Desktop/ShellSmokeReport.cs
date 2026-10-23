@@ -149,6 +149,17 @@ internal static partial class ShellSmoke
         var comparison = CompareReports(filename, historicPath);
         File.WriteAllLines(Path.Combine(directory, "confronto-report.txt"), comparison.Lines, new UTF8Encoding(false));
         b.Check(historicUnavailable == unavailable && comparison.Same, "Report Word della shell uguale a quello di MainWindow (" + comparison.Lines.Count(l => l.StartsWith("DIVERSO", StringComparison.Ordinal)) + " parti diverse, confronto-report.txt)");
+        // F5.13 g: the call of MainWindow recorded for its archiving (ShellReferences.SectionReport) gives the same document, and the parts of the report of
+        // MainWindow are those recorded in tests/fixtures/f5-shell/finestra-storica.json («report_sezione»).
+        string referencePath = Path.Combine(directory, "relazione-progetto-riferimento.docx");
+        int referenceUnavailable = await ShellReferences.SectionReport(project, referencePath);
+        var reference = CompareReports(referencePath, historicPath);
+        File.WriteAllLines(Path.Combine(directory, "confronto-report-riferimento.txt"), reference.Lines, new UTF8Encoding(false));
+        b.Check(referenceUnavailable == historicUnavailable && reference.Same, "Chiamata registrata di MainWindow: stesso report Word (confronto-report-riferimento.txt)");
+        var shape = ShellReferences.ReportShape(historicPath, historicUnavailable);
+        ShellReferences.WriteJson(Path.Combine(directory, "report-mainwindow.json"), shape);
+        b.Check(JsonNode.DeepEquals(shape, ShellReferences.Window["report_sezione"]) && JsonNode.DeepEquals(ShellReferences.ReportShape(filename, unavailable ?? -1), shape),
+            "Parti del report Word e schede senza risultati come i valori registrati della finestra storica");
         // Failure and cancellation never pass for successful checks nor overwrite an existing file: a section with an incomplete sheet through the writer of the
         // shell (DesktopSectionReports), then «Annulla» of «Generazione del report».
         var broken = Anthea.Application.Reporting.ProjectReportService.Snapshot(nested); broken.Array("fogli").Clear();

@@ -65,6 +65,12 @@ internal static class ShellDraftChecks
                 string module = WikiExamples.Definition(example).S("moduleId");
                 Check(JsonNode.DeepEquals(WikiExamples.Create(module, example), MainWindow.WikiExamples.Create(module, example)), "Esempio della Wiki «" + example + "»: stessi dati della finestra storica");
             }
+            // F5.13 g: the same data as the values of MainWindow recorded before its archiving (tests/fixtures/f5-shell/finestra-storica.json, «esempi_wiki»).
+            var examples = new JsonObject();
+            foreach (var example in Anthea.Wiki.WikiCatalog.Articles.Select(a => a.Example).OfType<string>().Distinct().Order(StringComparer.Ordinal))
+                examples[example] = WikiExamples.Create(WikiExamples.Definition(example).S("moduleId"), example);
+            ShellReferences.WriteJson(Path.Combine(output, "esempi-wiki.json"), examples);
+            Check(JsonNode.DeepEquals(examples, ShellReferences.Window["esempi_wiki"]), "Esempi della Wiki (" + examples.Count + "): stessi dati dei valori registrati della finestra storica");
 
             // The shell with the modules of the product and services that never ask the user.
             // Since the checkpoint the shell comes from its composition root (ShellComposition), with these services, the Wiki of the services on the
