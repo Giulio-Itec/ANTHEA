@@ -1,0 +1,48 @@
+[
+  {
+    "origine": "X.Desktop/Wpf/ElasticPileWorkspace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-elastico/X.Desktop/Wpf/ElasticPileWorkspace.cs",
+    "commit": "8fcf13ac (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "b9d9f27d3b7f69847c7f402d9f13a8f75a38293071b7e75aa98f22ce99726789",
+    "sha256_lf": "178c605c91d1098d62ecead42a4a4247fc8c8ba909431bc3eed73b28bcd9b788",
+    "motivo": "Passaggio della Release del 23/10/2026 (decisione dell'utente «Moduli ora, shell dopo», Q11): la Release apre il palo e il micropalo orizzontale con la vista MVVM; la vista storica non è più raggiungibile né compilata (scheda della risposta elastica)",
+    "sostituzione": "X.Desktop/Views/HorizontalPile (ElasticPileView, PileReinforcementView e dialoghi) e src/ANTHEA.Presentation/Modules/HorizontalPile/Elastic (ElasticPileViewModel, PileReinforcementViewModel)"
+  },
+  {
+    "origine": "X.Desktop/Wpf/PileReinforcementEditor.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-elastico/X.Desktop/Wpf/PileReinforcementEditor.cs",
+    "commit": "74d926fe (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "f8a3ee631cb9427e632299b1cfcf9e37d4bf49492e98a5d7650dc810c787b236",
+    "sha256_lf": "7c6fd7df457644895c708e2be93a79680bd5675d4423a0c5a3d3c1b1a230f5d1",
+    "motivo": "Passaggio della Release del 23/10/2026 (decisione dell'utente «Moduli ora, shell dopo», Q11): la Release apre il palo e il micropalo orizzontale con la vista MVVM; la vista storica non è più raggiungibile né compilata (editor delle armature del palo)",
+    "sostituzione": "X.Desktop/Views/HorizontalPile (ElasticPileView, PileReinforcementView e dialoghi) e src/ANTHEA.Presentation/Modules/HorizontalPile/Elastic (ElasticPileViewModel, PileReinforcementViewModel)",
+    "nota": "SegmentColor è passato a X.Desktop/Wpf/PileReinforcementDrawing.cs (stessi colori), usato dai disegni della risposta e delle armature."
+  },
+  {
+    "origine": "X.Desktop/Wpf/PileReinforcementEditor.Clarity.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-elastico/X.Desktop/Wpf/PileReinforcementEditor.Clarity.cs",
+    "commit": "74d926fe (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "3f29e2a158ba6eed947e47e6a4a6b0b66bd51d135014a8f6c4a860e2e38abb8a",
+    "sha256_lf": "3cb5bad58b4b80905aaac55f2ff32e4763b77d7911cb76a2674cf465dc3e9691",
+    "motivo": "Passaggio della Release del 23/10/2026 (decisione dell'utente «Moduli ora, shell dopo», Q11): la Release apre il palo e il micropalo orizzontale con la vista MVVM; la vista storica non è più raggiungibile né compilata (partial di PileReinforcementEditor)",
+    "sostituzione": "X.Desktop/Views/HorizontalPile (ElasticPileView, PileReinforcementView e dialoghi) e src/ANTHEA.Presentation/Modules/HorizontalPile/Elastic (ElasticPileViewModel, PileReinforcementViewModel)"
+  },
+  {
+    "origine": "tests/Desktop/ElasticPileHistoricTrace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-elastico/tests/Desktop/ElasticPileHistoricTrace.cs",
+    "commit": "b5bf8040 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "0b7b00e897c760bae6c8252057986bdd4cad8cd621edd57dc37bf13fa37ee7b2",
+    "sha256_lf": "fd67f5d342651f879bd4d10441b7ea65c4f13bdce0cbb29bdba3b0bf56d37ba8",
+    "motivo": "Prova delle tracce della scheda elastica storica (suite ui/check-palo-elastico-historic), archiviata con la vista",
+    "sostituzione": "tests/fixtures/f5-elastico (tracce e disegni congelati, invariati), confrontati da tests/ANTHEA.Presentation.Tests con il ViewModel e da tests/Desktop/HorizontalPileViewChecks.Elastic.cs (ui/check-palo-orizzontale-view) attraverso la vista nuova"
+  },
+  {
+    "origine": "tests/ANTHEA.Desktop.Equivalence/F3PileSegmentChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-elastico/tests/ANTHEA.Desktop.Equivalence/F3PileSegmentChecks.cs",
+    "commit": "e3f61eb3 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "163ff4d78fb6932f5b3dc30ae714cc4f8570b5f664e9504a4446d8673974e233",
+    "sha256_lf": "d1b8adc917713260951beef36d225ef481ce2fa5496475d4f7545b50238d91cf",
+    "motivo": "Sonda di ui/f3-scheduling sul dimensionamento di un tratto dell'editor storico (partial di PileReinforcementEditor), archiviata con la vista",
+    "sostituzione": "tests/ANTHEA.Desktop.Equivalence/F3PileSegmentMvvmSchedulingChecks.cs (la stessa sonda su PileSegmentDesignViewModel e PileSegmentDesignView)"
+  }
+]

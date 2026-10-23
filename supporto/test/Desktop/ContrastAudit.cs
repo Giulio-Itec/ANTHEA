@@ -175,9 +175,6 @@ internal sealed class ContrastAudit
                     // ---- F5.9 begin: step mvvm-geo_muri_sostegno, self-contained (RetainingWallContrastStep at the end of the file) ----
                     await RetainingWallContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
                     // ---- F5.9 end ----
-                    // ---- F5.7 begin: steps mvvm-geo_palo_orizzontale and mvvm-geo_micropalo_orizzontale, self-contained (HorizontalPileContrastStep at the end of the file) ----
-                    await HorizontalPileContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
-                    // ---- F5.7 end ----
                     // ---- F5.11 begin: step mvvm-str_mista_ponte, self-contained (CompositeSectionContrastStep at the end of the file) ----
                     await CompositeSectionContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
                     // ---- F5.11 end ----
@@ -2160,47 +2157,6 @@ public sealed partial class MainWindow
 }
 
 // ---------------------------------------------------------------- F5.9 end
-
-// ---------------------------------------------------------------- F5.7 begin: steps mvvm-geo_palo_orizzontale and mvvm-geo_micropalo_orizzontale (self-contained)
-
-/// <summary>
-/// The XAML views of the horizontal pile and micropile before the switch of the Release (F5.7 and F5.8, the tab of the capacity and the one of
-/// the elastic response): the same exploration as the module steps (AuditModule), in a main window whose editors open the MVVM sheets
-/// (--module-impl geo_palo_orizzontale=mvvm --module-impl geo_micropalo_orizzontale=mvvm). With --baseline (runner) only Scuro and Molto scuro:
-/// until the Release opens the new views, the Chiara of the two modules is the one of the historic view, whose defects are in the baseline
-/// (modulo-geo_palo_orizzontale, modulo-geo_micropalo_orizzontale); without --baseline also Chiara. Self-contained: it does not depend on the step
-/// of another module; at the switch of the Release it is removed and the steps of the modules show the new views.
-/// </summary>
-internal static class HorizontalPileContrastStep
-{
-    internal const string Pile = "geo_palo_orizzontale", Micro = "geo_micropalo_orizzontale";
-
-    internal static async Task RunAsync(ContrastAudit audit, AppAppearance mode, bool baseline)
-    {
-        foreach (string module in new[] { Pile, Micro })
-        {
-            string view = "mvvm-" + module;
-            if (!audit.Want(view)) continue;
-            if (mode == AppAppearance.Light && baseline)
-            {
-                audit.Uncovered("Vista MVVM di " + module + " (F5.7, F5.8) in Chiara", "con --baseline solo Scuro e Molto scuro finché la Release apre la vista " +
-                    "storica, la cui Chiara è nella baseline (modulo-" + module + "); la Chiara della vista MVVM si misura senza --baseline");
-                continue;
-            }
-            var window = await audit.OpenMain(mode, ModuleHostBench.SheetEditors([ModuleHostBench.Argument, Pile + "=mvvm", ModuleHostBench.Argument, Micro + "=mvvm"]));
-            try { await audit.Step(view, () => window.AuditHorizontalPileMvvm(audit, module)); }
-            finally { await audit.CloseMain(window); }
-        }
-    }
-}
-
-public sealed partial class MainWindow
-{
-    /// <summary>F5.7: the exploration of the module steps on the MVVM sheet of the horizontal pile or micropile, with the names of its step.</summary>
-    internal Task AuditHorizontalPileMvvm(ContrastAudit a, string module) => AuditModule(a, module, "mvvm-");
-}
-
-// ---------------------------------------------------------------- F5.7 end
 
 // ---------------------------------------------------------------- F5.11 begin: step mvvm-str_mista_ponte (self-contained)
 

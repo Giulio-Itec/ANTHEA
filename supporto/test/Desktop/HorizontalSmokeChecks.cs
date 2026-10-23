@@ -95,11 +95,3 @@ public sealed partial class MainWindow
         File.WriteAllText(Path.Combine(directory, "smoke.txt"), "Micropalo CHS: layout, catalogo/manuale, calcolo, Home, salvataggio e relazione OK"); dirty = false;
     }
 }
-
-internal sealed partial class SheetEditor
-{
-    internal Task VerifyHorizontal(string directory) => horizontal!.Smoke(directory);
-    internal Task VerifyHorizontalLayout(string directory, string size) => horizontal!.VerifyLayout(directory, size);
-    internal Task WaitForHorizontalAutomatic() => horizontal!.WaitForAutomatic();
-    internal Task VerifyChs() => horizontal!.VerifyChs();
-}

@@ -14,7 +14,8 @@ namespace X.Desktop;
 
 /// <summary>
 /// f5-pass-orizzontale: the probe of ui/f3-scheduling on the design of a segment of the elastic response with the MVVM view, in place of
-/// PileReinforcementEditor.CheckSegmentProposals (F3PileSegmentChecks.cs): the horizontal pile opened by the factory of the bench in
+/// PileReinforcementEditor.CheckSegmentProposals (F3PileSegmentChecks.cs, archived with the historic view in
+/// supporto/SUPERATI/ui-storica/palo-elastico): the horizontal pile opened by the factory of the bench in
 /// MvvmSheetEditor, «Dimensiona…» of the first segment (<see cref="Anthea.Presentation.Modules.HorizontalPile.Elastic.PileReinforcementViewModel.Design"/>)
 /// shown in its view (<see cref="PileSegmentDesignView"/>) in a window off screen, closed as «Dimensiona…» of PileReinforcementView closes it.
 /// The same fixture, the same catalogues, the same interception of the first «Disposizione …» of the search and the same expectations as the
@@ -23,9 +24,6 @@ namespace X.Desktop;
 /// </summary>
 internal static class F3PileSegmentMvvmSchedulingChecks
 {
-    /// <summary>True when the bench of this process opens the horizontal pile with the MVVM view.</summary>
-    internal static bool Active => ModuleHostBench.Implementations(Environment.GetCommandLineArgs()).For(PaloOrizzontale.Module) == SheetImplementation.Mvvm;
-
     internal static async Task<int> CheckSegmentProposals(string repository)
     {
         int checks = 0;

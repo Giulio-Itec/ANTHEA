@@ -1,0 +1,103 @@
+[
+  {
+    "origine": "X.Desktop/Wpf/HorizontalWorkspace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-orizzontale/X.Desktop/Wpf/HorizontalWorkspace.cs",
+    "commit": "b5bf8040 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "7cfd7a231e5a9baa12cfc8b5714bbdb4e4019b7417154bb5dc43268e0cf2111b",
+    "sha256_lf": "5784935e34b79a30495e1f06c9582857143bee3f6eb80404bb9edeaca34ed5fb",
+    "motivo": "Passaggio della Release del 23/10/2026 (decisione dell'utente «Moduli ora, shell dopo», Q11): la Release apre il palo e il micropalo orizzontale con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/HorizontalPile (HorizontalPileSheetView e dialoghi, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/HorizontalPile (HorizontalPileSheetViewModel)"
+  },
+  {
+    "origine": "X.Desktop/Wpf/HorizontalPresentation.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-orizzontale/X.Desktop/Wpf/HorizontalPresentation.cs",
+    "commit": "79fdc958 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "6528f2ceca89235f87f1a4eeec4a7379a70d2733dadffed48c72eb14fc28e2d5",
+    "sha256_lf": "381ed8879f64278328bf5d980b998ac3bd092c528de4cbac33b68d97f732c998",
+    "motivo": "Passaggio della Release del 23/10/2026 (decisione dell'utente «Moduli ora, shell dopo», Q11): la Release apre il palo e il micropalo orizzontale con la vista MVVM; la vista storica non è più raggiungibile né compilata (partial di HorizontalWorkspace)",
+    "sostituzione": "X.Desktop/Views/HorizontalPile (HorizontalPileSheetView e dialoghi, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/HorizontalPile (HorizontalPileSheetViewModel)"
+  },
+  {
+    "origine": "X.Desktop/Wpf/HorizontalMaterials.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-orizzontale/X.Desktop/Wpf/HorizontalMaterials.cs",
+    "commit": "f077fe02 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "226becc5644cec8fccfb4c9e71f634d4d18dc01676a626f22d4b91dd7b91083a",
+    "sha256_lf": "9e9a99d83972e3d196844e96e4a7c33174b7e7c33c1c0d248f42d63bf71bb645",
+    "motivo": "Passaggio della Release del 23/10/2026 (decisione dell'utente «Moduli ora, shell dopo», Q11): la Release apre il palo e il micropalo orizzontale con la vista MVVM; la vista storica non è più raggiungibile né compilata (partial di HorizontalWorkspace)",
+    "sostituzione": "X.Desktop/Views/HorizontalPile (HorizontalPileSheetView e dialoghi, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/HorizontalPile (HorizontalPileSheetViewModel)"
+  },
+  {
+    "origine": "X.Desktop/Wpf/HorizontalExplanations.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-orizzontale/X.Desktop/Wpf/HorizontalExplanations.cs",
+    "commit": "f077fe02 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "040536dc2af10dd5122746dd34d734c2ae09213afe87d4118d42e40ec00d3595",
+    "sha256_lf": "696192fabad3a6cd161f50929b4da4484d103a4cef3143adff156f569bfb570c",
+    "motivo": "Passaggio della Release del 23/10/2026 (decisione dell'utente «Moduli ora, shell dopo», Q11): la Release apre il palo e il micropalo orizzontale con la vista MVVM; la vista storica non è più raggiungibile né compilata (partial di HorizontalWorkspace)",
+    "sostituzione": "X.Desktop/Views/HorizontalPile (HorizontalPileSheetView e dialoghi, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/HorizontalPile (HorizontalPileSheetViewModel)"
+  },
+  {
+    "origine": "X.Desktop/Wpf/HorizontalSoilEditor.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-orizzontale/X.Desktop/Wpf/HorizontalSoilEditor.cs",
+    "commit": "e5005cc7 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "1ff12e6cdbee002916150f41230b06e274083dc8dea95f19ca9f7770ad5f821b",
+    "sha256_lf": "837f5800c3b438998608e20df4edb2f70399b3a33f180d75bf52ac122dd3cc0f",
+    "motivo": "Passaggio della Release del 23/10/2026 (decisione dell'utente «Moduli ora, shell dopo», Q11): la Release apre il palo e il micropalo orizzontale con la vista MVVM; la vista storica non è più raggiungibile né compilata (editor del terreno della riga)",
+    "sostituzione": "HorizontalSoilRowViewModel (src/ANTHEA.Presentation/Modules/HorizontalPile), la cella dell’editor del terreno di HorizontalPileSheetView e HorizontalSoilDetailsView (X.Desktop/Views/HorizontalPile)"
+  },
+  {
+    "origine": "X.Desktop/Wpf/HorizontalChs.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-orizzontale/X.Desktop/Wpf/HorizontalChs.cs",
+    "commit": "f077fe02 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "7277b1ed0e6c68a5deb35e72447b23ccd30563b3549daa717a33a296770f0230",
+    "sha256_lf": "1e9e693bd79ab2f1ecfbb59715ce697dffc3bf03d037c69ea9053435278df704",
+    "motivo": "Passaggio della Release del 23/10/2026 (decisione dell'utente «Moduli ora, shell dopo», Q11): la Release apre il palo e il micropalo orizzontale con la vista MVVM; la vista storica non è più raggiungibile né compilata (partial di HorizontalWorkspace)",
+    "sostituzione": "X.Desktop/Views/HorizontalPile (HorizontalPileSheetView e dialoghi, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/HorizontalPile (HorizontalPileSheetViewModel)",
+    "nota": "Copia del file intero; in X.Desktop resta la sola classe del disegno (ChsDrawing), usata dalla vista nuova e dai report."
+  },
+  {
+    "origine": "X.Desktop/Wpf/HorizontalDiagrams.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-orizzontale/X.Desktop/Wpf/HorizontalDiagrams.cs",
+    "commit": "f077fe02 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "a47c0cec76b40d6385d562aca02e594972ca6d1804e8eb7bbcf259ce9197bff6",
+    "sha256_lf": "e48b8f827ab62e8dd3649db6e89f5d8c01fe7953bdee3bcbb9c2981a1b945482",
+    "motivo": "Passaggio della Release del 23/10/2026 (decisione dell'utente «Moduli ora, shell dopo», Q11): la Release apre il palo e il micropalo orizzontale con la vista MVVM; la vista storica non è più raggiungibile né compilata (partial di HorizontalWorkspace)",
+    "sostituzione": "X.Desktop/Views/HorizontalPile (HorizontalPileSheetView e dialoghi, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/HorizontalPile (HorizontalPileSheetViewModel)",
+    "nota": "Copia del file intero; in X.Desktop resta la sola classe del disegno (HorizontalDiagrams), usata dalla vista nuova e dai report."
+  },
+  {
+    "origine": "tests/Desktop/HorizontalPileHistoricTrace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-orizzontale/tests/Desktop/HorizontalPileHistoricTrace.cs",
+    "commit": "810b62a6 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "ffaef0a0bce5b93967284b88546434b58111da1a5216952ad34df6c7d590a6fa",
+    "sha256_lf": "e09f64db027aafc4e37db5a3492ae64d0622a191d7dbda572d1411f375a557c9",
+    "motivo": "Prova delle tracce della vista storica (suite ui/check-palo-orizzontale-historic), archiviata con la vista",
+    "sostituzione": "tests/fixtures/f5-palo-orizzontale (tracce e disegni congelati, invariati), confrontati da tests/ANTHEA.Presentation.Tests con il ViewModel e da tests/Desktop/HorizontalPileViewChecks*.cs (ui/check-palo-orizzontale-view) attraverso la vista nuova"
+  },
+  {
+    "origine": "supporto/test/Desktop/HorizontalLayoutChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-orizzontale/supporto/test/Desktop/HorizontalLayoutChecks.cs",
+    "commit": "79fdc958 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "39b65f4ceedfe0ad24f6dac223c5cc815558177cdb1bb74c314b4099f15fa272",
+    "sha256_lf": "943393a4bce2f9f1175bc9179ae3d0a58aa939b7dc5aeb5fcf5232b3046a044c",
+    "motivo": "Partial di prova di HorizontalWorkspace (ui/smoke-horizontal sulla vista storica), archiviata con la vista",
+    "sostituzione": "tests/Desktop/HorizontalPileSmokeChecks.cs (HorizontalPileSmoke, gli stessi controlli sulla vista XAML)"
+  },
+  {
+    "origine": "supporto/test/Desktop/HorizontalChsChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-orizzontale/supporto/test/Desktop/HorizontalChsChecks.cs",
+    "commit": "429e4c03 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "e6c07f97bb5d94e3c34cc59d9ae75fb373aa31def38f17ff84bac84a3a23e3b7",
+    "sha256_lf": "1fece1b752e305a14836d5bea8904f97a7e6c4920d760edcbeea8113d5e2e52e",
+    "motivo": "Partial di prova di HorizontalWorkspace (micropalo CHS di ui/smoke-horizontal sulla vista storica), archiviata con la vista",
+    "sostituzione": "tests/Desktop/HorizontalPileSmokeChecks.cs (HorizontalPileSmoke.VerifyChs)"
+  },
+  {
+    "origine": "supporto/test/Desktop/HorizontalStratifiedSmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-orizzontale/supporto/test/Desktop/HorizontalStratifiedSmokeChecks.cs",
+    "commit": "a95ead67 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "9d6a36d9f66461d59d68b8714556949b52476945c359578fe27ea5df429c090c",
+    "sha256_lf": "b877765f48756f31fe21fd60181eda1021b38202dd944cc550d5d38bfb40ab37",
+    "motivo": "Partial di prova di HorizontalWorkspace (modello stratificato di ui/smoke-horizontal sulla vista storica), archiviata con la vista",
+    "sostituzione": "tests/Desktop/HorizontalPileSmokeChecks.cs (HorizontalPileSmoke.VerifyStratified e HorizontalStratifiedExample)"
+  }
+]

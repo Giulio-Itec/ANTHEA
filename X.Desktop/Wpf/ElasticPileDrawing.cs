@@ -93,7 +93,7 @@ internal sealed class ElasticPileDrawing : FrameworkElement
                 }
             }
         }
-        if(On("tratti")){double left=Profile+w*diagrams.Length;Text("Tratti di verifica",left+8,5,12,w-12);foreach(var (s,i) in segments.Select((s,i)=>(s!,i))){double a=Y(s.D("inizio")),b=Y(s.D("fine"));if(b<=a)continue;var brush=PileReinforcementEditor.SegmentColor(i);dc.DrawRectangle(brush,new Pen(Ui.Muted,.8),new Rect(left+8,a,w-16,b-a));if(b-a>32)Text(s.S("id")+" · "+(s.B("collegato")?"principale":"personalizzata")+"\n"+s.S("stato"),left+12,a+5,10,w-24);dc.DrawLine(new Pen(Ui.Muted,.5){DashStyle=DashStyles.Dash},new Point(Profile,a),new Point(ActualWidth,a));}}
+        if(On("tratti")){double left=Profile+w*diagrams.Length;Text("Tratti di verifica",left+8,5,12,w-12);foreach(var (s,i) in segments.Select((s,i)=>(s!,i))){double a=Y(s.D("inizio")),b=Y(s.D("fine"));if(b<=a)continue;var brush=PileReinforcementDrawing.SegmentColor(i);dc.DrawRectangle(brush,new Pen(Ui.Muted,.8),new Rect(left+8,a,w-16,b-a));if(b-a>32)Text(s.S("id")+" · "+(s.B("collegato")?"principale":"personalizzata")+"\n"+s.S("stato"),left+12,a+5,10,w-24);dc.DrawLine(new Pen(Ui.Muted,.5){DashStyle=DashStyles.Dash},new Point(Profile,a),new Point(ActualWidth,a));}}
         if(seismic!=null)
         {
             double minimumY=Y(seismic.D("MinimumEnd")),adoptedY=Y(seismic.D("AdoptedEnd"));

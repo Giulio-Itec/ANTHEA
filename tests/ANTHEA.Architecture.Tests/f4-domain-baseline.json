@@ -8612,86 +8612,6 @@
       "Example": "16"
     },
     {
-      "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalWorkspace.LayoutCards",
-      "Fingerprint": "32C99F02234852702433BDD5E320FC000F724492A3870F57FAC9D649C0B99BCD",
-      "Count": 1,
-      "Example": "96"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalWorkspace.LayoutCards",
-      "Fingerprint": "4B2B93FDA290B19FE67F2A308AD89DD57233074444D0B24CAEFC4EBDD2889A3A",
-      "Count": 1,
-      "Example": ".20"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalWorkspace.LayoutCards",
-      "Fingerprint": "5A8CF3E3F8F6C66DE8A157257C458212E58D318A7A4FFF087AFA309681FE0D94",
-      "Count": 4,
-      "Example": "4"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalWorkspace.LayoutCards",
-      "Fingerprint": "662241366D3318A2BBDF5F5397BEEBBC1433836A2A4B85BFF8259EED8D35C535",
-      "Count": 1,
-      "Example": "48"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalWorkspace.LayoutCards",
-      "Fingerprint": "69AE2A2B21EAF7300AD89747EB895FBA12653EB6B8F3D0BA59E7051E29DB09B9",
-      "Count": 2,
-      "Example": ".31"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalWorkspace.LayoutCards",
-      "Fingerprint": "7B87FC65E6924959E7C4DF537D610874121B19C381773BC5F13D2DA45785E750",
-      "Count": 1,
-      "Example": ".18"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalWorkspace.LayoutCards",
-      "Fingerprint": "94174814C3955FE241E48E5758704EF5B3B646595D24E78BA642198242B5316E",
-      "Count": 1,
-      "Example": "3"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalWorkspace.LayoutCards",
-      "Fingerprint": "D0A4049E0D02DE3A60DFF318083DBEC6EE0866B7C24449577846309A75CBF59F",
-      "Count": 1,
-      "Example": "24"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalWorkspace.LayoutCards",
-      "Fingerprint": "D2BDD367D1745823F9E3F3AA99262884A9DFA57C68D8494B76C791CE1444503C",
-      "Count": 2,
-      "Example": "30"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalPresentation.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalWorkspace.LayoutCards",
-      "Fingerprint": "DCEEF969167064002A88FA7837AECB31A3EAB32F4F7C22F53908EE7217478181",
-      "Count": 1,
-      "Example": "80"
-    },
-    {
       "File": "X.Desktop/Wpf/HorizontalProfileDrawing.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "StratigraphyDrawing.Arrow",
@@ -8826,22 +8746,6 @@
       "Fingerprint": "9659218799D2B1C4C9271B2FC0EE4F87347922C91B07D2F673B5522B1EFE3B2E",
       "Count": 1,
       "Example": "result . D ( \"risultante_concentrata_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalSoilEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalSoilEditor.Build.Combo",
-      "Fingerprint": "724EA1D3E839189D45889EA25B3717C78D00C13A9994164FD5055DC929F13281",
-      "Count": 1,
-      "Example": "6"
-    },
-    {
-      "File": "X.Desktop/Wpf/HorizontalSoilEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "HorizontalSoilEditor.Build",
-      "Fingerprint": "FBC854E20BCACA1E305C520583DEC745DD10C269D9FAAB77E9F72CDD5D73EF5D",
-      "Count": 2,
-      "Example": "6"
     },
     {
       "File": "X.Desktop/Wpf/Materials/MaterialView.cs",
@@ -10116,10 +10020,10 @@
       "Example": "1e-9"
     },
     {
-      "File": "X.Desktop/Wpf/PileReinforcementEditor.cs",
+      "File": "X.Desktop/Wpf/PileReinforcementDrawing.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "PileReinforcementEditor.SegmentColor",
-      "Fingerprint": "360D2305E227D05DA0C23B19EA8195B1CFA59FF128FB74E1FAF438F0889282AC",
+      "Owner": "PileReinforcementDrawing.SegmentColor",
+      "Fingerprint": "D854745A842397DD0D2E50B3A12FD0CBA66D9C7A89986A233A7218657C015E3D",
       "Count": 1,
       "Example": "6"
     },

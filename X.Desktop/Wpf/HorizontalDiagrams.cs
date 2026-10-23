@@ -121,24 +121,3 @@ internal sealed class HorizontalDiagrams : DrawingView
     }
 }
 
-internal sealed partial class HorizontalWorkspace
-{
-    private static FrameworkElement ReferencesPanel()
-    {
-        var panel = new StackPanel { Margin = new Thickness(18) };
-        panel.Children.Add(Ui.Text("Riferimenti e ruolo nel modello", 18, true));
-        foreach (var r in HorizontalPileEditor.References())
-        {
-            var block = Ui.Stack(Ui.Text(r.S("titolo"), 13, true), Ui.Text(r.S("dettaglio"), 11), Ui.Text(r.S("uso"), 12));
-            if (r.S("url") is string url && url != "") block.Children.Add(Ui.Button("Apri riferimento", () => Process.Start(new ProcessStartInfo(url) { UseShellExecute = true })));
-            block.Margin = new Thickness(0, 18, 0, 4); panel.Children.Add(block);
-        }
-        return new ScrollViewer { Content = panel, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
-    }
-
-    internal IReadOnlyList<ReportOrizzontale.Figure> ReportFigures()
-    {
-        if (Result is null) return [];
-        return ModuleFigureRenderer.HorizontalFigures(Result).Select(f => new ReportOrizzontale.Figure(f.Index!.Value, f.Caption, f.Png, f.AspectRatio)).ToArray();
-    }
-}

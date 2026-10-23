@@ -118,8 +118,7 @@ internal static class ReportAppearanceChecks
         // f5-pass-orizzontale: the sheet opened by the factory of the bench, as the window opens it, waited for as ui/smoke-horizontal.
         using (var editor = editors.Open(PaloOrizzontale.Module, horizontalData))
         {
-            if (HorizontalPileSmoke.Handles(editor)) await HorizontalPileSmoke.WaitForAutomatic(editor);
-            else await ((SheetEditor)editor).WaitForHorizontalAutomatic();
+            await HorizontalPileSmoke.WaitForAutomatic(editor);
             Add("palo-orizzontale", editor.BuildReport("Palo orizzontale · aspetto", []));
         }
         var pile = SmokeTestData.LoadCases().First(c => c.S("nome") == "palo_storico_0")!["input"]!.AsObject();

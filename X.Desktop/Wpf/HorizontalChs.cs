@@ -8,24 +8,6 @@ using X.Core;
 
 namespace X.Desktop;
 
-internal sealed partial class HorizontalWorkspace
-{
-    private InputForm CreateChsForm(JsonObject input)
-    {
-        var form = new InputForm(input, HorizontalPileFields.Chs(), _ => Changed(), compact: true, symbolColumns: true);
-        Group(form, HorizontalPileFields.ChsGroups());
-        return form;
-    }
-    private void UpdateChsPreview()
-    {
-        foreach (var (key, enabled) in HorizontalPilePresentation.ChsFieldStates(Data["sezione"]!.AsObject())) sectionFields.Enable(key, enabled, true);
-        var preview = HorizontalPreview.ChsSection(Data);
-        foreach (var (key, value) in preview.Fields) sectionFields.Set(key, value, true);
-        chsDrawing.Properties = preview.Geometry;
-        chsDrawing.InvalidateVisual();
-    }
-}
-
 internal sealed class ChsDrawing : DrawingView
 {
     internal JsonObject? Properties { get; set; }

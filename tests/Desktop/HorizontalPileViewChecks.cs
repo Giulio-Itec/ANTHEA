@@ -37,8 +37,9 @@ namespace X.Desktop;
 /// --check-palo-orizzontale-view &lt;radice&gt; &lt;cartella&gt; (UiTests, F5.7 and F5.8, proposal F5 section 7.3): the XAML view of the horizontal
 /// pile and micropile (HorizontalPileSheetView, the tab of the capacity, and the view of the elastic response with the reinforcement) hosted by
 /// <see cref="MvvmSheetEditor"/>, as the bench opens it with <c>--module-impl geo_palo_orizzontale=mvvm --module-impl geo_micropalo_orizzontale=mvvm</c>,
-/// in windows outside the screen (never activated, no mouse). The Release keeps the historic view until the user has tried the views of the
-/// two tabs (decisions O2/E2). Parts:
+/// in windows outside the screen (never activated, no mouse). Since 23/10/2026 the Release opens this view and the historic one is archived
+/// (supporto/SUPERATI/ui-storica/palo-orizzontale and palo-elastico): the comparisons with the historic view are replaced by the frozen traces
+/// and drawings and by independent expectations. Parts:
 /// <list type="number">
 /// <item>Traces through the view: the 27 scenarios of tests/Shared/HorizontalPileTrace.cs driven through the controls of the view (fields,
 /// choices and check boxes of the FieldForm, tabs, buttons, cells of the stratigraphies, the soil editors) with the held engine of the traces,
@@ -46,26 +47,25 @@ namespace X.Desktop;
 /// (with the declared difference F5-02, O6); the display lists of the diagrams of «Diagrammi e dettagli» and of the profile drawn by the view,
 /// equal to those frozen.</item>
 /// <item>For each of the 21 F3 fixtures of the two modules: the visit (every tab but the analyses, «Estendi»/«Riduci», three appearances) writes
-/// nothing and raises no Modified; the tabs of the analyses write only «vista_orizzontale», as the historic view; after the calculation data
-/// and result are those of the historic view; the exports are those of the historic view: JSON of the result, Word report (dates normalized)
-/// and PDF beside it, «Esporta CSV».</item>
-/// <item>F5-02 (O6): the choice «Acciaio» of the view after a custom value of the steel, against the historic view.</item>
+/// nothing and raises no Modified; after «Calcola» the exports of the result shown: JSON equal to the result, Word report and PDF beside it,
+/// «Esporta CSV» with the tables of the historic button (HorizontalPileEditor.Csv); without a result the export is refused with its message.</item>
+/// <item>F5-02 (O6): the choice «Acciaio» of the view after a custom value of the steel, and the note of a class of the catalogue.</item>
 /// <item>Screenshots of the view in Chiara, Scuro and Molto scuro (folder schermate; 144 DPI on this machine).</item>
-/// <item>Help: the «?» labels shown are those of the historic view; every «?» and every F1 on a field of every form reaches the IWikiNavigator
+/// <item>Help: the «?» labels shown (logged); every «?» and every F1 on a field of every form reaches the IWikiNavigator
 /// of the services (lesson 1 of 17/10), F1 elsewhere the guide of the module, «Modello e dati comuni…» the theory page (CalculationGuide).</item>
-/// <item>Automation names: those of the historic view kept, those that ui/smoke-horizontal and ElasticPile.UiChecks read among them.</item>
-/// <item>Read-only revision: the controls that accept the user are those of the historic view after InspectRevision.</item>
+/// <item>Automation names (logged), those that ui/smoke-horizontal and ElasticPile.UiChecks read among them.</item>
+/// <item>Read-only revision: the controls after InspectRevision (logged); typing, layers, soil and commands refused.</item>
 /// <item>The shared soil transfer dialog (T5, O7): «Invia / carica terreno…» of the pile and of the micropile, a copy and a replacement sent to
 /// the window.</item>
-//// <item>Bench and Release: with --module-impl the two modules open the MVVM view; the Release keeps the historic view.</item>
+/// <item>Bench and Release: the two modules open the MVVM view, in the bench and in the Release.</item>
 /// <item>Traces of the elastic response through the view (F5.8): the 20 scenarios of tests/Shared/ElasticPileTrace.cs driven through the controls of
 /// the view and of its dialogs (split, proposal, design shown outside the screen; the c.a. verifier as the dialog of the services with the historic
 /// ConcreteWorkspace of its view, E1), equal line by line to the traces of the historic view frozen in tests/fixtures/f5-elastico/storica; the
 /// drawings the view shows (the response with the options of the fixture, with a depth chosen by a click, the sheet of the reinforcement) equal to
 /// those frozen.</item>
-/// <item>The tab of the elastic response: every «?» and F1 of its four forms to the navigator, the automation names of the historic tab and the
-/// controls that ElasticPile.UiChecks finds, read-only against the historic tab, the c.a. verifier with its return (E1), «Esporta CSV» and «Esporta
-/// PNG…» of the sheet with the bytes of the historic buttons.</item>
+/// <item>The tab of the elastic response: every «?» and F1 of its four forms to the navigator, the automation names (logged) and the
+/// controls that ElasticPile.UiChecks finds, read-only refusals, the c.a. verifier with its return (E1), «Esporta CSV» and «Esporta
+/// PNG…» of the sheet with the bytes of the historic buttons on the result shown.</item>
 /// </list>
 /// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
 /// </summary>
@@ -376,16 +376,6 @@ internal static partial class HorizontalPileViewChecks
             wide.CloseDialogs();
             written += 2;
         }
-        // The historic view at the same sizes, for the comparison by eye (folder storica).
-        Directory.CreateDirectory(Path.Combine(folder, "storica"));
-        foreach (var (name, module, id) in cases)
-            foreach (var (width, label) in new[] { (1400d, ""), (1700d, "-larga") })
-            {
-                using var historic = new Hosted(new SheetEditor(module, HorizontalPileScenarios.FixtureData(root, module, id)), width: width);
-                await historic.Editor.CalculateAsync();
-                await historic.Settle();
-                File.WriteAllBytes(Path.Combine(folder, "storica", $"capacita-{name}{label}-chiara.png"), historic.Png());
-            }
         Check(written == 11, "Schermate della scheda della capacità nei tre aspetti, larga, estesa e dei diagrammi: " + written + " PNG in " + folder);
     }
 }
