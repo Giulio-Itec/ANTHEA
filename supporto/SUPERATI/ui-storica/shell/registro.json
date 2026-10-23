@@ -1,0 +1,47 @@
+[
+  {
+    "origine": "X.Desktop/Wpf/SheetEditor.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/SheetEditor.cs",
+    "commit": "006f65c4 (ultimo che lo modifica), invariato fino a refactoring/f5 67eafba5",
+    "sha256": "a3e5eb12f0f8a5038437b8d56bb036f8146a6470c9d53a20359744394fb739f1",
+    "sha256_lf": "d99855ccdfa0127c2b80b9bb454e98bb54445d20154566876f04d7a63c58b846",
+    "motivo": "F5.13 g: guscio dell'editor storico dei fogli senza più fogli storici (il costruttore rifiutava ogni modulo dal 23/10); nessun modulo della Release è storico",
+    "sostituzione": "le viste MVVM dei 15 moduli (MvvmSheetEditor nelle prove F3, schede della shell); un modulo senza vista MVVM è rifiutato con lo stesso testo da SheetEditorFactory.NoView"
+  },
+  {
+    "origine": "X.Desktop/Hosting/HistoricSheetViewModel.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Hosting/HistoricSheetViewModel.cs",
+    "commit": "28a8ee6b (ultimo che lo modifica), invariato fino a refactoring/f5 67eafba5",
+    "sha256": "3d06b597b4c0d028a67d9008bb65e46d427021a3af6d96ab130f34621488cdd7",
+    "sha256_lf": "ad2bbdad251881dc64cbb3bce723de0869c843297f7c229b41a8d8756c42808c",
+    "motivo": "F5.13 g: adattatore R5 (proposta 5.2) del SheetEditor storico nelle schede della shell; senza moduli storici non è mai usato",
+    "sostituzione": "RegistrySheetFactory dentro ReleaseSheetFactory (X.Desktop/Hosting/ShellSheets.cs): ogni scheda apre il ViewModel del modulo"
+  },
+  {
+    "origine": "X.Desktop/Views/Shell/HistoricSheetHost.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Views/Shell/HistoricSheetHost.cs",
+    "commit": "28a8ee6b (ultimo che lo modifica), invariato fino a refactoring/f5 67eafba5",
+    "sha256": "1ede9f95711b3aaad23178eec4ca388efb42388b1c581d2bceed136316d80401",
+    "sha256_lf": "446fbaf7e33e34d28e8be0c272a9cbbf7d0f9baeafd6da064612212d6c75de28",
+    "motivo": "F5.13 g: vista della scheda storica R5 (con il suo DataTemplate in ShellTemplates.xaml, tolto)",
+    "sostituzione": "i DataTemplate delle viste XAML dei moduli"
+  },
+  {
+    "origine": "tests/Desktop/HistoricSheetEditor.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/tests/Desktop/HistoricSheetEditor.cs",
+    "commit": "a8b69641 (ultimo che lo modifica), invariato fino a refactoring/f5 67eafba5",
+    "sha256": "2f95e534784cbf72a3288e58dbf630982f030908fb3413abdbec891345de8368",
+    "sha256_lf": "d595d55650a97f71766fdb3565b2d1cd440ff6ecf0b039ae4fc0d59c20360b70",
+    "motivo": "F5.13 g: partial di prova di MainWindow (historicEditor), senza utenti",
+    "sostituzione": "OpenSheet (tests/Desktop/OpenSheetChecks.cs) sulle viste XAML"
+  },
+  {
+    "origine": "tests/Desktop/ShellDraftChecks.cs (metodo HistoricHost e commento, righe 567-681 a 67eafba5)",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/tests/Desktop/ShellDraftChecks.HistoricHost.cs",
+    "commit": "879e6b71 (ultimo che lo modifica), invariato fino a refactoring/f5 67eafba5",
+    "sha256": "1154153f22e08ea12427a8c31af4b3155fc03237f8c5c1cdc1001faa14c5668e",
+    "sha256_lf": "08534a22440d19ba9688e2097a46e5e465508c810a3ad900fed42fdc8c3aada0",
+    "motivo": "F5.13 g: frammento estratto da tests/Desktop/ShellDraftChecks.cs (metodo HistoricHost, passo 21 di ui/check-shell-draft, «non applicabile» dal 23/10)",
+    "sostituzione": "nessuno: senza moduli storici il passo non ha oggetto; le altre immagini 01-20 della bozza restano"
+  }
+]

@@ -48,7 +48,7 @@ internal static partial class ShellSmoke
                         workspace.OpenDocument(document, null, false);
                         await b.Idle();
                         var opened = b.Sheet;
-                        if (opened.Historic is { } historicEditor) await historicEditor.CalculateAsync(); else await opened.Hosted.CalculateAsync();
+                        await opened.Hosted.CalculateAsync();
                         if (opened.ViewModel.Result is null || opened.ViewModel.Result.S("errore") != "") throw new InvalidOperationException("Calcolo fallito: " + page);
                     }
                     await b.Idle();
@@ -119,8 +119,7 @@ internal static partial class ShellSmoke
     /// </summary>
     private sealed class DisplaySheet(ShellSmokeBench b, ShellSheet sheet)
     {
-        private readonly VerticalPileSmoke mvvm = sheet.Historic is null ? new VerticalPileSmoke(sheet.Hosted, b.Services)
-            : throw new InvalidOperationException("Il palo verticale si apre con la vista MVVM: " + sheet.ViewModel.ModuleId);
+        private readonly VerticalPileSmoke mvvm = new(sheet.Hosted, b.Services);
 
         internal void VerifyDisplayLayout() => mvvm.VerifyDisplayLayout();
         internal Task VerifyDisplayScrolling(string directory, string name) => mvvm.VerifyDisplayScrolling(directory, name);

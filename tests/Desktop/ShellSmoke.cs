@@ -262,32 +262,25 @@ internal sealed class ShellSmokeBench : IDisposable
     }
 }
 
-/// <summary>A sheet of the shell as the suites drive it: the historic SheetEditor (the Release) or the XAML view (the bench <c>--module-impl</c>).</summary>
+/// <summary>
+/// A sheet of the shell as the suites drive it: the XAML view of its module (until F5.13 g also the historic SheetEditor of the ospite R5, archived in
+/// supporto/SUPERATI/ui-storica/shell).
+/// </summary>
 internal sealed class ShellSheet(ShellSmokeBench bench, SheetSession session)
 {
     internal SheetSession Session { get; } = session;
     internal ISheetViewModel ViewModel => Session.ViewModel;
-
-    /// <summary>The historic editor hosted by the tab (HistoricSheetViewModel), null for a sheet with the XAML view.</summary>
-    internal SheetEditor? Historic => (ViewModel as HistoricSheetViewModel)?.Editor as SheetEditor;
 
     /// <summary>The XAML view of the sheet in its tab.</summary>
     internal HostedSheet Hosted => new(ViewModel, () => bench.ViewOf(ViewModel));
 
     internal JsonObject Data => ViewModel.Data;
 
-    /// <summary>The control that shows the sheet: the SheetEditor, or the presenter of the XAML view.</summary>
-    internal FrameworkElement View => Historic is { } historic ? historic : bench.ViewOf(ViewModel);
-
-    /// <summary>The historic checks of the open sheet (OpenSheet), only for the historic editor.</summary>
-    internal OpenSheet HistoricChecks => new(Historic ?? throw new InvalidOperationException("Il foglio usa la vista MVVM: " + ViewModel.ModuleId), bench.Services);
+    /// <summary>The control that shows the sheet: the presenter of the XAML view.</summary>
+    internal FrameworkElement View => bench.ViewOf(ViewModel);
 
     /// <summary>SetGeometryForSmoke: the diameter of a vertical pile as the user types it.</summary>
-    internal void SetGeometry(string value)
-    {
-        if (Historic is { } historic) historic.SetGeometryForSmoke(value);
-        else new VerticalPileSmoke(Hosted, bench.Services).SetGeometry(value);
-    }
+    internal void SetGeometry(string value) => new VerticalPileSmoke(Hosted, bench.Services).SetGeometry(value);
 
     /// <summary>The state of the concrete set through the controls of its XAML view (the only one since the Release switch of the materials).</summary>
     internal void SetConcreteState(JsonObject state) => new ConcreteMaterialSmoke(Hosted).Apply(state);
@@ -298,8 +291,8 @@ internal sealed class ShellSheet(ShellSmokeBench bench, SheetSession session)
     /// <summary>The type of the reinforcing steel, chosen as the user chooses it.</summary>
     internal SteelSmoke Steel => new(new ShellMvvmEditor(Hosted));
 
-    /// <summary>WaitForAutomatic of the sheet, either view.</summary>
-    internal Task WaitForAutomatic() => Historic is { } historic ? historic.WaitForAutomatic() : MvvmSheets.WaitForAutomatic(Hosted);
+    /// <summary>WaitForAutomatic of the sheet.</summary>
+    internal Task WaitForAutomatic() => MvvmSheets.WaitForAutomatic(Hosted);
 }
 
 /// <summary>

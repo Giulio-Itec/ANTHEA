@@ -15,7 +15,7 @@ namespace X.Desktop;
 /// <summary>
 /// The sheet of a module migrated to MVVM in the current window (F5.2, proposal 5.2): it hosts the <see cref="ISheetViewModel"/>
 /// created by the <see cref="ISheetModule"/> and its view, and offers them to MainWindow and to the F3 captures through
-/// <see cref="ISheetEditor"/>, the contract of the historic <see cref="SheetEditor"/>.
+/// <see cref="ISheetEditor"/>, the contract of the historic SheetEditor (archived in F5.13 g).
 /// <list type="bullet">
 /// <item>View: the DataTemplate of the type of the ViewModel (or of a base type) in the resources of the application
 /// (decision Q3, X.Desktop/Views); a ViewModel without one fails at opening, with its name.</item>

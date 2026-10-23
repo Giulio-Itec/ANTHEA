@@ -7,7 +7,7 @@ namespace X.Desktop;
 
 /// <summary>
 /// Decides which editor opens a sheet (F5.2, proposal 5.2), as <see cref="ModuleImplementations"/> says: the historic
-/// <see cref="SheetEditor"/> or the <see cref="MvvmSheetEditor"/> of the module migrated to MVVM, from the
+/// SheetEditor (archived in F5.13 g: now refused, NoView) or the <see cref="MvvmSheetEditor"/> of the module migrated to MVVM, from the
 /// <see cref="ModuleRegistry"/>. Created by the composition root (DesktopComposition) and passed to MainWindow; MainWindow and
 /// the F3 captures open sheets only through it. In the Release the pile group is MVVM since F5.4; the new Spectra
 /// and EmbeddedWalls modules start in MVVM, while the other modules keep the historic view.
@@ -37,5 +37,15 @@ internal sealed class SheetEditorFactory
     internal ISheetEditor Open(string module, JsonObject data, IModuleService? calculation = null) =>
         implementations.For(module) == SheetImplementation.Mvvm
             ? new MvvmSheetEditor(modules.SheetModule(module), data, services, calculation ?? ModuleServices.Get(module), limiter)
-            : new SheetEditor(module, data, calculation);
+            : throw NoView(module);
+
+    /// <summary>
+    /// A module without an MVVM view (F5.13 g): the refusal of the historic SheetEditor, archived in supporto/SUPERATI/ui-storica/shell, with its text; an
+    /// unknown module fails in ModuleDirectory first, as before.
+    /// </summary>
+    internal static InvalidOperationException NoView(string module)
+    {
+        _ = ModuleDirectory.Get(module);
+        return new InvalidOperationException("Vista storica non disponibile per " + module + ": il modulo si apre con la vista MVVM.");
+    }
 }

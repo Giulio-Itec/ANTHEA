@@ -19,8 +19,8 @@ internal sealed record ShellParts(ShellWindow Window, ShellViewModel Shell, Shel
 /// the shell (ui/check-shell-draft, ui/shell-*).
 /// <list type="bullet">
 /// <item>the sheets as the Release chooses them (<see cref="ReleaseSheetFactory"/>, night of 22-23/10, R5): the modules MVVM in
-/// <see cref="ModuleImplementations"/> through their ViewModel, with the limiter of the calculations; the modules still historic in the historic
-/// <see cref="SheetEditor"/>, hosted in the tab (<see cref="HistoricSheetViewModel"/>); their files through <see cref="DesktopSheetExports"/>;</item>
+/// <see cref="ModuleImplementations"/> through their ViewModel, with the limiter of the calculations; until F5.13 g the modules still
+/// historic in their SheetEditor behind HistoricSheetViewModel (R5, archived); their files through <see cref="DesktopSheetExports"/>;</item>
 /// <item>the files of the documents with the installed examples, the menu «Aspetto»
 /// (<see cref="WpfAppearanceService"/>) and the page «Esempi»;</item>
 /// <item>the report of a section (part e, <see cref="DesktopSectionReports"/>: the call of MainWindow, report code unchanged);</item>

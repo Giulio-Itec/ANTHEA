@@ -1695,16 +1695,8 @@ public sealed partial class MainWindow
     internal async Task AuditWaitEditor(ContrastAudit a, bool calculate)
     {
         if (editor is null) return;
-        if (editor is not SheetEditor active)
-        {
-            // A sheet of a module migrated to MVVM (MvvmSheetEditor): «Calcola», then the end of the calculation.
-            if (calculate) { try { await editor.CalculateAsync(); } catch (Exception ex) { a.Note(a.Context, "Calcolo: " + ex.Message); } }
-            if (!await a.WaitUntil(() => editor is null || !editor.Busy, 120)) a.Note(a.Context, "calcolo ancora in corso dopo 120 s");
-            await a.Settle(60);
-            return;
-        }
-        if (calculate) { try { await active.CalculateAsync(); } catch (Exception ex) { a.Note(a.Context, "Calcolo: " + ex.Message); } }
-        try { await active.WaitForAutomatic(); } catch (Exception ex) { a.Note(a.Context, ex.Message); }
+        // A sheet of a module migrated to MVVM (MvvmSheetEditor; since F5.13 g no historic SheetEditor): «Calcola», then the end of the calculation.
+        if (calculate) { try { await editor.CalculateAsync(); } catch (Exception ex) { a.Note(a.Context, "Calcolo: " + ex.Message); } }
         if (!await a.WaitUntil(() => editor is null || !editor.Busy, 120)) a.Note(a.Context, "calcolo ancora in corso dopo 120 s");
         await a.Settle(60);
     }

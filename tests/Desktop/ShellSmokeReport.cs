@@ -49,7 +49,7 @@ internal static partial class ShellSmoke
             if (module == RebarMaterial.Module)
             {
                 single.ViewModel.Data["input"]!["gamma_s"] = "0";
-                var content = single.ViewModel is HistoricSheetViewModel historic ? historic.Editor.MaterialReportContent() : ((IMaterialSheetViewModel)single.ViewModel).ReportContent();
+                var content = ((IMaterialSheetViewModel)single.ViewModel).ReportContent();
                 b.Check(content.Error is not null, "Acciaio non valido con avviso");
             }
             // MainWindow disposed the editor of the check: the single file closes without saving.

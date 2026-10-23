@@ -62,7 +62,7 @@ public partial class App
             Dispatcher.BeginInvoke(new Action(async () =>
             {
                 int code = 0;
-                try { await SheetEditor.CheckF3Figures(e.Args[1], e.Args[2], e.Args[0].EndsWith("-capture")); }
+                try { await F3FigureChecks.CheckF3Figures(e.Args[1], e.Args[2], e.Args[0].EndsWith("-capture")); }
                 catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
                 finally { Shutdown(code); }
             }));
@@ -86,7 +86,7 @@ public partial class App
             Dispatcher.BeginInvoke(new Action(async () =>
             {
                 int code = 0;
-                try { await SheetEditor.CheckF3Scheduling(e.Args[1], e.Args[2]); }
+                try { await F3SchedulingChecks.CheckF3Scheduling(e.Args[1], e.Args[2]); }
                 catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
                 finally { Shutdown(code); }
             }));

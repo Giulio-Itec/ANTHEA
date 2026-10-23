@@ -4,7 +4,7 @@ namespace X.Desktop;
 
 /// <summary>
 /// f5-suite-ui: the open sheet as the UI suites drive and read it, with either implementation of its module: the historic
-/// <see cref="SheetEditor"/> (the Release until the switch of the module) or <see cref="MvvmSheetEditor"/> (the bench
+/// SheetEditor (the Release until the switch of the module; archived with F5.13 g) or <see cref="MvvmSheetEditor"/> (the bench
 /// <c>--module-impl</c> of the suites <c>ui/&lt;suite&gt;-mvvm</c>, and the Release after the switch). The suites call these members
 /// where they called the SheetEditor partials through <c>historicEditor</c>; each member keeps the checks of the historic one on the
 /// XAML view (VerticalPileSmoke, …). At the Release switch of a module its historic branch here, and the SheetEditor partial it
@@ -19,19 +19,13 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     private VerticalPileSmoke DisplayPile => Pile ?? throw new InvalidOperationException("Il foglio aperto non è un palo verticale con la vista MVVM: " + editor.Module);
 
     /// <summary>
-    /// The historic sheet; the message of <c>historicEditor</c> for a module without an MVVM branch here. A historic sheet of a module that the
-    /// bench of the command line opens with the XAML view fails too: a suite <c>-mvvm</c> never passes on the historic view by mistake.
+    /// A sheet without a branch here. Until F5.13 g the historic SheetEditor (its partials, archived in supporto/SUPERATI/ui-storica/shell); since
+    /// no module has a historic view, the failure names the module.
     /// </summary>
-    private SheetEditor Historic => editor switch
-    {
-        SheetEditor when ModuleHostBench.Implementations(Environment.GetCommandLineArgs()).For(editor.Module) == SheetImplementation.Mvvm =>
-            throw new InvalidOperationException("Il banco apre " + editor.Module + " con la vista MVVM, ma il foglio aperto usa SheetEditor."),
-        SheetEditor historic => historic,
-        _ => throw new InvalidOperationException("Il foglio aperto non usa SheetEditor: " + editor.Module)
-    };
+    private InvalidOperationException Unsupported => new("Il foglio aperto non ha un ramo di prova con la vista MVVM: " + editor.Module);
 
     /// <summary>The automatic recalculation finished (within 10 s, as SheetEditor.WaitForAutomatic).</summary>
-    internal Task WaitForAutomatic() => editor is MvvmSheetEditor mvvm ? MvvmSheets.WaitForAutomatic(mvvm) : Historic.WaitForAutomatic();
+    internal Task WaitForAutomatic() => editor is MvvmSheetEditor mvvm ? MvvmSheets.WaitForAutomatic(mvvm) : throw Unsupported;
 
     /// <summary>The RC section with the XAML view (ConcreteSectionSmoke), null otherwise.</summary>
     private ConcreteSectionSmoke? Section => ConcreteSectionSmoke.Handles(editor) ? new((MvvmSheetEditor)editor, services) : null;
@@ -41,13 +35,13 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     {
         if (Pile is { } pile) pile.SetGeometry(value);
         else if (Section is { } section) section.SetGeometry(value);
-        else Historic.SetGeometryForSmoke(value);
+        else throw Unsupported;
     }
 
     // ---------------------------------------------------------------- ui/smoke (SmokeChecks.cs)
 
     internal Task VerifyWpf(string directory, string name) => Pile is { } pile ? pile.VerifyWpf(directory, name)
-        : Section is { } section ? Verify(section, s => s.VerifyWorkspace(directory)) : Historic.VerifyWpf(directory, name);
+        : Section is { } section ? Verify(section, s => s.VerifyWorkspace(directory)) : throw Unsupported;
 
     // ---------------------------------------------------------------- the c.a. section (ui/smoke-section-actions, ui/smoke-ca-extensions, ui/smoke-ca-features)
 
