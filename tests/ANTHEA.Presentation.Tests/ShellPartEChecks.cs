@@ -92,6 +92,10 @@ internal static class ShellPartEChecks
         shell.Workspace.CommitActive();
         expect.That(shell.SharedStatus.IsVisible && shell.SharedStatus.Text.Contains("Dati diversi tra i fogli", StringComparison.Ordinal),
             "Conferma con «Solo questo foglio»: la riga di stato mostra la differenza");
+        // ui/shell-capture: «Uniforma a questo» from the sheet with the focus changes the other sheet; the status line follows the project.
+        var other = section.Array("fogli").OfType<System.Text.Json.Nodes.JsonObject>().Single(s => !ReferenceEquals(s, sheet.Sheet));
+        project.ChangeData(() => { other["dati"] = sheet.Sheet["dati"]!.DeepClone(); return true; }, other);
+        expect.That(!(shell.SharedStatus.IsVisible && shell.SharedStatus.Text.Contains("Dati diversi tra i fogli", StringComparison.Ordinal)), "Dopo «Uniforma a questo» sull'altro foglio la riga di stato non mostra più la differenza");
     }
 
     /// <summary>

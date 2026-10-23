@@ -598,6 +598,9 @@ public sealed class ShellViewModel : ViewModelBase
             Overview = new SectionOverviewViewModel(project, shown.Section is null ? null : project.Find(shown.Section.S("id")) ?? project.Projects.FirstOrDefault());
         foreach (var page in Windows.Pages.Where(p => p.Content is ModelTabViewModel model && !model.Rebind()).ToArray()) Windows.Close(page);
         ModelReference.Update(Workspace.Active);
+        // F5.13 e (ui/shell-capture): the status line of the sheet with the focus follows the other sheets changed by the project («Uniforma a questo» from the
+        // sheet aligns the others; MainWindow shows the sheet again after the comparison).
+        SharedStatus.Update(Workspace.Active);
         UpdateTitle();
     }
 
