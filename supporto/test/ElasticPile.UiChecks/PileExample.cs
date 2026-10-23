@@ -47,9 +47,8 @@ static partial class Program
         File.WriteAllText(Path.Combine(evidence,"esempio-risultati.json"),result.ToJsonString(J.Options));File.WriteAllText(Path.Combine(evidence,"esempio-broms.json"),broms.ToJsonString(J.Options));
         var app=new TestApp();app.LoadStyles();app.ShutdownMode=ShutdownMode.OnExplicitShutdown;
         System.Threading.SynchronizationContext.SetSynchronizationContext(new System.Windows.Threading.DispatcherSynchronizationContext());
-        var hostType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.HorizontalWorkspace")!;var host=(FrameworkElement)Activator.CreateInstance(hostType,flags,null,[reopened],null)!;
-        Wait((System.Threading.Tasks.Task)hostType.GetMethod("CalculateActiveAsync",flags)!.Invoke(host,null)!);
-        Check(hostType.GetProperty("ActiveResult",flags)!.GetValue(host)!=null,"saved example opens and calculates in the real horizontal-pile workspace");((IDisposable)host).Dispose();
+        // f5-pass-orizzontale: the sheet of the XAML view (the horizontal-pile module of the window), «Calcola» of the tab shown.
+        using(var host=new PileHost(reopened)){Wait(host.CalculateAsync());Check(host.EditorResult!=null,"saved example opens and calculates in the real horizontal-pile workspace");}
         var drawType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.PileReinforcementDrawing")!;var drawing=Activator.CreateInstance(drawType,true)!;drawType.GetMethod("Set",flags)!.Invoke(drawing,[result,null]);
         var size=(Size)drawType.GetProperty("SheetSize",flags)!.GetValue(drawing)!;
         File.WriteAllBytes(Path.Combine(folder,basename+".png"),(byte[])drawType.BaseType!.GetMethod("Png",flags)!.Invoke(drawing,[(int)size.Width,(int)size.Height])!);

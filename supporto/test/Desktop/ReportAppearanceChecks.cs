@@ -115,9 +115,11 @@ internal static class ReportAppearanceChecks
             Add("muro", editor.BuildReport("Muro · aspetto", []));
         }
         var horizontalData = PaloOrizzontale.Defaults(); horizontalData["stratigrafie"]![0]!.AsArray().Add(PaloOrizzontale.Layer());
-        using (var editor = new SheetEditor(PaloOrizzontale.Module, horizontalData))
+        // f5-pass-orizzontale: the sheet opened by the factory of the bench, as the window opens it, waited for as ui/smoke-horizontal.
+        using (var editor = editors.Open(PaloOrizzontale.Module, horizontalData))
         {
-            await editor.WaitForHorizontalAutomatic();
+            if (HorizontalPileSmoke.Handles(editor)) await HorizontalPileSmoke.WaitForAutomatic(editor);
+            else await ((SheetEditor)editor).WaitForHorizontalAutomatic();
             Add("palo-orizzontale", editor.BuildReport("Palo orizzontale · aspetto", []));
         }
         var pile = SmokeTestData.LoadCases().First(c => c.S("nome") == "palo_storico_0")!["input"]!.AsObject();

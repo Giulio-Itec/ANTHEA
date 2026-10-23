@@ -31,16 +31,14 @@ static partial class Program
             // Horizontal pile: concrete law among the optional data of the section.
             foreach (var law in new[] { "Parabola-rettangolo", "Stress block" })
             {
-                var root = Input(); root["sezione"]!["cls_diagramma"] = law;
-                var hostType = assembly.GetType("X.Desktop.HorizontalWorkspace")!;
-                var host = (FrameworkElement)Activator.CreateInstance(hostType, flags, null, [root], null)!;
-                var form = (FrameworkElement)hostType.GetField("sectionFields", flags)!.GetValue(host)!;
-                // The law is among the optional data: lay out the form once so that its groups exist, then open them.
-                form.Measure(new Size(700, 1300)); form.Arrange(new Rect(0, 0, 700, 1300)); form.UpdateLayout();
+                var root = Input(); root["sezione"]!["cls_diagramma"] = law; root.Remove("vista_orizzontale");
+                // f5-pass-orizzontale: the form of the section in the XAML view of the sheet (tab of the capacity), its groups opened.
+                using var host = new PileHost(root);
+                var form = (FrameworkElement)PileHost.Get(host.SheetView, "SectionFormHost");
                 foreach (var group in Descendants<Expander>(form)) group.IsExpanded = true;
-                Snapshot(form, Path.Combine(dir, "palo-" + (law == "Stress block" ? "stress-block" : "parabola") + ".png"), 700, 1300);
+                host.Settle();
+                Picture(form, Path.Combine(dir, "palo-" + (law == "Stress block" ? "stress-block" : "parabola") + ".png"));
                 Fact(Shows(form) == (law == "Stress block"), "horizontal pile: notice " + (law == "Stress block" ? "shown with the stress block" : "absent with " + law));
-                ((IDisposable)host).Dispose();
             }
 
             // c.a. section: materials of the control panel, then the law changed by the user.

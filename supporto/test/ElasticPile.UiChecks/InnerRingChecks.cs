@@ -30,18 +30,24 @@ static partial class Program
             // Main section of the pile: form and drawing.
             var root = Input(); root["elastico"]!["dettagli"]!["azioni_progetto"] = true; root["elastico"]!["dettagli"]!["taglio_confermato"] = true;
             int outer = (int)root["sezione"].D("longitudinal_bar_count", 16);
-            var ringed = (JsonObject)root.DeepClone(); Ring(ringed["sezione"]!.AsObject(), true);
-            var hostType = assembly.GetType("X.Desktop.HorizontalWorkspace")!;
-            var host = (FrameworkElement)Activator.CreateInstance(hostType, flags, null, [ringed], null)!;
-            var form = (FrameworkElement)hostType.GetField("sectionFields", flags)!.GetValue(host)!;
-            var editors = (System.Collections.IDictionary)form.GetType().GetField("Editors", flags)!.GetValue(form)!;
-            Fact(new[] { "second_inner_enabled", "second_inner_count", "second_inner_diameter", "second_inner_gap" }.All(editors.Contains), "main pile section offers the inner ring fields");
-            Snapshot(form, Path.Combine(dir, "sezione-principale-campi.png"), 700, 1300);
-            var drawing = (FrameworkElement)hostType.GetField("sectionDrawing", flags)!.GetValue(host)!;
-            var bars = (System.Collections.ICollection)(drawing.GetType().GetProperty("Bars", flags)?.GetValue(drawing) ?? drawing.GetType().GetField("Bars", flags)!.GetValue(drawing)!);
-            Fact(bars.Count == outer + 8, $"main section drawing shows both rings ({bars.Count} bars, expected {outer + 8})");
-            Snapshot(drawing, Path.Combine(dir, "sezione-principale-disegno.png"), 400, 400);
-            ((IDisposable)host).Dispose();
+            var ringed = (JsonObject)root.DeepClone(); Ring(ringed["sezione"]!.AsObject(), true); ringed.Remove("vista_orizzontale");
+            // f5-pass-orizzontale: the main section in the XAML view of the sheet (tab of the capacity): the fields of its form, its groups opened, and the
+            // drawing of the section beside it (HorizontalWorkspace.sectionFields and sectionDrawing of the historic view).
+            using (var host = new PileHost(ringed))
+            {
+                var form = (FrameworkElement)PileHost.Get(host.SheetView, "SectionFormHost");
+                foreach (var group in Descendants<Expander>(form)) group.IsExpanded = true;
+                host.Settle();
+                string[] ringKeys = ["second_inner_enabled", "second_inner_count", "second_inner_diameter", "second_inner_gap"];
+                var shownKeys = Descendants<Control>(form).Where(c => c is TextBox or ComboBox or CheckBox && c.TemplatedParent is not ComboBox && c.DataContext is Anthea.Presentation.Forms.FieldViewModel)
+                    .Select(c => ((Anthea.Presentation.Forms.FieldViewModel)c.DataContext).Key).ToHashSet();
+                Fact(ringKeys.All(host.Sheet.SectionForm.Contains) && ringKeys.All(shownKeys.Contains), "main pile section offers the inner ring fields");
+                Picture(form, Path.Combine(dir, "sezione-principale-campi.png"));
+                var drawing = (FrameworkElement)PileHost.Get(host.SheetView, "ConcreteDrawing");
+                var bars = (System.Collections.ICollection)PileHost.Get(drawing, "Bars");
+                Fact(bars.Count == outer + 8, $"main section drawing shows both rings ({bars.Count} bars, expected {outer + 8})");
+                Picture(drawing, Path.Combine(dir, "sezione-principale-disegno.png"));
+            }
 
             // Segment T2 with its own reinforcement: inner ring added in the c.a. verifier.
             var trial = (JsonObject)root.DeepClone();
@@ -70,11 +76,14 @@ static partial class Program
             Fact(refusal.Contains("diametri misti"), $"library limit: a second ring of another diameter stops the bill of the pile with an explicit message ({refusal})");
 
             // Segment cards.
-            var editorType = assembly.GetType("X.Desktop.PileReinforcementEditor")!;
-            var editor = (FrameworkElement)Activator.CreateInstance(editorType, flags, null, [trial, (Action)(() => { }), (Func<JsonObject?>)(() => checkedRing), null], null)!;
-            editor.Measure(new Size(1500, 1100)); editor.Arrange(new Rect(0, 0, 1500, 1100)); editor.UpdateLayout();
-            Fact(Descendants<CheckBox>(editor).Count(c => c.Content?.ToString()?.Contains("anello interno") == true) == 2, "every segment card shows the inner ring choice");
-            Snapshot(editor, Path.Combine(dir, "tratti.png"), 1500, 1100);
+            // f5-pass-orizzontale: the cards of the XAML view of the reinforcement, elastic tab of the sheet of the two segments (its own calculation).
+            using (var segments = new PileHost(trial, height: 1100))
+            {
+                Wait(segments.Elastic.CalculateAsync()); segments.Settle();
+                var editor = segments.ReinforcementView;
+                Fact(Descendants<CheckBox>(editor).Count(c => c.Content?.ToString()?.Contains("anello interno") == true) == 2, "every segment card shows the inner ring choice");
+                Picture(editor, Path.Combine(dir, "tratti.png"));
+            }
 
             // Main section through the verifier of the first segment.
             var main = (JsonObject)root.DeepClone(); main["elastico"]!["tratti"] = new JsonArray(ElasticHorizontalPile.NewSegment("T1", null));
