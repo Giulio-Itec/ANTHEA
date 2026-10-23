@@ -1349,6 +1349,26 @@ Commit piccoli; ognuno compila e tiene verde il profilo quick.
 | 446e5dbd | `ui/check-examples` sulla shell (`ShellSmokeBench`): pagina «Esempi», documento attivo, `Workspace.OpenFile` | PASS 20 controlli, come prima (`ci/20261023-204850-f5-13-g-es`) |
 | 8d1da789 | `ui/smoke-global-stability` sulla shell; `MvvmWallSmoke` su `HostedSheet`; `AppHarness.ShellSmokes`: le smoke passate alla shell con la stessa bandiera e la stessa prova | PASS 14 controlli; `ui/smoke-retaining-wall` PASS (`ci/20261023-205118-f5-13-g-gs`) |
 
+**Seconda parte** (ripresa chiesta dal coordinatore, sera del 23/10): le suite contenitore sulla shell, con la facciata `ShellSmokeWindow`
+(`tests/Desktop/ShellSmokeWindow.cs`). I membri di `MainWindow` che le suite usavano (`document`, `editor`, `openSheet`, `dirty`, `currentSheet`,
+`ShowSheet`, `Commit`, le pagine, «Riprendi», `LoadFile`, le copie in un altro modulo, l'albero) sono i comandi della shell che l'utente preme, sul banco della
+parte (e), fuori dallo schermo. Le suite restano partial, ma di `ShellSmokeWindow`: passi e asserzioni non cambiano. `AppHarness.ShellSmokes` le fa girare
+sulla shell con la stessa bandiera e la stessa prova.
+
+| Commit | Contenuto | Verifiche |
+| --- | --- | --- |
+| 811e3210 | banchi `ConcreteSectionSmoke`, `BridgeSmoke`, `HorizontalPileSmoke` su `HostedSheet` | build |
+| f3108856 | `ui/smoke-section-actions`, `ui/smoke-ca-extensions`, `ui/smoke-ca-features`, `ui/smoke-neutral-axis` | PASS, con `ui/smoke-bridge-curves`, `ui/smoke-horizontal`, `ui/check-concrete-design` (`ci/20261023-214841-f5-13-g-ca`) |
+| d404aa9a | `ShellSmokeWindow`; le sei `ui/smoke-bridge*` | PASS (`ci/20261023-215615-f5-13-g-br`) |
+| b5ab61e0 | `ui/smoke-materials`, `ui/smoke-steel`, `ui/smoke-retaining-wall`; domanda F5-61 (G6) | PASS (`…-f5-13-g-mod2`) |
+| 495d0d7f | `ui/check-appearance` (46 controlli), `ui/smoke-material-report` | PASS (`…-f5-13-g-app`) |
+| f9cfa1d8 | `ui/check-module-host-offscreen`: la sonda si apre nella shell | PASS 55 (`…-f5-13-g-mh`) |
+| 4651347c | `ui/check-wiki-offscreen`: integrazione con la finestra sulla shell | PASS 3 439 controlli (`…-f5-13-g-wk2`) |
+
+Restano su `MainWindow`: `ui/smoke` e `ui/smoke-horizontal` (domanda G6), `ui/check-contrast` (G2) e le sei suite storiche già sostituite da
+`ui/shell-smoke-*`, che si archiviano con lei. `ui/shell-capture`, `ui/shell-smoke-project-report` e `ui/check-shell-draft` confrontano ancora anche con
+`MainWindow`, finché c'è.
+
 **Corse finali** su 1d54fd14: profilo standard PASS 78, 0 fallimenti (`ci/20261023-205347-f5-13-g-fine`); `-Stage build,ui` mirata PASS 43, 0 fallimenti
 (`ci/20261023-212318-f5-13-g-ui`): `ui/f3-equivalence` PASS 119 fixture, 77 articoli, 30 ricerche, report di progetto, 1 201 file «uguali entro le
 tolleranze», 0 differenze non ammesse; `ui/f3-report-chapters`, `ui/f3-figures`, `ui/f3-scheduling`; le 23 `ui/smoke*` (comprese le due portate);
@@ -1435,36 +1455,45 @@ l'unione, con PDF, indici e impronte. La guida, i PDF e gli articoli non sono to
 | G2 | Voci della Chiara con chiave `MainWindow` (14.5) | si convertono con la porta di `ContrastAudit` alla shell e una corsa a 96 DPI; finché `MainWindow` c'è, restano |
 | G3 | `MvvmSheetEditor` e `SheetEditorFactory` dopo il ritiro di `MainWindow` | restano: `MvvmSheetEditor` serve in produzione alla verifica c.a. del palo orizzontale (`ConcreteVerifierSection`); la fabbrica serve alle prove F3 e al banco |
 | G4 | `ui/f3-equivalence` sulla shell | il report del progetto passa dallo scrittore della shell; i fogli restano aperti con `MvvmSheetEditor`, come oggi, per non cambiare la visita dei controlli (`Visit`) contro le catture congelate |
+| G5 | `CheckBridgeOptions` (`ui/smoke-bridge`) vuole il fuoco della tastiera su un campo | `Activate()` della facciata attiva la finestra della shell fuori dallo schermo, come prima `MainWindow` (che però era sullo schermo); da rivedere se le prove non devono mai attivare finestre |
+| G6 | A 1920 × 1080 la pagina principale del palo orizzontale scorre in verticale nella shell (790,7 contro 751,3 px; 2 314 contro 658 con l'albero accanto, SH24): F5-61 «da-decidere» in `registro-differenze.json` | `ui/smoke` e `ui/smoke-horizontal` restano su `MainWindow`, che quindi non si archivia. Opzioni: accettare la differenza e controllare l'area della scheda (come SH40 in `ui/shell-smoke-display`), oppure dare alla scheda la stessa altezza di `MainWindow` (cambio della disposizione) |
 
 ### 14.8 Cosa resta e come riprendere
 
-Il ramo è a un punto fermo: ogni commit compila, il profilo quick è verde, la Release apre la shell. `MainWindow` è ancora compilata perché la
-aprono le suite della tabella 14.2 marcate «3: sulla shell». Resta, in quest'ordine:
-1. **Suite contenitore sulla shell** (sottopasso 4 di 14.3), con il banco della parte (e): `ShellSmokeBench.OpenAsync`, i fogli con `ShellSheet`
-   (`HostedSheet` della vista XAML), i servizi di prova `BenchSheetServices`. Una o poche suite per commit, stesse asserzioni; dove una suite
-   controllava un dettaglio di `MainWindow` (`body.Content`, `moduleView`, un solo editor), il controllo equivalente della shell (scheda attiva,
-   pagina mostrata) o una differenza dichiarata (12.5). Fatte: `ui/check-examples` e `ui/smoke-global-stability`; una smoke passata si aggiunge a
-   `AppHarness.ShellSmokes` e lascia la partial di `MainWindow`. I banchi dei moduli che prendono un `MvvmSheetEditor` (`ConcreteSectionSmoke`,
-   `BridgeSmoke`, `HorizontalPileSmoke`) vanno portati prima su `HostedSheet`, come `MvvmWallSmoke` in 8d1da789. Ordine proposto per le altre:
-   `ui/smoke-materials`, `ui/smoke-steel`, `ui/smoke-material-report`, `ui/smoke-retaining-wall` (la copia in un altro modulo fuori dal progetto
-   apre una scheda, non una seconda finestra), `ui/smoke-horizontal`, `ui/smoke`,
-   le quattro della sezione c.a., le sei del ponte, `ui/check-appearance`, `ui/check-wiki-offscreen`, `ui/check-module-host-offscreen`
-   (il controllo di `MainWindow` con la fabbrica), infine `ContrastAudit` (`ui/check-contrast`, da eseguire a 96 DPI, G2).
-2. **Ritiro di `MainWindow`**: i 15 file di `X.Desktop/Wpf/` (14.1), `WpfDesktopServices`, `DesktopServices`, `DesktopComposition.WindowServices`,
-   `TestServices`, `MainWindow.Tests.cs`, le partial di prova delle sei suite storiche sostituite da `ui/shell-smoke-*` (tolte da `build/ci.ps1`
-   con le loro voci in `$smokes`), i rami `MainWindow` di `WikiContextHelp`, `CalculationHelpView` e `WpfWikiNavigator`;
-   `WikiEditorial` passa a `Anthea.Presentation.Shell.Navigation.WikiExamples`. In `ShellProjectCapture`, `ShellSmokeReport` e `ShellDraftChecks`
-   restano solo i confronti con `tests/fixtures/f5-shell` e con `ShellReferences.SectionReport`; la cartella `mainwindow/` di `ui/shell-capture`
-   diventa la copia della fixture, per `ui/shell-capture-confronto`. Baseline di architettura solo in discesa, nello stesso commit.
-3. **Guida e Wiki**: il testo di 14.6 nella Rev59 del coordinatore, dopo l'unione.
+Il ramo è a un punto fermo, unibile e verde: la Release apre la shell, tutte le suite contenitore tranne due girano sulla shell, `MainWindow` è ancora
+compilata. Il ritiro (punto 2 delle istruzioni del coordinatore) è fermo su due domande:
+- **G6** (F5-61): `ui/smoke` e `ui/smoke-horizontal` aprono ancora `MainWindow`. Decisa la G6, si portano come le altre: `SmokeChecks.cs` e
+  `HorizontalSmokeChecks.cs` diventano partial di `ShellSmokeWindow`, `tree` diventa `SelectInTree` e le due bandiere vanno in `AppHarness.ShellSmokes`.
+  La prova è già stata fatta la sera del 23/10: le due suite passano fino al controllo di Full HD.
+- **G2**: `ContrastAudit` (1 999 righe, partial di `MainWindow`) guida viste e dialoghi della finestra storica (`ShowProjectOverview`, `ShowCoherence`,
+  revisioni, `sheetContent`). Portarla sulla shell cambia le chiavi della Chiara (D12), e la porta si può verificare solo con una corsa a 96 DPI. Non l'ho
+  portata, perché non potevo eseguirla.
+
+Poi il **ritiro di `MainWindow`**, in un commit:
+- in `supporto/SUPERATI/ui-storica/shell/`, con il registro:
+  - i 15 file di `X.Desktop/Wpf/` (14.1);
+  - `WpfDesktopServices`, `DesktopServices`, `TestServices`, `MainWindow.Tests.cs`;
+  - le partial delle sei suite storiche: `Project*SmokeChecks.cs`, `ProjectComparisonChecks.cs`, `ProjectCoverWarningSmokeChecks.cs`,
+    `ProjectDragLayoutSmokeChecks.cs`, `DisplaySmokeChecks.cs` e `ProjectReportSmokeChecks.cs`. Le suite escono da `$smokes` di `build/ci.ps1`;
+- i rami `MainWindow` da togliere:
+  - quelli di `WikiContextHelp`, `CalculationHelpView` e `WpfWikiNavigator`; `WikiEditorial` passa a `WikiExamples` di Presentation;
+  - `DesktopComposition.WindowServices`, i costruttori di prova in `ModuleHostBench`, la partial `openSheet` in `OpenSheetChecks.cs`;
+- `ShellProjectCapture`, `ShellSmokeReport` e `ShellDraftChecks` restano solo con la fixture e `ShellReferences`. La cartella `mainwindow/` di
+  `ui/shell-capture` diventa la copia della fixture;
+- le prove fuori da X.Desktop che nominano `MainWindow`:
+  - `supporto/test/ConcreteShort.UiChecks` chiama metodi di `MainWindow` per riflessione: da riscrivere o archiviare;
+  - in `tests/ModelViewer.UiChecks`, `ProductComposition` crea una `MainWindow`;
+  - `ElasticPile.UiChecks`, `ConcreteInput.Checks` e `ConcreteTimeEffects.Checks` la usano solo come ancora dell'assembly: basta `typeof(X.Desktop.App)`;
+- le baseline di architettura scendono nello stesso commit: le voci di `SheetEditor.cs` e quelle di `MainWindow` (`ProjectReport.cs`, `ProjectHierarchy.cs`,
+  …) in `tests/fixtures/f3/architecture.json` e nel censimento F4.
+
+**Guida e Wiki**: il testo di 14.6 entra nella Rev59 del coordinatore, dopo l'unione.
 
 Per riprendere:
 
 ```
 cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-g
 git log --oneline 67eafba5..HEAD
-dotnet build X.Desktop/X.Desktop.csproj -c UiTests
-powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(<suite portata>|shell-capture|shell-smoke-project-report|check-shell-draft)$' -Tag <tag>"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(smoke|smoke-horizontal|<suite>)$' -Tag <tag>"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile quick -Tag <tag>"
-X.Desktop\bin\Release\net8.0-windows\ANTHEA.exe [archivio [--models] | --wiki articolo]
 ```
