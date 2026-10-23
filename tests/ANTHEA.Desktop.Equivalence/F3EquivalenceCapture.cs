@@ -99,7 +99,7 @@ internal static class F3EquivalenceCapture
         string[] queries = ["calcestruzzo", "acciaio", "palo", "micropalo", "muro", "fondazione", "terreno", "Nq", "Broms", "fessurazione", "tensioni", "taglio", "torsione", "dominio", "curvatura", "copriferro", "ancoraggio", "armature", "durabilità", "stabilità", "sisma", "ponte", "combinazioni", "inviluppo", "reologia", "stage", "sezioni", "report", "φ", "σ"];
         var search = new JsonObject(); foreach (string q in queries) search[q] = new JsonArray(WikiCatalog.Search(q).Select(a => JsonValue.Create(a.Id)).ToArray());
         File.WriteAllText(Path.Combine(wiki, "search.json"), CanonicalJson.Serialize(search, new(), normalizer));
-        await MainWindow.CaptureF3Project(root, output, normalizer);
+        await CaptureF3Project(root, output, normalizer);
         File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {count} fixture; {WikiCatalog.Articles.Length} articoli; {queries.Length} ricerche; report progetto.");
         string expected = Path.Combine(root, "tests/fixtures/f3/expected");
         if (Directory.Exists(expected))
@@ -165,10 +165,12 @@ internal static class F3EquivalenceCapture
         };
         File.WriteAllText(Path.Combine(folder, name + "-structure.json"), CanonicalJson.Serialize(structures, guids, normalizer));
     }
-}
 
-public sealed partial class MainWindow
-{
+    /// <summary>
+    /// The report of the F3 project. Until F5.13 g through MainWindow (SectionReportSnapshot and GenerateSectionReport of ProjectReport.cs); since then through
+    /// the shell, with the same calls: the snapshot of ProjectReportService and the writer of the report of a section of the shell (DesktopSectionReports,
+    /// ProjectReportService.WriteSnapshotAsync with ModuleReportService and ModuleFigureRenderer, as GenerateSectionReport). Report code unchanged.
+    /// </summary>
     internal static async Task CaptureF3Project(string root, string output, TextNormalizer normalizer)
     {
         var project = new JsonObject { ["nome"] = "Progetto F3", ["fogli"] = new JsonArray(), ["strutture"] = new JsonArray() };
@@ -178,15 +180,15 @@ public sealed partial class MainWindow
             project["fogli"]!.AsArray().Add(new JsonObject { ["id"] = "000000000000000000000000" + (project["fogli"]!.AsArray().Count + 1).ToString("D8", CultureInfo.InvariantCulture), ["nome"] = input.S("module"),
                 ["modulo_id"] = input.S("module"), ["dati"] = input["data"]!.DeepClone() });
         }
-        var before = project.DeepClone(); var snapshot = SectionReportSnapshot(project);
+        var before = project.DeepClone(); var snapshot = Anthea.Application.Reporting.ProjectReportService.Snapshot(project);
         string folder = Path.Combine(output, "project"); Directory.CreateDirectory(folder);
         string raw = Path.Combine(output, "raw", "project"); Directory.CreateDirectory(raw);
         string filename = Path.Combine(raw, "report.docx");
-        int warnings = await GenerateSectionReport(snapshot, filename, _ => { }, CancellationToken.None);
+        int warnings = await new DesktopSectionReports().WriteAsync(snapshot, filename, _ => { }, CancellationToken.None);
         if (!JsonNode.DeepEquals(before, project)) throw new InvalidOperationException("Il report ha modificato il progetto sorgente.");
         var guids = new GuidMap(); CanonicalJson.Register(project, guids); CanonicalJson.Register(snapshot, guids);
         File.WriteAllText(Path.Combine(folder, "snapshot.json"), CanonicalJson.Serialize(snapshot, guids, normalizer));
         File.WriteAllText(Path.Combine(folder, "status.json"), CanonicalJson.Serialize(new JsonObject { ["unavailable"] = warnings }, guids, normalizer));
-        F3EquivalenceCapture.CaptureReport(filename, folder, normalizer, guids);
+        CaptureReport(filename, folder, normalizer, guids);
     }
 }

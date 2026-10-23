@@ -204,9 +204,9 @@ internal static class ShellDraftChecks
                 // Esc on the window: back, with the tree as it was.
                 bindings.Step = "esc";
                 main.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(main), 0, Key.Escape) { RoutedEvent = Keyboard.KeyDownEvent });
-                await Idle(main);
-                Check(!shell.IsFullPage && shell.IsTreeOpen && navigationBar.IsVisible && projectTree.IsVisible && toggle.Content as string == ShellViewModel.FullPageLabel,
-                    "Esc: navigazione e albero di nuovo, «Pagina intera» nella barra");
+                bool EscDone() => !shell.IsFullPage && shell.IsTreeOpen && navigationBar.IsVisible && projectTree.IsVisible && toggle.Content as string == ShellViewModel.FullPageLabel;
+                await IdleUntil(main, EscDone);
+                Check(EscDone(), "Esc: navigazione e albero di nuovo, «Pagina intera» nella barra");
 
                 // The toggle of the sheet bar, pressed twice.
                 bindings.Step = "barra";
@@ -700,6 +700,16 @@ internal static class ShellDraftChecks
         window.UpdateLayout();
         await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle);
         await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);
+    }
+
+    /// <summary>
+    /// Idle until <paramref name="condition"/> holds, within 5 s (F5.13 g): with the machine loaded one idle round may come before the layout that follows
+    /// a key raised by hand (a failure seen once on 67eafba5, PASS alone). The check after it stays the same.
+    /// </summary>
+    private static async Task IdleUntil(Window window, Func<bool> condition)
+    {
+        await Idle(window);
+        for (int i = 0; i < 100 && !condition(); i++) { await Task.Delay(50); await Idle(window); }
     }
 
     /// <summary>
