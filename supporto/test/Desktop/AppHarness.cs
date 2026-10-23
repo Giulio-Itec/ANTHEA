@@ -21,7 +21,7 @@ public partial class App
     {
         // F5.4: the application as in the product, with the sheets of --module-impl (ModuleHostBench), to try a migrated module by hand.
         if (e.Args.FirstOrDefault() == ModuleHostBench.Interactive) { handled = true; StartInteractive(e); return; }
-        // F5.13 c: the new shell by hand, through its composition root (ShellComposition); never in Release, which opens MainWindow.
+        // F5.13 c: the new shell by hand, through its composition root (ShellComposition); since F5.13 g the startup of the Release, here with the bench.
         if (e.Args.FirstOrDefault() == InteractiveShell) { handled = true; StartInteractiveShell(e); return; }
         if (!e.Args.Any(a => a.StartsWith("--check") || a.StartsWith("--smoke") || a == "--capture-validation")) return;
         // Every check runs with the light theme; the later production call is ignored (Initialize is idempotent).
@@ -428,7 +428,8 @@ public partial class App
     /// App.OnStartup (appearance of the user, error log, the services of the product from DesktopComposition) and the composition root of the shell
     /// (<see cref="ShellComposition"/>): the modules open in tabs as the Release chooses them (since the night of 22-23/10, R5: the modules still
     /// historic in their SheetEditor), with the pairs <c>--module-impl modulo=mvvm|historic</c> of the bench; F1 and the guides open the Wiki tab, the
-    /// rest of the command line as App.OnStartup reads it (StartupRequest). Never in Release, which opens MainWindow.
+    /// rest of the command line as App.OnStartup reads it (StartupRequest). Since F5.13 g the startup of the Release (App.StartShell) with the choices
+    /// of the bench.
     /// </summary>
     private void StartInteractiveShell(StartupEventArgs e)
     {
@@ -441,15 +442,7 @@ public partial class App
             error.Handled = true;
         };
         Composition = new DesktopComposition(ActiveWindow);
-        var services = ShellComposition.WithShellWiki(Composition.Services);
-        // R5: the modules open as in the Release (historic or MVVM), with the choices of --module-impl of the bench.
-        var parts = ShellComposition.Create(services, Composition.Modules, Composition.Limiter, ShellComposition.ExamplesFolder,
-            implementations: ModuleHostBench.Implementations(e.Args));
-        MainWindow = parts.Window;
-        var request = Anthea.Presentation.Shell.StartupRequest.Parse(ModuleHostBench.WithoutBench(e.Args).Skip(1).ToArray());
-        parts.Window.Loaded += (_, _) => parts.Shell.Start(request);
-        parts.Window.Closed += (_, _) => parts.Shell.Dispose();
-        parts.Window.Show();
+        StartShell(ModuleHostBench.WithoutBench(e.Args).Skip(1).ToArray(), ModuleHostBench.Implementations(e.Args));
     }
 
     private void StartSmoke(StartupEventArgs e)
