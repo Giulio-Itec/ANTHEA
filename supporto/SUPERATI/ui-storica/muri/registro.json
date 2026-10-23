@@ -1,0 +1,128 @@
+[
+  {
+    "origine": "X.Desktop/Wpf/RetainingWallWorkspace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.cs",
+    "commit": "79307cf4 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "d9e5aa03b2edb4122be5f5d148bf1129934b2dfb6e0e83b5902b7a4f20a25597",
+    "sha256_lf": "54eacb3af17e634eaef316526815d802ab0c25a6bdefbfdaa1bce348dced173d",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; la vista storica (scheda, calcolo, risultati, report)",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  },
+  {
+    "origine": "X.Desktop/Wpf/RetainingWallWorkspace.Advanced.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.Advanced.cs",
+    "commit": "79307cf4 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "7e3ab4f7eaece8126bd86db45b575af72e0f89b63dd1317996767d9d0997cd67",
+    "sha256_lf": "1a4bb5d9da9864943c8258f9f033f9b53e7560fe86e730c4416af6b3bda8939f",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; parte della vista storica (cedimenti, spostamenti, accelerogrammi, predimensionamento delle armature)",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  },
+  {
+    "origine": "X.Desktop/Wpf/RetainingWallWorkspace.BarSchedule.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.BarSchedule.cs",
+    "commit": "d580c8a4 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "8bc19fad35fd0601612796a7ff4895efd4421532b865151d7d8329c45591118c",
+    "sha256_lf": "d202ce126fbd9eda272dfa745694e4a4d2188b75997c2ef495e4ed7a877c1265",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; parte della vista storica (finestra «Armature del muro · sezione e distinta ferri»)",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  },
+  {
+    "origine": "X.Desktop/Wpf/RetainingWallWorkspace.GlobalGuidance.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.GlobalGuidance.cs",
+    "commit": "79307cf4 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "8213fe1973ff19ff9d819f1269f4b281f1e2bcfdb7329788b7b8a73c1a4048d8",
+    "sha256_lf": "75624e92f4ad7d241e243444fa943dfbbd9c8176056030dbfbe8b98763af464e",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; parte della vista storica (percorso guidato della stabilità globale)",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  },
+  {
+    "origine": "X.Desktop/Wpf/RetainingWallWorkspace.GlobalSoils.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.GlobalSoils.cs",
+    "commit": "79307cf4 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "7ece6c8d67c8f73885a82bb82c6675ff6f99d7676e9739ecf61abe0b14daf8f2",
+    "sha256_lf": "400a2a78bfe0ee8a7190c4ad199fda37f87eb5b7fa3025f3b7fc26a7a34d9890",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; parte della vista storica (strati della stabilità globale)",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  },
+  {
+    "origine": "X.Desktop/Wpf/RetainingWallWorkspace.GlobalStability.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.GlobalStability.cs",
+    "commit": "79307cf4 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "54cb4afe70b493abec2c9c70e27d7c41f359b95caadb1b9e4db2001b8ff57ae1",
+    "sha256_lf": "30552ffbea2a1b190d09b857c183f135a54c9dccd03a00e66a734d2feb8f3ffd",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; parte della vista storica (stabilità globale: disegno, combinazioni, «Word globale»)",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  },
+  {
+    "origine": "X.Desktop/Wpf/RetainingWallWorkspace.Inputs.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.Inputs.cs",
+    "commit": "79307cf4 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "c615315070913c8ed0fe6aee63f2246bc01258b845996b41efd1cf3f6b03df83",
+    "sha256_lf": "2fba80ac9a4b176751da1de2243fe5b4fece2f879dd4157ecf60a47580e2b158",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; parte della vista storica (input: geometria, azioni, matrice)",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  },
+  {
+    "origine": "X.Desktop/Wpf/RetainingWallWorkspace.Materials.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.Materials.cs",
+    "commit": "79307cf4 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "e1ef60d5752f51a7587a9d6ff5da5394782f08f30d8b351502acce5db004d25a",
+    "sha256_lf": "657d84a496477621a86b1314a9be8cca60a2f6fd2b16a135f0ad1045bf7e148d",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; parte della vista storica (materiali e copriferro)",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  },
+  {
+    "origine": "X.Desktop/Wpf/RetainingWallWorkspace.Parameters.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.Parameters.cs",
+    "commit": "79307cf4 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "f6bca85bd50820049e69c84f33ab3151694cc12305f73447d876368a6cec560c",
+    "sha256_lf": "e19c40e2adaa92961d9e141d1306979affc45ccd2e81723cc675bae40d4e9ec1",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; parte della vista storica (finestra «Muro · valori utilizzati nel calcolo»)",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  },
+  {
+    "origine": "X.Desktop/Wpf/RetainingWallWorkspace.Results.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.Results.cs",
+    "commit": "79307cf4 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "65cfde7cd910f8ece54324b7a576538a90bcca60bd2177db2793b1d53c5d239c",
+    "sha256_lf": "e791978f59666e987c1a956e82236f46e4a9e8b11fd17920c9f22af393e1bf61",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; parte della vista storica (pannelli dei risultati, sezione c.a.)",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  },
+  {
+    "origine": "X.Desktop/Wpf/RetainingWallWorkspace.Seismic.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.Seismic.cs",
+    "commit": "79307cf4 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "38d02e22bf48f10aa84a3c27498db166072503d6799e38da568e976c8d5106a6",
+    "sha256_lf": "ad3f7debbde274e97ab05ee294ae78ec552744463a730acd9d4f3a36c361788d",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; parte della vista storica (azione sismica)",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  },
+  {
+    "origine": "X.Desktop/Wpf/RetainingWallWorkspace.Soils.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.Soils.cs",
+    "commit": "79307cf4 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "ab35cbeec961cc3ab934eb1820c09207c1f9054158019611b113b73393af368b",
+    "sha256_lf": "431923d79b41ed0011126210a31ac00b499b93ba7ba673cede46c9dd2fc3e8b7",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; parte della vista storica (strati di monte e di valle)",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  },
+  {
+    "origine": "tests/Desktop/RetainingWallHistoricTrace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/tests/Desktop/RetainingWallHistoricTrace.cs",
+    "commit": "6a7fc606 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "8c369ffc75a82da9de7b7eb9eb255b90f37cda64fdf4dbeaebaffdd819439d36",
+    "sha256_lf": "19b5bbe63bad277f043fdd94fd2870e31295ee2817795068d2e86500ebe5539a",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; prova delle tracce della vista storica (suite ui/check-muri-historic), archiviata con la vista",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  },
+  {
+    "origine": "tests/ANTHEA.Desktop.Equivalence/F3WallParameterChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/muri/tests/ANTHEA.Desktop.Equivalence/F3WallParameterChecks.cs",
+    "commit": "699b93a3 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-muri 2cf2a908 (base)",
+    "sha256": "53f15daa058eb4bd9c6fd6125e6fd32390d8d8b429f05e78b50c8d41047ec35e",
+    "sha256_lf": "3f56d20e222bb20e7c27f55141cd5fba0af4e5164a005f286fdc5dab4d38d308",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre i muri di sostegno con la vista MVVM; la vista storica non è più raggiungibile né compilata; sonda di ui/f3-scheduling sulla finestra dei valori della vista storica (CheckParameterRevision), archiviata con la vista",
+    "sostituzione": "X.Desktop/Views/RetainingWall (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/RetainingWall (ViewModel); tracce congelate in tests/fixtures/f5-muri/storica e valori registrati in tests/fixtures/f5-muri/vista-storica.json, confrontati da Presentation.Tests e da ui/check-muri-view; sonde di ui/f3-scheduling in F3WallMvvmSchedulingChecks"
+  }
+]

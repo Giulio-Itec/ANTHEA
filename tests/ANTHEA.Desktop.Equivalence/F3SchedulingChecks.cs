@@ -40,9 +40,9 @@ internal sealed partial class SheetEditor
         Check(data["generali"].D("diametro") != 1.35, "Vista ha modificato il documento di ingresso");
         // F5.11: the composite bridge section runs the probe on the MVVM sheet, as the Release opens it since the switch of 23/10/2026.
         checks += await F3CompositeSectionMvvmSchedulingChecks.CheckF3Scheduling();
-        // F5.9: with --module-impl geo_muri_sostegno=mvvm the walls run the same probes on the MVVM sheet and the view of its dialog of the values.
-        if (F3WallMvvmSchedulingChecks.Active) { checks += await F3WallMvvmSchedulingChecks.CheckF3Scheduling(); checks += await F3WallMvvmSchedulingChecks.CheckParameterRevision(); }
-        else { checks += await RetainingWallWorkspace.CheckF3Scheduling(); checks += await RetainingWallWorkspace.CheckParameterRevision(); }
+        // F5.9: the walls run the probes on the MVVM sheet and the view of its dialog of the values, as the Release opens them since the switch
+        // of 23/10/2026 (f5-pass-muri; the probes of the historic view are archived in supporto/SUPERATI/ui-storica/muri).
+        checks += await F3WallMvvmSchedulingChecks.CheckF3Scheduling(); checks += await F3WallMvvmSchedulingChecks.CheckParameterRevision();
         // f5-pass-orizzontale: the design of a segment of the elastic response on the MVVM sheet and its view (the historic editor is archived).
         checks += await F3PileSegmentMvvmSchedulingChecks.CheckSegmentProposals(root);
         // F5.12: Bridge Design runs the probes on the MVVM sheet, as the Release opens it since the switch of 23/10/2026.

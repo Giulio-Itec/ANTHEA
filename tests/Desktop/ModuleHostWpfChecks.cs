@@ -49,13 +49,14 @@ internal static class ModuleHostWpfChecks
     /// <summary>
     /// The modules MVVM in the Release, in ordinal order: the pile group (F5.4), Spectra and the embedded walls (new modules), the modules
     /// switched on 23/10 (passaggi della Release: materials, vertical and horizontal pile and micropile, stratigraphy, shallow foundations,
-    /// composite bridge section, Bridge Design, RC section).
+    /// composite bridge section, Bridge Design, RC section, retaining walls).
     /// </summary>
-    private static readonly string[] ReleaseMvvm = [SpectraModule, PileGroupModule, "geo_fondazioni_superficiali", HorizontalMicropileModule, "geo_micropalo_verticale", HorizontalPileModule, "geo_palo_verticale", EmbeddedWallModule, "geo_stratigrafia", ProbeModule, ConcreteModule, BridgeDesignModule, CompositeSectionModule, ConcreteSectionModule];
+    private static readonly string[] ReleaseMvvm = [SpectraModule, PileGroupModule, "geo_fondazioni_superficiali", HorizontalMicropileModule, "geo_micropalo_verticale", RetainingWallModule, HorizontalPileModule, "geo_palo_verticale", EmbeddedWallModule, "geo_stratigrafia", ProbeModule, ConcreteModule, BridgeDesignModule, CompositeSectionModule, ConcreteSectionModule];
     /// <summary>The RC section, MVVM in the Release since the switch of 23/10/2026 (F5.10).</summary>
     private const string ConcreteSectionModule = "str_palo";
-    /// <summary>A module still historic in the Release, for the choices of the bench (the RC section until 23/10/2026).</summary>
-    private const string BenchModule = "geo_muri_sostegno";
+
+    /// <summary>The retaining walls, MVVM in the Release since 23/10/2026 (f5-pass-muri).</summary>
+    private const string RetainingWallModule = "geo_muri_sostegno";
 
     private const string ProbeView = """
         <DataTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
@@ -88,7 +89,7 @@ internal static class ModuleHostWpfChecks
             "ModuleImplementations elenca esattamente i moduli di ModuleDirectory, nel suo ordine");
         Check(ModuleImplementations.Declared.All(d => d.Implementation == (ReleaseMvvm.Contains(d.Module) ? SheetImplementation.Mvvm : SheetImplementation.Historic))
             && ModuleImplementations.Release.Mvvm.SequenceEqual(ReleaseMvvm),
-            "Release: palificata, Spettri, paratie, materiali, pali e micropali verticali e orizzontali, stratigrafia, fondazioni, sezione composta da ponte, Bridge Design e sezione c.a. con la vista MVVM, gli altri moduli con la vista storica");
+            "Release: tutti i moduli con la vista MVVM (palificata, Spettri, paratie, materiali, pali e micropali verticali e orizzontali, stratigrafia, fondazioni, muri, sezione composta da ponte, Bridge Design e sezione c.a.), nessuno con la vista storica");
 
         // The composition root of the product: registry of ModuleDirectory with the MVVM pile group (F5.4), materials (F5.5) and vertical
         // piles (F5.6), the editors of the Release.
@@ -123,17 +124,16 @@ internal static class ModuleHostWpfChecks
         using (var section = composition.SheetEditors.Open(ConcreteSectionModule, ModuleDirectory.CreateData(ConcreteSectionModule)))
             Check(section is MvvmSheetEditor { Sheet: Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel },
                 "Radice di composizione: la Release apre la sezione c.a. con la vista MVVM");
-        foreach (string migrated in new[] { "geo_muri_sostegno" })
-            using (var sheet = composition.SheetEditors.Open(migrated, ModuleDirectory.CreateData(migrated)))
-                Check(sheet is SheetEditor, "Radice di composizione: la Release apre " + migrated + " con la vista storica");
+        using (var retaining = composition.SheetEditors.Open(RetainingWallModule, ModuleDirectory.CreateData(RetainingWallModule)))
+            Check(retaining is MvvmSheetEditor { Sheet: Anthea.Presentation.Modules.RetainingWall.RetainingWallSheetViewModel }, "Radice di composizione: la Release apre i muri con la vista MVVM");
         Fails<ArgumentException>(() => composition.SheetEditors.Open("inesistente", new JsonObject()), "inesistente", "Modulo sconosciuto rifiutato come oggi");
 
         // The bench argument (UiTests only).
-        Check(ModuleHostBench.WithoutBench(["--check-f3-equivalence", "radice", "uscita", ModuleHostBench.Argument, BenchModule + "=mvvm"])
+        Check(ModuleHostBench.WithoutBench(["--check-f3-equivalence", "radice", "uscita", ModuleHostBench.Argument, RetainingWallModule + "=mvvm"])
             .SequenceEqual(["--check-f3-equivalence", "radice", "uscita"]), "Banco: argomenti posizionali senza le coppie --module-impl");
-        Check(ModuleHostBench.Implementations([ModuleHostBench.Argument, BenchModule + "=mvvm"]).Mvvm.SequenceEqual(ReleaseMvvm.Append(BenchModule).Order(StringComparer.Ordinal))
-            && ModuleHostBench.Implementations(["--check-f3-equivalence"]).Mvvm.SequenceEqual(ReleaseMvvm)
-            && ModuleHostBench.Implementations([ModuleHostBench.Argument, BenchModule + "=mvvm", ModuleHostBench.Argument, BenchModule + "=historic"]).Mvvm.SequenceEqual(ReleaseMvvm),
+        // Since 23/10/2026 no module is historic in the Release: a choice «=mvvm» leaves it as it is, every «=historic» is refused below.
+        Check(ModuleHostBench.Implementations([ModuleHostBench.Argument, RetainingWallModule + "=mvvm"]).Mvvm.SequenceEqual(ReleaseMvvm)
+            && ModuleHostBench.Implementations(["--check-f3-equivalence"]).Mvvm.SequenceEqual(ReleaseMvvm),
             "Banco: scelte applicate in ordine sulla Release");
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, PileGroupModule + "=historic"]), "archiviata",
             "Banco: vista storica della palificata archiviata (Q11), «historic» rifiutato");
@@ -148,6 +148,8 @@ internal static class ModuleHostWpfChecks
             "Banco: vista storica del calcestruzzo archiviata (Q11), «historic» rifiutato");
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, ConcreteSectionModule + "=historic"]), "archiviata",
             "Banco: vista storica della sezione c.a. archiviata (Q11), «historic» rifiutato");
+        Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, RetainingWallModule + "=historic"]), "archiviata",
+            "Banco: vista storica dei muri archiviata (Q11), «historic» rifiutato");
         // F5.10: the RC section has its ViewModel (S1); F5.11: the composite bridge section too; F5.12: Bridge Design too, so every module of the
         // directory has one: a registry without the module stands for a module without implementation.
         Fails<InvalidOperationException>(() => ModuleHostBench.SheetEditors([ModuleHostBench.Argument, "str_bridge_design=mvvm"],

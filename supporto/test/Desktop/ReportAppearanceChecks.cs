@@ -109,15 +109,17 @@ internal static class ReportAppearanceChecks
             Directory.CreateDirectory(Path.Combine(directory, "esportazioni"));
             images["esportazioni/stampa-bridge-design.png"] = page; File.WriteAllBytes(Path.Combine(directory, "esportazioni", "stampa-bridge-design.png"), page);
         }
-        using (var editor = new SheetEditor(RetainingWall.Module, RetainingWall.Defaults()))
+        // f5-pass-muri: the sheet of the walls opened by the factory of the bench with the XAML view (the Release since 23/10/2026), in a window
+        // outside the screen never activated while it is open, driven through its controls as ui/smoke-global-stability (OffscreenWall).
+        using (var wall = await OffscreenWall.OpenAsync(RetainingWall.Defaults()))
         {
             // Global stability as in --smoke-global-stability: its figure is the second detached drawing of the wall report.
-            var w = editor.retainingWall!; await w.CalculateAsync();
-            w.LayerGrid.Rows[0]["thickness"] = "25"; w.PrepareGlobal();
-            ((CheckBox)w.Forms["global"].Editors["enabled"]).IsChecked = true; await w.CalculateAsync();
-            ((CheckBox)w.Forms["global"].Editors["profile_confirmed"]).IsChecked = true; w.Forms["global_search_mode"].Set("search_mode", "Assegnata"); w.Forms["global_search"].Set("depth_min", "0.1");
+            var w = wall.Wall; await w.CalculateAsync();
+            w.SetCell("monte", 0, "thickness", "25"); w.PrepareGlobal();
+            w.Tick("global", "enabled", true); await w.CalculateAsync();
+            w.Tick("global", "profile_confirmed", true); w.Set("global_search_mode", "search_mode", "Assegnata"); w.Set("global_search", "depth_min", "0.1");
             await w.CalculateAsync(); check(w.GlobalResult is { Cases.Length: > 0 }, "Muro: stabilità globale calcolata");
-            Add("muro", editor.BuildReport("Muro · aspetto", []));
+            Add("muro", wall.Editor.BuildReport("Muro · aspetto", []));
         }
         var horizontalData = PaloOrizzontale.Defaults(); horizontalData["stratigrafie"]![0]!.AsArray().Add(PaloOrizzontale.Layer());
         // f5-pass-orizzontale: the sheet opened by the factory of the bench, as the window opens it, waited for as ui/smoke-horizontal.

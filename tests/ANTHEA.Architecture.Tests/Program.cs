@@ -121,8 +121,12 @@ try
     }
     // F5.11: the historic view BridgeWorkspace is archived (supporto/SUPERATI/ui-storica/sezione-mista); the rule is checked on the XAML view.
     Check(Directory.EnumerateFiles(Path.Combine(root, "X.Desktop/Views/CompositeSection"), "*.cs").All(f => !File.ReadAllText(f).Contains("Data[\"gamma_m0\"] =")), "Regola cambio norma nella UI");
-    Check(!File.ReadAllText(Path.Combine(root, "X.Desktop/Wpf/RetainingWallWorkspace.Advanced.cs")).Contains("double.TryParse"), "Parser accelerogramma nella UI");
-    Check(!File.ReadAllText(Path.Combine(root, "X.Desktop/Wpf/RetainingWallWorkspace.Results.cs")).Contains("Math.Atan2"), "Angolo sismico duplicato nella UI");
+    // f5-pass-muri: the historic view RetainingWallWorkspace is archived (supporto/SUPERATI/ui-storica/muri); the rules are checked on the XAML view
+    // and on its ViewModel (the parser is WallSheetPresentation.ParseHistory, the seismic angle is in the Application).
+    var wallUi = Directory.EnumerateFiles(Path.Combine(root, "X.Desktop/Views/RetainingWall"), "*.cs")
+        .Concat(Directory.EnumerateFiles(Path.Combine(root, "src/ANTHEA.Presentation/Modules/RetainingWall"), "*.cs")).Select(File.ReadAllText).ToArray();
+    Check(wallUi.All(source => !source.Contains("double.TryParse")), "Parser accelerogramma nella UI");
+    Check(wallUi.All(source => !source.Contains("Math.Atan2")), "Angolo sismico duplicato nella UI");
     var limits = JsonSerializer.Deserialize<ArchitectureLimits>(File.ReadAllText(Path.Combine(root, "tests/ANTHEA.Architecture.Tests/limits.json")))!;
     Check(!desktop.Assemblies.Contains("ANTHEA.Calculations"), "La UI dipende ancora direttamente dal motore legacy");
     Check(!desktop.Assemblies.Any(a => a.StartsWith("GPC", StringComparison.Ordinal)), "La UI dipende direttamente dai tipi GPC");

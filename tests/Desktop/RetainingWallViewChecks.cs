@@ -33,9 +33,9 @@ namespace X.Desktop;
 
 /// <summary>
 /// --check-muri-view &lt;radice&gt; &lt;cartella&gt; (UiTests, F5.9, proposal F5 section 7.3): the XAML view of the retaining walls
-/// (RetainingWallSheetView) hosted by <see cref="MvvmSheetEditor"/>, as the bench opens it with <c>--module-impl geo_muri_sostegno=mvvm</c>, in
-/// windows outside the screen (never activated, no mouse). The Release keeps the historic view until the user has tried the view (decisions
-/// of 17/10). Parts:
+/// (RetainingWallSheetView) hosted by <see cref="MvvmSheetEditor"/>, as the Release opens it since the switch of 23/10/2026 (f5-pass-muri; the
+/// historic view RetainingWallWorkspace is archived in supporto/SUPERATI/ui-storica/muri), in windows outside the screen (never activated, no
+/// mouse). Parts:
 /// <list type="number">
 /// <item>Traces through the view: the 24 scenarios of tests/Shared/RetainingWallTrace.cs driven through the controls of the view (fields,
 /// choices and check boxes of the FieldForms, cells and rows of the tables, buttons, combo boxes, switches, the rows of the panels of results,
@@ -43,23 +43,46 @@ namespace X.Desktop;
 /// back from the controls (the drawings from the RetainingWallDrawing and GlobalStabilityDrawing of the view), equal line by line to the traces
 /// of the historic view frozen in tests/fixtures/f5-muri/storica.</item>
 /// <item>For each of the 16 F3 fixtures: the visit (both pages, every expander, three appearances) writes nothing and raises no Modified;
-/// after the calculation data and result are those of the historic view; the exports are those of the historic view on the same data: the
-/// Word report (dates normalized) and the PDF beside it, the CSV of the checks and of the slices, «Word globale», the bar schedule (PDF, Word,
-/// CSV and PNG of «Distinta ferri…»).</item>
+/// after the calculation data and result are those of the historic view (recorded); the exports are those of the historic view on the same
+/// result: the Word report (dates normalized) and the PDF beside it by its recipe (WallExports.CreateDocument with the figures of
+/// ModuleFigureRenderer.WallFigures for the combinations it showed, then ReportFiles as SheetEditor.ExportReport), the CSV of the checks and of
+/// the slices (recorded texts), «Word globale» by its recipe (WallExports.CreateGlobal), the bar schedule (PDF, Word and PNG of
+/// «Distinta ferri…» by its recipe on WallModel.CalculateBarSchedule and ModuleFigureRenderer.BarFigures, pages and CSV recorded).</item>
 /// <item>Screenshots of the view in Chiara, Scuro and Molto scuro (folder schermate; 144 DPI on this machine).</item>
-/// <item>Help: the «?» labels shown are those of the historic view; every «?» and every F1 on a field of every form reaches the
+/// <item>Help: the «?» labels shown are those of the historic view (recorded); every «?» and every F1 on a field of every form reaches the
 /// IWikiNavigator of the services (lesson 1 of 17/10), F1 elsewhere the guide of the module.</item>
-/// <item>Automation names: those of the historic view kept.</item>
-/// <item>Read-only revision: the controls that accept the user are those of the historic view after InspectRevision.</item>
+/// <item>Automation names: those of the historic view kept (recorded).</item>
+/// <item>Read-only revision: the controls that accept the user are those of the historic view after InspectRevision (recorded).</item>
 /// <item>The dialog of the values (MU10): the view of RetainingWallParametersViewModel, applied, closed and read-only (MU3).</item>
 /// <item>The shared soil transfer dialog (T5, MU9): its view, a copy and a replacement sent to the window.</item>
-/// <item>Bench and Release: with --module-impl the walls open the MVVM view; the Release keeps the historic view.</item>
+/// <item>Bench and Release: with --module-impl and in the Release the walls open the MVVM view.</item>
 /// </list>
+/// What the check compared with the historic view opened beside the new one is compared with the values it gave, recorded before its archiving in
+/// tests/fixtures/f5-muri/vista-storica.json (<see cref="Recorded"/>), or with the recipe of its exports on the same result.
 /// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
 /// </summary>
 internal static class RetainingWallViewChecks
 {
     private const string Module = RetainingWallScenarios.Module;
+
+    /// <summary>
+    /// The values of the historic view recorded by this check before its archiving (passaggio della Release, 23/10/2026, f5-pass-muri):
+    /// tests/fixtures/f5-muri/vista-storica.json.
+    /// </summary>
+    private static JsonObject Recorded(string root) => recorded ??=
+        JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests", "fixtures", "f5-muri", "vista-storica.json")))!.AsObject();
+
+    private static JsonObject? recorded;
+
+    /// <summary>SHA-256 of the UTF-8 text, as the values of <see cref="Recorded"/>.</summary>
+    private static string Sha(string text) => Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(text))).ToLowerInvariant();
+
+    /// <summary>The bytes of an export with the BOM, the text being the recorded one.</summary>
+    private static bool WithBom(byte[] bytes, string sha)
+    {
+        byte[] bom = Encoding.UTF8.GetPreamble();
+        return bytes.AsSpan().StartsWith(bom) && Sha(Encoding.UTF8.GetString(bytes, bom.Length, bytes.Length - bom.Length)) == sha;
+    }
 
     private static int checks;
     private static readonly List<string> Log = [];
@@ -81,6 +104,7 @@ internal static class RetainingWallViewChecks
         CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = culture;
         try
         {
+            recorded = null;
             await Traces(root, output);
             await FixturesAndExports(root, output);
             await Screenshots(root, Path.Combine(output, "schermate"));
@@ -211,8 +235,6 @@ internal static class RetainingWallViewChecks
         internal RetainingWallSheetViewModel Sheet => (RetainingWallSheetViewModel)((MvvmSheetEditor)Editor).Sheet;
 
         internal RetainingWallSheetView View => Walk(Root).OfType<RetainingWallSheetView>().Single();
-
-        internal RetainingWallWorkspace Historic => ((SheetEditor)Editor).retainingWall ?? throw new InvalidOperationException("Foglio storico senza la vista dei muri.");
 
         internal void Layout() { window.UpdateLayout(); Root.UpdateLayout(); }
 
@@ -825,11 +847,14 @@ internal static class RetainingWallViewChecks
         var services = new Services();
         var editors = Editors(services);
         var fixtures = RetainingWallScenarios.Fixtures(root);
-        Check(fixtures.Count == 16, "Fixture F3 dei muri: " + fixtures.Count);
+        var values = Recorded(root)["esportazioni"]!.AsObject();
+        Check(fixtures.Count == 16 && fixtures.Order(StringComparer.Ordinal).SequenceEqual(values.Select(p => p.Key).Order(StringComparer.Ordinal)),
+            "Fixture F3 dei muri: " + fixtures.Count + ", tutte con i valori registrati della vista storica");
         int schedules = 0, globals = 0;
         foreach (string id in fixtures)
         {
             string name = Module + "--" + id;
+            var historic = values[id]!.AsObject();
             var data = RetainingWallScenarios.FixtureData(root, id);
             using var mvvm = new Hosted(editors.Open(Module, data));
             Check(mvvm.Editor is MvvmSheetEditor { Sheet: RetainingWallSheetViewModel }, name + ": editor MVVM con la vista XAML");
@@ -845,15 +870,14 @@ internal static class RetainingWallViewChecks
             Check(mvvm.Editor.Data.ToJsonString(J.Options) == opened && mvvm.Modified == 0, name + ": la visita (pagine, gruppi, tre aspetti) non scrive e non solleva Modified");
             await mvvm.Editor.CalculateAsync(); mvvm.Editor.Commit();
             await mvvm.Settle();
-            using var historic = new SheetEditor(Module, data);
-            // The same sequence on the historic view: its automatic calculation of the opening, then the calculation.
-            await historic.retainingWall!.PendingForChecks.WaitAsync(TimeSpan.FromSeconds(60));
-            historic.Commit(); await historic.CalculateAsync(); historic.Commit();
-            Check(mvvm.Editor.Data.ToJsonString(J.Options) == historic.Data.ToJsonString(J.Options) && mvvm.Editor.HasResults == historic.HasResults
-                && (historic.Result is null || mvvm.Editor.Result!.ToJsonString(J.Options) == historic.Result.ToJsonString(J.Options)),
-                name + ": dati e risultato dopo il calcolo uguali a quelli della vista storica");
-            var wall = historic.retainingWall!;
-            if (wall.Calculation is null)
+            // The historic view after the same sequence (its automatic calculation of the opening, then the calculation): recorded values.
+            string? result = historic["risultato"]?.GetValue<string>();
+            Check(Sha(mvvm.Editor.Data.ToJsonString(J.Options)) == historic["dati"]!.GetValue<string>() && mvvm.Editor.HasResults == historic["risultati"]!.GetValue<bool>()
+                && (result is null || mvvm.Editor.Result is { } r && Sha(r.ToJsonString(J.Options)) == result),
+                name + ": dati e risultato dopo il calcolo uguali a quelli della vista storica (registrati)");
+            var calculation = mvvm.Sheet.Calculation;
+            Check((calculation is not null) == historic["calcolo"]!.GetValue<bool>(), name + ": calcolo mostrato come nella vista storica");
+            if (calculation is null)
             {
                 services.Messages.Clear();
                 Press(mvvm.View.Pages.FindName("CsvButton") as Button ?? Walk(mvvm.Root).OfType<Button>().First(b => Equals(b.Content, "CSV")), mvvm.Root);
@@ -863,43 +887,52 @@ internal static class RetainingWallViewChecks
             // Report Word and the PDF beside it.
             string title = "Fixture F3 · " + Module + " · " + id;
             var sections = ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
-            mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, sections);
-            historic.ExportReport(Path.Combine(folder, name + "-storica.docx"), title, sections);
+            // The recipe of the historic view (RetainingWallWorkspace.BuildReportDocument) on the result, with the combinations it showed.
+            string? drawn = historic["caso"]?.GetValue<string>(), drawnGlobal = historic["combinazione_globale_report"]?.GetValue<string>();
+            var context = Anthea.Application.Reporting.WallReportPresentation.Prepare(calculation, drawn is null ? calculation.Cases[0] : calculation.Cases.First(c => c.Name == drawn),
+                mvvm.Sheet.GlobalResult?.Cases.FirstOrDefault(c => c.Factors.Name == drawnGlobal));
+            void ExportReport()
+            {
+                mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, sections);
+                var figures = ModuleFigureRenderer.WallFigures(calculation, context).Select(f => new ReportRetainingWall.Figure(f.Caption, f.Png, f.AspectRatio)).ToList();
+                Anthea.Reports.ReportFiles.Write(Path.Combine(folder, name + "-storica.docx"), Anthea.Reports.DocxWriter.Write(WallExports.CreateDocument(title, calculation, figures)), title);
+            }
+            ExportReport();
             string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.docx")), normalizer);
-            Check(part is null, name + ": report Word uguale in ogni parte a quello della vista storica, figure comprese (date normalizzate)" + (part is null ? "" : ", diversa " + part));
+            Check(part is null, name + ": report Word uguale in ogni parte a quello della ricetta della vista storica, figure comprese (date normalizzate)" + (part is null ? "" : ", diversa " + part));
             int attempts = 1;
             while (!SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))) && attempts < 3)
             {
                 attempts++;
-                mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, sections);
-                historic.ExportReport(Path.Combine(folder, name + "-storica.docx"), title, sections);
+                ExportReport();
             }
             Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))),
-                name + ": PDF affiancato uguale a quello della vista storica (date normalizzate" + (attempts > 1 ? $", {attempts} esportazioni" : "") + ")");
-            // «CSV» of the checks: the bytes of the historic export (BOM and WallExports.Csv).
-            byte[] bom = Encoding.UTF8.GetPreamble();
+                name + ": PDF affiancato uguale a quello della ricetta della vista storica (date normalizzate" + (attempts > 1 ? $", {attempts} esportazioni" : "") + ")");
+            // «CSV» of the checks: the BOM and the recorded text of the historic export (WallExports.Csv).
             string csv = Path.Combine(folder, name + "-verifiche.csv");
             services.SavePath = csv;
             Press(Walk(mvvm.Root).OfType<Button>().First(b => Equals(b.Content, "CSV")), mvvm.Root);
-            Check(File.ReadAllBytes(csv).SequenceEqual(bom.Concat(Encoding.UTF8.GetBytes(WallExports.Csv(wall.Calculation)))), name + ": CSV delle verifiche uguale a quello della vista storica");
-            if (wall.GlobalResult is { } global)
+            Check(WithBom(File.ReadAllBytes(csv), historic["csv"]!.GetValue<string>()), name + ": CSV delle verifiche uguale a quello della vista storica (testo registrato)");
+            Check((mvvm.Sheet.GlobalResult is not null) == historic.ContainsKey("conci"), name + ": stabilità globale calcolata come nella vista storica");
+            if (mvvm.Sheet.GlobalResult is { } global)
             {
                 // The view of the global stability: «CSV» of the slices and «Word globale» of the combination shown.
                 var view = mvvm.View;
                 view.Pages.SelectedIndex = 1; await mvvm.Settle();
                 view.ViewChoice.SelectedItem = "Stabilità globale"; await mvvm.Settle();
-                wall.ViewMode.SelectedItem = "Stabilità globale";
                 string slices = Path.Combine(folder, name + "-conci.csv");
                 services.SavePath = slices;
                 Press(Walk(mvvm.Root).OfType<Button>().First(b => Equals(b.Content, "CSV")), mvvm.Root);
-                Check(File.ReadAllBytes(slices).SequenceEqual(bom.Concat(Encoding.UTF8.GetBytes(WallExports.GlobalCsv(global)))), name + ": CSV dei conci uguale a quello della vista storica");
+                Check(WithBom(File.ReadAllBytes(slices), historic["conci"]!.GetValue<string>()), name + ": CSV dei conci uguale a quello della vista storica (testo registrato)");
                 string word = Path.Combine(folder, name + "-globale-mvvm.docx"), expected = Path.Combine(folder, name + "-globale-storica.docx");
                 services.SavePath = word;
                 Press(Walk(mvvm.Root).OfType<Button>().First(b => Equals(b.Content, "Word globale")), mvvm.Root);
-                Check(mvvm.Sheet.SelectedGlobalCombination == (wall.GlobalCombination.SelectedItem as string), name + ": combinazione globale mostrata uguale alla vista storica");
-                var drawing = new GlobalStabilityDrawing { Data = wall.Calculation.Input, Result = global, Case = global.Cases.FirstOrDefault(c => c.Factors.Name == wall.GlobalCombination.SelectedItem as string), Width = 1100, Height = 460 };
+                string? shown = historic["combinazione_globale"]?.GetValue<string>();
+                Check(mvvm.Sheet.SelectedGlobalCombination == shown, name + ": combinazione globale mostrata uguale alla vista storica (" + shown + ")");
+                // The recipe of «Word globale» of the historic view (RetainingWallWorkspace.GlobalStability) on the same result.
+                var drawing = new GlobalStabilityDrawing { Data = calculation.Input, Result = global, Case = global.Cases.FirstOrDefault(c => c.Factors.Name == shown), Width = 1100, Height = 460 };
                 drawing.Measure(new Size(1100, 460)); drawing.Arrange(new Rect(0, 0, 1100, 460)); drawing.UpdateLayout();
-                Anthea.Reports.ReportFiles.Write(expected, WallExports.CreateGlobal(wall.Calculation.Input, global, new("Stabilità globale · superficie visualizzata", Ui.DocumentSnapshot(drawing), 1100d / 460)), "Stabilità globale");
+                Anthea.Reports.ReportFiles.Write(expected, WallExports.CreateGlobal(calculation.Input, global, new("Stabilità globale · superficie visualizzata", Ui.DocumentSnapshot(drawing), 1100d / 460)), "Stabilità globale");
                 part = DifferentPart(File.ReadAllBytes(word), File.ReadAllBytes(expected), normalizer);
                 Check(part is null && SamePdf(File.ReadAllBytes(Path.ChangeExtension(word, ".pdf")), File.ReadAllBytes(Path.ChangeExtension(expected, ".pdf"))),
                     name + ": «Word globale» (Word e PDF) uguale a quello della vista storica" + (part is null ? "" : ", diversa " + part));
@@ -919,9 +952,11 @@ internal static class RetainingWallViewChecks
                 Check(dialog is { Content: RetainingWallBarScheduleView } && dialog.Title == "Armature del muro · sezione e distinta ferri" && dialog.Width == 1270 && dialog.Height == 920,
                     name + ": «Distinta ferri…» apre il dialogo della vista come la finestra storica");
                 var schedule = (RetainingWallBarScheduleView)dialog!.Content;
-                var sheet = wall.CreateBarDrawing();
-                Check(((IEnumerable)((ComboBox)schedule.FindName("PageChoice")).ItemsSource).Cast<string>().Count() == sheet.PageCount && schedule.Drawing.PageCount == sheet.PageCount,
-                    name + ": pagine della distinta come la finestra storica (" + sheet.PageCount + ")");
+                // The drawing of the historic window (RetainingWallWorkspace.CreateBarDrawing) on the same result; its pages recorded.
+                var sheet = new RetainingWallBarDrawing(calculation.Input, WallModel.CalculateBarSchedule(calculation));
+                int pages = historic["pagine_distinta"]!.GetValue<int>();
+                Check(((IEnumerable)((ComboBox)schedule.FindName("PageChoice")).ItemsSource).Cast<string>().Count() == pages && schedule.Drawing.PageCount == pages && sheet.PageCount == pages,
+                    name + ": pagine della distinta come la finestra storica (" + pages + ", registrate)");
                 byte[] Export(string caption, string extension)
                 {
                     string path = Path.Combine(folder, name + "-distinta." + extension);
@@ -930,12 +965,12 @@ internal static class RetainingWallViewChecks
                     services.SavePath = null;
                     return File.ReadAllBytes(path);
                 }
-                Check(SamePdf(Export("PDF completo", "pdf"), DrawingPdf.Create(RetainingWallWorkspace.BarFigures(sheet).Select(f => f.Png))), name + ": distinta, PDF completo uguale alla finestra storica");
+                Check(SamePdf(Export("PDF completo", "pdf"), DrawingPdf.Create(ModuleFigureRenderer.BarFigures(sheet).Select(f => f.Png))), name + ": distinta, PDF completo uguale alla finestra storica");
                 string expectedWord = Path.Combine(folder, name + "-distinta-storica.docx");
-                File.WriteAllBytes(expectedWord, WallExports.CreateBarSchedule(sheet.Data, sheet.Schedule, RetainingWallWorkspace.BarFigures(sheet)));
+                File.WriteAllBytes(expectedWord, WallExports.CreateBarSchedule(sheet.Data, sheet.Schedule, ModuleFigureRenderer.BarFigures(sheet)));
                 part = DifferentPart(Export("Word completo", "docx"), File.ReadAllBytes(expectedWord), normalizer);
                 Check(part is null, name + ": distinta, Word completo uguale alla finestra storica" + (part is null ? "" : ", diversa " + part));
-                Check(Export("CSV distinta", "csv").SequenceEqual(bom.Concat(Encoding.UTF8.GetBytes(WallExports.BarScheduleCsv(sheet.Schedule)))), name + ": distinta, CSV uguale alla finestra storica");
+                Check(WithBom(Export("CSV distinta", "csv"), historic["distinta_csv"]!.GetValue<string>()), name + ": distinta, CSV uguale alla finestra storica (testo registrato)");
                 Check(Export("PNG pagina", "png").SequenceEqual(sheet.Png(3360, 2370)), name + ": distinta, PNG della pagina uguale alla finestra storica");
                 dialog.Close();
                 schedules++;
@@ -1024,13 +1059,10 @@ internal static class RetainingWallViewChecks
         var services = new Services();
         var data = RetainingWallScenarios.FixtureData(root, "opzioni-avanzate");
         using var host = new Hosted(Editors(services).Open(Module, data));
-        using var historic = new Hosted(new SheetEditor(Module, data));
         await host.Sheet.PendingWork.WaitAsync(TimeSpan.FromSeconds(60));
-        await host.Settle(); await historic.Settle();
-        static string[] Labels(DependencyObject root) => Walk(root).OfType<Button>().Where(b => b.IsVisible && b.Content as string == "?")
-            .Select(b => AutomationProperties.GetName(b)).Order(StringComparer.Ordinal).ToArray();
-        string[] before = Labels(historic.Root), after = Labels(host.Root);
-        Check(after.SequenceEqual(before), "Etichette «?» visibili uguali a quelle della vista storica (" + before.Length + ")");
+        await host.Settle();
+        string[] before = Recorded(root)["aiuto"]!.AsArray().Select(n => n!.GetValue<string>()).ToArray(), after = HelpLabels(host.Root);
+        Check(after.SequenceEqual(before), "Etichette «?» visibili uguali a quelle della vista storica (" + before.Length + ", registrate)");
         // Every expander opened on both pages: every «?» and every F1 on a field reaches the navigator of the services (lesson 1 of 17/10).
         await host.ExpandAll();
         host.View.Pages.SelectedIndex = 0; await host.Settle();
@@ -1060,66 +1092,77 @@ internal static class RetainingWallViewChecks
 
     // ---------------------------------------------------------------- 5. automation names
 
+    /// <summary>The fixtures of the automation names and of the read-only revision.</summary>
+    private static readonly string[] NameFixtures = ["default", "gravita-cls-passiva", "globale-drenata-due-colonne", "opzioni-avanzate"], ReadOnlyFixtures = ["default", "globale-drenata-due-colonne"];
+
+    /// <summary>The «?» labels shown.</summary>
+    private static string[] HelpLabels(DependencyObject root) => Walk(root).OfType<Button>().Where(b => b.IsVisible && b.Content as string == "?")
+        .Select(b => AutomationProperties.GetName(b)).Order(StringComparer.Ordinal).ToArray();
+
+    /// <summary>The automation names shown on both pages with every group opened.</summary>
+    private static async Task<HashSet<string>> AutomationNameSet(Hosted hosted)
+    {
+        var names = new HashSet<string>(StringComparer.Ordinal);
+        for (int page = 0; page < 2; page++)
+        {
+            foreach (var tabs in Walk(hosted.Root).OfType<TabControl>().Take(1)) tabs.SelectedIndex = page;
+            for (int pass = 0; pass < 3; pass++) { foreach (var e in Walk(hosted.Root).OfType<Expander>().ToArray()) e.IsExpanded = true; await hosted.Settle(); }
+            names.UnionWith(Walk(hosted.Root).OfType<UIElement>().Where(e => e.IsVisible).Select(e => AutomationProperties.GetName(e)).Where(n => !string.IsNullOrEmpty(n)));
+        }
+        return names;
+    }
+
+    /// <summary>The state of the input controls on both pages with every group opened (<see cref="Controls"/>).</summary>
+    private static async Task<Dictionary<string, string>> ControlStates(Hosted hosted)
+    {
+        var map = new Dictionary<string, string>(StringComparer.Ordinal);
+        for (int page = 0; page < 2; page++)
+        {
+            foreach (var tabs in Walk(hosted.Root).OfType<TabControl>().Take(1)) tabs.SelectedIndex = page;
+            for (int pass = 0; pass < 3; pass++) { foreach (var e in Walk(hosted.Root).OfType<Expander>().ToArray()) e.IsExpanded = true; await hosted.Settle(); }
+            foreach (var (key, value) in Controls(hosted.Root)) map[key] = map.TryGetValue(key, out var previous) && previous != value ? "misto" : value;
+        }
+        return map;
+    }
+
     private static async Task AutomationNames(string root)
     {
-        static HashSet<string> Names(DependencyObject root) => Walk(root).OfType<UIElement>().Where(e => e.IsVisible)
-            .Select(e => AutomationProperties.GetName(e)).Where(n => !string.IsNullOrEmpty(n)).ToHashSet(StringComparer.Ordinal);
         var editors = Editors(new Services());
-        foreach (string id in new[] { "default", "gravita-cls-passiva", "globale-drenata-due-colonne", "opzioni-avanzate" })
+        var values = Recorded(root)["nomi"]!.AsObject();
+        foreach (string id in NameFixtures)
         {
             var data = RetainingWallScenarios.FixtureData(root, id);
-            using var historic = new Hosted(new SheetEditor(Module, data));
             using var host = new Hosted(editors.Open(Module, data));
-            await historic.Settle(); await host.Settle();
-            var before = new HashSet<string>(StringComparer.Ordinal); var after = new HashSet<string>(StringComparer.Ordinal);
-            // Both pages with every group opened, in both views.
-            foreach (var hosted in new[] { historic, host })
-            {
-                var names = ReferenceEquals(hosted, historic) ? before : after;
-                for (int page = 0; page < 2; page++)
-                {
-                    foreach (var tabs in Walk(hosted.Root).OfType<TabControl>().Take(1)) tabs.SelectedIndex = page;
-                    for (int pass = 0; pass < 3; pass++) { foreach (var e in Walk(hosted.Root).OfType<Expander>().ToArray()) e.IsExpanded = true; await hosted.Settle(); }
-                    names.UnionWith(Names(hosted.Root));
-                }
-            }
+            await host.Settle();
+            var before = values[id]!.AsArray().Select(n => n!.GetValue<string>()).ToHashSet(StringComparer.Ordinal);
+            var after = await AutomationNameSet(host);
             var missing = before.Except(after).Order(StringComparer.Ordinal).ToArray();
             Log.Add($"   nomi nuovi ({id}): " + string.Join(", ", after.Except(before).Order(StringComparer.Ordinal)));
-            Check(missing.Length == 0, $"{id}: nomi di automazione della vista storica conservati ({before.Count})" + (missing.Length == 0 ? "" : "; mancanti: " + string.Join(", ", missing)));
+            Check(missing.Length == 0, $"{id}: nomi di automazione della vista storica conservati ({before.Count}, registrati)" + (missing.Length == 0 ? "" : "; mancanti: " + string.Join(", ", missing)));
         }
     }
 
     // ---------------------------------------------------------------- 6. read-only
 
-    /// <summary>The controls that accept the user after InspectRevision, in the new view and in the historic view on the same data.</summary>
+    /// <summary>The controls that accept the user after InspectRevision, in the new view and in the historic view on the same data (recorded).</summary>
     private static async Task ReadOnly(string root)
     {
-        foreach (string id in new[] { "default", "globale-drenata-due-colonne" })
+        var values = Recorded(root)["sola_lettura"]!.AsObject();
+        foreach (string id in ReadOnlyFixtures)
         {
             var services = new Services();
             var data = RetainingWallScenarios.FixtureData(root, id);
             using var host = new Hosted(Editors(services).Open(Module, data));
-            using var historic = new Hosted(new SheetEditor(Module, data));
             await host.Sheet.PendingWork.WaitAsync(TimeSpan.FromSeconds(60));
-            await historic.Editor.CalculateAsync();
-            host.Editor.InspectRevision(); historic.Editor.InspectRevision();
-            var before = new Dictionary<string, string>(StringComparer.Ordinal); var after = new Dictionary<string, string>(StringComparer.Ordinal);
-            foreach (var hosted in new[] { historic, host })
-            {
-                var map = ReferenceEquals(hosted, historic) ? before : after;
-                for (int page = 0; page < 2; page++)
-                {
-                    foreach (var tabs in Walk(hosted.Root).OfType<TabControl>().Take(1)) tabs.SelectedIndex = page;
-                    for (int pass = 0; pass < 3; pass++) { foreach (var e in Walk(hosted.Root).OfType<Expander>().ToArray()) e.IsExpanded = true; await hosted.Settle(); }
-                    foreach (var (key, value) in Controls(hosted.Root)) map[key] = map.TryGetValue(key, out var previous) && previous != value ? "misto" : value;
-                }
-            }
+            host.Editor.InspectRevision();
+            var before = values[id]!.AsObject().ToDictionary(p => p.Key, p => p.Value!.GetValue<string>(), StringComparer.Ordinal);
+            var after = await ControlStates(host);
             var common = before.Keys.Intersect(after.Keys).Order(StringComparer.Ordinal).ToArray();
             var different = common.Where(k => before[k] != after[k]).Select(k => k + ": storica " + before[k] + ", nuova " + after[k]).ToArray();
             Log.Add($"   sola lettura ({id}), solo nella storica: " + string.Join(", ", before.Keys.Except(after.Keys).Order(StringComparer.Ordinal)));
             Log.Add($"   sola lettura ({id}), solo nella nuova: " + string.Join(", ", after.Keys.Except(before.Keys).Order(StringComparer.Ordinal)));
             Log.Add($"   sola lettura ({id}), comuni: " + string.Join(", ", common.Select(k => k + " " + after[k])));
-            Check(different.Length == 0 && common.Length >= 60, $"{id}: sola lettura, stessi controlli bloccati e liberi della vista storica ({common.Length} controlli comuni)"
+            Check(different.Length == 0 && common.Length >= 60, $"{id}: sola lettura, stessi controlli bloccati e liberi della vista storica ({common.Length} controlli comuni, registrati)"
                 + (different.Length == 0 ? "" : ": " + string.Join("; ", different)));
             Check(host.Modified == 0 && host.Editor.HasResults, id + ": sola lettura, la visita non modifica il foglio");
         }
@@ -1241,6 +1284,7 @@ internal static class RetainingWallViewChecks
         using (var mvvm = editors.Open(Module, RetainingWallScenarios.FixtureData(root, "default")))
             Check(mvvm is MvvmSheetEditor { Sheet: RetainingWallSheetViewModel sheet } && sheet.Forms.Values.All(f => f.WikiNavigator is not null), "Con --module-impl il banco apre la vista MVVM dei muri");
         using (var release = ModuleHostBench.SheetEditors([], DesktopComposition.CreateModules()).Open(Module, RetainingWallScenarios.FixtureData(root, "default")))
-            Check(release is SheetEditor && ModuleImplementations.Release.For(Module) == SheetImplementation.Historic, "La Release resta storica fino alla prova dell'utente");
+            Check(release is MvvmSheetEditor { Sheet: RetainingWallSheetViewModel } && ModuleImplementations.Release.For(Module) == SheetImplementation.Mvvm,
+                "La Release apre i muri con la vista MVVM (passaggio del 23/10/2026)");
     }
 }

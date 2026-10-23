@@ -9,16 +9,14 @@ using X.Desktop.Views.RetainingWall;
 namespace X.Desktop;
 
 /// <summary>
-/// F5.9: the probes of ui/f3-scheduling on the retaining walls with the MVVM view (bench <c>--module-impl geo_muri_sostegno=mvvm</c>), in
-/// place of RetainingWallWorkspace.CheckF3Scheduling and CheckParameterRevision: the sheet opened by the factory of the bench in
-/// MvvmSheetEditor, the edits through its geometry form, the window of the values shown by the dialog service of the bench off screen and
-/// driven through its view (RetainingWallParametersView). Same barriers and the same expectations as the historic probes.
+/// F5.9: the probes of ui/f3-scheduling on the retaining walls with the MVVM view (the Release since the switch of 23/10/2026), in place of
+/// RetainingWallWorkspace.CheckF3Scheduling and CheckParameterRevision (archived with the historic view in supporto/SUPERATI/ui-storica/muri):
+/// the sheet opened by the factory of the bench in MvvmSheetEditor, the edits through its geometry form, the window of the values shown by
+/// the dialog service of the bench off screen and driven through its view (RetainingWallParametersView). Same barriers and the same
+/// expectations as the historic probes.
 /// </summary>
 internal static class F3WallMvvmSchedulingChecks
 {
-    /// <summary>True when the bench of this process opens the walls with the MVVM view.</summary>
-    internal static bool Active => ModuleHostBench.Implementations(Environment.GetCommandLineArgs()).For(RetainingWall.Module) == SheetImplementation.Mvvm;
-
     internal static async Task<int> CheckF3Scheduling()
     {
         using var service = new GatedModuleService(RetainingWall.Module);

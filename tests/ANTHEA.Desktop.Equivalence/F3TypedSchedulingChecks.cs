@@ -2,17 +2,9 @@ namespace X.Desktop;
 
 // F5.11: the probe of the historic view of the composite bridge section (BridgeWorkspace.CheckF3Scheduling) is archived with the view in
 // supporto/SUPERATI/ui-storica/sezione-mista; the probe runs on the MVVM sheet (F3CompositeSectionMvvmSchedulingChecks).
-internal sealed partial class RetainingWallWorkspace
-{
-    internal static async Task<int> CheckF3Scheduling()
-    {
-        using var service = new GatedModuleService(RetainingWall.Module);
-        using var view = new RetainingWallWorkspace(RetainingWall.Defaults(), service);
-        return await F3SchedulingProbe.Run(service, () => view.CalculateAsync(),
-            value => { view.Forms["geometry"].Set("height", value.ToString(System.Globalization.CultureInfo.InvariantCulture)); view.Forms["geometry"].Commit(); },
-            () => view.Calculation?.Input["geometry"].D("height"), () => view.Busy, view.Dispose, 3.2, 3.4);
-    }
-}
+// f5-pass-muri: the probes of the historic view of the retaining walls (RetainingWallWorkspace.CheckF3Scheduling, here until 23/10/2026, and
+// CheckParameterRevision, F3WallParameterChecks.cs) are archived with the view in supporto/SUPERATI/ui-storica/muri; the probes run on the MVVM
+// sheet (F3WallMvvmSchedulingChecks).
 // F5.12: the probes of the historic view of Bridge Design (BridgeDesignWorkspace.CheckF3Scheduling) are archived with the view in
 // supporto/SUPERATI/ui-storica/bridge-design; the probes run on the MVVM sheet (F3BridgeDesignMvvmSchedulingChecks).
 internal static class F3SchedulingProbe

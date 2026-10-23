@@ -30,7 +30,9 @@ apparizione nello scenario, prima delle impronte.
 | Cosa | Dove |
 | --- | --- |
 | Scenari e formato | `tests/Shared/RetainingWallTrace.cs` |
-| Vista storica | `tests/Desktop/RetainingWallHistoricTrace.cs` (`RetainingWallWorkspace` creata come la crea `SheetEditor`, fuori schermo) |
+| Vista storica (archiviata il 23/10/2026) | `supporto/SUPERATI/ui-storica/muri/tests/Desktop/RetainingWallHistoricTrace.cs` (`RetainingWallWorkspace` creata come la crea `SheetEditor`, fuori schermo), non compilata |
+| Vista XAML | `tests/Desktop/RetainingWallViewChecks.cs` (`ui/check-muri-view`) |
+| Valori registrati della vista storica | `vista-storica.json`: dati e risultato dopo il calcolo, testi dei CSV, combinazioni mostrate, pagine della distinta, etichette «?», nomi di automazione, sola lettura |
 | ViewModel | `tests/ANTHEA.Presentation.Tests/RetainingWallSheetChecks.cs` (senza WPF) |
 
 Ogni passo si fa con i controlli, come l'utente: un controllo nascosto, spento o protetto dalla revisione in sola lettura non
@@ -77,8 +79,11 @@ fa nulla. Il calcolo passa da `HeldModuleService`, che può trattenere il motore
   - Il cambio del tipo di un'azione ricostruisce il form sul dispatcher: la traccia lo lascia eseguire prima di leggere lo stato.
   - Prima di ogni passo la traccia apre la pagina del controllo («Input» o «Verifiche»), come l'utente: in una revisione in sola
     lettura la vista storica protegge solo i controlli della pagina mostrata (`RevisionInspection` sull'albero visuale).
-- La suite `ui/check-muri-historic` dello stadio `ui` ricattura la vista storica e la confronta con queste tracce, finché la
-  vista storica esiste.
+- La suite `ui/check-muri-historic` dello stadio `ui` ricatturava la vista storica e la confrontava con queste tracce.
+  È stata tolta il 23/10/2026 con l'archiviazione della vista storica (`supporto/SUPERATI/ui-storica/muri`); `ui/check-muri-view`
+  confronta le tracce attraverso la vista XAML.
+- `vista-storica.json` è stato registrato da `ui/check-muri-view` sulla vista storica il 23/10/2026, prima dell'archiviazione
+  (corsa `20261023-160230-muri-cattura` sulla base `2cf2a908` del ramo `refactoring/f5-pass-muri`); non si rigenera.
 - `Presentation.Tests`, nello stadio `fast`, confronta le stesse tracce con il ViewModel.
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.
 - 22/10/2026, voce PARATIE-20 (set candidato del 22/10, Geotechnics 0.19.0.0, cerchi di Bishop con φ = 0 non più scartati),

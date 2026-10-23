@@ -405,7 +405,7 @@ internal static class FieldFormParityChecks
             new("__fyd", "fyd", "MPa", ReadOnly: true), new("alpha_cc", "αcc"), new("gamma_c", "γc"), new("gamma_s", "γs"),
             new("cover", "Copriferro netto adottato", "mm"), new("exposure", "Esposizione", Choices: exposures.Skip(1).ToArray()), new("creep", "Viscosità SLE", "−")
         }.Concat(WallModel.MaterialFields.Where(f => f.Key.EndsWith("_rd")).Select(p => new Field(p.Key, p.Label, p.Unit, Symbol: p.Symbol))).ToArray();
-        yield return new("muri-materiali", "X.Desktop/Wpf/RetainingWallWorkspace.Materials.cs", Wall, wall,
+        yield return new("muri-materiali", "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.Materials.cs", Wall, wall,
             new(Compact: true, SymbolColumns: true, HostModule: "geo_muri_sostegno", NumericPresentation: true), [],
         [
             Choose("cls_diagramma", "Stress block"), Type("fck", "32,5"), Set("classe_cls", "Personalizzato", true), Type("fyk", "500"),
@@ -427,7 +427,7 @@ internal static class FieldFormParityChecks
             new("relief_height", "Altezza del pendio / rilievo (non del muro)", "m"), new("site_height", "Quota del muro sopra la base del pendio / rilievo", "m"),
             new("st", "Coefficiente St assegnato", "−"), new("kh", "Coefficiente orizzontale kh assegnato", "−"), new("kv", "Coefficiente verticale |kv| assegnato", "−")];
         JsonObject Seismic() => WallModel.Example("cantilever")["seismic"]!.AsObject().DeepClone().AsObject();
-        yield return new("muri-sisma", "X.Desktop/Wpf/RetainingWallWorkspace.Seismic.cs", Seismic, seismic,
+        yield return new("muri-sisma", "supporto/SUPERATI/ui-storica/muri/X.Desktop/Wpf/RetainingWallWorkspace.Seismic.cs", Seismic, seismic,
             new(Compact: true, WideChoices: true, HostModule: "geo_muri_sostegno", NumericPresentation: true), [],
         [
             Check("enabled", true), Choose("method", "Wood semplificato"), Choose("source", WallModel.SeismicManual), Type("kh", "0.12"), Type("ag_g", "0,20"),

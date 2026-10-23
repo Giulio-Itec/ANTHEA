@@ -52,7 +52,7 @@ internal sealed partial class RetainingWallDrawing
                 dc.DrawLine(new Pen(color, 3), p(x0, t + lower), p(back - d["geometry"].D("stem_top") + cover, t + h - cover));
                 dc.DrawLine(new Pen(color, 1) { DashStyle = DashStyles.Dash }, p(a - .2, t + lower), p(back + .15, t + lower));
             }
-            string label = RetainingWallWorkspace.RebarLabel(d, key); var mid = p(a, t + (y0 + y1) / 2);
+            string label = WallModel.RebarLabel(d, key); var mid = p(a, t + (y0 + y1) / 2);
             if (ShowLabels) Text(dc, $"{d["reinforcement"]![key].D("count"):0} Ø{d["reinforcement"]![key].D("diameter"):0}/m\nper faccia", Math.Max(2, mid.X - 60), mid.Y, color, 10);
             var rect = new Rect(p(a, t + y1), p(back, t + y0)); hits.Add((rect, label + $" · zona {y0:0.##}–{y1:0.##} m dal piede", null));
         }

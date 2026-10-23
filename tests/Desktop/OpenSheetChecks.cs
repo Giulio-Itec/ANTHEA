@@ -107,9 +107,9 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
 
     // ---------------------------------------------------------------- retaining walls (ui/smoke-retaining-wall, ui/smoke-global-stability)
 
-    /// <summary>The retaining wall, with either view (WallSmoke).</summary>
+    /// <summary>The retaining wall with the XAML view, MVVM in the Release since 23/10/2026 (f5-pass-muri: the historic view is archived).</summary>
     internal WallSmoke Wall => MvvmWallSmoke.Handles(editor) ? new MvvmWallSmoke((MvvmSheetEditor)editor, services)
-        : new HistoricWallSmoke(Historic.retainingWall ?? throw new Exception("Muro di sostegno non aperto"));
+        : throw new Exception("Muro di sostegno non aperto con la vista XAML");
 
     /// <summary>F5.11: the composite bridge section, with either view (BridgeSmoke).</summary>
     internal BridgeSmoke Bridge => BridgeSmoke.Of(editor);

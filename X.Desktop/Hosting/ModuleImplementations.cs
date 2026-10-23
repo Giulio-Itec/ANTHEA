@@ -32,7 +32,7 @@ internal sealed partial class ModuleImplementations
         ("geo_palo_orizzontale", SheetImplementation.Mvvm),
         ("geo_micropalo_verticale", SheetImplementation.Mvvm),
         ("geo_micropalo_orizzontale", SheetImplementation.Mvvm),
-        ("geo_muri_sostegno", SheetImplementation.Historic),
+        ("geo_muri_sostegno", SheetImplementation.Mvvm),
         ("str_palo", SheetImplementation.Mvvm),
         ("str_mista_ponte", SheetImplementation.Mvvm),
         ("str_bridge_design", SheetImplementation.Mvvm),
