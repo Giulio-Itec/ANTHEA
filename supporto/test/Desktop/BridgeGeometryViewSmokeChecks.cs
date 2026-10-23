@@ -6,7 +6,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     private async Task CheckBridgeGeometryView(BridgeSmoke bridge, Func<Task> wait, string directory)
     {
@@ -31,12 +31,12 @@ public sealed partial class MainWindow
             var boxes = bridge.Drawing.TagBounds;
             Check(boxes.All(b => b.Left >= 0 && b.Top >= 0 && b.Right <= bridge.Drawing.ActualWidth && b.Bottom < bridge.Drawing.ActualHeight), "Tag fuori dal disegno.");
             for (int i = 0; i < boxes.Count; i++) for (int j = 0; j < i; j++) Check(!boxes[i].IntersectsWith(boxes[j]), "Tag sovrapposti.");
-            File.WriteAllBytes(Path.Combine(directory, $"geometria_tag_{size.Item1:0}.png"), Ui.Snapshot(this));
+            File.WriteAllBytes(Path.Combine(directory, $"geometria_tag_{size.Item1:0}.png"), Ui.Snapshot(Window));
         }
         Width = 1600; Height = 990; await Layout();
         bridge.GeometryLabels.IsChecked = false; await Layout(); Check(bridge.Drawing.VisibleTags.Count == 2, "Disattivare quote nasconde anche le info armature.");
         bridge.RebarLabels.IsChecked = false; await Layout(); Check(bridge.Drawing.VisibleTags.Count == 0 && bridge.Drawing.Geometry!.Bars.Length == 40, "Disattivare info armature altera la geometria.");
-        File.WriteAllBytes(Path.Combine(directory, "geometria_senza_tag.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "geometria_senza_tag.png"), Ui.Snapshot(Window));
         bridge.GeometryLabels.IsChecked = true; await Layout(); Check(bridge.Drawing.VisibleTags.Count == 5, "Quote non riattivate indipendentemente dalle armature.");
         bridge.RebarLabels.IsChecked = true; await Layout();
         bridge.Pages.SelectedIndex = 1; bridge.DisplayChoice.SelectedIndex = 0; bridge.Results.SelectedIndex = 3; await Layout();
@@ -50,7 +50,7 @@ public sealed partial class MainWindow
         var iterative = bridge.Calculation!.Stages.Last().Contributions[1];
         Check(Math.Abs(iterative.LoadY - iterative.Centroid) < 1e-9 && Math.Abs(iterative.LoadY - fixedPoint) > .01, "Riferimento iterativo non segue il baricentro efficace.");
         Check(bridge.Drawing.LoadPoints.Length == 3 && bridge.Drawing.LoadPoints[1].Y == iterative.LoadY, "Punti N della vista non allineati ai contributi.");
-        File.WriteAllBytes(Path.Combine(directory, "riferimenti_N_per_fase.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "riferimenti_N_per_fase.png"), Ui.Snapshot(Window));
         var retained = bridge.Calculation; var retainedStage = bridge.Drawing.Stage; var retainedGeometry = bridge.Drawing.Geometry;
         var oldTables = Ui.Descendants<DataGrid>(bridge.View).ToArray();
         second.Set("N", "incompleto");
@@ -61,7 +61,7 @@ public sealed partial class MainWindow
         Check(bridge.Calculation is null && ReferenceEquals(bridge.Drawing.Stage, retainedStage), "Errore numerico svuota il grafico precedente.");
         bool rejected = false; try { bridge.BuildReport("Non aggiornato", ReportBridge.DefaultSections()); } catch (InvalidOperationException) { rejected = true; }
         Check(rejected && bridge.Result is null, "Risultato precedente esportabile come corrente.");
-        File.WriteAllBytes(Path.Combine(directory, "risultati_conservati_durante_modifica.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "risultati_conservati_durante_modifica.png"), Ui.Snapshot(Window));
         second.Set("N", "0"); reference.SelectedItem = BridgeSection.GrossLoadReference; await wait();
         Check(!bridge.ResultsAreStale && !bridge.Drawing.IsStale && !ReferenceEquals(bridge.Drawing.Stage, retainedStage), "Ricalcolo non sostituisce l'ultimo risultato.");
         bridge.Pages.SelectedIndex = 0; await Layout();

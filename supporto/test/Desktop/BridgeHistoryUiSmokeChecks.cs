@@ -8,14 +8,14 @@ using X.Core;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     private async Task CheckBridgeHistoryUi(string directory)
     {
         var data = BridgeSection.Defaults();
         data["metodo_analisi"] = BridgeSection.CalculationMethods[1]; data["classe4"] = false;
         using var bridge = OpenBridge(data); data = bridge.Data;
-        var window = new Window { Title = "Test storico ponte", Owner = this, Width = 1600, Height = 1000, Content = bridge.View, Background = Ui.Bg };
+        var window = new Window { Title = "Test storico ponte", Owner = Window, Width = 1600, Height = 1000, Content = bridge.View, Background = Ui.Bg };
         int checks = 0;
         void Check(bool ok, string message) { checks++; if (!ok) throw new Exception("Storico UI: " + message); }
         async Task Ready()

@@ -8,7 +8,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     private async Task CheckBridgeOptions(BridgeSmoke bridge, Func<Task> wait, string directory)
     {
@@ -20,7 +20,7 @@ public sealed partial class MainWindow
             // Bringing a newly rebuilt phase into a ScrollViewer queues layout. Complete it
             // before requesting keyboard focus, as a user click would do on the visible field.
             Activate(); UpdateLayout(); var text = (TextBox)form.Editors[key]; text.BringIntoView(); UpdateLayout(); text.Focus();
-            if (!text.IsKeyboardFocused) File.WriteAllBytes(Path.Combine(directory, "focus-campo.png"), Ui.Snapshot(this));
+            if (!text.IsKeyboardFocused) File.WriteAllBytes(Path.Combine(directory, "focus-campo.png"), Ui.Snapshot(Window));
             Check(text.IsKeyboardFocused, $"{key}: campo non modificabile (visibile={text.IsVisible}, abilitato={text.IsEnabled}, finestra attiva={IsActive}).");
             text.Text = value.ToString("R", CultureInfo.InvariantCulture); bridge.Drawing.Focus();
         }
@@ -137,7 +137,7 @@ public sealed partial class MainWindow
         await wait();
         Homo(0).Editors["n"].BringIntoView(); bridge.Results.SelectedIndex = 1;
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-        File.WriteAllBytes(Path.Combine(directory, "ponte_omogeneizzazione.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "ponte_omogeneizzazione.png"), Ui.Snapshot(Window));
         File.WriteAllText(Path.Combine(directory, "opzioni-smoke.txt"), $"OK: {checks} controlli su n/φ/ψL, materiali, dati invalidi, punto N interno/esterno, classe 4, SLU/SLE, tabelle, fase selezionata, sezione reagente e revisioni concorrenti.");
     }
 }

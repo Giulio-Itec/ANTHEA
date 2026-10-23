@@ -14,13 +14,13 @@ namespace X.Desktop.Services;
 internal sealed record ShellParts(ShellWindow Window, ShellViewModel Shell, ShellWindowTracker Tracker);
 
 /// <summary>
-/// Composition root of the new shell (F5.13 c, after the checkpoint of 22/10; decision Q2: by hand, no container). It is NOT the startup of the
-/// Release, which still opens MainWindow (App.OnStartup) until the switch of parts (f)–(g): only the UiTests build launches it, by hand with
-/// <c>--interactive-shell</c> and in the check of the draft (ui/check-shell-draft).
+/// Composition root of the new shell (F5.13 c, after the checkpoint of 22/10; decision Q2: by hand, no container). Since F5.13 g it is the startup of
+/// the Release (App.StartShell, in place of MainWindow); the UiTests build launches it also by hand with <c>--interactive-shell</c> and in the checks of
+/// the shell (ui/check-shell-draft, ui/shell-*).
 /// <list type="bullet">
 /// <item>the sheets as the Release chooses them (<see cref="ReleaseSheetFactory"/>, night of 22-23/10, R5): the modules MVVM in
-/// <see cref="ModuleImplementations"/> through their ViewModel, with the limiter of the calculations; the modules still historic in the historic
-/// <see cref="SheetEditor"/>, hosted in the tab (<see cref="HistoricSheetViewModel"/>); their files through <see cref="DesktopSheetExports"/>;</item>
+/// <see cref="ModuleImplementations"/> through their ViewModel, with the limiter of the calculations; until F5.13 g the modules still
+/// historic in their SheetEditor behind HistoricSheetViewModel (R5, archived); their files through <see cref="DesktopSheetExports"/>;</item>
 /// <item>the files of the documents with the installed examples, the menu «Aspetto»
 /// (<see cref="WpfAppearanceService"/>) and the page «Esempi»;</item>
 /// <item>the report of a section (part e, <see cref="DesktopSectionReports"/>: the call of MainWindow, report code unchanged);</item>

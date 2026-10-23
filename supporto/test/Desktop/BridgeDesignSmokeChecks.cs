@@ -10,7 +10,7 @@ using X.Desktop.Views.BridgeDesign;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     /// <summary>
     /// ui/smoke-bridge-design on the XAML view of Bridge Design, as the Release opens it since the switch of 23/10/2026 (the historic view
@@ -22,13 +22,13 @@ public sealed partial class MainWindow
     {
         Directory.CreateDirectory(directory); WindowState = WindowState.Normal; Width = 1600; Height = 990;
         document = Archivio.Documento(BridgeConcept.Module); dirty = false; currentSheet = null; ShowSheet(document);
-        var workspace = BridgeDesignSmoke.Of(editor ?? throw new Exception("Bridge Design non aperto."), this);
+        var workspace = BridgeDesignSmoke.Of(editor ?? throw new Exception("Bridge Design non aperto."), Window);
         var sheet = workspace.Sheet; var view = workspace.View;
         async Task Settle() { await sheet.WaitForCalculationAsync(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); }
         void Check(bool ok, string error) { if (!ok) throw new Exception(error); }
         await Settle();
         Check(sheet.Calculation is not null, "Risultato iniziale assente.");
-        File.WriteAllBytes(Path.Combine(directory, "bridge_design_1600.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "bridge_design_1600.png"), Ui.Snapshot(Window));
         double cost = sheet.Calculation!.TotalCost, co2 = sheet.Calculation.Carbon;
         sheet.Pin(); view.OutputTabs.SelectedIndex = 3; await Settle();
         workspace.Type("rates/concrete_deck", "480"); await Settle();
@@ -46,12 +46,12 @@ public sealed partial class MainWindow
         for (int tab = 0; tab < 4; tab++)
         {
             view.InputTabs.SelectedIndex = tab; view.OutputTabs.SelectedIndex = 0; await Settle();
-            File.WriteAllBytes(Path.Combine(directory, $"input_{tab}.png"), Ui.Snapshot(this));
+            File.WriteAllBytes(Path.Combine(directory, $"input_{tab}.png"), Ui.Snapshot(Window));
         }
         for (int tab = 0; tab < 6; tab++)
         {
             view.OutputTabs.SelectedIndex = tab; view.OutputTabs.BringIntoView(); await Settle();
-            File.WriteAllBytes(Path.Combine(directory, $"risultati_{tab}.png"), Ui.Snapshot(this));
+            File.WriteAllBytes(Path.Combine(directory, $"risultati_{tab}.png"), Ui.Snapshot(Window));
         }
         view.InputTabs.SelectedIndex = 2; await Settle();
         foreach (var family in BridgeConcept.Families)
@@ -87,7 +87,7 @@ public sealed partial class MainWindow
         Check(view.Pages.SelectedIndex == 1 && view.OutputTabs.Items.Count == 6, "Tasto Ottimizza non apre la nuova scheda autonoma.");
         await sheet.RunOptimizationAsync(); await Settle();
         Check(sheet.Optimization?.Candidates.Length > 0, "Ottimizzazione UI senza risultati.");
-        File.WriteAllBytes(Path.Combine(directory, "ottimizzazione_risultati.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "ottimizzazione_risultati.png"), Ui.Snapshot(Window));
         var complete = sheet.Optimization!;
         string unchanged = sheet.Data.ToJsonString();
         Check(view.CloudPlot.PointCount == complete.Solutions.Length, "Nuvola non include tutte le geometrie ammesse.");
@@ -96,7 +96,7 @@ public sealed partial class MainWindow
         workspace.Press("Aggiorna elenco"); await Settle();
         Check(ReferenceEquals(complete, sheet.Optimization) && workspace.DisplayedOptimizationCount == Math.Min(25, complete.Solutions.Length), "N ripete o limita la ricerca.");
         view.OptimizationScroll.ScrollToBottom(); await Settle();
-        File.WriteAllBytes(Path.Combine(directory, "ottimizzazione_graduatoria.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "ottimizzazione_graduatoria.png"), Ui.Snapshot(Window));
         sheet.SelectSolution(complete.Solutions.Length - 1); await Settle();
         Check(sheet.SelectedRank == complete.Solutions.Length && sheet.Data.ToJsonString() == unchanged, "Selezione fuori dalla top N modifica il progetto o perde il rango.");
         Check(view.Preview.Result!.TotalCost == complete.Solutions.Last().Trial.Cost, "Preview non corrisponde al rango scelto.");
@@ -104,7 +104,7 @@ public sealed partial class MainWindow
         view.CloudPlot.SelectAt(point.Point); await Settle();
         Check(sheet.SelectedRank == 1, "Click sul grafico non seleziona l’ottimo.");
         view.CloudPlot.BringIntoView(); await Settle();
-        File.WriteAllBytes(Path.Combine(directory, "ottimizzazione_grafici.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "ottimizzazione_grafici.png"), Ui.Snapshot(Window));
         for (int v = 0; v < 9; v++)
         {
             sheet.Variable = v; view.TracePlot.InvalidateVisual(); await Settle();
@@ -123,9 +123,9 @@ public sealed partial class MainWindow
             Width = width; Height = width < 1000 ? 720 : 900; await Settle();
             view.OptimizationScroll.ScrollToTop(); await Settle();
             Check(view.OptimizationScroll.ScrollableWidth < 1, "Scheda ottimizzazione deborda orizzontalmente.");
-            File.WriteAllBytes(Path.Combine(directory, $"ottimizzazione_{width:0}.png"), Ui.Snapshot(this));
+            File.WriteAllBytes(Path.Combine(directory, $"ottimizzazione_{width:0}.png"), Ui.Snapshot(Window));
             view.CloudPlot.BringIntoView(); await Settle();
-            File.WriteAllBytes(Path.Combine(directory, $"nuvola_{width:0}.png"), Ui.Snapshot(this));
+            File.WriteAllBytes(Path.Combine(directory, $"nuvola_{width:0}.png"), Ui.Snapshot(Window));
         }
         Width = 1600; Height = 990; await Settle();
         workspace.Type("rates/concrete_deck", "333");
@@ -148,7 +148,7 @@ public sealed partial class MainWindow
         sheet.SelectSolution(chosen); sheet.ApplySolution(chosen); await Settle();
         Check(Math.Abs(sheet.Calculation!.TotalCost - predictedCost) < 1e-6, "Applica soluzione non riproduce il costo previsto.");
         Check(view.Pages.SelectedIndex == 0 && view.OutputTabs.SelectedIndex == 5, "Applicazione non mostra il progetto e le quote tecniche.");
-        File.WriteAllBytes(Path.Combine(directory, "soluzione_ottimizzata_quote.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "soluzione_ottimizzata_quote.png"), Ui.Snapshot(Window));
         sheet.Undo(); await Settle();
         Check(sheet.Data["input"]!.ToJsonString() == original, "Annulla non ripristina la configurazione pre-ottimizzazione.");
         // Save through the shell to exercise normal archive integration, then reopen an independent editor.
@@ -161,14 +161,14 @@ public sealed partial class MainWindow
         int unavailable = await GenerateSectionReport(section, Path.Combine(directory, "Progetto.docx"), _ => { }, CancellationToken.None);
         Check(unavailable == 0, "Bridge Design non incluso nel report di progetto.");
         // Home keeps the same live editor, just like the other ANTHEA modules.
-        ShowHome(); OpenModule(BridgeConcept.Module); Check(editor is MvvmSheetEditor { Sheet: var again } && ReferenceEquals(again, sheet), "Navigazione Home perde la configurazione.");
+        ShowHome(); OpenModule(BridgeConcept.Module); Check(SheetOf(editor) is { } again && ReferenceEquals(again, sheet), "Navigazione Home perde la configurazione.");
         view.InputTabs.SelectedIndex = 0; view.OutputTabs.SelectedIndex = 0;
         foreach (double width in new[] { 1366d, 960d, 780d })
         {
             Width = width; Height = width < 1000 ? 720 : 900; await Settle();
             var scroller = view.DesignScroll; scroller.ScrollToTop(); await Settle();
             Check(scroller.ScrollableWidth < 1, "Scorrimento orizzontale esterno indesiderato.");
-            File.WriteAllBytes(Path.Combine(directory, $"bridge_design_{width:0}.png"), Ui.Snapshot(this));
+            File.WriteAllBytes(Path.Combine(directory, $"bridge_design_{width:0}.png"), Ui.Snapshot(Window));
         }
         File.WriteAllText(Path.Combine(directory, "smoke.txt"), "PASS: catalogo, quattro schede input, quattordici famiglie, sei schede risultati, listino, invalidazione, undo, A/B, auto, random, PNG, archivio, report Word singolo e di progetto, Home. Ottimizzazione: scheda autonoma, ricerca asincrona, nove variabili graficabili, nuvola completa, selezione da grafico, filtro Pareto, top N senza ricalcolo, preview senza mutazioni, selezione/applicazione fuori dalla top N, invalidazione listino, risultati vuoti, range invalidi, interruzione, cambio prezzo durante il calcolo, annullamento. Layout progetto, ottimizzazione e grafici 1600/1366/960/780. Vista XAML della Release (MvvmSheetEditor).");
     }
@@ -188,7 +188,7 @@ internal sealed class BridgeDesignSmoke(BridgeDesignSheetViewModel sheet, Bridge
     /// <summary>The sheet open in <paramref name="window"/>: the MVVM editor of Bridge Design and its view.</summary>
     internal static BridgeDesignSmoke Of(ISheetEditor editor, Window window)
     {
-        if (editor is not MvvmSheetEditor { Sheet: BridgeDesignSheetViewModel sheet }) throw new InvalidOperationException("Bridge Design non aperto con la vista MVVM: " + editor.Module);
+        if ((editor is MvvmSheetEditor mvvm ? mvvm.Sheet : (editor as ShellMvvmEditor)?.Hosted.Sheet) is not BridgeDesignSheetViewModel sheet) throw new InvalidOperationException("Bridge Design non aperto con la vista MVVM: " + editor.Module);
         window.UpdateLayout();
         return new(sheet, Ui.Descendants<BridgeDesignSheetView>(window).Single());
     }

@@ -10,7 +10,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     private async Task CheckBridgeStressView(BridgeSmoke bridge, Func<Task> wait, string directory)
     {
@@ -32,7 +32,7 @@ public sealed partial class MainWindow
         var physical = result.Stages.Last().Points.Select(p => p.Stress).ToArray();
         var rawLabel = "σc,sup " + result.Stages.Last().Points.First(p => p.Material == "CLS").Stress.ToString("0.##", CultureInfo.GetCultureInfo("it-IT"));
         Check(bridge.Drawing.StressLabels.Any(p => p.Text == rawLabel), "Valori CLS del diagramma non corrispondono alle tensioni reali.");
-        File.WriteAllBytes(Path.Combine(directory, "tensioni_campiture_auto.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "tensioni_campiture_auto.png"), Ui.Snapshot(Window));
         File.WriteAllBytes(Path.Combine(directory, "diagramma_campiture_auto.png"), Ui.Snapshot(bridge.Drawing));
         await SetScale("15,5");
         Check(bridge.ConcreteScaleAuto.IsChecked == false && bridge.Drawing.ConcreteAmplification == 15.5, "Fattore manuale con virgola non acquisito.");
@@ -81,7 +81,7 @@ public sealed partial class MainWindow
                 var labels = bridge.Drawing.StressLabels;
                 Check(labels.All(t => t.Bounds.Left >= 0 && t.Bounds.Top >= 0 && t.Bounds.Right <= bridge.Drawing.ActualWidth && t.Bounds.Bottom <= bridge.Drawing.ActualHeight), "Etichette delle tensioni fuori dal disegno.");
                 for (int i = 0; i < labels.Count; i++) for (int j = 0; j < i; j++) Check(!labels[i].Bounds.IntersectsWith(labels[j].Bounds), "Etichette delle tensioni sovrapposte.");
-                File.WriteAllBytes(Path.Combine(directory, $"tensioni_{mode}_{size.Item1:0}.png"), Ui.Snapshot(this));
+                File.WriteAllBytes(Path.Combine(directory, $"tensioni_{mode}_{size.Item1:0}.png"), Ui.Snapshot(Window));
             }
         }
         Width = 1600; Height = 990; bridge.DisplayChoice.SelectedIndex = 2; await Layout();

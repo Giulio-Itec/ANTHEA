@@ -4,7 +4,7 @@ using Anthea.Application.Modules;
 
 namespace X.Desktop;
 
-internal sealed partial class SheetEditor
+internal static class F3SchedulingChecks
 {
     internal static async Task CheckF3Scheduling(string root, string output)
     {

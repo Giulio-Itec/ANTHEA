@@ -8,7 +8,7 @@ using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     internal async Task SmokeMaterials(string directory)
     {
@@ -16,9 +16,9 @@ public sealed partial class MainWindow
         void Check(bool value, string message) { if (!value) throw new Exception(message); }
         ShowModules("Materiali");
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-        File.WriteAllBytes(Path.Combine(directory, "materiali-catalogo.png"), Ui.Snapshot(this));
-        var open = Ui.Descendants<Button>(dashboardBody).Single(b => b.Tag?.ToString() == "mat_calcestruzzo");
-        open.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        File.WriteAllBytes(Path.Combine(directory, "materiali-catalogo.png"), Ui.Snapshot(Window));
+        var open = ModuleButton("mat_calcestruzzo");
+        await Press(open);
         var active = editor?.Module == "mat_calcestruzzo" ? editor : throw new Exception("Scheda materiali non aperta");
         Check(Application.Current.Windows.Count == 1 && ReferenceEquals(body.Content, moduleView), "Materiali non integrato nella finestra principale");
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
@@ -27,10 +27,10 @@ public sealed partial class MainWindow
         var expected = (JsonObject)editor!.Data.DeepClone();
         ShowHome(); OpenModule("mat_calcestruzzo");
         Check(ReferenceEquals(active, editor), "Riprendi perde la scheda");
-        File.WriteAllBytes(Path.Combine(directory, "materiali-scheda.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "materiali-scheda.png"), Ui.Snapshot(Window));
         double previousWidth = Width; Width = 1200;
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-        File.WriteAllBytes(Path.Combine(directory, "materiali-scheda-1200.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "materiali-scheda-1200.png"), Ui.Snapshot(Window));
         Width = previousWidth;
         using (var independent = sheetEditors.Open("mat_calcestruzzo", Archivio.NuovoFoglio("mat_calcestruzzo")))
             Check(!JsonNode.DeepEquals(expected, independent.PreviewData), "Nuove schede ereditano modifiche di altre schede");
@@ -60,7 +60,7 @@ public sealed partial class MainWindow
         using (var restored = sheetEditors.Open("mat_calcestruzzo", editor.Data))
             Check(JsonNode.DeepEquals(invalid, restored.PreviewData), "Input incompleti o tolleranza non conservati");
         ShowProjects(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-        File.WriteAllBytes(Path.Combine(directory, "materiali-progetti.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "materiali-progetti.png"), Ui.Snapshot(Window));
         File.WriteAllText(Path.Combine(directory, "smoke.txt"), "OK: catalogo, icone, apertura interna, benchmark originali, modifiche, ripresa, salvataggio singolo e progetti, spostamento tra sottosezioni, riapertura, conservazione input incompleti e tolleranza.");
     }
 }

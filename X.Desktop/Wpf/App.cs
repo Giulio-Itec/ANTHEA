@@ -23,16 +23,27 @@ public partial class App : Application
             MessageBox.Show(error.Exception.Message, "ANTHEA — errore", MessageBoxButton.OK, MessageBoxImage.Error);
             error.Handled = true;
         };
-        // Composition root (F5.1, decision Q2): services created by hand; the main window keeps its own services (F1.4) and
-        // receives the editors of the sheets (F5.2).
+        // Composition root (F5.1, decision Q2): services created by hand. Since F5.13 g the window of the application is the new shell.
         Composition = new DesktopComposition(ActiveWindow);
-        var window = new MainWindow(Composition.WindowServices, Composition.SheetEditors);
-        MainWindow = window;
-        if (e.Args.Length == 2 && e.Args[0] == "--wiki")
-            window.Loaded += (_, _) => window.Safe(() => window.ShowWiki(e.Args[1]));
-        else if (e.Args.FirstOrDefault(a => !a.StartsWith("--")) is string path)
-            window.Loaded += (_, _) => window.Safe(() => { window.LoadFile(path); if (e.Args.Contains("--models")) window.ShowModelsHub(); });
-        window.Show();
+        StartShell(e.Args);
+    }
+
+    /// <summary>
+    /// The new shell (F5.13 g, in place of MainWindow) from its composition root (<see cref="ShellComposition"/>): the services of
+    /// <see cref="Composition"/> with the Wiki on the tab of the shell, the modules as <paramref name="implementations"/> choose them (by default the
+    /// Release, <see cref="ModuleImplementations.Release"/>), the command line as MainWindow read it (<see cref="Anthea.Presentation.Shell.StartupRequest"/>:
+    /// «--wiki articolo», a document opened from Explorer, «--models»), handled by the guard of the shell after the window is loaded. The window asks
+    /// before closing with sheets not saved (<see cref="Anthea.Presentation.Shell.ShellViewModel.ConfirmClose"/>). The UiTests build reuses it for --interactive-shell.
+    /// </summary>
+    internal void StartShell(IReadOnlyList<string> args, ModuleImplementations? implementations = null)
+    {
+        var services = ShellComposition.WithShellWiki(Composition!.Services);
+        var parts = ShellComposition.Create(services, Composition.Modules, Composition.Limiter, ShellComposition.ExamplesFolder, implementations: implementations);
+        MainWindow = parts.Window;
+        var request = Anthea.Presentation.Shell.StartupRequest.Parse(args);
+        parts.Window.Loaded += (_, _) => parts.Shell.Start(request);
+        parts.Window.Closed += (_, _) => parts.Shell.Dispose();
+        parts.Window.Show();
     }
 
     /// <summary>Services of the presentation layer, created at startup by the composition root; null while a WPF check runs.</summary>

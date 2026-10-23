@@ -8,7 +8,7 @@ using Anthea.Presentation.Modules.BridgeDesign;
 using X.Core;
 
 namespace X.Desktop;
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     /// <summary>
     /// ui/smoke-bridge-traffic on the XAML view of Bridge Design, as the Release opens it since the switch of 23/10/2026 (BridgeDesignSmoke): the same
@@ -22,7 +22,7 @@ public sealed partial class MainWindow
         {
             Width = 1600; Height = 1000; WindowState = WindowState.Normal;
             document = Archivio.Documento(BridgeConcept.Module); dirty = false; currentSheet = null; ShowSheet(document);
-            var smoke = BridgeDesignSmoke.Of(editor ?? throw new Exception("Bridge Design non aperto."), this);
+            var smoke = BridgeDesignSmoke.Of(editor ?? throw new Exception("Bridge Design non aperto."), Window);
             var sheet = smoke.Sheet; var view = smoke.View;
             async Task Settle() { await sheet.WaitForCalculationAsync(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); }
             await Settle(); Check(sheet.Calculation?.Traffic is not null, "New sheet does not calculate traffic envelope");
@@ -41,7 +41,7 @@ public sealed partial class MainWindow
             {
                 Appearance.Set(mode, false); await Settle();
                 view.OutputTabs.BringIntoView(); UpdateLayout();
-                File.WriteAllBytes(Path.Combine(directory, "traffic-" + mode + ".png"), Ui.Snapshot(this));
+                File.WriteAllBytes(Path.Combine(directory, "traffic-" + mode + ".png"), Ui.Snapshot(Window));
                 Check(Ui.Descendants<TextBox>(view).Count(t => t.DataContext is BridgeDesignParameter { Group: "assumptions", Key: "gamma_q" }) == 1, "Duplicate traffic coefficient editor");
             }
         }

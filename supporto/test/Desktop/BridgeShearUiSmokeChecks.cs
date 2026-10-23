@@ -7,7 +7,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     private async Task CheckBridgeShearUi(string directory)
     {
@@ -16,7 +16,7 @@ public sealed partial class MainWindow
         var data = BridgeSection.Defaults(); data["pioli"] = true; data["irrigidimenti"] = true; data["t_irr"] = 25;
         data.Array("fasi")[1]!["V"] = 600; data.Array("fasi")[2]!["V"] = 500;
         using var bridge = OpenBridge(data); data = bridge.Data;
-        var window = Ui.Dialog(this, "Prova taglio pioli e contouring", bridge.View, 1600, 990); window.Show();
+        var window = Ui.Dialog(Window, "Prova taglio pioli e contouring", bridge.View, 1600, 990); window.Show();
         try
         {
             async Task Layout() { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); window.UpdateLayout(); }

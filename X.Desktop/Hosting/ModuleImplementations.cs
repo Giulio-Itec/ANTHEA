@@ -3,7 +3,7 @@ namespace X.Desktop;
 /// <summary>Implementation that opens the sheets of a module in the window (proposal F5, section 5.2).</summary>
 internal enum SheetImplementation
 {
-    /// <summary>The historic view, <see cref="SheetEditor"/>.</summary>
+    /// <summary>No view: the historic SheetEditor is archived (F5.13 g); a sheet of a module not listed, or chosen so, is refused (SheetEditorFactory.NoView). Kept as the value of the modules not listed (question G1, F5.15 §15.3).</summary>
     Historic,
     /// <summary>The ViewModel of the migrated module, hosted by <see cref="MvvmSheetEditor"/>.</summary>
     Mvvm

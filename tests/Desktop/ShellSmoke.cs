@@ -88,12 +88,13 @@ internal sealed class ShellSmokeBench : IDisposable
     internal TreeView Tree => (TreeView)Window.FindName("Tree");
 
     /// <summary>The shell from its composition root with the modules of the product, as the Release chooses them with the bench pairs of the command line.</summary>
-    internal static async Task<ShellSmokeBench> OpenAsync(string output)
+    /// <param name="modules">The modules of the shell; by default those of the product (F5.13 g: ui/check-module-host-offscreen passes the registry with its probe).</param>
+    internal static async Task<ShellSmokeBench> OpenAsync(string output, ModuleRegistry? modules = null)
     {
         var services = new BenchSheetServices();
         var presentation = ShellComposition.WithShellWiki(services.Create());
         var detached = new List<QuietShellWindow>();
-        var parts = ShellComposition.Create(presentation, DesktopComposition.CreateModules(), new CalculationLimiter(CalculationLimiter.DefaultMaximum), ShellComposition.ExamplesFolder,
+        var parts = ShellComposition.Create(presentation, modules ?? DesktopComposition.CreateModules(), new CalculationLimiter(CalculationLimiter.DefaultMaximum), ShellComposition.ExamplesFolder,
             window => { var quiet = new QuietShellWindow(Offscreen(window)); detached.Add(quiet); return quiet; }, ModuleHostBench.Implementations(Environment.GetCommandLineArgs()));
         var bench = new ShellSmokeBench(output, services, presentation, parts, detached);
         Offscreen(parts.Window).Show();
@@ -262,32 +263,25 @@ internal sealed class ShellSmokeBench : IDisposable
     }
 }
 
-/// <summary>A sheet of the shell as the suites drive it: the historic SheetEditor (the Release) or the XAML view (the bench <c>--module-impl</c>).</summary>
+/// <summary>
+/// A sheet of the shell as the suites drive it: the XAML view of its module (until F5.13 g also the historic SheetEditor of the ospite R5, archived in
+/// supporto/SUPERATI/ui-storica/shell).
+/// </summary>
 internal sealed class ShellSheet(ShellSmokeBench bench, SheetSession session)
 {
     internal SheetSession Session { get; } = session;
     internal ISheetViewModel ViewModel => Session.ViewModel;
-
-    /// <summary>The historic editor hosted by the tab (HistoricSheetViewModel), null for a sheet with the XAML view.</summary>
-    internal SheetEditor? Historic => (ViewModel as HistoricSheetViewModel)?.Editor as SheetEditor;
 
     /// <summary>The XAML view of the sheet in its tab.</summary>
     internal HostedSheet Hosted => new(ViewModel, () => bench.ViewOf(ViewModel));
 
     internal JsonObject Data => ViewModel.Data;
 
-    /// <summary>The control that shows the sheet: the SheetEditor, or the presenter of the XAML view.</summary>
-    internal FrameworkElement View => Historic is { } historic ? historic : bench.ViewOf(ViewModel);
-
-    /// <summary>The historic checks of the open sheet (OpenSheet), only for the historic editor.</summary>
-    internal OpenSheet HistoricChecks => new(Historic ?? throw new InvalidOperationException("Il foglio usa la vista MVVM: " + ViewModel.ModuleId), bench.Services);
+    /// <summary>The control that shows the sheet: the presenter of the XAML view.</summary>
+    internal FrameworkElement View => bench.ViewOf(ViewModel);
 
     /// <summary>SetGeometryForSmoke: the diameter of a vertical pile as the user types it.</summary>
-    internal void SetGeometry(string value)
-    {
-        if (Historic is { } historic) historic.SetGeometryForSmoke(value);
-        else new VerticalPileSmoke(Hosted, bench.Services).SetGeometry(value);
-    }
+    internal void SetGeometry(string value) => new VerticalPileSmoke(Hosted, bench.Services).SetGeometry(value);
 
     /// <summary>The state of the concrete set through the controls of its XAML view (the only one since the Release switch of the materials).</summary>
     internal void SetConcreteState(JsonObject state) => new ConcreteMaterialSmoke(Hosted).Apply(state);
@@ -298,8 +292,8 @@ internal sealed class ShellSheet(ShellSmokeBench bench, SheetSession session)
     /// <summary>The type of the reinforcing steel, chosen as the user chooses it.</summary>
     internal SteelSmoke Steel => new(new ShellMvvmEditor(Hosted));
 
-    /// <summary>WaitForAutomatic of the sheet, either view.</summary>
-    internal Task WaitForAutomatic() => Historic is { } historic ? historic.WaitForAutomatic() : MvvmSheets.WaitForAutomatic(Hosted);
+    /// <summary>WaitForAutomatic of the sheet.</summary>
+    internal Task WaitForAutomatic() => MvvmSheets.WaitForAutomatic(Hosted);
 }
 
 /// <summary>
@@ -321,13 +315,18 @@ internal sealed class ShellMvvmEditor(HostedSheet sheet) : ISheetEditor
     public event Action<JsonObject>? SoilReplacementRequested { add { } remove { } }
     public Func<IEnumerable<(string Label, string Module, JsonObject Data, string Id)>>? SoilSources { get; set; }
     public void Commit() => sheet.Sheet.Commit();
-    public Task CalculateAsync(bool commitEdits = true) => sheet.CalculateAsync();
+    public Task CalculateAsync(bool commitEdits = true) => sheet.CalculateAsync(commitEdits);
     public void InspectRevision() => sheet.Sheet.IsReadOnly = true;
-    public void ExportResult(string filename) => throw new NotSupportedException();
-    public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false) => throw new NotSupportedException();
-    public byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => throw new NotSupportedException();
-    public byte[] BuildShortReport(string title) => throw new NotSupportedException();
-    public ReportProject.SheetContent MaterialReportContent() => throw new NotSupportedException();
+    // F5.13 g: the files and reports as MvvmSheetEditor writes them (the code shared with the shell), for the suites passed from MainWindow.
+    public void ExportResult(string filename) => sheet.ExportResult(filename);
+    public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false) =>
+        Anthea.Presentation.Shell.Commands.SheetFileExports.WriteReport(sheet.Sheet, filename, title, options, projectReport);
+    public byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => sheet.BuildReport(title, options, projectReport);
+    public byte[] BuildShortReport(string title) => sheet.BuildShortReport(title);
+    public ReportProject.SheetContent MaterialReportContent() => sheet.Sheet is Anthea.Presentation.Modules.Materials.IMaterialSheetViewModel material ? material.ReportContent()
+        : throw new InvalidOperationException("Capitolo dei materiali non disponibile per il modulo " + Module + ".");
+    /// <summary>The sheet and its view in the tab.</summary>
+    internal HostedSheet Hosted => sheet;
     public void Dispose() { }
 }
 

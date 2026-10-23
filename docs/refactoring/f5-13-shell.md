@@ -1275,3 +1275,227 @@ si ritira con la parte (g), insieme a `SheetEditor` e `MainWindow`.
 
 Esito sul ramo, con la sezione composta e Bridge Design passati (`ci/20261023-131014-fps-shell`): PASS 80 controlli; il passo ha usato
 `geo_fondazioni_superficiali` e `geo_palo_verticale`.
+
+## 14. Parte (g): la shell nuova nella Release e il ritiro di MainWindow
+
+Agente `f5-13-g`, 23/10/2026 sera, ramo `refactoring/f5-13-g` da `refactoring/f5` 67eafba5. Fonti: istruzioni del coordinatore
+(`ANTHEA-f5-ripresa\istruzioni-agenti\prompt-f5-13-g.md`), sezioni 1, 10.2, 12 e 13 di questa nota, [f5-ripresa.md](f5-ripresa.md) («Come si passa
+un modulo nella Release»), [f5-suite-ui.md](f5-suite-ui.md) sezione 4, il commit 7d53d9dc di `prova/f5-viste-3` (avvio `--shell-nuova` della
+prova f5f, solo letto).
+
+Decisione dell'utente del 23/10, «Moduli ora, shell dopo»: **il ramo non si unisce** finché l'utente non ha provato la shell nuova (parte f, prova
+f5f). Lo unisce il coordinatore. Le istruzioni chiamavano questa sezione «13»: la 13 c'era già (passo R5 della bozza), quindi è la 14.
+
+### 14.1 Inventario di ciò che si ritira (aggiorna 1.1 a 67eafba5)
+
+Tutti i 15 moduli aprono la vista MVVM nella Release (`ModuleImplementations.Declared`, nessun `Historic`). La Release apre ancora `MainWindow`
+(`App.OnStartup`). `MainWindow` non ha XAML: è una partial in 15 file, 2 134 righe, come in 1.1.
+
+| Codice (righe) | Uso a 67eafba5 | Destinazione |
+| --- | --- | --- |
+| `X.Desktop/Wpf/MainWindow*.cs` (5 file, 666), `Project*.cs` (10 file, 1 468) | finestra storica, aperta da `App.OnStartup` e da molte prove | `supporto/SUPERATI/ui-storica/shell/` |
+| `X.Desktop/Wpf/SheetEditor.cs` (80) | guscio senza fogli: il costruttore rifiuta ogni modulo. `GeoEditor` è già in `ui-storica/palo-verticale` | archivio |
+| `X.Desktop/Hosting/HistoricSheetViewModel.cs` (132), `Views/Shell/HistoricSheetHost.cs` (35), ramo storico di `ReleaseSheetFactory` e di `DesktopSheetExports` (`ShellSheets.cs`) | ospite R5 (10.2): nessun modulo storico, mai usato | archivio |
+| `SheetImplementation.Historic`, `ModuleHostBench` con `=historic` | scelta storica: nessun modulo la usa | da togliere o motivare (scelta provvisoria, F5.15 §15.3) |
+| passo `HistoricHost` di `ui/check-shell-draft` (sezione 13) | già «non applicabile» senza moduli storici | archivio |
+| `X.Desktop/Wpf/WpfDesktopServices.cs` (78), `Services/DesktopServices.cs` (7), `DesktopComposition.WindowServices` | servizi della finestra storica (F1.4), solo `MainWindow` | archivio |
+| `tests/Desktop/HistoricSheetEditor.cs` (13), `supporto/test/Desktop/TestServices.cs` (61), `MainWindow.Tests.cs` (15) | prove della finestra storica | archivio |
+| rami `MainWindow` di `WikiContextHelp.cs`, `CalculationHelpView.cs`, `WpfWikiNavigator` (`WpfPresentationServices.cs`) | aiuto contestuale nella finestra storica | si toglie il ramo; resta quello della shell |
+| `WikiEditorial.cs` usa `MainWindow.WikiExamples.Definition` | articoli con esempio | `Anthea.Presentation.Shell.Navigation.WikiExamples` (stesso codice, 10.1) |
+
+Restano: `ISheetEditor`, `MvvmSheetEditor` (usato in produzione dalla verifica c.a. del palo orizzontale, `ConcreteVerifierSection`, e dalle prove
+F3), `SheetEditorFactory` (prove F3 e banco), `RevisionInspection` (viste MVVM), `DisplayAdaptation` e `WikiView` (shell), `ShellComposition`.
+
+### 14.2 Prove che aprono MainWindow o ne confrontano i valori
+
+| Suite | Uso di `MainWindow` | Passo |
+| --- | --- | --- |
+| `ui/shell-capture` | cattura dello stesso progetto in `MainWindow` (`mainwindow/`, 14 file) | 2: valori in `tests/fixtures/f5-shell/` |
+| `ui/shell-smoke-project-report` | report Word della sezione di `MainWindow.GenerateSectionReport` | 2: chiamata registrata e valori nella fixture |
+| `ui/check-shell-draft` | dati di `MainWindow.WikiExamples` | 2: valori nella fixture |
+| `ui/f3-equivalence` | `MainWindow.CaptureF3Project` (report di progetto con `SectionReportSnapshot` e `GenerateSectionReport`) | 3: la stessa chiamata di `DesktopSectionReports` |
+| `ui/smoke-projects`, `-project-workspace`, `-hierarchy`, `-sharing`, `-project-report`, `-display` | lavoro della finestra | sostituite da `ui/shell-smoke-*` (12.1): si archiviano con `MainWindow` |
+| `ui/smoke-material-report` | `SmokeProjectReport(materialsOnly)` | 3: sulla shell (coperta in parte da `ui/shell-smoke-project-report`) |
+| `ui/smoke`, `ui/smoke-materials`, `ui/smoke-steel`, `ui/smoke-retaining-wall`, `ui/smoke-global-stability`, `ui/smoke-horizontal` | contenitore di un foglio, Home, «Moduli singoli», progetti | 3: sulla shell (`ui/smoke-global-stability` fatta, 8d1da789) |
+| `ui/smoke-bridge`, `-bridge-predalle`, `-bridge-curves`, `-bridge-design`, `-bridge-traffic`, `-bridge-prices` | contenitore (13 file di prova `Bridge*`) | 3: sulla shell |
+| `ui/smoke-section-actions`, `-ca-features`, `-ca-extensions`, `-neutral-axis` | contenitore della sezione c.a. | 3: sulla shell |
+| `ui/check-appearance`, `ui/check-wiki-offscreen`, `ui/check-examples`, `ui/check-module-host-offscreen` | tema, Wiki, esempi, ospite nella finestra | 3: sulla shell (`ui/check-examples` fatta, 446e5dbd) |
+| `ui/check-contrast` (`ContrastAudit.cs`) | finestre e pagine di `MainWindow` | 3 e 5: sulla shell; non si esegue a 144 DPI |
+| `ui/f3-figures`, `ui/f3-scheduling` | metodi statici in partial di `SheetEditor` (`F3FigureChecks.cs`, `F3SchedulingChecks.cs`), nessun foglio storico | 4: classi proprie |
+| `ui/f3-report-chapters`, `ui/check-error-log-offscreen` | nessuno a 67eafba5 (solo `ISheetEditor` e `ErrorLog`) | nulla da fare |
+
+### 14.3 Piano dei sottopassi
+
+Commit piccoli; ognuno compila e tiene verde il profilo quick.
+1. **Riferimenti prima del ritiro** (passo 2 delle istruzioni). Valori di `MainWindow` registrati in `tests/fixtures/f5-shell/`; `ui/shell-capture`,
+   `ui/shell-smoke-project-report` e `ui/check-shell-draft` confrontano con quelli.
+2. **`ui/f3-equivalence` senza `MainWindow`**: il report del progetto con la chiamata di `DesktopSectionReports`, identica a quella di
+   `MainWindow.GenerateSectionReport`. Stessi esiti, 0 differenze, catture di riferimento intatte.
+3. **Avvio.** `App.OnStartup` apre la shell (`ShellComposition`) in Release; restano argomenti, file aperti da Esplora risorse (`StartupRequest`),
+   registro degli errori, tema, conferma dei fogli non salvati alla chiusura. Singola istanza: non c'è oggi, non si aggiunge. `qa/no-test-code` verde.
+4. **Suite contenitore sulla shell**, una o poche per commit, con il banco della parte (e) (`ShellSmokeBench`).
+5. **Ritiro** in `supporto/SUPERATI/ui-storica/shell/` con `README.md` e `registro.json`; baseline di architettura solo in discesa.
+6. **Contrasto** (D12) e **testi proposti** per la guida pratica e la Wiki (14.6).
+
+### 14.4 Fatto
+
+| Commit | Contenuto | Verifiche |
+| --- | --- | --- |
+| 19501143 | sezioni 14.1–14.3 | — |
+| e1f5443f | valori di `MainWindow` in `tests/fixtures/f5-shell/` (README accanto): `cattura-mainwindow/` (14 file, `-text` in `.gitattributes`), `finestra-storica.json` (esempio della Wiki, parti del report Word della sezione); `tests/Desktop/ShellReferences.cs` | `ui/shell-capture`, `ui/shell-capture-confronto`, `ui/shell-smoke-project-report`, `ui/check-shell-draft` PASS (`ci/20261023-195731-f5-13-g-rif2`) |
+| 2d98cd07 | `ui/f3-equivalence` senza `MainWindow`: il report del progetto F3 con `ProjectReportService.Snapshot` e `DesktopSectionReports`, le stesse chiamate; passo «Esc» della bozza che aspetta lo stato (nota del coordinatore) | `ui/f3-equivalence` PASS 119 fixture, 77 articoli, 30 ricerche, 1 201 file, 0 differenze non ammesse (`ci/20261023-195917-f5-13-g-f3`) |
+| b09fc0eb | la Release apre la shell: `App.OnStartup` → `App.StartShell` (anche per `--interactive-shell`) | quick PASS 55 con `qa/no-test-code` (`ci/20261023-200334-f5-13-g-avvio`) |
+| 0661f1bf | `SheetEditor`, ospite R5 (`HistoricSheetViewModel`, `HistoricSheetHost`, passo `HistoricHost`), `HistoricSheetEditor.cs` in `supporto/SUPERATI/ui-storica/shell/` con `README.md` e `registro.json`; rami storici tolti (fabbriche, esportazioni, `OpenSheet`, `ShellSheet`, `ContrastAudit`), `=historic` del banco rifiutato; `F3FigureChecks` e `F3SchedulingChecks` classi statiche | `ui/smoke`, `ui/check-module-host-offscreen`, `ui/f3-figures`, `ui/f3-scheduling`, `ui/check-shell-draft`, le sei `ui/shell-smoke-*` PASS (`ci/20261023-202658-f5-13-g-r5`); quick PASS 55 |
+| 446e5dbd | `ui/check-examples` sulla shell (`ShellSmokeBench`): pagina «Esempi», documento attivo, `Workspace.OpenFile` | PASS 20 controlli, come prima (`ci/20261023-204850-f5-13-g-es`) |
+| 8d1da789 | `ui/smoke-global-stability` sulla shell; `MvvmWallSmoke` su `HostedSheet`; `AppHarness.ShellSmokes`: le smoke passate alla shell con la stessa bandiera e la stessa prova | PASS 14 controlli; `ui/smoke-retaining-wall` PASS (`ci/20261023-205118-f5-13-g-gs`) |
+
+**Seconda parte** (ripresa chiesta dal coordinatore, sera del 23/10): le suite contenitore sulla shell, con la facciata `ShellSmokeWindow`
+(`tests/Desktop/ShellSmokeWindow.cs`). I membri di `MainWindow` che le suite usavano (`document`, `editor`, `openSheet`, `dirty`, `currentSheet`,
+`ShowSheet`, `Commit`, le pagine, «Riprendi», `LoadFile`, le copie in un altro modulo, l'albero) sono i comandi della shell che l'utente preme, sul banco della
+parte (e), fuori dallo schermo. Le suite restano partial, ma di `ShellSmokeWindow`: passi e asserzioni non cambiano. `AppHarness.ShellSmokes` le fa girare
+sulla shell con la stessa bandiera e la stessa prova.
+
+| Commit | Contenuto | Verifiche |
+| --- | --- | --- |
+| 811e3210 | banchi `ConcreteSectionSmoke`, `BridgeSmoke`, `HorizontalPileSmoke` su `HostedSheet` | build |
+| f3108856 | `ui/smoke-section-actions`, `ui/smoke-ca-extensions`, `ui/smoke-ca-features`, `ui/smoke-neutral-axis` | PASS, con `ui/smoke-bridge-curves`, `ui/smoke-horizontal`, `ui/check-concrete-design` (`ci/20261023-214841-f5-13-g-ca`) |
+| d404aa9a | `ShellSmokeWindow`; le sei `ui/smoke-bridge*` | PASS (`ci/20261023-215615-f5-13-g-br`) |
+| b5ab61e0 | `ui/smoke-materials`, `ui/smoke-steel`, `ui/smoke-retaining-wall`; domanda F5-61 (G6) | PASS (`…-f5-13-g-mod2`) |
+| 495d0d7f | `ui/check-appearance` (46 controlli), `ui/smoke-material-report` | PASS (`…-f5-13-g-app`) |
+| f9cfa1d8 | `ui/check-module-host-offscreen`: la sonda si apre nella shell | PASS 55 (`…-f5-13-g-mh`) |
+| 4651347c | `ui/check-wiki-offscreen`: integrazione con la finestra sulla shell | PASS 3 439 controlli (`…-f5-13-g-wk2`) |
+
+**Corse finali della seconda parte** su bb680b96: profilo standard PASS 78, 0 fallimenti (`ci/20261023-222108-f5-13-g-fine2`); `-Stage build,ui` PASS 47, 0 fallimenti (`ci/20261023-225002-f5-13-g-ui2`): `ui/f3-equivalence` PASS 119 fixture, 1 201 file «uguali entro le tolleranze», 0 differenze non ammesse; le 23 `ui/smoke*`, `ui/check-appearance`, `ui/check-wiki-offscreen`, `ui/check-examples`, `ui/check-module-host-offscreen`, `ui/check-concrete-design`, le tre prove fuori schermo dei muri, `ui/check-error-log-offscreen`, `ui/f3-report-chapters`, `ui/f3-figures`, `ui/f3-scheduling`, `ui/check-shell-draft`, le sei `ui/shell-smoke-*`, `ui/shell-capture` e `ui/shell-capture-confronto`.
+
+Restano su `MainWindow`: `ui/smoke` e `ui/smoke-horizontal` (domanda G6), `ui/check-contrast` (G2) e le sei suite storiche già sostituite da
+`ui/shell-smoke-*`, che si archiviano con lei. `ui/shell-capture`, `ui/shell-smoke-project-report` e `ui/check-shell-draft` confrontano ancora anche con
+`MainWindow`, finché c'è.
+
+**Corse finali** su 1d54fd14: profilo standard PASS 78, 0 fallimenti (`ci/20261023-205347-f5-13-g-fine`); `-Stage build,ui` mirata PASS 43, 0 fallimenti
+(`ci/20261023-212318-f5-13-g-ui`): `ui/f3-equivalence` PASS 119 fixture, 77 articoli, 30 ricerche, report di progetto, 1 201 file «uguali entro le
+tolleranze», 0 differenze non ammesse; `ui/f3-report-chapters`, `ui/f3-figures`, `ui/f3-scheduling`; le 23 `ui/smoke*` (comprese le due portate);
+le sei `ui/shell-smoke-*`, `ui/shell-capture` e `ui/shell-capture-confronto`; `ui/check-shell-draft`, `ui/check-examples`,
+`ui/check-module-host-offscreen`, `ui/check-error-log-offscreen` e le tre prove fuori schermo dei muri. `ui/check-contrast` non eseguita (144 DPI).
+
+Che cosa vede l'utente nella Release: la shell nuova della prova f5f, con le correzioni arrivate fino a 67eafba5. Avvio, registro degli errori e
+tema non cambiano; `--wiki`, il documento aperto da Esplora risorse e `--models` sono letti da `StartupRequest` come faceva `MainWindow`.
+
+Riferimenti: nessun riferimento congelato cambiato. Le catture F3 e le transizioni sono intatte. La fixture nuova è solo aggiunta. Baseline di
+architettura invariate: `tests/fixtures/f3/architecture.json` ha ancora le voci di `X.Desktop/Wpf/SheetEditor.cs`. Sono tetti per un file che non
+c'è più, come quelle dei workspace già archiviati: si possono togliere insieme a quelle di `MainWindow`.
+
+### 14.5 Contrasto (D12)
+
+`tests/fixtures/f5/contrasto-chiara.json` ha 699 occorrenze in 187 voci. 162 voci, con 559 occorrenze, hanno una chiave che comincia da
+`MainWindow`. Quasi tutte vengono da `MainWindow > SheetEditor > <workspace storico>`, cioè dalle viste storiche dei moduli già archiviate, e restano
+dalla cattura prima di F5.3. Portarle alle chiavi della shell a totale invariato richiede una corsa di `ui/check-contrast` a 96 DPI con
+`ContrastAudit` portata sulla shell: `ContrastAudit.cs` è una partial di `MainWindow` di 1 999 righe. Qui non si esegue (schermo a 144 DPI).
+
+**Domanda G2:** la conversione delle voci della Chiara si fa con la porta di `ContrastAudit` alla shell e una corsa a 96 DPI, nello stesso
+commit. Va ripetuta a 96 DPI.
+
+### 14.6 Guida pratica e Wiki: testo attuale e testo proposto
+
+Gli articoli della Wiki su Home, progetti e revisioni sono generati dai capitoli della guida pratica: `src/ANTHEA.Wiki/Content/sources.props` ha
+`guida-pratica-anthea.md` fra le fonti. Basta quindi un testo per la guida e per la Wiki. Il coordinatore lo applica nella revisione Rev59 dopo
+l'unione, con PDF, indici e impronte. La guida, i PDF e gli articoli non sono toccati qui.
+
+**«Avvio e scelta del modulo» → «Avviare la versione aggiornata», quarto capoverso.**
+- Attuale: «La Home consente di entrare nel catalogo, riprendere il lavoro della sessione o organizzare i fogli in un progetto. Il pulsante Riprendi
+  conserva l'editor e il suo stato finché l'applicazione resta aperta. […]»
+- Proposto: «La barra a sinistra, sempre visibile, porta a Home, Progetti, Modelli, Moduli singoli, Esempi e Wiki e contiene Apri, Salva e Salva con
+  nome. Ogni foglio aperto ha una scheda: si possono tenere aperti insieme più file di calcolo singoli; Nuovo apre una scheda, un file già aperto si
+  attiva, il punto «•» segnala un foglio non salvato. Riprendi · nome, nella Home, torna all'ultimo foglio. Una scheda si sposta in una finestra
+  separata (Sposta in una nuova finestra), torna con Riaggancia oppure occupa tutta la finestra (Pagina intera, Esc per uscire). La Wiki si apre in
+  una scheda; F1 e i pulsanti «?» la aprono sull'argomento del foglio. Le schede restano aperte finché l'applicazione è aperta, ma non salvano su
+  disco: prima di chiudere usare Salva o Salva con nome. Alla chiusura ANTHEA chiede che cosa fare dei fogli non salvati.»
+
+**«Leggere e compilare i campi», ultimo capoverso.**
+- Attuale: «La finestra segue l'ingrandimento di Windows. […] I divisori nella composizione dei progetti permettono di allargare l'albero o il
+  catalogo. […]»
+- Proposto: «La finestra segue l'ingrandimento di Windows. Sotto 1120 × 680 la finestra scorre; i fogli che non si adattano alla larghezza tengono
+  1120 × 600 e scorrono nella loro scheda. I pannelli più stretti si dispongono verticalmente; le tabelle possono mantenere uno scorrimento proprio.
+  Nei progetti l'albero è una colonna della finestra, che «▸» chiude e riapre. […]» (il resto invariato).
+
+**«Progetti e gestione del lavoro» → «Costruire una struttura leggibile», primi due capoversi.**
+- Attuale: «La pagina di composizione presenta le informazioni del progetto a sinistra, l'albero al centro e il catalogo dei fogli a destra. […]
+  Il menu contestuale delle sezioni offre rinomina, duplicazione ed eliminazione. Nei fogli la freccia nella barra mostra o nasconde l'albero
+  laterale. Torna al progetto riapre il riepilogo.»
+- Proposto: «Nella pagina Progetti l'albero del progetto è la colonna accanto alla barra di navigazione; al centro c'è il riepilogo della sezione
+  selezionata, con Schede da aggiungere. Creare il progetto, assegnargli un nome utile e aggiungere sezioni. […] Trascinare una scheda da Schede da
+  aggiungere nel contenitore desiderato, oppure fare doppio clic per aggiungerla alla sezione selezionata. Durante il trascinamento un indicatore e
+  un suggerimento («Inserisci in», «Prima di», «Dopo», «Sposta dentro») mostrano dove andrà l'elemento. Un clic sul nome di una sezione ne apre il
+  riepilogo; doppio clic o F2 consentono di rinominare; Invio, Esc o un clic fuori dal nome chiudono la rinomina. Il menu di un nodo offre Apri, Apri
+  in una nuova finestra, Apri a pagina intera, Rinomina, Duplica, Sottosezione, Report Word della sezione ed Elimina. Il simbolo di coerenza accanto
+  a una sezione apre il confronto dei dati comuni. Torna al progetto riapre il riepilogo.»
+
+**«Spostare duplicare e annullare», terzo capoverso.**
+- Attuale: «Annulla e Ripristina del progetto conservano fino a 30 stati della sessione. […]»
+- Proposto, in aggiunta: «Dopo Annulla o Ripristina le schede aperte restano aperte e mostrano i dati ripristinati; una scheda il cui foglio non
+  esiste più si chiude con un avviso. Quando un aggiornamento dei dati comuni ricarica una scheda aperta, la scheda lo dice in una riga sotto la
+  barra («Aggiornato da «foglio»: …»).»
+
+**«Usare le revisioni», secondo capoverso.**
+- Attuale: «Le revisioni archiviate si consultano nella stessa finestra, con gli input protetti […]»
+- Proposto, in aggiunta: «Mentre si consulta una revisione archiviata le schede del progetto si aprono in sola lettura; le schede dei fogli che
+  nella revisione non esistono si chiudono e si riaprono, nel loro ordine, tornando alla versione corrente.»
+
+**«Report del ramo e compatibilità degli archivi», primo capoverso.**
+- Attuale: «Genera report esporta il progetto o la sezione selezionata […]»
+- Proposto, in aggiunta: «Il report si chiede con Genera report nel riepilogo oppure con Report Word della sezione nel menu del nodo. Se ci sono
+  differenze o avvisi, un controllo prima del report propone Apri confronto, Genera con segnalazioni e Annulla. Una finestra mostra l'avanzamento;
+  Annulla interrompe al termine del calcolo in corso e non sovrascrive un file esistente.»
+
+**Immagini.** La guida non ha immagini della finestra storica. Se servono immagini della shell, le producono le prove della bozza
+(`ui/check-shell-draft`, 20 PNG dopo il ritiro dell'immagine 21).
+
+### 14.7 Domande nuove e scelte provvisorie
+
+| # | Domanda | Opzione presa |
+| --- | --- | --- |
+| G1 | `SheetImplementation.Historic` senza viste storiche | resta come valore dei moduli non elencati, che si rifiutano con il testo di `SheetEditor` (`SheetEditorFactory.NoView`); togliere l'enumerazione e `ModuleImplementations` è un riordino da fare in F5.15. Registrata in f5-15 §15.3 |
+| G2 | Voci della Chiara con chiave `MainWindow` (14.5) | si convertono con la porta di `ContrastAudit` alla shell e una corsa a 96 DPI; finché `MainWindow` c'è, restano |
+| G3 | `MvvmSheetEditor` e `SheetEditorFactory` dopo il ritiro di `MainWindow` | restano: `MvvmSheetEditor` serve in produzione alla verifica c.a. del palo orizzontale (`ConcreteVerifierSection`); la fabbrica serve alle prove F3 e al banco |
+| G4 | `ui/f3-equivalence` sulla shell | il report del progetto passa dallo scrittore della shell; i fogli restano aperti con `MvvmSheetEditor`, come oggi, per non cambiare la visita dei controlli (`Visit`) contro le catture congelate |
+| G5 | `CheckBridgeOptions` (`ui/smoke-bridge`) vuole il fuoco della tastiera su un campo | `Activate()` della facciata attiva la finestra della shell fuori dallo schermo, come prima `MainWindow` (che però era sullo schermo); da rivedere se le prove non devono mai attivare finestre |
+| G6 | A 1920 × 1080 la pagina principale del palo orizzontale scorre in verticale nella shell (790,7 contro 751,3 px; 2 314 contro 658 con l'albero accanto, SH24): F5-61 «da-decidere» in `registro-differenze.json` | `ui/smoke` e `ui/smoke-horizontal` restano su `MainWindow`, che quindi non si archivia. Opzioni: accettare la differenza e controllare l'area della scheda (come SH40 in `ui/shell-smoke-display`), oppure dare alla scheda la stessa altezza di `MainWindow` (cambio della disposizione) |
+
+### 14.8 Cosa resta e come riprendere
+
+Il ramo è a un punto fermo, unibile e verde: la Release apre la shell, tutte le suite contenitore tranne due girano sulla shell, `MainWindow` è ancora
+compilata. Il ritiro (punto 2 delle istruzioni del coordinatore) è fermo su due domande:
+- **G6** (F5-61): `ui/smoke` e `ui/smoke-horizontal` aprono ancora `MainWindow`. Decisa la G6, si portano come le altre: `SmokeChecks.cs` e
+  `HorizontalSmokeChecks.cs` diventano partial di `ShellSmokeWindow`, `tree` diventa `SelectInTree` e le due bandiere vanno in `AppHarness.ShellSmokes`.
+  La prova è già stata fatta la sera del 23/10: le due suite passano fino al controllo di Full HD.
+- **G2**: `ContrastAudit` (1 999 righe, partial di `MainWindow`) guida viste e dialoghi della finestra storica (`ShowProjectOverview`, `ShowCoherence`,
+  revisioni, `sheetContent`). Portarla sulla shell cambia le chiavi della Chiara (D12), e la porta si può verificare solo con una corsa a 96 DPI. Non l'ho
+  portata, perché non potevo eseguirla.
+
+Poi il **ritiro di `MainWindow`**, in un commit:
+- in `supporto/SUPERATI/ui-storica/shell/`, con il registro:
+  - i 15 file di `X.Desktop/Wpf/` (14.1);
+  - `WpfDesktopServices`, `DesktopServices`, `TestServices`, `MainWindow.Tests.cs`;
+  - le partial delle sei suite storiche: `Project*SmokeChecks.cs`, `ProjectComparisonChecks.cs`, `ProjectCoverWarningSmokeChecks.cs`,
+    `ProjectDragLayoutSmokeChecks.cs`, `DisplaySmokeChecks.cs` e `ProjectReportSmokeChecks.cs`. Le suite escono da `$smokes` di `build/ci.ps1`;
+- i rami `MainWindow` da togliere:
+  - quelli di `WikiContextHelp`, `CalculationHelpView` e `WpfWikiNavigator`; `WikiEditorial` passa a `WikiExamples` di Presentation;
+  - `DesktopComposition.WindowServices`, i costruttori di prova in `ModuleHostBench`, la partial `openSheet` in `OpenSheetChecks.cs`;
+- `ShellProjectCapture`, `ShellSmokeReport` e `ShellDraftChecks` restano solo con la fixture e `ShellReferences`. La cartella `mainwindow/` di
+  `ui/shell-capture` diventa la copia della fixture;
+- le prove fuori da X.Desktop che nominano `MainWindow`:
+  - `supporto/test/ConcreteShort.UiChecks` chiama metodi di `MainWindow` per riflessione: da riscrivere o archiviare;
+  - in `tests/ModelViewer.UiChecks`, `ProductComposition` crea una `MainWindow`;
+  - `ElasticPile.UiChecks`, `ConcreteInput.Checks` e `ConcreteTimeEffects.Checks` la usano solo come ancora dell'assembly: basta `typeof(X.Desktop.App)`;
+- le baseline di architettura scendono nello stesso commit: le voci di `SheetEditor.cs` e quelle di `MainWindow` (`ProjectReport.cs`, `ProjectHierarchy.cs`,
+  …) in `tests/fixtures/f3/architecture.json` e nel censimento F4.
+
+**Guida e Wiki**: il testo di 14.6 entra nella Rev59 del coordinatore, dopo l'unione.
+
+Per riprendere:
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-g
+git log --oneline 67eafba5..HEAD
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(smoke|smoke-horizontal|<suite>)$' -Tag <tag>"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile quick -Tag <tag>"
+```

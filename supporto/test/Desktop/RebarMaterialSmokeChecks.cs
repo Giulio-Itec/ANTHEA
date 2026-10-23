@@ -8,16 +8,16 @@ using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     internal async Task SmokeSteel(string directory)
     {
         Directory.CreateDirectory(directory);
         static void Check(bool value, string message) { if (!value) throw new Exception(message); }
         static JsonObject Sheet(string module, string name) => J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));
-        async Task Capture(string name) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, name + ".png"), Ui.Snapshot(this)); }
+        async Task Capture(string name) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, name + ".png"), Ui.Snapshot(Window)); }
         ShowModules("Materiali"); await Capture("catalogo");
-        Ui.Descendants<Button>(dashboardBody).Single(b => b.Tag?.ToString() == RebarMaterial.Module).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        await Press(ModuleButton(RebarMaterial.Module));
         var view = openSheet.Steel;
         Check(Application.Current.Windows.Count == 1 && ReferenceEquals(body.Content, moduleView), "Acciaio aperto in finestra separata");
         Check(view.Type == "B450C", "Default B450C mancante");

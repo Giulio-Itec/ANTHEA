@@ -6,7 +6,7 @@ namespace X.Desktop;
 
 /// <summary>
 /// Editor of one open sheet, as MainWindow and the F3 equivalence captures use it (F5.2, proposal 4.5 and 5.2).
-/// It is implemented by the historic <see cref="SheetEditor"/> and by <see cref="MvvmSheetEditor"/>, the host of the modules
+/// It was implemented by the historic SheetEditor (archived in F5.13 g) and is implemented by <see cref="MvvmSheetEditor"/>, the host of the modules
 /// migrated to MVVM; <see cref="SheetEditorFactory"/> chooses between them as <see cref="ModuleImplementations"/> says
 /// (every module historic until F5.4).
 /// </summary>

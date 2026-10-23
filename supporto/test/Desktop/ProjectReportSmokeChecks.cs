@@ -16,22 +16,7 @@ public sealed partial class MainWindow
         Directory.CreateDirectory(directory);
         static void Check(bool condition, string message) { if (!condition) throw new Exception(message); }
         static JsonObject Sheet(string module, string name) => J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));
-        foreach (string module in new[] { "mat_calcestruzzo", RebarMaterial.Module })
-        {
-            using var materialEditor = sheetEditors.Open(module, Archivio.NuovoFoglio(module));
-            string materialPath = Path.Combine(directory, module + ".docx");
-            materialEditor.ExportReport(materialPath, module == "mat_calcestruzzo" ? "Calcestruzzo" : "Acciaio per armature", []);
-            using var package = ZipFile.OpenRead(materialPath);
-            using var input = package.GetEntry("word/document.xml")!.Open();
-            string contents = XDocument.Load(input).ToString();
-            Check(contents.Contains("Scheda materiale") && contents.Contains("Proprietà di calcolo"), "Report materiale incompleto");
-            Check(contents.Contains(module == "mat_calcestruzzo" ? "Copriferro nominale" : "Resistenza di progetto fyd"), "Proprietà materiale mancanti");
-            if (module == RebarMaterial.Module)
-            {
-                materialEditor.Data["input"]!["gamma_s"] = "0";
-                Check(materialEditor.MaterialReportContent().Error is not null, "Acciaio non valido senza avviso");
-            }
-        }
+        MaterialReportSmoke.Check(directory, sheetEditors);
         if (materialsOnly)
         {
             File.WriteAllText(Path.Combine(directory, "smoke.txt"), "OK: report singoli CLS e acciaio, proprietà correnti e segnalazione dati acciaio non validi.");

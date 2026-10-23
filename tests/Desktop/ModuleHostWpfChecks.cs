@@ -166,7 +166,8 @@ internal static class ModuleHostWpfChecks
         var probe = new ProbeSheetModule(ModuleDirectory.Get(ProbeModule));
         Fails<InvalidOperationException>(() => ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], new ModuleRegistry([probe])), PileGroupModule,
             "Banco: registro senza la palificata, MVVM nella Release, rifiutato");
-        var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], new ModuleRegistry(DesktopComposition.CreateModules() is var defaults ? defaults.SheetModuleIds.Select(id => id == ProbeModule ? probe : defaults.SheetModule(id)) : []));
+        var probeModules = new ModuleRegistry(DesktopComposition.CreateModules() is var defaults ? defaults.SheetModuleIds.Select(id => id == ProbeModule ? probe : defaults.SheetModule(id)) : []);
+        var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], probeModules);
         var echo = new EchoService();
         var data = new JsonObject { ["etichetta"] = "iniziale" };
         Fails<InvalidOperationException>(() => factory.Open(ProbeModule, data, echo), nameof(ProbeSheetViewModel), "Foglio senza DataTemplate rifiutato con il tipo del ViewModel");
@@ -233,10 +234,9 @@ internal static class ModuleHostWpfChecks
             editor.Dispose(); editor.Dispose();
             Check(sheet.IsDisposed && ((ContentControl)view).Content is null, "Dispose chiude il foglio e libera la vista");
 
-            // MainWindow opens the sheet through the factory it receives and handles it as a historic sheet.
-            var window = new MainWindow(TestServices.Create, factory);
-            try { await window.CheckMvvmSheet(Check); }
-            finally { window.FinishSmoke(); window.Close(); }
+            // The window of the application opens the sheet through its factory: since F5.13 g the new shell (ShellSmokeWindow, off screen) with the registry of
+            // the probe, as MainWindow did with the factory it received.
+            using (var window = await ShellSmokeWindow.OpenAsync(directory, probeModules)) await window.CheckMvvmSheet(Check);
         }
         finally { System.Windows.Application.Current.Resources.Remove(key); }
         log.Add($"PASS {log.Count} controlli dell'ospite MVVM");
@@ -276,15 +276,16 @@ internal static class ModuleHostWpfChecks
     }
 }
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
-    /// <summary>The window opens the probe through its factory, marks the document modified at an edit and commits the working copy.</summary>
+    /// <summary>The window opens the probe through its factory, marks the document modified at an edit and commits the working copy (F5.13 g: the shell).</summary>
     internal async Task CheckMvvmSheet(Action<bool, string> check)
     {
         NewCalculation(ModuleHostWpfChecks.ProbeModule);
-        check(editor is MvvmSheetEditor && ReferenceEquals(sheetContent.Content, editor.View), "MainWindow apre il foglio MVVM dalla fabbrica ricevuta");
-        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-        var sheet = (ProbeSheetViewModel)((MvvmSheetEditor)editor!).Sheet;
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
+        check(SheetOf(editor) is ProbeSheetViewModel && Ui.Descendants<FrameworkElement>(Window).Any(e => e.DataContext is ProbeSheetViewModel),
+            "La finestra apre il foglio MVVM dalla fabbrica ricevuta");
+        var sheet = (ProbeSheetViewModel)SheetOf(editor)!;
         check(!dirty, "Documento nuovo non modificato");
         sheet.Label = "dalla finestra";
         check(dirty && Title.EndsWith(" *", StringComparison.Ordinal), "Modified: documento segnato come modificato");

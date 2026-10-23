@@ -7,7 +7,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     private async Task CheckBridgeShrinkageUi(string directory)
     {
@@ -15,7 +15,7 @@ public sealed partial class MainWindow
         void Check(bool value, string message) { checks++; if (!value) throw new Exception(message); }
         var data = BridgeSection.Defaults(); data["plate2"] = true;
         using var bridge = OpenBridge(data); data = bridge.Data;
-        var window = Ui.Dialog(this, "Prova proprietà, tabella e ritiro", bridge.View, 1600, 990);
+        var window = Ui.Dialog(Window, "Prova proprietà, tabella e ritiro", bridge.View, 1600, 990);
         window.Show();
         try
         {

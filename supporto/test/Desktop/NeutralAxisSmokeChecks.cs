@@ -11,11 +11,18 @@ using X.Core;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+/// <summary>
+/// ui/smoke-neutral-axis. Since F5.13 g without MainWindow: the window of the bridge is owned by the window of the new shell (ShellSmokeBench, off screen)
+/// and the composite sections open from the factory of the bench (BridgeSmoke.Open with ModuleHostBench.SheetEditors, the factory of the WPF checks of
+/// MainWindow). The same steps and checks.
+/// </summary>
+internal static class NeutralAxisSmoke
 {
-    internal async Task SmokeNeutralAxis(string directory)
+    internal static async Task Run(string directory)
     {
         Directory.CreateDirectory(directory);
+        using var b = await ShellSmokeBench.OpenAsync(directory);
+        static BridgeSmoke OpenBridge(JsonObject data) => BridgeSmoke.Open(ModuleHostBench.SheetEditors(), data);
         var checks = new List<string>();
         void Check(bool ok, string message) { if (!ok) throw new Exception(message); checks.Add("OK: " + message); }
         static Anthea.Application.Presentation.NeutralAxisPresentation DrawingAxis(SectionNeutralAxis value) =>
@@ -86,7 +93,7 @@ public sealed partial class MainWindow
         static string stageCaption(string method) => method == BridgeSection.CalculationMethods[0] ? "σa" : "ε totale";
         bridgeData["metodo_analisi"] = BridgeSection.CalculationMethods[0];
         using var bridge = OpenBridge(bridgeData);
-        var window = new Window { Content = bridge.View, Width = 1600, Height = 1000, Owner = this };
+        var window = new Window { Content = bridge.View, Width = 1600, Height = 1000, Owner = b.Window };
         try
         {
             window.Show(); bridge.Pages.SelectedIndex = 1; await bridge.CalculateAsync();

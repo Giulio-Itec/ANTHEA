@@ -1,6 +1,6 @@
 <!--
   DRAFT of the main window of the new shell (F5.13 c), for the user's checkpoint on the layout (docs/refactoring/f5-13-shell.md, section «Bozza
-  della disposizione per il punto di controllo»). It is NOT the window of the application: the Release opens MainWindow. It binds to
+  della disposizione per il punto di controllo»). Since F5.13 g it is the window of the application (App.StartShell). It binds to
   ShellViewModel and follows the arrangement of MainWindow with the sheets in tabs (proposal 4.2):
   - the menus File, Strumenti and Aspetto of today, with the same shortcuts;
   - on the left the navigation bar (Home, Progetti, Modelli, Moduli singoli, Esempi, Wiki) with the file commands, always visible;

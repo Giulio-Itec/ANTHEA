@@ -43,13 +43,14 @@ internal sealed partial class ConcreteSectionSmoke : IDisposable
 
     private readonly List<Window> windows = [];
     private readonly Window? host;
-    private readonly bool ownsEditor;
+    private readonly IDisposable? owned;
 
-    internal ConcreteSectionSmoke(MvvmSheetEditor editor, BenchSheetServices services) : this(editor, services, null, false) { }
+    /// <param name="editor">The sheet with its view: an MvvmSheetEditor (it converts) or, since F5.13 g, a tab of the shell.</param>
+    internal ConcreteSectionSmoke(HostedSheet editor, BenchSheetServices services) : this(editor, services, null, null) { }
 
-    private ConcreteSectionSmoke(MvvmSheetEditor editor, BenchSheetServices services, Window? host, bool ownsEditor)
+    private ConcreteSectionSmoke(HostedSheet editor, BenchSheetServices services, Window? host, IDisposable? owned)
     {
-        Editor = editor; Services = services; this.host = host; this.ownsEditor = ownsEditor;
+        Editor = editor; Services = services; this.host = host; this.owned = owned;
         Sheet = (ConcreteSheetViewModel)editor.Sheet;
         services.Clipboard ??= new ScriptedClipboard();
         if (Find<ConcreteSectionSheetView>(editor.View, _ => true, realize: false) is { } view)
@@ -85,14 +86,15 @@ internal sealed partial class ConcreteSectionSmoke : IDisposable
         };
         Appearance.Watch(window);
         window.Show(); window.UpdateLayout();
-        return new ConcreteSectionSmoke(editor, services, window, true);
+        return new ConcreteSectionSmoke(editor, services, window, editor);
     }
 
     /// <summary>A sheet of the RC section opened by the editors of the bench without a window (the view laid out by the caller); disposed with <see cref="Dispose"/>.</summary>
     internal static ConcreteSectionSmoke OpenDetached(JsonObject data)
     {
         var (factory, services) = Editors();
-        return new ConcreteSectionSmoke((MvvmSheetEditor)factory.Open(ConcreteSectionSheetModule.Id, data), services, null, true);
+        var editor = (MvvmSheetEditor)factory.Open(ConcreteSectionSheetModule.Id, data);
+        return new ConcreteSectionSmoke(editor, services, null, editor);
     }
 
     /// <summary>A second sheet on <paramref name="data"/> (the reopening of the historic checks: <c>new ConcreteWorkspace(copy)</c>), without a window.</summary>
@@ -103,7 +105,8 @@ internal sealed partial class ConcreteSectionSmoke : IDisposable
         return (ConcreteSheetViewModel)mvvm.Sheet;
     }
 
-    internal MvvmSheetEditor Editor { get; }
+    /// <summary>The sheet and its view (Commit, BuildReport, ExportReport as MvvmSheetEditor).</summary>
+    internal HostedSheet Editor { get; }
     internal BenchSheetServices Services { get; }
     internal ConcreteSheetViewModel Sheet { get; }
 
@@ -375,7 +378,7 @@ internal sealed partial class ConcreteSectionSmoke : IDisposable
         foreach (var window in windows.ToArray()) if (window.IsVisible) window.Close();
         windows.Clear();
         if (host is not null) { host.Content = null; host.Close(); }
-        if (ownsEditor) Editor.Dispose();
+        owned?.Dispose();
     }
 }
 

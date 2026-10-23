@@ -7,7 +7,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     private async Task CheckBridgeDetailsUi(string directory)
     {
@@ -22,7 +22,7 @@ public sealed partial class MainWindow
         d["armatura_trasv"] = true; d["fatica_pioli"] = true; d["q_fat_min"] = -100; d["q_fat_max"] = 200;
         d["flangia_fat_tesa"] = true; d["dsigma_fat"] = 30;
         using var bridge = OpenBridge(d); d = bridge.Data;
-        var window = Ui.Dialog(this, "Verifica dettagli sezione da ponte", bridge.View, 1600, 990); window.Show();
+        var window = Ui.Dialog(Window, "Verifica dettagli sezione da ponte", bridge.View, 1600, 990); window.Show();
         try
         {
             async Task Layout() { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); window.UpdateLayout(); }

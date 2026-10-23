@@ -6,7 +6,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     /// <summary>
     /// The type of section of the bridge: H, H with an inclined web and box girder from the input panel, with the fields shown for each type, the
@@ -32,7 +32,7 @@ public sealed partial class MainWindow
         Check(plate.Visibility != Visibility.Visible, "seconda piastra visibile con l'anima inclinata.");
         Check(bridge.Calculation is { } inclined && inclined.Geometry.SectionType == BridgeSteelSectionType.InclinedWebH && inclined.Geometry.WebAngle > 0, "calcolo con l'anima inclinata.");
         Check(bridge.Drawing.VisibleTags.Any(t => t.Contains("α") && t.Contains("lunghezza")), "tag dell'anima inclinata nel disegno.");
-        File.WriteAllBytes(Path.Combine(directory, "sezione_anima_inclinata.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "sezione_anima_inclinata.png"), Ui.Snapshot(Window));
 
         kind.SelectedItem = BridgeSection.SectionTypes[2]; form.Set("interasse_anime", "1800"); form.Set("offset_anima", "250");
         steel.Set("b_top", "450"); steel.Set("b_bottom", "1400"); steel.Set("t_bottom", "25"); await wait(); await Layout();
@@ -41,9 +41,9 @@ public sealed partial class MainWindow
         Check(bridge.Drawing.VisibleTags.Any(t => t.Contains("2 × 450")), "tag delle due piattabande superiori.");
         Check(bridge.Calculation!.Stages[^1].Warnings.Any(w => w.StartsWith("Cassoncino")), "ipotesi del cassoncino non dichiarate.");
         Check(bridge.BuildReport("Cassoncino", ReportBridge.DefaultSections()).Length > 1000, "relazione del cassoncino.");
-        File.WriteAllBytes(Path.Combine(directory, "sezione_cassoncino.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "sezione_cassoncino.png"), Ui.Snapshot(Window));
         bridge.Pages.SelectedIndex = 1; await Layout();
-        File.WriteAllBytes(Path.Combine(directory, "sezione_cassoncino_tensioni.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "sezione_cassoncino_tensioni.png"), Ui.Snapshot(Window));
         bridge.Pages.SelectedIndex = 0; await Layout();
 
         // box torsion: options only for the box, ΔT editable with the checks, results, drawing unchanged and report
@@ -63,12 +63,12 @@ public sealed partial class MainWindow
         Check(torsion is not null && torsion.WebFlow > 0 && torsion.SlabFlow > 0 && torsion.Distortion is { Diaphragms: 7 }, "calcolo della torsione e della distorsione.");
         Check(bridge.Calculation.Stages[0].Torsion!.Flows[0].Closed, "fase di solo acciaio chiusa dal controvento.");
         bridge.RevealTorsion(false); await Layout(); bridge.RevealTorsion(false); await Layout();
-        File.WriteAllBytes(Path.Combine(directory, "sezione_cassoncino_torsione_ingressi.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "sezione_cassoncino_torsione_ingressi.png"), Ui.Snapshot(Window));
         bridge.Pages.SelectedIndex = 1; await Layout();
         var resultsTab = bridge.Results.SelectedIndex;
         bridge.RevealTorsion(true); await Layout();
         Check(bridge.TorsionResultsVisible, "risultati della torsione non mostrati.");
-        File.WriteAllBytes(Path.Combine(directory, "sezione_cassoncino_torsione.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "sezione_cassoncino_torsione.png"), Ui.Snapshot(Window));
         bridge.Results.SelectedIndex = resultsTab; bridge.Pages.SelectedIndex = 0; await Layout();
         Check(bridge.BuildReport("Cassoncino con torsione", ReportBridge.DefaultSections()).Length > 1000, "relazione con la torsione.");
         foreach (var phase in phaseForms) phase.Set("T", "0");

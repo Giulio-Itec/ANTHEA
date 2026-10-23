@@ -6,7 +6,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-internal sealed partial class SheetEditor
+internal static class F3FigureChecks
 {
     internal static async Task CheckF3Figures(string root, string output, bool capture = false)
     {

@@ -93,14 +93,22 @@ internal abstract class BridgeSmoke : IDisposable
     /// A composite section opened on its own, as the smokes did with <c>new BridgeWorkspace(data)</c> before the switch: the XAML view opened by
     /// <paramref name="editors"/> (on a copy: read the data back from <see cref="Data"/>), laid out so that its controls exist.
     /// </summary>
-    internal static BridgeSmoke Open(SheetEditorFactory editors, JsonObject data) => new MvvmBridgeSmoke(editors.Open(BridgeSection.Module, data), owned: true);
+    internal static BridgeSmoke Open(SheetEditorFactory editors, JsonObject data)
+    {
+        var editor = (MvvmSheetEditor)editors.Open(BridgeSection.Module, data);
+        return new MvvmBridgeSmoke(editor, editor);
+    }
 
     /// <summary>The composite section of the sheet open in a window.</summary>
     internal static BridgeSmoke Of(ISheetEditor editor) => editor switch
     {
-        MvvmSheetEditor { Sheet: CompositeSectionSheetViewModel } mvvm => new MvvmBridgeSmoke(mvvm, owned: false),
+        MvvmSheetEditor { Sheet: CompositeSectionSheetViewModel } mvvm => new MvvmBridgeSmoke(mvvm, null),
         _ => throw new InvalidOperationException("Sezione composta da ponte non aperta con la vista MVVM: " + editor.Module)
     };
+
+    /// <summary>F5.13 g: the composite section of a tab of the shell (its ViewModel and its view), not owned.</summary>
+    internal static BridgeSmoke Of(HostedSheet sheet) => sheet.Sheet is CompositeSectionSheetViewModel ? new MvvmBridgeSmoke(sheet, null)
+        : throw new InvalidOperationException("Sezione composta da ponte non aperta con la vista MVVM: " + sheet.Module);
 }
 
 /// <summary>A form of the composite section as the smokes drive it: its editors (text box, choice, check box), Set and Get as InputForm, its rows.</summary>
@@ -128,12 +136,14 @@ internal sealed class BridgeSmokeEditors(Func<string, bool> contains, Func<strin
 
 internal sealed class MvvmBridgeSmoke : BridgeSmoke
 {
-    private readonly MvvmSheetEditor editor;
-    private readonly bool owned;
+    private readonly HostedSheet editor;
+    private readonly IDisposable? owned;
 
-    internal MvvmBridgeSmoke(ISheetEditor editor, bool owned)
+    /// <param name="editor">The sheet and its view: an MvvmSheetEditor (it converts) or, since F5.13 g, a tab of the shell.</param>
+    /// <param name="owned">What closes with the smoke: the editor opened on its own, null for a sheet of a window.</param>
+    internal MvvmBridgeSmoke(HostedSheet editor, IDisposable? owned)
     {
-        this.editor = (MvvmSheetEditor)editor;
+        this.editor = editor;
         this.owned = owned;
         // A sheet opened on its own is laid out once, so that its view and its controls exist before it is put in a window.
         if (PresentationSource.FromVisual(this.editor.View) is null)
@@ -224,7 +234,7 @@ internal sealed class MvvmBridgeSmoke : BridgeSmoke
         "curve_colonne" => SheetView.ResponsePage, "curve_righe" => SheetView.CurveRows, _ => throw new ArgumentException("Divisore sconosciuto: " + key)
     };
 
-    public override void Dispose() { if (owned) editor.Dispose(); }
+    public override void Dispose() => owned?.Dispose();
 
     /// <summary>The editor of a field: the control of FieldForm bound to it, built where WPF has not laid it out yet.</summary>
     private FrameworkElement EditorOf(FieldViewModel field)
@@ -271,7 +281,7 @@ internal sealed class MvvmBridgeSmoke : BridgeSmoke
     }
 }
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     /// <summary>F5.11: a composite section opened on its own by the factory of this window (BridgeSmoke.Open), as the smokes did with new BridgeWorkspace.</summary>
     private BridgeSmoke OpenBridge(JsonObject data) => BridgeSmoke.Open(sheetEditors, data);

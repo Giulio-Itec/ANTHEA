@@ -60,11 +60,12 @@ internal static class ModuleHostBench
             if (i + 1 >= arguments.Count) throw new ArgumentException(Argument + ": manca <modulo>=mvvm|historic.");
             string[] pair = arguments[++i].Split('=');
             if (pair.Length != 2 || pair[0].Length == 0) throw new ArgumentException(Argument + ": atteso <modulo>=mvvm|historic, trovato " + arguments[i] + ".");
+            // F5.13 g: the choice «historic» is retired with SheetEditor (supporto/SUPERATI/ui-storica/shell): every view is MVVM.
             var choice = pair[1] switch
             {
                 "mvvm" => SheetImplementation.Mvvm,
-                "historic" => SheetImplementation.Historic,
-                _ => throw new ArgumentException(Argument + ": implementazione sconosciuta " + pair[1] + " (mvvm o historic).")
+                "historic" => throw new ArgumentException(Argument + ": la vista storica di " + pair[0] + " è archiviata (Q11, F5.13 g); i moduli si aprono solo con la vista MVVM."),
+                _ => throw new ArgumentException(Argument + ": implementazione sconosciuta " + pair[1] + " (solo mvvm).")
             };
             implementations = implementations.With(pair[0], choice);
         }
@@ -170,14 +171,12 @@ public sealed partial class MainWindow
 internal sealed partial class ModuleImplementations
 {
     /// <summary>
-    /// UiTests: these choices with <paramref name="module"/> opened by <paramref name="implementation"/>. A module MVVM in the Release has no
-    /// historic view any more (archived with its switch, Q11): choosing it fails with the name of the module.
+    /// UiTests: these choices with <paramref name="module"/> opened by <paramref name="implementation"/>. The historic views are archived (Q11; the choice
+    /// «historic» of the bench since F5.13 g): <see cref="ModuleHostBench.Implementations"/> refuses it with the name of the module.
     /// </summary>
     internal ModuleImplementations With(string module, SheetImplementation implementation)
     {
         if (!choices.ContainsKey(module)) throw new ArgumentException(ModuleHostBench.Argument + ": modulo sconosciuto " + module + ".");
-        if (implementation == SheetImplementation.Historic && Release.For(module) == SheetImplementation.Mvvm)
-            throw new ArgumentException(ModuleHostBench.Argument + ": la vista storica di " + module + " è archiviata (Q11); il modulo si apre solo con la vista MVVM.");
         return new(choices.Select(c => (c.Key, c.Key == module ? implementation : c.Value)));
     }
 }

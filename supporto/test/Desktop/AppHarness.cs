@@ -21,7 +21,7 @@ public partial class App
     {
         // F5.4: the application as in the product, with the sheets of --module-impl (ModuleHostBench), to try a migrated module by hand.
         if (e.Args.FirstOrDefault() == ModuleHostBench.Interactive) { handled = true; StartInteractive(e); return; }
-        // F5.13 c: the new shell by hand, through its composition root (ShellComposition); never in Release, which opens MainWindow.
+        // F5.13 c: the new shell by hand, through its composition root (ShellComposition); since F5.13 g the startup of the Release, here with the bench.
         if (e.Args.FirstOrDefault() == InteractiveShell) { handled = true; StartInteractiveShell(e); return; }
         if (!e.Args.Any(a => a.StartsWith("--check") || a.StartsWith("--smoke") || a == "--capture-validation")) return;
         // Every check runs with the light theme; the later production call is ignored (Initialize is idempotent).
@@ -62,7 +62,7 @@ public partial class App
             Dispatcher.BeginInvoke(new Action(async () =>
             {
                 int code = 0;
-                try { await SheetEditor.CheckF3Figures(e.Args[1], e.Args[2], e.Args[0].EndsWith("-capture")); }
+                try { await F3FigureChecks.CheckF3Figures(e.Args[1], e.Args[2], e.Args[0].EndsWith("-capture")); }
                 catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
                 finally { Shutdown(code); }
             }));
@@ -86,7 +86,7 @@ public partial class App
             Dispatcher.BeginInvoke(new Action(async () =>
             {
                 int code = 0;
-                try { await SheetEditor.CheckF3Scheduling(e.Args[1], e.Args[2]); }
+                try { await F3SchedulingChecks.CheckF3Scheduling(e.Args[1], e.Args[2]); }
                 catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
                 finally { Shutdown(code); }
             }));
@@ -277,10 +277,11 @@ public partial class App
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Dispatcher.BeginInvoke(new Action(async () =>
             {
-                int code = 0; MainWindow? testWindow = null;
-                try { testWindow = new MainWindow(TestServices.Create); await testWindow.CheckAppearance(e.Args[1]); }
+                int code = 0;
+                // F5.13 g: on the new shell (ShellSmokeWindow), off screen.
+                try { await ShellSmokeWindow.Run(e.Args[1], w => w.CheckAppearance(e.Args[1])); }
                 catch (Exception ex) { Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString()); code = 1; }
-                finally { testWindow?.FinishSmoke(); testWindow?.Close(); Shutdown(code); }
+                finally { Shutdown(code); }
             }));
             return;
         }
@@ -428,7 +429,8 @@ public partial class App
     /// App.OnStartup (appearance of the user, error log, the services of the product from DesktopComposition) and the composition root of the shell
     /// (<see cref="ShellComposition"/>): the modules open in tabs as the Release chooses them (since the night of 22-23/10, R5: the modules still
     /// historic in their SheetEditor), with the pairs <c>--module-impl modulo=mvvm|historic</c> of the bench; F1 and the guides open the Wiki tab, the
-    /// rest of the command line as App.OnStartup reads it (StartupRequest). Never in Release, which opens MainWindow.
+    /// rest of the command line as App.OnStartup reads it (StartupRequest). Since F5.13 g the startup of the Release (App.StartShell) with the choices
+    /// of the bench.
     /// </summary>
     private void StartInteractiveShell(StartupEventArgs e)
     {
@@ -441,16 +443,31 @@ public partial class App
             error.Handled = true;
         };
         Composition = new DesktopComposition(ActiveWindow);
-        var services = ShellComposition.WithShellWiki(Composition.Services);
-        // R5: the modules open as in the Release (historic or MVVM), with the choices of --module-impl of the bench.
-        var parts = ShellComposition.Create(services, Composition.Modules, Composition.Limiter, ShellComposition.ExamplesFolder,
-            implementations: ModuleHostBench.Implementations(e.Args));
-        MainWindow = parts.Window;
-        var request = Anthea.Presentation.Shell.StartupRequest.Parse(ModuleHostBench.WithoutBench(e.Args).Skip(1).ToArray());
-        parts.Window.Loaded += (_, _) => parts.Shell.Start(request);
-        parts.Window.Closed += (_, _) => parts.Shell.Dispose();
-        parts.Window.Show();
+        StartShell(ModuleHostBench.WithoutBench(e.Args).Skip(1).ToArray(), ModuleHostBench.Implementations(e.Args));
     }
+
+    /// <summary>
+    /// F5.13 g: the smokes passed to the new shell (docs/refactoring/f5-13-shell.md, 14.2), by flag: they run on the bench of the shell (ShellSmokeBench),
+    /// never in a MainWindow, with the same flag, the same output and the same proof (esito-smoke-completo.txt).
+    /// </summary>
+    private static readonly Dictionary<string, Func<string[], Task>> ShellSmokes = new(StringComparer.Ordinal)
+    {
+        ["--smoke-global-stability"] = a => GlobalStabilitySmoke.Run(a[1]),
+        ["--smoke-neutral-axis"] = a => NeutralAxisSmoke.Run(a[1]),
+        ["--smoke-material-report"] = a => MaterialReportSmoke.Run(a[1]),
+        ["--smoke-retaining-wall"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeRetainingWall(a[1])),
+        ["--smoke-steel"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeSteel(a[1])),
+        ["--smoke-materials"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeMaterials(a[1])),
+        ["--smoke-bridge"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeBridge(a[1])),
+        ["--smoke-bridge-predalle"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeBridgePredalle(a[1])),
+        ["--smoke-bridge-curves"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeBridgeResponse(a[1])),
+        ["--smoke-bridge-design"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeBridgeDesign(a[1])),
+        ["--smoke-bridge-traffic"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeBridgeTraffic(a[1])),
+        ["--smoke-bridge-prices"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeBridgePrices(a[1])),
+        ["--smoke-section-actions"] = a => ConcreteSectionSmokeSuites.SectionActions(a[1]),
+        ["--smoke-ca-extensions"] = a => ConcreteSectionSmokeSuites.Extensions(a[1]),
+        ["--smoke-ca-features"] = a => ConcreteSectionSmokeSuites.Features(a[1]),
+    };
 
     private void StartSmoke(StartupEventArgs e)
     {
@@ -459,6 +476,25 @@ public partial class App
             Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), error.Exception.ToString());
             error.Handled = true; Shutdown(1);
         };
+        if (ShellSmokes.TryGetValue(e.Args[0], out var shellSmoke) && ModuleHostBench.WithoutBench(e.Args).Length == 2)
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            EventManager.RegisterClassHandler(typeof(FrameworkElement), System.Windows.Controls.ToolTipService.ToolTipOpeningEvent,
+                new System.Windows.Controls.ToolTipEventHandler((_, args) => args.Handled = true));
+            Dispatcher.InvokeAsync(async () =>
+            {
+                int code = 0;
+                try
+                {
+                    await shellSmoke(ModuleHostBench.WithoutBench(e.Args));
+                    Directory.CreateDirectory(e.Args[1]);
+                    File.WriteAllText(Path.Combine(e.Args[1], "esito-smoke-completo.txt"), "Completato: " + e.Args[0]);
+                }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString()); code = 1; }
+                finally { Shutdown(code); }
+            });
+            return;
+        }
         var window = new MainWindow(TestServices.Create);
         // Smoke windows are repeatedly created and destroyed under the desktop pointer.
         // Suppress tooltip popups in the harness to avoid WPF referring to an already closed HWND.
@@ -475,26 +511,12 @@ public partial class App
                 int code = 0;
                 try
                 {
-                    if (e.Args[0] == "--smoke-neutral-axis") await window.SmokeNeutralAxis(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-bridge-predalle") await window.SmokeBridgePredalle(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-retaining-wall") await window.SmokeRetainingWall(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-global-stability") await window.SmokeGlobalStability(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-bridge-design") await window.SmokeBridgeDesign(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-bridge-curves") await window.SmokeBridgeResponse(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-bridge") await window.SmokeBridge(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-material-report") await window.SmokeProjectReport(e.Args[1], materialsOnly: true);
+                    if (e.Args[0] == "--smoke-neutral-axis") throw new InvalidOperationException("--smoke-neutral-axis gira sulla shell (ShellSmokes).");
                     else if (e.Args[0] == "--smoke-project-workspace") await window.SmokeProjectWorkspace(e.Args[1]);
                     else if (e.Args[0] == "--smoke-project-report") await window.SmokeProjectReport(e.Args[1]);
                     else if (e.Args[0] == "--smoke-hierarchy") await window.SmokeHierarchy(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-steel") await window.SmokeSteel(e.Args[1]);
                     else if (e.Args[0] == "--smoke-sharing") await window.SmokeSharing(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-materials") await window.SmokeMaterials(e.Args[1]);
                     else if (e.Args[0] == "--smoke-projects") await window.SmokeProjects(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-bridge-traffic") await window.SmokeBridgeTraffic(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-bridge-prices") await window.SmokeBridgePrices(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-section-actions") await window.SmokeSectionActions(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-ca-features") await window.SmokeConcreteFeatures(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-ca-extensions") await window.SmokeConcreteExtensions(e.Args[1]);
                     else if (e.Args[0] == "--smoke-display") await window.SmokeDisplay(e.Args[1]);
                     else if (e.Args[0] == "--smoke-horizontal") await window.SmokeHorizontal(e.Args[1]);
                     else { await window.Smoke(e.Args[1], JsonNode.Parse(File.ReadAllText(e.Args[2]))!.AsArray()); await window.SmokeHorizontal(e.Args[1]); }

@@ -62,18 +62,16 @@ internal static class ShellProjectCapture
         await MainWindow.CaptureProjectForChecks(historicFile, historic);
         await ShellCapture(shellFile, shell);
         var lines = new List<string> { "Cattura del progetto: MainWindow (mainwindow/) contro la shell nuova (shell/)" };
-        bool same = true;
-        var names = Directory.GetFiles(historic).Select(Path.GetFileName).Concat(Directory.GetFiles(shell).Select(Path.GetFileName)).Distinct().Order(StringComparer.Ordinal);
-        foreach (var name in names)
-        {
-            string a = Path.Combine(historic, name!), b = Path.Combine(shell, name!);
-            bool equal = File.Exists(a) && File.Exists(b) && File.ReadAllBytes(a).AsSpan().SequenceEqual(File.ReadAllBytes(b));
-            same &= equal;
-            lines.Add((equal ? "UGUALE " : "DIVERSO ") + name);
-        }
+        bool same = ShellReferences.SameFolders(historic, shell, lines);
+        int files = lines.Count - 1;
+        // F5.13 g: the values of MainWindow recorded before its archiving (tests/fixtures/f5-shell/cattura-mainwindow), against both sides.
+        lines.Add("Valori registrati della finestra storica (tests/fixtures/f5-shell/cattura-mainwindow) contro mainwindow/");
+        same &= ShellReferences.SameFolders(ShellReferences.Capture, historic, lines);
+        lines.Add("Valori registrati della finestra storica (tests/fixtures/f5-shell/cattura-mainwindow) contro shell/");
+        same &= ShellReferences.SameFolders(ShellReferences.Capture, shell, lines);
         File.WriteAllLines(Path.Combine(output, "confronto.txt"), lines, new UTF8Encoding(false));
-        if (!same) throw new InvalidOperationException("Catture del progetto diverse tra MainWindow e la shell nuova: " + string.Join(", ", lines.Where(l => l.StartsWith("DIVERSO", StringComparison.Ordinal))));
-        File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS cattura del progetto uguale tra MainWindow e la shell nuova ({lines.Count - 1} file)\n", new UTF8Encoding(false));
+        if (!same) throw new InvalidOperationException("Catture del progetto diverse tra MainWindow, i valori registrati e la shell nuova: " + string.Join(", ", lines.Where(l => l.StartsWith("DIVERSO", StringComparison.Ordinal))));
+        File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS cattura del progetto uguale tra MainWindow, i valori registrati e la shell nuova ({files} file)\n", new UTF8Encoding(false));
     }
 
     /// <summary>The state after a step, as both drivers read it.</summary>
