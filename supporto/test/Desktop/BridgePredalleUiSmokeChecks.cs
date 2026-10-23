@@ -7,7 +7,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     internal async Task SmokeBridgePredalle(string directory)
     {
@@ -19,7 +19,7 @@ public sealed partial class MainWindow
         int checks = 0;
         void Check(bool ok, string message) { if (!ok) throw new Exception("Predalle UI: " + message); checks++; }
         var data = BridgeSection.Defaults(); using var bridge = OpenBridge(data); data = bridge.Data;
-        var window = Ui.Dialog(this, "Predalle · geometria e offset delle armature", bridge.View, 1600, 990); window.Show();
+        var window = Ui.Dialog(Window, "Predalle · geometria e offset delle armature", bridge.View, 1600, 990); window.Show();
         try
         {
             async Task Layout() { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); window.UpdateLayout(); }

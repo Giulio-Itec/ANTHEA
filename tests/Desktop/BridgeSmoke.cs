@@ -281,7 +281,7 @@ internal sealed class MvvmBridgeSmoke : BridgeSmoke
     }
 }
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     /// <summary>F5.11: a composite section opened on its own by the factory of this window (BridgeSmoke.Open), as the smokes did with new BridgeWorkspace.</summary>
     private BridgeSmoke OpenBridge(JsonObject data) => BridgeSmoke.Open(sheetEditors, data);

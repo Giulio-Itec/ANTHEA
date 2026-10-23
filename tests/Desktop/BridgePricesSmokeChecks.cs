@@ -5,7 +5,7 @@ using Anthea.Application.BridgeDesign;
 using Anthea.Presentation.Modules.BridgeDesign;
 using X.Desktop.Views.BridgeDesign;
 namespace X.Desktop;
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     /// <summary>
     /// ui/smoke-bridge-prices on the price editor of the Release since the switch of 23/10/2026: PriceCatalogueViewModel shown by its DataTemplate
@@ -22,7 +22,7 @@ public sealed partial class MainWindow
             {
                 Appearance.Set(mode, false);
                 var vm = new PriceCatalogueViewModel(BridgeDesignModel.Defaults());
-                var dialog = new Window { Title = vm.Title, Content = vm, SizeToContent = SizeToContent.WidthAndHeight, ShowInTaskbar = false, Owner = this, WindowStartupLocation = WindowStartupLocation.CenterOwner };
+                var dialog = new Window { Title = vm.Title, Content = vm, SizeToContent = SizeToContent.WidthAndHeight, ShowInTaskbar = false, Owner = Window, WindowStartupLocation = WindowStartupLocation.CenterOwner };
                 Appearance.Watch(dialog);
                 void Close(object? sender, EventArgs e) => dialog.Close();
                 vm.CloseRequested += Close;

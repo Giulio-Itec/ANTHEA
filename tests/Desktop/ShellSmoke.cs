@@ -314,13 +314,18 @@ internal sealed class ShellMvvmEditor(HostedSheet sheet) : ISheetEditor
     public event Action<JsonObject>? SoilReplacementRequested { add { } remove { } }
     public Func<IEnumerable<(string Label, string Module, JsonObject Data, string Id)>>? SoilSources { get; set; }
     public void Commit() => sheet.Sheet.Commit();
-    public Task CalculateAsync(bool commitEdits = true) => sheet.CalculateAsync();
+    public Task CalculateAsync(bool commitEdits = true) => sheet.CalculateAsync(commitEdits);
     public void InspectRevision() => sheet.Sheet.IsReadOnly = true;
-    public void ExportResult(string filename) => throw new NotSupportedException();
-    public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false) => throw new NotSupportedException();
-    public byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => throw new NotSupportedException();
-    public byte[] BuildShortReport(string title) => throw new NotSupportedException();
-    public ReportProject.SheetContent MaterialReportContent() => throw new NotSupportedException();
+    // F5.13 g: the files and reports as MvvmSheetEditor writes them (the code shared with the shell), for the suites passed from MainWindow.
+    public void ExportResult(string filename) => sheet.ExportResult(filename);
+    public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false) =>
+        Anthea.Presentation.Shell.Commands.SheetFileExports.WriteReport(sheet.Sheet, filename, title, options, projectReport);
+    public byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => sheet.BuildReport(title, options, projectReport);
+    public byte[] BuildShortReport(string title) => sheet.BuildShortReport(title);
+    public ReportProject.SheetContent MaterialReportContent() => sheet.Sheet is Anthea.Presentation.Modules.Materials.IMaterialSheetViewModel material ? material.ReportContent()
+        : throw new InvalidOperationException("Capitolo dei materiali non disponibile per il modulo " + Module + ".");
+    /// <summary>The sheet and its view in the tab.</summary>
+    internal HostedSheet Hosted => sheet;
     public void Dispose() { }
 }
 

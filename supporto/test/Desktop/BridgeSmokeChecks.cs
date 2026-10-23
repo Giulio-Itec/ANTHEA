@@ -9,7 +9,7 @@ using Anthea.Application.Documents;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     internal async Task SmokeBridge(string directory)
     {
@@ -53,7 +53,7 @@ public sealed partial class MainWindow
         {
             bridge.Pages.SelectedIndex = input; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
             if (!ReferenceEquals(bridge.Calculation, initialCalculation)) throw new Exception("Navigazione nelle schede invalida il calcolo.");
-            File.WriteAllBytes(Path.Combine(directory, $"mista_input_{input}.png"), Ui.Snapshot(this));
+            File.WriteAllBytes(Path.Combine(directory, $"mista_input_{input}.png"), Ui.Snapshot(Window));
         }
         bridge.Pages.SelectedIndex = 1; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         if (bridge.InputForms.Count(f => f.Editors.ContainsKey("stato")) != 1 || bridge.InputForms.Count(f => f.Editors.ContainsKey("classe4")) != 1 ||
@@ -103,11 +103,11 @@ public sealed partial class MainWindow
         bridge.Results.SelectedIndex = 3;
         bridge.DisplayChoice.SelectedIndex = 0;
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-        File.WriteAllBytes(Path.Combine(directory, "mista_fasi_tensioni.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "mista_fasi_tensioni.png"), Ui.Snapshot(Window));
         // Exercise the same expand/reparent command used by the concrete viewport.
         _ = Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
         {
-            var expanded = Application.Current.Windows.OfType<Window>().Single(w => w != this && w.Title == "Sezione composta · geometria e tensioni");
+            var expanded = Application.Current.Windows.OfType<Window>().Single(w => w != Window && w.Title == "Sezione composta · geometria e tensioni");
             expanded.UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, "mista_espansa.png"), Ui.Snapshot(expanded)); expanded.Close();
         }));
         bridge.ViewportToolbar.Children.OfType<Button>().Single(b => b.Content?.ToString() == "Espandi").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
@@ -118,20 +118,20 @@ public sealed partial class MainWindow
         {
             bridge.Results.SelectedIndex = result; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
             if (bridge.Drawing.ActualWidth > bridge.View.ActualWidth - 380) throw new Exception("La scheda risultati espande la viewport oltre il pannello.");
-            File.WriteAllBytes(Path.Combine(directory, $"mista_risultati_{result}.png"), Ui.Snapshot(this));
+            File.WriteAllBytes(Path.Combine(directory, $"mista_risultati_{result}.png"), Ui.Snapshot(Window));
         }
         bridge.Results.SelectedIndex = 3; bridge.DisplayChoice.SelectedIndex = 1;
         for (int stage = 0; stage < bridge.Calculation!.Stages.Count; stage++)
         {
             bridge.StageChoice.SelectedIndex = stage;
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-            File.WriteAllBytes(Path.Combine(directory, $"mista_fase_{stage}.png"), Ui.Snapshot(this));
+            File.WriteAllBytes(Path.Combine(directory, $"mista_fase_{stage}.png"), Ui.Snapshot(Window));
         }
         bridge.DisplayChoice.SelectedIndex = 0; bridge.Drawing.ResetView();
         foreach (var size in new[] { (1366, 768), (960, 640) })
         {
             Width = size.Item1; Height = size.Item2; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-            File.WriteAllBytes(Path.Combine(directory, $"mista_{size.Item1}.png"), Ui.Snapshot(this));
+            File.WriteAllBytes(Path.Combine(directory, $"mista_{size.Item1}.png"), Ui.Snapshot(Window));
         }
         Width = 1600; Height = 990; bridge.Pages.SelectedIndex = 0; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
         var web = bridge.InputForms.First(f => f.Editors.ContainsKey("t_web"));
@@ -150,7 +150,7 @@ public sealed partial class MainWindow
         if (bridge.Calculation!.Geometry.WebThickness != 10) throw new Exception("Modifica geometrica non acquisita.");
         bridge.Pages.SelectedIndex = 1; bridge.Results.SelectedIndex = 2;
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-        File.WriteAllBytes(Path.Combine(directory, "mista_classe4.png"), Ui.Snapshot(this));
+        File.WriteAllBytes(Path.Combine(directory, "mista_classe4.png"), Ui.Snapshot(Window));
         ((TextBox)web.Editors["t_web"]).Text = "invalido";
         await Task.Delay(650);
         if (bridge.Calculation is not null || bridge.Drawing.Stage is null || bridge.Drawing.Geometry is null || !bridge.Drawing.IsStale) throw new Exception("Dati invalidi perdono l'ultimo risultato o lo presentano come corrente.");

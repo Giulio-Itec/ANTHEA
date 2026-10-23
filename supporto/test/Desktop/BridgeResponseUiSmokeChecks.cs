@@ -5,7 +5,7 @@ using System.Windows.Threading;
 using X.Core;
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     internal async Task SmokeBridgeResponse(string directory)
     { Directory.CreateDirectory(directory); await CheckBridgeResponseUi(directory); File.WriteAllText(Path.Combine(directory, "smoke.txt"), "Curve della sezione: completato"); }
@@ -13,7 +13,7 @@ public sealed partial class MainWindow
     {
         var data = BridgeSection.Defaults();
         using var bridge = OpenBridge(data); data = bridge.Data;
-        var window = new Window { Title = "ANTHEA · Curve della sezione", Owner = this, Width = 1600, Height = 1000, Content = bridge.View, Background = Ui.Bg };
+        var window = new Window { Title = "ANTHEA · Curve della sezione", Owner = Window, Width = 1600, Height = 1000, Content = bridge.View, Background = Ui.Bg };
         int checks = 0;
         void Check(bool value, string message) { checks++; if (!value) throw new Exception("Curve UI: " + message); }
         async Task Layout() { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); window.UpdateLayout(); }

@@ -12,8 +12,14 @@ namespace X.Desktop;
 /// </summary>
 internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services)
 {
+    /// <summary>The sheet and its view: an MvvmSheetEditor, or (F5.13 g) the tab of the shell behind ShellMvvmEditor; null otherwise.</summary>
+    private HostedSheet? Hosted => editor switch { MvvmSheetEditor mvvm => mvvm, ShellMvvmEditor tab => tab.Hosted, _ => null };
+
+    /// <summary>The hosted sheet when its ViewModel is a <typeparamref name="T"/>.</summary>
+    private HostedSheet? Of<T>() => Hosted is { Sheet: T } hosted ? hosted : null;
+
     /// <summary>The vertical pile or micropile with the XAML view, null otherwise.</summary>
-    private VerticalPileSmoke? Pile => VerticalPileSmoke.Handles(editor) ? new((MvvmSheetEditor)editor, services) : null;
+    private VerticalPileSmoke? Pile => Of<Anthea.Presentation.Modules.VerticalPile.VerticalPileSheetViewModel>() is { } pile ? new(pile, services) : null;
 
     /// <summary>The vertical pile or micropile, with the XAML view since the Release switch of 23/10 (f5-pass-geo).</summary>
     private VerticalPileSmoke DisplayPile => Pile ?? throw new InvalidOperationException("Il foglio aperto non è un palo verticale con la vista MVVM: " + editor.Module);
@@ -25,10 +31,10 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     private InvalidOperationException Unsupported => new("Il foglio aperto non ha un ramo di prova con la vista MVVM: " + editor.Module);
 
     /// <summary>The automatic recalculation finished (within 10 s, as SheetEditor.WaitForAutomatic).</summary>
-    internal Task WaitForAutomatic() => editor is MvvmSheetEditor mvvm ? MvvmSheets.WaitForAutomatic(mvvm) : throw Unsupported;
+    internal Task WaitForAutomatic() => Hosted is { } hosted ? MvvmSheets.WaitForAutomatic(hosted) : throw Unsupported;
 
     /// <summary>The RC section with the XAML view (ConcreteSectionSmoke), null otherwise.</summary>
-    private ConcreteSectionSmoke? Section => ConcreteSectionSmoke.Handles(editor) ? new((MvvmSheetEditor)editor, services) : null;
+    private ConcreteSectionSmoke? Section => Of<Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel>() is { } section ? new(section, services) : null;
 
     /// <summary>SetGeometryForSmoke: the diameter of a vertical pile, the geometry of a c.a. section, as the user types it.</summary>
     internal void SetGeometryForSmoke(string value)
@@ -74,7 +80,7 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     // ---------------------------------------------------------------- f5-suite-passaggi: ui/smoke-horizontal (HorizontalSmokeChecks.cs)
 
     /// <summary>The horizontal pile or micropile, MVVM in the Release since 23/10/2026 (f5-pass-orizzontale: the historic view is archived).</summary>
-    private HorizontalPileSmoke HorizontalPile => HorizontalPileSmoke.Handles(editor) ? new((MvvmSheetEditor)editor, services)
+    private HorizontalPileSmoke HorizontalPile => Of<Anthea.Presentation.Modules.HorizontalPile.HorizontalPileSheetViewModel>() is { } horizontal ? new(horizontal, services)
         : throw new InvalidOperationException("Il foglio aperto non è un palo o un micropalo orizzontale con la vista XAML.");
 
     internal Task WaitForHorizontalAutomatic() => HorizontalPile.WaitForAutomatic();
@@ -88,7 +94,7 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     // ---------------------------------------------------------------- materials (ui/smoke-materials, ui/smoke-hierarchy, ui/smoke-sharing, ui/smoke-steel)
 
     /// <summary>The concrete with the XAML view (the only one since the Release switch of the materials, f5-pass-geo).</summary>
-    private ConcreteMaterialSmoke Concrete => ConcreteMaterialSmoke.Handles(editor) ? new((MvvmSheetEditor)editor) : throw new Exception("Scheda materiali non aperta");
+    private ConcreteMaterialSmoke Concrete => Of<Anthea.Presentation.Modules.Materials.ConcreteMaterialSheetViewModel>() is { } concrete ? new(concrete) : throw new Exception("Scheda materiali non aperta");
 
     /// <summary>The state of the concrete set through the controls of the view (ConcreteMaterialSmoke.Apply; RestoreState of the archived historic view).</summary>
     internal void SetConcreteState(System.Text.Json.Nodes.JsonObject state) => Concrete.Apply(state);
@@ -102,11 +108,11 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     // ---------------------------------------------------------------- retaining walls (ui/smoke-retaining-wall, ui/smoke-global-stability)
 
     /// <summary>The retaining wall with the XAML view, MVVM in the Release since 23/10/2026 (f5-pass-muri: the historic view is archived).</summary>
-    internal WallSmoke Wall => MvvmWallSmoke.Handles(editor) ? new MvvmWallSmoke((MvvmSheetEditor)editor, services)
+    internal WallSmoke Wall => Of<Anthea.Presentation.Modules.RetainingWall.RetainingWallSheetViewModel>() is { } wall ? new MvvmWallSmoke(wall, services)
         : throw new Exception("Muro di sostegno non aperto con la vista XAML");
 
     /// <summary>F5.11: the composite bridge section, with either view (BridgeSmoke).</summary>
-    internal BridgeSmoke Bridge => BridgeSmoke.Of(editor);
+    internal BridgeSmoke Bridge => Hosted is { } hosted ? BridgeSmoke.Of(hosted) : BridgeSmoke.Of(editor);
 
     /// <summary>The reinforcing steel with the XAML view (SteelSmoke).</summary>
     internal SteelSmoke Steel => editor.Module != RebarMaterial.Module ? throw new Exception("Modulo acciaio non aperto") : new(editor);
