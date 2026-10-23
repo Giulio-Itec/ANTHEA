@@ -329,7 +329,7 @@ foreach ($c in 'check-appearance', 'check-global-guidance-offscreen', 'check-wal
 # reinforcing steel, vertical pile and micropile, stratigraphy, retaining walls) run also with those seven modules MVVM (bench --module-impl):
 # ui/<suite>-mvvm. At the Release switch of a module its pair leaves $MvvmBench; a duplicate goes when every module it opens is MVVM in the
 # Release (docs/refactoring/f5-suite-ui.md).
-$MvvmBench = @('geo_fondazioni_superficiali', 'geo_muri_sostegno') |
+$MvvmBench = @('geo_muri_sostegno') |
     ForEach-Object { '--module-impl'; "$_=mvvm" }
 foreach ($s in 'smoke-project-workspace', 'smoke-retaining-wall', 'smoke-global-stability') {
     $smokeArgs = if ($s -eq 'smoke') { @("--$s", '{out}', '{cases}') } else { @("--$s", '{out}') }
@@ -362,12 +362,10 @@ Add-Suite @{ Name = 'ui/check-materials-view'; Stage = 'ui'; Kind = 'check'; Arg
 # ui/check-palo-verticale-historic are archived in supporto/SUPERATI/ui-storica/palo-verticale since the Release switch (Q11); ui/f3-figures and
 # ui/f3-scheduling read the MVVM view, so their duplicates -palo-verticale-mvvm went too.
 Add-Suite @{ Name = 'ui/check-palo-verticale-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-verticale-view', '{root}', '{out}\vista'); Timeout = 900; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
-# F5.9b (proposal 7.2, capture first): the historic shallow foundation view still gives the traces frozen in tests/fixtures/f5-fondazioni,
-# which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
-Add-Suite @{ Name = 'ui/check-fondazioni-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-fondazioni-historic', '{root}', '{out}\traccia'); Timeout = 300; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
-# F5.9b: the XAML view of the shallow foundations hosted by MvvmSheetEditor off screen: traces through its controls equal to those of the historic
-# view, visit without writes, drawings and exports (PDF of MigraDoc, T8) equal to the historic ones, screenshots, help, identifiers of
-# FoundationWorkspace.UiChecks, automation names, read-only, soil transfer. The Release keeps the historic view until the test of the user.
+# F5.9b: the XAML view of the shallow foundations hosted by MvvmSheetEditor off screen: traces through its controls equal to those frozen in
+# tests/fixtures/f5-fondazioni, visit without writes, drawings and exports (PDF of MigraDoc, T8) as the historic view gave them, screenshots, help,
+# identifiers of FoundationWorkspace.UiChecks, automation names, read-only, soil transfer. The historic view and its suite
+# ui/check-fondazioni-historic are archived in supporto/SUPERATI/ui-storica/fondazioni since the Release switch (Q11).
 Add-Suite @{ Name = 'ui/check-fondazioni-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-fondazioni-view', '{root}', '{out}\vista'); Timeout = 900; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 # F5.7 (proposal 7.2, capture first): the historic horizontal pile and micropile view still gives the traces and the drawings frozen in
 # tests/fixtures/f5-palo-orizzontale, which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).

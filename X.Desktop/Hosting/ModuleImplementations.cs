@@ -26,7 +26,7 @@ internal sealed partial class ModuleImplementations
     /// <summary>The choice of the Release, in the order of ModuleDirectory. The UiTests check verifies that it lists exactly its modules.</summary>
     internal static IReadOnlyList<(string Module, SheetImplementation Implementation)> Declared { get; } =
     [
-        ("geo_fondazioni_superficiali", SheetImplementation.Historic),
+        ("geo_fondazioni_superficiali", SheetImplementation.Mvvm),
         ("geo_efficienza_orizzontale", SheetImplementation.Mvvm),
         ("geo_palo_verticale", SheetImplementation.Mvvm),
         ("geo_palo_orizzontale", SheetImplementation.Historic),

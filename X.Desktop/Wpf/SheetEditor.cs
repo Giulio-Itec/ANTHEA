@@ -19,11 +19,10 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     public JsonObject Data { get; }
     private ConcreteWorkspace? concrete;
     private readonly HorizontalWorkspace? horizontal;
-    private readonly FoundationWorkspace? foundation;
     internal readonly BridgeWorkspace? bridge;
     internal readonly BridgeDesignWorkspace? bridgeDesign;
     internal readonly RetainingWallWorkspace? retainingWall;
-    public JsonObject? Result => foundation is not null ? foundation.Result : retainingWall is not null ? retainingWall.Result : bridgeDesign is not null ? bridgeDesign.Result : bridge is not null ? bridge.Result : horizontal is not null ? horizontal.ActiveResult : concrete?.Result;
+    public JsonObject? Result => retainingWall is not null ? retainingWall.Result : bridgeDesign is not null ? bridgeDesign.Result : bridge is not null ? bridge.Result : horizontal is not null ? horizontal.ActiveResult : concrete?.Result;
     public bool HasResults => concrete is not null ? concrete.HasResults : Result is not null;
     public bool Busy => retainingWall?.Busy ?? bridge?.Busy ?? horizontal?.Busy ?? concrete?.Busy ?? false;
     public event Action? Modified;
@@ -49,11 +48,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
             if (e.Key == System.Windows.Input.Key.F1 && WikiCatalog.ForModule(Module) is { } guide)
             { e.Handled = true; WikiContextHelp.Open(this, guide.Id); }
         };
-        if (module == Anthea.FoundationWorkspace.FoundationDocument.Module)
-        {
-            foundation = new FoundationWorkspace(Data); foundation.Modified += () => Modified?.Invoke();
-            foundation.ReportRequested += () => ReportRequested?.Invoke(); foundation.SoilTransferRequested += OpenSoilTransfer; Content = foundation; return;
-        }
         if (module == WallModel.Module)
         {
             retainingWall = new RetainingWallWorkspace(Data); retainingWall.Modified += () => Modified?.Invoke();
@@ -97,10 +91,9 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     private Action? releaseRevisionInspection;
     public void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
     public void Dispose() { releaseRevisionInspection?.Invoke(); concrete?.Dispose(); horizontal?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); bridgeDesign?.Dispose(); }
-    public void Commit() { if (foundation is not null) foundation.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (bridge is not null) bridge.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); }
+    public void Commit() { if (retainingWall is not null) retainingWall.Commit(); else if (bridge is not null) bridge.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); }
     public async Task CalculateAsync(bool commitEdits = true)
     {
-        if (foundation is not null) { foundation.TryCalculate(); return; }
         if (retainingWall is not null) { await retainingWall.CalculateAsync(); return; }
         if (bridgeDesign is not null) { await bridgeDesign.CalculateAsync(); return; }
         if (bridge is not null) { await bridge.CalculateAsync(commitEdits); return; }
@@ -117,14 +110,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     }
     public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
     {
-        if (foundation is not null)
-        {
-            var current = Result ?? throw new InvalidOperationException("Calcolare prima di esportare.");
-            var word = Anthea.FoundationWorkspace.FoundationReport.Word(title, current);
-            var pdf = Anthea.FoundationWorkspace.FoundationReport.Pdf(title, current);
-            Archivio.ScriviAtomico(filename, word);
-            Archivio.ScriviAtomico(Path.ChangeExtension(filename, ".pdf"), pdf); return;
-        }
         Anthea.Reports.ReportFiles.Write(filename, BuildReport(title, options, projectReport), title);
     }
     public ReportProject.SheetContent MaterialReportContent()
@@ -134,7 +119,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     public byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => DocxWriter.Write(BuildReportDocument(title, options, projectReport));
     internal DocxDocument BuildReportDocument(string title, HashSet<string> options, bool projectReport = false)
     {
-        if (foundation is not null) return Anthea.FoundationWorkspace.FoundationReport.WordDocument(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
         if (retainingWall is not null) return retainingWall.BuildReportDocument(title);
         if (bridgeDesign is not null) return bridgeDesign.BuildReportDocument(title);
         if (bridge is not null) return bridge.BuildReportDocument(title, options, projectReport);

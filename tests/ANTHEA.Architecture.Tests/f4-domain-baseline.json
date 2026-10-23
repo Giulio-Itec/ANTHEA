@@ -8092,14 +8092,6 @@
       "Example": "1000"
     },
     {
-      "File": "X.Desktop/Wpf/FoundationWorkspace.Materials.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "FoundationWorkspace.BuildSoils",
-      "Fingerprint": "8960B3104AD5A8F66A872B51C31349244C0C274BAB33923495DC92A74B918770",
-      "Count": 1,
-      "Example": "4"
-    },
-    {
       "File": "X.Desktop/Wpf/GlobalStabilityDrawing.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "GlobalStabilityDrawing.OnRender.P",

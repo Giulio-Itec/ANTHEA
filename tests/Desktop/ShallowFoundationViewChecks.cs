@@ -56,7 +56,7 @@ namespace X.Desktop;
 /// <item>«Invia / carica terreno…» through ISoilTransferDialog (T5): commit, module, data and soil sheets passed to the dialog, copy and
 /// replacement sent to the window; the interactive bench.</item>
 /// </list>
-/// The historic view is not opened any more (f5-pass-geo, Q11): what the checks compared with it is compared with the values it gave,
+/// The historic view is archived (f5-pass-geo, Q11: supporto/SUPERATI/ui-storica/fondazioni): what the checks compared with it is compared with the values it gave,
 /// frozen in its traces or recorded here (<see cref="HistoricFixtures"/>, <see cref="HistoricDrawings"/>, <see cref="HistoricAutomationNames"/>,
 /// <see cref="HistoricEditable"/>, <see cref="HistoricReadOnly"/>, <see cref="HistoricNoResult"/>; no «?» label).
 /// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
@@ -219,8 +219,6 @@ internal static class ShallowFoundationViewChecks
         internal ShallowFoundationSheetViewModel Sheet => (ShallowFoundationSheetViewModel)((MvvmSheetEditor)Editor).Sheet;
 
         internal ShallowFoundationSheetView View => Walk(Root).OfType<ShallowFoundationSheetView>().Single();
-
-        internal FoundationWorkspace Historic => ((SheetEditor)Editor).FoundationForChecks ?? throw new InvalidOperationException("Foglio storico senza la vista delle fondazioni.");
 
         internal void Layout()
         {
@@ -992,9 +990,8 @@ internal static class ShallowFoundationViewChecks
     }
 
     /// <summary>
-    /// ANTHEA.exe --interactive --module-impl geo_fondazioni_superficiali=mvvm (UiTests, manual tests before the switch of the Release): the
-    /// factory of the composition root with the bench choice opens the MVVM foundations with the services of the product, the others stay
-    /// historic; the Release still opens the historic view.
+    /// ANTHEA.exe --interactive (UiTests) and the Release: the factory of the composition root, with or without the bench choice, opens the MVVM
+    /// foundations with the services of the product.
     /// </summary>
     private static void InteractiveBench(string root)
     {
@@ -1005,8 +1002,8 @@ internal static class ShallowFoundationViewChecks
                 && sheet.TransferSoilCommand.CanExecute(null) && !sheet.HasResults, "Banco interattivo: fondazioni MVVM con i servizi del prodotto (Wiki, trasferimento del terreno), senza calcolo all'apertura");
         using (var other = factory.Open("geo_palo_verticale", Anthea.Application.Modules.ModuleDirectory.CreateData("geo_palo_verticale")))
             Check(other is MvvmSheetEditor, "Banco interattivo: gli altri moduli come nella Release (il palo verticale con la vista MVVM dal 23/10)");
-        Check(composition.SheetEditors.Open(Module, ShallowFoundationScenarios.FixtureData(root, "default")) is SheetEditor historic && Dispose(historic),
-            "Banco interattivo: la radice di composizione della Release apre ancora la vista storica");
+        Check(composition.SheetEditors.Open(Module, ShallowFoundationScenarios.FixtureData(root, "default")) is MvvmSheetEditor { Sheet: ShallowFoundationSheetViewModel } release && Dispose(release),
+            "Release: la radice di composizione apre le fondazioni con la vista MVVM");
     }
 
     private static bool Dispose(IDisposable value) { value.Dispose(); return true; }

@@ -48,6 +48,9 @@ l'archiviazione; **R** = controllo «la Release resta storica», da togliere nel
 
 ### 1.3 Fondazioni superficiali (`geo_fondazioni_superficiali`)
 
+**Stato al 23/10 (f5-pass-geo): fatto.** Release MVVM, vista storica in `supporto/SUPERATI/ui-storica/fondazioni/`, righe sotto
+risolte ([f5-9b-fondazioni.md](f5-9b-fondazioni.md), sezione 6).
+
 | Suite | File | Che cosa legge | Effetto | Piano |
 | --- | --- | --- | --- | --- |
 | `FoundationWorkspace.UiChecks` (e `--candidate`) | `tests/FoundationWorkspace.Checks/Program.cs`, metodo `Ui` e parte `--ui` di `ContractChecks` | `X.Desktop.FoundationWorkspace` per riflessione (`TryCalculate`, `Result`, `TextBox` Tag `Width`, `raccogli-input`, sei schede, aspetto) | A | vista XAML ospitata da `MvvmSheetEditor` fuori schermo, libreria candidata iniettata nel servizio del contesto (già pianificato in `f5-9b-fondazioni.md` 3.5) |

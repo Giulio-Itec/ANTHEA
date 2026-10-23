@@ -256,21 +256,8 @@ public partial class App
             return;
         }
 
-        // F5.9b: traces of the historic shallow foundation view (tests/Desktop/ShallowFoundationHistoricTrace.cs); the check also
-        // compares them with the frozen ones of tests/fixtures/f5-fondazioni/storica.
-        if (e.Args.Length == 3 && e.Args[0] is "--check-fondazioni-historic" or "--check-fondazioni-historic-capture")
-        {
-            ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            Dispatcher.BeginInvoke(new Action(async () =>
-            {
-                int code = 0;
-                try { await ShallowFoundationHistoricTrace.Run(e.Args[1], e.Args[2], e.Args[0] == "--check-fondazioni-historic"); }
-                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
-                finally { Shutdown(code); }
-            }));
-            return;
-        }
-        // F5.9b: the XAML view of the shallow foundations hosted by MvvmSheetEditor, off screen (tests/Desktop/ShallowFoundationViewChecks.cs).
+        // F5.9b: the XAML view of the shallow foundations hosted by MvvmSheetEditor, off screen (tests/Desktop/ShallowFoundationViewChecks.cs). The
+        // traces of the historic view (--check-fondazioni-historic) are archived with it in supporto/SUPERATI/ui-storica/fondazioni (Q11).
         if (e.Args.Length == 3 && e.Args[0] == "--check-fondazioni-view")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
