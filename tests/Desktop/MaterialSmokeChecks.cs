@@ -215,12 +215,11 @@ internal sealed class ConcreteMaterialSmoke
 }
 
 /// <summary>
-/// f5-suite-ui: the reinforcing steel sheet as ui/smoke-steel and ui/smoke-hierarchy drive it, with either view: the historic RebarMaterialView
-/// (Selection, Properties, Input, Status) or the XAML view (RebarMaterialSheetView: the type, the fields of its FieldForm, the status line).
+/// f5-suite-ui: the reinforcing steel sheet as ui/smoke-steel and ui/smoke-hierarchy drive it, with the XAML view (RebarMaterialSheetView: the
+/// type, the fields of its FieldForm, the status line); the branch of the historic RebarMaterialView went with its archiving (f5-pass-geo).
 /// </summary>
 internal sealed class SteelSmoke(ISheetEditor editor)
 {
-    private readonly RebarMaterialView? historic = (editor as SheetEditor)?.rebarMaterial;
 
     private List<DependencyObject> Elements => MaterialSheetViewChecks.All(editor.View);
 
@@ -232,23 +231,22 @@ internal sealed class SteelSmoke(ISheetEditor editor)
     /// <summary>The type of steel chosen (a preset of the catalogue or «Personalizzato»).</summary>
     internal string? Type
     {
-        get => historic is not null ? historic.Selection.SelectedItem?.ToString() : TypeChoice.SelectedItem as string;
-        set { if (historic is not null) historic.Selection.SelectedItem = value; else TypeChoice.SelectedItem = value; }
+        get => TypeChoice.SelectedItem as string;
+        set => TypeChoice.SelectedItem = value;
     }
 
     /// <summary>The text box of a property does not accept typing (a property fixed by the preset).</summary>
-    internal bool IsReadOnly(string key) => historic is not null ? ((TextBox)historic.Properties.Editors[key]).IsReadOnly : Field<TextBox>(key).IsReadOnly;
+    internal bool IsReadOnly(string key) => Field<TextBox>(key).IsReadOnly;
 
     /// <summary>The input of the steel, as the sheet holds it.</summary>
-    internal JsonObject Input => historic?.Input ?? editor.Data["input"]!.AsObject();
+    internal JsonObject Input => editor.Data["input"]!.AsObject();
 
     /// <summary>The status line under the properties.</summary>
-    internal string Status => historic is not null ? historic.Status.Text : Elements.OfType<TextBlock>().Single(t => t.Name == "StatusText").Text;
+    internal string Status => Elements.OfType<TextBlock>().Single(t => t.Name == "StatusText").Text;
 
     /// <summary>The user types (or chooses) <paramref name="value"/> for a property, as InputForm.Set of the historic view.</summary>
     internal void Set(string key, string value)
     {
-        if (historic is not null) { historic.Properties.Set(key, value); return; }
         if (Elements.OfType<ComboBox>().SingleOrDefault(c => c.DataContext is FieldViewModel f && f.Key == key) is { } choice) choice.SelectedItem = value;
         else Field<TextBox>(key).Text = value;
     }

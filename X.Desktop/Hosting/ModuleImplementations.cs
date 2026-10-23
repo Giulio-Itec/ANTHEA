@@ -11,8 +11,9 @@ internal enum SheetImplementation
 
 /// <summary>
 /// Which implementation opens the sheets of each module (F5.2, proposal 5.2). <see cref="Declared"/> is the versioned choice of
-/// the Release: one line per module of ModuleDirectory, today <see cref="SheetImplementation.Mvvm"/> for the horizontal pile group
-/// (F5.4 checkpoint, 17/10/2026) and the new Spectra and EmbeddedWalls modules, which have no historic views. The other modules keep
+/// the Release: one line per module of ModuleDirectory, <see cref="SheetImplementation.Mvvm"/> for the horizontal pile group
+/// (F5.4 checkpoint, 17/10/2026), the new Spectra and EmbeddedWalls modules, which have no historic views, and the modules switched
+/// after the user's trial (23/10/2026: passaggi della Release). The other modules keep
 /// <see cref="SheetImplementation.Historic"/>. An existing module passes to
 /// <see cref="SheetImplementation.Mvvm"/> here only after its checkpoint (F5.4–F5.12), in the commit that retires its historic
 /// view (Q11): a module MVVM in the Release has no historic view any more (archived in supporto/SUPERATI/ui-storica); this file is
@@ -35,8 +36,8 @@ internal sealed partial class ModuleImplementations
         ("str_palo", SheetImplementation.Historic),
         ("str_mista_ponte", SheetImplementation.Historic),
         ("str_bridge_design", SheetImplementation.Historic),
-        ("mat_calcestruzzo", SheetImplementation.Historic),
-        ("mat_acciaio_armatura", SheetImplementation.Historic),
+        ("mat_calcestruzzo", SheetImplementation.Mvvm),
+        ("mat_acciaio_armatura", SheetImplementation.Mvvm),
         ("geo_stratigrafia", SheetImplementation.Historic),
         ("act_spettri_ntc", SheetImplementation.Mvvm),
         ("geo_paratie", SheetImplementation.Mvvm),

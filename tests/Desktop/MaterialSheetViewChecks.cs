@@ -50,9 +50,9 @@ namespace X.Desktop;
 /// read-only.</item>
 /// <item>AutomationProperties.Name of the historic views kept by the new ones.</item>
 /// <item>Read-only revision: the same controls refuse the edits as in the historic views; typing and choices are refused.</item>
-/// <item>The interactive bench opens the two MVVM sheets with the services of the product; the Release stays historic.</item>
+/// <item>The interactive bench and the Release open the two MVVM sheets with the services of the product.</item>
 /// </list>
-/// The historic views are not opened any more (f5-pass-geo, before their archiving, Q11): what the checks compared with them is compared
+/// The historic views are archived (f5-pass-geo, Q11: supporto/SUPERATI/ui-storica/materiali): what the checks compared with them is compared
 /// with the values they gave, frozen in their traces or recorded here (<see cref="HistoricHelpLabels"/>, <see cref="HistoricAutomationNames"/>,
 /// <see cref="HistoricReadOnly"/>, <see cref="HistoricProjectEdits"/>, <see cref="HistoricNoResult"/>).
 /// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
@@ -799,8 +799,8 @@ internal static class MaterialSheetViewChecks
     // ---------------------------------------------------------------- 8. interactive bench
 
     /// <summary>
-    /// ANTHEA.exe --interactive --module-impl mat_calcestruzzo=mvvm --module-impl mat_acciaio_armatura=mvvm (UiTests, manual tests before the
-    /// switch): the factory of the composition root with the bench choices opens the MVVM material sheets with the services of the product.
+    /// ANTHEA.exe --interactive (UiTests) and the Release: the factory of the composition root, with or without the bench choices, opens the MVVM
+    /// material sheets with the services of the product.
     /// </summary>
     private static void InteractiveBench(string root)
     {
@@ -812,8 +812,11 @@ internal static class MaterialSheetViewChecks
         using (var steel = factory.Open(Steel, MaterialScenarios.FixtureData(root, Steel, "default")))
             Check(steel is MvvmSheetEditor { Sheet: RebarMaterialSheetViewModel sheet } && sheet.PropertiesForm.WikiNavigator is WpfWikiNavigator && sheet.StatusCoherent,
                 "Banco interattivo: acciaio MVVM con i servizi del prodotto");
-        foreach (string module in new[] { Concrete, Steel })
-            using (var release = composition.SheetEditors.Open(module, MaterialScenarios.FixtureData(root, module, "default")))
-                Check(release is SheetEditor, "Banco interattivo: la Release apre ancora la vista storica di " + module);
+        using (var release = composition.SheetEditors.Open(Concrete, MaterialScenarios.FixtureData(root, Concrete, "default")))
+            Check(release is MvvmSheetEditor { Sheet: ConcreteMaterialSheetViewModel sheet } && sheet.Inputs.WikiNavigator is WpfWikiNavigator,
+                "Release: calcestruzzo con la vista MVVM e i servizi del prodotto");
+        using (var release = composition.SheetEditors.Open(Steel, MaterialScenarios.FixtureData(root, Steel, "default")))
+            Check(release is MvvmSheetEditor { Sheet: RebarMaterialSheetViewModel sheet } && sheet.PropertiesForm.WikiNavigator is WpfWikiNavigator,
+                "Release: acciaio con la vista MVVM e i servizi del prodotto");
     }
 }

@@ -74,6 +74,9 @@ l'archiviazione; **R** = controllo «la Release resta storica», da togliere nel
 
 ### 1.6 Materiali (`mat_calcestruzzo`, `mat_acciaio_armatura`)
 
+**Stato al 23/10 (f5-pass-geo): fatto.** Release MVVM, viste storiche in `supporto/SUPERATI/ui-storica/materiali/`, righe sotto
+risolte come da piano ([f5-5-materiali.md](f5-5-materiali.md), sezione 5).
+
 | Suite | File | Che cosa legge | Effetto | Piano |
 | --- | --- | --- | --- | --- |
 | `ui/smoke-materials`, `ui/smoke-hierarchy`, `ui/smoke-sharing`, `ui/smoke-steel` | `OpenSheetChecks.cs`, `MaterialSmokeChecks.cs` | già indipendenti; rami storici `HistoricConcrete`, `SteelSmoke` storico | — | pulizia (sezione 4 di `f5-suite-ui.md`) |

@@ -9740,6 +9740,28 @@
       },
       "revisione_f5_15": "gruppo 12, BD4; «Da guardare per primi», punto 6; 15.5",
       "voci_collegate": ["F5-08", "F5-18"]
+    },
+    {
+      "id": "F5-60",
+      "data": "2026-10-23",
+      "fase": "F5.5, vista XAML dei materiali (punto di controllo F5.5, D11); attiva con il passaggio della Release del 23/10 (f5-pass-geo)",
+      "titolo": "Calcestruzzo: F1 su un campo apre la sezione della Wiki del campo",
+      "famiglia": "interfaccia/materiali",
+      "modulo": "F5.5 · Materiali (mat_calcestruzzo)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Vista storica (Materiali.MaterialView): F1 su qualunque campo apriva la guida del modulo. Vista nuova: F1 su un campo con un argomento apre la sua sezione (per esempio «Diametro della barra da verificare · φ»), altrimenti la guida del modulo; F1 fuori dai campi apre la guida del modulo da MvvmSheetEditor. Le «?» dei campi sono le stesse. Per l'acciaio per armature non cambia nulla: l'InputForm storico apriva già la sezione del campo. Come F5-03 per la palificata.",
+      "documento": "docs/refactoring/f5-5-materiali.md §4.2 (D8–D12) e «Passaggio della Release»",
+      "codice": ["src/ANTHEA.Presentation/Forms/FormViewModel.cs (WikiNavigator)", "X.Desktop/Hosting/MvvmSheetEditor.cs (F1 fuori dai campi)", "X.Desktop/Views/Materials"],
+      "segno": "Solo l'aiuto contestuale: dati, anteprima, report e cattura F3 invariati (tracce delle viste uguali a quelle congelate della vista storica).",
+      "test": ["tests/Desktop/MaterialSheetViewChecks.cs (ui/check-materials-view): «?», F1 su un campo con argomento, su un campo senza e fuori dai campi attraverso IWikiNavigator, anche in sola lettura"],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; D11 di f5-punti-di-controllo.md)",
+        "esito": "accettata; attiva nella Release dal passaggio dei materiali del 23/10 (f5-pass-geo)"
+      },
+      "revisione_f5_15": "non in elenco: proposta accettata il 17/10",
+      "voci_collegate": ["F5-03"]
     }
   ]
 }

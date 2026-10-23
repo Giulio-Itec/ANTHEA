@@ -22,8 +22,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     public JsonObject Data { get; }
     private JsonObject? result;
     private bool busy;
-    internal readonly Materiali.MaterialView? materials;
-    internal readonly RebarMaterialView? rebarMaterial;
     private ConcreteWorkspace? concrete;
     private readonly HorizontalWorkspace? horizontal;
     private readonly FoundationWorkspace? foundation;
@@ -43,8 +41,7 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     public event Action<JsonObject>? SoilReplacementRequested;
     public Func<IEnumerable<(string Label, string Module, JsonObject Data, string Id)>>? SoilSources { get; set; }
     public FrameworkElement View => this;
-    // Materiali keeps its edits in the view until Commit: the preview reads them without committing.
-    public JsonObject PreviewData => materials?.CaptureState() ?? Data;
+    public JsonObject PreviewData => Data;
     private bool building = true, disposed;
     private int expanded = -1;
     private bool Micro => Module == "geo_micropalo_verticale";
@@ -122,15 +119,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
         {
             horizontal = new HorizontalWorkspace(Data, calculationService, elasticAnalysis); horizontal.Modified += () => Modified?.Invoke(); Content = Ui.Dock(horizontal, Ui.Bar(Ui.Button("Invia / carica terreno…", OpenSoilTransfer))); building = false; return;
         }
-        if (module == "mat_calcestruzzo")
-        {
-            materials = new Materiali.MaterialView((label, key) => WikiContextHelp.Label(label, key, "mat_calcestruzzo")); materials.RestoreState(Materiali.MaterialSheetInput.NormalizeState(Data));
-            materials.Modified += () => Modified?.Invoke(); Content = materials; building = false; return;
-        }
-        if (module == RebarEditor.Module)
-        {
-            rebarMaterial = new RebarMaterialView(Data); rebarMaterial.Modified += () => Modified?.Invoke(); Content = rebarMaterial; building = false; return;
-        }
         if (Section)
         {
             void OpenConcrete()
@@ -162,7 +150,7 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     private Action? releaseRevisionInspection;
     public void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
     public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); recalculation.Dispose(); calculationSession.Clear(); concrete?.Dispose(); horizontal?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); bridgeDesign?.Dispose(); }
-    public void Commit() { if (soilWorkspace is not null) soilWorkspace.Commit(); else if (foundation is not null) foundation.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
+    public void Commit() { if (soilWorkspace is not null) soilWorkspace.Commit(); else if (foundation is not null) foundation.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (bridge is not null) bridge.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
         int index = cards.Count; var header = new DockPanel { Margin = new Thickness(0, 0, 0, 8), MinHeight = 28 };
@@ -263,7 +251,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
         if (retainingWall is not null) { await retainingWall.CalculateAsync(); return; }
         if (bridgeDesign is not null) { await bridgeDesign.CalculateAsync(); return; }
         if (bridge is not null) { await bridge.CalculateAsync(commitEdits); return; }
-        if (materials is not null || rebarMaterial is not null) { Commit(); return; }
         if (horizontal is not null) { await horizontal.CalculateActiveAsync(); return; }
         if (concrete is not null) { await concrete.CalculateAllAsync(); return; }
         scheduledCalculation = CalculateScheduledAsync(TimeSpan.Zero, commitEdits);
@@ -359,12 +346,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
             var pdf = Anthea.FoundationWorkspace.FoundationReport.Pdf(title, current);
             Archivio.ScriviAtomico(filename, word);
             Archivio.ScriviAtomico(Path.ChangeExtension(filename, ".pdf"), pdf); return;
-        }
-        if (materials is not null || rebarMaterial is not null)
-        {
-            // The report of a section with only this sheet: Materiali.MaterialReportChapter.Write in Application (F5.5).
-            Commit(); Materiali.MaterialReportChapter.Write(filename, Module, title, Data);
-            return;
         }
         Anthea.Reports.ReportFiles.Write(filename, BuildReport(title, options, projectReport), title);
     }

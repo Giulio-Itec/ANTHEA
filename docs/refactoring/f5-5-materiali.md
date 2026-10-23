@@ -395,3 +395,71 @@ X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe --interactive --module-impl mat_
    condivisi, avvisi del copriferro), report della sezione; aprire una revisione precedente: campi e scelte bloccati, «?»
    utilizzabili.
 8. Salvare, chiudere e riaprire: stessi dati.
+
+## 5. Passaggio della Release (23/10, agente f5-pass-geo)
+
+Ramo `refactoring/f5-pass-geo`, da `refactoring/f5` `db7ef68d`. Decisione dell'utente del 23/10: «finisci il refactoring che
+avevamo previsto delle viste», «Moduli ora, shell dopo».
+
+### 5.1 Che cosa è fatto
+
+| Commit | Contenuto |
+| --- | --- |
+| `19b7c15d` | `ui/check-materials-view` non apre più le viste storiche: confronta con i valori che davano (sotto) |
+| commit del passaggio | Release MVVM per `mat_calcestruzzo` e `mat_acciaio_armatura`, viste storiche archiviate, suite e documenti |
+
+- **Release.** `ModuleImplementations.Declared`: `mat_calcestruzzo` e `mat_acciaio_armatura` = `Mvvm`. `ui/check-module-host-offscreen`
+  lo prova (radice di composizione: calcestruzzo e acciaio con `MvvmSheetEditor`; il registro della sonda, che sta per l'acciaio,
+  contiene anche `ConcreteMaterialSheetModule`; `--module-impl mat_calcestruzzo=historic` rifiutato); `ui/check-materials-view` lo
+  prova con i servizi del prodotto.
+- **Archiviazione (Q11)** in `supporto/SUPERATI/ui-storica/materiali/`, con `README.md` e `registro.json` (origine, ultimo commit,
+  SHA-256 CRLF e LF, motivo, sostituzione): `X.Desktop/Wpf/Materials/*` (le otto parti di `Materiali.MaterialView` e `Styles.xaml`),
+  `X.Desktop/Wpf/RebarMaterialView.cs`, `tests/Desktop/MaterialHistoricTrace.cs`, `tests/Desktop/MaterialViewTrace.cs`,
+  `supporto/test/Materiali/MaterialViewChecks.cs` (l'autoverifica `MaterialView.Check`, sostituita da `ConcreteMaterialSmoke.SelfCheck`).
+  `RebarIcon`, l'icona del modulo in fondo a `RebarMaterialView.cs`, resta in uso: spostata senza modifiche in `X.Desktop/Wpf/RebarIcon.cs`.
+  `DurabilityReferenceChecks` resta (la usa l'autoverifica sulla vista nuova).
+- **Tolti:**
+  - i rami dei materiali di `SheetEditor` (campi `materials` e `rebarMaterial`, costruttore, `PreviewData`, `Commit`, `CalculateAsync`,
+    `ExportReport`); `MaterialReportContent` resta, perché è del contratto `ISheetEditor`;
+  - i rami storici di `OpenSheet` (`SetConcreteState`, `CheckConcrete`, `TypeConcreteNumber`, `Steel`), di `SteelSmoke` e di `ShellSheet`;
+  - `--check-materials-historic[-capture]` dell'harness e la suite `ui/check-materials-historic`;
+  - il blocco autonomo del contrasto (`AuditMvvmMaterials`, `MainWindow.AuditMvvmMaterialViews`);
+  - la coppia dei materiali da `$MvvmBench` e le suite diventate uguali alle normali: `ui/smoke-materials-mvvm`, `ui/smoke-hierarchy-mvvm`,
+    `ui/smoke-sharing-mvvm`, `ui/smoke-steel-mvvm`, `ui/shell-smoke-hierarchy-mvvm`, `ui/shell-smoke-sharing-mvvm`;
+  - la riga `../supporto/test/Materiali/*.cs` di `X.Desktop.csproj`.
+- **`ui/check-materials-view`** (`19b7c15d`): le parti che aprivano le viste storiche confrontano con i valori che davano:
+  - dati e anteprima all'apertura, dati e Modified dopo conferma e «Calcola» e dopo le esportazioni uguali alla traccia congelata
+    `fixture-<id>`; JSON rifiutato con il messaggio della vista storica; capitolo (`MaterialReportContent`) e report Word/PDF uguali a
+    quelli della ricetta della vista storica (`MaterialReportChapter.Create` e `.Write` sui dati confermati);
+  - capitolo nel report del progetto: le stesse modifiche attraverso la vista danno i dati e i Modified registrati della vista storica;
+  - «?», nomi di automazione, controlli liberi e bloccati prima e dopo la sola lettura: i valori delle viste storiche registrati nella
+    prova, uguali in tutte le corse fino a `20261023-013037-full-fine-ca-1.13.0` e nella corsa di cattura `20261023-120256-geo-cattura-mat`;
+  - schermate delle sole viste nuove.
+- **Baseline.** F4: le 4 voci (5 occorrenze) di `MaterialView.cs` tolte con il file; le 9 voci di `RebarIcon.OnRender` passano da
+  `RebarMaterialView.cs` a `RebarIcon.cs` (stessa impronta). P3, `limits.json` e `tests/fixtures/f3/architecture.json` invariati.
+- **Contrasto.** La baseline della Chiara non ha voci dei materiali: nessuna voce da spostare. Il passo dei due moduli mostra ora le
+  viste nuove: **da ripetere a 96 DPI** (`ui/check-contrast` non eseguita, schermo a 144 DPI). Se le viste nuove hanno difetti in
+  Chiara, sono voci nuove della baseline: da spiegare, come dice la regola D12 (f5-4-pilota.md 5.2).
+- **Registro.** Voce **F5-60** (D11 per il calcestruzzo: F1 su un campo apre la sezione del campo), come F5-03 per la palificata; le
+  altre differenze della sezione 4.4 sono di solo aspetto e non hanno voce (nota del registro del 23/10).
+
+### 5.2 Prove
+
+| Corsa | Esito |
+| --- | --- |
+| `ui/check-materials-view` su `19b7c15d` (`20261023-120905-geo-mat-vista`) | PASS 229 controlli |
+| dopo il passaggio (`20261023-121818-geo-mat-pass`): `Architecture.Tests`, `ui/check-materials-view`, `ui/smoke-materials`, `-hierarchy`, `-sharing`, `-steel`, `-material-report`, `-project-report`, `ui/check-module-host-offscreen`, `ui/f3-scheduling`, `ui/f3-figures`, `ui/check-examples`, `ui/shell-smoke-hierarchy`, `-sharing`, `-project-report`, `ui/shell-capture` e il confronto diretto | PASS 20, NEW-FAIL 0 |
+
+### 5.3 Che cosa resta
+
+- `ui/check-contrast` a 96 DPI (sopra).
+- `ui/f3-equivalence` sul ramo unito (coordinatore): con i materiali MVVM era già a 0 differenze (sezione 4.3 e prova f5f).
+- Guida pratica, «Preparare il calcestruzzo»: il testo dice di selezionare «una o più classi di esposizione», ma la scheda (già la vista
+  storica, con le caselle nascoste; ora la vista nuova, M10) ne sceglie una dal menu. Proposta nel resoconto dell'agente.
+
+### 5.4 Come riprendere
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-pass-geo
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(check-materials-view|smoke-(materials|hierarchy|sharing|steel))$' -Tag <tag>"
+```

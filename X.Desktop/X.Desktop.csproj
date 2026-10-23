@@ -66,7 +66,6 @@
     <!-- Scenarios and traces of the composite bridge section sheet (F5.11), shared with tests/ANTHEA.Presentation.Tests. -->
     <Compile Include="../tests/Shared/CompositeSectionTrace.cs" Link="Tests/Shared/CompositeSectionTrace.cs" />
     <Compile Include="../tests/ANTHEA.Desktop.Equivalence/*.cs" Link="Tests/F3/%(Filename)%(Extension)" />
-    <Compile Include="../supporto/test/Materiali/*.cs" Link="Tests/Materiali/%(Filename)%(Extension)" />
     <Compile Include="../supporto/test/Shared/DurabilityReferenceChecks.cs" Link="Tests/Materiali/DurabilityReferenceChecks.cs" />
     <Compile Include="../tests/Shared/LegacySectionActionsExcel.cs" Link="Tests/Shared/LegacySectionActionsExcel.cs" />
     <EmbeddedResource Include="../tests/Shared/ANTHEA_Sollecitazioni_legacy.xlsx" LogicalName="ANTHEA.Sollecitazioni.Legacy.xlsx" Link="Tests/Shared/ANTHEA_Sollecitazioni_legacy.xlsx" />

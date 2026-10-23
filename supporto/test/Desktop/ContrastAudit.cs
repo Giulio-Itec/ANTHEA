@@ -187,8 +187,8 @@ internal sealed class ContrastAudit
                     // ---- F5.10 begin: step mvvm-str_palo, self-contained (ConcreteSectionContrastStep at the end of the file) ----
                     await ConcreteSectionContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
                     // ---- F5.10 end ----
-                    // F5.5 (f5-5-vista): the MVVM views of the materials before their Release switch, a self-contained step (AuditMvvmMaterials).
-                    await AuditMvvmMaterials(audit, mode);
+                    // F5.5: since the Release switch of the materials (f5-pass-geo) the steps modulo-mat_calcestruzzo and modulo-mat_acciaio_armatura
+                    // show the MVVM views; their own steps mvvm-mat_calcestruzzo and mvvm-mat_acciaio_armatura are removed with the historic views.
                     var start = mode == AppAppearance.Light ? AppAppearance.VeryDark : AppAppearance.Light;
                     if (audit.Want("cambio"))
                     {
@@ -204,31 +204,6 @@ internal sealed class ContrastAudit
         audit.Write(started, args);
         if (audit.baselineFile is not null) ContrastBaseline.Check(output, audit.baselineFile, views);
     }
-
-    // ---------------------------------------------------------------- F5.5 (f5-5-vista): MVVM views of the materials, self-contained
-
-    /// <summary>
-    /// The XAML views of the materials (concrete and reinforcing steel, F5.5) before their Release switch: a main window whose editors
-    /// open the two MVVM sheets, explored as the module steps (steps mvvm-mat_calcestruzzo and mvvm-mat_acciaio_armatura). With --baseline
-    /// (runner) only Scuro and Molto scuro: until the Release opens the new views, the Chiara of the modules is the one of the historic
-    /// views, whose defects are in the baseline (modulo-mat_calcestruzzo, modulo-mat_acciaio_armatura); without --baseline also Chiara.
-    /// Removed at the Release switch of the materials, when the module steps show the new views.
-    /// </summary>
-    private static async Task AuditMvvmMaterials(ContrastAudit audit, AppAppearance mode)
-    {
-        if (!audit.Want(MainWindow.MvvmConcreteView) && !audit.Want(MainWindow.MvvmSteelView)) return;
-        if (mode == AppAppearance.Light && audit.baselineFile is not null)
-        {
-            audit.Uncovered("Viste MVVM dei materiali (F5.5) in Chiara", "con --baseline solo Scuro e Molto scuro finché la Release apre le viste storiche, " +
-                "la cui Chiara è nella baseline (modulo-mat_calcestruzzo, modulo-mat_acciaio_armatura); la Chiara delle viste MVVM si misura senza --baseline");
-            return;
-        }
-        var window = await audit.OpenMain(mode, ModuleHostBench.SheetEditors([ModuleHostBench.Argument, "mat_calcestruzzo=mvvm", ModuleHostBench.Argument, "mat_acciaio_armatura=mvvm"]));
-        try { await window.AuditMvvmMaterialViews(audit); }
-        finally { await audit.CloseMain(window); }
-    }
-
-    // ---------------------------------------------------------------- end of the F5.5 block
 
     /// <summary>
     /// --check-contrast &lt;cartella&gt; --diagnosi: checks the off-screen mechanism (moves of a hidden window, then of the shown
@@ -1941,20 +1916,6 @@ public sealed partial class MainWindow
         }
         await AuditModuleState(a, module, complete, prefix + module + (complete is null ? "" : "-dati"), full: true);
     }
-
-    // ---------------------------------------------------------------- F5.5 (f5-5-vista): MVVM views of the materials, self-contained
-
-    /// <summary>Steps of the MVVM views of the materials (F5.5, ContrastAudit.AuditMvvmMaterials): the exploration of the module steps.</summary>
-    internal const string MvvmConcreteView = "mvvm-mat_calcestruzzo", MvvmSteelView = "mvvm-mat_acciaio_armatura";
-
-    /// <summary>The two material sheets of this window (its editors open the MVVM views), explored as the module steps with their own names.</summary>
-    internal async Task AuditMvvmMaterialViews(ContrastAudit a)
-    {
-        await a.Step(MvvmConcreteView, () => AuditModule(a, "mat_calcestruzzo", "mvvm-"));
-        await a.Step(MvvmSteelView, () => AuditModule(a, "mat_acciaio_armatura", "mvvm-"));
-    }
-
-    // ---------------------------------------------------------------- end of the F5.5 block
 
     private async Task AuditModuleState(ContrastAudit a, string module, JsonObject? data, string name, bool full)
     {

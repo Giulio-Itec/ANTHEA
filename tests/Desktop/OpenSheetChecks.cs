@@ -68,19 +68,17 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
 
     // ---------------------------------------------------------------- materials (ui/smoke-materials, ui/smoke-hierarchy, ui/smoke-sharing, ui/smoke-steel)
 
-    /// <summary>The concrete with the XAML view, null otherwise.</summary>
-    private ConcreteMaterialSmoke? Concrete => ConcreteMaterialSmoke.Handles(editor) ? new((MvvmSheetEditor)editor) : null;
+    /// <summary>The concrete with the XAML view (the only one since the Release switch of the materials, f5-pass-geo).</summary>
+    private ConcreteMaterialSmoke Concrete => ConcreteMaterialSmoke.Handles(editor) ? new((MvvmSheetEditor)editor) : throw new Exception("Scheda materiali non aperta");
 
-    private Materiali.MaterialView HistoricConcrete => Historic.materials ?? throw new Exception("Scheda materiali non aperta");
+    /// <summary>The state of the concrete set through the controls of the view (ConcreteMaterialSmoke.Apply; RestoreState of the archived historic view).</summary>
+    internal void SetConcreteState(System.Text.Json.Nodes.JsonObject state) => Concrete.Apply(state);
 
-    /// <summary>RestoreState of the historic concrete view; on the XAML view the same state set through its controls (ConcreteMaterialSmoke.Apply).</summary>
-    internal void SetConcreteState(System.Text.Json.Nodes.JsonObject state) { if (Concrete is { } concrete) concrete.Apply(state); else HistoricConcrete.RestoreState(state); }
-
-    /// <summary>MaterialView.Check, the self-check of the concrete sheet (ui/smoke-materials).</summary>
-    internal void CheckConcrete() { if (Concrete is { } concrete) concrete.SelfCheck(); else HistoricConcrete.Check(); }
+    /// <summary>The self-check of the concrete sheet (ui/smoke-materials): MaterialView.Check of the archived historic view, on the XAML view.</summary>
+    internal void CheckConcrete() => Concrete.SelfCheck();
 
     /// <summary>The user types in a field of the concrete (before the commit: the preview of the sheet follows).</summary>
-    internal void TypeConcreteNumber(string key, string text) { if (Concrete is { } concrete) concrete.Type(key, text); else HistoricConcrete.NumberBoxForChecks(key).Text = text; }
+    internal void TypeConcreteNumber(string key, string text) => Concrete.Type(key, text);
 
     // ---------------------------------------------------------------- retaining walls (ui/smoke-retaining-wall, ui/smoke-global-stability)
 
@@ -91,9 +89,8 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     /// <summary>F5.11: the composite bridge section, with either view (BridgeSmoke).</summary>
     internal BridgeSmoke Bridge => BridgeSmoke.Of(editor);
 
-    /// <summary>The reinforcing steel, with either view (SteelSmoke).</summary>
-    internal SteelSmoke Steel => editor.Module != RebarMaterial.Module ? throw new Exception("Modulo acciaio non aperto")
-        : new(editor is MvvmSheetEditor ? editor : Historic);
+    /// <summary>The reinforcing steel with the XAML view (SteelSmoke).</summary>
+    internal SteelSmoke Steel => editor.Module != RebarMaterial.Module ? throw new Exception("Modulo acciaio non aperto") : new(editor);
 }
 
 /// <summary>f5-suite-ui: what the UI suites need from any sheet with the XAML view.</summary>

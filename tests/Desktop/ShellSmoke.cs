@@ -289,22 +289,14 @@ internal sealed class ShellSheet(ShellSmokeBench bench, SheetSession session)
         else new VerticalPileSmoke(Hosted, bench.Services).SetGeometry(value);
     }
 
-    /// <summary>RestoreState of the concrete (the historic view) or its controls (the XAML view).</summary>
-    internal void SetConcreteState(JsonObject state)
-    {
-        if (Historic is { } historic) (historic.materials ?? throw new InvalidOperationException("Scheda materiali non aperta")).RestoreState(state);
-        else new ConcreteMaterialSmoke(Hosted).Apply(state);
-    }
+    /// <summary>The state of the concrete set through the controls of its XAML view (the only one since the Release switch of the materials).</summary>
+    internal void SetConcreteState(JsonObject state) => new ConcreteMaterialSmoke(Hosted).Apply(state);
 
     /// <summary>The user types in a field of the concrete (before the commit: the preview of the sheet follows).</summary>
-    internal void TypeConcreteNumber(string key, string text)
-    {
-        if (Historic is { } historic) (historic.materials ?? throw new InvalidOperationException("Scheda materiali non aperta")).NumberBoxForChecks(key).Text = text;
-        else new ConcreteMaterialSmoke(Hosted).Type(key, text);
-    }
+    internal void TypeConcreteNumber(string key, string text) => new ConcreteMaterialSmoke(Hosted).Type(key, text);
 
     /// <summary>The type of the reinforcing steel, chosen as the user chooses it.</summary>
-    internal SteelSmoke Steel => new(Historic is { } historic ? historic : new ShellMvvmEditor(Hosted));
+    internal SteelSmoke Steel => new(new ShellMvvmEditor(Hosted));
 
     /// <summary>WaitForAutomatic of the sheet, either view.</summary>
     internal Task WaitForAutomatic() => Historic is { } historic ? historic.WaitForAutomatic() : MvvmSheets.WaitForAutomatic(Hosted);

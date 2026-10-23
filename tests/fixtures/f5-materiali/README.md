@@ -18,8 +18,9 @@ l'apertura e dopo ogni passo di uno scenario:
 | Cosa | Dove |
 | --- | --- |
 | Scenari e formato | `tests/Shared/MaterialTrace.cs` |
-| Viste storiche | `tests/Desktop/MaterialHistoricTrace.cs` e `tests/Desktop/MaterialViewTrace.cs` (`Materiali.MaterialView` e `RebarMaterialView` aperte da `SheetEditor`, fuori schermo) |
+| Viste storiche (archiviate il 23/10/2026) | `supporto/SUPERATI/ui-storica/materiali/tests/Desktop/MaterialHistoricTrace.cs` e `MaterialViewTrace.cs` (`Materiali.MaterialView` e `RebarMaterialView` aperte da `SheetEditor`, fuori schermo), non compilati |
 | ViewModel | `tests/ANTHEA.Presentation.Tests/MaterialSheetChecks.cs` (senza WPF) |
+| Viste nuove | `tests/Desktop/MaterialSheetViewChecks.cs` (`ui/check-materials-view`, attraverso i controlli delle viste XAML) |
 
 Gli scenari sono 21, con i file `calcestruzzo-<nome>.txt` e `acciaio-<nome>.txt`:
 - `fixture-<id>`, uno per ognuna delle 15 fixture F3 dei due moduli: apertura, conferma, calcolo, conferma, riapertura,
@@ -48,7 +49,9 @@ Gli scenari sono 21, con i file `calcestruzzo-<nome>.txt` e `acciaio-<nome>.txt`
   ```
 
   Due catture (`supporto/artefatti/refactoring/f5-5/storica-1` e `-2`) sono uguali byte per byte.
-- La suite `ui/check-materials-historic` dello stadio `ui` ricattura le viste storiche e le confronta con queste tracce,
-  finché le viste storiche esistono.
-- `Presentation.Tests`, nello stadio `fast`, confronta le stesse tracce con i ViewModel.
+- La suite `ui/check-materials-historic` dello stadio `ui` ricatturava le viste storiche e le confrontava con queste tracce.
+  È stata tolta il 23/10/2026 con l'archiviazione delle viste storiche (`supporto/SUPERATI/ui-storica/materiali`), quando la
+  Release è passata alle viste MVVM.
+- `Presentation.Tests`, nello stadio `fast`, confronta le stesse tracce con i ViewModel; `ui/check-materials-view` le confronta
+  attraverso le viste XAML.
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.

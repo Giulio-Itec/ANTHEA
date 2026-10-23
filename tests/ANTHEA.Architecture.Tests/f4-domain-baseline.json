@@ -8844,38 +8844,6 @@
       "Example": "6"
     },
     {
-      "File": "X.Desktop/Wpf/Materials/MaterialView.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "MaterialView.FitTable",
-      "Fingerprint": "5B5A1C5DD0849504954B4BD24748F3D8E43D5AE611FE44CD14E0A0A2F1E98BB3",
-      "Count": 1,
-      "Example": "4"
-    },
-    {
-      "File": "X.Desktop/Wpf/Materials/MaterialView.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "MaterialView.MaterialView",
-      "Fingerprint": "DB33A11380734FC16C0A654BE353652DD4DCEE7F464AFA807AB5D52396213A0C",
-      "Count": 1,
-      "Example": "20"
-    },
-    {
-      "File": "X.Desktop/Wpf/Materials/MaterialView.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "MaterialView.ResizeColumns",
-      "Fingerprint": "83D6669BCB164D1EFB7341CC278D4C6D372DD2F3A88FF1199626524C834C06E2",
-      "Count": 1,
-      "Example": "62"
-    },
-    {
-      "File": "X.Desktop/Wpf/Materials/MaterialView.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "MaterialView.ResizeColumns",
-      "Fingerprint": "F0165282BA3CB630E8D41841742087ADB5CEB81F20C363185A77BC749DCD3FDB",
-      "Count": 2,
-      "Example": "3"
-    },
-    {
       "File": "X.Desktop/Wpf/ModuleFigureRenderer.Concrete.cs",
       "Rule": "R4-implicit-number",
       "Owner": "ModuleFigureRenderer.ConcreteFigures",
@@ -10212,7 +10180,7 @@
       "Example": "entry . D ( \"numero\" )"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "00AC29FCF5488B5EECA90AC1622E0466B5655AB7A9FDF374413ECC210AB64EBD",
@@ -10220,7 +10188,7 @@
       "Example": "56"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "0A83F8B3A934AAA43D19A0FDCED797FE4A5812770FFC6BEC9AE657BCCBD4BE26",
@@ -10228,7 +10196,7 @@
       "Example": "19"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "689A0AFDD5651B75F6B5A3581F998634D9484FB479D009DC11BDFF8E995EF467",
@@ -10236,7 +10204,7 @@
       "Example": "20"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "707F92A4BB0229679C7334D59BB8F4DCB5C007BABCC8C79D3853112DB461ACFE",
@@ -10244,7 +10212,7 @@
       "Example": "5"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "76AE5F6F4072F4EAE4E7EA6A44A80F9915CBEDE279F6D032CE1D5CE8278C5C17",
@@ -10252,7 +10220,7 @@
       "Example": "16"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "796B662652D7E4BAB9837B6934682B4BCAE55C9950A7851D0ED7C361396D0EF1",
@@ -10260,7 +10228,7 @@
       "Example": "17"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "9459B38EA74BCB81F803B079F0F50214DCF3091207D085CFAD2858F87B2511E2",
@@ -10268,7 +10236,7 @@
       "Example": "12"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "CFB34BCD532EC62F37B6C70E61CAD106D5A1733BD80D6774BB05665EB8B8F175",
@@ -10276,7 +10244,7 @@
       "Example": "9"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "D7783DEF4FA7B5DFA26817AC5584E5D90A6E7D6C40D5ECA62888F05C7F39C32F",
