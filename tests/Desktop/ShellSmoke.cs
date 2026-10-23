@@ -88,12 +88,13 @@ internal sealed class ShellSmokeBench : IDisposable
     internal TreeView Tree => (TreeView)Window.FindName("Tree");
 
     /// <summary>The shell from its composition root with the modules of the product, as the Release chooses them with the bench pairs of the command line.</summary>
-    internal static async Task<ShellSmokeBench> OpenAsync(string output)
+    /// <param name="modules">The modules of the shell; by default those of the product (F5.13 g: ui/check-module-host-offscreen passes the registry with its probe).</param>
+    internal static async Task<ShellSmokeBench> OpenAsync(string output, ModuleRegistry? modules = null)
     {
         var services = new BenchSheetServices();
         var presentation = ShellComposition.WithShellWiki(services.Create());
         var detached = new List<QuietShellWindow>();
-        var parts = ShellComposition.Create(presentation, DesktopComposition.CreateModules(), new CalculationLimiter(CalculationLimiter.DefaultMaximum), ShellComposition.ExamplesFolder,
+        var parts = ShellComposition.Create(presentation, modules ?? DesktopComposition.CreateModules(), new CalculationLimiter(CalculationLimiter.DefaultMaximum), ShellComposition.ExamplesFolder,
             window => { var quiet = new QuietShellWindow(Offscreen(window)); detached.Add(quiet); return quiet; }, ModuleHostBench.Implementations(Environment.GetCommandLineArgs()));
         var bench = new ShellSmokeBench(output, services, presentation, parts, detached);
         Offscreen(parts.Window).Show();

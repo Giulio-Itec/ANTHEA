@@ -28,7 +28,8 @@ internal sealed partial class ShellSmokeWindow : IDisposable
 
     private ShellSmokeWindow(ShellSmokeBench bench) => Bench = bench;
 
-    internal static async Task<ShellSmokeWindow> OpenAsync(string output) => new(await ShellSmokeBench.OpenAsync(output));
+    internal static async Task<ShellSmokeWindow> OpenAsync(string output, Anthea.Presentation.Modules.ModuleRegistry? modules = null) =>
+        new(await ShellSmokeBench.OpenAsync(output, modules));
 
     internal ShellSmokeBench Bench { get; }
 
