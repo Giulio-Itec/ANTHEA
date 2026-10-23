@@ -68,13 +68,14 @@ public sealed partial class MainWindow
 internal sealed partial class SheetEditor
 {
     // The vertical piles open with their MVVM view since the Release switch of 23/10 (f5-pass-geo): their branches of these partials went with
-    // their historic view (VerticalPileSmoke in tests/Desktop/VerticalPileSmokeChecks.cs checks the XAML view); the RC section stays.
-    internal void SetGeometryForSmoke(string value) => (concrete ?? throw new InvalidOperationException("Geometria di prova solo per la sezione c.a.: " + Module)).SetGeometry(value);
+    // their historic view (VerticalPileSmoke in tests/Desktop/VerticalPileSmokeChecks.cs checks the XAML view). The RC section went the same
+    // way with f5-pass-sezione (ConcreteSectionSmoke in tests/Desktop/ConcreteSectionSmoke.cs): no historic sheet has these steps any more.
+    internal void SetGeometryForSmoke(string value) => throw new InvalidOperationException("Geometria di prova: nessun foglio storico la prevede (" + Module + ")");
     /// <summary>The calculation under way finished, within 10 s (the historic sheets have no scheduled automatic recalculation any more).</summary>
     internal async Task WaitForAutomatic()
     {
         for (int i = 0; i < 200 && Busy; i++) await Task.Delay(50);
         if (Busy) throw new Exception("Calcolo automatico non terminato");
     }
-    internal Task VerifyWpf(string directory, string name) => (concrete ?? throw new InvalidOperationException("Verifica WPF storica solo per la sezione c.a.: " + Module)).VerifyWorkspace(directory);
+    internal Task VerifyWpf(string directory, string name) => throw new InvalidOperationException("Verifica WPF storica: nessun foglio storico la prevede (" + Module + ")");
 }

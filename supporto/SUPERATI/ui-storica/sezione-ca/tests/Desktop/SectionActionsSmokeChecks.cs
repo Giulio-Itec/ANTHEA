@@ -8,21 +8,6 @@ using Anthea.Presentation.Modules.ConcreteSection;
 using X.Core;
 
 namespace X.Desktop;
-public sealed partial class MainWindow
-{
-    internal async Task SmokeSectionActions(string directory)
-    {
-        Directory.CreateDirectory(directory);
-        document = DocumentService.CreateDocument("str_palo"); currentSheet = null;
-        var data = document["dati"]!.AsObject();
-        var vm = new SectionActionsViewModel(data);
-        vm.Import(SectionActionsExcel.Write([new("SLU", "C1", -100, 10, 5, 20, 30, 0), new("SLV", "C1", -90, 8, 3, 12, 24, 0, "P02"), new("SLE", "Rara 1", -60, 6, 2, 8, 10, 0)]), true);
-        if (!vm.Apply()) throw new Exception(vm.Status);
-        document["dati"] = vm.Result!.DeepClone(); ShowSheet(document); await editor!.CalculateAsync();
-        await historicEditor!.VerifySectionActions(directory);
-        dirty = false;
-    }
-}
 internal sealed partial class SheetEditor
 {
     internal Task VerifySectionActions(string directory) => concrete!.VerifySectionActions(directory);

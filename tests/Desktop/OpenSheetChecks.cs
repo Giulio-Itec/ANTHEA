@@ -33,12 +33,33 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     /// <summary>The automatic recalculation finished (within 10 s, as SheetEditor.WaitForAutomatic).</summary>
     internal Task WaitForAutomatic() => editor is MvvmSheetEditor mvvm ? MvvmSheets.WaitForAutomatic(mvvm) : Historic.WaitForAutomatic();
 
+    /// <summary>The RC section with the XAML view (ConcreteSectionSmoke), null otherwise.</summary>
+    private ConcreteSectionSmoke? Section => ConcreteSectionSmoke.Handles(editor) ? new((MvvmSheetEditor)editor, services) : null;
+
     /// <summary>SetGeometryForSmoke: the diameter of a vertical pile, the geometry of a c.a. section, as the user types it.</summary>
-    internal void SetGeometryForSmoke(string value) { if (Pile is { } pile) pile.SetGeometry(value); else Historic.SetGeometryForSmoke(value); }
+    internal void SetGeometryForSmoke(string value)
+    {
+        if (Pile is { } pile) pile.SetGeometry(value);
+        else if (Section is { } section) section.SetGeometry(value);
+        else Historic.SetGeometryForSmoke(value);
+    }
 
     // ---------------------------------------------------------------- ui/smoke (SmokeChecks.cs)
 
-    internal Task VerifyWpf(string directory, string name) => Pile is { } pile ? pile.VerifyWpf(directory, name) : Historic.VerifyWpf(directory, name);
+    internal Task VerifyWpf(string directory, string name) => Pile is { } pile ? pile.VerifyWpf(directory, name)
+        : Section is { } section ? Verify(section, s => s.VerifyWorkspace(directory)) : Historic.VerifyWpf(directory, name);
+
+    // ---------------------------------------------------------------- the c.a. section (ui/smoke-section-actions, ui/smoke-ca-extensions, ui/smoke-ca-features)
+
+    /// <summary>The RC section with the XAML view, for the c.a. smokes; the windows of the view are closed after <paramref name="check"/>.</summary>
+    internal static async Task Verify(ConcreteSectionSmoke section, Func<ConcreteSectionSmoke, Task> check)
+    {
+        try { await check(section); }
+        finally { section.Dispose(); }
+    }
+
+    /// <summary>The open RC section with the XAML view.</summary>
+    internal ConcreteSectionSmoke ConcreteSection => Section ?? throw new InvalidOperationException("Il foglio aperto non è la sezione c.a. con la vista XAML: " + editor.Module);
 
     // ---------------------------------------------------------------- ui/smoke-display (DisplaySmokeChecks.cs)
 

@@ -1,0 +1,349 @@
+[
+  {
+    "origine": "X.Desktop/Wpf/ConcreteWorkspace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteWorkspace.cs",
+    "commit": "e157454d (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "439fa706776b43b54717904504e6ee6743be65367732ce94fc6cb09eb8f35474",
+    "sha256_lf": "b5f91c6e74d9a87d6db5a756a5bcfb26221c530c925aeea340d8fdedf649f5a0",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteCurvature.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteCurvature.cs",
+    "commit": "739cfbb9 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "920422cac6e7a329eb647582d043b1b8d3be2c4ec50ada31e42cbccb179d86c5",
+    "sha256_lf": "06609e0cd6e66d23ed7a8ea2d750d1f62a410d7322a276e3e33fe28470e70560",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteDesign.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteDesign.cs",
+    "commit": "6f0e2165 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "b92c7a7fd3365602b2ae34c0d9c419ffed9efe7763dd5c5b2e11922a1b1eabdb",
+    "sha256_lf": "48c9aab45b7d9a3593c36a0f0355579b94b8a8e068c929366a213e1bfb32879e",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteDetailing.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteDetailing.cs",
+    "commit": "2146e171 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "6f74afb57463a0fa5b292f2f486bfe136abd2737dae720cfc0ccf48e4b3e4c0c",
+    "sha256_lf": "557e596b090815700b1fd7a5deca946943d5ef0643bf252c5a19fb234be771c2",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteDomains.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteDomains.cs",
+    "commit": "4e657c4a (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "0c61fd2311aabfbe8e9c27f1c5cb52c7e094b5985cb75b5f78eae13b2a94c247",
+    "sha256_lf": "59cd8002566b6d238868b8f1b1ce0ac6bd77d9021205a122fd725a370df6e3cc",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteExchange.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteExchange.cs",
+    "commit": "a5567277 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "446c2d94d41253be17b052288502f55a1dc6782149f409da5937fa7dd0fa65d8",
+    "sha256_lf": "e73d85ca29c4495b83d5ffa6d41cfa6e5574c64d4d3683fd283a908f7457db0e",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteInspection.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteInspection.cs",
+    "commit": "739cfbb9 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "231ef3ccbc5773105f7dcec4ceb551bf289c11ef572bbce6ff97ef2d421fe591",
+    "sha256_lf": "f1e2629530705795c4903ba6d44f12e2547a9e7af4584040c77e11c792ffc8ce",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteLayers.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteLayers.cs",
+    "commit": "0852f275 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "88653b14e7adc7a92ff0ebd572f6e8279c0637275790905c6539de197c84a2ed",
+    "sha256_lf": "f15cf8d286bccc28658f6ab8725bfd95ad5574b37968f994f666cebc9d0860f6",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteLayout.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteLayout.cs",
+    "commit": "1fa75d05 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "529d6d776e69b284c1cc9d1c90d5c5e6e9d660be88989ba2cc2ead70bf7c64c4",
+    "sha256_lf": "20ddac3ebbb2359e5a38a62f7878d281804c296d168970d9d5d8a6b679c88863",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteMaterialEditor.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteMaterialEditor.cs",
+    "commit": "df0e4b6f (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "0c642726caee840bc72d304441c17b1dd71b29e3fe71a00c3093a7ca61d531db",
+    "sha256_lf": "281aa563e972d2adcb0f9956ca6cfd0ba0b5c4d00f08d180cf62f9d927704e82",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteMaterials.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteMaterials.cs",
+    "commit": "df0e4b6f (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "c6b0b377daba51ebcc0e0bd5c8eb2574c64a24c90b24a2dfe9df0d3bbdcbbf48",
+    "sha256_lf": "c5989d9aa494e2cfc0ff850da8608ccc7de7ba927ba37f7fcbfb4ca0b791ecee",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteParameters.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteParameters.cs",
+    "commit": "e157454d (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "1fbc2f403e81ce5a0a0113adc2b36b54d90d6268d829614f46f763050da1881b",
+    "sha256_lf": "7abc8f398d43ccf2ab267d5268a8d3b5336a57ab79b67aeaf3bbcaeb77d07520",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteQuickResistance.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteQuickResistance.cs",
+    "commit": "f201cca4 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "fc3bbfa6795528cfa4d063885eb5041f466331672b83ef7ae159a871460a022e",
+    "sha256_lf": "47d1375c1f332b88b9bfbdbf56e3bb76b54b7c2f1f8434326a312c8dda43df6c",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteRefinements.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteRefinements.cs",
+    "commit": "f99eaff8 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "fdae1c6336379d2bc266160d0d21b8025dc2c9a932ba43d9a3e0fd9d519d6647",
+    "sha256_lf": "fb61dd6eb1ea9c67f8f624b2a63ed82ef5bdca4627f06c2c786f33a75736670c",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteReport.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteReport.cs",
+    "commit": "6bd55f6b (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "22251891dfa9be415d17be570b0bffa623c059ddd95defff1c458942fca1b5f5",
+    "sha256_lf": "8a349bc09ee47123f20a3aa2a0676086111d0c46254d3e7d210746212a9a7b9d",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteSectionProperties.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteSectionProperties.cs",
+    "commit": "bd2e0f4e (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "a35eba4bacb8d4ccc926b565914a2354ecee5f9cbf38762283a02f28dd4957d5",
+    "sha256_lf": "5484b39268d36b05d630a08dbc1fc61668b7b37c0982a0d6ebc58152191fd5c6",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteShear.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteShear.cs",
+    "commit": "f7ea07dd (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "4ea21b7ebbd2f9012194a76f719b3a599c3e441577fa9becd24c268082590801",
+    "sha256_lf": "88d27fcef914c2c5083999c4b38d06f51027da97ba7a38a9cfcbfec840839ef0",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteStress.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteStress.cs",
+    "commit": "f99eaff8 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "ae70460bffa9373782a64c43c469f9a9a2efee35d8ecf415c258c2e9a1e2d07c",
+    "sha256_lf": "32410f13d84392bcde3d80dff0502973df8867bc7e38ec501f9568d9cd1a45b9",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteTables.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteTables.cs",
+    "commit": "82c9ec4d (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "178906101de1337f3b09bf1d3fe45c623dd208511d7f05a7d9b4c1700b2b39a4",
+    "sha256_lf": "9a8d3535aa6aff7fc2e1cd412a25828dbd780cae95bc1126b3e02c4251951257",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteTendons.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteTendons.cs",
+    "commit": "df0e4b6f (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "d4aecb74d5bab62e4743b8be59055ed0edcca85151c1970f1b1affd7441a648e",
+    "sha256_lf": "7bff3b7104b4db5d82c0e5c54d6b950e3c867c35c8ac88bfc42a7596ab56d02e",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteTorsion.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteTorsion.cs",
+    "commit": "f7ea07dd (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "1ede9f3e7f4d8dfa9b41ecccfedb09e64603127057665aad034e5e2ea6208dce",
+    "sha256_lf": "4f872809aa05ae20c8f38c9437a482b21b2e05ba95f82f9e968ef2c0ca01aec5",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/SectionActionsView.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/SectionActionsView.cs",
+    "commit": "a5567277 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "e2bf771c9419141cf6f66d3e1d35a7db25f4383d3ab926c5c2359fc1b94fd234",
+    "sha256_lf": "6c3d055fce8b9f615a27ab7eb97440bcd2881c66c252dd11054e22caecf540a4",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ConcreteTemplateWizardWindow.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/X.Desktop/Wpf/ConcreteTemplateWizardWindow.cs",
+    "commit": "0852f275 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "77402a37dfbf54f9da8c919a1bf65d7648ce94f03e1a55c173ec4305c114f4be",
+    "sha256_lf": "7d78c1d781a5f05bbe03888ec44fb13da8c5d4850486bf24e7ec4f4f2d9d2fc4",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/ConcreteSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ConcreteSection (ViewModel); i disegni X.Desktop/Wpf/ConcreteViewports.cs, ConcreteDimensions.cs, ConcreteStrainPlane.cs, NeutralAxisOverlay.cs, ConcreteSectionDrawings.cs e ConcreteTimeEffectsView.cs restano"
+  },
+  {
+    "origine": "supporto/test/Desktop/ConcreteSmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/supporto/test/Desktop/ConcreteSmokeChecks.cs",
+    "commit": "e157454d (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "cd10c9d8b2d0f1e9a5910082c76f76259262bf67aa071f938a40c46ecf87b414",
+    "sha256_lf": "5363b473b7f2826f8642dd5a2436d044d03f993b99c0ce34e1fae6ba8069a6a0",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "supporto/test/Desktop/ConcreteExtensionSmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/supporto/test/Desktop/ConcreteExtensionSmokeChecks.cs",
+    "commit": "475ebe54 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "d597ebc98a7ba35fecbfe71cd01c7666d1d69eff63c714b71494b7c5ab307a1b",
+    "sha256_lf": "f5e1c6ea1af048a336c133e5a0686900f76558666e95e2a8d5ea711672dace1a",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "supporto/test/Desktop/ConcreteFeatureChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/supporto/test/Desktop/ConcreteFeatureChecks.cs",
+    "commit": "475ebe54 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "9e12aeab8632e8af067eb3de87e8f4105c1f5dffd56b05e33b4eb44688d5008c",
+    "sha256_lf": "9b7c579356e8395ec9d9f68b2dc3ce83d814d8edd9a8ea3cc218d0a7236b80b4",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "supporto/test/Desktop/ConcreteWorkspace.Tests.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/supporto/test/Desktop/ConcreteWorkspace.Tests.cs",
+    "commit": "d6a0ffa6 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "eff522a979ba20d8c1523ddcc28092d07f0d784ec4ef414765a22b5c4bebb477",
+    "sha256_lf": "124ae991801f8daa2d40555f2bf2d69f4cd9a5581f8f05e1b7ebba52528de184",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "supporto/test/Desktop/ConcreteDesignDesktopChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/supporto/test/Desktop/ConcreteDesignDesktopChecks.cs",
+    "commit": "f8023b31 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "fd8e804340f206fa13ed60b3d7cc78a02f806b7b65f51dacf4a5c6322f23fbbe",
+    "sha256_lf": "f3e25b67f0af0fed2bbaad70b3acd3584a77e43fe94ec4dd47523568c9d84305",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "supporto/test/Desktop/ValidationCaptureChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/supporto/test/Desktop/ValidationCaptureChecks.cs",
+    "commit": "46fc35b5 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "0dc434e3d351ccb91dc2c19e24eb3ad1efceab8ea3edcb7f52fa5a72e572b14a",
+    "sha256_lf": "b91c19f09100bb798b1d92f99f969540feb9303bd8d15667bf1e7ab5993d9078",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "tests/Desktop/SectionActionsSmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/tests/Desktop/SectionActionsSmokeChecks.cs",
+    "commit": "475ebe54 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "f7de3267e64c0f8cbbdb227e639e4eefa60cadeb9be8118a3c764ec67b98fbe8",
+    "sha256_lf": "a9998b7bfa1a558dd61ea1eb00e440d3c089b54ff8a8ad15c956df94ff20bd47",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "tests/Desktop/ConcreteSectionHistoricTrace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/tests/Desktop/ConcreteSectionHistoricTrace.cs",
+    "commit": "c5827950 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "ebbd124eb7f08781d03f58bbdef0cc298afbb09cde77856d56fa9ba6b1e2aa7e",
+    "sha256_lf": "261acd853e0ba3d58781650b8f3905bd1cf24ee9935b2af88601dbf57ae8edfd",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "tests/Desktop/ConcreteSectionHistoricState.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/tests/Desktop/ConcreteSectionHistoricState.cs",
+    "commit": "ade9737c (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "268a2eadbec9b82a0368f1d59d4017bd0f473341e5bd70bc778315cef4b7145a",
+    "sha256_lf": "1662a5ce2415640a1374a25aeb6b06c29d76e699eadceae2bcd26487e9703463",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "tests/ANTHEA.Desktop.Equivalence/F3ConcreteFigureChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/tests/ANTHEA.Desktop.Equivalence/F3ConcreteFigureChecks.cs",
+    "commit": "029d5d0b (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "sha256": "a99641f64b4f7a3117572e3bb4091e13d2be51c5ba195e254fd2c0bffc8f8e0a",
+    "sha256_lf": "41ae0b8926ac3f53683070a367f458511e42c8b902532ebc0b4cbc60849258ba",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "supporto/test/Desktop/NeutralAxisSmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/supporto/test/Desktop/NeutralAxisSmokeChecks.cs",
+    "commit": "475ebe54 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "estratto": "partial di ConcreteWorkspace in fondo al file (VerifyNeutralAxisControls); la parte del ponte e delle viste resta",
+    "sha256": "84b2b840ad437edd7d266bb4282aeb6f86d42b9cbdce2713fb4e245f8ad4f516",
+    "sha256_lf": "1598327e1bda9152bacb33ed042a57b6dd8a3d238720a7799e6a552d03d1cfb5",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "supporto/test/Desktop/ReportAppearanceChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/supporto/test/Desktop/ReportAppearanceChecks.cs",
+    "commit": "475ebe54 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "estratto": "partial di SheetEditor (WaitForConcreteChecks, ShowDomain3DForChecks) e di ConcreteWorkspace in fondo al file; il resto resta",
+    "sha256": "6db684b06edc355aed5916968b2f4bcc23c5467284a9a791d633893935f2b5b9",
+    "sha256_lf": "cb51216dbd36106853c58e6341cf11eae1181eb136f3af26831b2d5fb1e41e09",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "tests/ANTHEA.Desktop.Equivalence/F3TypedSchedulingChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/tests/ANTHEA.Desktop.Equivalence/F3TypedSchedulingChecks.cs",
+    "commit": "1987ffc2 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "estratto": "sonda storica ConcreteWorkspace.CheckF3Scheduling in fondo al file; il resto resta",
+    "sha256": "9d5286948fbd72af9975ec59eb306b3c002052d8aceb95ed438b4bd8704c9139",
+    "sha256_lf": "b5b385a6c5955d47fafa1b79f089efb49d04c9efcc487a9d4655cda9e9cbd2ae",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "tests/ANTHEA.Desktop.Equivalence/F3ReportChapterChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/tests/ANTHEA.Desktop.Equivalence/F3ReportChapterChecks.cs",
+    "commit": "7b1e4aaf (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "estratto": "partial di SheetEditor e di ConcreteWorkspace (CalculateCurvatureForReportCheck) in fondo al file; il resto resta",
+    "sha256": "e857609e9698f6260b27554fd83da63c35bc01f95e3d26ffcb8b31470d101daf",
+    "sha256_lf": "4c9bce0efb6f5da8e24853dc877f701b2cc16434b9290fb40a1ad84870f5288f",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  },
+  {
+    "origine": "tests/Desktop/ConcreteTemplateViewChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-ca/tests/Desktop/ConcreteTemplateViewChecks.cs",
+    "commit": "475ebe54 (ultimo che lo modifica), invariato fino a refactoring/f5-pass-sezione 475ebe54",
+    "estratto": "partial di ConcreteWorkspace (CheckTemplateEditor) in fondo al file, tolta nel commit di prova; la prova resta sulla vista XAML del wizard",
+    "sha256": "e2757656622648f905b406f0a4935b3462fe8816c653eda113bbd7d2bc8f1c01",
+    "sha256_lf": "f9901025e9ff4b554c3fd0e52c5fce17ddba80580f22e1e48e26fefd28f8211b",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.10, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione c.a. (str_palo) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "tests/Desktop/ConcreteSectionSmoke*.cs (le stesse prove sulla vista XAML) e tests/Desktop/ConcreteSectionViewChecks*.cs; le tracce congelate di tests/fixtures/f5-sezione e la registrazione tests/fixtures/f5-sezione/vista-storica.json restano"
+  }
+]

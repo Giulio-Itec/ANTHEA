@@ -17,16 +17,14 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
 {
     public string Module { get; }
     public JsonObject Data { get; }
-    private ConcreteWorkspace? concrete;
     internal readonly RetainingWallWorkspace? retainingWall;
-    public JsonObject? Result => retainingWall is not null ? retainingWall.Result : concrete?.Result;
-    public bool HasResults => concrete is not null ? concrete.HasResults : Result is not null;
-    public bool Busy => retainingWall?.Busy ?? concrete?.Busy ?? false;
+    public JsonObject? Result => retainingWall?.Result;
+    public bool HasResults => Result is not null;
+    public bool Busy => retainingWall?.Busy ?? false;
     public event Action? Modified;
     public event Action<JsonObject, string>? ConcreteSectionRequested;
     public event Action? ReportRequested;
-    public byte[] BuildShortReport(string title) => concrete?.BuildShortReport(title)
-        ?? throw new InvalidOperationException("Il report short è disponibile per le sezioni in calcestruzzo armato.");
+    public byte[] BuildShortReport(string title) => throw new InvalidOperationException("Il report short è disponibile per le sezioni in calcestruzzo armato.");
     public event Action<string, JsonObject, string>? ModuleCopyRequested;
     public event Action<JsonObject>? SoilReplacementRequested;
     public Func<IEnumerable<(string Label, string Module, JsonObject Data, string Id)>>? SoilSources { get; set; }
@@ -52,15 +50,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
             retainingWall.SoilTransferRequested += OpenSoilTransfer;
             Content = retainingWall; return;
         }
-        if (Section)
-        {
-            void OpenConcrete()
-            {
-                concrete?.Dispose(); concrete = new ConcreteWorkspace(Data);
-                concrete.Modified += () => Modified?.Invoke(); concrete.ReloadRequested += OpenConcrete; Content = concrete;
-            }
-            OpenConcrete(); return;
-        }
         // The vertical pile and micropile (the last sheets of the generic branch) open with their MVVM view since the Release switch of 23/10
         // (f5-pass-geo): their historic view (GeoEditor.cs) is archived in supporto/SUPERATI/ui-storica/palo-verticale.
         throw new InvalidOperationException("Vista storica non disponibile per " + module + ": il modulo si apre con la vista MVVM.");
@@ -74,18 +63,16 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     }
     private Action? releaseRevisionInspection;
     public void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
-    public void Dispose() { releaseRevisionInspection?.Invoke(); concrete?.Dispose(); retainingWall?.Dispose(); }
-    public void Commit() { if (retainingWall is not null) retainingWall.Commit(); else if (concrete is not null) concrete.Commit(); }
+    public void Dispose() { releaseRevisionInspection?.Invoke(); retainingWall?.Dispose(); }
+    public void Commit() { if (retainingWall is not null) retainingWall.Commit(); }
     public async Task CalculateAsync(bool commitEdits = true)
     {
         if (retainingWall is not null) { await retainingWall.CalculateAsync(); return; }
-        if (concrete is not null) await concrete.CalculateAllAsync();
     }
     public void ExportResult(string filename)
     {
-        if (!HasResults || Busy) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
+        if (!HasResults || Busy) throw new InvalidOperationException("Premere Calcola prima di esportare.");
         var exported = Result!;
-        if (concrete is not null) exported["dati"] = Data.DeepClone();
         Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(exported.ToJsonString(J.Options)));
     }
     public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
@@ -100,8 +87,7 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     internal DocxDocument BuildReportDocument(string title, HashSet<string> options, bool projectReport = false)
     {
         if (retainingWall is not null) return retainingWall.BuildReportDocument(title);
-        if (concrete is not null) return concrete.BuildReportDocument(title, options, projectReport);
-        if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
+        if (Result is null) throw new InvalidOperationException("Premere Calcola prima di esportare.");
         throw new InvalidOperationException("Report non disponibile per " + Module + ".");
     }
 }

@@ -56,7 +56,8 @@ public sealed partial class MainWindow
         Check(view.NeutralAxisDisplay is null, "CLS: disattivazione elimina linea e legenda");
         view.ShowNeutralAxis = true; view.Stress = null; _ = view.Png();
         Check(view.NeutralAxisDisplay is null, "CLS: nessun asse residuo senza risultato");
-        using (var concrete = new ConcreteWorkspace(data)) concrete.VerifyNeutralAxisControls(Check);
+        // The switch «Asse neutro» of the section σ/ε on the XAML view of the RC section (passaggio della Release, 23/10/2026).
+        using (var concrete = ConcreteSectionSmoke.Open((JsonObject)data.DeepClone())) await concrete.VerifyNeutralAxisControls(Check);
 
         var bridgeData = BridgeSection.Defaults(); bridgeData["classe4"] = false;
         foreach (string method in BridgeSection.CalculationMethods)
@@ -111,18 +112,5 @@ public sealed partial class MainWindow
         }
         finally { window.Close(); }
         File.WriteAllLines(Path.Combine(directory,"smoke.txt"), checks.Append($"OK: {checks.Count} controlli completati."));
-    }
-}
-
-internal sealed partial class ConcreteWorkspace
-{
-    internal void VerifyNeutralAxisControls(Action<bool,string> check)
-    {
-        var options = new JsonObject(); var view = new ConcreteSectionViewport();
-        var toggle = NeutralAxisToggle(view, options);
-        check(toggle.IsChecked == true && view.ShowNeutralAxis, "CLS: opzione inizialmente attiva");
-        toggle.IsChecked = false; toggle.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
-        var reopened = new ConcreteSectionViewport(); _ = NeutralAxisToggle(reopened, options);
-        check(!view.ShowNeutralAxis && !reopened.ShowNeutralAxis, "CLS: preferenza persistita");
     }
 }

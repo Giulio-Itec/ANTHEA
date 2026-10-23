@@ -66,15 +66,18 @@ internal static class ReportAppearanceChecks
         {
             using var zip = new ZipArchive(new MemoryStream(docx)); using var read = new StreamReader(zip.GetEntry("word/document.xml")!.Open()); return read.ReadToEnd();
         }
-        using (var editor = new SheetEditor("str_palo", SezioneCA.DefaultData()))
+        // Passaggio della Release della sezione c.a. (23/10/2026): the XAML view of the editor, without a window as the historic SheetEditor.
+        using (var section = ConcreteSectionSmoke.OpenDetached(SezioneCA.DefaultData()))
         {
-            await editor.CalculateAsync(); await editor.WaitForConcreteChecks();
-            var docx = editor.BuildReport("Sezione c.a. · aspetto", ["geometria", "materiali", "coefficienti", "azioni", "dominio3d", "dominio2d", "SLE", "SLE_FREQ", "SLE_QP", "taglio", "grafici"]);
+            var editor = section.Editor.View;
+            editor.Width = 1600; editor.Height = 1000; editor.Measure(new Size(1600, 1000)); editor.Arrange(new Rect(0, 0, 1600, 1000)); editor.UpdateLayout();
+            await section.Editor.CalculateAsync(); await section.Settle();
+            if (section.Busy || !section.Editor.HasResults) throw new Exception("Verifiche c.a. non completate");
+            var docx = section.Editor.BuildReport("Sezione c.a. · aspetto", ["geometria", "materiali", "coefficienti", "azioni", "dominio3d", "dominio2d", "SLE", "SLE_FREQ", "SLE_QP", "taglio", "grafici"]);
             check(DocumentXml(docx).Contains("Dominio 3D "), "Sezione c.a.: figura del dominio 3D presente");
             Add("sezione-ca", docx);
             // PNG button of the 3D view (ViewportFrame): the view lies in the editor, themed as a window of the current appearance.
-            editor.Width = 1600; editor.Height = 1000; editor.Measure(new Size(1600, 1000)); editor.Arrange(new Rect(0, 0, 1600, 1000)); editor.UpdateLayout();
-            var view = editor.ShowDomain3DForChecks(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); editor.UpdateLayout();
+            var view = await section.ShowDomain3DForChecks(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); editor.UpdateLayout();
             bool dark = Appearance.Current != AppAppearance.Light; Appearance.SetDark(editor, dark); Appearance.ApplyTree(editor); editor.UpdateLayout();
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); editor.UpdateLayout();
             // The camera was fitted at the earlier size of the view: "Adatta" at the fixed size, as before an export.
@@ -130,32 +133,5 @@ internal static class ReportAppearanceChecks
             Add("palo-verticale", editor.BuildReport("Palo verticale · aspetto", ReportWord.Sezioni.Select(s => s.Key).ToHashSet()));
         }
         return images;
-    }
-}
-
-internal sealed partial class SheetEditor
-{
-    // The automatic c.a. checks (domains, SLE, shear) queued after the first calculation, without a window.
-    internal async Task WaitForConcreteChecks()
-    {
-        for (int i = 0; i < 1200 && (Busy || !HasResults); i++) { await Task.Delay(50); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); }
-        if (Busy || !HasResults) throw new Exception("Verifiche c.a. non completate");
-    }
-    internal DomainViewport3D ShowDomain3DForChecks() => concrete!.ShowDomain3DForChecks();
-}
-
-internal sealed partial class ConcreteWorkspace
-{
-    internal DomainViewport3D ShowDomain3DForChecks()
-    {
-        // Without a window IsVisible stays false: fill the view as BuildReport does for hidden panels.
-        tabs.SelectedIndex = 1; UpdateLayout();
-        var panel = domainPanels.First(p => p.ThreeD); RefreshDomainPanel(panel, renderHidden: true);
-        // The PNG has the size of the view on screen, which follows the window layout (the dark templates of tabs and
-        // choices are a few pixels taller): a fixed size compares only the colours. At the origin of its frame, as when
-        // it stretches over it: RenderTargetBitmap draws the element at its offset in the parent.
-        panel.View3D!.Width = 620; panel.View3D.Height = 360;
-        panel.View3D.HorizontalAlignment = HorizontalAlignment.Left; panel.View3D.VerticalAlignment = VerticalAlignment.Top;
-        return panel.View3D;
     }
 }

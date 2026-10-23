@@ -5,17 +5,6 @@ using System.Windows;
 using X.Core;
 
 namespace X.Desktop;
-public sealed partial class MainWindow
-{
-    internal async Task SmokeConcreteFeatures(string directory)
-    {
-        Directory.CreateDirectory(directory);
-        document = Archivio.Documento("str_palo"); document["dati"] = SezioneCA.DefaultData(); currentSheet = null; ShowSheet(document);
-        await editor!.CalculateAsync();
-        await historicEditor!.VerifyConcreteFeatures(directory);
-        dirty = false;
-    }
-}
 internal sealed partial class SheetEditor
 {
     internal Task VerifyConcreteFeatures(string directory) => concrete!.VerifyFeatures(directory);

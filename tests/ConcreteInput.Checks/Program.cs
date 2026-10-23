@@ -1,4 +1,3 @@
-using System.Collections;
 using System.IO;
 using System.Reflection;
 using System.Text.Json.Nodes;
@@ -78,11 +77,34 @@ internal static class Program
             foreach (var item2 in Descendants<T>(child)) yield return item2;
         }
     }
+    /// <summary>The element and its parents up to <paramref name="root"/> visible (the form of a family is laid out on its own, outside the window).</summary>
+    private static bool Shown(DependencyObject element, DependencyObject root)
+    {
+        for (var node = element; node is not null && !ReferenceEquals(node, root); node = VisualTreeHelper.GetParent(node))
+            if (node is UIElement { Visibility: not Visibility.Visible }) return false;
+        return true;
+    }
     private static void Layout(FrameworkElement form)
     {
         form.Measure(new Size(600, 1200)); form.Arrange(new Rect(0, 0, 600, 1200)); form.UpdateLayout();
         foreach (var group in Descendants<Expander>(form)) group.IsExpanded = true;
         form.UpdateLayout();
+    }
+    /// <summary>
+    /// The RC section on a sheet as the Release opens it since 23/10/2026: the MvvmSheetEditor of the module str_palo with the services and the limiter
+    /// of the composition root of the desktop, by reflection (as ElasticPile.UiChecks).
+    /// </summary>
+    private static (FrameworkElement View, IDisposable Editor, Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel Sheet) ConcreteSection(JsonObject data)
+    {
+        var assembly = typeof(X.Desktop.MainWindow).Assembly;
+        var compositionType = assembly.GetType("X.Desktop.Services.DesktopComposition")!;
+        var composition = Activator.CreateInstance(compositionType, Members, null, [(Func<Window?>)(() => null)], null)!;
+        object Property(string name) => compositionType.GetProperty(name, Members)!.GetValue(composition)!;
+        var modules = Property("Modules"); var module = modules.GetType().GetMethod("SheetModule", Members)!.Invoke(modules, ["str_palo"])!;
+        var editorType = assembly.GetType("X.Desktop.MvvmSheetEditor")!;
+        var editor = (IDisposable)Activator.CreateInstance(editorType, Members, null, [module, data, Property("Services"), Anthea.Application.Modules.ModuleServices.Get("str_palo"), Property("Limiter")], null)!;
+        var sheet = (Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel)editorType.GetProperty("Sheet", Members)!.GetValue(editor)!;
+        return ((FrameworkElement)editorType.GetProperty("View", Members)!.GetValue(editor)!, editor, sheet);
     }
     private static void Ui(string output)
     {
@@ -92,16 +114,28 @@ internal static class Program
         var data = SezioneCA.DefaultData();
         SectionWorkspace.Prepare(data)["trefoli"]!.AsArray().Add(J.Obj(("id", "T1"), ("x", "0"), ("y", "-150"), ("area", "150"),
             ("sigma0", "1000"), ("Ep", "195000"), ("fpyk", "1670"), ("fpk", "1860"), ("eps_u", "35")));
-        var type = typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.ConcreteWorkspace")!;
-        using var workspace = (IDisposable)Activator.CreateInstance(type, Members, null, [data], null)!;
-        var settings = (JsonObject)type.GetField("settings", Members)!.GetValue(workspace)!;
-        var panels = (IDictionary)type.GetField("stressPanels", Members)!.GetValue(workspace)!;
-        FrameworkElement Form(string key) => (FrameworkElement)panels[key]!.GetType().GetField("Options", Members)!.GetValue(panels[key])!;
-        void Set(string key, string value) => Form("SLE").GetType().GetMethod("Set", Members)!.Invoke(Form("SLE"), [key, value, false]);
+        // Passaggio della Release della sezione c.a. (23/10/2026): the RC section with the XAML view (the MvvmSheetEditor of the module with the services and
+        // the limiter of the composition root, by reflection as ElasticPile.UiChecks), in place of the historic ConcreteWorkspace. The options of the
+        // families are those of the ViewModel; the notice next to the field is read in the form of the family laid out by the view (FieldForm).
+        SynchronizationContext.SetSynchronizationContext(new System.Windows.Threading.DispatcherSynchronizationContext());
+        var (view, editor, sheet) = ConcreteSection(data);
+        using var workspace = editor;
+        var settings = sheet.Settings;
+        var host = new Window { Content = view, Width = 1400, Height = 1000, Left = -32000, Top = -32000, WindowStartupLocation = WindowStartupLocation.Manual, ShowActivated = false, ShowInTaskbar = false };
+        host.Show(); host.UpdateLayout();
+        void Set(string key, string value) => sheet.StressPanel("SLE").Form.Set(key, value);
+        FrameworkElement Form(string set)
+        {
+            var form = sheet.StressPanel(set).Form;
+            var shown = Descendants<ContentControl>(view).FirstOrDefault(c => ReferenceEquals(c.Content, form));
+            return shown ?? new ContentControl { Content = form, Width = 600 };
+        }
         bool HasNote(string set)
         {
             var form = Form(set); Layout(form);
-            return Descendants<TextBlock>(form).Any(t => t.Text.Contains("φ ≥ 0") && VisualTreeHelper.GetParent(t) is Border { Visibility: Visibility.Visible });
+            var fields = new[] { "n_armature", "phi", "n_trefoli", "phi_trefoli" }.Select(k => sheet.StressPanel(set).Form[k]);
+            return fields.Any(f => f.IsNoteVisible && f.Note!.Contains("φ ≥ 0"))
+                && Descendants<TextBlock>(form).Any(t => t.Text.Contains("φ ≥ 0") && Shown(t, form));
         }
         foreach (var (phi, n) in new[] { ("phi", "n_armature"), ("phi_trefoli", "n_trefoli") })
         {
@@ -125,6 +159,7 @@ internal static class Program
         bitmap.Render(background); bitmap.Render(picture);
         var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
         using (var stream = File.Create(Path.Combine(output, "viscosita-rifiuto.png"))) encoder.Save(stream);
+        host.Content = null; host.Close();
         app.Shutdown();
     }
 }

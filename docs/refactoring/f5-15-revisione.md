@@ -94,8 +94,8 @@ segnalato come le più bisognose dell'utente.
 | 12. F5.12 Bridge Design e prezzari | 22 | 0 | 22 |
 | 13. F5.13 shell | 59 | 28 | 31 |
 | 14. Registro delle differenze R4–R21 | 17 | 0 | 17 |
-| 15. Voci trasversali | 14 | 3 | 11 |
-| **Totale** | **248** | **31** | **217** |
+| 15. Voci trasversali | 17 | 3 | 14 |
+| **Totale** | **251** | **31** | **220** |
 
 Note sul conteggio:
 - Una riga è una voce. Alcune righe uniscono codici che pongono la stessa domanda, per esempio «C2, S5-c» o «S6-a, S8-b».
@@ -601,6 +601,9 @@ Fonti: [f5-suite-ui.md §5](f5-suite-ui.md#5-domande-da-decidere-scelte-provviso
 | P2 | Colori dell'esito del palo orizzontale nelle prove | Risultati sintetici da `HorizontalPilePresentation.Verification`; in più righe, testo e colore per tre risultati veri | Non indicata | nessuno sui risultati (solo prove) | f5-suite-passaggi §3 |
 | P3 | Larghezza del selettore del metodo stratificato | **Decisa 21/10**: «tieni 120 px come le altre scelte» | Allargare la scelta nella vista (180 px) | solo interfaccia | f5-suite-passaggi §3; [decisioni](decisioni.md#21-ottobre-sera--selettore-del-metodo-del-palo-orizzontale-p3) |
 | Passaggi | Quando si fanno i passaggi della Release dei moduli F5 e le loro prove | **Decisa 22/10**: «i test per il passaggio alla release li facciamo a fine refactoring» | — | — | [f5-10 §19](f5-10-sezione.md#19-s9-fatto-2210) |
+| CA-P1 | Prove storiche della sezione c.a. sull'identità degli oggetti nativi in cache (`ConcreteSmokeChecks.VerifyWorkspace` e simili: domini, mesh, stati tensionali), che il ViewModel non espone | **Decisa provvisoriamente dal coordinatore (23/10)**: si riscrivono sugli effetti osservabili (verifiche accodate subito dopo la modifica, `Calculation.Pending`; risultato conservato o invalidato; valori delle verifiche non ricalcolate uguali; righe di stato «preparazione unica della sezione»), senza accessi di prova nel ViewModel | Accessi di prova in sola lettura nel ViewModel | nessuno sui risultati (solo prove) | [f5-10 §23](f5-10-sezione.md#23-passaggio-della-release-2310) |
+| CA-P2 | Archiviazione della `ConcreteWorkspace` storica | **Decisa provvisoriamente dal coordinatore (23/10)**: nel commit del passaggio, dopo aver spostato sulla vista nuova ogni altro uso; `InputForm`, `SheetEditor` e `MainWindow` restano per la parte (g) | Non indicata | nessuno sui risultati | [f5-10 §23](f5-10-sezione.md#23-passaggio-della-release-2310) |
+| CA-P3 | Prove storiche della sezione c.a. che controllavano codice esistente solo per le prove (D3): `ParsePaste`, `ApplyImport`, `ExportActionRows` (l'import Excel del prodotto passa dalla finestra «Sollecitazioni della sezione») | Restano con la vista storica in `supporto/SUPERATI/ui-storica/sezione-ca`; l'import del prodotto è provato da `ui/smoke-section-actions` e dalle tracce `azioni/*` | Rifare l'import di `ui/smoke` con la finestra (converte le azioni nel formato unificato e cambia il resto della prova) | nessuno sui risultati (solo prove) | [f5-10 §23](f5-10-sezione.md#23-passaggio-della-release-2310) |
 
 ### 15.4 Altre voci
 
