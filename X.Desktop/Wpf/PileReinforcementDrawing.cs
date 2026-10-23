@@ -16,6 +16,9 @@ internal sealed class PileReinforcementDrawing : DrawingView
     JsonNode[] segments = [], runs = [], joints = [];
     double bodyHeight = 680;
     internal Size SheetSize { get; private set; } = new(1140, 320);
+    /// <summary>The colour of the card of the segment <paramref name="index"/> (PileReinforcementEditor.SegmentColor of the historic editor, archived on
+    /// 23/10/2026; the view uses the tokens Segment.1–6), used by the drawings of the elastic response and of the reinforcement.</summary>
+    internal static Brush SegmentColor(int index) => Ui.Brush(new[] { "#DBEAFE", "#DCFCE7", "#F3E8FF", "#FFEDD5", "#CFFAFE", "#FCE7F3" }[index % 6]);
     static Brush Color(int i) => Ui.Brush(new[] { "#1D4ED8", "#B91C1C", "#15803D", "#7E22CE", "#0E7490", "#A16207" }[i % 6]);
 
     internal void Set(JsonObject? value, string? unavailableReason = null)
@@ -63,7 +66,7 @@ internal sealed class PileReinforcementDrawing : DrawingView
         {
             var segment = segments[i]; var section = segment["sezione"]!;
             double a = Y(segment.D("inizio")), b = Y(segment.D("fine"));
-            dc.DrawRectangle(PileReinforcementEditor.SegmentColor(i), null, new Rect(pileX - half, a, half * 2, b - a));
+            dc.DrawRectangle(SegmentColor(i), null, new Rect(pileX - half, a, half * 2, b - a));
             Dimension(dc, 291, a, b, $"{LinkMark(segment,i)} · Ø{section.D("transverse_bar_diameter_mm"):0}/ {section.D("transverse_spacing_mm"):0}", dimension);
             Text(dc, segment.S("id"), pileX - 85, (a + b) / 2 - 10, 11, Ui.Navy, 60, true);
         }
@@ -171,7 +174,7 @@ internal sealed class PileReinforcementDrawing : DrawingView
         for (int i = 0; i < segments.Length; i++)
         {
             var s = segments[i]; var links = s["distinta_staffe"];
-            Row([LinkMark(s,i), s.S("id"), links == null ? "—" : $"{links.D("quantita"):0} × {links.D("diametro_mm"):0}", $"{s.D("inizio"):0.00}", $"{s.D("fine"):0.00}", "da definire", "—", "—", links == null ? "Non disponibile" : $"{links.S("tipo","Staffe")} / {links.D("passo_massimo_mm"):0} mm"], shade: PileReinforcementEditor.SegmentColor(i));
+            Row([LinkMark(s,i), s.S("id"), links == null ? "—" : $"{links.D("quantita"):0} × {links.D("diametro_mm"):0}", $"{s.D("inizio"):0.00}", $"{s.D("fine"):0.00}", "da definire", "—", "—", links == null ? "Non disponibile" : $"{links.S("tipo","Staffe")} / {links.D("passo_massimo_mm"):0} mm"], shade: SegmentColor(i));
         }
         rowY += 15;
         foreach(var (s,i) in segments.Select((s,i)=>(s,i)))
@@ -209,7 +212,7 @@ internal sealed class PileReinforcementDrawing : DrawingView
     static void Section(DrawingContext dc, JsonNode segment, Point center, double radius, int index)
     {
         var section = segment["sezione"]!; double diameter = section.D("diameter_mm"), factor = 2 * radius / diameter;
-        dc.DrawEllipse(PileReinforcementEditor.SegmentColor(index), new Pen(Ui.Navy, 1), center, radius, radius);
+        dc.DrawEllipse(SegmentColor(index), new Pen(Ui.Navy, 1), center, radius, radius);
         double link = segment.D("staffa_raggio_mm") * factor;
         if (link > 0) dc.DrawEllipse(null, new Pen(Brushes.ForestGreen, 1.1), center, link, link);
         foreach (var row in segment.Array("barre_sezione"))

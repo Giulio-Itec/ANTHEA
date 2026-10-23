@@ -23,6 +23,19 @@ static partial class Program
     {
         view.Measure(new Size(width,height));view.Arrange(new Rect(0,0,width,height));view.UpdateLayout();if(!capture)return;
         var b=new RenderTargetBitmap(width,height,96,96,PixelFormats.Pbgra32);var background=new DrawingVisual();using(var drawing=background.RenderOpen())drawing.DrawRectangle(Brushes.White,null,new Rect(0,0,width,height));b.Render(background);b.Render(view);
+        Bitmap(b,path,width,height);
+    }
+    // f5-pass-orizzontale: an element shown in the window of a sheet (PileHost), at its size and without a new layout, painted through a brush so that
+    // its place in the window does not move it.
+    static void Picture(FrameworkElement view,string path)
+    {
+        if(!capture)return;int width=Math.Max(1,(int)Math.Ceiling(view.ActualWidth)),height=Math.Max(1,(int)Math.Ceiling(view.ActualHeight));
+        var b=new RenderTargetBitmap(width,height,96,96,PixelFormats.Pbgra32);var visual=new DrawingVisual();
+        using(var drawing=visual.RenderOpen()){drawing.DrawRectangle(Brushes.White,null,new Rect(0,0,width,height));drawing.DrawRectangle(new VisualBrush(view){Stretch=Stretch.None,AlignmentX=AlignmentX.Left,AlignmentY=AlignmentY.Top},null,new Rect(0,0,width,height));}
+        b.Render(visual);Bitmap(b,path,width,height);
+    }
+    static void Bitmap(RenderTargetBitmap b,string path,int width,int height)
+    {
         // Deterministic lossless off-screen artifact, without an external image codec.
         var pixels=new byte[width*height*4];b.CopyPixels(pixels,width*4,0);using var f=new BinaryWriter(File.Create(Path.ChangeExtension(path,".bmp")));
         f.Write((ushort)0x4d42);f.Write(54+pixels.Length);f.Write(0);f.Write(54);f.Write(40);f.Write(width);f.Write(-height);f.Write((ushort)1);f.Write((ushort)32);f.Write(0);f.Write(pixels.Length);f.Write(3780);f.Write(3780);f.Write(0);f.Write(0);f.Write(pixels);
@@ -56,12 +69,12 @@ static partial class Program
             {
                 capture=true;var visualRoot=JsonNode.Parse(File.ReadAllText(Path.Combine(dir,"input.json")))!.AsObject();visualRoot["elastico"]!["dettagli"]!["azioni_progetto"]=true;visualRoot["elastico"]!["dettagli"]!["taglio_confermato"]=true;visualRoot["sezione"]!["transverse_spacing_mm"]=150;
                 visualRoot["elastico"]!["tratti"]=new JsonArray(ElasticHorizontalPile.NewSegment("T1",6),ElasticHorizontalPile.NewSegment("T2",null));visualRoot["elastico"]!["tratti"]![1]!["collegato"]=false;visualRoot["elastico"]!["tratti"]![1]!["longitudinal_bar_count"]=12;
-                var visualResult=ElasticHorizontalPile.CalculateShared(visualRoot);var visualApp=new TestApp();visualApp.LoadStyles();visualApp.ShutdownMode=ShutdownMode.OnExplicitShutdown;
-                var visualEditorType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.PileReinforcementEditor")!;var visualEditor=(FrameworkElement)Activator.CreateInstance(visualEditorType,flags,null,[visualRoot,(Action)(()=>{}),(Func<JsonObject?>)(()=>visualResult),null],null)!;
-                visualEditor.Measure(new Size(1500,900));visualEditor.Arrange(new Rect(0,0,1500,900));visualEditor.UpdateLayout();
+                var visualApp=new TestApp();visualApp.LoadStyles();visualApp.ShutdownMode=ShutdownMode.OnExplicitShutdown;SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext());
+                // f5-pass-orizzontale: the editor of the reinforcement of the XAML view (PileReinforcementView) on the sheet of the two segments, elastic tab.
+                visualRoot["vista_orizzontale"]="elastico";using var visual=new PileHost(visualRoot,height:900);Wait(visual.Elastic.CalculateAsync());visual.Settle();var visualEditor=visual.ReinforcementView;
                 var inheritedFields=Descendants<TextBox>(visualEditor).Where(b=>b.ToolTip?.ToString()?.Contains("campo non assegnato")==true).ToArray();if(inheritedFields.Length!=3||inheritedFields.Any(b=>string.IsNullOrWhiteSpace(b.Text)))throw new Exception("Partial archive adopted values are not visible");Console.WriteLine("PASS partial archive shows all three adopted values");
-                Snapshot(visualEditor,Path.Combine(dir,"tratti-riepilogo.png"),1500,900);var modes=Descendants<ComboBox>(visualEditor).Single(b=>b.Items.Contains("Interferro"));modes.SelectedItem="Interferro";Snapshot(visualEditor,Path.Combine(dir,"tratti-interferro.png"),1500,900);
-                foreach(var expand in Descendants<Expander>(visualEditor).Where(e=>e.Header?.ToString()?.StartsWith("Distinta ferri")==true).ToArray())expand.IsExpanded=true;Snapshot(visualEditor,Path.Combine(dir,"tratti-distinta.png"),1500,1100);
+                Picture(visualEditor,Path.Combine(dir,"tratti-riepilogo.png"));var modes=Descendants<ComboBox>(visualEditor).Single(b=>b.Items.Contains("Interferro"));modes.SelectedItem="Interferro";visual.Settle();Picture(visualEditor,Path.Combine(dir,"tratti-interferro.png"));
+                foreach(var expand in Descendants<Expander>(visualEditor).Where(e=>e.Header?.ToString()?.StartsWith("Distinta ferri")==true).ToArray())expand.IsExpanded=true;visual.Settle();Picture(visualEditor,Path.Combine(dir,"tratti-distinta.png"));
                 File.WriteAllText(Path.Combine(dir,"visual-input.json"),visualRoot.ToJsonString(J.Options));Console.WriteLine("VISUAL COMPLETE");return 0;
             }
             var fresh=PaloOrizzontale.Defaults();ElasticHorizontalPile.PrepareShared(fresh);Check(fresh["elastico"].D("passo")==.5,"new shared pile defaults to 0.50 m FEM step");
@@ -88,48 +101,62 @@ static partial class Program
             var imported=ElasticHorizontalPile.CalculateShared(oldRoot);Check(imported["input"].D("C")==25&&imported["input"].D("EI")==50000,"legacy force couple and EI preserved");
             var importedReference=ElasticHorizontalPile.Calculate(legacy);Check(Math.Abs(imported["risposta"].D("HeadDisplacement")-importedReference["risposta"].D("HeadDisplacement"))<1e-10,"migrated response matches legacy solver");
             var app=new TestApp();app.LoadStyles();app.ShutdownMode=ShutdownMode.OnExplicitShutdown;SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext());
-            var soilType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.HorizontalSoilEditor")!;
             var testLayer=PaloOrizzontale.Layer();testLayer["tipologia"]="Coesivo";var testSoil=ElasticHorizontalPile.EnsureSoil(testLayer);
             testSoil["categoria"]="Argilla n.c. / debolmente o.c.";ElasticHorizontalPile.EnsureSoil(testLayer);Check(testSoil.S("categoria")==ViggianiHorizontalSoil.CohesiveTable[0].Category,"legacy clay category normalized to catalog");
-            var soilEditor=(FrameworkElement)Activator.CreateInstance(soilType,flags,null,[testLayer,(Action)(()=>{})],null)!;Snapshot(soilEditor,Path.Combine(dir,"riga.png"),1100,100);
-            var categoryBox=Descendants<ComboBox>(soilEditor).Single(b=>b.Items.Contains("Torba"));Check(categoryBox.Items.Cast<string>().Take(4).SequenceEqual(ViggianiHorizontalSoil.CohesiveTable.Select(c=>c.Category).Distinct()),"category choices come directly from Checker");
-            categoryBox.SelectedItem="Argilla organica n.c.";Snapshot(soilEditor,Path.Combine(dir,"riga-organica.png"),1100,100);
-            var authorBox=Descendants<ComboBox>(soilEditor).Single(b=>b.Items.Cast<string>().Any(v=>v.StartsWith("14.6")));Check(authorBox.Items.Cast<string>().Count(v=>v.StartsWith("14.6"))==2&&authorBox.SelectedIndex>=0&&testSoil.S("riga_146")=="organic-peck-1970","organic category selects only its two authors and updates row");
-            Check(Math.Abs(testSoil.D("nh_tabella")-.55)<1e-12,"new organic category initializes correct mean");
+            // f5-pass-orizzontale: the soil editor of a layer (HorizontalSoilEditor of the historic view) is the cell of the table of the stratigraphy of the XAML
+            // view: a pile whose stratigraphy is the test layer, tab of the capacity; the layer edited through the view is read back from the data of the sheet.
+            var soilInput=PaloOrizzontale.Defaults();soilInput["stratigrafie"]=new JsonArray(new JsonArray(testLayer.DeepClone()));
+            using(var soilHost=new PileHost(soilInput))
+            {
+                StackPanel SoilPanel()=>Descendants<StackPanel>(soilHost.View).Single(p=>Equals(p.Tag,"editor-terreno"));
+                JsonObject HostSoil()=>soilHost.Data["stratigrafie"]![0]![0]!["reazione_orizzontale"]!.AsObject();
+                Picture(SoilPanel(),Path.Combine(dir,"riga.png"));
+                var categoryBox=Descendants<ComboBox>(SoilPanel()).Single(b=>b.Items.Contains("Torba"));Check(categoryBox.Items.Cast<string>().Take(4).SequenceEqual(ViggianiHorizontalSoil.CohesiveTable.Select(c=>c.Category).Distinct()),"category choices come directly from Checker");
+                categoryBox.SelectedItem="Argilla organica n.c.";soilHost.Settle();Picture(SoilPanel(),Path.Combine(dir,"riga-organica.png"));
+                var authorBox=Descendants<ComboBox>(SoilPanel()).Single(b=>b.Items.Cast<string>().Any(v=>v.StartsWith("14.6")));Check(authorBox.Items.Cast<string>().Count(v=>v.StartsWith("14.6"))==2&&authorBox.SelectedIndex>=0&&HostSoil().S("riga_146")=="organic-peck-1970","organic category selects only its two authors and updates row");
+                Check(Math.Abs(HostSoil().D("nh_tabella")-.55)<1e-12,"new organic category initializes correct mean");
+                // «ⓘ Tabelle» (Tables of the historic editor): the view of the details of the row; the headings of the editor (Header of the historic editor).
+                var tables=new X.Desktop.Views.HorizontalPile.HorizontalSoilDetailsView{DataContext=authorBox.DataContext};Snapshot(tables,Path.Combine(dir,"tabelle.png"),1000,650);Check(Descendants<DataGrid>(tables).Select(t=>t.Items.Count).SequenceEqual(new[]{3,7}),"Info shows all rows of both actual Checker tables");
+                var hd=(FrameworkElement)Descendants<TextBlock>(soilHost.View).First(t=>t.Text=="Addensamento").Parent;Picture(hd,Path.Combine(dir,"intestazioni.png"));var labels=Descendants<TextBlock>(hd).Select(t=>t.Text).ToArray();Check(labels.Contains("Addensamento")&&labels.Contains("Minimo")&&labels.Contains("Massimo")&&!labels.Any(t=>t.Contains("categoria")),"requested concise column labels");
+                testLayer=(JsonObject)soilHost.Data["stratigrafie"]![0]![0]!.DeepClone();testSoil=testLayer["reazione_orizzontale"]!.AsObject();
+            }
             testSoil["nh_tabella"]=.4;testSoil["origine_scelta"]="Valore modificato dall'utente";ElasticHorizontalPile.SelectSoil(testLayer,"riga_146","organic-davisson-1970");Check(testSoil.D("nh_tabella")==.4&&testSoil.S("scelta_per")!=ElasticHorizontalPile.SelectionKey(testSoil),"manual nh retained awaiting explicit confirmation after source change");
             ElasticHorizontalPile.SelectSoil(testLayer,"tipologia","Granulare");Check(testSoil.S("legge")==ElasticHorizontalPile.Laws[5]&&testSoil.D("A")==200&&testSoil.Array("storico_scelte").Count>0,"material change adopts compatible A mode with previous choices archived");
-            var tables=(FrameworkElement)soilType.GetMethod("Tables",BindingFlags.Static|BindingFlags.NonPublic)!.Invoke(null,null)!;Snapshot(tables,Path.Combine(dir,"tabelle.png"),1000,650);Check(Descendants<DataGrid>(tables).Select(t=>t.Items.Count).SequenceEqual(new[]{3,7}),"Info shows all rows of both actual Checker tables");
-            var hd=(FrameworkElement)soilType.GetMethod("Header",BindingFlags.Static|BindingFlags.NonPublic)!.Invoke(null,null)!;Snapshot(hd,Path.Combine(dir,"intestazioni.png"),1050,50);var labels=Descendants<TextBlock>(hd).Select(t=>t.Text).ToArray();Check(labels.Contains("Addensamento")&&labels.Contains("Minimo")&&labels.Contains("Massimo")&&!labels.Any(t=>t.Contains("categoria")),"requested concise column labels");
-            var hostType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.HorizontalWorkspace")!;var host=(FrameworkElement)Activator.CreateInstance(hostType,flags,null,[root],null)!;var ui=(FrameworkElement)hostType.GetField("elastic",flags)!.GetValue(host)!;var type=ui.GetType();
-            JsonObject? Result()=>type.GetProperty("Result",flags)!.GetValue(ui) as JsonObject;
-            JsonObject? Response()=>type.GetProperty("Response",flags)!.GetValue(ui) as JsonObject;
-            int ResponseCalculations()=>(int)type.GetProperty("ResponseCalculations",flags)!.GetValue(ui)!;
-            var firstCalculation=(Task)type.GetMethod("CalculateAsync",flags)!.Invoke(ui,null)!;Until(()=>Response()!=null);Check(Result()==null,"FEM becomes available before section verifications complete");Wait(firstCalculation);Check(Result()!=null,"shared workspace response: "+((TextBlock)type.GetField("status",flags)!.GetValue(ui)!).Text);Snapshot(ui,Path.Combine(dir,"ui.png"));
-            var editors=(System.Collections.IDictionary)type.GetField("options",flags)!.GetValue(ui)!.GetType().GetField("Editors",flags)!.GetValue(type.GetField("options",flags)!.GetValue(ui))!;Check(editors.Count==2&&editors.Contains("passo")&&editors.Contains("punta"),"elastic tab only analysis options no repeated inputs");
-            var drawing=(FrameworkElement)type.GetField("drawing",flags)!.GetValue(ui)!;Snapshot(drawing,Path.Combine(dir,"diagrammi.png"),1900,650);
-            foreach(var key in new[]{"strati","falda","kh","mesh","molle","carichi","k","y","theta","q","N","V","M","tratti"}){var box=Descendants<CheckBox>(ui).Single(b=>b.Tag?.ToString()==key);bool state=box.IsChecked==true;box.IsChecked=!state;box.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));Check(root["elastico"]!["visualizzazione"].B(key)==!state,"visibility "+key);box.IsChecked=state;box.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));}
-            drawing.GetType().GetMethod("SelectDepth",flags)!.Invoke(drawing,[6d]);var selection=(TextBlock)type.GetField("selection",flags)!.GetValue(ui)!;string side=selection.Text;drawing.GetType().GetMethod("SelectDepth",flags)!.Invoke(drawing,[6d]);Check(selection.Text!=side&&selection.Text.Contains("kh="),"depth selection preserves both interface sides");
-            var sectionFields=hostType.GetField("sectionFields",flags)!.GetValue(host)!;var originalResponse=Response();string forces=Response()!["risposta"]!.ToJsonString();int solved=ResponseCalculations();double originalMrd=Result()!["armature"]!.Array("tratti")[0]!["critica"].D("MRdPositive");
-            sectionFields.GetType().GetMethod("Set",flags)!.Invoke(sectionFields,["longitudinal_bar_count","20",false]);
-            Check(((ProgressBar)type.GetField("calculationProgress",flags)!.GetValue(ui)!).Visibility==Visibility.Visible,"progress shown immediately on invalidation");
+            // f5-pass-orizzontale: the tab of the elastic response (ElasticPileWorkspace inside HorizontalWorkspace in the historic view) is the XAML view of
+            // ElasticPileViewModel in the sheet opened on the elastic tab (vista_orizzontale); the shared data change through the forms of the sheet.
+            using var pile=new PileHost(root);var el=pile.Elastic;var ui=pile.ElasticView;
+            JsonObject? Result()=>el.Result;
+            JsonObject? Response()=>el.Response;
+            int ResponseCalculations()=>el.ResponseCalculations;
+            T Named<T>(string name)=>(T)PileHost.Get(ui,name);
+            var firstCalculation=el.CalculateAsync();Until(()=>Response()!=null);Check(Result()==null,"FEM becomes available before section verifications complete");Wait(firstCalculation);pile.Settle();Check(Result()!=null,"shared workspace response: "+Named<TextBlock>("StatusText").Text);Picture(ui,Path.Combine(dir,"ui.png"));
+            var optionKeys=Descendants<Control>(Named<FrameworkElement>("Options")).Where(c=>c is TextBox or ComboBox or CheckBox&&c.TemplatedParent is not ComboBox&&c.DataContext is Anthea.Presentation.Forms.FieldViewModel).Select(c=>((Anthea.Presentation.Forms.FieldViewModel)c.DataContext).Key).Distinct().ToArray();
+            Check(el.Options!.Fields.Count==2&&optionKeys.Length==2&&optionKeys.Contains("passo")&&optionKeys.Contains("punta"),"elastic tab only analysis options no repeated inputs");
+            var drawing=Named<FrameworkElement>("Drawing");Picture(drawing,Path.Combine(dir,"diagrammi.png"));
+            foreach(var key in new[]{"strati","falda","kh","mesh","molle","carichi","k","y","theta","q","N","V","M","tratti"}){var box=Descendants<CheckBox>(ui).Single(b=>b.Tag?.ToString()==key);bool state=box.IsChecked==true;box.IsChecked=!state;Check(pile.Data["elastico"]!["visualizzazione"].B(key)==!state,"visibility "+key);box.IsChecked=state;}
+            var selection=Named<TextBlock>("SelectionText");el.SelectDepth(6d);pile.Settle();string side=selection.Text;el.SelectDepth(6d);pile.Settle();Check(selection.Text!=side&&selection.Text.Contains("kh="),"depth selection preserves both interface sides");
+            var sectionFields=pile.Sheet.SectionForm;var originalResponse=Response();string forces=Response()!["risposta"]!.ToJsonString();int solved=ResponseCalculations();double originalMrd=Result()!["armature"]!.Array("tratti")[0]!["critica"].D("MRdPositive");
+            var progressBar=Named<ProgressBar>("Progress");
+            sectionFields.Set("longitudinal_bar_count","20");
+            Check(progressBar.Visibility==Visibility.Visible,"progress shown immediately on invalidation");
             Check(ReferenceEquals(Response(),originalResponse)&&Result()==null,"reinforcement edit retains current FEM and invalidates only verification");
-            Check(!((Button)type.GetField("csv",flags)!.GetValue(ui)!).IsEnabled,"obsolete verification export blocked while FEM is visible");
-            Until(()=>Result()!=null);Check(ResponseCalculations()==solved&&Result()!["risposta"]!.ToJsonString()==forces,"bar count changes no N V M y or mesh result");
+            Check(!Named<Button>("CsvButton").IsEnabled,"obsolete verification export blocked while FEM is visible");
+            Until(()=>Result()!=null);pile.Settle();Check(ResponseCalculations()==solved&&Result()!["risposta"]!.ToJsonString()==forces,"bar count changes no N V M y or mesh result");
             Check(Math.Abs(Result()!["armature"]!.Array("tratti")[0]!["critica"].D("MRdPositive")-originalMrd)>1,"new reinforcement updates MRd");
-            var atDepth=(TextBlock)type.GetField("sectionDetail",flags)!.GetValue(ui)!;Check(atDepth.Text.Contains("x=6 m DALLA TESTA")&&atDepth.Text.Contains("PIANO CAMPAGNA"),"selected section depth survives reinforcement recalculation and states origins");
-            var preview=type.GetField("sectionPreview",flags)!.GetValue(ui)!;Check((double)preview.GetType().GetProperty("CircularLinkRadius",flags)!.GetValue(preview)!>0,"selected section draws stirrup from Checker centreline");
-            var progressBar=(ProgressBar)type.GetField("calculationProgress",flags)!.GetValue(ui)!;Check(progressBar.Visibility==Visibility.Collapsed,"progress finishes after current results publish");
-            sectionFields.GetType().GetMethod("Set",flags)!.Invoke(sectionFields,["longitudinal_bar_count","22",false]);var superseded=(Task)type.GetMethod("CalculateAsync",flags)!.Invoke(ui,null)!;
-            sectionFields.GetType().GetMethod("Set",flags)!.Invoke(sectionFields,["longitudinal_bar_count","24",false]);Wait(superseded);Until(()=>Result()!=null);
+            var atDepth=Named<TextBlock>("SectionDetailText");Check(atDepth.Text.Contains("x=6 m DALLA TESTA")&&atDepth.Text.Contains("PIANO CAMPAGNA"),"selected section depth survives reinforcement recalculation and states origins");
+            var preview=PileHost.Get(ui,"SectionDrawing");Check((double)PileHost.Get(preview,"CircularLinkRadius")>0,"selected section draws stirrup from Checker centreline");
+            Check(progressBar.Visibility==Visibility.Collapsed,"progress finishes after current results publish");
+            sectionFields.Set("longitudinal_bar_count","22");var superseded=el.CalculateAsync();
+            sectionFields.Set("longitudinal_bar_count","24");Wait(superseded);Until(()=>Result()!=null);
             Check(Result()!["armature"]!.Array("tratti")[0]!["sezione"].D("longitudinal_bar_count")==24&&ResponseCalculations()==solved,"superseded parallel calculation cannot publish stale reinforcement");
-            sectionFields.GetType().GetMethod("Set",flags)!.Invoke(sectionFields,["transverse_spacing_mm","250",false]);Until(()=>Result()!=null);Check(ResponseCalculations()==solved&&Response()!["risposta"]!.ToJsonString()==forces,"stirrups change preserves the FEM diagrams");
-            sectionFields.GetType().GetMethod("Set",flags)!.Invoke(sectionFields,["longitudinal_bar_count","16",false]);sectionFields.GetType().GetMethod("Set",flags)!.Invoke(sectionFields,["transverse_spacing_mm","200",false]);Until(()=>Result()!=null);
-            var general=hostType.GetField("general",flags)!.GetValue(host)!;double y=Result()!["risposta"].D("HeadDisplacement");general.GetType().GetMethod("Set",flags)!.Invoke(general,["azione_orizzontale","200",false]);Check(Result()==null&&Response()==null,"shared load immediately invalidates both FEM and verification");Until(()=>Result()!=null);Check(Math.Abs(Result()!["risposta"].D("HeadDisplacement")/y-2)<1e-8,"shared force automatically recalculates");
-            general.GetType().GetMethod("Set",flags)!.Invoke(general,["diametro","",false]);Until(()=>((TextBlock)type.GetField("status",flags)!.GetValue(ui)!).Text.Contains("non disponibile"));Check(Result()==null,"invalid shared geometry blocks exports");
-            general.GetType().GetMethod("Set",flags)!.Invoke(general,["diametro","1",false]);Until(()=>Result()!=null);
-            // Inspect a detached archive snapshot: do not resize an inactive tab inside the live calculation host.
-            var strataHost=(FrameworkElement)Activator.CreateInstance(hostType,flags,null,[(JsonObject)root.DeepClone()],null)!;((IDisposable)strataHost).Dispose();
-            var surveys=(TabControl)hostType.GetField("surveys",flags)!.GetValue(strataHost)!;var tab=(TabItem)surveys.Items[0];var strataView=(FrameworkElement)tab.Content;strataView.Measure(new Size(1400,650));strataView.Arrange(new Rect(0,0,1400,650));strataView.UpdateLayout();Check(Descendants<ComboBox>(strataView).Any(b=>b.Items.Contains("Medio")),"density editor in initial stratigraphy");
+            sectionFields.Set("transverse_spacing_mm","250");Until(()=>Result()!=null);Check(ResponseCalculations()==solved&&Response()!["risposta"]!.ToJsonString()==forces,"stirrups change preserves the FEM diagrams");
+            sectionFields.Set("longitudinal_bar_count","16");sectionFields.Set("transverse_spacing_mm","200");Until(()=>Result()!=null);
+            var general=pile.Sheet.GeneralForm;double y=Result()!["risposta"].D("HeadDisplacement");general.Set("azione_orizzontale","200");Check(Result()==null&&Response()==null,"shared load immediately invalidates both FEM and verification");Until(()=>Result()!=null);Check(Math.Abs(Result()!["risposta"].D("HeadDisplacement")/y-2)<1e-8,"shared force automatically recalculates");
+            general.Set("diametro","");Until(()=>Named<TextBlock>("StatusText").Text.Contains("non disponibile"));Check(Result()==null,"invalid shared geometry blocks exports");
+            general.Set("diametro","1");Until(()=>Result()!=null);
+            // The initial stratigraphy of a copy of the archive, on the tab of the capacity of another sheet: its soil editors offer the density.
+            var strataInput=(JsonObject)pile.Data.DeepClone();strataInput.Remove("vista_orizzontale");
+            using(var strataHost=new PileHost(strataInput))Check(Descendants<ComboBox>(strataHost.View).Any(b=>b.Items.Contains("Medio")),"density editor in initial stratigraphy");
 
             var initialResult=Result()!;Check(initialResult["risposta"]!.Array("Points").Last().D("AxialForce")>0,"axial diagram includes self weight");
             Check(initialResult["armature"]!.Array("tratti")[0]!["critica"]!["MRdPositive"]!=null,"native section resistance integrated");
@@ -162,23 +189,33 @@ static partial class Program
             sheet["combinazioni"]!["SLU"]![0]!["azioni"]![0]=-321;two[1]!["foglio_cls"]=sheet.DeepClone();var again=ElasticHorizontalPile.CreateConcreteSheet(trial,inherited,1);Check(J.Number(again["combinazioni"]!["SLU"]![0]!["azioni"]![0])==-321,"user forces survive concrete sheet reopening");
             string beforeApply=ElasticHorizontalPile.ResponseKey(trial);sheet["input"]!["longitudinal_bar_count"]=12;ElasticHorizontalPile.ApplyConcreteSheetReinforcement(trial,sheet,1);Check(ElasticHorizontalPile.ResponseKey(trial)==beforeApply&&two[1].D("longitudinal_bar_count")==12&&!two[1].B("collegato"),"apply concrete reinforcement preserves FEM and records custom segment");
             var caType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.ConcreteWorkspace")!;var ca=(FrameworkElement)Activator.CreateInstance(caType,flags,null,[again],null)!;Snapshot(ca,Path.Combine(dir,"verificatore-cls.png"),1400,950);((IDisposable)ca).Dispose();Check(true,"native concrete workspace opens for segment with editable loads");
-            JsonObject? shown=inherited;var editorType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.PileReinforcementEditor")!;var editor=(FrameworkElement)Activator.CreateInstance(editorType,flags,null,[trial,(Action)(()=>{}),(Func<JsonObject?>)(()=>shown),null],null)!;Snapshot(editor,Path.Combine(dir,"tratti-riepilogo.png"),1500,1050);
-            Check(Descendants<Button>(editor).Count(b=>b.Content?.ToString()=="Apri verificatore c.a.")==3&&Descendants<ComboBox>(editor).Any(b=>b.Items.Contains("Interferro")),"segment cards offer native verifier and selectable compact check summary");
-            var choice=Descendants<ComboBox>(editor).Single(b=>b.Items.Contains("Interferro"));choice.SelectedItem="Interferro";Snapshot(editor,Path.Combine(dir,"tratti-interferro.png"),1500,1050);
-            var billPanels=Descendants<Expander>(editor).Where(e=>e.Header?.ToString()?.StartsWith("Distinta ferri")==true).ToArray();
-            Check(billPanels.Length==2&&billPanels.All(e=>e.IsExpanded),"bill of bars and links immediately visible for every segment");
-            var billText=(TextBlock)billPanels[0].Content;editorType.GetMethod("InvalidateResults",flags)!.Invoke(editor,null);
-            Check(billText.Text.Contains("aggiornamento"),"old bill cleared immediately during recalculation");
-            editorType.GetMethod("UpdateResults",flags)!.Invoke(editor,null);
-            Check(ReferenceEquals(billText,billPanels[0].Content)&&billText.Text.Contains("φ")&&billText.Text.Contains("Staffe singole:"),"new bill refreshes existing labels without rebuilding focused inputs");
-            billPanels[0].IsExpanded=false;editorType.GetMethod("Refresh",flags)!.Invoke(editor,null);Snapshot(editor,Path.Combine(dir,"distinta-refresh.png"),1500,1500);
-            Check(!Descendants<Expander>(editor).First(e=>e.Header?.ToString()?.StartsWith("Distinta ferri")==true).IsExpanded,"bill expansion choice survives refresh");
-            Descendants<Button>(editor).First(b=>b.Content?.ToString()=="Distinta ferri").RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-            Snapshot(editor,Path.Combine(dir,"distinta-aperta.png"),1500,1500);
-            Check(Descendants<Expander>(editor).First(e=>e.Header?.ToString()?.StartsWith("Distinta ferri")==true).IsExpanded&&Descendants<ComboBox>(editor).Any(b=>b.SelectedItem?.ToString()=="Distinta ferri"),"explicit bill button opens both segment and summary bill");
-            shown=(JsonObject)inherited.DeepClone();shown["armature"]!["distinta"]=new JsonArray();shown["armature"]!["tratti"]![0]!["errore"]="Lunghezza commerciale insufficiente rispetto alla sovrapposizione.";
-            editorType.GetMethod("UpdateResults",flags)!.Invoke(editor,null);
-            Check(((TextBlock)Descendants<Expander>(editor).First(e=>e.Header?.ToString()?.StartsWith("Distinta ferri")==true).Content).Text.Contains("Lunghezza commerciale insufficiente"),"missing bill explains the actual calculation error instead of remaining pending");
+            // f5-pass-orizzontale: the editor of the reinforcement (PileReinforcementEditor of the historic view) is the XAML view of PileReinforcementViewModel
+            // in the elastic tab of the sheet of the two segments; its result comes from the elastic analysis of the sheet.
+            using(var segmentsHost=new PileHost(trial))
+            {
+                var se=segmentsHost.Elastic;Wait(se.CalculateAsync());segmentsHost.Settle();Check(se.Result!=null,"two segment sheet calculates: "+se.Status);
+                var editor=segmentsHost.ReinforcementView;Picture(editor,Path.Combine(dir,"tratti-riepilogo.png"));
+                Check(Descendants<Button>(editor).Count(b=>b.Content?.ToString()=="Apri verificatore c.a.")==3&&Descendants<ComboBox>(editor).Any(b=>b.Items.Contains("Interferro")),"segment cards offer native verifier and selectable compact check summary");
+                var choice=Descendants<ComboBox>(editor).Single(b=>b.Items.Contains("Interferro"));choice.SelectedItem="Interferro";segmentsHost.Settle();Picture(editor,Path.Combine(dir,"tratti-interferro.png"));
+                Expander[] Bills()=>Descendants<Expander>(editor).Where(x=>x.Header?.ToString()?.StartsWith("Distinta ferri")==true).ToArray();
+                var billPanels=Bills();
+                Check(billPanels.Length==2&&billPanels.All(x=>x.IsExpanded),"bill of bars and links immediately visible for every segment");
+                var billText=(TextBlock)billPanels[0].Content;PileHost.Call(segmentsHost.Reinforcement,"InvalidateResults");segmentsHost.Settle();
+                Check(billText.Text.Contains("aggiornamento"),"old bill cleared immediately during recalculation");
+                PileHost.Call(segmentsHost.Reinforcement,"UpdateResults");segmentsHost.Settle();
+                Check(ReferenceEquals(billText,Bills()[0].Content)&&billText.Text.Contains("φ")&&billText.Text.Contains("Staffe singole:"),"new bill refreshes existing labels without rebuilding focused inputs");
+                Bills()[0].IsExpanded=false;PileHost.Call(segmentsHost.Reinforcement,"Refresh");segmentsHost.Settle();Picture(editor,Path.Combine(dir,"distinta-refresh.png"));
+                Check(!Bills()[0].IsExpanded,"bill expansion choice survives refresh");
+                PileHost.Press(Descendants<Button>(editor).First(b=>b.Content?.ToString()=="Distinta ferri"));segmentsHost.Settle();
+                Picture(editor,Path.Combine(dir,"distinta-aperta.png"));
+                Check(Bills()[0].IsExpanded&&Descendants<ComboBox>(editor).Any(b=>b.SelectedItem?.ToString()=="Distinta ferri"),"explicit bill button opens both segment and summary bill");
+                // A result whose first segment failed, published by the elastic analysis of the sheet (the historic check gave it to the editor).
+                segmentsHost.Analysis.Change=r=>{var failed=(JsonObject)r.DeepClone();failed["armature"]!["distinta"]=new JsonArray();failed["armature"]!["tratti"]![0]!["errore"]="Lunghezza commerciale insufficiente rispetto alla sovrapposizione.";return failed;};
+                Wait(se.CalculateAsync());segmentsHost.Settle();
+                Check(((TextBlock)Bills()[0].Content).Text.Contains("Lunghezza commerciale insufficiente"),"missing bill explains the actual calculation error instead of remaining pending");
+                segmentsHost.Analysis.Change=null;Wait(se.CalculateAsync());segmentsHost.Settle();Picture(editor,Path.Combine(dir,"distinta-visibile.png"));
+            }
+            var shown=(JsonObject)inherited.DeepClone();shown["armature"]!["distinta"]=new JsonArray();shown["armature"]!["tratti"]![0]!["errore"]="Lunghezza commerciale insufficiente rispetto alla sovrapposizione.";
             var billDrawingType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.PileReinforcementDrawing")!;var billDrawing=(FrameworkElement)Activator.CreateInstance(billDrawingType,true)!;
             billDrawingType.GetMethod("Set",flags)!.Invoke(billDrawing,[shown,null]);
             Check(((string)billDrawingType.GetProperty("EmptyMessage",flags)!.GetValue(billDrawing)!).Contains("Lunghezza commerciale insufficiente"),"empty reinforcement view reports segment failure");
@@ -186,14 +223,14 @@ static partial class Program
             bool previousCapture=capture;Snapshot(billDrawing,Path.Combine(dir,"distinta-errore.png"),1100,250);
             billDrawingType.GetMethod("Set",flags)!.Invoke(billDrawing,[null,"Distinta non disponibile: diametro non valido."]);
             Check(((string)billDrawingType.GetProperty("EmptyMessage",flags)!.GetValue(billDrawing)!).Contains("diametro non valido"),"empty reinforcement view reports global calculation failure");
-            shown=inherited;editorType.GetMethod("UpdateResults",flags)!.Invoke(editor,null);Snapshot(editor,Path.Combine(dir,"distinta-visibile.png"),1500,1500);
+            shown=inherited;
             billDrawingType.GetMethod("Set",flags)!.Invoke(billDrawing,[shown,null]);var sheetSize=(Size)billDrawingType.GetProperty("SheetSize",flags)!.GetValue(billDrawing)!;Snapshot(billDrawing,Path.Combine(dir,"distinta-disegno.png"),(int)sheetSize.Width,(int)sheetSize.Height);capture=previousCapture;
-            var reinf=(FrameworkElement)type.GetField("reinforcementDrawing",flags)!.GetValue(ui)!;Snapshot(reinf,Path.Combine(dir,"armature.png"),1400,650);
+            var reinf=(FrameworkElement)PileHost.Get(ui,"SheetDrawing");Picture(reinf,Path.Combine(dir,"armature.png"));
             File.WriteAllText(Path.Combine(dir,"due-tratti.json"),checkedTwo.ToJsonString(J.Options));
             var final=Result()!;string csv=ElasticHorizontalPile.Csv(final);Check(csv.Contains("DATI_CONDIVISI")&&csv.Contains("SEZIONE_EJ")&&csv.Contains("InitialMean")&&csv.Contains("NODO_EQUIVALENTE"),"CSV shared references spring units parameter provenance");var report=ReportElasticPile.Create("Palo con dati condivisi",final);
             using(var zip=new System.IO.Compression.ZipArchive(new MemoryStream(report))){using var reader=new StreamReader(zip.GetEntry("word/document.xml")!.Open());var xml=reader.ReadToEnd();Check(xml.Contains("Media iniziale del software")&&xml.Contains("EJ da sezione")&&xml.Contains("K* [kN/m]"),"report parameters EJ and mesh");}
-            Check(hostType.GetProperty("ActiveResult",flags)!.GetValue(host)==final,"active result routing");
-            ((IDisposable)host).Dispose();File.WriteAllText(Path.Combine(dir,"ui-checks.txt"),$"PASS {checks} checks");Console.WriteLine($"TOTAL {checks}");
+            Check(pile.Sheet.ActiveResult==final&&pile.EditorResult==final,"active result routing");
+            File.WriteAllText(Path.Combine(dir,"ui-checks.txt"),$"PASS {checks} checks");Console.WriteLine($"TOTAL {checks}");
             File.WriteAllText(Path.Combine(dir,"input.json"),root.ToJsonString(J.Options));File.WriteAllText(Path.Combine(dir,"result.json"),final.ToJsonString(J.Options));File.WriteAllText(Path.Combine(dir,"risultati.csv"),csv);File.WriteAllBytes(Path.Combine(dir,"esempio.docx"),report);Console.WriteLine("Artifacts written");return 0;
         }catch(Exception ex){File.WriteAllText(Path.Combine(dir,"ui-failure.txt"),ex.ToString());Console.Error.WriteLine(ex);return 1;}
     }

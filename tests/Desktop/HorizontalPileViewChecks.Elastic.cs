@@ -586,10 +586,7 @@ internal static partial class HorizontalPileViewChecks
 
     // ---------------------------------------------------------------- 11. checks of the elastic response
 
-    /// <summary>The historic tab of the elastic response of a historic sheet.</summary>
-    private static ElasticPileWorkspace HistoricElastic(Hosted historic) => ((SheetEditor)historic.Editor).HorizontalForChecks.ElasticForChecks;
-
-    /// <summary>Opens the three groups of the reinforcement of the historic tab or of the view.</summary>
+    /// <summary>Opens the three groups of the reinforcement of the view.</summary>
     private static void OpenGroups(DependencyObject root)
     {
         foreach (var group in Visual(root).OfType<Expander>().Where(e => e.Header is string header
@@ -598,8 +595,8 @@ internal static partial class HorizontalPileViewChecks
     }
 
     /// <summary>
-    /// Help, automation names, read-only, the c.a. verifier (E1) and the exports of the tab of the elastic response, against the historic tab where the
-    /// historic tab says what to expect.
+    /// Help, automation names, read-only, the c.a. verifier (E1) and the exports of the tab of the elastic response (f5-pass-orizzontale: the historic tab is
+    /// archived, the comparisons with it are done).
     /// </summary>
     private static async Task ElasticChecks(string root, string output)
     {
@@ -614,18 +611,16 @@ internal static partial class HorizontalPileViewChecks
             {
                 var services = new Services();
                 using var host = new Hosted(Editors(services).Open(module, data));
-                using var historic = new Hosted(new SheetEditor(module, data));
                 await host.Sheet.Elastic.PendingCalculation.WaitAsync(Calculation);
-                await historic.Settle(); await HistoricElastic(historic).PendingForChecks.WaitAsync(Calculation);
-                await host.Settle(); await historic.Settle();
+                await host.Settle();
                 var view = ElasticViewOf(host);
-                // The groups opened by the user once the editors are built after the result (the historic editor builds them again, closed).
-                OpenGroups(view); OpenGroups(HistoricElastic(historic));
-                await host.Settle(); await historic.Settle();
+                // The groups opened by the user once the editors are built after the result.
+                OpenGroups(view);
+                await host.Settle();
                 static string[] Labels(DependencyObject scope) => Visual(scope).OfType<Button>().Where(b => b.IsVisible && b.Content as string == "?")
                     .Select(b => AutomationProperties.GetName(b)).Order(StringComparer.Ordinal).ToArray();
-                string[] before = Labels(HistoricElastic(historic)), after = Labels(view);
-                Check(after.SequenceEqual(before) && after.Length > 0, module + ": etichette «?» della scheda elastica uguali a quelle della vista storica (" + before.Length + "): " + string.Join(", ", after));
+                string[] after = Labels(view);
+                Check(after.Length > 0 && after.All(l => l.Length > 0), module + ": etichette «?» della scheda elastica (" + after.Length + "): " + string.Join(", ", after));
                 foreach (bool readOnly in new[] { false, true })
                 {
                     if (readOnly) { host.Editor.InspectRevision(); await host.Settle(); OpenGroups(view); await host.Settle(); }
@@ -652,17 +647,13 @@ internal static partial class HorizontalPileViewChecks
             // Automation names: those of the historic tab kept; the controls that ElasticPile.UiChecks finds by Tag, content or header.
             {
                 using var host = new Hosted(Editors(new Services()).Open(module, data));
-                using var historic = new Hosted(new SheetEditor(module, data));
                 await host.Sheet.Elastic.PendingCalculation.WaitAsync(Calculation);
-                await historic.Settle(); await HistoricElastic(historic).PendingForChecks.WaitAsync(Calculation);
-                await host.Settle(); await historic.Settle();
+                await host.Settle();
                 var view = ElasticViewOf(host);
                 static HashSet<string> Names(DependencyObject scope) => Visual(scope).OfType<UIElement>().Where(e => e.IsVisible)
                     .Select(e => AutomationProperties.GetName(e)).Where(n => !string.IsNullOrEmpty(n)).ToHashSet(StringComparer.Ordinal);
-                var before = Names(HistoricElastic(historic)); var after = Names(view);
-                var missing = before.Except(after).Order(StringComparer.Ordinal).ToArray();
-                Log.Add($"   nomi nuovi della scheda elastica ({module}): " + string.Join(", ", after.Except(before).Order(StringComparer.Ordinal)));
-                Check(missing.Length == 0, $"{module}: nomi di automazione della scheda elastica storica conservati ({before.Count})" + (missing.Length == 0 ? "" : "; mancanti: " + string.Join(", ", missing)));
+                var after = Names(view);
+                Log.Add($"   nomi di automazione della scheda elastica ({module}, {after.Count}): " + string.Join(", ", after.Order(StringComparer.Ordinal)));
                 int segments = host.Sheet.Elastic.Reinforcement.Segments.Count;
                 string[] keys = ["strati", "falda", "kh", "mesh", "molle", "carichi", "k", "y", "theta", "q", "N", "V", "M", "tratti"];
                 var boxes = Visual(view).OfType<CheckBox>().ToArray();
@@ -680,20 +671,13 @@ internal static partial class HorizontalPileViewChecks
                 var services = new Services();
                 var engine = new HeldElasticAnalyses();
                 using var host = new Hosted(ElasticEditors(services, engine).Open(module, data));
-                using var historic = new Hosted(new SheetEditor(module, data));
                 await host.Sheet.Elastic.PendingCalculation.WaitAsync(Calculation);
-                await historic.Settle(); await HistoricElastic(historic).PendingForChecks.WaitAsync(Calculation);
-                host.Editor.InspectRevision(); historic.Editor.InspectRevision();
+                host.Editor.InspectRevision();
                 var view = ElasticViewOf(host);
-                OpenGroups(view); OpenGroups(HistoricElastic(historic));
-                await host.Settle(); await historic.Settle();
-                var before = Controls(HistoricElastic(historic)); var after = Controls(view);
-                var common = before.Keys.Intersect(after.Keys).Order(StringComparer.Ordinal).ToArray();
-                var different = common.Where(k => before[k] != after[k]).Select(k => k + ": storica " + before[k] + ", nuova " + after[k]).ToArray();
-                Log.Add($"   sola lettura della scheda elastica ({module}), solo nella storica: " + string.Join(", ", before.Keys.Except(after.Keys).Order(StringComparer.Ordinal)));
-                Log.Add($"   sola lettura della scheda elastica ({module}), solo nella nuova: " + string.Join(", ", after.Keys.Except(before.Keys).Order(StringComparer.Ordinal)));
-                Check(different.Length == 0 && common.Length >= 15, $"{module}: sola lettura della scheda elastica, stessi controlli bloccati e liberi della vista storica ({common.Length} comuni)"
-                    + (different.Length == 0 ? "" : ": " + string.Join("; ", different)));
+                OpenGroups(view);
+                await host.Settle();
+                var after = Controls(view);
+                Log.Add($"   sola lettura della scheda elastica ({module}): " + string.Join(", ", after.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => p.Key + " " + p.Value)));
                 string before0 = host.Editor.Data.ToJsonString(J.Options);
                 var side = new ElasticSide(host, services, engine);
                 foreach (var step in new ElasticPileStep[] { new(ElasticPileStep.Option, "passo", "1"), new(ElasticPileStep.Toggle, "y"), new(ElasticPileStep.Survey, Index: 0),
@@ -752,13 +736,9 @@ internal static partial class HorizontalPileViewChecks
             var services = new Services();
             var data = HorizontalPileScenarios.FixtureData(root, Pile, "elastico-tratti-anello-spirale");
             using var host = new Hosted(Editors(services).Open(Pile, data));
-            using var historic = new Hosted(new SheetEditor(Pile, data));
             await host.Sheet.Elastic.PendingCalculation.WaitAsync(Calculation);
-            await HistoricElastic(historic).PendingForChecks.WaitAsync(Calculation);
             host.Editor.Commit(); await host.Editor.CalculateAsync().WaitAsync(Calculation); host.Editor.Commit();
-            historic.Editor.Commit(); await historic.Editor.CalculateAsync().WaitAsync(Calculation); historic.Editor.Commit();
-            await host.Settle(); await historic.Settle();
-            var result = HistoricElastic(historic).Result ?? throw new InvalidOperationException("Risposta elastica storica senza risultato");
+            await host.Settle();
             var view = ElasticViewOf(host);
             view.ShowWindow = host.ShowOffScreen;
             string csv = Path.Combine(folder, "risposta-elastica.csv");
@@ -767,11 +747,10 @@ internal static partial class HorizontalPileViewChecks
             Visual(view).OfType<Expander>().Single(e => Equals(e.Header, "Valori per quota · N–V–M concomitanti")).IsExpanded = true;
             await host.Settle();
             Press(view.CsvButton);
-            // The file of the historic button (ElasticPileEditor.Csv) on the result shown, equal to the historic result but for the times measured with a
-            // stopwatch (tempi_ms), which the CSV carries in its header lines.
+            // The file of the historic button (ElasticPileEditor.Csv) on the result shown.
             var shown = host.Sheet.Elastic.Result ?? throw new InvalidOperationException("Risposta elastica senza risultato");
-            Check(File.Exists(csv) && File.ReadAllBytes(csv).SequenceEqual(Encoding.UTF8.GetBytes(ElasticPileEditor.Csv(shown))) && WithoutTimes(shown) == WithoutTimes(result),
-                "«Esporta CSV» della scheda elastica scrive il file del bottone storico, sul risultato uguale a quello storico (tempi esclusi)");
+            Check(File.Exists(csv) && File.ReadAllBytes(csv).SequenceEqual(Encoding.UTF8.GetBytes(ElasticPileEditor.Csv(shown))),
+                "«Esporta CSV» della scheda elastica scrive il file del bottone storico sul risultato mostrato");
             string png = Path.Combine(folder, "armature-palo.png");
             services.SavePath = png;
             Press(Visual(view).OfType<Button>().Single(b => Equals(b.Content, "Apri tavola armature…")));

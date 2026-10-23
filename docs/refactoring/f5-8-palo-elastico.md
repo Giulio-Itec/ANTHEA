@@ -373,3 +373,18 @@ risultati, comandi e cartelle nella sezione 5.8 di `f5-7-palo-orizzontale.md`. N
   (`ui/check-palo-verticale-view` e `ui/check-muri-view`: `ANTHEA.exe` terminato dall'esterno a metà delle esportazioni; con
   `dotnet ANTHEA.dll` PASS 377 e PASS 187; vedi 5.8 di `f5-7-palo-orizzontale.md`). Le suite elastiche (`ui/check-palo-orizzontale-view`
   PASS 221, `ui/check-palo-elastico-historic`, `ElasticPile.UiChecks` e varianti, `ui/f3-equivalence`) PASS.
+
+## 7. Passaggio della Release (23/10)
+
+Fatto dall'agente f5-pass-orizzontale insieme alla capacità: un solo passaggio per i due moduli, perché le due schede sono nella stessa vista.
+Commit, esiti, che cosa resta e come riprendere sono nella sezione 6 di [f5-7-palo-orizzontale.md](f5-7-palo-orizzontale.md). Per la scheda
+elastica in breve:
+- `ElasticPileWorkspace`, `PileReinforcementEditor` (+ `Clarity`), la traccia storica e la sonda `F3PileSegmentChecks` sono in
+  `supporto/SUPERATI/ui-storica/palo-elastico/` (README e `registro.json`); i disegni `ElasticPileDrawing` e `PileReinforcementDrawing` restano (Q3);
+  `SegmentColor` è passato a `PileReinforcementDrawing` (sezione 6.4: i disegni usavano ancora `PileReinforcementEditor.SegmentColor`);
+- `ElasticPile.UiChecks` (e `/anello-interno`, `/nota-stress-block`) apre la vista nuova con `PileHost`; `ui/f3-scheduling` usa
+  `F3PileSegmentMvvmSchedulingChecks`; `ui/check-palo-elastico-historic` è tolta;
+- **il verificatore c.a. non è toccato**: `PileConcreteVerifierView` ospita ancora la `ConcreteWorkspace` storica; il suo passaggio alla sezione
+  c.a. nuova è dell'agente f5-pass-strutture (con `str_palo`). Nessun file archiviato serve a quel dialogo. Restano anche le righe di
+  `ElasticPile.UiChecks` che aprono per riflessione la `ConcreteWorkspace` (Program, `InnerRingChecks`, `StressBlockNoteChecks`): vanno
+  riviste quando la `ConcreteWorkspace` si archivia.

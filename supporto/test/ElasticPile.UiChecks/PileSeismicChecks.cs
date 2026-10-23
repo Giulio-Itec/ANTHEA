@@ -44,13 +44,20 @@ static partial class Program
         var report=ReportElasticPile.Create("Controlli sismici di testa · prova",result);File.WriteAllBytes(Path.Combine(directory,"report-sisma.docx"),report);
         using(var zip=new System.IO.Compression.ZipArchive(new MemoryStream(report))){using var reader=new StreamReader(zip.GetEntry("word/document.xml")!.Open());string xml=reader.ReadToEnd();Check(xml.Contains("Controllo sismico")&&xml.Contains("Momento da analisi elastica")&&xml.Contains("pagina stampata 213"),"Word report exposes seismic checks and actual source");}
         var app=new TestApp();app.LoadStyles();app.ShutdownMode=ShutdownMode.OnExplicitShutdown;capture=true;int changes=0;
-        var type=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.PileReinforcementEditor")!;var editor=(FrameworkElement)Activator.CreateInstance(type,flags,null,[root,(Action)(()=>changes++),(Func<JsonObject?>)(()=>result),null],null)!;
-        type.GetField("checkMode",flags)!.SetValue(editor,"Sisma · testa palo");type.GetMethod("UpdateSummary",flags)!.Invoke(editor,null);
-        Snapshot(editor,Path.Combine(directory,"sisma-editor.png"),1600,1500);
-        Check(Descendants<ComboBox>(editor).Any(c=>c.Items.Cast<object>().Any(v=>v.ToString()=="Sisma · testa palo")),"seismic checks selectable beside reinforcement segments");
-        Check(Descendants<Expander>(editor).Any(x=>x.Header?.ToString()?.StartsWith("Sisma · testa")==true),"conditional seismic inputs grouped in dedicated panel");
-        var enable=Descendants<CheckBox>(editor).First(c=>Descendants<TextBlock>(c).Any(t=>t.Text.StartsWith("Controlla zona dissipativa")));enable.IsChecked=false;enable.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-        Check(changes>0&&!settings.B("sisma_testa"),"seismic mode changes invalidate using existing recalculation callback");enable.IsChecked=true;enable.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+        System.Threading.SynchronizationContext.SetSynchronizationContext(new System.Windows.Threading.DispatcherSynchronizationContext());
+        // f5-pass-orizzontale: the XAML view of the reinforcement in the elastic tab of a sheet on the same data; a change is a Modified of the sheet.
+        var input=(JsonObject)root.DeepClone();input["vista_orizzontale"]="elastico";
+        using(var host=new PileHost(input,width:1600,height:1500))
+        {
+            Wait(host.Elastic.CalculateAsync());host.Settle();var editor=host.ReinforcementView;var hostSettings=host.Data["elastico"]!["dettagli"]!;
+            host.Sheet.Modified+=(_,_)=>changes++;
+            host.Reinforcement.ChooseMode("Sisma · testa palo");host.Reinforcement.SeismicExpanded=true;host.Settle();
+            Picture(editor,Path.Combine(directory,"sisma-editor.png"));
+            Check(Descendants<ComboBox>(editor).Any(c=>c.Items.Cast<object>().Any(v=>v.ToString()=="Sisma · testa palo")),"seismic checks selectable beside reinforcement segments");
+            Check(Descendants<Expander>(editor).Any(x=>x.Header?.ToString()?.StartsWith("Sisma · testa")==true),"conditional seismic inputs grouped in dedicated panel");
+            var enable=Descendants<CheckBox>(editor).First(c=>c.DataContext is Anthea.Presentation.Forms.FieldViewModel f&&f.Label.StartsWith("Controlla zona dissipativa"));enable.IsChecked=false;host.Settle();
+            Check(changes>0&&!hostSettings.B("sisma_testa"),"seismic mode changes invalidate using existing recalculation callback");enable=Descendants<CheckBox>(editor).First(c=>c.DataContext is Anthea.Presentation.Forms.FieldViewModel f&&f.Label.StartsWith("Controlla zona dissipativa"));enable.IsChecked=true;host.Settle();
+        }
         var drawingType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.PileReinforcementDrawing")!;var drawing=(FrameworkElement)Activator.CreateInstance(drawingType,true)!;drawingType.GetMethod("Set",flags)!.Invoke(drawing,[result,null]);var size=(Size)drawingType.GetProperty("SheetSize",flags)!.GetValue(drawing)!;
         Snapshot(drawing,Path.Combine(directory,"tavola-sisma.png"),(int)size.Width,(int)size.Height);
         var profileType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.ElasticPileDrawing")!;var profile=(FrameworkElement)Activator.CreateInstance(profileType,true)!;

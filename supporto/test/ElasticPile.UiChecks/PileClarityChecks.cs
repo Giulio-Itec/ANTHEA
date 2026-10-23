@@ -37,23 +37,33 @@ static partial class Program
         var spiralSeismic=result["armature"]!.Array("tratti")[1]!["sisma_testa"]!;
         Check(spiralSeismic.Array("Checks").Any(c=>c.S("Key")=="SeismicSingleHoops"&&!c.B("Passed")),"spiral fails single-hoop requirement even after seismic approval");
         var app=new TestApp();app.LoadStyles();app.ShutdownMode=ShutdownMode.OnExplicitShutdown;capture=Environment.GetCommandLineArgs().Contains("--images");int changed=0;
-        var type=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.PileReinforcementEditor")!;
-        var editor=(FrameworkElement)Activator.CreateInstance(type,flags,null,[root,(Action)(()=>{changed++;result=null;}),(Func<JsonObject?>)(()=>result),null],null)!;
-        Snapshot(editor,Path.Combine(dir,"riepilogo.png"),1600,1550);
-        var button=Descendants<Button>(editor).Single(b=>b.Content?.ToString()=="Approva tutto · ipotesi");button.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-        Check(changed==1&&result==null,"approval triggers immediate result invalidation exactly once");
-        Snapshot(editor,Path.Combine(dir,"invalidazione.png"),1600,1100);
-        var sb=Descendants<Button>(editor).Single(b=>b.Content?.ToString()=="Approva tutto · sisma");sb.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));Check(changed==2,"seismic approve button wired to recalculation");
-        Snapshot(editor,Path.Combine(dir,"controlli.png"),1600,1100);
-        var global=Descendants<ComboBox>(editor).First(c=>c.Items.Contains("Spirale"));global.SelectedItem="Spirale";
-        Check(ElasticHorizontalPile.TransverseKind(root,rows[0])=="Spirale"&&ElasticHorizontalPile.TransverseKind(root,rows[1])=="Spirale","global dropdown updates inherited transverse type");
-        Snapshot(editor,Path.Combine(dir,"controlli-spirale.png"),1600,1100);
-        Descendants<ComboBox>(editor).First(c=>c.Items.Contains("Spirale")).SelectedItem="Staffe singole";
-        Check(ElasticHorizontalPile.TransverseKind(root,rows[0])=="Staffe singole"&&ElasticHorizontalPile.TransverseKind(root,rows[1])=="Spirale","main type change preserves personalized spiral");
-        var window=(Window)type.GetMethod("CreateNtcWindow",flags)!.Invoke(editor,null)!;
-        var tabs=(TabControl)window.Content;Snapshot(tabs,Path.Combine(dir,"ntc-info.png"),1020,780);
-        tabs.SelectedIndex=1;Snapshot(tabs,Path.Combine(dir,"ntc-pagina.png"),1020,780);
-        Check(Descendants<Image>(tabs).Any(i=>i.Source!=null),"official NTC page embedded in internal window with no network");
+        System.Threading.SynchronizationContext.SetSynchronizationContext(new System.Windows.Threading.DispatcherSynchronizationContext());
+        // f5-pass-orizzontale: the XAML view of the reinforcement in the elastic tab of a sheet on the same data; an invalidation is a Modified of the sheet
+        // with the result of the elastic response cleared (the historic check counted the callback of the editor and cleared its result).
+        var input=(JsonObject)root.DeepClone();input["vista_orizzontale"]="elastico";
+        using(var host=new PileHost(input,width:1600,height:1550))
+        {
+            Wait(host.Elastic.CalculateAsync());host.Settle();var editor=host.ReinforcementView;var hostRows=host.Data["elastico"]!.Array("tratti");
+            host.Sheet.Modified+=(_,_)=>changed++;
+            Picture(editor,Path.Combine(dir,"riepilogo.png"));
+            var button=Descendants<Button>(editor).Single(b=>b.Content?.ToString()=="Approva tutto · ipotesi");PileHost.Press(button);host.Settle();
+            Check(changed==1&&host.Elastic.Result==null,"approval triggers immediate result invalidation exactly once");
+            Picture(editor,Path.Combine(dir,"invalidazione.png"));
+            var sb=Descendants<Button>(editor).Single(b=>b.Content?.ToString()=="Approva tutto · sisma");PileHost.Press(sb);host.Settle();Check(changed==2,"seismic approve button wired to recalculation");
+            Picture(editor,Path.Combine(dir,"controlli.png"));
+            var global=Descendants<ComboBox>(editor).First(c=>c.Items.Contains("Spirale"));global.SelectedItem="Spirale";host.Settle();
+            Check(ElasticHorizontalPile.TransverseKind(host.Data,hostRows[0])=="Spirale"&&ElasticHorizontalPile.TransverseKind(host.Data,hostRows[1])=="Spirale","global dropdown updates inherited transverse type");
+            Picture(editor,Path.Combine(dir,"controlli-spirale.png"));
+            Descendants<ComboBox>(editor).First(c=>c.Items.Contains("Spirale")).SelectedItem="Staffe singole";host.Settle();
+            Check(ElasticHorizontalPile.TransverseKind(host.Data,hostRows[0])=="Staffe singole"&&ElasticHorizontalPile.TransverseKind(host.Data,hostRows[1])=="Spirale","main type change preserves personalized spiral");
+            // «NTC §7.2.5»: the dialog of the view (ElasticNtcView, CreateNtcWindow of the historic editor), shown off screen without waiting.
+            Window? window=null;var showWindow=editor.GetType().GetProperty("ShowWindow",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic)!;
+            showWindow.SetValue(editor,(Func<Window,bool?>)(w=>{w.WindowStartupLocation=WindowStartupLocation.Manual;w.Left=-32000;w.Top=-32000;w.ShowActivated=false;w.ShowInTaskbar=false;w.Show();window=w;return null;}));
+            PileHost.Press(Descendants<Button>(editor).First(b=>b.Content?.ToString()=="NTC §7.2.5"));host.Settle();
+            var tabs=Descendants<TabControl>(window??throw new Exception("NTC window not shown")).First();Picture(tabs,Path.Combine(dir,"ntc-info.png"));
+            tabs.SelectedIndex=1;window.UpdateLayout();host.Settle();Picture(tabs,Path.Combine(dir,"ntc-pagina.png"));
+            Check(Descendants<Image>(tabs).Any(i=>i.Source!=null),"official NTC page embedded in internal window with no network");window.Close();
+        }
         result=ElasticHorizontalPile.CompleteReinforcement(root,response,cache);
         var drawingType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.PileReinforcementDrawing")!;var drawing=(FrameworkElement)Activator.CreateInstance(drawingType,true)!;
         drawingType.GetMethod("Set",flags)!.Invoke(drawing,[result,null]);var size=(Size)drawingType.GetProperty("SheetSize",flags)!.GetValue(drawing)!;

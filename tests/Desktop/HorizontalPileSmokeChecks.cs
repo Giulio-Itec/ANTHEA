@@ -100,8 +100,22 @@ internal sealed class HorizontalPileSmoke
         return Find() ?? throw new InvalidOperationException("Campo non disposto nella vista: " + key);
     }
 
-    /// <summary>The user types <paramref name="text"/> in the field (Set of InputForm; the text box writes at every keystroke).</summary>
-    private void Type(FormViewModel form, string key, string text) => Editor<TextBox>(form, key).Text = text;
+    /// <summary>The user types <paramref name="text"/> in the field (Set of InputForm; the text box writes at every keystroke). A read-only field refuses the typing.</summary>
+    private void Type(FormViewModel form, string key, string text)
+    {
+        if (form[key].IsReadOnly) throw new InvalidOperationException("Digitazione in un campo di sola lettura: " + key);
+        Editor<TextBox>(form, key).Text = text;
+    }
+
+    /// <summary>
+    /// The module writes a read-only field of the material («fck del materiale», «γc archivio»: the user cannot type there), as InputForm.Set of the
+    /// historic check: the same write and the same callbacks (<see cref="FormViewModel.Set"/>).
+    /// </summary>
+    private static void Write(FormViewModel form, string key, string text)
+    {
+        if (!form[key].IsReadOnly) throw new InvalidOperationException("Campo scrivibile dall'utente, da digitare: " + key);
+        form.Set(key, text);
+    }
 
     /// <summary>The user chooses <paramref name="item"/> in a choice of a form.</summary>
     private void Choose(FormViewModel form, string key, string item) => Editor<ComboBox>(form, key).SelectedItem = item;
@@ -201,11 +215,15 @@ internal sealed class HorizontalPileSmoke
     // ---------------------------------------------------------------- HorizontalSmokeChecks.cs
 
     /// <summary>WaitForAutomatic of HorizontalWorkspace: the last automatic recalculation finished (each within 25 s), then the dispatcher idle.</summary>
-    internal async Task WaitForAutomatic()
+    internal Task WaitForAutomatic() => WaitForAutomatic(editor);
+
+    /// <summary>WaitForAutomatic on a horizontal pile or micropile opened elsewhere with the XAML view (the report of ReportAppearanceChecks).</summary>
+    internal static async Task WaitForAutomatic(ISheetEditor opened)
     {
+        var sheet = (HorizontalPileSheetViewModel)((MvvmSheetEditor)opened).Sheet;
         Task pending;
-        do { pending = Sheet.PendingCalculation; await pending.WaitAsync(TimeSpan.FromSeconds(25)); }
-        while (!ReferenceEquals(pending, Sheet.PendingCalculation));
+        do { pending = sheet.PendingCalculation; await pending.WaitAsync(TimeSpan.FromSeconds(25)); }
+        while (!ReferenceEquals(pending, sheet.PendingCalculation));
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
     }
 
@@ -297,11 +315,11 @@ internal sealed class HorizontalPileSmoke
         if (Get(section, "__fyd") != (Data["sezione"].D("fyk_mpa") / Data["sezione"].D("gamma_s")).ToString("F1") ||
             FieldEditor(section, "longitudinal_bar_diameter_mm") is not ComboBox || FieldEditor(section, "transverse_bar_diameter_mm") is not ComboBox)
             throw new Exception("Materiali o menu armatura errati");
-        Type(section, "fck_mpa", "33");
+        Write(section, "fck_mpa", "33");
         if (Get(section, "classe_cls") != "Personalizzato") throw new Exception("Resistenza personalizzata non conservata");
-        Type(section, "gamma_c", "");
+        Write(section, "gamma_c", "");
         if (Get(section, "__fcd") != "—") throw new Exception("fcd obsoleto con input incompleto");
-        Type(section, "gamma_c", "1.5"); Type(section, "fck_mpa", materialFck);
+        Write(section, "gamma_c", "1.5"); Write(section, "fck_mpa", materialFck);
         await WaitForAutomatic();
         var surveyDiagram = Result!.Array("sondaggi")[0]!;
         double hingeDepth = StratigraphyDrawing.ReactionLimit(surveyDiagram) ?? throw new Exception("Caso lungo senza cerniera interna");
@@ -359,9 +377,9 @@ internal sealed class HorizontalPileSmoke
         if (Result is not null) throw new Exception("Risultato superato pubblicato dopo nuove modifiche");
         await WaitForAutomatic();
         if (Result?.D("azione_kn") != 102 || !JsonNode.DeepEquals(Result, PaloOrizzontale.Calculate(Data))) throw new Exception("Risultato automatico non corrisponde agli ultimi dati");
-        Type(section, "fck_mpa", "40"); await WaitForAutomatic();
+        Write(section, "fck_mpa", "40"); await WaitForAutomatic();
         if (Result is null || Result.D("momento_resistente_knm") == initialMoment || !View.MomentText.Text.StartsWith("MRd =")) throw new Exception("Momento non ricalcolato automaticamente");
-        Type(section, "fck_mpa", concrete);
+        Write(section, "fck_mpa", concrete);
         Type(general, "diametro", ""); await WaitForAutomatic();
         if (Result is not null || View.DetailsButton.IsEnabled || View.CsvButton.IsEnabled || !View.MomentText.Text.StartsWith("Momento non disponibile")) throw new Exception("Risultati obsoleti con input incompleti");
         CheckOutcome("dati incompleti");

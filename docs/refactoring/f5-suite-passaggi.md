@@ -32,6 +32,20 @@ l'archiviazione; **R** = controllo «la Release resta storica», da togliere nel
 | `ui/check-palo-orizzontale-historic`, `ui/check-palo-elastico-historic` | `tests/Desktop/HorizontalPileHistoricTrace.cs`, `ElasticPileHistoricTrace.cs` | tutta la vista storica | A | seguono la vista in `supporto/SUPERATI/ui-storica/palo-orizzontale/` e `palo-elastico/`; le suite si tolgono |
 | `--check-contrast` | `supporto/test/Desktop/ContrastAudit.cs` | blocco F5.7 (`HorizontalPileContrastStep`) | — | al passaggio: togliere il blocco, voci della Chiara al passo `modulo-…` alla prima corsa a 96 DPI (D12) |
 
+**Stato al 23/10 (agente f5-pass-orizzontale, ramo `refactoring/f5-pass-orizzontale`): righe chiuse, moduli passati nella Release.**
+Dettagli, esiti e ripresa nella sezione 6 di [f5-7-palo-orizzontale.md](f5-7-palo-orizzontale.md).
+
+| Suite | Stato |
+| --- | --- |
+| `ui/smoke-horizontal`, parte orizzontale di `ui/smoke` e `ui/smoke-mvvm` | **Fatto.** Il fermo a «Resistenza personalizzata non conservata» era della prova: digitava in «fck del materiale», campo di sola lettura che la vista rifiuta; la prova storica scriveva con `InputForm.Set`. Ora `HorizontalPileSmoke.Write` usa `FormViewModel.Set` per fck e γc archivio, `Type` rifiuta i campi di sola lettura. Suite intera verde sulla vista XAML; rami storici di `OpenSheet` e partial storiche archiviate. Nessun duplicato `ui/smoke-horizontal-mvvm` (la Release è MVVM) |
+| `ui/f3-scheduling` | **Fatto.** `F3PileSegmentMvvmSchedulingChecks` (stessa sonda su `PileSegmentDesignViewModel`/`PileSegmentDesignView`); `F3PileSegmentChecks` archiviata. Nessuna variante `-mvvm` |
+| `ElasticPile.UiChecks`, `/anello-interno`, `/nota-stress-block` | **Fatto.** `PileHost` (modulo del desktop in `MvvmSheetEditor` per riflessione, finestra fuori schermo) e `ScriptedAnalysis`; riscritti anche i modi fuori dal runner (`--clarity-only`, `--seismic-only`, `--example-only`, `--cuts-example-only`, `--visual-only`). Restano le righe che aprono la `ConcreteWorkspace` storica (sezione c.a.) |
+| `--check-report-appearance-offscreen` | **Fatto.** Foglio dalla fabbrica del banco, attesa con `HorizontalPileSmoke.WaitForAutomatic` |
+| `ui/check-palo-orizzontale-view` | **Fatto.** Controllo R → «la Release apre la vista MVVM»; confronti con la vista storica tolti (restano tracce e disegni congelati e attese indipendenti) |
+| `ui/check-palo-orizzontale-historic`, `ui/check-palo-elastico-historic` | **Fatto.** Suite e comandi tolti, tracce storiche in `supporto/SUPERATI/ui-storica/palo-orizzontale/` e `palo-elastico/` |
+| `--check-contrast` | **In parte.** Blocco F5.7 tolto; le voci della Chiara passano alla chiave nuova alla prima corsa a 96 DPI (D12) |
+
+
 ### 1.2 Muri di sostegno (`geo_muri_sostegno`)
 
 | Suite | File | Che cosa legge | Effetto | Piano |
@@ -88,7 +102,7 @@ l'archiviazione; **R** = controllo «la Release resta storica», da togliere nel
   storiche solo nei commenti.
 - Ponte, Bridge Design, sezione c.a.: fuori dai nove moduli (F5.10–F5.12).
 
-## 2. Lavoro fatto: palo orizzontale, `ui/smoke-horizontal` (parziale, non ancora verde)
+## 2. Lavoro fatto: palo orizzontale, `ui/smoke-horizontal` (chiuso il 23/10, vedi 1.1)
 
 File:
 - `tests/Desktop/HorizontalPileSmokeChecks.cs` (nuovo): `HorizontalPileSmoke`, gli stessi controlli dei partial storici sulla vista XAML

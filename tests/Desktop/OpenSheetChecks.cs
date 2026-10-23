@@ -55,16 +55,17 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
 
     // ---------------------------------------------------------------- f5-suite-passaggi: ui/smoke-horizontal (HorizontalSmokeChecks.cs)
 
-    /// <summary>The horizontal pile or micropile with the XAML view, null otherwise.</summary>
-    private HorizontalPileSmoke? HorizontalPile => HorizontalPileSmoke.Handles(editor) ? new((MvvmSheetEditor)editor, services) : null;
+    /// <summary>The horizontal pile or micropile, MVVM in the Release since 23/10/2026 (f5-pass-orizzontale: the historic view is archived).</summary>
+    private HorizontalPileSmoke HorizontalPile => HorizontalPileSmoke.Handles(editor) ? new((MvvmSheetEditor)editor, services)
+        : throw new InvalidOperationException("Il foglio aperto non è un palo o un micropalo orizzontale con la vista XAML.");
 
-    internal Task WaitForHorizontalAutomatic() => HorizontalPile is { } pile ? pile.WaitForAutomatic() : Historic.WaitForHorizontalAutomatic();
+    internal Task WaitForHorizontalAutomatic() => HorizontalPile.WaitForAutomatic();
 
-    internal Task VerifyHorizontal(string directory) => HorizontalPile is { } pile ? pile.Verify(directory) : Historic.VerifyHorizontal(directory);
+    internal Task VerifyHorizontal(string directory) => HorizontalPile.Verify(directory);
 
-    internal Task VerifyHorizontalLayout(string directory, string size) => HorizontalPile is { } pile ? pile.VerifyLayout(directory, size) : Historic.VerifyHorizontalLayout(directory, size);
+    internal Task VerifyHorizontalLayout(string directory, string size) => HorizontalPile.VerifyLayout(directory, size);
 
-    internal Task VerifyChs() => HorizontalPile is { } pile ? pile.VerifyChs() : Historic.VerifyChs();
+    internal Task VerifyChs() => HorizontalPile.VerifyChs();
 
     // ---------------------------------------------------------------- materials (ui/smoke-materials, ui/smoke-hierarchy, ui/smoke-sharing, ui/smoke-steel)
 

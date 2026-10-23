@@ -51,7 +51,6 @@ internal static partial class HorizontalPileViewChecks
     {
         string folder = Path.Combine(output, "esportazioni");
         Directory.CreateDirectory(folder);
-        var normalizer = new TextNormalizer();
         var services = new Services();
         var editors = Editors(services);
         var fixtures = Fixtures(root);
@@ -86,69 +85,33 @@ internal static partial class HorizontalPileViewChecks
             }
             foreach (var mode in new[] { AppAppearance.Dark, AppAppearance.VeryDark, AppAppearance.Light }) { Appearance.Set(mode, false); await mvvm.Settle(); }
             Check(mvvm.Editor.Data.ToJsonString(J.Options) == opened && mvvm.Modified == 0, name + ": la visita (schede, gruppi, «Estendi», diagrammi, tre aspetti) non scrive e non solleva Modified");
-            // The tabs of the analyses and of the stratigraphies, as the F3 visit: the same writes and Modified of the historic view.
-            using var historic = new Hosted(new SheetEditor(module, data));
-            await historic.Settle();
-            var historicView = historic.Editor.View;
-            void Tabs(TabControl tabs, Action layout) { int selected = tabs.SelectedIndex; for (int i = 0; i < tabs.Items.Count; i++) { tabs.SelectedIndex = i; layout(); } tabs.SelectedIndex = selected; layout(); }
-            Tabs(mvvm.View.Analyses, mvvm.Layout);
-            Tabs(mvvm.View.Surveys, mvvm.Layout);
-            var historicTabs = Visual(historicView).OfType<TabControl>().ToList();
-            Tabs(historicTabs.First(t => t.Items.Count == 2 && t.Items.Cast<TabItem>().Any(i => Equals(i.Header, "Risposta elastica · trave su molle"))), historic.Layout);
-            var surveyTabs = Visual(historicView).OfType<TabControl>().FirstOrDefault(t => t.Items.Cast<TabItem>().All(i => i.Header is Panel));
-            if (surveyTabs is not null) Tabs(surveyTabs, historic.Layout);
-            Check(mvvm.Editor.Data.ToJsonString(J.Options) == historic.Editor.Data.ToJsonString(J.Options) && mvvm.Modified == historic.Modified,
-                name + $": le schede delle analisi e delle stratigrafie scrivono come la vista storica ({mvvm.Modified} Modified)");
-            // The automatic calculations of the two tabs first, on both sides: «Calcola» then finds the same state of the sessions (the counter of
-            // the values calculated again, nuovi_valori_N, depends on it).
-            var historicSheet = ((SheetEditor)historic.Editor).HorizontalForChecks;
-            await Task.WhenAll(mvvm.Sheet.PendingCalculation, mvvm.Sheet.Elastic.PendingCalculation, historicSheet.PendingForChecks, historicSheet.ElasticForChecks.PendingForChecks)
-                .WaitAsync(TimeSpan.FromSeconds(120));
+            // f5-pass-orizzontale: the historic view is archived (supporto/SUPERATI/ui-storica/palo-orizzontale); the comparisons with it are done and
+            // ui/f3-equivalence compares the exports with the frozen F3 reference. «Calcola» of the window after the automatic calculations of the two
+            // tabs, then the exports of the result shown: JSON, Word with the PDF beside it, «Esporta CSV» with the function of the historic button.
+            await Task.WhenAll(mvvm.Sheet.PendingCalculation, mvvm.Sheet.Elastic.PendingCalculation).WaitAsync(TimeSpan.FromSeconds(120));
             mvvm.Editor.Commit(); await mvvm.Editor.CalculateAsync(); mvvm.Editor.Commit();
-            historic.Editor.Commit(); await historic.Editor.CalculateAsync(); historic.Editor.Commit();
-            await mvvm.Settle(); await historic.Settle();
-            if (WithoutTimes(mvvm.Editor.Data) != WithoutTimes(historic.Editor.Data) || WithoutTimes(mvvm.Editor.Result) != WithoutTimes(historic.Editor.Result))
-                foreach (var (side, editor) in new[] { ("mvvm", mvvm.Editor), ("storica", historic.Editor) })
-                {
-                    File.WriteAllText(Path.Combine(folder, name + "-" + side + "-dati.json"), WithoutTimes(editor.Data));
-                    File.WriteAllText(Path.Combine(folder, name + "-" + side + "-risultato.json"), WithoutTimes(editor.Result));
-                }
-            Check(WithoutTimes(mvvm.Editor.Data) == WithoutTimes(historic.Editor.Data) && mvvm.Editor.HasResults == historic.Editor.HasResults
-                && WithoutTimes(mvvm.Editor.Result) == WithoutTimes(historic.Editor.Result),
-                name + ": dati e risultato della scheda mostrata dopo «Calcola» uguali a quelli della vista storica (tempi esclusi)");
-            if (!historic.Editor.HasResults)
+            await mvvm.Settle();
+            if (!mvvm.Editor.HasResults)
             {
-                Check(Fails(() => mvvm.Editor.ExportResult(Path.Combine(folder, name + "-mvvm.json")), out string message)
-                    && Fails(() => historic.Editor.ExportResult(Path.Combine(folder, name + "-storica.json")), out string expected) && message == expected,
+                Check(Fails(() => mvvm.Editor.ExportResult(Path.Combine(folder, name + "-mvvm.json")), out string message) && message == Anthea.Presentation.Shell.Commands.SheetFileExports.CalculateFirst,
                     name + ": senza risultato l'esportazione è rifiutata con il messaggio della vista storica («" + message + "»)");
                 continue;
             }
             string title = "Fixture F3 · " + module + " · " + id;
             mvvm.Editor.ExportResult(Path.Combine(folder, name + "-mvvm.json"));
-            historic.Editor.ExportResult(Path.Combine(folder, name + "-storica.json"));
-            Check(WithoutTimes(JsonNode.Parse(File.ReadAllText(Path.Combine(folder, name + "-mvvm.json")))) == WithoutTimes(JsonNode.Parse(File.ReadAllText(Path.Combine(folder, name + "-storica.json")))),
-                name + ": JSON del risultato uguale a quello della vista storica (tempi esclusi)");
+            Check(WithoutTimes(JsonNode.Parse(File.ReadAllText(Path.Combine(folder, name + "-mvvm.json")))) == WithoutTimes(mvvm.Editor.Result),
+                name + ": JSON del risultato mostrato dopo «Calcola» (tempi esclusi)");
             mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, []);
-            historic.Editor.ExportReport(Path.Combine(folder, name + "-storica.docx"), title, []);
-            string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.docx")), normalizer);
-            Check(part is null, name + ": report Word uguale in ogni parte a quello della vista storica, figure comprese (date normalizzate)" + (part is null ? "" : ", diversa " + part));
-            int attempts = 1;
-            while (!SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))) && attempts < 3)
-            {
-                attempts++;
-                mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, []);
-                historic.Editor.ExportReport(Path.Combine(folder, name + "-storica.docx"), title, []);
-            }
-            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))),
-                name + ": PDF affiancato uguale a quello della vista storica (date normalizzate" + (attempts > 1 ? $", {attempts} esportazioni" : "") + ")");
-            // «Esporta CSV» of the capacity: the file chosen in the dialog, the tables of the historic button.
-            if (mvvm.Sheet.Result is { } capacity && historic.Editor is SheetEditor { HorizontalForChecks.Result: { } historicCapacity })
+            Check(new FileInfo(Path.Combine(folder, name + "-mvvm.docx")).Length > 0 && new FileInfo(Path.Combine(folder, name + "-mvvm.pdf")).Length > 0,
+                name + ": report Word e PDF affiancato scritti");
+            // «Esporta CSV» of the capacity: the file chosen in the dialog, the tables of the historic button (HorizontalPileEditor.Csv).
+            if (mvvm.Sheet.Result is { } capacity)
             {
                 string csv = Path.Combine(folder, name + "-capacita.csv");
                 services.SavePath = csv;
                 Press(mvvm.View.CsvButton);
                 services.SavePath = null;
-                Check(File.Exists(csv) && File.ReadAllBytes(csv).SequenceEqual(Encoding.UTF8.GetBytes(HorizontalPileEditor.Csv(historicCapacity))),
+                Check(File.Exists(csv) && File.ReadAllBytes(csv).SequenceEqual(Encoding.UTF8.GetBytes(HorizontalPileEditor.Csv(capacity))),
                     name + ": «Esporta CSV» scrive le tabelle del bottone storico");
             }
         }
@@ -158,40 +121,6 @@ internal static partial class HorizontalPileViewChecks
     {
         try { action(); message = ""; return false; }
         catch (InvalidOperationException error) { message = error.Message; return true; }
-    }
-
-    /// <summary>First part of two Word documents that differs, with the dates of core.xml and of the text normalized as in F3; null when equal.</summary>
-    private static string? DifferentPart(byte[] a, byte[] b, TextNormalizer normalizer)
-    {
-        using var first = new ZipArchive(new MemoryStream(a)); using var second = new ZipArchive(new MemoryStream(b));
-        var names = first.Entries.Select(e => e.FullName).Order(StringComparer.Ordinal).ToArray();
-        if (!names.SequenceEqual(second.Entries.Select(e => e.FullName).Order(StringComparer.Ordinal))) return "elenco delle parti";
-        foreach (string name in names)
-        {
-            byte[] x = Read(first.GetEntry(name)!), y = Read(second.GetEntry(name)!);
-            bool equal = name is "docProps/core.xml" or "word/document.xml"
-                ? Normalize(name, x, normalizer) == Normalize(name, y, normalizer) : x.SequenceEqual(y);
-            if (!equal) return name;
-        }
-        return null;
-        static byte[] Read(ZipArchiveEntry entry) { using var stream = entry.Open(); using var copy = new MemoryStream(); stream.CopyTo(copy); return copy.ToArray(); }
-        static string Normalize(string name, byte[] bytes, TextNormalizer normalizer) => name == "docProps/core.xml"
-            ? normalizer.Normalize(Encoding.UTF8.GetString(bytes)) : normalizer.NormalizeReportTimestamps(Encoding.UTF8.GetString(bytes));
-    }
-
-    /// <summary>Two PDF files equal but for what changes at every rendering (dates, identifiers, tags of the font subsets).</summary>
-    private static bool SamePdf(byte[] a, byte[] b)
-    {
-        static string Text(byte[] bytes)
-        {
-            string text = Encoding.Latin1.GetString(bytes);
-            text = Regex.Replace(text, @"\(D:[0-9+\-Z']+\)", "(D:)");
-            text = Regex.Replace(text, @"/ID\s*\[[^\]]*\]", "/ID[]");
-            text = Regex.Replace(text, @"(?<=/(?:FontName|BaseFont)/)[A-Z]{6}\+", "SUBSET+");
-            text = Regex.Replace(text, @"(<xmp:\w*Date>)[^<]*(<)", "$1$2");
-            return Regex.Replace(text, @"uuid:[0-9a-fA-F-]+", "uuid:");
-        }
-        return a.SequenceEqual(b) || Text(a) == Text(b);
     }
 
     // ---------------------------------------------------------------- 3. F5-02 (O6)
@@ -204,47 +133,26 @@ internal static partial class HorizontalPileViewChecks
     {
         var data = HorizontalPileScenarios.FixtureData(root, Pile, "single-soil-layer");
         using var host = new Hosted(Editors(new Services()).Open(Pile, data));
-        using var historic = new Hosted(new SheetEditor(Pile, data));
-        await host.Settle(); await historic.Settle();
+        await host.Settle();
         var side = new CapacitySide(host, null, new Services());
         side.Attach();
-        var form = ((SheetEditor)historic.Editor).HorizontalForChecks.SectionFormForChecks;
         var section = host.Editor.Data["sezione"]!.AsObject();
         var choice = (ComboBox)Visual(host.View.CapacityPage).OfType<ComboBox>().Single(c => c.DataContext is FieldViewModel { Key: "classe_acciaio" });
-        // A custom value of the steel: the data say «Personalizzato» on both sides; the new view shows it, the historic one keeps «B450C».
+        // A custom value of the steel: the data say «Personalizzato» and the new view shows it (the historic view kept «B450C»).
         await side.Apply(new HorizontalPileStep(HorizontalPileStep.Field, "steel_fu_mpa", "560"));
-        ((TextBox)form.Editors["steel_fu_mpa"]).Text = "560";
-        Check(section.S("classe_acciaio") == "Personalizzato" && (string?)choice.SelectedItem == "Personalizzato"
-            && historic.Editor.Data["sezione"].S("classe_acciaio") == "Personalizzato" && (string?)((ComboBox)form.Editors["classe_acciaio"]).SelectedItem == "B450C",
-            "F5-02: dopo un valore dell'acciaio personalizzato la scelta «Acciaio» della vista mostra «Personalizzato» (la storica «B450C»), dati uguali");
-        // A class of the catalogue after the custom values: the note of the new view is the one of the values of the catalogue. The historic note is
-        // computed before the catalogue writes them, but with the name of the custom material still in the data it is empty as the final one: the
-        // second, probable part of O6 does not show (logged).
+        Check(section.S("classe_acciaio") == "Personalizzato" && (string?)choice.SelectedItem == "Personalizzato",
+            "F5-02: dopo un valore dell'acciaio personalizzato la scelta «Acciaio» della vista mostra «Personalizzato», come i dati");
+        // A class of the catalogue after the custom values: the note of the new view is the one of the values of the catalogue.
         await side.Apply(new HorizontalPileStep(HorizontalPileStep.Field, "steel_modulus_mpa", "210000"));
-        ((TextBox)form.Editors["steel_modulus_mpa"]).Text = "210000";
         await side.Apply(new HorizontalPileStep(HorizontalPileStep.Choice, "steel_diagramma", "Incrudente"));
-        ((ComboBox)form.Editors["steel_diagramma"]).SelectedItem = "Incrudente";
         await side.Apply(new HorizontalPileStep(HorizontalPileStep.Choice, "classe_acciaio", "B450A"));
-        ((ComboBox)form.Editors["classe_acciaio"]).SelectedItem = "B450A";
         string? expectedNote = MaterialInputCatalog.SteelDifference(section, "NTC 2018");
         var note = Visual(host.View.CapacityPage).OfType<Grid>().Single(g => g.Name == "Row" && g.DataContext is FieldViewModel { Key: "classe_acciaio" })
             .Children.OfType<Border>().Single(b => b.Name == "NoteBox");
         string shown = note.Visibility == Visibility.Visible ? ((TextBlock)note.Child).Text : "";
-        string historicNote = HistoricNote(form, "classe_acciaio");
-        Log.Add($"   F5-02 nota della classe dal catalogo: vista nuova «{shown}», storica «{historicNote}», attesa «{expectedNote ?? ""}»");
-        Check(WithoutTimes(host.Editor.Data) == WithoutTimes(historic.Editor.Data) && (string?)choice.SelectedItem == "B450A" && shown == (expectedNote ?? ""),
-            "F5-02: nota della classe dell'acciaio scelta dal catalogo calcolata sui valori del catalogo, dati uguali alla vista storica"
-            + (historicNote != (expectedNote ?? "") ? " (la storica mostra la nota dei valori precedenti)" : " (anche la storica, la parte probabile di O6 non si presenta)"));
-    }
-
-    /// <summary>The text of the note of a field of a historic InputForm as shown («» when hidden), read through its private notes.</summary>
-    private static string HistoricNote(InputForm form, string key)
-    {
-        var notes = (System.Collections.IDictionary)typeof(InputForm).GetField("notes", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(form)!;
-        if (notes[key] is not { } note) return "";
-        var text = (TextBlock)note.GetType().GetField("Item1")!.GetValue(note)!;
-        var box = (Border)note.GetType().GetField("Item2")!.GetValue(note)!;
-        return box.Visibility == Visibility.Visible ? text.Text : "";
+        Log.Add($"   F5-02 nota della classe dal catalogo: vista nuova «{shown}», attesa «{expectedNote ?? ""}»");
+        Check(section.S("classe_acciaio") == "B450A" && (string?)choice.SelectedItem == "B450A" && shown == (expectedNote ?? ""),
+            "F5-02: nota della classe dell'acciaio scelta dal catalogo calcolata sui valori del catalogo");
     }
 
     // ---------------------------------------------------------------- 5. help
@@ -262,14 +170,13 @@ internal static partial class HorizontalPileViewChecks
             var data = HorizontalPileScenarios.FixtureData(root, module, id);
             string guide = Anthea.Wiki.WikiCatalog.ForModule(module)?.Id ?? throw new InvalidOperationException("Guida assente nella Wiki: " + module);
             using var host = new Hosted(Editors(services).Open(module, data));
-            using var historic = new Hosted(new SheetEditor(module, data));
-            await host.Settle(); await historic.Settle();
+            await host.Settle();
             var side = new CapacitySide(host, null, services);
             side.Attach();
             static string[] Labels(DependencyObject root) => Visual(root).OfType<Button>().Where(b => b.IsVisible && b.Content as string == "?")
                 .Select(b => AutomationProperties.GetName(b)).Order(StringComparer.Ordinal).ToArray();
-            string[] before = Labels(historic.Root), after = Labels(host.Root);
-            Check(after.SequenceEqual(before), module + ": etichette «?» visibili uguali a quelle della vista storica (" + before.Length + "): " + string.Join(", ", after));
+            string[] after = Labels(host.Root);
+            Check(after.Length > 0 && after.All(l => l.Length > 0), module + ": etichette «?» visibili (" + after.Length + "): " + string.Join(", ", after));
             foreach (bool readOnly in new[] { false, true })
             {
                 if (readOnly) { host.Editor.InspectRevision(); await host.Settle(); }
@@ -311,13 +218,10 @@ internal static partial class HorizontalPileViewChecks
         foreach (var (module, id) in new[] { (Pile, "broms-coesivo-impedita"), (Pile, "single-soil-layer"), (Micro, "stratificato-chs-catalogo"), (Micro, "single-soil-layer") })
         {
             var data = HorizontalPileScenarios.FixtureData(root, module, id);
-            using var historic = new Hosted(new SheetEditor(module, data));
             using var host = new Hosted(editors.Open(module, data));
-            await historic.Settle(); await host.Settle();
-            var before = Names(historic.Root); var after = Names(host.Root);
-            var missing = before.Except(after).Order(StringComparer.Ordinal).ToArray();
-            Log.Add($"   nomi nuovi ({module} {id}): " + string.Join(", ", after.Except(before).Order(StringComparer.Ordinal)));
-            Check(missing.Length == 0, $"{module} {id}: nomi di automazione della vista storica conservati ({before.Count})" + (missing.Length == 0 ? "" : "; mancanti: " + string.Join(", ", missing)));
+            await host.Settle();
+            var after = Names(host.Root);
+            Log.Add($"   nomi di automazione ({module} {id}, {after.Count}): " + string.Join(", ", after.Order(StringComparer.Ordinal)));
             // ui/smoke-horizontal (HorizontalLayoutChecks): the thickness of a layer by its name, the description of the calculation by its Tag.
             Check(after.Contains("Spessore [m]") && Visual(host.Root).OfType<FrameworkElement>().Any(e => Equals(e.Tag, "horizontal-calculation-description")),
                 $"{module} {id}: «Spessore [m]» e il Tag «horizontal-calculation-description» letti da ui/smoke-horizontal");
@@ -334,22 +238,11 @@ internal static partial class HorizontalPileViewChecks
             var services = new Services();
             var data = HorizontalPileScenarios.FixtureData(root, module, id);
             using var host = new Hosted(Editors(services).Open(module, data));
-            using var historic = new Hosted(new SheetEditor(module, data));
             await host.Sheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(60));
-            await historic.Settle();
-            await historic.Editor.CalculateAsync();
-            host.Editor.InspectRevision(); historic.Editor.InspectRevision();
-            await host.Settle(); await historic.Settle();
-            var page = (DependencyObject)host.View.CapacityPage;
-            var historicPage = ((SheetEditor)historic.Editor).HorizontalForChecks;
-            var before = Controls(historic.Root); var after = Controls(host.Root);
-            var common = before.Keys.Intersect(after.Keys).Order(StringComparer.Ordinal).ToArray();
-            var different = common.Where(k => before[k] != after[k]).Select(k => k + ": storica " + before[k] + ", nuova " + after[k]).ToArray();
-            Log.Add($"   sola lettura ({module}), solo nella storica: " + string.Join(", ", before.Keys.Except(after.Keys).Order(StringComparer.Ordinal)));
-            Log.Add($"   sola lettura ({module}), solo nella nuova: " + string.Join(", ", after.Keys.Except(before.Keys).Order(StringComparer.Ordinal)));
-            Log.Add($"   sola lettura ({module}), comuni: " + string.Join(", ", common.Select(k => k + " " + after[k])));
-            Check(different.Length == 0 && common.Length >= 20, $"{module}: sola lettura, stessi controlli bloccati e liberi della vista storica ({common.Length} controlli comuni)"
-                + (different.Length == 0 ? "" : ": " + string.Join("; ", different)));
+            host.Editor.InspectRevision();
+            await host.Settle();
+            var after = Controls(host.Root);
+            Log.Add($"   sola lettura ({module}): " + string.Join(", ", after.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => p.Key + " " + p.Value)));
             string data0 = host.Editor.Data.ToJsonString(J.Options);
             var side = new CapacitySide(host, null, services);
             side.Attach();
@@ -433,16 +326,11 @@ internal static partial class HorizontalPileViewChecks
         {
             using (var mvvm = editors.Open(module, HorizontalPileScenarios.FixtureData(root, module, "single-soil-layer")))
                 Check(mvvm is MvvmSheetEditor { Sheet: HorizontalPileSheetViewModel sheet } && sheet.Forms.All(f => f.Form.WikiNavigator is not null),
-                    module + ": con --module-impl il banco apre la vista MVVM, ogni form con il navigatore della Wiki");
+                    module + ": il banco apre la vista MVVM, ogni form con il navigatore della Wiki");
             using (var release = ModuleHostBench.SheetEditors([], DesktopComposition.CreateModules()).Open(module, HorizontalPileScenarios.FixtureData(root, module, "single-soil-layer")))
-                Check(release is SheetEditor && ModuleImplementations.Release.For(module) == SheetImplementation.Historic, module + ": la Release resta storica fino alla prova dell'utente");
+                Check(release is MvvmSheetEditor { Sheet: HorizontalPileSheetViewModel } && ModuleImplementations.Release.For(module) == SheetImplementation.Mvvm,
+                    module + ": la Release apre la vista MVVM (passaggio del 23/10/2026, vista storica archiviata)");
         }
     }
-}
-
-internal sealed partial class HorizontalWorkspace
-{
-    /// <summary>UiTests (F5.7 view checks): the form of the section of the historic view.</summary>
-    internal InputForm SectionFormForChecks => sectionFields;
 }
 
