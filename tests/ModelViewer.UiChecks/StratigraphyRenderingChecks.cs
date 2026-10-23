@@ -4,9 +4,18 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using Anthea.Application.Stratigraphy;
+using Anthea.Presentation.Modules.Stratigraphy;
+using Anthea.Presentation.Services;
 
 static partial class Program
 {
+    /// <summary>
+    /// --stratigraphy (Stratigraphy.UiChecks): the stratigraphy sheet as the composition root of the product opens it (the XAML view since the
+    /// Release switch of 23/10, f5-pass-geo), the hatches of the soils, the historic soil transfer window (still used by other historic modules)
+    /// and the AI import, all in windows outside the screen (never activated). The AI import is the dialog of the view
+    /// (StratigraphyImportDialogViewModel through its DataTemplate) with a scripted source of the drafts and a scripted file dialog: never the
+    /// network, never a window of the system. It replaces the historic StratigraphyImportWindow, archived in supporto/SUPERATI/ui-storica/stratigrafia.
+    /// </summary>
     static void StratigraphyRenderingChecks(string output)
     {
         var data = StratigraphyDocument.Create();
@@ -21,11 +30,12 @@ static partial class Program
         var assembly = typeof(X.Desktop.MainWindow).Assembly;
         // The sheet opens through the factory of the composition root and its contract (F5.2), as in the product; the checks read its view.
         var contract = assembly.GetType("X.Desktop.ISheetEditor")!;
-        var factory = ProductSheetEditors(ProductComposition());
+        var composition = ProductComposition();
+        var factory = ProductSheetEditors(composition);
         var sheet = factory.GetType().GetMethod("Open", Flags)!.Invoke(factory, [StratigraphyDocument.Module, data, null])!;
         var editor = (FrameworkElement)contract.GetProperty("View")!.GetValue(sheet)!;
         using var disposable = (IDisposable)sheet;
-        var host = new Window { Content = editor, Width = 1280, Height = 900, ShowActivated = false, ShowInTaskbar = false };
+        var host = Offscreen(new Window { Content = editor, Width = 1280, Height = 900 });
         try
         {
             host.Show(); Wait(150);
@@ -65,9 +75,9 @@ static partial class Program
         var transferType = assembly.GetType("X.Desktop.SoilTransferDialog")!;
         var sourceData = data.DeepClone().AsObject(); sourceData["name"] = "Sondaggio S2";
         var sourceRows = new[] { ("Sondaggio S2", StratigraphyDocument.Module, sourceData, "source-sheet-id") };
-        var owner = new Window { Width = 300, Height = 200, ShowActivated = false, ShowInTaskbar = false };
+        var owner = Offscreen(new Window { Width = 300, Height = 200 });
         owner.Show();
-        var transfer = (Window)Activator.CreateInstance(transferType, Flags, null, [owner, StratigraphyDocument.Module, data, sourceRows], null)!;
+        var transfer = Offscreen((Window)Activator.CreateInstance(transferType, Flags, null, [owner, StratigraphyDocument.Module, data, sourceRows], null)!);
         try
         {
             transfer.Show(); Wait(50);
@@ -81,28 +91,60 @@ static partial class Program
             CapturePage(transfer, Path.Combine(output, "stratigrafia-scambio.png"));
         }
         finally { transfer.Close(); owner.Close(); }
-        var dialogType = assembly.GetType("X.Desktop.StratigraphyImportWindow")!;
-        var dialog = (Window)Activator.CreateInstance(dialogType, Flags, null, [], null)!;
+        // The AI import: the product services with a scripted file dialog, a scripted source of the drafts, the view of the dialog by its DataTemplate.
+        string pdf = Path.Combine(output, "relazione-di-prova.pdf");
+        File.WriteAllText(pdf, "%PDF-1.4\nsynthetic transport fixture");
+        var draft = data.DeepClone().AsObject(); draft["import_source"] = new JsonObject { ["warnings"] = "Fixture: confrontare pagine e unità", ["reviewed"] = false };
+        var products = (PresentationServices)composition.GetType().GetProperty("Services", Flags)!.GetValue(composition)!;
+        using var importDialog = new StratigraphyImportDialogViewModel(new ScriptedDrafts(draft), new StratigraphyImportDefaults("modello-di-prova", ""),
+            new PresentationServices(products.Messages, products.Confirmations, new ScriptedFile(pdf), products.Dialogs, products.Clipboard, products.Links, products.Wiki));
+        var dialog = Offscreen(new Window { Content = importDialog, Width = 1200, Height = 850 });
         try
         {
             dialog.Show(); Wait(50);
-            Check(Children<Button>(dialog).Single(b => b.Content?.ToString()?.StartsWith("Sostituisci la stratigrafia") == true).IsEnabled == false, "Import cannot apply before review");
+            Button Apply() => Children<Button>(dialog).Single(b => b.Content?.ToString()?.StartsWith("Sostituisci la stratigrafia") == true);
+            Check(!Apply().IsEnabled && !importDialog.ApplyCommand.CanExecute(null), "Import cannot apply before review");
             CapturePage(dialog, Path.Combine(output, "stratigrafia-importazione.png"));
-            var draft = data.DeepClone().AsObject(); draft["import_source"] = new JsonObject { ["warnings"] = "Fixture: confrontare pagine e unità", ["reviewed"] = false };
-            dialogType.GetField("drafts", Flags)!.SetValue(dialog, new List<JsonObject> { draft });
-            var selector = (ComboBox)dialogType.GetField("profiles", Flags)!.GetValue(dialog)!;
-            selector.ItemsSource = new[] { "S1 · Bozza di prova" }; selector.SelectedIndex = 0; Wait(50);
+            importDialog.BrowseCommand.Execute(null);
+            var extraction = importDialog.ExtractCommand.ExecuteAsync(null);
+            for (int i = 0; i < 200 && !extraction.IsCompleted; i++) Wait(20);
+            Wait(50);
+            Check(extraction.IsCompletedSuccessfully && importDialog.File == pdf && importDialog.Profiles.Count == 1 && importDialog.SelectedProfileIndex == 0, "Scripted draft extracted from the chosen file");
             Check(Children<ListBox>(dialog).Single().Items.Count == 2, "AI draft preview uses actual editor");
             Check(data["import_source"] is null, "Draft changed source before applying");
             CapturePage(dialog, Path.Combine(output, "stratigrafia-anteprima.png"));
-            var review = (CheckBox)dialogType.GetField("reviewed", Flags)!.GetValue(dialog)!;
-            review.IsChecked = true; Call(dialog, "UpdateApply");
-            Check(Children<Button>(dialog).Single(b => b.Content?.ToString()?.StartsWith("Sostituisci la stratigrafia") == true).IsEnabled, "Reviewed draft can be applied");
+            var review = Children<CheckBox>(dialog).Single(c => c.Content?.ToString()?.StartsWith("Ho confrontato") == true);
+            review.IsChecked = true; Wait(20);
+            Check(importDialog.Reviewed && Apply().IsEnabled, "Reviewed draft can be applied");
             var name = Children<TextBox>(dialog).Single(b => System.Windows.Automation.AutomationProperties.GetName(b) == "Nome della stratigrafia");
-            name.Text = "Bozza corretta";
-            Check(review.IsChecked == false, "Editing draft invalidates review");
+            name.Text = "Bozza corretta"; Wait(20);
+            Check(review.IsChecked == false && !importDialog.Reviewed, "Editing draft invalidates review");
             Check(data["name"]!.ToString() != "Bozza corretta", "Preview edits changed original");
+            importDialog.Dismiss();
         }
         finally { dialog.Close(); }
+    }
+
+    /// <summary>A window outside the screen, never activated: the checks never take the mouse or the keyboard of the user.</summary>
+    static Window Offscreen(Window window)
+    {
+        window.WindowStartupLocation = WindowStartupLocation.Manual; window.Left = -32000; window.Top = -32000;
+        window.ShowActivated = false; window.ShowInTaskbar = false;
+        return window;
+    }
+
+    /// <summary>The drafts of the AI import, scripted: never the network.</summary>
+    sealed class ScriptedDrafts(JsonObject draft) : IStratigraphyDraftSource
+    {
+        public Task<IReadOnlyList<JsonObject>> ExtractAsync(string path, string apiKey, string model, CancellationToken cancellation) =>
+            Task.FromResult<IReadOnlyList<JsonObject>>([draft.DeepClone().AsObject()]);
+    }
+
+    /// <summary>«Scegli PDF…» answered with the file of the check: never a window of the system.</summary>
+    sealed class ScriptedFile(string path) : IFileDialogService
+    {
+        public string? OpenFile(OpenFileRequest request) => path;
+        public string? SaveFile(SaveFileRequest request) => throw new InvalidOperationException("Salvataggio non previsto.");
+        public string? ChooseFolder(string? title = null) => throw new InvalidOperationException("Cartella non prevista.");
     }
 }
