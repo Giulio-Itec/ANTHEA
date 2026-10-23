@@ -343,7 +343,16 @@ internal static partial class ConcreteSectionViewChecks
             historic.Editor.ExportReport(Path.Combine(folder, name + "-storica.docx"), title, sections);
             string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.docx")), normalizer);
             Check(part is null, name + ": report Word uguale in ogni parte a quello della vista storica, figure comprese (date normalizzate)" + (part is null ? "" : ", diversa " + part));
-            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))), name + ": PDF affiancato uguale");
+            // The cover of the PDF carries the time to the minute: two exports astride a minute differ, so both sides export again (as the other view suites).
+            int attempts = 1;
+            while (!SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))) && attempts < 3)
+            {
+                attempts++;
+                mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, sections);
+                historic.Editor.ExportReport(Path.Combine(folder, name + "-storica.docx"), title, sections);
+            }
+            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))),
+                name + ": PDF affiancato uguale" + (attempts > 1 ? $" ({attempts} esportazioni)" : ""));
             Check(sides.SameData && mvvm.Modified - mvvmBefore == historic.Modified - historicBefore, name + ": il report salva le sezioni scelte come la vista storica, con gli stessi Modified");
             string? brief = DifferentPart(mvvm.Editor.BuildShortReport("Breve " + id), historic.Editor.BuildShortReport("Breve " + id), normalizer);
             Check(brief is null, name + ": report breve uguale a quello della vista storica" + (brief is null ? "" : ", diversa " + brief));
