@@ -27,11 +27,11 @@ namespace X.Desktop;
 /// <summary>
 /// --check-sezione-view &lt;radice&gt; &lt;cartella&gt; [parti] (UiTests, F5.10, view after S9, proposal F5 section 7.3): the XAML view of the RC section
 /// (ConcreteSectionSheetView) hosted by <see cref="MvvmSheetEditor"/>, as the bench opens it with the option module-impl str_palo=mvvm, in windows
-/// outside the screen (never activated, no mouse). The Release keeps the historic view until the switch of the module (decisions of 17/10, 22/10 and
-/// 23/10). The parts never open the historic view: what they compared with it opened beside the new one is compared with the values it gave, recorded
+/// outside the screen (never activated, no mouse). The Release opens this view since the switch of 23/10/2026 (the historic view is archived in
+/// supporto/SUPERATI/ui-storica/sezione-ca). The parts never open the historic view: what they compared with it opened beside the new one is compared with the values it gave, recorded
 /// by this check before the switch in tests/fixtures/f5-sezione/vista-storica.json (prompt of the switches of 23/10, as for the pile group). Parts:
 /// <list type="number">
-/// <item>«banco»: with the option the bench opens the MVVM view, the Release keeps the historic one.</item>
+/// <item>«banco»: with the option the bench opens the MVVM view, the Release too (switch of 23/10/2026), the historic view is refused (archived).</item>
 /// <item>«disegni»: the drawings of the view, fed by the plain data of the ViewModel through <see cref="ConcreteSectionDrawings"/> (the section of
 /// the control panel, the stress maps of the three families with every contour of the Rara for two fixtures, the section of the shear, the section
 /// σ/ε and the strain plane of the 3D panel at the limit point and at the action, the 2D domain, the M–χ curve), for every F3 fixture, equal to the
@@ -231,7 +231,12 @@ internal static partial class ConcreteSectionViewChecks
             Check(mvvm is MvvmSheetEditor { Sheet: ConcreteSheetViewModel sheet } && sheet.Inputs.AllForms.All(f => f.WikiNavigator is not null),
                 "Con l'opzione del banco la sezione c.a. si apre nella vista MVVM, con il navigatore della Wiki in ogni form");
         using (var release = ModuleHostBench.SheetEditors([], DesktopComposition.CreateModules()).Open(Module, ConcreteSectionScenarios.FixtureData(root, "default")))
-            Check(release is SheetEditor && ModuleImplementations.Release.For(Module) == SheetImplementation.Historic, "La Release resta storica fino al passaggio con l'utente");
+            Check(release is MvvmSheetEditor { Sheet: ConcreteSheetViewModel } && ModuleImplementations.Release.For(Module) == SheetImplementation.Mvvm,
+                "La Release apre la sezione c.a. con la vista MVVM (passaggio del 23/10/2026)");
+        bool historicRefused = false;
+        try { ModuleHostBench.Implementations([ModuleHostBench.Argument, Module + "=historic"]); }
+        catch (ArgumentException error) when (error.Message.Contains("archiviata", StringComparison.Ordinal)) { historicRefused = true; }
+        Check(historicRefused, "Banco: la vista storica della sezione c.a. è archiviata, «historic» rifiutato");
     }
 
     // ---------------------------------------------------------------- 2. drawings
@@ -253,39 +258,39 @@ internal static partial class ConcreteSectionViewChecks
             await host.Settle(); await sheet.CalculateAsync(); await host.Settle();
             async Task Show(int tab) { sheet.SelectedTab = tab; await host.Settle(); }
             await Show(0);
-            list.Add(ConcreteSectionHistoricTrace.Record(output, id + " sezione 900x700", host.View.Preview, 900, 700));
+            list.Add(ConcreteSectionDrawingRecord.Record(output, id + " sezione 900x700", host.View.Preview, 900, 700));
             foreach (var panel in sheet.StressPanels)
             {
                 await Show(ConcreteSheetViewModel.StressTab); sheet.StressFamily = panel.Index; await host.Settle();
                 if (panel.Map.Stress is null) continue;
                 // The map of the family in the view (tab 04).
                 var map = CompositeSectionViewChecks.Walk(host.Root).OfType<ConcreteStressPanelView>().Single(v => ReferenceEquals(v.DataContext, panel)).Map;
-                list.Add(ConcreteSectionHistoricTrace.Record(output, id + " " + panel.Key + " 900x700", map, 900, 700));
+                list.Add(ConcreteSectionDrawingRecord.Record(output, id + " " + panel.Key + " 900x700", map, 900, 700));
                 if (id is not ("default" or "sle-fessurazione-assi") || panel.Key != "SLE") continue;
                 string shown = map.Contour;
                 foreach (string other in ConcreteSectionViewport.Contours)
                 {
                     map.Contour = other;
-                    list.Add(ConcreteSectionHistoricTrace.Record(output, id + " " + panel.Key + " " + other + " 900x700", map, 900, 700));
+                    list.Add(ConcreteSectionDrawingRecord.Record(output, id + " " + panel.Key + " " + other + " 900x700", map, 900, 700));
                 }
                 map.Contour = shown;
             }
             await Show(ConcreteSheetViewModel.ShearTab);
-            list.Add(ConcreteSectionHistoricTrace.Record(output, id + " taglio 700x600", host.View.ShearView.Drawing, 700, 600));
+            list.Add(ConcreteSectionDrawingRecord.Record(output, id + " taglio 700x600", host.View.ShearView.Drawing, 700, 600));
             await Show(1);
             var inspection = sheet.Domain3D.Inspection; sheet.Domain3D.InspectionTab = 1; await host.Settle();
             foreach (int state in new[] { 1, 0 })
             {
                 inspection.State = state; await host.Settle();
                 string label = state == 1 ? "limite" : "azione";
-                list.Add(ConcreteSectionHistoricTrace.Record(output, id + " ispezione 3D " + label + " 800x650", host.View.Domain3DView.Map, 800, 650));
-                list.Add(ConcreteSectionHistoricTrace.Record(output, id + " piano 3D " + label + " 800x650", host.View.Domain3DView.Plane, 800, 650));
+                list.Add(ConcreteSectionDrawingRecord.Record(output, id + " ispezione 3D " + label + " 800x650", host.View.Domain3DView.Map, 800, 650));
+                list.Add(ConcreteSectionDrawingRecord.Record(output, id + " piano 3D " + label + " 800x650", host.View.Domain3DView.Plane, 800, 650));
             }
             await Show(2);
-            list.Add(ConcreteSectionHistoricTrace.Record(output, id + " dominio 2D 900x700", (Plot)host.View.Domain2DView.Drawing!, 900, 700));
+            list.Add(ConcreteSectionDrawingRecord.Record(output, id + " dominio 2D 900x700", (Plot)host.View.Domain2DView.Drawing!, 900, 700));
             await Show(6);
             await sheet.Curvature.CalculateCommand.ExecuteAsync(null); await host.Settle();
-            list.Add(ConcreteSectionHistoricTrace.Record(output, id + " momento-curvatura 900x650", host.View.CurvatureView.Chart, 900, 650));
+            list.Add(ConcreteSectionDrawingRecord.Record(output, id + " momento-curvatura 900x650", host.View.CurvatureView.Chart, 900, 650));
         }
         ConcreteSectionTrace.Write(Path.Combine(output, "elenco.txt"), list);
         string? difference = ConcreteSectionTrace.FirstDifference(ConcreteSectionTrace.Read(Path.Combine(ConcreteSectionScenarios.Drawings(root), "elenco.txt")), list);

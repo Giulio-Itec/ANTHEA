@@ -411,9 +411,6 @@ Add-Suite @{ Name = 'ui/check-bridge-design-view'; Stage = 'ui'; Kind = 'check';
 # tests/fixtures/f5-elastico and their drawings, visit without writes, exports (JSON, Word, PDF, CSV), F5-02, screenshots, help (every «?» and F1 to
 # the navigator), automation names, read-only, the shared soil dialog, the c.a. verifier, the Release.
 Add-Suite @{ Name = 'ui/check-palo-orizzontale-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-orizzontale-view', '{root}', '{out}\vista'); Timeout = 1800; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
-# F5.10 (proposal 7.2, capture first): the historic RC section view still gives the traces and the drawings frozen in tests/fixtures/f5-sezione,
-# grouped by the sub-steps of F5.10, which the ViewModels of the sub-steps will compare; off screen, until the historic view is archived (Q11).
-Add-Suite @{ Name = 'ui/check-sezione-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-sezione-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
 # F5.11: the XAML view of the composite bridge section hosted by MvvmSheetEditor off screen, as the Release opens it since the switch of 23/10/2026: the
 # 20 traces through its controls equal to those frozen in tests/fixtures/f5-sezione-mista, the drawings of the view and the figures of the report, the
 # visit and the exports equal to the values of the historic view (recorded in tests/fixtures/f5-sezione-mista/vista-storica.json, report by its
@@ -425,14 +422,13 @@ Add-Suite @{ Name = 'ui/check-sezione-mista-view'; Stage = 'ui'; Kind = 'check';
 # calcolo/*, muri/* and esempi/*) and the 3D domains as data (disegni/domini-3d.txt), the files of the data of the F3 capture, the sections
 # sent by the walls and the native GPC section of the examples; the fast stage keeps five scenarios in Presentation.Tests.
 Add-Suite @{ Name = 'Presentation.Tests/sezione-ca'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--sezione-tracce'); Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-# F5.10 (view after S9): the XAML view of the RC section hosted by MvvmSheetEditor off screen (bench --module-impl str_palo=mvvm, Release still
-# historic): bench and Release, the drawings fed by the ViewModel equal to tests/fixtures/f5-sezione/disegni/elenco.txt, the 11 F3 fixtures with the
-# exports (Word with the figures, PDF, short report, JSON, M-chi report) equal to those of the historic view, screenshots, F1, read-only of the tab 01.
+# F5.10: the XAML view of the RC section hosted by MvvmSheetEditor off screen, as the Release opens it since the switch of 23/10/2026: the Release
+# and the bench (the historic view refused), the drawings fed by the ViewModel equal to tests/fixtures/f5-sezione/disegni/elenco.txt, the 57 traces
+# through its controls, the 11 F3 fixtures with the exports equal to the values of the historic view (recorded in tests/fixtures/f5-sezione/vista-storica.json),
+# screenshots, F1, read-only, automation names, the windows of the view. The historic view, ui/check-sezione-historic and the duplicate
+# ui/f3-report-chapters-sezione-mvvm are archived or removed (supporto/SUPERATI/ui-storica/sezione-ca); the c.a. suites run on the XAML view
+# (tests/Desktop/ConcreteSectionSmoke*.cs).
 Add-Suite @{ Name = 'ui/check-sezione-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-sezione-view', '{root}', '{out}\vista'); Timeout = 2400; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
-# F5.10 S9: ui/f3-report-chapters with the MVVM sheet of the RC section (bench --module-impl str_palo=mvvm): the chapters of the project report
-# against the reports of the ViewModel, figures included. At the switch of the Release this duplicate goes away.
-$MvvmConcreteSection = @('--module-impl', 'str_palo=mvvm')
-Add-Suite @{ Name = 'ui/f3-report-chapters-sezione-mvvm'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-report-chapters', '{root}', '{out}') + $MvvmConcreteSection; Timeout = 600; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # FieldForm (XAML + FormViewModel, F5.2) against the historic InputForm: same edit sequences on fields of real modules, same bytes of the document, same layout; windows outside the screen.
 Add-Suite @{ Name = 'ui/check-field-form-parity'; Stage = 'ui'; Kind = 'check'; Args = @('--check-field-form-parity', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # Theme tokens (F5.3): catalogue, colour equality with the palette in the three appearances, dictionaries of X.Desktop/Themes, light scope of the documents; off screen.

@@ -23,7 +23,9 @@ internal static class ExposureChoicesChecks
         check(File.ReadAllText(Path.Combine(root, "src/ANTHEA.Application/Concrete/ConcreteEditor.cs")).Contains("ConcreteLibraryMapping.ExposureChoices.ToArray()"), "7c: contratto applicativo senza fonte condivisa");
         // F5.7 and F5.9: the fields of the horizontal pile and of the wall (exposure included) moved from RetainingWallWorkspace.Materials.cs to RetainingWallFields, shared by
         // the historic view and its ViewModel; the same check follows them.
-        foreach (var file in new[] { "X.Desktop/Wpf/ConcreteStress.cs", "src/ANTHEA.Presentation/Modules/HorizontalPile/HorizontalPileFields.cs",
+        // F5.10 (passaggio della Release, 23/10/2026): the families of the serviceability of the RC section are in its ViewModel; the historic
+        // ConcreteStress.cs is archived in supporto/SUPERATI/ui-storica/sezione-ca.
+        foreach (var file in new[] { "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteStressPanelViewModel.cs", "src/ANTHEA.Presentation/Modules/HorizontalPile/HorizontalPileFields.cs",
             "src/ANTHEA.Presentation/Modules/RetainingWall/RetainingWallFields.cs", "X.Calculations/RetainingWall.cs" })
         {
             string source = File.ReadAllText(Path.Combine(root, file));

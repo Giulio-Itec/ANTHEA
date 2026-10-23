@@ -67,7 +67,7 @@ public sealed partial class MainWindow
 
 internal sealed partial class SheetEditor
 {
-    internal void SetGeometryForSmoke(string value) { if (concrete is not null) concrete.SetGeometry(value); else generalForm.Set("diametro", value); }
+    internal void SetGeometryForSmoke(string value) => generalForm.Set("diametro", value);
     internal async Task WaitForAutomatic()
     {
         for (int i = 0; i < 200 && (!scheduledCalculation.IsCompleted || Busy); i++) await Task.Delay(50);
@@ -75,7 +75,6 @@ internal sealed partial class SheetEditor
     }
     internal async Task VerifyWpf(string directory, string name)
     {
-        if (concrete is not null) { await concrete.VerifyWorkspace(directory); return; }
         void Assert(bool value, string message) { if (!value) throw new Exception(name + ": " + message); }
         async Task Capture(string suffix) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, name + suffix + ".png"), Ui.Snapshot(this)); }
         Assert(cards.Count == (Section ? 8 : 7), "Numero di pannelli diverso");

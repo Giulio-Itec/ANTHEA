@@ -24,18 +24,16 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     private bool busy;
     internal readonly Materiali.MaterialView? materials;
     internal readonly RebarMaterialView? rebarMaterial;
-    private ConcreteWorkspace? concrete;
     private readonly FoundationWorkspace? foundation;
     private readonly StratigraphyWorkspace? soilWorkspace;
     internal readonly RetainingWallWorkspace? retainingWall;
-    public JsonObject? Result { get => foundation is not null ? foundation.Result : retainingWall is not null ? retainingWall.Result : concrete is null ? result : concrete.Result; private set => result = value; }
-    public bool HasResults => concrete is not null ? concrete.HasResults : Result is not null;
-    public bool Busy { get => retainingWall?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
+    public JsonObject? Result { get => foundation is not null ? foundation.Result : retainingWall is not null ? retainingWall.Result : result; private set => result = value; }
+    public bool HasResults => Result is not null;
+    public bool Busy { get => retainingWall?.Busy ?? busy; private set => busy = value; }
     public event Action? Modified;
     public event Action<JsonObject, string>? ConcreteSectionRequested;
     public event Action? ReportRequested;
-    public byte[] BuildShortReport(string title) => concrete?.BuildShortReport(title)
-        ?? throw new InvalidOperationException("Il report short è disponibile per le sezioni in calcestruzzo armato.");
+    public byte[] BuildShortReport(string title) => throw new InvalidOperationException("Il report short è disponibile per le sezioni in calcestruzzo armato.");
     public event Action<string, JsonObject, string>? ModuleCopyRequested;
     public event Action<JsonObject>? SoilReplacementRequested;
     public Func<IEnumerable<(string Label, string Module, JsonObject Data, string Id)>>? SoilSources { get; set; }
@@ -115,15 +113,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
         {
             rebarMaterial = new RebarMaterialView(Data); rebarMaterial.Modified += () => Modified?.Invoke(); Content = rebarMaterial; building = false; return;
         }
-        if (Section)
-        {
-            void OpenConcrete()
-            {
-                concrete?.Dispose(); concrete = new ConcreteWorkspace(Data);
-                concrete.Modified += () => Modified?.Invoke(); concrete.ReloadRequested += OpenConcrete; Content = concrete;
-            }
-            OpenConcrete(); building = false; return;
-        }
         var footer = Ui.Dock(status, bottom: null); DockPanel.SetDock(calculate, System.Windows.Controls.Dock.Right); footer.Children.Insert(0, calculate); footer.Margin = new Thickness(24, 4, 24, 4);
         var theory = Ui.Button("Modello e dati comuni…", () => CalculationHelpView.Show(this, true), inspection: true);
         DockPanel.SetDock(theory, System.Windows.Controls.Dock.Right); footer.Children.Insert(0, theory);
@@ -145,8 +134,8 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     }
     private Action? releaseRevisionInspection;
     public void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
-    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); recalculation.Dispose(); calculationSession.Clear(); concrete?.Dispose(); retainingWall?.Dispose(); }
-    public void Commit() { if (soilWorkspace is not null) soilWorkspace.Commit(); else if (foundation is not null) foundation.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
+    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); recalculation.Dispose(); calculationSession.Clear(); retainingWall?.Dispose(); }
+    public void Commit() { if (soilWorkspace is not null) soilWorkspace.Commit(); else if (foundation is not null) foundation.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (rebarMaterial is not null) rebarMaterial.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
         int index = cards.Count; var header = new DockPanel { Margin = new Thickness(0, 0, 0, 8), MinHeight = 28 };
@@ -246,7 +235,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
         if (foundation is not null) { foundation.TryCalculate(); return; }
         if (retainingWall is not null) { await retainingWall.CalculateAsync(); return; }
         if (materials is not null || rebarMaterial is not null) { Commit(); return; }
-        if (concrete is not null) { await concrete.CalculateAllAsync(); return; }
         scheduledCalculation = CalculateScheduledAsync(TimeSpan.Zero, commitEdits);
         await scheduledCalculation;
     }
@@ -321,9 +309,8 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     }
     public void ExportResult(string filename)
     {
-        if (!HasResults || Busy) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
+        if (!HasResults || Busy) throw new InvalidOperationException("Premere Calcola prima di esportare.");
         var exported = Result!;
-        if (concrete is not null) exported["dati"] = Data.DeepClone();
         Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(exported.ToJsonString(J.Options)));
     }
     public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
@@ -357,8 +344,7 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     {
         if (foundation is not null) return Anthea.FoundationWorkspace.FoundationReport.WordDocument(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
         if (retainingWall is not null) return retainingWall.BuildReportDocument(title);
-        if (concrete is not null) return concrete.BuildReportDocument(title, options, projectReport);
-        if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
+        if (Result is null) throw new InvalidOperationException("Premere Calcola prima di esportare.");
         var images = ModuleFigureRenderer.VerticalFigures(Data, Result, Micro, plot, reference);
         return ReportWord.CreateDocument(title, Module, Data, Result, options, images.Select(f => f.Image()).ToList(), !projectReport);
     }

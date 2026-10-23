@@ -131,12 +131,10 @@ internal static class F3ReportChapterChecks
     private static void Check(bool valid, string message) { if (!valid) throw new InvalidOperationException(message); }
 
     /// <summary>
-    /// «Calcola curva» of the c.a. sheet: the historic view, or the MVVM sheet chosen with the option module-impl str_palo=mvvm of the bench (F5.10
-    /// S9), waited until its curve is published.
+    /// «Calcola curva» of the c.a. sheet with the XAML view (the Release since 23/10/2026), waited until its curve is published.
     /// </summary>
     private static async Task CalculateCurvature(ISheetEditor editor)
     {
-        if (editor is SheetEditor historic) { await historic.CalculateCurvatureForReportCheck(); return; }
         var sheet = (Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel)((MvvmSheetEditor)editor).Sheet;
         await sheet.Curvature.CalculateCommand.ExecuteAsync(null);
         for (int i = 0; i < 400 && sheet.Curvature.IsRunning; i++) await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.ApplicationIdle);
@@ -152,18 +150,5 @@ internal static class F3ReportChapterChecks
         string path = Path.Combine(output, Path.GetFileNameWithoutExtension(file) + "-esportato.docx");
         editor.ExportReport(path, title, []);
         return File.ReadAllBytes(path);
-    }
-}
-
-internal sealed partial class SheetEditor
-{
-    internal Task CalculateCurvatureForReportCheck() => concrete!.CalculateCurvatureForReportCheck();
-}
-internal sealed partial class ConcreteWorkspace
-{
-    internal async Task CalculateCurvatureForReportCheck()
-    {
-        await CalculateCurvature();
-        if (curvatureResult is null) throw new InvalidOperationException("Curva della fixture non disponibile: " + curvatureText.Text);
     }
 }

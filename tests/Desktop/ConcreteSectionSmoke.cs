@@ -40,8 +40,6 @@ namespace X.Desktop;
 /// </summary>
 internal sealed partial class ConcreteSectionSmoke : IDisposable
 {
-    /// <summary>The bench choice of the checks opened outside the window: the RC section with the XAML view.</summary>
-    internal static readonly string[] Bench = [ModuleHostBench.Argument, ConcreteSectionSheetModule.Id + "=mvvm"];
 
     private readonly List<Window> windows = [];
     private readonly Window? host;
@@ -65,10 +63,10 @@ internal sealed partial class ConcreteSectionSmoke : IDisposable
     /// <summary>The open sheet is the RC section with the XAML view.</summary>
     internal static bool Handles(ISheetEditor? editor) => editor is MvvmSheetEditor { Sheet: ConcreteSheetViewModel };
 
-    /// <summary>The editors of the bench with the RC section on the XAML view, and their scriptable services.</summary>
+    /// <summary>The editors of the bench (the Release: the RC section with the XAML view) and their scriptable services.</summary>
     internal static (SheetEditorFactory Factory, BenchSheetServices Services) Editors()
     {
-        var factory = ModuleHostBench.SheetEditors(Bench);
+        var factory = ModuleHostBench.SheetEditors([]);
         return (factory, ModuleHostBench.ScriptedServices(factory)!);
     }
 
