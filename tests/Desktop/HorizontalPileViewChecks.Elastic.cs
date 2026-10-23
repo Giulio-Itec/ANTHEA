@@ -708,8 +708,9 @@ internal static partial class HorizontalPileViewChecks
             }
         }
 
-        // The c.a. verifier (E1): the dialog of the services with the view of its DataTemplate and the historic ConcreteWorkspace on the sheet of the
-        // segment; «Applica» writes the reinforcement, the closing keeps the sheet in the segment, nothing goes to the window (no copy of a module).
+        // The c.a. verifier (E1): the dialog of the services with the view of its DataTemplate and the RC section of the Release (ConcreteSheetViewModel
+        // and its view, since the switch of 23/10/2026; until then the historic ConcreteWorkspace) on the sheet of the segment; «Applica» writes the
+        // reinforcement, the closing keeps the sheet in the segment, nothing goes to the window (no copy of a module).
         {
             var services = new Services();
             using var host = new Hosted(Editors(services).Open(Pile, HorizontalPileScenarios.FixtureData(root, Pile, "single-soil-elastic")));
@@ -725,7 +726,8 @@ internal static partial class HorizontalPileViewChecks
                 window.Show();
                 await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle);
                 var content = Visual(window).OfType<PileConcreteVerifierView>().Single();
-                shown.Add((verifier, content, content.Workspace is { } workspace && Visual(window).OfType<ConcreteWorkspace>().Contains(workspace),
+                shown.Add((verifier, content, content.Editor is { Sheet: Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel } editor
+                    && Visual(window).OfType<X.Desktop.Views.ConcreteSection.ConcreteSectionSheetView>().Any(v => ReferenceEquals(v.DataContext, editor.Sheet)),
                     host.Editor.Data["elastico"]!["tratti"]![verifier.Index]!["foglio_cls"] is null));
                 Press(content.ApplyButton);
                 window.Close();
@@ -737,7 +739,7 @@ internal static partial class HorizontalPileViewChecks
             await host.Settle();
             var (verifierShown, verifierView, hosted, kept) = shown.Single();
             Check(verifierShown.Title == "Verificatore c.a. · T1" && verifierView.Width == 1264 && verifierView.Height == 861 && hosted && kept,
-                "Verificatore c.a. (E1): dialogo dei servizi con la vista del suo modello (1264 × 861) e la ConcreteWorkspace storica sul foglio del tratto");
+                "Verificatore c.a. (E1): dialogo dei servizi con la vista del suo modello (1264 × 861) e la sezione c.a. della Release (ViewModel e vista) sul foglio del tratto");
             Check(host.Copies.Count == 0 && host.Editor.Data["elastico"]!["tratti"]![0]!["foglio_cls"] is JsonObject sheet && sheet.ToJsonString() == verifierShown.Sheet.ToJsonString()
                 && verifierView.NoteText.Text == ElasticPileFields.ConcreteApplied && host.Modified > 0,
                 "Verificatore c.a. (E1): «Applica armatura…» scrive il palo, la chiusura conserva il foglio nel tratto, nessuna copia alla finestra");

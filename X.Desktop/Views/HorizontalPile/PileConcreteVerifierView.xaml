@@ -1,8 +1,9 @@
 <!--
   The c.a. verifier of a segment of the elastic pile (decision E1/C4 of 17/10): the view of PileConcreteVerifier, shown by IDialogService
   (WpfDialogService), with the size of the historic dialog (1280 × 900, borders excluded). At the top the note and «Applica armatura alla sezione
-  principale» / «Applica armatura al tratto»; below, until F5.10, the historic ConcreteWorkspace on the sheet of the segment, hosted by the
-  code-behind. When the window closes the workspace commits its sheet and the ViewModel keeps it in the segment. Theme tokens only (P7).
+  principale» / «Applica armatura al tratto»; below, the RC section of the Release (ConcreteSheetViewModel and its view, since 23/10/2026; before, the
+  historic ConcreteWorkspace) on the sheet of the segment, hosted by the code-behind. When the window closes the section commits, its data go back to
+  the sheet and the ViewModel keeps it in the segment. Theme tokens only (P7).
 -->
 <UserControl x:Class="X.Desktop.Views.HorizontalPile.PileConcreteVerifierView"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

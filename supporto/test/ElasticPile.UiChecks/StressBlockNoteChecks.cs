@@ -43,21 +43,19 @@ static partial class Program
                 ((IDisposable)host).Dispose();
             }
 
-            // c.a. section: materials of the control panel, then the law changed by the user.
+            // c.a. section: materials of the control panel, then the law changed by the user (the RC section of the c.a. verifier since 23/10/2026: the
+            // view of the Release, every group of the control panel opened).
             var sheet = SezioneCA.DefaultData(); sheet["input"]!["cls_diagramma"] = "Parabola-rettangolo";
-            var caType = assembly.GetType("X.Desktop.ConcreteWorkspace")!;
-            var ca = (FrameworkElement)Activator.CreateInstance(caType, flags, null, [sheet], null)!;
-            var materials = (FrameworkElement)caType.GetField("materials", flags)!.GetValue(ca)!;
-            foreach (var group in Descendants<Expander>(materials)) group.IsExpanded = true;
-            Snapshot(materials, Path.Combine(dir, "sezione-ca-parabola.png"), 520, 900);
+            var (materials, ca, data) = ConcreteSection(sheet);
+            Snapshot(materials, Path.Combine(dir, "sezione-ca-parabola.png"), 1400, 1600);
+            for (int pass = 0; pass < 3; pass++) { foreach (var group in Descendants<Expander>(materials).ToArray()) group.IsExpanded = true; Snapshot(materials, Path.Combine(dir, "sezione-ca-parabola.png"), 1400, 1600); }
             Fact(!Shows(materials), "c.a. section: notice absent with the parabola-rectangle");
             var lawBox = Descendants<ComboBox>(materials).First(c => c.Items.Contains("Stress block")); lawBox.SelectedItem = "Stress block";
-            materials.Measure(new Size(520, 900)); materials.Arrange(new Rect(0, 0, 520, 900)); materials.UpdateLayout();
-            Snapshot(materials, Path.Combine(dir, "sezione-ca-stress-block.png"), 520, 900);
-            Fact(sheet["input"].S("cls_diagramma") == "Stress block" && Shows(materials), "c.a. section: notice shown as soon as the stress block is chosen");
-            lawBox.SelectedItem = "Bilineare"; materials.UpdateLayout();
+            Snapshot(materials, Path.Combine(dir, "sezione-ca-stress-block.png"), 1400, 1600);
+            Fact(data()["input"].S("cls_diagramma") == "Stress block" && Shows(materials), "c.a. section: notice shown as soon as the stress block is chosen");
+            lawBox.SelectedItem = "Bilineare"; Snapshot(materials, Path.Combine(dir, "sezione-ca-bilineare.png"), 1400, 1600);
             Fact(!Shows(materials), "c.a. section: notice hidden again with another law");
-            ((IDisposable)ca).Dispose();
+            ca.Dispose();
             return lines.Any(l => l.StartsWith("FAIL")) && !probe ? 1 : 0;
         }
         finally { File.WriteAllLines(Path.Combine(dir, "nota-stress-block.txt"), lines); }
