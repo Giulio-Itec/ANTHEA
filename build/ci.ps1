@@ -23,7 +23,9 @@ supporto\artefatti\baseline\F2-pre-m4-v2\a\tutte of the main repository, with 1e
 GPCChecker.Concrete; 'pre-m4' is the exact comparison, for a capture with --motore legacy or a double run). The headless reference of
 steps F2.6-F2.9 is supporto\artefatti\baseline\F2-B3\headless (-BaselineRef), with concrete sections with shear and torsion.
 The WPF checks (--smoke-*, --check-*) exist only in the UiTests configuration (refactoring F1.2): the build stage
-compiles X.Desktop with -c UiTests and the ui stage runs X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe.
+compiles the desktop project ($Desktop, now X.Desktop) with -c UiTests and the ui stage runs <its folder>\bin\UiTests\net8.0-windows\ANTHEA.exe.
+With -List the runner prints the suites of the selected stages (stage, kind, name) and their count per stage, and builds
+and runs nothing: the count of the suites before and after a change (F5.14).
 Every outcome is classified against build/known-failures.json: PASS, KNOWN, NEW-FAIL, FIXED, BLOCKED, NOT-RUN.
 Exit code 0 only without NEW-FAIL and without tracked files modified by the suites.
 Outputs: supporto/artefatti/ci/<yyyyMMdd-HHmmss>-<Tag>/ (summary.json, summary.txt, one folder and log per suite).
@@ -37,6 +39,7 @@ param(
     [string] $Output,
     [switch] $NoBuild,
     [switch] $Installer,
+    [switch] $List,
     [string] $GpcLibDir,
     [string] $CompareTo,
     [string] $Only,
@@ -97,12 +100,17 @@ $Git = Find-Git
 
 if (-not $Output) { $Output = Join-Path $Root ('supporto\artefatti\ci\' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + $Tag) }
 $Output = [IO.Path]::GetFullPath($Output)
-if ((Test-Path -LiteralPath $Output) -and (Get-ChildItem -LiteralPath $Output -Force | Select-Object -First 1)) { throw "Cartella di output non vuota: $Output" }
-New-Item -ItemType Directory -Force -Path $Output | Out-Null
+if (-not $List) {
+    if ((Test-Path -LiteralPath $Output) -and (Get-ChildItem -LiteralPath $Output -Force | Select-Object -First 1)) { throw "Cartella di output non vuota: $Output" }
+    New-Item -ItemType Directory -Force -Path $Output | Out-Null
+}
 
 $Cases = Join-Path $Root 'supporto\test\casi_confronto.json'
-$Exe = Join-Path $Root 'X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe'
+# The desktop project (WPF, executable ANTHEA): the only place of its path in the runner. F5.14 moves it to
+# src\ANTHEA.Desktop (docs/refactoring/f5-14-chiusura.md); the UiTests executable and the Release folder follow it.
 $Desktop = 'X.Desktop\X.Desktop.csproj'
+$DesktopDir = Split-Path $Desktop -Parent
+$Exe = Join-Path $Root "$DesktopDir\bin\UiTests\net8.0-windows\ANTHEA.exe"
 $Verifiche = 'supporto\test\X.Verifiche\X.Verifiche.csproj'
 function TestProject([string] $name) { "supporto\test\$name\$name.csproj" }
 
@@ -114,7 +122,7 @@ $Suites = New-Object System.Collections.ArrayList
 function Add-Suite([hashtable] $s) { [void] $Suites.Add($s) }
 
 # The shipped assemblies (Release) must not contain the WPF checks of the UiTests configuration.
-Add-Suite @{ Name = 'qa/no-test-code'; Stage = 'fast'; Kind = 'powershell'; Script = 'tools\qa\Assert-NoTestCode.ps1'; Args = @('-Path', 'X.Desktop\bin\Release\net8.0-windows')
+Add-Suite @{ Name = 'qa/no-test-code'; Stage = 'fast'; Kind = 'powershell'; Script = 'tools\qa\Assert-NoTestCode.ps1'; Args = @('-Path', "$DesktopDir\bin\Release\net8.0-windows")
     Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
 
 foreach ($flag in 'checker', 'bridge', 'horizontal', 'coesione', 'gamma-sat', 'pile-factors', 'ca-module', 'ca-data') {
@@ -451,6 +459,15 @@ $NotRun = @(
     @{ Name = 'BridgeValidationCurrent'; Reason = 'compila i sorgenti di test di Checker; passa nei test di libreria (traccia infrastruttura)' },
     @{ Name = 'ElasticPile.Performance'; Reason = 'misura dei tempi con input in supporto/artefatti' }
 ) + $benchNotRun
+
+# -List: the registry only, with the same selection as a run (stages, -Only); nothing is built, run or written.
+if ($List) {
+    $listed = @($Suites | Where-Object { $Stage -contains $_.Stage -and (-not $Only -or $_.Name -match $Only) })
+    $listed | ForEach-Object { "{0}`t{1}`t{2}" -f $_.Stage, $_.Kind, $_.Name }
+    $listed | Group-Object { $_.Stage } | ForEach-Object { 'totale {0}: {1}' -f $_.Name, $_.Count }
+    'totale: ' + $listed.Count
+    return
+}
 
 # ---------------------------------------------------------------- helpers
 function Expand([string] $text, [string] $out) {
