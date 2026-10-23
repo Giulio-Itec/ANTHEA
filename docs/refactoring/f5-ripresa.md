@@ -112,6 +112,8 @@ Versioni di prova consegnate (f5b, f5c, f5d) sul ramo `prova/f5-viste`:
 - **Scelte «da decidere»:** si rivedono tutte in F5.15. L'elenco è in decisioni.md (17 ottobre) e nei documenti `f5-*.md`:
   M15–M20, S13–S17, MU14–MU19, S1-a…S1-e, f5-6 5.3, [f5-suite-ui.md](f5-suite-ui.md), f5-7 5 / f5-8 6,
   [f5-punti-di-controllo.md](f5-punti-di-controllo.md).
+- **Elenco unico per F5.15** (23/10): [f5-15-revisione.md](f5-15-revisione.md), con le voci da guardare per prime, il conteggio per
+  gruppo, le voci già decise e le voci R4–R21 del registro.
 - **Pulizia del disco.** Il 21/10, con l'ok dell'utente («Cancella senza archiviare»), sono cancellati `Temp\aw-f5` con le
   prove, le catture dei banchi nello scratchpad e i rami uniti. La pulizia della cartella `Repository` è in corso: si cancella
   solo con l'ok dell'utente, cartella per cartella.
