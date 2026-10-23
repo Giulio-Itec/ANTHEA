@@ -232,12 +232,22 @@ public sealed class ShellWindowsViewModel : ViewModelBase
         return tab;
     }
 
-    /// <summary>A window got the focus (the user clicked it): its tab takes the focus of the shell.</summary>
+    /// <summary>
+    /// The main window shows a page of the navigation in place of its selected tab (set by the shell, F5.13 e): its activation keeps the page.
+    /// </summary>
+    public bool MainShowsPage { get; set; }
+
+    /// <summary>
+    /// A window got the focus (the user clicked it): its tab takes the focus of the shell. The main window that shows a page keeps it (F5.13 e,
+    /// ui/shell-smoke-projects: the activation brought back the tab under the page and ended the rename in the tree): no sheet has the focus, the one of a
+    /// detached window is confirmed, as when a page is chosen.
+    /// </summary>
     public void WindowActivated(TabHostViewModel host)
     {
         ArgumentNullException.ThrowIfNull(host);
         activeHost = host;
         OnPropertyChanged(nameof(ActiveHost));
+        if (host.IsMain && MainShowsPage) { workspace.Activate(null); return; }
         if (host.Selected is { } tab) Select(tab);
     }
 

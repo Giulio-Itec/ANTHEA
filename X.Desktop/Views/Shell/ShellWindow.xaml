@@ -19,6 +19,7 @@
  xmlns:cmd="clr-namespace:Anthea.Presentation.Shell.Commands;assembly=ANTHEA.Presentation"
  xmlns:tabs="clr-namespace:Anthea.Presentation.Shell.Tabs;assembly=ANTHEA.Presentation"
  xmlns:shell="clr-namespace:Anthea.Presentation.Shell;assembly=ANTHEA.Presentation"
+ xmlns:proj="clr-namespace:Anthea.Presentation.Shell.Projects;assembly=ANTHEA.Presentation"
  Title="{Binding Title}" Width="1600" Height="990" MinWidth="760" MinHeight="480"
  Style="{DynamicResource {x:Type Window}}" Background="{DynamicResource Token.Surface}">
  <Window.Resources>
@@ -118,8 +119,22 @@
         Text="{Binding Tree.DropHint}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Visibility="{Binding Tree.DropHint, Converter={StaticResource WhenPresent}}"/>
       </Grid>
      </StackPanel>
-     <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Tree.Summary}" Margin="0,10,0,0"/>
-     <TreeView x:Name="Tree" DataContext="{Binding Tree}" ItemsSource="{Binding Roots}" BorderThickness="0" Background="{DynamicResource Token.Paper}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+     <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Tree.Summary}" Margin="0,10,0,0"
+      Visibility="{Binding Tree.IsEmpty, Converter={StaticResource WhenFalse}}"/>
+     <Grid>
+     <!--
+       F5.13 e (ui/shell-smoke-project-workspace): the empty tree of MainWindow (BuildEmptyProjectTree): the title, the text and «+  Crea progetto» outside
+       read-only, in the middle of the column; the summary of the tree hidden.
+     -->
+     <StackPanel x:Name="EmptyTree" MaxWidth="340" Margin="24" VerticalAlignment="Center" Visibility="{Binding Tree.IsEmpty, Converter={StaticResource WhenTrue}}">
+      <TextBlock Style="{StaticResource Shell.Title}" Text="{x:Static proj:ProjectTreeViewModel.EmptyTitle}" TextAlignment="Center" TextWrapping="Wrap"/>
+      <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Subheading}" Text="{x:Static proj:ProjectTreeViewModel.EmptyText}" TextAlignment="Center"
+       TextWrapping="Wrap" Margin="0,10,0,20"/>
+      <Button Style="{StaticResource Shell.Primary}" Content="{x:Static proj:ProjectTreeViewModel.CreateProject}" HorizontalAlignment="Center" Padding="22,10"
+       Command="{Binding Tree.AddProjectCommand}" Visibility="{Binding Tree.IsReadOnly, Converter={StaticResource WhenFalse}}"/>
+     </StackPanel>
+     <TreeView x:Name="Tree" DataContext="{Binding Tree}" ItemsSource="{Binding Roots}" BorderThickness="0" Background="{DynamicResource Token.Paper}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+      Visibility="{Binding IsEmpty, Converter={StaticResource WhenFalse}}">
       <!--
         The alignments of the nodes in an implicit style: the style of the theme binds them to the parent ItemsControl, and a node built when the
         tree is rebuilt (opening a sheet) and removed before the next layout left a binding error. In ItemContainerStyle alone they come too late.
@@ -141,6 +156,7 @@
        </Style>
       </TreeView.ItemContainerStyle>
      </TreeView>
+     </Grid>
     </DockPanel>
    </Border>
 

@@ -103,12 +103,50 @@ internal static class MvvmSheets
     /// WaitForAutomatic of SheetEditor on a ViewModel: the pending automatic recalculation (scheduled at the opening and after each edit)
     /// and any calculation under way finished, within 10 s; otherwise the message of the historic check.
     /// </summary>
-    internal static async Task WaitForAutomatic(MvvmSheetEditor editor)
+    internal static async Task WaitForAutomatic(HostedSheet editor)
     {
         var sheet = (SheetViewModelBase)editor.Sheet;
         for (int i = 0; i < 200 && (!sheet.PendingCalculation.IsCompleted || editor.Busy); i++) await Task.Delay(50);
         if (!sheet.PendingCalculation.IsCompleted || editor.Busy) throw new Exception("Calcolo automatico non terminato");
     }
+}
+
+/// <summary>
+/// A sheet with the XAML view as the UI suites drive it: its ViewModel and the element that holds its view. In MainWindow the host is
+/// <see cref="MvvmSheetEditor"/> (converted implicitly); in the new shell the tab of the sheet (F5.13 e, the suites ui/shell-smoke-*). Calculation and
+/// report as MvvmSheetEditor does them (the drafts committed before «Calcola»; the report through SheetFileExports, the code of MvvmSheetEditor).
+/// </summary>
+internal sealed class HostedSheet(ISheetViewModel sheet, Func<System.Windows.FrameworkElement> view)
+{
+    /// <param name="sheet">The ViewModel of the sheet.</param>
+    /// <param name="view">The element that holds its view, always the same (MvvmSheetEditor).</param>
+    internal HostedSheet(ISheetViewModel sheet, System.Windows.FrameworkElement view) : this(sheet, () => view) { }
+
+    internal ISheetViewModel Sheet { get; } = sheet;
+
+    /// <summary>
+    /// The element that holds the view of the sheet now (the view is found among its descendants): in the new shell the view of a tab is built again when
+    /// the tab comes back on screen (proposal R6), so it is looked up at every use.
+    /// </summary>
+    internal System.Windows.FrameworkElement View => view();
+
+    internal string Module => Sheet.ModuleId;
+    internal System.Text.Json.Nodes.JsonObject Data => Sheet.Data;
+    internal System.Text.Json.Nodes.JsonObject? Result => Sheet.Result;
+    internal bool Busy => Sheet.IsBusy;
+
+    /// <summary>MvvmSheetEditor.CalculateAsync(commitEdits: true).</summary>
+    internal async Task CalculateAsync()
+    {
+        Sheet.Commit();
+        await Sheet.CalculateAsync();
+    }
+
+    /// <summary>MvvmSheetEditor.ExportReport: the code shared with the new shell.</summary>
+    internal void ExportReport(string filename, string title, HashSet<string> options) =>
+        Anthea.Presentation.Shell.Commands.SheetFileExports.WriteReport(Sheet, filename, title, options, false);
+
+    public static implicit operator HostedSheet(MvvmSheetEditor editor) => new(editor.Sheet, editor.View);
 }
 
 public sealed partial class MainWindow

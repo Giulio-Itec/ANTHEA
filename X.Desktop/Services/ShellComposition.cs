@@ -23,6 +23,7 @@ internal sealed record ShellParts(ShellWindow Window, ShellViewModel Shell, Shel
 /// <see cref="SheetEditor"/>, hosted in the tab (<see cref="HistoricSheetViewModel"/>); their files through <see cref="DesktopSheetExports"/>;</item>
 /// <item>the files of the documents with the installed examples, the menu «Aspetto»
 /// (<see cref="WpfAppearanceService"/>) and the page «Esempi»;</item>
+/// <item>the report of a section (part e, <see cref="DesktopSectionReports"/>: the call of MainWindow, report code unchanged);</item>
 /// <item>the detached windows: a <see cref="DetachedShellWindow"/> for each detached host, through <see cref="DetachedWindowHandle"/> for
 /// <see cref="ShellWindowTracker"/> (the checks wrap them in windows that are never activated);</item>
 /// <item>the Wiki of the services that opens the tab of the shell (<see cref="ShellWikiNavigator"/>), when the services carry one.</item>
@@ -59,7 +60,7 @@ internal static class ShellComposition
         var tracker = new ShellWindowTracker(host => detached(new DetachedShellWindow(host, shell!.Windows, shell)));
         shell = new ShellViewModel(services, new ReleaseSheetFactory(implementations ?? ModuleImplementations.Release, modules, services, limiter), new DocumentFiles(examples), tracker,
             new DesktopSheetExports(),
-            new ShellOptions(new WpfAppearanceService(), () => ExampleCatalog.Load(examples)));
+            new ShellOptions(new WpfAppearanceService(), () => ExampleCatalog.Load(examples), new DesktopSectionReports()));
         tracker.Attach(shell.Windows);
         (services.Wiki as ShellWikiNavigator)?.Attach(shell);
         return new ShellParts(new ShellWindow(shell, tracker), shell, tracker);

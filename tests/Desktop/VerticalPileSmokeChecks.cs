@@ -30,10 +30,11 @@ namespace X.Desktop;
 internal sealed class VerticalPileSmoke
 {
     private static readonly CultureInfo Italian = CultureInfo.GetCultureInfo("it-IT");
-    private readonly MvvmSheetEditor editor;
+    private readonly HostedSheet editor;
     private readonly BenchSheetServices services;
 
-    internal VerticalPileSmoke(MvvmSheetEditor editor, BenchSheetServices services)
+    /// <param name="editor">The sheet in MainWindow (MvvmSheetEditor) or in a tab of the new shell (F5.13 e).</param>
+    internal VerticalPileSmoke(HostedSheet editor, BenchSheetServices services)
     {
         this.editor = editor; this.services = services;
         Sheet = (VerticalPileSheetViewModel)editor.Sheet;

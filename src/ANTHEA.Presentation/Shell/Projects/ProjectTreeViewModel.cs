@@ -590,7 +590,12 @@ public sealed class ProjectTreeViewModel : ViewModelBase
 
     private void OnDocumentsChanged(object? sender, EventArgs e) => Attach();
 
-    private void OnProjectChanged(object? sender, ProjectChangedEventArgs e) => Refresh(e.Node);
+    /// <summary>
+    /// The tree follows the document; after a change of the structure the node concerned is selected. A change of the data of the sheets («Uniforma a
+    /// questo» and the links of the comparison, the models) keeps the selection, as MainWindow (F5.13 e, ui/shell-smoke-project-workspace: the comparison
+    /// selected the sheet aligned).
+    /// </summary>
+    private void OnProjectChanged(object? sender, ProjectChangedEventArgs e) => Refresh(e.Change == ProjectChange.Data ? null : e.Node);
 
     private void OnActiveChanged(object? sender, EventArgs e)
     {

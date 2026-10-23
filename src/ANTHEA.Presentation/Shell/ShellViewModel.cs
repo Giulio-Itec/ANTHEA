@@ -19,9 +19,10 @@ namespace Anthea.Presentation.Shell;
 
 /// <summary>
 /// What the composition root gives to the shell besides the services (F5.13 c): the appearance of the application (menu «Aspetto») and the
-/// catalogue of the installed examples (page «Esempi»). Without them the menu and the page are absent (the checks of parts a and b).
+/// catalogue of the installed examples (page «Esempi»); since part (e) the writer of the report of a section («Genera report», «Report Word della
+/// sezione»). Without them the menu, the page and the report of a section are absent (the checks of parts a and b).
 /// </summary>
-public sealed record ShellOptions(IAppearanceService? Appearance = null, Func<ExampleCatalog>? Examples = null);
+public sealed record ShellOptions(IAppearanceService? Appearance = null, Func<ExampleCatalog>? Examples = null, ISectionReports? Reports = null);
 
 /// <summary>
 /// The shell as one ViewModel (F5.13 b, c): the coordinator of the documents and the ViewModels of navigation, tree, catalogue of the sheets,
@@ -52,6 +53,7 @@ public sealed class ShellViewModel : ViewModelBase
     private readonly PresentationServices services;
     private readonly ShellOptions options;
     private readonly CommandGuard guard;
+    private readonly SectionReportRunner? sectionReports;
     private RevisionBarViewModel? revisions;
     private SectionOverviewViewModel? overview;
     private ISheetViewModel? watched;
@@ -93,9 +95,14 @@ public sealed class ShellViewModel : ViewModelBase
             scope => scope?["revisione"] is JsonObject && Workspace.Project is not null);
         OpenOverviewModelCommand = new RelayCommand<OverviewModel>(model => guard.Run(() => ShowModel(model!.Container, model.ModelId)), model => model is not null);
         AddCatalogSheetCommand = new RelayCommand<ProjectCatalogCard>(card => guard.Run(() => Tree.AddSheet(card!.Module)), card => card is not null && Workspace.Project is { IsReadOnly: false });
+        // F5.13 e: the report of a section, from «Genera report» of the overview and «Report Word della sezione» of the tree (MainWindow.ExportSectionReport).
+        sectionReports = this.options.Reports is { } writer ? new SectionReportRunner(Workspace, services, writer, ShowCoherenceAsync) : null;
+        SectionReportCommand = new AsyncRelayCommand<JsonObject>(section => guard.RunAsync(_ => ExportSectionReportAsync(section!)),
+            section => section is not null && sectionReports is not null && Workspace.Project is not null && ProjectSharedData.SubtreeSheets(section).Any());
         Commands.ExamplesRequested += (_, _) => Navigation.Select(ShellPage.Examples);
         Tree.OverviewRequested += (_, section) => ShowOverview(section);
         Tree.CompareRequested += (_, section) => _ = CompareCommand.ExecuteAsync(section);
+        Tree.ReportRequested += (_, section) => _ = SectionReportCommand.ExecuteAsync(section);
         Tree.ModelRequested += (_, model) => guard.Run(() => ShowModel(model.Container, model.ModelId));
         Tree.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(ProjectTreeViewModel.Selected) && Workspace.Active is null) Revisions?.Show(SelectedSection()); };
         Models.OpenProjectRequested += (_, _) => Commands.Open();
@@ -108,6 +115,9 @@ public sealed class ShellViewModel : ViewModelBase
         Workspace.ActiveChanged += (_, _) => OnActiveChanged();
         Workspace.DocumentsChanged += (_, _) => OnDocumentsChanged();
         Workspace.SheetsReloaded += (_, _) => OnActiveChanged();
+        Workspace.SheetClosed += OnSheetClosed;
+        // F5.13 e (ui/shell-smoke-hierarchy): the status line follows the confirmed data too (MainWindow.Commit, RefreshSharedStatus), not only the edits.
+        Workspace.ActiveCommitted += (_, sheet) => { if (ReferenceEquals(sheet, Workspace.Active)) { SharedStatus.Update(sheet); UpdateTitle(); } };
         Workspace.ReportRequested += (_, sheet) => { if (ReferenceEquals(sheet, Workspace.Active)) _ = Commands.ReportCommand.ExecuteAsync(null); };
         OnDocumentsChanged();
         UpdateCenter();
@@ -346,6 +356,25 @@ public sealed class ShellViewModel : ViewModelBase
         return await services.Dialogs.ShowDialogAsync(summary);
     }
 
+    // ---- Part (e): the report of a section
+
+    /// <summary>
+    /// «Genera report» of the overview and «Report Word della sezione» of the tree (MainWindow.ExportSectionReport): the report of a section with sheets,
+    /// through the writer of the composition root (<see cref="ShellOptions.Reports"/>); disabled without it.
+    /// </summary>
+    public IAsyncRelayCommand<JsonObject> SectionReportCommand { get; }
+
+    /// <summary>
+    /// The report of <paramref name="section"/> with the sequence and the texts of MainWindow (<see cref="SectionReportRunner"/>): null when nothing was
+    /// written, otherwise the number of sheets with missing or incomplete results.
+    /// </summary>
+    public Task<int?> ExportSectionReportAsync(JsonObject section)
+    {
+        ArgumentNullException.ThrowIfNull(section);
+        if (sectionReports is null || Workspace.Project is null) return Task.FromResult<int?>(null);
+        return sectionReports.RunAsync(section);
+    }
+
     /// <summary>The application is closing: the questions to save every document (true closes).</summary>
     public bool ConfirmClose() => Workspace.ConfirmClose();
 
@@ -506,6 +535,8 @@ public sealed class ShellViewModel : ViewModelBase
             ShellPage.Examples => (object?)examples ?? Navigation,
             _ => Windows.Main.Selected ?? (object)Navigation
         };
+        // F5.13 e: the activation of the main window keeps the page on screen (ShellWindowsViewModel.WindowActivated).
+        Windows.MainShowsPage = Navigation.Page is not null || Windows.Main.Selected is null;
         KeepFullPageReachable();
     }
 
@@ -545,6 +576,19 @@ public sealed class ShellViewModel : ViewModelBase
     private void OnProjectState(object? sender, EventArgs e) => UpdateTitle();
 
     /// <summary>
+    /// F5.13 e (ui/shell-smoke-project-workspace): the sheet with the focus closed because the document on screen has no node with its identifier (a revision,
+    /// undo or redo) and no other sheet took the focus: the overview of the section of the revisions, otherwise of the section of the sheet, as MainWindow
+    /// shows the structure of the project (SwitchProjectRevision, RestoreProjectHistory). Before, the centre fell back to the home page or to a tab without
+    /// the focus.
+    /// </summary>
+    private void OnSheetClosed(object? sender, SheetClosedEventArgs e)
+    {
+        if (e.Reason != SheetCloseReason.Missing || Workspace.Active is not null || Navigation.Page is not null || Workspace.Project is not { } project) return;
+        var section = project.Find(project.RevisionScopeId) ?? project.Find((e.Sheet.Sheet.Parent?.Parent as JsonObject)?.S("id"));
+        guard.Run(() => ShowOverview(section));
+    }
+
+    /// <summary>
     /// Any change of the project rebuilds the overview on screen (the section found again by identifier), as MainWindow shows it again; the model
     /// tabs follow the document on screen or close.
     /// </summary>
@@ -554,6 +598,9 @@ public sealed class ShellViewModel : ViewModelBase
             Overview = new SectionOverviewViewModel(project, shown.Section is null ? null : project.Find(shown.Section.S("id")) ?? project.Projects.FirstOrDefault());
         foreach (var page in Windows.Pages.Where(p => p.Content is ModelTabViewModel model && !model.Rebind()).ToArray()) Windows.Close(page);
         ModelReference.Update(Workspace.Active);
+        // F5.13 e (ui/shell-capture): the status line of the sheet with the focus follows the other sheets changed by the project («Uniforma a questo» from the
+        // sheet aligns the others; MainWindow shows the sheet again after the comparison).
+        SharedStatus.Update(Workspace.Active);
         UpdateTitle();
     }
 
