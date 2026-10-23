@@ -148,6 +148,15 @@ internal sealed partial class ShellSmokeWindow : IDisposable
     }
     internal void OpenWallConcreteSection(JsonObject data, string name) => OpenModuleCopy("str_palo", data, name);
 
+    /// <summary>MainWindow.Content: the root of the window of the shell.</summary>
+    internal object Content => Window.Content;
+
+    /// <summary>MainWindow.wiki: the Wiki view of the window (the shell keeps its own in the Wiki tab; a view assigned by a suite is not used).</summary>
+    internal WikiView? wiki { get; set; }
+
+    /// <summary>MainWindow.ShowWiki: the Wiki tab of the shell on the article.</summary>
+    internal void ShowWiki(string uri) { OpenPending(); Bench.Shell.ShowWiki(uri); UpdateLayout(); }
+
     /// <summary>A node selected in the tree of the project, as the user selects it (the tree of the shell).</summary>
     internal void SelectInTree(JsonObject node) { Bench.Item(node).IsSelected = true; UpdateLayout(); }
 

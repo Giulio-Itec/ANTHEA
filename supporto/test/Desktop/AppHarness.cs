@@ -277,10 +277,11 @@ public partial class App
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Dispatcher.BeginInvoke(new Action(async () =>
             {
-                int code = 0; MainWindow? testWindow = null;
-                try { testWindow = new MainWindow(TestServices.Create); await testWindow.CheckAppearance(e.Args[1]); }
+                int code = 0;
+                // F5.13 g: on the new shell (ShellSmokeWindow), off screen.
+                try { await ShellSmokeWindow.Run(e.Args[1], w => w.CheckAppearance(e.Args[1])); }
                 catch (Exception ex) { Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString()); code = 1; }
-                finally { testWindow?.FinishSmoke(); testWindow?.Close(); Shutdown(code); }
+                finally { Shutdown(code); }
             }));
             return;
         }
@@ -453,6 +454,7 @@ public partial class App
     {
         ["--smoke-global-stability"] = a => GlobalStabilitySmoke.Run(a[1]),
         ["--smoke-neutral-axis"] = a => NeutralAxisSmoke.Run(a[1]),
+        ["--smoke-material-report"] = a => MaterialReportSmoke.Run(a[1]),
         ["--smoke-retaining-wall"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeRetainingWall(a[1])),
         ["--smoke-steel"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeSteel(a[1])),
         ["--smoke-materials"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeMaterials(a[1])),
@@ -510,7 +512,6 @@ public partial class App
                 try
                 {
                     if (e.Args[0] == "--smoke-neutral-axis") throw new InvalidOperationException("--smoke-neutral-axis gira sulla shell (ShellSmokes).");
-                    else if (e.Args[0] == "--smoke-material-report") await window.SmokeProjectReport(e.Args[1], materialsOnly: true);
                     else if (e.Args[0] == "--smoke-project-workspace") await window.SmokeProjectWorkspace(e.Args[1]);
                     else if (e.Args[0] == "--smoke-project-report") await window.SmokeProjectReport(e.Args[1]);
                     else if (e.Args[0] == "--smoke-hierarchy") await window.SmokeHierarchy(e.Args[1]);

@@ -8,7 +8,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     internal async Task CheckAppearance(string directory)
     {
@@ -31,7 +31,7 @@ public sealed partial class MainWindow
         Check(!Appearance.Paper.CanFreeze, "Palette modificabile anche dopo il blocco degli stili WPF");
         var triggered = new Button(); var triggerStyle = new Style(typeof(Button));
         triggerStyle.Setters.Add(new Setter(Control.ForegroundProperty, Brushes.Green));
-        var trigger = new Trigger { Property = IsEnabledProperty, Value = false }; trigger.Setters.Add(new Setter(Control.ForegroundProperty, Brushes.Red));
+        var trigger = new Trigger { Property = UIElement.IsEnabledProperty, Value = false }; trigger.Setters.Add(new Setter(Control.ForegroundProperty, Brushes.Red));
         triggerStyle.Triggers.Add(trigger); triggered.Style = triggerStyle;
         Appearance.ApplyTree(triggered); triggered.IsEnabled = false;
         Check(ReferenceEquals(triggered.Foreground, Brushes.Red), "Trigger di stato non sovrascritto dal tema");
