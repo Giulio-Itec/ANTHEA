@@ -416,14 +416,14 @@
        </Border>
        <!--
          Actions and links of the section (after the checkpoint of 22/10, ProjectPresentation.BuildSectionOverview): «Duplica sezione» outside
-         read-only; «Genera report» still a placeholder (the report of the section comes with part e); the sheets open in their tab, the
-         subsections show their overview. The commands are those of the shell (the DataContext of the window).
+         read-only; «Genera report» (part e: the report of the section of MainWindow.ExportSectionReport, enabled with sheets in the section or its
+         subsections); the sheets open in their tab, the subsections show their overview. The commands are those of the shell (the DataContext of the window).
        -->
        <WrapPanel Margin="0,0,0,10">
         <Button Style="{StaticResource Shell.Button}" Content="{x:Static proj:SectionOverviewViewModel.DuplicateLabel}" Visibility="{Binding CanDuplicate, Converter={StaticResource WhenTrue}}"
          Command="{Binding DataContext.DuplicateSectionCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Section}"/>
-        <Button Style="{StaticResource Shell.Primary}" Content="{x:Static proj:SectionOverviewViewModel.ReportLabel}" IsEnabled="False"
-         ToolTip="Bozza: il report della sezione si collega con la parte (e)"/>
+        <Button x:Name="SectionReport" Style="{StaticResource Shell.Primary}" Content="{x:Static proj:SectionOverviewViewModel.ReportLabel}"
+         Command="{Binding DataContext.SectionReportCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Section}"/>
        </WrapPanel>
        <Expander x:Name="Links" Margin="0,0,0,10" IsExpanded="False" Visibility="{Binding HasLinks, Converter={StaticResource WhenTrue}}">
         <Expander.Header><TextBlock Style="{StaticResource Shell.Heading}" Text="{x:Static proj:SectionOverviewViewModel.LinksTitle}"/></Expander.Header>

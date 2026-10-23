@@ -6,7 +6,8 @@
   - «Confronto · sezione» (ProjectSharing.ShowCoherence, 900 × 650): conflicts with «Uniforma a questo», layers missing, notices, link of the
     stratigraphies; «Collegamento dei sondaggi» (760 × 600) with its preview;
   - «Revisioni · sezione» (ProjectWorkspace.ShowProjectRevisions, 820 × 620): the current revision and the archived ones with «Mostra questa revisione»;
-  - «Nuova revisione · sezione» (CreateProjectRevision, 570 × 300) and «Contenuti del report Word» (MainWindow.ExportReport, 590 × 650).
+  - «Nuova revisione · sezione» (CreateProjectRevision, 570 × 300) and «Contenuti del report Word» (MainWindow.ExportReport, 590 × 650);
+  - part (e): «Report · sezione» (the check before the report of a section, 780 × 560) and «Generazione del report» (580 × 190), ProjectReport.ExportSectionReport.
   Theme tokens only (rule P7); every action goes through the ViewModel; the buttons keep the implicit style of the theme (S17).
 -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -264,5 +265,59 @@
     <Setter TargetName="Note" Property="Visibility" Value="Collapsed"/>
    </DataTrigger>
   </DataTemplate.Triggers>
+ </DataTemplate>
+
+ <!--
+   F5.13 e. «Report · sezione» (SectionReportCheckViewModel; MainWindow.ExportSectionReport, 780 × 560): «Controllo prima del report», the text, the fields
+   different between the sheets with one line per sheet, the notices, then «Apri confronto», «Genera con segnalazioni» and «Annulla», in the scroll of today.
+ -->
+ <DataTemplate DataType="{x:Type cmd:SectionReportCheckViewModel}">
+  <ScrollViewer x:Name="ReportCheck" Width="764" Height="521" Background="{DynamicResource Token.Surface}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <StackPanel Margin="20">
+    <TextBlock Style="{StaticResource ShellDialog.Title}" Text="{x:Static cmd:SectionReportCheckViewModel.Heading}"/>
+    <TextBlock Style="{StaticResource ShellDialog.Text}" Text="{x:Static cmd:SectionReportCheckViewModel.Intro}"/>
+    <ItemsControl ItemsSource="{Binding Differences}">
+     <ItemsControl.ItemTemplate>
+      <DataTemplate DataType="{x:Type cmd:SectionReportDifference}">
+       <StackPanel>
+        <TextBlock Style="{StaticResource ShellDialog.Strong}" Text="{Binding Label}"/>
+        <ItemsControl ItemsSource="{Binding Lines}">
+         <ItemsControl.ItemTemplate>
+          <DataTemplate><TextBlock Style="{StaticResource ShellDialog.Text}" FontSize="{DynamicResource Font.Small}" Text="{Binding}"/></DataTemplate>
+         </ItemsControl.ItemTemplate>
+        </ItemsControl>
+       </StackPanel>
+      </DataTemplate>
+     </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <StackPanel Visibility="{Binding HasNotices, Converter={StaticResource ShellDialog.Visible}}">
+     <TextBlock Style="{StaticResource ShellDialog.Heading}" Text="{x:Static cmd:SectionReportCheckViewModel.NoticesTitle}"/>
+     <ItemsControl ItemsSource="{Binding Notices}">
+      <ItemsControl.ItemTemplate>
+       <DataTemplate><TextBlock Style="{StaticResource ShellDialog.Text}" FontSize="{DynamicResource Font.Small}" Text="{Binding}"/></DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+    </StackPanel>
+    <WrapPanel>
+     <Button Style="{StaticResource ShellDialog.Button}" Content="{x:Static cmd:SectionReportCheckViewModel.CompareLabel}" Command="{Binding CompareCommand}"/>
+     <Button Style="{StaticResource ShellDialog.Primary}" Content="{x:Static cmd:SectionReportCheckViewModel.GenerateLabel}" Command="{Binding GenerateCommand}"/>
+     <Button Style="{StaticResource ShellDialog.Button}" Content="{x:Static cmd:SectionReportCheckViewModel.CancelLabel}" Command="{Binding CancelCommand}"/>
+    </WrapPanel>
+   </StackPanel>
+  </ScrollViewer>
+ </DataTemplate>
+
+ <!--
+   F5.13 e. «Generazione del report» (SectionReportProgressViewModel; MainWindow.ExportSectionReport, 580 × 190): the text of the progress, the indeterminate
+   bar and «Annulla»; the closing of the window by the user cancels and keeps it open (IGuardedDialog), the dialog closes itself at the end of the report.
+ -->
+ <DataTemplate DataType="{x:Type cmd:SectionReportProgressViewModel}">
+  <StackPanel x:Name="ReportProgress" Width="564" Height="151" Background="{DynamicResource Token.Surface}">
+   <StackPanel Margin="22">
+    <TextBlock Style="{StaticResource ShellDialog.Text}" FontSize="{DynamicResource Font.Subheading}" Text="{Binding Status}"/>
+    <ProgressBar IsIndeterminate="True" Height="5" Margin="0,12,0,12"/>
+    <Button Style="{StaticResource ShellDialog.Button}" HorizontalAlignment="Left" Content="{x:Static cmd:SectionReportProgressViewModel.CancelLabel}" Command="{Binding CancelCommand}"/>
+   </StackPanel>
+  </StackPanel>
  </DataTemplate>
 </ResourceDictionary>

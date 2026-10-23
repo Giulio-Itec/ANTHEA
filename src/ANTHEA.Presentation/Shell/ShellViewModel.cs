@@ -19,9 +19,10 @@ namespace Anthea.Presentation.Shell;
 
 /// <summary>
 /// What the composition root gives to the shell besides the services (F5.13 c): the appearance of the application (menu «Aspetto») and the
-/// catalogue of the installed examples (page «Esempi»). Without them the menu and the page are absent (the checks of parts a and b).
+/// catalogue of the installed examples (page «Esempi»); since part (e) the writer of the report of a section («Genera report», «Report Word della
+/// sezione»). Without them the menu, the page and the report of a section are absent (the checks of parts a and b).
 /// </summary>
-public sealed record ShellOptions(IAppearanceService? Appearance = null, Func<ExampleCatalog>? Examples = null);
+public sealed record ShellOptions(IAppearanceService? Appearance = null, Func<ExampleCatalog>? Examples = null, ISectionReports? Reports = null);
 
 /// <summary>
 /// The shell as one ViewModel (F5.13 b, c): the coordinator of the documents and the ViewModels of navigation, tree, catalogue of the sheets,
@@ -52,6 +53,7 @@ public sealed class ShellViewModel : ViewModelBase
     private readonly PresentationServices services;
     private readonly ShellOptions options;
     private readonly CommandGuard guard;
+    private readonly SectionReportRunner? sectionReports;
     private RevisionBarViewModel? revisions;
     private SectionOverviewViewModel? overview;
     private ISheetViewModel? watched;
@@ -93,9 +95,14 @@ public sealed class ShellViewModel : ViewModelBase
             scope => scope?["revisione"] is JsonObject && Workspace.Project is not null);
         OpenOverviewModelCommand = new RelayCommand<OverviewModel>(model => guard.Run(() => ShowModel(model!.Container, model.ModelId)), model => model is not null);
         AddCatalogSheetCommand = new RelayCommand<ProjectCatalogCard>(card => guard.Run(() => Tree.AddSheet(card!.Module)), card => card is not null && Workspace.Project is { IsReadOnly: false });
+        // F5.13 e: the report of a section, from «Genera report» of the overview and «Report Word della sezione» of the tree (MainWindow.ExportSectionReport).
+        sectionReports = this.options.Reports is { } writer ? new SectionReportRunner(Workspace, services, writer, ShowCoherenceAsync) : null;
+        SectionReportCommand = new AsyncRelayCommand<JsonObject>(section => guard.RunAsync(_ => ExportSectionReportAsync(section!)),
+            section => section is not null && sectionReports is not null && Workspace.Project is not null && ProjectSharedData.SubtreeSheets(section).Any());
         Commands.ExamplesRequested += (_, _) => Navigation.Select(ShellPage.Examples);
         Tree.OverviewRequested += (_, section) => ShowOverview(section);
         Tree.CompareRequested += (_, section) => _ = CompareCommand.ExecuteAsync(section);
+        Tree.ReportRequested += (_, section) => _ = SectionReportCommand.ExecuteAsync(section);
         Tree.ModelRequested += (_, model) => guard.Run(() => ShowModel(model.Container, model.ModelId));
         Tree.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(ProjectTreeViewModel.Selected) && Workspace.Active is null) Revisions?.Show(SelectedSection()); };
         Models.OpenProjectRequested += (_, _) => Commands.Open();
@@ -344,6 +351,25 @@ public sealed class ShellViewModel : ViewModelBase
         using var summary = new RevisionSummaryViewModel(project, scope, services.Messages);
         summary.Shown += (_, _) => Revisions?.Show(null, afterSwitch: true);
         return await services.Dialogs.ShowDialogAsync(summary);
+    }
+
+    // ---- Part (e): the report of a section
+
+    /// <summary>
+    /// «Genera report» of the overview and «Report Word della sezione» of the tree (MainWindow.ExportSectionReport): the report of a section with sheets,
+    /// through the writer of the composition root (<see cref="ShellOptions.Reports"/>); disabled without it.
+    /// </summary>
+    public IAsyncRelayCommand<JsonObject> SectionReportCommand { get; }
+
+    /// <summary>
+    /// The report of <paramref name="section"/> with the sequence and the texts of MainWindow (<see cref="SectionReportRunner"/>): null when nothing was
+    /// written, otherwise the number of sheets with missing or incomplete results.
+    /// </summary>
+    public Task<int?> ExportSectionReportAsync(JsonObject section)
+    {
+        ArgumentNullException.ThrowIfNull(section);
+        if (sectionReports is null || Workspace.Project is null) return Task.FromResult<int?>(null);
+        return sectionReports.RunAsync(section);
     }
 
     /// <summary>The application is closing: the questions to save every document (true closes).</summary>

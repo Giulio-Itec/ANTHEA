@@ -52,6 +52,8 @@ internal sealed class WpfDialogService(Func<Window?> owner) : IDialogService
         Appearance.Watch(window);
         void Close(object? sender, EventArgs e) => window.Close();
         dialog.CloseRequested += Close;
+        // F5.13 e: a dialog at work may refuse the closing by the user (the progress of the report of a section cancels instead); the others close as before.
+        if (dialog is Anthea.Presentation.Shell.Commands.IGuardedDialog guarded) window.Closing += (_, e) => e.Cancel = !guarded.CanClose();
         try { window.ShowDialog(); }
         finally { dialog.CloseRequested -= Close; }
         return Task.FromResult(dialog.Result);

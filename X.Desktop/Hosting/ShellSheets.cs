@@ -80,3 +80,14 @@ internal sealed class DesktopSheetExports : ISheetExports
 
     public Task WriteShortReportAsync(string path, byte[] report, string title) => migrated.WriteShortReportAsync(path, report, title);
 }
+
+/// <summary>
+/// The report of a section for the new shell (F5.13 e): the same call of MainWindow.GenerateSectionReport (ProjectReport.cs), the snapshot written by
+/// ProjectReportService with the chapters of ModuleReportService and the figures of the desktop. The code of the reports does not change (frozen on 8/10).
+/// </summary>
+internal sealed class DesktopSectionReports : ISectionReports
+{
+    public Task<int> WriteAsync(JsonObject snapshot, string path, Action<string> progress, CancellationToken cancellation) =>
+        Anthea.Application.Reporting.ProjectReportService.WriteSnapshotAsync(snapshot, path,
+            new Anthea.Application.Reporting.ModuleReportService(new ModuleFigureRenderer()), progress, cancellation);
+}
