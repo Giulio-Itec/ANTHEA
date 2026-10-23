@@ -333,41 +333,41 @@ internal static partial class BridgeDesignViewChecks
                 // The drawing of the card in elevation and in section, through the buttons of the card, then back to the view of the sheet.
                 bool section = sheet.SectionView;
                 Idle(() => { sheet.SectionView = false; return 0; });
-                list.Add(CompositeSectionHistoricTrace.Record(folder, id + " prospetto 1000x400", view.Drawing, 1000, 400));
+                list.Add(ViewTraceTools.Record(folder, id + " prospetto 1000x400", view.Drawing, 1000, 400));
                 Idle(() => { sheet.SectionView = true; return 0; });
-                list.Add(CompositeSectionHistoricTrace.Record(folder, id + " sezione 1000x400", view.Drawing, 1000, 400));
+                list.Add(ViewTraceTools.Record(folder, id + " sezione 1000x400", view.Drawing, 1000, 400));
                 Idle(() => { sheet.SectionView = section; return 0; });
                 // The moment diagram of the details (in the tree once its tab has been shown).
                 int output0 = view.OutputTabs.SelectedIndex;
                 view.OutputTabs.SelectedIndex = 1; await host.Settle();
                 if (Walk(view.OutputTabs).OfType<BridgeDesignMomentHost>().FirstOrDefault(m => m.IsVisible) is { } moments)
-                { moments.Plot.InvalidateVisual(); list.Add(CompositeSectionHistoricTrace.Record(folder, id + " momenti 800x180", moments.Plot, 800, 180)); }
+                { moments.Plot.InvalidateVisual(); list.Add(ViewTraceTools.Record(folder, id + " momenti 800x180", moments.Plot, 800, 180)); }
                 view.OutputTabs.SelectedIndex = output0; await host.Settle();
                 if (sheet.Calculation is not null)
                 {
-                    list.Add(id + " figura prospetto · " + CompositeSectionHistoricTrace.Pixels(view.Drawing.Png(false)));
-                    list.Add(id + " figura sezione · " + CompositeSectionHistoricTrace.Pixels(view.Drawing.Png(true)));
+                    list.Add(id + " figura prospetto · " + ViewTraceTools.Pixels(view.Drawing.Png(false)));
+                    list.Add(id + " figura sezione · " + ViewTraceTools.Pixels(view.Drawing.Png(true)));
                 }
                 if (first)
                 {
                     view.Pages.SelectedIndex = 0; view.InputTabs.SelectedIndex = 2; await host.Settle();
                     foreach (var icon in Walk(view.InputTabs).OfType<BridgeDesignFamilyIcon>().Where(i => i.IsVisible).Select(i => i.Icon).ToArray())
-                    { icon.InvalidateVisual(); list.Add(CompositeSectionHistoricTrace.Record(folder, id + " icona " + icon.Family + " 112x32", icon, 112, 32)); }
+                    { icon.InvalidateVisual(); list.Add(ViewTraceTools.Record(folder, id + " icona " + icon.Family + " 112x32", icon, 112, 32)); }
                     view.Pages.SelectedIndex = 1; await host.Settle();
                     await Idle(() => sheet.RunOptimizationAsync(new BridgeDesignModel.OptimizationOptions { KeepPier = true, KeepFoundation = true, MinSpans = 3, MaxSpans = 6,
                         DepthPercentMin = 100, DepthPercentMax = 115, DepthPercentStep = 15, PilePercentMin = 100, PilePercentMax = 150, PilePercentStep = 25 })).WaitAsync(TimeSpan.FromSeconds(300));
                     await host.Settle();
                     view.CloudPlot.InvalidateVisual();
-                    list.Add(CompositeSectionHistoricTrace.Record(folder, id + " nuvola 900x310", view.CloudPlot, 900, 310));
+                    list.Add(ViewTraceTools.Record(folder, id + " nuvola 900x310", view.CloudPlot, 900, 310));
                     int variable = view.TracePlot.Variable;
                     for (int v = 0; v < 9; v++)
                     {
                         view.TracePlot.Variable = v; view.TracePlot.InvalidateVisual();
-                        list.Add(CompositeSectionHistoricTrace.Record(folder, id + " traccia " + v + " 900x310", view.TracePlot, 900, 310));
+                        list.Add(ViewTraceTools.Record(folder, id + " traccia " + v + " 900x310", view.TracePlot, 900, 310));
                     }
                     view.TracePlot.Variable = variable;
                     view.Preview.InvalidateVisual();
-                    list.Add(CompositeSectionHistoricTrace.Record(folder, id + " anteprima 900x265", view.Preview, 900, 265));
+                    list.Add(ViewTraceTools.Record(folder, id + " anteprima 900x265", view.Preview, 900, 265));
                     first = false;
                 }
             }

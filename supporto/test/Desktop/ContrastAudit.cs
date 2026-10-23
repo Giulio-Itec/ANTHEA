@@ -178,9 +178,6 @@ internal sealed class ContrastAudit
                     // ---- F5.7 begin: steps mvvm-geo_palo_orizzontale and mvvm-geo_micropalo_orizzontale, self-contained (HorizontalPileContrastStep at the end of the file) ----
                     await HorizontalPileContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
                     // ---- F5.7 end ----
-                    // ---- F5.11 begin: step mvvm-str_mista_ponte, self-contained (CompositeSectionContrastStep at the end of the file) ----
-                    await CompositeSectionContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
-                    // ---- F5.11 end ----
                     // ---- F5.12 begin: step mvvm-str_bridge_design, self-contained (BridgeDesignContrastStep at the end of the file) ----
                     await BridgeDesignContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
                     // ---- F5.12 end ----
@@ -2201,43 +2198,6 @@ public sealed partial class MainWindow
 }
 
 // ---------------------------------------------------------------- F5.7 end
-
-// ---------------------------------------------------------------- F5.11 begin: step mvvm-str_mista_ponte (self-contained)
-
-/// <summary>
-/// The XAML view of the composite bridge section before the switch of the Release (F5.11): the same exploration as the module steps (AuditModule),
-/// in a main window whose editors open the MVVM sheet (--module-impl str_mista_ponte=mvvm). With --baseline (runner) only Scuro and Molto scuro:
-/// until the Release opens the new view, the Chiara of the module is the one of the historic view, whose defects are in the baseline
-/// (modulo-str_mista_ponte); without --baseline also Chiara. Self-contained: it does not depend on the step of another module; at the switch of
-/// the Release it is removed and the step of the module shows the new view. Not run on this machine (screen at 144 DPI, baseline at 96 DPI).
-/// </summary>
-internal static class CompositeSectionContrastStep
-{
-    internal const string Module = "str_mista_ponte";
-    internal const string View = "mvvm-" + Module;
-
-    internal static async Task RunAsync(ContrastAudit audit, AppAppearance mode, bool baseline)
-    {
-        if (!audit.Want(View)) return;
-        if (mode == AppAppearance.Light && baseline)
-        {
-            audit.Uncovered("Vista MVVM della sezione composta da ponte (F5.11) in Chiara", "con --baseline solo Scuro e Molto scuro finché la Release apre la " +
-                "vista storica, la cui Chiara è nella baseline (modulo-str_mista_ponte); la Chiara della vista MVVM si misura senza --baseline");
-            return;
-        }
-        var window = await audit.OpenMain(mode, ModuleHostBench.SheetEditors([ModuleHostBench.Argument, Module + "=mvvm"]));
-        try { await audit.Step(View, () => window.AuditCompositeSectionMvvm(audit)); }
-        finally { await audit.CloseMain(window); }
-    }
-}
-
-public sealed partial class MainWindow
-{
-    /// <summary>F5.11: the exploration of the module steps on the MVVM sheet of the composite bridge section, with the names of its step.</summary>
-    internal Task AuditCompositeSectionMvvm(ContrastAudit a) => AuditModule(a, CompositeSectionContrastStep.Module, "mvvm-");
-}
-
-// ---------------------------------------------------------------- F5.11 end
 
 // ---------------------------------------------------------------- F5.12 begin: step mvvm-str_bridge_design (self-contained)
 

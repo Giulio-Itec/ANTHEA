@@ -1,0 +1,183 @@
+[
+  {
+    "origine": "X.Desktop/Wpf/BridgeAccessories.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeAccessories.cs",
+    "commit": "b280bce9 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "b831d704acac9adecdc220882fafbf223c2ba172a9c0e853f12e09b414d60a90",
+    "sha256_lf": "7fd735a5cf0825b523a831acf502b5a4e07d06040e8b3daa8de3dd04dab7d54f",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeActionsTable.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeActionsTable.cs",
+    "commit": "b280bce9 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "94da33f9a4e961ea53154dfda81d09ee3d31c7ac2fe3f0392142e6cb5616abbd",
+    "sha256_lf": "b4f063dc5c6e5f9b1cc6598546f83e701364f8fd38315a4989ac8d02160a1c29",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeContours.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeContours.cs",
+    "commit": "000d6d92 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "389115ffa48b7f72505f3da815947528b0f315e0134e9a6803f30f1117028a37",
+    "sha256_lf": "f31a3bb9c0f72d9402d685270649a93644c37e5c2fcd2d2630d83ce3ab071181",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeDetachedView.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeDetachedView.cs",
+    "commit": "577e319f (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "0b84e6f8258cc916a5dc96c2c861fa263537d8509c9f278752b5a08f3d13217c",
+    "sha256_lf": "0c8abe6e3b53b5f499d9329d7db1634e8e76c039c3f60f47755306ad2d4b4668",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeDetailsInputs.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeDetailsInputs.cs",
+    "commit": "b280bce9 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "a348fd784ca38153e2d6b195a2738393ce24681f73fd31261a38e29d5f4f2b03",
+    "sha256_lf": "1b8db5ebf9680ff0b5ea09c150a19c3834cb24bcf56d37eb6f6816aa65dc234d",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeHistory.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeHistory.cs",
+    "commit": "b280bce9 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "fe8abc1b052b84ece6a41ac1be5af76ec55423216da8328e2b9e470f0da18cf8",
+    "sha256_lf": "54c1d7e638c1862bd907d6f1fc4353bccefdcba204f05a4144bf3076e823badb",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeHomogenization.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeHomogenization.cs",
+    "commit": "b280bce9 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "c715eda684617ce663e26fb18358f6027b15084df46135ef643b6c7736f59c09",
+    "sha256_lf": "f1067c1424cf121d9f6b8bbcc063b3f95e83cee34d88fa1618ef8ad2166f760c",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeInformation.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeInformation.cs",
+    "commit": "0fc907fd (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "3818bd3a35b14b13c3246500b6d22a03be14647077d4fedec17c25758d58df6d",
+    "sha256_lf": "56776ef137eef3fa528c43c0f6360342b9d7b6b56d305643f7698918596f8335",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeLayout.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeLayout.cs",
+    "commit": "b280bce9 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "331b456b228e25d22edd4a034989e2ef535dea00431a6839150beed22ee8f5e7",
+    "sha256_lf": "aa07a429b6326e94be918d1eff64a87abbcf94e0fb51b8ef05b87f85e887c242",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgePredalle.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgePredalle.cs",
+    "commit": "b280bce9 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "03ef8a9b123fa248a509a91bb278e3fe77f408e1c6619efba0301f27893a9dcc",
+    "sha256_lf": "f2a77768b5f17edb32c468851b1c95e04e6360d5c97abba26f38cc2be239f6bd",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeReport.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeReport.cs",
+    "commit": "b280bce9 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "e5bebf9c311e84d087184916ee84142e6809a59a165ff9532b0c7afefdc6635b",
+    "sha256_lf": "1733b65cdd0cd195096be46a73053d99e324c8520ef123edd38ef88b629d1c0b",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeResponse.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeResponse.cs",
+    "commit": "b280bce9 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "739d55c057cafff357840ff09135327d21a3deaf1d9ebd008aaf971f8cde64c9",
+    "sha256_lf": "f1e80580268a9f68b84bda0f1fbab865c601c60fd07646912207d1b4dc8be11d",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeSectionProperties.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeSectionProperties.cs",
+    "commit": "3b8c83f3 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "64d2a92dac81b819a7f7156f0a0c9db54690588ffb917c9ebdd9404d5821c750",
+    "sha256_lf": "cce67a0346414b4020103f5ca3c87aed08855bf082a3b2e768a10bdd1c3f0d26",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeStressScale.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeStressScale.cs",
+    "commit": "3b8c83f3 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "45368d17b20fc9885504f328665f2843e1f1178bd3db8c0089e6720be4c98c30",
+    "sha256_lf": "79d48d323e5155e36e4b05e9a458e910459bcfb0ec40bfbef8a37bb5ab6f718d",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeTorsion.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeTorsion.cs",
+    "commit": "b280bce9 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "aab94102b012604dd42dee8bd1a36e2bd15cad90f00e526f709cb10343a176cf",
+    "sha256_lf": "5a5726e972923eb50c95061917fc0e78fe8ec67d410f2c5783b09d57d5b4110d",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeWorkspace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/X.Desktop/Wpf/BridgeWorkspace.cs",
+    "commit": "b280bce9 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "5ae5c43716359c4b74afd482f966939eb3c7009ca95d27f89333a0a04bd74a77",
+    "sha256_lf": "eae3d5cbd83fe2b9177cd8932af6078ad7f8b7a2d6ad8eec53d99c0055a43727",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.11, decisione Q11; prompt dei passaggi del 23/10): la Release apre la sezione composta da ponte (str_mista_ponte) con la vista MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/CompositeSection (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/CompositeSection (ViewModel); i disegni X.Desktop/Wpf/BridgeDrawing*.cs, BridgeDetailSketch.cs, BridgeResponsePlot.cs, BridgeMethodSketch.cs restano"
+  },
+  {
+    "origine": "tests/Desktop/CompositeSectionHistoricTrace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/tests/Desktop/CompositeSectionHistoricTrace.cs",
+    "commit": "576ec167 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "fa4005e075c98b4a2d41d631499e4af1f0741c90a285201512d6774d8307c386",
+    "sha256_lf": "9a42593f5d4b6e5ead070eb9b8d71a4d094f9107ced2a857431e064b74b8689b",
+    "motivo": "F5.11: prova delle tracce della vista storica (suite ui/check-sezione-mista-historic, comandi --check-sezione-mista-historic[-capture]), archiviata con la vista",
+    "sostituzione": "tests/fixtures/f5-sezione-mista/storica e disegni (tracce congelate, invariate), confrontate da tests/ANTHEA.Presentation.Tests con il ViewModel e da tests/Desktop/CompositeSectionViewChecks*.cs (ui/check-sezione-mista-view) attraverso la vista nuova; gli strumenti comuni Record, Pixels e WithIdleContinuations sono in tests/Desktop/ViewTraceTools.cs"
+  },
+  {
+    "origine": "supporto/test/Desktop/BridgeWorkspace.Tests.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/supporto/test/Desktop/BridgeWorkspace.Tests.cs",
+    "commit": "7edabf8d (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "564e64a013b323dc15e2786f1a2c2f82db905dd620035494f36d70cea8fb8cbe",
+    "sha256_lf": "660813ba6e34b13f65dcaf11ad3268b6552be58951c482cdfc087f98a96c1bcd",
+    "motivo": "F5.11: partial di prova della vista storica (membri letti solo dalle prove), archiviata con la vista",
+    "sostituzione": "le prove della vista nuova leggono il ViewModel (tests/Desktop/BridgeSmoke.cs, CompositeSectionViewChecks*.cs)"
+  },
+  {
+    "origine": "supporto/test/Desktop/BridgeTorsionProbes.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/supporto/test/Desktop/BridgeTorsionProbes.cs",
+    "commit": "429e4c03 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "afd67f4553e306997703af13a224f6b1b3a715dd42b180cad44a72209b877645",
+    "sha256_lf": "a2ea0f1ef56e2e836f2ce23948fcabfd3f1d548d20035456ecb9a49f57a9e5c0",
+    "motivo": "F5.11: partial di prova della vista storica (membri letti solo dalle prove), archiviata con la vista",
+    "sostituzione": "le prove della vista nuova leggono il ViewModel (tests/Desktop/BridgeSmoke.cs, CompositeSectionViewChecks*.cs)"
+  },
+  {
+    "origine": "tests/ANTHEA.Desktop.Equivalence/F3TypedSchedulingChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/sezione-mista/tests/ANTHEA.Desktop.Equivalence/F3TypedSchedulingChecks.cs",
+    "commit": "ecad955a (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "estratto": "solo la partial BridgeWorkspace.CheckF3Scheduling (righe 1–14 del file a db7ef68d, con il namespace); il resto del file resta",
+    "sha256": "5491008c4664a41ed8cd84c77601fb4499a7708030ca746bd7b728f05eb5cb2e",
+    "sha256_lf": "9f90bc8b0311f45bc98fcaaf11715c4a4ea1955953d98971b27911cf9031e3e2",
+    "motivo": "F5.11: sonda storica di ui/f3-scheduling, archiviata con la vista",
+    "sostituzione": "tests/ANTHEA.Desktop.Equivalence/F3CompositeSectionMvvmSchedulingChecks.cs (stesse barriere, sul foglio MVVM)"
+  }
+]

@@ -32,10 +32,10 @@ dei dati, fuori schermo): per intero dopo l'apertura, poi dopo ogni passo di uno
 | Cosa | Dove |
 | --- | --- |
 | Scenari e formato | `tests/Shared/CompositeSectionTrace.cs` |
-| Vista storica | `tests/Desktop/CompositeSectionHistoricTrace.cs` (passi sui controlli, stato, disegni) |
-| Comando | `ANTHEA.exe --check-sezione-mista-historic <radice> <cartella>` (confronto) e `--check-sezione-mista-historic-capture` (cattura), solo build UiTests |
-| Suite | `ui/check-sezione-mista-historic` |
+| Vista storica | archiviata il 23/10/2026 con la sua prova (`supporto/SUPERATI/ui-storica/sezione-mista`, già `tests/Desktop/CompositeSectionHistoricTrace.cs`) |
 | ViewModel | `tests/ANTHEA.Presentation.Tests` (senza WPF) |
+| Vista XAML | `ui/check-sezione-mista-view` (`tests/Desktop/CompositeSectionViewChecks*.cs`), le stesse tracce attraverso i controlli della vista |
+| Valori registrati | `vista-storica.json`: i valori che `ui/check-sezione-mista-view` confrontava con la vista storica aperta accanto, registrati prima dell'archiviazione (sotto) |
 
 Ogni passo è quello che fa l'utente con un controllo: un controllo che l'utente non può usare (non sulla pagina mostrata, nascosto,
 spento o protetto dalla revisione in sola lettura) non fa nulla. Un testo digitato passa da `InputForm.Set`, come quando l'utente
@@ -94,6 +94,11 @@ scala dello schermo: gli elenchi valgono sulla macchina del banco, come le prove
   Due catture uguali byte per byte (`supporto/artefatti/refactoring/f5-11/traccia-1` e `traccia-2`, non versionate): 20 scenari,
   17 797 righe, 88 righe dei disegni (52 elenchi e 36 figure del report). Le catture precedenti, senza la regola delle
   continuazioni, differivano in tre scenari solo per «occupato» e lo stato del calcolo dopo «riapri» e «rilascia».
-- La suite `ui/check-sezione-mista-historic` dello stadio `ui` ricattura la vista storica e la confronta con queste tracce e con
-  l'elenco dei disegni, finché la vista storica esiste.
+- La suite `ui/check-sezione-mista-historic` dello stadio `ui` ricatturava la vista storica e la confrontava con queste tracce e con
+  l'elenco dei disegni. È archiviata con la vista al passaggio della Release (23/10/2026).
+- `vista-storica.json` (23/10/2026): registrato da `ui/check-sezione-mista-view` sulla vista storica, sulla base `db7ef68d`, parti
+  `esportazioni,aiuto,nomi,sola-lettura,finestre` (PASS 109: la vista XAML dava gli stessi valori), prima dell'archiviazione. Per le 9
+  fixture: impronte SHA-256 dei dati e numero di `Modified` dopo il calcolo automatico dell'apertura, la visita, il calcolo e il report,
+  impronta del risultato, del CSV delle tensioni e della curva (punti e CSV); le etichette «?» (nessuna), i nomi di automazione di 4
+  fixture, i controlli liberi e bloccati in sola lettura di 2 fixture, i 44 testi di «Info modello…».
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.

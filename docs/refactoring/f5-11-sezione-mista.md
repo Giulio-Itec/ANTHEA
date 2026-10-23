@@ -482,3 +482,79 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stag
 8. Una revisione precedente (sola lettura): campi, tabella, comandi di modifica, curva bloccati; pagine, situazioni, viste, schede,
    esportazioni e report disponibili.
 9. Aspetti Scuro e Molto scuro.
+
+## 6. Passaggio della Release (23/10)
+
+Agente f5-pass-strutture, ramo `refactoring/f5-pass-strutture` da `refactoring/f5` `db7ef68d`, su decisione dell'utente del 23/10 («Moduli ora,
+shell dopo»). La Release apre la sezione composta da ponte con la vista MVVM; la vista storica è archiviata (Q11).
+
+### 6.1 Che cosa è fatto
+
+- **Release.** `ModuleImplementations.Declared`: `str_mista_ponte` = `Mvvm`. Il banco rifiuta `--module-impl str_mista_ponte=historic` («vista
+  storica archiviata»), come per la palificata.
+- **Archiviazione** in `supporto/SUPERATI/ui-storica/sezione-mista/` (`README.md` e `registro.json` con origine, ultimo commit e SHA-256):
+  - `BridgeWorkspace` e le sue 15 partial di `X.Desktop/Wpf` (`BridgeAccessories`, `BridgeActionsTable`, `BridgeContours`, `BridgeDetachedView`,
+    `BridgeDetailsInputs`, `BridgeHistory`, `BridgeHomogenization`, `BridgeInformation`, `BridgeLayout`, `BridgePredalle`, `BridgeReport`,
+    `BridgeResponse`, `BridgeSectionProperties`, `BridgeStressScale`, `BridgeTorsion`);
+  - la prova delle tracce `tests/Desktop/CompositeSectionHistoricTrace.cs`;
+  - le partial di prova `supporto/test/Desktop/BridgeWorkspace.Tests.cs` e `BridgeTorsionProbes.cs`;
+  - la sonda storica `BridgeWorkspace.CheckF3Scheduling` (estratto di `F3TypedSchedulingChecks.cs`).
+
+  Restano i disegni (`BridgeDrawing*.cs`, `BridgeDetailSketch.cs`, `BridgeResponsePlot.cs`, `BridgeMethodSketch.cs`): `BridgeWorkspace.F` è
+  sostituito da `BridgePropertyPresentation.Number`, che chiamava.
+- **`SheetEditor`.** Tolti il campo `bridge` e i suoi rami (`Result`, `Busy`, costruttore, `Dispose`, `Commit`, `CalculateAsync`,
+  `BuildReportDocument`).
+- **Strumenti comuni** delle prove delle viste: `Record`, `Pixels` e `WithIdleContinuations` della prova storica sono in
+  `tests/Desktop/ViewTraceTools.cs`, senza modifiche; li usano le prove della sezione composta e di Bridge Design. `Record` chiama ancora
+  `HorizontalPileHistoricTrace.Record`.
+- **Suite.**
+  - Tolte da `build/ci.ps1`: `ui/check-sezione-mista-historic`, le varianti `-mvvm` del banco (`ui/smoke-bridge-mvvm`,
+    `ui/smoke-bridge-curves-mvvm`, `ui/smoke-bridge-predalle-mvvm`, `ui/smoke-neutral-axis-mvvm`, `ui/f3-scheduling-sezione-mista-mvvm`) e
+    `$MvvmCompositeSection`. Tolti dall'harness `--check-sezione-mista-historic[-capture]`.
+  - `BridgeSmoke`: tolto `HistoricBridgeSmoke`; gli smoke del ponte aprono sempre la vista della Release.
+  - `ui/f3-scheduling`: la sonda della sezione composta è sempre quella del foglio MVVM (`F3CompositeSectionMvvmSchedulingChecks`, senza
+    `Active`).
+  - `ui/check-sezione-mista-view` non apre più la vista storica. Le parti che la aprivano accanto confrontano con i valori che dava, registrati
+    da questa stessa prova prima dell'archiviazione in `tests/fixtures/f5-sezione-mista/vista-storica.json` (base `db7ef68d`, parti
+    `esportazioni,aiuto,nomi,sola-lettura,finestre`, PASS 109):
+    - per le 9 fixture, dati e `Modified` dopo il calcolo automatico, la visita, il calcolo e il report (impronte SHA-256), risultato, CSV delle
+      tensioni, curva (punti e CSV);
+    - etichette «?», nomi di automazione (4 fixture), sola lettura (2 fixture), i 44 testi di «Info modello…».
+
+    Il report Word e il PDF si confrontano con la ricetta della vista storica (`BridgeReport.BuildReportDocument`: `BridgeResultView.Report` con
+    le figure di `ModuleFigureRenderer.BridgeFigures`, scritto da `ReportFiles` come `SheetEditor.ExportReport`). Le schermate sono solo della
+    vista nuova (9). La parte `banco` prova che la Release apre la vista MVVM e che «historic» è rifiutato.
+  - `ui/check-module-host-offscreen` (`ModuleHostWpfChecks`): la Release apre la sezione composta con la vista MVVM, il banco rifiuta
+    «historic»; il registro ridotto della sonda contiene il modulo della sezione composta (la fabbrica rifiuta una Release con moduli MVVM non
+    registrati).
+  - `--capture-validation` (illustrazioni della validazione, non è una suite): il ramo del ponte apre la vista della Release con `BridgeSmoke`
+    (gli stessi membri). Provato su due casi (fasi e curva), schermate corrette.
+  - `tests/ANTHEA.Architecture.Tests`: la regola «cambio norma nella UI» legge la vista XAML (`X.Desktop/Views/CompositeSection`).
+- **Contrasto.** Tolto il passo autonomo `mvvm-str_mista_ponte` (blocco `F5.11` di `ContrastAudit.cs`): il passo `modulo-str_mista_ponte`
+  mostra ora la vista nuova. Le 16 voci della Chiara del passo (`modulo-str_mista_ponte-*`, 46 occorrenze, chiavi di `BridgeWorkspace`) **non** sono spostate:
+  la chiave della vista nuova si misura solo a 96 DPI, e la decisione D12 sposta la baseline, a totale invariato, alla prima corsa a 96 DPI
+  dopo il passaggio. `ui/check-contrast` non è stata eseguita (schermo a 144 DPI).
+- **Baseline.** F4: tolte le 10 voci dei file archiviati (`BridgeLayout.cs` 7, `BridgeDetailsInputs.cs`, `BridgeResponse.cs`,
+  `BridgeWorkspace.cs`), da 2153 voci e 3206 occorrenze a 2143 e 3196. P3 (33) e `limits.json` invariati.
+- **Guida pratica.** La disposizione descritta non cambia (sezione 5.6: corpi e colori). Nessuna proposta.
+
+### 6.2 Esiti
+
+| Corsa | Cartella (`supporto/artefatti/ci/` del worktree) | Esito |
+| --- | --- | --- |
+| Registrazione dei valori della vista storica (prova con le scritture temporanee) | `supporto/artefatti/f5-pass-strutture/registra-mista` | PASS 109 |
+| `ui/check-sezione-mista-view`, gli smoke del ponte, `ui/f3-scheduling`, `ui/check-field-form-parity` | `20261023-121849-fps-mista-ui` | PASS 8; `ui/check-module-host-offscreen` cadeva per l'ordine dei moduli nella prova, corretto |
+| `ui/check-module-host-offscreen` | `20261023-122454-fps-mista-host` | PASS |
+| `Architecture.Tests` | `supporto/artefatti/f5-pass-strutture/arch2` | PASS 574 |
+
+### 6.3 Che cosa resta
+
+- `ui/check-contrast` a 96 DPI (coordinatore): spostare le voci `modulo-str_mista_ponte-*` della Chiara alla chiave della vista nuova, a
+  totale invariato (D12).
+- Le scelte SM10–SM16 e i corpi e colori della sezione 5.6, al punto di controllo F5.15.
+
+Per riprendere:
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(check-sezione-mista-view|smoke-bridge|smoke-bridge-curves|smoke-bridge-predalle|smoke-neutral-axis|f3-scheduling|check-module-host-offscreen)$' -Tag <tag>"
+```

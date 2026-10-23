@@ -263,24 +263,9 @@ public partial class App
             return;
         }
 
-        // F5.11: traces and drawings of the historic composite bridge section view (tests/Desktop/CompositeSectionHistoricTrace.cs);
-        // the check also compares them with the frozen ones of tests/fixtures/f5-sezione-mista.
-        if (e.Args.Length == 3 && e.Args[0] is "--check-sezione-mista-historic" or "--check-sezione-mista-historic-capture")
-        {
-            ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            Dispatcher.BeginInvoke(new Action(async () =>
-            {
-                int code = 0;
-                try { await CompositeSectionHistoricTrace.Run(e.Args[1], e.Args[2], e.Args[0] == "--check-sezione-mista-historic"); }
-                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
-                finally { Shutdown(code); }
-            }));
-            return;
-        }
-
-        // F5.11: the XAML view of the composite bridge section hosted by MvvmSheetEditor, off screen (tests/Desktop/CompositeSectionViewChecks*.cs); the
-        // bench opens the section with the MVVM view, the Release keeps the historic one until the user has tried it. A fourth argument (comma
-        // separated parts) runs only those parts, for the work on the view.
+        // F5.11: the XAML view of the composite bridge section hosted by MvvmSheetEditor, off screen (tests/Desktop/CompositeSectionViewChecks*.cs), as
+        // the Release opens it since the switch of 23/10/2026 (the historic view and its command --check-sezione-mista-historic are archived in
+        // supporto/SUPERATI/ui-storica/sezione-mista). A fourth argument (comma separated parts) runs only those parts, for the work on the view.
         if (e.Args.Length is 3 or 4 && e.Args[0] == "--check-sezione-mista-view")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -688,7 +673,9 @@ public partial class App
 
     /// <summary>
     /// --capture-validation &lt;ingressi.json&gt; &lt;cartella&gt;: screenshots of the illustrated validation (formerly the App of
-    /// ValidationIllustrations, unchanged): one PNG, input and result per case, capture-manifest.json, fatal.txt on unhandled errors.
+    /// ValidationIllustrations, unchanged): one PNG, input and result per case, capture-manifest.json, fatal.txt on unhandled errors. The composite
+    /// bridge section opens with the XAML view of the Release since the switch of 23/10/2026 (BridgeSmoke, the members of the historic view
+    /// BridgeWorkspace with the same names; the input written is the data of the sheet, as the historic view wrote the data it worked on).
     /// </summary>
     private void StartValidationCapture(string path, string output)
     {
@@ -706,20 +693,20 @@ public partial class App
                     File.AppendAllText(Path.Combine(output,"progress.log"),id+" start\n");
                     if(File.Exists(Path.Combine(output,id+".png")))continue;
                     var data=(JsonObject)c["data"]!.DeepClone();
-                    FrameworkElement view;
+                    FrameworkElement view; BridgeSmoke? bridge = null;
                     if(c.S("module")=="bridge")
                     {
                         var full=BridgeSection.Defaults();foreach(var (key,value) in data)full[key]=value?.DeepClone();data=full;
                         data["metodo_analisi"]=BridgeSection.CalculationMethods[(int)data.D("methodIndex")];
                         if(data["curve_sezione"] is JsonObject q){q["origine"]=BridgeSection.ResponseOrigins[(int)q.D("originIndex")];q["tipo"]=BridgeSection.ResponseModes[(int)q.D("typeIndex")];}
-                        view=new BridgeWorkspace(data);
+                        bridge=BridgeSmoke.Open(ModuleHostBench.SheetEditors(),data);view=bridge.View;
                     }
                     else {var caView=new ConcreteWorkspace(data);caView.PrepareValidationCapture(c);view=caView;}
-                    content=(IDisposable)view;
+                    content=bridge ?? (IDisposable)view;
                     win=new Window{Title="ANTHEA · Validazione · "+id,Width=1500,Height=950,Content=view,Background=Ui.Bg,ShowActivated=false};
                     win.Show();await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                     if(view is ConcreteWorkspace ca)await ca.ValidationCapture(c,output,id);
-                    else if(view is BridgeWorkspace b)
+                    else if(bridge is { } b)
                     {
                         await b.CalculateAsync();
                         if(c.B("curve")){b.Pages.SelectedIndex=2;await b.CalculateResponseAsync();b.ResponsePoint.Value=b.ResponseCalculation?.Points.Count-1??0;}
@@ -727,6 +714,7 @@ public partial class App
                         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);win.UpdateLayout();
                         File.WriteAllBytes(Path.Combine(output,id+".png"),Ui.Snapshot(win));
                         File.WriteAllText(Path.Combine(output,id+"-actual.json"),(b.Result??new JsonObject()).ToJsonString());
+                        data=b.Data;
                     }
                     File.WriteAllText(Path.Combine(output,id+"-input.json"),data.ToJsonString());
                     manifest.Add(J.Obj(("id",id),("ok",true),("note",c.S("note"))));

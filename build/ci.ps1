@@ -426,22 +426,12 @@ Add-Suite @{ Name = 'ui/check-palo-orizzontale-view'; Stage = 'ui'; Kind = 'chec
 # F5.10 (proposal 7.2, capture first): the historic RC section view still gives the traces and the drawings frozen in tests/fixtures/f5-sezione,
 # grouped by the sub-steps of F5.10, which the ViewModels of the sub-steps will compare; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-sezione-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-sezione-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
-# F5.11 (proposal 7.2, capture first): the historic composite bridge section view still gives the traces and the drawing lists frozen in
-# tests/fixtures/f5-sezione-mista, which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
-Add-Suite @{ Name = 'ui/check-sezione-mista-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-sezione-mista-historic', '{root}', '{out}\traccia'); Timeout = 1200; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
-# F5.11: the XAML view of the composite bridge section hosted by MvvmSheetEditor off screen (bench --module-impl, Release still historic): the 20
-# traces through its controls equal to those frozen in tests/fixtures/f5-sezione-mista, the drawings of the view and the figures of the report,
-# the visit and the exports equal to those of the historic view, screenshots, help, automation names, read-only, the detached view and the
-# dialogs of the view, the bench and the Release.
+# F5.11: the XAML view of the composite bridge section hosted by MvvmSheetEditor off screen, as the Release opens it since the switch of 23/10/2026: the
+# 20 traces through its controls equal to those frozen in tests/fixtures/f5-sezione-mista, the drawings of the view and the figures of the report, the
+# visit and the exports equal to the values of the historic view (recorded in tests/fixtures/f5-sezione-mista/vista-storica.json, report by its
+# recipe), screenshots, help, automation names, read-only, the detached view and the dialogs of the view, the bench and the Release. The historic
+# view, its suite ui/check-sezione-mista-historic and the -mvvm duplicates of the bridge suites are archived (supporto/SUPERATI/ui-storica/sezione-mista).
 Add-Suite @{ Name = 'ui/check-sezione-mista-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-sezione-mista-view', '{root}', '{out}\vista'); Timeout = 1800; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
-# F5.11: the bridge suites rewritten on BridgeSmoke (tests/Desktop/BridgeSmoke.cs) and the probe of ui/f3-scheduling run also with the XAML view of
-# the composite bridge section (bench --module-impl str_mista_ponte=mvvm) while the Release keeps the historic view; at the switch of the Release
-# of the module these duplicates go away (docs/refactoring/f5-11-sezione-mista.md, section 5).
-$MvvmCompositeSection = @('--module-impl', 'str_mista_ponte=mvvm')
-foreach ($s in 'smoke-bridge', 'smoke-bridge-curves', 'smoke-bridge-predalle', 'smoke-neutral-axis') {
-    Add-Suite @{ Name = "ui/$s-mvvm"; Stage = 'ui'; Kind = 'smoke'; Args = @("--$s", '{out}') + $MvvmCompositeSection; Timeout = 900; Proof = @{ File = '{out}\esito-smoke-completo.txt'; Pattern = "^Completato: --$s$" } }
-}
-Add-Suite @{ Name = 'ui/f3-scheduling-sezione-mista-mvvm'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-scheduling', '{root}', '{out}') + $MvvmCompositeSection; Timeout = 120; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # F5.10 S1, S2, S1b, S3 (decision C7: the long traces in the ui stage): the ViewModel of the RC section without WPF against the traces frozen
 # in tests/fixtures/f5-sezione (common part, [ingressi], [azioni], [domini] and [wizard] of ingressi/*, azioni/*, domini/*, percorso-f3/*,
 # calcolo/*, muri/* and esempi/*) and the 3D domains as data (disegni/domini-3d.txt), the files of the data of the F3 capture, the sections

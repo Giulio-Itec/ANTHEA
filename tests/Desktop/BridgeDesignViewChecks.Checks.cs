@@ -159,7 +159,7 @@ internal static partial class BridgeDesignViewChecks
             services.SavePath = png; Idle(() => { Press(Caption(mvvm.View.DesignScroll, "Immagine PNG")); return 0; }); services.SavePath = null;
             Check(services.Saves.Select(s => (s.FileName, FileFilter.Join(s.Filters))).SequenceEqual([("BridgeDesign.png", "Immagine PNG|*.png")]),
                 name + ": «Immagine PNG», nome proposto e filtro della vista storica");
-            Check(CompositeSectionHistoricTrace.Pixels(File.ReadAllBytes(png)) == CompositeSectionHistoricTrace.Pixels(past.Drawing.Png(false)),
+            Check(ViewTraceTools.Pixels(File.ReadAllBytes(png)) == ViewTraceTools.Pixels(past.Drawing.Png(false)),
                 name + ": PNG del disegno uguale pixel per pixel a quello della vista storica");
             Check(Same(mvvm, historic) && mvvm.Modified == modified, name + ": l'immagine non scrive nei dati");
             images++;
@@ -320,7 +320,7 @@ internal static partial class BridgeDesignViewChecks
         var page = view.PrintPage(1000, 700); var past = historic.Historic.PrintPage(1000, 700);
         static string[] Texts(FrameworkElement? page) => page is Viewbox { Child: Panel panel } ? panel.Children.OfType<TextBlock>().Select(t => t.Text).ToArray() : [];
         Check(Texts(page).Length > 4 && Texts(page).SequenceEqual(Texts(past)), "La pagina di «Stampa scheda»: i testi della pagina storica (" + Texts(past).Length + ")");
-        string a = CompositeSectionHistoricTrace.Pixels(Ui.DocumentSnapshot(page!)), b = CompositeSectionHistoricTrace.Pixels(Ui.DocumentSnapshot(past));
+        string a = ViewTraceTools.Pixels(Ui.DocumentSnapshot(page!)), b = ViewTraceTools.Pixels(Ui.DocumentSnapshot(past));
         File.WriteAllBytes(Path.Combine(output, "schermate", "stampa.png"), Ui.DocumentSnapshot(page!));
         Check(a == b, "La pagina di «Stampa scheda» uguale pixel per pixel a quella storica (" + a + ")");
         Idle(() => { Press(view.PrintButton); return 0; });

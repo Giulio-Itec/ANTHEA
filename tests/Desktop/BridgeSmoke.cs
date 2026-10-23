@@ -12,18 +12,17 @@ namespace X.Desktop;
 
 /// <summary>
 /// F5.11 (f5-11-vista): the composite bridge section as the bridge smokes drive it (ui/smoke-bridge, ui/smoke-bridge-predalle,
-/// ui/smoke-bridge-curves, ui/smoke-neutral-axis), with either view: the historic <see cref="BridgeWorkspace"/> (the Release until the switch of the
-/// module) or the XAML view hosted by <see cref="MvvmSheetEditor"/> (the bench <c>--module-impl str_mista_ponte=mvvm</c> of the suites
-/// <c>-mvvm</c>, and the Release after the switch). The members are those of the historic view that the smokes used, with the same names: the
-/// controls of the view (pages, tabs, choices, switches, the scale of the concrete, the menu of the contours, the table of the actions, the curves),
-/// the drawings (the same WPF classes in both views), the forms (<see cref="BridgeSmokeForm"/>), the calculation, the report, the detached view.
-/// On the XAML view the controls are those of CompositeSectionSheetView and the values are those of its ViewModel; the content that WPF has not laid
-/// out yet is built as the historic view builds every control (CompositeSectionViewChecks.Realize). At the switch of the Release the historic
-/// branch goes away with the historic view.
+/// ui/smoke-bridge-curves, ui/smoke-neutral-axis), on the XAML view hosted by <see cref="MvvmSheetEditor"/>, as the Release opens it since the
+/// switch of the module (23/10/2026; the historic view BridgeWorkspace is archived in supporto/SUPERATI/ui-storica/sezione-mista). The members are
+/// those of the historic view that the smokes used, with the same names: the controls of the view (pages, tabs, choices, switches, the scale of the
+/// concrete, the menu of the contours, the table of the actions, the curves), the drawings (the WPF classes of the historic view), the forms
+/// (<see cref="BridgeSmokeForm"/>), the calculation, the report, the detached view. The controls are those of CompositeSectionSheetView and the
+/// values are those of its ViewModel; the content that WPF has not laid out yet is built as the historic view built every control
+/// (CompositeSectionViewChecks.Realize).
 /// </summary>
 internal abstract class BridgeSmoke : IDisposable
 {
-    /// <summary>The element to put in a window (the historic workspace, or the host of the XAML view).</summary>
+    /// <summary>The element to put in a window (the host of the XAML view).</summary>
     internal abstract FrameworkElement View { get; }
     /// <summary>The data of the sheet (the live document of the view: on the XAML view a copy of the data it was opened with).</summary>
     internal abstract JsonObject Data { get; }
@@ -90,23 +89,17 @@ internal abstract class BridgeSmoke : IDisposable
     internal static void Press(System.Windows.Controls.Primitives.ButtonBase button) =>
         typeof(System.Windows.Controls.Primitives.ButtonBase).GetMethod("OnClick", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.Invoke(button, null);
 
-    /// <summary>True when the bench of this process opens the composite section with the XAML view.</summary>
-    internal static bool Mvvm => ModuleHostBench.Implementations(Environment.GetCommandLineArgs()).For(BridgeSection.Module) == SheetImplementation.Mvvm;
-
     /// <summary>
-    /// A composite section opened on its own, as the smokes did with <c>new BridgeWorkspace(data)</c>: the historic view on the data itself, or the
-    /// XAML view opened by <paramref name="editors"/> (on a copy: read the data back from <see cref="Data"/>), laid out so that its controls exist.
+    /// A composite section opened on its own, as the smokes did with <c>new BridgeWorkspace(data)</c> before the switch: the XAML view opened by
+    /// <paramref name="editors"/> (on a copy: read the data back from <see cref="Data"/>), laid out so that its controls exist.
     /// </summary>
-    internal static BridgeSmoke Open(SheetEditorFactory editors, JsonObject data) =>
-        Mvvm ? new MvvmBridgeSmoke(editors.Open(BridgeSection.Module, data), owned: true) : new HistoricBridgeSmoke(new BridgeWorkspace(data), owned: true);
+    internal static BridgeSmoke Open(SheetEditorFactory editors, JsonObject data) => new MvvmBridgeSmoke(editors.Open(BridgeSection.Module, data), owned: true);
 
-    /// <summary>The composite section of the sheet open in a window; the historic sheet when the bench chooses the historic view (and the reverse fails).</summary>
+    /// <summary>The composite section of the sheet open in a window.</summary>
     internal static BridgeSmoke Of(ISheetEditor editor) => editor switch
     {
         MvvmSheetEditor { Sheet: CompositeSectionSheetViewModel } mvvm => new MvvmBridgeSmoke(mvvm, owned: false),
-        SheetEditor when Mvvm => throw new InvalidOperationException("Il banco apre " + BridgeSection.Module + " con la vista MVVM, ma il foglio aperto usa SheetEditor."),
-        SheetEditor { bridge: { } bridge } => new HistoricBridgeSmoke(bridge, owned: false),
-        _ => throw new InvalidOperationException("Sezione composta da ponte non aperta: " + editor.Module)
+        _ => throw new InvalidOperationException("Sezione composta da ponte non aperta con la vista MVVM: " + editor.Module)
     };
 }
 
@@ -129,71 +122,6 @@ internal sealed class BridgeSmokeEditors(Func<string, bool> contains, Func<strin
 {
     internal bool ContainsKey(string key) => contains(key);
     internal FrameworkElement this[string key] => contains(key) ? editor(key) : throw new KeyNotFoundException("Campo assente: " + key);
-}
-
-// ---------------------------------------------------------------- the historic view
-
-internal sealed class HistoricBridgeSmoke(BridgeWorkspace bridge, bool owned) : BridgeSmoke
-{
-    internal BridgeWorkspace Workspace => bridge;
-    internal override FrameworkElement View => bridge;
-    internal override JsonObject Data => bridge.Data;
-    internal override BridgeResultView? Calculation => bridge.Calculation;
-    internal override BridgeResultView? DisplayedCalculation => bridge.DisplayedCalculation;
-    internal override JsonObject? Result => bridge.Result;
-    internal override bool Busy => bridge.Busy;
-    internal override BridgeDrawing Drawing => bridge.Drawing;
-    internal override BridgeDetailSketch DetailSketch => bridge.DetailSketch;
-    internal override TabControl Pages => bridge.Pages;
-    internal override TabControl Results => bridge.Results;
-    internal override ComboBox StageChoice => bridge.StageChoice;
-    internal override ComboBox DisplayChoice => bridge.DisplayChoice;
-    internal override ComboBox DetailSectionChoice => bridge.DetailSectionChoice;
-    internal override CheckBox GeometryLabels => bridge.GeometryLabels;
-    internal override CheckBox RebarLabels => bridge.RebarLabels;
-    internal override CheckBox NeutralAxisToggle => bridge.NeutralAxisToggle;
-    internal override CheckBox ConcreteScaleAuto => bridge.ConcreteScaleAuto;
-    internal override TextBox ConcreteScaleEditor => bridge.ConcreteScaleEditor;
-    internal override MenuItem ContourSectionToggle => bridge.ContourSectionToggle;
-    internal override MenuItem ContourDiagramToggle => bridge.ContourDiagramToggle;
-    internal override MenuItem StressLimitsToggle => bridge.StressLimitsToggle;
-    internal override TabControl SectionPropertyTabs => bridge.SectionPropertyTabs;
-    internal override IReadOnlyList<BridgeSmokeForm> InputForms => bridge.InputForms.Select(f => (BridgeSmokeForm)new Form(f)).ToArray();
-    internal override BridgeSmokeForm SlabPropertiesForm => new Form(Ui.Descendants<InputForm>(bridge.SectionPropertyTabs).Single());
-    internal override DataGrid ActionsTable => bridge.ActionsTable;
-    internal override IReadOnlyList<JsonRowViewModel> ActionRows => bridge.ActionsTable.Rows;
-    internal override void CommitTable() => bridge.ActionsTable.Commit();
-    internal override void Commit() => bridge.Commit();
-    internal override Task CalculateAsync(bool commit = true) => bridge.CalculateAsync(commit);
-    internal override byte[] BuildReport(string title, HashSet<string> options) => bridge.BuildReport(title, options);
-    internal override void DetachView() => bridge.DetachView();
-    internal override Window? DetachedWindow => bridge.detachedWindow;
-    internal override JsonObject ResponseData => bridge.ResponseData;
-    internal override BridgeSmokeForm ResponseForm => new Form(bridge.ResponseForm);
-    internal override ComboBox ResponsePhase => bridge.ResponsePhase;
-    internal override ComboBox ResponseFiber => bridge.ResponseFiber;
-    internal override Slider ResponsePoint => bridge.ResponsePoint;
-    internal override Task CalculateResponseAsync() => bridge.CalculateResponseAsync();
-    internal override SectionResponseResult? ResponseCalculation => bridge.ResponseCalculation;
-    internal override void RevealTorsion(bool results) => bridge.RevealTorsion(results);
-    internal override bool BoxInputsVisible => bridge.BoxInputsVisible;
-    internal override bool TorsionResultsVisible => bridge.TorsionResultsVisible;
-    internal override bool TorqueColumnVisible => bridge.TorqueColumnVisible;
-    internal override Panel ViewportToolbar => bridge.Viewport.Toolbar;
-    internal override ContentControl DrawingHost => bridge.Viewport.Host;
-    internal override Grid Split(string key) => bridge.Splits[key];
-    public override void Dispose() { if (owned) bridge.Dispose(); }
-
-    private sealed class Form(InputForm form) : BridgeSmokeForm
-    {
-        internal override BridgeSmokeEditors Editors { get; } = new(form.Editors.ContainsKey, key => form.Editors[key]);
-        internal override void Set(string key, string value, bool display = false) => form.Set(key, value, display);
-        internal override string Get(string key) => form.Get(key);
-        internal override void Commit() => form.Commit();
-        internal override bool Shown(string key) => form.Editors[key].Visibility == Visibility.Visible;
-        internal override Visibility Visibility => form.Visibility;
-        internal override bool IsVisible => form.IsVisible;
-    }
 }
 
 // ---------------------------------------------------------------- the XAML view

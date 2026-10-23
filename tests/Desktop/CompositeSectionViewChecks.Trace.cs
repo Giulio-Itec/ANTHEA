@@ -628,19 +628,19 @@ internal static partial class CompositeSectionViewChecks
             await host.Sheet.PendingWork.WaitAsync(TimeSpan.FromSeconds(120)); await host.Settle();
             await Idle(() => host.Editor.CalculateAsync()).WaitAsync(TimeSpan.FromSeconds(120)); await host.Settle();
             var view = host.View; var sheet = host.Sheet;
-            list.Add(CompositeSectionHistoricTrace.Record(folder, id + " vista 1000x640", view.Drawing, 1000, 640));
+            list.Add(ViewTraceTools.Record(folder, id + " vista 1000x640", view.Drawing, 1000, 640));
             if (view.DetailExpander.Visibility == Visibility.Visible)
-                list.Add(CompositeSectionHistoricTrace.Record(folder, id + " prospetto 800x165", view.DetailSketch, 800, 165));
+                list.Add(ViewTraceTools.Record(folder, id + " prospetto 800x165", view.DetailSketch, 800, 165));
             if (sheet.Page == 2 && view.CurveButton.IsEnabled)
             {
                 Idle(() => { Press(view.CurveButton, host.Root); return 0; });
                 await CurveEnded(host); await host.Settle();
-                list.Add(CompositeSectionHistoricTrace.Record(folder, id + " curva 700x420", view.SectionPlot, 700, 420));
-                list.Add(CompositeSectionHistoricTrace.Record(folder, id + " fibra 700x420", view.FiberPlot, 700, 420));
+                list.Add(ViewTraceTools.Record(folder, id + " curva 700x420", view.SectionPlot, 700, 420));
+                list.Add(ViewTraceTools.Record(folder, id + " fibra 700x420", view.FiberPlot, 700, 420));
             }
             if (sheet.Calculation is not { } result) continue;
             Idle(() => view.Pages.SelectedIndex = 0); await host.Settle();
-            list.Add(CompositeSectionHistoricTrace.Record(folder, id + " geometria 1000x640", view.Drawing, 1000, 640));
+            list.Add(ViewTraceTools.Record(folder, id + " geometria 1000x640", view.Drawing, 1000, 640));
             Idle(() => view.Pages.SelectedIndex = 1); await host.Settle();
             foreach (int stage in new[] { 0, result.Stages.Count - 1 }.Distinct())
             {
@@ -648,11 +648,11 @@ internal static partial class CompositeSectionViewChecks
                 foreach (int display in new[] { 0, 1 })
                 {
                     Idle(() => view.DisplayChoice.SelectedIndex = display); await host.Settle();
-                    list.Add(CompositeSectionHistoricTrace.Record(folder, $"{id} situazione {stage + 1} vista {display} 1000x640", view.Drawing, 1000, 640));
+                    list.Add(ViewTraceTools.Record(folder, $"{id} situazione {stage + 1} vista {display} 1000x640", view.Drawing, 1000, 640));
                 }
             }
             foreach (var figure in ModuleFigureRenderer.BridgeFigures(result, sheet.ViewSettings, ReportBridge.DefaultSections()))
-                list.Add($"{id} figura {figure.Category} {CompositeSectionTrace.Quote(figure.Caption)} · {CompositeSectionHistoricTrace.Pixels(figure.Png)}");
+                list.Add($"{id} figura {figure.Category} {CompositeSectionTrace.Quote(figure.Caption)} · {ViewTraceTools.Pixels(figure.Png)}");
             engine.Release();
         }
         CompositeSectionTrace.Write(Path.Combine(folder, "elenco.txt"), list);

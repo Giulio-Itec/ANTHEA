@@ -121,7 +121,7 @@ internal sealed partial class BridgeDrawing : FrameworkElement
                 dc.PushOpacity(.6);
                 dc.DrawRectangle(null, new Pen(Removed, 1) { DashStyle = DashStyles.Dash }, new Rect(gap.Left - 2, gap.Top, gap.Width + 4, gap.Height));
                 dc.Pop();
-                Text($"Inefficace {BridgeWorkspace.F(missing)} mm", gap.Right + 14, gap.Top + gap.Height / 2 - 8, Ui.Brush("#AC650C"));
+                Text($"Inefficace {Anthea.Application.Presentation.BridgePropertyPresentation.Number(missing)} mm", gap.Right + 14, gap.Top + gap.Height / 2 - 8, Ui.Brush("#AC650C"));
             }
             void FlangeGap(double gross, double effective, double y, double t)
             {
@@ -155,7 +155,7 @@ internal sealed partial class BridgeDrawing : FrameworkElement
             if (loadRow < 3)
             {
                 string label = groupedLoads.Length == 1 ? "N" : "N" + string.Join(",", group.Select(p => p.Index));
-                Text($"{label}  ·  y = {BridgeWorkspace.F(first.Y)} mm  ·  {BridgeWorkspace.F(group.Sum(p => p.Force))} kN", 12, h - 64 + loadRow * 14, color, 10);
+                Text($"{label}  ·  y = {Anthea.Application.Presentation.BridgePropertyPresentation.Number(first.Y)} mm  ·  {Anthea.Application.Presentation.BridgePropertyPresentation.Number(group.Sum(p => p.Force))} kN", 12, h - 64 + loadRow * 14, color, 10);
             }
             loadRow++;
         }
@@ -164,7 +164,7 @@ internal sealed partial class BridgeDrawing : FrameworkElement
             Text("η = |σ|/limite", 12, 26, Ui.Navy, 10);
             double lx = 105;
             foreach (double u in new[] { 0d, .7, 1d, 1.01 })
-            { dc.DrawRectangle(new SolidColorBrush(UtilizationColor(u)), null, new Rect(lx, 28, 13, 10)); Text(u > 1 ? ">1" : BridgeWorkspace.F(u), lx + 16, 26, Ui.Muted, 9); lx += 43; }
+            { dc.DrawRectangle(new SolidColorBrush(UtilizationColor(u)), null, new Rect(lx, 28, 13, 10)); Text(u > 1 ? ">1" : Anthea.Application.Presentation.BridgePropertyPresentation.Number(u), lx + 16, 26, Ui.Muted, 9); lx += 43; }
             Text("Viola: CLS teso · grigio: inattivo", 12, 42, Ui.Muted, 9);
         }
         DrawConnectors(dc, g, P, scale);
