@@ -14,7 +14,9 @@
  xmlns:nav="clr-namespace:Anthea.Presentation.Shell.Navigation;assembly=ANTHEA.Presentation"
  xmlns:proj="clr-namespace:Anthea.Presentation.Shell.Projects;assembly=ANTHEA.Presentation"
  xmlns:tabs="clr-namespace:Anthea.Presentation.Shell.Tabs;assembly=ANTHEA.Presentation"
- xmlns:cmd="clr-namespace:Anthea.Presentation.Shell.Commands;assembly=ANTHEA.Presentation">
+ xmlns:cmd="clr-namespace:Anthea.Presentation.Shell.Commands;assembly=ANTHEA.Presentation"
+ xmlns:shell="clr-namespace:Anthea.Presentation.Shell;assembly=ANTHEA.Presentation"
+ xmlns:hosting="clr-namespace:X.Desktop">
 
  <BooleanToVisibilityConverter x:Key="WhenTrue"/>
  <views:InverseVisibilityConverter x:Key="WhenFalse"/>
@@ -171,11 +173,33 @@
  </Style>
 
  <!-- ===================================================================================================== contents of the tabs -->
- <DataTemplate DataType="{x:Type tabs:SheetTabViewModel}">
+ <!--
+   Small screens (night of 22-23/10, MainWindow.LoadSheetEditor and DisplayAdaptation): the view of a module that follows the window takes the whole
+   tab; the others keep the minimum size of MainWindow (SheetLayout, 1120 × 600) and scroll in a smaller window.
+ -->
+ <DataTemplate x:Key="Shell.SheetFitting" DataType="{x:Type tabs:SheetTabViewModel}">
   <ContentPresenter Content="{Binding Content}"/>
+ </DataTemplate>
+ <DataTemplate x:Key="Shell.SheetScrolling" DataType="{x:Type tabs:SheetTabViewModel}">
+  <views:MinimumSizeViewport x:Name="Viewport" MinimumContentWidth="{x:Static shell:SheetLayout.SheetMinimumWidth}" MinimumContentHeight="{x:Static shell:SheetLayout.SheetMinimumHeight}">
+   <ContentPresenter Content="{Binding Content}"/>
+  </views:MinimumSizeViewport>
+ </DataTemplate>
+ <DataTemplate DataType="{x:Type tabs:SheetTabViewModel}">
+  <ContentControl x:Name="Sheet" Focusable="False" IsTabStop="False" Content="{Binding}" ContentTemplate="{StaticResource Shell.SheetScrolling}"
+   HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+  <DataTemplate.Triggers>
+   <DataTrigger Binding="{Binding FitsWindow}" Value="True">
+    <Setter TargetName="Sheet" Property="ContentTemplate" Value="{StaticResource Shell.SheetFitting}"/>
+   </DataTrigger>
+  </DataTemplate.Triggers>
  </DataTemplate>
  <DataTemplate DataType="{x:Type tabs:PageTabViewModel}">
   <ContentPresenter Content="{Binding Content}"/>
+ </DataTemplate>
+ <!-- A module still historic in the Release (R5, night of 22-23/10): the control of its SheetEditor, taken by the tab on screen. -->
+ <DataTemplate DataType="{x:Type hosting:HistoricSheetViewModel}">
+  <views:HistoricSheetHost Sheet="{Binding}"/>
  </DataTemplate>
  <DataTemplate DataType="{x:Type nav:WikiTabViewModel}">
   <views:WikiTabView/>
@@ -183,12 +207,16 @@
  <DataTemplate DataType="{x:Type proj:ModelTabViewModel}">
   <views:ModelTabView/>
  </DataTemplate>
+ <!-- The pages of the navigation keep the minimum size of the dashboard of MainWindow (SheetLayout, 870 × 680) and scroll in a smaller window. -->
  <DataTemplate DataType="{x:Type ex:ExampleLibraryViewModel}">
-  <Border Padding="42,24,42,36"><examples:ExampleLibraryView/></Border>
+  <views:MinimumSizeViewport MinimumContentWidth="{x:Static shell:SheetLayout.PageMinimumWidth}" MinimumContentHeight="{x:Static shell:SheetLayout.PageMinimumHeight}">
+   <Border Padding="42,24,42,36"><examples:ExampleLibraryView/></Border>
+  </views:MinimumSizeViewport>
  </DataTemplate>
 
  <!-- ===================================================================================================== home (MainWindow.ShowHome) -->
  <DataTemplate DataType="{x:Type nav:NavigationViewModel}">
+  <views:MinimumSizeViewport MinimumContentWidth="{x:Static shell:SheetLayout.PageMinimumWidth}" MinimumContentHeight="{x:Static shell:SheetLayout.PageMinimumHeight}">
   <Grid Margin="42,24,42,36">
    <Grid.RowDefinitions><RowDefinition Height="250"/><RowDefinition Height="*"/></Grid.RowDefinitions>
    <Border Background="{DynamicResource Token.CommandBar}" Margin="0,0,0,10">
@@ -222,10 +250,12 @@
     </ItemsControl.ItemTemplate>
    </ItemsControl>
   </Grid>
+  </views:MinimumSizeViewport>
  </DataTemplate>
 
  <!-- ===================================================================================================== «Moduli singoli» (ShowModules) -->
  <DataTemplate DataType="{x:Type nav:ModuleCatalogViewModel}">
+  <views:MinimumSizeViewport MinimumContentWidth="{x:Static shell:SheetLayout.PageMinimumWidth}" MinimumContentHeight="{x:Static shell:SheetLayout.PageMinimumHeight}">
   <DockPanel Margin="42,24,42,36">
    <StackPanel DockPanel.Dock="Top" Margin="0,0,0,24">
     <TextBlock Style="{StaticResource Shell.Display}" Text="{x:Static nav:ModuleCatalogViewModel.Title}"/>
@@ -263,7 +293,8 @@
               <DataTemplate DataType="{x:Type nav:ModuleCard}">
                <Border Style="{StaticResource Shell.Card}" Height="200" Margin="0,0,0,8" Padding="12">
                 <DockPanel>
-                 <Button x:Name="Open" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Style="{StaticResource Shell.Primary}" Content="Apri"
+                 <!-- «Apri», «Riprendi» for the module of the last sheet, «Dettagli» in preparation (ModuleCard.Button, night of 22-23/10). -->
+                 <Button x:Name="Open" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Style="{StaticResource Shell.Primary}" Content="{Binding Button}"
                   Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}" CommandParameter="{Binding}"/>
                  <!-- The icon of the module (Ui.ModuleIcon, as ShowModules today; after the checkpoint of 22/10). -->
                  <Viewbox DockPanel.Dock="Left" Width="80" Height="80" Margin="0,0,12,0" VerticalAlignment="Top" Stretch="Uniform">
@@ -280,7 +311,6 @@
                </Border>
                <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding IsAvailable}" Value="False">
-                 <Setter TargetName="Open" Property="Content" Value="Dettagli"/>
                  <Setter TargetName="Open" Property="Style" Value="{StaticResource Shell.Button}"/>
                  <Setter TargetName="Status" Property="Foreground" Value="{DynamicResource Token.Muted}"/>
                 </DataTrigger>
@@ -298,6 +328,7 @@
     </ItemsControl>
    </ScrollViewer>
   </DockPanel>
+  </views:MinimumSizeViewport>
  </DataTemplate>
 
  <!-- ===================================================================================================== «Progetti»: overview and catalogue (ProjectPresentation) -->
@@ -321,15 +352,42 @@
       <StackPanel Visibility="{Binding Section, Converter={StaticResource WhenPresent}}">
        <TextBlock Style="{StaticResource Shell.Muted}" FontWeight="SemiBold" FontSize="{DynamicResource Font.Small}" Text="{x:Static proj:SectionOverviewViewModel.Caption}"/>
        <TextBlock Style="{StaticResource Shell.Title}" Text="{Binding Name}" Margin="0,0,0,12"/>
-       <WrapPanel Margin="0,0,0,12">
-        <Border x:Name="Conflicts" Background="{DynamicResource Token.Badge.Ok}" CornerRadius="10" Padding="10,3" Margin="0,0,8,0">
-         <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding ConflictsText}"/>
-        </Border>
-        <Border Background="{DynamicResource Token.Badge.Warn}" CornerRadius="10" Padding="10,3" Margin="0,0,8,0" Visibility="{Binding HasNotices, Converter={StaticResource WhenTrue}}">
-         <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding NoticesText}"/>
-        </Border>
-        <Button Style="{StaticResource Shell.Button}" Content="{Binding CompareLabel}" IsEnabled="False" ToolTip="Bozza: il confronto si collega nella parte (c) dopo il punto di controllo"/>
-       </WrapPanel>
+       <!--
+         After the checkpoint of 22/10, in the order of ProjectPresentation.BuildSectionOverview: «Modelli di calcolo» (AddModelsOverview) with the
+         models of the section and «+ Importa un modello» outside read-only; «Controlli» with the two statuses and «Confronto e avvisi» (the dialog
+         of the comparison); then the common data, the revisions with «Riepilogo modifiche», the actions, the links and «Dettaglio avvisi».
+       -->
+       <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
+        <StackPanel>
+         <TextBlock Style="{StaticResource Shell.Heading}" Text="{x:Static proj:SectionOverviewViewModel.ModelsTitle}" Margin="0,0,0,6"/>
+         <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding ModelsText}"/>
+         <ItemsControl ItemsSource="{Binding ModelButtons}">
+          <ItemsControl.ItemTemplate>
+           <DataTemplate DataType="{x:Type proj:OverviewModel}">
+            <Button Style="{StaticResource Shell.Button}" HorizontalAlignment="Left" Content="{Binding Label}" AutomationProperties.Name="{Binding Label}"
+             Command="{Binding DataContext.OpenOverviewModelCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+           </DataTemplate>
+          </ItemsControl.ItemTemplate>
+         </ItemsControl>
+        </StackPanel>
+       </Border>
+       <Border x:Name="Controls" Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
+        <StackPanel>
+         <TextBlock Style="{StaticResource Shell.Heading}" Text="{x:Static proj:SectionOverviewViewModel.ControlsTitle}" Margin="0,0,0,10"/>
+         <WrapPanel>
+          <Border x:Name="Conflicts" Background="{DynamicResource Token.Badge.Ok}" CornerRadius="4" Padding="10,7" Margin="0,0,7,10">
+           <TextBlock x:Name="ConflictsStatus" Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Small}" FontWeight="SemiBold"
+            Foreground="{DynamicResource Token.Status.Coherent}" Text="{Binding ConflictsStatus}"/>
+          </Border>
+          <Border x:Name="Notices" Background="{DynamicResource Token.Badge.Ok}" CornerRadius="4" Padding="10,7" Margin="0,0,7,10">
+           <TextBlock x:Name="NoticesStatus" Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Small}" FontWeight="SemiBold"
+            Foreground="{DynamicResource Token.Status.Coherent}" Text="{Binding NoticesStatus}"/>
+          </Border>
+         </WrapPanel>
+         <Button x:Name="Compare" Style="{StaticResource Shell.Button}" HorizontalAlignment="Stretch" Content="{Binding CompareLabel}" AutomationProperties.Name="{Binding CompareLabel}"
+          Command="{Binding DataContext.CompareCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Section}"/>
+        </StackPanel>
+       </Border>
        <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
         <StackPanel>
          <TextBlock Style="{StaticResource Shell.Heading}" Text="Dati comuni" Margin="0,0,0,6"/>
@@ -350,6 +408,10 @@
          <TextBlock Style="{StaticResource Shell.Text}" FontWeight="SemiBold" Text="{Binding RevisionTitle}"/>
          <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding RevisionDate}" Visibility="{Binding RevisionDate, Converter={StaticResource WhenPresent}}"/>
          <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding RevisionNote}" Visibility="{Binding RevisionNote, Converter={StaticResource WhenPresent}}"/>
+         <!-- «Riepilogo modifiche» with archived revisions (ShowProjectRevisions): the dialog of the summary of the revisions of the section. -->
+         <Button Style="{StaticResource Shell.Button}" HorizontalAlignment="Left" Margin="0,10,0,6" Content="{x:Static proj:SectionOverviewViewModel.RevisionSummaryLabel}"
+          Visibility="{Binding HasRevisionSummary, Converter={StaticResource WhenTrue}}"
+          Command="{Binding DataContext.RevisionSummaryCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding RevisionScope}"/>
         </StackPanel>
        </Border>
        <!--
@@ -376,21 +438,17 @@
          </ItemsControl>
         </StackPanel>
        </Expander>
-       <Border Style="{StaticResource Shell.Card}" Margin="0,0,0,10">
-        <StackPanel>
-         <TextBlock Style="{StaticResource Shell.Heading}" Text="Modelli di calcolo" Margin="0,0,0,6"/>
-         <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding ModelsText}"/>
-        </StackPanel>
-       </Border>
-       <ItemsControl ItemsSource="{Binding Notices}">
-        <ItemsControl.ItemTemplate>
-         <DataTemplate>
-          <Border Background="{DynamicResource Token.Warning.Background}" Padding="8,4" Margin="0,0,0,4">
-           <TextBlock Style="{StaticResource Shell.Text}" Foreground="{DynamicResource Token.Warning.Foreground}" Text="{Binding}"/>
-          </Border>
-         </DataTemplate>
-        </ItemsControl.ItemTemplate>
-       </ItemsControl>
+       <!-- «Dettaglio avvisi», closed at the start and only with notices: «• avviso», muted (ProjectPresentation.BuildSectionOverview). -->
+       <Expander x:Name="NoticeDetails" Margin="0,0,0,10" IsExpanded="False" Visibility="{Binding HasNotices, Converter={StaticResource WhenTrue}}">
+        <Expander.Header><TextBlock Style="{StaticResource Shell.Heading}" Text="{x:Static proj:SectionOverviewViewModel.NoticesTitle}"/></Expander.Header>
+        <ItemsControl ItemsSource="{Binding NoticeLines}">
+         <ItemsControl.ItemTemplate>
+          <DataTemplate>
+           <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" Text="{Binding}" Margin="0,4,0,8"/>
+          </DataTemplate>
+         </ItemsControl.ItemTemplate>
+        </ItemsControl>
+       </Expander>
       </StackPanel>
      </StackPanel>
     </ScrollViewer>
@@ -412,13 +470,34 @@
          <Expander Header="{Binding Title}" IsExpanded="{Binding IsExpanded}" Visibility="{Binding IsVisible, Converter={StaticResource WhenTrue}}" Margin="0,0,0,6">
           <ItemsControl ItemsSource="{Binding Cards}">
            <ItemsControl.ItemTemplate>
+            <!--
+              A card (BuildProjectCatalog, night of 22-23/10): the icon of the module, title and subtitle, the grip; dragged on a section of the tree
+              (ProjectTreeInput, a copy) or added with the double click to the selected section, opened in its tab.
+            -->
             <DataTemplate DataType="{x:Type proj:ProjectCatalogCard}">
-             <Border Style="{StaticResource Shell.Card}" Padding="10,6" Margin="0,4,0,0" ToolTip="{Binding ToolTip}" Visibility="{Binding IsVisible, Converter={StaticResource WhenTrue}}">
-              <StackPanel>
-               <TextBlock Style="{StaticResource Shell.Text}" FontWeight="SemiBold" Text="{Binding Title}"/>
-               <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" Text="{Binding Subtitle}"/>
-              </StackPanel>
+             <Border x:Name="Card" Style="{StaticResource Shell.Card}" Padding="10" MinHeight="59" Margin="0,0,0,6" Cursor="Hand" ToolTip="{Binding ToolTip}"
+              Visibility="{Binding IsVisible, Converter={StaticResource WhenTrue}}" views:ProjectTreeInput.DragRow="True" AutomationProperties.Name="{Binding Title}">
+              <Border.InputBindings>
+               <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.AddCatalogSheetCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+              </Border.InputBindings>
+              <DockPanel>
+               <Viewbox DockPanel.Dock="Left" Width="36" Height="36" Margin="0,0,10,0" Stretch="Uniform">
+                <ContentControl Focusable="False" IsTabStop="False" Content="{Binding Module, Converter={StaticResource ModuleIcon}}"/>
+               </Viewbox>
+               <Path DockPanel.Dock="Right" Width="10" Height="20" Stretch="Uniform" VerticalAlignment="Center" Fill="{DynamicResource Token.Drawing.Axis}"
+                Data="M 5,5 m -2,0 a 2,1.5 0 1 0 4,0 a 2,1.5 0 1 0 -4,0 M 5,12 m -2,0 a 2,1.5 0 1 0 4,0 a 2,1.5 0 1 0 -4,0 M 5,19 m -2,0 a 2,1.5 0 1 0 4,0 a 2,1.5 0 1 0 -4,0 M 15,5 m -2,0 a 2,1.5 0 1 0 4,0 a 2,1.5 0 1 0 -4,0 M 15,12 m -2,0 a 2,1.5 0 1 0 4,0 a 2,1.5 0 1 0 -4,0 M 15,19 m -2,0 a 2,1.5 0 1 0 4,0 a 2,1.5 0 1 0 -4,0"/>
+               <StackPanel VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Subheading}" FontWeight="SemiBold" Text="{Binding Title}"/>
+                <TextBlock Style="{StaticResource Shell.Muted}" FontSize="{DynamicResource Font.Small}" Text="{Binding Subtitle}"/>
+               </StackPanel>
+              </DockPanel>
              </Border>
+             <DataTemplate.Triggers>
+              <Trigger SourceName="Card" Property="IsMouseOver" Value="True">
+               <Setter TargetName="Card" Property="Background" Value="{DynamicResource Token.Hover.Row}"/>
+               <Setter TargetName="Card" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/>
+              </Trigger>
+             </DataTemplate.Triggers>
             </DataTemplate>
            </ItemsControl.ItemTemplate>
           </ItemsControl>
@@ -433,6 +512,11 @@
   <DataTemplate.Triggers>
    <DataTrigger Binding="{Binding HasConflicts}" Value="True">
     <Setter TargetName="Conflicts" Property="Background" Value="{DynamicResource Token.Badge.Warn}"/>
+    <Setter TargetName="ConflictsStatus" Property="Foreground" Value="{DynamicResource Token.Warning.Foreground}"/>
+   </DataTrigger>
+   <DataTrigger Binding="{Binding HasNotices}" Value="True">
+    <Setter TargetName="Notices" Property="Background" Value="{DynamicResource Token.Badge.Warn}"/>
+    <Setter TargetName="NoticesStatus" Property="Foreground" Value="{DynamicResource Token.Warning.Foreground}"/>
    </DataTrigger>
    <Trigger SourceName="CommonRows" Property="ItemsControl.HasItems" Value="False">
     <Setter TargetName="NoCommonData" Property="Visibility" Value="Visible"/>
@@ -442,6 +526,7 @@
 
  <!-- ===================================================================================================== «Modelli» (ShowModelsHub) -->
  <DataTemplate DataType="{x:Type proj:ModelsPageViewModel}">
+  <views:MinimumSizeViewport MinimumContentWidth="{x:Static shell:SheetLayout.PageMinimumWidth}" MinimumContentHeight="{x:Static shell:SheetLayout.PageMinimumHeight}">
   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
    <StackPanel Margin="42,24,42,36">
     <TextBlock Style="{StaticResource Shell.Display}" Text="{x:Static proj:ModelsPageViewModel.Title}"/>
@@ -484,6 +569,7 @@
     </StackPanel>
    </StackPanel>
   </ScrollViewer>
+  </views:MinimumSizeViewport>
  </DataTemplate>
 
  <!-- ===================================================================================================== bars above the content -->
@@ -540,12 +626,99 @@
  </DataTemplate>
 
  <!-- ===================================================================================================== tree of the project -->
+ <!--
+   The nodes of the tree as ProjectTreeItem and ProjectChevron of MainWindow (night of 22-23/10), with theme tokens: the arrow in the colour of the
+   glyphs of the tree (Token.InkSecondary), readable in «Scuro» and «Molto scuro» (the arrows of the base template of WPF were not); rows at least 44
+   high with rounded corners and a line below, the guide of the children, the row under the mouse and the selected one with its border on the left.
+ -->
+ <Style x:Key="Shell.TreeChevron" TargetType="ToggleButton">
+  <Setter Property="Focusable" Value="False"/>
+  <Setter Property="Width" Value="20"/>
+  <Setter Property="Height" Value="28"/>
+  <Setter Property="Cursor" Value="Hand"/>
+  <Setter Property="Template">
+   <Setter.Value>
+    <ControlTemplate TargetType="ToggleButton">
+     <Border Background="Transparent">
+      <Path x:Name="Arrow" Data="M 0 0 L 4 4 L 0 8" Stroke="{DynamicResource Token.InkSecondary}" StrokeThickness="1.5" HorizontalAlignment="Center" VerticalAlignment="Center"
+       RenderTransformOrigin="0.5,0.5"/>
+     </Border>
+     <ControlTemplate.Triggers>
+      <Trigger Property="IsChecked" Value="True">
+       <Setter TargetName="Arrow" Property="RenderTransform"><Setter.Value><RotateTransform Angle="90"/></Setter.Value></Setter>
+      </Trigger>
+     </ControlTemplate.Triggers>
+    </ControlTemplate>
+   </Setter.Value>
+  </Setter>
+ </Style>
+ <Style x:Key="Shell.TreeItem" TargetType="TreeViewItem">
+  <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+  <Setter Property="VerticalContentAlignment" Value="Center"/>
+  <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+  <Setter Property="BorderBrush" Value="{DynamicResource Token.Divider}"/>
+  <Setter Property="BorderThickness" Value="0,0,0,1"/>
+  <Setter Property="Padding" Value="0"/>
+  <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+  <Setter Property="Template">
+   <Setter.Value>
+    <ControlTemplate TargetType="TreeViewItem">
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+      <Border x:Name="Row" Grid.ColumnSpan="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+       CornerRadius="4" MinHeight="44">
+       <Grid>
+        <Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+        <ToggleButton x:Name="Expander" Style="{StaticResource Shell.TreeChevron}" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"/>
+        <ContentPresenter x:Name="PART_Header" Grid.Column="1" ContentSource="Header" Margin="4,3,5,3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+       </Grid>
+      </Border>
+      <Border x:Name="Guide" Grid.Row="1" Margin="9,0,0,0" BorderBrush="{DynamicResource Token.TreeGuide}" BorderThickness="1,0,0,0"/>
+      <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1"/>
+     </Grid>
+     <ControlTemplate.Triggers>
+      <Trigger Property="HasItems" Value="False">
+       <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
+       <Setter TargetName="Guide" Property="Visibility" Value="Collapsed"/>
+      </Trigger>
+      <Trigger Property="IsExpanded" Value="False">
+       <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/>
+       <Setter TargetName="Guide" Property="Visibility" Value="Collapsed"/>
+      </Trigger>
+      <Trigger SourceName="Row" Property="IsMouseOver" Value="True">
+       <Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Hover.Row}"/>
+      </Trigger>
+      <Trigger Property="IsSelected" Value="True">
+       <Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/>
+       <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/>
+       <Setter TargetName="Row" Property="BorderThickness" Value="3,0,0,0"/>
+      </Trigger>
+     </ControlTemplate.Triggers>
+    </ControlTemplate>
+   </Setter.Value>
+  </Setter>
+  <Style.Triggers>
+   <!-- The rows of the projects on the background of the rows under the mouse, as today (ConfigureProjectNode). -->
+   <DataTrigger Binding="{Binding Depth}" Value="0">
+    <Setter Property="Background" Value="{DynamicResource Token.Hover.Row}"/>
+   </DataTrigger>
+  </Style.Triggers>
+ </Style>
  <HierarchicalDataTemplate DataType="{x:Type proj:ProjectNodeViewModel}" ItemsSource="{Binding Children}">
-  <DockPanel ToolTip="{Binding ToolTip}" MinHeight="32">
-   <Border DockPanel.Dock="Right" CornerRadius="8" Padding="6,1" Margin="6,0,0,0" Background="{DynamicResource Token.Badge.Ok}" ToolTip="{Binding Badge.ToolTip}"
-    Visibility="{Binding Badge, Converter={StaticResource WhenPresent}}">
-    <TextBlock Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Badge.Title}"/>
-   </Border>
+  <!--
+    Night of 22-23/10: a sheet is dragged by its row, a project or section by its name (ProjectTreeInput; the drop on the nodes is in the style of the
+    nodes); a single click on the name of a project or section shows its overview after the double click time; the size of the names by depth.
+  -->
+  <DockPanel ToolTip="{Binding ToolTip}" MinHeight="32" views:ProjectTreeInput.DragRow="True">
+   <!--
+     The coherence badge of a section (ProjectSharing.AddCoherenceBadge, after the checkpoint of 22/10): the number of conflicts and notices, or «✓»,
+     named by its title; it opens the comparison of the section.
+   -->
+   <Button x:Name="Badge" DockPanel.Dock="Right" Style="{StaticResource Shell.Button}" FontSize="{DynamicResource Font.Caption}" MinHeight="24" Padding="7,2" Margin="4,0,5,0"
+    BorderThickness="0" Background="{DynamicResource Token.Badge.Ok}" Foreground="{DynamicResource Token.Status.Ok}" Content="{Binding Badge.Content}"
+    ToolTip="{Binding Badge.ToolTip}" AutomationProperties.Name="{Binding Badge.Title, TargetNullValue=''}" Visibility="{Binding Badge, Converter={StaticResource WhenPresent}}"
+    Command="{Binding CompareCommand}"/>
    <TextBlock Style="{StaticResource Shell.Text}" Text=" •" FontWeight="Bold" Foreground="{DynamicResource Token.Accent}" DockPanel.Dock="Right"
     Visibility="{Binding IsUnsaved, Converter={StaticResource WhenTrue}}" ToolTip="Foglio non salvato"/>
    <!--
@@ -557,8 +730,8 @@
     <Viewbox Stretch="Uniform"><ContentControl Focusable="False" IsTabStop="False" Content="{Binding Module, Converter={StaticResource ModuleIcon}}"/></Viewbox>
    </Button>
    <Grid>
-    <TextBlock Style="{StaticResource Shell.Text}" Text="{Binding Name}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
-     Visibility="{Binding IsRenaming, Converter={StaticResource WhenFalse}}">
+    <TextBlock x:Name="Label" Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Subheading}" FontWeight="SemiBold" Text="{Binding Name}" TextWrapping="NoWrap"
+     TextTrimming="CharacterEllipsis" Visibility="{Binding IsRenaming, Converter={StaticResource WhenFalse}}" views:ProjectTreeInput.DragName="True" views:ProjectTreeInput.SectionClick="True">
      <TextBlock.InputBindings>
       <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DoubleClickCommand}"/>
      </TextBlock.InputBindings>
@@ -582,5 +755,30 @@
     </ContextMenu>
    </DockPanel.ContextMenu>
   </DockPanel>
+  <HierarchicalDataTemplate.Triggers>
+   <!-- The size of the names by depth (ConfigureProjectNode: 20, 17, 15, then 14; the sheets 14, not bold), on the typographic tokens. -->
+   <DataTrigger Binding="{Binding Depth}" Value="0">
+    <Setter TargetName="Label" Property="FontSize" Value="{DynamicResource Font.Title}"/>
+   </DataTrigger>
+   <DataTrigger Binding="{Binding Depth}" Value="1">
+    <Setter TargetName="Label" Property="FontSize" Value="{DynamicResource Font.Heading}"/>
+   </DataTrigger>
+   <DataTrigger Binding="{Binding IsSheet}" Value="True">
+    <Setter TargetName="Label" Property="FontSize" Value="{DynamicResource Font.Subheading}"/>
+    <Setter TargetName="Label" Property="FontWeight" Value="Normal"/>
+   </DataTrigger>
+   <!-- A project or section is dragged by its name (the cursor of MainWindow), outside read-only. -->
+   <MultiDataTrigger>
+    <MultiDataTrigger.Conditions>
+     <Condition Binding="{Binding IsSheet}" Value="False"/>
+     <Condition Binding="{Binding CanDrag}" Value="True"/>
+    </MultiDataTrigger.Conditions>
+    <Setter TargetName="Label" Property="Cursor" Value="SizeAll"/>
+   </MultiDataTrigger>
+   <DataTrigger Binding="{Binding Badge.Warning}" Value="True">
+    <Setter TargetName="Badge" Property="Background" Value="{DynamicResource Token.Badge.Warn}"/>
+    <Setter TargetName="Badge" Property="Foreground" Value="{DynamicResource Token.Status.Warn}"/>
+   </DataTrigger>
+  </HierarchicalDataTemplate.Triggers>
  </HierarchicalDataTemplate>
 </ResourceDictionary>

@@ -88,8 +88,14 @@ public sealed class ShellViewModel : ViewModelBase
         OpenLinkCommand = new RelayCommand<JsonObject>(node => guard.Run(() => OpenLink(node!)), node => node is not null);
         DuplicateSectionCommand = new RelayCommand<JsonObject>(section => guard.Run(() => DuplicateSection(section!)),
             section => section is not null && Workspace.Project is { IsReadOnly: false });
+        CompareCommand = new AsyncRelayCommand<JsonObject>(section => guard.RunAsync(_ => ShowCoherenceAsync(section!)), section => section is not null && Workspace.Project is not null);
+        RevisionSummaryCommand = new AsyncRelayCommand<JsonObject>(scope => guard.RunAsync(_ => ShowRevisionSummaryAsync(scope!)),
+            scope => scope?["revisione"] is JsonObject && Workspace.Project is not null);
+        OpenOverviewModelCommand = new RelayCommand<OverviewModel>(model => guard.Run(() => ShowModel(model!.Container, model.ModelId)), model => model is not null);
+        AddCatalogSheetCommand = new RelayCommand<ProjectCatalogCard>(card => guard.Run(() => Tree.AddSheet(card!.Module)), card => card is not null && Workspace.Project is { IsReadOnly: false });
         Commands.ExamplesRequested += (_, _) => Navigation.Select(ShellPage.Examples);
         Tree.OverviewRequested += (_, section) => ShowOverview(section);
+        Tree.CompareRequested += (_, section) => _ = CompareCommand.ExecuteAsync(section);
         Tree.ModelRequested += (_, model) => guard.Run(() => ShowModel(model.Container, model.ModelId));
         Tree.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(ProjectTreeViewModel.Selected) && Workspace.Active is null) Revisions?.Show(SelectedSection()); };
         Models.OpenProjectRequested += (_, _) => Commands.Open();
@@ -231,7 +237,10 @@ public sealed class ShellViewModel : ViewModelBase
         if (!tab.IsDetached) EnterFullPage();
     }
 
-    /// <summary>The overview of <paramref name="section"/> (the first project when null), with its revision bar (MainWindow.ShowProjectOverview).</summary>
+    /// <summary>
+    /// The overview of <paramref name="section"/> (the first project when null), with its revision bar (MainWindow.ShowProjectOverview). As there, the
+    /// tree selects the section (RefreshTree(section)), so that «+ Sezione» and the double click of «Schede da aggiungere» go into it (night of 22-23/10).
+    /// </summary>
     public void ShowOverview(JsonObject? section)
     {
         if (Workspace.EnsureProject() is not { } project) return;
@@ -239,6 +248,7 @@ public sealed class ShellViewModel : ViewModelBase
         if (section?.ContainsKey("modulo_id") == true) section = section.Parent?.Parent as JsonObject;
         section ??= project.Projects.FirstOrDefault();
         Overview = new SectionOverviewViewModel(project, section);
+        if (section is not null && !ReferenceEquals(Tree.Selected?.Node, section)) Tree.Refresh(section);
         Revisions?.Show(section);
     }
 
@@ -287,6 +297,55 @@ public sealed class ShellViewModel : ViewModelBase
         return copy;
     }
 
+    // ---- Part (c) after the checkpoint: the comparison, the summary of the revisions and the models of the overview
+
+    /// <summary>
+    /// «Confronto e avvisi» of the overview and the coherence badge of the tree (ProjectSharing.AddCoherenceBadge): the comparison of a section in
+    /// its dialog (<see cref="ShowCoherenceAsync"/>).
+    /// </summary>
+    public IAsyncRelayCommand<JsonObject> CompareCommand { get; }
+
+    /// <summary>«Riepilogo modifiche» of the card «Revisioni» of the overview: the summary of the revisions of a section in its dialog.</summary>
+    public IAsyncRelayCommand<JsonObject> RevisionSummaryCommand { get; }
+
+    /// <summary>A button of the card «Modelli di calcolo» of the overview: the model, or a new one, in its tab (<see cref="ShowModel"/>).</summary>
+    public IRelayCommand<OverviewModel> OpenOverviewModelCommand { get; }
+
+    /// <summary>
+    /// The double click on a card of «Schede da aggiungere» (ProjectPresentation.BuildProjectCatalog, MainWindow.AddSheet): a sheet of the module in the
+    /// selected section, opened in its tab; without a section the note of today. The cards are also dragged on the tree (the view).
+    /// </summary>
+    public IRelayCommand<ProjectCatalogCard> AddCatalogSheetCommand { get; }
+
+    /// <summary>
+    /// The comparison of <paramref name="section"/> (MainWindow.ShowCoherence): the active sheet is confirmed, then the dialog «Confronto · sezione»;
+    /// its changes go through the project, which reloads the open sheets, the tree and the overview, as MainWindow does after each one. True when
+    /// the document changed.
+    /// </summary>
+    public async Task<bool> ShowCoherenceAsync(JsonObject section)
+    {
+        ArgumentNullException.ThrowIfNull(section);
+        if (Workspace.Project is not { } project) return false;
+        Workspace.CommitActive();
+        using var coherence = new CoherenceViewModel(project, section, services);
+        return await services.Dialogs.ShowDialogAsync(coherence);
+    }
+
+    /// <summary>
+    /// «Riepilogo modifiche» of <paramref name="scope"/> (MainWindow.ShowProjectRevisions): the active sheet is confirmed, then the dialog «Revisioni ·
+    /// sezione»; «Mostra questa revisione» closes it and shows that revision, with the revision bar of the section switched to. True when a revision
+    /// was shown.
+    /// </summary>
+    public async Task<bool> ShowRevisionSummaryAsync(JsonObject scope)
+    {
+        ArgumentNullException.ThrowIfNull(scope);
+        if (Workspace.Project is not { } project) return false;
+        Workspace.CommitActive();
+        using var summary = new RevisionSummaryViewModel(project, scope, services.Messages);
+        summary.Shown += (_, _) => Revisions?.Show(null, afterSwitch: true);
+        return await services.Dialogs.ShowDialogAsync(summary);
+    }
+
     /// <summary>The application is closing: the questions to save every document (true closes).</summary>
     public bool ConfirmClose() => Workspace.ConfirmClose();
 
@@ -307,6 +366,12 @@ public sealed class ShellViewModel : ViewModelBase
         if (!ReferenceEquals(tab.Content, wiki)) wiki = (WikiTabViewModel)tab.Content!;
         if (uri is not null) wiki.Navigate(uri);
     }
+
+    /// <summary>
+    /// An article asked by a view of the window outside the services (the historic views hosted in the shell, R5: F1 and the «?» of SheetEditor through
+    /// WikiContextHelp): the Wiki tab, the errors as messages (the Safe of MainWindow.ShowWiki).
+    /// </summary>
+    public void ShowWikiFromView(string uri) => guard.Run(() => ShowWiki(uri));
 
     /// <summary>
     /// A module asked by the Wiki (MainWindow.OpenWikiModule): without an example as «Apri» of the catalogue; with an example a new unsaved single

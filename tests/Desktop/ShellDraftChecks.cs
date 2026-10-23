@@ -37,6 +37,10 @@ namespace X.Desktop;
 /// <item>after the user's checkpoint of 22/10, from the tree of the project: a sheet at full page (11, then Esc and the toggle of the sheet bar)
 /// and a sheet opened in a new window, with the main window beside it in one image (12); the icons of the modules, the links and the groups of
 /// the overview, Ctrl+Z and Ctrl+Y of the project, the Wiki of the services on the tab, the rename in place and the keys of the tree;</item>
+/// <item>the night of 22-23/10 (section 10.1 of the note), what was left of part (c): the overview with the comparison and the summary of the
+/// revisions in their dialogs (13-15), the drag on the tree and the single click (16), «Riprendi» and the cards of «Schede da aggiungere» (17, 18),
+/// the notice of a reloaded tab (19), small screens (20), the short report of the RC section, and a second shell with the modules as the Release
+/// chooses them, the historic ones in their SheetEditor (21). The first shell keeps every module on its MVVM view, the views of the checkpoint;</item>
 /// <item>no binding error of WPF in all the captures (binding-errors.txt), the structure of the window at every step.</item>
 /// </list>
 /// Writes the PNG, binding-errors.txt, test.txt and esito.txt («PASS n controlli»). The draft is not the window of the application: the Release
@@ -69,12 +73,15 @@ internal static class ShellDraftChecks
             var presentation = ShellComposition.WithShellWiki(services.Create());
             var modules = DesktopComposition.CreateModules();
             var detached = new List<QuietWindow>();
+            // Since the night of 22-23/10 (R5) the shell opens every module as the Release chooses it; the draft keeps every module on its MVVM view, the
+            // views of the images of the checkpoint (01-20). The modules as the Release chooses them are drawn by HistoricHost (21).
+            var everyMvvm = ModuleImplementations.Declared.Aggregate(ModuleImplementations.Release, (set, entry) => set.With(entry.Module, SheetImplementation.Mvvm));
             var parts = ShellComposition.Create(presentation, modules, new CalculationLimiter(CalculationLimiter.DefaultMaximum), ShellComposition.ExamplesFolder, window =>
             {
                 var quiet = new QuietWindow(Offscreen(window));
                 detached.Add(quiet);
                 return quiet;
-            });
+            }, everyMvvm);
             var shell = parts.Shell;
             var tracker = parts.Tracker;
             var main = Offscreen(parts.Window);
@@ -272,12 +279,21 @@ internal static class ShellDraftChecks
                 SendKey(Item(strataId), Key.Enter);
                 await Idle(main);
                 Check(ReferenceEquals(workspace.Active, strataSheet), "Invio su un foglio dell'albero: la sua scheda");
+
+                // ---- Night of 22-23/10 (section 10.1 of the note): what was left of part (c).
+                await Overview(shell, presentation, services, main, output, bindings, project, abutment.S("id"), Check);
+                await TreeInput(shell, main, output, bindings, project, abutment.S("id"), pierId, pileSheet, Check);
+                await Catalogues(shell, main, output, bindings, project, pierId, pileSheet, Check);
+                await SmallScreens(shell, services, main, output, bindings, project, abutment.S("id"), pileSheet, strataSheet, Check);
+                await ShortReport(shell, services, main, bindings, Check);
             }
             finally
             {
                 main.Close();
                 shell.Dispose();
             }
+            // R5 (night of 22-23/10): a shell with the modules as the Release chooses them, the historic ones in their SheetEditor.
+            await HistoricHost(output, bindings, Check);
             // Only the errors of the draft count: those of the module views and of the historic Wiki and viewer go to a separate file.
             var draft = bindings.Errors.Where(BindingErrors.OfDraft).ToArray();
             File.WriteAllLines(Path.Combine(output, "binding-errors.txt"), draft, new UTF8Encoding(false));
@@ -291,6 +307,359 @@ internal static class ShellDraftChecks
             File.WriteAllLines(Path.Combine(output, "test.txt"), log, new UTF8Encoding(false));
         }
         File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {log.Count} controlli della bozza della shell (F5.13 c)\n", new UTF8Encoding(false));
+    }
+
+    /// <summary>
+    /// The overview of a section with the content of MainWindow (night of 22-23/10, first item of section 10.1): «Modelli di calcolo», «Controlli»
+    /// with «Confronto e avvisi», «Riepilogo modifiche», «Dettaglio avvisi»; the comparison and the summary of the revisions in their dialogs, drawn as
+    /// WpfDialogService shows them (a window around the ViewModel, its view from the resources of the application), outside the screen.
+    /// </summary>
+    private static async Task Overview(ShellViewModel shell, Anthea.Presentation.Services.PresentationServices presentation, DraftServices services, Window main, string output,
+        BindingErrors bindings, ProjectSession project, string abutmentId, Action<bool, string> Check)
+    {
+        bindings.Step = "riepilogo";
+        project.NewRevision(project.Find(abutmentId)!, "Prima emissione");
+        // A conflict for the comparison: a second concrete of the abutment, in another class than the first one.
+        var material = project.AddSheet("mat_calcestruzzo", project.Find(abutmentId)!)!;
+        Check(project.Rename(material, "Calcestruzzo dei pali") && project.ChangeData(() => { material["dati"]!["classe"] = "C40/50"; return true; }, material),
+            "Secondo calcestruzzo della spalla, in C40/50");
+        shell.ShowOverview(project.Find(abutmentId));
+        await Idle(main);
+        var overview = shell.Overview!;
+        var notices = Descendants<Expander>(main).SingleOrDefault(x => x.Name == "NoticeDetails");
+        Check(notices is not null && notices.IsVisible == overview.HasNotices && !notices.IsExpanded, "Riepilogo: «Dettaglio avvisi» chiuso, visibile con gli avvisi (" + overview.Notices.Count + ")");
+        if (notices is { IsVisible: true }) notices.IsExpanded = true;
+        await Capture(main, output, "13-riepilogo.png", bindings);
+        var compare = Descendants<Button>(main).Where(b => ReferenceEquals(b.Command, shell.CompareCommand)).ToArray();
+        Check(compare.Any(b => b is { Name: "Compare", IsVisible: true, IsEnabled: true } && b.Content as string == "Confronto e avvisi"),
+            "Riepilogo: «Confronto e avvisi» nella scheda «Controlli»");
+        var history = Descendants<Button>(main).SingleOrDefault(b => ReferenceEquals(b.Command, shell.RevisionSummaryCommand));
+        Check(history is { IsVisible: true, IsEnabled: true } && history.Content as string == SectionOverviewViewModel.RevisionSummaryLabel, "Riepilogo: «Riepilogo modifiche» con la revisione archiviata");
+        Check(Descendants<TextBlock>(main).Any(t => t.IsVisible && t.Text == overview.ConflictsStatus) && Descendants<TextBlock>(main).Any(t => t.IsVisible && t.Text == overview.NoticesStatus)
+            && Descendants<Button>(main).Any(b => ReferenceEquals(b.Command, shell.OpenOverviewModelCommand) && b.Content as string == SectionOverviewViewModel.ImportModelLabel),
+            "Riepilogo: stati dei controlli e «+ Importa un modello»");
+
+        // The buttons ask the dialogs of the services (the check answers nothing): the comparison, the summary.
+        int asked = services.Dialogs.Count;
+        await Press(compare.First(b => b.Name == "Compare"));
+        await Press(history!);
+        Check(services.Dialogs.Count == asked + 2 && services.Dialogs[asked] is CoherenceViewModel { Title: "Confronto · Spalla A" } && services.Dialogs[asked + 1] is RevisionSummaryViewModel { Title: "Revisioni · Spalla A" },
+            "«Confronto e avvisi» e «Riepilogo modifiche»: i loro dialoghi");
+
+        // The two dialogs as the dialog service draws them: the comparison of the abutment (the class of the concrete), the summary.
+        bindings.Step = "confronto";
+        using (var coherence = new CoherenceViewModel(project, project.Find(abutmentId)!, presentation))
+        {
+            var window = Offscreen(new Window { Title = coherence.Title, Content = coherence, SizeToContent = SizeToContent.WidthAndHeight });
+            window.Show();
+            try
+            {
+                foreach (var expander in Descendants<Expander>(window)) expander.IsExpanded = true;
+                await Capture(window, output, "14-confronto.png", bindings);
+                Check(Descendants<TextBlock>(window).Any(t => t.Text == CoherenceViewModel.Heading) && Descendants<TextBlock>(window).Any(t => t.Text == CoherenceViewModel.NoticesTitle)
+                    && Descendants<Button>(window).Count(b => b.IsVisible && b.Content as string == "Uniforma a questo") == coherence.Conflicts.Sum(c => c.Sheets.Count) && coherence.Conflicts.Count == 1
+                    && Descendants<Button>(window).Any(b => ReferenceEquals(b.Command, coherence.LinkCommand)) == coherence.CanLink,
+                    "Confronto della spalla: un conflitto con «Uniforma a questo» per foglio, avvisi, collegamento delle stratigrafie (" + coherence.CanLink + ")");
+            }
+            finally { window.Close(); }
+        }
+        bindings.Step = "revisioni";
+        using (var summary = new RevisionSummaryViewModel(project, project.Find(abutmentId)!, presentation.Messages))
+        {
+            var window = Offscreen(new Window { Title = summary.Title, Content = summary, SizeToContent = SizeToContent.WidthAndHeight });
+            window.Show();
+            try
+            {
+                await Capture(window, output, "15-revisioni.png", bindings);
+                Check(Descendants<Button>(window).Count(b => ReferenceEquals(b.Command, summary.ShowCommand) && b.Content as string == summary.ShowLabel) == summary.Entries.Count && summary.Entries.Count == 1,
+                    "Riepilogo delle revisioni: «Mostra questa revisione» per la revisione archiviata");
+            }
+            finally { window.Close(); }
+        }
+    }
+
+    /// <summary>
+    /// The tree of the project (night of 22-23/10, second item of section 10.1): the names by depth, the arrows in the token of the glyphs of the tree,
+    /// the drag over a node with its hint and indicator and the drop (through ProjectTreeInput, without a mouse: the check calls what the events of the
+    /// drag call), the single click on a section that shows its overview after the double click time, cancelled by another press.
+    /// </summary>
+    private static async Task TreeInput(ShellViewModel shell, Window main, string output, BindingErrors bindings, ProjectSession project, string abutmentId, string pierId,
+        SheetSession pileSheet, Action<bool, string> Check)
+    {
+        bindings.Step = "albero-mouse";
+        var workspace = shell.Workspace;
+        workspace.Activate(pileSheet);
+        await Idle(main);
+        TreeViewItem Item(string id) => Descendants<TreeViewItem>(main).Single(i => i.DataContext is ProjectNodeViewModel { Id: var node } && node == id);
+        TextBlock Label(TreeViewItem item) => Descendants<TextBlock>(item).First(t => t.Name == "Label" && ReferenceEquals(t.DataContext, item.DataContext));
+        string rootId = project.Projects.First().S("id");
+        var tree = (TreeView)main.FindName("Tree");
+
+        // The names by depth (20, 17, then 14 for the sheets in MainWindow) on the typographic tokens; the arrows in the colour of the glyphs of the tree.
+        double Size(string key) => (double)main.FindResource(key);
+        var sheetLabel = Label(Item(pileSheet.Id));
+        Check(Label(Item(rootId)).FontSize == Size("Font.Title") && Label(Item(abutmentId)).FontSize == Size("Font.Heading") && sheetLabel.FontSize == Size("Font.Subheading")
+            && sheetLabel.FontWeight == FontWeights.Normal && Label(Item(abutmentId)).FontWeight == FontWeights.SemiBold, "Albero: grandezza dei nomi per profondità");
+        var arrow = Descendants<System.Windows.Shapes.Path>(Item(rootId)).First(p => p.Name == "Arrow");
+        Check(ReferenceEquals(arrow.Stroke, main.FindResource("Token.InkSecondary")), "Albero: frecce nel colore dei glifi dell'albero");
+
+        // A section dragged over the top of another: «Prima di …» and the line above the row; over the middle of a section a sheet goes inside.
+        var pierItem = Item(pierId);
+        var abutment = project.Find(abutmentId)!;
+        var row = ProjectTreeInput.Row(Item(abutmentId));
+        Check(ProjectTreeInput.Over(Item(abutmentId), project.Find(pierId)!, new Point(8, row.ActualHeight * .1)) == DragDropEffects.Move
+            && shell.Tree.DropHint == "Prima di " + abutment.S("nome") && ProjectTreeInput.Indicator(tree) == ProjectDropPlace.Before, "Sezione sopra un'altra: «Prima di …» e la linea");
+        await Capture(main, output, "16-trascinamento.png", bindings);
+        var hint = (TextBlock)main.FindName("DropHint");
+        Check(hint.IsVisible && hint.Text == shell.Tree.DropHint, "Trascinamento: il suggerimento al posto dell'istruzione");
+        var sheet = project.Find(pileSheet.Id)!;
+        Check(ProjectTreeInput.Over(pierItem, sheet, new Point(8, ProjectTreeInput.Row(pierItem).ActualHeight * .5)) == DragDropEffects.Move
+            && shell.Tree.DropHint == "Inserisci in: " + project.Find(pierId)!.S("nome") && ProjectTreeInput.Indicator(tree) == ProjectDropPlace.Inside, "Foglio sopra un'altra sezione: «Inserisci in: …»");
+        Check(ProjectTreeInput.Over(Item(rootId), project.Find(pierId)!, new Point(8, 2)) == DragDropEffects.None && ProjectTreeInput.Indicator(tree) is null,
+            "Sezione sopra il suo progetto: nessun effetto, nessun indicatore");
+
+        // The drop: the abutment after the pier, the indicator and the hint gone.
+        Check(ProjectTreeInput.Drop(pierItem, abutment, new Point(8, ProjectTreeInput.Row(pierItem).ActualHeight * .9)) && ProjectTreeInput.Indicator(tree) is null && shell.Tree.DropHint == ""
+            && project.Projects.First().Array("strutture").OfType<JsonObject>().Select(s => s.S("id")).SequenceEqual([pierId, abutmentId]), "Rilascio: la spalla dopo la pila");
+        await Idle(main);
+
+        // A single click on the name of the pier: its overview after the double click time; another press in the window cancels the click.
+        var timer = ProjectTreeInput.Timer(main);
+        void Up(UIElement target) => target.RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left) { RoutedEvent = UIElement.MouseLeftButtonUpEvent });
+        Up(Label(Item(pierId)));
+        Check(timer.IsPending && ReferenceEquals(workspace.Active, pileSheet), "Clic sul nome della pila: in attesa del tempo del doppio clic");
+        main.RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left) { RoutedEvent = Mouse.PreviewMouseDownEvent });
+        Check(!timer.IsPending, "Un'altra pressione nella finestra annulla il clic (il doppio clic rinomina)");
+        Up(Label(Item(pierId)));
+        await Task.Delay(timer.Delay + TimeSpan.FromMilliseconds(300));
+        await Idle(main);
+        Check(!timer.IsPending && workspace.Active is null && shell.Center is SectionOverviewViewModel { Section: var shown } && shown?.S("id") == pierId,
+            "Clic singolo sulla pila: il suo riepilogo dopo " + timer.Delay.TotalMilliseconds + " ms");
+        Up(Label(Item(pileSheet.Id)));
+        Check(!timer.IsPending, "Clic sul nome di un foglio: nessun riepilogo");
+    }
+
+    /// <summary>
+    /// The catalogues (night of 22-23/10, third item of section 10.1): «Riprendi» on the card of the module of the last sheet in «Moduli singoli»; the cards
+    /// of «Schede da aggiungere» with icon and grip, dragged on a section of the tree (a copy, «Inserisci in: …») and added with the double click.
+    /// </summary>
+    private static async Task Catalogues(ShellViewModel shell, Window main, string output, BindingErrors bindings, ProjectSession project, string pierId,
+        SheetSession pileSheet, Action<bool, string> Check)
+    {
+        bindings.Step = "cataloghi";
+        var workspace = shell.Workspace;
+        workspace.Activate(pileSheet);
+        shell.Navigation.Select(ShellPage.Modules);
+        await Capture(main, output, "17-moduli-riprendi.png", bindings);
+        var buttons = Descendants<Button>(main).Where(b => b.IsVisible && b.Name == "Open").ToArray();
+        Check(buttons.Count(b => b.Content as string == "Riprendi") == 1 && buttons.Single(b => b.Content as string == "Riprendi").DataContext is ModuleCard { Id: "geo_palo_verticale" }
+            && buttons.Count(b => b.Content as string == "Apri") == buttons.Length - 1 - buttons.Count(b => b.Content as string == "Dettagli"),
+            "Moduli singoli: «Riprendi» sul palo verticale, l'ultimo foglio");
+
+        // «Schede da aggiungere» on the overview of the pier: a card dragged over the pier in the tree, then dropped there.
+        shell.ShowOverview(project.Find(pierId));
+        await Idle(main);
+        var cards = Descendants<Border>(main).Where(b => b.Name == "Card" && b.DataContext is ProjectCatalogCard && b.IsVisible).ToArray();
+        var card = cards.First(b => ((ProjectCatalogCard)b.DataContext).Module == "mat_calcestruzzo");
+        Check(cards.Length > 0 && cards.All(b => Descendants<Viewbox>(b).Any(v => v.Child is ContentControl { Content: FrameworkElement }) && ProjectTreeInput.GetDragRow(b))
+            && ProjectTreeInput.DragData(card) is { Format: ProjectTreeInput.ModuleFormat, Payload: "mat_calcestruzzo" }
+            && card.InputBindings.OfType<MouseBinding>().Any(m => ReferenceEquals(m.Command, shell.AddCatalogSheetCommand) && m.CommandParameter == card.DataContext),
+            "Schede da aggiungere: icona, trascinamento del modulo, doppio clic (" + cards.Length + " schede)");
+        var pierItem = Descendants<TreeViewItem>(main).Single(i => i.DataContext is ProjectNodeViewModel { Id: var id } && id == pierId);
+        var tree = (TreeView)main.FindName("Tree");
+        Check(ProjectTreeInput.Over(pierItem, "mat_calcestruzzo", new Point(8, ProjectTreeInput.Row(pierItem).ActualHeight * .5)) == DragDropEffects.Copy
+            && ProjectTreeInput.Indicator(tree) == Anthea.Presentation.Shell.Projects.ProjectDropPlace.Inside && shell.Tree.DropHint == "Inserisci in: " + project.Find(pierId)!.S("nome"),
+            "Scheda del catalogo sopra la pila: copia, «Inserisci in: …»");
+        await Capture(main, output, "18-schede-da-aggiungere.png", bindings);
+        int sheets = project.Find(pierId)!.Array("fogli").Count;
+        Check(ProjectTreeInput.Drop(pierItem, "mat_calcestruzzo", new Point(8, ProjectTreeInput.Row(pierItem).ActualHeight * .5)) && project.Find(pierId)!.Array("fogli").Count == sheets + 1
+            && shell.Center is SectionOverviewViewModel { Section: var overview } && overview?.S("id") == pierId, "Rilascio della scheda sulla pila: un foglio nuovo, il riepilogo della pila");
+        await Idle(main);
+    }
+
+    /// <summary>
+    /// Small screens and the notice of a reloaded tab (night of 22-23/10, fourth item of section 10.1). SH9: the second concrete of the abutment changes its
+    /// class and is confirmed with «Aggiorna tutti i fogli collegati»; the first one, reloaded, says from which sheet and which data. Small screens: in a
+    /// window of 900 × 620 a sheet whose view does not follow the window (the stratigraphy) keeps 1120 × 600 and scrolls, the piles fill the tab, the home
+    /// page keeps 870 × 680 and scrolls (MainWindow.LoadSheetEditor and DisplayAdaptation.Viewport).
+    /// </summary>
+    private static async Task SmallScreens(ShellViewModel shell, DraftServices services, Window main, string output, BindingErrors bindings, ProjectSession project, string abutmentId,
+        SheetSession pileSheet, SheetSession strataSheet, Action<bool, string> Check)
+    {
+        bindings.Step = "avviso-ricaricata";
+        var workspace = shell.Workspace;
+        var sheets = project.Find(abutmentId)!.Array("fogli").OfType<JsonObject>().Where(s => s.S("modulo_id") == "mat_calcestruzzo").ToArray();
+        var first = workspace.OpenSheet(sheets[0]);
+        var second = workspace.OpenSheet(sheets[1]);
+        ((Anthea.Presentation.Modules.Materials.ConcreteMaterialSheetViewModel)second.ViewModel).SelectedClass = "C35/45";
+        services.UpdateLinkedSheets = true;
+        try { workspace.Activate(first); }
+        finally { services.UpdateLinkedSheets = false; }
+        await Capture(main, output, "19-avviso-ricaricata.png", bindings);
+        var notice = (FrameworkElement)main.FindName("ReloadNotice");
+        Check(first.ReloadNotice is { } text && text.StartsWith("Aggiornato da «" + sheets[1].S("nome") + "»", StringComparison.Ordinal) && notice.IsVisible
+            && Descendants<TextBlock>(notice).Any(t => t.Text == text) && ReferenceEquals(workspace.Active, first), "Scheda ricaricata: «" + first.ReloadNotice + "»");
+        workspace.Activate(second);
+        await Idle(main);
+        Check(first.ReloadNotice is null && !notice.IsVisible, "L'avviso sparisce quando la scheda ricaricata perde il fuoco (conferma)");
+
+        bindings.Step = "piccolo-schermo";
+        double width = main.Width, height = main.Height;
+        main.Width = 900; main.Height = 620;
+        try
+        {
+            // The whole shell keeps 1120 × 680 and scrolls; the tree closed by «▸» leaves the centre to the sheet.
+            workspace.Activate(strataSheet);
+            await Idle(main);
+            var shellViewport = (MinimumSizeViewport)main.FindName("ShellViewport");
+            Check(shellViewport is { ComputedHorizontalScrollBarVisibility: Visibility.Visible, ComputedVerticalScrollBarVisibility: Visibility.Visible }
+                && ((FrameworkElement)shellViewport.Content).Width == Anthea.Presentation.Shell.SheetLayout.WindowMinimumWidth, "Finestra piccola: la shell tiene 1120 × 680 e scorre");
+            shell.IsTreeOpen = false;
+            await Idle(main);
+            var viewport = Descendants<MinimumSizeViewport>((FrameworkElement)main.FindName("CenterContent")).SingleOrDefault();
+            Check(viewport is { ComputedHorizontalScrollBarVisibility: Visibility.Visible, Content: FrameworkElement { Width: Anthea.Presentation.Shell.SheetLayout.SheetMinimumWidth } },
+                "Finestra piccola: la stratigrafia tiene 1120 × 600 e scorre");
+            await Capture(main, output, "20-piccolo-schermo.png", bindings);
+            workspace.Activate(pileSheet);
+            await Idle(main);
+            Check(!Descendants<MinimumSizeViewport>((FrameworkElement)main.FindName("CenterContent")).Any(), "Finestra piccola: i pali seguono la finestra");
+            shell.Navigation.Select(ShellPage.Home);
+            await Idle(main);
+            var home = Descendants<MinimumSizeViewport>((FrameworkElement)main.FindName("CenterContent")).SingleOrDefault();
+            Check(home is { Content: FrameworkElement { ActualWidth: >= Anthea.Presentation.Shell.SheetLayout.PageMinimumWidth } } && home.ComputedVerticalScrollBarVisibility == Visibility.Visible,
+                "Finestra piccola: la Home tiene 870 × 680 e scorre");
+        }
+        finally
+        {
+            main.Width = width; main.Height = height;
+            shell.IsTreeOpen = true;
+            await Idle(main);
+        }
+    }
+
+    /// <summary>
+    /// The short report of the RC section in the shell (night of 22-23/10, sixth item of section 10.1), with the MVVM view of the draft: «Report short» in
+    /// the sheet bar and «Report short CLS…» in the menu «File» run the command of the shell, which asks the sheet (ISheetExports through
+    /// SheetFileExports.ShortReport and the report of ConcreteSheetViewModel, F5.10 S9): after the calculation, the bytes and the name of the file, or the
+    /// refusal of the sheet with its own text. The historic sheet of the Release is in HistoricHost.
+    /// </summary>
+    private static async Task ShortReport(ShellViewModel shell, DraftServices services, Window main, BindingErrors bindings, Action<bool, string> Check)
+    {
+        bindings.Step = "report-short-mvvm";
+        var sheet = shell.Workspace.NewCalculation("str_palo");
+        await sheet.ViewModel.CalculateAsync();
+        await Idle(main);
+        Check(sheet.ViewModel is Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel && shell.Commands.ShortReportVisible
+            && Descendants<Button>(main).Any(b => b.IsVisible && ReferenceEquals(b.Command, shell.Commands.ShortReportCommand) && b.Content as string == ShellCommandsViewModel.ShortTitle)
+            && shell.Commands.File.Any(i => i.Title == "Report short CLS…" && ReferenceEquals(i.Command, shell.Commands.ShortReportCommand)), "Sezione c.a. MVVM: «Report short» nella barra e nel menu File");
+        string? refusal = null;
+        try { _ = SheetFileExports.ShortReport(sheet.ViewModel, sheet.Heading); } catch (InvalidOperationException error) { refusal = error.Message; }
+        int failures = services.Failures.Count, saves = services.Saves.Count;
+        await shell.Commands.ShortReportCommand.ExecuteAsync(null);
+        Check(refusal is null ? services.Saves.Count == saves + 1 && services.Saves[^1] == "Relazione_short.docx" && services.Failures.Count == failures
+            : services.Failures.Count == failures + 1 && services.Failures[^1] == ShellCommandsViewModel.ShortTitle + ": " + refusal,
+            "Report short della sezione c.a. MVVM dal comando della shell: " + (refusal is null ? "costruito, richiesto il file" : "rifiutato con il testo del foglio («" + refusal + "»)"));
+        if (refusal is not null) services.Failures.RemoveAt(services.Failures.Count - 1);
+        shell.Workspace.CloseSheet(sheet);
+        await Idle(main);
+    }
+
+    /// <summary>
+    /// The host of the modules still historic (night of 22-23/10, fifth and sixth items of section 10.1; R5): a shell built by its composition root with
+    /// the choices of the Release (12 modules historic). In a project with the RC section and the vertical piles (historic) and the pile group (MVVM):
+    /// the historic sheets open in their SheetEditor inside the tab (21), are confirmed into the document, move to a detached window and back with
+    /// the same control, reopen read-only for an archived revision, open the Wiki tab with F1; the report short of the RC section goes to the editor
+    /// (the bytes or the refusal of the editor itself), from the command of the shell.
+    /// </summary>
+    private static async Task HistoricHost(string output, BindingErrors bindings, Action<bool, string> Check)
+    {
+        bindings.Step = "ospite-storico";
+        var services = new DraftServices();
+        var presentation = ShellComposition.WithShellWiki(services.Create());
+        var detached = new List<QuietWindow>();
+        var parts = ShellComposition.Create(presentation, DesktopComposition.CreateModules(), new CalculationLimiter(CalculationLimiter.DefaultMaximum), ShellComposition.ExamplesFolder,
+            window => { var quiet = new QuietWindow(Offscreen(window)); detached.Add(quiet); return quiet; });
+        var shell = parts.Shell;
+        var main = Offscreen(parts.Window);
+        main.Show();
+        try
+        {
+            var workspace = shell.Workspace;
+            var document = ProjectDocuments.CreateArchive();
+            var root = ProjectDocuments.AddProject(document, "Galleria artificiale");
+            var section = ProjectDocuments.AddSection(root, "Imbocco nord");
+            string rcId = ProjectDocuments.AddSheet(section, "str_palo", "Sezione del palo").S("id");
+            string pilesId = ProjectDocuments.AddSheet(section, "geo_palo_verticale", "Pali dell'imbocco").S("id");
+            string groupId = ProjectDocuments.AddSheet(section, "geo_efficienza_orizzontale", "Palificata").S("id");
+            workspace.OpenDocument(document, null, false);
+            var project = workspace.Project!;
+            var group = workspace.OpenSheet(project.Find(groupId)!);
+            var piles = workspace.OpenSheet(project.Find(pilesId)!);
+            var rc = workspace.OpenSheet(project.Find(rcId)!);
+            await Capture(main, output, "21-ospite-storico.png", bindings);
+            var historic = rc.ViewModel as HistoricSheetViewModel;
+            var view = historic?.View;
+            Check(historic is { ModuleId: "str_palo", Editor: SheetEditor } && piles.ViewModel is HistoricSheetViewModel && group.ViewModel is not HistoricSheetViewModel
+                && Descendants<SheetEditor>(main).SingleOrDefault() is { } shown && ReferenceEquals(shown, view) && Descendants<HistoricSheetHost>(main).Count() == 1,
+                "Release: sezione c.a. e pali storici nel loro SheetEditor dentro la scheda, palificata MVVM");
+
+            // Confirmation into the document, as MainWindow.Commit.
+            workspace.CommitActive();
+            Check(System.Text.Json.Nodes.JsonNode.DeepEquals(project.Find(rcId)!["dati"], historic!.Data) && ReferenceEquals(workspace.Active, rc), "Conferma del foglio storico nel documento");
+
+            // F1 on the historic sheet: the Wiki tab of the shell (WikiContextHelp through the window of the shell), not the historic window.
+            if (Anthea.Wiki.WikiCatalog.ForModule("str_palo") is { } guide)
+            {
+                view!.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(view), 0, Key.F1) { RoutedEvent = Keyboard.KeyDownEvent });
+                await Idle(main);
+                Check(shell.Center is PageTabViewModel { Kind: ShellTabKind.Wiki, Content: WikiTabViewModel { Uri: var uri } } && uri == guide.Id && services.WikiRequests == 0,
+                    "F1 sul foglio storico: la scheda Wiki della shell");
+                workspace.Activate(rc);
+                await Idle(main);
+            }
+
+            // The short report of the RC section from the command of the shell: the editor writes it, or refuses it with its own text.
+            bindings.Step = "report-short";
+            string title = rc.Heading;
+            string? refusal = null;
+            try { _ = historic.Editor.BuildShortReport(title); } catch (InvalidOperationException error) { refusal = error.Message; }
+            Check(shell.Commands.ShortReportVisible && shell.Commands.ShortReportCommand.CanExecute(null), "«Report short» per la sezione c.a. storica");
+            int failures = services.Failures.Count;
+            await shell.Commands.ShortReportCommand.ExecuteAsync(null);
+            Check(refusal is null ? services.Saves.LastOrDefault() == "Relazione_short.docx" && services.Failures.Count == failures
+                : services.Failures.Count == failures + 1 && services.Failures[^1] == ShellCommandsViewModel.ShortTitle + ": " + refusal,
+                "Report short dal comando della shell: " + (refusal is null ? "costruito dal SheetEditor, richiesto il file" : "rifiutato con il testo del SheetEditor («" + refusal + "»)"));
+            if (refusal is not null) services.Failures.RemoveAt(services.Failures.Count - 1);
+
+            // A detached window takes the same control; closing it brings the tab back with the control.
+            var tab = shell.Windows.TabOf(rc)!;
+            shell.Windows.MoveToNewWindow(tab);
+            var window = detached.Single().Window;
+            await Idle(window);
+            await Idle(main);
+            Check(Descendants<SheetEditor>(window).SingleOrDefault() is { } moved && ReferenceEquals(moved, view) && !Descendants<SheetEditor>(main).Any(),
+                "Finestra staccata: lo stesso SheetEditor");
+            window.Close();
+            await Idle(main);
+            shell.Windows.Select(tab);
+            await Idle(main);
+            Check(Descendants<SheetEditor>(main).SingleOrDefault() is { } back && ReferenceEquals(back, view), "Scheda riportata nella principale: lo stesso SheetEditor");
+
+            // An archived revision: the historic sheet reopens read-only (InspectRevision), then editable again on the current version.
+            project.NewRevision(project.Find(section.S("id"))!, "Prima emissione");
+            project.SwitchRevision(section.S("id"), 0);
+            await Idle(main);
+            Check(rc.ViewModel is HistoricSheetViewModel { IsReadOnly: true } reopened && !ReferenceEquals(reopened, historic), "Revisione archiviata: foglio storico riaperto in sola lettura");
+            project.ExitPreview();
+            await Idle(main);
+            Check(rc.ViewModel is HistoricSheetViewModel { IsReadOnly: false }, "Fine dell'anteprima: foglio storico modificabile");
+        }
+        finally
+        {
+            main.Close();
+            shell.Dispose();
+        }
+        Check(services.Failures.Count == 0, "Ospite storico: nessun errore mostrato: " + string.Join(" | ", services.Failures));
     }
 
     /// <summary>A window outside the screen, never activated (the checks of the night share the desktop).</summary>
@@ -429,7 +798,11 @@ internal static class ShellDraftChecks
             "SheetTabViewModel", "PageTabViewModel", "WikiTabViewModel", "ShellCommandsViewModel", "ShellMenuItem", "AppearanceMenuViewModel",
             "AppearanceItemViewModel", "ShellWindow", "SheetBarView", "ModelTabView", "WikiTabView", "SelectCommand", "CloseCommand", "MoveToNewWindowCommand",
             "ReattachCommand", "OpenCardCommand", "SelectDisciplineCommand", "OpenModelCommand", "SwitchCommand", "ToggleTreeCommand", "Catalogue", "Commands.",
-            "OverviewLink", "LinkItems", "HasLinks", "OpenLinkCommand", "DuplicateSectionCommand", "ToggleFullPageCommand", "FullPageText", "FullPageToolTipText", "IsFullPage", "OpenInNewWindowCommand", "OpenFullPageCommand", "IsSheet"];
+            "OverviewLink", "LinkItems", "HasLinks", "OpenLinkCommand", "DuplicateSectionCommand", "ToggleFullPageCommand", "FullPageText", "FullPageToolTipText", "IsFullPage", "OpenInNewWindowCommand", "OpenFullPageCommand", "IsSheet",
+            // Night of 22-23/10: the overview, the comparison and the summary of the revisions (ShellDialogs.xaml).
+            "OverviewModel", "ModelButtons", "ConflictsStatus", "NoticesStatus", "NoticeLines", "CompareCommand", "RevisionSummaryCommand", "OpenOverviewModelCommand",
+            "CoherenceViewModel", "ConflictViewModel", "ConflictSheetViewModel", "MissingLayerViewModel", "MissingLayerSourceViewModel", "CoherenceNotice", "SoilLinkSheet",
+            "SoilLinkDialogViewModel", "RevisionSummaryViewModel", "RevisionSummaryEntry", "NewRevisionDialogViewModel", "ReportSectionsDialogViewModel", "ReportSectionChoice"];
 
         private readonly StringBuilder line = new();
         internal List<string> Errors { get; } = [];
@@ -450,15 +823,24 @@ internal static class ShellDraftChecks
         public void ReportFailure(string title, Exception error) => Failures.Add(title + ": " + error.Message);
         public void Inform(string title, string message) { }
         public void Warn(string title, string message) => Failures.Add(title + ": " + message);
-        public bool ConfirmSharedUpdate(SharedUpdatePrompt prompt) => false;
+
+        /// <summary>The names proposed by the save dialogs, answered with nothing (night of 22-23/10: the short report).</summary>
+        internal List<string> Saves { get; } = [];
+        public bool ConfirmSharedUpdate(SharedUpdatePrompt prompt) => UpdateLinkedSheets;
+
+        /// <summary>The answer to «Aggiorna tutti i fogli collegati»: «Solo questo foglio» unless a step asks otherwise (SH9, night of 22-23/10).</summary>
+        internal bool UpdateLinkedSheets { get; set; }
         public bool ConfirmProjectMove(string destination, IReadOnlyList<string> changes) => false;
         public bool ConfirmClose(Func<bool> saveOrDiscard) => saveOrDiscard();
         public SaveChangesAnswer AskSaveChanges() => SaveChangesAnswer.Discard;
         public bool ConfirmDelete(string title, string question) => false;
         public string? OpenFile(OpenFileRequest request) => null;
-        public string? SaveFile(SaveFileRequest request) => null;
+        public string? SaveFile(SaveFileRequest request) { Saves.Add(request.FileName); return null; }
         public string? ChooseFolder(string? title = null) => null;
-        public Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog) => Task.FromResult<TResult?>(default);
+        public Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog) { Dialogs.Add(dialog); return Task.FromResult<TResult?>(default); }
+
+        /// <summary>The dialogs asked, answered with nothing (night of 22-23/10: the comparison and the summary of the revisions of the overview).</summary>
+        internal List<object> Dialogs { get; } = [];
         public void SetText(string text) { }
         public string GetText() => "";
         public void Open(Uri target) { }

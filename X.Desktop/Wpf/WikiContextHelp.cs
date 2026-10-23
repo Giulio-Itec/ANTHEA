@@ -20,6 +20,9 @@ internal static class WikiContextHelp
     {
         for (var window = Window.GetWindow(source); window is not null; window = window.Owner)
             if (window is MainWindow main) { main.Safe(() => main.ShowWiki(uri)); return; }
+        // F5.13 c (R5): a historic sheet hosted in a window of the new shell opens the Wiki tab of the shell; no such window in the Release.
+        for (var window = Window.GetWindow(source); window is not null; window = window.Owner)
+            if (window is Views.Shell.IShellWikiHost shell) { shell.ShowWiki(uri); return; }
     }
     internal static FrameworkElement Label(TextBlock label, string key, string? module, Topic? fixedTopic = null)
     {

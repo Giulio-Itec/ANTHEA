@@ -79,6 +79,7 @@ public sealed class ProjectNodeViewModel : ViewModelBase
         };
         Module = kind == ProjectNodeKind.Sheet ? node!.S("modulo_id") : null;
         CanRename = editable;
+        CanDrag = editable;
         CanDelete = editable;
         CanDuplicate = editable && kind is ProjectNodeKind.Project or ProjectNodeKind.Section;
         CanAddSection = editable && kind is ProjectNodeKind.Project or ProjectNodeKind.Section;
@@ -108,6 +109,8 @@ public sealed class ProjectNodeViewModel : ViewModelBase
         DeleteCommand = GuardedCommands.Create(tree.Guard, () => tree.Delete(this), () => CanDelete);
         AddSectionCommand = GuardedCommands.Create(tree.Guard, () => tree.AddSectionTo(this), () => CanAddSection);
         ReportCommand = GuardedCommands.Create(tree.Guard, () => tree.RequestReport(this), () => CanReport);
+        // F5.13 c, night of 22-23/10: the coherence badge opens the comparison of the section (ProjectSharing.AddCoherenceBadge).
+        CompareCommand = GuardedCommands.Create(tree.Guard, () => tree.RequestCompare(this), () => Badge is not null);
     }
 
     public ProjectNodeKind Kind { get; }
@@ -145,6 +148,12 @@ public sealed class ProjectNodeViewModel : ViewModelBase
     }
 
     public bool CanRename { get; }
+
+    /// <summary>
+    /// The node can be dragged (ProjectHierarchy.EnableProjectDrag): projects, sections and sheets outside read-only; a sheet by its row, a project
+    /// or section by its name. Models are not dragged.
+    /// </summary>
+    public bool CanDrag { get; }
     public bool CanDelete { get; }
     public bool CanDuplicate { get; }
     public bool CanAddSection { get; }
@@ -188,6 +197,9 @@ public sealed class ProjectNodeViewModel : ViewModelBase
     public IRelayCommand AddSectionCommand { get; }
     public IRelayCommand ReportCommand { get; }
 
+    /// <summary>The coherence badge of a project or section: the comparison of the section in its dialog.</summary>
+    public IRelayCommand CompareCommand { get; }
+
     /// <summary>Ends the rename in place: Enter, focus lost or a click outside save (true), Esc cancels (false).</summary>
     public void EndRename(bool save) => tree.EndRename(this, save);
 }
@@ -223,6 +235,7 @@ public sealed class ProjectTreeViewModel : ViewModelBase
     private ProjectNodeViewModel? selected;
     private ProjectNodeViewModel? renaming;
     private string summary = "";
+    private string dropHint = "";
     private bool isEmpty = true;
 
     public ProjectTreeViewModel(WorkspaceSession workspace, IMessageService messages)
@@ -280,6 +293,9 @@ public sealed class ProjectTreeViewModel : ViewModelBase
 
     /// <summary>The report of a section is asked (the report button of a section, MainWindow.ExportSectionReport).</summary>
     public event EventHandler<JsonObject>? ReportRequested;
+
+    /// <summary>The comparison of a section is asked (its coherence badge, MainWindow.ShowCoherence).</summary>
+    public event EventHandler<JsonObject>? CompareRequested;
 
     /// <summary>A model of a section is opened (MainWindow.ShowContainerModel).</summary>
     public event EventHandler<(JsonObject Container, string ModelId)>? ModelRequested;
@@ -425,6 +441,8 @@ public sealed class ProjectTreeViewModel : ViewModelBase
 
     internal void RequestReport(ProjectNodeViewModel item) => ReportRequested?.Invoke(this, item.Node!);
 
+    internal void RequestCompare(ProjectNodeViewModel item) => CompareRequested?.Invoke(this, item.Node!);
+
     /// <summary>Starts the rename in place (F2, double click, «Rinomina»): another rename ends first, saving.</summary>
     internal void BeginRename(ProjectNodeViewModel item)
     {
@@ -457,6 +475,37 @@ public sealed class ProjectTreeViewModel : ViewModelBase
     }
 
     // ---- Drag and drop (ProjectHierarchy, ProjectSectionReorder)
+
+    /// <summary>
+    /// The hint of the drag over the tree (projectDropHint of MainWindow: «Inserisci in: …», «Prima di …», «Dopo …», «Sposta dentro: …»), shown over
+    /// the instruction of the header; empty outside a drag (F5.13 c, night of 22-23/10).
+    /// </summary>
+    public string DropHint { get => dropHint; private set => SetProperty(ref dropHint, value); }
+
+    /// <summary>A drag over <paramref name="target"/>: what the drop would do (<see cref="PreviewDrop"/>), with its hint in <see cref="DropHint"/>.</summary>
+    public ProjectDrop DragOver(ProjectNodeViewModel target, object payload, double relativeY)
+    {
+        var drop = PreviewDrop(target, payload, relativeY);
+        DropHint = drop.Hint;
+        return drop;
+    }
+
+    /// <summary>The drag left the node or ended: no hint.</summary>
+    public void ClearDropHint() => DropHint = "";
+
+    /// <summary>
+    /// The drop of the view (<see cref="Drop"/>) with the errors shown as messages, as the Safe of MainWindow around the drop; the hint is cleared.
+    /// True when the project changed.
+    /// </summary>
+    public bool CompleteDrop(ProjectNodeViewModel target, object payload, double relativeY)
+    {
+        ArgumentNullException.ThrowIfNull(target);
+        ArgumentNullException.ThrowIfNull(payload);
+        ClearDropHint();
+        bool changed = false;
+        Guard.Run(() => changed = Drop(target, payload, relativeY));
+        return changed;
+    }
 
     /// <summary>
     /// What a drop of <paramref name="payload"/> (a module id from the catalogue, or a sheet or section of the document) on

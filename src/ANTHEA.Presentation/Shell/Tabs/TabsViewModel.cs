@@ -68,6 +68,9 @@ public sealed class SheetTabViewModel : ShellTabViewModel
 
     public string Module => Session.Module;
 
+    /// <summary>The view of the module follows the size of the window; otherwise it keeps the minimum size of MainWindow and scrolls (<see cref="SheetLayout"/>).</summary>
+    public bool FitsWindow => SheetLayout.FitsWindow(Session.Module);
+
     public bool IsUnsaved => Session.IsUnsaved;
 
     public bool IsReadOnly => Session.IsReadOnly;

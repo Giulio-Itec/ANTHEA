@@ -777,6 +777,11 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
     o a pagina intera (Esc e «Esci da pagina intera»), richiesta dell'utente; poi Ctrl+Z/Ctrl+Y, riepilogo della sezione, rinomina in linea
     e icone nell'albero, icone del catalogo, radice di composizione `ShellComposition` avviabile solo nella build UiTests
     (`--interactive-shell`). Release invariata. Domande SH33–SH37.
+  - **Resto della parte (c)** (notte del 22–23/10, ramo `refactoring/f5-13-c3`, da unire; [nota](f5-13-shell.md), sezione 10.2): riepilogo della
+    sezione con «Confronto e avvisi», «Riepilogo modifiche» e «Dettaglio avvisi»; albero con trascinamento e indicatore, clic singolo, testo per
+    profondità e frecce leggibili in «Scuro»; «Riprendi» e schede da aggiungere trascinabili; piccoli schermi e avviso SH9; ospite dei moduli
+    storici (R5: i 12 moduli storici della Release nel loro `SheetEditor` dentro la scheda); report short c.a. provato dalla shell. Release
+    invariata. Domande SH38–SH47.
   - **Parte (d)** (22/10, ramo `refactoring/f5-13-d`, da unire; [nota](f5-13-shell.md), sezione 11): stato statico E5 di ponte, muri, pali,
     fondazioni e Wiki. Viste dei risultati tenute dal calcolo (`ModuleCalculation.View`) al posto di tre `ConditionalWeakTable` statiche;
     cataloghi immutabili (`ImmutableArray`, `ReadOnlyDictionary` dove conta l'ordine, `FrozenDictionary` per le sole ricerche). Baseline P3

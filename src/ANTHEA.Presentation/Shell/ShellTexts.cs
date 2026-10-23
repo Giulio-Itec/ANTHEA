@@ -45,6 +45,24 @@ public static class ShellTexts
         return title;
     }
 
+    /// <summary>Common data named in the notice of a reloaded tab before «e altre n proprietà» (as the status line of the shared data).</summary>
+    public const int ReloadNoticeFields = 5;
+
+    /// <summary>
+    /// The notice of a tab reloaded because another sheet confirmed shared data (SH9, F5.13 c, night of 22-23/10; proposal 4.4, point 3: which data
+    /// changed and from which sheet): «Aggiornato da «foglio»: campo, campo e altre n proprietà.», or «Aggiornato da «foglio».» when no common datum
+    /// of the sheet itself changed (the data of a linked sheet below it, for example).
+    /// </summary>
+    public static string ReloadNotice(string source, IReadOnlyList<string> fields)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(fields);
+        string text = "Aggiornato da «" + source + "»";
+        if (fields.Count == 0) return text + ".";
+        return text + ": " + string.Join(", ", fields.Take(ReloadNoticeFields)) +
+            (fields.Count > ReloadNoticeFields ? $" e altre {fields.Count - ReloadNoticeFields} proprietà" : "") + ".";
+    }
+
     /// <summary>Number of a revision entry («numero»), 0 when missing or not a number: the reading of MainWindow, (int)D("numero").</summary>
     public static int RevisionNumber(JsonObject? revision) => (int)(J.Number(revision?["numero"]) ?? 0);
 

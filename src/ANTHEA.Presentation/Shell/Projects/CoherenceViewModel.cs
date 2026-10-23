@@ -151,8 +151,10 @@ public sealed record SoilLinkSheet(JsonObject Sheet)
 /// data with the sheets in them, layers missing in some sheets, notices (limitations and cover), the link of the stratigraphies with its
 /// preview. «Uniforma a questo», the copy of the layers and the link go through <see cref="ProjectSession.ChangeData"/>: the open sheet
 /// is confirmed, the document is modified, the open sheets reconcile, and the comparison is rebuilt.
+/// The shell shows it as the modal dialog of MainWindow (F5.13 c, after the checkpoint of 22/10): <see cref="IDialogViewModel{TResult}"/> with the
+/// title «Confronto · sezione», the result true when the document changed, closed by the link as today.
 /// </summary>
-public sealed class CoherenceViewModel : ViewModelBase
+public sealed class CoherenceViewModel : ViewModelBase, IDialogViewModel<bool>
 {
     public const string Heading = "Confronto tra fogli";
     public const string Intro = "Confronta i valori presenti nei fogli e scegli quale mantenere. Le proprietà compatibili saranno uniformate.";
@@ -161,6 +163,14 @@ public sealed class CoherenceViewModel : ViewModelBase
     public const string NoticesTitle = "Avvisi";
     public const string NoNotices = "Nessun avviso.";
     public const string LinkTitle = "Collegamento stratigrafie";
+    /// <summary>Texts of the dialog (MainWindow.ShowCoherence): the choice of the soil type and the link of the stratigraphies.</summary>
+    public const string SoilTypeToolTip = "Scegli la tipologia, poi premi Uniforma a questo per applicarla ai fogli compatibili.";
+    /// <inheritdoc cref="SoilTypeToolTip"/>
+    public const string LinkSourceLabel = "Sondaggio di riferimento";
+    /// <inheritdoc cref="SoilTypeToolTip"/>
+    public const string LinkTargetLabel = "Foglio da collegare";
+    /// <inheritdoc cref="SoilTypeToolTip"/>
+    public const string LinkButtonLabel = "Mostra collegamento stratigrafie…";
 
     private readonly ProjectSession project;
     private readonly IDialogService dialogs;
@@ -201,6 +211,12 @@ public sealed class CoherenceViewModel : ViewModelBase
 
     /// <summary>Limitations (warnings) and checks of the cover; «Nessun avviso.» when empty.</summary>
     public IReadOnlyList<CoherenceNotice> Notices { get; private set; } = [];
+
+    /// <summary>«Nessun avviso.» shows under «Avvisi».</summary>
+    public bool HasNoNotices => Notices.Count == 0;
+
+    /// <summary>The result of the dialog: true when the comparison changed the document («Uniforma a questo», the copy of a layer, the link).</summary>
+    public bool Result { get; private set; }
 
     /// <summary>The sheets of the section that share the soil: the link shows with two of them, outside read-only.</summary>
     public IReadOnlyList<SoilLinkSheet> LinkSheets { get; private set; } = [];
@@ -249,7 +265,7 @@ public sealed class CoherenceViewModel : ViewModelBase
         LinkSheets = Section.Array("fogli").OfType<JsonObject>().Where(ProjectSharedData.SupportsSharedSoils).Select(s => new SoilLinkSheet(s)).ToArray();
         LinkSource = LinkSheets.ElementAtOrDefault(0);
         LinkTarget = LinkSheets.ElementAtOrDefault(1);
-        foreach (string name in new[] { nameof(HasNoConflicts), nameof(Conflicts), nameof(MissingLayers), nameof(Notices), nameof(LinkSheets), nameof(CanLink) }) OnPropertyChanged(name);
+        foreach (string name in new[] { nameof(HasNoConflicts), nameof(Conflicts), nameof(MissingLayers), nameof(Notices), nameof(HasNoNotices), nameof(LinkSheets), nameof(CanLink) }) OnPropertyChanged(name);
         LinkCommand.NotifyCanExecuteChanged();
     }
 
@@ -258,7 +274,7 @@ public sealed class CoherenceViewModel : ViewModelBase
     {
         ArgumentNullException.ThrowIfNull(item);
         if (!item.CanAlign) return;
-        if (project.ChangeData(() => SharedDataCoordinator.Align(item.Sheet, item.Key, item.Group, item.SoilType), item.Sheet)) Changed?.Invoke(this, EventArgs.Empty);
+        if (project.ChangeData(() => SharedDataCoordinator.Align(item.Sheet, item.Key, item.Group, item.SoilType), item.Sheet)) OnDocumentChanged();
         Rebuild();
     }
 
@@ -268,8 +284,14 @@ public sealed class CoherenceViewModel : ViewModelBase
         ArgumentNullException.ThrowIfNull(item);
         if (!item.CanCopy) return;
         if (project.ChangeData(() => SharedDataCoordinator.CopyMissingLayers(item.Sheet, item.TypeKey, item.Survey, item.Layer, item.SoilType), item.Sheet))
-            Changed?.Invoke(this, EventArgs.Empty);
+            OnDocumentChanged();
         Rebuild();
+    }
+
+    private void OnDocumentChanged()
+    {
+        Result = true;
+        Changed?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>The preview of the link of the stratigraphies (<see cref="SoilLink"/>); on confirmation the two sheets are linked and the comparison closes.</summary>
@@ -278,7 +300,7 @@ public sealed class CoherenceViewModel : ViewModelBase
         if (!CanLink || LinkSource is not { } from || LinkTarget is not { } to || ReferenceEquals(from.Sheet, to.Sheet)) return;
         var link = SoilLink.Stage(from.Sheet, to.Sheet);
         if (await dialogs.ShowDialogAsync(new SoilLinkDialogViewModel(from + " → " + to, link)) != true) return;
-        if (project.ChangeData(() => { link.Apply(); return true; }, to.Sheet)) Changed?.Invoke(this, EventArgs.Empty);
+        if (project.ChangeData(() => { link.Apply(); return true; }, to.Sheet)) OnDocumentChanged();
         CloseRequested?.Invoke(this, EventArgs.Empty);
     }
 }
@@ -291,6 +313,7 @@ public sealed class SoilLinkDialogViewModel : DialogViewModel<bool>
 {
     public const string Text = "Conferma che i sondaggi corrispondano, nello stesso ordine e con la stessa origine delle quote. Saranno collegati gli strati e copiati i parametri fisici indicati sotto. I parametri specifici del metodo restano nel destinatario.";
     public const string ConfirmLabel = "Conferma stesso sondaggio e collega";
+    public const string CancelLabel = "Annulla";
 
     public SoilLinkDialogViewModel(string heading, SoilLink link) : base("Collegamento dei sondaggi")
     {
@@ -316,6 +339,12 @@ public sealed record OverviewLink(JsonObject Node, string Name)
     /// <summary>A sheet opens in its tab; a subsection shows its overview.</summary>
     public bool IsSheet => Node.ContainsKey("modulo_id");
 }
+
+/// <summary>
+/// A button of the card «Modelli di calcolo» of the overview (MainWindow.AddModelsOverview): «▧  nome» opens the model of the section,
+/// «+ Importa un modello» (no model) the tab of a new model.
+/// </summary>
+public sealed record OverviewModel(JsonObject Container, string? ModelId, string Label);
 
 /// <summary>
 /// The overview of a section (F5.13 b; MainWindow.BuildSectionOverview and AddModelsOverview): controls (conflicts and notices),
@@ -366,6 +395,9 @@ public sealed class SectionOverviewViewModel : ViewModelBase
         ModelsText = $"{models.Length} modelli in questa sezione. I fogli possono riferirsi a una revisione del modello.";
         Models = models.Select(m => (m.S("id"), "▧  " + m.S("nome"))).ToArray();
         CanImportModel = !project.IsReadOnly;
+        var buttons = Models.Select(m => new OverviewModel(section, m.Id, m.Label)).ToList();
+        if (CanImportModel) buttons.Add(new OverviewModel(section, null, ImportModelLabel));
+        ModelButtons = buttons;
     }
 
     /// <summary>Position of a common field in the order of today: the priority fields first, then the others in their order.</summary>
@@ -385,6 +417,36 @@ public sealed class SectionOverviewViewModel : ViewModelBase
     public string NoticesText { get; } = "";
     public bool HasNotices => Notices.Count > 0;
     public string CompareLabel => "Confronto e avvisi";
+
+    /// <summary>
+    /// The card «Controlli» (ProjectPresentation.ProjectStatus, F5.13 c after the checkpoint of 22/10): «!  » before the number of conflicts or
+    /// notices when there is one, «✓  » otherwise; both always shown, as today.
+    /// </summary>
+    public const string ControlsTitle = "Controlli";
+
+    /// <inheritdoc cref="ControlsTitle"/>
+    public string ConflictsStatus => (HasConflicts ? "!  " : "✓  ") + ConflictsText;
+
+    /// <inheritdoc cref="ControlsTitle"/>
+    public string NoticesStatus => (HasNotices ? "!  " : "✓  ") + NoticesText;
+
+    /// <summary>The group «Dettaglio avvisi», closed at the start and shown only with notices: one line «• avviso» per notice.</summary>
+    public const string NoticesTitle = "Dettaglio avvisi";
+
+    /// <inheritdoc cref="NoticesTitle"/>
+    public IReadOnlyList<string> NoticeLines => Notices.Select(n => "• " + n).ToArray();
+
+    /// <summary>«Riepilogo modifiche» of the card «Revisioni» (ShowProjectRevisions of <see cref="RevisionScope"/>), with <see cref="HasRevisionSummary"/>.</summary>
+    public const string RevisionSummaryLabel = "Riepilogo modifiche";
+
+    /// <summary>The card «Modelli di calcolo» (MainWindow.AddModelsOverview) and its button for a new model outside read-only.</summary>
+    public const string ModelsTitle = "Modelli di calcolo";
+
+    /// <inheritdoc cref="ModelsTitle"/>
+    public const string ImportModelLabel = "+ Importa un modello";
+
+    /// <summary>The buttons of the card «Modelli di calcolo»: the models of the section, then «+ Importa un modello» outside read-only.</summary>
+    public IReadOnlyList<OverviewModel> ModelButtons { get; } = [];
 
     /// <summary>The actions of the overview (ProjectPresentation.BuildSectionOverview) and the title of the group of the links.</summary>
     public const string DuplicateLabel = "Duplica sezione";

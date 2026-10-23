@@ -99,6 +99,12 @@ public sealed class SheetBarViewModel : ViewModelBase
     /// <summary>The guide of the module in the Wiki, null when there is none («Wiki del modulo» hidden).</summary>
     public string? GuideId => sheet is null ? null : WikiCatalog.ForModule(sheet.Module)?.Id;
 
+    /// <summary>
+    /// The notice of the sheet with the focus when it was reloaded because another sheet confirmed shared data (SH9: «Aggiornato da «foglio»: …»), shown
+    /// in a line under the bar; null without one.
+    /// </summary>
+    public string? ReloadNotice => sheet?.ReloadNotice;
+
     /// <summary>The menu «Approfondimenti ▾» of the module, read when asked.</summary>
     public IReadOnlyList<WikiMenuItem> Topics => topics ??= sheet is null ? [] : WikiMenu.For(sheet.Module);
 
@@ -117,7 +123,7 @@ public sealed class SheetBarViewModel : ViewModelBase
             if (sheet is not null) sheet.StateChanged += OnSheetState;
             topics = null;
         }
-        foreach (var name in new[] { nameof(IsVisible), nameof(Heading), nameof(Module), nameof(BackLabel), nameof(CanConfirm), nameof(GuideId), nameof(Topics) }) OnPropertyChanged(name);
+        foreach (var name in new[] { nameof(IsVisible), nameof(Heading), nameof(Module), nameof(BackLabel), nameof(CanConfirm), nameof(GuideId), nameof(Topics), nameof(ReloadNotice) }) OnPropertyChanged(name);
         BackCommand.NotifyCanExecuteChanged(); ConfirmCommand.NotifyCanExecuteChanged(); GuideCommand.NotifyCanExecuteChanged();
     }
 

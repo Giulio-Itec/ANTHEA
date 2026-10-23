@@ -1,0 +1,268 @@
+<!--
+  The dialogs of the new shell (F5.13 c, after the checkpoint of 22/10), shown by the dialog service of the application (WpfDialogService), which
+  finds the view by the type of the ViewModel in the resources of the application: this dictionary is merged by App.xaml, like the other dialogs of
+  the MVVM views. The Release does not show these ViewModels (it opens MainWindow), so nothing of it changes. Layouts, texts and sizes of the
+  historic windows of MainWindow:
+  - «Confronto · sezione» (ProjectSharing.ShowCoherence, 900 × 650): conflicts with «Uniforma a questo», layers missing, notices, link of the
+    stratigraphies; «Collegamento dei sondaggi» (760 × 600) with its preview;
+  - «Revisioni · sezione» (ProjectWorkspace.ShowProjectRevisions, 820 × 620): the current revision and the archived ones with «Mostra questa revisione»;
+  - «Nuova revisione · sezione» (CreateProjectRevision, 570 × 300) and «Contenuti del report Word» (MainWindow.ExportReport, 590 × 650).
+  Theme tokens only (rule P7); every action goes through the ViewModel; the buttons keep the implicit style of the theme (S17).
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:proj="clr-namespace:Anthea.Presentation.Shell.Projects;assembly=ANTHEA.Presentation"
+ xmlns:cmd="clr-namespace:Anthea.Presentation.Shell.Commands;assembly=ANTHEA.Presentation">
+
+ <BooleanToVisibilityConverter x:Key="ShellDialog.Visible"/>
+
+ <Style x:Key="ShellDialog.Text" TargetType="TextBlock">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Body}"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  <Setter Property="TextWrapping" Value="Wrap"/>
+  <Setter Property="VerticalAlignment" Value="Center"/>
+ </Style>
+ <Style x:Key="ShellDialog.Muted" TargetType="TextBlock" BasedOn="{StaticResource ShellDialog.Text}">
+  <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/>
+ </Style>
+ <Style x:Key="ShellDialog.Strong" TargetType="TextBlock" BasedOn="{StaticResource ShellDialog.Text}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Subheading}"/>
+  <Setter Property="FontWeight" Value="SemiBold"/>
+ </Style>
+ <Style x:Key="ShellDialog.Heading" TargetType="TextBlock" BasedOn="{StaticResource ShellDialog.Text}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Heading}"/>
+  <Setter Property="FontWeight" Value="SemiBold"/>
+ </Style>
+ <Style x:Key="ShellDialog.Title" TargetType="TextBlock" BasedOn="{StaticResource ShellDialog.Text}">
+  <Setter Property="FontSize" Value="{DynamicResource Font.Title}"/>
+  <Setter Property="FontWeight" Value="SemiBold"/>
+ </Style>
+ <Style x:Key="ShellDialog.Button" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+  <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+  <Setter Property="BorderBrush" Value="{DynamicResource Token.Border.Strong}"/>
+ </Style>
+ <Style x:Key="ShellDialog.Primary" TargetType="Button" BasedOn="{StaticResource ShellDialog.Button}">
+  <Setter Property="Background" Value="{DynamicResource Token.Selected}"/>
+  <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
+ </Style>
+ <!-- The white cards of the comparison: border, rounded corners, a margin of 16 above. -->
+ <Style x:Key="ShellDialog.Card" TargetType="Border">
+  <Setter Property="Background" Value="{DynamicResource Token.Paper}"/>
+  <Setter Property="BorderBrush" Value="{DynamicResource Token.Border.Strong}"/>
+  <Setter Property="BorderThickness" Value="1"/>
+  <Setter Property="CornerRadius" Value="5"/>
+  <Setter Property="Margin" Value="0,16,0,0"/>
+  <Setter Property="ClipToBounds" Value="True"/>
+ </Style>
+ <Style x:Key="ShellDialog.SoilType" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+  <Setter Property="Width" Value="180"/>
+  <Setter Property="HorizontalAlignment" Value="Left"/>
+  <Setter Property="Margin" Value="0,6,0,0"/>
+ </Style>
+
+ <!-- ================================================================================ «Confronto · sezione» (CoherenceViewModel) -->
+ <DataTemplate DataType="{x:Type proj:CoherenceViewModel}">
+  <ScrollViewer x:Name="Comparison" Width="884" Height="611" Background="{DynamicResource Token.Surface}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <StackPanel Margin="22">
+    <TextBlock Style="{StaticResource ShellDialog.Title}" Text="{x:Static proj:CoherenceViewModel.Heading}"/>
+    <TextBlock Style="{StaticResource ShellDialog.Text}" Text="{x:Static proj:CoherenceViewModel.Intro}"/>
+    <Expander Margin="0,8" Header="{x:Static proj:CoherenceViewModel.TheoryTitle}">
+     <TextBlock Style="{StaticResource ShellDialog.Text}" FontSize="{DynamicResource Font.Small}" Text="{Binding Theory}"/>
+    </Expander>
+    <TextBlock Style="{StaticResource ShellDialog.Text}" Text="{x:Static proj:CoherenceViewModel.NoConflicts}" Visibility="{Binding HasNoConflicts, Converter={StaticResource ShellDialog.Visible}}"/>
+    <!-- One card per conflict: the field in the band, then every sheet in the order of the project with its value and «Uniforma a questo». -->
+    <ItemsControl ItemsSource="{Binding Conflicts}">
+     <ItemsControl.ItemTemplate>
+      <DataTemplate DataType="{x:Type proj:ConflictViewModel}">
+       <Border Style="{StaticResource ShellDialog.Card}">
+        <StackPanel Grid.IsSharedSizeScope="True">
+         <Border Background="{DynamicResource Token.Header}" Padding="16,12" BorderBrush="{DynamicResource Token.Border}" BorderThickness="0,0,0,1">
+          <TextBlock Style="{StaticResource ShellDialog.Heading}" Text="{Binding Title}"/>
+         </Border>
+         <ItemsControl ItemsSource="{Binding Sheets}">
+          <ItemsControl.ItemTemplate>
+           <DataTemplate DataType="{x:Type proj:ConflictSheetViewModel}">
+            <Grid HorizontalAlignment="Left" Margin="16,12">
+             <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" SharedSizeGroup="ConflictValue"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+             <StackPanel Margin="0,0,20,0" MinWidth="260" MaxWidth="360">
+              <TextBlock Style="{StaticResource ShellDialog.Strong}" Text="{Binding Name}"/>
+              <TextBlock Style="{StaticResource ShellDialog.Muted}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Location}"/>
+              <TextBlock Style="{StaticResource ShellDialog.Muted}" Text="{Binding Value}"/>
+              <ComboBox x:Name="SoilType" Style="{StaticResource ShellDialog.SoilType}" ItemsSource="{Binding SoilTypes}" SelectedItem="{Binding SoilType}"
+               ToolTip="{x:Static proj:CoherenceViewModel.SoilTypeToolTip}" AutomationProperties.Name="{Binding SoilTypeAutomationName, TargetNullValue=''}" IsEnabled="{Binding CanAlign}"/>
+             </StackPanel>
+             <Button Grid.Column="1" Style="{StaticResource ShellDialog.Button}" Content="{Binding AlignLabel}" ToolTip="{Binding AlignToolTip}" ToolTipService.ShowOnDisabled="True"
+              Padding="14,8" Margin="0" VerticalAlignment="Center" Command="{Binding AlignCommand}" CommandParameter="{Binding}"/>
+            </Grid>
+            <DataTemplate.Triggers>
+             <DataTrigger Binding="{Binding SoilTypes}" Value="{x:Null}">
+              <Setter TargetName="SoilType" Property="Visibility" Value="Collapsed"/>
+             </DataTrigger>
+            </DataTemplate.Triggers>
+           </DataTemplate>
+          </ItemsControl.ItemTemplate>
+         </ItemsControl>
+        </StackPanel>
+       </Border>
+      </DataTemplate>
+     </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <!-- Layers missing in some sheets: the sheets that have the layer, with the soil type and «Uniforma a questo», then those without it. -->
+    <ItemsControl ItemsSource="{Binding MissingLayers}">
+     <ItemsControl.ItemTemplate>
+      <DataTemplate DataType="{x:Type proj:MissingLayerViewModel}">
+       <Border Style="{StaticResource ShellDialog.Card}" Padding="16">
+        <StackPanel>
+         <TextBlock Style="{StaticResource ShellDialog.Heading}" Text="{Binding Title}"/>
+         <ItemsControl ItemsSource="{Binding Sources}">
+          <ItemsControl.ItemTemplate>
+           <DataTemplate DataType="{x:Type proj:MissingLayerSourceViewModel}">
+            <StackPanel Orientation="Horizontal" Margin="0,12">
+             <StackPanel Width="300" Margin="0,0,20,0">
+              <TextBlock Style="{StaticResource ShellDialog.Strong}" Text="{Binding Name}"/>
+              <TextBlock Style="{StaticResource ShellDialog.Muted}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Location}"/>
+              <TextBlock Style="{StaticResource ShellDialog.Muted}" Text="{Binding Details}"/>
+              <ComboBox Style="{StaticResource ShellDialog.SoilType}" ItemsSource="{Binding SoilTypes}" SelectedItem="{Binding SoilType}"
+               AutomationProperties.Name="{Binding SoilTypeAutomationName}" IsEnabled="{Binding CanCopy}"/>
+             </StackPanel>
+             <Button Style="{StaticResource ShellDialog.Button}" Content="{Binding CopyLabel}" ToolTip="{Binding CopyToolTip}" ToolTipService.ShowOnDisabled="True"
+              VerticalAlignment="Center" Command="{Binding CopyCommand}" CommandParameter="{Binding}"/>
+            </StackPanel>
+           </DataTemplate>
+          </ItemsControl.ItemTemplate>
+         </ItemsControl>
+         <ItemsControl ItemsSource="{Binding Targets}">
+          <ItemsControl.ItemTemplate>
+           <DataTemplate><TextBlock Style="{StaticResource ShellDialog.Muted}" Text="{Binding}"/></DataTemplate>
+          </ItemsControl.ItemTemplate>
+         </ItemsControl>
+         <TextBlock Style="{StaticResource ShellDialog.Muted}" FontSize="{DynamicResource Font.Small}" Text="{Binding Note}"/>
+        </StackPanel>
+       </Border>
+      </DataTemplate>
+     </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <!-- «Avvisi»: the limitations in the colour of the warnings, the checks of the cover green when satisfied; «Nessun avviso.» without any. -->
+    <Border Background="{DynamicResource Token.Warning.Background}" BorderBrush="{DynamicResource Token.Note.Border}" BorderThickness="1" CornerRadius="5" Padding="16" Margin="0,20,0,16">
+     <StackPanel>
+      <TextBlock Style="{StaticResource ShellDialog.Heading}" Text="{x:Static proj:CoherenceViewModel.NoticesTitle}"/>
+      <ItemsControl ItemsSource="{Binding Notices}">
+       <ItemsControl.ItemTemplate>
+        <DataTemplate DataType="{x:Type proj:CoherenceNotice}">
+         <TextBlock x:Name="Notice" Style="{StaticResource ShellDialog.Text}" Foreground="{DynamicResource Token.Status.Ok}" Text="{Binding Text}"/>
+         <DataTemplate.Triggers>
+          <DataTrigger Binding="{Binding Warning}" Value="True">
+           <Setter TargetName="Notice" Property="Foreground" Value="{DynamicResource Token.Status.Warn}"/>
+          </DataTrigger>
+         </DataTemplate.Triggers>
+        </DataTemplate>
+       </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <TextBlock Style="{StaticResource ShellDialog.Text}" Text="{x:Static proj:CoherenceViewModel.NoNotices}" Visibility="{Binding HasNoNotices, Converter={StaticResource ShellDialog.Visible}}"/>
+     </StackPanel>
+    </Border>
+    <!-- «Collegamento stratigrafie», closed, with two sheets of the section that share the soil, outside read-only. -->
+    <Expander Header="{x:Static proj:CoherenceViewModel.LinkTitle}" IsExpanded="False" Visibility="{Binding CanLink, Converter={StaticResource ShellDialog.Visible}}">
+     <StackPanel Margin="12">
+      <TextBlock Style="{StaticResource ShellDialog.Text}" FontWeight="SemiBold" Text="{x:Static proj:CoherenceViewModel.LinkSourceLabel}"/>
+      <ComboBox Margin="0,6,0,10" ItemsSource="{Binding LinkSheets}" SelectedItem="{Binding LinkSource}" AutomationProperties.Name="{x:Static proj:CoherenceViewModel.LinkSourceLabel}"/>
+      <TextBlock Style="{StaticResource ShellDialog.Text}" FontWeight="SemiBold" Text="{x:Static proj:CoherenceViewModel.LinkTargetLabel}"/>
+      <ComboBox Margin="0,6" ItemsSource="{Binding LinkSheets}" SelectedItem="{Binding LinkTarget}" AutomationProperties.Name="{x:Static proj:CoherenceViewModel.LinkTargetLabel}"/>
+      <Button Style="{StaticResource ShellDialog.Button}" HorizontalAlignment="Left" Content="{x:Static proj:CoherenceViewModel.LinkButtonLabel}" Command="{Binding LinkCommand}"/>
+     </StackPanel>
+    </Expander>
+   </StackPanel>
+  </ScrollViewer>
+ </DataTemplate>
+
+ <!-- «Collegamento dei sondaggi» (SoilLinkDialogViewModel): the sheets, the explanation, the stratigraphies of the linked sheet, the two buttons. -->
+ <DataTemplate DataType="{x:Type proj:SoilLinkDialogViewModel}">
+  <ScrollViewer Width="744" Height="561" Background="{DynamicResource Token.Surface}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <StackPanel Margin="18">
+    <TextBlock Style="{StaticResource ShellDialog.Heading}" Text="{Binding Heading}"/>
+    <TextBlock Style="{StaticResource ShellDialog.Text}" Text="{x:Static proj:SoilLinkDialogViewModel.Text}"/>
+    <TextBlock Style="{StaticResource ShellDialog.Text}" FontSize="{DynamicResource Font.Small}" Text="{Binding Preview}"/>
+    <WrapPanel>
+     <Button Style="{StaticResource ShellDialog.Primary}" Content="{x:Static proj:SoilLinkDialogViewModel.ConfirmLabel}" Command="{Binding ConfirmCommand}"/>
+     <Button Style="{StaticResource ShellDialog.Button}" Content="{x:Static proj:SoilLinkDialogViewModel.CancelLabel}" Command="{Binding CancelCommand}"/>
+    </WrapPanel>
+   </StackPanel>
+  </ScrollViewer>
+ </DataTemplate>
+
+ <!-- ================================================================================ «Revisioni · sezione» (RevisionSummaryViewModel) -->
+ <DataTemplate DataType="{x:Type proj:RevisionSummaryViewModel}">
+  <ScrollViewer x:Name="Summary" Width="804" Height="581" Background="{DynamicResource Token.Surface}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <StackPanel Margin="18">
+    <TextBlock Style="{StaticResource ShellDialog.Title}" Text="{Binding CurrentHeader}"/>
+    <TextBlock x:Name="CurrentNote" Style="{StaticResource ShellDialog.Text}" FontSize="{DynamicResource Font.Subheading}" Text="{Binding CurrentNote}"/>
+    <ItemsControl ItemsSource="{Binding CurrentChanges}">
+     <ItemsControl.ItemTemplate>
+      <DataTemplate><TextBlock Style="{StaticResource ShellDialog.Text}" Text="{Binding}"/></DataTemplate>
+     </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <ItemsControl ItemsSource="{Binding Entries}">
+     <ItemsControl.ItemTemplate>
+      <DataTemplate DataType="{x:Type proj:RevisionSummaryEntry}">
+       <Border Background="{DynamicResource Token.Paper}" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" CornerRadius="4" Padding="15" Margin="0,18,0,0">
+        <StackPanel>
+         <TextBlock Style="{StaticResource ShellDialog.Heading}" Text="{Binding Header}"/>
+         <TextBlock Style="{StaticResource ShellDialog.Text}" Text="{Binding Note}"/>
+         <ItemsControl ItemsSource="{Binding Changes}">
+          <ItemsControl.ItemTemplate>
+           <DataTemplate><TextBlock Style="{StaticResource ShellDialog.Text}" Text="{Binding}"/></DataTemplate>
+          </ItemsControl.ItemTemplate>
+         </ItemsControl>
+         <Button Style="{StaticResource ShellDialog.Button}" HorizontalAlignment="Left" Content="{Binding DataContext.ShowLabel, ElementName=Summary}"
+          Command="{Binding DataContext.ShowCommand, ElementName=Summary}" CommandParameter="{Binding}"/>
+        </StackPanel>
+       </Border>
+      </DataTemplate>
+     </ItemsControl.ItemTemplate>
+    </ItemsControl>
+   </StackPanel>
+  </ScrollViewer>
+  <DataTemplate.Triggers>
+   <DataTrigger Binding="{Binding CurrentNote}" Value="">
+    <Setter TargetName="CurrentNote" Property="Visibility" Value="Collapsed"/>
+   </DataTrigger>
+  </DataTemplate.Triggers>
+ </DataTemplate>
+
+ <!-- «Nuova revisione · sezione» (NewRevisionDialogViewModel): the text, the optional note, «Crea revisione» and «Annulla». -->
+ <DataTemplate DataType="{x:Type proj:NewRevisionDialogViewModel}">
+  <StackPanel Width="534" Margin="18">
+   <TextBlock Style="{StaticResource ShellDialog.Text}" FontSize="{DynamicResource Font.Subheading}" Text="{x:Static proj:NewRevisionDialogViewModel.Text}"/>
+   <TextBlock Style="{StaticResource ShellDialog.Text}" Text="{x:Static proj:NewRevisionDialogViewModel.NoteLabel}"/>
+   <TextBox Text="{Binding Note, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="65" Margin="0,10"
+    AutomationProperties.Name="{x:Static proj:NewRevisionDialogViewModel.NoteLabel}"/>
+   <WrapPanel>
+    <Button Style="{StaticResource ShellDialog.Primary}" Content="{x:Static proj:NewRevisionDialogViewModel.CreateLabel}" Command="{Binding CreateCommand}"/>
+    <Button Style="{StaticResource ShellDialog.Button}" Content="{x:Static proj:NewRevisionDialogViewModel.CancelLabel}" Command="{Binding CancelCommand}"/>
+   </WrapPanel>
+  </StackPanel>
+ </DataTemplate>
+
+ <!-- «Contenuti del report Word» (ReportSectionsDialogViewModel): the sections of the report, the note of the module, «Esporta». -->
+ <DataTemplate DataType="{x:Type cmd:ReportSectionsDialogViewModel}">
+  <ScrollViewer Width="574" MaxHeight="611" Background="{DynamicResource Token.Surface}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <StackPanel Margin="16">
+    <ItemsControl ItemsSource="{Binding Sections}">
+     <ItemsControl.ItemTemplate>
+      <DataTemplate DataType="{x:Type cmd:ReportSectionChoice}">
+       <CheckBox Content="{Binding Label}" IsChecked="{Binding IsChecked}" Margin="4"/>
+      </DataTemplate>
+     </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <TextBlock x:Name="Note" Style="{StaticResource ShellDialog.Text}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Note}"/>
+    <Button Style="{StaticResource ShellDialog.Primary}" HorizontalAlignment="Left" Content="{Binding ExportLabel}" Command="{Binding ExportCommand}"/>
+   </StackPanel>
+  </ScrollViewer>
+  <DataTemplate.Triggers>
+   <DataTrigger Binding="{Binding Note}" Value="{x:Null}">
+    <Setter TargetName="Note" Property="Visibility" Value="Collapsed"/>
+   </DataTrigger>
+  </DataTemplate.Triggers>
+ </DataTemplate>
+</ResourceDictionary>

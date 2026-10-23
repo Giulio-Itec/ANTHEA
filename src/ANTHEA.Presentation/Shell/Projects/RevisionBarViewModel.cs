@@ -181,9 +181,10 @@ public sealed record RevisionSummaryEntry(int Number, string Header, string Note
 
 /// <summary>
 /// «Riepilogo modifiche» of a section (MainWindow.ShowProjectRevisions): the current revision with its date, note and changes from the last
-/// archived one, then the archived revisions from the newest; «Mostra questa revisione» switches to it.
+/// archived one, then the archived revisions from the newest; «Mostra questa revisione» switches to it. The shell shows it as the modal dialog of
+/// MainWindow (F5.13 c, after the checkpoint of 22/10): «Revisioni · sezione», closed by «Mostra questa revisione» with the result true.
 /// </summary>
-public sealed class RevisionSummaryViewModel : ViewModelBase
+public sealed class RevisionSummaryViewModel : ViewModelBase, IDialogViewModel<bool>
 {
     private readonly ProjectSession project;
     private readonly string sectionId;
@@ -206,9 +207,27 @@ public sealed class RevisionSummaryViewModel : ViewModelBase
             $"Rev. {ShellTexts.RevisionNumber(entry)} · {ShellTexts.RevisionDate(entry)}", entry.S("nota"),
             entry.Array("modifiche").Select(c => "• " + c).ToArray())).ToArray();
         var guard = new CommandGuard(messages);
-        ShowCommand = new RelayCommand<RevisionSummaryEntry>(entry => guard.Run(() => { if (project.SwitchRevision(sectionId, entry!.Number)) Shown?.Invoke(this, EventArgs.Empty); }),
-            entry => entry is not null);
+        ShowCommand = new RelayCommand<RevisionSummaryEntry>(entry => guard.Run(() => Show(entry!)), entry => entry is not null);
     }
+
+    /// <summary>
+    /// «Mostra questa revisione»: the dialog closes first and the revision is shown, as MainWindow (dialog.Close, then SwitchProjectRevision);
+    /// <see cref="Shown"/> follows when the revision is on screen.
+    /// </summary>
+    public void Show(RevisionSummaryEntry entry)
+    {
+        ArgumentNullException.ThrowIfNull(entry);
+        CloseRequested?.Invoke(this, EventArgs.Empty);
+        if (!project.SwitchRevision(sectionId, entry.Number)) return;
+        Result = true;
+        Shown?.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>The result of the dialog: true when a revision was shown.</summary>
+    public bool Result { get; private set; }
+
+    /// <summary>The window closes the summary («Mostra questa revisione»).</summary>
+    public event EventHandler? CloseRequested;
 
     public string Title { get; }
     public string CurrentHeader { get; }
