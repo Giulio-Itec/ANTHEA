@@ -1386,13 +1386,73 @@ c'è più, come quelle dei workspace già archiviati: si possono togliere insiem
 
 ### 14.5 Contrasto (D12)
 
-`tests/fixtures/f5/contrasto-chiara.json` ha 699 occorrenze in 187 voci. 162 voci, con 559 occorrenze, hanno una chiave che comincia da
-`MainWindow`. Quasi tutte vengono da `MainWindow > SheetEditor > <workspace storico>`, cioè dalle viste storiche dei moduli già archiviate, e restano
-dalla cattura prima di F5.3. Portarle alle chiavi della shell a totale invariato richiede una corsa di `ui/check-contrast` a 96 DPI con
-`ContrastAudit` portata sulla shell: `ContrastAudit.cs` è una partial di `MainWindow` di 1 999 righe. Qui non si esegue (schermo a 144 DPI).
+Prima della porta: `tests/fixtures/f5/contrasto-chiara.json` aveva 699 occorrenze in 187 voci; 162 voci, con 559 occorrenze, avevano una chiave
+che comincia da `MainWindow`, quasi tutte di `MainWindow > SheetEditor > <workspace storico>`, cioè delle viste storiche dei moduli già
+archiviate, rimaste dalla cattura prima di F5.3. `ContrastAudit.cs` era una partial di `MainWindow` di 1 999 righe.
 
-**Domanda G2:** la conversione delle voci della Chiara si fa con la porta di `ContrastAudit` alla shell e una corsa a 96 DPI, nello stesso
-commit. Va ripetuta a 96 DPI.
+**Terza tappa (agente `f5-13-g3`, notte 23–24/10, ramo `refactoring/f5-13-g3`).** Schermo al 100% (`GetDpiForSystem` 96), finestre a 96 DPI.
+L'utente ha deciso la G2 alle 00:30 del 24/10: «Correggi nei token». I difetti veri e piccoli delle viste nuove o della shell si correggono nel
+tema e si registrano come correzioni; gli altri diventano domande, con l'immagine.
+
+| Commit | Contenuto |
+| --- | --- |
+| 9916dc65 | correzione F5-62: le scelte degli strati del palo e del micropalo verticale (stile `LayerChoice`) basate sullo stile `ComboBox` del tema |
+| 212d69d2 | `ContrastAudit` sulla shell (`tests/Desktop/ShellContrastViews.cs` al posto della partial di `MainWindow`); baseline della Chiara alle chiavi nuove |
+
+**La porta.** `ShellContrastViews` apre la shell della Release con il banco della parte (e) (`ShellSmokeWindow`), fuori dallo schermo con gli
+agganci di `ContrastAudit`, area 1600 × 1000. I passi, i nomi delle viste e l'ordine sono quelli di `MainWindow` (home, moduli, wiki, progetti,
+modulo-*, componenti-campi, cambio-*). Dove `MainWindow` chiamava i suoi metodi, la shell riceve il comando che l'utente preme: albero,
+riepilogo, barra delle revisioni, barra del foglio, menu. I dialoghi delle viste MVVM si aprono come nel prodotto (una finestra intorno al
+ViewModel, come `WpfDialogService`) e gli agganci li catturano; i dialoghi di file rispondono «Annulla», le domande «Non salvare» e «No».
+Prima della porta questi dialoghi non si aprivano: i servizi dei fogli del banco li rifiutavano e il clic passava dal solo evento `Click`, che non
+esegue il comando. Tre cambi dello strumento:
+- il clic passa da `ButtonBase.OnClick`: gestori e comando;
+- le linguette legate a un ViewModel prendono il nome dal testo della linguetta, non dal nome del tipo. I nomi restano quelli storici («1», «Soletta»);
+- una casella di testo tagliata dal bordo di uno scorrimento si misura solo se se ne vede almeno il 60% della larghezza. Prima bastavano 7 px, e il
+  testo centrato delle celle restava fuori (rapporto 1).
+
+**Corse.**
+
+| Corsa | Catture | Scuro | Molto scuro | Chiara |
+| --- | --- | --- | --- | --- |
+| `ci/20261024-005010-f5-13-g3-c96` (prima corsa, porta senza i cambi dello strumento) | 1 186 | 60 | 60 | 638 in 196 voci, FAIL |
+| `ci/20261024-011608-f5-13-g3-c96b` (con la correzione F5-62) | 1 186 | 0 | 0 | 629 in 191 voci, nuova baseline |
+
+I 60 + 60 difetti delle modalità scure erano tutti nella tabella della stratigrafia della vista XAML del palo e del micropalo verticale:
+`LayerChoice` era basato su `LayerControl` (TargetType `Control`), non sullo stile `ComboBox` del tema, quindi in Scuro e Molto scuro restava il
+modello chiaro di sistema (area chiara, testo chiaro su fondo chiaro, 1,01:1). È un difetto vero e piccolo di una vista nuova: corretto nel
+tema come il `LayerChoice` del palo orizzontale (regola S17), voce **F5-62** (correzione) del registro. In Chiara cambia solo il margine interno
+del testo nella casella.
+
+**Baseline della Chiara (D12).** Dopo: 629 occorrenze in 191 voci, nessuna chiave `MainWindow`. Confronto per vista e per difetto (tipo, colore
+del testo, colore dello sfondo):
+- 549 occorrenze in 143 voci: stessa vista e stesso difetto, cambia solo la chiave (`MainWindow > SheetEditor > <workspace storico>` diventa
+  `ShellWindow > MinimumSizeViewport > <vista MVVM>`);
+- 80 occorrenze in 28 voci con un nome di vista nuovo: sono gli stessi elementi fissi, nella stessa posizione, ripresi nelle pagine di scorrimento in
+  più. Gli elementi sono le linguette delle schede, «Motore di calcolo», la riga di stato e l'introduzione di «Moduli singoli». La scheda della
+  shell è più bassa della finestra storica (menu, linguette, barra del foglio), quindi alcune viste hanno una pagina in più: p3 o p4, e p2 per le
+  tre combinazioni SLE della sezione c.a. Una occorrenza (#29A9E0, micropalo verticale) passa da p2 a p4. Vedi la domanda G7;
+- 150 occorrenze tolte:
+  - 122 della finestra «ANTHEA — nuovo documento», che `MainWindow` apriva da «Apri sezione in c.a.» del muro. Nella shell la sezione si apre
+    in una scheda: la finestra non esiste più nella Release, e la stessa vista è misurata in `modulo-str_palo`;
+  - 19 del verde #228B22 delle schede di «Moduli singoli» di `MainWindow`, che le schede della shell non hanno;
+  - 9 di difetti delle viste storiche archiviate che le viste MVVM non hanno più: #B8860B della risposta elastica (2), colori di Bridge Design
+    (3), #0B2A4A su #F8FAFD della sezione c.a. (2), #0B2A4A su bianco della sezione mista (1), #29A9E0 spostato (1).
+
+Nessun difetto nuovo in Chiara. Le voci della sezione mista (SM9) e di Bridge Design (BD13) sono passate alle chiavi delle viste nuove con le
+altre.
+
+**Pagine dei progetti.** Non sono coperte dalla corsa: l'archivio `supporto/artefatti/prova-f1.4.programma` manca, come in tutte le corse dal F5.3
+([f5-temi-token](f5-temi-token.md)). Il percorso dei progetti è stato provato a parte, con il progetto della fixture
+`tests/fixtures/f5-shell/cattura-mainwindow/04-pali-condivisi.json` copiato al suo posto e poi tolto (`supporto/artefatti/f5-13-g3/prova-progetti`,
+fuori dalla baseline). Sono state catturate 25 viste e dialoghi per aspetto: albero, menu, rinomina, confronto, controllo del report, dati condivisi,
+spostamento, revisioni, revisione archiviata, collegamento dei sondaggi. Esiti: nessuna nota, nessuna finestra sullo schermo, Scuro 0, Molto
+scuro 0, Chiara 38 occorrenze, tutte con colori storici:
+- il numero del controllo di coerenza nell'albero, `Token.Status.Warn` su `Token.Badge.Warn`, 2,08:1 (20);
+- gli avvisi del confronto, `Token.Status.Warn` su `Token.Warning.Background`, 2,22:1 (2);
+- `Token.Muted` su `Token.Surface` nella sezione c.a. (16).
+
+Vedi la domanda G8.
 
 ### 14.6 Guida pratica e Wiki: testo attuale e testo proposto
 
@@ -1454,11 +1514,13 @@ l'unione, con PDF, indici e impronte. La guida, i PDF e gli articoli non sono to
 | # | Domanda | Opzione presa |
 | --- | --- | --- |
 | G1 | `SheetImplementation.Historic` senza viste storiche | resta come valore dei moduli non elencati, che si rifiutano con il testo di `SheetEditor` (`SheetEditorFactory.NoView`); togliere l'enumerazione e `ModuleImplementations` è un riordino da fare in F5.15. Registrata in f5-15 §15.3 |
-| G2 | Voci della Chiara con chiave `MainWindow` (14.5) | si convertono con la porta di `ContrastAudit` alla shell e una corsa a 96 DPI; finché `MainWindow` c'è, restano |
+| G2 | Voci della Chiara con chiave `MainWindow` (14.5) | **Decisa dall'utente (24/10, 00:30): «Correggi nei token».** Fatta nella terza tappa (`f5-13-g3`, 212d69d2): `ContrastAudit` sulla shell, corsa a 96 DPI, voci alle chiavi nuove (699 → 629 occorrenze, nessuna chiave `MainWindow`); il difetto nuovo delle modalità scure corretto nel tema (F5-62, 9916dc65) |
 | G3 | `MvvmSheetEditor` e `SheetEditorFactory` dopo il ritiro di `MainWindow` | restano: `MvvmSheetEditor` serve in produzione alla verifica c.a. del palo orizzontale (`ConcreteVerifierSection`); la fabbrica serve alle prove F3 e al banco |
 | G4 | `ui/f3-equivalence` sulla shell | il report del progetto passa dallo scrittore della shell; i fogli restano aperti con `MvvmSheetEditor`, come oggi, per non cambiare la visita dei controlli (`Visit`) contro le catture congelate |
 | G5 | `CheckBridgeOptions` (`ui/smoke-bridge`) vuole il fuoco della tastiera su un campo | `Activate()` della facciata attiva la finestra della shell fuori dallo schermo, come prima `MainWindow` (che però era sullo schermo); da rivedere se le prove non devono mai attivare finestre |
 | G6 | A 1920 × 1080 la pagina principale del palo orizzontale scorre in verticale nella shell (790,7 contro 751,3 px; 2 314 contro 658 con l'albero accanto, SH24): F5-61 «da-decidere» in `registro-differenze.json` | `ui/smoke` e `ui/smoke-horizontal` restano su `MainWindow`, che quindi non si archivia. Opzioni: accettare la differenza e controllare l'area della scheda (come SH40 in `ui/shell-smoke-display`), oppure dare alla scheda la stessa altezza di `MainWindow` (cambio della disposizione) |
+| G7 | Le occorrenze della Chiara si contano per cattura: gli elementi fissi di una vista (linguette, «Motore di calcolo», riga di stato) tornano in ogni pagina di scorrimento, e la scheda della shell, più bassa, ha pagine in più (80 occorrenze in 28 voci nuove, 14.5) | registrate come le stesse voci con un nome di vista nuovo (D12: stesso elemento, stessi colori); nessun cambio dell'interfaccia. Alternative: contare un elemento fisso una volta per vista (cambio dello strumento, la baseline scende); oppure rendere leggibile `Token.Muted` su `Token.Surface` (4,36:1) in Chiara, contro D12, che conserva i colori storici |
+| G8 | Pagine dei progetti fuori dalla corsa: manca l'archivio `prova-f1.4.programma` (dal F5.3). La prova a parte (14.5) trova in Chiara il numero di coerenza dell'albero (2,08:1) e gli avvisi del confronto (2,22:1) in `Token.Status.Warn`, colori storici di `MainWindow`; immagini in `ANTHEA-f5-ripresa\f5-agenti\f5-13-g3\immagini` | nessun cambio. Opzioni: (a) un archivio di prova versionato, preso dalla fixture `f5-shell`, e le 38 occorrenze nella baseline; (b) testo degli avvisi in un colore leggibile del tema (per esempio `Token.Warning.Foreground`), un cambio visibile di un colore storico; (a) e (b) insieme |
 
 ### 14.8 Cosa resta e come riprendere
 
@@ -1467,9 +1529,8 @@ compilata. Il ritiro (punto 2 delle istruzioni del coordinatore) è fermo su due
 - **G6** (F5-61): `ui/smoke` e `ui/smoke-horizontal` aprono ancora `MainWindow`. Decisa la G6, si portano come le altre: `SmokeChecks.cs` e
   `HorizontalSmokeChecks.cs` diventano partial di `ShellSmokeWindow`, `tree` diventa `SelectInTree` e le due bandiere vanno in `AppHarness.ShellSmokes`.
   La prova è già stata fatta la sera del 23/10: le due suite passano fino al controllo di Full HD.
-- **G2**: `ContrastAudit` (1 999 righe, partial di `MainWindow`) guida viste e dialoghi della finestra storica (`ShowProjectOverview`, `ShowCoherence`,
-  revisioni, `sheetContent`). Portarla sulla shell cambia le chiavi della Chiara (D12), e la porta si può verificare solo con una corsa a 96 DPI. Non l'ho
-  portata, perché non potevo eseguirla.
+- **G2**: fatta nella terza tappa (`f5-13-g3`, 9916dc65 e 212d69d2, 14.5): `ContrastAudit` gira sulla shell, `ui/check-contrast` passa a 96 DPI con
+  la baseline nuova. `MainWindow` non serve più al contrasto. Restano le domande G7 e G8.
 
 Poi il **ritiro di `MainWindow`**, in un commit:
 - in `supporto/SUPERATI/ui-storica/shell/`, con il registro:
