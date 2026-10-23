@@ -37,11 +37,14 @@ namespace X.Desktop;
 /// (the edits of the concrete held until Commit) included. What the historic views computed without showing it is read from the
 /// ViewModel: the cards of fck, fctm and Ecm (built and never added) and the active exposures (decision M10).</item>
 /// <item>For each F3 fixture of the two modules: the visit (layout, expanders, three appearances) writes nothing and raises no Modified;
-/// data after opening, commit and «Calcola» equal to the historic view; the exports are the same files as those of the historic view
-/// (Word and PDF of MaterialReportChapter.Write, decision T8; JSON refused with the same message), the chapter of the material
-/// (MaterialReportContent) is the same and the report of the sheet (Report.BuildReport) is the exported Word.</item>
-/// <item>The chapter of the materials in the report of a project, after the same edits in the two views.</item>
-/// <item>Screenshots of the new and the historic views in Chiara, Scuro and Molto scuro (folder schermate).</item>
+/// data and preview at the opening, data and Modified after commit and «Calcola» equal to those of the frozen trace of the historic view
+/// (scenario fixture-&lt;id&gt;); the exports are the files the historic view wrote: Word and PDF of MaterialReportChapter.Write on the
+/// committed data (decision T8), JSON refused with the message of the historic view; the chapter of the material (MaterialReportContent)
+/// is MaterialReportChapter.Create on the committed data, as in the historic view, and the report of the sheet (Report.BuildReport) is the
+/// exported Word.</item>
+/// <item>The chapter of the materials in the report of a project, after edits through the view that give the data the historic view
+/// gave after the same edits (<see cref="HistoricProjectEdits"/>).</item>
+/// <item>Screenshots of the views in Chiara, Scuro and Molto scuro (folder schermate).</item>
 /// <item>Help: the «?» labels shown are those of the historic views and open their section; F1 on a field opens its section, or the guide
 /// of the module (decision D11); F1 elsewhere opens the guide of the module; all through the IWikiNavigator of the services, also in
 /// read-only.</item>
@@ -49,6 +52,9 @@ namespace X.Desktop;
 /// <item>Read-only revision: the same controls refuse the edits as in the historic views; typing and choices are refused.</item>
 /// <item>The interactive bench opens the two MVVM sheets with the services of the product; the Release stays historic.</item>
 /// </list>
+/// The historic views are not opened any more (f5-pass-geo, before their archiving, Q11): what the checks compared with them is compared
+/// with the values they gave, frozen in their traces or recorded here (<see cref="HistoricHelpLabels"/>, <see cref="HistoricAutomationNames"/>,
+/// <see cref="HistoricReadOnly"/>, <see cref="HistoricProjectEdits"/>, <see cref="HistoricNoResult"/>).
 /// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
 /// </summary>
 internal static class MaterialSheetViewChecks
@@ -56,6 +62,101 @@ internal static class MaterialSheetViewChecks
     private const string Concrete = MaterialScenarios.Concrete, Steel = MaterialScenarios.Steel;
     private static readonly string[] CompositionKeys = ["chloride", "ratio", "cement", "air", "dmax"];
     private static readonly string[] SteelTextKeys = ["materiale_acciaio_nome", "fyk_mpa", "steel_fu_mpa", "steel_modulus_mpa", "steel_eps_u", "gamma_s"];
+
+    // ---------------------------------------------------------------- values of the historic views (archived with the Release switch)
+    // Recorded by this check on the historic views before their archiving: the same in every run up to the one of the release 1.13.0
+    // (supporto/artefatti/ci/20261023-013037-full-fine-ca-1.13.0 of the main checkout, dettaglio.txt) and in the capture run on db7ef68d
+    // with the values logged (supporto/artefatti/ci/20261023-120256-geo-cattura-mat of the worktree aw-f5-pass-geo).
+
+    /// <summary>The message of SheetEditor.ExportResult of a material sheet, which never has a result.</summary>
+    private const string HistoricNoResult = "Premere Calcola prima di esportare.";
+
+    private static readonly string[] SteelHelpLabels = ["Wiki: Coefficiente parziale γs", "Wiki: Deformazione ultima εu", "Wiki: Diagramma", "Wiki: Modulo elastico Es",
+        "Wiki: Nome", "Wiki: Rottura fu", "Wiki: Snervamento fyk"];
+
+    /// <summary>The «?» labels shown by the historic views (expanders open), by module and fixture.</summary>
+    private static readonly Dictionary<(string Module, string Id), string[]> HistoricHelpLabels = new()
+    {
+        [(Concrete, "default")] = ["Wiki: Controllo di esecuzione", "Wiki: Criterio copriferro", "Wiki: Diametro della barra da verificare · φ",
+            "Wiki: Dimensione massima aggregato · Dmax", "Wiki: Tipo di elemento", "Wiki: Vita utile di progetto"],
+        [(Concrete, "ec2-riduzioni-tolleranza")] = ["Wiki: Controllo di esecuzione", "Wiki: Criterio copriferro", "Wiki: Diametro della barra da verificare · φ",
+            "Wiki: Dimensione massima aggregato · Dmax", "Wiki: Vita utile di progetto"],
+        [(Steel, "default")] = SteelHelpLabels,
+        [(Steel, "storico-feb38k-eps")] = SteelHelpLabels,
+    };
+
+    private static readonly string[] ConcreteAutomationNames = ["Classe di esposizione",
+        "Schema del copriferro: cnom, diametro delle staffe, semidiametro delle barre longitudinali e distanza d′", "Wiki: Controllo di esecuzione",
+        "Wiki: Criterio copriferro", "Wiki: Diametro della barra da verificare · φ", "Wiki: Dimensione massima aggregato · Dmax", "Wiki: Vita utile di progetto"];
+
+    private static readonly string[] SteelAutomationNames = ["Certificato o riferimento", "Coefficiente parziale γs", "Deformazione ultima εu", "Diagramma",
+        "Modulo elastico Es", "Nome", "Rottura fu", "Snervamento fyk", "Tipo di acciaio", "Wiki: Coefficiente parziale γs", "Wiki: Deformazione ultima εu",
+        "Wiki: Diagramma", "Wiki: Modulo elastico Es", "Wiki: Nome", "Wiki: Rottura fu", "Wiki: Snervamento fyk"];
+
+    /// <summary>The AutomationProperties.Name of the historic views (visible elements, expanders open), by module and fixture.</summary>
+    private static readonly Dictionary<(string Module, string Id), string[]> HistoricAutomationNames = new()
+    {
+        [(Concrete, "default")] = [.. ConcreteAutomationNames, "Wiki: Tipo di elemento"],
+        [(Concrete, "ec2-riduzioni-tolleranza")] = ConcreteAutomationNames,
+        [(Concrete, "legacy-tre-esposizioni")] = ConcreteAutomationNames,
+        [(Steel, "default")] = SteelAutomationNames,
+        [(Steel, "storico-feb38k-eps")] = SteelAutomationNames,
+    };
+
+    private const string SteelReadOnly = "scelta steel_diagramma bloccata scelta tipo bloccata testo fyk_mpa bloccato testo gamma_s bloccato "
+        + "testo materiale_acciaio_nome bloccato testo riferimento bloccato testo steel_eps_u bloccato testo steel_fu_mpa bloccato testo steel_modulus_mpa bloccato";
+
+    private static string ValueBoxes(int count) => string.Join(" ", Enumerable.Repeat("testo valore bloccato", count));
+
+    /// <summary>
+    /// The controls of the historic views that accept the user before and after InspectRevision (<see cref="State"/>, with the keys of the
+    /// accessors of their traces), by module and fixture.
+    /// </summary>
+    private static readonly Dictionary<(string Module, string Id), (string Before, string After)> HistoricReadOnly = new()
+    {
+        [(Concrete, "default")] = (
+            "scelta abrasion libera scelta bondCondition libera scelta cement libera scelta cementClass libera scelta cementEarly libera scelta classe libera "
+            + "scelta consistency libera scelta coverMethod libera scelta deviationControl libera scelta deviationValue bloccata scelta esposizione libera "
+            + "scelta ground libera scelta life libera scelta ntcElement libera spunta ntcQuality libera spunta rough libera tabella valore sola lettura "
+            + "testo aggregate libero testo bondAlpha libero testo bondGamma libero testo cementName libero testo diameter libero " + ValueBoxes(6),
+            "scelta abrasion bloccata scelta bondCondition bloccata scelta cement bloccata scelta cementClass bloccata scelta cementEarly bloccata "
+            + "scelta classe bloccata scelta consistency bloccata scelta coverMethod bloccata scelta deviationControl bloccata scelta deviationValue bloccata "
+            + "scelta esposizione bloccata scelta ground bloccata scelta life bloccata scelta ntcElement bloccata spunta ntcQuality bloccata spunta rough bloccata "
+            + "tabella valore sola lettura testo aggregate bloccato testo bondAlpha bloccato testo bondGamma bloccato testo cementName bloccato "
+            + "testo diameter bloccato " + ValueBoxes(6)),
+        [(Concrete, "ec2-riduzioni-tolleranza")] = (
+            "scelta abrasion libera scelta bondCondition libera scelta cement libera scelta cementClass libera scelta cementEarly libera scelta classe libera "
+            + "scelta consistency libera scelta coverMethod libera scelta deviationControl libera scelta deviationValue libera scelta esposizione libera "
+            + "scelta ground libera scelta life libera spunta highStrength libera spunta quality libera spunta rough libera spunta slab libera "
+            + "tabella valore sola lettura testo aggregate libero testo bondAlpha libero testo bondGamma libero testo cementName libero testo diameter libero "
+            + ValueBoxes(5),
+            "scelta abrasion bloccata scelta bondCondition bloccata scelta cement bloccata scelta cementClass bloccata scelta cementEarly bloccata "
+            + "scelta classe bloccata scelta consistency bloccata scelta coverMethod bloccata scelta deviationControl bloccata scelta deviationValue bloccata "
+            + "scelta esposizione bloccata scelta ground bloccata scelta life bloccata spunta highStrength bloccata spunta quality bloccata spunta rough bloccata "
+            + "spunta slab bloccata tabella valore sola lettura testo aggregate bloccato testo bondAlpha bloccato testo bondGamma bloccato "
+            + "testo cementName bloccato testo diameter bloccato " + ValueBoxes(5)),
+        [(Steel, "default")] = (
+            "scelta steel_diagramma bloccata scelta tipo libera testo fyk_mpa bloccato testo gamma_s libero testo materiale_acciaio_nome bloccato "
+            + "testo riferimento libero testo steel_eps_u bloccato testo steel_fu_mpa bloccato testo steel_modulus_mpa bloccato",
+            SteelReadOnly),
+        [(Steel, "personalizzato-incrudente")] = (
+            "scelta steel_diagramma libera scelta tipo libera testo fyk_mpa libero testo gamma_s libero testo materiale_acciaio_nome libero "
+            + "testo riferimento libero testo steel_eps_u libero testo steel_fu_mpa libero testo steel_modulus_mpa libero",
+            SteelReadOnly),
+    };
+
+    /// <summary>
+    /// The edits of the chapter in a project report, with the data (MaterialTrace.Compact) and the Modified events of the historic view after
+    /// the same edits through its controls and the commit.
+    /// </summary>
+    private static readonly (string Module, string Id, MaterialStep[] Steps, string Data, int Modified)[] HistoricProjectEdits =
+    [
+        (Concrete, "default", [new(MaterialStep.Class, Text: "C40/50"), new(MaterialStep.Exposure, Text: "XS2"), new(MaterialStep.Number, "diameter", "20"),
+            new(MaterialStep.Choice, "coverMethod", "EC2 2004")],
+            """{"versione_materiali":1,"classe":"C40/50","esposizione_principale":"XS2","numeri":{"diameter":"20","aggregate":"20","cementName":"","bondAlpha":"1,0","bondGamma":"1,5"},"scelte":{"ntcElement":"Trave / pilastro","coverMethod":"EC2 2004","life":"50 anni","deviationControl":"Ordinario","deviationValue":"10 mm","ground":"Casseratura","abrasion":"Nessuno","consistency":"Da definire","cement":"CEM I","cementClass":"32,5","cementEarly":"N","bondCondition":"Altre · η₁ = 0,7"},"opzioni":{"highStrength":false,"slab":false,"quality":false,"rough":false,"ntcQuality":false},"esposizioni":["XS2"]}""", 4),
+        (Steel, "default", [new(MaterialStep.Steel, Text: "Personalizzato"), new(MaterialStep.Field, "fyk_mpa", "455"), new(MaterialStep.Reference, Text: "Certificato 7")],
+            """{"versione_acciaio":1,"input":{"classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio personalizzato","steel_modulus_mpa":200000,"fyk_mpa":"455","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gamma_s":"1.15"},"riferimento":"Certificato 7"}""", 3),
+    ];
 
     /// <summary>The Wiki of the services of the check: it records the sections opened, in order.</summary>
     private sealed class RecordingWiki : IWikiNavigator
@@ -389,42 +490,67 @@ internal static class MaterialSheetViewChecks
             foreach (string id in MaterialScenarios.Fixtures(root, module))
             {
                 string name = module + "--" + id;
+                // The frozen trace of the historic view on the path of the F3 capture: apertura, conferma, calcola, conferma, riapri, conferma.
+                var historic = HistoricBlocks(root, module, id);
+                Check(historic.Length == 6 && historic[0][0] == "== apertura" && historic[2][0] == "== " + MaterialStep.Calculate && historic[3][0] == "== " + MaterialStep.Commit,
+                    name + ": traccia congelata della vista storica (fixture-" + id + ") sul percorso della cattura F3");
                 var data = MaterialScenarios.FixtureData(root, module, id);
                 using var mvvm = new Hosted(editors.Open(module, data));
-                using var historic = new Hosted(new SheetEditor(module, data));
-                Check(mvvm.Editor is MvvmSheetEditor && historic.Editor is SheetEditor, name + ": editor MVVM e storico");
+                Check(mvvm.Editor is MvvmSheetEditor, name + ": editor MVVM");
                 string opened = mvvm.Editor.Data.ToJsonString(J.Options), preview = mvvm.Editor.PreviewData.ToJsonString(J.Options);
-                Check(opened == historic.Editor.Data.ToJsonString(J.Options) && preview == historic.Editor.PreviewData.ToJsonString(J.Options),
-                    name + ": dati e anteprima all'apertura uguali alla vista storica, nell'ordine in memoria");
+                Check("dati " + MaterialTrace.Compact(mvvm.Editor.Data) == Line(historic[0], "dati") && "anteprima " + MaterialTrace.Compact(mvvm.Editor.PreviewData) == Line(historic[0], "anteprima"),
+                    name + ": dati e anteprima all'apertura uguali a quelli della vista storica (traccia congelata), nell'ordine in memoria");
                 await mvvm.Expand();
                 foreach (var mode in new[] { AppAppearance.Dark, AppAppearance.VeryDark, AppAppearance.Light }) { Appearance.Set(mode, false); await mvvm.Settle(); }
                 Check(mvvm.Editor.Data.ToJsonString(J.Options) == opened && mvvm.Editor.PreviewData.ToJsonString(J.Options) == preview && mvvm.Modified == 0,
                     name + ": la visita (espansori, tre aspetti) non scrive e non solleva Modified");
-                await historic.Expand();
-                foreach (var host in new[] { mvvm, historic }) { host.Editor.Commit(); await host.Editor.CalculateAsync(); host.Editor.Commit(); }
-                Check(mvvm.Editor.Data.ToJsonString(J.Options) == historic.Editor.Data.ToJsonString(J.Options) && !mvvm.Editor.HasResults && !historic.Editor.HasResults
-                    && mvvm.Editor.Result is null && mvvm.Modified == historic.Modified, name + ": dati, risultato e Modified dopo conferma e «Calcola» uguali");
-                Check(Fails(() => mvvm.Editor.ExportResult(Path.Combine(folder, name + "-mvvm.json")), out string a)
-                    && Fails(() => historic.Editor.ExportResult(Path.Combine(folder, name + "-storica.json")), out string b) && a == b,
-                    name + ": esportazione JSON rifiutata con lo stesso messaggio («" + a + "»)");
-                var expected = historic.Editor.MaterialReportContent(); var actual = mvvm.Editor.MaterialReportContent();
+                mvvm.Editor.Commit(); await mvvm.Editor.CalculateAsync(); mvvm.Editor.Commit();
+                string committed = "dati " + MaterialTrace.Compact(mvvm.Editor.Data);
+                Check(committed == Line(historic[3], "dati") && Modified(historic[3]) == mvvm.Modified && !mvvm.Editor.HasResults && mvvm.Editor.Result is null,
+                    name + ": dati, risultato e Modified dopo conferma e «Calcola» uguali a quelli della vista storica (traccia congelata)");
+                Check(Fails(() => mvvm.Editor.ExportResult(Path.Combine(folder, name + "-mvvm.json")), out string message) && message == HistoricNoResult,
+                    name + ": esportazione JSON rifiutata con il messaggio della vista storica («" + message + "»)");
+                // The chapter and the report of the historic view: SheetEditor committed, then MaterialReportChapter.Create and .Write on its data.
+                var expected = Materiali.MaterialReportChapter.Create(module, (JsonObject)mvvm.Editor.Data.DeepClone()); var actual = mvvm.Editor.MaterialReportContent();
                 Check(expected.Error == actual.Error && JsonNode.DeepEquals(System.Text.Json.JsonSerializer.SerializeToNode(expected.Derived), System.Text.Json.JsonSerializer.SerializeToNode(actual.Derived))
-                    && expected.Document is null && actual.Document is null, name + ": capitolo del materiale (MaterialReportContent) uguale" + (actual.Error is null ? "" : ", con l'errore «" + actual.Error + "»"));
+                    && expected.Document is null && actual.Document is null,
+                    name + ": capitolo del materiale (MaterialReportContent) uguale a quello della vista storica" + (actual.Error is null ? "" : ", con l'errore «" + actual.Error + "»"));
                 string title = "Fixture F3 · " + module + " · " + id;
-                foreach (var (host, kind) in new[] { (mvvm, "mvvm"), (historic, "storica") }) host.Editor.ExportReport(Path.Combine(folder, $"{name}-{kind}.docx"), title, []);
+                mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, []);
+                Materiali.MaterialReportChapter.Write(Path.Combine(folder, name + "-attesa.docx"), module, title, (JsonObject)mvvm.Editor.Data.DeepClone());
                 byte[] word = File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx"));
-                string? part = DifferentPart(word, File.ReadAllBytes(Path.Combine(folder, name + "-storica.docx")), normalizer);
-                Check(part is null, name + ": report Word uguale in ogni parte (date del documento normalizzate)" + (part is null ? "" : ", diversa " + part));
-                Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))),
-                    name + ": PDF affiancato uguale, scritto come oggi da MaterialReportChapter.Write (T8; date del documento normalizzate)");
+                string? part = DifferentPart(word, File.ReadAllBytes(Path.Combine(folder, name + "-attesa.docx")), normalizer);
+                Check(part is null, name + ": report Word uguale in ogni parte a quello della vista storica (date del documento normalizzate)" + (part is null ? "" : ", diversa " + part));
+                Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.pdf"))),
+                    name + ": PDF affiancato uguale a quello della vista storica, scritto come oggi da MaterialReportChapter.Write (T8; date del documento normalizzate)");
                 part = DifferentPart(mvvm.Editor.BuildReport(title, []), word, normalizer);
                 Check(part is null, name + ": il report del foglio (Report.BuildReport) è il Word esportato" + (part is null ? "" : ", diversa " + part));
-                Check(mvvm.Editor.Data.ToJsonString(J.Options) == historic.Editor.Data.ToJsonString(J.Options) && mvvm.Modified == historic.Modified,
-                    name + ": dati e Modified dopo le esportazioni uguali");
+                Check("dati " + MaterialTrace.Compact(mvvm.Editor.Data) == committed && Modified(historic[3]) == mvvm.Modified,
+                    name + ": dati e Modified dopo le esportazioni uguali a quelli della vista storica");
                 fixtures++;
             }
         Check(fixtures == 15, "Fixture F3 dei materiali visitate ed esportate: " + fixtures);
     }
+
+    /// <summary>The frozen trace of the historic view for the F3 fixture <paramref name="id"/> (scenario fixture-&lt;id&gt;), split at its steps.</summary>
+    private static string[][] HistoricBlocks(string root, string module, string id)
+    {
+        var blocks = new List<List<string>>();
+        string file = new MaterialScenario(module, "fixture-" + id, id, []).File;
+        foreach (string line in MaterialTrace.Read(Path.Combine(MaterialScenarios.Reference(root), file)))
+        {
+            if (line.StartsWith("== ", StringComparison.Ordinal)) blocks.Add([]);
+            if (blocks.Count == 0) throw new InvalidOperationException("Traccia congelata senza intestazione: " + file);
+            blocks[^1].Add(line);
+        }
+        return blocks.Select(b => b.ToArray()).ToArray();
+    }
+
+    /// <summary>The line of a step of a trace that starts with <paramref name="name"/>, as the trace states write it.</summary>
+    private static string Line(string[] block, string name) => block.Single(l => l.StartsWith(name + " ", StringComparison.Ordinal));
+
+    /// <summary>The Modified events of a step of a trace («modificato n · modificabile …»).</summary>
+    private static int Modified(string[] block) => int.Parse(Line(block, "modificato").Split(' ')[1], CultureInfo.InvariantCulture);
 
     private static bool Fails(Action action, out string message)
     {
@@ -469,8 +595,9 @@ internal static class MaterialSheetViewChecks
     // ---------------------------------------------------------------- 3. the chapter of the materials in a project report
 
     /// <summary>
-    /// The same edits through the new and the historic views, then the report of a project section with the committed sheet: the chapter
-    /// of the material (ModuleReportService, as MainWindow writes the report of a section) is the same document.
+    /// Edits through the view that give the data the historic view gave after the same edits (<see cref="HistoricProjectEdits"/>), then the
+    /// report of a project section with the committed sheet: the chapter of the material (ModuleReportService, as MainWindow writes the report
+    /// of a section) is the same document as with the data of the historic view.
     /// </summary>
     private static async Task ProjectReport(string root, string output, SheetEditorFactory editors)
     {
@@ -478,53 +605,29 @@ internal static class MaterialSheetViewChecks
         Directory.CreateDirectory(folder);
         var builder = new ModuleReportService(new ModuleFigureRenderer());
         var normalizer = new TextNormalizer();
-        foreach (var (module, id, steps) in new (string, string, MaterialStep[])[]
-        {
-            (Concrete, "default", [new(MaterialStep.Class, Text: "C40/50"), new(MaterialStep.Exposure, Text: "XS2"), new(MaterialStep.Number, "diameter", "20"),
-                new(MaterialStep.Choice, "coverMethod", "EC2 2004")]),
-            (Steel, "default", [new(MaterialStep.Steel, Text: "Personalizzato"), new(MaterialStep.Field, "fyk_mpa", "455"), new(MaterialStep.Reference, Text: "Certificato 7")]),
-        })
+        foreach (var (module, id, steps, historicData, historicModified) in HistoricProjectEdits)
         {
             var data = MaterialScenarios.FixtureData(root, module, id);
             using var mvvm = new Hosted(editors.Open(module, data));
-            using var historic = new Hosted(new SheetEditor(module, data));
-            await mvvm.Expand(); await historic.Expand();
+            await mvvm.Expand();
             var side = new ViewSide(mvvm, module);
             foreach (var step in steps) await side.Apply(step);
-            foreach (var step in steps) ApplyHistoric(historic.Editor, module, step);
-            mvvm.Editor.Commit(); historic.Editor.Commit();
-            Check(mvvm.Editor.Data.ToJsonString(J.Options) == historic.Editor.Data.ToJsonString(J.Options) && mvvm.Modified == historic.Modified,
-                module + ": stesse modifiche attraverso le due viste, stessi dati e Modified");
+            mvvm.Editor.Commit();
+            Check(MaterialTrace.Compact(mvvm.Editor.Data) == historicData && mvvm.Modified == historicModified,
+                module + ": le modifiche attraverso la vista danno i dati e i Modified della vista storica dopo le stesse modifiche");
             var archive = ProjectDocuments.CreateArchive();
             var section = ProjectDocuments.AddSection(ProjectDocuments.AddProject(archive, "Progetto materiali"), "Materiali");
             var sheet = ProjectDocuments.AddSheet(section, module, module == Concrete ? "Calcestruzzo" : "Acciaio per armature");
             var reports = new List<byte[]>();
-            foreach (var (host, kind) in new[] { (mvvm, "mvvm"), (historic, "storica") })
+            foreach (var (sheetData, kind) in new[] { (mvvm.Editor.Data.DeepClone(), "mvvm"), (JsonNode.Parse(historicData)!, "attesa") })
             {
-                sheet["dati"] = host.Editor.Data.DeepClone();
+                sheet["dati"] = sheetData;
                 string path = Path.Combine(folder, $"{module}-{kind}.docx");
                 await ProjectReportService.WriteSnapshotAsync(ProjectReportService.Snapshot(section), path, builder);
                 reports.Add(File.ReadAllBytes(path));
             }
             string? part = DifferentPart(reports[0], reports[1], normalizer);
-            Check(part is null, module + ": capitolo del materiale nel report del progetto uguale" + (part is null ? "" : ", diversa " + part));
-        }
-    }
-
-    /// <summary>A step through the controls of the historic views (the accessors of tests/Desktop/MaterialHistoricTrace.cs).</summary>
-    private static void ApplyHistoric(ISheetEditor editor, string module, MaterialStep step)
-    {
-        var sheet = (SheetEditor)editor;
-        switch (step.Kind)
-        {
-            case MaterialStep.Class: sheet.materials!.ClassBoxForChecks.SelectedItem = step.Text; break;
-            case MaterialStep.Number: sheet.materials!.NumberBoxForChecks(step.Key!).Text = step.Text; break;
-            case MaterialStep.Choice when module == Concrete: sheet.materials!.ChoiceBoxForChecks(step.Key!).SelectedItem = step.Text; break;
-            case MaterialStep.Exposure: sheet.materials!.ExposureBoxForChecks.SelectedItem = step.Text; break;
-            case MaterialStep.Steel: sheet.rebarMaterial!.Selection.SelectedItem = step.Text; break;
-            case MaterialStep.Field: sheet.rebarMaterial!.TextBoxForChecks(step.Key!).Text = step.Text; break;
-            case MaterialStep.Reference: sheet.rebarMaterial!.ReferenceBoxForChecks.Text = step.Text; break;
-            default: throw new ArgumentException("Passo non previsto: " + step);
+            Check(part is null, module + ": capitolo del materiale nel report del progetto uguale a quello con i dati della vista storica" + (part is null ? "" : ", diversa " + part));
         }
     }
 
@@ -543,18 +646,15 @@ internal static class MaterialSheetViewChecks
             {
                 var data = MaterialScenarios.FixtureData(root, module, id);
                 string name = (module == Concrete ? "calcestruzzo-" : "acciaio-") + id;
-                foreach (var (kind, open) in new (string, Func<ISheetEditor>)[] { ("vista", () => editors.Open(module, data)), ("storica", () => new SheetEditor(module, data)) })
-                {
-                    using var host = new Hosted(open(), mode != AppAppearance.Light);
-                    await host.Expand();
-                    await host.Settle();
-                    File.WriteAllBytes(Path.Combine(folder, $"{kind}-{name}-{suffix}.png"), host.Png());
-                    written++;
-                }
+                using var host = new Hosted(editors.Open(module, data), mode != AppAppearance.Light);
+                await host.Expand();
+                await host.Settle();
+                File.WriteAllBytes(Path.Combine(folder, $"vista-{name}-{suffix}.png"), host.Png());
+                written++;
             }
         }
         Appearance.Set(AppAppearance.Light, false);
-        Check(written == 24, "Schermate delle viste nuove e storiche nei tre aspetti: " + written + " PNG in " + folder);
+        Check(written == 12, "Schermate delle viste nei tre aspetti: " + written + " PNG in " + folder);
     }
 
     // ---------------------------------------------------------------- 5. help
@@ -564,13 +664,12 @@ internal static class MaterialSheetViewChecks
         foreach (var (module, id) in new[] { (Concrete, "default"), (Concrete, "ec2-riduzioni-tolleranza"), (Steel, "default"), (Steel, "storico-feb38k-eps") })
         {
             var data = MaterialScenarios.FixtureData(root, module, id);
-            using var historic = new Hosted(new SheetEditor(module, data));
             using var host = new Hosted(editors.Open(module, data));
-            await historic.Expand(); await host.Expand();
+            await host.Expand();
             static string[] Labels(DependencyObject root) => Visual(root).OfType<Button>().Where(b => b.IsVisible && b.Content as string == "?")
                 .Select(b => AutomationProperties.GetName(b)).Order(StringComparer.Ordinal).ToArray();
-            string[] before = Labels(historic.Root), after = Labels(host.Root);
-            Check(before.SequenceEqual(after) && after.Length > 0, $"{module}/{id}: etichette «?» visibili uguali alla vista storica: " + string.Join(", ", after));
+            string[] after = Labels(host.Root);
+            Check(HistoricHelpLabels[(module, id)].SequenceEqual(after), $"{module}/{id}: etichette «?» visibili uguali a quelle della vista storica: " + string.Join(", ", after));
         }
         await FieldHelp(root, editors, wiki, Concrete, "diameter", "cementName", "Exposures");
         await FieldHelp(root, editors, wiki, Steel, "fyk_mpa", "gamma_s", "Types");
@@ -622,12 +721,11 @@ internal static class MaterialSheetViewChecks
         foreach (var (module, id) in new[] { (Concrete, "default"), (Concrete, "ec2-riduzioni-tolleranza"), (Concrete, "legacy-tre-esposizioni"), (Steel, "default"), (Steel, "storico-feb38k-eps") })
         {
             var data = MaterialScenarios.FixtureData(root, module, id);
-            using var historic = new Hosted(new SheetEditor(module, data));
             using var host = new Hosted(editors.Open(module, data));
-            await historic.Expand(); await host.Expand();
+            await host.Expand();
             static HashSet<string> Names(DependencyObject root) => Visual(root).OfType<UIElement>().Where(e => e.IsVisible)
                 .Select(e => AutomationProperties.GetName(e)).Where(n => !string.IsNullOrEmpty(n)).ToHashSet(StringComparer.Ordinal);
-            var before = Names(historic.Root); var after = Names(host.Root);
+            var before = HistoricAutomationNames[(module, id)].ToHashSet(StringComparer.Ordinal); var after = Names(host.Root);
             var missing = before.Except(after).Order(StringComparer.Ordinal).ToArray();
             Check(missing.Length == 0, $"{module}/{id}: nomi di automazione della vista storica conservati ({before.Count}: {string.Join(", ", before.Order(StringComparer.Ordinal))})"
                 + (missing.Length == 0 ? "" : "; mancanti: " + string.Join(", ", missing)));
@@ -637,21 +735,21 @@ internal static class MaterialSheetViewChecks
 
     // ---------------------------------------------------------------- 7. read-only
 
-    /// <summary>Which controls accept the user after InspectRevision, in the historic and in the new views (kinds and keys).</summary>
+    /// <summary>Which controls accept the user before and after InspectRevision, in the new views and as in the historic views (kinds and keys).</summary>
     private static async Task ReadOnly(string root, SheetEditorFactory editors)
     {
         foreach (var (module, id) in new[] { (Concrete, "default"), (Concrete, "ec2-riduzioni-tolleranza"), (Steel, "default"), (Steel, "personalizzato-incrudente") })
         {
             var data = MaterialScenarios.FixtureData(root, module, id);
-            using var historic = new Hosted(new SheetEditor(module, data));
             using var host = new Hosted(editors.Open(module, data));
-            await historic.Expand(); await host.Expand();
+            await host.Expand();
             var side = new ViewSide(host, module);
-            string before0 = State(historic.Root, HistoricKeys(historic.Editor, module)), after0 = State(host.Root, NewKey);
+            var (before0, before) = HistoricReadOnly[(module, id)];
+            string after0 = State(host.Root, NewKey);
             Check(before0 == after0, $"{module}/{id}: prima della sola lettura stessi controlli liberi e bloccati della vista storica");
-            historic.Editor.InspectRevision(); host.Editor.InspectRevision();
-            await historic.Settle(); await host.Settle();
-            string before = State(historic.Root, HistoricKeys(historic.Editor, module)), after = State(host.Root, NewKey);
+            host.Editor.InspectRevision();
+            await host.Settle();
+            string after = State(host.Root, NewKey);
             Log.Add($"   sola lettura {module}/{id}, storica: " + before);
             Log.Add($"   sola lettura {module}/{id}, nuova:   " + after);
             Check(before == after, $"{module}/{id}: sola lettura, stessi controlli bloccati e liberi della vista storica");
@@ -685,28 +783,6 @@ internal static class MaterialSheetViewChecks
             DataGrid g => "tabella " + key(g) + (g.IsReadOnly ? " sola lettura" : " modificabile"),
             _ => null
         }).Where(s => s is not null).Order(StringComparer.Ordinal));
-
-    /// <summary>The keys of the controls of a historic view, from the accessors of its trace.</summary>
-    private static Func<FrameworkElement, string?> HistoricKeys(ISheetEditor editor, string module)
-    {
-        var sheet = (SheetEditor)editor;
-        var keys = new Dictionary<FrameworkElement, string>();
-        if (module == Concrete)
-        {
-            var view = sheet.materials!;
-            keys[view.ClassBoxForChecks] = "classe"; keys[view.ExposureBoxForChecks] = "esposizione";
-            foreach (string key in Materiali.MaterialSheetInput.NumberKeys) keys[view.NumberBoxForChecks(key)] = key;
-            foreach (string key in Materiali.MaterialSheetInput.ChoiceKeys) keys[view.ChoiceBoxForChecks(key)] = key;
-            foreach (string key in Materiali.MaterialSheetInput.FlagKeys) keys[view.OptionBoxForChecks(key)] = key;
-        }
-        else
-        {
-            var view = sheet.rebarMaterial!;
-            keys[view.Selection] = "tipo"; keys[view.DiagramBoxForChecks] = "steel_diagramma"; keys[view.ReferenceBoxForChecks] = "riferimento";
-            foreach (string key in SteelTextKeys) keys[view.TextBoxForChecks(key)] = key;
-        }
-        return e => keys.TryGetValue(e, out string? key) ? key : e is TextBox or DataGrid ? "valore" : "altro";
-    }
 
     private static string? NewKey(FrameworkElement e)
     {
