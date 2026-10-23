@@ -41,6 +41,22 @@ static partial class Program
         f.Write((ushort)0x4d42);f.Write(54+pixels.Length);f.Write(0);f.Write(54);f.Write(40);f.Write(width);f.Write(-height);f.Write((ushort)1);f.Write((ushort)32);f.Write(0);f.Write(pixels.Length);f.Write(3780);f.Write(3780);f.Write(0);f.Write(0);f.Write(pixels);
     }
     static IEnumerable<T> Descendants<T>(DependencyObject root) where T:DependencyObject{for(int i=0;i<VisualTreeHelper.GetChildrenCount(root);i++){var child=VisualTreeHelper.GetChild(root,i);if(child is T value)yield return value;foreach(var d in Descendants<T>(child))yield return d;}}
+    /// <summary>
+    /// The RC section on a sheet as the c.a. verifier opens it since 23/10/2026 (PileConcreteVerifierView, in place of the historic ConcreteWorkspace):
+    /// the MvvmSheetEditor of the module str_palo with the services and the limiter of the composition root of the desktop, by reflection as the other
+    /// views of these checks. The editor works on a copy of <paramref name="sheet"/>: <c>Data</c> reads its data after a commit.
+    /// </summary>
+    static (FrameworkElement View, IDisposable Editor, Func<JsonObject> Data) ConcreteSection(JsonObject sheet)
+    {
+        var assembly=typeof(X.Desktop.MainWindow).Assembly;var all=flags|BindingFlags.Public;
+        var compositionType=assembly.GetType("X.Desktop.Services.DesktopComposition")!;var composition=Activator.CreateInstance(compositionType,flags,null,[(Func<Window?>)(()=>null)],null)!;
+        object Property(string name)=>compositionType.GetProperty(name,all)!.GetValue(composition)!;
+        var modules=Property("Modules");var module=modules.GetType().GetMethod("SheetModule",all)!.Invoke(modules,["str_palo"])!;
+        var editorType=assembly.GetType("X.Desktop.MvvmSheetEditor")!;
+        var editor=(IDisposable)Activator.CreateInstance(editorType,flags,null,[module,sheet,Property("Services"),Anthea.Application.Modules.ModuleServices.Get("str_palo"),Property("Limiter")],null)!;
+        JsonObject Data(){editorType.GetMethod("Commit",all)!.Invoke(editor,null);return (JsonObject)editorType.GetProperty("Data",all)!.GetValue(editor)!;}
+        return ((FrameworkElement)editorType.GetProperty("View",all)!.GetValue(editor)!,editor,Data);
+    }
     static JsonObject Input()
     {
         var root=PaloOrizzontale.Defaults();var a=PaloOrizzontale.Layer();a["nome"]="Sabbia media";a["spessore"]=4;var b=PaloOrizzontale.Layer();b["nome"]="Argilla NC";b["tipologia"]="Coesivo";b["spessore"]=6;
@@ -188,7 +204,7 @@ static partial class Program
             Check(sheet["workspace_ca"]!["sle_comuni"].S("esposizione")==trial["sezione"].S("esposizione")&&sheet["workspace_ca"]!["dettagli_costruttivi"].S("elemento")=="Pilastro","concrete verifier receives shared exposure and column behavior");
             sheet["combinazioni"]!["SLU"]![0]!["azioni"]![0]=-321;two[1]!["foglio_cls"]=sheet.DeepClone();var again=ElasticHorizontalPile.CreateConcreteSheet(trial,inherited,1);Check(J.Number(again["combinazioni"]!["SLU"]![0]!["azioni"]![0])==-321,"user forces survive concrete sheet reopening");
             string beforeApply=ElasticHorizontalPile.ResponseKey(trial);sheet["input"]!["longitudinal_bar_count"]=12;ElasticHorizontalPile.ApplyConcreteSheetReinforcement(trial,sheet,1);Check(ElasticHorizontalPile.ResponseKey(trial)==beforeApply&&two[1].D("longitudinal_bar_count")==12&&!two[1].B("collegato"),"apply concrete reinforcement preserves FEM and records custom segment");
-            var caType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.ConcreteWorkspace")!;var ca=(FrameworkElement)Activator.CreateInstance(caType,flags,null,[again],null)!;Snapshot(ca,Path.Combine(dir,"verificatore-cls.png"),1400,950);((IDisposable)ca).Dispose();Check(true,"native concrete workspace opens for segment with editable loads");
+            var (ca,caEditor,_)=ConcreteSection(again);Snapshot(ca,Path.Combine(dir,"verificatore-cls.png"),1400,950);caEditor.Dispose();Check(true,"RC section of the c.a. verifier opens for segment with editable loads");
             // f5-pass-orizzontale: the editor of the reinforcement (PileReinforcementEditor of the historic view) is the XAML view of PileReinforcementViewModel
             // in the elastic tab of the sheet of the two segments; its result comes from the elastic analysis of the sheet.
             using(var segmentsHost=new PileHost(trial))

@@ -1,17 +1,7 @@
 namespace X.Desktop;
 
-internal sealed partial class BridgeWorkspace
-{
-    internal static async Task<int> CheckF3Scheduling()
-    {
-        using var service = new GatedModuleService(BridgeSection.Module);
-        using var view = new BridgeWorkspace(BridgeSection.Defaults(), service);
-        var form = view.inputForms.Single(f => f.Editors.ContainsKey("h_trave"));
-        return await F3SchedulingProbe.Run(service, () => view.CalculateAsync(),
-            value => { form.Set("h_trave", value.ToString(System.Globalization.CultureInfo.InvariantCulture)); form.Commit(); },
-            () => view.Calculation?.Input.D("h_trave"), () => view.Busy, view.Dispose, 1955, 2055);
-    }
-}
+// F5.11: the probe of the historic view of the composite bridge section (BridgeWorkspace.CheckF3Scheduling) is archived with the view in
+// supporto/SUPERATI/ui-storica/sezione-mista; the probe runs on the MVVM sheet (F3CompositeSectionMvvmSchedulingChecks).
 internal sealed partial class RetainingWallWorkspace
 {
     internal static async Task<int> CheckF3Scheduling()
@@ -23,36 +13,8 @@ internal sealed partial class RetainingWallWorkspace
             () => view.Calculation?.Input["geometry"].D("height"), () => view.Busy, view.Dispose, 3.2, 3.4);
     }
 }
-internal sealed partial class BridgeDesignWorkspace
-{
-    internal static async Task<int> CheckF3Scheduling()
-    {
-        using var service=new GatedModuleService(BridgeConcept.Module);
-        using var view=new BridgeDesignWorkspace(BridgeConcept.Defaults(),service);
-        int checks = await F3SchedulingProbe.Run(service,()=>view.CalculateAsync(),
-            value=>view.Editors["input/length"].Text=value.ToString(System.Globalization.CultureInfo.InvariantCulture),
-            ()=>view.Calculation?.Length,()=>view.Busy,view.Dispose,185,195);
-        void Check(bool ok, string message) { if (!ok) throw new InvalidOperationException(message); checks++; }
-        using var pendingService = new GatedModuleService(BridgeConcept.Module);
-        using var pendingView = new BridgeDesignWorkspace(BridgeConcept.Defaults(), pendingService);
-        await pendingService.Started.Task.WaitAsync(TimeSpan.FromSeconds(15));
-        var optimization = pendingView.RunOptimization();
-        Check(!optimization.IsCompleted && pendingView.optimizationCancellation is not null,
-            "Ricerca in attesa del calcolo non registrata");
-        var duplicate = pendingView.RunOptimization();
-        Check(duplicate.IsCompleted && pendingService.Calls == 1, "Doppia ricerca in attesa accettata");
-        pendingView.optimizationCancellation!.Cancel();
-        await optimization.WaitAsync(TimeSpan.FromSeconds(15));
-        Check(pendingView.Optimization is null && pendingView.optimizationCancellation is null &&
-            pendingView.optimizationRun.IsEnabled, "Annullamento durante l’attesa non ripristina la ricerca");
-        var closingSearch = pendingView.RunOptimization();
-        pendingView.Dispose(); pendingService.Release();
-        await Task.WhenAll(closingSearch, pendingView.WaitForCalculationAsync()).WaitAsync(TimeSpan.FromSeconds(20));
-        Check(pendingView.Calculation is null && pendingView.Optimization is null &&
-            pendingView.optimizationCancellation is null, "Chiusura durante l’attesa pubblica risultati tardivi");
-        return checks;
-    }
-}
+// F5.12: the probes of the historic view of Bridge Design (BridgeDesignWorkspace.CheckF3Scheduling) are archived with the view in
+// supporto/SUPERATI/ui-storica/bridge-design; the probes run on the MVVM sheet (F3BridgeDesignMvvmSchedulingChecks).
 internal static class F3SchedulingProbe
 {
     internal static async Task<int> Run(GatedModuleService service, Func<Task> calculate, Action<double> edit,

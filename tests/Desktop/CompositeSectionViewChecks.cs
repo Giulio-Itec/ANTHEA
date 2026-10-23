@@ -30,9 +30,11 @@ namespace X.Desktop;
 
 /// <summary>
 /// --check-sezione-mista-view &lt;radice&gt; &lt;cartella&gt; (UiTests, F5.11, proposal F5 section 7.3): the XAML view of the composite bridge section
-/// (CompositeSectionSheetView) hosted by <see cref="MvvmSheetEditor"/>, as the bench opens it with <c>--module-impl str_mista_ponte=mvvm</c>, in
-/// windows outside the screen (never activated, no mouse). The Release keeps the historic view until the user has tried the view (decisions of
-/// 17/10). Parts:
+/// (CompositeSectionSheetView) hosted by <see cref="MvvmSheetEditor"/>, as the Release opens it since the switch of 23/10/2026, in windows outside
+/// the screen (never activated, no mouse). The historic view is archived (supporto/SUPERATI/ui-storica/sezione-mista): what the parts compared with
+/// it opened beside the new one is compared with the values it gave, recorded before the archiving in tests/fixtures/f5-sezione-mista/vista-storica.json
+/// (data, Modified and result along the path of the F3 capture, CSV, curve, «?» labels, automation names, read-only, texts of «Info modello…»), or
+/// with its recipe (the report). Parts:
 /// <list type="number">
 /// <item>Traces through the view: the 20 scenarios of tests/Shared/CompositeSectionTrace.cs driven through the controls of the view (pages, fields,
 /// choices and check boxes of the FieldForms, the cards of the phases, the cells, rows and buttons of the table of the actions, situations, display,
@@ -41,16 +43,16 @@ namespace X.Desktop;
 /// the ViewModel, as the other views, MU19), equal line by line to the traces of the historic view frozen in tests/fixtures/f5-sezione-mista.</item>
 /// <item>The drawing lists of the drawing, of the local sketch and of the curves of the view, and the pixels of the figures of the report, for every
 /// F3 fixture, equal to those of the historic view frozen in tests/fixtures/f5-sezione-mista/disegni.</item>
-/// <item>For each of the 9 F3 fixtures: the visit of the F3 capture writes what the historic visit writes, and the three appearances write nothing;
-/// after the calculation data and result are those of the historic view; the exports are those of the historic view on the same data: the Word report
-/// (dates normalized) and the PDF beside it, the CSV of the stresses, the CSV of the points and fibres of a curve.</item>
+/// <item>For each of the 9 F3 fixtures: the visit of the F3 capture writes what the historic visit wrote, and the three appearances write nothing;
+/// after the calculation data and result are those of the historic view; the exports are those of the historic view: the Word report (its recipe on
+/// the result, dates normalized) and the PDF beside it, the CSV of the stresses, the CSV of the points and fibres of a curve.</item>
 /// <item>Screenshots of the view in Chiara, Scuro and Molto scuro (folder schermate; 144 DPI on this machine).</item>
 /// <item>Help: the «?» labels shown are those of the historic view; every «?» and every F1 on a field of every form reaches the IWikiNavigator of
 /// the services (lesson 1 of 17/10), F1 elsewhere the guide of the module.</item>
 /// <item>Automation names: those of the historic view kept.</item>
 /// <item>Read-only revision: the controls that accept the user are those of the historic view after InspectRevision.</item>
 /// <item>The detached view (SM3), «Espandi», «PNG» and «Info modello…» against the historic windows.</item>
-/// <item>Bench and Release: with --module-impl the section opens the MVVM view; the Release keeps the historic view.</item>
+/// <item>Bench and Release: the Release opens the MVVM view; «historic» is refused by the bench.</item>
 /// </list>
 /// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
 /// </summary>
@@ -143,10 +145,10 @@ internal static partial class CompositeSectionViewChecks
 
     /// <summary>
     /// The continuations of the sheet (the delay of the automatic calculation, the end of the engine, the publication, the curves) at the idle
-    /// priority of the dispatcher, as the historic traces run those of the historic view (CompositeSectionHistoricTrace.WithIdleContinuations):
+    /// priority of the dispatcher, as the historic traces ran those of the historic view (ViewTraceTools.WithIdleContinuations):
     /// they advance only while the check waits, never while a step settles.
     /// </summary>
-    private static T Idle<T>(Func<T> action) => CompositeSectionHistoricTrace.HistoricSide.WithIdleContinuations(action);
+    private static T Idle<T>(Func<T> action) => ViewTraceTools.WithIdleContinuations(action);
 
     /// <summary>A sheet in a window outside the screen, 1400 × 1000 as the historic traces lay out the view; its dialogs and detached window off screen too.</summary>
     private sealed class Hosted : IDisposable
@@ -179,8 +181,6 @@ internal static partial class CompositeSectionViewChecks
         internal CompositeSectionSheetViewModel Sheet => (CompositeSectionSheetViewModel)((MvvmSheetEditor)Editor).Sheet;
 
         internal CompositeSectionSheetView View => Walk(Root).OfType<CompositeSectionSheetView>().Single();
-
-        internal BridgeWorkspace Historic => ((SheetEditor)Editor).bridge ?? throw new InvalidOperationException("Foglio storico senza la vista della sezione composta.");
 
         /// <summary>The dialogs and the detached window of the view: outside the screen, never activated; the dialogs without waiting.</summary>
         private void Offscreen(CompositeSectionSheetView view)

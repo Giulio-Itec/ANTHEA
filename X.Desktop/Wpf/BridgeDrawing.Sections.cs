@@ -74,7 +74,7 @@ internal sealed partial class BridgeDrawing
         {
             var a = axes[^1];
             double y = bottom + webBottom + missing / 2, x = a.Top + (a.Bottom - a.Top) * (top - y) / hw + twh / 2;
-            text($"Inefficace {BridgeWorkspace.F(missing)} mm (in altezza)", point(x, y).X + 14, point(x, y).Y - 8);
+            text($"Inefficace {Anthea.Application.Presentation.BridgePropertyPresentation.Number(missing)} mm (in altezza)", point(x, y).X + 14, point(x, y).Y - 8);
         }
         void Gap(double x, double y, double width, double thickness) { if (width > 1e-3) hatch(rectangle(x, y, width, thickness)); }
         double outstand = (g.TopFlangeWidth - twh) / 2, excludedTop = outstand - s.Effective.Top.EffectiveAtStart;

@@ -1259,3 +1259,19 @@ dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-shell-capture <ca
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(shell-smoke|shell-capture|check-shell-draft)' -Tag <tag>"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
 ```
+
+## 13. Passo R5 della bozza dopo i passaggi della Release (23/10)
+
+Agente f5-pass-strutture, ramo `refactoring/f5-pass-strutture`. Con i passaggi della Release del 23/10 i moduli storici della Release
+diminuiscono fino a zero. Il passo `HistoricHost` di `ui/check-shell-draft` (immagine 21, ospite R5 dei moduli storici nella shell) apriva la
+sezione c.a. e i pali verticali, storici fino a quel giorno. Ora non dipende da un modulo:
+- apre il primo modulo ancora `Historic` in `ModuleImplementations.Declared`, e il secondo se c'è, con la palificata MVVM, e ripete gli stessi
+  controlli (scheda, conferma, F1, finestra staccata, revisione in sola lettura);
+- il report short della sezione c.a. storica si prova solo se il primo modulo storico è ancora `str_palo`;
+- se nessun modulo della Release è storico, il passo non è applicabile: scrive il motivo in `21-ospite-storico-non-applicabile.txt` e non cade.
+
+È l'unico allentamento ammesso dal prompt dei passaggi. L'infrastruttura R5 (`HistoricSheetViewModel`, `HistoricSheetHost`, `ReleaseSheetFactory`)
+si ritira con la parte (g), insieme a `SheetEditor` e `MainWindow`.
+
+Esito sul ramo, con la sezione composta e Bridge Design passati (`ci/20261023-131014-fps-shell`): PASS 80 controlli; il passo ha usato
+`geo_fondazioni_superficiali` e `geo_palo_verticale`.

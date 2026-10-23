@@ -27,18 +27,20 @@ namespace X.Desktop;
 /// <summary>
 /// --check-sezione-view &lt;radice&gt; &lt;cartella&gt; [parti] (UiTests, F5.10, view after S9, proposal F5 section 7.3): the XAML view of the RC section
 /// (ConcreteSectionSheetView) hosted by <see cref="MvvmSheetEditor"/>, as the bench opens it with the option module-impl str_palo=mvvm, in windows
-/// outside the screen (never activated, no mouse). The Release keeps the historic view (decisions of 17/10 and 22/10). Parts:
+/// outside the screen (never activated, no mouse). The Release keeps the historic view until the switch of the module (decisions of 17/10, 22/10 and
+/// 23/10). The parts never open the historic view: what they compared with it opened beside the new one is compared with the values it gave, recorded
+/// by this check before the switch in tests/fixtures/f5-sezione/vista-storica.json (prompt of the switches of 23/10, as for the pile group). Parts:
 /// <list type="number">
 /// <item>«banco»: with the option the bench opens the MVVM view, the Release keeps the historic one.</item>
 /// <item>«disegni»: the drawings of the view, fed by the plain data of the ViewModel through <see cref="ConcreteSectionDrawings"/> (the section of
 /// the control panel, the stress maps of the three families with every contour of the Rara for two fixtures, the section of the shear, the section
 /// σ/ε and the strain plane of the 3D panel at the limit point and at the action, the 2D domain, the M–χ curve), for every F3 fixture, equal to the
 /// display lists of the historic view frozen in tests/fixtures/f5-sezione/disegni/elenco.txt.</item>
-/// <item>«esportazioni»: for each of the 11 F3 fixtures, on the same data, the MVVM view and the historic view: the data after the opening, after
+/// <item>«esportazioni»: for each of the 11 F3 fixtures, the MVVM view against the recorded values of the historic view: the data after the opening, after
 /// the visit of the F3 capture (and the three appearances that write nothing), after the calculation, the result; then the exports: the Word report
 /// with every part (figures included, dates normalized) and the PDF beside it, the short report, the JSON of the results, the report of the M–χ
 /// curve with its figure.</item>
-/// <item>«schermate»: the tab 01 of the view in Chiara, Scuro and Molto scuro (folder schermate; 144 DPI on this machine), and the historic one.</item>
+/// <item>«schermate»: the tab 01 of the view in Chiara, Scuro and Molto scuro (folder schermate; 144 DPI on this machine), and the eight tabs.</item>
 /// <item>«aiuto»: every F1 on a field of every form of the eight tabs reaches the IWikiNavigator of the services (lesson 1 of 17/10), F1 elsewhere
 /// the guide of the module.</item>
 /// <item>«sola-lettura»: in the eight tabs the buttons and check boxes that accept the user after InspectRevision are those of the historic view.</item>
@@ -175,15 +177,12 @@ internal static partial class ConcreteSectionViewChecks
 
         internal ConcreteSectionSheetView View => CompositeSectionViewChecks.Walk(Root).OfType<ConcreteSectionSheetView>().Single();
 
-        internal ConcreteWorkspace Historic => ((SheetEditor)Editor).ConcreteForChecks;
-
         internal void Layout() { window.UpdateLayout(); Root.UpdateLayout(); }
 
-        /// <summary>Nothing left to do: the calculation, the queue and the work of the panels of the sheet (SettleForChecks for the historic view).</summary>
+        /// <summary>Nothing left to do: the calculation, the queue and the work of the panels of the sheet.</summary>
         internal async Task Settle()
         {
             Layout();
-            if (Editor is SheetEditor) { await Historic.SettleForChecks(); Layout(); return; }
             var watch = Stopwatch.StartNew(); int quiet = 0;
             while (quiet < 4)
             {
@@ -296,78 +295,97 @@ internal static partial class ConcreteSectionViewChecks
 
     // ---------------------------------------------------------------- 3. F3 fixtures and exports
 
+    /// <summary>
+    /// For the 11 F3 fixtures, on the MVVM view: the data after the opening, after the visit of the F3 capture (and the three appearances that write
+    /// nothing), after the calculation, the result, the sections saved by the report, the exported results, equal to those of the historic view on the
+    /// same data, recorded by this check before the archiving (tests/fixtures/f5-sezione/vista-storica.json: the texts compared, as the check made
+    /// them, numbered identifiers and outcomes of the parallel steps in the fixed order, C6); the Word report with every part (figures included,
+    /// dates normalized), the short report and the report of the M–χ curve equal part by part to the historic ones (recorded); the PDF beside the Word
+    /// report equal to the one that ReportFiles writes from that Word report, as SheetEditor.ExportReport wrote it.
+    /// </summary>
     private static async Task Exports(string root, string folder)
     {
         Directory.CreateDirectory(folder);
         var normalizer = new TextNormalizer();
         var editors = Editors(new Services());
         var sections = ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet();
+        var recorded = Recorded(root)["esportazioni"]!.AsObject();
+        var fixtures = ConcreteSectionScenarios.Fixtures(root);
+        Check(fixtures.Order(StringComparer.Ordinal).SequenceEqual(recorded.Select(p => p.Key).Order(StringComparer.Ordinal)),
+            "Fixture F3 della sezione c.a.: " + fixtures.Count + ", tutte con i valori registrati della vista storica");
         int reports = 0;
-        foreach (string id in ConcreteSectionScenarios.Fixtures(root))
+        foreach (string id in fixtures)
         {
             string name = Module + "--" + id;
+            var historic = recorded[id]!.AsObject();
             var data = ConcreteSectionScenarios.FixtureData(root, id);
             using var mvvm = new Hosted(editors.Open(Module, data));
-            using var historic = new Hosted(new SheetEditor(Module, data));
-            var sides = new Sides(ConcreteSectionScenarios.FixtureData(root, id), mvvm, historic);
+            var sides = new Sides(ConcreteSectionScenarios.FixtureData(root, id), mvvm, historic["sequenza"]!.AsArray());
             Check(mvvm.Editor is MvvmSheetEditor { Sheet: ConcreteSheetViewModel }, name + ": editor MVVM con la vista XAML");
-            await mvvm.Settle(); await historic.Settle();
-            mvvm.Editor.Commit(); historic.Editor.Commit();
+            await mvvm.Settle();
+            mvvm.Editor.Commit();
             sides.Dump(folder, name + "-apertura");
-            Check(sides.SameData, name + ": dati all'apertura, dopo il calcolo automatico, uguali a quelli della vista storica");
-            CompositeSectionViewChecks.Visit(mvvm.Root); CompositeSectionViewChecks.Visit(historic.Root);
-            await mvvm.Settle(); await historic.Settle();
-            mvvm.Editor.Commit(); historic.Editor.Commit();
+            Check(sides.SameData, name + ": dati all'apertura, dopo il calcolo automatico, uguali a quelli della vista storica (registrati)");
+            CompositeSectionViewChecks.Visit(mvvm.Root);
+            await mvvm.Settle();
+            mvvm.Editor.Commit();
             sides.Dump(folder, name + "-visita");
-            Check(sides.SameData, $"{name}: la visita della cattura F3 scrive come la vista storica (Modified {mvvm.Modified} / {historic.Modified})");
+            Check(sides.SameData, $"{name}: la visita della cattura F3 scrive come la vista storica (Modified {mvvm.Modified}, registrati)");
             string visited = mvvm.Editor.Data.ToJsonString(J.Options); int modified = mvvm.Modified;
             foreach (var mode in new[] { AppAppearance.Dark, AppAppearance.VeryDark, AppAppearance.Light }) { Appearance.Set(mode, false); await mvvm.Settle(); }
             mvvm.Editor.Commit();
             Check(mvvm.Editor.Data.ToJsonString(J.Options) == visited && mvvm.Modified == modified, name + ": i tre aspetti non scrivono e non sollevano Modified");
-            await mvvm.Editor.CalculateAsync(); await historic.Editor.CalculateAsync();
-            await mvvm.Settle(); await historic.Settle();
-            mvvm.Editor.Commit(); historic.Editor.Commit();
+            await mvvm.Editor.CalculateAsync();
+            await mvvm.Settle();
+            mvvm.Editor.Commit();
             sides.Dump(folder, name);
-            Check(sides.SameData && mvvm.Editor.HasResults == historic.Editor.HasResults && sides.SameResult,
-                name + ": dati e risultato dopo il calcolo uguali a quelli della vista storica (esiti dei passi paralleli nell'ordine fisso, C6)");
-            if (!historic.Editor.HasResults)
+            Check(sides.SameData && mvvm.Editor.HasResults == historic["risultati"]!.GetValue<bool>() && sides.SameResult,
+                name + ": dati e risultato dopo il calcolo uguali a quelli della vista storica (registrati; esiti dei passi paralleli nell'ordine fisso, C6)");
+            if (!historic["risultati"]!.GetValue<bool>())
             {
-                Check(Refused(() => mvvm.Editor.BuildReport("Report", sections)) == Refused(() => historic.Editor.BuildReport("Report", sections))
-                    && Refused(() => mvvm.Editor.BuildShortReport("Breve")) == Refused(() => historic.Editor.BuildShortReport("Breve")), name + ": report rifiutati come nella vista storica");
+                Check(Refused(() => mvvm.Editor.BuildReport("Report", sections)) == historic["rifiuto_report"]!.GetValue<string>()
+                    && Refused(() => mvvm.Editor.BuildShortReport("Breve")) == historic["rifiuto_breve"]!.GetValue<string>(), name + ": report rifiutati come nella vista storica (registrati)");
+                Check(sides.Complete, name + ": confronti con la vista storica tutti eseguiti");
                 continue;
             }
             // Word report with the figures and the PDF beside it, short report, JSON of the results: the bytes of the historic view.
             string title = "Fixture F3 · " + Module + " · " + id;
-            int mvvmBefore = mvvm.Modified, historicBefore = historic.Modified;
+            int mvvmBefore = mvvm.Modified;
             mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, sections);
-            historic.Editor.ExportReport(Path.Combine(folder, name + "-storica.docx"), title, sections);
-            string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.docx")), normalizer);
-            Check(part is null, name + ": report Word uguale in ogni parte a quello della vista storica, figure comprese (date normalizzate)" + (part is null ? "" : ", diversa " + part));
-            // The cover of the PDF carries the time to the minute: two exports astride a minute differ, so both sides export again (as the other view suites).
+            string? part = DifferentParts(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx")), historic["report"]!.AsObject(), normalizer);
+            Check(part is null, name + ": report Word uguale in ogni parte a quello della vista storica, figure comprese (date normalizzate, registrato)" + (part is null ? "" : ", diversa " + part));
+            // The PDF of the editor beside the Word report: the one that ReportFiles writes from that Word report, as SheetEditor.ExportReport wrote it. The
+            // cover carries the time to the minute: two writings astride a minute differ, so both are written again.
             int attempts = 1;
-            while (!SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))) && attempts < 3)
+            void Expected() => Anthea.Reports.ReportFiles.Write(Path.Combine(folder, name + "-attesa.docx"), File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx")), title);
+            Expected();
+            while (!SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.pdf"))) && attempts < 3)
             {
                 attempts++;
                 mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, sections);
-                historic.Editor.ExportReport(Path.Combine(folder, name + "-storica.docx"), title, sections);
+                Expected();
             }
-            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))),
-                name + ": PDF affiancato uguale" + (attempts > 1 ? $" ({attempts} esportazioni)" : ""));
-            Check(sides.SameData && mvvm.Modified - mvvmBefore == historic.Modified - historicBefore, name + ": il report salva le sezioni scelte come la vista storica, con gli stessi Modified");
-            string? brief = DifferentPart(mvvm.Editor.BuildShortReport("Breve " + id), historic.Editor.BuildShortReport("Breve " + id), normalizer);
-            Check(brief is null, name + ": report breve uguale a quello della vista storica" + (brief is null ? "" : ", diversa " + brief));
-            mvvm.Editor.ExportResult(Path.Combine(folder, name + "-mvvm.json")); historic.Editor.ExportResult(Path.Combine(folder, name + "-storica.json"));
-            byte[] mvvmJson = File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.json")), historicJson = File.ReadAllBytes(Path.Combine(folder, name + "-storica.json"));
-            Check(mvvmJson.SequenceEqual(historicJson) || sides.SameExport(JsonNode.Parse(mvvmJson)!, JsonNode.Parse(historicJson)!),
-                name + ": risultati JSON uguali (esiti dei passi paralleli nell'ordine fisso, C6)");
-            // The M–χ curve on both views, then its report with the figure.
-            await mvvm.Sheet.Curvature.CalculateCommand.ExecuteAsync(null); await historic.Historic.CalculateCurvatureForReportCheck();
-            await mvvm.Settle(); await historic.Settle();
+            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.pdf"))),
+                name + ": PDF affiancato uguale a quello di ReportFiles dal report Word" + (attempts > 1 ? $" ({attempts} esportazioni)" : ""));
+            Check(sides.SameData && (mvvm.Modified - mvvmBefore) / attempts == historic["report_modified"]!.GetValue<int>(),
+                name + ": il report salva le sezioni scelte come la vista storica, con gli stessi Modified (registrati)");
+            string? brief = DifferentParts(mvvm.Editor.BuildShortReport("Breve " + id), historic["breve"]!.AsObject(), normalizer);
+            Check(brief is null, name + ": report breve uguale a quello della vista storica (registrato)" + (brief is null ? "" : ", diversa " + brief));
+            mvvm.Editor.ExportResult(Path.Combine(folder, name + "-mvvm.json"));
+            byte[] mvvmJson = File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.json"));
+            // As the check made it beside the historic view: the bytes when they were equal, otherwise the texts (identifiers numbered, C6).
+            Check(historic["json_uguali"]!.GetValue<bool>() ? ShaBytes(mvvmJson) == historic["json"]!.GetValue<string>() : sides.SameExport(JsonNode.Parse(mvvmJson)!),
+                name + ": risultati JSON uguali a quelli della vista storica (registrati; esiti dei passi paralleli nell'ordine fisso, C6)");
+            // The M–χ curve, then its report with the figure.
+            await mvvm.Sheet.Curvature.CalculateCommand.ExecuteAsync(null);
+            await mvvm.Settle();
+            Check((mvvm.Sheet.Curvature.Result is not null) == historic["curva"]!.GetValue<bool>(), name + ": curva M–χ calcolata come nella vista storica");
             if (mvvm.Sheet.Curvature.Result is not null)
             {
-                string? curve = DifferentPart(mvvm.Editor.BuildReport(title, ["curvatura", "grafici"]), historic.Editor.BuildReport(title, ["curvatura", "grafici"]), normalizer);
-                Check(curve is null, name + ": report della curva M–χ con la figura uguale" + (curve is null ? "" : ", diversa " + curve));
+                string? curve = DifferentParts(mvvm.Editor.BuildReport(title, ["curvatura", "grafici"]), historic["report_curva"]!.AsObject(), normalizer);
+                Check(curve is null, name + ": report della curva M–χ con la figura uguale a quello della vista storica (registrato)" + (curve is null ? "" : ", diversa " + curve));
             }
+            Check(sides.Complete, name + ": confronti con la vista storica tutti eseguiti");
             reports++;
         }
         Log.Add($"   esportazioni: {reports} report");
@@ -399,43 +417,81 @@ internal static partial class ConcreteSectionViewChecks
     }
 
     /// <summary>
-    /// The data, the result and the exported results of the two views on the same fixture, as text to compare: the identifiers that each view
-    /// creates (rows without «id» in the fixture get Guid.NewGuid at the opening, in both views) are numbered in the order in which they appear,
-    /// as in the traces (<see cref="ConcreteGuids"/>, one numbering per view, always data first); the outcomes of the parallel steps in the fixed
-    /// order (<see cref="FixedOrder"/>, C6). Everything else as written.
+    /// The data, the result and the exported results of the MVVM view on a fixture, as text to compare with those of the historic view recorded in the
+    /// same order (<paramref name="recorded"/>, SHA-256 of each text): the identifiers that the view creates (rows without «id» in the fixture get
+    /// Guid.NewGuid at the opening) are numbered in the order in which they appear, as in the traces (<see cref="ConcreteGuids"/>, always data first),
+    /// the outcomes of the parallel steps in the fixed order (<see cref="FixedOrder"/>, C6). The texts are taken in the order in which the check took
+    /// them beside the historic view, so that the numbering and the recorded values match.
     /// </summary>
-    private sealed class Sides(JsonObject fixture, Hosted mvvm, Hosted historic)
+    private sealed class Sides(JsonObject fixture, Hosted mvvm, JsonArray recorded)
     {
-        private readonly ConcreteGuids mvvmGuids = new(fixture), historicGuids = new(fixture);
+        private readonly ConcreteGuids mvvmGuids = new(fixture);
+        private int next;
 
-        private (string Mvvm, string Historic) Data() =>
-            (mvvmGuids.Normalize(mvvm.Editor.Data.ToJsonString(J.Options)), historicGuids.Normalize(historic.Editor.Data.ToJsonString(J.Options)));
+        private string Historic() => next < recorded.Count ? recorded[next++]!.GetValue<string>()
+            : throw new InvalidOperationException("Valori registrati della vista storica esauriti al confronto " + (next + 1));
+
+        private (string Mvvm, string Historic) Data() => (mvvmGuids.Normalize(mvvm.Editor.Data.ToJsonString(J.Options)), Historic());
 
         // The data first in every comparison: the numbering of the identifiers follows the data.
         private (string Mvvm, string Historic) Result()
         {
             Data();
-            return (mvvm.Editor.Result is { } r ? mvvmGuids.Normalize(FixedOrder(r)) : "null", historic.Editor.Result is { } h ? historicGuids.Normalize(FixedOrder(h)) : "null");
+            return (mvvm.Editor.Result is { } r ? mvvmGuids.Normalize(FixedOrder(r)) : "null", Historic());
         }
 
-        internal bool SameData => Data() is var (a, b) && a == b;
+        internal bool SameData => Data() is var (a, b) && Sha(a) == b;
 
-        internal bool SameResult => Result() is var (a, b) && a == b;
+        internal bool SameResult => Result() is var (a, b) && Sha(a) == b;
 
-        internal bool SameExport(JsonNode a, JsonNode b)
+        internal bool SameExport(JsonNode a)
         {
             Data();
-            return mvvmGuids.Normalize(FixedOrder(a)) == historicGuids.Normalize(FixedOrder(b));
+            return Sha(mvvmGuids.Normalize(FixedOrder(a))) == Historic();
         }
 
-        /// <summary>The data and the results of the two views beside the exports when they differ, to read the difference.</summary>
+        /// <summary>Every recorded value compared.</summary>
+        internal bool Complete => next == recorded.Count;
+
+        /// <summary>The data and the results of the view beside the exports when they differ from the recorded ones, to read the difference.</summary>
         internal void Dump(string folder, string name)
         {
             var (a, b) = Data(); var (ra, rb) = Result();
-            if (a == b && ra == rb) return;
-            File.WriteAllText(Path.Combine(folder, name + "-dati-mvvm.json"), a); File.WriteAllText(Path.Combine(folder, name + "-dati-storica.json"), b);
-            File.WriteAllText(Path.Combine(folder, name + "-risultato-mvvm.json"), ra); File.WriteAllText(Path.Combine(folder, name + "-risultato-storica.json"), rb);
+            if (Sha(a) == b && Sha(ra) == rb) return;
+            File.WriteAllText(Path.Combine(folder, name + "-dati-mvvm.json"), a);
+            File.WriteAllText(Path.Combine(folder, name + "-risultato-mvvm.json"), ra);
         }
+    }
+
+    /// <summary>
+    /// The values of the historic view recorded by this check before its archiving (passaggio della Release della sezione c.a.):
+    /// tests/fixtures/f5-sezione/vista-storica.json.
+    /// </summary>
+    private static JsonObject Recorded(string root) =>
+        JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests", "fixtures", "f5-sezione", "vista-storica.json")))!.AsObject();
+
+    /// <summary>SHA-256 of the UTF-8 text, as the values of <see cref="Recorded"/>.</summary>
+    private static string Sha(string text) => Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(text))).ToLowerInvariant();
+
+    private static string ShaBytes(byte[] bytes) => Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(bytes)).ToLowerInvariant();
+
+    /// <summary>
+    /// First part of a Word document that differs from the parts recorded for the historic one (SHA-256 of docProps/core.xml and word/document.xml
+    /// with the dates normalized as in F3, of every other part byte for byte); null when equal.
+    /// </summary>
+    private static string? DifferentParts(byte[] docx, JsonObject recorded, TextNormalizer normalizer)
+    {
+        using var zip = new ZipArchive(new MemoryStream(docx));
+        var names = zip.Entries.Select(e => e.FullName).Order(StringComparer.Ordinal).ToArray();
+        if (!names.SequenceEqual(recorded.Select(p => p.Key).Order(StringComparer.Ordinal))) return "elenco delle parti";
+        foreach (string name in names)
+        {
+            using var stream = zip.GetEntry(name)!.Open(); using var copy = new MemoryStream(); stream.CopyTo(copy); byte[] bytes = copy.ToArray();
+            string sha = name == "docProps/core.xml" ? Sha(normalizer.Normalize(Encoding.UTF8.GetString(bytes)))
+                : name == "word/document.xml" ? Sha(normalizer.NormalizeReportTimestamps(Encoding.UTF8.GetString(bytes))) : ShaBytes(bytes);
+            if (sha != recorded[name]!.GetValue<string>()) return name;
+        }
+        return null;
     }
 
     /// <summary>First part of two Word documents that differs, with the dates of core.xml and of the text normalized as in F3; null when equal.</summary>
@@ -491,36 +547,27 @@ internal static partial class ConcreteSectionViewChecks
             written++;
         }
         Appearance.Set(AppAppearance.Light, false);
-        using (var historic = new Hosted(new SheetEditor(Module, ConcreteSectionScenarios.FixtureData(root, "default")), false, 1600, 1000))
-        {
-            await historic.Settle();
-            File.WriteAllBytes(Path.Combine(folder, "storica-pannello-chiara.png"), historic.Png());
-            written++;
-        }
-        // Every tab of the two views side by side, in Chiara, after the calculation and the M–χ curve (to compare the layouts: empty, stretched or
-        // clipped areas): schede/NN-vista.png and schede/NN-storica.png.
+        // Every tab of the view, in Chiara, after the calculation and the M–χ curve: schede/NN-vista.png (the historic view is not opened any more: its
+        // screenshots stay in the artifacts of the runs before the switch).
         string tabs = Path.Combine(folder, "schede");
         Directory.CreateDirectory(tabs);
         var data = ConcreteSectionScenarios.FixtureData(root, "default");
         using (var mvvm = new Hosted(editors.Open(Module, data), false, 1600, 1000))
-        using (var historic = new Hosted(new SheetEditor(Module, data), false, 1600, 1000))
         {
-            await mvvm.Settle(); await historic.Settle();
-            await mvvm.Editor.CalculateAsync(); await historic.Editor.CalculateAsync();
-            await mvvm.Sheet.Curvature.CalculateCommand.ExecuteAsync(null); await historic.Historic.CalculateCurvatureForReportCheck();
-            await mvvm.Settle(); await historic.Settle();
-            var historicTabs = CompositeSectionViewChecks.Walk(historic.Root).OfType<TabControl>().First();
+            await mvvm.Settle();
+            await mvvm.Editor.CalculateAsync();
+            await mvvm.Sheet.Curvature.CalculateCommand.ExecuteAsync(null);
+            await mvvm.Settle();
             foreach (int tab in BoundTabs)
             {
-                mvvm.Sheet.SelectedTab = tab; historicTabs.SelectedIndex = tab;
-                await mvvm.Settle(); await historic.Settle();
+                mvvm.Sheet.SelectedTab = tab;
+                await mvvm.Settle();
                 string number = (tab + 1).ToString("D2", System.Globalization.CultureInfo.InvariantCulture);
                 File.WriteAllBytes(Path.Combine(tabs, number + "-vista.png"), mvvm.Png());
-                File.WriteAllBytes(Path.Combine(tabs, number + "-storica.png"), historic.Png());
-                written += 2;
+                written++;
             }
         }
-        Check(written == 4 + 2 * BoundTabs.Length, "Schermate del pannello di controllo nei tre aspetti e della vista storica, e delle otto schede delle due viste: "
+        Check(written == 3 + BoundTabs.Length, "Schermate del pannello di controllo nei tre aspetti e delle otto schede: "
             + written + " PNG in " + folder + " (144 DPI su questa macchina)");
     }
 
@@ -555,39 +602,36 @@ internal static partial class ConcreteSectionViewChecks
     /// <summary>The main tabs of the view, every one bound to its ViewModel (section 20 of docs/refactoring/f5-10-sezione.md).</summary>
     private static readonly int[] BoundTabs = [0, 1, 2, 3, 4, 5, 6, 7];
 
-    /// <summary>The controls of the tab 01 that accept the user after InspectRevision, in the new view and in the historic view on the same data.</summary>
+    /// <summary>
+    /// The controls of the eight tabs that accept the user after InspectRevision, in the new view, against those of the historic view on the same data,
+    /// recorded before the switch.
+    /// </summary>
     private static async Task ReadOnly(string root)
     {
         var data = ConcreteSectionScenarios.FixtureData(root, "default");
         using var host = new Hosted(Editors(new Services()).Open(Module, data));
-        using var historic = new Hosted(new SheetEditor(Module, data));
-        await host.Settle(); await historic.Settle();
-        host.Editor.InspectRevision(); historic.Editor.InspectRevision();
-        await host.Settle(); await historic.Settle();
-        var maps = new List<Dictionary<string, string>>();
-        foreach (var hosted in new[] { historic, host })
+        await host.Settle();
+        host.Editor.InspectRevision();
+        await host.Settle();
+        var after = new Dictionary<string, string>(StringComparer.Ordinal);
+        var tabs = CompositeSectionViewChecks.Walk(host.Root).OfType<TabControl>().First();
+        foreach (int index in BoundTabs)
         {
-            var map = new Dictionary<string, string>(StringComparer.Ordinal);
-            var tabs = CompositeSectionViewChecks.Walk(hosted.Root).OfType<TabControl>().First();
-            foreach (int index in BoundTabs)
+            tabs.SelectedIndex = index; await host.Settle();
+            for (int pass = 0; pass < 3; pass++) { foreach (var e in CompositeSectionViewChecks.Walk(host.Root).OfType<Expander>().ToArray()) e.IsExpanded = true; await host.Settle(); }
+            foreach (var element in CompositeSectionViewChecks.Walk((DependencyObject)tabs.SelectedContent).OfType<ButtonBase>().Where(e => e.IsVisible && e.Content is string { Length: > 0 }))
             {
-                tabs.SelectedIndex = index; await hosted.Settle();
-                for (int pass = 0; pass < 3; pass++) { foreach (var e in CompositeSectionViewChecks.Walk(hosted.Root).OfType<Expander>().ToArray()) e.IsExpanded = true; await hosted.Settle(); }
-                foreach (var element in CompositeSectionViewChecks.Walk((DependencyObject)tabs.SelectedContent).OfType<ButtonBase>().Where(e => e.IsVisible && e.Content is string { Length: > 0 }))
-                {
-                    string key = index.ToString(System.Globalization.CultureInfo.InvariantCulture) + ":" + element.GetType().Name + ":" + element.Content;
-                    string value = element.IsEnabled ? "libero" : "bloccato";
-                    map[key] = map.TryGetValue(key, out var previous) && previous != value ? "misto" : value;
-                }
+                string key = index.ToString(System.Globalization.CultureInfo.InvariantCulture) + ":" + element.GetType().Name + ":" + element.Content;
+                string value = element.IsEnabled ? "libero" : "bloccato";
+                after[key] = after.TryGetValue(key, out var previous) && previous != value ? "misto" : value;
             }
-            maps.Add(map);
         }
-        var (before, after) = (maps[0], maps[1]);
+        var before = Recorded(root)["sola_lettura"]!.AsObject().ToDictionary(p => p.Key, p => p.Value!.GetValue<string>(), StringComparer.Ordinal);
         var common = before.Keys.Intersect(after.Keys).Order(StringComparer.Ordinal).ToArray();
         var different = common.Where(k => before[k] != after[k]).Select(k => k + ": storica " + before[k] + ", nuova " + after[k]).ToArray();
         Log.Add("   sola lettura, solo nella storica: " + string.Join(", ", before.Keys.Except(after.Keys).Order(StringComparer.Ordinal)));
         Log.Add("   sola lettura, solo nella nuova: " + string.Join(", ", after.Keys.Except(before.Keys).Order(StringComparer.Ordinal)));
-        Check(different.Length == 0 && common.Length >= 30, $"Sola lettura nelle schede legate: stessi pulsanti e caselle bloccati e liberi della vista storica ({common.Length} comuni)"
+        Check(different.Length == 0 && common.Length >= 30, $"Sola lettura nelle schede legate: stessi pulsanti e caselle bloccati e liberi della vista storica, registrati ({common.Length} comuni)"
             + (different.Length == 0 ? "" : ": " + string.Join("; ", different)));
         Check(host.Editor.HasResults, "Sola lettura: il risultato resta");
     }

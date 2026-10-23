@@ -28,10 +28,10 @@ Le voci sono, nell'ordine:
 | Cosa | Dove |
 | --- | --- |
 | Scenari e formato | `tests/Shared/BridgeDesignTrace.cs` |
-| Vista storica | `tests/Desktop/BridgeDesignHistoricTrace.cs` (passi sui controlli, stato, disegni) |
-| Comando | `ANTHEA.exe --check-bridge-design-historic <radice> <cartella>` (confronto) e `--check-bridge-design-historic-capture` (cattura), solo build UiTests |
-| Suite | `ui/check-bridge-design-historic` |
+| Vista storica | archiviata il 23/10/2026 con la sua prova, il comando `--check-bridge-design-historic[-capture]` e la suite `ui/check-bridge-design-historic` (`supporto/SUPERATI/ui-storica/bridge-design`, già `tests/Desktop/BridgeDesignHistoricTrace.cs`) |
 | ViewModel | `tests/ANTHEA.Presentation.Tests` (senza WPF) |
+| Vista XAML | `ui/check-bridge-design-view` (`tests/Desktop/BridgeDesignViewChecks*.cs`), le stesse tracce attraverso i controlli della vista |
+| Valori registrati | `vista-storica.json` (23/10/2026): i valori che `ui/check-bridge-design-view` confrontava con la vista storica e con la finestra storica dei prezzari aperte accanto, registrati dalla stessa prova prima dell'archiviazione (commit `67b554dc`, parti `prezzario,stampa,aiuto,nomi,sola-lettura,esportazioni,immagini`, PASS 176): per le 10 fixture le impronte dei dati, dei `Modified`, del risultato, del JSON esportato e dei due CSV lungo il percorso della cattura F3, i pixel del disegno (prospetto e sezione); testi, schede, colonne e pulsanti della finestra dei prezzari; testi e pixel della pagina di «Stampa scheda»; nomi di automazione (3 fixture) e sola lettura (2 fixture) |
 
 Ogni passo è quello che fa l'utente con un controllo: prima del passo l'utente apre la pagina e le schede che contengono il controllo
 (`BridgeDesignScenarios.PlaceOf`), e un controllo che non può usare (su una pagina o una scheda non mostrata, nascosto, spento o protetto

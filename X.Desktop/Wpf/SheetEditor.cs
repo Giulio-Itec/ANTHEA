@@ -27,12 +27,10 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     private ConcreteWorkspace? concrete;
     private readonly FoundationWorkspace? foundation;
     private readonly StratigraphyWorkspace? soilWorkspace;
-    internal readonly BridgeWorkspace? bridge;
-    internal readonly BridgeDesignWorkspace? bridgeDesign;
     internal readonly RetainingWallWorkspace? retainingWall;
-    public JsonObject? Result { get => foundation is not null ? foundation.Result : retainingWall is not null ? retainingWall.Result : bridgeDesign is not null ? bridgeDesign.Result : bridge is not null ? bridge.Result : concrete is null ? result : concrete.Result; private set => result = value; }
+    public JsonObject? Result { get => foundation is not null ? foundation.Result : retainingWall is not null ? retainingWall.Result : concrete is null ? result : concrete.Result; private set => result = value; }
     public bool HasResults => concrete is not null ? concrete.HasResults : Result is not null;
-    public bool Busy { get => retainingWall?.Busy ?? bridge?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
+    public bool Busy { get => retainingWall?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
     public event Action? Modified;
     public event Action<JsonObject, string>? ConcreteSectionRequested;
     public event Action? ReportRequested;
@@ -108,14 +106,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
             retainingWall.SoilTransferRequested += OpenSoilTransfer;
             Content = retainingWall; building = false; return;
         }
-        if (module == BridgeDesignModel.Module)
-        {
-            bridgeDesign = new BridgeDesignWorkspace(Data); bridgeDesign.Modified += () => Modified?.Invoke(); Content = bridgeDesign; building = false; return;
-        }
-        if (module == BridgeEditor.Module)
-        {
-            bridge = new BridgeWorkspace(Data); bridge.Modified += () => Modified?.Invoke(); Content = bridge; building = false; return;
-        }
         if (module == "mat_calcestruzzo")
         {
             materials = new Materiali.MaterialView((label, key) => WikiContextHelp.Label(label, key, "mat_calcestruzzo")); materials.RestoreState(Materiali.MaterialSheetInput.NormalizeState(Data));
@@ -155,8 +145,8 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     }
     private Action? releaseRevisionInspection;
     public void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
-    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); recalculation.Dispose(); calculationSession.Clear(); concrete?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); bridgeDesign?.Dispose(); }
-    public void Commit() { if (soilWorkspace is not null) soilWorkspace.Commit(); else if (foundation is not null) foundation.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
+    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); recalculation.Dispose(); calculationSession.Clear(); concrete?.Dispose(); retainingWall?.Dispose(); }
+    public void Commit() { if (soilWorkspace is not null) soilWorkspace.Commit(); else if (foundation is not null) foundation.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
         int index = cards.Count; var header = new DockPanel { Margin = new Thickness(0, 0, 0, 8), MinHeight = 28 };
@@ -255,8 +245,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
         if (soilWorkspace is not null) { soilWorkspace.Commit(); return; }
         if (foundation is not null) { foundation.TryCalculate(); return; }
         if (retainingWall is not null) { await retainingWall.CalculateAsync(); return; }
-        if (bridgeDesign is not null) { await bridgeDesign.CalculateAsync(); return; }
-        if (bridge is not null) { await bridge.CalculateAsync(commitEdits); return; }
         if (materials is not null || rebarMaterial is not null) { Commit(); return; }
         if (concrete is not null) { await concrete.CalculateAllAsync(); return; }
         scheduledCalculation = CalculateScheduledAsync(TimeSpan.Zero, commitEdits);
@@ -335,7 +323,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     {
         if (!HasResults || Busy) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
         var exported = Result!;
-        if (bridgeDesign is not null) exported["dati"] = Data.DeepClone();
         if (concrete is not null) exported["dati"] = Data.DeepClone();
         Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(exported.ToJsonString(J.Options)));
     }
@@ -370,8 +357,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     {
         if (foundation is not null) return Anthea.FoundationWorkspace.FoundationReport.WordDocument(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
         if (retainingWall is not null) return retainingWall.BuildReportDocument(title);
-        if (bridgeDesign is not null) return bridgeDesign.BuildReportDocument(title);
-        if (bridge is not null) return bridge.BuildReportDocument(title, options, projectReport);
         if (concrete is not null) return concrete.BuildReportDocument(title, options, projectReport);
         if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
         var images = ModuleFigureRenderer.VerticalFigures(Data, Result, Micro, plot, reference);

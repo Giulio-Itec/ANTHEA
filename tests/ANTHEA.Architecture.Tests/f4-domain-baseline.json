@@ -4196,14 +4196,6 @@
       "Example": "d . D ( \"a_irr_dx\" )"
     },
     {
-      "File": "X.Desktop/Wpf/BridgeDetailsInputs.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.BuildDetailSketch",
-      "Fingerprint": "8ACD1079B1A7DCF8704A6BAE8F5ED31FE496D2680FD88CB4C3EEBB24AFB3164D",
-      "Count": 1,
-      "Example": "viewSettings . D ( \"dettaglio_sezione\" , 0 )"
-    },
-    {
       "File": "X.Desktop/Wpf/BridgeDrawing.Annotations.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "BridgeDrawing.DrawTags.Text",
@@ -4700,62 +4692,6 @@
       "Example": "4"
     },
     {
-      "File": "X.Desktop/Wpf/BridgeLayout.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.BuildLayout",
-      "Fingerprint": "23CA676C3F11D2DB9EDD5C531E5442B34D8E22EF1FB4B59C16F95EFCA6D20CB3",
-      "Count": 1,
-      "Example": "viewSettings . D ( \"tab\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeLayout.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.SelectPage",
-      "Fingerprint": "0C0AAEF3F23A256B5CCB3283EA1B4E04963CE9DEB00BD514E1AA3AF99C021624",
-      "Count": 1,
-      "Example": "viewSettings . D ( \"risultato_\" + page , new [ ] { 2 , 0 } [ page ] )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeLayout.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.SelectPage",
-      "Fingerprint": "273FA75F71C5621AB93C1FB483385493E9C0FD17EB6E46B58B55472A097194C0",
-      "Count": 1,
-      "Example": "viewSettings . D ( \"vista_1\" , 0 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeLayout.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.SetAnalysisPanels",
-      "Fingerprint": "47351218539B73D4D5DAAE27CD0096AE9B17D5D5EB75D0179B7F2491341BDB9B",
-      "Count": 1,
-      "Example": "viewSettings . D ( \"split_righe\" , .56 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeLayout.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.SetAnalysisPanels",
-      "Fingerprint": "77C75D2945A8FE99089FED24881F19BA936D3253F83870C815C08B6DA7D70B38",
-      "Count": 1,
-      "Example": "viewSettings . D ( visible ? \"split_risultati\" : \"split_proprieta\" , .7 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeLayout.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.SetAnalysisPanels",
-      "Fingerprint": "AD17066526EE227A0076F6E1A76A1175CAD51D57A04DA06F0781A7D09B672B0F",
-      "Count": 1,
-      "Example": "viewSettings . D ( \"split_risultati\" , .7 )"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeLayout.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.Split",
-      "Fingerprint": "B7D5C64BE137467791C62DABF289CA330518F7A104AF103E48397AC4C51F9D0B",
-      "Count": 1,
-      "Example": "viewSettings . D ( \"split_\" + key , initial )"
-    },
-    {
       "File": "X.Desktop/Wpf/BridgeMethodSketch.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "BridgeMethodSketch.OnRender.Arrow",
@@ -5068,14 +5004,6 @@
       "Example": "1e6"
     },
     {
-      "File": "X.Desktop/Wpf/BridgeResponse.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.EnterResponsePage",
-      "Fingerprint": "BE4A2C662AA5499EB53AD67F1A19D708867EE0496A0F7FDDD30BA43AC59F4165",
-      "Count": 1,
-      "Example": "ResponseData . D ( \"fase\" )"
-    },
-    {
       "File": "X.Desktop/Wpf/BridgeResponsePlot.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "BridgeResponsePlot.OnRender",
@@ -5162,14 +5090,6 @@
       "Fingerprint": "FDB4157A809B57E0F946607C3644189198BAF9D7339DD8FA77BFC6674717A48D",
       "Count": 1,
       "Example": "20"
-    },
-    {
-      "File": "X.Desktop/Wpf/BridgeWorkspace.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "BridgeWorkspace.CalculateScheduledAsync",
-      "Fingerprint": "1A46588454A5F46B40D913B85534BBCE24D8318B2F4F51003545472A4B876E58",
-      "Count": 1,
-      "Example": "viewSettings . D ( \"fase\" , - 1 )"
     },
     {
       "File": "X.Desktop/Wpf/ConcreteDimensions.cs",

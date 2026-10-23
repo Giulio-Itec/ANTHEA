@@ -66,8 +66,8 @@ static partial class Program
                 "applying the c.a. verifier keeps the inner ring on the segment");
             var again = ElasticHorizontalPile.CreateConcreteSheet(trial, result, 1);
             Fact(again["input"].B("second_inner_enabled") && again["input"].D("second_inner_count") == 8, "reopening the c.a. verifier of the segment keeps the inner ring");
-            var caType = assembly.GetType("X.Desktop.ConcreteWorkspace")!; var ca = (FrameworkElement)Activator.CreateInstance(caType, flags, null, [again], null)!;
-            Snapshot(ca, Path.Combine(dir, "verificatore-tratto-riaperto.png"), 1400, 950); ((IDisposable)ca).Dispose();
+            var (ca, caEditor, _) = ConcreteSection(again);
+            Snapshot(ca, Path.Combine(dir, "verificatore-tratto-riaperto.png"), 1400, 950); caEditor.Dispose();
             var checkedRing = ElasticHorizontalPile.CalculateShared(trial);
             int t1 = checkedRing["armature"]!.Array("tratti")[0]!.Array("barre_sezione").Count, t2 = checkedRing["armature"]!.Array("tratti")[1]!.Array("barre_sezione").Count;
             Fact(t1 == outer && t2 == 12 + 8, $"elastic verifications use the inner ring only where it is assigned (T1 {t1}, T2 {t2} bars)");

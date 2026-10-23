@@ -94,12 +94,14 @@ internal static class ReportAppearanceChecks
             await editor.CalculateAsync();
             Add("sezione-ponte", editor.BuildReport("Sezione da ponte · aspetto", ReportBridge.DefaultSections()));
         }
-        using (var editor = new SheetEditor(BridgeConcept.Module, Archivio.NuovoFoglio(BridgeConcept.Module)))
+        using (var editor = editors.Open(BridgeConcept.Module, Archivio.NuovoFoglio(BridgeConcept.Module)))
         {
             await editor.CalculateAsync();
             Add("bridge-design", editor.BuildReport("Bridge Design · aspetto", []));
-            // Printed page (Print → PrintVisual inside Appearance.Document), on a Letter printable area.
-            var printed = editor.bridgeDesign!.PrintPage(816, 1056); var page = Ui.DocumentSnapshot(printed);
+            // Printed page (Print → PrintVisual inside Appearance.Document), on a Letter printable area: the page of the XAML view of the Release
+            // (since 23/10/2026; BridgeDesignPrintPage, the layout of the historic view).
+            var host = editor.View; host.Measure(new Size(1400, 1000)); host.Arrange(new Rect(0, 0, 1400, 1000)); host.UpdateLayout();
+            var printed = Ui.Descendants<X.Desktop.Views.BridgeDesign.BridgeDesignSheetView>(host).Single().PrintPage(816, 1056)!; var page = Ui.DocumentSnapshot(printed);
             check(Ui.Snapshot(printed).AsSpan().SequenceEqual(page) == (Appearance.Current == AppAppearance.Light), "Pagina di stampa: senza Appearance.Document seguirebbe l'aspetto");
             Directory.CreateDirectory(Path.Combine(directory, "esportazioni"));
             images["esportazioni/stampa-bridge-design.png"] = page; File.WriteAllBytes(Path.Combine(directory, "esportazioni", "stampa-bridge-design.png"), page);

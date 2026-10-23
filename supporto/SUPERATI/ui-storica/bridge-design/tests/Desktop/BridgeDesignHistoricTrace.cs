@@ -642,37 +642,37 @@ internal sealed partial class BridgeDesignWorkspace
         bool section = Drawing.Section;
         // The drawing is rendered again only when asked (as the buttons «Prospetto» and «Sezione» do).
         Drawing.Section = false; Drawing.InvalidateVisual();
-        list.Add(CompositeSectionHistoricTrace.Record(output, id + " prospetto 1000x400", Drawing, 1000, 400));
+        list.Add(ViewTraceTools.Record(output, id + " prospetto 1000x400", Drawing, 1000, 400));
         Drawing.Section = true; Drawing.InvalidateVisual();
-        list.Add(CompositeSectionHistoricTrace.Record(output, id + " sezione 1000x400", Drawing, 1000, 400));
+        list.Add(ViewTraceTools.Record(output, id + " sezione 1000x400", Drawing, 1000, 400));
         Drawing.Section = section; Drawing.InvalidateVisual();
         if (Find<BridgeConceptMomentPlot>(detail.Content, _ => true) is { } moments)
-        { moments.InvalidateVisual(); list.Add(CompositeSectionHistoricTrace.Record(output, id + " momenti 800x180", moments, 800, 180)); }
+        { moments.InvalidateVisual(); list.Add(ViewTraceTools.Record(output, id + " momenti 800x180", moments, 800, 180)); }
         if (Calculation is not null)
         {
-            list.Add(id + " figura prospetto · " + CompositeSectionHistoricTrace.Pixels(Drawing.Png(false)));
-            list.Add(id + " figura sezione · " + CompositeSectionHistoricTrace.Pixels(Drawing.Png(true)));
+            list.Add(id + " figura prospetto · " + ViewTraceTools.Pixels(Drawing.Png(false)));
+            list.Add(id + " figura sezione · " + ViewTraceTools.Pixels(Drawing.Png(true)));
         }
         if (!first) return list;
         Inputs.SelectedIndex = 2; await side.Settle();
         foreach (var icon in sectionPanel.Children.OfType<UniformGrid>().SelectMany(g => g.Children.OfType<Button>())
             .Select(b => Find<BridgeFamilyIcon>(b.Content, _ => true)!))
-        { icon.InvalidateVisual(); list.Add(CompositeSectionHistoricTrace.Record(output, id + " icona " + icon.Family + " 112x32", icon, 112, 32)); }
+        { icon.InvalidateVisual(); list.Add(ViewTraceTools.Record(output, id + " icona " + icon.Family + " 112x32", icon, 112, 32)); }
         WorkspaceTabs.SelectedIndex = 1; await side.Settle();
         await RunOptimization(new BridgeDesignModel.OptimizationOptions { KeepPier = true, KeepFoundation = true, MinSpans = 3, MaxSpans = 6,
             DepthPercentMin = 100, DepthPercentMax = 115, DepthPercentStep = 15, PilePercentMin = 100, PilePercentMax = 150, PilePercentStep = 25 });
         await side.Settle();
         OptimizationCloud.InvalidateVisual();
-        list.Add(CompositeSectionHistoricTrace.Record(output, id + " nuvola 900x310", OptimizationCloud, 900, 310));
+        list.Add(ViewTraceTools.Record(output, id + " nuvola 900x310", OptimizationCloud, 900, 310));
         int variable = OptimizationTrace.Variable;
         for (int v = 0; v < 9; v++)
         {
             OptimizationTrace.Variable = v; OptimizationTrace.InvalidateVisual();
-            list.Add(CompositeSectionHistoricTrace.Record(output, id + " traccia " + v + " 900x310", OptimizationTrace, 900, 310));
+            list.Add(ViewTraceTools.Record(output, id + " traccia " + v + " 900x310", OptimizationTrace, 900, 310));
         }
         OptimizationTrace.Variable = variable;
         OptimizationPreview.InvalidateVisual();
-        list.Add(CompositeSectionHistoricTrace.Record(output, id + " anteprima 900x265", OptimizationPreview, 900, 265));
+        list.Add(ViewTraceTools.Record(output, id + " anteprima 900x265", OptimizationPreview, 900, 265));
         return list;
     }
 }

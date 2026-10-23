@@ -10,7 +10,8 @@ using Anthea.Calculations;
 /// BridgeResultPresentation, BridgeResponsePresentation, BridgeReportPresentation, BridgeSheetPresentation): texts of the status and of
 /// the notices, the fields shown by the data, the cells of the table of the actions, the situation shown after a calculation, the results
 /// of the default section, the figures of the report, with values written by hand. The identity of the historic view with these
-/// functions is proved by ui/check-sezione-mista-historic (traces and drawing lists frozen before the move) and by the F3 reference.
+/// functions was proved by ui/check-sezione-mista-historic (traces and drawing lists frozen before the move; archived with the historic view on
+/// 23/10/2026), the frozen traces are compared by Presentation.Tests and ui/check-sezione-mista-view, and by the F3 reference.
 /// </summary>
 internal static class BridgeSectionPresentationChecks
 {

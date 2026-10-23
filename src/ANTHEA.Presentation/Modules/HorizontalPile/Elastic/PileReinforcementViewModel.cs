@@ -221,10 +221,10 @@ public sealed class ElasticSegmentViewModel : ObservableObject
 
 /// <summary>
 /// The c.a. verifier of a segment (historic: a dialog with a ConcreteWorkspace on the sheet of the segment, until F5.10), a dialog shown through
-/// <see cref="IDialogService"/> (decision E1/C4 of 17/10): the desktop hosts the historic ConcreteWorkspace on <see cref="Sheet"/> in it, «Applica
-/// armatura…» calls <see cref="Apply"/>, and when the dialog is closed the sheet calls <see cref="Close"/>, which keeps the sheet in the segment, as
-/// the historic dialog. <see cref="Modules.ISheetHost"/> does not change: the return lives in the dialog (proposal C4 of f5-10-sezione.md, section 5).
-/// After S9 of F5.10 the same dialog will host the ViewModel of the section.
+/// <see cref="IDialogService"/> (decision E1/C4 of 17/10): the desktop hosts the section of the Release in it (since 23/10/2026 the ViewModel of the
+/// section, ConcreteSheetViewModel, with its view, on a working copy of <see cref="Sheet"/> and with <see cref="Services"/>), «Applica armatura…» calls
+/// <see cref="Apply"/>, and when the dialog is closed the sheet calls <see cref="Close"/>, which keeps the sheet in the segment, as the historic dialog.
+/// <see cref="Modules.ISheetHost"/> does not change: the return lives in the dialog (proposal C4 of f5-10-sezione.md, section 5).
 /// </summary>
 public sealed class PileConcreteVerifier : ObservableObject, IDialogViewModel<JsonObject>
 {
@@ -244,6 +244,9 @@ public sealed class PileConcreteVerifier : ObservableObject, IDialogViewModel<Js
 
     /// <summary>The sheet of the segment (data of <see cref="ConcreteModule"/>): the host edits this object.</summary>
     public JsonObject Sheet { get; }
+
+    /// <summary>The services of the sheet of the pile, for the section hosted by the dialog (messages, dialogs, files, Wiki).</summary>
+    public PresentationServices Services => owner.Services;
 
     public string Title { get; }
 
@@ -405,6 +408,9 @@ public sealed class PileReinforcementViewModel : ObservableObject, IDisposable
     private readonly JsonObject root;
     private readonly ElasticPileViewModel elastic;
     private readonly ElasticPileSheet sheet;
+
+    /// <summary>The services of the sheet of the pile (the c.a. verifier hosts the section with them).</summary>
+    internal PresentationServices Services => sheet.Services;
     private readonly Dictionary<string, bool> expandedBills = new(StringComparer.Ordinal);
     private string calculationState = ElasticPilePresentation.ReinforcementInitial, phase = "", message = "", checkMode = "Riepilogo", mainTransverse = "";
     private bool progressVisible, progressIndeterminate, resultCommandsEnabled, isBuilt, seismicExpanded, detailsExpanded, extraExpanded, minimum;

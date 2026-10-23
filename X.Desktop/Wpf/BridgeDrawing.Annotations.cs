@@ -11,7 +11,7 @@ internal sealed partial class BridgeDrawing
     private void DrawTags(DrawingContext dc, BridgeGeometry g, double width, double height, double tagWidth, Func<double, double, Point> point)
     {
         var tags = new List<SectionTag>();
-        string F(double v) => BridgeWorkspace.F(v);
+        string F(double v) => Anthea.Application.Presentation.BridgePropertyPresentation.Number(v);
         if (ShowGeometryLabels)
         {
             tags.Add(new("Soletta collaborante", $"{F(g.Width)} × {F(g.SlabHeight)} mm", point(0, g.SlabHeight / 2), true, Ui.Navy));

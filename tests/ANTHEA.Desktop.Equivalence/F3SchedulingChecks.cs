@@ -42,15 +42,15 @@ internal sealed partial class SheetEditor
         Check(editor.Result is null, "Vista chiusa aggiornata da un calcolo completato tardi");
         Check(!editor.Busy && service.Calls == 3, $"Chiusura lascia un lavoro in coda (occupato {editor.Busy}, calcoli {service.Calls})");
         Check(data["generali"].D("diametro") != 1.35, "Vista ha modificato il documento di ingresso");
-        // F5.11: with --module-impl str_mista_ponte=mvvm the composite bridge section runs the same probe on the MVVM sheet.
-        checks += F3CompositeSectionMvvmSchedulingChecks.Active ? await F3CompositeSectionMvvmSchedulingChecks.CheckF3Scheduling() : await BridgeWorkspace.CheckF3Scheduling();
+        // F5.11: the composite bridge section runs the probe on the MVVM sheet, as the Release opens it since the switch of 23/10/2026.
+        checks += await F3CompositeSectionMvvmSchedulingChecks.CheckF3Scheduling();
         // F5.9: with --module-impl geo_muri_sostegno=mvvm the walls run the same probes on the MVVM sheet and the view of its dialog of the values.
         if (F3WallMvvmSchedulingChecks.Active) { checks += await F3WallMvvmSchedulingChecks.CheckF3Scheduling(); checks += await F3WallMvvmSchedulingChecks.CheckParameterRevision(); }
         else { checks += await RetainingWallWorkspace.CheckF3Scheduling(); checks += await RetainingWallWorkspace.CheckParameterRevision(); }
         // f5-pass-orizzontale: the design of a segment of the elastic response on the MVVM sheet and its view (the historic editor is archived).
         checks += await F3PileSegmentMvvmSchedulingChecks.CheckSegmentProposals(root);
-        // F5.12: with --module-impl str_bridge_design=mvvm Bridge Design runs the same probes on the MVVM sheet.
-        checks += F3BridgeDesignMvvmSchedulingChecks.Active ? await F3BridgeDesignMvvmSchedulingChecks.CheckF3Scheduling() : await BridgeDesignWorkspace.CheckF3Scheduling();
+        // F5.12: Bridge Design runs the probes on the MVVM sheet, as the Release opens it since the switch of 23/10/2026.
+        checks += await F3BridgeDesignMvvmSchedulingChecks.CheckF3Scheduling();
         checks += await ConcreteWorkspace.CheckF3Scheduling();
         File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF ricalcolo e chiusura");
     }
