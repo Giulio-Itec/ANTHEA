@@ -137,7 +137,14 @@ public sealed class WorkspaceSession : IDisposable
         if (Active is not { } sheet) return;
         sheet.Commit();
         Reconcile(null, sheet);
+        ActiveCommitted?.Invoke(this, sheet);
     }
+
+    /// <summary>
+    /// The sheet with the focus was confirmed into its document (F5.13 e): the window refreshes what it shows from the document, as MainWindow.Commit
+    /// refreshes the status line of the shared data.
+    /// </summary>
+    public event EventHandler<SheetSession>? ActiveCommitted;
 
     // ---- Documents
 

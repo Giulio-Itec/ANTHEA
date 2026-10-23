@@ -70,7 +70,28 @@ internal static class ShellPartEChecks
         var renamed = project.Find(second.S("id"))!;
         project.Rename(renamed, "Sezione rinominata");
         expect.That(ReferenceEquals(shell.Tree.Selected?.Node, renamed), "Cambio della struttura: il nodo cambiato selezionato");
+        StatusAfterCommit(expect);
         return expect.Count;
+    }
+
+    /// <summary>
+    /// ui/shell-smoke-hierarchy: the status line of the shared data follows the confirmation of the sheet with the focus (MainWindow.Commit refreshes it), also
+    /// when the data reached the sheet without an edit of its view.
+    /// </summary>
+    private static void StatusAfterCommit(Expect expect)
+    {
+        var bench = new ShellBench(new ScriptedConfirmations().Then(false));
+        using var shell = new ShellViewModel(bench.Services, bench.Factory, new DocumentFiles(Path.Combine(Path.GetTempPath(), "anthea-esempi-assenti")), new NoWindows(), new SheetFileExports());
+        var project = shell.Workspace.NewProject()!;
+        var section = project.AddSection(project.AddProject()!)!;
+        var first = project.AddSheet("mat_calcestruzzo", section)!;
+        project.AddSheet("mat_calcestruzzo", section);
+        var sheet = shell.Workspace.OpenSheet(first);
+        expect.That(!shell.SharedStatus.Text.Contains("Dati diversi tra i fogli", StringComparison.Ordinal), "Fogli uguali: nessuna differenza nella riga di stato");
+        sheet.ViewModel.Data["classe"] = "C40/50";
+        shell.Workspace.CommitActive();
+        expect.That(shell.SharedStatus.IsVisible && shell.SharedStatus.Text.Contains("Dati diversi tra i fogli", StringComparison.Ordinal),
+            "Conferma con «Solo questo foglio»: la riga di stato mostra la differenza");
     }
 
     /// <summary>

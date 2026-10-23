@@ -116,6 +116,8 @@ public sealed class ShellViewModel : ViewModelBase
         Workspace.DocumentsChanged += (_, _) => OnDocumentsChanged();
         Workspace.SheetsReloaded += (_, _) => OnActiveChanged();
         Workspace.SheetClosed += OnSheetClosed;
+        // F5.13 e (ui/shell-smoke-hierarchy): the status line follows the confirmed data too (MainWindow.Commit, RefreshSharedStatus), not only the edits.
+        Workspace.ActiveCommitted += (_, sheet) => { if (ReferenceEquals(sheet, Workspace.Active)) { SharedStatus.Update(sheet); UpdateTitle(); } };
         Workspace.ReportRequested += (_, sheet) => { if (ReferenceEquals(sheet, Workspace.Active)) _ = Commands.ReportCommand.ExecuteAsync(null); };
         OnDocumentsChanged();
         UpdateCenter();
