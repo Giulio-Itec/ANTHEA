@@ -54,7 +54,9 @@ internal sealed partial class ShellSmokeWindow : IDisposable
     /// <summary>MainWindow.document: the document assigned by the suite until it opens; then the working document of the shell.</summary>
     internal JsonObject document
     {
-        get => pending ?? Bench.Workspace.CurrentDocument?.WorkingDocument ?? throw new InvalidOperationException("Nessun documento aperto nella shell.");
+        // On the page «Progetti» the document of MainWindow was the archive of the projects; elsewhere the document of the sheet with the focus.
+        get => pending ?? (Bench.Shell.Navigation.Page == ShellPage.Projects && Bench.Workspace.Project is { } project ? project.WorkingDocument
+            : Bench.Workspace.CurrentDocument?.WorkingDocument) ?? throw new InvalidOperationException("Nessun documento aperto nella shell.");
         set => pending = value;
     }
 
@@ -69,7 +71,7 @@ internal sealed partial class ShellSmokeWindow : IDisposable
     }
 
     /// <summary>MainWindow.currentSheet: the node of the sheet with the focus (assigning it does nothing: the shell chooses the sheet).</summary>
-    internal JsonObject? currentSheet { get => Bench.Workspace.Active?.Sheet; set { } }
+    internal JsonObject? currentSheet { get => (Bench.Workspace.Active ?? Bench.Shell.Navigation.Last)?.Sheet; set { } }
 
     /// <summary>MainWindow.path: the file of the document of the shell.</summary>
     internal string? path => Bench.Workspace.CurrentDocument?.Path;
@@ -152,11 +154,28 @@ internal sealed partial class ShellSmokeWindow : IDisposable
     /// <summary>MainWindow.Content: the root of the window of the shell.</summary>
     internal object Content => Window.Content;
 
-    /// <summary>MainWindow.wiki: the Wiki view of the window (the shell keeps its own in the Wiki tab; a view assigned by a suite is not used).</summary>
-    internal WikiView? wiki { get; set; }
+    /// <summary>MainWindow.wiki: the Wiki view of the Wiki tab of the shell, when it is shown (a view assigned by a suite is not used: the shell builds its own).</summary>
+    internal WikiView? wiki
+    {
+        get { UpdateLayout(); return Ui.Descendants<WikiView>(Window).FirstOrDefault(); }
+        set { }
+    }
 
-    /// <summary>MainWindow.ShowWiki: the Wiki tab of the shell on the article.</summary>
-    internal void ShowWiki(string uri) { OpenPending(); Bench.Shell.ShowWiki(uri); UpdateLayout(); }
+    /// <summary>MainWindow.dashboard: a page in the centre of the window (the Wiki tab of the shell included).</summary>
+    internal static object dashboard => dashboardViewport;
+
+    /// <summary>MainWindow.ShowWiki: the Wiki tab of the shell on the article (the home of the Wiki without one).</summary>
+    internal void ShowWiki(string? uri = null) { OpenPending(); Bench.Shell.ShowWiki(uri); UpdateLayout(); }
+
+    /// <summary>MainWindow.OpenWikiModule: the example of the Wiki opened in the module, as a new file (ShellViewModel.OpenWikiModule).</summary>
+    internal void OpenWikiModule(string module, string? example) { Bench.Shell.OpenWikiModule(module, example); UpdateLayout(); }
+
+    /// <summary>«Wiki del modulo» of the bar of the sheet (MainWindow.wikiHelp): its command, as the button executes it.</summary>
+    internal void PressWikiHelp() { Bench.Shell.SheetBar.GuideCommand.Execute(null); UpdateLayout(); }
+
+    /// <summary>MainWindow.NewProjects and AddProject: a new archive of projects, «+ Progetto».</summary>
+    internal void NewProjects() { pending = null; Bench.Workspace.NewProject(); Bench.Shell.Navigation.Select(ShellPage.Projects); UpdateLayout(); }
+    internal void AddProject() { Bench.Project.AddProject(); UpdateLayout(); }
 
     /// <summary>A node selected in the tree of the project, as the user selects it (the tree of the shell).</summary>
     internal void SelectInTree(JsonObject node) { Bench.Item(node).IsSelected = true; UpdateLayout(); }

@@ -98,10 +98,10 @@ internal static class WikiChecks
         Check(WikiCatalog.Search("π").Any(a => a.Title.Contains("Instabilità")), "Ricerca di simboli matematici e concetti associati");
         Check(WikiCatalog.Search("LTB").Any(a => a.Key == "euler"), "Ricerca acronimo LTB e distinzione da Euler");
         Check(WikiCatalog.Search("pressoflessione").Any(a => a.Key == "guida-sezione-ca"), "Ricerca glossario dominio M-N");
-        var data = MainWindow.WikiExamples.Create("str_palo", "beam-ca"); ModuleCatalog.ValidateData("str_palo", data);
+        var data = Anthea.Presentation.Shell.Navigation.WikiExamples.Create("str_palo", "beam-ca"); ModuleCatalog.ValidateData("str_palo", data);
         Check(data["combinazioni"]?["SLU"]?[0]?["azioni"]?[4]?.ToString() == "200", "Momento numerico dell'esempio: 25 × 8² / 8 = 200 kNm");
         Check(SectionWorkspace.Sets.Skip(1).All(s => data["combinazioni"]![s]!.AsArray().Count == 0), "Nessuna combinazione di fabbrica residua nell'esempio");
-        var other = MainWindow.WikiExamples.Create("str_palo", "beam-ca"); data["input"]!["height_mm"] = "700";
+        var other = Anthea.Presentation.Shell.Navigation.WikiExamples.Create("str_palo", "beam-ca"); data["input"]!["height_mm"] = "700";
         Check(other["input"]!["height_mm"]!.ToString() == "800", "Esempi e default indipendenti");
         var file = Path.Combine(directory, "progress.json"); var state = new WikiProgress(file);
         state.Update(beam.Id, "taglio", .6, true); state.Save();
@@ -173,18 +173,20 @@ internal static class WikiChecks
                 Check(vector.DesiredSize.Width > 0, "Figura vettoriale incorporata · " + source);
             }
             else Check(Ui.Asset("Wiki/" + name).PixelWidth > 0, "Figura incorporata · " + source);
-        File.WriteAllText(Path.Combine(directory, "integration-stage.txt"), "Prima del costruttore MainWindow");
-        var main = new MainWindow(TestServices.Create);
-        File.WriteAllText(Path.Combine(directory, "integration-stage.txt"), "Prima delle verifiche di integrazione");
-        try { main.CheckWikiIntegration(checks, directory); }
-        finally { main.FinishSmoke(); main.Close(); }
+        // F5.13 g: the integration with the window on the new shell (ShellSmokeWindow, off screen), in place of MainWindow.
+        File.WriteAllText(Path.Combine(directory, "integration-stage.txt"), "Prima della shell");
+        using (var main = await ShellSmokeWindow.OpenAsync(directory))
+        {
+            File.WriteAllText(Path.Combine(directory, "integration-stage.txt"), "Prima delle verifiche di integrazione");
+            main.CheckWikiIntegration(checks, directory);
+        }
         File.WriteAllText(Path.Combine(directory, "integration-stage.txt"), "Integrazione completata");
         File.WriteAllText(Path.Combine(directory, "checks.json"), JsonSerializer.Serialize(checks, new JsonSerializerOptions { WriteIndented = true }));
         File.WriteAllText(Path.Combine(directory, "completato.txt"), $"PASS {checks.Count} controlli Wiki");
     }
 }
 
-public sealed partial class MainWindow
+internal sealed partial class ShellSmokeWindow
 {
     internal void CheckWikiIntegration(List<string> checks, string directory)
     {
@@ -215,7 +217,7 @@ public sealed partial class MainWindow
         var release = RevisionInspection.Protect(probe);
         Check(helpButton.IsEnabled, "Wiki consultabile nelle revisioni in sola lettura"); release();
         var exampleEditor = editor;
-        wikiHelp.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        PressWikiHelp();
         Check(ReferenceEquals(body.Content, dashboard) && ReferenceEquals(editor, exampleEditor)
             && editor!.Data["input"]!["moment_x_knm"]!.ToString() == "200", "Pulsante Wiki apre la guida e conserva editor e azioni dell'esempio");
         ResumeCalculation();
