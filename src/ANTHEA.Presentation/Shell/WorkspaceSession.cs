@@ -71,6 +71,8 @@ public sealed class WorkspaceSession : IDisposable
     private readonly IDocumentFiles files;
     private readonly List<CalculationDocumentSession> calculations = [];
     private readonly List<SheetSession> sheets = [];
+    /// <summary>The sheets closed by the preview of an archived revision, with the focus they had (F5.13 e).</summary>
+    private readonly List<(string Id, bool Active)> previewClosed = [];
     private bool disposed;
 
     public WorkspaceSession(PresentationServices services, ISheetFactory factory, IDocumentFiles files)
@@ -254,6 +256,7 @@ public sealed class WorkspaceSession : IDisposable
         if (!ConfirmDiscard(project)) return false;
         foreach (var sheet in sheets.Where(s => ReferenceEquals(s.Owner, project)).ToArray()) Close(sheet, SheetCloseReason.DocumentClosed);
         project.Changed -= OnProjectChanged;
+        previewClosed.Clear();
         Project = null;
         DocumentsChanged?.Invoke(this, EventArgs.Empty);
         return true;
@@ -445,10 +448,39 @@ public sealed class WorkspaceSession : IDisposable
                 continue;
             }
             if (change is ProjectChange.Restored) missing.Add(ShellTexts.SheetName(sheet.Sheet));
+            // F5.13 e: a sheet without a node in the archived revision on screen comes back with the current version (MainWindow keeps the sheet of the
+            // navigation, revisionNavigationSheetId, and shows it again on the current version).
+            if (change is ProjectChange.RevisionShown && project.IsPreviewingRevision && !previewClosed.Any(p => p.Id == sheet.Id))
+                previewClosed.Add((sheet.Id, ReferenceEquals(sheet, Active)));
             Close(sheet, replaced ? SheetCloseReason.Missing : SheetCloseReason.Removed);
         }
+        if (change is ProjectChange.RevisionShown or ProjectChange.RevisionDeleted or ProjectChange.PreviewExited && !project.IsPreviewingRevision)
+            ReopenClosedByPreview(project, activate: change is not ProjectChange.PreviewExited, reloaded);
         if (reloaded.Count > 0) SheetsReloaded?.Invoke(this, new SheetsReloadedEventArgs(source, reloaded, change));
         if (missing.Count > 0) services.Messages.Inform("ANTHEA", string.Join("\n", missing.Select(MissingSheet)));
+    }
+
+    /// <summary>
+    /// The current version is on screen again (F5.13 e, ui/shell-smoke-project-workspace): the sheets closed because the archived revision had no node with
+    /// their identifier reopen on the current one, in their order; the sheet that had the focus takes it again after a switch of the revision bar (not when
+    /// a page of the navigation ended the preview: the page stays). The others still missing are forgotten.
+    /// </summary>
+    private void ReopenClosedByPreview(ProjectSession project, bool activate, List<SheetSession> reopened)
+    {
+        if (previewClosed.Count == 0) return;
+        var closed = previewClosed.ToArray();
+        previewClosed.Clear();
+        SheetSession? focus = null;
+        foreach (var (id, active) in closed)
+        {
+            if (project.Find(id) is not { } node || !node.ContainsKey("modulo_id") || sheets.Any(s => ReferenceEquals(s.Sheet, node))) continue;
+            var sheet = new SheetSession(project, node, factory, s => new Host(this, s));
+            sheets.Add(sheet);
+            SheetOpened?.Invoke(this, sheet);
+            reopened.Add(sheet);
+            if (active) focus = sheet;
+        }
+        if (activate && focus is not null && Active is null) SetActive(focus);
     }
 
     /// <summary>

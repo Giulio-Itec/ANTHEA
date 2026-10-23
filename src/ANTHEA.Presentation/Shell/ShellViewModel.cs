@@ -115,6 +115,7 @@ public sealed class ShellViewModel : ViewModelBase
         Workspace.ActiveChanged += (_, _) => OnActiveChanged();
         Workspace.DocumentsChanged += (_, _) => OnDocumentsChanged();
         Workspace.SheetsReloaded += (_, _) => OnActiveChanged();
+        Workspace.SheetClosed += OnSheetClosed;
         Workspace.ReportRequested += (_, sheet) => { if (ReferenceEquals(sheet, Workspace.Active)) _ = Commands.ReportCommand.ExecuteAsync(null); };
         OnDocumentsChanged();
         UpdateCenter();
@@ -571,6 +572,19 @@ public sealed class ShellViewModel : ViewModelBase
     }
 
     private void OnProjectState(object? sender, EventArgs e) => UpdateTitle();
+
+    /// <summary>
+    /// F5.13 e (ui/shell-smoke-project-workspace): the sheet with the focus closed because the document on screen has no node with its identifier (a revision,
+    /// undo or redo) and no other sheet took the focus: the overview of the section of the revisions, otherwise of the section of the sheet, as MainWindow
+    /// shows the structure of the project (SwitchProjectRevision, RestoreProjectHistory). Before, the centre fell back to the home page or to a tab without
+    /// the focus.
+    /// </summary>
+    private void OnSheetClosed(object? sender, SheetClosedEventArgs e)
+    {
+        if (e.Reason != SheetCloseReason.Missing || Workspace.Active is not null || Navigation.Page is not null || Workspace.Project is not { } project) return;
+        var section = project.Find(project.RevisionScopeId) ?? project.Find((e.Sheet.Sheet.Parent?.Parent as JsonObject)?.S("id"));
+        guard.Run(() => ShowOverview(section));
+    }
 
     /// <summary>
     /// Any change of the project rebuilds the overview on screen (the section found again by identifier), as MainWindow shows it again; the model
