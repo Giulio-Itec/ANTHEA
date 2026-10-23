@@ -156,19 +156,19 @@ commit della prova non è c7fe03dd.
 
 | Controllo | Atteso | Esito |
 | --- | --- | --- |
-| Commit del full = commit del setup, albero pulito | stesso SHA | DA COMPILARE |
-| Full `rilascio-1.13.0-full` | PASS, NEW-FAIL 0 dopo le ripetizioni | DA COMPILARE |
-| `ui/f3-equivalence` | nessuna differenza non ammessa | DA COMPILARE |
-| Suite installer (`installer/safety`, `installer/guides`, `installer/examples`) | PASS | DA COMPILARE |
-| `7z t` del setup | nessun errore | DA COMPILARE |
-| Versione del prodotto di `ANTHEA.exe` estratto | `1.13.0+<commit>` | DA COMPILARE |
-| File distribuiti uguali allo staging (SHA-256) | tutti; 382 nella 1.12.1 | DA COMPILARE |
-| File applicativi | 326 nella 1.12.1; differenze da spiegare | DA COMPILARE |
-| DLL GPC uguali a `lib/Checker/manifest.json` | 13, set AF, manifest `F4FC33A2…7D03F` | DA COMPILARE |
-| Guide | pratica e teorica Rev58 e indice uguali ai PDF del repository | DA COMPILARE |
-| Esempi | 52 in 15 moduli, uguali al catalogo | DA COMPILARE |
-| Gmsh, UnsafeEx, assembly di prova o legacy | nessuno | DA COMPILARE |
-| Setup | nome, dimensione, SHA-256 | DA COMPILARE |
+| Commit del full = commit del setup, albero pulito | stesso SHA | e1d9976c per entrambi, albero pulito (`source_clean: true`) |
+| Full `full-fine-ca-1.13.0` | PASS, NEW-FAIL 0 dopo le ripetizioni | PASS 185, KNOWN 0, NEW-FAIL 0, nessuna ripetizione necessaria (contrasto escluso: schermo a 144 DPI) |
+| `ui/f3-equivalence` | nessuna differenza non ammessa | PASS (173 s) |
+| Suite installer (`installer/safety`, `installer/guides`, `installer/examples`) | PASS | PASS, PASS, PASS |
+| `7z t` del setup | nessun errore | nessun errore, 387 file |
+| Versione del prodotto di `ANTHEA.exe` estratto | `1.13.0+<commit>` | `1.13.0+e1d9976c0f0b900a28f143f325d06d055d28336a` |
+| File distribuiti uguali allo staging (SHA-256) | tutti; 382 nella 1.12.1 | 382, tutti uguali |
+| File applicativi | 326 nella 1.12.1; differenze da spiegare | 326, come la 1.12.1 |
+| DLL GPC uguali a `lib/Checker/manifest.json` | 13, set AF, manifest `F4FC33A2…7D03F` | 13, set AF, manifest `F4FC33A2…7D03F` |
+| Guide | pratica e teorica Rev58 e indice uguali ai PDF del repository | Rev58 |
+| Esempi | 52 in 15 moduli, uguali al catalogo | 52 in 15 moduli |
+| Gmsh, UnsafeEx, assembly di prova o legacy | nessuno | nessuno (`forbidden_files` vuoto) |
+| Setup | nome, dimensione, SHA-256 | `ANTHEA-1.13.0-Setup-x64.exe`, 69 669 844 byte, `05B482C08868936EA8A005EB060150F521BD6FF14FE46774E446C84C0C379E35` |
 
 ### 6. Pubblicazione, solo con l'ok esplicito dell'utente
 
@@ -180,4 +180,14 @@ commit della prova non è c7fe03dd.
 
 ## Esito del rilascio
 
-DA COMPILARE: full, ripetizioni, setup (percorso, byte, SHA-256, versione del prodotto), audit, decisioni dell'utente.
+Notte del 23/10, coordinatore:
+- **Full** su e1d9976c (`supporto/artefatti/ci/20261023-013037-full-fine-ca-1.13.0`, 01:30–03:00): PASS 185, KNOWN 0, NEW-FAIL 0 al primo giro, senza ripetizioni. È anche la full di fine modulo della sezione c.a. voluta dall'utente.
+- **Setup:** `supporto/artefatti/rilascio-1.13.0/installer/ANTHEA-1.13.0-Setup-x64.exe`, 69 669 844 byte, SHA-256 `05B482C08868936EA8A005EB060150F521BD6FF14FE46774E446C84C0C379E35`, prodotto `1.13.0+e1d9976c0f0b900a28f143f325d06d055d28336a`.
+- **Audit:** `Audit-Installer.py` PASS (`audit-payload.json` accanto al setup); `7z t` senza errori.
+- **Decisioni dell'utente ancora aperte:**
+  - tag `v1.13.0`, push di `refactoring/f5`, merge su `main`;
+  - tag `v1.12.1`;
+  - «Limiti noti» nelle note e loro distribuzione;
+  - campo P5.
+
+Il setup è costruito da e1d9976c. I commit unificati dopo, come il resto della shell F5.13, restano fuori dalla 1.13.0 se il tag va su e1d9976c.
