@@ -94,8 +94,8 @@ segnalato come le più bisognose dell'utente.
 | 12. F5.12 Bridge Design e prezzari | 22 | 0 | 22 |
 | 13. F5.13 shell | 59 | 28 | 31 |
 | 14. Registro delle differenze R4–R21 | 17 | 0 | 17 |
-| 15. Voci trasversali | 21 | 3 | 18 |
-| **Totale** | **255** | **31** | **224** |
+| 15. Voci trasversali | 21 | 4 | 17 |
+| **Totale** | **255** | **32** | **223** |
 
 Note sul conteggio:
 - Una riga è una voce. Alcune righe uniscono codici che pongono la stessa domanda, per esempio «C2, S5-c» o «S6-a, S8-b».
@@ -607,7 +607,7 @@ Fonti: [f5-suite-ui.md §5](f5-suite-ui.md#5-domande-da-decidere-scelte-provviso
 | G1 (F5.13 g) | `SheetImplementation.Historic` senza viste storiche | Resta come valore dei moduli non elencati, rifiutati con il testo del `SheetEditor` archiviato (`SheetEditorFactory.NoView`) | Togliere l'enumerazione e ridurre `ModuleImplementations` a un elenco di moduli | nessuno (solo codice) | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
 | G2 (F5.13 g) | Voci della Chiara con chiave `MainWindow` (162 voci, 559 occorrenze, quasi tutte delle viste storiche già archiviate) | Si convertono con la porta di `ContrastAudit` alla shell e una corsa a 96 DPI; finché `MainWindow` c'è restano | Non indicata | solo prove | [f5-13-shell §14.5](f5-13-shell.md#145-contrasto-d12) |
 | G5 (F5.13 g) | `CheckBridgeOptions` vuole il fuoco della tastiera: la facciata delle suite attiva la finestra della shell fuori dallo schermo | Come prima con `MainWindow` | Rinunciare al controllo del fuoco | solo prove | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
-| G6 (F5.13 g) | A 1920 × 1080 la pagina del palo orizzontale scorre nella shell (F5-61) | `ui/smoke` e `ui/smoke-horizontal` restano su `MainWindow`, che non si archivia | Accettare e controllare l'area della scheda (come SH40); oppure stessa altezza di `MainWindow` | solo interfaccia | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
+| G6 (F5.13 g) | A 1920 × 1080 la pagina del palo orizzontale scorre nella shell (F5-61) | **Decisa 24/10** (00:15): «accetto che la pagina del palo orizzontale scorra nella shell a Full HD; le due suite controllano l'area della scheda, come per SH40» | — | solo interfaccia | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
 
 ### 15.4 Altre voci
 
