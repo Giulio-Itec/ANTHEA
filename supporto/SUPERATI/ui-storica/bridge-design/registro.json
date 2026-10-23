@@ -1,0 +1,75 @@
+[
+  {
+    "origine": "X.Desktop/Wpf/BridgeDesignWorkspace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/bridge-design/X.Desktop/Wpf/BridgeDesignWorkspace.cs",
+    "commit": "f398251c (ultimo che lo modifica), invariato fino a refactoring/f5-pass-strutture 67b554dc",
+    "sha256": "65c2882a133435e5d2b3c91ee6d07b7eb5aa61b4e612dd6e4671f3901086379b",
+    "sha256_lf": "7f62624499c87cc39a7ce3e8cdc283bd959c0f74c536ae893a0933e6e17f17b0",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.12, decisione Q11; prompt dei passaggi del 23/10): la Release apre Bridge Design (str_bridge_design) con la vista MVVM e l'editor dei prezzari come dialogo del servizio; la vista storica e la finestra storica dei prezzari non sono più raggiungibili né compilate",
+    "sostituzione": "X.Desktop/Views/BridgeDesign (vista XAML e PriceCatalogueView, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs e WpfDialogService), src/ANTHEA.Presentation/Modules/BridgeDesign (ViewModel), X.Desktop/Wpf/BridgeDesignPrintPage.cs (pagina di «Stampa scheda»); i disegni BridgeDesignDrawing, BridgeDesignAdvancedDrawing, BridgeOptimizationPlot restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeDesignOptimization.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/bridge-design/X.Desktop/Wpf/BridgeDesignOptimization.cs",
+    "commit": "f398251c (ultimo che lo modifica), invariato fino a refactoring/f5-pass-strutture 67b554dc",
+    "sha256": "cc6da881bcd9fde04f6db87d629968776f015881f1edab29e43bdaa152f7a32c",
+    "sha256_lf": "2f6bf1a6fe84389f4907a9c687112363927c39d81bade3b10167989f463c6902",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.12, decisione Q11; prompt dei passaggi del 23/10): la Release apre Bridge Design (str_bridge_design) con la vista MVVM e l'editor dei prezzari come dialogo del servizio; la vista storica e la finestra storica dei prezzari non sono più raggiungibili né compilate",
+    "sostituzione": "X.Desktop/Views/BridgeDesign (vista XAML e PriceCatalogueView, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs e WpfDialogService), src/ANTHEA.Presentation/Modules/BridgeDesign (ViewModel), X.Desktop/Wpf/BridgeDesignPrintPage.cs (pagina di «Stampa scheda»); i disegni BridgeDesignDrawing, BridgeDesignAdvancedDrawing, BridgeOptimizationPlot restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeDesignOptimizationPanel.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/bridge-design/X.Desktop/Wpf/BridgeDesignOptimizationPanel.cs",
+    "commit": "f398251c (ultimo che lo modifica), invariato fino a refactoring/f5-pass-strutture 67b554dc",
+    "sha256": "5cdd16f77b649d7baa9c21a6ea49f579e94a3f156354549162f34d9c5e18fb3b",
+    "sha256_lf": "65cf91410a187a1849c01ee997a7c565dab9a639cf10ff1cc87ff5478d6216c3",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.12, decisione Q11; prompt dei passaggi del 23/10): la Release apre Bridge Design (str_bridge_design) con la vista MVVM e l'editor dei prezzari come dialogo del servizio; la vista storica e la finestra storica dei prezzari non sono più raggiungibili né compilate",
+    "sostituzione": "X.Desktop/Views/BridgeDesign (vista XAML e PriceCatalogueView, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs e WpfDialogService), src/ANTHEA.Presentation/Modules/BridgeDesign (ViewModel), X.Desktop/Wpf/BridgeDesignPrintPage.cs (pagina di «Stampa scheda»); i disegni BridgeDesignDrawing, BridgeDesignAdvancedDrawing, BridgeOptimizationPlot restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgeDesignTechnical.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/bridge-design/X.Desktop/Wpf/BridgeDesignTechnical.cs",
+    "commit": "f398251c (ultimo che lo modifica), invariato fino a refactoring/f5-pass-strutture 67b554dc",
+    "sha256": "dd416f092a189e201e47ade8c20bd8c63840ac06ee7bcd27e5c14544d3c780c6",
+    "sha256_lf": "859b9aa08ec4eb0da969c3a90de07b764515ee6cb277a0c0c1dd9faf68362c27",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.12, decisione Q11; prompt dei passaggi del 23/10): la Release apre Bridge Design (str_bridge_design) con la vista MVVM e l'editor dei prezzari come dialogo del servizio; la vista storica e la finestra storica dei prezzari non sono più raggiungibili né compilate",
+    "sostituzione": "X.Desktop/Views/BridgeDesign (vista XAML e PriceCatalogueView, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs e WpfDialogService), src/ANTHEA.Presentation/Modules/BridgeDesign (ViewModel), X.Desktop/Wpf/BridgeDesignPrintPage.cs (pagina di «Stampa scheda»); i disegni BridgeDesignDrawing, BridgeDesignAdvancedDrawing, BridgeOptimizationPlot restano"
+  },
+  {
+    "origine": "X.Desktop/Wpf/BridgePricesView.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/bridge-design/X.Desktop/Wpf/BridgePricesView.cs",
+    "commit": "f398251c (ultimo che lo modifica), invariato fino a refactoring/f5-pass-strutture 67b554dc",
+    "sha256": "133dc7d532b777b12221fc5ac4534d91af4bc92f9c4e87a85036589c365f50c8",
+    "sha256_lf": "57a0ce3d1bd1f63689aa67ddec83eb720c18e6024326462240b0f5051542f87a",
+    "motivo": "Passaggio della Release del 23/10/2026 (F5.12, decisione Q11; prompt dei passaggi del 23/10): la Release apre Bridge Design (str_bridge_design) con la vista MVVM e l'editor dei prezzari come dialogo del servizio; la vista storica e la finestra storica dei prezzari non sono più raggiungibili né compilate",
+    "sostituzione": "X.Desktop/Views/BridgeDesign (vista XAML e PriceCatalogueView, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs e WpfDialogService), src/ANTHEA.Presentation/Modules/BridgeDesign (ViewModel), X.Desktop/Wpf/BridgeDesignPrintPage.cs (pagina di «Stampa scheda»); i disegni BridgeDesignDrawing, BridgeDesignAdvancedDrawing, BridgeOptimizationPlot restano"
+  },
+  {
+    "origine": "tests/Desktop/BridgeDesignHistoricTrace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/bridge-design/tests/Desktop/BridgeDesignHistoricTrace.cs",
+    "commit": "67b554dc (ultimo che lo modifica), invariato fino a refactoring/f5-pass-strutture 67b554dc",
+    "sha256": "932b3c6aceb86dc2b800dfe4f46e891352e127410ad817b8035dea892c20ddb5",
+    "sha256_lf": "ac1de2be3155796ac8c2d041c4a68fe9a98361e05cbeaf0aed91043db7e43670",
+    "motivo": "F5.12: prova delle tracce della vista storica (suite ui/check-bridge-design-historic, comandi --check-bridge-design-historic[-capture]), archiviata con la vista",
+    "sostituzione": "tests/fixtures/f5-bridge-design/storica e disegni (tracce congelate, invariate), confrontate da tests/ANTHEA.Presentation.Tests con il ViewModel e da tests/Desktop/BridgeDesignViewChecks*.cs (ui/check-bridge-design-view) attraverso la vista nuova; BridgeOptimizationPlot.DataForChecks è in supporto/test/Desktop/BridgeOptimizationPlot.Tests.cs"
+  },
+  {
+    "origine": "supporto/test/Desktop/BridgeDesignWorkspace.Tests.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/bridge-design/supporto/test/Desktop/BridgeDesignWorkspace.Tests.cs",
+    "commit": "7edabf8d (ultimo che lo modifica), invariato fino a refactoring/f5-pass-strutture 67b554dc",
+    "sha256": "a9aad6eff99526305f364f6b04d8b7d68eaa722da718826456f0a7cb55be53d7",
+    "sha256_lf": "f7aab224bc069f5a11bf2ce8aaa49f96bccc30a77197e0d6d43cb079a75548c6",
+    "motivo": "F5.12: partial di prova della vista storica, archiviata con la vista",
+    "sostituzione": "le prove della vista nuova leggono il ViewModel e la vista (supporto/test/Desktop/BridgeDesignSmokeChecks.cs, BridgeDesignSmoke)"
+  },
+  {
+    "origine": "tests/ANTHEA.Desktop.Equivalence/F3TypedSchedulingChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/bridge-design/tests/ANTHEA.Desktop.Equivalence/F3TypedSchedulingChecks.cs",
+    "commit": "67b554dc (ultimo che lo modifica), invariato fino a refactoring/f5-pass-strutture 67b554dc",
+    "estratto": "solo la partial BridgeDesignWorkspace.CheckF3Scheduling (con il namespace); il resto del file resta",
+    "sha256": "ec40f804b42e5519a308b76d6ecfebf30f6d961d228994a3f958c6c6a56dad1f",
+    "sha256_lf": "0e0d72bcc8da8ac0d10defec09de97e6454791ee32918d193bbaff6c0bc157ef",
+    "motivo": "F5.12: sonde storiche di ui/f3-scheduling, archiviate con la vista",
+    "sostituzione": "tests/ANTHEA.Desktop.Equivalence/F3BridgeDesignMvvmSchedulingChecks.cs (stesse barriere, sul foglio MVVM)"
+  }
+]

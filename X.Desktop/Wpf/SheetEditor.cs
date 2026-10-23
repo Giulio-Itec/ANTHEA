@@ -28,9 +28,8 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     private readonly HorizontalWorkspace? horizontal;
     private readonly FoundationWorkspace? foundation;
     private readonly StratigraphyWorkspace? soilWorkspace;
-    internal readonly BridgeDesignWorkspace? bridgeDesign;
     internal readonly RetainingWallWorkspace? retainingWall;
-    public JsonObject? Result { get => foundation is not null ? foundation.Result : retainingWall is not null ? retainingWall.Result : bridgeDesign is not null ? bridgeDesign.Result : horizontal is not null ? horizontal.ActiveResult : concrete is null ? result : concrete.Result; private set => result = value; }
+    public JsonObject? Result { get => foundation is not null ? foundation.Result : retainingWall is not null ? retainingWall.Result : horizontal is not null ? horizontal.ActiveResult : concrete is null ? result : concrete.Result; private set => result = value; }
     public bool HasResults => concrete is not null ? concrete.HasResults : Result is not null;
     public bool Busy { get => retainingWall?.Busy ?? horizontal?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
     public event Action? Modified;
@@ -109,10 +108,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
             retainingWall.SoilTransferRequested += OpenSoilTransfer;
             Content = retainingWall; building = false; return;
         }
-        if (module == BridgeDesignModel.Module)
-        {
-            bridgeDesign = new BridgeDesignWorkspace(Data); bridgeDesign.Modified += () => Modified?.Invoke(); Content = bridgeDesign; building = false; return;
-        }
         if (module is HorizontalPileEditor.Module or MicropaloOrizzontale.Module)
         {
             horizontal = new HorizontalWorkspace(Data, calculationService, elasticAnalysis); horizontal.Modified += () => Modified?.Invoke(); Content = Ui.Dock(horizontal, Ui.Bar(Ui.Button("Invia / carica terreno…", OpenSoilTransfer))); building = false; return;
@@ -156,7 +151,7 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     }
     private Action? releaseRevisionInspection;
     public void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
-    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); recalculation.Dispose(); calculationSession.Clear(); concrete?.Dispose(); horizontal?.Dispose(); retainingWall?.Dispose(); bridgeDesign?.Dispose(); }
+    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); recalculation.Dispose(); calculationSession.Clear(); concrete?.Dispose(); horizontal?.Dispose(); retainingWall?.Dispose(); }
     public void Commit() { if (soilWorkspace is not null) soilWorkspace.Commit(); else if (foundation is not null) foundation.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
@@ -256,7 +251,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
         if (soilWorkspace is not null) { soilWorkspace.Commit(); return; }
         if (foundation is not null) { foundation.TryCalculate(); return; }
         if (retainingWall is not null) { await retainingWall.CalculateAsync(); return; }
-        if (bridgeDesign is not null) { await bridgeDesign.CalculateAsync(); return; }
         if (materials is not null || rebarMaterial is not null) { Commit(); return; }
         if (horizontal is not null) { await horizontal.CalculateActiveAsync(); return; }
         if (concrete is not null) { await concrete.CalculateAllAsync(); return; }
@@ -336,7 +330,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     {
         if (!HasResults || Busy) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
         var exported = Result!;
-        if (bridgeDesign is not null) exported["dati"] = Data.DeepClone();
         if (concrete is not null) exported["dati"] = Data.DeepClone();
         Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(exported.ToJsonString(J.Options)));
     }
@@ -371,7 +364,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     {
         if (foundation is not null) return Anthea.FoundationWorkspace.FoundationReport.WordDocument(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
         if (retainingWall is not null) return retainingWall.BuildReportDocument(title);
-        if (bridgeDesign is not null) return bridgeDesign.BuildReportDocument(title);
         if (concrete is not null) return concrete.BuildReportDocument(title, options, projectReport);
         if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
         if (horizontal is not null && Result.S("tipo_risultato") == "palo_elastico") return ReportElasticPile.CreateDocument(title, Result);

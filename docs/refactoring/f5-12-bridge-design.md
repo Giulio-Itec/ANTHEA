@@ -613,3 +613,70 @@ Per leggere il registro di Trend Micro dopo una fermata:
 ```
 iconv -f UTF-16LE -t UTF-8 "/c/Program Files (x86)/Trend Micro/Client Server Security Agent/Misc/AEGIS_BM.log" | tail -5 | cut -f1,5,7,9
 ```
+
+## 7. Passaggio della Release (23/10)
+
+Agente f5-pass-strutture, ramo `refactoring/f5-pass-strutture` (base `db7ef68d`), dopo il passaggio della sezione composta (`67b554dc`), su
+decisione dell'utente del 23/10 («Moduli ora, shell dopo»). La Release apre Bridge Design con la vista MVVM e l'editor dei prezzari come dialogo
+del servizio; la vista storica e la finestra storica dei prezzari sono archiviate (Q11).
+
+### 7.1 Che cosa è fatto
+
+- **Release.** `ModuleImplementations.Declared`: `str_bridge_design` = `Mvvm`. Il banco rifiuta `--module-impl str_bridge_design=historic`.
+- **Archiviazione** in `supporto/SUPERATI/ui-storica/bridge-design/` (`README.md`, `registro.json`):
+  - `BridgeDesignWorkspace` e le sue partial `BridgeDesignOptimization`, `BridgeDesignOptimizationPanel`, `BridgeDesignTechnical`;
+  - la finestra storica dei prezzari `BridgePricesView`;
+  - la prova delle tracce `tests/Desktop/BridgeDesignHistoricTrace.cs` e la partial di prova `BridgeDesignWorkspace.Tests.cs`;
+  - le sonde storiche `BridgeDesignWorkspace.CheckF3Scheduling` (estratto di `F3TypedSchedulingChecks.cs`).
+
+  Restano i disegni (`BridgeDesignDrawing`, `BridgeDesignAdvancedDrawing`, `BridgeOptimizationPlot`) e `BridgeDesignPrintPage`;
+  `BridgeDesignWorkspace.F` è sostituito da `BridgeDesignPresentation.F`, che chiamava (punto della sezione 5.8). `BridgeOptimizationPlot.DataForChecks`
+  passa nella partial di prova `supporto/test/Desktop/BridgeOptimizationPlot.Tests.cs`.
+- **`SheetEditor`.** Tolti il campo `bridgeDesign` e i suoi rami (`Result`, costruttore, `Dispose`, `CalculateAsync`, `ExportResult`,
+  `BuildReportDocument`).
+- **Suite riscritte sulla vista della Release** (sezione 5.8):
+  - `ui/smoke-bridge-design` (`supporto/test/Desktop/BridgeDesignSmokeChecks.cs`): lo stesso scenario e gli stessi controlli. I membri della vista
+    storica diventano quelli della vista (pagine, schede, pulsanti, scorrimenti, disegni e grafici, «Mostra le prime N») e del ViewModel
+    (calcolo, parametri, annulla, tipologie, ricerca). `BridgeDesignSmoke` scrive i parametri nella casella della vista quando la sua scheda è
+    mostrata, altrimenti nel testo del parametro del foglio, che è quello che scrive il legame della casella;
+  - `ui/smoke-bridge-traffic` (`tests/Desktop/BridgeTrafficSmokeChecks.cs`): l'editor di γQ è la casella con il parametro come `DataContext`
+    (la storica aveva la chiave nel `Tag`);
+  - `ui/smoke-bridge-prices` (`tests/Desktop/BridgePricesSmokeChecks.cs`): l'editor dei prezzari mostrato dal suo DataTemplate in una finestra
+    costruita come la costruisce `WpfDialogService` (di proprietà della finestra, chiusa quando il dialogo lo chiede), senza ciclo modale. La colonna
+    del codice è un legame a due vie della colonna XAML (modo predefinito), non più un legame `TwoWay` esplicito;
+  - `ui/check-bridge-design-view`: le parti che aprivano la vista storica o la finestra storica accanto confrontano con i valori che davano,
+    registrati da questa stessa prova prima dell'archiviazione in `tests/fixtures/f5-bridge-design/vista-storica.json` (commit `67b554dc`, PASS
+    176). Il report Word e il PDF si confrontano con la ricetta della vista storica (`BridgeDesignModel.ReportDocument` con le due immagini del
+    disegno, scritto da `ReportFiles`); le immagini sono quelle delle figure del foglio, uguali pixel per pixel al disegno storico registrato. Le
+    schermate sono solo della vista nuova (10). La parte `banco` prova che la Release apre la vista MVVM e che «historic» è rifiutato;
+  - `ui/f3-scheduling`: le sonde di Bridge Design sono sempre quelle del foglio MVVM (`F3BridgeDesignMvvmSchedulingChecks`, senza `Active`);
+  - `--check-report-appearance-offscreen` (fuori dal runner, D9): Bridge Design aperto dalla fabbrica del banco, la pagina di stampa della vista;
+  - `ui/check-module-host-offscreen`: Release e banco con Bridge Design MVVM, il modulo nel registro ridotto della sonda.
+- **Tolte** da `build/ci.ps1` `ui/check-bridge-design-historic`, `ui/f3-scheduling-bridge-design-mvvm` e `$MvvmBridgeDesign`; dall'harness
+  `--check-bridge-design-historic[-capture]`.
+- **Contrasto.** Tolto il passo autonomo `mvvm-str_bridge_design` (blocco `F5.12`). Le 3 voci della Chiara di `modulo-str_bridge_design` (3
+  occorrenze, chiavi di `BridgeDesignWorkspace`) restano: si spostano alla chiave della vista nuova alla prima corsa a 96 DPI (D12).
+- **Baseline.** Nessuna voce F4 nei file archiviati: F4 invariata (2143 voci, 3196 occorrenze dopo il passaggio della sezione composta); P3 e
+  `limits.json` invariati.
+- **Guida pratica.** La disposizione descritta non cambia (sezione 5.6). Nessuna proposta.
+
+### 7.2 Esiti
+
+| Corsa | Cartella | Esito |
+| --- | --- | --- |
+| Registrazione dei valori della vista storica | `supporto/artefatti/f5-pass-strutture/registra-bd` | PASS 176 |
+| `Architecture.Tests` | `supporto/artefatti/f5-pass-strutture/arch-bd1` | PASS 574, nessuna voce F4 tolta o aggiunta |
+| `ui/check-bridge-design-view`, `ui/smoke-bridge-design`, `ui/smoke-bridge-traffic`, `ui/smoke-bridge-prices`, `ui/f3-scheduling`, `ui/check-module-host-offscreen` | `supporto/artefatti/ci/20261023-124959-fps-bd-ui` | PASS 7 (con la build), al primo colpo |
+| `--check-report-appearance-offscreen` (fuori dal runner) | `supporto/artefatti/f5-pass-strutture/aspetto-report-bd` | PASS 30 immagini in tre aspetti |
+
+### 7.3 Che cosa resta
+
+- `ui/check-contrast` a 96 DPI (coordinatore): voci `modulo-str_bridge_design-*` della Chiara alla chiave della vista nuova, a totale invariato.
+- S6 (antivirus e immagini, sezione 6.4) resta aperta: la parte `immagini` è sempre l'ultima della suite.
+- Le domande BD1–BD22 al punto di controllo F5.15.
+
+Per riprendere:
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(check-bridge-design-view|smoke-bridge-design|smoke-bridge-traffic|smoke-bridge-prices|f3-scheduling|check-module-host-offscreen)$' -Tag <tag>"
+```

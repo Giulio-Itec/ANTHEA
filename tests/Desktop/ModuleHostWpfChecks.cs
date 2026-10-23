@@ -38,6 +38,8 @@ internal static class ModuleHostWpfChecks
     private const string EmbeddedWallModule = "geo_paratie";
     /// <summary>The composite bridge section, MVVM in the Release since the switch of 23/10/2026 (F5.11).</summary>
     private const string CompositeSectionModule = "str_mista_ponte";
+    /// <summary>Bridge Design, MVVM in the Release since the switch of 23/10/2026 (F5.12).</summary>
+    private const string BridgeDesignModule = "str_bridge_design";
 
     private const string ProbeView = """
         <DataTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
@@ -64,9 +66,9 @@ internal static class ModuleHostWpfChecks
         // pile group with the MVVM view; the new Spectra module starts in MVVM, the other modules keep the historic view.
         Check(ModuleImplementations.Declared.Select(d => d.Module).SequenceEqual(ModuleDirectory.All.Select(m => m.Id)),
             "ModuleImplementations elenca esattamente i moduli di ModuleDirectory, nel suo ordine");
-        Check(ModuleImplementations.Declared.All(d => d.Implementation == (d.Module is PileGroupModule or SpectraModule or EmbeddedWallModule or CompositeSectionModule ? SheetImplementation.Mvvm : SheetImplementation.Historic))
-            && ModuleImplementations.Release.Mvvm.SequenceEqual([SpectraModule, PileGroupModule, EmbeddedWallModule, CompositeSectionModule]),
-            "Release: palificata, Spettri, paratie e sezione composta da ponte con la vista MVVM, gli altri moduli con la vista storica");
+        Check(ModuleImplementations.Declared.All(d => d.Implementation == (d.Module is PileGroupModule or SpectraModule or EmbeddedWallModule or CompositeSectionModule or BridgeDesignModule ? SheetImplementation.Mvvm : SheetImplementation.Historic))
+            && ModuleImplementations.Release.Mvvm.SequenceEqual([SpectraModule, PileGroupModule, EmbeddedWallModule, BridgeDesignModule, CompositeSectionModule]),
+            "Release: palificata, Spettri, paratie, sezione composta da ponte e Bridge Design con la vista MVVM, gli altri moduli con la vista storica");
 
         // The composition root of the product: registry of ModuleDirectory with the MVVM pile group (F5.4), materials (F5.5) and vertical
         // piles (F5.6), the editors of the Release.
@@ -90,6 +92,9 @@ internal static class ModuleHostWpfChecks
         using (var composite = composition.SheetEditors.Open(CompositeSectionModule, ModuleDirectory.CreateData(CompositeSectionModule)))
             Check(composite is MvvmSheetEditor { Sheet: Anthea.Presentation.Modules.CompositeSection.CompositeSectionSheetViewModel },
                 "Radice di composizione: la Release apre la sezione composta da ponte con la vista MVVM");
+        using (var design = composition.SheetEditors.Open(BridgeDesignModule, ModuleDirectory.CreateData(BridgeDesignModule)))
+            Check(design is MvvmSheetEditor { Sheet: Anthea.Presentation.Modules.BridgeDesign.BridgeDesignSheetViewModel },
+                "Radice di composizione: la Release apre Bridge Design con la vista MVVM");
         foreach (string migrated in new[] { "geo_palo_verticale", "geo_micropalo_verticale", "mat_calcestruzzo", "mat_acciaio_armatura",
             "geo_fondazioni_superficiali", "geo_palo_orizzontale", "geo_micropalo_orizzontale", "geo_stratigrafia", "geo_muri_sostegno", "str_palo" })
             using (var sheet = composition.SheetEditors.Open(migrated, ModuleDirectory.CreateData(migrated)))
@@ -99,14 +104,16 @@ internal static class ModuleHostWpfChecks
         // The bench argument (UiTests only).
         Check(ModuleHostBench.WithoutBench(["--check-f3-equivalence", "radice", "uscita", ModuleHostBench.Argument, "str_palo=mvvm"])
             .SequenceEqual(["--check-f3-equivalence", "radice", "uscita"]), "Banco: argomenti posizionali senza le coppie --module-impl");
-        Check(ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=mvvm"]).Mvvm.SequenceEqual([SpectraModule, PileGroupModule, EmbeddedWallModule, CompositeSectionModule, "str_palo"])
-            && ModuleHostBench.Implementations(["--check-f3-equivalence"]).Mvvm.SequenceEqual([SpectraModule, PileGroupModule, EmbeddedWallModule, CompositeSectionModule])
-            && ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=mvvm", ModuleHostBench.Argument, "str_palo=historic"]).Mvvm.SequenceEqual([SpectraModule, PileGroupModule, EmbeddedWallModule, CompositeSectionModule]),
+        Check(ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=mvvm"]).Mvvm.SequenceEqual([SpectraModule, PileGroupModule, EmbeddedWallModule, BridgeDesignModule, CompositeSectionModule, "str_palo"])
+            && ModuleHostBench.Implementations(["--check-f3-equivalence"]).Mvvm.SequenceEqual([SpectraModule, PileGroupModule, EmbeddedWallModule, BridgeDesignModule, CompositeSectionModule])
+            && ModuleHostBench.Implementations([ModuleHostBench.Argument, "str_palo=mvvm", ModuleHostBench.Argument, "str_palo=historic"]).Mvvm.SequenceEqual([SpectraModule, PileGroupModule, EmbeddedWallModule, BridgeDesignModule, CompositeSectionModule]),
             "Banco: scelte applicate in ordine sulla Release");
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, PileGroupModule + "=historic"]), "archiviata",
             "Banco: vista storica della palificata archiviata (Q11), «historic» rifiutato");
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, CompositeSectionModule + "=historic"]), "archiviata",
             "Banco: vista storica della sezione composta da ponte archiviata (Q11), «historic» rifiutato");
+        Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument, BridgeDesignModule + "=historic"]), "archiviata",
+            "Banco: vista storica di Bridge Design archiviata (Q11), «historic» rifiutato");
         // F5.10: the RC section has its ViewModel (S1); F5.11: the composite bridge section too; F5.12: Bridge Design too, so every module of the
         // directory has one: a registry without the module stands for a module without implementation.
         Fails<InvalidOperationException>(() => ModuleHostBench.SheetEditors([ModuleHostBench.Argument, "str_bridge_design=mvvm"],
@@ -123,7 +130,8 @@ internal static class ModuleHostWpfChecks
         Fails<InvalidOperationException>(() => ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], new ModuleRegistry([probe])), PileGroupModule,
             "Banco: registro senza la palificata, MVVM nella Release, rifiutato");
         var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], new ModuleRegistry([probe, new PileGroupSheetModule(), new SpectraSheetModule(), new EmbeddedWallSheetModule(),
-            new Anthea.Presentation.Modules.CompositeSection.CompositeSectionSheetModule(new CompositeSectionFigureRenderer())]));
+            new Anthea.Presentation.Modules.CompositeSection.CompositeSectionSheetModule(new CompositeSectionFigureRenderer()),
+            new Anthea.Presentation.Modules.BridgeDesign.BridgeDesignSheetModule(new BridgeDesignFigureRenderer())]));
         var echo = new EchoService();
         var data = new JsonObject { ["etichetta"] = "iniziale" };
         Fails<InvalidOperationException>(() => factory.Open(ProbeModule, data, echo), nameof(ProbeSheetViewModel), "Foglio senza DataTemplate rifiutato con il tipo del ViewModel");

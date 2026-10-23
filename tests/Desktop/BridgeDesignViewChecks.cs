@@ -23,9 +23,11 @@ namespace X.Desktop;
 
 /// <summary>
 /// --check-bridge-design-view &lt;radice&gt; &lt;cartella&gt; [parti] (UiTests, F5.12, proposal F5 section 7.3): the XAML view of Bridge Design
-/// (BridgeDesignSheetView) hosted by <see cref="MvvmSheetEditor"/>, as the bench opens it with <c>--module-impl str_bridge_design=mvvm</c>, in
-/// windows outside the screen (never activated, no mouse). The Release keeps the historic view until the user has tried the view (decisions of
-/// 17/10). Parts (a fourth argument, comma separated, runs only some of them):
+/// (BridgeDesignSheetView) hosted by <see cref="MvvmSheetEditor"/>, as the Release opens it since the switch of 23/10/2026, in windows outside the
+/// screen (never activated, no mouse). The historic view and the historic window of the prices are archived (supporto/SUPERATI/ui-storica/bridge-design):
+/// what the parts compared with them opened beside the new view is compared with the values they gave, recorded before the archiving in
+/// tests/fixtures/f5-bridge-design/vista-storica.json, or with their recipe (the report). Parts (a fourth argument, comma separated, runs only some
+/// of them):
 /// <list type="number">
 /// <item>tracce: the 19 scenarios of tests/Shared/BridgeDesignTrace.cs driven through the controls of the view (pages and tabs, the text and the
 /// slider of the parameters, choices, options, the buttons of the typologies and of the panels, the alternatives, the price editor shown from its
@@ -38,11 +40,11 @@ namespace X.Desktop;
 /// <item>prezzario: the price editor of the dialog service (its DataTemplate) against the historic window: size, texts, tabs and columns; the files
 /// through the file dialog service; «Annulla» and «Applica prezzario».</item>
 /// <item>stampa: the page of «Stampa scheda» equal to the historic page (texts and pixels); the window of the printer only with a result.</item>
-/// <item>schermate: the two pages in Chiara, Scuro and Molto scuro, the price editor, the historic view at the same size (144 DPI here).</item>
+/// <item>schermate: the two pages in Chiara, Scuro and Molto scuro, the price editor, the compact layout (144 DPI here).</item>
 /// <item>aiuto: F1 opens the guide of the module through the navigator of the services, as SheetEditor (no «?» on the fields, as the historic view).</item>
 /// <item>nomi: the automation names of the historic view kept.</item>
 /// <item>sola-lettura: the controls that accept the user after InspectRevision are those of the historic view, but «Gestisci prezzario…» (BD4).</item>
-/// <item>banco: with --module-impl the module opens the MVVM view, the Release keeps the historic one; «occupato» until the engine returns (BD3).</item>
+/// <item>banco: the Release opens the MVVM view, «historic» is refused by the bench; «occupato» until the engine returns (BD3).</item>
 /// <item>esportazioni: for each F3 fixture the visit of the F3 capture writes what the historic visit writes, the three appearances write nothing,
 /// data and result after the calculation are those of the historic view, the exported JSON carries the data (BD7), the Word report and the PDF,
 /// the CSV of the quantities and of the dimensions are those of the historic view.</item>
@@ -224,10 +226,10 @@ internal static partial class BridgeDesignViewChecks
 
     /// <summary>
     /// The continuations of the sheet (the delay of the automatic calculation, the end of the engine, the publication, the search and its progress)
-    /// at the idle priority of the dispatcher, as the historic traces run those of the historic view (BridgeDesignHistoricTrace.WithIdleContinuations):
+    /// at the idle priority of the dispatcher, as the historic traces ran those of the historic view (ViewTraceTools.WithIdleContinuations):
     /// they advance only while the check waits, never while a step settles.
     /// </summary>
-    private static T Idle<T>(Func<T> action) => BridgeDesignHistoricTrace.HistoricSide.WithIdleContinuations(action);
+    private static T Idle<T>(Func<T> action) => ViewTraceTools.WithIdleContinuations(action);
 
     /// <summary>A sheet in a window outside the screen, 1400 × 1000 as the historic traces lay out the view.</summary>
     private sealed class Hosted : IDisposable
@@ -263,13 +265,11 @@ internal static partial class BridgeDesignViewChecks
         /// <summary>The view of the DataTemplate (the same for the life of the editor).</summary>
         internal BridgeDesignSheetView View => view ??= Walk(Root).OfType<BridgeDesignSheetView>().Single();
 
-        internal BridgeDesignWorkspace Historic => ((SheetEditor)Editor).bridgeDesign ?? throw new InvalidOperationException("Foglio storico senza la vista di Bridge Design.");
-
         /// <summary>The window of the printer never opens in the check: it answers no, unless a part says otherwise.</summary>
         private static void Offscreen(BridgeDesignSheetView view) => view.ShowPrintDialog = _ => false;
 
-        /// <summary>The calculation of the opening (or the last one requested), on either view.</summary>
-        internal Task Pending => Editor is MvvmSheetEditor ? Sheet.WaitForCalculationAsync() : Historic.WaitForCalculationAsync();
+        /// <summary>The calculation of the opening (or the last one requested).</summary>
+        internal Task Pending => Sheet.WaitForCalculationAsync();
 
         internal void Layout() { window.UpdateLayout(); Root.UpdateLayout(); }
 
@@ -360,9 +360,14 @@ internal static partial class BridgeDesignViewChecks
         var services = new Services();
         var editors = Editors(services);
         using (var mvvm = editors.Open(Module, BridgeDesignScenarios.FixtureData(root, "default")))
-            Check(mvvm is MvvmSheetEditor { Sheet: BridgeDesignSheetViewModel }, "Con --module-impl il banco apre la vista MVVM di Bridge Design");
+            Check(mvvm is MvvmSheetEditor { Sheet: BridgeDesignSheetViewModel }, "Il banco della prova apre la vista MVVM di Bridge Design");
         using (var release = ModuleHostBench.SheetEditors([], DesktopComposition.CreateModules()).Open(Module, BridgeDesignScenarios.FixtureData(root, "default")))
-            Check(release is SheetEditor { bridgeDesign: not null } && ModuleImplementations.Release.For(Module) == SheetImplementation.Historic, "La Release resta storica fino alla prova dell'utente");
+            Check(release is MvvmSheetEditor { Sheet: BridgeDesignSheetViewModel } && ModuleImplementations.Release.For(Module) == SheetImplementation.Mvvm,
+                "La Release apre Bridge Design con la vista MVVM (passaggio del 23/10/2026)");
+        bool historicRefused = false;
+        try { ModuleHostBench.Implementations([ModuleHostBench.Argument, Module + "=historic"]); }
+        catch (ArgumentException error) when (error.Message.Contains("archiviata", StringComparison.Ordinal)) { historicRefused = true; }
+        Check(historicRefused, "Banco: la vista storica di Bridge Design è archiviata, «historic» rifiutato");
         // BD3: «occupato» from the start of the engine to its return, also for the window (the historic view never gave it to SheetEditor).
         var engine = new HeldModuleService(Module);
         engine.Hold();

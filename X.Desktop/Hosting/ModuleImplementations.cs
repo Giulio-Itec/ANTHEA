@@ -34,7 +34,7 @@ internal sealed partial class ModuleImplementations
         ("geo_muri_sostegno", SheetImplementation.Historic),
         ("str_palo", SheetImplementation.Historic),
         ("str_mista_ponte", SheetImplementation.Mvvm),
-        ("str_bridge_design", SheetImplementation.Historic),
+        ("str_bridge_design", SheetImplementation.Mvvm),
         ("mat_calcestruzzo", SheetImplementation.Historic),
         ("mat_acciaio_armatura", SheetImplementation.Historic),
         ("geo_stratigrafia", SheetImplementation.Historic),

@@ -201,7 +201,7 @@ internal sealed partial class BridgeDesignDrawing : FrameworkElement
         foreach (double x in new[] { a, b }) dc.DrawLine(pen, new Point(x, y - 4), new Point(x, y + 5));
         Text(dc, label, (a + b) / 2 - label.Length * 2.8, y - 20, 11, Line);
     }
-    private static string F(double value, string fmt = "0.0") => BridgeDesignWorkspace.F(value, fmt);
+    private static string F(double value, string fmt = "0.0") => Anthea.Application.Presentation.BridgeDesignPresentation.F(value, fmt);
 }
 
 internal sealed class BridgeFamilyIcon : FrameworkElement
@@ -269,6 +269,6 @@ internal sealed class BridgeConceptMomentPlot : FrameworkElement
             }
         }
         BridgeDesignDrawing.Text(dc, r.Traffic is null ? "M · γG G + γQ Q · intero impalcato [kNm]" : "M max blu / min arancio · Schema 1 · estremi non concomitanti [kNm]", 12, 8, 12, Ui.Navy, true);
-        BridgeDesignDrawing.Text(dc, $"M+ {BridgeDesignWorkspace.F(r.Stations.Max(s => s.Moment), "N0")}   /   M− {BridgeDesignWorkspace.F(r.Stations.Min(s => s.MomentMinimum ?? s.Moment), "N0")}", 12, 155, 12, Ui.Muted);
+        BridgeDesignDrawing.Text(dc, $"M+ {Anthea.Application.Presentation.BridgeDesignPresentation.F(r.Stations.Max(s => s.Moment), "N0")}   /   M− {Anthea.Application.Presentation.BridgeDesignPresentation.F(r.Stations.Min(s => s.MomentMinimum ?? s.Moment), "N0")}", 12, 155, 12, Ui.Muted);
     }
 }

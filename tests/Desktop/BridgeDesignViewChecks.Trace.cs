@@ -312,7 +312,7 @@ internal static partial class BridgeDesignViewChecks
     /// For every F3 fixture of the module, opened and calculated in the XAML view: the drawing lists of the elevation and of the cross section, of
     /// the moment diagram of the details, and the pixels of the two figures of the report; for the first fixture also the icons of the typologies
     /// and, after a short search, the charts of the search (the cloud, the explored variables one by one, the preview). The same lines as
-    /// BridgeDesignHistoricTrace.Drawings, compared with tests/fixtures/f5-bridge-design/disegni/elenco.txt.
+    /// BridgeDesignHistoricTrace.Drawings (archived), compared with tests/fixtures/f5-bridge-design/disegni/elenco.txt.
     /// </summary>
     private static async Task Drawings(string root, string output)
     {

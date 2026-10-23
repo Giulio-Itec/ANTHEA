@@ -322,24 +322,9 @@ public partial class App
             return;
         }
 
-        // F5.12: traces and drawings of the historic Bridge Design view (tests/Desktop/BridgeDesignHistoricTrace.cs); the check also compares
-        // them with the frozen ones of tests/fixtures/f5-bridge-design.
-        if (e.Args.Length == 3 && e.Args[0] is "--check-bridge-design-historic" or "--check-bridge-design-historic-capture")
-        {
-            ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            Dispatcher.BeginInvoke(new Action(async () =>
-            {
-                int code = 0;
-                try { await BridgeDesignHistoricTrace.Run(e.Args[1], e.Args[2], e.Args[0] == "--check-bridge-design-historic"); }
-                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
-                finally { Shutdown(code); }
-            }));
-            return;
-        }
-
-        // F5.12: the XAML view of Bridge Design hosted by MvvmSheetEditor, off screen (tests/Desktop/BridgeDesignViewChecks*.cs); the bench opens the
-        // module with the MVVM view, the Release keeps the historic one until the user has tried it. A fourth argument (comma separated parts) runs
-        // only those parts, for the work on the view.
+        // F5.12: the XAML view of Bridge Design hosted by MvvmSheetEditor, off screen (tests/Desktop/BridgeDesignViewChecks*.cs), as the Release opens it
+        // since the switch of 23/10/2026 (the historic view and its command --check-bridge-design-historic are archived in
+        // supporto/SUPERATI/ui-storica/bridge-design). A fourth argument (comma separated parts) runs only those parts, for the work on the view.
         if (e.Args.Length is 3 or 4 && e.Args[0] == "--check-bridge-design-view")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;

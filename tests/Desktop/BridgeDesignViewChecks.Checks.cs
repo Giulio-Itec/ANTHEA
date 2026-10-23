@@ -23,6 +23,14 @@ internal static partial class BridgeDesignViewChecks
 {
     // ---------------------------------------------------------------- 3. F3 fixtures and exports
 
+    /// <summary>
+    /// For the 10 F3 fixtures, on the path of the F3 capture: data and Modified after the calculation of the opening, after the visit, after the
+    /// calculation and after the exports, the result, the JSON with the data (BD7), the CSV of the quantities and of the levels, equal to the values of
+    /// the historic view (recorded before its archiving in tests/fixtures/f5-bridge-design/vista-storica.json); the three appearances write nothing;
+    /// the Word report and the PDF beside it equal to those of the recipe of the historic view (BridgeDesignWorkspace.BuildReportDocument:
+    /// BridgeDesignModel.ReportDocument with the two images of the drawing, then ReportFiles as SheetEditor.ExportReport), the images being those of the
+    /// figures of the sheet, equal pixel by pixel to the drawing of the historic view (recorded).
+    /// </summary>
     private static async Task FixturesAndExports(string root, string output)
     {
         string folder = Path.Combine(output, "esportazioni");
@@ -30,72 +38,84 @@ internal static partial class BridgeDesignViewChecks
         var normalizer = new TextNormalizer();
         var services = new Services();
         var editors = Editors(services);
+        var recorded = Recorded(root)["esportazioni"]!.AsObject();
         var fixtures = BridgeDesignScenarios.Fixtures(root);
-        Check(fixtures.Count == 10, "Fixture F3 di Bridge Design: " + fixtures.Count);
+        Check(fixtures.Count == 10 && fixtures.Order(StringComparer.Ordinal).SequenceEqual(recorded.Select(p => p.Key).Order(StringComparer.Ordinal)),
+            "Fixture F3 di Bridge Design: " + fixtures.Count + ", tutte con i valori registrati della vista storica");
         int reports = 0;
         byte[] bom = Encoding.UTF8.GetPreamble();
+        var figures = new BridgeDesignFigureRenderer();
         foreach (string id in fixtures)
         {
             string name = Module + "--" + id;
+            var historic = recorded[id]!.AsObject();
             var data = BridgeDesignScenarios.FixtureData(root, id);
             using var mvvm = Idle(() => new Hosted(editors.Open(Module, data)));
-            using var historic = Idle(() => new Hosted(new SheetEditor(Module, data)));
             Check(mvvm.Editor is MvvmSheetEditor { Sheet: BridgeDesignSheetViewModel }, name + ": editor MVVM con la vista XAML");
-            // The calculation of the opening first, on both views.
-            await Idle(() => mvvm.Pending).WaitAsync(TimeSpan.FromSeconds(180)); await Idle(() => historic.Pending).WaitAsync(TimeSpan.FromSeconds(180));
-            await mvvm.Settle(); await historic.Settle();
-            mvvm.Editor.Commit(); historic.Editor.Commit();
-            Check(Same(mvvm, historic), name + ": dati all'apertura, dopo il calcolo automatico, uguali a quelli della vista storica");
-            // The visit of the F3 capture writes what the historic visit writes (nothing: pages and tabs are state of the view).
-            Idle(() => { Visit(mvvm.Root); return 0; }); Idle(() => { Visit(historic.Root); return 0; });
-            await mvvm.Settle(); await historic.Settle();
-            mvvm.Editor.Commit(); historic.Editor.Commit();
-            Check(Same(mvvm, historic) && mvvm.Modified == historic.Modified, $"{name}: la visita della cattura F3 scrive come la vista storica ({mvvm.Modified} Modified)");
+            // The calculation of the opening first.
+            await Idle(() => mvvm.Pending).WaitAsync(TimeSpan.FromSeconds(180));
+            await mvvm.Settle();
+            mvvm.Editor.Commit();
+            Check(Same(mvvm, historic, "apertura"), name + ": dati all'apertura, dopo il calcolo automatico, uguali a quelli della vista storica (registrati)");
+            // The visit of the F3 capture writes what the historic visit wrote (nothing: pages and tabs are state of the view).
+            Idle(() => { Visit(mvvm.Root); return 0; });
+            await mvvm.Settle();
+            mvvm.Editor.Commit();
+            Check(Same(mvvm, historic, "visita"), $"{name}: la visita della cattura F3 scrive come la vista storica ({mvvm.Modified} Modified, registrati)");
             // The three appearances write nothing.
             string visited = Normalized(mvvm.Editor.Data); int modified = mvvm.Modified;
             foreach (var mode in new[] { AppAppearance.Dark, AppAppearance.VeryDark, AppAppearance.Light }) { Appearance.Set(mode, false); await mvvm.Settle(); }
             mvvm.Editor.Commit();
             Check(Normalized(mvvm.Editor.Data) == visited && mvvm.Modified == modified, name + ": i tre aspetti non scrivono e non sollevano Modified");
             await Idle(() => mvvm.Editor.CalculateAsync()).WaitAsync(TimeSpan.FromSeconds(180));
-            await Idle(() => historic.Editor.CalculateAsync()).WaitAsync(TimeSpan.FromSeconds(180));
             for (int i = 0; i < 50 && mvvm.Editor.Busy; i++) await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.ApplicationIdle);
-            await mvvm.Settle(); await historic.Settle();
-            mvvm.Editor.Commit(); historic.Editor.Commit();
+            await mvvm.Settle();
+            mvvm.Editor.Commit();
             Dump(folder, name + "-calcolo", mvvm, historic);
-            Check(Same(mvvm, historic) && mvvm.Editor.HasResults == historic.Editor.HasResults && Normalized(mvvm.Editor.Result) == Normalized(historic.Editor.Result),
-                name + ": dati e risultato dopo il calcolo uguali a quelli della vista storica");
-            var view = mvvm.View; var past = historic.Historic;
-            if (past.Calculation is null)
+            string? result = historic["risultato"]?.GetValue<string>();
+            Check(Same(mvvm, historic, "calcolo") && mvvm.Editor.HasResults == historic["risultati"]!.GetValue<bool>()
+                && (result is null ? mvvm.Editor.Result is null : Sha(Normalized(mvvm.Editor.Result)) == result),
+                name + ": dati e risultato dopo il calcolo uguali a quelli della vista storica (registrati)");
+            var view = mvvm.View; var sheet = mvvm.Sheet;
+            if (result is null)
             {
                 // Without a result: the exports of the card do nothing, the JSON and the report are refused as by the historic sheet.
                 services.Saves.Clear();
                 Idle(() => { Press(Caption(view.DesignScroll, "Esporta quantità CSV")); Press(Caption(view.DesignScroll, "Immagine PNG")); return 0; });
                 Check(services.Saves.Count == 0, name + ": senza risultato le esportazioni della scheda non chiedono il file, come la vista storica");
-                string Refusal(ISheetEditor editor) { try { editor.ExportResult(Path.Combine(folder, name + "-rifiutato.json")); return "-"; } catch (InvalidOperationException e) { return e.Message; } }
-                Check(Refusal(mvvm.Editor) == Refusal(historic.Editor), name + ": senza risultato il JSON è rifiutato con il messaggio della vista storica");
+                string refusal; try { mvvm.Editor.ExportResult(Path.Combine(folder, name + "-rifiutato.json")); refusal = "-"; } catch (InvalidOperationException e) { refusal = e.Message; }
+                Check(refusal == historic["rifiuto"]!.GetValue<string>(), name + ": senza risultato il JSON è rifiutato con il messaggio della vista storica («" + refusal + "»)");
                 continue;
             }
             // The JSON of the result with the data (BD7).
             mvvm.Editor.ExportResult(Path.Combine(folder, name + "-mvvm.json"));
-            historic.Editor.ExportResult(Path.Combine(folder, name + "-storica.json"));
             string jsonMvvm = BridgeDesignTrace.Normalize(File.ReadAllText(Path.Combine(folder, name + "-mvvm.json")));
-            Check(jsonMvvm == BridgeDesignTrace.Normalize(File.ReadAllText(Path.Combine(folder, name + "-storica.json"))) && JsonNode.Parse(jsonMvvm)!["dati"] is JsonObject,
-                name + ": JSON del risultato uguale a quello della vista storica, con i dati (BD7)");
-            // Report Word and the PDF beside it.
+            Check(Sha(jsonMvvm) == historic["json"]!.GetValue<string>() && JsonNode.Parse(jsonMvvm)!["dati"] is JsonObject,
+                name + ": JSON del risultato uguale a quello della vista storica, con i dati (BD7, registrato)");
+            // The two images of the report: the figures of the sheet, equal pixel by pixel to the drawing of the historic view.
+            var calculation = sheet.Calculation!;
+            byte[] elevation = figures.Drawing(sheet.Data, calculation, false), crossSection = figures.Drawing(sheet.Data, calculation, true);
+            Check(ViewTraceTools.Pixels(elevation) == historic["prospetto"]!.GetValue<string>() && ViewTraceTools.Pixels(crossSection) == historic["sezione"]!.GetValue<string>(),
+                name + ": prospetto e sezione delle figure uguali pixel per pixel al disegno della vista storica (registrati)");
+            // Report Word and the PDF beside it, against the recipe of the historic view.
             string title = "Fixture F3 · " + Module + " · " + id;
-            mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, []);
-            historic.Editor.ExportReport(Path.Combine(folder, name + "-storica.docx"), title, []);
-            string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.docx")), normalizer);
-            Check(part is null, name + ": report Word uguale in ogni parte a quello della vista storica, figure comprese (date normalizzate)" + (part is null ? "" : ", diversa " + part));
+            void Export()
+            {
+                mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, []);
+                Anthea.Reports.ReportFiles.Write(Path.Combine(folder, name + "-attesa.docx"),
+                    Anthea.Reports.DocxWriter.Write(BridgeDesignModel.ReportDocument(title, sheet.Data, calculation, elevation, crossSection)), title);
+            }
+            Export();
+            string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.docx")), normalizer);
+            Check(part is null, name + ": report Word uguale in ogni parte a quello della ricetta della vista storica, figure comprese (date normalizzate)" + (part is null ? "" : ", diversa " + part));
             int attempts = 1;
-            while (!SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))) && attempts < 3)
+            while (!SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.pdf"))) && attempts < 3)
             {
                 attempts++;
-                mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, []);
-                historic.Editor.ExportReport(Path.Combine(folder, name + "-storica.docx"), title, []);
+                Export();
             }
-            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))),
-                name + ": PDF affiancato uguale a quello della vista storica (date normalizzate" + (attempts > 1 ? $", {attempts} esportazioni" : "") + ")");
+            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.pdf"))),
+                name + ": PDF affiancato uguale a quello della ricetta della vista storica (date normalizzate" + (attempts > 1 ? $", {attempts} esportazioni" : "") + ")");
             reports++;
             // «Esporta quantità CSV» (the card of the drawing) and «Esporta sezioni e quote CSV» (tab «Sezioni e quote»); «Immagine PNG» in Images.
             string csv = Path.Combine(folder, name + "-quantita.csv"), technical = Path.Combine(folder, name + "-quote.csv");
@@ -107,21 +127,25 @@ internal static partial class BridgeDesignViewChecks
             Check(services.Saves.Select(s => s.FileName).SequenceEqual(["BridgeDesign_quantita.csv", "BridgeDesign_sezioni_quote.csv"])
                 && services.Saves.Select(s => FileFilter.Join(s.Filters)).SequenceEqual(["Quantità CSV|*.csv", "Sezioni e quote CSV|*.csv"]),
                 name + ": nomi proposti e filtri delle esportazioni CSV della vista storica");
-            Check(File.ReadAllBytes(csv).SequenceEqual(bom.Concat(Encoding.UTF8.GetBytes(BridgeDesignModel.Csv(past.Calculation))))
-                && File.ReadAllBytes(technical).SequenceEqual(bom.Concat(Encoding.UTF8.GetBytes(BridgeDesignModel.TechnicalCsv(past.Data, past.Calculation)))),
-                name + ": CSV delle quantità e delle quote uguali a quelli della vista storica");
-            Check(Same(mvvm, historic) && mvvm.Modified == historic.Modified, name + ": le esportazioni non scrivono nei dati");
+            Check(WithBom(File.ReadAllBytes(csv), bom, historic["csv"]!.GetValue<string>()) && WithBom(File.ReadAllBytes(technical), bom, historic["quote"]!.GetValue<string>()),
+                name + ": CSV delle quantità e delle quote uguali a quelli della vista storica (testi registrati)");
+            Check(Same(mvvm, historic, "esportazioni"), name + ": le esportazioni non scrivono nei dati (registrati)");
         }
         Log.Add($"   esportazioni: {reports} report");
         Check(reports >= 8, $"Report confrontati con la vista storica: {reports}");
     }
 
-    private static bool Same(Hosted a, Hosted b) => Normalized(a.Editor.Data) == Normalized(b.Editor.Data);
+    /// <summary>The data and the Modified of the sheet equal to those of the historic view at <paramref name="step"/> (recorded).</summary>
+    private static bool Same(Hosted mvvm, JsonObject historic, string step) =>
+        Sha(Normalized(mvvm.Editor.Data)) == historic[step]!.GetValue<string>() && mvvm.Modified == historic[step + "_modified"]!.GetValue<int>();
+
+    /// <summary>A file written with the BOM and the text whose SHA-256 is <paramref name="sha"/>.</summary>
+    private static bool WithBom(byte[] bytes, byte[] bom, string sha) => bytes.AsSpan().StartsWith(bom) && Sha(Encoding.UTF8.GetString(bytes, bom.Length, bytes.Length - bom.Length)) == sha;
 
     /// <summary>
     /// «Immagine PNG» (the card of the drawing) for every F3 fixture with a result, after the same steps as <see cref="FixturesAndExports"/> (the
     /// calculation of the opening, the visit, the calculation): the proposed name and the filter of the historic view, the PNG equal pixel by
-    /// pixel to the drawing of the historic view, nothing written in the data. Last part of the check (22/10 evening): the PNG goes through
+    /// pixel to the drawing of the historic view (recorded), nothing written in the data. Last part of the check (22/10 evening): the PNG goes through
     /// DocumentFile.Write, which renames its temporary file into the image, and there the behaviour monitoring of Trend Micro ends the unsigned
     /// ANTHEA.exe of the runner (question S6). The step in progress is written in dettaglio.txt before each image.
     /// </summary>
@@ -131,51 +155,64 @@ internal static partial class BridgeDesignViewChecks
         Directory.CreateDirectory(folder);
         var services = new Services();
         var editors = Editors(services);
+        var recorded = Recorded(root)["immagini"]!.AsObject();
         int images = 0;
         foreach (string id in BridgeDesignScenarios.Fixtures(root))
         {
             string name = Module + "--" + id;
             var data = BridgeDesignScenarios.FixtureData(root, id);
             using var mvvm = Idle(() => new Hosted(editors.Open(Module, data)));
-            using var historic = Idle(() => new Hosted(new SheetEditor(Module, data)));
-            await Idle(() => mvvm.Pending).WaitAsync(TimeSpan.FromSeconds(180)); await Idle(() => historic.Pending).WaitAsync(TimeSpan.FromSeconds(180));
-            await mvvm.Settle(); await historic.Settle();
-            Idle(() => { Visit(mvvm.Root); return 0; }); Idle(() => { Visit(historic.Root); return 0; });
-            await mvvm.Settle(); await historic.Settle();
+            await Idle(() => mvvm.Pending).WaitAsync(TimeSpan.FromSeconds(180));
+            await mvvm.Settle();
+            Idle(() => { Visit(mvvm.Root); return 0; });
+            await mvvm.Settle();
             await Idle(() => mvvm.Editor.CalculateAsync()).WaitAsync(TimeSpan.FromSeconds(180));
-            await Idle(() => historic.Editor.CalculateAsync()).WaitAsync(TimeSpan.FromSeconds(180));
             for (int i = 0; i < 50 && mvvm.Editor.Busy; i++) await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.ApplicationIdle);
-            await mvvm.Settle(); await historic.Settle();
-            mvvm.Editor.Commit(); historic.Editor.Commit();
-            var past = historic.Historic;
+            await mvvm.Settle();
+            mvvm.Editor.Commit();
             // Without a result «Immagine PNG» asks nothing (FixturesAndExports checks it).
-            if (past.Calculation is null) { Log.Add("   " + name + ": senza risultato, nessuna immagine"); continue; }
-            Check(Same(mvvm, historic) && mvvm.Editor.HasResults, name + ": dati e risultato prima dell'immagine uguali a quelli della vista storica");
+            if (recorded[id] is not JsonObject historic)
+            {
+                Check(!mvvm.Editor.HasResults, name + ": senza risultato, come la vista storica: nessuna immagine");
+                Log.Add("   " + name + ": senza risultato, nessuna immagine");
+                continue;
+            }
+            Check(Sha(Normalized(mvvm.Editor.Data)) == historic["prima"]!.GetValue<string>() && mvvm.Modified == historic["prima_modified"]!.GetValue<int>() && mvvm.Editor.HasResults,
+                name + ": dati e risultato prima dell'immagine uguali a quelli della vista storica (registrati)");
             string png = Path.Combine(folder, name + "-ponte.png");
-            int modified = mvvm.Modified;
+            int modified = mvvm.Modified; string before = Normalized(mvvm.Editor.Data);
             services.Saves.Clear();
             Log.Add($"   in corso: {name}: «Immagine PNG» → {Path.GetFileName(png)} (dal 22/10, S6, DocumentFile.Write copia il file temporaneo .x_*.tmp "
                 + "nel PNG invece di rinominarlo; se la prova finisce qui senza esito: antivirus)");
             services.SavePath = png; Idle(() => { Press(Caption(mvvm.View.DesignScroll, "Immagine PNG")); return 0; }); services.SavePath = null;
             Check(services.Saves.Select(s => (s.FileName, FileFilter.Join(s.Filters))).SequenceEqual([("BridgeDesign.png", "Immagine PNG|*.png")]),
                 name + ": «Immagine PNG», nome proposto e filtro della vista storica");
-            Check(ViewTraceTools.Pixels(File.ReadAllBytes(png)) == ViewTraceTools.Pixels(past.Drawing.Png(false)),
-                name + ": PNG del disegno uguale pixel per pixel a quello della vista storica");
-            Check(Same(mvvm, historic) && mvvm.Modified == modified, name + ": l'immagine non scrive nei dati");
+            Check(ViewTraceTools.Pixels(File.ReadAllBytes(png)) == historic["png"]!.GetValue<string>(),
+                name + ": PNG del disegno uguale pixel per pixel a quello della vista storica (registrato)");
+            Check(Normalized(mvvm.Editor.Data) == before && mvvm.Modified == modified, name + ": l'immagine non scrive nei dati");
             images++;
         }
         Check(images >= 8, $"Immagini PNG confrontate con la vista storica: {images}");
     }
 
-    /// <summary>The data and the results of the two views beside the exports when they differ, to read the difference.</summary>
-    private static void Dump(string folder, string name, Hosted mvvm, Hosted historic)
+    /// <summary>The data and the result of the view beside the exports when they differ from the recorded values, to read the difference.</summary>
+    private static void Dump(string folder, string name, Hosted mvvm, JsonObject historic)
     {
-        string a = Normalized(mvvm.Editor.Data), b = Normalized(historic.Editor.Data);
-        string ra = Normalized(mvvm.Editor.Result), rb = Normalized(historic.Editor.Result);
-        if (a == b && ra == rb) return;
-        File.WriteAllText(Path.Combine(folder, name + "-dati-mvvm.json"), a); File.WriteAllText(Path.Combine(folder, name + "-dati-storica.json"), b);
-        File.WriteAllText(Path.Combine(folder, name + "-risultato-mvvm.json"), ra); File.WriteAllText(Path.Combine(folder, name + "-risultato-storica.json"), rb);
+        string data = Normalized(mvvm.Editor.Data), result = Normalized(mvvm.Editor.Result);
+        if (Sha(data) == historic["calcolo"]?.GetValue<string>() && (mvvm.Editor.Result is null ? historic["risultato"] is null : Sha(result) == historic["risultato"]?.GetValue<string>())) return;
+        File.WriteAllText(Path.Combine(folder, name + "-dati-mvvm.json"), data);
+        File.WriteAllText(Path.Combine(folder, name + "-risultato-mvvm.json"), result);
     }
+
+    /// <summary>
+    /// The values of the historic view recorded by this check before its archiving (passaggio della Release, 23/10/2026):
+    /// tests/fixtures/f5-bridge-design/vista-storica.json.
+    /// </summary>
+    private static JsonObject Recorded(string root) =>
+        JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests", "fixtures", "f5-bridge-design", "vista-storica.json")))!.AsObject();
+
+    /// <summary>SHA-256 of the UTF-8 text, as the values of <see cref="Recorded"/>.</summary>
+    private static string Sha(string text) => Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(text))).ToLowerInvariant();
 
     /// <summary>First part of two Word documents that differs, with the dates of core.xml and of the text normalized as in F3; null when equal.</summary>
     private static string? DifferentPart(byte[] a, byte[] b, TextNormalizer normalizer)
@@ -215,7 +252,7 @@ internal static partial class BridgeDesignViewChecks
 
     /// <summary>
     /// «Gestisci prezzario…»: the editor shown by the dialog service from its DataTemplate (PriceCatalogueView) against the historic window
-    /// (BridgePricesView, built and never shown): the caption, the size (1350 × 780 without the borders), the texts, the tabs and the columns of the
+    /// (BridgePricesView, archived; its texts, tabs, columns and buttons recorded before the archiving): the caption, the size (1350 × 780 without the borders), the texts, the tabs and the columns of the
     /// three tables; the template CSV, the catalogue exported and imported again through the file dialog service, with the filters and the names
     /// of the historic window; «Annulla» changes nothing; «Applica prezzario» writes the document into the data (one edit, the tabs rebuilt).
     /// </summary>
@@ -231,8 +268,6 @@ internal static partial class BridgeDesignViewChecks
         Idle(() => { view.OutputTabs.SelectedIndex = 3; return 0; }); await host.Settle();
         var open = Caption(view.DesignScroll, BridgeDesignPresentation.ManagePricesButton);
         Check(open is { IsEnabled: true }, "«Gestisci prezzario…» nella scheda «Prezzario»");
-        // The historic window on the same data, built off screen and never shown.
-        var historicWindow = BridgePricesView.Create(host.Root, new PriceCatalogueViewModel((JsonObject)sheet.Data.DeepClone()));
         static string[] Texts(DependencyObject root) => Walk(root, popups: false).OfType<TextBlock>()
             .Where(t => t.TemplatedParent is null && t.Text.Length > 0 && !System.Windows.Data.BindingOperations.IsDataBound(t, TextBlock.TextProperty))
             .Select(t => t.Text).Distinct().Order(StringComparer.Ordinal).ToArray();
@@ -240,9 +275,10 @@ internal static partial class BridgeDesignViewChecks
             .SelectMany(g => g.Columns.Select(c => c.Header is TextBlock header ? header.Text : c.Header as string ?? "")).ToArray();
         static string[] Tabs(DependencyObject root) => Walk(root, popups: false).OfType<TabItem>().Select(t => t.Header as string ?? "").ToArray();
         static string[] Buttons(DependencyObject root) => Walk(root, popups: false).OfType<Button>().Select(b => b.Content as string ?? "").Where(c => c.Length > 0).Order(StringComparer.Ordinal).ToArray();
-        string[] historicTexts = Texts((DependencyObject)historicWindow.Content), historicColumns = Columns((DependencyObject)historicWindow.Content),
-            historicTabs = Tabs((DependencyObject)historicWindow.Content), historicButtons = Buttons((DependencyObject)historicWindow.Content);
-        historicWindow.Content = null; historicWindow.Close();
+        // The historic window on the same data (BridgePricesView, built off screen and never shown), recorded before its archiving.
+        var recorded = Recorded(root)["prezzario"]!.AsObject();
+        static string[] List(JsonNode? node) => node!.AsArray().Select(n => n!.GetValue<string>()).ToArray();
+        string[] historicTexts = List(recorded["testi"]), historicColumns = List(recorded["colonne"]), historicTabs = List(recorded["schede"]), historicButtons = List(recorded["pulsanti"]);
         // «Annulla»: the window shown, compared, then closed without changes.
         string before = Normalized(sheet.Data); int modified = host.Modified;
         services.PriceScript = (editor, window) =>
@@ -304,7 +340,6 @@ internal static partial class BridgeDesignViewChecks
         var services = new Services();
         var data = BridgeDesignScenarios.FixtureData(root, "default");
         using var mvvm = Idle(() => new Hosted(Editors(services).Open(Module, data)));
-        using var historic = Idle(() => new Hosted(new SheetEditor(Module, data)));
         var view = mvvm.View;
         int asked = 0; FrameworkElement? printed = null;
         view.ShowPrintDialog = _ => { asked++; return false; };
@@ -315,14 +350,17 @@ internal static partial class BridgeDesignViewChecks
             Idle(() => { Press(view.PrintButton); return 0; });
             Check(asked == 0 && view.PrintPage(1000, 700) is null, "«Stampa scheda» senza risultato: nessuna finestra, come la vista storica");
         }
-        await Idle(() => mvvm.Pending).WaitAsync(TimeSpan.FromSeconds(180)); await Idle(() => historic.Pending).WaitAsync(TimeSpan.FromSeconds(180));
-        await mvvm.Settle(); await historic.Settle();
-        var page = view.PrintPage(1000, 700); var past = historic.Historic.PrintPage(1000, 700);
+        await Idle(() => mvvm.Pending).WaitAsync(TimeSpan.FromSeconds(180));
+        await mvvm.Settle();
+        var page = view.PrintPage(1000, 700);
+        // The page of the historic view on the same data (BridgeDesignWorkspace.PrintPage), recorded before its archiving.
+        var recorded = Recorded(root)["stampa"]!.AsObject();
+        string[] past = recorded["testi"]!.AsArray().Select(n => n!.GetValue<string>()).ToArray();
         static string[] Texts(FrameworkElement? page) => page is Viewbox { Child: Panel panel } ? panel.Children.OfType<TextBlock>().Select(t => t.Text).ToArray() : [];
-        Check(Texts(page).Length > 4 && Texts(page).SequenceEqual(Texts(past)), "La pagina di «Stampa scheda»: i testi della pagina storica (" + Texts(past).Length + ")");
-        string a = ViewTraceTools.Pixels(Ui.DocumentSnapshot(page!)), b = ViewTraceTools.Pixels(Ui.DocumentSnapshot(past));
+        Check(Texts(page).Length > 4 && Texts(page).SequenceEqual(past), "La pagina di «Stampa scheda»: i testi della pagina storica, registrati (" + past.Length + ")");
+        string a = ViewTraceTools.Pixels(Ui.DocumentSnapshot(page!)), b = recorded["pixel"]!.GetValue<string>();
         File.WriteAllBytes(Path.Combine(output, "schermate", "stampa.png"), Ui.DocumentSnapshot(page!));
-        Check(a == b, "La pagina di «Stampa scheda» uguale pixel per pixel a quella storica (" + a + ")");
+        Check(a == b, "La pagina di «Stampa scheda» uguale pixel per pixel a quella storica, registrata (" + a + ")");
         Idle(() => { Press(view.PrintButton); return 0; });
         Check(asked == 1 && printed is null, "«Stampa scheda»: la finestra della stampante; annullata non stampa");
         view.ShowPrintDialog = _ => { asked++; return true; };
@@ -367,13 +405,7 @@ internal static partial class BridgeDesignViewChecks
             written += 3;
         }
         Appearance.Set(AppAppearance.Light, false);
-        // The historic view at the same size, for the comparison by eye.
-        using (var historic = Idle(() => new Hosted(new SheetEditor(Module, BridgeDesignScenarios.FixtureData(root, "confronto-alternativa-a")), false, 1400, 1000)))
-        {
-            await Idle(() => historic.Pending).WaitAsync(TimeSpan.FromSeconds(180)); await historic.Settle();
-            File.WriteAllBytes(Path.Combine(folder, "storica-progetto-chiara.png"), historic.Png());
-            written++;
-        }
+        // The historic view is archived (23/10/2026): its screenshots stay in the artifacts of the runs before the switch.
         // The compact layout (below 1100 the drawing under the inputs, below 850 the metrics in two columns).
         using (var narrow = Idle(() => new Hosted(editors.Open(Module, BridgeDesignScenarios.FixtureData(root, "default")), false, 820, 1000)))
         {
@@ -384,7 +416,7 @@ internal static partial class BridgeDesignViewChecks
             File.WriteAllBytes(Path.Combine(folder, "progetto-stretta-chiara.png"), narrow.Png());
             written++;
         }
-        Check(written == 11, "Schermate della vista nei tre aspetti (progetto, confronto, ottimizzazione), della vista storica e della disposizione stretta: " + written + " PNG in " + folder + " (144 DPI su questa macchina)");
+        Check(written == 10, "Schermate della vista nei tre aspetti (progetto, confronto, ottimizzazione) e della disposizione stretta: " + written + " PNG in " + folder + " (144 DPI su questa macchina)");
     }
 
     // ---------------------------------------------------------------- 7. help
@@ -395,10 +427,9 @@ internal static partial class BridgeDesignViewChecks
         var services = new Services();
         var data = BridgeDesignScenarios.FixtureData(root, "default");
         using var host = Idle(() => new Hosted(Editors(services).Open(Module, data)));
-        using var historic = Idle(() => new Hosted(new SheetEditor(Module, data)));
-        await host.Settle(); await historic.Settle();
+        await host.Settle();
         static int Questions(DependencyObject root) => Walk(root).OfType<Button>().Count(b => b.IsVisible && b.Content as string == "?");
-        Check(Questions(host.Root) == 0 && Questions(historic.Root) == 0, "Nessuna etichetta «?» sui campi, come la vista storica");
+        Check(Questions(host.Root) == 0 && Recorded(root)["aiuto"]!.GetValue<int>() == 0, "Nessuna etichetta «?» sui campi, come la vista storica (registrata)");
         string guide = Anthea.Wiki.WikiCatalog.ForModule(Module)?.Id ?? throw new InvalidOperationException("Guida assente nella Wiki: " + Module);
         var view = host.View;
         var targets = new List<UIElement> { view.Pages, view.InputTabs, view.StatusText };
@@ -419,27 +450,24 @@ internal static partial class BridgeDesignViewChecks
         static HashSet<string> Names(DependencyObject root) => Walk(root).OfType<UIElement>().Where(e => e.IsVisible)
             .Select(e => AutomationProperties.GetName(e)).Where(n => !string.IsNullOrEmpty(n)).ToHashSet(StringComparer.Ordinal);
         var editors = Editors(new Services());
+        var recorded = Recorded(root)["nomi"]!.AsObject();
         foreach (string id in new[] { "default", "cassone-acciaio-prezzario", "strallato-ortotropo-fiume" })
         {
             if (!BridgeDesignScenarios.Fixtures(root).Contains(id)) { Log.Add("   nomi: fixture assente " + id); continue; }
             var data = BridgeDesignScenarios.FixtureData(root, id);
-            using var historic = Idle(() => new Hosted(new SheetEditor(Module, data)));
             using var host = Idle(() => new Hosted(editors.Open(Module, data)));
-            await Idle(() => historic.Pending).WaitAsync(TimeSpan.FromSeconds(180)); await Idle(() => host.Pending).WaitAsync(TimeSpan.FromSeconds(180));
-            await historic.Settle(); await host.Settle();
-            var before = new HashSet<string>(StringComparer.Ordinal); var after = new HashSet<string>(StringComparer.Ordinal);
-            foreach (var hosted in new[] { historic, host })
+            await Idle(() => host.Pending).WaitAsync(TimeSpan.FromSeconds(180));
+            await host.Settle();
+            // The names of the historic view in every place, recorded before its archiving.
+            var before = recorded[id]!.AsArray().Select(n => n!.GetValue<string>()).ToHashSet(StringComparer.Ordinal); var after = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var (page, input, output) in Places())
             {
-                var names = ReferenceEquals(hosted, historic) ? before : after;
-                foreach (var (page, input, output) in Places())
-                {
-                    Select(hosted.Root, page, input, output); await hosted.Settle();
-                    names.UnionWith(Names(hosted.Root));
-                }
+                Select(host.Root, page, input, output); await host.Settle();
+                after.UnionWith(Names(host.Root));
             }
             var missing = before.Except(after).Order(StringComparer.Ordinal).ToArray();
             Log.Add($"   nomi nuovi ({id}): " + string.Join(", ", after.Except(before).Order(StringComparer.Ordinal)));
-            Check(missing.Length == 0 && before.Count > 20, $"{id}: nomi di automazione della vista storica conservati ({before.Count})" + (missing.Length == 0 ? "" : "; mancanti: " + string.Join(", ", missing)));
+            Check(missing.Length == 0 && before.Count > 20, $"{id}: nomi di automazione della vista storica conservati ({before.Count}, registrati)" + (missing.Length == 0 ? "" : "; mancanti: " + string.Join(", ", missing)));
         }
     }
 
@@ -451,7 +479,7 @@ internal static partial class BridgeDesignViewChecks
         yield return (1, 0, 0);
     }
 
-    /// <summary>The page and the tabs chosen on either view (the first three tab controls of the tree: pages, inputs, results).</summary>
+    /// <summary>The page and the tabs chosen (the first three tab controls of the tree: pages, inputs, results).</summary>
     private static void Select(DependencyObject root, int page, int input, int output)
     {
         var tabs = Walk(root, popups: false).OfType<TabControl>().Take(3).ToArray();
@@ -462,29 +490,26 @@ internal static partial class BridgeDesignViewChecks
     // ---------------------------------------------------------------- 9. read-only
 
     /// <summary>
-    /// The controls that accept the user after InspectRevision, in the new view and in the historic view on the same data, in every place; the only
-    /// difference is «Gestisci prezzario…», locked in the new view (BD4).
+    /// The controls that accept the user after InspectRevision, in the new view in every place, against those of the historic view on the same data,
+    /// recorded before its archiving; the only difference is «Gestisci prezzario…», locked in the new view (BD4).
     /// </summary>
     private static async Task ReadOnly(string root)
     {
+        var recorded = Recorded(root)["sola_lettura"]!.AsObject();
         foreach (string id in new[] { "default", "confronto-alternativa-a" })
         {
             var data = BridgeDesignScenarios.FixtureData(root, id);
             using var host = Idle(() => new Hosted(Editors(new Services()).Open(Module, data)));
-            using var historic = Idle(() => new Hosted(new SheetEditor(Module, data)));
-            await Idle(() => host.Pending).WaitAsync(TimeSpan.FromSeconds(180)); await Idle(() => historic.Pending).WaitAsync(TimeSpan.FromSeconds(180));
-            await host.Settle(); await historic.Settle();
-            host.Editor.InspectRevision(); historic.Editor.InspectRevision();
+            await Idle(() => host.Pending).WaitAsync(TimeSpan.FromSeconds(180));
+            await host.Settle();
+            host.Editor.InspectRevision();
             int modified = host.Modified;
-            var before = new Dictionary<string, string>(StringComparer.Ordinal); var after = new Dictionary<string, string>(StringComparer.Ordinal);
-            foreach (var hosted in new[] { historic, host })
+            var before = recorded[id]!.AsObject().ToDictionary(p => p.Key, p => p.Value!.GetValue<string>(), StringComparer.Ordinal);
+            var after = new Dictionary<string, string>(StringComparer.Ordinal);
+            foreach (var (page, input, output) in Places())
             {
-                var map = ReferenceEquals(hosted, historic) ? before : after;
-                foreach (var (page, input, output) in Places())
-                {
-                    Select(hosted.Root, page, input, output); await hosted.Settle();
-                    foreach (var (key, value) in Controls(hosted.Root)) map[key] = map.TryGetValue(key, out var previous) && previous != value ? "misto" : value;
-                }
+                Select(host.Root, page, input, output); await host.Settle();
+                foreach (var (key, value) in Controls(host.Root)) after[key] = after.TryGetValue(key, out var previous) && previous != value ? "misto" : value;
             }
             var common = before.Keys.Intersect(after.Keys).Order(StringComparer.Ordinal).ToArray();
             var different = common.Where(k => before[k] != after[k]).Select(k => k + ": storica " + before[k] + ", nuova " + after[k]).ToArray();
@@ -493,7 +518,7 @@ internal static partial class BridgeDesignViewChecks
             Log.Add($"   sola lettura ({id}), comuni: " + string.Join(", ", common.Select(k => k + " " + after[k])));
             string prices = "pulsante " + BridgeDesignPresentation.ManagePricesButton;
             Check(different.SequenceEqual([prices + ": storica libero, nuova bloccato"]) && common.Length >= 30,
-                $"{id}: sola lettura, stessi controlli bloccati e liberi della vista storica ({common.Length} controlli comuni), salvo «Gestisci prezzario…» (BD4)"
+                $"{id}: sola lettura, stessi controlli bloccati e liberi della vista storica, registrati ({common.Length} controlli comuni), salvo «Gestisci prezzario…» (BD4)"
                 + (different.Length == 1 ? "" : ": " + string.Join("; ", different)));
             Check(host.Editor.HasResults && host.Modified == modified, id + ": sola lettura, il risultato resta e nulla è modificato");
         }
