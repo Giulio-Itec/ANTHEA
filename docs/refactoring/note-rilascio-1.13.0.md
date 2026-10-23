@@ -1,7 +1,8 @@
 # ANTHEA 1.13.0 — note di rilascio
 
-Bozza del 23 ottobre 2026, da confermare con l'utente prima della pubblicazione. Il testo è scritto per chi usa ANTHEA e
-serve anche per l'annotazione del tag `v1.13.0`. Il verbale tecnico del rilascio è in [installer-1.13.0.md](installer-1.13.0.md).
+Note del 23 ottobre 2026, approvate dall'utente con i limiti noti («Note di rilascio con i Limiti noti»). Il testo è scritto
+per chi usa ANTHEA ed è anche l'annotazione del tag `v1.13.0`, sul commit e1d9976c del setup. Il verbale tecnico del rilascio è
+in [installer-1.13.0.md](installer-1.13.0.md).
 
 La 1.13.0 segue la 1.12.1, preparata il 21 ottobre e mai pubblicata: chi installa la 1.13.0 riceve anche le novità della 1.12.1
 (capsula come pilastro, albero di lavoro delle paratie, guide Rev56).
@@ -63,8 +64,6 @@ l'apertura dei fogli a pagina intera o in una nuova finestra. La Release apre an
 attuale: chi usa ANTHEA non vede differenze. Le viste nuove entreranno a fine refactoring, dopo la prova dell'utente.
 
 ## Limiti noti
-
-Da confermare con l'utente prima di pubblicarli.
 
 - **Paratie, filtrazione di uno scavo simmetrico.** Il bordo laterale del dominio è sempre a carico imposto. Se come
   estensione si inserisce la semilarghezza di uno scavo simmetrico, l'asse fa da dreno e il gradiente lungo la parete risulta
