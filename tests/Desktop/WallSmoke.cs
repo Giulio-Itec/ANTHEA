@@ -112,10 +112,10 @@ internal abstract class WallSmoke
 /// <summary>f5-suite-ui: the XAML view of the walls (RetainingWallSheetView) driven through its controls, as RetainingWallViewChecks drives it.</summary>
 internal sealed class MvvmWallSmoke : WallSmoke
 {
-    private readonly MvvmSheetEditor editor;
+    private readonly HostedSheet editor;
     private readonly BenchSheetServices services;
 
-    internal MvvmWallSmoke(MvvmSheetEditor editor, BenchSheetServices services)
+    internal MvvmWallSmoke(HostedSheet editor, BenchSheetServices services)
     {
         this.editor = editor; this.services = services;
         Sheet = (RetainingWallSheetViewModel)editor.Sheet;

@@ -445,6 +445,15 @@ public partial class App
         StartShell(ModuleHostBench.WithoutBench(e.Args).Skip(1).ToArray(), ModuleHostBench.Implementations(e.Args));
     }
 
+    /// <summary>
+    /// F5.13 g: the smokes passed to the new shell (docs/refactoring/f5-13-shell.md, 14.2), by flag: they run on the bench of the shell (ShellSmokeBench),
+    /// never in a MainWindow, with the same flag, the same output and the same proof (esito-smoke-completo.txt).
+    /// </summary>
+    private static readonly Dictionary<string, Func<string, Task>> ShellSmokes = new(StringComparer.Ordinal)
+    {
+        ["--smoke-global-stability"] = GlobalStabilitySmoke.Run,
+    };
+
     private void StartSmoke(StartupEventArgs e)
     {
         DispatcherUnhandledException += (_, error) =>
@@ -452,6 +461,25 @@ public partial class App
             Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), error.Exception.ToString());
             error.Handled = true; Shutdown(1);
         };
+        if (ShellSmokes.TryGetValue(e.Args[0], out var shellSmoke) && ModuleHostBench.WithoutBench(e.Args).Length == 2)
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            EventManager.RegisterClassHandler(typeof(FrameworkElement), System.Windows.Controls.ToolTipService.ToolTipOpeningEvent,
+                new System.Windows.Controls.ToolTipEventHandler((_, args) => args.Handled = true));
+            Dispatcher.InvokeAsync(async () =>
+            {
+                int code = 0;
+                try
+                {
+                    await shellSmoke(e.Args[1]);
+                    Directory.CreateDirectory(e.Args[1]);
+                    File.WriteAllText(Path.Combine(e.Args[1], "esito-smoke-completo.txt"), "Completato: " + e.Args[0]);
+                }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString()); code = 1; }
+                finally { Shutdown(code); }
+            });
+            return;
+        }
         var window = new MainWindow(TestServices.Create);
         // Smoke windows are repeatedly created and destroyed under the desktop pointer.
         // Suppress tooltip popups in the harness to avoid WPF referring to an already closed HWND.
@@ -471,7 +499,6 @@ public partial class App
                     if (e.Args[0] == "--smoke-neutral-axis") await window.SmokeNeutralAxis(e.Args[1]);
                     else if (e.Args[0] == "--smoke-bridge-predalle") await window.SmokeBridgePredalle(e.Args[1]);
                     else if (e.Args[0] == "--smoke-retaining-wall") await window.SmokeRetainingWall(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-global-stability") await window.SmokeGlobalStability(e.Args[1]);
                     else if (e.Args[0] == "--smoke-bridge-design") await window.SmokeBridgeDesign(e.Args[1]);
                     else if (e.Args[0] == "--smoke-bridge-curves") await window.SmokeBridgeResponse(e.Args[1]);
                     else if (e.Args[0] == "--smoke-bridge") await window.SmokeBridge(e.Args[1]);
