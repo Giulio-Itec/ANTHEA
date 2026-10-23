@@ -1,5 +1,4 @@
 using Anthea.Application.Materials;
-using Anthea.Application.Walls;
 using Anthea.Application.BridgeDesign;
 using Anthea.Application.Modules;
 using Anthea.Reports;
@@ -18,10 +17,9 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     public string Module { get; }
     public JsonObject Data { get; }
     private ConcreteWorkspace? concrete;
-    internal readonly RetainingWallWorkspace? retainingWall;
-    public JsonObject? Result => retainingWall is not null ? retainingWall.Result : concrete?.Result;
+    public JsonObject? Result => concrete?.Result;
     public bool HasResults => concrete is not null ? concrete.HasResults : Result is not null;
-    public bool Busy => retainingWall?.Busy ?? concrete?.Busy ?? false;
+    public bool Busy => concrete?.Busy ?? false;
     public event Action? Modified;
     public event Action<JsonObject, string>? ConcreteSectionRequested;
     public event Action? ReportRequested;
@@ -44,14 +42,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
             if (e.Key == System.Windows.Input.Key.F1 && WikiCatalog.ForModule(Module) is { } guide)
             { e.Handled = true; WikiContextHelp.Open(this, guide.Id); }
         };
-        if (module == WallModel.Module)
-        {
-            retainingWall = new RetainingWallWorkspace(Data); retainingWall.Modified += () => Modified?.Invoke();
-            retainingWall.SectionRequested += (section, name) => ConcreteSectionRequested?.Invoke(section, name);
-            retainingWall.ReportRequested += () => ReportRequested?.Invoke();
-            retainingWall.SoilTransferRequested += OpenSoilTransfer;
-            Content = retainingWall; return;
-        }
         if (Section)
         {
             void OpenConcrete()
@@ -62,7 +52,8 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
             OpenConcrete(); return;
         }
         // The vertical pile and micropile (the last sheets of the generic branch) open with their MVVM view since the Release switch of 23/10
-        // (f5-pass-geo): their historic view (GeoEditor.cs) is archived in supporto/SUPERATI/ui-storica/palo-verticale.
+        // (f5-pass-geo): their historic view (GeoEditor.cs) is archived in supporto/SUPERATI/ui-storica/palo-verticale. The retaining walls too
+        // (f5-pass-muri): RetainingWallWorkspace is archived in supporto/SUPERATI/ui-storica/muri.
         throw new InvalidOperationException("Vista storica non disponibile per " + module + ": il modulo si apre con la vista MVVM.");
     }
     internal void OpenSoilTransfer()
@@ -74,11 +65,10 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     }
     private Action? releaseRevisionInspection;
     public void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
-    public void Dispose() { releaseRevisionInspection?.Invoke(); concrete?.Dispose(); retainingWall?.Dispose(); }
-    public void Commit() { if (retainingWall is not null) retainingWall.Commit(); else if (concrete is not null) concrete.Commit(); }
+    public void Dispose() { releaseRevisionInspection?.Invoke(); concrete?.Dispose(); }
+    public void Commit() { if (concrete is not null) concrete.Commit(); }
     public async Task CalculateAsync(bool commitEdits = true)
     {
-        if (retainingWall is not null) { await retainingWall.CalculateAsync(); return; }
         if (concrete is not null) await concrete.CalculateAllAsync();
     }
     public void ExportResult(string filename)
@@ -99,7 +89,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     public byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => DocxWriter.Write(BuildReportDocument(title, options, projectReport));
     internal DocxDocument BuildReportDocument(string title, HashSet<string> options, bool projectReport = false)
     {
-        if (retainingWall is not null) return retainingWall.BuildReportDocument(title);
         if (concrete is not null) return concrete.BuildReportDocument(title, options, projectReport);
         if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
         throw new InvalidOperationException("Report non disponibile per " + Module + ".");

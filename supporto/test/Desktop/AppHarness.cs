@@ -285,22 +285,8 @@ public partial class App
             return;
         }
 
-        // F5.9: traces of the historic retaining wall view (tests/Desktop/RetainingWallHistoricTrace.cs); the check also compares them
-        // with the frozen ones of tests/fixtures/f5-muri/storica.
-        if (e.Args.Length == 3 && e.Args[0] is "--check-muri-historic" or "--check-muri-historic-capture")
-        {
-            ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            Dispatcher.BeginInvoke(new Action(async () =>
-            {
-                int code = 0;
-                try { await RetainingWallHistoricTrace.Run(e.Args[1], e.Args[2], e.Args[0] == "--check-muri-historic"); }
-                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
-                finally { Shutdown(code); }
-            }));
-            return;
-        }
-
-        // f5-suite-ui: after the output, --module-impl pairs choose the MVVM views (ModuleHostBench, suite ui/check-appearance-mvvm).
+        // f5-suite-ui: after the output, --module-impl pairs choose the MVVM views (ModuleHostBench; the suite ui/check-appearance-mvvm went away
+        // with the Release switch of the walls, the last module of its bench).
         if (e.Args.Length >= 2 && e.Args[0] == "--check-appearance" && ModuleHostBench.WithoutBench(e.Args).Length == 2)
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;

@@ -11772,38 +11772,6 @@
       "Example": "1000"
     },
     {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.GlobalStability.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallWorkspace.ExportGlobalWord",
-      "Fingerprint": "502AF424D05D32C19C6BDDC5E47EFA40DEAA9020BC8E8A847B4F953C4C661DF8",
-      "Count": 1,
-      "Example": "1100d"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.GlobalStability.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallWorkspace.ExportGlobalWord",
-      "Fingerprint": "C7DD71D045AA92A3AC77DEA5BB55246FFC36DD09F57E756EEF0D9A9BDBD2109F",
-      "Count": 1,
-      "Example": "460"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Soils.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallWorkspace.UpdateColumnDepths",
-      "Fingerprint": "74C28A31D07D6034B4794826CBAF9D95216570F48ACCA379710A3773D0749C5B",
-      "Count": 1,
-      "Example": "72"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.Soils.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallWorkspace.UpdateColumnDepths",
-      "Fingerprint": "BAB9A056FEFE1B5E3459CC62B4CB7CD66704B8C80A46FADF41E36ED59AB64D23",
-      "Count": 1,
-      "Example": "31"
-    },
-    {
       "File": "X.Desktop/Wpf/StratigraphyTable.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "StratigraphyTable.Build.Resize",

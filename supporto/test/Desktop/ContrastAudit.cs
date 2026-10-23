@@ -91,8 +91,8 @@ internal sealed class ContrastAudit
         ("Dividi il tratto", "PileReinforcementEditor.Split", "non raggiunta"),
         ("Proposta di suddivisione", "PileReinforcementEditor.Propose", "richiede i risultati elastici"),
         ("Dimensionamento del tratto · proposta da applicare", "PileReinforcementEditor.Design", "richiede i risultati elastici"),
-        ("Armature del muro · sezione e distinta ferri", "RetainingWallWorkspace.ShowBarSchedule", "non raggiunta"),
-        ("Muro · valori utilizzati nel calcolo", "RetainingWallWorkspace.CalculationParametersWindow", "non raggiunta"),
+        ("Armature del muro · sezione e distinta ferri", "RetainingWallSheetView (Distinta ferri…, RetainingWallBarScheduleView)", "non raggiunta"),
+        ("Muro · valori utilizzati nel calcolo", "WpfDialogService (Valori di calcolo…, RetainingWallParametersView)", "non raggiunta"),
         ("Tabelle e dettagli", "SheetEditor.ShowDetails", "nessun chiamante: il metodo non è collegato a comandi dell'interfaccia"),
         ("Confronto completo", "ElasticPileWorkspace (Mostra confronto completo)", "solo con archivi elastici precedenti da migrare"),
         ("Terreno · invio e riutilizzo", "SoilTransferDialog", "non raggiunta"),
@@ -170,9 +170,8 @@ internal sealed class ContrastAudit
                     // MVVM view; its own step mvvm-geo_fondazioni_superficiali is removed with the historic view.
                     // F5.6b: since the Release switch of the stratigraphy (f5-pass-geo) the step modulo-geo_stratigrafia shows the MVVM view; its own
                     // step mvvm-geo_stratigrafia is removed with the historic view.
-                    // ---- F5.9 begin: step mvvm-geo_muri_sostegno, self-contained (RetainingWallContrastStep at the end of the file) ----
-                    await RetainingWallContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
-                    // ---- F5.9 end ----
+                    // F5.9: since the Release switch of the retaining walls (f5-pass-muri) the step modulo-geo_muri_sostegno shows the MVVM view; its own
+                    // step mvvm-geo_muri_sostegno (RetainingWallContrastStep) is removed with the historic view.
                     // ---- F5.10 begin: step mvvm-str_palo, self-contained (ConcreteSectionContrastStep at the end of the file) ----
                     await ConcreteSectionContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
                     // ---- F5.10 end ----
@@ -1999,43 +1998,6 @@ public sealed partial class MainWindow
         Appearance.Set(mode, false);
     }
 }
-
-// ---------------------------------------------------------------- F5.9 begin: step mvvm-geo_muri_sostegno (self-contained)
-
-/// <summary>
-/// The XAML view of the retaining walls before the switch of the Release (F5.9): the same exploration as the module steps (AuditModule), in
-/// a main window whose editors open the MVVM sheet (--module-impl geo_muri_sostegno=mvvm). With --baseline (runner) only Scuro and Molto
-/// scuro: until the Release opens the new view, the Chiara of the module is the one of the historic view, whose defects are in the baseline
-/// (modulo-geo_muri_sostegno); without --baseline also Chiara. Self-contained: it does not depend on the step of another module; at the
-/// switch of the Release it is removed and the step of the module shows the new view.
-/// </summary>
-internal static class RetainingWallContrastStep
-{
-    internal const string Module = "geo_muri_sostegno";
-    internal const string View = "mvvm-" + Module;
-
-    internal static async Task RunAsync(ContrastAudit audit, AppAppearance mode, bool baseline)
-    {
-        if (!audit.Want(View)) return;
-        if (mode == AppAppearance.Light && baseline)
-        {
-            audit.Uncovered("Vista MVVM dei muri di sostegno (F5.9) in Chiara", "con --baseline solo Scuro e Molto scuro finché la Release apre la vista " +
-                "storica, la cui Chiara è nella baseline (modulo-geo_muri_sostegno); la Chiara della vista MVVM si misura senza --baseline");
-            return;
-        }
-        var window = await audit.OpenMain(mode, ModuleHostBench.SheetEditors([ModuleHostBench.Argument, Module + "=mvvm"]));
-        try { await audit.Step(View, () => window.AuditRetainingWallMvvm(audit)); }
-        finally { await audit.CloseMain(window); }
-    }
-}
-
-public sealed partial class MainWindow
-{
-    /// <summary>F5.9: the exploration of the module steps on the MVVM sheet of the retaining walls, with the names of its step.</summary>
-    internal Task AuditRetainingWallMvvm(ContrastAudit a) => AuditModule(a, RetainingWallContrastStep.Module, "mvvm-");
-}
-
-// ---------------------------------------------------------------- F5.9 end
 
 // ---------------------------------------------------------------- F5.10 begin: step mvvm-str_palo (self-contained)
 

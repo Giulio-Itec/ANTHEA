@@ -325,17 +325,9 @@ foreach ($s in $smokes) {
 foreach ($c in 'check-appearance', 'check-global-guidance-offscreen', 'check-wall-advanced-offscreen', 'check-wall-materials-offscreen') {
     Add-Suite @{ Name = "ui/$c"; Stage = 'ui'; Kind = 'check'; Args = @("--$c", '{out}'); Timeout = 600 }
 }
-# f5-suite-ui: the UI suites that open sheets of the seven modules with a XAML view still historic in the Release (shallow foundations, concrete,
-# reinforcing steel, vertical pile and micropile, stratigraphy, retaining walls) run also with those seven modules MVVM (bench --module-impl):
-# ui/<suite>-mvvm. At the Release switch of a module its pair leaves $MvvmBench; a duplicate goes when every module it opens is MVVM in the
-# Release (docs/refactoring/f5-suite-ui.md).
-$MvvmBench = @('geo_muri_sostegno') |
-    ForEach-Object { '--module-impl'; "$_=mvvm" }
-foreach ($s in 'smoke-project-workspace', 'smoke-retaining-wall', 'smoke-global-stability') {
-    $smokeArgs = if ($s -eq 'smoke') { @("--$s", '{out}', '{cases}') } else { @("--$s", '{out}') }
-    Add-Suite @{ Name = "ui/$s-mvvm"; Stage = 'ui'; Kind = 'smoke'; Args = $smokeArgs + $MvvmBench; Timeout = 900; Proof = @{ File = '{out}\esito-smoke-completo.txt'; Pattern = "^Completato: --$s$" } }
-}
-Add-Suite @{ Name = 'ui/check-appearance-mvvm'; Stage = 'ui'; Kind = 'check'; Args = @('--check-appearance', '{out}') + $MvvmBench; Timeout = 600; Proof = @{ File = '{out}\completato.txt'; Pattern = '^PASS ' } }
+# f5-suite-ui: the UI suites that opened sheets of the seven modules with a XAML view still historic in the Release ran also with those modules
+# MVVM (bench --module-impl, $MvvmBench): ui/<suite>-mvvm (docs/refactoring/f5-suite-ui.md). The retaining walls were the last module of
+# $MvvmBench: with their Release switch (f5-pass-muri, 23/10/2026) $MvvmBench and its -mvvm suites went away; the suites above open the MVVM views.
 Add-Suite @{ Name = 'ui/check-error-log-offscreen'; Stage = 'ui'; Kind = 'check'; Args = @('--check-error-log-offscreen', '{out}'); Timeout = 300; Proof = @{ File = '{out}\test.txt'; Pattern = '^PASS ' } }
 # ModuleHost (F5.2): ModuleImplementations, composition root, bench --module-impl and MvvmSheetEditor with the test-only probe module, off screen.
 Add-Suite @{ Name = 'ui/check-module-host-offscreen'; Stage = 'ui'; Kind = 'check'; Args = @('--check-module-host-offscreen', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
@@ -376,16 +368,12 @@ Add-Suite @{ Name = 'ui/check-stratigrafia-view'; Stage = 'ui'; Kind = 'check'; 
 Add-Suite @{ Name = 'ui/check-spettri-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-spettri-view', '{root}', '{out}\vista'); Timeout = 180; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-spettri-contrast'; Stage = 'ui'; Kind = 'check'; Args = @('--check-spettri-contrast', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-paratie-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-paratie-view', '{root}', '{out}\vista'); Timeout = 180; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
-# F5.9 (proposal 7.2, capture first): the historic retaining wall view still gives the traces frozen in tests/fixtures/f5-muri,
-# which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
-Add-Suite @{ Name = 'ui/check-muri-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-muri-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
-# F5.9: the XAML view of the retaining walls hosted by MvvmSheetEditor off screen (bench --module-impl, Release still historic): the 24 traces
-# through its controls equal to those frozen in tests/fixtures/f5-muri, visit without writes, exports equal to those of the historic view (Word,
-# PDF, CSV, Word globale, bar schedule), screenshots, help, automation names, read-only, the dialog of the values and the shared soil dialog.
+# F5.9: the XAML view of the retaining walls hosted by MvvmSheetEditor off screen, as the Release opens it since the switch of 23/10/2026: the 24
+# traces through its controls equal to those frozen in tests/fixtures/f5-muri, visit without writes, data, results and exports equal to those of
+# the historic view (recorded in tests/fixtures/f5-muri/vista-storica.json, Word, PDF, Word globale and bar schedule by its recipe), screenshots,
+# help, automation names, read-only, the dialog of the values and the shared soil dialog. The historic view, its suite ui/check-muri-historic and
+# the -mvvm probe of ui/f3-scheduling are archived in supporto/SUPERATI/ui-storica/muri since the Release switch (Q11).
 Add-Suite @{ Name = 'ui/check-muri-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-muri-view', '{root}', '{out}\vista'); Timeout = 1800; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
-# F5.9: ui/f3-scheduling with the MVVM view of the walls (bench --module-impl): the probes of the recalculation, of the closing and of the window
-# of the values on the MVVM sheet and the view of its dialog.
-Add-Suite @{ Name = 'ui/f3-scheduling-muri-mvvm'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-scheduling', '{root}', '{out}', '--module-impl', 'geo_muri_sostegno=mvvm'); Timeout = 120; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # F5.12: the XAML view of Bridge Design hosted by MvvmSheetEditor off screen, as the Release opens it since the switch of 23/10/2026: the 19 traces through
 # its controls equal to those frozen in tests/fixtures/f5-bridge-design, the drawings of the view and the figures of the report, the visit and the exports
 # (JSON with the data, Word, PDF, CSV, PNG) equal to the values of the historic view (recorded in tests/fixtures/f5-bridge-design/vista-storica.json, report
@@ -441,16 +429,12 @@ Add-Suite @{ Name = 'ui/check-examples'; Stage = 'ui'; Kind = 'check'; Args = @(
 # of the draft, the examples of the Wiki equal to MainWindow.WikiExamples. Not the window of the application (the Release opens MainWindow).
 Add-Suite @{ Name = 'ui/check-shell-draft'; Stage = 'ui'; Kind = 'check'; Args = @('--check-shell-draft', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # F5.13 e: the suites of MainWindow transferred to the new shell (tests/Desktop/ShellSmoke*.cs, docs/refactoring/f5-13-shell.md «Parte (e)»): the same scenarios and
-# assertions through ShellWindow on ShellViewModel from ShellComposition, off screen, with the modules as the Release chooses them; -mvvm with the bench of the
-# seven modules ($MvvmBench), as the historic -mvvm suites. The historic suites stay: MainWindow is the shell of the Release until part (g).
-# ui/shell-smoke-project-report has no -mvvm pair, as ui/smoke-project-report; it also compares the Word report of the shell with the one of MainWindow.
-# The pairs whose modules are all MVVM in the Release go away with the switch, as the historic -mvvm suites (hierarchy and sharing: the materials;
-# projects and display: the vertical piles).
+# assertions through ShellWindow on ShellViewModel from ShellComposition, off screen, with the modules as the Release chooses them. The historic suites
+# stay: MainWindow is the shell of the Release until part (g). ui/shell-smoke-project-report also compares the Word report of the shell with the one of
+# MainWindow. The -mvvm pairs (bench $MvvmBench) went away with the Release switches of their modules, the last one with the retaining walls
+# (f5-pass-muri, 23/10/2026).
 foreach ($s in 'projects', 'project-workspace', 'hierarchy', 'sharing', 'project-report', 'display') {
     Add-Suite @{ Name = "ui/shell-smoke-$s"; Stage = 'ui'; Kind = 'check'; Args = @("--check-shell-smoke-$s", '{out}'); Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-    if ($s -notin 'project-report', 'hierarchy', 'sharing', 'projects', 'display') {
-        Add-Suite @{ Name = "ui/shell-smoke-$s-mvvm"; Stage = 'ui'; Kind = 'check'; Args = @("--check-shell-smoke-$s", '{out}') + $MvvmBench; Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-    }
 }
 # F5.13 e: the capture of a project through the new shell and through MainWindow (tests/Desktop/ShellProjectCapture.cs): open, edit, shared data, revisions,
 # comparison, undo, redo, save; equal byte for byte (esito.txt), then the direct comparison of the F5 benches on the two folders (zero differences).

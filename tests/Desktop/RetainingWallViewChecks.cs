@@ -33,9 +33,9 @@ namespace X.Desktop;
 
 /// <summary>
 /// --check-muri-view &lt;radice&gt; &lt;cartella&gt; (UiTests, F5.9, proposal F5 section 7.3): the XAML view of the retaining walls
-/// (RetainingWallSheetView) hosted by <see cref="MvvmSheetEditor"/>, as the bench opens it with <c>--module-impl geo_muri_sostegno=mvvm</c>, in
-/// windows outside the screen (never activated, no mouse). The Release keeps the historic view until the user has tried the view (decisions
-/// of 17/10). Parts:
+/// (RetainingWallSheetView) hosted by <see cref="MvvmSheetEditor"/>, as the Release opens it since the switch of 23/10/2026 (f5-pass-muri; the
+/// historic view RetainingWallWorkspace is archived in supporto/SUPERATI/ui-storica/muri), in windows outside the screen (never activated, no
+/// mouse). Parts:
 /// <list type="number">
 /// <item>Traces through the view: the 24 scenarios of tests/Shared/RetainingWallTrace.cs driven through the controls of the view (fields,
 /// choices and check boxes of the FieldForms, cells and rows of the tables, buttons, combo boxes, switches, the rows of the panels of results,
@@ -55,7 +55,7 @@ namespace X.Desktop;
 /// <item>Read-only revision: the controls that accept the user are those of the historic view after InspectRevision (recorded).</item>
 /// <item>The dialog of the values (MU10): the view of RetainingWallParametersViewModel, applied, closed and read-only (MU3).</item>
 /// <item>The shared soil transfer dialog (T5, MU9): its view, a copy and a replacement sent to the window.</item>
-/// <item>Bench and Release: with --module-impl the walls open the MVVM view; the Release keeps the historic view.</item>
+/// <item>Bench and Release: with --module-impl and in the Release the walls open the MVVM view.</item>
 /// </list>
 /// What the check compared with the historic view opened beside the new one is compared with the values it gave, recorded before its archiving in
 /// tests/fixtures/f5-muri/vista-storica.json (<see cref="Recorded"/>), or with the recipe of its exports on the same result.
@@ -1284,6 +1284,7 @@ internal static class RetainingWallViewChecks
         using (var mvvm = editors.Open(Module, RetainingWallScenarios.FixtureData(root, "default")))
             Check(mvvm is MvvmSheetEditor { Sheet: RetainingWallSheetViewModel sheet } && sheet.Forms.Values.All(f => f.WikiNavigator is not null), "Con --module-impl il banco apre la vista MVVM dei muri");
         using (var release = ModuleHostBench.SheetEditors([], DesktopComposition.CreateModules()).Open(Module, RetainingWallScenarios.FixtureData(root, "default")))
-            Check(release is SheetEditor && ModuleImplementations.Release.For(Module) == SheetImplementation.Historic, "La Release resta storica fino alla prova dell'utente");
+            Check(release is MvvmSheetEditor { Sheet: RetainingWallSheetViewModel } && ModuleImplementations.Release.For(Module) == SheetImplementation.Mvvm,
+                "La Release apre i muri con la vista MVVM (passaggio del 23/10/2026)");
     }
 }

@@ -48,7 +48,9 @@ Dettagli, esiti e ripresa nella sezione 6 di [f5-7-palo-orizzontale.md](f5-7-pal
 
 ### 1.2 Muri di sostegno (`geo_muri_sostegno`)
 
-**Stato al 23/10 (f5-pass-geo): non fatto.** La Release resta storica; piano di ripresa in [f5-9-muri.md](f5-9-muri.md), sezione 6.
+**Stato al 23/10 (f5-pass-muri): fatto.** Release MVVM, vista storica in `supporto/SUPERATI/ui-storica/muri/`, righe sotto risolte
+([f5-9-muri.md](f5-9-muri.md), sezione 6). Con i muri escono `$MvvmBench` e tutte le suite `-mvvm` che apriva (i muri erano l'ultimo modulo);
+le tre prove fuori schermo usano `OffscreenWall` (`tests/Desktop/WallSmoke.cs`), senza variante `-mvvm`.
 
 | Suite | File | Che cosa legge | Effetto | Piano |
 | --- | --- | --- | --- | --- |

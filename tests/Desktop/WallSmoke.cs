@@ -17,11 +17,11 @@ using X.Desktop.Views.RetainingWall;
 namespace X.Desktop;
 
 /// <summary>
-/// f5-suite-ui: the retaining wall as ui/smoke-retaining-wall and ui/smoke-global-stability drive it, with either view: the historic
-/// RetainingWallWorkspace (<see cref="HistoricWallSmoke"/>, the members the suites used) or the XAML view hosted by MvvmSheetEditor
+/// f5-suite-ui: the retaining wall as ui/smoke-retaining-wall and ui/smoke-global-stability drive it: the XAML view hosted by MvvmSheetEditor
 /// (<see cref="MvvmWallSmoke"/>: the controls of RetainingWallSheetView as the user uses them, read back from the view and its ViewModel, as
 /// RetainingWallViewChecks). Forms and fields are named as in the historic view («form», «campo»); the tables of the inputs as in the traces
-/// of F5.9 («valle», «monte», «azioni», «matrice», «matrice-globale»). At the Release switch of the walls the historic implementation goes away.
+/// of F5.9 («valle», «monte», «azioni», «matrice», «matrice-globale»). The historic implementation (HistoricWallSmoke on RetainingWallWorkspace)
+/// went away with the Release switch of the walls (f5-pass-muri, 23/10/2026; the view is archived in supporto/SUPERATI/ui-storica/muri).
 /// </summary>
 internal abstract class WallSmoke
 {
@@ -107,87 +107,6 @@ internal abstract class WallSmoke
 
     /// <summary>The captions of the figures of the Word report (WallAdvancedChecks.ReportFigureCaptions).</summary>
     internal abstract string[] ReportFigureCaptions(bool global);
-}
-
-/// <summary>f5-suite-ui: the historic RetainingWallWorkspace, with the members the wall suites used before (unchanged behaviour).</summary>
-internal sealed class HistoricWallSmoke(RetainingWallWorkspace w) : WallSmoke
-{
-    private JsonGrid Grid(string table) => table switch
-    {
-        "valle" => w.ValleyLayerGrid, "monte" => w.LayerGrid, "azioni" => w.ActionGrid, "matrice" => w.MatrixGrid, "matrice-globale" => w.GlobalMatrix,
-        _ => throw new ArgumentException("Tabella sconosciuta: " + table)
-    };
-
-    internal override JsonObject Data => w.Data;
-    internal override WallModel.Result? Calculation => w.Calculation;
-    internal override SlopeResult? GlobalResult => w.GlobalResult;
-    internal override int AvailableFamilies => w.Family.Items.Cast<ComboBoxItem>().Count(i => i.IsEnabled);
-    internal override int Rows(string table) => Grid(table).Rows.Count;
-    internal override JsonObject Row(string table, int row) => Grid(table).Rows[row].Values;
-    internal override void SetCell(string table, int row, string key, object value) => Grid(table).Rows[row][key] = value;
-    internal override void Set(string form, string key, string value) => w.Forms[form].Set(key, value);
-    internal override string Get(string form, string key) => w.Forms[form].Get(key);
-    internal override void Tick(string form, string key, bool value) => ((CheckBox)w.Forms[form].Editors[key]).IsChecked = value;
-    internal override bool IsVisible(string form, string key) => w.Forms[form].Editors[key].IsVisible;
-    internal override void BringIntoView(string form, string key) => w.Forms[form].Editors[key].BringIntoView();
-    internal override void BringFormIntoView(string form) => w.Forms[form].BringIntoView();
-    internal override Task CalculateAsync() => w.CalculateAsync();
-    internal override Task StartCalculation() => w.CalculateAsync();
-    internal override Task CalculateGlobalAsync() => w.CalculateGlobalAsync();
-    internal override void Example(string family) => w.Example(family);
-    internal override void AddAction(string type) => w.AddAction(type);
-    internal override void GenerateMatrix() => w.GenerateMatrix();
-    internal override void PrepareGlobal() => w.PrepareGlobal();
-    internal override void GenerateGlobalMatrix() => w.GenerateGlobalMatrix();
-    internal override void EnableTwoZones() { w.Forms["zones"].Set("two_zones", "true"); w.Data["reinforcement"]!["two_zones"] = true; }
-    internal override void BringCardIntoView(string card) => w.Cards[card].BringIntoView();
-    internal override bool IsExpanded(string card) => w.Cards[card].IsExpanded;
-    internal override void Expand(string card) => w.Cards[card].IsExpanded = true;
-    internal override void BringTextIntoView(string card, string prefix) => Ui.Descendants<TextBlock>(w.Cards[card]).Single(t => t.Text.StartsWith(prefix)).BringIntoView();
-    internal override void BringGlobalLayersIntoView() => w.GlobalLayers.BringIntoView();
-    internal override int Page { get => w.Pages.SelectedIndex; set => w.Pages.SelectedIndex = value; }
-    internal override int PageCount => w.Pages.Items.Count;
-    internal override void ShowSeismic() => w.SeismicButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-    internal override string SeismicButtonText => w.SeismicButton.Content.ToString()!;
-    internal override string? Combination { set => w.Combination.SelectedItem = value; }
-    internal override string? ViewMode { set => w.ViewMode.SelectedItem = value; }
-    internal override string? CheckFilter { get => w.CheckFilter.SelectedItem as string; set => w.CheckFilter.SelectedItem = value; }
-    internal override int Inspections => w.Diagrams.InspectionCount;
-    internal override void SelectResultRow(int row) => w.SelectedResultsGrid!.SelectedIndex = row;
-    internal override bool CanSendSection => w.SendSectionButton.IsEnabled;
-    internal override void SendSection() => w.SendSectionButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-    internal override FrameworkElement Drawing => w.Drawing;
-    internal override FrameworkElement GlobalDrawing => w.GlobalDrawing;
-    internal override string? GlobalDrawingCase => w.GlobalDrawing.Case?.Factors.Name;
-    internal override int GlobalCombinations => w.GlobalCombination.Items.Count;
-    internal override int GlobalCombinationIndex { set => w.GlobalCombination.SelectedIndex = value; }
-    internal override string? SelectedGlobalCombination => w.GlobalCombination.SelectedItem as string;
-
-    internal override async Task<bool> ApplyParameterAsync(string directory, string path, string value)
-    {
-        var parameterWindow = w.CalculationParametersWindow(); parameterWindow.Show();
-        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); parameterWindow.UpdateLayout();
-        File.WriteAllBytes(Path.Combine(directory, "valori-di-calcolo.png"), Ui.Snapshot(parameterWindow));
-        var parameterGrid = Ui.Descendants<JsonGrid>(parameterWindow).First(); parameterGrid.Rows.Single(row => row.Values.S("path") == path)["value"] = value;
-        Ui.Descendants<Button>(parameterWindow).Single(b => b.Content?.ToString() == "Applica e ricalcola").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-        for (int wait = 0; parameterWindow.IsVisible && wait < 150; wait++) await Task.Delay(100);
-        return !parameterWindow.IsVisible;
-    }
-
-    internal override async Task SendSoilAsync(string directory)
-    {
-        Exception? transferError = null;
-        _ = w.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
-        {
-            var dialog = Application.Current.Windows.OfType<SoilTransferDialog>().Single();
-            try { File.WriteAllBytes(Path.Combine(directory, "trasferisci-terreno.png"), Ui.Snapshot(dialog)); dialog.SendButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); }
-            catch (Exception ex) { transferError = ex; dialog.DialogResult = false; }
-        }));
-        w.SoilButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); if (transferError is not null) throw transferError;
-        await Task.CompletedTask;
-    }
-
-    internal override string[] ReportFigureCaptions(bool global) => WallAdvancedChecks.ReportFigureCaptions(w.CreateBarDrawing().PageCount, global);
 }
 
 /// <summary>f5-suite-ui: the XAML view of the walls (RetainingWallSheetView) driven through its controls, as RetainingWallViewChecks drives it.</summary>
@@ -513,7 +432,7 @@ internal sealed class OffscreenWall : IDisposable
     /// <summary>Opens the sheet on <paramref name="data"/> (a copy) and waits for the automatic calculation of the opening.</summary>
     internal static async Task<OffscreenWall> OpenAsync(JsonObject data, double width = 1600, double height = 1000)
     {
-        var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Argument, WallModel.Module + "=mvvm"]);
+        var factory = ModuleHostBench.SheetEditors([]);
         var editor = factory.Open(WallModel.Module, data) as MvvmSheetEditor ?? throw new InvalidOperationException("Il muro non si apre con la vista XAML.");
         var host = new OffscreenWall(editor, ModuleHostBench.ScriptedServices(factory)!, width, height);
         await host.Wall.WaitIdle();

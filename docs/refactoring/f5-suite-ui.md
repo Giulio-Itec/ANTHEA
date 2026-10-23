@@ -239,7 +239,8 @@ Per modulo:
   - in `SteelSmoke` si toglie il ramo di `RebarMaterialView`.
 - **Fondazioni, stratigrafia**: basta togliere la coppia da `$MvvmBench` (`ui/smoke-project-workspace-mvvm` resta fino all'ultimo dei
   sette).
-- **Ultimo dei sette**: si tolgono `$MvvmBench` e tutte le suite `-mvvm` rimaste.
+- **Ultimo dei sette**: si tolgono `$MvvmBench` e tutte le suite `-mvvm` rimaste. Fatto il 23/10/2026 con i muri (f5-pass-muri,
+  [f5-9-muri.md](f5-9-muri.md) sezione 6): restano solo le suite della sezione c.a. con il suo banco (`$MvvmConcreteSection`).
 
 Nessuna di queste suite ha bisogno di un'altra riscrittura.
 
