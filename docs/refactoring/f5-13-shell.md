@@ -1316,10 +1316,10 @@ F3), `SheetEditorFactory` (prove F3 e banco), `RevisionInspection` (viste MVVM),
 | `ui/f3-equivalence` | `MainWindow.CaptureF3Project` (report di progetto con `SectionReportSnapshot` e `GenerateSectionReport`) | 3: la stessa chiamata di `DesktopSectionReports` |
 | `ui/smoke-projects`, `-project-workspace`, `-hierarchy`, `-sharing`, `-project-report`, `-display` | lavoro della finestra | sostituite da `ui/shell-smoke-*` (12.1): si archiviano con `MainWindow` |
 | `ui/smoke-material-report` | `SmokeProjectReport(materialsOnly)` | 3: sulla shell (coperta in parte da `ui/shell-smoke-project-report`) |
-| `ui/smoke`, `ui/smoke-materials`, `ui/smoke-steel`, `ui/smoke-retaining-wall`, `ui/smoke-global-stability`, `ui/smoke-horizontal` | contenitore di un foglio, Home, «Moduli singoli», progetti | 3: sulla shell |
+| `ui/smoke`, `ui/smoke-materials`, `ui/smoke-steel`, `ui/smoke-retaining-wall`, `ui/smoke-global-stability`, `ui/smoke-horizontal` | contenitore di un foglio, Home, «Moduli singoli», progetti | 3: sulla shell (`ui/smoke-global-stability` fatta, 8d1da789) |
 | `ui/smoke-bridge`, `-bridge-predalle`, `-bridge-curves`, `-bridge-design`, `-bridge-traffic`, `-bridge-prices` | contenitore (13 file di prova `Bridge*`) | 3: sulla shell |
 | `ui/smoke-section-actions`, `-ca-features`, `-ca-extensions`, `-neutral-axis` | contenitore della sezione c.a. | 3: sulla shell |
-| `ui/check-appearance`, `ui/check-wiki-offscreen`, `ui/check-examples`, `ui/check-module-host-offscreen` | tema, Wiki, esempi, ospite nella finestra | 3: sulla shell |
+| `ui/check-appearance`, `ui/check-wiki-offscreen`, `ui/check-examples`, `ui/check-module-host-offscreen` | tema, Wiki, esempi, ospite nella finestra | 3: sulla shell (`ui/check-examples` fatta, 446e5dbd) |
 | `ui/check-contrast` (`ContrastAudit.cs`) | finestre e pagine di `MainWindow` | 3 e 5: sulla shell; non si esegue a 144 DPI |
 | `ui/f3-figures`, `ui/f3-scheduling` | metodi statici in partial di `SheetEditor` (`F3FigureChecks.cs`, `F3SchedulingChecks.cs`), nessun foglio storico | 4: classi proprie |
 | `ui/f3-report-chapters`, `ui/check-error-log-offscreen` | nessuno a 67eafba5 (solo `ISheetEditor` e `ErrorLog`) | nulla da fare |
@@ -1346,6 +1346,8 @@ Commit piccoli; ognuno compila e tiene verde il profilo quick.
 | 2d98cd07 | `ui/f3-equivalence` senza `MainWindow`: il report del progetto F3 con `ProjectReportService.Snapshot` e `DesktopSectionReports`, le stesse chiamate; passo «Esc» della bozza che aspetta lo stato (nota del coordinatore) | `ui/f3-equivalence` PASS 119 fixture, 77 articoli, 30 ricerche, 1 201 file, 0 differenze non ammesse (`ci/20261023-195917-f5-13-g-f3`) |
 | b09fc0eb | la Release apre la shell: `App.OnStartup` → `App.StartShell` (anche per `--interactive-shell`) | quick PASS 55 con `qa/no-test-code` (`ci/20261023-200334-f5-13-g-avvio`) |
 | 0661f1bf | `SheetEditor`, ospite R5 (`HistoricSheetViewModel`, `HistoricSheetHost`, passo `HistoricHost`), `HistoricSheetEditor.cs` in `supporto/SUPERATI/ui-storica/shell/` con `README.md` e `registro.json`; rami storici tolti (fabbriche, esportazioni, `OpenSheet`, `ShellSheet`, `ContrastAudit`), `=historic` del banco rifiutato; `F3FigureChecks` e `F3SchedulingChecks` classi statiche | `ui/smoke`, `ui/check-module-host-offscreen`, `ui/f3-figures`, `ui/f3-scheduling`, `ui/check-shell-draft`, le sei `ui/shell-smoke-*` PASS (`ci/20261023-202658-f5-13-g-r5`); quick PASS 55 |
+| 446e5dbd | `ui/check-examples` sulla shell (`ShellSmokeBench`): pagina «Esempi», documento attivo, `Workspace.OpenFile` | PASS 20 controlli, come prima (`ci/20261023-204850-f5-13-g-es`) |
+| 8d1da789 | `ui/smoke-global-stability` sulla shell; `MvvmWallSmoke` su `HostedSheet`; `AppHarness.ShellSmokes`: le smoke passate alla shell con la stessa bandiera e la stessa prova | PASS 14 controlli; `ui/smoke-retaining-wall` PASS (`ci/20261023-205118-f5-13-g-gs`) |
 
 Che cosa vede l'utente nella Release: la shell nuova della prova f5f, con le correzioni arrivate fino a 67eafba5. Avvio, registro degli errori e
 tema non cambiano; `--wiki`, il documento aperto da Esplora risorse e `--models` sono letti da `StartupRequest` come faceva `MainWindow`.
@@ -1435,8 +1437,11 @@ aprono le suite della tabella 14.2 marcate «3: sulla shell». Resta, in quest'o
 1. **Suite contenitore sulla shell** (sottopasso 4 di 14.3), con il banco della parte (e): `ShellSmokeBench.OpenAsync`, i fogli con `ShellSheet`
    (`HostedSheet` della vista XAML), i servizi di prova `BenchSheetServices`. Una o poche suite per commit, stesse asserzioni; dove una suite
    controllava un dettaglio di `MainWindow` (`body.Content`, `moduleView`, un solo editor), il controllo equivalente della shell (scheda attiva,
-   pagina mostrata) o una differenza dichiarata (12.5). Ordine proposto, dalle più semplici: `ui/check-examples`, `ui/smoke-materials`,
-   `ui/smoke-steel`, `ui/smoke-material-report`, `ui/smoke-global-stability`, `ui/smoke-retaining-wall`, `ui/smoke-horizontal`, `ui/smoke`,
+   pagina mostrata) o una differenza dichiarata (12.5). Fatte: `ui/check-examples` e `ui/smoke-global-stability`; una smoke passata si aggiunge a
+   `AppHarness.ShellSmokes` e lascia la partial di `MainWindow`. I banchi dei moduli che prendono un `MvvmSheetEditor` (`ConcreteSectionSmoke`,
+   `BridgeSmoke`, `HorizontalPileSmoke`) vanno portati prima su `HostedSheet`, come `MvvmWallSmoke` in 8d1da789. Ordine proposto per le altre:
+   `ui/smoke-materials`, `ui/smoke-steel`, `ui/smoke-material-report`, `ui/smoke-retaining-wall` (la copia in un altro modulo fuori dal progetto
+   apre una scheda, non una seconda finestra), `ui/smoke-horizontal`, `ui/smoke`,
    le quattro della sezione c.a., le sei del ponte, `ui/check-appearance`, `ui/check-wiki-offscreen`, `ui/check-module-host-offscreen`
    (il controllo di `MainWindow` con la fabbrica), infine `ContrastAudit` (`ui/check-contrast`, da eseguire a 96 DPI, G2).
 2. **Ritiro di `MainWindow`**: i 15 file di `X.Desktop/Wpf/` (14.1), `WpfDesktopServices`, `DesktopServices`, `DesktopComposition.WindowServices`,
