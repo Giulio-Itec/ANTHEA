@@ -11,9 +11,9 @@ internal enum SheetImplementation
 
 /// <summary>
 /// Which implementation opens the sheets of each module (F5.2, proposal 5.2). <see cref="Declared"/> is the versioned choice of
-/// the Release: one line per module of ModuleDirectory, today <see cref="SheetImplementation.Mvvm"/> for the horizontal pile group
-/// (F5.4 checkpoint, 17/10/2026), the horizontal pile and micropile (F5.7/F5.8, switch of 23/10/2026) and the new Spectra and EmbeddedWalls
-/// modules, which have no historic views. The other modules keep
+/// the Release: one line per module of ModuleDirectory, <see cref="SheetImplementation.Mvvm"/> for the horizontal pile group
+/// (F5.4 checkpoint, 17/10/2026), the new Spectra and EmbeddedWalls modules, which have no historic views, and the modules switched
+/// on 23/10/2026 (passaggi della Release). The other modules keep
 /// <see cref="SheetImplementation.Historic"/>. An existing module passes to
 /// <see cref="SheetImplementation.Mvvm"/> here only after its checkpoint (F5.4–F5.12), in the commit that retires its historic
 /// view (Q11): a module MVVM in the Release has no historic view any more (archived in supporto/SUPERATI/ui-storica); this file is
@@ -26,19 +26,19 @@ internal sealed partial class ModuleImplementations
     /// <summary>The choice of the Release, in the order of ModuleDirectory. The UiTests check verifies that it lists exactly its modules.</summary>
     internal static IReadOnlyList<(string Module, SheetImplementation Implementation)> Declared { get; } =
     [
-        ("geo_fondazioni_superficiali", SheetImplementation.Historic),
+        ("geo_fondazioni_superficiali", SheetImplementation.Mvvm),
         ("geo_efficienza_orizzontale", SheetImplementation.Mvvm),
-        ("geo_palo_verticale", SheetImplementation.Historic),
+        ("geo_palo_verticale", SheetImplementation.Mvvm),
         ("geo_palo_orizzontale", SheetImplementation.Mvvm),
-        ("geo_micropalo_verticale", SheetImplementation.Historic),
+        ("geo_micropalo_verticale", SheetImplementation.Mvvm),
         ("geo_micropalo_orizzontale", SheetImplementation.Mvvm),
         ("geo_muri_sostegno", SheetImplementation.Historic),
         ("str_palo", SheetImplementation.Historic),
         ("str_mista_ponte", SheetImplementation.Mvvm),
         ("str_bridge_design", SheetImplementation.Mvvm),
-        ("mat_calcestruzzo", SheetImplementation.Historic),
-        ("mat_acciaio_armatura", SheetImplementation.Historic),
-        ("geo_stratigrafia", SheetImplementation.Historic),
+        ("mat_calcestruzzo", SheetImplementation.Mvvm),
+        ("mat_acciaio_armatura", SheetImplementation.Mvvm),
+        ("geo_stratigrafia", SheetImplementation.Mvvm),
         ("act_spettri_ntc", SheetImplementation.Mvvm),
         ("geo_paratie", SheetImplementation.Mvvm),
     ];

@@ -35,16 +35,16 @@ namespace X.Desktop;
 /// <summary>
 /// --check-stratigrafia-view &lt;radice&gt; &lt;cartella&gt; (UiTests, F5.6b, proposal F5 section 7.3): the XAML view of the stratigraphy
 /// (StratigraphySheetView with StratigraphyEditorView) hosted by <see cref="MvvmSheetEditor"/>, as the bench opens it with
-/// <c>--module-impl geo_stratigrafia=mvvm</c>, in windows outside the screen (never activated, no mouse). The Release keeps the historic
-/// view until the user has tried the new one (decisions of 17/10). Parts:
+/// <c>--module-impl geo_stratigrafia=mvvm</c>, in windows outside the screen (never activated, no mouse). Parts:
 /// <list type="number">
 /// <item>Traces through the view: the 15 scenarios of tests/Shared/StratigraphyTrace.cs driven through the controls of the view (fields and
 /// choices of the FieldForm, list of the layers, buttons, the two check boxes clicked as the user clicks them) and through the controls of the
 /// shared soil transfer dialog shown by its DataTemplate (decision T5), read back from the controls, equal line by line to the traces of the
 /// historic view frozen in tests/fixtures/f5-stratigrafia/storica.</item>
 /// <item>For each of the 5 F3 fixtures: the visit (every layer of the list, three appearances) writes nothing and raises no Modified; the
-/// commit, the calculation (none) and the exports are those of the historic view: «Esporta risultati» refused with the same message, Word
-/// report (dates normalized) and PDF beside it.</item>
+/// commit and the calculation (none) give the data of the frozen trace of the historic view (scenario fixture-&lt;id&gt;); the exports are those
+/// the historic view wrote: «Esporta risultati» refused with its message, Word report of StratigraphyReport (dates normalized) and PDF beside
+/// it.</item>
 /// <item>Screenshots of the view in Chiara, Scuro and Molto scuro, a narrow window, the import dialog and the soil dialog (folder schermate).</item>
 /// <item>Help: the «?» labels shown are those of the historic view (none); F1 on a field of every form and outside the fields reaches the
 /// IWikiNavigator of the services at every press (the guide of the module), also in read-only; F1 in the preview of a draft does nothing,
@@ -56,13 +56,41 @@ namespace X.Desktop;
 /// view, review, application, errors, interruption) and the key cleared at the closing.</item>
 /// <item>The shared soil dialog: its view (SoilTransferTemplates) against the historic window SoilTransferDialog on the stratigraphy
 /// fixtures, with and without other sheets of the project; the composition root gives the stratigraphy the shared dialog.</item>
-/// <item>Bench and Release: with --module-impl the module opens the MVVM view; the Release keeps the historic view.</item>
+/// <item>Bench and Release: with --module-impl and in the Release the module opens the MVVM view.</item>
 /// </list>
+/// The historic view is archived (f5-pass-geo, Q11: supporto/SUPERATI/ui-storica/stratigrafia): what the checks compared with it is compared with the values it gave, frozen
+/// in its traces or recorded here (<see cref="HistoricAutomationNames"/>, <see cref="HistoricReadOnly"/>, <see cref="HistoricNoResult"/>; no
+/// «?» label). The shared soil dialog is still compared with the window SoilTransferDialog, which the other historic modules use.
 /// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
 /// </summary>
 internal static class StratigraphyViewChecks
 {
     private const string Module = StratigraphyScenarios.Module;
+
+    // ---------------------------------------------------------------- values of the historic view (archived with the Release switch)
+    // Recorded by this check on the historic view before its archiving: the capture run on db7ef68d with the values logged
+    // (supporto/artefatti/ci/20261023-124229-geo-cattura-3 of the worktree aw-f5-pass-geo), equal to the checks of every run up to the one of
+    // the release 1.13.0 (supporto/artefatti/ci/20261023-013037-full-fine-ca-1.13.0 of the main checkout).
+
+    /// <summary>The message of SheetEditor.ExportResult of the stratigraphy, which has no result.</summary>
+    private const string HistoricNoResult = "Premere Calcola prima di esportare.";
+
+    /// <summary>The AutomationProperties.Name of the visible elements of the historic view, by fixture.</summary>
+    private static readonly Dictionary<string, string[]> HistoricAutomationNames = new(StringComparer.Ordinal)
+    {
+        ["minimi-entrambi-indefinito"] = ["Angolo di resistenza efficace φ′ [°]", "Angolo di resistenza efficace φ′ [°] · minimo", "Coesione efficace c′ [kPa]", "Coesione efficace c′ [kPa] · minimo", "Colore del profilo [#RRGGBB]", "Comportamento per il trasferimento ai moduli di verifica", "Denominazione", "Descrizione / ubicazione", "Descrizione litologica", "Falda", "Famiglia prevalente · retino automatico", "Fonte dei medi / pagine", "Fonte dei minimi / pagine", "Nome della stratigrafia", "Note (specificare eventuali qualificazioni diverse per parametro)", "Note sui minimi", "Parametri da usare nelle verifiche", "Peso dell’unità di volume saturo γsat [kN/m³]", "Peso dell’unità di volume saturo γsat [kN/m³] · minimo", "Peso naturale γ [kN/m³]", "Peso naturale γ [kN/m³] · minimo", "Profondità falda [m] · positiva verso il basso", "Qualificazione dei medi", "Qualificazione dei minimi", "Quota altimetrica piano campagna [m] · facoltativa", "Resistenza non drenata cu [kPa]", "Resistenza non drenata cu [kPa] · minimo", "Spessore [m]"],
+        ["profilo-medi-falda"] = ["Angolo di resistenza efficace φ′ [°]", "Coesione efficace c′ [kPa]", "Colore del profilo [#RRGGBB]", "Comportamento per il trasferimento ai moduli di verifica", "Denominazione", "Descrizione / ubicazione", "Descrizione litologica", "Falda", "Famiglia prevalente · retino automatico", "Fonte dei medi / pagine", "Nome della stratigrafia", "Note (specificare eventuali qualificazioni diverse per parametro)", "Parametri da usare nelle verifiche", "Peso dell’unità di volume saturo γsat [kN/m³]", "Peso naturale γ [kN/m³]", "Profondità falda [m] · positiva verso il basso", "Qualificazione dei medi", "Quota altimetrica piano campagna [m] · facoltativa", "Resistenza non drenata cu [kPa]", "Spessore [m]"],
+        ["testi-digitati"] = ["Angolo di resistenza efficace φ′ [°]", "Angolo di resistenza efficace φ′ [°] · minimo", "Coesione efficace c′ [kPa]", "Coesione efficace c′ [kPa] · minimo", "Colore del profilo [#RRGGBB]", "Comportamento per il trasferimento ai moduli di verifica", "Denominazione", "Descrizione / ubicazione", "Descrizione litologica", "Falda", "Famiglia prevalente · retino automatico", "Fonte dei medi / pagine", "Fonte dei minimi / pagine", "Nome della stratigrafia", "Note (specificare eventuali qualificazioni diverse per parametro)", "Note sui minimi", "Parametri da usare nelle verifiche", "Peso dell’unità di volume saturo γsat [kN/m³]", "Peso dell’unità di volume saturo γsat [kN/m³] · minimo", "Peso naturale γ [kN/m³]", "Peso naturale γ [kN/m³] · minimo", "Profondità falda [m] · positiva verso il basso", "Qualificazione dei medi", "Qualificazione dei minimi", "Quota altimetrica piano campagna [m] · facoltativa", "Resistenza non drenata cu [kPa]", "Resistenza non drenata cu [kPa] · minimo", "Spessore [m]"],
+    };
+
+    /// <summary>The visible input controls of the historic view after InspectRevision and their state (<see cref="Controls"/>), by fixture and selected layer.</summary>
+    private static readonly Dictionary<(string Id, int Layer), Dictionary<string, string>> HistoricReadOnly = new()
+    {
+        [("minimi-entrambi-indefinito", 0)] = new(StringComparer.Ordinal) { ["elenco degli strati"] = "libero", ["pulsante + Strato"] = "bloccato", ["pulsante Duplica"] = "bloccato", ["pulsante Elimina"] = "bloccato", ["pulsante Importa relazione PDF con AI…"] = "bloccato", ["pulsante Invia / importa terreno da ANTHEA…"] = "bloccato", ["pulsante ↑"] = "bloccato", ["pulsante ↓"] = "bloccato", ["scelta Comportamento per il trasferimento ai moduli di verifica"] = "bloccato", ["scelta Falda"] = "bloccato", ["scelta Famiglia prevalente · retino automatico"] = "bloccato", ["scelta Parametri da usare nelle verifiche"] = "bloccato", ["scelta Qualificazione dei medi"] = "bloccato", ["scelta Qualificazione dei minimi"] = "bloccato", ["spunta Gestisci anche i valori minimi (opzionali)"] = "bloccato", ["spunta Ultimo strato esteso indefinitamente"] = "bloccato", ["testo Angolo di resistenza efficace φ′ [°]"] = "bloccato", ["testo Angolo di resistenza efficace φ′ [°] · minimo"] = "bloccato", ["testo Coesione efficace c′ [kPa]"] = "bloccato", ["testo Coesione efficace c′ [kPa] · minimo"] = "bloccato", ["testo Colore del profilo [#RRGGBB]"] = "bloccato", ["testo Denominazione"] = "bloccato", ["testo Descrizione / ubicazione"] = "bloccato", ["testo Descrizione litologica"] = "bloccato", ["testo Fonte dei medi / pagine"] = "bloccato", ["testo Fonte dei minimi / pagine"] = "bloccato", ["testo Nome della stratigrafia"] = "bloccato", ["testo Note (specificare eventuali qualificazioni diverse per parametro)"] = "bloccato", ["testo Note sui minimi"] = "bloccato", ["testo Peso dell’unità di volume saturo γsat [kN/m³]"] = "bloccato", ["testo Peso dell’unità di volume saturo γsat [kN/m³] · minimo"] = "bloccato", ["testo Peso naturale γ [kN/m³]"] = "bloccato", ["testo Peso naturale γ [kN/m³] · minimo"] = "bloccato", ["testo Profondità falda [m] · positiva verso il basso"] = "bloccato", ["testo Quota altimetrica piano campagna [m] · facoltativa"] = "bloccato", ["testo Resistenza non drenata cu [kPa]"] = "bloccato", ["testo Resistenza non drenata cu [kPa] · minimo"] = "bloccato", ["testo Spessore [m]"] = "bloccato" },
+        [("minimi-entrambi-indefinito", 2)] = new(StringComparer.Ordinal) { ["elenco degli strati"] = "libero", ["pulsante + Strato"] = "bloccato", ["pulsante Duplica"] = "bloccato", ["pulsante Elimina"] = "bloccato", ["pulsante Importa relazione PDF con AI…"] = "bloccato", ["pulsante Invia / importa terreno da ANTHEA…"] = "bloccato", ["pulsante ↑"] = "bloccato", ["pulsante ↓"] = "bloccato", ["scelta Comportamento per il trasferimento ai moduli di verifica"] = "bloccato", ["scelta Falda"] = "bloccato", ["scelta Famiglia prevalente · retino automatico"] = "bloccato", ["scelta Parametri da usare nelle verifiche"] = "bloccato", ["scelta Qualificazione dei medi"] = "bloccato", ["spunta Gestisci anche i valori minimi (opzionali)"] = "bloccato", ["spunta Ultimo strato esteso indefinitamente"] = "bloccato", ["testo Angolo di resistenza efficace φ′ [°]"] = "bloccato", ["testo Coesione efficace c′ [kPa]"] = "bloccato", ["testo Colore del profilo [#RRGGBB]"] = "bloccato", ["testo Denominazione"] = "bloccato", ["testo Descrizione / ubicazione"] = "bloccato", ["testo Descrizione litologica"] = "bloccato", ["testo Fonte dei medi / pagine"] = "bloccato", ["testo Nome della stratigrafia"] = "bloccato", ["testo Note (specificare eventuali qualificazioni diverse per parametro)"] = "bloccato", ["testo Peso dell’unità di volume saturo γsat [kN/m³]"] = "bloccato", ["testo Peso naturale γ [kN/m³]"] = "bloccato", ["testo Profondità falda [m] · positiva verso il basso"] = "bloccato", ["testo Quota altimetrica piano campagna [m] · facoltativa"] = "bloccato", ["testo Resistenza non drenata cu [kPa]"] = "bloccato" },
+        [("profilo-medi-falda", 0)] = new(StringComparer.Ordinal) { ["elenco degli strati"] = "libero", ["pulsante + Strato"] = "bloccato", ["pulsante Duplica"] = "bloccato", ["pulsante Elimina"] = "bloccato", ["pulsante Importa relazione PDF con AI…"] = "bloccato", ["pulsante Invia / importa terreno da ANTHEA…"] = "bloccato", ["pulsante ↑"] = "bloccato", ["pulsante ↓"] = "bloccato", ["scelta Comportamento per il trasferimento ai moduli di verifica"] = "bloccato", ["scelta Falda"] = "bloccato", ["scelta Famiglia prevalente · retino automatico"] = "bloccato", ["scelta Parametri da usare nelle verifiche"] = "bloccato", ["scelta Qualificazione dei medi"] = "bloccato", ["spunta Gestisci anche i valori minimi (opzionali)"] = "bloccato", ["spunta Ultimo strato esteso indefinitamente"] = "bloccato", ["testo Angolo di resistenza efficace φ′ [°]"] = "bloccato", ["testo Coesione efficace c′ [kPa]"] = "bloccato", ["testo Colore del profilo [#RRGGBB]"] = "bloccato", ["testo Denominazione"] = "bloccato", ["testo Descrizione / ubicazione"] = "bloccato", ["testo Descrizione litologica"] = "bloccato", ["testo Fonte dei medi / pagine"] = "bloccato", ["testo Nome della stratigrafia"] = "bloccato", ["testo Note (specificare eventuali qualificazioni diverse per parametro)"] = "bloccato", ["testo Peso dell’unità di volume saturo γsat [kN/m³]"] = "bloccato", ["testo Peso naturale γ [kN/m³]"] = "bloccato", ["testo Profondità falda [m] · positiva verso il basso"] = "bloccato", ["testo Quota altimetrica piano campagna [m] · facoltativa"] = "bloccato", ["testo Resistenza non drenata cu [kPa]"] = "bloccato", ["testo Spessore [m]"] = "bloccato" },
+        [("profilo-medi-falda", 2)] = new(StringComparer.Ordinal) { ["elenco degli strati"] = "libero", ["pulsante + Strato"] = "bloccato", ["pulsante Duplica"] = "bloccato", ["pulsante Elimina"] = "bloccato", ["pulsante Importa relazione PDF con AI…"] = "bloccato", ["pulsante Invia / importa terreno da ANTHEA…"] = "bloccato", ["pulsante ↑"] = "bloccato", ["pulsante ↓"] = "bloccato", ["scelta Comportamento per il trasferimento ai moduli di verifica"] = "bloccato", ["scelta Falda"] = "bloccato", ["scelta Famiglia prevalente · retino automatico"] = "bloccato", ["scelta Parametri da usare nelle verifiche"] = "bloccato", ["scelta Qualificazione dei medi"] = "bloccato", ["spunta Gestisci anche i valori minimi (opzionali)"] = "bloccato", ["spunta Ultimo strato esteso indefinitamente"] = "bloccato", ["testo Angolo di resistenza efficace φ′ [°]"] = "bloccato", ["testo Coesione efficace c′ [kPa]"] = "bloccato", ["testo Colore del profilo [#RRGGBB]"] = "bloccato", ["testo Denominazione"] = "bloccato", ["testo Descrizione / ubicazione"] = "bloccato", ["testo Descrizione litologica"] = "bloccato", ["testo Fonte dei medi / pagine"] = "bloccato", ["testo Nome della stratigrafia"] = "bloccato", ["testo Note (specificare eventuali qualificazioni diverse per parametro)"] = "bloccato", ["testo Peso dell’unità di volume saturo γsat [kN/m³]"] = "bloccato", ["testo Peso naturale γ [kN/m³]"] = "bloccato", ["testo Profondità falda [m] · positiva verso il basso"] = "bloccato", ["testo Quota altimetrica piano campagna [m] · facoltativa"] = "bloccato", ["testo Resistenza non drenata cu [kPa]"] = "bloccato", ["testo Spessore [m]"] = "bloccato" },
+    };
 
     private static int checks;
     private static readonly List<string> Log = [];
@@ -586,31 +614,49 @@ internal static class StratigraphyViewChecks
             foreach (var mode in new[] { AppAppearance.Dark, AppAppearance.VeryDark, AppAppearance.Light }) { Appearance.Set(mode, false); await mvvm.Settle(); }
             Check(mvvm.Editor.Data.ToJsonString(J.Options) == opened && mvvm.Modified == 0, id + ": la visita (strati, tre aspetti) non scrive e non solleva Modified");
             mvvm.Editor.Commit(); await mvvm.Editor.CalculateAsync(); mvvm.Editor.Commit();
-            using var historic = new SheetEditor(Module, data);
-            historic.Commit(); await historic.CalculateAsync(); historic.Commit();
-            Check(mvvm.Editor.Data.ToJsonString(J.Options) == historic.Data.ToJsonString(J.Options) && !mvvm.Editor.HasResults && !historic.HasResults
-                && mvvm.Editor.Result is null && historic.Result is null, id + ": dati dopo «Calcola» uguali a quelli della vista storica, nessun risultato");
-            Check(Fails(() => mvvm.Editor.ExportResult(Path.Combine(folder, id + "-mvvm.json")), out string message)
-                && Fails(() => historic.ExportResult(Path.Combine(folder, id + "-storica.json")), out string expected) && message == expected,
+            // The frozen trace of the historic view on the path of the F3 capture: apertura, conferma, calcola, conferma, riapri, conferma.
+            var historic = HistoricBlocks(root, id);
+            Check(historic.Length >= 4 && historic[0][0] == "== apertura" && historic[3][0] == "== conferma",
+                id + ": traccia congelata della vista storica sul percorso della cattura F3");
+            Check("dati " + StratigraphyTrace.Compact(mvvm.Editor.Data) == historic[3].Single(l => l.StartsWith("dati ", StringComparison.Ordinal))
+                && !mvvm.Editor.HasResults && mvvm.Editor.Result is null, id + ": dati dopo «Calcola» uguali a quelli della vista storica (traccia congelata), nessun risultato");
+            Check(Fails(() => mvvm.Editor.ExportResult(Path.Combine(folder, id + "-mvvm.json")), out string message) && message == HistoricNoResult,
                 id + ": «Esporta risultati» rifiutato con il messaggio della vista storica («" + message + "»)");
             string title = "Fixture F3 · " + Module + " · " + id;
             var sections = ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
+            // SheetEditor.ExportReport of the historic view: commit, then the Word of StratigraphyReport and the PDF beside it (ReportFiles).
+            void Expected() => Anthea.Reports.ReportFiles.Write(Path.Combine(folder, id + "-attesa.docx"),
+                Anthea.Reports.DocxWriter.Write(Anthea.Reports.StratigraphyReport.Create(title, (JsonObject)mvvm.Editor.Data.DeepClone())), title);
             mvvm.Editor.ExportReport(Path.Combine(folder, id + "-mvvm.docx"), title, sections);
-            historic.ExportReport(Path.Combine(folder, id + "-storica.docx"), title, sections);
-            string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, id + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, id + "-storica.docx")), normalizer);
+            Expected();
+            string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, id + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, id + "-attesa.docx")), normalizer);
             Check(part is null, id + ": report Word uguale in ogni parte a quello della vista storica (date normalizzate)" + (part is null ? "" : ", diversa " + part));
             // The PDF carries the time of the report inside its compressed pages: a pair that straddles a change of the time is written again.
             int attempts = 1;
-            while (!SamePdf(File.ReadAllBytes(Path.Combine(folder, id + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, id + "-storica.pdf"))) && attempts < 3)
+            while (!SamePdf(File.ReadAllBytes(Path.Combine(folder, id + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, id + "-attesa.pdf"))) && attempts < 3)
             {
                 attempts++;
                 mvvm.Editor.ExportReport(Path.Combine(folder, id + "-mvvm.docx"), title, sections);
-                historic.ExportReport(Path.Combine(folder, id + "-storica.docx"), title, sections);
+                Expected();
             }
-            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, id + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, id + "-storica.pdf"))),
+            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, id + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, id + "-attesa.pdf"))),
                 id + ": PDF affiancato uguale a quello della vista storica (date normalizzate" + (attempts > 1 ? $", {attempts} esportazioni" : "") + ")");
             Check(mvvm.Modified == 0, id + ": conferma, «Calcola» ed esportazioni senza Modified");
         }
+    }
+
+    /// <summary>The frozen trace of the historic view for the F3 fixture <paramref name="id"/> (scenario fixture-&lt;id&gt;), split at its steps.</summary>
+    private static string[][] HistoricBlocks(string root, string id)
+    {
+        var blocks = new List<List<string>>();
+        string file = "fixture-" + id + ".txt";
+        foreach (string line in StratigraphyTrace.Read(Path.Combine(StratigraphyScenarios.Reference(root), file)))
+        {
+            if (line.StartsWith("== ", StringComparison.Ordinal)) blocks.Add([]);
+            if (blocks.Count == 0) throw new InvalidOperationException("Traccia congelata senza intestazione: " + file);
+            blocks[^1].Add(line);
+        }
+        return blocks.Select(b => b.ToArray()).ToArray();
     }
 
     private static bool Fails(Action action, out string message)
@@ -671,11 +717,6 @@ internal static class StratigraphyViewChecks
                 File.WriteAllBytes(Path.Combine(folder, $"vista-{id}-{suffix}.png"), host.Png());
                 written++;
             }
-            // The historic view on the same data, for the comparison by eye.
-            using var historic = new Hosted(new SheetEditor(Module, StratigraphyScenarios.FixtureData(root, "minimi-entrambi-indefinito")), mode != AppAppearance.Light);
-            await historic.Settle();
-            File.WriteAllBytes(Path.Combine(folder, $"storica-minimi-entrambi-indefinito-{suffix}.png"), historic.Png());
-            written++;
         }
         Appearance.Set(AppAppearance.Light, false);
         // The last layer, of indefinite extent, selected; a narrow sheet area (the minimum width of the two columns).
@@ -705,7 +746,7 @@ internal static class StratigraphyViewChecks
             Check(Math.Abs(wide.View.Columns.ActualWidth - expected) < 1 && wide.View.Viewport.ExtentWidth <= wide.View.Viewport.ViewportWidth + 1,
                 "Area larga: le due colonne occupano la larghezza meno i margini, senza scorrimento (" + wide.View.Columns.ActualWidth.ToString("0", CultureInfo.InvariantCulture) + ")");
         }
-        Check(written == 11, "Schermate della vista nei tre aspetti (e della vista storica), con l'ultimo strato e stretta: " + written + " PNG in " + folder);
+        Check(written == 8, "Schermate della vista nei tre aspetti, con l'ultimo strato e stretta: " + written + " PNG in " + folder);
         Shots = folder;
     }
 
@@ -721,12 +762,10 @@ internal static class StratigraphyViewChecks
         string guide = Anthea.Wiki.WikiCatalog.ForModule(Module)?.Id ?? throw new InvalidOperationException("Guida assente nella Wiki: " + Module);
         using var host = new Hosted(Editors(services).Open(Module, data));
         await host.Settle();
-        using var historic = new Hosted(new SheetEditor(Module, data));
-        await historic.Settle();
         static string[] Labels(DependencyObject root) => Visual(root).OfType<Button>().Where(b => b.IsVisible && b.Content as string == "?")
             .Select(b => Name(b)).Order(StringComparer.Ordinal).ToArray();
-        string[] before = Labels(historic.Root), after = Labels(host.Root);
-        Check(after.SequenceEqual(before), "Etichette «?» visibili uguali a quelle della vista storica (" + before.Length + ")");
+        string[] after = Labels(host.Root);
+        Check(after.Length == 0, "Etichette «?» visibili uguali a quelle della vista storica: nessuna");
         var view = host.View;
         // F1 on the first editor of every form of the layer with minima, then outside the fields: every press reaches the navigator of the services.
         var targets = new List<UIElement>();
@@ -757,10 +796,9 @@ internal static class StratigraphyViewChecks
         foreach (string id in new[] { "minimi-entrambi-indefinito", "profilo-medi-falda", "testi-digitati" })
         {
             var data = StratigraphyScenarios.FixtureData(root, id);
-            using var historic = new Hosted(new SheetEditor(Module, data));
             using var host = new Hosted(editors.Open(Module, data));
-            await historic.Settle(); await host.Settle();
-            var before = Names(historic.Root); var after = Names(host.Root);
+            await host.Settle();
+            var before = HistoricAutomationNames[id].ToHashSet(StringComparer.Ordinal); var after = Names(host.Root);
             var missing = before.Except(after).Order(StringComparer.Ordinal).ToArray();
             Log.Add($"   nomi nuovi ({id}): " + string.Join(", ", after.Except(before).Order(StringComparer.Ordinal)));
             Check(missing.Length == 0, $"{id}: nomi di automazione della vista storica conservati ({before.Count})" + (missing.Length == 0 ? "" : "; mancanti: " + string.Join(", ", missing)));
@@ -780,23 +818,21 @@ internal static class StratigraphyViewChecks
 
     // ---------------------------------------------------------------- 6. read-only
 
-    /// <summary>The controls that accept the user after InspectRevision, in the new view and in the historic view on the same data.</summary>
+    /// <summary>The controls that accept the user after InspectRevision, in the new view and as in the historic view on the same data.</summary>
     private static async Task ReadOnly(string root)
     {
         foreach (string id in new[] { "minimi-entrambi-indefinito", "profilo-medi-falda" })
         {
             var data = StratigraphyScenarios.FixtureData(root, id);
             using var host = new Hosted(Editors(new Services()).Open(Module, data));
-            using var historic = new Hosted(new SheetEditor(Module, data));
-            await host.Settle(); await historic.Settle();
-            host.Editor.InspectRevision(); historic.Editor.InspectRevision();
+            await host.Settle();
+            host.Editor.InspectRevision();
             // The first layer, then another one selected in the revision (the selection stays allowed; the new fields are protected).
             foreach (int layer in new[] { 0, 2 })
             {
                 host.View.LayerList.SelectedIndex = layer;
-                Visual(historic.Root).OfType<ListBox>().Single().SelectedIndex = layer;
-                await host.Settle(); await historic.Settle();
-                var before = Controls(historic.Root); var after = Controls(host.Root);
+                await host.Settle();
+                var before = HistoricReadOnly[(id, layer)]; var after = Controls(host.Root);
                 var common = before.Keys.Intersect(after.Keys).Order(StringComparer.Ordinal).ToArray();
                 var different = common.Where(k => before[k] != after[k]).Select(k => k + ": storica " + before[k] + ", nuova " + after[k]).ToArray();
                 Log.Add($"   sola lettura ({id}, strato {layer}), solo nella storica: " + string.Join(", ", before.Keys.Except(after.Keys).Order(StringComparer.Ordinal)));
@@ -805,7 +841,8 @@ internal static class StratigraphyViewChecks
                 Check(different.Length == 0 && common.Length >= 20 && host.View.LayerList.SelectedIndex == layer,
                     $"{id}, strato {layer}: sola lettura, stessi controlli bloccati e liberi della vista storica ({common.Length} controlli comuni)" + (different.Length == 0 ? "" : ": " + string.Join("; ", different)));
             }
-            Check(host.Modified == 0 && host.Editor.Data.ToJsonString(J.Options) == historic.Editor.Data.ToJsonString(J.Options), id + ": sola lettura senza scritture");
+            // The historic view kept the data it opened (recorded in the capture run): the new one too.
+            Check(host.Modified == 0 && StratigraphyTrace.Compact(host.Editor.Data) == StratigraphyTrace.Compact(data), id + ": sola lettura senza scritture");
         }
     }
 
@@ -1117,6 +1154,6 @@ internal static class StratigraphyViewChecks
             Check(mvvm is MvvmSheetEditor { Sheet: StratigraphySheetViewModel sheet } && sheet.Editor.Forms.All(f => f.WikiNavigator is not null),
                 Module + ": con --module-impl il banco apre la vista MVVM, ogni form con il navigatore della Wiki");
         using (var release = ModuleHostBench.SheetEditors([], DesktopComposition.CreateModules()).Open(Module, data))
-            Check(release is SheetEditor && ModuleImplementations.Release.For(Module) == SheetImplementation.Historic, Module + ": la Release resta storica fino alla prova dell'utente");
+            Check(release is MvvmSheetEditor { Sheet: StratigraphySheetViewModel } && ModuleImplementations.Release.For(Module) == SheetImplementation.Mvvm, Module + ": la Release apre la vista MVVM");
     }
 }

@@ -1,0 +1,29 @@
+[
+  {
+    "origine": "X.Desktop/Wpf/StratigraphyWorkspace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/stratigrafia/X.Desktop/Wpf/StratigraphyWorkspace.cs",
+    "commit": "8231c412 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "1a0079a44c701fba66b3c40f845c67179de1d2f2177221b7acc28dfd7475f43a",
+    "sha256_lf": "8d30608f928ecb7cb01b6ac18cdda4fe666e39e64a055a69a7a490f732caf489",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre la stratigrafia con la vista MVVM; la vista storica non è più raggiungibile né compilata; la vista storica; StratigraphyProfileView e SoilProfileIcon in fondo al file restano in uso, spostate senza modifiche in X.Desktop/Wpf/StratigraphyProfileView.cs",
+    "sostituzione": "X.Desktop/Views/Stratigraphy (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Stratigraphy (ViewModel); tracce congelate in tests/fixtures/f5-stratigrafia/storica, confrontate da Presentation.Tests e da ui/check-stratigrafia-view"
+  },
+  {
+    "origine": "X.Desktop/Wpf/StratigraphyImportWindow.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/stratigrafia/X.Desktop/Wpf/StratigraphyImportWindow.cs",
+    "commit": "8231c412 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "86222e86d530e9dfc67e8d811dfdb509d10db63e3c36303e5f084bd8b2d88bcf",
+    "sha256_lf": "74962599c15d060b22378a0a95fdb61dc1c86c2934743832cee18529ba1ad69a",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre la stratigrafia con la vista MVVM; la vista storica non è più raggiungibile né compilata; la finestra storica dell'importazione IA, aperta solo dalla vista storica",
+    "sostituzione": "X.Desktop/Views/Stratigraphy (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Stratigraphy (ViewModel); tracce congelate in tests/fixtures/f5-stratigrafia/storica, confrontate da Presentation.Tests e da ui/check-stratigrafia-view"
+  },
+  {
+    "origine": "tests/Desktop/StratigraphyHistoricTrace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/stratigrafia/tests/Desktop/StratigraphyHistoricTrace.cs",
+    "commit": "f39de91c (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "020d60adae3bb1f51643fa5e91b11bbe5a4d76ebe2e5f625672fb3482990ba32",
+    "sha256_lf": "314f2a2b5852f20d0bdf399d3b22bfebce4fd3c3f445f05cc7753ff0eddfc42e",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre la stratigrafia con la vista MVVM; la vista storica non è più raggiungibile né compilata; prova delle tracce della vista storica (suite ui/check-stratigrafia-historic), archiviata con la vista",
+    "sostituzione": "X.Desktop/Views/Stratigraphy (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Stratigraphy (ViewModel); tracce congelate in tests/fixtures/f5-stratigrafia/storica, confrontate da Presentation.Tests e da ui/check-stratigrafia-view"
+  }
+]

@@ -113,27 +113,28 @@ internal static partial class ShellSmoke
         if (button.Command is { } command && command.CanExecute(button.CommandParameter)) command.Execute(button.CommandParameter);
     }
 
-    /// <summary>The checks of DisplaySmokeChecks on the sheet of the shell: the SheetEditor partials (OpenSheet) or the XAML view (VerticalPileSmoke).</summary>
+    /// <summary>
+    /// The checks of DisplaySmokeChecks on the sheet of the shell, on the XAML view (VerticalPileSmoke): the vertical piles open with it since the
+    /// Release switch of 23/10 (f5-pass-geo), and the SheetEditor partials of the historic view went with it.
+    /// </summary>
     private sealed class DisplaySheet(ShellSmokeBench b, ShellSheet sheet)
     {
-        private readonly OpenSheet? historic = sheet.Historic is not null ? sheet.HistoricChecks : null;
-        private readonly VerticalPileSmoke? mvvm = sheet.Historic is null ? new VerticalPileSmoke(sheet.Hosted, b.Services) : null;
+        private readonly VerticalPileSmoke mvvm = sheet.Historic is null ? new VerticalPileSmoke(sheet.Hosted, b.Services)
+            : throw new InvalidOperationException("Il palo verticale si apre con la vista MVVM: " + sheet.ViewModel.ModuleId);
 
-        internal void VerifyDisplayLayout() { if (historic is not null) historic.VerifyDisplayLayout(); else mvvm!.VerifyDisplayLayout(); }
-        internal Task VerifyDisplayScrolling(string directory, string name) => historic?.VerifyDisplayScrolling(directory, name) ?? mvvm!.VerifyDisplayScrolling(directory, name);
-        internal Task VerifyStratigraphyEditing() => historic?.VerifyStratigraphyEditing() ?? mvvm!.VerifyStratigraphyEditing();
-        internal void VerifyPileOutcomes() { if (historic is not null) historic.VerifyPileOutcomes(); else mvvm!.VerifyPileOutcomes(); }
-        internal Task VerifyPresentation(string directory) => historic?.VerifyPresentation(directory) ?? mvvm!.VerifyPresentation(directory);
-        internal void VerifyReport(string directory) { if (historic is not null) historic.VerifyReport(directory); else mvvm!.VerifyReport(directory); }
+        internal void VerifyDisplayLayout() => mvvm.VerifyDisplayLayout();
+        internal Task VerifyDisplayScrolling(string directory, string name) => mvvm.VerifyDisplayScrolling(directory, name);
+        internal Task VerifyStratigraphyEditing() => mvvm.VerifyStratigraphyEditing();
+        internal void VerifyPileOutcomes() => mvvm.VerifyPileOutcomes();
+        internal Task VerifyPresentation(string directory) => mvvm.VerifyPresentation(directory);
+        internal void VerifyReport(string directory) => mvvm.VerifyReport(directory);
         /// <summary>
-        /// VerifyNavigationThrough: the historic editor is the same control after the return (HistoricSheetHost), as in MainWindow. The XAML view of a tab is
-        /// built again when the tab comes back on screen (proposal R6): data, result and the state kept by the ViewModel (the extended card, the capacity view)
+        /// VerifyNavigationThrough: the XAML view of a tab is built again when the tab comes back on screen (proposal R6): data, result and the state kept by the ViewModel (the extended card, the capacity view)
         /// must survive; the selected tab of the results, held by the view only, is reported (question SH49), not required.
         /// </summary>
         internal async Task VerifyNavigationThrough(Action leave, Action resume)
         {
-            if (historic is not null) { await historic.VerifyNavigationThrough(leave, resume); return; }
-            var model = mvvm!.Sheet;
+            var model = mvvm.Sheet;
             const string charts = Anthea.Presentation.Modules.VerticalPile.VerticalPileSheetViewModel.ChartsCard;
             string oldExpanded = model.ExpandedCard;
             int oldTab = mvvm.View.Outputs.SelectedIndex, oldCapacity = mvvm.View.CapacityView.SelectedIndex;

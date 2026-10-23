@@ -1,0 +1,119 @@
+[
+  {
+    "origine": "X.Desktop/Wpf/Materials/Bond.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/materiali/X.Desktop/Wpf/Materials/Bond.cs",
+    "commit": "4240dfb6 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "a9a3374a463aa68940881358f290a54310b267e6660cfc346cf9a283906657a3",
+    "sha256_lf": "f40de489584fd52937a82d1e0e0321b2da38953d99a9eece3b16402ea226d0ad",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre calcestruzzo e acciaio per armature con le viste MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/Materials (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Materials (ViewModel); tracce congelate in tests/fixtures/f5-materiali/storica, confrontate da Presentation.Tests e da ui/check-materials-view"
+  },
+  {
+    "origine": "X.Desktop/Wpf/Materials/ExposureSelector.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/materiali/X.Desktop/Wpf/Materials/ExposureSelector.cs",
+    "commit": "0a7fa436 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "9ec0b08d8a0e4612a7cb445603469f18115ea8a4d1f43dc60d83dc40035ac0f4",
+    "sha256_lf": "8ddd322047b7262d8efdab6dfa90e46be7763074d14c7d96c9b27e69e1c10e00",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre calcestruzzo e acciaio per armature con le viste MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/Materials (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Materials (ViewModel); tracce congelate in tests/fixtures/f5-materiali/storica, confrontate da Presentation.Tests e da ui/check-materials-view"
+  },
+  {
+    "origine": "X.Desktop/Wpf/Materials/MaterialDetails.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/materiali/X.Desktop/Wpf/Materials/MaterialDetails.cs",
+    "commit": "0a7fa436 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "307fb9751da59865532c4bca0ca4dda5492f3f4f2d9a0f3a231d0b1687ed0c22",
+    "sha256_lf": "1da0829426b5b40703971672aa6252e405e36fa1a8ee2774bc81667b7f508563",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre calcestruzzo e acciaio per armature con le viste MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/Materials (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Materials (ViewModel); tracce congelate in tests/fixtures/f5-materiali/storica, confrontate da Presentation.Tests e da ui/check-materials-view"
+  },
+  {
+    "origine": "X.Desktop/Wpf/Materials/MaterialReport.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/materiali/X.Desktop/Wpf/Materials/MaterialReport.cs",
+    "commit": "4240dfb6 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "b8fefbee1e4b714379c78086ad64b8bff8dd91c758894c16d70ff25c38a9dde3",
+    "sha256_lf": "f1619b71a26b5ec16c12e050a44933c1f9c382f0b9ed1109084547e13d3ca6fa",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre calcestruzzo e acciaio per armature con le viste MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/Materials (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Materials (ViewModel); tracce congelate in tests/fixtures/f5-materiali/storica, confrontate da Presentation.Tests e da ui/check-materials-view"
+  },
+  {
+    "origine": "X.Desktop/Wpf/Materials/MaterialState.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/materiali/X.Desktop/Wpf/Materials/MaterialState.cs",
+    "commit": "46910aaa (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "6d39704fcc5bc3cb95d2771dbbc585e3bc3277286392ebbdf1ee46f3563b4164",
+    "sha256_lf": "440d713ba6bb3f845d377332f5469beffece257454a3267e930b27be62764836",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre calcestruzzo e acciaio per armature con le viste MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/Materials (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Materials (ViewModel); tracce congelate in tests/fixtures/f5-materiali/storica, confrontate da Presentation.Tests e da ui/check-materials-view"
+  },
+  {
+    "origine": "X.Desktop/Wpf/Materials/MaterialView.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/materiali/X.Desktop/Wpf/Materials/MaterialView.cs",
+    "commit": "0a7fa436 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "7fbf4aa0a0ce8f51bcc8bc63e4ad138c7f87c6b26d6c7a429a4ac5a81c778975",
+    "sha256_lf": "6a2ec14734ba14228345e7100c3b5dfe12469c02c3fd53a863bfc0f12e9f22f7",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre calcestruzzo e acciaio per armature con le viste MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/Materials (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Materials (ViewModel); tracce congelate in tests/fixtures/f5-materiali/storica, confrontate da Presentation.Tests e da ui/check-materials-view"
+  },
+  {
+    "origine": "X.Desktop/Wpf/Materials/MinimumConcrete.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/materiali/X.Desktop/Wpf/Materials/MinimumConcrete.cs",
+    "commit": "4240dfb6 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "458b053725e066673caa2404091bf9b6df6d06813b968fccff306139ad5389df",
+    "sha256_lf": "0a2809163dbfdf75c0578a22739a0c40479a9d5afc0fbf5b0297151abfd5e442",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre calcestruzzo e acciaio per armature con le viste MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/Materials (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Materials (ViewModel); tracce congelate in tests/fixtures/f5-materiali/storica, confrontate da Presentation.Tests e da ui/check-materials-view"
+  },
+  {
+    "origine": "X.Desktop/Wpf/Materials/MixAutomation.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/materiali/X.Desktop/Wpf/Materials/MixAutomation.cs",
+    "commit": "99fd0ad6 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "422786a4afe85cb7c8a22b304b9703474875079bdcb33789a2ec6e9c1a6ec045",
+    "sha256_lf": "4fe31e0d0e50659f43325aa8deb33193abb968ca76aca9228209469606de235b",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre calcestruzzo e acciaio per armature con le viste MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/Materials (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Materials (ViewModel); tracce congelate in tests/fixtures/f5-materiali/storica, confrontate da Presentation.Tests e da ui/check-materials-view"
+  },
+  {
+    "origine": "X.Desktop/Wpf/Materials/Styles.xaml",
+    "archivio": "supporto/SUPERATI/ui-storica/materiali/X.Desktop/Wpf/Materials/Styles.xaml",
+    "commit": "4240dfb6 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "e9ed72d51d7fcd04b5c7aa659914e5d6246e0d571d623deaa499c7e9265bb180",
+    "sha256_lf": "9a33cf247f3acf945622d0a271c4c53d164b0441587ec70ffe6816b2f6f1443c",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre calcestruzzo e acciaio per armature con le viste MVVM; la vista storica non è più raggiungibile né compilata",
+    "sostituzione": "X.Desktop/Views/Materials (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Materials (ViewModel); tracce congelate in tests/fixtures/f5-materiali/storica, confrontate da Presentation.Tests e da ui/check-materials-view"
+  },
+  {
+    "origine": "X.Desktop/Wpf/RebarMaterialView.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/materiali/X.Desktop/Wpf/RebarMaterialView.cs",
+    "commit": "0a7fa436 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "0a784c2819c62e089131971796048e1f15b14ab3299ddafd75af6300c5db53d9",
+    "sha256_lf": "6b580d945527a76e3f44637a376073ccb4ebd802fe4dc51072ab9b91793835b8",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre calcestruzzo e acciaio per armature con le viste MVVM; la vista storica non è più raggiungibile né compilata; la classe RebarIcon in fondo al file resta in uso, spostata senza modifiche in X.Desktop/Wpf/RebarIcon.cs",
+    "sostituzione": "X.Desktop/Views/Materials (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Materials (ViewModel); tracce congelate in tests/fixtures/f5-materiali/storica, confrontate da Presentation.Tests e da ui/check-materials-view"
+  },
+  {
+    "origine": "tests/Desktop/MaterialHistoricTrace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/materiali/tests/Desktop/MaterialHistoricTrace.cs",
+    "commit": "3285365f (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "46aed394b2f154c6df9093138a78a7cfbb260a35a567b6cd5a562312ff57380c",
+    "sha256_lf": "3846588a9583063485e4fb680103d856eae7ea0c9df32ba2925365ee6a8a5888",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre calcestruzzo e acciaio per armature con le viste MVVM; la vista storica non è più raggiungibile né compilata; prova delle tracce delle viste storiche (suite ui/check-materials-historic), archiviata con le viste",
+    "sostituzione": "X.Desktop/Views/Materials (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Materials (ViewModel); tracce congelate in tests/fixtures/f5-materiali/storica, confrontate da Presentation.Tests e da ui/check-materials-view"
+  },
+  {
+    "origine": "tests/Desktop/MaterialViewTrace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/materiali/tests/Desktop/MaterialViewTrace.cs",
+    "commit": "3285365f (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "ab8a6597d063fad4c7dc2cd0a1e8cd26acf87af395569151db2efc63291a9e15",
+    "sha256_lf": "e1d8f1a00b5380d16fafac886d9fc5e95dbbbc292cd23acf7da6ed90eab48b70",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre calcestruzzo e acciaio per armature con le viste MVVM; la vista storica non è più raggiungibile né compilata; accessori di prova della vista storica del calcestruzzo, archiviati con la vista",
+    "sostituzione": "X.Desktop/Views/Materials (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Materials (ViewModel); tracce congelate in tests/fixtures/f5-materiali/storica, confrontate da Presentation.Tests e da ui/check-materials-view"
+  },
+  {
+    "origine": "supporto/test/Materiali/MaterialViewChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/materiali/supporto/test/Materiali/MaterialViewChecks.cs",
+    "commit": "0a7fa436 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "0e6e40649f37adc4d23538f0ef6265e80acf14a1a0409ff54846453d87420556",
+    "sha256_lf": "563b00c3101dc547ae6b70c6f43b446288e2a9ef1f746f378439fcb71dc9f113",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre calcestruzzo e acciaio per armature con le viste MVVM; la vista storica non è più raggiungibile né compilata; autoverifica della vista storica del calcestruzzo (MaterialView.Check), sostituita da ConcreteMaterialSmoke.SelfCheck",
+    "sostituzione": "X.Desktop/Views/Materials (viste XAML, ospitate da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/Materials (ViewModel); tracce congelate in tests/fixtures/f5-materiali/storica, confrontate da Presentation.Tests e da ui/check-materials-view"
+  }
+]

@@ -67,53 +67,14 @@ public sealed partial class MainWindow
 
 internal sealed partial class SheetEditor
 {
-    internal void SetGeometryForSmoke(string value) { if (concrete is not null) concrete.SetGeometry(value); else generalForm.Set("diametro", value); }
+    // The vertical piles open with their MVVM view since the Release switch of 23/10 (f5-pass-geo): their branches of these partials went with
+    // their historic view (VerticalPileSmoke in tests/Desktop/VerticalPileSmokeChecks.cs checks the XAML view); the RC section stays.
+    internal void SetGeometryForSmoke(string value) => (concrete ?? throw new InvalidOperationException("Geometria di prova solo per la sezione c.a.: " + Module)).SetGeometry(value);
+    /// <summary>The calculation under way finished, within 10 s (the historic sheets have no scheduled automatic recalculation any more).</summary>
     internal async Task WaitForAutomatic()
     {
-        for (int i = 0; i < 200 && (!scheduledCalculation.IsCompleted || Busy); i++) await Task.Delay(50);
-        if (!scheduledCalculation.IsCompleted || Busy) throw new Exception("Calcolo automatico non terminato");
+        for (int i = 0; i < 200 && Busy; i++) await Task.Delay(50);
+        if (Busy) throw new Exception("Calcolo automatico non terminato");
     }
-    internal async Task VerifyWpf(string directory, string name)
-    {
-        if (concrete is not null) { await concrete.VerifyWorkspace(directory); return; }
-        void Assert(bool value, string message) { if (!value) throw new Exception(name + ": " + message); }
-        async Task Capture(string suffix) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, name + suffix + ".png"), Ui.Snapshot(this)); }
-        Assert(cards.Count == (Section ? 8 : 7), "Numero di pannelli diverso");
-        Assert(cards.All(c => c.ActualWidth >= 100 && c.ActualHeight >= 100), "Pannelli troppo piccoli");
-        var original = (JsonObject)Data.DeepClone(); string key = Section ? "diameter_mm" : "diametro", value = generalForm.Get(key);
-        generalForm.Set(key, value + " "); Assert(Result is null, "Risultati non invalidati"); generalForm.Set(key, value);
-        Assert(JsonNode.DeepEquals(original, Data), "Modifica/ripristino campo altera dati");
-        if (Pile) await WaitForAutomatic(); else await CalculateAsync(); Assert(Result is not null, "Ricalcolo non riuscito");
-        if (!Section)
-        {
-            var unchanged = (JsonObject)Data.DeepClone(); capacityView.SelectedIndex = 1; capacityView.SelectedIndex = 0;
-            Assert(JsonNode.DeepEquals(unchanged, Data), "Il filtro modifica gli input");
-            expanded = 6; LayoutCards(); await Capture("_grafico_esteso"); Assert(cards.Take(6).All(c => c.Visibility == Visibility.Collapsed), "Espansione grafico");
-            expanded = -1; LayoutCards(); Assert(cards.All(c => c.Visibility == Visibility.Visible), "Ripristino pannelli");
-            outputs.SelectedIndex = 2; expanded = 6; LayoutCards(); await Capture(Micro ? "_abachi" : "_nq"); outputs.SelectedIndex = 0; expanded = -1; LayoutCards();
-            if (layerGrids.Count > 0 && layerGrids[0].Rows.Count > 0)
-            {
-                var row = layerGrids[0].Rows[0]; string thickness = row.Values.S("spessore"); row["spessore"] = thickness + " "; Assert(Result is null, "Modifica cella non invalida"); row["spessore"] = thickness;
-                if (Pile) await WaitForAutomatic(); else await CalculateAsync(); Assert(Result is not null, "Ricalcolo da tabella");
-            }
-        }
-        if (Pile)
-        {
-            outputs.SelectedIndex = 1; tableSelect.SelectedIndex = 0;
-            await Capture("_tabelle_compatte");
-            var capacityTables = Ui.Descendants<DataGrid>(tableHost).ToArray();
-            Assert(capacityTables.Length == 2 && capacityTables.All(t => t.Columns.Count == 4 && t.Items.Count == 3), "Riepilogo compatto drenate/non drenate");
-            expanded = 6; LayoutCards(); await Capture("_tabelle_compatte_estese"); expanded = -1; LayoutCards();
-            outputs.SelectedIndex = 0;
-            expanded = 4; LayoutCards(); await Capture("_stratigrafia_estesa"); expanded = -1; LayoutCards();
-            string length = generalForm.Get("lunghezza"); generalForm.Set("lunghezza", "abc"); await WaitForAutomatic(); Assert(Result is null && plot.Series.Count == 0, "Input invalido conserva risultati");
-            generalForm.Set("lunghezza", "3"); generalForm.Set("lunghezza", length); await WaitForAutomatic(); Assert(Result is not null, "Ripristino calcolo automatico");
-            var duplicated = Data.Array("stratigrafie")[0]!.DeepClone(); duplicated!.AsArray().Last()!["angolo_attrito"] = "32"; Data.Array("stratigrafie").Add(duplicated); RebuildSondages(1); Changed(); await WaitForAutomatic();
-            Assert(stratigraphy.VisibleIndices.SequenceEqual(new[] { 1 }), "Selezione profilo");
-            Assert(reference.Markers.Count == 1 && reference.Markers[0].X == 32, "Selezione Nq");
-            expanded = 5; LayoutCards(); Assert(stratigraphy.VisibleIndices.Length == 2 && cards[5].Visibility == Visibility.Visible, "Espansione profilo"); await Capture("_profili");
-            expanded = -1; Data.Array("stratigrafie").RemoveAt(1); RebuildSondages(0); Changed(); LayoutCards(); await WaitForAutomatic();
-        }
-        Assert(Result is not null, "Risultato finale assente");
-    }
+    internal Task VerifyWpf(string directory, string name) => (concrete ?? throw new InvalidOperationException("Verifica WPF storica solo per la sezione c.a.: " + Module)).VerifyWorkspace(directory);
 }

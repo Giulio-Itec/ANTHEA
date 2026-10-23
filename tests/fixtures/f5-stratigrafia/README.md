@@ -21,7 +21,7 @@ diventano `<nuovo-n>` nell'ordine della prima comparsa. Quelli delle fixture res
 | Cosa | Dove |
 | --- | --- |
 | Scenari e formato | `tests/Shared/StratigraphyTrace.cs` |
-| Vista storica | `tests/Desktop/StratigraphyHistoricTrace.cs` (`StratigraphyWorkspace` aperta da `SheetEditor` in una finestra fuori schermo) |
+| Vista storica (archiviata il 23/10/2026) | `supporto/SUPERATI/ui-storica/stratigrafia/tests/Desktop/StratigraphyHistoricTrace.cs` (`StratigraphyWorkspace` aperta da `SheetEditor` in una finestra fuori schermo), non compilata |
 | ViewModel | `tests/ANTHEA.Presentation.Tests/StratigraphySheetChecks.cs` (senza WPF) |
 
 Gli scenari sono 15:

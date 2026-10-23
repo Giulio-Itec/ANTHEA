@@ -8012,14 +8012,6 @@
       "Example": "1000"
     },
     {
-      "File": "X.Desktop/Wpf/FoundationWorkspace.Materials.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "FoundationWorkspace.BuildSoils",
-      "Fingerprint": "8960B3104AD5A8F66A872B51C31349244C0C274BAB33923495DC92A74B918770",
-      "Count": 1,
-      "Example": "4"
-    },
-    {
       "File": "X.Desktop/Wpf/GlobalStabilityDrawing.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "GlobalStabilityDrawing.OnRender.P",
@@ -8666,38 +8658,6 @@
       "Fingerprint": "9659218799D2B1C4C9271B2FC0EE4F87347922C91B07D2F673B5522B1EFE3B2E",
       "Count": 1,
       "Example": "result . D ( \"risultante_concentrata_kn\" )"
-    },
-    {
-      "File": "X.Desktop/Wpf/Materials/MaterialView.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "MaterialView.FitTable",
-      "Fingerprint": "5B5A1C5DD0849504954B4BD24748F3D8E43D5AE611FE44CD14E0A0A2F1E98BB3",
-      "Count": 1,
-      "Example": "4"
-    },
-    {
-      "File": "X.Desktop/Wpf/Materials/MaterialView.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "MaterialView.MaterialView",
-      "Fingerprint": "DB33A11380734FC16C0A654BE353652DD4DCEE7F464AFA807AB5D52396213A0C",
-      "Count": 1,
-      "Example": "20"
-    },
-    {
-      "File": "X.Desktop/Wpf/Materials/MaterialView.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "MaterialView.ResizeColumns",
-      "Fingerprint": "83D6669BCB164D1EFB7341CC278D4C6D372DD2F3A88FF1199626524C834C06E2",
-      "Count": 1,
-      "Example": "62"
-    },
-    {
-      "File": "X.Desktop/Wpf/Materials/MaterialView.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "MaterialView.ResizeColumns",
-      "Fingerprint": "F0165282BA3CB630E8D41841742087ADB5CEB81F20C363185A77BC749DCD3FDB",
-      "Count": 2,
-      "Example": "3"
     },
     {
       "File": "X.Desktop/Wpf/ModuleFigureRenderer.Concrete.cs",
@@ -10036,7 +9996,7 @@
       "Example": "entry . D ( \"numero\" )"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "00AC29FCF5488B5EECA90AC1622E0466B5655AB7A9FDF374413ECC210AB64EBD",
@@ -10044,7 +10004,7 @@
       "Example": "56"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "0A83F8B3A934AAA43D19A0FDCED797FE4A5812770FFC6BEC9AE657BCCBD4BE26",
@@ -10052,7 +10012,7 @@
       "Example": "19"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "689A0AFDD5651B75F6B5A3581F998634D9484FB479D009DC11BDFF8E995EF467",
@@ -10060,7 +10020,7 @@
       "Example": "20"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "707F92A4BB0229679C7334D59BB8F4DCB5C007BABCC8C79D3853112DB461ACFE",
@@ -10068,7 +10028,7 @@
       "Example": "5"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "76AE5F6F4072F4EAE4E7EA6A44A80F9915CBEDE279F6D032CE1D5CE8278C5C17",
@@ -10076,7 +10036,7 @@
       "Example": "16"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "796B662652D7E4BAB9837B6934682B4BCAE55C9950A7851D0ED7C361396D0EF1",
@@ -10084,7 +10044,7 @@
       "Example": "17"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "9459B38EA74BCB81F803B079F0F50214DCF3091207D085CFAD2858F87B2511E2",
@@ -10092,7 +10052,7 @@
       "Example": "12"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "CFB34BCD532EC62F37B6C70E61CAD106D5A1733BD80D6774BB05665EB8B8F175",
@@ -10100,7 +10060,7 @@
       "Example": "9"
     },
     {
-      "File": "X.Desktop/Wpf/RebarMaterialView.cs",
+      "File": "X.Desktop/Wpf/RebarIcon.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RebarIcon.OnRender",
       "Fingerprint": "D7783DEF4FA7B5DFA26817AC5584E5D90A6E7D6C40D5ECA62888F05C7F39C32F",
@@ -11842,142 +11802,6 @@
       "Fingerprint": "BAB9A056FEFE1B5E3459CC62B4CB7CD66704B8C80A46FADF41E36ED59AB64D23",
       "Count": 1,
       "Example": "31"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.DetailTable",
-      "Fingerprint": "B52C33D5CA061B69A1645B03A5CF2A8EB878689CA555395D1288DCE0DFFFE942",
-      "Count": 1,
-      "Example": "155"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "114C455E784DBD90044B53DA88EA5ED5EA03122041061ED3D856B706468EF7E6",
-      "Count": 1,
-      "Example": ".24"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "15E4B095C91E0F39B04993033369F7A15DAC629BA517F5827B6D0FA3B2910063",
-      "Count": 1,
-      "Example": "378"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "1829624C7184BFCA0C7299DAC6EFCFE0C715A016D06C7DC1A7582AB89830D8BA",
-      "Count": 1,
-      "Example": "440"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "2B96C6FF4A0C5661E5B5DD06EC36CF568E5DE2F4D381BDE691962C0D042D5E2C",
-      "Count": 2,
-      "Example": "24"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "5566C6A6C910742EBDD64BF37CED59312D4CBA04F80591F2182A7EDED875F8DC",
-      "Count": 1,
-      "Example": "68"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "5814C36892584735293BFD04B952FEF2C54F077F794F98BD0160266D8396BAF2",
-      "Count": 1,
-      "Example": "5"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "58378BA34C540B47EFF05C4315B0F65D9150AE0A5C8D20D0DB5AC29319BEAF66",
-      "Count": 3,
-      "Example": "4"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "AA045E6482E80A47667321DD4A3AF6D40133565B799E263FACFB8934D35111F1",
-      "Count": 4,
-      "Example": "32"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "AA2327D0849764D318F8C52CF685EAC48CE977373F988CB995D1291474B42B30",
-      "Count": 1,
-      "Example": "14"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "B7D986554A1D6DA59D9E344236FEAB22727244D17629F6BDCB402486E73A629D",
-      "Count": 1,
-      "Example": ".60"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "B89F8F0C63ABDEBE80D76AB705369C7D2184962D6CFE54DE3537267AA5F5596D",
-      "Count": 1,
-      "Example": ".17"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "D0ECDEE3FD54D80DDB8A8189CBB49E24FBBF8129F4051316E965DFA4F6E71BF7",
-      "Count": 1,
-      "Example": ".39"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "D4E201FDF4BFB94D0BAC10C10C4132D64CCDFA365F6754E141B2ACF40661C5F5",
-      "Count": 4,
-      "Example": "3"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "E3F2F3BCACE16C0561A7ED600A9C858F91D472BE652E465A3BD936F3CE3B3C9B",
-      "Count": 1,
-      "Example": ".20"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "F27A138672C6D51855FEC6D6C2D1BF61ADF198E92ADBFFBACA7814B24BB76D2D",
-      "Count": 1,
-      "Example": "40"
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SheetEditor.LayoutCards",
-      "Fingerprint": "FF3AF52E0F83664B0E179166B14336E53FB912DC98764417F8DBF04A77728F19",
-      "Count": 1,
-      "Example": "28"
     },
     {
       "File": "X.Desktop/Wpf/StratigraphyTable.cs",

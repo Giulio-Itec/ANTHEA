@@ -391,3 +391,72 @@ passano a `SoilTransferPresentation.Preview` (codice spostato). Le altre baselin
 8. Report Word/PDF ed esportazione del risultato.
 9. Micropalo con un risultato: cambiare l'iniezione IGU↔IRS (oggi dà un errore; con la vista nuova ricalcola, F5-01).
 10. Aspetti Scuro e Molto scuro.
+
+## 6. Passaggio della Release (23/10, agente f5-pass-geo)
+
+Ramo `refactoring/f5-pass-geo`, da `refactoring/f5` `db7ef68d`, dopo i materiali. Decisione dell'utente del 23/10: «finisci il
+refactoring che avevamo previsto delle viste», «Moduli ora, shell dopo».
+
+### 6.1 Che cosa è fatto
+
+| Commit | Contenuto |
+| --- | --- |
+| `d8d76b71` | `ui/check-palo-verticale-view` non apre più la vista storica: confronta con i valori che dava |
+| commit del passaggio | Release MVVM per `geo_palo_verticale` e `geo_micropalo_verticale`, vista storica archiviata, suite, F4 e documenti |
+
+- **Release.** `ModuleImplementations.Declared`: i due moduli = `Mvvm`. `ui/check-module-host-offscreen` (elenco `ReleaseMvvm`; il
+  registro della sonda è ora quello della radice di composizione con la sonda al posto dell'acciaio) e `ui/check-palo-verticale-view`
+  (banco e Release) lo provano.
+- **Archiviazione (Q11)** in `supporto/SUPERATI/ui-storica/palo-verticale/`, con `README.md` e `registro.json`:
+  `X.Desktop/Wpf/GeoEditor.cs` (la vista storica, partial di `SheetEditor`) e `tests/Desktop/VerticalPileHistoricTrace.cs`. Restano i
+  componenti condivisi (`StratigraphyTable`, `StratigraphyDrawing`, `Plot`, `ExtendedStratigraphy`, `CalculationHelpView`,
+  `SoilTransferDialog`, `ModuleFigureRenderer.VerticalFigures`).
+- **`SheetEditor`.** Tolto il ramo generico (Geo): campi, costruttore, piede, calcolo automatico (`RecalculationScheduler`,
+  `ModuleCalculationSession`), `AddCard`, `LayoutCards`, `Changed`, `QueueCalculation`, `CalculateScheduledAsync`, tabelle, `SavePlot`, i
+  rami di `Commit`, `CalculateAsync` e `BuildReportDocument`. Un modulo senza vista storica è rifiutato dal costruttore con un messaggio.
+  `Result` e `Busy` sono ora di sola lettura.
+- **Prove riscritte o pulite:**
+  - `ui/check-palo-verticale-view` (`d8d76b71`): dati e risultato dopo il calcolo uguali alla traccia congelata `palo-`/`micropalo-<id>`;
+    messaggio senza risultato; JSON con `J.Options`; Word e PDF della ricetta della vista storica (`ReportWord` con
+    `ModuleFigureRenderer.VerticalFigures` sui grafici del risultato, prima vista e prima stratigrafia); «Salva PNG…» uguale all'impronta
+    SHA-256 dell'immagine storica; «?», nomi e sola lettura dai valori registrati (corsa di cattura `20261023-124229-geo-cattura-3`);
+  - `ui/f3-figures` e `ui/f3-scheduling` leggono solo la vista MVVM (rami storici di `F3FigureChecks` e `F3SchedulingChecks` tolti);
+  - `ui/smoke-display`: tolta la partial di `SheetEditor` in `DisplaySmokeChecks.cs`; `OpenSheet` e `ShellSmokeDisplay` guidano solo
+    `VerticalPileSmoke`;
+  - `ui/smoke`: in `SmokeChecks.cs` restano solo i rami della sezione c.a. (`SetGeometryForSmoke`, `VerifyWpf`); `WaitForAutomatic`
+    attende ora solo un calcolo in corso (lo usano ancora `ContrastAudit` e `ShellSheet` sui fogli storici);
+  - controlli che contavano sul palo verticale storico: `ui/check-pile-group-view` e `ui/check-fondazioni-view` (banco interattivo),
+    `ui/check-shell-draft` (`HistoricHost`: storica resta la sezione c.a.). Il controllo «Release» di `ui/check-pile-group-view`
+    elencava i moduli MVVM e cadeva già dopo il passaggio dei materiali: ora controlla solo palificata, Spettri e paratie (il resto è di
+    `ui/check-module-host-offscreen`).
+- **Runner.** Tolte `ui/check-palo-verticale-historic`, `ui/f3-figures-palo-verticale-mvvm`, `ui/f3-scheduling-palo-verticale-mvvm`,
+  `ui/smoke-mvvm`, `ui/smoke-display-mvvm`, `ui/smoke-projects-mvvm`, `ui/shell-smoke-projects-mvvm`, `ui/shell-smoke-display-mvvm`; la coppia
+  esce da `$MvvmBench`. Restano `ui/check-appearance-mvvm` e `ui/smoke-project-workspace-mvvm` (muri e altri moduli ancora nel banco).
+- **Baseline F4** (solo in discesa): tolte le 17 voci (26 occorrenze) di `SheetEditor.cs` (`LayoutCards`, `DetailTable`), codice tolto.
+  `GeoEditor.cs` non aveva voci.
+- **Contrasto.** Il palo verticale non aveva un blocco autonomo in `ContrastAudit.cs`. La baseline della Chiara ha 24 voci del palo e 11
+  del micropalo, sui passi `modulo-geo_palo_verticale…` e `modulo-geo_micropalo_verticale…` misurati sulla vista storica: le chiavi della
+  vista nuova si conoscono solo con una corsa a 96 DPI (D12). Non sono state spostate: **da fare alla prima corsa a 96 DPI**.
+- **Registro.** Nessuna voce nuova: F5-01, F5-04, F5-05 e F5-06 dicono già «attiva nella Release dopo il passaggio del modulo».
+
+### 6.2 Prove
+
+| Corsa | Esito |
+| --- | --- |
+| `ui/check-palo-verticale-view` su `d8d76b71` (`20261023-124919-geo-pv-vista`) | PASS 390 controlli |
+| dopo il passaggio (`20261023-125724-geo-pv-pass`): `Architecture.Tests`, `ui/check-palo-verticale-view`, `ui/smoke`, `-display`, `-projects`, `-project-workspace` e `-mvvm`, `ui/check-appearance` e `-mvvm`, `ui/check-module-host-offscreen`, `ui/f3-report-chapters`, `ui/f3-figures`, `ui/f3-scheduling`, `ui/check-fondazioni-view`, `ui/check-shell-draft`, `ui/shell-smoke-project-workspace`, `-display` | PASS 20; NEW-FAIL 2: `ui/check-pile-group-view` (controllo «Release», corretto sopra) e `ui/shell-smoke-projects` (intermittente: «clic singolo ritardato», macchina carica) |
+| ripetute da sole dopo la correzione (`20261023-130857-geo-pv-pass2`) | `ui/check-pile-group-view` e `ui/shell-smoke-projects` PASS |
+
+### 6.3 Che cosa resta
+
+- `ui/check-contrast` a 96 DPI e spostamento delle voci della Chiara (sopra).
+- `ui/f3-equivalence` sul ramo unito (coordinatore).
+- Guida pratica: nessun cambiamento necessario trovato per la disposizione; «Modello e dati comuni…» apre ora la Wiki (F5-06), come la guida già
+  descrive («raggiunge la teoria pertinente nella stessa Wiki», sezione dell’aiuto contestuale).
+
+### 6.4 Come riprendere
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-pass-geo
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(check-palo-verticale-view|smoke|smoke-display|f3-figures|f3-scheduling)$' -Tag <tag>"
+```

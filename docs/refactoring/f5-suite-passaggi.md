@@ -48,6 +48,8 @@ Dettagli, esiti e ripresa nella sezione 6 di [f5-7-palo-orizzontale.md](f5-7-pal
 
 ### 1.2 Muri di sostegno (`geo_muri_sostegno`)
 
+**Stato al 23/10 (f5-pass-geo): non fatto.** La Release resta storica; piano di ripresa in [f5-9-muri.md](f5-9-muri.md), sezione 6.
+
 | Suite | File | Che cosa legge | Effetto | Piano |
 | --- | --- | --- | --- | --- |
 | `ui/check-global-guidance-offscreen` | `supporto/test/Desktop/GlobalGuidanceChecks.cs` | `new RetainingWallWorkspace(...)` (3 volte) | A | `WallSmoke` (già esistente) su un foglio aperto dalla fabbrica del banco; variante `-mvvm` |
@@ -62,6 +64,9 @@ Dettagli, esiti e ripresa nella sezione 6 di [f5-7-palo-orizzontale.md](f5-7-pal
 
 ### 1.3 Fondazioni superficiali (`geo_fondazioni_superficiali`)
 
+**Stato al 23/10 (f5-pass-geo): fatto.** Release MVVM, vista storica in `supporto/SUPERATI/ui-storica/fondazioni/`, righe sotto
+risolte ([f5-9b-fondazioni.md](f5-9b-fondazioni.md), sezione 6).
+
 | Suite | File | Che cosa legge | Effetto | Piano |
 | --- | --- | --- | --- | --- |
 | `FoundationWorkspace.UiChecks` (e `--candidate`) | `tests/FoundationWorkspace.Checks/Program.cs`, metodo `Ui` e parte `--ui` di `ContractChecks` | `X.Desktop.FoundationWorkspace` per riflessione (`TryCalculate`, `Result`, `TextBox` Tag `Width`, `raccogli-input`, sei schede, aspetto) | A | vista XAML ospitata da `MvvmSheetEditor` fuori schermo, libreria candidata iniettata nel servizio del contesto (già pianificato in `f5-9b-fondazioni.md` 3.5) |
@@ -69,6 +74,9 @@ Dettagli, esiti e ripresa nella sezione 6 di [f5-7-palo-orizzontale.md](f5-7-pal
 | `ui/check-fondazioni-historic` | `ShallowFoundationHistoricTrace.cs` | vista storica | A | segue la vista |
 
 ### 1.4 Stratigrafia (`geo_stratigrafia`)
+
+**Stato al 23/10 (f5-pass-geo): fatto.** Release MVVM, vista storica in `supporto/SUPERATI/ui-storica/stratigrafia/`, righe sotto
+risolte ([f5-6b-stratigrafia.md](f5-6b-stratigrafia.md), sezione 6).
 
 | Suite | File | Che cosa legge | Effetto | Piano |
 | --- | --- | --- | --- | --- |
@@ -79,6 +87,9 @@ Dettagli, esiti e ripresa nella sezione 6 di [f5-7-palo-orizzontale.md](f5-7-pal
 
 ### 1.5 Palo e micropalo verticale
 
+**Stato al 23/10 (f5-pass-geo): fatto.** Release MVVM, vista storica in `supporto/SUPERATI/ui-storica/palo-verticale/`, righe sotto
+risolte ([f5-6-palo-verticale.md](f5-6-palo-verticale.md), sezione 6).
+
 | Suite | File | Che cosa legge | Effetto | Piano |
 | --- | --- | --- | --- | --- |
 | `ui/f3-figures` | `F3FigureChecks.cs` (partial di `SheetEditor`, cast `(SheetEditor)opened`) | `allSeries`, `capacityView`, `plot`, `sondages`, `reference` | A | il ramo MVVM esiste (`ui/f3-figures-palo-verticale-mvvm`): verificare che il cast storico sia solo nel ramo storico, poi toglierlo |
@@ -87,6 +98,9 @@ Dettagli, esiti e ripresa nella sezione 6 di [f5-7-palo-orizzontale.md](f5-7-pal
 | `ui/check-palo-verticale-view` | `VerticalPileViewChecks.cs` | confronti storici, partial `SheetEditor` riga 1022, riga 1017 R | R; A | come sopra. Nota: fallisce anche a `elica-coesivo-avvisi` per l'antivirus (S6, noto) |
 
 ### 1.6 Materiali (`mat_calcestruzzo`, `mat_acciaio_armatura`)
+
+**Stato al 23/10 (f5-pass-geo): fatto.** Release MVVM, viste storiche in `supporto/SUPERATI/ui-storica/materiali/`, righe sotto
+risolte come da piano ([f5-5-materiali.md](f5-5-materiali.md), sezione 5).
 
 | Suite | File | Che cosa legge | Effetto | Piano |
 | --- | --- | --- | --- | --- |

@@ -413,3 +413,63 @@ architettura invariati.
 - Dopo il blocco del contrasto (`4fbc3397`, solo codice di prova UiTests): build UiTests e `ui/check-fondazioni-view` PASS
   (`supporto/artefatti/ci/20261017-110211-f59bv-c7-vista`).
 - `ui/check-contrast` esclusa (144 DPI, T10). Le schermate sono a 144 DPI.
+
+## 6. Passaggio della Release (23/10, agente f5-pass-geo)
+
+Ramo `refactoring/f5-pass-geo`, da `refactoring/f5` `db7ef68d`, dopo materiali, pali verticali e stratigrafia. Decisione dell'utente del
+23/10: «finisci il refactoring che avevamo previsto delle viste», «Moduli ora, shell dopo». Eseguiti i punti 5 e 6 della sezione 3.
+
+### 6.1 Che cosa è fatto
+
+| Commit | Contenuto |
+| --- | --- |
+| `f4d63bbe` | `ui/check-fondazioni-view` senza la vista storica; `FoundationWorkspace.UiChecks` sulla vista XAML ospitata da `MvvmSheetEditor` |
+| commit del passaggio | Release MVVM per `geo_fondazioni_superficiali`, vista storica archiviata, suite, contrasto, F4 e documenti |
+
+- **Release.** `ModuleImplementations.Declared`: `geo_fondazioni_superficiali` = `Mvvm`; `ui/check-module-host-offscreen` e
+  `ui/check-fondazioni-view` (banco interattivo e Release) lo provano.
+- **Archiviazione (Q11)** in `supporto/SUPERATI/ui-storica/fondazioni/`, con `README.md` e `registro.json`: `X.Desktop/Wpf/FoundationWorkspace.cs`,
+  `X.Desktop/Wpf/FoundationWorkspace.Materials.cs`, `tests/Desktop/ShallowFoundationHistoricTrace.cs`. Restano `FoundationViews.cs`,
+  `FoundationIcon`, `StratigraphyTable`, `SoilTransferDialog`.
+- **Tolti:** i rami `foundation` di `SheetEditor` (campo, `Result`, costruttore, `Commit`, `CalculateAsync`, `ExportReport`,
+  `BuildReportDocument`); `--check-fondazioni-historic[-capture]` e la suite; il blocco autonomo `ShallowFoundationContrastStep`; il modulo
+  da `$MvvmBench` (resta solo il muro).
+- **`ui/check-fondazioni-view`** (`f4d63bbe`): dati all'apertura uguali alla traccia congelata; dopo la visita della cattura F3 e dopo
+  «Calcola» Modified, dati e risultato uguali ai valori registrati della vista storica (SHA-256); elenchi di disegno dei disegni tecnici
+  uguali a quelli registrati (tipo, primitivi, SHA-256, alle due misure); messaggi senza risultato; JSON, Word di `FoundationReport.Word` e
+  PDF di `FoundationReport.Pdf` (T8) come li scriveva la vista storica; «?», nomi e sola lettura dai valori registrati (corsa di cattura
+  `20261023-124229-geo-cattura-3`); schermate della sola vista nuova.
+- **`FoundationWorkspace.UiChecks`** (`f4d63bbe`, D13): la vista XAML con `MvvmSheetEditor`, `ShallowFoundationSheetModule` e i servizi
+  della radice di composizione, con la libreria iniettata nel servizio di calcolo del contesto (`ModuleServices.ForFoundation`: installata o
+  candidata di `--candidate`), in una finestra fuori schermo mai attivata; stessi controlli sugli stessi identificativi. Due differenze di
+  prova: la vista si misura in una finestra (fuori da una finestra il layout della vista XAML non si assesta) e quindi la misura dell'area
+  ammette l'arrotondamento del layout entro mezzo pixel fisico (1249,6 DIP a 144 DPI), come `ui/check-stratigrafia-view`; il dispatcher si
+  fa girare con brevi operazioni a priorità `Background` (non c'è `Application.Run`).
+- **Baseline F4** (solo in discesa): tolta la voce (1 occorrenza) di `FoundationWorkspace.Materials.cs` (`FoundationWorkspace.BuildSoils`),
+  codice archiviato.
+- **Contrasto.** Tolto il blocco autonomo. La baseline della Chiara ha 25 voci (31 occorrenze) sui passi `modulo-geo_fondazioni_superficiali…`
+  misurati sulla vista storica: le chiavi della vista nuova si conoscono solo con una corsa a 96 DPI (D12). **Da fare alla prima corsa a
+  96 DPI.**
+- **Registro.** Nessuna voce nuova: F5-11 è già «attiva nella Release dopo il passaggio del modulo».
+
+### 6.2 Prove
+
+| Corsa | Esito |
+| --- | --- |
+| `ui/check-fondazioni-view` su `f4d63bbe` (`20261023-135247-geo-fo-vista`) | PASS 286 controlli |
+| `FoundationWorkspace.UiChecks` su `f4d63bbe` (`20261023-142904-geo-fo-uichecks2`) | PASS 98 controlli |
+| dopo il passaggio (`20261023-143234-geo-fo-pass`): `Architecture.Tests`, `FoundationWorkspace.UiChecks`, `ui/check-fondazioni-view`, `ui/check-stratigrafia-view`, `ui/check-module-host-offscreen`, `ui/f3-report-chapters`, `ui/f3-figures`, `ui/f3-scheduling`, `ui/smoke-sharing`, `ui/smoke-project-workspace` e `-mvvm`, `ui/shell-smoke-project-workspace` | PASS 16, NEW-FAIL 0 |
+
+### 6.3 Che cosa resta
+
+- `ui/check-contrast` a 96 DPI e spostamento delle voci della Chiara.
+- `ui/f3-equivalence` sul ramo unito (coordinatore).
+- `FoundationWorkspace.UiChecks --candidate` non è nel runner: va provata con la prossima libreria candidata.
+- Guida pratica: nessun cambiamento della disposizione descritta («F1 o Guida apre questa pagina» resta vero).
+
+### 6.4 Come riprendere
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-pass-geo
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^(FoundationWorkspace\.UiChecks|ui/check-fondazioni-view)$' -Tag <tag>"
+```

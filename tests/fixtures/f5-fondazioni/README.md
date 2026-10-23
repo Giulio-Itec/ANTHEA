@@ -18,7 +18,7 @@ l'apertura e dopo ogni passo di uno scenario:
 | Cosa | Dove |
 | --- | --- |
 | Scenari e formato | `tests/Shared/ShallowFoundationTrace.cs` |
-| Vista storica | `tests/Desktop/ShallowFoundationHistoricTrace.cs` (`FoundationWorkspace` aperta da `SheetEditor`, fuori schermo) |
+| Vista storica (archiviata il 23/10/2026) | `supporto/SUPERATI/ui-storica/fondazioni/tests/Desktop/ShallowFoundationHistoricTrace.cs` (`FoundationWorkspace` aperta da `SheetEditor`, fuori schermo), non compilata |
 | ViewModel | `tests/ANTHEA.Presentation.Tests/ShallowFoundationSheetChecks.cs` (senza WPF) |
 
 Ogni passo si fa con i controlli, come l'utente: un controllo nascosto dalle regole della scheda, spento o protetto dalla
@@ -46,7 +46,8 @@ revisione in sola lettura non fa nulla. Gli scenari sono 15:
   Due catture (`supporto/artefatti/refactoring/f5-9b/traccia-1` e `-2`) sono uguali byte per byte.
 - L'unica modifica alla vista storica è il parametro `confirm` di `DeleteSurvey` (vero dal pulsante): la traccia risponde sì
   alla domanda senza aprire la finestra di messaggio, come per `GeoEditor.DeleteSurvey`.
-- La suite `ui/check-fondazioni-historic` dello stadio `ui` ricattura la vista storica e la confronta con queste tracce,
-  finché la vista storica esiste.
+- La suite `ui/check-fondazioni-historic` dello stadio `ui` ricatturava la vista storica e la confrontava con queste tracce.
+  È stata tolta il 23/10/2026 con l'archiviazione della vista storica (`supporto/SUPERATI/ui-storica/fondazioni`); `ui/check-fondazioni-view`
+  confronta le tracce attraverso la vista XAML.
 - `Presentation.Tests`, nello stadio `fast`, confronta le stesse tracce con il ViewModel.
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.

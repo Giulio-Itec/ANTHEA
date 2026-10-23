@@ -120,8 +120,8 @@ public partial class App
             return;
         }
 
-        // F5.6: the XAML view of the vertical pile and micropile hosted by MvvmSheetEditor, off screen (tests/Desktop/VerticalPileViewChecks.cs);
-        // the bench opens the two modules with the MVVM view, the Release keeps the historic one until the user has tried it.
+        // F5.6: the XAML view of the vertical pile and micropile hosted by MvvmSheetEditor, off screen (tests/Desktop/VerticalPileViewChecks.cs). The
+        // traces of the historic view (--check-palo-verticale-historic) are archived with it in supporto/SUPERATI/ui-storica/palo-verticale (Q11).
         if (e.Args.Length == 3 && e.Args[0] == "--check-palo-verticale-view")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -135,21 +135,8 @@ public partial class App
             return;
         }
 
-        // F5.5: traces of the historic material views (tests/Desktop/MaterialHistoricTrace.cs); the check also compares them
-        // with the frozen ones of tests/fixtures/f5-materiali/storica.
-        if (e.Args.Length == 3 && e.Args[0] is "--check-materials-historic" or "--check-materials-historic-capture")
-        {
-            ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            Dispatcher.BeginInvoke(new Action(async () =>
-            {
-                int code = 0;
-                try { await MaterialHistoricTrace.Run(e.Args[1], e.Args[2], e.Args[0] == "--check-materials-historic"); }
-                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
-                finally { Shutdown(code); }
-            }));
-            return;
-        }
-        // F5.5: the XAML views of the materials hosted by MvvmSheetEditor, off screen (tests/Desktop/MaterialSheetViewChecks.cs).
+        // F5.5: the XAML views of the materials hosted by MvvmSheetEditor, off screen (tests/Desktop/MaterialSheetViewChecks.cs). The traces
+        // of the historic views (--check-materials-historic) are archived with them in supporto/SUPERATI/ui-storica/materiali (Q11).
         if (e.Args.Length == 3 && e.Args[0] == "--check-materials-view")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -163,34 +150,6 @@ public partial class App
             return;
         }
 
-        // F5.6: traces of the historic vertical pile and micropile view (tests/Desktop/VerticalPileHistoricTrace.cs); the check also
-        // compares them with the frozen ones of tests/fixtures/f5-palo-verticale/storica.
-        if (e.Args.Length == 3 && e.Args[0] is "--check-palo-verticale-historic" or "--check-palo-verticale-historic-capture")
-        {
-            ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            Dispatcher.BeginInvoke(new Action(async () =>
-            {
-                int code = 0;
-                try { await VerticalPileHistoricTrace.Run(e.Args[1], e.Args[2], e.Args[0] == "--check-palo-verticale-historic"); }
-                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
-                finally { Shutdown(code); }
-            }));
-            return;
-        }
-        // F5.6b: traces of the historic stratigraphy view (tests/Desktop/StratigraphyHistoricTrace.cs); the check also compares them
-        // with the frozen ones of tests/fixtures/f5-stratigrafia/storica.
-        if (e.Args.Length == 3 && e.Args[0] is "--check-stratigrafia-historic" or "--check-stratigrafia-historic-capture")
-        {
-            ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            Dispatcher.BeginInvoke(new Action(async () =>
-            {
-                int code = 0;
-                try { await StratigraphyHistoricTrace.Run(e.Args[1], e.Args[2], e.Args[0] == "--check-stratigrafia-historic"); }
-                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
-                finally { Shutdown(code); }
-            }));
-            return;
-        }
         if (e.Args.Length == 3 && e.Args[0] == "--check-paratie-view")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -203,8 +162,8 @@ public partial class App
             }));
             return;
         }
-        // F5.6b: the XAML view of the stratigraphy hosted by MvvmSheetEditor, off screen (tests/Desktop/StratigraphyViewChecks.cs); the bench
-        // opens the module with the MVVM view, the Release keeps the historic one until the user has tried it.
+        // F5.6b: the XAML view of the stratigraphy hosted by MvvmSheetEditor, off screen (tests/Desktop/StratigraphyViewChecks.cs). The traces of
+        // the historic view (--check-stratigrafia-historic) are archived with it in supporto/SUPERATI/ui-storica/stratigrafia (Q11).
         if (e.Args.Length == 3 && e.Args[0] == "--check-stratigrafia-view")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -264,21 +223,8 @@ public partial class App
             return;
         }
 
-        // F5.9b: traces of the historic shallow foundation view (tests/Desktop/ShallowFoundationHistoricTrace.cs); the check also
-        // compares them with the frozen ones of tests/fixtures/f5-fondazioni/storica.
-        if (e.Args.Length == 3 && e.Args[0] is "--check-fondazioni-historic" or "--check-fondazioni-historic-capture")
-        {
-            ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            Dispatcher.BeginInvoke(new Action(async () =>
-            {
-                int code = 0;
-                try { await ShallowFoundationHistoricTrace.Run(e.Args[1], e.Args[2], e.Args[0] == "--check-fondazioni-historic"); }
-                catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
-                finally { Shutdown(code); }
-            }));
-            return;
-        }
-        // F5.9b: the XAML view of the shallow foundations hosted by MvvmSheetEditor, off screen (tests/Desktop/ShallowFoundationViewChecks.cs).
+        // F5.9b: the XAML view of the shallow foundations hosted by MvvmSheetEditor, off screen (tests/Desktop/ShallowFoundationViewChecks.cs). The
+        // traces of the historic view (--check-fondazioni-historic) are archived with it in supporto/SUPERATI/ui-storica/fondazioni (Q11).
         if (e.Args.Length == 3 && e.Args[0] == "--check-fondazioni-view")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;

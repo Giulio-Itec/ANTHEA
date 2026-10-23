@@ -15,6 +15,9 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     /// <summary>The vertical pile or micropile with the XAML view, null otherwise.</summary>
     private VerticalPileSmoke? Pile => VerticalPileSmoke.Handles(editor) ? new((MvvmSheetEditor)editor, services) : null;
 
+    /// <summary>The vertical pile or micropile, with the XAML view since the Release switch of 23/10 (f5-pass-geo).</summary>
+    private VerticalPileSmoke DisplayPile => Pile ?? throw new InvalidOperationException("Il foglio aperto non è un palo verticale con la vista MVVM: " + editor.Module);
+
     /// <summary>
     /// The historic sheet; the message of <c>historicEditor</c> for a module without an MVVM branch here. A historic sheet of a module that the
     /// bench of the command line opens with the XAML view fails too: a suite <c>-mvvm</c> never passes on the historic view by mistake.
@@ -39,19 +42,19 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
 
     // ---------------------------------------------------------------- ui/smoke-display (DisplaySmokeChecks.cs)
 
-    internal void VerifyDisplayLayout() { if (Pile is { } pile) pile.VerifyDisplayLayout(); else Historic.VerifyDisplayLayout(); }
+    internal void VerifyDisplayLayout() => DisplayPile.VerifyDisplayLayout();
 
-    internal Task VerifyDisplayScrolling(string directory, string name) => Pile is { } pile ? pile.VerifyDisplayScrolling(directory, name) : Historic.VerifyDisplayScrolling(directory, name);
+    internal Task VerifyDisplayScrolling(string directory, string name) => DisplayPile.VerifyDisplayScrolling(directory, name);
 
-    internal Task VerifyStratigraphyEditing() => Pile is { } pile ? pile.VerifyStratigraphyEditing() : Historic.VerifyStratigraphyEditing();
+    internal Task VerifyStratigraphyEditing() => DisplayPile.VerifyStratigraphyEditing();
 
-    internal void VerifyPileOutcomes() { if (Pile is { } pile) pile.VerifyPileOutcomes(); else Historic.VerifyPileOutcomes(); }
+    internal void VerifyPileOutcomes() => DisplayPile.VerifyPileOutcomes();
 
-    internal Task VerifyPresentation(string directory) => Pile is { } pile ? pile.VerifyPresentation(directory) : Historic.VerifyPresentation(directory);
+    internal Task VerifyPresentation(string directory) => DisplayPile.VerifyPresentation(directory);
 
-    internal void VerifyReport(string directory) { if (Pile is { } pile) pile.VerifyReport(directory); else Historic.VerifyReport(directory); }
+    internal void VerifyReport(string directory) => DisplayPile.VerifyReport(directory);
 
-    internal Task VerifyNavigationThrough(Action leave, Action resume) => Pile is { } pile ? pile.VerifyNavigationThrough(leave, resume) : Historic.VerifyNavigationThrough(leave, resume);
+    internal Task VerifyNavigationThrough(Action leave, Action resume) => DisplayPile.VerifyNavigationThrough(leave, resume);
 
     // ---------------------------------------------------------------- f5-suite-passaggi: ui/smoke-horizontal (HorizontalSmokeChecks.cs)
 
@@ -69,19 +72,17 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
 
     // ---------------------------------------------------------------- materials (ui/smoke-materials, ui/smoke-hierarchy, ui/smoke-sharing, ui/smoke-steel)
 
-    /// <summary>The concrete with the XAML view, null otherwise.</summary>
-    private ConcreteMaterialSmoke? Concrete => ConcreteMaterialSmoke.Handles(editor) ? new((MvvmSheetEditor)editor) : null;
+    /// <summary>The concrete with the XAML view (the only one since the Release switch of the materials, f5-pass-geo).</summary>
+    private ConcreteMaterialSmoke Concrete => ConcreteMaterialSmoke.Handles(editor) ? new((MvvmSheetEditor)editor) : throw new Exception("Scheda materiali non aperta");
 
-    private Materiali.MaterialView HistoricConcrete => Historic.materials ?? throw new Exception("Scheda materiali non aperta");
+    /// <summary>The state of the concrete set through the controls of the view (ConcreteMaterialSmoke.Apply; RestoreState of the archived historic view).</summary>
+    internal void SetConcreteState(System.Text.Json.Nodes.JsonObject state) => Concrete.Apply(state);
 
-    /// <summary>RestoreState of the historic concrete view; on the XAML view the same state set through its controls (ConcreteMaterialSmoke.Apply).</summary>
-    internal void SetConcreteState(System.Text.Json.Nodes.JsonObject state) { if (Concrete is { } concrete) concrete.Apply(state); else HistoricConcrete.RestoreState(state); }
-
-    /// <summary>MaterialView.Check, the self-check of the concrete sheet (ui/smoke-materials).</summary>
-    internal void CheckConcrete() { if (Concrete is { } concrete) concrete.SelfCheck(); else HistoricConcrete.Check(); }
+    /// <summary>The self-check of the concrete sheet (ui/smoke-materials): MaterialView.Check of the archived historic view, on the XAML view.</summary>
+    internal void CheckConcrete() => Concrete.SelfCheck();
 
     /// <summary>The user types in a field of the concrete (before the commit: the preview of the sheet follows).</summary>
-    internal void TypeConcreteNumber(string key, string text) { if (Concrete is { } concrete) concrete.Type(key, text); else HistoricConcrete.NumberBoxForChecks(key).Text = text; }
+    internal void TypeConcreteNumber(string key, string text) => Concrete.Type(key, text);
 
     // ---------------------------------------------------------------- retaining walls (ui/smoke-retaining-wall, ui/smoke-global-stability)
 
@@ -92,9 +93,8 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     /// <summary>F5.11: the composite bridge section, with either view (BridgeSmoke).</summary>
     internal BridgeSmoke Bridge => BridgeSmoke.Of(editor);
 
-    /// <summary>The reinforcing steel, with either view (SteelSmoke).</summary>
-    internal SteelSmoke Steel => editor.Module != RebarMaterial.Module ? throw new Exception("Modulo acciaio non aperto")
-        : new(editor is MvvmSheetEditor ? editor : Historic);
+    /// <summary>The reinforcing steel with the XAML view (SteelSmoke).</summary>
+    internal SteelSmoke Steel => editor.Module != RebarMaterial.Module ? throw new Exception("Modulo acciaio non aperto") : new(editor);
 }
 
 /// <summary>f5-suite-ui: what the UI suites need from any sheet with the XAML view.</summary>

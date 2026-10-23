@@ -6,8 +6,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Controls.Primitives;
+using System.Windows.Threading;
+using Anthea.Application.Modules;
 using Anthea.Calculations;
 using Anthea.FoundationWorkspace;
+using Anthea.Presentation.Calculation;
+using Anthea.Presentation.Forms;
+using Anthea.Presentation.Modules;
+using Anthea.Presentation.Modules.ShallowFoundation;
+using Anthea.Presentation.Services;
 
 internal static class Program
 {
@@ -141,53 +149,90 @@ internal static class Program
         if(ui)foreach(var sample in new[]{("fuori-dominio",outside),("hansen",hansen)})
         {string folder=Path.Combine(output,sample.Item1);Directory.CreateDirectory(folder);Ui(folder,sample.Item2,library);}
     }
+    /// <summary>
+    /// The sheet of the shallow foundations as the window opens it since the Release switch of 23/10 (f5-pass-geo): the XAML view
+    /// (ShallowFoundationSheetView, through its DataTemplate) hosted by MvvmSheetEditor, outside every window (laid out at 1250×850 and
+    /// rendered off screen, as before), with <paramref name="library"/> injected in the calculation service of the context
+    /// (ModuleServices.ForFoundation: the installed library, or the candidate of --candidate). The checks of the former historic
+    /// FoundationWorkspace, read for reflection, on the same identifiers of the view (the field Width of its FieldForm, the button
+    /// «raccogli-input», six graphic tabs, the table of the layers).
+    /// </summary>
     static void Ui(string output,JsonObject data,FoundationLibrary library)
     {
         var assembly=typeof(X.Desktop.App).Assembly;
         if(Application.Current==null){var app=new X.Desktop.App();app.InitializeComponent();}
         assembly.GetType("X.Desktop.Appearance")!.GetMethod("Initialize",BindingFlags.Static|BindingFlags.NonPublic)!.Invoke(null,[false]);
-        var t=assembly.GetType("X.Desktop.FoundationWorkspace",true)!;
-        var control=(FrameworkElement)Activator.CreateInstance(t,BindingFlags.Instance|BindingFlags.NonPublic,null,[data,library],null)!;
-        t.GetMethod("TryCalculate",BindingFlags.Instance|BindingFlags.NonPublic)!.Invoke(control,null);
+        const BindingFlags Members=BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic;
+        // The continuations of the calculation of the sheet on this thread, as in the window.
+        SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
+        // The services of the composition root of the product (internal DesktopComposition), as App.OnStartup creates them.
+        var composition=Activator.CreateInstance(assembly.GetType("X.Desktop.Services.DesktopComposition",true)!,Members,null,[(Func<Window?>)(()=>null)],null)!;
+        var services=(PresentationServices)composition.GetType().GetProperty("Services",Members)!.GetValue(composition)!;
+        var hostType=assembly.GetType("X.Desktop.MvvmSheetEditor",true)!;
+        var editor=Activator.CreateInstance(hostType,Members,null,[new ShallowFoundationSheetModule(()=>library.Available),data,services,ModuleServices.ForFoundation(library),new CalculationLimiter(CalculationLimiter.DefaultMaximum)],null)!;
+        using var disposable=(IDisposable)editor;
+        var sheet=(ISheetViewModel)hostType.GetProperty("Sheet",Members)!.GetValue(editor)!;
+        var control=(FrameworkElement)hostType.GetProperty("View",Members)!.GetValue(editor)!;
+        Check(sheet is ShallowFoundationSheetViewModel,"UI: la vista XAML delle fondazioni ospitata da MvvmSheetEditor");
         var root=new Border { Background=Brushes.White,Child=control,Width=1250,Height=850 };
-        root.Measure(new Size(1250,850));root.Arrange(new Rect(0,0,1250,850));root.UpdateLayout();
-        var bitmap=new RenderTargetBitmap(1250,850,96,96,PixelFormats.Pbgra32);bitmap.Render(root);var encoder=new PngBitmapEncoder();encoder.Frames.Add(BitmapFrame.Create(bitmap));using(var f=File.Create(Path.Combine(output,library.Available?"foglio-risultati.png":"foglio.png")))encoder.Save(f);
-        Check((t.GetProperty("Result",BindingFlags.Instance|BindingFlags.NonPublic)!.GetValue(control)!=null)==library.Available,"UI: risultato presente solo con API disponibile");
-        var width=Descendants(control).OfType<TextBox>().First(x=>x.Tag?.ToString()=="Width");width.Text="2,5";
-        Check(t.GetProperty("Result",BindingFlags.Instance|BindingFlags.NonPublic)!.GetValue(control)==null,"modifica invalida risultato");width.Text="2";
+        // A window outside the screen, never activated (the view lays out inside a presentation source, as in ANTHEA).
+        var window=new Window { Content=root,Width=1250,Height=850,Left=-32000,Top=-32000,WindowStartupLocation=WindowStartupLocation.Manual,
+            ShowActivated=false,ShowInTaskbar=false,WindowStyle=WindowStyle.None,ResizeMode=ResizeMode.NoResize };
+        window.Show();
+        // The dispatcher runs in nested frames (no Application.Run here): a short pause for the bindings and the layout, the whole calculation.
+        void Pump(int milliseconds){Thread.Sleep(milliseconds);Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background,new Action(()=>{}));}
+        void Layout(){window.UpdateLayout();Pump(20);window.UpdateLayout();}
+        void Calculate()
+        {
+            sheet.Commit();var task=sheet.CalculateAsync();
+            for(int i=0;i<1500 && !task.IsCompleted;i++)Pump(20);
+            Check(task.IsCompleted,"UI: calcolo terminato entro 30 s");task.GetAwaiter().GetResult();Layout();
+        }
+        void Render(string name){var bitmap=new RenderTargetBitmap(1250,850,96,96,PixelFormats.Pbgra32);bitmap.Render(root);var encoder=new PngBitmapEncoder();encoder.Frames.Add(BitmapFrame.Create(bitmap));using var f=File.Create(Path.Combine(output,name));encoder.Save(f);}
+        TextBox WidthBox()=>Descendants(control).OfType<TextBox>().First(x=>x.DataContext is FieldViewModel { Key: "Width" } && x.TemplatedParent is not Control);
+        Layout();
+        Calculate();
+        Render(library.Available?"foglio-risultati.png":"foglio.png");
+        Check((sheet.Result!=null)==library.Available,"UI: risultato presente solo con API disponibile");
+        var width=WidthBox();width.Text="2,5";Layout();
+        Check(sheet.Result==null,"modifica invalida risultato");width.Text="2";Layout();
         Check(Anthea.Wiki.WikiCatalog.ForModule(FoundationDocument.Module)!=null,"aiuto contestuale Wiki");
         var found=Anthea.Wiki.WikiCatalog.Search("fondazioni superficiali");
         Check(found.Length>=2,"ricerca Wiki teoria e pratica");
-        Check(root.DesiredSize.Width==1250,"layout WPF");
+        // WPF layout rounding maps 1250 DIP to the nearest physical pixel (1249,6 DIP at 144 DPI): at most half a pixel, as ui/check-stratigrafia-view.
+        var dpi=VisualTreeHelper.GetDpi(root);
+        Check(Math.Abs(root.ActualWidth-1250)<=.5/dpi.DpiScaleX+1e-7 && Math.Abs(root.ActualHeight-850)<=.5/dpi.DpiScaleY+1e-7,"layout WPF");
         if(library.Available)
         {
-            t.GetMethod("TryCalculate",BindingFlags.Instance|BindingFlags.NonPublic)!.Invoke(control,null);
+            Calculate();
             var tabs=Descendants(control).OfType<TabControl>().First();
             Check(tabs.Items.Count==6,"sei schede riservate ai grafici");
             for(int i=0;i<tabs.Items.Count;i++)
             {
-                tabs.SelectedIndex=i;root.UpdateLayout();
-                Check(Descendants(control).OfType<TextBox>().Any(x=>x.Tag?.ToString()=="Width") && Descendants(control).OfType<DataGrid>().Any(),"dati e strati restano visibili con grafico "+i);
-                var frame=new RenderTargetBitmap(1250,850,96,96,PixelFormats.Pbgra32);frame.Render(root);var png=new PngBitmapEncoder();png.Frames.Add(BitmapFrame.Create(frame));using(var f=File.Create(Path.Combine(output,"vista-"+i+".png")))png.Save(f);
+                tabs.SelectedIndex=i;Layout();
+                Check(Descendants(control).OfType<TextBox>().Any(x=>x.DataContext is FieldViewModel { Key: "Width" }) && Descendants(control).OfType<DataGrid>().Any(),"dati e strati restano visibili con grafico "+i);
+                Render("vista-"+i+".png");
             }
-            tabs.SelectedIndex=3;root.UpdateLayout();
+            tabs.SelectedIndex=3;Layout();
             var collect=Descendants(control).OfType<Button>().Single(b=>b.Tag?.ToString()=="raccogli-input");
-            var previousResult=t.GetProperty("Result",BindingFlags.Instance|BindingFlags.NonPublic)!.GetValue(control);double beforeWidth=tabs.ActualWidth;
-            collect.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));root.UpdateLayout();
-            Check(tabs.ActualWidth>beforeWidth+200 && ReferenceEquals(previousResult,t.GetProperty("Result",BindingFlags.Instance|BindingFlags.NonPublic)!.GetValue(control)),"raccogli input amplia grafico e conserva risultato");
-            Check(data["vista_fondazioni"]!["input_raccolti"]!.GetValue<bool>(),"stato pannelli salvato nel foglio");
-            var compactFrame=new RenderTargetBitmap(1250,850,96,96,PixelFormats.Pbgra32);compactFrame.Render(root);var compactPng=new PngBitmapEncoder();compactPng.Frames.Add(BitmapFrame.Create(compactFrame));using(var f=File.Create(Path.Combine(output,"input-raccolti.png")))compactPng.Save(f);
-            collect.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));root.UpdateLayout();
+            var previousResult=sheet.Result;double beforeWidth=tabs.ActualWidth;
+            void Click(ButtonBase button)=>typeof(ButtonBase).GetMethod("OnClick",BindingFlags.Instance|BindingFlags.NonPublic)!.Invoke(button,null);
+            Click(collect);Layout();
+            Check(tabs.ActualWidth>beforeWidth+200 && ReferenceEquals(previousResult,sheet.Result),"raccogli input amplia grafico e conserva risultato");
+            Check(sheet.Data["vista_fondazioni"]!["input_raccolti"]!.GetValue<bool>(),"stato pannelli salvato nel foglio");
+            Render("input-raccolti.png");
+            Click(collect);Layout();
             var appearance=assembly.GetType("X.Desktop.Appearance")!;var modes=assembly.GetType("X.Desktop.AppAppearance")!;
             foreach(string mode in new[]{"Dark","VeryDark"})
             {
                 appearance.GetMethod("Set",BindingFlags.Static|BindingFlags.NonPublic)!.Invoke(null,[Enum.Parse(modes,mode),false]);
                 appearance.GetMethod("SetDark",BindingFlags.Static|BindingFlags.Public)!.Invoke(null,[root,true]);
-                appearance.GetMethod("ApplyTree",BindingFlags.Static|BindingFlags.NonPublic)!.Invoke(null,[root]);root.UpdateLayout();
-                var frame=new RenderTargetBitmap(1250,850,96,96,PixelFormats.Pbgra32);frame.Render(root);var png=new PngBitmapEncoder();png.Frames.Add(BitmapFrame.Create(frame));using(var f=File.Create(Path.Combine(output,"foglio-"+mode+".png")))png.Save(f);
+                appearance.GetMethod("ApplyTree",BindingFlags.Static|BindingFlags.NonPublic)!.Invoke(null,[root]);Layout();
+                Render("foglio-"+mode+".png");
             }
             appearance.GetMethod("Set",BindingFlags.Static|BindingFlags.NonPublic)!.Invoke(null,[Enum.Parse(modes,"Light"),false]);
         }
+        window.Content=null;root.Child=null;window.Close();
     }
     static IEnumerable<DependencyObject> Descendants(DependencyObject root)
     {for(int i=0;i<VisualTreeHelper.GetChildrenCount(root);i++){var child=VisualTreeHelper.GetChild(root,i);yield return child;foreach(var nested in Descendants(child))yield return nested;}}

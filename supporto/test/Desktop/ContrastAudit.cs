@@ -166,20 +166,18 @@ internal sealed class ContrastAudit
                     finally { await audit.CloseMain(window); }
                     // F5.4: since the Release switch the step modulo-geo_efficienza_orizzontale shows the MVVM view of the pile group, in the three
                     // appearances; its own step mvvm-geo_efficienza_orizzontale is removed with the historic view (D12).
-                    // ---- F5.9b begin: step mvvm-geo_fondazioni_superficiali, self-contained (ShallowFoundationContrastStep at the end of the file) ----
-                    await ShallowFoundationContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
-                    // ---- F5.9b end ----
-                    // ---- F5.6b begin: step mvvm-geo_stratigrafia, self-contained (StratigraphyContrastStep at the end of the file) ----
-                    await StratigraphyContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
-                    // ---- F5.6b end ----
+                    // F5.9b: since the Release switch of the shallow foundations (f5-pass-geo) the steps modulo-geo_fondazioni_superficiali… show the
+                    // MVVM view; its own step mvvm-geo_fondazioni_superficiali is removed with the historic view.
+                    // F5.6b: since the Release switch of the stratigraphy (f5-pass-geo) the step modulo-geo_stratigrafia shows the MVVM view; its own
+                    // step mvvm-geo_stratigrafia is removed with the historic view.
                     // ---- F5.9 begin: step mvvm-geo_muri_sostegno, self-contained (RetainingWallContrastStep at the end of the file) ----
                     await RetainingWallContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
                     // ---- F5.9 end ----
                     // ---- F5.10 begin: step mvvm-str_palo, self-contained (ConcreteSectionContrastStep at the end of the file) ----
                     await ConcreteSectionContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
                     // ---- F5.10 end ----
-                    // F5.5 (f5-5-vista): the MVVM views of the materials before their Release switch, a self-contained step (AuditMvvmMaterials).
-                    await AuditMvvmMaterials(audit, mode);
+                    // F5.5: since the Release switch of the materials (f5-pass-geo) the steps modulo-mat_calcestruzzo and modulo-mat_acciaio_armatura
+                    // show the MVVM views; their own steps mvvm-mat_calcestruzzo and mvvm-mat_acciaio_armatura are removed with the historic views.
                     var start = mode == AppAppearance.Light ? AppAppearance.VeryDark : AppAppearance.Light;
                     if (audit.Want("cambio"))
                     {
@@ -195,31 +193,6 @@ internal sealed class ContrastAudit
         audit.Write(started, args);
         if (audit.baselineFile is not null) ContrastBaseline.Check(output, audit.baselineFile, views);
     }
-
-    // ---------------------------------------------------------------- F5.5 (f5-5-vista): MVVM views of the materials, self-contained
-
-    /// <summary>
-    /// The XAML views of the materials (concrete and reinforcing steel, F5.5) before their Release switch: a main window whose editors
-    /// open the two MVVM sheets, explored as the module steps (steps mvvm-mat_calcestruzzo and mvvm-mat_acciaio_armatura). With --baseline
-    /// (runner) only Scuro and Molto scuro: until the Release opens the new views, the Chiara of the modules is the one of the historic
-    /// views, whose defects are in the baseline (modulo-mat_calcestruzzo, modulo-mat_acciaio_armatura); without --baseline also Chiara.
-    /// Removed at the Release switch of the materials, when the module steps show the new views.
-    /// </summary>
-    private static async Task AuditMvvmMaterials(ContrastAudit audit, AppAppearance mode)
-    {
-        if (!audit.Want(MainWindow.MvvmConcreteView) && !audit.Want(MainWindow.MvvmSteelView)) return;
-        if (mode == AppAppearance.Light && audit.baselineFile is not null)
-        {
-            audit.Uncovered("Viste MVVM dei materiali (F5.5) in Chiara", "con --baseline solo Scuro e Molto scuro finché la Release apre le viste storiche, " +
-                "la cui Chiara è nella baseline (modulo-mat_calcestruzzo, modulo-mat_acciaio_armatura); la Chiara delle viste MVVM si misura senza --baseline");
-            return;
-        }
-        var window = await audit.OpenMain(mode, ModuleHostBench.SheetEditors([ModuleHostBench.Argument, "mat_calcestruzzo=mvvm", ModuleHostBench.Argument, "mat_acciaio_armatura=mvvm"]));
-        try { await window.AuditMvvmMaterialViews(audit); }
-        finally { await audit.CloseMain(window); }
-    }
-
-    // ---------------------------------------------------------------- end of the F5.5 block
 
     /// <summary>
     /// --check-contrast &lt;cartella&gt; --diagnosi: checks the off-screen mechanism (moves of a hidden window, then of the shown
@@ -1933,20 +1906,6 @@ public sealed partial class MainWindow
         await AuditModuleState(a, module, complete, prefix + module + (complete is null ? "" : "-dati"), full: true);
     }
 
-    // ---------------------------------------------------------------- F5.5 (f5-5-vista): MVVM views of the materials, self-contained
-
-    /// <summary>Steps of the MVVM views of the materials (F5.5, ContrastAudit.AuditMvvmMaterials): the exploration of the module steps.</summary>
-    internal const string MvvmConcreteView = "mvvm-mat_calcestruzzo", MvvmSteelView = "mvvm-mat_acciaio_armatura";
-
-    /// <summary>The two material sheets of this window (its editors open the MVVM views), explored as the module steps with their own names.</summary>
-    internal async Task AuditMvvmMaterialViews(ContrastAudit a)
-    {
-        await a.Step(MvvmConcreteView, () => AuditModule(a, "mat_calcestruzzo", "mvvm-"));
-        await a.Step(MvvmSteelView, () => AuditModule(a, "mat_acciaio_armatura", "mvvm-"));
-    }
-
-    // ---------------------------------------------------------------- end of the F5.5 block
-
     private async Task AuditModuleState(ContrastAudit a, string module, JsonObject? data, string name, bool full)
     {
         AuditReset();
@@ -2040,80 +1999,6 @@ public sealed partial class MainWindow
         Appearance.Set(mode, false);
     }
 }
-
-// ---------------------------------------------------------------- F5.9b begin: step mvvm-geo_fondazioni_superficiali (self-contained)
-
-/// <summary>
-/// The XAML view of the shallow foundations before the switch of the Release (F5.9b): the same exploration as the module steps
-/// (AuditModule), in a main window whose editors open the MVVM sheet (--module-impl geo_fondazioni_superficiali=mvvm). With --baseline
-/// (runner) only Scuro and Molto scuro: until the Release opens the new view, the Chiara of the module is the one of the historic view,
-/// whose defects are in the baseline (modulo-geo_fondazioni_superficiali); without --baseline also Chiara. Self-contained: it does not
-/// depend on the step of another module; at the switch of the Release it is removed and the step of the module shows the new view.
-/// </summary>
-internal static class ShallowFoundationContrastStep
-{
-    internal const string Module = "geo_fondazioni_superficiali";
-    internal const string View = "mvvm-" + Module;
-
-    internal static async Task RunAsync(ContrastAudit audit, AppAppearance mode, bool baseline)
-    {
-        if (!audit.Want(View)) return;
-        if (mode == AppAppearance.Light && baseline)
-        {
-            audit.Uncovered("Vista MVVM delle fondazioni superficiali (F5.9b) in Chiara", "con --baseline solo Scuro e Molto scuro finché la Release apre la vista " +
-                "storica, la cui Chiara è nella baseline (modulo-geo_fondazioni_superficiali); la Chiara della vista MVVM si misura senza --baseline");
-            return;
-        }
-        var window = await audit.OpenMain(mode, ModuleHostBench.SheetEditors([ModuleHostBench.Argument, Module + "=mvvm"]));
-        try { await audit.Step(View, () => window.AuditShallowFoundationMvvm(audit)); }
-        finally { await audit.CloseMain(window); }
-    }
-}
-
-public sealed partial class MainWindow
-{
-    /// <summary>F5.9b: the exploration of the module steps on the MVVM sheet of the shallow foundations, with the names of its step.</summary>
-    internal Task AuditShallowFoundationMvvm(ContrastAudit a) => AuditModule(a, ShallowFoundationContrastStep.Module, "mvvm-");
-}
-
-// ---------------------------------------------------------------- F5.9b end
-
-// ---------------------------------------------------------------- F5.6b begin: step mvvm-geo_stratigrafia (self-contained)
-
-/// <summary>
-/// The XAML view of the stratigraphy before the switch of the Release (F5.6b): the same exploration as the module steps (AuditModule), in a
-/// main window whose editors open the MVVM sheet (--module-impl geo_stratigrafia=mvvm). With --baseline (runner) only Scuro and Molto scuro:
-/// until the Release opens the new view, the Chiara of the module is the one of the historic view, whose defects are in the baseline
-/// (modulo-geo_stratigrafia); without --baseline also Chiara. Self-contained: it does not depend on the step of another module; at the switch
-/// of the Release it is removed and the step of the module shows the new view.
-/// </summary>
-internal static class StratigraphyContrastStep
-{
-    internal const string Module = "geo_stratigrafia";
-    internal const string View = "mvvm-" + Module;
-
-    internal static async Task RunAsync(ContrastAudit audit, AppAppearance mode, bool baseline)
-    {
-        if (!audit.Want(View)) return;
-        if (mode == AppAppearance.Light && baseline)
-        {
-            audit.Uncovered("Vista MVVM della stratigrafia (F5.6b) in Chiara", "con --baseline solo Scuro e Molto scuro finché la Release apre la vista " +
-                "storica, la cui Chiara è nella baseline (modulo-geo_stratigrafia); la Chiara della vista MVVM si misura senza --baseline");
-            return;
-        }
-        var window = await audit.OpenMain(mode, ModuleHostBench.SheetEditors([ModuleHostBench.Argument, Module + "=mvvm"]));
-        try { await audit.Step(View, () => window.AuditStratigraphyMvvm(audit)); }
-        finally { await audit.CloseMain(window); }
-    }
-}
-
-public sealed partial class MainWindow
-{
-    /// <summary>F5.6b: the exploration of the module steps on the MVVM sheet of the stratigraphy, with the names of its step.</summary>
-    internal Task AuditStratigraphyMvvm(ContrastAudit a) => AuditModule(a, StratigraphyContrastStep.Module, "mvvm-");
-}
-
-// ---------------------------------------------------------------- F5.6b end
 
 // ---------------------------------------------------------------- F5.9 begin: step mvvm-geo_muri_sostegno (self-contained)
 

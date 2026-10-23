@@ -13,36 +13,16 @@ internal sealed partial class SheetEditor
         Directory.CreateDirectory(output);
         CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("it-IT");
         int count = 0;
-        // F5.6: the sheets open through the bench (--module-impl): with the MVVM view of the vertical piles the same states are read from
-        // the Plot of VerticalPileSheetView, driven through its controls (MvvmFigureStates); the historic view stays the default.
+        // F5.6: the sheets open through the bench: the states are read from the Plot of VerticalPileSheetView, driven through its controls
+        // (MvvmFigureStates); the historic view, which gave the frozen states, is archived since the Release switch of 23/10 (f5-pass-geo).
         var editors = ModuleHostBench.SheetEditors();
         foreach (string file in Directory.EnumerateFiles(Path.Combine(root, "tests/fixtures/f3/inputs"), "*.json").Order(StringComparer.Ordinal))
         {
             var input = JsonNode.Parse(File.ReadAllText(file))!.AsObject();
             if (input.S("module") is not ("geo_palo_verticale" or "geo_micropalo_verticale")) continue;
             using var opened = editors.Open(input.S("module"), input["data"]!.AsObject());
-            if (opened is MvvmSheetEditor mvvm)
-            {
-                Compare(root, output, capture, Path.GetFileName(file), await MvvmFigureStates(mvvm));
-                count++;
-                continue;
-            }
-            var editor = (SheetEditor)opened;
-            editor.Commit(); await editor.CalculateAsync(); editor.Commit();
-            var states = new Dictionary<string, object>();
-            states["hasResults"] = editor.HasResults;
-            states["allSeries"] = editor.allSeries.Select(s => new { s.Key, Series = SeriesState(s.Series) }).ToArray();
-            for (int i = 0; i < editor.capacityView.Items.Count; i++)
-            {
-                editor.capacityView.SelectedIndex = i;
-                states["capacity-" + i] = PlotState(editor.plot);
-            }
-            for (int i = 0; i < editor.sondages.Items.Count; i++)
-            {
-                editor.sondages.SelectedIndex = i; editor.BuildReferencePlot(i);
-                states["reference-" + i] = PlotState(editor.reference);
-            }
-            Compare(root, output, capture, Path.GetFileName(file), states);
+            var mvvm = opened as MvvmSheetEditor ?? throw new InvalidOperationException("Il palo verticale non si apre con la vista MVVM: " + input.S("module"));
+            Compare(root, output, capture, Path.GetFileName(file), await MvvmFigureStates(mvvm));
             count++;
         }
         if (count == 0) throw new InvalidOperationException("Nessuna fixture grafica trovata.");

@@ -1,0 +1,29 @@
+[
+  {
+    "origine": "X.Desktop/Wpf/FoundationWorkspace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/fondazioni/X.Desktop/Wpf/FoundationWorkspace.cs",
+    "commit": "f7bfe54f (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "7d601e502a642add793f95021a7a33ae4a7c2bfc1110ec9e2432a839719cb3f3",
+    "sha256_lf": "0de34521ad4310ece9e97a43c46ed9a9c05e639807e2ec6c12850807908b3269",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre le fondazioni superficiali con la vista MVVM; la vista storica non è più raggiungibile né compilata; la vista storica (input, gruppi, schede dei grafici, risultati)",
+    "sostituzione": "X.Desktop/Views/ShallowFoundation (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ShallowFoundation (ViewModel); tracce congelate in tests/fixtures/f5-fondazioni/storica, confrontate da Presentation.Tests e da ui/check-fondazioni-view"
+  },
+  {
+    "origine": "X.Desktop/Wpf/FoundationWorkspace.Materials.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/fondazioni/X.Desktop/Wpf/FoundationWorkspace.Materials.cs",
+    "commit": "f7bfe54f (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "5a9f49e83eab35d293c1f8d71bc92d47b1cb8a20ae7cdf4ad7085435e6df7abf",
+    "sha256_lf": "dcbecfd6b125dcc5e86553bd12f97e93cb62b6aabe75089f0be4c0427ca9f9ab",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre le fondazioni superficiali con la vista MVVM; la vista storica non è più raggiungibile né compilata; parte della vista storica (stratigrafie, calcestruzzo, falda)",
+    "sostituzione": "X.Desktop/Views/ShallowFoundation (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ShallowFoundation (ViewModel); tracce congelate in tests/fixtures/f5-fondazioni/storica, confrontate da Presentation.Tests e da ui/check-fondazioni-view"
+  },
+  {
+    "origine": "tests/Desktop/ShallowFoundationHistoricTrace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/fondazioni/tests/Desktop/ShallowFoundationHistoricTrace.cs",
+    "commit": "9994ded5 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "6d951a9e04a3ea6904e3a7a04cf69718b7c0673e383b63784f05161013ae5827",
+    "sha256_lf": "14a148d8e6346685f4438a7c793878f5c734986c7ca53416f764768bda451917",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre le fondazioni superficiali con la vista MVVM; la vista storica non è più raggiungibile né compilata; prova delle tracce della vista storica (suite ui/check-fondazioni-historic), archiviata con la vista",
+    "sostituzione": "X.Desktop/Views/ShallowFoundation (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/ShallowFoundation (ViewModel); tracce congelate in tests/fixtures/f5-fondazioni/storica, confrontate da Presentation.Tests e da ui/check-fondazioni-view"
+  }
+]
