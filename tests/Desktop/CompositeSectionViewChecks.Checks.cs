@@ -100,6 +100,9 @@ internal static partial class CompositeSectionViewChecks
                 Anthea.Reports.ReportFiles.Write(Path.Combine(folder, name + "-attesa.docx"), Anthea.Reports.DocxWriter.Write(calculation!.Report(title, sections, images)), title);
             }
             Export();
+            // The state after the first export, the one the historic view recorded: an export repeated below for the PDF (cover across a
+            // minute) saves the sections again and counts one more modification.
+            bool savedAsHistoric = Same(mvvm, historic, "report");
             string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.docx")), normalizer);
             Check(part is null, name + ": report Word uguale in ogni parte a quello della ricetta della vista storica, figure comprese (date normalizzate)" + (part is null ? "" : ", diversa " + part));
             int attempts = 1;
@@ -110,7 +113,7 @@ internal static partial class CompositeSectionViewChecks
             }
             Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.pdf"))),
                 name + ": PDF affiancato uguale a quello della ricetta della vista storica (date normalizzate" + (attempts > 1 ? $", {attempts} esportazioni" : "") + ")");
-            Check(Same(mvvm, historic, "report"), name + ": il report salva le sezioni scelte come la vista storica (registrati)");
+            Check(savedAsHistoric, name + ": il report salva le sezioni scelte come la vista storica (registrati)");
             reports++;
             // «Esporta CSV…»: the bytes of the historic export (BOM and BridgeResultPresentation.Csv).
             string csv = Path.Combine(folder, name + "-tensioni.csv");
