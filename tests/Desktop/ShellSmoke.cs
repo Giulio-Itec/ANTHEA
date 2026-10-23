@@ -48,6 +48,7 @@ internal static partial class ShellSmoke
             switch (suite)
             {
                 case "projects": await Projects(bench); break;
+                case "project-workspace": await ProjectWorkspace(bench); break;
                 default: throw new ArgumentException("Suite della shell sconosciuta: " + suite);
             }
             bench.Pass(suite);
