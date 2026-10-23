@@ -478,9 +478,12 @@ Add-Suite @{ Name = 'ui/check-shell-draft'; Stage = 'ui'; Kind = 'check'; Args =
 # F5.13 e: the suites of MainWindow transferred to the new shell (tests/Desktop/ShellSmoke*.cs, docs/refactoring/f5-13-shell.md «Parte (e)»): the same scenarios and
 # assertions through ShellWindow on ShellViewModel from ShellComposition, off screen, with the modules as the Release chooses them; -mvvm with the bench of the
 # seven modules ($MvvmBench), as the historic -mvvm suites. The historic suites stay: MainWindow is the shell of the Release until part (g).
-foreach ($s in 'projects', 'project-workspace', 'hierarchy', 'sharing') {
+# ui/shell-smoke-project-report has no -mvvm pair, as ui/smoke-project-report; it also compares the Word report of the shell with the one of MainWindow.
+foreach ($s in 'projects', 'project-workspace', 'hierarchy', 'sharing', 'project-report', 'display') {
     Add-Suite @{ Name = "ui/shell-smoke-$s"; Stage = 'ui'; Kind = 'check'; Args = @("--check-shell-smoke-$s", '{out}'); Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-    Add-Suite @{ Name = "ui/shell-smoke-$s-mvvm"; Stage = 'ui'; Kind = 'check'; Args = @("--check-shell-smoke-$s", '{out}') + $MvvmBench; Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+    if ($s -ne 'project-report') {
+        Add-Suite @{ Name = "ui/shell-smoke-$s-mvvm"; Stage = 'ui'; Kind = 'check'; Args = @("--check-shell-smoke-$s", '{out}') + $MvvmBench; Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+    }
 }
 Add-Suite @{ Name = 'ui/check-concrete-design'; Stage = 'ui'; Kind = 'check'; Args = @('--check-concrete-design', '{out}'); Timeout = 900
     Before = @{ Project = (TestProject 'ConcreteDesign.Checks'); Args = @('{out}') }; Builds = @(@{ Project = (TestProject 'ConcreteDesign.Checks'); Configuration = 'Release' })

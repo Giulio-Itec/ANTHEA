@@ -116,12 +116,19 @@ internal static class MvvmSheets
 /// <see cref="MvvmSheetEditor"/> (converted implicitly); in the new shell the tab of the sheet (F5.13 e, the suites ui/shell-smoke-*). Calculation and
 /// report as MvvmSheetEditor does them (the drafts committed before «Calcola»; the report through SheetFileExports, the code of MvvmSheetEditor).
 /// </summary>
-internal sealed class HostedSheet(ISheetViewModel sheet, System.Windows.FrameworkElement view)
+internal sealed class HostedSheet(ISheetViewModel sheet, Func<System.Windows.FrameworkElement> view)
 {
+    /// <param name="sheet">The ViewModel of the sheet.</param>
+    /// <param name="view">The element that holds its view, always the same (MvvmSheetEditor).</param>
+    internal HostedSheet(ISheetViewModel sheet, System.Windows.FrameworkElement view) : this(sheet, () => view) { }
+
     internal ISheetViewModel Sheet { get; } = sheet;
 
-    /// <summary>The element that holds the view of the sheet (the view is found among its descendants).</summary>
-    internal System.Windows.FrameworkElement View { get; } = view;
+    /// <summary>
+    /// The element that holds the view of the sheet now (the view is found among its descendants): in the new shell the view of a tab is built again when
+    /// the tab comes back on screen (proposal R6), so it is looked up at every use.
+    /// </summary>
+    internal System.Windows.FrameworkElement View => view();
 
     internal string Module => Sheet.ModuleId;
     internal System.Text.Json.Nodes.JsonObject Data => Sheet.Data;

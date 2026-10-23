@@ -51,6 +51,8 @@ internal static partial class ShellSmoke
                 case "project-workspace": await ProjectWorkspace(bench); break;
                 case "hierarchy": await Hierarchy(bench); break;
                 case "sharing": await Sharing(bench); break;
+                case "project-report": await ProjectReport(bench); break;
+                case "display": await Display(bench); break;
                 default: throw new ArgumentException("Suite della shell sconosciuta: " + suite);
             }
             bench.Pass(suite);
@@ -105,8 +107,11 @@ internal sealed class ShellSmokeBench : IDisposable
         log.Add("OK " + message);
     }
 
+    /// <summary>A note of the suite (a declared difference, a value read), in test.txt, not counted.</summary>
+    internal void Note(string text) => log.Add("NOTA " + text);
+
     internal void Pass(string suite) =>
-        File.WriteAllText(Path.Combine(Output, "esito.txt"), $"PASS {log.Count} controlli della suite {suite} sulla shell nuova (F5.13 e)\n", new UTF8Encoding(false));
+        File.WriteAllText(Path.Combine(Output, "esito.txt"), $"PASS {log.Count(l => l.StartsWith("OK ", StringComparison.Ordinal))} controlli della suite {suite} sulla shell nuova (F5.13 e)\n", new UTF8Encoding(false));
 
     internal void WriteLog() => File.WriteAllLines(Path.Combine(Output, "test.txt"), log, new UTF8Encoding(false));
 
@@ -267,7 +272,7 @@ internal sealed class ShellSheet(ShellSmokeBench bench, SheetSession session)
     internal SheetEditor? Historic => (ViewModel as HistoricSheetViewModel)?.Editor as SheetEditor;
 
     /// <summary>The XAML view of the sheet in its tab.</summary>
-    internal HostedSheet Hosted => new(ViewModel, bench.ViewOf(ViewModel));
+    internal HostedSheet Hosted => new(ViewModel, () => bench.ViewOf(ViewModel));
 
     internal JsonObject Data => ViewModel.Data;
 
