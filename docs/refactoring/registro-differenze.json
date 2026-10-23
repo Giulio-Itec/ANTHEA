@@ -9771,13 +9771,18 @@
       "famiglia": "interfaccia/shell",
       "modulo": "F5.13 · Shell (geo_palo_orizzontale nella scheda)",
       "categoria": "intenzionale",
-      "stato": "da-decidere",
+      "stato": "dichiarato",
       "descrizione": "MainWindow a 1920 × 1080: la pagina principale del palo orizzontale non scorre (controllo «Full HD main page scrolls vertically» di ui/smoke-horizontal). Shell nuova alla stessa dimensione: la scheda ha meno altezza per il menu, la striscia delle schede e le barre, e la pagina scorre (790,7 contro 751,3 px senza progetto aperto). Con un progetto aperto la colonna dell'albero resta accanto al foglio (SH24) e la pagina, più stretta, si dispone in colonna (2 314 contro 658 px, ui/smoke).",
       "documento": "docs/refactoring/f5-13-shell.md §14.7 (G6)",
       "codice": ["X.Desktop/Views/Shell/ShellWindow.xaml", "X.Desktop/Views/Shell/ShellTemplates.xaml (SheetLayout)"],
       "segno": "Solo disposizione: dati, calcolo e report invariati.",
-      "test": ["supporto/test/Desktop/HorizontalSmokeChecks.cs e SmokeChecks.cs (ui/smoke-horizontal, ui/smoke): restano su MainWindow finché la domanda non è decisa"],
-      "revisione_f5_15": "G6 (f5-13-shell §14.7); opzione provvisoria: le due suite restano su MainWindow, che quindi non si archivia",
+      "test": ["supporto/test/Desktop/HorizontalSmokeChecks.cs e SmokeChecks.cs (ui/smoke-horizontal, ui/smoke) sulla shell: a Full HD tests/Desktop/HorizontalPileSmokeChecks.cs (VerifyLayout) controlla il modulo nell'area della sua scheda e la shell che non scorre; sotto 1120 × 680 il modulo nell'area che scorre (SH40)"],
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«accetto che la pagina del palo orizzontale scorra nella shell a Full HD; le due suite controllano l'area della scheda, come per SH40» (24/10, 00:15)",
+        "esito": "accettata: la pagina scorre nella sua scheda; le suite controllano l'area della scheda"
+      },
+      "revisione_f5_15": "G6 (f5-13-shell §14.7): decisa dall'utente il 24/10",
       "voci_collegate": []
     }
   ]

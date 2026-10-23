@@ -454,6 +454,8 @@ public partial class App
     {
         ["--smoke-global-stability"] = a => GlobalStabilitySmoke.Run(a[1]),
         ["--smoke-neutral-axis"] = a => NeutralAxisSmoke.Run(a[1]),
+        ["--smoke-horizontal"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeHorizontal(a[1])),
+        ["--smoke"] = a => ShellSmokeWindow.Run(a[1], async w => { await w.Smoke(a[1], JsonNode.Parse(File.ReadAllText(a[2]))!.AsArray()); await w.SmokeHorizontal(a[1]); }),
         ["--smoke-material-report"] = a => MaterialReportSmoke.Run(a[1]),
         ["--smoke-retaining-wall"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeRetainingWall(a[1])),
         ["--smoke-steel"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeSteel(a[1])),
@@ -476,7 +478,7 @@ public partial class App
             Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), error.Exception.ToString());
             error.Handled = true; Shutdown(1);
         };
-        if (ShellSmokes.TryGetValue(e.Args[0], out var shellSmoke) && ModuleHostBench.WithoutBench(e.Args).Length == 2)
+        if (ShellSmokes.TryGetValue(e.Args[0], out var shellSmoke) && ModuleHostBench.WithoutBench(e.Args).Length == (e.Args[0] == "--smoke" ? 3 : 2))
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             EventManager.RegisterClassHandler(typeof(FrameworkElement), System.Windows.Controls.ToolTipService.ToolTipOpeningEvent,
@@ -518,8 +520,7 @@ public partial class App
                     else if (e.Args[0] == "--smoke-sharing") await window.SmokeSharing(e.Args[1]);
                     else if (e.Args[0] == "--smoke-projects") await window.SmokeProjects(e.Args[1]);
                     else if (e.Args[0] == "--smoke-display") await window.SmokeDisplay(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-horizontal") await window.SmokeHorizontal(e.Args[1]);
-                    else { await window.Smoke(e.Args[1], JsonNode.Parse(File.ReadAllText(e.Args[2]))!.AsArray()); await window.SmokeHorizontal(e.Args[1]); }
+                    else throw new InvalidOperationException(e.Args[0] + ": suite passata alla shell (ShellSmokes).");
                     Directory.CreateDirectory(e.Args[1]);
                     File.WriteAllText(Path.Combine(e.Args[1], "esito-smoke-completo.txt"), "Completato: " + e.Args[0]);
                 }

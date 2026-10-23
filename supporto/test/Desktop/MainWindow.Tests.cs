@@ -7,6 +7,10 @@ namespace X.Desktop;
 
 public sealed partial class MainWindow
 {
+    // From SmokeChecks.cs (F5.13 g, ui/smoke passed to ShellSmokeWindow): a window created with the production services (ConcreteShort.UiChecks) also
+    // closes without questions.
+    internal void FinishSmoke() { services = TestServices.Create(this); dirty = false; editor?.Dispose(); }
+
     // Da ProjectSharing.cs: ereditarietà dei dati di sezione su un foglio creato dalle prove.
     private static void InheritSectionData(JsonObject sheet, JsonObject section)
     {
