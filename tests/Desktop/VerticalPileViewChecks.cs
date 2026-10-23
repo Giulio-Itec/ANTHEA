@@ -38,15 +38,17 @@ namespace X.Desktop;
 /// --check-palo-verticale-view &lt;radice&gt; &lt;cartella&gt; (UiTests, F5.6, proposal F5 section 7.3): the XAML view of the vertical pile and
 /// micropile (VerticalPileSheetView) hosted by <see cref="MvvmSheetEditor"/>, as the bench opens it with
 /// <c>--module-impl geo_palo_verticale=mvvm --module-impl geo_micropalo_verticale=mvvm</c>, in windows outside the screen (never activated,
-/// no mouse). The Release keeps the historic view until the user has tried the view (decisions of 17/10). Parts:
+/// no mouse). Parts:
 /// <list type="number">
 /// <item>Traces through the view: the 18 scenarios of tests/Shared/VerticalPileTrace.cs driven through the controls of the view (fields,
 /// choices and check boxes of the FieldForm, tabs, buttons, cells of the stratigraphies, curves, views and tables) with the held engine of
 /// the traces, and read back from the controls (the charts from the Plot of the view), equal line by line to the traces of the historic
 /// view frozen in tests/fixtures/f5-palo-verticale/storica.</item>
 /// <item>For each of the 13 F3 fixtures of the two modules: the visit (every tab, three appearances, «Estendi»/«Riduci») writes nothing and
-/// raises no Modified; the exports are those of the historic view on the same data: JSON of the result, Word report (date normalized) and PDF
-/// side by side, «Salva PNG…» of the capacity chart (the image of the historic chart, V8 accepted).</item>
+/// raises no Modified; data and result after the calculation are those of the frozen trace of the historic view (scenario palo-/micropalo-&lt;id&gt;);
+/// the exports are those the historic view wrote on the same data: JSON of the result (J.Options), Word report (date normalized) and PDF side
+/// by side of its recipe (ReportWord with ModuleFigureRenderer.VerticalFigures on the charts of the result), «Salva PNG…» of the capacity chart
+/// (the image of the historic chart, recorded as SHA-256; V8 accepted).</item>
 /// <item>V3 (registro F5-01): the micropile with a result changes injection through the choice of the view without failing.</item>
 /// <item>Screenshots of the view in Chiara, Scuro and Molto scuro (folder schermate).</item>
 /// <item>Help: the «?» labels shown are those of the historic view, «?» and F1 open their section through the IWikiNavigator, F1 elsewhere the
@@ -56,13 +58,60 @@ namespace X.Desktop;
 /// <item>Read-only revision: the controls that accept the user are those of the historic view after InspectRevision.</item>
 /// <item>Shared dialogs (T5): SoilTransferDialogViewModel against the historic window SoilTransferDialog on the same data (profiles, status,
 /// description, preview, destinations, guidance, project sheets, send, replacement); «Invia / carica terreno…» routes the choice to the window.</item>
-/// <item>Bench and Release: with --module-impl the two modules open the MVVM view; the Release keeps the historic view.</item>
+/// <item>Bench and Release: with --module-impl and in the Release the two modules open the MVVM view.</item>
 /// </list>
+/// The historic view is archived (f5-pass-geo, Q11: supporto/SUPERATI/ui-storica/palo-verticale): what the checks compared with it is compared
+/// with the values it gave, frozen in its traces or recorded here (<see cref="HistoricHelpLabels"/>, <see cref="HistoricAutomationNames"/>,
+/// <see cref="HistoricReadOnly"/>, <see cref="HistoricCapacityPng"/>, <see cref="HistoricNoResult"/>). The shared soil dialog is still compared
+/// with the window SoilTransferDialog, which the other historic modules use.
 /// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
 /// </summary>
 internal static class VerticalPileViewChecks
 {
     private const string Pile = VerticalPileScenarios.Pile, Micro = VerticalPileScenarios.Micro;
+
+    // ---------------------------------------------------------------- values of the historic view (archived with the Release switch)
+    // Recorded by this check on the historic view before its archiving: the capture run on db7ef68d with the values logged
+    // (supporto/artefatti/ci/20261023-124229-geo-cattura-3 of the worktree aw-f5-pass-geo), equal to the checks of every run up to the one of
+    // the release 1.13.0 (supporto/artefatti/ci/20261023-013037-full-fine-ca-1.13.0 of the main checkout).
+
+    /// <summary>The message of SheetEditor.ExportResult of a vertical pile sheet without a result.</summary>
+    private const string HistoricNoResult = "Premere Calcola prima di esportare.";
+
+    /// <summary>The «?» labels shown by the historic view (fixture default), in ordinal order.</summary>
+    private static readonly Dictionary<string, string[]> HistoricHelpLabels = new(StringComparer.Ordinal)
+    {
+        [Pile] = ["Wiki: Azione assiale — Compressione", "Wiki: Azione assiale — Trazione", "Wiki: Considera sottospinta", "Wiki: Correlazione", "Wiki: Correlazione", "Wiki: Diametro palo", "Wiki: Lunghezza palo", "Wiki: Metodo", "Wiki: Peso proprio — Favorevole", "Wiki: Peso proprio — Sfavorevole", "Wiki: Presenza falda", "Wiki: Profondità falda", "Wiki: Sicurezza di base", "Wiki: Sicurezza laterale — Compressione", "Wiki: Sicurezza laterale — Trazione", "Wiki: Tipo battuto", "Wiki: Tipo di palo", "Wiki: Verticali indagate"],
+        [Micro] = ["Wiki: Considera punta", "Wiki: Diametro perforazione", "Wiki: Inclinazione dalla verticale", "Wiki: Iniezione", "Wiki: Inizio aderenza lungo asse", "Wiki: Lunghezza palo", "Wiki: Peso al metro del micropalo", "Wiki: Pressione di iniezione", "Wiki: Profilo CHS", "Wiki: Punta rispetto alla laterale"],
+    };
+
+    /// <summary>The AutomationProperties.Name of the visible elements of the historic view, by module and fixture.</summary>
+    private static readonly Dictionary<(string Module, string Id), string[]> HistoricAutomationNames = new()
+    {
+        [(Pile, "default")] = ["Addensamento", "Azione assiale — Compressione", "Azione assiale — Trazione", "Coeff. k [-]", "Coeff. α [-]", "Coeff. μ [-]", "Considera sottospinta", "Correlazione", "Cu [kPa]", "Diametro palo", "Fattore Nc [-]", "Fattore Nq [-]", "Lunghezza palo", "Metodo", "Peso proprio — Favorevole", "Peso proprio — Sfavorevole", "Peso specifico CLS / palo", "Presenza falda", "Profondità falda", "Sicurezza di base", "Sicurezza laterale — Compressione", "Sicurezza laterale — Trazione", "Spessore S [m]", "Tipo battuto", "Tipo di palo", "Tipologia", "Verticali indagate", "Wiki: Azione assiale — Compressione", "Wiki: Azione assiale — Trazione", "Wiki: Considera sottospinta", "Wiki: Correlazione", "Wiki: Diametro palo", "Wiki: Lunghezza palo", "Wiki: Metodo", "Wiki: Peso proprio — Favorevole", "Wiki: Peso proprio — Sfavorevole", "Wiki: Presenza falda", "Wiki: Profondità falda", "Wiki: Sicurezza di base", "Wiki: Sicurezza laterale — Compressione", "Wiki: Sicurezza laterale — Trazione", "Wiki: Tipo battuto", "Wiki: Tipo di palo", "Wiki: Verticali indagate", "c′ [kPa]", "γ [kN/m³]", "γsat [kN/m³]", "φ′ [°]"],
+        [(Pile, "battuto-falda-sondaggi")] = ["Addensamento", "Azione assiale — Compressione", "Azione assiale — Trazione", "Coeff. k [-]", "Coeff. α [-]", "Coeff. μ [-]", "Considera sottospinta", "Correlazione", "Cu [kPa]", "Diametro palo", "Fattore Nc [-]", "Fattore Nq [-]", "Interasse X", "Interasse Y", "Lunghezza palo", "Metodo", "Pali in X", "Pali in Y", "Peso proprio — Favorevole", "Peso proprio — Sfavorevole", "Peso specifico CLS / palo", "Presenza falda", "Profondità falda", "Sicurezza di base", "Sicurezza laterale — Compressione", "Sicurezza laterale — Trazione", "Spessore S [m]", "Tipo battuto", "Tipo di palo", "Tipologia", "Verticali indagate", "Wiki: Azione assiale — Compressione", "Wiki: Azione assiale — Trazione", "Wiki: Considera sottospinta", "Wiki: Correlazione", "Wiki: Diametro palo", "Wiki: Interasse X", "Wiki: Interasse Y", "Wiki: Lunghezza palo", "Wiki: Metodo", "Wiki: Pali in X", "Wiki: Pali in Y", "Wiki: Peso proprio — Favorevole", "Wiki: Peso proprio — Sfavorevole", "Wiki: Presenza falda", "Wiki: Profondità falda", "Wiki: Sicurezza di base", "Wiki: Sicurezza laterale — Compressione", "Wiki: Sicurezza laterale — Trazione", "Wiki: Tipo battuto", "Wiki: Tipo di palo", "Wiki: Verticali indagate", "c′ [kPa]", "γ [kN/m³]", "γsat [kN/m³]", "φ′ [°]"],
+        [(Micro, "default")] = ["Aderenza τ [kPa]", "Azione assiale — Compressione", "Azione assiale — Trazione", "Considera punta", "Correlazione", "Diametro perforazione", "Inclinazione dalla verticale", "Iniezione", "Inizio aderenza lungo asse", "Lunghezza palo", "Metodo", "Peso al metro del micropalo", "Peso proprio — Favorevole", "Peso proprio — Sfavorevole", "Pressione di iniezione", "Profilo CHS", "Punta rispetto alla laterale", "Sicurezza di base", "Sicurezza laterale — Compressione", "Sicurezza laterale — Trazione", "Spessore verticale [m]", "Terreno", "Verticali indagate", "Wiki: Considera punta", "Wiki: Diametro perforazione", "Wiki: Inclinazione dalla verticale", "Wiki: Iniezione", "Wiki: Inizio aderenza lungo asse", "Wiki: Lunghezza palo", "Wiki: Peso al metro del micropalo", "Wiki: Pressione di iniezione", "Wiki: Profilo CHS", "Wiki: Punta rispetto alla laterale", "α adottato"],
+        [(Micro, "regressione-micropalo_igu_0_nessuna-riduzione")] = ["Aderenza τ [kPa]", "Azione assiale — Compressione", "Azione assiale — Trazione", "Considera punta", "Correlazione", "Diametro perforazione", "Inclinazione dalla verticale", "Iniezione", "Inizio aderenza lungo asse", "Lunghezza palo", "Metodo", "Peso al metro del micropalo", "Peso proprio — Favorevole", "Peso proprio — Sfavorevole", "Pressione di iniezione", "Profilo CHS", "Punta rispetto alla laterale", "Sicurezza di base", "Sicurezza laterale — Compressione", "Sicurezza laterale — Trazione", "Spessore verticale [m]", "Terreno", "Verticali indagate", "Wiki: Considera punta", "Wiki: Diametro perforazione", "Wiki: Inclinazione dalla verticale", "Wiki: Iniezione", "Wiki: Inizio aderenza lungo asse", "Wiki: Lunghezza palo", "Wiki: Peso al metro del micropalo", "Wiki: Pressione di iniezione", "Wiki: Profilo CHS", "Wiki: Punta rispetto alla laterale", "α adottato"],
+    };
+
+    /// <summary>The visible input controls of the historic view after InspectRevision and their state (<see cref="Controls"/>), by module.</summary>
+    private static readonly Dictionary<string, Dictionary<string, string>> HistoricReadOnly = new(StringComparer.Ordinal)
+    {
+        [Pile] = new(StringComparer.Ordinal) { ["pulsante +"] = "bloccato", ["pulsante Aggiungi strato"] = "bloccato", ["pulsante Copia da…"] = "bloccato", ["pulsante Copia in…"] = "bloccato", ["pulsante Estendi"] = "libero", ["pulsante Invia / carica terreno…"] = "bloccato", ["pulsante Modello e dati comuni…"] = "libero", ["pulsante Nessuna"] = "libero", ["pulsante Reset"] = "bloccato", ["pulsante Tutte"] = "libero", ["pulsante [−]"] = "bloccato", ["pulsante −"] = "bloccato", ["scelta Addensamento"] = "bloccato", ["scelta Metodo"] = "bloccato", ["scelta Tipo battuto"] = "bloccato", ["scelta Tipo di palo"] = "bloccato", ["scelta Tipologia"] = "bloccato", ["scelta Verticali indagate"] = "bloccato", ["spunta Considera sottospinta"] = "bloccato", ["spunta Dren. C · progetto: 3.211,0"] = "libero", ["spunta Dren. T · progetto: 719,9"] = "libero", ["spunta Ed compressione: 814,0"] = "libero", ["spunta Ed trazione: 0,0"] = "libero", ["spunta Laterale"] = "bloccato", ["spunta Non dren. C · progetto: 3.211,0"] = "libero", ["spunta Non dren. T · progetto: 719,9"] = "libero", ["spunta Presenza falda"] = "bloccato", ["testo Azione assiale — Compressione"] = "bloccato", ["testo Azione assiale — Trazione"] = "bloccato", ["testo Coeff. k [-]"] = "bloccato", ["testo Coeff. α [-]"] = "bloccato", ["testo Coeff. μ [-]"] = "bloccato", ["testo Correlazione"] = "bloccato", ["testo Cu [kPa]"] = "bloccato", ["testo Diametro palo"] = "bloccato", ["testo Fattore Nc [-]"] = "bloccato", ["testo Fattore Nq [-]"] = "bloccato", ["testo Lunghezza palo"] = "bloccato", ["testo Peso proprio — Favorevole"] = "bloccato", ["testo Peso proprio — Sfavorevole"] = "bloccato", ["testo Peso specifico CLS / palo"] = "bloccato", ["testo Profondità falda"] = "bloccato", ["testo Sicurezza di base"] = "bloccato", ["testo Sicurezza laterale — Compressione"] = "bloccato", ["testo Sicurezza laterale — Trazione"] = "bloccato", ["testo Spessore S [m]"] = "bloccato", ["testo c′ [kPa]"] = "bloccato", ["testo γ [kN/m³]"] = "bloccato", ["testo γsat [kN/m³]"] = "bloccato", ["testo φ′ [°]"] = "bloccato" },
+        [Micro] = new(StringComparer.Ordinal) { ["pulsante +"] = "bloccato", ["pulsante Aggiungi strato"] = "bloccato", ["pulsante Copia da…"] = "bloccato", ["pulsante Copia in…"] = "bloccato", ["pulsante Estendi"] = "libero", ["pulsante Modello e dati comuni…"] = "libero", ["pulsante Nessuna"] = "libero", ["pulsante Reset"] = "bloccato", ["pulsante Tutte"] = "libero", ["pulsante [−]"] = "bloccato", ["pulsante −"] = "bloccato", ["scelta Iniezione"] = "bloccato", ["scelta Metodo"] = "bloccato", ["scelta Profilo CHS"] = "bloccato", ["scelta Terreno"] = "bloccato", ["scelta Verticali indagate"] = "bloccato", ["spunta C · progetto: 2.074,2"] = "libero", ["spunta Considera punta"] = "bloccato", ["spunta Ed compressione: 217,9"] = "libero", ["spunta Ed trazione: 86,2"] = "libero", ["spunta Laterale"] = "bloccato", ["spunta T · progetto: 1.692,0"] = "libero", ["testo Aderenza τ [kPa]"] = "bloccato", ["testo Azione assiale — Compressione"] = "bloccato", ["testo Azione assiale — Trazione"] = "bloccato", ["testo Correlazione"] = "bloccato", ["testo Diametro perforazione"] = "bloccato", ["testo Inclinazione dalla verticale"] = "bloccato", ["testo Inizio aderenza lungo asse"] = "bloccato", ["testo Lunghezza palo"] = "bloccato", ["testo Peso al metro del micropalo"] = "bloccato", ["testo Peso proprio — Favorevole"] = "bloccato", ["testo Peso proprio — Sfavorevole"] = "bloccato", ["testo Pressione di iniezione"] = "bloccato", ["testo Punta rispetto alla laterale"] = "bloccato", ["testo Sicurezza di base"] = "bloccato", ["testo Sicurezza laterale — Compressione"] = "bloccato", ["testo Sicurezza laterale — Trazione"] = "bloccato", ["testo Spessore verticale [m]"] = "bloccato", ["testo α adottato"] = "bloccato" },
+    };
+
+    /// <summary>SHA-256 of the PNG of «Salva PNG…» of the historic capacity chart (Plot.Png, 1200×750 at 96 DPI), by fixture with a result.</summary>
+    private static readonly Dictionary<string, string> HistoricCapacityPng = new(StringComparer.Ordinal)
+    {
+        ["geo_palo_verticale--battuto-falda-sondaggi"] = "2DEB1CCAE8D15BCC4F4712872B8FB88AF1187159C282E2EC2CCD6564937B5CA0",
+        ["geo_palo_verticale--copertura-insufficiente"] = "5B417E3547B4CC3DE90AAD806B483E281FB1DDD4C0BEFB9BEA5AAF0F3B002C7B",
+        ["geo_palo_verticale--elica-coesivo-avvisi"] = "228E9064E7E3827C4579D28490CC04D3CE75ACDB906A57234D9FEA71A28081D6",
+        ["geo_palo_verticale--regressione-palo_storico_0"] = "76CAEA84E52394804FB49536C6CF75E87C74B5DEDA22A0AD5A13B8FF94FE197B",
+        ["geo_micropalo_verticale--igu-copertura-avvisi"] = "AF58E9ACEA64DF1A8ECDE6A0C297605C6BD189C4885D9F08F6EF89284A18ABA0",
+        ["geo_micropalo_verticale--irs-punta-inclinato"] = "C68C7FCC72D563007BF311C76ADCBCDB7801E7ED2CFE699D54B00EB84E0C1F05",
+        ["geo_micropalo_verticale--regressione-micropalo_igu_0_nessuna-riduzione"] = "66B9F1B7AFE0E676D37B161DFF90794E85BDF0F464CEE3DD9755719EF5847DFC",
+    };
 
     private static int checks;
     private static readonly List<string> Log = [];
@@ -526,48 +575,91 @@ internal static class VerticalPileViewChecks
             Check(mvvm.Editor.Data.ToJsonString(J.Options) == opened && mvvm.Modified == 0, name + ": la visita (schede, «Estendi», tre aspetti) non scrive e non solleva Modified");
             mvvm.Editor.Commit(); await mvvm.Editor.CalculateAsync(); mvvm.Editor.Commit();
             await mvvm.Settle();
-            using var historic = new SheetEditor(module, data);
-            historic.Commit(); await historic.CalculateAsync(); historic.Commit();
-            Check(mvvm.Editor.Data.ToJsonString(J.Options) == historic.Data.ToJsonString(J.Options) && mvvm.Editor.HasResults == historic.HasResults
-                && (historic.Result is null || mvvm.Editor.Result!.ToJsonString(J.Options) == historic.Result.ToJsonString(J.Options)),
-                name + ": dati e risultato dopo il calcolo uguali a quelli della vista storica");
-            if (!historic.HasResults)
+            // The frozen trace of the historic view on the path of the F3 capture: apertura, conferma, calcola, conferma, riapri, conferma, attendi.
+            var historic = HistoricBlocks(root, module, id);
+            Check(historic.Length >= 4 && historic[0][0] == "== apertura" && historic[2][0] == "== " + VerticalPileStep.Calculate && historic[3][0] == "== " + VerticalPileStep.Commit,
+                name + ": traccia congelata della vista storica sul percorso della cattura F3");
+            var result = mvvm.Editor.Result;
+            bool exportable = Line(historic[3], "modificato").EndsWith(" esportabile sì", StringComparison.Ordinal);
+            Check("dati " + VerticalPileTrace.Compact(mvvm.Editor.Data) == Line(historic[3], "dati")
+                && "risultato " + (result is null ? "-" : VerticalPileTrace.Hash(result)) == Line(historic[3], "risultato") && mvvm.Editor.HasResults == exportable,
+                name + ": dati e risultato dopo il calcolo uguali a quelli della vista storica (traccia congelata)");
+            if (!mvvm.Editor.HasResults)
             {
-                Check(Fails(() => mvvm.Editor.ExportResult(Path.Combine(folder, name + "-mvvm.json")), out string message)
-                    && Fails(() => historic.ExportResult(Path.Combine(folder, name + "-storica.json")), out string expected) && message == expected,
+                Check(Fails(() => mvvm.Editor.ExportResult(Path.Combine(folder, name + "-mvvm.json")), out string message) && message == HistoricNoResult,
                     name + ": senza risultato l'esportazione è rifiutata con il messaggio della vista storica («" + message + "»)");
                 continue;
             }
             string title = "Fixture F3 · " + module + " · " + id;
             mvvm.Editor.ExportResult(Path.Combine(folder, name + "-mvvm.json"));
-            historic.ExportResult(Path.Combine(folder, name + "-storica.json"));
-            Check(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.json")).SequenceEqual(File.ReadAllBytes(Path.Combine(folder, name + "-storica.json"))),
+            // SheetEditor.ExportResult of the historic view wrote the result with J.Options.
+            File.WriteAllBytes(Path.Combine(folder, name + "-attesa.json"), Encoding.UTF8.GetBytes(result!.ToJsonString(J.Options)));
+            Check(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.json")).SequenceEqual(File.ReadAllBytes(Path.Combine(folder, name + "-attesa.json"))),
                 name + ": JSON del risultato uguale byte per byte a quello della vista storica");
             var sections = ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
+            void Expected() => Anthea.Reports.ReportFiles.Write(Path.Combine(folder, name + "-attesa.docx"), HistoricReport(title, module, mvvm.Editor.Data, result, sections), title);
             mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, sections);
-            historic.ExportReport(Path.Combine(folder, name + "-storica.docx"), title, sections);
-            string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.docx")), normalizer);
-            Check(part is null, name + ": report Word uguale in ogni parte a quello della vista storica, figure comprese (date normalizzate)" + (part is null ? "" : ", diversa " + part));
+            Expected();
+            string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.docx")), normalizer);
+            Check(part is null, name + ": report Word uguale in ogni parte a quello della ricetta della vista storica, figure comprese (date normalizzate)" + (part is null ? "" : ", diversa " + part));
             // The PDF carries the time of the report inside its compressed pages: two exports that straddle a change of the time differ only
             // there. The pair is written again (at most twice) before comparing once more; any other difference stays.
             int attempts = 1;
-            while (!SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))) && attempts < 3)
+            while (!SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.pdf"))) && attempts < 3)
             {
                 attempts++;
                 mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, sections);
-                historic.ExportReport(Path.Combine(folder, name + "-storica.docx"), title, sections);
+                Expected();
             }
-            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-storica.pdf"))),
-                name + ": PDF affiancato uguale a quello della vista storica (date normalizzate" + (attempts > 1 ? $", {attempts} esportazioni" : "") + ")");
+            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.pdf"))),
+                name + ": PDF affiancato uguale a quello della ricetta della vista storica (date normalizzate" + (attempts > 1 ? $", {attempts} esportazioni" : "") + ")");
             // «Salva PNG…» of the capacity chart: the file chosen in the dialog receives the image of the chart, the same as the historic one.
             string png = Path.Combine(folder, name + "-capacita.png");
             services.SavePath = png;
             var menu = mvvm.View.CapacityHost.ContextMenu!.Items.OfType<MenuItem>().Single(m => Equals(m.Header, "Salva PNG…"));
             menu.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent, menu));
             services.SavePath = null;
-            Check(File.Exists(png) && File.ReadAllBytes(png).SequenceEqual(historic.VerticalCapacityPngForChecks()), name + ": «Salva PNG…» scrive l'immagine del grafico della capacità della vista storica");
+            Check(File.Exists(png) && Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(png))) == HistoricCapacityPng[name],
+                name + ": «Salva PNG…» scrive l'immagine del grafico della capacità della vista storica");
         }
     }
+
+    /// <summary>
+    /// The report of the historic view (SheetEditor.BuildReportDocument): ReportWord with the figures of ModuleFigureRenderer.VerticalFigures, the
+    /// capacity chart of the first view with the visible curves and the reference chart of the first stratigraphy, as the report of a project
+    /// section draws them (ModuleFigureRenderer).
+    /// </summary>
+    private static byte[] HistoricReport(string title, string module, JsonObject data, JsonObject result, HashSet<string> sections)
+    {
+        bool micro = module == Micro;
+        var capacity = new Plot
+        {
+            Capacity = true, Title = VerticalPilePresentation.CapacityTitle(micro), YLabel = VerticalPilePresentation.CapacityAxis(micro),
+            CapacityDepth = VerticalPilePresentation.AvailableDepth(result), EmptyMessage = VerticalPilePresentation.NoCurveSelected,
+            Series = VerticalPileCharts.Capacity(data, result, micro).Where(s => s.Visible && VerticalPileCharts.CapacityIncludes(s.Key, micro, 0)).Select(s => PlotPresentation.Series(s.Series)).ToList()
+        };
+        var reference = new Plot { InvertY = false };
+        PlotPresentation.Apply(reference, VerticalPileCharts.Reference(data, result, micro, 0));
+        var images = ModuleFigureRenderer.VerticalFigures(data, result, micro, capacity, reference);
+        return Anthea.Reports.DocxWriter.Write(ReportWord.CreateDocument(title, module, data, result, sections, images.Select(f => f.Image()).ToList(), true));
+    }
+
+    /// <summary>The frozen trace of the historic view for the F3 fixture <paramref name="id"/> (scenario palo-/micropalo-&lt;id&gt;), split at its steps.</summary>
+    private static string[][] HistoricBlocks(string root, string module, string id)
+    {
+        var blocks = new List<List<string>>();
+        string file = (module == Pile ? "palo-" : "micropalo-") + id + ".txt";
+        foreach (string line in VerticalPileTrace.Read(Path.Combine(VerticalPileScenarios.Reference(root), file)))
+        {
+            if (line.StartsWith("== ", StringComparison.Ordinal)) blocks.Add([]);
+            if (blocks.Count == 0) throw new InvalidOperationException("Traccia congelata senza intestazione: " + file);
+            blocks[^1].Add(line);
+        }
+        return blocks.Select(b => b.ToArray()).ToArray();
+    }
+
+    /// <summary>The line of a step of a trace that starts with <paramref name="name"/>.</summary>
+    private static string Line(string[] block, string name) => block.Single(l => l.StartsWith(name + " ", StringComparison.Ordinal));
 
     private static bool Fails(Action action, out string message)
     {
@@ -689,11 +781,9 @@ internal static class VerticalPileViewChecks
             var topic = Anthea.Presentation.Help.HelpTopics.ForField("lunghezza", module) ?? throw new InvalidOperationException("Argomento della lunghezza assente: " + module);
             using var host = new Hosted(Editors(services).Open(module, data));
             await host.Settle();
-            using var historic = new Hosted(new SheetEditor(module, data));
-            await historic.Settle();
             static string[] Labels(DependencyObject root) => Visual(root).OfType<Button>().Where(b => b.IsVisible && b.Content as string == "?")
                 .Select(b => AutomationProperties.GetName(b)).Order(StringComparer.Ordinal).ToArray();
-            string[] before = Labels(historic.Root), after = Labels(host.Root);
+            string[] before = HistoricHelpLabels[module], after = Labels(host.Root);
             Check(after.SequenceEqual(before), module + ": etichette «?» visibili uguali a quelle della vista storica (" + before.Length + "): " + string.Join(", ", after));
             var side = new ViewSide(host, null, services);
             var help = Visual(host.Root).OfType<Button>().Single(b => b.IsVisible && AutomationProperties.GetName(b) == "Wiki: " + host.Sheet.GeneralForm["lunghezza"].Label);
@@ -736,10 +826,9 @@ internal static class VerticalPileViewChecks
         foreach (var (module, id) in new[] { (Pile, "default"), (Pile, "battuto-falda-sondaggi"), (Micro, "default"), (Micro, "regressione-micropalo_igu_0_nessuna-riduzione") })
         {
             var data = VerticalPileScenarios.FixtureData(root, module, id);
-            using var historic = new Hosted(new SheetEditor(module, data));
             using var host = new Hosted(editors.Open(module, data));
-            await historic.Settle(); await host.Settle();
-            var before = Names(historic.Root); var after = Names(host.Root);
+            await host.Settle();
+            var before = HistoricAutomationNames[(module, id)].ToHashSet(StringComparer.Ordinal); var after = Names(host.Root);
             var missing = before.Except(after).Order(StringComparer.Ordinal).ToArray();
             Log.Add($"   nomi nuovi ({module} {id}): " + string.Join(", ", after.Except(before).Order(StringComparer.Ordinal)));
             Check(missing.Length == 0, $"{module} {id}: nomi di automazione della vista storica conservati ({before.Count})" + (missing.Length == 0 ? "" : "; mancanti: " + string.Join(", ", missing)));
@@ -756,7 +845,7 @@ internal static class VerticalPileViewChecks
 
     // ---------------------------------------------------------------- 7. read-only
 
-    /// <summary>The controls that accept the user after InspectRevision, in the new view and in the historic view on the same data.</summary>
+    /// <summary>The controls that accept the user after InspectRevision, in the new view and as in the historic view on the same data.</summary>
     private static async Task ReadOnly(string root)
     {
         foreach (var (module, id) in new[] { (Pile, "regressione-palo_storico_0"), (Micro, "regressione-micropalo_igu_0_nessuna-riduzione") })
@@ -764,13 +853,10 @@ internal static class VerticalPileViewChecks
             var services = new Services();
             var data = VerticalPileScenarios.FixtureData(root, module, id);
             using var host = new Hosted(Editors(services).Open(module, data));
-            using var historic = new Hosted(new SheetEditor(module, data));
             await host.Sheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(60));
-            await historic.Settle();
-            await historic.Editor.CalculateAsync();
-            host.Editor.InspectRevision(); historic.Editor.InspectRevision();
-            await host.Settle(); await historic.Settle();
-            var before = Controls(historic.Root); var after = Controls(host.Root);
+            host.Editor.InspectRevision();
+            await host.Settle();
+            var before = HistoricReadOnly[module]; var after = Controls(host.Root);
             var common = before.Keys.Intersect(after.Keys).Order(StringComparer.Ordinal).ToArray();
             var different = common.Where(k => before[k] != after[k]).Select(k => k + ": storica " + before[k] + ", nuova " + after[k]).ToArray();
             Log.Add($"   sola lettura ({module}), solo nella storica: " + string.Join(", ", before.Keys.Except(after.Keys).Order(StringComparer.Ordinal)));
@@ -1017,10 +1103,4 @@ internal static class VerticalPileViewChecks
                 Check(release is SheetEditor && ModuleImplementations.Release.For(module) == SheetImplementation.Historic, module + ": la Release resta storica fino alla prova dell'utente");
         }
     }
-}
-
-internal sealed partial class SheetEditor
-{
-    /// <summary>UiTests (F5.6): «Salva PNG…» of the historic capacity chart, the image it writes.</summary>
-    internal byte[] VerticalCapacityPngForChecks() => plot.Png();
 }
