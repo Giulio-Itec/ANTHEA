@@ -1349,6 +1349,12 @@ Commit piccoli; ognuno compila e tiene verde il profilo quick.
 | 446e5dbd | `ui/check-examples` sulla shell (`ShellSmokeBench`): pagina «Esempi», documento attivo, `Workspace.OpenFile` | PASS 20 controlli, come prima (`ci/20261023-204850-f5-13-g-es`) |
 | 8d1da789 | `ui/smoke-global-stability` sulla shell; `MvvmWallSmoke` su `HostedSheet`; `AppHarness.ShellSmokes`: le smoke passate alla shell con la stessa bandiera e la stessa prova | PASS 14 controlli; `ui/smoke-retaining-wall` PASS (`ci/20261023-205118-f5-13-g-gs`) |
 
+**Corse finali** su 1d54fd14: profilo standard PASS 78, 0 fallimenti (`ci/20261023-205347-f5-13-g-fine`); `-Stage build,ui` mirata PASS 43, 0 fallimenti
+(`ci/20261023-212318-f5-13-g-ui`): `ui/f3-equivalence` PASS 119 fixture, 77 articoli, 30 ricerche, report di progetto, 1 201 file «uguali entro le
+tolleranze», 0 differenze non ammesse; `ui/f3-report-chapters`, `ui/f3-figures`, `ui/f3-scheduling`; le 23 `ui/smoke*` (comprese le due portate);
+le sei `ui/shell-smoke-*`, `ui/shell-capture` e `ui/shell-capture-confronto`; `ui/check-shell-draft`, `ui/check-examples`,
+`ui/check-module-host-offscreen`, `ui/check-error-log-offscreen` e le tre prove fuori schermo dei muri. `ui/check-contrast` non eseguita (144 DPI).
+
 Che cosa vede l'utente nella Release: la shell nuova della prova f5f, con le correzioni arrivate fino a 67eafba5. Avvio, registro degli errori e
 tema non cambiano; `--wiki`, il documento aperto da Esplora risorse e `--models` sono letti da `StartupRequest` come faceva `MainWindow`.
 
