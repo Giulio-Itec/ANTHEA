@@ -1987,3 +1987,94 @@ dotnet build X.Desktop/X.Desktop.csproj -c UiTests
 dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-sezione-view <radice> <cartella vuota> [banco,disegni,tracce,esportazioni,schermate,aiuto,sola-lettura,nomi,finestre]
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^(ui/check-sezione-view|ui/check-sezione-historic|ui/check-module-host-offscreen|ui/check-field-form-parity|ui/f3-report-chapters-sezione-mvvm|Presentation.Tests/sezione-ca)$' -Tag <tag>"
 ```
+
+## 23. Passaggio della Release (23/10): preparazione fatta, passaggio da completare
+
+Agente f5-pass-strutture, ramo `refactoring/f5-pass-strutture` (base `db7ef68d`, dopo i passaggi della sezione composta e di Bridge Design). La
+Release apre **ancora la vista storica** della sezione c.a.: il passaggio non è fatto. Sono fatti due pezzi che non cambiano la Release e che il
+passaggio richiede; il resto è inventariato sotto, con le domande che lo bloccano.
+
+### 23.1 Fatto
+
+- **Verificatore c.a. del palo elastico** (commit «verificatore c.a. del palo elastico sulla sezione della Release»). `PileConcreteVerifierView`
+  (il dialogo di `PileReinforcementViewModel.ShowConcreteVerifierAsync`, mostrato da `WpfDialogService`) ospita la sezione c.a. nuova:
+  - un `MvvmSheetEditor` con il modulo `ConcreteSectionSheetModule` (e `ConcreteSectionFigureRenderer`, come la radice di composizione), il
+    servizio di calcolo di `str_palo` e un limitatore suo, su una copia di `PileConcreteVerifier.Sheet`, con i servizi del foglio del palo
+    (`PileConcreteVerifier.Services`, nuovo: l'unica aggiunta in Presentation). Lo costruisce `X.Desktop/Hosting/ConcreteVerifierSection.cs`,
+    non la vista: la regola P6 vieta servizi di calcolo e limitatori nelle viste;
+  - «Applica armatura…» e la chiusura confermano la sezione e riportano i suoi dati nel foglio del tratto (lo stesso oggetto che la
+    `ConcreteWorkspace` storica modificava); poi il ViewModel del palo applica l'armatura o conserva il foglio nel tratto e ricostruisce l'editor,
+    come prima.
+
+  Prove: `ui/check-palo-orizzontale-view`, parti `tracce-elastiche,elastica`, PASS 32: le 20 tracce della risposta elastica (con i passi del
+  verificatore e «Applica») restano uguali a quelle congelate in `tests/fixtures/f5-elastico/storica`, e il controllo E1 trova ViewModel e vista
+  della sezione nel dialogo. Il verificatore del palo orizzontale **storico** (`PileReinforcementEditor.CreateConcreteWindow`, Release di oggi) non è
+  toccato: si archivia con la vista storica del palo orizzontale (agente f5-pass-orizzontale).
+- **`ElasticPile.UiChecks`** (`Program.cs`, `InnerRingChecks.cs`, `StressBlockNoteChecks.cs`, su richiesta del coordinatore): aprivano la
+  `ConcreteWorkspace` per riflessione; ora aprono la sezione c.a. della Release come il verificatore (`ConcreteSection`, un `MvvmSheetEditor` per
+  riflessione con i servizi della radice di composizione). La nota dello stress block si cerca nella vista intera, con i gruppi aperti; la legge
+  scelta si legge dai dati del foglio dopo la conferma.
+- **`ui/check-sezione-view` senza la vista storica** (commit «ui/check-sezione-view confronta con i valori della vista storica»). Come per la
+  palificata (`832af117`), le parti che aprivano la vista storica accanto confrontano con i valori che dava, registrati dalla stessa prova sul
+  commit `879e6b71` (PASS 167) in `tests/fixtures/f5-sezione/vista-storica.json`:
+  - `esportazioni`: per le 11 fixture le impronte dei testi che la prova confrontava, nello stesso ordine (dati, risultato, risultati esportati,
+    con gli identificatori numerati e l'ordine fisso C6), le parti dei report Word, breve e della curva M–χ, i `Modified` del report. Il PDF
+    affiancato si confronta con quello che `ReportFiles` scrive dal report Word (l'ora della copertina rende il PDF registrato inservibile in
+    un'altra corsa);
+  - `sola-lettura` (172 controlli), `nomi` (4 fixture), `finestre` («Scala…» 3D e 2D e «Proprietà / report…», 2 fixture);
+  - `schermate`: solo la vista nuova (11 PNG).
+
+  La parte `banco` dice ancora «la Release resta storica». Esito: parti `banco,esportazioni,schermate,sola-lettura,nomi,finestre` PASS 195
+  (`supporto/artefatti/f5-pass-strutture/ca-vista-1`).
+
+### 23.2 Che cosa resta per il passaggio
+
+Un solo commit, come per gli altri moduli: `str_palo` = `Mvvm` in `ModuleImplementations.Declared`, i rami `concrete` di `SheetEditor` (campo,
+`Result`, `HasResults`, `Busy`, `BuildShortReport`, ramo `Section` del costruttore, `Dispose`, `Commit`, `CalculateAsync`, `ExportResult`,
+`BuildReportDocument` e i messaggi) e le suite storiche riscritte. Inventario (fonte: prova f5f e ricerca dei tipi storici):
+
+| Suite / comando | File | Che cosa legge della vista storica |
+| --- | --- | --- |
+| `ui/smoke` (parte c.a.), `ui/smoke-mvvm` | `supporto/test/Desktop/SmokeChecks.cs:78` → `ConcreteSmokeChecks.cs` (401 righe, partial di `ConcreteWorkspace`) | campi interni: `checker3D/2D`, `meshes`, `domainPanels`, `actions`, `stressPanels`, `shearGrid`, `settings`, `preview`, `PasteCells`, `ApplyImport`, `tableFilters`, `RunAnalysis`; molte asserzioni sull'identità degli oggetti nativi in cache (`ReferenceEquals`) |
+| `ui/smoke-section-actions` | `tests/Desktop/SectionActionsSmokeChecks.cs` (partial) | `VerifySectionActions`, riapertura con `new ConcreteWorkspace` |
+| `ui/smoke-ca-extensions` | `supporto/test/Desktop/ConcreteExtensionSmokeChecks.cs` (184, partial) | membri interni di S4–S7 |
+| `ui/smoke-ca-features` | `supporto/test/Desktop/ConcreteFeatureChecks.cs` (284, partial) | membri interni di S1–S5 |
+| `ui/smoke-neutral-axis` (parte c.a.) | `supporto/test/Desktop/NeutralAxisSmokeChecks.cs:59,117` | `new ConcreteWorkspace`, `VerifyNeutralAxisControls` |
+| `ui/check-concrete-design` | `AppHarness.StartConcreteDesign` e `ConcreteDesignDesktopChecks.cs` (70) | `PrepareDesignSmoke`, `RunDesignSmoke` |
+| `ui/f3-concrete-figures` | `AppHarness.cs:52` e `tests/ANTHEA.Desktop.Equivalence/F3ConcreteFigureChecks.cs` | `new ConcreteWorkspace`, `CalculateAllAsync`, figure |
+| `ui/f3-report-chapters` (sezione) | `F3ReportChapterChecks.cs:160` | `CalculateCurvatureForReportCheck`; il ramo MVVM esiste già (`ui/f3-report-chapters-sezione-mvvm`, da togliere al passaggio) |
+| `ui/f3-scheduling` | `F3TypedSchedulingChecks.cs` (`ConcreteWorkspace.CheckF3Scheduling`) | sonda storica: serve la sonda MVVM, come `F3CompositeSectionMvvmSchedulingChecks` |
+| `--check-report-appearance-offscreen` (fuori dal runner) | `ReportAppearanceChecks.cs:69` e partial alla riga 146 | `WaitForConcreteChecks`, `ShowDomain3DForChecks` |
+| `ui/check-concrete-template-wizard` | `tests/Desktop/ConcreteTemplateViewChecks.cs:75,97` | riapertura con `new ConcreteWorkspace` |
+| `ConcreteInput.Checks` | `tests/ConcreteInput.Checks/Program.cs:95` | `ConcreteWorkspace` per riflessione (`settings`, `stressPanels`) |
+| `--capture-validation` (strumento) | `ValidationCaptureChecks.cs` (partial) | `PrepareValidationCapture`, `ValidationCapture` |
+| `ui/check-sezione-historic` | `ConcreteSectionHistoricTrace.cs`, `ConcreteSectionHistoricState.cs` | si archivia con la vista (le tracce restano) |
+| `ui/check-contrast` | `ContrastAudit.cs:501` e blocco `F5.10` | attesa sulle `ConcreteWorkspace`; Chiara: 38 voci / 271 occorrenze di `modulo-str_palo`, 1 / 8 di `cambio-modulo-str_palo`, le voci dei muri con chiave `ConcreteWorkspace` (sezione aperta dal muro) |
+
+Poi: `ui/check-sezione-view` R (parte `banco`, la prima), tolte `ui/check-sezione-historic`, `ui/f3-report-chapters-sezione-mvvm` e
+`$MvvmConcreteSection`, `--check-sezione-historic` dell'harness, la riga di `ModuleHostWpfChecks`, il blocco `F5.10` del contrasto.
+
+**Archiviazione della `ConcreteWorkspace`.** Oltre a `SheetEditor` e alle prove della tabella la usa ancora, in questo ramo,
+`PileReinforcementEditor.CreateConcreteWindow` (verificatore del palo orizzontale storico), che f5-pass-orizzontale archivia con la vista storica
+del palo orizzontale (ramo `refactoring/f5-pass-orizzontale`, `b4893667`). Dopo quell'unione i 26 file della vista (sezione 3, tranne i disegni
+usati dalla vista nuova) vanno in `supporto/SUPERATI/ui-storica/sezione-ca/` nel commit del passaggio.
+
+### 23.3 Domande
+
+- **CA-P1 · Asserzioni sulla cache interna.** Le prove storiche (soprattutto `ConcreteSmokeChecks.VerifyWorkspace`) controllano che le modifiche
+  riusino gli oggetti nativi in cache (`ReferenceEquals` su domini, mesh, risultati delle famiglie). Il ViewModel non espone questi oggetti
+  (nessun `InternalsVisibleTo` verso X.Desktop). Proposta: riscriverle sugli effetti osservabili dal ViewModel pubblico (risultato non
+  invalidato, nessun calcolo accodato, famiglie ricalcolate), dove le tracce congelate di `Presentation.Tests/sezione-ca` non le coprono già;
+  alternativa: accessi di prova in sola lettura nel ViewModel.
+- **CA-P2 · Archiviazione della `ConcreteWorkspace`** (sopra): nel commit del passaggio, su una base che contiene già il passaggio del palo
+  orizzontale.
+
+### 23.4 Come riprendere
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-pass-strutture
+dotnet build X.Desktop/X.Desktop.csproj -c UiTests
+dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-sezione-view <radice> <cartella vuota> [banco,disegni,tracce,esportazioni,schermate,aiuto,sola-lettura,nomi,finestre]
+dotnet X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.dll --check-palo-orizzontale-view <radice> <cartella vuota> tracce-elastiche,elastica
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(smoke|smoke-section-actions|smoke-ca-extensions|smoke-ca-features|smoke-neutral-axis|check-concrete-design|f3-concrete-figures|f3-report-chapters|f3-scheduling)$' -Tag <tag>"
+```

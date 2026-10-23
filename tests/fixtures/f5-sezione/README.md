@@ -12,6 +12,8 @@ dopo ogni passo di uno scenario, quello che l'utente vede nella scheda della sez
 | Comando | `ANTHEA.exe --check-sezione-historic <radice> <cartella>` (confronto) e `--check-sezione-historic-capture` (cattura), solo build UiTests |
 | Suite | `ui/check-sezione-historic` |
 | ViewModel | dai sottopassi di F5.10, in `tests/ANTHEA.Presentation.Tests` (senza WPF) |
+| Vista XAML | `ui/check-sezione-view` (`tests/Desktop/ConcreteSectionViewChecks*.cs`) |
+| Valori registrati | `vista-storica.json`: i valori che `ui/check-sezione-view` confrontava con la vista storica aperta accanto, registrati dalla stessa prova (sotto) |
 
 ## Che cosa contiene una traccia
 
@@ -123,3 +125,10 @@ Gli elenchi dipendono dai font installati (Segoe UI): valgono sulla macchina del
 - La suite `ui/check-sezione-historic` dello stadio `ui` ricattura la vista storica e la confronta con queste tracce e con gli
   elenchi dei disegni, finché la vista storica esiste.
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.
+- `vista-storica.json` (23/10/2026): registrato da `ui/check-sezione-view` sulla vista storica, sul commit `879e6b71`, parti
+  `esportazioni,sola-lettura,nomi,finestre` (PASS 167: la vista XAML dava gli stessi valori), per il passaggio della Release. Per le 11
+  fixture le impronte SHA-256 dei testi confrontati nell'ordine dei confronti (dati, risultato e risultati esportati con gli identificatori
+  numerati e gli esiti dei passi paralleli nell'ordine fisso, C6), le parti dei report Word, breve e della curva M–χ (core.xml e document.xml
+  normalizzati come in F3, le altre byte per byte), i `Modified` del report; i controlli liberi e bloccati in sola lettura (172), i nomi di
+  automazione di 4 fixture, i valori delle finestre «Scala…» e «Proprietà / report…» di 2 fixture. Da allora `ui/check-sezione-view` non apre
+  più la vista storica.
