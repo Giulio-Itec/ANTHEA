@@ -329,7 +329,7 @@ foreach ($c in 'check-appearance', 'check-global-guidance-offscreen', 'check-wal
 # reinforcing steel, vertical pile and micropile, stratigraphy, retaining walls) run also with those seven modules MVVM (bench --module-impl):
 # ui/<suite>-mvvm. At the Release switch of a module its pair leaves $MvvmBench; a duplicate goes when every module it opens is MVVM in the
 # Release (docs/refactoring/f5-suite-ui.md).
-$MvvmBench = @('geo_fondazioni_superficiali', 'geo_stratigrafia', 'geo_muri_sostegno') |
+$MvvmBench = @('geo_fondazioni_superficiali', 'geo_muri_sostegno') |
     ForEach-Object { '--module-impl'; "$_=mvvm" }
 foreach ($s in 'smoke-project-workspace', 'smoke-retaining-wall', 'smoke-global-stability') {
     $smokeArgs = if ($s -eq 'smoke') { @("--$s", '{out}', '{cases}') } else { @("--$s", '{out}') }
@@ -372,14 +372,11 @@ Add-Suite @{ Name = 'ui/check-fondazioni-view'; Stage = 'ui'; Kind = 'check'; Ar
 # F5.7 (proposal 7.2, capture first): the historic horizontal pile and micropile view still gives the traces and the drawings frozen in
 # tests/fixtures/f5-palo-orizzontale, which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-palo-orizzontale-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-orizzontale-historic', '{root}', '{out}\traccia'); Timeout = 900; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
-# F5.6b (proposal 7.2, capture first): the historic stratigraphy view still gives the traces frozen in tests/fixtures/f5-stratigrafia
-# (message boxes answered and soil transfer dialog driven off screen), which Presentation.Tests compares with the ViewModel; off screen,
-# until the historic view is archived (Q11).
-Add-Suite @{ Name = 'ui/check-stratigrafia-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-stratigrafia-historic', '{root}', '{out}\traccia'); Timeout = 300; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
-# F5.6b: the XAML view of the stratigraphy hosted by MvvmSheetEditor off screen (bench --module-impl, Release still historic): the 15 traces
-# through its controls and through the view of the shared soil dialog equal to those frozen in tests/fixtures/f5-stratigrafia, visit without
-# writes, exports equal to those of the historic view, screenshots, F1, automation names, read-only, AI import with a scripted source (never
-# the network), the view of the shared soil dialog against the historic window.
+# F5.6b: the XAML view of the stratigraphy hosted by MvvmSheetEditor off screen: the 15 traces through its controls and through the view of the
+# shared soil dialog equal to those frozen in tests/fixtures/f5-stratigrafia, visit without writes, exports as the historic view wrote them,
+# screenshots, F1, automation names, read-only, AI import with a scripted source (never the network), the view of the shared soil dialog against
+# the window SoilTransferDialog. The historic view and its suite ui/check-stratigrafia-historic are archived in
+# supporto/SUPERATI/ui-storica/stratigrafia since the Release switch (Q11).
 Add-Suite @{ Name = 'ui/check-stratigrafia-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-stratigrafia-view', '{root}', '{out}\vista'); Timeout = 600; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-spettri-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-spettri-view', '{root}', '{out}\vista'); Timeout = 180; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-spettri-contrast'; Stage = 'ui'; Kind = 'check'; Args = @('--check-spettri-contrast', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }

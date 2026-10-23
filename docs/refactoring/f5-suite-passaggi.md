@@ -56,6 +56,9 @@ l'archiviazione; **R** = controllo «la Release resta storica», da togliere nel
 
 ### 1.4 Stratigrafia (`geo_stratigrafia`)
 
+**Stato al 23/10 (f5-pass-geo): fatto.** Release MVVM, vista storica in `supporto/SUPERATI/ui-storica/stratigrafia/`, righe sotto
+risolte ([f5-6b-stratigrafia.md](f5-6b-stratigrafia.md), sezione 6).
+
 | Suite | File | Che cosa legge | Effetto | Piano |
 | --- | --- | --- | --- | --- |
 | `Stratigraphy.UiChecks` | `tests/ModelViewer.UiChecks/StratigraphyRenderingChecks.cs` | albero visuale della vista storica, `StratigraphyImportWindow` per riflessione (`drafts`, `profiles`, `reviewed`, `UpdateApply`) | P/A | ViewModel e vista nuova (`f5-6b-stratigrafia.md` 5.6) |

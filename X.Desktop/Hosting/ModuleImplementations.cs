@@ -38,7 +38,7 @@ internal sealed partial class ModuleImplementations
         ("str_bridge_design", SheetImplementation.Historic),
         ("mat_calcestruzzo", SheetImplementation.Mvvm),
         ("mat_acciaio_armatura", SheetImplementation.Mvvm),
-        ("geo_stratigrafia", SheetImplementation.Historic),
+        ("geo_stratigrafia", SheetImplementation.Mvvm),
         ("act_spettri_ntc", SheetImplementation.Mvvm),
         ("geo_paratie", SheetImplementation.Mvvm),
     ];

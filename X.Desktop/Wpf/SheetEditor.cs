@@ -20,7 +20,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     private ConcreteWorkspace? concrete;
     private readonly HorizontalWorkspace? horizontal;
     private readonly FoundationWorkspace? foundation;
-    private readonly StratigraphyWorkspace? soilWorkspace;
     internal readonly BridgeWorkspace? bridge;
     internal readonly BridgeDesignWorkspace? bridgeDesign;
     internal readonly RetainingWallWorkspace? retainingWall;
@@ -50,11 +49,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
             if (e.Key == System.Windows.Input.Key.F1 && WikiCatalog.ForModule(Module) is { } guide)
             { e.Handled = true; WikiContextHelp.Open(this, guide.Id); }
         };
-        if (module == Anthea.Application.Stratigraphy.StratigraphyDocument.Module)
-        {
-            soilWorkspace = new StratigraphyWorkspace(Data); soilWorkspace.Modified += () => Modified?.Invoke();
-            Content = Ui.Dock(soilWorkspace, Ui.Bar(Ui.Button("Invia / importa terreno da ANTHEA…", OpenSoilTransfer))); return;
-        }
         if (module == Anthea.FoundationWorkspace.FoundationDocument.Module)
         {
             foundation = new FoundationWorkspace(Data); foundation.Modified += () => Modified?.Invoke();
@@ -103,10 +97,9 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     private Action? releaseRevisionInspection;
     public void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
     public void Dispose() { releaseRevisionInspection?.Invoke(); concrete?.Dispose(); horizontal?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); bridgeDesign?.Dispose(); }
-    public void Commit() { if (soilWorkspace is not null) soilWorkspace.Commit(); else if (foundation is not null) foundation.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (bridge is not null) bridge.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); }
+    public void Commit() { if (foundation is not null) foundation.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (bridge is not null) bridge.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); }
     public async Task CalculateAsync(bool commitEdits = true)
     {
-        if (soilWorkspace is not null) { soilWorkspace.Commit(); return; }
         if (foundation is not null) { foundation.TryCalculate(); return; }
         if (retainingWall is not null) { await retainingWall.CalculateAsync(); return; }
         if (bridgeDesign is not null) { await bridgeDesign.CalculateAsync(); return; }
@@ -124,10 +117,6 @@ internal sealed partial class SheetEditor : UserControl, ISheetEditor
     }
     public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
     {
-        if (soilWorkspace is not null)
-        {
-            Commit(); ReportFiles.Write(filename, DocxWriter.Write(StratigraphyReport.Create(title, Data)), title); return;
-        }
         if (foundation is not null)
         {
             var current = Result ?? throw new InvalidOperationException("Calcolare prima di esportare.");

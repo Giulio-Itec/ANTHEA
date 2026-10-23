@@ -433,3 +433,57 @@ controlli (19 s), `ui/check-stratigrafia-historic` e `Stratigraphy.UiChecks` PAS
   shell.
 - Nessun evento nei registri di Windows (Applicazione, Defender). Ipotesi: un controllo di sicurezza che ferma l'eseguibile non
   firmato avviato da PowerShell mentre rinomina in fila file appena scritti. Da ripetere dal coordinatore.
+
+## 6. Passaggio della Release (23/10, agente f5-pass-geo)
+
+Ramo `refactoring/f5-pass-geo`, da `refactoring/f5` `db7ef68d`, dopo materiali e pali verticali. Decisione dell'utente del 23/10: «finisci
+il refactoring che avevamo previsto delle viste», «Moduli ora, shell dopo». Eseguito il piano della sezione 5.6.
+
+### 6.1 Che cosa è fatto
+
+| Commit | Contenuto |
+| --- | --- |
+| `12d08f10` | `ui/check-stratigrafia-view` senza la vista storica; `Stratigraphy.UiChecks` riscritta sul ViewModel e sulla vista del dialogo dell'importazione |
+| commit del passaggio | Release MVVM per `geo_stratigrafia`, vista storica archiviata, suite, contrasto e documenti |
+
+- **Release.** `ModuleImplementations.Declared`: `geo_stratigrafia` = `Mvvm`; `ui/check-module-host-offscreen` e `ui/check-stratigrafia-view`
+  (banco e Release) lo provano.
+- **Archiviazione (Q11)** in `supporto/SUPERATI/ui-storica/stratigrafia/`, con `README.md` e `registro.json`: `X.Desktop/Wpf/StratigraphyWorkspace.cs`,
+  `X.Desktop/Wpf/StratigraphyImportWindow.cs`, `tests/Desktop/StratigraphyHistoricTrace.cs`. `StratigraphyProfileView` (usato dalla vista
+  nuova) e `SoilProfileIcon` (icona del modulo), in fondo a `StratigraphyWorkspace.cs`, sono spostati senza modifiche in
+  `X.Desktop/Wpf/StratigraphyProfileView.cs`. `SoilTransferDialog` resta: la usano fondazioni, muri e pali orizzontali storici.
+- **Tolti:** i rami della stratigrafia di `SheetEditor` (`soilWorkspace`, costruttore, `Commit`, `CalculateAsync`, `ExportReport`);
+  `--check-stratigrafia-historic[-capture]` e la suite; il blocco autonomo `StratigraphyContrastStep` di `ContrastAudit.cs`; il modulo da
+  `$MvvmBench`.
+- **`ui/check-stratigrafia-view`** (`12d08f10`): dati dopo «Calcola» uguali alla traccia congelata `fixture-<id>`; messaggio di «Esporta
+  risultati»; Word e PDF della ricetta della vista storica (`StratigraphyReport.Create`); nomi di automazione e sola lettura dai valori
+  registrati (corsa di cattura `20261023-124229-geo-cattura-3`); nessun «?»; schermate della sola vista nuova. Il confronto del dialogo
+  condiviso con la finestra storica resta.
+- **`Stratigraphy.UiChecks`** (`12d08f10`): il foglio dalla fabbrica del prodotto (ora la vista nuova) con gli stessi testi e controlli;
+  l'importazione IA sul `StratigraphyImportDialogViewModel` con la sua vista dal DataTemplate, una sorgente delle bozze e un dialogo dei file
+  scritti dalla prova; le finestre della prova ora fuori schermo e mai attivate (prima la finestra del foglio era sullo schermo).
+- **Baseline.** F4: nessuna voce per i file archiviati. P3, `limits.json` e `tests/fixtures/f3/architecture.json` invariati.
+- **Contrasto.** La baseline della Chiara non ha voci della stratigrafia: nessuna voce da spostare. Il passo `modulo-geo_stratigrafia` mostra
+  ora la vista nuova: **da ripetere a 96 DPI**; eventuali difetti della vista nuova in Chiara vanno spiegati (D12).
+- **Registro.** Nessuna voce nuova: F5-07 è già «attiva nella Release dopo il passaggio del modulo».
+
+### 6.2 Prove
+
+| Corsa | Esito |
+| --- | --- |
+| `ui/check-stratigrafia-view` su `12d08f10` (`20261023-132724-geo-st-vista`) | PASS 186 controlli |
+| `Stratigraphy.UiChecks` su `12d08f10` (`20261023-132940-geo-st-uichecks`) | PASS 26 controlli |
+| dopo il passaggio (`20261023-133235-geo-st-pass`): `Architecture.Tests`, `Stratigraphy.UiChecks`, `ui/check-stratigrafia-view`, `ui/check-palo-verticale-view`, `ui/check-module-host-offscreen`, `ui/f3-figures`, `ui/f3-scheduling`, `ui/smoke-sharing`, `-projects`, `-project-workspace` e `-mvvm`, `ui/shell-smoke-sharing` | PASS 16, NEW-FAIL 0 |
+
+### 6.3 Che cosa resta
+
+- `ui/check-contrast` a 96 DPI.
+- `ui/f3-equivalence` sul ramo unito (coordinatore).
+- Guida pratica: nessun cambiamento della disposizione descritta.
+
+### 6.4 Come riprendere
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-pass-geo
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^(Stratigraphy\.UiChecks|ui/check-stratigrafia-view)$' -Tag <tag>"
+```

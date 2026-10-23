@@ -41,9 +41,9 @@ internal static class ModuleHostWpfChecks
 
     /// <summary>
     /// The modules MVVM in the Release, in ordinal order: the pile group (F5.4), Spectra and the embedded walls (new modules), the modules
-    /// switched after the user's trial (23/10: materials, vertical pile and micropile).
+    /// switched after the user's trial (23/10: materials, vertical pile and micropile, stratigraphy).
     /// </summary>
-    private static readonly string[] ReleaseMvvm = [SpectraModule, PileGroupModule, "geo_micropalo_verticale", "geo_palo_verticale", EmbeddedWallModule, ProbeModule, ConcreteModule];
+    private static readonly string[] ReleaseMvvm = [SpectraModule, PileGroupModule, "geo_micropalo_verticale", "geo_palo_verticale", EmbeddedWallModule, "geo_stratigrafia", ProbeModule, ConcreteModule];
 
     private const string ProbeView = """
         <DataTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
@@ -72,7 +72,7 @@ internal static class ModuleHostWpfChecks
             "ModuleImplementations elenca esattamente i moduli di ModuleDirectory, nel suo ordine");
         Check(ModuleImplementations.Declared.All(d => d.Implementation == (ReleaseMvvm.Contains(d.Module) ? SheetImplementation.Mvvm : SheetImplementation.Historic))
             && ModuleImplementations.Release.Mvvm.SequenceEqual(ReleaseMvvm),
-            "Release: palificata, Spettri, paratie, materiali e pali verticali con la vista MVVM, gli altri moduli con la vista storica");
+            "Release: palificata, Spettri, paratie, materiali, pali verticali e stratigrafia con la vista MVVM, gli altri moduli con la vista storica");
 
         // The composition root of the product: registry of ModuleDirectory with the MVVM pile group (F5.4), materials (F5.5) and vertical
         // piles (F5.6), the editors of the Release.
@@ -96,7 +96,7 @@ internal static class ModuleHostWpfChecks
         using (var spectra = composition.SheetEditors.Open(SpectraModule, ModuleDirectory.CreateData(SpectraModule)))
             Check(spectra is MvvmSheetEditor { Sheet: SpectraSheetViewModel }, "Radice di composizione: la Release apre Spettri con la vista MVVM");
         foreach (string migrated in new[] {
-            "geo_fondazioni_superficiali", "geo_palo_orizzontale", "geo_micropalo_orizzontale", "geo_stratigrafia", "geo_muri_sostegno", "str_palo" })
+            "geo_fondazioni_superficiali", "geo_palo_orizzontale", "geo_micropalo_orizzontale", "geo_muri_sostegno", "str_palo" })
             using (var sheet = composition.SheetEditors.Open(migrated, ModuleDirectory.CreateData(migrated)))
                 Check(sheet is SheetEditor, "Radice di composizione: la Release apre " + migrated + " con la vista storica");
         Fails<ArgumentException>(() => composition.SheetEditors.Open("inesistente", new JsonObject()), "inesistente", "Modulo sconosciuto rifiutato come oggi");

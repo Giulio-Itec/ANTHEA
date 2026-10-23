@@ -35,8 +35,7 @@ namespace X.Desktop;
 /// <summary>
 /// --check-stratigrafia-view &lt;radice&gt; &lt;cartella&gt; (UiTests, F5.6b, proposal F5 section 7.3): the XAML view of the stratigraphy
 /// (StratigraphySheetView with StratigraphyEditorView) hosted by <see cref="MvvmSheetEditor"/>, as the bench opens it with
-/// <c>--module-impl geo_stratigrafia=mvvm</c>, in windows outside the screen (never activated, no mouse). The Release keeps the historic
-/// view until the user has tried the new one (decisions of 17/10). Parts:
+/// <c>--module-impl geo_stratigrafia=mvvm</c>, in windows outside the screen (never activated, no mouse). Parts:
 /// <list type="number">
 /// <item>Traces through the view: the 15 scenarios of tests/Shared/StratigraphyTrace.cs driven through the controls of the view (fields and
 /// choices of the FieldForm, list of the layers, buttons, the two check boxes clicked as the user clicks them) and through the controls of the
@@ -57,9 +56,9 @@ namespace X.Desktop;
 /// view, review, application, errors, interruption) and the key cleared at the closing.</item>
 /// <item>The shared soil dialog: its view (SoilTransferTemplates) against the historic window SoilTransferDialog on the stratigraphy
 /// fixtures, with and without other sheets of the project; the composition root gives the stratigraphy the shared dialog.</item>
-/// <item>Bench and Release: with --module-impl the module opens the MVVM view; the Release keeps the historic view.</item>
+/// <item>Bench and Release: with --module-impl and in the Release the module opens the MVVM view.</item>
 /// </list>
-/// The historic view is not opened any more (f5-pass-geo, Q11): what the checks compared with it is compared with the values it gave, frozen
+/// The historic view is archived (f5-pass-geo, Q11: supporto/SUPERATI/ui-storica/stratigrafia): what the checks compared with it is compared with the values it gave, frozen
 /// in its traces or recorded here (<see cref="HistoricAutomationNames"/>, <see cref="HistoricReadOnly"/>, <see cref="HistoricNoResult"/>; no
 /// «?» label). The shared soil dialog is still compared with the window SoilTransferDialog, which the other historic modules use.
 /// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
@@ -1155,6 +1154,6 @@ internal static class StratigraphyViewChecks
             Check(mvvm is MvvmSheetEditor { Sheet: StratigraphySheetViewModel sheet } && sheet.Editor.Forms.All(f => f.WikiNavigator is not null),
                 Module + ": con --module-impl il banco apre la vista MVVM, ogni form con il navigatore della Wiki");
         using (var release = ModuleHostBench.SheetEditors([], DesktopComposition.CreateModules()).Open(Module, data))
-            Check(release is SheetEditor && ModuleImplementations.Release.For(Module) == SheetImplementation.Historic, Module + ": la Release resta storica fino alla prova dell'utente");
+            Check(release is MvvmSheetEditor { Sheet: StratigraphySheetViewModel } && ModuleImplementations.Release.For(Module) == SheetImplementation.Mvvm, Module + ": la Release apre la vista MVVM");
     }
 }

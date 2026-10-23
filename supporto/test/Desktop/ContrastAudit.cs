@@ -169,9 +169,8 @@ internal sealed class ContrastAudit
                     // ---- F5.9b begin: step mvvm-geo_fondazioni_superficiali, self-contained (ShallowFoundationContrastStep at the end of the file) ----
                     await ShallowFoundationContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
                     // ---- F5.9b end ----
-                    // ---- F5.6b begin: step mvvm-geo_stratigrafia, self-contained (StratigraphyContrastStep at the end of the file) ----
-                    await StratigraphyContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
-                    // ---- F5.6b end ----
+                    // F5.6b: since the Release switch of the stratigraphy (f5-pass-geo) the step modulo-geo_stratigrafia shows the MVVM view; its own
+                    // step mvvm-geo_stratigrafia is removed with the historic view.
                     // ---- F5.9 begin: step mvvm-geo_muri_sostegno, self-contained (RetainingWallContrastStep at the end of the file) ----
                     await RetainingWallContrastStep.RunAsync(audit, mode, audit.baselineFile is not null);
                     // ---- F5.9 end ----
@@ -2047,43 +2046,6 @@ public sealed partial class MainWindow
 }
 
 // ---------------------------------------------------------------- F5.9b end
-
-// ---------------------------------------------------------------- F5.6b begin: step mvvm-geo_stratigrafia (self-contained)
-
-/// <summary>
-/// The XAML view of the stratigraphy before the switch of the Release (F5.6b): the same exploration as the module steps (AuditModule), in a
-/// main window whose editors open the MVVM sheet (--module-impl geo_stratigrafia=mvvm). With --baseline (runner) only Scuro and Molto scuro:
-/// until the Release opens the new view, the Chiara of the module is the one of the historic view, whose defects are in the baseline
-/// (modulo-geo_stratigrafia); without --baseline also Chiara. Self-contained: it does not depend on the step of another module; at the switch
-/// of the Release it is removed and the step of the module shows the new view.
-/// </summary>
-internal static class StratigraphyContrastStep
-{
-    internal const string Module = "geo_stratigrafia";
-    internal const string View = "mvvm-" + Module;
-
-    internal static async Task RunAsync(ContrastAudit audit, AppAppearance mode, bool baseline)
-    {
-        if (!audit.Want(View)) return;
-        if (mode == AppAppearance.Light && baseline)
-        {
-            audit.Uncovered("Vista MVVM della stratigrafia (F5.6b) in Chiara", "con --baseline solo Scuro e Molto scuro finché la Release apre la vista " +
-                "storica, la cui Chiara è nella baseline (modulo-geo_stratigrafia); la Chiara della vista MVVM si misura senza --baseline");
-            return;
-        }
-        var window = await audit.OpenMain(mode, ModuleHostBench.SheetEditors([ModuleHostBench.Argument, Module + "=mvvm"]));
-        try { await audit.Step(View, () => window.AuditStratigraphyMvvm(audit)); }
-        finally { await audit.CloseMain(window); }
-    }
-}
-
-public sealed partial class MainWindow
-{
-    /// <summary>F5.6b: the exploration of the module steps on the MVVM sheet of the stratigraphy, with the names of its step.</summary>
-    internal Task AuditStratigraphyMvvm(ContrastAudit a) => AuditModule(a, StratigraphyContrastStep.Module, "mvvm-");
-}
-
-// ---------------------------------------------------------------- F5.6b end
 
 // ---------------------------------------------------------------- F5.9 begin: step mvvm-geo_muri_sostegno (self-contained)
 
