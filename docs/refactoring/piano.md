@@ -638,7 +638,8 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
       interassi rappresentativi» invece di «Opzioni di calcolo e applicabilità»). Va fatta in un passo documentale con
       l'aggiornamento editoriale F3-06 della Wiki, poi PDF da rigenerare (sezione 5.4 della nota). Il passaggio in sé non cambia
       la guida.
-- [ ] F5.5–F5.12 Materiali, palo verticale, orizzontale, elastico, muri, sezione c.a., sezione composta, Bridge Design.
+- [x] F5.5–F5.12 Materiali, palo verticale, orizzontale, elastico, muri, sezione c.a., sezione composta, Bridge Design.
+  **Chiusi il 23/10:** tutti i 15 moduli aprono la vista MVVM nella Release (merge 006f65c4; elenco dei passaggi in fondo alla voce).
   - **Preparazioni fatte il 16/10** (passi 1–5 della ricetta, Release storica). Per entrambe restano la vista XAML e il punto
     di controllo:
     - **F5.5, materiali** ([f5-5-materiali.md](f5-5-materiali.md), merge ac82c69e):
@@ -716,36 +717,36 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
       - restano la prova dell'utente e il passaggio dei due moduli insieme (O2/E2).
     - **F5.10 S1, sezione c.a.** (merge eac4773c): guscio, coordinatore del calcolo (C1, C2), ingressi e materiali.
       - 21 scenari uguali alle tracce congelate; 55 file dei dati F3 uguali al riferimento.
-      - S2 (ramo `refactoring/f5-10-s2`, 21/10, da unire): riallineamento al codice del 20/10 (sezione 9: tracce congelate
+      - S2 (ramo `refactoring/f5-10-s2`, 21/10, merge 3e1b86de): riallineamento al codice del 20/10 (sezione 9: tracce congelate
         ancora valide, lacune del ViewModel sulle sezioni da wizard, sottopasso S1b proposto) e azioni (sezione 10:
         `SectionActionsViewModel` in Presentation, C3; tabelle dei pannelli e finestra delle sollecitazioni; 25 scenari uguali).
-      - S1b (ramo `refactoring/f5-10-s1b`, 21/10, da unire): sezioni da wizard e persistenza nativa (sezione 11 di
+      - S1b (ramo `refactoring/f5-10-s1b`, 21/10, merge d22550c4): sezioni da wizard e persistenza nativa (sezione 11 di
         [f5-10-sezione.md](f5-10-sezione.md)): 18 tracce nuove della vista storica (15 esempi, 3 scenari del wizard), le sei lacune
         chiuse nel ViewModel, 43 scenari uguali.
-      - S3 (stesso ramo, 21/10, da unire): domini 3D e 2D (sezione 12 di [f5-10-sezione.md](f5-10-sezione.md)):
+      - S3 (stesso ramo, 21/10, merge d22550c4): domini 3D e 2D (sezione 12 di [f5-10-sezione.md](f5-10-sezione.md)):
         `ConcreteDomainPanelViewModel` sul modello di tabella di S2, disegni come dati, derivazioni in `ConcreteDomainChart`
         chiamate anche dalla vista storica; 45 scenari uguali, domini 3D come dati uguali ai congelati.
-      - S4 (ramo `refactoring/f5-10-s4`, 21/10, da unire): SLE e tensioni (sezione 13 di [f5-10-sezione.md](f5-10-sezione.md)):
+      - S4 (ramo `refactoring/f5-10-s4`, 21/10, merge b359eca7): SLE e tensioni (sezione 13 di [f5-10-sezione.md](f5-10-sezione.md)):
         `ConcreteStressPanelViewModel` per famiglia sul modello di tabella di S2, opzioni comuni, mappa come dati con la legenda, derivazioni
         in `ConcreteStressPresentation` chiamate anche dalla vista storica; 47 scenari uguali.
-      - S5 (stesso ramo, 21/10, da unire): taglio e torsione (sezione 14 di [f5-10-sezione.md](f5-10-sezione.md)): `ConcreteShearViewModel`
+      - S5 (stesso ramo, 21/10, merge b359eca7): taglio e torsione (sezione 14 di [f5-10-sezione.md](f5-10-sezione.md)): `ConcreteShearViewModel`
         su `Actions.Shear`, staffe in sola lettura delle schede 05 e 06, taglio sul thread dell'interfaccia (C2), derivazioni in
         `ConcreteShearPresentation` chiamate anche dalla vista storica; 49 scenari uguali.
-      - S6, S7 e S8 (ramo `refactoring/f5-10-s6`, 22/10, da unire; sezioni 15–18 di [f5-10-sezione.md](f5-10-sezione.md)):
+      - S6, S7 e S8 (ramo `refactoring/f5-10-s6`, 22/10, merge 3a3467e5; sezioni 15–18 di [f5-10-sezione.md](f5-10-sezione.md)):
         dettagli e ancoraggi (`ConcreteDetailingViewModel`), sezione σ/ε per pannello e momento–curvatura (`ConcreteSectionInspectionViewModel`,
         `ConcreteCurvatureViewModel`), progetto delle armature (`ConcreteDesignViewModel`, ricerca asincrona annullabile, «Applica
         configurazione»); derivazioni in `ConcreteDetailingPresentation`, `ConcreteInspectionPresentation`, `ConcreteCurvaturePresentation` e
         `ConcreteDesignPresentation` chiamate anche dalla vista storica; 55 scenari uguali, ogni parte della traccia confrontata. Suite `ui/*`
         della vista storica da eseguire la sera (regola del giorno del 22/10).
-      - S9, parte ViewModel (ramo `refactoring/f5-10-s9`, 22/10, da unire; sezione 19 di [f5-10-sezione.md](f5-10-sezione.md)): report Word e
+      - S9, parte ViewModel (ramo `refactoring/f5-10-s9`, 22/10, merge 38a3bed1; sezione 19 di [f5-10-sezione.md](f5-10-sezione.md)): report Word e
         breve con i generatori congelati e le figure WPF alimentate dai dati del foglio (`IConcreteSectionFigureRenderer`), report breve
         nell'ospite (`IModuleShortReport`); 57 scenari uguali (anche `report/*`), percorso F3 completo con i report uguale al riferimento.
         Vista XAML (stesso ramo, sezione 20): le otto schede e le finestre legate ai ViewModel; suite `ui/check-sezione-view` scritta, da
         eseguire la sera; restano le tracce attraverso i controlli della vista.
-        Prima esecuzione della vista (ramo `refactoring/f5-10-vista-prova`, 22/10 sera, da unire; sezione 21): suite della vista corretta
+        Prima esecuzione della vista (ramo `refactoring/f5-10-vista-prova`, 22/10 sera, merge 87181e61; sezione 21): suite della vista corretta
         (stato di cultura della cattura storica, ordine C6, identificativi nuovi), sola lettura e aspetto delle otto schede come la storica;
         `ui/check-sezione-view` PASS 131, banco F3 storico e MVVM uguali.
-        Tracce guidate dalla vista (ramo `refactoring/f5-10-tracce-vista`, notte 22–23/10, da unire; sezione 22): i 57 scenari congelati guidati
+        Tracce guidate dalla vista (ramo `refactoring/f5-10-tracce-vista`, notte 22–23/10, merge 64a33ef1; sezione 22): i 57 scenari congelati guidati
         sui controlli della vista per nome di automazione, finestre comprese, uguali riga per riga; nomi di automazione e finestre «Scala…» e
         «Proprietà / report…» accanto alla storica; quattro correzioni della vista (tabelle in sola lettura, selezione, ordine, nomi).
     - **Suite UI indipendenti dall'implementazione** (merge 35bba417, [f5-suite-ui.md](f5-suite-ui.md)):
@@ -754,6 +755,21 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
       - al passaggio di un modulo si toglie solo il ramo storico.
       - Domanda S6 per l'utente: l'antivirus chiude l'eseguibile non firmato quando `DocumentFile.Write` rinomina un PNG.
     - **Corsa** sul merge della notte `20261018-035914-f5-int20`: PASS 139, 0 NEW-FAIL, senza `ui/check-contrast`.
+  - **Passaggi della Release del 23/10** (decisione dell'utente: «Moduli ora, shell dopo»). Per ogni modulo la riga di
+    `ModuleImplementations.Declared` diventa `Mvvm`, la vista storica va in `supporto/SUPERATI/ui-storica/<modulo>/` con README e
+    registro, e le suite perdono i rami storici. Dove le prove confrontavano
+    le due viste, i valori della storica restano in `tests/fixtures/f5-<modulo>/vista-storica.json` (Bridge Design, muri, sezione composta
+    e sezione c.a.).
+    - palo e micropalo orizzontale con la scheda elastica (merge 58a8c476);
+    - sezione composta e Bridge Design; verificatore c.a. della risposta elastica sulla sezione nuova (merge b11ddf5c);
+    - materiali, palo e micropalo verticale, stratigrafia e fondazioni (merge 2cf2a908);
+    - sezione c.a., con la `ConcreteWorkspace` archiviata (merge bf75c2ae; scelte CA-P1–CA-P3 in [f5-15-revisione.md](f5-15-revisione.md));
+    - muri di sostegno (merge 006f65c4).
+
+    `SheetEditor` resta senza fogli storici e si ritira con la parte (g) di F5.13, dopo la prova dell'utente. Baseline F4 da 2153 voci
+    e 3206 occorrenze a 2105 e 3142. Corse sul merge finale: standard `merge-muri` e ui mirate con `ui/f3-equivalence` (`merge-muri-ui`).
+    Restano per la revisione delle guide le frasi dei muri e il campo «esito» di MU3/MU4. Le chiavi della prova del contrasto si
+    spostano alla prima corsa a 96 DPI (D12).
 - [ ] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow. Requisito
   dell'utente dell'8/10 («considera le opzioni 1 e 3. non multi progetto. però dai la possibilità di staccare la
   finestra per più monitor»):
@@ -764,36 +780,36 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
   Da gestire: aggiornamento dei fogli aperti quando cambiano i dati condivisi (sezione, terreni, fogli CLS
   collegati), modifiche non salvate per foglio, calcoli in parallelo senza stato statico (dopo F2.11). Oggi
   MainWindow tiene un solo foglio e un solo documento (`MainWindow.cs:220-229`).
-  - **Parti (a) e (b)** (22/10, ramo `refactoring/f5-13-ab`, da unire; [nota](f5-13-shell.md)): sessioni dei documenti e dei
+  - **Parti (a) e (b)** (22/10, ramo `refactoring/f5-13-ab`, merge 7a358e23; [nota](f5-13-shell.md)): sessioni dei documenti e dei
     fogli, coordinatore dei documenti aperti, storia e revisioni con più schede, dati condivisi propagati alle schede aperte, e i
     ViewModel di navigazione, albero, revisioni, coerenza, schede staccabili e comandi in `src/ANTHEA.Presentation/Shell`; 314
     controlli senza WPF; shell storica e Release invariate. Domande provvisorie SH1–SH22. Restano (c)–(g).
-  - **Parte (c) fino al punto di controllo** (22/10, ramo `refactoring/f5-13-c`, da unire; [nota](f5-13-shell.md), sezioni 8–10):
+  - **Parte (c) fino al punto di controllo** (22/10, ramo `refactoring/f5-13-c`, merge 10110f78; [nota](f5-13-shell.md), sezioni 8–10):
     `ISheetExports` sul codice di `MvvmSheetEditor`, `IWindowService`, menu «Aspetto», argomenti di avvio, Wiki e Modelli nei ViewModel
     (89 controlli senza WPF); bozza XAML della shell in `X.Desktop/Views/Shell` (non è la finestra della Release) con la cattura
     `ui/check-shell-draft` da eseguire di notte. **[CP]** sulla bozza: domande SH23–SH32 e le SH1–SH22 che la bozza rende visibili.
   - **Punto di controllo della bozza** (22/10 sera): le dieci immagini approvate, SH5–SH32 con le opzioni della bozza. Ramo
-    `refactoring/f5-13-c2`, da unire ([nota](f5-13-shell.md), sezioni 9.2, 9.5, 10.1). Dall'albero un foglio si apre in una nuova finestra
+    `refactoring/f5-13-c2`, merge 3733b1a6 ([nota](f5-13-shell.md), sezioni 9.2, 9.5, 10.1). Dall'albero un foglio si apre in una nuova finestra
     o a pagina intera (Esc e «Esci da pagina intera»), richiesta dell'utente; poi Ctrl+Z/Ctrl+Y, riepilogo della sezione, rinomina in linea
     e icone nell'albero, icone del catalogo, radice di composizione `ShellComposition` avviabile solo nella build UiTests
     (`--interactive-shell`). Release invariata. Domande SH33–SH37.
-  - **Resto della parte (c)** (notte del 22–23/10, ramo `refactoring/f5-13-c3`, da unire; [nota](f5-13-shell.md), sezione 10.2): riepilogo della
+  - **Resto della parte (c)** (notte del 22–23/10, ramo `refactoring/f5-13-c3`, merge 42151b9a; [nota](f5-13-shell.md), sezione 10.2): riepilogo della
     sezione con «Confronto e avvisi», «Riepilogo modifiche» e «Dettaglio avvisi»; albero con trascinamento e indicatore, clic singolo, testo per
     profondità e frecce leggibili in «Scuro»; «Riprendi» e schede da aggiungere trascinabili; piccoli schermi e avviso SH9; ospite dei moduli
     storici (R5: i 12 moduli storici della Release nel loro `SheetEditor` dentro la scheda); report short c.a. provato dalla shell. Release
     invariata. Domande SH38–SH47.
-  - **Parte (d)** (22/10, ramo `refactoring/f5-13-d`, da unire; [nota](f5-13-shell.md), sezione 11): stato statico E5 di ponte, muri, pali,
+  - **Parte (d)** (22/10, ramo `refactoring/f5-13-d`, merge 19153431; [nota](f5-13-shell.md), sezione 11): stato statico E5 di ponte, muri, pali,
     fondazioni e Wiki. Viste dei risultati tenute dal calcolo (`ModuleCalculation.View`) al posto di tre `ConditionalWeakTable` statiche;
     cataloghi immutabili (`ImmutableArray`, `ReadOnlyDictionary` dove conta l'ordine, `FrozenDictionary` per le sole ricerche). Baseline P3
     da 126 a 37 voci, zero nelle cinque aree salvo le due liste di sezioni dei report congelati. Prova di uscita `--paralleli` (suite
     `Presentation.Tests/paralleli`, stadio regression): 95 fixture F3 in serie e in due giri paralleli con il limitatore di istanza, bit per
     bit. Domande D-1…D-4; suite `ui` da eseguire di notte nella sezione 11.5.2.
-  - **Parte (d) per la sezione c.a.** (22/10, ramo `refactoring/f5-13-d2`, da unire; [nota](f5-13-shell.md), sezione 11.7): le ultime quattro
+  - **Parte (d) per la sezione c.a.** (22/10, ramo `refactoring/f5-13-d2`, merge c1dd1d1c; [nota](f5-13-shell.md), sezione 11.7): le ultime quattro
     voci P3 della sezione c.a. diventano cataloghi immutabili. Sono `ConcreteTimeEffectsViewModel.Inputs` e, nella vista storica, invariata,
     `CommonCoefficients`, `Contours` e `AllCalculations`. Baseline P3 da 37 a 33 voci, zero nella sezione c.a. La prova `--paralleli`
     comprende le 11 fixture `str_palo`: due fogli per fixture accanto agli altri moduli, lotti della sezione contati a parte dal limitatore,
     PASS 437 in sei esecuzioni con impronte della serie identiche. Domanda D-5: la sezione calcola fuori dal limitatore.
-  - **Parte (e)** (notte del 22–23/10, ramo `refactoring/f5-13-e`, da unire dopo `f5-13-c3`; [nota](f5-13-shell.md), sezione 12): le sei suite di
+  - **Parte (e)** (notte del 22–23/10, ramo `refactoring/f5-13-e`, merge f4af0ae9; [nota](f5-13-shell.md), sezione 12): le sei suite di
     `MainWindow` sul lavoro della finestra portate sulla shell nuova (`ui/shell-smoke-*` e `-mvvm`, stessi scenari e asserzioni); «Genera report» e
     «Report Word della sezione» dalla shell con `ISectionReports` (la chiamata di `MainWindow`, report invariati), report Word uguale a quello di
     `MainWindow`; cattura di un progetto dalla shell uguale a quella da `MainWindow` (`ui/shell-capture`, confronto diretto «identiche»). Otto
