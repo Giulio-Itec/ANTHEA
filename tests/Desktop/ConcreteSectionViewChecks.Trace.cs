@@ -145,7 +145,7 @@ internal static partial class ConcreteSectionViewChecks
         ?? throw new MissingMethodException(nameof(MenuItem), "InvokeClickAfterRender");
 
     /// <summary>A click as the user makes it (ButtonBase.OnClick: a check box changes, then Click, then the command), only when the control is usable.</summary>
-    private static bool Click(ButtonBase? button)
+    internal static bool Click(ButtonBase? button)
     {
         if (button is null || !Usable(button)) return false;
         ClickMethod.Invoke(button, null);

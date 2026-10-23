@@ -66,15 +66,18 @@ internal static class ReportAppearanceChecks
         {
             using var zip = new ZipArchive(new MemoryStream(docx)); using var read = new StreamReader(zip.GetEntry("word/document.xml")!.Open()); return read.ReadToEnd();
         }
-        using (var editor = new SheetEditor("str_palo", SezioneCA.DefaultData()))
+        // Passaggio della Release della sezione c.a. (23/10/2026): the XAML view of the editor, without a window as the historic SheetEditor.
+        using (var section = ConcreteSectionSmoke.OpenDetached(SezioneCA.DefaultData()))
         {
-            await editor.CalculateAsync(); await editor.WaitForConcreteChecks();
-            var docx = editor.BuildReport("Sezione c.a. · aspetto", ["geometria", "materiali", "coefficienti", "azioni", "dominio3d", "dominio2d", "SLE", "SLE_FREQ", "SLE_QP", "taglio", "grafici"]);
+            var editor = section.Editor.View;
+            editor.Width = 1600; editor.Height = 1000; editor.Measure(new Size(1600, 1000)); editor.Arrange(new Rect(0, 0, 1600, 1000)); editor.UpdateLayout();
+            await section.Editor.CalculateAsync(); await section.Settle();
+            if (section.Busy || !section.Editor.HasResults) throw new Exception("Verifiche c.a. non completate");
+            var docx = section.Editor.BuildReport("Sezione c.a. · aspetto", ["geometria", "materiali", "coefficienti", "azioni", "dominio3d", "dominio2d", "SLE", "SLE_FREQ", "SLE_QP", "taglio", "grafici"]);
             check(DocumentXml(docx).Contains("Dominio 3D "), "Sezione c.a.: figura del dominio 3D presente");
             Add("sezione-ca", docx);
             // PNG button of the 3D view (ViewportFrame): the view lies in the editor, themed as a window of the current appearance.
-            editor.Width = 1600; editor.Height = 1000; editor.Measure(new Size(1600, 1000)); editor.Arrange(new Rect(0, 0, 1600, 1000)); editor.UpdateLayout();
-            var view = editor.ShowDomain3DForChecks(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); editor.UpdateLayout();
+            var view = await section.ShowDomain3DForChecks(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); editor.UpdateLayout();
             bool dark = Appearance.Current != AppAppearance.Light; Appearance.SetDark(editor, dark); Appearance.ApplyTree(editor); editor.UpdateLayout();
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); editor.UpdateLayout();
             // The camera was fitted at the earlier size of the view: "Adatta" at the fixed size, as before an export.

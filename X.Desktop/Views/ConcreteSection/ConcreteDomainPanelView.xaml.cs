@@ -69,7 +69,7 @@ public partial class ConcreteDomainPanelView : UserControl
             panel.Chart!.Changed += OnDrawingChanged;
         }
         DrawingHost.Content = Drawing;
-        panel.FitRequested += OnFitRequested; panel.ZoomRequested += OnZoomRequested;
+        panel.FitRequested += OnFitRequested; panel.ZoomRequested += OnZoomRequested; panel.PropertyChanged += OnPanelChanged;
         panel.Inspection.Map.Changed += OnMapChanged; panel.Inspection.Map.PropertyChanged += OnMapChanged; panel.Inspection.PropertyChanged += OnInspectionChanged;
         Draw(); DrawMap(); DrawPlane();
     }
@@ -79,7 +79,7 @@ public partial class ConcreteDomainPanelView : UserControl
         if (panel is null) return;
         if (panel.View3D is { } data) data.Changed -= OnDrawingChanged;
         if (panel.Chart is { } chart) chart.Changed -= OnDrawingChanged;
-        panel.FitRequested -= OnFitRequested; panel.ZoomRequested -= OnZoomRequested;
+        panel.FitRequested -= OnFitRequested; panel.ZoomRequested -= OnZoomRequested; panel.PropertyChanged -= OnPanelChanged;
         panel.Inspection.Map.Changed -= OnMapChanged; panel.Inspection.Map.PropertyChanged -= OnMapChanged; panel.Inspection.PropertyChanged -= OnInspectionChanged;
         if (view3D is not null) view3D.ActionSelected -= OnActionSelected;
         if (plot is not null) { plot.ViewReset -= OnChartReset; plot.MouseWheel -= OnChartWheel; }
@@ -87,6 +87,9 @@ public partial class ConcreteDomainPanelView : UserControl
     }
 
     private void OnDrawingChanged(object? sender, EventArgs e) => Draw();
+
+    // The slider «Trasparenza» changes the opacity of the 3D domain at once, as the historic slider did (the opacity is not a change of the drawing).
+    private void OnPanelChanged(object? sender, PropertyChangedEventArgs e) { if (e.PropertyName == nameof(ConcreteDomainPanelViewModel.Transparency)) Draw(); }
 
     private void Draw()
     {

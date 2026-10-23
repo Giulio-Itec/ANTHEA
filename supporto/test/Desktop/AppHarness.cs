@@ -49,7 +49,7 @@ public partial class App
             Dispatcher.BeginInvoke(new Action(async () =>
             {
                 int code = 0;
-                try { await ConcreteWorkspace.CheckF3ConcreteFigures(e.Args[1], e.Args[2], e.Args[0].EndsWith("-capture")); }
+                try { await ConcreteSectionSmoke.CheckF3ConcreteFigures(e.Args[1], e.Args[2], e.Args[0].EndsWith("-capture")); }
                 catch (Exception ex) { Directory.CreateDirectory(e.Args[2]); File.WriteAllText(Path.Combine(e.Args[2], "errore.txt"), ex.ToString()); code = 1; }
                 finally { Shutdown(code); }
             }));
@@ -615,11 +615,13 @@ public partial class App
             try
             {
                 var data = JsonNode.Parse(File.ReadAllText(Path.Combine(folder, "ui-fixture.json")))!.AsObject();
-                using var view = new ConcreteWorkspace(data); view.PrepareDesignSmoke();
-                var window = new Window { Title = "ANTHEA · Calcola armature", Width = 1500, Height = 1000, Content = view, ShowActivated = false };
-                window.Show(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-                await view.RunDesignSmoke(window, folder);
-                window.Close(); File.WriteAllText(Path.Combine(folder, "ui-pass.txt"), "PASS: eight tabs; alternatives/selection; apply; persistence; stale rejection; full/limited search; parallelism; timing diagnostics; large and compact layout.");
+                // The RC section with the XAML view in a window off screen (passaggio della Release, 23/10/2026; before, the historic ConcreteWorkspace).
+                using (var view = ConcreteSectionSmoke.Open(data, 1500, 1000, "ANTHEA · Calcola armature"))
+                {
+                    await view.PrepareDesignSmoke();
+                    await view.RunDesignSmoke(folder);
+                }
+                File.WriteAllText(Path.Combine(folder, "ui-pass.txt"), "PASS: eight tabs; alternatives/selection; apply; persistence; stale rejection; full/limited search; parallelism; timing diagnostics; large and compact layout.");
                 Shutdown(0);
             }
             catch (Exception ex) { File.WriteAllText(Path.Combine(folder, "errore.txt"), ex.ToString()); Shutdown(1); }
@@ -648,7 +650,7 @@ public partial class App
                     File.AppendAllText(Path.Combine(output,"progress.log"),id+" start\n");
                     if(File.Exists(Path.Combine(output,id+".png")))continue;
                     var data=(JsonObject)c["data"]!.DeepClone();
-                    FrameworkElement view; BridgeSmoke? bridge = null;
+                    FrameworkElement? view = null; BridgeSmoke? bridge = null; ConcreteSectionSmoke? section = null;
                     if(c.S("module")=="bridge")
                     {
                         var full=BridgeSection.Defaults();foreach(var (key,value) in data)full[key]=value?.DeepClone();data=full;
@@ -656,18 +658,19 @@ public partial class App
                         if(data["curve_sezione"] is JsonObject q){q["origine"]=BridgeSection.ResponseOrigins[(int)q.D("originIndex")];q["tipo"]=BridgeSection.ResponseModes[(int)q.D("typeIndex")];}
                         bridge=BridgeSmoke.Open(ModuleHostBench.SheetEditors(),data);view=bridge.View;
                     }
-                    else {var caView=new ConcreteWorkspace(data);caView.PrepareValidationCapture(c);view=caView;}
-                    content=bridge ?? (IDisposable)view;
-                    win=new Window{Title="ANTHEA · Validazione · "+id,Width=1500,Height=950,Content=view,Background=Ui.Bg,ShowActivated=false};
-                    win.Show();await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-                    if(view is ConcreteWorkspace ca)await ca.ValidationCapture(c,output,id);
+                    // The RC section with the XAML view in a window of its own, off screen (passaggio della Release, 23/10/2026).
+                    else section=ConcreteSectionSmoke.Open(data,1500,950,"ANTHEA · Validazione · "+id);
+                    content=bridge ?? (IDisposable?)section;
+                    if(view is not null){win=new Window{Title="ANTHEA · Validazione · "+id,Width=1500,Height=950,Content=view,Background=Ui.Bg,ShowActivated=false};
+                    win.Show();await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);}
+                    if(section is { } ca){await ca.ValidationCapture(c,output,id);ca.Editor.Commit();data=ca.Data;}
                     else if(bridge is { } b)
                     {
                         await b.CalculateAsync();
                         if(c.B("curve")){b.Pages.SelectedIndex=2;await b.CalculateResponseAsync();b.ResponsePoint.Value=b.ResponseCalculation?.Points.Count-1??0;}
                         else{b.Pages.SelectedIndex=1;b.StageChoice.SelectedIndex=b.StageChoice.Items.Count-1;b.DisplayChoice.SelectedIndex=0;b.Results.SelectedIndex=(int)c.D("resultTab",3);}
-                        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);win.UpdateLayout();
-                        File.WriteAllBytes(Path.Combine(output,id+".png"),Ui.Snapshot(win));
+                        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);win!.UpdateLayout();
+                        File.WriteAllBytes(Path.Combine(output,id+".png"),Ui.Snapshot(win!));
                         File.WriteAllText(Path.Combine(output,id+"-actual.json"),(b.Result??new JsonObject()).ToJsonString());
                         data=b.Data;
                     }

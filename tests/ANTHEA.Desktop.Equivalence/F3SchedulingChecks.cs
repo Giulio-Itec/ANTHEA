@@ -51,7 +51,8 @@ internal sealed partial class SheetEditor
         checks += await F3PileSegmentMvvmSchedulingChecks.CheckSegmentProposals(root);
         // F5.12: Bridge Design runs the probes on the MVVM sheet, as the Release opens it since the switch of 23/10/2026.
         checks += await F3BridgeDesignMvvmSchedulingChecks.CheckF3Scheduling();
-        checks += await ConcreteWorkspace.CheckF3Scheduling();
+        // Passaggio della Release della sezione c.a. (23/10/2026): the probe on the MVVM sheet; the historic probe is archived with the view.
+        checks += await F3ConcreteSectionMvvmSchedulingChecks.CheckF3Scheduling();
         File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF ricalcolo e chiusura");
     }
 }

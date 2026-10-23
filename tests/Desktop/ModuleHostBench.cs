@@ -127,7 +127,24 @@ internal sealed class BenchSheetServices : IDialogService, IFileDialogService, I
     /// <summary>Answer to the save dialog of a sheet: the path, or null as the user who cancels; unset fails the check.</summary>
     internal Func<SaveFileRequest, string?>? SaveFile { get; set; }
 
-    internal PresentationServices Create() => new(Messages, Confirmations, this, this, unexpected.Clipboard, unexpected.Links, this);
+    /// <summary>Answer to the open dialog of a sheet (the Excel file of the c.a. section): the path, or null; unset fails the check.</summary>
+    internal Func<OpenFileRequest, string?>? OpenFileAnswer { get; set; }
+
+    /// <summary>The clipboard of the sheets (the copy and the paste of the tables of the c.a. section); unset fails the check.</summary>
+    internal ScriptedClipboard? Clipboard { get; set; }
+
+    internal PresentationServices Create() => new(Messages, Confirmations, this, this, new ClipboardAnswer(this), unexpected.Links, this);
+
+    private sealed class ClipboardAnswer(BenchSheetServices owner) : IClipboardService
+    {
+        public void SetText(string text)
+        {
+            if (owner.Clipboard is { } clipboard) clipboard.Text = text ?? throw new ArgumentNullException(nameof(text));
+            else owner.unexpected.Clipboard.SetText(text);
+        }
+
+        public string GetText() => owner.Clipboard is { } clipboard ? clipboard.Text : owner.unexpected.Clipboard.GetText();
+    }
 
     public async Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog)
     {
@@ -135,7 +152,7 @@ internal sealed class BenchSheetServices : IDialogService, IFileDialogService, I
         return Dialog is { } answer ? (TResult?)answer(dialog) : await unexpected.Dialogs.ShowDialogAsync(dialog);
     }
 
-    public string? OpenFile(OpenFileRequest request) => unexpected.Files.OpenFile(request);
+    public string? OpenFile(OpenFileRequest request) => OpenFileAnswer is { } answer ? answer(request) : unexpected.Files.OpenFile(request);
 
     string? IFileDialogService.SaveFile(SaveFileRequest request) => SaveFile is { } answer ? answer(request) : unexpected.Files.SaveFile(request);
 
