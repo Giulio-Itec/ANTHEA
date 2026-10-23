@@ -371,3 +371,89 @@ rimasto in `vista/esportazioni`: il processo è terminato dall'esterno. Il fatto
 suite passano: `ui/check-palo-verticale-view` PASS 377, `ui/check-muri-view` PASS 187 (`pv-view` e `muri-view` nella cartella
 dell'agente). Causa probabile: l'antivirus della macchina sull'eseguibile appena compilato (già visto il 15/10: l'impronta di
 `ANTHEA.exe` cambia a ogni commit); da ripetere con il runner sul ramo d'integrazione. Nessuna correzione fatta.
+
+## 6. Passaggio della Release (23/10)
+
+Agente f5-pass-orizzontale, ramo `refactoring/f5-pass-orizzontale` (da `refactoring/f5` db7ef68d), su decisione dell'utente del 23/10
+(«Moduli ora, shell dopo»). Il palo e il micropalo orizzontale passano insieme, con la scheda della risposta elastica (F5.8, sezione 7 di
+`f5-8-palo-elastico.md`). Niente push e niente merge: l'unione è del coordinatore.
+
+### 6.1 Commit
+
+| Commit | Contenuto |
+| --- | --- |
+| `570c09c2` | Suite riscritte con la Release ancora storica: `ui/smoke-horizontal` (`HorizontalPileSmoke`), `F3PileSegmentMvvmSchedulingChecks`, `ElasticPile.UiChecks` (`PileHost`), `ReportAppearanceChecks` |
+| `b4893667` | Passaggio: `Declared` → `Mvvm`, vista storica e tracce in `supporto/SUPERATI/ui-storica/palo-orizzontale/` e `palo-elastico/`, rami di `SheetEditor`, comandi e suite storiche, controllo R, `ModuleHostWpfChecks`, blocco F5.7 del contrasto, baseline F4 in discesa |
+| (commit dei documenti) | Questi documenti |
+
+### 6.2 Fatto
+
+- **`ui/smoke-horizontal`.** Il fermo a «Resistenza personalizzata non conservata» era della prova, non del ViewModel: la prova digitava
+  nella casella di «fck del materiale», che è di sola lettura (lo spec è lo stesso nelle due viste) e la vista rifiuta la digitazione; la
+  prova storica scriveva con `InputForm.Set`, la scrittura del modulo. Ora `HorizontalPileSmoke.Write` scrive fck e γc archivio con
+  `FormViewModel.Set` (stessa scrittura, stessi richiami) e `Type` rifiuta i campi di sola lettura. Il resto di `VerifyAutomatic`,
+  `VerifyEditing`, `VerifyLayout` alle cinque misure e `VerifyChs` del micropalo è passato senza altre correzioni. Nessun duplicato
+  `ui/smoke-horizontal-mvvm`: dopo il passaggio la suite normale apre la vista nuova.
+- **`ui/f3-scheduling`.** `F3PileSegmentMvvmSchedulingChecks`: la sonda del dimensionamento di un tratto su `PileSegmentDesignViewModel` e
+  `PileSegmentDesignView` (foglio dalla fabbrica del banco, finestra fuori schermo chiusa come «Dimensiona…» della vista), stesse attese
+  della sonda storica; PASS 47 controlli come la storica.
+- **`ElasticPile.UiChecks`.** `PileHost` apre il palo come la finestra: `HorizontalPileSheetModule` con le figure del desktop, ospitato da
+  `MvvmSheetEditor` (raggiunto per riflessione, è interno al programma) con i servizi della radice di composizione, vista in una finestra
+  fuori schermo; `ScriptedAnalysis` cambia un risultato prima della pubblicazione (distinta con l'errore di un tratto). Riscritte le parti
+  che leggevano `HorizontalWorkspace`, `HorizontalSoilEditor`, `ElasticPileWorkspace` e `PileReinforcementEditor`, anche nei modi fuori dal
+  runner; le parti di sola libreria e le righe sulla `ConcreteWorkspace` storica restano.
+- **`ReportAppearanceChecks`** (fuori dal runner, D9): il foglio si apre dalla fabbrica del banco.
+- **Passaggio.** `ModuleImplementations.Declared` → `Mvvm`; vista storica, tracce storiche e partial di prova in `supporto/SUPERATI/ui-storica/`
+  (README e `registro.json`); `HorizontalChs.cs` e `HorizontalDiagrams.cs` copiati interi nell'archivio e ridotti in `X.Desktop` ai soli
+  disegni; `PileReinforcementEditor.SegmentColor` → `PileReinforcementDrawing.SegmentColor`; i lettori generici delle prove storiche usati
+  dalle tracce attraverso la vista restano compilati (`tests/Desktop/HorizontalPileDrawingRecord.cs`, `ElasticHistoricControls.cs`).
+- **`ui/check-palo-orizzontale-view`.** Il controllo «la Release resta storica» diventa «la Release apre la vista MVVM». I confronti con la
+  vista storica si tolgono con l'archiviazione (inventario 1.1 di `f5-suite-passaggi.md`): esportazioni JSON/Word/PDF uguali alla storica,
+  F5-02 con la storica, «?», nomi e sola lettura confrontati con la storica, schermate storiche, CSV elastico sul risultato storico.
+  Restano le tracce e i disegni congelati delle due schede e attese indipendenti: JSON = risultato mostrato, Word e PDF scritti, CSV = le
+  funzioni dei bottoni storici, messaggio dell'esportazione rifiutata, F5-02 e nota del catalogo sulla vista nuova, ogni «?» e F1 al
+  navigatore, rifiuti in sola lettura; le etichette, i nomi e i controlli in sola lettura si scrivono nel dettaglio della suite.
+- **`ui/check-module-host-offscreen`.** Release, radice di composizione, banco (anche «historic» rifiutato per i due moduli) e registri ridotti
+  con i due moduli.
+- **Contrasto.** Tolto il blocco autonomo F5.7 (`HorizontalPileContrastStep`): i passi `modulo-geo_palo_orizzontale` e
+  `modulo-geo_micropalo_orizzontale` mostrano ora la vista nuova.
+- **Baseline F4** in discesa: 3206 → 3188 occorrenze (voci dei file archiviati tolte, voce di `SegmentColor` spostata con il codice).
+
+### 6.3 Esiti
+
+| Prova | Esito |
+| --- | --- |
+| `ui/smoke-horizontal` con i due `--module-impl` sulla Release storica, dopo la correzione della prova | Completato (VerifyStratified, VerifyAutomatic, VerifyEditing, VerifyLayout alle cinque misure, micropalo) |
+| `--check-f3-scheduling` con e senza i due `--module-impl` (su `570c09c2`) | PASS 47 nei due modi |
+| `ElasticPile.UiChecks` riscritto (su `570c09c2`) | principale TOTAL 101, `--inner-ring-only` 10 PASS, `--stress-block-note-only` 5 PASS, `--seismic-only` 22, `--example-only`, `--cuts-example-only`, `--visual-only` completati; `--clarity-only` cade alla riga 31 di sola libreria (6.4, punto 4), la sua parte UI passa |
+| Profilo quick su `570c09c2` (`fpo-c1`) | PASS 54, NEW-FAIL 1: `Application.Tests` (confronto di due Word scritti in sequenza, «Report del foglio materiale»), da sola PASS (`fpo-app`): intermittente sotto carico, non del passaggio |
+| Suite UI mirate dopo il passaggio (`supporto/artefatti/ci/20261023-123744-fpo-ui1`) | PASS 11: `ui/smoke`, `ui/smoke-horizontal`, `ui/smoke-mvvm`, `ui/check-module-host-offscreen` (PASS 53), `ui/f3-scheduling` (PASS 47), `ui/check-palo-orizzontale-view` (PASS 157; erano 221 con i confronti con la vista storica), `ElasticPile.UiChecks` e le due varianti |
+| `--check-report-appearance-offscreen` a mano | PASS 30 immagini confrontate nei tre aspetti (palo orizzontale dalla fabbrica del banco) |
+| `Architecture.Tests` | PASS 574 controlli; F4 3188 occorrenze, nessuna aggiunta |
+
+La corsa standard finale e la ripetizione delle suite UI sul ramo chiuso sono nel resoconto dell'agente
+(`ANTHEA-f5-ripresa5-agenti5-pass-orizzontalevanzamento.md`).
+
+### 6.4 Resta
+
+1. **Contrasto a 96 DPI** (schermo al 150%: `ui/check-contrast` non eseguita). Alla prima corsa a 96 DPI le voci della Chiara dei passi
+   `modulo-geo_palo_orizzontale` e `modulo-geo_micropalo_orizzontale` (chiavi con `MainWindow > SheetEditor > HorizontalWorkspace…`) passano
+   alla chiave della vista nuova a totale invariato (D12), come per la palificata.
+2. **`ui/f3-equivalence`** sul ramo unito (coordinatore). Il confronto diretto del 18/10 (5.8) dava 0 differenze con i due moduli MVVM.
+3. **Verificatore c.a.**: `PileConcreteVerifierView` ospita ancora la `ConcreteWorkspace` storica; lo sposta sulla sezione c.a. nuova
+   f5-pass-strutture. Quando la `ConcreteWorkspace` si archivia vanno riviste anche le righe di `ElasticPile.UiChecks` che la aprono per
+   riflessione (`Program.cs`, `InnerRingChecks.cs`, `StressBlockNoteChecks.cs`) e la parte E1 di `ui/check-palo-orizzontale-view`.
+4. **`ElasticPile.UiChecks --clarity-only`** (fuori dal runner) cade già alla riga 31, su un controllo di sola libreria («insufficient bar
+   development remains clearly nonverified after approval»), prima della parte UI: non è del passaggio; da vedere con le librerie.
+5. Guida pratica: nessuna modifica di disposizione rispetto al testo attuale (le differenze dichiarate in 5.4 e 6.4 di F5.8 non cambiano i
+   passi descritti).
+
+### 6.5 Come riprendere
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-pass-orizzontale
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^(ui/smoke-horizontal|ui/f3-scheduling|ElasticPile\.UiChecks|ElasticPile\.UiChecks/anello-interno|ElasticPile\.UiChecks/nota-stress-block|ui/check-palo-orizzontale-view|ui/check-module-host-offscreen|ui/smoke|ui/smoke-mvvm)$' -Tag <tag>"
+dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-report-appearance-offscreen supporto/artefatti/<cartella>
+```
+
+Per tornare alla vista storica: `git revert` del commit del passaggio (README delle due cartelle di `supporto/SUPERATI/ui-storica/`).
