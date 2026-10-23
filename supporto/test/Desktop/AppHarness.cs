@@ -452,6 +452,10 @@ public partial class App
     private static readonly Dictionary<string, Func<string, Task>> ShellSmokes = new(StringComparer.Ordinal)
     {
         ["--smoke-global-stability"] = GlobalStabilitySmoke.Run,
+        ["--smoke-neutral-axis"] = NeutralAxisSmoke.Run,
+        ["--smoke-section-actions"] = ConcreteSectionSmokeSuites.SectionActions,
+        ["--smoke-ca-extensions"] = ConcreteSectionSmokeSuites.Extensions,
+        ["--smoke-ca-features"] = ConcreteSectionSmokeSuites.Features,
     };
 
     private void StartSmoke(StartupEventArgs e)
@@ -496,7 +500,7 @@ public partial class App
                 int code = 0;
                 try
                 {
-                    if (e.Args[0] == "--smoke-neutral-axis") await window.SmokeNeutralAxis(e.Args[1]);
+                    if (e.Args[0] == "--smoke-neutral-axis") throw new InvalidOperationException("--smoke-neutral-axis gira sulla shell (ShellSmokes).");
                     else if (e.Args[0] == "--smoke-bridge-predalle") await window.SmokeBridgePredalle(e.Args[1]);
                     else if (e.Args[0] == "--smoke-retaining-wall") await window.SmokeRetainingWall(e.Args[1]);
                     else if (e.Args[0] == "--smoke-bridge-design") await window.SmokeBridgeDesign(e.Args[1]);
@@ -512,9 +516,6 @@ public partial class App
                     else if (e.Args[0] == "--smoke-projects") await window.SmokeProjects(e.Args[1]);
                     else if (e.Args[0] == "--smoke-bridge-traffic") await window.SmokeBridgeTraffic(e.Args[1]);
                     else if (e.Args[0] == "--smoke-bridge-prices") await window.SmokeBridgePrices(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-section-actions") await window.SmokeSectionActions(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-ca-features") await window.SmokeConcreteFeatures(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-ca-extensions") await window.SmokeConcreteExtensions(e.Args[1]);
                     else if (e.Args[0] == "--smoke-display") await window.SmokeDisplay(e.Args[1]);
                     else if (e.Args[0] == "--smoke-horizontal") await window.SmokeHorizontal(e.Args[1]);
                     else { await window.Smoke(e.Args[1], JsonNode.Parse(File.ReadAllText(e.Args[2]))!.AsArray()); await window.SmokeHorizontal(e.Args[1]); }
