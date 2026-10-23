@@ -1,4 +1,4 @@
-# F5.13 shell: parti (a) e (b), sessioni e ViewModel; parte (c) fino al punto di controllo della bozza; parte (d), stato statico e calcoli in parallelo
+# F5.13 shell: parti (a) e (b), sessioni e ViewModel; parte (c) fino al punto di controllo della bozza; parte (d), stato statico e calcoli in parallelo; parte (e), prove di MainWindow trasferite e cattura del progetto
 
 Agente `f5-13-ab`, 22/10/2026, ramo `refactoring/f5-13-ab` da `refactoring/f5` a 5451a8cc. Fonti: [proposta](f5-proposta-architettura.md)
 (sezioni 3.4–3.7, 4 e riga F5.13 della sezione 8), [inventario](f5-inventario-ui.md) (1.5, 1.6), [piano](piano.md) (F5.13, requisito
@@ -274,7 +274,8 @@ Nessuna è necessaria per questo lavoro: `X.Desktop`, le prove WPF e la Release 
 
   Aggiornamento del 22/10 (agente `f5-13-c`): i pezzi che non dipendono dalla disposizione e la bozza per il punto di controllo sono fatti,
   sezioni 8–10; quel che resta della parte (c) è nella sezione 10.
-- **Parti (d)–(g)** come da piano. Il report di sezione (`ProjectReport.cs`) passa con (e), insieme alla cattura del progetto.
+- **Parti (d)–(g)** come da piano. Il report di sezione (`ProjectReport.cs`) passa con (e), insieme alla cattura del progetto. Aggiornamento della
+  notte del 22–23/10: parte (e) nella sezione 12 (report dalla shell senza toccare `ProjectReport.cs`, suite trasferite, cattura).
 - **Domande:** SH1–SH22 nella sezione 6, da rivedere al punto di controllo della bozza e in F5.15.
 
 Per riprendere:
@@ -708,7 +709,7 @@ File storici toccati: `X.Desktop/Wpf/WikiContextHelp.cs` (SH47, solo il ramo sen
 (WikiContextHelp) e le suite delle viste MVVM che aprono dialoghi (App.xaml).
 
 **Cosa resta della parte (c)**:
-- «Genera report» del riepilogo e «Report Word della sezione» dell'albero, con la parte (e) (report congelati);
+- «Genera report» del riepilogo e «Report Word della sezione» dell'albero, con la parte (e) (report congelati); fatto nella parte (e), sezione 12.3;
 - prove WPF della shell con finestre reali, fuoco e mouse (le prove di stanotte sono fuori dallo schermo, con finestre mai attivate: il
   trascinamento e il clic singolo passano per i metodi che gli eventi chiamano, non per `DoDragDrop` e il mouse).
 
@@ -1022,3 +1023,239 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Prof
 | # | Domanda | Opzione presa |
 | --- | --- | --- |
 | D-5 | La sezione c.a. calcola i suoi lotti fuori dal limitatore dell'applicazione: `ConcreteAnalysisSession` usa `Task.Run` per la preparazione, i domini e le tensioni. Anche le resistenze rapide, la sezione σ/ε, la curva M–χ e la ricerca delle armature girano su thread di lavoro con i loro pianificatori, fuori dal limitatore. Con molte sezioni aperte i lotti si sommano ai calcoli dei moduli (rischio R6, come D-2). | lasciata come oggi: C1 conserva l'orchestrazione della vista storica. La prova conta i lotti a parte e prova che i risultati non cambiano. Da decidere con (e)–(g) o in F5.15 se far passare i lotti dal limitatore |
+
+## 12. Parte (e): prove di MainWindow trasferite, cattura del progetto, report della sezione
+
+Agente `f5-13-e`, notte del 22–23/10/2026, ramo `refactoring/f5-13-e` da `refactoring/f5-13-c3` 30d175f6. Fonti: sezione 1.2 (le prove della
+shell storica), sezione 7.4, riga F5.13 della sezione 8 della [proposta](f5-proposta-architettura.md) («prove di `MainWindow` trasferite, cattura del
+progetto»). La Release apre ancora `MainWindow`: le suite storiche restano tutte e girano come prima.
+
+### 12.1 Suite trasferite e copertura
+
+Banco: `tests/Desktop/ShellSmoke.cs`, argomento `--check-shell-smoke-<suite> <cartella> [--module-impl modulo=mvvm …]` della build UiTests.
+
+- **Shell.** `ShellWindow` su `ShellViewModel` dalla radice di composizione `ShellComposition`, fuori dallo schermo e mai attivata.
+- **Moduli.** Si aprono come li sceglie la Release: gli storici nel loro `SheetEditor`, R5. Con le coppie del banco usano la vista MVVM.
+  - Le suite `-mvvm` usano lo stesso banco `$MvvmBench` delle suite storiche `-mvvm`.
+- **Risposte.** Domande, dialoghi e file passano da `BenchSheetServices`, i servizi dei fogli del banco, come `TestServices` per `MainWindow`.
+  - I dialoghi della shell si disegnano come li mostra `WpfDialogService`.
+- **Comandi.** Dove la suite storica chiamava un metodo di `MainWindow`, la nuova usa il controllo o il comando della shell che l'utente preme:
+  - nodo, menu e trascinamento dell'albero;
+  - «← Torna al progetto», «+ Progetto»;
+  - barra delle revisioni con i suoi dialoghi;
+  - confronto;
+  - annulla, ripristina e salva della barra;
+  - «Riprendi».
+- **Codice dell'applicazione.** Dove la suite storica chiamava direttamente `ProjectSharedData`, `ProjectRevisions` o `DocumentService`, la nuova fa la
+  stessa chiamata, con lo stesso messaggio.
+
+| Suite nuova (`build/ci.ps1`) | Suite storica | Copertura | Controlli (Release / `-mvvm`) |
+| --- | --- | --- | ---: |
+| `ui/shell-smoke-projects` e `-mvvm` | `ui/smoke-projects` (`ProjectSmokeChecks`, `ProjectDragLayoutSmokeChecks`) | selezione senza apertura, miniatura, «← Torna al progetto», drop nelle sottosezioni con gli input modificati, spostamenti senza duplicati, salvataggio e riapertura, validazione ricorsiva e archivi precedenti, «+ Progetto» e sottosezioni senza dialoghi, gerarchia dei nomi, rinomina in linea (doppio clic, Invio, Esc, clic fuori, altra finestra), clic singolo che apre il riepilogo, nomi dei fogli nuovi, riordino dei fogli, disposizione stabile durante il trascinamento con nomi lunghi, menu del nodo, miniatura del c.a., drop sulle righe, trascinamento di sezioni e progetti prima e dopo, drop non validi e annullamento, modifiche in sospeso confermate dal riordino, ordine nel file | 221 / 221 |
+| `ui/shell-smoke-project-workspace` e `-mvvm` | `ui/smoke-project-workspace` (`ProjectWorkspaceSmokeChecks`, `ProjectRevisionNavigationSmokeChecks`, `ProjectRevisionDeletionSmokeChecks`) | progetto vuoto, ricerca delle schede da aggiungere, albero accanto al foglio con «▸», «Duplica» ed «Elimina» dal menu, annulla e ripristina, anteprima dello spostamento e annidamento, revisioni dalla barra (creazione, annullamento, numerazione, passaggi 0/1/attuale, eliminazione e promozione, unica versione protetta), deduplicazione e riferimenti danneggiati, «Uniforma a questo» dal riepilogo e dal foglio, revisione in sola lettura per tutti i moduli, riepilogo delle revisioni, report della sezione con la revisione, salvataggio e riapertura | 169 / 169 |
+| `ui/shell-smoke-hierarchy` e `-mvvm` | `ui/smoke-hierarchy` (`ProjectHierarchySmokeChecks`) | moduli trascinati su progetto e sezioni, schede prima delle sottosezioni, eredità a più livelli, propagazione senza domande dal riferimento superiore (calcestruzzo, acciaio, geometria, armatura), conflitti gerarchici e «Uniforma a questo» nel confronto, avvisi, riordino e spostamenti, salvataggio e riapertura, riferimenti ambigui | 39 / 39 |
+| `ui/shell-smoke-sharing` e `-mvvm` | `ui/smoke-sharing` (`ProjectSharingSmokeChecks`, `ProjectCoverWarningSmokeChecks`, `ProjectComparisonChecks`) | dati condivisi «tutti» o «solo questo», nessuna domanda ripetuta, conversioni mm/m, geometrie incompatibili, armatura, esposizione del menu, terreni e strati, copriferro minimo nella riga di stato delle schede (anche mentre si scrive), nel riepilogo, nel badge e nel confronto, ordine dei fogli indifferente, «Uniforma a questo» con la scheda aperta ricaricata, persistenza; i rami con `ANTHEA_SOIL_REGRESSION_FILE` e `ANTHEA_SOIL_MISSING_FILE` come la suite storica | 572 / 572 |
+| `ui/shell-smoke-project-report` | `ui/smoke-project-report` (`ProjectReportSmokeChecks`) | report dei materiali da «Report Word…» di un file singolo, «Report Word della sezione» a ogni livello (disabilitato solo senza fogli), «Genera report» con il controllo prima del report, piano dei dati comuni, report ricorsivo di tutti i moduli con immagini e identificativi unici, progetto aperto invariato, scheda incompleta segnalata, «Annulla» che non sovrascrive il file; report Word uguale a quello di `MainWindow` (12.3) | 54 / — |
+| `ui/shell-smoke-display` e `-mvvm` | `ui/smoke-display` (`DisplaySmokeChecks`) | Home, «Moduli singoli», palo e micropalo verticale calcolati alle quattro dimensioni della finestra (modulo nell'area visibile, nessuno scorrimento orizzontale esterno, ultimo pannello raggiungibile, pannelli estesi); a 1600 × 990 stratigrafia, esiti, presentazione, report e ritorno con «Riprendi · nome» e «Riprendi» | 43 / 47 |
+
+`ui/shell-smoke-project-report` non ha la coppia `-mvvm`, come `ui/smoke-project-report`.
+
+Prove di prova cambiate senza cambiare il comportamento delle suite storiche:
+- `VerticalPileSmoke` e `ConcreteMaterialSmoke` prendono un `HostedSheet`: ViewModel ed elemento della vista, cercato a ogni uso.
+- `MvvmSheetEditor` si converte in `HostedSheet`; nella shell la vista è quella della scheda.
+
+### 12.2 Differenze trovate e corrette nella shell
+
+Le suite hanno trovato otto differenze dalla finestra storica. Ognuna è corretta con un controllo senza WPF in `ShellPartEChecks`
+(`--shell`).
+
+| # | Differenza | Correzione | Commit |
+| --- | --- | --- | --- |
+| E1 | La principale attivata mentre mostra una pagina riselezionava la scheda sotto la pagina. Il foglio prendeva il fuoco, la pagina spariva e l'albero si ricostruiva, chiudendo la rinomina in linea | la pagina resta e nessun foglio prende il fuoco (`ShellWindowsViewModel.MainShowsPage`) | 8cdc6e22 |
+| E2 | La rinomina in linea finiva solo con Invio, Esc o la perdita del fuoco della casella | come `BeginProjectRename`, la chiudono salvando anche un clic altrove nella finestra e la finestra che perde il fuoco (`ProjectTreeKeys`) | 8cdc6e22 |
+| E3 | Il foglio con il fuoco senza nodo nella revisione mostrata, o dopo annulla o ripeti, si chiudeva. Il centro tornava alla Home o a una scheda senza fuoco | riepilogo della sezione delle revisioni, altrimenti di quella del foglio, come `MainWindow` mostra la struttura (`ShellViewModel.OnSheetClosed`) | 231425f4 |
+| E4 | Tornando alla versione corrente, le schede chiuse dall'anteprima restavano chiuse. `MainWindow` riapre il foglio della navigazione | si riaprono; quella che aveva il fuoco lo riprende dopo un cambio della barra delle revisioni. Una pagina che chiude l'anteprima le riapre senza fuoco (`WorkspaceSession.ReopenClosedByPreview`) | 231425f4 |
+| E5 | «Uniforma a questo» selezionava nell'albero il foglio uniformato | i cambi dei dati lasciano la selezione; i cambi della struttura selezionano il loro nodo (`ProjectTreeViewModel.OnProjectChanged`) | 231425f4 |
+| E6 | Mancava l'albero vuoto di `MainWindow` (`BuildEmptyProjectTree`) | titolo, testo e «+  Crea progetto» fuori dalla sola lettura; riepilogo dell'albero nascosto. Soli token | 231425f4 |
+| E7 | La riga di stato dei dati condivisi non seguiva la conferma del foglio quando i dati erano arrivati senza una modifica della vista | ricalcolata a ogni conferma del foglio con il fuoco, come `MainWindow.Commit` (`WorkspaceSession.ActiveCommitted`) | 7f6bde5e |
+| E8 | La riga di stato restava sulla differenza dopo che «Uniforma a questo» dal foglio aveva allineato gli altri fogli | ricalcolata a ogni cambio del progetto | c96c4167 |
+
+### 12.3 Report della sezione dalla shell
+
+- **Comandi.** «Genera report» del riepilogo e «Report Word della sezione» del menu del nodo eseguono `ShellViewModel.SectionReportCommand`.
+  - Il pulsante del riepilogo non è più un segnaposto.
+  - Il comando segue la sequenza e i testi di `MainWindow.ExportSectionReport`, in `SectionReportRunner` (`Shell/Commands/SectionReport.cs`).
+- **Sequenza.**
+  1. Conferma del foglio con il fuoco. Senza fogli nella sezione non succede nulla.
+  2. Con differenze o avvisi, il dialogo «Report · sezione» («Controllo prima del report») con «Apri confronto», «Genera con segnalazioni» e «Annulla».
+  3. Il file «Relazione nome.docx», filtro «Word e PDF affiancati».
+  4. La copia della sezione scritta sotto «Generazione del report». «Annulla» e la chiusura della finestra annullano al termine del calcolo in
+     corso (`IGuardedDialog`, rispettata da `WpfDialogService`).
+  5. Il messaggio «Report salvato in Word e PDF», un avviso quando ci sono schede senza risultati. Un errore va alla guardia.
+- **Scrittura.** Passa da `ISectionReports`. Il desktop la implementa in `DesktopSectionReports` con la stessa chiamata di
+  `MainWindow.GenerateSectionReport`: `ProjectReportService.WriteSnapshotAsync` con `ModuleReportService` e `ModuleFigureRenderer`.
+  - `ProjectReport.cs` e il codice dei report non sono toccati.
+- **Confronto con `MainWindow`.** `ui/shell-smoke-project-report` scrive il report del progetto di prova due volte: dalla shell, e con
+  `GenerateSectionReport` di `MainWindow` da un partial di prova.
+  - Il confronto è parte per parte (`confronto-report.txt`): 21 parti uguali.
+  - Le immagini e le altre parti sono uguali byte per byte. `word/document.xml` è uguale a meno della data e dell'ora scritte in copertina
+    (`DateTime.Now` nei generatori congelati).
+  - Il PDF accanto è scritto dal DOCX con lo stesso codice e non è confrontato.
+
+### 12.4 Cattura del progetto
+
+`tests/Desktop/ShellProjectCapture.cs`, argomento `--check-shell-capture <cartella>`, suite `ui/shell-capture` e `ui/shell-capture-confronto`.
+
+- **File.** Lo stesso file di progetto, copiato byte per byte, si apre in `MainWindow` (fuori dallo schermo) e nella shell nuova.
+  - Il progetto ha una spalla con il calcestruzzo, la sezione c.a. dei pali e i pali.
+- **Passi.**
+  1. Apertura.
+  2. Foglio del calcestruzzo.
+  3. Classe cambiata e propagata.
+  4. Diametro dei pali cambiato e propagato.
+  5. Nuova revisione dalla barra.
+  6. Differenza locale («solo questo foglio»).
+  7. «Uniforma a questo» nel confronto.
+  8. Rev. 0 in sola lettura.
+  9. Versione corrente.
+  10. Annulla.
+  11. Ripristina.
+  12. Salva.
+- **Stato scritto dopo ogni passo**, in JSON canonico:
+  - documento di lavoro e documento mostrato;
+  - titolo della finestra, «non salvato», sola lettura, revisione mostrata;
+  - foglio con il fuoco e i suoi dati;
+  - riga di stato dei dati condivisi.
+
+  Alla fine si scrive anche il file salvato.
+- **Normalizzazione.** Uguale dai due lati:
+  - i GUID dei nodi e dei modelli della sezione c.a., e gli SHA-256 che ne dipendono, numerati per prima comparsa. Ogni salvataggio riscrive il
+    modello con identificativi nuovi;
+  - le date delle revisioni oscurate.
+- **Foglio escluso.** Da «annulla» in poi il foglio non entra nella cattura, dai due lati. `MainWindow` chiude il foglio a ogni annulla; la shell
+  tiene la scheda, ricaricata (proposta 3.7, SH5 approvata).
+- **Esito.**
+  - `ui/shell-capture`: 14 file uguali byte per byte (`confronto.txt`).
+  - `ui/shell-capture-confronto`: `tools/qa/f5_confronto_diretto.py` sulle cartelle `mainwindow/` e `shell/`, «identiche», 0 differenze.
+  - La cattura ha trovato E8 (12.2).
+
+### 12.5 Differenze dichiarate (scelte già approvate), nelle suite
+
+Le suite le controllano come comportamento della shell, con il riferimento alla scelta:
+- **SH24.** L'albero è una colonna della finestra: aperto all'apertura di un foglio (`MainWindow` lo chiudeva). Lo stato di «▸» vale per la
+  finestra (vedi SH48).
+- **SH40.** Sotto 1120 × 680 la shell scorre. Il menu occupa un po' d'altezza, quindi a 1280 × 720 scorre di poco in verticale.
+  - `ui/shell-smoke-display` controlla il modulo nell'area che scorre, non nella finestra.
+- **Menu del nodo** (bozza approvata, 9.1): Apri, Rinomina, Duplica, Sottosezione, Report Word della sezione, Elimina. Per i fogli anche le voci
+  della 9.5.
+  - `MainWindow` aveva Rinomina, Duplica, Elimina e un pulsante del report per ogni sezione dell'albero (vedi SH50).
+- **Miniature.** La miniatura di un foglio è un pulsante di 36 × 36 con l'icona del modulo in un `Viewbox`.
+- **Riepilogo.** Si ricostruisce a ogni cambio del progetto: dopo «Uniforma a questo» è un oggetto nuovo sulla stessa sezione.
+- **SH5, proposta 3.7.** Annulla e ripeti tengono le schede aperte.
+- **Più schede.** La shell tiene più schede aperte, `MainWindow` un solo editor.
+  - Dove la suite storica eliminava l'editor e scriveva il documento a mano, la nuova chiude prima le schede confermandole, oppure passa da
+    `ProjectSession.ChangeData`, che le ricarica.
+- **Clic sull'albero.** Gli eventi del mouse alzati a mano non arrivano ai binding d'input. Per questo:
+  - il doppio clic esegue il comando del gesto del nome;
+  - la pressione del `TreeViewItem` non si alza, perché prenderebbe il fuoco della tastiera e attiverebbe la finestra fuori schermo.
+
+### 12.6 Domande «da decidere»
+
+| # | Domanda | Opzione presa |
+| --- | --- | --- |
+| SH48 | Albero sul riepilogo dopo che l'utente l'ha chiuso su un foglio | resta chiuso: lo stato è della finestra (SH24) e «▸» lo riapre. `MainWindow` lo mostrava sempre sulla pagina del progetto; riaprirlo da solo sul riepilogo è possibile se l'utente lo chiede |
+| SH49 | Stato delle viste XAML tenuto solo dalla vista (la scheda dei risultati del palo verticale), quando la scheda torna a schermo | la vista della scheda si ricostruisce (proposta R6); resta lo stato del ViewModel (dati, risultati, pannello esteso, vista della capacità), la scheda dei risultati torna alla prima. `MainWindow` teneva l'editor. Proposta: portare nel ViewModel del modulo lo stato che l'utente vuole conservare, modulo per modulo |
+| SH50 | Report di una sezione dall'albero | voce «Report Word della sezione» del menu del nodo e «Genera report» del riepilogo, come la bozza approvata; nessun pulsante per nodo come in `MainWindow` |
+| SH51 | Chiusura della finestra «Generazione del report» mentre lavora | annulla al termine del calcolo in corso e la finestra resta, come `MainWindow`, con `IGuardedDialog` (interfaccia facoltativa in Presentation, gestita da `WpfDialogService`; gli altri dialoghi non cambiano) |
+| SH52 | Schede chiuse dall'anteprima di una revisione | si riaprono tutte sulla versione corrente, nel loro ordine. Quella che aveva il fuoco lo riprende dopo un cambio della barra, non dopo una pagina della navigazione. `MainWindow` riapriva il suo foglio; con più schede vale per ognuna |
+| SH53 | Foglio con il fuoco chiuso da una revisione o da annulla | riepilogo della sezione delle revisioni, altrimenti di quella del foglio, come `MainWindow` |
+| SH54 | Finestra principale attivata mentre mostra una pagina | la pagina resta e nessun foglio ha il fuoco; quello di una finestra staccata è confermato |
+
+### 12.7 Guida pratica e PDF: cosa servirà alla parte (g)
+
+La guida non è aggiornata adesso: la Release apre ancora `MainWindow`. Quando la shell nuova diventerà la Release (parte g), servirà questo in
+`supporto/docs/guida-pratica-anthea.md`, con il PDF rigenerato e controllato.
+
+- **«Avvio e scelta del modulo».**
+  - Home, «Riprendi · nome».
+  - Barra di navigazione sempre visibile: Home, Progetti, Modelli, Moduli singoli, Esempi, Wiki, con Apri, Salva, Salva con nome.
+  - Schede dei fogli: più file singoli aperti insieme; «Nuovo …» apre una scheda; un file già aperto si attiva; «•» per i fogli non salvati.
+  - «Sposta in una nuova finestra», «Riaggancia», la pagina intera ed Esc.
+  - La Wiki in una scheda; F1 e «?» aprono la scheda.
+  - Aspetto (invariato).
+- **«Leggere e compilare i campi».**
+  - Finestre piccole: la shell tiene 1120 × 680 e scorre; i fogli che non seguono la finestra tengono 1120 × 600.
+  - Al posto dei divisori della composizione dei progetti, la colonna dell'albero e «▸».
+- **«Progetti e gestione del lavoro».**
+  - La disposizione: navigazione, colonna dell'albero, riepilogo al centro con «Schede da aggiungere».
+  - Menu del nodo: Apri, Apri in una nuova finestra, Apri a pagina intera, Rinomina, Duplica, Sottosezione, Report Word della sezione, Elimina.
+  - Badge di coerenza che apre il confronto; trascinamento con l'indicatore e il suggerimento.
+  - Rinomina in linea, che finisce anche con un clic fuori.
+  - Annulla e Ripristina nella barra del progetto e del foglio: le schede restano aperte e si chiudono con un avviso se il foglio non esiste più.
+  - Revisioni con più schede: in sola lettura, chiuse e riaperte (SH6, SH52).
+  - L'avviso «Aggiornato da «foglio»: …» delle schede ricaricate (SH42).
+  - «Genera report» e «Report Word della sezione» con il controllo prima del report e la finestra di avanzamento.
+- **Immagini.** Nella guida non ci sono immagini della finestra storica: quelle presenti sono dei moduli e non cambiano. Se servono immagini
+  della shell, le prendono le prove della bozza (`ui/check-shell-draft`, 21 PNG).
+- **Wiki.** Gli articoli che descrivono la finestra (Home, progetti, revisioni) vanno riletti con la parte (g): non sono cambiati qui.
+
+### 12.8 Verifiche, suite da eseguire e cosa resta
+
+**A ogni commit:**
+- build di Presentation.Tests, `--shell`, da PASS 532 a PASS 548;
+- build UiTests e Release di X.Desktop;
+- Architecture.Tests PASS 574, con le baseline invariate.
+
+**Corse delle suite nuove**, con `dotnet ANTHEA.dll` sulla build UiTests, cartelle `supporto/artefatti/f5-13-e/prove/` del worktree:
+- tutte PASS, con i numeri della 12.1;
+- `ui/check-shell-draft` PASS 82 dopo le correzioni.
+
+**Corse finali:** esiti nel rapporto dell'agente e in `ANTHEA-f5-ripresa\f5-agenti\f5-13-e\avanzamento.md`.
+- profilo `standard`;
+- `-Stage build,ui` con le suite nuove, `ui/check-shell-draft`, `ui/check-module-host-offscreen` e `ui/check-wiki-offscreen`;
+- le suite storiche `-mvvm` che usano gli helper cambiati.
+
+**File storici e condivisi toccati:**
+- `X.Desktop/Services/WpfPresentationServices.cs`: `IGuardedDialog`, additivo;
+- `X.Desktop/Services/ShellComposition.cs`;
+- `X.Desktop/Hosting/ShellSheets.cs`: `DesktopSectionReports`;
+- `supporto/test/Desktop/AppHarness.cs`: due rami;
+- `build/ci.ps1`: 13 suite;
+- gli helper di prova della 12.1.
+
+Nessun file di `MainWindow`, `SheetEditor` o dei report, nessuna baseline.
+
+**Suite da eseguire con il profilo full:**
+- le 13 nuove;
+- `ui/check-shell-draft`;
+- le suite storiche `-mvvm` che usano `VerticalPileSmoke` e `ConcreteMaterialSmoke`: `ui/smoke-mvvm`, `ui/smoke-display-mvvm`, `ui/smoke-projects-mvvm`, `ui/smoke-project-workspace-mvvm`,
+  `ui/smoke-hierarchy-mvvm`, `ui/smoke-sharing-mvvm`, `ui/smoke-materials-mvvm`;
+- le viste MVVM con dialoghi, per `WpfDialogService`.
+
+**Cosa resta prima di (f) e (g):**
+- **Prove con finestre reali, fuoco e mouse.** Le suite di stanotte sono fuori dallo schermo e alzano gli eventi a mano.
+  - Restano da provare `DoDragDrop`, il doppio clic vero, il fuoco fra finestre staccate e la principale, e lo stesso flusso con la finestra
+    attiva.
+- **Le altre suite che aprono `MainWindow`:**
+  - `ui/smoke`, `ui/smoke-materials`, `ui/smoke-steel`, `ui/smoke-retaining-wall`, `ui/smoke-global-stability`, `ui/smoke-bridge*`, `ui/smoke-horizontal`,
+    `ui/check-appearance`, `ui/check-wiki-offscreen` ed `ExampleLibraryChecks` usano la finestra solo come contenitore di un foglio, del tema,
+    della Wiki o degli esempi;
+  - `ui/f3-equivalence`, `ui/f3-report-chapters` e `ui/check-error-log-offscreen` usano metodi privati di `MainWindow`.
+
+  Vanno portate sulla shell con il ritiro di `MainWindow` in (g). Le sei suite della sezione 1.2 sul lavoro della finestra (progetti, revisioni,
+  condivisione, report, display) sono quelle di questa parte.
+- **Domande SH48–SH54**, da rivedere con l'utente in F5.15.
+- **Parte (f).** La sessione di prova con l'utente: la shell avviabile nella build UiTests con `--interactive-shell`.
+- **Parte (g).** Il passaggio di `App.OnStartup` alla shell e il ritiro di `MainWindow` e `SheetEditor`.
+  - Prima servono l'ospite storico per i moduli ancora storici, o il loro passaggio, e la guida della 12.7.
+
+Per riprendere:
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-e
+dotnet build X.Desktop/X.Desktop.csproj -c UiTests
+dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-shell-smoke-<suite> <cartella> [--module-impl modulo=mvvm …]
+dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-shell-capture <cartella>
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(shell-smoke|shell-capture|check-shell-draft)' -Tag <tag>"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag <tag>"
+```
