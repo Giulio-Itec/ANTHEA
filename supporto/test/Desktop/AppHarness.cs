@@ -449,19 +449,22 @@ public partial class App
     /// F5.13 g: the smokes passed to the new shell (docs/refactoring/f5-13-shell.md, 14.2), by flag: they run on the bench of the shell (ShellSmokeBench),
     /// never in a MainWindow, with the same flag, the same output and the same proof (esito-smoke-completo.txt).
     /// </summary>
-    private static readonly Dictionary<string, Func<string, Task>> ShellSmokes = new(StringComparer.Ordinal)
+    private static readonly Dictionary<string, Func<string[], Task>> ShellSmokes = new(StringComparer.Ordinal)
     {
-        ["--smoke-global-stability"] = GlobalStabilitySmoke.Run,
-        ["--smoke-neutral-axis"] = NeutralAxisSmoke.Run,
-        ["--smoke-bridge"] = d => ShellSmokeWindow.Run(d, w => w.SmokeBridge(d)),
-        ["--smoke-bridge-predalle"] = d => ShellSmokeWindow.Run(d, w => w.SmokeBridgePredalle(d)),
-        ["--smoke-bridge-curves"] = d => ShellSmokeWindow.Run(d, w => w.SmokeBridgeResponse(d)),
-        ["--smoke-bridge-design"] = d => ShellSmokeWindow.Run(d, w => w.SmokeBridgeDesign(d)),
-        ["--smoke-bridge-traffic"] = d => ShellSmokeWindow.Run(d, w => w.SmokeBridgeTraffic(d)),
-        ["--smoke-bridge-prices"] = d => ShellSmokeWindow.Run(d, w => w.SmokeBridgePrices(d)),
-        ["--smoke-section-actions"] = ConcreteSectionSmokeSuites.SectionActions,
-        ["--smoke-ca-extensions"] = ConcreteSectionSmokeSuites.Extensions,
-        ["--smoke-ca-features"] = ConcreteSectionSmokeSuites.Features,
+        ["--smoke-global-stability"] = a => GlobalStabilitySmoke.Run(a[1]),
+        ["--smoke-neutral-axis"] = a => NeutralAxisSmoke.Run(a[1]),
+        ["--smoke-retaining-wall"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeRetainingWall(a[1])),
+        ["--smoke-steel"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeSteel(a[1])),
+        ["--smoke-materials"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeMaterials(a[1])),
+        ["--smoke-bridge"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeBridge(a[1])),
+        ["--smoke-bridge-predalle"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeBridgePredalle(a[1])),
+        ["--smoke-bridge-curves"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeBridgeResponse(a[1])),
+        ["--smoke-bridge-design"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeBridgeDesign(a[1])),
+        ["--smoke-bridge-traffic"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeBridgeTraffic(a[1])),
+        ["--smoke-bridge-prices"] = a => ShellSmokeWindow.Run(a[1], w => w.SmokeBridgePrices(a[1])),
+        ["--smoke-section-actions"] = a => ConcreteSectionSmokeSuites.SectionActions(a[1]),
+        ["--smoke-ca-extensions"] = a => ConcreteSectionSmokeSuites.Extensions(a[1]),
+        ["--smoke-ca-features"] = a => ConcreteSectionSmokeSuites.Features(a[1]),
     };
 
     private void StartSmoke(StartupEventArgs e)
@@ -481,7 +484,7 @@ public partial class App
                 int code = 0;
                 try
                 {
-                    await shellSmoke(e.Args[1]);
+                    await shellSmoke(ModuleHostBench.WithoutBench(e.Args));
                     Directory.CreateDirectory(e.Args[1]);
                     File.WriteAllText(Path.Combine(e.Args[1], "esito-smoke-completo.txt"), "Completato: " + e.Args[0]);
                 }
@@ -507,14 +510,11 @@ public partial class App
                 try
                 {
                     if (e.Args[0] == "--smoke-neutral-axis") throw new InvalidOperationException("--smoke-neutral-axis gira sulla shell (ShellSmokes).");
-                    else if (e.Args[0] == "--smoke-retaining-wall") await window.SmokeRetainingWall(e.Args[1]);
                     else if (e.Args[0] == "--smoke-material-report") await window.SmokeProjectReport(e.Args[1], materialsOnly: true);
                     else if (e.Args[0] == "--smoke-project-workspace") await window.SmokeProjectWorkspace(e.Args[1]);
                     else if (e.Args[0] == "--smoke-project-report") await window.SmokeProjectReport(e.Args[1]);
                     else if (e.Args[0] == "--smoke-hierarchy") await window.SmokeHierarchy(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-steel") await window.SmokeSteel(e.Args[1]);
                     else if (e.Args[0] == "--smoke-sharing") await window.SmokeSharing(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-materials") await window.SmokeMaterials(e.Args[1]);
                     else if (e.Args[0] == "--smoke-projects") await window.SmokeProjects(e.Args[1]);
                     else if (e.Args[0] == "--smoke-display") await window.SmokeDisplay(e.Args[1]);
                     else if (e.Args[0] == "--smoke-horizontal") await window.SmokeHorizontal(e.Args[1]);
