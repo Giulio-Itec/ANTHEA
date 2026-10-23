@@ -1336,3 +1336,124 @@ Commit piccoli; ognuno compila e tiene verde il profilo quick.
 4. **Suite contenitore sulla shell**, una o poche per commit, con il banco della parte (e) (`ShellSmokeBench`).
 5. **Ritiro** in `supporto/SUPERATI/ui-storica/shell/` con `README.md` e `registro.json`; baseline di architettura solo in discesa.
 6. **Contrasto** (D12) e **testi proposti** per la guida pratica e la Wiki (14.6).
+
+### 14.4 Fatto
+
+| Commit | Contenuto | Verifiche |
+| --- | --- | --- |
+| 19501143 | sezioni 14.1–14.3 | — |
+| e1f5443f | valori di `MainWindow` in `tests/fixtures/f5-shell/` (README accanto): `cattura-mainwindow/` (14 file, `-text` in `.gitattributes`), `finestra-storica.json` (esempio della Wiki, parti del report Word della sezione); `tests/Desktop/ShellReferences.cs` | `ui/shell-capture`, `ui/shell-capture-confronto`, `ui/shell-smoke-project-report`, `ui/check-shell-draft` PASS (`ci/20261023-195731-f5-13-g-rif2`) |
+| 2d98cd07 | `ui/f3-equivalence` senza `MainWindow`: il report del progetto F3 con `ProjectReportService.Snapshot` e `DesktopSectionReports`, le stesse chiamate; passo «Esc» della bozza che aspetta lo stato (nota del coordinatore) | `ui/f3-equivalence` PASS 119 fixture, 77 articoli, 30 ricerche, 1 201 file, 0 differenze non ammesse (`ci/20261023-195917-f5-13-g-f3`) |
+| b09fc0eb | la Release apre la shell: `App.OnStartup` → `App.StartShell` (anche per `--interactive-shell`) | quick PASS 55 con `qa/no-test-code` (`ci/20261023-200334-f5-13-g-avvio`) |
+| 0661f1bf | `SheetEditor`, ospite R5 (`HistoricSheetViewModel`, `HistoricSheetHost`, passo `HistoricHost`), `HistoricSheetEditor.cs` in `supporto/SUPERATI/ui-storica/shell/` con `README.md` e `registro.json`; rami storici tolti (fabbriche, esportazioni, `OpenSheet`, `ShellSheet`, `ContrastAudit`), `=historic` del banco rifiutato; `F3FigureChecks` e `F3SchedulingChecks` classi statiche | `ui/smoke`, `ui/check-module-host-offscreen`, `ui/f3-figures`, `ui/f3-scheduling`, `ui/check-shell-draft`, le sei `ui/shell-smoke-*` PASS (`ci/20261023-202658-f5-13-g-r5`); quick PASS 55 |
+
+Che cosa vede l'utente nella Release: la shell nuova della prova f5f, con le correzioni arrivate fino a 67eafba5. Avvio, registro degli errori e
+tema non cambiano; `--wiki`, il documento aperto da Esplora risorse e `--models` sono letti da `StartupRequest` come faceva `MainWindow`.
+
+Riferimenti: nessun riferimento congelato cambiato. Le catture F3 e le transizioni sono intatte. La fixture nuova è solo aggiunta. Baseline di
+architettura invariate: `tests/fixtures/f3/architecture.json` ha ancora le voci di `X.Desktop/Wpf/SheetEditor.cs`. Sono tetti per un file che non
+c'è più, come quelle dei workspace già archiviati: si possono togliere insieme a quelle di `MainWindow`.
+
+### 14.5 Contrasto (D12)
+
+`tests/fixtures/f5/contrasto-chiara.json` ha 699 occorrenze in 187 voci. 162 voci, con 559 occorrenze, hanno una chiave che comincia da
+`MainWindow`. Quasi tutte vengono da `MainWindow > SheetEditor > <workspace storico>`, cioè dalle viste storiche dei moduli già archiviate, e restano
+dalla cattura prima di F5.3. Portarle alle chiavi della shell a totale invariato richiede una corsa di `ui/check-contrast` a 96 DPI con
+`ContrastAudit` portata sulla shell: `ContrastAudit.cs` è una partial di `MainWindow` di 1 999 righe. Qui non si esegue (schermo a 144 DPI).
+
+**Domanda G2:** la conversione delle voci della Chiara si fa con la porta di `ContrastAudit` alla shell e una corsa a 96 DPI, nello stesso
+commit. Va ripetuta a 96 DPI.
+
+### 14.6 Guida pratica e Wiki: testo attuale e testo proposto
+
+Gli articoli della Wiki su Home, progetti e revisioni sono generati dai capitoli della guida pratica: `src/ANTHEA.Wiki/Content/sources.props` ha
+`guida-pratica-anthea.md` fra le fonti. Basta quindi un testo per la guida e per la Wiki. Il coordinatore lo applica nella revisione Rev59 dopo
+l'unione, con PDF, indici e impronte. La guida, i PDF e gli articoli non sono toccati qui.
+
+**«Avvio e scelta del modulo» → «Avviare la versione aggiornata», quarto capoverso.**
+- Attuale: «La Home consente di entrare nel catalogo, riprendere il lavoro della sessione o organizzare i fogli in un progetto. Il pulsante Riprendi
+  conserva l'editor e il suo stato finché l'applicazione resta aperta. […]»
+- Proposto: «La barra a sinistra, sempre visibile, porta a Home, Progetti, Modelli, Moduli singoli, Esempi e Wiki e contiene Apri, Salva e Salva con
+  nome. Ogni foglio aperto ha una scheda: si possono tenere aperti insieme più file di calcolo singoli; Nuovo apre una scheda, un file già aperto si
+  attiva, il punto «•» segnala un foglio non salvato. Riprendi · nome, nella Home, torna all'ultimo foglio. Una scheda si sposta in una finestra
+  separata (Sposta in una nuova finestra), torna con Riaggancia oppure occupa tutta la finestra (Pagina intera, Esc per uscire). La Wiki si apre in
+  una scheda; F1 e i pulsanti «?» la aprono sull'argomento del foglio. Le schede restano aperte finché l'applicazione è aperta, ma non salvano su
+  disco: prima di chiudere usare Salva o Salva con nome. Alla chiusura ANTHEA chiede che cosa fare dei fogli non salvati.»
+
+**«Leggere e compilare i campi», ultimo capoverso.**
+- Attuale: «La finestra segue l'ingrandimento di Windows. […] I divisori nella composizione dei progetti permettono di allargare l'albero o il
+  catalogo. […]»
+- Proposto: «La finestra segue l'ingrandimento di Windows. Sotto 1120 × 680 la finestra scorre; i fogli che non si adattano alla larghezza tengono
+  1120 × 600 e scorrono nella loro scheda. I pannelli più stretti si dispongono verticalmente; le tabelle possono mantenere uno scorrimento proprio.
+  Nei progetti l'albero è una colonna della finestra, che «▸» chiude e riapre. […]» (il resto invariato).
+
+**«Progetti e gestione del lavoro» → «Costruire una struttura leggibile», primi due capoversi.**
+- Attuale: «La pagina di composizione presenta le informazioni del progetto a sinistra, l'albero al centro e il catalogo dei fogli a destra. […]
+  Il menu contestuale delle sezioni offre rinomina, duplicazione ed eliminazione. Nei fogli la freccia nella barra mostra o nasconde l'albero
+  laterale. Torna al progetto riapre il riepilogo.»
+- Proposto: «Nella pagina Progetti l'albero del progetto è la colonna accanto alla barra di navigazione; al centro c'è il riepilogo della sezione
+  selezionata, con Schede da aggiungere. Creare il progetto, assegnargli un nome utile e aggiungere sezioni. […] Trascinare una scheda da Schede da
+  aggiungere nel contenitore desiderato, oppure fare doppio clic per aggiungerla alla sezione selezionata. Durante il trascinamento un indicatore e
+  un suggerimento («Inserisci in», «Prima di», «Dopo», «Sposta dentro») mostrano dove andrà l'elemento. Un clic sul nome di una sezione ne apre il
+  riepilogo; doppio clic o F2 consentono di rinominare; Invio, Esc o un clic fuori dal nome chiudono la rinomina. Il menu di un nodo offre Apri, Apri
+  in una nuova finestra, Apri a pagina intera, Rinomina, Duplica, Sottosezione, Report Word della sezione ed Elimina. Il simbolo di coerenza accanto
+  a una sezione apre il confronto dei dati comuni. Torna al progetto riapre il riepilogo.»
+
+**«Spostare duplicare e annullare», terzo capoverso.**
+- Attuale: «Annulla e Ripristina del progetto conservano fino a 30 stati della sessione. […]»
+- Proposto, in aggiunta: «Dopo Annulla o Ripristina le schede aperte restano aperte e mostrano i dati ripristinati; una scheda il cui foglio non
+  esiste più si chiude con un avviso. Quando un aggiornamento dei dati comuni ricarica una scheda aperta, la scheda lo dice in una riga sotto la
+  barra («Aggiornato da «foglio»: …»).»
+
+**«Usare le revisioni», secondo capoverso.**
+- Attuale: «Le revisioni archiviate si consultano nella stessa finestra, con gli input protetti […]»
+- Proposto, in aggiunta: «Mentre si consulta una revisione archiviata le schede del progetto si aprono in sola lettura; le schede dei fogli che
+  nella revisione non esistono si chiudono e si riaprono, nel loro ordine, tornando alla versione corrente.»
+
+**«Report del ramo e compatibilità degli archivi», primo capoverso.**
+- Attuale: «Genera report esporta il progetto o la sezione selezionata […]»
+- Proposto, in aggiunta: «Il report si chiede con Genera report nel riepilogo oppure con Report Word della sezione nel menu del nodo. Se ci sono
+  differenze o avvisi, un controllo prima del report propone Apri confronto, Genera con segnalazioni e Annulla. Una finestra mostra l'avanzamento;
+  Annulla interrompe al termine del calcolo in corso e non sovrascrive un file esistente.»
+
+**Immagini.** La guida non ha immagini della finestra storica. Se servono immagini della shell, le producono le prove della bozza
+(`ui/check-shell-draft`, 20 PNG dopo il ritiro dell'immagine 21).
+
+### 14.7 Domande nuove e scelte provvisorie
+
+| # | Domanda | Opzione presa |
+| --- | --- | --- |
+| G1 | `SheetImplementation.Historic` senza viste storiche | resta come valore dei moduli non elencati, che si rifiutano con il testo di `SheetEditor` (`SheetEditorFactory.NoView`); togliere l'enumerazione e `ModuleImplementations` è un riordino da fare in F5.15. Registrata in f5-15 §15.3 |
+| G2 | Voci della Chiara con chiave `MainWindow` (14.5) | si convertono con la porta di `ContrastAudit` alla shell e una corsa a 96 DPI; finché `MainWindow` c'è, restano |
+| G3 | `MvvmSheetEditor` e `SheetEditorFactory` dopo il ritiro di `MainWindow` | restano: `MvvmSheetEditor` serve in produzione alla verifica c.a. del palo orizzontale (`ConcreteVerifierSection`); la fabbrica serve alle prove F3 e al banco |
+| G4 | `ui/f3-equivalence` sulla shell | il report del progetto passa dallo scrittore della shell; i fogli restano aperti con `MvvmSheetEditor`, come oggi, per non cambiare la visita dei controlli (`Visit`) contro le catture congelate |
+
+### 14.8 Cosa resta e come riprendere
+
+Il ramo è a un punto fermo: ogni commit compila, il profilo quick è verde, la Release apre la shell. `MainWindow` è ancora compilata perché la
+aprono le suite della tabella 14.2 marcate «3: sulla shell». Resta, in quest'ordine:
+1. **Suite contenitore sulla shell** (sottopasso 4 di 14.3), con il banco della parte (e): `ShellSmokeBench.OpenAsync`, i fogli con `ShellSheet`
+   (`HostedSheet` della vista XAML), i servizi di prova `BenchSheetServices`. Una o poche suite per commit, stesse asserzioni; dove una suite
+   controllava un dettaglio di `MainWindow` (`body.Content`, `moduleView`, un solo editor), il controllo equivalente della shell (scheda attiva,
+   pagina mostrata) o una differenza dichiarata (12.5). Ordine proposto, dalle più semplici: `ui/check-examples`, `ui/smoke-materials`,
+   `ui/smoke-steel`, `ui/smoke-material-report`, `ui/smoke-global-stability`, `ui/smoke-retaining-wall`, `ui/smoke-horizontal`, `ui/smoke`,
+   le quattro della sezione c.a., le sei del ponte, `ui/check-appearance`, `ui/check-wiki-offscreen`, `ui/check-module-host-offscreen`
+   (il controllo di `MainWindow` con la fabbrica), infine `ContrastAudit` (`ui/check-contrast`, da eseguire a 96 DPI, G2).
+2. **Ritiro di `MainWindow`**: i 15 file di `X.Desktop/Wpf/` (14.1), `WpfDesktopServices`, `DesktopServices`, `DesktopComposition.WindowServices`,
+   `TestServices`, `MainWindow.Tests.cs`, le partial di prova delle sei suite storiche sostituite da `ui/shell-smoke-*` (tolte da `build/ci.ps1`
+   con le loro voci in `$smokes`), i rami `MainWindow` di `WikiContextHelp`, `CalculationHelpView` e `WpfWikiNavigator`;
+   `WikiEditorial` passa a `Anthea.Presentation.Shell.Navigation.WikiExamples`. In `ShellProjectCapture`, `ShellSmokeReport` e `ShellDraftChecks`
+   restano solo i confronti con `tests/fixtures/f5-shell` e con `ShellReferences.SectionReport`; la cartella `mainwindow/` di `ui/shell-capture`
+   diventa la copia della fixture, per `ui/shell-capture-confronto`. Baseline di architettura solo in discesa, nello stesso commit.
+3. **Guida e Wiki**: il testo di 14.6 nella Rev59 del coordinatore, dopo l'unione.
+
+Per riprendere:
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-g
+git log --oneline 67eafba5..HEAD
+dotnet build X.Desktop/X.Desktop.csproj -c UiTests
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(<suite portata>|shell-capture|shell-smoke-project-report|check-shell-draft)$' -Tag <tag>"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile quick -Tag <tag>"
+X.Desktop\bin\Release\net8.0-windows\ANTHEA.exe [archivio [--models] | --wiki articolo]
+```

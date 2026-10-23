@@ -814,6 +814,11 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
     «Report Word della sezione» dalla shell con `ISectionReports` (la chiamata di `MainWindow`, report invariati), report Word uguale a quello di
     `MainWindow`; cattura di un progetto dalla shell uguale a quella da `MainWindow` (`ui/shell-capture`, confronto diretto «identiche»). Otto
     differenze trovate e corrette nella shell (E1–E8). Domande SH48–SH54; nota per la guida in 12.7. Release invariata.
+  - **Parte (g), preparazione** (23/10 sera, ramo `refactoring/f5-13-g` da 67eafba5, **da non unire prima della prova della shell da parte
+    dell'utente**; [nota](f5-13-shell.md), sezione 14): la Release apre la shell nuova (`App.StartShell`) al posto di `MainWindow`; valori di
+    `MainWindow` registrati in `tests/fixtures/f5-shell`; `ui/f3-equivalence` senza `MainWindow`, 0 differenze; `SheetEditor` e ospite R5 in
+    `supporto/SUPERATI/ui-storica/shell`. Restano le suite contenitore sulla shell e il ritiro di `MainWindow` (14.8); testo proposto per guida
+    e Wiki in 14.6. Domande G1–G4.
 - [ ] F5.14 Chiusura: X.Desktop → ANTHEA.Desktop, terza revisione di AGENTS.md.
 - [ ] F5.15 [CP] Ridiscutere con l'utente le voci sfavorevoli o aperte del registro delle differenze R4-R21 (R4-R14 e R16-R21; R15 è corretta) (decisione del 7/10: "le guardiamo a fine refactoring"; estesa a R16-R21 dal coordinatore su delega, ratificata dall'utente il 15/10, E4). Nello stesso punto si rivedono tutte le scelte provvisorie del coordinatore sulle voci «da decidere» di F5 (decisione dell'utente del 17/10, [decisioni](decisioni.md), 17 ottobre tarda mattina).
   - Elenco consolidato delle voci da rivedere (23/10): [f5-15-revisione.md](f5-15-revisione.md).

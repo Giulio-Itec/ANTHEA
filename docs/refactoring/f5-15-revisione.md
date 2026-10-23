@@ -94,8 +94,8 @@ segnalato come le più bisognose dell'utente.
 | 12. F5.12 Bridge Design e prezzari | 22 | 0 | 22 |
 | 13. F5.13 shell | 59 | 28 | 31 |
 | 14. Registro delle differenze R4–R21 | 17 | 0 | 17 |
-| 15. Voci trasversali | 17 | 3 | 14 |
-| **Totale** | **251** | **31** | **220** |
+| 15. Voci trasversali | 19 | 3 | 16 |
+| **Totale** | **253** | **31** | **222** |
 
 Note sul conteggio:
 - Una riga è una voce. Alcune righe uniscono codici che pongono la stessa domanda, per esempio «C2, S5-c» o «S6-a, S8-b».
@@ -604,6 +604,8 @@ Fonti: [f5-suite-ui.md §5](f5-suite-ui.md#5-domande-da-decidere-scelte-provviso
 | CA-P1 | Prove storiche della sezione c.a. sull'identità degli oggetti nativi in cache (`ConcreteSmokeChecks.VerifyWorkspace` e simili: domini, mesh, stati tensionali), che il ViewModel non espone | **Decisa provvisoriamente dal coordinatore (23/10)**: si riscrivono sugli effetti osservabili (verifiche accodate subito dopo la modifica, `Calculation.Pending`; risultato conservato o invalidato; valori delle verifiche non ricalcolate uguali; righe di stato «preparazione unica della sezione»), senza accessi di prova nel ViewModel | Accessi di prova in sola lettura nel ViewModel | nessuno sui risultati (solo prove) | [f5-10 §23](f5-10-sezione.md#23-passaggio-della-release-2310) |
 | CA-P2 | Archiviazione della `ConcreteWorkspace` storica | **Decisa provvisoriamente dal coordinatore (23/10)**: nel commit del passaggio, dopo aver spostato sulla vista nuova ogni altro uso; `InputForm`, `SheetEditor` e `MainWindow` restano per la parte (g) | Non indicata | nessuno sui risultati | [f5-10 §23](f5-10-sezione.md#23-passaggio-della-release-2310) |
 | CA-P3 | Prove storiche della sezione c.a. che controllavano codice esistente solo per le prove (D3): `ParsePaste`, `ApplyImport`, `ExportActionRows` (l'import Excel del prodotto passa dalla finestra «Sollecitazioni della sezione») | Restano con la vista storica in `supporto/SUPERATI/ui-storica/sezione-ca`; l'import del prodotto è provato da `ui/smoke-section-actions` e dalle tracce `azioni/*` | Rifare l'import di `ui/smoke` con la finestra (converte le azioni nel formato unificato e cambia il resto della prova) | nessuno sui risultati (solo prove) | [f5-10 §23](f5-10-sezione.md#23-passaggio-della-release-2310) |
+| G1 (F5.13 g) | `SheetImplementation.Historic` senza viste storiche | Resta come valore dei moduli non elencati, rifiutati con il testo del `SheetEditor` archiviato (`SheetEditorFactory.NoView`) | Togliere l'enumerazione e ridurre `ModuleImplementations` a un elenco di moduli | nessuno (solo codice) | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
+| G2 (F5.13 g) | Voci della Chiara con chiave `MainWindow` (162 voci, 559 occorrenze, quasi tutte delle viste storiche già archiviate) | Si convertono con la porta di `ContrastAudit` alla shell e una corsa a 96 DPI; finché `MainWindow` c'è restano | Non indicata | solo prove | [f5-13-shell §14.5](f5-13-shell.md#145-contrasto-d12) |
 
 ### 15.4 Altre voci
 
