@@ -1365,6 +1365,8 @@ sulla shell con la stessa bandiera e la stessa prova.
 | f9cfa1d8 | `ui/check-module-host-offscreen`: la sonda si apre nella shell | PASS 55 (`…-f5-13-g-mh`) |
 | 4651347c | `ui/check-wiki-offscreen`: integrazione con la finestra sulla shell | PASS 3 439 controlli (`…-f5-13-g-wk2`) |
 
+**Corse finali della seconda parte** su bb680b96: profilo standard PASS 78, 0 fallimenti (`ci/20261023-222108-f5-13-g-fine2`); `-Stage build,ui` PASS 47, 0 fallimenti (`ci/20261023-225002-f5-13-g-ui2`): `ui/f3-equivalence` PASS 119 fixture, 1 201 file «uguali entro le tolleranze», 0 differenze non ammesse; le 23 `ui/smoke*`, `ui/check-appearance`, `ui/check-wiki-offscreen`, `ui/check-examples`, `ui/check-module-host-offscreen`, `ui/check-concrete-design`, le tre prove fuori schermo dei muri, `ui/check-error-log-offscreen`, `ui/f3-report-chapters`, `ui/f3-figures`, `ui/f3-scheduling`, `ui/check-shell-draft`, le sei `ui/shell-smoke-*`, `ui/shell-capture` e `ui/shell-capture-confronto`.
+
 Restano su `MainWindow`: `ui/smoke` e `ui/smoke-horizontal` (domanda G6), `ui/check-contrast` (G2) e le sei suite storiche già sostituite da
 `ui/shell-smoke-*`, che si archiviano con lei. `ui/shell-capture`, `ui/shell-smoke-project-report` e `ui/check-shell-draft` confrontano ancora anche con
 `MainWindow`, finché c'è.
