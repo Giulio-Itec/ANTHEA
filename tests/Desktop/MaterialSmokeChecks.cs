@@ -21,9 +21,10 @@ namespace X.Desktop;
 /// </summary>
 internal sealed class ConcreteMaterialSmoke
 {
-    private readonly MvvmSheetEditor editor;
+    private readonly HostedSheet editor;
 
-    internal ConcreteMaterialSmoke(MvvmSheetEditor editor) { this.editor = editor; Sheet = (ConcreteMaterialSheetViewModel)editor.Sheet; }
+    /// <param name="editor">The sheet in MainWindow (MvvmSheetEditor) or in a tab of the new shell (F5.13 e).</param>
+    internal ConcreteMaterialSmoke(HostedSheet editor) { this.editor = editor; Sheet = (ConcreteMaterialSheetViewModel)editor.Sheet; }
 
     /// <summary>The open sheet is the concrete with the XAML view.</summary>
     internal static bool Handles(ISheetEditor? editor) => editor is MvvmSheetEditor { Sheet: ConcreteMaterialSheetViewModel };
