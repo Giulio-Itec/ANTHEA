@@ -150,17 +150,30 @@ internal sealed class HostedSheet(ISheetViewModel sheet, Func<System.Windows.Fra
     internal System.Text.Json.Nodes.JsonObject Data => Sheet.Data;
     internal System.Text.Json.Nodes.JsonObject? Result => Sheet.Result;
     internal bool Busy => Sheet.IsBusy;
+    internal bool HasResults => Sheet.HasResults;
 
-    /// <summary>MvvmSheetEditor.CalculateAsync(commitEdits: true).</summary>
-    internal async Task CalculateAsync()
+    /// <summary>MvvmSheetEditor.CalculateAsync(commitEdits).</summary>
+    internal async Task CalculateAsync(bool commitEdits = true)
     {
-        Sheet.Commit();
+        if (commitEdits) Sheet.Commit();
         await Sheet.CalculateAsync();
     }
 
     /// <summary>MvvmSheetEditor.ExportReport: the code shared with the new shell.</summary>
     internal void ExportReport(string filename, string title, HashSet<string> options) =>
         Anthea.Presentation.Shell.Commands.SheetFileExports.WriteReport(Sheet, filename, title, options, false);
+
+    /// <summary>MvvmSheetEditor.Commit (F5.13 g: the banks of the suites on the tabs of the shell).</summary>
+    internal void Commit() => Sheet.Commit();
+
+    /// <summary>MvvmSheetEditor.BuildReport: the Word document of the sheet.</summary>
+    internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => Sheet.Report.BuildReport(title, options, projectReport);
+
+    /// <summary>MvvmSheetEditor.ExportResult: the code shared with the new shell.</summary>
+    internal void ExportResult(string filename) => Anthea.Presentation.Shell.Commands.SheetFileExports.WriteResult(Sheet, filename);
+
+    /// <summary>MvvmSheetEditor.BuildShortReport: the code shared with the new shell.</summary>
+    internal byte[] BuildShortReport(string title) => Anthea.Presentation.Shell.Commands.SheetFileExports.ShortReport(Sheet, title);
 
     public static implicit operator HostedSheet(MvvmSheetEditor editor) => new(editor.Sheet, editor.View);
 }

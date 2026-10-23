@@ -32,10 +32,10 @@ namespace X.Desktop;
 /// </summary>
 internal sealed class HorizontalPileSmoke
 {
-    private readonly MvvmSheetEditor editor;
+    private readonly HostedSheet editor;
     private readonly BenchSheetServices services;
 
-    internal HorizontalPileSmoke(MvvmSheetEditor editor, BenchSheetServices services)
+    internal HorizontalPileSmoke(HostedSheet editor, BenchSheetServices services)
     {
         this.editor = editor; this.services = services;
         Sheet = (HorizontalPileSheetViewModel)editor.Sheet;
@@ -215,12 +215,15 @@ internal sealed class HorizontalPileSmoke
     // ---------------------------------------------------------------- HorizontalSmokeChecks.cs
 
     /// <summary>WaitForAutomatic of HorizontalWorkspace: the last automatic recalculation finished (each within 25 s), then the dispatcher idle.</summary>
-    internal Task WaitForAutomatic() => WaitForAutomatic(editor);
+    internal Task WaitForAutomatic() => WaitForAutomatic(editor.Sheet);
 
     /// <summary>WaitForAutomatic on a horizontal pile or micropile opened elsewhere with the XAML view (the report of ReportAppearanceChecks).</summary>
-    internal static async Task WaitForAutomatic(ISheetEditor opened)
+    internal static Task WaitForAutomatic(ISheetEditor opened) => WaitForAutomatic(((MvvmSheetEditor)opened).Sheet);
+
+    /// <summary>The same on the ViewModel of the sheet (F5.13 g: a tab of the shell or an MvvmSheetEditor).</summary>
+    private static async Task WaitForAutomatic(Anthea.Presentation.Modules.ISheetViewModel opened)
     {
-        var sheet = (HorizontalPileSheetViewModel)((MvvmSheetEditor)opened).Sheet;
+        var sheet = (HorizontalPileSheetViewModel)opened;
         Task pending;
         do { pending = sheet.PendingCalculation; await pending.WaitAsync(TimeSpan.FromSeconds(25)); }
         while (!ReferenceEquals(pending, sheet.PendingCalculation));
