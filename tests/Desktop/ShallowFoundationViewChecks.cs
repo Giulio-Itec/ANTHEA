@@ -951,7 +951,7 @@ internal static class ShallowFoundationViewChecks
             Check(foundation is MvvmSheetEditor { Sheet: ShallowFoundationSheetViewModel sheet } && sheet.ConcreteForm.WikiNavigator is WpfWikiNavigator
                 && sheet.TransferSoilCommand.CanExecute(null) && !sheet.HasResults, "Banco interattivo: fondazioni MVVM con i servizi del prodotto (Wiki, trasferimento del terreno), senza calcolo all'apertura");
         using (var other = factory.Open("geo_palo_verticale", Anthea.Application.Modules.ModuleDirectory.CreateData("geo_palo_verticale")))
-            Check(other is SheetEditor, "Banco interattivo: gli altri moduli restano storici");
+            Check(other is MvvmSheetEditor, "Banco interattivo: gli altri moduli come nella Release (il palo verticale con la vista MVVM dal 23/10)");
         Check(composition.SheetEditors.Open(Module, ShallowFoundationScenarios.FixtureData(root, "default")) is SheetEditor historic && Dispose(historic),
             "Banco interattivo: la radice di composizione della Release apre ancora la vista storica");
     }

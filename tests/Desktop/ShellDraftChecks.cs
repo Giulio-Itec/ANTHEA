@@ -599,9 +599,9 @@ internal static class ShellDraftChecks
             await Capture(main, output, "21-ospite-storico.png", bindings);
             var historic = rc.ViewModel as HistoricSheetViewModel;
             var view = historic?.View;
-            Check(historic is { ModuleId: "str_palo", Editor: SheetEditor } && piles.ViewModel is HistoricSheetViewModel && group.ViewModel is not HistoricSheetViewModel
+            Check(historic is { ModuleId: "str_palo", Editor: SheetEditor } && piles.ViewModel is not HistoricSheetViewModel && group.ViewModel is not HistoricSheetViewModel
                 && Descendants<SheetEditor>(main).SingleOrDefault() is { } shown && ReferenceEquals(shown, view) && Descendants<HistoricSheetHost>(main).Count() == 1,
-                "Release: sezione c.a. e pali storici nel loro SheetEditor dentro la scheda, palificata MVVM");
+                "Release: sezione c.a. storica nel suo SheetEditor dentro la scheda, pali verticali (dal 23/10) e palificata MVVM");
 
             // Confirmation into the document, as MainWindow.Commit.
             workspace.CommitActive();

@@ -14,13 +14,9 @@ internal sealed partial class SheetEditor
         var data = fixture["data"]!.AsObject();
         using var service = new GatedModuleService();
         using var editor = ModuleHostBench.SheetEditors().Open(service.ModuleId, data, service);
-        // Edits go through the general form of the vertical-pile view, outside the ISheetEditor contract: the historic InputForm, or with
-        // --module-impl geo_palo_verticale=mvvm (F5.6) the general form of VerticalPileSheetViewModel, the same Set of the module.
-        void SetDiameter(string value)
-        {
-            if (editor is MvvmSheetEditor mvvm) ((Anthea.Presentation.Modules.VerticalPile.VerticalPileSheetViewModel)mvvm.Sheet).GeneralForm.Set("diametro", value);
-            else ((SheetEditor)editor).generalForm.Set("diametro", value);
-        }
+        // Edits go through the general form of the vertical-pile view, outside the ISheetEditor contract: the general form of
+        // VerticalPileSheetViewModel (F5.6), the same Set of the module as the historic InputForm (archived with the Release switch of 23/10).
+        void SetDiameter(string value) => ((Anthea.Presentation.Modules.VerticalPile.VerticalPileSheetViewModel)((MvvmSheetEditor)editor).Sheet).GeneralForm.Set("diametro", value);
         var first = editor.CalculateAsync(commitEdits: false);
         await service.Started.Task.WaitAsync(TimeSpan.FromSeconds(15));
         Check(editor.Busy, "Stato Busy non attivato nella vista");

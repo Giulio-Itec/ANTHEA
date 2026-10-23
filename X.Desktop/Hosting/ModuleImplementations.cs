@@ -28,9 +28,9 @@ internal sealed partial class ModuleImplementations
     [
         ("geo_fondazioni_superficiali", SheetImplementation.Historic),
         ("geo_efficienza_orizzontale", SheetImplementation.Mvvm),
-        ("geo_palo_verticale", SheetImplementation.Historic),
+        ("geo_palo_verticale", SheetImplementation.Mvvm),
         ("geo_palo_orizzontale", SheetImplementation.Historic),
-        ("geo_micropalo_verticale", SheetImplementation.Historic),
+        ("geo_micropalo_verticale", SheetImplementation.Mvvm),
         ("geo_micropalo_orizzontale", SheetImplementation.Historic),
         ("geo_muri_sostegno", SheetImplementation.Historic),
         ("str_palo", SheetImplementation.Historic),

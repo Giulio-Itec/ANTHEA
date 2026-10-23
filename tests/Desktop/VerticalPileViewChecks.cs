@@ -1100,7 +1100,7 @@ internal static class VerticalPileViewChecks
             using (var mvvm = editors.Open(module, VerticalPileScenarios.FixtureData(root, module, "default")))
                 Check(mvvm is MvvmSheetEditor { Sheet: VerticalPileSheetViewModel sheet } && sheet.GeneralForm.WikiNavigator is not null, module + ": con --module-impl il banco apre la vista MVVM");
             using (var release = ModuleHostBench.SheetEditors([], DesktopComposition.CreateModules()).Open(module, VerticalPileScenarios.FixtureData(root, module, "default")))
-                Check(release is SheetEditor && ModuleImplementations.Release.For(module) == SheetImplementation.Historic, module + ": la Release resta storica fino alla prova dell'utente");
+                Check(release is MvvmSheetEditor { Sheet: VerticalPileSheetViewModel } && ModuleImplementations.Release.For(module) == SheetImplementation.Mvvm, module + ": la Release apre la vista MVVM");
         }
     }
 }

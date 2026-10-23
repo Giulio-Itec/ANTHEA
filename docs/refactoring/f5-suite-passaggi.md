@@ -65,6 +65,9 @@ l'archiviazione; **R** = controllo «la Release resta storica», da togliere nel
 
 ### 1.5 Palo e micropalo verticale
 
+**Stato al 23/10 (f5-pass-geo): fatto.** Release MVVM, vista storica in `supporto/SUPERATI/ui-storica/palo-verticale/`, righe sotto
+risolte ([f5-6-palo-verticale.md](f5-6-palo-verticale.md), sezione 6).
+
 | Suite | File | Che cosa legge | Effetto | Piano |
 | --- | --- | --- | --- | --- |
 | `ui/f3-figures` | `F3FigureChecks.cs` (partial di `SheetEditor`, cast `(SheetEditor)opened`) | `allSeries`, `capacityView`, `plot`, `sondages`, `reference` | A | il ramo MVVM esiste (`ui/f3-figures-palo-verticale-mvvm`): verificare che il cast storico sia solo nel ramo storico, poi toglierlo |

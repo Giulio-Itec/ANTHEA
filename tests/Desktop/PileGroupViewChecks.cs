@@ -597,13 +597,14 @@ internal static class PileGroupViewChecks
             Check(pileGroup is MvvmSheetEditor { Sheet: PileGroupSheetViewModel sheet } && sheet.DiameterForm.WikiNavigator is WpfWikiNavigator && sheet.HasResults,
                 "Banco interattivo: palificata MVVM con i servizi del prodotto (Wiki della finestra), senza --module-impl");
         using (var other = factory.Open("geo_palo_verticale", Anthea.Application.Modules.ModuleDirectory.CreateData("geo_palo_verticale")))
-            Check(other is SheetEditor, "Banco interattivo: il palo verticale conserva la vista storica");
+            Check(other is MvvmSheetEditor, "Banco interattivo: il palo verticale con la vista MVVM della Release (passaggio del 23/10)");
         using (var release = composition.SheetEditors.Open(Module, PileGroupScenarios.FixtureData(root, "default")))
             Check(release is MvvmSheetEditor { Sheet: PileGroupSheetViewModel shown } && shown.DiameterForm.WikiNavigator is WpfWikiNavigator && shown.HasResults,
                 "Release: la radice di composizione apre la palificata con la vista MVVM");
-        Check(ModuleImplementations.Declared.All(d => d.Implementation ==
-            (d.Module is Module or Anthea.Application.Actions.SpectraDocument.Module or Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module ? SheetImplementation.Mvvm : SheetImplementation.Historic)),
-            "Release: palificata e nuovo modulo Spettri con la vista MVVM, gli altri moduli con la vista storica");
+        // The other modules of the Release, MVVM since their switches or still historic, are checked by ui/check-module-host-offscreen (ModuleHostWpfChecks).
+        Check(new[] { Module, Anthea.Application.Actions.SpectraDocument.Module, Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module }
+            .All(m => ModuleImplementations.Release.For(m) == SheetImplementation.Mvvm),
+            "Release: palificata e nuovi moduli Spettri e paratie con la vista MVVM");
     }
 
     // ---------------------------------------------------------------- 7. read-only

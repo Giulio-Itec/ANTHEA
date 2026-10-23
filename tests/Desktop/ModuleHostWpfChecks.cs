@@ -41,9 +41,9 @@ internal static class ModuleHostWpfChecks
 
     /// <summary>
     /// The modules MVVM in the Release, in ordinal order: the pile group (F5.4), Spectra and the embedded walls (new modules), the modules
-    /// switched after the user's trial (23/10: materials).
+    /// switched after the user's trial (23/10: materials, vertical pile and micropile).
     /// </summary>
-    private static readonly string[] ReleaseMvvm = [SpectraModule, PileGroupModule, EmbeddedWallModule, ProbeModule, ConcreteModule];
+    private static readonly string[] ReleaseMvvm = [SpectraModule, PileGroupModule, "geo_micropalo_verticale", "geo_palo_verticale", EmbeddedWallModule, ProbeModule, ConcreteModule];
 
     private const string ProbeView = """
         <DataTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
@@ -72,7 +72,7 @@ internal static class ModuleHostWpfChecks
             "ModuleImplementations elenca esattamente i moduli di ModuleDirectory, nel suo ordine");
         Check(ModuleImplementations.Declared.All(d => d.Implementation == (ReleaseMvvm.Contains(d.Module) ? SheetImplementation.Mvvm : SheetImplementation.Historic))
             && ModuleImplementations.Release.Mvvm.SequenceEqual(ReleaseMvvm),
-            "Release: palificata, Spettri, paratie, calcestruzzo e acciaio con la vista MVVM, gli altri moduli con la vista storica");
+            "Release: palificata, Spettri, paratie, materiali e pali verticali con la vista MVVM, gli altri moduli con la vista storica");
 
         // The composition root of the product: registry of ModuleDirectory with the MVVM pile group (F5.4), materials (F5.5) and vertical
         // piles (F5.6), the editors of the Release.
@@ -95,7 +95,7 @@ internal static class ModuleHostWpfChecks
             Check(wall is MvvmSheetEditor { Sheet: EmbeddedWallSheetViewModel }, "Radice di composizione: la Release apre paratie con la vista MVVM");
         using (var spectra = composition.SheetEditors.Open(SpectraModule, ModuleDirectory.CreateData(SpectraModule)))
             Check(spectra is MvvmSheetEditor { Sheet: SpectraSheetViewModel }, "Radice di composizione: la Release apre Spettri con la vista MVVM");
-        foreach (string migrated in new[] { "geo_palo_verticale", "geo_micropalo_verticale",
+        foreach (string migrated in new[] {
             "geo_fondazioni_superficiali", "geo_palo_orizzontale", "geo_micropalo_orizzontale", "geo_stratigrafia", "geo_muri_sostegno", "str_palo" })
             using (var sheet = composition.SheetEditors.Open(migrated, ModuleDirectory.CreateData(migrated)))
                 Check(sheet is SheetEditor, "Radice di composizione: la Release apre " + migrated + " con la vista storica");
@@ -123,12 +123,12 @@ internal static class ModuleHostWpfChecks
         Fails<ArgumentException>(() => ModuleHostBench.Implementations([ModuleHostBench.Argument]), ModuleHostBench.Argument, "Banco: valore mancante");
 
         // The probe stands for a migrated module: registered for ProbeModule (the reinforcing steel, MVVM in the Release) and chosen with the
-        // bench argument; the registry has also the other modules MVVM in the Release (the factory refuses a Release whose MVVM modules are not
+        // bench argument; the registry has the other modules of the composition root (the factory refuses a Release whose MVVM modules are not
         // registered).
         var probe = new ProbeSheetModule(ModuleDirectory.Get(ProbeModule));
         Fails<InvalidOperationException>(() => ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], new ModuleRegistry([probe])), PileGroupModule,
             "Banco: registro senza la palificata, MVVM nella Release, rifiutato");
-        var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], new ModuleRegistry([probe, new PileGroupSheetModule(), new SpectraSheetModule(), new EmbeddedWallSheetModule(), new ConcreteMaterialSheetModule()]));
+        var factory = ModuleHostBench.SheetEditors([ModuleHostBench.Argument, ProbeModule + "=mvvm"], new ModuleRegistry(DesktopComposition.CreateModules() is var defaults ? defaults.SheetModuleIds.Select(id => id == ProbeModule ? probe : defaults.SheetModule(id)) : []));
         var echo = new EchoService();
         var data = new JsonObject { ["etichetta"] = "iniziale" };
         Fails<InvalidOperationException>(() => factory.Open(ProbeModule, data, echo), nameof(ProbeSheetViewModel), "Foglio senza DataTemplate rifiutato con il tipo del ViewModel");

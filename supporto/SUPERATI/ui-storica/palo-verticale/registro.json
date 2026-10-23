@@ -1,0 +1,20 @@
+[
+  {
+    "origine": "X.Desktop/Wpf/GeoEditor.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-verticale/X.Desktop/Wpf/GeoEditor.cs",
+    "commit": "8f970183 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "c47c85d3594b4ab25569e9c7b3250828bf3a7156ad397af4dc6946a5d4310f39",
+    "sha256_lf": "93696678af2b17f0473f4fad6cfcac34f00c76b5a1a0d1cf6018ca8e360047cc",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre palo e micropalo verticale con la vista MVVM; la vista storica non è più raggiungibile né compilata; la vista storica (partial di SheetEditor: schede, form, stratigrafie, grafici, verifica); i membri e i rami Geo di SheetEditor.cs sono stati tolti con lei",
+    "sostituzione": "X.Desktop/Views/VerticalPile (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/VerticalPile (ViewModel); tracce congelate in tests/fixtures/f5-palo-verticale/storica, confrontate da Presentation.Tests e da ui/check-palo-verticale-view"
+  },
+  {
+    "origine": "tests/Desktop/VerticalPileHistoricTrace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/palo-verticale/tests/Desktop/VerticalPileHistoricTrace.cs",
+    "commit": "db1a0b44 (ultimo che lo modifica), invariato fino a refactoring/f5 db7ef68d",
+    "sha256": "dc0f05a809620bc688a9f4537a53d61f2a0fc448f1de47ef14458d4f5edcc6e2",
+    "sha256_lf": "b179554797f9d575f1f3d423390a6a96ef23eb00577b9a1952eda258ec4b7b32",
+    "motivo": "passaggi della Release del 23/10/2026 (decisione Q11): la Release apre palo e micropalo verticale con la vista MVVM; la vista storica non è più raggiungibile né compilata; prova delle tracce della vista storica (suite ui/check-palo-verticale-historic), archiviata con la vista",
+    "sostituzione": "X.Desktop/Views/VerticalPile (vista XAML, ospitata da X.Desktop/Hosting/MvvmSheetEditor.cs) e src/ANTHEA.Presentation/Modules/VerticalPile (ViewModel); tracce congelate in tests/fixtures/f5-palo-verticale/storica, confrontate da Presentation.Tests e da ui/check-palo-verticale-view"
+  }
+]

@@ -15,6 +15,9 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
     /// <summary>The vertical pile or micropile with the XAML view, null otherwise.</summary>
     private VerticalPileSmoke? Pile => VerticalPileSmoke.Handles(editor) ? new((MvvmSheetEditor)editor, services) : null;
 
+    /// <summary>The vertical pile or micropile, with the XAML view since the Release switch of 23/10 (f5-pass-geo).</summary>
+    private VerticalPileSmoke DisplayPile => Pile ?? throw new InvalidOperationException("Il foglio aperto non è un palo verticale con la vista MVVM: " + editor.Module);
+
     /// <summary>
     /// The historic sheet; the message of <c>historicEditor</c> for a module without an MVVM branch here. A historic sheet of a module that the
     /// bench of the command line opens with the XAML view fails too: a suite <c>-mvvm</c> never passes on the historic view by mistake.
@@ -39,19 +42,19 @@ internal sealed class OpenSheet(ISheetEditor editor, BenchSheetServices services
 
     // ---------------------------------------------------------------- ui/smoke-display (DisplaySmokeChecks.cs)
 
-    internal void VerifyDisplayLayout() { if (Pile is { } pile) pile.VerifyDisplayLayout(); else Historic.VerifyDisplayLayout(); }
+    internal void VerifyDisplayLayout() => DisplayPile.VerifyDisplayLayout();
 
-    internal Task VerifyDisplayScrolling(string directory, string name) => Pile is { } pile ? pile.VerifyDisplayScrolling(directory, name) : Historic.VerifyDisplayScrolling(directory, name);
+    internal Task VerifyDisplayScrolling(string directory, string name) => DisplayPile.VerifyDisplayScrolling(directory, name);
 
-    internal Task VerifyStratigraphyEditing() => Pile is { } pile ? pile.VerifyStratigraphyEditing() : Historic.VerifyStratigraphyEditing();
+    internal Task VerifyStratigraphyEditing() => DisplayPile.VerifyStratigraphyEditing();
 
-    internal void VerifyPileOutcomes() { if (Pile is { } pile) pile.VerifyPileOutcomes(); else Historic.VerifyPileOutcomes(); }
+    internal void VerifyPileOutcomes() => DisplayPile.VerifyPileOutcomes();
 
-    internal Task VerifyPresentation(string directory) => Pile is { } pile ? pile.VerifyPresentation(directory) : Historic.VerifyPresentation(directory);
+    internal Task VerifyPresentation(string directory) => DisplayPile.VerifyPresentation(directory);
 
-    internal void VerifyReport(string directory) { if (Pile is { } pile) pile.VerifyReport(directory); else Historic.VerifyReport(directory); }
+    internal void VerifyReport(string directory) => DisplayPile.VerifyReport(directory);
 
-    internal Task VerifyNavigationThrough(Action leave, Action resume) => Pile is { } pile ? pile.VerifyNavigationThrough(leave, resume) : Historic.VerifyNavigationThrough(leave, resume);
+    internal Task VerifyNavigationThrough(Action leave, Action resume) => DisplayPile.VerifyNavigationThrough(leave, resume);
 
     // ---------------------------------------------------------------- f5-suite-passaggi: ui/smoke-horizontal (HorizontalSmokeChecks.cs)
 

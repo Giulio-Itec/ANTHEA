@@ -329,9 +329,9 @@ foreach ($c in 'check-appearance', 'check-global-guidance-offscreen', 'check-wal
 # reinforcing steel, vertical pile and micropile, stratigraphy, retaining walls) run also with those seven modules MVVM (bench --module-impl):
 # ui/<suite>-mvvm. At the Release switch of a module its pair leaves $MvvmBench; a duplicate goes when every module it opens is MVVM in the
 # Release (docs/refactoring/f5-suite-ui.md).
-$MvvmBench = @('geo_fondazioni_superficiali', 'geo_palo_verticale', 'geo_micropalo_verticale', 'geo_stratigrafia', 'geo_muri_sostegno') |
+$MvvmBench = @('geo_fondazioni_superficiali', 'geo_stratigrafia', 'geo_muri_sostegno') |
     ForEach-Object { '--module-impl'; "$_=mvvm" }
-foreach ($s in 'smoke', 'smoke-display', 'smoke-projects', 'smoke-project-workspace', 'smoke-retaining-wall', 'smoke-global-stability') {
+foreach ($s in 'smoke-project-workspace', 'smoke-retaining-wall', 'smoke-global-stability') {
     $smokeArgs = if ($s -eq 'smoke') { @("--$s", '{out}', '{cases}') } else { @("--$s", '{out}') }
     Add-Suite @{ Name = "ui/$s-mvvm"; Stage = 'ui'; Kind = 'smoke'; Args = $smokeArgs + $MvvmBench; Timeout = 900; Proof = @{ File = '{out}\esito-smoke-completo.txt'; Pattern = "^Completato: --$s$" } }
 }
@@ -356,17 +356,12 @@ Add-Suite @{ Name = 'ui/check-pile-group-view'; Stage = 'ui'; Kind = 'check'; Ar
 # screenshots, help, automation names, read-only. The historic views and their suite ui/check-materials-historic are archived in
 # supporto/SUPERATI/ui-storica/materiali since the Release switch (Q11).
 Add-Suite @{ Name = 'ui/check-materials-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-materials-view', '{root}', '{out}\vista'); Timeout = 900; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
-# F5.6 (proposal 7.2, capture first): the historic vertical pile and micropile view still gives the traces frozen in
-# tests/fixtures/f5-palo-verticale, which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
-Add-Suite @{ Name = 'ui/check-palo-verticale-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-verticale-historic', '{root}', '{out}\traccia'); Timeout = 600; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
-# F5.6: the XAML view of the vertical pile and micropile hosted by MvvmSheetEditor off screen (bench --module-impl, Release still historic):
-# the 18 traces through its controls equal to those frozen in tests/fixtures/f5-palo-verticale, visit without writes, exports equal to those of
-# the historic view, V3 (F5-01), screenshots, help, automation names, read-only, the shared soil transfer dialog against the historic window.
+# F5.6: the XAML view of the vertical pile and micropile hosted by MvvmSheetEditor off screen: the 18 traces through its controls equal to those
+# frozen in tests/fixtures/f5-palo-verticale, visit without writes, exports as the historic view wrote them, V3 (F5-01), screenshots, help,
+# automation names, read-only, the shared soil transfer dialog against the window SoilTransferDialog. The historic view and its suite
+# ui/check-palo-verticale-historic are archived in supporto/SUPERATI/ui-storica/palo-verticale since the Release switch (Q11); ui/f3-figures and
+# ui/f3-scheduling read the MVVM view, so their duplicates -palo-verticale-mvvm went too.
 Add-Suite @{ Name = 'ui/check-palo-verticale-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-verticale-view', '{root}', '{out}\vista'); Timeout = 900; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
-# F5.6: ui/f3-figures and ui/f3-scheduling with the MVVM view of the vertical pile and micropile (bench --module-impl): the frozen capacity
-# series compared exactly through the Plot of the view, the recalculation and the closing through its general form.
-Add-Suite @{ Name = 'ui/f3-figures-palo-verticale-mvvm'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-figures', '{root}', '{out}', '--module-impl', 'geo_palo_verticale=mvvm', '--module-impl', 'geo_micropalo_verticale=mvvm'); Timeout = 120; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-Add-Suite @{ Name = 'ui/f3-scheduling-palo-verticale-mvvm'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-scheduling', '{root}', '{out}', '--module-impl', 'geo_palo_verticale=mvvm', '--module-impl', 'geo_micropalo_verticale=mvvm'); Timeout = 120; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # F5.9b (proposal 7.2, capture first): the historic shallow foundation view still gives the traces frozen in tests/fixtures/f5-fondazioni,
 # which Presentation.Tests compares with the ViewModel; off screen, until the historic view is archived (Q11).
 Add-Suite @{ Name = 'ui/check-fondazioni-historic'; Stage = 'ui'; Kind = 'check'; Args = @('--check-fondazioni-historic', '{root}', '{out}\traccia'); Timeout = 300; Proof = @{ File = '{out}\traccia\esito.txt'; Pattern = '^PASS ' } }
@@ -476,10 +471,11 @@ Add-Suite @{ Name = 'ui/check-shell-draft'; Stage = 'ui'; Kind = 'check'; Args =
 # assertions through ShellWindow on ShellViewModel from ShellComposition, off screen, with the modules as the Release chooses them; -mvvm with the bench of the
 # seven modules ($MvvmBench), as the historic -mvvm suites. The historic suites stay: MainWindow is the shell of the Release until part (g).
 # ui/shell-smoke-project-report has no -mvvm pair, as ui/smoke-project-report; it also compares the Word report of the shell with the one of MainWindow.
-# The pairs whose modules are all MVVM in the Release go away with the switch, as the historic -mvvm suites (hierarchy and sharing: the materials).
+# The pairs whose modules are all MVVM in the Release go away with the switch, as the historic -mvvm suites (hierarchy and sharing: the materials;
+# projects and display: the vertical piles).
 foreach ($s in 'projects', 'project-workspace', 'hierarchy', 'sharing', 'project-report', 'display') {
     Add-Suite @{ Name = "ui/shell-smoke-$s"; Stage = 'ui'; Kind = 'check'; Args = @("--check-shell-smoke-$s", '{out}'); Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-    if ($s -notin 'project-report', 'hierarchy', 'sharing') {
+    if ($s -notin 'project-report', 'hierarchy', 'sharing', 'projects', 'display') {
         Add-Suite @{ Name = "ui/shell-smoke-$s-mvvm"; Stage = 'ui'; Kind = 'check'; Args = @("--check-shell-smoke-$s", '{out}') + $MvvmBench; Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
     }
 }
