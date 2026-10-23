@@ -485,6 +485,12 @@ foreach ($s in 'projects', 'project-workspace', 'hierarchy', 'sharing', 'project
         Add-Suite @{ Name = "ui/shell-smoke-$s-mvvm"; Stage = 'ui'; Kind = 'check'; Args = @("--check-shell-smoke-$s", '{out}') + $MvvmBench; Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
     }
 }
+# F5.13 e: the capture of a project through the new shell and through MainWindow (tests/Desktop/ShellProjectCapture.cs): open, edit, shared data, revisions,
+# comparison, undo, redo, save; equal byte for byte (esito.txt), then the direct comparison of the F5 benches on the two folders (zero differences).
+Add-Suite @{ Name = 'ui/shell-capture'; Stage = 'ui'; Kind = 'check'; Args = @('--check-shell-capture', '{out}'); Timeout = 600; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ui/shell-capture-confronto'; Stage = 'ui'; Kind = 'python'; Script = 'tools\qa\f5_confronto_diretto.py'
+    Args = @('--a', '{output}\ui_shell-capture\mainwindow', '--b', '{output}\ui_shell-capture\shell', '--out', '{out}\confronto-diretto.json')
+    Proof = @{ File = '{out}\confronto-diretto.json'; Pattern = '"esito": "identiche"' } }
 Add-Suite @{ Name = 'ui/check-concrete-design'; Stage = 'ui'; Kind = 'check'; Args = @('--check-concrete-design', '{out}'); Timeout = 900
     Before = @{ Project = (TestProject 'ConcreteDesign.Checks'); Args = @('{out}') }; Builds = @(@{ Project = (TestProject 'ConcreteDesign.Checks'); Configuration = 'Release' })
     Proof = @{ File = '{out}\ui-pass.txt'; Pattern = '^PASS' } }
