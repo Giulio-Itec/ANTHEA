@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-22",
+  "aggiornato": "2026-10-23",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -27,6 +27,7 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "nota_audit_14_10": "Audit indipendente del 14/10/2026 (piano.md, sezione iniziale). Le voci F4 indicate come «distribuite con il set W» sono attive in ANTHEA 1.8.0 con il set W installato in lib/Checker dal commit 3f9df6b8, sul ramo refactoring/f4-calcoli-residui: il ramo non è unito a main e il full conforme manca (F4.16). Dove la scelta è stata dell'agente la voce indica «decisione dell'utente da ratificare». Lo stato «da-ricostruire» segnala una voce prevista dai micro-piani e non scritta a suo tempo, ricostruita solo in parte: la descrizione dice cosa manca. La categoria «regressione» è aggiunta per F4-36 e F4-37.",
   "nota_analisi_bug_15_10": "Analisi dei bug del 15/10/2026 (docs/refactoring/analisi-bug-20261015.md, sezione «Esito delle correzioni»). Una voce BUG-<codice> per ogni codice dell'analisi, salvo SLU-2 (rettifica e correzione nella voce F2-17) e FES-1 (testo della voce F2-25). BUG-<codice>b e c: punti aperti dello stesso codice. BUG-N1…N7: difetti nuovi trovati durante le correzioni (decisione dell'utente «Correggili tutti»). BUG-TS-1 e BUG-TS-2: tension stiffening opzionale nelle analisi di risposta. TEST-05 e TEST-06: decisioni E3 ed E6 dei residui di F2. Le correzioni delle librerie sono sui rami di integrazione (Checker anthea-bug-1015; Model bugint-model con bug/model) e si distribuiscono con il rilascio Z: GPCModel 5.5.0.0, GPCModelData 0.0.2.14, GPCChecker.Concrete 0.11.0.0, GPCChecker.Steel 2.0.4.8, GPCChecker.CompositeBridge 1.7.0.0, GPCChecker.Geotechnics 0.4.0.0, GPCModelChecker 2.1.0.8, GPC.Design 0.21.0.0, GPCChecker.Masonry 0.1.0.3. Le parti di ANTHEA sono sui rami refactoring/bug-1015 e refactoring/bug-1015-geo, uniti in refactoring/integrazione-1016. Stato «corretto» anche per le correzioni non ancora distribuite; rilascio Z installato il 16/10 (ANTHEA 89545655; set non candidato da Model bf8563f5 e Checker bce7aaae, release_set_sha256 df4f3c4de6877a91723b48f37678f54d065b721cc14f09daa8ff00db4f457ad4 in tests/fixtures/f4/library-release.json); profilo full con tutti gli stadi sul commit 5c3f5baf: 142 PASS, 0 NEW-FAIL (supporto/artefatti/ci/20261016-022553-int1016-full2); transizioni del confronto UI F3 in tests/fixtures/f3/transitions-f4.json (classificazione in docs/refactoring/bug-1015-transizioni-ui-classificazione.md). Il campo voci_collegate lega le voci nei due versi.",
+  "nota_f5_23_10": "Voci F5-03…F5-59, aggiunte il 23/10/2026 (ramo refactoring/f5-registro da refactoring/f5 532a3074) per la revisione F5.15 (docs/refactoring/f5-15-revisione.md). Comprendono: le differenze di comportamento delle viste MVVM rispetto alle viste storiche dichiarate, accettate o scelte in via provvisoria nei documenti F5.4–F5.12; i comportamenti della vista storica della sezione c.a. che il ViewModel conserva per avere tracce identiche (C5 di f5-10-sezione.md: «diventano voci del registro»). Stato «dichiarato»: differenza accettata dall'utente il 17/10 mattina («accetto tutte le proposte, continua col piano»). Stato «da-decidere»: scelta provvisoria o comportamento conservato, aperto per F5.15. C5 era senza proposta: vale la scelta del coordinatore «da ratificare» («i comportamenti storici si conservano e diventano voci del registro», decisioni.md, 17 ottobre mattina), che si rivede in F5.15 per la decisione dell'utente del 17/10 tarda mattina («dove diceva \"da decidere\" a fine refactoring rivediamo tutte le scelte»). Campi nuovi: documento (documento e sezione d'origine), modulo, revisione_f5_15 (gruppo e riga dell'elenco F5.15), opzioni (opzione presa e alternativa dell'elenco). Percorsi del codice su refactoring/f5 532a3074, senza numeri di riga. Non hanno una voce: le differenze di solo aspetto (corpi, colori, misure dei dialoghi); le scelte delle sole prove e dei riferimenti congelati (V-a, V-e, V-g, artefatti delle tracce); i comportamenti storici conservati negli altri moduli (T6: V5, O3, FN3; T7: S6, O4, E4, E5, MU5, MU6, E7, O5; SM5; BD10), perché la decisione non li destina al registro; le differenze senza effetto osservabile (E3, M19, S10); le differenze della shell rispetto a MainWindow (F5.13 non conclusa).",
   "voci": [
     {
       "id": "SPETTRI-01",
@@ -8288,6 +8289,1457 @@
         "Guide Rev58: pratica 100 pagine, teorica 166 pagine e 391 formule conservate, 18 originali archiviati con SHA-256",
         "docs/refactoring/installer-1.13.0.md"
       ]
+    },
+    {
+      "id": "F5-03",
+      "data": "2026-10-23",
+      "fase": "F5.4, vista XAML della palificata orizzontale (punto di controllo F5.4, D11)",
+      "titolo": "Palificata orizzontale: F1 su un campo apre la sezione della Wiki del campo",
+      "famiglia": "interfaccia/palificata orizzontale",
+      "modulo": "F5.4 · Palificata orizzontale (geo_efficienza_orizzontale)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Vista storica: F1 su qualunque campo apriva la guida del modulo. Vista nuova (FieldForm, come InputForm negli altri moduli): F1 su un campo apre la sezione del campo quando esiste («Effetto di gruppo e applicabilità», solo per il diametro), altrimenti la guida del modulo; F1 fuori dai campi apre la guida del modulo da MvvmSheetEditor. Le «?» dei campi sono le stesse. La palificata è nella Release con la vista MVVM dal 17/10: la differenza è attiva.",
+      "documento": "docs/refactoring/f5-4-pilota.md §4.4 (D11) e §5.4; f5-punti-di-controllo.md, F5.4",
+      "codice": ["src/ANTHEA.Presentation/Forms/FormViewModel.cs (WikiNavigator)", "X.Desktop/Hosting/MvvmSheetEditor.cs (F1 fuori dai campi)", "X.Desktop/Views/PileGroup"],
+      "segno": "Solo l'aiuto contestuale: dati, risultati, report e cattura F3 invariati (104 fixture, 0 differenze non ammesse con la Release MVVM). La guida pratica descrive già il comportamento nuovo.",
+      "test": ["tests/Desktop/PileGroupViewChecks.cs (ui/check-pile-group-view): «?», F1 su un campo e F1 fuori dai campi attraverso IWikiNavigator"],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, D11: «differenza di comportamento, da confermare»)",
+        "esito": "accettata; attiva nella Release dal passaggio della palificata del 17/10"
+      },
+      "revisione_f5_15": "non in elenco: proposta accettata il 17/10",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-04",
+      "data": "2026-10-23",
+      "fase": "F5.6, ViewModel del palo e del micropalo verticale (punto di controllo F5.6, V7)",
+      "titolo": "Palo verticale: foglio non più «occupato» dopo una modifica durante un calcolo",
+      "famiglia": "interfaccia/pali verticali",
+      "modulo": "F5.6 · Palo e micropalo verticale",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Vista storica (SheetEditor): dopo una modifica durante un calcolo Busy resta vero finché il motore non torna. ViewModel (VerticalPileSheetViewModel su SheetViewModelBase): IsBusy diventa falso subito, perché lo stato passa a «in attesa». Senza risultato l'esportazione è rifiutata in entrambi i casi. L'unico caso osservabile è un secondo «Calcola» con gli stessi dati mentre il primo è in corso: il ViewModel ammette allora l'esportazione del risultato già pubblicato, che è quello degli stessi dati.",
+      "documento": "docs/refactoring/f5-6-palo-verticale.md §4 (V7) e §5",
+      "codice": ["src/ANTHEA.Presentation/Modules/VerticalPile/VerticalPileSheetViewModel.cs", "src/ANTHEA.Presentation/Modules/SheetViewModelBase.cs (IsBusy)", "X.Desktop/Wpf/SheetEditor.cs (Busy)"],
+      "segno": "Nessun effetto su dati, risultati, report e tracce; cambia solo la disponibilità dell'esportazione nel caso descritto.",
+      "test": ["nessuna prova dedicata citata nella nota d'origine"],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, V7: «da confermare»)",
+        "esito": "accettata (f5-6-palo-verticale.md §5: «V7, V8 accettate»); attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+      },
+      "revisione_f5_15": "non in elenco: proposta accettata il 17/10",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-05",
+      "data": "2026-10-23",
+      "fase": "F5.6, ViewModel del palo e del micropalo verticale (punto di controllo F5.6, V8)",
+      "titolo": "Palo verticale: figura della capacità nel report disegnata a vista intera",
+      "famiglia": "interfaccia/pali verticali",
+      "modulo": "F5.6 · Palo e micropalo verticale",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Il report storico copia il grafico della capacità come appare, compresi zoom e spostamento fatti dall'utente. Il ViewModel passa al report le serie mostrate (vista, curve, titolo, quota) e la figura si disegna a vista intera. È la stessa scelta di S9-a della sezione c.a. (F5-14).",
+      "documento": "docs/refactoring/f5-6-palo-verticale.md §4 (V8) e §5",
+      "codice": ["src/ANTHEA.Presentation/Modules/VerticalPile/VerticalPileSheetViewModel.cs"],
+      "segno": "Solo l'immagine della capacità nel report; il confronto F3 non la vede; testi e numeri invariati.",
+      "test": ["nessuna: il confronto F3 non vede l'immagine (f5-6, V8)"],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, V8: «da confermare»)",
+        "esito": "accettata (f5-6-palo-verticale.md §5: «V7, V8 accettate»); attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+      },
+      "revisione_f5_15": "non in elenco: proposta accettata il 17/10 (citata in «Da guardare per primi», punto 10)",
+      "voci_collegate": ["F5-14"]
+    },
+    {
+      "id": "F5-06",
+      "data": "2026-10-23",
+      "fase": "F5.6, vista XAML del palo verticale (§5.3) e F5.7, palo orizzontale (O7), con T5",
+      "titolo": "Pali: «Modello e dati comuni…» apre la Wiki invece del dialogo con il testo",
+      "famiglia": "interfaccia/pali",
+      "modulo": "F5.6 · Palo e micropalo verticale; F5.7 · Palo e micropalo orizzontale",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Vista storica del palo verticale e del palo orizzontale: «Modello e dati comuni…» apre un dialogo con il testo della teoria (CalculationHelpView). Vista nuova: CalculationGuide apre con IWikiNavigator la pagina che MainWindow.ShowContextualWikiTheory apre nella Wiki della finestra principale. I fogli dei pali sono sempre nella finestra principale.",
+      "documento": "docs/refactoring/f5-6-palo-verticale.md §5.3 (scelta 4) e §5; f5-7-palo-orizzontale.md §5 (O7/T5); f5-punti-di-controllo.md, T5",
+      "codice": ["src/ANTHEA.Presentation/Modules/Shared/CalculationGuide.cs", "X.Desktop/Wpf/CalculationHelpView.cs"],
+      "segno": "Solo l'aiuto: dati, risultati e report invariati.",
+      "opzioni": [
+        {"id": "presa", "descrizione": "apre la Wiki della finestra principale con IWikiNavigator"},
+        {"id": "alternativa", "descrizione": "un dialogo con il testo, come la vista storica"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questa scelta: T5 era senza proposta, scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina: guida comune aperta con IWikiNavigator)",
+        "esito": "in vigore nelle viste MVVM; aperta per F5.15"
+      },
+      "revisione_f5_15": "gruppo 4, §5.3-4",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-07",
+      "data": "2026-10-23",
+      "fase": "F5.6b, ViewModel della stratigrafia (punto di controllo F5.6b, S4 e T7)",
+      "titolo": "Stratigrafia: conferma non valida prima di «Invia / importa terreno» mostrata dal guard",
+      "famiglia": "interfaccia/stratigrafia",
+      "modulo": "F5.6b · Stratigrafia",
+      "categoria": "difetto-legacy",
+      "stato": "dichiarato",
+      "descrizione": "Vista storica (StratigraphyWorkspace): «Invia / importa terreno» conferma il foglio; con un documento non valido la conferma lancia un'eccezione non gestita, che va nel registro degli errori e nel messaggio del gestore globale. ViewModel (StratigraphySheetViewModel): l'errore passa dal CommandGuard del foglio (Q19) e si mostra come «Operazione non completata», senza registro degli errori; il dialogo non si apre. È l'unica differenza, e solo dove la vista storica fallisce.",
+      "documento": "docs/refactoring/f5-6b-stratigrafia.md §2 punto 2, §4 (S4) e §5; f5-punti-di-controllo.md, T7",
+      "codice": ["src/ANTHEA.Presentation/Modules/Stratigraphy/StratigraphySheetViewModel.cs (TransferSoilAsync)", "X.Desktop/Wpf/StratigraphyWorkspace.cs"],
+      "segno": "Solo dove la vista storica fallisce: dati, report e tracce congelate invariati.",
+      "test": ["tests/Desktop/StratigraphyViewChecks.cs (ui/check-stratigrafia-view): la conferma di un documento non valido fallisce prima del dialogo"],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, T7 e S4: «differenza dichiarata al passaggio della Release»)",
+        "esito": "dichiarata; attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+      },
+      "revisione_f5_15": "non in elenco: proposta accettata il 17/10",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-08",
+      "data": "2026-10-23",
+      "fase": "F5.9, ViewModel e vista XAML dei muri (punto di controllo F5.9, MU3 e T7)",
+      "titolo": "Muri: «Valori di calcolo…» in sola lettura senza «Applica e ricalcola»",
+      "famiglia": "interfaccia/muri",
+      "modulo": "F5.9 · Muri di sostegno (geo_muri_sostegno)",
+      "categoria": "difetto-legacy",
+      "stato": "dichiarato",
+      "descrizione": "Vista storica (RetainingWallWorkspace): in una revisione in sola lettura «Valori di calcolo…» è ammesso (consultazione), ma la finestra è fuori dall'albero protetto da RevisionInspection: la tabella resta modificabile e «Applica e ricalcola» riscrive i dati della revisione e la segna modificata (Modified 1, verificato con uno scenario temporaneo non versionato). Vista nuova: il dialogo su RetainingWallParametersViewModel è in sola lettura, righe bloccate e ApplyCommand spento; «Chiudi» resta disponibile.",
+      "documento": "docs/refactoring/f5-9-muri.md §2 punto 1, §4 (MU3), §5 e §5.3; f5-punti-di-controllo.md, T7",
+      "codice": ["src/ANTHEA.Presentation/Modules/RetainingWall/RetainingWallParametersViewModel.cs (ApplyCommand)", "X.Desktop/Views/RetainingWall/RetainingWallParametersView.xaml", "X.Desktop/Wpf/RetainingWallWorkspace.Parameters.cs"],
+      "segno": "Solo in una revisione in sola lettura: la revisione non si riscrive più. Nessuna differenza nelle 24 tracce, nella cattura F3 e nel confronto diretto (0 differenze su 1066 file).",
+      "test": ["tests/ANTHEA.Presentation.Tests/RetainingWallSheetChecks.cs: «Applica e ricalcola» spento in sola lettura (MU3)", "tests/Desktop/RetainingWallViewChecks.cs (ui/check-muri-view): righe bloccate e «Applica e ricalcola» spento nel dialogo dei valori"],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, T7 e MU3: «differenza dichiarata, da accettare»)",
+        "esito": "dichiarata (f5-9-muri.md §5: «MU3 e MU4: differenze dichiarate, come proposto»); attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+      },
+      "revisione_f5_15": "non in elenco: proposta accettata il 17/10 (citata in «Da guardare per primi», punto 12, e in 15.5, «Sola lettura che scrive»)",
+      "voci_collegate": ["F5-09", "F5-18", "F5-59"]
+    },
+    {
+      "id": "F5-09",
+      "data": "2026-10-23",
+      "fase": "F5.9, ViewModel e vista XAML dei muri (punto di controllo F5.9, MU4 e T7)",
+      "titolo": "Muri: «Stabilità globale» in sola lettura non prepara il profilo vuoto",
+      "famiglia": "interfaccia/muri",
+      "modulo": "F5.9 · Muri di sostegno (geo_muri_sostegno)",
+      "categoria": "difetto-legacy",
+      "stato": "dichiarato",
+      "descrizione": "Vista storica: il pulsante «Stabilità globale» dell'intestazione è ammesso in sola lettura (consultazione), ma con il profilo globale vuoto chiama «Prepara dal muro»: scrive il profilo nei dati della revisione, la segna modificata (Modified 1), azzera i risultati e ricalcola. Ricostruisce anche gli input, e i controlli nuovi sono protetti da RevisionInspection solo quando entrano nell'albero visuale: dopo il clic 111 campi della pagina «Input» tornano modificabili e «Calcola armature» si riaccende (scenario temporaneo sulla fixture default, traccia in supporto/artefatti/refactoring/f5-9/prova-globale-sola-lettura). Vista nuova: ShowGlobalSetup apre pagina e schede senza preparare il profilo, perché PrepareGlobal non fa nulla se il foglio non è modificabile.",
+      "documento": "docs/refactoring/f5-9-muri.md §2 punto 2, §4 (MU4), §5 e §5.3; f5-punti-di-controllo.md, T7",
+      "codice": ["src/ANTHEA.Presentation/Modules/RetainingWall/RetainingWallSheetViewModel.Global.cs (ShowGlobalSetup, PrepareGlobal)", "X.Desktop/Wpf/RetainingWallWorkspace.GlobalStability.cs"],
+      "segno": "Solo in una revisione in sola lettura con il profilo globale vuoto: la revisione non si riscrive e resta protetta. Nessuna differenza nelle tracce, nella cattura F3 e nel confronto diretto.",
+      "test": ["nessuna prova dedicata citata in f5-9-muri.md; la sola lettura della vista nuova è confrontata con la storica in ui/check-muri-view (tests/Desktop/RetainingWallViewChecks.cs)"],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, T7 e MU4: «differenza dichiarata, da accettare»)",
+        "esito": "dichiarata (f5-9-muri.md §5: «MU3 e MU4: differenze dichiarate, come proposto»); attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+      },
+      "revisione_f5_15": "non in elenco: proposta accettata il 17/10 (citata in «Da guardare per primi», punto 12, e in 15.5, «Sola lettura che scrive»)",
+      "voci_collegate": ["F5-08"]
+    },
+    {
+      "id": "F5-10",
+      "data": "2026-10-23",
+      "fase": "F5.9, ViewModel dei muri (punto di controllo F5.9, MU7)",
+      "titolo": "Muri: stato del ricalcolo mostrato subito mentre una ricerca lavora",
+      "famiglia": "interfaccia/muri",
+      "modulo": "F5.9 · Muri di sostegno (geo_muri_sostegno)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Se un ricalcolo esce dal ritardo mentre una ricerca lavora, il ViewModel mostra subito «Calcolo di equilibrio e verifiche GPC…» e resta occupato; la vista storica lo mostra quando la ricerca finisce. È uno stato intermedio: lo stato finale coincide.",
+      "documento": "docs/refactoring/f5-9-muri.md §4 (MU7); f5-punti-di-controllo.md, F5.9",
+      "codice": ["src/ANTHEA.Presentation/Modules/RetainingWall/RetainingWallSheetViewModel.cs", "src/ANTHEA.Presentation/Modules/SheetViewModelBase.cs"],
+      "segno": "Solo lo stato intermedio mostrato durante la ricerca; dati, risultati e tracce invariati (le tracce non vedono lo stato intermedio).",
+      "test": ["nessuna: le tracce vedono solo lo stato finale"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "accettare lo stato intermedio"},
+        {"id": "alternativa", "descrizione": "aggiungere alla base l'attesa del lavoro secondario prima di Running"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, MU7: «da accettare»)",
+        "esito": "accettata; attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+      },
+      "revisione_f5_15": "non in elenco: proposta accettata il 17/10",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-11",
+      "data": "2026-10-23",
+      "fase": "F5.9b, ViewModel delle fondazioni superficiali (punto di controllo F5.9b, FN4 e T6)",
+      "titolo": "Fondazioni: scelta «Sezione X / Sezione Y» della rottura sempre rifiutata in sola lettura",
+      "famiglia": "interfaccia/fondazioni superficiali",
+      "modulo": "F5.9b · Fondazioni superficiali",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Vista storica (FoundationWorkspace): in una revisione in sola lettura la scelta «Sezione X / Sezione Y» della scheda «Rottura» è bloccata solo se la scheda esisteva quando la revisione è stata protetta o se è visibile: RevisionInspection rinfresca soltanto l'albero visuale, e la combo ricreata da un calcolo in una scheda non mostrata resta attiva. È stato della sola vista, non salvato. ViewModel (ShallowFoundationSheetViewModel): la rifiuta sempre in sola lettura, come l'interasse mostrato della palificata; la traccia usa il caso in cui la vista storica la blocca.",
+      "documento": "docs/refactoring/f5-9b-fondazioni.md §2 punto 1 e §4 (FN4); f5-punti-di-controllo.md, T6",
+      "codice": ["src/ANTHEA.Presentation/Modules/ShallowFoundation/ShallowFoundationSheetViewModel.cs", "X.Desktop/Wpf/FoundationWorkspace.cs", "X.Desktop/Wpf/RevisionInspection.cs"],
+      "segno": "Solo una scelta mostrata e non salvata, in sola lettura: dati, risultati e tracce invariati. Differenza marginale.",
+      "test": ["tests/Desktop/ShallowFoundationViewChecks.cs (ui/check-fondazioni-view): sezione del meccanismo rifiutata in sola lettura"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "il ViewModel la rifiuta sempre (proposta della nota)"},
+        {"id": "alternativa", "descrizione": "ammetterla sempre in sola lettura, perché è stato della vista non salvato"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questa scelta: T6 era senza proposta; scelta del coordinatore «da ratificare», «FN4 segue la sua proposta» (decisioni.md, 17 ottobre mattina). f5-9b-fondazioni.md, «Risposte del 17/10», la conta fra le proposte accettate «con T6»; l'elenco F5.15 la tiene aperta",
+        "esito": "in vigore nella vista MVVM; aperta per F5.15 insieme alla regola unica della sola lettura (T6)"
+      },
+      "revisione_f5_15": "gruppo 1, T6 · FN4",
+      "voci_collegate": ["F5-17"]
+    },
+    {
+      "id": "F5-12",
+      "data": "2026-10-23",
+      "fase": "F5.10, ViewModel della sezione c.a. (punto di controllo F5.10, C6)",
+      "titolo": "Sezione c.a.: errori parziali nell'ordine fisso delle verifiche",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "dichiarato",
+      "descrizione": "Vista storica: con due verifiche fermate insieme (direzioni 3D rifiutate: 3D:SLU e 3D:SLV) l'ordine in errori_calcolo, nello stato e nel report dipende dal thread che finisce prima (catture F3 3 e 4 diverse). ViewModel (ConcreteCalculation): gli esiti dei passi paralleli si scrivono nell'ordine fisso delle verifiche, a ogni corsa; differisce dalla vista storica solo dove oggi l'ordine è casuale. Con la stessa proposta resta la riga evidenziata della vista nelle figure dei domini del report (la combinazione selezionata; il capitolo autonomo usa la prima per nome).",
+      "documento": "docs/refactoring/f5-10-sezione.md §2 punti 1 e 2, §7 (C6)",
+      "codice": ["src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteCalculation.cs", "X.Desktop/Wpf/ConcreteWorkspace.cs"],
+      "segno": "Solo l'ordine degli errori parziali quando due passi si fermano insieme; esiti e numeri invariati. I confronti con la vista storica mettono gli esiti dei passi paralleli nell'ordine fisso.",
+      "test": ["tests/ANTHEA.Presentation.Tests/ConcreteSectionSheetChecks.Units.cs: stato degli errori parziali sempre uguale (C6)", "tests/Desktop/ConcreteSectionViewChecks.cs (ui/check-sezione-view): dati e risultati uguali alla vista storica con gli esiti nell'ordine fisso"],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, C6)",
+        "esito": "accettata (f5-15-revisione.md, 10.1: «C6 aveva una proposta, accettata»); attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+      },
+      "revisione_f5_15": "gruppo 10.1, nota su C6 (proposta accettata)",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-13",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S1 (18/10, S1-b) e tracce guidate dalla vista (notte 22–23/10, V-f)",
+      "titolo": "Sezione c.a.: «Calcola» dell'ospite MVVM conferma il foglio e scrive visible nelle azioni",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo); ospite MvvmSheetEditor",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Ospite storico: SheetEditor.CalculateAsync per la sezione c.a. chiama ConcreteWorkspace.CalculateAllAsync senza confermare il foglio. Ospite MVVM: MvvmSheetEditor.CalculateAsync() fa prima Sheet.Commit() (conferma dell'ospite, come D7 per tutti i moduli), che scrive visible nelle righe delle azioni e del taglio: nella traccia calcolo/ricalcolo-revisione i dati di «avvia-calcolo» cambiavano. Il calcolo legge comunque quelle righe. Nessuno dei due ospiti mostra un pulsante «Calcola» per la sezione c.a.: il comando è della finestra e delle prove. Fino al 23/10 la differenza non era dichiarata in nessun documento; le prove chiamano CalculateAsync(commitEdits: false), come il confronto del ViewModel.",
+      "documento": "docs/refactoring/f5-10-sezione.md §8.5 (S1-b) e §22.5 (V-f)",
+      "codice": ["X.Desktop/Hosting/MvvmSheetEditor.cs (CalculateAsync)", "X.Desktop/Wpf/SheetEditor.cs (CalculateAsync)", "tests/Desktop/ConcreteSectionViewChecks.Trace.cs (passi Calculate e Start)"],
+      "segno": "Con l'ospite MVVM i dati sono confermati (chiavi visible delle righe) prima del calcolo; risultati uguali. Tracce uguali con le prove senza conferma.",
+      "test": ["tests/Desktop/ConcreteSectionViewChecks.Trace.cs (ui/check-sezione-view, parte tracce): «Calcola» senza conferma, 57 scenari uguali alle tracce congelate"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "ospite invariato (conferma, come D7); le prove chiamano CalculateAsync(commitEdits: false); da conservare o dichiarare al passaggio"},
+        {"id": "alternativa", "descrizione": "MvvmSheetEditor senza conferma per la sezione c.a. (file condiviso dell'ospite)"}
+      ],
+      "decisione": {
+        "data": "2026-10-23",
+        "utente": "nessuna risposta: scelte provvisorie degli agenti di S1 (18/10) e della vista (notte 22–23/10), da rivedere in F5.15",
+        "esito": "ospite invariato; aperta per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.3, S1-b, V-f; «Da guardare per primi», punto 9",
+      "voci_collegate": ["F5-21"]
+    },
+    {
+      "id": "F5-14",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S9 (22/10, S9-a)",
+      "titolo": "Sezione c.a.: figure del report senza lo zoom e lo spostamento dell'utente",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Vista storica: il report si disegna dai controlli della vista, quindi lo zoom e lo spostamento fatti con il mouse sull'anteprima, sulle mappe SLE e sulla curva M–χ entrano nelle figure. ViewModel: dà al report i dati dei disegni, non lo stato della vista; le figure si disegnano adattate, come nel capitolo autonomo del report di progetto; il grafico 2D porta lo zoom del pannello (Zoom, aggiornato dalla vista XAML). È la stessa scelta di V8 del palo verticale (F5-05).",
+      "documento": "docs/refactoring/f5-10-sezione.md §19.5 (S9-a)",
+      "codice": ["src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.Report.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteReportDrawings.cs", "X.Desktop/Wpf/ConcreteReport.cs"],
+      "segno": "Solo le immagini del report; testi e numeri invariati.",
+      "test": ["nessuna: nessuna traccia copre lo zoom (f5-10 §19.5)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "il ViewModel dà i dati dei disegni: figure adattate, il grafico 2D con lo zoom del pannello"},
+        {"id": "alternativa", "descrizione": "la vista registra i suoi disegni vivi presso il disegnatore"}
+      ],
+      "decisione": {
+        "data": "2026-10-22",
+        "utente": "nessuna risposta: scelta provvisoria dell'agente di S9, da rivedere in F5.15",
+        "esito": "in vigore nella vista MVVM; aperta per F5.15"
+      },
+      "revisione_f5_15": "gruppo 10.3, S9-a; «Da guardare per primi», punto 10",
+      "voci_collegate": ["F5-05"]
+    },
+    {
+      "id": "F5-15",
+      "data": "2026-10-23",
+      "fase": "F5.10, preparazione (parte A, 17/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: N = +1000 per un documento di versione 2 senza dominio2d",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Un foglio di versione 2 senza dominio2d riceve N = +1000 (trazione) dal valore predefinito di SectionWorkspace.Prepare, pensato per la conversione dei segni della versione 1; con sezioni piccole il dominio 2D si ferma. ANTHEA scrive sempre dominio2d: capita solo con documenti costruiti a mano. Il ViewModel lo conserva.",
+      "documento": "docs/refactoring/f5-10-sezione.md §2 punto 3",
+      "codice": ["X.Calculations/SectionWorkspace.cs (Prepare)"],
+      "segno": "Nessuno sui documenti scritti da ANTHEA; nessuna differenza fra le due viste.",
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere il valore predefinito"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, §2-3",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-16",
+      "data": "2026-10-23",
+      "fase": "F5.10, preparazione (parte A, 17/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: messaggio grezzo della libreria nel dominio 2D SLV",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Nel dominio 2D SLV, con la legge «Stress block» (scenario ingressi/materiali-normativa) e con N fuori dominio, compare il messaggio della libreria «Value cannot be null. (Parameter 'failureDomain')» invece di un messaggio di ANTHEA. Il ViewModel mostra lo stesso testo.",
+      "documento": "docs/refactoring/f5-10-sezione.md §2 punto 4",
+      "codice": ["X.Desktop/Wpf/ConcreteDomains.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDomainPanelViewModel.cs"],
+      "segno": "Solo il testo del messaggio; nessun risultato cambia; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/ingressi/materiali-normativa.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "un messaggio di ANTHEA"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, §2-4",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-17",
+      "data": "2026-10-23",
+      "fase": "F5.10, preparazione (17/10) e sottopassi S3, S4, S9 (21–22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: la revisione in sola lettura scrive lo stato dell'interfaccia con Modified",
+      "famiglia": "interfaccia/sezione c.a./sola lettura",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "In una revisione in sola lettura la vista storica scrive ancora nei dati, con Modified, chiavi di stato dell'interfaccia: scheda selezionata, filtro dei domini, «Colori η», «Forze», contorno SLE (§2 punto 5, scenario calcolo/sola-lettura); filtro e stato del pannello, caselle e forze della barra, trasparenza, «Scala…» e «Adatta» dei domini (S3); contorno della mappa e «Asse neutro» (S4); il report salva report_sezioni (S9). La revisione risulta modificata senza cambiamenti dei dati di calcolo. Il ViewModel fa lo stesso. È la famiglia di T6 (V5, O3, FN3 degli altri moduli, conservati).",
+      "documento": "docs/refactoring/f5-10-sezione.md §2 punto 5, §12.4 punto 2, §13.4 punto 5, §19.4 punto 3",
+      "codice": ["X.Desktop/Wpf/RevisionInspection.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDomainPanelViewModel.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteStressPanelViewModel.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.Report.cs"],
+      "segno": "Nessuno sui risultati; una revisione precedente risulta «modificata». Nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/calcolo/sola-lettura.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato, come T6"},
+        {"id": "alternativa", "descrizione": "la regola unica di T6 («in sola lettura non si scrive»: stato della vista non salvato), come differenza dichiarata"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release insieme a T6"
+      },
+      "revisione_f5_15": "gruppo 10.2, §2-5 e famiglia; 15.5, «Sola lettura che scrive»",
+      "voci_collegate": ["F5-18", "F5-19", "F5-57", "F5-11"]
+    },
+    {
+      "id": "F5-18",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S2 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: «Esporta Excel» in sola lettura lascia cambiare le azioni della revisione",
+      "famiglia": "interfaccia/sezione c.a./sola lettura",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Nella revisione in sola lettura il comando «Esporta Excel» resta attivo. Con le azioni storiche apre la finestra delle sollecitazioni, dove «Applica» cambia i dati della revisione con Modified e riapre il foglio. È della famiglia della sola lettura che scrive (F5-17), ma qui cambiano le azioni, cioè dati del calcolo. Nei casi simili MU3 (F5-08) e BD4 (F5-59) la vista nuova rifiuta la scrittura; il ViewModel della sezione la conserva.",
+      "documento": "docs/refactoring/f5-10-sezione.md §10.4 punto 1",
+      "codice": ["X.Desktop/Wpf/ConcreteExchange.cs", "X.Desktop/Wpf/SectionActionsView.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteActionsViewModel.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/SectionActionsViewModel.cs"],
+      "segno": "Nessuna differenza fra le due viste; in sola lettura le azioni della revisione si possono riscrivere.",
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "rifiutare «Applica» in sola lettura, come MU3 e BD4"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release insieme a T6"
+      },
+      "revisione_f5_15": "gruppo 10.2, §10.4-1; «Da guardare per primi», punto 12; 15.5",
+      "voci_collegate": ["F5-17", "F5-08", "F5-59"]
+    },
+    {
+      "id": "F5-19",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S7 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: «Calcola curva» disponibile in sola lettura",
+      "famiglia": "interfaccia/sezione c.a./sola lettura",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Nella revisione in sola lettura «Calcola curva» (M–χ) è disponibile, conferma il foglio e la curva entra nel risultato esportato (il vecchio arresto atteso dello scenario calcolo/sola-lettura). Il ViewModel la conserva, come T6 per le chiavi di stato.",
+      "documento": "docs/refactoring/f5-10-sezione.md §16.4 punto 4 e §16.5 (S7-d)",
+      "codice": ["X.Desktop/Wpf/ConcreteCurvature.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteCurvatureViewModel.cs"],
+      "segno": "Nessuna differenza fra le due viste; in sola lettura il risultato esportato contiene la curva calcolata.",
+      "test": ["tests/fixtures/f5-sezione/storica/calcolo/sola-lettura.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato, come T6"},
+        {"id": "alternativa", "descrizione": "spegnerlo in sola lettura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release insieme a T6"
+      },
+      "revisione_f5_15": "gruppo 10.2, S7-d; 15.5",
+      "voci_collegate": ["F5-17"]
+    },
+    {
+      "id": "F5-20",
+      "data": "2026-10-23",
+      "fase": "F5.10, preparazione (parte A, 17/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: «Annulla» dell'editor delle sollecitazioni cambia i dati senza Modified",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "L'editor delle sollecitazioni scrive le chiavi di visibilità all'apertura; «Annulla» le lascia nei dati senza Modified (scenario azioni/editor-sollecitazioni). Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §2 punto 6",
+      "codice": ["X.Desktop/Wpf/SectionActionsView.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/SectionActionsViewModel.cs"],
+      "segno": "Nessuno sui risultati; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/azioni/editor-sollecitazioni.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "non indicata nel documento d'origine"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, §2-6",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-21",
+      "data": "2026-10-23",
+      "fase": "F5.10, preparazione (17/10) e sottopasso S1 (18/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: impronta del risultato esportato cambiata dalla visita delle schede",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "L'impronta del risultato esportato cambia dopo la visita delle schede (percorso-f3). Causa trovata in S1: l'esportazione si costruisce quando la si legge e resta in cache finché non la azzera un aggiornamento dei dettagli (ogni cambio di scheda, ogni modifica), una curva M–χ o un calcolo; Commit cambia i dati (righe delle azioni con visible) ma non la azzera, così l'impronta cambia al primo cambio di scheda dopo la conferma. Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §2 punto 7 e §8.4 punto 1",
+      "codice": ["X.Desktop/Wpf/ConcreteWorkspace.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.cs"],
+      "segno": "Nessuno sui risultati: cambia l'impronta del risultato esportato, non i valori; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/percorso-f3 (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "non indicata nel documento d'origine"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, §2-7",
+      "voci_collegate": ["F5-54", "F5-13"]
+    },
+    {
+      "id": "F5-22",
+      "data": "2026-10-23",
+      "fase": "F5.10, preparazione (parte A, 17/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: blocco incoerente dell'armatura guidata con le barre per coordinate",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Con le barre per coordinate l'armatura guidata è bloccata solo se barre_manuali è un elenco, i secondi strati se la chiave esiste, qualunque valore abbia (ConcreteInputPresentation.ManualBars e LayersLocked). Il ViewModel usa le stesse funzioni di Application.",
+      "documento": "docs/refactoring/f5-10-sezione.md §2 punto 8",
+      "codice": ["src/ANTHEA.Application/Concrete/ConcreteInputPresentation.cs (ManualBars, LayersLocked)", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteInputViewModel.cs", "X.Desktop/Wpf/ConcreteLayers.cs"],
+      "segno": "Nessuno sui risultati dei documenti validi; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/ingressi/barre-manuali.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "non indicata nel documento d'origine"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, §2-8",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-23",
+      "data": "2026-10-23",
+      "fase": "F5.10, preparazione (parte A, 17/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: la ricerca delle armature rifiuta la riserva torsionale 0 % e la zona di sovrapposizione",
+      "famiglia": "interfaccia/sezione c.a./progetto delle armature",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "La ricerca delle armature rifiuta la riserva torsionale 0 % (valore della fixture soletta-dettagli-ricerca) e la sezione in zona di sovrapposizione; con i dati della fixture (copriferro 30 mm per un'esposizione XS1 a 100 anni, sovrapposizione corta per Ø16) scarta tutte le configurazioni. Lo scenario armature/ricerca-armature porta copriferro e sovrapposizione a valori ammissibili. Il ViewModel fa lo stesso. Classificazione dell'agente: il documento d'origine non dice se i due rifiuti sono voluti.",
+      "documento": "docs/refactoring/f5-10-sezione.md §2 punto 9",
+      "codice": ["X.Calculations/ConcreteReinforcementDesign.Library.cs", "src/ANTHEA.Application/Concrete/ConcreteDesignPresentation.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDesignViewModel.cs"],
+      "segno": "Esito della ricerca con quei dati: nessuna configurazione proposta. Nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/percorso-f3/soletta-dettagli-ricerca.txt e armature/ricerca-armature.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "non indicata nel documento d'origine"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, §2-9",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-24",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S1 (18/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: il trefolo standard invalida il foglio due volte",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Scegliere il trefolo standard, o applicare un materiale trefolo salvato, invalida il foglio due volte (TendonsChanged e poi Apply): due Modified. Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §8.4 punto 2",
+      "codice": ["X.Desktop/Wpf/ConcreteTendons.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteInputViewModel.Tendons.cs"],
+      "segno": "Nessuno sui risultati (un Modified in più); nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S1",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-25",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S1 (18/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: selezione delle tabelle legata all'elemento corrente della vista di raccolta",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "La selezione delle tabelle segue l'elemento corrente della vista di raccolta: la prima riga è selezionata quando la vista nasce sopra righe già presenti; dopo «−» la selezione passa alla riga al suo posto o all'ultima. Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §8.4 punto 3",
+      "codice": ["X.Desktop/Wpf/ConcreteTables.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteTableViewModel.cs"],
+      "segno": "Nessuno sui risultati; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S1",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-26",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S2 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: «−» del taglio senza selezione salva e ricalcola",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "«−» della tabella del taglio senza una riga selezionata salva le righe e invalida il taglio lo stesso: Modified e ricalcolo. Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §10.4 punto 2",
+      "codice": ["X.Desktop/Wpf/ConcreteShear.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteShearViewModel.cs"],
+      "segno": "Nessuno sui risultati (un ricalcolo inutile); nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/azioni (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S2",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-27",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S2 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: «Duplica» non conferma la cella in modifica",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Nelle tabelle delle azioni «Duplica» non conferma la cella in modifica, mentre «+ Riga» e «− Riga» la confermano. Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §10.4 punto 3",
+      "codice": ["X.Desktop/Wpf/ConcreteWorkspace.cs", "X.Desktop/Wpf/SectionActionsView.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteActionsViewModel.cs"],
+      "segno": "Nessuno sui risultati; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/azioni (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S2",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-28",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S2 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: righe incollate nel taglio chiamate «Combo n»",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Le righe nuove dell'incolla nella tabella del taglio si chiamano «Combo n», non «Taglio n» come quelle di «+ Combinazione». Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §10.4 punto 4",
+      "codice": ["src/ANTHEA.Application/Concrete/ConcreteActionPresentation.cs", "X.Calculations/SectionWorkspace.cs"],
+      "segno": "Solo il nome delle righe incollate; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/azioni/incolla.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S2",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-29",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S2 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: dopo la finestra delle azioni il calcolo parte quando la vista è caricata",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Subito dopo «Applica» della finestra delle azioni il foglio riaperto non ha risultati e il calcolo non è ancora in coda: parte quando la vista nuova è caricata. Il ViewModel lo riproduce con un giro del thread dell'interfaccia; per Reload dei dati condivisi il calcolo va invece subito in coda (S2-b).",
+      "documento": "docs/refactoring/f5-10-sezione.md §10.4 punto 5 e §10.5 (S2-b)",
+      "codice": ["X.Desktop/Wpf/SectionActionsView.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.Actions.cs"],
+      "segno": "Nessuno sui risultati; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/azioni (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S2 (con S2-b del gruppo 10.3)",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-30",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S1b (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: esempi ordinari salvati senza i valori che l'editor scrive all'apertura",
+      "famiglia": "interfaccia/sezione c.a./esempi",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Gli esempi circolare-cava, rettangolare-materiali-utente e sle-fessurazione-assi non hanno i valori predefiniti che l'editor scrive all'apertura (gettato_sottile, staffe_presenti, campi del foro, dell'ala e dei secondi strati): aprirli cambia l'impronta della ricetta e la sezione GPC archiviata non si riusa (il calcolo la ricostruisce, il salvataggio ne cattura una nuova). Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §11.5 punto 1",
+      "codice": ["supporto/esempi/distribuzione/str_palo (circolare-cava.anthea, rettangolare-materiali-utente.anthea, sle-fessurazione-assi.anthea)", "src/ANTHEA.ConcreteWorkspace/ConcreteSectionArchive.cs"],
+      "segno": "Nessuno sui risultati: la sezione GPC si ricostruisce; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/esempi (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "salvare di nuovo gli esempi dall'editor: fuori da F5, da proporre all'utente"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S1b",
+      "voci_collegate": ["CA-PERSIST-01", "F5-EXAMPLES-01"]
+    },
+    {
+      "id": "F5-31",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S1b (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: taglio non calcolato dopo il wizard finché l'utente non assegna i parametri",
+      "famiglia": "interfaccia/sezione c.a./wizard",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Per le sezioni da wizard il wizard svuota i parametri del taglio (CA-WIZARD-01: parametri efficaci del taglio azzerati e manuali per le tipologie avanzate): ogni calcolo dopo l'applicazione finisce con «Aggiornamento parziale · Taglio: rami_x: inserire un numero finito.» finché l'utente non li assegna. Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §11.5 punto 2",
+      "codice": ["src/ANTHEA.Application/Concrete/ConcreteTemplateWizard.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteTemplateWizardViewModel.cs"],
+      "segno": "Il taglio delle sezioni da wizard resta senza esito finché l'utente non assegna i parametri; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/esempi (tracce wizard-*) e ingressi/wizard-tipologie.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "non indicata nel documento d'origine"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S1b",
+      "voci_collegate": ["CA-WIZARD-01"]
+    },
+    {
+      "id": "F5-32",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S1b (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: la tipologia del wizard resta fra le voci di «Sezione»",
+      "famiglia": "interfaccia/sezione c.a./wizard",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Dopo un ritorno a una sezione ordinaria la tipologia del wizard resta fra le voci di «Sezione» fino alla chiusura del foglio: l'utente può sceglierla nell'editor ordinario. Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §11.5 punto 3",
+      "codice": ["X.Desktop/Wpf/ConcreteWorkspace.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteInputViewModel.cs"],
+      "segno": "Nessuno sui risultati; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/ingressi (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "non indicata nel documento d'origine"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S1b",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-33",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S3 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: «Adatta» del dominio 2D scrive due volte i fattori",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "«Adatta» del dominio 2D scrive due volte i fattori x e y (il pulsante e il ripristino della vista del grafico), con due Modified. Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §12.4 punto 3",
+      "codice": ["X.Desktop/Wpf/ConcreteViewports.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDomainPanelViewModel.cs"],
+      "segno": "Nessuno sui risultati (un Modified in più); nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/domini (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S3",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-34",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopassi S3, S4 e S5 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: separatore decimale che dipende dal percorso che scrive il testo",
+      "famiglia": "interfaccia/sezione c.a./cultura dei numeri",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Il dettaglio dei domini (S3), la legenda della mappa SLE (S4) e i parametri automatici del taglio (S5) prendono il separatore decimale dal percorso che li scrive: durante un passo dell'utente la cultura del flusso, dopo la pubblicazione di un calcolo la cultura del thread dell'interfaccia. Nelle tracce (it-IT nel flusso, macchina del banco con il punto) il form del taglio mostra «800,00» all'apertura e «800.00» dopo un calcolo. Nel prodotto, che non imposta la cultura, i due percorsi usano la stessa cultura dell'utente di Windows (elenco F5.15, 15.2): la differenza si vede quando la cultura del flusso e quella del thread differiscono, come nelle prove. Classificazione dell'agente: più che un difetto del prodotto è una dipendenza dei riferimenti congelati dalla macchina. Il ViewModel segue gli stessi percorsi e dà gli stessi testi; la vista XAML «dovrà fissare la cultura (da decidere in F5.15)». Collegata a V-a e alla proposta dell'utente del 22/10 di un'impostazione dei separatori.",
+      "documento": "docs/refactoring/f5-10-sezione.md §12.4 punto 1, §13.4 punto 3, §14.4 punto 1; §21.4 (V-a)",
+      "codice": ["src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDomainPanelViewModel.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSectionDrawingViewModel.cs (Legend)", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteShearViewModel.cs", "X.Desktop/Wpf/App.cs (OnStartup, nessuna cultura impostata)"],
+      "segno": "Nessuno sui risultati; solo il separatore di alcuni testi; nessuna differenza fra le due viste. I riferimenti congelati dipendono dal separatore della macchina che li ha catturati (V-a).",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica (domini, sle, taglio) e disegni/elenco.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "il ViewModel segue gli stessi percorsi; nessun riferimento cambiato"},
+        {"id": "alternativa", "descrizione": "fissare la cultura dell'applicazione (impostazione dei separatori, elenco F5.15, 15.2), con i riferimenti ricatturati"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10). Il 22/10 l'utente ha proposto «facciamo una impostazione di anthea per i separatori?», non attuata",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15 insieme a V-a e all'impostazione dei separatori"
+      },
+      "revisione_f5_15": "gruppo 15.1, §12.4-1, §13.4-3, §14.4-1",
+      "voci_collegate": ["F5-37"]
+    },
+    {
+      "id": "F5-35",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S4 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: colonne SLE nascoste scelte per indice",
+      "famiglia": "interfaccia/sezione c.a./SLE",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Le colonne nascoste delle tabelle SLE si scelgono per indice (6 e 7 le tensioni, 8 la fessurazione). Con le sollecitazioni uniche la colonna «Elemento» è la prima e gli indici cadono sulle colonne successive: la Rara nasconde «Tensioni» e mostra «Fessurazione»; la Frequente nasconde «|σs|» e mostra «Tensioni» quando verifica la fessurazione; la Quasi permanente nasconde «Tensioni» quando non la verifica; «Fessurazione» resta sempre visibile (fixture sezione-a-t-sollecitazioni-uniche). Il ViewModel le conserva.",
+      "documento": "docs/refactoring/f5-10-sezione.md §13.4 punto 1 e §13.5 (S4-b)",
+      "codice": ["X.Desktop/Wpf/ConcreteStress.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteStressPanelViewModel.cs"],
+      "segno": "Solo le colonne mostrate delle tabelle SLE con le sollecitazioni uniche; valori invariati; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/percorso-f3/sezione-a-t-sollecitazioni-uniche.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservate (C5)"},
+        {"id": "alternativa", "descrizione": "scegliere le colonne per chiave al passaggio, come differenza dichiarata, con le tracce da ricatturare"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.3, S4-b",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-36",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S4 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: valori grezzi nelle altre famiglie SLE dopo una modifica di n o di φ",
+      "famiglia": "interfaccia/sezione c.a./SLE",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Dopo una modifica di n o di φ in una famiglia SLE, le altre famiglie mostrano i valori come sono scritti nei dati («17.607108191890596»), la famiglia modificata il numero formattato («17,61»). Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §13.4 punto 2",
+      "codice": ["X.Desktop/Wpf/ConcreteStress.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteStressPanelViewModel.cs"],
+      "segno": "Solo il testo mostrato; valori dei dati invariati; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/sle (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S4",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-37",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S4 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: una famiglia SLE nascosta conserva la legenda dell'ultimo disegno",
+      "famiglia": "interfaccia/sezione c.a./SLE",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "La legenda della mappa la scrive il disegno sullo schermo: una famiglia nascosta conserva la legenda del suo ultimo disegno anche dopo l'azzeramento dei risultati. Il ViewModel scrive la legenda (Legend) quando la famiglia è mostrata, come il disegno storico (S4-a). La cultura dei numeri della legenda è in F5-34.",
+      "documento": "docs/refactoring/f5-10-sezione.md §13.4 punto 3 e §13.5 (S4-a)",
+      "codice": ["X.Desktop/Wpf/ConcreteStress.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSectionDrawingViewModel.cs (Legend)"],
+      "segno": "Nessuno sui risultati; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/sle (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S4",
+      "voci_collegate": ["F5-34"]
+    },
+    {
+      "id": "F5-38",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopassi S4 (21/10) e S7 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: schede interne senza una scheda scelta (−1) finché non sono mostrate",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Il controllo delle schede dei dettagli SLE («Riepilogo / Barre e trefoli / Calcestruzzo / Fessurazione · passaggi») non ha una scheda scelta finché non è mostrato la prima volta (la colonna dei risultati apre su «Riepilogo verifiche»); la visita F3 lo rimette a −1. Lo stesso vale per la scheda interna del pannello del dominio (S7-b). Il ViewModel espone −1 come i TabControl storici e la vista XAML lega così.",
+      "documento": "docs/refactoring/f5-10-sezione.md §13.4 punto 4, §13.5 (S4-c) e §16.5 (S7-b)",
+      "codice": ["src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteStressPanelViewModel.cs (DetailTab)", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDomainPanelViewModel.cs", "X.Desktop/Wpf/ConcreteStress.cs"],
+      "segno": "Nessuno sui risultati; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica (sle, domini, percorso-f3) (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "il ViewModel espone −1 come i TabControl storici; la vista XAML lega così"},
+        {"id": "alternativa", "descrizione": "fissare la prima scheda («Dominio» per il pannello del dominio) fin dall'apertura, come differenza dichiarata"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.3, S4-c, S7-b; 15.5",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-39",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S5 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: una modifica della torsione dà due Modified",
+      "famiglia": "interfaccia/sezione c.a./taglio e torsione",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Una modifica della torsione invalida il taglio (un Modified) e ne aggiunge un secondo. Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §14.4 punto 2",
+      "codice": ["X.Desktop/Wpf/ConcreteTorsion.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteShearViewModel.cs"],
+      "segno": "Nessuno sui risultati (un Modified in più); nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/taglio/taglio-torsione.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S5",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-40",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S5 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: «Senza staffe» solo come valore mostrato quando le staffe sono assenti",
+      "famiglia": "interfaccia/sezione c.a./taglio e torsione",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Con le staffe assenti dal pannello di controllo il modello del taglio passa a «Senza staffe» solo come valore mostrato, senza ricalcolare i campi abilitati del form del taglio: angolo e cot θ restano come erano finché il form non cambia. Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §14.4 punto 3",
+      "codice": ["X.Desktop/Wpf/ConcreteShear.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteShearViewModel.cs"],
+      "segno": "Solo i campi abilitati del form; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/taglio (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S5",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-41",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S5 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: il disegno della sezione del taglio non riceve il messaggio della sezione",
+      "famiglia": "interfaccia/sezione c.a./taglio e torsione",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Il disegno della scheda 05 non riceve mai il messaggio della sezione, che resta «Inserire la geometria della sezione» anche con una sezione valida (non si vede, perché la sezione c'è), e prende la sezione solo quando la scheda è mostrata. Il ViewModel fa lo stesso. La mappa σ/ε ha lo stesso comportamento (F5-47).",
+      "documento": "docs/refactoring/f5-10-sezione.md §14.4 punto 4",
+      "codice": ["X.Desktop/Wpf/ConcreteViewports.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSectionDrawingViewModel.cs"],
+      "segno": "Nessuno visibile; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/taglio (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S5",
+      "voci_collegate": ["F5-47"]
+    },
+    {
+      "id": "F5-42",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S5 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: riepilogo delle verifiche scritto due volte dalla vista storica",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Dopo il calcolo la vista storica scrive nel riepilogo il testo dei casi peggiori e lo sostituisce subito con le schede dei riepiloghi. Il ViewModel scrive solo le schede: è una differenza non visibile, perché il testo intermedio è sostituito subito. Il testo del taglio nel riepilogo del pannello di controllo si scrive ancora prima delle schede, come la storica (S5-b).",
+      "documento": "docs/refactoring/f5-10-sezione.md §14.4 punto 5 e §14.5 (S5-b)",
+      "codice": ["X.Desktop/Wpf/ConcreteWorkspace.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteCardsViewModel.cs"],
+      "segno": "Nessuna differenza visibile: in entrambe le viste resta il riepilogo a schede; tracce uguali.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "il ViewModel scrive solo le schede (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "differenza non visibile accettata dall'agente di S5; aperta per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S5",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-43",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S5 (21/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: dettaglio del taglio «Dati modificati» dopo un calcolo con la scheda nascosta",
+      "famiglia": "interfaccia/sezione c.a./taglio e torsione",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Il calcolo del taglio azzera il dettaglio e lo riscrive solo se la scheda 05 è mostrata: con la scheda nascosta il dettaglio resta «Dati modificati · aggiornamento automatico in attesa» anche con i risultati correnti, finché la scheda non viene mostrata (anche dopo il calcolo dell'apertura). Il ViewModel lo conserva.",
+      "documento": "docs/refactoring/f5-10-sezione.md §14.4 punto 6 e §14.5 (S5-d)",
+      "codice": ["src/ANTHEA.Application/Concrete/ConcreteShearPresentation.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteShearViewModel.cs", "X.Desktop/Wpf/ConcreteShear.cs"],
+      "segno": "Solo il testo del dettaglio con la scheda nascosta; risultati invariati; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/taglio (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "non indicata nel documento d'origine"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.3, S5-d",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-44",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S6 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: esposizione condivisa vuota all'apertura con l'elemento «Da scegliere»",
+      "famiglia": "interfaccia/sezione c.a./dettagli",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Finché l'elemento è «Da scegliere» il calcolo dei dettagli si ferma prima dell'esposizione: il campo resta vuoto e esposizione_sle non si scrive nei dati; si scrive al primo ricalcolo con un elemento scelto. Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §15.4 punto 1",
+      "codice": ["src/ANTHEA.Application/Concrete/ConcreteDetailingPresentation.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDetailingViewModel.cs", "X.Desktop/Wpf/ConcreteDetailing.cs"],
+      "segno": "Nessuno sui risultati; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/dettagli (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S6",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-45",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S6 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: «Aggiorna verifiche ancoraggi» ricalcola due volte",
+      "famiglia": "interfaccia/sezione c.a./dettagli",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "«Aggiorna verifiche ancoraggi» conferma le bozze (ognuna ricalcola i dettagli con Modified) e poi ricalcola ancora. Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §15.4 punto 2",
+      "codice": ["X.Desktop/Wpf/ConcreteDetailing.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDetailingViewModel.cs"],
+      "segno": "Nessuno sui risultati (un ricalcolo in più); nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/dettagli/dettagli-ancoraggi.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S6",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-46",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopassi S6 e S8 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: pulsanti di navigazione spenti in sola lettura",
+      "famiglia": "interfaccia/sezione c.a./sola lettura",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Nella revisione in sola lettura i pulsanti della scheda dei dettagli sono spenti, compresi i due che portano al pannello di controllo («Modifica geometria / armature nel pannello di controllo →»), che cambiano solo la scheda e non scrivono nulla; lo stesso per i pulsanti di navigazione del progetto delle armature (S8-b). Il ViewModel li spegne come oggi.",
+      "documento": "docs/refactoring/f5-10-sezione.md §15.4 punto 3, §15.5 (S6-a) e §17.5 (S8-b)",
+      "codice": ["X.Desktop/Wpf/RevisionInspection.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDetailingViewModel.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDesignViewModel.cs"],
+      "segno": "Solo la navigazione in sola lettura; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/calcolo/sola-lettura.txt; sola lettura della vista in ui/check-sezione-view"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "spenti come oggi"},
+        {"id": "alternativa", "descrizione": "attivi in sola lettura, come differenza dichiarata"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.3, S6-a, S8-b; 15.5",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-47",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S7 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: messaggi rimasti della mappa σ/ε",
+      "famiglia": "interfaccia/sezione c.a./ispezione",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "La mappa σ/ε mostra sempre «Inserire la geometria della sezione» come messaggio, non visibile con la sezione (come il disegno del taglio, F5-41). Tornando alla scheda «Dominio» mentre la soluzione è in lettura (la visita F3), la soluzione non si pubblica ma il messaggio resta «Lettura del piano già calcolato al limite…». Il ViewModel li conserva.",
+      "documento": "docs/refactoring/f5-10-sezione.md §16.4 punti 1 e 2, §16.5 (S7-c)",
+      "codice": ["src/ANTHEA.Application/Concrete/ConcreteInspectionPresentation.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSectionInspectionViewModel.cs", "X.Desktop/Wpf/ConcreteInspection.cs"],
+      "segno": "Solo i messaggi; nessuna differenza fra le due viste. Il messaggio transitorio è anche nella riga 1120 della traccia congelata percorso-f3/sle-fessurazione-assi (V-e).",
+      "test": ["tests/fixtures/f5-sezione/storica/ispezione/sezione-sigma-epsilon.txt e percorso-f3 (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservati (C5)"},
+        {"id": "alternativa", "descrizione": "il messaggio della sezione del pannello di controllo e l'azzeramento del messaggio quando la scheda interna non è «Sezione σ / ε»"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.3, S7-c",
+      "voci_collegate": ["F5-41"]
+    },
+    {
+      "id": "F5-48",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S7 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: la mappa σ/ε tiene la sezione precedente dopo un'invalidazione",
+      "famiglia": "interfaccia/sezione c.a./ispezione",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Un'invalidazione azzera le due sezioni σ/ε prima di aggiornare l'anteprima, quindi la mappa tiene la sezione precedente finché il pannello non la aggiorna (dopo il calcolo, solo se il pannello è mostrato). Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §16.4 punto 3",
+      "codice": ["X.Desktop/Wpf/ConcreteInspection.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSectionInspectionViewModel.cs"],
+      "segno": "Solo il disegno mostrato fino all'aggiornamento; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/ispezione/sezione-sigma-epsilon.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S7",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-49",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S7 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: «Calcolo interrotto» sostituisce «Dati modificati · ricalcolare la curva.»",
+      "famiglia": "interfaccia/sezione c.a./ispezione",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Una modifica durante il calcolo della curva M–χ scrive «Dati modificati · ricalcolare la curva.», poi il calcolo abbandonato lo sostituisce con «Calcolo interrotto; nessuna curva parziale pubblicata.». Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §16.4 punto 5",
+      "codice": ["src/ANTHEA.Application/Concrete/ConcreteCurvaturePresentation.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteCurvatureViewModel.cs", "X.Desktop/Wpf/ConcreteCurvature.cs"],
+      "segno": "Solo lo stato mostrato; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/ispezione/momento-curvatura.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S7",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-50",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S8 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: dopo «Applica» lo stato non dice che la ricerca delle armature è superata",
+      "famiglia": "interfaccia/sezione c.a./progetto delle armature",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "L'invalidazione del foglio segna superata la ricerca (stato «Dati modificati…»), poi lo stato è sostituito da «Configurazione applicata…»: «Applica» resta spento, ma lo stato non dice che la ricerca va ripetuta. Il ViewModel lo conserva.",
+      "documento": "docs/refactoring/f5-10-sezione.md §17.4 punto 1 e §17.5 (S8-c)",
+      "codice": ["src/ANTHEA.Application/Concrete/ConcreteDesignPresentation.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDesignViewModel.cs", "X.Desktop/Wpf/ConcreteDesign.cs"],
+      "segno": "Solo lo stato mostrato; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/armature/ricerca-armature.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "dire nello stato che la ricerca va ripetuta"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.3, S8-c",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-51",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S8 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: all'avvio della ricerca delle armature lo stato resta il precedente",
+      "famiglia": "interfaccia/sezione c.a./progetto delle armature",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "All'avvio della ricerca cambia solo la descrizione («Ricerca in corso…»); lo stato resta quello precedente (anche «Ricerca non avviata: …») finché non arriva il primo avanzamento. Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §17.4 punto 2",
+      "codice": ["src/ANTHEA.Application/Concrete/ConcreteDesignPresentation.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDesignViewModel.cs", "X.Desktop/Wpf/ConcreteDesign.cs"],
+      "segno": "Solo lo stato mostrato all'avvio; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/armature (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S8",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-52",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S8 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: campi della ricerca delle armature rinnovati a ogni Modified",
+      "famiglia": "interfaccia/sezione c.a./progetto delle armature",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "I campi della ricerca si rinnovano a ogni Modified, anche per modifiche che non li riguardano (tabella, schede). Il ViewModel fa lo stesso: si iscrive a Modified del foglio come la vista storica (S8-a).",
+      "documento": "docs/refactoring/f5-10-sezione.md §17.4 punto 3 e §17.5 (S8-a)",
+      "codice": ["src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDesignViewModel.cs", "X.Desktop/Wpf/ConcreteDesign.cs"],
+      "segno": "Nessuno sui risultati; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/armature (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S8",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-53",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S8 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: avanzamento della ricerca arrivato in ritardo scartato",
+      "famiglia": "interfaccia/sezione c.a./progetto delle armature",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Un avanzamento della ricerca che arriva dopo la fine, dopo un annullamento o dopo una modifica non cambia nulla. Il ViewModel fa lo stesso. Classificazione dell'agente: il documento d'origine lo elenca fra i comportamenti storici senza dire se è un difetto; scartare un avanzamento superato può essere voluto.",
+      "documento": "docs/refactoring/f5-10-sezione.md §17.4 punto 4",
+      "codice": ["src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDesignViewModel.cs", "X.Desktop/Wpf/ConcreteDesign.cs"],
+      "segno": "Nessuno sui risultati; nessuna differenza fra le due viste.",
+      "test": ["tracce congelate di tests/fixtures/f5-sezione/storica/armature (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S8",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-54",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S9 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: il report cambia l'esportazione in cache e la sua impronta",
+      "famiglia": "interfaccia/sezione c.a./report",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Il report aggiunge dati all'oggetto dei risultati in cache, che resta così fino all'azzeramento successivo: l'impronta del risultato esportato cambia dopo il report (scenario report/disponibilita). Il ViewModel fa lo stesso. È della famiglia di F5-21.",
+      "documento": "docs/refactoring/f5-10-sezione.md §19.4 punto 1",
+      "codice": ["X.Desktop/Wpf/ConcreteReport.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.Report.cs"],
+      "segno": "Nessuno sui valori: cambia l'impronta del risultato esportato; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/report/disponibilita.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S9",
+      "voci_collegate": ["F5-21"]
+    },
+    {
+      "id": "F5-55",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S9 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: il report aggiorna il pannello del dominio 2D nascosto",
+      "famiglia": "interfaccia/sezione c.a./report",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Quando il report chiede la figura del dominio 2D aggiorna il pannello nascosto del 2D (dettaglio, grafico, sezione σ/ε) (scenario report/dati-incompleti). Il ViewModel fa lo stesso.",
+      "documento": "docs/refactoring/f5-10-sezione.md §19.4 punto 2",
+      "codice": ["X.Desktop/Wpf/ConcreteReport.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteReportDrawings.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDomainPanelViewModel.cs"],
+      "segno": "Nessuno sui risultati; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/report/dati-incompleti.txt (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S9",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-56",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S9 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: tre messaggi diversi per lo stesso rifiuto dell'esportazione",
+      "famiglia": "interfaccia/sezione c.a./report",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Lo stesso rifiuto ha tre testi: quello della finestra («…correggere gli eventuali dati non validi.»), quello del report («…correggere i dati non validi prima di esportare il report.») e quello del report breve («Attendere l’aggiornamento delle verifiche prima di esportare.»). Il ViewModel dà gli stessi testi.",
+      "documento": "docs/refactoring/f5-10-sezione.md §19.4 punto 4",
+      "codice": ["X.Desktop/Wpf/MainWindow.cs", "X.Desktop/Wpf/ConcreteReport.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.Report.cs"],
+      "segno": "Solo i testi dei messaggi; nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/report (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S9",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-57",
+      "data": "2026-10-23",
+      "fase": "F5.10, sottopasso S9 (22/10): comportamenti della vista storica (C5)",
+      "titolo": "Sezione c.a.: il report segnala Modified anche con le stesse sezioni",
+      "famiglia": "interfaccia/sezione c.a./report",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Il report salva report_sezioni e segnala Modified anche quando le sezioni scelte non cambiano. Il ViewModel fa lo stesso. In sola lettura è parte di F5-17.",
+      "documento": "docs/refactoring/f5-10-sezione.md §19.4 punto 5",
+      "codice": ["X.Desktop/Wpf/ConcreteReport.cs", "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.Report.cs"],
+      "segno": "Nessuno sui risultati (un Modified in più); nessuna differenza fra le due viste.",
+      "test": ["tests/fixtures/f5-sezione/storica/report (ui/check-sezione-historic, Presentation.Tests/sezione-ca, ui/check-sezione-view)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "conservato (C5)"},
+        {"id": "alternativa", "descrizione": "correggere al passaggio, con una nuova cattura"}
+      ],
+      "decisione": {
+        "data": "2026-10-17",
+        "utente": "nessuna risposta su questo comportamento; C5 senza proposta: scelta del coordinatore «da ratificare» (decisioni.md, 17 ottobre mattina e tarda mattina; nota_f5_23_10)",
+        "esito": "conservato nel ViewModel per tracce identiche; aperto per F5.15, da decidere al passaggio della Release"
+      },
+      "revisione_f5_15": "gruppo 10.2, C5·S9",
+      "voci_collegate": ["F5-17"]
+    },
+    {
+      "id": "F5-58",
+      "data": "2026-10-23",
+      "fase": "F5.12, ViewModel di Bridge Design (preparazione, BD3) e ospite MVVM",
+      "titolo": "Bridge Design: foglio «occupato» per la finestra durante il calcolo",
+      "famiglia": "interfaccia/Bridge Design",
+      "modulo": "F5.12 · Bridge Design e prezzari (str_bridge_design)",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Vista storica: SheetEditor.Busy legge lo stato occupato dei muri, della sezione composta, del palo orizzontale e della sezione c.a., ma non quello di Bridge Design: per la finestra il foglio non è mai occupato. Durante un «Calcola» senza modifiche il risultato mostrato resta fino alla pubblicazione, quindi «Esporta report» e l'esportazione JSON partono con quello (uguale ai dati, perché nessuna modifica è intervenuta). Vista nuova: MvvmSheetEditor.Busy legge IsBusy del ViewModel, vero dall'avvio del motore al suo ritorno, come negli altri moduli migrati: con l'ospite MVVM la finestra chiede di attendere (report, JSON) durante un calcolo.",
+      "documento": "docs/refactoring/f5-12-bridge-design.md §2 punto 1, §4 (BD3) e §5.3",
+      "codice": ["X.Desktop/Hosting/MvvmSheetEditor.cs (Busy)", "X.Desktop/Wpf/SheetEditor.cs (Busy)", "src/ANTHEA.Presentation/Modules/BridgeDesign/BridgeDesignSheetViewModel.cs"],
+      "segno": "Solo la disponibilità del report e dell'esportazione durante un calcolo; dati e risultati invariati.",
+      "test": ["tests/Desktop/BridgeDesignViewChecks.cs (ui/check-bridge-design-view, parte banco)"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "IsBusy vero durante il calcolo, come gli altri moduli: la finestra chiede di attendere"},
+        {"id": "alternativa", "descrizione": "IsBusy sempre falso, come oggi"}
+      ],
+      "decisione": {
+        "data": "2026-10-21",
+        "utente": "nessuna risposta: scelta provvisoria della preparazione di F5.12, con il criterio prudente, da rivedere in F5.15 (f5-12-bridge-design.md §4)",
+        "esito": "in vigore con l'ospite MVVM (Release storica fino ai passaggi di fine refactoring); aperta per F5.15"
+      },
+      "revisione_f5_15": "gruppo 12, BD3; «Da guardare per primi», punto 5",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-59",
+      "data": "2026-10-23",
+      "fase": "F5.12, ViewModel e vista XAML di Bridge Design (preparazione, BD4)",
+      "titolo": "Bridge Design: prezzario rifiutato in una revisione in sola lettura",
+      "famiglia": "interfaccia/Bridge Design/sola lettura",
+      "modulo": "F5.12 · Bridge Design e prezzari (str_bridge_design)",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Vista storica: «Gestisci prezzario…» è ammesso in una revisione in sola lettura (consultazione), ma la finestra BridgePricesView è fuori dall'albero protetto da RevisionInspection e «Applica prezzario» scrive il documento nei dati della revisione (pricing), la segna modificata, dà uno stato ad «Annulla» e ricalcola (verificato con uno scenario temporaneo, non registrato). Vista nuova: il ViewModel rifiuta l'editor in sola lettura (ManagePricesAsync) e «Gestisci prezzario…» è bloccato, come MU3 (F5-08).",
+      "documento": "docs/refactoring/f5-12-bridge-design.md §2 punto 2, §4 (BD4) e §5.2",
+      "codice": ["src/ANTHEA.Presentation/Modules/BridgeDesign/BridgeDesignSheetViewModel.Inputs.cs (ManagePricesAsync)", "X.Desktop/Wpf/BridgeDesignWorkspace.cs", "X.Desktop/Wpf/RevisionInspection.cs"],
+      "segno": "Solo in una revisione in sola lettura: la revisione non si riscrive più e il prezzario non si apre nemmeno per consultarlo. Tracce e cattura F3 invariate.",
+      "test": ["tests/Desktop/BridgeDesignViewChecks.Checks.cs (ui/check-bridge-design-view): «Gestisci prezzario…» bloccato in sola lettura, unica differenza dai controlli bloccati e liberi della vista storica"],
+      "opzioni": [
+        {"id": "presa", "descrizione": "il ViewModel rifiuta l'editor, come MU3"},
+        {"id": "alternativa", "descrizione": "aprirlo in sola lettura, senza «Applica»"}
+      ],
+      "decisione": {
+        "data": "2026-10-21",
+        "utente": "nessuna risposta: scelta provvisoria della preparazione di F5.12, con il criterio prudente, da rivedere in F5.15 (f5-12-bridge-design.md §4)",
+        "esito": "in vigore nella vista MVVM (Release storica fino ai passaggi di fine refactoring); aperta per F5.15"
+      },
+      "revisione_f5_15": "gruppo 12, BD4; «Da guardare per primi», punto 6; 15.5",
+      "voci_collegate": ["F5-08", "F5-18"]
     }
   ]
 }
