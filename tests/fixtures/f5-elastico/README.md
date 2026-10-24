@@ -107,3 +107,13 @@ sulla macchina del banco, come quelli di F5.7. La cattura con `ANTHEA.exe` e con
   passa al punto di calcolo adiacente perché i rapporti dei due punti erano quasi uguali) e due testi
   della tavola delle armature (η, MRd). Tolti numeri e impronte ogni riga è uguale a quella storica: nessun esito cambia. MRd
   cambia fra −0,02 % e +0,02 %. `disegni/elenco.txt` non è stato toccato: va ricatturato con lo stadio `ui`.
+- 24/10/2026, stessa voce AG-PO-02, set AG ufficiale (4dd8018a: Model 2d59bbc6, Checker 22dabe69), dalla vista XAML
+  (`ui/check-palo-orizzontale-view`, corsa `20261024-225208-ag-ui2-raccolta`):
+  - `disegni/elenco.txt`: sostituite solo le impronte di 2 righe (`single-soil-elastic` «opzioni» e «quota» 1750x650), stesso
+    numero di primitive. Rispetto ai dump della corsa `20261023-173944-merge-sezione-ui` cambiano solo le coordinate delle 456
+    linee tratteggiate dell'inviluppo MRd±; nessun testo. Le altre 16 righe confrontate dalla prova non cambiano.
+  - `storica/armature-dialoghi.txt`: sostituite le 14 righe «dati» dopo «applica» del verificatore c.a. (righe che il ViewModel
+    di `Presentation.Tests` non percorre). Cambiano solo le azioni della sezione critica che «applica» copia nel foglio c.a. del
+    tratto T1, gli stessi valori già nelle righe delle verifiche aggiornate con AG-PO-02 (sezione critica al punto adiacente):
+    quota 4 → 3,96875 m (lato Below → Interior), N 78,540 → 77,926 kN, M 242,200 → 242,168 kNm, V 0,528 → 1,527 kN, nome della
+    combinazione «Critica del palo · x=4 m» → «x=3,9688 m». Struttura dei dati, `Modified` e stati identici.

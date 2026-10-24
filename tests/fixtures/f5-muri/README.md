@@ -99,3 +99,11 @@ fa nulla. Il calcolo passa da `HeldModuleService`, che può trattenere il motore
   verifiche e della proposta delle armature (61), con lo stesso numero di righe. Tolti numeri e impronte ogni riga è uguale a
   quella storica. Le resistenze N–M GPC cambiano fra −0,022 % e +0,224 %, i rapporti fra −0,223 % e +0,022 %; nessun esito
   cambia. Le altre 7 tracce non cambiano. `vista-storica.json` non è stato toccato: va controllato con lo stadio `ui`.
+- 24/10/2026, stessa voce AG-MUR-01, set AG ufficiale (4dd8018a: Model 2d59bbc6, Checker 22dabe69): in `vista-storica.json`
+  sostituiti solo 20 valori di 10 fixture (`default`, `example-cantilever`, `globale-drenata-due-colonne`,
+  `globale-non-drenata-sisma`, `legacy-global-defaults`, `matrice-personalizzata`, `mensola-avvisi`, `mensola-sisma-sito-pendio`,
+  `mensola-wood-azioni`, `opzioni-avanzate`): impronta del risultato e del CSV delle verifiche, dalla vista XAML
+  (`ui/check-muri-view`, corsa `20261024-225208-ag-ui2-raccolta`). Impronte dei dati, risultati e calcolo mostrati, combinazioni,
+  CSV dei conci, pagine e CSV della distinta non cambiano. Il risultato della vista è uguale in ogni numero a quello del ViewModel
+  già registrato con AG-MUR-01 (`Presentation.Tests`, f3-transizioni); i CSV delle verifiche, confrontati con quelli della corsa
+  `20261023-193404-merge-muri-ui`, hanno le stesse righe e cambiano solo nei numeri (al più 0,22 %). Le altre 6 fixture non cambiano.

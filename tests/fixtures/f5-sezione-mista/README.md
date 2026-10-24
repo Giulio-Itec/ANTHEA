@@ -113,3 +113,13 @@ scala dello schermo: gli elenchi valgono sulla macchina del banco, come le prove
   il 3 % alcune grandezze piccole: tensioni dell'armatura della soletta fino a −5,4 %, incrementi di fase fino a −6,8 %,
   deformazioni fino a −6,0 %. Le altre 17 tracce non cambiano. `vista-storica.json` non è stato toccato: va controllato con lo
   stadio `ui`.
+- 24/10/2026, stessa voce AG-SM-01, set AG ufficiale (4dd8018a: Model 2d59bbc6, Checker 22dabe69), dalla vista XAML
+  (`ui/check-sezione-mista-view`, corsa `20261024-225208-ag-ui2-raccolta`):
+  - `disegni/elenco.txt`: sostituite solo le impronte di 7 righe di `storico-non-lineare-curve` (vista, situazione 3 viste 0 e 1,
+    curva, fibra, figure fase_1 e fase_2 del report), stesso numero di primitive e stesse didascalie. Rispetto ai dump della corsa
+    `20261023-170938-fix-mista-report` cambiano solo coordinate e testi numerici (σa −61,22 → −60,6 MPa, scala acciaio
+    ±124,14 → ±124,01, CLS ±20,14 → ±20,12 MPa). Le altre 81 righe non cambiano.
+  - `vista-storica.json`: per `storico-non-lineare-curve` sostituite le impronte del risultato, del CSV delle tensioni e del CSV
+    della curva. Dati e `Modified` (apertura, visita, calcolo, report) e numero dei punti della curva non cambiano; il risultato
+    è uguale in ogni numero a quello del ViewModel già accettato con AG-SM-01; i CSV hanno le stesse righe e cambiano solo nei
+    numeri (al più lo 0,7 % del massimo della colonna, 2,8 % per la deformazione plastica, piccola). Le altre 8 fixture non cambiano.

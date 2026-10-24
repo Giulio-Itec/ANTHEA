@@ -112,3 +112,9 @@ li confronta a ogni corsa.
   di `HorizontalPileTrace.Diagrams`): struttura identica, cambiano solo 303 e 418 valori (limiti del momento, quote e valori dei
   tratti del diagramma del terreno, sottotitoli con Hu, nota di Broms con F). Gli altri file non cambiano. `disegni/elenco.txt`
   non è stato toccato: i disegni di queste due fixture vanno ricatturati con lo stadio `ui`.
+- 24/10/2026, stessa voce AG-PO-01, set AG ufficiale (4dd8018a: Model 2d59bbc6, Checker 22dabe69): in `disegni/elenco.txt`
+  sostituite solo le impronte delle 12 righe cambiate (7 di broms-coesivo-impedita, 5 di single-soil-layer: sondaggi, palo,
+  terreno, profili), dalla vista XAML (`ui/check-palo-orizzontale-view`, corsa `20261024-225208-ag-ui2-raccolta`). Stesso numero
+  di primitive per riga; confrontati i dump con quelli della corsa `20261023-173944-merge-sezione-ui` (vecchie librerie): stesse
+  righe per numero e tipo, cambiano solo coordinate e testi numerici (My 1353,08 → 1353,43 kNm, Hu 682,56 → 682,69 e
+  599,80 → 599,77 kN, F di Broms 1199,596 → 1199,549 kN). Le altre 28 righe e le fixture del micropalo non cambiano.

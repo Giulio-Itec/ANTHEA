@@ -74,15 +74,15 @@ storico-lineare-ritiro figura fase_0 "Situazione 1 dopo G1 · getto. Campiture d
 storico-lineare-ritiro figura fase_1 "Situazione 2 dopo Ritiro iniziale. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×19,72 (n · G2 · permanenti); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 8CC7EFF7778D0325
 storico-lineare-ritiro figura fase_2 "Situazione 3 dopo G2 · permanenti. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×19,72 (n · G2 · permanenti); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 87DFD0434F030660
 storico-lineare-ritiro figura fase_3 "Situazione 4 dopo Ritiro a lungo termine. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×19,72 (n · G2 · permanenti); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 A83382012AFE261F
-storico-non-lineare-curve vista 1000x640 · primitivi 2138 5C5775EE329006E7
-storico-non-lineare-curve curva 700x420 · primitivi 84 22DAAA00D1256D21
-storico-non-lineare-curve fibra 700x420 · primitivi 85 D902786CB95FDCE0
+storico-non-lineare-curve vista 1000x640 · primitivi 2138 CBC5157EA781A9C9
+storico-non-lineare-curve curva 700x420 · primitivi 84 9A5530DA46AEEFF4
+storico-non-lineare-curve fibra 700x420 · primitivi 85 97C7AFDA32898347
 storico-non-lineare-curve geometria 1000x640 · primitivi 123 DBBE9DCD40DEC4E2
 storico-non-lineare-curve situazione 1 vista 0 1000x640 · primitivi 1138 0731DB0F577BF446
 storico-non-lineare-curve situazione 1 vista 1 1000x640 · primitivi 1145 9A5CC2CB50CC0BE3
-storico-non-lineare-curve situazione 3 vista 0 1000x640 · primitivi 2138 5C5775EE329006E7
-storico-non-lineare-curve situazione 3 vista 1 1000x640 · primitivi 2159 1296DF29592BD894
+storico-non-lineare-curve situazione 3 vista 0 1000x640 · primitivi 2138 CBC5157EA781A9C9
+storico-non-lineare-curve situazione 3 vista 1 1000x640 · primitivi 2159 5DD4C876F2BAB731
 storico-non-lineare-curve figura geometria "Geometria della sezione e disposizione delle armature" · 1200x640 44E78307E6273ECE
 storico-non-lineare-curve figura fase_0 "Situazione 1 dopo G1 · getto e carpenteria. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 6227A01144B1E070
-storico-non-lineare-curve figura fase_1 "Situazione 2 dopo G2 · permanenti portati. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 BA629D61C93E2D12
-storico-non-lineare-curve figura fase_2 "Situazione 3 dopo Q · variabili. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 E54069A30850C7A5
+storico-non-lineare-curve figura fase_1 "Situazione 2 dopo G2 · permanenti portati. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 AE8EB82D5FA14384
+storico-non-lineare-curve figura fase_2 "Situazione 3 dopo Q · variabili. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 BEBD09EF4AB6ACB7
