@@ -87,6 +87,9 @@ internal sealed partial class ShellSmokeWindow
         foreach (var module in new[] { "str_palo", "geo_palo_orizzontale", BridgeSection.Module, RetainingWall.Module })
         {
             document = Archivio.Documento(module); ShowSheet(document);
+            // The sheet settles first: the walls write their default combinations when the automatic calculation ends, which
+            // with the GPC libraries of 24/10 (Model 5.21) can fall inside the first change of appearance.
+            await openSheet.WaitForAutomatic();
             var active = editor!; var data = active.Data.ToJsonString();
             foreach (var mode in new[] { AppAppearance.Light, AppAppearance.Dark, AppAppearance.VeryDark, AppAppearance.Light })
             {
