@@ -2,7 +2,7 @@
 from pathlib import Path
 from PIL import Image,ImageDraw,ImageFont
 import math,html
-OUT=Path(__file__).resolve().parents[3]/'X.Desktop/Assets/Wiki'
+OUT=Path(__file__).resolve().parents[3]/'src/ANTHEA.Desktop/Assets/Wiki'
 class Figure:
     def __init__(self,name,title,height=310):
         self.name=name;self.height=height;self.svg=[f'<title>{html.escape(title)}</title>'];self.im=Image.new('RGB',(1440,height*2),'white');self.d=ImageDraw.Draw(self.im)

@@ -4,7 +4,7 @@ Il modello valuta il carico limite di una fondazione rigida su terreno resistent
 
 ### Convenzioni e area efficace
 
-![Fondazione superficiale e convenzioni delle azioni nei due assi. Schema originale ANTHEA.](../../X.Desktop/Assets/Wiki/fondazione-schema.svg)
+![Fondazione superficiale e convenzioni delle azioni nei due assi. Schema originale ANTHEA.](../../src/ANTHEA.Desktop/Assets/Wiki/fondazione-schema.svg)
 
 Le unità del foglio sono m, kN, kNm, kPa e gradi. B e L sono i lati lungo X e Y; D è la profondità di posa. N positivo è la risultante normale compressiva al piano di posa; Hx e Hy sono le componenti tangenziali. Il modello usa H come modulo della risultante e conserva l'associazione tra azioni e lati quando ordina le dimensioni efficaci.
 

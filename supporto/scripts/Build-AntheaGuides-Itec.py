@@ -25,12 +25,12 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = '58'
+REVISION = '59'
 # edition data of the revision: date, contents and description in the revision table of the cover
-DATE = '23/10/2026'
-CONTENTS = '23 ottobre 2026'
-CONTENTS_ISO = '2026-10-23'
-REVISION_NOTE = 'ANTHEA 1.13.0: PALI E PARATIE'
+DATE = '24/10/2026'
+CONTENTS = '24 ottobre 2026'
+CONTENTS_ISO = '2026-10-24'
+REVISION_NOTE = 'ANTHEA 1.14.0: SHELL NUOVA E SCHEDE'
 ART = Path(os.environ.get('ANTHEA_GUIDE_ARTIFACTS', ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'))
 OUT = ROOT / 'supporto/documentazione/Guide_ANTHEA'
 TEMPLATE = Path(os.environ.get('ANTHEA_GUIDE_TEMPLATE', 'C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx'))

@@ -90,7 +90,7 @@ class HandbookChecks(unittest.TestCase):
                 with self.assertRaises(ValueError):self.run_validation()
     def test_invalid_content_rejected(self):
         key=self.articles[0]['id'];original=self.bodies[key]
-        for invalid in ['[link](wiki:missing)','[link](wiki:beam#missing)','![](../../X.Desktop/Assets/Wiki/footing.svg)','![figure](missing.svg)','[sito](https://example.com/articolo)','Fonte: http://example.com']:
+        for invalid in ['[link](wiki:missing)','[link](wiki:beam#missing)','![](../../src/ANTHEA.Desktop/Assets/Wiki/footing.svg)','![figure](missing.svg)','[sito](https://example.com/articolo)','Fonte: http://example.com']:
             with self.subTest(content=invalid):
                 self.bodies[key]=original+'\n'+invalid
                 with self.assertRaises(ValueError):self.run_validation()

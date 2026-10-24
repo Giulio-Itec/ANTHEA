@@ -2,7 +2,7 @@
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 import random, html, math
-ROOT=Path(__file__).resolve().parents[3]; OUT=ROOT/'X.Desktop/Assets/Wiki'; OUT.mkdir(parents=True,exist_ok=True)
+ROOT=Path(__file__).resolve().parents[3]; OUT=ROOT/'src/ANTHEA.Desktop/Assets/Wiki'; OUT.mkdir(parents=True,exist_ok=True)
 random.seed(6)
 for name in ['beam-axes','beam-dof','beam-offset','beam-load']:
     im=Image.new('RGB',(1200,460),'#fffef9'); d=ImageDraw.Draw(im); svg=[]

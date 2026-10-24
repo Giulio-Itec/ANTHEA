@@ -4,7 +4,7 @@ La capacità portante descrive il collasso del terreno sotto la fondazione. Non 
 
 ### Geometria, drenaggio e azioni
 
-![Figura 06.1 — Fondazione nastriforme: larghezza B, profondità D, carico verticale e pressione di contatto. La regione tratteggiata indica il terreno coinvolto, non una superficie critica calcolata.](../../X.Desktop/Assets/Wiki/footing.svg)
+![Figura 06.1 — Fondazione nastriforme: larghezza B, profondità D, carico verticale e pressione di contatto. La regione tratteggiata indica il terreno coinvolto, non una superficie critica calcolata.](../../src/ANTHEA.Desktop/Assets/Wiki/footing.svg)
 
 La risultante verticale deve comprendere i pesi pertinenti alla convenzione scelta. Distingui la pressione totale al contatto dalla pressione netta rispetto alla tensione preesistente alla quota di posa. Dichiarare una capacità netta e confrontarla con un'azione lorda altera il confronto. Prima dei coefficienti scegli il tipo di analisi: tensioni efficaci per condizioni drenate, tensioni totali e resistenza non drenata per il caso idealizzato non drenato.
 

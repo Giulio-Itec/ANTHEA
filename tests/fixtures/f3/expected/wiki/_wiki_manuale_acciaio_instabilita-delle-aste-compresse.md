@@ -6,7 +6,7 @@ Un'asta compressa può perdere stabilità senza che tutta la sezione raggiunga l
 
 Si considera un'asta rettilinea prismatica, elastica, caricata al baricentro, con rigidezza costante e piccoli spostamenti all'innesco dell'instabilità. La forza di compressione $N$ è positiva in questa pagina; non è la convenzione della scheda Sezione in c.a. Le estremità ideali impediscono la traslazione trasversale ma permettono la rotazione; una consente lo scorrimento assiale.
 
-![Figura 05.1 — Asta cerniera-carrello: carichi assiali opposti e primo modo sinusoidale. La deformata è amplificata e non rappresenta un'ampiezza calcolata.](../../X.Desktop/Assets/Wiki/euler-mode.svg)
+![Figura 05.1 — Asta cerniera-carrello: carichi assiali opposti e primo modo sinusoidale. La deformata è amplificata e non rappresenta un'ampiezza calcolata.](../../src/ANTHEA.Desktop/Assets/Wiki/euler-mode.svg)
 
 L'equilibrio linearizzato nella configurazione deformata conduce al problema agli autovalori seguente. $x$ misura la distanza lungo l'asta e $v$ lo spostamento trasversale; gli apici indicano derivate rispetto a $x$.
 
@@ -49,7 +49,7 @@ Per aste isolate con vincoli ideali, $K=1$ per cerniera-carrello, $K=2$ per inca
 \sigma_{cr}=\frac{N_{cr}}{A}=\frac{\pi^2E}{\lambda^2}
 ```
 
-![Figura 05.2 — Tensione critica ideale per E = 210000 MPa. La linea orizzontale indica fy = 355 MPa; il ramo sopra tale valore non è una resistenza elastica utilizzabile.](../../X.Desktop/Assets/Wiki/euler-curve.svg)
+![Figura 05.2 — Tensione critica ideale per E = 210000 MPa. La linea orizzontale indica fy = 355 MPa; il ramo sopra tale valore non è una resistenza elastica utilizzabile.](../../src/ANTHEA.Desktop/Assets/Wiki/euler-curve.svg)
 
 La tensione critica cala con il quadrato della snellezza. Il confronto con lo snervamento è un controllo di campo, non una curva normativa di resistenza: tensioni residue e imperfezioni riducono la capacità prima della previsione ideale.
 

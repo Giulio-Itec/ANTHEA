@@ -1564,6 +1564,17 @@ l'unione, con PDF, indici e impronte. La guida, i PDF e gli articoli non sono to
 **Immagini.** La guida non ha immagini della finestra storica. Se servono immagini della shell, le producono le prove della bozza
 (`ui/check-shell-draft`, 20 PNG dopo il ritiro dell'immagine 21).
 
+**Applicato nella Rev59** (24/10, ramo `refactoring/f5-rev59`, commit 21a781eb). Rispetto al testo proposto, riletto sul prodotto:
+- il menu del nodo offre Apri in una nuova finestra e Apri a pagina intera solo per i fogli;
+- Sposta in una nuova finestra e Riaggancia stanno nel menu della linguetta;
+- Apri è l'icona della cartella;
+- una pagina più alta della scheda scorre al suo interno, come quella del palo orizzontale a Full HD (G6).
+
+Corretti anche i comandi che la shell non ha:
+- «Guida progetti» della barra dei progetti: non c'è più; registrato come F5-64, da decidere (G11 di f5-15 §15.3);
+- «Come funziona» diventa Wiki del modulo; «Prova in Anthea» diventa Applica nel modulo;
+- lo scambio del terreno da un file singolo apre una scheda, non una finestra.
+
 ### 14.7 Domande nuove e scelte provvisorie
 
 | # | Domanda | Opzione presa |

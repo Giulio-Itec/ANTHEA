@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 23 ottobre 2026 — revisione documentale 58
+Edizione 6 aggiornata il 24 ottobre 2026 — revisione documentale 59
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -1886,7 +1886,7 @@ Confronta prima un modello semplice con equilibrio manuale e poi aggiungi dettag
 
 I nodi iniziale e finale definiscono lunghezza e verso dell'asse locale x. Due punti con coordinate uguali non sono necessariamente lo stesso nodo: se i rispettivi gradi di libertà non sono condivisi o collegati, gli elementi restano scollegati. Nei modelli importati controlla la connettività numerica, oltre alla coincidenza visiva.
 
-![Fig. 6.1 Elemento beam tra i nodi i e j con asse locale x e direzioni trasversali y e z.](../../X.Desktop/Assets/Wiki/beam-axes.png)
+![Fig. 6.1 Elemento beam tra i nodi i e j con asse locale x e direzioni trasversali y e z.](../../src/ANTHEA.Desktop/Assets/Wiki/beam-axes.png)
 
 La linea del beam rappresenta un riferimento strutturale. Non usare la sola linea inferiore del disegno come asse senza verificare l'eccentricità rispetto alla sezione. Cambiare il verso i-j richiede controllare assi, carichi locali e convenzioni dei risultati.
 
@@ -1900,7 +1900,7 @@ Definisci sempre una terna destrorsa. L'asse x coincide normalmente con i-j; gli
 
 Nel beam spaziale classico ogni nodo ha tre traslazioni e tre rotazioni. Le dodici componenti dell'elemento descrivono movimento assiale, due flessioni e torsione. Un modello piano ne conserva normalmente tre per nodo: due traslazioni e una rotazione. Formulazioni con ingobbamento possono aggiungere altre incognite: non assumere che tutti i beam abbiano esattamente gli stessi gradi di libertà.
 
-![Fig. 6.2 Traslazioni e rotazioni nodali nel piano; deformata amplificata a solo scopo illustrativo.](../../X.Desktop/Assets/Wiki/beam-dof.png)
+![Fig. 6.2 Traslazioni e rotazioni nodali nel piano; deformata amplificata a solo scopo illustrativo.](../../src/ANTHEA.Desktop/Assets/Wiki/beam-dof.png)
 
 Una rotazione nodale è un'incognita cinematica. Non equivale sempre alla pendenza della linea deformata: questa uguaglianza vale nella cinematica Euler-Bernoulli, mentre nel modello Timoshenko la differenza rappresenta la deformazione a taglio.
 
@@ -1925,7 +1925,7 @@ K_e=\int_0^LB^T EI B\,dx
 
 La matrice trasforma spostamenti e rotazioni nodali nelle azioni nodali elastiche. Il carico distribuito deve entrare anche nel vettore nodale coerente: applicare soltanto metà della risultante a ogni nodo può perdere le coppie equivalenti. Un elemento libero possiede moti rigidi; la singolarità scompare soltanto con vincoli fisicamente sufficienti, non aumentando artificialmente la rigidezza.
 
-![Figura 09.1 — Trave di 8 m con carico 25 kN/m, cerniera e carrello. Le reazioni sono 100 kN; il momento positivo è parabolico e raggiunge 200 kNm in mezzeria.](../../X.Desktop/Assets/Wiki/beam-benchmark.svg)
+![Figura 09.1 — Trave di 8 m con carico 25 kN/m, cerniera e carrello. Le reazioni sono 100 kN; il momento positivo è parabolico e raggiunge 200 kNm in mezzeria.](../../src/ANTHEA.Desktop/Assets/Wiki/beam-benchmark.svg)
 
 Nello schema, il momento positivo tende le fibre inferiori. L'area sotto il carico è 200 kN e coincide con la somma delle reazioni. Il diagramma nullo agli appoggi è una verifica indipendente dei rilasci terminali. L'esempio è statico, elastico e del primo ordine; non rappresenta fessurazione, viscosità o variazioni di rigidezza.
 
@@ -1990,7 +1990,7 @@ Controlla il segno dei momenti dopo ogni cambio di orientamento. Nella sezione i
 
 Un offset collega il nodo alla sezione terminale tramite un tratto rigido o una trasformazione cinematica. Non equivale a spostare soltanto il disegno. Trasferisce anche momenti quando la risultante di forza agisce fuori dal riferimento. Una forza F con eccentricità e introduce una coppia di modulo Fe nel caso piano.
 
-![Fig. 6.3 Offset tra asse del beam e punto di applicazione della forza; la coppia aggiuntiva dipende dal braccio e.](../../X.Desktop/Assets/Wiki/beam-offset.png)
+![Fig. 6.3 Offset tra asse del beam e punto di applicazione della forza; la coppia aggiuntiva dipende dal braccio e.](../../src/ANTHEA.Desktop/Assets/Wiki/beam-offset.png)
 
 Usare contemporaneamente un offset rigido e una coppia già inclusa nei carichi può contare due volte l'eccentricità. Controlla il punto rispetto al quale sono fornite le azioni. Non modellare come rigidissimo un collegamento realmente deformabile solo per risolvere un problema di connettività.
 
@@ -2047,7 +2047,7 @@ M_{\max} = \frac{qL^2}{8} = \frac{25\cdot8^2}{8} = 200\ \mathrm{kN\,m}
 V_{app} = \frac{qL}{2} = 100\ \mathrm{kN}
 ```
 
-![Fig. 6.4 Trave appoggiata con carico uniforme; diagramma qualitativo del momento positivo massimo in mezzeria.](../../X.Desktop/Assets/Wiki/beam-load.png)
+![Fig. 6.4 Trave appoggiata con carico uniforme; diagramma qualitativo del momento positivo massimo in mezzeria.](../../src/ANTHEA.Desktop/Assets/Wiki/beam-load.png)
 
 Per una sezione rettangolare integra b = 600 mm e h = 800 mm, $I = \frac{bh^3}{12} = 25{,}6\cdot10^9\ \mathrm{mm^4}$. Se si assume, solo per il controllo elastico del modello, E = 30.000 N/mm², la freccia flessionale è $v_{\max} = \frac{5qL^4}{384EI} \simeq 1{,}74\ \mathrm{mm}$, usando q = 25 N/mm e L = 8.000 mm. È la freccia del modello omogeneo non fessurato: non è una verifica SLE del c.a.
 
@@ -2129,7 +2129,7 @@ Un'asta compressa può perdere stabilità senza che tutta la sezione raggiunga l
 
 Si considera un'asta rettilinea prismatica, elastica, caricata al baricentro, con rigidezza costante e piccoli spostamenti all'innesco dell'instabilità. La forza di compressione $N$ è positiva in questa pagina; non è la convenzione della scheda Sezione in c.a. Le estremità ideali impediscono la traslazione trasversale ma permettono la rotazione; una consente lo scorrimento assiale.
 
-![Figura 05.1 — Asta cerniera-carrello: carichi assiali opposti e primo modo sinusoidale. La deformata è amplificata e non rappresenta un'ampiezza calcolata.](../../X.Desktop/Assets/Wiki/euler-mode.svg)
+![Figura 05.1 — Asta cerniera-carrello: carichi assiali opposti e primo modo sinusoidale. La deformata è amplificata e non rappresenta un'ampiezza calcolata.](../../src/ANTHEA.Desktop/Assets/Wiki/euler-mode.svg)
 
 L'equilibrio linearizzato nella configurazione deformata conduce al problema agli autovalori seguente. $x$ misura la distanza lungo l'asta e $v$ lo spostamento trasversale; gli apici indicano derivate rispetto a $x$.
 
@@ -2172,7 +2172,7 @@ Per aste isolate con vincoli ideali, $K=1$ per cerniera-carrello, $K=2$ per inca
 \sigma_{cr}=\frac{N_{cr}}{A}=\frac{\pi^2E}{\lambda^2}
 ```
 
-![Figura 05.2 — Tensione critica ideale per E = 210000 MPa. La linea orizzontale indica fy = 355 MPa; il ramo sopra tale valore non è una resistenza elastica utilizzabile.](../../X.Desktop/Assets/Wiki/euler-curve.svg)
+![Figura 05.2 — Tensione critica ideale per E = 210000 MPa. La linea orizzontale indica fy = 355 MPa; il ramo sopra tale valore non è una resistenza elastica utilizzabile.](../../src/ANTHEA.Desktop/Assets/Wiki/euler-curve.svg)
 
 La tensione critica cala con il quadrato della snellezza. Il confronto con lo snervamento è un controllo di campo, non una curva normativa di resistenza: tensioni residue e imperfezioni riducono la capacità prima della previsione ideale.
 
@@ -2301,7 +2301,7 @@ Un ponte mantiene la continuità di un percorso sopra un ostacolo lasciando uno 
 
 ### Leggere l'opera prima del modello
 
-![Figura 07.1 — Taccuino di un viadotto a travata: campate, pila centrale e spalle. Il disegno identifica i componenti, senza attribuire loro dimensioni di progetto.](../../X.Desktop/Assets/Wiki/bridge-notebook.svg)
+![Figura 07.1 — Taccuino di un viadotto a travata: campate, pila centrale e spalle. Il disegno identifica i componenti, senza attribuire loro dimensioni di progetto.](../../src/ANTHEA.Desktop/Assets/Wiki/bridge-notebook.svg)
 
 L'impalcato sostiene il piano viabile. Soletta, travi longitudinali, traversi e diaframmi ne distribuiscono le azioni; pile e spalle le trasferiscono alle fondazioni. Gli appoggi costituiscono l'interfaccia meccanica fra impalcato e sottostruttura. I giunti consentono movimenti relativi del piano viabile: non sono appoggi e non si modellano come sostegni verticali.
 
@@ -2311,7 +2311,7 @@ La luce si misura fra i riferimenti strutturali degli appoggi della campata; la 
 
 Una ruota produce una domanda locale nella soletta; la soletta la ripartisce alle travi secondo rigidezze e geometria. Gli appoggi raccolgono reazioni concentrate, le pile portano azioni assiali e momenti, le fondazioni mobilitano il terreno. Il modello a trave equivalente condensa questo percorso, ma perde la distribuzione trasversale e gli effetti locali.
 
-![Figura 07.2 — Percorso verticale in una campata ideale: carichi discendenti sull'impalcato, reazioni ascendenti agli appoggi e trasferimento attraverso pila e fondazione.](../../X.Desktop/Assets/Wiki/bridge-load-path.svg)
+![Figura 07.2 — Percorso verticale in una campata ideale: carichi discendenti sull'impalcato, reazioni ascendenti agli appoggi e trasferimento attraverso pila e fondazione.](../../src/ANTHEA.Desktop/Assets/Wiki/bridge-load-path.svg)
 
 Per frenatura, temperatura e sisma il percorso cambia. Un appoggio mobile longitudinalmente non riceve nel modello ideale la stessa forza di un appoggio fisso; l'attrito e la rigidezza reali possono rendere meno netta questa distinzione. Occorre una pianta dei vincoli che mostri anche le direzioni libere. Un ritegno orizzontale senza fondazione capace di riceverne la reazione non completa il percorso resistente.
 
@@ -2351,7 +2351,7 @@ Il controllo di apertura delle fessure è una verifica di esercizio. Una sezione
 
 Alla fessura il contributo teso del calcestruzzo è interrotto; l'aderenza trasferisce forza fra acciaio e calcestruzzo nei tratti adiacenti. Perciò la deformazione media dell'acciaio fra le fessure non coincide necessariamente con la deformazione nella sezione fessurata. Il tension stiffening rappresenta questa collaborazione media.
 
-![Figura 04.1 — Tirante fessurato: due fessure attraversano la zona tesa e l'armatura continua trasferisce forza per aderenza. La distanza tra fessure e l'apertura sono grandezze diverse.](../../X.Desktop/Assets/Wiki/crack-transfer.svg)
+![Figura 04.1 — Tirante fessurato: due fessure attraversano la zona tesa e l'armatura continua trasferisce forza per aderenza. La distanza tra fessure e l'apertura sono grandezze diverse.](../../src/ANTHEA.Desktop/Assets/Wiki/crack-transfer.svg)
 
 Le relazioni qui riportate riguardano la formulazione classica di EN 1992-1-1 (§7.3.4), per armatura ordinaria aderente, senza precompressione e con barre ravvicinate. È una relazione normativa empirico-meccanica, non una legge universale né una dichiarazione sull'edizione applicabile oggi al singolo progetto.
 
@@ -2412,7 +2412,7 @@ La capacità portante descrive il collasso del terreno sotto la fondazione. Non 
 
 ### Geometria, drenaggio e azioni
 
-![Figura 06.1 — Fondazione nastriforme: larghezza B, profondità D, carico verticale e pressione di contatto. La regione tratteggiata indica il terreno coinvolto, non una superficie critica calcolata.](../../X.Desktop/Assets/Wiki/footing.svg)
+![Figura 06.1 — Fondazione nastriforme: larghezza B, profondità D, carico verticale e pressione di contatto. La regione tratteggiata indica il terreno coinvolto, non una superficie critica calcolata.](../../src/ANTHEA.Desktop/Assets/Wiki/footing.svg)
 
 La risultante verticale deve comprendere i pesi pertinenti alla convenzione scelta. Distingui la pressione totale al contatto dalla pressione netta rispetto alla tensione preesistente alla quota di posa. Dichiarare una capacità netta e confrontarla con un'azione lorda altera il confronto. Prima dei coefficienti scegli il tipo di analisi: tensioni efficaci per condizioni drenate, tensioni totali e resistenza non drenata per il caso idealizzato non drenato.
 
@@ -2869,7 +2869,7 @@ Si assumono bw = 300 mm, d = 500 mm, z = 450 mm, fck = 30 MPa, αcc = 0,85, γc 
 
 Nel primo caso l’intersezione sarebbe oltre x = 2,5: non è ammissibile usarla. A x = 2,5 il puntone porta circa 395,69 kN, ma le staffe limitano la resistenza a 221,28 kN. Nel secondo caso l’intersezione cade nel campo ammesso. Imporre sempre x = 2,5 darebbe ancora circa 395,69 kN, inferiore al massimo compatibile: più staffe non implica che convenga mantenere l’inclinazione più bassa del puntone.
 
-![Resistenze di staffe e puntone al variare di cotangente theta per i due esempi](../../X.Desktop/Assets/Wiki/taglio-traliccio.png)
+![Resistenze di staffe e puntone al variare di cotangente theta per i due esempi](../../src/ANTHEA.Desktop/Assets/Wiki/taglio-traliccio.png)
 
 ### Come leggere il risultato in ANTHEA
 
@@ -3128,7 +3128,7 @@ Il modello valuta il carico limite di una fondazione rigida su terreno resistent
 
 ### Convenzioni e area efficace
 
-![Fondazione superficiale e convenzioni delle azioni nei due assi. Schema originale ANTHEA.](../../X.Desktop/Assets/Wiki/fondazione-schema.svg)
+![Fondazione superficiale e convenzioni delle azioni nei due assi. Schema originale ANTHEA.](../../src/ANTHEA.Desktop/Assets/Wiki/fondazione-schema.svg)
 
 Le unità del foglio sono m, kN, kNm, kPa e gradi. B e L sono i lati lungo X e Y; D è la profondità di posa. N positivo è la risultante normale compressiva al piano di posa; Hx e Hy sono le componenti tangenziali. Il modello usa H come modulo della risultante e conserva l'associazione tra azioni e lati quando ordina le dimensioni efficaci.
 

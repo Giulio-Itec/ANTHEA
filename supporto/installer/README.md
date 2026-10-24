@@ -13,7 +13,7 @@ Requisiti: SDK .NET 8 (come per `Compila.cmd`) e NSIS 3 (`winget install NSIS.NS
 
 Lo script:
 
-1. pubblica `X.Desktop` con `-r win-x64 --self-contained` in `supporto/artefatti/installer/stage/app`, usando una cartella di compilazione separata (`--artifacts-path`): `bin`/`obj` del repository e la cartella `app` di `Compila.cmd` restano invariati; poi controlla con `tools/qa/Assert-NoTestCode.ps1` che gli assembly pubblicati non contengano le prove WPF (configurazione `UiTests`) e in caso contrario si interrompe senza creare il setup;
+1. pubblica `src/ANTHEA.Desktop` con `-r win-x64 --self-contained` in `supporto/artefatti/installer/stage/app`, usando una cartella di compilazione separata (`--artifacts-path`): `bin`/`obj` del repository e la cartella `app` di `Compila.cmd` restano invariati; poi controlla con `tools/qa/Assert-NoTestCode.ps1` che gli assembly pubblicati non contengano le prove WPF (configurazione `UiTests`) e in caso contrario si interrompe senza creare il setup;
 
 2. verifica e copia l'ultima revisione delle due guide generali di `supporto/documentazione/Guide_ANTHEA`, più l'indice e tutti i PDF elencati in `Guide.json`; se manca un PDF o le revisioni delle due guide generali non coincidono, si interrompe prima della pubblicazione;
 
@@ -28,7 +28,7 @@ Opzioni: `-SkipPublish` riusa la pubblicazione già presente, aggiornando comunq
 
 ## Versione
 
-La versione è `<Version>` in `X.Desktop/X.Desktop.csproj`, formato `maggiore.minore.patch`
+La versione è `<Version>` in `src/ANTHEA.Desktop/ANTHEA.Desktop.csproj`, formato `maggiore.minore.patch`
 (oggi `1.13.0`). Determina il nome del setup, le proprietà degli eseguibili e la voce in
 «App installate». ANTHEA.exe riporta versione file `1.13.0.0` e prodotto `1.13.0+<commit>`.
 
@@ -62,7 +62,7 @@ La cartella `Guide` accanto ad `ANTHEA.exe` contiene tre PDF:
 - `Guida pratica ANTHEA.pdf`: uso e UI di tutti i moduli;
 - `Guida teorica ANTHEA.pdf`: teoria, formule, ipotesi e limiti di tutti i moduli.
 
-Tutti gli approfondimenti sono incorporati nelle due guide globali Rev58. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
+Tutti gli approfondimenti sono incorporati nelle due guide globali Rev59. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
 
 Per i nuovi argomenti aggiornare i due volumi, i PDF corrispondenti e l’indice. Per casi particolari chiedere all’utente prima di creare un documento autonomo. `Guide.json` contiene soltanto l’indice; i due manuali sono selezionati automaticamente alla revisione più recente.
 

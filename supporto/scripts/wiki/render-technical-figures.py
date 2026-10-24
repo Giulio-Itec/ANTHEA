@@ -2,7 +2,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 root=Path(__file__).resolve().parents[3]
-out=root/'X.Desktop/Assets/Wiki';out.mkdir(exist_ok=True)
+out=root/'src/ANTHEA.Desktop/Assets/Wiki';out.mkdir(exist_ok=True)
 x=np.linspace(1,2.5,300);B=450*300*.5*17/1000
 fig=Image.new('RGB',(1700,690),'white');draw=ImageDraw.Draw(fig)
 font=lambda n:ImageFont.truetype('C:/Windows/Fonts/arial.ttf',n)

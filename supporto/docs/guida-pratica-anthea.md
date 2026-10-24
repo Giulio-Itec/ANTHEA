@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 23 ottobre 2026 — revisione documentale 58
+Edizione 6 aggiornata il 24 ottobre 2026 — revisione documentale 59
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -83,7 +83,7 @@ La scelta Parametri da usare nelle verifiche ammette Medi, Minimi oppure Entramb
 
 ### Scambio del terreno fra fogli ANTHEA
 
-Creare un foglio Stratigrafia distinto per ciascun sondaggio o profilo e assegnargli un nome riconoscibile. Aprire Invia / importa terreno da ANTHEA, scegliere il foglio sorgente nella sezione Da un altro foglio del progetto e, se presente, il sondaggio oppure Monte/Valle. Importa dal foglio selezionato carica soltanto l’anteprima: Sostituisci il terreno del foglio corrente richiede conferma prima di applicare i dati. In alternativa scegliere un modulo e Invia a un nuovo foglio. Nel progetto il nuovo foglio viene aggiunto alla sezione corrente; da un modulo autonomo si apre una nuova finestra.
+Creare un foglio Stratigrafia distinto per ciascun sondaggio o profilo e assegnargli un nome riconoscibile. Aprire Invia / importa terreno da ANTHEA, scegliere il foglio sorgente nella sezione Da un altro foglio del progetto e, se presente, il sondaggio oppure Monte/Valle. Importa dal foglio selezionato carica soltanto l’anteprima: Sostituisci il terreno del foglio corrente richiede conferma prima di applicare i dati. In alternativa scegliere un modulo e Invia a un nuovo foglio. Nel progetto il nuovo foglio viene aggiunto alla sezione corrente; da un file singolo si apre un nuovo file, non ancora salvato, in una scheda.
 
 Lo scambio è disponibile per Stratigrafia, palo verticale, palo orizzontale, micropalo orizzontale, muri e fondazioni. Il micropalo verticale con schema specifico non è incluso. La copia è indipendente: modificare la sorgente non aggiorna le destinazioni. Salva terreno e Carica terreno consentono anche il riutilizzo mediante file terreno ANTHEA.
 
@@ -113,7 +113,7 @@ Prima di copiare la nuova versione il setup elimina tutto il contenuto della car
 
 Nel repository, Avvia ANTHEA.cmd ricompila il progetto in Release, pubblica nella cartella app e avvia l'eseguibile soltanto se i passaggi riescono. Richiede quindi l'SDK .NET e ANTHEA chiuso durante l'aggiornamento. La distribuzione già pubblicata può essere avviata direttamente da app/ANTHEA.exe. La distribuzione dipendente dal framework richiede il runtime desktop .NET 8. Il sorgente e la distribuzione sono due cose distinte: modificare un file C# non aggiorna un eseguibile già pubblicato.
 
-La Home consente di entrare nel catalogo, riprendere il lavoro della sessione o organizzare i fogli in un progetto. Il pulsante Riprendi conserva l'editor e il suo stato finché l'applicazione resta aperta. Non salva automaticamente un archivio su disco. Prima di chiudere utilizzare Salva o Salva con nome.
+La barra a sinistra, sempre visibile, porta a Home, Progetti, Modelli, Moduli singoli, Esempi e Wiki e contiene Apri (l'icona della cartella), Salva e Salva con nome; in alto restano i menu File, Strumenti e Aspetto. Ogni foglio aperto ha una scheda: si possono tenere aperti insieme più file di calcolo singoli. Un foglio nuovo, dal menu File o da Moduli singoli, apre una scheda; un file già aperto si attiva; il punto «•» segnala un foglio non salvato. Nella Home, Riprendi · nome torna all'ultimo foglio. Dal menu della linguetta, Sposta in una nuova finestra porta la scheda in una finestra separata e Riaggancia la riporta; Pagina intera, nella barra del foglio, le fa occupare tutta la finestra, ed Esc o Esci da pagina intera ripristinano navigazione e albero. La Wiki si apre in una scheda; F1 e i pulsanti «?» la aprono sull'argomento del foglio. Le schede restano aperte finché l'applicazione è aperta, ma non salvano su disco: prima di chiudere usare Salva o Salva con nome. Alla chiusura ANTHEA chiede che cosa fare dei fogli non salvati.
 
 ### Scegliere l’aspetto
 
@@ -157,15 +157,15 @@ I campi vuoti servono anche a rappresentare una bozza incompleta. Non sostituire
 
 Tab e Maiusc+Tab spostano il cursore sulla casella successiva o precedente e ne selezionano il contenuto: il valore digitato sostituisce quello presente. Con un clic il cursore resta nel punto indicato, per correggere solo una parte del valore. Le caselle di testo su più righe non selezionano il contenuto; nelle tabelle la modifica da tastiera segue il comportamento proprio della tabella.
 
-La finestra segue l'ingrandimento di Windows. I pannelli più stretti si dispongono verticalmente; le tabelle possono mantenere uno scorrimento proprio. I divisori nella composizione dei progetti permettono di allargare l'albero o il catalogo. Cercare prima la barra del pannello che contiene il dato: lo scorrimento della finestra e quello della tabella non sono necessariamente lo stesso comando.
+La finestra segue l'ingrandimento di Windows. Sotto 1120 × 680 la finestra scorre; i fogli che non si adattano alla larghezza tengono 1120 × 600 e scorrono nella loro scheda. Una pagina più alta della scheda scorre al suo interno: a 1920 × 1080 succede, per esempio, alla pagina principale del palo orizzontale. I pannelli più stretti si dispongono verticalmente; le tabelle possono mantenere uno scorrimento proprio. Nei progetti l'albero è una colonna della finestra, che «▸» chiude e riapre. Cercare prima la barra del pannello che contiene il dato: lo scorrimento della finestra e quello della tabella non sono necessariamente lo stesso comando.
 
 ## Progetti e gestione del lavoro
 
 ### Costruire una struttura leggibile
 
-La pagina di composizione presenta le informazioni del progetto a sinistra, l'albero al centro e il catalogo dei fogli a destra. Creare il progetto, assegnargli un nome utile e aggiungere sezioni. Una possibile struttura per un ponte comprende Materiali, Impalcato, Pila 1 e Fondazioni. Ogni sezione può contenere sia fogli sia sottosezioni; anche il progetto può contenere fogli direttamente.
+Nella pagina Progetti l'albero del progetto è la colonna accanto alla barra di navigazione; al centro c'è il riepilogo della sezione selezionata, con Schede da aggiungere. Creare il progetto, assegnargli un nome utile e aggiungere sezioni. Una possibile struttura per un ponte comprende Materiali, Impalcato, Pila 1 e Fondazioni. Ogni sezione può contenere sia fogli sia sottosezioni; anche il progetto può contenere fogli direttamente.
 
-Trascinare una scheda dal catalogo nel contenitore desiderato. Le miniature aprono i fogli. Il nome di una sezione, oppure Invio, apre il riepilogo. Doppio clic o F2 consentono di rinominare; cliccare fuori dal nome conferma. Il menu contestuale delle sezioni offre rinomina, duplicazione ed eliminazione. Nei fogli la freccia nella barra mostra o nasconde l'albero laterale. Torna al progetto riapre il riepilogo.
+Trascinare una scheda da Schede da aggiungere nel contenitore desiderato, oppure fare doppio clic per aggiungerla alla sezione selezionata. Durante il trascinamento un indicatore e un suggerimento («Inserisci in», «Prima di», «Dopo», «Sposta dentro») mostrano dove andrà l'elemento. Il pulsante con l'icona del modulo, oppure Invio, apre il foglio nella sua scheda. Un clic sul nome di una sezione ne apre il riepilogo; doppio clic o F2 consentono di rinominare; Invio, Esc o un clic fuori dal nome chiudono la rinomina. Il menu di un nodo offre Apri, Rinomina, Duplica, Sottosezione, Report Word della sezione ed Elimina; per i fogli anche Apri in una nuova finestra e Apri a pagina intera. Il simbolo di coerenza accanto a una sezione apre il confronto dei dati comuni. Nei fogli «▸» mostra o nasconde l'albero. Torna al progetto riapre il riepilogo.
 
 Usare nomi che distinguano oggetto e condizione: «Pila 2 sezione base», «Palo 1000 sondaggio S3» o «Impalcato campata positiva». Nomi generici ripetuti rendono difficile capire quale dato sia stato modificato e quale foglio stia governando la condivisione.
 
@@ -185,19 +185,19 @@ Il bordo di un'intestazione indica il riordino prima o dopo un elemento dello st
 
 Duplica sezione crea nuovi identificativi per tutti i fogli e le sottosezioni. La copia non acquisisce la cronologia delle revisioni dell'originale. I dati locali sono indipendenti, ma continuano a essere soggetti alle normali regole di condivisione del ramo in cui si trovano.
 
-Annulla e Ripristina del progetto conservano fino a 30 stati della sessione. Ctrl+Z e Ctrl+Y operano sul progetto quando il cursore non è in un campo di testo; nei campi prevale l'annullamento del testo. La cronologia non viene salvata nel file. Bridge Design possiede inoltre un proprio Annulla per le modifiche alla scheda; non coincide con una revisione del progetto.
+Annulla e Ripristina del progetto conservano fino a 30 stati della sessione. Ctrl+Z e Ctrl+Y operano sul progetto quando il cursore non è in un campo di testo; nei campi prevale l'annullamento del testo. La cronologia non viene salvata nel file. Bridge Design possiede inoltre un proprio Annulla per le modifiche alla scheda; non coincide con una revisione del progetto. Dopo Annulla o Ripristina le schede aperte restano aperte e mostrano i dati ripristinati; una scheda il cui foglio non esiste più si chiude con un avviso. Quando un aggiornamento dei dati comuni ricarica una scheda aperta, la scheda lo dice in una riga sotto la barra («Aggiornato da «foglio»: …»).
 
 ### Usare le revisioni
 
 Nuova revisione archivia la versione attuale e apre la successiva. Alla prima operazione si conserva Rev. 0 e si passa a Rev. 1. Ogni sezione può avere una numerazione indipendente. Nei fogli viene usata la sezione revisionata più vicina. La nota serve a ricordare il motivo della revisione, per esempio «Aggiornamento falda da indagini» o «Riduzione larghezza impalcato».
 
-Le revisioni archiviate si consultano nella stessa finestra, con gli input protetti e i comandi di visualizzazione ed esportazione disponibili. Tornando alla revisione attuale si ritrovano le modifiche non ancora salvate. Il contesto storico comprende gli antenati necessari; non è un collegamento mutabile ai materiali correnti. Salva, anche mentre si consulta lo storico, conserva l'intero documento corrente con le revisioni.
+Le revisioni archiviate si scelgono nella barra delle revisioni, sotto quella del progetto («Rev. n»), oppure con Mostra questa revisione nel riepilogo; si consultano con gli input protetti e i comandi di visualizzazione ed esportazione disponibili. Mentre si consulta una revisione archiviata le schede del progetto si aprono in sola lettura; le schede dei fogli che nella revisione non esistono si chiudono e si riaprono, nel loro ordine, tornando alla versione corrente. Tornando alla revisione attuale si ritrovano le modifiche non ancora salvate. Il contesto storico comprende gli antenati necessari; non è un collegamento mutabile ai materiali correnti. Salva, anche mentre si consulta lo storico, conserva l'intero documento corrente con le revisioni.
 
 Eliminare una revisione archiviata rimuove quella versione senza rinumerare le altre. Eliminare l'attuale ripristina l'ultima rimasta e la rende modificabile; riguarda il ramo scelto. I materiali degli antenati del progetto corrente possono differire da quelli del ramo ripristinato: controllare quindi il confronto. L'unica versione rimasta non è eliminabile con il comando delle revisioni.
 
 ### Report del ramo e compatibilità degli archivi
 
-Genera report esporta il progetto o la sezione selezionata con i fogli diretti e le sottosezioni nell'ordine dell'albero. Include i riferimenti necessari degli antenati, senza aggiungere i rami esterni. I dati comuni compatibili vengono riuniti; valori discordanti mantengono provenienza e segnalazioni. Le schede incomplete restano riconoscibili nel documento.
+Genera report esporta il progetto o la sezione selezionata con i fogli diretti e le sottosezioni nell'ordine dell'albero. Include i riferimenti necessari degli antenati, senza aggiungere i rami esterni. I dati comuni compatibili vengono riuniti; valori discordanti mantengono provenienza e segnalazioni. Le schede incomplete restano riconoscibili nel documento. Il report si chiede con Genera report nel riepilogo oppure con Report Word della sezione nel menu del nodo. Se ci sono differenze o avvisi, un controllo prima del report propone Apri confronto, Genera con segnalazioni e Annulla. Una finestra mostra l'avanzamento; Annulla interrompe al termine del calcolo in corso e non sovrascrive un file esistente.
 
 Il report di progetto ricalcola su una copia dei dati. Il report del singolo modulo segue invece le condizioni del suo editor: nella Sezione in c.a. occorre attendere il completamento del calcolo corrente. Prima dell'esportazione controlla il riepilogo e conserva il file riapribile oltre al Word.
 
@@ -715,9 +715,9 @@ La scheda Input definisce muro, terreni e azioni; Verifiche raccoglie gli esiti 
 
 Le stratigrafie di monte e valle sono affiancate, indipendenti o collegate per spessori e proprietà; le profondità partono dalle rispettive superfici. Hlib è la distanza dalla sommità al terreno di valle: Dv=H+t−Hlib. Il terreno davanti al muro entra nei pesi, nei momenti, nelle sollecitazioni della mensola e nel ricoprimento efficace della portanza. La passiva richiede attivazione e frazione mobilitata, non oltre 0,5: un documento con un valore maggiore è rifiutato con il motivo. È esclusa nel sisma. Gli attriti del muro e della fondazione sono assegnabili oppure ricavati da φcv,k e tipo di interfaccia. Il valore a volume costante va caratterizzato, senza sostituirlo automaticamente con quello di picco.
 
-Valori di calcolo consente di interrogare e modificare gli input e leggere coefficienti effettivi per combinazione, pesi, attriti, pressioni e sollecitazioni. Le forze risultanti dipendono dagli input e non si possono forzare. Le combinazioni sono modificabili: il preset locale è A1+M1+R3, quello globale A2+M2+R2. Con la mensola a monte le righe con il sovraccarico variabile hanno la gemella «b»: la colonna «q var. mensola» non spuntata lascia il sovraccarico nella spinta e lo toglie dalla mensola. La colonna «γR,e passiva» riporta il coefficiente della passiva; nella combinazione selezionata e nei valori di calcolo si leggono Ed e resistenze di scorrimento e ribaltamento. Azioni eccezionali e sisma Mononobe–Okabe o Wood semplificato sono espliciti. Il terreno del lato selezionato può essere trasferito ai moduli dei pali; la sezione selezionata può essere inviata al modulo c.a.
+Valori di calcolo consente di interrogare e modificare gli input e leggere coefficienti effettivi per combinazione, pesi, attriti, pressioni e sollecitazioni. Le forze risultanti dipendono dagli input e non si possono forzare. Le combinazioni sono modificabili: il preset locale è A1+M1+R3, quello globale A2+M2+R2. Con la mensola a monte le righe con il sovraccarico variabile hanno la gemella «b»: la colonna «q var. mensola» non spuntata lascia il sovraccarico nella spinta e lo toglie dalla mensola. La colonna «γR,e passiva» riporta il coefficiente della passiva; nella combinazione selezionata e nei valori di calcolo si leggono Ed e resistenze di scorrimento e ribaltamento. Azioni eccezionali e sisma Mononobe–Okabe o Wood semplificato sono espliciti. Il terreno del lato selezionato può essere trasferito ai moduli dei pali; la sezione selezionata può essere inviata al modulo c.a. Nelle revisioni in sola lettura la finestra Valori di calcolo si consulta soltanto: le righe sono bloccate e Applica e ricalcola è disattivato.
 
-La stabilità globale Bishop ha un motore separato e un proprio profilo esteso, anche con due colonne profonde e confine verticale assegnato. Il pulsante Stabilità globale apre il percorso; al primo accesso a un profilo vuoto ne prepara i dati e attiva la verifica. Gli strati si inseriscono per spessore, con quota del fondo calcolata automaticamente. La precompilazione non prolunga le indagini: rilievo, terreni profondi e falda del sito vanno controllati e confermati. Il disegno rappresenta anche il terreno sotto il piano di posa. Parametri, dominio e combinazioni restano interrogabili e modificabili.
+La stabilità globale Bishop ha un motore separato e un proprio profilo esteso, anche con due colonne profonde e confine verticale assegnato. Il pulsante Stabilità globale apre il percorso; al primo accesso a un profilo vuoto ne prepara i dati e attiva la verifica. In una revisione in sola lettura apre la pagina e le schede senza preparare il profilo. Gli strati si inseriscono per spessore, con quota del fondo calcolata automaticamente. La precompilazione non prolunga le indagini: rilievo, terreni profondi e falda del sito vanno controllati e confermati. Il disegno rappresenta anche il terreno sotto il piano di posa. Parametri, dominio e combinazioni restano interrogabili e modificabili.
 
 Conserva nel report le due stratigrafie e i coefficienti effettivi. Per le verifiche aggiuntive consulta [Portanza, cedimenti e armature](wiki:guida-portanza-sismica-cedimenti-spostamenti-e-armature-rev07).
 
@@ -1029,7 +1029,7 @@ Il modello esclude plasticità, distacco, curve p-y, trasferimento assiale al te
 
 Ogni modulo dispone del pulsante Wiki del modulo. Il comando Approfondimenti apre una scelta di argomenti e sezioni pertinenti. Accanto ai dati per cui esiste una spiegazione specifica, il pulsante ? raggiunge il punto della Wiki: per esempio copriferro nominale, copriferro per fessurazione, materiali, rigidezza del palo, armature e sisma. F1 nell’editor apre l’aiuto del dato, quando disponibile, oppure la guida del modulo.
 
-La consultazione conserva il foglio di lavoro: il comando Torna al lavoro riporta ai dati correnti. Anche le revisioni in sola lettura consentono di consultare gli aiuti. I collegamenti riguardano il tema del dato, non avviano una modifica dei parametri o un diverso metodo di verifica.
+La consultazione conserva il foglio di lavoro: la Wiki si apre in una sua scheda e il comando Torna al lavoro riporta ai dati correnti. Anche le revisioni in sola lettura consentono di consultare gli aiuti. I collegamenti riguardano il tema del dato, non avviano una modifica dei parametri o un diverso metodo di verifica.
 
 ### Consultare la nuova biblioteca tecnica
 
@@ -1060,9 +1060,9 @@ Riprendi la lettura mostra le ultime tre pagine; riaprendo una pagina viene ripr
 
 ### Passare dalla teoria al calcolo
 
-Prova in Anthea apre un modulo esistente oppure crea un foglio con i dati dell'esempio. Il documento corrente segue il normale controllo di salvataggio. Aprire il modulo senza esempio riprende la scheda già attiva, quando disponibile. Il comando Come funziona nella barra del modulo apre la guida pertinente e permette di tornare al calcolo con i dati conservati.
+Nel riquadro Applica nel modulo, Apri · seguito dal nome del modulo apre il modulo, mentre Apri esempio · crea un foglio con i dati dell'esempio. Il documento corrente segue il normale controllo di salvataggio. Aprire il modulo senza esempio riprende la scheda già attiva, quando disponibile. Il comando Wiki del modulo nella barra del foglio apre la guida pertinente; Torna al lavoro riporta al calcolo con i dati conservati.
 
-I pulsanti ? accanto a copriferro e azioni della sezione offrono una definizione breve e aprono la sezione specifica della Wiki. Guida progetti nella barra dei progetti apre le procedure della gestione del lavoro. Il comando Modello e dati comuni raggiunge la teoria pertinente nella stessa Wiki.
+I pulsanti ? accanto a copriferro e azioni della sezione offrono una definizione breve e aprono la sezione specifica della Wiki. Le procedure della gestione del lavoro sono nell'articolo Progetti e gestione del lavoro delle Guide Anthea. Il comando Modello e dati comuni raggiunge la teoria pertinente nella stessa Wiki.
 
 Per gli elementi Beam, il percorso consigliato è leggere il modello, confrontare reazioni e momento con l'esempio manuale, aprire la Sezione in c.a. e modificare altezza o verso del momento. La Wiki distingue l'analisi della trave dalla verifica della sezione: non introduce un nuovo solutore FEM generale.
 
@@ -1191,7 +1191,7 @@ Il taglio di appoggio è 100 kN ma non è il taglio della stessa sezione di mezz
 
 ### Teoria collegata e riepilogo
 
-[Elementi Beam](/wiki/manuale/fem/elementi-beam) spiega come ottenere e trasferire le azioni. I capitoli Sezione in c.a. e Calcestruzzo armato della guida teorica descrivono i modelli costitutivi e i limiti del motore. Il comando Apri modulo nella Wiki raggiunge lo stesso strumento disponibile in Moduli singoli; Come funziona nella barra del modulo torna a questa guida.
+[Elementi Beam](/wiki/manuale/fem/elementi-beam) spiega come ottenere e trasferire le azioni. I capitoli Sezione in c.a. e Calcestruzzo armato della guida teorica descrivono i modelli costitutivi e i limiti del motore. Il comando Apri · del riquadro Applica nel modulo raggiunge lo stesso strumento disponibile in Moduli singoli; Wiki del modulo nella barra del foglio torna a questa guida.
 
 Il percorso completo richiede un modello globale plausibile, azioni coerenti, una sezione fisicamente realizzabile e verifiche appropriate ai diversi stati limite. Un esempio numerico aiuta a imparare il metodo; la verifica del progetto richiede i dati reali e tutti i meccanismi rilevanti.
 
@@ -1486,7 +1486,7 @@ Nei verificatori SLE, φ e n errati sono segnalati e i valori derivati sono svuo
 
 Nella scheda **Modello**, premi **Sezioni del modello…**. Puoi anche selezionare una sezione nell'albero o un'asta nella scena e premere **Dettaglio sezione…** nell'ispettore. La finestra si apre separatamente dal modello, è ridimensionabile e conserva il collegamento alla vista. L'elenco superiore permette di passare alle altre sezioni della copia salvata.
 
-![Finestra di dettaglio con una sezione composta di esempio](../../X.Desktop/Assets/Wiki/modelli-sezioni-dettaglio.png)
+![Finestra di dettaglio con una sezione composta di esempio](../../src/ANTHEA.Desktop/Assets/Wiki/modelli-sezioni-dettaglio.png)
 
 ### Leggere geometria proprietà e attributi
 
@@ -1528,7 +1528,7 @@ Scegliere caso e fase sopra il disegno oppure usare le frecce precedente e succe
 
 In **Fasi e falda**, **Aggiungi** crea e seleziona una fase del caso corrente con identificativo disponibile. Compilare i suoi livelli: ad esempio, cambiando **Terreno destra** da 0 a −4 m, il disegno rimuove il terreno corrispondente a destra della parete. La nuova fase parte dai valori iniziali del modulo; non duplica automaticamente azioni e sostegni della precedente. Assegnare tutti gli elementi presenti in quella fase; un sostegno rielencato con la pretensione vuota conserva quella della fase precedente. I nuovi carichi e le nuove attivazioni vengono riferiti al caso e alla fase visibili; controllare i riferimenti nell'editor.
 
-![Modifica delle fasi con sezione grafica sempre visibile](../../X.Desktop/Assets/Wiki/paratie-modello-fasi.png)
+![Modifica delle fasi con sezione grafica sempre visibile](../../src/ANTHEA.Desktop/Assets/Wiki/paratie-modello-fasi.png)
 
 La sezione è un'anteprima degli **input**, non un risultato numerico. Quote verticali in scala; spessore della parete, lunghezze dei sostegni e frecce sono simbolici. La linea blu tratteggiata indica la falda assegnata oppure, nel modo FEM, il carico idraulico imposto al bordo: non rappresenta la superficie freatica calcolata. Gli input geometrici non validi sono segnalati e non diventano quote zero. Le deformate e le sollecitazioni richiedono **Calcola tutti i casi**; modificare un input invalida i risultati precedenti.
 
@@ -1581,7 +1581,7 @@ Premere **Calcola le fasi**; l'avanzamento indica fase e iterazioni. **Annulla**
 
 In **Diagrammi e risultati**, scegliere fase e grandezza, poi l'eventuale fase di confronto. Il diagramma **Carico netto** comprende azioni distribuite e reazioni del terreno; non coincide in generale con il solo carico assegnato. I due lati di una discontinuità sono conservati nella tabella. N è positivo a compressione nella parete; nelle verifiche degli elementi il testo indica le convenzioni del verificatore.
 
-![Diagramma del carico trapezoidale e risultati della mensola di prova](../../X.Desktop/Assets/Wiki/paratie-carichi-distribuiti.png)
+![Diagramma del carico trapezoidale e risultati della mensola di prova](../../src/ANTHEA.Desktop/Assets/Wiki/paratie-carichi-distribuiti.png)
 
 Modificare un ingresso rende superati i risultati interessati e disabilita le esportazioni corrispondenti. Il salvataggio conserva input e risultato con la loro impronta; alla riapertura un risultato incompatibile non viene mostrato come corrente. Report Word, PDF e CSV leggono lo stesso risultato dell'interfaccia. Le tabelle sintetiche mantengono le azioni concomitanti; il CSV contiene tutte le sezioni campionate.
 
@@ -1605,7 +1605,7 @@ Selezionare una riga per leggere criteri e fase governante. Diagrammi e verifich
 
 Per riprodurre il benchmark, assegnare testa 0 m, piede iniziale −10 m, fascia 1 m, EI=200000 kNm², peso nullo e nessun vincolo strutturale. Su entrambi i lati: terreno da 0 a −20 m, γ=18 e γsat=20 kN/m³, φ=30°, c′=0, K0=0,5 e kh=0,001 N/mm³, con fonti esplicite; piano campagna 0 m, sovraccarico 100 kPa e falda assente. Tre fasi con forza in testa 0, +10 e −5 kN; mesh 0,125 m, due incrementi iniziali per fase. Ricercare da 3,5 a 10 m sotto quota 0, passo 0,5 m, limite 3,25 mm. Governa la fase +10 kN: u=3,433970786 mm a 6 m e 3,203845845 mm a 6,5 m, primo candidato accettabile. È un benchmark elastico con sola verifica dello spostamento in testa, non un progetto completo di paratia.
 
-![Ricerca dell'infissione e criterio governante nel benchmark elastico](../../X.Desktop/Assets/Wiki/paratie-ricerca-infissione.png)
+![Ricerca dell'infissione e criterio governante nel benchmark elastico](../../src/ANTHEA.Desktop/Assets/Wiki/paratie-ricerca-infissione.png)
 
 ### Leggere gli inviluppi delle fasi
 
@@ -1619,7 +1619,7 @@ Il grafico interpola le stazioni restituite dal calcolo, comprendendo discontinu
 
 Per un controllo indipendente usare la mensola di 6 m, EI=200000 kNm², senza terreno, incastrata al piede. La fase A applica H=+10 kN in testa; la fase B sostituisce le azioni con H=−6 kN e coppia +12 kNm, positiva nel verso della rotazione du/d(profondità). Si ottengono spostamenti in testa +3,60 e −3,24 mm; gli estremi globali di M sono +60 kNm in A e −48 kNm in B, entrambi al piede. L'esempio verifica lettura e provenienza degli estremi, senza costituire una paratia progettata.
 
-![Inviluppi di momento delle fasi nel benchmark su fondazione elastica](../../X.Desktop/Assets/Wiki/paratie-inviluppi.png)
+![Inviluppi di momento delle fasi nel benchmark su fondazione elastica](../../src/ANTHEA.Desktop/Assets/Wiki/paratie-inviluppi.png)
 
 ### Gestire casi e combinazioni assegnate
 
