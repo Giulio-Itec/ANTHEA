@@ -1500,6 +1500,7 @@ l'estensione della prova (la baseline «può solo scendere» per i difetti già 
 Altre prove (`ci/20261024-100101-f5-g8-ui`, 12 suite PASS): `ui/check-contrast`, `ui/check-shell-draft`, `ui/shell-capture` e `ui/shell-capture-confronto`
 (cattura registrata uguale), le sei `ui/shell-smoke-*`, `ui/check-appearance` e `ui/check-theme-tokens`. Nessun riferimento congelato cambia: nessuna
 immagine approvata mostrava i due testi.
+Profilo quick PASS 55, 0 fallimenti (`ci/20261024-102417-f5-g8-quick`, su 7860cea4), con il controllo dell'archivio di prova in `Application.Tests`.
 
 **Corse finali della terza tappa** su 0f930c87 (DPI della finestra 96):
 - quick PASS 55, 0 fallimenti (`ci/20261024-013815-f5-13-g3-quick`, su 212d69d2);
