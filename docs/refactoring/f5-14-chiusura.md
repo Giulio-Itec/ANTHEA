@@ -181,6 +181,16 @@ In mancanza di altra indicazione, la fase 2 applica A (la più conservativa) e l
 **Deciso** (coordinatore, 24/10, provvisorio fino alla revisione dell'utente): A. La cartella residua `X.Desktop/` contiene
 solo `Assets/Wiki` e un `README.md` che spiega perché; B va nella revisione delle guide.
 
+**B fatta** (24/10, ramo `refactoring/f5-rev59`, decisione dell'utente «spostare figure, wiki e guide le facciamo a fine refactoring delle
+viste»). Le 42 figure stanno in `src/ANTHEA.Desktop/Assets/Wiki`; `X.Desktop/` e il suo README non ci sono più. Cambiano:
+- i collegamenti delle due guide (18 righe);
+- `assets.json`, `index.json`, `search.json` e `sources.props` della Wiki;
+- gli script delle figure;
+- le 14 righe dei percorsi in 8 riferimenti F3 congelati `tests/fixtures/f3/expected/wiki/*.md`, voce F5-REL-1140-01 del registro.
+
+I nomi incorporati nell'eseguibile (`assets/wiki/…` e `Wiki.figures.*`) e i loro byte restano identici: confronto delle 42 risorse
+di `ANTHEA.dll` prima e dopo.
+
 ## 4. Forma di `tests/ANTHEA.Desktop.UiTests`
 
 ### 4.1 Scelta: le stesse sorgenti spostate, compilate ancora nella build UiTests

@@ -4,7 +4,7 @@ Un ponte mantiene la continuità di un percorso sopra un ostacolo lasciando uno 
 
 ### Leggere l'opera prima del modello
 
-![Figura 07.1 — Taccuino di un viadotto a travata: campate, pila centrale e spalle. Il disegno identifica i componenti, senza attribuire loro dimensioni di progetto.](../../X.Desktop/Assets/Wiki/bridge-notebook.svg)
+![Figura 07.1 — Taccuino di un viadotto a travata: campate, pila centrale e spalle. Il disegno identifica i componenti, senza attribuire loro dimensioni di progetto.](../../src/ANTHEA.Desktop/Assets/Wiki/bridge-notebook.svg)
 
 L'impalcato sostiene il piano viabile. Soletta, travi longitudinali, traversi e diaframmi ne distribuiscono le azioni; pile e spalle le trasferiscono alle fondazioni. Gli appoggi costituiscono l'interfaccia meccanica fra impalcato e sottostruttura. I giunti consentono movimenti relativi del piano viabile: non sono appoggi e non si modellano come sostegni verticali.
 
@@ -14,7 +14,7 @@ La luce si misura fra i riferimenti strutturali degli appoggi della campata; la 
 
 Una ruota produce una domanda locale nella soletta; la soletta la ripartisce alle travi secondo rigidezze e geometria. Gli appoggi raccolgono reazioni concentrate, le pile portano azioni assiali e momenti, le fondazioni mobilitano il terreno. Il modello a trave equivalente condensa questo percorso, ma perde la distribuzione trasversale e gli effetti locali.
 
-![Figura 07.2 — Percorso verticale in una campata ideale: carichi discendenti sull'impalcato, reazioni ascendenti agli appoggi e trasferimento attraverso pila e fondazione.](../../X.Desktop/Assets/Wiki/bridge-load-path.svg)
+![Figura 07.2 — Percorso verticale in una campata ideale: carichi discendenti sull'impalcato, reazioni ascendenti agli appoggi e trasferimento attraverso pila e fondazione.](../../src/ANTHEA.Desktop/Assets/Wiki/bridge-load-path.svg)
 
 Per frenatura, temperatura e sisma il percorso cambia. Un appoggio mobile longitudinalmente non riceve nel modello ideale la stessa forza di un appoggio fisso; l'attrito e la rigidezza reali possono rendere meno netta questa distinzione. Occorre una pianta dei vincoli che mostri anche le direzioni libere. Un ritegno orizzontale senza fondazione capace di riceverne la reazione non completa il percorso resistente.
 

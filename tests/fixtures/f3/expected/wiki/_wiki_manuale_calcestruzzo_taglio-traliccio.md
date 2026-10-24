@@ -33,7 +33,7 @@ Si assumono bw = 300 mm, d = 500 mm, z = 450 mm, fck = 30 MPa, αcc = 0,85, γc 
 
 Nel primo caso l’intersezione sarebbe oltre x = 2,5: non è ammissibile usarla. A x = 2,5 il puntone porta circa 395,69 kN, ma le staffe limitano la resistenza a 221,28 kN. Nel secondo caso l’intersezione cade nel campo ammesso. Imporre sempre x = 2,5 darebbe ancora circa 395,69 kN, inferiore al massimo compatibile: più staffe non implica che convenga mantenere l’inclinazione più bassa del puntone.
 
-![Resistenze di staffe e puntone al variare di cotangente theta per i due esempi](../../X.Desktop/Assets/Wiki/taglio-traliccio.png)
+![Resistenze di staffe e puntone al variare di cotangente theta per i due esempi](../../src/ANTHEA.Desktop/Assets/Wiki/taglio-traliccio.png)
 
 ### Come leggere il risultato in ANTHEA
 

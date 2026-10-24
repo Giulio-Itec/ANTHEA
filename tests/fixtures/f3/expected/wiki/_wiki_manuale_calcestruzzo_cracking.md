@@ -6,7 +6,7 @@ Il controllo di apertura delle fessure è una verifica di esercizio. Una sezione
 
 Alla fessura il contributo teso del calcestruzzo è interrotto; l'aderenza trasferisce forza fra acciaio e calcestruzzo nei tratti adiacenti. Perciò la deformazione media dell'acciaio fra le fessure non coincide necessariamente con la deformazione nella sezione fessurata. Il tension stiffening rappresenta questa collaborazione media.
 
-![Figura 04.1 — Tirante fessurato: due fessure attraversano la zona tesa e l'armatura continua trasferisce forza per aderenza. La distanza tra fessure e l'apertura sono grandezze diverse.](../../X.Desktop/Assets/Wiki/crack-transfer.svg)
+![Figura 04.1 — Tirante fessurato: due fessure attraversano la zona tesa e l'armatura continua trasferisce forza per aderenza. La distanza tra fessure e l'apertura sono grandezze diverse.](../../src/ANTHEA.Desktop/Assets/Wiki/crack-transfer.svg)
 
 Le relazioni qui riportate riguardano la formulazione classica di EN 1992-1-1 (§7.3.4), per armatura ordinaria aderente, senza precompressione e con barre ravvicinate. È una relazione normativa empirico-meccanica, non una legge universale né una dichiarazione sull'edizione applicabile oggi al singolo progetto.
 

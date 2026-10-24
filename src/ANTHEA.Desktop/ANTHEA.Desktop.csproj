@@ -31,11 +31,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Wiki/Licenses/*.txt"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><TargetPath>Licenses/%(Filename)%(Extension)</TargetPath></Content>
-    <!-- F5.14: the figures of the guides stay in X.Desktop/Assets/Wiki, where the two guides and the frozen F3 Wiki references point
-         (docs/refactoring/f5-14-chiusura.md, section 3, option A); embedded with the same names as before the move. -->
-    <Resource Include="../../X.Desktop/Assets/Wiki/*.png" Link="Assets/Wiki/%(Filename)%(Extension)" />
+    <!-- The figures of the guides (Rev59, option B of docs/refactoring/f5-14-chiusura.md, section 3): embedded with the same names as before. -->
+    <Resource Include="Assets/Wiki/*.png" />
     <Resource Include="Assets/Materials/*.png" />
-    <EmbeddedResource Include="../../X.Desktop/Assets/Wiki/*.svg" Link="Assets/Wiki/%(Filename)%(Extension)"><LogicalName>Wiki.figures.%(Filename)%(Extension)</LogicalName></EmbeddedResource>
+    <EmbeddedResource Include="Assets/Wiki/*.svg"><LogicalName>Wiki.figures.%(Filename)%(Extension)</LogicalName></EmbeddedResource>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'UiTests'">
     <Compile Include="../../tests/Shared/ConcretePersistenceComparison.cs" Link="Tests/Shared/ConcretePersistenceComparison.cs" />

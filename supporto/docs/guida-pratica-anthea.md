@@ -1486,7 +1486,7 @@ Nei verificatori SLE, φ e n errati sono segnalati e i valori derivati sono svuo
 
 Nella scheda **Modello**, premi **Sezioni del modello…**. Puoi anche selezionare una sezione nell'albero o un'asta nella scena e premere **Dettaglio sezione…** nell'ispettore. La finestra si apre separatamente dal modello, è ridimensionabile e conserva il collegamento alla vista. L'elenco superiore permette di passare alle altre sezioni della copia salvata.
 
-![Finestra di dettaglio con una sezione composta di esempio](../../X.Desktop/Assets/Wiki/modelli-sezioni-dettaglio.png)
+![Finestra di dettaglio con una sezione composta di esempio](../../src/ANTHEA.Desktop/Assets/Wiki/modelli-sezioni-dettaglio.png)
 
 ### Leggere geometria proprietà e attributi
 
@@ -1528,7 +1528,7 @@ Scegliere caso e fase sopra il disegno oppure usare le frecce precedente e succe
 
 In **Fasi e falda**, **Aggiungi** crea e seleziona una fase del caso corrente con identificativo disponibile. Compilare i suoi livelli: ad esempio, cambiando **Terreno destra** da 0 a −4 m, il disegno rimuove il terreno corrispondente a destra della parete. La nuova fase parte dai valori iniziali del modulo; non duplica automaticamente azioni e sostegni della precedente. Assegnare tutti gli elementi presenti in quella fase; un sostegno rielencato con la pretensione vuota conserva quella della fase precedente. I nuovi carichi e le nuove attivazioni vengono riferiti al caso e alla fase visibili; controllare i riferimenti nell'editor.
 
-![Modifica delle fasi con sezione grafica sempre visibile](../../X.Desktop/Assets/Wiki/paratie-modello-fasi.png)
+![Modifica delle fasi con sezione grafica sempre visibile](../../src/ANTHEA.Desktop/Assets/Wiki/paratie-modello-fasi.png)
 
 La sezione è un'anteprima degli **input**, non un risultato numerico. Quote verticali in scala; spessore della parete, lunghezze dei sostegni e frecce sono simbolici. La linea blu tratteggiata indica la falda assegnata oppure, nel modo FEM, il carico idraulico imposto al bordo: non rappresenta la superficie freatica calcolata. Gli input geometrici non validi sono segnalati e non diventano quote zero. Le deformate e le sollecitazioni richiedono **Calcola tutti i casi**; modificare un input invalida i risultati precedenti.
 
@@ -1581,7 +1581,7 @@ Premere **Calcola le fasi**; l'avanzamento indica fase e iterazioni. **Annulla**
 
 In **Diagrammi e risultati**, scegliere fase e grandezza, poi l'eventuale fase di confronto. Il diagramma **Carico netto** comprende azioni distribuite e reazioni del terreno; non coincide in generale con il solo carico assegnato. I due lati di una discontinuità sono conservati nella tabella. N è positivo a compressione nella parete; nelle verifiche degli elementi il testo indica le convenzioni del verificatore.
 
-![Diagramma del carico trapezoidale e risultati della mensola di prova](../../X.Desktop/Assets/Wiki/paratie-carichi-distribuiti.png)
+![Diagramma del carico trapezoidale e risultati della mensola di prova](../../src/ANTHEA.Desktop/Assets/Wiki/paratie-carichi-distribuiti.png)
 
 Modificare un ingresso rende superati i risultati interessati e disabilita le esportazioni corrispondenti. Il salvataggio conserva input e risultato con la loro impronta; alla riapertura un risultato incompatibile non viene mostrato come corrente. Report Word, PDF e CSV leggono lo stesso risultato dell'interfaccia. Le tabelle sintetiche mantengono le azioni concomitanti; il CSV contiene tutte le sezioni campionate.
 
@@ -1605,7 +1605,7 @@ Selezionare una riga per leggere criteri e fase governante. Diagrammi e verifich
 
 Per riprodurre il benchmark, assegnare testa 0 m, piede iniziale −10 m, fascia 1 m, EI=200000 kNm², peso nullo e nessun vincolo strutturale. Su entrambi i lati: terreno da 0 a −20 m, γ=18 e γsat=20 kN/m³, φ=30°, c′=0, K0=0,5 e kh=0,001 N/mm³, con fonti esplicite; piano campagna 0 m, sovraccarico 100 kPa e falda assente. Tre fasi con forza in testa 0, +10 e −5 kN; mesh 0,125 m, due incrementi iniziali per fase. Ricercare da 3,5 a 10 m sotto quota 0, passo 0,5 m, limite 3,25 mm. Governa la fase +10 kN: u=3,433970786 mm a 6 m e 3,203845845 mm a 6,5 m, primo candidato accettabile. È un benchmark elastico con sola verifica dello spostamento in testa, non un progetto completo di paratia.
 
-![Ricerca dell'infissione e criterio governante nel benchmark elastico](../../X.Desktop/Assets/Wiki/paratie-ricerca-infissione.png)
+![Ricerca dell'infissione e criterio governante nel benchmark elastico](../../src/ANTHEA.Desktop/Assets/Wiki/paratie-ricerca-infissione.png)
 
 ### Leggere gli inviluppi delle fasi
 
@@ -1619,7 +1619,7 @@ Il grafico interpola le stazioni restituite dal calcolo, comprendendo discontinu
 
 Per un controllo indipendente usare la mensola di 6 m, EI=200000 kNm², senza terreno, incastrata al piede. La fase A applica H=+10 kN in testa; la fase B sostituisce le azioni con H=−6 kN e coppia +12 kNm, positiva nel verso della rotazione du/d(profondità). Si ottengono spostamenti in testa +3,60 e −3,24 mm; gli estremi globali di M sono +60 kNm in A e −48 kNm in B, entrambi al piede. L'esempio verifica lettura e provenienza degli estremi, senza costituire una paratia progettata.
 
-![Inviluppi di momento delle fasi nel benchmark su fondazione elastica](../../X.Desktop/Assets/Wiki/paratie-inviluppi.png)
+![Inviluppi di momento delle fasi nel benchmark su fondazione elastica](../../src/ANTHEA.Desktop/Assets/Wiki/paratie-inviluppi.png)
 
 ### Gestire casi e combinazioni assegnate
 

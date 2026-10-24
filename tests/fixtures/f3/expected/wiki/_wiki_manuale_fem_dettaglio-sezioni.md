@@ -2,7 +2,7 @@
 
 Nella scheda **Modello**, premi **Sezioni del modello…**. Puoi anche selezionare una sezione nell'albero o un'asta nella scena e premere **Dettaglio sezione…** nell'ispettore. La finestra si apre separatamente dal modello, è ridimensionabile e conserva il collegamento alla vista. L'elenco superiore permette di passare alle altre sezioni della copia salvata.
 
-![Finestra di dettaglio con una sezione composta di esempio](../../X.Desktop/Assets/Wiki/modelli-sezioni-dettaglio.png)
+![Finestra di dettaglio con una sezione composta di esempio](../../src/ANTHEA.Desktop/Assets/Wiki/modelli-sezioni-dettaglio.png)
 
 ### Leggere geometria proprietà e attributi
 

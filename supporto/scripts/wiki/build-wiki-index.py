@@ -27,9 +27,9 @@ for kind, source in [('guide','pratica'),('theory','teorica')]:
     for path in re.findall(r'^!\[[^\]]*\]\(([^)]+)\)',data.decode('utf-8'),re.M):
         original=(ROOT/'supporto/docs'/path).resolve()
         assert original.is_file(),f'Figura mancante: {original}'
-        name=original.name if original.parent==ROOT/'X.Desktop/Assets/Wiki' else slug(original.stem)+'-'+hashlib.sha256(path.encode()).hexdigest()[:8]+original.suffix
+        name=original.name if original.parent==ROOT/'src/ANTHEA.Desktop/Assets/Wiki' else slug(original.stem)+'-'+hashlib.sha256(path.encode()).hexdigest()[:8]+original.suffix
         assets[path]=name
-        if '--check' not in sys.argv and original!=ROOT/'X.Desktop/Assets/Wiki'/name: shutil.copy2(original,ROOT/'X.Desktop/Assets/Wiki'/name)
+        if '--check' not in sys.argv and original!=ROOT/'src/ANTHEA.Desktop/Assets/Wiki'/name: shutil.copy2(original,ROOT/'src/ANTHEA.Desktop/Assets/Wiki'/name)
     matches=list(re.finditer(rb'^## ([^\r\n]+)',data,re.M))
     for i, match in enumerate(matches):
         title=match[1].decode('utf-8'); start=match.start(); end=matches[i+1].start() if i+1<len(matches) else len(data)
@@ -85,7 +85,7 @@ for name,obj in [('index.json',articles),('search.json',postings),('areas.json',
     if '--check' in sys.argv: assert path.read_text(encoding='utf-8')==text,f'Indice obsoleto: {path}'
     else: path.write_text(text,encoding='utf-8',newline='\r\n')
 tracked=['editorial.json','chapters.json','references.json','glossary.json','aliases.json','index.json','search.json','assets.json','areas.json']
-tracked+=['../../../X.Desktop/Assets/Wiki/'+name for name in sorted(set(assets.values()))]
+tracked+=['../../../src/ANTHEA.Desktop/Assets/Wiki/'+name for name in sorted(set(assets.values()))]
 props='<Project><ItemGroup>'+''.join(f'<WikiSource Include="$(MSBuildThisFileDirectory)../../../supporto/docs/guida-{kind}-anthea.md"><ExpectedHash>{value}</ExpectedHash></WikiSource>' for kind,value in hashes.items())+''.join(f'<WikiSource Include="$(MSBuildThisFileDirectory){name}"><ExpectedHash>{hashlib.sha256((OUT/name).read_bytes()).hexdigest().upper()}</ExpectedHash></WikiSource>' for name in tracked)+'</ItemGroup></Project>\n'
 if '--check' in sys.argv: assert (OUT/'sources.props').read_text(encoding='utf-8')==props,'Hash sorgenti obsoleti'
 else: (OUT/'sources.props').write_text(props,encoding='utf-8',newline='\r\n')

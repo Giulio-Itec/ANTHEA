@@ -18,7 +18,7 @@ Confronta prima un modello semplice con equilibrio manuale e poi aggiungi dettag
 
 I nodi iniziale e finale definiscono lunghezza e verso dell'asse locale x. Due punti con coordinate uguali non sono necessariamente lo stesso nodo: se i rispettivi gradi di libertà non sono condivisi o collegati, gli elementi restano scollegati. Nei modelli importati controlla la connettività numerica, oltre alla coincidenza visiva.
 
-![Fig. 6.1 Elemento beam tra i nodi i e j con asse locale x e direzioni trasversali y e z.](../../X.Desktop/Assets/Wiki/beam-axes.png)
+![Fig. 6.1 Elemento beam tra i nodi i e j con asse locale x e direzioni trasversali y e z.](../../src/ANTHEA.Desktop/Assets/Wiki/beam-axes.png)
 
 La linea del beam rappresenta un riferimento strutturale. Non usare la sola linea inferiore del disegno come asse senza verificare l'eccentricità rispetto alla sezione. Cambiare il verso i-j richiede controllare assi, carichi locali e convenzioni dei risultati.
 
@@ -32,7 +32,7 @@ Definisci sempre una terna destrorsa. L'asse x coincide normalmente con i-j; gli
 
 Nel beam spaziale classico ogni nodo ha tre traslazioni e tre rotazioni. Le dodici componenti dell'elemento descrivono movimento assiale, due flessioni e torsione. Un modello piano ne conserva normalmente tre per nodo: due traslazioni e una rotazione. Formulazioni con ingobbamento possono aggiungere altre incognite: non assumere che tutti i beam abbiano esattamente gli stessi gradi di libertà.
 
-![Fig. 6.2 Traslazioni e rotazioni nodali nel piano; deformata amplificata a solo scopo illustrativo.](../../X.Desktop/Assets/Wiki/beam-dof.png)
+![Fig. 6.2 Traslazioni e rotazioni nodali nel piano; deformata amplificata a solo scopo illustrativo.](../../src/ANTHEA.Desktop/Assets/Wiki/beam-dof.png)
 
 Una rotazione nodale è un'incognita cinematica. Non equivale sempre alla pendenza della linea deformata: questa uguaglianza vale nella cinematica Euler-Bernoulli, mentre nel modello Timoshenko la differenza rappresenta la deformazione a taglio.
 
@@ -57,7 +57,7 @@ K_e=\int_0^LB^T EI B\,dx
 
 La matrice trasforma spostamenti e rotazioni nodali nelle azioni nodali elastiche. Il carico distribuito deve entrare anche nel vettore nodale coerente: applicare soltanto metà della risultante a ogni nodo può perdere le coppie equivalenti. Un elemento libero possiede moti rigidi; la singolarità scompare soltanto con vincoli fisicamente sufficienti, non aumentando artificialmente la rigidezza.
 
-![Figura 09.1 — Trave di 8 m con carico 25 kN/m, cerniera e carrello. Le reazioni sono 100 kN; il momento positivo è parabolico e raggiunge 200 kNm in mezzeria.](../../X.Desktop/Assets/Wiki/beam-benchmark.svg)
+![Figura 09.1 — Trave di 8 m con carico 25 kN/m, cerniera e carrello. Le reazioni sono 100 kN; il momento positivo è parabolico e raggiunge 200 kNm in mezzeria.](../../src/ANTHEA.Desktop/Assets/Wiki/beam-benchmark.svg)
 
 Nello schema, il momento positivo tende le fibre inferiori. L'area sotto il carico è 200 kN e coincide con la somma delle reazioni. Il diagramma nullo agli appoggi è una verifica indipendente dei rilasci terminali. L'esempio è statico, elastico e del primo ordine; non rappresenta fessurazione, viscosità o variazioni di rigidezza.
 
@@ -122,7 +122,7 @@ Controlla il segno dei momenti dopo ogni cambio di orientamento. Nella sezione i
 
 Un offset collega il nodo alla sezione terminale tramite un tratto rigido o una trasformazione cinematica. Non equivale a spostare soltanto il disegno. Trasferisce anche momenti quando la risultante di forza agisce fuori dal riferimento. Una forza F con eccentricità e introduce una coppia di modulo Fe nel caso piano.
 
-![Fig. 6.3 Offset tra asse del beam e punto di applicazione della forza; la coppia aggiuntiva dipende dal braccio e.](../../X.Desktop/Assets/Wiki/beam-offset.png)
+![Fig. 6.3 Offset tra asse del beam e punto di applicazione della forza; la coppia aggiuntiva dipende dal braccio e.](../../src/ANTHEA.Desktop/Assets/Wiki/beam-offset.png)
 
 Usare contemporaneamente un offset rigido e una coppia già inclusa nei carichi può contare due volte l'eccentricità. Controlla il punto rispetto al quale sono fornite le azioni. Non modellare come rigidissimo un collegamento realmente deformabile solo per risolvere un problema di connettività.
 
@@ -179,7 +179,7 @@ M_{\max} = \frac{qL^2}{8} = \frac{25\cdot8^2}{8} = 200\ \mathrm{kN\,m}
 V_{app} = \frac{qL}{2} = 100\ \mathrm{kN}
 ```
 
-![Fig. 6.4 Trave appoggiata con carico uniforme; diagramma qualitativo del momento positivo massimo in mezzeria.](../../X.Desktop/Assets/Wiki/beam-load.png)
+![Fig. 6.4 Trave appoggiata con carico uniforme; diagramma qualitativo del momento positivo massimo in mezzeria.](../../src/ANTHEA.Desktop/Assets/Wiki/beam-load.png)
 
 Per una sezione rettangolare integra b = 600 mm e h = 800 mm, $I = \frac{bh^3}{12} = 25{,}6\cdot10^9\ \mathrm{mm^4}$. Se si assume, solo per il controllo elastico del modello, E = 30.000 N/mm², la freccia flessionale è $v_{\max} = \frac{5qL^4}{384EI} \simeq 1{,}74\ \mathrm{mm}$, usando q = 25 N/mm e L = 8.000 mm. È la freccia del modello omogeneo non fessurato: non è una verifica SLE del c.a.
 

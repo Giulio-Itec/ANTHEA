@@ -9839,6 +9839,26 @@
       },
       "revisione_f5_15": "G8 (f5-13-shell §14.7, f5-15 §15.3)",
       "voci_collegate": ["F5-62"]
+    },
+    {
+      "id": "F5-REL-1140-01",
+      "data": "2026-10-24",
+      "fase": "Rilascio F5 (1.14.0), guide Rev59",
+      "titolo": "Figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki: percorsi nelle guide e nei riferimenti F3 congelati",
+      "famiglia": "documentazione/collaudo",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Le 42 figure delle guide passano da X.Desktop/Assets/Wiki a src/ANTHEA.Desktop/Assets/Wiki (opzione B di f5-14-chiusura.md §3); la cartella X.Desktop sparisce. Le guide citano le figure con il percorso relativo, e il corpo degli articoli della Wiki lo riporta: cambiano 18 righe delle due guide e 14 righe in 8 riferimenti F3 congelati (tests/fixtures/f3/expected/wiki/*.md, regola editoriale F3-06: file sostituiti nel riferimento). Ogni riga cambia solo da ../../X.Desktop/Assets/Wiki/ a ../../src/ANTHEA.Desktop/Assets/Wiki/. Nella ricerca il percorso aggiunge il termine «src» e porta gli articoli con figure fra i risultati di «anthea»; nessuna delle 30 ricerche F3 cambia.",
+      "codice": ["src/ANTHEA.Desktop/ANTHEA.Desktop.csproj", "src/ANTHEA.Wiki/Content/assets.json", "src/ANTHEA.Wiki/Content/sources.props", "supporto/scripts/wiki/build-wiki-index.py", "supporto/docs/guida-pratica-anthea.md", "supporto/docs/guida-teorica-anthea.md", "tests/fixtures/f3/expected/wiki/_wiki_manuale_acciaio_instabilita-delle-aste-compresse.md", "tests/fixtures/f3/expected/wiki/_wiki_manuale_calcestruzzo_cracking.md", "tests/fixtures/f3/expected/wiki/_wiki_manuale_calcestruzzo_taglio-traliccio.md", "tests/fixtures/f3/expected/wiki/_wiki_manuale_fem_dettaglio-sezioni.md", "tests/fixtures/f3/expected/wiki/_wiki_manuale_fem_elementi-beam.md", "tests/fixtures/f3/expected/wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md", "tests/fixtures/f3/expected/wiki/_wiki_manuale_geotecnica_bearing-capacity.md", "tests/fixtures/f3/expected/wiki/_wiki_manuale_ponti_bridge.md"],
+      "segno": "Nessun testo, numero o figura cambia: nomi incorporati (assets/wiki/… e Wiki.figures.*) e byte delle 42 risorse di ANTHEA.dll identici prima e dopo. Nei riferimenti congelati nessun'altra riga cambia.",
+      "test": ["Confronto delle 42 risorse delle figure di ANTHEA.dll (Release) prima e dopo lo spostamento: nomi e SHA-256 identici", "Guide e riferimenti congelati: ogni file è uguale all'originale con la sola sostituzione del percorso (confronto byte per byte, fine riga normalizzate)", "wiki/indice (build-wiki-index.py --check) e wiki/manuale (wiki-handbook-checks.py)", "ui/f3-equivalence da eseguire con le prove del pomeriggio del 24/10 (nessuna corsa UI in questo passo, decisione dell'utente)"],
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«spostare figure, wiki e guide le facciamo a fine refactoring delle viste»; i riferimenti congelati cambiano solo nei percorsi delle figure (istruzioni Rev59 del coordinatore)",
+        "esito": "dichiarata"
+      },
+      "revisione_f5_15": "non in elenco",
+      "voci_collegate": ["F5-REL-1130-01"]
     }
   ]
 }
