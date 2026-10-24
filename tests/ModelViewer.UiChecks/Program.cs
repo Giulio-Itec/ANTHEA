@@ -1,3 +1,4 @@
+using Anthea.Presentation.Shell;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -75,11 +76,11 @@ static partial class Program
         AppDomain.CurrentDomain.ProcessExit+=(_,_)=>{if(!args.Contains("--interactive")&&!File.Exists(Path.Combine(output,"esito.txt")))File.WriteAllText(Path.Combine(output,"uscita-incompleta.txt"),$"Codice {Environment.ExitCode}; controlli {checks}; memoria {Process.GetCurrentProcess().PrivateMemorySize64}\n{Environment.StackTrace}");};
         var bindingLog = new StringWriter(); var listener = new TextWriterTraceListener(bindingLog);
         PresentationTraceSources.DataBindingSource.Listeners.Add(listener); PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
-        X.Desktop.MainWindow? window = null;
+        Window? window = null; ShellViewModel? shell = null;
         try
         {
             var app = new TestApp(); app.LoadStyles(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.Appearance")!.GetMethod("Initialize", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [false]);
+            typeof(X.Desktop.App).Assembly.GetType("X.Desktop.Appearance")!.GetMethod("Initialize", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [false]);
             int themeArgument=Array.IndexOf(args,"--appearance");
             if(themeArgument>=0 && themeArgument+1<args.Length)SetAppearance(args[themeArgument+1]);
             if (args.Contains("--stratigraphy"))
@@ -116,9 +117,10 @@ static partial class Program
                 ProjectModelStore.Set(subphase, ModelSnapshotFiles.Read(archive));
                 archive = Path.Combine(output, "preview.programma"); DocumentService.Save(archive, doc);
             }
-            window = ProductWindow(); window.Width = 1600; window.Height = 990; window.ShowInTaskbar = false; window.ShowActivated = false;
-            Call(window, "LoadFile", archive); window.Show(); Wait(150);
-            var document = (JsonObject)window.GetType().GetField("document", Flags)!.GetValue(window)!;
+            // F5.13 g3: the window of the application is the new shell (MainWindow is archived); its commands in place of the methods of MainWindow.
+            (window, shell) = ProductShell(); window.Width = 1600; window.Height = 990; window.ShowInTaskbar = false; window.ShowActivated = false;
+            window.Show(); shell.Workspace.OpenFile(archive); Wait(150);
+            var document = shell.Workspace.Project!.WorkingDocument;
             owner = document.Array("progetti").OfType<JsonObject>().SelectMany(ProjectModelStore.Containers).First(c => ProjectModelStore.Models(c).Any());
             id = ProjectModelStore.Models(owner).First().S("id");
             }
@@ -439,8 +441,8 @@ static partial class Program
                 typeof(ModelViewerControl).Assembly.GetType("ANTHEA.ModelViewer.Wpf.ViewerImageExporter")!.GetMethod("Save", BindingFlags.Static | BindingFlags.Public)!.Invoke(null, [isolated, scene, Path.Combine(output, "modelli-export.png")]);
                 Check(new FileInfo(Path.Combine(output, "modelli-export.png")).Length > 10000, "production image export includes the complete view");
                 state.SelectedSurfaceMode = 0; state.SelectedMode = 2; state.ShowTable = true; Wait(300);
-                var appearance = typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.Appearance")!;
-                var modeType = typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.AppAppearance")!;
+                var appearance = typeof(X.Desktop.App).Assembly.GetType("X.Desktop.Appearance")!;
+                var modeType = typeof(X.Desktop.App).Assembly.GetType("X.Desktop.AppAppearance")!;
                 appearance.GetMethod("Set", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [Enum.Parse(modeType, "Dark"), false]); Wait(300);
                 var caption = Children<TextBlock>(isolated).First(t => t.Text == "Caso / combinazione");
                 Check(caption.Foreground is SolidColorBrush ink && ink.Color.R > 150 && ink.Color.G > 150, "dark theme keeps field captions readable");
@@ -517,15 +519,16 @@ static partial class Program
             }
             if(window==null)throw new InvalidOperationException("Finestra progetto non inizializzata.");
             ContourRenderingChecks(output); window.Activate();
-            Call(window, "ShowModelsHub"); Wait(100);
-            Check(Children<Button>(window).Any(b => b.Content?.ToString() == ProjectModelStore.Models(owner).First().S("nome")), "Models workspace exposes imported resources");
+            shell!.Navigation.Select(Anthea.Presentation.Shell.Navigation.ShellPage.Models); Wait(100);
+            Check(Children<TextBlock>(window).Any(t => t.IsVisible && t.Text == ProjectModelStore.Models(owner).First().S("nome")), "Models workspace exposes imported resources");
             CapturePage((FrameworkElement)window.Content, Path.Combine(output, "00-modelli.png"));
             if (args.Contains("--models-hub-only"))
             {
                 listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()), "no WPF binding errors in Models workspace");
                 window.Close(); app.Shutdown(); return 0;
             }
-            Call(window, "ShowContainerModel", owner, id); Wait(1200);
+            // The model tab with the width of the window, as the model view of MainWindow (the column of the project tree of the shell closed).
+            shell.IsTreeOpen = false; shell.ShowModel(owner, id); Wait(1200);
             var view = Children<ModelViewerControl>(window).Single(); var vm = (ModelViewerViewModel)view.DataContext; var viewport = Children<Viewport3DX>(view).Single();
             vm.SelectedColorMode = 3; // Keep section and plate-property meshes distinct while checking physical offsets.
             var timings = new List<string>();
@@ -576,7 +579,12 @@ static partial class Program
                 // Keep the property under test in the virtualized viewport when tab headers occupy two rows.
                 vm.FindTreeItem("geometry")!.IsExpanded=false;
                 vm.SelectedTreeItem = vm.FindTreeItem("SECT:2"); Wait(150);
-                var treeItem = Children<TreeViewItem>(view).First(t => t.DataContext is ModelTreeItem item && item.Key == "SECT:2");
+                // F5.13 g3: in the tab of the shell the tree is lower than in MainWindow: its list scrolls until the item is realized.
+                TreeViewItem? Realized() => Children<TreeViewItem>(view).FirstOrDefault(t => t.DataContext is ModelTreeItem item && item.Key == "SECT:2");
+                var modelTree = Children<TreeView>(view).FirstOrDefault(t => Children<TreeViewItem>(t).Any(i => i.DataContext is ModelTreeItem));
+                var treeScroll = modelTree is null ? null : Children<ScrollViewer>(modelTree).FirstOrDefault();
+                for (int page = 0; page < 30 && Realized() is null && treeScroll is not null; page++) { treeScroll.LineDown(); treeScroll.LineDown(); treeScroll.LineDown(); Wait(40); }
+                var treeItem = Realized() ?? throw new InvalidOperationException("Voce SECT:2 non realizzata nell'albero del modello");
                 var header = Children<TextBlock>(treeItem).First(t => t.Text.Contains("Rettangolare")); vm.ClearSelectionCommand.Execute(null);
                 header.RaiseEvent(new System.Windows.Input.MouseButtonEventArgs(System.Windows.Input.Mouse.PrimaryDevice, Environment.TickCount, System.Windows.Input.MouseButton.Right) { RoutedEvent = System.Windows.Input.Mouse.PreviewMouseDownEvent });
                 Check(vm.SelectedTreeItem?.Key == "SECT:2", "context click resolves the nested property item rather than its parent category");
@@ -586,17 +594,17 @@ static partial class Program
                 vm.ShowGlobalAxes = vm.ShowViewCube = false; Wait(80);
                 Check(!viewport.ShowCoordinateSystem && !viewport.ShowViewCube, "orientation widgets can be disabled independently of the model");
             }
-            Call(window, "ShowModelsHub"); Wait(100);
+            shell.Navigation.Select(Anthea.Presentation.Shell.Navigation.ShellPage.Models); Wait(100);
             Check(!vm.ImportCommand.CanExecute(null), "leaving viewer disposes its ViewModel and disables late imports");
             Check(viewport.EffectsManager == null, "leaving viewer releases GPU manager");
-            Call(window, "ShowContainerModel", owner, id); Wait(500);
+            shell.ShowModel(owner, id); Wait(500);
             Check(Children<ModelViewerControl>(window).Single().DataContext != vm, "reopening creates fresh view state and render resources");
             var sheet = ProjectModelStore.DescendantSheets(owner).First();
-            Call(window, "ShowSheet", sheet); Wait(250);
+            shell.Workspace.OpenSheet(sheet); Wait(250);
             Check(!Children<ModelViewerControl>(window).Any(), "opening a verification sheet removes the viewer from the WPF tree");
             if (sheet[ProjectModelStore.Binding] != null)
                 Check(Children<TextBlock>(window).Any(t => t.Text.Contains("Riferimento aggiornato")), "linked verification sheet displays its model revision status");
-            Call(window, "ShowContainerModel", owner, id); Wait(250);
+            shell.ShowModel(owner, id); Wait(250);
             listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()), "no WPF binding errors");
             File.WriteAllLines(Path.Combine(output, "tempi.txt"), timings); File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} checks");
             window.Close(); app.Shutdown(); return 0;

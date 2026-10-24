@@ -94,8 +94,8 @@ segnalato come le più bisognose dell'utente.
 | 12. F5.12 Bridge Design e prezzari | 22 | 0 | 22 |
 | 13. F5.13 shell | 59 | 28 | 31 |
 | 14. Registro delle differenze R4–R21 | 17 | 0 | 17 |
-| 15. Voci trasversali | 23 | 5 | 18 |
-| **Totale** | **257** | **33** | **224** |
+| 15. Voci trasversali | 25 | 5 | 20 |
+| **Totale** | **259** | **33** | **226** |
 
 Note sul conteggio:
 - Una riga è una voce. Alcune righe uniscono codici che pongono la stessa domanda, per esempio «C2, S5-c» o «S6-a, S8-b».
@@ -610,6 +610,8 @@ Fonti: [f5-suite-ui.md §5](f5-suite-ui.md#5-domande-da-decidere-scelte-provviso
 | G6 (F5.13 g) | A 1920 × 1080 la pagina del palo orizzontale scorre nella shell (F5-61) | **Decisa 24/10** (00:15): «accetto che la pagina del palo orizzontale scorra nella shell a Full HD; le due suite controllano l'area della scheda, come per SH40» | — | solo interfaccia | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
 | G7 (F5.13 g3) | Le occorrenze della Chiara si contano per cattura: gli elementi fissi tornano in ogni pagina di scorrimento, e la scheda della shell ha pagine in più (80 occorrenze in 28 voci nuove) | Registrate come le stesse voci con un nome di vista nuovo (D12); nessun cambio dell'interfaccia | Contare un elemento fisso una volta per vista (strumento); rendere leggibile `Token.Muted` su `Token.Surface` in Chiara (contro D12) | solo prove | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
 | G8 (F5.13 g3) | Pagine dei progetti fuori da `ui/check-contrast` (manca `prova-f1.4.programma` dal F5.3); la prova a parte trova in Chiara il numero di coerenza dell'albero (2,08:1) e gli avvisi del confronto (2,22:1) in `Token.Status.Warn`, colori storici | Nessun cambio | (a) archivio di prova versionato e 38 occorrenze nella baseline; (b) testo degli avvisi in un colore leggibile del tema; (a) e (b) | solo interfaccia o solo prove | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
+| G9 (F5.13 g3) | `FoundationWorkspace.UiChecks` crea `X.Desktop.App`: dal 23/10 il suo avvio apre la shell della Release con gli argomenti della prova come documento (messaggio sullo schermo, prova appesa) | Nessun cambio nel ramo | Risorse di App.xaml senza avvio (come `ModelViewer.UiChecks`; da completare: la vista poi non si costruisce); avvio che non apre la shell senza `Run` | solo prove | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
+| G10 (F5.13 g3) | `ui/check-sezione-view` FAIL dal 24/10: report breve di `str_palo--circolare-cava` diverso dal riferimento registrato il 23/10, codice invariato | Nessun cambio; riferimento intatto | Verificare la data nel testo e la sua normalizzazione | solo prove | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
 
 ### 15.4 Altre voci
 

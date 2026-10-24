@@ -84,15 +84,15 @@ internal sealed class WpfExternalLinkService : IExternalLinkService
 }
 
 /// <summary>
-/// Opens the Wiki in the main window that owns the active window, as WikiContextHelp.Open does today (same Safe wrapper).
-/// The new shell (F5.13) will open a Wiki tab instead.
+/// Opens the Wiki in the window of the shell that owns the active window (the Wiki tab), as WikiContextHelp.Open does. In the Release the shell replaces
+/// this navigator with its own (ShellComposition.WithShellWiki); F5.13 g3: the branch of MainWindow is archived with it.
 /// </summary>
 internal sealed class WpfWikiNavigator(Func<Window?> owner) : IWikiNavigator
 {
     public void Show(string? uri = null)
     {
         for (var window = owner(); window is not null; window = window.Owner)
-            if (window is MainWindow main) { main.Safe(() => main.ShowWiki(uri)); return; }
-        if (Application.Current?.MainWindow is MainWindow fallback) fallback.Safe(() => fallback.ShowWiki(uri));
+            if (window is Views.Shell.ShellWindow shell) { shell.Shell.ShowWiki(uri); return; }
+        if (Application.Current?.MainWindow is Views.Shell.ShellWindow fallback) fallback.Shell.ShowWiki(uri);
     }
 }

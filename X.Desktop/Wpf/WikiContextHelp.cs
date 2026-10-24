@@ -18,9 +18,7 @@ internal static class WikiContextHelp
     internal static string? Description(string key, string? module) => HelpTopics.Description(key, module);
     internal static void Open(FrameworkElement source, string uri)
     {
-        for (var window = Window.GetWindow(source); window is not null; window = window.Owner)
-            if (window is MainWindow main) { main.Safe(() => main.ShowWiki(uri)); return; }
-        // F5.13 c (R5): a historic sheet hosted in a window of the new shell opens the Wiki tab of the shell; no such window in the Release.
+        // F5.13 c: a view hosted in a window of the new shell opens the Wiki tab of the shell (F5.13 g3: the branch of MainWindow is archived with it).
         for (var window = Window.GetWindow(source); window is not null; window = window.Owner)
             if (window is Views.Shell.IShellWikiHost shell) { shell.ShowWiki(uri); return; }
     }

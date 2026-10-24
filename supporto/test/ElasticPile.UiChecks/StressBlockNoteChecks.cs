@@ -26,7 +26,7 @@ static partial class Program
         {
             var app = new TestApp(); app.LoadStyles(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext());
-            var assembly = typeof(X.Desktop.MainWindow).Assembly;
+            var assembly = typeof(X.Desktop.App).Assembly;
 
             // Horizontal pile: concrete law among the optional data of the section.
             foreach (var law in new[] { "Parabola-rettangolo", "Stress block" })

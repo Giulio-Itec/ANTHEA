@@ -59,11 +59,12 @@ internal static class ShellDraftChecks
         PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
         try
         {
-            // The examples of the Wiki: the copy of the shell and the one of MainWindow give the same data.
+            // The examples of the Wiki: the copy of the shell gives the data of MainWindow, recorded before its archiving (F5.13 g3: MainWindow.WikiExamples is
+            // archived with it; tests/fixtures/f5-shell/finestra-storica.json, «esempi_wiki»).
             foreach (var example in Anthea.Wiki.WikiCatalog.Articles.Select(a => a.Example).OfType<string>().Distinct())
             {
                 string module = WikiExamples.Definition(example).S("moduleId");
-                Check(JsonNode.DeepEquals(WikiExamples.Create(module, example), MainWindow.WikiExamples.Create(module, example)), "Esempio della Wiki «" + example + "»: stessi dati della finestra storica");
+                Check(JsonNode.DeepEquals(WikiExamples.Create(module, example), ShellReferences.Window["esempi_wiki"]?[example]), "Esempio della Wiki «" + example + "»: stessi dati della finestra storica (valori registrati)");
             }
             // F5.13 g: the same data as the values of MainWindow recorded before its archiving (tests/fixtures/f5-shell/finestra-storica.json, «esempi_wiki»).
             var examples = new JsonObject();

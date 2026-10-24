@@ -5,6 +5,6 @@
     "GPCChecker.Concrete": 0,
     "GPCChecker.Geotechnics": 0
   },
-  "AsyncVoid": 2,
-  "DispatcherTimer": 4
+  "AsyncVoid": 0,
+  "DispatcherTimer": 2
 }

@@ -143,19 +143,14 @@ internal static partial class ShellSmoke
             b.Check(xml.Descendants().Attributes(r + "embed").Count() > 3, "Grafici inclusi");
             var ids = xml.Descendants().Where(e => e.Name.LocalName == "docPr").Select(e => (string)e.Attribute("id")!).ToArray(); b.Check(ids.Distinct().Count() == ids.Length, "Identificativi delle immagini unici");
         }
-        // The same project through MainWindow (ProjectReport.cs, the frozen code of the report of today): the same Word document.
-        string historicPath = Path.Combine(directory, "relazione-progetto-mainwindow.docx");
-        int historicUnavailable = await MainWindow.SectionReportForChecks(project, historicPath);
+        // The same project through MainWindow: F5.13 g3, MainWindow is archived; the call of MainWindow recorded for its archiving (ShellReferences.SectionReport,
+        // the snapshot of the section and the writer of ProjectReport.cs, unchanged) gives its Word document, and its parts are those recorded in
+        // tests/fixtures/f5-shell/finestra-storica.json («report_sezione»).
+        string historicPath = Path.Combine(directory, "relazione-progetto-riferimento.docx");
+        int historicUnavailable = await ShellReferences.SectionReport(project, historicPath);
         var comparison = CompareReports(filename, historicPath);
         File.WriteAllLines(Path.Combine(directory, "confronto-report.txt"), comparison.Lines, new UTF8Encoding(false));
-        b.Check(historicUnavailable == unavailable && comparison.Same, "Report Word della shell uguale a quello di MainWindow (" + comparison.Lines.Count(l => l.StartsWith("DIVERSO", StringComparison.Ordinal)) + " parti diverse, confronto-report.txt)");
-        // F5.13 g: the call of MainWindow recorded for its archiving (ShellReferences.SectionReport) gives the same document, and the parts of the report of
-        // MainWindow are those recorded in tests/fixtures/f5-shell/finestra-storica.json («report_sezione»).
-        string referencePath = Path.Combine(directory, "relazione-progetto-riferimento.docx");
-        int referenceUnavailable = await ShellReferences.SectionReport(project, referencePath);
-        var reference = CompareReports(referencePath, historicPath);
-        File.WriteAllLines(Path.Combine(directory, "confronto-report-riferimento.txt"), reference.Lines, new UTF8Encoding(false));
-        b.Check(referenceUnavailable == historicUnavailable && reference.Same, "Chiamata registrata di MainWindow: stesso report Word (confronto-report-riferimento.txt)");
+        b.Check(historicUnavailable == unavailable && comparison.Same, "Report Word della shell uguale a quello della chiamata registrata di MainWindow (" + comparison.Lines.Count(l => l.StartsWith("DIVERSO", StringComparison.Ordinal)) + " parti diverse, confronto-report.txt)");
         var shape = ShellReferences.ReportShape(historicPath, historicUnavailable);
         ShellReferences.WriteJson(Path.Combine(directory, "report-mainwindow.json"), shape);
         b.Check(JsonNode.DeepEquals(shape, ShellReferences.Window["report_sezione"]) && JsonNode.DeepEquals(ShellReferences.ReportShape(filename, unavailable ?? -1), shape),
@@ -254,14 +249,4 @@ internal static partial class ShellSmoke
         lines.Add(same ? "PASS: report Word uguali" : "FAIL: report Word diversi");
         return (same, lines);
     }
-}
-
-public sealed partial class MainWindow
-{
-    /// <summary>
-    /// F5.13 e (UiTests): the report of a section as MainWindow writes it (ExportSectionReport after its dialogs: the snapshot of the section and
-    /// GenerateSectionReport of ProjectReport.cs, unchanged), for the comparison with the report of the new shell.
-    /// </summary>
-    internal static Task<int> SectionReportForChecks(JsonObject section, string path) =>
-        GenerateSectionReport(SectionReportSnapshot(section), path, _ => { }, CancellationToken.None);
 }

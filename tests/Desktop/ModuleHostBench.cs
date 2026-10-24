@@ -162,12 +162,6 @@ internal sealed class BenchSheetServices : IDialogService, IFileDialogService, I
     public void Show(string? uri = null) => unexpected.Wiki.Show(uri);
 }
 
-public sealed partial class MainWindow
-{
-    /// <summary>f5-suite-ui: the scriptable services of the MVVM sheets of this window (and of the copies it opens, which share its editors).</summary>
-    internal BenchSheetServices SheetServices => ModuleHostBench.ScriptedServices(sheetEditors) ?? throw new InvalidOperationException("Finestra senza i servizi dei fogli del banco.");
-}
-
 internal sealed partial class ModuleImplementations
 {
     /// <summary>
@@ -179,13 +173,4 @@ internal sealed partial class ModuleImplementations
         if (!choices.ContainsKey(module)) throw new ArgumentException(ModuleHostBench.Argument + ": modulo sconosciuto " + module + ".");
         return new(choices.Select(c => (c.Key, c.Key == module ? implementation : c.Value)));
     }
-}
-
-public sealed partial class MainWindow
-{
-    /// <summary>Windows of the WPF checks (UiTests): the services of <paramref name="serviceFactory"/> and the editors of the bench.</summary>
-    internal MainWindow(Func<Window, DesktopServices> serviceFactory) : this(serviceFactory, ModuleHostBench.SheetEditors()) { }
-
-    /// <summary>Window of the external checks (ConcreteShort.UiChecks): the services of the product and the editors of the bench.</summary>
-    public MainWindow() : this(WpfDesktopServices.Create) { }
 }
