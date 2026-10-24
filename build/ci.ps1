@@ -23,7 +23,7 @@ supporto\artefatti\baseline\F2-pre-m4-v2\a\tutte of the main repository, with 1e
 GPCChecker.Concrete; 'pre-m4' is the exact comparison, for a capture with --motore legacy or a double run). The headless reference of
 steps F2.6-F2.9 is supporto\artefatti\baseline\F2-B3\headless (-BaselineRef), with concrete sections with shear and torsion.
 The WPF checks (--smoke-*, --check-*) exist only in the UiTests configuration (refactoring F1.2): the build stage
-compiles the desktop project ($Desktop, now X.Desktop) with -c UiTests and the ui stage runs <its folder>\bin\UiTests\net8.0-windows\ANTHEA.exe.
+compiles the desktop project ($Desktop, src\ANTHEA.Desktop) with -c UiTests and the ui stage runs <its folder>\bin\UiTests\net8.0-windows\ANTHEA.exe.
 With -List the runner prints the suites of the selected stages (stage, kind, name) and their count per stage, and builds
 and runs nothing: the count of the suites before and after a change (F5.14).
 Every outcome is classified against build/known-failures.json: PASS, KNOWN, NEW-FAIL, FIXED, BLOCKED, NOT-RUN.
@@ -106,9 +106,9 @@ if (-not $List) {
 }
 
 $Cases = Join-Path $Root 'supporto\test\casi_confronto.json'
-# The desktop project (WPF, executable ANTHEA): the only place of its path in the runner. F5.14 moves it to
-# src\ANTHEA.Desktop (docs/refactoring/f5-14-chiusura.md); the UiTests executable and the Release folder follow it.
-$Desktop = 'X.Desktop\X.Desktop.csproj'
+# The desktop project (WPF, executable ANTHEA): the only place of its path in the runner (moved from X.Desktop
+# in F5.14, docs/refactoring/f5-14-chiusura.md); the UiTests executable and the Release folder follow it.
+$Desktop = 'src\ANTHEA.Desktop\ANTHEA.Desktop.csproj'
 $DesktopDir = Split-Path $Desktop -Parent
 $Exe = Join-Path $Root "$DesktopDir\bin\UiTests\net8.0-windows\ANTHEA.exe"
 $Verifiche = 'supporto\test\X.Verifiche\X.Verifiche.csproj'

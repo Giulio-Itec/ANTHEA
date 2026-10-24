@@ -3,12 +3,12 @@
 Crea l'installer NSIS di ANTHEA.
 
 .DESCRIPTION
-Pubblica X.Desktop self-contained per win-x64 (runtime .NET 8 incluso) nella cartella
+Pubblica src/ANTHEA.Desktop self-contained per win-x64 (runtime .NET 8 incluso) nella cartella
 di lavoro supporto/artefatti/installer, senza toccare bin/obj del repository; copia l'ultima
 revisione delle guide generali e tutti i PDF del catalogo Guide.json, genera le immagini e gli elenchi dei file
 per installazione e disinstallazione, poi compila ANTHEA.nsi con makensis.
 Si ferma se tools/qa/Assert-NoTestCode.ps1 trova codice di prova negli assembly pubblicati.
-La versione e' quella di <Version> in X.Desktop/X.Desktop.csproj: il setup si chiama
+La versione e' quella di <Version> in src/ANTHEA.Desktop/ANTHEA.Desktop.csproj: il setup si chiama
 ANTHEA-<versione>-Setup-x64.exe e con la stessa versione viene sovrascritto.
 
 .PARAMETER MakeNsis
@@ -29,9 +29,9 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
-$project = Join-Path $root 'X.Desktop\X.Desktop.csproj'
-$icon = Join-Path $root 'X.Desktop\Assets\anthea.ico'
-$logo = Join-Path $root 'X.Desktop\Assets\logo.png'
+$project = Join-Path $root 'src\ANTHEA.Desktop\ANTHEA.Desktop.csproj'
+$icon = Join-Path $root 'src\ANTHEA.Desktop\Assets\anthea.ico'
+$logo = Join-Path $root 'src\ANTHEA.Desktop\Assets\logo.png'
 . (Join-Path $PSScriptRoot 'Documentazione.ps1')
 . (Join-Path $PSScriptRoot 'Esempi.ps1')
 if (-not $OutputDirectory) { $OutputDirectory = $PSScriptRoot }
@@ -62,7 +62,7 @@ function Get-ProjectVersion {
     [xml]$xml = Get-Content $project -Raw
     $node = $xml.SelectSingleNode('/Project/PropertyGroup/Version')
     if (-not $node -or $node.InnerText -notmatch '^\d+\.\d+\.\d+$') {
-        throw "X.Desktop.csproj deve contenere <Version>maggiore.minore.patch</Version>."
+        throw "ANTHEA.Desktop.csproj deve contenere <Version>maggiore.minore.patch</Version>."
     }
     return $node.InnerText
 }

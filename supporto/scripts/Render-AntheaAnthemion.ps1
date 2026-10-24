@@ -1,6 +1,6 @@
 param(
-    [string]$PngDestination = (Join-Path $PSScriptRoot '../../X.Desktop/Assets/anthea-anthemion.png'),
-    [string]$IcoDestination = (Join-Path $PSScriptRoot '../../X.Desktop/Assets/anthea-anthemion.ico')
+    [string]$PngDestination = (Join-Path $PSScriptRoot '../../src/ANTHEA.Desktop/Assets/anthea-anthemion.png'),
+    [string]$IcoDestination = (Join-Path $PSScriptRoot '../../src/ANTHEA.Desktop/Assets/anthea-anthemion.ico')
 )
 
 $ErrorActionPreference = 'Stop'

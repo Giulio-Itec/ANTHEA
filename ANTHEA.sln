@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTHEA.Core", "X.Core\X.Core.csproj", "{EECC308C-FD02-458E-8FF1-18D72A3E724E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTHEA.Desktop", "X.Desktop\X.Desktop.csproj", "{F1AC66D5-7D08-4262-8057-85635F858179}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTHEA.Desktop", "src\ANTHEA.Desktop\ANTHEA.Desktop.csproj", "{F1AC66D5-7D08-4262-8057-85635F858179}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTHEA.Verifiche", "supporto\test\X.Verifiche\X.Verifiche.csproj", "{B99DCCCA-9B34-4929-B8C1-757ABB053C4A}"
 EndProject

@@ -18,8 +18,8 @@ internal static class F5PresentationRules
     internal const string Presentation = "ANTHEA.Presentation";
     /// <summary>P1: projects without WPF. P4 and P5 apply to the same projects (section 2.1: they adopt the Presentation rules).</summary>
     internal static readonly string[] WpfFreeProjects = [Presentation, "ANTHEA.ModelViewer.Presentation", "ANTHEA.DesignTools.Presentation"];
-    /// <summary>New views (section 2.1): Views/&lt;modulo&gt; and the F5.13 shell. Historical views stay under X.Desktop/Wpf.</summary>
-    internal static readonly string[] NewViewFolders = ["X.Desktop/Views/", "X.Desktop/Shell/"];
+    /// <summary>New views (section 2.1): Views/&lt;modulo&gt; and the F5.13 shell. Historical views stay under src/ANTHEA.Desktop/Wpf.</summary>
+    internal static readonly string[] NewViewFolders = ["src/ANTHEA.Desktop/Views/", "src/ANTHEA.Desktop/Shell/"];
     const string BaselineFile = "tests/ANTHEA.Architecture.Tests/f5-static-baseline.json";
     internal const string AnalyzerPackage = "Microsoft.VisualStudio.Threading.Analyzers";
     const string AnalyzerConfig = "build/analyzers/ANTHEA.Presentation.globalconfig";
@@ -57,12 +57,14 @@ internal static class F5PresentationRules
     internal static int Run(string root, string output, Func<string, AssemblyMetadata> metadata, Func<string, bool> isDesktop)
     {
         int checks = SelfTest(output, metadata, isDesktop);
+        // F5.14: in the product the folder of the new views must exist; P6 and P7 must not become empty in silence after a move.
+        Require(Directory.Exists(Path.Combine(root, NewViewFolders[0])), "Cartella delle viste nuove assente: " + NewViewFolders[0]);
         var staticBaseline = JsonSerializer.Deserialize<F4DomainRules.Baseline>(File.ReadAllText(Path.Combine(root, BaselineFile)))
             ?? throw new InvalidOperationException("Baseline P3 assente.");
         Require(staticBaseline.Schema == 1 && staticBaseline.SourceCommit.Length == 40 && staticBaseline.Note.Length > 20, "Provenienza baseline P3 non valida.");
         Require(staticBaseline.Findings.Select(Key).Distinct().Count() == staticBaseline.Findings.Length, "Baseline P3 con duplicati.");
         var f4Baseline = JsonSerializer.Deserialize<F4DomainRules.Baseline>(File.ReadAllText(Path.Combine(root, "tests/ANTHEA.Architecture.Tests/f4-domain-baseline.json")))!;
-        string desktopRelease = Path.Combine(root, "X.Desktop/bin/Release/net8.0-windows");
+        string desktopRelease = Path.Combine(root, "src/ANTHEA.Desktop/bin/Release/net8.0-windows");
         var products = new[] { AppContext.BaseDirectory, desktopRelease }.Where(Directory.Exists)
             .SelectMany(d => Directory.EnumerateFiles(d, "ANTHEA*.dll"))
             .Where(f => !Path.GetFileName(f).Contains(".Tests", StringComparison.Ordinal) && !Path.GetFileName(f).Contains("Testing", StringComparison.Ordinal))
@@ -556,13 +558,13 @@ internal static class F5PresentationRules
         Check(Uses("object M() => CommunityToolkit.Mvvm.Messaging.StrongReferenceMessenger.Default;"), "P4 StrongReferenceMessenger qualificato non rilevato");
         Check(Uses("object M() => Bus.Default;", "using Bus = CommunityToolkit.Mvvm.Messaging.WeakReferenceMessenger;"), "P4 alias del messenger non rilevato");
         Check(Uses("", "using static CommunityToolkit.Mvvm.Messaging.WeakReferenceMessenger;"), "P4 using static del messenger non rilevato");
-        Check(Uses("object? M() => Ioc.Default.GetService(typeof(object));", "", false, "X.Desktop/App.cs"), "P4 Ioc.Default fuori dai ViewModel non rilevato");
+        Check(Uses("object? M() => Ioc.Default.GetService(typeof(object));", "", false, "src/ANTHEA.Desktop/App.cs"), "P4 Ioc.Default fuori dai ViewModel non rilevato");
         Check(Uses("object M() => Application.Current;"), "P4 Application.Current non rilevato");
         Check(Uses("object M() => System.Windows.Application.Current.MainWindow;"), "P4 Application.Current qualificato non rilevato");
         Check(Uses("void M(dynamic view) => view.Dispatcher.Invoke(() => { });"), "P4 Dispatcher non rilevato");
         Check(Uses("object M() => DispatcherTimer.Interval;"), "P4 DispatcherTimer non rilevato");
-        Check(StaticServiceUses("X.Desktop/Wpf/Probe.cs", "class ConcreteViewModel { object M() => Dispatcher.CurrentDispatcher; }", false).Any(), "P4 ViewModel nel Desktop non rilevato");
-        Check(!StaticServiceUses("X.Desktop/Wpf/Probe.cs", "class ConcreteView { object M() => Dispatcher.CurrentDispatcher; object A() => Application.Current; }", false).Any(), "P4 vista storica segnalata");
+        Check(StaticServiceUses("src/ANTHEA.Desktop/Wpf/Probe.cs", "class ConcreteViewModel { object M() => Dispatcher.CurrentDispatcher; }", false).Any(), "P4 ViewModel nel Desktop non rilevato");
+        Check(!StaticServiceUses("src/ANTHEA.Desktop/Wpf/Probe.cs", "class ConcreteView { object M() => Dispatcher.CurrentDispatcher; object A() => Application.Current; }", false).Any(), "P4 vista storica segnalata");
         Check(!Uses("object M(IMessenger messenger) => messenger; object O() => Options.Default; object S() => System.Threading.SynchronizationContext.Current!;"
             + " sealed class VerificationProgressDispatcher { } // Messenger.Default", "", true), "P4 istanze, altri Default o nomi simili segnalati");
         string messengerProbe = Emit(probeDirectory, "Probe.Messenger", "public class C { public object M() => CommunityToolkit.Mvvm.Messaging.WeakReferenceMessenger.Default; public object I() => CommunityToolkit.Mvvm.DependencyInjection.Ioc.Default; }",
@@ -575,7 +577,7 @@ internal static class F5PresentationRules
         Check(AsyncVoid(vm, Class("void M() { async void Local() { await System.Threading.Tasks.Task.Yield(); } Local(); }")).Any(), "P5 funzione locale async void non rilevata");
         Check(!AsyncVoid(vm, Class("async System.Threading.Tasks.Task Load() { await System.Threading.Tasks.Task.Yield(); } void Sync() { } string S = \"async void\";")).Any(), "P5 metodi corretti segnalati");
         // P6 views without calculation.
-        const string view = "X.Desktop/Views/Probe/ProbeView.xaml.cs";
+        const string view = "src/ANTHEA.Desktop/Views/Probe/ProbeView.xaml.cs";
         bool Calculates(string body, string prefix = "") => CalculationUses(view, Class(body, prefix)).Any();
         Check(Calculates("Anthea.Application.Modules.IModuleService? service;"), "P6 IModuleService non rilevato");
         Check(Calculates("object M() => ModuleServices.Get(\"palo\");"), "P6 ModuleServices non rilevato");
@@ -615,7 +617,7 @@ internal static class F5PresentationRules
             + " System.IDisposable D(object r) => Appearance.Document(r); object K => SystemColors.WindowBrushKey; string T = \"Rev #12 · issue #ABCDEFG\";"
             + " // Brushes.Red \"#FF0000\" Color.FromRgb\n object myBrushes; object P => DocumentAppearance.Light(null); string S = \"AppearanceDrawingLabel\";"), "P7 codice con i token segnalato");
         // P7 theme tokens in the new views, XAML.
-        const string xamlView = "X.Desktop/Views/Probe/ProbeView.xaml";
+        const string xamlView = "src/ANTHEA.Desktop/Views/Probe/ProbeView.xaml";
         static string Xaml(string body) => "<UserControl xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">" + body + "</UserControl>";
         bool XamlColours(string body) => XamlColourUses(xamlView, Xaml(body)).Any();
         Check(XamlColours("<Border Background=\"#F3F5F8\"/>"), "P7 XAML esadecimale non rilevato");
@@ -644,7 +646,7 @@ internal static class F5PresentationRules
         bool Configured(string t, string c = config, string d = table) => !AnalyzerConfigProblems(XDocument.Parse(t), c, d).Any();
         Check(Configured(targets), "Q16 configurazione corretta segnalata");
         Check(!Configured(targets.Replace(" Condition=\"'$(MSBuildProjectName)' == 'ANTHEA.Presentation'\"", "")), "Q16 analyzer su tutti i progetti non rilevato");
-        Check(!Configured(targets.Replace("'ANTHEA.Presentation'", "'X.Desktop'")), "Q16 analyzer su un altro progetto non rilevato");
+        Check(!Configured(targets.Replace("'ANTHEA.Presentation'", "'ANTHEA.Desktop'")), "Q16 analyzer su un altro progetto non rilevato");
         Check(!Configured(targets.Replace("18.7.23", "18.*"), config, table.Replace("18.7.23", "18.*")), "Q16 versione flottante non rilevata");
         Check(!Configured(targets.Replace(" PrivateAssets=\"all\"", "")), "Q16 PrivateAssets mancante non rilevato");
         Check(!Configured(targets.Replace("ANTHEA.Presentation.globalconfig", "altro.globalconfig")), "Q16 configurazione scollegata non rilevata");
@@ -683,14 +685,14 @@ internal static class F5PresentationRules
         Write("src/ANTHEA.ModelViewer.Presentation/ANTHEA.ModelViewer.Presentation.csproj", clean);
         Write("src/ANTHEA.ModelViewer.Presentation/Clean.cs", "namespace Anthea.ModelViewer; public sealed class CleanViewModel { public System.Threading.Tasks.Task LoadAsync() => System.Threading.Tasks.Task.CompletedTask; }");
         Write("src/ANTHEA.DesignTools.Presentation/ANTHEA.DesignTools.Presentation.csproj", clean);
-        Write("X.Desktop/Wpf/Legacy.cs", "namespace Anthea; class LegacyView { object A() => System.Windows.Application.Current; }");
+        Write("src/ANTHEA.Desktop/Wpf/Legacy.cs", "namespace Anthea; class LegacyView { object A() => System.Windows.Application.Current; }");
         if (!includePresentation) return;
         Write("src/ANTHEA.Presentation/ANTHEA.Presentation.csproj", "<Project Sdk=\"Microsoft.NET.Sdk\"><PropertyGroup><TargetFramework>net8.0-windows</TargetFramework><UseWPF>true</UseWPF>"
             + "<GpcLibraries>GPCModel</GpcLibraries></PropertyGroup><ItemGroup><ProjectReference Include=\"../../X.Calculations/X.Calculations.csproj\" /></ItemGroup></Project>");
         Write("src/ANTHEA.Presentation/Bad.cs", "using System.Windows;\nnamespace Anthea.Presentation;\npublic class BadViewModel\n{\n    public static int Counter;\n"
             + "    public async void Load() { await System.Threading.Tasks.Task.Yield(); }\n    public object M() => CommunityToolkit.Mvvm.Messaging.WeakReferenceMessenger.Default;\n}");
-        Write("X.Desktop/Views/Pile/PileView.xaml.cs", "namespace Anthea.Views;\npublic partial class PileView { void M(Anthea.Application.Modules.IModuleService s) => System.Threading.Tasks.Task.Run(() => { }); }");
-        Write("X.Desktop/Views/Pile/PileView.xaml", "<UserControl xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><Border Background=\"#F3F5F8\"/></UserControl>");
+        Write("src/ANTHEA.Desktop/Views/Pile/PileView.xaml.cs", "namespace Anthea.Views;\npublic partial class PileView { void M(Anthea.Application.Modules.IModuleService s) => System.Threading.Tasks.Task.Run(() => { }); }");
+        Write("src/ANTHEA.Desktop/Views/Pile/PileView.xaml", "<UserControl xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><Border Background=\"#F3F5F8\"/></UserControl>");
     }
 
     /// <summary>Compiles a probe assembly in memory against System.Private.CoreLib and fake libraries with the given names.</summary>

@@ -22,7 +22,7 @@ if (-not $destination.StartsWith($artifactRoot + [IO.Path]::DirectorySeparatorCh
 }
 if (Test-Path -LiteralPath $destination) { throw 'La destinazione esiste gia: scegliere una nuova cartella.' }
 if ($GuideRevision -notmatch '^\d+$') { throw 'Revisione della guida non valida.' }
-$buildDirectory = Join-Path $repositoryRoot 'X.Desktop/bin/Release/net8.0-windows'
+$buildDirectory = Join-Path $repositoryRoot 'src/ANTHEA.Desktop/bin/Release/net8.0-windows'
 $snapshot = (Resolve-Path -LiteralPath $GpcSnapshot).Path
 $examplesDirectory = (Resolve-Path -LiteralPath $Examples).Path
 $ciPath = (Resolve-Path -LiteralPath $CiSummary).Path
@@ -35,7 +35,7 @@ if (& git -C $repositoryRoot status --porcelain) { throw 'Committare il lavoro p
 if ($ci.dirtyBefore -or $ci.trackedModified.Count -gt 0 -or $ui.dirtyBefore -or $ui.trackedModified.Count -gt 0 -or $ui.commit -ne $commit -or $ci.commit -ne $commit) {
     throw 'Standard e prova UI devono riferirsi alla revisione corrente, pulita e invariata durante le due corse.'
 }
-$requiredUi = @('build/X.Desktop', 'Architecture.Tests', 'qa/no-test-code', 'ui/check-paratie-view')
+$requiredUi = @('build/ANTHEA.Desktop', 'Architecture.Tests', 'qa/no-test-code', 'ui/check-paratie-view')
 if ($SpectraExample) { $requiredUi += @('ui/check-spettri-view', 'ui/check-spettri-contrast', 'ui/check-module-host-offscreen') }
 foreach ($suite in $requiredUi) {
     if (-not ($ui.results | Where-Object { $_.Suite -eq $suite -and $_.Status -eq 'PASS' })) { throw "Prova finale mancante: $suite" }

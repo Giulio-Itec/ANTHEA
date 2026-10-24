@@ -66,11 +66,11 @@ NAMED_RESOURCES = {"AppearancePaper": ("FFFFFF", "background"), "AppearanceSurfa
 NAMED_RESOURCE_USE = re.compile(r'\b(AppearancePaper|AppearanceSurface|AppearanceInk|AppearanceBorder|AppearanceSelection)\b')
 # The catalogue of the tokens and the palette itself (the target colours of Scuro and Molto scuro) are not uses of colours;
 # the historic dictionaries moved to X.Desktop/Themes (Controls, ProjectStyles, AppearanceControls) are.
-EXCLUDED = ("X.Desktop/Views/", "X.Desktop/Shell/", "X.Desktop/Themes/ThemeTokens.cs", "X.Desktop/Themes/Typography.xaml", "X.Desktop/Wpf/Appearance.cs")
+EXCLUDED = ("src/ANTHEA.Desktop/Views/", "src/ANTHEA.Desktop/Shell/", "src/ANTHEA.Desktop/Themes/ThemeTokens.cs", "src/ANTHEA.Desktop/Themes/Typography.xaml", "src/ANTHEA.Desktop/Wpf/Appearance.cs")
 
 
 def sources(root):
-    base = os.path.join(root, "X.Desktop")
+    base = os.path.join(root, "src", "ANTHEA.Desktop")
     for folder, dirs, files in os.walk(base):
         dirs[:] = [d for d in dirs if d not in ("bin", "obj")]
         for name in files:
@@ -147,7 +147,7 @@ def main():
     parser.add_argument("--out", required=True)
     args = parser.parse_args()
     root = os.path.abspath(args.radice)
-    catalogue_path = os.path.join(root, "X.Desktop", "Themes", "ThemeTokens.cs")
+    catalogue_path = os.path.join(root, "src", "ANTHEA.Desktop", "Themes", "ThemeTokens.cs")
     if not os.path.isfile(catalogue_path):
         print("Catalogo dei token assente: " + catalogue_path, file=sys.stderr); return 2
     with open(catalogue_path, encoding="utf-8") as handle:

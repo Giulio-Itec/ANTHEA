@@ -1,7 +1,7 @@
 ﻿<#
 Checks that shipped assemblies contain no test code (refactoring F1.2).
 
-  powershell -NoProfile -ExecutionPolicy Bypass -File tools\qa\Assert-NoTestCode.ps1 -Path X.Desktop\bin\Release\net8.0-windows
+  powershell -NoProfile -ExecutionPolicy Bypass -File tools\qa\Assert-NoTestCode.ps1 -Path src\ANTHEA.Desktop\bin\Release\net8.0-windows
   powershell -NoProfile -ExecutionPolicy Bypass -File tools\qa\Assert-NoTestCode.ps1 -Path <publish>\ANTHEA.dll,<publish>\Materiali.dll
 
 -Path accepts assemblies or folders; in a folder the ANTHEA assemblies (ANTHEA.dll, ANTHEA.Core.dll,
@@ -10,7 +10,7 @@ searches only two heaps, so that embedded resources (Wiki guides, figures) can n
   #Strings  names of types, members and namespaces (UTF-8): identifiers of the WPF checks;
   #US       string literals (UTF-16): command line flags and files of the test harness.
 Exit code 0 when every assembly is clean, 1 when a marker is found or a file is missing or not a .NET assembly.
-The UiTests build (X.Desktop\bin\UiTests\...) must fail: it is the counter-check of the markers.
+The UiTests build (src\ANTHEA.Desktop\bin\UiTests\...) must fail: it is the counter-check of the markers.
 #>
 [CmdletBinding()]
 param(
@@ -43,7 +43,7 @@ param(
     [string[]] $ForbiddenAssembly = @('ANTHEA.Legacy.dll', 'ANTHEA.Testing.dll')
 )
 $ErrorActionPreference = 'Stop'
-# Every ANTHEA assembly of the published graph of X.Desktop (installer), plus the former ones still checked when present.
+# Every ANTHEA assembly of the published graph of src/ANTHEA.Desktop (installer), plus the former ones still checked when present.
 $DefaultAssemblies = 'ANTHEA.dll', 'ANTHEA.Core.dll', 'ANTHEA.Calculations.dll', 'Materiali.dll', 'ANTHEA.Application.dll', 'ANTHEA.Reports.dll', 'ANTHEA.Wiki.dll', 'ANTHEA.Serialization.dll',
     'ANTHEA.FoundationWorkspace.dll', 'ANTHEA.ModelWorkspace.dll', 'ANTHEA.ModelReports.dll', 'ANTHEA.ModelViewer.Presentation.dll', 'ANTHEA.ModelViewer.Wpf.dll',
     'ANTHEA.DesignTools.Presentation.dll', 'ANTHEA.Presentation.dll'
