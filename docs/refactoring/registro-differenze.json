@@ -9882,6 +9882,308 @@
       "opzioni": [{"id": "presa", "descrizione": "nessun pulsante, la guida rimanda all'articolo della Wiki"}, {"id": "alternativa", "descrizione": "un pulsante o una voce di aiuto nella barra dei progetti della shell che apre l'articolo"}],
       "revisione_f5_15": "G11 (f5-15 §15.3)",
       "voci_collegate": []
+    },
+    {
+      "id": "AG-CA-01",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC / set AG (24/10), fuori dallo stadio UI",
+      "titolo": "Sezione c.a.: parabola-rettangolo analitica e integrazione esatta nei domini, nelle resistenze, nella sezione σ/ε e nel M–χ",
+      "famiglia": "sezione c.a./SLU e risposte non lineari",
+      "modulo": "Sezione c.a. (str_palo)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Con il set AG: Model 2d59bbc6 (GPCModel 5.21.0.0, parabola-rettangolo analitica come legge predefinita) e Checker f6d87d28 (GPCChecker.Concrete 0.20.0.0: legge analitica condivisa, integrazione dello stress block corretta in aa262e21, rifiuto dei piani che violano i vincoli della ricerca in 62ecbc83/c611b709), in lib/Checker da dd9f8c6a; prima il set AF (GPCModel 5.20, Concrete 0.18), il ramo parabolico del calcestruzzo europeo (n = 2, fck ≤ 50 MPa) è σ = fcd r (2 − r) invece della spezzata a 9 punti, e con il CLS teso trascurato la sezione è integrata esattamente sulle sottoregioni. La tangente all'origine è 2 fcd/εc2, il 6,7 % più rigida della secante del primo tratto tabulato (937,5 fcd): a basso momento le risposte sono più rigide; ai punti resistenti cambiano solo le ultime cifre. Riepilogo della libreria: set-20261024-ag/Checker/docs/analytic-parabola-20261023/default-analitico-20261024.txt e verifica-default-20261024.json.",
+      "codice": [
+        "lib/Checker/GPCModel.dll, lib/Checker/GPCChecker.Concrete.dll",
+        "tests/fixtures/f3/transitions-f4.json (chiave aggiornamento_ag_ca) e tests/fixtures/f3/manifest.json",
+        "tests/fixtures/f5-sezione/storica (53 tracce) e tests/fixtures/f5-sezione/disegni/domini-3d.txt",
+        "tests/ANTHEA.Application.Tests/ConcreteInspectionPresentationChecks.cs"
+      ],
+      "segno": "A sfavore di sicurezza, tutto entro il 3 %: resistenze fino a +0,24 % (Mx,Rd dei domini) e +0,26 % (resistenze rapide, Mx+ 1178,60 → 1181,62 kNm); rapporti η fino a −0,239 % (default SLV 0,694892 → 0,693231); σs compressa all'azione inserita −0,47 % (−189,35 → −188,46 MPa); curva M–χ con CLS teso trascurato χ fino a −2,56 % e |εs|max fino a −2,32 % (punti a basso momento). A favore: η fino a +0,021 % (sezione-a-t, SLU 0,089234 → 0,089253), σc all'azione inserita +0,08 %. Nessun verdetto cambia.",
+      "effetto_quantificato": {
+        "sintesi": "10 fixture F3 su 11: 381 transizioni nuove e 19 transizioni F2-17 con il valore dopo aggiornato; 53 tracce su 57 (1035 righe) e 20 righe di domini-3d.txt; testo della curva della fixture default in Application.Tests. Nessun verdetto cambiato, nessun campo tolto o aggiunto.",
+        "domini_F3_result_json": {
+          "utilizzo_e_rapporto_pct": [
+            -0.239,
+            0.021
+          ],
+          "resistenze_NRd_MxRd_MyRd_pct": [
+            -0.214,
+            0.24
+          ],
+          "risposta_al_punto_resistente": "εs max fino a +1,0 %, distanza dell'asse neutro da −0,36 % a −0,02 %",
+          "residui_numerici": "componenti nulle pulite: My,Rd 4,5e-4 → −5e-14 kNm (circolare-cava), N 0,094 → 1,4e-4 kN su punti a N = 0 (soletta-dettagli-ricerca)",
+          "casi": [
+            "default SLU η 0,535025 → 0,534530 (−0,092 %), SLV 0,694892 → 0,693231 (−0,239 %)",
+            "circolare-cava 2D SLU NRd −12269,45 → −12275,31 kN, Mx,Rd 1805,19 → 1806,06 kNm (+0,048 %), η 0,285261 → 0,285125",
+            "legacy-calculation-settings (NON VERIFICATA, invariato): NRd 1357,85 → 1358,62 kN, η SLU 1,841057 → 1,840108 (−0,052 %), SLV 2,685331 → 2,684504 (−0,031 %)"
+          ]
+        },
+        "resistenze_rapide_tracce_pct": [
+          -0.137,
+          0.256
+        ],
+        "sezione_sigma_epsilon_default": {
+          "punto_limite": "N −2500,14 → −2500,00 kN, Mx 934,55 → 935,40 kNm (+0,09 %), My 467,23 → 467,70 kNm",
+          "azione_inserita_N_-2500_Mx_500_My_250": "σc min −16,56 → −16,58 MPa (+0,08 %); σs −189,35 → −188,46 MPa (−0,47 %) e 96,38 → 96,51 MPa (+0,13 %); barra vicina all'asse neutro 5,28 → 5,64 MPa (+0,36 MPa)"
+        },
+        "curva_M_chi_cls_teso_trascurato": {
+          "MRd_pct": [
+            0.017,
+            0.041
+          ],
+          "chi_y_pct": [
+            -0.144,
+            0.269
+          ],
+          "chi_u_pct": [
+            0.1,
+            0.269
+          ],
+          "mu_chi_pct": [
+            0.0,
+            0.424
+          ],
+          "chi_dei_punti_pct": [
+            -2.557,
+            1.101
+          ],
+          "eps_s_max_dei_punti_pct": [
+            -2.319,
+            0.205
+          ],
+          "fixture_default": "MRd 800,027 → 800,171 kNm, χy 0,00406697 → 0,00406197 1/m, χu 0,0288128 → 0,0288742 1/m, μχ 7,085 → 7,108",
+          "punto_limite": "N residuo −0,19 / −0,40 / −0,22 kN → 0,005 / 0,025 / 3e-6 kN"
+        },
+        "muri_sezioni_inviate": "fusto z/L 1,62 m: Mx,Rd 65,57 → 65,71 kNm (+0,21 %), η 0,06 invariato; resistenze rapide Mx 63,76 → 63,90 kNm",
+        "mesh_dominio_3d": "sezione a T: 1570 → 1540 vertici con gli stessi 3136 triangoli; altre sezioni con lo stesso numero di vertici e coordinate diverse"
+      },
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
+        "esito": "registrata e aggiornata: transizioni F4 aggiunte (nessun atteso F3 sostituito), righe delle tracce F5 riportate dal ViewModel, valori del testo della curva aggiornati. Le differenze a sfavore sono elencate nel resoconto (tutte entro il 3 %)."
+      },
+      "test": [
+        "Presentation.Tests/sezione-ca: file F3, 57 tracce, domini 3D (resta rosso solo per AG-CA-03/AG-CA-04)",
+        "Application.Tests: ConcreteInspectionPresentationChecks, PASS 3131",
+        "ui/f3-equivalence e ui/check-sezione-view: dal coordinatore nello stadio ui"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261024-132907-ag-ca-riproduzione (prima)",
+        "supporto/artefatti/ag-ca/sezione-2 … sezione-4 (catture del ViewModel; sezione-4 PASS 70 con AG-CA-03/04 ammesse solo in prova, non nei commit)",
+        "supporto/artefatti/ag-ca/app-1 (Application.Tests PASS 3131)"
+      ],
+      "voci_collegate": [
+        "F2-17",
+        "AG-CA-02",
+        "AG-CA-03",
+        "AG-CA-04"
+      ]
+    },
+    {
+      "id": "AG-CA-02",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC / set AG (24/10), fuori dallo stadio UI",
+      "titolo": "M–χ con «CLS teso nelle risposte»: attesi indipendenti della prova 4d con la parabola analitica",
+      "famiglia": "sezione c.a./momento-curvatura",
+      "modulo": "Sezione c.a. (str_palo)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Il modello a fibre indipendente tests/ConcreteLibraryAdapter.Checks/attesi/cls_teso_risposte.py riproduceva la parabola tabulata a 9 punti delle tabelle di Model; con il set AG: Model 2d59bbc6 (GPCModel 5.21.0.0, parabola-rettangolo analitica come legge predefinita) e Checker f6d87d28 (GPCChecker.Concrete 0.20.0.0: legge analitica condivisa, integrazione dello stress block corretta in aa262e21, rifiuto dei piani che violano i vincoli della ricerca in 62ecbc83/c611b709), in lib/Checker da dd9f8c6a; prima il set AF (GPCModel 5.20, Concrete 0.18) la legge predefinita è analitica. Lo script ora usa σ = fcd (1 − (1 − ε/εc2)²) e conserva la legge tabulata con --tabellare (stessi valori di prima). Gli attesi della prova 4d sono i valori nuovi dello script, non della libreria; tolleranze invariate (0,2 %, 0,5 %, 1 %). La libreria coincide con lo script nuovo: a 0,3 MRd con tension stiffening χ = 2,96684e-4 1/m contro 2,966838e-4, |εs|max = 0,0746237 ‰ contro 0,07462.",
+      "codice": [
+        "tests/ConcreteLibraryAdapter.Checks/attesi/cls_teso_risposte.py",
+        "tests/ConcreteLibraryAdapter.Checks/ClsTesoRisposte.cs"
+      ],
+      "segno": "A sfavore entro il 3 %: con tension stiffening χ −2,49 % a 0,3 MRd e −1,50 % a 0,6 MRd, |εs|max −2,03 % a 0,6 MRd; con CLS teso trascurato χ −0,40 % e −0,17 %, χy −0,11 %. MRd +0,004 % e χu +0,066 %. Il valore |εs|max a 0,3 MRd con tension stiffening (−3,55 %) supera il 3 % e non è aggiornato: AG-CA-04.",
+      "effetto_quantificato": {
+        "trascurato": {
+          "MRd_kNm": [
+            68.4462,
+            68.4492
+          ],
+          "chi_u_1_m": [
+            0.07619404,
+            0.07624437
+          ],
+          "chi_0_3_MRd": [
+            0.001771717,
+            0.001764649
+          ],
+          "eps_s_0_3_MRd_permille": [
+            0.61321,
+            0.61301
+          ],
+          "chi_0_6_MRd": [
+            0.00355476,
+            0.003548731
+          ],
+          "eps_s_0_6_MRd_permille": [
+            1.22799,
+            1.22804
+          ],
+          "My_kNm": [
+            65.2917,
+            65.2912
+          ],
+          "chi_y": [
+            0.005688458,
+            0.00568205
+          ]
+        },
+        "tension_stiffening": {
+          "chi_0_3_MRd": [
+            0.0003042456,
+            0.0002966838
+          ],
+          "chi_0_6_MRd": [
+            0.0007815565,
+            0.0007698084
+          ],
+          "eps_s_0_6_MRd_permille": [
+            0.17578,
+            0.17221
+          ],
+          "eps_s_a_40_2_kNm_permille": [
+            0.1703,
+            0.1666
+          ],
+          "nota": "coppie [legge tabulata, legge analitica] dello script; il riquadro M-3 della pagina ca.momento-curvatura (0,17 ‰ e 1,20 ‰) resta valido"
+        }
+      },
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
+        "esito": "registrata e aggiornata, tranne |εs|max a 0,3 MRd con tension stiffening (AG-CA-04)"
+      },
+      "test": [
+        "ConcreteLibraryAdapter.Checks/rapido, prova 4d: con il solo valore di AG-CA-04 aggiornato in prova, PASS 18183 controlli",
+        "python -I cls_teso_risposte.py e --tabellare"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ag-ca/cla-rapido-1 (PASS con tutti i valori nuovi, solo in prova)",
+        "supporto/artefatti/ag-ca/cla-rapido-2 (FAIL atteso su AG-CA-04: 0,0746237 invece di 0,07737)"
+      ],
+      "voci_collegate": [
+        "AG-CA-01",
+        "AG-CA-04"
+      ]
+    },
+    {
+      "id": "AG-CA-03",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC / set AG (24/10), fuori dallo stadio UI",
+      "titolo": "Strategia «Intersezione» dei domini 3D: punti resistenti rifiutati dalla libreria, con un testo senza traduzione",
+      "famiglia": "sezione c.a./domini SLU",
+      "modulo": "Sezione c.a. (str_palo)",
+      "categoria": "regressione",
+      "stato": "da-decidere",
+      "descrizione": "Con GPCChecker.Concrete 0.20 (rifiuto dei piani che violano i vincoli della ricerca, 62ecbc83/c611b709) la libreria rifiuta con NotConverged «The returned strain plane does not satisfy the search constraints.» gran parte dei punti della strategia «Intersezione», per tutti i criteri; la strategia iterativa non ha rifiuti nuovi. Prima il punto grezzo rispettava i vincoli sulle forze (per esempio N = −1700 kN, direzione 30°: punto 82,12 / 47,41 kNm a N = −1700 esatto). Ipotesi: il piano di deformazione di un punto interpolato sulla mesh non riproduce il punto con l'integrazione nuova. Il testo è nuovo: ConcreteLibraryMapping.ResistanceRejections conosce solo «The returned point does not satisfy the search constraints.», quindi il foglio mostra «Checker: Punto resistente: testo della libreria senza traduzione (…)» e l'adattatore lancia InvalidOperationException (ConcreteLibraryAdapter.Checks 12d). Non è una differenza attesa: nessun riferimento aggiornato.",
+      "codice": [
+        "X.Calculations/ConcreteLibraryMapping.Resistance.cs:15-28 (testi tradotti della libreria)",
+        "tests/ConcreteLibraryAdapter.Checks/Resistance.cs:234 (griglia 12d)",
+        "tests/fixtures/f3/expected/sheets/str_palo/rettangolare-materiali-utente",
+        "tests/fixtures/f5-sezione/storica/domini/opzioni-domini.txt, ingressi/materiali-utente.txt, percorso-f3/ed esempi/rettangolare-materiali-utente.txt"
+      ],
+      "segno": "Verdetti cambiati, a favore di sicurezza solo nel senso che un esito diventa incompleto: VERIFICATA → DA COMPLETARE. Risultati mancanti ed eccezione nuova.",
+      "effetto_quantificato": {
+        "griglia_12d_R300x500_4Ø16_SLU_Intersezione": {
+          "forze_rifiutate": 164,
+          "forze": 300,
+          "per_criterio_su_60": {
+            "N costante": 46,
+            "Eccentricità costante": 53,
+            "Mx–My costanti": 12,
+            "N e Mx costanti": 32,
+            "N e My costanti": 21
+          },
+          "strategia_iterativa": "nessun rifiuto nuovo (25 configurazioni)"
+        },
+        "F3_rettangolare_materiali_utente": "Mx–My costanti / Intersezione, cls bilineare personalizzato: 2 punti SLU 3D su 3 senza resistenza (prima η 0,1252 e 0,2528, «Entro il dominio»); riepilogo SLU 3D VERIFICATA η 0,2528 (governa SLU trazione) → DA COMPLETARE, 1/3 esiti, η 0,0882; report breve «Verifiche numeriche riportate soddisfatte» → «Esiti incompleti»; 35 differenze in result.json, report.txt e short.txt",
+        "traccia_domini_opzioni_domini": "sezione default, Eccentricità costante / Intersezione: 91 righe con il rifiuto; prima NRd −4597,54 kN, Mx,Rd 919,51 kNm, My,Rd 459,75 kNm, η 0,54 VERIFICATA; dopo η «—», 3D Plastico DA COMPLETARE",
+        "traccia_ingressi_materiali_utente": "riepilogo SLU 3D VERIFICATA η 0,25-0,26 → DA COMPLETARE η 0,09 (2/3 mancanti)"
+      },
+      "opzioni": [
+        {
+          "id": "libreria",
+          "descrizione": "Checker: accettare i punti della strategia di intersezione che rispettano i vincoli sulle forze, o ripiegare sulla strategia iterativa, poi registrare le differenze rimaste"
+        },
+        {
+          "id": "anthea",
+          "descrizione": "tradurre il testo nuovo in ConcreteLibraryMapping e registrare i rifiuti come differenze (verdetti DA COMPLETARE)"
+        }
+      ],
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
+        "esito": "non aggiornata (verdetti cambiati, risultati mancanti, eccezione nuova): da decidere con l'utente"
+      },
+      "test": [
+        "Presentation.Tests/sezione-ca: rosso su rettangolare-materiali-utente (F3), quattro tracce e una riga di domini-3d.txt",
+        "ConcreteLibraryAdapter.Checks: rosso sulla 12d (InvalidOperationException del testo senza traduzione)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ag-ca/cla-full-1 (FAIL 12d)",
+        "supporto/artefatti/ag-ca/cla-full-sonda (censimento in prova: 164 righe RIFIUTO-NUOVO in run.err.log)",
+        "supporto/artefatti/ag-ca/cla-full-sonda2 (con le configurazioni di intersezione saltate solo in prova: resto della suite PASS, SLE comprese)"
+      ],
+      "voci_collegate": [
+        "F2-17",
+        "AG-CA-01"
+      ]
+    },
+    {
+      "id": "AG-CA-04",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC / set AG (24/10), fuori dallo stadio UI",
+      "titolo": "Differenze oltre il 3 % a sfavore o con verdetto cambiato, fuori dalla strategia «Intersezione»",
+      "famiglia": "sezione c.a./risposte non lineari",
+      "modulo": "Sezione c.a. (str_palo)",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Tre differenze spiegate dalle librerie del set AG: Model 2d59bbc6 (GPCModel 5.21.0.0, parabola-rettangolo analitica come legge predefinita) e Checker f6d87d28 (GPCChecker.Concrete 0.20.0.0: legge analitica condivisa, integrazione dello stress block corretta in aa262e21, rifiuto dei piani che violano i vincoli della ricerca in 62ecbc83/c611b709), in lib/Checker da dd9f8c6a; prima il set AF (GPCModel 5.20, Concrete 0.18), ma fuori dalla soglia dell'utente: (a) prova 4d, M–χ con tension stiffening a 0,3 MRd (sezione non fessurata): |εs|max 0,07737 → 0,0746237 ‰ (−3,55 %, σs circa 15,5 → 14,9 MPa) per la parabola analitica, uguale allo script indipendente nuovo (0,07462 ‰); (b) traccia ingressi/materiali-utente, «CLS secondo» con stress block (fck 38), sezione simmetrica rispetto all'asse y: My− −222,53 → −230,62 kNm (+3,64 % in modulo), My+ 230,54 → 230,62 kNm, e in un passo successivo My+ 227,06 → 233,12 (+2,67 %), My− −226,07 → −233,12 kNm (+3,12 %): prima My+ ≠ |My−|, ora simmetrici (integrazione dello stress block corretta in aa262e21); (c) nella stessa traccia la Rara · tensioni passa da DA COMPLETARE (2/2 verifiche mancanti) a NON VERIFICATA η = 1,19 (governa Rara 2): verdetto cambiato, causa da confermare con la libreria.",
+      "codice": [
+        "tests/ConcreteLibraryAdapter.Checks/ClsTesoRisposte.cs (atteso 0,07737 lasciato, con il commento)",
+        "tests/fixtures/f5-sezione/storica/ingressi/materiali-utente.txt (non aggiornata)"
+      ],
+      "segno": "(a) −3,55 % a sfavore; (b) resistenza +3,64 % e +3,12 % a sfavore; (c) verdetto più severo, a favore di sicurezza.",
+      "effetto_quantificato": {
+        "eps_s_tension_stiffening_0_3_MRd_permille": [
+          0.07737,
+          0.0746237
+        ],
+        "My_meno_stress_block_kNm": [
+          -222.53,
+          -230.62
+        ],
+        "My_stress_block_passo_successivo_kNm": {
+          "My+": [
+            227.06,
+            233.12
+          ],
+          "My-": [
+            -226.07,
+            -233.12
+          ]
+        },
+        "SLE_rara_tensioni": "DA COMPLETARE (2/2 mancanti) → NON VERIFICATA η = 1,19"
+      },
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
+        "esito": "non aggiornata (oltre il 3 % a sfavore; verdetto cambiato): da decidere con l'utente"
+      },
+      "test": [
+        "ConcreteLibraryAdapter.Checks/rapido: rosso sulla 4d «|εs|max» a 0,3 MRd con tension stiffening (0,0746237 invece di 0,07737)",
+        "Presentation.Tests/sezione-ca: traccia ingressi/materiali-utente non aggiornata (anche per AG-CA-03)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ag-ca/cla-rapido-2",
+        "supporto/artefatti/ag-ca/sezione-2/sezione-ca/ingressi/materiali-utente.txt"
+      ],
+      "voci_collegate": [
+        "AG-CA-02",
+        "AG-CA-03"
+      ]
     }
   ]
 }
