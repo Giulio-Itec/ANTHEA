@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 namespace Anthea.Presentation.Modules.RetainingWall;
 
 /// <summary>
-/// The commands of the buttons of the wall view (F5.9, X.Desktop/Views/RetainingWall), on the methods of the sheet. Every command goes
+/// The commands of the buttons of the wall view (F5.9, src/ANTHEA.Desktop/Views/RetainingWall), on the methods of the sheet. Every command goes
 /// through the guard of the sheet (Q19: an error is shown in the screen). The commands that change the data are disabled when the sheet
 /// is read-only, as the historic buttons protected by RevisionInspection; those the historic view allows in a revision (calculation,
 /// report, CSV, values, «Sisma», «Stabilità globale», global calculation and its Word, «Modifica profilo, strati e ricerca») stay enabled.

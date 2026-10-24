@@ -4,7 +4,7 @@
  xmlns:local="clr-namespace:X.Desktop">
  <Application.Resources>
   <ResourceDictionary>
-  <!-- Dictionaries of the theme (X.Desktop/Themes, F5.3), each loadable on its own, and the data templates of the MVVM views. -->
+  <!-- Dictionaries of the theme (src/ANTHEA.Desktop/Themes, F5.3), each loadable on its own, and the data templates of the MVVM views. -->
   <ResourceDictionary.MergedDictionaries>
    <ResourceDictionary Source="Themes/ProjectStyles.xaml"/>
    <ResourceDictionary Source="Themes/Typography.xaml"/>

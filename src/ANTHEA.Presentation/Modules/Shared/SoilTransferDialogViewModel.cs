@@ -16,7 +16,7 @@ public sealed record SoilTransferDestination(string Module, string Label);
 
 /// <summary>
 /// The soil transfer dialog «Terreno · invio e riutilizzo» (decision T5 of 17/10, V9 of F5.6, S3 of F5.6b): the behaviour of the historic
-/// window X.Desktop/Wpf/SoilTransferDialog.cs without WPF, shared by the soil modules and shown through <see cref="IDialogService"/>.
+/// window src/ANTHEA.Desktop/Wpf/SoilTransferDialog.cs without WPF, shared by the soil modules and shown through <see cref="IDialogService"/>.
 /// <list type="bullet">
 /// <item>At opening: the profile of the sheet (the first profile, «Monte» for a wall) from a copy of its data, the destination (the wall
 /// from the vertical pile, the vertical pile otherwise), «Medi», the first soil sheet of the project.</item>

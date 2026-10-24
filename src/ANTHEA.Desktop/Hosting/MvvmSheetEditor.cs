@@ -18,7 +18,7 @@ namespace X.Desktop;
 /// <see cref="ISheetEditor"/>, the contract of the historic SheetEditor (archived in F5.13 g).
 /// <list type="bullet">
 /// <item>View: the DataTemplate of the type of the ViewModel (or of a base type) in the resources of the application
-/// (decision Q3, X.Desktop/Views); a ViewModel without one fails at opening, with its name.</item>
+/// (decision Q3, src/ANTHEA.Desktop/Views); a ViewModel without one fails at opening, with its name.</item>
 /// <item>Commands of <see cref="ISheetHost"/> → the events MainWindow already handles: OpenModuleCopy → ModuleCopyRequested,
 /// ReplaceSoil → SoilReplacementRequested, RequestReport → ReportRequested; SoilSources reads <see cref="SoilSources"/>.
 /// ConcreteSectionRequested is never raised: MainWindow opens the section of a wall as OpenModuleCopy("str_palo", …), the

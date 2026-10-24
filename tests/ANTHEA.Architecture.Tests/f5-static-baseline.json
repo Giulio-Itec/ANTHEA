@@ -4,7 +4,7 @@
   "Note": "P3 (F5.1, proposal 7.4): mutable static state in production code before F5 (static fields not readonly, static properties with a setter, static events, static readonly mutable collections or arrays), fingerprinted per file, owner and declaration without initializer. Debt ratchet: entries may only be removed, in the same commit as the code; zero in ANTHEA.Presentation; bridge, walls, piles, foundations and Wiki to zero in F5.13 (E5).",
   "Findings": [
     {
-      "File": "X.Desktop/Wpf/Appearance.cs",
+      "File": "src/ANTHEA.Desktop/Wpf/Appearance.cs",
       "Rule": "P3-static-collection",
       "Owner": "Appearance.brushes",
       "Fingerprint": "50CA72D9B51332DCECB13A294801851BC72F6D7157D2D0DFCB2B374DF91C3479",
@@ -12,7 +12,7 @@
       "Example": "private static readonly Dictionary < ( Color , string ) , SolidColorBrush > brushes"
     },
     {
-      "File": "X.Desktop/Wpf/Appearance.cs",
+      "File": "src/ANTHEA.Desktop/Wpf/Appearance.cs",
       "Rule": "P3-static-collection",
       "Owner": "Appearance.gradients",
       "Fingerprint": "82AB2AF789F0FD1792904517238600A0BD19EDFE0E37C35664C1D7D5BD5453DC",
@@ -20,7 +20,7 @@
       "Example": "private static readonly Dictionary < ( GradientBrush , string ) , GradientBrush > gradients"
     },
     {
-      "File": "X.Desktop/Wpf/Appearance.cs",
+      "File": "src/ANTHEA.Desktop/Wpf/Appearance.cs",
       "Rule": "P3-static-collection",
       "Owner": "Appearance.origins",
       "Fingerprint": "8CAF1313A4611E82B9729E5DF29220F43D04B50D90D09B0F6920ECEC6E6353F0",
@@ -28,7 +28,7 @@
       "Example": "private static readonly ConditionalWeakTable < SolidColorBrush , SourceColour > origins"
     },
     {
-      "File": "X.Desktop/Wpf/Appearance.cs",
+      "File": "src/ANTHEA.Desktop/Wpf/Appearance.cs",
       "Rule": "P3-static-collection",
       "Owner": "Appearance.themedGradients",
       "Fingerprint": "C8DF3FAC12B4DA539E8FBDB5A17D4AA617634D9DB13F07F06DCBF20E29CE86F5",
@@ -36,7 +36,7 @@
       "Example": "private static readonly HashSet < GradientBrush > themedGradients"
     },
     {
-      "File": "X.Desktop/Wpf/Appearance.cs",
+      "File": "src/ANTHEA.Desktop/Wpf/Appearance.cs",
       "Rule": "P3-static-event",
       "Owner": "Appearance.Changed",
       "Fingerprint": "FCFF0EFE7269D9FE5E2693944E646D11AB7CD81A95C28805C06553686657B769",
@@ -44,7 +44,7 @@
       "Example": "event internal static Action ? Changed"
     },
     {
-      "File": "X.Desktop/Wpf/Appearance.cs",
+      "File": "src/ANTHEA.Desktop/Wpf/Appearance.cs",
       "Rule": "P3-static-field",
       "Owner": "Appearance.initialized",
       "Fingerprint": "C5D2DDA5AF84A2BCEA1744FFEEE7B5FA92EBB71E359B396D9D629E10C4D7A6D7",
@@ -52,7 +52,7 @@
       "Example": "private static bool initialized"
     },
     {
-      "File": "X.Desktop/Wpf/Appearance.cs",
+      "File": "src/ANTHEA.Desktop/Wpf/Appearance.cs",
       "Rule": "P3-static-setter",
       "Owner": "Appearance.Current",
       "Fingerprint": "926A9BE2A25A14414FE1C1483720A77D7483182DC2584D48D8BC50F3F5AE8CBF",
@@ -60,7 +60,7 @@
       "Example": "internal static AppAppearance Current { get private set }"
     },
     {
-      "File": "X.Desktop/Wpf/Drawings.cs",
+      "File": "src/ANTHEA.Desktop/Wpf/Drawings.cs",
       "Rule": "P3-static-collection",
       "Owner": "StratigraphyDrawing.LayerColors",
       "Fingerprint": "8EFF20924D711DFCA8F59F5C161E488E997503844B8FF2F887158D57889764A0",
@@ -68,7 +68,7 @@
       "Example": "internal static readonly string [ ] LayerColors"
     },
     {
-      "File": "X.Desktop/Wpf/ErrorLog.cs",
+      "File": "src/ANTHEA.Desktop/Wpf/ErrorLog.cs",
       "Rule": "P3-static-field",
       "Owner": "ErrorLog.attached",
       "Fingerprint": "72F4A636D0E2A21A819B5D25AA23B7D5ADECDA39DDEBA9B6E88B953271184828",

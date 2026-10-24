@@ -1,9 +1,9 @@
 <!--
-  View of a FormViewModel (proposal F5, section 3.2): the layout of the historic InputForm (X.Desktop/Wpf/Ui.cs) in XAML.
+  View of a FormViewModel (proposal F5, section 3.2): the layout of the historic InputForm (src/ANTHEA.Desktop/Wpf/Ui.cs) in XAML.
   One grid per field with the same columns as InputForm: label (star), symbol (52 with the symbol columns, otherwise 0),
   editor (82 compact, 110) and unit (42 compact, 55); the rows of the arrangement (FieldLayout), then the notice and the
   error. Groups follow the table as expanders. Colours and font sizes are theme tokens (F5.3): {DynamicResource Token.<nome>}
-  (X.Desktop/Themes/ThemeTokens.cs, the same palette brushes as InputForm) and {DynamicResource Font.<nome>} (Themes/Typography.xaml),
+  (src/ANTHEA.Desktop/Themes/ThemeTokens.cs, the same palette brushes as InputForm) and {DynamicResource Font.<nome>} (Themes/Typography.xaml),
   never literal colours (rule P7). Typing, focus, F1 and the «?» label are wired in FieldForm.xaml.cs; every write into the
   document goes through the ViewModel. A read-only form (FormViewModel.IsReadOnly, a previous revision) makes the text boxes
   read-only and disables choices and check boxes, as RevisionInspection does on InputForm; the background of a text box changes

@@ -1235,7 +1235,7 @@ internal sealed class ContrastAudit
         var invariance = CompareReference("Light");
         var report = new JsonObject
         {
-            ["strumento"] = "supporto/test/Desktop/ContrastAudit.cs", ["comando"] = "dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-contrast " + string.Join(" ", args),
+            ["strumento"] = "tests/ANTHEA.Desktop.UiTests/ContrastAudit.cs", ["comando"] = "dotnet src/ANTHEA.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-contrast " + string.Join(" ", args),
             ["avvio"] = started.ToString("s"), ["durata_s"] = Math.Round(clock.Elapsed.TotalSeconds),
             ["ambiente"] = new JsonObject { ["dpi_finestra"] = dpi, ["area_cattura_dip"] = $"{CaptureWidth}x{CaptureHeight}", ["sistema"] = Environment.OSVersion.VersionString },
             ["regole"] = new JsonArray(
@@ -1398,7 +1398,7 @@ internal sealed class SourceIndex
     {
         Root = root;
         // The two projects that build the interface: X.Desktop and the material view of X.Materiali.
-        foreach (var file in new[] { "X.Desktop", "X.Materiali" }.Where(p => Directory.Exists(Path.Combine(root, p)))
+        foreach (var file in new[] { "src/ANTHEA.Desktop" }
             .SelectMany(p => Directory.EnumerateFiles(Path.Combine(root, p), "*.*", SearchOption.AllDirectories))
             .Where(f => (f.EndsWith(".cs", StringComparison.OrdinalIgnoreCase) || f.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase)) &&
                 !f.Contains(Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar) && !f.Contains(Path.DirectorySeparatorChar + "obj" + Path.DirectorySeparatorChar)))
@@ -1417,7 +1417,7 @@ internal sealed class SourceIndex
     internal static string RepositoryRoot()
     {
         for (var directory = new DirectoryInfo(AppContext.BaseDirectory); directory is not null; directory = directory.Parent)
-            if (File.Exists(Path.Combine(directory.FullName, "X.Desktop", "X.Desktop.csproj"))) return directory.FullName;
+            if (File.Exists(Path.Combine(directory.FullName, "src", "ANTHEA.Desktop", "ANTHEA.Desktop.csproj"))) return directory.FullName;
         throw new DirectoryNotFoundException("Radice del repository non trovata da " + AppContext.BaseDirectory);
     }
 

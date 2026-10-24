@@ -12,7 +12,7 @@ namespace Anthea.Presentation.Tests;
 /// One step of a scenario of the pile group sheet (F5.4), applied in the same way to the historic view
 /// (HorizontalPileGroupWorkspace, tests/Desktop/PileGroupHistoricTrace.cs, archived at the F5.4 switch in
 /// supporto/SUPERATI/ui-storica/palificata), to its ViewModel (PileGroupSheetViewModel, tests/ANTHEA.Presentation.Tests/PileGroupSheetChecks.cs)
-/// and to the XAML view (tests/Desktop/PileGroupViewChecks.cs). <see cref="Key"/> names the field, the option or the column of the
+/// and to the XAML view (tests/ANTHEA.Desktop.UiTests/PileGroupViewChecks.cs). <see cref="Key"/> names the field, the option or the column of the
 /// coordinates; <see cref="Index"/> the row; <see cref="Text"/> what the user types or chooses.
 /// </summary>
 internal sealed record PileGroupStep(string Kind, string? Key = null, string? Text = null, int Index = -1)

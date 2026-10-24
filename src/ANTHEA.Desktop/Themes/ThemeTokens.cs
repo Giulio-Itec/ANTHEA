@@ -25,7 +25,7 @@ internal sealed record ThemeToken(string Name, string Light, string Role, string
 
 /// <summary>
 /// Catalogue of the theme tokens (refactoring F5.3, proposal F5 section 6; decision Q6 at the F5.3 checkpoint, recommendation c).
-/// Only the new views (X.Desktop/Views, X.Desktop/Shell) use the tokens, through <c>{DynamicResource Token.&lt;nome&gt;}</c> (rule P7 of
+/// Only the new views (src/ANTHEA.Desktop/Views, src/ANTHEA.Desktop/Shell) use the tokens, through <c>{DynamicResource Token.&lt;nome&gt;}</c> (rule P7 of
 /// ANTHEA.Architecture.Tests); the historic views keep their colours and resources. Every token is registered in the application
 /// resources with the palette brush of <see cref="Appearance"/>, so that Scuro and Molto scuro stay identical by construction: the check
 /// --check-theme-tokens compares, for every token and the three appearances, the colour with the transformation of the palette.

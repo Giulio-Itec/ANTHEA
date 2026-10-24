@@ -126,7 +126,7 @@ static class ThinCastingGrid
         var read = new Regex(@"\bS\(""gettato_sottile""[^)]*\)\s*==\s*""Sì""");
         var decimals = new Regex(@"(?<![\w.])\d*\.\d+");
         var readers = new List<string>();
-        foreach (var folder in new[] { "X.Calculations", "X.Core", "X.Desktop", "src" })
+        foreach (var folder in new[] { "X.Calculations", "X.Core", "src" })
             foreach (var file in Directory.EnumerateFiles(Path.Combine(root, folder), "*.cs", SearchOption.AllDirectories))
             {
                 string relative = Path.GetRelativePath(root, file).Replace('\\', '/');

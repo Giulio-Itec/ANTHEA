@@ -160,7 +160,7 @@ internal static class F4DomainRules
         Check(!Has("R6", "const double MetresToMillimetres = 1000; return x * MetresToMillimetres;"), "R6 conversione nominata");
         Check(Has("R7", "var w = new Window(); return x;"), "R7 WPF non rilevato");
         Check(Has("R7", "return x;", "using System.Windows.Media;"), "R7 namespace WPF non rilevato");
-        Check(!Scan("X.Desktop/Wpf/Probe.cs", "using System.Windows; class C { Window M() => new Window(); }").Any(f => f.Rule.StartsWith("R7")), "R7 WPF nella UI");
+        Check(!Scan("src/ANTHEA.Desktop/Wpf/Probe.cs", "using System.Windows; class C { Window M() => new Window(); }").Any(f => f.Rule.StartsWith("R7")), "R7 WPF nella UI");
         Check(!Has("R1", "// Math.Sqrt(x)\n var label = \"Math.Pow(x, 3)\"; return x;"), "Commenti o stringhe analizzati come codice");
         Check(!Has("R4", "return d.Required(\"value\");"), "Lettura validata marcata come ripiego");
         const string original = "class C { double M(double x) => x * .26; }";

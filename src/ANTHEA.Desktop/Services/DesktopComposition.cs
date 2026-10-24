@@ -55,7 +55,7 @@ internal sealed class DesktopComposition
     /// foundations (F5.9b), the stratigraphy (F5.6b) and the retaining walls (F5.9, with the WPF figures of their report).
     /// The window opens them only when <see cref="ModuleImplementations"/> says so (the pile group since F5.4): until their checkpoints the Release keeps the
     /// historic views and the MVVM sheets are chosen only in the UiTests bench (--module-impl). The WPF checks build the same registry
-    /// (tests/Desktop/ModuleHostBench.cs).
+    /// (tests/ANTHEA.Desktop.UiTests/ModuleHostBench.cs).
     /// </summary>
     internal static ModuleRegistry CreateModules()
     {

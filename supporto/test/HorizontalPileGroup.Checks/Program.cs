@@ -69,7 +69,7 @@ internal static class Program
             File.WriteAllText(Path.Combine(folder, "risultati.json"), result.ToJsonString(J.Options));
             File.WriteAllBytes(Path.Combine(folder, "esempio-palificata.docx"), ReportPileGroup.Create("Palificata 3 × 3 a 3D", result));
             // The UI part (the historic view by reflection until F5.4) is now the XAML view hosted by MvvmSheetEditor, with the selection through
-            // SelectedComparison: ui/check-pile-group-view of the UiTests harness (tests/Desktop/PileGroupViewChecks.cs, part 3).
+            // SelectedComparison: ui/check-pile-group-view of the UiTests harness (tests/ANTHEA.Desktop.UiTests/PileGroupViewChecks.cs, part 3).
             File.WriteAllText(Path.Combine(folder, "checks.txt"), $"PASS: {checks} checks; reference values, symmetry, rotation, limits, archive, report (UI: ui/check-pile-group-view).");
             Console.WriteLine($"PASS: {checks} checks"); return 0;
         }

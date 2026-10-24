@@ -46,17 +46,17 @@ try
     using var fixtureManifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "tests/fixtures/f3/manifest.json")));
     string manifestHash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(Path.Combine(root, "lib/Checker/manifest.json"))));
     F4ReleaseProvenance.Verify(root, manifestHash, fixtureManifest.RootElement.GetProperty("library_manifest_sha256").GetString()!, Check);
-    var desktopProject = XDocument.Load(Path.Combine(root, "X.Desktop/X.Desktop.csproj"));
+    var desktopProject = XDocument.Load(Path.Combine(root, "src/ANTHEA.Desktop/ANTHEA.Desktop.csproj"));
     Check(desktopProject.Descendants("GpcRuntimeOnly").Any(e => e.Value == "true" && e.Attribute("Condition")?.Value == "'$(Configuration)' != 'UiTests'"), "Desktop deve distribuire GPC senza riferimenti diretti di compilazione");
     Check(!desktopProject.Descendants("ProjectReference").Any(e => (e.Attribute("Include")?.Value ?? "").Contains("X.Calculations")), "Riferimento di progetto Desktop al motore legacy");
     // Decisione D3 del 15/10/2026: i motori storici conservati stanno in tests/ANTHEA.Legacy, mai nel prodotto né nella pubblicazione.
-    // Ammesso solo nel gruppo della configurazione UiTests di X.Desktop (prove WPF), come ANTHEA.Testing.
+    // Ammesso solo nel gruppo della configurazione UiTests di src/ANTHEA.Desktop (prove WPF), come ANTHEA.Testing.
     static bool UiTestsOnly(XElement reference) => reference.Parent?.Attribute("Condition")?.Value.Replace(" ", "") == "'$(Configuration)'=='UiTests'";
     foreach (string project in Directory.EnumerateDirectories(root, "X.*").Concat(Directory.EnumerateDirectories(Path.Combine(root, "src")))
         .SelectMany(d => Directory.EnumerateFiles(d, "*.csproj")))
         Check(!XDocument.Load(project).Descendants("ProjectReference").Any(e => (e.Attribute("Include")?.Value ?? "").Contains("ANTHEA.Legacy", StringComparison.Ordinal) && !UiTestsOnly(e)),
             "Riferimento di progetto del prodotto al codice legacy conservato: " + Path.GetFileName(project));
-    Check(!File.Exists(Path.Combine(root, "X.Desktop/bin/Release/net8.0-windows/ANTHEA.Legacy.dll")), "Codice legacy conservato nella build Release del prodotto");
+    Check(!File.Exists(Path.Combine(root, "src/ANTHEA.Desktop/bin/Release/net8.0-windows/ANTHEA.Legacy.dll")), "Codice legacy conservato nella build Release del prodotto");
     int gpcArgument = Array.IndexOf(args, "--gpc-snapshot");
     string runtimeSnapshot = gpcArgument < 0 ? Path.Combine(root, "lib/Checker")
         : gpcArgument + 1 < args.Length ? Path.GetFullPath(args[gpcArgument + 1]) : throw new ArgumentException("Missing explicit GPC snapshot directory.");
@@ -64,11 +64,11 @@ try
         foreach (var assembly in runtimeManifest.RootElement.GetProperty("assemblies").EnumerateArray())
         {
             string file = assembly.GetProperty("file").GetString()!;
-            string path = Path.Combine(root, "X.Desktop/bin/Release/net8.0-windows", file);
+            string path = Path.Combine(root, "src/ANTHEA.Desktop/bin/Release/net8.0-windows", file);
             Check(File.Exists(path), "Libreria runtime mancante: " + file);
             Check(Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(path))).Equals(assembly.GetProperty("sha256").GetString(), StringComparison.OrdinalIgnoreCase), "Libreria runtime diversa dal set coerente: " + file);
         }
-    var desktop = Metadata(Path.Combine(root, "X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll"));
+    var desktop = Metadata(Path.Combine(root, "src/ANTHEA.Desktop/bin/Release/net8.0-windows/ANTHEA.dll"));
     // F5.1 (proposal 7.4, Q16): rules P1–P6 on ANTHEA.Presentation, the other Presentation projects and the new views; F5.3: P7 (theme tokens).
     checks += F5PresentationRules.Run(root, output, path => { var m = Metadata(path); return new(m.Assemblies, m.Types.Keys.ToArray(), m.Members); }, IsDesktop);
     // Metadata records constructors/methods actually referenced by the built product, including target-typed new.
@@ -114,20 +114,20 @@ try
         reportSources.Where(f => File.ReadAllText(f).Contains("ZipArchiveMode.Create")).All(f => Path.GetFileName(f) == "DocxWriter.cs"), "Scrittori DOCX duplicati");
     Check(!File.ReadAllText(Path.Combine(root, "src/ANTHEA.Reports/ProjectReportComposer.cs")).Contains("ZipArchive"), "Il report progetto riapre DOCX intermedi");
     // F5.13 g3: ProjectReport.cs of MainWindow is archived with it (supporto/SUPERATI/ui-storica/shell); the report of a section is written by
-    // DesktopSectionReports (X.Desktop/Hosting/ShellSheets.cs) on ProjectReportService, the same code.
-    string shellSheets = File.ReadAllText(Path.Combine(root, "X.Desktop/Hosting/ShellSheets.cs"));
+    // DesktopSectionReports (src/ANTHEA.Desktop/Hosting/ShellSheets.cs) on ProjectReportService, the same code.
+    string shellSheets = File.ReadAllText(Path.Combine(root, "src/ANTHEA.Desktop/Hosting/ShellSheets.cs"));
     Check(!shellSheets[shellSheets.IndexOf("internal sealed class DesktopSectionReports", StringComparison.Ordinal)..].Contains("SheetEditor") &&
         !File.ReadAllText(Path.Combine(root, "src/ANTHEA.Application/Reporting/ProjectReportService.cs")).Contains("SheetEditor"), "Il report progetto crea editor nascosti");
-    foreach (string file in Directory.EnumerateFiles(Path.Combine(root, "X.Desktop/Wpf"), "ModuleFigureRenderer*.cs"))
+    foreach (string file in Directory.EnumerateFiles(Path.Combine(root, "src/ANTHEA.Desktop/Wpf"), "ModuleFigureRenderer*.cs"))
     {
         string source = File.ReadAllText(file);
         Check(!Regex.IsMatch(source, @"new\s+(SheetEditor|ConcreteWorkspace|SezioneCA|BridgeWorkspace|WallWorkspace)\b|\bSheetEditorFactory\b"), "Il renderer costruisce un editor o un motore: " + file);
     }
     // F5.11: the historic view BridgeWorkspace is archived (supporto/SUPERATI/ui-storica/sezione-mista); the rule is checked on the XAML view.
-    Check(Directory.EnumerateFiles(Path.Combine(root, "X.Desktop/Views/CompositeSection"), "*.cs").All(f => !File.ReadAllText(f).Contains("Data[\"gamma_m0\"] =")), "Regola cambio norma nella UI");
+    Check(Directory.EnumerateFiles(Path.Combine(root, "src/ANTHEA.Desktop/Views/CompositeSection"), "*.cs").All(f => !File.ReadAllText(f).Contains("Data[\"gamma_m0\"] =")), "Regola cambio norma nella UI");
     // f5-pass-muri: the historic view RetainingWallWorkspace is archived (supporto/SUPERATI/ui-storica/muri); the rules are checked on the XAML view
     // and on its ViewModel (the parser is WallSheetPresentation.ParseHistory, the seismic angle is in the Application).
-    var wallUi = Directory.EnumerateFiles(Path.Combine(root, "X.Desktop/Views/RetainingWall"), "*.cs")
+    var wallUi = Directory.EnumerateFiles(Path.Combine(root, "src/ANTHEA.Desktop/Views/RetainingWall"), "*.cs")
         .Concat(Directory.EnumerateFiles(Path.Combine(root, "src/ANTHEA.Presentation/Modules/RetainingWall"), "*.cs")).Select(File.ReadAllText).ToArray();
     Check(wallUi.All(source => !source.Contains("double.TryParse")), "Parser accelerogramma nella UI");
     Check(wallUi.All(source => !source.Contains("Math.Atan2")), "Angolo sismico duplicato nella UI");
@@ -141,7 +141,8 @@ try
         Check(types.Length <= allowed!.Length && types.Length <= limits.TypeRefs.GetValueOrDefault(assembly), "TypeRef in aumento: " + assembly);
         Check(types.All(t => allowed.Contains(t, StringComparer.Ordinal)), "Nuovo tipo di calcolo usato direttamente dalla UI: " + assembly);
     }
-    var sources = new[] { "X.Desktop", "X.Materiali" }.Where(d => Directory.Exists(Path.Combine(root, d)))
+    Check(Directory.Exists(Path.Combine(root, "src/ANTHEA.Desktop")), "Progetto desktop assente: src/ANTHEA.Desktop");
+    var sources = new[] { "src/ANTHEA.Desktop" }
         .SelectMany(d => SourceFiles(Path.Combine(root, d))).ToArray();
     int asynchronousVoid = sources.Sum(f => Regex.Matches(File.ReadAllText(f), @"\basync\s+void\b").Count);
     Check(asynchronousVoid <= limits.AsyncVoid && asynchronousVoid <= baseline.AsyncVoid.Sum(f => f.Count), "async void in aumento");

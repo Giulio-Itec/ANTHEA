@@ -7,6 +7,18 @@ Le voci "Nel runner" si riferiscono a `build/ci.ps1` (stadi `fast`, `regression`
 stato tolto il 14/10/2026, quando il report short ha smesso di usare Word);
 "Compila" è l'esito di `dotnet build -c Release` nel worktree di F1.
 
+## Prove WPF dopo F5.14: tests/ANTHEA.Desktop.UiTests
+
+- Dal 24/10/2026 (F5.14, [f5-14-chiusura.md](f5-14-chiusura.md)) le sorgenti delle prove WPF fuori schermo stanno in
+  `tests/ANTHEA.Desktop.UiTests` (prima `tests/Desktop` e `supporto/test/Desktop`; la cattura F3 di
+  `tests/ANTHEA.Desktop.Equivalence` in `Equivalence/`). Il progetto desktop è `src/ANTHEA.Desktop` (prima `X.Desktop`),
+  eseguibile `ANTHEA.exe` e namespace `X.Desktop` invariati.
+- Le sorgenti si compilano ancora nella configurazione UiTests del desktop:
+  `dotnet build src/ANTHEA.Desktop/ANTHEA.Desktop.csproj -c UiTests`; il runner lancia
+  `src/ANTHEA.Desktop/bin/UiTests/net8.0-windows/ANTHEA.exe`. La forma della proposta F5 §7.3 (eseguibile separato con
+  `InternalsVisibleTo`) è una voce dopo F5.15 (sezione 4.3 della nota di F5.14).
+- La sezione seguente descrive lo stato dopo F1, con i percorsi di allora.
+
 ## Prove WPF dopo F1: configurazione UiTests
 
 - Le prove WPF (`supporto/test/Desktop`), gli autotest della scheda Materiali (`supporto/test/Materiali`) e i
@@ -63,7 +75,7 @@ riscrittura MVVM del suo modulo; a fine F5 la configurazione UiTests e `supporto
 | MaxRetainingWall.Cases | Preparazione dei casi di confronto con il programma MAX | `dotnet run ... -- <cartella>` | No (input esterni) | Sì | Archiviato in supporto/SUPERATI/test (F1.6) | Confronto con un programma di terzi |
 | MaxRetainingWall.Compare | Ripetizione di un cerchio rilevato in MAX con il solutore Bishop | `README.md` del progetto | No (input esterni) | Sì | Archiviato in supporto/SUPERATI/test (F1.6) | Come sopra |
 | ValidazioneCA20260925 | Campagna di validazione c.a. del 25/9 con riferimenti Python | `dotnet run ... -- <casi.json> <risultati.json>` | No | No: `Extra.cs` non risolve `Ntc2018Checks`, già prima di F1 | Archiviato in supporto/SUPERATI/test (F1.6) | I casi utili confluiscono nella regressione MSTest |
-| Desktop (`supporto/test/Desktop`) | 20 prove `--smoke-*`, 6 `--check-*`, `--check-concrete-design`, `--capture-validation`, servizi di prova | ANTHEA.exe di UiTests; `build/ci.ps1 -Profile full` | Sì, `ui` | Sì, solo in UiTests | Tenere fino a F5, poi `tests/ANTHEA.Desktop.UiTests` modulo per modulo | Decisione (c): nessun allargamento di visibilità prima di F5 |
+| Desktop (`supporto/test/Desktop`) | 20 prove `--smoke-*`, 6 `--check-*`, `--check-concrete-design`, `--capture-validation`, servizi di prova | ANTHEA.exe di UiTests; `build/ci.ps1 -Profile full` | Sì, `ui` | Sì, solo in UiTests | Tenere fino a F5, poi `tests/ANTHEA.Desktop.UiTests` modulo per modulo. **Fatto in F5.14 (24/10/2026)**: sorgenti in `tests/ANTHEA.Desktop.UiTests`, ancora nella build UiTests | Decisione (c): nessun allargamento di visibilità prima di F5 |
 | Materiali (`supporto/test/Materiali`) | Autotest della scheda Materiali (`MaterialView.Check`), da F1.3 | Con `--smoke-materials` | Sì, `ui` (dentro smoke-materials) | Sì, solo in UiTests | Con la scheda Materiali in F3.9/F5.5 | La scheda viene accorpata e riscritta |
 | Shared (`supporto/test/Shared`) | `DurabilityReferenceChecks`: durabilità e copriferro NTC, da F1.3 | In CalculationLibrary.Checks, X.Verifiche e smoke-materials | Sì, `fast` | Sì | Test di libreria con durabilità e copriferri (F2.9) | Saranno la prova di equivalenza dello spostamento |
 | installer (`Test-Guide.ps1`) | Catalogo delle guide dell'installer, installazione e disinstallazione della documentazione in una cartella di prova | `powershell -File supporto/test/installer/Test-Guide.ps1` | No (serve NSIS) | n.a. | Tenere | Unico controllo dell'installer |

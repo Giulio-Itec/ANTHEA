@@ -49,5 +49,5 @@ src/ANTHEA.Wiki/Content/sources.props text eol=crlf
 supporto/SUPERATI/paratie-albero-rev56-20261020/** -text
 supporto/SUPERATI/paratie-pretensione-rev57-20261021/** -text
 supporto/SUPERATI/rilascio-1130-rev58-20261023/** -text
-# F5.13 g: the capture of MainWindow is compared byte for byte (tests/Desktop/ShellReferences.cs): the recorded bytes, LF, on every checkout.
+# F5.13 g: the capture of MainWindow is compared byte for byte (tests/ANTHEA.Desktop.UiTests/ShellReferences.cs): the recorded bytes, LF, on every checkout.
 tests/fixtures/f5-shell/cattura-mainwindow/** -text

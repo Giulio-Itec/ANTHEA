@@ -901,7 +901,7 @@ internal static class DurabilityChecks
 
     // ================================================================ 11i. scansione dei sorgenti
     /// <summary>Cartelle scansionate: codice di produzione (da E2) e prove (da E3).</summary>
-    static readonly ImmutableArray<string> ProductionFolders = ["X.Calculations", "X.Core", "X.Desktop", "src"];
+    static readonly ImmutableArray<string> ProductionFolders = ["X.Calculations", "X.Core", "src"];
     static readonly ImmutableArray<string> TestFolders = ["supporto/test", "tests"];
     const string AdapterFile = "X.Calculations/ConcreteDurabilityAdapter.cs";
 

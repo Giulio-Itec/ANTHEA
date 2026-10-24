@@ -1,7 +1,7 @@
 """Audit of an ANTHEA setup extracted with 7-Zip, against the staging of Crea-Installer.ps1 and the versioned sources.
 
 Generalises the scripts of 1.12.0 and 1.12.1 (supporto/artefatti/rilascio-1.12.x/Audit-Installer*.py). Checks:
-  - clean source tree, X.Desktop.csproj <Version> and ProductVersion of the extracted ANTHEA.exe = <version>+<commit>;
+  - clean source tree, src/ANTHEA.Desktop/ANTHEA.Desktop.csproj <Version> and ProductVersion of the extracted ANTHEA.exe = <version>+<commit>;
   - every staged file (app, Guide, Esempi) present in the extraction with the same SHA-256;
   - the GPC DLLs equal to lib/Checker/manifest.json; the examples equal to supporto/esempi/distribuzione/catalogo.json;
   - the two guides equal to the Rev<n> PDFs of supporto/documentazione/Guide_ANTHEA and the index to supporto/installer;
@@ -48,9 +48,9 @@ def main():
 
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
     check(not subprocess.check_output(["git", "status", "--porcelain"], text=True).strip(), "albero dei sorgenti non pulito")
-    project = (root / "X.Desktop/X.Desktop.csproj").read_text(encoding="utf-8-sig")
+    project = (root / "src/ANTHEA.Desktop/ANTHEA.Desktop.csproj").read_text(encoding="utf-8-sig")
     declared = re.search(r"<Version>([^<]+)</Version>", project)
-    check(declared and declared.group(1) == args.version, f"X.Desktop.csproj dichiara {declared and declared.group(1)}")
+    check(declared and declared.group(1) == args.version, f"ANTHEA.Desktop.csproj dichiara {declared and declared.group(1)}")
     check(args.setup.name == f"ANTHEA-{args.version}-Setup-x64.exe", f"nome del setup {args.setup.name}")
 
     payload = []

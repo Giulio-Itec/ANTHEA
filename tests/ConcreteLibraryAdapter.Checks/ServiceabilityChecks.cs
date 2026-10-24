@@ -783,7 +783,7 @@ sealed partial class ServiceabilityChecks
             && allowlist.All(a => !string.IsNullOrWhiteSpace(a.Reason) && !string.IsNullOrWhiteSpace(a.Expiry) && (a.WholeFile ? a.Calls is null : a.Calls > 0 && a.Texts.Length > 0)),
             "5k: voci di legacy-allowlist.json ripetute o incomplete (file, chiamate e testo oppure tutto il file, motivo, scadenza)");
         int files = 0, suiteFiles = 0; var found = new SortedDictionary<string, List<string>>(StringComparer.Ordinal);
-        foreach (var (folder, production) in new[] { ("X.Calculations", true), ("X.Core", true), ("X.Desktop", true), ("src", true), ("supporto/test", false), ("tests", false) })
+        foreach (var (folder, production) in new[] { ("X.Calculations", true), ("X.Core", true), ("src", true), ("supporto/test", false), ("tests", false) })
             foreach (var path in Directory.EnumerateFiles(Path.Combine(root, folder), "*.cs", SearchOption.AllDirectories))
             {
                 string relative = Path.GetRelativePath(root, path).Replace('\\', '/');

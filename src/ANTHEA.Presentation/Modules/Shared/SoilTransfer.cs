@@ -10,7 +10,7 @@ namespace Anthea.Presentation.Modules.Shared;
 /// <list type="bullet">
 /// <item><see cref="SoilTransferDialogService"/>: the shared ViewModel <see cref="SoilTransferDialogViewModel"/> shown through
 /// <see cref="IDialogService"/> (T5), used by the vertical pile since F5.6 and by the stratigraphy since its XAML view (F5.6b);</item>
-/// <item>X.Desktop/Wpf/WpfSoilTransferDialog.cs: the historic window SoilTransferDialog, still given to the shallow foundations by the
+/// <item>src/ANTHEA.Desktop/Wpf/WpfSoilTransferDialog.cs: the historic window SoilTransferDialog, still given to the shallow foundations by the
 /// composition root.</item>
 /// </list>
 /// </summary>
@@ -30,7 +30,7 @@ public sealed record SoilTransferChoice(JsonObject Data, string? Module = null, 
 
 /// <summary>
 /// The soil transfer dialog on <see cref="IDialogService"/> (decision T5): <see cref="SoilTransferDialogViewModel"/> with the file
-/// dialogs and the questions of the services; its view is a DataTemplate of the desktop (X.Desktop/Views/Shared).
+/// dialogs and the questions of the services; its view is a DataTemplate of the desktop (src/ANTHEA.Desktop/Views/Shared).
 /// </summary>
 public sealed class SoilTransferDialogService(PresentationServices services) : ISoilTransferDialog
 {

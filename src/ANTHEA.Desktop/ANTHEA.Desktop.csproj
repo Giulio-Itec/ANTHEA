@@ -1,0 +1,83 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <GpcRuntimeOnly Condition="'$(Configuration)' != 'UiTests'">true</GpcRuntimeOnly>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>ANTHEA</AssemblyName>
+    <!-- F5.14: the project file is ANTHEA.Desktop.csproj; the namespace stays X.Desktop (decision of the user of 24/10). -->
+    <RootNamespace>X.Desktop</RootNamespace>
+    <Product>ANTHEA</Product>
+    <Title>ANTHEA</Title>
+    <Version>1.13.0</Version>
+    <Company>ITEC Engineering</Company>
+    <Copyright>© 2026 ITEC Engineering</Copyright>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets/anthea.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup><ProjectReference Include="../ANTHEA.Application/ANTHEA.Application.csproj" /><ProjectReference Include="../ANTHEA.ModelViewer.Wpf/ANTHEA.ModelViewer.Wpf.csproj" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="../ANTHEA.Wiki/ANTHEA.Wiki.csproj" /><ProjectReference Include="../ANTHEA.DesignTools.Presentation/ANTHEA.DesignTools.Presentation.csproj" /></ItemGroup>
+  <!-- MVVM presentation layer without WPF (refactoring F5): services, ViewModels and sessions; views and WPF services stay here. -->
+  <ItemGroup><ProjectReference Include="../ANTHEA.Presentation/ANTHEA.Presentation.csproj" /></ItemGroup>
+  <ItemGroup><Resource Include="Assets/*.png" /><Resource Include="Assets/anthea.ico" /></ItemGroup>
+  <ItemGroup>
+    <Content Include="../../supporto/esempi/distribuzione/**/*">
+      <Link>Esempi/%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Wiki/Licenses/*.txt"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><TargetPath>Licenses/%(Filename)%(Extension)</TargetPath></Content>
+    <!-- F5.14: the figures of the guides stay in X.Desktop/Assets/Wiki, where the two guides and the frozen F3 Wiki references point
+         (docs/refactoring/f5-14-chiusura.md, section 3, option A); embedded with the same names as before the move. -->
+    <Resource Include="../../X.Desktop/Assets/Wiki/*.png" Link="Assets/Wiki/%(Filename)%(Extension)" />
+    <Resource Include="Assets/Materials/*.png" />
+    <EmbeddedResource Include="../../X.Desktop/Assets/Wiki/*.svg" Link="Assets/Wiki/%(Filename)%(Extension)"><LogicalName>Wiki.figures.%(Filename)%(Extension)</LogicalName></EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'UiTests'">
+    <Compile Include="../../tests/Shared/ConcretePersistenceComparison.cs" Link="Tests/Shared/ConcretePersistenceComparison.cs" />
+    <ProjectReference Include="../../tests/ANTHEA.Testing/ANTHEA.Testing.csproj" />
+    <!-- Motori storici delle prove WPF (decisione D3): esplicito, perché ConcreteShort.UiChecks costruisce X.Desktop senza riferimenti transitivi. -->
+    <ProjectReference Include="../../tests/ANTHEA.Legacy/ANTHEA.Legacy.csproj" />
+    <Compile Include="../../tests/Shared/ConcreteContractProbe.cs" Link="Tests/Shared/ConcreteContractProbe.cs" />
+    <!-- Test-only module of the ModuleHost contract (F5.2), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../../tests/Shared/ProbeSheetModule.cs" Link="Tests/Shared/ProbeSheetModule.cs" />
+    <!-- Scenarios and traces of the pile group sheet (F5.4), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../../tests/Shared/PileGroupTrace.cs" Link="Tests/Shared/PileGroupTrace.cs" />
+    <!-- Scenarios and traces of the material sheets (F5.5), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../../tests/Shared/MaterialTrace.cs" Link="Tests/Shared/MaterialTrace.cs" />
+    <!-- Scenarios and traces of the vertical pile and micropile sheet (F5.6), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../../tests/Shared/VerticalPileTrace.cs" Link="Tests/Shared/VerticalPileTrace.cs" />
+    <!-- Scenarios and traces of the shallow foundation sheet (F5.9b), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../../tests/Shared/ShallowFoundationTrace.cs" Link="Tests/Shared/ShallowFoundationTrace.cs" />
+    <!-- Scenarios and traces of the horizontal pile and micropile sheet (F5.7), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../../tests/Shared/HorizontalPileTrace.cs" Link="Tests/Shared/HorizontalPileTrace.cs" />
+    <!-- Scenarios and traces of the stratigraphy sheet (F5.6b), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../../tests/Shared/StratigraphyTrace.cs" Link="Tests/Shared/StratigraphyTrace.cs" />
+    <!-- Scenarios and traces of the retaining wall sheet (F5.9), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../../tests/Shared/RetainingWallTrace.cs" Link="Tests/Shared/RetainingWallTrace.cs" />
+    <!-- Scenarios and traces of the Bridge Design sheet (F5.12), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../../tests/Shared/BridgeDesignTrace.cs" Link="Tests/Shared/BridgeDesignTrace.cs" />
+    <!-- Scenarios and traces of the elastic response of the horizontal pile and of its reinforcement (F5.8), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../../tests/Shared/ElasticPileTrace.cs" Link="Tests/Shared/ElasticPileTrace.cs" />
+    <!-- Scenarios and traces of the RC section sheet (F5.10), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../../tests/Shared/ConcreteSectionTrace.cs" Link="Tests/Shared/ConcreteSectionTrace.cs" />
+    <!-- The state of the RC section sheet read from its ViewModel (F5.10), for the traces driven through the XAML view; shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../../tests/Shared/ConcreteSectionSheetReader.cs" Link="Tests/Shared/ConcreteSectionSheetReader.cs" />
+    <!-- Scenarios and traces of the composite bridge section sheet (F5.11), shared with tests/ANTHEA.Presentation.Tests. -->
+    <Compile Include="../../tests/Shared/CompositeSectionTrace.cs" Link="Tests/Shared/CompositeSectionTrace.cs" />
+    <Compile Include="../../tests/ANTHEA.Desktop.UiTests/Equivalence/*.cs" Link="Tests/F3/%(Filename)%(Extension)" />
+    <Compile Include="../../supporto/test/Shared/DurabilityReferenceChecks.cs" Link="Tests/Materiali/DurabilityReferenceChecks.cs" />
+    <Compile Include="../../tests/Shared/LegacySectionActionsExcel.cs" Link="Tests/Shared/LegacySectionActionsExcel.cs" />
+    <EmbeddedResource Include="../../tests/Shared/ANTHEA_Sollecitazioni_legacy.xlsx" LogicalName="ANTHEA.Sollecitazioni.Legacy.xlsx" Link="Tests/Shared/ANTHEA_Sollecitazioni_legacy.xlsx" />
+  </ItemGroup>
+  <!-- WPF checks and their command line (AppHarness.cs) only in the UiTests configuration, never in Release: tests/ANTHEA.Desktop.UiTests
+       (F5.14, formerly tests/Desktop and supporto/test/Desktop). No ** glob, so that an obj folder there would never be compiled. -->
+  <ItemGroup Condition="'$(Configuration)' == 'UiTests'"><Compile Include="../../tests/ANTHEA.Desktop.UiTests/*.cs" Link="Tests/%(Filename)%(Extension)" /></ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WpfMath" Version="2.1.0" />
+  </ItemGroup>
+</Project>

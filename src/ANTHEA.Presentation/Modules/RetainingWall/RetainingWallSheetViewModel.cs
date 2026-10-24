@@ -203,7 +203,7 @@ public sealed partial class RetainingWallSheetViewModel : SheetViewModelBase
 
     /// <summary>
     /// The button «Valori di calcolo…» (decision MU10 of 17/10): <see cref="OpenParametersAsync"/>, then the window as a modal dialog of the
-    /// services (<see cref="IDialogService"/>, view in X.Desktop/Views/RetainingWall). When the dialog returns, also because its window was
+    /// services (<see cref="IDialogService"/>, view in src/ANTHEA.Desktop/Views/RetainingWall). When the dialog returns, also because its window was
     /// closed during the check, the window is closed: nothing more is applied.
     /// </summary>
     public async Task ShowParametersAsync()

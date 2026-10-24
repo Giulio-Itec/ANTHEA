@@ -23,7 +23,9 @@ supporto\artefatti\baseline\F2-pre-m4-v2\a\tutte of the main repository, with 1e
 GPCChecker.Concrete; 'pre-m4' is the exact comparison, for a capture with --motore legacy or a double run). The headless reference of
 steps F2.6-F2.9 is supporto\artefatti\baseline\F2-B3\headless (-BaselineRef), with concrete sections with shear and torsion.
 The WPF checks (--smoke-*, --check-*) exist only in the UiTests configuration (refactoring F1.2): the build stage
-compiles X.Desktop with -c UiTests and the ui stage runs X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe.
+compiles the desktop project ($Desktop, src\ANTHEA.Desktop) with -c UiTests and the ui stage runs <its folder>\bin\UiTests\net8.0-windows\ANTHEA.exe.
+With -List the runner prints the suites of the selected stages (stage, kind, name) and their count per stage, and builds
+and runs nothing: the count of the suites before and after a change (F5.14).
 Every outcome is classified against build/known-failures.json: PASS, KNOWN, NEW-FAIL, FIXED, BLOCKED, NOT-RUN.
 Exit code 0 only without NEW-FAIL and without tracked files modified by the suites.
 Outputs: supporto/artefatti/ci/<yyyyMMdd-HHmmss>-<Tag>/ (summary.json, summary.txt, one folder and log per suite).
@@ -37,6 +39,7 @@ param(
     [string] $Output,
     [switch] $NoBuild,
     [switch] $Installer,
+    [switch] $List,
     [string] $GpcLibDir,
     [string] $CompareTo,
     [string] $Only,
@@ -97,12 +100,17 @@ $Git = Find-Git
 
 if (-not $Output) { $Output = Join-Path $Root ('supporto\artefatti\ci\' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + $Tag) }
 $Output = [IO.Path]::GetFullPath($Output)
-if ((Test-Path -LiteralPath $Output) -and (Get-ChildItem -LiteralPath $Output -Force | Select-Object -First 1)) { throw "Cartella di output non vuota: $Output" }
-New-Item -ItemType Directory -Force -Path $Output | Out-Null
+if (-not $List) {
+    if ((Test-Path -LiteralPath $Output) -and (Get-ChildItem -LiteralPath $Output -Force | Select-Object -First 1)) { throw "Cartella di output non vuota: $Output" }
+    New-Item -ItemType Directory -Force -Path $Output | Out-Null
+}
 
 $Cases = Join-Path $Root 'supporto\test\casi_confronto.json'
-$Exe = Join-Path $Root 'X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe'
-$Desktop = 'X.Desktop\X.Desktop.csproj'
+# The desktop project (WPF, executable ANTHEA): the only place of its path in the runner (moved from X.Desktop
+# in F5.14, docs/refactoring/f5-14-chiusura.md); the UiTests executable and the Release folder follow it.
+$Desktop = 'src\ANTHEA.Desktop\ANTHEA.Desktop.csproj'
+$DesktopDir = Split-Path $Desktop -Parent
+$Exe = Join-Path $Root "$DesktopDir\bin\UiTests\net8.0-windows\ANTHEA.exe"
 $Verifiche = 'supporto\test\X.Verifiche\X.Verifiche.csproj'
 function TestProject([string] $name) { "supporto\test\$name\$name.csproj" }
 
@@ -114,7 +122,7 @@ $Suites = New-Object System.Collections.ArrayList
 function Add-Suite([hashtable] $s) { [void] $Suites.Add($s) }
 
 # The shipped assemblies (Release) must not contain the WPF checks of the UiTests configuration.
-Add-Suite @{ Name = 'qa/no-test-code'; Stage = 'fast'; Kind = 'powershell'; Script = 'tools\qa\Assert-NoTestCode.ps1'; Args = @('-Path', 'X.Desktop\bin\Release\net8.0-windows')
+Add-Suite @{ Name = 'qa/no-test-code'; Stage = 'fast'; Kind = 'powershell'; Script = 'tools\qa\Assert-NoTestCode.ps1'; Args = @('-Path', "$DesktopDir\bin\Release\net8.0-windows")
     Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
 
 foreach ($flag in 'checker', 'bridge', 'horizontal', 'coesione', 'gamma-sat', 'pile-factors', 'ca-module', 'ca-data') {
@@ -403,14 +411,14 @@ Add-Suite @{ Name = 'Presentation.Tests/sezione-ca'; Stage = 'ui'; Kind = 'run';
 # through its controls, the 11 F3 fixtures with the exports equal to the values of the historic view (recorded in tests/fixtures/f5-sezione/vista-storica.json),
 # screenshots, F1, read-only, automation names, the windows of the view. The historic view, ui/check-sezione-historic and the duplicate
 # ui/f3-report-chapters-sezione-mvvm are archived or removed (supporto/SUPERATI/ui-storica/sezione-ca); the c.a. suites run on the XAML view
-# (tests/Desktop/ConcreteSectionSmoke*.cs).
+# (tests/ANTHEA.Desktop.UiTests/ConcreteSectionSmoke*.cs).
 Add-Suite @{ Name = 'ui/check-sezione-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-sezione-view', '{root}', '{out}\vista'); Timeout = 2400; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 # FieldForm (XAML + FormViewModel, F5.2) against the historic InputForm: same edit sequences on fields of real modules, same bytes of the document, same layout; windows outside the screen.
 Add-Suite @{ Name = 'ui/check-field-form-parity'; Stage = 'ui'; Kind = 'check'; Args = @('--check-field-form-parity', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-# Theme tokens (F5.3): catalogue, colour equality with the palette in the three appearances, dictionaries of X.Desktop/Themes, light scope of the documents; off screen.
+# Theme tokens (F5.3): catalogue, colour equality with the palette in the three appearances, dictionaries of src/ANTHEA.Desktop/Themes, light scope of the documents; off screen.
 Add-Suite @{ Name = 'ui/check-theme-tokens'; Stage = 'ui'; Kind = 'check'; Args = @('--check-theme-tokens', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # Contrast of every view, dialog and popup in the three appearances, off screen (F5.3, about 13 minutes): 0 defects in Scuro and Molto scuro,
-# Chiara within the frozen baseline, which may only go down (tests/Desktop/ContrastBaseline.cs).
+# Chiara within the frozen baseline, which may only go down (tests/ANTHEA.Desktop.UiTests/ContrastBaseline.cs).
 Add-Suite @{ Name = 'ui/check-contrast'; Stage = 'ui'; Kind = 'check'; Args = @('--check-contrast', '{out}', '--baseline', '{root}\tests\fixtures\f5\contrasto-chiara.json'); Timeout = 2400; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # F5.13 g3: ConcreteShort.UiChecks (the «Report short» button in the toolbar of MainWindow) is archived with MainWindow; the button of the shell is checked
 # by ANTHEA.Presentation.Tests (CommandsChecks, ShortReportVisible) and ui/check-shell-draft.
@@ -424,10 +432,10 @@ Add-Suite @{ Name = 'ElasticPile.UiChecks/nota-stress-block'; Stage = 'ui'; Kind
 # Formerly ConcreteDesign.DesktopChecks (moved to supporto/SUPERATI/test in F1.6): ConcreteDesign.Checks writes ui-fixture.json first.
 Add-Suite @{ Name = 'ui/check-concrete-template-wizard'; Stage = 'ui'; Kind = 'check'; Args = @('--check-concrete-template-wizard', '{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-examples'; Stage = 'ui'; Kind = 'check'; Args = @('--check-examples', '{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-# F5.13 c: the draft of the layout of the new shell off screen (tests/Desktop/ShellDraftChecks.cs): PNG for the user's checkpoint, no binding error
+# F5.13 c: the draft of the layout of the new shell off screen (tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs): PNG for the user's checkpoint, no binding error
 # of the draft, the examples of the Wiki equal to MainWindow.WikiExamples. Not the window of the application (the Release opens MainWindow).
 Add-Suite @{ Name = 'ui/check-shell-draft'; Stage = 'ui'; Kind = 'check'; Args = @('--check-shell-draft', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-# F5.13 e: the suites of MainWindow transferred to the new shell (tests/Desktop/ShellSmoke*.cs, docs/refactoring/f5-13-shell.md «Parte (e)»): the same scenarios and
+# F5.13 e: the suites of MainWindow transferred to the new shell (tests/ANTHEA.Desktop.UiTests/ShellSmoke*.cs, docs/refactoring/f5-13-shell.md «Parte (e)»): the same scenarios and
 # assertions through ShellWindow on ShellViewModel from ShellComposition, off screen, with the modules as the Release chooses them. The historic suites
 # stay: MainWindow is the shell of the Release until part (g). ui/shell-smoke-project-report also compares the Word report of the shell with the one of
 # MainWindow. The -mvvm pairs (bench $MvvmBench) went away with the Release switches of their modules, the last one with the retaining walls
@@ -435,7 +443,7 @@ Add-Suite @{ Name = 'ui/check-shell-draft'; Stage = 'ui'; Kind = 'check'; Args =
 foreach ($s in 'projects', 'project-workspace', 'hierarchy', 'sharing', 'project-report', 'display') {
     Add-Suite @{ Name = "ui/shell-smoke-$s"; Stage = 'ui'; Kind = 'check'; Args = @("--check-shell-smoke-$s", '{out}'); Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 }
-# F5.13 e: the capture of a project through the new shell and through MainWindow (tests/Desktop/ShellProjectCapture.cs): open, edit, shared data, revisions,
+# F5.13 e: the capture of a project through the new shell and through MainWindow (tests/ANTHEA.Desktop.UiTests/ShellProjectCapture.cs): open, edit, shared data, revisions,
 # comparison, undo, redo, save; equal byte for byte (esito.txt), then the direct comparison of the F5 benches on the two folders (zero differences).
 Add-Suite @{ Name = 'ui/shell-capture'; Stage = 'ui'; Kind = 'check'; Args = @('--check-shell-capture', '{out}'); Timeout = 600; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/shell-capture-confronto'; Stage = 'ui'; Kind = 'python'; Script = 'tools\qa\f5_confronto_diretto.py'
@@ -454,6 +462,15 @@ $NotRun = @(
     @{ Name = 'BridgeValidationCurrent'; Reason = 'compila i sorgenti di test di Checker; passa nei test di libreria (traccia infrastruttura)' },
     @{ Name = 'ElasticPile.Performance'; Reason = 'misura dei tempi con input in supporto/artefatti' }
 ) + $benchNotRun
+
+# -List: the registry only, with the same selection as a run (stages, -Only); nothing is built, run or written.
+if ($List) {
+    $listed = @($Suites | Where-Object { $Stage -contains $_.Stage -and (-not $Only -or $_.Name -match $Only) })
+    $listed | ForEach-Object { "{0}`t{1}`t{2}" -f $_.Stage, $_.Kind, $_.Name }
+    $listed | Group-Object { $_.Stage } | ForEach-Object { 'totale {0}: {1}' -f $_.Name, $_.Count }
+    'totale: ' + $listed.Count
+    return
+}
 
 # ---------------------------------------------------------------- helpers
 function Expand([string] $text, [string] $out) {

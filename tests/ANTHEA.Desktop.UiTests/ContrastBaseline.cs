@@ -77,8 +77,8 @@ internal static class ContrastBaseline
         var document = new JsonObject
         {
             ["nota"] = "Difetti di contrasto della sola Chiara, lasciati per non cambiarla (decisioni.md, «Tema scuro»; F5 Q6): baseline di --check-contrast " +
-                "nello stadio ui (tests/Desktop/ContrastBaseline.cs). Può solo scendere: si sostituisce con baseline-chiara.json di una corsa con meno difetti.",
-            ["strumento"] = "supporto/test/Desktop/ContrastAudit.cs --baseline", ["comando"] = command, ["dpi"] = dpi,
+                "nello stadio ui (tests/ANTHEA.Desktop.UiTests/ContrastBaseline.cs). Può solo scendere: si sostituisce con baseline-chiara.json di una corsa con meno difetti.",
+            ["strumento"] = "tests/ANTHEA.Desktop.UiTests/ContrastAudit.cs --baseline", ["comando"] = command, ["dpi"] = dpi,
             ["totale"] = entries.Sum(e => e.Count), ["voci_distinte"] = entries.Count,
             ["voci"] = new JsonArray(entries.Select(e => (JsonNode?)new JsonObject { ["vista"] = e.View, ["chiave"] = e.Key, ["occorrenze"] = e.Count }).ToArray())
         };
