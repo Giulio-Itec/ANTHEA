@@ -132,3 +132,18 @@ Gli elenchi dipendono dai font installati (Segoe UI): valgono sulla macchina del
   normalizzati come in F3, le altre byte per byte), i `Modified` del report; i controlli liberi e bloccati in sola lettura (172), i nomi di
   automazione di 4 fixture, i valori delle finestre «Scala…» e «Proprietà / report…» di 2 fixture. Da allora `ui/check-sezione-view` non apre
   più la vista storica.
+
+## Aggiornamento per il set di librerie AG (24/10/2026, registro AG-CA-01)
+
+Decisione dell'utente del 24/10/2026 sulle differenze delle librerie nuove: «registra e aggiorna». Con il set AG (Model 2d59bbc6,
+GPCModel 5.21.0.0, e Checker f6d87d28, GPCChecker.Concrete 0.20.0.0: parabola-rettangolo analitica come legge predefinita,
+integrazione esatta) cambiano i numeri dei punti resistenti, delle resistenze rapide, della sezione σ/ε e della curva M–χ. La vista
+storica è archiviata, quindi le righe cambiate vengono dal ViewModel (`Presentation.Tests/sezione-ca`, uguale alla vista storica sul
+set precedente), riportate una per una nelle tracce: stesso numero di righe, nessuna riga aggiunta o tolta, BOM e fine riga invariati.
+- 53 tracce, 1035 righe: 689 impronte di «risultato», 342 righe con soli numeri diversi, 4 testi della curva M–χ (My, N e residuo del
+  punto limite); `disegni/domini-3d.txt`: 20 righe di 10 fixture (impronte della mesh e dei punti resistenti; la sezione a T passa da 1570
+  a 1540 vertici con gli stessi 3136 triangoli).
+- Non aggiornate (verdetti cambiati, voci AG-CA-03 e AG-CA-04 da decidere): `domini/opzioni-domini.txt`, `ingressi/materiali-utente.txt`,
+  `percorso-f3/rettangolare-materiali-utente.txt`, `esempi/rettangolare-materiali-utente.txt` e la riga `rettangolare-materiali-utente`
+  di `disegni/domini-3d.txt`. Finché l'utente non decide, `Presentation.Tests/sezione-ca` si ferma su queste.
+- `vista-storica.json` (impronte di `ui/check-sezione-view`) non è stato toccato: il coordinatore lo verifica con lo stadio `ui`.

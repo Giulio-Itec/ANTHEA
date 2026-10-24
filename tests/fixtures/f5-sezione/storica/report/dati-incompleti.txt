@@ -193,7 +193,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati E1D469B6921E5CB2 · byte 8918
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 055C80CBF9309CC5
+risultato C7089C71A0E8A163
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati "Valori storici iniziali aggiunti ai campi assenti; controllarli prima dell’uso.\ncover_mm = 70\nside_bar_count_per_side = 2"
@@ -385,7 +385,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 1CFF06088174B6B2 · byte 9080
   workspace_ca.report_sezioni = ["azioni","coefficienti","costruttivi","curvatura","dominio2d","dominio3d","geometria","grafici","materiali","SLE","SLE_FREQ","SLE_QP","taglio"]
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato E8A7CE330C0F4329
+risultato 989481F51DECAE8E
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "report completo disponibile"
 [ingressi] invariata
@@ -433,14 +433,14 @@ messaggio "report completo disponibile"
 [domini]   {"Mx":"200","My":"50","N":"-1000","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.21","id":"510000010f514a008000000000000001","nome":"SLU completa","visible":true}
 [domini]   {"Mx":"150","My":"20","N":"","esito":"Da calcolare","esito2d":"Checker: N: inserire un numero finito.","esito3d":"Checker: N: inserire un numero finito.","eta":"—","eta2d":"—","eta3d":"—","id":"510000020f514a008000000000000002","nome":"SLU senza N","visible":true}
 [domini]   {"Mx":"abc","My":"0","N":"-500","esito":"Da calcolare","esito2d":"Checker: Mx: inserire un numero finito.","esito3d":"Checker: Mx: inserire un numero finito.","eta":"—","eta2d":"—","eta3d":"—","id":"510000030f514a008000000000000003","nome":"SLU testo","visible":true}
-[domini] 2D dettaglio "Plastico · Mx–My · senza proiezione\n\nAZIONI · Locali\nSLU completa\n\nNEd = -1000,00 kN\nMx,Ed = 200,00 kNm\nMy,Ed = 50,00 kNm\n\nη = —\nFuori dal piano selezionato\n\nESTREMI CURVA\nN: 1000,00 … 1000,00 kN\nMx: -133,11 … 484,28 kNm\nMy: -233,11 … 233,11 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 2D dettaglio "Plastico · Mx–My · senza proiezione\n\nAZIONI · Locali\nSLU completa\n\nNEd = -1000,00 kN\nMx,Ed = 200,00 kNm\nMy,Ed = 50,00 kNm\n\nη = —\nFuori dal piano selezionato\n\nESTREMI CURVA\nN: 1000,00 … 1000,00 kN\nMx: -133,30 … 484,44 kNm\nMy: -233,33 … 233,33 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
-[domini] 2D grafico "Plastico · Mx–My, N = 1000,00 kN" · "Mx [kNm]" · "My [kNm]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 64 A9E6C3187EF51330 · verifiche 1 CB3CC60DCB7FBACD · punti 1 73160A26918EC81F · scala 1/1
+[domini] 2D grafico "Plastico · Mx–My, N = 1000,00 kN" · "Mx [kNm]" · "My [kNm]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 64 46A406E4F2F1459D · verifiche 1 CB3CC60DCB7FBACD · punti 1 73160A26918EC81F · scala 1/1
 == report «breve»
 dati 1CFF06088174B6B2 · byte 9080
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato E8A7CE330C0F4329
+risultato 989481F51DECAE8E
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "report breve disponibile"
 [ingressi] invariata

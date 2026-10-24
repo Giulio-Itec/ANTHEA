@@ -159,11 +159,11 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati EF031222386175BC · byte 8391
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
@@ -187,9 +187,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
+[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -210,7 +210,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
 [domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
@@ -320,7 +320,7 @@ dati 31C8AD693CC1873A · byte 8436
   combinazioni.SLE[0].visible = true
   workspace_ca.tab = 1
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 8A6A30F51345F8D1
+risultato 083C4E47228A2D27
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] form 3D
@@ -339,12 +339,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","visible":true}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 1\n\nNEd = -2500,00 kN\nMx,Ed = 500,00 kNm\nMy,Ed = 250,00 kNm\n\nη = 0,54\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -2500,14 kN\nMx,Rd = 934,55 kNm\nMy,Rd = 467,23 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19,83 / 0,00 MPa\nσs min / max: -391,30 / 391,30 MPa\nεc min / max: -3,50 / 3,74 ‰\nεs min / max: -2,56 / 2,78 ‰\n\nd utile: 862,80 mm\nDistanza asse neutro dal lembo (GPC Engine): 473,64 mm\nInclinazione asse neutro: 48,39°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293,86 … 1868,43 kN\nMx: -1396,56 … 1406,11 kNm\nMy: -911,71 … 911,71 kNm\nEstremi campionati; non sono resistenze al N della riga."
-[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
+[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 1\n\nNEd = -2500,00 kN\nMx,Ed = 500,00 kNm\nMy,Ed = 250,00 kNm\n\nη = 0,53\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -2500,00 kN\nMx,Rd = 935,40 kNm\nMy,Rd = 467,70 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19,83 / 0,00 MPa\nσs min / max: -391,30 / 391,30 MPa\nεc min / max: -3,50 / 3,75 ‰\nεs min / max: -2,56 / 2,79 ‰\n\nd utile: 862,76 mm\nDistanza asse neutro dal lembo (GPC Engine): 473,12 mm\nInclinazione asse neutro: 48,40°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293,86 … 1868,46 kN\nMx: -1397,67 … 1407,46 kNm\nMy: -913,07 … 913,07 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
-[domini] 3D vista azioni 1 1708F359478EE6DC · selezionata 0 · Ed 593A4C541CD95A3F · Rd C8BE70FDDB7C90CD
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
+[domini] 3D vista azioni 1 1708F359478EE6DC · selezionata 0 · Ed 593A4C541CD95A3F · Rd BADAD3E5AF76DF14
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 1 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
 [domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
@@ -362,7 +362,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
 [domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
@@ -371,7 +371,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 31C8AD693CC1873A · byte 8436
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 8A6A30F51345F8D1
+risultato 083C4E47228A2D27
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
@@ -409,10 +409,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
 [domini]   {"Mx":"500","My":"250","N":"-1800","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","id":"<nuovo-1>","nome":"Combo 1","visible":true}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 1\n\nNEd = -1800,00 kN\nMx,Ed = 500,00 kNm\nMy,Ed = 250,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11293,86 … 1868,43 kN\nMx: -1396,56 … 1406,11 kNm\nMy: -911,71 … 911,71 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 1\n\nNEd = -1800,00 kN\nMx,Ed = 500,00 kNm\nMy,Ed = 250,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11293,86 … 1868,46 kN\nMx: -1397,67 … 1407,46 kNm\nMy: -913,07 … 913,07 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n3D · Elastico\nVERIFICATA\nη = 0,69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF9AA4AF #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
 [domini] 3D vista azioni 1 1A17132220824C5C · selezionata 0 · Ed 11DD29F686EF3C2E · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
@@ -537,7 +537,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati DCB1485CE5A56C60 · byte 8436
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 999CB31208A020DE
+risultato 19E3323AD68A9AAC
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 1
@@ -566,11 +566,11 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
 [domini]   {"Mx":"500","My":"250","N":"-1800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.56","id":"<nuovo-1>","nome":"Combo 1","visible":true}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 1\n\nNEd = -1800.00 kN\nMx,Ed = 500.00 kNm\nMy,Ed = 250.00 kNm\n\nη = 0.56\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -1800.24 kN\nMx,Rd = 892.36 kNm\nMy,Rd = 446.13 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19.83 / 0.00 MPa\nσs min / max: -391.30 / 391.30 MPa\nεc min / max: -3.50 / 4.42 ‰\nεs min / max: -2.47 / 3.37 ‰\n\nd utile: 859.94 mm\nDistanza asse neutro dal lembo (GPC Engine): 431.61 mm\nInclinazione asse neutro: 49.22°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293.86 … 1868.43 kN\nMx: -1396.56 … 1406.11 kNm\nMy: -911.71 … 911.71 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 1\n\nNEd = -1800.00 kN\nMx,Ed = 500.00 kNm\nMy,Ed = 250.00 kNm\n\nη = 0.56\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -1800.00 kN\nMx,Rd = 892.96 kNm\nMy,Rd = 446.48 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19.83 / 0.00 MPa\nσs min / max: -391.30 / 391.30 MPa\nεc min / max: -3.50 / 4.43 ‰\nεs min / max: -2.47 / 3.38 ‰\n\nd utile: 859.89 mm\nDistanza asse neutro dal lembo (GPC Engine): 431.08 mm\nInclinazione asse neutro: 49.23°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293.86 … 1868.46 kN\nMx: -1397.67 … 1407.46 kNm\nMy: -913.07 … 913.07 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.56\nGoverna: Combo 1\n1/1 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
-[domini] 3D vista azioni 1 1D6DA69327B14A74 · selezionata 0 · Ed 11DD29F686EF3C2E · Rd A0DCC775463EBB87
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
+[domini] 3D vista azioni 1 1D6DA69327B14A74 · selezionata 0 · Ed 11DD29F686EF3C2E · Rd 4B8864D62D8B5FCC
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 1 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
 [domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
@@ -726,10 +726,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 1
 [domini]   {"Mx":"500","My":"250","N":"-1800","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini]   {"Mx":"0","My":"0","N":"0","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","id":"<nuovo-4>","nome":"Combo 2","visible":true}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0,00 kN\nMx,Ed = 0,00 kNm\nMy,Ed = 0,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11293,86 … 1868,43 kN\nMx: -1396,56 … 1406,11 kNm\nMy: -911,71 … 911,71 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0,00 kN\nMx,Ed = 0,00 kNm\nMy,Ed = 0,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11293,86 … 1868,46 kN\nMx: -1397,67 … 1407,46 kNm\nMy: -913,07 … 913,07 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n3D · Elastico\nVERIFICATA\nη = 0,69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF9AA4AF #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
 [domini] 3D vista azioni 2 740A11414037D25A · selezionata 1 · Ed 2A08979E80022521 · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
@@ -855,7 +855,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 9E0DD1078A5AD62E · byte 8510
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 85BDF3D70BAC6B3C
+risultato D4922751443D97F5
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 2
@@ -886,10 +886,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 1
 [domini]   {"Mx":"500","My":"250","N":"-1800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.56","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini]   {"Mx":"0","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Azione nulla","eta":"—","eta2d":"—","eta3d":"0.00","id":"<nuovo-4>","nome":"Combo 2","visible":true}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0.00 kN\nMx,Ed = 0.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.00\nAzione nulla\n\nESTREMI MESH\nN: -11293.86 … 1868.43 kN\nMx: -1396.56 … 1406.11 kNm\nMy: -911.71 … 911.71 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0.00 kN\nMx,Ed = 0.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.00\nAzione nulla\n\nESTREMI MESH\nN: -11293.86 … 1868.46 kN\nMx: -1397.67 … 1407.46 kNm\nMy: -913.07 … 913.07 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.56\nGoverna: Combo 1\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
 [domini] 3D vista azioni 2 F8B8DE76A5A2621B · selezionata 1 · Ed 2A08979E80022521 · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
@@ -1047,10 +1047,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 1
 [domini]   {"Mx":"500","My":"250","N":"-1800","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini]   {"Mx":"420","My":"0","N":"0","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","id":"<nuovo-4>","nome":"Combo 2","visible":true}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0,00 kN\nMx,Ed = 420,00 kNm\nMy,Ed = 0,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11293,86 … 1868,43 kN\nMx: -1396,56 … 1406,11 kNm\nMy: -911,71 … 911,71 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0,00 kN\nMx,Ed = 420,00 kNm\nMy,Ed = 0,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11293,86 … 1868,46 kN\nMx: -1397,67 … 1407,46 kNm\nMy: -913,07 … 913,07 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n3D · Elastico\nVERIFICATA\nη = 0,69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF9AA4AF #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
 [domini] 3D vista azioni 2 CF928BF81D652E41 · selezionata 1 · Ed D0CEA6AFF2DB12C3 · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
@@ -1208,10 +1208,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 1
 [domini]   {"Mx":"500","My":"250","N":"-1800","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"Da calcolare","eta3d":"Da calcolare","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini]   {"Mx":"420","My":"0","N":"0","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"Da calcolare","eta3d":"Da calcolare","id":"<nuovo-4>","nome":"SLU nuova","visible":true}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0,00 kN\nMx,Ed = 420,00 kNm\nMy,Ed = 0,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11293,86 … 1868,43 kN\nMx: -1396,56 … 1406,11 kNm\nMy: -911,71 … 911,71 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0,00 kN\nMx,Ed = 420,00 kNm\nMy,Ed = 0,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11293,86 … 1868,46 kN\nMx: -1397,67 … 1407,46 kNm\nMy: -913,07 … 913,07 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n3D · Elastico\nVERIFICATA\nη = 0,69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF9AA4AF #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
 [domini] 3D vista azioni 2 CF928BF81D652E41 · selezionata 1 · Ed D0CEA6AFF2DB12C3 · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
@@ -1240,7 +1240,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 2FF15ACAC0431433 · byte 8514
 modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato FE6F4EA4441FDEE1
+risultato 68565692C2761A18
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 2
@@ -1271,11 +1271,11 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 1
 [domini]   {"Mx":"500","My":"250","N":"-1800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.56","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini]   {"Mx":"420","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.52","id":"<nuovo-4>","nome":"SLU nuova","visible":true}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nSLU nuova\n\nNEd = 0.00 kN\nMx,Ed = 420.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.52\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -0.19 kN\nMx,Rd = 800.03 kNm\nMy,Rd = -0.00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19.83 / 0.00 MPa\nσs min / max: -181.29 / 391.30 MPa\nεc min / max: -3.50 / 19.55 ‰\nεs min / max: -0.91 / 16.90 ‰\n\nd utile: 720.08 mm\nDistanza asse neutro dal lembo (GPC Engine): 121.47 mm\nInclinazione asse neutro: -8.72E-3°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293.86 … 1868.43 kN\nMx: -1396.56 … 1406.11 kNm\nMy: -911.71 … 911.71 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nSLU nuova\n\nNEd = 0.00 kN\nMx,Ed = 420.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.52\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = 0.00 kN\nMx,Rd = 800.17 kNm\nMy,Rd = 0.00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19.83 / 0.00 MPa\nσs min / max: -180.26 / 391.30 MPa\nεc min / max: -3.50 / 19.60 ‰\nεs min / max: -0.90 / 16.94 ‰\n\nd utile: 720.00 mm\nDistanza asse neutro dal lembo (GPC Engine): 121.22 mm\nInclinazione asse neutro: 5.27E-14°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293.86 … 1868.46 kN\nMx: -1397.67 … 1407.46 kNm\nMy: -913.07 … 913.07 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.56\nGoverna: Combo 1\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
-[domini] 3D vista azioni 2 C4F3A0E621E66E43 · selezionata 1 · Ed D0CEA6AFF2DB12C3 · Rd CE97AAE6D3C21B74
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
+[domini] 3D vista azioni 2 C4F3A0E621E66E43 · selezionata 1 · Ed D0CEA6AFF2DB12C3 · Rd C401872DC8BEA01A
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
 [domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
@@ -1434,10 +1434,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   {"Mx":"500","My":"250","N":"-1800","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini]   {"Mx":"420","My":"0","N":"0","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","id":"<nuovo-5>","nome":"Combo 2","visible":true}
 [domini]   {"Mx":"420","My":"0","N":"0","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","id":"<nuovo-4>","nome":"SLU nuova","visible":true}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0,00 kN\nMx,Ed = 420,00 kNm\nMy,Ed = 0,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11293,86 … 1868,43 kN\nMx: -1396,56 … 1406,11 kNm\nMy: -911,71 … 911,71 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0,00 kN\nMx,Ed = 420,00 kNm\nMy,Ed = 0,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11293,86 … 1868,46 kN\nMx: -1397,67 … 1407,46 kNm\nMy: -913,07 … 913,07 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n3D · Elastico\nVERIFICATA\nη = 0,69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF9AA4AF #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
 [domini] 3D vista azioni 3 52B760C93DD83F3A · selezionata 1 · Ed D0CEA6AFF2DB12C3 · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
@@ -1564,7 +1564,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 33A5D0AC78244F5F · byte 8590
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 4420B3CFF90F9EF0
+risultato 56AE555B5AEB6F7E
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 3
@@ -1597,11 +1597,11 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   {"Mx":"500","My":"250","N":"-1800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.56","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini]   {"Mx":"420","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.52","id":"<nuovo-5>","nome":"Combo 2","visible":true}
 [domini]   {"Mx":"420","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.52","id":"<nuovo-4>","nome":"SLU nuova","visible":true}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0.00 kN\nMx,Ed = 420.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.52\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -0.19 kN\nMx,Rd = 800.03 kNm\nMy,Rd = -0.00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19.83 / 0.00 MPa\nσs min / max: -181.29 / 391.30 MPa\nεc min / max: -3.50 / 19.55 ‰\nεs min / max: -0.91 / 16.90 ‰\n\nd utile: 720.08 mm\nDistanza asse neutro dal lembo (GPC Engine): 121.47 mm\nInclinazione asse neutro: -8.72E-3°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293.86 … 1868.43 kN\nMx: -1396.56 … 1406.11 kNm\nMy: -911.71 … 911.71 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0.00 kN\nMx,Ed = 420.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.52\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = 0.00 kN\nMx,Rd = 800.17 kNm\nMy,Rd = 0.00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19.83 / 0.00 MPa\nσs min / max: -180.26 / 391.30 MPa\nεc min / max: -3.50 / 19.60 ‰\nεs min / max: -0.90 / 16.94 ‰\n\nd utile: 720.00 mm\nDistanza asse neutro dal lembo (GPC Engine): 121.22 mm\nInclinazione asse neutro: 5.27E-14°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293.86 … 1868.46 kN\nMx: -1397.67 … 1407.46 kNm\nMy: -913.07 … 913.07 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.56\nGoverna: Combo 1\n3/3 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
-[domini] 3D vista azioni 3 EB73420305BBA303 · selezionata 1 · Ed D0CEA6AFF2DB12C3 · Rd CE97AAE6D3C21B74
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
+[domini] 3D vista azioni 3 EB73420305BBA303 · selezionata 1 · Ed D0CEA6AFF2DB12C3 · Rd C401872DC8BEA01A
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 3 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
 [domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
@@ -1728,7 +1728,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 1B6C53E9B131D85A · byte 8591
   combinazioni.SLU[1].visible = false
 modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 4420B3CFF90F9EF0
+risultato 56AE555B5AEB6F7E
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 3
@@ -1761,11 +1761,11 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   {"Mx":"500","My":"250","N":"-1800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.56","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini]   {"Mx":"420","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.52","id":"<nuovo-5>","nome":"Combo 2","visible":true}
 [domini]   {"Mx":"420","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.52","id":"<nuovo-4>","nome":"SLU nuova","visible":false}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0,00 kN\nMx,Ed = 420,00 kNm\nMy,Ed = 0,00 kNm\n\nη = 0,52\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -0,19 kN\nMx,Rd = 800,03 kNm\nMy,Rd = -0,00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19,83 / 0,00 MPa\nσs min / max: -181,29 / 391,30 MPa\nεc min / max: -3,50 / 19,55 ‰\nεs min / max: -0,91 / 16,90 ‰\n\nd utile: 720,08 mm\nDistanza asse neutro dal lembo (GPC Engine): 121,47 mm\nInclinazione asse neutro: -8,72E-3°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293,86 … 1868,43 kN\nMx: -1396,56 … 1406,11 kNm\nMy: -911,71 … 911,71 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0,00 kN\nMx,Ed = 420,00 kNm\nMy,Ed = 0,00 kNm\n\nη = 0,52\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = 0,00 kN\nMx,Rd = 800,17 kNm\nMy,Rd = 0,00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19,83 / 0,00 MPa\nσs min / max: -180,26 / 391,30 MPa\nεc min / max: -3,50 / 19,60 ‰\nεs min / max: -0,90 / 16,94 ‰\n\nd utile: 720,00 mm\nDistanza asse neutro dal lembo (GPC Engine): 121,22 mm\nInclinazione asse neutro: 5,27E-14°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293,86 … 1868,46 kN\nMx: -1397,67 … 1407,46 kNm\nMy: -913,07 … 913,07 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.56\nGoverna: Combo 1\n3/3 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
-[domini] 3D vista azioni 2 C4F3A0E621E66E43 · selezionata 1 · Ed D0CEA6AFF2DB12C3 · Rd CE97AAE6D3C21B74
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
+[domini] 3D vista azioni 2 C4F3A0E621E66E43 · selezionata 1 · Ed D0CEA6AFF2DB12C3 · Rd C401872DC8BEA01A
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 3 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
 [domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
@@ -1794,7 +1794,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 1B6C53E9B131D85A · byte 8591
 modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 4420B3CFF90F9EF0
+risultato 56AE555B5AEB6F7E
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
@@ -1834,10 +1834,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 1
 [domini]   {"Mx":"420","My":"0","N":"0","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","id":"<nuovo-5>","nome":"Combo 2","visible":true}
 [domini]   {"Mx":"420","My":"0","N":"0","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","id":"<nuovo-4>","nome":"SLU nuova","visible":false}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nSLU nuova\n\nNEd = 0,00 kN\nMx,Ed = 420,00 kNm\nMy,Ed = 0,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11293,86 … 1868,43 kN\nMx: -1396,56 … 1406,11 kNm\nMy: -911,71 … 911,71 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nSLU nuova\n\nNEd = 0,00 kN\nMx,Ed = 420,00 kNm\nMy,Ed = 0,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11293,86 … 1868,46 kN\nMx: -1397,67 … 1407,46 kNm\nMy: -913,07 … 913,07 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n3D · Elastico\nVERIFICATA\nη = 0,69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF9AA4AF #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
 [domini] 3D vista azioni 1 3F95995E846B04F8 · selezionata -1 · Ed - · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
@@ -1963,7 +1963,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 9E1D9B90DF49CBA9 · byte 8509
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 8E459A4D618826FE
+risultato 428E89DEA843AAC1
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 2
@@ -1994,11 +1994,11 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 1
 [domini]   {"Mx":"420","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.52","id":"<nuovo-5>","nome":"Combo 2","visible":true}
 [domini]   {"Mx":"420","My":"0","N":"0","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.52","id":"<nuovo-4>","nome":"SLU nuova","visible":false}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nSLU nuova\n\nNEd = 0.00 kN\nMx,Ed = 420.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.52\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -0.19 kN\nMx,Rd = 800.03 kNm\nMy,Rd = -0.00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19.83 / 0.00 MPa\nσs min / max: -181.29 / 391.30 MPa\nεc min / max: -3.50 / 19.55 ‰\nεs min / max: -0.91 / 16.90 ‰\n\nd utile: 720.08 mm\nDistanza asse neutro dal lembo (GPC Engine): 121.47 mm\nInclinazione asse neutro: -8.72E-3°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293.86 … 1868.43 kN\nMx: -1396.56 … 1406.11 kNm\nMy: -911.71 … 911.71 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nSLU nuova\n\nNEd = 0.00 kN\nMx,Ed = 420.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.52\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = 0.00 kN\nMx,Rd = 800.17 kNm\nMy,Rd = 0.00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19.83 / 0.00 MPa\nσs min / max: -180.26 / 391.30 MPa\nεc min / max: -3.50 / 19.60 ‰\nεs min / max: -0.90 / 16.94 ‰\n\nd utile: 720.00 mm\nDistanza asse neutro dal lembo (GPC Engine): 121.22 mm\nInclinazione asse neutro: 5.27E-14°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293.86 … 1868.46 kN\nMx: -1397.67 … 1407.46 kNm\nMy: -913.07 … 913.07 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.52\nGoverna: SLU nuova\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
-[domini] 3D vista azioni 1 9ECB63365CF3AF9E · selezionata -1 · Ed - · Rd CE97AAE6D3C21B74
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
+[domini] 3D vista azioni 1 9ECB63365CF3AF9E · selezionata -1 · Ed - · Rd C401872DC8BEA01A
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
 [domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
@@ -2124,7 +2124,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 225704E3A835F2FC · byte 8509
   workspace_ca.dominio3d.stato = "SLV"
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 8E459A4D618826FE
+risultato 428E89DEA843AAC1
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 2
@@ -2154,11 +2154,11 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
 [domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta3d":"0,69","id":"<nuovo-2>","nome":"Combo 1","visible":true}
-[domini] 3D dettaglio "Elastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 1\n\nNEd = -2500,00 kN\nMx,Ed = 500,00 kNm\nMy,Ed = 250,00 kNm\n\nη = 0,69\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -2500,17 kN\nMx,Rd = 719,54 kNm\nMy,Rd = 359,77 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19,83 / 0,00 MPa\nσs min / max: -302,21 / 258,35 MPa\nεc min / max: -2,00 / 1,79 ‰\nεs min / max: -1,51 / 1,29 ‰\n\nd utile: 869,50 mm\nDistanza asse neutro dal lembo (GPC Engine): 520,49 mm\nInclinazione asse neutro: 46,21°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11268,24 … 1868,56 kN\nMx: -1171,18 … 1190,39 kNm\nMy: -756,04 … 756,04 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Elastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 1\n\nNEd = -2500,00 kN\nMx,Ed = 500,00 kNm\nMy,Ed = 250,00 kNm\n\nη = 0,69\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -2500,00 kN\nMx,Rd = 721,26 kNm\nMy,Rd = 360,63 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19,83 / 0,00 MPa\nσs min / max: -302,02 / 259,62 MPa\nεc min / max: -2,00 / 1,80 ‰\nεs min / max: -1,51 / 1,30 ‰\n\nd utile: 869,47 mm\nDistanza asse neutro dal lembo (GPC Engine): 519,48 mm\nInclinazione asse neutro: 46,22°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11289,40 … 1868,56 kN\nMx: -1173,52 … 1191,90 kNm\nMy: -757,84 … 757,84 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.52\nGoverna: SLU nuova\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Elastic vertici 1570 8D0482628CEEF508 triangoli 3136 EF5B97CED469EC60 scala A8049511A05EE501
-[domini] 3D vista azioni 1 1708F359478EE6DC · selezionata 0 · Ed 593A4C541CD95A3F · Rd 39D65E45D6F8AB8A
+[domini] 3D vista mesh Elastic vertici 1570 96F6C72C131004B0 triangoli 3136 EF5B97CED469EC60 scala D79FAB4408EE0D03
+[domini] 3D vista azioni 1 1708F359478EE6DC · selezionata 0 · Ed 593A4C541CD95A3F · Rd 9B03A49C905F835B
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 1 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
 [domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
@@ -2186,7 +2186,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 225704E3A835F2FC · byte 8509
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 8E459A4D618826FE
+risultato 428E89DEA843AAC1
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
@@ -2227,10 +2227,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 1
 [domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"Da calcolare","eta3d":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [domini]   {"Mx":"0","My":"0","N":"0","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"Da calcolare","eta3d":"—","id":"<nuovo-6>","nome":"Combo 2","visible":true}
-[domini] 3D dettaglio "Elastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0,00 kN\nMx,Ed = 0,00 kNm\nMy,Ed = 0,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11268,24 … 1868,56 kN\nMx: -1171,18 … 1190,39 kNm\nMy: -756,04 … 756,04 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Elastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0,00 kN\nMx,Ed = 0,00 kNm\nMy,Ed = 0,00 kNm\n\nDa calcolare\n\nESTREMI MESH\nN: -11289,40 … 1868,56 kN\nMx: -1173,52 … 1191,90 kNm\nMy: -757,84 … 757,84 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0,52\nGoverna: SLU nuova\n2/2 combinazioni\n3D · Elastico\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Elastic vertici 1570 8D0482628CEEF508 triangoli 3136 EF5B97CED469EC60 scala A8049511A05EE501
+[domini] 3D vista mesh Elastic vertici 1570 96F6C72C131004B0 triangoli 3136 EF5B97CED469EC60 scala D79FAB4408EE0D03
 [domini] 3D vista azioni 2 9C8266C422EAEBAE · selezionata 1 · Ed 2A08979E80022521 · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
@@ -2356,7 +2356,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 2DAEDBA72FD82E6A · byte 8583
 modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 04976D401F33D001
+risultato C559E5AAC1A93587
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 2
@@ -2388,10 +2388,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 1
 [domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta2d":"Da calcolare","eta3d":"0.69","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [domini]   {"Mx":"0","My":"0","N":"0","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Azione nulla","eta":"—","eta2d":"Da calcolare","eta3d":"0.00","id":"<nuovo-6>","nome":"Combo 2","visible":true}
-[domini] 3D dettaglio "Elastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0.00 kN\nMx,Ed = 0.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.00\nAzione nulla\n\nESTREMI MESH\nN: -11268.24 … 1868.56 kN\nMx: -1171.18 … 1190.39 kNm\nMy: -756.04 … 756.04 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Elastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0.00 kN\nMx,Ed = 0.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.00\nAzione nulla\n\nESTREMI MESH\nN: -11289.40 … 1868.56 kN\nMx: -1173.52 … 1191.90 kNm\nMy: -757.84 … 757.84 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.52\nGoverna: SLU nuova\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n2/2 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Elastic vertici 1570 8D0482628CEEF508 triangoli 3136 EF5B97CED469EC60 scala A8049511A05EE501
+[domini] 3D vista mesh Elastic vertici 1570 96F6C72C131004B0 triangoli 3136 EF5B97CED469EC60 scala D79FAB4408EE0D03
 [domini] 3D vista azioni 2 F823A81F7C19A01D · selezionata 1 · Ed 2A08979E80022521 · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
@@ -2518,7 +2518,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 5F32B9B32EF0054C · byte 8583
   workspace_ca.tab = 3
 modificato 11 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato F8EEFB3408EA2D3E
+risultato E500C86B33DF9470
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
@@ -2641,7 +2641,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 5F32B9B32EF0054C · byte 8583
 modificato 11 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato F8EEFB3408EA2D3E
+risultato E500C86B33DF9470
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
@@ -2683,10 +2683,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 1
 [domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta2d":"Da calcolare","eta3d":"0.69","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [domini]   {"Mx":"0","My":"0","N":"0","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Azione nulla","eta":"—","eta2d":"Da calcolare","eta3d":"0.00","id":"<nuovo-6>","nome":"Combo 2","visible":true}
-[domini] 3D dettaglio "Elastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0.00 kN\nMx,Ed = 0.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.00\nAzione nulla\n\nESTREMI MESH\nN: -11268.24 … 1868.56 kN\nMx: -1171.18 … 1190.39 kNm\nMy: -756.04 … 756.04 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Elastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0.00 kN\nMx,Ed = 0.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.00\nAzione nulla\n\nESTREMI MESH\nN: -11289.40 … 1868.56 kN\nMx: -1173.52 … 1191.90 kNm\nMy: -757.84 … 757.84 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0,52\nGoverna: SLU nuova\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0,69\nGoverna: Combo 1\n2/2 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Elastic vertici 1570 8D0482628CEEF508 triangoli 3136 EF5B97CED469EC60 scala A8049511A05EE501
+[domini] 3D vista mesh Elastic vertici 1570 96F6C72C131004B0 triangoli 3136 EF5B97CED469EC60 scala D79FAB4408EE0D03
 [domini] 3D vista azioni 2 F823A81F7C19A01D · selezionata 1 · Ed 2A08979E80022521 · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
@@ -3051,7 +3051,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 0322777FFD2FDB2A · byte 8662
 modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 05C358454A61CC4B
+risultato F7604E883E43C306
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 2
@@ -3084,10 +3084,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 1
 [domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Entro il dominio","eta":"—","eta2d":"Da calcolare","eta3d":"0.69","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [domini]   {"Mx":"0","My":"0","N":"0","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Azione nulla","eta":"—","eta2d":"Da calcolare","eta3d":"0.00","id":"<nuovo-6>","nome":"Combo 2","visible":true}
-[domini] 3D dettaglio "Elastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0.00 kN\nMx,Ed = 0.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.00\nAzione nulla\n\nESTREMI MESH\nN: -11268.24 … 1868.56 kN\nMx: -1171.18 … 1190.39 kNm\nMy: -756.04 … 756.04 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Elastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 2\n\nNEd = 0.00 kN\nMx,Ed = 0.00 kNm\nMy,Ed = 0.00 kNm\n\nη = 0.00\nAzione nulla\n\nESTREMI MESH\nN: -11289.40 … 1868.56 kN\nMx: -1173.52 … 1191.90 kNm\nMy: -757.84 … 757.84 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.52\nGoverna: SLU nuova\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n2/2 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Elastic vertici 1570 8D0482628CEEF508 triangoli 3136 EF5B97CED469EC60 scala A8049511A05EE501
+[domini] 3D vista mesh Elastic vertici 1570 96F6C72C131004B0 triangoli 3136 EF5B97CED469EC60 scala D79FAB4408EE0D03
 [domini] 3D vista azioni 2 F823A81F7C19A01D · selezionata 1 · Ed 2A08979E80022521 · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
@@ -3232,7 +3232,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati 0322777FFD2FDB2A · byte 8662
 modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 05C358454A61CC4B
+risultato F7604E883E43C306
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
@@ -3403,7 +3403,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati 0322777FFD2FDB2A · byte 8662
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 05C358454A61CC4B
+risultato F7604E883E43C306
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 2

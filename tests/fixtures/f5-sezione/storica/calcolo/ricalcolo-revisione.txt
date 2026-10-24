@@ -7,12 +7,12 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati EF031222386175BC · byte 8391
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 == trattieni
 dati EF031222386175BC · byte 8391
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 == campo geometria width_mm «620»
 dati DDACA6CF0B27CA1D · byte 8391
@@ -48,12 +48,12 @@ stato "Nuove modifiche · aggiornamento in attesa…"
 == attendi
 dati 7161AC5A59C9EBAC · byte 8391
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 93AEE111E020BDF4
+risultato BD6BDCB242BBFF81
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 == trattieni
 dati 7161AC5A59C9EBAC · byte 8391
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 93AEE111E020BDF4
+risultato BD6BDCB242BBFF81
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 == campo geometria height_mm «820»
 dati C5827892377C9F1C · byte 8391
@@ -81,12 +81,12 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati C5827892377C9F1C · byte 8391
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D357B1479E9AAD85
+risultato 14648E7D30FE862D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 == trattieni
 dati C5827892377C9F1C · byte 8391
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D357B1479E9AAD85
+risultato 14648E7D30FE862D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 == campo geometria cover_mm «60»
 dati F0D17720A8063E3A · byte 8391
@@ -114,7 +114,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati F0D17720A8063E3A · byte 8391
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 9EF82FAB3C346FE3
+risultato 6CA72E59816A70F7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 == conferma
 dati 94F8C36553EF36CC · byte 8436
@@ -122,5 +122,5 @@ dati 94F8C36553EF36CC · byte 8436
   combinazioni.SLV[0].visible = true
   combinazioni.SLE[0].visible = true
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 9EF82FAB3C346FE3
+risultato 6CA72E59816A70F7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"

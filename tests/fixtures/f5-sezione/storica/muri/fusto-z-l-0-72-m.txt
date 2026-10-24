@@ -554,7 +554,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati D9EE32D7F6885E5B · byte 14446
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 6EE8D9AE474A2BAA
+risultato 6AAFD44A83052487
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -671,7 +671,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   55,50 kNm\nMx−   -55,51 kNm\nMy+   205,11 kNm\nMy−   -205,11 kNm" · nascosto · riquadri "Mx+ 55,50 kNm | Mx− -55,51 kNm | My+ 205,11 kNm | My− -205,11 kNm"
+[ingressi] rapide "Mx+   55,61 kNm\nMx−   -55,61 kNm\nMy+   205,10 kNm\nMy−   -205,10 kNm" · nascosto · riquadri "Mx+ 55,61 kNm | Mx− -55,61 kNm | My+ 205,10 kNm | My− -205,10 kNm"
 [ingressi] anteprima sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 10 · selezionata -1
 [ingressi]   {"id":"B01","phi":"12","x":"-454","y":"94"}
@@ -692,10 +692,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nDA COMPLETARE\nη —\n—\n20/20 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n20/20 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 20
-[azioni]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.85E-3","eta3d":"5.84E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[azioni]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.04E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[azioni]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.04E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[azioni]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.84E-3","eta3d":"7.83E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[azioni]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[azioni]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[azioni]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[azioni]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
 [azioni]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
 [azioni]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
 [azioni]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
@@ -760,10 +760,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
 [domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
 [domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.04E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.85E-3","eta3d":"5.84E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.04E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.84E-3","eta3d":"7.83E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
 [domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
 [domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
 [domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
@@ -802,10 +802,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
 [domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
 [domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.04E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.85E-3","eta3d":"5.84E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.04E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.84E-3","eta3d":"7.83E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
 [domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
 [domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
 [domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
@@ -1213,7 +1213,7 @@ dati C4FD8548D73FA7AE · byte 15169
   workspace_ca.taglio.azioni[19].Vy = "6.597632517225471"
   workspace_ca.taglio.azioni[19].T = "0"
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 6EE8D9AE474A2BAA
+risultato 6AAFD44A83052487
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1226,7 +1226,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == visita
 dati C4FD8548D73FA7AE · byte 15169
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato A4C226FDE0FEF303
+risultato C25BC60AF46A763F
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1250,10 +1250,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
 [domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
 [domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.04E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.85E-3","eta3d":"5.84E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.04E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.84E-3","eta3d":"7.83E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
 [domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
 [domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
 [domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
@@ -1266,11 +1266,11 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
 [domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
 [domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nSLU 5 [SLU]\n\nNEd = -6,20 kN\nMx,Ed = 0,33 kNm\nMy,Ed = 0,00 kNm\n\nη = 0,01\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -6,32 kN\nMx,Rd = 56,15 kNm\nMy,Rd = 0,00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -17,00 / 0,00 MPa\nσs min / max: 345,63 / 391,30 MPa\nεc min / max: -3,50 / 28,32 ‰\nεs min / max: 1,73 / 23,10 ‰\n\nd utile: 240,00 mm\nDistanza asse neutro dal lembo (GPC Engine): 30,79 mm\nInclinazione asse neutro: 4,32E-9°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -5183,33 … 442,43 kN\nMx: -200,05 … 200,05 kNm\nMy: -683,51 … 683,51 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nSLU 5 [SLU]\n\nNEd = -6,20 kN\nMx,Ed = 0,33 kNm\nMy,Ed = 0,00 kNm\n\nη = 0,01\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -6,20 kN\nMx,Rd = 56,24 kNm\nMy,Rd = 0,00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -17,00 / 0,00 MPa\nσs min / max: 346,52 / 391,30 MPa\nεc min / max: -3,50 / 28,35 ‰\nεs min / max: 1,73 / 23,12 ‰\n\nd utile: 240,00 mm\nDistanza asse neutro dal lembo (GPC Engine): 30,77 mm\nInclinazione asse neutro: 2,88E-15°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -5183,33 … 442,44 kN\nMx: -200,62 … 200,62 kNm\nMy: -684,22 … 684,22 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.04\nGoverna: SLV Ribaltamento kv− 14 [SISMA]\n20/20 combinazioni\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF397BCC #FF9AA4AF
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 97567D79B2DB6709 triangoli 3136 EF5B97CED469EC60 scala 8C589B068734062A
-[domini] 3D vista azioni 20 2A2BD3027A3E863E · selezionata 5 · Ed 1D71909F1A27AC71 · Rd 22DE78A9907235BE
+[domini] 3D vista mesh Plastic vertici 1570 883967964560BE4E triangoli 3136 EF5B97CED469EC60 scala AAE6A85765D3C22C
+[domini] 3D vista azioni 20 2A2BD3027A3E863E · selezionata 5 · Ed 1D71909F1A27AC71 · Rd D51A7E2D921FC9C4
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 20 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
 [domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
@@ -1292,10 +1292,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
 [domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
 [domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.04E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.85E-3","eta3d":"5.84E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.04E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.84E-3","eta3d":"7.83E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
 [domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
 [domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
 [domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
@@ -1308,10 +1308,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
 [domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
 [domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
-[domini] 2D dettaglio "Plastico · Mx–My · senza proiezione\n\nAZIONI · Locali\nSLU 5 [SLU]\n\nNEd = -6,20 kN\nMx,Ed = 0,33 kNm\nMy,Ed = 0,00 kNm\n\nη = 0,01\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -6,20 kN\nMx,Rd = 56,04 kNm\nMy,Rd = 0,00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -17,00 / 0,00 MPa\nσs min / max: 345,63 / 391,30 MPa\nεc min / max: -3,50 / 28,32 ‰\nεs min / max: 1,73 / 23,10 ‰\n\nd utile: 240,00 mm\nDistanza asse neutro dal lembo (GPC Engine): 30,79 mm\nInclinazione asse neutro: -9,40E-9°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -6,20 … -6,20 kN\nMx: -56,04 … 56,04 kNm\nMy: -207,75 … 207,75 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 2D dettaglio "Plastico · Mx–My · senza proiezione\n\nAZIONI · Locali\nSLU 5 [SLU]\n\nNEd = -6,20 kN\nMx,Ed = 0,33 kNm\nMy,Ed = 0,00 kNm\n\nη = 0,01\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -6,20 kN\nMx,Rd = 56,14 kNm\nMy,Rd = -0,00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -17,00 / 0,00 MPa\nσs min / max: 346,52 / 391,30 MPa\nεc min / max: -3,50 / 28,35 ‰\nεs min / max: 1,73 / 23,12 ‰\n\nd utile: 240,00 mm\nDistanza asse neutro dal lembo (GPC Engine): 30,77 mm\nInclinazione asse neutro: 7,53E-15°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -6,20 … -6,20 kN\nMx: -56,14 … 56,14 kNm\nMy: -207,80 … 207,80 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη = 0.03\nGoverna: SLU 11 [SLU]\n14/20 verifiche mancanti / non applicabili\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
-[domini] 2D grafico "Plastico · Mx–My, N = -6,20 kN" · "Mx [kNm]" · "My [kNm]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 64 D2F484AFE308502B · verifiche 2 223015EF88904843 · punti 21 1A244A3D694B202B · scala 1/1
+[domini] 2D grafico "Plastico · Mx–My, N = -6,20 kN" · "Mx [kNm]" · "My [kNm]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 64 97168895CC8FFBD5 · verifiche 2 C8BDD7539A1607EA · punti 21 040B605759939D3E · scala 1/1
 [sle] famiglia 0
 [sle] form SLE
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
@@ -1525,7 +1525,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati C4FD8548D73FA7AE · byte 15169
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato A4C226FDE0FEF303
+risultato C25BC60AF46A763F
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1538,7 +1538,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati C4FD8548D73FA7AE · byte 15169
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato A4C226FDE0FEF303
+risultato C25BC60AF46A763F
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1551,7 +1551,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == calcola
 dati C4FD8548D73FA7AE · byte 15169
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato A4C226FDE0FEF303
+risultato C25BC60AF46A763F
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1564,7 +1564,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati C4FD8548D73FA7AE · byte 15169
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato A4C226FDE0FEF303
+risultato C25BC60AF46A763F
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -2044,7 +2044,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati C4FD8548D73FA7AE · byte 15169
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato A4C226FDE0FEF303
+risultato C25BC60AF46A763F
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -2161,7 +2161,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   55,50 kNm\nMx−   -55,51 kNm\nMy+   205,11 kNm\nMy−   -205,11 kNm" · nascosto · riquadri "Mx+ 55,50 kNm | Mx− -55,51 kNm | My+ 205,11 kNm | My− -205,11 kNm"
+[ingressi] rapide "Mx+   55,61 kNm\nMx−   -55,61 kNm\nMy+   205,10 kNm\nMy−   -205,10 kNm" · nascosto · riquadri "Mx+ 55,61 kNm | Mx− -55,61 kNm | My+ 205,10 kNm | My− -205,10 kNm"
 [ingressi] anteprima sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 10 · selezionata -1
 [ingressi]   {"id":"B01","phi":"12","x":"-454","y":"94"}
@@ -2182,10 +2182,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nDA COMPLETARE\nη —\n—\n20/20 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n20/20 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 20
-[azioni]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.85E-3","eta3d":"5.84E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[azioni]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.04E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[azioni]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.04E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[azioni]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.84E-3","eta3d":"7.83E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[azioni]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[azioni]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[azioni]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[azioni]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
 [azioni]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
 [azioni]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
 [azioni]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
@@ -2250,10 +2250,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
 [domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
 [domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.04E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.85E-3","eta3d":"5.84E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.04E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.84E-3","eta3d":"7.83E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
 [domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
 [domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
 [domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
@@ -2292,10 +2292,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
 [domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
 [domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.04E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.85E-3","eta3d":"5.84E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.04E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.84E-3","eta3d":"7.83E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
 [domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
 [domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
 [domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
@@ -2491,7 +2491,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati C4FD8548D73FA7AE · byte 15169
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato A4C226FDE0FEF303
+risultato C25BC60AF46A763F
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata

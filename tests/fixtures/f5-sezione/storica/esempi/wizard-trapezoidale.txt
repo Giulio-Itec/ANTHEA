@@ -583,7 +583,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1331,41 kNm\nMx−   -1439,95 kNm\nMy+   1024,54 kNm\nMy−   -1024,52 kNm" · nascosto · riquadri "Mx+ 1331,41 kNm | Mx− -1439,95 kNm | My+ 1024,54 kNm | My− -1024,52 kNm"
+[ingressi] rapide "Mx+   1331,62 kNm\nMx−   -1440,02 kNm\nMy+   1024,48 kNm\nMy−   -1024,48 kNm" · nascosto · riquadri "Mx+ 1331,62 kNm | Mx− -1440,02 kNm | My+ 1024,48 kNm | My− -1024,48 kNm"
 [ingressi] anteprima sezione Trapezoidale 1000x1200 · Ac 1080000 · As 6597.344572538565 · contorno 4 26063393F977885F · fori 0 · barre 21 8FFFFD26130EBCED · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 21 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"402.188041","y":"487.777777"}
@@ -810,7 +810,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [domini] 3D dettaglio "Nessuna combinazione selezionata"
 [domini] riquadri 3D-riepilogo "3D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 40DE1510A74358D2 triangoli 3136 EF5B97CED469EC60 scala 16484A150F7F3139
+[domini] 3D vista mesh Plastic vertici 1570 B890590BB2792AFA triangoli 3136 EF5B97CED469EC60 scala ACDCFA131103669A
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 0 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
@@ -833,7 +833,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [domini] 2D dettaglio "Nessuna combinazione selezionata"
 [domini] riquadri 2D-riepilogo "2D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
-[domini] 2D grafico "SLU · Plastico · Mx–My, N = -1000,00 kN" · "Mx [kNm]" · "My [kNm]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 64 7860730C40F1F727 · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[domini] 2D grafico "SLU · Plastico · Mx–My, N = -1000,00 kN" · "Mx [kNm]" · "My [kNm]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 64 11D3DEE535C2BC33 · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
 [sle] famiglia 0
 [sle] form SLE
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
@@ -1553,7 +1553,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1331,41 kNm\nMx−   -1439,95 kNm\nMy+   1024,54 kNm\nMy−   -1024,52 kNm" · nascosto · riquadri "Mx+ 1331,41 kNm | Mx− -1439,95 kNm | My+ 1024,54 kNm | My− -1024,52 kNm"
+[ingressi] rapide "Mx+   1331,62 kNm\nMx−   -1440,02 kNm\nMy+   1024,48 kNm\nMy−   -1024,48 kNm" · nascosto · riquadri "Mx+ 1331,62 kNm | Mx− -1440,02 kNm | My+ 1024,48 kNm | My− -1024,48 kNm"
 [ingressi] anteprima sezione Trapezoidale 1000x1200 · Ac 1080000 · As 6597.344572538565 · contorno 4 26063393F977885F · fori 0 · barre 21 8FFFFD26130EBCED · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 21 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"402.188041","y":"487.777777"}

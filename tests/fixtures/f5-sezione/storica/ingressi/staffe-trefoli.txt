@@ -296,7 +296,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati EF031222386175BC · byte 8391
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -413,7 +413,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   800,03 kNm\nMx−   -447,89 kNm\nMy+   438,93 kNm\nMy−   -438,93 kNm" · nascosto · riquadri "Mx+ 800,03 kNm | Mx− -447,89 kNm | My+ 438,93 kNm | My− -438,93 kNm"
+[ingressi] rapide "Mx+   800,17 kNm\nMx−   -448,02 kNm\nMy+   438,98 kNm\nMy−   -438,98 kNm" · nascosto · riquadri "Mx+ 800,17 kNm | Mx− -448,02 kNm | My+ 438,98 kNm | My− -438,98 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
@@ -430,7 +430,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
@@ -887,7 +887,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati 8481360E04377CDD · byte 8391
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato B641AAB51662DA77
+risultato 92EF9967C8798D62
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -1004,7 +1004,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   797,40 kNm\nMx−   -447,26 kNm\nMy+   437,87 kNm\nMy−   -437,86 kNm" · nascosto · riquadri "Mx+ 797,40 kNm | Mx− -447,26 kNm | My+ 437,87 kNm | My− -437,86 kNm"
+[ingressi] rapide "Mx+   797,55 kNm\nMx−   -447,40 kNm\nMy+   437,91 kNm\nMy−   -437,91 kNm" · nascosto · riquadri "Mx+ 797,55 kNm | Mx− -447,40 kNm | My+ 437,91 kNm | My− -437,91 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -1299,7 +1299,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   797,40 kNm\nMx−   -447,26 kNm\nMy+   437,87 kNm\nMy−   -437,86 kNm" · nascosto · riquadri "Mx+ 797,40 kNm | Mx− -447,26 kNm | My+ 437,87 kNm | My− -437,86 kNm"
+[ingressi] rapide "Mx+   797,55 kNm\nMx−   -447,40 kNm\nMy+   437,91 kNm\nMy−   -437,91 kNm" · nascosto · riquadri "Mx+ 797,55 kNm | Mx− -447,40 kNm | My+ 437,91 kNm | My− -437,91 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -1379,7 +1379,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 7E5769ECF849FDC7 · byte 8391
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 0FDB5412176FF5BD
+risultato 1E320A24CFA3BB7F
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -1496,7 +1496,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   797,40 kNm\nMx−   -447,26 kNm\nMy+   437,87 kNm\nMy−   -437,86 kNm" · nascosto · riquadri "Mx+ 797,40 kNm | Mx− -447,26 kNm | My+ 437,87 kNm | My− -437,86 kNm"
+[ingressi] rapide "Mx+   797,55 kNm\nMx−   -447,40 kNm\nMy+   437,91 kNm\nMy−   -437,91 kNm" · nascosto · riquadri "Mx+ 797,55 kNm | Mx− -447,40 kNm | My+ 437,91 kNm | My− -437,91 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -1694,7 +1694,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   797,40 kNm\nMx−   -447,26 kNm\nMy+   437,87 kNm\nMy−   -437,86 kNm" · nascosto · riquadri "Mx+ 797,40 kNm | Mx− -447,26 kNm | My+ 437,87 kNm | My− -437,86 kNm"
+[ingressi] rapide "Mx+   797,55 kNm\nMx−   -447,40 kNm\nMy+   437,91 kNm\nMy−   -437,91 kNm" · nascosto · riquadri "Mx+ 797,55 kNm | Mx− -447,40 kNm | My+ 437,91 kNm | My− -437,91 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -1892,7 +1892,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   797,40 kNm\nMx−   -447,26 kNm\nMy+   437,87 kNm\nMy−   -437,86 kNm" · nascosto · riquadri "Mx+ 797,40 kNm | Mx− -447,26 kNm | My+ 437,87 kNm | My− -437,86 kNm"
+[ingressi] rapide "Mx+   797,55 kNm\nMx−   -447,40 kNm\nMy+   437,91 kNm\nMy−   -437,91 kNm" · nascosto · riquadri "Mx+ 797,55 kNm | Mx− -447,40 kNm | My+ 437,91 kNm | My− -437,91 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -1972,7 +1972,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati CB8D5E9F03CBCFB4 · byte 8391
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 2406A9C3A4C9C921
+risultato A9E008751A14B248
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -2089,7 +2089,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   797,40 kNm\nMx−   -447,26 kNm\nMy+   437,87 kNm\nMy−   -437,86 kNm" · nascosto · riquadri "Mx+ 797,40 kNm | Mx− -447,26 kNm | My+ 437,87 kNm | My− -437,86 kNm"
+[ingressi] rapide "Mx+   797,55 kNm\nMx−   -447,40 kNm\nMy+   437,91 kNm\nMy−   -437,91 kNm" · nascosto · riquadri "Mx+ 797,55 kNm | Mx− -447,40 kNm | My+ 437,91 kNm | My− -437,91 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -2467,7 +2467,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati AA83EBB5A746AD37 · byte 8392
 modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 8ABBA2D29A78F963
+risultato 99CBD0A443CAC1D9
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -2584,7 +2584,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   813,61 kNm\nMx−   -451,59 kNm\nMy+   444,80 kNm\nMy−   -444,80 kNm" · nascosto · riquadri "Mx+ 813,61 kNm | Mx− -451,59 kNm | My+ 444,80 kNm | My− -444,80 kNm"
+[ingressi] rapide "Mx+   813,76 kNm\nMx−   -451,70 kNm\nMy+   444,83 kNm\nMy−   -444,83 kNm" · nascosto · riquadri "Mx+ 813,76 kNm | Mx− -451,70 kNm | My+ 444,83 kNm | My− -444,83 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 AEB9A7F22D4642B7 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-220","y":"320"}
@@ -3058,7 +3058,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati BC7F17297EF74387 · byte 8393
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 7779FD7BA48F046C
+risultato 160820F931B83B59
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -3175,7 +3175,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   797,40 kNm\nMx−   -447,26 kNm\nMy+   437,87 kNm\nMy−   -437,86 kNm" · nascosto · riquadri "Mx+ 797,40 kNm | Mx− -447,26 kNm | My+ 437,87 kNm | My− -437,86 kNm"
+[ingressi] rapide "Mx+   797,55 kNm\nMx−   -447,40 kNm\nMy+   437,91 kNm\nMy−   -437,91 kNm" · nascosto · riquadri "Mx+ 797,55 kNm | Mx− -447,40 kNm | My+ 437,91 kNm | My− -437,91 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -3352,7 +3352,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == campo cavo numero «3»
 dati BC7F17297EF74387 · byte 8393
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 7779FD7BA48F046C
+risultato 160820F931B83B59
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -3469,7 +3469,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   797,40 kNm\nMx−   -447,26 kNm\nMy+   437,87 kNm\nMy−   -437,86 kNm" · nascosto · riquadri "Mx+ 797,40 kNm | Mx− -447,26 kNm | My+ 437,87 kNm | My− -437,86 kNm"
+[ingressi] rapide "Mx+   797,55 kNm\nMx−   -447,40 kNm\nMy+   437,91 kNm\nMy−   -437,91 kNm" · nascosto · riquadri "Mx+ 797,55 kNm | Mx− -447,40 kNm | My+ 437,91 kNm | My− -437,91 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -3497,7 +3497,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == campo cavo x «0»
 dati BC7F17297EF74387 · byte 8393
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 7779FD7BA48F046C
+risultato 160820F931B83B59
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [sle] invariata
@@ -3505,7 +3505,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == campo cavo y «-250»
 dati BC7F17297EF74387 · byte 8393
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 7779FD7BA48F046C
+risultato 160820F931B83B59
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -3622,7 +3622,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   797,40 kNm\nMx−   -447,26 kNm\nMy+   437,87 kNm\nMy−   -437,86 kNm" · nascosto · riquadri "Mx+ 797,40 kNm | Mx− -447,26 kNm | My+ 437,87 kNm | My− -437,86 kNm"
+[ingressi] rapide "Mx+   797,55 kNm\nMx−   -447,40 kNm\nMy+   437,91 kNm\nMy−   -437,91 kNm" · nascosto · riquadri "Mx+ 797,55 kNm | Mx− -447,40 kNm | My+ 437,91 kNm | My− -437,91 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -3650,7 +3650,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == campo cavo sigma0 «1250»
 dati BC7F17297EF74387 · byte 8393
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 7779FD7BA48F046C
+risultato 160820F931B83B59
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -3767,7 +3767,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   797,40 kNm\nMx−   -447,26 kNm\nMy+   437,87 kNm\nMy−   -437,86 kNm" · nascosto · riquadri "Mx+ 797,40 kNm | Mx− -447,26 kNm | My+ 437,87 kNm | My− -437,86 kNm"
+[ingressi] rapide "Mx+   797,55 kNm\nMx−   -447,40 kNm\nMy+   437,91 kNm\nMy−   -437,91 kNm" · nascosto · riquadri "Mx+ 797,55 kNm | Mx− -447,40 kNm | My+ 437,91 kNm | My− -437,91 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -4091,7 +4091,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati 0C8EEB0286081FB7 · byte 8632
 modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 9DF930346FA4D724
+risultato 4F72ECD267A6B764
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -4209,7 +4209,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1141,80 kNm\nMx−   -485,14 kNm\nMy+   530,74 kNm\nMy−   -530,75 kNm" · nascosto · riquadri "Mx+ 1141,80 kNm | Mx− -485,14 kNm | My+ 530,74 kNm | My− -530,75 kNm"
+[ingressi] rapide "Mx+   1141,98 kNm\nMx−   -485,27 kNm\nMy+   530,85 kNm\nMy−   -530,85 kNm" · nascosto · riquadri "Mx+ 1141,98 kNm | Mx− -485,27 kNm | My+ 530,85 kNm | My− -530,85 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli AC45DBEFAE95AFF6 · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -4386,7 +4386,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == campo cavo sigma0 «2000»
 dati 0C8EEB0286081FB7 · byte 8632
 modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 9DF930346FA4D724
+risultato 4F72ECD267A6B764
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -4504,7 +4504,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1141,80 kNm\nMx−   -485,14 kNm\nMy+   530,74 kNm\nMy−   -530,75 kNm" · nascosto · riquadri "Mx+ 1141,80 kNm | Mx− -485,14 kNm | My+ 530,74 kNm | My− -530,75 kNm"
+[ingressi] rapide "Mx+   1141,98 kNm\nMx−   -485,27 kNm\nMy+   530,85 kNm\nMy−   -530,85 kNm" · nascosto · riquadri "Mx+ 1141,98 kNm | Mx− -485,27 kNm | My+ 530,85 kNm | My− -530,85 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli AC45DBEFAE95AFF6 · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -4532,7 +4532,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == pulsante cavo + Cavo / trefolo
 dati 0C8EEB0286081FB7 · byte 8632
 modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 9DF930346FA4D724
+risultato 4F72ECD267A6B764
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -4650,7 +4650,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1141,80 kNm\nMx−   -485,14 kNm\nMy+   530,74 kNm\nMy−   -530,75 kNm" · nascosto · riquadri "Mx+ 1141,80 kNm | Mx− -485,14 kNm | My+ 530,74 kNm | My− -530,75 kNm"
+[ingressi] rapide "Mx+   1141,98 kNm\nMx−   -485,27 kNm\nMy+   530,85 kNm\nMy−   -530,85 kNm" · nascosto · riquadri "Mx+ 1141,98 kNm | Mx− -485,27 kNm | My+ 530,85 kNm | My− -530,85 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli AC45DBEFAE95AFF6 · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -4678,7 +4678,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 0C8EEB0286081FB7 · byte 8632
 modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 9DF930346FA4D724
+risultato 4F72ECD267A6B764
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [sle] invariata
@@ -4686,7 +4686,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == campo cavo sigma0 «1100»
 dati 0C8EEB0286081FB7 · byte 8632
 modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 9DF930346FA4D724
+risultato 4F72ECD267A6B764
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -4804,7 +4804,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1141,80 kNm\nMx−   -485,14 kNm\nMy+   530,74 kNm\nMy−   -530,75 kNm" · nascosto · riquadri "Mx+ 1141,80 kNm | Mx− -485,14 kNm | My+ 530,74 kNm | My− -530,75 kNm"
+[ingressi] rapide "Mx+   1141,98 kNm\nMx−   -485,27 kNm\nMy+   530,85 kNm\nMy−   -530,85 kNm" · nascosto · riquadri "Mx+ 1141,98 kNm | Mx− -485,27 kNm | My+ 530,85 kNm | My− -530,85 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli AC45DBEFAE95AFF6 · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -4832,7 +4832,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == campo cavo y «250»
 dati 0C8EEB0286081FB7 · byte 8632
 modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 9DF930346FA4D724
+risultato 4F72ECD267A6B764
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -4950,7 +4950,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1141,80 kNm\nMx−   -485,14 kNm\nMy+   530,74 kNm\nMy−   -530,75 kNm" · nascosto · riquadri "Mx+ 1141,80 kNm | Mx− -485,14 kNm | My+ 530,74 kNm | My− -530,75 kNm"
+[ingressi] rapide "Mx+   1141,98 kNm\nMx−   -485,27 kNm\nMy+   530,85 kNm\nMy−   -530,85 kNm" · nascosto · riquadri "Mx+ 1141,98 kNm | Mx− -485,27 kNm | My+ 530,85 kNm | My− -530,85 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli AC45DBEFAE95AFF6 · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -5275,7 +5275,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati 0E530C8DEFD872D9 · byte 8871
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 5529B36111CE126C
+risultato 19D83605AC2CFB0B
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -5394,7 +5394,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1140,36 kNm\nMx−   -833,95 kNm\nMy+   670,45 kNm\nMy−   -670,45 kNm" · nascosto · riquadri "Mx+ 1140,36 kNm | Mx− -833,95 kNm | My+ 670,45 kNm | My− -670,45 kNm"
+[ingressi] rapide "Mx+   1140,71 kNm\nMx−   -834,13 kNm\nMy+   670,59 kNm\nMy−   -670,59 kNm" · nascosto · riquadri "Mx+ 1140,71 kNm | Mx− -834,13 kNm | My+ 670,59 kNm | My− -670,59 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 7AD9F908FB8FFC00 · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -5868,7 +5868,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati 2D11DE09D451D45F · byte 8857
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 3167F32DE12C86DD
+risultato 41267971A8536268
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -5987,7 +5987,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1140,36 kNm\nMx−   -833,95 kNm\nMy+   670,45 kNm\nMy−   -670,45 kNm" · nascosto · riquadri "Mx+ 1140,36 kNm | Mx− -833,95 kNm | My+ 670,45 kNm | My− -670,45 kNm"
+[ingressi] rapide "Mx+   1140,71 kNm\nMx−   -834,13 kNm\nMy+   670,59 kNm\nMy−   -670,59 kNm" · nascosto · riquadri "Mx+ 1140,71 kNm | Mx− -834,13 kNm | My+ 670,59 kNm | My− -670,59 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 751C5DC2F6C8D106 · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -6462,7 +6462,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati F89A51DDE08BD1FE · byte 8844
 modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato A92D08F996DAFB00
+risultato 8505EAC339160088
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -6581,7 +6581,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1144,25 kNm\nMx−   -626,92 kNm\nMy+   592,98 kNm\nMy−   -592,98 kNm" · nascosto · riquadri "Mx+ 1144,25 kNm | Mx− -626,92 kNm | My+ 592,98 kNm | My− -592,98 kNm"
+[ingressi] rapide "Mx+   1144,47 kNm\nMx−   -627,04 kNm\nMy+   593,09 kNm\nMy−   -593,09 kNm" · nascosto · riquadri "Mx+ 1144,47 kNm | Mx− -627,04 kNm | My+ 593,09 kNm | My− -593,09 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 145EAC76992F164E · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -7058,7 +7058,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati 375BD94B5A866382 · byte 8844
 modificato 11 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 5630B0772A8BF28C
+risultato 0FBAB96CFD91DB7B
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -7177,7 +7177,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1128,31 kNm\nMx−   -626,59 kNm\nMy+   589,03 kNm\nMy−   -589,03 kNm" · nascosto · riquadri "Mx+ 1128,31 kNm | Mx− -626,59 kNm | My+ 589,03 kNm | My− -589,03 kNm"
+[ingressi] rapide "Mx+   1128,54 kNm\nMx−   -626,68 kNm\nMy+   589,14 kNm\nMy−   -589,14 kNm" · nascosto · riquadri "Mx+ 1128,54 kNm | Mx− -626,68 kNm | My+ 589,14 kNm | My− -589,14 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 145EAC76992F164E · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -7654,7 +7654,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati 15ACA9794FF23272 · byte 8844
 modificato 13 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 663F1775D0A00BBC
+risultato 66B887059D9CF4EA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -7773,7 +7773,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1128,31 kNm\nMx−   -626,59 kNm\nMy+   589,03 kNm\nMy−   -589,03 kNm" · nascosto · riquadri "Mx+ 1128,31 kNm | Mx− -626,59 kNm | My+ 589,03 kNm | My− -589,03 kNm"
+[ingressi] rapide "Mx+   1128,54 kNm\nMx−   -626,68 kNm\nMy+   589,14 kNm\nMy−   -589,14 kNm" · nascosto · riquadri "Mx+ 1128,54 kNm | Mx− -626,68 kNm | My+ 589,14 kNm | My− -589,14 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 145EAC76992F164E · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -7952,7 +7952,7 @@ dati 1036715A63543BEA · byte 8887
   workspace_ca.materiale_trefolo.diagramma = "Incrudente"
   workspace_ca.legami_trefoli = {"EN1992:Y1770":"Incrudente"}
 modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 663F1775D0A00BBC
+risultato 66B887059D9CF4EA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -8071,7 +8071,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1128,31 kNm\nMx−   -626,59 kNm\nMy+   589,03 kNm\nMy−   -589,03 kNm" · nascosto · riquadri "Mx+ 1128,31 kNm | Mx− -626,59 kNm | My+ 589,03 kNm | My− -589,03 kNm"
+[ingressi] rapide "Mx+   1128,54 kNm\nMx−   -626,68 kNm\nMy+   589,14 kNm\nMy−   -589,14 kNm" · nascosto · riquadri "Mx+ 1128,54 kNm | Mx− -626,68 kNm | My+ 589,14 kNm | My− -589,14 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli 145EAC76992F164E · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -8099,7 +8099,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 1036715A63543BEA · byte 8887
 modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 663F1775D0A00BBC
+risultato 66B887059D9CF4EA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [sle] invariata
@@ -8107,7 +8107,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == seleziona trefoli [1]
 dati 1036715A63543BEA · byte 8887
 modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 663F1775D0A00BBC
+risultato 66B887059D9CF4EA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [sle] invariata
@@ -8411,7 +8411,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati 5349A29DFC0CB7F7 · byte 8661
 modificato 15 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 6939A43EF375D928
+risultato FB5180C157ABE319
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -8529,7 +8529,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1125,50 kNm\nMx−   -483,41 kNm\nMy+   526,74 kNm\nMy−   -526,74 kNm" · nascosto · riquadri "Mx+ 1125,50 kNm | Mx− -483,41 kNm | My+ 526,74 kNm | My− -526,74 kNm"
+[ingressi] rapide "Mx+   1125,69 kNm\nMx−   -483,55 kNm\nMy+   526,85 kNm\nMy−   -526,85 kNm" · nascosto · riquadri "Mx+ 1125,69 kNm | Mx− -483,55 kNm | My+ 526,85 kNm | My− -526,85 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli BD1755B81CE1FD6F · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}
@@ -8709,7 +8709,7 @@ dati 99BBF3FEEA397CD2 · byte 8706
   combinazioni.SLV[0].visible = true
   combinazioni.SLE[0].visible = true
 modificato 15 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 6939A43EF375D928
+risultato FB5180C157ABE319
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [sle] invariata
@@ -9012,7 +9012,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati 99BBF3FEEA397CD2 · byte 8706
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 54FD594D1D519F73
+risultato 5DC9A08304225D19
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -9130,7 +9130,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1125,50 kNm\nMx−   -483,41 kNm\nMy+   526,74 kNm\nMy−   -526,74 kNm" · nascosto · riquadri "Mx+ 1125,50 kNm | Mx− -483,41 kNm | My+ 526,74 kNm | My− -526,74 kNm"
+[ingressi] rapide "Mx+   1125,69 kNm\nMx−   -483,55 kNm\nMy+   526,85 kNm\nMy−   -526,85 kNm" · nascosto · riquadri "Mx+ 1125,69 kNm | Mx− -483,55 kNm | My+ 526,85 kNm | My− -526,85 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 29846E0DC208BAFD · trefoli BD1755B81CE1FD6F · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-208","y":"308"}

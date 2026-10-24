@@ -114,11 +114,11 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati EF031222386175BC · byte 8391
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
@@ -142,9 +142,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
+[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -165,7 +165,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
 [domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
@@ -229,7 +229,7 @@ dati 909A32DC19A20903 · byte 8436
   combinazioni.SLV[0].visible = true
   combinazioni.SLE[0].visible = true
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "aperta · righe 3 · selezionata -1 · stato \"Le modifiche saranno applicate solo con Applica.\" · origini sì · avviso sì · precedente sì · risultato -\n  \"<nuovo-1>\" | \"\" | \"Combo 1\" | \"\" | \"-2500\" | \"\" | \"\" | \"\" | \"500\" | \"250\" | \"Plastico\"\n  \"<nuovo-2>\" | \"\" | \"Combo 1\" | \"\" | \"-2500\" | \"\" | \"\" | \"\" | \"500\" | \"250\" | \"Elastico\"\n  \"<nuovo-3>\" | \"\" | \"Combo 1\" | \"Rara\" | \"-2500\" | \"\" | \"\" | \"\" | \"500\" | \"250\" | \"Rara\"\npulsante dialogo Annulla · chiusa"
 [azioni] invariata
@@ -238,7 +238,7 @@ messaggio "aperta · righe 3 · selezionata -1 · stato \"Le modifiche saranno a
 == apri sollecitazioni { pulsante dialogo Applica }
 dati 909A32DC19A20903 · byte 8436
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "aperta · righe 3 · selezionata -1 · stato \"Le modifiche saranno applicate solo con Applica.\" · origini sì · avviso sì · precedente sì · risultato -\n  \"<nuovo-1>\" | \"\" | \"Combo 1\" | \"\" | \"-2500\" | \"\" | \"\" | \"\" | \"500\" | \"250\" | \"Plastico\"\n  \"<nuovo-2>\" | \"\" | \"Combo 1\" | \"\" | \"-2500\" | \"\" | \"\" | \"\" | \"500\" | \"250\" | \"Elastico\"\n  \"<nuovo-3>\" | \"\" | \"Combo 1\" | \"Rara\" | \"-2500\" | \"\" | \"\" | \"\" | \"500\" | \"250\" | \"Rara\"\npulsante dialogo Applica · righe 3 · selezionata -1 · stato \"Scegliere lo stato limite per Combo 1.\" · origini sì · avviso sì · precedente sì · risultato -\n  \"<nuovo-1>\" | \"\" | \"Combo 1\" | \"\" | \"-2500\" | \"\" | \"\" | \"\" | \"500\" | \"250\" | \"Plastico\"\n  \"<nuovo-2>\" | \"\" | \"Combo 1\" | \"\" | \"-2500\" | \"\" | \"\" | \"\" | \"500\" | \"250\" | \"Elastico\"\n  \"<nuovo-3>\" | \"\" | \"Combo 1\" | \"Rara\" | \"-2500\" | \"\" | \"\" | \"\" | \"500\" | \"250\" | \"Rara\"\nchiusa dalla traccia"
 [azioni] invariata
@@ -247,7 +247,7 @@ messaggio "aperta · righe 3 · selezionata -1 · stato \"Le modifiche saranno a
 == attendi
 dati 909A32DC19A20903 · byte 8436
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
@@ -387,11 +387,11 @@ messaggio "aperta · righe 3 · selezionata -1 · stato \"Le modifiche saranno a
 == attendi
 dati D67F10656DBDCBD4 · byte 8820
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato DFB75383AE731D65
+risultato 25A16166E85614E0
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche sì · file ""
 [azioni] azioni SLU · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","stato":"SLV","visible":true}
 [azioni] azioni SLE · 1
@@ -420,9 +420,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -444,7 +444,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
 [domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · SLV\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
@@ -508,7 +508,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati BC7A9494C048C5DA · byte 8820
   workspace_ca.tab = 1
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato A519205CDE7BCF57
+risultato 818B126F50C1A295
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] form 3D
@@ -528,12 +528,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
-[domini] 3D dettaglio "SLU · N costante / Iterativo\n\nAZIONI · Locali\nCombo 1\n\nNEd = -2500,00 kN\nMx,Ed = 500,00 kNm\nMy,Ed = 250,00 kNm\n\nη = 0,54\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -2500,14 kN\nMx,Rd = 934,55 kNm\nMy,Rd = 467,23 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19,83 / 0,00 MPa\nσs min / max: -391,30 / 391,30 MPa\nεc min / max: -3,50 / 3,74 ‰\nεs min / max: -2,56 / 2,78 ‰\n\nd utile: 862,80 mm\nDistanza asse neutro dal lembo (GPC Engine): 473,64 mm\nInclinazione asse neutro: 48,39°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293,86 … 1868,43 kN\nMx: -1396,56 … 1406,11 kNm\nMy: -911,71 … 911,71 kNm\nEstremi campionati; non sono resistenze al N della riga."
-[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini] 3D dettaglio "SLU · N costante / Iterativo\n\nAZIONI · Locali\nCombo 1\n\nNEd = -2500,00 kN\nMx,Ed = 500,00 kNm\nMy,Ed = 250,00 kNm\n\nη = 0,53\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -2500,00 kN\nMx,Rd = 935,40 kNm\nMy,Rd = 467,70 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19,83 / 0,00 MPa\nσs min / max: -391,30 / 391,30 MPa\nεc min / max: -3,50 / 3,75 ‰\nεs min / max: -2,56 / 2,79 ‰\n\nd utile: 862,76 mm\nDistanza asse neutro dal lembo (GPC Engine): 473,12 mm\nInclinazione asse neutro: 48,40°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293,86 … 1868,46 kN\nMx: -1397,67 … 1407,46 kNm\nMy: -913,07 … 913,07 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 2DDB97C7CDE5B581 triangoli 3136 EF5B97CED469EC60 scala FFBBC06C3E7ED411
-[domini] 3D vista azioni 1 1708F359478EE6DC · selezionata 0 · Ed 593A4C541CD95A3F · Rd C8BE70FDDB7C90CD
+[domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
+[domini] 3D vista azioni 1 1708F359478EE6DC · selezionata 0 · Ed 593A4C541CD95A3F · Rd BADAD3E5AF76DF14
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 1 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
 [domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
@@ -552,7 +552,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
 [domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · SLV\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
@@ -561,7 +561,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati BC7A9494C048C5DA · byte 8820
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato A519205CDE7BCF57
+risultato 818B126F50C1A295
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
@@ -570,7 +570,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 8D78F45BD8D27AB5 · byte 8820
   workspace_ca.tab = 4
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 82E5851C06BA7CA0
+risultato C60A94CD57C3520D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
@@ -632,7 +632,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 8D78F45BD8D27AB5 · byte 8820
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 82E5851C06BA7CA0
+risultato C60A94CD57C3520D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
@@ -760,11 +760,11 @@ messaggio "aperta · righe 5 · selezionata -1 · stato \"Le modifiche saranno a
 == attendi
 dati 4FFB851790D9CE4A · byte 8715
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 3E476E4AF58D7733
+risultato FEDB2F73A3D5D8F7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche sì · file ""
 [azioni] azioni SLU · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [azioni] azioni SLV · 0
 [azioni] azioni SLE · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stato":"SLE","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
@@ -791,9 +791,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF39A879 #FF9AA4AF
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF39A879 #FF9AA4AF
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -815,7 +815,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
 [domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
@@ -877,7 +877,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati 4FFB851790D9CE4A · byte 8715
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 3E476E4AF58D7733
+risultato FEDB2F73A3D5D8F7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
@@ -1002,11 +1002,11 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati 4FFB851790D9CE4A · byte 8715
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 3E476E4AF58D7733
+risultato FEDB2F73A3D5D8F7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche sì · file ""
 [azioni] azioni SLU · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [azioni] azioni SLV · 0
 [azioni] azioni SLE · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stato":"SLE","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
@@ -1033,9 +1033,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF39A879 #FF9AA4AF
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF39A879 #FF9AA4AF
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -1057,7 +1057,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
 [domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5

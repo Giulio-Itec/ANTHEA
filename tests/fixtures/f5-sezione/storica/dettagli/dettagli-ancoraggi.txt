@@ -45,7 +45,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati EF031222386175BC · byte 8391
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == scheda [5]
@@ -55,13 +55,13 @@ dati 5E4D3BDCEA2D6597 · byte 8436
   combinazioni.SLE[0].visible = true
   workspace_ca.tab = 5
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 8D949983CB59C251
+risultato D572A7B168ABE0CF
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == attendi
 dati 5E4D3BDCEA2D6597 · byte 8436
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 8D949983CB59C251
+risultato D572A7B168ABE0CF
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == scelta dettagli elemento «Trave»
@@ -69,7 +69,7 @@ dati C53020DDF2FCBE76 · byte 8462
   workspace_ca.dettagli_costruttivi.elemento = "Trave"
   workspace_ca.dettagli_costruttivi.esposizione_sle = "Da scegliere"
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato BDF373075DFF1ADE
+risultato 4E7E93020F823588
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Trave" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -112,14 +112,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati C53020DDF2FCBE76 · byte 8462
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato BDF373075DFF1ADE
+risultato 4E7E93020F823588
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == scelta dettagli ancoraggio_appoggi «Confermato»
 dati 255FB3EA7E10406A · byte 8459
   workspace_ca.dettagli_costruttivi.ancoraggio_appoggi = "Confermato"
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato DF6A5F1723E27B2A
+risultato 6ED664951EF40833
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Trave" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -163,7 +163,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 074F80437C991B0D · byte 8456
   workspace_ca.dettagli_costruttivi.barre_trattenute = "Confermato"
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 4BC67CC73F511040
+risultato 2EF7838C7A2F02B1
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Trave" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -206,7 +206,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 074F80437C991B0D · byte 8456
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 4BC67CC73F511040
+risultato 2EF7838C7A2F02B1
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == campo dettagli aggregato «25»
@@ -256,14 +256,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati DE4942047CFB97A6 · byte 8456
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 7ABD0147F6808B1F
+risultato EF319112D11FDE9F
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == scelta dettagli vita_durabilita «100»
 dati 1AE92F39B9E26A9F · byte 8457
   workspace_ca.dettagli_costruttivi.vita_durabilita = "100"
 modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 4DB00B669C87847C
+risultato F5BEDCB293DA1047
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Trave" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -307,7 +307,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 622221302A0D2A21 · byte 8458
   workspace_ca.dettagli_costruttivi.qualita_copriferro = "Sì"
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 65A9A79A431B905F
+risultato BD377C564C253D23
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Trave" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -351,7 +351,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 0F6C2A50D786D90F · byte 8457
   workspace_ca.dettagli_costruttivi.delta_c = "5"
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato D61FC8D78C766735
+risultato D8D9634E95747093
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Trave" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -394,14 +394,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 0F6C2A50D786D90F · byte 8457
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato D61FC8D78C766735
+risultato D8D9634E95747093
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == scelta dettagli elemento «Soletta piena»
 dati 3EC9E299C2C5634E · byte 8465
   workspace_ca.dettagli_costruttivi.elemento = "Soletta piena"
 modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 03ED01E2C9E5071F
+risultato 202C6F8A8E57DB87
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Soletta piena" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -445,7 +445,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 3C37E92BB4F612E3 · byte 8467
   workspace_ca.dettagli_costruttivi.as_secondaria = "400"
 modificato 11 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 0749812C1D17AD14
+risultato 603E13537F87A52A
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Soletta piena" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -489,7 +489,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati A49D00C0FF57694D · byte 8469
   workspace_ca.dettagli_costruttivi.passo_secondaria = "250"
 modificato 12 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 222BBAC3D80866A3
+risultato 12A76DDCBD4BECE4
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Soletta piena" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -532,14 +532,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati A49D00C0FF57694D · byte 8469
 modificato 12 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 222BBAC3D80866A3
+risultato 12A76DDCBD4BECE4
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == scelta dettagli zona_critica «Sì»
 dati A00456A2DA813AA9 · byte 8470
   workspace_ca.dettagli_costruttivi.zona_critica = "Sì"
 modificato 13 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato C5213A598342BA1C
+risultato 178C7D38F42E499C
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Soletta piena" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -582,14 +582,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati A00456A2DA813AA9 · byte 8470
 modificato 13 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato C5213A598342BA1C
+risultato 178C7D38F42E499C
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == scelta dettagli elemento «Pilastro»
 dati 0F1481C4ED648A6D · byte 8465
   workspace_ca.dettagli_costruttivi.elemento = "Pilastro"
 modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 7A4C12D83AB36E14
+risultato F63290109F825A2C
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -632,14 +632,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 0F1481C4ED648A6D · byte 8465
 modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 7A4C12D83AB36E14
+risultato F63290109F825A2C
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == scelta ancoraggi tipo «Sovrapposizione rettilinea»
 dati 1F59BC556BBCEFCE · byte 8470
   workspace_ca.ancoraggi.tipo = "Sovrapposizione rettilinea"
 modificato 15 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 122C740393EAA4AA
+risultato 1193C441D4EEFE41
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -683,7 +683,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 61EC9C4531DA1D30 · byte 8473
   workspace_ca.ancoraggi.lunghezza = "800"
 modificato 16 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato A7CA6759E1EAA567
+risultato 62D8225AB1406BE2
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -727,7 +727,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 293383F717C6F4E0 · byte 8472
   workspace_ca.ancoraggi.percentuale = "50"
 modificato 17 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 62265F07DA06ABD3
+risultato 878493D8A68E0604
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -770,14 +770,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 293383F717C6F4E0 · byte 8472
 modificato 17 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 62265F07DA06ABD3
+risultato 878493D8A68E0604
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == campo ancoraggi diametro «24»
 dati 3444683324DB08DB · byte 8474
   workspace_ca.ancoraggi.diametro = "24"
 modificato 18 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 754C54D1A64DE650
+risultato A6234FB2A458A3BB
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -821,7 +821,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati AC2372978EE39F7C · byte 8477
   workspace_ca.ancoraggi.sigma = "300"
 modificato 19 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 60214317A01245F5
+risultato 4A0FC9C7A9130390
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -864,20 +864,20 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == pulsante ancoraggi Aggiorna verifiche ancoraggi
 dati AC2372978EE39F7C · byte 8477
 modificato 19 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 60214317A01245F5
+risultato 4A0FC9C7A9130390
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == attendi
 dati AC2372978EE39F7C · byte 8477
 modificato 19 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 60214317A01245F5
+risultato 4A0FC9C7A9130390
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == scelta ancoraggi confinamento «Verificato sul disegno»
 dati BBA78F493A3EAD72 · byte 8486
   workspace_ca.ancoraggi.confinamento = "Verificato sul disegno"
 modificato 20 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 51561969591D2A23
+risultato 55C970B27439A72D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -921,7 +921,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 0B8E05C996B3E0EE · byte 8485
   workspace_ca.ancoraggi.posizione = "Non conforme"
 modificato 21 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato CA1D33DEE16C7CFF
+risultato F7404265A57AAE52
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -964,14 +964,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 0B8E05C996B3E0EE · byte 8485
 modificato 21 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato CA1D33DEE16C7CFF
+risultato F7404265A57AAE52
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == scelta ancoraggi tipo «Ancoraggio rettilineo»
 dati E17C7692D0F9E6F9 · byte 8480
   workspace_ca.ancoraggi.tipo = "Ancoraggio rettilineo"
 modificato 22 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 308AF7EF944F7C61
+risultato 99F2BA675BCFAE13
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -1014,13 +1014,13 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati E17C7692D0F9E6F9 · byte 8480
 modificato 22 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 308AF7EF944F7C61
+risultato 99F2BA675BCFAE13
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == conferma
 dati E17C7692D0F9E6F9 · byte 8480
 modificato 22 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 308AF7EF944F7C61
+risultato 99F2BA675BCFAE13
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == riapri
@@ -1032,6 +1032,6 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati E17C7692D0F9E6F9 · byte 8480
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 308AF7EF944F7C61
+risultato 99F2BA675BCFAE13
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
