@@ -1481,13 +1481,13 @@
       "expected/sheets/str_palo/taglio-senza-staffe-manuali/visited.json": "c00ca05c0bf0ce7d0b599da56600614a753b46fa629a2aa2eebe02327bd5fdd5"
     },
     "figure_files": {
-      "../f3-concrete-figures/str_palo--circolare-cava.json": "bc290d86c654d14b951e4dfb4d25ae5914d5ed0894afdef4f6d7d36963765853",
-      "../f3-concrete-figures/str_palo--dati-incompleti-avvisi.json": "268925301d200ca14941037364ecd1d2226f8c0398e719467f8bbc8c4288de1c",
+      "../f3-concrete-figures/str_palo--circolare-cava.json": "39f63c0a1514a9c62373de0f9db81b6770959536232f92b3cff59fbbd9b37c63",
+      "../f3-concrete-figures/str_palo--dati-incompleti-avvisi.json": "f21f7c7028f746ef1e6103e33a8254ea471c2f0396eb6f5b6b162ca20d6200c5",
       "../f3-concrete-figures/str_palo--rettangolare-materiali-utente.json": "13f796a61c26c92e6b5f089352d658e698210dc28e275277e3d282173df82749",
-      "../f3-concrete-figures/str_palo--sezione-a-t-sollecitazioni-uniche.json": "13dbcc7a5c2b166900356009b3b686b221060aa456ab5e47c92f2305140f9cc0",
-      "../f3-concrete-figures/str_palo--sle-fessurazione-assi.json": "17f77488617c50731dbb6ac899503e65884fdc5538d6ce2ca80576c9dad3fa79",
-      "../f3-concrete-figures/str_palo--soletta-dettagli-ricerca.json": "d0e4d9ebdb20c5d9678153fdc6301bc7e366785131642bf802760806b6449b61",
-      "../f3-concrete-figures/str_palo--taglio-senza-staffe-manuali.json": "6e28a465572d4dc77dd20be69c04f41c68c8206b80200e9a9d1ba3814f2956da"
+      "../f3-concrete-figures/str_palo--sezione-a-t-sollecitazioni-uniche.json": "389c73eb6e3082540f61dcb1a94662caea798d94e941ed4e3542bc6c559110ca",
+      "../f3-concrete-figures/str_palo--sle-fessurazione-assi.json": "f44fa03e64b69b38d9b7915d58e4d6301777140876c5dc3cde6eff01938225bb",
+      "../f3-concrete-figures/str_palo--soletta-dettagli-ricerca.json": "8d7fd5d92c51b961f76a27244067d018d7c3960729477e09e4e7cb19f1b6124c",
+      "../f3-concrete-figures/str_palo--taglio-senza-staffe-manuali.json": "aab9714e88d6cd9a1fc504f4dc58fad2485994c7db9eb42073a22381c2bfb60c"
     },
     "updated": [
       {
@@ -1495,6 +1495,42 @@
         "before_sha256": "f4a842e46a8df621bc2ced465b12ebb40c328fe13600affa8b8b190b4242bcf4",
         "after_sha256": "a96823eac191d3d000e5e1f1047ed0d710cfcc5945efe79068f107cb72e85427",
         "note": "Solo il numero delle fixture, conseguenza diretta dell'aggiunta: 80 -> 87 nel ramo F5.10, 97 -> 104 dopo l'unione con le fixture degli altri passi (merge del coordinatore); il numero degli articoli resta quello del riferimento (71, transizione F4-51 invariata)."
+      },
+      {
+        "file": "../f3-concrete-figures/str_palo--circolare-cava.json",
+        "before_sha256": "bc290d86c654d14b951e4dfb4d25ae5914d5ed0894afdef4f6d7d36963765853",
+        "after_sha256": "39f63c0a1514a9c62373de0f9db81b6770959536232f92b3cff59fbbd9b37c63",
+        "note": "Set AG ufficiale (Model 2d59bbc6, Checker 22dabe69, GPCChecker.Concrete 0.20.0.1), voce AG-CA-05 del registro, 24/10/2026: stessa struttura e stesso numero di segmenti, linee e marcatori; cambiano solo le coordinate dei domini 2D (parabola analitica, AG-CA-01), al massimo lo 0,27 % della scala del grafico. Ricattura -CaptureConcreteFigures dalla vista XAML (corsa 20261024-225640-ag-ca2-cattura)."
+      },
+      {
+        "file": "../f3-concrete-figures/str_palo--dati-incompleti-avvisi.json",
+        "before_sha256": "268925301d200ca14941037364ecd1d2226f8c0398e719467f8bbc8c4288de1c",
+        "after_sha256": "f21f7c7028f746ef1e6103e33a8254ea471c2f0396eb6f5b6b162ca20d6200c5",
+        "note": "Set AG ufficiale (Model 2d59bbc6, Checker 22dabe69, GPCChecker.Concrete 0.20.0.1), voce AG-CA-05 del registro, 24/10/2026: stessa struttura e stesso numero di segmenti, linee e marcatori; cambiano solo le coordinate dei domini 2D (parabola analitica, AG-CA-01), al massimo lo 0,27 % della scala del grafico. Ricattura -CaptureConcreteFigures dalla vista XAML (corsa 20261024-225640-ag-ca2-cattura)."
+      },
+      {
+        "file": "../f3-concrete-figures/str_palo--sezione-a-t-sollecitazioni-uniche.json",
+        "before_sha256": "13dbcc7a5c2b166900356009b3b686b221060aa456ab5e47c92f2305140f9cc0",
+        "after_sha256": "389c73eb6e3082540f61dcb1a94662caea798d94e941ed4e3542bc6c559110ca",
+        "note": "Set AG ufficiale (Model 2d59bbc6, Checker 22dabe69, GPCChecker.Concrete 0.20.0.1), voce AG-CA-05 del registro, 24/10/2026: stessa struttura e stesso numero di segmenti, linee e marcatori; cambiano solo le coordinate dei domini 2D (parabola analitica, AG-CA-01), al massimo lo 0,27 % della scala del grafico. Ricattura -CaptureConcreteFigures dalla vista XAML (corsa 20261024-225640-ag-ca2-cattura)."
+      },
+      {
+        "file": "../f3-concrete-figures/str_palo--sle-fessurazione-assi.json",
+        "before_sha256": "17f77488617c50731dbb6ac899503e65884fdc5538d6ce2ca80576c9dad3fa79",
+        "after_sha256": "f44fa03e64b69b38d9b7915d58e4d6301777140876c5dc3cde6eff01938225bb",
+        "note": "Set AG ufficiale (Model 2d59bbc6, Checker 22dabe69, GPCChecker.Concrete 0.20.0.1), voce AG-CA-05 del registro, 24/10/2026: stessa struttura e stesso numero di segmenti, linee e marcatori; cambiano solo le coordinate dei domini 2D (parabola analitica, AG-CA-01), al massimo lo 0,27 % della scala del grafico. Ricattura -CaptureConcreteFigures dalla vista XAML (corsa 20261024-225640-ag-ca2-cattura)."
+      },
+      {
+        "file": "../f3-concrete-figures/str_palo--soletta-dettagli-ricerca.json",
+        "before_sha256": "d0e4d9ebdb20c5d9678153fdc6301bc7e366785131642bf802760806b6449b61",
+        "after_sha256": "8d7fd5d92c51b961f76a27244067d018d7c3960729477e09e4e7cb19f1b6124c",
+        "note": "Set AG ufficiale (Model 2d59bbc6, Checker 22dabe69, GPCChecker.Concrete 0.20.0.1), voce AG-CA-05 del registro, 24/10/2026: stessa struttura e stesso numero di segmenti, linee e marcatori; cambiano solo le coordinate dei domini 2D (parabola analitica, AG-CA-01), al massimo lo 0,27 % della scala del grafico. Ricattura -CaptureConcreteFigures dalla vista XAML (corsa 20261024-225640-ag-ca2-cattura)."
+      },
+      {
+        "file": "../f3-concrete-figures/str_palo--taglio-senza-staffe-manuali.json",
+        "before_sha256": "6e28a465572d4dc77dd20be69c04f41c68c8206b80200e9a9d1ba3814f2956da",
+        "after_sha256": "aab9714e88d6cd9a1fc504f4dc58fad2485994c7db9eb42073a22381c2bfb60c",
+        "note": "Set AG ufficiale (Model 2d59bbc6, Checker 22dabe69, GPCChecker.Concrete 0.20.0.1), voce AG-CA-05 del registro, 24/10/2026: stessa struttura e stesso numero di segmenti, linee e marcatori; cambiano solo le coordinate dei domini 2D (parabola analitica, AG-CA-01), al massimo lo 0,27 % della scala del grafico. Ricattura -CaptureConcreteFigures dalla vista XAML (corsa 20261024-225640-ag-ca2-cattura)."
       }
     ]
   },

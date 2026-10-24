@@ -71,6 +71,16 @@ predefinita) e con la decisione dell'utente («registra e aggiorna»), l'elenco 
 cambiano il verdetto (AG-CA-03, da decidere), quindi la suite resta rossa su quella fixture. Chiave `aggiornamento_ag_ca`
 dell'elenco. `ui/f3-equivalence` con questo set non è ancora stata eseguita.
 
+Il 24/10/2026 (sera), con la release AG ufficiale (4dd8018a: Model 2d59bbc6, Checker 22dabe69, GPCChecker.Concrete 0.20.0.1, che
+non rifiuta più i punti della strategia «Intersezione», AG-CA-03 corretta), gli 11 file F3 di `rettangolare-materiali-utente` sono
+uguali byte per byte al riferimento (valori AF): nessuna transizione da aggiungere, elenco invariato. Le figure CA congelate di
+`tests/fixtures/f3-concrete-figures` (dati dei grafici del dominio 2D, `ui/f3-concrete-figures`) sono ricatturate con
+`-CaptureConcreteFigures` dalla vista XAML (corsa `20261024-225640-ag-ca2-cattura`, voce AG-CA-05): 10 file su 11
+(`rettangolare-materiali-utente` invariato), stessa struttura e stesso numero di segmenti, linee e marcatori; cambiano solo le
+coordinate, al massimo lo 0,27 % della scala del grafico (i marcatori dei punti resistenti fino allo 0,21 % in modulo), e i residui
+numerici dei segmenti sugli assi (per esempio −1,19 → 2e-12). Nel manifest, sezione `fixture_aggiunte_f5_10`, cambiano le impronte
+delle 6 figure elencate, con una voce `updated` ciascuna; le 4 figure precedenti a F5.10 non hanno impronta nel manifest.
+
 ## Fixture aggiunte in F5.4 (palificata orizzontale)
 
 Proposta F5, sezione 7.2: prima di migrare un modulo con poche fixture se ne aggiungono altre, catturate con la vista

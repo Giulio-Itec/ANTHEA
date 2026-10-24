@@ -150,3 +150,27 @@ set precedente), riportate una per una nelle tracce: stesso numero di righe, nes
   dei materiali, stress block con My+ = |My−|, riepilogo «Rara · tensioni» NON VERIFICATA η 1,19 e 3 impronte di «risultato» dei passi
   senza punti rifiutati); restano 11 righe di AG-CA-03 (3 riepiloghi SLU 3D e 8 impronte dei passi con i punti rifiutati).
 - `vista-storica.json` (impronte di `ui/check-sezione-view`) non è stato toccato: il coordinatore lo verifica con lo stadio `ui`.
+
+## Aggiornamento per il set AG ufficiale (24/10/2026, sera; registro AG-CA-03, AG-CA-01 e AG-CA-05)
+
+Con la release AG ufficiale in `lib/Checker` (4dd8018a: Model 2d59bbc6, Checker 22dabe69, GPCChecker.Concrete 0.20.0.1) i punti della
+strategia «Intersezione» non sono più rifiutati (AG-CA-03 corretta in libreria). Righe riportate dal ViewModel, una per una, dalla corsa
+`ANTHEA\supporto\artefatti\ci\20261024-221519-ag-ufficiale-mirata` (`Presentation.Tests/sezione-ca`): stesso numero di righe, BOM e fine
+riga invariati, nessun testo diverso oltre ai numeri e alle impronte.
+- Tracce (AG-CA-01 e AG-CA-03): `domini/opzioni-domini.txt` 181 righe (113 di sole impronte, 68 con soli numeri),
+  `esempi/rettangolare-materiali-utente.txt` 13 righe (9 impronte di «risultato», 4 con numeri), `percorso-f3/rettangolare-materiali-utente.txt`
+  3 righe (resistenze rapide). Rispetto ad AF: resistenze dei domini fino a +0,25 % (Mx,Rd 719,80 → 721,57 kNm, dominio elastico 2D;
+  strategia «Intersezione» NRd −4597,54 → −4602,72 kN, Mx,Rd 919,51 → 920,54 kNm, +0,11 %), η stampati 0,54 → 0,53 e 0,70 → 0,69 per
+  arrotondamento, verdetti invariati; resistenze rapide di rettangolare-materiali-utente fra −0,019 % e −0,009 % (Mx+ 458,66 → 458,62 kNm).
+- Senza modifiche, ora uguali alla cattura con i valori AF: le 11 righe di `ingressi/materiali-utente.txt` lasciate per AG-CA-03 e la riga
+  `rettangolare-materiali-utente` di `disegni/domini-3d.txt`.
+- `disegni/elenco.txt` (AG-CA-05, corsa `ANTHEA\…\20261024-221519-ag-ufficiale-mirata\ui_check-sezione-view`): 56 righe di 11 fixture
+  (ispezione e piano 3D, dominio 2D, curva M–χ), con lo stesso numero di primitivi; negli elenchi completi, confrontati con quelli della
+  corsa AF `20261023-193404-merge-muri-ui`, cambiano solo coordinate e testi numerici, l'impronta dell'immagine della mappa 3D (17 disegni
+  d'ispezione) e in due disegni il colore di un riquadro della scala (#FFD1605D ↔ #FFD1605E).
+- `vista-storica.json` (AG-CA-05): nelle esportazioni delle 11 fixture 50 valori della sequenza (solo i confronti dei risultati: 3, 7, 11,
+  14 e 17; mai i dati) e 62 parti dei report (word/document.xml del report, del breve e della curva M–χ, figure dei domini e della curva),
+  presi dalla vista XAML con una registrazione temporanea di `ui/check-sezione-view`, non committata (corsa
+  `supporto/artefatti/ci/20261024-225640-ag-ca2-cattura` del worktree `aw-ag-ca2`). Nei report Word, confrontati con quelli della corsa AF,
+  nessun testo cambia oltre ai numeri (fino a ±0,37 %, un η stampato 2,69 → 2,68); `rettangolare-materiali-utente` cambia solo nel report
+  della curva M–χ. Sola lettura, nomi e finestre invariati.

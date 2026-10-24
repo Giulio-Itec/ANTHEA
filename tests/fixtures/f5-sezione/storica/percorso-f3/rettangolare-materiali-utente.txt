@@ -574,7 +574,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   458,66 kNm\nMx−   -214,22 kNm\nMy+   223,25 kNm\nMy−   -223,25 kNm" · nascosto · riquadri "Mx+ 458,66 kNm | Mx− -214,22 kNm | My+ 223,25 kNm | My− -223,25 kNm"
+[ingressi] rapide "Mx+   458,62 kNm\nMx−   -214,18 kNm\nMy+   223,22 kNm\nMy−   -223,22 kNm" · nascosto · riquadri "Mx+ 458,62 kNm | Mx− -214,18 kNm | My+ 223,22 kNm | My− -223,22 kNm"
 [ingressi] anteprima sezione Rettangolare 500x700 · Ac 350000 · As 2422.1679359177306 · contorno 4 59D185943A054C80 · fori 0 · barre 6 BD0897F50C3A2586 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 6 · selezionata -1
 [ingressi]   {"id":"B01","phi":"26","x":"-180","y":"-280"}
@@ -937,7 +937,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   458,66 kNm\nMx−   -214,22 kNm\nMy+   223,25 kNm\nMy−   -223,25 kNm" · nascosto · riquadri "Mx+ 458,66 kNm | Mx− -214,22 kNm | My+ 223,25 kNm | My− -223,25 kNm"
+[ingressi] rapide "Mx+   458,62 kNm\nMx−   -214,18 kNm\nMy+   223,22 kNm\nMy−   -223,22 kNm" · nascosto · riquadri "Mx+ 458,62 kNm | Mx− -214,18 kNm | My+ 223,22 kNm | My− -223,22 kNm"
 [ingressi] anteprima sezione Rettangolare 500x700 · Ac 350000 · As 2422.1679359177306 · contorno 4 59D185943A054C80 · fori 0 · barre 6 BD0897F50C3A2586 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 6 · selezionata -1
 [ingressi]   {"id":"B01","phi":"26","x":"-180","y":"-280"}
@@ -1728,7 +1728,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   458,66 kNm\nMx−   -214,22 kNm\nMy+   223,25 kNm\nMy−   -223,25 kNm" · nascosto · riquadri "Mx+ 458,66 kNm | Mx− -214,22 kNm | My+ 223,25 kNm | My− -223,25 kNm"
+[ingressi] rapide "Mx+   458,62 kNm\nMx−   -214,18 kNm\nMy+   223,22 kNm\nMy−   -223,22 kNm" · nascosto · riquadri "Mx+ 458,62 kNm | Mx− -214,18 kNm | My+ 223,22 kNm | My− -223,22 kNm"
 [ingressi] anteprima sezione Rettangolare 500x700 · Ac 350000 · As 2422.1679359177306 · contorno 4 59D185943A054C80 · fori 0 · barre 6 BD0897F50C3A2586 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 6 · selezionata -1
 [ingressi]   {"id":"B01","phi":"26","x":"-180","y":"-280"}
