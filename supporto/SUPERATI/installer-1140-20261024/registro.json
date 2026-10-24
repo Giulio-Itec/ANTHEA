@@ -1,0 +1,12 @@
+[
+  {
+    "origine": "supporto/installer/README.md",
+    "sha256": "8a3bc7d97cae9853b57e3e57628126cd6e6b92f06257e6106b857c67f4ecbd48",
+    "motivo": "Sostituito dalle istruzioni dell'installer di ANTHEA 1.14.0 (versione 1.13.0 → 1.14.0)."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "sha256": "31edc5404b350fdbc2a3a94aa613ca636aa49fe271e460dfca4fff4732eb80c1",
+    "motivo": "Sostituito dalle istruzioni dell'installer di ANTHEA 1.14.0 (versione 1.13.0 → 1.14.0)."
+  }
+]
