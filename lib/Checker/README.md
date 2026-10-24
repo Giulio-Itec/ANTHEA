@@ -1,5 +1,31 @@
 # DLL Checker
 
+**Snapshot AG locale — Design .NET Standard 2.0 (24 ottobre 2026).** Set candidato da
+Checker `1f8dcf5b` (`codex/design-netstandard20`) e Model `2d59bbc6`, installato con
+`Update-Snapshot.ps1 -ReleaseSet ... -AllowCandidate -Install`. Design passa da
+0.35.0.0 a **0.36.0.0** e tutte le DLL GPC sono ora `netstandard2.0`.
+
+Il set include Model 5.21.0.0, Concrete 0.20.0.0, Steel 2.41.0.1 e CompositeBridge
+1.13.0.1. Geotechnics 0.19.0.1 e Masonry 0.6.0.1 ricevono una revisione di versione
+per la ricompilazione, senza modifiche ai loro algoritmi. Utilities e Geometry sono
+le dipendenze binarie fissate da Model; tutte le versioni e la provenienza sono nei manifest.
+
+`System.Text.Json` 10.0.13 e' risolto tramite NuGet per i progetti che consumano
+GPC.Design, anche quando le librerie sono referenziate direttamente come DLL.
+Il cambio di target modifica l'identita' dei modificatori `init`: i consumer gia'
+compilati contro la precedente Design net8.0 richiedono una ricompilazione completa.
+ANTHEA e i suoi progetti dipendenti sono stati ricompilati con `-c Release -t:Rebuild`.
+
+Per esplicita richiesta dell'utente, questa fase di aggiornamento comprende soltanto
+le compilazioni: nessuna suite, smoke test o avvio automatico dell'applicazione.
+Build librerie riuscita; build ANTHEA riuscita con 0 errori e 9 avvisi del compilatore
+in file applicativi non modificati da questo aggiornamento. Versione ANTHEA invariata: 1.13.0.
+Il set e' locale, non pubblicato come rilascio ufficiale; `release-set.json` dichiara
+`validation.mode = build-only` e non riutilizza esiti di test come collaudo di questo set.
+
+Set: `Checker/releases/gpc-design-netstandard20-20261024`.
+Log ANTHEA: `supporto/artefatti/gpc-design-netstandard20-20261024/anthea-build.log`.
+
 **Release AF — paratie, pali e Steel 2.31 (22 ottobre 2026).** Set ufficiale da Model `45c3976c` e Checker
 `f6916d8e`, gli stessi commit del set candidato installato il 22/10 dalla sessione paratie, entrambi su
 origin/master; Geometry e Utilities invariati. Contiene:

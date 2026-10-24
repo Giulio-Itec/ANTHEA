@@ -24,6 +24,11 @@
     <Reference Include="@(_GpcLibraryName)" HintPath="$(GpcLibDir)%(Identity).dll" Private="true" Condition="'$(GpcRuntimeOnly)' != 'true'" />
   </ItemGroup>
 
+  <!-- GPC.Design netstandard2.0 has an explicit JSON dependency, also for direct DLL consumers. -->
+  <ItemGroup Condition="'$(_GpcEnabled)' == 'true' and $([System.String]::Copy(';$(GpcLibraries);').Contains(';GPC.Design;'))">
+    <PackageReference Include="System.Text.Json" Version="10.0.13" />
+  </ItemGroup>
+
   <Import Project="$(GpcManifestProps)" Condition="'$(_GpcEnabled)' == 'true' and Exists('$(GpcManifestProps)')" />
 
   <ItemGroup Condition="'$(_GpcEnabled)' == 'true' and '$(GpcRuntimeOnly)' == 'true'">

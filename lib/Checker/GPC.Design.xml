@@ -74,6 +74,9 @@
         <member name="M:GPC.Design.Bridges.RoadTraffic.Ntc2018(System.Double[])">
             <summary>Global longitudinal action. Numbering is common to carriageways divided by a fixed barrier.</summary>
         </member>
+        <member name="T:GPC.Design.Compatibility.PortableMath">
+            <summary>Runtime-independent primitives for the netstandard2.0 target. No engineering formulas or tolerances.</summary>
+        </member>
         <member name="T:GPC.Design.Costs.QuantityUnit">
             <summary>Units of measured work and prices; Hour (labour and plant hire in price analyses) converts only to itself.</summary>
         </member>
