@@ -27,7 +27,7 @@ static partial class Program
         StratigraphyDocument.Add(data);
         row = rows[1]!.AsObject(); row["name"] = "Argilla"; row["soil_type"] = "Argilla"; row["infinite"] = true; row["thickness"] = null; row["color"] = "#A7B7C7";
         row["cu"] = 60; data["water_state"] = "Assegnata"; data["water_depth"] = 1.5;
-        var assembly = typeof(X.Desktop.MainWindow).Assembly;
+        var assembly = typeof(X.Desktop.App).Assembly;
         // The sheet opens through the factory of the composition root and its contract (F5.2), as in the product; the checks read its view.
         var contract = assembly.GetType("X.Desktop.ISheetEditor")!;
         var composition = ProductComposition();

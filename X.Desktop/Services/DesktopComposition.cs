@@ -15,8 +15,8 @@ namespace X.Desktop.Services;
 /// <summary>
 /// Composition root of the desktop (refactoring F5.1, decision Q2 of 16/10/2026): every service of the presentation layer is
 /// created here, by hand, without a container, and reaches the ViewModels through their constructors. The dialogs of the
-/// application-wide services are owned by the active window, read at every call; the services of a main window
-/// (<see cref="WindowServices"/>) stay owned by that window, as in F1.4.
+/// application-wide services are owned by the active window, read at every call (F5.13 g3: the services of a main window of F1.4,
+/// WindowServices, are archived with MainWindow).
 /// </summary>
 internal sealed class DesktopComposition
 {
@@ -78,7 +78,4 @@ internal sealed class DesktopComposition
             // F5.12: Bridge Design, with the WPF drawings of the bridge; the Release keeps the historic view until its checkpoint.
             new Anthea.Presentation.Modules.BridgeDesign.BridgeDesignSheetModule(new BridgeDesignFigureRenderer())]);
     }
-
-    /// <summary>Factory of the services of a main window, unchanged since F1.4 (the WPF checks pass TestServices.Create instead).</summary>
-    internal DesktopServices WindowServices(Window owner) => WpfDesktopServices.Create(owner);
 }

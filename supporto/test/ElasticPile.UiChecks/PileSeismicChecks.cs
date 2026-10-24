@@ -58,9 +58,9 @@ static partial class Program
             var enable=Descendants<CheckBox>(editor).First(c=>c.DataContext is Anthea.Presentation.Forms.FieldViewModel f&&f.Label.StartsWith("Controlla zona dissipativa"));enable.IsChecked=false;host.Settle();
             Check(changes>0&&!hostSettings.B("sisma_testa"),"seismic mode changes invalidate using existing recalculation callback");enable=Descendants<CheckBox>(editor).First(c=>c.DataContext is Anthea.Presentation.Forms.FieldViewModel f&&f.Label.StartsWith("Controlla zona dissipativa"));enable.IsChecked=true;host.Settle();
         }
-        var drawingType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.PileReinforcementDrawing")!;var drawing=(FrameworkElement)Activator.CreateInstance(drawingType,true)!;drawingType.GetMethod("Set",flags)!.Invoke(drawing,[result,null]);var size=(Size)drawingType.GetProperty("SheetSize",flags)!.GetValue(drawing)!;
+        var drawingType=typeof(X.Desktop.App).Assembly.GetType("X.Desktop.PileReinforcementDrawing")!;var drawing=(FrameworkElement)Activator.CreateInstance(drawingType,true)!;drawingType.GetMethod("Set",flags)!.Invoke(drawing,[result,null]);var size=(Size)drawingType.GetProperty("SheetSize",flags)!.GetValue(drawing)!;
         Snapshot(drawing,Path.Combine(directory,"tavola-sisma.png"),(int)size.Width,(int)size.Height);
-        var profileType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.ElasticPileDrawing")!;var profile=(FrameworkElement)Activator.CreateInstance(profileType,true)!;
+        var profileType=typeof(X.Desktop.App).Assembly.GetType("X.Desktop.ElasticPileDrawing")!;var profile=(FrameworkElement)Activator.CreateInstance(profileType,true)!;
         var view=new JsonObject();profileType.GetProperty("Options",flags)!.SetValue(profile,view);profileType.GetMethod("Set",flags)!.Invoke(profile,[result,false]);
         string unchanged=result.ToJsonString();Snapshot(profile,Path.Combine(directory,"profilo-zona-10D.png"),1900,760);
         Check(result.ToJsonString()==unchanged,"seismic shading and reference lines do not modify calculation results");

@@ -929,19 +929,11 @@
       "Count": 1
     },
     {
-      "File": "X.Desktop/Wpf/ProjectReport.cs",
-      "Count": 1
-    },
-    {
       "File": "X.Desktop/Wpf/RetainingWallWorkspace.cs",
       "Count": 1
     },
     {
       "File": "X.Desktop/Wpf/RetainingWallWorkspace.Parameters.cs",
-      "Count": 1
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
       "Count": 1
     }
   ],
@@ -963,15 +955,7 @@
       "Count": 1
     },
     {
-      "File": "X.Desktop/Wpf/ProjectHierarchy.cs",
-      "Count": 2
-    },
-    {
       "File": "X.Desktop/Wpf/RetainingWallWorkspace.cs",
-      "Count": 1
-    },
-    {
-      "File": "X.Desktop/Wpf/SheetEditor.cs",
       "Count": 1
     },
     {

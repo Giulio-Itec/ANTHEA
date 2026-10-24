@@ -4,11 +4,12 @@ using X.Desktop.Services;
 
 namespace X.Desktop;
 
-/// <summary>Production services of a main window: the same dialogs and messages as before, owned by that window.</summary>
+/// <summary>
+/// The message boxes of the services below. F5.13 g3: the factory of the services of a main window (Create, DesktopServices) is archived with
+/// MainWindow in supporto/SUPERATI/ui-storica/shell; the services are those of the composition root (DesktopComposition).
+/// </summary>
 internal static class WpfDesktopServices
 {
-    internal static DesktopServices Create(Window owner) => new(new WpfConfirmationService(owner), new WpfMessageService(owner));
-
     /// <summary>Message box owned by <paramref name="owner"/> when there is one (MessageBox refuses a null owner).</summary>
     internal static MessageBoxResult Show(Window? owner, string text, string caption, MessageBoxButton buttons = MessageBoxButton.OK, MessageBoxImage image = MessageBoxImage.None)
         => owner is null ? MessageBox.Show(text, caption, buttons, image) : MessageBox.Show(owner, text, caption, buttons, image);

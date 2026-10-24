@@ -43,5 +43,293 @@
     "sha256_lf": "08534a22440d19ba9688e2097a46e5e465508c810a3ad900fed42fdc8c3aada0",
     "motivo": "F5.13 g: frammento estratto da tests/Desktop/ShellDraftChecks.cs (metodo HistoricHost, passo 21 di ui/check-shell-draft, «non applicabile» dal 23/10)",
     "sostituzione": "nessuno: senza moduli storici il passo non ha oggetto; le altre immagini 01-20 della bozza restano"
+  },
+  {
+    "origine": "X.Desktop/Services/DesktopServices.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Services/DesktopServices.cs",
+    "commit": "2d16c344 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "3437f23b5e3d0b31a6faf03424238a33cf0bc41cc020e6ffe0c81f2e8640e724",
+    "sha256_lf": "b7846d7f1fae18d2422492ea64a5c12e334bb1c03855ff367f711ac259c2cf1b",
+    "motivo": "F5.13 g3: servizi di una finestra principale (F1.4), usati solo da MainWindow e da TestServices",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/MainWindow.Examples.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/MainWindow.Examples.cs",
+    "commit": "27b58af6 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "27f3d1e09fe2e68269136c034b2706d95a45076ab088ca28dbdc53ad3e6adc8f",
+    "sha256_lf": "89c70d515941acac8d6b330f39869f5dd7c4b9065771daad1ac9b3f002f4b406",
+    "motivo": "F5.13 g3: partial della finestra storica MainWindow; dal 23/10 la Release apre la shell nuova (App.StartShell) e dal 24/10 nessuna prova la apre più",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/MainWindow.RetainingWall.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/MainWindow.RetainingWall.cs",
+    "commit": "becc44bf (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "df98fcfcc15a594e64f8cc12bafc57d70fed565c34a81d88fef5ca7ab3ba499b",
+    "sha256_lf": "c44f1e427acc0789a1e91ce1cefa751665bed767a5bf3ba36d41dd343e5881d0",
+    "motivo": "F5.13 g3: partial della finestra storica MainWindow; dal 23/10 la Release apre la shell nuova (App.StartShell) e dal 24/10 nessuna prova la apre più",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/MainWindow.ShortReport.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/MainWindow.ShortReport.cs",
+    "commit": "6bd55f6b (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "fb967ab8a0be8f67366d0e41cc4ac0251f8b3f988b6ad881433277d8a666a8ee",
+    "sha256_lf": "366759c04c002c5ca72ae312277abae66663c4646e360a13cda203ba9c62016a",
+    "motivo": "F5.13 g3: partial della finestra storica MainWindow; dal 23/10 la Release apre la shell nuova (App.StartShell) e dal 24/10 nessuna prova la apre più",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/MainWindow.Wiki.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/MainWindow.Wiki.cs",
+    "commit": "c4165deb (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "e27c5381cc2d73cb8816a84872b19a388f78ed444f5bdf8b2aaae8ef240a8fee",
+    "sha256_lf": "578a4bd359facab6fc0af72c1dd828d272af436bddbe755e991819985eef2dba",
+    "motivo": "F5.13 g3: partial della finestra storica MainWindow; dal 23/10 la Release apre la shell nuova (App.StartShell) e dal 24/10 nessuna prova la apre più",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/MainWindow.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/MainWindow.cs",
+    "commit": "27b58af6 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "dd01ee84e84985e5fe770c0b752ab226712ad08fdaaf06b36e4354e32ca6f62c",
+    "sha256_lf": "5cd4afb22e0801446ec12b64e7d26b601beb76f6a9f2f11b5e3b50800a018326",
+    "motivo": "F5.13 g3: partial della finestra storica MainWindow; dal 23/10 la Release apre la shell nuova (App.StartShell) e dal 24/10 nessuna prova la apre più",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ProjectCoverStatus.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/ProjectCoverStatus.cs",
+    "commit": "a8b69641 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "b41c1e8ececc7f73a6e1d1385e004f512187ea3a396cbd364d90e0315670aa8d",
+    "sha256_lf": "79fe7b047d3b04f52f16ab5344668515a64b5890f0988ddfb7d0de506acedbf9",
+    "motivo": "F5.13 g3: partial di MainWindow per i progetti (albero, riepilogo, condivisione, revisioni, report della sezione), ritirata con lei",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ProjectHierarchy.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/ProjectHierarchy.cs",
+    "commit": "56ff3223 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "40f437853227e0b5f10813e7aeb25b5c78ac865596deb152ee24249b5c9e820a",
+    "sha256_lf": "694e5719bd4cd4fd8372739572b864608c53504f2af32d2c483289b49fdee8ef",
+    "motivo": "F5.13 g3: partial di MainWindow per i progetti (albero, riepilogo, condivisione, revisioni, report della sezione), ritirata con lei",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ProjectModels.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/ProjectModels.cs",
+    "commit": "0214434e (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "f62e96af246c7253a95b8e6666f5a99b662d59715c5722ebc98a41c078b72979",
+    "sha256_lf": "28006e356385392b4146f65180293759ffcf12594def0a5aba88b2d2870136f1",
+    "motivo": "F5.13 g3: partial di MainWindow per i progetti (albero, riepilogo, condivisione, revisioni, report della sezione), ritirata con lei",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ProjectMovePreview.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/ProjectMovePreview.cs",
+    "commit": "38569537 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "5a3bb07df2714775df8ff058ce8ea3adcc38dae58597e0924a474c35f3d81327",
+    "sha256_lf": "fb14bfcef2170de957cdf31de784250847befad3dd3b673ca2fdf9622553edee",
+    "motivo": "F5.13 g3: partial di MainWindow per i progetti (albero, riepilogo, condivisione, revisioni, report della sezione), ritirata con lei",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ProjectPresentation.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/ProjectPresentation.cs",
+    "commit": "c4165deb (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "0194ea4362f57ccdf25ca59f43c0c0401d0d5fa5309ae32b7364fd8ac79f543a",
+    "sha256_lf": "38a38b6cb890b96851cf6183b1df82b7b6519042b928e83c719a0d8cd052f755",
+    "motivo": "F5.13 g3: partial di MainWindow per i progetti (albero, riepilogo, condivisione, revisioni, report della sezione), ritirata con lei",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ProjectReport.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/ProjectReport.cs",
+    "commit": "6bd55f6b (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "af74a8104962d5213ed79817053721148a876371e081f1b4a01fd6e81b5df51d",
+    "sha256_lf": "13b6400467d7b2667a1a2dddc998d369ed8029c7db7a55e7c8ea545cb71812ce",
+    "motivo": "F5.13 g3: partial di MainWindow per i progetti (albero, riepilogo, condivisione, revisioni, report della sezione), ritirata con lei",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ProjectRevisionNavigation.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/ProjectRevisionNavigation.cs",
+    "commit": "5b4c3d6c (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "64915f52963b4a55a8e4d219e4cfa1dee8b39773861d47e15e34dfc5ee150246",
+    "sha256_lf": "077c197749adc554383b1f5db6d06a72c1bb17a510eb116c450f8d536bff5115",
+    "motivo": "F5.13 g3: partial di MainWindow per i progetti (albero, riepilogo, condivisione, revisioni, report della sezione), ritirata con lei",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ProjectSectionReorder.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/ProjectSectionReorder.cs",
+    "commit": "f259467e (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "f30af75b62627143146538961c2934bdf7d43dbbd9f8f5794b7cc310962c3484",
+    "sha256_lf": "bc24b70f560dbbe9a92a97b170e73c8aa2e39019dfab21ca4cbb1debf62b4ec7",
+    "motivo": "F5.13 g3: partial di MainWindow per i progetti (albero, riepilogo, condivisione, revisioni, report della sezione), ritirata con lei",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ProjectSharing.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/ProjectSharing.cs",
+    "commit": "863885c2 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "bad052a9bc16b5e1ccdc4003c17ed228af7aea69a4deb092ac394f49d06d46a4",
+    "sha256_lf": "dd7608c4f6bc875b55f1949a7589f3cb859dd33cd3c32ca92ff23a735f9010c7",
+    "motivo": "F5.13 g3: partial di MainWindow per i progetti (albero, riepilogo, condivisione, revisioni, report della sezione), ritirata con lei",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "X.Desktop/Wpf/ProjectWorkspace.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/ProjectWorkspace.cs",
+    "commit": "5b4c3d6c (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "4b96d0af3b5ee23c407afdfbb61eb0f1707251ccf7072e1a198397f4b3a2c15f",
+    "sha256_lf": "474bcc8ab7777c7119eda4eeb38f9791984b4aee6092434de43d8e5a25959fdd",
+    "motivo": "F5.13 g3: partial di MainWindow per i progetti (albero, riepilogo, condivisione, revisioni, report della sezione), ritirata con lei",
+    "sostituzione": "la shell nuova (X.Desktop/Views/Shell, Anthea.Presentation.Shell) dalla sua radice di composizione (ShellComposition); i servizi di DesktopComposition"
+  },
+  {
+    "origine": "supporto/test/ConcreteShort.UiChecks/ConcreteShort.UiChecks.csproj",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/ConcreteShort.UiChecks/ConcreteShort.UiChecks.csproj",
+    "commit": "4240dfb6 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "fdf91087bc11ca7c67ece01b415468a4cb2534b236f6be4232d849b67ab93006",
+    "sha256_lf": "a25492c59a50d78a09c820f6a6ff35abade078eac9fa543d99366ebf89a9ecd6",
+    "motivo": "F5.13 g3: prova esterna del pulsante «Report short» nella barra di MainWindow, per riflessione sui suoi metodi",
+    "sostituzione": "ANTHEA.Presentation.Tests (CommandsChecks: «Report short» solo per la sezione c.a., ShortReportVisible) e ui/check-shell-draft"
+  },
+  {
+    "origine": "supporto/test/ConcreteShort.UiChecks/Program.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/ConcreteShort.UiChecks/Program.cs",
+    "commit": "2cdf9fda (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "c9262694925147f35f78649c01b624b9c3ec01d5ae3adfa478271eb8cb6c1dd2",
+    "sha256_lf": "8116c6aeac76e75e8acc74556a2d0c84cae79a5d22238e53621b9598b25ca53f",
+    "motivo": "F5.13 g3: prova esterna del pulsante «Report short» nella barra di MainWindow, per riflessione sui suoi metodi",
+    "sostituzione": "ANTHEA.Presentation.Tests (CommandsChecks: «Report short» solo per la sezione c.a., ShortReportVisible) e ui/check-shell-draft"
+  },
+  {
+    "origine": "supporto/test/Desktop/DisplaySmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/Desktop/DisplaySmokeChecks.cs",
+    "commit": "5583ad27 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "1266adea212dab797ec44837d8cc7affeb12b5e3b9d28978f048874a420d0adb",
+    "sha256_lf": "1316654222ede373ac5ffd49c46a557075fa8e0ea9105e752825556f8e1d1657",
+    "motivo": "F5.13 g3: partial di MainWindow delle sei suite storiche ui/smoke-projects, -project-workspace, -hierarchy, -sharing, -project-report e -display, già sostituite da ui/shell-smoke-* (F5.13 e)",
+    "sostituzione": "ui/shell-smoke-projects, ui/shell-smoke-project-workspace, ui/shell-smoke-hierarchy, ui/shell-smoke-sharing, ui/shell-smoke-project-report, ui/shell-smoke-display (tests/Desktop/ShellSmoke*.cs)"
+  },
+  {
+    "origine": "supporto/test/Desktop/MainWindow.Tests.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/Desktop/MainWindow.Tests.cs",
+    "commit": "7c37e0f8 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "c05eb2dd1c54b9b34215b6a147cae8de1a0cb57fcd51839ca8c7a83ccf0a7eb8",
+    "sha256_lf": "200151953ae6c855defb006acdea241d3fccac4ed79659170e8f29f727077299",
+    "motivo": "F5.13 g3: partial di prova di MainWindow (UiTests)",
+    "sostituzione": "nessuno: ShellSmokeWindow (tests/Desktop) per le suite portate sulla shell"
+  },
+  {
+    "origine": "supporto/test/Desktop/ProjectComparisonChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/Desktop/ProjectComparisonChecks.cs",
+    "commit": "f259467e (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "3eb010e09015e28c0e9437109934c470ad2dbd0d30725a498faacb5892c86e0c",
+    "sha256_lf": "cae901938b8e7b340d8f470e3049164d56cbdfee7362db1c979d03bfb8051956",
+    "motivo": "F5.13 g3: partial di MainWindow delle sei suite storiche ui/smoke-projects, -project-workspace, -hierarchy, -sharing, -project-report e -display, già sostituite da ui/shell-smoke-* (F5.13 e)",
+    "sostituzione": "ui/shell-smoke-projects, ui/shell-smoke-project-workspace, ui/shell-smoke-hierarchy, ui/shell-smoke-sharing, ui/shell-smoke-project-report, ui/shell-smoke-display (tests/Desktop/ShellSmoke*.cs)"
+  },
+  {
+    "origine": "supporto/test/Desktop/ProjectCoverWarningSmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/Desktop/ProjectCoverWarningSmokeChecks.cs",
+    "commit": "519acbf5 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "64dfc758a4de5a0d6115795c34d3884d3c820e3b7d35fa1c6791f75927385ba2",
+    "sha256_lf": "038cda75ec5ff1489f34fdf30475c8fc4ab850c0ea24e2222b63e448bc6ad89b",
+    "motivo": "F5.13 g3: partial di MainWindow delle sei suite storiche ui/smoke-projects, -project-workspace, -hierarchy, -sharing, -project-report e -display, già sostituite da ui/shell-smoke-* (F5.13 e)",
+    "sostituzione": "ui/shell-smoke-projects, ui/shell-smoke-project-workspace, ui/shell-smoke-hierarchy, ui/shell-smoke-sharing, ui/shell-smoke-project-report, ui/shell-smoke-display (tests/Desktop/ShellSmoke*.cs)"
+  },
+  {
+    "origine": "supporto/test/Desktop/ProjectDragLayoutSmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/Desktop/ProjectDragLayoutSmokeChecks.cs",
+    "commit": "f259467e (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "45cbd2be3e94c7a9c41a462fd538cf39f3d6672742c768a0088cfdc54a1d0005",
+    "sha256_lf": "b51810c83348e920546525c7877432b257a4279514224d07973525bfbb2b052a",
+    "motivo": "F5.13 g3: partial di MainWindow delle sei suite storiche ui/smoke-projects, -project-workspace, -hierarchy, -sharing, -project-report e -display, già sostituite da ui/shell-smoke-* (F5.13 e)",
+    "sostituzione": "ui/shell-smoke-projects, ui/shell-smoke-project-workspace, ui/shell-smoke-hierarchy, ui/shell-smoke-sharing, ui/shell-smoke-project-report, ui/shell-smoke-display (tests/Desktop/ShellSmoke*.cs)"
+  },
+  {
+    "origine": "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+    "commit": "0fa316d3 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "91b39f6c711eb0f5ee7d00cb2f3e1c1f8cf693ce75fc5a5240989b907acdcf00",
+    "sha256_lf": "9837d10265b09d41c6ff03d464482244f4cb4b1895550775e266eeb4431ea86a",
+    "motivo": "F5.13 g3: partial di MainWindow delle sei suite storiche ui/smoke-projects, -project-workspace, -hierarchy, -sharing, -project-report e -display, già sostituite da ui/shell-smoke-* (F5.13 e)",
+    "sostituzione": "ui/shell-smoke-projects, ui/shell-smoke-project-workspace, ui/shell-smoke-hierarchy, ui/shell-smoke-sharing, ui/shell-smoke-project-report, ui/shell-smoke-display (tests/Desktop/ShellSmoke*.cs)"
+  },
+  {
+    "origine": "supporto/test/Desktop/ProjectReportSmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/Desktop/ProjectReportSmokeChecks.cs",
+    "commit": "495d0d7f (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "7113e6f39ca9ea5c3995429c399b4486a34a5695c7e023c6c0b39867ed18408e",
+    "sha256_lf": "62e42bd4b76523c1824bf566ce7618b1522bde2f72cd704312fac2fca3cc763e",
+    "motivo": "F5.13 g3: partial di MainWindow delle sei suite storiche ui/smoke-projects, -project-workspace, -hierarchy, -sharing, -project-report e -display, già sostituite da ui/shell-smoke-* (F5.13 e)",
+    "sostituzione": "ui/shell-smoke-projects, ui/shell-smoke-project-workspace, ui/shell-smoke-hierarchy, ui/shell-smoke-sharing, ui/shell-smoke-project-report, ui/shell-smoke-display (tests/Desktop/ShellSmoke*.cs)"
+  },
+  {
+    "origine": "supporto/test/Desktop/ProjectRevisionDeletionSmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/Desktop/ProjectRevisionDeletionSmokeChecks.cs",
+    "commit": "8aece8fe (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "deb10d96b2cf90d2d12e5b588e7c6490ba1e9d3ce4d4bc974dd10bdb35c9afc4",
+    "sha256_lf": "1ce5f0f1d8720c38dcc1fc520c145f986fe8bbbffbb11a4d6668034ac972b4bd",
+    "motivo": "F5.13 g3: partial di MainWindow delle sei suite storiche ui/smoke-projects, -project-workspace, -hierarchy, -sharing, -project-report e -display, già sostituite da ui/shell-smoke-* (F5.13 e)",
+    "sostituzione": "ui/shell-smoke-projects, ui/shell-smoke-project-workspace, ui/shell-smoke-hierarchy, ui/shell-smoke-sharing, ui/shell-smoke-project-report, ui/shell-smoke-display (tests/Desktop/ShellSmoke*.cs)"
+  },
+  {
+    "origine": "supporto/test/Desktop/ProjectRevisionNavigationSmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/Desktop/ProjectRevisionNavigationSmokeChecks.cs",
+    "commit": "8aece8fe (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "bd962073b1d53bc26e3cea39f447659c231347ffe27bb8ce58dcf232cbffbef9",
+    "sha256_lf": "10688b2fd1af66d3d070bedbaad9e09c1facbc111c090f5eb0dbec1c73d7bf19",
+    "motivo": "F5.13 g3: partial di MainWindow delle sei suite storiche ui/smoke-projects, -project-workspace, -hierarchy, -sharing, -project-report e -display, già sostituite da ui/shell-smoke-* (F5.13 e)",
+    "sostituzione": "ui/shell-smoke-projects, ui/shell-smoke-project-workspace, ui/shell-smoke-hierarchy, ui/shell-smoke-sharing, ui/shell-smoke-project-report, ui/shell-smoke-display (tests/Desktop/ShellSmoke*.cs)"
+  },
+  {
+    "origine": "supporto/test/Desktop/ProjectSharingSmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/Desktop/ProjectSharingSmokeChecks.cs",
+    "commit": "0fa316d3 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "dff0e271b67642956bc9c52884d746f20c6f99f6a7dcae5808044696f9d12658",
+    "sha256_lf": "6930208e9bc641af690bd108adbb076383347948ffc333d221d1f720f316cfda",
+    "motivo": "F5.13 g3: partial di MainWindow delle sei suite storiche ui/smoke-projects, -project-workspace, -hierarchy, -sharing, -project-report e -display, già sostituite da ui/shell-smoke-* (F5.13 e)",
+    "sostituzione": "ui/shell-smoke-projects, ui/shell-smoke-project-workspace, ui/shell-smoke-hierarchy, ui/shell-smoke-sharing, ui/shell-smoke-project-report, ui/shell-smoke-display (tests/Desktop/ShellSmoke*.cs)"
+  },
+  {
+    "origine": "supporto/test/Desktop/ProjectSmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/Desktop/ProjectSmokeChecks.cs",
+    "commit": "0fa316d3 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "7ba65957a88690fc179b5da8d56b3aa068381e26bd3275417ef73911a08d37e5",
+    "sha256_lf": "c1706540f71c44d42d68b28d90db42d24f1786841202514a43f19ca3741ba943",
+    "motivo": "F5.13 g3: partial di MainWindow delle sei suite storiche ui/smoke-projects, -project-workspace, -hierarchy, -sharing, -project-report e -display, già sostituite da ui/shell-smoke-* (F5.13 e)",
+    "sostituzione": "ui/shell-smoke-projects, ui/shell-smoke-project-workspace, ui/shell-smoke-hierarchy, ui/shell-smoke-sharing, ui/shell-smoke-project-report, ui/shell-smoke-display (tests/Desktop/ShellSmoke*.cs)"
+  },
+  {
+    "origine": "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+    "commit": "e1848f05 (ultimo che lo modifica), invariato fino a refactoring/f5 3e6c6f77",
+    "sha256": "5a4b4703fa0a613d9b14880fc22bd502ef594e3e2e8d0f27adba74ef7151a312",
+    "sha256_lf": "e5e7379034f7eda3b70fdd8efda00c5c3bc0a2a334ea6119872432f7e3c29e1e",
+    "motivo": "F5.13 g3: partial di MainWindow delle sei suite storiche ui/smoke-projects, -project-workspace, -hierarchy, -sharing, -project-report e -display, già sostituite da ui/shell-smoke-* (F5.13 e)",
+    "sostituzione": "ui/shell-smoke-projects, ui/shell-smoke-project-workspace, ui/shell-smoke-hierarchy, ui/shell-smoke-sharing, ui/shell-smoke-project-report, ui/shell-smoke-display (tests/Desktop/ShellSmoke*.cs)"
+  },
+  {
+    "origine": "tests/Desktop/ShellProjectCapture.cs (frammento: la partial di MainWindow CaptureProjectForChecks (lo scenario della cattura attraverso MainWindow), a refactoring/f5 3e6c6f77)",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/tests/Desktop/ShellProjectCapture.MainWindow.cs",
+    "commit": "e1f5443f (ultimo che lo modifica fino a 3e6c6f77)",
+    "sha256": "44ffa19c75c84f3904b5de1ee5c15d59e7d09373e6b67836bdb11bc4df771e0a",
+    "sha256_lf": "3b11778e6d6efb898a782620b1fb617e0e04db8eba02977f59bcd29743601b72",
+    "motivo": "F5.13 g3: frammento estratto con il ritiro di MainWindow",
+    "sostituzione": "la cartella mainwindow/ di ui/shell-capture è la copia dei valori registrati (tests/fixtures/f5-shell/cattura-mainwindow)"
+  },
+  {
+    "origine": "tests/Desktop/ShellSmokeReport.cs (frammento: la partial di MainWindow SectionReportForChecks (il report della sezione come lo scriveva MainWindow), a refactoring/f5 3e6c6f77)",
+    "archivio": "supporto/SUPERATI/ui-storica/shell/tests/Desktop/ShellSmokeReport.MainWindow.cs",
+    "commit": "0661f1bf (ultimo che lo modifica fino a 3e6c6f77)",
+    "sha256": "142b921154893e6321e742c90b1cec5dc7cda2d5d7e0ae5662e5c9b19d67235c",
+    "sha256_lf": "0a2f817dc79c73fc4438c58252f62e0b18ca30f5de91a4aaa60ec350a843e7b2",
+    "motivo": "F5.13 g3: frammento estratto con il ritiro di MainWindow",
+    "sostituzione": "ShellReferences.SectionReport, la chiamata registrata di MainWindow, e «report_sezione» di tests/fixtures/f5-shell/finestra-storica.json"
   }
 ]
