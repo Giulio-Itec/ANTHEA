@@ -1,8 +1,9 @@
 {
     "snapshotDate":  "2026-10-24",
-    "generator":  "tools/libs/Update-Snapshot.ps1",
-    "fromUpstream":  true,
-    "buildRoot":  "C:\\Users\\g.pacini\\AppData\\Local\\Temp\\gpc-snapshot",
+    "generator":  "tools/libs/Update-Snapshot.ps1 -ReleaseSet",
+    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\ANTHEA\\supporto\\artefatti\\librerie-20261024-ag\\gpc-release-20261024-ag",
+    "releaseSetCreated":  "2026-10-24T22:13:25",
+    "candidate":  false,
     "targetFramework":  "netstandard2.0",
     "nuget":  [
                   {
@@ -21,7 +22,7 @@
                            "assemblyVersion":  "3.0.0.0",
                            "sha256":  "92031B381F9AA426A5F88B48762C72DB89724F784670FFDA8802203FC52A05E5",
                            "repository":  "Utilities",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "e57b440b16a0a311a7bf0af2f9cf4d2681b83491",
                            "pushed":  true,
                            "sdk":  "9.0.319"
@@ -32,7 +33,7 @@
                            "assemblyVersion":  "2.3.0.0",
                            "sha256":  "7EF76EDFB4C3736AAE7B6F66B2F3CE30A8BB8DE031C492B03BD52289D6E9D29E",
                            "repository":  "Geometry",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "6734eee1004142576b96759e34c15dec48776e23",
                            "pushed":  true,
                            "sdk":  "9.0.319"
@@ -43,7 +44,7 @@
                            "assemblyVersion":  "2.0.0.14",
                            "sha256":  "D18BB08255D23239271C197130515758767291F75CE1A9996F1A92DB55F114BB",
                            "repository":  "Geometry",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "6734eee1004142576b96759e34c15dec48776e23",
                            "pushed":  true,
                            "sdk":  "9.0.319"
@@ -54,7 +55,7 @@
                            "assemblyVersion":  "5.21.0.0",
                            "sha256":  "86AABD20AB7EB4F7CA257705D803C6F9C7D4ECBAE8B55EB254EBF71C93DCC2DB",
                            "repository":  "Model",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "2d59bbc609cd9c913abbfc8c8b7cc6615f7b4d53",
                            "pushed":  true,
                            "sdk":  "9.0.319"
@@ -65,7 +66,7 @@
                            "assemblyVersion":  "0.3.0.1",
                            "sha256":  "FD230620B25D5DC1D03BE1B0D401E1109C46BABB1866DC7B47F2537F9BC09AD0",
                            "repository":  "Model",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "2d59bbc609cd9c913abbfc8c8b7cc6615f7b4d53",
                            "pushed":  true,
                            "sdk":  "9.0.319"
@@ -76,7 +77,7 @@
                            "assemblyVersion":  "2.6.0.1",
                            "sha256":  "9F408177CAD6A9807B7A3C547B0BB95D4BCEAA5CD134B3C50385BC4182EB424D",
                            "repository":  "Model",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "2d59bbc609cd9c913abbfc8c8b7cc6615f7b4d53",
                            "pushed":  true,
                            "sdk":  "9.0.319"
@@ -87,7 +88,7 @@
                            "assemblyVersion":  "3.3.0.1",
                            "sha256":  "82DE7FB3A5F2267A8FBB2C65525EE46472C232D8DBCCDD6790BFB456F143EFC0",
                            "repository":  "Model",
-                           "branch":  "master",
+                           "branch":  "HEAD",
                            "commit":  "2d59bbc609cd9c913abbfc8c8b7cc6615f7b4d53",
                            "pushed":  true,
                            "sdk":  "9.0.319"
@@ -95,11 +96,11 @@
                        {
                            "file":  "GPCChecker.Concrete.dll",
                            "source":  "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.20.0.0",
-                           "sha256":  "DE9B9F49A0457568716F311076F0B18F7994F06A8834B417EFA60489C163C9CE",
+                           "assemblyVersion":  "0.20.0.1",
+                           "sha256":  "D6FD5D09DCA35AB675D4B04A84A3E43119EA5CC7AE589CC803B81135DA804942",
                            "repository":  "Checker",
-                           "branch":  "master",
-                           "commit":  "f6d87d28905c9080740ec984a3acf77b29824578",
+                           "branch":  "fix/merge-analytic-legacy-20261024",
+                           "commit":  "22dabe69e15fb6b04ce474dc3890ae50318101f9",
                            "pushed":  true,
                            "sdk":  "9.0.319"
                        },
@@ -107,10 +108,10 @@
                            "file":  "GPCChecker.Steel.dll",
                            "source":  "Checker/GPCChecker.Steel/bin/Release/netstandard2.0",
                            "assemblyVersion":  "2.84.0.0",
-                           "sha256":  "DD4671217DE7337CE1D9D1550997986613005A348882DC8751DEA2194879863F",
+                           "sha256":  "8907F84F4B3933D3E2FF00B5ADC66B98513C546554E4680B56BA75EBCAF50DA3",
                            "repository":  "Checker",
-                           "branch":  "master",
-                           "commit":  "f6d87d28905c9080740ec984a3acf77b29824578",
+                           "branch":  "fix/merge-analytic-legacy-20261024",
+                           "commit":  "22dabe69e15fb6b04ce474dc3890ae50318101f9",
                            "pushed":  true,
                            "sdk":  "9.0.319"
                        },
@@ -118,10 +119,10 @@
                            "file":  "GPCChecker.Geotechnics.dll",
                            "source":  "Checker/GPCChecker.Geotechnics/bin/Release/netstandard2.0",
                            "assemblyVersion":  "0.19.0.1",
-                           "sha256":  "0DC0BE19308C19D6B4FA9604DB4D715AC307CB8627C7C2CC8937BA1941A9C95B",
+                           "sha256":  "6ED52C5C504C93C3A4EF18A1C41CC2D618A23E1C2060AC65E21E213DDDF2EE88",
                            "repository":  "Checker",
-                           "branch":  "master",
-                           "commit":  "f6d87d28905c9080740ec984a3acf77b29824578",
+                           "branch":  "fix/merge-analytic-legacy-20261024",
+                           "commit":  "22dabe69e15fb6b04ce474dc3890ae50318101f9",
                            "pushed":  true,
                            "sdk":  "9.0.319"
                        },
@@ -129,10 +130,10 @@
                            "file":  "GPCChecker.Masonry.dll",
                            "source":  "Checker/src/GPCChecker.Masonry/bin/Release/netstandard2.0",
                            "assemblyVersion":  "0.6.0.1",
-                           "sha256":  "43A50EB8DE8B7F0710C8255EC68905D510FC06743F4F19BDADA5CA777C5E90A4",
+                           "sha256":  "5EC6C2A0C67663E2C19E8D992D20F334E003D6DA04224697E5CEB32B765C06A3",
                            "repository":  "Checker",
-                           "branch":  "master",
-                           "commit":  "f6d87d28905c9080740ec984a3acf77b29824578",
+                           "branch":  "fix/merge-analytic-legacy-20261024",
+                           "commit":  "22dabe69e15fb6b04ce474dc3890ae50318101f9",
                            "pushed":  true,
                            "sdk":  "9.0.319"
                        },
@@ -140,10 +141,10 @@
                            "file":  "GPC.Design.dll",
                            "source":  "Checker/src/GPC.Design/bin/Release/netstandard2.0",
                            "assemblyVersion":  "0.36.0.0",
-                           "sha256":  "47E227D708256D4AE11AD3DB5938067B11EE6075579BA7FAD2E2ED75E0962D90",
+                           "sha256":  "72FB018922E71ED5ADF1F3E4B8DFA9724E07C1DFFDACC74490368E928AB994D9",
                            "repository":  "Checker",
-                           "branch":  "master",
-                           "commit":  "f6d87d28905c9080740ec984a3acf77b29824578",
+                           "branch":  "fix/merge-analytic-legacy-20261024",
+                           "commit":  "22dabe69e15fb6b04ce474dc3890ae50318101f9",
                            "pushed":  true,
                            "sdk":  "9.0.319"
                        },
@@ -151,10 +152,10 @@
                            "file":  "GPCChecker.CompositeBridge.dll",
                            "source":  "Checker/GPCChecker.CompositeBridge/bin/Release/netstandard2.0",
                            "assemblyVersion":  "1.13.0.1",
-                           "sha256":  "0607BBBE1267AD1733154DE63CEABCDED741B480F7C7E945A1B9E0C56415E8C1",
+                           "sha256":  "19D972657AAD4F7216C8C14AF16B3F49DFFC6C1A571FB21DE5A6E996F1065C3B",
                            "repository":  "Checker",
-                           "branch":  "master",
-                           "commit":  "f6d87d28905c9080740ec984a3acf77b29824578",
+                           "branch":  "fix/merge-analytic-legacy-20261024",
+                           "commit":  "22dabe69e15fb6b04ce474dc3890ae50318101f9",
                            "pushed":  true,
                            "sdk":  "9.0.319"
                        }

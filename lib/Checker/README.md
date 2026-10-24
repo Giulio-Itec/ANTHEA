@@ -1,5 +1,24 @@
 # DLL Checker
 
+**Release AG — parabola analitica, Steel 2.84 e Design .NET Standard 2.0 (24 ottobre 2026).** Set ufficiale da Model `2d59bbc6` e
+Checker `22dabe69`, entrambi su origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Contiene:
+- la parabola-rettangolo del calcestruzzo analitica come legge predefinita, con la modalità tabellare obsoleta per lo storico (GPCModel
+  5.21.0.0, GPCChecker.Concrete 0.20);
+- il controllo del piano restituito nei punti cercati direttamente, con l'eccezione dei punti della strategia «Intersezione», il cui piano è
+  interpolato (Concrete 0.20.0.1, correzione del 24/10: prima 164 forze su 300 della griglia 12d di ANTHEA erano rifiutate);
+- Steel 2.84.0.0 (bulloni e collegamenti), GPC.Design 0.36.0.0 in .NET Standard 2.0, CompositeBridge 1.13.0.1; Geotechnics 0.19.0.1 e
+  Masonry 0.6.0.1 ricompilate senza modifiche agli algoritmi.
+
+Suite di `Release-Set.ps1 -Previous` (set AF), tutte verdi senza fallimenti ammessi: Model e Checker, Concrete 905, Steel 122,
+CompositeBridge 384, Geotechnics 193, Calculation 175, ShallowFoundation 28, EmbeddedWalls 99, Steel.Members 5494, Design 109 e 108
+(net472), ModelChecker 445; API compatibili. La verifica su `f6d87d28` era rossa dopo l'unione delle 12:46: cinque prove di Concrete
+riconciliate (analitica corrente e storico tabellare) e il confronto esatto dello StressBlock con lo storico 0.0.17 ritirato per decisione
+dell'utente («2A»). Nessun Gmsh.
+
+Le differenze in ANTHEA sono registrate (AG-PO-01, AG-PO-02, AG-MUR-01, AG-SM-01, AG-SHELL-01, AG-FON-01, AG-CA-01…04). Installato con
+`Update-Snapshot.ps1 -ReleaseSet ... -Install` sopra il manifest AF (lo snapshot provvisorio dd9f8c6a aveva Concrete 0.20.0.0 con altro
+codice). Set in `supporto/artefatti/librerie-20261024-ag/gpc-release-20261024-ag`.
+
 **Snapshot da origin/master per le prove della 1.14.0 (24 ottobre 2026, temporaneo).** DLL costruite con
 `Update-Snapshot.ps1 -FromUpstream -Install` dai master pubblicati: Model `2d59bbc6` e Checker `f6d87d28`, Geometry
 `6734eee1` e Utilities `e57b440b` invariati. Rispetto allo snapshot locale qui sotto (Checker `1f8dcf5b`) entrano il
