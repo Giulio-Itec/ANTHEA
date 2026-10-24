@@ -502,7 +502,9 @@ con la vista MVVM; la vista storica è in `supporto/SUPERATI/ui-storica/muri/` (
 sulla chiave storica fino alla prima corsa di `ui/check-contrast` a 96 DPI (D12); la corsa a 144 DPI non si fa.
 
 **Resta.** `ui/check-contrast` a 96 DPI; `ui/f3-equivalence` e la corsa completa sul ramo unito (coordinatore); la revisione delle
-guide (nessun cambio di disposizione: le differenze visibili sono MU3 e MU4, già registrate). `--check-report-appearance-offscreen` va
+guide (nessun cambio di disposizione: le differenze visibili sono MU3 e MU4, già registrate). **Fatta nella Rev59** (24/10, 21a781eb):
+le due frasi sulle revisioni in sola lettura sono nel capitolo dei muri della guida pratica; l'esito di MU3 e MU4 nel registro dice che sono
+attive nella Release. `--check-report-appearance-offscreen` va
 eseguita almeno una volta (fuori dal runner).
 
 **Come riprendere.**

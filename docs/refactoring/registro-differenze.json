@@ -8423,7 +8423,7 @@
       "decisione": {
         "data": "2026-10-17",
         "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, T7 e MU3: «differenza dichiarata, da accettare»)",
-        "esito": "dichiarata (f5-9-muri.md §5: «MU3 e MU4: differenze dichiarate, come proposto»); attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+        "esito": "dichiarata (f5-9-muri.md §5: «MU3 e MU4: differenze dichiarate, come proposto»); attiva nella Release dal 23/10: la vista MVVM dei muri è la vista della Release dal passaggio del modulo (f5-pass-muri, unito in refactoring/f5 con 006f65c4)"
       },
       "revisione_f5_15": "non in elenco: proposta accettata il 17/10 (citata in «Da guardare per primi», punto 12, e in 15.5, «Sola lettura che scrive»)",
       "voci_collegate": ["F5-09", "F5-18", "F5-59"]
@@ -8445,7 +8445,7 @@
       "decisione": {
         "data": "2026-10-17",
         "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, T7 e MU4: «differenza dichiarata, da accettare»)",
-        "esito": "dichiarata (f5-9-muri.md §5: «MU3 e MU4: differenze dichiarate, come proposto»); attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+        "esito": "dichiarata (f5-9-muri.md §5: «MU3 e MU4: differenze dichiarate, come proposto»); attiva nella Release dal 23/10: la vista MVVM dei muri è la vista della Release dal passaggio del modulo (f5-pass-muri, unito in refactoring/f5 con 006f65c4)"
       },
       "revisione_f5_15": "non in elenco: proposta accettata il 17/10 (citata in «Da guardare per primi», punto 12, e in 15.5, «Sola lettura che scrive»)",
       "voci_collegate": ["F5-08"]
