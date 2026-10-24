@@ -9861,6 +9861,35 @@
       "voci_collegate": ["F5-REL-1130-01"]
     },
     {
+      "id": "F5-REL-1140-02",
+      "data": "2026-10-24",
+      "fase": "Rilascio F5",
+      "titolo": "Guide Rev59 e transizioni editoriali della Wiki per ANTHEA 1.14.0",
+      "famiglia": "documentazione/collaudo",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Sei articoli Wiki aggiornati dalle guide Rev59 per la shell nuova: barra di navigazione, schede e Wiki in una scheda (avvio, Wiki e centro della conoscenza), albero in colonna, Schede da aggiungere, barra delle revisioni e report del ramo (progetti), muri in sola lettura (MU3, MU4), scambio del terreno da un file singolo in una scheda (stratigrafia), «Apri ·» e «Wiki del modulo» al posto di «Apri modulo» e «Come funziona» (sezione c.a.). Nell'articolo di avvio il paragrafo sul Tab (Rev58) prende il posto di quello sull'ingrandimento, che scende di una riga: le tre righe aggiunte registrate dalla Rev58 in quella posizione non si presentano più e sono tolte.",
+      "codice": [
+        "tests/fixtures/f3/transitions-f5-wiki.json",
+        "supporto/docs/guida-pratica-anthea.md"
+      ],
+      "segno": "Nessuna modifica agli attesi numerici o alle transizioni F4. Le 30 ricerche non cambiano.",
+      "effetto_quantificato": "31 transizioni nuove (_wiki_guide_introduzione_wiki-e-centro-della-conoscenza, _wiki_guide_moduli-singoli_muri-di-sostegno-con-stratigrafie-di-monte-e-valle, _wiki_guide_moduli_guida-stratigrafia, _wiki_guide_moduli_sezione-ca, _wiki_guide_primi-passi_avvio-e-scelta-del-modulo, _wiki_guide_progetti_progetti-e-gestione-del-lavoro); 3 transizioni F5-REL-1130-01 tolte.",
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«Rev59 prima» (chiusura di F5 con il rilascio 1.14.0)",
+        "esito": "registrata: le 31 differenze sono copiate dal comparatore (file, percorso, classe, testo prima e dopo)"
+      },
+      "test": [
+        "ui/f3-equivalence sul ramo refactoring/rel-af (librerie AF, corsa rel-af-f3): 34 differenze non ammesse, tutte nella Wiki",
+        "Confronto della sola Wiki con il registro aggiornato: 151 file, nessuna differenza non ammessa"
+      ],
+      "voci_collegate": [
+        "F5-REL-1130-01",
+        "F5-REL-1140-01"
+      ]
+    },
+    {
       "id": "F5-64",
       "data": "2026-10-24",
       "fase": "F5.13 parte (g) e guide Rev59 (ramo refactoring/f5-rev59)",
