@@ -7520,7 +7520,7 @@
       "decisione": {
         "data": "2026-10-17",
         "utente": "«accetto tutte le proposte» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, T7 e V3: differenza dichiarata con una prova sulla vista nuova)",
-        "esito": "dichiarata; attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+        "esito": "dichiarata; attiva nella Release dal 23/10: la vista MVVM del modulo è la vista della Release (passaggi uniti in refactoring/f5 fino a 006f65c4, tutti i 15 moduli MVVM)"
       },
       "voci_collegate": []
     },
@@ -7547,7 +7547,7 @@
       "decisione": {
         "data": "2026-10-17",
         "utente": "«accetto tutte le proposte» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, T7 e O6: correggere nella vista nuova, differenza dichiarata, con una prova)",
-        "esito": "dichiarata; attiva solo con la vista MVVM (nella Release dopo il passaggio dei due moduli)"
+        "esito": "dichiarata; attiva nella Release dal 23/10: la vista MVVM dei due moduli è la vista della Release (passaggi uniti in refactoring/f5 fino a 006f65c4, tutti i 15 moduli MVVM)"
       },
       "voci_collegate": []
     },
@@ -8332,7 +8332,7 @@
       "decisione": {
         "data": "2026-10-17",
         "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, V7: «da confermare»)",
-        "esito": "accettata (f5-6-palo-verticale.md §5: «V7, V8 accettate»); attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+        "esito": "accettata (f5-6-palo-verticale.md §5: «V7, V8 accettate»); attiva nella Release dal 23/10: la vista MVVM del modulo è la vista della Release (passaggi uniti in refactoring/f5 fino a 006f65c4, tutti i 15 moduli MVVM)"
       },
       "revisione_f5_15": "non in elenco: proposta accettata il 17/10",
       "voci_collegate": []
@@ -8354,7 +8354,7 @@
       "decisione": {
         "data": "2026-10-17",
         "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, V8: «da confermare»)",
-        "esito": "accettata (f5-6-palo-verticale.md §5: «V7, V8 accettate»); attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+        "esito": "accettata (f5-6-palo-verticale.md §5: «V7, V8 accettate»); attiva nella Release dal 23/10: la vista MVVM del modulo è la vista della Release (passaggi uniti in refactoring/f5 fino a 006f65c4, tutti i 15 moduli MVVM)"
       },
       "revisione_f5_15": "non in elenco: proposta accettata il 17/10 (citata in «Da guardare per primi», punto 10)",
       "voci_collegate": ["F5-14"]
@@ -8401,7 +8401,7 @@
       "decisione": {
         "data": "2026-10-17",
         "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, T7 e S4: «differenza dichiarata al passaggio della Release»)",
-        "esito": "dichiarata; attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+        "esito": "dichiarata; attiva nella Release dal 23/10: la vista MVVM del modulo è la vista della Release (passaggi uniti in refactoring/f5 fino a 006f65c4, tutti i 15 moduli MVVM)"
       },
       "revisione_f5_15": "non in elenco: proposta accettata il 17/10",
       "voci_collegate": []
@@ -8471,7 +8471,7 @@
       "decisione": {
         "data": "2026-10-17",
         "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, MU7: «da accettare»)",
-        "esito": "accettata; attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+        "esito": "accettata; attiva nella Release dal 23/10: la vista MVVM del modulo è la vista della Release (passaggi uniti in refactoring/f5 fino a 006f65c4, tutti i 15 moduli MVVM)"
       },
       "revisione_f5_15": "non in elenco: proposta accettata il 17/10",
       "voci_collegate": []
@@ -8519,7 +8519,7 @@
       "decisione": {
         "data": "2026-10-17",
         "utente": "«accetto tutte le proposte, continua col piano» (decisioni.md, 17 ottobre mattina; f5-punti-di-controllo.md, C6)",
-        "esito": "accettata (f5-15-revisione.md, 10.1: «C6 aveva una proposta, accettata»); attiva solo con la vista MVVM (nella Release dopo il passaggio del modulo)"
+        "esito": "accettata (f5-15-revisione.md, 10.1: «C6 aveva una proposta, accettata»); attiva nella Release dal 23/10: la vista MVVM del modulo è la vista della Release (passaggi uniti in refactoring/f5 fino a 006f65c4, tutti i 15 moduli MVVM)"
       },
       "revisione_f5_15": "gruppo 10.1, nota su C6 (proposta accettata)",
       "voci_collegate": []
@@ -9859,6 +9859,29 @@
       },
       "revisione_f5_15": "non in elenco",
       "voci_collegate": ["F5-REL-1130-01"]
+    },
+    {
+      "id": "F5-64",
+      "data": "2026-10-24",
+      "fase": "F5.13 parte (g) e guide Rev59 (ramo refactoring/f5-rev59)",
+      "titolo": "Shell: manca il pulsante «Guida progetti» della barra dei progetti",
+      "famiglia": "interfaccia/shell",
+      "modulo": "F5.13 · Shell (pagina Progetti)",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "MainWindow aveva nella barra dei progetti il pulsante «Guida progetti» (ProjectWorkspace, archiviato in supporto/SUPERATI/ui-storica/shell), che apriva l'articolo della guida dell'area Progetti. La shell nuova non ha il pulsante. La guida pratica Rev59 non lo cita più e rimanda all'articolo della Wiki «Progetti e gestione del lavoro», raggiungibile dalla pagina Wiki e dalla ricerca; F1 e «?» aprono la Wiki dai fogli (dalla pagina Progetti non verificato). Trovata rileggendo la guida sul prodotto per la Rev59; non era registrata.",
+      "documento": "docs/refactoring/f5-13-shell.md §14.6 («Applicato nella Rev59»); f5-15-revisione.md §15.3 (G11)",
+      "codice": ["supporto/SUPERATI/ui-storica/shell/X.Desktop/Wpf/ProjectWorkspace.cs (pulsante «Guida progetti»)", "src/ANTHEA.Desktop/Views/Shell/ShellWindow.xaml (barra dei progetti)", "supporto/docs/guida-pratica-anthea.md (Wiki e centro della conoscenza, Passare dalla teoria al calcolo)"],
+      "segno": "Solo navigazione dell'aiuto: dati, calcolo e report invariati.",
+      "test": ["nessuna prova: nessuna suite controllava il pulsante; la guida Rev59 è controllata da wiki/indice e wiki/manuale"],
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "scelta provvisoria del coordinatore (utente assente): non rimettere il pulsante nella shell, registrare la differenza come da decidere; la rivede l'utente",
+        "esito": "aperta (F5.15)"
+      },
+      "opzioni": [{"id": "presa", "descrizione": "nessun pulsante, la guida rimanda all'articolo della Wiki"}, {"id": "alternativa", "descrizione": "un pulsante o una voce di aiuto nella barra dei progetti della shell che apre l'articolo"}],
+      "revisione_f5_15": "G11 (f5-15 §15.3)",
+      "voci_collegate": []
     }
   ]
 }

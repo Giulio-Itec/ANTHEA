@@ -1571,7 +1571,7 @@ l'unione, con PDF, indici e impronte. La guida, i PDF e gli articoli non sono to
 - una pagina più alta della scheda scorre al suo interno, come quella del palo orizzontale a Full HD (G6).
 
 Corretti anche i comandi che la shell non ha:
-- «Guida progetti» della barra dei progetti: non c'è più (domanda nel resoconto della Rev59);
+- «Guida progetti» della barra dei progetti: non c'è più; registrato come F5-64, da decidere (G11 di f5-15 §15.3);
 - «Come funziona» diventa Wiki del modulo; «Prova in Anthea» diventa Applica nel modulo;
 - lo scambio del terreno da un file singolo apre una scheda, non una finestra.
 

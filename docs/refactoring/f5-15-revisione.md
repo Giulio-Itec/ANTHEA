@@ -97,8 +97,8 @@ segnalato come le più bisognose dell'utente.
 | 12. F5.12 Bridge Design e prezzari | 22 | 2 | 20 |
 | 13. F5.13 shell | 59 | 31 | 28 |
 | 14. Registro delle differenze R4–R21 | 17 | 3 | 14 |
-| 15. Voci trasversali | 25 | 8 | 17 |
-| **Totale** | **259** | **54** | **205** |
+| 15. Voci trasversali | 27 | 8 | 19 |
+| **Totale** | **261** | **54** | **207** |
 
 Note sul conteggio:
 - Una riga è una voce. Alcune righe uniscono codici che pongono la stessa domanda, per esempio «C2, S5-c» o «S6-a, S8-b».
@@ -615,6 +615,8 @@ Fonti: [f5-suite-ui.md §5](f5-suite-ui.md#5-domande-da-decidere-scelte-provviso
 | G8 (F5.13 g3) | Pagine dei progetti fuori da `ui/check-contrast` (manca `prova-f1.4.programma` dal F5.3); la prova a parte trova in Chiara il numero di coerenza dell'albero (2,08:1) e gli avvisi del confronto (2,22:1) in `Token.Status.Warn`, colori storici | **Decisa dall'utente (24/10, 09:15): «tutte e due: archivio di prova versionato, così le pagine dei progetti entrano nella prova del contrasto, e un arancione più scuro e leggibile per il testo degli avvisi in Chiara».** Fatta nel ramo `refactoring/f5-g8`: testo dei due elementi in `Token.Warning.Foreground` (F5-63); archivio `tests/fixtures/f5/contrasto-progetti.programma`; baseline della Chiara da 629 a 645 occorrenze (2 voci nuove, della G7) | — | solo prove; F5-63 solo aspetto (colore del testo) | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
 | G9 (F5.13 g3) | `FoundationWorkspace.UiChecks` appesa con «Operazione non completata» sullo schermo | **Corretta (5844a146, difetto della prova).** La prova creava `X.Desktop.App` per le risorse: WPF mette in coda l'avvio quando l'applicazione nasce e le attese della prova lo eseguivano; dal 23/10 `App.OnStartup` apre la shell sullo schermo e leggeva `<cartella> --ui` come documento («Access to the path … is denied»). Ora un'applicazione con le sole risorse di App.xaml (come `ModelViewer.UiChecks`), `ShutdownMode` esplicito. PASS 98 controlli | — | solo prove | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
 | G10 (F5.13 g3) | `ui/check-sezione-view` FAIL dal 24/10: report breve diverso dal registrato | **Corretta (bd8807ca, difetto della prova).** La riga «ANTHEA · gg/mm/aaaa · esito» del report breve ha la data senza l'ora, che `NormalizeReportTimestamps` non sostituisce: le impronte registrate il 23/10 contengono quella data. Con 23/10 al posto di 24/10 il report breve di oggi ha esattamente l'impronta registrata. La prova riporta il giorno della corsa (± 1) al giorno della registrazione. Report e riferimento invariati | — | solo prove | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
+| G11 (Rev59) | Il pulsante «Guida progetti» della barra dei progetti di `MainWindow` non c'è nella shell (F5-64, «da-decidere») | **Provvisoria del coordinatore (24/10, utente assente)**: non si rimette; la guida pratica Rev59 rimanda all'articolo della Wiki «Progetti e gestione del lavoro» (pagina Wiki e ricerca; F1 e «?» aprono la Wiki dai fogli, dalla pagina Progetti non verificato) | Un pulsante o una voce di aiuto nella barra dei progetti della shell | solo interfaccia (aiuto) | [f5-13-shell §14.6](f5-13-shell.md#146-guida-pratica-e-wiki-testo-attuale-e-testo-proposto); registro F5-64 |
+| W-idx (Rev59) | Il percorso delle figure entra nell'indice di ricerca della Wiki (`build-wiki-index.py` indicizza anche le righe `![…](percorso)`): con le figure in `src/ANTHEA.Desktop/Assets/Wiki` compare il termine «src» e la ricerca «anthea» trova anche gli articoli con figure. Difetto già presente con `X.Desktop` («x», «desktop», «assets») | Nota aperta per la revisione della Wiki; l'indice non si tocca (coordinatore, 24/10). Le 30 ricerche F3 non cambiano | Escludere dall'indice i percorsi delle immagini (cambiano `search.json` e le ricerche che li trovano) | solo ricerca della Wiki | registro F5-REL-1140-01 |
 
 ### 15.4 Altre voci
 
