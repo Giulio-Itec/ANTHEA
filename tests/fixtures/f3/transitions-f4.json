@@ -4,6 +4,7 @@
  "cattura": "supporto/artefatti/ci/20261016-005646-f3-bug1016/ui_f3-equivalence/cattura",
  "commit": "e34f176cd17dc05b092e170a187f530e9951bad9",
  "per_voce": {
+  "AG-CA-01": 381,
   "BUG-FES-2": 4,
   "BUG-MUR-1": 11631,
   "BUG-MUR-1 + BUG-MUR-2": 3540,
@@ -16,7 +17,8 @@
   "BUG-PON-2": 13,
   "BUG-PV-1": 3,
   "BUG-PV-3": 1,
-  "F2-17 (SLU-2)": 47,
+  "F2-17 (SLU-2)": 28,
+  "F2-17 (SLU-2) / AG-CA-01": 19,
   "F3-11": 315,
   "F3-11 / BUG-MUR-1": 1,
   "F3-11 / BUG-MUR-1 + BUG-MUR-2": 318,
@@ -175719,8 +175721,8 @@
    "percorso": "riga 30",
    "classe": "testo",
    "a": "[T1 r4 c3] —",
-   "b": "[T1 r4 c3] 2,69",
-   "voce": "F2-17 (SLU-2)"
+   "b": "[T1 r4 c3] 2,68",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/report.txt",
@@ -175743,24 +175745,24 @@
    "percorso": "riga 322",
    "classe": "testo",
    "a": "[T13 r2 c2] —",
-   "b": "[T13 r2 c2] 1357,85",
-   "voce": "F2-17 (SLU-2)"
+   "b": "[T13 r2 c2] 1358,62",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/report.txt",
    "percorso": "riga 323",
    "classe": "testo",
    "a": "[T13 r2 c3] —",
-   "b": "[T13 r2 c3] 271,81",
-   "voce": "F2-17 (SLU-2)"
+   "b": "[T13 r2 c3] 271,72",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/report.txt",
    "percorso": "riga 324",
    "classe": "testo",
    "a": "[T13 r2 c4] —",
-   "b": "[T13 r2 c4] 136,03",
-   "voce": "F2-17 (SLU-2)"
+   "b": "[T13 r2 c4] 135,87",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/report.txt",
@@ -175783,32 +175785,32 @@
    "percorso": "riga 335",
    "classe": "testo",
    "a": "[T14 r2 c2] —",
-   "b": "[T14 r2 c2] 930,96",
-   "voce": "F2-17 (SLU-2)"
+   "b": "[T14 r2 c2] 931,27",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/report.txt",
    "percorso": "riga 336",
    "classe": "testo",
    "a": "[T14 r2 c3] —",
-   "b": "[T14 r2 c3] 186,33",
-   "voce": "F2-17 (SLU-2)"
+   "b": "[T14 r2 c3] 186,27",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/report.txt",
    "percorso": "riga 337",
    "classe": "testo",
    "a": "[T14 r2 c4] —",
-   "b": "[T14 r2 c4] 93,03",
-   "voce": "F2-17 (SLU-2)"
+   "b": "[T14 r2 c4] 93,14",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/report.txt",
    "percorso": "riga 338",
    "classe": "testo",
    "a": "[T14 r2 c5] —",
-   "b": "[T14 r2 c5] 2,69",
-   "voce": "F2-17 (SLU-2)"
+   "b": "[T14 r2 c5] 2,68",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/report.txt",
@@ -175823,16 +175825,16 @@
    "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance",
    "classe": "tipo",
    "a": "null",
-   "b": "{\"Length\":1391.4491958214005,\"Mx\":271.80677596154004,\"My\":136.02632177352672,\"N\":1357.8471124829114}",
-   "voce": "F2-17 (SLU-2)"
+   "b": "{\"Length\":1392.1667447108277,\"Mx\":271.71984819365593,\"My\":135.86927517516642,\"N\":1358.6155119237137}",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/result.json",
    "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response",
    "classe": "tipo",
    "a": "null",
-   "b": "{\"CMax\":0,\"CMin\":-19.833333333333332,\"EcMax\":26.2241813361761,\"EcMin\":-3.5,\"EpMax\":null,\"EpMin\":null,\"EsMax\":21.800518189708246,\"EsMin\":0.8274965563272432,\"NeutralAngle\":84.28967406065027,\"NeutralDistance\":79.67171466896127,\"PMax\":null,\"PMin\":null,\"SMax\":391.304347826087,\"SMin\":165.49931126544863,\"U…",
-   "voce": "F2-17 (SLU-2)"
+   "b": "{\"CMax\":0,\"CMin\":-19.833333333333332,\"EcMax\":26.275085435249757,\"EcMin\":-3.5,\"EpMax\":null,\"EpMin\":null,\"EsMax\":21.843710661571496,\"EsMin\":0.8350405394678668,\"NeutralAngle\":84.29617951474604,\"NeutralDistance\":79.52567825592524,\"PMax\":null,\"PMin\":null,\"SMax\":391.304347826087,\"SMin\":167.00810789357337,…",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/result.json",
@@ -175847,24 +175849,24 @@
    "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Utilization",
    "classe": "tipo",
    "a": "null",
-   "b": "1.841057294210195",
-   "voce": "F2-17 (SLU-2)"
+   "b": "1.8401083787000012",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/result.json",
    "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Resistance",
    "classe": "tipo",
    "a": "null",
-   "b": "{\"Length\":953.9745520524294,\"Mx\":186.33087352785947,\"My\":93.03067577664217,\"N\":930.9637720655511}",
-   "voce": "F2-17 (SLU-2)"
+   "b": "{\"Length\":954.2685835621793,\"Mx\":186.266409230799,\"My\":93.13578988397758,\"N\":931.2674583645238}",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/result.json",
    "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Response",
    "classe": "tipo",
    "a": "null",
-   "b": "{\"CMax\":0,\"CMin\":-7.275494608282534,\"EcMax\":2.300621622058774,\"EcMin\":-0.41302358267299505,\"EpMax\":null,\"EpMin\":null,\"EsMax\":1.917137570524987,\"EsMin\":-0.03787614095516014,\"NeutralAngle\":71.09612898230311,\"NeutralDistance\":125.84455042656465,\"PMax\":null,\"PMin\":null,\"SMax\":383.4275141049974,\"SMin\":-7…",
-   "voce": "F2-17 (SLU-2)"
+   "b": "{\"CMax\":0,\"CMin\":-7.30822234941606,\"EcMax\":2.300324509148291,\"EcMin\":-0.41063761102789587,\"EpMax\":null,\"EpMin\":null,\"EsMax\":1.9171515078383639,\"EsMin\":-0.03579445757253218,\"NeutralAngle\":71.14958223243516,\"NeutralDistance\":125.16185886184819,\"PMax\":null,\"PMin\":null,\"SMax\":383.4303015676728,\"SMin\":-7…",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/result.json",
@@ -175879,8 +175881,8 @@
    "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Utilization",
    "classe": "tipo",
    "a": "null",
-   "b": "2.6853312658901087",
-   "voce": "F2-17 (SLU-2)"
+   "b": "2.6845038552219918",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/result.json",
@@ -175919,8 +175921,8 @@
    "percorso": "$.riepilogo_verifiche[\"3D:SLU\"].Ratio",
    "classe": "tipo",
    "a": "null",
-   "b": "1.841057294210195",
-   "voce": "F2-17 (SLU-2)"
+   "b": "1.8401083787000012",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/result.json",
@@ -175967,8 +175969,8 @@
    "percorso": "$.riepilogo_verifiche[\"3D:SLV\"].Ratio",
    "classe": "tipo",
    "a": "null",
-   "b": "2.6853312658901087",
-   "voce": "F2-17 (SLU-2)"
+   "b": "2.6845038552219918",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/result.json",
@@ -176007,16 +176009,16 @@
    "percorso": "riga 33",
    "classe": "testo",
    "a": "[T2 r2 c2] Resistenza non disponibile",
-   "b": "[T2 r2 c2] NRd=1357,85 kN ⏎ MxRd=271,81; MyRd=136,03 kNm",
-   "voce": "F2-17 (SLU-2)"
+   "b": "[T2 r2 c2] NRd=1358,62 kN ⏎ MxRd=271,72; MyRd=135,87 kNm",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/short.txt",
    "percorso": "riga 34",
    "classe": "testo",
    "a": "[T2 r2 c3] —",
-   "b": "[T2 r2 c3] 1.841",
-   "voce": "F2-17 (SLU-2)"
+   "b": "[T2 r2 c3] 1.840",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/short.txt",
@@ -176039,8 +176041,8 @@
    "percorso": "riga 37",
    "classe": "testo",
    "a": "[T2 r3 c2] Resistenza non disponibile",
-   "b": "[T2 r3 c2] NRd=930,96 kN ⏎ MxRd=186,33; MyRd=93,03 kNm",
-   "voce": "F2-17 (SLU-2)"
+   "b": "[T2 r3 c2] NRd=931,27 kN ⏎ MxRd=186,27; MyRd=93,14 kNm",
+   "voce": "F2-17 (SLU-2) / AG-CA-01"
   },
   {
    "file": "sheets/str_palo/legacy-calculation-settings/short.txt",
@@ -231857,6 +231859,3054 @@
    "a": "Discretizzazione non convergente: aumentare i conci.",
    "b": "Minimo sul bordo della ricerca: estendere il dominio.",
    "voce": "PARATIE-20"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 440#1",
+   "classe": "numero",
+   "a": "-3500,38",
+   "b": "-3500,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 441#1",
+   "classe": "numero",
+   "a": "2481,61",
+   "b": "2482,58",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 442#1",
+   "classe": "numero",
+   "a": "620,40",
+   "b": "620,65",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 446#1",
+   "classe": "numero",
+   "a": "399,54",
+   "b": "400,03",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 447#1",
+   "classe": "numero",
+   "a": "1692,68",
+   "b": "1692,79",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 448#1",
+   "classe": "numero",
+   "a": "4,53E-4",
+   "b": "-4,95E-14",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 459#1",
+   "classe": "numero",
+   "a": "-2500,24",
+   "b": "-2500,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 460#1",
+   "classe": "numero",
+   "a": "1754,86",
+   "b": "1755,39",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 461#1",
+   "classe": "numero",
+   "a": "584,95",
+   "b": "585,13",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 503#1",
+   "classe": "numero",
+   "a": "-12269,45",
+   "b": "-12275,31",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 504#1",
+   "classe": "numero",
+   "a": "1805,19",
+   "b": "1806,06",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 505#1",
+   "classe": "numero",
+   "a": "1042,23",
+   "b": "1042,72",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 509#1",
+   "classe": "numero",
+   "a": "3061,77",
+   "b": "3061,91",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 510#1",
+   "classe": "numero",
+   "a": "688,90",
+   "b": "688,93",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 522#1",
+   "classe": "numero",
+   "a": "-5843,28",
+   "b": "-5855,79",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 523#1",
+   "classe": "numero",
+   "a": "1881,31",
+   "b": "1885,34",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/report.txt",
+   "percorso": "riga 524#1",
+   "classe": "numero",
+   "a": "1086,18",
+   "b": "1088,50",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "12445.253248954814",
+   "b": "12451.197209643782",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "1805.1927136001802",
+   "b": "1806.0570443374586",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Resistance.My",
+   "classe": "numero",
+   "a": "1042.2293998204634",
+   "b": "1042.7234448697457",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-12269.448462564853",
+   "b": "-12275.308457369172",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "0.8506977581674204",
+   "b": "0.8558975993419602",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "0.47540130791154334",
+   "b": "0.48015719665805934",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-3.1247035497441233",
+   "b": "-3.124259597316099",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "30.023298596672856",
+   "b": "30.024687698346668",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "804.4685945054154",
+   "b": "803.5082541025835",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.SMax",
+   "classe": "numero",
+   "a": "95.08026158230865",
+   "b": "96.03143933161186",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "925.7387150773095",
+   "b": "925.7397600401343",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Utilization",
+   "classe": "numero",
+   "a": "0.28526139627857344",
+   "b": "0.28512521800615426",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "3163.4219364743267",
+   "b": "3163.562834112037",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "688.8950945292435",
+   "b": "688.9299677681785",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Resistance.My",
+   "classe": "numero",
+   "a": "397.74331425819446",
+   "b": "397.75377221426254",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Resistance.N",
+   "classe": "numero",
+   "a": "3061.7743471496115",
+   "b": "3061.910717440214",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "24.11982765062031",
+   "b": "24.144017286109385",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "21.740880593838796",
+   "b": "21.763109299822222",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-1.1210529432184846",
+   "b": "-1.1190920137128337",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "30.193736393106445",
+   "b": "30.19957848180128",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "126.71983459713957",
+   "b": "126.60890529638642",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.SMin",
+   "classe": "numero",
+   "a": "-224.21058864369692",
+   "b": "-223.81840274256675",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "925.8629182678255",
+   "b": "925.8670322381093",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Utilization",
+   "classe": "numero",
+   "a": "0.13064320052608655",
+   "b": "0.13063738198563005",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "6234.019581147732",
+   "b": "6247.370630430806",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "1881.3103771531148",
+   "b": "1885.3396960964617",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Resistance.My",
+   "classe": "numero",
+   "a": "1086.1755433396652",
+   "b": "1088.5013594479578",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-5843.277683971569",
+   "b": "-5855.791903301573",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "1.5904827593529707",
+   "b": "1.5948870423053836",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "1.2806938322782322",
+   "b": "1.284717954920252",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-1.6902110729252613",
+   "b": "-1.6898309126148687",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "29.997778103212195",
+   "b": "29.997720839340044",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "557.0281582013666",
+   "b": "556.3457140325334",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.SMax",
+   "classe": "numero",
+   "a": "256.1387664556465",
+   "b": "256.94359098405045",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.SMin",
+   "classe": "numero",
+   "a": "-338.0422145850523",
+   "b": "-337.9661825229738",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "925.7194215082685",
+   "b": "925.7193780127733",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Utilization",
+   "classe": "numero",
+   "a": "0.4278420665951392",
+   "b": "0.4269277394558687",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "4335.4269336257885",
+   "b": "4335.715570574388",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "2481.6112516093735",
+   "b": "2482.5849014275423",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.My",
+   "classe": "numero",
+   "a": "620.4019624730889",
+   "b": "620.6462258201872",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-3500.3762223014264",
+   "b": "-3499.9999969286205",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "5.576218568870363",
+   "b": "5.586747019885626",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "4.804894281229424",
+   "b": "4.814526748633234",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-2.7286757123590606",
+   "b": "-2.727779728747607",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "13.91355361121321",
+   "b": "13.913193386762096",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "385.5538253460134",
+   "b": "385.107053596261",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "926.8525026349298",
+   "b": "926.852256632408",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Utilization",
+   "classe": "numero",
+   "a": "0.24177842036739677",
+   "b": "0.24168357731839907",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "1739.1926957774526",
+   "b": "1739.4171516450385",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "1692.6789914804453",
+   "b": "1692.7940038386819",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Resistance.My",
+   "classe": "numero",
+   "a": "0.00045320035029087374",
+   "b": "-4.951531688372301E-14",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Resistance.N",
+   "classe": "numero",
+   "a": "399.5360620096517",
+   "b": "400.0256091861413",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "11.910349542460864",
+   "b": "11.926255282557154",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "10.615880180894152",
+   "b": "10.630449838822353",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-2.205530638433288",
+   "b": "-2.2041945562651994",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "0.00044470137065954894",
+   "b": "1.1739305773482696E-14",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "227.12009161446102",
+   "b": "226.8859120954349",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "927.9999999724097",
+   "b": "928",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Utilization",
+   "classe": "numero",
+   "a": "0.07089353657957419",
+   "b": "0.07088871990796326",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "3110.1328589231944",
+   "b": "3110.267125314996",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "1754.8635568024174",
+   "b": "1755.387557167369",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Resistance.My",
+   "classe": "numero",
+   "a": "584.9541063604704",
+   "b": "585.1291862275535",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-2500.241786430375",
+   "b": "-2499.9999900763733",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.CMin",
+   "classe": "numero",
+   "a": "-21.57970254084434",
+   "b": "-21.636209010326883",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "2.2276049419015442",
+   "b": "2.2272984132401823",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.EcMin",
+   "classe": "numero",
+   "a": "-1.5775770684339632",
+   "b": "-1.573566571706856",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "1.910777231005623",
+   "b": "1.9108291612926067",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-1.2607493575380415",
+   "b": "-1.2570973197592796",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "18.437926092848553",
+   "b": "18.437245889781025",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "413.8403842829666",
+   "b": "413.25746442892546",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.SMax",
+   "classe": "numero",
+   "a": "382.1554462011246",
+   "b": "382.16583225852133",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.SMin",
+   "classe": "numero",
+   "a": "-252.1498715076083",
+   "b": "-251.41946395185593",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "927.0880249725515",
+   "b": "927.0884186135197",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Utilization",
+   "classe": "numero",
+   "a": "0.5128604215348258",
+   "b": "0.5127072914739241",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.riepilogo_verifiche[\"2D:SLU\"].Ratio",
+   "classe": "numero",
+   "a": "0.28526139627857344",
+   "b": "0.28512521800615426",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.riepilogo_verifiche[\"2D:SLV\"].Ratio",
+   "classe": "numero",
+   "a": "0.4278420665951392",
+   "b": "0.4269277394558687",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.riepilogo_verifiche[\"3D:SLU\"].Ratio",
+   "classe": "numero",
+   "a": "0.24177842036739677",
+   "b": "0.24168357731839907",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/result.json",
+   "percorso": "$.riepilogo_verifiche[\"3D:SLV\"].Ratio",
+   "classe": "numero",
+   "a": "0.5128604215348258",
+   "b": "0.5127072914739241",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/short.txt",
+   "percorso": "riga 33#1",
+   "classe": "numero",
+   "a": "-3500,38",
+   "b": "-3500,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/short.txt",
+   "percorso": "riga 33#2",
+   "classe": "numero",
+   "a": "2481,61",
+   "b": "2482,58",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/short.txt",
+   "percorso": "riga 33#3",
+   "classe": "numero",
+   "a": "620,40",
+   "b": "620,65",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/short.txt",
+   "percorso": "riga 37#1",
+   "classe": "numero",
+   "a": "-2500,24",
+   "b": "-2500,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/short.txt",
+   "percorso": "riga 37#2",
+   "classe": "numero",
+   "a": "1754,86",
+   "b": "1755,39",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/circolare-cava/short.txt",
+   "percorso": "riga 37#3",
+   "classe": "numero",
+   "a": "584,95",
+   "b": "585,13",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/report.txt",
+   "percorso": "riga 342#1",
+   "classe": "numero",
+   "a": "-1200,22",
+   "b": "-1199,98",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/report.txt",
+   "percorso": "riga 343#1",
+   "classe": "numero",
+   "a": "1014,74",
+   "b": "1015,01",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/report.txt",
+   "percorso": "riga 344#1",
+   "classe": "numero",
+   "a": "243,52",
+   "b": "243,60",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "1590.4440040185875",
+   "b": "1590.4483247851076",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "1014.7359352739405",
+   "b": "1015.0096818741098",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.My",
+   "classe": "numero",
+   "a": "243.52427793272227",
+   "b": "243.5992389714939",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-1200.2162461988858",
+   "b": "-1199.9752623642216",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "5.835527400257109",
+   "b": "5.849210139408085",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "4.654451013913014",
+   "b": "4.6664516823409725",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-2.3445991872720806",
+   "b": "-2.3429536833039104",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "29.788293037697063",
+   "b": "29.772224870190318",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "372.0518774094714",
+   "b": "371.49441497020865",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "879.5518440963904",
+   "b": "879.5266019024291",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Utilization",
+   "classe": "numero",
+   "a": "0.2463701950126632",
+   "b": "0.24630323914771507",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "percorso": "$.riepilogo_verifiche[\"3D:SLU\"].Ratio",
+   "classe": "numero",
+   "a": "0.2463701950126632",
+   "b": "0.24630323914771507",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/short.txt",
+   "percorso": "riga 33#1",
+   "classe": "numero",
+   "a": "-1200,22",
+   "b": "-1199,98",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/short.txt",
+   "percorso": "riga 33#2",
+   "classe": "numero",
+   "a": "1014,74",
+   "b": "1015,01",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/short.txt",
+   "percorso": "riga 33#3",
+   "classe": "numero",
+   "a": "243,52",
+   "b": "243,60",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/report.txt",
+   "percorso": "riga 367#1",
+   "classe": "numero",
+   "a": "-1000,24",
+   "b": "-999,98",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/report.txt",
+   "percorso": "riga 368#1",
+   "classe": "numero",
+   "a": "973,84",
+   "b": "974,10",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/report.txt",
+   "percorso": "riga 369#1",
+   "classe": "numero",
+   "a": "243,45",
+   "b": "243,51",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "1417.0782062391893",
+   "b": "1417.0820877837527",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "973.8436739314155",
+   "b": "974.0967108573926",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.My",
+   "classe": "numero",
+   "a": "243.44807736939825",
+   "b": "243.5148882954373",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-1000.23605962142",
+   "b": "-999.9788700731777",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "6.2263135804301095",
+   "b": "6.2405454110640886",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "4.995284425499438",
+   "b": "5.00776276997672",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-2.2957323484373866",
+   "b": "-2.2940169815449662",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "29.950023141078812",
+   "b": "29.93496696539434",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "357.2272891599068",
+   "b": "356.6939588256406",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "879.8021043615781",
+   "b": "879.7790990468959",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Utilization",
+   "classe": "numero",
+   "a": "0.20537240817849814",
+   "b": "0.20531888316382463",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/result.json",
+   "percorso": "$.riepilogo_verifiche[\"3D:SLU\"].Ratio",
+   "classe": "numero",
+   "a": "0.20537240817849814",
+   "b": "0.20531888316382463",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/short.txt",
+   "percorso": "riga 33#1",
+   "classe": "numero",
+   "a": "-1000,24",
+   "b": "-999,98",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/short.txt",
+   "percorso": "riga 33#2",
+   "classe": "numero",
+   "a": "973,84",
+   "b": "974,10",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/dati-incompleti-avvisi/short.txt",
+   "percorso": "riga 33#3",
+   "classe": "numero",
+   "a": "243,45",
+   "b": "243,51",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/report.txt",
+   "percorso": "riga 322#1",
+   "classe": "numero",
+   "a": "-2500,14",
+   "b": "-2500,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/report.txt",
+   "percorso": "riga 323#1",
+   "classe": "numero",
+   "a": "934,55",
+   "b": "935,40",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/report.txt",
+   "percorso": "riga 324#1",
+   "classe": "numero",
+   "a": "467,23",
+   "b": "467,70",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/report.txt",
+   "percorso": "riga 335#1",
+   "classe": "numero",
+   "a": "-2500,17",
+   "b": "-2500,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/report.txt",
+   "percorso": "riga 336#1",
+   "classe": "numero",
+   "a": "719,54",
+   "b": "721,26",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/report.txt",
+   "percorso": "riga 337#1",
+   "classe": "numero",
+   "a": "359,77",
+   "b": "360,63",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "2709.6886108749463",
+   "b": "2709.9295078103837",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "934.5524581744079",
+   "b": "935.4006354290558",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.My",
+   "classe": "numero",
+   "a": "467.23431340412793",
+   "b": "467.7003178155136",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-2500.1432293377397",
+   "b": "-2500.000000251123",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "3.740643781960588",
+   "b": "3.7483113126765373",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "2.780893497023724",
+   "b": "2.7875150471537604",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-2.5611138516921974",
+   "b": "-2.5600906098146745",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "48.39048420636237",
+   "b": "48.40271179734311",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "473.64372984520435",
+   "b": "473.122100068156",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "862.7965686239183",
+   "b": "862.7555330408804",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Utilization",
+   "classe": "numero",
+   "a": "0.5350250439990707",
+   "b": "0.534530318924858",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "2626.4064947318466",
+   "b": "2626.8368567066236",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "719.5367135375467",
+   "b": "721.260717987642",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Resistance.My",
+   "classe": "numero",
+   "a": "359.7660652612369",
+   "b": "360.6303984488749",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-2500.1692686151587",
+   "b": "-2500.000112830976",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "1.7915807666866845",
+   "b": "1.7989039517442664",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "1.2917524539198186",
+   "b": "1.2980986159380101",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-1.5110375201193704",
+   "b": "-1.5100817367112709",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "46.20847589313643",
+   "b": "46.2177639691802",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "520.4935581041952",
+   "b": "519.476341972772",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Response.SMax",
+   "classe": "numero",
+   "a": "258.3504907839637",
+   "b": "259.61972318760206",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Response.SMin",
+   "classe": "numero",
+   "a": "-302.2075040238741",
+   "b": "-302.0163473422542",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "869.4957715798217",
+   "b": "869.4698905395604",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-2>\"].Utilization",
+   "classe": "numero",
+   "a": "0.6948924600117851",
+   "b": "0.6932305844333899",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.riepilogo_verifiche[\"3D:SLU\"].Ratio",
+   "classe": "numero",
+   "a": "0.5350250439990707",
+   "b": "0.534530318924858",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/result.json",
+   "percorso": "$.riepilogo_verifiche[\"3D:SLV\"].Ratio",
+   "classe": "numero",
+   "a": "0.6948924600117851",
+   "b": "0.6932305844333899",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/short.txt",
+   "percorso": "riga 33#1",
+   "classe": "numero",
+   "a": "-2500,14",
+   "b": "-2500,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/short.txt",
+   "percorso": "riga 33#2",
+   "classe": "numero",
+   "a": "934,55",
+   "b": "935,40",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/short.txt",
+   "percorso": "riga 33#3",
+   "classe": "numero",
+   "a": "467,23",
+   "b": "467,70",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/short.txt",
+   "percorso": "riga 37#1",
+   "classe": "numero",
+   "a": "-2500,17",
+   "b": "-2500,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/short.txt",
+   "percorso": "riga 37#2",
+   "classe": "numero",
+   "a": "719,54",
+   "b": "721,26",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/short.txt",
+   "percorso": "riga 37#3",
+   "classe": "numero",
+   "a": "359,77",
+   "b": "360,63",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/default/short.txt",
+   "percorso": "riga 38#1",
+   "classe": "numero",
+   "a": "0.695",
+   "b": "0.693",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/report.txt",
+   "percorso": "riga 308#1",
+   "classe": "numero",
+   "a": "349,81",
+   "b": "350,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/report.txt",
+   "percorso": "riga 309#1",
+   "classe": "numero",
+   "a": "657,12",
+   "b": "657,16",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/report.txt",
+   "percorso": "riga 310#1",
+   "classe": "numero",
+   "a": "-175,22",
+   "b": "-175,24",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "764.7729079209261",
+   "b": "764.9022923263294",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "657.1203808415349",
+   "b": "657.1643815532145",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.My",
+   "classe": "numero",
+   "a": "-175.22255723902106",
+   "b": "-175.24381888053935",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.N",
+   "classe": "numero",
+   "a": "349.81060762521673",
+   "b": "350.00013766857177",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "11.51189179376752",
+   "b": "11.534285870703371",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "9.640380565163174",
+   "b": "9.66007556968886",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-1.6691737981044414",
+   "b": "-1.666533401181459",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "-24.214945698923117",
+   "b": "-24.19665561922771",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "227.48464180853298",
+   "b": "227.1295032423225",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.SMin",
+   "classe": "numero",
+   "a": "-333.8347596208883",
+   "b": "-333.3066802362918",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "866.7114242347967",
+   "b": "866.6558638899647",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Utilization",
+   "classe": "numero",
+   "a": "0.06848085073999476",
+   "b": "0.06847601838953078",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/result.json",
+   "percorso": "$.riepilogo_verifiche[\"3D:SLU\"].Ratio",
+   "classe": "numero",
+   "a": "0.06848085073999476",
+   "b": "0.06847601838953078",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/short.txt",
+   "percorso": "riga 33#1",
+   "classe": "numero",
+   "a": "349,81",
+   "b": "350,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/short.txt",
+   "percorso": "riga 33#2",
+   "classe": "numero",
+   "a": "657,12",
+   "b": "657,16",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/legacy-workspace-segni/short.txt",
+   "percorso": "riga 33#3",
+   "classe": "numero",
+   "a": "-175,22",
+   "b": "-175,24",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 403#1",
+   "classe": "numero",
+   "a": "-614,63",
+   "b": "-614,71",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 404#1",
+   "classe": "numero",
+   "a": "921,94",
+   "b": "922,06",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 405#1",
+   "classe": "numero",
+   "a": "82,01",
+   "b": "81,96",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 409#1",
+   "classe": "numero",
+   "a": "-1681,23",
+   "b": "-1680,60",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 410#1",
+   "classe": "numero",
+   "a": "-1344,43",
+   "b": "-1344,50",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 411#1",
+   "classe": "numero",
+   "a": "112,14",
+   "b": "112,06",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 422#1",
+   "classe": "numero",
+   "a": "-608,57",
+   "b": "-608,64",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 423#1",
+   "classe": "numero",
+   "a": "912,85",
+   "b": "912,95",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 488#1",
+   "classe": "numero",
+   "a": "703,02",
+   "b": "703,18",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 489#1",
+   "classe": "numero",
+   "a": "187,47",
+   "b": "187,51",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "754.5796110862553",
+   "b": "754.7327666148368",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "703.0249921190274",
+   "b": "703.1784641098156",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Resistance.My",
+   "classe": "numero",
+   "a": "187.47333123174064",
+   "b": "187.51425709595082",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.CMin",
+   "classe": "numero",
+   "a": "-10.099688330012686",
+   "b": "-10.084287358239377",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "2.348395880600491",
+   "b": "2.348188961847473",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.EcMin",
+   "classe": "numero",
+   "a": "-0.7277808196802299",
+   "b": "-0.7243721138420985",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "2.134772498636552",
+   "b": "2.134816664924586",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-0.5295383212176947",
+   "b": "-0.5263626222976598",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "5.52095118543233",
+   "b": "5.517681162155061",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "232.42548827041492",
+   "b": "231.59821338938215",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.SMax",
+   "classe": "numero",
+   "a": "426.95449972731035",
+   "b": "426.96333298491714",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.SMin",
+   "classe": "numero",
+   "a": "-105.90766424353893",
+   "b": "-105.27252445953195",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "927.1026253776749",
+   "b": "927.0594149911828",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Utilization",
+   "classe": "numero",
+   "a": "0.4267273615632825",
+   "b": "0.4266342263194638",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "1111.0672798844755",
+   "b": "1111.2076805906304",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "921.9410301769304",
+   "b": "922.0622686801555",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.My",
+   "classe": "numero",
+   "a": "82.01482614914426",
+   "b": "81.96105902816886",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-614.6289983379513",
+   "b": "-614.7081151920758",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "31.650117656007144",
+   "b": "31.69631552650319",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "29.209137263228868",
+   "b": "29.2521269482738",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-1.234770195501762",
+   "b": "-1.2317929994031278",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "0.6998855910151712",
+   "b": "0.6981149987174438",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "90.70360121146467",
+   "b": "90.58181397993677",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.SMin",
+   "classe": "numero",
+   "a": "-246.9540391003524",
+   "b": "-246.35859988062555",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "860.2222153048581",
+   "b": "860.1965146299476",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Utilization",
+   "classe": "numero",
+   "a": "0.4880981416126638",
+   "b": "0.4880364705812695",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "2155.599985547763",
+   "b": "2155.1435182393857",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "-1344.4289473486272",
+   "b": "-1344.4962371008405",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Resistance.My",
+   "classe": "numero",
+   "a": "112.1423235700473",
+   "b": "112.05849434018953",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-1681.233535975561",
+   "b": "-1680.5999959767728",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "7.120042311054966",
+   "b": "7.136577970957817",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "6.435639584342536",
+   "b": "6.451109612829426",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-2.762497061732294",
+   "b": "-2.7613487520168185",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "-207.50621278188643",
+   "b": "-207.52738165079674",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "400.06784923206845",
+   "b": "399.4923899330888",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "1142.1246490920566",
+   "b": "1142.2561148410766",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Utilization",
+   "classe": "numero",
+   "a": "0.08923447852400786",
+   "b": "0.08925337871412584",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "1123.7941798789361",
+   "b": "1123.917064265241",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "912.8508822819797",
+   "b": "912.9529378096538",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Resistance.My",
+   "classe": "numero",
+   "a": "243.4363542738361",
+   "b": "243.45415653428412",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-608.5682926875545",
+   "b": "-608.635009145465",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "25.60751473669013",
+   "b": "25.630053936060808",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "23.586159546642207",
+   "b": "23.607133523834364",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-1.6241823836355251",
+   "b": "-1.6227298574538591",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "2.2597342926803563",
+   "b": "2.2651442826458332",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "112.40236803360878",
+   "b": "112.32519677037733",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.SMin",
+   "classe": "numero",
+   "a": "-324.83647672710504",
+   "b": "-324.54597149077176",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "882.5449262567457",
+   "b": "882.6212291848817",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.domini[\"3D:SLV\"][\"<GUID-3>\"].Utilization",
+   "classe": "numero",
+   "a": "0.3286399884115561",
+   "b": "0.32860405629113976",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.riepilogo_verifiche[\"2D:SLV\"].Ratio",
+   "classe": "numero",
+   "a": "0.4267273615632825",
+   "b": "0.4266342263194638",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.riepilogo_verifiche[\"3D:SLU\"].Ratio",
+   "classe": "numero",
+   "a": "0.4880981416126638",
+   "b": "0.4880364705812695",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.riepilogo_verifiche[\"3D:SLV\"].Ratio",
+   "classe": "numero",
+   "a": "0.3286399884115561",
+   "b": "0.32860405629113976",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/short.txt",
+   "percorso": "riga 33#1",
+   "classe": "numero",
+   "a": "-614,63",
+   "b": "-614,71",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/short.txt",
+   "percorso": "riga 33#2",
+   "classe": "numero",
+   "a": "921,94",
+   "b": "922,06",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/short.txt",
+   "percorso": "riga 33#3",
+   "classe": "numero",
+   "a": "82,01",
+   "b": "81,96",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/short.txt",
+   "percorso": "riga 37#1",
+   "classe": "numero",
+   "a": "-608,57",
+   "b": "-608,64",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/short.txt",
+   "percorso": "riga 37#2",
+   "classe": "numero",
+   "a": "912,85",
+   "b": "912,95",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/report.txt",
+   "percorso": "riga 331#1",
+   "classe": "numero",
+   "a": "-500,10",
+   "b": "-500,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/report.txt",
+   "percorso": "riga 332#1",
+   "classe": "numero",
+   "a": "583,12",
+   "b": "583,31",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/report.txt",
+   "percorso": "riga 333#1",
+   "classe": "numero",
+   "a": "67,28",
+   "b": "67,31",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/report.txt",
+   "percorso": "riga 376#1",
+   "classe": "numero",
+   "a": "562,49",
+   "b": "562,62",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/report.txt",
+   "percorso": "riga 377#1",
+   "classe": "numero",
+   "a": "64,90",
+   "b": "64,92",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "640.7853934389095",
+   "b": "640.8986828289949",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "562.4887375619812",
+   "b": "562.6160976529782",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Resistance.My",
+   "classe": "numero",
+   "a": "64.90254664176699",
+   "b": "64.91724203688221",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "5.16405972950031",
+   "b": "5.174868417834174",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "3.997646982816975",
+   "b": "4.007000665229716",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-2.3659876073912023",
+   "b": "-2.364573018301221",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "25.805634954490312",
+   "b": "25.805604334551905",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "288.5514526617248",
+   "b": "288.19190279951573",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "630.8017421918887",
+   "b": "630.8017067215425",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Utilization",
+   "classe": "numero",
+   "a": "0.46223147707264156",
+   "b": "0.46212684117042113",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "771.1360234246417",
+   "b": "771.2226340527086",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "583.119180984025",
+   "b": "583.3132417342546",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.My",
+   "classe": "numero",
+   "a": "67.27650980397969",
+   "b": "67.30537405428161",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-500.0966492792013",
+   "b": "-499.99999991608655",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "4.4756711450114475",
+   "b": "4.486117881255843",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "3.397593488165938",
+   "b": "3.40667470400243",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-2.451868944733531",
+   "b": "-2.4505413554480704",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "26.91321291976758",
+   "b": "26.90131525617969",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "314.2371478904734",
+   "b": "313.81833975298514",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "631.9686970566837",
+   "b": "631.9573957413197",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Utilization",
+   "classe": "numero",
+   "a": "0.44587853922176074",
+   "b": "0.4457296378641846",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.riepilogo_verifiche[\"2D:SLU\"].Ratio",
+   "classe": "numero",
+   "a": "0.46223147707264156",
+   "b": "0.46212684117042113",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/result.json",
+   "percorso": "$.riepilogo_verifiche[\"3D:SLU\"].Ratio",
+   "classe": "numero",
+   "a": "0.44587853922176074",
+   "b": "0.4457296378641846",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/short.txt",
+   "percorso": "riga 33#1",
+   "classe": "numero",
+   "a": "-500,10",
+   "b": "-500,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/short.txt",
+   "percorso": "riga 33#2",
+   "classe": "numero",
+   "a": "583,12",
+   "b": "583,31",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/sle-fessurazione-assi/short.txt",
+   "percorso": "riga 33#3",
+   "classe": "numero",
+   "a": "67,28",
+   "b": "67,31",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/report.txt",
+   "percorso": "riga 309#1",
+   "classe": "numero",
+   "a": "-0,09",
+   "b": "1,37E-4",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/report.txt",
+   "percorso": "riga 310#1",
+   "classe": "numero",
+   "a": "-50,18",
+   "b": "-50,27",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/report.txt",
+   "percorso": "riga 311#1",
+   "classe": "numero",
+   "a": "7,42E-7",
+   "b": "4,65E-13",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/report.txt",
+   "percorso": "riga 315#1",
+   "classe": "numero",
+   "a": "-0,08",
+   "b": "2,28E-5",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/report.txt",
+   "percorso": "riga 316#1",
+   "classe": "numero",
+   "a": "63,96",
+   "b": "64,04",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/report.txt",
+   "percorso": "riga 317#1",
+   "classe": "numero",
+   "a": "-2,38E-6",
+   "b": "9,35E-14",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/report.txt",
+   "percorso": "riga 362#1",
+   "classe": "numero",
+   "a": "-50,17",
+   "b": "-50,26",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/report.txt",
+   "percorso": "riga 368#1",
+   "classe": "numero",
+   "a": "63,95",
+   "b": "64,04",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/report.txt",
+   "percorso": "riga 369#1",
+   "classe": "numero",
+   "a": "6,10E-17",
+   "b": "3,56E-16",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "50.17229242806913",
+   "b": "50.26487425032507",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "-50.17229242806913",
+   "b": "-50.26487425032507",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "29.22555940014775",
+   "b": "29.25929351307164",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "24.513078848021536",
+   "b": "24.541955247189325",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "1.3433827896852752",
+   "b": "1.3483754399346006",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "-179.99999999394086",
+   "b": "-180",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "26.737510875556836",
+   "b": "26.709977724362616",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.SMin",
+   "classe": "numero",
+   "a": "268.67655793705507",
+   "b": "269.6750879869202",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "220.00000010183913",
+   "b": "220.0000000000001",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Utilization",
+   "classe": "numero",
+   "a": "2.1924451659789015",
+   "b": "2.1884069470100904",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "63.94756315111717",
+   "b": "64.03698385329606",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "63.94756315111717",
+   "b": "64.03698385329606",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Resistance.My",
+   "classe": "numero",
+   "a": "6.101318137323984E-17",
+   "b": "3.5559680851921887E-16",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "28.912405149623428",
+   "b": "28.91988352118208",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "24.115369314539223",
+   "b": "24.121740760047135",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "1.1673862179197672",
+   "b": "1.1684632270502187",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "-5.058683169626002E-07",
+   "b": "-3.277351117551809E-15",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "26.995837762194043",
+   "b": "26.989609614985326",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.SMin",
+   "classe": "numero",
+   "a": "233.47724358395342",
+   "b": "233.69264541004375",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "220.00000851122127",
+   "b": "220.00000000000006",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-2>\"].Utilization",
+   "classe": "numero",
+   "a": "0.7818906231320011",
+   "b": "0.7807987976845733",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "50.181090849707964",
+   "b": "50.26865177538766",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "-50.181002223132595",
+   "b": "-50.26865177520151",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.My",
+   "classe": "numero",
+   "a": "7.418595470662695E-07",
+   "b": "4.651083145290613E-13",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-0.09431197487883038",
+   "b": "0.00013680211221799254",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "29.225559055974973",
+   "b": "29.25929351307164",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "24.51307855443594",
+   "b": "24.541955247189325",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "1.3433827376928944",
+   "b": "1.3483754399346006",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "-180.0000000102185",
+   "b": "-180",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "26.737511164517656",
+   "b": "26.709977724362616",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.SMin",
+   "classe": "numero",
+   "a": "268.6765475385789",
+   "b": "269.6750879869202",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "220.00000017174773",
+   "b": "220.0000000000001",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Utilization",
+   "classe": "numero",
+   "a": "2.1920646285795358",
+   "b": "2.1882424953808908",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "63.9608785606064",
+   "b": "64.04447280746574",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "63.96082254605488",
+   "b": "64.04447280746167",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Resistance.My",
+   "classe": "numero",
+   "a": "-2.377739602641668E-06",
+   "b": "9.345239959657192E-14",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-0.08464913887693547",
+   "b": "2.2836919699329883E-05",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "28.912445160349222",
+   "b": "28.919883521182076",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "24.115403286333116",
+   "b": "24.121740760047132",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "1.1673920936372912",
+   "b": "1.1684632270502182",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "-3.868090230227079E-08",
+   "b": "1.7163860022436888E-15",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "26.995803557372042",
+   "b": "26.989609614985326",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.SMin",
+   "classe": "numero",
+   "a": "233.47841872745826",
+   "b": "233.69264541004367",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "220.0000006508052",
+   "b": "220.00000000000003",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-2>\"].Utilization",
+   "classe": "numero",
+   "a": "0.7817285333376937",
+   "b": "0.7807074960288316",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.riepilogo_verifiche[\"2D:SLU\"].Ratio",
+   "classe": "numero",
+   "a": "2.1924451659789015",
+   "b": "2.1884069470100904",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/result.json",
+   "percorso": "$.riepilogo_verifiche[\"3D:SLU\"].Ratio",
+   "classe": "numero",
+   "a": "2.1920646285795358",
+   "b": "2.1882424953808908",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/short.txt",
+   "percorso": "riga 33#1",
+   "classe": "numero",
+   "a": "-0,09",
+   "b": "1,37E-4",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/short.txt",
+   "percorso": "riga 33#2",
+   "classe": "numero",
+   "a": "-50,18",
+   "b": "-50,27",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/short.txt",
+   "percorso": "riga 33#3",
+   "classe": "numero",
+   "a": "7,42E-7",
+   "b": "4,65E-13",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/soletta-dettagli-ricerca/short.txt",
+   "percorso": "riga 34#1",
+   "classe": "numero",
+   "a": "2.192",
+   "b": "2.188",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/report.txt",
+   "percorso": "riga 326#1",
+   "classe": "numero",
+   "a": "-400,07",
+   "b": "-400,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/report.txt",
+   "percorso": "riga 327#1",
+   "classe": "numero",
+   "a": "171,05",
+   "b": "171,08",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/report.txt",
+   "percorso": "riga 373#1",
+   "classe": "numero",
+   "a": "170,78",
+   "b": "170,81",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "437.0231075749173",
+   "b": "437.03313472892415",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "170.78144700016676",
+   "b": "170.80559530989325",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Resistance.My",
+   "classe": "numero",
+   "a": "42.69536175004169",
+   "b": "42.701398827473305",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "5.493268946148315",
+   "b": "5.5071292449913045",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "4.2549538711352515",
+   "b": "4.266851852782516",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-2.3167211505430725",
+   "b": "-2.3148460474449366",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "8.800613305795082",
+   "b": "8.79532010936551",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "145.15098059845792",
+   "b": "144.91152932927986",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "331.89363457114297",
+   "b": "331.8555434293646",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"2D:SLU\"][\"<GUID-1>\"].Utilization",
+   "classe": "numero",
+   "a": "0.3513262187077113",
+   "b": "0.3512765485881289",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Length",
+   "classe": "numero",
+   "a": "437.20193120219665",
+   "b": "437.14577965507215",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.Mx",
+   "classe": "numero",
+   "a": "171.05276347404526",
+   "b": "171.0751180314925",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.My",
+   "classe": "numero",
+   "a": "42.762534966605735",
+   "b": "42.772483146547835",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Resistance.N",
+   "classe": "numero",
+   "a": "-400.0723014131976",
+   "b": "-400.0003141826642",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EcMax",
+   "classe": "numero",
+   "a": "5.493268946148287",
+   "b": "5.5071292449909315",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMax",
+   "classe": "numero",
+   "a": "4.2549538711352275",
+   "b": "4.2668518527821995",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.EsMin",
+   "classe": "numero",
+   "a": "-2.316721150543076",
+   "b": "-2.3148460474449895",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralAngle",
+   "classe": "numero",
+   "a": "8.80061330579508",
+   "b": "8.795320109365903",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.NeutralDistance",
+   "classe": "numero",
+   "a": "145.15098059845835",
+   "b": "144.9115293292872",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Response.UsefulDepth",
+   "classe": "numero",
+   "a": "331.8936345711429",
+   "b": "331.8555434293675",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.domini[\"3D:SLU\"][\"<GUID-1>\"].Utilization",
+   "classe": "numero",
+   "a": "0.3507692767728176",
+   "b": "0.3507213383442224",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.riepilogo_verifiche[\"2D:SLU\"].Ratio",
+   "classe": "numero",
+   "a": "0.3513262187077113",
+   "b": "0.3512765485881289",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/result.json",
+   "percorso": "$.riepilogo_verifiche[\"3D:SLU\"].Ratio",
+   "classe": "numero",
+   "a": "0.3507692767728176",
+   "b": "0.3507213383442224",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/short.txt",
+   "percorso": "riga 33#1",
+   "classe": "numero",
+   "a": "-400,07",
+   "b": "-400,00",
+   "voce": "AG-CA-01"
+  },
+  {
+   "file": "sheets/str_palo/taglio-senza-staffe-manuali/short.txt",
+   "percorso": "riga 33#2",
+   "classe": "numero",
+   "a": "171,05",
+   "b": "171,08",
+   "voce": "AG-CA-01"
   }
  ],
  "aggiornamento_spettri": {
@@ -231882,5 +234932,13 @@
   "sostituite": 0,
   "aggiunte": 2898,
   "nota": "Set candidato del 22/10 (Checker f6916d8e, Geotechnics 0.19.0.0): cerchi di Bishop con φ = 0 non più scartati per N' < 0. Cambia solo la stabilità globale (casi, verifiche 64-67, tabelle T15, T39, T40 e cerchi critici) della fixture globale-non-drenata-sisma; valori prima del riferimento F3 invariati."
+ },
+ "aggiornamento_ag_ca": {
+  "data": "2026-10-24",
+  "registro": "AG-CA-01",
+  "sostituite": 19,
+  "aggiunte": 381,
+  "cattura": "20261024-132907-ag-ca-riproduzione (Presentation.Tests/sezione-ca, sezione-ca-f3 contro il riferimento con il comparatore del toolkit)",
+  "nota": "Set AG (Model 2d59bbc6 5.21.0.0, Checker f6d87d28, Concrete 0.20.0.0): parabola-rettangolo analitica come legge predefinita e integrazione esatta dello stress block. Cambiano solo i punti resistenti dei domini SLU/SLV 2D e 3D (resistenze, risposte, utilizzi, rapporti) di dieci fixture; legacy-calculation-settings: 19 transizioni F2-17 con il valore dopo aggiornato. rettangolare-materiali-utente non ha voci (AG-CA-03, verdetto cambiato). Valori prima del riferimento F3 invariati."
  }
 }
