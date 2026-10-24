@@ -1,10 +1,10 @@
 {
-  "nota": "Difetti di contrasto della sola Chiara, lasciati per non cambiarla (decisioni.md, «Tema scuro»; F5 Q6): baseline di --check-contrast nello stadio ui (tests/Desktop/ContrastBaseline.cs). Può solo scendere: si sostituisce con baseline-chiara.json di una corsa con meno difetti.",
-  "strumento": "supporto/test/Desktop/ContrastAudit.cs --baseline",
-  "comando": "F5.13 g3 (G2): prima corsa a 96 DPI sulla shell nuova, ci/20261024-011608-f5-13-g3-c96b, con ANTHEA.exe come il runner: ANTHEA.exe --check-contrast <cartella> --baseline tests/fixtures/f5/contrasto-chiara.json",
+  "nota": "Difetti di contrasto della sola Chiara, lasciati per non cambiarla (decisioni.md, «Tema scuro»; F5 Q6): baseline di --check-contrast nello stadio ui (tests/ANTHEA.Desktop.UiTests/ContrastBaseline.cs). Può solo scendere: si sostituisce con baseline-chiara.json di una corsa con meno difetti.",
+  "strumento": "tests/ANTHEA.Desktop.UiTests/ContrastAudit.cs --baseline",
+  "comando": "F5.13 G8: ci/20261024-093753-f5-g8-c96 (le pagine dei progetti entrano nella prova con l'archivio tests/fixtures/f5/contrasto-progetti.programma; la Chiara passa da 629 occorrenze in 191 voci a 645 in 193), con ANTHEA.exe come il runner: ANTHEA.exe --check-contrast <cartella> --baseline tests/fixtures/f5/contrasto-chiara.json",
   "dpi": 96,
-  "totale": 629,
-  "voci_distinte": 191,
+  "totale": 645,
+  "voci_distinte": 193,
   "voci": [
     {
       "vista": "cambio-modulo-str_palo",
@@ -958,6 +958,16 @@
     },
     {
       "vista": "modulo-str_palo-t8-08-t3-ricerca-e-scarti-p2",
+      "chiave": "contrasto-testo|TextBlock|ShellWindow > MinimumSizeViewport > ConcreteSectionSheetView > ChainedScrollViewer|TextBlock #64748B Style|ConcreteSectionSheetView #F3F5F8 Local (espressione)",
+      "occorrenze": 8
+    },
+    {
+      "vista": "progetti-foglio",
+      "chiave": "contrasto-testo|TextBlock|ShellWindow > MinimumSizeViewport > ConcreteSectionSheetView > ChainedScrollViewer|TextBlock #64748B Style|ConcreteSectionSheetView #F3F5F8 Local (espressione)",
+      "occorrenze": 8
+    },
+    {
+      "vista": "progetti-foglio-struttura",
       "chiave": "contrasto-testo|TextBlock|ShellWindow > MinimumSizeViewport > ConcreteSectionSheetView > ChainedScrollViewer|TextBlock #64748B Style|ConcreteSectionSheetView #F3F5F8 Local (espressione)",
       "occorrenze": 8
     }

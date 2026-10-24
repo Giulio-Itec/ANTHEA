@@ -137,6 +137,7 @@ try
     checks += DetailingCompressionChecks.Run();
     checks += await PileSegmentOperationChecks.Run(root);
     checks += await ProjectReportServiceChecks.Run(output);
+    checks += ContrastArchiveChecks.Run(root, output);
     checks += await ConcreteReportCurvatureChecks.Run(root, output);
     string result = $"PASS {checks} controlli Application, documenti e revisioni";
     File.WriteAllText(Path.Combine(output, "esito.txt"), result);
