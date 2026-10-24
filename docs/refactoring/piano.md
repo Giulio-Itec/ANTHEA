@@ -770,7 +770,8 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
     e 3206 occorrenze a 2105 e 3142. Corse sul merge finale: standard `merge-muri` e ui mirate con `ui/f3-equivalence` (`merge-muri-ui`).
     Restano per la revisione delle guide le frasi dei muri e il campo «esito» di MU3/MU4. Le chiavi della prova del contrasto si
     spostano alla prima corsa a 96 DPI (D12).
-- [ ] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow. Requisito
+- [x] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow. **Chiusa il 24/10: «Shell approvata»;
+  parte (g) compiuta, `MainWindow` archiviata; rilasciata con la 1.14.0.** Requisito
   dell'utente dell'8/10 («considera le opzioni 1 e 3. non multi progetto. però dai la possibilità di staccare la
   finestra per più monitor»):
   - più fogli aperti insieme in schede dentro il progetto;
@@ -819,15 +820,19 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
     `MainWindow` registrati in `tests/fixtures/f5-shell`; `ui/f3-equivalence` senza `MainWindow`, 0 differenze; `SheetEditor` e ospite R5 in
     `supporto/SUPERATI/ui-storica/shell`. Restano le suite contenitore sulla shell e il ritiro di `MainWindow` (14.8); testo proposto per guida
     e Wiki in 14.6. Domande G1–G4.
-- [ ] F5.14 Chiusura: X.Desktop → ANTHEA.Desktop, terza revisione di AGENTS.md.
+- [x] F5.14 Chiusura: X.Desktop → ANTHEA.Desktop, terza revisione di AGENTS.md. **Chiusa il 24/10, rilasciata con la 1.14.0.**
   - Spostamenti fatti (24/10, ramo `refactoring/f5-14`, [nota](f5-14-chiusura.md)): `X.Desktop` in `src/ANTHEA.Desktop` (namespace ed
     eseguibile `ANTHEA.exe` invariati; figure delle guide in `X.Desktop/Assets/Wiki`, opzione A; spostate in `src/ANTHEA.Desktop/Assets/Wiki` con le guide Rev59, opzione B), prove WPF in
     `tests/ANTHEA.Desktop.UiTests` (stesse sorgenti, build UiTests), terza revisione di AGENTS.md. Resta la forma separata delle prove,
     voce dopo F5.15. Corse finali nella nota, sezione 10.3.
-- [ ] F5.15 [CP] Ridiscutere con l'utente le voci sfavorevoli o aperte del registro delle differenze R4-R21 (R4-R14 e R16-R21; R15 è corretta) (decisione del 7/10: "le guardiamo a fine refactoring"; estesa a R16-R21 dal coordinatore su delega, ratificata dall'utente il 15/10, E4). Nello stesso punto si rivedono tutte le scelte provvisorie del coordinatore sulle voci «da decidere» di F5 (decisione dell'utente del 17/10, [decisioni](decisioni.md), 17 ottobre tarda mattina).
+- [ ] F5.15 [CP] **Voce a sé dopo F5** (decisione dell'utente del 24/10: «Voce a sé dopo F5»; F5.0–F5.14 chiuse con la 1.14.0). Ridiscutere con l'utente le voci sfavorevoli o aperte del registro delle differenze R4-R21 (R4-R14 e R16-R21; R15 è corretta) (decisione del 7/10: "le guardiamo a fine refactoring"; estesa a R16-R21 dal coordinatore su delega, ratificata dall'utente il 15/10, E4). Nello stesso punto si rivedono tutte le scelte provvisorie del coordinatore sulle voci «da decidere» di F5 (decisione dell'utente del 17/10, [decisioni](decisioni.md), 17 ottobre tarda mattina).
   - Elenco consolidato delle voci da rivedere (23/10): [f5-15-revisione.md](f5-15-revisione.md).
   - 24/10: l'utente accetta le raccomandazioni sulle 13 voci da guardare per prime ([scheda](f5-15-prioritarie.md); [decisioni](decisioni.md), 23 e 24
     ottobre). Da attuare dopo il 28/10: V-a, BD4, SH49 ridotta, regola T6. R4, R5 e R10 vanno con il set di librerie successivo. Restano 207 voci aperte (205 più G11 e W-idx, aggiunte con la Rev59 il 24/10).
+
+**F5 chiusa il 25/10/2026 con ANTHEA 1.14.0** (decisione dell'utente del 24/10: «Anche rilascio 1.14.0»). Release AG delle librerie
+(Model 2d59bbc6, Checker 22dabe69), guide Rev59, full di rilascio PASS 155 su d7e6b6a7, setup e audit PASS, tag `v1.14.0`.
+[Verbale](installer-1.14.0.md), [note di rilascio](note-rilascio-1.14.0.md). F5.15 prosegue come voce a sé.
 
 ## Wiki (in parallelo)
 
