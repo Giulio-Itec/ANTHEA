@@ -9,7 +9,7 @@ Gli output della lavorazione sono in
 `supporto/artefatti/validazione_illustrata_2026_09_26/`.
 `prepare_captures.py` genera gli ingressi delle 114 viste.
 Le viste si acquisiscono con l'ANTHEA.exe della configurazione `UiTests`
-(`dotnet build X.Desktop/X.Desktop.csproj -c UiTests`), con
+(`dotnet build src/ANTHEA.Desktop/ANTHEA.Desktop.csproj -c UiTests`), con
 `--capture-validation <ingressi.json> <cartella>`: usa i controlli WPF di
 produzione e il metodo Snapshot del prodotto. Fino al 6 ottobre 2026 lo faceva
 il progetto `supporto/test/ValidationIllustrations`, ora in

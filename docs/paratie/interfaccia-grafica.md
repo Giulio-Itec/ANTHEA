@@ -108,7 +108,7 @@ Nove JSON paratie identici byte per byte rispetto a `grafica-prima`;
 le 13 DLL nella build Release coincidono per SHA-256 con il set AA.
 Baseline numeriche e lista dei fallimenti ammessi invariate.
 
-La build locale è `X.Desktop/bin/Release/net8.0-windows/ANTHEA.exe`.
+La build locale è `src/ANTHEA.Desktop/bin/Release/net8.0-windows/ANTHEA.exe`.
 `supporto/artefatti/paratie/grafica-finale/Apri-Paratia.cmd` apre questa
 build con l'esempio `ui_check-paratie-view/vista/paratia-grafica.anthea`,
 prodotto dalla prova WPF dopo un calcolo convergente.

@@ -5,7 +5,7 @@ L'interfaccia è **WPF su .NET 8**; il motore di calcolo e gli archivi sono indi
 
 La navigazione principale comprende **Progetti, Moduli singoli e Wiki**. La Wiki integra il manuale di ingegneria e le guide operative, con ricerca comune, glossario, indice di pagina, progresso locale e collegamenti ai moduli. L'esempio Beam apre la Sezione in c.a. con i dati assegnati; gli aiuti contestuali raggiungono sezioni specifiche.
 
-I contenuti provengono dalle sole due guide globali in `supporto/docs`. Dopo una modifica editoriale, eseguire `supporto/scripts/wiki/build-wiki-index.py` con Python: aggiorna metadata, indice di ricerca, riferimenti alle figure e hash dei sorgenti. La build rifiuta indici obsoleti. I metadata editoriali in `X.Desktop/Wiki/editorial.json` assegnano esplicitamente categorie, route stabili, correlati, sinonimi, moduli ed esempi; le chiavi distinguono guide e teoria, anche quando i capitoli hanno lo stesso titolo; i corpi dei capitoli vengono letti su richiesta. Ogni esempio è un file separato in `X.Desktop/Wiki/Examples`: parte dai default del modulo, applica i propri input e sostituisce integralmente le combinazioni assegnate, passando dalla validazione del catalogo. I controlli WPF senza finestre si eseguono con `dotnet X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll --check-wiki-offscreen supporto/artefatti/wiki`. Per un collegamento diretto usare `ANTHEA.exe --wiki /wiki/manuale/fem/elementi-beam`.
+I contenuti provengono dalle sole due guide globali in `supporto/docs`. Dopo una modifica editoriale, eseguire `supporto/scripts/wiki/build-wiki-index.py` con Python: aggiorna metadata, indice di ricerca, riferimenti alle figure e hash dei sorgenti. La build rifiuta indici obsoleti. I metadata editoriali in `X.Desktop/Wiki/editorial.json` assegnano esplicitamente categorie, route stabili, correlati, sinonimi, moduli ed esempi; le chiavi distinguono guide e teoria, anche quando i capitoli hanno lo stesso titolo; i corpi dei capitoli vengono letti su richiesta. Ogni esempio è un file separato in `X.Desktop/Wiki/Examples`: parte dai default del modulo, applica i propri input e sostituisce integralmente le combinazioni assegnate, passando dalla validazione del catalogo. I controlli WPF senza finestre si eseguono con `dotnet src/ANTHEA.Desktop/bin/Release/net8.0-windows/ANTHEA.dll --check-wiki-offscreen supporto/artefatti/wiki`. Per un collegamento diretto usare `ANTHEA.exe --wiki /wiki/manuale/fem/elementi-beam`.
 
 ## Avvio e compilazione
 
@@ -76,10 +76,10 @@ in `supporto/artefatti/`, mantenendo pulita la radice del repository.
 | Progetto | Responsabilità |
 | --- | --- |
 | `X.Core` | Motori di calcolo, archivi JSON, tabelle e report Word |
-| `X.Desktop` | Interfaccia WPF, navigazione, editor, grafici e dialoghi |
+| `src/ANTHEA.Desktop` | Interfaccia WPF (eseguibile `ANTHEA.exe`, namespace `X.Desktop`): shell, viste, grafici e dialoghi |
 | `supporto/test/X.Verifiche` | Confronti con `supporto/test/casi_confronto.json`, archivi e report |
 
-In `X.Desktop`, `App.xaml` definisce gli stili condivisi. La cartella `Wpf` contiene
+In `src/ANTHEA.Desktop` (fino a F5.14 `X.Desktop`), `App.xaml` definisce gli stili condivisi. La cartella `Wpf` contiene
 `MainWindow` (Home, moduli e progetti), `SheetEditor` e `GeoEditor` (geotecnica),
 `ConcreteWorkspace` con `ConcreteDomains`, `ConcreteStress` e `ConcreteShear` (calcestruzzo),
 i controlli e adattatori dei dati in `Ui`, e i disegni nativi WPF in
@@ -176,15 +176,15 @@ mai nell'eseguibile Release distribuito; il runner le esegue con `build\ci.ps1 -
 oppure, una per volta, con `build\ci.ps1 -Stage build,ui -Only <nome>`. Su Windows:
 
 ```powershell
-dotnet build X.Desktop/X.Desktop.csproj -c UiTests
-dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --smoke supporto/artefatti/verifiche_wpf/dopo supporto/test/casi_confronto.json
+dotnet build src/ANTHEA.Desktop/ANTHEA.Desktop.csproj -c UiTests
+dotnet src/ANTHEA.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --smoke supporto/artefatti/verifiche_wpf/dopo supporto/test/casi_confronto.json
 ```
 
 Per verificare l'adattamento dell'interfaccia a quattro dimensioni di finestra e
 registrare la scala DPI effettiva, avviare direttamente l'eseguibile con il suo manifest:
 
 ```powershell
-X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.exe --smoke-display supporto/artefatti/verifiche_wpf/display
+src/ANTHEA.Desktop/bin/UiTests/net8.0-windows/ANTHEA.exe --smoke-display supporto/artefatti/verifiche_wpf/display
 ```
 
 Questa prova non cambia la scala di Windows. Per verificare scale diverse e il

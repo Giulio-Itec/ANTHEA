@@ -3,7 +3,7 @@ using System.Text.Json.Nodes;
 namespace Anthea.Presentation.Modules;
 
 /// <summary>
-/// ViewModel of an open sheet (proposal F5, section 5.1). The window hosts it through MvvmSheetEditor (X.Desktop/Hosting),
+/// ViewModel of an open sheet (proposal F5, section 5.1). The window hosts it through MvvmSheetEditor (src/ANTHEA.Desktop/Hosting),
 /// which maps it onto the ISheetEditor contract of the historic sheets: Data, Result, HasResults, Busy, Commit, CalculateAsync,
 /// the report and, through <see cref="IsReadOnly"/>, the read-only revisions. Common implementation:
 /// <see cref="SheetViewModelBase"/>.

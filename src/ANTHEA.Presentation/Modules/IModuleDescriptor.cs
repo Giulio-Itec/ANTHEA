@@ -25,7 +25,7 @@ public interface IModuleDescriptor
 
 /// <summary>
 /// A module migrated to MVVM (proposal 5.1): it creates the ViewModel of a sheet. The view is found by the type of the
-/// ViewModel (a DataTemplate in X.Desktop/Views, decision Q3); the host is the window that opens the sheet.
+/// ViewModel (a DataTemplate in src/ANTHEA.Desktop/Views, decision Q3); the host is the window that opens the sheet.
 /// </summary>
 public interface ISheetModule : IModuleDescriptor
 {

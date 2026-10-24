@@ -7,9 +7,9 @@ Ramo `refactoring/f5-14` da `refactoring/f5` 0e201b2b, worktree `aw-f5-14`. Voce
 `src/ANTHEA.Desktop`, le prove WPF fuori schermo vanno in `tests/ANTHEA.Desktop.UiTests`. Restano invariati i namespace
 (`X.Desktop` e gli altri) e il nome dell'eseguibile `ANTHEA.exe`. La terza revisione di `AGENTS.md` fa parte del passo.
 
-**Stato.** Fase 1 fatta: inventario, progetto e preparazioni senza spostare file (sezioni 1–7). La fase 2, cioè gli spostamenti e
-le corse finali, parte quando il ritiro di `MainWindow` (agente f5-13-g3, [f5-13-shell.md](f5-13-shell.md) §14.8) è unito su
-`refactoring/f5`: quel ritiro cambia proprio i file da spostare.
+**Stato (24/10, mattina).** Fase 1 fatta (sezioni 1–7, inventario a 0e201b2b). Fase 2 fatta sulla base 1353c158 (ritiro di
+`MainWindow` unito): progetto in `src/ANTHEA.Desktop`, prove in `tests/ANTHEA.Desktop.UiTests`, terza revisione di `AGENTS.md`.
+Esiti, resto e ripresa nella sezione 10.
 
 ## 1. Inventario dei riferimenti al percorso `X.Desktop`
 
@@ -178,6 +178,9 @@ Guide, PDF e riferimenti congelati sono fuori dal mio perimetro. **Opzioni:**
 
 In mancanza di altra indicazione, la fase 2 applica A (la più conservativa) e lascia B come voce aperta.
 
+**Deciso** (coordinatore, 24/10, provvisorio fino alla revisione dell'utente): A. La cartella residua `X.Desktop/` contiene
+solo `Assets/Wiki` e un `README.md` che spiega perché; B va nella revisione delle guide.
+
 ## 4. Forma di `tests/ANTHEA.Desktop.UiTests`
 
 ### 4.1 Scelta: le stesse sorgenti spostate, compilate ancora nella build UiTests
@@ -311,7 +314,10 @@ decisioni e nelle prove di architettura ma non in `AGENTS.md`.
 3. Regole MVVM in `AGENTS.md` (sezione 7)?
 4. La forma della proposta per le prove (4.3) come voce dopo F5.15?
 
-## 9. Come riprendere
+Risposte del coordinatore (24/10, provvisorie; le rivede l'utente): 1, A; 2, non toccarli, righe da cambiare nella
+sezione 10.2; 3, sì, brevi, con il rimando a decisioni e prove di architettura; 4, sì, voce dopo F5.15 con la stima di 4.3.
+
+## 9. Come riprendere (fase 1)
 
 ```
 cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-14
@@ -321,3 +327,51 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Prof
 ```
 
 Avanzamento dell'agente: `ANTHEA-f5-ripresa\f5-agenti\f5-14\avanzamento.md`.
+
+## 10. Fase 2 (24/10, mattina)
+
+Base: `refactoring/f5` a 1353c158 unito nel ramo (9a4f5363). Conteggio di riferimento con `-Profile full -List`: **ui 70**
+(57 `ui/*`), fast 33, regression 15, wiki 2. Il «79» delle corse del coordinatore comprende anche le 9 voci `build/*` dello
+stadio `-Stage build,ui`.
+
+### 10.1 Commit
+
+- d42ad160 `refactor(f5.14): X.Desktop diventa src/ANTHEA.Desktop (solo percorsi e riferimenti)`: `git mv`, csproj
+  `ANTHEA.Desktop.csproj` con `RootNamespace` `X.Desktop`, figure della Wiki con l'opzione A (stessi 30 PNG e 12 SVG nel
+  dll), riferimenti delle sezioni 1.1–1.5, prove con controllo esplicito della cartella (1.3), baseline con le sole chiavi
+  (F4: 747 file e 3129 candidati prima e dopo; Architecture.Tests 575 controlli, uno in più).
+- 491a389a `refactor(f5.14): prove WPF in tests/ANTHEA.Desktop.UiTests (stesse sorgenti, build UiTests)`: 96 sorgenti più
+  le 10 della cattura F3 in `Equivalence/`, `README.md` della cartella, riferimenti ai file spostati.
+- commit dei commenti e della documentazione viva, con la terza revisione di `AGENTS.md` (sezione 7 applicata, con le
+  regole MVVM brevi chieste dal coordinatore) e `X.Desktop/README.md`.
+
+### 10.2 Righe da cambiare nei documenti con PDF (revisione delle guide, non toccati qui)
+
+- `supporto/README.md`: riga 32 `dotnet build X.Desktop/X.Desktop.csproj -c UiTests` → `src/ANTHEA.Desktop/ANTHEA.Desktop.csproj`;
+  riga 33 `dotnet X.Desktop/bin/UiTests/…` → `dotnet src/ANTHEA.Desktop/bin/UiTests/…`; riga 36 «configurazione `UiTests` di
+  `X.Desktop`» → «di `src/ANTHEA.Desktop` (sorgenti in `tests/ANTHEA.Desktop.UiTests`)»; riga 60 «rimangono in `X.Desktop/Assets`»
+  → «in `src/ANTHEA.Desktop/Assets`; le figure delle guide in `X.Desktop/Assets/Wiki`».
+- `supporto/installer/README.md`: riga 16 «pubblica `X.Desktop`» → «pubblica `src/ANTHEA.Desktop`»; riga 31
+  `X.Desktop/X.Desktop.csproj` → `src/ANTHEA.Desktop/ANTHEA.Desktop.csproj`.
+- Guide: nessuna riga da cambiare finché vale l'opzione A.
+
+### 10.3 Corse finali
+
+ESITI_CORSE
+
+### 10.4 Che cosa resta
+
+- Opzione B delle figure della Wiki, con la revisione delle guide (sezione 3).
+- La forma separata delle prove (sezione 4.3), voce dopo F5.15 (decisione del coordinatore del 24/10).
+- `docs/stratigrafia.md`, `docs/sviluppo/*.md` e `README.md` (riga 8) citano file storici di `X.Desktop` ormai archiviati
+  o cartelle della Wiki di prima: descrivono il passato e non sono stati cambiati.
+
+### 10.5 Come riprendere
+
+```
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-14
+git log --oneline 9a4f5363..HEAD
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile full -List"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile standard -Tag f5-14-fine"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Tag f5-14-ui"
+```

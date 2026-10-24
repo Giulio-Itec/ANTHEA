@@ -15,13 +15,13 @@ namespace X.Desktop;
 /// <summary>
 /// --check-theme-tokens &lt;cartella&gt; (UiTests, F5.3, proposal F5 sections 6.1 and 7.3), off screen, without native windows:
 /// <list type="bullet">
-/// <item>the catalogue of X.Desktop/Themes/ThemeTokens.cs (names, colours, roles) and its registration: every Token.&lt;nome&gt; of the
+/// <item>the catalogue of src/ANTHEA.Desktop/Themes/ThemeTokens.cs (names, colours, roles) and its registration: every Token.&lt;nome&gt; of the
 /// application resources is the same object as Appearance.Colour(colore, ruolo), as are the historic resources with the same colour
 /// and role (AppearancePaper, Appearance.background.F3F5F8…);</item>
 /// <item>colour equality: for every token and the three appearances the colour of the brush, and of an element that takes it with
 /// DynamicResource, equals exactly the transformation of the palette (Appearance.Transform) and the frozen table
 /// tests/fixtures/f5/token-colori.json; the brush object stays the same when the appearance changes;</item>
-/// <item>the dictionaries of X.Desktop/Themes load on their own (pack URI, a new ResourceDictionary) and App.xaml merges them; the
+/// <item>the dictionaries of src/ANTHEA.Desktop/Themes load on their own (pack URI, a new ResourceDictionary) and App.xaml merges them; the
 /// typographic tokens have the values of the census; the five F5.2 resources absorbed by the tokens are gone;</item>
 /// <item>light scope of the documents (DocumentAppearance): the image of the sample FieldForm built in Scuro and Molto scuro is
 /// byte for byte the Light one, and the palette returns to the appearance afterwards.</item>
@@ -124,7 +124,7 @@ internal static class ThemeTokenChecks
                 .Where(name => !JsonNode.DeepEquals(table[name], frozen[name])).ToList();
             Check(differences.Count == 0, "Colori uguali alla tabella congelata " + Reference + (differences.Count == 0 ? "" : ": diversi " + string.Join(", ", differences)));
 
-            // Dictionaries of X.Desktop/Themes, each on its own, merged by App.xaml.
+            // Dictionaries of src/ANTHEA.Desktop/Themes, each on its own, merged by App.xaml.
             var merged = app.Resources.MergedDictionaries.Select(d => d.Source?.OriginalString ?? "").ToList();
             // The data templates of the views follow the theme; a migrated module may add its own dictionary of templates under Views/.
             Check(merged.Take(3).SequenceEqual(["Themes/ProjectStyles.xaml", "Themes/Typography.xaml", "Themes/Controls.xaml"])

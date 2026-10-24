@@ -820,6 +820,10 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
     `supporto/SUPERATI/ui-storica/shell`. Restano le suite contenitore sulla shell e il ritiro di `MainWindow` (14.8); testo proposto per guida
     e Wiki in 14.6. Domande G1–G4.
 - [ ] F5.14 Chiusura: X.Desktop → ANTHEA.Desktop, terza revisione di AGENTS.md.
+  - Spostamenti fatti (24/10, ramo `refactoring/f5-14`, [nota](f5-14-chiusura.md)): `X.Desktop` in `src/ANTHEA.Desktop` (namespace ed
+    eseguibile `ANTHEA.exe` invariati; figure delle guide ancora in `X.Desktop/Assets/Wiki`, opzione A), prove WPF in
+    `tests/ANTHEA.Desktop.UiTests` (stesse sorgenti, build UiTests), terza revisione di AGENTS.md. Resta la forma separata delle prove,
+    voce dopo F5.15. Corse finali nella nota, sezione 10.3.
 - [ ] F5.15 [CP] Ridiscutere con l'utente le voci sfavorevoli o aperte del registro delle differenze R4-R21 (R4-R14 e R16-R21; R15 è corretta) (decisione del 7/10: "le guardiamo a fine refactoring"; estesa a R16-R21 dal coordinatore su delega, ratificata dall'utente il 15/10, E4). Nello stesso punto si rivedono tutte le scelte provvisorie del coordinatore sulle voci «da decidere» di F5 (decisione dell'utente del 17/10, [decisioni](decisioni.md), 17 ottobre tarda mattina).
   - Elenco consolidato delle voci da rivedere (23/10): [f5-15-revisione.md](f5-15-revisione.md).
 

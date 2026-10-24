@@ -2,7 +2,7 @@
 
 Codice di `X.Calculations` che il prodotto non usa più, conservato per le prove (decisione D3 del 15/10/2026,
 `docs/refactoring/decisioni.md`). Esce dagli assembly distribuiti ma resta nel repository: l'installer pubblica solo
-`X.Desktop` e il suo grafo, e nessun progetto di `X.*` o `src/` può referenziare questo
+`src/ANTHEA.Desktop` e il suo grafo, e nessun progetto di `X.*` o `src/` può referenziare questo
 (`tests/ANTHEA.Architecture.Tests`).
 
 - **Contenuto**: motori storici (SLE, taglio e torsione, durabilità, sezione storica, muri, pali, progetto delle armature,
@@ -43,4 +43,4 @@ E5 indica i membri usati solo dalle prove e le due interfacce senza utilizzatori
 Altro codice di sola prova uscito dagli assembly distribuiti sta nei progetti che lo usano: la traccia dei ripieghi del JSON
 in `tests/ANTHEA.Testing/Capture/JsonFallbackTrace.cs`, il modello Excel storico delle azioni in `tests/Shared/`, il testo
 dei PDF in `tests/ANTHEA.Reports.Tests/DocxPdfText.cs`, i membri delle finestre usati dalle prove WPF in parti `partial`
-sotto `supporto/test/Desktop/` (compilate solo in `UiTests`).
+sotto `tests/ANTHEA.Desktop.UiTests/` (compilate solo in `UiTests`).

@@ -1,14 +1,15 @@
 # Architettura e refactoring
 
-- ANTHEA è solo interfaccia. Calcoli, formule e coefficienti normativi stanno nelle librerie GPC (Utilities, Geometry, Model, Checker e GPC.Design). Il codice non grafico specifico di ANTHEA (documenti, migrazioni, progetti, adattatori, report) va nelle librerie senza WPF del repository. Non aggiungere calcoli nuovi a X.Desktop, X.Core o X.Calculations.
+- ANTHEA è solo interfaccia. Calcoli, formule e coefficienti normativi stanno nelle librerie GPC (Utilities, Geometry, Model, Checker e GPC.Design). Il codice non grafico specifico di ANTHEA (documenti, migrazioni, progetti, adattatori, report) va nelle librerie senza WPF del repository. Non aggiungere calcoli nuovi a `src/ANTHEA.Desktop`, `src/ANTHEA.Presentation`, X.Core o X.Calculations.
 - Il refactoring segue `docs/refactoring/piano.md`; le decisioni sono in `docs/refactoring/decisioni.md`. Aggiornare lo stato del piano a ogni passo concluso.
 - Il codice esistente si sposta solo con cattura prima, modifica e confronto dopo. Ogni differenza va registrata e classificata nel registro delle differenze di `docs/refactoring`. Il motore legacy non si elimina: si sposta in `tests/ANTHEA.Legacy`, dove resta come riferimento delle prove di equivalenza.
 - Gli attesi indipendenti (calcoli Python, calcoli a mano, esempi pubblicati) non si sovrascrivono mai con risultati del codice.
+- Interfaccia MVVM (F5, decisioni del 16/10 in `docs/refactoring/decisioni.md`, «punto di controllo F5.0»): i ViewModel stanno in `src/ANTHEA.Presentation`, senza WPF né tipi di calcolo; le viste in `src/ANTHEA.Desktop`, in XAML con un DataTemplate per tipo di ViewModel (i disegni tecnici restano in codice). CommunityToolkit.Mvvm con uno strato nostro, mai `Messenger.Default` né `Ioc.Default`; radice di composizione scritta a mano, senza contenitore. Le regole sono verificate da `tests/ANTHEA.Architecture.Tests` (P1–P7), le cui baseline possono solo scendere.
 
 # Struttura del repository
 
-- I nuovi progetti di produzione vanno in `src/`, i nuovi test in `tests/`, script e strumenti in `tools/`, runner e configurazione di build in `build/`, la documentazione di sviluppo in `docs/`.
-- I progetti esistenti (X.*, `supporto/test`, `supporto/scripts`) restano dove sono fino alla finestra di spostamento concordata tra le fasi F2 e F3.
+- Il codice di produzione sta in `src/`: l'interfaccia WPF in `src/ANTHEA.Desktop` (eseguibile `ANTHEA.exe`, namespace `X.Desktop`), i ViewModel in `src/ANTHEA.Presentation`, gli altri progetti `ANTHEA.*`. Fuori da `src/` restano soltanto i progetti storici `X.Core` e `X.Calculations` e la cartella `X.Desktop/Assets/Wiki` delle figure delle guide (vedi il suo README). I nuovi progetti di produzione vanno in `src/`, i nuovi test in `tests/`, script e strumenti in `tools/`, runner e configurazione di build in `build/`, la documentazione di sviluppo in `docs/`.
+- Le prove WPF fuori schermo stanno in `tests/ANTHEA.Desktop.UiTests` e si compilano soltanto nella configurazione `UiTests` di `src/ANTHEA.Desktop` (`dotnet build src/ANTHEA.Desktop/ANTHEA.Desktop.csproj -c UiTests`); la Release non contiene codice di prova (`qa/no-test-code`). I progetti ancora attivi di `supporto/test` restano dove sono finché non passano nei test delle librerie o in `tests/` (`docs/refactoring/progetti-di-test.md`); non se ne aggiungono di nuovi.
 - Salvare schermate, immagini di verifica, report generati, log e altri output di prova in `supporto/artefatti/`, con una sottocartella per attività. La cartella non è versionata.
 - Non creare cartelle `verifiche_*`, `tmp` o file di confronto nella radice né in `supporto/`. `supporto/tmp` non è versionata.
 - Le risorse grafiche usate dall'applicazione restano nei progetti che le usano.
@@ -22,9 +23,9 @@
 
 # Verifiche
 
-- Il runner unico è `build/ci.ps1`: profilo `quick` (build e suite rapide), `standard` (tutto tranne le prove WPF, come `supporto/Verifica.cmd`), `full` (anche le prove WPF, che occupano il desktop per quasi un'ora).
+- Il runner unico è `build/ci.ps1`: profilo `quick` (build e suite rapide), `standard` (tutto tranne le prove WPF, come `supporto/Verifica.cmd`), `full` (anche le prove WPF fuori schermo, circa un'ora). Le prove WPF si eseguono con `-Stage build,ui` (con `-Only` per sceglierle); `-List` elenca e conta le suite senza eseguirle. Nessuna suite dello stadio `ui` si toglie senza la sostituta: il numero delle suite si riporta prima e dopo.
 - Sono ammessi solo i fallimenti elencati in `build/known-failures.json`, ognuno con motivo, fonte e fase che lo chiude. Un fallimento nuovo si aggiunge solo dopo averlo spiegato all'utente.
-- Salvare tutti i nuovi sorgenti di test in `tests/`; i progetti esistenti in `supporto/test/` restano fino alla finestra di spostamento.
+- Salvare tutti i nuovi sorgenti di test in `tests/`.
 
 # Librerie GPC
 

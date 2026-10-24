@@ -6,7 +6,7 @@ namespace Anthea.Application.Presentation;
 
 /// <summary>
 /// The preview of a soil profile in the soil transfer dialog «Terreno · invio e riutilizzo»: moved without changes in F5.6 from the
-/// Refresh of the historic window (X.Desktop/Wpf/SoilTransferDialog.cs), which calls it, so that the shared ViewModel
+/// Refresh of the historic window (src/ANTHEA.Desktop/Wpf/SoilTransferDialog.cs), which calls it, so that the shared ViewModel
 /// (ANTHEA.Presentation, Modules/Shared/SoilTransferDialogViewModel) shows the same table and the same description.
 /// </summary>
 public static class SoilTransferPresentation
