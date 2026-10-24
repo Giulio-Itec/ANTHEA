@@ -9994,7 +9994,7 @@
         "tests/ConcreteLibraryAdapter.Checks/attesi/cls_teso_risposte.py",
         "tests/ConcreteLibraryAdapter.Checks/ClsTesoRisposte.cs"
       ],
-      "segno": "A sfavore entro il 3 %: con tension stiffening χ −2,49 % a 0,3 MRd e −1,50 % a 0,6 MRd, |εs|max −2,03 % a 0,6 MRd; con CLS teso trascurato χ −0,40 % e −0,17 %, χy −0,11 %. MRd +0,004 % e χu +0,066 %. Il valore |εs|max a 0,3 MRd con tension stiffening (−3,55 %) supera il 3 % e non è aggiornato: AG-CA-04.",
+      "segno": "A sfavore entro il 3 %: con tension stiffening χ −2,49 % a 0,3 MRd e −1,50 % a 0,6 MRd, |εs|max −2,03 % a 0,6 MRd; con CLS teso trascurato χ −0,40 % e −0,17 %, χy −0,11 %. MRd +0,004 % e χu +0,066 %. Il valore |εs|max a 0,3 MRd con tension stiffening (−3,55 %) supera il 3 %: aggiornato con AG-CA-04 dopo la decisione «5A» dell'utente.",
       "effetto_quantificato": {
         "trascurato": {
           "MRd_kNm": [
@@ -10079,7 +10079,8 @@
       "stato": "da-decidere",
       "descrizione": "Con GPCChecker.Concrete 0.20 (rifiuto dei piani che violano i vincoli della ricerca, 62ecbc83/c611b709) la libreria rifiuta con NotConverged «The returned strain plane does not satisfy the search constraints.» gran parte dei punti della strategia «Intersezione», per tutti i criteri; la strategia iterativa non ha rifiuti nuovi. Prima il punto grezzo rispettava i vincoli sulle forze (per esempio N = −1700 kN, direzione 30°: punto 82,12 / 47,41 kNm a N = −1700 esatto). Ipotesi: il piano di deformazione di un punto interpolato sulla mesh non riproduce il punto con l'integrazione nuova. Il testo è nuovo: ConcreteLibraryMapping.ResistanceRejections conosce solo «The returned point does not satisfy the search constraints.», quindi il foglio mostra «Checker: Punto resistente: testo della libreria senza traduzione (…)» e l'adattatore lancia InvalidOperationException (ConcreteLibraryAdapter.Checks 12d). Non è una differenza attesa: nessun riferimento aggiornato.",
       "codice": [
-        "X.Calculations/ConcreteLibraryMapping.Resistance.cs:15-28 (testi tradotti della libreria)",
+        "X.Calculations/ConcreteLibraryMapping.Resistance.cs:14-22 (testi tradotti della libreria, testo nuovo tradotto il 24/10)",
+        "tests/ConcreteLibraryAdapter.Checks/Resistance.cs, prova 12a (i due rifiuti per i vincoli della ricerca tradotti, motivi distinti)",
         "tests/ConcreteLibraryAdapter.Checks/Resistance.cs:234 (griglia 12d)",
         "tests/fixtures/f3/expected/sheets/str_palo/rettangolare-materiali-utente",
         "tests/fixtures/f5-sezione/storica/domini/opzioni-domini.txt, ingressi/materiali-utente.txt, percorso-f3/ed esempi/rettangolare-materiali-utente.txt"
@@ -10117,6 +10118,20 @@
         "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
         "esito": "non aggiornata (verdetti cambiati, risultati mancanti, eccezione nuova): da decidere con l'utente"
       },
+      "traduzione": {
+        "data": "2026-10-24",
+        "esito": "Testo nuovo tradotto in X.Calculations/ConcreteLibraryMapping.Resistance.cs (ResistanceRejections), accanto a quello del punto: «The returned strain plane does not satisfy the search constraints.» → «punto resistente non convergente (piano di deformazione fuori dai vincoli della ricerca)». Il rifiuto ora è un esito senza punto con il motivo, come per il testo del punto: stato «Checker: punto resistente non convergente (piano di deformazione fuori dai vincoli della ricerca)», riepilogo DA COMPLETARE, nessuna InvalidOperationException. Prova 12a di ConcreteLibraryAdapter.Checks estesa. I rifiuti restano: la correzione della strategia «Intersezione» è in Checker (altro agente, set nuovo); i riferimenti di questa voce non sono aggiornati e restano rossi fino al set nuovo.",
+        "test": [
+          "ConcreteLibraryAdapter.Checks, prova 12a: PASS (i due testi tradotti, con motivi distinti); la 12d resta rossa senza eccezione: «punto grezzo nei vincoli e valido, rifiutato dalla libreria» (R300x500-4Ø16, SLU, N costante, Intersezione, azione 2)",
+          "Examples.Tests: str_palo/rettangolare-materiali-utente.anthea dà «Calcolo parziale» con il motivo tradotto (punti 3D:SLU); gli altri esempi passano",
+          "verifiche/checker e verifiche/regressione: «Checker: SLUIntersezione resistenza» (SectionWorkspaceChecks: punto resistente assente, non più eccezione)",
+          "Presentation.Tests/sezione-ca: file F3 di rettangolare-materiali-utente con lo stato tradotto (2 punti SLU 3D, riepilogo DA COMPLETARE); tracce domini/opzioni-domini, percorso-f3 ed esempi/rettangolare-materiali-utente, 11 righe di ingressi/materiali-utente"
+        ],
+        "evidenze": [
+          "supporto/artefatti/ci/20261024-213542-ag-ca-5a-finale",
+          "supporto/artefatti/ci/20261024-213112-ag-ca-5a-sezione/Presentation.Tests_sezione-ca/sezione-ca-f3/rettangolare-materiali-utente (result.json con il motivo tradotto)"
+        ]
+      },
       "test": [
         "Presentation.Tests/sezione-ca: rosso su rettangolare-materiali-utente (F3), quattro tracce e una riga di domini-3d.txt",
         "ConcreteLibraryAdapter.Checks: rosso sulla 12d (InvalidOperationException del testo senza traduzione)",
@@ -10142,13 +10157,14 @@
       "famiglia": "sezione c.a./risposte non lineari",
       "modulo": "Sezione c.a. (str_palo)",
       "categoria": "intenzionale",
-      "stato": "da-decidere",
+      "stato": "dichiarato",
       "descrizione": "Tre differenze spiegate dalle librerie del set AG: Model 2d59bbc6 (GPCModel 5.21.0.0, parabola-rettangolo analitica come legge predefinita) e Checker f6d87d28 (GPCChecker.Concrete 0.20.0.0: legge analitica condivisa, integrazione dello stress block corretta in aa262e21, rifiuto dei piani che violano i vincoli della ricerca in 62ecbc83/c611b709), in lib/Checker da dd9f8c6a; prima il set AF (GPCModel 5.20, Concrete 0.18), ma fuori dalla soglia dell'utente: (a) prova 4d, M–χ con tension stiffening a 0,3 MRd (sezione non fessurata): |εs|max 0,07737 → 0,0746237 ‰ (−3,55 %, σs circa 15,5 → 14,9 MPa) per la parabola analitica, uguale allo script indipendente nuovo (0,07462 ‰); (b) traccia ingressi/materiali-utente, «CLS secondo» con stress block (fck 38), sezione simmetrica rispetto all'asse y: My− −222,53 → −230,62 kNm (+3,64 % in modulo), My+ 230,54 → 230,62 kNm, e in un passo successivo My+ 227,06 → 233,12 (+2,67 %), My− −226,07 → −233,12 kNm (+3,12 %): prima My+ ≠ |My−|, ora simmetrici (integrazione dello stress block corretta in aa262e21); (c) nella stessa traccia la Rara · tensioni passa da DA COMPLETARE (2/2 verifiche mancanti) a NON VERIFICATA η = 1,19 (governa Rara 2): verdetto cambiato, causa da confermare con la libreria.",
       "codice": [
-        "tests/ConcreteLibraryAdapter.Checks/ClsTesoRisposte.cs (atteso 0,07737 lasciato, con il commento)",
-        "tests/fixtures/f5-sezione/storica/ingressi/materiali-utente.txt (non aggiornata)"
+        "tests/ConcreteLibraryAdapter.Checks/ClsTesoRisposte.cs (atteso 0,07462 dello script indipendente, prova 4d rapida e completa)",
+        "tests/fixtures/f5-sezione/storica/ingressi/materiali-utente.txt (13 righe aggiornate; restano le 11 righe di AG-CA-03)",
+        "tests/fixtures/f5-sezione/README.md"
       ],
-      "segno": "(a) −3,55 % a sfavore; (b) resistenza +3,64 % e +3,12 % a sfavore; (c) verdetto più severo, a favore di sicurezza.",
+      "segno": "(a) |εs|max −3,55 % a sfavore di sicurezza (χ −2,49 %); (b) resistenza My− +3,64 % (e +3,12 % nel passo successivo) a sfavore di sicurezza, con la simmetria My+ = |My−| ripristinata; (c) verdetto più severo, a favore di sicurezza: la verifica SLE rara ora si completa (NON VERIFICATA η = 1,19).",
       "effetto_quantificato": {
         "eps_s_tension_stiffening_0_3_MRd_permille": [
           0.07737,
@@ -10175,13 +10191,23 @@
         "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
         "esito": "non aggiornata (oltre il 3 % a sfavore; verdetto cambiato): da decidere con l'utente"
       },
+      "decisione_finale": {
+        "data": "2026-10-24",
+        "domanda": "a) tension stiffening a 0,3 MRd: |εs| −3,55 % (χ −2,49 %); b) stress block in ingressi/materiali-utente: My− da −222,53 a −230,62 kNm (+3,64 %), che ripristina la simmetria My+ = |My−|; c) nella stessa traccia la SLE rara passa da DA COMPLETARE a NON VERIFICATA (η 1,19).",
+        "utente": "«5A»",
+        "opzione": "A: accettare tutti e tre e aggiornare, con a e b segnalate nelle note e c come verifica che ora si completa",
+        "esito": "dichiarata e aggiornata: atteso 4d |εs|max a 0,3 MRd con tension stiffening 0,07737 → 0,07462 ‰ (valore dello script indipendente, tolleranza 0,5 % invariata); traccia ingressi/materiali-utente con le righe di AG-CA-01 e AG-CA-04 (13), senza le righe di AG-CA-03 (11: riepiloghi SLU 3D e impronte dei passi con i punti rifiutati). Segnalate a sfavore di sicurezza: (a) −3,55 % e (b) +3,64 %; (c) è una verifica che ora si completa."
+      },
       "test": [
-        "ConcreteLibraryAdapter.Checks/rapido: rosso sulla 4d «|εs|max» a 0,3 MRd con tension stiffening (0,0746237 invece di 0,07737)",
-        "Presentation.Tests/sezione-ca: traccia ingressi/materiali-utente non aggiornata (anche per AG-CA-03)"
+        "ConcreteLibraryAdapter.Checks/rapido: PASS con l'atteso 0,07462 ‰ della 4d (la libreria dà 0,0746237 ‰)",
+        "ConcreteLibraryAdapter.Checks (completa): la 4d passa; la suite resta rossa sulla 12d per AG-CA-03",
+        "Presentation.Tests/sezione-ca: ingressi/materiali-utente uguale alla cattura nuova tranne le 11 righe di AG-CA-03 (prima differenza alla riga 140, impronta di «risultato»); la suite resta rossa per AG-CA-03"
       ],
       "evidenze": [
         "supporto/artefatti/ag-ca/cla-rapido-2",
-        "supporto/artefatti/ag-ca/sezione-2/sezione-ca/ingressi/materiali-utente.txt"
+        "supporto/artefatti/ag-ca/sezione-2/sezione-ca/ingressi/materiali-utente.txt",
+        "supporto/artefatti/ci/20261024-213542-ag-ca-5a-finale (ConcreteLibraryAdapter.Checks/rapido PASS)",
+        "supporto/artefatti/ci/20261024-213222-ag-ca-5a-sezione-prova/Presentation.Tests_sezione-ca/sezione-ca/ingressi/materiali-utente.txt (cattura con la traduzione; file F3 di rettangolare-materiali-utente ammessi solo in prova, non nei commit)"
       ],
       "voci_collegate": [
         "AG-CA-02",

@@ -103,9 +103,9 @@ internal static class ClsTesoRisposte
         // d ln εs / d ln M = 1,5 e la legge ha il salto a εcr fra i punti di Gauss della libreria (circa 0,18 fctm, riquadro M-3); scarti
         // osservati sotto lo 0,05%.
         Near(At(stiffening, .3).Curvature, 2.966838e-4, .005, "4d tension stiffening, 0,3 MRd: χ");
-        // AG-CA-04 (24/10/2026, da decidere): con la legge analitica lo script dà 0,07462 ‰, −3,55 % rispetto a 0,07737 ‰ della legge tabulata,
-        // oltre il 3 % a sfavore ammesso dall'utente per l'aggiornamento: l'atteso resta quello di prima finché l'utente non decide.
-        Near(At(stiffening, .3).SteelStrain, 0.07737, .005, "4d tension stiffening, 0,3 MRd: |εs|max");
+        // AG-CA-04 (24/10/2026, accettata dall'utente: «5A»): con la legge analitica lo script dà 0,07462 ‰, −3,55 % rispetto a 0,07737 ‰ della
+        // legge tabulata (a sfavore, oltre il 3 %, segnalata nel registro).
+        Near(At(stiffening, .3).SteelStrain, 0.07462, .005, "4d tension stiffening, 0,3 MRd: |εs|max");
         Near(At(stiffening, .6).Curvature, 7.698084e-4, .01, "4d tension stiffening, 0,6 MRd: χ");
         Near(At(stiffening, .6).SteelStrain, 0.17221, .01, "4d tension stiffening, 0,6 MRd: |εs|max");
 

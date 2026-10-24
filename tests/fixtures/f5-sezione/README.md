@@ -143,7 +143,10 @@ set precedente), riportate una per una nelle tracce: stesso numero di righe, nes
 - 53 tracce, 1035 righe: 689 impronte di «risultato», 342 righe con soli numeri diversi, 4 testi della curva M–χ (My, N e residuo del
   punto limite); `disegni/domini-3d.txt`: 20 righe di 10 fixture (impronte della mesh e dei punti resistenti; la sezione a T passa da 1570
   a 1540 vertici con gli stessi 3136 triangoli).
-- Non aggiornate (verdetti cambiati, voci AG-CA-03 e AG-CA-04 da decidere): `domini/opzioni-domini.txt`, `ingressi/materiali-utente.txt`,
+- Non aggiornate (strategia «Intersezione», voce AG-CA-03, in attesa del set di Checker con la correzione): `domini/opzioni-domini.txt`,
   `percorso-f3/rettangolare-materiali-utente.txt`, `esempi/rettangolare-materiali-utente.txt` e la riga `rettangolare-materiali-utente`
-  di `disegni/domini-3d.txt`. Finché l'utente non decide, `Presentation.Tests/sezione-ca` si ferma su queste.
+  di `disegni/domini-3d.txt`. Fino al set nuovo `Presentation.Tests/sezione-ca` si ferma su queste.
+- `ingressi/materiali-utente.txt` (voce AG-CA-04, accettata dall'utente il 24/10 con «5A»): aggiornate 13 righe (resistenze rapide, curve
+  dei materiali, stress block con My+ = |My−|, riepilogo «Rara · tensioni» NON VERIFICATA η 1,19 e 3 impronte di «risultato» dei passi
+  senza punti rifiutati); restano 11 righe di AG-CA-03 (3 riepiloghi SLU 3D e 8 impronte dei passi con i punti rifiutati).
 - `vista-storica.json` (impronte di `ui/check-sezione-view`) non è stato toccato: il coordinatore lo verifica con lo stadio `ui`.
