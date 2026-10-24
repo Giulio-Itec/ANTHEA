@@ -10231,11 +10231,29 @@
         "supporto/artefatti/ag-ca/sezione-2 … sezione-4 (catture del ViewModel; sezione-4 PASS 70 con AG-CA-03/04 ammesse solo in prova, non nei commit)",
         "supporto/artefatti/ag-ca/app-1 (Application.Tests PASS 3131)"
       ],
+      "set_ufficiale": {
+        "data": "2026-10-24",
+        "set": "release AG ufficiale in lib/Checker da 4dd8018a: Model 2d59bbc6 e Checker 22dabe69 (GPCChecker.Concrete 0.20.0.1, correzione 87e114cc: i punti della strategia «Intersezione» non passano più dal controllo del piano restituito); rispetto al set provvisorio dd9f8c6a (Checker f6d87d28, Concrete 0.20.0.0) cambia solo questa correzione, la strategia iterativa dà risposte identiche byte per byte",
+        "esito": "Aggiornate le tre tracce lasciate per AG-CA-03, dal ViewModel (Presentation.Tests/sezione-ca), stesso numero di righe e soli numeri e impronte: domini/opzioni-domini.txt 181 righe (113 impronte, 68 numeri), esempi/rettangolare-materiali-utente.txt 13 (9 e 4), percorso-f3/rettangolare-materiali-utente.txt 3 (resistenze rapide). Ora 56 tracce su 57 hanno righe di questa voce.",
+        "rispetto_ad_AF": {
+          "a_sfavore": "resistenze dei domini fino a +0,25 % (Mx,Rd 719,80 → 721,57 kNm, My,Rd 359,90 → 360,79 kNm, dominio elastico 2D della sezione default con N = −2500 kN); strategia «Intersezione» +0,11 % (NRd −4597,54 → −4602,72 kN); η stampati 0,54 → 0,53 e 0,70 → 0,69 per arrotondamento; σs al punto resistente fino a +0,49 % (257,36 → 258,61 MPa)",
+          "a_favore": "resistenze rapide di rettangolare-materiali-utente da −0,019 % a −0,009 % (Mx+ 458,66 → 458,62, Mx− −214,22 → −214,18, My± 223,25 → 223,22 kNm)",
+          "verdetti": "invariati («Entro il dominio» e i riepiloghi), nessun testo diverso oltre ai numeri"
+        },
+        "test": [
+          "Presentation.Tests/sezione-ca: PASS 70 (57 tracce uguali, 121 file F3 con 936 transizioni ammesse, domini 3D)"
+        ],
+        "evidenze": [
+          "supporto/artefatti/ci/20261024-221519-ag-ufficiale-mirata del checkout principale (commit 4dd8018a)",
+          "supporto/artefatti/ci/20261024-230615-ag-ca2-ui del worktree aw-ag-ca2 (Presentation.Tests/sezione-ca PASS 70, ui/check-sezione-view PASS 202, ui/f3-concrete-figures PASS 11)"
+        ]
+      },
       "voci_collegate": [
         "F2-17",
         "AG-CA-02",
         "AG-CA-03",
-        "AG-CA-04"
+        "AG-CA-04",
+        "AG-CA-05"
       ]
     },
     {
@@ -10334,7 +10352,7 @@
       "famiglia": "sezione c.a./domini SLU",
       "modulo": "Sezione c.a. (str_palo)",
       "categoria": "regressione",
-      "stato": "da-decidere",
+      "stato": "corretto",
       "descrizione": "Con GPCChecker.Concrete 0.20 (rifiuto dei piani che violano i vincoli della ricerca, 62ecbc83/c611b709) la libreria rifiuta con NotConverged «The returned strain plane does not satisfy the search constraints.» gran parte dei punti della strategia «Intersezione», per tutti i criteri; la strategia iterativa non ha rifiuti nuovi. Prima il punto grezzo rispettava i vincoli sulle forze (per esempio N = −1700 kN, direzione 30°: punto 82,12 / 47,41 kNm a N = −1700 esatto). Ipotesi: il piano di deformazione di un punto interpolato sulla mesh non riproduce il punto con l'integrazione nuova. Il testo è nuovo: ConcreteLibraryMapping.ResistanceRejections conosce solo «The returned point does not satisfy the search constraints.», quindi il foglio mostra «Checker: Punto resistente: testo della libreria senza traduzione (…)» e l'adattatore lancia InvalidOperationException (ConcreteLibraryAdapter.Checks 12d). Non è una differenza attesa: nessun riferimento aggiornato.",
       "codice": [
         "X.Calculations/ConcreteLibraryMapping.Resistance.cs:14-22 (testi tradotti della libreria, testo nuovo tradotto il 24/10)",
@@ -10390,6 +10408,20 @@
           "supporto/artefatti/ci/20261024-213112-ag-ca-5a-sezione/Presentation.Tests_sezione-ca/sezione-ca-f3/rettangolare-materiali-utente (result.json con il motivo tradotto)"
         ]
       },
+      "correzione": {
+        "data": "2026-10-24",
+        "set": "release AG ufficiale in lib/Checker da 4dd8018a: Model 2d59bbc6 e Checker 22dabe69 (GPCChecker.Concrete 0.20.0.1, correzione 87e114cc: i punti della strategia «Intersezione» non passano più dal controllo del piano restituito); rispetto al set provvisorio dd9f8c6a (Checker f6d87d28, Concrete 0.20.0.0) cambia solo questa correzione, la strategia iterativa dà risposte identiche byte per byte",
+        "esito": "Corretta in libreria. Sui casi prima rifiutati, rispetto ad AF (1.13.0), nessun verdetto cambia: (1) griglia 12d di ConcreteLibraryAdapter.Checks senza rifiuti (suite PASS); (2) F3 rettangolare-materiali-utente (Mx–My costanti / Intersezione, cls bilineare personalizzato): gli 11 file sono uguali byte per byte al riferimento AF, i punti SLU 3D con η 0,1252 e 0,2528 «Entro il dominio», riepilogo SLU 3D VERIFICATA η 0,2528, nessuna transizione F4 da aggiungere; (3) traccia ingressi/materiali-utente: le 11 righe lasciate (3 riepiloghi SLU 3D e 8 impronte) sono uguali ad AF, come la riga rettangolare-materiali-utente di disegni/domini-3d.txt; (4) traccia domini/opzioni-domini (sezione default, Eccentricità costante / Intersezione): NRd −4597,54 → −4602,72 kN, Mx,Rd 919,51 → 920,54 kNm, My,Rd 459,75 → 460,27 kNm (+0,11 % in modulo, parabola analitica di AG-CA-01), η stampato 0,54 → 0,53, «Entro il dominio» invariato; (5) tracce percorso-f3 ed esempi/rettangolare-materiali-utente: resistenze rapide da −0,019 % a −0,009 % (Mx+ 458,66 → 458,62 kNm, a favore), report e verdetti uguali ad AF. Le righe di (4) e (5) sono registrate in AG-CA-01 (set_ufficiale), i riferimenti della vista XAML in AG-CA-05. La traduzione del 24/10 resta per altri rifiuti dello stesso testo.",
+        "test": [
+          "ConcreteLibraryAdapter.Checks (12a e 12d), Examples.Tests (rettangolare-materiali-utente senza «Calcolo parziale»), verifiche/checker e verifiche/regressione: PASS",
+          "Presentation.Tests/sezione-ca: PASS 70, 57 tracce uguali, file F3 e domini 3D senza modifiche per questa voce"
+        ],
+        "evidenze": [
+          "supporto/artefatti/ci/20261024-221519-ag-ufficiale-mirata del checkout principale (commit 4dd8018a)",
+          "supporto/artefatti/ci/20261024-230615-ag-ca2-ui del worktree aw-ag-ca2 (Presentation.Tests/sezione-ca PASS 70, ui/check-sezione-view PASS 202, ui/f3-concrete-figures PASS 11)",
+          "supporto/artefatti/ci/20261024-ag-ca2-nonui del worktree aw-ag-ca2 (suite non UI mirate, sul commit del registro)"
+        ]
+      },
       "test": [
         "Presentation.Tests/sezione-ca: rosso su rettangolare-materiali-utente (F3), quattro tracce e una riga di domini-3d.txt",
         "ConcreteLibraryAdapter.Checks: rosso sulla 12d (InvalidOperationException del testo senza traduzione)",
@@ -10404,7 +10436,8 @@
       ],
       "voci_collegate": [
         "F2-17",
-        "AG-CA-01"
+        "AG-CA-01",
+        "AG-CA-05"
       ]
     },
     {
@@ -10469,6 +10502,47 @@
       ],
       "voci_collegate": [
         "AG-CA-02",
+        "AG-CA-03"
+      ]
+    },
+    {
+      "id": "AG-CA-05",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC / set AG ufficiale (24/10), stadio UI",
+      "titolo": "Sezione c.a.: disegni, figure CA e impronte delle esportazioni della vista XAML con i numeri del set AG",
+      "famiglia": "sezione c.a./disegni e riferimenti della vista",
+      "modulo": "Sezione c.a. (str_palo)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Le differenze numeriche di AG-CA-01 (con AG-CA-03 corretta) raggiungono tre riferimenti congelati dello stadio ui, di natura diversa dalle tracce: gli elenchi dei disegni di ui/check-sezione-view (tests/fixtures/f5-sezione/disegni/elenco.txt), i dati dei grafici del dominio 2D di ui/f3-concrete-figures (tests/fixtures/f3-concrete-figures) e le impronte delle esportazioni registrate dalla vista storica prima dell'archiviazione (tests/fixtures/f5-sezione/vista-storica.json, «esportazioni»). Set: release AG ufficiale in lib/Checker da 4dd8018a: Model 2d59bbc6 e Checker 22dabe69 (GPCChecker.Concrete 0.20.0.1, correzione 87e114cc: i punti della strategia «Intersezione» non passano più dal controllo del piano restituito); rispetto al set provvisorio dd9f8c6a (Checker f6d87d28, Concrete 0.20.0.0) cambia solo questa correzione, la strategia iterativa dà risposte identiche byte per byte. Aggiornati solo le righe, i file e i valori cambiati, dalla vista XAML; controllato che cambino solo numeri: stesso numero e tipo di primitivi, stessa struttura delle figure, testo dei report uguale ad AF salvo i numeri. vista-storica.json non ha un modo di registrazione: i valori vengono da una registrazione temporanea di ui/check-sezione-view, non committata (strumentazione ripristinata con git checkout).",
+      "codice": [
+        "tests/fixtures/f5-sezione/disegni/elenco.txt (56 righe)",
+        "tests/fixtures/f3-concrete-figures (10 file su 11) e tests/fixtures/f3/manifest.json (impronte di 6 figure, voci updated)",
+        "tests/fixtures/f5-sezione/vista-storica.json (50 valori della sequenza e 62 parti dei report; nota)",
+        "tests/fixtures/f5-sezione/README.md e tests/fixtures/f3/README.md"
+      ],
+      "segno": "Come AG-CA-01, a sfavore entro il 3 %: punti resistenti dei grafici fino allo 0,21 % in modulo (circolare-cava SLV, −5843,28 → −5855,79), numeri dei report fino a ±0,37 % (un η stampato 2,69 → 2,68 di legacy-calculation-settings, NON VERIFICATA invariato). Nessun verdetto cambia.",
+      "effetto_quantificato": {
+        "disegni_elenco": "56 righe di 11 fixture: ispezione e piano 3D al punto limite e all'azione, dominio 2D, curva M–χ (rettangolare-materiali-utente solo la curva M–χ); stesso numero di primitivi. Confronto degli elenchi completi con la corsa AF 20261023-193404-merge-muri-ui: cambiano coordinate e testi numerici (735 linee, 29 percorsi, 5 ellissi, 5 rettangoli, testi delle scale e dei valori), l'impronta dell'immagine della mappa 3D nei 17 disegni d'ispezione e in due disegni il colore di un riquadro della scala (#FFD1605D ↔ #FFD1605E)",
+        "figure_ca": "10 file su 11 (rettangolare-materiali-utente invariato), stessa struttura, stesso numero di segmenti, linee e marcatori; scarto massimo dei segmenti 0,27 % della scala del grafico (circolare-cava SLV −19577,52 → −19629,49), residui sugli assi ripuliti (−1,19 → 2e-12)",
+        "vista_storica": "11 fixture: 50 valori della sequenza, solo i confronti dei risultati (3, 7, 11, 14 e 17 di 17; i dati invariati), 62 parti dei report (word/document.xml del report, del breve e della curva M–χ; figure dei domini e della curva); rettangolare-materiali-utente cambia solo nel report della curva M–χ. Report Word confrontati con la corsa AF: nessun testo diverso oltre ai numeri; JSON dei risultati: stessi campi, risposte ai punti resistenti fino all'1,0 % (σs, εs) come in AG-CA-01; sola lettura, nomi e finestre invariati"
+      },
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
+        "esito": "registrata e aggiornata: riferimenti della vista con le sole righe, i soli file e i soli valori cambiati, nota nei README"
+      },
+      "test": [
+        "ui/check-sezione-view: PASS (disegni, 57 tracce dalla vista, esportazioni, schermate, aiuto, sola lettura, nomi, finestre)",
+        "ui/f3-concrete-figures: PASS 11 figure"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261024-221519-ag-ufficiale-mirata del checkout principale (commit 4dd8018a) (prima: ui/check-sezione-view si ferma alla riga 6 dell'elenco, ui/f3-concrete-figures su str_palo--circolare-cava.json)",
+        "supporto/artefatti/ci/20261024-225640-ag-ca2-cattura del worktree aw-ag-ca2 (registrazione temporanea e -CaptureConcreteFigures)",
+        "supporto/artefatti/ci/20261024-230615-ag-ca2-ui del worktree aw-ag-ca2 (Presentation.Tests/sezione-ca PASS 70, ui/check-sezione-view PASS 202, ui/f3-concrete-figures PASS 11)"
+      ],
+      "voci_collegate": [
+        "AG-CA-01",
         "AG-CA-03"
       ]
     }
