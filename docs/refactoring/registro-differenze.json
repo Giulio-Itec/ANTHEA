@@ -9882,6 +9882,83 @@
       "opzioni": [{"id": "presa", "descrizione": "nessun pulsante, la guida rimanda all'articolo della Wiki"}, {"id": "alternativa", "descrizione": "un pulsante o una voce di aiuto nella barra dei progetti della shell che apre l'articolo"}],
       "revisione_f5_15": "G11 (f5-15 §15.3)",
       "voci_collegate": []
+    },
+    {
+      "id": "AG-PO-01",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC del 24/10 (ramo refactoring/ag-po da dd9f8c6a)",
+      "titolo": "Palo orizzontale, capacità: My e Hu con la parabola del calcestruzzo analitica",
+      "famiglia": "pali orizzontali/capacità/sezione c.a.",
+      "modulo": "geo_palo_orizzontale (F5.7)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Model 2d59bbc6 (GPCModel 5.21.0.0) e Checker f6d87d28 (GPCChecker.Concrete 0.20.0.0) usano come legge predefinita la parabola-rettangolo analitica, con l'integrazione esatta della sezione (Checker/docs/analytic-parabola-20261023/default-analitico-20261024.txt del set 20261024-ag). Il momento di plasticizzazione My della sezione c.a. del palo orizzontale (MRd di GPCChecker.Concrete) cambia di poco, e con lui Hu, Rk, Rd, i diagrammi alla capacità ultima e il residuo N dell'equilibrio della sezione (da 0,21-0,47 kN a meno di 0,02 kN). Il micropalo (CHS di acciaio) non cambia. Nessun esito della verifica, meccanismo, sondaggio governante, dato, Modified, campo, stato, stratigrafia o sezione disegnata cambia.",
+      "codice": [
+        "lib/Checker/GPCChecker.Concrete.dll",
+        "lib/Checker/GPCModel.dll",
+        "tests/fixtures/f5-palo-orizzontale/storica",
+        "tests/fixtures/f5-palo-orizzontale/diagrammi",
+        "tests/fixtures/f3/transitions-f4.json",
+        "tests/ANTHEA.Presentation.Tests/HorizontalPileSheetChecks.cs (CompareF3)"
+      ],
+      "segno": "Leggermente a sfavore di sicurezza dove My cresce (al più +0,026 %, Hu +0,018 %), a favore dove cala (My −0,006 %, Hu −0,004 %). Molto sotto il 2-3 % indicato dall'utente.",
+      "effetto_quantificato": "F3, valori esatti: broms-coesivo-impedita My 1353,081 → 1353,432 kNm (+0,026 %), Hu 682,565 → 682,686 kN (+0,018 %), capacità media 600,482 → 600,543 kN (+0,010 %); single-soil-layer My 1088,112 → 1088,048 kNm (−0,006 %), Hu 599,798 → 599,774 kN (−0,004 %), Rd 271,402 → 271,391 kN (−0,004 %), F concentrata di Broms 1199,596 → 1199,549 kN. Tracce, valori mostrati (arrotondati): My da −0,009 % a +0,022 % (1088,1 → 1088,0; 1353,1 → 1353,4 kNm), Hu da −0,014 % a +0,015 %, Rk da −0,023 % a +0,012 %, Rd ±0,016 %, |M|max come My, valori delle tabelle di «Diagrammi e dettagli» entro ±0,031 % (|v| ≥ 1). Spostamenti: la capacità non ne calcola; la risposta elastica è identica (AG-PO-02).",
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
+        "esito": "registrata e aggiornata: 667 righe in 13 tracce storiche sostituite con il valore del ViewModel (la vista storica è archiviata dal 23/10), 2 file di diagrammi riscritti nei soli valori, 480 transizioni F4 nuove su report.txt e result.json di broms-coesivo-impedita e single-soil-layer; nessun atteso F3 sostituito. Effetti a sfavore elencati nel resoconto finale."
+      },
+      "test": [
+        "ANTHEA.Presentation.Tests: HorizontalPileSheetChecks (tracce; CompareF3 con le transizioni AG-PO-01 sui file della capacità; diagrammi)",
+        "verifiche/horizontal, verifiche/micropalo, HorizontalPileGroup.Checks"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261024-133210-ag-po-raccolta/Presentation.Tests del worktree aw-ag-po (tracce, confronti F3 e diagrammi del ViewModel, con una modifica temporanea non committata che raccoglie tutti i confronti)",
+        "tests/fixtures/f5-palo-orizzontale/README.md (nota della ricattura parziale)",
+        "tests/fixtures/f3/transitions-f4.json, chiave aggiornamento_ag_po"
+      ],
+      "voci_collegate": [
+        "AG-PO-02"
+      ]
+    },
+    {
+      "id": "AG-PO-02",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC del 24/10 (ramo refactoring/ag-po da dd9f8c6a)",
+      "titolo": "Palo orizzontale, risposta elastica: MRd e rapporti delle verifiche delle armature con la parabola analitica",
+      "famiglia": "pali orizzontali/risposta elastica/armature",
+      "modulo": "geo_palo_orizzontale (F5.8)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Stesse librerie di AG-PO-01. Le verifiche N–M dei tratti di armatura della risposta elastica usano MRd di GPCChecker.Concrete, che cambia di poco; cambiano i rapporti e i testi delle verifiche. In single-soil-elastic e in elastico-tratti-anello-spirale la sezione critica (rapporto massimo lungo il palo) passa al punto di calcolo adiacente (x = 4 → 3,96875 m; x = 6,390625 → 6,40625 m), perché i rapporti dei due punti erano quasi uguali: cambiano quindi le azioni N, V, M e il lato riportati per la sezione critica (single-soil-elastic: «Below» → «Interior»). La risposta elastica (spostamenti e sollecitazioni) è identica: impronta uguale in tutti i 117 passi delle tracce in cui compare. Nessun esito cambia.",
+      "codice": [
+        "lib/Checker/GPCChecker.Concrete.dll",
+        "lib/Checker/GPCModel.dll",
+        "tests/fixtures/f5-elastico/storica",
+        "tests/fixtures/f3/transitions-f4.json",
+        "tests/ANTHEA.Presentation.Tests/HorizontalPileSheetChecks.cs (CompareF3)"
+      ],
+      "segno": "|MRd| delle verifiche da −0,007 % a +0,012 % e della sezione critica da −0,020 % a +0,016 % (a sfavore dove cresce, entro il 3 %); rapporti da −0,012 % a +0,007 %; nessun rapporto attraversa 1.",
+      "effetto_quantificato": "F3 (elastico-sisma-testa-impedita, elastico-tratti-anello-spirale, single-soil-elastic): MRd+ da −0,007 % a +0,012 % (1569,055 → 1569,236 kNm), MRd− in modulo da −0,007 % a +0,011 %, MRd utilizzabile ±0,006 %; BendingRatio da −0,012 % a +0,007 %; GoverningRatio da −0,011 % a −0,005 % rispetto al valore dopo precedente; limite della verifica sismica in testa +0,007/+0,011 % (1018,193 → 1018,305 kNm). Sezione critica: elastico-sisma-testa-impedita MRd 678,796 → 678,870 kNm (+0,011 %), rapporto 0,71109 → 0,71101; elastico-tratti-anello-spirale rapporto 0,60698 → 0,60692 (x = 6,40625 m, V 6,53 → 5,18 kN, M 1059,00 → 1059,09 kNm); single-soil-elastic rapporto 0,217404 → 0,217410 (x = 3,96875 m, N 78,54 → 77,93 kN, V 0,53 → 1,53 kN, MRd 1114,06 → 1113,88 kNm). Spostamenti e sollecitazioni della risposta elastica invariati.",
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
+        "esito": "registrata e aggiornata: 236 righe in 9 tracce storiche della risposta elastica sostituite con il valore del ViewModel (impronta del risultato, testi delle verifiche, due testi della tavola delle armature); 7110 transizioni F4 nuove e 17 transizioni elencate con il valore dopo nuovo (7 PARATIE-19, 7 BUG-PO-4, 3 BUG-PO-4 + BUG-PO-5, voce estesa con « / AG-PO-02»); nessun atteso F3 sostituito."
+      },
+      "test": [
+        "ANTHEA.Presentation.Tests: ElasticPileSheetChecks (tracce) e HorizontalPileSheetChecks (CompareF3 delle fixture elastiche)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261024-133210-ag-po-raccolta/Presentation.Tests/palo-orizzontale-f3-elastico-confronto.json del worktree aw-ag-po",
+        "supporto/artefatti/ci/20261024-133916-ag-po-raccolta2/Presentation.Tests/palo-elastico del worktree aw-ag-po (tracce del ViewModel)",
+        "tests/fixtures/f5-elastico/README.md (nota della ricattura parziale)"
+      ],
+      "voci_collegate": [
+        "AG-PO-01",
+        "PARATIE-19",
+        "BUG-PO-4",
+        "BUG-PO-5"
+      ]
     }
   ]
 }

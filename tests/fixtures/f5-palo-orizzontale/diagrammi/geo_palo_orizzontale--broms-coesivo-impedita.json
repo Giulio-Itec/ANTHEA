@@ -5113,16 +5113,16 @@
             ]
           }
         ],
-        "Minimum": -1353.0811332372905,
-        "Maximum": 1353.0811332372905,
+        "Minimum": -1353.4324000773372,
+        "Maximum": 1353.4324000773372,
         "Ticks": [
-          "-1353,08",
-          "-676,54",
+          "-1353,43",
+          "-676,72",
           "0",
-          "676,54",
-          "1353,08"
+          "676,72",
+          "1353,43"
         ],
-        "MomentLimit": 1353.0811332372905,
+        "MomentLimit": 1353.4324000773372,
         "Capacity": null,
         "Hinges": [],
         "Message": null
@@ -5603,7 +5603,7 @@
   {
     "SoilView": true,
     "Title": "Terreno · dalle tensioni verticali alla reazione laterale",
-    "Subtitle": "Sondaggio 2 · Intermedio · Hu = 682,56 kN · D = 0,8 m · Broms",
+    "Subtitle": "Sondaggio 2 · Intermedio · Hu = 682,69 kN · D = 0,8 m · Broms",
     "Basis": "Stato limite alla capacità Hu. z dal piano campagna, positiva verso il basso.",
     "Length": 3,
     "LengthLabel": "3",
@@ -6010,20 +6010,20 @@
               {
                 "FromValue": 50.65,
                 "FromDepth": 2.7,
-                "ToValue": 52.21021762291661,
-                "ToDepth": 2.78001116014957,
+                "ToValue": 52.21570391299833,
+                "ToDepth": 2.780292508358889,
                 "Dashed": false
               },
               {
-                "FromValue": 52.21021762291661,
-                "FromDepth": 2.78001116014957,
-                "ToValue": 52.21021762291661,
-                "ToDepth": 2.78001116014957,
+                "FromValue": 52.21570391299833,
+                "FromDepth": 2.780292508358889,
+                "ToValue": 52.21570391299833,
+                "ToDepth": 2.780292508358889,
                 "Dashed": false
               },
               {
-                "FromValue": 52.21021762291661,
-                "FromDepth": 2.78001116014957,
+                "FromValue": 52.21570391299833,
+                "FromDepth": 2.780292508358889,
                 "ToValue": 52.599999999999994,
                 "ToDepth": 2.8,
                 "Dashed": false
@@ -6038,20 +6038,20 @@
               {
                 "FromValue": 52.599999999999994,
                 "FromDepth": 2.8,
-                "ToValue": 54.3551088114583,
-                "ToDepth": 2.890005580074785,
+                "ToValue": 54.35785195649916,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
-                "FromValue": 54.3551088114583,
-                "FromDepth": 2.890005580074785,
-                "ToValue": 54.3551088114583,
-                "ToDepth": 2.890005580074785,
+                "FromValue": 54.35785195649916,
+                "FromDepth": 2.8901462541794443,
+                "ToValue": 54.35785195649916,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
-                "FromValue": 54.3551088114583,
-                "FromDepth": 2.890005580074785,
+                "FromValue": 54.35785195649916,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": 54.55,
                 "ToDepth": 2.9,
                 "Dashed": false
@@ -6459,20 +6459,20 @@
               {
                 "FromValue": 6.999999999999999,
                 "FromDepth": 2.7,
-                "ToValue": 7.8001116014957,
-                "ToDepth": 2.78001116014957,
+                "ToValue": 7.802925083588888,
+                "ToDepth": 2.780292508358889,
                 "Dashed": false
               },
               {
-                "FromValue": 7.8001116014957,
-                "FromDepth": 2.78001116014957,
-                "ToValue": 7.8001116014957,
-                "ToDepth": 2.78001116014957,
+                "FromValue": 7.802925083588888,
+                "FromDepth": 2.780292508358889,
+                "ToValue": 7.802925083588888,
+                "ToDepth": 2.780292508358889,
                 "Dashed": false
               },
               {
-                "FromValue": 7.8001116014957,
-                "FromDepth": 2.78001116014957,
+                "FromValue": 7.802925083588888,
+                "FromDepth": 2.780292508358889,
                 "ToValue": 8,
                 "ToDepth": 2.8,
                 "Dashed": false
@@ -6487,20 +6487,20 @@
               {
                 "FromValue": 8,
                 "FromDepth": 2.8,
-                "ToValue": 8.900055800747849,
-                "ToDepth": 2.890005580074785,
+                "ToValue": 8.901462541794443,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
-                "FromValue": 8.900055800747849,
-                "FromDepth": 2.890005580074785,
-                "ToValue": 8.900055800747849,
-                "ToDepth": 2.890005580074785,
+                "FromValue": 8.901462541794443,
+                "FromDepth": 2.8901462541794443,
+                "ToValue": 8.901462541794443,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
-                "FromValue": 8.900055800747849,
-                "FromDepth": 2.890005580074785,
+                "FromValue": 8.901462541794443,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": 9,
                 "ToDepth": 2.9,
                 "Dashed": false
@@ -6908,20 +6908,20 @@
               {
                 "FromValue": 43.65,
                 "FromDepth": 2.7,
-                "ToValue": 44.41010602142091,
-                "ToDepth": 2.78001116014957,
+                "ToValue": 44.41277882940944,
+                "ToDepth": 2.780292508358889,
                 "Dashed": false
               },
               {
-                "FromValue": 44.41010602142091,
-                "FromDepth": 2.78001116014957,
-                "ToValue": 44.41010602142091,
-                "ToDepth": 2.78001116014957,
+                "FromValue": 44.41277882940944,
+                "FromDepth": 2.780292508358889,
+                "ToValue": 44.41277882940944,
+                "ToDepth": 2.780292508358889,
                 "Dashed": false
               },
               {
-                "FromValue": 44.41010602142091,
-                "FromDepth": 2.78001116014957,
+                "FromValue": 44.41277882940944,
+                "FromDepth": 2.780292508358889,
                 "ToValue": 44.599999999999994,
                 "ToDepth": 2.8,
                 "Dashed": false
@@ -6936,20 +6936,20 @@
               {
                 "FromValue": 44.599999999999994,
                 "FromDepth": 2.8,
-                "ToValue": 45.45505301071046,
-                "ToDepth": 2.890005580074785,
+                "ToValue": 45.456389414704724,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
-                "FromValue": 45.45505301071046,
-                "FromDepth": 2.890005580074785,
-                "ToValue": 45.45505301071046,
-                "ToDepth": 2.890005580074785,
+                "FromValue": 45.456389414704724,
+                "FromDepth": 2.8901462541794443,
+                "ToValue": 45.456389414704724,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
-                "FromValue": 45.45505301071046,
-                "FromDepth": 2.890005580074785,
+                "FromValue": 45.456389414704724,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": 45.55,
                 "ToDepth": 2.9,
                 "Dashed": false
@@ -7376,26 +7376,19 @@
                 "FromValue": 540,
                 "FromDepth": 2.7,
                 "ToValue": 540,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": true
               },
               {
                 "FromValue": 540,
-                "FromDepth": 2.78001116014957,
+                "FromDepth": 2.780292508358889,
                 "ToValue": 540,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": true
               },
               {
                 "FromValue": 540,
-                "FromDepth": 2.78001116014957,
-                "ToValue": 540,
-                "ToDepth": 2.8,
-                "Dashed": true
-              },
-              {
-                "FromValue": 540,
-                "FromDepth": 2.8,
+                "FromDepth": 2.780292508358889,
                 "ToValue": 540,
                 "ToDepth": 2.8,
                 "Dashed": true
@@ -7404,19 +7397,26 @@
                 "FromValue": 540,
                 "FromDepth": 2.8,
                 "ToValue": 540,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8,
                 "Dashed": true
               },
               {
                 "FromValue": 540,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8,
                 "ToValue": 540,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": true
               },
               {
                 "FromValue": 540,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8901462541794443,
+                "ToValue": 540,
+                "ToDepth": 2.8901462541794443,
+                "Dashed": true
+              },
+              {
+                "FromValue": 540,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": 540,
                 "ToDepth": 2.9,
                 "Dashed": true
@@ -7825,26 +7825,19 @@
                 "FromValue": -540,
                 "FromDepth": 2.7,
                 "ToValue": -540,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": true
               },
               {
                 "FromValue": -540,
-                "FromDepth": 2.78001116014957,
+                "FromDepth": 2.780292508358889,
                 "ToValue": -540,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": true
               },
               {
                 "FromValue": -540,
-                "FromDepth": 2.78001116014957,
-                "ToValue": -540,
-                "ToDepth": 2.8,
-                "Dashed": true
-              },
-              {
-                "FromValue": -540,
-                "FromDepth": 2.8,
+                "FromDepth": 2.780292508358889,
                 "ToValue": -540,
                 "ToDepth": 2.8,
                 "Dashed": true
@@ -7853,19 +7846,26 @@
                 "FromValue": -540,
                 "FromDepth": 2.8,
                 "ToValue": -540,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8,
                 "Dashed": true
               },
               {
                 "FromValue": -540,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8,
                 "ToValue": -540,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": true
               },
               {
                 "FromValue": -540,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8901462541794443,
+                "ToValue": -540,
+                "ToDepth": 2.8901462541794443,
+                "Dashed": true
+              },
+              {
+                "FromValue": -540,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": -540,
                 "ToDepth": 2.9,
                 "Dashed": true
@@ -8092,12 +8092,12 @@
                 "FromValue": 540,
                 "FromDepth": 2.7,
                 "ToValue": 540,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": false
               },
               {
                 "FromValue": 540,
-                "FromDepth": 2.78001116014957,
+                "FromDepth": 2.780292508358889,
                 "ToValue": 540,
                 "ToDepth": 2.8,
                 "Dashed": false
@@ -8106,19 +8106,19 @@
                 "FromValue": 540,
                 "FromDepth": 2.8,
                 "ToValue": 540,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
                 "FromValue": 540,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": -540,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
                 "FromValue": -540,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": -540,
                 "ToDepth": 2.9,
                 "Dashed": false
@@ -8545,26 +8545,19 @@
                 "FromValue": 432,
                 "FromDepth": 2.7,
                 "ToValue": 432,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": true
               },
               {
                 "FromValue": 432,
-                "FromDepth": 2.78001116014957,
+                "FromDepth": 2.780292508358889,
                 "ToValue": 432,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": true
               },
               {
                 "FromValue": 432,
-                "FromDepth": 2.78001116014957,
-                "ToValue": 432,
-                "ToDepth": 2.8,
-                "Dashed": true
-              },
-              {
-                "FromValue": 432,
-                "FromDepth": 2.8,
+                "FromDepth": 2.780292508358889,
                 "ToValue": 432,
                 "ToDepth": 2.8,
                 "Dashed": true
@@ -8573,19 +8566,26 @@
                 "FromValue": 432,
                 "FromDepth": 2.8,
                 "ToValue": 432,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8,
                 "Dashed": true
               },
               {
                 "FromValue": 432,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8,
                 "ToValue": 432,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": true
               },
               {
                 "FromValue": 432,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8901462541794443,
+                "ToValue": 432,
+                "ToDepth": 2.8901462541794443,
+                "Dashed": true
+              },
+              {
+                "FromValue": 432,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": 432,
                 "ToDepth": 2.9,
                 "Dashed": true
@@ -8994,26 +8994,19 @@
                 "FromValue": -432,
                 "FromDepth": 2.7,
                 "ToValue": -432,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": true
               },
               {
                 "FromValue": -432,
-                "FromDepth": 2.78001116014957,
+                "FromDepth": 2.780292508358889,
                 "ToValue": -432,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": true
               },
               {
                 "FromValue": -432,
-                "FromDepth": 2.78001116014957,
-                "ToValue": -432,
-                "ToDepth": 2.8,
-                "Dashed": true
-              },
-              {
-                "FromValue": -432,
-                "FromDepth": 2.8,
+                "FromDepth": 2.780292508358889,
                 "ToValue": -432,
                 "ToDepth": 2.8,
                 "Dashed": true
@@ -9022,19 +9015,26 @@
                 "FromValue": -432,
                 "FromDepth": 2.8,
                 "ToValue": -432,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8,
                 "Dashed": true
               },
               {
                 "FromValue": -432,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8,
                 "ToValue": -432,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": true
               },
               {
                 "FromValue": -432,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8901462541794443,
+                "ToValue": -432,
+                "ToDepth": 2.8901462541794443,
+                "Dashed": true
+              },
+              {
+                "FromValue": -432,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": -432,
                 "ToDepth": 2.9,
                 "Dashed": true
@@ -9261,12 +9261,12 @@
                 "FromValue": 432,
                 "FromDepth": 2.7,
                 "ToValue": 432,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": false
               },
               {
                 "FromValue": 432,
-                "FromDepth": 2.78001116014957,
+                "FromDepth": 2.780292508358889,
                 "ToValue": 432,
                 "ToDepth": 2.8,
                 "Dashed": false
@@ -9275,19 +9275,19 @@
                 "FromValue": 432,
                 "FromDepth": 2.8,
                 "ToValue": 432,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
                 "FromValue": 432,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": -432,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
                 "FromValue": -432,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": -432,
                 "ToDepth": 2.9,
                 "Dashed": false
@@ -9332,13 +9332,13 @@
         "Slot": 0
       },
       {
-        "Depth": 2.78001116014957,
+        "Depth": 2.780292508358889,
         "Label": "z_f · V = 0 = 2,78 m",
         "Color": "#7E22CE",
         "Slot": 1
       },
       {
-        "Depth": 2.890005580074785,
+        "Depth": 2.8901462541794443,
         "Label": "b · inversione di p = 2,89 m",
         "Color": "#15803D",
         "Slot": 2
@@ -9357,7 +9357,7 @@
   {
     "SoilView": false,
     "Title": "Palo · equilibrio delle reazioni e sollecitazioni",
-    "Subtitle": "Sondaggio 2 · Intermedio · Hu = 682,56 kN · D = 0,8 m · Broms",
+    "Subtitle": "Sondaggio 2 · Intermedio · Hu = 682,69 kN · D = 0,8 m · Broms",
     "Basis": "Stato limite alla capacità Hu. z dal piano campagna, positiva verso il basso.",
     "Length": 3,
     "LengthLabel": "3",
@@ -9765,26 +9765,19 @@
                 "FromValue": 432,
                 "FromDepth": 2.7,
                 "ToValue": 432,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": true
               },
               {
                 "FromValue": 432,
-                "FromDepth": 2.78001116014957,
+                "FromDepth": 2.780292508358889,
                 "ToValue": 432,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": true
               },
               {
                 "FromValue": 432,
-                "FromDepth": 2.78001116014957,
-                "ToValue": 432,
-                "ToDepth": 2.8,
-                "Dashed": true
-              },
-              {
-                "FromValue": 432,
-                "FromDepth": 2.8,
+                "FromDepth": 2.780292508358889,
                 "ToValue": 432,
                 "ToDepth": 2.8,
                 "Dashed": true
@@ -9793,19 +9786,26 @@
                 "FromValue": 432,
                 "FromDepth": 2.8,
                 "ToValue": 432,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8,
                 "Dashed": true
               },
               {
                 "FromValue": 432,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8,
                 "ToValue": 432,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": true
               },
               {
                 "FromValue": 432,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8901462541794443,
+                "ToValue": 432,
+                "ToDepth": 2.8901462541794443,
+                "Dashed": true
+              },
+              {
+                "FromValue": 432,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": 432,
                 "ToDepth": 2.9,
                 "Dashed": true
@@ -10214,26 +10214,19 @@
                 "FromValue": -432,
                 "FromDepth": 2.7,
                 "ToValue": -432,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": true
               },
               {
                 "FromValue": -432,
-                "FromDepth": 2.78001116014957,
+                "FromDepth": 2.780292508358889,
                 "ToValue": -432,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": true
               },
               {
                 "FromValue": -432,
-                "FromDepth": 2.78001116014957,
-                "ToValue": -432,
-                "ToDepth": 2.8,
-                "Dashed": true
-              },
-              {
-                "FromValue": -432,
-                "FromDepth": 2.8,
+                "FromDepth": 2.780292508358889,
                 "ToValue": -432,
                 "ToDepth": 2.8,
                 "Dashed": true
@@ -10242,19 +10235,26 @@
                 "FromValue": -432,
                 "FromDepth": 2.8,
                 "ToValue": -432,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8,
                 "Dashed": true
               },
               {
                 "FromValue": -432,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8,
                 "ToValue": -432,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": true
               },
               {
                 "FromValue": -432,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8901462541794443,
+                "ToValue": -432,
+                "ToDepth": 2.8901462541794443,
+                "Dashed": true
+              },
+              {
+                "FromValue": -432,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": -432,
                 "ToDepth": 2.9,
                 "Dashed": true
@@ -10481,12 +10481,12 @@
                 "FromValue": 432,
                 "FromDepth": 2.7,
                 "ToValue": 432,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": false
               },
               {
                 "FromValue": 432,
-                "FromDepth": 2.78001116014957,
+                "FromDepth": 2.780292508358889,
                 "ToValue": 432,
                 "ToDepth": 2.8,
                 "Dashed": false
@@ -10495,19 +10495,19 @@
                 "FromValue": 432,
                 "FromDepth": 2.8,
                 "ToValue": 432,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
                 "FromValue": 432,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": -432,
-                "ToDepth": 2.890005580074785,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
                 "FromValue": -432,
-                "FromDepth": 2.890005580074785,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": -432,
                 "ToDepth": 2.9,
                 "Dashed": false
@@ -10553,232 +10553,232 @@
             "Dashed": false,
             "Segments": [
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 0,
-                "ToValue": 682.5648211846142,
+                "ToValue": 682.68636361104,
                 "ToDepth": 0.1,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 0.1,
-                "ToValue": 682.5648211846142,
+                "ToValue": 682.68636361104,
                 "ToDepth": 0.2,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 0.2,
-                "ToValue": 682.5648211846142,
+                "ToValue": 682.68636361104,
                 "ToDepth": 0.3,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 0.3,
-                "ToValue": 682.5648211846142,
+                "ToValue": 682.68636361104,
                 "ToDepth": 0.4,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 0.4,
-                "ToValue": 682.5648211846142,
+                "ToValue": 682.68636361104,
                 "ToDepth": 0.5,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 0.5,
-                "ToValue": 682.5648211846142,
+                "ToValue": 682.68636361104,
                 "ToDepth": 0.6,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 0.6,
-                "ToValue": 682.5648211846142,
+                "ToValue": 682.68636361104,
                 "ToDepth": 0.7,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 0.7,
-                "ToValue": 682.5648211846142,
+                "ToValue": 682.68636361104,
                 "ToDepth": 0.8,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 0.8,
-                "ToValue": 682.5648211846142,
+                "ToValue": 682.68636361104,
                 "ToDepth": 0.9,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 0.9,
-                "ToValue": 682.5648211846142,
+                "ToValue": 682.68636361104,
                 "ToDepth": 1,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 1,
-                "ToValue": 682.5648211846142,
+                "ToValue": 682.68636361104,
                 "ToDepth": 1.1,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 1.1,
-                "ToValue": 682.5648211846142,
+                "ToValue": 682.68636361104,
                 "ToDepth": 1.2,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 1.2,
-                "ToValue": 682.5648211846142,
+                "ToValue": 682.68636361104,
                 "ToDepth": 1.2,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
+                "FromValue": 682.68636361104,
                 "FromDepth": 1.2,
-                "ToValue": 639.3648211846142,
+                "ToValue": 639.4863636110399,
                 "ToDepth": 1.3,
                 "Dashed": false
               },
               {
-                "FromValue": 639.3648211846142,
+                "FromValue": 639.4863636110399,
                 "FromDepth": 1.3,
-                "ToValue": 596.1648211846142,
+                "ToValue": 596.28636361104,
                 "ToDepth": 1.4,
                 "Dashed": false
               },
               {
-                "FromValue": 596.1648211846142,
+                "FromValue": 596.28636361104,
                 "FromDepth": 1.4,
-                "ToValue": 552.9648211846142,
+                "ToValue": 553.0863636110399,
                 "ToDepth": 1.5,
                 "Dashed": false
               },
               {
-                "FromValue": 552.9648211846142,
+                "FromValue": 553.0863636110399,
                 "FromDepth": 1.5,
-                "ToValue": 509.7648211846142,
+                "ToValue": 509.88636361103994,
                 "ToDepth": 1.6,
                 "Dashed": false
               },
               {
-                "FromValue": 509.7648211846142,
+                "FromValue": 509.88636361103994,
                 "FromDepth": 1.6,
-                "ToValue": 466.56482118461423,
+                "ToValue": 466.68636361103995,
                 "ToDepth": 1.7,
                 "Dashed": false
               },
               {
-                "FromValue": 466.56482118461423,
+                "FromValue": 466.68636361103995,
                 "FromDepth": 1.7,
-                "ToValue": 423.3648211846142,
+                "ToValue": 423.48636361103996,
                 "ToDepth": 1.8,
                 "Dashed": false
               },
               {
-                "FromValue": 423.3648211846142,
+                "FromValue": 423.48636361103996,
                 "FromDepth": 1.8,
-                "ToValue": 380.1648211846142,
+                "ToValue": 380.2863636110399,
                 "ToDepth": 1.9,
                 "Dashed": false
               },
               {
-                "FromValue": 380.1648211846142,
+                "FromValue": 380.2863636110399,
                 "FromDepth": 1.9,
-                "ToValue": 336.9648211846142,
+                "ToValue": 337.0863636110399,
                 "ToDepth": 2,
                 "Dashed": false
               },
               {
-                "FromValue": 336.9648211846142,
+                "FromValue": 337.0863636110399,
                 "FromDepth": 2,
-                "ToValue": 293.7648211846142,
+                "ToValue": 293.88636361103994,
                 "ToDepth": 2.1,
                 "Dashed": false
               },
               {
-                "FromValue": 293.7648211846142,
+                "FromValue": 293.88636361103994,
                 "FromDepth": 2.1,
-                "ToValue": 250.5648211846142,
+                "ToValue": 250.68636361103995,
                 "ToDepth": 2.2,
                 "Dashed": false
               },
               {
-                "FromValue": 250.5648211846142,
+                "FromValue": 250.68636361103995,
                 "FromDepth": 2.2,
-                "ToValue": 207.36482118461421,
+                "ToValue": 207.48636361103993,
                 "ToDepth": 2.3,
                 "Dashed": false
               },
               {
-                "FromValue": 207.36482118461421,
+                "FromValue": 207.48636361103993,
                 "FromDepth": 2.3,
-                "ToValue": 164.1648211846142,
+                "ToValue": 164.28636361103995,
                 "ToDepth": 2.4,
                 "Dashed": false
               },
               {
-                "FromValue": 164.1648211846142,
+                "FromValue": 164.28636361103995,
                 "FromDepth": 2.4,
-                "ToValue": 120.96482118461421,
+                "ToValue": 121.08636361103994,
                 "ToDepth": 2.5,
                 "Dashed": false
               },
               {
-                "FromValue": 120.96482118461421,
+                "FromValue": 121.08636361103994,
                 "FromDepth": 2.5,
-                "ToValue": 77.7648211846142,
+                "ToValue": 77.88636361103994,
                 "ToDepth": 2.6,
                 "Dashed": false
               },
               {
-                "FromValue": 77.7648211846142,
+                "FromValue": 77.88636361103994,
                 "FromDepth": 2.6,
-                "ToValue": 34.56482118461421,
+                "ToValue": 34.68636361103994,
                 "ToDepth": 2.7,
                 "Dashed": false
               },
               {
-                "FromValue": 34.56482118461421,
+                "FromValue": 34.68636361103994,
                 "FromDepth": 2.7,
                 "ToValue": 0,
-                "ToDepth": 2.78001116014957,
+                "ToDepth": 2.780292508358889,
                 "Dashed": false
               },
               {
                 "FromValue": 0,
-                "FromDepth": 2.78001116014957,
-                "ToValue": -8.635178815385792,
+                "FromDepth": 2.780292508358889,
+                "ToValue": -8.513636388960062,
                 "ToDepth": 2.8,
                 "Dashed": false
               },
               {
-                "FromValue": -8.635178815385792,
+                "FromValue": -8.513636388960062,
                 "FromDepth": 2.8,
-                "ToValue": -47.517589407692896,
-                "ToDepth": 2.890005580074785,
+                "ToValue": -47.45681819448003,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
-                "FromValue": -47.517589407692896,
-                "FromDepth": 2.890005580074785,
-                "ToValue": -47.517589407692896,
-                "ToDepth": 2.890005580074785,
+                "FromValue": -47.45681819448003,
+                "FromDepth": 2.8901462541794443,
+                "ToValue": -47.45681819448003,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
-                "FromValue": -47.517589407692896,
-                "FromDepth": 2.890005580074785,
+                "FromValue": -47.45681819448003,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": -43.2,
                 "ToDepth": 2.9,
                 "Dashed": false
@@ -10800,14 +10800,14 @@
             ]
           }
         ],
-        "Minimum": -682.5648211846142,
-        "Maximum": 682.5648211846142,
+        "Minimum": -682.68636361104,
+        "Maximum": 682.68636361104,
         "Ticks": [
-          "-682,56",
-          "-341,28",
+          "-682,69",
+          "-341,34",
           "0",
-          "341,28",
-          "682,56"
+          "341,34",
+          "682,69"
         ],
         "MomentLimit": null,
         "Capacity": null,
@@ -10824,245 +10824,245 @@
             "Dashed": false,
             "Segments": [
               {
-                "FromValue": -1353.0811332372905,
+                "FromValue": -1353.4324000773372,
                 "FromDepth": 0,
-                "ToValue": -1284.824651118829,
+                "ToValue": -1285.1637637162332,
                 "ToDepth": 0.1,
                 "Dashed": false
               },
               {
-                "FromValue": -1284.824651118829,
+                "FromValue": -1285.1637637162332,
                 "FromDepth": 0.1,
-                "ToValue": -1216.5681690003676,
+                "ToValue": -1216.8951273551293,
                 "ToDepth": 0.2,
                 "Dashed": false
               },
               {
-                "FromValue": -1216.5681690003676,
+                "FromValue": -1216.8951273551293,
                 "FromDepth": 0.2,
-                "ToValue": -1148.311686881906,
+                "ToValue": -1148.6264909940253,
                 "ToDepth": 0.3,
                 "Dashed": false
               },
               {
-                "FromValue": -1148.311686881906,
+                "FromValue": -1148.6264909940253,
                 "FromDepth": 0.3,
-                "ToValue": -1080.0552047634446,
+                "ToValue": -1080.3578546329213,
                 "ToDepth": 0.4,
                 "Dashed": false
               },
               {
-                "FromValue": -1080.0552047634446,
+                "FromValue": -1080.3578546329213,
                 "FromDepth": 0.4,
-                "ToValue": -1011.7987226449833,
+                "ToValue": -1012.0892182718172,
                 "ToDepth": 0.5,
                 "Dashed": false
               },
               {
-                "FromValue": -1011.7987226449833,
+                "FromValue": -1012.0892182718172,
                 "FromDepth": 0.5,
-                "ToValue": -943.5422405265219,
+                "ToValue": -943.8205819107133,
                 "ToDepth": 0.6,
                 "Dashed": false
               },
               {
-                "FromValue": -943.5422405265219,
+                "FromValue": -943.8205819107133,
                 "FromDepth": 0.6,
-                "ToValue": -875.2857584080605,
+                "ToValue": -875.5519455496093,
                 "ToDepth": 0.7,
                 "Dashed": false
               },
               {
-                "FromValue": -875.2857584080605,
+                "FromValue": -875.5519455496093,
                 "FromDepth": 0.7,
-                "ToValue": -807.029276289599,
+                "ToValue": -807.2833091885053,
                 "ToDepth": 0.8,
                 "Dashed": false
               },
               {
-                "FromValue": -807.029276289599,
+                "FromValue": -807.2833091885053,
                 "FromDepth": 0.8,
-                "ToValue": -738.7727941711375,
+                "ToValue": -739.0146728274012,
                 "ToDepth": 0.9,
                 "Dashed": false
               },
               {
-                "FromValue": -738.7727941711375,
+                "FromValue": -739.0146728274012,
                 "FromDepth": 0.9,
-                "ToValue": -670.5163120526762,
+                "ToValue": -670.7460364662973,
                 "ToDepth": 1,
                 "Dashed": false
               },
               {
-                "FromValue": -670.5163120526762,
+                "FromValue": -670.7460364662973,
                 "FromDepth": 1,
-                "ToValue": -602.2598299342147,
+                "ToValue": -602.4774001051934,
                 "ToDepth": 1.1,
                 "Dashed": false
               },
               {
-                "FromValue": -602.2598299342147,
+                "FromValue": -602.4774001051934,
                 "FromDepth": 1.1,
-                "ToValue": -534.0033478157534,
+                "ToValue": -534.2087637440893,
                 "ToDepth": 1.2,
                 "Dashed": false
               },
               {
-                "FromValue": -534.0033478157534,
+                "FromValue": -534.2087637440893,
                 "FromDepth": 1.2,
-                "ToValue": -534.0033478157534,
+                "ToValue": -534.2087637440893,
                 "ToDepth": 1.2,
                 "Dashed": false
               },
               {
-                "FromValue": -534.0033478157534,
+                "FromValue": -534.2087637440893,
                 "FromDepth": 1.2,
-                "ToValue": -467.90686569729195,
+                "ToValue": -468.10012738298536,
                 "ToDepth": 1.3,
                 "Dashed": false
               },
               {
-                "FromValue": -467.90686569729195,
+                "FromValue": -468.10012738298536,
                 "FromDepth": 1.3,
-                "ToValue": -406.1303835788305,
+                "ToValue": -406.31149102188135,
                 "ToDepth": 1.4,
                 "Dashed": false
               },
               {
-                "FromValue": -406.1303835788305,
+                "FromValue": -406.31149102188135,
                 "FromDepth": 1.4,
-                "ToValue": -348.6739014603691,
+                "ToValue": -348.84285466077733,
                 "ToDepth": 1.5,
                 "Dashed": false
               },
               {
-                "FromValue": -348.6739014603691,
+                "FromValue": -348.84285466077733,
                 "FromDepth": 1.5,
-                "ToValue": -295.53741934190776,
+                "ToValue": -295.6942182996733,
                 "ToDepth": 1.6,
                 "Dashed": false
               },
               {
-                "FromValue": -295.53741934190776,
+                "FromValue": -295.6942182996733,
                 "FromDepth": 1.6,
-                "ToValue": -246.72093722344613,
+                "ToValue": -246.8655819385693,
                 "ToDepth": 1.7,
                 "Dashed": false
               },
               {
-                "FromValue": -246.72093722344613,
+                "FromValue": -246.8655819385693,
                 "FromDepth": 1.7,
-                "ToValue": -202.22445510498477,
+                "ToValue": -202.3569455774653,
                 "ToDepth": 1.8,
                 "Dashed": false
               },
               {
-                "FromValue": -202.22445510498477,
+                "FromValue": -202.3569455774653,
                 "FromDepth": 1.8,
-                "ToValue": -162.04797298652338,
+                "ToValue": -162.16830921636128,
                 "ToDepth": 1.9,
                 "Dashed": false
               },
               {
-                "FromValue": -162.04797298652338,
+                "FromValue": -162.16830921636128,
                 "FromDepth": 1.9,
-                "ToValue": -126.19149086806202,
+                "ToValue": -126.29967285525727,
                 "ToDepth": 2,
                 "Dashed": false
               },
               {
-                "FromValue": -126.19149086806202,
+                "FromValue": -126.29967285525727,
                 "FromDepth": 2,
-                "ToValue": -94.65500874960065,
+                "ToValue": -94.7510364941535,
                 "ToDepth": 2.1,
                 "Dashed": false
               },
               {
-                "FromValue": -94.65500874960065,
+                "FromValue": -94.7510364941535,
                 "FromDepth": 2.1,
-                "ToValue": -67.43852663113904,
+                "ToValue": -67.52240013304949,
                 "ToDepth": 2.2,
                 "Dashed": false
               },
               {
-                "FromValue": -67.43852663113904,
+                "FromValue": -67.52240013304949,
                 "FromDepth": 2.2,
-                "ToValue": -44.54204451267767,
+                "ToValue": -44.61376377194548,
                 "ToDepth": 2.3,
                 "Dashed": false
               },
               {
-                "FromValue": -44.54204451267767,
+                "FromValue": -44.61376377194548,
                 "FromDepth": 2.3,
-                "ToValue": -25.9655623942163,
+                "ToValue": -26.025127410841463,
                 "ToDepth": 2.4,
                 "Dashed": false
               },
               {
-                "FromValue": -25.9655623942163,
+                "FromValue": -26.025127410841463,
                 "FromDepth": 2.4,
-                "ToValue": -11.709080275754928,
+                "ToValue": -11.756491049737454,
                 "ToDepth": 2.5,
                 "Dashed": false
               },
               {
-                "FromValue": -11.709080275754928,
+                "FromValue": -11.756491049737454,
                 "FromDepth": 2.5,
-                "ToValue": -1.772598157293558,
+                "ToValue": -1.807854688633442,
                 "ToDepth": 2.6,
                 "Dashed": false
               },
               {
-                "FromValue": -1.772598157293558,
+                "FromValue": -1.807854688633442,
                 "FromDepth": 2.6,
-                "ToValue": 3.843883961168051,
+                "ToValue": 3.8207816724705697,
                 "ToDepth": 2.7,
                 "Dashed": false
               },
               {
-                "FromValue": 3.843883961168051,
+                "FromValue": 3.8207816724705697,
                 "FromDepth": 2.7,
-                "ToValue": 5.22666968283987,
-                "ToDepth": 2.78001116014957,
+                "ToValue": 5.21330924255991,
+                "ToDepth": 2.780292508358889,
                 "Dashed": false
               },
               {
-                "FromValue": 5.22666968283987,
-                "FromDepth": 2.78001116014957,
-                "ToValue": 5.1403660796294215,
+                "FromValue": 5.21330924255991,
+                "FromDepth": 2.780292508358889,
+                "ToValue": 5.129418033574581,
                 "ToDepth": 2.8,
                 "Dashed": false
               },
               {
-                "FromValue": 5.1403660796294215,
+                "FromValue": 5.129418033574581,
                 "FromDepth": 2.8,
-                "ToValue": 2.613334841267586,
-                "ToDepth": 2.890005580074785,
+                "ToValue": 2.6066546208655836,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
-                "FromValue": 2.613334841267586,
-                "FromDepth": 2.890005580074785,
-                "ToValue": 2.613334841267586,
-                "ToDepth": 2.890005580074785,
+                "FromValue": 2.6066546208655836,
+                "FromDepth": 2.8901462541794443,
+                "ToValue": 2.6066546208655836,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
-                "FromValue": 2.613334841267586,
-                "FromDepth": 2.890005580074785,
-                "ToValue": 2.1599999996957777,
+                "FromValue": 2.6066546208655836,
+                "FromDepth": 2.8901462541794443,
+                "ToValue": 2.159999999171257,
                 "ToDepth": 2.9,
                 "Dashed": false
               },
               {
-                "FromValue": 2.1599999996957777,
+                "FromValue": 2.159999999171257,
                 "FromDepth": 2.9,
-                "ToValue": -3.0422210693359375E-10,
+                "ToValue": -8.287429809570312E-10,
                 "ToDepth": 3,
                 "Dashed": false
               },
               {
-                "FromValue": -3.0422210693359375E-10,
+                "FromValue": -8.287429809570312E-10,
                 "FromDepth": 3,
                 "ToValue": 0,
                 "ToDepth": 3,
@@ -11071,20 +11071,20 @@
             ]
           }
         ],
-        "Minimum": -1353.0811332372905,
-        "Maximum": 1353.0811332372905,
+        "Minimum": -1353.4324000773372,
+        "Maximum": 1353.4324000773372,
         "Ticks": [
-          "-1353,08",
-          "-676,54",
+          "-1353,43",
+          "-676,72",
           "0",
-          "676,54",
-          "1353,08"
+          "676,72",
+          "1353,43"
         ],
-        "MomentLimit": 1353.0811332372905,
+        "MomentLimit": 1353.4324000773372,
         "Capacity": null,
         "Hinges": [
           {
-            "Value": -1353.0811332372905,
+            "Value": -1353.4324000773372,
             "Depth": 0
           }
         ],
@@ -11480,20 +11480,20 @@
               {
                 "FromValue": 648,
                 "FromDepth": 2.7,
-                "ToValue": 682.5648211846142,
-                "ToDepth": 2.78001116014957,
+                "ToValue": 682.68636361104,
+                "ToDepth": 2.780292508358889,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
-                "FromDepth": 2.78001116014957,
-                "ToValue": 682.5648211846142,
-                "ToDepth": 2.78001116014957,
+                "FromValue": 682.68636361104,
+                "FromDepth": 2.780292508358889,
+                "ToValue": 682.68636361104,
+                "ToDepth": 2.780292508358889,
                 "Dashed": false
               },
               {
-                "FromValue": 682.5648211846142,
-                "FromDepth": 2.78001116014957,
+                "FromValue": 682.68636361104,
+                "FromDepth": 2.780292508358889,
                 "ToValue": 691.2,
                 "ToDepth": 2.8,
                 "Dashed": false
@@ -11508,20 +11508,20 @@
               {
                 "FromValue": 691.2,
                 "FromDepth": 2.8,
-                "ToValue": 730.0824105923072,
-                "ToDepth": 2.890005580074785,
+                "ToValue": 730.1431818055199,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
-                "FromValue": 730.0824105923072,
-                "FromDepth": 2.890005580074785,
-                "ToValue": 730.0824105923072,
-                "ToDepth": 2.890005580074785,
+                "FromValue": 730.1431818055199,
+                "FromDepth": 2.8901462541794443,
+                "ToValue": 730.1431818055199,
+                "ToDepth": 2.8901462541794443,
                 "Dashed": false
               },
               {
-                "FromValue": 730.0824105923072,
-                "FromDepth": 2.890005580074785,
+                "FromValue": 730.1431818055199,
+                "FromDepth": 2.8901462541794443,
                 "ToValue": 734.4,
                 "ToDepth": 2.9,
                 "Dashed": false
@@ -11554,8 +11554,8 @@
         ],
         "MomentLimit": null,
         "Capacity": {
-          "Value": 682.5648211846142,
-          "Depth": 2.78001116014957
+          "Value": 682.68636361104,
+          "Depth": 2.780292508358889
         },
         "Hinges": [],
         "Message": null
@@ -11569,13 +11569,13 @@
         "Slot": 0
       },
       {
-        "Depth": 2.78001116014957,
+        "Depth": 2.780292508358889,
         "Label": "z_f · V = 0 = 2,78 m",
         "Color": "#7E22CE",
         "Slot": 1
       },
       {
-        "Depth": 2.890005580074785,
+        "Depth": 2.8901462541794443,
         "Label": "b · inversione di p = 2,89 m",
         "Color": "#15803D",
         "Slot": 2

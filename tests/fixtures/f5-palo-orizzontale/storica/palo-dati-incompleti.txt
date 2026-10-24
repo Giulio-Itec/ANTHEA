@@ -364,7 +364,7 @@ modificato 2 · modificabile sì · esportabile no · dettagli no · scheda 0
 risultato -
 stato "Correggere i dati indicati"
 sintesi "Calcolo non disponibile: La stratigrafia deve coprire tutta la lunghezza infissa."
-momento "MRd = 1.088,1 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = 0,471 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+momento "MRd = 1.088,0 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = -0,014 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico · dati da completare" · nota "La stratigrafia deve coprire tutta la lunghezza infissa."
 avvisi "La stratigrafia deve coprire tutta la lunghezza infissa."
 form generali
@@ -454,7 +454,7 @@ modificato 2 · modificabile sì · esportabile no · dettagli no · scheda 0
 risultato -
 stato "Correggere i dati indicati"
 sintesi "Calcolo non disponibile: La stratigrafia deve coprire tutta la lunghezza infissa."
-momento "MRd = 1.088,1 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = 0,471 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+momento "MRd = 1.088,0 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = -0,014 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico · dati da completare" · nota "La stratigrafia deve coprire tutta la lunghezza infissa."
 avvisi "La stratigrafia deve coprire tutta la lunghezza infissa."
 form generali
@@ -544,7 +544,7 @@ modificato 2 · modificabile sì · esportabile no · dettagli no · scheda 0
 risultato -
 stato "Correggere i dati indicati"
 sintesi "Calcolo non disponibile: La stratigrafia deve coprire tutta la lunghezza infissa."
-momento "MRd = 1.088,1 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = 0,471 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+momento "MRd = 1.088,0 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = -0,014 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico · dati da completare" · nota "La stratigrafia deve coprire tutta la lunghezza infissa."
 avvisi "La stratigrafia deve coprire tutta la lunghezza infissa."
 form generali
@@ -814,7 +814,7 @@ modificato 0 · modificabile sì · esportabile no · dettagli no · scheda 0
 risultato -
 stato "Correggere i dati indicati"
 sintesi "Calcolo non disponibile: La stratigrafia deve coprire tutta la lunghezza infissa."
-momento "MRd = 1.088,1 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = 0,471 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+momento "MRd = 1.088,0 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = -0,014 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico · dati da completare" · nota "La stratigrafia deve coprire tutta la lunghezza infissa."
 avvisi "La stratigrafia deve coprire tutta la lunghezza infissa."
 form generali

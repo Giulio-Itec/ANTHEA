@@ -98,3 +98,12 @@ sulla macchina del banco, come quelli di F5.7. La cattura con `ANTHEA.exe` e con
   delle tavole delle armature in `disegni/elenco.txt` (stesso numero di primitive). Nelle tracce la risposta elastica è
   identica in tutti i 117 passi in cui compare; cambiano solo l'impronta del risultato e VRd nelle righe delle verifiche
   (dallo 0,36 all'1,86 % in più). Le altre undici tracce e gli altri 47 disegni non cambiano.
+- 24/10/2026, voce AG-PO-02 (librerie del 24/10: Model 2d59bbc6, GPCModel 5.21.0.0; Checker f6d87d28, GPCChecker.Concrete
+  0.20.0.0; parabola del calcestruzzo analitica come legge predefinita), con la decisione dell'utente del 24/10 («registra e
+  aggiorna»). La vista storica è archiviata dal 23/10 e non si ricattura: ricattura parziale dal ViewModel. Nelle stesse nove
+  tracce di PARATIE-19 sono sostituite solo le 236 righe cambiate, con il valore del ViewModel (`Presentation.Tests`, corsa
+  `20261024-133916-ag-po-raccolta2`): la riga con le impronte della risposta e del risultato (117, impronta della risposta
+  identica in tutti i passi), il testo delle verifiche dei tratti (117: MRd, rapporti e, dove compare, la sezione critica che
+  passa al punto di calcolo adiacente perché i rapporti dei due punti erano quasi uguali) e due testi
+  della tavola delle armature (η, MRd). Tolti numeri e impronte ogni riga è uguale a quella storica: nessun esito cambia. MRd
+  cambia fra −0,02 % e +0,02 %. `disegni/elenco.txt` non è stato toccato: va ricatturato con lo stadio `ui`.

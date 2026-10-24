@@ -95,3 +95,20 @@ li confronta a ogni corsa.
   tracce e con l'elenco dei disegni, finché la vista storica esiste.
 - `Presentation.Tests`, nello stadio `fast`, confronta le stesse tracce con il ViewModel.
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.
+- 24/10/2026, voce AG-PO-01 (librerie del 24/10: Model 2d59bbc6, GPCModel 5.21.0.0; Checker f6d87d28, GPCChecker.Concrete
+  0.20.0.0; parabola del calcestruzzo analitica come legge predefinita), con la decisione dell'utente del 24/10 («registra e
+  aggiorna»). La vista storica è archiviata dal 23/10 e non si ricattura: ricattura parziale dal ViewModel. Nelle 13 tracce
+  che cambiano (`calcolo-sullo-sfondo`, `modifiche-palo`, `palo-broms-coesivo-impedita`, `palo-dati-incompleti`,
+  `palo-default`, `palo-default-elastico`, `palo-elastico-sisma-testa-impedita`, `palo-elastico-stratigrafia-da-scegliere`,
+  `palo-elastico-tratti-anello-spirale`, `palo-legacy-elastic-pending`, `palo-single-soil-elastic`, `palo-single-soil-layer`,
+  `stratigrafie-palo`) sono sostituite solo le 667 righe cambiate, con il valore del ViewModel (`Presentation.Tests`, corsa
+  `20261024-133210-ag-po-raccolta`): impronta del risultato (77), sintesi (74), momento con il residuo N (109), tabella della
+  verifica (25), «Diagrammi e dettagli» (382). Dati, `Modified`, campi, stati, stratigrafie, editor e sezione disegnata sono
+  identici; nessun esito della verifica, meccanismo o sondaggio governante cambia; le righe di F5-02 restano quelle storiche.
+  My cambia fra −0,006 % e +0,026 % (1353,081 → 1353,432 kNm), Hu fra −0,004 % e +0,018 %. Le tracce del micropalo e le altre
+  14 tracce non cambiano.
+- Stessa data e stessa voce: `diagrammi/geo_palo_orizzontale--broms-coesivo-impedita.json` e
+  `diagrammi/geo_palo_orizzontale--single-soil-layer.json` riscritti dal ViewModel (`HorizontalPileSheetViewModel.Diagram`, formato
+  di `HorizontalPileTrace.Diagrams`): struttura identica, cambiano solo 303 e 418 valori (limiti del momento, quote e valori dei
+  tratti del diagramma del terreno, sottotitoli con Hu, nota di Broms con F). Gli altri file non cambiano. `disegni/elenco.txt`
+  non è stato toccato: i disegni di queste due fixture vanno ricatturati con lo stadio `ui`.
