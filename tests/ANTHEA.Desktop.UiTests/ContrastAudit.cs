@@ -1235,7 +1235,7 @@ internal sealed class ContrastAudit
         var invariance = CompareReference("Light");
         var report = new JsonObject
         {
-            ["strumento"] = "supporto/test/Desktop/ContrastAudit.cs", ["comando"] = "dotnet src/ANTHEA.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-contrast " + string.Join(" ", args),
+            ["strumento"] = "tests/ANTHEA.Desktop.UiTests/ContrastAudit.cs", ["comando"] = "dotnet src/ANTHEA.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --check-contrast " + string.Join(" ", args),
             ["avvio"] = started.ToString("s"), ["durata_s"] = Math.Round(clock.Elapsed.TotalSeconds),
             ["ambiente"] = new JsonObject { ["dpi_finestra"] = dpi, ["area_cattura_dip"] = $"{CaptureWidth}x{CaptureHeight}", ["sistema"] = Environment.OSVersion.VersionString },
             ["regole"] = new JsonArray(

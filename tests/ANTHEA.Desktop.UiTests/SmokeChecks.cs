@@ -64,4 +64,4 @@ internal sealed partial class ShellSmokeWindow
 }
 
 // F5.13 g: the partial of the historic SheetEditor (SetGeometryForSmoke, WaitForAutomatic, VerifyWpf, without historic sheets since 23/10) went with
-// it to supporto/SUPERATI/ui-storica/shell; OpenSheet (tests/Desktop/OpenSheetChecks.cs) drives the XAML views.
+// it to supporto/SUPERATI/ui-storica/shell; OpenSheet (tests/ANTHEA.Desktop.UiTests/OpenSheetChecks.cs) drives the XAML views.

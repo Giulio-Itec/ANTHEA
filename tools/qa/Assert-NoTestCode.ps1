@@ -33,7 +33,7 @@ param(
         '^I?TensionBarSpacing$', '^I(ConcreteAnchorageCalculator|MomentCurvatureCalculator)$', '^(SoilMass|ValleyBand|(Native)?SearchIndices|ValidateExposure)$',
         '^(get_)?(Translated(Criteria|Profiles|Outcomes|Reasons|Rejections|TraceCodes)|ResistanceRejectionTexts)$', '^MetresFromMillimetres$', 'Sollecitazioni\.Legacy',
         '^<?(get_)?(CalculateDomain|CalculateStress|ExportActionRows|ApplyImport|SetGeometry|InheritSectionData|ParsePaste|CurrentId|SelectedOptimizationRank|DisplayedOptimizationCount|InputForms|InspectionCount|PointCount|VisibleActionCount)(>|$)',
-        # F5.2: bench of the ModuleHost and test-only probe module (tests/Desktop, tests/Shared; UiTests only).
+        # F5.2: bench of the ModuleHost and test-only probe module (tests/ANTHEA.Desktop.UiTests, tests/Shared; UiTests only).
         'ProbeSheet', 'ModuleHostBench', 'ModuleHostWpfChecks', 'CheckMvvmSheet'),
     # Names that contain a marker but belong to the framework (System.Windows.Media.Brushes.WhiteSmoke).
     [string[]] $AllowedIdentifier = @('WhiteSmoke', 'get_WhiteSmoke'),

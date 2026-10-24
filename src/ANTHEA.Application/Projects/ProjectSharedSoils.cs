@@ -64,7 +64,7 @@ public static partial class ProjectSharedData
         (first["dati"]?["generali"]).B("presenza_falda") || (second["dati"]?["generali"]).B("presenza_falda");
 
     // SameCommonSoilData, usato solo dalle prove WPF, è uscito con la decisione D3 del 15/10/2026:
-    // supporto/test/Desktop/ProjectSharedDataProbe.cs, che legge per riflessione SoilProperties, SoilValue e WaterDataActive.
+    // tests/ANTHEA.Desktop.UiTests/ProjectSharedDataProbe.cs, che legge per riflessione SoilProperties, SoilValue e WaterDataActive.
 
     // Optional explicit initialization copies common inputs; ordinary comparison also works without this step.
     public static void LinkSoils(JsonObject source, JsonObject target)

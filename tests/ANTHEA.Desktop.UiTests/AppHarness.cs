@@ -107,7 +107,7 @@ public partial class App
             }));
             return;
         }
-        // F5.4: the XAML view of the pile group hosted by MvvmSheetEditor, off screen (tests/Desktop/PileGroupViewChecks.cs). The traces
+        // F5.4: the XAML view of the pile group hosted by MvvmSheetEditor, off screen (tests/ANTHEA.Desktop.UiTests/PileGroupViewChecks.cs). The traces
         // of the historic view (--check-pile-group-historic) are archived with it in supporto/SUPERATI/ui-storica/palificata (Q11).
         if (e.Args.Length == 3 && e.Args[0] == "--check-pile-group-view")
         {
@@ -122,7 +122,7 @@ public partial class App
             return;
         }
 
-        // F5.6: the XAML view of the vertical pile and micropile hosted by MvvmSheetEditor, off screen (tests/Desktop/VerticalPileViewChecks.cs). The
+        // F5.6: the XAML view of the vertical pile and micropile hosted by MvvmSheetEditor, off screen (tests/ANTHEA.Desktop.UiTests/VerticalPileViewChecks.cs). The
         // traces of the historic view (--check-palo-verticale-historic) are archived with it in supporto/SUPERATI/ui-storica/palo-verticale (Q11).
         if (e.Args.Length == 3 && e.Args[0] == "--check-palo-verticale-view")
         {
@@ -137,7 +137,7 @@ public partial class App
             return;
         }
 
-        // F5.5: the XAML views of the materials hosted by MvvmSheetEditor, off screen (tests/Desktop/MaterialSheetViewChecks.cs). The traces
+        // F5.5: the XAML views of the materials hosted by MvvmSheetEditor, off screen (tests/ANTHEA.Desktop.UiTests/MaterialSheetViewChecks.cs). The traces
         // of the historic views (--check-materials-historic) are archived with them in supporto/SUPERATI/ui-storica/materiali (Q11).
         if (e.Args.Length == 3 && e.Args[0] == "--check-materials-view")
         {
@@ -164,7 +164,7 @@ public partial class App
             }));
             return;
         }
-        // F5.6b: the XAML view of the stratigraphy hosted by MvvmSheetEditor, off screen (tests/Desktop/StratigraphyViewChecks.cs). The traces of
+        // F5.6b: the XAML view of the stratigraphy hosted by MvvmSheetEditor, off screen (tests/ANTHEA.Desktop.UiTests/StratigraphyViewChecks.cs). The traces of
         // the historic view (--check-stratigrafia-historic) are archived with it in supporto/SUPERATI/ui-storica/stratigrafia (Q11).
         if (e.Args.Length == 3 && e.Args[0] == "--check-stratigrafia-view")
         {
@@ -179,7 +179,7 @@ public partial class App
             return;
         }
 
-        // F5.11: the XAML view of the composite bridge section hosted by MvvmSheetEditor, off screen (tests/Desktop/CompositeSectionViewChecks*.cs), as
+        // F5.11: the XAML view of the composite bridge section hosted by MvvmSheetEditor, off screen (tests/ANTHEA.Desktop.UiTests/CompositeSectionViewChecks*.cs), as
         // the Release opens it since the switch of 23/10/2026 (the historic view and its command --check-sezione-mista-historic are archived in
         // supporto/SUPERATI/ui-storica/sezione-mista). A fourth argument (comma separated parts) runs only those parts, for the work on the view.
         if (e.Args.Length is 3 or 4 && e.Args[0] == "--check-sezione-mista-view")
@@ -195,7 +195,7 @@ public partial class App
             return;
         }
 
-        // F5.10 (view after S9): the XAML view of the RC section hosted by MvvmSheetEditor, off screen (tests/Desktop/ConcreteSectionViewChecks.cs); the
+        // F5.10 (view after S9): the XAML view of the RC section hosted by MvvmSheetEditor, off screen (tests/ANTHEA.Desktop.UiTests/ConcreteSectionViewChecks.cs); the
         // bench opens the section with the MVVM view, the Release keeps the historic one. A fourth argument (comma separated parts) runs only those parts.
         if (e.Args.Length is 3 or 4 && e.Args[0] == "--check-sezione-view")
         {
@@ -210,7 +210,7 @@ public partial class App
             return;
         }
 
-        // F5.9b: the XAML view of the shallow foundations hosted by MvvmSheetEditor, off screen (tests/Desktop/ShallowFoundationViewChecks.cs). The
+        // F5.9b: the XAML view of the shallow foundations hosted by MvvmSheetEditor, off screen (tests/ANTHEA.Desktop.UiTests/ShallowFoundationViewChecks.cs). The
         // traces of the historic view (--check-fondazioni-historic) are archived with it in supporto/SUPERATI/ui-storica/fondazioni (Q11).
         if (e.Args.Length == 3 && e.Args[0] == "--check-fondazioni-view")
         {
@@ -225,7 +225,7 @@ public partial class App
             return;
         }
 
-        // F5.12: the XAML view of Bridge Design hosted by MvvmSheetEditor, off screen (tests/Desktop/BridgeDesignViewChecks*.cs), as the Release opens it
+        // F5.12: the XAML view of Bridge Design hosted by MvvmSheetEditor, off screen (tests/ANTHEA.Desktop.UiTests/BridgeDesignViewChecks*.cs), as the Release opens it
         // since the switch of 23/10/2026 (the historic view and its command --check-bridge-design-historic are archived in
         // supporto/SUPERATI/ui-storica/bridge-design). A fourth argument (comma separated parts) runs only those parts, for the work on the view.
         if (e.Args.Length is 3 or 4 && e.Args[0] == "--check-bridge-design-view")
@@ -241,7 +241,7 @@ public partial class App
             return;
         }
 
-        // F5.9: the XAML view of the retaining walls hosted by MvvmSheetEditor, off screen (tests/Desktop/RetainingWallViewChecks.cs); the bench
+        // F5.9: the XAML view of the retaining walls hosted by MvvmSheetEditor, off screen (tests/ANTHEA.Desktop.UiTests/RetainingWallViewChecks.cs); the bench
         // opens the walls with the MVVM view, the Release keeps the historic one until the user has tried it.
         if (e.Args.Length == 3 && e.Args[0] == "--check-muri-view")
         {
@@ -257,7 +257,7 @@ public partial class App
         }
 
         // F5.7/F5.8: the XAML views of the horizontal pile and micropile (capacity, elastic response) hosted by MvvmSheetEditor, off screen
-        // (tests/Desktop/HorizontalPileViewChecks.cs); the bench opens the two modules with the MVVM view, the Release keeps the historic one
+        // (tests/ANTHEA.Desktop.UiTests/HorizontalPileViewChecks.cs); the bench opens the two modules with the MVVM view, the Release keeps the historic one
         // until the user has tried it. A fourth argument (comma separated parts) runs only those parts, for the work on the view.
         if (e.Args.Length is 3 or 4 && e.Args[0] == "--check-palo-orizzontale-view")
         {
@@ -353,7 +353,7 @@ public partial class App
             });
             return;
         }
-        // F5.13 c: the draft of the layout of the new shell, off screen and never activated, for the user's checkpoint (tests/Desktop/ShellDraftChecks.cs).
+        // F5.13 c: the draft of the layout of the new shell, off screen and never activated, for the user's checkpoint (tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs).
         if (e.Args.Length == 2 && e.Args[0] == "--check-shell-draft")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -366,7 +366,7 @@ public partial class App
             });
             return;
         }
-        // F5.13 e: the suites of MainWindow on the new shell, off screen (tests/Desktop/ShellSmoke*.cs); --module-impl pairs after the output choose the MVVM
+        // F5.13 e: the suites of MainWindow on the new shell, off screen (tests/ANTHEA.Desktop.UiTests/ShellSmoke*.cs); --module-impl pairs after the output choose the MVVM
         // views (ui/shell-smoke-<suite>-mvvm).
         if (e.Args.Length >= 2 && e.Args[0].StartsWith(ShellSmoke.Prefix, StringComparison.Ordinal) && ModuleHostBench.WithoutBench(e.Args).Length == 2)
         {
@@ -380,7 +380,7 @@ public partial class App
             });
             return;
         }
-        // F5.13 e: the capture of a project through the new shell and through MainWindow, compared (tests/Desktop/ShellProjectCapture.cs).
+        // F5.13 e: the capture of a project through the new shell and through MainWindow, compared (tests/ANTHEA.Desktop.UiTests/ShellProjectCapture.cs).
         if (e.Args.Length == 2 && e.Args[0] == ShellProjectCapture.Flag)
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;

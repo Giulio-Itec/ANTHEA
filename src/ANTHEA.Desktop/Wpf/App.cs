@@ -53,7 +53,7 @@ public partial class App : Application
     private Window? ActiveWindow() => Windows.OfType<Window>().FirstOrDefault(w => w.IsActive) ?? MainWindow;
 
     /// <summary>
-    /// Implemented only in the UiTests configuration (supporto/test/Desktop/AppHarness.cs), which runs the WPF checks
+    /// Implemented only in the UiTests configuration (tests/ANTHEA.Desktop.UiTests/AppHarness.cs), which runs the WPF checks
     /// requested on the command line and sets <paramref name="handled"/>. In Release the compiler removes the call.
     /// </summary>
     partial void RunTestHarness(StartupEventArgs e, ref bool handled);
