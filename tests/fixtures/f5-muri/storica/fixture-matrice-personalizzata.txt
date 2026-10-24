@@ -304,7 +304,7 @@ anteprima-globale: caso "" · risultato no · strato -1 monte
 parametri: -
 == conferma
 == calcola
-~ risultato: ECECE6ACBB0AF513
+~ risultato: DE1B404617470CEA
 ~ stato: "Calcolo aggiornato · 15 combinazioni · 0 controlli non soddisfatti · 0 non disponibili"
 ~ combinazioni: "SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b|SLU 4 copia 16" · scelta "SLE_FREQ 2"
 ~ vista: "Geometria e carichi" · elemento "Fusto" nascosto · filtro "Riepilogo completo"
@@ -324,7 +324,7 @@ parametri: -
 + spinte.5: testo "Integrale netto delle pressioni (monte + azioni laterali − passiva): P=41,46 kN/m; momento al piano di posa=50,98 kNm/m; quota risultante=1,23 m."
 ~ verifiche: 3 blocchi
 + verifiche.0: testo "SLE_FREQ 2 · SLE · γMφ=1; γR scorr./ribalt./port.=1/1/1; γR,e passiva=1\nScorrimento Ed/Rd=41,46/80,15 kN/m · ribaltamento Ed/MRd=50,98/298,86 kNm/m · Rd port.=1355,76 kN/m · U=0,00 kN/m"
-+ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 22 03695EC734342398
++ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 22 BB20C13F8A92D572
 + verifiche.1.0: "Scorrimento" | "SLU 10b" | "63,67" | "81,80" | "kN/m" | "0,778" | "Soddisfatta"
 + verifiche.1.1: "Ribaltamento" | "SLU 8b" | "70,82" | "243,45" | "kNm/m" | "0,291" | "Soddisfatta"
 + verifiche.1.2: "Capacità portante" | "SLU 10b" | "184,49" | "572,27" | "kN/m" | "0,322" | "Soddisfatta"
@@ -362,7 +362,7 @@ parametri: -
 - verifiche.2
 == conferma
 == attendi
-~ risultato: ECECE6ACBB0AF513
+~ risultato: DE1B404617470CEA
 ~ stato: "Calcolo aggiornato · 15 combinazioni · 0 controlli non soddisfatti · 0 non disponibili"
 ~ combinazioni: "SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b|SLU 4 copia 16" · scelta "SLE_FREQ 2"
 ~ vista: "Geometria e carichi" · elemento "Fusto" nascosto · filtro "Riepilogo completo"
@@ -382,7 +382,7 @@ parametri: -
 + spinte.5: testo "Integrale netto delle pressioni (monte + azioni laterali − passiva): P=41,46 kN/m; momento al piano di posa=50,98 kNm/m; quota risultante=1,23 m."
 ~ verifiche: 3 blocchi
 + verifiche.0: testo "SLE_FREQ 2 · SLE · γMφ=1; γR scorr./ribalt./port.=1/1/1; γR,e passiva=1\nScorrimento Ed/Rd=41,46/80,15 kN/m · ribaltamento Ed/MRd=50,98/298,86 kNm/m · Rd port.=1355,76 kN/m · U=0,00 kN/m"
-+ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 22 03695EC734342398
++ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 22 BB20C13F8A92D572
 + verifiche.1.0: "Scorrimento" | "SLU 10b" | "63,67" | "81,80" | "kN/m" | "0,778" | "Soddisfatta"
 + verifiche.1.1: "Ribaltamento" | "SLU 8b" | "70,82" | "243,45" | "kNm/m" | "0,291" | "Soddisfatta"
 + verifiche.1.2: "Capacità portante" | "SLU 10b" | "184,49" | "572,27" | "kN/m" | "0,322" | "Soddisfatta"

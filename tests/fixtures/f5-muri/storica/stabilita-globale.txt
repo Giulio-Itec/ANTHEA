@@ -289,7 +289,7 @@ parametri: -
 ~ dati: version|family|geometry|foundation|loads|materials|layers|water|seismic|reinforcement|extensions|global_stability|valley|interfaces|bearing_seismic|bar_schedule|serviceability|detailing|gravity_design|actions|combinations|combination_mode|combination_signature
 ~ dati.combinations: [{"enabled":true,"name":"SLE 1","state":"SLE","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1}},{"enabled":true,"name":"SLE_FREQ 2","state":"SLE_FREQ","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0.5}},{"enabled":true,"name":"Quasi permanente 3","state":"SLE_QP","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0.3}},{"enabled":true,"name":"SLU 4","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 5","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 6","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 7","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 8","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 8b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 9","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 9b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 10","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 10b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 11","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 11b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}}]
 + dati.combination_signature: "<ID-1>/Q/true/0.7/0.5/0.3/legacy|sito/false/Mononobe–Okabe///Da scegliere/Calcolato//Calcolato//Pianeggiante///"
-~ risultato: 59E0D3A8A4FC9B6D
+~ risultato: 652F62D10D79B31B
 ~ stato: "Calcolo aggiornato · 15 combinazioni · 0 controlli non soddisfatti · 0 non disponibili"
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b" · scelta "SLE 1"
 ~ vista: "Geometria e carichi" · elemento "Fusto" nascosto · filtro "Riepilogo completo"
@@ -326,7 +326,7 @@ parametri: -
 + spinte.5: testo "Integrale netto delle pressioni (monte + azioni laterali − passiva): P=47,21 kN/m; momento al piano di posa=60,90 kNm/m; quota risultante=1,29 m."
 ~ verifiche: 3 blocchi
 + verifiche.0: testo "SLE 1 · SLE · γMφ=1; γR scorr./ribalt./port.=1/1/1; γR,e passiva=1\nScorrimento Ed/Rd=47,21/84,54 kN/m · ribaltamento Ed/MRd=60,90/317,76 kNm/m · Rd port.=1233,53 kN/m · U=0,00 kN/m"
-+ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 25 19C812975CCDEDD7
++ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 25 87A76B6925B25D95
 + verifiche.1.0: "Scorrimento" | "SLU 10b" | "63,67" | "81,80" | "kN/m" | "0,778" | "Soddisfatta"
 + verifiche.1.1: "Ribaltamento" | "SLU 8b" | "70,82" | "243,45" | "kNm/m" | "0,291" | "Soddisfatta"
 + verifiche.1.2: "Capacità portante" | "SLU 10b" | "184,49" | "572,27" | "kN/m" | "0,322" | "Soddisfatta"
@@ -407,7 +407,7 @@ parametri: -
 ~ testo.ricerca: "Ricerca da 0,1 a 6,9 m sotto la fondazione · 60 conci. Limiti visibili nel disegno."
 == attendi
 ~ dati.global_stability: {"enabled":true,"condition":"Drenata","water_enabled":false,"seismic":false,"seismic_source":"Da sito · βs=0,38","kh":"","kv":"","profile_confirmed":false,"valley":[{"x":-13.8,"y":0},{"x":0,"y":0}],"uphill":[{"x":1.2000000000000002,"y":3.45},{"x":16.8,"y":3.45}],"layers":[{"name":"Terreno granulare","bottom":-21.55,"gamma":18,"gamma_sat":20,"phi":30,"c":0,"cu":""}],"water":[{"x":-13.8,"y":0},{"x":0,"y":0},{"x":1.2000000000000002,"y":1.4500000000000002},{"x":16.8,"y":1.4500000000000002}],"exit_min":-13.8,"exit_max":-0.1,"entry_min":3.1,"entry_max":16.8,"depth_min":0.1,"depth_max":6.9,"grid":9,"slices":60,"refinements":4,"search_mode":"Automatica","combination_mode":"Automatiche","combinations":[{"enabled":true,"name":"Globale A2–M2–R2 1","state":"SLU","soil":1,"wall":1,"mphi":1.25,"mc":1.25,"mcu":1.4,"r":1.1,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"Globale A2–M2–R2 2","state":"SLU","soil":1,"wall":1,"mphi":1.25,"mc":1.25,"mcu":1.4,"r":1.1,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.3}}],"valley_layers":[{"name":"Terreno granulare","bottom":-10,"gamma":18,"gamma_sat":20,"phi":30,"c":0,"cu":""}],"soil_mode":"Due colonne","soil_split_x":1.2000000000000002}
-~ risultato: EFA3C1DFFF3CAF5A
+~ risultato: 760FFFD0B554A739
 ~ stato: "Calcolo aggiornato · 15 combinazioni · 0 controlli non soddisfatti · 1 non disponibili"
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b" · scelta "SLE 1"
 ~ riepilogo: "B 3,00 m · cls 2,33 m³/m · acciaio stimato 113,64 kg/m\nH 47,21 kN/m · V′ 173,33 kN/m · e 0,02 m"
@@ -430,7 +430,7 @@ parametri: -
 + spinte.5: testo "Integrale netto delle pressioni (monte + azioni laterali − passiva): P=47,21 kN/m; momento al piano di posa=60,90 kNm/m; quota risultante=1,29 m."
 ~ verifiche: 3 blocchi
 + verifiche.0: testo "SLE 1 · SLE · γMφ=1; γR scorr./ribalt./port.=1/1/1; γR,e passiva=1\nScorrimento Ed/Rd=47,21/84,54 kN/m · ribaltamento Ed/MRd=60,90/317,76 kNm/m · Rd port.=1233,53 kN/m · U=0,00 kN/m"
-+ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 26 6406EFD16CBF280D
++ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 26 4D5F9DE26C093E89
 + verifiche.1.0: "Scorrimento" | "SLU 10b" | "63,67" | "81,80" | "kN/m" | "0,778" | "Soddisfatta"
 + verifiche.1.1: "Ribaltamento" | "SLU 8b" | "70,82" | "243,45" | "kNm/m" | "0,291" | "Soddisfatta"
 + verifiche.1.2: "Capacità portante" | "SLU 10b" | "184,49" | "572,27" | "kN/m" | "0,322" | "Soddisfatta"
@@ -484,7 +484,7 @@ parametri: -
 ~ campo.global_search.depth_min: campo "Profondità minima sotto la fondazione" [m] = "0,15"
 ~ testo.ricerca: "Ricerca da 0,15 a 6,9 m sotto la fondazione · 60 conci. Limiti visibili nel disegno."
 == attendi
-~ risultato: E515B3BAF45172F6
+~ risultato: F7A327029D377A26
 ~ globale: dal calcolo · casi 2
 ~ stato: "Calcolo aggiornato · 15 combinazioni · 0 controlli non soddisfatti · 0 non disponibili"
 ~ pulsante.globale: "Stabilità globale: calcolata · imposta" · "Apri il percorso guidato: profilo del terreno, strati profondi, falda, ricerca e verifica."
@@ -506,7 +506,7 @@ parametri: -
 + spinte.5: testo "Integrale netto delle pressioni (monte + azioni laterali − passiva): P=47,21 kN/m; momento al piano di posa=60,90 kNm/m; quota risultante=1,29 m."
 ~ verifiche: 3 blocchi
 + verifiche.0: testo "SLE 1 · SLE · γMφ=1; γR scorr./ribalt./port.=1/1/1; γR,e passiva=1\nScorrimento Ed/Rd=47,21/84,54 kN/m · ribaltamento Ed/MRd=60,90/317,76 kNm/m · Rd port.=1233,53 kN/m · U=0,00 kN/m"
-+ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 26 FB13613C1BEFD6F8
++ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 26 2F3069E4CA10B85B
 + verifiche.1.0: "Scorrimento" | "SLU 10b" | "63,67" | "81,80" | "kN/m" | "0,778" | "Soddisfatta"
 + verifiche.1.1: "Ribaltamento" | "SLU 8b" | "70,82" | "243,45" | "kNm/m" | "0,291" | "Soddisfatta"
 + verifiche.1.2: "Capacità portante" | "SLU 10b" | "184,49" | "572,27" | "kN/m" | "0,322" | "Soddisfatta"
@@ -609,7 +609,7 @@ parametri: -
 ~ foglio: modificato 8 · sola lettura no · occupato no · report 0 · terreno 0
 ~ tabella.globale-monte.0: {"name":"Terreno granulare","bottom":-16.55,"gamma":18,"gamma_sat":20,"phi":30,"c":0,"cu":"","__thickness":"20"}
 == attendi
-~ risultato: 87574D315E944579
+~ risultato: 68167A50A7A85A0B
 ~ stato: "Calcolo aggiornato · 15 combinazioni · 0 controlli non soddisfatti · 1 non disponibili"
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b" · scelta "SLE 1"
 ~ riepilogo: "B 3,00 m · cls 2,33 m³/m · acciaio stimato 113,64 kg/m\nH 47,21 kN/m · V′ 173,33 kN/m · e 0,02 m"
@@ -669,7 +669,7 @@ parametri: -
 ~ campo.global_soil_rear.cu: campo "Resistenza non drenata caratteristica" cu,k [kPa] = "80"
 ~ testo.globale: "Da completare · valle: inserisci cu,k > 0 per tutti gli strati non drenati.\nAltri 1 controlli da completare: vedi il suggerimento su questo messaggio." · "1. valle: inserisci cu,k > 0 per tutti gli strati non drenati.\n2. Controlla rilievo, terreni e falda, poi spunta «Ho controllato profilo, strati e falda del sito»."
 == attendi
-~ risultato: D2C9A6DB8230EFEE
+~ risultato: 639B970D19C82911
 ~ stato: "Calcolo aggiornato · 15 combinazioni · 0 controlli non soddisfatti · 1 non disponibili"
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b" · scelta "SLE 1"
 ~ riepilogo: "B 3,00 m · cls 2,33 m³/m · acciaio stimato 113,64 kg/m\nH 47,21 kN/m · V′ 173,33 kN/m · e 0,02 m"
@@ -760,7 +760,7 @@ parametri: -
 ~ anteprima-globale: caso "" · risultato no · strato 0 valle
 - tabella.globale-valle.1
 == attendi
-~ risultato: 2B87F3A4069C5C45
+~ risultato: 5915E6B1B2A2FD37
 ~ stato: "Calcolo aggiornato · 15 combinazioni · 0 controlli non soddisfatti · 1 non disponibili"
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b" · scelta "SLE 1"
 ~ riepilogo: "B 3,00 m · cls 2,33 m³/m · acciaio stimato 113,64 kg/m\nH 47,21 kN/m · V′ 173,33 kN/m · e 0,02 m"
@@ -835,7 +835,7 @@ parametri: -
 ~ campo.global.seismic: opzione "Includi il sisma SLV" = "sì"
 ~ campo.global.seismic_source: scelta "Coefficienti sismici" = "Da sito · βs=0,38" voci "Da sito · βs=0,38|kh e kv assegnati"
 == attendi
-~ risultato: BF060D9F1BD70AC2
+~ risultato: 1692C0F505C81C5F
 ~ stato: "Calcolo aggiornato · 15 combinazioni · 0 controlli non soddisfatti · 1 non disponibili"
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b" · scelta "SLE 1"
 ~ riepilogo: "B 3,00 m · cls 2,33 m³/m · acciaio stimato 113,64 kg/m\nH 47,21 kN/m · V′ 173,33 kN/m · e 0,02 m"
@@ -916,7 +916,7 @@ parametri: -
 == pulsante «Conferma matrice globale»
 ~ foglio: modificato 29 · sola lettura no · occupato no · report 0 · terreno 0
 == attendi
-~ risultato: B17F41947B921EAC
+~ risultato: FF8679CAFBDC032F
 ~ globale: dal calcolo · casi 2
 ~ stato: "Calcolo aggiornato · 15 combinazioni · 0 controlli non soddisfatti · 1 non disponibili"
 ~ pulsante.globale: "Stabilità globale: calcolata · imposta" · "Apri il percorso guidato: profilo del terreno, strati profondi, falda, ricerca e verifica."
