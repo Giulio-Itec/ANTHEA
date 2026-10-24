@@ -346,8 +346,9 @@ internal static class HorizontalPileSheetChecks
 
     /// <summary>
     /// The capture of the ViewModel against the F3 reference of the historic view: every file byte for byte (after the line endings) for the
-    /// fixtures on the tab of the capacity; for those on the tab of the elastic response (F5.8) every file as ui/f3-equivalence compares it,
-    /// with the tolerances (the measured times tempi_ms are volatile) and exactly the F4 transitions of the two modules admitted.
+    /// fixtures on the tab of the capacity, except the four with the transitions of AG-PO-01; for those on the tab of the elastic response (F5.8),
+    /// and for those four, every file as ui/f3-equivalence compares it, with the tolerances (the measured times tempi_ms are volatile) and exactly
+    /// the F4 transitions of the two modules admitted.
     /// </summary>
     private static void CompareF3(string root, string capture, IReadOnlyList<(string Module, string Id)> fixtures, Expect expect)
     {
@@ -356,7 +357,7 @@ internal static class HorizontalPileSheetChecks
             .Where(t => fixtures.Any(f => t.File.StartsWith("sheets/" + f.Module + "/", StringComparison.Ordinal))).ToList();
         string reference = Path.Combine(capture, "..", "palo-orizzontale-f3-elastico-riferimento");
         string candidate = Path.Combine(capture, "..", "palo-orizzontale-f3-elastico-cattura");
-        int elastic = 0, compared = 0;
+        int elastic = 0, compared = 0, capacity = 0;
         foreach (var (module, id) in fixtures)
         {
             string relative = "sheets/" + module + "/" + id;
@@ -371,11 +372,18 @@ internal static class HorizontalPileSheetChecks
                 string a = File.ReadAllText(Path.Combine(expected, file), Encoding.UTF8).Replace("\r\n", "\n");
                 string b = File.ReadAllText(Path.Combine(capture, file), Encoding.UTF8).Replace("\r\n", "\n");
                 compared++;
-                if (!opensElastic)
+                // AG-PO-01 (24/10/2026): a file of the capacity with F4 transitions (only those of AG-PO-01, the analytic parabola of the
+                // concrete) is compared with the elastic ones, as ui/f3-equivalence compares it; the others byte for byte.
+                var listed = transitions.Where(t => t.File == file).ToList();
+                if (!opensElastic && listed.Count == 0)
                 {
-                    expect.That(transitions.All(t => t.File != file), file + ": transizione F4 su un file della capacità");
                     expect.That(a == b, file + " diverso dal riferimento F3 della vista storica");
                     continue;
+                }
+                if (!opensElastic)
+                {
+                    expect.That(listed.All(t => t.Entry == "AG-PO-01"), file + ": transizione F4 su un file della capacità diversa da AG-PO-01");
+                    capacity++;
                 }
                 foreach (var (folder, text) in new[] { (reference, a), (candidate, b) })
                 {
@@ -391,10 +399,19 @@ internal static class HorizontalPileSheetChecks
         expect.That(comparer.NotAdmitted == 0, "Fixture F3 della risposta elastica: " + comparer.NotAdmitted + " differenze non ammesse o transizioni F4 assenti");
         // PARATIE-19 (22/10/2026): the shear depth of the circular piles with a continuous ring (S2 of the paratie review) changes VRd and
         // what depends on it in three elastic fixtures; the other transitions stay those of the elastic response of single-soil-elastic.
-        var shear = transitions.Where(t => t.Entry == "PARATIE-19").ToList();
-        expect.That(elastic == 11 && shear.Count == 3941 && transitions.Count - shear.Count == 1117
-            && transitions.Except(shear).All(t => t.File.Contains("/single-soil-elastic/", StringComparison.Ordinal)),
-            "Transizioni F4 dei pali orizzontali: " + transitions.Count + " (attese le 1117 della risposta elastica di single-soil-elastic e le 3941 di PARATIE-19)");
+        // AG-PO-01 and AG-PO-02 (24/10/2026): the analytic parabola of the concrete (Model 5.21.0.0, Concrete 0.20.0.0) changes My and Hu of
+        // the two fixtures of the capacity with an RC section (report.txt and result.json of broms-coesivo-impedita and single-soil-layer) and
+        // MRd and ratios of the reinforcement checks of the elastic fixtures; 17 earlier transitions keep their value before, with the new
+        // value after and the entry extended with « / AG-PO-02».
+        var shear = transitions.Where(t => t.Entry.StartsWith("PARATIE-19", StringComparison.Ordinal)).ToList();
+        var parabola = transitions.Where(t => t.Entry is "AG-PO-01" or "AG-PO-02").ToList();
+        var others = transitions.Except(shear).Except(parabola).ToList();
+        expect.That(elastic == 11 && capacity == 4 && shear.Count == 3941 && others.Count == 1117
+            && others.All(t => t.File.Contains("/single-soil-elastic/", StringComparison.Ordinal))
+            && parabola.Count(t => t.Entry == "AG-PO-01") == 480 && parabola.Count(t => t.Entry == "AG-PO-02") == 7110
+            && transitions.Count(t => t.Entry.EndsWith(" / AG-PO-02", StringComparison.Ordinal)) == 17,
+            "Transizioni F4 dei pali orizzontali: " + transitions.Count + " (attese le 1117 della risposta elastica di single-soil-elastic, le 3941 di PARATIE-19, "
+            + "le 480 di AG-PO-01 su 4 file della capacità e le 7110 di AG-PO-02; 17 voci estese con AG-PO-02)");
         expect.That(compared > 0, "Nessun file F3 confrontato");
     }
 

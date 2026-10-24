@@ -91,3 +91,11 @@ fa nulla. Il calcolo passa da `HeldModuleService`, che può trattenere il motore
   Cambiano l'impronta del risultato, lo stato («4 non disponibili» → «2 non disponibili»), la combinazione globale scelta
   (A2–M2–R2 2 → SLV kv− 3) e l'impronta della tabella delle verifiche; numero di righe invariato. Le altre 23 tracce non
   cambiano.
+- 24/10/2026, voce AG-MUR-01 (librerie del 24/10: Model 2d59bbc6, GPCModel 5.21.0.0; Checker f6d87d28, GPCChecker.Concrete
+  0.20.0.0; parabola del calcestruzzo analitica come legge predefinita), con la decisione dell'utente del 24/10 («registra e
+  aggiorna»). La vista storica è archiviata e non si ricattura: ricattura parziale dal ViewModel. Nelle 17 tracce che cambiano
+  sono sostituite solo le 130 righe cambiate, con il valore del ViewModel (`Presentation.Tests`, corsa
+  `20261024-133916-ag-po-raccolta2`): impronta del risultato (69) e impronta delle tabelle «Verifica|Combinazione|Ed|Rd|…» delle
+  verifiche e della proposta delle armature (61), con lo stesso numero di righe. Tolti numeri e impronte ogni riga è uguale a
+  quella storica. Le resistenze N–M GPC cambiano fra −0,022 % e +0,224 %, i rapporti fra −0,223 % e +0,022 %; nessun esito
+  cambia. Le altre 7 tracce non cambiano. `vista-storica.json` non è stato toccato: va controllato con lo stadio `ui`.

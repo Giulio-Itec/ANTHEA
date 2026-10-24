@@ -9942,6 +9942,204 @@
       "opzioni": [{"id": "presa", "descrizione": "nessun pulsante, la guida rimanda all'articolo della Wiki"}, {"id": "alternativa", "descrizione": "un pulsante o una voce di aiuto nella barra dei progetti della shell che apre l'articolo"}],
       "revisione_f5_15": "G11 (f5-15 §15.3)",
       "voci_collegate": []
+    },
+    {
+      "id": "AG-PO-01",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC del 24/10 (ramo refactoring/ag-po da dd9f8c6a)",
+      "titolo": "Palo orizzontale, capacità: My e Hu con la parabola del calcestruzzo analitica",
+      "famiglia": "pali orizzontali/capacità/sezione c.a.",
+      "modulo": "geo_palo_orizzontale (F5.7)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Model 2d59bbc6 (GPCModel 5.21.0.0) e Checker f6d87d28 (GPCChecker.Concrete 0.20.0.0) usano come legge predefinita la parabola-rettangolo analitica, con l'integrazione esatta della sezione (Checker/docs/analytic-parabola-20261023/default-analitico-20261024.txt del set 20261024-ag). Il momento di plasticizzazione My della sezione c.a. del palo orizzontale (MRd di GPCChecker.Concrete) cambia di poco, e con lui Hu, Rk, Rd, i diagrammi alla capacità ultima e il residuo N dell'equilibrio della sezione (da 0,21-0,47 kN a meno di 0,02 kN). Il micropalo (CHS di acciaio) non cambia. Nessun esito della verifica, meccanismo, sondaggio governante, dato, Modified, campo, stato, stratigrafia o sezione disegnata cambia.",
+      "codice": [
+        "lib/Checker/GPCChecker.Concrete.dll",
+        "lib/Checker/GPCModel.dll",
+        "tests/fixtures/f5-palo-orizzontale/storica",
+        "tests/fixtures/f5-palo-orizzontale/diagrammi",
+        "tests/fixtures/f3/transitions-f4.json",
+        "tests/ANTHEA.Presentation.Tests/HorizontalPileSheetChecks.cs (CompareF3)"
+      ],
+      "segno": "Leggermente a sfavore di sicurezza dove My cresce (al più +0,026 %, Hu +0,018 %), a favore dove cala (My −0,006 %, Hu −0,004 %). Molto sotto il 2-3 % indicato dall'utente.",
+      "effetto_quantificato": "F3, valori esatti: broms-coesivo-impedita My 1353,081 → 1353,432 kNm (+0,026 %), Hu 682,565 → 682,686 kN (+0,018 %), capacità media 600,482 → 600,543 kN (+0,010 %); single-soil-layer My 1088,112 → 1088,048 kNm (−0,006 %), Hu 599,798 → 599,774 kN (−0,004 %), Rd 271,402 → 271,391 kN (−0,004 %), F concentrata di Broms 1199,596 → 1199,549 kN. Tracce, valori mostrati (arrotondati): My da −0,009 % a +0,022 % (1088,1 → 1088,0; 1353,1 → 1353,4 kNm), Hu da −0,014 % a +0,015 %, Rk da −0,023 % a +0,012 %, Rd ±0,016 %, |M|max come My, valori delle tabelle di «Diagrammi e dettagli» entro ±0,031 % (|v| ≥ 1). Spostamenti: la capacità non ne calcola; la risposta elastica è identica (AG-PO-02).",
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
+        "esito": "registrata e aggiornata: 667 righe in 13 tracce storiche sostituite con il valore del ViewModel (la vista storica è archiviata dal 23/10), 2 file di diagrammi riscritti nei soli valori, 480 transizioni F4 nuove su report.txt e result.json di broms-coesivo-impedita e single-soil-layer; nessun atteso F3 sostituito. Effetti a sfavore elencati nel resoconto finale."
+      },
+      "test": [
+        "ANTHEA.Presentation.Tests: HorizontalPileSheetChecks (tracce; CompareF3 con le transizioni AG-PO-01 sui file della capacità; diagrammi)",
+        "verifiche/horizontal, verifiche/micropalo, HorizontalPileGroup.Checks"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261024-133210-ag-po-raccolta/Presentation.Tests del worktree aw-ag-po (tracce, confronti F3 e diagrammi del ViewModel, con una modifica temporanea non committata che raccoglie tutti i confronti)",
+        "tests/fixtures/f5-palo-orizzontale/README.md (nota della ricattura parziale)",
+        "tests/fixtures/f3/transitions-f4.json, chiave aggiornamento_ag_po"
+      ],
+      "voci_collegate": [
+        "AG-PO-02"
+      ]
+    },
+    {
+      "id": "AG-PO-02",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC del 24/10 (ramo refactoring/ag-po da dd9f8c6a)",
+      "titolo": "Palo orizzontale, risposta elastica: MRd e rapporti delle verifiche delle armature con la parabola analitica",
+      "famiglia": "pali orizzontali/risposta elastica/armature",
+      "modulo": "geo_palo_orizzontale (F5.8)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Stesse librerie di AG-PO-01. Le verifiche N–M dei tratti di armatura della risposta elastica usano MRd di GPCChecker.Concrete, che cambia di poco; cambiano i rapporti e i testi delle verifiche. In single-soil-elastic e in elastico-tratti-anello-spirale la sezione critica (rapporto massimo lungo il palo) passa al punto di calcolo adiacente (x = 4 → 3,96875 m; x = 6,390625 → 6,40625 m), perché i rapporti dei due punti erano quasi uguali: cambiano quindi le azioni N, V, M e il lato riportati per la sezione critica (single-soil-elastic: «Below» → «Interior»). La risposta elastica (spostamenti e sollecitazioni) è identica: impronta uguale in tutti i 117 passi delle tracce in cui compare. Nessun esito cambia.",
+      "codice": [
+        "lib/Checker/GPCChecker.Concrete.dll",
+        "lib/Checker/GPCModel.dll",
+        "tests/fixtures/f5-elastico/storica",
+        "tests/fixtures/f3/transitions-f4.json",
+        "tests/ANTHEA.Presentation.Tests/HorizontalPileSheetChecks.cs (CompareF3)"
+      ],
+      "segno": "|MRd| delle verifiche da −0,007 % a +0,012 % e della sezione critica da −0,020 % a +0,016 % (a sfavore dove cresce, entro il 3 %); rapporti da −0,012 % a +0,007 %; nessun rapporto attraversa 1.",
+      "effetto_quantificato": "F3 (elastico-sisma-testa-impedita, elastico-tratti-anello-spirale, single-soil-elastic): MRd+ da −0,007 % a +0,012 % (1569,055 → 1569,236 kNm), MRd− in modulo da −0,007 % a +0,011 %, MRd utilizzabile ±0,006 %; BendingRatio da −0,012 % a +0,007 %; GoverningRatio da −0,011 % a −0,005 % rispetto al valore dopo precedente; limite della verifica sismica in testa +0,007/+0,011 % (1018,193 → 1018,305 kNm). Sezione critica: elastico-sisma-testa-impedita MRd 678,796 → 678,870 kNm (+0,011 %), rapporto 0,71109 → 0,71101; elastico-tratti-anello-spirale rapporto 0,60698 → 0,60692 (x = 6,40625 m, V 6,53 → 5,18 kN, M 1059,00 → 1059,09 kNm); single-soil-elastic rapporto 0,217404 → 0,217410 (x = 3,96875 m, N 78,54 → 77,93 kN, V 0,53 → 1,53 kN, MRd 1114,06 → 1113,88 kNm). Spostamenti e sollecitazioni della risposta elastica invariati.",
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
+        "esito": "registrata e aggiornata: 236 righe in 9 tracce storiche della risposta elastica sostituite con il valore del ViewModel (impronta del risultato, testi delle verifiche, due testi della tavola delle armature); 7110 transizioni F4 nuove e 17 transizioni elencate con il valore dopo nuovo (7 PARATIE-19, 7 BUG-PO-4, 3 BUG-PO-4 + BUG-PO-5, voce estesa con « / AG-PO-02»); nessun atteso F3 sostituito."
+      },
+      "test": [
+        "ANTHEA.Presentation.Tests: ElasticPileSheetChecks (tracce) e HorizontalPileSheetChecks (CompareF3 delle fixture elastiche)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261024-133210-ag-po-raccolta/Presentation.Tests/palo-orizzontale-f3-elastico-confronto.json del worktree aw-ag-po",
+        "supporto/artefatti/ci/20261024-133916-ag-po-raccolta2/Presentation.Tests/palo-elastico del worktree aw-ag-po (tracce del ViewModel)",
+        "tests/fixtures/f5-elastico/README.md (nota della ricattura parziale)"
+      ],
+      "voci_collegate": [
+        "AG-PO-01",
+        "PARATIE-19",
+        "BUG-PO-4",
+        "BUG-PO-5"
+      ]
+    },
+    {
+      "id": "AG-MUR-01",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC del 24/10 (ramo refactoring/ag-po da dd9f8c6a)",
+      "titolo": "Muri di sostegno: resistenze N–M GPC delle verifiche strutturali con la parabola del calcestruzzo analitica",
+      "famiglia": "muri di sostegno/verifiche strutturali/sezione c.a.",
+      "modulo": "geo_muri_sostegno (F5.9)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Model 2d59bbc6 (GPCModel 5.21.0.0) e Checker f6d87d28 (GPCChecker.Concrete 0.20.0.0) usano come legge predefinita la parabola-rettangolo analitica, con l'integrazione esatta della sezione. Le resistenze N–M GPC delle verifiche strutturali di fusto e fondazione (Resistance e Ratio di verifiche_strutturali, Ed / Rd nelle tabelle T15 e T16 del report) cambiano di poco in dieci fixture su sedici; tre lunghezze delle barre (mensola-avvisi, mensola-sisma-sito-pendio) cambiano di un'unità sull'ultima cifra. Geotecnica, stabilità globale, azioni, dati, campi e stati della scheda non cambiano; nessun esito cambia.",
+      "codice": [
+        "lib/Checker/GPCChecker.Concrete.dll",
+        "lib/Checker/GPCModel.dll",
+        "tests/fixtures/f5-muri/storica",
+        "tests/fixtures/f3/transitions-f4.json",
+        "tests/ANTHEA.Presentation.Tests/RetainingWallSheetChecks.cs (CompareTransitions)"
+      ],
+      "segno": "Resistenze al più +0,224 % (a sfavore, entro il 3 %), al meno −0,022 %; rapporti fra −0,223 % e +0,022 %; nessun rapporto attraversa 1.",
+      "effetto_quantificato": "F3 (8814 resistenze e rapporti, confrontati con il valore dopo precedente dove c'era una transizione): Resistance da −0,022 % (mensola-avvisi 158,352 → 158,317) a +0,224 % (mensola-sisma-sito-pendio 65,236 → 65,382); caso tipico default, fusto N–M GPC 93,894 → 94,036 (+0,15 %); Ratio da −0,223 % (0,16654 → 0,16617) a +0,022 %. Report: Rd delle tabelle T15 e T16 da −0,008 % a +0,110 % (164,862 → 165,043; 184,676 → 184,82). Lunghezze delle barre: 3,715712681022816 → 3,7157126810228163 (rumore sull'ultima cifra). Spostamenti e azioni invariati.",
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
+        "esito": "registrata e aggiornata: 130 righe in 17 tracce storiche sostituite con il valore del ViewModel (impronte del risultato e delle tabelle delle verifiche, stesso numero di righe); 15271 transizioni F4 nuove, 1668 transizioni elencate con il valore dopo nuovo (1299 BUG-MUR-1, 288 F4-13, 81 F4-13 / BUG-MUR-1; voce estesa con « / AG-MUR-01»), 3 transizioni BUG-MUR-1 tolte perché il rapporto nuovo si stampa 0,24, arrotondamento ammesso di 0,236; nessun atteso F3 sostituito."
+      },
+      "test": [
+        "ANTHEA.Presentation.Tests: RetainingWallSheetChecks (tracce; CompareTransitions con le voci contate per AG-MUR-01)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261024-133916-ag-po-raccolta2/Presentation.Tests/muri del worktree aw-ag-po (tracce e catture F3 del ViewModel, con una modifica temporanea non committata che mette a confronto tutti i file)",
+        "tests/fixtures/f5-muri/README.md (nota della ricattura parziale)",
+        "tests/fixtures/f3/transitions-f4.json, chiave aggiornamento_ag_mur"
+      ],
+      "voci_collegate": [
+        "AG-PO-01",
+        "BUG-MUR-1",
+        "PARATIE-20"
+      ]
+    },
+    {
+      "id": "AG-SM-01",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC del 24/10 (ramo refactoring/ag-po da dd9f8c6a)",
+      "titolo": "Sezione mista, storico non lineare: tensioni e deformazioni con la parabola del calcestruzzo analitica (accettata dall'utente, oltre il 3 % su grandezze piccole)",
+      "famiglia": "ponti/sezione mista/storico non lineare",
+      "modulo": "str_mista_ponte (F5.11)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "GPCChecker.CompositeBridge 1.13.0.1 acquisisce da Model 5.21.0.0 la legge analitica del calcestruzzo (HistoryModelEnvelopeLaw, nota default-analitico-20261024.txt). Nello storico non lineare a fibre della fixture storico-non-lineare-curve cambiano tensioni e deformazioni delle fibre, curve, equilibrio (Newton 6 → 9 iterazioni, residui più piccoli) e la tabella delle verifiche. Le grandezze che governano cambiano poco (|σa|max −0,10 %, acciaio dell'ala superiore −1,04 %), ma alcune tensioni e deformazioni dell'armatura della soletta e alcuni incrementi di fase calano in modulo oltre il 3 %: per la regola del 3 % la voce era rimasta da decidere, poi l'utente l'ha accettata (decisione «4B») con la segnalazione nelle note di rilascio. Nessun esito cambia; dati, campi e stati identici.",
+      "codice": [
+        "lib/Checker/GPCChecker.CompositeBridge.dll",
+        "lib/Checker/GPCModel.dll",
+        "tests/fixtures/f5-sezione-mista/storica",
+        "tests/fixtures/f3/transitions-f4.json",
+        "tests/ANTHEA.Presentation.Tests/CompositeSectionSheetChecks.cs (CompareTransitions)"
+      ],
+      "segno": "A sfavore oltre il 3 %, accettato dall'utente e da segnalare nelle note di rilascio: tensioni dell'armatura della soletta fino a −5,4 %, incrementi di fase fino a −6,8 %, deformazioni fino a −6,0 %. Le grandezze che governano cambiano poco: |σa|max −0,10 %, ala superiore −1,04 %. Dettaglio. A favore: σc,min −4,387 → −4,411 MPa (+0,55 % in modulo). A sfavore entro il 3 %: |σa|max 124,143 → 124,014 MPa (−0,10 %), ala superiore σmin −61,04 → −60,42 MPa (−1,02 %) e σmax −58,894 → −58,283 MPa (−1,04 %), armatura della soletta in fase Q −24,36 → −23,69 MPa (−2,75 %). A sfavore oltre il 3 %: tensioni dell'armatura della soletta in fase G2 −9,74 → −9,37 MPa (−3,8 %), −6,36 → −6,02 (−5,3 %), −6,28 → −5,94 (−5,4 %); ultimo Δσ di fase delle fibre dell'ala superiore −5,68 → −5,33 (−6,2 %), −5,17 → −4,82 (−6,8 %), −4,84 → −4,51 MPa (−6,8 %); deformazioni meccaniche −27,52 → −25,86 µε (−6,0 %), −31,39 → −29,69 (−5,4 %), −68,79 → −65,83 (−4,3 %), −78,46 → −75,43 µε (−3,9 %); incremento di fase della deformazione assiale ε₀ −27,05 → −25,40 µε (−6,1 %).",
+      "effetto_quantificato": "F3 di storico-non-lineare-curve: 2680 differenze numeriche (2583 in result.json: tensioni e deformazioni delle 352 fibre, punti, contributi, equilibrio; 97 in report.txt, tabelle T10-T16). Tracce: 143 righe in 3 scenari (curve-sezione 80, percorso-storico-non-lineare-curve 43, fasi-schede 20), solo pannelli dei risultati (panoramica, convergenza, tensioni, verifiche, omogeneizzazione, equilibrio, curve) e impronta del risultato; tolti numeri e impronte ogni riga è uguale. Le variazioni oltre il 3 % sono su grandezze piccole in assoluto (|σ| ≤ 10 MPa, Δ ≤ 0,37 MPa; deformazioni ≤ 80 µε, Δ ≤ 3,1 µε), non sulle grandezze che governano le verifiche.",
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«4B», alla domanda «AG-SM-01: A) prima una verifica indipendente, B) accettare e aggiornare subito, segnalandola nelle note»: accettare e aggiornare subito, con la segnalazione nelle note di rilascio.",
+        "opzione": "aggiorna",
+        "precedente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»; per la regola data con il compito (oltre il 3 % a sfavore non si aggiorna, si documenta) la voce era rimasta da decidere (commit 86e6d11a).",
+        "esito": "accettata e aggiornata: 143 righe in 3 tracce storiche sostituite con il valore del ViewModel (curve-sezione 80, percorso-storico-non-lineare-curve 43, fasi-schede 20: pannelli dei risultati e impronta del risultato, stesso numero di righe; dati, campi e stati identici); 2680 transizioni F4 nuove con la voce AG-SM-01 (2583 in result.json, 97 in report.txt di storico-non-lineare-curve), nessuna transizione esistente cambiata, nessun atteso F3 sostituito. Da segnalare nelle note di rilascio della 1.14.0."
+      },
+      "opzioni": [
+        {
+          "id": "aggiorna",
+          "descrizione": "accettare le differenze: 2680 transizioni F4 (voce AG-SM-01) e ricattura parziale dal ViewModel di 143 righe in 3 tracce, come AG-MUR-01"
+        },
+        {
+          "id": "approfondisci",
+          "descrizione": "far verificare in CompositeBridge il comportamento della legge analitica nello storico a fibre prima di accettare"
+        }
+      ],
+      "test": [
+        "ANTHEA.Presentation.Tests: CompositeSectionSheetChecks (tracce; CompareTransitions con le voci contate per AG-SM-01)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261024-133916-ag-po-raccolta2/Presentation.Tests/sezione-mista del worktree aw-ag-po (tracce del ViewModel e f3-confronto.json con 2680 differenze, con una modifica temporanea non committata che mette a confronto tutti i file)",
+        "tests/fixtures/f5-sezione-mista/README.md (nota della ricattura parziale)",
+        "tests/fixtures/f3/transitions-f4.json, chiave aggiornamento_ag_sm"
+      ],
+      "voci_collegate": [
+        "AG-PO-01",
+        "AG-MUR-01"
+      ]
+    },
+    {
+      "id": "AG-SHELL-01",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC del 24/10 (ramo refactoring/ag-po da dd9f8c6a)",
+      "titolo": "Archivio GPC della sezione nei documenti: versione del materiale calcestruzzo 4 invece di 3",
+      "famiglia": "persistenza/archivio GPC della sezione c.a.",
+      "modulo": "shell (F5.13), documento di lavoro dei progetti",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "GPCModel 5.21.0.0 (Model 2d59bbc6) scrive ConcreteMaterialEuropeanCommonVersion = 4 nell'archivio XML della sezione GPC (input.sezione_gpc.archivio), al posto di 3: la versione 4 porta la scelta della legge del calcestruzzo, analitica di default e quindi omessa. Un archivio di versione 3 si legge e si riscrive in versione 4. Nelle 13 catture del progetto registrate dalla finestra storica (tests/fixtures/f5-shell/cattura-mainwindow) è l'unica differenza: dopo aver portato 3 a 4 dentro l'archivio, i file sono identici byte per byte a quelli della shell nuova nella stessa corsa. Conseguenza per chi usa ANTHEA: GPCModel 5.20 (ANTHEA 1.13.0 e precedenti) rifiuta le versioni più nuove dei propri oggetti (ForwardCompatibilityTest di Model), quindi un documento con una sezione c.a. salvato con la 1.14.0 non si apre con la 1.13.0.",
+      "codice": [
+        "lib/Checker/GPCModel.dll (Model/Materials/Concrete/ConcreteMaterialEuropeanCommon.cs, versione 4)",
+        "tests/fixtures/f5-shell/cattura-mainwindow (13 file JSON)"
+      ],
+      "segno": "Nessun effetto sui numeri; solo il numero di versione dell'oggetto nell'archivio.",
+      "effetto_quantificato": "23 sostituzioni 3 → 4 in 13 file (una per archivio: documento di lavoro, archivio delle revisioni e documento mostrato); nessun'altra differenza nei 13 file.",
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
+        "esito": "registrata e aggiornata: nei 13 file di cattura-mainwindow il solo valore della versione del materiale passa da 3 a 4, controllando l'uguaglianza byte per byte con la cattura della shell della corsa 20261024-132441-ag-upstream-ui; il limite di compatibilità con la 1.13.0 va nei limiti noti della 1.14.0."
+      },
+      "test": [
+        "ui/shell-capture (byte per byte)",
+        "ui/shell-capture-confronto"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261024-132441-ag-upstream-ui/ui_shell-capture del checkout principale (mainwindow/ contro shell/)",
+        "tests/fixtures/f5-shell/README.md (nota del 24/10)"
+      ],
+      "voci_collegate": [
+        "AG-PO-01",
+        "AG-MUR-01"
+      ]
     }
   ]
 }

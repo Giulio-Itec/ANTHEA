@@ -272,7 +272,7 @@ modificato 1 · modificabile sì · esportabile no · dettagli no · scheda 0
 risultato -
 stato "Correggere i dati indicati"
 sintesi "Calcolo non disponibile: Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite."
-momento "MRd = 1.560,8 kNm · N = 1.200,0 kN\nChecker · 32 lati · residuo N = 0,382 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+momento "MRd = 1.561,0 kNm · N = 1.200,0 kN\nChecker · 32 lati · residuo N = -0,000109 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico · dati da completare" · nota "Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite."
 avvisi "Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite."
 form generali
@@ -362,7 +362,7 @@ modificato 1 · modificabile sì · esportabile no · dettagli no · scheda 0
 risultato -
 stato "Correggere i dati indicati"
 sintesi "Calcolo non disponibile: Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite."
-momento "MRd = 1.560,8 kNm · N = 1.200,0 kN\nChecker · 32 lati · residuo N = 0,382 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+momento "MRd = 1.561,0 kNm · N = 1.200,0 kN\nChecker · 32 lati · residuo N = -0,000109 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico · dati da completare" · nota "Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite."
 avvisi "Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite."
 form generali
@@ -452,7 +452,7 @@ modificato 1 · modificabile sì · esportabile no · dettagli no · scheda 0
 risultato -
 stato "Correggere i dati indicati"
 sintesi "Calcolo non disponibile: Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite."
-momento "MRd = 1.560,8 kNm · N = 1.200,0 kN\nChecker · 32 lati · residuo N = 0,382 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+momento "MRd = 1.561,0 kNm · N = 1.200,0 kN\nChecker · 32 lati · residuo N = -0,000109 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico · dati da completare" · nota "Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite."
 avvisi "Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite."
 form generali
@@ -722,7 +722,7 @@ modificato 0 · modificabile sì · esportabile no · dettagli no · scheda 0
 risultato -
 stato "Correggere i dati indicati"
 sintesi "Calcolo non disponibile: Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite."
-momento "MRd = 1.560,8 kNm · N = 1.200,0 kN\nChecker · 32 lati · residuo N = 0,382 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+momento "MRd = 1.561,0 kNm · N = 1.200,0 kN\nChecker · 32 lati · residuo N = -0,000109 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico · dati da completare" · nota "Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite."
 avvisi "Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite."
 form generali

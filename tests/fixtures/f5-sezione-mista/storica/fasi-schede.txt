@@ -1423,32 +1423,32 @@ curva.tabella: 0 blocchi
 ~ proprieta: "Acciaio|Soletta|01 · G1 · getto e carpenteria|02 · G2 · portati|03 · Q · variabili|04 · Nuova fase" · scelta 0 · nota "Proprietà geometriche con φ/n memorizzati. Nel non lineare istantaneo il calcolo usa φ=0; i valori adottati sono in Fasi e proprietà."
 ~ disegno: modo 0 · da aggiornare sì · quote no · armature no · asse neutro sì · contorni nono · limiti no · CLS × 6.162487867161709 · appoggio no
 == attendi
-~ calcolo: occupato no · risultato B999E386B1025CF8 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 100C664791DBFDFD · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 4 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ avvisi: "Metodo con storico: V registrato; verifiche di taglio, connessione, irrigidimenti e N–M–V da completare. Nessun esito globale favorevole.  Tensioni alle facce: valore della fibra di integrazione più vicina; controllare la convergenza della discretizzazione.  Non lineare su sezione lorda, materiali caratteristici: analisi N–Mx, non verifica SLU di classe 4. CLS sull’inviluppo Model in compressione, resistenza a trazione trascurata (EN 1992-1-1 §6.1(2)P): la soletta tesa è fessurata e un ritiro che la tende non produce tensioni; senza danno né isteresi ciclica; acciaio con deformazioni plastiche residue.  Analisi istantanea esplicita: φ=0 nel calcolo; i φ/n dell’archivio restano memorizzati per il metodo lineare."
-~ panoramica: "|σa|max = 70,905 MPa\nσc,min = -1,755 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 8 iterazioni"
+~ panoramica: "|σa|max = 70,827 MPa\nσc,min = -1,781 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 12 iterazioni"
 ~ riepilogo: "Analisi non lineare N–Mx convergente · verifica normativa da completare"
-~ convergenza: "Storico non lineare · fibre e plasticità dell’acciaio\nε(y) = ε₀ − κ·y; y=0 all’interfaccia.\nNewton: 8 · iterazioni aree: 4\nResiduo N: -5,651E-010 N\nResiduo M: -1,001E-005 Nmm\nVariazione aree: 0,000E+000\nN integrato: -0 kN\nM integrato a y=0: 3500 kNm"
-~ pannello.tensioni.1: tabella "Punto|y [mm]|σ [MPa]|Ultimo Δσ [MPa]" · righe 18 3FCEB7296CDF12C3
-~ pannello.tensioni.1.0: "Soletta · estradosso (fibra prossima)" | "250" | "-1,755" | "-1,755"
-~ pannello.tensioni.1.1: "Soletta · intradosso (fibra prossima)" | "0" | "-0,888" | "-0,888"
-~ pannello.tensioni.1.2: "Armatura · y=205" | "205" | "-9,744" | "-9,744"
-~ pannello.tensioni.2.0: tabella "Componente / fibra|Attiva|y [mm]|Aeff [mm²]|εtot|εgetto|εimposta|εmecc|εpl|σ [MPa]|Δσ [MPa]" · righe 360 F48D25AC00CEF4BA
-~ pannello.tensioni.2.0.0: "Steel.Top.0.0" | "Sì" | "-24,34" | "781,25" | "-243,202" | "0" | "0" | "-243,202" | "0" | "-51,072" | "-5,141"
-~ pannello.tensioni.2.0.1: "Steel.Top.0.1" | "Sì" | "-22,535" | "781,25" | "-243,775" | "0" | "0" | "-243,775" | "0" | "-51,193" | "-5,181"
-~ pannello.tensioni.2.0.2: "Steel.Top.1.0" | "Sì" | "-21,215" | "781,25" | "-244,194" | "0" | "0" | "-244,194" | "0" | "-51,281" | "-5,21"
+~ convergenza: "Storico non lineare · fibre e plasticità dell’acciaio\nε(y) = ε₀ − κ·y; y=0 all’interfaccia.\nNewton: 12 · iterazioni aree: 4\nResiduo N: 2,133E-010 N\nResiduo M: 9,060E-006 Nmm\nVariazione aree: 0,000E+000\nN integrato: 0 kN\nM integrato a y=0: 3500 kNm"
+~ pannello.tensioni.1: tabella "Punto|y [mm]|σ [MPa]|Ultimo Δσ [MPa]" · righe 18 F420BDC966FAB703
+~ pannello.tensioni.1.0: "Soletta · estradosso (fibra prossima)" | "250" | "-1,781" | "-1,781"
+~ pannello.tensioni.1.1: "Soletta · intradosso (fibra prossima)" | "0" | "-0,883" | "-0,883"
+~ pannello.tensioni.1.2: "Armatura · y=205" | "205" | "-9,369" | "-9,369"
+~ pannello.tensioni.2.0: tabella "Componente / fibra|Attiva|y [mm]|Aeff [mm²]|εtot|εgetto|εimposta|εmecc|εpl|σ [MPa]|Δσ [MPa]" · righe 360 07AF4AF6A404E1D6
+~ pannello.tensioni.2.0.0: "Steel.Top.0.0" | "Sì" | "-24,34" | "781,25" | "-241,579" | "0" | "0" | "-241,579" | "0" | "-50,732" | "-4,8"
+~ pannello.tensioni.2.0.1: "Steel.Top.0.1" | "Sì" | "-22,535" | "781,25" | "-242,15" | "0" | "0" | "-242,15" | "0" | "-50,851" | "-4,84"
+~ pannello.tensioni.2.0.2: "Steel.Top.1.0" | "Sì" | "-21,215" | "781,25" | "-242,567" | "0" | "0" | "-242,567" | "0" | "-50,939" | "-4,869"
 ~ pannello.verifiche: 2 blocchi
 ~ pannello.verifiche.0: testo "Nessun esito SLU/SLE assegnato. Le linee e il contouring σ/limite sono riferimenti visivi: la resistenza plastica richiede anche controlli di deformazione, stabilità e interazione."
-+ pannello.verifiche.1: tabella "Componente|εmecc min [µε]|εmecc max [µε]||εpl|max [µε]|σmin [MPa]|σmax [MPa]" · righe 5 77539BD20ECDB208
-+ pannello.verifiche.1.0: "Steel.Top" | "-250,715" | "-243,202" | "0" | "-52,65" | "-51,072"
-+ pannello.verifiche.1.1: "Steel.Web" | "-240,981" | "326,113" | "0" | "-50,606" | "68,484"
-+ pannello.verifiche.1.2: "Steel.Bottom" | "328,376" | "337,392" | "0" | "68,959" | "70,852"
-~ pannello.omogeneizzazione.1: tabella "Fase|A* [mm²]|yG elastico [mm]|Ix* [mm⁴]|ε₀ totale [µε]|κ totale [1/m]|Δε₀ [µε]|Δκ [1/m]" · righe 2 A44E647032B600AF
-~ pannello.omogeneizzazione.1.1: "G2 · portati" | "186758,526" | "-246,837" | "9,07642E+10" | "-250,925" | "3,17287E-4" | "-27,052" | "1,05693E-4"
-~ pannello.equilibrio.0: tabella "Fase|ΔN [kN]|ΔMx [kNm]|yN [mm]|ΣN [kN]|ΣM₀ [kNm]|ΣV [kN]|Δεcs [µε]|n applicato|Residuo N [N]|Residuo M [Nmm]" · righe 2 12CDF023F78D68B4
++ pannello.verifiche.1: tabella "Componente|εmecc min [µε]|εmecc max [µε]||εpl|max [µε]|σmin [MPa]|σmax [MPa]" · righe 5 5EA7546FD0BA3E8A
++ pannello.verifiche.1.0: "Steel.Top" | "-249,067" | "-241,579" | "0" | "-52,304" | "-50,732"
++ pannello.verifiche.1.1: "Steel.Web" | "-239,366" | "325,782" | "0" | "-50,267" | "68,414"
++ pannello.verifiche.1.2: "Steel.Bottom" | "328,038" | "337,022" | "0" | "68,888" | "70,775"
+~ pannello.omogeneizzazione.1: tabella "Fase|A* [mm²]|yG elastico [mm]|Ix* [mm⁴]|ε₀ totale [µε]|κ totale [1/m]|Δε₀ [µε]|Δκ [1/m]" · righe 2 24950AE275F28E30
+~ pannello.omogeneizzazione.1.1: "G2 · portati" | "186758,526" | "-246,837" | "9,07642E+10" | "-249,275" | "3,16199E-4" | "-25,403" | "1,04605E-4"
+~ pannello.equilibrio.0: tabella "Fase|ΔN [kN]|ΔMx [kNm]|yN [mm]|ΣN [kN]|ΣM₀ [kNm]|ΣV [kN]|Δεcs [µε]|n applicato|Residuo N [N]|Residuo M [Nmm]" · righe 2 98B75F779BCB35B5
 ~ pannello.equilibrio.0.0: "G1 · getto e carpenteria" | "0" | "1500" | "-1058,028" | "0" | "1500" | "0" | "—" | "—" | "-2,6921E-10" | "4,76837E-7"
-~ pannello.equilibrio.0.1: "G2 · portati" | "0" | "2000" | "-246,837" | "0" | "3500" | "0" | "—" | "6,162" | "-5,65137E-10" | "-1,00136E-5"
+~ pannello.equilibrio.0.1: "G2 · portati" | "0" | "2000" | "-246,837" | "0" | "3500" | "0" | "—" | "6,162" | "2,13277E-10" | "9,05991E-6"
 ~ pannello.classe4.0: testo "Non lineare sulla sezione lorda. L’instabilità locale di classe 4 non è modellata; nessuna larghezza efficace elastica viene presentata come verifica plastica."
 ~ disegno: modo 0 · da aggiornare no · quote no · armature no · asse neutro sì · contorni nono · limiti no · CLS × 6.162487867161709 · appoggio no
 ~ disegno.ingresso: risultato DA94AD95F5F8B9FA
@@ -1480,7 +1480,7 @@ curva.tabella: 0 blocchi
 ~ stato: "Dati modificati · aggiornamento automatico in attesa…"
 ~ form.metodo.viscosita_nl: scelta "Viscosità nel non lineare" = "Istantaneo · φ = 0 nel calcolo" voci "Istantaneo · φ = 0 nel calcolo|Richiedi φ = 0 negli ingressi"
 == attendi
-~ calcolo: occupato no · risultato E4EF0B3F80F47BC6 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 69E6D380DE31E49A · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 4 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ avvisi: "Metodo con storico: V registrato; verifiche di taglio, connessione, irrigidimenti e N–M–V da completare. Nessun esito globale favorevole.  Tensioni alle facce: valore della fibra di integrazione più vicina; controllare la convergenza della discretizzazione.  Non lineare su sezione lorda, materiali caratteristici: analisi N–Mx, non verifica SLU di classe 4. CLS sull’inviluppo Model in compressione; in trazione lineare fino a fctm = 3,21 MPa, poi tension stiffening σ = fctm/(1 + √(500 ε)) (Collins e Mitchell 1991, MCFT), senza il controllo della trasmissione alla fessura: oltre lo snervamento delle barre il contributo del CLS teso è sovrastimato; senza danno né isteresi ciclica; acciaio con deformazioni plastiche residue.  Analisi istantanea esplicita: φ=0 nel calcolo; i φ/n dell’archivio restano memorizzati per il metodo lineare."
