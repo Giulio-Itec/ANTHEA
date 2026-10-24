@@ -1,0 +1,110 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "commit": "5b27a527",
+    "sha256": "58d0929f2d956d939308a52d5b5c421a80a6419df9b56ae5c0bc215bff5c5cc7",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "commit": "a5afa295",
+    "sha256": "ddfb831dd0935af8c355e0208826d9d487e5c6eaa9977d6665a0c8185152bf0d",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "commit": "5b27a527",
+    "sha256": "6126f0815fff78bfc6edd5b2d054e134db8a0ca425793ae2816f79ad239e8295",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "commit": "a5afa295",
+    "sha256": "9f44096e5f8acc9df9d7b5c2dec545087596dedba0de7f7fa5b99f3570177aa6",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev58.docx",
+    "commit": "a5afa295",
+    "sha256": "bef7869969e405e4df2763b0960626af82c0a41c1f105b1125be82f172979c8c",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev58.pdf",
+    "commit": "a5afa295",
+    "sha256": "ddfb831dd0935af8c355e0208826d9d487e5c6eaa9977d6665a0c8185152bf0d",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev58.docx",
+    "commit": "a5afa295",
+    "sha256": "1d1160dfc468ec88b7af10e2191ae2d68a86f8bce962fcbf9a0e014744c2f65f",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev58.pdf",
+    "commit": "a5afa295",
+    "sha256": "9f44096e5f8acc9df9d7b5c2dec545087596dedba0de7f7fa5b99f3570177aa6",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "commit": "a5afa295",
+    "sha256": "1c3a0af3a47905d00204f6642871e4f76daf47fe41e0dbf49c2652e7654cadb5",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "commit": "a5afa295",
+    "sha256": "115c9842a2b2dcdbb08129d407b8c7699fcd8959dd75dee4190b933c42320c87",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "commit": "a5afa295",
+    "sha256": "69e5d072c5eaf7e3f0f5c3fa1907044a95162b578e80e029fee210eeee85a5f9",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "commit": "a5afa295",
+    "sha256": "a85fd1be2470f16db9268ece75fb2e820ecc98ce310722480e42f32650c90d4d",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "commit": "a5afa295",
+    "sha256": "977c8b3271eaad8f5d71e8e4833e7dcdb923a1532501ff26c740889092ccdddd",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "commit": "a5afa295",
+    "sha256": "7a4506ffc6654b154fc2749f06065f2f6f8d5fcbd5ba1937184d9f3e0e38160a",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/README.md",
+    "commit": "a5afa295",
+    "sha256": "c7174bd6320beb642d3e415d15107c487d50b4411fc0ba298ec0ce15a62c46a4",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "commit": "a5afa295",
+    "sha256": "4a684825df65f92142effd6d3357bfd7bbd4614e4759f71ac62be0fcd53b3c6c",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/scripts/Build-AntheaGuides-Itec.py",
+    "commit": "a5afa295",
+    "sha256": "9e3f815c906958b7b01fcd375bb15910d65bdae1502f0f060466704a83c73357",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  },
+  {
+    "origine": "supporto/scripts/Render-AntheaGuides-Itec.ps1",
+    "commit": "a5afa295",
+    "sha256": "00dc8323539ea72ad768c9b85858966eab8ceedcab6b29ea7eaa516fa76e20b9",
+    "motivo": "Sostituito dalla Rev59 (ANTHEA 1.14.0): la shell nuova (schede, finestre staccate, pagina intera, Wiki in una scheda, albero dei progetti, revisioni con più schede, report del ramo), le revisioni in sola lettura dei muri (MU3, MU4), i comandi che non esistono più, le figure della Wiki in src/ANTHEA.Desktop/Assets/Wiki e i percorsi di src/ANTHEA.Desktop nei README."
+  }
+]

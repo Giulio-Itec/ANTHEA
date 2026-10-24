@@ -1,6 +1,6 @@
 # Materiale di supporto ANTHEA
 
-La documentazione utente è raccolta in due guide globali: pratica e teorica Rev58 del 23 ottobre 2026.
+La documentazione utente è raccolta in due guide globali: pratica e teorica Rev59 del 24 ottobre 2026.
 
 - [Guida pratica e UI](docs/guida-pratica-anthea.md): procedure e interfaccia di tutti i moduli; comprende importazione dei modelli e finestra di supporto per la reologia del calcestruzzo.
 - [Guida teorica](docs/guida-teorica-anthea.md): modelli, formule, ipotesi, limiti, approfondimenti e appendici tecniche di tutti i moduli.
@@ -29,11 +29,11 @@ Eseguire i comandi seguenti dalla radice del repository:
 dotnet run --project supporto/test/X.Verifiche -c Release -- --checker
 dotnet run --project supporto/test/X.Verifiche -c Release -- --bridge
 dotnet run --project supporto/test/X.Verifiche -c Release -- --bridge-methods
-dotnet build X.Desktop/X.Desktop.csproj -c UiTests
-dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --smoke-display supporto/artefatti/display
+dotnet build src/ANTHEA.Desktop/ANTHEA.Desktop.csproj -c UiTests
+dotnet src/ANTHEA.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --smoke-display supporto/artefatti/display
 ```
 
-Le prove WPF esistono solo nella configurazione `UiTests` di `X.Desktop`; l'eseguibile Release non
+Le prove WPF esistono solo nella configurazione `UiTests` di `src/ANTHEA.Desktop` (sorgenti in `tests/ANTHEA.Desktop.UiTests`); l'eseguibile Release non
 accetta `--smoke-*` né `--check-*` e `tools/qa/Assert-NoTestCode.ps1` lo verifica a ogni corsa del runner.
 
 `--bridge` include i controlli precedenti e la suite dei metodi cumulativo, storico lineare,
@@ -57,7 +57,7 @@ granulari) sono stati ricalcolati con `tools/attesi/palo_granulare.py`, a partir
 `SUPERATI/scripts/aggiorna_attesi.py` (registro `SUPERATI/registro-20261014-script.json`); l'opzione `--attesi` di
 `test/X.Verifiche` resta solo per diagnosi.
 I nuovi output di test vanno salvati in `supporto/artefatti/` per mantenere pulita la radice.
-Le immagini utilizzate dall'applicazione rimangono in `X.Desktop/Assets`.
+Le immagini utilizzate dall'applicazione rimangono in `src/ANTHEA.Desktop/Assets`; le figure delle guide in `src/ANTHEA.Desktop/Assets/Wiki`.
 
 Muri con due colonne e attriti: [guida](docs/guida-teorica-anthea.md), PDF omonimo e [controllo della revisione](artefatti/muri-due-colonne-20260930/CONTROLLO.md), anche in PDF. Revisioni precedenti e registro in `SUPERATI/`.
 
