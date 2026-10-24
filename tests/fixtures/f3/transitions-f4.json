@@ -5,8 +5,8 @@
  "commit": "e34f176cd17dc05b092e170a187f530e9951bad9",
  "per_voce": {
   "BUG-FES-2": 4,
-  "BUG-MUR-1": 10329,
-  "BUG-MUR-1 + BUG-MUR-2": 3540,
+  "BUG-MUR-1": 10325,
+  "BUG-MUR-1 + BUG-MUR-2": 3532,
   "BUG-MUR-2": 674,
   "BUG-MUR-2 + BUG-MUR-3": 9,
   "BUG-MUR-4": 4,
@@ -18,8 +18,7 @@
   "F2-17 (SLU-2)": 28,
   "F3-11": 315,
   "F3-11 / BUG-MUR-1": 1,
-  "F3-11 / BUG-MUR-1 + BUG-MUR-2": 318,
-  "F3-11 / BUG-MUR-1 + BUG-MUR-2 + BUG-SLU-4": 1,
+  "F3-11 / BUG-MUR-1 + BUG-MUR-2": 179,
   "F4-03 / F4-13": 666,
   "F4-03 / F4-13 / BUG-MUR-1": 120,
   "F4-08 / F4-13": 180,
@@ -45,12 +44,15 @@
   "BUG-PO-4 / AG-PO-02": 7,
   "AG-PO-02": 7110,
   "F4-13 (F4-06/F4-07/F4-11) / AG-MUR-01": 288,
-  "BUG-MUR-1 / AG-MUR-01": 1299,
+  "BUG-MUR-1 / AG-MUR-01": 1303,
   "F4-13 (F4-06/F4-07/F4-11) / BUG-MUR-1 / AG-MUR-01": 81,
   "AG-MUR-01": 15271,
   "AG-SM-01": 2680,
   "AG-CA-01": 381,
-  "F2-17 (SLU-2) / AG-CA-01": 19
+  "F2-17 (SLU-2) / AG-CA-01": 19,
+  "BUG-MUR-1 + BUG-MUR-2 / AG-CA-01": 8,
+  "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01": 139,
+  "F3-11 / BUG-MUR-1 + BUG-MUR-2 + BUG-SLU-4 / AG-CA-01": 1
  },
  "voci": [
   {
@@ -8122,8 +8124,8 @@
    "percorso": "riga 1254",
    "classe": "testo",
    "a": "[T55 r11 c3] 1 / 1.1 / 1.15 / 1.4",
-   "b": "[T54 r17 c2] 56,756 / 164,862",
-   "voce": "BUG-MUR-1"
+   "b": "[T54 r17 c2] 56,756 / 165,043",
+   "voce": "BUG-MUR-1 / AG-MUR-01"
   },
   {
    "file": "project/report.txt",
@@ -8202,8 +8204,8 @@
    "percorso": "riga 1264",
    "classe": "testo",
    "a": "[T56 r3 c1] SLE_FREQ 2",
-   "b": "[T54 r19 c2] 20,768 / 184,675",
-   "voce": "BUG-MUR-1"
+   "b": "[T54 r19 c2] 20,768 / 184,82",
+   "voce": "BUG-MUR-1 / AG-MUR-01"
   },
   {
    "file": "project/report.txt",
@@ -8282,8 +8284,8 @@
    "percorso": "riga 1274",
    "classe": "testo",
    "a": "[T56 r8 c1] SLU 7",
-   "b": "[T54 r21 c2] 44,423 / 184,676",
-   "voce": "BUG-MUR-1"
+   "b": "[T54 r21 c2] 44,423 / 184,82",
+   "voce": "BUG-MUR-1 / AG-MUR-01"
   },
   {
    "file": "project/report.txt",
@@ -8298,8 +8300,8 @@
    "percorso": "riga 1276",
    "classe": "testo",
    "a": "[T56 r9 c1] SLU 8",
-   "b": "[T54 r21 c4] 0,241",
-   "voce": "BUG-MUR-1"
+   "b": "[T54 r21 c4] 0,24",
+   "voce": "BUG-MUR-1 / AG-MUR-01"
   },
   {
    "file": "project/report.txt",
@@ -33842,8 +33844,8 @@
    "percorso": "riga 4469",
    "classe": "testo",
    "a": "[T161 r8 c2] Lunga",
-   "b": "[T150 r2 c3] 0,54",
-   "voce": "BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T150 r2 c3] 0,53",
+   "voce": "BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -35290,32 +35292,32 @@
    "percorso": "riga 4650 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T156 r2 c2] -2500,14",
-   "voce": "BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T156 r2 c2] -2500,00",
+   "voce": "BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4651 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T156 r2 c3] 934,55",
-   "voce": "BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T156 r2 c3] 935,40",
+   "voce": "BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4652 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T156 r2 c4] 467,23",
-   "voce": "BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T156 r2 c4] 467,70",
+   "voce": "BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4653 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T156 r2 c5] 0,54",
-   "voce": "BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T156 r2 c5] 0,53",
+   "voce": "BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -35394,24 +35396,24 @@
    "percorso": "riga 4663 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T157 r2 c2] -2500,17",
-   "voce": "BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T157 r2 c2] -2500,00",
+   "voce": "BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4664 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T157 r2 c3] 719,54",
-   "voce": "BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T157 r2 c3] 721,26",
+   "voce": "BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4665 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T157 r2 c4] 359,77",
-   "voce": "BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T157 r2 c4] 360,63",
+   "voce": "BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37170,16 +37172,16 @@
    "percorso": "riga 4885 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "¶ Ramo a momento crescente, N costante. Leggi e coefficienti dei materiali della sezione. Primo snervamento raffinato con 12 bisezioni, My = 710,2349 kNm. N del punto limite = -0,192485797 kN; residuo = -0,192486 kN (tolleranza assegnata 1 kN). χ è il modulo del gradiente [1/m]; la direzione del mom…",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "¶ Ramo a momento crescente, N costante. Leggi e coefficienti dei materiali della sezione. Primo snervamento raffinato con 12 bisezioni, My = 710,3316 kNm. N del punto limite = 0,00480509906 kN; residuo = 0,0048051 kN (tolleranza assegnata 1 kN). χ è il modulo del gradiente [1/m]; la direzione del mo…",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4886 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "¶ MRd = 800,03 kNm; χy = 4,07E-3 1/m; χu = 0,03 1/m.",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "¶ MRd = 800,17 kNm; χy = 4,06E-3 1/m; χu = 0,03 1/m.",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37282,32 +37284,32 @@
    "percorso": "riga 4899 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r3 c2] 1,11E-6",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r3 c2] 1,09E-6",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4900 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r3 c3] 1,59E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r3 c3] 1,58E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4901 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r3 c4] 2,86E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r3 c4] 2,76E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4902 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r3 c5] 5,03E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r3 c5] 4,92E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37322,32 +37324,32 @@
    "percorso": "riga 4904 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r4 c2] 4,94E-6",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r4 c2] 4,87E-6",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4905 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r4 c3] 8,88E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r4 c3] 8,98E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4906 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r4 c4] 1,09E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r4 c4] 1,05E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4907 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r4 c5] 2,41E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r4 c5] 2,40E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37362,32 +37364,32 @@
    "percorso": "riga 4909 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r5 c2] 1,11E-5",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r5 c2] 1,10E-5",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4910 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r5 c3] 2,00E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r5 c3] 2,02E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4911 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r5 c4] 2,45E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r5 c4] 2,37E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4912 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r5 c5] 5,42E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r5 c5] 5,40E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37402,32 +37404,32 @@
    "percorso": "riga 4914 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r6 c2] 1,98E-5",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r6 c2] 1,95E-5",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4915 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r6 c3] 3,55E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r6 c3] 3,64E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4916 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r6 c4] 4,36E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r6 c4] 4,17E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4917 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r6 c5] 9,64E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r6 c5] 9,66E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37442,24 +37444,24 @@
    "percorso": "riga 4919 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r7 c2] 3,09E-5",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r7 c2] 3,05E-5",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4920 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r7 c3] 5,62E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r7 c3] 5,69E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4921 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r7 c4] 6,75E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r7 c4] 6,51E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37482,24 +37484,24 @@
    "percorso": "riga 4924 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r8 c2] 4,45E-5",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r8 c2] 4,39E-5",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4925 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r8 c3] 8,09E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r8 c3] 8,20E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4926 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r8 c4] 9,72E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r8 c4] 9,38E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37522,8 +37524,8 @@
    "percorso": "riga 4929 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r9 c2] 6,06E-5",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r9 c2] 5,98E-5",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37554,16 +37556,16 @@
    "percorso": "riga 4933 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r10 c1] 14,22",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r10 c1] 14,23",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4934 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r10 c2] 7,92E-5",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r10 c2] 7,82E-5",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37602,8 +37604,8 @@
    "percorso": "riga 4939 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r11 c2] 1,00E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r11 c2] 9,89E-5",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37634,16 +37636,16 @@
    "percorso": "riga 4943 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r12 c1] 22,22",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r12 c1] 22,23",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4944 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r12 c2] 1,24E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r12 c2] 1,22E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37682,8 +37684,8 @@
    "percorso": "riga 4949 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r13 c2] 1,50E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r13 c2] 1,48E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37714,16 +37716,16 @@
    "percorso": "riga 4953 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r14 c1] 32,00",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r14 c1] 32,01",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4954 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r14 c2] 1,78E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r14 c2] 1,76E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37762,8 +37764,8 @@
    "percorso": "riga 4959 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r15 c2] 2,09E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r15 c2] 2,07E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37778,8 +37780,8 @@
    "percorso": "riga 4961 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r15 c4] 0,05",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r15 c4] 0,04",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37802,8 +37804,8 @@
    "percorso": "riga 4964 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r16 c2] 2,42E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r16 c2] 2,40E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37834,16 +37836,16 @@
    "percorso": "riga 4968 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r17 c1] 50,00",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r17 c1] 50,01",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4969 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r17 c2] 2,78E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r17 c2] 2,75E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37874,16 +37876,16 @@
    "percorso": "riga 4973 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r18 c1] 56,89",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r18 c1] 56,90",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4974 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r18 c2] 3,17E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r18 c2] 3,13E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37906,32 +37908,32 @@
    "percorso": "riga 4977 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r18 c5] 0,16",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r18 c5] 0,15",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4978 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r19 c1] 64,22",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r19 c1] 64,24",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4979 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r19 c2] 3,57E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r19 c2] 3,54E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4980 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r19 c3] 0,06",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r19 c3] 0,07",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37946,24 +37948,24 @@
    "percorso": "riga 4982 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r19 c5] 0,18",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r19 c5] 0,17",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4983 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r20 c1] 72,00",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r20 c1] 72,02",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4984 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r20 c2] 4,01E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r20 c2] 3,97E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -37994,16 +37996,16 @@
    "percorso": "riga 4988 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r21 c1] 80,22",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r21 c1] 80,24",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4989 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r21 c2] 4,47E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r21 c2] 4,42E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38018,8 +38020,8 @@
    "percorso": "riga 4991 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r21 c4] 0,10",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r21 c4] 0,09",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38034,16 +38036,16 @@
    "percorso": "riga 4993 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r22 c1] 88,89",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r22 c1] 88,91",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4994 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r22 c2] 4,95E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r22 c2] 4,90E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38074,16 +38076,16 @@
    "percorso": "riga 4998 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r23 c1] 98,00",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r23 c1] 98,02",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 4999 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r23 c2] 5,45E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r23 c2] 5,41E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38114,16 +38116,16 @@
    "percorso": "riga 5003 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r24 c1] 107,56",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r24 c1] 107,58",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5004 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r24 c2] 5,99E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r24 c2] 5,94E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38154,16 +38156,16 @@
    "percorso": "riga 5008 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r25 c1] 117,56",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r25 c1] 117,58",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5009 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r25 c2] 6,54E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r25 c2] 6,49E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38194,16 +38196,16 @@
    "percorso": "riga 5013 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r26 c1] 128,00",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r26 c1] 128,03",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5014 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r26 c2] 7,12E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r26 c2] 7,07E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38218,8 +38220,8 @@
    "percorso": "riga 5016 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r26 c4] 0,16",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r26 c4] 0,15",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38234,16 +38236,16 @@
    "percorso": "riga 5018 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r27 c1] 138,89",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r27 c1] 138,92",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5019 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r27 c2] 7,73E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r27 c2] 7,68E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38274,16 +38276,16 @@
    "percorso": "riga 5023 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r28 c1] 150,23",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r28 c1] 150,25",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5024 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r28 c2] 8,36E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r28 c2] 8,31E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38314,32 +38316,32 @@
    "percorso": "riga 5028 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r29 c1] 162,01",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r29 c1] 162,03",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5029 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r29 c2] 9,02E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r29 c2] 8,97E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5030 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r29 c3] 0,16",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r29 c3] 0,17",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5031 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r29 c4] 0,20",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r29 c4] 0,19",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38354,16 +38356,16 @@
    "percorso": "riga 5033 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r30 c1] 174,23",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r30 c1] 174,26",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5034 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r30 c2] 9,70E-4",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r30 c2] 9,65E-4",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38394,8 +38396,8 @@
    "percorso": "riga 5038 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r31 c1] 186,90",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r31 c1] 186,93",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38418,8 +38420,8 @@
    "percorso": "riga 5041 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r31 c4] 0,23",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r31 c4] 0,22",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38434,8 +38436,8 @@
    "percorso": "riga 5043 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r32 c1] 200,01",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r32 c1] 200,04",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38474,8 +38476,8 @@
    "percorso": "riga 5048 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r33 c1] 213,56",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r33 c1] 213,60",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38514,16 +38516,16 @@
    "percorso": "riga 5053 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r34 c1] 227,56",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r34 c1] 227,60",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5054 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r34 c2] 1,27E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r34 c2] 1,26E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38538,8 +38540,8 @@
    "percorso": "riga 5056 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r34 c4] 0,28",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r34 c4] 0,27",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38554,24 +38556,24 @@
    "percorso": "riga 5058 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r35 c1] 242,01",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r35 c1] 242,05",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5059 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r35 c2] 1,35E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r35 c2] 1,34E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5060 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r35 c3] 0,24",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r35 c3] 0,25",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38594,8 +38596,8 @@
    "percorso": "riga 5063 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r36 c1] 256,90",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r36 c1] 256,94",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38634,8 +38636,8 @@
    "percorso": "riga 5068 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r37 c1] 272,23",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r37 c1] 272,28",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38650,8 +38652,8 @@
    "percorso": "riga 5070 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r37 c3] 0,27",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r37 c3] 0,28",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38674,16 +38676,16 @@
    "percorso": "riga 5073 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r38 c1] 288,01",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r38 c1] 288,06",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5074 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r38 c2] 1,61E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r38 c2] 1,60E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38714,8 +38716,8 @@
    "percorso": "riga 5078 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r39 c1] 304,23",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r39 c1] 304,29",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38754,16 +38756,16 @@
    "percorso": "riga 5083 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r40 c1] 320,90",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r40 c1] 320,96",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5084 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r40 c2] 1,80E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r40 c2] 1,79E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38794,8 +38796,8 @@
    "percorso": "riga 5088 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r41 c1] 338,01",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r41 c1] 338,07",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38818,8 +38820,8 @@
    "percorso": "riga 5091 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r41 c4] 0,42",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r41 c4] 0,41",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38834,8 +38836,8 @@
    "percorso": "riga 5093 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r42 c1] 355,57",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r42 c1] 355,63",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38874,16 +38876,16 @@
    "percorso": "riga 5098 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r43 c1] 373,57",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r43 c1] 373,64",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5099 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r43 c2] 2,10E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r43 c2] 2,09E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38914,8 +38916,8 @@
    "percorso": "riga 5103 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r44 c1] 392,01",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r44 c1] 392,08",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38930,16 +38932,16 @@
    "percorso": "riga 5105 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r44 c3] 0,39",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r44 c3] 0,40",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5106 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r44 c4] 0,49",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r44 c4] 0,48",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38954,16 +38956,16 @@
    "percorso": "riga 5108 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r45 c1] 410,90",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r45 c1] 410,98",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5109 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r45 c2] 2,31E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r45 c2] 2,30E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -38994,8 +38996,8 @@
    "percorso": "riga 5113 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r46 c1] 430,24",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r46 c1] 430,31",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39018,8 +39020,8 @@
    "percorso": "riga 5116 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r46 c4] 0,54",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r46 c4] 0,53",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39034,8 +39036,8 @@
    "percorso": "riga 5118 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r47 c1] 450,02",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r47 c1] 450,10",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39074,8 +39076,8 @@
    "percorso": "riga 5123 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r48 c1] 470,24",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r48 c1] 470,32",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39114,8 +39116,8 @@
    "percorso": "riga 5128 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r49 c1] 490,91",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r49 c1] 490,99",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39138,8 +39140,8 @@
    "percorso": "riga 5131 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r49 c4] 0,62",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r49 c4] 0,61",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39154,8 +39156,8 @@
    "percorso": "riga 5133 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r50 c1] 512,02",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r50 c1] 512,11",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39178,8 +39180,8 @@
    "percorso": "riga 5136 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r50 c4] 0,65",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r50 c4] 0,64",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39194,8 +39196,8 @@
    "percorso": "riga 5138 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r51 c1] 533,57",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r51 c1] 533,67",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39210,8 +39212,8 @@
    "percorso": "riga 5140 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r51 c3] 0,53",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r51 c3] 0,54",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39234,24 +39236,24 @@
    "percorso": "riga 5143 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r52 c1] 555,57",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r52 c1] 555,67",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5144 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r52 c2] 3,15E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r52 c2] 3,14E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5145 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r52 c3] 0,55",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r52 c3] 0,56",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39274,8 +39276,8 @@
    "percorso": "riga 5148 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r53 c1] 578,02",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r53 c1] 578,12",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39298,8 +39300,8 @@
    "percorso": "riga 5151 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r53 c4] 0,74",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r53 c4] 0,73",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39314,16 +39316,16 @@
    "percorso": "riga 5153 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r54 c1] 600,91",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r54 c1] 601,02",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5154 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r54 c2] 3,42E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r54 c2] 3,41E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39338,8 +39340,8 @@
    "percorso": "riga 5156 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r54 c4] 0,77",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r54 c4] 0,76",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39354,8 +39356,8 @@
    "percorso": "riga 5158 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r55 c1] 624,24",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r55 c1] 624,36",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39394,8 +39396,8 @@
    "percorso": "riga 5163 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r56 c1] 648,02",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r56 c1] 648,14",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39410,8 +39412,8 @@
    "percorso": "riga 5165 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r56 c3] 0,64",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r56 c3] 0,65",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39434,16 +39436,16 @@
    "percorso": "riga 5168 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r57 c1] 672,25",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r57 c1] 672,37",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5169 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r57 c2] 3,84E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r57 c2] 3,83E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39458,8 +39460,8 @@
    "percorso": "riga 5171 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r57 c4] 0,87",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r57 c4] 0,86",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39474,16 +39476,16 @@
    "percorso": "riga 5173 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r58 c1] 696,91",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r58 c1] 697,04",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5174 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r58 c2] 3,99E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r58 c2] 3,98E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39514,24 +39516,24 @@
    "percorso": "riga 5178 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r59 c1] 710,23",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r59 c1] 710,33",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5179 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r59 c2] 4,07E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r59 c2] 4,06E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5180 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r59 c3] 0,70",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r59 c3] 0,71",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39554,8 +39556,8 @@
    "percorso": "riga 5183 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r60 c1] 722,02",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r60 c1] 722,15",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39578,8 +39580,8 @@
    "percorso": "riga 5186 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r60 c4] 1,00",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r60 c4] 0,99",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39594,8 +39596,8 @@
    "percorso": "riga 5188 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r61 c1] 747,58",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r61 c1] 747,72",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39618,8 +39620,8 @@
    "percorso": "riga 5191 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r61 c4] 1,17",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r61 c4] 1,16",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39634,48 +39636,48 @@
    "percorso": "riga 5193 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r62 c1] 773,58",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r62 c1] 773,72",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5194 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r62 c2] 9,06E-3",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r62 c2] 9,07E-3",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5195 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r62 c3] 2,09",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r62 c3] 2,10",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5196 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r62 c4] 1,54",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r62 c4] 1,53",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5197 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r62 c5] 4,88",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r62 c5] 4,89",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
    "percorso": "riga 5198 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r63 c1] 800,03",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r63 c1] 800,17",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39690,8 +39692,8 @@
    "percorso": "riga 5200 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r63 c3] 8,03",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 + BUG-SLU-4"
+   "b": "[T167 r63 c3] 8,05",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 + BUG-SLU-4 / AG-CA-01"
   },
   {
    "file": "project/report.txt",
@@ -39706,8 +39708,8 @@
    "percorso": "riga 5202 (b)",
    "classe": "riga-aggiunta",
    "a": null,
-   "b": "[T167 r63 c5] 16,90",
-   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2"
+   "b": "[T167 r63 c5] 16,94",
+   "voce": "F3-11 / BUG-MUR-1 + BUG-MUR-2 / AG-CA-01"
   },
   {
    "file": "project/snapshot.json",

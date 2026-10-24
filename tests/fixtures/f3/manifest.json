@@ -347,7 +347,7 @@
   },
   "transitions": {
     "file": "tests/fixtures/f3/transitions-f4.json",
-    "sha256": "d24e3f97d5f752ae30beaa7aedc3b52e1e10e0663f91a9e35a860f41ae0aafeb",
+    "sha256": "5cd9e8d2a0dcb9b700426a19e09a847982056dd561d54dce5c6882fb62c8ec3a",
     "entries": 54896,
     "decision": "D2 del 15/10/2026"
   },

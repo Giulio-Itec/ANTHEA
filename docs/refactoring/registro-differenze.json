@@ -10042,7 +10042,7 @@
       "decisione": {
         "data": "2026-10-24",
         "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
-        "esito": "registrata e aggiornata: 130 righe in 17 tracce storiche sostituite con il valore del ViewModel (impronte del risultato e delle tabelle delle verifiche, stesso numero di righe); 15271 transizioni F4 nuove, 1668 transizioni elencate con il valore dopo nuovo (1299 BUG-MUR-1, 288 F4-13, 81 F4-13 / BUG-MUR-1; voce estesa con « / AG-MUR-01»), 3 transizioni BUG-MUR-1 tolte perché il rapporto nuovo si stampa 0,24, arrotondamento ammesso di 0,236; nessun atteso F3 sostituito."
+        "esito": "Report di progetto (24/10 sera, release AG ufficiale): 4 transizioni di project/report.txt (tabella T54, Ed/Rd delle verifiche strutturali) con il valore dopo nuovo e la voce estesa con « / AG-MUR-01» (Rd 164,862 → 165,043, Ed/Rd 0,241 → 0,24). registrata e aggiornata: 130 righe in 17 tracce storiche sostituite con il valore del ViewModel (impronte del risultato e delle tabelle delle verifiche, stesso numero di righe); 15271 transizioni F4 nuove, 1668 transizioni elencate con il valore dopo nuovo (1299 BUG-MUR-1, 288 F4-13, 81 F4-13 / BUG-MUR-1; voce estesa con « / AG-MUR-01»), 3 transizioni BUG-MUR-1 tolte perché il rapporto nuovo si stampa 0,24, arrotondamento ammesso di 0,236; nessun atteso F3 sostituito."
       },
       "test": [
         "ANTHEA.Presentation.Tests: RetainingWallSheetChecks (tracce; CompareTransitions con le voci contate per AG-MUR-01)"
@@ -10219,7 +10219,7 @@
       "decisione": {
         "data": "2026-10-24",
         "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
-        "esito": "registrata e aggiornata: transizioni F4 aggiunte (nessun atteso F3 sostituito), righe delle tracce F5 riportate dal ViewModel, valori del testo della curva aggiornati. Le differenze a sfavore sono elencate nel resoconto (tutte entro il 3 %)."
+        "esito": "Report di progetto (24/10 sera, release AG ufficiale): 148 transizioni di project/report.txt (domini 3D T150, T156, T157 e curva M–χ T167 della sezione c.a.) con il valore dopo nuovo e la voce estesa con « / AG-CA-01». Domini: MxRd/MyRd da +0,01 % a +0,24 %, η 0,54 → 0,53. Curva M–χ (CLS a trazione: No): M fino a +0,07 %, χ da −1,8 % a +0,1 %, ε0 fino a +2,5 %, |εs|max fino a −2,2 %, εc,comp da −3,3 % a −4,4 % alle prime righe a momenti bassi (4,36E-3 → 4,17E-3), oltre il 3 %: accettata dall'utente il 24/10 («Sì: accetta anche εc,comp fino a −4,4% nella curva M–χ del report di progetto, come per 5A; segnalalo nelle note»). registrata e aggiornata: transizioni F4 aggiunte (nessun atteso F3 sostituito), righe delle tracce F5 riportate dal ViewModel, valori del testo della curva aggiornati. Le differenze a sfavore sono elencate nel resoconto (tutte entro il 3 %)."
       },
       "test": [
         "Presentation.Tests/sezione-ca: file F3, 57 tracce, domini 3D (resta rosso solo per AG-CA-03/AG-CA-04)",
