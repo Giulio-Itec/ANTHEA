@@ -160,7 +160,11 @@ internal static class Program
     static void Ui(string output,JsonObject data,FoundationLibrary library)
     {
         var assembly=typeof(X.Desktop.App).Assembly;
-        if(Application.Current==null){var app=new X.Desktop.App();app.InitializeComponent();}
+        // F5.13 g3 (G9): an application with the resources of App.xaml and no startup, as ModelViewer.UiChecks. X.Desktop.App posts its startup to the
+        // dispatcher when it is created and the pumps of this check ran it: since 23/10 App.OnStartup opens the shell of the Release, on the screen, with the
+        // arguments of the check as a document to open («Operazione non completata», check hung). Its window kept the application alive between the two
+        // calls of Ui: without it the application must not shut down when the window of the first call closes.
+        if(Application.Current==null){var app=new ResourcesOnlyApp{ShutdownMode=ShutdownMode.OnExplicitShutdown};app.LoadStyles();}
         assembly.GetType("X.Desktop.Appearance")!.GetMethod("Initialize",BindingFlags.Static|BindingFlags.NonPublic)!.Invoke(null,[false]);
         const BindingFlags Members=BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic;
         // The continuations of the calculation of the sheet on this thread, as in the window.
@@ -233,6 +237,19 @@ internal static class Program
             appearance.GetMethod("Set",BindingFlags.Static|BindingFlags.NonPublic)!.Invoke(null,[Enum.Parse(modes,"Light"),false]);
         }
         window.Content=null;root.Child=null;window.Close();
+    }
+    /// <summary>An application with the resources of App.xaml of X.Desktop (embedded, sources rebased on the ANTHEA assembly) and no startup (G9).</summary>
+    sealed class ResourcesOnlyApp : Application
+    {
+        internal void LoadStyles()
+        {
+            using var source=typeof(ResourcesOnlyApp).Assembly.GetManifestResourceStream("FoundationWorkspace.App.xaml")??throw new InvalidOperationException("Risorse di App.xaml mancanti.");
+            var document=System.Xml.Linq.XDocument.Load(source);var dictionary=document.Root!.Elements().Single().Elements().Single();
+            dictionary.SetAttributeValue(System.Xml.Linq.XNamespace.Xmlns+"x","http://schemas.microsoft.com/winfx/2006/xaml");
+            dictionary.SetAttributeValue(System.Xml.Linq.XNamespace.Xmlns+"local","clr-namespace:X.Desktop;assembly=ANTHEA");
+            foreach(var attribute in dictionary.Descendants().SelectMany(e=>e.Attributes("Source")))attribute.Value="/ANTHEA;component/"+attribute.Value;
+            Resources=(ResourceDictionary)System.Windows.Markup.XamlReader.Parse(dictionary.ToString());
+        }
     }
     static IEnumerable<DependencyObject> Descendants(DependencyObject root)
     {for(int i=0;i<VisualTreeHelper.GetChildrenCount(root);i++){var child=VisualTreeHelper.GetChild(root,i);yield return child;foreach(var nested in Descendants(child))yield return nested;}}

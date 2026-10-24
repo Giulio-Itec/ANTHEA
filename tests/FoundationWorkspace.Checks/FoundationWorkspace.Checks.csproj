@@ -1,4 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0-windows</TargetFramework><UseWPF>true</UseWPF><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><GpcLibraries>all</GpcLibraries></PropertyGroup>
  <ItemGroup><ProjectReference Include="../../src/ANTHEA.Desktop/ANTHEA.Desktop.csproj"/></ItemGroup>
+ <!-- F5.13 g3 (G9): the resources of App.xaml without X.Desktop.App, whose startup opens the shell of the Release (as ModelViewer.UiChecks). -->
+ <ItemGroup><EmbeddedResource Include="../../src/ANTHEA.Desktop/App.xaml" LogicalName="FoundationWorkspace.App.xaml"/></ItemGroup>
 </Project>
