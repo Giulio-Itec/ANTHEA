@@ -342,8 +342,11 @@ stadio `-Stage build,ui`.
   (F4: 747 file e 3129 candidati prima e dopo; Architecture.Tests 575 controlli, uno in più).
 - 491a389a `refactor(f5.14): prove WPF in tests/ANTHEA.Desktop.UiTests (stesse sorgenti, build UiTests)`: 96 sorgenti più
   le 10 della cattura F3 in `Equivalence/`, `README.md` della cartella, riferimenti ai file spostati.
-- commit dei commenti e della documentazione viva, con la terza revisione di `AGENTS.md` (sezione 7 applicata, con le
-  regole MVVM brevi chieste dal coordinatore) e `X.Desktop/README.md`.
+- 3ae82e5d `docs(f5.14): terza revisione di AGENTS.md, percorsi nuovi nei commenti e nella documentazione viva`: sezione 7
+  applicata, con le regole MVVM brevi chieste dal coordinatore, e `X.Desktop/README.md`.
+- 44309da5 merge di `refactoring/f5` a 9e0a3b56 (correzioni G9 e G10 delle prove): conflitto nel csproj di
+  `FoundationWorkspace.Checks` risolto con il percorso nuovo; `ConcreteSectionViewChecks.cs` arrivato in
+  `tests/ANTHEA.Desktop.UiTests` per il rilevamento dei rinomini.
 
 ### 10.2 Righe da cambiare nei documenti con PDF (revisione delle guide, non toccati qui)
 
@@ -357,7 +360,16 @@ stadio `-Stage build,ui`.
 
 ### 10.3 Corse finali
 
-ESITI_CORSE
+Tutte su 44309da5 (base `refactoring/f5` 9e0a3b56 con le correzioni G9 e G10):
+- profilo standard con `-Installer`, tag `f5-14-fine`: **PASS 81, NEW-FAIL 0** (28 `build/*` e 53 suite, comprese
+  `installer/safety`, `installer/guides`, `installer/examples`, `qa/no-test-code`, `Architecture.Tests`), cartella
+  `supporto/artefatti/ci/20261024-054358-f5-14-fine`;
+- `-Stage build,ui`, tutte le suite, tag `f5-14-ui`: **PASS 79, NEW-FAIL 0** (9 `build/*` e **70 suite ui**, le stesse 70
+  di prima degli spostamenti, comprese `ui/f3-equivalence`, `ui/check-contrast`, `ui/check-wiki-offscreen`,
+  `ui/check-sezione-view` e `FoundationWorkspace.UiChecks`, 4,6 s), cartella `supporto/artefatti/ci/20261024-060801-f5-14-ui`;
+- prima, sui singoli commit: quick PASS 55 dopo lo spostamento del desktop e dopo i documenti; mirate PASS 6 dopo lo
+  spostamento delle prove.
+`Audit-Installer.py` non è stato eseguito: serve un installer costruito con `Crea-Installer.ps1`, fuori da questo passo.
 
 ### 10.4 Che cosa resta
 
