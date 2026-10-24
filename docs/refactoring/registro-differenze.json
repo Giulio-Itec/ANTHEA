@@ -10041,6 +10041,40 @@
         "AG-PO-01",
         "AG-MUR-01"
       ]
+    },
+    {
+      "id": "AG-SHELL-01",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC del 24/10 (ramo refactoring/ag-po da dd9f8c6a)",
+      "titolo": "Archivio GPC della sezione nei documenti: versione del materiale calcestruzzo 4 invece di 3",
+      "famiglia": "persistenza/archivio GPC della sezione c.a.",
+      "modulo": "shell (F5.13), documento di lavoro dei progetti",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "GPCModel 5.21.0.0 (Model 2d59bbc6) scrive ConcreteMaterialEuropeanCommonVersion = 4 nell'archivio XML della sezione GPC (input.sezione_gpc.archivio), al posto di 3: la versione 4 porta la scelta della legge del calcestruzzo, analitica di default e quindi omessa. Un archivio di versione 3 si legge e si riscrive in versione 4. Nelle 13 catture del progetto registrate dalla finestra storica (tests/fixtures/f5-shell/cattura-mainwindow) è l'unica differenza: dopo aver portato 3 a 4 dentro l'archivio, i file sono identici byte per byte a quelli della shell nuova nella stessa corsa. Conseguenza per chi usa ANTHEA: GPCModel 5.20 (ANTHEA 1.13.0 e precedenti) rifiuta le versioni più nuove dei propri oggetti (ForwardCompatibilityTest di Model), quindi un documento con una sezione c.a. salvato con la 1.14.0 non si apre con la 1.13.0.",
+      "codice": [
+        "lib/Checker/GPCModel.dll (Model/Materials/Concrete/ConcreteMaterialEuropeanCommon.cs, versione 4)",
+        "tests/fixtures/f5-shell/cattura-mainwindow (13 file JSON)"
+      ],
+      "segno": "Nessun effetto sui numeri; solo il numero di versione dell'oggetto nell'archivio.",
+      "effetto_quantificato": "23 sostituzioni 3 → 4 in 13 file (una per archivio: documento di lavoro, archivio delle revisioni e documento mostrato); nessun'altra differenza nei 13 file.",
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
+        "esito": "registrata e aggiornata: nei 13 file di cattura-mainwindow il solo valore della versione del materiale passa da 3 a 4, controllando l'uguaglianza byte per byte con la cattura della shell della corsa 20261024-132441-ag-upstream-ui; il limite di compatibilità con la 1.13.0 va nei limiti noti della 1.14.0."
+      },
+      "test": [
+        "ui/shell-capture (byte per byte)",
+        "ui/shell-capture-confronto"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261024-132441-ag-upstream-ui/ui_shell-capture del checkout principale (mainwindow/ contro shell/)",
+        "tests/fixtures/f5-shell/README.md (nota del 24/10)"
+      ],
+      "voci_collegate": [
+        "AG-PO-01",
+        "AG-MUR-01"
+      ]
     }
   ]
 }

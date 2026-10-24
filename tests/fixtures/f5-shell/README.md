@@ -15,4 +15,9 @@ Il report Word si confronta anche parte per parte, nella stessa corsa, con quell
 `ModuleReportService` e `ModuleFigureRenderer`, il codice di `ProjectReport.cs` a 67eafba5). La fixture tiene solo le parti e il conteggio: i numeri del
 report dipendono dalle librerie e la data della copertina dall'ora.
 
+**24/10/2026, librerie GPC da origin/master (AG-SHELL-01).** GPCModel 5.21.0.0 scrive la versione 4 del materiale calcestruzzo
+(`ConcreteMaterialEuropeanCommonVersion`) nell'archivio della sezione. Nei 13 file JSON di `cattura-mainwindow/` quel solo valore
+è passato da 3 a 4 (23 sostituzioni); i file sono identici byte per byte alla cattura della shell della corsa
+`20261024-132441-ag-upstream-ui`. Nessun altro valore è cambiato.
+
 Corsa da cui vengono i valori: `supporto/artefatti/ci/20261023-195541-f5-13-g-rif1` del worktree.
