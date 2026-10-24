@@ -9890,6 +9890,37 @@
       ]
     },
     {
+      "id": "AG-FON-01",
+      "data": "2026-10-24",
+      "fase": "Librerie GPC del 24/10 (refactoring/f5, snapshot dd9f8c6a)",
+      "titolo": "Fondazioni superficiali: versione della libreria nel risultato (GPCChecker.Geotechnics 0.19.0.1)",
+      "famiglia": "fondazioni superficiali/risultato",
+      "modulo": "geo_fondazioni_superficiali (F5.9b)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "GPCChecker.Geotechnics passa da 0.19.0.0 a 0.19.0.1 per la ricompilazione coerente del set, senza modifiche agli algoritmi. Il risultato delle fondazioni porta la versione della libreria (library_version): nelle 8 fixture F3 con un risultato l'impronta SHA-256 del risultato dopo «Calcola», confrontata da ui/check-fondazioni-view con i valori registrati della vista storica, cambia solo per questo campo. Dati, stato, Modified, disegni e numeri non cambiano.",
+      "codice": [
+        "lib/Checker/GPCChecker.Geotechnics.dll",
+        "tests/ANTHEA.Desktop.UiTests/ShallowFoundationViewChecks.cs (HistoricFixtures, impronte del risultato)"
+      ],
+      "segno": "Nessun effetto sui numeri.",
+      "effetto_quantificato": "8 impronte del risultato su 11 fixture (le 3 senza risultato non cambiano); riportando library_version a 0.19.0.0 nel risultato catturato tornano tutte e 8 le impronte storiche.",
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»",
+        "esito": "registrata e aggiornata: 8 impronte del risultato in HistoricFixtures, con la nota del controllo."
+      },
+      "test": [
+        "ui/check-fondazioni-view"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/*-fondazioni-impronte (dettaglio con i risultati catturati, modifica temporanea non committata)"
+      ],
+      "voci_collegate": [
+        "AG-PO-01"
+      ]
+    },
+    {
       "id": "F5-64",
       "data": "2026-10-24",
       "fase": "F5.13 parte (g) e guide Rev59 (ramo refactoring/f5-rev59)",
