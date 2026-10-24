@@ -15,6 +15,7 @@
 *.anthea
 !/supporto/esempi/**/*.programma
 !/supporto/esempi/**/*.anthea
+!/tests/fixtures/**/*.programma
 node_modules/
 /supporto/tmp/
 *.bak

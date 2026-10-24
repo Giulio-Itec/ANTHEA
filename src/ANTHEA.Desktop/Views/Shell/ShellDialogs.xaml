@@ -154,7 +154,7 @@
          <TextBlock x:Name="Notice" Style="{StaticResource ShellDialog.Text}" Foreground="{DynamicResource Token.Status.Ok}" Text="{Binding Text}"/>
          <DataTemplate.Triggers>
           <DataTrigger Binding="{Binding Warning}" Value="True">
-           <Setter TargetName="Notice" Property="Foreground" Value="{DynamicResource Token.Status.Warn}"/>
+           <Setter TargetName="Notice" Property="Foreground" Value="{DynamicResource Token.Warning.Foreground}"/>
           </DataTrigger>
          </DataTemplate.Triggers>
         </DataTemplate>

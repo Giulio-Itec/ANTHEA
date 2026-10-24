@@ -9806,6 +9806,28 @@
       },
       "revisione_f5_15": "G2 (f5-13-shell §14.7, f5-15 §15.3)",
       "voci_collegate": ["F5-61"]
+    },
+    {
+      "id": "F5-63",
+      "data": "2026-10-24",
+      "fase": "F5.13 parte (g), G8: le pagine dei progetti nella prova del contrasto (ramo refactoring/f5-g8)",
+      "titolo": "Il numero di coerenza dell'albero e gli avvisi del «Confronto tra fogli» hanno il testo nel colore degli avvisi del tema, leggibile in Chiara",
+      "famiglia": "interfaccia/tema",
+      "modulo": "F5.13 · Shell (albero del progetto, Confronto tra fogli)",
+      "categoria": "correzione",
+      "stato": "corretto",
+      "descrizione": "La prova a parte delle pagine dei progetti (f5-13-shell §14.5, ramo refactoring/f5-13-g3) trovava in Chiara due testi poco leggibili, entrambi nel colore storico di MainWindow, Token.Status.Warn (#FF8C00, Brushes.DarkOrange): il numero del controllo di coerenza nell'albero, su Token.Badge.Warn (#FFF0D8), 2,08:1 (20 occorrenze), e gli avvisi del «Confronto tra fogli», su Token.Warning.Background (#FFFAEB), 2,22:1 (2 occorrenze). Il testo di tutti e due passa a Token.Warning.Foreground (#9A4D0A in Chiara, «testo degli avvisi e degli errori dei campi»), il token che le altre viste dei progetti usano già per i conteggi «1 conflitto» e «1 avviso» e per il testo degli avvisi dei campi: 5,44:1 sul fondo del badge e 5,85:1 sul fondo degli avvisi. Nessun valore di token cambia (tests/fixtures/f5/token-colori.json uguale). Il fondo del badge (Token.Badge.Warn) e il fondo degli avvisi restano; Status.Warn resta nel catalogo (nessun altro uso nelle viste). In Scuro e Molto scuro i due testi passano da #FECB8C a #D1AE90, come gli altri avvisi, e restano leggibili (sul fondo del badge 5,56:1 e 6,39:1, sul fondo degli avvisi 6,49:1 e 9,59:1). Le pagine dei progetti entrano nella corsa di ui/check-contrast con un archivio di prova versionato (tests/fixtures/f5/contrasto-progetti.programma): Scuro 0, Molto scuro 0; i due testi non compaiono più fra i difetti della Chiara.",
+      "documento": "docs/refactoring/f5-13-shell.md §14.5 e §14.7 (G8)",
+      "codice": ["src/ANTHEA.Desktop/Views/Shell/ShellTemplates.xaml (albero del progetto, badge di coerenza con avviso)", "src/ANTHEA.Desktop/Views/Shell/ShellDialogs.xaml (Confronto tra fogli, avvisi)"],
+      "segno": "Solo colore del testo: dati, calcolo, report e tracce invariati.",
+      "test": ["tests/ANTHEA.Desktop.UiTests/ContrastAudit.cs e ShellContrastViews.cs (ui/check-contrast) con tests/fixtures/f5/contrasto-progetti.programma: Scuro 0, Molto scuro 0 (ci/20261024-093753-f5-g8-c96)", "tests/ANTHEA.Application.Tests/ContrastArchiveChecks.cs: l'archivio di prova è quello costruito dal codice del prodotto, con una sezione coerente e una con un conflitto e un avviso"],
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "«G8: tutte e due: archivio di prova versionato, così le pagine dei progetti entrano nella prova del contrasto, e un arancione più scuro e leggibile per il testo degli avvisi in Chiara.» (24/10, 09:15)",
+        "esito": "corretta"
+      },
+      "revisione_f5_15": "G8 (f5-13-shell §14.7, f5-15 §15.3)",
+      "voci_collegate": ["F5-62"]
     }
   ]
 }

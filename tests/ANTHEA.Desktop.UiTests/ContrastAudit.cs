@@ -107,7 +107,10 @@ internal sealed class ContrastAudit
     internal Window? Main;
     internal int InFlight, Processed;
     internal readonly Dictionary<string, Func<Window, Task>> DialogActions = new();
+    /// <summary>The versioned archive of the pages of the projects (F5.13 G8): tests/fixtures/f5/contrasto-progetti.programma, built with the code of the product by
+    /// ANTHEA.Application.Tests (ContrastArchiveChecks). It is never opened in place, as the shell may save a document it closes: <see cref="CopyTestArchive"/>.</summary>
     internal readonly string TestArchive;
+    private int archiveCopies;
     internal string Root => sources.Root;
     private readonly HashSet<string> names = new();
     private readonly HashSet<Window> seenWindows = new();
@@ -127,7 +130,19 @@ internal sealed class ContrastAudit
         baselineFile = baseline is null ? null : Path.GetFullPath(baseline);
         filter = views is null ? null : new Regex(views, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
         sources = new SourceIndex(SourceIndex.RepositoryRoot());
-        TestArchive = Path.Combine(sources.Root, "supporto", "artefatti", "prova-f1.4.programma");
+        TestArchive = Path.Combine(sources.Root, "tests", "fixtures", "f5", "contrasto-progetti.programma");
+    }
+
+    /// <summary>A fresh copy of the archive of the pages of the projects, in a folder of the output of the run: each opening (every appearance, every view that needs it)
+    /// starts from the versioned file, and nothing a view saves reaches it.</summary>
+    internal string CopyTestArchive()
+    {
+        string folder = Path.Combine(OutputDirectory, "archivio-di-prova", (++archiveCopies).ToString("000"));
+        Directory.CreateDirectory(folder);
+        string copy = Path.Combine(folder, Path.GetFileName(TestArchive));
+        File.Copy(TestArchive, copy, true);
+        File.SetAttributes(copy, FileAttributes.Normal);
+        return copy;
     }
 
     internal static async Task Run(string[] args)

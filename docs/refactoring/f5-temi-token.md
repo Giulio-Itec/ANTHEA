@@ -364,7 +364,8 @@ Per questo la baseline della prova è a 96 DPI, catturata con il binario del com
 a un altro DPI fallisce senza confrontare.
 
 **Corse.** Tutte le corse hanno 877 catture. L'archivio di prova `supporto/artefatti/prova-f1.4.programma` manca in tutti i
-checkout, quindi le viste dei progetti con quell'archivio non sono coperte, prima come dopo.
+checkout, quindi le viste dei progetti con quell'archivio non sono coperte, prima come dopo. Dal 24/10 (G8) l'archivio è versionato in
+`tests/fixtures/f5/contrasto-progetti.programma` e quelle viste sono nella corsa ([f5-13-shell §14.5](f5-13-shell.md#145-contrasto-d12)).
 
 | Corsa | Codice | Avvio, DPI | Chiara | Scuro | Molto scuro |
 | --- | --- | --- | --- | --- | --- |

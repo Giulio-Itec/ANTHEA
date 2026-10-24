@@ -1442,8 +1442,8 @@ del testo, colore dello sfondo):
 Nessun difetto nuovo in Chiara. Le voci della sezione mista (SM9) e di Bridge Design (BD13) sono passate alle chiavi delle viste nuove con le
 altre.
 
-**Pagine dei progetti.** Non sono coperte dalla corsa: l'archivio `supporto/artefatti/prova-f1.4.programma` manca, come in tutte le corse dal F5.3
-([f5-temi-token](f5-temi-token.md)). Il percorso dei progetti è stato provato a parte, con il progetto della fixture
+**Pagine dei progetti** (fino alla G8, 24/10). Non erano coperte dalla corsa: l'archivio `supporto/artefatti/prova-f1.4.programma` mancava, come in tutte le
+corse dal F5.3 ([f5-temi-token](f5-temi-token.md)). Il percorso dei progetti è stato provato a parte, con il progetto della fixture
 `tests/fixtures/f5-shell/cattura-mainwindow/04-pali-condivisi.json` copiato al suo posto e poi tolto (`supporto/artefatti/f5-13-g3/prova-progetti`,
 fuori dalla baseline). Sono state catturate 25 viste e dialoghi per aspetto: albero, menu, rinomina, confronto, controllo del report, dati condivisi,
 spostamento, revisioni, revisione archiviata, collegamento dei sondaggi. Esiti: nessuna nota, nessuna finestra sullo schermo, Scuro 0, Molto
@@ -1453,6 +1453,54 @@ scuro 0, Chiara 38 occorrenze, tutte con colori storici:
 - `Token.Muted` su `Token.Surface` nella sezione c.a. (16).
 
 Vedi la domanda G8.
+
+**G8 fatta** (24/10, agente `f5-g8`, ramo `refactoring/f5-g8` da `refactoring/f5` c0061d48, schermo a 96 DPI). L'utente ha deciso alle 09:15: «G8: tutte e
+due: archivio di prova versionato, così le pagine dei progetti entrano nella prova del contrasto, e un arancione più scuro e leggibile per il testo degli
+avvisi in Chiara.»
+
+| Commit | Contenuto |
+| --- | --- |
+| 9542e79a | il numero di coerenza dell'albero (`ShellTemplates.xaml`) e gli avvisi del Confronto (`ShellDialogs.xaml`) hanno il testo in `Token.Warning.Foreground` (#9A4D0A) al posto di `Token.Status.Warn` (#FF8C00); voce **F5-63** (correzione) del registro |
+| fef9ba40 | archivio di prova versionato `tests/fixtures/f5/contrasto-progetti.programma`, `ContrastAudit` lo apre da una copia, baseline della Chiara con le due voci nuove |
+
+**Il colore.** Il testo passa da 2,08:1 (sul fondo del badge, `Token.Badge.Warn`) e 2,22:1 (sul fondo degli avvisi, `Token.Warning.Background`) a 5,44:1 e 5,85:1
+in Chiara. Nessun valore di token cambia (`token-colori.json` uguale, `ui/check-theme-tokens` PASS). I fondi non cambiano; `Token.Status.Warn` resta nel
+catalogo e non ha più usi nelle viste. In Scuro e Molto scuro i due testi passano da #FECB8C a #D1AE90, come gli altri avvisi, e restano leggibili
+(da 5,56:1 a 9,59:1 sui due fondi); la corsa dà Scuro 0 e Molto scuro 0.
+
+**L'archivio.** Il progetto «Viadotto di prova», 34 KB, documento di versione 1:
+- «Pila P1», coerente: «CLS di riferimento», «CLS seconda verifica» e «Verifica sezione» (sezione in c.a.); il controllo del copriferro è «RISPETTATO».
+  La prova vi fa il conflitto, cambiando la classe del secondo calcestruzzo, come faceva con l'archivio perduto;
+- «Pila P2», con un conflitto (classe di esposizione XC3 del calcestruzzo contro XC1 della sezione) e un avviso (copriferro «DA VERIFICARE»), perché
+  albero, riepilogo e «Confronto e avvisi» mostrino conflitto e avviso anche prima della modifica della prova.
+
+È costruito con il codice del prodotto, non scritto a mano: `tests/ANTHEA.Application.Tests/ContrastArchiveChecks.cs` (`ProjectDocuments` per i nodi e i fogli,
+`DocumentService.Validate` e `DocumentFile.Write` per il file). Il documento resta di versione 1, senza il modello nativo della sezione (`sezione_gpc`) che
+`DocumentService.Save` aggiunge: così si apre anche se cambia il formato del modello delle librerie. Il controllo, nella suite `Application.Tests` (profilo
+quick), apre il file come la shell, lo confronta con l'archivio costruito, verifica le due sezioni (0 conflitti e 0 avvisi; 1 e 1) e che il prodotto lo
+salvi e lo rilegga; non scrive nel file versionato (si riscrive solo con `ANTHEA_RIGENERA_ARCHIVIO_CONTRASTO=1`). `.gitignore` ha l'eccezione per
+`tests/fixtures/**/*.programma`. `ContrastAudit.CopyTestArchive` dà a ogni apertura una copia fresca in `<corsa>/archivio-di-prova/<n>`: il file versionato
+non si apre mai sul posto, e ogni aspetto riparte da quello.
+
+**Corse.**
+
+| Corsa | Catture | Scuro | Molto scuro | Chiara |
+| --- | --- | --- | --- | --- |
+| `ci/20261024-093753-f5-g8-c96` (con l'archivio) | 1 267 (81 in più: le pagine dei progetti, 27 per aspetto) | 0 | 0 | 645 in 193 voci, 2 voci nuove, nuova baseline |
+| `ci/20261024-100101-f5-g8-ui` (baseline nuova) | | 0 | 0 | 645 in 193 voci = baseline, PASS |
+
+Le due voci nuove sono nel foglio della sezione in c.a. aperto dal progetto: `progetti-foglio` (8) e `progetti-foglio-struttura` (8, con l'albero aperto).
+Sono «Motore di calcolo: GPC Engine» (4,36:1) e i numeri delle schede 02–08 (3,96:1): `Token.Muted` (#64748B) su `Token.Surface` (#F3F5F8) della
+`ConcreteSectionSheetView`, con la stessa chiave della voce di `modulo-str_palo` e dei cambi di aspetto già in baseline. È il difetto della G7, non un
+difetto delle pagine dei progetti. Nessun'altra pagina dei progetti ha difetti in Chiara; il numero di coerenza e gli avvisi del Confronto non compaiono più.
+Le finestre «Confronto», «Report», «Nuova revisione», «Revisioni», «Dati condivisi della sezione», «Conferma spostamento» e «Collegamento dei sondaggi»
+sono raggiunte (nessuna nota delle viste dei progetti). Nessuna voce già in baseline cambia: la Chiara sale da 629 in 191 voci a 645 in 193 solo per
+l'estensione della prova (la baseline «può solo scendere» per i difetti già noti; qui sale per le pagine nuove, per decisione dell'utente).
+
+Altre prove (`ci/20261024-100101-f5-g8-ui`, 12 suite PASS): `ui/check-contrast`, `ui/check-shell-draft`, `ui/shell-capture` e `ui/shell-capture-confronto`
+(cattura registrata uguale), le sei `ui/shell-smoke-*`, `ui/check-appearance` e `ui/check-theme-tokens`. Nessun riferimento congelato cambia: nessuna
+immagine approvata mostrava i due testi.
+Profilo quick PASS 55, 0 fallimenti (`ci/20261024-102417-f5-g8-quick`, su 7860cea4), con il controllo dell'archivio di prova in `Application.Tests`.
 
 **Corse finali della terza tappa** su 0f930c87 (DPI della finestra 96):
 - quick PASS 55, 0 fallimenti (`ci/20261024-013815-f5-13-g3-quick`, su 212d69d2);
@@ -1527,7 +1575,7 @@ l'unione, con PDF, indici e impronte. La guida, i PDF e gli articoli non sono to
 | G5 | `CheckBridgeOptions` (`ui/smoke-bridge`) vuole il fuoco della tastiera su un campo | `Activate()` della facciata attiva la finestra della shell fuori dallo schermo, come prima `MainWindow` (che però era sullo schermo); da rivedere se le prove non devono mai attivare finestre |
 | G6 | A 1920 × 1080 la pagina principale del palo orizzontale scorre in verticale nella shell (790,7 contro 751,3 px; 2 314 contro 658 con l'albero accanto, SH24): F5-61 in `registro-differenze.json` | **Decisa dall'utente il 24/10 (00:15)**: «accetto che la pagina del palo orizzontale scorra nella shell a Full HD; le due suite controllano l'area della scheda, come per SH40». F5-61 è «dichiarato»; `ui/smoke` e `ui/smoke-horizontal` sono sulla shell (ramo `refactoring/f5-13-g2`) |
 | G7 | Le occorrenze della Chiara si contano per cattura: gli elementi fissi di una vista (linguette, «Motore di calcolo», riga di stato) tornano in ogni pagina di scorrimento, e la scheda della shell, più bassa, ha pagine in più (80 occorrenze in 28 voci nuove, 14.5) | registrate come le stesse voci con un nome di vista nuovo (D12: stesso elemento, stessi colori); nessun cambio dell'interfaccia. Alternative: contare un elemento fisso una volta per vista (cambio dello strumento, la baseline scende); oppure rendere leggibile `Token.Muted` su `Token.Surface` (4,36:1) in Chiara, contro D12, che conserva i colori storici |
-| G8 | Pagine dei progetti fuori dalla corsa: manca l'archivio `prova-f1.4.programma` (dal F5.3). La prova a parte (14.5) trova in Chiara il numero di coerenza dell'albero (2,08:1) e gli avvisi del confronto (2,22:1) in `Token.Status.Warn`, colori storici di `MainWindow`; immagini in `ANTHEA-f5-ripresa\f5-agenti\f5-13-g3\immagini` | nessun cambio. Opzioni: (a) un archivio di prova versionato, preso dalla fixture `f5-shell`, e le 38 occorrenze nella baseline; (b) testo degli avvisi in un colore leggibile del tema (per esempio `Token.Warning.Foreground`), un cambio visibile di un colore storico; (a) e (b) insieme |
+| G8 | Pagine dei progetti fuori dalla corsa: manca l'archivio `prova-f1.4.programma` (dal F5.3). La prova a parte (14.5) trova in Chiara il numero di coerenza dell'albero (2,08:1) e gli avvisi del confronto (2,22:1) in `Token.Status.Warn`, colori storici di `MainWindow`; immagini in `ANTHEA-f5-ripresa\f5-agenti\f5-13-g3\immagini` | **Decisa dall'utente (24/10, 09:15): «tutte e due: archivio di prova versionato, così le pagine dei progetti entrano nella prova del contrasto, e un arancione più scuro e leggibile per il testo degli avvisi in Chiara».** Fatta nel ramo `refactoring/f5-g8` (14.5): il testo dei due elementi passa a `Token.Warning.Foreground` (5,44:1 e 5,85:1, F5-63); archivio `tests/fixtures/f5/contrasto-progetti.programma`; baseline della Chiara da 629 occorrenze in 191 voci a 645 in 193 (2 voci nuove, della G7); Scuro 0 e Molto scuro 0 |
 | G9 | `FoundationWorkspace.UiChecks` appesa con «Operazione non completata» sullo schermo | **Corretta (5844a146, difetto della prova).** La prova creava `X.Desktop.App` per le risorse: WPF mette in coda l'avvio quando l'applicazione nasce e le attese della prova lo eseguivano; dal 23/10 `App.OnStartup` apre la shell sullo schermo e leggeva `<cartella> --ui` come documento («Access to the path … is denied»). Ora un'applicazione con le sole risorse di App.xaml (come `ModelViewer.UiChecks`), `ShutdownMode` esplicito. PASS 98 controlli |
 | G10 | `ui/check-sezione-view` FAIL dal 24/10: report breve diverso dal registrato | **Corretta (bd8807ca, difetto della prova).** La riga «ANTHEA · gg/mm/aaaa · esito» del report breve ha la data senza l'ora, che `NormalizeReportTimestamps` non sostituisce: le impronte registrate il 23/10 contengono quella data. Con 23/10 al posto di 24/10 il report breve di oggi ha esattamente l'impronta registrata. La prova riporta il giorno della corsa (± 1) al giorno della registrazione. Report e riferimento invariati |
 
@@ -1546,7 +1594,7 @@ In `MainWindow` i due controlli restano quelli di prima. Le altre asserzioni son
 `ui/shell-capture-confronto`, `ui/shell-smoke-project-report` e `ui/check-shell-draft` PASS (`ci/20261024-002126-f5-13-g2-ui`).
 
 **G2 fatta** nella terza tappa (`f5-13-g3`, 9916dc65 e 212d69d2, 14.5): `ContrastAudit` gira sulla shell e `ui/check-contrast` passa a 96 DPI
-con la baseline nuova. Restano le domande G7 e G8. Su `MainWindow` restano solo le partial delle sei suite storiche già sostituite da
+con la baseline nuova. Resta la domanda G7 (la G8 è fatta, 14.5). Su `MainWindow` restano solo le partial delle sei suite storiche già sostituite da
 `ui/shell-smoke-*`, che si archiviano con lei.
 
 **Il ritiro di `MainWindow`** (tappa B di `f5-13-g3`, 24/10, ramo `refactoring/f5-13-g3` da `refactoring/f5` 3e6c6f77) è fatto, nel commit

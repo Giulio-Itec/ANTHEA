@@ -166,7 +166,7 @@ internal sealed class ShellContrastViews : IDisposable
     {
         AuditReset(); W.NewProjects(); await a.Settle(); await a.SnapStable("progetti-vuoto", AuditRoot, "vista");
         if (!File.Exists(a.TestArchive)) { a.Uncovered("Progetti con archivio di prova", "archivio di prova assente: " + a.TestArchive); return; }
-        AuditReset(); W.LoadFile(a.TestArchive); W.ShowProjects(); await a.Settle();
+        AuditReset(); W.LoadFile(a.CopyTestArchive()); W.ShowProjects(); await a.Settle();
         var shell = Bench.Shell;
         var document = Bench.Project.Document;
         var project = document.Array("progetti").OfType<JsonObject>().First();
@@ -398,7 +398,7 @@ internal sealed class ShellContrastViews : IDisposable
         await Switch("cambio-progetti-sezione", async () =>
         {
             AuditReset();
-            if (File.Exists(a.TestArchive)) { W.LoadFile(a.TestArchive); await Overview(Bench.Project.Document.Array("progetti")[0]!["strutture"]![0]!.AsObject()); }
+            if (File.Exists(a.TestArchive)) { W.LoadFile(a.CopyTestArchive()); await Overview(Bench.Project.Document.Array("progetti")[0]!["strutture"]![0]!.AsObject()); }
             else W.ShowProjects();
             await a.Settle();
         });

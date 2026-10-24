@@ -773,7 +773,7 @@
    </MultiDataTrigger>
    <DataTrigger Binding="{Binding Badge.Warning}" Value="True">
     <Setter TargetName="Badge" Property="Background" Value="{DynamicResource Token.Badge.Warn}"/>
-    <Setter TargetName="Badge" Property="Foreground" Value="{DynamicResource Token.Status.Warn}"/>
+    <Setter TargetName="Badge" Property="Foreground" Value="{DynamicResource Token.Warning.Foreground}"/>
    </DataTrigger>
   </HierarchicalDataTemplate.Triggers>
  </HierarchicalDataTemplate>
