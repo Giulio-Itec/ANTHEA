@@ -11,7 +11,8 @@ using GPC.Model.Results;
 /// Sezione 12 delle prove dell'adattatore: punto resistente SLU della sezione c.a. (revisione di architettura R2, registro F2-17). Il modulo
 /// usa solo il motore della libreria (decisione dell'utente dell'11/10/2026): il punto grezzo di SectionSolver.CalculateDomainPoint resta
 /// qui come riferimento, chiamato direttamente. Ogni messaggio comincia con il numero della prova (12a…12g).
-/// 12a. Mappatura dei motivi della libreria: ogni testo noto ha la traduzione, la domanda nulla dà «Azione nulla», un testo inventato dà
+/// 12a. Mappatura dei motivi della libreria: ogni testo noto ha la traduzione, i rifiuti per i vincoli della ricerca di GPCChecker.Concrete 0.20
+///      (punto e piano di deformazione, AG-CA-03) sono tradotti con motivi distinti, la domanda nulla dà «Azione nulla», un testo inventato dà
 ///      InvalidOperationException.
 /// 12b. Motore unico: ogni chiamata dell'adattatore registra il motore della libreria nella sonda.
 /// 12c. Direzione di ricerca nulla, il difetto del punto grezzo segnalato con F2-17: con «Mx–My costanti» e N = 0, con «N e Mx costanti» e
@@ -67,6 +68,18 @@ internal static class ResistanceChecks
             check(mapped.Length > 0 && mapped != text && !Regex.IsMatch(mapped, @"\b(the|point|missing|invalid|domain|ratio|returned|search)\b", RegexOptions.IgnoreCase), "12a: traduzione assente o inglese per «" + text + "»: «" + mapped + "»");
             texts++;
         }
+        // Rifiuti per i vincoli della ricerca di GPCChecker.Concrete 0.20 (LegacySectionCalculation): il punto e, dalla 0.20 (62ecbc83/c611b709,
+        // registro AG-CA-03), il piano di deformazione. Entrambi tradotti, con motivi distinti: l'adattatore dà un esito senza punto con il
+        // motivo (verifica DA COMPLETARE), non un'eccezione.
+        string[] constraints = ["The returned point does not satisfy the search constraints.", "The returned strain plane does not satisfy the search constraints."];
+        var reasons = constraints.Select(t =>
+        {
+            try { return ConcreteLibraryMapping.ResistanceRejection(new SectionResistanceResponse(new SolverDiagnostics(CalculationStatus.NotConverged, "prova", "1", t), "Intersection")); }
+            catch (InvalidOperationException e) { return "error:" + e.Message; }
+        }).ToArray();
+        check(reasons.All(r => !r.StartsWith("error:", StringComparison.Ordinal)) && constraints.All(MappingCoverage.ResistanceRejectionTexts.Contains)
+            && reasons.Distinct().Count() == constraints.Length,
+            "12a: rifiuti per i vincoli della ricerca senza traduzione o con lo stesso motivo: " + string.Join(" | ", reasons));
         var invented = new SectionResistanceResponse(new SolverDiagnostics(CalculationStatus.NotConverged, "prova", "1", "Invented message."), "ConstantN");
         check(Outcome(() => ConcreteLibraryMapping.ResistanceRejection(invented)).StartsWith("error:InvalidOperationException"), "12a: testo inventato della libreria accettato");
         var axes = new GPC.Geometry.CoordinateSystem(new GPC.Geometry.Point3d(0, 0, 0), new GPC.Geometry.Vector3d(1, 0, 0), new GPC.Geometry.Vector3d(0, 1, 0));
