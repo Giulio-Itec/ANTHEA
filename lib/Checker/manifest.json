@@ -1,9 +1,8 @@
 {
     "snapshotDate":  "2026-10-24",
-    "generator":  "tools/libs/Update-Snapshot.ps1 -ReleaseSet",
-    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\ChatGPT\\Checker\\releases\\gpc-design-netstandard20-20261024",
-    "releaseSetCreated":  "2026-10-24T12:21:29",
-    "candidate":  true,
+    "generator":  "tools/libs/Update-Snapshot.ps1",
+    "fromUpstream":  true,
+    "buildRoot":  "C:\\Users\\g.pacini\\AppData\\Local\\Temp\\gpc-snapshot",
     "targetFramework":  "netstandard2.0",
     "nuget":  [
                   {
@@ -24,7 +23,7 @@
                            "repository":  "Utilities",
                            "branch":  "master",
                            "commit":  "e57b440b16a0a311a7bf0af2f9cf4d2681b83491",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -35,7 +34,7 @@
                            "repository":  "Geometry",
                            "branch":  "master",
                            "commit":  "6734eee1004142576b96759e34c15dec48776e23",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -46,7 +45,7 @@
                            "repository":  "Geometry",
                            "branch":  "master",
                            "commit":  "6734eee1004142576b96759e34c15dec48776e23",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -55,9 +54,9 @@
                            "assemblyVersion":  "5.21.0.0",
                            "sha256":  "86AABD20AB7EB4F7CA257705D803C6F9C7D4ECBAE8B55EB254EBF71C93DCC2DB",
                            "repository":  "Model",
-                           "branch":  "codex/concrete-analytic-parabola",
+                           "branch":  "master",
                            "commit":  "2d59bbc609cd9c913abbfc8c8b7cc6615f7b4d53",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -66,9 +65,9 @@
                            "assemblyVersion":  "0.3.0.1",
                            "sha256":  "FD230620B25D5DC1D03BE1B0D401E1109C46BABB1866DC7B47F2537F9BC09AD0",
                            "repository":  "Model",
-                           "branch":  "codex/concrete-analytic-parabola",
+                           "branch":  "master",
                            "commit":  "2d59bbc609cd9c913abbfc8c8b7cc6615f7b4d53",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -77,9 +76,9 @@
                            "assemblyVersion":  "2.6.0.1",
                            "sha256":  "9F408177CAD6A9807B7A3C547B0BB95D4BCEAA5CD134B3C50385BC4182EB424D",
                            "repository":  "Model",
-                           "branch":  "codex/concrete-analytic-parabola",
+                           "branch":  "master",
                            "commit":  "2d59bbc609cd9c913abbfc8c8b7cc6615f7b4d53",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
@@ -88,75 +87,75 @@
                            "assemblyVersion":  "3.3.0.1",
                            "sha256":  "82DE7FB3A5F2267A8FBB2C65525EE46472C232D8DBCCDD6790BFB456F143EFC0",
                            "repository":  "Model",
-                           "branch":  "codex/concrete-analytic-parabola",
+                           "branch":  "master",
                            "commit":  "2d59bbc609cd9c913abbfc8c8b7cc6615f7b4d53",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
                            "file":  "GPCChecker.Concrete.dll",
                            "source":  "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
                            "assemblyVersion":  "0.20.0.0",
-                           "sha256":  "D845A7E3BC65902F02C6D00F41A66E2AFFB4B6C73EE1C22BBA7949FCBB88AFF3",
+                           "sha256":  "DE9B9F49A0457568716F311076F0B18F7994F06A8834B417EFA60489C163C9CE",
                            "repository":  "Checker",
-                           "branch":  "codex/design-netstandard20",
-                           "commit":  "1f8dcf5b0dfa63cdce9f0566f0208b3fd7cc67b3",
-                           "pushed":  false,
+                           "branch":  "master",
+                           "commit":  "f6d87d28905c9080740ec984a3acf77b29824578",
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
                            "file":  "GPCChecker.Steel.dll",
                            "source":  "Checker/GPCChecker.Steel/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "2.41.0.1",
-                           "sha256":  "928DEA4E445F95679D6052B76C7374CAAAAAA4D4831B1B67A7A9D690B8216BC3",
+                           "assemblyVersion":  "2.84.0.0",
+                           "sha256":  "DD4671217DE7337CE1D9D1550997986613005A348882DC8751DEA2194879863F",
                            "repository":  "Checker",
-                           "branch":  "codex/design-netstandard20",
-                           "commit":  "1f8dcf5b0dfa63cdce9f0566f0208b3fd7cc67b3",
-                           "pushed":  false,
+                           "branch":  "master",
+                           "commit":  "f6d87d28905c9080740ec984a3acf77b29824578",
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
                            "file":  "GPCChecker.Geotechnics.dll",
                            "source":  "Checker/GPCChecker.Geotechnics/bin/Release/netstandard2.0",
                            "assemblyVersion":  "0.19.0.1",
-                           "sha256":  "8BE83BB612002280B5577FE0B294105B1CBD6F672D687CC5FD6BA4351F5AFB7E",
+                           "sha256":  "0DC0BE19308C19D6B4FA9604DB4D715AC307CB8627C7C2CC8937BA1941A9C95B",
                            "repository":  "Checker",
-                           "branch":  "codex/design-netstandard20",
-                           "commit":  "1f8dcf5b0dfa63cdce9f0566f0208b3fd7cc67b3",
-                           "pushed":  false,
+                           "branch":  "master",
+                           "commit":  "f6d87d28905c9080740ec984a3acf77b29824578",
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
                            "file":  "GPCChecker.Masonry.dll",
                            "source":  "Checker/src/GPCChecker.Masonry/bin/Release/netstandard2.0",
                            "assemblyVersion":  "0.6.0.1",
-                           "sha256":  "4D471A46ECE9120AD7CF0F3D734939F07C1BAF1D2A4869E62E7F1E392BC67F60",
+                           "sha256":  "43A50EB8DE8B7F0710C8255EC68905D510FC06743F4F19BDADA5CA777C5E90A4",
                            "repository":  "Checker",
-                           "branch":  "codex/design-netstandard20",
-                           "commit":  "1f8dcf5b0dfa63cdce9f0566f0208b3fd7cc67b3",
-                           "pushed":  false,
+                           "branch":  "master",
+                           "commit":  "f6d87d28905c9080740ec984a3acf77b29824578",
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
                            "file":  "GPC.Design.dll",
                            "source":  "Checker/src/GPC.Design/bin/Release/netstandard2.0",
                            "assemblyVersion":  "0.36.0.0",
-                           "sha256":  "E07FEEEC34350D619BF5EEE21B5479481CBBBA93C80750A9F3F8919FF5989621",
+                           "sha256":  "47E227D708256D4AE11AD3DB5938067B11EE6075579BA7FAD2E2ED75E0962D90",
                            "repository":  "Checker",
-                           "branch":  "codex/design-netstandard20",
-                           "commit":  "1f8dcf5b0dfa63cdce9f0566f0208b3fd7cc67b3",
-                           "pushed":  false,
+                           "branch":  "master",
+                           "commit":  "f6d87d28905c9080740ec984a3acf77b29824578",
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        },
                        {
                            "file":  "GPCChecker.CompositeBridge.dll",
                            "source":  "Checker/GPCChecker.CompositeBridge/bin/Release/netstandard2.0",
                            "assemblyVersion":  "1.13.0.1",
-                           "sha256":  "922CD75BDBF849FD3E4FD175AB496DC2EE38B9352C7C8257A34B5E38AB522D92",
+                           "sha256":  "0607BBBE1267AD1733154DE63CEABCDED741B480F7C7E945A1B9E0C56415E8C1",
                            "repository":  "Checker",
-                           "branch":  "codex/design-netstandard20",
-                           "commit":  "1f8dcf5b0dfa63cdce9f0566f0208b3fd7cc67b3",
-                           "pushed":  false,
+                           "branch":  "master",
+                           "commit":  "f6d87d28905c9080740ec984a3acf77b29824578",
+                           "pushed":  true,
                            "sdk":  "9.0.319"
                        }
                    ]

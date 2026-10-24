@@ -1,5 +1,17 @@
 # DLL Checker
 
+**Snapshot da origin/master per le prove della 1.14.0 (24 ottobre 2026, temporaneo).** DLL costruite con
+`Update-Snapshot.ps1 -FromUpstream -Install` dai master pubblicati: Model `2d59bbc6` e Checker `f6d87d28`, Geometry
+`6734eee1` e Utilities `e57b440b` invariati. Rispetto allo snapshot locale qui sotto (Checker `1f8dcf5b`) entrano il
+lavoro unito su master da Codex (Steel 2.84.0.0, con bulloni e collegamenti; Concrete con il rifiuto dei piani che
+violano i vincoli della ricerca) e le stesse versioni per le altre DLL. Le DLL di Model sono identiche allo snapshot
+locale; quelle di Checker sono identiche per SHA-256 a quelle costruite da `Release-Set.ps1` sugli stessi commit.
+
+Nessuna suite delle librerie è stata eseguita da questo comando. Il set ufficiale AG non è ancora fatto: la verifica di
+Checker su `f6d87d28` ha 6 prove di Concrete rosse dopo l'unione delle 12:46 (contratti storici e default analitico),
+in correzione. `release-set.json` è ancora quello della release AF e la provenienza F4 resta AF fino al set ufficiale,
+che lo sostituirà con DLL dallo stesso codice.
+
 **Snapshot AG locale — Design .NET Standard 2.0 (24 ottobre 2026).** Set candidato da
 Checker `1f8dcf5b` (`codex/design-netstandard20`) e Model `2d59bbc6`, installato con
 `Update-Snapshot.ps1 -ReleaseSet ... -AllowCandidate -Install`. Design passa da
