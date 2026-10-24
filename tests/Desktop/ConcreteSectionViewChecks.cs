@@ -374,7 +374,10 @@ internal static partial class ConcreteSectionViewChecks
                 name + ": PDF affiancato uguale a quello di ReportFiles dal report Word" + (attempts > 1 ? $" ({attempts} esportazioni)" : ""));
             Check(sides.SameData && (mvvm.Modified - mvvmBefore) / attempts == historic["report_modified"]!.GetValue<int>(),
                 name + ": il report salva le sezioni scelte come la vista storica, con gli stessi Modified (registrati)");
-            string? brief = DifferentParts(mvvm.Editor.BuildShortReport("Breve " + id), historic["breve"]!.AsObject(), normalizer);
+            // F5.13 g3 (G10): the bytes of the short report beside the other exports, to read a difference.
+            byte[] briefReport = mvvm.Editor.BuildShortReport("Breve " + id);
+            File.WriteAllBytes(Path.Combine(folder, name + "-breve.docx"), briefReport);
+            string? brief = DifferentParts(briefReport, historic["breve"]!.AsObject(), normalizer);
             Check(brief is null, name + ": report breve uguale a quello della vista storica (registrato)" + (brief is null ? "" : ", diversa " + brief));
             mvvm.Editor.ExportResult(Path.Combine(folder, name + "-mvvm.json"));
             byte[] mvvmJson = File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.json"));
@@ -481,6 +484,20 @@ internal static partial class ConcreteSectionViewChecks
     private static string ShaBytes(byte[] bytes) => Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(bytes)).ToLowerInvariant();
 
     /// <summary>
+    /// F5.13 g3 (G10): the line «ANTHEA · gg/mm/aaaa · esito» of the short report (ReportConcreteShort) carries the day of the run without the time, which
+    /// NormalizeReportTimestamps leaves (it replaces only «ANTHEA · gg/mm/aaaa hh:mm»): the impronte of tests/fixtures/f5-sezione/vista-storica.json have the
+    /// day of the recording, 23/10/2026, in that line. The day of the run (± 1 day, as TextNormalizer) is written back as the day of the recording, so that
+    /// the short report is compared on every day; any other date of the line is kept.
+    /// </summary>
+    private static string RecordingDay(string xml) => ShortReportDay.Replace(xml, m =>
+    {
+        var day = new DateOnly(int.Parse(m.Groups["y"].Value), int.Parse(m.Groups["m"].Value), int.Parse(m.Groups["d"].Value));
+        return Math.Abs(day.DayNumber - DateOnly.FromDateTime(DateTime.Now).DayNumber) <= 1 ? m.Groups["prefix"].Value + "23/10/2026" : m.Value;
+    });
+
+    private static readonly Regex ShortReportDay = new(@"(?<prefix><w:t(?:\s+xml:space=""preserve"")?>ANTHEA · )(?<d>\d{2})/(?<m>\d{2})/(?<y>\d{4})(?= · )", RegexOptions.Compiled);
+
+    /// <summary>
     /// First part of a Word document that differs from the parts recorded for the historic one (SHA-256 of docProps/core.xml and word/document.xml
     /// with the dates normalized as in F3, of every other part byte for byte); null when equal.
     /// </summary>
@@ -493,7 +510,7 @@ internal static partial class ConcreteSectionViewChecks
         {
             using var stream = zip.GetEntry(name)!.Open(); using var copy = new MemoryStream(); stream.CopyTo(copy); byte[] bytes = copy.ToArray();
             string sha = name == "docProps/core.xml" ? Sha(normalizer.Normalize(Encoding.UTF8.GetString(bytes)))
-                : name == "word/document.xml" ? Sha(normalizer.NormalizeReportTimestamps(Encoding.UTF8.GetString(bytes))) : ShaBytes(bytes);
+                : name == "word/document.xml" ? Sha(RecordingDay(normalizer.NormalizeReportTimestamps(Encoding.UTF8.GetString(bytes)))) : ShaBytes(bytes);
             if (sha != recorded[name]!.GetValue<string>()) return name;
         }
         return null;
