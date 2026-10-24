@@ -10002,24 +10002,27 @@
       "id": "AG-SM-01",
       "data": "2026-10-24",
       "fase": "Librerie GPC del 24/10 (ramo refactoring/ag-po da dd9f8c6a)",
-      "titolo": "Sezione mista, storico non lineare: tensioni e deformazioni con la parabola del calcestruzzo analitica (non aggiornata, oltre il 3 %)",
+      "titolo": "Sezione mista, storico non lineare: tensioni e deformazioni con la parabola del calcestruzzo analitica (accettata dall'utente, oltre il 3 % su grandezze piccole)",
       "famiglia": "ponti/sezione mista/storico non lineare",
       "modulo": "str_mista_ponte (F5.11)",
       "categoria": "intenzionale",
-      "stato": "da-decidere",
-      "descrizione": "GPCChecker.CompositeBridge 1.13.0.1 acquisisce da Model 5.21.0.0 la legge analitica del calcestruzzo (HistoryModelEnvelopeLaw, nota default-analitico-20261024.txt). Nello storico non lineare a fibre della fixture storico-non-lineare-curve cambiano tensioni e deformazioni delle fibre, curve, equilibrio (Newton 6 → 9 iterazioni, residui più piccoli) e la tabella delle verifiche. Le grandezze che governano cambiano poco (|σa|max −0,10 %, acciaio dell'ala superiore −1,04 %), ma alcune tensioni e deformazioni dell'armatura della soletta e alcuni incrementi di fase calano in modulo oltre il 3 %: per la decisione dell'utente la voce non è aggiornata. Nessun esito cambia; dati, campi e stati identici.",
+      "stato": "dichiarato",
+      "descrizione": "GPCChecker.CompositeBridge 1.13.0.1 acquisisce da Model 5.21.0.0 la legge analitica del calcestruzzo (HistoryModelEnvelopeLaw, nota default-analitico-20261024.txt). Nello storico non lineare a fibre della fixture storico-non-lineare-curve cambiano tensioni e deformazioni delle fibre, curve, equilibrio (Newton 6 → 9 iterazioni, residui più piccoli) e la tabella delle verifiche. Le grandezze che governano cambiano poco (|σa|max −0,10 %, acciaio dell'ala superiore −1,04 %), ma alcune tensioni e deformazioni dell'armatura della soletta e alcuni incrementi di fase calano in modulo oltre il 3 %: per la regola del 3 % la voce era rimasta da decidere, poi l'utente l'ha accettata (decisione «4B») con la segnalazione nelle note di rilascio. Nessun esito cambia; dati, campi e stati identici.",
       "codice": [
         "lib/Checker/GPCChecker.CompositeBridge.dll",
         "lib/Checker/GPCModel.dll",
-        "tests/fixtures/f5-sezione-mista/storica (non aggiornata)",
-        "tests/fixtures/f3/expected/sheets/str_mista_ponte/storico-non-lineare-curve (nessuna transizione aggiunta)"
+        "tests/fixtures/f5-sezione-mista/storica",
+        "tests/fixtures/f3/transitions-f4.json",
+        "tests/ANTHEA.Presentation.Tests/CompositeSectionSheetChecks.cs (CompareTransitions)"
       ],
-      "segno": "Misto. A favore: σc,min −4,387 → −4,411 MPa (+0,55 % in modulo). A sfavore entro il 3 %: |σa|max 124,143 → 124,014 MPa (−0,10 %), ala superiore σmin −61,04 → −60,42 MPa (−1,02 %) e σmax −58,894 → −58,283 MPa (−1,04 %), armatura della soletta in fase Q −24,36 → −23,69 MPa (−2,75 %). A sfavore oltre il 3 %: tensioni dell'armatura della soletta in fase G2 −9,74 → −9,37 MPa (−3,8 %), −6,36 → −6,02 (−5,3 %), −6,28 → −5,94 (−5,4 %); ultimo Δσ di fase delle fibre dell'ala superiore −5,68 → −5,33 (−6,2 %), −5,17 → −4,82 (−6,8 %), −4,84 → −4,51 MPa (−6,8 %); deformazioni meccaniche −27,52 → −25,86 µε (−6,0 %), −31,39 → −29,69 (−5,4 %), −68,79 → −65,83 (−4,3 %), −78,46 → −75,43 µε (−3,9 %); incremento di fase della deformazione assiale ε₀ −27,05 → −25,40 µε (−6,1 %).",
+      "segno": "A sfavore oltre il 3 %, accettato dall'utente e da segnalare nelle note di rilascio: tensioni dell'armatura della soletta fino a −5,4 %, incrementi di fase fino a −6,8 %, deformazioni fino a −6,0 %. Le grandezze che governano cambiano poco: |σa|max −0,10 %, ala superiore −1,04 %. Dettaglio. A favore: σc,min −4,387 → −4,411 MPa (+0,55 % in modulo). A sfavore entro il 3 %: |σa|max 124,143 → 124,014 MPa (−0,10 %), ala superiore σmin −61,04 → −60,42 MPa (−1,02 %) e σmax −58,894 → −58,283 MPa (−1,04 %), armatura della soletta in fase Q −24,36 → −23,69 MPa (−2,75 %). A sfavore oltre il 3 %: tensioni dell'armatura della soletta in fase G2 −9,74 → −9,37 MPa (−3,8 %), −6,36 → −6,02 (−5,3 %), −6,28 → −5,94 (−5,4 %); ultimo Δσ di fase delle fibre dell'ala superiore −5,68 → −5,33 (−6,2 %), −5,17 → −4,82 (−6,8 %), −4,84 → −4,51 MPa (−6,8 %); deformazioni meccaniche −27,52 → −25,86 µε (−6,0 %), −31,39 → −29,69 (−5,4 %), −68,79 → −65,83 (−4,3 %), −78,46 → −75,43 µε (−3,9 %); incremento di fase della deformazione assiale ε₀ −27,05 → −25,40 µε (−6,1 %).",
       "effetto_quantificato": "F3 di storico-non-lineare-curve: 2680 differenze numeriche (2583 in result.json: tensioni e deformazioni delle 352 fibre, punti, contributi, equilibrio; 97 in report.txt, tabelle T10-T16). Tracce: 143 righe in 3 scenari (curve-sezione 80, percorso-storico-non-lineare-curve 43, fasi-schede 20), solo pannelli dei risultati (panoramica, convergenza, tensioni, verifiche, omogeneizzazione, equilibrio, curve) e impronta del risultato; tolti numeri e impronte ogni riga è uguale. Le variazioni oltre il 3 % sono su grandezze piccole in assoluto (|σ| ≤ 10 MPa, Δ ≤ 0,37 MPa; deformazioni ≤ 80 µε, Δ ≤ 3,1 µε), non sulle grandezze che governano le verifiche.",
       "decisione": {
         "data": "2026-10-24",
-        "utente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»; per la regola data con il compito: oltre il 3 % a sfavore la voce non si aggiorna, si documenta.",
-        "esito": "non aggiornata: tracce, transizioni F4 e riferimenti invariati; Presentation.Tests (CompositeSectionSheetChecks) resta rosso finché l'utente non decide."
+        "utente": "«4B», alla domanda «AG-SM-01: A) prima una verifica indipendente, B) accettare e aggiornare subito, segnalandola nelle note»: accettare e aggiornare subito, con la segnalazione nelle note di rilascio.",
+        "opzione": "aggiorna",
+        "precedente": "«registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale»; per la regola data con il compito (oltre il 3 % a sfavore non si aggiorna, si documenta) la voce era rimasta da decidere (commit 86e6d11a).",
+        "esito": "accettata e aggiornata: 143 righe in 3 tracce storiche sostituite con il valore del ViewModel (curve-sezione 80, percorso-storico-non-lineare-curve 43, fasi-schede 20: pannelli dei risultati e impronta del risultato, stesso numero di righe; dati, campi e stati identici); 2680 transizioni F4 nuove con la voce AG-SM-01 (2583 in result.json, 97 in report.txt di storico-non-lineare-curve), nessuna transizione esistente cambiata, nessun atteso F3 sostituito. Da segnalare nelle note di rilascio della 1.14.0."
       },
       "opzioni": [
         {
@@ -10032,10 +10035,12 @@
         }
       ],
       "test": [
-        "ANTHEA.Presentation.Tests: CompositeSectionSheetChecks (traccia percorso-storico-non-lineare-curve, riga 485; rosso finché la voce è aperta)"
+        "ANTHEA.Presentation.Tests: CompositeSectionSheetChecks (tracce; CompareTransitions con le voci contate per AG-SM-01)"
       ],
       "evidenze": [
-        "supporto/artefatti/ci/20261024-133916-ag-po-raccolta2/Presentation.Tests/sezione-mista del worktree aw-ag-po (tracce del ViewModel e f3-confronto.json con 2680 differenze)"
+        "supporto/artefatti/ci/20261024-133916-ag-po-raccolta2/Presentation.Tests/sezione-mista del worktree aw-ag-po (tracce del ViewModel e f3-confronto.json con 2680 differenze, con una modifica temporanea non committata che mette a confronto tutti i file)",
+        "tests/fixtures/f5-sezione-mista/README.md (nota della ricattura parziale)",
+        "tests/fixtures/f3/transitions-f4.json, chiave aggiornamento_ag_sm"
       ],
       "voci_collegate": [
         "AG-PO-01",

@@ -102,3 +102,14 @@ scala dello schermo: gli elenchi valgono sulla macchina del banco, come le prove
   impronta del risultato, del CSV delle tensioni e della curva (punti e CSV); le etichette «?» (nessuna), i nomi di automazione di 4
   fixture, i controlli liberi e bloccati in sola lettura di 2 fixture, i 44 testi di «Info modello…».
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.
+- 24/10/2026, voce AG-SM-01 (librerie del 24/10: Model 2d59bbc6, GPCModel 5.21.0.0; Checker f6d87d28, GPCChecker.CompositeBridge
+  1.13.0.1; legge del calcestruzzo analitica nello storico non lineare a fibre), accettata dall'utente il 24/10 («4B»: accettare e
+  aggiornare subito, segnalandola nelle note di rilascio). La vista storica è archiviata e non si ricattura: ricattura parziale dal
+  ViewModel. Nelle 3 tracce che cambiano sono sostituite solo le 143 righe cambiate, con il valore del ViewModel
+  (`Presentation.Tests`, corsa `20261024-133916-ag-po-raccolta2`): `curve-sezione` 80, `percorso-storico-non-lineare-curve` 43,
+  `fasi-schede` 20, solo pannelli dei risultati (panoramica, convergenza, tensioni, verifiche, omogeneizzazione, equilibrio, curve)
+  e impronta del risultato, con lo stesso numero di righe. Tolti numeri e impronte ogni riga è uguale a quella storica: dati, campi
+  e stati non cambiano. Le grandezze che governano cambiano poco (|σa|max −0,10 %, ala superiore −1,04 %); calano in modulo oltre
+  il 3 % alcune grandezze piccole: tensioni dell'armatura della soletta fino a −5,4 %, incrementi di fase fino a −6,8 %,
+  deformazioni fino a −6,0 %. Le altre 17 tracce non cambiano. `vista-storica.json` non è stato toccato: va controllato con lo
+  stadio `ui`.

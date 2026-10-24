@@ -601,7 +601,7 @@ internal static class CompositeSectionSheetChecks
     /// <summary>
     /// The path of ui/f3-equivalence through the ViewModel (opened, visited, calculated, result, report, exported, reopened), compared with
     /// the F3 reference of the historic view in the canonical form of the capture: byte for byte, except the files with F4 transitions
-    /// (two old fixtures), kept for <see cref="CompareTransitions"/>.
+    /// (two old fixtures, and result and report of storico-non-lineare-curve since AG-SM-01), kept for <see cref="CompareTransitions"/>.
     /// </summary>
     private static async Task F3Async(string root, string output, string id, IReadOnlySet<string> withTransitions, Expect expect)
     {
@@ -663,7 +663,10 @@ internal static class CompositeSectionSheetChecks
         comparer.Admit(transitions);
         var report = comparer.Compare(Path.Combine(output, "f3-riferimento"), Path.Combine(output, "f3-transizioni"));
         File.WriteAllText(Path.Combine(output, "f3-confronto.json"), report.ToJsonString(J.Options));
-        expect.That(transitions.Count == 12 && comparer.NotAdmitted == 0, "File con transizioni F4: " + transitions.Count + " transizioni, "
+        // AG-SM-01 (24/10/2026, accepted by the user): the analytic concrete law of Model 5.21.0.0 in the nonlinear fibre history of
+        // CompositeBridge 1.13.0.1 changes result and report of storico-non-lineare-curve: 2680 new transitions; the other 12 are BUG-PON-2.
+        int analytic = transitions.Count(t => t.Entry == "AG-SM-01");
+        expect.That(analytic == 2680 && transitions.Count - analytic == 12 && comparer.NotAdmitted == 0, "File con transizioni F4: " + transitions.Count + " transizioni, "
             + comparer.NotAdmitted + " differenze non ammesse o transizioni assenti");
     }
 

@@ -482,44 +482,44 @@ curva.grafico: "" "" · punti 0 4F53CDA18C2BAA0C · scelto 0
 curva.fibra: "" "" · punti 0 4F53CDA18C2BAA0C · scelto 0
 curva.tabella: 0 blocchi
 == attendi
-~ calcolo: occupato no · risultato F2848E8A0F7A3944 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato FD3DA564EAAB9EC8 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avvisi: "Metodo con storico: V registrato; verifiche di taglio, connessione, irrigidimenti e N–M–V da completare. Nessun esito globale favorevole.  Tensioni alle facce: valore della fibra di integrazione più vicina; controllare la convergenza della discretizzazione.  Non lineare su sezione lorda, materiali caratteristici: analisi N–Mx, non verifica SLU di classe 4. CLS sull’inviluppo Model in compressione; in trazione lineare fino a fctm = 3,21 MPa, poi tension stiffening σ = fctm/(1 + √(500 ε)) (Collins e Mitchell 1991, MCFT), senza il controllo della trasmissione alla fessura: oltre lo snervamento delle barre il contributo del CLS teso è sovrastimato; senza danno né isteresi ciclica; acciaio con deformazioni plastiche residue.  φ/n modifica il modulo dei nuovi incrementi; non viene integrata una legge di viscosità dipendente dall’età."
-~ panoramica: "|σa|max = 124,143 MPa\nσc,min = -4,387 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 6 iterazioni"
+~ panoramica: "|σa|max = 124,014 MPa\nσc,min = -4,411 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 9 iterazioni"
 ~ riepilogo: "Analisi non lineare N–Mx convergente · verifica normativa da completare"
-~ convergenza: "Storico non lineare · fibre e plasticità dell’acciaio\nε(y) = ε₀ − κ·y; y=0 all’interfaccia.\nNewton: 6 · iterazioni aree: 3\nResiduo N: 2,171E-010 N\nResiduo M: -2,193E-005 Nmm\nVariazione aree: 0,000E+000\nN integrato: 0 kN\nM integrato a y=0: 6500 kNm"
+~ convergenza: "Storico non lineare · fibre e plasticità dell’acciaio\nε(y) = ε₀ − κ·y; y=0 all’interfaccia.\nNewton: 9 · iterazioni aree: 3\nResiduo N: 4,441E-009 N\nResiduo M: 7,629E-006 Nmm\nVariazione aree: 0,000E+000\nN integrato: 0 kN\nM integrato a y=0: 6500 kNm"
 ~ situazioni: "01 · Dopo G1 · getto e carpenteria|02 · Dopo G2 · permanenti portati|03 · Dopo Q · variabili" · scelta 2 · visibile sì · attiva sì
 ~ interruttori: quote no(nascosto) · armature no(nascosto) · asse neutro sì "Piano totale dello storico. Ritiro, attivazione e plasticità possono separare questo asse dagli zeri delle tensioni dei materiali." · contorno sezione no · contorno tensioni no · limiti no · menu sì
 ~ scala: "6,162" · auto sì · visibile no · errore no · "Amplifica solo la larghezza del diagramma CLS; valori, verifiche e armature non cambiano. Auto n segue l’ultima fase composta attiva (Q nello schema standard). Modificare il numero passa alla scala manuale. Intervallo: 0,01–1000.\nRiferimento attuale: n · Q · variabili · ×6,162" · modificabile sì
 ~ contenitori: piastra sì · nota piastra sì · trasversale no · fatica no · cassoncino no · discretizzazione sì · torsione risultati no
 ~ pannello.tensioni: 3 blocchi
 + pannello.tensioni.0: testo "Δσ = differenza tra due stati consecutivi, incluse le redistribuzioni. Non sono risposte indipendenti sovrapponibili. εmecc = εtot − εgetto − εimposta. Le fibre inattive conservano memoria, ma non portano risultanti."
-+ pannello.tensioni.1: tabella "Punto|y [mm]|σ [MPa]|Ultimo Δσ [MPa]" · righe 18 BD0519AE7BBFE42D
-+ pannello.tensioni.1.0: "Soletta · estradosso (fibra prossima)" | "250" | "-4,387" | "-2,632"
-+ pannello.tensioni.1.1: "Soletta · intradosso (fibra prossima)" | "0" | "-2,219" | "-1,331"
-+ pannello.tensioni.1.2: "Armatura · y=205" | "205" | "-24,36" | "-14,616"
++ pannello.tensioni.1: tabella "Punto|y [mm]|σ [MPa]|Ultimo Δσ [MPa]" · righe 18 A694F3EB9267B4B2
++ pannello.tensioni.1.0: "Soletta · estradosso (fibra prossima)" | "250" | "-4,411" | "-2,629"
++ pannello.tensioni.1.1: "Soletta · intradosso (fibra prossima)" | "0" | "-2,227" | "-1,344"
++ pannello.tensioni.1.2: "Armatura · y=205" | "205" | "-23,69" | "-14,321"
 + pannello.tensioni.2: gruppo "Storico delle fibre · deformazioni in µε"
-+ pannello.tensioni.2.0: tabella "Componente / fibra|Attiva|y [mm]|Aeff [mm²]|εtot|εgetto|εimposta|εmecc|εpl|σ [MPa]|Δσ [MPa]" · righe 176 32890C1C5108BD4E
-+ pannello.tensioni.2.0.0: "Steel.Top.0.0" | "Sì" | "-23,239" | "2083,333" | "-280,445" | "0" | "0" | "-280,445" | "0" | "-58,894" | "-7,748"
-+ pannello.tensioni.2.0.1: "Steel.Top.0.1" | "Sì" | "-18,428" | "2083,333" | "-282,735" | "0" | "0" | "-282,735" | "0" | "-59,374" | "-7,908"
-+ pannello.tensioni.2.0.2: "Steel.Top.1.0" | "Sì" | "-14,906" | "2083,333" | "-284,411" | "0" | "0" | "-284,411" | "0" | "-59,726" | "-8,025"
++ pannello.tensioni.2.0: tabella "Componente / fibra|Attiva|y [mm]|Aeff [mm²]|εtot|εgetto|εimposta|εmecc|εpl|σ [MPa]|Δσ [MPa]" · righe 176 1D2C025AFCB75948
++ pannello.tensioni.2.0.0: "Steel.Top.0.0" | "Sì" | "-23,239" | "2083,333" | "-277,537" | "0" | "0" | "-277,537" | "0" | "-58,283" | "-7,478"
++ pannello.tensioni.2.0.1: "Steel.Top.0.1" | "Sì" | "-18,428" | "2083,333" | "-279,818" | "0" | "0" | "-279,818" | "0" | "-58,762" | "-7,637"
++ pannello.tensioni.2.0.2: "Steel.Top.1.0" | "Sì" | "-14,906" | "2083,333" | "-281,487" | "0" | "0" | "-281,487" | "0" | "-59,112" | "-7,754"
 ~ pannello.verifiche: 2 blocchi
 + pannello.verifiche.0: testo "Nessun esito SLU/SLE assegnato. Le linee e il contouring σ/limite sono riferimenti visivi: la resistenza plastica richiede anche controlli di deformazione, stabilità e interazione."
-+ pannello.verifiche.1: tabella "Componente|εmecc min [µε]|εmecc max [µε]||εpl|max [µε]|σmin [MPa]|σmax [MPa]" · righe 5 D5B07E5073E07B13
-+ pannello.verifiche.1.0: "Steel.Top" | "-290,665" | "-280,445" | "0" | "-61,04" | "-58,894"
-+ pannello.verifiche.1.1: "Steel.Web" | "-273,574" | "570,848" | "0" | "-57,451" | "119,878"
-+ pannello.verifiche.1.2: "Steel.Bottom" | "577,887" | "590,151" | "0" | "121,356" | "123,932"
++ pannello.verifiche.1: tabella "Componente|εmecc min [µε]|εmecc max [µε]||εpl|max [µε]|σmin [MPa]|σmax [MPa]" · righe 5 3F9CA60C1BD2622D
++ pannello.verifiche.1.0: "Steel.Top" | "-287,716" | "-277,537" | "0" | "-60,42" | "-58,283"
++ pannello.verifiche.1.1: "Steel.Web" | "-270,694" | "570,317" | "0" | "-56,846" | "119,767"
++ pannello.verifiche.1.2: "Steel.Bottom" | "577,328" | "589,542" | "0" | "121,239" | "123,804"
 ~ pannello.omogeneizzazione: 2 blocchi
 + pannello.omogeneizzazione.0: testo "Proprietà riferite ai moduli elastici iniziali della fase. Nel non lineare non sono una rigidezza tangente né una legge σ=My/I."
-+ pannello.omogeneizzazione.1: tabella "Fase|A* [mm²]|yG elastico [mm]|Ix* [mm⁴]|ε₀ totale [µε]|κ totale [1/m]|Δε₀ [µε]|Δκ [1/m]" · righe 3 5B0549D32C1B407C
++ pannello.omogeneizzazione.1: tabella "Fase|A* [mm²]|yG elastico [mm]|Ix* [mm⁴]|ε₀ totale [µε]|κ totale [1/m]|Δε₀ [µε]|Δκ [1/m]" · righe 3 6667854E96B8A68C
 + pannello.omogeneizzazione.1.0: "G1 · getto e carpenteria" | "58700" | "-1058,028" | "3,37574E+10" | "-223,872" | "2,11594E-4" | "-223,872" | "2,11594E-4"
-+ pannello.omogeneizzazione.1.1: "G2 · permanenti portati" | "186758,526" | "-246,837" | "9,07642E+10" | "-250,925" | "3,17287E-4" | "-27,052" | "1,05693E-4"
-+ pannello.omogeneizzazione.1.2: "Q · variabili" | "186758,526" | "-246,837" | "9,07642E+10" | "-291,503" | "4,75827E-4" | "-40,578" | "1,5854E-4"
++ pannello.omogeneizzazione.1.1: "G2 · permanenti portati" | "186758,526" | "-246,837" | "9,07642E+10" | "-249,275" | "3,16199E-4" | "-25,403" | "1,04605E-4"
++ pannello.omogeneizzazione.1.2: "Q · variabili" | "186758,526" | "-246,837" | "9,07642E+10" | "-288,551" | "4,73905E-4" | "-39,275" | "1,57706E-4"
 ~ pannello.equilibrio: 1 blocchi
-+ pannello.equilibrio.0: tabella "Fase|ΔN [kN]|ΔMx [kNm]|yN [mm]|ΣN [kN]|ΣM₀ [kNm]|ΣV [kN]|Δεcs [µε]|n applicato|Residuo N [N]|Residuo M [Nmm]" · righe 3 AAEB86FB71E10D6D
++ pannello.equilibrio.0: tabella "Fase|ΔN [kN]|ΔMx [kNm]|yN [mm]|ΣN [kN]|ΣM₀ [kNm]|ΣV [kN]|Δεcs [µε]|n applicato|Residuo N [N]|Residuo M [Nmm]" · righe 3 3BC4722C461A1BFE
 + pannello.equilibrio.0.0: "G1 · getto e carpenteria" | "0" | "1500" | "-1058,028" | "0" | "1500" | "0" | "—" | "—" | "6,1118E-10" | "4,76837E-7"
-+ pannello.equilibrio.0.1: "G2 · permanenti portati" | "0" | "2000" | "-246,837" | "0" | "3500" | "0" | "—" | "6,162" | "-9,0597E-10" | "-5,72205E-6"
-+ pannello.equilibrio.0.2: "Q · variabili" | "0" | "3000" | "-246,837" | "0" | "6500" | "0" | "—" | "6,162" | "2,17142E-10" | "-2,19345E-5"
++ pannello.equilibrio.0.1: "G2 · permanenti portati" | "0" | "2000" | "-246,837" | "0" | "3500" | "0" | "—" | "6,162" | "-3,41515E-10" | "7,15256E-6"
++ pannello.equilibrio.0.2: "Q · variabili" | "0" | "3000" | "-246,837" | "0" | "6500" | "0" | "—" | "6,162" | "4,44106E-9" | "7,62939E-6"
 ~ pannello.classe4: 1 blocchi
 + pannello.classe4.0: testo "Non lineare sulla sezione lorda. L’instabilità locale di classe 4 non è modellata; nessuna larghezza efficace elastica viene presentata come verifica plastica."
 ~ pannello.geometria: 1 blocchi
@@ -547,7 +547,7 @@ curva.tabella: 0 blocchi
 ~ scala: "6,162" · auto sì · visibile sì · errore no · "Amplifica solo la larghezza del diagramma CLS; valori, verifiche e armature non cambiano. Auto n segue l’ultima fase composta attiva (Q nello schema standard). Modificare il numero passa alla scala manuale. Intervallo: 0,01–1000.\nRiferimento attuale: n · Q · variabili · ×6,162" · modificabile sì
 == conferma
 == calcola
-~ calcolo: occupato no · risultato AB78BF6C484E98E8 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato B220D769EA4F8678 · mostrato corrente · esportabile sì
 ~ scala: "6,162" · auto sì · visibile no · errore no · "Amplifica solo la larghezza del diagramma CLS; valori, verifiche e armature non cambiano. Auto n segue l’ultima fase composta attiva (Q nello schema standard). Modificare il numero passa alla scala manuale. Intervallo: 0,01–1000.\nRiferimento attuale: n · Q · variabili · ×6,162" · modificabile sì
 ~ disegno.ingresso: risultato 6AD1BA5C996909E9
 == conferma
@@ -613,44 +613,44 @@ curva.tabella: 0 blocchi
 - pannello.torsione.0
 == conferma
 == attendi
-~ calcolo: occupato no · risultato AB78BF6C484E98E8 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato B220D769EA4F8678 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avvisi: "Metodo con storico: V registrato; verifiche di taglio, connessione, irrigidimenti e N–M–V da completare. Nessun esito globale favorevole.  Tensioni alle facce: valore della fibra di integrazione più vicina; controllare la convergenza della discretizzazione.  Non lineare su sezione lorda, materiali caratteristici: analisi N–Mx, non verifica SLU di classe 4. CLS sull’inviluppo Model in compressione; in trazione lineare fino a fctm = 3,21 MPa, poi tension stiffening σ = fctm/(1 + √(500 ε)) (Collins e Mitchell 1991, MCFT), senza il controllo della trasmissione alla fessura: oltre lo snervamento delle barre il contributo del CLS teso è sovrastimato; senza danno né isteresi ciclica; acciaio con deformazioni plastiche residue.  φ/n modifica il modulo dei nuovi incrementi; non viene integrata una legge di viscosità dipendente dall’età."
-~ panoramica: "|σa|max = 124,143 MPa\nσc,min = -4,387 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 6 iterazioni"
+~ panoramica: "|σa|max = 124,014 MPa\nσc,min = -4,411 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 9 iterazioni"
 ~ riepilogo: "Analisi non lineare N–Mx convergente · verifica normativa da completare"
-~ convergenza: "Storico non lineare · fibre e plasticità dell’acciaio\nε(y) = ε₀ − κ·y; y=0 all’interfaccia.\nNewton: 6 · iterazioni aree: 3\nResiduo N: 2,171E-010 N\nResiduo M: -2,193E-005 Nmm\nVariazione aree: 0,000E+000\nN integrato: 0 kN\nM integrato a y=0: 6500 kNm"
+~ convergenza: "Storico non lineare · fibre e plasticità dell’acciaio\nε(y) = ε₀ − κ·y; y=0 all’interfaccia.\nNewton: 9 · iterazioni aree: 3\nResiduo N: 4,441E-009 N\nResiduo M: 7,629E-006 Nmm\nVariazione aree: 0,000E+000\nN integrato: 0 kN\nM integrato a y=0: 6500 kNm"
 ~ situazioni: "01 · Dopo G1 · getto e carpenteria|02 · Dopo G2 · permanenti portati|03 · Dopo Q · variabili" · scelta 2 · visibile sì · attiva sì
 ~ interruttori: quote no(nascosto) · armature no(nascosto) · asse neutro sì "Piano totale dello storico. Ritiro, attivazione e plasticità possono separare questo asse dagli zeri delle tensioni dei materiali." · contorno sezione no · contorno tensioni no · limiti no · menu sì
 ~ scala: "6,162" · auto sì · visibile no · errore no · "Amplifica solo la larghezza del diagramma CLS; valori, verifiche e armature non cambiano. Auto n segue l’ultima fase composta attiva (Q nello schema standard). Modificare il numero passa alla scala manuale. Intervallo: 0,01–1000.\nRiferimento attuale: n · Q · variabili · ×6,162" · modificabile sì
 ~ contenitori: piastra sì · nota piastra sì · trasversale no · fatica no · cassoncino no · discretizzazione sì · torsione risultati no
 ~ pannello.tensioni: 3 blocchi
 + pannello.tensioni.0: testo "Δσ = differenza tra due stati consecutivi, incluse le redistribuzioni. Non sono risposte indipendenti sovrapponibili. εmecc = εtot − εgetto − εimposta. Le fibre inattive conservano memoria, ma non portano risultanti."
-+ pannello.tensioni.1: tabella "Punto|y [mm]|σ [MPa]|Ultimo Δσ [MPa]" · righe 18 BD0519AE7BBFE42D
-+ pannello.tensioni.1.0: "Soletta · estradosso (fibra prossima)" | "250" | "-4,387" | "-2,632"
-+ pannello.tensioni.1.1: "Soletta · intradosso (fibra prossima)" | "0" | "-2,219" | "-1,331"
-+ pannello.tensioni.1.2: "Armatura · y=205" | "205" | "-24,36" | "-14,616"
++ pannello.tensioni.1: tabella "Punto|y [mm]|σ [MPa]|Ultimo Δσ [MPa]" · righe 18 A694F3EB9267B4B2
++ pannello.tensioni.1.0: "Soletta · estradosso (fibra prossima)" | "250" | "-4,411" | "-2,629"
++ pannello.tensioni.1.1: "Soletta · intradosso (fibra prossima)" | "0" | "-2,227" | "-1,344"
++ pannello.tensioni.1.2: "Armatura · y=205" | "205" | "-23,69" | "-14,321"
 + pannello.tensioni.2: gruppo "Storico delle fibre · deformazioni in µε"
-+ pannello.tensioni.2.0: tabella "Componente / fibra|Attiva|y [mm]|Aeff [mm²]|εtot|εgetto|εimposta|εmecc|εpl|σ [MPa]|Δσ [MPa]" · righe 176 32890C1C5108BD4E
-+ pannello.tensioni.2.0.0: "Steel.Top.0.0" | "Sì" | "-23,239" | "2083,333" | "-280,445" | "0" | "0" | "-280,445" | "0" | "-58,894" | "-7,748"
-+ pannello.tensioni.2.0.1: "Steel.Top.0.1" | "Sì" | "-18,428" | "2083,333" | "-282,735" | "0" | "0" | "-282,735" | "0" | "-59,374" | "-7,908"
-+ pannello.tensioni.2.0.2: "Steel.Top.1.0" | "Sì" | "-14,906" | "2083,333" | "-284,411" | "0" | "0" | "-284,411" | "0" | "-59,726" | "-8,025"
++ pannello.tensioni.2.0: tabella "Componente / fibra|Attiva|y [mm]|Aeff [mm²]|εtot|εgetto|εimposta|εmecc|εpl|σ [MPa]|Δσ [MPa]" · righe 176 1D2C025AFCB75948
++ pannello.tensioni.2.0.0: "Steel.Top.0.0" | "Sì" | "-23,239" | "2083,333" | "-277,537" | "0" | "0" | "-277,537" | "0" | "-58,283" | "-7,478"
++ pannello.tensioni.2.0.1: "Steel.Top.0.1" | "Sì" | "-18,428" | "2083,333" | "-279,818" | "0" | "0" | "-279,818" | "0" | "-58,762" | "-7,637"
++ pannello.tensioni.2.0.2: "Steel.Top.1.0" | "Sì" | "-14,906" | "2083,333" | "-281,487" | "0" | "0" | "-281,487" | "0" | "-59,112" | "-7,754"
 ~ pannello.verifiche: 2 blocchi
 + pannello.verifiche.0: testo "Nessun esito SLU/SLE assegnato. Le linee e il contouring σ/limite sono riferimenti visivi: la resistenza plastica richiede anche controlli di deformazione, stabilità e interazione."
-+ pannello.verifiche.1: tabella "Componente|εmecc min [µε]|εmecc max [µε]||εpl|max [µε]|σmin [MPa]|σmax [MPa]" · righe 5 D5B07E5073E07B13
-+ pannello.verifiche.1.0: "Steel.Top" | "-290,665" | "-280,445" | "0" | "-61,04" | "-58,894"
-+ pannello.verifiche.1.1: "Steel.Web" | "-273,574" | "570,848" | "0" | "-57,451" | "119,878"
-+ pannello.verifiche.1.2: "Steel.Bottom" | "577,887" | "590,151" | "0" | "121,356" | "123,932"
++ pannello.verifiche.1: tabella "Componente|εmecc min [µε]|εmecc max [µε]||εpl|max [µε]|σmin [MPa]|σmax [MPa]" · righe 5 3F9CA60C1BD2622D
++ pannello.verifiche.1.0: "Steel.Top" | "-287,716" | "-277,537" | "0" | "-60,42" | "-58,283"
++ pannello.verifiche.1.1: "Steel.Web" | "-270,694" | "570,317" | "0" | "-56,846" | "119,767"
++ pannello.verifiche.1.2: "Steel.Bottom" | "577,328" | "589,542" | "0" | "121,239" | "123,804"
 ~ pannello.omogeneizzazione: 2 blocchi
 + pannello.omogeneizzazione.0: testo "Proprietà riferite ai moduli elastici iniziali della fase. Nel non lineare non sono una rigidezza tangente né una legge σ=My/I."
-+ pannello.omogeneizzazione.1: tabella "Fase|A* [mm²]|yG elastico [mm]|Ix* [mm⁴]|ε₀ totale [µε]|κ totale [1/m]|Δε₀ [µε]|Δκ [1/m]" · righe 3 5B0549D32C1B407C
++ pannello.omogeneizzazione.1: tabella "Fase|A* [mm²]|yG elastico [mm]|Ix* [mm⁴]|ε₀ totale [µε]|κ totale [1/m]|Δε₀ [µε]|Δκ [1/m]" · righe 3 6667854E96B8A68C
 + pannello.omogeneizzazione.1.0: "G1 · getto e carpenteria" | "58700" | "-1058,028" | "3,37574E+10" | "-223,872" | "2,11594E-4" | "-223,872" | "2,11594E-4"
-+ pannello.omogeneizzazione.1.1: "G2 · permanenti portati" | "186758,526" | "-246,837" | "9,07642E+10" | "-250,925" | "3,17287E-4" | "-27,052" | "1,05693E-4"
-+ pannello.omogeneizzazione.1.2: "Q · variabili" | "186758,526" | "-246,837" | "9,07642E+10" | "-291,503" | "4,75827E-4" | "-40,578" | "1,5854E-4"
++ pannello.omogeneizzazione.1.1: "G2 · permanenti portati" | "186758,526" | "-246,837" | "9,07642E+10" | "-249,275" | "3,16199E-4" | "-25,403" | "1,04605E-4"
++ pannello.omogeneizzazione.1.2: "Q · variabili" | "186758,526" | "-246,837" | "9,07642E+10" | "-288,551" | "4,73905E-4" | "-39,275" | "1,57706E-4"
 ~ pannello.equilibrio: 1 blocchi
-+ pannello.equilibrio.0: tabella "Fase|ΔN [kN]|ΔMx [kNm]|yN [mm]|ΣN [kN]|ΣM₀ [kNm]|ΣV [kN]|Δεcs [µε]|n applicato|Residuo N [N]|Residuo M [Nmm]" · righe 3 AAEB86FB71E10D6D
++ pannello.equilibrio.0: tabella "Fase|ΔN [kN]|ΔMx [kNm]|yN [mm]|ΣN [kN]|ΣM₀ [kNm]|ΣV [kN]|Δεcs [µε]|n applicato|Residuo N [N]|Residuo M [Nmm]" · righe 3 3BC4722C461A1BFE
 + pannello.equilibrio.0.0: "G1 · getto e carpenteria" | "0" | "1500" | "-1058,028" | "0" | "1500" | "0" | "—" | "—" | "6,1118E-10" | "4,76837E-7"
-+ pannello.equilibrio.0.1: "G2 · permanenti portati" | "0" | "2000" | "-246,837" | "0" | "3500" | "0" | "—" | "6,162" | "-9,0597E-10" | "-5,72205E-6"
-+ pannello.equilibrio.0.2: "Q · variabili" | "0" | "3000" | "-246,837" | "0" | "6500" | "0" | "—" | "6,162" | "2,17142E-10" | "-2,19345E-5"
++ pannello.equilibrio.0.1: "G2 · permanenti portati" | "0" | "2000" | "-246,837" | "0" | "3500" | "0" | "—" | "6,162" | "-3,41515E-10" | "7,15256E-6"
++ pannello.equilibrio.0.2: "Q · variabili" | "0" | "3000" | "-246,837" | "0" | "6500" | "0" | "—" | "6,162" | "4,44106E-9" | "7,62939E-6"
 ~ pannello.classe4: 1 blocchi
 + pannello.classe4.0: testo "Non lineare sulla sezione lorda. L’instabilità locale di classe 4 non è modellata; nessuna larghezza efficace elastica viene presentata come verifica plastica."
 ~ pannello.geometria: 1 blocchi
