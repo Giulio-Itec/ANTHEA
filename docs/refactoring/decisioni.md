@@ -1828,3 +1828,25 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
    - Con il set di librerie dopo Codex: R4, R5 e R10.
    - Le altre voci sono confermate o chiuse.
    - Conteggio di [f5-15-revisione.md](f5-15-revisione.md): 259 voci, 54 decise.
+
+## 24 ottobre (pomeriggio) — librerie AG e rilascio 1.14.0
+
+Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'utente.
+
+1. **Chiusura di F5.** Le differenze del full con le librerie nuove: «registra e aggiorna. non dovrebbero esserci cose inattese. potrebbero esserci cose
+   leggermente a sfavore di sicurezza poichè più precise (2/3% massimo). in quel caso continua ma segnala nel resoconto finale». La chiusura comprende
+   il rilascio («Anche rilascio 1.14.0»), con la shell approvata («Shell approvata»), le guide Rev59 prima («Rev59 prima») e F5.15 come voce a sé.
+2. **Librerie AG.** «dovresti trovare model e checker aggiornati su master. controlla che sia stata fatta una versione. nel caso falla. poi push. aggiorna
+   anthea i riferimenti alle dll». Il set ufficiale non è riuscito: dopo l'unione delle 12:46 la verifica di Checker aveva sei prove di Concrete rosse,
+   e in ANTHEA Concrete 0.20 rifiuta molti punti della strategia «Intersezione» (AG-CA-03). Una 1.14.0 con le librerie AF era pronta (ramo
+   `refactoring/rel-af`, full PASS 155, setup verificato): «Aspetta: la 1.14.0 esce con le librerie AG dopo la correzione di Checker sulla strategia
+   Intersezione».
+3. **Decisioni sulle voci aperte** («2A, 4B, 5A, 6A»):
+   - prova storica dello StressBlock 0.0.17 in Checker: si ritira il confronto esatto con lo storico; resta il confronto esatto con la fixture attuale e
+     lo storico resta conservato con il suo hash;
+   - sezione mista, storico non lineare (AG-SM-01): accettata e aggiornata subito, segnalata nelle note;
+   - sezione c.a. (AG-CA-04): accettati i tre casi (tension stiffening −3,55 %, stress block +3,64 % con la simmetria ripristinata, SLE rara che ora si
+     completa); i primi due segnalati nelle note;
+   - versione 4 del materiale calcestruzzo negli archivi (AG-SHELL-01): limite dichiarato nelle note, la versione resta 1.14.0.
+4. **Correzioni avviate.** In Checker la strategia «Intersezione» e la prova storica, con Concrete 0.20.0.1; in ANTHEA la traduzione del messaggio nuovo
+   di Concrete, AG-SM-01 e AG-CA-04. Poi il set AG ufficiale, l'installazione, le differenze rimaste, il full e il rilascio.
