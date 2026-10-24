@@ -1805,3 +1805,26 @@ Coordinatore: sessione «Correggere pretensione tiranti paratie». Le parole fra
    - la shell (c) completa e la parte (e);
    - i rami paratie e pali della sessione paratie, con le differenze S2/φ = 0 approvate dall'utente;
    - la preparazione della 1.13.0, con le guide Rev58.
+
+## 23 e 24 ottobre — passaggi della Release, chiusura di F5.13 e F5.14, prime decisioni di F5.15
+
+Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'utente.
+
+1. **Librerie.** «Aspetta con le librerie: per ora lascia la 1.13.0 così com'è». L'ok del 23/10 sera vale per il momento in cui Codex avrà unito: «pusha i
+   master di Model e Checker con tutto il loro lavoro, aggiorna le 5 prove storiche, fai il set AG, installalo e lancia la full». E poi: «voglio la full con
+   tutte le nuove librerie»; «la full si fa solo dopo l'unione degli agenti Codex e l'aggiornamento delle librerie».
+2. **Passaggi della Release.** «finisci il refactoring che avevamo previsto delle viste», con la scelta «Moduli ora, shell dopo». Il 23/10 tutti i 15
+   moduli sono passati alla vista MVVM (merge 58a8c476 … 006f65c4).
+3. **Parte (g) di F5.13 e F5.14.** «a fine lavori sulle viste merge generale su f5». Nella notte 23–24/10 la Release è passata alla shell nuova e
+   `MainWindow` è stata archiviata (merge 575a7481 … 9e0a3b56). F5.14 è unita a c0061d48 con il perimetro «Anche le prove in tests/».
+4. **G6** (F5-61): «accetto che la pagina del palo orizzontale scorra nella shell a Full HD; le due suite controllano l'area della scheda, come per SH40».
+5. **Contrasto.** Lo schermo è a 96 DPI per la notte. Per i difetti: «Correggi nei token». **G8**: «tutte e due: archivio di prova versionato, così le
+   pagine dei progetti entrano nella prova del contrasto, e un arancione più scuro e leggibile per il testo degli avvisi in Chiara» (F5-63, merge b51f4df3).
+6. **Figure, Wiki e guide.** «spostare figure, wiki e guide le facciamo a fine refactoring delle viste».
+7. **F5.15.** «domani iniziamo F5.15 dalle 13 voci da guardare per prime». Il 24/10: «accetto le 13 raccomandazioni della scheda»
+   ([f5-15-prioritarie.md](f5-15-prioritarie.md)).
+   - Da attuare dopo il rinnovo della quota (28/10): V-a, cioè l'impostazione dei separatori; BD4, il prezzario in sola lettura; SH49 ridotta; la regola unica T6.
+   - Voce di infrastruttura dopo F5: D-2 e D-5.
+   - Con il set di librerie dopo Codex: R4, R5 e R10.
+   - Le altre voci sono confermate o chiuse.
+   - Conteggio di [f5-15-revisione.md](f5-15-revisione.md): 259 voci, 54 decise.

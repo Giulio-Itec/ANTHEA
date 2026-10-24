@@ -7,6 +7,9 @@ Questa scheda non cambia nessuna scelta: per ogni voce dice com'è oggi, quali s
 Stato: `refactoring/f5` a 575a7481, con tutte le viste MVVM nella Release e la shell nuova al posto di `MainWindow`. Le viste
 storiche sono archiviate in `supporto/SUPERATI/ui-storica/`: è il fatto che cambia di più le voci 2 e 3.
 
+**Decisione dell'utente del 24/10:** «accetto le 13 raccomandazioni della scheda». Le voci 1, 6, 8 e 12 si attuano dopo il
+28/10; la 4 (B) è una voce di infrastruttura dopo F5; la 13 va con il set di librerie successivo all'unione di Codex.
+
 **Come rispondere.** Basta una riga, per esempio «come raccomandato, tranne 6A e 8A». La lettera A è sempre l'opzione presa oggi.
 
 ## Riepilogo
