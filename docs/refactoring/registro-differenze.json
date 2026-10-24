@@ -10119,12 +10119,15 @@
       },
       "test": [
         "Presentation.Tests/sezione-ca: rosso su rettangolare-materiali-utente (F3), quattro tracce e una riga di domini-3d.txt",
-        "ConcreteLibraryAdapter.Checks: rosso sulla 12d (InvalidOperationException del testo senza traduzione)"
+        "ConcreteLibraryAdapter.Checks: rosso sulla 12d (InvalidOperationException del testo senza traduzione)",
+        "Examples.Tests: l'esempio documentato str_palo/rettangolare-materiali-utente.anthea dà «Calcolo parziale» (2 punti 3D:SLU con il testo senza traduzione); gli altri esempi passano",
+        "verifiche/checker e verifiche/regressione: «workspace CA» (SectionWorkspaceChecks) ed «estensioni CA» (ConcreteEnhancementChecks), entrambe con la strategia «Intersezione», lanciano l'eccezione; in prova, con queste due saltate, CrackK2Checks, SectionExchangeChecks e ConcreteDataChecks passano"
       ],
       "evidenze": [
         "supporto/artefatti/ag-ca/cla-full-1 (FAIL 12d)",
         "supporto/artefatti/ag-ca/cla-full-sonda (censimento in prova: 164 righe RIFIUTO-NUOVO in run.err.log)",
-        "supporto/artefatti/ag-ca/cla-full-sonda2 (con le configurazioni di intersezione saltate solo in prova: resto della suite PASS, SLE comprese)"
+        "supporto/artefatti/ag-ca/cla-full-sonda2 (con le configurazioni di intersezione saltate solo in prova: resto della suite PASS, SLE comprese)",
+        "supporto/artefatti/ci/20261024-140626-ag-ca-finale (Examples.Tests, verifiche/checker, verifiche/regressione)"
       ],
       "voci_collegate": [
         "F2-17",
