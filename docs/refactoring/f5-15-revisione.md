@@ -94,8 +94,8 @@ segnalato come le più bisognose dell'utente.
 | 12. F5.12 Bridge Design e prezzari | 22 | 0 | 22 |
 | 13. F5.13 shell | 59 | 28 | 31 |
 | 14. Registro delle differenze R4–R21 | 17 | 0 | 17 |
-| 15. Voci trasversali | 21 | 4 | 17 |
-| **Totale** | **255** | **32** | **223** |
+| 15. Voci trasversali | 23 | 5 | 18 |
+| **Totale** | **257** | **33** | **224** |
 
 Note sul conteggio:
 - Una riga è una voce. Alcune righe uniscono codici che pongono la stessa domanda, per esempio «C2, S5-c» o «S6-a, S8-b».
@@ -103,7 +103,7 @@ Note sul conteggio:
 - Le righe «C5·S1…C5·S9» raggruppano i comportamenti storici di un sottopasso (da 1 a 4 per riga, 27 in tutto).
 - In «Già decise» ci sono le voci con una risposta dell'utente su quella scelta: SH5–SH32, la S6 delle suite UI, P3 e i passaggi della
   Release. R10 è decisa solo per i muri e resta fra le aperte, insieme a R5. Il dubbio su SH1–SH4 è nella [sezione 13.1](#131-parti-a-e-b-sh1sh22).
-- SM9 e BD13 (contrasto a 96 DPI) sono passi da fare, non scelte, ma sono contati.
+- SM9 e BD13 (contrasto a 96 DPI) sono passi da fare, non scelte, ma sono contati. Sono fatti dal 24/10, con la G2 (terza tappa di F5.13 g).
 
 ## Voci già decise dall'utente
 
@@ -339,7 +339,7 @@ Le decisioni del 17/10 valgono anche qui (T2, T6, T7 e le convenzioni delle vist
 | SM6 | Prove nello stadio `fast` | `CompositeSectionSheetChecks` (circa un minuto, tracce e F3 compresi) nello stadio `fast`, come i muri | Tracce e F3 nello stadio `ui` con un'opzione, come C7 | nessuno sui risultati (solo prove) | §4 |
 | SM7 | Suggerimenti degli editor (`EditorToolTips`, ΔT delle fasi), che la storica sostituisce senza toccare l'etichetta | La vista XAML li legge da `CompositeSectionFields` | `FieldSpec.ToolTip`, che cambierebbe anche l'etichetta | solo interfaccia | §4 |
 | SM8 | Baseline F4 dei disegni | Resta a 3221 (Q3, come MU11) | Non indicata | nessuno sui risultati | §4 |
-| SM9 | Contrasto a 96 DPI | Passo da fare, non una scelta | — | — | §4 |
+| SM9 | Contrasto a 96 DPI | Passo da fare, non una scelta. **Fatto il 24/10** con la G2: voci della Chiara alle chiavi della vista nuova, Scuro e Molto scuro 0 ([f5-13-shell §14.5](f5-13-shell.md#145-contrasto-d12)) | — | — | §4 |
 | SM10 | Celle della tabella delle azioni | Scritte a ogni tasto (`UpdateSourceTrigger=PropertyChanged`, convenzione delle tabelle MVVM di F5.4): risultato uguale, schede delle fasi ricostruite a ogni tasto | Scrittura alla conferma della cella, come la storica, con un modo per confermarla al `Commit` del foglio | nessuno sui risultati | §5.6 |
 | SM11 | Parti mostrate nell'albero visuale | Solo la pagina mostrata, la sua colonna degli ingressi e il suo pannello laterale, come la storica | Tutto nell'albero con la visibilità: cambierebbe la visita F3 | nessuno sui risultati (alternativa: tocca riferimenti congelati) | §5.6 |
 | SM12 | Casella «CLS ×» | Non legata al ViewModel: il code-behind mostra il fattore del foglio quando la casella non ha il fuoco, come la storica | Un legame semplice, che sovrascriverebbe il testo mentre si scrive | nessuno sui risultati | §5.6 |
@@ -367,7 +367,7 @@ e [§5.6](f5-12-bridge-design.md#56-differenze-visibili-e-scelte-da-confermare-d
 | BD10 | Comportamenti storici (sezione 2, punti 3–8) | Conservati (T7) | Correggerli dopo il passaggio, con una nuova cattura | nessuno sui risultati (alternativa: comportamento diverso, tocca riferimenti congelati) | §4 |
 | BD11 | Prove nello stadio `fast` | `BridgeDesignSheetChecks` nello stadio `fast`: circa 40 s in più | Tracce e F3 nello stadio `ui`, come C7 | nessuno sui risultati (solo prove) | §4 |
 | BD12 | Baseline F4 dei disegni | Le voci dei disegni restano (Q3, come MU11 e SM8) | Non indicata | nessuno sui risultati | §4 |
-| BD13 | Contrasto a 96 DPI | Passo da fare, non una scelta | — | — | §4 |
+| BD13 | Contrasto a 96 DPI | Passo da fare, non una scelta. **Fatto il 24/10** con la G2: voci della Chiara alle chiavi della vista nuova, Scuro e Molto scuro 0 ([f5-13-shell §14.5](f5-13-shell.md#145-contrasto-d12)) | — | — | §4 |
 | BD14 | Corpi | Valori delle metriche da 26 a `Font.Title` (22), per non tagliarli; 15 e 17 a `Font.Heading` (16) | `Font.Display` (30) per le metriche | solo interfaccia | §5.6 |
 | BD15 | Colori | I token più vicini: `Token.Border`, `Token.Accent`, `Token.Note.Foreground`, `Token.Status.Fail`, `Token.OnCommandBar.Muted` | Token nuovi per `#BCCFE2` e `#CD5C5C` | solo interfaccia | §5.6 |
 | BD16 | Riquadri dei pannelli | Misure delle tabelle storiche riconosciute dalle colonne (informazione della vista); titolo e nota del prezzario nel riquadro che scorre | Le misure come dati degli elementi del ViewModel | solo interfaccia | §5.6 |
@@ -605,9 +605,11 @@ Fonti: [f5-suite-ui.md §5](f5-suite-ui.md#5-domande-da-decidere-scelte-provviso
 | CA-P2 | Archiviazione della `ConcreteWorkspace` storica | **Decisa provvisoriamente dal coordinatore (23/10)**: nel commit del passaggio, dopo aver spostato sulla vista nuova ogni altro uso; `InputForm`, `SheetEditor` e `MainWindow` restano per la parte (g) | Non indicata | nessuno sui risultati | [f5-10 §23](f5-10-sezione.md#23-passaggio-della-release-2310) |
 | CA-P3 | Prove storiche della sezione c.a. che controllavano codice esistente solo per le prove (D3): `ParsePaste`, `ApplyImport`, `ExportActionRows` (l'import Excel del prodotto passa dalla finestra «Sollecitazioni della sezione») | Restano con la vista storica in `supporto/SUPERATI/ui-storica/sezione-ca`; l'import del prodotto è provato da `ui/smoke-section-actions` e dalle tracce `azioni/*` | Rifare l'import di `ui/smoke` con la finestra (converte le azioni nel formato unificato e cambia il resto della prova) | nessuno sui risultati (solo prove) | [f5-10 §23](f5-10-sezione.md#23-passaggio-della-release-2310) |
 | G1 (F5.13 g) | `SheetImplementation.Historic` senza viste storiche | Resta come valore dei moduli non elencati, rifiutati con il testo del `SheetEditor` archiviato (`SheetEditorFactory.NoView`) | Togliere l'enumerazione e ridurre `ModuleImplementations` a un elenco di moduli | nessuno (solo codice) | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
-| G2 (F5.13 g) | Voci della Chiara con chiave `MainWindow` (162 voci, 559 occorrenze, quasi tutte delle viste storiche già archiviate) | Si convertono con la porta di `ContrastAudit` alla shell e una corsa a 96 DPI; finché `MainWindow` c'è restano | Non indicata | solo prove | [f5-13-shell §14.5](f5-13-shell.md#145-contrasto-d12) |
+| G2 (F5.13 g) | Voci della Chiara con chiave `MainWindow` (162 voci, 559 occorrenze, quasi tutte delle viste storiche già archiviate) | **Decisa dall'utente (24/10, 00:30): «Correggi nei token».** Fatta nella terza tappa (`f5-13-g3`): `ContrastAudit` sulla shell, corsa a 96 DPI, baseline da 699 a 629 occorrenze senza chiavi `MainWindow`; il difetto nuovo delle modalità scure (scelte degli strati del palo verticale) corretto nel tema, F5-62 | — | solo prove; F5-62 solo aspetto | [f5-13-shell §14.5](f5-13-shell.md#145-contrasto-d12) |
 | G5 (F5.13 g) | `CheckBridgeOptions` vuole il fuoco della tastiera: la facciata delle suite attiva la finestra della shell fuori dallo schermo | Come prima con `MainWindow` | Rinunciare al controllo del fuoco | solo prove | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
 | G6 (F5.13 g) | A 1920 × 1080 la pagina del palo orizzontale scorre nella shell (F5-61) | **Decisa 24/10** (00:15): «accetto che la pagina del palo orizzontale scorra nella shell a Full HD; le due suite controllano l'area della scheda, come per SH40» | — | solo interfaccia | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
+| G7 (F5.13 g3) | Le occorrenze della Chiara si contano per cattura: gli elementi fissi tornano in ogni pagina di scorrimento, e la scheda della shell ha pagine in più (80 occorrenze in 28 voci nuove) | Registrate come le stesse voci con un nome di vista nuovo (D12); nessun cambio dell'interfaccia | Contare un elemento fisso una volta per vista (strumento); rendere leggibile `Token.Muted` su `Token.Surface` in Chiara (contro D12) | solo prove | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
+| G8 (F5.13 g3) | Pagine dei progetti fuori da `ui/check-contrast` (manca `prova-f1.4.programma` dal F5.3); la prova a parte trova in Chiara il numero di coerenza dell'albero (2,08:1) e gli avvisi del confronto (2,22:1) in `Token.Status.Warn`, colori storici | Nessun cambio | (a) archivio di prova versionato e 38 occorrenze nella baseline; (b) testo degli avvisi in un colore leggibile del tema; (a) e (b) | solo interfaccia o solo prove | [f5-13-shell §14.7](f5-13-shell.md#147-domande-nuove-e-scelte-provvisorie) |
 
 ### 15.4 Altre voci
 

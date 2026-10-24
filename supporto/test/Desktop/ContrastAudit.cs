@@ -64,7 +64,7 @@ internal sealed class ContrastAudit
     /// <summary>Every window of X.Desktop (Ui.Dialog, new Window, Window subclasses): title prefix, where it opens, reason when not reached.</summary>
     private static readonly (string Prefix, string Origin, string Reason)[] KnownWindows =
     [
-        ("Contenuti del report Word", "MainWindow.ExportReport", "richiede un modulo con risultati (pali verticali, sezione c.a., sezione da ponte)"),
+        ("Contenuti del report Word", "ShellCommandsViewModel.ExportReportAsync (W della barra del foglio)", "richiede un modulo con risultati (pali verticali, sezione c.a., sezione da ponte)"),
         ("Confronto · ", "ProjectSharing.ShowCoherence", "non raggiunta"),
         ("Collegamento dei sondaggi", "ProjectSharing.ShowCoherence › Mostra collegamento stratigrafie…", "richiede almeno due fogli con terreni condivisi nella stessa sezione"),
         ("Report · ", "ProjectReport.ExportSectionReport (controllo prima del report)", "nessuna sezione con differenze o avvisi: il comando apre subito la finestra di sistema Salva"),
@@ -96,7 +96,6 @@ internal sealed class ContrastAudit
         ("Tabelle e dettagli", "SheetEditor.ShowDetails", "nessun chiamante: il metodo non è collegato a comandi dell'interfaccia"),
         ("Confronto completo", "ElasticPileWorkspace (Mostra confronto completo)", "solo con archivi elastici precedenti da migrare"),
         ("Terreno · invio e riutilizzo", "SoilTransferDialog", "non raggiunta"),
-        ("ANTHEA — ", "MainWindow.OpenModuleCopy (Apri sezione in c.a. dal muro, fuori dai progetti)", "non raggiunta"),
     ];
 
     internal readonly string OutputDirectory;
@@ -105,7 +104,7 @@ internal sealed class ContrastAudit
     private readonly Regex? filter;
     internal AppAppearance Mode { get; private set; }
     internal string Context = "";
-    internal MainWindow? Main;
+    internal Window? Main;
     internal int InFlight, Processed;
     internal readonly Dictionary<string, Func<Window, Task>> DialogActions = new();
     internal readonly string TestArchive;
@@ -161,9 +160,9 @@ internal sealed class ContrastAudit
                 foreach (var mode in Modes)
                 {
                     audit.BeginMode(mode);
-                    var window = await audit.OpenMain(mode);
-                    try { await window.AuditContrastViews(audit); }
-                    finally { await audit.CloseMain(window); }
+                    var shell = await audit.OpenMain(mode);
+                    try { await shell.AuditContrastViews(); }
+                    finally { await audit.CloseMain(shell); }
                     // F5.4: since the Release switch the step modulo-geo_efficienza_orizzontale shows the MVVM view of the pile group, in the three
                     // appearances; its own step mvvm-geo_efficienza_orizzontale is removed with the historic view (D12).
                     // F5.9b: since the Release switch of the shallow foundations (f5-pass-geo) the steps modulo-geo_fondazioni_superficiali… show the
@@ -178,7 +177,7 @@ internal sealed class ContrastAudit
                     if (audit.Want("cambio"))
                     {
                         var switching = await audit.OpenMain(start);
-                        try { await switching.AuditAppearanceSwitch(audit, start, mode); }
+                        try { await switching.AuditAppearanceSwitch(start, mode); }
                         finally { await audit.CloseMain(switching); }
                     }
                 }
@@ -269,10 +268,11 @@ internal sealed class ContrastAudit
             ((IInvokeProvider)new MenuItemAutomationPeer(option).GetPattern(PatternInterface.Invoke)).Invoke();
             await audit.Settle(200);
         }
-        async Task Scenario(string name, AppAppearance start, Func<MainWindow, Task> act)
+        async Task Scenario(string name, AppAppearance start, Func<Window, Task> act)
         {
             audit.Mode = start;
-            var window = await audit.OpenMain(start);
+            var views = await audit.OpenMain(start);
+            var window = views.Window;
             try
             {
                 await act(window); await audit.Settle(150);
@@ -290,7 +290,7 @@ internal sealed class ContrastAudit
                 SavePng(Render(menu, (int)Math.Ceiling(menu.ActualWidth), (int)Math.Ceiling(menu.ActualHeight)), Path.Combine(output, name + ".png"));
             }
             catch (Exception ex) { log.Add($"[{name}] errore: {ex}"); }
-            finally { await audit.CloseMain(window); }
+            finally { await audit.CloseMain(views); }
         }
         using (OffscreenWindows.Install(audit))
         {
@@ -346,29 +346,24 @@ internal sealed class ContrastAudit
 
     private void BeginMode(AppAppearance mode) { Mode = mode; names.Clear(); Appearance.Set(mode, false); }
 
-    /// <summary>Main window off screen: native handle without showing it (Loaded and the theme handler work), fixed
-    /// 1600×1000 client area, no frame; shown off screen and without activation only if the handle alone gives no Loaded.</summary>
-    internal async Task<MainWindow> OpenMain(AppAppearance mode, SheetEditorFactory? editors = null)
+    /// <summary>
+    /// The window of the application off screen (F5.13 g3: the new shell of the Release, <see cref="ShellContrastViews"/>, in place of MainWindow): shown
+    /// at (-20000, -20000), cloaked and not activated by the hooks, without frame, fixed 1600×1000 client area.
+    /// </summary>
+    internal async Task<ShellContrastViews> OpenMain(AppAppearance mode)
     {
         Appearance.Set(mode, false);
-        var window = editors is null ? new MainWindow(TestServices.Create) : new MainWindow(TestServices.Create, editors);
-        Main = window; seenWindows.Add(window);
-        window.PrepareContrastAudit();
-        window.WindowStyle = WindowStyle.None; window.ResizeMode = ResizeMode.NoResize; window.ShowInTaskbar = false; window.ShowActivated = false;
-        window.WindowStartupLocation = WindowStartupLocation.Manual; window.Left = OffscreenWindows.Offscreen; window.Top = OffscreenWindows.Offscreen;
-        window.Width = CaptureWidth; window.Height = CaptureHeight;
-        var handle = new WindowInteropHelper(window).EnsureHandle();
-        dpi = OffscreenWindows.ForceSize(handle, CaptureWidth, CaptureHeight);
-        // The handle alone gives no Loaded: the window is shown, at (-20000, -20000), cloaked and not activated.
-        window.Show(); await Settle(100);
-        if (!window.IsLoaded) Note("finestra principale", "Loaded non generato");
-        CheckPosition(window, "finestra principale");
-        return window;
+        var (views, windowDpi) = await ShellContrastViews.OpenAsync(this, OutputDirectory);
+        Main = views.Window; seenWindows.Add(views.Window);
+        dpi = windowDpi;
+        if (!views.Window.IsLoaded) Note("finestra principale", "Loaded non generato");
+        CheckPosition(views.Window, "finestra principale");
+        return views;
     }
 
-    internal async Task CloseMain(MainWindow window)
+    internal async Task CloseMain(ShellContrastViews views)
     {
-        try { window.FinishSmoke(); window.Close(); } catch (Exception ex) { Note("chiusura", ex.Message); }
+        try { views.Dispose(); } catch (Exception ex) { Note("chiusura", ex.Message); }
         Main = null; await Settle();
     }
 
@@ -433,7 +428,8 @@ internal sealed class ContrastAudit
 
     private void OnWindowLoaded(Window window)
     {
-        if (ReferenceEquals(window, Main) || !seenWindows.Add(window)) return;
+        // The window of the shell is the main window (it loads while OpenMain shows it, before Main is set).
+        if (window is Views.Shell.ShellWindow || ReferenceEquals(window, Main) || !seenWindows.Add(window)) return;
         InFlight++;
         window.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(async () =>
         {
@@ -463,7 +459,6 @@ internal sealed class ContrastAudit
         {
             await Settle(150);
             CheckPosition(window, title);
-            if (window is MainWindow copy) await copy.AuditWaitEditor(this, false);
             foreach (var section in Ui.Descendants<X.Desktop.Views.ConcreteSection.ConcreteSectionSheetView>(window).Select(v => v.DataContext).OfType<Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel>().ToList())
                 await WaitUntil(() => !section.IsBusy && !section.IsCalculationQueued, 60);
             await Settle(60);
@@ -583,7 +578,7 @@ internal sealed class ContrastAudit
                 if (c > 0 && i == original) continue;
                 if (tabs.Items[i] is TabItem { Visibility: not Visibility.Visible } or TabItem { IsEnabled: false }) continue;
                 if (tabs.SelectedIndex != i) { tabs.SelectedIndex = i; await changed(depth); }
-                string segment = (controls.Count > 1 ? $"c{c + 1}" : "") + $"t{i + 1}-" + Slug(Header(tabs.Items[i]), 16);
+                string segment = (controls.Count > 1 ? $"c{c + 1}" : "") + $"t{i + 1}-" + Slug(Header(tabs, i), 16);
                 path.Add((tabs, i));
                 var host = tabs.Template?.FindName("PART_SelectedContentHost", tabs) as FrameworkElement ?? tabs;
                 await ExploreTabs(host, name + "-" + segment, depth + 1, maxDepth, path, budget, leaf, changed);
@@ -620,6 +615,19 @@ internal sealed class ContrastAudit
             }
         }
         Visit(scope); return found;
+    }
+
+    /// <summary>
+    /// The header of a tab as the user reads it. F5.13 g3: the tabs of the MVVM views are bound to ViewModels (ItemsSource), whose ToString is the name
+    /// of the type: the text comes from the header drawn by the TabItem, so that the names of the views stay those of the historic tabs («1», «Soletta»).
+    /// </summary>
+    private static string Header(TabControl tabs, int index)
+    {
+        var item = tabs.Items[index];
+        if (item is not HeaderedContentControl && tabs.ItemContainerGenerator.ContainerFromIndex(index) is TabItem container &&
+            Ui.Descendants<TextBlock>(container).Select(t => t.Text).FirstOrDefault(t => !string.IsNullOrWhiteSpace(t)) is { } text)
+            return text;
+        return Header(item);
     }
 
     private static string Header(object item)
@@ -663,7 +671,8 @@ internal sealed class ContrastAudit
     internal static Button? FindButton(DependencyObject scope, string label, bool enabledOnly = true) =>
         Ui.Descendants<Button>(scope).FirstOrDefault(b => b.IsVisible && (!enabledOnly || b.IsEnabled) && ButtonLabel(b) == label);
 
-    internal static void Click(ButtonBase button) => button.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+    /// <summary>The click as the user gives it (ButtonBase.OnClick: the Click handlers and the command of the MVVM views), synchronous.</summary>
+    internal static void Click(ButtonBase button) => ShellContrastViews.Press(button);
 
     internal static FrameworkElement? FirstWithToolTip(DependencyObject scope) =>
         Ui.Descendants<FrameworkElement>(scope).FirstOrDefault(e => e.IsVisible && e.ToolTip is string { Length: > 0 });
@@ -832,8 +841,10 @@ internal sealed class ContrastAudit
         }
         if (opacity < 0.05) return null;
         rect.Intersect(new Rect(0, 0, width, height));
-        // A text cut by the edge of a scrolling area or of the capture shows only a sliver of its glyphs: not measurable.
-        if (rect.IsEmpty || rect.Height < Math.Min(full.Height, 12) * 0.6 || rect.Width < Math.Min(full.Width, 12) * 0.6) return null;
+        // A text cut by the edge of a scrolling area or of the capture shows only a sliver of its glyphs: not measurable. The bounds of a text box are
+        // those of its whole line, not of the glyphs (centred in the cells of the tables): at least 60% of its width must be visible (F5.13 g3).
+        double minimumWidth = owner is TextBox ? full.Width * 0.6 : Math.Min(full.Width, 12) * 0.6;
+        if (rect.IsEmpty || rect.Height < Math.Min(full.Height, 12) * 0.6 || rect.Width < minimumWidth) return null;
         rect.Inflate(margin, margin);
         rect.Intersect(new Rect(0, 0, width, height));
         return rect.IsEmpty || rect.Width < 2 || rect.Height < 2 ? null : rect;
@@ -1452,9 +1463,9 @@ internal sealed class SourceIndex
                 .Select(l => (l, patterns.Count(p => l.Text.Contains(p, StringComparison.OrdinalIgnoreCase)))).Where(x => x.Item2 > 0).ToList();
             matches[matchKey] = candidates;
         }
-        // The nearest ANTHEA component weighs most; MainWindow, ancestor of everything, little.
+        // The nearest ANTHEA component weighs most; the window (ShellWindow), ancestor of everything, little.
         var nearest = types.Count > 0 ? typeFiles.GetValueOrDefault(types[^1]) ?? [] : [];
-        var related = types.Where(t => t != "MainWindow").SelectMany(t => typeFiles.GetValueOrDefault(t) ?? []).ToHashSet();
+        var related = types.Where(t => t is not ("MainWindow" or "ShellWindow")).SelectMany(t => typeFiles.GetValueOrDefault(t) ?? []).ToHashSet();
         string hint = property switch { "Foreground" => "Foreground", "Background" => "Background", "BorderBrush" => "Border", "Fill" => "Fill", _ => property };
         string[] creation = elementType switch
         {
@@ -1681,311 +1692,3 @@ internal sealed class OffscreenWindows : IDisposable
         return process == (uint)Environment.ProcessId;
     }
 }
-
-
-public sealed partial class MainWindow
-{
-    internal void PrepareContrastAudit() => wiki = new WikiView((_, _) => { }, new WikiProgress(persist: false), returnToWork: () => { });
-
-    private FrameworkElement AuditRoot => ContrastAudit.WindowRoot(this);
-
-    /// <summary>Before replacing the document: no open sheet to commit, nothing to save (ConfirmDiscard would ask with a MessageBox).</summary>
-    private void AuditReset() { editor?.Dispose(); editor = null; currentSheet = null; sheetContent.Content = null; dirty = false; }
-
-    internal async Task AuditWaitEditor(ContrastAudit a, bool calculate)
-    {
-        if (editor is null) return;
-        // A sheet of a module migrated to MVVM (MvvmSheetEditor; since F5.13 g no historic SheetEditor): «Calcola», then the end of the calculation.
-        if (calculate) { try { await editor.CalculateAsync(); } catch (Exception ex) { a.Note(a.Context, "Calcolo: " + ex.Message); } }
-        if (!await a.WaitUntil(() => editor is null || !editor.Busy, 120)) a.Note(a.Context, "calcolo ancora in corso dopo 120 s");
-        await a.Settle(60);
-    }
-
-    /// <summary>Every view of the main window, in the order a user meets them; windows and popups are captured by the hooks of ContrastAudit.</summary>
-    internal async Task AuditContrastViews(ContrastAudit a)
-    {
-        await a.Step("home", async () =>
-        {
-            ShowHome(); await a.Settle();
-            await a.SnapStable("home", AuditRoot, "vista");
-            if (ContrastAudit.FirstWithToolTip(dashboard) is { } tipped) await a.SnapToolTip(tipped, "home--suggerimento");
-            if (Ui.Descendants<Menu>(this).FirstOrDefault() is { } menu)
-                foreach (var item in menu.Items.OfType<MenuItem>()) await a.SnapSubmenu(item, "menu-" + ContrastAudit.Slug(item.Header?.ToString()?.Replace("_", "") ?? "voce", 20));
-        });
-        await a.Step("moduli", async () =>
-        {
-            ShowModules(); await a.Settle(); await a.SnapStable("moduli", AuditRoot, "vista");
-            await a.SnapPages(dashboardBody, "moduli", AuditRoot);
-            ShowModules("Strutture"); await a.Settle(); await a.SnapStable("moduli-strutture", AuditRoot, "vista");
-        });
-        await a.Step("wiki", () => AuditWiki(a));
-        await a.Step("progetti", () => AuditProjects(a));
-        foreach (var module in Anthea.Application.Modules.ModuleDirectory.All) await a.Step("modulo-" + module.Id, () => AuditModule(a, module.Id));
-        // Common components of the MVVM views (F5.2): FieldForm in a dialog.
-        await a.Step("componenti-campi", () => FieldFormContrast.Audit(a, this));
-    }
-
-    private async Task AuditWiki(ContrastAudit a)
-    {
-        ShowWiki(); await a.Settle(150); await a.SnapStable("wiki-indice", AuditRoot, "vista");
-        ShowWiki("/wiki/manuale"); await a.Settle(150); await a.SnapStable("wiki-manuale", AuditRoot, "vista");
-        if (WikiCatalog.ForModule("geo_palo_verticale") is { } guide) { ShowWiki(guide.Id); await a.Settle(200); await a.SnapStable("wiki-guida-palo", AuditRoot, "vista"); await a.SnapPages(wiki!, "wiki-guida-palo", AuditRoot); }
-        var theory = WikiCatalog.Resolve("beam") ?? WikiCatalog.Articles.First(x => x.Type == "theory" && x.Status != "historical");
-        ShowWiki(theory.Id); await a.Settle(200); await a.SnapStable("wiki-teoria", AuditRoot, "vista"); await a.SnapPages(wiki!, "wiki-teoria", AuditRoot);
-        a.Context = "wiki-teoria";
-        if (Ui.Descendants<Button>(wiki!).FirstOrDefault(b => b.IsVisible && ContrastAudit.ButtonLabel(b) == "⋯") is { } dots)
-            await a.Trigger("azioni della sezione", () => ContrastAudit.Click(dots));
-        if (ContrastAudit.FindButton(wiki!, "Apri collegamento") is { } ask) await a.Trigger("Apri collegamento", () => ContrastAudit.Click(ask));
-        if (Ui.Descendants<ComboBox>(wiki!).FirstOrDefault(c => c.IsVisible) is { } selector) await a.SnapComboBox(selector, "wiki--elenco-aspetto");
-        if (Ui.Descendants<TextBox>(wiki!).FirstOrDefault(t => AutomationProperties.GetName(t) == "Ricerca nella Wiki") is { } search)
-        {
-            search.Text = "palo"; await Task.Delay(500); await a.Settle(150); await a.SnapStable("wiki-ricerca", AuditRoot, "vista");
-            search.Text = ""; await Task.Delay(500); await a.Settle();
-        }
-    }
-
-    private TreeViewItem? AuditTreeItem(JsonObject node)
-    {
-        IEnumerable<TreeViewItem> All(ItemsControl parent) => parent.Items.OfType<TreeViewItem>().SelectMany(i => new[] { i }.Concat(All(i)));
-        return All(tree).FirstOrDefault(i => ReferenceEquals(i.Tag, node));
-    }
-
-    private static void AuditFixRevisionDates(JsonNode? node)
-    {
-        // Revision dates come from DateTime.Now: fixed, so that the reference captures stay reproducible.
-        if (node is JsonObject o)
-        {
-            if (o.ContainsKey("numero") && o.ContainsKey("data")) o["data"] = "2026-01-15T10:30:00.0000000+01:00";
-            foreach (var (_, child) in o.ToList()) AuditFixRevisionDates(child);
-        }
-        else if (node is JsonArray array) foreach (var child in array) AuditFixRevisionDates(child);
-    }
-
-    private async Task AuditProjects(ContrastAudit a)
-    {
-        AuditReset(); NewProjects(); await a.Settle(); await a.SnapStable("progetti-vuoto", AuditRoot, "vista");
-        if (!File.Exists(a.TestArchive)) { a.Uncovered("Progetti con archivio di prova", "archivio di prova assente: " + a.TestArchive); return; }
-        AuditReset(); LoadFile(a.TestArchive); await a.Settle();
-        var project = document.Array("progetti").OfType<JsonObject>().First();
-        var sections = project.Array("strutture").OfType<JsonObject>().ToArray();
-        var first = sections[0]; var second = sections.Length > 1 ? sections[1] : sections[0];
-        string firstId = first.S("id");
-        ShowProjectOverview(project); await a.Settle(); await a.SnapStable("progetti-progetto", AuditRoot, "vista");
-        ShowProjectOverview(first); await a.Settle(); await a.SnapStable("progetti-sezione", AuditRoot, "vista");
-        foreach (var expander in Ui.Descendants<Expander>(projectContent).Where(x => !x.IsExpanded)) expander.IsExpanded = true;
-        await a.Settle(); await a.SnapStable("progetti-sezione-espansa", AuditRoot, "vista");
-        if (projectCatalogCards.Count > 0)
-        {
-            var card = projectCatalogCards[0].Card;
-            card.RaiseEvent(new MouseEventArgs(Mouse.PrimaryDevice, 0) { RoutedEvent = Mouse.MouseEnterEvent });
-            await a.Settle(); await a.SnapStable("progetti-catalogo-hover", AuditRoot, "vista");
-            card.RaiseEvent(new MouseEventArgs(Mouse.PrimaryDevice, 0) { RoutedEvent = Mouse.MouseLeaveEvent }); await a.Settle();
-        }
-        a.Context = "progetti-sezione";
-        if (AuditTreeItem(first) is { } item)
-        {
-            if (item.ContextMenu is { } menu) await a.Trigger("menu dell'albero", () => { menu.PlacementTarget = item; menu.IsOpen = true; });
-            if (Ui.Descendants<TextBlock>(item).FirstOrDefault(t => t.IsVisible && t.ToolTip is string) is { } label) await a.SnapToolTip(label, "progetti--suggerimento-albero");
-            BeginProjectRename(item); await a.Settle(); await a.SnapStable("progetti-rinomina", AuditRoot, "vista");
-            finishProjectRename?.Invoke(false); await a.Settle();
-        }
-        ShowProjectOverview(first); await a.Settle();
-        await a.Trigger("Confronto e avvisi", () => ShowCoherence(first));
-        // A common value that differs between two sheets of the section: conflicts in the overview, in the comparison and before the report.
-        a.Context = "progetti-conflitto";
-        if (first.Array("fogli").OfType<JsonObject>().Where(s => s.S("modulo_id") == "mat_calcestruzzo").Skip(1).FirstOrDefault()?["dati"] is JsonObject concrete)
-        {
-            concrete["classe"] = "C35/45";
-            ShowProjectOverview(first); await a.Settle(); await a.SnapStable("progetti-conflitto", AuditRoot, "vista");
-            await a.Trigger("Confronto e avvisi", () => ShowCoherence(first));
-        }
-        var reportSection = new[] { first, second, project }.FirstOrDefault(s => ProjectSharedData.SubtreeSheets(s).Any() &&
-            (ProjectSharedData.Differences(s).Count > 0 || SectionReportWarnings(s).Length > 0));
-        if (reportSection is not null) await a.Trigger("Genera report", () => ExportSectionReport(reportSection));
-        a.Context = "progetti-sezione";
-        var confirmations = new WpfConfirmationService(this);
-        await a.Trigger("Dati condivisi", () => confirmations.ConfirmSharedUpdate(new SharedUpdatePrompt(["Materiali"], first.S("nome"),
-            [new SharedUpdateTarget("CLS seconda verifica", ["CLS · fck [MPa]: 30 → 35", "Classe di esposizione: XC1 → XC3"])])));
-        string[] changes = [];
-        if (first.Array("fogli").OfType<JsonObject>().FirstOrDefault(s => s.S("modulo_id") == "mat_calcestruzzo") is { } moving && !ReferenceEquals(first, second))
-        {
-            Scripted.ProjectMove = c => { changes = c; return false; };
-            try { PreviewProjectMove(moving, second); } finally { Scripted.ProjectMove = null; }
-        }
-        if (changes.Length == 0) changes = ["CLS di riferimento · Classe calcestruzzo: C30/37 → C25/30"];
-        await a.Trigger("Conferma spostamento", () => confirmations.ConfirmProjectMove(second.S("nome"), changes));
-
-        a.Context = "progetti-foglio";
-        var sheet = first.Array("fogli").OfType<JsonObject>().FirstOrDefault(s => s.S("modulo_id") == "str_palo") ?? first.Array("fogli").OfType<JsonObject>().First();
-        ShowSheet(sheet); await AuditWaitEditor(a, true); await a.SnapStable("progetti-foglio", AuditRoot, "vista");
-        SetProjectSheetTreeVisible(true); await a.Settle(); await a.SnapStable("progetti-foglio-struttura", AuditRoot, "vista");
-        if (first.Array("fogli").OfType<JsonObject>().FirstOrDefault(s => s.S("modulo_id") == "mat_calcestruzzo") is { } material)
-        { ShowSheet(material); await AuditWaitEditor(a, false); await a.SnapStable("progetti-foglio-materiale", AuditRoot, "vista"); }
-        SetProjectSheetTreeVisible(false); await a.Settle();
-
-        a.Context = "progetti-revisioni";
-        ShowProjectOverview(first); await a.Settle();
-        CompleteProjectRevision(first, "Revisione di prova"); AuditFixRevisionDates(document);
-        first = ProjectRevisions.Find(document, firstId)!;
-        ShowProjectOverview(first); await a.Settle(); await a.SnapStable("progetti-revisioni", AuditRoot, "vista");
-        var scope = first;
-        await a.Trigger("Riepilogo modifiche", () => ShowProjectRevisions(scope));
-        await a.Trigger("Nuova revisione", () => CreateProjectRevision(scope));
-        if (first.Array("revisioni").OfType<JsonObject>().FirstOrDefault() is { } archived)
-        {
-            SwitchProjectRevision(firstId, (int)archived.D("numero")); await a.Settle(); await a.SnapStable("progetti-revisione-archiviata", AuditRoot, "vista");
-            if (ProjectRevisions.Find(document, firstId) is { } snapshot && snapshot.Array("fogli").OfType<JsonObject>().FirstOrDefault() is { } archivedSheet)
-            { ShowSheet(archivedSheet); await AuditWaitEditor(a, false); await a.SnapStable("progetti-revisione-archiviata-foglio", AuditRoot, "vista"); }
-            SwitchProjectRevision(firstId, null); await a.Settle();
-        }
-
-        a.Context = "progetti-terreni";
-        project = document.Array("progetti").OfType<JsonObject>().First();
-        var soils = ProjectDocuments.AddSection(project, "Terreni");
-        AddSheetTo("geo_palo_verticale", soils, false); AddSheetTo("geo_palo_verticale", soils, false); await a.Settle();
-        a.DialogActions["Confronto · Terreni"] = async window =>
-        {
-            if (Ui.Descendants<Expander>(window).FirstOrDefault(x => x.Header as string == "Collegamento stratigrafie") is not { } expander) return;
-            expander.IsExpanded = true; await a.Settle(80);
-            if (ContrastAudit.FindButton(window, "Mostra collegamento stratigrafie…") is { } show) await a.Trigger("Collegamento dei sondaggi", () => ContrastAudit.Click(show));
-        };
-        try { ShowProjectOverview(soils); await a.Settle(); await a.SnapStable("progetti-sezione-terreni", AuditRoot, "vista"); await a.Trigger("Confronto terreni", () => ShowCoherence(soils)); }
-        finally { a.DialogActions.Remove("Confronto · Terreni"); }
-        dirty = false;
-    }
-
-    /// <summary>Complete input for the modules whose defaults stop at "dati da completare", so that the results appear:
-    /// cases and examples already in the repository (supporto/test/casi_confronto.json, supporto/esempi), or the smoke recipe.</summary>
-    private static JsonObject? AuditCompleteData(ContrastAudit a, string module)
-    {
-        JsonObject? Case(string name) => File.Exists(Path.Combine(a.Root, "supporto", "test", "casi_confronto.json"))
-            ? SmokeTestData.LoadCases().OfType<JsonObject>().FirstOrDefault(c => c.S("nome") == name)?["input"]?.DeepClone().AsObject() : null;
-        JsonObject? Example(params string[] parts) { var file = Path.Combine([a.Root, "supporto", "esempi", .. parts]); return File.Exists(file) ? DocumentService.Open(file)["dati"]?.DeepClone().AsObject() : null; }
-        JsonObject Layered(JsonObject data) { data.Array("stratigrafie")[0]!.AsArray().Add(PaloOrizzontale.Layer()); return data; }
-        static JsonObject SpectraData()
-        {
-            var data = Anthea.Application.Actions.SpectraDocument.Create();
-            data["isolation"] = true; data["pendulum"] = true;
-            return data;
-        }
-        return module switch
-        {
-            "geo_palo_verticale" => Case("palo_storico_0"),
-            "geo_micropalo_verticale" => Case("micropalo_IRS_45_Feld"),
-            PaloOrizzontale.Module => Layered(PaloOrizzontale.Defaults()),
-            MicropaloOrizzontale.Module => Layered(MicropaloOrizzontale.Defaults()),
-            RetainingWall.Module => Example("muri-sostegno", "mensola.anthea"),
-            BridgeConcept.Module => Example("bridge-design.anthea"),
-            Anthea.Application.Actions.SpectraDocument.Module => SpectraData(),
-            _ => null
-        };
-    }
-
-    /// <summary>The module as opened from the catalogue; when its defaults are incomplete, the main view only, then every tab,
-    /// popup and window on complete data ("-dati").</summary>
-    private async Task AuditModule(ContrastAudit a, string module, string prefix = "modulo-")
-    {
-        JsonObject? complete = null;
-        try { complete = AuditCompleteData(a, module); } catch (Exception ex) { a.Note(prefix + module, "dati completi non disponibili: " + ex.Message); }
-        if (complete is not null)
-        {
-            Anthea.Application.Modules.ModuleDirectory.ValidateData(module, complete);
-            await AuditModuleState(a, module, null, prefix + module, full: false);
-        }
-        await AuditModuleState(a, module, complete, prefix + module + (complete is null ? "" : "-dati"), full: true);
-    }
-
-    private async Task AuditModuleState(ContrastAudit a, string module, JsonObject? data, string name, bool full)
-    {
-        AuditReset();
-        if (data is null) NewCalculation(module);
-        else { ExitRevisionPreview(); document = Archivio.Documento(module); document["dati"] = data.DeepClone(); path = null; ShowSheet(document); RefreshTree(); UpdateTitle(); }
-        await AuditWaitEditor(a, true);
-        a.Context = name;
-        if (!full) { await a.SnapStable(name, AuditRoot, "vista"); await a.SnapPages(sheetContent, name, AuditRoot); return; }
-        // Spectra uses a phase selector instead of TabControl: inspect all four phases, including isolation and pendulum inputs.
-        if (editor is MvvmSheetEditor { Sheet: Anthea.Presentation.Modules.Spectra.SpectraSheetViewModel spectra })
-        {
-            if (!editor.HasResults) throw new InvalidOperationException("Contrasto Spettri: risultato del calcolo assente");
-            int selected = spectra.Stage;
-            for (int stage = 0; stage < 4; stage++)
-            {
-                spectra.Stage = stage; await a.Settle(60);
-                await a.SnapStable(name + "-fase-" + (stage + 1), AuditRoot, "vista");
-                await a.SnapPages(sheetContent, name + "-fase-" + (stage + 1), AuditRoot);
-            }
-            spectra.Stage = selected; await a.Settle(60);
-        }
-        a.TabDefaults.Clear();
-        var routes = new Dictionary<string, List<(TabControl Tabs, int Index)>>();
-        var routesEnabled = new HashSet<string>();
-        bool horizontal = module is PaloOrizzontale.Module or MicropaloOrizzontale.Module;
-        await a.ExploreTabs(sheetContent, name, 0, 3, [], new ContrastAudit.LeafBudget(70), async (leaf, route) =>
-        {
-            await AuditWaitEditor(a, false);
-            await a.SnapStable(leaf, AuditRoot, "vista");
-            await a.SnapPages(sheetContent, leaf, AuditRoot);
-            // Route of the first tab where the command is enabled, otherwise where it is first seen.
-            foreach (var (label, _) in ContrastAudit.DialogTriggers)
-            {
-                if (routesEnabled.Contains(label) || ContrastAudit.FindButton(sheetContent, label, enabledOnly: false) is not { } seen) continue;
-                if (seen.IsEnabled) { routes[label] = route.ToList(); routesEnabled.Add(label); }
-                else routes.TryAdd(label, route.ToList());
-            }
-        }, depth => AuditWaitEditor(a, horizontal && depth == 0));
-        await a.Reselect([]);
-        await AuditWaitEditor(a, false);
-        if (Ui.Descendants<ComboBox>(sheetContent).FirstOrDefault(c => c.IsVisible && c.IsEnabled) is { } combo) await a.SnapComboBox(combo, name + "--elenco");
-        if (ContrastAudit.FirstWithToolTip(sheetContent) is { } tipped) await a.SnapToolTip(tipped, name + "--suggerimento");
-        if (ContrastAudit.FirstWithContextMenu(sheetContent) is { } owner && owner.ContextMenu is { } context)
-            await a.Trigger("menu contestuale", () => { context.PlacementTarget = owner; context.IsOpen = true; });
-        if (wikiTopics.IsVisible) await a.Trigger("Approfondimenti", ShowModuleWikiTopics);
-        if (module is "geo_palo_verticale" or "geo_micropalo_verticale" or "str_palo" or BridgeSection.Module && editor is { HasResults: true, Busy: false })
-            await a.Trigger("Report Word", ExportReport);
-        foreach (var (label, seconds) in ContrastAudit.DialogTriggers)
-        {
-            if (!routes.TryGetValue(label, out var route)) continue;
-            if (!await a.Reselect(route)) { a.Note(name, "scheda non più disponibile per " + label); continue; }
-            await AuditWaitEditor(a, false);
-            if (ContrastAudit.FindButton(sheetContent, label, enabledOnly: false) is not { } button) { a.Note(name, "comando non più visibile: " + label); continue; }
-            // A command that needs a selected row (Apri sezione in c.a. of the wall): the rows are selected one at a time, as a user would.
-            if (!button.IsEnabled) await AuditEnableBySelection(a, button);
-            if (!button.IsEnabled) { a.Note(name, "comando non abilitato: " + label); continue; }
-            if (!await a.Trigger(label, () => ContrastAudit.Click(button), seconds)) a.Note(name, "nessuna finestra da " + label);
-            dirty = false;
-        }
-        await a.Reselect([]);
-        a.RecordTriggers(name, routes.Keys);
-    }
-
-    private async Task AuditEnableBySelection(ContrastAudit a, Button button)
-    {
-        foreach (var grid in Ui.Descendants<DataGrid>(sheetContent).Where(g => g.IsVisible && g.Items.Count > 0).ToList())
-            for (int i = 0; i < Math.Min(40, grid.Items.Count) && !button.IsEnabled; i++) { grid.SelectedIndex = i; await a.Settle(20); }
-    }
-
-    /// <summary>Appearance changed with the view open (Appearance.Set re-themes the open windows): home, a project section, the c.a. section.</summary>
-    internal async Task AuditAppearanceSwitch(ContrastAudit a, AppAppearance start, AppAppearance mode)
-    {
-        async Task Switch(string name, Func<Task> show)
-        {
-            await a.Step(name, async () =>
-            {
-                Appearance.Set(start, false); await show(); await a.Settle(80);
-                Appearance.Set(mode, false); await a.Settle(80);
-                await a.SnapStable(name, AuditRoot, "vista");
-            });
-        }
-        await Switch("cambio-home", () => { ShowHome(); return Task.CompletedTask; });
-        await Switch("cambio-progetti-sezione", async () =>
-        {
-            AuditReset();
-            if (File.Exists(a.TestArchive)) { LoadFile(a.TestArchive); ShowProjectOverview(document.Array("progetti")[0]!["strutture"]![0]!.AsObject()); }
-            else ShowProjects();
-            await a.Settle();
-        });
-        await Switch("cambio-modulo-str_palo", async () => { AuditReset(); NewCalculation("str_palo"); await AuditWaitEditor(a, true); });
-        Appearance.Set(mode, false);
-    }
-}
-
