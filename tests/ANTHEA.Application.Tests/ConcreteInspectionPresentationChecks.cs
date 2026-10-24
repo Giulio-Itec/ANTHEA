@@ -35,7 +35,9 @@ internal static class ConcreteInspectionPresentationChecks
                 "Firma della curva: ingressi, trefoli, coefficienti e opzioni della curva");
             var curve = StructuralQueries.ConcreteCurvature(input, workspace, options);
             string text = ConcreteCurvaturePresentation.Text(curve);
-            Check(text.StartsWith(curve.Status + "\n\nMRd = 800,027 kNm\nχy = 0,00406697 1/m\nχu = 0,0288128 1/m\r\nμχ = 7,085\r\n\nM [kNm]   χ [1/m]   ε0 [‰]   εc,comp [‰]   |εs|max [‰]\r\n0   0   0   0   0\r\n",
+            // AG-CA-01 (24/10/2026): values of the trace updated for the analytic parabola of Concrete 0.20 (before: MRd = 800,027 kNm,
+            // χy = 0,00406697 1/m, χu = 0,0288128 1/m, μχ = 7,085).
+            Check(text.StartsWith(curve.Status + "\n\nMRd = 800,171 kNm\nχy = 0,00406197 1/m\nχu = 0,0288742 1/m\r\nμχ = 7,108\r\n\nM [kNm]   χ [1/m]   ε0 [‰]   εc,comp [‰]   |εs|max [‰]\r\n0   0   0   0   0\r\n",
                 StringComparison.Ordinal) && text.EndsWith(" · limite\r\n", StringComparison.Ordinal), "Testo della curva della fixture default (traccia storica congelata)");
             var points = ConcreteCurvaturePresentation.Points(curve);
             Check(points.Count == 62 && points[0][0] == 0 && points[0][1] == 0 && points[^1][1] == curve.Points[^1].Moment, "Serie della curva: 62 punti (χ, M)");

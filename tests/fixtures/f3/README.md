@@ -59,6 +59,18 @@ esteso senza toccare le voci esistenti (28977 voci):
 F5). Le aggiunte sono descritte nelle chiavi `aggiornamento_paratie_s2` e `aggiornamento_paratie_phi0` dell'elenco. La prova
 `ui/f3-equivalence` sulla vista storica con questo set non è ancora stata eseguita.
 
+Il 24/10/2026, con il set AG (Model 2d59bbc6, Checker f6d87d28, Concrete 0.20.0.0: parabola-rettangolo analitica come legge
+predefinita) e con la decisione dell'utente («registra e aggiorna»), l'elenco è stato esteso per la sezione c.a. (29358 voci):
+- 381 voci AG-CA-01 nuove: punti resistenti dei domini SLU/SLV 2D e 3D (resistenze, risposte, utilizzi, rapporti e i loro
+  numeri nei report) di dieci fixture `str_palo`;
+- 19 transizioni F2-17 (SLU-2) di `legacy-calculation-settings` sostituite in posto: stesso «a», «b» nuovo, voce
+  «F2-17 (SLU-2) / AG-CA-01».
+
+«a» e «b» vengono dal comparatore del toolkit sui 121 file della sezione catturati da `Presentation.Tests/sezione-ca`. La fixture
+`rettangolare-materiali-utente` non ha voci: due punti resistenti della strategia «Intersezione» ora rifiutati dalla libreria
+cambiano il verdetto (AG-CA-03, da decidere), quindi la suite resta rossa su quella fixture. Chiave `aggiornamento_ag_ca`
+dell'elenco. `ui/f3-equivalence` con questo set non è ancora stata eseguita.
+
 ## Fixture aggiunte in F5.4 (palificata orizzontale)
 
 Proposta F5, sezione 7.2: prima di migrare un modulo con poche fixture se ne aggiungono altre, catturate con la vista

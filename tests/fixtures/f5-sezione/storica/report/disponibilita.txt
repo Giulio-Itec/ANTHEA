@@ -162,7 +162,7 @@ messaggio "report breve: Attendere l’aggiornamento delle verifiche prima di es
 == attendi
 dati 909A32DC19A20903 · byte 8436
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 3D294770A81B574F
+risultato EC1F286E957660EF
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -279,7 +279,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   800,03 kNm\nMx−   -447,89 kNm\nMy+   438,93 kNm\nMy−   -438,93 kNm" · nascosto · riquadri "Mx+ 800,03 kNm | Mx− -447,89 kNm | My+ 438,93 kNm | My− -438,93 kNm"
+[ingressi] rapide "Mx+   800,17 kNm\nMx−   -448,02 kNm\nMy+   438,98 kNm\nMy−   -438,98 kNm" · nascosto · riquadri "Mx+ 800,17 kNm | Mx− -448,02 kNm | My+ 438,98 kNm | My− -438,98 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
@@ -296,7 +296,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
@@ -306,14 +306,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati ABF5810106F18366 · byte 8598
   workspace_ca.report_sezioni = ["azioni","coefficienti","costruttivi","curvatura","dominio2d","dominio3d","geometria","grafici","materiali","SLE","SLE_FREQ","SLE_QP","taglio"]
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato B93E5EB65A636FE3
+risultato 44050D180B8000E3
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "report completo disponibile"
 [ingressi] invariata
 == report «breve»
 dati ABF5810106F18366 · byte 8598
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato B93E5EB65A636FE3
+risultato 44050D180B8000E3
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "report breve disponibile"
 [ingressi] invariata
@@ -473,7 +473,7 @@ messaggio "report completo: Attendere l’aggiornamento automatico e correggere 
 == attendi
 dati C8421E6AEC0FA40B · byte 8598
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 2016BBBC5E6B9140
+risultato D5FF4C83713ADC79
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -590,7 +590,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   801,79 kNm\nMx−   -449,28 kNm\nMy+   457,60 kNm\nMy−   -457,60 kNm" · nascosto · riquadri "Mx+ 801,79 kNm | Mx− -449,28 kNm | My+ 457,60 kNm | My− -457,60 kNm"
+[ingressi] rapide "Mx+   801,96 kNm\nMx−   -449,43 kNm\nMy+   457,65 kNm\nMy−   -457,65 kNm" · nascosto · riquadri "Mx+ 801,96 kNm | Mx− -449,43 kNm | My+ 457,65 kNm | My− -457,65 kNm"
 [ingressi] anteprima sezione Rettangolare 620x800 · Ac 496000 · As 4775.220833456486 · contorno 4 249873F92F35B08B · fori 0 · barre 14 1B048D7D4EF94C9E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-220","y":"310"}
@@ -616,13 +616,13 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == report «completo»
 dati C8421E6AEC0FA40B · byte 8598
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 2016BBBC5E6B9140
+risultato D5FF4C83713ADC79
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "report completo disponibile"
 [ingressi] invariata
 == conferma
 dati C8421E6AEC0FA40B · byte 8598
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 2016BBBC5E6B9140
+risultato D5FF4C83713ADC79
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata

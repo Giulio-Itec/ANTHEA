@@ -487,7 +487,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati DAC0E7EF90BC8060 · byte 8939
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
-risultato 87FFF99315B7C01B
+risultato 7C9A1DC08FBBC1A7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -604,7 +604,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "-1500"
 [ingressi]   scelta tipo "Resistenza" = "Elastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1607,53 kNm\nMx−   -1607,54 kNm\nMy+   1607,53 kNm\nMy−   -1607,53 kNm" · nascosto · riquadri "Mx+ 1607,53 kNm | Mx− -1607,54 kNm | My+ 1607,53 kNm | My− -1607,53 kNm"
+[ingressi] rapide "Mx+   1607,99 kNm\nMx−   -1607,99 kNm\nMy+   1607,99 kNm\nMy−   -1607,99 kNm" · nascosto · riquadri "Mx+ 1607,99 kNm | Mx− -1607,99 kNm | My+ 1607,99 kNm | My− -1607,99 kNm"
 [ingressi] anteprima sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001101 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 32 · selezionata -1
 [ingressi]   {"id":"B01","phi":"24","x":"416","y":"0"}
@@ -702,10 +702,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 2 · selezionata 0
 [domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.29","eta3d":"0.24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
 [domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.13","eta3d":"0.07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
-[domini] 2D dettaglio "Plastico · N–M · proiezione attiva\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500.00 kN\nMx,Ed = 600.00 kNm\nMy,Ed = 150.00 kNm\n\nη = 0.29\nEntro il dominio · azione proiettata\n\nRESISTENZA · assi locali\nNRd = -12269.45 kN\nMx,Rd = 1805.19 kNm\nMy,Rd = 1042.23 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22.67 / 0.00 MPa\nσs min / max: -391.30 / 95.08 MPa\nεc min / max: -3.50 / 0.85 ‰\nεs min / max: -3.12 / 0.48 ‰\n\nd utile: 925.74 mm\nDistanza asse neutro dal lembo (GPC Engine): 804.47 mm\nInclinazione asse neutro: 30.02°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -19621.59 … 5013.23 kN\nMx: -2400.38 … 2400.39 kNm\nMy: -1385.86 … 1385.86 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 2D dettaglio "Plastico · N–M · proiezione attiva\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500.00 kN\nMx,Ed = 600.00 kNm\nMy,Ed = 150.00 kNm\n\nη = 0.29\nEntro il dominio · azione proiettata\n\nRESISTENZA · assi locali\nNRd = -12275.31 kN\nMx,Rd = 1806.06 kNm\nMy,Rd = 1042.72 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22.67 / 0.00 MPa\nσs min / max: -391.30 / 96.03 MPa\nεc min / max: -3.50 / 0.86 ‰\nεs min / max: -3.12 / 0.48 ‰\n\nd utile: 925.74 mm\nDistanza asse neutro dal lembo (GPC Engine): 803.51 mm\nInclinazione asse neutro: 30.02°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -19636.40 … 5015.62 kN\nMx: -2402.13 … 2402.13 kNm\nMy: -1386.82 … 1386.82 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 2D-riepilogo "2D · Plastico\nVERIFICATA\nη = 0.29\nGoverna: SLU pressoflessione\n2/2 combinazioni\n2D · Elastico\nVERIFICATA\nη = 0.43\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
-[domini] 2D grafico "Plastico · N–M, θ = 30.00°" · "Mθ [kNm]" · "N [kN]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 40 B7E7A7E0AC75742B · verifiche 2 C8FB73BA7AABC8F0 · punti 3 A2A58EC5F9B6AE31 · scala 1/1
+[domini] 2D grafico "Plastico · N–M, θ = 30.00°" · "Mθ [kNm]" · "N [kN]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 40 E578DB9261C5C5A1 · verifiche 2 F037CC25FF09DE91 · punti 3 A0DE2C4F97E1804E · scala 1/1
 [sle] famiglia 0
 [sle] form SLE
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
@@ -867,7 +867,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati DAC0E7EF90BC8060 · byte 8939
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
-risultato 87FFF99315B7C01B
+risultato 7C9A1DC08FBBC1A7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -880,7 +880,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == visita
 dati DAC0E7EF90BC8060 · byte 8939
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
-risultato 87FFF99315B7C01B
+risultato 7C9A1DC08FBBC1A7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -902,11 +902,11 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
 [domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.29","eta3d":"0.24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
 [domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.13","eta3d":"0.07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
-[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500,00 kN\nMx,Ed = 600,00 kNm\nMy,Ed = 150,00 kNm\n\nη = 0,24\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -3500,38 kN\nMx,Rd = 2481,61 kNm\nMy,Rd = 620,40 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22,67 / 0,00 MPa\nσs min / max: -391,30 / 391,30 MPa\nεc min / max: -3,50 / 5,58 ‰\nεs min / max: -2,73 / 4,80 ‰\n\nd utile: 926,85 mm\nDistanza asse neutro dal lembo (GPC Engine): 385,55 mm\nInclinazione asse neutro: 13,91°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -19636,40 … 5015,62 kN\nMx: -2780,53 … 2780,51 kNm\nMy: -2780,51 … 2780,52 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500,00 kN\nMx,Ed = 600,00 kNm\nMy,Ed = 150,00 kNm\n\nη = 0,24\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -3500,00 kN\nMx,Rd = 2482,58 kNm\nMy,Rd = 620,65 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22,67 / 0,00 MPa\nσs min / max: -391,30 / 391,30 MPa\nεc min / max: -3,50 / 5,59 ‰\nεs min / max: -2,73 / 4,81 ‰\n\nd utile: 926,85 mm\nDistanza asse neutro dal lembo (GPC Engine): 385,11 mm\nInclinazione asse neutro: 13,91°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -19636,40 … 5015,62 kN\nMx: -2782,36 … 2782,36 kNm\nMy: -2782,36 … 2782,36 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.24\nGoverna: SLU pressoflessione\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.51\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 BB328D17DF6BEE14 triangoli 3136 EF5B97CED469EC60 scala F8BD78BF3DF97F76
-[domini] 3D vista azioni 2 EADDB76BACFF10AB · selezionata 0 · Ed F59ACBE61EACED4E · Rd B21984295F3EC6E3
+[domini] 3D vista mesh Plastic vertici 1570 78930DE5C51835D1 triangoli 3136 EF5B97CED469EC60 scala 21DA9A71697FABC1
+[domini] 3D vista azioni 2 EADDB76BACFF10AB · selezionata 0 · Ed F59ACBE61EACED4E · Rd E588598A58170169
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 2 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
 [domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
@@ -926,10 +926,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 2 · selezionata 0
 [domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.29","eta3d":"0.24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
 [domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.13","eta3d":"0.07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
-[domini] 2D dettaglio "Plastico · N–M · proiezione attiva\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500.00 kN\nMx,Ed = 600.00 kNm\nMy,Ed = 150.00 kNm\n\nη = 0.29\nEntro il dominio · azione proiettata\n\nRESISTENZA · assi locali\nNRd = -12269.45 kN\nMx,Rd = 1805.19 kNm\nMy,Rd = 1042.23 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22.67 / 0.00 MPa\nσs min / max: -391.30 / 95.08 MPa\nεc min / max: -3.50 / 0.85 ‰\nεs min / max: -3.12 / 0.48 ‰\n\nd utile: 925.74 mm\nDistanza asse neutro dal lembo (GPC Engine): 804.47 mm\nInclinazione asse neutro: 30.02°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -19621.59 … 5013.23 kN\nMx: -2400.38 … 2400.39 kNm\nMy: -1385.86 … 1385.86 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 2D dettaglio "Plastico · N–M · proiezione attiva\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500.00 kN\nMx,Ed = 600.00 kNm\nMy,Ed = 150.00 kNm\n\nη = 0.29\nEntro il dominio · azione proiettata\n\nRESISTENZA · assi locali\nNRd = -12275.31 kN\nMx,Rd = 1806.06 kNm\nMy,Rd = 1042.72 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22.67 / 0.00 MPa\nσs min / max: -391.30 / 96.03 MPa\nεc min / max: -3.50 / 0.86 ‰\nεs min / max: -3.12 / 0.48 ‰\n\nd utile: 925.74 mm\nDistanza asse neutro dal lembo (GPC Engine): 803.51 mm\nInclinazione asse neutro: 30.02°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -19636.40 … 5015.62 kN\nMx: -2402.13 … 2402.13 kNm\nMy: -1386.82 … 1386.82 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 2D-riepilogo "2D · Plastico\nVERIFICATA\nη = 0.29\nGoverna: SLU pressoflessione\n2/2 combinazioni\n2D · Elastico\nVERIFICATA\nη = 0.43\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
-[domini] 2D grafico "Plastico · N–M, θ = 30.00°" · "Mθ [kNm]" · "N [kN]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 40 B7E7A7E0AC75742B · verifiche 2 C8FB73BA7AABC8F0 · punti 3 A2A58EC5F9B6AE31 · scala 1/1
+[domini] 2D grafico "Plastico · N–M, θ = 30.00°" · "Mθ [kNm]" · "N [kN]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 40 E578DB9261C5C5A1 · verifiche 2 F037CC25FF09DE91 · punti 3 A0DE2C4F97E1804E · scala 1/1
 [sle] famiglia 0
 [sle] form SLE
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
@@ -1191,7 +1191,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati DAC0E7EF90BC8060 · byte 8939
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
-risultato 87FFF99315B7C01B
+risultato 7C9A1DC08FBBC1A7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1204,7 +1204,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati DAC0E7EF90BC8060 · byte 8939
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
-risultato 87FFF99315B7C01B
+risultato 7C9A1DC08FBBC1A7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1217,7 +1217,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == calcola
 dati DAC0E7EF90BC8060 · byte 8939
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
-risultato 87FFF99315B7C01B
+risultato 7C9A1DC08FBBC1A7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1230,7 +1230,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati DAC0E7EF90BC8060 · byte 8939
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
-risultato 87FFF99315B7C01B
+risultato 7C9A1DC08FBBC1A7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1643,7 +1643,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati DAC0E7EF90BC8060 · byte 8939
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
-risultato 87FFF99315B7C01B
+risultato 7C9A1DC08FBBC1A7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -1760,7 +1760,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "-1500"
 [ingressi]   scelta tipo "Resistenza" = "Elastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1607,53 kNm\nMx−   -1607,54 kNm\nMy+   1607,53 kNm\nMy−   -1607,53 kNm" · nascosto · riquadri "Mx+ 1607,53 kNm | Mx− -1607,54 kNm | My+ 1607,53 kNm | My− -1607,53 kNm"
+[ingressi] rapide "Mx+   1607,99 kNm\nMx−   -1607,99 kNm\nMy+   1607,99 kNm\nMy−   -1607,99 kNm" · nascosto · riquadri "Mx+ 1607,99 kNm | Mx− -1607,99 kNm | My+ 1607,99 kNm | My− -1607,99 kNm"
 [ingressi] anteprima sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001101 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 32 · selezionata -1
 [ingressi]   {"id":"B01","phi":"24","x":"416","y":"0"}
@@ -1858,10 +1858,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 2 · selezionata 0
 [domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.29","eta3d":"0.24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
 [domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.13","eta3d":"0.07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
-[domini] 2D dettaglio "Plastico · N–M · proiezione attiva\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500.00 kN\nMx,Ed = 600.00 kNm\nMy,Ed = 150.00 kNm\n\nη = 0.29\nEntro il dominio · azione proiettata\n\nRESISTENZA · assi locali\nNRd = -12269.45 kN\nMx,Rd = 1805.19 kNm\nMy,Rd = 1042.23 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22.67 / 0.00 MPa\nσs min / max: -391.30 / 95.08 MPa\nεc min / max: -3.50 / 0.85 ‰\nεs min / max: -3.12 / 0.48 ‰\n\nd utile: 925.74 mm\nDistanza asse neutro dal lembo (GPC Engine): 804.47 mm\nInclinazione asse neutro: 30.02°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -19621.59 … 5013.23 kN\nMx: -2400.38 … 2400.39 kNm\nMy: -1385.86 … 1385.86 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] 2D dettaglio "Plastico · N–M · proiezione attiva\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500.00 kN\nMx,Ed = 600.00 kNm\nMy,Ed = 150.00 kNm\n\nη = 0.29\nEntro il dominio · azione proiettata\n\nRESISTENZA · assi locali\nNRd = -12275.31 kN\nMx,Rd = 1806.06 kNm\nMy,Rd = 1042.72 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22.67 / 0.00 MPa\nσs min / max: -391.30 / 96.03 MPa\nεc min / max: -3.50 / 0.86 ‰\nεs min / max: -3.12 / 0.48 ‰\n\nd utile: 925.74 mm\nDistanza asse neutro dal lembo (GPC Engine): 803.51 mm\nInclinazione asse neutro: 30.02°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -19636.40 … 5015.62 kN\nMx: -2402.13 … 2402.13 kNm\nMy: -1386.82 … 1386.82 kNm\nEstremi campionati; non sono resistenze al N della riga."
 [domini] riquadri 2D-riepilogo "2D · Plastico\nVERIFICATA\nη = 0.29\nGoverna: SLU pressoflessione\n2/2 combinazioni\n2D · Elastico\nVERIFICATA\nη = 0.43\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
-[domini] 2D grafico "Plastico · N–M, θ = 30.00°" · "Mθ [kNm]" · "N [kN]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 40 B7E7A7E0AC75742B · verifiche 2 C8FB73BA7AABC8F0 · punti 3 A2A58EC5F9B6AE31 · scala 1/1
+[domini] 2D grafico "Plastico · N–M, θ = 30.00°" · "Mθ [kNm]" · "N [kN]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 40 E578DB9261C5C5A1 · verifiche 2 F037CC25FF09DE91 · punti 3 A0DE2C4F97E1804E · scala 1/1
 [sle] famiglia 0
 [sle] form SLE
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
@@ -2023,7 +2023,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati DAC0E7EF90BC8060 · byte 8939
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
-risultato 87FFF99315B7C01B
+risultato 7C9A1DC08FBBC1A7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata

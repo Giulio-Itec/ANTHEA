@@ -16,6 +16,8 @@ public static partial class ConcreteLibraryMapping
         ["Missing domain point/strain plane."] = "punto resistente non trovato",
         ["Non-finite domain point."] = "punto resistente non finito",
         ["The returned point does not satisfy the search constraints."] = "punto resistente non convergente (vincoli della ricerca non rispettati)",
+        // GPCChecker.Concrete 0.20 (62ecbc83/c611b709): piano di deformazione che non riproduce un punto entro i vincoli (registro AG-CA-03).
+        ["The returned strain plane does not satisfy the search constraints."] = "punto resistente non convergente (piano di deformazione fuori dai vincoli della ricerca)",
         ["Invalid working ratio."] = "tasso di lavoro non valido"
     }.ToFrozenDictionary(StringComparer.Ordinal);
 

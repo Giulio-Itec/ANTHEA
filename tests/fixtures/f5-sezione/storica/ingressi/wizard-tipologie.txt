@@ -150,7 +150,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati EF031222386175BC · byte 8391
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -267,7 +267,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   800,03 kNm\nMx−   -447,89 kNm\nMy+   438,93 kNm\nMy−   -438,93 kNm" · nascosto · riquadri "Mx+ 800,03 kNm | Mx− -447,89 kNm | My+ 438,93 kNm | My− -438,93 kNm"
+[ingressi] rapide "Mx+   800,17 kNm\nMx−   -448,02 kNm\nMy+   438,98 kNm\nMy−   -438,98 kNm" · nascosto · riquadri "Mx+ 800,17 kNm | Mx− -448,02 kNm | My+ 438,98 kNm | My− -438,98 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
@@ -284,7 +284,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
@@ -440,7 +440,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 dati C62B1C3E61F701BA · byte 9085
   workspace_ca.taglio.d_x = "507.22580645161293"
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 036562954C1859D5
+risultato F71E168B6282FAAE
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -557,7 +557,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   800.05 kNm\nMx−   -447.91 kNm\nMy+   439.97 kNm\nMy−   -437.70 kNm" · nascosto · riquadri "Mx+ 800.05 kNm | Mx− -447.91 kNm | My+ 439.97 kNm | My− -437.70 kNm"
+[ingressi] rapide "Mx+   800.16 kNm\nMx−   -447.99 kNm\nMy+   440.03 kNm\nMy−   -437.76 kNm" · nascosto · riquadri "Mx+ 800.16 kNm | Mx− -447.99 kNm | My+ 440.03 kNm | My− -437.76 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 740752C2034CAC9B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-200","y":"310"}
@@ -575,7 +575,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
 [ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.70\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -587,7 +587,7 @@ dati 77EDE3DC4548426A · byte 9130
   combinazioni.SLV[0].visible = true
   combinazioni.SLE[0].visible = true
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 036562954C1859D5
+risultato F71E168B6282FAAE
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "aperta · tipologia \"Rettangolare · doppia fila sopra e sotto\" · applica sì · errore \"\" · nota \"Disposizione geometrica iniziale. Confermare ancoraggi, bracci efficaci delle staffe e dettagli costruttivi nelle rispettive schede.\"\n  campi wizard_type=\"Rettangolare · doppia fila sopra e sotto\" width_mm=\"1000\" height_mm=\"1200\" diameter_mm=\"1000\"·nascosto inner_diameter_mm=\"400\"·nascosto inner_width_mm=\"400\"·nascosto inner_height_mm=\"500\"·nascosto flange_width_mm=\"1000\"·nascosto web_width_mm=\"300\"·nascosto flange_thickness_mm=\"300\"·nascosto bottom_flange_width_mm=\"800\"·nascosto bottom_flange_thickness_mm=\"250\"·nascosto cover_mm=\"70\" wizard_bar_diameter_mm=\"20\"·nascosto wizard_bar_spacing_mm=\"180\"·nascosto wizard_radial_count=\"24\"·nascosto wizard_inner_count=\"16\"·nascosto wizard_stadium_layout=\"\"·nascosto wizard_stadium_curve_count=\"9\"·nascosto wizard_stadium_curve_diameter_mm=\"20\"·nascosto wizard_stadium_straight_count=\"4\"·nascosto wizard_stadium_straight_diameter_mm=\"20\"·nascosto wizard_polygon_sides=\"8\"·nascosto top_bar_count=\"4\" top_bar_diameter_mm=\"20\" bottom_bar_count=\"4\" bottom_bar_diameter_mm=\"20\" side_bar_count_per_side=\"2\" side_bar_diameter_mm=\"16\" second_top_count=\"4\" second_top_diameter=\"20\" second_top_gap=\"40\" second_bottom_count=\"4\" second_bottom_diameter=\"20\" second_bottom_gap=\"40\" longitudinal_bar_count=\"24\"·nascosto longitudinal_bar_diameter_mm=\"20\"·nascosto second_inner_count=\"16\"·nascosto second_inner_diameter=\"20\"·nascosto second_inner_gap=\"60\"·nascosto transverse_bar_diameter_mm=\"10\" transverse_spacing_mm=\"200\"\n  anteprima Rettangolare 1000x1200 · Ac 1200000 · As 5830.795965062656 · contorno 4 4E71611D591B8DA3 · fori 0 · barre 20 EED93471685E39D5 · staffe 0 4F53CDA18C2BAA0C\n  bozza 696F26E51482AB95\npulsante dialogo Annulla · chiusa"
 [ingressi] invariata
@@ -595,7 +595,7 @@ messaggio "aperta · tipologia \"Rettangolare · doppia fila sopra e sotto\" · 
 == attendi
 dati 77EDE3DC4548426A · byte 9130
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 036562954C1859D5
+risultato F71E168B6282FAAE
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [wizard] invariata
@@ -813,7 +813,7 @@ messaggio "aperta · tipologia \"Rettangolare · doppia fila sopra e sotto\" · 
 == attendi
 dati 702305CD04B4479F · byte 9239
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato BD8EB0C32A5A09D9
+risultato 5BA15E21655115AE
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -930,7 +930,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1648,28 kNm\nMx−   -1920,92 kNm\nMy+   1077,16 kNm\nMy−   -1077,16 kNm" · nascosto · riquadri "Mx+ 1648,28 kNm | Mx− -1920,92 kNm | My+ 1077,16 kNm | My− -1077,16 kNm"
+[ingressi] rapide "Mx+   1648,96 kNm\nMx−   -1921,15 kNm\nMy+   1077,47 kNm\nMy−   -1077,47 kNm" · nascosto · riquadri "Mx+ 1648,96 kNm | Mx− -1921,15 kNm | My+ 1077,47 kNm | My− -1077,47 kNm"
 [ingressi] anteprima sezione A I 1000x1200 · Ac 702500 · As 8796.459430051422 · contorno 12 EAA36B8F6BB5547B · fori 0 · barre 28 492DFFF20C6B9032 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 28 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"260","y":"-505.74733"}
@@ -971,42 +971,42 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 == campo geometria width_mm «1200»
 dati 702305CD04B4479F · byte 9239
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato BD8EB0C32A5A09D9
+risultato 5BA15E21655115AE
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
 [wizard] invariata
 == spunta foro Foro centrale
 dati 702305CD04B4479F · byte 9239
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato BD8EB0C32A5A09D9
+risultato 5BA15E21655115AE
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
 [wizard] invariata
 == pulsante strati top
 dati 702305CD04B4479F · byte 9239
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato BD8EB0C32A5A09D9
+risultato 5BA15E21655115AE
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
 [wizard] invariata
 == campo armatura top_bar_count «6»
 dati 702305CD04B4479F · byte 9239
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato BD8EB0C32A5A09D9
+risultato 5BA15E21655115AE
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
 [wizard] invariata
 == scelta schema-staffe tipo_staffa «Spirale»
 dati 702305CD04B4479F · byte 9239
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato BD8EB0C32A5A09D9
+risultato 5BA15E21655115AE
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
 [wizard] invariata
 == attendi
 dati 702305CD04B4479F · byte 9239
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato BD8EB0C32A5A09D9
+risultato 5BA15E21655115AE
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
 [wizard] invariata
@@ -1131,7 +1131,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1648,28 kNm\nMx−   -1920,92 kNm\nMy+   1077,16 kNm\nMy−   -1077,16 kNm" · nascosto · riquadri "Mx+ 1648,28 kNm | Mx− -1920,92 kNm | My+ 1077,16 kNm | My− -1077,16 kNm"
+[ingressi] rapide "Mx+   1648,96 kNm\nMx−   -1921,15 kNm\nMy+   1077,47 kNm\nMy−   -1077,47 kNm" · nascosto · riquadri "Mx+ 1648,96 kNm | Mx− -1921,15 kNm | My+ 1077,47 kNm | My− -1077,47 kNm"
 [ingressi] anteprima sezione A I 1000x1200 · Ac 702500 · As 8796.459430051422 · contorno 12 EAA36B8F6BB5547B · fori 0 · barre 28 492DFFF20C6B9032 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 28 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"260","y":"-505.74733"}
@@ -1172,7 +1172,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 == attendi
 dati 463AA1B46F0826BC · byte 9239
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato FBCEB4A1191E99AD
+risultato 5859F40A3030B7C1
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -1289,7 +1289,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1648,28 kNm\nMx−   -1920,92 kNm\nMy+   1077,16 kNm\nMy−   -1077,16 kNm" · nascosto · riquadri "Mx+ 1648,28 kNm | Mx− -1920,92 kNm | My+ 1077,16 kNm | My− -1077,16 kNm"
+[ingressi] rapide "Mx+   1648,96 kNm\nMx−   -1921,15 kNm\nMy+   1077,47 kNm\nMy−   -1077,47 kNm" · nascosto · riquadri "Mx+ 1648,96 kNm | Mx− -1921,15 kNm | My+ 1077,47 kNm | My− -1077,47 kNm"
 [ingressi] anteprima sezione A I 1000x1200 · Ac 702500 · As 8796.459430051422 · contorno 12 EAA36B8F6BB5547B · fori 0 · barre 28 492DFFF20C6B9032 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 28 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"260","y":"-505.74733"}
@@ -1498,7 +1498,7 @@ messaggio "aperta · tipologia \"A I\" · applica sì · errore \"\" · nota \"S
 == attendi
 dati 8392B9D7EAA1D524 · byte 9239
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 45F545A36ABCE252
+risultato 30BA7C9AD200530D
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -1615,7 +1615,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   2115,37 kNm\nMx−   -2352,63 kNm\nMy+   1259,08 kNm\nMy−   -1259,08 kNm" · nascosto · riquadri "Mx+ 2115,37 kNm | Mx− -2352,63 kNm | My+ 1259,08 kNm | My− -1259,08 kNm"
+[ingressi] rapide "Mx+   2116,25 kNm\nMx−   -2352,95 kNm\nMy+   1259,47 kNm\nMy−   -1259,47 kNm" · nascosto · riquadri "Mx+ 2116,25 kNm | Mx− -2352,95 kNm | My+ 1259,47 kNm | My− -1259,47 kNm"
 [ingressi] anteprima sezione A I 1000x1200 · Ac 702500 · As 11309.733552923255 · contorno 12 EAA36B8F6BB5547B · fori 0 · barre 36 35ED69EF002D8F0B · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 36 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"260","y":"-505.74733"}
@@ -1839,7 +1839,7 @@ messaggio "aperta · tipologia \"A I\" · applica sì · errore \"\" · nota \"S
 == attendi
 dati E7164F6E332362DD · byte 9283
 modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato FAF3FA438898A64B
+risultato B7C81A3BC2928747
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -1956,7 +1956,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   2271,99 kNm\nMx−   -2271,99 kNm\nMy+   1887,83 kNm\nMy−   -1887,83 kNm" · nascosto · riquadri "Mx+ 2271,99 kNm | Mx− -2271,99 kNm | My+ 1887,83 kNm | My− -1887,83 kNm"
+[ingressi] rapide "Mx+   2272,87 kNm\nMx−   -2272,87 kNm\nMy+   1888,60 kNm\nMy−   -1888,60 kNm" · nascosto · riquadri "Mx+ 2272,87 kNm | Mx− -2272,87 kNm | My+ 1888,60 kNm | My− -1888,60 kNm"
 [ingressi] anteprima sezione Rettangolare 1000x1200 · Ac 1025000 · As 11309.733552923255 · contorno 4 4E71611D591B8DA3 · fori 1 · barre 36 62C795FB5503829F · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 36 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"410","y":"510"}
@@ -2005,28 +2005,28 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 == campo foro inner_width_mm «300»
 dati E7164F6E332362DD · byte 9283
 modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato FAF3FA438898A64B
+risultato B7C81A3BC2928747
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
 [wizard] invariata
 == spunta foro Foro centrale
 dati E7164F6E332362DD · byte 9283
 modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato FAF3FA438898A64B
+risultato B7C81A3BC2928747
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
 [wizard] invariata
 == pulsante strati bottom
 dati E7164F6E332362DD · byte 9283
 modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato FAF3FA438898A64B
+risultato B7C81A3BC2928747
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
 [wizard] invariata
 == attendi
 dati E7164F6E332362DD · byte 9283
 modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato FAF3FA438898A64B
+risultato B7C81A3BC2928747
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
 [wizard] invariata
@@ -2224,7 +2224,7 @@ messaggio "aperta · tipologia \"Rettangolare cava · due contorni\" · applica 
 == attendi
 dati BA4CCCB9B00B1810 · byte 8985
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D3F0C4F52A1F9906
+risultato 80683AE846597558
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -2341,7 +2341,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1697,87 kNm\nMx−   -1697,86 kNm\nMy+   1697,87 kNm\nMy−   -1697,85 kNm" · nascosto · riquadri "Mx+ 1697,87 kNm | Mx− -1697,86 kNm | My+ 1697,87 kNm | My− -1697,85 kNm"
+[ingressi] rapide "Mx+   1698,16 kNm\nMx−   -1698,16 kNm\nMy+   1698,16 kNm\nMy−   -1698,16 kNm" · nascosto · riquadri "Mx+ 1698,16 kNm | Mx− -1698,16 kNm | My+ 1698,16 kNm | My− -1698,16 kNm"
 [ingressi] anteprima sezione Circolare 1000x1000 · Ac 785398.1633974483 · As 12566.370614359173 · contorno 96 269EE5F0312968A2 · fori 0 · barre 40 94D87200C2944C16 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 40 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"410","y":"0"}
@@ -2740,7 +2740,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati D5F5E8229E910486 · byte 8983
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 0550436EC997030C
+risultato DD330214AD147D04
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -2857,7 +2857,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1791,44 kNm\nMx−   -1791,41 kNm\nMy+   1791,41 kNm\nMy−   -1791,39 kNm" · nascosto · riquadri "Mx+ 1791,44 kNm | Mx− -1791,41 kNm | My+ 1791,41 kNm | My− -1791,39 kNm"
+[ingressi] rapide "Mx+   1791,59 kNm\nMx−   -1791,59 kNm\nMy+   1791,59 kNm\nMy−   -1791,59 kNm" · nascosto · riquadri "Mx+ 1791,59 kNm | Mx− -1791,59 kNm | My+ 1791,59 kNm | My− -1791,59 kNm"
 [ingressi] anteprima sezione Circolare 1100x1100 · Ac 950331.7777109124 · As 11309.733552923255 · contorno 96 8E3DA374C40F3432 · fori 0 · barre 36 0EB510CD8217CF65 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 36 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"460","y":"0"}
@@ -2906,7 +2906,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati D5F5E8229E910486 · byte 8983
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 0550436EC997030C
+risultato DD330214AD147D04
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [wizard] invariata
@@ -3079,7 +3079,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati D5F5E8229E910486 · byte 8983
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 0550436EC997030C
+risultato DD330214AD147D04
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -3196,7 +3196,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1791,44 kNm\nMx−   -1791,41 kNm\nMy+   1791,41 kNm\nMy−   -1791,39 kNm" · nascosto · riquadri "Mx+ 1791,44 kNm | Mx− -1791,41 kNm | My+ 1791,41 kNm | My− -1791,39 kNm"
+[ingressi] rapide "Mx+   1791,59 kNm\nMx−   -1791,59 kNm\nMy+   1791,59 kNm\nMy−   -1791,59 kNm" · nascosto · riquadri "Mx+ 1791,59 kNm | Mx− -1791,59 kNm | My+ 1791,59 kNm | My− -1791,59 kNm"
 [ingressi] anteprima sezione Circolare 1100x1100 · Ac 950331.7777109124 · As 11309.733552923255 · contorno 96 8E3DA374C40F3432 · fori 0 · barre 36 0EB510CD8217CF65 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 36 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"460","y":"0"}

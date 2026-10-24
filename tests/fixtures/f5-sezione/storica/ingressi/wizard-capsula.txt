@@ -277,7 +277,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1988,54 kNm\nMx−   -1988,54 kNm\nMy+   1276,60 kNm\nMy−   -1276,60 kNm" · nascosto · riquadri "Mx+ 1988,54 kNm | Mx− -1988,54 kNm | My+ 1276,60 kNm | My− -1276,60 kNm"
+[ingressi] rapide "Mx+   1988,41 kNm\nMx−   -1988,41 kNm\nMy+   1276,74 kNm\nMy−   -1276,74 kNm" · nascosto · riquadri "Mx+ 1988,41 kNm | Mx− -1988,41 kNm | My+ 1276,74 kNm | My− -1276,74 kNm"
 [ingressi] anteprima sezione Capsula 1000x1600 · Ac 1385319.3127331943 · As 7539.822368615503 · contorno 258 66C90C24EECC8822 · fori 0 · barre 24 B98FE0F8138D0AC5 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 24 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"409.999999","y":"0"}
@@ -586,7 +586,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   2020.86 kNm\nMx−   -2020.86 kNm\nMy+   1320.04 kNm\nMy−   -1276.73 kNm" · nascosto · riquadri "Mx+ 2020.86 kNm | Mx− -2020.86 kNm | My+ 1320.04 kNm | My− -1276.73 kNm"
+[ingressi] rapide "Mx+   2020.80 kNm\nMx−   -2020.80 kNm\nMy+   1320.34 kNm\nMy−   -1276.82 kNm" · nascosto · riquadri "Mx+ 2020.80 kNm | Mx− -2020.80 kNm | My+ 1320.34 kNm | My− -1276.82 kNm"
 [ingressi] anteprima sezione Capsula 1000x1600 · Ac 1385319.3127331943 · As 7678.052445373454 · contorno 258 66C90C24EECC8822 · fori 0 · barre 24 24D09481D1930313 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 24 · selezionata -1
 [ingressi]   {"id":"B01","phi":"24","x":"409.999999","y":"0"}
@@ -895,7 +895,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1988,54 kNm\nMx−   -1988,54 kNm\nMy+   1276,60 kNm\nMy−   -1276,60 kNm" · nascosto · riquadri "Mx+ 1988,54 kNm | Mx− -1988,54 kNm | My+ 1276,60 kNm | My− -1276,60 kNm"
+[ingressi] rapide "Mx+   1988,41 kNm\nMx−   -1988,41 kNm\nMy+   1276,74 kNm\nMy−   -1276,74 kNm" · nascosto · riquadri "Mx+ 1988,41 kNm | Mx− -1988,41 kNm | My+ 1276,74 kNm | My− -1276,74 kNm"
 [ingressi] anteprima sezione Capsula 1000x1600 · Ac 1385319.3127331943 · As 7539.822368615503 · contorno 258 66C90C24EECC8822 · fori 0 · barre 24 B98FE0F8138D0AC5 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 24 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"409.999999","y":"0"}
@@ -1222,7 +1222,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   2241,01 kNm\nMx−   -2241,01 kNm\nMy+   1420,98 kNm\nMy−   -1420,98 kNm" · nascosto · riquadri "Mx+ 2241,01 kNm | Mx− -2241,01 kNm | My+ 1420,98 kNm | My− -1420,98 kNm"
+[ingressi] rapide "Mx+   2240,89 kNm\nMx−   -2240,89 kNm\nMy+   1421,29 kNm\nMy−   -1421,29 kNm" · nascosto · riquadri "Mx+ 2240,89 kNm | Mx− -2240,89 kNm | My+ 1421,29 kNm | My− -1421,29 kNm"
 [ingressi] anteprima sezione Capsula 1000x1600 · Ac 1385319.3127331943 · As 8519.99927653552 · contorno 258 66C90C24EECC8822 · fori 0 · barre 30 F4E913C024A6A23D · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 30 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-409.9932227295153","y":"300"}
@@ -1548,7 +1548,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   2283,67 kNm\nMx−   -2283,67 kNm\nMy+   1471,54 kNm\nMy−   -1471,54 kNm" · nascosto · riquadri "Mx+ 2283,67 kNm | Mx− -2283,67 kNm | My+ 1471,54 kNm | My− -1471,54 kNm"
+[ingressi] rapide "Mx+   2283,70 kNm\nMx−   -2283,70 kNm\nMy+   1471,81 kNm\nMy−   -1471,81 kNm" · nascosto · riquadri "Mx+ 2283,70 kNm | Mx− -2283,70 kNm | My+ 1471,81 kNm | My− -1471,81 kNm"
 [ingressi] anteprima sezione Capsula 1000x1600 · Ac 1385319.3127331943 · As 8796.459430051422 · contorno 258 66C90C24EECC8822 · fori 0 · barre 28 1AC1AC89E2C408BB · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 28 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"409.999999","y":"0"}
@@ -1866,7 +1866,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   2295,32 kNm\nMx−   -2295,32 kNm\nMy+   1486,81 kNm\nMy−   -1486,81 kNm" · nascosto · riquadri "Mx+ 2295,32 kNm | Mx− -2295,32 kNm | My+ 1486,81 kNm | My− -1486,81 kNm"
+[ingressi] rapide "Mx+   2295,34 kNm\nMx−   -2295,34 kNm\nMy+   1486,99 kNm\nMy−   -1486,99 kNm" · nascosto · riquadri "Mx+ 2295,34 kNm | Mx− -2295,34 kNm | My+ 1486,99 kNm | My− -1486,99 kNm"
 [ingressi] anteprima sezione Capsula 1000x1600 · Ac 1385319.3127331943 · As 8796.459430051422 · contorno 258 66C90C24EECC8822 · fori 0 · barre 28 9920EAC04AA56E81 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 28 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"419.999999","y":"0"}
@@ -2183,7 +2183,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   2283,67 kNm\nMx−   -2283,67 kNm\nMy+   1471,54 kNm\nMy−   -1471,54 kNm" · nascosto · riquadri "Mx+ 2283,67 kNm | Mx− -2283,67 kNm | My+ 1471,54 kNm | My− -1471,54 kNm"
+[ingressi] rapide "Mx+   2283,70 kNm\nMx−   -2283,70 kNm\nMy+   1471,81 kNm\nMy−   -1471,81 kNm" · nascosto · riquadri "Mx+ 2283,70 kNm | Mx− -2283,70 kNm | My+ 1471,81 kNm | My− -1471,81 kNm"
 [ingressi] anteprima sezione Capsula 1000x1600 · Ac 1385319.3127331943 · As 8796.459430051422 · contorno 258 66C90C24EECC8822 · fori 0 · barre 28 1AC1AC89E2C408BB · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 28 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"409.999999","y":"0"}
@@ -2506,7 +2506,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   2283,67 kNm\nMx−   -2283,67 kNm\nMy+   1471,54 kNm\nMy−   -1471,54 kNm" · nascosto · riquadri "Mx+ 2283,67 kNm | Mx− -2283,67 kNm | My+ 1471,54 kNm | My− -1471,54 kNm"
+[ingressi] rapide "Mx+   2283,70 kNm\nMx−   -2283,70 kNm\nMy+   1471,81 kNm\nMy−   -1471,81 kNm" · nascosto · riquadri "Mx+ 2283,70 kNm | Mx− -2283,70 kNm | My+ 1471,81 kNm | My− -1471,81 kNm"
 [ingressi] anteprima sezione Capsula 1000x1600 · Ac 1385319.3127331943 · As 8796.459430051422 · contorno 258 66C90C24EECC8822 · fori 0 · barre 28 1AC1AC89E2C408BB · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 28 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"409.999999","y":"0"}

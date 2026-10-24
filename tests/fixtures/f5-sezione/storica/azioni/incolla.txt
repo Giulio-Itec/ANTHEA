@@ -17,11 +17,11 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati EF031222386175BC · byte 8391
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.54","id":"<nuovo-1>","nome":"Combo 1","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
@@ -36,7 +36,7 @@ dati 31C8AD693CC1873A · byte 8436
   combinazioni.SLE[0].visible = true
   workspace_ca.tab = 1
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 8A6A30F51345F8D1
+risultato 083C4E47228A2D27
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 == incolla 3D [0] «Combo A⇥-1000⇥200⇥30⏎Combo B⇥-1200⇥250⇥40»
@@ -59,7 +59,7 @@ stato "2 righe incollate · aggiornamento automatico in attesa…"
 == attendi
 dati 2AD444BCF263E7F3 · byte 8516
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 27AAE0CFAF2FEBCA
+risultato BF56BAB8430E348E
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 2
@@ -93,7 +93,7 @@ stato "1 righe incollate · aggiornamento automatico in attesa…"
 == attendi
 dati 93036F337516071E · byte 8596
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 5B90686268D7114D
+risultato B8B833EA33D962E3
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 3
@@ -110,34 +110,34 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == incolla 3D [0] «Combo D⇥-800⇥abc⇥10»
 dati 93036F337516071E · byte 8596
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 5B90686268D7114D
+risultato B8B833EA33D962E3
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "Incolla sollecitazioni: Riga 1, Mx: inserire un numero finito.\nNessun dato incollato."
 [azioni] invariata
 == attendi
 dati 93036F337516071E · byte 8596
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 5B90686268D7114D
+risultato B8B833EA33D962E3
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 == incolla 3D [0] «1⇥2»
 dati 93036F337516071E · byte 8596
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 5B90686268D7114D
+risultato B8B833EA33D962E3
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "Incolla sollecitazioni: Selezionare prima una cella di input (nome o sollecitazione). Per aggiungere righe complete usare 3 o 4 colonne.\nNessun dato incollato."
 [azioni] invariata
 == attendi
 dati 93036F337516071E · byte 8596
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 5B90686268D7114D
+risultato B8B833EA33D962E3
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 == scheda [4]
 dati D1D94D7C21F81C1A · byte 8596
   workspace_ca.tab = 4
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 51F9DE589C33299A
+risultato B47E427AA5C55A1A
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 == incolla taglio [0] «Taglio X⇥-500⇥100⇥50»
@@ -162,7 +162,7 @@ stato "1 righe incollate · aggiornamento automatico in attesa…"
 == attendi
 dati 074B80594CABE8A6 · byte 8690
 modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 6C77E44732133A8E
+risultato AA32355D3A11A384
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 3
@@ -200,7 +200,7 @@ stato "1 righe incollate · aggiornamento automatico in attesa…"
 == attendi
 dati 89E3A85068E121F8 · byte 8784
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 429D10FA6F42EDED
+risultato 068261A962C2E6BD
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 3
@@ -219,7 +219,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati 89E3A85068E121F8 · byte 8784
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 429D10FA6F42EDED
+risultato 068261A962C2E6BD
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 == riapri
@@ -244,7 +244,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati 89E3A85068E121F8 · byte 8784
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 429D10FA6F42EDED
+risultato 068261A962C2E6BD
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 3

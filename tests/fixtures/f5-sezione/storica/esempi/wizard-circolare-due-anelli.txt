@@ -602,7 +602,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1697,87 kNm\nMx−   -1697,86 kNm\nMy+   1697,87 kNm\nMy−   -1697,85 kNm" · nascosto · riquadri "Mx+ 1697,87 kNm | Mx− -1697,86 kNm | My+ 1697,87 kNm | My− -1697,85 kNm"
+[ingressi] rapide "Mx+   1698,16 kNm\nMx−   -1698,16 kNm\nMy+   1698,16 kNm\nMy−   -1698,16 kNm" · nascosto · riquadri "Mx+ 1698,16 kNm | Mx− -1698,16 kNm | My+ 1698,16 kNm | My− -1698,16 kNm"
 [ingressi] anteprima sezione Circolare 1000x1000 · Ac 785398.1633974483 · As 12566.370614359173 · contorno 96 269EE5F0312968A2 · fori 0 · barre 40 94D87200C2944C16 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 40 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"410","y":"0"}
@@ -848,7 +848,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] 3D dettaglio "Nessuna combinazione selezionata"
 [domini] riquadri 3D-riepilogo "3D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
-[domini] 3D vista mesh Plastic vertici 1570 F77A8F617EE649FF triangoli 3136 EF5B97CED469EC60 scala 38D34A7092BA048A
+[domini] 3D vista mesh Plastic vertici 1570 D00B59F37321059D triangoli 3136 EF5B97CED469EC60 scala D85B24992F05265A
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 0 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
@@ -871,7 +871,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] 2D dettaglio "Nessuna combinazione selezionata"
 [domini] riquadri 2D-riepilogo "2D · SLU\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
-[domini] 2D grafico "SLU · Plastico · Mx–My, N = -1000,00 kN" · "Mx [kNm]" · "My [kNm]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 64 A02C821C77AC8ACA · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
+[domini] 2D grafico "SLU · Plastico · Mx–My, N = -1000,00 kN" · "Mx [kNm]" · "My [kNm]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 64 08C176D628F4782C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
 [sle] famiglia 0
 [sle] form SLE
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
@@ -1610,7 +1610,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1697,87 kNm\nMx−   -1697,86 kNm\nMy+   1697,87 kNm\nMy−   -1697,85 kNm" · nascosto · riquadri "Mx+ 1697,87 kNm | Mx− -1697,86 kNm | My+ 1697,87 kNm | My− -1697,85 kNm"
+[ingressi] rapide "Mx+   1698,16 kNm\nMx−   -1698,16 kNm\nMy+   1698,16 kNm\nMy−   -1698,16 kNm" · nascosto · riquadri "Mx+ 1698,16 kNm | Mx− -1698,16 kNm | My+ 1698,16 kNm | My− -1698,16 kNm"
 [ingressi] anteprima sezione Circolare 1000x1000 · Ac 785398.1633974483 · As 12566.370614359173 · contorno 96 269EE5F0312968A2 · fori 0 · barre 40 94D87200C2944C16 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 40 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"410","y":"0"}

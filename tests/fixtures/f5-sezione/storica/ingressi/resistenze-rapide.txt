@@ -145,7 +145,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati EF031222386175BC · byte 8391
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -262,7 +262,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   800,03 kNm\nMx−   -447,89 kNm\nMy+   438,93 kNm\nMy−   -438,93 kNm" · nascosto · riquadri "Mx+ 800,03 kNm | Mx− -447,89 kNm | My+ 438,93 kNm | My− -438,93 kNm"
+[ingressi] rapide "Mx+   800,17 kNm\nMx−   -448,02 kNm\nMy+   438,98 kNm\nMy−   -438,98 kNm" · nascosto · riquadri "Mx+ 800,17 kNm | Mx− -448,02 kNm | My+ 438,98 kNm | My− -438,98 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
@@ -279,7 +279,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
@@ -289,7 +289,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 0EBE1796E4FA32FE · byte 8395
   workspace_ca.resistenze_rapide.N = "-2500"
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -423,7 +423,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
@@ -432,7 +432,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 0EBE1796E4FA32FE · byte 8395
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -549,7 +549,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "-2500"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1328,10 kNm\nMx−   -1145,90 kNm\nMy+   826,48 kNm\nMy−   -826,47 kNm" · nascosto · riquadri "Mx+ 1328,10 kNm | Mx− -1145,90 kNm | My+ 826,48 kNm | My− -826,47 kNm"
+[ingressi] rapide "Mx+   1328,99 kNm\nMx−   -1146,39 kNm\nMy+   826,73 kNm\nMy−   -826,73 kNm" · nascosto · riquadri "Mx+ 1328,99 kNm | Mx− -1146,39 kNm | My+ 826,73 kNm | My− -826,73 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
@@ -566,7 +566,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
@@ -576,7 +576,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 92DC451C4989CBD1 · byte 8395
   workspace_ca.resistenze_rapide.tipo = "Elastico"
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -710,7 +710,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
@@ -719,7 +719,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 92DC451C4989CBD1 · byte 8395
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -836,7 +836,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "-2500"
 [ingressi]   scelta tipo "Resistenza" = "Elastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   1178,60 kNm\nMx−   -1018,54 kNm\nMy+   728,22 kNm\nMy−   -728,19 kNm" · nascosto · riquadri "Mx+ 1178,60 kNm | Mx− -1018,54 kNm | My+ 728,22 kNm | My− -728,19 kNm"
+[ingressi] rapide "Mx+   1181,62 kNm\nMx−   -1018,67 kNm\nMy+   729,64 kNm\nMy−   -729,64 kNm" · nascosto · riquadri "Mx+ 1181,62 kNm | Mx− -1018,67 kNm | My+ 729,64 kNm | My− -729,64 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
@@ -853,7 +853,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
@@ -863,7 +863,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 40B3ABD16E490A41 · byte 8393
   workspace_ca.resistenze_rapide.N = "abc"
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -997,7 +997,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
@@ -1006,14 +1006,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 40B3ABD16E490A41 · byte 8393
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 == campo rapide N «-500»
 dati 8C3F789558E7CCD7 · byte 8394
   workspace_ca.resistenze_rapide.N = "-500"
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -1147,7 +1147,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
@@ -1156,7 +1156,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 8C3F789558E7CCD7 · byte 8394
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -1273,7 +1273,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "-500"
 [ingressi]   scelta tipo "Resistenza" = "Elastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   825,42 kNm\nMx−   -511,42 kNm\nMy+   395,99 kNm\nMy−   -396,00 kNm" · nascosto · riquadri "Mx+ 825,42 kNm | Mx− -511,42 kNm | My+ 395,99 kNm | My− -396,00 kNm"
+[ingressi] rapide "Mx+   825,51 kNm\nMx−   -511,44 kNm\nMy+   396,11 kNm\nMy−   -396,11 kNm" · nascosto · riquadri "Mx+ 825,51 kNm | Mx− -511,44 kNm | My+ 396,11 kNm | My− -396,11 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
@@ -1290,7 +1290,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
@@ -1302,7 +1302,7 @@ dati 169A2E6D17FE5D1A · byte 8439
   combinazioni.SLV[0].visible = true
   combinazioni.SLE[0].visible = true
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 == riapri
@@ -1451,7 +1451,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati 169A2E6D17FE5D1A · byte 8439
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 2FA99D9C5E99F540
+risultato D30DDE4298BF88E3
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -1568,7 +1568,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "-500"
 [ingressi]   scelta tipo "Resistenza" = "Elastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   825,42 kNm\nMx−   -511,42 kNm\nMy+   395,99 kNm\nMy−   -396,00 kNm" · nascosto · riquadri "Mx+ 825,42 kNm | Mx− -511,42 kNm | My+ 395,99 kNm | My− -396,00 kNm"
+[ingressi] rapide "Mx+   825,51 kNm\nMx−   -511,44 kNm\nMy+   396,11 kNm\nMy−   -396,11 kNm" · nascosto · riquadri "Mx+ 825,51 kNm | Mx− -511,44 kNm | My+ 396,11 kNm | My− -396,11 kNm"
 [ingressi] anteprima sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 14 · selezionata -1
 [ingressi]   {"id":"B01","phi":"20","x":"-210","y":"310"}
@@ -1585,7 +1585,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.54\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF

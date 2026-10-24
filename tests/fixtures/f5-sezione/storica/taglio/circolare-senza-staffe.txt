@@ -62,7 +62,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati DAC0E7EF90BC8060 · byte 8939
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
-risultato 87FFF99315B7C01B
+risultato 7C9A1DC08FBBC1A7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [taglio] form taglio
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
@@ -123,7 +123,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 4C5FDB6B5EFDD2F9 · byte 8939
   workspace_ca.tab = 4
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato F693871D50C5D5E1
+risultato 66EE5FCF86513C39
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [taglio] form taglio
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
@@ -183,7 +183,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 4C5FDB6B5EFDD2F9 · byte 8939
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato F693871D50C5D5E1
+risultato 66EE5FCF86513C39
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [taglio] invariata
 == scelta torsione modello_circolare «Parametri assegnati»
@@ -311,7 +311,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 5D5C3EBDCF7B8ECB · byte 8936
 modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 6BDF3E3EBE084AC6
+risultato 70634C0E85E87F7C
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [taglio] form taglio
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
@@ -432,7 +432,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 0337A0DE41A2DB07 · byte 8933
 modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 247D3BA1C1266B62
+risultato EF6248E737964569
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [taglio] form taglio
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
@@ -562,7 +562,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati 73CE7FB95A540527 · byte 8934
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 4B8A2D15A26798AC
+risultato 8F62E7241A081216
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [taglio] form taglio
 [taglio]   scelta modello "Modello" = "Senza staffe" voci "Con staffe|Senza staffe"
@@ -686,7 +686,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati 0337A0DE41A2DB07 · byte 8933
 modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 247D3BA1C1266B62
+risultato EF6248E737964569
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [taglio] form taglio
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
@@ -746,7 +746,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati 0337A0DE41A2DB07 · byte 8933
 modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 247D3BA1C1266B62
+risultato EF6248E737964569
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [taglio] invariata
 == riapri
@@ -812,7 +812,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati 0337A0DE41A2DB07 · byte 8933
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato 247D3BA1C1266B62
+risultato EF6248E737964569
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [taglio] form taglio
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"

@@ -56,7 +56,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati EF031222386175BC · byte 8391
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D9E22A4A92124E9D
+risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 == scheda [7]
@@ -66,20 +66,20 @@ dati 0BAB6C33D8FC88AF · byte 8436
   combinazioni.SLE[0].visible = true
   workspace_ca.tab = 7
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato 223E02ECB95F30CB
+risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 == attendi
 dati 0BAB6C33D8FC88AF · byte 8436
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato 223E02ECB95F30CB
+risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 == scelta ricerca obiettivo «Compromesso»
 dati 8317FBCA34ADF226 · byte 8443
   workspace_ca.calcola_armature.obiettivo = "Compromesso"
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato 223E02ECB95F30CB
+risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
 [armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
@@ -133,14 +133,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 8317FBCA34ADF226 · byte 8443
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato 223E02ECB95F30CB
+risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 == scelta ricerca staffe «Mantieni»
 dati 1C28A8C493C4411A · byte 8442
   workspace_ca.calcola_armature.staffe = "Mantieni"
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato 223E02ECB95F30CB
+risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
 [armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
@@ -194,14 +194,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 1C28A8C493C4411A · byte 8442
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato 223E02ECB95F30CB
+risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 == opzione ricerca simmetrica
 dati 884EC583515EACED · byte 8441
   workspace_ca.calcola_armature.simmetrica = true
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato 223E02ECB95F30CB
+risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
 [armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
@@ -256,7 +256,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati D187AD43A1A5299B · byte 8442
   workspace_ca.calcola_armature.ricerca_completa = false
 modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato 223E02ECB95F30CB
+risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
 [armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
@@ -310,14 +310,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati D187AD43A1A5299B · byte 8442
 modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato 223E02ECB95F30CB
+risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 == campo ricerca diametri «abc»
 dati EAFA718EF2E6EB98 · byte 8434
   workspace_ca.calcola_armature.diametri = "abc"
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato 223E02ECB95F30CB
+risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
 [armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
@@ -371,7 +371,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == pulsante ricerca Calcola armature
 dati EAFA718EF2E6EB98 · byte 8434
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato 223E02ECB95F30CB
+risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
 [armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
@@ -425,7 +425,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati EAFA718EF2E6EB98 · byte 8434
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato 223E02ECB95F30CB
+risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
 [armature]   scelta obiettivo "Ottimizza" = "Compromesso" voci "Peso|Numero barre|Numero diametri|Compromesso"
@@ -546,12 +546,12 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 == attendi
 dati 2E90C6C83A0B6096 · byte 8448
 modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato CFECCA86DBAFC4AA
+risultato 1883773D196A0A5F
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 == conferma
 dati 2E90C6C83A0B6096 · byte 8448
 modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
-risultato CFECCA86DBAFC4AA
+risultato 1883773D196A0A5F
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata

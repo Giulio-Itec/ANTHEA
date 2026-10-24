@@ -109,7 +109,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati 384A3F1BE076F57C · byte 8692
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 7656A7674377592E
+risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] famiglia 0
 [sle] form SLE
@@ -234,19 +234,19 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 384A3F1BE076F57C · byte 8692
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 7656A7674377592E
+risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] invariata
 == sottoscheda sle [0]
 dati 384A3F1BE076F57C · byte 8692
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 7656A7674377592E
+risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] invariata
 == seleziona SLE [1]
 dati 384A3F1BE076F57C · byte 8692
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 7656A7674377592E
+risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] famiglia 0
 [sle] form SLE
@@ -371,13 +371,13 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 384A3F1BE076F57C · byte 8692
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 7656A7674377592E
+risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] invariata
 == sottoscheda dettagli-SLE [3]
 dati 384A3F1BE076F57C · byte 8692
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 7656A7674377592E
+risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] famiglia 0
 [sle] form SLE
@@ -502,13 +502,13 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 384A3F1BE076F57C · byte 8692
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 7656A7674377592E
+risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] invariata
 == sottoscheda sle [1]
 dati 384A3F1BE076F57C · byte 8692
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 7656A7674377592E
+risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] famiglia 1
 [sle] form SLE
@@ -651,7 +651,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == seleziona SLE_FREQ [1]
 dati 384A3F1BE076F57C · byte 8692
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 7656A7674377592E
+risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] famiglia 1
 [sle] form SLE
@@ -794,13 +794,13 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 384A3F1BE076F57C · byte 8692
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 7656A7674377592E
+risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] invariata
 == sottoscheda sle [2]
 dati 384A3F1BE076F57C · byte 8692
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 7656A7674377592E
+risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] famiglia 2
 [sle] form SLE
@@ -961,13 +961,13 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == menu SLE_QP zone «1»
 dati 384A3F1BE076F57C · byte 8692
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 7656A7674377592E
+risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] invariata
 == attendi
 dati 384A3F1BE076F57C · byte 8692
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 7656A7674377592E
+risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] invariata
 == scelta SLE_QP esposizione «XC1»
@@ -1120,7 +1120,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 18DC72C7D7F31384 · byte 8692
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato 5C69D792ACE059B0
+risultato 36920DF49082FF1C
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] famiglia 2
 [sle] form SLE
@@ -1428,7 +1428,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 0528112FB2B08488 · byte 8692
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato F032B65526695D94
+risultato 6C2484A129765730
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] famiglia 2
 [sle] form SLE
@@ -1589,6 +1589,6 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati 0528112FB2B08488 · byte 8692
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
-risultato F032B65526695D94
+risultato 6C2484A129765730
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [sle] invariata
