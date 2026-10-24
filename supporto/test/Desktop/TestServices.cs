@@ -4,16 +4,8 @@ using X.Desktop.Services;
 
 namespace X.Desktop;
 
-/// <summary>
-/// Services of the WPF checks (UiTests configuration), registered by the harness through new MainWindow(TestServices.Create).
-/// They reproduce the former 'testing' flag of MainWindow: no question on close, errors of Safe rethrown,
-/// shared data kept in the current sheet, moves accepted; the checks can script the two answers.
-/// </summary>
-internal static class TestServices
-{
-    /// <summary>Factory of MainWindow: every window, including the copies opened by a check, gets its own services.</summary>
-    internal static DesktopServices Create(Window owner) => new(new ScriptedConfirmations(), new RethrowingMessages());
-}
+// F5.13 g3: TestServices (the services of the WPF checks in MainWindow, F1.4) is archived with MainWindow in supporto/SUPERATI/ui-storica/shell;
+// the scripted questions and messages below are those of the bench of the shell and of the sheets (BenchSheetServices).
 
 internal sealed class ScriptedConfirmations : IConfirmationService
 {
@@ -52,10 +44,4 @@ internal sealed class RethrowingMessages : IMessageService
     public void Inform(string title, string message) => Shown.Add((title, message, false));
 
     public void Warn(string title, string message) => Shown.Add((title, message, true));
-}
-
-public sealed partial class MainWindow
-{
-    /// <summary>Scripted answers of this window, created with TestServices.Create.</summary>
-    internal ScriptedConfirmations Scripted => (ScriptedConfirmations)services.Confirmations;
 }

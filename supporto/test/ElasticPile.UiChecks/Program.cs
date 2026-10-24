@@ -48,7 +48,7 @@ static partial class Program
     /// </summary>
     static (FrameworkElement View, IDisposable Editor, Func<JsonObject> Data) ConcreteSection(JsonObject sheet)
     {
-        var assembly=typeof(X.Desktop.MainWindow).Assembly;var all=flags|BindingFlags.Public;
+        var assembly=typeof(X.Desktop.App).Assembly;var all=flags|BindingFlags.Public;
         var compositionType=assembly.GetType("X.Desktop.Services.DesktopComposition")!;var composition=Activator.CreateInstance(compositionType,flags,null,[(Func<Window?>)(()=>null)],null)!;
         object Property(string name)=>compositionType.GetProperty(name,all)!.GetValue(composition)!;
         var modules=Property("Modules");var module=modules.GetType().GetMethod("SheetModule",all)!.Invoke(modules,["str_palo"])!;
@@ -232,7 +232,7 @@ static partial class Program
                 segmentsHost.Analysis.Change=null;Wait(se.CalculateAsync());segmentsHost.Settle();Picture(editor,Path.Combine(dir,"distinta-visibile.png"));
             }
             var shown=(JsonObject)inherited.DeepClone();shown["armature"]!["distinta"]=new JsonArray();shown["armature"]!["tratti"]![0]!["errore"]="Lunghezza commerciale insufficiente rispetto alla sovrapposizione.";
-            var billDrawingType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.PileReinforcementDrawing")!;var billDrawing=(FrameworkElement)Activator.CreateInstance(billDrawingType,true)!;
+            var billDrawingType=typeof(X.Desktop.App).Assembly.GetType("X.Desktop.PileReinforcementDrawing")!;var billDrawing=(FrameworkElement)Activator.CreateInstance(billDrawingType,true)!;
             billDrawingType.GetMethod("Set",flags)!.Invoke(billDrawing,[shown,null]);
             Check(((string)billDrawingType.GetProperty("EmptyMessage",flags)!.GetValue(billDrawing)!).Contains("Lunghezza commerciale insufficiente"),"empty reinforcement view reports segment failure");
             // Raster artefacts are optional (--images); the drawing and clarity suites render them separately.

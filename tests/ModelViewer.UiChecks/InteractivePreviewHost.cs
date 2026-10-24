@@ -27,7 +27,7 @@ internal static class InteractivePreviewHost
             state.ImportFailure=new(failure.Message,failure.Recovery,"AVVISO SIMULATO · la copia del modello rimane disponibile. Nessuna connessione a MIDAS effettuata.");
         };
         bar.Children.Add(simulate);
-        var assembly=typeof(X.Desktop.MainWindow).Assembly;
+        var assembly=typeof(X.Desktop.App).Assembly;
         var appearance=assembly.GetType("X.Desktop.Appearance")!;
         var appearanceType=assembly.GetType("X.Desktop.AppAppearance")!;
         const System.Reflection.BindingFlags flags=System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic;

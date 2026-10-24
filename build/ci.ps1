@@ -323,9 +323,10 @@ if ($DenseRef -and $DenseSet -eq 'input-validation') {
         Args = @('{out}', '--catalog', $(if ([IO.Path]::IsPathRooted($DenseRef)) { $DenseRef } else { Join-Path $Root $DenseRef }), '{out}\..\baseline_banco-denso\cattura') }
 }
 
+# F5.13 g3: smoke-display, smoke-hierarchy, smoke-project-report, smoke-projects, smoke-project-workspace and smoke-sharing are archived with MainWindow
+# (supporto/SUPERATI/ui-storica/shell); the same scenarios run on the new shell as ui/shell-smoke-*.
 $smokes = 'smoke-bridge-traffic', 'smoke-bridge-prices', 'smoke-section-actions', 'smoke', 'smoke-bridge', 'smoke-bridge-curves', 'smoke-bridge-design', 'smoke-bridge-predalle', 'smoke-ca-extensions', 'smoke-ca-features',
-    'smoke-display', 'smoke-global-stability', 'smoke-hierarchy', 'smoke-horizontal', 'smoke-material-report', 'smoke-materials', 'smoke-neutral-axis',
-    'smoke-project-report', 'smoke-projects', 'smoke-project-workspace', 'smoke-retaining-wall', 'smoke-sharing', 'smoke-steel'
+    'smoke-global-stability', 'smoke-horizontal', 'smoke-material-report', 'smoke-materials', 'smoke-neutral-axis', 'smoke-retaining-wall', 'smoke-steel'
 foreach ($s in $smokes) {
     $smokeArgs = if ($s -eq 'smoke') { @("--$s", '{out}', '{cases}') } else { @("--$s", '{out}') }
     Add-Suite @{ Name = "ui/$s"; Stage = 'ui'; Kind = 'smoke'; Args = $smokeArgs; Timeout = 900; Proof = @{ File = '{out}\esito-smoke-completo.txt'; Pattern = "^Completato: --$s$" } }
@@ -419,7 +420,9 @@ Add-Suite @{ Name = 'ui/check-theme-tokens'; Stage = 'ui'; Kind = 'check'; Args 
 # Contrast of every view, dialog and popup in the three appearances, off screen (F5.3, about 13 minutes): 0 defects in Scuro and Molto scuro,
 # Chiara within the frozen baseline, which may only go down (tests/Desktop/ContrastBaseline.cs).
 Add-Suite @{ Name = 'ui/check-contrast'; Stage = 'ui'; Kind = 'check'; Args = @('--check-contrast', '{out}', '--baseline', '{root}\tests\fixtures\f5\contrasto-chiara.json'); Timeout = 2400; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-foreach ($name in 'HorizontalPileGroup.Checks', 'ElasticPile.UiChecks', 'ConcreteShort.UiChecks') {
+# F5.13 g3: ConcreteShort.UiChecks (the «Report short» button in the toolbar of MainWindow) is archived with MainWindow; the button of the shell is checked
+# by ANTHEA.Presentation.Tests (CommandsChecks, ShortReportVisible) and ui/check-shell-draft.
+foreach ($name in 'HorizontalPileGroup.Checks', 'ElasticPile.UiChecks') {
     Add-Suite @{ Name = $name; Stage = 'ui'; Kind = 'run'; Project = (TestProject $name); Args = @('{out}'); Timeout = 900 }
 }
 # Second ring of bars of the horizontal pile (user report of 8/10): main section, segments, c.a. verifier, off screen.

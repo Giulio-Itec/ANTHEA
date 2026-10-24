@@ -65,7 +65,7 @@ static partial class Program
             Check(Descendants<Image>(tabs).Any(i=>i.Source!=null),"official NTC page embedded in internal window with no network");window.Close();
         }
         result=ElasticHorizontalPile.CompleteReinforcement(root,response,cache);
-        var drawingType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.PileReinforcementDrawing")!;var drawing=(FrameworkElement)Activator.CreateInstance(drawingType,true)!;
+        var drawingType=typeof(X.Desktop.App).Assembly.GetType("X.Desktop.PileReinforcementDrawing")!;var drawing=(FrameworkElement)Activator.CreateInstance(drawingType,true)!;
         drawingType.GetMethod("Set",flags)!.Invoke(drawing,[result,null]);var size=(Size)drawingType.GetProperty("SheetSize",flags)!.GetValue(drawing)!;
         Snapshot(drawing,Path.Combine(dir,"staffe-spirale.png"),(int)size.Width,(int)size.Height);
         var report=ReportElasticPile.Create("Palo con staffe e spirale",result);File.WriteAllBytes(Path.Combine(dir,"report.docx"),report);

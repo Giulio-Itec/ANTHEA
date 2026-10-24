@@ -126,7 +126,7 @@ internal static class WikiEditorial
             stack.Children.Add(Ui.Button("Apri · " + definition.Name, () => openModule(module, null), true));
             if (article.Example is not null)
             {
-                var example = MainWindow.WikiExamples.Definition(article.Example);
+                var example = Anthea.Presentation.Shell.Navigation.WikiExamples.Definition(article.Example);
                 if (example["moduleId"]?.ToString() == module)
                     stack.Children.Add(Ui.Button("Apri esempio · " + example["label"]?.ToString(), () => openModule(module, article.Example)));
             }

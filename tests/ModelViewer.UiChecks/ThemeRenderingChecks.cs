@@ -14,12 +14,12 @@ static partial class Program
 {
     static void SetAppearance(string mode)
     {
-        var assembly = typeof(X.Desktop.MainWindow).Assembly;
+        var assembly = typeof(X.Desktop.App).Assembly;
         var appearance = assembly.GetType("X.Desktop.Appearance")!;
         appearance.GetMethod("Set", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null,
             [Enum.Parse(assembly.GetType("X.Desktop.AppAppearance")!, mode), false]);
     }
-    static void WatchAppearance(Window window) => typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.Appearance")!
+    static void WatchAppearance(Window window) => typeof(X.Desktop.App).Assembly.GetType("X.Desktop.Appearance")!
         .GetMethod("Watch", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [window]);
     static double Luminance(Color c)
     {

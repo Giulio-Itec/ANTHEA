@@ -22,7 +22,7 @@ using X.Desktop.Views.HorizontalPile;
 sealed class PileHost : IDisposable
 {
     const BindingFlags Members = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-    static readonly Assembly Desktop = typeof(X.Desktop.MainWindow).Assembly;
+    static readonly Assembly Desktop = typeof(X.Desktop.App).Assembly;
     readonly object editor;
     readonly Type editorType;
 

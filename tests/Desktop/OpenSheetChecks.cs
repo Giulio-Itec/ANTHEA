@@ -183,9 +183,3 @@ internal sealed class HostedSheet(ISheetViewModel sheet, Func<System.Windows.Fra
 
     public static implicit operator HostedSheet(MvvmSheetEditor editor) => new(editor.Sheet, editor.View);
 }
-
-public sealed partial class MainWindow
-{
-    /// <summary>f5-suite-ui: the open sheet for the UI suites, with either implementation of its module (<see cref="OpenSheet"/>).</summary>
-    private OpenSheet openSheet => new(editor ?? throw new InvalidOperationException("Nessun foglio aperto."), SheetServices);
-}

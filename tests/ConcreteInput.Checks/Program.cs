@@ -96,7 +96,7 @@ internal static class Program
     /// </summary>
     private static (FrameworkElement View, IDisposable Editor, Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel Sheet) ConcreteSection(JsonObject data)
     {
-        var assembly = typeof(X.Desktop.MainWindow).Assembly;
+        var assembly = typeof(X.Desktop.App).Assembly;
         var compositionType = assembly.GetType("X.Desktop.Services.DesktopComposition")!;
         var composition = Activator.CreateInstance(compositionType, Members, null, [(Func<Window?>)(() => null)], null)!;
         object Property(string name) => compositionType.GetProperty(name, Members)!.GetValue(composition)!;

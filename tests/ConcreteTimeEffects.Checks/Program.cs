@@ -91,7 +91,7 @@ internal static class Program
     {
         RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
         var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown }; Anthea.Desktop.Testing.WpfTestResources.Load(app);
-        var assembly = typeof(X.Desktop.MainWindow).Assembly;
+        var assembly = typeof(X.Desktop.App).Assembly;
         var appearance = assembly.GetType("X.Desktop.Appearance")!;
         appearance.GetMethod("Initialize", Statics)!.Invoke(null, [false]);
         var viewType = assembly.GetType("X.Desktop.ConcreteTimeEffectsView")!;

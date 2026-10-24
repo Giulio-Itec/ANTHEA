@@ -113,7 +113,11 @@ try
     Check(reportSources.Count(f => File.ReadAllText(f).Contains("ZipArchiveMode.Create")) == 1 &&
         reportSources.Where(f => File.ReadAllText(f).Contains("ZipArchiveMode.Create")).All(f => Path.GetFileName(f) == "DocxWriter.cs"), "Scrittori DOCX duplicati");
     Check(!File.ReadAllText(Path.Combine(root, "src/ANTHEA.Reports/ProjectReportComposer.cs")).Contains("ZipArchive"), "Il report progetto riapre DOCX intermedi");
-    Check(!File.ReadAllText(Path.Combine(root, "X.Desktop/Wpf/ProjectReport.cs")).Contains("SheetEditor"), "Il report progetto crea editor nascosti");
+    // F5.13 g3: ProjectReport.cs of MainWindow is archived with it (supporto/SUPERATI/ui-storica/shell); the report of a section is written by
+    // DesktopSectionReports (X.Desktop/Hosting/ShellSheets.cs) on ProjectReportService, the same code.
+    string shellSheets = File.ReadAllText(Path.Combine(root, "X.Desktop/Hosting/ShellSheets.cs"));
+    Check(!shellSheets[shellSheets.IndexOf("internal sealed class DesktopSectionReports", StringComparison.Ordinal)..].Contains("SheetEditor") &&
+        !File.ReadAllText(Path.Combine(root, "src/ANTHEA.Application/Reporting/ProjectReportService.cs")).Contains("SheetEditor"), "Il report progetto crea editor nascosti");
     foreach (string file in Directory.EnumerateFiles(Path.Combine(root, "X.Desktop/Wpf"), "ModuleFigureRenderer*.cs"))
     {
         string source = File.ReadAllText(file);

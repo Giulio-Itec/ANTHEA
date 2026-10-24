@@ -1386,13 +1386,80 @@ c'è più, come quelle dei workspace già archiviati: si possono togliere insiem
 
 ### 14.5 Contrasto (D12)
 
-`tests/fixtures/f5/contrasto-chiara.json` ha 699 occorrenze in 187 voci. 162 voci, con 559 occorrenze, hanno una chiave che comincia da
-`MainWindow`. Quasi tutte vengono da `MainWindow > SheetEditor > <workspace storico>`, cioè dalle viste storiche dei moduli già archiviate, e restano
-dalla cattura prima di F5.3. Portarle alle chiavi della shell a totale invariato richiede una corsa di `ui/check-contrast` a 96 DPI con
-`ContrastAudit` portata sulla shell: `ContrastAudit.cs` è una partial di `MainWindow` di 1 999 righe. Qui non si esegue (schermo a 144 DPI).
+Prima della porta: `tests/fixtures/f5/contrasto-chiara.json` aveva 699 occorrenze in 187 voci; 162 voci, con 559 occorrenze, avevano una chiave
+che comincia da `MainWindow`, quasi tutte di `MainWindow > SheetEditor > <workspace storico>`, cioè delle viste storiche dei moduli già
+archiviate, rimaste dalla cattura prima di F5.3. `ContrastAudit.cs` era una partial di `MainWindow` di 1 999 righe.
 
-**Domanda G2:** la conversione delle voci della Chiara si fa con la porta di `ContrastAudit` alla shell e una corsa a 96 DPI, nello stesso
-commit. Va ripetuta a 96 DPI.
+**Terza tappa (agente `f5-13-g3`, notte 23–24/10, ramo `refactoring/f5-13-g3`).** Schermo al 100% (`GetDpiForSystem` 96), finestre a 96 DPI.
+L'utente ha deciso la G2 alle 00:30 del 24/10: «Correggi nei token». I difetti veri e piccoli delle viste nuove o della shell si correggono nel
+tema e si registrano come correzioni; gli altri diventano domande, con l'immagine.
+
+| Commit | Contenuto |
+| --- | --- |
+| 9916dc65 | correzione F5-62: le scelte degli strati del palo e del micropalo verticale (stile `LayerChoice`) basate sullo stile `ComboBox` del tema |
+| 212d69d2 | `ContrastAudit` sulla shell (`tests/Desktop/ShellContrastViews.cs` al posto della partial di `MainWindow`); baseline della Chiara alle chiavi nuove |
+
+**La porta.** `ShellContrastViews` apre la shell della Release con il banco della parte (e) (`ShellSmokeWindow`), fuori dallo schermo con gli
+agganci di `ContrastAudit`, area 1600 × 1000. I passi, i nomi delle viste e l'ordine sono quelli di `MainWindow` (home, moduli, wiki, progetti,
+modulo-*, componenti-campi, cambio-*). Dove `MainWindow` chiamava i suoi metodi, la shell riceve il comando che l'utente preme: albero,
+riepilogo, barra delle revisioni, barra del foglio, menu. I dialoghi delle viste MVVM si aprono come nel prodotto (una finestra intorno al
+ViewModel, come `WpfDialogService`) e gli agganci li catturano; i dialoghi di file rispondono «Annulla», le domande «Non salvare» e «No».
+Prima della porta questi dialoghi non si aprivano: i servizi dei fogli del banco li rifiutavano e il clic passava dal solo evento `Click`, che non
+esegue il comando. Tre cambi dello strumento:
+- il clic passa da `ButtonBase.OnClick`: gestori e comando;
+- le linguette legate a un ViewModel prendono il nome dal testo della linguetta, non dal nome del tipo. I nomi restano quelli storici («1», «Soletta»);
+- una casella di testo tagliata dal bordo di uno scorrimento si misura solo se se ne vede almeno il 60% della larghezza. Prima bastavano 7 px, e il
+  testo centrato delle celle restava fuori (rapporto 1).
+
+**Corse.**
+
+| Corsa | Catture | Scuro | Molto scuro | Chiara |
+| --- | --- | --- | --- | --- |
+| `ci/20261024-005010-f5-13-g3-c96` (prima corsa, porta senza i cambi dello strumento) | 1 186 | 60 | 60 | 638 in 196 voci, FAIL |
+| `ci/20261024-011608-f5-13-g3-c96b` (con la correzione F5-62) | 1 186 | 0 | 0 | 629 in 191 voci, nuova baseline |
+
+I 60 + 60 difetti delle modalità scure erano tutti nella tabella della stratigrafia della vista XAML del palo e del micropalo verticale:
+`LayerChoice` era basato su `LayerControl` (TargetType `Control`), non sullo stile `ComboBox` del tema, quindi in Scuro e Molto scuro restava il
+modello chiaro di sistema (area chiara, testo chiaro su fondo chiaro, 1,01:1). È un difetto vero e piccolo di una vista nuova: corretto nel
+tema come il `LayerChoice` del palo orizzontale (regola S17), voce **F5-62** (correzione) del registro. In Chiara cambia solo il margine interno
+del testo nella casella.
+
+**Baseline della Chiara (D12).** Dopo: 629 occorrenze in 191 voci, nessuna chiave `MainWindow`. Confronto per vista e per difetto (tipo, colore
+del testo, colore dello sfondo):
+- 549 occorrenze in 143 voci: stessa vista e stesso difetto, cambia solo la chiave (`MainWindow > SheetEditor > <workspace storico>` diventa
+  `ShellWindow > MinimumSizeViewport > <vista MVVM>`);
+- 80 occorrenze in 28 voci con un nome di vista nuovo: sono gli stessi elementi fissi, nella stessa posizione, ripresi nelle pagine di scorrimento in
+  più. Gli elementi sono le linguette delle schede, «Motore di calcolo», la riga di stato e l'introduzione di «Moduli singoli». La scheda della
+  shell è più bassa della finestra storica (menu, linguette, barra del foglio), quindi alcune viste hanno una pagina in più: p3 o p4, e p2 per le
+  tre combinazioni SLE della sezione c.a. Una occorrenza (#29A9E0, micropalo verticale) passa da p2 a p4. Vedi la domanda G7;
+- 150 occorrenze tolte:
+  - 122 della finestra «ANTHEA — nuovo documento», che `MainWindow` apriva da «Apri sezione in c.a.» del muro. Nella shell la sezione si apre
+    in una scheda: la finestra non esiste più nella Release, e la stessa vista è misurata in `modulo-str_palo`;
+  - 19 del verde #228B22 delle schede di «Moduli singoli» di `MainWindow`, che le schede della shell non hanno;
+  - 9 di difetti delle viste storiche archiviate che le viste MVVM non hanno più: #B8860B della risposta elastica (2), colori di Bridge Design
+    (3), #0B2A4A su #F8FAFD della sezione c.a. (2), #0B2A4A su bianco della sezione mista (1), #29A9E0 spostato (1).
+
+Nessun difetto nuovo in Chiara. Le voci della sezione mista (SM9) e di Bridge Design (BD13) sono passate alle chiavi delle viste nuove con le
+altre.
+
+**Pagine dei progetti.** Non sono coperte dalla corsa: l'archivio `supporto/artefatti/prova-f1.4.programma` manca, come in tutte le corse dal F5.3
+([f5-temi-token](f5-temi-token.md)). Il percorso dei progetti è stato provato a parte, con il progetto della fixture
+`tests/fixtures/f5-shell/cattura-mainwindow/04-pali-condivisi.json` copiato al suo posto e poi tolto (`supporto/artefatti/f5-13-g3/prova-progetti`,
+fuori dalla baseline). Sono state catturate 25 viste e dialoghi per aspetto: albero, menu, rinomina, confronto, controllo del report, dati condivisi,
+spostamento, revisioni, revisione archiviata, collegamento dei sondaggi. Esiti: nessuna nota, nessuna finestra sullo schermo, Scuro 0, Molto
+scuro 0, Chiara 38 occorrenze, tutte con colori storici:
+- il numero del controllo di coerenza nell'albero, `Token.Status.Warn` su `Token.Badge.Warn`, 2,08:1 (20);
+- gli avvisi del confronto, `Token.Status.Warn` su `Token.Warning.Background`, 2,22:1 (2);
+- `Token.Muted` su `Token.Surface` nella sezione c.a. (16).
+
+Vedi la domanda G8.
+
+**Corse finali della terza tappa** su 0f930c87 (DPI della finestra 96):
+- quick PASS 55, 0 fallimenti (`ci/20261024-013815-f5-13-g3-quick`, su 212d69d2);
+- `-Stage build,ui` mirata PASS 8, 0 fallimenti (`ci/20261024-015418-f5-13-g3-ui`): `ui/check-contrast` PASS (Scuro 0, Molto scuro 0, Chiara 629
+  in 191 voci, baseline 629), `ui/check-appearance`, `ui/check-shell-draft`, `ui/check-spettri-contrast` (passa dalla porta),
+  `ui/check-palo-verticale-view` e `ui/check-theme-tokens` (F5-62), `ui/f3-equivalence` PASS 119 fixture, 77 articoli, 30 ricerche;
+- profilo standard PASS 78, 0 fallimenti (`ci/20261024-021837-f5-13-g3-fine`).
 
 ### 14.6 Guida pratica e Wiki: testo attuale e testo proposto
 
@@ -1454,11 +1521,15 @@ l'unione, con PDF, indici e impronte. La guida, i PDF e gli articoli non sono to
 | # | Domanda | Opzione presa |
 | --- | --- | --- |
 | G1 | `SheetImplementation.Historic` senza viste storiche | resta come valore dei moduli non elencati, che si rifiutano con il testo di `SheetEditor` (`SheetEditorFactory.NoView`); togliere l'enumerazione e `ModuleImplementations` è un riordino da fare in F5.15. Registrata in f5-15 §15.3 |
-| G2 | Voci della Chiara con chiave `MainWindow` (14.5) | si convertono con la porta di `ContrastAudit` alla shell e una corsa a 96 DPI; finché `MainWindow` c'è, restano |
+| G2 | Voci della Chiara con chiave `MainWindow` (14.5) | **Decisa dall'utente (24/10, 00:30): «Correggi nei token».** Fatta nella terza tappa (`f5-13-g3`, 212d69d2): `ContrastAudit` sulla shell, corsa a 96 DPI, voci alle chiavi nuove (699 → 629 occorrenze, nessuna chiave `MainWindow`); il difetto nuovo delle modalità scure corretto nel tema (F5-62, 9916dc65) |
 | G3 | `MvvmSheetEditor` e `SheetEditorFactory` dopo il ritiro di `MainWindow` | restano: `MvvmSheetEditor` serve in produzione alla verifica c.a. del palo orizzontale (`ConcreteVerifierSection`); la fabbrica serve alle prove F3 e al banco |
 | G4 | `ui/f3-equivalence` sulla shell | il report del progetto passa dallo scrittore della shell; i fogli restano aperti con `MvvmSheetEditor`, come oggi, per non cambiare la visita dei controlli (`Visit`) contro le catture congelate |
 | G5 | `CheckBridgeOptions` (`ui/smoke-bridge`) vuole il fuoco della tastiera su un campo | `Activate()` della facciata attiva la finestra della shell fuori dallo schermo, come prima `MainWindow` (che però era sullo schermo); da rivedere se le prove non devono mai attivare finestre |
 | G6 | A 1920 × 1080 la pagina principale del palo orizzontale scorre in verticale nella shell (790,7 contro 751,3 px; 2 314 contro 658 con l'albero accanto, SH24): F5-61 in `registro-differenze.json` | **Decisa dall'utente il 24/10 (00:15)**: «accetto che la pagina del palo orizzontale scorra nella shell a Full HD; le due suite controllano l'area della scheda, come per SH40». F5-61 è «dichiarato»; `ui/smoke` e `ui/smoke-horizontal` sono sulla shell (ramo `refactoring/f5-13-g2`) |
+| G7 | Le occorrenze della Chiara si contano per cattura: gli elementi fissi di una vista (linguette, «Motore di calcolo», riga di stato) tornano in ogni pagina di scorrimento, e la scheda della shell, più bassa, ha pagine in più (80 occorrenze in 28 voci nuove, 14.5) | registrate come le stesse voci con un nome di vista nuovo (D12: stesso elemento, stessi colori); nessun cambio dell'interfaccia. Alternative: contare un elemento fisso una volta per vista (cambio dello strumento, la baseline scende); oppure rendere leggibile `Token.Muted` su `Token.Surface` (4,36:1) in Chiara, contro D12, che conserva i colori storici |
+| G8 | Pagine dei progetti fuori dalla corsa: manca l'archivio `prova-f1.4.programma` (dal F5.3). La prova a parte (14.5) trova in Chiara il numero di coerenza dell'albero (2,08:1) e gli avvisi del confronto (2,22:1) in `Token.Status.Warn`, colori storici di `MainWindow`; immagini in `ANTHEA-f5-ripresa\f5-agenti\f5-13-g3\immagini` | nessun cambio. Opzioni: (a) un archivio di prova versionato, preso dalla fixture `f5-shell`, e le 38 occorrenze nella baseline; (b) testo degli avvisi in un colore leggibile del tema (per esempio `Token.Warning.Foreground`), un cambio visibile di un colore storico; (a) e (b) insieme |
+| G9 | `FoundationWorkspace.UiChecks` crea `X.Desktop.App` per le sue risorse: dal 23/10 l'avvio dell'applicazione apre la shell della Release e legge gli argomenti della prova come documento («Operazione non completata» sullo schermo, prova appesa fino al timeout di 30 minuti) | nessun cambio nel ramo; la prova va corretta caricando le risorse senza l'avvio (come `ModelViewer.UiChecks`), ma con le sole risorse la vista delle fondazioni non si costruisce: da capire. Alternativa: un avvio dell'applicazione che non apra la shell quando non è `Run` |
+| G10 | `ui/check-sezione-view` FAIL dal 24/10, ripetuta da sola: report breve di `str_palo--circolare-cava` diverso dal riferimento registrato il 23/10 (`word/document.xml`), con codice invariato | nessun cambio; da verificare se il testo contiene la data e se la normalizzazione delle date la copre. Riferimento intatto |
 
 ### 14.8 Cosa resta e come riprendere
 
@@ -1474,38 +1545,50 @@ In `HorizontalPileSmoke.VerifyLayout`, sulla shell:
 In `MainWindow` i due controlli restano quelli di prima. Le altre asserzioni sono uguali. Esito: `ui/smoke`, `ui/smoke-horizontal`, `ui/shell-capture`,
 `ui/shell-capture-confronto`, `ui/shell-smoke-project-report` e `ui/check-shell-draft` PASS (`ci/20261024-002126-f5-13-g2-ui`).
 
-Su `MainWindow` restano solo due cose:
-- **`ContrastAudit`** (`ui/check-contrast`, G2). È una partial di `MainWindow` di 1 999 righe che guida viste e dialoghi della finestra storica
-  (`ShowProjectOverview`, `ShowCoherence`, revisioni, `sheetContent`). Portarla sulla shell cambia le chiavi della Chiara (D12), e la porta si verifica solo
-  con una corsa a 96 DPI;
-- **le partial delle sei suite storiche** già sostituite da `ui/shell-smoke-*`, che si archiviano con `MainWindow`.
+**G2 fatta** nella terza tappa (`f5-13-g3`, 9916dc65 e 212d69d2, 14.5): `ContrastAudit` gira sulla shell e `ui/check-contrast` passa a 96 DPI
+con la baseline nuova. Restano le domande G7 e G8. Su `MainWindow` restano solo le partial delle sei suite storiche già sostituite da
+`ui/shell-smoke-*`, che si archiviano con lei.
 
-**Il ritiro di `MainWindow` resta fermo su G2** (istruzioni del coordinatore del 24/10). Quando G2 sarà chiusa, si fa in un commit:
-- in `supporto/SUPERATI/ui-storica/shell/`, con il registro:
-  - i 15 file di `X.Desktop/Wpf/` (14.1);
-  - `WpfDesktopServices`, `DesktopServices`, `TestServices`, `MainWindow.Tests.cs`;
-  - le partial delle sei suite storiche: `Project*SmokeChecks.cs`, `ProjectComparisonChecks.cs`, `ProjectCoverWarningSmokeChecks.cs`,
-    `ProjectDragLayoutSmokeChecks.cs`, `DisplaySmokeChecks.cs`, `ProjectReportSmokeChecks.cs`. Le suite escono da `$smokes` di `build/ci.ps1`;
-- i rami `MainWindow` da togliere:
-  - quelli di `WikiContextHelp`, `CalculationHelpView` e `WpfWikiNavigator`; `WikiEditorial` passa a `WikiExamples` di Presentation;
-  - `DesktopComposition.WindowServices`, i costruttori di prova in `ModuleHostBench`, la partial `openSheet` in `OpenSheetChecks.cs`;
-  - il ramo `MainWindow` di `StartSmoke` in `AppHarness.cs`;
-- `ShellProjectCapture`, `ShellSmokeReport` e `ShellDraftChecks` restano solo con la fixture e `ShellReferences`. La cartella `mainwindow/` di
-  `ui/shell-capture` diventa la copia della fixture;
-- le prove fuori da X.Desktop che nominano `MainWindow`:
-  - `supporto/test/ConcreteShort.UiChecks` chiama metodi di `MainWindow` per riflessione: da riscrivere o archiviare;
-  - in `tests/ModelViewer.UiChecks`, `ProductComposition` crea una `MainWindow`;
-  - `ElasticPile.UiChecks`, `ConcreteInput.Checks` e `ConcreteTimeEffects.Checks` la usano solo come ancora dell'assembly: basta `typeof(X.Desktop.App)`;
-- le baseline di architettura scendono nello stesso commit: le voci di `SheetEditor.cs` e quelle di `MainWindow` (`ProjectReport.cs`, `ProjectHierarchy.cs`,
-  …) in `tests/fixtures/f3/architecture.json` e nel censimento F4.
+**Il ritiro di `MainWindow`** (tappa B di `f5-13-g3`, 24/10, ramo `refactoring/f5-13-g3` da `refactoring/f5` 3e6c6f77) è fatto, nel commit
+b7ef7e1f. Elenco, impronte e motivi in `supporto/SUPERATI/ui-storica/shell/README.md` e `registro.json`.
+- Archiviati: i 15 file di `X.Desktop/Wpf/` (`MainWindow*.cs`, `Project*.cs`), `X.Desktop/Services/DesktopServices.cs`, le partial di prova delle sei
+  suite sostituite da `ui/shell-smoke-*` (con `ProjectRevisionDeletionSmokeChecks.cs` e `ProjectRevisionNavigationSmokeChecks.cs`, usate solo da
+  quelle) e `MainWindow.Tests.cs`, la prova esterna `supporto/test/ConcreteShort.UiChecks`, le partial di `MainWindow` di `ShellProjectCapture` e
+  `ShellSmokeReport` come frammenti.
+- Rami tolti nei file che restano: `WpfDesktopServices.Create` e `DesktopComposition.WindowServices`; la classe `TestServices` (restano
+  `ScriptedConfirmations` e `RethrowingMessages`, i servizi del banco); i costruttori di prova di `MainWindow` in `ModuleHostBench`, la partial
+  `openSheet`; i rami `MainWindow` di `WikiContextHelp`, `CalculationHelpView` e `WpfWikiNavigator` (ora la scheda Wiki della shell); `WikiEditorial`
+  usa `WikiExamples` di Presentation; in `AppHarness.cs` il ramo `MainWindow` di `StartSmoke`, le sei bandiere e `StartInteractive`
+  (`--interactive` apre la shell, con le stesse coppie `--module-impl`). In `build/ci.ps1` le sei suite escono da `$smokes` e
+  `ConcreteShort.UiChecks` dalle prove esterne. Il pulsante «Report short» della shell resta provato da `CommandsChecks` e `ui/check-shell-draft`.
+- Prove che confrontavano con `MainWindow`, ora con i suoi valori registrati (`tests/fixtures/f5-shell`, invariati): `ui/shell-capture` (`mainwindow/`
+  è la copia della cattura registrata, `ui/shell-capture-confronto` invariata), `ui/shell-smoke-project-report` (la chiamata registrata
+  `ShellReferences.SectionReport`; un controllo in meno, il confronto fra la chiamata viva e quella registrata), `ui/check-shell-draft` (esempi della
+  Wiki contro «esempi_wiki», stesso numero di controlli).
+- `tests/ModelViewer.UiChecks` apre la shell della Release (`ProductShell`, da `ShellComposition`) al posto di `MainWindow`: pagina «Modelli»,
+  `ShowModel`, `OpenSheet`. Due adattamenti: la colonna dell'albero del progetto è chiusa e l'albero del modello scorre fino alla voce `SECT:2`, perché
+  la scheda è più bassa della vista di `MainWindow`. Le altre prove esterne usano `typeof(X.Desktop.App)` come ancora dell'assembly.
+- Baseline di architettura, solo in discesa: in `tests/fixtures/f3/architecture.json` tolte le voci di `SheetEditor.cs` (AsyncVoid 1,
+  DispatcherTimer 1), `ProjectReport.cs` (AsyncVoid 1) e `ProjectHierarchy.cs` (DispatcherTimer 2); nel censimento F4
+  (`f4-domain-baseline.json`) da 2 105 a 2 094 voci (le 11 dei `Project*.cs`); `limits.json` AsyncVoid da 2 a 0, DispatcherTimer da 4 a 2. La regola
+  «il report progetto crea editor nascosti» guarda lo scrittore della shell (`DesktopSectionReports` su `ProjectReportService`).
+
+Suite dello stadio ui: 7 in meno (`ui/smoke-projects`, `-project-workspace`, `-hierarchy`, `-sharing`, `-project-report`, `-display` e
+`ConcreteShort.UiChecks`); i loro scenari restano nelle sei `ui/shell-smoke-*`.
+
+Corse finali della tappa B su b7ef7e1f (schermo a 96 DPI):
+- profilo standard PASS 78, 0 fallimenti (`ci/20261024-030231-f5-13-g3-fine2`);
+- `-Stage build,ui` con tutte le suite dello stadio ui (79): PASS 77, 2 fallimenti (`ci/20261024-032748-f5-13-g3-ui2`). `ui/check-contrast` PASS (Scuro 0, Molto scuro 0, Chiara 629 = baseline), `ui/f3-equivalence` PASS, tutte le `ui/smoke*`, `ui/shell-*` e le prove esterne PASS. I due fallimenti non dipendono dal ritiro (il codice che provano non è cambiato da 3e6c6f77):
+  - `FoundationWorkspace.UiChecks` resta appesa con un messaggio «Operazione non completata» sullo schermo (fermata a mano dopo 21 minuti): la prova crea `X.Desktop.App`, il dispatcher esegue il suo avvio, che dal 23/10 apre la shell della Release e legge gli argomenti della prova (`<cartella> --ui`) come documento da aprire. Una prova di correzione (risorse di App.xaml senza avvio, come `ModelViewer.UiChecks`) non basta: la vista poi non si costruisce; non è nel ramo. Domanda G9;
+  - `ui/check-sezione-view` FAIL anche ripetuta da sola (`ci/20261024-045054-f5-13-g3-sez`): «report breve uguale a quello della vista storica (registrato), diversa word/document.xml» per `str_palo--circolare-cava`. Il report breve e la vista c.a. sono invariati da 3e6c6f77; il riferimento è registrato il 23/10: da verificare se il testo dipende dalla data. Domanda G10.
 
 **Guida e Wiki**: il testo di 14.6 entra nella Rev59 del coordinatore, dopo l'unione.
 
 Per riprendere:
 
 ```
-cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-g2
-git log --oneline 575a7481..HEAD
-powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Only '^ui/(smoke|smoke-horizontal|shell-capture|shell-smoke-project-report|check-shell-draft)$' -Tag <tag>"
+cd C:\Users\g.pacini\AppData\Local\Temp\aw-f5-13-g3
+git log --oneline 3e6c6f77..HEAD
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Stage build,ui -Tag <tag>"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '.\build\ci.ps1' -Profile quick -Tag <tag>"
 ```

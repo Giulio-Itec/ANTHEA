@@ -14,7 +14,8 @@ namespace X.Desktop;
 
 /// <summary>
 /// --check-shell-capture &lt;cartella&gt; (UiTests, F5.13 e): the capture of a project driven through the new shell, compared with the same project driven
-/// through MainWindow, as the module benches compare the historic and the MVVM capture. The same file is opened in each shell (a copy with the same name),
+/// through MainWindow, as the module benches compare the historic and the MVVM capture (F5.13 g3: MainWindow is archived, its capture is the one recorded
+/// in tests/fixtures/f5-shell/cattura-mainwindow). The same file is opened in each shell (a copy with the same name),
 /// then the same steps: a sheet opened, the concrete changed and its shared data propagated, the diameter of the piles changed and propagated, a new revision,
 /// a local difference, «Uniforma a questo» in the comparison, the archived revision shown read-only and the current one again, undo, redo, save. After each
 /// step the state is written as canonical JSON: the working and the displayed document, the title of the window, «not saved», read-only, the revision shown,
@@ -53,25 +54,21 @@ internal static class ShellProjectCapture
     internal static async Task Run(string output)
     {
         Directory.CreateDirectory(output);
-        string historicFile = Path.Combine(output, "file-mainwindow", "progetto.programma"), shellFile = Path.Combine(output, "file-shell", "progetto.programma");
-        // One file, copied byte for byte for the other side: every save writes the model of the RC section again, with new identifiers.
-        foreach (var file in new[] { historicFile, shellFile }) Directory.CreateDirectory(Path.GetDirectoryName(file)!);
-        DocumentService.Save(historicFile, Project());
-        File.Copy(historicFile, shellFile, true);
+        string shellFile = Path.Combine(output, "file-shell", "progetto.programma");
+        Directory.CreateDirectory(Path.GetDirectoryName(shellFile)!);
+        DocumentService.Save(shellFile, Project());
+        // F5.13 g3: MainWindow is archived; mainwindow/ is the copy of its capture recorded before the archiving (tests/fixtures/f5-shell/cattura-mainwindow),
+        // so that ui/shell-capture-confronto compares the same folders as before.
         string historic = Path.Combine(output, "mainwindow"), shell = Path.Combine(output, "shell");
-        await MainWindow.CaptureProjectForChecks(historicFile, historic);
+        Directory.CreateDirectory(historic);
+        foreach (var file in Directory.GetFiles(ShellReferences.Capture)) File.Copy(file, Path.Combine(historic, Path.GetFileName(file)), true);
         await ShellCapture(shellFile, shell);
-        var lines = new List<string> { "Cattura del progetto: MainWindow (mainwindow/) contro la shell nuova (shell/)" };
+        var lines = new List<string> { "Cattura del progetto: valori registrati della finestra storica (tests/fixtures/f5-shell/cattura-mainwindow, copia in mainwindow/) contro la shell nuova (shell/)" };
         bool same = ShellReferences.SameFolders(historic, shell, lines);
         int files = lines.Count - 1;
-        // F5.13 g: the values of MainWindow recorded before its archiving (tests/fixtures/f5-shell/cattura-mainwindow), against both sides.
-        lines.Add("Valori registrati della finestra storica (tests/fixtures/f5-shell/cattura-mainwindow) contro mainwindow/");
-        same &= ShellReferences.SameFolders(ShellReferences.Capture, historic, lines);
-        lines.Add("Valori registrati della finestra storica (tests/fixtures/f5-shell/cattura-mainwindow) contro shell/");
-        same &= ShellReferences.SameFolders(ShellReferences.Capture, shell, lines);
         File.WriteAllLines(Path.Combine(output, "confronto.txt"), lines, new UTF8Encoding(false));
-        if (!same) throw new InvalidOperationException("Catture del progetto diverse tra MainWindow, i valori registrati e la shell nuova: " + string.Join(", ", lines.Where(l => l.StartsWith("DIVERSO", StringComparison.Ordinal))));
-        File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS cattura del progetto uguale tra MainWindow, i valori registrati e la shell nuova ({files} file)\n", new UTF8Encoding(false));
+        if (!same) throw new InvalidOperationException("Catture del progetto diverse tra i valori registrati della finestra storica e la shell nuova: " + string.Join(", ", lines.Where(l => l.StartsWith("DIVERSO", StringComparison.Ordinal))));
+        File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS cattura del progetto uguale tra i valori registrati della finestra storica e la shell nuova ({files} file)\n", new UTF8Encoding(false));
     }
 
     /// <summary>The state after a step, as both drivers read it.</summary>
@@ -180,77 +177,4 @@ internal static class ShellProjectCapture
 
     private static Button Revision(ShellSmokeBench b, int? number) => ShellSmokeBench.Descendants<Button>(b.Window).Single(button => button.Name == "Revision"
         && button.DataContext is RevisionTab tab && (number is null ? tab.IsCurrent : !tab.IsCurrent && tab.Number == number));
-}
-
-public sealed partial class MainWindow
-{
-    /// <summary>
-    /// F5.13 e (UiTests): the scenario of <see cref="ShellProjectCapture"/> through MainWindow, with its methods as its controls call them (LoadFile, ShowSheet,
-    /// Commit, CompleteProjectRevision, ShowCoherence with «Uniforma a questo», SwitchProjectRevision, RestoreProjectHistory, Save), off screen.
-    /// </summary>
-    internal static async Task CaptureProjectForChecks(string file, string folder)
-    {
-        var window = new MainWindow(TestServices.Create) { Left = -32000, Top = -32000, WindowStartupLocation = WindowStartupLocation.Manual, ShowActivated = false, ShowInTaskbar = false };
-        window.Show();
-        try { await window.CaptureProject(file, folder); }
-        finally { window.FinishSmoke(); window.Close(); }
-    }
-
-    private async Task CaptureProject(string file, string folder)
-    {
-        int step = 0;
-        async Task Capture()
-        {
-            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-            ShellProjectCapture.Write(folder, step++, new ShellProjectCapture.State(WorkingProjectDocument, document, Title, dirty, projectReadOnly, displayedRevision,
-                currentSheet?.S("id"), editor?.Data, sharedStatus.Visibility == Visibility.Visible ? sharedStatus.Text : ""));
-        }
-        JsonObject Find(string id) => ProjectRevisions.Find(document, id)!;
-        LoadFile(file);
-        await Capture();
-        ShowSheet(Find(ShellProjectCapture.ConcreteId));
-        await Capture();
-        var state = (JsonObject)editor!.PreviewData.DeepClone(); state["classe"] = "C40/50"; openSheet.SetConcreteState(state);
-        Scripted.SharedUpdate = () => true;
-        Commit();
-        await Capture();
-        ShowSheet(Find(ShellProjectCapture.PilesId)); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-        openSheet.SetGeometryForSmoke("1.25");
-        Commit();
-        Scripted.SharedUpdate = null;
-        await Capture();
-        CompleteProjectRevision(RevisionScope(currentSheet) ?? Find(ShellProjectCapture.SectionId), "Prima emissione");
-        await Capture();
-        openSheet.SetGeometryForSmoke("1.4");
-        Scripted.SharedUpdate = () => false;
-        Commit();
-        Scripted.SharedUpdate = null;
-        await Capture();
-        Exception? failure = null;
-        _ = Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
-        {
-            var dialog = System.Windows.Application.Current.Windows.OfType<Window>().Single(w => w != this && w.Title.StartsWith("Confronto"));
-            try
-            {
-                Ui.Descendants<Button>(dialog).Single(b => b.Tag is ValueTuple<JsonObject, string> t && t.Item1.S("id") == ShellProjectCapture.PilesId && t.Item2 == "diameter_mm")
-                    .RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            }
-            catch (Exception error) { failure = error; }
-            finally { dialog.Close(); }
-        }));
-        ShowCoherence(Find(ShellProjectCapture.SectionId));
-        if (failure is not null) throw failure;
-        await Capture();
-        SwitchProjectRevision(ShellProjectCapture.SectionId, 0);
-        await Capture();
-        SwitchProjectRevision(ShellProjectCapture.SectionId, null);
-        await Capture();
-        RestoreProjectHistory(false);
-        await Capture();
-        RestoreProjectHistory(true);
-        await Capture();
-        Save(false);
-        await Capture();
-        ShellProjectCapture.Finish(folder, file);
-    }
 }

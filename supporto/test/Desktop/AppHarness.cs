@@ -12,15 +12,17 @@ namespace X.Desktop;
 // Protocol unchanged: errore.txt and exit code 1 on failure, esito-smoke-completo.txt at the end of every --smoke*.
 public partial class App
 {
-    private static readonly string[] SmokeFlags = ["--smoke-bridge-traffic", "--smoke-bridge-prices", "--smoke-section-actions", "--smoke", "--smoke-neutral-axis", "--smoke-horizontal", "--smoke-display", "--smoke-ca-features",
-        "--smoke-ca-extensions", "--smoke-projects", "--smoke-materials", "--smoke-bridge", "--smoke-bridge-predalle", "--smoke-bridge-curves",
-        "--smoke-material-report", "--smoke-project-workspace", "--smoke-project-report", "--smoke-hierarchy", "--smoke-steel", "--smoke-sharing",
-        "--smoke-bridge-design", "--smoke-retaining-wall", "--smoke-global-stability"];
+    // F5.13 g3: --smoke-projects, --smoke-project-workspace, --smoke-hierarchy, --smoke-sharing, --smoke-project-report and --smoke-display are archived with
+    // MainWindow (supporto/SUPERATI/ui-storica/shell); their suites on the new shell are ui/shell-smoke-*.
+    private static readonly string[] SmokeFlags = ["--smoke-bridge-traffic", "--smoke-bridge-prices", "--smoke-section-actions", "--smoke", "--smoke-neutral-axis", "--smoke-horizontal", "--smoke-ca-features",
+        "--smoke-ca-extensions", "--smoke-materials", "--smoke-bridge", "--smoke-bridge-predalle", "--smoke-bridge-curves",
+        "--smoke-material-report", "--smoke-steel", "--smoke-bridge-design", "--smoke-retaining-wall", "--smoke-global-stability"];
 
     partial void RunTestHarness(StartupEventArgs e, ref bool handled)
     {
         // F5.4: the application as in the product, with the sheets of --module-impl (ModuleHostBench), to try a migrated module by hand.
-        if (e.Args.FirstOrDefault() == ModuleHostBench.Interactive) { handled = true; StartInteractive(e); return; }
+        // F5.13 g3: the bench by hand opens the new shell (MainWindow is archived), with the same --module-impl pairs.
+        if (e.Args.FirstOrDefault() == ModuleHostBench.Interactive) { handled = true; StartInteractiveShell(e); return; }
         // F5.13 c: the new shell by hand, through its composition root (ShellComposition); since F5.13 g the startup of the Release, here with the bench.
         if (e.Args.FirstOrDefault() == InteractiveShell) { handled = true; StartInteractiveShell(e); return; }
         if (!e.Args.Any(a => a.StartsWith("--check") || a.StartsWith("--smoke") || a == "--capture-validation")) return;
@@ -398,29 +400,6 @@ public partial class App
         handled = false;
     }
 
-    /// <summary>
-    /// ANTHEA.exe --interactive --module-impl &lt;modulo&gt;=mvvm [archivio] (UiTests only): the startup of App.OnStartup (appearance of the
-    /// user, error log, composition root, services of the product) with the editors of the bench, so that a module migrated to MVVM can be
-    /// tried by hand before its checkpoint. Never in Release.
-    /// </summary>
-    private void StartInteractive(StartupEventArgs e)
-    {
-        Appearance.Initialize(true);
-        ErrorLog.Attach();
-        DispatcherUnhandledException += (_, error) =>
-        {
-            ErrorLog.Write("Errore non gestito nell'interfaccia", error.Exception);
-            MessageBox.Show(error.Exception.Message, "ANTHEA — errore", MessageBoxButton.OK, MessageBoxImage.Error);
-            error.Handled = true;
-        };
-        Composition = new DesktopComposition(ActiveWindow);
-        var window = new MainWindow(Composition.WindowServices, ModuleHostBench.SheetEditors(e.Args, Composition));
-        MainWindow = window;
-        if (ModuleHostBench.WithoutBench(e.Args).Skip(1).FirstOrDefault(a => !a.StartsWith("--")) is string path)
-            window.Loaded += (_, _) => window.Safe(() => window.LoadFile(path));
-        window.Show();
-    }
-
     /// <summary>The flag of <see cref="StartInteractiveShell"/>.</summary>
     internal const string InteractiveShell = "--interactive-shell";
 
@@ -497,45 +476,10 @@ public partial class App
             });
             return;
         }
-        var window = new MainWindow(TestServices.Create);
-        // Smoke windows are repeatedly created and destroyed under the desktop pointer.
-        // Suppress tooltip popups in the harness to avoid WPF referring to an already closed HWND.
-        EventManager.RegisterClassHandler(typeof(FrameworkElement), System.Windows.Controls.ToolTipService.ToolTipOpeningEvent,
-            new System.Windows.Controls.ToolTipEventHandler((_, args) => args.Handled = true));
-        MainWindow = window;
-        // f5-suite-ui: --module-impl pairs after the arguments of the smoke choose the MVVM views (ModuleHostBench, suites ui/<smoke>-mvvm).
-        if (ModuleHostBench.WithoutBench(e.Args).Length == (e.Args[0] == "--smoke" ? 3 : 2))
-        {
-            window.ContentRendered += RunSmoke;
-            async void RunSmoke(object? sender, EventArgs args)
-            {
-                window.ContentRendered -= RunSmoke;
-                int code = 0;
-                try
-                {
-                    if (e.Args[0] == "--smoke-neutral-axis") throw new InvalidOperationException("--smoke-neutral-axis gira sulla shell (ShellSmokes).");
-                    else if (e.Args[0] == "--smoke-project-workspace") await window.SmokeProjectWorkspace(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-project-report") await window.SmokeProjectReport(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-hierarchy") await window.SmokeHierarchy(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-sharing") await window.SmokeSharing(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-projects") await window.SmokeProjects(e.Args[1]);
-                    else if (e.Args[0] == "--smoke-display") await window.SmokeDisplay(e.Args[1]);
-                    else throw new InvalidOperationException(e.Args[0] + ": suite passata alla shell (ShellSmokes).");
-                    Directory.CreateDirectory(e.Args[1]);
-                    File.WriteAllText(Path.Combine(e.Args[1], "esito-smoke-completo.txt"), "Completato: " + e.Args[0]);
-                }
-                catch (Exception ex)
-                {
-                    Directory.CreateDirectory(e.Args[1]);
-                    File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString());
-                    code = 1;
-                }
-                finally { window.FinishSmoke(); Shutdown(code); }
-            }
-        }
-        else if (e.Args.FirstOrDefault(a => !a.StartsWith("--")) is string path)
-            window.Loaded += (_, _) => window.Safe(() => window.LoadFile(path));
-        window.Show();
+        // F5.13 g3: every smoke runs on the new shell (ShellSmokes); MainWindow is archived.
+        Directory.CreateDirectory(e.Args[1]);
+        File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), e.Args[0] + ": argomenti non validi per la suite sulla shell (ShellSmokes).");
+        Shutdown(1);
     }
 
     /// <summary>

@@ -8,7 +8,7 @@ static partial class Program
     static int DrawingChecks(string directory)
     {
         var app=new TestApp();app.LoadStyles();app.ShutdownMode=ShutdownMode.OnExplicitShutdown;
-        var type=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.PileReinforcementDrawing")!;
+        var type=typeof(X.Desktop.App).Assembly.GetType("X.Desktop.PileReinforcementDrawing")!;
         var drawing=(FrameworkElement)Activator.CreateInstance(type,true)!;
         var set=type.GetMethod("Set",flags)!;var png=type.BaseType!.GetMethod("Png",flags)!;
         void Render(string name,JsonObject result)

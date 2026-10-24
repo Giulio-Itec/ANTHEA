@@ -25,7 +25,7 @@ static partial class Program
         {
             var app = new TestApp(); app.LoadStyles(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext());
-            var assembly = typeof(X.Desktop.MainWindow).Assembly;
+            var assembly = typeof(X.Desktop.App).Assembly;
 
             // Main section of the pile: form and drawing.
             var root = Input(); root["elastico"]!["dettagli"]!["azioni_progetto"] = true; root["elastico"]!["dettagli"]!["taglio_confermato"] = true;

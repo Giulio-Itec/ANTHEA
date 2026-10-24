@@ -54,3 +54,35 @@ prove che la aprono vanno qui quando le suite elencate nella sezione 14.2 di `f5
 
 Fare `git revert` del commit di archiviazione. In alternativa riportare i file nella posizione originale con `git mv` e ripristinare i rami
 elencati sopra come in 67eafba5.
+
+## Secondo passo (24/10/2026): MainWindow
+
+Tappa B dell'agente `f5-13-g3`, ramo `refactoring/f5-13-g3` da `refactoring/f5` 3e6c6f77. Dal 23/10 la Release apre la shell nuova
+(`App.StartShell`); dal 24/10 nessuna prova apre più `MainWindow`: le suite contenitore girano sulla shell (`ShellSmokeWindow`, G6 compresa) e
+`ui/check-contrast` pure (G2). Elenco completo, con l'ultimo commit che modifica ogni file e le impronte, in `registro.json`.
+
+| Gruppo | File |
+| --- | --- |
+| finestra storica | `X.Desktop/Wpf/MainWindow.cs`, `MainWindow.Examples.cs`, `MainWindow.RetainingWall.cs`, `MainWindow.ShortReport.cs`, `MainWindow.Wiki.cs` |
+| progetti della finestra storica | `X.Desktop/Wpf/ProjectCoverStatus.cs`, `ProjectHierarchy.cs`, `ProjectModels.cs`, `ProjectMovePreview.cs`, `ProjectPresentation.cs`, `ProjectReport.cs`, `ProjectRevisionNavigation.cs`, `ProjectSectionReorder.cs`, `ProjectSharing.cs`, `ProjectWorkspace.cs` |
+| servizi di una finestra (F1.4) | `X.Desktop/Services/DesktopServices.cs` |
+| partial di prova delle sei suite sostituite da `ui/shell-smoke-*` | `supporto/test/Desktop/ProjectSmokeChecks.cs`, `ProjectWorkspaceSmokeChecks.cs`, `ProjectHierarchySmokeChecks.cs`, `ProjectSharingSmokeChecks.cs`, `ProjectRevisionDeletionSmokeChecks.cs`, `ProjectRevisionNavigationSmokeChecks.cs`, `ProjectComparisonChecks.cs`, `ProjectCoverWarningSmokeChecks.cs`, `ProjectDragLayoutSmokeChecks.cs`, `DisplaySmokeChecks.cs`, `ProjectReportSmokeChecks.cs`, `MainWindow.Tests.cs` |
+| prova esterna | `supporto/test/ConcreteShort.UiChecks/` (pulsante «Report short» nella barra di `MainWindow`, per riflessione) |
+| frammenti | `tests/Desktop/ShellProjectCapture.MainWindow.cs`, `tests/Desktop/ShellSmokeReport.MainWindow.cs` (le partial di `MainWindow` delle due prove di confronto) |
+
+Rami tolti senza archiviarli, perché sono parti di file che restano:
+- `WpfDesktopServices.Create` (`X.Desktop/Wpf/WpfDesktopServices.cs`) e `DesktopComposition.WindowServices`; restano `WpfConfirmationService` e
+  `WpfMessageService` della radice di composizione;
+- la classe `TestServices` e la partial `MainWindow.Scripted` (`supporto/test/Desktop/TestServices.cs`); restano `ScriptedConfirmations` e
+  `RethrowingMessages`, i servizi del banco della shell e dei fogli;
+- i costruttori di prova di `MainWindow` e `MainWindow.SheetServices` (`tests/Desktop/ModuleHostBench.cs`), la partial `openSheet`
+  (`tests/Desktop/OpenSheetChecks.cs`);
+- i rami `MainWindow` di `WikiContextHelp.Open`, `CalculationHelpView.Show` e `WpfWikiNavigator.Show`; `WikiEditorial` usa
+  `Anthea.Presentation.Shell.Navigation.WikiExamples`, la stessa copia;
+- in `AppHarness.cs` il ramo `MainWindow` di `StartSmoke`, le sei bandiere delle suite sostituite e `StartInteractive`: `--interactive` apre la shell
+  con le stesse coppie `--module-impl`; in `build/ci.ps1` le sei suite escono da `$smokes` e `ConcreteShort.UiChecks` dalle prove esterne.
+
+Le prove che confrontavano con `MainWindow` confrontano con i suoi valori registrati (`tests/fixtures/f5-shell`): `ui/shell-capture` (la cartella
+`mainwindow/` è la copia della cattura registrata), `ui/shell-smoke-project-report` (la chiamata registrata `ShellReferences.SectionReport`) e
+`ui/check-shell-draft` (gli esempi della Wiki). `tests/ModelViewer.UiChecks` apre la shell della Release (`ProductShell`) al posto di `MainWindow`.
+Le altre prove esterne usavano `MainWindow` solo come ancora dell'assembly: ora `typeof(X.Desktop.App)`.
