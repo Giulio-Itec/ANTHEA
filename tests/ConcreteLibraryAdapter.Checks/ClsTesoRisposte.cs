@@ -9,6 +9,8 @@ using GPC.Model.Materials;
 /// danno la curva di prima, bit per bit uguale a quella con «Trascurato» esplicito; (b) con «Tension stiffening» i punti della curva seguono
 /// il modello a fibre indipendente attesi/cls_teso_risposte.py e il punto limite resta quello del dominio, identico al predefinito;
 /// (c) l'opzione raggiunge la libreria solo dal M–χ: le verifiche SLE e SLU costruiscono il verificatore senza.
+/// Dal 24/10/2026 (registro AG-CA-02) gli attesi vengono dallo script con la parabola analitica, legge predefinita di GPCModel 5.21 e
+/// GPCChecker.Concrete 0.20; quelli di prima, della parabola tabulata a 9 punti, si riottengono con «cls_teso_risposte.py --tabellare».
 /// </summary>
 internal static class ClsTesoRisposte
 {
@@ -64,16 +66,16 @@ internal static class ClsTesoRisposte
         try { ConcreteCurvatureAnalysis.Calculate(input, Workspace(), Options("Resistente")); } catch (ArgumentException ex) { rejection = ex.Message; }
         Is(rejection == "CLS teso nelle risposte: scegliere «Trascurato» o «Tension stiffening».", "4d valore sconosciuto: " + (rejection ?? "accettato"));
 
-        // Attesi indipendenti (attesi/cls_teso_risposte.py, modello a fibre, CLS teso nullo): MRd(N = 0) = 68,4462 kNm, χu = 7,619404e-2 1/m;
-        // a 0,3 MRd χ = 1,771717e-3 1/m e |εs|max = 0,61321 ‰; a 0,6 MRd χ = 3,554760e-3 1/m e |εs|max = 1,22799 ‰. Tolleranze: 0,2% sul punto
+        // Attesi indipendenti (attesi/cls_teso_risposte.py, modello a fibre, CLS teso nullo): MRd(N = 0) = 68,4492 kNm, χu = 7,624437e-2 1/m;
+        // a 0,3 MRd χ = 1,764649e-3 1/m e |εs|max = 0,61301 ‰; a 0,6 MRd χ = 3,548731e-3 1/m e |εs|max = 1,22804 ‰. Tolleranze: 0,2% sul punto
         // limite e 0,5% sui punti (scarti osservati sotto lo 0,05%: integrazione sulla mesh della libreria; d ln εs / d ln M = 1,00 dello script).
-        Near(absent.LimitMoment, 68.4462, .002, "4d MRd(N = 0) contro il modello a fibre");
-        Near(absent.UltimateCurvature, 7.619404e-2, .002, "4d χu contro il modello a fibre");
+        Near(absent.LimitMoment, 68.4492, .002, "4d MRd(N = 0) contro il modello a fibre");
+        Near(absent.UltimateCurvature, 7.624437e-2, .002, "4d χu contro il modello a fibre");
         MomentCurvaturePoint At(MomentCurvatureResult curve, double fraction) => curve.Points.Single(p => Math.Abs(p.Moment / curve.LimitMoment - fraction) < 1e-9);
-        Near(At(absent, .3).Curvature, 1.771717e-3, .005, "4d Trascurato, 0,3 MRd: χ");
-        Near(At(absent, .3).SteelStrain, 0.61321, .005, "4d Trascurato, 0,3 MRd: |εs|max");
-        Near(At(absent, .6).Curvature, 3.554760e-3, .005, "4d Trascurato, 0,6 MRd: χ");
-        Near(At(absent, .6).SteelStrain, 1.22799, .005, "4d Trascurato, 0,6 MRd: |εs|max");
+        Near(At(absent, .3).Curvature, 1.764649e-3, .005, "4d Trascurato, 0,3 MRd: χ");
+        Near(At(absent, .3).SteelStrain, 0.61301, .005, "4d Trascurato, 0,3 MRd: |εs|max");
+        Near(At(absent, .6).Curvature, 3.548731e-3, .005, "4d Trascurato, 0,6 MRd: χ");
+        Near(At(absent, .6).SteelStrain, 1.22804, .005, "4d Trascurato, 0,6 MRd: |εs|max");
 
         // ---------------------------------------------------------------- (b) «Tension stiffening»
         var stiffening = ConcreteCurvatureAnalysis.Calculate(input, Workspace(), Options("Tension stiffening"));
@@ -89,21 +91,23 @@ internal static class ClsTesoRisposte
         string Moments(MomentCurvatureResult curve) => string.Join("; ", curve.Points.Select(p => p.Moment.ToString("G9", Invariant)));
         Is(stiffening.Points.Count == 11 && stiffening.Points.All(p => absent.Points.Any(q => q.Moment == p.Moment)),
             "4d campioni diversi: tension stiffening " + Moments(stiffening) + " · predefinito " + Moments(absent));
-        // Primo snervamento (attesi/cls_teso_risposte.py, εs = fyd/Es): senza trazione My = 65,2917 kNm e χy = 5,688458e-3 1/m; con il tension
-        // stiffening My = 104,29 kNm > MRd, quindi nessun punto della curva prima del limite è snervato (riquadro M-3: snervamento al limite).
-        Near(absent.Points.Where(p => p.Yielded).Min(p => p.Moment), 65.2917, .002, "4d Trascurato: momento del primo snervamento raffinato");
-        Near(absent.YieldCurvature, 5.688458e-3, .005, "4d Trascurato: χy");
+        // Primo snervamento (attesi/cls_teso_risposte.py, εs = fyd/Es): senza trazione My = 65,2912 kNm e χy = 5,682050e-3 1/m; con il tension
+        // stiffening My = 104,30 kNm > MRd, quindi nessun punto della curva prima del limite è snervato (riquadro M-3: snervamento al limite).
+        Near(absent.Points.Where(p => p.Yielded).Min(p => p.Moment), 65.2912, .002, "4d Trascurato: momento del primo snervamento raffinato");
+        Near(absent.YieldCurvature, 5.682050e-3, .005, "4d Trascurato: χy");
         Is(stiffening.Points.Where(p => !p.Limit).All(p => !p.Yielded) && stiffening.YieldCurvature == stiffening.UltimateCurvature,
             "4d tension stiffening: snervamento prima del limite, χy = " + stiffening.YieldCurvature?.ToString("G9", Invariant));
         // Attesi indipendenti (attesi/cls_teso_risposte.py, Collins e Mitchell 1991 con Ecm = 31475,8 MPa e fctm = 2,56496 MPa): a 0,3 MRd la
-        // sezione non è fessurata, χ = 3,042456e-4 1/m e |εs|max = 0,07737 ‰; a 0,6 MRd χ = 7,815565e-4 1/m e |εs|max = 0,17578 ‰ (1,22799 ‰
-        // senza trazione; a 40,2 kNm lo script dà 0,1703 ‰ contro 1,2019 ‰, come il riquadro M-3). Tolleranze: 0,5% a 0,3 MRd; 1% a 0,6 MRd, dove
+        // sezione non è fessurata, χ = 2,966838e-4 1/m e |εs|max = 0,07462 ‰; a 0,6 MRd χ = 7,698084e-4 1/m e |εs|max = 0,17221 ‰ (1,22804 ‰
+        // senza trazione; a 40,2 kNm lo script dà 0,1666 ‰ contro 1,2019 ‰, come il riquadro M-3). Tolleranze: 0,5% a 0,3 MRd; 1% a 0,6 MRd, dove
         // d ln εs / d ln M = 1,5 e la legge ha il salto a εcr fra i punti di Gauss della libreria (circa 0,18 fctm, riquadro M-3); scarti
         // osservati sotto lo 0,05%.
-        Near(At(stiffening, .3).Curvature, 3.042456e-4, .005, "4d tension stiffening, 0,3 MRd: χ");
+        Near(At(stiffening, .3).Curvature, 2.966838e-4, .005, "4d tension stiffening, 0,3 MRd: χ");
+        // AG-CA-04 (24/10/2026, da decidere): con la legge analitica lo script dà 0,07462 ‰, −3,55 % rispetto a 0,07737 ‰ della legge tabulata,
+        // oltre il 3 % a sfavore ammesso dall'utente per l'aggiornamento: l'atteso resta quello di prima finché l'utente non decide.
         Near(At(stiffening, .3).SteelStrain, 0.07737, .005, "4d tension stiffening, 0,3 MRd: |εs|max");
-        Near(At(stiffening, .6).Curvature, 7.815565e-4, .01, "4d tension stiffening, 0,6 MRd: χ");
-        Near(At(stiffening, .6).SteelStrain, 0.17578, .01, "4d tension stiffening, 0,6 MRd: |εs|max");
+        Near(At(stiffening, .6).Curvature, 7.698084e-4, .01, "4d tension stiffening, 0,6 MRd: χ");
+        Near(At(stiffening, .6).SteelStrain, 0.17221, .01, "4d tension stiffening, 0,6 MRd: |εs|max");
 
         // ---------------------------------------------------------------- (c) solo il M–χ porta l'opzione alla libreria
         // Opzioni SLE con la chiave (copiata per errore o da un foglio futuro): il verificatore resta senza tension stiffening.

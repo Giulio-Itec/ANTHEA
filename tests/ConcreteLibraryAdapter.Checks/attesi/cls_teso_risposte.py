@@ -7,7 +7,9 @@
 # Sezione: rettangolo 300 × 500, C25/30, 4Ø16 con il centro a 46 mm dai bordi (copriferro 30 + staffa Ø8 + 8: y = ±204, 2 barre per
 # strato), N = 0, flessione attorno a x (θ = 0). Leggi:
 # - CLS compresso: parabola-rettangolo di progetto NTC 2018 §4.1.2.1.2.1, fcd = 0,85·25/1,5, εc2 = 2 ‰, εcu = 3,5 ‰, ramo parabolico
-#   tabulato con 9 punti fra 0 e εc2 e interpolazione lineare (come le tabelle dei materiali europei di Model, pagina ca.momento-curvatura §4);
+#   analitico σ = fcd (1 − (1 − ε/εc2)²), legge predefinita di GPCModel 5.21 / GPCChecker.Concrete 0.20 (registro AG-CA-02, 24/10/2026);
+#   con --tabellare il ramo tabulato con 9 punti fra 0 e εc2 e interpolazione lineare delle tabelle dei materiali europei di Model fino a
+#   GPCModel 5.20 (pagina ca.momento-curvatura §4), che dava gli attesi fino al 23/10/2026: conservato per la tracciabilità;
 # - CLS teso, «Trascurato»: σ = 0 (NTC §4.1.2.3.4.1, EN 1992-1-1 6.1(2)P);
 # - CLS teso, «Tension stiffening»: Collins e Mitchell (1991) con valori medi, σ = Ecm ε fino a εcr = fctm/Ecm, poi σ = fctm/(1 + √(500 ε)),
 #   Ecm = 22000 (fcm/10)^0,3, fcm = fck + 8, fctm = 0,30 fck^(2/3) (EN 1992-1-1 prospetto 3.1);
@@ -29,6 +31,12 @@ As16 = math.pi * 16 ** 2 / 4
 bars = [(-204.0, 2 * As16), (204.0, 2 * As16)]
 tab_e = np.array([ec2 / 8 * k for k in range(9)])
 tab_s = fcd * (1 - (1 - tab_e / ec2) ** 2)
+TABULATED = "--tabellare" in sys.argv[1:]
+print("Ramo parabolico: " + ("tabulato a 9 punti (storico, GPCModel 5.20)" if TABULATED else "analitico (predefinito da GPCModel 5.21)"))
+
+
+def parabola(c):
+    return np.interp(c, tab_e, tab_s) if TABULATED else fcd * (1 - (1 - np.clip(c, 0, ec2) / ec2) ** 2)
 
 NS = 20000
 ys = -h / 2 + h * (np.arange(NS) + 0.5) / NS
@@ -37,7 +45,7 @@ dA = b * h / NS
 def sig_c(e, stiffening):
     e = np.asarray(e, dtype=float)
     c = np.clip(-e, 0, None)
-    comp = np.where(c >= ec2, np.where(c <= ecu * (1 + 1e-12), fcd, 0.0), np.interp(c, tab_e, tab_s))
+    comp = np.where(c >= ec2, np.where(c <= ecu * (1 + 1e-12), fcd, 0.0), parabola(c))
     s = np.where(e < 0, -comp, 0.0)
     if stiffening:
         t = np.clip(e, 0, None)
