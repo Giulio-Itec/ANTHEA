@@ -1454,6 +1454,13 @@ scuro 0, Chiara 38 occorrenze, tutte con colori storici:
 
 Vedi la domanda G8.
 
+**Corse finali della terza tappa** su 0f930c87 (DPI della finestra 96):
+- quick PASS 55, 0 fallimenti (`ci/20261024-013815-f5-13-g3-quick`, su 212d69d2);
+- `-Stage build,ui` mirata PASS 8, 0 fallimenti (`ci/20261024-015418-f5-13-g3-ui`): `ui/check-contrast` PASS (Scuro 0, Molto scuro 0, Chiara 629
+  in 191 voci, baseline 629), `ui/check-appearance`, `ui/check-shell-draft`, `ui/check-spettri-contrast` (passa dalla porta),
+  `ui/check-palo-verticale-view` e `ui/check-theme-tokens` (F5-62), `ui/f3-equivalence` PASS 119 fixture, 77 articoli, 30 ricerche;
+- profilo standard PASS 78, 0 fallimenti (`ci/20261024-021837-f5-13-g3-fine`).
+
 ### 14.6 Guida pratica e Wiki: testo attuale e testo proposto
 
 Gli articoli della Wiki su Home, progetti e revisioni sono generati dai capitoli della guida pratica: `src/ANTHEA.Wiki/Content/sources.props` ha
