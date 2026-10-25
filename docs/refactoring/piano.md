@@ -829,6 +829,7 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
   - Elenco consolidato delle voci da rivedere (23/10): [f5-15-revisione.md](f5-15-revisione.md).
   - 24/10: l'utente accetta le raccomandazioni sulle 13 voci da guardare per prime ([scheda](f5-15-prioritarie.md); [decisioni](decisioni.md), 23 e 24
     ottobre). Da attuare dopo il 28/10: V-a, BD4, SH49 ridotta, regola T6. R4, R5 e R10 vanno con il set di librerie successivo. Restano 207 voci aperte (205 più G11 e W-idx, aggiunte con la Rev59 il 24/10).
+  - 25/10: [scheda delle voci aperte per famiglie](f5-15-famiglie.md), con le raccomandazioni, da decidere con l'utente; attuazione dopo il 28/10.
 
 **F5 chiusa il 25/10/2026 con ANTHEA 1.14.0** (decisione dell'utente del 24/10: «Anche rilascio 1.14.0»). Release AG delle librerie
 (Model 2d59bbc6, Checker 22dabe69), guide Rev59, full di rilascio PASS 155 su d7e6b6a7, setup e audit PASS, tag `v1.14.0`.

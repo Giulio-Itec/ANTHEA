@@ -5,6 +5,8 @@ Questo documento raccoglie in un solo posto quello che l'utente rivede in F5.15 
   diceva "da decidere" a fine refactoring rivediamo tutte le scelte» ([decisioni](decisioni.md#17-ottobre-tarda-mattina--le-scelte-da-decidere-si-rivedono-a-fine-refactoring));
 - le voci sfavorevoli o aperte del [registro delle differenze](registro-differenze.json): R4–R14 e R16–R21. R15 è corretta.
 
+Le voci ancora aperte sono raccolte per famiglie, con le raccomandazioni, nella [scheda del 25/10](f5-15-famiglie.md).
+
 Stato al 23/10/2026, su `refactoring/f5` f4af0ae9: F5 è unita tranne le parti (f) e (g) di F5.13 e F5.14. Questo documento non cambia
 nessuna scelta. Le scelte provvisorie valgono finché l'utente non risponde.
 
