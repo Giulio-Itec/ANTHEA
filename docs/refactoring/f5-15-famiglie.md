@@ -8,6 +8,10 @@ decidere. Questa scheda non cambia nessuna scelta.
 Stato: `main` a 79636c45, con ANTHEA 1.14.0 pubblicata. Le viste storiche sono archiviate dal 23/10 in `supporto/SUPERATI/ui-storica/`,
 la Release apre solo la shell nuova e tutti i moduli usano le viste MVVM. Molte domande scritte prima del 23/10 sono cambiate per questo.
 
+**Decisione dell'utente del 25/10:** «Come raccomandato in tutte le famiglie della scheda f5-15-famiglie.md. Registra le decisioni;
+l'attuazione dopo il 28/10». Le righe di [f5-15-revisione.md](f5-15-revisione.md) riportano la decisione e la famiglia; le voci del
+registro delle differenze hanno `decisione_25_10`. I passi di attuazione sono nel [piano](piano.md), voce F5.15.
+
 **Contenuto.** Sono le 202 righe di [f5-15-revisione.md](f5-15-revisione.md) senza una decisione dell'utente, più 4 righe già fatte da
 chiudere (SM9, BD13, G9, G10): 206 righe in 11 famiglie. Il conteggio di 207 voci aperte del piano comprende anche R5 e R10, che restano
 aperte nel registro ma sono decise il 24/10, e SM9 e BD13, che sono passi fatti.

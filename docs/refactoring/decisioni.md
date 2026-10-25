@@ -1865,3 +1865,29 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
    `CONSERVA.txt` (`-Keep`) e quelle senza `summary.json` più giovani di 24 ore. Una corsa con un collegamento si salta. Le corse non si eliminano mai
    in automatico; `-NoPrune` salta lo snellimento e un errore è solo un avviso. Prova: `qa/prune-ci-runs` nello stadio fast, su una fixture fuori dal
    repository.
+
+## 25 ottobre — F5.15: decisioni sulle voci aperte
+
+Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'utente.
+
+1. **Tempi.** «a questo punto possiamo partire con la fase f15? quanto dovrebbe metterci?»: stima di 6–10 giorni di lavoro, con l'attuazione dopo il
+   rinnovo della quota del 28/10, come deciso il 24/10. Poi: «prepara la scheda delle voci aperte di F5.15 per famiglie, con le raccomandazioni,
+   restando sotto il 90 % di quota. L'attuazione dopo il 28/10». E durante il lavoro: «cerca di fermarti sotto il 90% comunque. nel caso ti faccio
+   continuare martedì pomeriggio».
+2. **Scheda per famiglie** ([f5-15-famiglie.md](f5-15-famiglie.md)): le 202 righe ancora aperte di [f5-15-revisione.md](f5-15-revisione.md), più 4
+   già fatte, in 11 famiglie.
+3. **Decisione.** «Come raccomandato in tutte le famiglie della scheda f5-15-famiglie.md. Registra le decisioni; l'attuazione dopo il 28/10». Quindi:
+   - chiuse le voci superate dai fatti (famiglia 1);
+   - confermate in blocco le scelte di prove e codice, corpi e colori (famiglie 2, 3 e 4), tranne V-c, che diventa B;
+   - B: dialoghi ridimensionabili con una misura minima (famiglia 5);
+   - B: 10 difetti storici visibili corretti come differenze dichiarate, con la ricattura insieme a V-a; gli altri 18 comportamenti conservati (famiglia 6);
+   - B: S6-a/S8-b e MU14 con la regola T6; S4-c/S7-b con SH49 (famiglie 7 e 8);
+   - confermate le funzioni della shell già nella 1.14.0, tranne G11, che diventa B; W-idx con la revisione della Wiki (famiglia 9);
+   - C2/S5-c nella voce di infrastruttura con D-2 e D-5 (famiglia 10);
+   - R6–R9, R11–R14 e R16–R21 voce per voce nel set di librerie con R4, R5 e R10 (famiglia 11).
+4. **Registrazione.** Le 202 righe riportano «Decisa 25/10» o «Chiusa 25/10». Nel registro delle differenze 56 voci passano da «da-decidere»:
+   - 26 a «da-correggere»;
+   - 30 a «dichiarato».
+
+   Le 55 voci del 25/10 hanno `decisione_25_10`; F5-11 (FN4, decisa il 24/10 con T6) passa a «da-correggere» con `decisione_24_10`. Restano «da-decidere» solo le
+   voci BUG-* della coda dei bug, fuori da F5.15. I passi di attuazione sono nel [piano](piano.md), voce F5.15.
