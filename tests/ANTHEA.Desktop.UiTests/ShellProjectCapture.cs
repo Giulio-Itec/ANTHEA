@@ -61,7 +61,10 @@ internal static class ShellProjectCapture
         // so that ui/shell-capture-confronto compares the same folders as before.
         string historic = Path.Combine(output, "mainwindow"), shell = Path.Combine(output, "shell");
         Directory.CreateDirectory(historic);
-        foreach (var file in Directory.GetFiles(ShellReferences.Capture)) File.Copy(file, Path.Combine(historic, Path.GetFileName(file)), true);
+        // The recorded values keep the offset of their day («<istante>+02:00», summer time); the copy drops it as Normalize does (25/10/2026,
+        // end of summer time: the revisions of the run are «+01:00»). The recorded files do not change.
+        foreach (var file in Directory.GetFiles(ShellReferences.Capture))
+            File.WriteAllText(Path.Combine(historic, Path.GetFileName(file)), WithoutOffsets(File.ReadAllText(file)), new UTF8Encoding(false));
         await ShellCapture(shellFile, shell);
         var lines = new List<string> { "Cattura del progetto: valori registrati della finestra storica (tests/fixtures/f5-shell/cattura-mainwindow, copia in mainwindow/) contro la shell nuova (shell/)" };
         bool same = ShellReferences.SameFolders(historic, shell, lines);
@@ -107,9 +110,12 @@ internal static class ShellProjectCapture
         text = Regex.Replace(text, "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}", m => Number(m, "guid"));
         text = Regex.Replace(text, "[0-9A-F]{64}", m => Number(m, "sha"));
         text = Regex.Replace(text, "[0-9a-f]{32}", m => Number(m, "id"));
-        text = Regex.Replace(text, @"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})?", "<istante>");
+        text = Regex.Replace(text, @"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|(\\u002B|[+-])\d{2}:\d{2})?", "<istante>");
         return Regex.Replace(text, @"\d{2}/\d{2}/\d{4}( \d{2}:\d{2})?", "<data>");
     }
+
+    // The offset after a blanked instant, also as JSON writes «+» (+).
+    private static string WithoutOffsets(string text) => Regex.Replace(text, @"<istante>(\\u002B|[+-])\d{2}:\d{2}", "<istante>");
 
     /// <summary>The scenario through the new shell: the tree, the sheets in their tabs, the revision bar, the comparison, the commands of the project bar.</summary>
     private static async Task ShellCapture(string file, string folder)
