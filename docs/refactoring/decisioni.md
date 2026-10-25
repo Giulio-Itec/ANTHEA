@@ -1850,3 +1850,18 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
    - versione 4 del materiale calcestruzzo negli archivi (AG-SHELL-01): limite dichiarato nelle note, la versione resta 1.14.0.
 4. **Correzioni avviate.** In Checker la strategia «Intersezione» e la prova storica, con Concrete 0.20.0.1; in ANTHEA la traduzione del messaggio nuovo
    di Concrete, AG-SM-01 e AG-CA-04. Poi il set AG ufficiale, l'installazione, le differenze rimaste, il full e il rilascio.
+
+## 25 ottobre — snellimento automatico delle corse del runner
+
+Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'utente.
+
+1. **Pulizia degli artefatti.** «la cartella pesa 60 giga. si può alleggerire?»: `supporto/artefatti` pesava 60,4 GB, di cui 34 GB di 187 corse di
+   `build/ci.ps1` (da 0,4 a 1,2 GB ciascuna). L'utente ha lanciato la pulizia di livello B: eliminate le evidenze non citate da documenti, codice o
+   note (13,9 GB) e snellite quelle citate, tenendo riepiloghi, log e file piccoli (31,7 GB). Intatte le cartelle usate come ingressi (`baseline`,
+   `refactoring`), i rilasci, le librerie e le guide. ANTHEA è passato da 64,3 a 18,7 GB.
+2. **Snellimento automatico.** «implementa lo snellimento automatico come proposto, su un ramo nuovo da main, con la prova. Niente push senza il mio
+   ok»: alla fine di ogni corsa `build/Prune-CiRuns.ps1` snellisce le corse vecchie di `supporto/artefatti/ci` con la stessa regola. Restano intere le
+   ultime 10 corse concluse (`-KeepLast`), la corsa in esecuzione e i suoi ingressi, le corse di rilascio (tag con «rilascio»), quelle con
+   `CONSERVA.txt` (`-Keep`) e quelle senza `summary.json` più giovani di 24 ore. Una corsa con un collegamento si salta. Le corse non si eliminano mai
+   in automatico; `-NoPrune` salta lo snellimento e un errore è solo un avviso. Prova: `qa/prune-ci-runs` nello stadio fast, su una fixture fuori dal
+   repository.

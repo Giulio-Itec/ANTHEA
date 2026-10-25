@@ -29,6 +29,10 @@ and runs nothing: the count of the suites before and after a change (F5.14).
 Every outcome is classified against build/known-failures.json: PASS, KNOWN, NEW-FAIL, FIXED, BLOCKED, NOT-RUN.
 Exit code 0 only without NEW-FAIL and without tracked files modified by the suites.
 Outputs: supporto/artefatti/ci/<yyyyMMdd-HHmmss>-<Tag>/ (summary.json, summary.txt, one folder and log per suite).
+At the end of a run the old runs of supporto/artefatti/ci are slimmed by build/Prune-CiRuns.ps1 (summaries, logs and
+small files stay; captures, PDF, Word and large data go; decisioni.md, 25 ottobre): the last -KeepLast completed runs
+(10), this run and its inputs, the release runs (tag with 'rilascio') and the runs with CONSERVA.txt stay whole. -Keep
+writes CONSERVA.txt in this run; -NoPrune skips the slimming. A failure of the slimming is only a warning.
 With -Installer the fast stage also runs isolated NSIS installation/cleanup checks (requires NSIS 3).
 #>
 [CmdletBinding()]
@@ -40,6 +44,9 @@ param(
     [switch] $NoBuild,
     [switch] $Installer,
     [switch] $List,
+    [switch] $Keep,
+    [int] $KeepLast = 10,
+    [switch] $NoPrune,
     [string] $GpcLibDir,
     [string] $CompareTo,
     [string] $Only,
@@ -103,6 +110,7 @@ $Output = [IO.Path]::GetFullPath($Output)
 if (-not $List) {
     if ((Test-Path -LiteralPath $Output) -and (Get-ChildItem -LiteralPath $Output -Force | Select-Object -First 1)) { throw "Cartella di output non vuota: $Output" }
     New-Item -ItemType Directory -Force -Path $Output | Out-Null
+    if ($Keep) { [IO.File]::WriteAllText((Join-Path $Output 'CONSERVA.txt'), "Corsa conservata con -Keep, mai snellita da build/Prune-CiRuns.ps1.`r`n") }
 }
 
 $Cases = Join-Path $Root 'supporto\test\casi_confronto.json'
@@ -124,6 +132,8 @@ function Add-Suite([hashtable] $s) { [void] $Suites.Add($s) }
 # The shipped assemblies (Release) must not contain the WPF checks of the UiTests configuration.
 Add-Suite @{ Name = 'qa/no-test-code'; Stage = 'fast'; Kind = 'powershell'; Script = 'tools\qa\Assert-NoTestCode.ps1'; Args = @('-Path', "$DesktopDir\bin\Release\net8.0-windows")
     Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
+# The slimming of the old runs (build\Prune-CiRuns.ps1) on a fixture outside the repository.
+Add-Suite @{ Name = 'qa/prune-ci-runs'; Stage = 'fast'; Kind = 'powershell'; Script = 'tests\Build\Test-PruneCiRuns.ps1'; Args = @('-Output', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 
 foreach ($flag in 'checker', 'bridge', 'horizontal', 'coesione', 'gamma-sat', 'pile-factors', 'ca-module', 'ca-data') {
     Add-Suite @{ Name = "verifiche/$flag"; Stage = 'fast'; Kind = 'run'; Project = $Verifiche; Args = @("--$flag") }
@@ -675,6 +685,18 @@ if ($CompareTo) {
     }
 }
 
+# ---------------------------------------------------------------- old runs
+# build\Prune-CiRuns.ps1 slims the old runs of supporto\artefatti\ci; this run and the inputs of this run stay whole.
+$pruned = $null
+if (-not $NoPrune) {
+    $inputs = @($Output, $CompareTo, $BaselineRef, $CaptureCandidate, $F4CaptureCandidate, $F4CandidateConcrete, $DenseRef, $ConcurrencyRef) |
+        Where-Object { $_ } | ForEach-Object { if ([IO.Path]::IsPathRooted($_)) { $_ } else { Join-Path $Root $_ } }
+    try {
+        $pruned = & (Join-Path $Root 'build\Prune-CiRuns.ps1') -CiRoot (Join-Path $Root 'supporto\artefatti\ci') -KeepLast $KeepLast -Exclude $inputs
+        foreach ($x in @($pruned.skipped) + @($pruned.errors)) { [void] $warnings.Add("snellimento: $x") }
+    } catch { [void] $warnings.Add("snellimento delle corse vecchie non riuscito: $($_.Exception.Message)") }
+}
+
 $newFails = @($final | Where-Object { $_.Status -eq 'NEW-FAIL' })
 $fixed = @($final | Where-Object { $_.Status -eq 'FIXED' })
 Say ''
@@ -685,6 +707,7 @@ foreach ($w in $warnings) { Say ("ATTENZIONE {0}" -f $w) }
 if ($touched.Count -gt 0) { Say 'File tracciati modificati durante la corsa:'; $touched | ForEach-Object { Say "  $_" } }
 Say 'Non eseguite:'
 foreach ($n in $NotRun) { Say ("  {0,-30} {1}" -f $n.Name, $n.Reason) }
+if ($pruned) { Say ('Corse vecchie snellite: {0}, {1:N2} GB liberati' -f @($pruned.slimmed).Count, ($pruned.bytes / 1GB)) }
 
 $summary = [ordered]@{
     tag = $Tag; profile = $Profile; stages = $Stage; only = $Only; commit = $commit
@@ -694,6 +717,7 @@ $summary = [ordered]@{
     dotnet = (& dotnet --version).Trim()
     started = $started.ToString('s'); seconds = [Math]::Round(((Get-Date) - $started).TotalSeconds, 1)
     results = @($final); notRun = $NotRun; trackedModified = $touched; warnings = @($warnings)
+    pruned = $(if ($pruned) { [ordered]@{ runs = @($pruned.slimmed); bytes = $pruned.bytes } } else { $null })
 }
 $summary | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $Output 'summary.json') -Encoding UTF8
 if ($newFails.Count -gt 0 -or $touched.Count -gt 0) { exit 1 }
