@@ -118,11 +118,11 @@ risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 0
 [azioni] azioni SLE_QP · 0
 [azioni] azioni taglio · 0
@@ -142,9 +142,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
+[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0,69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -165,7 +165,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
 [domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
@@ -174,14 +174,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -391,18 +391,18 @@ risultato 25A16166E85614E0
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche sì · file ""
 [azioni] azioni SLU · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","stato":"SLV","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stato":"SLE","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stato":"SLE","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 1
-[azioni]   {"Mx":"90","My":"0","N":"-700","T":"0","Vx":"0","Vy":"0","elemento":"Pila","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"<nuovo-4>","nome":"Combo 4","sigma_c":"-2.76","sigma_s":"14.41","stato":"SLE_FREQ","stress_status":"Stato tensionale calcolato","visible":true,"wk":"Selezionare la classe di esposizione"}
+[azioni]   {"Mx":"90","My":"0","N":"-700","T":"0","Vx":"0","Vy":"0","elemento":"Pila","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"<nuovo-4>","nome":"Combo 4","sigma_c":"-2,76","sigma_s":"14,41","stato":"SLE_FREQ","stress_status":"Stato tensionale calcolato","visible":true,"wk":"Selezionare la classe di esposizione"}
 [azioni] azioni SLE_QP · 1
-[azioni]   {"Mx":"90","My":"0","N":"-700","T":"0","Vx":"0","Vy":"0","elemento":"Pila","esito":"Da calcolare","eta":"—","eta_sigma":"0.18","id":"<nuovo-5>","nome":"Combo 4","sigma_c":"-2.76","sigma_s":"14.41","stato":"SLE_QP","stress_status":"Entro limiti tensionali","visible":true,"wk":"Selezionare la classe di esposizione"}
+[azioni]   {"Mx":"90","My":"0","N":"-700","T":"0","Vx":"0","Vy":"0","elemento":"Pila","esito":"Da calcolare","eta":"—","eta_sigma":"0,18","id":"<nuovo-5>","nome":"Combo 4","sigma_c":"-2,76","sigma_s":"14,41","stato":"SLE_QP","stress_status":"Entro limiti tensionali","visible":true,"wk":"Selezionare la classe di esposizione"}
 [azioni] azioni taglio · 2
-[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.00","eta_y":"0.00","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
-[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.00","eta_y":"0.00","id":"<nuovo-2>","nome":"Combo 1","stato":"SLV","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,00","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,00","id":"<nuovo-2>","nome":"Combo 1","stato":"SLV","visible":true}
 [domini] form 3D
 [domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
 [domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
@@ -420,9 +420,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -444,7 +444,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
 [domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · SLV\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
@@ -453,14 +453,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -497,12 +497,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 [taglio] tabella taglio · colonne "Elemento=elemento|Stato limite=stato|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0 · sola lettura
-[taglio]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.00","eta_y":"0.00","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
-[taglio]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.00","eta_y":"0.00","id":"<nuovo-2>","nome":"Combo 1","stato":"SLV","visible":true}
+[taglio]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,00","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[taglio]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,00","id":"<nuovo-2>","nome":"Combo 1","stato":"SLV","visible":true}
 [taglio] taglio comandi Gestisci sollecitazioni… ×
 [taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
 [taglio] taglio sintesi "Taglio: 2/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0.00\nGoverna: Combo 1\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0.00\nGoverna: Combo 1\n2/2 combinazioni\n" · colori #FF397BCC #FF397BCC
+[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0,00\nGoverna: Combo 1\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0,00\nGoverna: Combo 1\n2/2 combinazioni\n" · colori #FF397BCC #FF397BCC
 [taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == scheda [1]
 dati BC7A9494C048C5DA · byte 8820
@@ -528,9 +528,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 3D dettaglio "SLU · N costante / Iterativo\n\nAZIONI · Locali\nCombo 1\n\nNEd = -2500,00 kN\nMx,Ed = 500,00 kNm\nMy,Ed = 250,00 kNm\n\nη = 0,53\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -2500,00 kN\nMx,Rd = 935,40 kNm\nMy,Rd = 467,70 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19,83 / 0,00 MPa\nσs min / max: -391,30 / 391,30 MPa\nεc min / max: -3,50 / 3,75 ‰\nεs min / max: -2,56 / 2,79 ‰\n\nd utile: 862,76 mm\nDistanza asse neutro dal lembo (GPC Engine): 473,12 mm\nInclinazione asse neutro: 48,40°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293,86 … 1868,46 kN\nMx: -1397,67 … 1407,46 kNm\nMy: -913,07 … 913,07 kNm\nEstremi campionati; non sono resistenze al N della riga."
-[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
 [domini] 3D vista azioni 1 1708F359478EE6DC · selezionata 0 · Ed 593A4C541CD95A3F · Rd BADAD3E5AF76DF14
@@ -552,7 +552,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
 [domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · SLV\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
@@ -578,14 +578,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -622,12 +622,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 [taglio] tabella taglio · colonne "Elemento=elemento|Stato limite=stato|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0 · sola lettura
-[taglio]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.00","eta_y":"0.00","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
-[taglio]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.00","eta_y":"0.00","id":"<nuovo-2>","nome":"Combo 1","stato":"SLV","visible":true}
+[taglio]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,00","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[taglio]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,00","id":"<nuovo-2>","nome":"Combo 1","stato":"SLV","visible":true}
 [taglio] taglio comandi Gestisci sollecitazioni… ×
 [taglio] taglio dettaglio "Combo 1 · Con staffe\nN = -2500,00 kN (compressione negativa)\nVx / Vy = 0,00 / 0,00 kN\n\nDIREZIONE Vx\nbw = 800,00 mm · d = 509,91 mm\nVRsd (staffe) = 352,60 kN\nVRcd (puntone) = 1569,30 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 352,60 kN · η = 0,00\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600,00 mm · d = 708,00 mm\nVRsd (staffe) = 489,58 kN\nVRcd (puntone) = 1634,20 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 489,58 kN · η = 0,00\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n"
 [taglio] taglio sintesi "Taglio: 2/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0.00\nGoverna: Combo 1\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0.00\nGoverna: Combo 1\n2/2 combinazioni\n" · colori #FF397BCC #FF397BCC
+[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0,00\nGoverna: Combo 1\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0,00\nGoverna: Combo 1\n2/2 combinazioni\n" · colori #FF397BCC #FF397BCC
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == attendi
 dati 8D78F45BD8D27AB5 · byte 8820
@@ -764,16 +764,16 @@ risultato FEDB2F73A3D5D8F7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche sì · file ""
 [azioni] azioni SLU · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [azioni] azioni SLV · 0
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stato":"SLE","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stato":"SLE","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 1
-[azioni]   {"Mx":"90","My":"0","N":"-700","T":"0","Vx":"0","Vy":"0","elemento":"Pila","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"<nuovo-4>","nome":"Combo 4","sigma_c":"-2.76","sigma_s":"14.41","stato":"SLE_FREQ","stress_status":"Stato tensionale calcolato","visible":true,"wk":"Selezionare la classe di esposizione"}
+[azioni]   {"Mx":"90","My":"0","N":"-700","T":"0","Vx":"0","Vy":"0","elemento":"Pila","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"<nuovo-4>","nome":"Combo 4","sigma_c":"-2,76","sigma_s":"14,41","stato":"SLE_FREQ","stress_status":"Stato tensionale calcolato","visible":true,"wk":"Selezionare la classe di esposizione"}
 [azioni] azioni SLE_QP · 1
-[azioni]   {"Mx":"90","My":"0","N":"-700","T":"0","Vx":"0","Vy":"0","elemento":"Pila","esito":"Da calcolare","eta":"—","eta_sigma":"0.18","id":"<nuovo-5>","nome":"Combo 4","sigma_c":"-2.76","sigma_s":"14.41","stato":"SLE_QP","stress_status":"Entro limiti tensionali","visible":true,"wk":"Selezionare la classe di esposizione"}
+[azioni]   {"Mx":"90","My":"0","N":"-700","T":"0","Vx":"0","Vy":"0","elemento":"Pila","esito":"Da calcolare","eta":"—","eta_sigma":"0,18","id":"<nuovo-5>","nome":"Combo 4","sigma_c":"-2,76","sigma_s":"14,41","stato":"SLE_QP","stress_status":"Entro limiti tensionali","visible":true,"wk":"Selezionare la classe di esposizione"}
 [azioni] azioni taglio · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"0","Vy":"120","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.00","eta_y":"0.25","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"120","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,25","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] form 3D
 [domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
 [domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
@@ -791,9 +791,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF39A879 #FF9AA4AF
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF39A879 #FF9AA4AF
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -815,7 +815,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
 [domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
@@ -824,14 +824,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -868,11 +868,11 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 [taglio] tabella taglio · colonne "Elemento=elemento|Stato limite=stato|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 1 · selezionata 0 · sola lettura
-[taglio]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"0","Vy":"120","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.00","eta_y":"0.25","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[taglio]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"120","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,25","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [taglio] taglio comandi Gestisci sollecitazioni… ×
-[taglio] taglio dettaglio "Combo 1 · Con staffe\nN = -2500.00 kN (compressione negativa)\nVx / Vy = 0.00 / 120.00 kN\n\nDIREZIONE Vx\nbw = 800.00 mm · d = 509.91 mm\nVRsd (staffe) = 352.60 kN\nVRcd (puntone) = 1569.30 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 352.60 kN · η = 0.00\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600.00 mm · d = 708.00 mm\nVRsd (staffe) = 489.58 kN\nVRcd (puntone) = 1634.20 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 489.58 kN · η = 0.25\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n"
+[taglio] taglio dettaglio "Combo 1 · Con staffe\nN = -2500,00 kN (compressione negativa)\nVx / Vy = 0,00 / 120,00 kN\n\nDIREZIONE Vx\nbw = 800,00 mm · d = 509,91 mm\nVRsd (staffe) = 352,60 kN\nVRcd (puntone) = 1569,30 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 352,60 kN · η = 0,00\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600,00 mm · d = 708,00 mm\nVRsd (staffe) = 489,58 kN\nVRcd (puntone) = 1634,20 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 489,58 kN · η = 0,25\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n"
 [taglio] taglio sintesi "Taglio: 1/1 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0.00\nGoverna: Combo 1\n1/1 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0.25\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0,00\nGoverna: Combo 1\n1/1 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0,25\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == conferma
 dati 4FFB851790D9CE4A · byte 8715
@@ -1006,16 +1006,16 @@ risultato FEDB2F73A3D5D8F7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche sì · file ""
 [azioni] azioni SLU · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [azioni] azioni SLV · 0
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stato":"SLE","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stato":"SLE","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 1
-[azioni]   {"Mx":"90","My":"0","N":"-700","T":"0","Vx":"0","Vy":"0","elemento":"Pila","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"<nuovo-4>","nome":"Combo 4","sigma_c":"-2.76","sigma_s":"14.41","stato":"SLE_FREQ","stress_status":"Stato tensionale calcolato","visible":true,"wk":"Selezionare la classe di esposizione"}
+[azioni]   {"Mx":"90","My":"0","N":"-700","T":"0","Vx":"0","Vy":"0","elemento":"Pila","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"<nuovo-4>","nome":"Combo 4","sigma_c":"-2,76","sigma_s":"14,41","stato":"SLE_FREQ","stress_status":"Stato tensionale calcolato","visible":true,"wk":"Selezionare la classe di esposizione"}
 [azioni] azioni SLE_QP · 1
-[azioni]   {"Mx":"90","My":"0","N":"-700","T":"0","Vx":"0","Vy":"0","elemento":"Pila","esito":"Da calcolare","eta":"—","eta_sigma":"0.18","id":"<nuovo-5>","nome":"Combo 4","sigma_c":"-2.76","sigma_s":"14.41","stato":"SLE_QP","stress_status":"Entro limiti tensionali","visible":true,"wk":"Selezionare la classe di esposizione"}
+[azioni]   {"Mx":"90","My":"0","N":"-700","T":"0","Vx":"0","Vy":"0","elemento":"Pila","esito":"Da calcolare","eta":"—","eta_sigma":"0,18","id":"<nuovo-5>","nome":"Combo 4","sigma_c":"-2,76","sigma_s":"14,41","stato":"SLE_QP","stress_status":"Entro limiti tensionali","visible":true,"wk":"Selezionare la classe di esposizione"}
 [azioni] azioni taglio · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"0","Vy":"120","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.00","eta_y":"0.25","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"120","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,25","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] form 3D
 [domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
 [domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
@@ -1033,9 +1033,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF39A879 #FF9AA4AF
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF39A879 #FF9AA4AF
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -1057,7 +1057,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 1 · selezionata 0
-[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
 [domini] riquadri 2D-riepilogo "2D · SLU\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n2D · SLV\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
@@ -1066,14 +1066,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1110,9 +1110,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 [taglio] tabella taglio · colonne "Elemento=elemento|Stato limite=stato|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 1 · selezionata 0 · sola lettura
-[taglio]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"0","Vy":"120","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.00","eta_y":"0.25","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
+[taglio]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"120","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,25","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [taglio] taglio comandi Gestisci sollecitazioni… ×
-[taglio] taglio dettaglio "Combo 1 · Con staffe\nN = -2500.00 kN (compressione negativa)\nVx / Vy = 0.00 / 120.00 kN\n\nDIREZIONE Vx\nbw = 800.00 mm · d = 509.91 mm\nVRsd (staffe) = 352.60 kN\nVRcd (puntone) = 1569.30 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 352.60 kN · η = 0.00\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600.00 mm · d = 708.00 mm\nVRsd (staffe) = 489.58 kN\nVRcd (puntone) = 1634.20 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 489.58 kN · η = 0.25\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n"
+[taglio] taglio dettaglio "Combo 1 · Con staffe\nN = -2500,00 kN (compressione negativa)\nVx / Vy = 0,00 / 120,00 kN\n\nDIREZIONE Vx\nbw = 800,00 mm · d = 509,91 mm\nVRsd (staffe) = 352,60 kN\nVRcd (puntone) = 1569,30 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 352,60 kN · η = 0,00\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600,00 mm · d = 708,00 mm\nVRsd (staffe) = 489,58 kN\nVRcd (puntone) = 1634,20 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 489,58 kN · η = 0,25\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n"
 [taglio] taglio sintesi "Taglio: 1/1 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0.00\nGoverna: Combo 1\n1/1 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0.25\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0,00\nGoverna: Combo 1\n1/1 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0,25\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""

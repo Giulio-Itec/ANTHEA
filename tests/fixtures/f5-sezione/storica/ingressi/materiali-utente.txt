@@ -263,9 +263,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B04","phi":"20","x":"-180","y":"282"}
 [ingressi]   {"id":"B05","phi":"20","x":"180","y":"282"}
 [ingressi]   {"id":"B06","phi":"16","x":"0","y":"0"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.25\nGoverna: SLU trazione\n3/3 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,25\nGoverna: SLU trazione\n3/3 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.49\nGoverna: Rara 2\n2/2 combinazioni\n" · colori #FF397BCC
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0,49\nGoverna: Rara 2\n2/2 combinazioni\n" · colori #FF397BCC
 [ingressi] riquadri riepilogo-SLE_FREQ ""
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -560,9 +560,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B04","phi":"20","x":"-180","y":"282"}
 [ingressi]   {"id":"B05","phi":"20","x":"180","y":"282"}
 [ingressi]   {"id":"B06","phi":"16","x":"0","y":"0"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.25\nGoverna: SLU trazione\n3/3 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,25\nGoverna: SLU trazione\n3/3 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.19\nGoverna: Rara 2\n2/2 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,19\nGoverna: Rara 2\n2/2 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ ""
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -842,7 +842,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B04","phi":"20","x":"-180","y":"282"}
 [ingressi]   {"id":"B05","phi":"20","x":"180","y":"282"}
 [ingressi]   {"id":"B06","phi":"16","x":"0","y":"0"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.26\nGoverna: SLU trazione\n3/3 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,26\nGoverna: SLU trazione\n3/3 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_FREQ ""
@@ -977,7 +977,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B04","phi":"20","x":"-180","y":"282"}
 [ingressi]   {"id":"B05","phi":"20","x":"180","y":"282"}
 [ingressi]   {"id":"B06","phi":"16","x":"0","y":"0"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.26\nGoverna: SLU trazione\n3/3 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,26\nGoverna: SLU trazione\n3/3 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE "Rara · tensioni\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_FREQ ""
@@ -1258,9 +1258,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B04","phi":"20","x":"-180","y":"282"}
 [ingressi]   {"id":"B05","phi":"20","x":"180","y":"282"}
 [ingressi]   {"id":"B06","phi":"16","x":"0","y":"0"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.26\nGoverna: SLU trazione\n3/3 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,26\nGoverna: SLU trazione\n3/3 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.50\nGoverna: Rara 2\n2/2 combinazioni\n" · colori #FF397BCC
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0,50\nGoverna: Rara 2\n2/2 combinazioni\n" · colori #FF397BCC
 [ingressi] riquadri riepilogo-SLE_FREQ ""
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -1546,9 +1546,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B04","phi":"20","x":"-180","y":"282"}
 [ingressi]   {"id":"B05","phi":"20","x":"180","y":"282"}
 [ingressi]   {"id":"B06","phi":"16","x":"0","y":"0"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.26\nGoverna: SLU trazione\n3/3 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,26\nGoverna: SLU trazione\n3/3 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.50\nGoverna: Rara 2\n2/2 combinazioni\n" · colori #FF397BCC
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0,50\nGoverna: Rara 2\n2/2 combinazioni\n" · colori #FF397BCC
 [ingressi] riquadri riepilogo-SLE_FREQ ""
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF

@@ -168,7 +168,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-3>","nome":"Combo 1","visible":true}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -200,7 +200,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -232,7 +232,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -377,9 +377,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0,69\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0,99\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFEF8C32
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -408,15 +408,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFEF8C32 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,99\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFEF8C32 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "5,87"
@@ -441,14 +441,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFEF8C32 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,99\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFEF8C32 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "5,87"
@@ -473,14 +473,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.99\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFEF8C32 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,99\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFEF8C32 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 == scelta materiali classe_cls «C30/37»
 dati 895C6E48BE84316E · byte 8391
   input.fck_mpa = 30
@@ -661,7 +661,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -693,7 +693,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -725,7 +725,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -870,9 +870,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.59\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.78\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFE4C441 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,59\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0,78\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFE4C441 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -901,15 +901,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1.15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1,15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -934,14 +934,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -966,14 +966,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 == scelta materiali cls_diagramma «Stress block»
 dati 0D5EA0E84B2E485F · byte 8384
   input.cls_diagramma = "Stress block"
@@ -1144,7 +1144,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1176,7 +1176,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1208,7 +1208,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1353,9 +1353,9 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.57\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15.63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,57\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15,63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -1384,15 +1384,15 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1.15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1,15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -1417,14 +1417,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -1449,14 +1449,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 == scelta materiali classe_acciaio «B450A»
 dati 4EA72D5E4EC42C09 · byte 8384
   input.classe_acciaio = "B450A"
@@ -1629,7 +1629,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1661,7 +1661,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1693,7 +1693,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1838,9 +1838,9 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.57\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15.63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,57\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15,63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -1869,15 +1869,15 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1.15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1,15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -1902,14 +1902,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -1934,14 +1934,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 == scelta materiali steel_diagramma «Incrudente»
 dati B6148A25034B4FF7 · byte 8380
   input.steel_diagramma = "Incrudente"
@@ -2112,7 +2112,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -2144,7 +2144,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -2176,7 +2176,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -2321,9 +2321,9 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.57\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15.63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,57\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15,63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -2352,15 +2352,15 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1.15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1,15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -2385,14 +2385,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -2417,14 +2417,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 == scelta materiali gettato_sottile «Sì»
 dati 2FC5B8CEBBC04029 · byte 8381
   input.gettato_sottile = "Sì"
@@ -2595,7 +2595,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -2627,7 +2627,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -2659,7 +2659,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -2804,9 +2804,9 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.66\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15.63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,66\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15,63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -2835,15 +2835,15 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1.43","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1,43","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -2868,14 +2868,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -2900,14 +2900,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 == scelta normativa normativa «EN 1992-1-1»
 dati 64901CE9634F54F4 · byte 8379
   input.alpha_cc = "1"
@@ -3084,7 +3084,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -3116,7 +3116,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -3148,7 +3148,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -3293,9 +3293,9 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.52\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15.63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,52\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15,63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ ""
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -3324,15 +3324,15 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1.15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1,15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -3357,14 +3357,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione nascosta
+[sle] SLE_FREQ schede 0 · fessurazione nascosta
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -3389,14 +3389,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 == scelta materiali classe_acciaio «B500B»
 dati B1368EEC35F1C1AA · byte 8379
   input.fyk_mpa = 500
@@ -3571,7 +3571,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -3603,7 +3603,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione nascosta
+[sle] SLE_FREQ schede 0 · fessurazione nascosta
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -3635,7 +3635,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -3780,9 +3780,9 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.51\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15.63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,51\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15,63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ ""
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -3811,15 +3811,15 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1.15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1,15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -3844,14 +3844,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione nascosta
+[sle] SLE_FREQ schede 0 · fessurazione nascosta
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -3876,14 +3876,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 == campo coefficienti GammaC «1.4»
 dati 3A7362C52765E482 · byte 8379
   input.gamma_c = "1.4"
@@ -4055,7 +4055,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -4087,7 +4087,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione nascosta
+[sle] SLE_FREQ schede 0 · fessurazione nascosta
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -4119,7 +4119,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -4271,9 +4271,9 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.49\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15.63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,49\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15,63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ ""
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -4302,15 +4302,15 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1.15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1,15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -4335,14 +4335,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione nascosta
+[sle] SLE_FREQ schede 0 · fessurazione nascosta
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -4367,14 +4367,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 == campo coefficienti GammaS «abc»
 dati 78971AA2F3A87C34 · byte 8314
   input.gamma_s = "abc"
@@ -4538,7 +4538,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -4570,7 +4570,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione nascosta
+[sle] SLE_FREQ schede 0 · fessurazione nascosta
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -4602,7 +4602,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -4919,7 +4919,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -4951,7 +4951,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione nascosta
+[sle] SLE_FREQ schede 0 · fessurazione nascosta
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -4983,7 +4983,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -5128,9 +5128,9 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.51\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15.63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,51\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15,63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ ""
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -5159,15 +5159,15 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1.15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1,15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -5192,14 +5192,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione nascosta
+[sle] SLE_FREQ schede 0 · fessurazione nascosta
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -5224,14 +5224,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 == scelta normativa normativa «Model Code 2010»
 dati 47B309DA57DAFF73 · byte 8383
   workspace_ca.normativa = "Model Code 2010"
@@ -5402,7 +5402,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -5434,7 +5434,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione nascosta
+[sle] SLE_FREQ schede 0 · fessurazione nascosta
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -5466,7 +5466,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -5611,9 +5611,9 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.51\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15.63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,51\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15,63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ ""
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -5642,15 +5642,15 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1.15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1,15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -5675,14 +5675,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione nascosta
+[sle] SLE_FREQ schede 0 · fessurazione nascosta
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -5707,14 +5707,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 == scelta materiali classe_cls «Personalizzato»
 dati 17E7397599D93FEB · byte 8391
   input.classe_cls = "Personalizzato"
@@ -5885,7 +5885,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -5917,7 +5917,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione nascosta
+[sle] SLE_FREQ schede 0 · fessurazione nascosta
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -5949,7 +5949,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -6094,9 +6094,9 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.51\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15.63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,51\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15,63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ ""
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -6125,15 +6125,15 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1.15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1,15","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta: verificare Quasi permanente"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -6158,14 +6158,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione nascosta
+[sle] SLE_FREQ schede 0 · fessurazione nascosta
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -6190,14 +6190,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,15\nGoverna: Combo 1\n1/1 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 == scelta normativa normativa «NTC 2018»
 dati 426AC1036BB3BA7A · byte 8387
   input.fyk_mpa = 450
@@ -6377,7 +6377,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -6409,7 +6409,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione nascosta
+[sle] SLE_FREQ schede 0 · fessurazione nascosta
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -6441,7 +6441,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -6586,9 +6586,9 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.66\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15.63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,66\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15,63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -6617,15 +6617,15 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1.43","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1,43","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -6650,14 +6650,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -6682,14 +6682,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 == campo normativa nota «Pila P1 · sezione di base»
 dati F15B9715DD3B59D3 · byte 8413
   workspace_ca.nota = "Pila P1 · sezione di base"
@@ -6860,7 +6860,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"—","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"—","sigma_s":"—","stress_status":"Da calcolare","visible":true,"wk":"Da calcolare"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -6892,7 +6892,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -6924,7 +6924,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -7069,9 +7069,9 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.66\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15.63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,66\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15,63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -7100,15 +7100,15 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1.43","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Da calcolare","esito3d":"Da calcolare","eta":"—","eta2d":"—","eta3d":"—","eta_sigma":"1,43","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessun risultato aggiornato"
 [sle] SLE passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -7133,14 +7133,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Nessun risultato aggiornato"
 [sle] SLE_FREQ passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -7165,14 +7165,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Nessun risultato aggiornato"
 [sle] SLE_QP passaggi "Dati modificati: passaggi in attesa di aggiornamento."
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 == conferma
 dati 20FBC28689A14621 · byte 8458
   combinazioni.SLU[0].visible = true
@@ -7352,7 +7352,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-3>","nome":"Combo 1","visible":true}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -7384,7 +7384,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -7416,7 +7416,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -7561,9 +7561,9 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.66\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15.63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,66\nGoverna: Combo 1\n1/1 combinazioni\n2D · Plastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF39A879 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nNON VERIFICATA\nη = 15,63\nGoverna: Combo 1\n1/1 combinazioni\n2D · Elastico\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FFCB3939
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
@@ -7592,15 +7592,15 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"1.43","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.66","sigma_s":"99.55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"1,43","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,66","sigma_s":"99,55","stress_status":"Oltre limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -7625,14 +7625,14 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "6,09"
@@ -7657,11 +7657,11 @@ stato "Aggiornamento parziale · 2D:SLV: Value cannot be null. (Parameter 'failu
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1.43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nNON VERIFICATA\nη = 1,43\nGoverna: Combo 1\n1/1 combinazioni\nFrequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF #FF9AA4AF

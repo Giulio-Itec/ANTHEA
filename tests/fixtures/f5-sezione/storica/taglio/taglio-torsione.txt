@@ -66,14 +66,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -128,14 +128,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -193,14 +193,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -252,14 +252,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -296,11 +296,11 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 1 · selezionata 0
-[taglio]   {"Mx":"0","My":"0","N":"0","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"0","Vy":"0","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.00","eta_y":"0.00","id":"<nuovo-4>","nome":"Taglio 1"}
+[taglio]   {"Mx":"0","My":"0","N":"0","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"0","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,00","id":"<nuovo-4>","nome":"Taglio 1"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 1 · Con staffe\nN = 0.00 kN (compressione negativa)\nVx / Vy = 0.00 / 0.00 kN\n\nDIREZIONE Vx\nbw = 800.00 mm · d = 509.91 mm\nVRsd (staffe) = 352.60 kN\nVRcd (puntone) = 1255.44 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 352.60 kN · η = 0.00\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600.00 mm · d = 708.00 mm\nVRsd (staffe) = 489.58 kN\nVRcd (puntone) = 1307.36 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 489.58 kN · η = 0.00\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n"
+[taglio] taglio dettaglio "Taglio 1 · Con staffe\nN = 0,00 kN (compressione negativa)\nVx / Vy = 0,00 / 0,00 kN\n\nDIREZIONE Vx\nbw = 800,00 mm · d = 509,91 mm\nVRsd (staffe) = 352,60 kN\nVRcd (puntone) = 1255,44 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 352,60 kN · η = 0,00\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600,00 mm · d = 708,00 mm\nVRsd (staffe) = 489,58 kN\nVRcd (puntone) = 1307,36 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 489,58 kN · η = 0,00\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n"
 [taglio] taglio sintesi "Taglio: 1/1 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0.00\nGoverna: Taglio 1\n1/1 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0.00\nGoverna: Taglio 1\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0,00\nGoverna: Taglio 1\n1/1 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0,00\nGoverna: Taglio 1\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == cella taglio Vx [riga 0] «300»
 dati 1363053FF88BF4AF · byte 8526
@@ -312,14 +312,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -372,14 +372,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -432,14 +432,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -491,14 +491,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -535,11 +535,11 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 1 · selezionata 0
-[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.85","eta_y":"0.25","id":"<nuovo-4>","nome":"Taglio 1"}
+[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,85","eta_y":"0,25","id":"<nuovo-4>","nome":"Taglio 1"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 1 · Con staffe\nN = -800.00 kN (compressione negativa)\nVx / Vy = 300.00 / 120.00 kN\n\nDIREZIONE Vx\nbw = 800.00 mm · d = 509.91 mm\nVRsd (staffe) = 352.60 kN\nVRcd (puntone) = 1360.94 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 352.60 kN · η = 0.85\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600.00 mm · d = 708.00 mm\nVRsd (staffe) = 489.58 kN\nVRcd (puntone) = 1417.22 kN\ncot θ = 2.50\nGoverna: armatura trasversale\nVRd = 489.58 kN · η = 0.25\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n"
+[taglio] taglio dettaglio "Taglio 1 · Con staffe\nN = -800,00 kN (compressione negativa)\nVx / Vy = 300,00 / 120,00 kN\n\nDIREZIONE Vx\nbw = 800,00 mm · d = 509,91 mm\nVRsd (staffe) = 352,60 kN\nVRcd (puntone) = 1360,94 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 352,60 kN · η = 0,85\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600,00 mm · d = 708,00 mm\nVRsd (staffe) = 489,58 kN\nVRcd (puntone) = 1417,22 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 489,58 kN · η = 0,25\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n"
 [taglio] taglio sintesi "Taglio: 1/1 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0.85\nGoverna: Taglio 1\n1/1 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0.25\nGoverna: Taglio 1\n1/1 combinazioni\n" · colori #FFE4C441 #FF397BCC
+[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0,85\nGoverna: Taglio 1\n1/1 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0,25\nGoverna: Taglio 1\n1/1 combinazioni\n" · colori #FFE4C441 #FF397BCC
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == riga taglio + Combinazione [0]
 dati CCB6F16B5FDDCCCB · byte 8620
@@ -551,14 +551,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -612,14 +612,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -673,14 +673,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -733,14 +733,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -777,12 +777,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 1
-[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.85","eta_y":"0.25","id":"<nuovo-4>","nome":"Taglio 1"}
+[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,85","eta_y":"0,25","id":"<nuovo-4>","nome":"Taglio 1"}
 [taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"—","VRdy":"—","Vx":"200","Vy":"0","esito":"Confermare staffe chiuse e barre contenute nel profilo resistente, incluse quelle di spigolo.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"<nuovo-5>","nome":"Taglio 2"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0.00 kN (compressione negativa)\nVx / Vy = 200.00 / 0.00 kN\n\nConfermare staffe chiuse e barre contenute nel profilo resistente, incluse quelle di spigolo."
+[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0,00 kN (compressione negativa)\nVx / Vy = 200,00 / 0,00 kN\n\nConfermare staffe chiuse e barre contenute nel profilo resistente, incluse quelle di spigolo."
 [taglio] taglio sintesi "Taglio: 1/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0.85\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.25\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0,85\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0,25\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == scelta torsione chiusura_torsione «Confermato»
 dati 6D3395BDAF87226A · byte 8620
@@ -794,14 +794,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -855,14 +855,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -915,14 +915,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -959,12 +959,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 1
-[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.85","eta_y":"0.25","id":"<nuovo-4>","nome":"Taglio 1"}
-[taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"141.04","VRdy":"195.83","Vx":"200","Vy":"0","esito":"x: Resistenza insufficiente · y: Resistenza sufficiente · dettagli da verificare · Torsione / interazione non soddisfatta","eta_t":"0.82","eta_vt":"1.93","eta_x":"1.42","eta_y":"0.00","id":"<nuovo-5>","nome":"Taglio 2"}
+[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,85","eta_y":"0,25","id":"<nuovo-4>","nome":"Taglio 1"}
+[taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"141,04","VRdy":"195,83","Vx":"200","Vy":"0","esito":"x: Resistenza insufficiente · y: Resistenza sufficiente · dettagli da verificare · Torsione / interazione non soddisfatta","eta_t":"0,82","eta_vt":"1,93","eta_x":"1,42","eta_y":"0,00","id":"<nuovo-5>","nome":"Taglio 2"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0.00 kN (compressione negativa)\nVx / Vy = 200.00 / 0.00 kN\n\nDIREZIONE Vx\nbw = 800.00 mm · d = 509.91 mm\nVRsd (staffe) = 141.04 kN\nVRcd (puntone) = 1820.39 kN\ncot θ = 1.00\nGoverna: armatura trasversale\nVRd = 141.04 kN · η = 1.42\nResistenza insufficiente\n\nDIREZIONE Vy\nbw = 600.00 mm · d = 708.00 mm\nVRsd (staffe) = 195.83 kN\nVRcd (puntone) = 1895.67 kN\ncot θ = 1.00\nGoverna: armatura trasversale\nVRd = 195.83 kN · η = 0.00\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTORSIONE · NTC §4.1.2.3.6\nTEd = 40 kNm\nAk = 256256 mm² · uk = 2064 mm · t = 184 mm · cot θ = 1\nTRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ)\nTRsd = 2 Ak (Asta/s) fyd cot θ · Asta = area di un ramo\nTRld = 2 Ak (As,l/uk) fyd / cot θ\nTRcd / TRsd / TRld = 467.582 / 78.755 / 48.582 kNm\nTRd = 48.582 kNm · ηT = 0.823\nAs,l richiesta per sola torsione = 411.672 mm²\nη calcestruzzo = |T|/TRcd + |Vx|/VRcd,x + |Vy|/VRcd,y = 0.195\nη staffe = |T|/TRsd + max(|Vx|/VRsd,x; |Vy|/VRsd,y) = 1.926\nTorsione / interazione non soddisfatta\nLa quota longitudinale deve essere aggiuntiva a quella impegnata in N–M.\n"
+[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0,00 kN (compressione negativa)\nVx / Vy = 200,00 / 0,00 kN\n\nDIREZIONE Vx\nbw = 800,00 mm · d = 509,91 mm\nVRsd (staffe) = 141,04 kN\nVRcd (puntone) = 1820,39 kN\ncot θ = 1,00\nGoverna: armatura trasversale\nVRd = 141,04 kN · η = 1,42\nResistenza insufficiente\n\nDIREZIONE Vy\nbw = 600,00 mm · d = 708,00 mm\nVRsd (staffe) = 195,83 kN\nVRcd (puntone) = 1895,67 kN\ncot θ = 1,00\nGoverna: armatura trasversale\nVRd = 195,83 kN · η = 0,00\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTORSIONE · NTC §4.1.2.3.6\nTEd = 40 kNm\nAk = 256256 mm² · uk = 2064 mm · t = 184 mm · cot θ = 1\nTRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ)\nTRsd = 2 Ak (Asta/s) fyd cot θ · Asta = area di un ramo\nTRld = 2 Ak (As,l/uk) fyd / cot θ\nTRcd / TRsd / TRld = 467,582 / 78,755 / 48,582 kNm\nTRd = 48,582 kNm · ηT = 0,823\nAs,l richiesta per sola torsione = 411,672 mm²\nη calcestruzzo = |T|/TRcd + |Vx|/VRcd,x + |Vy|/VRcd,y = 0,195\nη staffe = |T|/TRsd + max(|Vx|/VRsd,x; |Vy|/VRsd,y) = 1,926\nTorsione / interazione non soddisfatta\nLa quota longitudinale deve essere aggiuntiva a quella impegnata in N–M.\n"
 [taglio] taglio sintesi "Taglio: 2/2 combinazioni calcolate · 1 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 1 calcolate, 1 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nNON VERIFICATA\nη = 1.42\nGoverna: Taglio 2\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0.25\nGoverna: Taglio 1\n2/2 combinazioni\nTorsione e interazione V–T\nNON VERIFICATA\nη = 1.93\nGoverna: Taglio 2\n1/1 combinazioni\n" · colori #FFCB3939 #FF397BCC #FFCB3939
+[taglio] riquadri taglio-peggiori "Taglio Vx\nNON VERIFICATA\nη = 1,42\nGoverna: Taglio 2\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0,25\nGoverna: Taglio 1\n2/2 combinazioni\nTorsione e interazione V–T\nNON VERIFICATA\nη = 1,93\nGoverna: Taglio 2\n1/1 combinazioni\n" · colori #FFCB3939 #FF397BCC #FFCB3939
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == campo torsione cot_torsione «2»
 dati B2CFD69468C199A8 · byte 8622
@@ -976,14 +976,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1036,14 +1036,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1080,12 +1080,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 1
-[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.85","eta_y":"0.25","id":"<nuovo-4>","nome":"Taglio 1"}
-[taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"282.08","VRdy":"391.66","Vx":"200","Vy":"0","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare · Torsione / interazione non soddisfatta","eta_t":"1.65","eta_vt":"0.96","eta_x":"0.71","eta_y":"0.00","id":"<nuovo-5>","nome":"Taglio 2"}
+[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,85","eta_y":"0,25","id":"<nuovo-4>","nome":"Taglio 1"}
+[taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"282,08","VRdy":"391,66","Vx":"200","Vy":"0","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare · Torsione / interazione non soddisfatta","eta_t":"1,65","eta_vt":"0,96","eta_x":"0,71","eta_y":"0,00","id":"<nuovo-5>","nome":"Taglio 2"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0.00 kN (compressione negativa)\nVx / Vy = 200.00 / 0.00 kN\n\nDIREZIONE Vx\nbw = 800.00 mm · d = 509.91 mm\nVRsd (staffe) = 282.08 kN\nVRcd (puntone) = 1456.31 kN\ncot θ = 2.00\nGoverna: armatura trasversale\nVRd = 282.08 kN · η = 0.71\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600.00 mm · d = 708.00 mm\nVRsd (staffe) = 391.66 kN\nVRcd (puntone) = 1516.54 kN\ncot θ = 2.00\nGoverna: armatura trasversale\nVRd = 391.66 kN · η = 0.00\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTORSIONE · NTC §4.1.2.3.6\nTEd = 40 kNm\nAk = 256256 mm² · uk = 2064 mm · t = 184 mm · cot θ = 2\nTRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ)\nTRsd = 2 Ak (Asta/s) fyd cot θ · Asta = area di un ramo\nTRld = 2 Ak (As,l/uk) fyd / cot θ\nTRcd / TRsd / TRld = 374.065 / 157.51 / 24.291 kNm\nTRd = 24.291 kNm · ηT = 1.647\nAs,l richiesta per sola torsione = 823.343 mm²\nη calcestruzzo = |T|/TRcd + |Vx|/VRcd,x + |Vy|/VRcd,y = 0.244\nη staffe = |T|/TRsd + max(|Vx|/VRsd,x; |Vy|/VRsd,y) = 0.963\nTorsione / interazione non soddisfatta\nLa quota longitudinale deve essere aggiuntiva a quella impegnata in N–M.\n"
+[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0,00 kN (compressione negativa)\nVx / Vy = 200,00 / 0,00 kN\n\nDIREZIONE Vx\nbw = 800,00 mm · d = 509,91 mm\nVRsd (staffe) = 282,08 kN\nVRcd (puntone) = 1456,31 kN\ncot θ = 2,00\nGoverna: armatura trasversale\nVRd = 282,08 kN · η = 0,71\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600,00 mm · d = 708,00 mm\nVRsd (staffe) = 391,66 kN\nVRcd (puntone) = 1516,54 kN\ncot θ = 2,00\nGoverna: armatura trasversale\nVRd = 391,66 kN · η = 0,00\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTORSIONE · NTC §4.1.2.3.6\nTEd = 40 kNm\nAk = 256256 mm² · uk = 2064 mm · t = 184 mm · cot θ = 2\nTRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ)\nTRsd = 2 Ak (Asta/s) fyd cot θ · Asta = area di un ramo\nTRld = 2 Ak (As,l/uk) fyd / cot θ\nTRcd / TRsd / TRld = 374,065 / 157,51 / 24,291 kNm\nTRd = 24,291 kNm · ηT = 1,647\nAs,l richiesta per sola torsione = 823,343 mm²\nη calcestruzzo = |T|/TRcd + |Vx|/VRcd,x + |Vy|/VRcd,y = 0,244\nη staffe = |T|/TRsd + max(|Vx|/VRsd,x; |Vy|/VRsd,y) = 0,963\nTorsione / interazione non soddisfatta\nLa quota longitudinale deve essere aggiuntiva a quella impegnata in N–M.\n"
 [taglio] taglio sintesi "Taglio: 2/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 1 calcolate, 1 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0.85\nGoverna: Taglio 1\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0.25\nGoverna: Taglio 1\n2/2 combinazioni\nTorsione e interazione V–T\nNON VERIFICATA\nη = 1.65\nGoverna: Taglio 2\n1/1 combinazioni\n" · colori #FFE4C441 #FF397BCC #FFCB3939
+[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0,85\nGoverna: Taglio 1\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0,25\nGoverna: Taglio 1\n2/2 combinazioni\nTorsione e interazione V–T\nNON VERIFICATA\nη = 1,65\nGoverna: Taglio 2\n1/1 combinazioni\n" · colori #FFE4C441 #FF397BCC #FFCB3939
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == scelta taglio parametri «Manuali»
 dati 6D660F25E0534348 · byte 8608
@@ -1097,14 +1097,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Manuali" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00"
-[taglio]   campo d_x "d utile · x" = "509.91"
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00"
+[taglio]   campo d_x "d utile · x" = "509,91"
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00"
-[taglio]   campo d_y "d utile · y" = "708.00"
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00"
+[taglio]   campo d_y "d utile · y" = "708,00"
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1159,13 +1159,13 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta parametri "Parametri geometrici" = "Manuali" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
 [taglio]   campo bw_x "bw · x" = "500"
-[taglio]   campo d_x "d utile · x" = "509.91"
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo d_x "d utile · x" = "509,91"
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00"
-[taglio]   campo d_y "d utile · y" = "708.00"
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00"
+[taglio]   campo d_y "d utile · y" = "708,00"
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1219,13 +1219,13 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta parametri "Parametri geometrici" = "Manuali" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
 [taglio]   campo bw_x "bw · x" = "500"
-[taglio]   campo d_x "d utile · x" = "509.91"
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo d_x "d utile · x" = "509,91"
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00"
-[taglio]   campo d_y "d utile · y" = "708.00"
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00"
+[taglio]   campo d_y "d utile · y" = "708,00"
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1262,12 +1262,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Parametri manuali: verificare geometria, armatura tesa e ancoraggio."
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 1
-[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.85","eta_y":"0.25","id":"<nuovo-4>","nome":"Taglio 1"}
-[taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"282.08","VRdy":"391.66","Vx":"200","Vy":"0","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare · Torsione / interazione non soddisfatta","eta_t":"1.65","eta_vt":"0.96","eta_x":"0.71","eta_y":"0.00","id":"<nuovo-5>","nome":"Taglio 2"}
+[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,85","eta_y":"0,25","id":"<nuovo-4>","nome":"Taglio 1"}
+[taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"282,08","VRdy":"391,66","Vx":"200","Vy":"0","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare · Torsione / interazione non soddisfatta","eta_t":"1,65","eta_vt":"0,96","eta_x":"0,71","eta_y":"0,00","id":"<nuovo-5>","nome":"Taglio 2"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0.00 kN (compressione negativa)\nVx / Vy = 200.00 / 0.00 kN\n\nDIREZIONE Vx\nbw = 500.00 mm · d = 509.91 mm\nVRsd (staffe) = 282.08 kN\nVRcd (puntone) = 910.20 kN\ncot θ = 2.00\nGoverna: armatura trasversale\nVRd = 282.08 kN · η = 0.71\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600.00 mm · d = 708.00 mm\nVRsd (staffe) = 391.66 kN\nVRcd (puntone) = 1516.54 kN\ncot θ = 2.00\nGoverna: armatura trasversale\nVRd = 391.66 kN · η = 0.00\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTORSIONE · NTC §4.1.2.3.6\nTEd = 40 kNm\nAk = 256256 mm² · uk = 2064 mm · t = 184 mm · cot θ = 2\nTRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ)\nTRsd = 2 Ak (Asta/s) fyd cot θ · Asta = area di un ramo\nTRld = 2 Ak (As,l/uk) fyd / cot θ\nTRcd / TRsd / TRld = 374.065 / 157.51 / 24.291 kNm\nTRd = 24.291 kNm · ηT = 1.647\nAs,l richiesta per sola torsione = 823.343 mm²\nη calcestruzzo = |T|/TRcd + |Vx|/VRcd,x + |Vy|/VRcd,y = 0.327\nη staffe = |T|/TRsd + max(|Vx|/VRsd,x; |Vy|/VRsd,y) = 0.963\nTorsione / interazione non soddisfatta\nLa quota longitudinale deve essere aggiuntiva a quella impegnata in N–M.\n"
+[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0,00 kN (compressione negativa)\nVx / Vy = 200,00 / 0,00 kN\n\nDIREZIONE Vx\nbw = 500,00 mm · d = 509,91 mm\nVRsd (staffe) = 282,08 kN\nVRcd (puntone) = 910,20 kN\ncot θ = 2,00\nGoverna: armatura trasversale\nVRd = 282,08 kN · η = 0,71\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600,00 mm · d = 708,00 mm\nVRsd (staffe) = 391,66 kN\nVRcd (puntone) = 1516,54 kN\ncot θ = 2,00\nGoverna: armatura trasversale\nVRd = 391,66 kN · η = 0,00\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTORSIONE · NTC §4.1.2.3.6\nTEd = 40 kNm\nAk = 256256 mm² · uk = 2064 mm · t = 184 mm · cot θ = 2\nTRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ)\nTRsd = 2 Ak (Asta/s) fyd cot θ · Asta = area di un ramo\nTRld = 2 Ak (As,l/uk) fyd / cot θ\nTRcd / TRsd / TRld = 374,065 / 157,51 / 24,291 kNm\nTRd = 24,291 kNm · ηT = 1,647\nAs,l richiesta per sola torsione = 823,343 mm²\nη calcestruzzo = |T|/TRcd + |Vx|/VRcd,x + |Vy|/VRcd,y = 0,327\nη staffe = |T|/TRsd + max(|Vx|/VRsd,x; |Vy|/VRsd,y) = 0,963\nTorsione / interazione non soddisfatta\nLa quota longitudinale deve essere aggiuntiva a quella impegnata in N–M.\n"
 [taglio] taglio sintesi "Taglio: 2/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 1 calcolate, 1 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0.85\nGoverna: Taglio 1\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0.25\nGoverna: Taglio 1\n2/2 combinazioni\nTorsione e interazione V–T\nNON VERIFICATA\nη = 1.65\nGoverna: Taglio 2\n1/1 combinazioni\n" · colori #FFE4C441 #FF397BCC #FFCB3939
+[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0,85\nGoverna: Taglio 1\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0,25\nGoverna: Taglio 1\n2/2 combinazioni\nTorsione e interazione V–T\nNON VERIFICATA\nη = 1,65\nGoverna: Taglio 2\n1/1 combinazioni\n" · colori #FFE4C441 #FF397BCC #FFCB3939
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == scelta taglio parametri «Automatici da sezione»
 dati B2CFD69468C199A8 · byte 8622
@@ -1340,14 +1340,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1384,12 +1384,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 1
-[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.85","eta_y":"0.25","id":"<nuovo-4>","nome":"Taglio 1"}
-[taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"282.08","VRdy":"391.66","Vx":"200","Vy":"0","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare · Torsione / interazione non soddisfatta","eta_t":"1.65","eta_vt":"0.96","eta_x":"0.71","eta_y":"0.00","id":"<nuovo-5>","nome":"Taglio 2"}
+[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,85","eta_y":"0,25","id":"<nuovo-4>","nome":"Taglio 1"}
+[taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"282,08","VRdy":"391,66","Vx":"200","Vy":"0","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare · Torsione / interazione non soddisfatta","eta_t":"1,65","eta_vt":"0,96","eta_x":"0,71","eta_y":"0,00","id":"<nuovo-5>","nome":"Taglio 2"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0.00 kN (compressione negativa)\nVx / Vy = 200.00 / 0.00 kN\n\nDIREZIONE Vx\nbw = 800.00 mm · d = 509.91 mm\nVRsd (staffe) = 282.08 kN\nVRcd (puntone) = 1456.31 kN\ncot θ = 2.00\nGoverna: armatura trasversale\nVRd = 282.08 kN · η = 0.71\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600.00 mm · d = 708.00 mm\nVRsd (staffe) = 391.66 kN\nVRcd (puntone) = 1516.54 kN\ncot θ = 2.00\nGoverna: armatura trasversale\nVRd = 391.66 kN · η = 0.00\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTORSIONE · NTC §4.1.2.3.6\nTEd = 40 kNm\nAk = 256256 mm² · uk = 2064 mm · t = 184 mm · cot θ = 2\nTRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ)\nTRsd = 2 Ak (Asta/s) fyd cot θ · Asta = area di un ramo\nTRld = 2 Ak (As,l/uk) fyd / cot θ\nTRcd / TRsd / TRld = 374.065 / 157.51 / 24.291 kNm\nTRd = 24.291 kNm · ηT = 1.647\nAs,l richiesta per sola torsione = 823.343 mm²\nη calcestruzzo = |T|/TRcd + |Vx|/VRcd,x + |Vy|/VRcd,y = 0.244\nη staffe = |T|/TRsd + max(|Vx|/VRsd,x; |Vy|/VRsd,y) = 0.963\nTorsione / interazione non soddisfatta\nLa quota longitudinale deve essere aggiuntiva a quella impegnata in N–M.\n"
+[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0,00 kN (compressione negativa)\nVx / Vy = 200,00 / 0,00 kN\n\nDIREZIONE Vx\nbw = 800,00 mm · d = 509,91 mm\nVRsd (staffe) = 282,08 kN\nVRcd (puntone) = 1456,31 kN\ncot θ = 2,00\nGoverna: armatura trasversale\nVRd = 282,08 kN · η = 0,71\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600,00 mm · d = 708,00 mm\nVRsd (staffe) = 391,66 kN\nVRcd (puntone) = 1516,54 kN\ncot θ = 2,00\nGoverna: armatura trasversale\nVRd = 391,66 kN · η = 0,00\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTORSIONE · NTC §4.1.2.3.6\nTEd = 40 kNm\nAk = 256256 mm² · uk = 2064 mm · t = 184 mm · cot θ = 2\nTRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ)\nTRsd = 2 Ak (Asta/s) fyd cot θ · Asta = area di un ramo\nTRld = 2 Ak (As,l/uk) fyd / cot θ\nTRcd / TRsd / TRld = 374,065 / 157,51 / 24,291 kNm\nTRd = 24,291 kNm · ηT = 1,647\nAs,l richiesta per sola torsione = 823,343 mm²\nη calcestruzzo = |T|/TRcd + |Vx|/VRcd,x + |Vy|/VRcd,y = 0,244\nη staffe = |T|/TRsd + max(|Vx|/VRsd,x; |Vy|/VRsd,y) = 0,963\nTorsione / interazione non soddisfatta\nLa quota longitudinale deve essere aggiuntiva a quella impegnata in N–M.\n"
 [taglio] taglio sintesi "Taglio: 2/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 1 calcolate, 1 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0.85\nGoverna: Taglio 1\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0.25\nGoverna: Taglio 1\n2/2 combinazioni\nTorsione e interazione V–T\nNON VERIFICATA\nη = 1.65\nGoverna: Taglio 2\n1/1 combinazioni\n" · colori #FFE4C441 #FF397BCC #FFCB3939
+[taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0,85\nGoverna: Taglio 1\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0,25\nGoverna: Taglio 1\n2/2 combinazioni\nTorsione e interazione V–T\nNON VERIFICATA\nη = 1,65\nGoverna: Taglio 2\n1/1 combinazioni\n" · colori #FFE4C441 #FF397BCC #FFCB3939
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == campo taglio cot_x «2.5»
 dati 7AD75415EB8BC414 · byte 8625
@@ -1522,14 +1522,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "2.5"
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "60"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1566,12 +1566,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 1
-[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352.60","VRdy":"521.90","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.85","eta_y":"0.23","id":"<nuovo-4>","nome":"Taglio 1"}
+[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352,60","VRdy":"521,90","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,85","eta_y":"0,23","id":"<nuovo-4>","nome":"Taglio 1"}
 [taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"—","VRdy":"—","Vx":"200","Vy":"0","esito":"Torsione: modello implementato con staffe a 90°.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"<nuovo-5>","nome":"Taglio 2"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0.00 kN (compressione negativa)\nVx / Vy = 200.00 / 0.00 kN\n\nTorsione: modello implementato con staffe a 90°."
+[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0,00 kN (compressione negativa)\nVx / Vy = 200,00 / 0,00 kN\n\nTorsione: modello implementato con staffe a 90°."
 [taglio] taglio sintesi "Taglio: 1/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0.85\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.23\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0,85\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0,23\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == scelta taglio modello «Senza staffe»
 dati A20D1951C7887958 · byte 8627
@@ -1643,14 +1643,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Senza staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato"
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90" · spento
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "2.5" · spento
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "60" · spento
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = "" · spento
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1690,7 +1690,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"—","VRdy":"—","Vx":"300","Vy":"120","esito":"Asl ricavata dalla geometria: confermare l’ancoraggio efficace per la verifica senza staffe e per Model Code 2010.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"<nuovo-4>","nome":"Taglio 1"}
 [taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"—","VRdy":"—","Vx":"200","Vy":"0","esito":"Asl ricavata dalla geometria: confermare l’ancoraggio efficace per la verifica senza staffe e per Model Code 2010.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"<nuovo-5>","nome":"Taglio 2"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 2 · Senza staffe\nN = 0.00 kN (compressione negativa)\nVx / Vy = 200.00 / 0.00 kN\n\nAsl ricavata dalla geometria: confermare l’ancoraggio efficace per la verifica senza staffe e per Model Code 2010."
+[taglio] taglio dettaglio "Taglio 2 · Senza staffe\nN = 0,00 kN (compressione negativa)\nVx / Vy = 200,00 / 0,00 kN\n\nAsl ricavata dalla geometria: confermare l’ancoraggio efficace per la verifica senza staffe e per Model Code 2010."
 [taglio] taglio sintesi "Taglio: 0/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
 [taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
@@ -1764,14 +1764,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Senza staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Confermato" voci "Da verificare|Confermato"
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90" · spento
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "2.5" · spento
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "60" · spento
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = "" · spento
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1808,12 +1808,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 1
-[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"277.16","VRdy":"276.36","Vx":"300","Vy":"120","esito":"x: Resistenza insufficiente · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"1.08","eta_y":"0.43","id":"<nuovo-4>","nome":"Taglio 1"}
+[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"277,16","VRdy":"276,36","Vx":"300","Vy":"120","esito":"x: Resistenza insufficiente · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"1,08","eta_y":"0,43","id":"<nuovo-4>","nome":"Taglio 1"}
 [taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"—","VRdy":"—","Vx":"200","Vy":"0","esito":"Torsione: occorrono staffe resistenti chiuse.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"<nuovo-5>","nome":"Taglio 2"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 2 · Senza staffe\nN = 0.00 kN (compressione negativa)\nVx / Vy = 200.00 / 0.00 kN\n\nTorsione: occorrono staffe resistenti chiuse."
+[taglio] taglio dettaglio "Taglio 2 · Senza staffe\nN = 0,00 kN (compressione negativa)\nVx / Vy = 200,00 / 0,00 kN\n\nTorsione: occorrono staffe resistenti chiuse."
 [taglio] taglio sintesi "Taglio: 1/2 combinazioni calcolate · 1 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nNON VERIFICATA\nη = 1.08\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.43\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
+[taglio] riquadri taglio-peggiori "Taglio Vx\nNON VERIFICATA\nη = 1,08\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0,43\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FFCB3939 #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == scelta taglio modello «Con staffe»
 dati 82A76BA58A970538 · byte 8622
@@ -1885,14 +1885,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Confermato" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "2.5"
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "60"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1929,12 +1929,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "0" · nascosto · sola lettura
 [taglio] nota-automatici "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 1
-[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352.60","VRdy":"521.90","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.85","eta_y":"0.23","id":"<nuovo-4>","nome":"Taglio 1"}
+[taglio]   {"Mx":"0","My":"0","N":"-800","T":"0","VRdx":"352,60","VRdy":"521,90","Vx":"300","Vy":"120","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,85","eta_y":"0,23","id":"<nuovo-4>","nome":"Taglio 1"}
 [taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"—","VRdy":"—","Vx":"200","Vy":"0","esito":"Torsione: modello implementato con staffe a 90°.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"<nuovo-5>","nome":"Taglio 2"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0.00 kN (compressione negativa)\nVx / Vy = 200.00 / 0.00 kN\n\nTorsione: modello implementato con staffe a 90°."
+[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0,00 kN (compressione negativa)\nVx / Vy = 200,00 / 0,00 kN\n\nTorsione: modello implementato con staffe a 90°."
 [taglio] taglio sintesi "Taglio: 1/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0.85\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.23\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0,85\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0,23\nGoverna: Taglio 1\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == seleziona taglio [1]
 dati 82A76BA58A970538 · byte 8622
@@ -1958,14 +1958,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Confermato" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "2.5"
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "60"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -2017,14 +2017,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Confermato" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "2.5"
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "60"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -2063,7 +2063,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 1 · selezionata 0
 [taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"—","VRdy":"—","Vx":"200","Vy":"0","esito":"Torsione: modello implementato con staffe a 90°.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"<nuovo-5>","nome":"Taglio 2"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0.00 kN (compressione negativa)\nVx / Vy = 200.00 / 0.00 kN\n\nTorsione: modello implementato con staffe a 90°."
+[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0,00 kN (compressione negativa)\nVx / Vy = 200,00 / 0,00 kN\n\nTorsione: modello implementato con staffe a 90°."
 [taglio] taglio sintesi "Taglio: 0/1 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
 [taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
@@ -2148,14 +2148,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Confermato" voci "Da verificare|Confermato"
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "2.5"
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "60"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0"
@@ -2194,7 +2194,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 1 · selezionata 0
 [taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"—","VRdy":"—","Vx":"200","Vy":"0","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio Model Code 2010.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"<nuovo-5>","nome":"Taglio 2"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0.00 kN (compressione negativa)\nVx / Vy = 200.00 / 0.00 kN\n\nTorsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio Model Code 2010."
+[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0,00 kN (compressione negativa)\nVx / Vy = 200,00 / 0,00 kN\n\nTorsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio Model Code 2010."
 [taglio] taglio sintesi "Taglio: 0/1 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
 [taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
@@ -2272,14 +2272,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Confermato" voci "Da verificare|Confermato"
-[taglio]   campo bw_x "bw · x" = "800.00" · spento
-[taglio]   campo d_x "d utile · x" = "509.91" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "1168.67" · spento
+[taglio]   campo bw_x "bw · x" = "800,00" · spento
+[taglio]   campo d_x "d utile · x" = "509,91" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "1168,67" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "2.5"
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "708.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "1256.64" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "708,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "1256,64" · spento
 [taglio]   campo alpha_y "α staffa · y" = "60"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0"
@@ -2318,7 +2318,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 1 · selezionata 0
 [taglio]   {"Mx":"0","My":"0","N":"0","T":"40","VRdx":"—","VRdy":"—","Vx":"200","Vy":"0","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio Model Code 2010.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"<nuovo-5>","nome":"Taglio 2"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0.00 kN (compressione negativa)\nVx / Vy = 200.00 / 0.00 kN\n\nTorsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio Model Code 2010."
+[taglio] taglio dettaglio "Taglio 2 · Con staffe\nN = 0,00 kN (compressione negativa)\nVx / Vy = 200,00 / 0,00 kN\n\nTorsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio Model Code 2010."
 [taglio] taglio sintesi "Taglio: 0/1 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
 [taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""

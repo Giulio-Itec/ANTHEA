@@ -497,18 +497,18 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi]   campo fck_mpa "fck" = "35" · sola lettura
 [ingressi]   scelta cls_diagramma "Diagramma CLS" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
 [ingressi]   scelta gettato_sottile "Piano gettato in opera < 50 mm" = "No" voci "No|Sì"
-[ingressi]   campo __fcd "fcd" = "19.83" · sola lettura
-[ingressi]   campo __ecm "Ecm" = "34077.15" · sola lettura
-[ingressi]   campo __ec2 "εc,y (diagramma)" = "2.00" · sola lettura
-[ingressi]   campo __ecu "εc,u (diagramma)" = "3.50" · sola lettura
+[ingressi]   campo __fcd "fcd" = "19,83" · sola lettura
+[ingressi]   campo __ecm "Ecm" = "34077,15" · sola lettura
+[ingressi]   campo __ec2 "εc,y (diagramma)" = "2,00" · sola lettura
+[ingressi]   campo __ecu "εc,u (diagramma)" = "3,50" · sola lettura
 [ingressi]   scelta classe_acciaio "Acciaio da normativa" = "B450C" voci "B450A|B450C|Personalizzato"
 [ingressi]   campo fyk_mpa "fyk" = "450" · sola lettura
 [ingressi]   campo steel_modulus_mpa "Es" = "200000" · sola lettura
 [ingressi]   campo steel_fu_mpa "fu" = "540" · sola lettura
 [ingressi]   campo steel_eps_u "εu" = "75" · sola lettura
 [ingressi]   scelta steel_diagramma "Diagramma acciaio" = "Elastoplastico" voci "Elastoplastico|Incrudente"
-[ingressi]   campo __fyd "fyd" = "391.30" · sola lettura
-[ingressi]   campo n "Es / Ecm (riferimento)" = "5.87" · sola lettura
+[ingressi]   campo __fyd "fyd" = "391,30" · sola lettura
+[ingressi]   campo n "Es / Ecm (riferimento)" = "5,87" · sola lettura
 [ingressi]   campo __nmode "Viscosità" = "φ nelle schede SLE" · sola lettura
 [ingressi]   gruppo "Calcestruzzo" classe_cls|fck_mpa|cls_diagramma|gettato_sottile|__fcd|__ecm|__ec2|__ecu · aperto
 [ingressi]   gruppo "Acciaio per armature" classe_acciaio|fyk_mpa|steel_modulus_mpa|steel_fu_mpa|steel_eps_u|steel_diagramma|__fyd|n|__nmode · aperto
@@ -586,7 +586,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   2020.80 kNm\nMx−   -2020.80 kNm\nMy+   1320.34 kNm\nMy−   -1276.82 kNm" · nascosto · riquadri "Mx+ 2020.80 kNm | Mx− -2020.80 kNm | My+ 1320.34 kNm | My− -1276.82 kNm"
+[ingressi] rapide "Mx+   2020,80 kNm\nMx−   -2020,80 kNm\nMy+   1320,34 kNm\nMy−   -1276,82 kNm" · nascosto · riquadri "Mx+ 2020,80 kNm | Mx− -2020,80 kNm | My+ 1320,34 kNm | My− -1276,82 kNm"
 [ingressi] anteprima sezione Capsula 1000x1600 · Ac 1385319.3127331943 · As 7678.052445373454 · contorno 258 66C90C24EECC8822 · fori 0 · barre 24 24D09481D1930313 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 24 · selezionata -1
 [ingressi]   {"id":"B01","phi":"24","x":"409.999999","y":"0"}

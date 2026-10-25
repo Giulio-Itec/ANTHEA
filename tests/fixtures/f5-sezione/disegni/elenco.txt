@@ -7,7 +7,7 @@ circolare-cava ispezione 3D limite 800x650 · primitivi 279 BE500267FC4EB946
 circolare-cava piano 3D limite 800x650 · primitivi 66 DEF465C5F640DD3E
 circolare-cava ispezione 3D azione 800x650 · primitivi 279 42CFCBEDC3EDB994
 circolare-cava piano 3D azione 800x650 · primitivi 67 13F3EE25F6CA1BA3
-circolare-cava dominio 2D 900x700 · primitivi 124 EB59F2F909FCE58F
+circolare-cava dominio 2D 900x700 · primitivi 124 62C7B03368D638D2
 circolare-cava momento-curvatura 900x650 · primitivi 60 56A2BB078A5F2BAA
 corpus-sezione-ca-taglio-din-rettangolare sezione 900x700 · primitivi 117 4BF8C3AF1598FD2E
 corpus-sezione-ca-taglio-din-rettangolare taglio 700x600 · primitivi 79 A6DBA07A3362E478

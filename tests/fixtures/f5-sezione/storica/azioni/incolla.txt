@@ -21,11 +21,11 @@ risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 0
 [azioni] azioni SLE_QP · 0
 [azioni] azioni taglio · 0
@@ -52,7 +52,7 @@ stato "2 righe incollate · aggiornamento automatico in attesa…"
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 0
 [azioni] azioni SLE_QP · 0
 [azioni] azioni taglio · 0
@@ -63,12 +63,12 @@ risultato BF56BAB8430E348E
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 2
-[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.19","eta3d":"0.19","id":"<nuovo-1>","nome":"Combo A","visible":true}
-[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.24","id":"<nuovo-4>","nome":"Combo B","visible":true}
+[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,19","eta3d":"0,19","id":"<nuovo-1>","nome":"Combo A","visible":true}
+[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,24","id":"<nuovo-4>","nome":"Combo B","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 0
 [azioni] azioni SLE_QP · 0
 [azioni] azioni taglio · 0
@@ -86,7 +86,7 @@ stato "1 righe incollate · aggiornamento automatico in attesa…"
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 0
 [azioni] azioni SLE_QP · 0
 [azioni] azioni taglio · 0
@@ -97,13 +97,13 @@ risultato B8B833EA33D962E3
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 3
-[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.19","eta3d":"0.19","id":"<nuovo-1>","nome":"Combo A","visible":true}
-[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.24","id":"<nuovo-4>","nome":"Combo B","visible":true}
-[azioni]   {"Mx":"100","My":"10","N":"-800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.10","id":"<nuovo-5>","nome":"Combo C","visible":true}
+[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,19","eta3d":"0,19","id":"<nuovo-1>","nome":"Combo A","visible":true}
+[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,24","id":"<nuovo-4>","nome":"Combo B","visible":true}
+[azioni]   {"Mx":"100","My":"10","N":"-800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,10","id":"<nuovo-5>","nome":"Combo C","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 0
 [azioni] azioni SLE_QP · 0
 [azioni] azioni taglio · 0
@@ -148,13 +148,13 @@ risultato -
 stato "1 righe incollate · aggiornamento automatico in attesa…"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 3
-[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.19","eta3d":"0.19","id":"<nuovo-1>","nome":"Combo A","visible":true}
-[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.24","id":"<nuovo-4>","nome":"Combo B","visible":true}
-[azioni]   {"Mx":"100","My":"10","N":"-800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.10","id":"<nuovo-5>","nome":"Combo C","visible":true}
+[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,19","eta3d":"0,19","id":"<nuovo-1>","nome":"Combo A","visible":true}
+[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,24","id":"<nuovo-4>","nome":"Combo B","visible":true}
+[azioni]   {"Mx":"100","My":"10","N":"-800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,10","id":"<nuovo-5>","nome":"Combo C","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 0
 [azioni] azioni SLE_QP · 0
 [azioni] azioni taglio · 1
@@ -166,17 +166,17 @@ risultato AA32355D3A11A384
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 3
-[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.19","eta3d":"0.19","id":"<nuovo-1>","nome":"Combo A","visible":true}
-[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.24","id":"<nuovo-4>","nome":"Combo B","visible":true}
-[azioni]   {"Mx":"100","My":"10","N":"-800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.10","id":"<nuovo-5>","nome":"Combo C","visible":true}
+[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,19","eta3d":"0,19","id":"<nuovo-1>","nome":"Combo A","visible":true}
+[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,24","id":"<nuovo-4>","nome":"Combo B","visible":true}
+[azioni]   {"Mx":"100","My":"10","N":"-800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,10","id":"<nuovo-5>","nome":"Combo C","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 0
 [azioni] azioni SLE_QP · 0
 [azioni] azioni taglio · 1
-[azioni]   {"Mx":"0","My":"0","N":"-500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"100","Vy":"50","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.28","eta_y":"0.10","id":"<nuovo-6>","nome":"Taglio X"}
+[azioni]   {"Mx":"0","My":"0","N":"-500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"100","Vy":"50","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,28","eta_y":"0,10","id":"<nuovo-6>","nome":"Taglio X"}
 == incolla taglio aggiungi [0] «Taglio Y⇥-500⇥0⇥0⇥90⇥40⇥0»
 dati 89E3A85068E121F8 · byte 8784
   workspace_ca.taglio.azioni = [{"id":"<nuovo-6>","nome":"Taglio X","N":"-500","Mx":"0","My":"0","Vx":"100","Vy":"50","T":"0"},{"id":"<nuovo-7>","nome":"Taglio Y","N":"-500","Mx":"0","My":"0","Vx":"90","Vy":"40","T":"0"}]
@@ -185,13 +185,13 @@ risultato -
 stato "1 righe incollate · aggiornamento automatico in attesa…"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 3
-[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.19","eta3d":"0.19","id":"<nuovo-1>","nome":"Combo A","visible":true}
-[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.24","id":"<nuovo-4>","nome":"Combo B","visible":true}
-[azioni]   {"Mx":"100","My":"10","N":"-800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.10","id":"<nuovo-5>","nome":"Combo C","visible":true}
+[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,19","eta3d":"0,19","id":"<nuovo-1>","nome":"Combo A","visible":true}
+[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,24","id":"<nuovo-4>","nome":"Combo B","visible":true}
+[azioni]   {"Mx":"100","My":"10","N":"-800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,10","id":"<nuovo-5>","nome":"Combo C","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 0
 [azioni] azioni SLE_QP · 0
 [azioni] azioni taglio · 2
@@ -204,18 +204,18 @@ risultato 068261A962C2E6BD
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 3
-[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.19","eta3d":"0.19","id":"<nuovo-1>","nome":"Combo A","visible":true}
-[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.24","id":"<nuovo-4>","nome":"Combo B","visible":true}
-[azioni]   {"Mx":"100","My":"10","N":"-800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.10","id":"<nuovo-5>","nome":"Combo C","visible":true}
+[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,19","eta3d":"0,19","id":"<nuovo-1>","nome":"Combo A","visible":true}
+[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,24","id":"<nuovo-4>","nome":"Combo B","visible":true}
+[azioni]   {"Mx":"100","My":"10","N":"-800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,10","id":"<nuovo-5>","nome":"Combo C","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 0
 [azioni] azioni SLE_QP · 0
 [azioni] azioni taglio · 2
-[azioni]   {"Mx":"0","My":"0","N":"-500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"100","Vy":"50","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.28","eta_y":"0.10","id":"<nuovo-6>","nome":"Taglio X"}
-[azioni]   {"Mx":"0","My":"0","N":"-500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"90","Vy":"40","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.26","eta_y":"0.08","id":"<nuovo-7>","nome":"Taglio Y"}
+[azioni]   {"Mx":"0","My":"0","N":"-500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"100","Vy":"50","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,28","eta_y":"0,10","id":"<nuovo-6>","nome":"Taglio X"}
+[azioni]   {"Mx":"0","My":"0","N":"-500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"90","Vy":"40","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,26","eta_y":"0,08","id":"<nuovo-7>","nome":"Taglio Y"}
 == conferma
 dati 89E3A85068E121F8 · byte 8784
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
@@ -248,15 +248,15 @@ risultato 068261A962C2E6BD
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 3
-[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.19","eta3d":"0.19","id":"<nuovo-1>","nome":"Combo A","visible":true}
-[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.24","id":"<nuovo-4>","nome":"Combo B","visible":true}
-[azioni]   {"Mx":"100","My":"10","N":"-800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.10","id":"<nuovo-5>","nome":"Combo C","visible":true}
+[azioni]   {"Mx":"200","My":"30","N":"-1000","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,19","eta3d":"0,19","id":"<nuovo-1>","nome":"Combo A","visible":true}
+[azioni]   {"Mx":"250","My":"40","N":"-1200","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,24","id":"<nuovo-4>","nome":"Combo B","visible":true}
+[azioni]   {"Mx":"100","My":"10","N":"-800","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,10","id":"<nuovo-5>","nome":"Combo C","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","id":"<nuovo-2>","nome":"Combo 1","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0.99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20.73","sigma_s":"96.23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"500","My":"250","N":"-2500","esito":"Da calcolare","eta":"—","eta_sigma":"0,99","id":"<nuovo-3>","nome":"Combo 1","sigma_c":"-20,73","sigma_s":"96,23","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 0
 [azioni] azioni SLE_QP · 0
 [azioni] azioni taglio · 2
-[azioni]   {"Mx":"0","My":"0","N":"-500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"100","Vy":"50","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.28","eta_y":"0.10","id":"<nuovo-6>","nome":"Taglio X"}
-[azioni]   {"Mx":"0","My":"0","N":"-500","T":"0","VRdx":"352.60","VRdy":"489.58","Vx":"90","Vy":"40","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.26","eta_y":"0.08","id":"<nuovo-7>","nome":"Taglio Y"}
+[azioni]   {"Mx":"0","My":"0","N":"-500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"100","Vy":"50","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,28","eta_y":"0,10","id":"<nuovo-6>","nome":"Taglio X"}
+[azioni]   {"Mx":"0","My":"0","N":"-500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"90","Vy":"40","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,26","eta_y":"0,08","id":"<nuovo-7>","nome":"Taglio Y"}

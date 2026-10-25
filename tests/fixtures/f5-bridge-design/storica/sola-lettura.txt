@@ -259,10 +259,6 @@ ricerca.traccia: tentativi 0 · soluzioni 0 · riferimento - · variabile 2
 == limite campate-min «2»
 == obiettivo [1]
 == pulsante ricerca «Suggerisci campate dalla lunghezza»
-~ ricerca: obiettivo 0 · blocchi family=no spans=no depth=no section=no continuous=sì pier=no foundation=no · limiti campate-min="1" campate-max="17" altezza-min="0" altezza-max="0" altezza-da="100" altezza-a="115" altezza-passo="15" pali-da="100" pali-a="150" pali-passo="25" prime="10"
-~ ricerca.stato: "Intervallo suggerito dalle luci usuali e dalla lunghezza totale. Ostacoli e luce delle singole campate saranno controllati durante la ricerca."
-~ ricerca.nuvola: tentativi 0 · soluzioni 0 · riferimento 4A58F5A7A2B2941B · scelto 0 · tipologia - · pareto no
-~ ricerca.traccia: tentativi 0 · soluzioni 0 · riferimento 4A58F5A7A2B2941B · variabile 2
 == pulsante ricerca «Avvia ottimizzazione»
 == pulsante ricerca «Interrompi»
 == pulsante ricerca «Aggiorna elenco»

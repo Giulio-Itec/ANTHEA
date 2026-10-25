@@ -1207,7 +1207,6 @@ ricerca.traccia: tentativi 0 · soluzioni 0 · riferimento - · variabile 2
 + ingressi.2.11: testo [nota] "Tre campate simmetriche: L/4 + L/2 + L/4. Gli appoggi non vengono spostati per aggirare l’ostacolo."
 + ingressi.2.12: pulsante "Sezione automatica"
 ~ ingressi.3.0: testo "Antenne a due fusti quadrati: la quota sopra impalcato è nella Sezione. La dimensione pila imposta indica il lato del fusto; 0 = predimensionamento."
-~ ingressi.4.2: campo assumptions/gamma_q "Moltiplicatore traffico" = "abc" [—]
 == attendi
 ~ stato: "Dato numerico richiesto: assumptions.gamma_q." · errore
 == campo input/pier_size «4»
@@ -1228,6 +1227,7 @@ ricerca.traccia: tentativi 0 · soluzioni 0 · riferimento - · variabile 2
 ~ pagina: 0 · ingressi 0 · risultati 0
 ~ annulla: 0
 ~ disegno: sezione no · dati - · risultato -
+~ ingressi.4.2: campo assumptions/gamma_q "Moltiplicatore traffico" = "abc" [—]
 == conferma
 == attendi
 ~ calcolo: occupato no · risultato - · confronto - · alternative -

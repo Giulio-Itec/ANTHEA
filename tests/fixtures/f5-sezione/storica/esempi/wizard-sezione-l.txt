@@ -226,7 +226,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE schede -1 · fessurazione mostrata
+[sle] SLE schede 0 · fessurazione mostrata
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -258,7 +258,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -290,7 +290,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -438,13 +438,13 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [armature] ricerca scarti ""
 [armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
 [armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
-[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 3D ispezione valori ""
-[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione mappa sezione A L 1000x1200 · Ac 570000 · As 6911.503837897545 · contorno 6 D417BFB5235F34B5 · fori 0 · barre 22 2481FBCE34AAA1AD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 3D ispezione piano -
-[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 2D ispezione valori ""
-[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione mappa sezione A L 1000x1200 · Ac 570000 · As 6911.503837897545 · contorno 6 D417BFB5235F34B5 · fori 0 · barre 22 2481FBCE34AAA1AD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 2D ispezione piano -
 [ispezione] form curvatura
 [ispezione]   campo N "N costante (− compressione)" = "0"
@@ -641,8 +641,8 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
-[sle] tabella SLE · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] tabella SLE · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 0 · selezionata -1
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -673,8 +673,8 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
-[sle] tabella SLE_FREQ · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] tabella SLE_FREQ · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -706,7 +706,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -860,8 +860,8 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure · aperto
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
-[sle] tabella SLE · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] tabella SLE · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 0 · selezionata -1
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Nessuna combinazione selezionata"
 [sle] SLE passaggi "Selezionare una combinazione calcolata."
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -892,8 +892,8 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure · aperto
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
-[sle] tabella SLE_FREQ · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] tabella SLE_FREQ · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -925,7 +925,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure · aperto
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
 [sle] tabella SLE_QP · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -988,13 +988,13 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [taglio] taglio sezione sezione A L 1000x1200 · Ac 570000 · As 6911.503837897545 · contorno 6 D417BFB5235F34B5 · fori 0 · barre 22 2481FBCE34AAA1AD · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 [dettagli] invariata
 [armature] invariata
-[ispezione] 3D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione calcolata."
+[ispezione] 3D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 3D ispezione valori "Nessuna soluzione aggiornata disponibile."
-[ispezione] 3D ispezione mappa sezione A L 1000x1200 · Ac 570000 · As 6911.503837897545 · contorno 6 D417BFB5235F34B5 · fori 0 · barre 22 2481FBCE34AAA1AD · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione mappa sezione A L 1000x1200 · Ac 570000 · As 6911.503837897545 · contorno 6 D417BFB5235F34B5 · fori 0 · barre 22 2481FBCE34AAA1AD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 3D ispezione piano -
-[ispezione] 2D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione calcolata."
+[ispezione] 2D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 2D ispezione valori "Nessuna soluzione aggiornata disponibile."
-[ispezione] 2D ispezione mappa sezione A L 1000x1200 · Ac 570000 · As 6911.503837897545 · contorno 6 D417BFB5235F34B5 · fori 0 · barre 22 2481FBCE34AAA1AD · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione mappa sezione A L 1000x1200 · Ac 570000 · As 6911.503837897545 · contorno 6 D417BFB5235F34B5 · fori 0 · barre 22 2481FBCE34AAA1AD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 2D ispezione piano -
 [ispezione] form curvatura
 [ispezione]   campo N "N costante (− compressione)" = "0"
@@ -1287,7 +1287,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE schede -1 · fessurazione mostrata
+[sle] SLE schede 0 · fessurazione mostrata
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1319,7 +1319,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1351,7 +1351,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1414,13 +1414,13 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 [dettagli] invariata
 [armature] invariata
-[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 3D ispezione valori ""
-[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione mappa sezione A L 1000x1200 · Ac 570000 · As 6911.503837897545 · contorno 6 D417BFB5235F34B5 · fori 0 · barre 22 2481FBCE34AAA1AD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 3D ispezione piano -
-[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 2D ispezione valori ""
-[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione mappa sezione A L 1000x1200 · Ac 570000 · As 6911.503837897545 · contorno 6 D417BFB5235F34B5 · fori 0 · barre 22 2481FBCE34AAA1AD · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 2D ispezione piano -
 [ispezione] form curvatura
 [ispezione]   campo N "N costante (− compressione)" = "0"
@@ -1613,8 +1613,8 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
-[sle] tabella SLE · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] tabella SLE · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 0 · selezionata -1
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1645,8 +1645,8 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [sle]   gruppo "Verifiche SLE · ambiente e armatura" esposizione|sensibilita|durata|aderenza|limite_fessure · aperto
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
-[sle] tabella SLE_FREQ · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] tabella SLE_FREQ · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 0 · selezionata -1
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1678,7 +1678,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Elemento=elemento|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 0 · selezionata -1
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1

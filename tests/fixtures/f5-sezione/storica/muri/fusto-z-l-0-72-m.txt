@@ -296,7 +296,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"1.2021480000000002","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","id":"9648adf7bd5a45729d419ed23fc347cb","nome":"SLE 1 [SLE]","visible":true}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -329,7 +329,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 1 · selezionata 0
 [sle]   {"Mx":"0.770148","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","id":"5a7464dce1714c189f08b57b6b7be4cf","nome":"SLE_FREQ 2 [SLE_FREQ]","visible":true}
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -362,7 +362,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
 [sle]   {"Mx":"0.597348","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","id":"80e81bedb1ae429c9757db5db1efe475","nome":"Quasi permanente 3 [SLE_QP]","visible":true}
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -530,13 +530,13 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [armature] ricerca scarti ""
 [armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
 [armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
-[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 3D ispezione valori ""
-[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 3D ispezione piano -
-[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 2D ispezione valori ""
-[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 2D ispezione piano -
 [ispezione] form curvatura
 [ispezione]   campo N "N costante (− compressione)" = "0"
@@ -554,7 +554,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati D9EE32D7F6885E5B · byte 14446
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 6AAFD44A83052487
+risultato 0D9E22502203D8A8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -684,41 +684,41 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B08","phi":"12","x":"0","y":"-94"}
 [ingressi]   {"id":"B09","phi":"12","x":"227","y":"-94"}
 [ingressi]   {"id":"B10","phi":"12","x":"454","y":"-94"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.04\nGoverna: SLV Ribaltamento kv− 14 [SISMA]\n20/20 combinazioni\n2D · Plastico\nDA COMPLETARE\nη = 0.03\nGoverna: SLU 11 [SLU]\n14/20 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,04\nGoverna: SLV Ribaltamento kv− 14 [SISMA]\n20/20 combinazioni\n2D · Plastico\nDA COMPLETARE\nη = 0,03\nGoverna: SLU 11 [SLU]\n14/20 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\n" · colori #FF397BCC
-[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nVERIFICATA\nη = 6.34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\n" · colori #FF397BCC
-[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nVERIFICATA\nη = 5.82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3.92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0,02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\n" · colori #FF397BCC
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nVERIFICATA\nη = 6,34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\n" · colori #FF397BCC
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nVERIFICATA\nη = 5,82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3,92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nDA COMPLETARE\nη —\n—\n20/20 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n20/20 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 20
-[azioni]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[azioni]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[azioni]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[azioni]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
-[azioni]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
-[azioni]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
-[azioni]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
-[azioni]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
-[azioni]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
-[azioni]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
-[azioni]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
-[azioni]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[azioni]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
-[azioni]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
-[azioni]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
-[azioni]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
-[azioni]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
-[azioni]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
-[azioni]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
-[azioni]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
+[azioni]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5,84E-3","eta3d":"5,83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[azioni]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6,03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[azioni]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8,02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[azioni]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7,83E-3","eta3d":"7,82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[azioni]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
+[azioni]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
+[azioni]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
+[azioni]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
+[azioni]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
+[azioni]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
+[azioni]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
+[azioni]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
+[azioni]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
+[azioni]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
+[azioni]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
+[azioni]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
+[azioni]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
+[azioni]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
+[azioni]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
+[azioni]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
 [azioni] azioni SLV · 0
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"1.2021480000000002","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"0.02","id":"9648adf7bd5a45729d419ed23fc347cb","nome":"SLE 1 [SLE]","sigma_c":"-0.18","sigma_s":"5.83","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"1.2021480000000002","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"0,02","id":"9648adf7bd5a45729d419ed23fc347cb","nome":"SLE 1 [SLE]","sigma_c":"-0,18","sigma_s":"5,83","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 1
-[azioni]   {"Mx":"0.770148","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"5a7464dce1714c189f08b57b6b7be4cf","nome":"SLE_FREQ 2 [SLE_FREQ]","sigma_c":"-0.11","sigma_s":"2.43","stress_status":"Stato tensionale calcolato","visible":true,"wk":"2.54E-3 / 0.40 mm · η=6.34E-3"}
+[azioni]   {"Mx":"0.770148","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"5a7464dce1714c189f08b57b6b7be4cf","nome":"SLE_FREQ 2 [SLE_FREQ]","sigma_c":"-0,11","sigma_s":"2,43","stress_status":"Stato tensionale calcolato","visible":true,"wk":"2,54E-3 / 0,40 mm · η=6,34E-3"}
 [azioni] azioni SLE_QP · 1
-[azioni]   {"Mx":"0.597348","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"5.82E-3","id":"80e81bedb1ae429c9757db5db1efe475","nome":"Quasi permanente 3 [SLE_QP]","sigma_c":"-0.08","sigma_s":"1.22","stress_status":"Entro limiti tensionali","visible":true,"wk":"1.17E-3 / 0.30 mm · η=3.92E-3"}
+[azioni]   {"Mx":"0.597348","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"5,82E-3","id":"80e81bedb1ae429c9757db5db1efe475","nome":"Quasi permanente 3 [SLE_QP]","sigma_c":"-0,08","sigma_s":"1,22","stress_status":"Entro limiti tensionali","visible":true,"wk":"1,17E-3 / 0,30 mm · η=3,92E-3"}
 [azioni] azioni taglio · 20
 [azioni]   {"Mx":0.32761799999999985,"My":0,"N":-6.201,"T":0,"VRdx":"—","VRdy":"—","Vx":0,"Vy":1.5552,"esito":"Asl ricavata dalla geometria: confermare l’ancoraggio efficace per la verifica senza staffe e per Model Code 2010.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"3076bec92bb943969f2ee2a9ddd0a257","nome":"SLU 5 [SLU]"}
 [azioni]   {"Mx":0.3381479999999999,"My":0,"N":-4.77,"T":0,"VRdx":"—","VRdy":"—","Vx":0,"Vy":1.5552,"esito":"Asl ricavata dalla geometria: confermare l’ancoraggio efficace per la verifica senza staffe e per Model Code 2010.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"6101f16d901f495c8054bcb68bcc615b","nome":"SLU 4 [SLU]"}
@@ -756,28 +756,28 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 20 · selezionata 5
-[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
-[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
-[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
-[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
-[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
-[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
-[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
-[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
-[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
-[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
-[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
-[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
-[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
-[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
-[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
-[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
+[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
+[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
+[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
+[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
+[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6,03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5,84E-3","eta3d":"5,83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8,02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7,83E-3","eta3d":"7,82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
+[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
+[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
+[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
+[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
+[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
+[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
+[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
+[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
+[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
+[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
+[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.04\nGoverna: SLV Ribaltamento kv− 14 [SISMA]\n20/20 combinazioni\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF397BCC #FF9AA4AF
+[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0,04\nGoverna: SLV Ribaltamento kv− 14 [SISMA]\n20/20 combinazioni\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF397BCC #FF9AA4AF
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -798,28 +798,28 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 20 · selezionata 5
-[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
-[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
-[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
-[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
-[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
-[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
-[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
-[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
-[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
-[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
-[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
-[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
-[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
-[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
-[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
-[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
+[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
+[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
+[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
+[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
+[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6,03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5,84E-3","eta3d":"5,83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8,02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7,83E-3","eta3d":"7,82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
+[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
+[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
+[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
+[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
+[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
+[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
+[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
+[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
+[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
+[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
+[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
-[domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη = 0.03\nGoverna: SLU 11 [SLU]\n14/20 verifiche mancanti / non applicabili\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη = 0,03\nGoverna: SLU 11 [SLU]\n14/20 verifiche mancanti / non applicabili\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
 [domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
 [sle] famiglia 0
@@ -847,15 +847,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"1.2021480000000002","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"0.02","id":"9648adf7bd5a45729d419ed23fc347cb","nome":"SLE 1 [SLE]","sigma_c":"-0.18","sigma_s":"5.83","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"1.2021480000000002","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"0,02","id":"9648adf7bd5a45729d419ed23fc347cb","nome":"SLE 1 [SLE]","sigma_c":"-0,18","sigma_s":"5,83","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6.34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5.82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3.92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6,34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5,82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3,92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "18,27"
@@ -880,15 +880,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 1 · selezionata 0
-[sle]   {"Mx":"0.770148","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"5a7464dce1714c189f08b57b6b7be4cf","nome":"SLE_FREQ 2 [SLE_FREQ]","sigma_c":"-0.11","sigma_s":"2.43","stress_status":"Stato tensionale calcolato","visible":true,"wk":"2.54E-3 / 0.40 mm · η=6.34E-3"}
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle]   {"Mx":"0.770148","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"5a7464dce1714c189f08b57b6b7be4cf","nome":"SLE_FREQ 2 [SLE_FREQ]","sigma_c":"-0,11","sigma_s":"2,43","stress_status":"Stato tensionale calcolato","visible":true,"wk":"2,54E-3 / 0,40 mm · η=6,34E-3"}
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6.34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5.82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3.92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6,34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5,82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3,92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "18,27"
@@ -913,27 +913,27 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
-[sle]   {"Mx":"0.597348","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"5.82E-3","id":"80e81bedb1ae429c9757db5db1efe475","nome":"Quasi permanente 3 [SLE_QP]","sigma_c":"-0.08","sigma_s":"1.22","stress_status":"Entro limiti tensionali","visible":true,"wk":"1.17E-3 / 0.30 mm · η=3.92E-3"}
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle]   {"Mx":"0.597348","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"5,82E-3","id":"80e81bedb1ae429c9757db5db1efe475","nome":"Quasi permanente 3 [SLE_QP]","sigma_c":"-0,08","sigma_s":"1,22","stress_status":"Entro limiti tensionali","visible":true,"wk":"1,17E-3 / 0,30 mm · η=3,92E-3"}
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6.34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5.82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3.92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6,34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5,82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3,92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [taglio] form taglio
 [taglio]   scelta modello "Modello" = "Senza staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato"
-[taglio]   campo bw_x "bw · x" = "280.00" · spento
-[taglio]   campo d_x "d utile · x" = "954.00" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "226.19" · spento
+[taglio]   campo bw_x "bw · x" = "280,00" · spento
+[taglio]   campo d_x "d utile · x" = "954,00" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "226,19" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90" · spento
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "" · spento
-[taglio]   campo bw_y "bw · y" = "1000.00" · spento
-[taglio]   campo d_y "d utile · y" = "234.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "565.49" · spento
+[taglio]   campo bw_y "bw · y" = "1000,00" · spento
+[taglio]   campo d_y "d utile · y" = "234,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "565,49" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90" · spento
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = "" · spento
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1213,7 +1213,7 @@ dati C4FD8548D73FA7AE · byte 15169
   workspace_ca.taglio.azioni[19].Vy = "6.597632517225471"
   workspace_ca.taglio.azioni[19].T = "0"
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 6AAFD44A83052487
+risultato 0D9E22502203D8A8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1226,7 +1226,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == visita
 dati C4FD8548D73FA7AE · byte 15169
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato C25BC60AF46A763F
+risultato 165594E3BB38F938
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1246,28 +1246,28 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n · aperto
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 20 · selezionata 5
-[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
-[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
-[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
-[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
-[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
-[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
-[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
-[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
-[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
-[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
-[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
-[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
-[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
-[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
-[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
-[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
+[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
+[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
+[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
+[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
+[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6,03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5,84E-3","eta3d":"5,83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8,02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7,83E-3","eta3d":"7,82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
+[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
+[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
+[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
+[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
+[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
+[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
+[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
+[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
+[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
+[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
+[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
 [domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nSLU 5 [SLU]\n\nNEd = -6,20 kN\nMx,Ed = 0,33 kNm\nMy,Ed = 0,00 kNm\n\nη = 0,01\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -6,20 kN\nMx,Rd = 56,24 kNm\nMy,Rd = 0,00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -17,00 / 0,00 MPa\nσs min / max: 346,52 / 391,30 MPa\nεc min / max: -3,50 / 28,35 ‰\nεs min / max: 1,73 / 23,12 ‰\n\nd utile: 240,00 mm\nDistanza asse neutro dal lembo (GPC Engine): 30,77 mm\nInclinazione asse neutro: 2,88E-15°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -5183,33 … 442,44 kN\nMx: -200,62 … 200,62 kNm\nMy: -684,22 … 684,22 kNm\nEstremi campionati; non sono resistenze al N della riga."
-[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.04\nGoverna: SLV Ribaltamento kv− 14 [SISMA]\n20/20 combinazioni\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF397BCC #FF9AA4AF
+[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0,04\nGoverna: SLV Ribaltamento kv− 14 [SISMA]\n20/20 combinazioni\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF397BCC #FF9AA4AF
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh Plastic vertici 1570 883967964560BE4E triangoli 3136 EF5B97CED469EC60 scala AAE6A85765D3C22C
 [domini] 3D vista azioni 20 2A2BD3027A3E863E · selezionata 5 · Ed 1D71909F1A27AC71 · Rd D51A7E2D921FC9C4
@@ -1288,28 +1288,28 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli · aperto
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 20 · selezionata 5
-[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
-[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
-[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
-[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
-[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
-[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
-[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
-[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
-[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
-[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
-[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
-[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
-[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
-[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
-[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
-[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
+[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
+[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
+[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
+[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
+[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6,03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5,84E-3","eta3d":"5,83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8,02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7,83E-3","eta3d":"7,82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
+[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
+[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
+[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
+[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
+[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
+[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
+[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
+[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
+[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
+[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
+[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
 [domini] 2D dettaglio "Plastico · Mx–My · senza proiezione\n\nAZIONI · Locali\nSLU 5 [SLU]\n\nNEd = -6,20 kN\nMx,Ed = 0,33 kNm\nMy,Ed = 0,00 kNm\n\nη = 0,01\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -6,20 kN\nMx,Rd = 56,14 kNm\nMy,Rd = -0,00 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -17,00 / 0,00 MPa\nσs min / max: 346,52 / 391,30 MPa\nεc min / max: -3,50 / 28,35 ‰\nεs min / max: 1,73 / 23,12 ‰\n\nd utile: 240,00 mm\nDistanza asse neutro dal lembo (GPC Engine): 30,77 mm\nInclinazione asse neutro: 7,53E-15°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -6,20 … -6,20 kN\nMx: -56,14 … 56,14 kNm\nMy: -207,80 … 207,80 kNm\nEstremi campionati; non sono resistenze al N della riga."
-[domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη = 0.03\nGoverna: SLU 11 [SLU]\n14/20 verifiche mancanti / non applicabili\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη = 0,03\nGoverna: SLU 11 [SLU]\n14/20 verifiche mancanti / non applicabili\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
 [domini] 2D grafico "Plastico · Mx–My, N = -6,20 kN" · "Mx [kNm]" · "My [kNm]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 64 97168895CC8FFBD5 · verifiche 2 C8BDD7539A1607EA · punti 21 040B605759939D3E · scala 1/1
 [sle] famiglia 0
@@ -1337,8 +1337,8 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure · aperto
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"1.2021480000000002","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"0.02","id":"9648adf7bd5a45729d419ed23fc347cb","nome":"SLE 1 [SLE]","sigma_c":"-0.18","sigma_s":"5.83","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"1.2021480000000002","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"0,02","id":"9648adf7bd5a45729d419ed23fc347cb","nome":"SLE 1 [SLE]","sigma_c":"-0,18","sigma_s":"5,83","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Rara · Lineare\nSLE 1 [SLE] · assi Locali\nN = -4,77 kN\nMx / My = 1,20 / 0,00 kNm\n\nTENSIONI · NTC 2018\n|σc,comp| ≤ 18,00 MPa\nσs ≤ 360,00 MPa (armatura ordinaria)\nησ = 0,02\nEntro limiti tensionali\n\nSTATO ALL’AZIONE APPLICATA\nσc min / max: -0,18 / 0,00 MPa\nσs min / max: -1,44 / 5,83 MPa\nεc min / max: -0,02 / 0,04 ‰\nεs min / max: -7,18E-3 / 0,03 ‰\n\nd utile: 240,00 mm\nDistanza asse neutro dal lembo (GPC Engine): 83,18 mm\nInclinazione asse neutro: 8,32E-7°\n— indica dato non disponibile (es. deformazione uniforme).\n\nOMOGENEIZZAZIONE\nn armature = 18,27 · φ = 2,00\nn = Eacciaio (1 + φ) / Ec. Deformazioni incrementali da GPC Engine."
 [sle] SLE passaggi "Rara · SLE 1 [SLE]\n\nNon richiesta nella rara\r\nRiepilogo essenziale · NTC 2018\r\nDue decimali; notazione scientifica per valori molto piccoli. Deformazioni adimensionali. Traccia completa nel JSON.\r\n\r\n"
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 10 · selezionata -1
@@ -1359,7 +1359,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   {"id":"C4","strain":"-0,02","stress":"-0,18","x":"-500,00","y":"140,00"}
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni A12FEC9DDE245A98 · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda "-0,18 … 0,00 MPa"
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6.34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5.82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3.92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6,34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5,82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3,92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "18,27"
@@ -1384,15 +1384,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure · aperto
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 1 · selezionata 0
-[sle]   {"Mx":"0.770148","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"5a7464dce1714c189f08b57b6b7be4cf","nome":"SLE_FREQ 2 [SLE_FREQ]","sigma_c":"-0.11","sigma_s":"2.43","stress_status":"Stato tensionale calcolato","visible":true,"wk":"2.54E-3 / 0.40 mm · η=6.34E-3"}
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle]   {"Mx":"0.770148","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"5a7464dce1714c189f08b57b6b7be4cf","nome":"SLE_FREQ 2 [SLE_FREQ]","sigma_c":"-0,11","sigma_s":"2,43","stress_status":"Stato tensionale calcolato","visible":true,"wk":"2,54E-3 / 0,40 mm · η=6,34E-3"}
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6.34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5.82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3.92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6,34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5,82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3,92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "18,27"
@@ -1417,27 +1417,27 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure · aperto
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
-[sle]   {"Mx":"0.597348","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"5.82E-3","id":"80e81bedb1ae429c9757db5db1efe475","nome":"Quasi permanente 3 [SLE_QP]","sigma_c":"-0.08","sigma_s":"1.22","stress_status":"Entro limiti tensionali","visible":true,"wk":"1.17E-3 / 0.30 mm · η=3.92E-3"}
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle]   {"Mx":"0.597348","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"5,82E-3","id":"80e81bedb1ae429c9757db5db1efe475","nome":"Quasi permanente 3 [SLE_QP]","sigma_c":"-0,08","sigma_s":"1,22","stress_status":"Entro limiti tensionali","visible":true,"wk":"1,17E-3 / 0,30 mm · η=3,92E-3"}
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6.34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5.82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3.92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6,34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5,82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3,92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [taglio] form taglio
 [taglio]   scelta modello "Modello" = "Senza staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato"
-[taglio]   campo bw_x "bw · x" = "280.00" · spento
-[taglio]   campo d_x "d utile · x" = "954.00" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "226.19" · spento
+[taglio]   campo bw_x "bw · x" = "280,00" · spento
+[taglio]   campo d_x "d utile · x" = "954,00" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "226,19" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90" · spento
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "" · spento
-[taglio]   campo bw_y "bw · y" = "1000.00" · spento
-[taglio]   campo d_y "d utile · y" = "234.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "565.49" · spento
+[taglio]   campo bw_y "bw · y" = "1000,00" · spento
+[taglio]   campo d_y "d utile · y" = "234,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "565,49" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90" · spento
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = "" · spento
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1501,13 +1501,13 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio] taglio sezione sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 [dettagli] invariata
 [armature] invariata
-[ispezione] 3D ispezione scheda 0 · "Punto limite" · messaggio "Lettura del piano già calcolato al limite…"
+[ispezione] 3D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 3D ispezione valori "Nessuna soluzione aggiornata disponibile."
-[ispezione] 3D ispezione mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 3D ispezione piano -
-[ispezione] 2D ispezione scheda 0 · "Punto limite" · messaggio "Lettura del piano già calcolato al limite…"
+[ispezione] 2D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 2D ispezione valori "Nessuna soluzione aggiornata disponibile."
-[ispezione] 2D ispezione mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 2D ispezione piano -
 [ispezione] form curvatura
 [ispezione]   campo N "N costante (− compressione)" = "0"
@@ -1525,7 +1525,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati C4FD8548D73FA7AE · byte 15169
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato C25BC60AF46A763F
+risultato 165594E3BB38F938
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1538,7 +1538,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati C4FD8548D73FA7AE · byte 15169
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato C25BC60AF46A763F
+risultato 165594E3BB38F938
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1551,7 +1551,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == calcola
 dati C4FD8548D73FA7AE · byte 15169
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato C25BC60AF46A763F
+risultato 165594E3BB38F938
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1564,7 +1564,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati C4FD8548D73FA7AE · byte 15169
 modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato C25BC60AF46A763F
+risultato 165594E3BB38F938
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1871,7 +1871,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"1.2021480000000002","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","id":"9648adf7bd5a45729d419ed23fc347cb","nome":"SLE 1 [SLE]","visible":true}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1904,7 +1904,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 1 · selezionata 0
 [sle]   {"Mx":"0.770148","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","id":"5a7464dce1714c189f08b57b6b7be4cf","nome":"SLE_FREQ 2 [SLE_FREQ]","visible":true}
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1937,7 +1937,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
 [sle]   {"Mx":"0.597348","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","id":"80e81bedb1ae429c9757db5db1efe475","nome":"Quasi permanente 3 [SLE_QP]","visible":true}
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -2020,13 +2020,13 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 [dettagli] invariata
 [armature] invariata
-[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 3D ispezione valori ""
-[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 3D ispezione piano -
-[ispezione] 2D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 2D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 2D ispezione valori ""
-[ispezione] 2D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 2D ispezione piano -
 [ispezione] form curvatura
 [ispezione]   campo N "N costante (− compressione)" = "0"
@@ -2044,7 +2044,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati C4FD8548D73FA7AE · byte 15169
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato C25BC60AF46A763F
+risultato 165594E3BB38F938
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -2174,41 +2174,41 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B08","phi":"12","x":"0","y":"-94"}
 [ingressi]   {"id":"B09","phi":"12","x":"227","y":"-94"}
 [ingressi]   {"id":"B10","phi":"12","x":"454","y":"-94"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.04\nGoverna: SLV Ribaltamento kv− 14 [SISMA]\n20/20 combinazioni\n2D · Plastico\nDA COMPLETARE\nη = 0.03\nGoverna: SLU 11 [SLU]\n14/20 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,04\nGoverna: SLV Ribaltamento kv− 14 [SISMA]\n20/20 combinazioni\n2D · Plastico\nDA COMPLETARE\nη = 0,03\nGoverna: SLU 11 [SLU]\n14/20 verifiche mancanti / non applicabili\n" · colori #FF397BCC #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\n" · colori #FF397BCC
-[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nVERIFICATA\nη = 6.34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\n" · colori #FF397BCC
-[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nVERIFICATA\nη = 5.82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3.92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0,02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\n" · colori #FF397BCC
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nVERIFICATA\nη = 6,34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\n" · colori #FF397BCC
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nVERIFICATA\nη = 5,82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3,92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nDA COMPLETARE\nη —\n—\n20/20 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n20/20 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 20
-[azioni]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[azioni]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[azioni]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[azioni]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
-[azioni]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
-[azioni]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
-[azioni]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
-[azioni]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
-[azioni]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
-[azioni]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
-[azioni]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
-[azioni]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[azioni]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
-[azioni]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
-[azioni]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
-[azioni]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
-[azioni]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
-[azioni]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
-[azioni]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
-[azioni]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
+[azioni]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5,84E-3","eta3d":"5,83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[azioni]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6,03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[azioni]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8,02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[azioni]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7,83E-3","eta3d":"7,82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[azioni]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
+[azioni]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
+[azioni]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
+[azioni]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
+[azioni]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
+[azioni]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
+[azioni]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
+[azioni]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
+[azioni]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
+[azioni]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
+[azioni]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
+[azioni]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
+[azioni]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
+[azioni]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
+[azioni]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
+[azioni]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
 [azioni] azioni SLV · 0
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"1.2021480000000002","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"0.02","id":"9648adf7bd5a45729d419ed23fc347cb","nome":"SLE 1 [SLE]","sigma_c":"-0.18","sigma_s":"5.83","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"1.2021480000000002","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"0,02","id":"9648adf7bd5a45729d419ed23fc347cb","nome":"SLE 1 [SLE]","sigma_c":"-0,18","sigma_s":"5,83","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 1
-[azioni]   {"Mx":"0.770148","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"5a7464dce1714c189f08b57b6b7be4cf","nome":"SLE_FREQ 2 [SLE_FREQ]","sigma_c":"-0.11","sigma_s":"2.43","stress_status":"Stato tensionale calcolato","visible":true,"wk":"2.54E-3 / 0.40 mm · η=6.34E-3"}
+[azioni]   {"Mx":"0.770148","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"5a7464dce1714c189f08b57b6b7be4cf","nome":"SLE_FREQ 2 [SLE_FREQ]","sigma_c":"-0,11","sigma_s":"2,43","stress_status":"Stato tensionale calcolato","visible":true,"wk":"2,54E-3 / 0,40 mm · η=6,34E-3"}
 [azioni] azioni SLE_QP · 1
-[azioni]   {"Mx":"0.597348","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"5.82E-3","id":"80e81bedb1ae429c9757db5db1efe475","nome":"Quasi permanente 3 [SLE_QP]","sigma_c":"-0.08","sigma_s":"1.22","stress_status":"Entro limiti tensionali","visible":true,"wk":"1.17E-3 / 0.30 mm · η=3.92E-3"}
+[azioni]   {"Mx":"0.597348","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"5,82E-3","id":"80e81bedb1ae429c9757db5db1efe475","nome":"Quasi permanente 3 [SLE_QP]","sigma_c":"-0,08","sigma_s":"1,22","stress_status":"Entro limiti tensionali","visible":true,"wk":"1,17E-3 / 0,30 mm · η=3,92E-3"}
 [azioni] azioni taglio · 20
 [azioni]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","T":"0","VRdx":"—","VRdy":"—","Vx":"0","Vy":"1.5552","esito":"Asl ricavata dalla geometria: confermare l’ancoraggio efficace per la verifica senza staffe e per Model Code 2010.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"3076bec92bb943969f2ee2a9ddd0a257","nome":"SLU 5 [SLU]"}
 [azioni]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","T":"0","VRdx":"—","VRdy":"—","Vx":"0","Vy":"1.5552","esito":"Asl ricavata dalla geometria: confermare l’ancoraggio efficace per la verifica senza staffe e per Model Code 2010.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"6101f16d901f495c8054bcb68bcc615b","nome":"SLU 4 [SLU]"}
@@ -2246,28 +2246,28 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 20 · selezionata 5
-[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
-[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
-[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
-[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
-[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
-[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
-[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
-[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
-[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
-[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
-[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
-[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
-[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
-[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
-[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
-[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
+[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
+[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
+[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
+[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
+[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6,03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5,84E-3","eta3d":"5,83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8,02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7,83E-3","eta3d":"7,82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
+[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
+[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
+[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
+[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
+[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
+[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
+[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
+[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
+[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
+[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
+[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.04\nGoverna: SLV Ribaltamento kv− 14 [SISMA]\n20/20 combinazioni\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF397BCC #FF9AA4AF
+[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0,04\nGoverna: SLV Ribaltamento kv− 14 [SISMA]\n20/20 combinazioni\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF397BCC #FF9AA4AF
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -2288,28 +2288,28 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 20 · selezionata 5
-[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
-[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
-[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
-[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
-[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6.03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
-[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5.84E-3","eta3d":"5.83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
-[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8.02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
-[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7.83E-3","eta3d":"7.82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
-[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
-[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
-[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
-[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0.03","eta3d":"0.03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
-[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
-[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
-[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
-[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
-[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
-[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
-[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
-[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
+[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"86998d1715ed427487d61feebb8518b8","nome":"SLU 10 [SLU]","visible":true}
+[domini]   {"Mx":"1.7461223999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"e1194da1082e4b1889b55c005c9cdc2b","nome":"SLU 10b [SLU]","visible":true}
+[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"75222b8aa29a4b63b0691af1c88f8213","nome":"SLU 11 [SLU]","visible":true}
+[domini]   {"Mx":"1.7355923999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a6b2a62509334a8bb8f76c58a5da9b44","nome":"SLU 11b [SLU]","visible":true}
+[domini]   {"Mx":"0.3381479999999999","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"6,03E-3","id":"75655930034f4afeadf8de5ef32158c3","nome":"SLU 4 [SLU]","visible":true}
+[domini]   {"Mx":"0.32761799999999985","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"5,84E-3","eta3d":"5,83E-3","id":"c380bc1af04f444ab0437a4d474fe8c1","nome":"SLU 5 [SLU]","visible":true}
+[domini]   {"Mx":"0.4501224","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"8,02E-3","id":"8a52eaa099b14681862c6dae6719faee","nome":"SLU 6 [SLU]","visible":true}
+[domini]   {"Mx":"0.43959239999999994","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"7,83E-3","eta3d":"7,82E-3","id":"b106933c82ca45f8970a148ebaaad8b1","nome":"SLU 7 [SLU]","visible":true}
+[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"9986513ed86c4547b039c43f35030b5e","nome":"SLU 8 [SLU]","visible":true}
+[domini]   {"Mx":"1.6341479999999995","My":"0","N":"-4.77","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"8911eb822f9a479785f2bf488d91bf0b","nome":"SLU 8b [SLU]","visible":true}
+[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"6e6595de5f5842ba9c6fd8324c0bf1e9","nome":"SLU 9 [SLU]","visible":true}
+[domini]   {"Mx":"1.6236179999999996","My":"0","N":"-6.201","esito":"Da calcolare","esito2d":"Entro il dominio","esito3d":"Entro il dominio","eta":"—","eta2d":"0,03","eta3d":"0,03","id":"a732ec93dc8745538f1c625581121ce7","nome":"SLU 9b [SLU]","visible":true}
+[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"bf35095a4746454487eb3ae31d4c62c4","nome":"SLV Generale kv+ 13 [SISMA]","visible":true}
+[domini]   {"Mx":"1.581611238947866","My":"0","N":"-4.4781714","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"457b923bff0d43ffb89c03b16c487d83","nome":"SLV Generale kv+ 13b [SISMA]","visible":true}
+[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"5ec6869e95bd4f80ab6f7d413920c482","nome":"SLV Generale kv− 12 [SISMA]","visible":true}
+[domini]   {"Mx":"1.6428024174912161","My":"0","N":"-5.061828599999999","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,03","id":"188ce590074740c1b590b2e9061ab565","nome":"SLV Generale kv− 12b [SISMA]","visible":true}
+[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"6129dc6cd4764112a11b7d3156937cb6","nome":"SLV Ribaltamento kv+ 15 [SISMA]","visible":true}
+[domini]   {"Mx":"2.1678246216811696","My":"0","N":"-4.3322571","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"010c58d57a824f6e9cf7db5aa3cce4c5","nome":"SLV Ribaltamento kv+ 15b [SISMA]","visible":true}
+[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"d93d8ecf979e4319864a5269686a2453","nome":"SLV Ribaltamento kv− 14 [SISMA]","visible":true}
+[domini]   {"Mx":"2.230948465359547","My":"0","N":"-5.2077428999999995","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,04","id":"607f038ae547402cbd7b30f1c5ab5b2d","nome":"SLV Ribaltamento kv− 14b [SISMA]","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
-[domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη = 0.03\nGoverna: SLU 11 [SLU]\n14/20 verifiche mancanti / non applicabili\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] riquadri 2D-riepilogo "2D · Plastico\nDA COMPLETARE\nη = 0,03\nGoverna: SLU 11 [SLU]\n14/20 verifiche mancanti / non applicabili\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
 [domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
 [sle] famiglia 0
@@ -2337,15 +2337,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"1.2021480000000002","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"0.02","id":"9648adf7bd5a45729d419ed23fc347cb","nome":"SLE 1 [SLE]","sigma_c":"-0.18","sigma_s":"5.83","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"1.2021480000000002","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"0,02","id":"9648adf7bd5a45729d419ed23fc347cb","nome":"SLE 1 [SLE]","sigma_c":"-0,18","sigma_s":"5,83","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6.34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5.82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3.92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6,34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5,82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3,92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "18,27"
@@ -2370,15 +2370,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 1 · selezionata 0
-[sle]   {"Mx":"0.770148","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"5a7464dce1714c189f08b57b6b7be4cf","nome":"SLE_FREQ 2 [SLE_FREQ]","sigma_c":"-0.11","sigma_s":"2.43","stress_status":"Stato tensionale calcolato","visible":true,"wk":"2.54E-3 / 0.40 mm · η=6.34E-3"}
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle]   {"Mx":"0.770148","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"5a7464dce1714c189f08b57b6b7be4cf","nome":"SLE_FREQ 2 [SLE_FREQ]","sigma_c":"-0,11","sigma_s":"2,43","stress_status":"Stato tensionale calcolato","visible":true,"wk":"2,54E-3 / 0,40 mm · η=6,34E-3"}
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6.34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5.82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3.92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6,34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5,82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3,92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "18,27"
@@ -2403,27 +2403,27 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
-[sle]   {"Mx":"0.597348","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"5.82E-3","id":"80e81bedb1ae429c9757db5db1efe475","nome":"Quasi permanente 3 [SLE_QP]","sigma_c":"-0.08","sigma_s":"1.22","stress_status":"Entro limiti tensionali","visible":true,"wk":"1.17E-3 / 0.30 mm · η=3.92E-3"}
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle]   {"Mx":"0.597348","My":"0","N":"-4.77","esito":"Da calcolare","eta":"—","eta_sigma":"5,82E-3","id":"80e81bedb1ae429c9757db5db1efe475","nome":"Quasi permanente 3 [SLE_QP]","sigma_c":"-0,08","sigma_s":"1,22","stress_status":"Entro limiti tensionali","visible":true,"wk":"1,17E-3 / 0,30 mm · η=3,92E-3"}
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Rettangolare 1000x280 · Ac 280000 · As 1130.9733552923256 · contorno 4 AE998063F3F5EF48 · fori 0 · barre 10 92809C4A5CE33131 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6.34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5.82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3.92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,02\nGoverna: SLE 1 [SLE]\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 6,34E-3\nGoverna: SLE_FREQ 2 [SLE_FREQ]\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 5,82E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 3,92E-3\nGoverna: Quasi permanente 3 [SLE_QP]\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [taglio] form taglio
 [taglio]   scelta modello "Modello" = "Senza staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato"
-[taglio]   campo bw_x "bw · x" = "280.00" · spento
-[taglio]   campo d_x "d utile · x" = "954.00" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "226.19" · spento
+[taglio]   campo bw_x "bw · x" = "280,00" · spento
+[taglio]   campo d_x "d utile · x" = "954,00" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "226,19" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90" · spento
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = "" · spento
-[taglio]   campo bw_y "bw · y" = "1000.00" · spento
-[taglio]   campo d_y "d utile · y" = "234.00" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "565.49" · spento
+[taglio]   campo bw_y "bw · y" = "1000,00" · spento
+[taglio]   campo d_y "d utile · y" = "234,00" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "565,49" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90" · spento
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = "" · spento
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -2491,7 +2491,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati C4FD8548D73FA7AE · byte 15169
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato C25BC60AF46A763F
+risultato 165594E3BB38F938
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata

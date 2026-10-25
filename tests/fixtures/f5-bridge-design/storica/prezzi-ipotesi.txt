@@ -538,7 +538,7 @@ ricerca.traccia: tentativi 0 · soluzioni 0 · riferimento - · variabile 2
 ~ modificato: 6
 ~ stato: "Dati modificati · aggiornamento automatico in attesa…"
 ~ annulla: 4
-~ pannello.ipotesi.1: campo assumptions/prelims "Oneri aggiuntivi non computati" = "12" [%] · errore
+~ pannello.ipotesi.1: campo assumptions/prelims "Oneri aggiuntivi non computati" = "12" [%]
 == attendi
 ~ calcolo: occupato no · risultato 440B422565F4233E · confronto nessuno · alternative Cls a ridotta impronta|Banchine a 1,0 m|Una campata in meno
 ~ stato: "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO."
@@ -1272,7 +1272,6 @@ ricerca.traccia: tentativi 0 · soluzioni 0 · riferimento - · variabile 2
 ~ pannello.quantita: -
 ~ pannello.dettagli: -
 ~ pannello.confronto: -
-~ pannello.ipotesi.1: campo assumptions/prelims "Oneri aggiuntivi non computati" = "12" [%]
 ~ pannello.quote: -
 ~ pannello.consigli: -
 - pannello.quantita.0

@@ -327,12 +327,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B12","phi":"16","x":"212","y":"-104"}
 [ingressi]   {"id":"B13","phi":"16","x":"-212","y":"104"}
 [ingressi]   {"id":"B14","phi":"16","x":"212","y":"104"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nDA COMPLETARE\nη = 0.21\nGoverna: SLU completa\n2/3 verifiche mancanti / non applicabili\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nDA COMPLETARE\nη = 0,21\nGoverna: SLU completa\n2/3 verifiche mancanti / non applicabili\n2D · Plastico\nDA COMPLETARE\nη —\n—\n3/3 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [ingressi] riquadri riepilogo-SLV "3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n2D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.15\nGoverna: Rara\n1/1 combinazioni\n" · colori #FF397BCC
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0,15\nGoverna: Rara\n1/1 combinazioni\n" · colori #FF397BCC
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nQuasi permanente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
-[ingressi] riquadri riepilogo-taglio "Taglio Vx\nDA COMPLETARE\nη = 0.85\nGoverna: Taglio e torsione\n1/3 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.31\nGoverna: Taglio e torsione\n1/3 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nNON VERIFICATA\nη = 1.30\nGoverna: Taglio e torsione\n1/1 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF #FFCB3939
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nDA COMPLETARE\nη = 0,85\nGoverna: Taglio e torsione\n1/3 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0,31\nGoverna: Taglio e torsione\n1/3 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nNON VERIFICATA\nη = 1,30\nGoverna: Taglio e torsione\n1/1 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF #FFCB3939
 [domini] form 3D
 [domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
 [domini]   scelta criterio "Ricerca resistenza" = "N costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
@@ -349,11 +349,11 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 3 · selezionata 0
-[domini]   {"Mx":"200","My":"50","N":"-1000","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.21","id":"510000010f514a008000000000000001","nome":"SLU completa","visible":true}
+[domini]   {"Mx":"200","My":"50","N":"-1000","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,21","id":"510000010f514a008000000000000001","nome":"SLU completa","visible":true}
 [domini]   {"Mx":"150","My":"20","N":"","esito":"Da calcolare","esito2d":"Checker: N: inserire un numero finito.","esito3d":"Checker: N: inserire un numero finito.","eta":"—","eta2d":"—","eta3d":"—","id":"510000020f514a008000000000000002","nome":"SLU senza N","visible":true}
 [domini]   {"Mx":"abc","My":"0","N":"-500","esito":"Da calcolare","esito2d":"Checker: Mx: inserire un numero finito.","esito3d":"Checker: Mx: inserire un numero finito.","eta":"—","eta2d":"—","eta3d":"—","id":"510000030f514a008000000000000003","nome":"SLU testo","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · Plastico\nDA COMPLETARE\nη = 0.21\nGoverna: SLU completa\n2/3 verifiche mancanti / non applicabili\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] riquadri 3D-riepilogo "3D · Plastico\nDA COMPLETARE\nη = 0,21\nGoverna: SLU completa\n2/3 verifiche mancanti / non applicabili\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -374,7 +374,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 3 · selezionata 0
-[domini]   {"Mx":"200","My":"50","N":"-1000","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.21","id":"510000010f514a008000000000000001","nome":"SLU completa","visible":true}
+[domini]   {"Mx":"200","My":"50","N":"-1000","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,21","id":"510000010f514a008000000000000001","nome":"SLU completa","visible":true}
 [domini]   {"Mx":"150","My":"20","N":"","esito":"Da calcolare","esito2d":"Checker: N: inserire un numero finito.","esito3d":"Checker: N: inserire un numero finito.","eta":"—","eta2d":"—","eta3d":"—","id":"510000020f514a008000000000000002","nome":"SLU senza N","visible":true}
 [domini]   {"Mx":"abc","My":"0","N":"-500","esito":"Da calcolare","esito2d":"Checker: Mx: inserire un numero finito.","esito3d":"Checker: Mx: inserire un numero finito.","eta":"—","eta2d":"—","eta3d":"—","id":"510000030f514a008000000000000003","nome":"SLU testo","visible":true}
 [domini] 2D dettaglio "Selezionare una combinazione"
@@ -405,11 +405,11 @@ messaggio "report completo disponibile"
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 3 · selezionata 0
-[domini]   {"Mx":"200","My":"50","N":"-1000","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.21","id":"510000010f514a008000000000000001","nome":"SLU completa","visible":true}
+[domini]   {"Mx":"200","My":"50","N":"-1000","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,21","id":"510000010f514a008000000000000001","nome":"SLU completa","visible":true}
 [domini]   {"Mx":"150","My":"20","N":"","esito":"Da calcolare","esito2d":"Checker: N: inserire un numero finito.","esito3d":"Checker: N: inserire un numero finito.","eta":"—","eta2d":"—","eta3d":"—","id":"510000020f514a008000000000000002","nome":"SLU senza N","visible":true}
 [domini]   {"Mx":"abc","My":"0","N":"-500","esito":"Da calcolare","esito2d":"Checker: Mx: inserire un numero finito.","esito3d":"Checker: Mx: inserire un numero finito.","eta":"—","eta2d":"—","eta3d":"—","id":"510000030f514a008000000000000003","nome":"SLU testo","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · Plastico\nDA COMPLETARE\nη = 0.21\nGoverna: SLU completa\n2/3 verifiche mancanti / non applicabili\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
+[domini] riquadri 3D-riepilogo "3D · Plastico\nDA COMPLETARE\nη = 0,21\nGoverna: SLU completa\n2/3 verifiche mancanti / non applicabili\n3D · Elastico\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -430,7 +430,7 @@ messaggio "report completo disponibile"
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 3 · selezionata 0
-[domini]   {"Mx":"200","My":"50","N":"-1000","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0.21","id":"510000010f514a008000000000000001","nome":"SLU completa","visible":true}
+[domini]   {"Mx":"200","My":"50","N":"-1000","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,21","id":"510000010f514a008000000000000001","nome":"SLU completa","visible":true}
 [domini]   {"Mx":"150","My":"20","N":"","esito":"Da calcolare","esito2d":"Checker: N: inserire un numero finito.","esito3d":"Checker: N: inserire un numero finito.","eta":"—","eta2d":"—","eta3d":"—","id":"510000020f514a008000000000000002","nome":"SLU senza N","visible":true}
 [domini]   {"Mx":"abc","My":"0","N":"-500","esito":"Da calcolare","esito2d":"Checker: Mx: inserire un numero finito.","esito3d":"Checker: Mx: inserire un numero finito.","eta":"—","eta2d":"—","eta3d":"—","id":"510000030f514a008000000000000003","nome":"SLU testo","visible":true}
 [domini] 2D dettaglio "Plastico · Mx–My · senza proiezione\n\nAZIONI · Locali\nSLU completa\n\nNEd = -1000,00 kN\nMx,Ed = 200,00 kNm\nMy,Ed = 50,00 kNm\n\nη = —\nFuori dal piano selezionato\n\nESTREMI CURVA\nN: 1000,00 … 1000,00 kN\nMx: -133,30 … 484,44 kNm\nMy: -233,33 … 233,33 kNm\nEstremi campionati; non sono resistenze al N della riga."

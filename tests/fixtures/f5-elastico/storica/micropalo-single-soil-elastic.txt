@@ -330,7 +330,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno risultato · quota -
 selezione ""
-sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · ""
 dettaglio "Nessuna quota selezionata. Fare clic sul profilo o su un diagramma: la linea arancione identifica la sezione trasversale."
 estremi "Residui ΣF=2,618E-11 kN, ΣM=6,515E-11 kNm; reazioni C testa=0 kNm, H punta=0 kNm, C punta=0 kNm.\nMesh 20 / 40 · Δy=0,0061%, ΔM=0,0004%, ΔV=0,0000%\ny [m]: min -0,0037177 a x=2,8638; max 0,114284 a x=0; |max|=0,114284 a x=0 m.\ntheta [rad]: min -0,0853355 a x=0; max 0,00273318 a x=3,571; |max|=0,0853355 a x=0 m.\nN [kN]: min 0 a x=0; max 2,59834 a x=10; |max|=2,59834 a x=10 m.\nV [kN]: min -42,635 a x=2,1518; max 100 a x=0; |max|=100 a x=0 m.\nM [kNm]: min -3,13064 a x=4,2642; max 68,9023 a x=1,186; |max|=68,9023 a x=1,186 m.\nq [kN/m]: min -109,324 a x=0,77826; max 29,1249 a x=3,0172; |max|=109,324 a x=0,77826 m."
 tabella righe 380 4D21D34D1CA89662 · csv sì
@@ -412,7 +412,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno risultato · quota -
 selezione ""
-sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · ""
 dettaglio "Nessuna quota selezionata. Fare clic sul profilo o su un diagramma: la linea arancione identifica la sezione trasversale."
 estremi "Residui ΣF=2,618E-11 kN, ΣM=6,515E-11 kNm; reazioni C testa=0 kNm, H punta=0 kNm, C punta=0 kNm.\nMesh 20 / 40 · Δy=0,0061%, ΔM=0,0004%, ΔV=0,0000%\ny [m]: min -0,0037177 a x=2,8638; max 0,114284 a x=0; |max|=0,114284 a x=0 m.\ntheta [rad]: min -0,0853355 a x=0; max 0,00273318 a x=3,571; |max|=0,0853355 a x=0 m.\nN [kN]: min 0 a x=0; max 2,59834 a x=10; |max|=2,59834 a x=10 m.\nV [kN]: min -42,635 a x=2,1518; max 100 a x=0; |max|=100 a x=0 m.\nM [kNm]: min -3,13064 a x=4,2642; max 68,9023 a x=1,186; |max|=68,9023 a x=1,186 m.\nq [kN/m]: min -109,324 a x=0,77826; max 29,1249 a x=3,0172; |max|=109,324 a x=0,77826 m."
 tabella righe 380 4D21D34D1CA89662 · csv sì
@@ -494,7 +494,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno risultato · quota -
 selezione ""
-sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · ""
 dettaglio "Nessuna quota selezionata. Fare clic sul profilo o su un diagramma: la linea arancione identifica la sezione trasversale."
 estremi "Residui ΣF=2,618E-11 kN, ΣM=6,515E-11 kNm; reazioni C testa=0 kNm, H punta=0 kNm, C punta=0 kNm.\nMesh 20 / 40 · Δy=0,0061%, ΔM=0,0004%, ΔV=0,0000%\ny [m]: min -0,0037177 a x=2,8638; max 0,114284 a x=0; |max|=0,114284 a x=0 m.\ntheta [rad]: min -0,0853355 a x=0; max 0,00273318 a x=3,571; |max|=0,0853355 a x=0 m.\nN [kN]: min 0 a x=0; max 2,59834 a x=10; |max|=2,59834 a x=10 m.\nV [kN]: min -42,635 a x=2,1518; max 100 a x=0; |max|=100 a x=0 m.\nM [kNm]: min -3,13064 a x=4,2642; max 68,9023 a x=1,186; |max|=68,9023 a x=1,186 m.\nq [kN/m]: min -109,324 a x=0,77826; max 29,1249 a x=3,0172; |max|=109,324 a x=0,77826 m."
 tabella righe 380 4D21D34D1CA89662 · csv sì
@@ -734,7 +734,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno risultato · quota -
 selezione ""
-sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · "Staffa"
+sezione contorno 0 4F53CDA18C2BAA0C · barre 0 4F53CDA18C2BAA0C · staffa 0 0 · "" · ""
 dettaglio "Nessuna quota selezionata. Fare clic sul profilo o su un diagramma: la linea arancione identifica la sezione trasversale."
 estremi "Residui ΣF=2,618E-11 kN, ΣM=6,515E-11 kNm; reazioni C testa=0 kNm, H punta=0 kNm, C punta=0 kNm.\nMesh 20 / 40 · Δy=0,0061%, ΔM=0,0004%, ΔV=0,0000%\ny [m]: min -0,0037177 a x=2,8638; max 0,114284 a x=0; |max|=0,114284 a x=0 m.\ntheta [rad]: min -0,0853355 a x=0; max 0,00273318 a x=3,571; |max|=0,0853355 a x=0 m.\nN [kN]: min 0 a x=0; max 2,59834 a x=10; |max|=2,59834 a x=10 m.\nV [kN]: min -42,635 a x=2,1518; max 100 a x=0; |max|=100 a x=0 m.\nM [kNm]: min -3,13064 a x=4,2642; max 68,9023 a x=1,186; |max|=68,9023 a x=1,186 m.\nq [kN/m]: min -109,324 a x=0,77826; max 29,1249 a x=3,0172; |max|=109,324 a x=0,77826 m."
 tabella righe 380 4D21D34D1CA89662 · csv sì

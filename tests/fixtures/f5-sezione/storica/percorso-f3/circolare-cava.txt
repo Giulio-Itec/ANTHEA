@@ -247,7 +247,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"350","My":"80","N":"-2600","esito":"Da calcolare","eta":"—","id":"510000040f514a008000000000000004","nome":"Rara","visible":true}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -280,7 +280,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 1 · selezionata 0
 [sle]   {"Mx":"260","My":"60","N":"-2400","esito":"Da calcolare","eta":"—","id":"510000050f514a008000000000000005","nome":"Frequente","visible":true}
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -313,7 +313,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
 [sle]   {"Mx":"180","My":"40","N":"-2200","esito":"Da calcolare","eta":"—","id":"510000060f514a008000000000000006","nome":"Quasi permanente","visible":true}
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -463,13 +463,13 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [armature] ricerca scarti ""
 [armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
 [armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
-[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 3D ispezione valori ""
-[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 3D ispezione piano -
 [ispezione] 2D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 2D ispezione valori "Nessuna soluzione aggiornata disponibile."
-[ispezione] 2D ispezione mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 2D ispezione piano -
 [ispezione] form curvatura
 [ispezione]   campo N "N costante (− compressione)" = "0"
@@ -639,26 +639,26 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B30","phi":"20","x":"-6.502874503472445E-14","y":"-354"}
 [ingressi]   {"id":"B31","phi":"20","x":"177.00000000000003","y":"-306.5729929396913"}
 [ingressi]   {"id":"B32","phi":"20","x":"306.5729929396912","y":"-177.00000000000017"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.24\nGoverna: SLU pressoflessione\n2/2 combinazioni\n2D · Plastico\nVERIFICATA\nη = 0.29\nGoverna: SLU pressoflessione\n2/2 combinazioni\n" · colori #FF397BCC #FF397BCC
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.51\nGoverna: SLV sisma X\n1/1 combinazioni\n2D · Elastico\nVERIFICATA\nη = 0.43\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF39A879 #FF397BCC
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.29\nGoverna: Rara\n1/1 combinazioni\n" · colori #FF397BCC
-[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Frequente\n1/1 combinazioni\n" · colori #FF397BCC
-[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nVERIFICATA\nη = 0.27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
-[ingressi] riquadri riepilogo-taglio "Taglio Vx\nDA COMPLETARE\nη = 0.50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,24\nGoverna: SLU pressoflessione\n2/2 combinazioni\n2D · Plastico\nVERIFICATA\nη = 0,29\nGoverna: SLU pressoflessione\n2/2 combinazioni\n" · colori #FF397BCC #FF397BCC
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0,51\nGoverna: SLV sisma X\n1/1 combinazioni\n2D · Elastico\nVERIFICATA\nη = 0,43\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF39A879 #FF397BCC
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0,29\nGoverna: Rara\n1/1 combinazioni\n" · colori #FF397BCC
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Frequente\n1/1 combinazioni\n" · colori #FF397BCC
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nVERIFICATA\nη = 0,27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nDA COMPLETARE\nη = 0,50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0,22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 2
-[azioni]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.29","eta3d":"0.24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
-[azioni]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.13","eta3d":"0.07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
+[azioni]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,29","eta3d":"0,24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
+[azioni]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,13","eta3d":"0,07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"900","My":"300","N":"-2500","esito":"Da calcolare","eta":"—","id":"510000030f514a008000000000000003","nome":"SLV sisma X","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"350","My":"80","N":"-2600","esito":"Da calcolare","eta":"—","eta_sigma":"0.29","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-7.05","sigma_s":"36.71","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"350","My":"80","N":"-2600","esito":"Da calcolare","eta":"—","eta_sigma":"0,29","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-7,05","sigma_s":"36,71","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 1
-[azioni]   {"Mx":"260","My":"60","N":"-2400","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-5.89","sigma_s":"30.99","stress_status":"Stato tensionale calcolato","visible":true,"wk":"0.00 / 0.40 mm · η=0.00"}
+[azioni]   {"Mx":"260","My":"60","N":"-2400","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-5,89","sigma_s":"30,99","stress_status":"Stato tensionale calcolato","visible":true,"wk":"0,00 / 0,40 mm · η=0,00"}
 [azioni] azioni SLE_QP · 1
-[azioni]   {"Mx":"180","My":"40","N":"-2200","esito":"Da calcolare","eta":"—","eta_sigma":"0.27","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-4.83","sigma_s":"25.69","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.00 / 0.30 mm · η=0.00"}
+[azioni]   {"Mx":"180","My":"40","N":"-2200","esito":"Da calcolare","eta":"—","eta_sigma":"0,27","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-4,83","sigma_s":"25,69","stress_status":"Entro limiti tensionali","visible":true,"wk":"0,00 / 0,30 mm · η=0,00"}
 [azioni] azioni taglio · 2
-[azioni]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694.06","VRdy":"694.06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.50","eta_y":"0.22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[azioni]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694,06","VRdy":"694,06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,50","eta_y":"0,22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
 [azioni]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"Confermare staffe chiuse e barre contenute nel profilo resistente, incluse quelle di spigolo.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
 [domini] form 3D
 [domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
@@ -676,10 +676,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
-[domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.29","eta3d":"0.24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
-[domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.13","eta3d":"0.07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
+[domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,29","eta3d":"0,24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
+[domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,13","eta3d":"0,07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.24\nGoverna: SLU pressoflessione\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.51\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF39A879
+[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0,24\nGoverna: SLU pressoflessione\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0,51\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -700,12 +700,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 2 · selezionata 0
-[domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.29","eta3d":"0.24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
-[domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.13","eta3d":"0.07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
-[domini] 2D dettaglio "Plastico · N–M · proiezione attiva\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500.00 kN\nMx,Ed = 600.00 kNm\nMy,Ed = 150.00 kNm\n\nη = 0.29\nEntro il dominio · azione proiettata\n\nRESISTENZA · assi locali\nNRd = -12275.31 kN\nMx,Rd = 1806.06 kNm\nMy,Rd = 1042.72 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22.67 / 0.00 MPa\nσs min / max: -391.30 / 96.03 MPa\nεc min / max: -3.50 / 0.86 ‰\nεs min / max: -3.12 / 0.48 ‰\n\nd utile: 925.74 mm\nDistanza asse neutro dal lembo (GPC Engine): 803.51 mm\nInclinazione asse neutro: 30.02°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -19636.40 … 5015.62 kN\nMx: -2402.13 … 2402.13 kNm\nMy: -1386.82 … 1386.82 kNm\nEstremi campionati; non sono resistenze al N della riga."
-[domini] riquadri 2D-riepilogo "2D · Plastico\nVERIFICATA\nη = 0.29\nGoverna: SLU pressoflessione\n2/2 combinazioni\n2D · Elastico\nVERIFICATA\nη = 0.43\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,29","eta3d":"0,24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
+[domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,13","eta3d":"0,07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
+[domini] 2D dettaglio "Plastico · N–M · proiezione attiva\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500,00 kN\nMx,Ed = 600,00 kNm\nMy,Ed = 150,00 kNm\n\nη = 0,29\nEntro il dominio · azione proiettata\n\nRESISTENZA · assi locali\nNRd = -12275,31 kN\nMx,Rd = 1806,06 kNm\nMy,Rd = 1042,72 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22,67 / 0,00 MPa\nσs min / max: -391,30 / 96,03 MPa\nεc min / max: -3,50 / 0,86 ‰\nεs min / max: -3,12 / 0,48 ‰\n\nd utile: 925,74 mm\nDistanza asse neutro dal lembo (GPC Engine): 803,51 mm\nInclinazione asse neutro: 30,02°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -19636,40 … 5015,62 kN\nMx: -2402,13 … 2402,13 kNm\nMy: -1386,82 … 1386,82 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] riquadri 2D-riepilogo "2D · Plastico\nVERIFICATA\nη = 0,29\nGoverna: SLU pressoflessione\n2/2 combinazioni\n2D · Elastico\nVERIFICATA\nη = 0,43\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
-[domini] 2D grafico "Plastico · N–M, θ = 30.00°" · "Mθ [kNm]" · "N [kN]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 40 E578DB9261C5C5A1 · verifiche 2 F037CC25FF09DE91 · punti 3 A0DE2C4F97E1804E · scala 1/1
+[domini] 2D grafico "Plastico · N–M, θ = 30,00°" · "Mθ [kNm]" · "N [kN]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 40 E578DB9261C5C5A1 · verifiche 2 F037CC25FF09DE91 · punti 3 A0DE2C4F97E1804E · scala 1/1
 [sle] famiglia 0
 [sle] form SLE
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
@@ -731,15 +731,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"350","My":"80","N":"-2600","esito":"Da calcolare","eta":"—","eta_sigma":"0.29","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-7.05","sigma_s":"36.71","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"350","My":"80","N":"-2600","esito":"Da calcolare","eta":"—","eta_sigma":"0,29","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-7,05","sigma_s":"36,71","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0,27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "5,68"
@@ -764,15 +764,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 1 · selezionata 0
-[sle]   {"Mx":"260","My":"60","N":"-2400","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-5.89","sigma_s":"30.99","stress_status":"Stato tensionale calcolato","visible":true,"wk":"0.00 / 0.40 mm · η=0.00"}
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle]   {"Mx":"260","My":"60","N":"-2400","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-5,89","sigma_s":"30,99","stress_status":"Stato tensionale calcolato","visible":true,"wk":"0,00 / 0,40 mm · η=0,00"}
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0,27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "5,68"
@@ -797,27 +797,27 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
-[sle]   {"Mx":"180","My":"40","N":"-2200","esito":"Da calcolare","eta":"—","eta_sigma":"0.27","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-4.83","sigma_s":"25.69","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.00 / 0.30 mm · η=0.00"}
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle]   {"Mx":"180","My":"40","N":"-2200","esito":"Da calcolare","eta":"—","eta_sigma":"0,27","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-4,83","sigma_s":"25,69","stress_status":"Entro limiti tensionali","visible":true,"wk":"0,00 / 0,30 mm · η=0,00"}
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0,27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [taglio] form taglio
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "600.00" · spento
-[taglio]   campo d_x "d utile · x" = "784.15" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "5642.30" · spento
+[taglio]   campo bw_x "bw · x" = "600,00" · spento
+[taglio]   campo d_x "d utile · x" = "784,15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642,30" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "784.15" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "5642.30" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "784,15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642,30" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -854,12 +854,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
 [taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
-[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694.06","VRdy":"694.06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.50","eta_y":"0.22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694,06","VRdy":"694,06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,50","eta_y":"0,22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
 [taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"Confermare staffe chiuse e barre contenute nel profilo resistente, incluse quelle di spigolo.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
 [taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
 [taglio] taglio sintesi "Taglio: 1/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0.50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0,50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0,22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 [dettagli] invariata
 [armature] invariata
@@ -900,10 +900,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n · aperto
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
-[domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.29","eta3d":"0.24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
-[domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.13","eta3d":"0.07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
+[domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,29","eta3d":"0,24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
+[domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,13","eta3d":"0,07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
 [domini] 3D dettaglio "Plastico · N costante / Iterativo\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500,00 kN\nMx,Ed = 600,00 kNm\nMy,Ed = 150,00 kNm\n\nη = 0,24\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -3500,00 kN\nMx,Rd = 2482,58 kNm\nMy,Rd = 620,65 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22,67 / 0,00 MPa\nσs min / max: -391,30 / 391,30 MPa\nεc min / max: -3,50 / 5,59 ‰\nεs min / max: -2,73 / 4,81 ‰\n\nd utile: 926,85 mm\nDistanza asse neutro dal lembo (GPC Engine): 385,11 mm\nInclinazione asse neutro: 13,91°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -19636,40 … 5015,62 kN\nMx: -2782,36 … 2782,36 kNm\nMy: -2782,36 … 2782,36 kNm\nEstremi campionati; non sono resistenze al N della riga."
-[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.24\nGoverna: SLU pressoflessione\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.51\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF39A879
+[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0,24\nGoverna: SLU pressoflessione\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0,51\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh Plastic vertici 1570 78930DE5C51835D1 triangoli 3136 EF5B97CED469EC60 scala 21DA9A71697FABC1
 [domini] 3D vista azioni 2 EADDB76BACFF10AB · selezionata 0 · Ed F59ACBE61EACED4E · Rd E588598A58170169
@@ -924,12 +924,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli · aperto
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 2 · selezionata 0
-[domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.29","eta3d":"0.24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
-[domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.13","eta3d":"0.07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
-[domini] 2D dettaglio "Plastico · N–M · proiezione attiva\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500.00 kN\nMx,Ed = 600.00 kNm\nMy,Ed = 150.00 kNm\n\nη = 0.29\nEntro il dominio · azione proiettata\n\nRESISTENZA · assi locali\nNRd = -12275.31 kN\nMx,Rd = 1806.06 kNm\nMy,Rd = 1042.72 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22.67 / 0.00 MPa\nσs min / max: -391.30 / 96.03 MPa\nεc min / max: -3.50 / 0.86 ‰\nεs min / max: -3.12 / 0.48 ‰\n\nd utile: 925.74 mm\nDistanza asse neutro dal lembo (GPC Engine): 803.51 mm\nInclinazione asse neutro: 30.02°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -19636.40 … 5015.62 kN\nMx: -2402.13 … 2402.13 kNm\nMy: -1386.82 … 1386.82 kNm\nEstremi campionati; non sono resistenze al N della riga."
-[domini] riquadri 2D-riepilogo "2D · Plastico\nVERIFICATA\nη = 0.29\nGoverna: SLU pressoflessione\n2/2 combinazioni\n2D · Elastico\nVERIFICATA\nη = 0.43\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,29","eta3d":"0,24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
+[domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,13","eta3d":"0,07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
+[domini] 2D dettaglio "Plastico · N–M · proiezione attiva\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500,00 kN\nMx,Ed = 600,00 kNm\nMy,Ed = 150,00 kNm\n\nη = 0,29\nEntro il dominio · azione proiettata\n\nRESISTENZA · assi locali\nNRd = -12275,31 kN\nMx,Rd = 1806,06 kNm\nMy,Rd = 1042,72 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22,67 / 0,00 MPa\nσs min / max: -391,30 / 96,03 MPa\nεc min / max: -3,50 / 0,86 ‰\nεs min / max: -3,12 / 0,48 ‰\n\nd utile: 925,74 mm\nDistanza asse neutro dal lembo (GPC Engine): 803,51 mm\nInclinazione asse neutro: 30,02°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -19636,40 … 5015,62 kN\nMx: -2402,13 … 2402,13 kNm\nMy: -1386,82 … 1386,82 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] riquadri 2D-riepilogo "2D · Plastico\nVERIFICATA\nη = 0,29\nGoverna: SLU pressoflessione\n2/2 combinazioni\n2D · Elastico\nVERIFICATA\nη = 0,43\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
-[domini] 2D grafico "Plastico · N–M, θ = 30.00°" · "Mθ [kNm]" · "N [kN]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 40 E578DB9261C5C5A1 · verifiche 2 F037CC25FF09DE91 · punti 3 A0DE2C4F97E1804E · scala 1/1
+[domini] 2D grafico "Plastico · N–M, θ = 30,00°" · "Mθ [kNm]" · "N [kN]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 40 E578DB9261C5C5A1 · verifiche 2 F037CC25FF09DE91 · punti 3 A0DE2C4F97E1804E · scala 1/1
 [sle] famiglia 0
 [sle] form SLE
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
@@ -955,8 +955,8 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure · aperto
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"350","My":"80","N":"-2600","esito":"Da calcolare","eta":"—","eta_sigma":"0.29","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-7.05","sigma_s":"36.71","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"350","My":"80","N":"-2600","esito":"Da calcolare","eta":"—","eta_sigma":"0,29","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-7,05","sigma_s":"36,71","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Rara · Lineare\nRara · assi Locali\nN = -2600,00 kN\nMx / My = 350,00 / 80,00 kNm\n\nTENSIONI · NTC 2018\n|σc,comp| ≤ 24,00 MPa\nσs ≤ 360,00 MPa (armatura ordinaria)\nησ = 0,29\nEntro limiti tensionali\n\nSTATO ALL’AZIONE APPLICATA\nσc min / max: -7,05 / -0,19 MPa\nσs min / max: -36,71 / -4,42 MPa\nεc min / max: -0,20 / -5,50E-3 ‰\nεs min / max: -0,18 / -0,02 ‰\n\nd utile: 925,99 mm\nDistanza asse neutro dal lembo (GPC Engine): 1027,55 mm\nInclinazione asse neutro: 12,87°\n— indica dato non disponibile (es. deformazione uniforme).\n\nOMOGENEIZZAZIONE\nn armature = 5,68 · φ = 0,00\nn = Eacciaio (1 + φ) / Ec. Deformazioni incrementali da GPC Engine."
 [sle] SLE passaggi "Rara · Rara\n\nNon richiesta nella rara\r\nRiepilogo essenziale · NTC 2018\r\nDue decimali; notazione scientifica per valori molto piccoli. Deformazioni adimensionali. Traccia completa nel JSON.\r\n\r\n"
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 32 · selezionata -1
@@ -1043,7 +1043,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   {"id":"C9","strain":"-0,17","stress":"-6,14","x":"250,00","y":"433,01"}
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni 68942B2AD4F03FE6 · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda "-7,05 … 0,00 MPa"
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0,27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "5,68"
@@ -1068,15 +1068,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure · aperto
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 1 · selezionata 0
-[sle]   {"Mx":"260","My":"60","N":"-2400","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-5.89","sigma_s":"30.99","stress_status":"Stato tensionale calcolato","visible":true,"wk":"0.00 / 0.40 mm · η=0.00"}
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle]   {"Mx":"260","My":"60","N":"-2400","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-5,89","sigma_s":"30,99","stress_status":"Stato tensionale calcolato","visible":true,"wk":"0,00 / 0,40 mm · η=0,00"}
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0,27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "5,68"
@@ -1101,27 +1101,27 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure · aperto
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione · aperto
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
-[sle]   {"Mx":"180","My":"40","N":"-2200","esito":"Da calcolare","eta":"—","eta_sigma":"0.27","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-4.83","sigma_s":"25.69","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.00 / 0.30 mm · η=0.00"}
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle]   {"Mx":"180","My":"40","N":"-2200","esito":"Da calcolare","eta":"—","eta_sigma":"0,27","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-4,83","sigma_s":"25,69","stress_status":"Entro limiti tensionali","visible":true,"wk":"0,00 / 0,30 mm · η=0,00"}
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0,27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [taglio] form taglio
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "600.00" · spento
-[taglio]   campo d_x "d utile · x" = "784.15" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "5642.30" · spento
+[taglio]   campo bw_x "bw · x" = "600,00" · spento
+[taglio]   campo d_x "d utile · x" = "784,15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642,30" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "784.15" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "5642.30" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "784,15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642,30" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -1158,22 +1158,22 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
 [taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
-[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694.06","VRdy":"694.06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.50","eta_y":"0.22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694,06","VRdy":"694,06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,50","eta_y":"0,22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
 [taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"Confermare staffe chiuse e barre contenute nel profilo resistente, incluse quelle di spigolo.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
 [taglio] taglio dettaglio "V1 pila · Con staffe\nN = -2000,00 kN (compressione negativa)\nVx / Vy = 350,00 / 150,00 kN\n\nDIREZIONE Vx\nbw = 600,00 mm · d = 784,15 mm\nVRsd (staffe) = 694,06 kN\nVRcd (puntone) = 1250,77 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 694,06 kN · η = 0,50\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 600,00 mm · d = 784,15 mm\nVRsd (staffe) = 694,06 kN\nVRcd (puntone) = 1250,77 kN\ncot θ = 2,50\nGoverna: armatura trasversale\nVRd = 694,06 kN · η = 0,22\nResistenza sufficiente · dettagli da verificare\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\nNTC 2018 §§4.1.2.3.5.1–2\n\n\n\nTaglio circolare · Pile · NTC §7.9.5.2 · verificare la schematizzazione assegnata."
 [taglio] taglio sintesi "Taglio: 1/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0.50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0,50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0,22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 [dettagli] invariata
 [armature] invariata
-[ispezione] 3D ispezione scheda 0 · "Punto limite" · messaggio "Lettura del piano già calcolato al limite…"
+[ispezione] 3D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 3D ispezione valori "Nessuna soluzione aggiornata disponibile."
-[ispezione] 3D ispezione mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 3D ispezione piano -
-[ispezione] 2D ispezione scheda 0 · "Punto limite" · messaggio "Lettura del piano già calcolato al limite…"
+[ispezione] 2D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 2D ispezione valori "Nessuna soluzione aggiornata disponibile."
-[ispezione] 2D ispezione mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 2D ispezione piano -
 [ispezione] form curvatura
 [ispezione]   campo N "N costante (− compressione)" = "0"
@@ -1488,7 +1488,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
 [sle]   {"Mx":"350","My":"80","N":"-2600","esito":"Da calcolare","eta":"—","id":"510000040f514a008000000000000004","nome":"Rara","visible":true}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1521,7 +1521,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 1 · selezionata 0
 [sle]   {"Mx":"260","My":"60","N":"-2400","esito":"Da calcolare","eta":"—","id":"510000050f514a008000000000000005","nome":"Frequente","visible":true}
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1554,7 +1554,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
 [sle]   {"Mx":"180","My":"40","N":"-2200","esito":"Da calcolare","eta":"—","id":"510000060f514a008000000000000006","nome":"Quasi permanente","visible":true}
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
@@ -1619,13 +1619,13 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 [dettagli] invariata
 [armature] invariata
-[ispezione] 3D ispezione scheda -1 · "Punto limite" · messaggio "Selezionare una combinazione"
+[ispezione] 3D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 3D ispezione valori ""
-[ispezione] 3D ispezione mappa sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 3D ispezione mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 3D ispezione piano -
 [ispezione] 2D ispezione scheda 0 · "Punto limite" · messaggio "Selezionare una combinazione"
 [ispezione] 2D ispezione valori "Nessuna soluzione aggiornata disponibile."
-[ispezione] 2D ispezione mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
+[ispezione] 2D ispezione mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 [ispezione] 2D ispezione piano -
 [ispezione] form curvatura
 [ispezione]   campo N "N costante (− compressione)" = "0"
@@ -1795,26 +1795,26 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   {"id":"B30","phi":"20","x":"-6.502874503472445E-14","y":"-354"}
 [ingressi]   {"id":"B31","phi":"20","x":"177.00000000000003","y":"-306.5729929396913"}
 [ingressi]   {"id":"B32","phi":"20","x":"306.5729929396912","y":"-177.00000000000017"}
-[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0.24\nGoverna: SLU pressoflessione\n2/2 combinazioni\n2D · Plastico\nVERIFICATA\nη = 0.29\nGoverna: SLU pressoflessione\n2/2 combinazioni\n" · colori #FF397BCC #FF397BCC
-[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0.51\nGoverna: SLV sisma X\n1/1 combinazioni\n2D · Elastico\nVERIFICATA\nη = 0.43\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF39A879 #FF397BCC
-[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0.29\nGoverna: Rara\n1/1 combinazioni\n" · colori #FF397BCC
-[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Frequente\n1/1 combinazioni\n" · colori #FF397BCC
-[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nVERIFICATA\nη = 0.27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
-[ingressi] riquadri riepilogo-taglio "Taglio Vx\nDA COMPLETARE\nη = 0.50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[ingressi] riquadri riepilogo-SLU "3D · Plastico\nVERIFICATA\nη = 0,24\nGoverna: SLU pressoflessione\n2/2 combinazioni\n2D · Plastico\nVERIFICATA\nη = 0,29\nGoverna: SLU pressoflessione\n2/2 combinazioni\n" · colori #FF397BCC #FF397BCC
+[ingressi] riquadri riepilogo-SLV "3D · Elastico\nVERIFICATA\nη = 0,51\nGoverna: SLV sisma X\n1/1 combinazioni\n2D · Elastico\nVERIFICATA\nη = 0,43\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF39A879 #FF397BCC
+[ingressi] riquadri riepilogo-SLE "Rara · tensioni\nVERIFICATA\nη = 0,29\nGoverna: Rara\n1/1 combinazioni\n" · colori #FF397BCC
+[ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Frequente\n1/1 combinazioni\n" · colori #FF397BCC
+[ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nVERIFICATA\nη = 0,27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[ingressi] riquadri riepilogo-taglio "Taglio Vx\nDA COMPLETARE\nη = 0,50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0,22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [azioni] sollecitazioni uniche no · file ""
 [azioni] azioni SLU · 2
-[azioni]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.29","eta3d":"0.24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
-[azioni]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.13","eta3d":"0.07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
+[azioni]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,29","eta3d":"0,24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
+[azioni]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,13","eta3d":"0,07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
 [azioni] azioni SLV · 1
 [azioni]   {"Mx":"900","My":"300","N":"-2500","esito":"Da calcolare","eta":"—","id":"510000030f514a008000000000000003","nome":"SLV sisma X","visible":true}
 [azioni] azioni SLE · 1
-[azioni]   {"Mx":"350","My":"80","N":"-2600","esito":"Da calcolare","eta":"—","eta_sigma":"0.29","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-7.05","sigma_s":"36.71","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[azioni]   {"Mx":"350","My":"80","N":"-2600","esito":"Da calcolare","eta":"—","eta_sigma":"0,29","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-7,05","sigma_s":"36,71","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
 [azioni] azioni SLE_FREQ · 1
-[azioni]   {"Mx":"260","My":"60","N":"-2400","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-5.89","sigma_s":"30.99","stress_status":"Stato tensionale calcolato","visible":true,"wk":"0.00 / 0.40 mm · η=0.00"}
+[azioni]   {"Mx":"260","My":"60","N":"-2400","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-5,89","sigma_s":"30,99","stress_status":"Stato tensionale calcolato","visible":true,"wk":"0,00 / 0,40 mm · η=0,00"}
 [azioni] azioni SLE_QP · 1
-[azioni]   {"Mx":"180","My":"40","N":"-2200","esito":"Da calcolare","eta":"—","eta_sigma":"0.27","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-4.83","sigma_s":"25.69","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.00 / 0.30 mm · η=0.00"}
+[azioni]   {"Mx":"180","My":"40","N":"-2200","esito":"Da calcolare","eta":"—","eta_sigma":"0,27","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-4,83","sigma_s":"25,69","stress_status":"Entro limiti tensionali","visible":true,"wk":"0,00 / 0,30 mm · η=0,00"}
 [azioni] azioni taglio · 2
-[azioni]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694.06","VRdy":"694.06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.50","eta_y":"0.22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[azioni]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694,06","VRdy":"694,06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,50","eta_y":"0,22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
 [azioni]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"Confermare staffe chiuse e barre contenute nel profilo resistente, incluse quelle di spigolo.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
 [domini] form 3D
 [domini]   scelta stato "Tipo di dominio precedente" = "SLU" voci "SLU|SLV"
@@ -1832,10 +1832,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli|interpolazione|suddivisioni_n
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 2 · selezionata 0
-[domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.29","eta3d":"0.24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
-[domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.13","eta3d":"0.07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
+[domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,29","eta3d":"0,24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
+[domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,13","eta3d":"0,07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0.24\nGoverna: SLU pressoflessione\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0.51\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF39A879
+[domini] riquadri 3D-riepilogo "3D · Plastico\nVERIFICATA\nη = 0,24\nGoverna: SLU pressoflessione\n2/2 combinazioni\n3D · Elastico\nVERIFICATA\nη = 0,51\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
@@ -1856,12 +1856,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Discretizzazione e interpolazione" angoli
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 2D · colonne "Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta2d|Esito=esito2d" · righe 2 · selezionata 0
-[domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.29","eta3d":"0.24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
-[domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0.13","eta3d":"0.07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
-[domini] 2D dettaglio "Plastico · N–M · proiezione attiva\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500.00 kN\nMx,Ed = 600.00 kNm\nMy,Ed = 150.00 kNm\n\nη = 0.29\nEntro il dominio · azione proiettata\n\nRESISTENZA · assi locali\nNRd = -12275.31 kN\nMx,Rd = 1806.06 kNm\nMy,Rd = 1042.72 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22.67 / 0.00 MPa\nσs min / max: -391.30 / 96.03 MPa\nεc min / max: -3.50 / 0.86 ‰\nεs min / max: -3.12 / 0.48 ‰\n\nd utile: 925.74 mm\nDistanza asse neutro dal lembo (GPC Engine): 803.51 mm\nInclinazione asse neutro: 30.02°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -19636.40 … 5015.62 kN\nMx: -2402.13 … 2402.13 kNm\nMy: -1386.82 … 1386.82 kNm\nEstremi campionati; non sono resistenze al N della riga."
-[domini] riquadri 2D-riepilogo "2D · Plastico\nVERIFICATA\nη = 0.29\nGoverna: SLU pressoflessione\n2/2 combinazioni\n2D · Elastico\nVERIFICATA\nη = 0.43\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
+[domini]   {"Mx":"600","My":"150","N":"-3500","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,29","eta3d":"0,24","id":"510000010f514a008000000000000001","nome":"SLU pressoflessione","visible":true}
+[domini]   {"Mx":"120","My":"0","N":"400","esito":"Da calcolare","esito2d":"Entro il dominio · azione proiettata","esito3d":"Entro il dominio","eta":"—","eta2d":"0,13","eta3d":"0,07","id":"510000020f514a008000000000000002","nome":"SLU trazione","visible":true}
+[domini] 2D dettaglio "Plastico · N–M · proiezione attiva\n\nAZIONI · Locali\nSLU pressoflessione\n\nNEd = -3500,00 kN\nMx,Ed = 600,00 kNm\nMy,Ed = 150,00 kNm\n\nη = 0,29\nEntro il dominio · azione proiettata\n\nRESISTENZA · assi locali\nNRd = -12275,31 kN\nMx,Rd = 1806,06 kNm\nMy,Rd = 1042,72 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -22,67 / 0,00 MPa\nσs min / max: -391,30 / 96,03 MPa\nεc min / max: -3,50 / 0,86 ‰\nεs min / max: -3,12 / 0,48 ‰\n\nd utile: 925,74 mm\nDistanza asse neutro dal lembo (GPC Engine): 803,51 mm\nInclinazione asse neutro: 30,02°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI CURVA\nN: -19636,40 … 5015,62 kN\nMx: -2402,13 … 2402,13 kNm\nMy: -1386,82 … 1386,82 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] riquadri 2D-riepilogo "2D · Plastico\nVERIFICATA\nη = 0,29\nGoverna: SLU pressoflessione\n2/2 combinazioni\n2D · Elastico\nVERIFICATA\nη = 0,43\nGoverna: SLV sisma X\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
 [domini] 2D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5
-[domini] 2D grafico "Plastico · N–M, θ = 30.00°" · "Mθ [kNm]" · "N [kN]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 40 E578DB9261C5C5A1 · verifiche 2 F037CC25FF09DE91 · punti 3 A0DE2C4F97E1804E · scala 1/1
+[domini] 2D grafico "Plastico · N–M, θ = 30,00°" · "Mθ [kNm]" · "N [kN]" · nota "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita" · vuoto "Nessuna intersezione del dominio con il piano selezionato" · serie  4F53CDA18C2BAA0C · segmenti 40 E578DB9261C5C5A1 · verifiche 2 F037CC25FF09DE91 · punti 3 A0DE2C4F97E1804E · scala 1/1
 [sle] famiglia 0
 [sle] form SLE
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
@@ -1887,15 +1887,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status" · righe 1 · selezionata 0
-[sle]   {"Mx":"350","My":"80","N":"-2600","esito":"Da calcolare","eta":"—","eta_sigma":"0.29","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-7.05","sigma_s":"36.71","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
-[sle] SLE schede -1 · fessurazione nascosta
+[sle]   {"Mx":"350","My":"80","N":"-2600","esito":"Da calcolare","eta":"—","eta_sigma":"0,29","id":"510000040f514a008000000000000004","nome":"Rara","sigma_c":"-7,05","sigma_s":"36,71","stress_status":"Entro limiti tensionali","visible":true,"wk":"Non richiesta nella rara"}
+[sle] SLE schede 0 · fessurazione nascosta
 [sle] SLE dettaglio "Selezionare una combinazione"
 [sle] SLE passaggi ""
 [sle] tabella SLE-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE zone -1 di 0
 [sle] SLE mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0,27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [sle] form SLE_FREQ
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "5,68"
@@ -1920,15 +1920,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_FREQ · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|Fessurazione=wk" · righe 1 · selezionata 0
-[sle]   {"Mx":"260","My":"60","N":"-2400","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-5.89","sigma_s":"30.99","stress_status":"Stato tensionale calcolato","visible":true,"wk":"0.00 / 0.40 mm · η=0.00"}
-[sle] SLE_FREQ schede -1 · fessurazione mostrata
+[sle]   {"Mx":"260","My":"60","N":"-2400","esito":"Da calcolare","eta":"—","eta_sigma":"—","id":"510000050f514a008000000000000005","nome":"Frequente","sigma_c":"-5,89","sigma_s":"30,99","stress_status":"Stato tensionale calcolato","visible":true,"wk":"0,00 / 0,40 mm · η=0,00"}
+[sle] SLE_FREQ schede 0 · fessurazione mostrata
 [sle] SLE_FREQ dettaglio "Selezionare una combinazione"
 [sle] SLE_FREQ passaggi ""
 [sle] tabella SLE_FREQ-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_FREQ-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_FREQ zone -1 di 0
 [sle] SLE_FREQ mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE_FREQ-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0,27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [sle] form SLE_QP
 [sle]   scelta modello "Analisi" = "Lineare" voci "Lineare|Non lineare"
 [sle]   campo n_armature "n armature" = "5,68"
@@ -1953,27 +1953,27 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [sle]   gruppo "Fessurazione · disposizione delle barre" copriferro_fessure|spaziatura_fessure
 [sle]   gruppo "Avanzate · CLS teso e assi" trazione_cls|assi|origine_x|origine_y|rotazione
 [sle] tabella SLE_QP · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|σc [MPa]=sigma_c||σs| [MPa]=sigma_s|ησ [-]=eta_sigma|Tensioni=stress_status|Fessurazione=wk" · righe 1 · selezionata 0
-[sle]   {"Mx":"180","My":"40","N":"-2200","esito":"Da calcolare","eta":"—","eta_sigma":"0.27","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-4.83","sigma_s":"25.69","stress_status":"Entro limiti tensionali","visible":true,"wk":"0.00 / 0.30 mm · η=0.00"}
-[sle] SLE_QP schede -1 · fessurazione mostrata
+[sle]   {"Mx":"180","My":"40","N":"-2200","esito":"Da calcolare","eta":"—","eta_sigma":"0,27","id":"510000060f514a008000000000000006","nome":"Quasi permanente","sigma_c":"-4,83","sigma_s":"25,69","stress_status":"Entro limiti tensionali","visible":true,"wk":"0,00 / 0,30 mm · η=0,00"}
+[sle] SLE_QP schede 0 · fessurazione mostrata
 [sle] SLE_QP dettaglio "Selezionare una combinazione"
 [sle] SLE_QP passaggi ""
 [sle] tabella SLE_QP-barre · colonne "Barra=id|σs [MPa]=stress|ε [‰]=strain|Stato=type" · righe 0 · selezionata -1
 [sle] tabella SLE_QP-cls · colonne "Vertice=id|x [mm]=x|y [mm]=y|σc [MPa]=stress|εc [‰]=strain" · righe 0 · selezionata -1
 [sle] SLE_QP zone -1 di 0
 [sle] SLE_QP mappa sezione Circolare 1000x1000 · Ac 659734.4572538566 · As 12817.698026646356 · contorno 48 A597E994FF4A519A · fori 1 · barre 32 9BD4A0BAFC0C4278 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona "" · legenda ""
-[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0.29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0.27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0.00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
+[sle] riquadri SLE_QP-riepilogo "Rara · tensioni\nVERIFICATA\nη = 0,29\nGoverna: Rara\n1/1 combinazioni\nFrequente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Frequente\n1/1 combinazioni\nQuasi permanente · tensioni\nVERIFICATA\nη = 0,27\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nVERIFICATA\nη = 0,00\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC #FF397BCC #FF397BCC
 [taglio] form taglio
 [taglio]   scelta modello "Modello" = "Con staffe" voci "Con staffe|Senza staffe"
 [taglio]   scelta parametri "Parametri geometrici" = "Automatici da sezione" voci "Automatici da sezione|Manuali"
 [taglio]   scelta ancoraggio "Asl automatica efficacemente ancorata" = "Da verificare" voci "Da verificare|Confermato" · nascosto
-[taglio]   campo bw_x "bw · x" = "600.00" · spento
-[taglio]   campo d_x "d utile · x" = "784.15" · spento
-[taglio]   campo asl_x "Asl ancorata · x" = "5642.30" · spento
+[taglio]   campo bw_x "bw · x" = "600,00" · spento
+[taglio]   campo d_x "d utile · x" = "784,15" · spento
+[taglio]   campo asl_x "Asl ancorata · x" = "5642,30" · spento
 [taglio]   campo alpha_x "α staffa · x" = "90"
 [taglio]   campo cot_x "cot θ · x (vuoto: auto)" = ""
-[taglio]   campo bw_y "bw · y" = "600.00" · spento
-[taglio]   campo d_y "d utile · y" = "784.15" · spento
-[taglio]   campo asl_y "Asl ancorata · y" = "5642.30" · spento
+[taglio]   campo bw_y "bw · y" = "600,00" · spento
+[taglio]   campo d_y "d utile · y" = "784,15" · spento
+[taglio]   campo asl_y "Asl ancorata · y" = "5642,30" · spento
 [taglio]   campo alpha_y "α staffa · y" = "90"
 [taglio]   campo cot_y "cot θ · y (vuoto: auto)" = ""
 [taglio]   campo eccentricita_mc_x "Δe MC · Vx" = "0" · nascosto
@@ -2010,12 +2010,12 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   campo rotazione_staffa "Rotazione schema" = "30" · sola lettura
 [taglio] nota-automatici "Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali."
 [taglio] tabella taglio · colonne "Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|Vx [kN]=Vx|Vy [kN]=Vy|T [kNm]=T|VRd,x [kN]=VRdx|VRd,y [kN]=VRdy|ηx=eta_x|ηy=eta_y|ηT=eta_t|ηV+T=eta_vt|Esito=esito" · righe 2 · selezionata 0
-[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694.06","VRdy":"694.06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0.50","eta_y":"0.22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
+[taglio]   {"Mx":"300","My":"0","N":"-2000","T":"0","VRdx":"694,06","VRdy":"694,06","Vx":"350","Vy":"150","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,50","eta_y":"0,22","id":"510000140f514a008000000000000014","nome":"V1 pila"}
 [taglio]   {"Mx":"0","My":"0","N":"-1500","T":"80","VRdx":"—","VRdy":"—","Vx":"200","Vy":"200","esito":"Confermare staffe chiuse e barre contenute nel profilo resistente, incluse quelle di spigolo.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"V2 con torsione"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
 [taglio] taglio dettaglio "Dati modificati · aggiornamento automatico in attesa"
 [taglio] taglio sintesi "Taglio: 1/2 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
-[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0.50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0.22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
+[taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0,50\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0,22\nGoverna: V1 pila\n1/2 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 [dettagli] invariata
 [armature] invariata
