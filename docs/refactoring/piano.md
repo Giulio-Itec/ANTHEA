@@ -841,6 +841,9 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
       prezzario da consultare senza «Applica», «Calcola curva» e «Suggerisci campate» spenti, navigazione e scelta X/Y delle fondazioni attive;
       comandi dei muri con `GuardedCommands`; registro F5-11, F5-18, F5-19, F5-46, F5-59 corrette, F5-73 nuova. Differenze dichiarate nelle prove
       ui della sola lettura (sezione c.a., fondazioni, Bridge Design).
+    - Corse dei passi a e b (`supporto/artefatti/f5-15-a`): full f5-15-a-full a 120 DPI, 149 PASS e 5 NEW-FAIL; tre prove ferme al comportamento
+      di prima corrette in f10df12b e ripassate (muri1); ui/check-contrast (Scuro 0, Molto scuro 0, Chiara 645 come la baseline) e
+      ui/check-muri-view rifatte a 96 DPI il 25/10 sera (tag f5-15-a-96dpi): PASS.
     - [x] c. Stato della vista: SH49 ridotta. Fatto il 25/10 (ramo `refactoring/f5-15-c`): `TabMemory` ricorda la sotto-scheda scelta per
       ViewModel, in memoria, nei 9 `TabControl` dei fogli senza selezione legata; registro F5-67; prova in `ui/check-layout-decisions`. La prima
       scheda interna fin dall'apertura (S4-c/S7-b) passa al passo a: cambia le tracce congelate della sezione c.a. e va nella sua ricattura.
