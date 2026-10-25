@@ -258,14 +258,17 @@ public sealed class ConcreteTableGrid : DataGrid
         if (wrapped.Count > 0) RowHeight = double.NaN;
     }
 
+    // Padding 6 of the header style of the theme on each side, plus the grid lines.
+    private const double HeaderPadding = 16;
+
     // F5.15, V-c (decision of 25/10): a column is never narrower than its header, so that the headers of the shear table
-    // («Mx [kNm]», «VRd,x [kN]»…) are not cut at 1600 px. Header in semibold with the padding 6 of the theme on each side.
+    // («Mx [kNm]», «VRd,x [kN]»…) are not cut at 1600 px. Header in semibold, as the theme draws it.
     private double HeaderWidth(DataGridColumn column)
     {
         if (column.Header is not string { Length: > 0 } text) return 0;
         var formatted = new FormattedText(text, CultureInfo.CurrentUICulture, FlowDirection, new Typeface(FontFamily, FontStyle, FontWeights.SemiBold, FontStretch),
             FontSize, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
-        return Math.Ceiling(formatted.WidthIncludingTrailingWhitespace) + 16;
+        return Math.Ceiling(formatted.WidthIncludingTrailingWhitespace) + HeaderPadding;
     }
 
     // The cells of a wrapped column (the outputStyle of the shear of the historic view).
