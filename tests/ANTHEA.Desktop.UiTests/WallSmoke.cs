@@ -275,17 +275,36 @@ internal sealed class MvvmWallSmoke : WallSmoke
 
     internal override async Task CalculateAsync()
     {
-        Press(Caption("Ricalcola"));
+        var button = Caption("Ricalcola");
+        Press(button);
         await Sheet.PendingWork.WaitAsync(TimeSpan.FromSeconds(120));
+        await Ended(button);
     }
 
-    internal override Task StartCalculation() { Press(Caption("Ricalcola")); return Sheet.PendingWork; }
+    internal override Task StartCalculation()
+    {
+        var button = Caption("Ricalcola");
+        Press(button);
+        return Finished(Sheet.PendingWork, button);
+        static async Task Finished(Task work, ButtonBase button) { await work; await Ended(button); }
+    }
 
     internal override async Task CalculateGlobalAsync()
     {
         RetainingWallViewChecks.Realize(View);
-        Press(CommandButton("CalculateGlobalCommand"));
+        var button = CommandButton("CalculateGlobalCommand");
+        Press(button);
         await Sheet.PendingWork.WaitAsync(TimeSpan.FromSeconds(120));
+        await Ended(button);
+    }
+
+    /// <summary>
+    /// F5.15, MU14: the button of a work is off until its command ends, a turn of the dispatcher after the work of the sheet; the smoke waits
+    /// for it too, as a user who clicks again after the screen is updated.
+    /// </summary>
+    private static async Task Ended(ButtonBase button)
+    {
+        if (button.Command is CommunityToolkit.Mvvm.Input.IAsyncRelayCommand { ExecutionTask: { } running }) await running.WaitAsync(TimeSpan.FromSeconds(120));
     }
 
     internal override void Example(string family) => Press(Caption(family == "gravity" ? "Gravità esempio" : "Mensola esempio"));

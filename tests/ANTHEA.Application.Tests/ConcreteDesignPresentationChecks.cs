@@ -34,8 +34,10 @@ internal static class ConcreteDesignPresentationChecks
                 ("proposta_armature_applicata", J.Obj()), ("calcola_armature", J.Obj(("mostra", "5"), ("diametri", "16"))))));
             Check(ConcreteDesignPresentation.Fingerprint(data) == "{\"shape\":\"Rettangolare\"}{}{\"calcola_armature\":{\"diametri\":\"16\"}}", "Firma della ricerca: senza lo stato dell'interfaccia");
             Check(ConcreteDesignPresentation.Fraction(0, 0) == 0 && ConcreteDesignPresentation.Fraction(1, 4) == 0.25, "Frazione delle configurazioni esaminate");
-            Check(ConcreteDesignPresentation.NotStarted("x") == "Ricerca non avviata: x" && ConcreteDesignPresentation.Applied("") == "Configurazione applicata. Verifiche del foglio in aggiornamento; riscontri esecutivi da confermare sulla nuova disposizione."
-                && ConcreteDesignPresentation.Applied("Avviso.").EndsWith("disposizione. Avviso.", StringComparison.Ordinal) && string.Join("|", ConcreteDesignPresentation.ShownChoices) == "1|5|10|25|50|Tutte",
+            // F5.15, S8-c (F5-50): the status after «Applica configurazione» also says that the search is superseded.
+            Check(ConcreteDesignPresentation.NotStarted("x") == "Ricerca non avviata: x" && ConcreteDesignPresentation.Applied("") == "Configurazione applicata. Verifiche del foglio in aggiornamento; riscontri esecutivi da confermare sulla nuova disposizione. "
+                + "La ricerca è superata: ripeterla per nuove alternative."
+                && ConcreteDesignPresentation.Applied("Avviso.").EndsWith("alternative. Avviso.", StringComparison.Ordinal) && string.Join("|", ConcreteDesignPresentation.ShownChoices) == "1|5|10|25|50|Tutte",
                 "Testi della ricerca e scelte di «Mostra le prime»");
 
             // A short search on the slab of the trace.

@@ -413,6 +413,16 @@ internal static class RetainingWallViewChecks
 
         private bool Usable(UIElement element) => element.IsEnabled && Shown(element, Root);
 
+        /// <summary>
+        /// F5.15, MU14: the buttons of a work are off until their command ends, a turn of the dispatcher after the work of the sheet; a step
+        /// that waits for the work waits for them too, as a user who looks at the screen after it is updated.
+        /// </summary>
+        private async Task CommandsEnded()
+        {
+            foreach (var command in new[] { Sheet.RecalculateCommand, Sheet.DesignRebarCommand, Sheet.CalculateGlobalCommand })
+                if (command is CommunityToolkit.Mvvm.Input.IAsyncRelayCommand { ExecutionTask: { } running }) await running.WaitAsync(TimeSpan.FromSeconds(60));
+        }
+
         private void Choose(ComboBox combo, string item)
         {
             if (!Usable(combo) || combo.ItemsSource is not IEnumerable items || !items.Cast<object>().Any(i => Equals(i, item))) return;
@@ -429,9 +439,10 @@ internal static class RetainingWallViewChecks
                 case RetainingWallStep.Calculate:
                     Press(Caption("Ricalcola"), Root);
                     await Sheet.PendingWork.WaitAsync(TimeSpan.FromSeconds(60));
+                    await CommandsEnded();
                     break;
                 case RetainingWallStep.Start: Press(Caption("Ricalcola"), Root); break;
-                case RetainingWallStep.Wait: await Sheet.PendingWork.WaitAsync(TimeSpan.FromSeconds(60)); break;
+                case RetainingWallStep.Wait: await Sheet.PendingWork.WaitAsync(TimeSpan.FromSeconds(60)); await CommandsEnded(); break;
                 case RetainingWallStep.ReadOnly: host.Editor.InspectRevision(); readOnly = true; break;
                 case RetainingWallStep.Reopen:
                 {
