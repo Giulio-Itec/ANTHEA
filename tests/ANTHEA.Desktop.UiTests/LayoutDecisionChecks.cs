@@ -2,6 +2,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using Anthea.Presentation.Mvvm;
 using X.Desktop.Services;
 using X.Desktop.Views.Common;
 using X.Desktop.Views.ConcreteSection;
@@ -71,7 +72,7 @@ internal static class LayoutDecisionChecks
             Check(name.MinWidth == 65, "Un'intestazione corta resta al minimo storico di 65");
 
             // SH49 reduced (step c): the inner tab chosen stays when the view is rebuilt on the same ViewModel; another one starts from the first.
-            var sheet = new object();
+            var sheet = new TabOwner();
             var tabs = await ShowTabs(sheet);
             Check(((TabControl)tabs.Content).SelectedIndex == 0, "SH49: alla prima apertura la sotto-scheda è la prima");
             ((TabControl)tabs.Content).SelectedIndex = 2;
@@ -80,7 +81,7 @@ internal static class LayoutDecisionChecks
             tabs = await ShowTabs(sheet);
             Check(((TabControl)tabs.Content).SelectedIndex == 2, "SH49: la sotto-scheda scelta resta quando la vista si ricostruisce");
             tabs.Close();
-            tabs = await ShowTabs(new object());
+            tabs = await ShowTabs(new TabOwner());
             Check(((TabControl)tabs.Content).SelectedIndex == 0, "SH49: un altro foglio parte dalla prima sotto-scheda");
             tabs.Close();
             log.Add($"PASS {checks} controlli");
@@ -107,7 +108,7 @@ internal static class LayoutDecisionChecks
     }
 
     // A view with three inner tabs remembered under one key, on the ViewModel <paramref name="sheet"/>, outside the screen.
-    private static async Task<Window> ShowTabs(object sheet)
+    private static async Task<Window> ShowTabs(IViewTabMemory sheet)
     {
         var tabs = new TabControl { DataContext = sheet };
         foreach (var header in new[] { "Prima", "Seconda", "Terza" }) tabs.Items.Add(new TabItem { Header = header, Content = new TextBlock { Text = header } });
@@ -120,6 +121,12 @@ internal static class LayoutDecisionChecks
         window.Show();
         await Settle();
         return window;
+    }
+
+    // A ViewModel that keeps the inner tabs of its views, as the sheets do.
+    private sealed class TabOwner : IViewTabMemory
+    {
+        public IDictionary<string, int> SelectedTabs { get; } = new Dictionary<string, int>(StringComparer.Ordinal);
     }
 
     private static async Task Settle()

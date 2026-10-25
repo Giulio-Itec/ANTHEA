@@ -267,7 +267,7 @@ public sealed class ConcreteTableGrid : DataGrid
     {
         if (column.Header is not string { Length: > 0 } text) return 0;
         var formatted = new FormattedText(text, CultureInfo.CurrentUICulture, FlowDirection, new Typeface(FontFamily, FontStyle, FontWeights.SemiBold, FontStretch),
-            FontSize, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
+            FontSize, Foreground, VisualTreeHelper.GetDpi(this).PixelsPerDip);
         return Math.Ceiling(formatted.WidthIncludingTrailingWhitespace) + HeaderPadding;
     }
 

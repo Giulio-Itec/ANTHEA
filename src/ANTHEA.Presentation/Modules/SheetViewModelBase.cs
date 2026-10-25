@@ -42,7 +42,7 @@ public enum SheetCalculationMode
 /// <item><see cref="PreviewData"/> is <see cref="Data"/>; a sheet that keeps its edits until Commit gives its state instead (F5.5).</item>
 /// </list>
 /// </summary>
-public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
+public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel, IViewTabMemory
 {
     private readonly ModuleCalculationSession session;
     private readonly SheetCalculation<ModuleCalculation> calculation;
@@ -113,6 +113,9 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel
 
     /// <summary>False when read-only or closed: the views disable the fields, <see cref="Edit"/> refuses.</summary>
     public bool CanEdit => !readOnly && !IsDisposed;
+
+    /// <summary>Inner tabs chosen in the view of the sheet (<see cref="IViewTabMemory"/>, SH49 reduced): in memory, not saved.</summary>
+    public IDictionary<string, int> SelectedTabs { get; } = new Dictionary<string, int>(StringComparer.Ordinal);
 
     /// <summary>The automatic recalculation started by the last change (completed when none); true when it was published.</summary>
     public Task<bool> PendingCalculation { get; private set; } = Task.FromResult(false);

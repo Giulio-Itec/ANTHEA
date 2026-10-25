@@ -10065,10 +10065,11 @@
       "modulo": "sezione c.a., paratie, fondazioni superficiali, palo verticale",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Quando una scheda della shell torna a schermo la vista del foglio si ricostruisce dal ViewModel; le sotto-schede non legate al ViewModel tornavano alla prima (per esempio i risultati del palo verticale). Ora TabMemory ricorda l'indice scelto per ViewModel, in memoria e senza scriverlo nel documento (regola T6), nei 9 TabControl dei fogli senza selezione legata: alternative del progetto delle armature, mappa e dettagli del dominio, armature della sezione c.a., tabelle, filtrazione e stabilità delle paratie, grafici delle fondazioni superficiali, risultati del palo verticale. Le schede interne legate al ViewModel che partono da −1 (S4-c/S7-b) passano al passo a.",
+      "descrizione": "Quando una scheda della shell torna a schermo la vista del foglio si ricostruisce dal ViewModel; le sotto-schede non legate al ViewModel tornavano alla prima (per esempio i risultati del palo verticale). Ora TabMemory ricorda l'indice scelto nel ViewModel più vicino che tiene le sotto-schede delle sue viste (IViewTabMemory), in memoria e senza scriverlo nel documento (regola T6), nei 9 TabControl dei fogli senza selezione legata: alternative del progetto delle armature, mappa e dettagli del dominio, armature della sezione c.a., tabelle, filtrazione e stabilità delle paratie, grafici delle fondazioni superficiali, risultati del palo verticale. Le schede interne legate al ViewModel che partono da −1 (S4-c/S7-b) passano al passo a.",
       "documento": "docs/refactoring/f5-15-prioritarie.md voce 8; f5-15-famiglie.md §8; f5-13-shell.md §12.6 (SH49)",
       "codice": [
-        "src/ANTHEA.Desktop/Views/Common/TabMemory.cs"
+        "src/ANTHEA.Desktop/Views/Common/TabMemory.cs",
+        "src/ANTHEA.Presentation/Mvvm/IViewTabMemory.cs (SheetViewModelBase, ConcreteDomainPanelViewModel, ConcreteDesignViewModel)"
       ],
       "segno": "Solo interfaccia: dati, calcolo e report invariati; nulla si scrive nel documento.",
       "test": [

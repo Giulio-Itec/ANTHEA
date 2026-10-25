@@ -4,6 +4,7 @@ using Anthea.Application.Presentation;
 using Anthea.Calculations;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Services;
+using Anthea.Presentation.Mvvm;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -93,13 +94,16 @@ public sealed class ConcreteDomain2DViewModel : ObservableObject
 /// (<see cref="NeedsVisualRefresh"/>). The section σ/ε of the tab «Sezione σ / ε» is <see cref="Inspection"/> (sub-step S7): the panel gives it
 /// its inner tab and its two check boxes.
 /// </summary>
-public sealed class ConcreteDomainPanelViewModel : ObservableObject
+public sealed class ConcreteDomainPanelViewModel : ObservableObject, IViewTabMemory
 {
     private readonly ConcreteSheetViewModel sheet;
     private readonly Dictionary<string, ConcreteResults.Mesh> meshes = new(StringComparer.Ordinal);
     private string detail = "Selezionare una combinazione";
     private int inspectionTab = -1;
     private bool attaching, neutralAxis, barValues;
+
+    /// <summary>Inner tabs chosen in the view of the panel (<see cref="IViewTabMemory"/>, SH49 reduced): in memory, not saved.</summary>
+    public IDictionary<string, int> SelectedTabs { get; } = new Dictionary<string, int>(StringComparer.Ordinal);
     private double actionSize, resistanceSize, transparency;
     private string? outputKey;
     private Dictionary<string, ConcreteResults.Check>? outputChecks;

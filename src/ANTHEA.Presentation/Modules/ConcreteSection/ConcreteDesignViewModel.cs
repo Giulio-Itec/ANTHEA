@@ -2,6 +2,7 @@ using Anthea.Application.Concrete;
 using Anthea.Application.Modules;
 using Anthea.Calculations;
 using Anthea.Presentation.Forms;
+using Anthea.Presentation.Mvvm;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -22,9 +23,13 @@ namespace Anthea.Presentation.Modules.ConcreteSection;
 /// A change of the data of a search (every Modified of the sheet, as the historic view) marks it stale: «Applica» is refused and a search in
 /// progress is cancelled. The three commands are disabled in a read-only revision, as the historic buttons.
 /// </summary>
-public sealed class ConcreteDesignViewModel : ObservableObject, IDisposable
+public sealed class ConcreteDesignViewModel : ObservableObject, IDisposable, IViewTabMemory
 {
     private readonly ConcreteSheetViewModel sheet;
+
+    /// <summary>Inner tabs chosen in the view of the design (<see cref="IViewTabMemory"/>, SH49 reduced): in memory, not saved.</summary>
+    public IDictionary<string, int> SelectedTabs { get; } = new Dictionary<string, int>(StringComparer.Ordinal);
+
     private ConcreteResults.DesignResult? result;
     private ConcreteResults.DesignCandidate? selection;
     private CancellationTokenSource? cancellation;
