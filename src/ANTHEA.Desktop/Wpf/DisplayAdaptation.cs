@@ -10,6 +10,13 @@ namespace X.Desktop;
 /// <summary>Uses physical monitor coordinates only at the Win32 boundary; WPF lays out in DIPs.</summary>
 internal static class DisplayAdaptation
 {
+    /// <summary>
+    /// The minimum size a window asks for after it is attached, before the clamp to the work area: a dialog of WpfDialogService
+    /// sets it when its view is laid out (<see cref="Services.DialogSizing"/>, F5.15).
+    /// </summary>
+    internal static readonly DependencyProperty MinimumSizeProperty =
+        DependencyProperty.RegisterAttached("MinimumSize", typeof(Size?), typeof(DisplayAdaptation), new PropertyMetadata(null));
+
     internal static void Attach(Window window)
     {
         HwndSource? source = null;
@@ -18,6 +25,7 @@ internal static class DisplayAdaptation
         void Fit()
         {
             if (closed || source is null) return;
+            if (window.GetValue(MinimumSizeProperty) is Size requested) { minimumWidth = requested.Width; minimumHeight = requested.Height; }
             var info = new MonitorInfo { Size = Marshal.SizeOf<MonitorInfo>() };
             if (!GetMonitorInfo(MonitorFromWindow(source.Handle, 2), ref info)) return;
             var dpi = VisualTreeHelper.GetDpi(window);

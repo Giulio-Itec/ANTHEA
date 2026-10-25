@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Microsoft.Win32;
 
 namespace X.Desktop.Services;
@@ -49,6 +51,7 @@ internal sealed class WpfDialogService(Func<Window?> owner) : IDialogService
         };
         if (parent is not null) window.SetValue(NumericPresentation.EnabledProperty, NumericPresentation.Enabled(parent));
         DisplayAdaptation.Attach(window);
+        DialogSizing.Attach(window);
         Appearance.Watch(window);
         void Close(object? sender, EventArgs e) => window.Close();
         dialog.CloseRequested += Close;
@@ -57,6 +60,47 @@ internal sealed class WpfDialogService(Func<Window?> owner) : IDialogService
         try { window.ShowDialog(); }
         finally { dialog.CloseRequested -= Close; }
         return Task.FromResult(dialog.Result);
+    }
+}
+
+/// <summary>
+/// Size of the dialogs of <see cref="WpfDialogService"/> (F5.15, family 5, decision of 25/10): the window opens at the size of the
+/// view of the dialog, then the view follows the window. The minimum is the MinWidth/MinHeight the view declares (the historic
+/// minimum, for example the values of the retaining walls), otherwise the size the dialog opens with.
+/// </summary>
+internal static class DialogSizing
+{
+    internal static void Attach(Window window) => window.Loaded += (_, _) => Stretch(window);
+
+    internal static void Stretch(Window window)
+    {
+        if (FindView(window, window.Content) is not { ActualWidth: > 0, ActualHeight: > 0 } view) return;
+        double chromeWidth = window.ActualWidth - view.ActualWidth, chromeHeight = window.ActualHeight - view.ActualHeight;
+        double width = view.MinWidth > 0 ? Math.Min(view.MinWidth, view.ActualWidth) : view.ActualWidth;
+        double height = view.MinHeight > 0 ? Math.Min(view.MinHeight, view.ActualHeight) : view.ActualHeight;
+        window.SizeToContent = SizeToContent.Manual;
+        window.Width = window.ActualWidth;
+        window.Height = window.ActualHeight;
+        view.Width = double.NaN;
+        view.Height = double.NaN;
+        view.MinWidth = width;
+        view.MinHeight = height;
+        window.MinWidth = width + chromeWidth;
+        window.MinHeight = height + chromeHeight;
+        window.SetValue(DisplayAdaptation.MinimumSizeProperty, new Size(window.MinWidth, window.MinHeight));
+    }
+
+    // The view is the first child of the presenter of the content of the window (the DataTemplate of the ViewModel).
+    private static FrameworkElement? FindView(DependencyObject parent, object? content)
+    {
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, i);
+            if (child is ContentPresenter presenter && ReferenceEquals(presenter.Content, content))
+                return VisualTreeHelper.GetChildrenCount(presenter) > 0 ? VisualTreeHelper.GetChild(presenter, 0) as FrameworkElement : null;
+            if (FindView(child, content) is { } found) return found;
+        }
+        return null;
     }
 }
 

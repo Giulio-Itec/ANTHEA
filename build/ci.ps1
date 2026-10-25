@@ -427,6 +427,8 @@ Add-Suite @{ Name = 'ui/check-sezione-view'; Stage = 'ui'; Kind = 'check'; Args 
 Add-Suite @{ Name = 'ui/check-field-form-parity'; Stage = 'ui'; Kind = 'check'; Args = @('--check-field-form-parity', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # Theme tokens (F5.3): catalogue, colour equality with the palette in the three appearances, dictionaries of src/ANTHEA.Desktop/Themes, light scope of the documents; off screen.
 Add-Suite @{ Name = 'ui/check-theme-tokens'; Stage = 'ui'; Kind = 'check'; Args = @('--check-theme-tokens', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+# F5.15, step d (decisions of 25/10): dialogs that follow the window with the minimum of the view (DialogSizing), headers of the RC tables (V-c).
+Add-Suite @{ Name = 'ui/check-layout-decisions'; Stage = 'ui'; Kind = 'check'; Args = @('--check-layout-decisions', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # Contrast of every view, dialog and popup in the three appearances, off screen (F5.3, about 13 minutes): 0 defects in Scuro and Molto scuro,
 # Chiara within the frozen baseline, which may only go down (tests/ANTHEA.Desktop.UiTests/ContrastBaseline.cs).
 Add-Suite @{ Name = 'ui/check-contrast'; Stage = 'ui'; Kind = 'check'; Args = @('--check-contrast', '{out}', '--baseline', '{root}\tests\fixtures\f5\contrasto-chiara.json'); Timeout = 2400; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }

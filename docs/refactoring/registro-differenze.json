@@ -9983,7 +9983,8 @@
       "famiglia": "interfaccia/shell",
       "modulo": "F5.13 · Shell (pagina Progetti)",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
+      "stato": "attuato",
+      "esito_25_10": "Attuata il 25/10 (F5.15, passo d): «?» nella barra dei progetti della shell (ShellViewModel.ProjectsHelpCommand) apre l'articolo «Progetti e gestione del lavoro» nella scheda Wiki. Prova: ui/shell-smoke-project-workspace (G11).",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 9, riga G11 (Rev59)): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "MainWindow aveva nella barra dei progetti il pulsante «Guida progetti» (ProjectWorkspace, archiviato in supporto/SUPERATI/ui-storica/shell), che apriva l'articolo della guida dell'area Progetti. La shell nuova non ha il pulsante. La guida pratica Rev59 non lo cita più e rimanda all'articolo della Wiki «Progetti e gestione del lavoro», raggiungibile dalla pagina Wiki e dalla ricerca; F1 e «?» aprono la Wiki dai fogli (dalla pagina Progetti non verificato). Trovata rileggendo la guida sul prodotto per la Rev59; non era registrata.",
       "documento": "docs/refactoring/f5-13-shell.md §14.6 («Applicato nella Rev59»); f5-15-revisione.md §15.3 (G11)",
@@ -9997,6 +9998,62 @@
       },
       "opzioni": [{"id": "presa", "descrizione": "nessun pulsante, la guida rimanda all'articolo della Wiki"}, {"id": "alternativa", "descrizione": "un pulsante o una voce di aiuto nella barra dei progetti della shell che apre l'articolo"}],
       "revisione_f5_15": "G11 (f5-15 §15.3)",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-65",
+      "data": "2026-10-25",
+      "fase": "F5.15, passo d (famiglia 5 della scheda per famiglie)",
+      "titolo": "Dialoghi di WpfDialogService ridimensionabili, con la misura minima della vista",
+      "famiglia": "interfaccia/dialoghi",
+      "modulo": "tutti (WpfDialogService)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Prima il dialogo si apriva con la misura fissa della vista (per esempio 1334×741 il prezzario, 1134×741 i valori dei muri) e la finestra, pur ridimensionabile, non allargava il contenuto. Ora la finestra si apre con la misura della vista, poi la vista segue la finestra; il minimo è quello dichiarato dalla vista (780×530 i valori dei muri, 850×600 l'importazione IA della stratigrafia), altrimenti la misura di apertura. «Terreno · invio e riutilizzo» (SoilTransferDialog) era già ridimensionabile con il minimo 720×520; le finestre della risposta elastica (Ui.Dialog) erano già ridimensionabili e restano come sono.",
+      "documento": "docs/refactoring/f5-15-famiglie.md §5; f5-15-revisione.md (§5.3-3, S16, §6.4-5, MU17, SV-e, BD22)",
+      "codice": [
+        "src/ANTHEA.Desktop/Services/WpfPresentationServices.cs (DialogSizing)",
+        "src/ANTHEA.Desktop/Wpf/DisplayAdaptation.cs (MinimumSize)",
+        "src/ANTHEA.Desktop/Views/RetainingWall/RetainingWallParametersView.xaml",
+        "src/ANTHEA.Desktop/Views/Stratigraphy/StratigraphyImportDialogView.xaml"
+      ],
+      "segno": "Solo interfaccia: dati, calcolo e report invariati.",
+      "test": [
+        "ui/check-layout-decisions (tests/ANTHEA.Desktop.UiTests/LayoutDecisionChecks.cs)"
+      ],
+      "decisione": {
+        "data": "2026-10-25",
+        "utente": "Come raccomandato in tutte le famiglie della scheda f5-15-famiglie.md",
+        "esito": "attuata il 25/10"
+      },
+      "revisione_f5_15": "famiglia 5 (f5-15-famiglie.md)",
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-66",
+      "data": "2026-10-25",
+      "fase": "F5.15, passo d (V-c)",
+      "titolo": "Sezione c.a.: colonne delle tabelle mai più strette della loro intestazione",
+      "famiglia": "interfaccia/sezione c.a.",
+      "modulo": "F5.10 · Sezione c.a. (str_palo)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Con le quote e i minimi storici (65 px) a 1600 px le intestazioni «Mx [kNm]», «VRd,x [kN]»… della tabella del taglio erano tagliate. Ora il minimo di ogni colonna delle tabelle della sezione c.a. (ConcreteTableGrid) è anche la larghezza della sua intestazione; le colonne con un'intestazione corta restano a 65.",
+      "documento": "docs/refactoring/f5-15-famiglie.md §3; f5-10-sezione.md §21.4 (V-c)",
+      "codice": [
+        "src/ANTHEA.Desktop/Views/ConcreteSection/ConcreteSectionControls.cs (ConcreteTableGrid.HeaderWidth)"
+      ],
+      "segno": "Solo interfaccia: dati, calcolo e report invariati.",
+      "test": [
+        "ui/check-layout-decisions (tests/ANTHEA.Desktop.UiTests/LayoutDecisionChecks.cs)",
+        "ui/check-sezione-view"
+      ],
+      "decisione": {
+        "data": "2026-10-25",
+        "utente": "Come raccomandato in tutte le famiglie della scheda f5-15-famiglie.md",
+        "esito": "attuata il 25/10"
+      },
+      "revisione_f5_15": "V-c (f5-15 §10.4)",
       "voci_collegate": []
     },
     {

@@ -93,6 +93,12 @@ internal static partial class ShellSmoke
         b.Check(!projectTree.IsVisible && b.Button(shell.ToggleTreeCommand).IsVisible, "SH24/SH48: sul riepilogo l'albero resta chiuso, «▸» lo riapre");
         await b.Press(b.Button(shell.ToggleTreeCommand));
         b.Check(projectTree.IsVisible, "«▸» riapre l'albero sul riepilogo");
+        // F5.15, G11 (decision of 25/10): «?» of the project bar opens the article of the projects in the Wiki tab; the tab is closed again.
+        await b.Press(b.Button(shell.ProjectsHelpCommand));
+        var help = shell.Windows.Pages.FirstOrDefault(t => t.Content is WikiTabViewModel { Uri: ShellViewModel.ProjectsHelpUri });
+        b.Check(help is not null, "G11: «?» della barra dei progetti apre l'articolo dei progetti nella Wiki");
+        shell.Windows.Close(help!); shell.ShowOverview(pile); await b.Idle();
+        b.Check(projectTree.IsVisible, "G11: chiusa la Wiki, il riepilogo torna con l'albero aperto");
         MenuCommand(b, pile, "Duplica");
         await b.Idle();
         var duplicate = foundation.Array("strutture").OfType<JsonObject>().Last();

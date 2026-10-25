@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 using Anthea.Presentation.Modules.ConcreteSection;
 using X.Desktop.Themes;
 
@@ -248,13 +249,23 @@ public sealed class ConcreteTableGrid : DataGrid
         foreach (var column in Columns)
         {
             if (InsertedColumns.TryGetValue(column.SortMemberPath, out double minimum)) { column.MinWidth = minimum; column.ClearValue(DataGridColumn.WidthProperty); continue; }
-            column.MinWidth = minimums.TryGetValue(column.SortMemberPath, out double own) ? own : column is DataGridCheckBoxColumn ? 60 : 65;
+            column.MinWidth = Math.Max(minimums.TryGetValue(column.SortMemberPath, out double own) ? own : column is DataGridCheckBoxColumn ? 60 : 65, HeaderWidth(column));
             int fromEnd = regular.Count - regular.IndexOf(column);
             double share = fromEnd <= weights.Length ? double.Parse(weights[^fromEnd], CultureInfo.InvariantCulture) : 1;
             column.Width = StretchColumns ? new DataGridLength(share, DataGridLengthUnitType.Star) : new DataGridLength(column is DataGridComboBoxColumn ? 140 : 112);
             if (wrapped.Contains(column.SortMemberPath) && column is DataGridTextColumn text) text.ElementStyle = wrapStyle;
         }
         if (wrapped.Count > 0) RowHeight = double.NaN;
+    }
+
+    // F5.15, V-c (decision of 25/10): a column is never narrower than its header, so that the headers of the shear table
+    // («Mx [kNm]», «VRd,x [kN]»…) are not cut at 1600 px. Header in semibold with the padding 6 of the theme on each side.
+    private double HeaderWidth(DataGridColumn column)
+    {
+        if (column.Header is not string { Length: > 0 } text) return 0;
+        var formatted = new FormattedText(text, CultureInfo.CurrentUICulture, FlowDirection, new Typeface(FontFamily, FontStyle, FontWeights.SemiBold, FontStretch),
+            FontSize, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
+        return Math.Ceiling(formatted.WidthIncludingTrailingWhitespace) + 16;
     }
 
     // The cells of a wrapped column (the outputStyle of the shear of the historic view).

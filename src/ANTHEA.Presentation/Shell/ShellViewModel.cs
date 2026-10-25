@@ -83,6 +83,7 @@ public sealed class ShellViewModel : ViewModelBase
         SheetBar = new SheetBarViewModel(Workspace, services.Messages, Back, uri => ShowWiki(uri));
         Appearance = this.options.Appearance is { } appearance ? new AppearanceMenuViewModel(appearance, services.Messages) : null;
         ToggleTreeCommand = new RelayCommand(() => IsTreeOpen = !IsTreeOpen);
+        ProjectsHelpCommand = new RelayCommand(() => guard.Run(() => ShowWiki(ProjectsHelpUri)));
         EnterFullPageCommand = new RelayCommand(() => EnterFullPage(), () => !IsFullPage && CanEnterFullPage);
         ExitFullPageCommand = new RelayCommand(ExitFullPage, () => IsFullPage);
         ToggleFullPageCommand = new RelayCommand(() => { if (IsFullPage) ExitFullPage(); else EnterFullPage(); }, () => IsFullPage || CanEnterFullPage);
@@ -171,6 +172,15 @@ public sealed class ShellViewModel : ViewModelBase
     public bool IsTreeOpen { get => isTreeOpen; set => SetProperty(ref isTreeOpen, value); }
 
     public IRelayCommand ToggleTreeCommand { get; }
+
+    /// <summary>Article of the Wiki on the projects, opened by «?» of the project bar.</summary>
+    public const string ProjectsHelpUri = "/wiki/guide/progetti/progetti-e-gestione-del-lavoro";
+
+    /// <summary>
+    /// «?» of the project bar (F5.15, G11, decision of 25/10): the article «Progetti e gestione del lavoro» in the Wiki tab, in place of
+    /// the button «Guida progetti» of MainWindow (registro F5-64).
+    /// </summary>
+    public IRelayCommand ProjectsHelpCommand { get; }
 
     // ---- Full page (F5.13 c, after the checkpoint of 22/10)
 

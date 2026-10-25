@@ -836,8 +836,10 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
     - [ ] b. Sola lettura: regola unica T6, prezzario consultabile in sola lettura (BD4), pulsanti di navigazione attivi (S6-a/S8-b), «Suggerisci
       campate» (BD10, punto 5); comandi dei muri spenti durante il lavoro (MU14).
     - [ ] c. Stato della vista: SH49 ridotta e prima scheda interna fin dall'apertura (S4-c/S7-b).
-    - [ ] d. Interfaccia: dialoghi ridimensionabili con una misura minima (famiglia 5), larghezze della tabella del taglio (V-c), «?» nella barra dei
-      progetti (G11).
+    - [x] d. Interfaccia: dialoghi ridimensionabili con una misura minima (famiglia 5), larghezze della tabella del taglio (V-c), «?» nella barra dei
+      progetti (G11). Fatto il 25/10, primo passo per la quota (ramo `refactoring/f5-15-attuazione`): `DialogSizing` in `WpfDialogService`,
+      `ConcreteTableGrid.HeaderWidth`, `ProjectsHelpCommand`; registro F5-64 attuata, F5-65 e F5-66 nuove; prova `ui/check-layout-decisions` (suite
+      dello stadio ui da 70 a 71) e G11 in `ui/shell-smoke-project-workspace`.
     - [ ] e. Librerie: R4, R5, R10 e le voci della famiglia 11, nel set successivo all'unione di Codex, con le voci del registro e una full.
     - [ ] f. Chiusura: registro, full, guide e note dove serve.
     - Voce di infrastruttura dopo F5, fuori da F5.15: calcoli dal limitatore (D-2, D-5) e taglio sullo sfondo (C2/S5-c).

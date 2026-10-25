@@ -10,7 +10,7 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
  xmlns:local="clr-namespace:X.Desktop"
  xmlns:views="clr-namespace:X.Desktop.Views.RetainingWall"
- Width="1134" Height="741" Background="{DynamicResource Token.Surface}">
+ Width="1134" Height="741" MinWidth="780" MinHeight="530" Background="{DynamicResource Token.Surface}">
  <UserControl.Resources>
   <ResourceDictionary>
    <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="RetainingWallResources.xaml"/></ResourceDictionary.MergedDictionaries>

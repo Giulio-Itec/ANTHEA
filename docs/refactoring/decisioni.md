@@ -1891,3 +1891,6 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
 
    Le 55 voci del 25/10 hanno `decisione_25_10`; F5-11 (FN4, decisa il 24/10 con T6) passa a «da-correggere» con `decisione_24_10`. Restano «da-decidere» solo le
    voci BUG-* della coda dei bug, fuori da F5.15. I passi di attuazione sono nel [piano](piano.md), voce F5.15.
+5. **Avvio dell'attuazione.** Dopo l'unione della scheda: «poi inizia la F15», con «cerca di fermarti sotto il 90% comunque. nel caso ti faccio
+   continuare martedì pomeriggio». L'attuazione parte quindi il 25/10, prima del rinnovo del 28/10, con il tetto del 90 % di quota. Si comincia dal
+   passo d, il più piccolo e autonomo; i passi a, b e c seguono finché la quota lo consente.

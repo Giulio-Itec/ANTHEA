@@ -177,6 +177,9 @@
         Command="{Binding Commands.UndoCommand}"/>
        <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.RedoLabel}" ToolTip="{x:Static cmd:ShellCommandsViewModel.RedoToolTip}"
         Command="{Binding Commands.RedoCommand}"/>
+       <!-- F5.15, G11: the help of the projects, in place of «Guida progetti» of MainWindow. -->
+       <Button Style="{StaticResource Shell.BarButton}" Content="?" ToolTip="Progetti e gestione del lavoro (Wiki)" AutomationProperties.Name="Aiuto sui progetti"
+        Command="{Binding ProjectsHelpCommand}"/>
       </StackPanel>
       <TextBlock Style="{StaticResource Shell.OnBar}" FontSize="{DynamicResource Font.Title}" FontWeight="SemiBold" Text="ANTHEA   |   Progetti" Margin="20,8"/>
      </DockPanel>
