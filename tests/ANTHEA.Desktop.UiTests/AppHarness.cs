@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Threading;
 using X.Core;
+using Anthea.Presentation.Shell.Commands;
 using X.Desktop.Services;
 
 namespace X.Desktop;
@@ -28,6 +29,9 @@ public partial class App
         if (!e.Args.Any(a => a.StartsWith("--check") || a.StartsWith("--smoke") || a == "--capture-validation")) return;
         // Every check runs with the light theme; the later production call is ignored (Initialize is idempotent).
         Appearance.Initialize(false);
+        // F5.15, V-a: every check with the decimal separator «Virgola», on this thread and on the others (the operations of the dispatcher
+        // included), so that the recorded references do not depend on the separator of the machine.
+        WpfNumberSeparatorService.Apply(DecimalSeparatorChoice.Comma);
         handled = true;
         if (e.Args.Length == 2 && e.Args[0] == "--check-spettri-contrast")
         {

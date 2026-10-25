@@ -16,6 +16,8 @@ public partial class App : Application
         RunTestHarness(e, ref handled);
         if (handled) return;
         Appearance.Initialize(true);
+        // F5.15, V-a: the decimal separator chosen in «Aspetto» (Sistema by default, the culture of Windows), before the first window.
+        WpfNumberSeparatorService.Apply(WpfNumberSeparatorService.Read(WpfNumberSeparatorService.PreferencePath));
         ErrorLog.Attach();
         DispatcherUnhandledException += (_, error) =>
         {

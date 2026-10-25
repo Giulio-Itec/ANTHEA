@@ -64,6 +64,7 @@ try
         return 0;
     }
     checks += ViewModelBaseChecks.Run();
+    checks += NumberSeparatorChecks.Run();
     checks += EmbeddedWallChecks.Run(output);
     checks += await CommandGuardChecks.RunAsync();
     checks += await ServicesChecks.RunAsync();

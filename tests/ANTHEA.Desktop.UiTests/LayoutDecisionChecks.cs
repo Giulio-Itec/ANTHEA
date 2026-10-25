@@ -60,6 +60,11 @@ internal static class LayoutDecisionChecks
             var import = new StratigraphyImportDialogView();
             Check(import.Width == 1184 && import.Height == 811 && import.MinWidth == 850 && import.MinHeight == 600, "Importazione IA: 1184×811, minimo 850×600");
 
+            // V-a: the checks run with «Virgola» (AppHarness), on this thread and on the threads of the calculations.
+            Check(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator == ",", "V-a: le prove girano con la virgola decimale");
+            string worker = await Task.Run(() => System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+            Check(worker == ",", "V-a: anche i thread dei calcoli usano la virgola");
+
             // V-c: in a narrow table that shares its width, the long headers of the shear keep their width; a short one keeps the minimum 65.
             var grid = new ConcreteTableGrid { Width = 300 };
             var shear = new DataGridTextColumn { Header = "VRd,x [kN]", SortMemberPath = "VRdx" };

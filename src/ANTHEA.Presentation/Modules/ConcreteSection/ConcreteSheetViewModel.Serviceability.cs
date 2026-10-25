@@ -80,20 +80,23 @@ public sealed partial class ConcreteSheetViewModel
 
     /// <summary>
     /// SynchronizeSharedSle of the historic view: the common options of <paramref name="source"/> copied into <c>sle_comuni</c> and into the
-    /// other families (shown as they are written, without the format of the numbers: behaviour kept, C5); every family enables its fields,
-    /// loses its results and shows its selection again; the detailing follows.
+    /// other families; every family enables its fields, loses its results and shows its selection again; the detailing follows. F5.15, C5·S4
+    /// (F5-36): the other families show the text of the field of <paramref name="source"/> («17,61»), not the number as written in the data
+    /// («17.607108191890596»).
     /// </summary>
     internal void SynchronizeSharedSle(string source)
     {
         using var notifications = JsonRowViewModel.DeferNotifications(AllActionRows());
         var from = Settings["sle"]![source]!;
+        var origin = StressPanels.FirstOrDefault(p => p.Key == source)?.Form;
         foreach (string field in ConcreteEditor.SharedSleFields)
         {
             Settings["sle_comuni"]![field] = from[field]?.DeepClone();
+            string shown = origin?.Fields.FirstOrDefault(f => f.Key == field)?.Text ?? from.S(field);
             foreach (var panel in StressPanels)
             {
                 if (panel.Key == source) continue;
-                Settings["sle"]![panel.Key]![field] = from[field]?.DeepClone(); panel.Form.Set(field, from.S(field), true);
+                Settings["sle"]![panel.Key]![field] = from[field]?.DeepClone(); panel.Form.Set(field, shown, true);
             }
         }
         foreach (var panel in StressPanels)

@@ -39,9 +39,13 @@ public static class ConcreteDesignPresentation
     /// <summary>The status of a search that could not start.</summary>
     public static string NotStarted(string error) => "Ricerca non avviata: " + error;
 
-    /// <summary>The status after «Applica configurazione», with the notice of the manual shear parameters kept (ARM-1).</summary>
+    /// <summary>
+    /// The status after «Applica configurazione», with the notice of the manual shear parameters kept (ARM-1). F5.15, S8-c (F5-50): it also says
+    /// that the search is superseded by the new arrangement, as the invalidation of the sheet marked it.
+    /// </summary>
     public static string Applied(string shearNotice) =>
-        "Configurazione applicata. Verifiche del foglio in aggiornamento; riscontri esecutivi da confermare sulla nuova disposizione." + (shearNotice == "" ? "" : " " + shearNotice);
+        "Configurazione applicata. Verifiche del foglio in aggiornamento; riscontri esecutivi da confermare sulla nuova disposizione. "
+        + "La ricerca è superata: ripeterla per nuove alternative." + (shearNotice == "" ? "" : " " + shearNotice);
 
     /// <summary>
     /// The fields of the search shown (RefreshDesignInputs of the historic view): the counts by face for the non circular sections, the circular

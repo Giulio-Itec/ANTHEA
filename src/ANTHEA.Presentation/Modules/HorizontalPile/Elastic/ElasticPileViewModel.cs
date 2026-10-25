@@ -274,7 +274,7 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
     {
         if (!CanEdit || Migration is null) return;
         try { ElasticPileEditor.ResolveMigration(data, legacy); BuildHeader(); sheet.Migrated(); InvalidateShared(); }
-        catch (ArgumentException error) { Status = error.Message; }
+        catch (ArgumentException error) { CalculationState(error.Message, false); }
     }
 
     /// <summary>«Mostra confronto completo»: the data of the sheet.</summary>
@@ -327,8 +327,11 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
         if (retain) SetDrawing(Response, preserveSelection: true);
         else { Response = null; SetDrawing(null, false); Points = []; Selection = Extremes = ""; }
         Stiffness = HorizontalPreview.StiffnessDescription(data);
-        CalculationState(retain ? ElasticPilePresentation.StatusRetained : ElasticPilePresentation.StatusChanged, true);
-        if (!ElasticPileEditor.NeedsMigration(data)) PendingCalculation = CalculateScheduledAsync(RecalculationDelay, false);
+        // F5.15, E4: an archive still to compare with the old one has no calculation in the queue: the state says so and the bar is off.
+        bool migrating = ElasticPileEditor.NeedsMigration(data);
+        if (migrating) CalculationState(ElasticPilePresentation.StatusMigration, false);
+        else CalculationState(retain ? ElasticPilePresentation.StatusRetained : ElasticPilePresentation.StatusChanged, true);
+        if (!migrating) PendingCalculation = CalculateScheduledAsync(RecalculationDelay, false);
         if (!constructing) sheet.Modified();
     }
 
@@ -464,9 +467,11 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
         if (sectionFollowsSelection) ShowSection(point);
     }
 
+    // F5.15, E5: when the selected height is lost the section loses also caption, diameter of the link and axes (it kept them before).
     private void ShowSection(JsonNode? point)
     {
-        Section = Section with { Outline = [], Bars = [], LinkRadius = 0 }; SectionDetail = ElasticPilePresentation.SectionNone;
+        Section = Section with { Outline = [], Bars = [], LinkRadius = 0, LinkDiameter = 0, LinkCaption = "", ShowAxes = false, Caption = null };
+        SectionDetail = ElasticPilePresentation.SectionNone;
         if (ElasticPilePresentation.SectionAt(Result, point) is { } shown) { Section = shown.View; SectionDetail = shown.Detail; }
     }
 }

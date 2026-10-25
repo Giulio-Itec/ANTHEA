@@ -84,6 +84,8 @@ public static class ElasticPilePresentation
 
     /// <summary>Status after a change of the shared data.</summary>
     public const string StatusChanged = "Dati modificati · analisi FEM e convergenza in coda";
+    /// <summary>F5.15, E4: an archive to compare with the old one, before the choice of the data: nothing is calculated.</summary>
+    public const string StatusMigration = "Archivio precedente da confrontare · nessun calcolo finché non si scelgono i dati";
 
     /// <summary>Status when the FEM starts without a response.</summary>
     public const string StatusResponseRunning = "1/2 · FEM su Winkler: spostamenti, N–V–M, equilibrio e confronto delle mesh";

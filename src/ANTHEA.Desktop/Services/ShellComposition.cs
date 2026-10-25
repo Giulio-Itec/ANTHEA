@@ -60,7 +60,7 @@ internal static class ShellComposition
         var tracker = new ShellWindowTracker(host => detached(new DetachedShellWindow(host, shell!.Windows, shell)));
         shell = new ShellViewModel(services, new ReleaseSheetFactory(implementations ?? ModuleImplementations.Release, modules, services, limiter), new DocumentFiles(examples), tracker,
             new DesktopSheetExports(),
-            new ShellOptions(new WpfAppearanceService(), () => ExampleCatalog.Load(examples), new DesktopSectionReports()));
+            new ShellOptions(new WpfAppearanceService(), () => ExampleCatalog.Load(examples), new DesktopSectionReports(), new WpfNumberSeparatorService()));
         tracker.Attach(shell.Windows);
         (services.Wiki as ShellWikiNavigator)?.Attach(shell);
         return new ShellParts(new ShellWindow(shell, tracker), shell, tracker);

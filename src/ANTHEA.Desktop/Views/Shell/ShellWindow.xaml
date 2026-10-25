@@ -56,8 +56,15 @@
    <MenuItem Header="_Strumenti">
     <MenuItem Header="{x:Static cmd:ShellCommandsViewModel.RheologyTitle}" Command="{Binding Commands.RheologyCommand}"/>
    </MenuItem>
-   <MenuItem x:Name="AppearanceMenu" Header="{x:Static cmd:AppearanceMenuViewModel.Title}" ItemsSource="{Binding Appearance.Items}"
-    ItemContainerStyle="{StaticResource Shell.AppearanceItem}" SubmenuOpened="OnAppearanceOpened"/>
+   <!-- «Aspetto»: the three appearances of today, then «Separatore decimale» (F5.15, V-a: Sistema, Virgola, Punto; it applies at the next start-up). -->
+   <MenuItem x:Name="AppearanceMenu" Header="{x:Static cmd:AppearanceMenuViewModel.Title}" SubmenuOpened="OnAppearanceOpened">
+    <MenuItem Style="{StaticResource Shell.AppearanceItem}" DataContext="{Binding Appearance.Items[0]}"/>
+    <MenuItem Style="{StaticResource Shell.AppearanceItem}" DataContext="{Binding Appearance.Items[1]}"/>
+    <MenuItem Style="{StaticResource Shell.AppearanceItem}" DataContext="{Binding Appearance.Items[2]}"/>
+    <Separator Style="{DynamicResource AppearanceMenuSeparator}" Visibility="{Binding Separators, Converter={StaticResource WhenPresent}}"/>
+    <MenuItem Header="{x:Static cmd:DecimalSeparatorMenuViewModel.Title}" ItemsSource="{Binding Separators.Items}"
+     ItemContainerStyle="{StaticResource Shell.AppearanceItem}" Visibility="{Binding Separators, Converter={StaticResource WhenPresent}}"/>
+   </MenuItem>
   </Menu>
 
   <!--

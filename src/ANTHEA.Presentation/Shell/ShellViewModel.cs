@@ -22,7 +22,8 @@ namespace Anthea.Presentation.Shell;
 /// catalogue of the installed examples (page «Esempi»); since part (e) the writer of the report of a section («Genera report», «Report Word della
 /// sezione»). Without them the menu, the page and the report of a section are absent (the checks of parts a and b).
 /// </summary>
-public sealed record ShellOptions(IAppearanceService? Appearance = null, Func<ExampleCatalog>? Examples = null, ISectionReports? Reports = null);
+public sealed record ShellOptions(IAppearanceService? Appearance = null, Func<ExampleCatalog>? Examples = null, ISectionReports? Reports = null,
+    INumberSeparatorService? Separators = null);
 
 /// <summary>
 /// The shell as one ViewModel (F5.13 b, c): the coordinator of the documents and the ViewModels of navigation, tree, catalogue of the sheets,
@@ -82,6 +83,7 @@ public sealed class ShellViewModel : ViewModelBase
         ModelReference = new ModelReferenceViewModel(services.Messages);
         SheetBar = new SheetBarViewModel(Workspace, services.Messages, Back, uri => ShowWiki(uri));
         Appearance = this.options.Appearance is { } appearance ? new AppearanceMenuViewModel(appearance, services.Messages) : null;
+        Separators = this.options.Separators is { } separators ? new DecimalSeparatorMenuViewModel(separators, services.Messages) : null;
         ToggleTreeCommand = new RelayCommand(() => IsTreeOpen = !IsTreeOpen);
         ProjectsHelpCommand = new RelayCommand(() => guard.Run(() => ShowWiki(ProjectsHelpUri)));
         EnterFullPageCommand = new RelayCommand(() => EnterFullPage(), () => !IsFullPage && CanEnterFullPage);
@@ -142,6 +144,9 @@ public sealed class ShellViewModel : ViewModelBase
 
     /// <summary>The menu «Aspetto», null without the appearance service.</summary>
     public AppearanceMenuViewModel? Appearance { get; }
+
+    /// <summary>«Separatore decimale» of the menu «Aspetto» (F5.15, V-a), null without the service of the separator.</summary>
+    public DecimalSeparatorMenuViewModel? Separators { get; }
 
     /// <summary>The status line of the shared data above the sheet with the focus.</summary>
     public SharedStatusViewModel SharedStatus { get; } = new();

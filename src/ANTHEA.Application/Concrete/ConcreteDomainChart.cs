@@ -29,8 +29,14 @@ public static class ConcreteDomainChart
                 "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita",
                 "Nessuna intersezione del dominio con il piano selezionato");
         }
+        // F5.15, §2-4 (F5-16): with N outside the domain the library returns no failure domain («Value cannot be null. (Parameter
+        // 'failureDomain')»); the chart says it with a text of ANTHEA. The texts of ANTHEA (numbers to correct) stay.
+        catch (ArgumentNullException) { return new([], null, null, null, null, OutsideDomain); }
         catch (ArgumentException ex) { return new([], null, null, null, null, ex.Message); }
     }
+
+    /// <summary>The 2D domain without a failure domain from the library: N outside the domain of the section.</summary>
+    public const string OutsideDomain = "Dominio 2D non disponibile: lo sforzo normale scelto è fuori dal dominio della sezione.";
     public static List<(string Id, ConcreteResults.Action Force, bool Pass)> VisibleActions(JsonObject options, IEnumerable<JsonObject> rows, string? selected,
         IReadOnlyDictionary<string, ConcreteResults.Check>? checks, ConcreteResults.Domain3D? three = null, ConcreteResults.Domain2D? two = null, bool report3D = false)
     {

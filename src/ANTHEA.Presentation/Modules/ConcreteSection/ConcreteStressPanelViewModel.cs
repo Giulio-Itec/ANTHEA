@@ -57,9 +57,9 @@ public sealed class ConcreteStressPanelViewModel : ObservableObject
     /// <summary>The subtitle of the options.</summary>
     public const string OptionsSubtitle = "Modifiche valide per Rara, Frequente e Quasi permanente. Azioni separate, già combinate.";
 
-    // The columns of the table that follow the checks of the family, by their index in the grid (6 and 7 the stresses, 8 the cracking), as
-    // the historic grid: with the unified actions «Elemento» is the first column and the indexes fall on the next columns (behaviour kept, C5).
-    private const int StressColumn = 6, RatioColumn = 7, CrackColumn = 8;
+    // The columns of the table that follow the checks of the family, by their key: ησ and «Tensioni» the stresses, «Fessurazione» the cracking.
+    // F5.15, S4-b (F5-35): the historic grid chose them by index (6, 7 and 8), which fell on the next columns with the unified actions.
+    private const string StressColumn = "eta_sigma", RatioColumn = "stress_status", CrackColumn = "wk";
 
     private readonly ConcreteSheetViewModel sheet;
     private string detail = "Selezionare una combinazione", crackDetail = "";
@@ -313,8 +313,9 @@ public sealed class ConcreteStressPanelViewModel : ObservableObject
         if (sheet.IsSynchronizing) return;
         bool stressRequired = ConcreteEditor.HasStressCheck(Key), crackRequired = ConcreteEditor.HasCrackCheck(Key, sheet.Settings);
         var columns = Table.Table.Columns;
-        columns[StressColumn].IsVisible = columns[RatioColumn].IsVisible = stressRequired;
-        columns[CrackColumn].IsVisible = CrackTabVisible = crackRequired;
+        ConcreteColumnViewModel Column(string key) => columns.First(c => c.Key == key);
+        Column(StressColumn).IsVisible = Column(RatioColumn).IsVisible = stressRequired;
+        Column(CrackColumn).IsVisible = CrackTabVisible = crackRequired;
         if (!IsShown) return;
         using var barsRefresh = Bars.Rows.DeferRefresh();
         using var concreteRefresh = Concrete.Rows.DeferRefresh();
