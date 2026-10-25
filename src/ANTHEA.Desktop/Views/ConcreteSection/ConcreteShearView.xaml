@@ -31,8 +31,8 @@
        <StackPanel>
         <ContentControl Style="{StaticResource Form}" Content="{Binding Stirrups.Values}"/>
         <ContentControl Style="{StaticResource Form}" Content="{Binding Stirrups.Scheme}"/>
-        <Button Style="{StaticResource Command}" Content="{Binding Stirrups.EditText}" HorizontalAlignment="Left" Click="ControlPanel_Click"
-         IsEnabled="{Binding DataContext.IsReadOnly, Converter={StaticResource Not}, RelativeSource={RelativeSource AncestorType=views:ConcreteSectionSheetView}}"/>
+        <!-- Navigation only: allowed also in a read-only revision (F5.15, S6-a, rule T6). -->
+        <Button Style="{StaticResource Command}" Content="{Binding Stirrups.EditText}" HorizontalAlignment="Left" Click="ControlPanel_Click"/>
        </StackPanel>
       </Expander>
       <ContentControl Style="{StaticResource Form}" Content="{Binding Form}"/>

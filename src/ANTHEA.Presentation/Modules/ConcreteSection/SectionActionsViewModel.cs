@@ -121,8 +121,20 @@ public sealed partial class SectionActionsViewModel : ObservableObject, IDialogV
     /// <summary>Raised by <see cref="ApplyAndCloseCommand"/> after a successful <see cref="Apply"/> and by <see cref="CancelCommand"/>.</summary>
     public event EventHandler? CloseRequested;
 
+    /// <summary>
+    /// The window opened from a read-only revision («Esporta Excel» of the historic actions): the rows can be read and exported, not applied.
+    /// F5.15, §10.4-1 (F5-18, rule T6): the historic window applied them to the data of the revision.
+    /// </summary>
+    public bool IsReadOnly
+    {
+        get => readOnly;
+        init { readOnly = value; if (value) Status = "Revisione in sola lettura: le sollecitazioni si possono esportare, non applicare."; }
+    }
+    private readonly bool readOnly;
+    private bool CanApply() => !readOnly;
+
     /// <summary>«Applica» on the dialog service: <see cref="Apply"/>, then the window closes with <see cref="Result"/> when it succeeded.</summary>
-    [RelayCommand] private void ApplyAndClose() { if (Apply()) CloseRequested?.Invoke(this, EventArgs.Empty); }
+    [RelayCommand(CanExecute = nameof(CanApply))] private void ApplyAndClose() { if (Apply()) CloseRequested?.Invoke(this, EventArgs.Empty); }
 
     /// <summary>«Annulla» on the dialog service: the window closes; nothing was applied.</summary>
     [RelayCommand] private void Cancel() => CloseRequested?.Invoke(this, EventArgs.Empty);
@@ -160,6 +172,7 @@ public sealed partial class SectionActionsViewModel : ObservableObject, IDialogV
     }
     public bool Apply()
     {
+        if (readOnly) { Result = null; return false; }
         try
         {
             var candidate = (JsonObject)source.DeepClone();

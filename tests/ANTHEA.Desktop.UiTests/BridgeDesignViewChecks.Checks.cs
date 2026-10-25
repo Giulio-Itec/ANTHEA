@@ -327,10 +327,22 @@ internal static partial class BridgeDesignViewChecks
         services.PriceScript = null; services.ThrowScriptError();
         Check(services.PriceWindows == 2 && sheet.Data["pricing"] is JsonObject && host.Modified == modified + 1
             && sheet.Prices.OfType<BridgeDesignText>().Any(t => t.Role == BridgeDesignTextRole.Title), "«Applica prezzario»: il documento dei prezzi nei dati, una modifica, il pannello ricostruito");
-        // Read-only (BD4): the editor is refused, its button locked.
+        // Read-only (F5.15, BD4): the editor opens to be read, without «Applica prezzario»; nothing is written.
         host.Editor.InspectRevision(); await host.Settle();
         open = Caption(view.DesignScroll, BridgeDesignPresentation.ManagePricesButton);
-        Check(open is { IsEnabled: false }, "BD4: «Gestisci prezzario…» bloccato in una revisione in sola lettura");
+        Check(open is { IsEnabled: true }, "BD4: «Gestisci prezzario…» libero in una revisione in sola lettura");
+        string applied = Normalized(sheet.Data); modified = host.Modified;
+        services.PriceScript = (editor, window) =>
+        {
+            var editorView = Walk(window).OfType<PriceCatalogueView>().Single();
+            window.UpdateLayout();
+            Check(editor.IsReadOnly && !editorView.ApplyButton.IsEnabled && editorView.StatusText.Text.StartsWith(PriceCatalogueViewModel.ReadOnlyStatus, StringComparison.Ordinal),
+                "BD4: in sola lettura il prezzario si consulta, «Applica prezzario» spento e lo stato lo dice");
+            Press(editorView.CancelButton);
+        };
+        Idle(() => { Press(open); return 0; }); await host.Settle();
+        services.PriceScript = null; services.ThrowScriptError();
+        Check(services.PriceWindows == 3 && Normalized(sheet.Data) == applied && host.Modified == modified, "BD4: il prezzario aperto in sola lettura non cambia il foglio");
     }
 
     // ---------------------------------------------------------------- 5. «Stampa scheda»
@@ -491,7 +503,8 @@ internal static partial class BridgeDesignViewChecks
 
     /// <summary>
     /// The controls that accept the user after InspectRevision, in the new view in every place, against those of the historic view on the same data,
-    /// recorded before its archiving; the only difference is «Gestisci prezzario…», locked in the new view (BD4).
+    /// recorded before its archiving; the only difference is «Suggerisci campate dalla lunghezza», locked in the new view (F5.15, BD10 point 5;
+    /// «Gestisci prezzario…» is free again since BD4 opens it to be read).
     /// </summary>
     private static async Task ReadOnly(string root)
     {
@@ -516,9 +529,9 @@ internal static partial class BridgeDesignViewChecks
             Log.Add($"   sola lettura ({id}), solo nella storica: " + string.Join(", ", before.Keys.Except(after.Keys).Order(StringComparer.Ordinal)));
             Log.Add($"   sola lettura ({id}), solo nella nuova: " + string.Join(", ", after.Keys.Except(before.Keys).Order(StringComparer.Ordinal)));
             Log.Add($"   sola lettura ({id}), comuni: " + string.Join(", ", common.Select(k => k + " " + after[k])));
-            string prices = "pulsante " + BridgeDesignPresentation.ManagePricesButton;
-            Check(different.SequenceEqual([prices + ": storica libero, nuova bloccato"]) && common.Length >= 30,
-                $"{id}: sola lettura, stessi controlli bloccati e liberi della vista storica, registrati ({common.Length} controlli comuni), salvo «Gestisci prezzario…» (BD4)"
+            string spans = "pulsante Suggerisci campate dalla lunghezza";
+            Check(different.SequenceEqual([spans + ": storica libero, nuova bloccato"]) && common.Length >= 30,
+                $"{id}: sola lettura, stessi controlli bloccati e liberi della vista storica, registrati ({common.Length} controlli comuni), salvo «Suggerisci campate» (BD10)"
                 + (different.Length == 1 ? "" : ": " + string.Join("; ", different)));
             Check(host.Editor.HasResults && host.Modified == modified, id + ": sola lettura, il risultato resta e nulla è modificato");
         }

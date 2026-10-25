@@ -63,8 +63,8 @@ public sealed class ConcreteStressPanelViewModel : ObservableObject
 
     private readonly ConcreteSheetViewModel sheet;
     private string detail = "Selezionare una combinazione", crackDetail = "";
-    private int detailTab = -1, verificationTab = 1, region = -1;
-    private bool crackTab = true, nonLinear, detailsGenerated;
+    private int detailTab, verificationTab = 1, region = -1;
+    private bool crackTab = true, nonLinear;
     private IReadOnlyList<ConcreteResults.EffectiveRegion> regions = [];
 
     internal ConcreteStressPanelViewModel(ConcreteSheetViewModel sheet, string key, int index, ConcreteActionTableViewModel table,
@@ -153,21 +153,13 @@ public sealed class ConcreteStressPanelViewModel : ObservableObject
     public bool NonLinearNotice { get => nonLinear; private set => SetProperty(ref nonLinear, value); }
 
     /// <summary>
-    /// The tab of the details of the row: 0 «Riepilogo», 1 «Barre e trefoli», 2 «Calcestruzzo», 3 «Fessurazione · passaggi»; -1 until the tabs
-    /// are shown the first time (the historic tab control selects its first tab only then).
+    /// The tab of the details of the row: 0 «Riepilogo» (at opening), 1 «Barre e trefoli», 2 «Calcestruzzo», 3 «Fessurazione · passaggi». F5.15,
+    /// S4-c (F5-38): the historic tab control had no tab (-1) until it was shown the first time.
     /// </summary>
-    public int DetailTab { get => detailTab; set { if (value is >= -1 and <= 3) SetProperty(ref detailTab, value); } }
+    public int DetailTab { get => detailTab; set { if (value is >= 0 and <= 3) SetProperty(ref detailTab, value); } }
 
     /// <summary>The tab of the column of the results: 0 «Dettagli combinazione», 1 «Riepilogo verifiche» (shown at opening).</summary>
-    public int VerificationTab
-    {
-        get => verificationTab;
-        set
-        {
-            if (value is < 0 or > 1 || !SetProperty(ref verificationTab, value)) return;
-            GenerateDetails();
-        }
-    }
+    public int VerificationTab { get => verificationTab; set { if (value is >= 0 and <= 1) SetProperty(ref verificationTab, value); } }
 
     /// <summary>The effective zones of the cracking of the selected row (the choice on the bar of the map).</summary>
     public IReadOnlyList<ConcreteResults.EffectiveRegion> Regions { get => regions; private set => SetProperty(ref regions, value); }
@@ -292,16 +284,7 @@ public sealed class ConcreteStressPanelViewModel : ObservableObject
     internal void Shown()
     {
         if (!IsShown) return;
-        GenerateDetails();
         UpdateSelection();
-    }
-
-    // The tabs of the details of the row are shown the first time (their tab control selects its first tab).
-    private void GenerateDetails()
-    {
-        if (detailsGenerated || verificationTab != 0 || !IsShown) return;
-        detailsGenerated = true;
-        if (detailTab == -1) DetailTab = 0;
     }
 
     /// <summary>
@@ -361,11 +344,13 @@ public sealed class ConcreteStressPanelViewModel : ObservableObject
 
     /// <summary>
     /// The map draws again (InvalidateVisual of the historic view). The legend is that of the drawing on screen: the historic viewport writes it
-    /// when it draws, which happens only while the family is shown and the section exists; otherwise it keeps the legend of its last drawing.
+    /// when it draws, which happens only while the family is shown and the section exists. F5.15, C5·S4 (F5-37): a family without a stress state
+    /// loses the legend also when hidden; the historic one kept the legend of its last drawing.
     /// </summary>
     private void Redraw()
     {
         if (IsShown && Map.Section is not null) Map.Legend = ConcreteStressPresentation.ContourScale(Map.Stress, Map.Contour)?.Legend ?? "";
+        else if (Map.Stress is null) Map.Legend = "";
         Map.Invalidate();
     }
 }

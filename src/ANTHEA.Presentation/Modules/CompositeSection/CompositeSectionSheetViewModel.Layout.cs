@@ -204,9 +204,10 @@ public sealed partial class CompositeSectionSheetViewModel
 
     /// <summary>
     /// The situation of the results (also when read-only, also from the detached view): the results and the drawing of that situation, the
-    /// phase kept for the next calculation, with Modified. During a calculation the choice changes and nothing else, as in the historic view.
-    /// No situation (−1) is never chosen from outside: a choice of the view that loses its item when the situations are replaced writes −1, and
-    /// the sheet then chooses the situation of the publication, as the historic view, whose handler is mute while it publishes.
+    /// phase kept for the next calculation, with Modified. During a calculation the phase is kept at once, the results, the drawing and the
+    /// view at its end (F5.15, SM5 point 3: the historic view changed only the choice, then showed the previous situation again). No situation
+    /// (−1) is never chosen from outside: a choice of the view that loses its item when the situations are replaced writes −1, and the sheet
+    /// then chooses the situation of the publication, as the historic view, whose handler is mute while it publishes.
     /// </summary>
     public int SelectedSituation
     {
@@ -215,11 +216,20 @@ public sealed partial class CompositeSectionSheetViewModel
         {
             if (value == selectedSituation || value < 0 || value >= situations.Count || IsDisposed) return;
             selectedSituation = value; OnPropertyChanged();
-            if (IsBusy) return;
-            if (value >= 0 && value < displayedPhases.Length) selectedPhase = displayedPhases[value];
+            if (value < displayedPhases.Length) selectedPhase = displayedPhases[value];
             followLatestStage = value == displayedPhases.Length - 1;
+            if (IsBusy) { situationPending = true; return; }
             ShowResults(); ViewChanged();
         }
+    }
+
+    // The situation chosen during a calculation, shown when the engine returns (before the publication, which keeps its phase).
+    private bool situationPending;
+    private void ShowPendingSituation()
+    {
+        if (!situationPending || IsDisposed) return;
+        situationPending = false;
+        ShowResults(); ViewChanged();
     }
 
     /// <summary>«Mostra tutte le fasi → ultima situazione» (refused when read-only): the last situation, followed by the next calculations.</summary>

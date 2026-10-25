@@ -780,6 +780,17 @@ internal static class CompositeSectionSheetChecks
         await Expect.Within(sheet.PendingWork);
         expect.That(sheet.Calculation is not null && sheet.Calculation.Input.Array("fasi")[1]!.S("Mx") == "2050" && !sheet.IsBusy && !sheet.ResultsAreStale,
             "Revisione corrente pubblicata");
+        // F5.15, SM5 point 3: a situation chosen during a calculation is shown and saved when the engine returns, and the publication keeps it
+        // (the historic view showed the previous situation again).
+        string? SavedSituation() => sheet.Data["ui_mista"]?["fase"]?.ToJsonString();
+        engine.Hold();
+        var chosen = sheet.CalculateAsync();
+        await engine.EnteredAsync();
+        sheet.SelectedSituation = 0;
+        expect.That(sheet.IsBusy && SavedSituation() != "0", "Situazione scelta durante il calcolo: vista non ancora salvata");
+        engine.Release();
+        expect.That(await Expect.Within(chosen) && sheet.SelectedSituation == 0 && SavedSituation() == "0" && !sheet.IsBusy,
+            "Situazione scelta durante il calcolo: mostrata, salvata e conservata alla fine (F5.15, SM5)");
         engine.Hold();
         var last = sheet.CalculateAsync();
         await engine.EnteredAsync();

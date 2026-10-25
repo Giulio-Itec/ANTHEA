@@ -166,10 +166,11 @@ internal sealed partial class ConcreteSectionSmoke
         while (properties.Text.StartsWith("Calcolo proprietà") && DateTime.UtcNow < propertyDeadline) { await Task.Delay(20); await Idle(); }
         propertyDialog.UpdateLayout();
         Check(propertyText.Text.Contains("SOLO CALCESTRUZZO") && propertyText.Text.Contains("OMOGENEIZZATA AL CLS") && propertyText.Text.Contains("ARMATURE ORDINARIE") && propertyText.Text.Contains("TREFOLI / CAVI"), "Report proprietà completo e disponibile dalla finestra: " + propertyText.Text);
+        // F5.15, V-a: the checks run with «Virgola» and the report of the library follows the culture.
         properties.Form.Set("phi", "2"); propertyDeadline = DateTime.UtcNow.AddSeconds(15);
-        while (!properties.Text.Contains("φ = 2.00") && DateTime.UtcNow < propertyDeadline) { await Task.Delay(20); await Idle(); }
+        while (!properties.Text.Contains("φ = 2,00") && DateTime.UtcNow < propertyDeadline) { await Task.Delay(20); await Idle(); }
         propertyDialog.UpdateLayout();
-        Check(propertyText.Text.Contains("φ = 2.00") && Settings["proprieta_sezione"].D("n") > Input.D("steel_modulus_mpa") / ConcreteMaterials.Concrete(Input).E, "Proprietà omogeneizzate con viscosità");
+        Check(propertyText.Text.Contains("φ = 2,00") &&Settings["proprieta_sezione"].D("n") > Input.D("steel_modulus_mpa") / ConcreteMaterials.Concrete(Input).E, "Proprietà omogeneizzate con viscosità");
         string byPhi = properties.Text; properties.Form.Set("metodo", "Da n"); await Task.Delay(50);
         propertyDeadline = DateTime.UtcNow.AddSeconds(15);
         while (properties.Text.StartsWith("Calcolo proprietà") && DateTime.UtcNow < propertyDeadline) { await Task.Delay(20); await Idle(); }

@@ -99,7 +99,7 @@ public sealed class ConcreteDomainPanelViewModel : ObservableObject, IViewTabMem
     private readonly ConcreteSheetViewModel sheet;
     private readonly Dictionary<string, ConcreteResults.Mesh> meshes = new(StringComparer.Ordinal);
     private string detail = "Selezionare una combinazione";
-    private int inspectionTab = -1;
+    private int inspectionTab;
     private bool attaching, neutralAxis, barValues;
 
     /// <summary>Inner tabs chosen in the view of the panel (<see cref="IViewTabMemory"/>, SH49 reduced): in memory, not saved.</summary>
@@ -218,15 +218,15 @@ public sealed class ConcreteDomainPanelViewModel : ObservableObject, IViewTabMem
     public ConcreteSectionInspectionViewModel Inspection { get; }
 
     /// <summary>
-    /// The inner tab of the panel: -1 until the panel is on screen the first time (the historic tab control has no tab chosen until it is laid
-    /// out), then 0 «Dominio» or 1 «Sezione σ / ε». Every change updates the section σ/ε (S7).
+    /// The inner tab of the panel: 0 «Dominio» (at opening) or 1 «Sezione σ / ε». Every change updates the section σ/ε (S7). F5.15, S7-b (F5-38):
+    /// the historic tab control had no tab (-1) until the panel was on screen the first time.
     /// </summary>
     public int InspectionTab
     {
         get => inspectionTab;
         set
         {
-            if (value is < -1 or > 1 || value == inspectionTab) return;
+            if (value is < 0 or > 1 || value == inspectionTab) return;
             inspectionTab = value; OnPropertyChanged();
             // The SelectionChanged of the historic inner tabs.
             _ = Inspection.UpdateAsync();
@@ -243,13 +243,11 @@ public sealed class ConcreteDomainPanelViewModel : ObservableObject, IViewTabMem
     internal bool NeedsVisualRefresh { get; set; } = true;
 
     /// <summary>
-    /// The panel became visible (IsVisibleChanged of the historic grid): the first time the inner tabs choose «Dominio»; the panel is drawn again
-    /// when it waits.
+    /// The panel became visible (IsVisibleChanged of the historic grid): the panel is drawn again when it waits.
     /// </summary>
     internal void Shown()
     {
         if (!IsShown) return;
-        if (inspectionTab == -1) InspectionTab = 0;
         if (NeedsVisualRefresh) RefreshPanel();
     }
 

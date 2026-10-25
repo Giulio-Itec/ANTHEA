@@ -74,15 +74,15 @@ internal static partial class ConcreteSectionViewChecks
         Directory.CreateDirectory(output);
         checks = 0; Log.Clear();
         var culture = System.Globalization.CultureInfo.GetCultureInfo("it-IT");
-        // The drawings first, in the culture state of --check-sezione-historic that froze disegni/elenco.txt: it-IT only in this async flow, the
-        // culture of the user (here with the decimal point) in the operations that the dispatcher runs outside it. The opening of a fixture shown
-        // on the 2D domain (circolare-cava) draws the title of the chart in the calculation queued by Loaded, outside the flow: «θ = 30.00°».
+        // The drawings first: it-IT in this async flow, the separator «Virgola» of the checks (F5.15, V-a) in the operations that the dispatcher
+        // runs outside it. The opening of a fixture shown on the 2D domain (circolare-cava) draws the title of the chart in the calculation queued
+        // by Loaded, outside the flow: «θ = 30,00°» (disegni/elenco.txt recaptured on 25/10; the historic capture had the point of the machine).
         System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.CurrentUICulture = culture;
         try
         {
             if (Part("banco")) Bench(root);
             if (Part("disegni")) await Drawings(root, Path.Combine(output, "disegni"));
-            // The traces in the same culture state: the frozen traces were written by the same capture (θ = 30.00°, question V-a).
+            // The traces in the same culture state (θ = 30,00°, V-a; frozen traces recaptured on 25/10).
             if (Part("tracce")) await Traces(root, Path.Combine(output, "tracce"));
             // Then it-IT also for the later operations of the thread (lesson of F5.4): the exports compare the two views in the same culture.
             await Dispatcher.CurrentDispatcher.InvokeAsync(() => { System.Globalization.CultureInfo.CurrentCulture = culture; System.Globalization.CultureInfo.CurrentUICulture = culture; });
@@ -624,6 +624,19 @@ internal static partial class ConcreteSectionViewChecks
     /// <summary>The main tabs of the view, every one bound to its ViewModel (section 20 of docs/refactoring/f5-10-sezione.md).</summary>
     private static readonly int[] BoundTabs = [0, 1, 2, 3, 4, 5, 6, 7];
 
+    /// <summary>The read-only states changed by F5.15 against the recording of the historic view (rule T6).</summary>
+    private static readonly Dictionary<string, string> DeclaredReadOnly = new(StringComparer.Ordinal)
+    {
+        ["4:Button:Modifica staffe nel pannello di controllo →"] = "libero",
+        ["5:Button:Modifica armature nel pannello di controllo →"] = "libero",
+        ["5:Button:Modifica geometria nel pannello di controllo →"] = "libero",
+        ["5:Button:Modifica staffe nel pannello di controllo →"] = "libero",
+        ["6:Button:Calcola curva"] = "bloccato",
+        ["7:Button:Dettagli →"] = "libero",
+        ["7:Button:SLE / esposizione →"] = "libero",
+        ["7:Button:Sezione →"] = "libero"
+    };
+
     /// <summary>
     /// The controls of the eight tabs that accept the user after InspectRevision, in the new view, against those of the historic view on the same data,
     /// recorded before the switch.
@@ -649,6 +662,9 @@ internal static partial class ConcreteSectionViewChecks
             }
         }
         var before = Recorded(root)["sola_lettura"]!.AsObject().ToDictionary(p => p.Key, p => p.Value!.GetValue<string>(), StringComparer.Ordinal);
+        // F5.15, rule T6 (decisions of 24 and 25/10): the buttons that only change the tab are free (S6-a, S8-b, F5-46) and «Calcola curva» is
+        // locked (S7-d, F5-19) in a read-only revision; the recording of the historic view has them the other way.
+        foreach (var (key, value) in DeclaredReadOnly) if (before.ContainsKey(key)) before[key] = value;
         var common = before.Keys.Intersect(after.Keys).Order(StringComparer.Ordinal).ToArray();
         var different = common.Where(k => before[k] != after[k]).Select(k => k + ": storica " + before[k] + ", nuova " + after[k]).ToArray();
         Log.Add("   sola lettura, solo nella storica: " + string.Join(", ", before.Keys.Except(after.Keys).Order(StringComparer.Ordinal)));

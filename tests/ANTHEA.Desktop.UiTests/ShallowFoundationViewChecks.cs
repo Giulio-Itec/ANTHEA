@@ -922,7 +922,9 @@ internal static class ShallowFoundationViewChecks
         Check(modified == host.Modified, "Stesse scritture della visita prima della revisione");
         host.Editor.InspectRevision();
         await host.Settle();
-        string before = HistoricReadOnly, after = Controls(host.Root, NewKey);
+        // F5.15, FN4 (F5-11, rule T6): the section of the failure mechanism is a view state and stays free in a read-only revision; the
+        // recording of the historic view has it locked.
+        string before = HistoricReadOnly.Replace("scelta meccanismo bloccata", "scelta meccanismo libera", StringComparison.Ordinal), after = Controls(host.Root, NewKey);
         Log.Add("   sola lettura, storica: " + before);
         Log.Add("   sola lettura, nuova:   " + after);
         Check(before == after, "Sola lettura: stessi controlli bloccati e liberi della vista storica");
@@ -933,8 +935,10 @@ internal static class ShallowFoundationViewChecks
         side.Editor<CheckBox>("presenza_falda").IsChecked = !side.Editor<CheckBox>("presenza_falda").IsChecked;
         view.MechanismAxis.SelectedIndex = 1;
         await host.Settle();
-        Check(host.Editor.Data.ToJsonString(J.Options) == data0 && host.Modified == modified && side.Editor<TextBox>("Width").Text == shown && view.MechanismAxis.SelectedIndex == 0,
-            "Sola lettura: digitazione, spunte e sezione del meccanismo (FN4) rifiutate, la vista mostra di nuovo i dati");
+        Check(host.Editor.Data.ToJsonString(J.Options) == data0 && host.Modified == modified && side.Editor<TextBox>("Width").Text == shown && view.MechanismAxis.SelectedIndex == 1,
+            "Sola lettura: digitazione e spunte rifiutate, la vista mostra di nuovo i dati; sezione del meccanismo ammessa senza scrivere (FN4)");
+        view.MechanismAxis.SelectedIndex = 0;
+        await host.Settle();
         var group = side.Group("metodo");
         group.IsExpanded = false; Click(side.Collect);
         await host.Settle();

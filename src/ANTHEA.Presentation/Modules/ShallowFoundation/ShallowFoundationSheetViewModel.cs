@@ -321,14 +321,17 @@ public sealed class ShallowFoundationSheetViewModel : SheetViewModelBase
 
     public IReadOnlyList<string> MechanismAxes => ShallowFoundationPresentation.MechanismAxes;
 
-    /// <summary>Section of the failure mechanism (0 X, 1 Y); view state not saved, refused when read-only as the historic choice.</summary>
+    /// <summary>
+    /// Section of the failure mechanism (0 X, 1 Y); view state not saved. F5.15, FN4 (F5-11, rule T6): allowed also when read-only; the
+    /// historic choice was locked only in some cases.
+    /// </summary>
     public int MechanismAxis
     {
         get => mechanismAxis;
         set
         {
             if (value == mechanismAxis) return;
-            if (!CanEdit || graphics is null || value < 0 || value >= MechanismAxes.Count) { OnPropertyChanged(); return; }
+            if (graphics is null || value < 0 || value >= MechanismAxes.Count) { OnPropertyChanged(); return; }
             mechanismAxis = value;
             OnPropertyChanged();
             Mechanism = graphics[ShallowFoundationPresentation.MechanismKey(value)]!.AsObject();

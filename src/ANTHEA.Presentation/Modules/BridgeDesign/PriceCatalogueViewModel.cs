@@ -98,14 +98,21 @@ public sealed partial class PriceCatalogueViewModel : ObservableObject, IDialogV
     /// <summary>The caption of the window.</summary>
     public string Title => "Bridge Design · Gestione prezzari";
 
+    /// <summary>Opened from a read-only revision: «Applica prezzario» is off and the status says so.</summary>
+    public bool IsReadOnly { get; }
+
+    /// <summary>The first words of the status in a read-only revision.</summary>
+    public const string ReadOnlyStatus = "Revisione in sola lettura: il prezzario si può consultare ed esportare, non applicare.";
+
     /// <summary>Raised after «Applica prezzario» and by «Annulla»: the dialog service closes the window.</summary>
     public event EventHandler? CloseRequested;
 
     /// <param name="data">The data of the bridge (a copy is kept). Throws <see cref="ArgumentException"/> when the bridge cannot be priced.</param>
     /// <param name="files">The file dialogs of the window (null: the commands of the files do nothing, as the historic window keeps its own).</param>
-    public PriceCatalogueViewModel(JsonObject data, IFileDialogService? files = null)
+    /// <param name="readOnly">Opened from a read-only revision: the price list can be read, previewed and exported, never applied (F5.15, BD4).</param>
+    public PriceCatalogueViewModel(JsonObject data, IFileDialogService? files = null, bool readOnly = false)
     {
-        this.files = files;
+        this.files = files; IsReadOnly = readOnly;
         initializing = true; editing = new PriceCatalogueEditing(data);
         foreach (var work in editing.Works)
         {
@@ -258,7 +265,7 @@ public sealed partial class PriceCatalogueViewModel : ObservableObject, IDialogV
             row.PreviousPrice = work.PreviousPrice; row.ResolvedPrice = work.ResolvedPrice; row.Status = work.Status;
         }
         proposed = outcome.Proposal; Estimate = outcome.Estimate;
-        CostPreview = outcome.CostPreview; Status = outcome.Status; CanApply = outcome.CanApply;
+        CostPreview = outcome.CostPreview; Status = IsReadOnly ? ReadOnlyStatus + " " + outcome.Status : outcome.Status; CanApply = outcome.CanApply && !IsReadOnly;
         ApplyCommand.NotifyCanExecuteChanged(); OnPropertyChanged(nameof(Estimate));
     }
     [RelayCommand(CanExecute = nameof(CanApply))]

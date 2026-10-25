@@ -36,8 +36,8 @@ public sealed class ConcreteCurvatureChartViewModel : ObservableObject
 
 /// <summary>
 /// The moment–curvature curve of the RC section (tab 07, F5.10 sub-step S7: ConcreteCurvature.cs of the historic view), without WPF: the form of
-/// the load path on <c>momento_curvatura</c>, «Calcola curva», «Interrompi» and «Esporta CSV…» (all three allowed in a read-only revision, as the
-/// historic buttons), the text and the chart of the result. The curve is calculated on a worker thread with its own scheduler (the historic
+/// the load path on <c>momento_curvatura</c>, «Calcola curva» (not in a read-only revision since F5.15), «Interrompi» and «Esporta CSV…» (allowed
+/// in a read-only revision, as the historic buttons), the text and the chart of the result. The curve is calculated on a worker thread with its own scheduler (the historic
 /// curvatureScheduler) from a copy of the data; a curve with the same data is not calculated again. Every change of the data or of the form
 /// clears it; the curve published enters the export of the results.
 /// </summary>
@@ -63,7 +63,7 @@ public sealed class ConcreteCurvatureViewModel : ObservableObject, IDisposable
         {
             CommitOnFocusLoss = true, FormatNumbers = true, WikiNavigator = sheet.Wiki, IsReadOnly = sheet.IsReadOnly
         };
-        CalculateCommand = new AsyncRelayCommand(CalculateAsync, AsyncRelayCommandOptions.AllowConcurrentExecutions);
+        CalculateCommand = new AsyncRelayCommand(CalculateAsync, () => sheet.CanEdit, AsyncRelayCommandOptions.AllowConcurrentExecutions);
         StopCommand = new RelayCommand(scheduler.Invalidate);
         ExportCommand = new RelayCommand(Export);
     }
@@ -81,7 +81,10 @@ public sealed class ConcreteCurvatureViewModel : ObservableObject, IDisposable
     /// <summary>A curve is being calculated.</summary>
     public bool IsRunning => running;
 
-    /// <summary>«Calcola curva»: confirms the sheet, then calculates the curve unless it is current; allowed in a read-only revision.</summary>
+    /// <summary>
+    /// «Calcola curva»: confirms the sheet, then calculates the curve unless it is current. F5.15, S7-d (F5-19, rule T6): not in a read-only
+    /// revision, where the historic view calculated it and the curve entered the results exported.
+    /// </summary>
     public IAsyncRelayCommand CalculateCommand { get; }
     /// <summary>«Interrompi»: the curve in progress is abandoned, nothing is published.</summary>
     public IRelayCommand StopCommand { get; }
@@ -102,12 +105,12 @@ public sealed class ConcreteCurvatureViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>The read-only revision changed.</summary>
-    internal void RefreshEditable(bool readOnly) => Form.IsReadOnly = readOnly;
+    internal void RefreshEditable(bool readOnly) { Form.IsReadOnly = readOnly; CalculateCommand.NotifyCanExecuteChanged(); }
 
     // CalculateCurvature of the historic view.
     private async Task CalculateAsync()
     {
-        if (running || disposed || sheet.IsDisposed) return;
+        if (running || disposed || sheet.IsDisposed || !sheet.CanEdit) return;
         sheet.CommitSheet();
         var input = (JsonObject)sheet.Input.DeepClone(); var workspace = (JsonObject)sheet.Settings.DeepClone(); var options = workspace["momento_curvatura"]!.AsObject();
         string requested = ConcreteCurvaturePresentation.Signature(input, workspace);
@@ -118,7 +121,8 @@ public sealed class ConcreteCurvatureViewModel : ObservableObject, IDisposable
         {
             var completion = await scheduler.ScheduleAsync(token => Task.Run(() => StructuralQueries.ConcreteCurvature(input, workspace, options, token), token));
             if (disposed || sheet.IsDisposed) return;
-            if (completion.Cancelled) { Text = ConcreteCurvaturePresentation.Interrupted; return; }
+            // F5.15, C5·S7 (F5-49): a change of the data meanwhile keeps «Dati modificati…»; only «Interrompi» says the calculation stopped.
+            if (completion.Cancelled) { if (Text != ConcreteCurvaturePresentation.Stale) Text = ConcreteCurvaturePresentation.Interrupted; return; }
             completion.TryPublish(current =>
             {
                 if (current.Error is not null) { Text = ConcreteCurvaturePresentation.Unavailable(current.Error.Message); return; }

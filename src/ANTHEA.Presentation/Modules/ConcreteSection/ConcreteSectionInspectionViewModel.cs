@@ -99,6 +99,16 @@ public sealed class ConcreteSectionInspectionViewModel : ObservableObject
     /// <summary>The read-only revision changed.</summary>
     internal void RefreshEditable() => PropertiesCommand.NotifyCanExecuteChanged();
 
+    /// <summary>
+    /// The preview of the section changed (RefreshPreview): without a solution the map takes its section, cables and message. F5.15, C5·S7
+    /// (F5-48): the historic map kept the section before the change until the panel solved it again.
+    /// </summary>
+    internal void ShowSection(ConcreteSectionDrawingViewModel preview)
+    {
+        if (Map.Stress is not null) return;
+        Map.Section = preview.Section; Map.Tendons = preview.Tendons; Map.Message = preview.Message; Map.Invalidate();
+    }
+
     /// <summary>The sheet was opened again or closed: a solution still running is never published.</summary>
     internal void Close()
     {
@@ -109,15 +119,17 @@ public sealed class ConcreteSectionInspectionViewModel : ObservableObject
     /// <summary>
     /// UpdateSectionInspection of the historic view: the solution in progress is abandoned and cleared (the map takes the section of the control
     /// panel); with the tab «Sezione σ / ε» chosen and a calculated row selected, the solution is read or calculated and published when it is
-    /// still the current one.
+    /// still the current one. F5.15, S7-c (F5-47): the map shows the message of the section of the control panel, and away from the tab «Sezione
+    /// σ / ε» the message goes back to the first one (the historic view kept «Lettura del piano…» of a solution abandoned).
     /// </summary>
     internal async Task UpdateAsync()
     {
         Session.Invalidate();
-        Map.Stress = null; Map.Section = sheet.Inputs.Drawing.Section; Map.Tendons = sheet.Inputs.Drawing.Tendons; Map.Invalidate();
+        Map.Stress = null; ShowSection(sheet.Inputs.Drawing);
         Plane = null;
         Values = ConcreteInspectionPresentation.NoSolution;
-        if (sheet.Initializing || sheet.IsDisposed || closed || panel.InspectionTab != 1) return;
+        if (sheet.Initializing || sheet.IsDisposed || closed) return;
+        if (panel.InspectionTab != 1) { Message = ConcreteInspectionPresentation.NoSelection; return; }
         var row = panel.Table.Table.Selected;
         var check = row is null ? null : sheet.DomainChecks(panel.Prefix + panel.Key)?.GetValueOrDefault(row.Values.S("id"));
         if (row is null || check?.LimitState is null) { Message = ConcreteInspectionPresentation.SelectCalculated; return; }

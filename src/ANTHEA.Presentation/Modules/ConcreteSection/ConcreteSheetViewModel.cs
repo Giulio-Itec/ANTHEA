@@ -222,7 +222,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         foreach (var panel in StressPanels) panel.Invalidated();
         InvalidateCurvature();
         if (!geometryChanged) _ = Inputs.RefreshQuickResistanceAsync();
-        // The section σ/ε of both panels cleared (with the section of the preview before this change), then solved again when shown (S7).
+        // The section σ/ε of both panels cleared, then solved again when shown (S7); the preview below gives it the new section (F5-48).
         foreach (var panel in DomainPanels) _ = panel.Inspection.UpdateAsync();
         if (geometryChanged) RefreshPreview();
         RefreshSummary(); Status = "Modifiche acquisite · aggiornamento automatico in attesa…"; RaiseModified(); Calculation.Queue();
@@ -262,8 +262,9 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         Inputs.Drawing.Invalidate();
         _ = Inputs.RefreshQuickResistanceAsync();
         Inputs.RefreshBars(engine);
-        // The stress maps of the serviceability take the section of the preview (S4).
+        // The stress maps of the serviceability take the section of the preview (S4); the sections σ/ε without a solution too (F5.15, F5-48).
         foreach (var panel in StressPanels) panel.ShowSection(Inputs.Drawing);
+        foreach (var panel in DomainPanels) panel.Inspection.ShowSection(Inputs.Drawing);
     }
 
     /// <summary>The preview refreshed one turn of the UI thread later (after the edit of a cell of the bars).</summary>

@@ -64,22 +64,23 @@ internal static partial class ConcreteSectionSheetChecks
         {
             await IdleAsync(sheet);
             var panel = sheet.Domain3D; var inspection = panel.Inspection;
-            expect.That(panel.InspectionTab == -1 && inspection.Map.Section is null && inspection.Message == ConcreteInspectionPresentation.NoSelection && inspection.Values == "",
-                "Sezione σ/ε prima della prima vista: schede non ancora mostrate, nessuna sezione");
+            // F5.15, S7-b (F5-38): «Dominio» from the opening; C5·S7 (F5-48): the map takes the section of the preview without a solution.
+            expect.That(panel.InspectionTab == 0 && inspection.Map.Section is not null && inspection.Message == ConcreteInspectionPresentation.NoSelection && inspection.Values == "",
+                "Sezione σ/ε prima della prima vista: scheda «Dominio», sezione dell'anteprima, nessuna soluzione");
             sheet.SelectedTab = 1;
-            expect.That(panel.InspectionTab == 0 && inspection.Map.Section is not null && inspection.Values == ConcreteInspectionPresentation.NoSolution && sheet.Domain2D.InspectionTab == -1,
+            expect.That(panel.InspectionTab == 0 && inspection.Map.Section is not null && inspection.Message == ConcreteInspectionPresentation.NoSelection && sheet.Domain2D.InspectionTab == 0,
                 "Dominio 3D mostrato: scheda «Dominio», sezione del pannello di controllo, nessuna soluzione");
             panel.InspectionTab = 1;
             expect.That(inspection.Message == ConcreteInspectionPresentation.Pending(true) && inspection.IsRunning, "Punto limite: lettura del piano in corso");
             await IdleAsync(sheet);
             expect.That(inspection.Message == ConcreteInspectionPresentation.Completed(true) && inspection.Map.Stress is not null && inspection.Plane is not null
                 && inspection.Values.StartsWith("PUNTO LIMITE · assi locali", StringComparison.Ordinal), "Punto limite: piano, mappa e valori");
-            // A solution superseded before it ends is never published.
+            // A solution superseded before it ends is never published; F5.15, S7-c (F5-47): away from the tab the message goes back to the first one.
             inspection.State = 0;
             panel.InspectionTab = 0;
             await IdleAsync(sheet);
-            expect.That(inspection.Message == ConcreteInspectionPresentation.Pending(false) && inspection.Map.Stress is null && inspection.Plane is null
-                && inspection.Values == ConcreteInspectionPresentation.NoSolution, "Azione inserita abbandonata: nessuna soluzione pubblicata");
+            expect.That(inspection.Message == ConcreteInspectionPresentation.NoSelection && inspection.Map.Stress is null && inspection.Plane is null
+                && inspection.Values == ConcreteInspectionPresentation.NoSolution, "Azione inserita abbandonata lasciando la scheda: nessuna soluzione pubblicata, primo messaggio");
             panel.InspectionTab = 1;
             await IdleAsync(sheet);
             expect.That(inspection.Message == ConcreteInspectionPresentation.Completed(false) && inspection.Values.StartsWith("AZIONE INSERITA · assi ", StringComparison.Ordinal),
@@ -138,11 +139,12 @@ internal static partial class ConcreteSectionSheetChecks
         {
             await IdleAsync(sheet);
             var curvature = sheet.Curvature;
-            expect.That(curvature.Form.IsReadOnly && curvature.Form["N"].IsInputReadOnly && curvature.CalculateCommand.CanExecute(null) && sheet.Domain3D.Inspection.States.Count == 2
-                && !sheet.Domain3D.Inspection.PropertiesCommand.CanExecute(null), "Sola lettura: form della curva protetto, «Calcola curva» disponibile, «Proprietà…» spento");
+            // F5.15, S7-d (F5-19), rule T6: «Calcola curva» off in a read-only revision, and the command refuses a call all the same.
+            expect.That(curvature.Form.IsReadOnly && curvature.Form["N"].IsInputReadOnly && !curvature.CalculateCommand.CanExecute(null) && sheet.Domain3D.Inspection.States.Count == 2
+                && !sheet.Domain3D.Inspection.PropertiesCommand.CanExecute(null), "Sola lettura: form della curva protetto, «Calcola curva» e «Proprietà…» spenti");
             await curvature.CalculateCommand.ExecuteAsync(null);
             await IdleAsync(sheet);
-            expect.That(curvature.Result is not null, "Sola lettura: la curva si calcola (comportamento storico)");
+            expect.That(curvature.Result is null && curvature.Text == "", "Sola lettura: la curva non si calcola");
         }
     }
 }

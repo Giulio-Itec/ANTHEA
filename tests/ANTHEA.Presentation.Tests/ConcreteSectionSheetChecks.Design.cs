@@ -112,8 +112,8 @@ internal static partial class ConcreteSectionSheetChecks
             await IdleAsync(sheet);
             var design = sheet.Design;
             expect.That(design.Form.IsReadOnly && design.Limits["slu"].IsInputReadOnly && !design.Shown["mostra"].CanChange && design.Ranking.IsReadOnly
-                && !design.RunCommand.CanExecute(null) && !design.StopCommand.CanExecute(null) && !design.ApplyCommand.CanExecute(null) && !design.ShowTabCommand.CanExecute(0),
-                "Sola lettura: form, alternative e comandi della ricerca protetti");
+                && !design.RunCommand.CanExecute(null) && !design.StopCommand.CanExecute(null) && !design.ApplyCommand.CanExecute(null) && design.ShowTabCommand.CanExecute(0),
+                "Sola lettura: form, alternative e comandi della ricerca protetti, navigazione attiva (F5.15, S8-b)");
         }
     }
 }

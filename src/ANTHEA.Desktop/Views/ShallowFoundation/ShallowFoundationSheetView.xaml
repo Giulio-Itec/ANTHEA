@@ -218,9 +218,9 @@
      <Grid>
       <TextBlock Style="{StaticResource GraphicsMessage}"/>
       <DockPanel Visibility="{Binding Graphics, Converter={StaticResource Present}}">
-       <!-- View state, not saved; always refused in a read-only revision (FN4). -->
+       <!-- View state, not saved; allowed also in a read-only revision (F5.15, FN4). -->
        <ComboBox x:Name="MechanismAxis" DockPanel.Dock="Top" Margin="2" ItemsSource="{Binding MechanismAxes}"
-        SelectedIndex="{Binding MechanismAxis}" IsEnabled="{Binding CanEdit, Mode=OneWay}"/>
+        SelectedIndex="{Binding MechanismAxis}"/>
        <TextBlock x:Name="MechanismText" DockPanel.Dock="Bottom" Style="{StaticResource Note}" Text="{Binding MechanismDescription}"/>
        <ContentControl x:Name="MechanismHost" Style="{StaticResource Drawing}"/>
       </DockPanel>

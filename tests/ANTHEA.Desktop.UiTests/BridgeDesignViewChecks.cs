@@ -38,12 +38,13 @@ namespace X.Desktop;
 /// <item>disegni: the drawing lists of the drawing (elevation and section), of the moment diagram, of the icons of the typologies, of the charts and
 /// of the preview of the search, and the pixels of the figures of the report, for every F3 fixture, equal to disegni/elenco.txt.</item>
 /// <item>prezzario: the price editor of the dialog service (its DataTemplate) against the historic window: size, texts, tabs and columns; the files
-/// through the file dialog service; «Annulla» and «Applica prezzario».</item>
+/// through the file dialog service; «Annulla» and «Applica prezzario»; in a read-only revision the editor without «Applica prezzario» (F5.15, BD4).</item>
 /// <item>stampa: the page of «Stampa scheda» equal to the historic page (texts and pixels); the window of the printer only with a result.</item>
 /// <item>schermate: the two pages in Chiara, Scuro and Molto scuro, the price editor, the compact layout (144 DPI here).</item>
 /// <item>aiuto: F1 opens the guide of the module through the navigator of the services, as SheetEditor (no «?» on the fields, as the historic view).</item>
 /// <item>nomi: the automation names of the historic view kept.</item>
-/// <item>sola-lettura: the controls that accept the user after InspectRevision are those of the historic view, but «Gestisci prezzario…» (BD4).</item>
+/// <item>sola-lettura: the controls that accept the user after InspectRevision are those of the historic view, but «Suggerisci campate dalla
+/// lunghezza» (F5.15, BD10 point 5).</item>
 /// <item>banco: the Release opens the MVVM view, «historic» is refused by the bench; «occupato» until the engine returns (BD3).</item>
 /// <item>esportazioni: for each F3 fixture the visit of the F3 capture writes what the historic visit writes, the three appearances write nothing,
 /// data and result after the calculation are those of the historic view, the exported JSON carries the data (BD7), the Word report and the PDF,

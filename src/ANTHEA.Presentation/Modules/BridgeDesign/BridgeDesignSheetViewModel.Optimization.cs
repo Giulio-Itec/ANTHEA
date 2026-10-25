@@ -35,7 +35,7 @@ public sealed partial class BridgeDesignSheetViewModel
     public IAsyncRelayCommand RunOptimizationCommand { get; private set; } = null!;
     /// <summary>«Interrompi» (also when read-only).</summary>
     public IRelayCommand StopOptimizationCommand { get; private set; } = null!;
-    /// <summary>«Suggerisci campate dalla lunghezza» (also when read-only).</summary>
+    /// <summary>«Suggerisci campate dalla lunghezza» (refused when read-only).</summary>
     public IRelayCommand SuggestSpansCommand { get; private set; } = null!;
     /// <summary>«Aggiorna elenco» (also when read-only).</summary>
     public IRelayCommand RefreshRankingCommand { get; private set; } = null!;
@@ -50,7 +50,7 @@ public sealed partial class BridgeDesignSheetViewModel
     {
         RunOptimizationCommand = new AsyncRelayCommand(() => RunOptimizationAsync(), () => CanRunOptimization);
         StopOptimizationCommand = new RelayCommand(StopOptimization);
-        SuggestSpansCommand = new RelayCommand(SuggestSpans);
+        SuggestSpansCommand = new RelayCommand(SuggestSpans, () => CanEdit);
         RefreshRankingCommand = new RelayCommand(RefreshRanking);
         ApplySolutionCommand = new RelayCommand(() => ApplySolution(selectedSolution), () => CanApplySolution);
         SolutionElevationCommand = new RelayCommand(() => SolutionSection = false);
@@ -59,7 +59,7 @@ public sealed partial class BridgeDesignSheetViewModel
 
     private void NotifyOptimizationCommands()
     {
-        RunOptimizationCommand.NotifyCanExecuteChanged(); ApplySolutionCommand.NotifyCanExecuteChanged();
+        RunOptimizationCommand.NotifyCanExecuteChanged(); ApplySolutionCommand.NotifyCanExecuteChanged(); SuggestSpansCommand.NotifyCanExecuteChanged();
         OnPropertyChanged(nameof(CanRunOptimization)); OnPropertyChanged(nameof(CanApplySolution));
     }
 
@@ -215,10 +215,13 @@ public sealed partial class BridgeDesignSheetViewModel
     private void SetRunEnabled(bool value) { runEnabled = value; NotifyOptimizationCommands(); }
     private void SetApplyEnabled(bool value) { applyEnabled = value; NotifyOptimizationCommands(); }
 
-    /// <summary>«Suggerisci campate dalla lunghezza» (also when read-only): with a result, the spans of the limits from the length and the typologies.</summary>
+    /// <summary>
+    /// «Suggerisci campate dalla lunghezza»: with a result, the spans of the limits from the length and the typologies. F5.15, BD10 point 5
+    /// (rule T6): refused when read-only, where the historic view wrote the limits and cleared the search.
+    /// </summary>
     public void SuggestSpans()
     {
-        if (calculationResult is not { } r) return;
+        if (!CanEdit || calculationResult is not { } r) return;
         var (minimum, maximum, message) = BridgeDesignOptimizationPresentation.SuggestSpans(r, locks["spans"], locks["family"]);
         if (locks["spans"]) { WriteLimit("campate-max", maximum!); WriteLimit("campate-min", minimum!); return; }
         if (minimum is null) { SearchStatus = message!; return; }

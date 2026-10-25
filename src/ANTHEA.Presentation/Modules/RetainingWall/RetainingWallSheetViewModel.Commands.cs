@@ -8,8 +8,8 @@ namespace Anthea.Presentation.Modules.RetainingWall;
 /// through the guard of the sheet (Q19: an error is shown in the screen). The commands that change the data are disabled when the sheet
 /// is read-only, as the historic buttons protected by RevisionInspection; those the historic view allows in a revision (calculation,
 /// report, CSV, values, «Sisma», «Stabilità globale», global calculation and its Word, «Modifica profilo, strati e ricerca») stay enabled.
-/// The commands that start a background work (calculation, global calculation, search of the reinforcement, values) start it and return,
-/// as the historic buttons: the schedulers of the sheet decide which work is published, and a second click is not refused.
+/// The commands that start a background work (calculation, global calculation, search of the reinforcement, values) are disabled while their
+/// work runs (F5.15, MU14); the schedulers of the sheet decide which work is published.
 /// </summary>
 public sealed partial class RetainingWallSheetViewModel
 {
@@ -169,12 +169,11 @@ public sealed partial class RetainingWallSheetViewModel
         _ => throw new ArgumentException("Colonna sconosciuta: " + column, nameof(column))
     };
 
-    /// <summary>A command that starts a background work and returns (the historic async click); errors are shown by the guard.</summary>
-    private IRelayCommand Start(Func<Task> work, Func<bool>? canExecute = null)
-    {
-        void Run() => _ = Guard.RunAsync(_ => work());
-        return canExecute is null ? new RelayCommand(Run) : new RelayCommand(Run, canExecute);
-    }
+    /// <summary>
+    /// A command that starts a background work; errors are shown by the guard. F5.15, MU14: disabled while its work runs, as the convention of
+    /// <see cref="GuardedCommands"/> (the historic buttons started the work and returned, and accepted a second click).
+    /// </summary>
+    private IRelayCommand Start(Func<Task> work, Func<bool>? canExecute = null) => GuardedCommands.CreateAsync(Guard, _ => work(), Lifetime, canExecute);
 
     private T Track<T>(T command) where T : IRelayCommand { editCommands.Add(command); return command; }
 

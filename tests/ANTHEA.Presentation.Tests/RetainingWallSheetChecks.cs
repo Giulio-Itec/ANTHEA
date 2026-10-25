@@ -13,6 +13,7 @@ using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Modules;
 using Anthea.Presentation.Modules.RetainingWall;
+using CommunityToolkit.Mvvm.Input;
 using Anthea.Presentation.Services;
 using Anthea.Testing.Comparison;
 using Anthea.Testing.Normalization;
@@ -582,6 +583,15 @@ internal static class RetainingWallSheetChecks
         expect.That(!await Expect.Within(first), "Calcolo superato pubblicato");
         await Expect.Within(sheet.PendingWork);
         expect.That(sheet.Calculation is not null && sheet.Calculation.Input["geometry"]!["height"]!.ToString() == "3,4" && !sheet.IsBusy, "Revisione corrente pubblicata");
+        // F5.15, MU14: «Ricalcola» is disabled while its work runs, as the convention of GuardedCommands.
+        engine.Hold();
+        var button = (IAsyncRelayCommand)sheet.RecalculateCommand;
+        button.Execute(null);
+        await engine.EnteredAsync();
+        expect.That(!button.CanExecute(null) && button.IsRunning, "«Ricalcola» spento durante il suo lavoro (MU14)");
+        engine.Release();
+        await Expect.Within(button.ExecutionTask!);
+        expect.That(button.CanExecute(null) && !sheet.IsBusy, "«Ricalcola» di nuovo attivo alla fine del lavoro (MU14)");
         engine.Hold();
         var last = sheet.RecalculateAsync();
         await engine.EnteredAsync();

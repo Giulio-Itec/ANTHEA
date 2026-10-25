@@ -76,7 +76,7 @@ public sealed partial class CompositeSectionSheetViewModel : SheetViewModelBase
         ArgumentNullException.ThrowIfNull(figures);
         this.figures = figures;
         this.response = response ?? ((data, request, token) => Anthea.Application.Modules.StructuralQueries.BridgeResponse(data, request, token));
-        engine.Ended += () => { if (!engineBusy) return; engineBusy = false; OnPropertyChanged(nameof(IsBusy)); };
+        engine.Ended += () => { if (!engineBusy) return; engineBusy = false; OnPropertyChanged(nameof(IsBusy)); ShowPendingSituation(); };
         PropertyChanged += OnStateChanged;
         Report = new CompositeSectionReport(this);
         CreateCommands();

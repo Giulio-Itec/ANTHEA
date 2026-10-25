@@ -87,13 +87,14 @@ public sealed class ConcreteActionsViewModel : ObservableObject
     internal static FileFilter ExcelFilter { get; } = new("Cartella Excel", "*.xlsx");
 
     // OpenActionEditor of the historic view: commit, the window on a copy of the data; «Applica» replaces the actions of the sheet, which opens
-    // again on its data (ReloadRequested of the historic view). «Annulla» changes nothing (the commit before the window stays, behaviour 6).
+    // again on its data (ReloadRequested of the historic view). «Annulla» changes nothing (the commit before the window stays, behaviour 6). In
+    // a read-only revision the window has no «Applica» (F5.15, F5-18).
     internal async Task EditAsync()
     {
         sheet.CommitSheet();
-        var editor = new SectionActionsViewModel(sheet.Data, sheet.Files, sheet.Settings.S("file_sollecitazioni"));
+        var editor = new SectionActionsViewModel(sheet.Data, sheet.Files, sheet.Settings.S("file_sollecitazioni")) { IsReadOnly = !sheet.CanEdit };
         var result = await sheet.Dialogs.ShowDialogAsync(editor);
-        if (result is null || sheet.IsDisposed) return;
+        if (result is null || sheet.IsDisposed || !sheet.CanEdit) return;
         sheet.ApplyActionEditor(result);
     }
 

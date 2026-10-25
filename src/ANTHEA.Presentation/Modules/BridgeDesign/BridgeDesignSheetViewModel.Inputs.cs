@@ -133,14 +133,20 @@ public sealed partial class BridgeDesignSheetViewModel
         Assumptions = items;
     }
 
-    // RefreshInputs of the historic view: the tabs and the prices rebuilt, every parameter shows the text of the data (its border and its
-    // slider stay as they were).
+    // RefreshInputs of the historic view: the tabs and the prices rebuilt, every parameter shows the text of the data and its border (its
+    // slider stays as it was). F5.15, BD10 point 3: the historic view kept the border after «Annulla», and the rebuilt fields lost it also with
+    // a value still not valid.
     private void RefreshInputs()
     {
         BuildInputs();
         foreach (string key in editors.Keys.Where(k => k.StartsWith("rates/", StringComparison.Ordinal)).ToArray()) editors.Remove(key);
         BuildPrices();
-        foreach (var (key, editor) in editors) { var parts = key.Split('/'); editor.SetText(Data[parts[0]]!.S(parts[1])); }
+        foreach (var (key, editor) in editors)
+        {
+            var parts = key.Split('/');
+            editor.SetText(Data[parts[0]]!.S(parts[1]));
+            editor.Invalid = BridgeDesignPresentation.ParameterInvalid(BridgeDesignPresentation.ParameterNumber(Data, parts[0], parts[1]), editor.Parameter);
+        }
     }
 
     // ---------------------------------------------------------------- edits
@@ -201,16 +207,15 @@ public sealed partial class BridgeDesignSheetViewModel
 
     /// <summary>
     /// «Gestisci prezzario…»: the price editor on the data, shown by the dialog service; the document applied goes into the data (an edit,
-    /// the tabs rebuilt). A bridge that cannot be priced writes the reason in the status line. Refused when read-only (the historic view opens
-    /// it and «Applica» writes the revision: a defect).
+    /// the tabs rebuilt). A bridge that cannot be priced writes the reason in the status line. F5.15, BD4 (F5-59): in a read-only revision the
+    /// editor opens without «Applica prezzario» (the historic view applied it to the revision).
     /// </summary>
     public async Task ManagePricesAsync()
     {
-        if (!CanEdit) return;
         PriceCatalogueViewModel editor;
-        try { editor = new PriceCatalogueViewModel(Data, Context.Services.Files); }
+        try { editor = new PriceCatalogueViewModel(Data, Context.Services.Files, !CanEdit); }
         catch (ArgumentException e) { Status = e.Message; return; }
         await Context.Services.Dialogs.ShowDialogAsync(editor);
-        if (editor.Result is not null && !IsDisposed) Mutate(() => editor.CommitTo(Data), true);
+        if (editor.Result is not null && !IsDisposed && CanEdit) Mutate(() => editor.CommitTo(Data), true);
     }
 }

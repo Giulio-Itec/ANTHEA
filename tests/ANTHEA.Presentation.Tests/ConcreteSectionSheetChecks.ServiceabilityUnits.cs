@@ -23,8 +23,9 @@ internal static partial class ConcreteSectionSheetChecks
             await IdleAsync(sheet);
             int modified = 0; sheet.Modified += (_, _) => modified++;
             var rara = sheet.StressPanel("SLE"); var frequent = sheet.StressPanel("SLE_FREQ");
+            // F5.15, S4-c (F5-38): the first inner tab of the details from the opening (the historic tab control had -1 until it was laid out).
             expect.That(sheet.StressPanels.Select(p => p.Key).SequenceEqual(["SLE", "SLE_FREQ", "SLE_QP"]) && sheet.StressFamily == 0
-                && sheet.StressFamilyLabels.SequenceEqual(sheet.StressPanels.Select(p => p.Label)) && rara.DetailTab == -1 && rara.VerificationTab == 1
+                && sheet.StressFamilyLabels.SequenceEqual(sheet.StressPanels.Select(p => p.Label)) && rara.DetailTab == 0 && rara.VerificationTab == 1
                 && rara.Detail == "Selezionare una combinazione" && rara.Map.Legend == "", "Famiglie SLE: ordine, famiglia mostrata, schede, dettaglio prima della prima vista");
             sheet.SelectedTab = ConcreteSheetViewModel.StressTab;
             expect.That(rara.IsShown && !frequent.IsShown && rara.Map.Stress is not null && rara.Bars.Rows.Count == 14 && rara.Concrete.Rows.Count == 4
@@ -34,16 +35,17 @@ internal static partial class ConcreteSectionSheetChecks
             expect.That(rara.DetailTab == 0, "Schede dei dettagli mostrate la prima volta: la prima selezionata");
             rara.Map.ClickBar(2);
             expect.That(rara.DetailTab == 1 && rara.Bars.SelectedIndex == 2 && rara.Map.SelectedBar == "B03", "Barra scelta sulla mappa: scheda e riga delle barre");
-            // The options common to the families: written into the other families and into sle_comuni, shown as written; one Modified.
+            // The options common to the families: written into the other families and into sle_comuni; one Modified.
             modified = 0;
             rara.Form["esposizione"].SelectedChoice = "XC3";
             var settings = sheet.Settings;
             expect.That(settings["sle"]!["SLE_FREQ"].S("esposizione") == "XC3" && settings["sle"]!["SLE_QP"].S("esposizione") == "XC3" && settings["sle_comuni"].S("esposizione") == "XC3"
                 && frequent.Form.Get("esposizione") == "XC3" && modified == 1 && sheet.IsCalculationQueued, "Opzione comune copiata nelle altre famiglie e in sle_comuni, ricalcolo in coda");
             await IdleAsync(sheet);
+            // F5.15, C5·S4 (F5-36): the other families show the text of the family changed, not the number as written in the data.
             rara.Form["phi"].EditText = "2";
-            expect.That(rara.Form.Get("n_armature") == "17,61" && frequent.Form.Get("n_armature") == settings["sle"]!["SLE"].S("n_armature")
-                && rara.Detail == "Tensioni da calcolare" && rara.Map.Stress is null && rara.Map.Legend == "", "φ: n calcolato, mostrato nella famiglia (formato) e nelle altre (come scritto)");
+            expect.That(rara.Form.Get("n_armature") == "17,61" && frequent.Form.Get("n_armature") == "17,61" && settings["sle"]!["SLE_FREQ"].S("n_armature") == settings["sle"]!["SLE"].S("n_armature")
+                && rara.Detail == "Tensioni da calcolare" && rara.Map.Stress is null && rara.Map.Legend == "", "φ: n calcolato, mostrato formattato nella famiglia e nelle altre");
             rara.Form["phi"].EditText = "abc";
             // The error belongs to φ, the value typed; the other families show φ as written and read the shared error with it.
             expect.That(rara.Form["phi"].IsNoteVisible && frequent.Form["phi"].IsNoteVisible && rara.Form["n_armature"].Note is null && rara.Form.Get("n_armature") == "",
@@ -69,7 +71,7 @@ internal static partial class ConcreteSectionSheetChecks
             // Reload: new families on the data opened again.
             var panels = sheet.StressPanels;
             sheet.Reload((JsonObject)sheet.Data.DeepClone());
-            expect.That(!panels.Intersect(sheet.StressPanels).Any() && sheet.StressFamily == 0 && sheet.StressPanel("SLE").DetailTab == -1
+            expect.That(!panels.Intersect(sheet.StressPanels).Any() && sheet.StressFamily == 0 && sheet.StressPanel("SLE").DetailTab == 0
                 && sheet.StressPanel("SLE").Contour == "Barre · tasso resistenza" && sheet.StressPanel("SLE").Map.BarValues, "Reload: famiglie nuove sulle opzioni salvate");
             await IdleAsync(sheet);
             expect.That(sheet.StressPanel("SLE").IsShown && sheet.StressPanel("SLE").Map.Stress is not null, "Reload: la famiglia mostrata riceve il calcolo dell'apertura");

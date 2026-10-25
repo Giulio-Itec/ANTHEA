@@ -92,7 +92,8 @@ public sealed partial class ConcreteSheetViewModel
         foreach (string field in ConcreteEditor.SharedSleFields)
         {
             Settings["sle_comuni"]![field] = from[field]?.DeepClone();
-            string shown = origin?.Fields.FirstOrDefault(f => f.Key == field)?.Text ?? from.S(field);
+            // Only a text field has a text of its own: a choice (the exposure) is shown by its value, as before.
+            string shown = origin is not null && origin.Contains(field) && origin[field].Kind == FieldKind.Text ? origin[field].Text : from.S(field);
             foreach (var panel in StressPanels)
             {
                 if (panel.Key == source) continue;

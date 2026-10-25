@@ -308,7 +308,7 @@ public sealed partial class BridgeDesignSheetViewModel : SheetViewModelBase
         AutoSizeCommand = new RelayCommand(AutoSize, () => CanEdit);
         RecommendedTrafficCommand = new RelayCommand(ApplyRecommendedTraffic, () => CanEdit);
         FamilyCommand = new RelayCommand<string>(id => { if (id is not null) SelectFamily(id); }, _ => CanEdit);
-        ManagePricesCommand = new AsyncRelayCommand(ManagePricesAsync, () => CanEdit);
+        ManagePricesCommand = new AsyncRelayCommand(ManagePricesAsync);
         IndicativeRatesCommand = new RelayCommand(ApplyIndicativeRates, () => CanEdit);
         RestoreACommand = new RelayCommand(RestoreA, () => CanEdit);
         RemoveComparisonCommand = new RelayCommand(RemoveComparison, () => CanEdit);
@@ -320,7 +320,7 @@ public sealed partial class BridgeDesignSheetViewModel : SheetViewModelBase
     private void NotifyCommands()
     {
         foreach (var command in new IRelayCommand[] { NewSceneCommand, RandomCommand, PinCommand, UndoCommand, AutoSizeCommand, RecommendedTrafficCommand, FamilyCommand,
-            ManagePricesCommand, IndicativeRatesCommand, RestoreACommand, RemoveComparisonCommand, RestoreEnvironmentCommand })
+            IndicativeRatesCommand, RestoreACommand, RemoveComparisonCommand, RestoreEnvironmentCommand })
             command.NotifyCanExecuteChanged();
         foreach (var command in alternativeCommands) command.NotifyCanExecuteChanged();
         NotifyOptimizationCommands();

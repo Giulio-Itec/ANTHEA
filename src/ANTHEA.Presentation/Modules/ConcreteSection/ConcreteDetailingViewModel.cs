@@ -74,7 +74,7 @@ public sealed class ConcreteDetailingViewModel : ObservableObject
         Topics = [new("cover", "Interferro / copriferro", new(2)), new("bars", "Armatura", new(2)), new("stirrups", "Staffe", new(2)), new("anchors", "Ancoraggi / appoggi", new(2))];
         Stirrups = new ConcreteStirrupsViewModel(sheet);
         UpdateAnchoragesCommand = new RelayCommand(UpdateAnchorages, () => sheet.CanEdit);
-        ShowControlPanelCommand = new RelayCommand(() => sheet.SelectedTab = 0, () => sheet.CanEdit);
+        ShowControlPanelCommand = new RelayCommand(() => sheet.SelectedTab = 0);
     }
 
     /// <summary>«Tipo di elemento».</summary>
@@ -108,7 +108,10 @@ public sealed class ConcreteDetailingViewModel : ObservableObject
 
     /// <summary>«Aggiorna verifiche ancoraggi»: the texts typed in the anchorage written, then the detailing calculated again (not in a read-only revision).</summary>
     public IRelayCommand UpdateAnchoragesCommand { get; }
-    /// <summary>«Modifica geometria / armature nel pannello di controllo →»: the tab 01 (not in a read-only revision, as the historic buttons).</summary>
+    /// <summary>
+    /// «Modifica geometria / armature nel pannello di controllo →»: the tab 01. F5.15, S6-a (F5-46, rule T6): allowed in a read-only revision,
+    /// since it only changes the tab; the historic buttons were disabled.
+    /// </summary>
     public IRelayCommand ShowControlPanelCommand { get; }
 
     // The callback of the forms of the detailing: the detailing calculated again; the aggregate is shared with the shear, which is calculated
@@ -168,7 +171,7 @@ public sealed class ConcreteDetailingViewModel : ObservableObject
     {
         foreach (var form in forms.Append(CoverGeometry).Append(Anchorage)) form.IsReadOnly = readOnly;
         Stirrups.RefreshEditable(readOnly);
-        UpdateAnchoragesCommand.NotifyCanExecuteChanged(); ShowControlPanelCommand.NotifyCanExecuteChanged();
+        UpdateAnchoragesCommand.NotifyCanExecuteChanged();
     }
 
     /// <summary>Every form of the tab, for the help of the fields: the forms of the detailing, the cover, the anchorage and the links.</summary>

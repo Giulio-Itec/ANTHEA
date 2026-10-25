@@ -497,8 +497,16 @@ internal static class BridgeDesignSheetChecks
 
     private static async Task ReadOnlyAsync(string root, Expect expect)
     {
+        // F5.15, BD4 (F5-59): the price list opens also in a read-only revision, without «Applica prezzario».
+        bool pricesReadOnly = false;
+        var dialogs = new ScriptedDialogs().Then(d =>
+        {
+            var prices = (PriceCatalogueViewModel)d;
+            pricesReadOnly = prices.IsReadOnly && !prices.ApplyCommand.CanExecute(null) && prices.Status.StartsWith(PriceCatalogueViewModel.ReadOnlyStatus, StringComparison.Ordinal);
+            prices.ApplyCommand.Execute(null);
+        });
         using var sheet = Open(BridgeDesignScenarios.FixtureData(root, "confronto-alternativa-a"), readOnly: true,
-            services: Scripted.Services(dialogs: new ScriptedDialogs()));
+            services: Scripted.Services(dialogs: dialogs));
         await Expect.Within(sheet.WaitForCalculationAsync());
         string before = sheet.Data.ToJsonString();
         int modified = 0;
@@ -510,11 +518,13 @@ internal static class BridgeDesignSheetChecks
         sheet.Pin(); sheet.Undo(); sheet.RestoreA(); sheet.RemoveComparison(); sheet.RestoreEnvironment();
         await sheet.ManagePricesAsync();
         sheet.Objective = 1; sheet.SetLock("family", true); sheet.SetLimit("campate-min", "2"); sheet.Variable = 3;
+        sheet.SuggestSpans();
         await sheet.RunOptimizationAsync();
         expect.That(sheet.Data.ToJsonString() == before && modified == 0 && sheet.Calculation is not null && sheet.Objective == 0 && !sheet.Locks["family"]
             && sheet.Optimization is null, "Modifiche accettate in sola lettura");
-        expect.That(!sheet.NewSceneCommand.CanExecute(null) && !sheet.ManagePricesCommand.CanExecute(null) && sheet.ElevationCommand.CanExecute(null)
-            && sheet.ExportCsvCommand.CanExecute(null) && sheet.SuggestSpansCommand.CanExecute(null), "Comandi della sola lettura");
+        expect.That(pricesReadOnly && dialogs.Shown.Count == 1, "Sola lettura: prezzario consultabile senza «Applica prezzario» (BD4)");
+        expect.That(!sheet.NewSceneCommand.CanExecute(null) && sheet.ManagePricesCommand.CanExecute(null) && sheet.ElevationCommand.CanExecute(null)
+            && sheet.ExportCsvCommand.CanExecute(null) && !sheet.SuggestSpansCommand.CanExecute(null), "Comandi della sola lettura (BD4, BD10 punto 5)");
         await Expect.Within(sheet.CalculateAsync());
         expect.That(sheet.Calculation is not null && sheet.BuildReportDocument("t") is not null && sheet.PrintLines is not null, "Calcolo e report in sola lettura");
         sheet.IsReadOnly = false;

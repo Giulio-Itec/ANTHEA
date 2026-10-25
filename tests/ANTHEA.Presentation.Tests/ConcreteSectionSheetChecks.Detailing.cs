@@ -60,8 +60,10 @@ internal static partial class ConcreteSectionSheetChecks
             await IdleAsync(sheet);
             var detailing = sheet.Detailing;
             expect.That(detailing.Forms.All(f => f.IsReadOnly) && !detailing.Element["elemento"].CanChange && detailing.Anchorage["lunghezza"].IsInputReadOnly
-                && detailing.Stirrups.Values.IsReadOnly && !detailing.UpdateAnchoragesCommand.CanExecute(null) && !detailing.ShowControlPanelCommand.CanExecute(null),
-                "Sola lettura: form dei dettagli e dell'ancoraggio protetti, comandi spenti");
+                && detailing.Stirrups.Values.IsReadOnly && !detailing.UpdateAnchoragesCommand.CanExecute(null) && detailing.ShowControlPanelCommand.CanExecute(null),
+                "Sola lettura: form dei dettagli e dell'ancoraggio protetti, «Aggiorna verifiche ancoraggi» spento, navigazione attiva (F5.15, S6-a)");
+            sheet.SelectedTab = 5; detailing.ShowControlPanelCommand.Execute(null);
+            expect.That(sheet.SelectedTab == 0, "Sola lettura: «Modifica … nel pannello di controllo →» porta al pannello di controllo");
         }
     }
 }

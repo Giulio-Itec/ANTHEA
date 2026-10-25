@@ -394,7 +394,11 @@ internal static class ShallowFoundationSheetChecks
         expect.That(sheet.Data.ToJsonString() == before && modified == 0 && sheet.Layers[0].Values["spessore"]!.ToString() == "0,8",
             "Sola lettura: modifica scritta nel documento");
         expect.That(await Expect.Within(sheet.CalculateAsync()) && sheet.HasResults && sheet.MechanismAxis == 0, "Sola lettura: calcolo");
+        // F5.15, FN4 (F5-11, rule T6): the section of the mechanism is a view state, allowed also when read-only, never written.
+        string calculated = sheet.Data.ToJsonString(); int modifiedBefore = modified;
         sheet.MechanismAxis = 1;
+        expect.That(sheet.MechanismAxis == 1 && sheet.Data.ToJsonString() == calculated && modified == modifiedBefore, "Sola lettura: sezione del meccanismo ammessa senza scrivere (FN4)");
+        sheet.MechanismAxis = 0;
         sheet.RequestReport();
         sheet.Groups[0].IsExpanded = false;
         expect.That(sheet.MechanismAxis == 0 && host.Reports == 1 && modified == 1 && sheet.HasResults && sheet.Data["vista_fondazioni"]?["metodo"]?.GetValue<bool>() == false,

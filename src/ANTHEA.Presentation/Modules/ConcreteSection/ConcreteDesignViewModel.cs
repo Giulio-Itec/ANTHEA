@@ -76,7 +76,7 @@ public sealed class ConcreteDesignViewModel : ObservableObject, IDisposable, IVi
         RunCommand = new AsyncRelayCommand(RunAsync, () => sheet.CanEdit && !running, AsyncRelayCommandOptions.AllowConcurrentExecutions);
         StopCommand = new RelayCommand(() => cancellation?.Cancel(), () => sheet.CanEdit && running);
         ApplyCommand = new RelayCommand(Apply, () => sheet.CanEdit && applicable);
-        ShowTabCommand = new RelayCommand<int>(tab => sheet.SelectedTab = tab, _ => sheet.CanEdit);
+        ShowTabCommand = new RelayCommand<int>(tab => sheet.SelectedTab = tab);
         sheet.Modified += OnSheetModified;
         RefreshInputs();
     }
@@ -121,7 +121,10 @@ public sealed class ConcreteDesignViewModel : ObservableObject, IDisposable, IVi
     public IRelayCommand StopCommand { get; }
     /// <summary>«Applica configurazione».</summary>
     public IRelayCommand ApplyCommand { get; }
-    /// <summary>«Sezione →» (0), «Dettagli →» (5), «SLE / esposizione →» (3): the tab of the sheet.</summary>
+    /// <summary>
+    /// «Sezione →» (0), «Dettagli →» (5), «SLE / esposizione →» (3): the tab of the sheet. F5.15, S8-b (F5-46, rule T6): allowed in a read-only
+    /// revision, since it only changes the tab.
+    /// </summary>
     public IRelayCommand<int> ShowTabCommand { get; }
 
     // The state of «Applica configurazione» (the IsEnabled of the historic button).
@@ -168,7 +171,7 @@ public sealed class ConcreteDesignViewModel : ObservableObject, IDisposable, IVi
     internal void RefreshEditable(bool readOnly)
     {
         Form.IsReadOnly = readOnly; Limits.IsReadOnly = readOnly; Shown.IsReadOnly = readOnly; Ranking.RefreshReadOnly();
-        RunCommand.NotifyCanExecuteChanged(); StopCommand.NotifyCanExecuteChanged(); ApplyCommand.NotifyCanExecuteChanged(); ShowTabCommand.NotifyCanExecuteChanged();
+        RunCommand.NotifyCanExecuteChanged(); StopCommand.NotifyCanExecuteChanged(); ApplyCommand.NotifyCanExecuteChanged();
     }
 
     // ---------------------------------------------------------------- search
