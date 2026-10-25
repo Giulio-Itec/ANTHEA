@@ -499,7 +499,7 @@
        <TextBlock Style="{StaticResource CardTitle}" Text="Grafici capacità portante"/>
       </DockPanel>
       <ComboBox x:Name="CapacityView" DockPanel.Dock="Top" ItemsSource="{Binding CapacityViews}" SelectedIndex="{Binding SelectedCapacityView}"/>
-      <TabControl x:Name="Outputs">
+      <TabControl common:TabMemory.Key="risultati" x:Name="Outputs">
        <TabItem Header="Grafico" Background="{DynamicResource Token.Paper}">
         <DockPanel>
          <StackPanel DockPanel.Dock="Bottom">

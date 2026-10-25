@@ -110,7 +110,7 @@
         <ComboBox Style="{StaticResource Choice}" ItemsSource="{Binding States}" SelectedIndex="{Binding State}" AutomationProperties.Name="Soluzione mostrata"/>
        </WrapPanel>
        <TextBlock DockPanel.Dock="Bottom" Style="{StaticResource T11}" Text="{Binding Message}"/>
-       <TabControl>
+       <TabControl common:TabMemory.Key="mappa">
         <TabItem Header="Mappa σ / ε">
          <Border Style="{StaticResource Frame}">
           <DockPanel>
@@ -154,7 +154,7 @@
      </TabItem>
     </TabControl>
     <GridSplitter Style="{StaticResource ColumnSplitter}"/>
-    <TabControl Grid.Column="2" SelectedIndex="1">
+    <TabControl common:TabMemory.Key="dettagli" Grid.Column="2" SelectedIndex="1">
      <TabItem Header="Dettagli combinazione">
       <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
        <TextBlock Style="{StaticResource T12}" Text="{Binding Detail}"/>

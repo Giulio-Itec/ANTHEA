@@ -175,7 +175,7 @@
    </ScrollViewer>
 
    <!-- Graphics: the six tabs of the historic view. -->
-   <TabControl x:Name="GraphicsTabs" Grid.Column="1">
+   <TabControl common:TabMemory.Key="grafici" x:Name="GraphicsTabs" Grid.Column="1">
     <TabItem Header="Geometria" Background="{DynamicResource Token.Paper}">
      <Grid>
       <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>

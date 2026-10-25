@@ -1,5 +1,5 @@
 <UserControl x:Class="X.Desktop.Views.EmbeddedWalls.EmbeddedWallSheetView"
- xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:common="clr-namespace:X.Desktop.Views.Common"
  xmlns:local="clr-namespace:X.Desktop.Views.EmbeddedWalls" Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}">
  <DockPanel Margin="12">
   <StackPanel DockPanel.Dock="Top">
@@ -201,7 +201,7 @@
     </DockPanel>
    </TabItem>
    <TabItem Header="Dati e fasi">
-    <TabControl ItemsSource="{Binding Tables}" TabStripPlacement="Left" Margin="8">
+    <TabControl common:TabMemory.Key="tabelle" ItemsSource="{Binding Tables}" TabStripPlacement="Left" Margin="8">
      <TabControl.Template><ControlTemplate TargetType="TabControl">
       <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="240"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False">
@@ -301,7 +301,7 @@
       </StackPanel>
       <Grid><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="190"/></Grid.RowDefinitions>
        <local:SeepageDiagram Field="{Binding SelectedHydraulicStage}" Quantity="{Binding HydraulicDiagram}" MinHeight="240"/>
-       <TabControl Grid.Row="1">
+       <TabControl common:TabMemory.Key="filtrazione" Grid.Row="1">
         <TabItem Header="Nodi"><DataGrid ItemsSource="{Binding HydraulicNodes}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True">
          <DataGrid.Columns><DataGridTextColumn Header="Nodo" Binding="{Binding Index}"/><DataGridTextColumn Header="x [m]" Binding="{Binding X, StringFormat=G5}"/>
           <DataGridTextColumn Header="z [m]" Binding="{Binding Z, StringFormat=G5}"/><DataGridTextColumn Header="h [m]" Binding="{Binding Head, StringFormat=G6}"/>
@@ -364,7 +364,7 @@
        <DataGridTextColumn Header="Utilizzo conclusivo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/>
       </DataGrid.Columns>
      </DataGrid>
-     <TabControl Grid.Row="2" Margin="0,8,0,0">
+     <TabControl common:TabMemory.Key="stabilita" Grid.Row="2" Margin="0,8,0,0">
       <TabItem Header="Superficie critica"><local:EmbeddedWallGlobalDiagram Check="{Binding SelectedGlobalCheck}" MinHeight="240"/></TabItem>
       <TabItem Header="Diagnostica e coefficienti"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="8">
        <TextBlock Text="{Binding SelectedGlobalCheck.Reference}" TextWrapping="Wrap" FontWeight="SemiBold"/>

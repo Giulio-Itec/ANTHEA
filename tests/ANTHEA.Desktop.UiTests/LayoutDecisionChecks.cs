@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using X.Desktop.Services;
+using X.Desktop.Views.Common;
 using X.Desktop.Views.ConcreteSection;
 using X.Desktop.Views.RetainingWall;
 using X.Desktop.Views.Stratigraphy;
@@ -10,9 +11,10 @@ using X.Desktop.Views.Stratigraphy;
 namespace X.Desktop;
 
 /// <summary>
-/// Layout decisions of F5.15, step d (decisions of 25/10). The dialogs of WpfDialogService (family 5, <see cref="DialogSizing"/>): the
+/// Layout decisions of F5.15, steps d and c (decisions of 25/10). The dialogs of WpfDialogService (family 5, <see cref="DialogSizing"/>): the
 /// window opens at the size of the view, then the view follows the window; the minimum is the one the view declares, otherwise the
-/// opening size. The columns of the RC tables are never narrower than their header (V-c). Windows outside the screen, never activated.
+/// opening size. The columns of the RC tables are never narrower than their header (V-c). The inner tab chosen stays when the view is
+/// rebuilt (SH49 reduced, step c, <see cref="TabMemory"/>). Windows outside the screen, never activated.
 /// Writes test.txt and esito.txt («PASS n controlli»).
 /// </summary>
 internal static class LayoutDecisionChecks
@@ -67,8 +69,22 @@ internal static class LayoutDecisionChecks
             Check(shear.MinWidth > 65 && moment.MinWidth > 65, $"Le intestazioni lunghe allargano il minimo delle colonne: {shear.MinWidth:0} e {moment.MinWidth:0}");
             Check(shear.MinWidth > moment.MinWidth, "Il minimo segue la lunghezza dell'intestazione");
             Check(name.MinWidth == 65, "Un'intestazione corta resta al minimo storico di 65");
+
+            // SH49 reduced (step c): the inner tab chosen stays when the view is rebuilt on the same ViewModel; another one starts from the first.
+            var sheet = new object();
+            var tabs = await ShowTabs(sheet);
+            Check(((TabControl)tabs.Content).SelectedIndex == 0, "SH49: alla prima apertura la sotto-scheda è la prima");
+            ((TabControl)tabs.Content).SelectedIndex = 2;
+            await Settle();
+            tabs.Close();
+            tabs = await ShowTabs(sheet);
+            Check(((TabControl)tabs.Content).SelectedIndex == 2, "SH49: la sotto-scheda scelta resta quando la vista si ricostruisce");
+            tabs.Close();
+            tabs = await ShowTabs(new object());
+            Check(((TabControl)tabs.Content).SelectedIndex == 0, "SH49: un altro foglio parte dalla prima sotto-scheda");
+            tabs.Close();
             log.Add($"PASS {checks} controlli");
-            File.WriteAllText(Path.Combine(directory, "esito.txt"), $"PASS {checks} controlli: dialoghi ridimensionabili con il minimo della vista, intestazioni intere\r\n");
+            File.WriteAllText(Path.Combine(directory, "esito.txt"), $"PASS {checks} controlli: dialoghi ridimensionabili con il minimo della vista, intestazioni intere, sotto-scheda conservata\r\n");
         }
         finally
         {
@@ -85,6 +101,22 @@ internal static class LayoutDecisionChecks
             WindowStartupLocation = WindowStartupLocation.Manual, Left = -20000, Top = -20000
         };
         DialogSizing.Attach(window);
+        window.Show();
+        await Settle();
+        return window;
+    }
+
+    // A view with three inner tabs remembered under one key, on the ViewModel <paramref name="sheet"/>, outside the screen.
+    private static async Task<Window> ShowTabs(object sheet)
+    {
+        var tabs = new TabControl { DataContext = sheet };
+        foreach (var header in new[] { "Prima", "Seconda", "Terza" }) tabs.Items.Add(new TabItem { Header = header, Content = new TextBlock { Text = header } });
+        TabMemory.SetKey(tabs, "prova");
+        var window = new Window
+        {
+            Content = tabs, Width = 300, Height = 200, ShowInTaskbar = false, ShowActivated = false,
+            WindowStartupLocation = WindowStartupLocation.Manual, Left = -20000, Top = -20000
+        };
         window.Show();
         await Settle();
         return window;

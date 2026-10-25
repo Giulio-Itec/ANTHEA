@@ -7,7 +7,7 @@
 -->
 <UserControl x:Class="X.Desktop.Views.ConcreteSection.ConcreteDesignView"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
- xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:common="clr-namespace:X.Desktop.Views.Common"
  xmlns:local="clr-namespace:X.Desktop"
  xmlns:views="clr-namespace:X.Desktop.Views.ConcreteSection"
  xmlns:sys="clr-namespace:System;assembly=System.Runtime">
@@ -93,7 +93,7 @@
      </Border>
     </Grid>
     <GridSplitter Style="{StaticResource RowSplitter}"/>
-    <TabControl Grid.Row="2">
+    <TabControl common:TabMemory.Key="alternative" Grid.Row="2">
      <TabItem Header="Alternative">
       <DockPanel>
        <ContentControl DockPanel.Dock="Top" Style="{StaticResource Form}" Content="{Binding Shown}"/>

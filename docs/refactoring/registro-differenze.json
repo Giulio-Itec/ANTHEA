@@ -10057,6 +10057,34 @@
       "voci_collegate": []
     },
     {
+      "id": "F5-67",
+      "data": "2026-10-25",
+      "fase": "F5.15, passo c (SH49 ridotta, decisione del 24/10)",
+      "titolo": "Fogli: la sotto-scheda scelta resta quando la scheda della shell torna a schermo",
+      "famiglia": "interfaccia/shell",
+      "modulo": "sezione c.a., paratie, fondazioni superficiali, palo verticale",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Quando una scheda della shell torna a schermo la vista del foglio si ricostruisce dal ViewModel; le sotto-schede non legate al ViewModel tornavano alla prima (per esempio i risultati del palo verticale). Ora TabMemory ricorda l'indice scelto per ViewModel, in memoria e senza scriverlo nel documento (regola T6), nei 9 TabControl dei fogli senza selezione legata: alternative del progetto delle armature, mappa e dettagli del dominio, armature della sezione c.a., tabelle, filtrazione e stabilità delle paratie, grafici delle fondazioni superficiali, risultati del palo verticale. Le schede interne legate al ViewModel che partono da −1 (S4-c/S7-b) passano al passo a.",
+      "documento": "docs/refactoring/f5-15-prioritarie.md voce 8; f5-15-famiglie.md §8; f5-13-shell.md §12.6 (SH49)",
+      "codice": [
+        "src/ANTHEA.Desktop/Views/Common/TabMemory.cs"
+      ],
+      "segno": "Solo interfaccia: dati, calcolo e report invariati; nulla si scrive nel documento.",
+      "test": [
+        "ui/check-layout-decisions (tests/ANTHEA.Desktop.UiTests/LayoutDecisionChecks.cs)"
+      ],
+      "decisione": {
+        "data": "2026-10-24",
+        "utente": "accetto le 13 raccomandazioni della scheda (voce 8: B ridotta)",
+        "esito": "attuata il 25/10"
+      },
+      "revisione_f5_15": "SH49 (f5-15 §13.4)",
+      "voci_collegate": [
+        "F5-38"
+      ]
+    },
+    {
       "id": "AG-PO-01",
       "data": "2026-10-24",
       "fase": "Librerie GPC del 24/10 (ramo refactoring/ag-po da dd9f8c6a)",

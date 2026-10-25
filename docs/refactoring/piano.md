@@ -831,11 +831,13 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
     ottobre). Da attuare dopo il 28/10: V-a, BD4, SH49 ridotta, regola T6. R4, R5 e R10 vanno con il set di librerie successivo. Restano 207 voci aperte (205 più G11 e W-idx, aggiunte con la Rev59 il 24/10).
   - 25/10: [scheda delle voci aperte per famiglie](f5-15-famiglie.md); l'utente accetta tutte le raccomandazioni («Come raccomandato in tutte le
     famiglie […] l'attuazione dopo il 28/10»; [decisioni](decisioni.md), 25 ottobre). Nessuna voce resta da decidere. Passi di attuazione, dopo il 28/10:
-    - [ ] a. Separatori e ricatture: impostazione «Sistema / Virgola / Punto» (V-a), prove con «Virgola», i 10 difetti storici visibili della famiglia 6
+    - [ ] a. Separatori e ricatture: impostazione «Sistema / Virgola / Punto» (V-a), prove con «Virgola», i 10 difetti storici visibili della famiglia 6 e S4-c/S7-b
       corretti come differenze dichiarate; ricattura dei riferimenti congelati in un solo commit motivato.
     - [ ] b. Sola lettura: regola unica T6, prezzario consultabile in sola lettura (BD4), pulsanti di navigazione attivi (S6-a/S8-b), «Suggerisci
       campate» (BD10, punto 5); comandi dei muri spenti durante il lavoro (MU14).
-    - [ ] c. Stato della vista: SH49 ridotta e prima scheda interna fin dall'apertura (S4-c/S7-b).
+    - [x] c. Stato della vista: SH49 ridotta. Fatto il 25/10 (ramo `refactoring/f5-15-c`): `TabMemory` ricorda la sotto-scheda scelta per
+      ViewModel, in memoria, nei 9 `TabControl` dei fogli senza selezione legata; registro F5-67; prova in `ui/check-layout-decisions`. La prima
+      scheda interna fin dall'apertura (S4-c/S7-b) passa al passo a: cambia le tracce congelate della sezione c.a. e va nella sua ricattura.
     - [x] d. Interfaccia: dialoghi ridimensionabili con una misura minima (famiglia 5), larghezze della tabella del taglio (V-c), «?» nella barra dei
       progetti (G11). Fatto il 25/10, primo passo per la quota (ramo `refactoring/f5-15-attuazione`): `DialogSizing` in `WpfDialogService`,
       `ConcreteTableGrid.HeaderWidth`, `ProjectsHelpCommand`; registro F5-64 attuata, F5-65 e F5-66 nuove; prova `ui/check-layout-decisions` (suite

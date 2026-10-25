@@ -10,7 +10,7 @@
 -->
 <UserControl x:Class="X.Desktop.Views.ConcreteSection.ConcreteSectionSheetView"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
- xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:common="clr-namespace:X.Desktop.Views.Common"
  xmlns:local="clr-namespace:X.Desktop"
  xmlns:views="clr-namespace:X.Desktop.Views.ConcreteSection"
  xmlns:concrete="clr-namespace:Anthea.Presentation.Modules.ConcreteSection;assembly=ANTHEA.Presentation"
@@ -191,7 +191,7 @@
            <TextBlock Style="{StaticResource T14Bold}" Text="Armature della sezione"/>
            <TextBlock Style="{StaticResource PanelSubtitle}" Text="Coordinate modificabili · mm · inserimento cavi nel pannello a sinistra"/>
           </StackPanel>
-          <TabControl>
+          <TabControl common:TabMemory.Key="armature">
            <TabItem Header="Armature ordinarie">
             <DockPanel>
              <WrapPanel DockPanel.Dock="Top"><Button Style="{StaticResource Command}" Content="Ripristina barre da wizard" Command="{Binding Inputs.RestoreBarsCommand}"/></WrapPanel>
