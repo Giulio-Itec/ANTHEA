@@ -1894,3 +1894,21 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
 5. **Avvio dell'attuazione.** Dopo l'unione della scheda: «poi inizia la F15», con «cerca di fermarti sotto il 90% comunque. nel caso ti faccio
    continuare martedì pomeriggio». L'attuazione parte quindi il 25/10, prima del rinnovo del 28/10, con il tetto del 90 % di quota. Si comincia dal
    passo d, il più piccolo e autonomo; i passi a, b e c seguono finché la quota lo consente.
+6. **Passi a e b.** Dopo l'unione dei passi d e c: «Sì: parti adesso con i passi a e b di F5.15 sul ramo refactoring/f5-15-a, fino al full a 96
+   DPI. Niente merge né push senza il mio ok, e fermati sotto il 90 % di quota», poi «vai avanti finchè non raggiungi il 90%. a quel punto chiudi
+   le cose che hai in esecuzione». Scelte del coordinatore nell'attuazione, dentro le decisioni del 24 e del 25/10:
+   - **T6, navigazione.** Anche «Modifica staffe nel pannello di controllo →» della scheda del taglio cambia solo la scheda: è attivo in sola
+     lettura come i pulsanti di S6-a e S8-b (F5-46).
+   - **MU14.** «Spenti durante il lavoro» vale per il lavoro del comando stesso, come in `GuardedCommands` (comando asincrono che non ammette
+     esecuzioni sovrapposte); un ricalcolo automatico o un altro lavoro del foglio non spengono i pulsanti.
+   - **SM5, punto 3.** La fase scelta durante il calcolo si tiene subito; risultati, disegno e vista si aggiornano quando il motore torna e la
+     pubblicazione conserva la scelta.
+   - **BD10, punto 3.** Il bordo dei campi segue il valore dei dati a ogni ricostruzione (dopo «Annulla» e dopo i pulsanti che ricostruiscono le
+     schede), non solo dopo «Annulla».
+   - **Prove UI.** I valori registrati della vista storica prima dell'archiviazione restano quelli; le differenze dichiarate di T6 (sezione c.a.,
+     fondazioni, Bridge Design) si applicano nelle prove, con la voce del registro.
+   - **Ricattura.** Le tracce congelate cambiate dai passi a e b si ricatturano dal ViewModel in un solo commit, controllando che ogni riga
+     cambiata appartenga a una delle correzioni.
+   - **V-a nelle prove senza WPF.** Le tracce congelate valgono sia per Presentation.Tests sia per le suite ui; anche Presentation.Tests gira
+     quindi con «Virgola», come AppHarness. Senza questo, sulla macchina del banco (it-IT con il punto) il titolo del dominio 2D direbbe
+     «θ = 30.00°» nelle prove del ViewModel e «θ = 30,00°» nella vista.

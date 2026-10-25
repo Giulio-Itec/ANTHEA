@@ -8499,7 +8499,8 @@
       "famiglia": "interfaccia/fondazioni superficiali",
       "modulo": "F5.9b · Fondazioni superficiali",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): FN4: la scelta «Sezione X / Sezione Y» della rottura è ammessa anche in sola lettura (stato della vista, mai scritto): ShallowFoundationSheetViewModel.MechanismAxis senza il controllo di CanEdit, ComboBox senza IsEnabled legato. Prove: Presentation.Tests (sola lettura delle fondazioni), ui/check-fondazioni-view (controlli della sola lettura con la differenza dichiarata). Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_24_10": "Decisione dell'utente del 24/10 (F5.15, scheda delle 13 voci, docs/refactoring/f5-15-prioritarie.md, voce 12, regola T6): da attuare come raccomandato nella scheda; registrata il 25/10. Stato precedente: da-decidere.",
       "descrizione": "Vista storica (FoundationWorkspace): in una revisione in sola lettura la scelta «Sezione X / Sezione Y» della scheda «Rottura» è bloccata solo se la scheda esisteva quando la revisione è stata protetta o se è visibile: RevisionInspection rinfresca soltanto l'albero visuale, e la combo ricreata da un calcolo in una scheda non mostrata resta attiva. È stato della sola vista, non salvato. ViewModel (ShallowFoundationSheetViewModel): la rifiuta sempre in sola lettura, come l'interasse mostrato della palificata; la traccia usa il caso in cui la vista storica la blocca.",
       "documento": "docs/refactoring/f5-9b-fondazioni.md §2 punto 1 e §4 (FN4); f5-punti-di-controllo.md, T6",
@@ -8628,7 +8629,8 @@
       "famiglia": "interfaccia/sezione c.a.",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): §2-4: con N fuori dominio il dominio 2D mostra il messaggio di ANTHEA «fuori dominio» invece di «Value cannot be null…» (ConcreteDomainChart). Traccia ingressi/materiali-normativa ricatturata. Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 6, riga §2-4): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Nel dominio 2D SLV, con la legge «Stress block» (scenario ingressi/materiali-normativa) e con N fuori dominio, compare il messaggio della libreria «Value cannot be null. (Parameter 'failureDomain')» invece di un messaggio di ANTHEA. Il ViewModel mostra lo stesso testo.",
       "documento": "docs/refactoring/f5-10-sezione.md §2 punto 4",
@@ -8682,7 +8684,8 @@
       "famiglia": "interfaccia/sezione c.a./sola lettura",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): §10.4-1: in sola lettura la finestra delle sollecitazioni si apre per leggere ed esportare, senza «Applica» (SectionActionsViewModel.IsReadOnly, ConcreteActionsViewModel.EditAsync). Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_24_10": "Decisione dell'utente del 24/10 (F5.15, scheda delle 13 voci, docs/refactoring/f5-15-prioritarie.md): da attuare come raccomandato nella scheda. Stato precedente: da-decidere.",
       "descrizione": "Nella revisione in sola lettura il comando «Esporta Excel» resta attivo. Con le azioni storiche apre la finestra delle sollecitazioni, dove «Applica» cambia i dati della revisione con Modified e riapre il foglio. È della famiglia della sola lettura che scrive (F5-17), ma qui cambiano le azioni, cioè dati del calcolo. Nei casi simili MU3 (F5-08) e BD4 (F5-59) la vista nuova rifiuta la scrittura; il ViewModel della sezione la conserva.",
       "documento": "docs/refactoring/f5-10-sezione.md §10.4 punto 1",
@@ -8708,7 +8711,8 @@
       "famiglia": "interfaccia/sezione c.a./sola lettura",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): S7-d: «Calcola curva» spento in sola lettura (ConcreteCurvatureViewModel.CalculateCommand con CanEdit). Prove: ui/check-sezione-view (sola lettura con le differenze dichiarate), traccia calcolo/sola-lettura ricatturata. Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_24_10": "Decisione dell'utente del 24/10 (F5.15, scheda delle 13 voci, docs/refactoring/f5-15-prioritarie.md): da attuare come raccomandato nella scheda. Stato precedente: da-decidere.",
       "descrizione": "Nella revisione in sola lettura «Calcola curva» (M–χ) è disponibile, conferma il foglio e la curva entra nel risultato esportato (il vecchio arresto atteso dello scenario calcolo/sola-lettura). Il ViewModel la conserva, come T6 per le chiavi di stato.",
       "documento": "docs/refactoring/f5-10-sezione.md §16.4 punto 4 e §16.5 (S7-d)",
@@ -9113,7 +9117,8 @@
       "famiglia": "interfaccia/sezione c.a./cultura dei numeri",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): V-a: impostazione «Separatore decimale» (Sistema, Virgola, Punto) nel menu «Aspetto», applicata alla cultura dei thread all'avvio; le prove UI con «Virgola». Il separatore non dipende più dal percorso che scrive il testo: lo decide la cultura scelta. Voce nuova F5-68 per l'impostazione. Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_24_10": "Decisione dell'utente del 24/10 (F5.15, scheda delle 13 voci, docs/refactoring/f5-15-prioritarie.md): da attuare come raccomandato nella scheda. Stato precedente: da-decidere.",
       "descrizione": "Il dettaglio dei domini (S3), la legenda della mappa SLE (S4) e i parametri automatici del taglio (S5) prendono il separatore decimale dal percorso che li scrive: durante un passo dell'utente la cultura del flusso, dopo la pubblicazione di un calcolo la cultura del thread dell'interfaccia. Nelle tracce (it-IT nel flusso, macchina del banco con il punto) il form del taglio mostra «800,00» all'apertura e «800.00» dopo un calcolo. Nel prodotto, che non imposta la cultura, i due percorsi usano la stessa cultura dell'utente di Windows (elenco F5.15, 15.2): la differenza si vede quando la cultura del flusso e quella del thread differiscono, come nelle prove. Classificazione dell'agente: più che un difetto del prodotto è una dipendenza dei riferimenti congelati dalla macchina. Il ViewModel segue gli stessi percorsi e dà gli stessi testi; la vista XAML «dovrà fissare la cultura (da decidere in F5.15)». Collegata a V-a e alla proposta dell'utente del 22/10 di un'impostazione dei separatori.",
       "documento": "docs/refactoring/f5-10-sezione.md §12.4 punto 1, §13.4 punto 3, §14.4 punto 1; §21.4 (V-a)",
@@ -9140,7 +9145,8 @@
       "famiglia": "interfaccia/sezione c.a./SLE",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): S4-b: colonne SLE nascoste scelte per chiave (eta_sigma, stress_status, wk), non per indice. Tracce con le sollecitazioni uniche ricatturate. Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 6, riga S4-b): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Le colonne nascoste delle tabelle SLE si scelgono per indice (6 e 7 le tensioni, 8 la fessurazione). Con le sollecitazioni uniche la colonna «Elemento» è la prima e gli indici cadono sulle colonne successive: la Rara nasconde «Tensioni» e mostra «Fessurazione»; la Frequente nasconde «|σs|» e mostra «Tensioni» quando verifica la fessurazione; la Quasi permanente nasconde «Tensioni» quando non la verifica; «Fessurazione» resta sempre visibile (fixture sezione-a-t-sollecitazioni-uniche). Il ViewModel le conserva.",
       "documento": "docs/refactoring/f5-10-sezione.md §13.4 punto 1 e §13.5 (S4-b)",
@@ -9167,7 +9173,8 @@
       "famiglia": "interfaccia/sezione c.a./SLE",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): C5·S4: le altre famiglie SLE mostrano il testo del campo numerico della famiglia modificata («17,61»), non il numero dei dati; le scelte (esposizione) restano mostrate col loro valore. Tracce sle ricatturate; ui/smoke (opzioni SLE comuni nelle tre viste). Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 6, riga C5·S4): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Dopo una modifica di n o di φ in una famiglia SLE, le altre famiglie mostrano i valori come sono scritti nei dati («17.607108191890596»), la famiglia modificata il numero formattato («17,61»). Il ViewModel fa lo stesso.",
       "documento": "docs/refactoring/f5-10-sezione.md §13.4 punto 2",
@@ -9194,7 +9201,8 @@
       "famiglia": "interfaccia/sezione c.a./SLE",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): C5·S4: una famiglia SLE senza stato tensionale perde la legenda anche quando è nascosta (ConcreteStressPanelViewModel.Redraw). Tracce sle ricatturate. Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 6, riga C5·S4): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "La legenda della mappa la scrive il disegno sullo schermo: una famiglia nascosta conserva la legenda del suo ultimo disegno anche dopo l'azzeramento dei risultati. Il ViewModel scrive la legenda (Legend) quando la famiglia è mostrata, come il disegno storico (S4-a). La cultura dei numeri della legenda è in F5-34.",
       "documento": "docs/refactoring/f5-10-sezione.md §13.4 punto 3 e §13.5 (S4-a)",
@@ -9221,7 +9229,8 @@
       "famiglia": "interfaccia/sezione c.a.",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): S4-c/S7-b: le schede interne (dettagli SLE, scheda del dominio) partono dalla prima fin dall'apertura, non da −1 (ConcreteStressPanelViewModel.DetailTab, ConcreteDomainPanelViewModel.InspectionTab). Tutte le tracce della sezione c.a. ricatturate (riga delle schede all'apertura). Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 8, riga S4-c, S7-b): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Il controllo delle schede dei dettagli SLE («Riepilogo / Barre e trefoli / Calcestruzzo / Fessurazione · passaggi») non ha una scheda scelta finché non è mostrato la prima volta (la colonna dei risultati apre su «Riepilogo verifiche»); la visita F3 lo rimette a −1. Lo stesso vale per la scheda interna del pannello del dominio (S7-b). Il ViewModel espone −1 come i TabControl storici e la vista XAML lega così.",
       "documento": "docs/refactoring/f5-10-sezione.md §13.4 punto 4, §13.5 (S4-c) e §16.5 (S7-b)",
@@ -9437,7 +9446,8 @@
       "famiglia": "interfaccia/sezione c.a./sola lettura",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): S6-a/S8-b: i pulsanti che cambiano solo la scheda («Modifica … nel pannello di controllo →» dei dettagli e del taglio, «Sezione →», «Dettagli →», «SLE / esposizione →») sono attivi in sola lettura. Prove: Presentation.Tests (dettagli e progetto delle armature in sola lettura), ui/check-sezione-view (sola lettura con le differenze dichiarate). Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 7, riga S6-a, S8-b): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Nella revisione in sola lettura i pulsanti della scheda dei dettagli sono spenti, compresi i due che portano al pannello di controllo («Modifica geometria / armature nel pannello di controllo →»), che cambiano solo la scheda e non scrivono nulla; lo stesso per i pulsanti di navigazione del progetto delle armature (S8-b). Il ViewModel li spegne come oggi.",
       "documento": "docs/refactoring/f5-10-sezione.md §15.4 punto 3, §15.5 (S6-a) e §17.5 (S8-b)",
@@ -9464,7 +9474,8 @@
       "famiglia": "interfaccia/sezione c.a./ispezione",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): S7-c: la mappa σ/ε mostra il messaggio della sezione del pannello di controllo; lasciando la scheda «Sezione σ / ε» il messaggio torna al primo («Selezionare una combinazione»). Tracce ispezione ricatturate. Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 6, riga S7-c): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "La mappa σ/ε mostra sempre «Inserire la geometria della sezione» come messaggio, non visibile con la sezione (come il disegno del taglio, F5-41). Tornando alla scheda «Dominio» mentre la soluzione è in lettura (la visita F3), la soluzione non si pubblica ma il messaggio resta «Lettura del piano già calcolato al limite…». Il ViewModel li conserva.",
       "documento": "docs/refactoring/f5-10-sezione.md §16.4 punti 1 e 2, §16.5 (S7-c)",
@@ -9491,7 +9502,8 @@
       "famiglia": "interfaccia/sezione c.a./ispezione",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): C5·S7: dopo un'invalidazione la mappa σ/ε senza soluzione prende la sezione nuova dell'anteprima (ConcreteSectionInspectionViewModel.ShowSection da RefreshPreview). Tracce ispezione ricatturate. Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 6, riga C5·S7): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Un'invalidazione azzera le due sezioni σ/ε prima di aggiornare l'anteprima, quindi la mappa tiene la sezione precedente finché il pannello non la aggiorna (dopo il calcolo, solo se il pannello è mostrato). Il ViewModel fa lo stesso.",
       "documento": "docs/refactoring/f5-10-sezione.md §16.4 punto 3",
@@ -9518,7 +9530,8 @@
       "famiglia": "interfaccia/sezione c.a./ispezione",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): C5·S7: una modifica durante il calcolo della curva lascia «Dati modificati · ricalcolare la curva.»; «Calcolo interrotto…» resta solo per «Interrompi». Traccia ispezione/momento-curvatura ricatturata. Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 6, riga C5·S7): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Una modifica durante il calcolo della curva M–χ scrive «Dati modificati · ricalcolare la curva.», poi il calcolo abbandonato lo sostituisce con «Calcolo interrotto; nessuna curva parziale pubblicata.». Il ViewModel fa lo stesso.",
       "documento": "docs/refactoring/f5-10-sezione.md §16.4 punto 5",
@@ -9545,7 +9558,8 @@
       "famiglia": "interfaccia/sezione c.a./progetto delle armature",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): S8-c: dopo «Applica configurazione» lo stato aggiunge «La ricerca è superata: ripeterla per nuove alternative.» (ConcreteDesignPresentation.Applied). Traccia armature/ricerca-armature ricatturata. Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 6, riga S8-c): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "L'invalidazione del foglio segna superata la ricerca (stato «Dati modificati…»), poi lo stato è sostituito da «Configurazione applicata…»: «Applica» resta spento, ma lo stato non dice che la ricerca va ripetuta. Il ViewModel lo conserva.",
       "documento": "docs/refactoring/f5-10-sezione.md §17.4 punto 1 e §17.5 (S8-c)",
@@ -9788,7 +9802,8 @@
       "famiglia": "interfaccia/Bridge Design/sola lettura",
       "modulo": "F5.12 · Bridge Design e prezzari (str_bridge_design)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_25_10": "Corretta il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15): BD4: in sola lettura «Gestisci prezzario…» apre il prezzario per consultarlo ed esportarlo, senza «Applica prezzario» (PriceCatalogueViewModel.IsReadOnly). Prove: Presentation.Tests (sola lettura di Bridge Design), ui/check-bridge-design-view (prezzario in sola lettura; controlli della sola lettura uguali alla vista storica salvo «Suggerisci campate»). Evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS).",
       "decisione_24_10": "Decisione dell'utente del 24/10 (F5.15, scheda delle 13 voci, docs/refactoring/f5-15-prioritarie.md): da attuare come raccomandato nella scheda. Stato precedente: da-decidere.",
       "descrizione": "Vista storica: «Gestisci prezzario…» è ammesso in una revisione in sola lettura (consultazione), ma la finestra BridgePricesView è fuori dall'albero protetto da RevisionInspection e «Applica prezzario» scrive il documento nei dati della revisione (pricing), la segna modificata, dà uno stato ad «Annulla» e ricalcola (verificato con uno scenario temporaneo, non registrato). Vista nuova: il ViewModel rifiuta l'editor in sola lettura (ManagePricesAsync) e «Gestisci prezzario…» è bloccato, come MU3 (F5-08).",
       "documento": "docs/refactoring/f5-12-bridge-design.md §2 punto 2, §4 (BD4) e §5.2",
@@ -10084,6 +10099,172 @@
       "voci_collegate": [
         "F5-38"
       ]
+    },
+    {
+      "id": "F5-68",
+      "data": "2026-10-25",
+      "fase": "F5.15, passo a (V-a, decisione del 24/10)",
+      "titolo": "Impostazione «Separatore decimale» (Sistema, Virgola, Punto) nel menu «Aspetto»",
+      "famiglia": "interfaccia/shell",
+      "modulo": "tutti i moduli",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Il menu «Aspetto» ha il sottomenu «Separatore decimale»: «Sistema» (la cultura di Windows, predefinita), «Virgola» o «Punto». La scelta si salva in %LOCALAPPDATA%\\ANTHEA\\separatore.json e vale dal prossimo avvio (CultureInfo.DefaultThreadCurrentCulture e CurrentCulture in App.OnStartup). Le prove UI usano «Virgola» (AppHarness), quindi i riferimenti congelati che stampano numeri con la cultura (elenco dei disegni della sezione c.a.) e il report delle proprietà della sezione scritto dalla libreria («φ = 2,00») passano alla virgola.",
+      "documento": "docs/refactoring/f5-15-prioritarie.md voce 1; f5-15-famiglie.md",
+      "codice": [
+        "src/ANTHEA.Presentation/Shell/Commands/NumberSeparators.cs",
+        "src/ANTHEA.Desktop/Services/WpfNumberSeparatorService.cs",
+        "src/ANTHEA.Desktop/Wpf/App.cs",
+        "src/ANTHEA.Desktop/Views/Shell/ShellWindow.xaml"
+      ],
+      "segno": "Solo la forma dei numeri mostrati e stampati; dati salvati, calcoli e risultati invariati (i dati restano in cultura invariante).",
+      "test": [
+        "Presentation.Tests (NumberSeparatorChecks)",
+        "ui/check-layout-decisions (cultura dei thread)",
+        "ui/check-contrast (menu nuovo)",
+        "ui/smoke-ca-features (report delle proprietà con la virgola)"
+      ],
+      "decisione": {
+        "data": "2026-10-25",
+        "utente": "«Come raccomandato in tutte le famiglie della scheda f5-15-famiglie.md» (25/10; V-a il 24/10)",
+        "esito": "attuata il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15); evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS)"
+      },
+      "voci_collegate": [
+        "F5-34"
+      ]
+    },
+    {
+      "id": "F5-69",
+      "data": "2026-10-25",
+      "fase": "F5.15, passo a (famiglia 6, E4)",
+      "titolo": "Risposta elastica: archivio da migrare con lo stato «in coda» e la barra che gira",
+      "famiglia": "pali orizzontali/risposta elastica",
+      "modulo": "geo_palo_orizzontale, scheda elastica",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Con un archivio da confrontare con quello vecchio, prima della scelta dei dati, lo stato diceva «in coda» con la barra di avanzamento accesa, ma nessun calcolo era in coda. Ora lo stato dice che l'archivio va migrato e la barra è spenta (ElasticPilePresentation.StatusMigration, ElasticPileViewModel).",
+      "documento": "docs/refactoring/f5-15-famiglie.md §6.1 (E4)",
+      "codice": [
+        "src/ANTHEA.Application/Presentation/ElasticPilePresentation.cs",
+        "src/ANTHEA.Presentation/Modules/HorizontalPile/Elastic/ElasticPileViewModel.cs"
+      ],
+      "segno": "Solo stato e barra; nessun calcolo né dato cambia.",
+      "test": [
+        "Presentation.Tests (palo elastico)",
+        "ui/check-palo-orizzontale-view"
+      ],
+      "decisione": {
+        "data": "2026-10-25",
+        "utente": "«Come raccomandato in tutte le famiglie della scheda f5-15-famiglie.md» (25/10; V-a il 24/10)",
+        "esito": "attuata il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15); evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS)"
+      },
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-70",
+      "data": "2026-10-25",
+      "fase": "F5.15, passo a (famiglia 6, E5)",
+      "titolo": "Risposta elastica: la sezione tiene didascalia, staffa e assi della quota persa",
+      "famiglia": "pali orizzontali/risposta elastica",
+      "modulo": "geo_palo_orizzontale, scheda elastica",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Quando la quota scelta si perde, la sezione della risposta elastica mostrava ancora didascalia, diametro della staffa e assi della quota vecchia. Ora ShowSection li azzera insieme alla sezione.",
+      "documento": "docs/refactoring/f5-15-famiglie.md §6.1 (E5)",
+      "codice": [
+        "src/ANTHEA.Presentation/Modules/HorizontalPile/Elastic/ElasticPileViewModel.cs"
+      ],
+      "segno": "Solo il disegno della sezione; dati e risultati invariati.",
+      "test": [
+        "Presentation.Tests (palo elastico, traccia palo-elastico-sisma-testa-impedita ricatturata)",
+        "ui/check-palo-orizzontale-view"
+      ],
+      "decisione": {
+        "data": "2026-10-25",
+        "utente": "«Come raccomandato in tutte le famiglie della scheda f5-15-famiglie.md» (25/10; V-a il 24/10)",
+        "esito": "attuata il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15); evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS)"
+      },
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-71",
+      "data": "2026-10-25",
+      "fase": "F5.15, passo a (famiglia 6, SM5 punto 3)",
+      "titolo": "Sezione mista: situazione scelta durante un calcolo",
+      "famiglia": "sezione mista",
+      "modulo": "Sezione composta acciaio-calcestruzzo",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Durante un calcolo la scelta della situazione cambiava, ma risultati e disegno restavano quelli della precedente, la vista non era salvata e la pubblicazione tornava alla fase di prima. Ora la fase scelta si tiene subito; risultati, disegno e vista si aggiornano quando il motore torna, e la pubblicazione conserva la scelta.",
+      "documento": "docs/refactoring/f5-11-sezione-mista.md §2 punto 3; f5-15-famiglie.md §6.1",
+      "codice": [
+        "src/ANTHEA.Presentation/Modules/CompositeSection/CompositeSectionSheetViewModel.Layout.cs",
+        "src/ANTHEA.Presentation/Modules/CompositeSection/CompositeSectionSheetViewModel.cs"
+      ],
+      "segno": "Solo la vista; dati del calcolo e risultati invariati.",
+      "test": [
+        "Presentation.Tests (calcolo sullo sfondo della sezione mista, traccia calcolo-sullo-sfondo ricatturata)"
+      ],
+      "decisione": {
+        "data": "2026-10-25",
+        "utente": "«Come raccomandato in tutte le famiglie della scheda f5-15-famiglie.md» (25/10; V-a il 24/10)",
+        "esito": "attuata il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15); evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS)"
+      },
+      "voci_collegate": []
+    },
+    {
+      "id": "F5-72",
+      "data": "2026-10-25",
+      "fase": "F5.15, passi a e b (famiglia 6, BD10 punti 3 e 5)",
+      "titolo": "Bridge Design: bordo rosso dopo «Annulla» e «Suggerisci campate» in sola lettura",
+      "famiglia": "Bridge Design",
+      "modulo": "Bridge Design",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Punto 3: «Annulla» rimetteva il testo dei dati ma lasciava il bordo rosso, e i campi ricostruiti lo perdevano anche con un valore ancora non valido; ora il bordo segue il valore dei dati a ogni ricostruzione (RefreshInputs). Punto 5: «Suggerisci campate dalla lunghezza» scriveva i limiti in sola lettura e azzerava la ricerca; ora è spento in sola lettura (regola T6).",
+      "documento": "docs/refactoring/f5-12-bridge-design.md §2 punti 3 e 5; f5-15-famiglie.md §6.1",
+      "codice": [
+        "src/ANTHEA.Presentation/Modules/BridgeDesign/BridgeDesignSheetViewModel.Inputs.cs",
+        "src/ANTHEA.Presentation/Modules/BridgeDesign/BridgeDesignSheetViewModel.Optimization.cs"
+      ],
+      "segno": "Solo bordo dei campi e un comando in sola lettura; dati scritti dall'utente, calcoli e risultati invariati.",
+      "test": [
+        "Presentation.Tests (Bridge Design: tracce ricatturate, sola lettura)",
+        "ui/check-bridge-design-view (sola lettura: unica differenza dichiarata «Suggerisci campate»)"
+      ],
+      "decisione": {
+        "data": "2026-10-25",
+        "utente": "«Come raccomandato in tutte le famiglie della scheda f5-15-famiglie.md» (25/10; V-a il 24/10)",
+        "esito": "attuata il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15); evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS)"
+      },
+      "voci_collegate": [
+        "F5-59"
+      ]
+    },
+    {
+      "id": "F5-73",
+      "data": "2026-10-25",
+      "fase": "F5.15, passo b (famiglia 7, MU14)",
+      "titolo": "Muri: comandi che avviano un lavoro spenti mentre il lavoro gira",
+      "famiglia": "muri di sostegno",
+      "modulo": "Muri di sostegno",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "«Ricalcola», «Calcola globale», «Calcola armature» e «Valori di calcolo…» avviavano il lavoro e tornavano, attivi durante il lavoro (un secondo clic non era rifiutato). Ora sono comandi asincroni di GuardedCommands, spenti finché il loro lavoro gira; gli scheduler del foglio decidono come prima che cosa si pubblica.",
+      "documento": "docs/refactoring/f5-9-muri.md §5.4 (MU14); f5-15-famiglie.md §7",
+      "codice": [
+        "src/ANTHEA.Presentation/Modules/RetainingWall/RetainingWallSheetViewModel.Commands.cs"
+      ],
+      "segno": "Solo lo stato dei pulsanti; nessun dato né risultato cambia.",
+      "test": [
+        "Presentation.Tests (muri, calcolo sullo sfondo: «Ricalcola» spento durante il suo lavoro)"
+      ],
+      "decisione": {
+        "data": "2026-10-25",
+        "utente": "«Come raccomandato in tutte le famiglie della scheda f5-15-famiglie.md» (25/10; V-a il 24/10)",
+        "esito": "attuata il 25/10 (ramo refactoring/f5-15-a, passi a e b di F5.15); evidenze: ANTHEA/supporto/artefatti/f5-15-a (giro4: tracce scritte tutte; giro5: Presentation.Tests PASS 4861 + sezione c.a. 70 + mista 151 + Bridge Design 190 dopo la ricattura; smoke1: ui/smoke, ui/smoke-ca-features, ui/check-materials-view PASS)"
+      },
+      "voci_collegate": []
     },
     {
       "id": "AG-PO-01",

@@ -831,10 +831,16 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
     ottobre). Da attuare dopo il 28/10: V-a, BD4, SH49 ridotta, regola T6. R4, R5 e R10 vanno con il set di librerie successivo. Restano 207 voci aperte (205 più G11 e W-idx, aggiunte con la Rev59 il 24/10).
   - 25/10: [scheda delle voci aperte per famiglie](f5-15-famiglie.md); l'utente accetta tutte le raccomandazioni («Come raccomandato in tutte le
     famiglie […] l'attuazione dopo il 28/10»; [decisioni](decisioni.md), 25 ottobre). Nessuna voce resta da decidere. Passi di attuazione, dopo il 28/10:
-    - [ ] a. Separatori e ricatture: impostazione «Sistema / Virgola / Punto» (V-a), prove con «Virgola», i 10 difetti storici visibili della famiglia 6 e S4-c/S7-b
-      corretti come differenze dichiarate; ricattura dei riferimenti congelati in un solo commit motivato.
-    - [ ] b. Sola lettura: regola unica T6, prezzario consultabile in sola lettura (BD4), pulsanti di navigazione attivi (S6-a/S8-b), «Suggerisci
-      campate» (BD10, punto 5); comandi dei muri spenti durante il lavoro (MU14).
+    - [x] a. Separatori e ricatture: impostazione «Sistema / Virgola / Punto» (V-a), prove con «Virgola», i 10 difetti storici visibili della famiglia 6 e S4-c/S7-b
+      corretti come differenze dichiarate; ricattura dei riferimenti congelati in un solo commit motivato. Fatto il 25/10 (ramo `refactoring/f5-15-a`):
+      menu «Aspetto › Separatore decimale», «Virgola» fissata in AppHarness e in Presentation.Tests; §2-4, S4-b, C5·S4, C5·S7, S7-c, S8-c, E4, E5,
+      SM5 punto 3, BD10 punto 3, S4-c/S7-b; registro F5-16, F5-34…F5-38, F5-47…F5-50 corrette, F5-68…F5-72 nuove; ricattura delle tracce dal
+      ViewModel e dell'elenco dei disegni della sezione c.a. («θ = 30,00°») in un commit, riga per riga ricondotta alle correzioni.
+    - [x] b. Sola lettura: regola unica T6, prezzario consultabile in sola lettura (BD4), pulsanti di navigazione attivi (S6-a/S8-b), «Suggerisci
+      campate» (BD10, punto 5); comandi dei muri spenti durante il lavoro (MU14). Fatto il 25/10 (stesso ramo): Excel delle sollecitazioni e
+      prezzario da consultare senza «Applica», «Calcola curva» e «Suggerisci campate» spenti, navigazione e scelta X/Y delle fondazioni attive;
+      comandi dei muri con `GuardedCommands`; registro F5-11, F5-18, F5-19, F5-46, F5-59 corrette, F5-73 nuova. Differenze dichiarate nelle prove
+      ui della sola lettura (sezione c.a., fondazioni, Bridge Design).
     - [x] c. Stato della vista: SH49 ridotta. Fatto il 25/10 (ramo `refactoring/f5-15-c`): `TabMemory` ricorda la sotto-scheda scelta per
       ViewModel, in memoria, nei 9 `TabControl` dei fogli senza selezione legata; registro F5-67; prova in `ui/check-layout-decisions`. La prima
       scheda interna fin dall'apertura (S4-c/S7-b) passa al passo a: cambia le tracce congelate della sezione c.a. e va nella sua ricattura.
