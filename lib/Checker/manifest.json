@@ -1,8 +1,8 @@
 {
-    "snapshotDate":  "2026-10-24",
+    "snapshotDate":  "2026-10-26",
     "generator":  "tools/libs/Update-Snapshot.ps1 -ReleaseSet",
-    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\ANTHEA\\supporto\\artefatti\\librerie-20261024-ag\\gpc-release-20261024-ag",
-    "releaseSetCreated":  "2026-10-24T22:13:25",
+    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\ANTHEA\\supporto\\artefatti\\librerie-20261026-ah\\gpc-release-20261026-ah",
+    "releaseSetCreated":  "2026-10-26T08:16:43",
     "candidate":  false,
     "targetFramework":  "netstandard2.0",
     "nuget":  [
@@ -25,7 +25,7 @@
                            "branch":  "HEAD",
                            "commit":  "e57b440b16a0a311a7bf0af2f9cf4d2681b83491",
                            "pushed":  true,
-                           "sdk":  "9.0.319"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCGeometry.dll",
@@ -36,7 +36,7 @@
                            "branch":  "HEAD",
                            "commit":  "6734eee1004142576b96759e34c15dec48776e23",
                            "pushed":  true,
-                           "sdk":  "9.0.319"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "DelaunayMesh.dll",
@@ -47,117 +47,117 @@
                            "branch":  "HEAD",
                            "commit":  "6734eee1004142576b96759e34c15dec48776e23",
                            "pushed":  true,
-                           "sdk":  "9.0.319"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCModel.dll",
                            "source":  "Model/Model/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "5.21.0.0",
-                           "sha256":  "86AABD20AB7EB4F7CA257705D803C6F9C7D4ECBAE8B55EB254EBF71C93DCC2DB",
+                           "assemblyVersion":  "5.21.0.1",
+                           "sha256":  "A84BC0DE5AB36B36096BB08930CABF12575B2FCF2EAE30F5F6B9736168411644",
                            "repository":  "Model",
                            "branch":  "HEAD",
-                           "commit":  "2d59bbc609cd9c913abbfc8c8b7cc6615f7b4d53",
+                           "commit":  "2acc60efad0924b9b05aafdd75588f13842904a1",
                            "pushed":  true,
-                           "sdk":  "9.0.319"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCModelData.dll",
                            "source":  "Model/ModelData/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.3.0.1",
-                           "sha256":  "FD230620B25D5DC1D03BE1B0D401E1109C46BABB1866DC7B47F2537F9BC09AD0",
+                           "assemblyVersion":  "0.3.0.2",
+                           "sha256":  "02AB1FAD861767E5DEB2722AB74CD461B7610A1568C01D6A4975A95E89B49D19",
                            "repository":  "Model",
                            "branch":  "HEAD",
-                           "commit":  "2d59bbc609cd9c913abbfc8c8b7cc6615f7b4d53",
+                           "commit":  "2acc60efad0924b9b05aafdd75588f13842904a1",
                            "pushed":  true,
-                           "sdk":  "9.0.319"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPC.Converter.dll",
                            "source":  "Model/GPC Converter/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "2.6.0.1",
-                           "sha256":  "9F408177CAD6A9807B7A3C547B0BB95D4BCEAA5CD134B3C50385BC4182EB424D",
+                           "assemblyVersion":  "2.6.0.2",
+                           "sha256":  "BEB0DEA66BDDADC126A4AF814EF789038F2296494BBA4D8FDB32B1E361443677",
                            "repository":  "Model",
                            "branch":  "HEAD",
-                           "commit":  "2d59bbc609cd9c913abbfc8c8b7cc6615f7b4d53",
+                           "commit":  "2acc60efad0924b9b05aafdd75588f13842904a1",
                            "pushed":  true,
-                           "sdk":  "9.0.319"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPC.Model.Persistence.dll",
                            "source":  "Model/GPC.Model.Persistence/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "3.3.0.1",
-                           "sha256":  "82DE7FB3A5F2267A8FBB2C65525EE46472C232D8DBCCDD6790BFB456F143EFC0",
+                           "assemblyVersion":  "3.3.0.2",
+                           "sha256":  "0472B90350B1A28E69F58E3C492C81BA74F0C3D6D24ECEEE97BEDFEC259CAB58",
                            "repository":  "Model",
                            "branch":  "HEAD",
-                           "commit":  "2d59bbc609cd9c913abbfc8c8b7cc6615f7b4d53",
+                           "commit":  "2acc60efad0924b9b05aafdd75588f13842904a1",
                            "pushed":  true,
-                           "sdk":  "9.0.319"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCChecker.Concrete.dll",
                            "source":  "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.20.0.1",
-                           "sha256":  "D6FD5D09DCA35AB675D4B04A84A3E43119EA5CC7AE589CC803B81135DA804942",
+                           "assemblyVersion":  "0.20.0.2",
+                           "sha256":  "66A4CE4CC5CBFEA441A2D896991AAACD983E607DB41056A9344C38A4185A9662",
                            "repository":  "Checker",
-                           "branch":  "fix/merge-analytic-legacy-20261024",
-                           "commit":  "22dabe69e15fb6b04ce474dc3890ae50318101f9",
+                           "branch":  "HEAD",
+                           "commit":  "c74d24777922f70dc7dbb35d0b4daa50671dfa8e",
                            "pushed":  true,
-                           "sdk":  "9.0.319"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCChecker.Steel.dll",
                            "source":  "Checker/GPCChecker.Steel/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "2.84.0.0",
-                           "sha256":  "8907F84F4B3933D3E2FF00B5ADC66B98513C546554E4680B56BA75EBCAF50DA3",
+                           "assemblyVersion":  "2.98.0.0",
+                           "sha256":  "611410BF4D91A876198DFA12B1894A2969242FF03A2A66FB279D65D7E86D85D9",
                            "repository":  "Checker",
-                           "branch":  "fix/merge-analytic-legacy-20261024",
-                           "commit":  "22dabe69e15fb6b04ce474dc3890ae50318101f9",
+                           "branch":  "HEAD",
+                           "commit":  "c74d24777922f70dc7dbb35d0b4daa50671dfa8e",
                            "pushed":  true,
-                           "sdk":  "9.0.319"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCChecker.Geotechnics.dll",
                            "source":  "Checker/GPCChecker.Geotechnics/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.19.0.1",
-                           "sha256":  "6ED52C5C504C93C3A4EF18A1C41CC2D618A23E1C2060AC65E21E213DDDF2EE88",
+                           "assemblyVersion":  "0.19.0.2",
+                           "sha256":  "AE90A993CFD41BB70272B5DDEC0DDE810665FB6122AB48DF5F42051246AAC166",
                            "repository":  "Checker",
-                           "branch":  "fix/merge-analytic-legacy-20261024",
-                           "commit":  "22dabe69e15fb6b04ce474dc3890ae50318101f9",
+                           "branch":  "HEAD",
+                           "commit":  "c74d24777922f70dc7dbb35d0b4daa50671dfa8e",
                            "pushed":  true,
-                           "sdk":  "9.0.319"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCChecker.Masonry.dll",
                            "source":  "Checker/src/GPCChecker.Masonry/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.6.0.1",
-                           "sha256":  "5EC6C2A0C67663E2C19E8D992D20F334E003D6DA04224697E5CEB32B765C06A3",
+                           "assemblyVersion":  "0.6.0.2",
+                           "sha256":  "83549017A08714EF01CC25D92AE60D55FC596D47CEB45A8997D3CFEDFB9CC93C",
                            "repository":  "Checker",
-                           "branch":  "fix/merge-analytic-legacy-20261024",
-                           "commit":  "22dabe69e15fb6b04ce474dc3890ae50318101f9",
+                           "branch":  "HEAD",
+                           "commit":  "c74d24777922f70dc7dbb35d0b4daa50671dfa8e",
                            "pushed":  true,
-                           "sdk":  "9.0.319"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPC.Design.dll",
                            "source":  "Checker/src/GPC.Design/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.36.0.0",
-                           "sha256":  "72FB018922E71ED5ADF1F3E4B8DFA9724E07C1DFFDACC74490368E928AB994D9",
+                           "assemblyVersion":  "0.37.0.0",
+                           "sha256":  "16CE20D7D605776E28759A5FB616F2122789779B7613292645640FA20211FF35",
                            "repository":  "Checker",
-                           "branch":  "fix/merge-analytic-legacy-20261024",
-                           "commit":  "22dabe69e15fb6b04ce474dc3890ae50318101f9",
+                           "branch":  "HEAD",
+                           "commit":  "c74d24777922f70dc7dbb35d0b4daa50671dfa8e",
                            "pushed":  true,
-                           "sdk":  "9.0.319"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCChecker.CompositeBridge.dll",
                            "source":  "Checker/GPCChecker.CompositeBridge/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "1.13.0.1",
-                           "sha256":  "19D972657AAD4F7216C8C14AF16B3F49DFFC6C1A571FB21DE5A6E996F1065C3B",
+                           "assemblyVersion":  "1.15.0.0",
+                           "sha256":  "CCF17F42C5E1A419AA2B30DE7F7C00BBA0082D1D2835D27676D1F89C9D0DE070",
                            "repository":  "Checker",
-                           "branch":  "fix/merge-analytic-legacy-20261024",
-                           "commit":  "22dabe69e15fb6b04ce474dc3890ae50318101f9",
+                           "branch":  "HEAD",
+                           "commit":  "c74d24777922f70dc7dbb35d0b4daa50671dfa8e",
                            "pushed":  true,
-                           "sdk":  "9.0.319"
+                           "sdk":  "9.0.320"
                        }
                    ]
 }

@@ -1,5 +1,19 @@
 # DLL Checker
 
+**Release AH — giunzioni dei ponti in acciaio, Steel 2.98 (26 ottobre 2026).** Set ufficiale da Model `2acc60ef` e Checker `c74d2477`,
+entrambi su origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Contiene:
+- il lavoro di Codex sulle giunzioni dei ponti in acciaio (ramo `codex/steel-bridge-splices-static`, 44 commit portati su master con
+  l'ok dell'utente): Steel 2.98.0.0, CompositeBridge 1.15.0.0 (irrigidimenti e connessione a taglio chiamano il nucleo condiviso di
+  Steel), GPCModelChecker 2.25.0.0 e GPC.Design 0.37.0.0;
+- Concrete 0.20.0.2, Geotechnics 0.19.0.2 e Masonry 0.6.0.2 ricompilate senza modifiche (commit nuovo di Checker, SourceLink);
+- GPCModel 5.21.0.1, ModelData 0.3.0.2, Persistence 3.3.0.2 e Converter 2.6.0.2: sorgente di Model invariato, ricompilato con l'SDK
+  9.0.320, che il 26/10 ha sostituito il 9.0.319 del set AG.
+
+Suite di `Release-Set.ps1 -Previous` (set AG), tutte verdi senza fallimenti ammessi: Model (Core, UnitTest, API) e Checker, Concrete 905
+(con il contratto K0 in net472), Steel 122, CompositeBridge 391, Geotechnics 193, Calculation 175, ShallowFoundation 28, EmbeddedWalls 99,
+Steel.Members 5983, Design 109 e 108 (net472), ModelChecker 473; API compatibili. Nessun Gmsh. Installato con
+`Update-Snapshot.ps1 -ReleaseSet ... -Install`. Set in `supporto/artefatti/librerie-20261026-ah/gpc-release-20261026-ah`.
+
 **Release AG — parabola analitica, Steel 2.84 e Design .NET Standard 2.0 (24 ottobre 2026).** Set ufficiale da Model `2d59bbc6` e
 Checker `22dabe69`, entrambi su origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Contiene:
 - la parabola-rettangolo del calcestruzzo analitica come legge predefinita, con la modalità tabellare obsoleta per lo storico (GPCModel
