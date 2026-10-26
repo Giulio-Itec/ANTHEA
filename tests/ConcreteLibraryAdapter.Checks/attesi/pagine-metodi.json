@@ -552,7 +552,7 @@
     {
      "chiave": "LongitudinalSpacing",
      "nome": "Interasse longitudinale",
-     "effettivo": 298,
+     "effettivo": 149.0,
      "limite": 300.0,
      "esito": true
     },

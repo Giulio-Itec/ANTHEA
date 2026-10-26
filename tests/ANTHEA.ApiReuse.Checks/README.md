@@ -33,3 +33,10 @@ per una le sole quattro voci «Interasse verticale sulla sezione» delle pareti
 600×800 (con e senza sovrapposizione e staffe): da 424 a 208 mm, atteso a mano
 (800 − 2·(70 + 10 + 8))/3, verifica da non soddisfatta a soddisfatta. Ogni altro
 campo resta identico alla cattura, che non si rigenera.
+
+R12 (F5.15, passo e; GPCChecker.Concrete 0.21.0.0, opzione accesa da ANTHEA):
+nei pilastri l'interasse si misura lungo il perimetro delle barre, non più fra le
+barre allineate attraverso il nucleo. La prova ammette allo stesso modo le sole
+quattro voci «Interasse longitudinale» dei pilastri rettangolari 600×800: da 424
+a 208 mm, lo stesso atteso a mano, verifica da non soddisfatta a soddisfatta.
+Pilastri circolari e a T invariati.

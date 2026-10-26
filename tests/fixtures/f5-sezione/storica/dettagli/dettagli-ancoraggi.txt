@@ -589,7 +589,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 0F1481C4ED648A6D · byte 8465
   workspace_ca.dettagli_costruttivi.elemento = "Pilastro"
 modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato F63290109F825A2C
+risultato 9F66AE4DC2A54035
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -622,9 +622,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [dettagli]   scelta confinamento "Confinamento / armatura trasversale" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta posizione "Posizione e sfalsamento giunzioni" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme" · nascosto
 [dettagli]   scelta cautele "Cautele per barre Ø > 32 mm" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
-[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n5 soddisfatti · 2 non soddisfatti · 1 da completare\n\r\n"
+[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n6 soddisfatti · 1 non soddisfatti · 1 da completare\n\r\n"
 [dettagli] riquadri dettagli-cover "Interferro minimo\nVERIFICATA\nValore: 59,2 mm · limite: 30 mm\nmax(20 mm; Ømax; dg + 5 mm), controllo conservativo su tutte le coppie.\nNTC 2018 §4.1.6.1.3 / EC2 §8.2\n\nCopriferro nominale\nDA COMPLETARE\nValore: —  · limite: — \nCompletare esposizione SLE e parametri di durabilità per calcolare cmin,dur.\nNTC 2018 §4.1.6.1.3\n\n" · colori #FF39A879 #FF9AA4AF
-[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nNON VERIFICATA\nValore: 424 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939 #FF39A879 #FF39A879
+[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nVERIFICATA\nValore: 208 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FF39A879 #FF39A879 #FF39A879
 [dettagli] riquadri dettagli-stirrups "Diametro staffe\nVERIFICATA\nValore: 10 mm · limite: 6 mm\nmax(6 mm; Ølong,max/4)\nNTC 2018 §4.1.6.1.2\n\nPasso staffe\nNON VERIFICATA\nValore: 200 mm · limite: 192 mm\nmin(250 mm; 12 Ølong,min)\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939
 [dettagli] riquadri dettagli-anchors ""
 [dettagli] riquadri ancoraggi "Ancoraggi e giunzioni\nDA COMPLETARE\nDati da completare\nInserire la lunghezza disponibile per eseguire la verifica.\nNTC capitolo 4 / EC2 §§8.4 e 8.7\n\n" · colori #FF9AA4AF
@@ -632,14 +632,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 0F1481C4ED648A6D · byte 8465
 modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato F63290109F825A2C
+risultato 9F66AE4DC2A54035
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == scelta ancoraggi tipo «Sovrapposizione rettilinea»
 dati 1F59BC556BBCEFCE · byte 8470
   workspace_ca.ancoraggi.tipo = "Sovrapposizione rettilinea"
 modificato 15 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 1193C441D4EEFE41
+risultato 4786653259921069
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -672,9 +672,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [dettagli]   scelta confinamento "Confinamento / armatura trasversale" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta posizione "Posizione e sfalsamento giunzioni" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta cautele "Cautele per barre Ø > 32 mm" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
-[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n5 soddisfatti · 2 non soddisfatti · 1 da completare\n\r\n"
+[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n6 soddisfatti · 1 non soddisfatti · 1 da completare\n\r\n"
 [dettagli] riquadri dettagli-cover "Interferro minimo\nVERIFICATA\nValore: 59,2 mm · limite: 30 mm\nmax(20 mm; Ømax; dg + 5 mm), controllo conservativo su tutte le coppie.\nNTC 2018 §4.1.6.1.3 / EC2 §8.2\n\nCopriferro nominale\nDA COMPLETARE\nValore: —  · limite: — \nCompletare esposizione SLE e parametri di durabilità per calcolare cmin,dur.\nNTC 2018 §4.1.6.1.3\n\n" · colori #FF39A879 #FF9AA4AF
-[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nNON VERIFICATA\nValore: 424 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939 #FF39A879 #FF39A879
+[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nVERIFICATA\nValore: 208 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FF39A879 #FF39A879 #FF39A879
 [dettagli] riquadri dettagli-stirrups "Diametro staffe\nVERIFICATA\nValore: 10 mm · limite: 6 mm\nmax(6 mm; Ølong,max/4)\nNTC 2018 §4.1.6.1.2\n\nPasso staffe\nNON VERIFICATA\nValore: 200 mm · limite: 192 mm\nmin(250 mm; 12 Ølong,min)\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939
 [dettagli] riquadri dettagli-anchors ""
 [dettagli] riquadri ancoraggi "Ancoraggi e giunzioni\nDA COMPLETARE\nDati da completare\nInserire la lunghezza disponibile per eseguire la verifica.\nNTC capitolo 4 / EC2 §§8.4 e 8.7\n\n" · colori #FF9AA4AF
@@ -683,7 +683,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 61EC9C4531DA1D30 · byte 8473
   workspace_ca.ancoraggi.lunghezza = "800"
 modificato 16 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 62D8225AB1406BE2
+risultato BE8CBD43016081DA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -716,9 +716,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [dettagli]   scelta confinamento "Confinamento / armatura trasversale" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta posizione "Posizione e sfalsamento giunzioni" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta cautele "Cautele per barre Ø > 32 mm" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme" · nascosto
-[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n5 soddisfatti · 2 non soddisfatti · 1 da completare\n\r\n"
+[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n6 soddisfatti · 1 non soddisfatti · 1 da completare\n\r\n"
 [dettagli] riquadri dettagli-cover "Interferro minimo\nVERIFICATA\nValore: 59,2 mm · limite: 30 mm\nmax(20 mm; Ømax; dg + 5 mm), controllo conservativo su tutte le coppie.\nNTC 2018 §4.1.6.1.3 / EC2 §8.2\n\nCopriferro nominale\nDA COMPLETARE\nValore: —  · limite: — \nCompletare esposizione SLE e parametri di durabilità per calcolare cmin,dur.\nNTC 2018 §4.1.6.1.3\n\n" · colori #FF39A879 #FF9AA4AF
-[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nNON VERIFICATA\nValore: 424 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939 #FF39A879 #FF39A879
+[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nVERIFICATA\nValore: 208 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FF39A879 #FF39A879 #FF39A879
 [dettagli] riquadri dettagli-stirrups "Diametro staffe\nVERIFICATA\nValore: 10 mm · limite: 6 mm\nmax(6 mm; Ølong,max/4)\nNTC 2018 §4.1.6.1.2\n\nPasso staffe\nNON VERIFICATA\nValore: 200 mm · limite: 192 mm\nmin(250 mm; 12 Ølong,min)\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939
 [dettagli] riquadri dettagli-anchors ""
 [dettagli] riquadri ancoraggi "Sovrapposizione rettilinea · Ø24\nNON VERIFICATA\nDisponibile: 800 mm · richiesta: 1044,884 mm\nσsd = 391,304 MPa · fbd = 3,37 MPa · lb,rqd = 696,589 mm\nl0 = max[α6·lb,rqd; 0,3·α6·lb,rqd; 20Ø; 200 mm]; α6 = clamp(√(%/25),1,1,5). Interferro ≤ 4Ø. Barre rettilinee, α1…α5 = 1.\nη1 = 1; η2 = 1; fctk,0.05 = 2,247 MPa (limite C60/75); γc = 1,5. α1…α5 = 1; nessuna riduzione favorevole.\nNTC §§4.1.2.1.1.4, 4.1.2.3.10, 4.1.6.1.4 / EC2 §§8.4 e 8.7.\n\nInterferro della giunzione\nVERIFICATA\nInterferro: 0 mm · massimo: 96 mm\nα6 = 1,5; percentuale sovrapposta = 100%.\nNTC §4.1.6.1.4 / EC2 §8.7\n\nRiscontro manuale · Confinamento / armatura trasversale\nDA COMPLETARE\nDa verificare\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\nRiscontro manuale · Posizione e sfalsamento giunzioni\nDA COMPLETARE\nDa verificare\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\n" · colori #FFCB3939 #FF39A879 #FF9AA4AF #FF9AA4AF
@@ -727,7 +727,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 293383F717C6F4E0 · byte 8472
   workspace_ca.ancoraggi.percentuale = "50"
 modificato 17 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 878493D8A68E0604
+risultato 3C284F7E9EEE8192
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -760,9 +760,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [dettagli]   scelta confinamento "Confinamento / armatura trasversale" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta posizione "Posizione e sfalsamento giunzioni" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta cautele "Cautele per barre Ø > 32 mm" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme" · nascosto
-[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n5 soddisfatti · 2 non soddisfatti · 1 da completare\n\r\n"
+[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n6 soddisfatti · 1 non soddisfatti · 1 da completare\n\r\n"
 [dettagli] riquadri dettagli-cover "Interferro minimo\nVERIFICATA\nValore: 59,2 mm · limite: 30 mm\nmax(20 mm; Ømax; dg + 5 mm), controllo conservativo su tutte le coppie.\nNTC 2018 §4.1.6.1.3 / EC2 §8.2\n\nCopriferro nominale\nDA COMPLETARE\nValore: —  · limite: — \nCompletare esposizione SLE e parametri di durabilità per calcolare cmin,dur.\nNTC 2018 §4.1.6.1.3\n\n" · colori #FF39A879 #FF9AA4AF
-[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nNON VERIFICATA\nValore: 424 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939 #FF39A879 #FF39A879
+[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nVERIFICATA\nValore: 208 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FF39A879 #FF39A879 #FF39A879
 [dettagli] riquadri dettagli-stirrups "Diametro staffe\nVERIFICATA\nValore: 10 mm · limite: 6 mm\nmax(6 mm; Ølong,max/4)\nNTC 2018 §4.1.6.1.2\n\nPasso staffe\nNON VERIFICATA\nValore: 200 mm · limite: 192 mm\nmin(250 mm; 12 Ølong,min)\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939
 [dettagli] riquadri dettagli-anchors ""
 [dettagli] riquadri ancoraggi "Sovrapposizione rettilinea · Ø24\nNON VERIFICATA\nDisponibile: 800 mm · richiesta: 985,126 mm\nσsd = 391,304 MPa · fbd = 3,37 MPa · lb,rqd = 696,589 mm\nl0 = max[α6·lb,rqd; 0,3·α6·lb,rqd; 20Ø; 200 mm]; α6 = clamp(√(%/25),1,1,5). Interferro ≤ 4Ø. Barre rettilinee, α1…α5 = 1.\nη1 = 1; η2 = 1; fctk,0.05 = 2,247 MPa (limite C60/75); γc = 1,5. α1…α5 = 1; nessuna riduzione favorevole.\nNTC §§4.1.2.1.1.4, 4.1.2.3.10, 4.1.6.1.4 / EC2 §§8.4 e 8.7.\n\nInterferro della giunzione\nVERIFICATA\nInterferro: 0 mm · massimo: 96 mm\nα6 = 1,414; percentuale sovrapposta = 50%.\nNTC §4.1.6.1.4 / EC2 §8.7\n\nRiscontro manuale · Confinamento / armatura trasversale\nDA COMPLETARE\nDa verificare\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\nRiscontro manuale · Posizione e sfalsamento giunzioni\nDA COMPLETARE\nDa verificare\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\n" · colori #FFCB3939 #FF39A879 #FF9AA4AF #FF9AA4AF
@@ -770,14 +770,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 293383F717C6F4E0 · byte 8472
 modificato 17 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 878493D8A68E0604
+risultato 3C284F7E9EEE8192
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == campo ancoraggi diametro «24»
 dati 3444683324DB08DB · byte 8474
   workspace_ca.ancoraggi.diametro = "24"
 modificato 18 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato A6234FB2A458A3BB
+risultato 281E084070F769B9
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -810,9 +810,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [dettagli]   scelta confinamento "Confinamento / armatura trasversale" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta posizione "Posizione e sfalsamento giunzioni" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta cautele "Cautele per barre Ø > 32 mm" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme" · nascosto
-[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n5 soddisfatti · 2 non soddisfatti · 1 da completare\n\r\n"
+[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n6 soddisfatti · 1 non soddisfatti · 1 da completare\n\r\n"
 [dettagli] riquadri dettagli-cover "Interferro minimo\nVERIFICATA\nValore: 59,2 mm · limite: 30 mm\nmax(20 mm; Ømax; dg + 5 mm), controllo conservativo su tutte le coppie.\nNTC 2018 §4.1.6.1.3 / EC2 §8.2\n\nCopriferro nominale\nDA COMPLETARE\nValore: —  · limite: — \nCompletare esposizione SLE e parametri di durabilità per calcolare cmin,dur.\nNTC 2018 §4.1.6.1.3\n\n" · colori #FF39A879 #FF9AA4AF
-[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nNON VERIFICATA\nValore: 424 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939 #FF39A879 #FF39A879
+[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nVERIFICATA\nValore: 208 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FF39A879 #FF39A879 #FF39A879
 [dettagli] riquadri dettagli-stirrups "Diametro staffe\nVERIFICATA\nValore: 10 mm · limite: 6 mm\nmax(6 mm; Ølong,max/4)\nNTC 2018 §4.1.6.1.2\n\nPasso staffe\nNON VERIFICATA\nValore: 200 mm · limite: 192 mm\nmin(250 mm; 12 Ølong,min)\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939
 [dettagli] riquadri dettagli-anchors ""
 [dettagli] riquadri ancoraggi "Sovrapposizione rettilinea · Ø24\nNON VERIFICATA\nDisponibile: 800 mm · richiesta: 985,126 mm\nσsd = 391,304 MPa · fbd = 3,37 MPa · lb,rqd = 696,589 mm\nl0 = max[α6·lb,rqd; 0,3·α6·lb,rqd; 20Ø; 200 mm]; α6 = clamp(√(%/25),1,1,5). Interferro ≤ 4Ø. Barre rettilinee, α1…α5 = 1.\nη1 = 1; η2 = 1; fctk,0.05 = 2,247 MPa (limite C60/75); γc = 1,5. α1…α5 = 1; nessuna riduzione favorevole.\nNTC §§4.1.2.1.1.4, 4.1.2.3.10, 4.1.6.1.4 / EC2 §§8.4 e 8.7.\n\nInterferro della giunzione\nVERIFICATA\nInterferro: 0 mm · massimo: 96 mm\nα6 = 1,414; percentuale sovrapposta = 50%.\nNTC §4.1.6.1.4 / EC2 §8.7\n\nRiscontro manuale · Confinamento / armatura trasversale\nDA COMPLETARE\nDa verificare\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\nRiscontro manuale · Posizione e sfalsamento giunzioni\nDA COMPLETARE\nDa verificare\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\n" · colori #FFCB3939 #FF39A879 #FF9AA4AF #FF9AA4AF
@@ -821,7 +821,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati AC2372978EE39F7C · byte 8477
   workspace_ca.ancoraggi.sigma = "300"
 modificato 19 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 4A0FC9C7A9130390
+risultato 69FFEF50B8D62C4B
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -854,9 +854,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [dettagli]   scelta confinamento "Confinamento / armatura trasversale" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta posizione "Posizione e sfalsamento giunzioni" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta cautele "Cautele per barre Ø > 32 mm" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme" · nascosto
-[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n5 soddisfatti · 2 non soddisfatti · 1 da completare\n\r\n"
+[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n6 soddisfatti · 1 non soddisfatti · 1 da completare\n\r\n"
 [dettagli] riquadri dettagli-cover "Interferro minimo\nVERIFICATA\nValore: 59,2 mm · limite: 30 mm\nmax(20 mm; Ømax; dg + 5 mm), controllo conservativo su tutte le coppie.\nNTC 2018 §4.1.6.1.3 / EC2 §8.2\n\nCopriferro nominale\nDA COMPLETARE\nValore: —  · limite: — \nCompletare esposizione SLE e parametri di durabilità per calcolare cmin,dur.\nNTC 2018 §4.1.6.1.3\n\n" · colori #FF39A879 #FF9AA4AF
-[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nNON VERIFICATA\nValore: 424 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939 #FF39A879 #FF39A879
+[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nVERIFICATA\nValore: 208 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FF39A879 #FF39A879 #FF39A879
 [dettagli] riquadri dettagli-stirrups "Diametro staffe\nVERIFICATA\nValore: 10 mm · limite: 6 mm\nmax(6 mm; Ølong,max/4)\nNTC 2018 §4.1.6.1.2\n\nPasso staffe\nNON VERIFICATA\nValore: 200 mm · limite: 192 mm\nmin(250 mm; 12 Ølong,min)\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939
 [dettagli] riquadri dettagli-anchors ""
 [dettagli] riquadri ancoraggi "Sovrapposizione rettilinea · Ø24\nVERIFICATA\nDisponibile: 800 mm · richiesta: 755,263 mm\nσsd = 300 MPa · fbd = 3,37 MPa · lb,rqd = 534,052 mm\nl0 = max[α6·lb,rqd; 0,3·α6·lb,rqd; 20Ø; 200 mm]; α6 = clamp(√(%/25),1,1,5). Interferro ≤ 4Ø. Barre rettilinee, α1…α5 = 1.\nη1 = 1; η2 = 1; fctk,0.05 = 2,247 MPa (limite C60/75); γc = 1,5. α1…α5 = 1; nessuna riduzione favorevole.\nNTC §§4.1.2.1.1.4, 4.1.2.3.10, 4.1.6.1.4 / EC2 §§8.4 e 8.7.\n\nInterferro della giunzione\nVERIFICATA\nInterferro: 0 mm · massimo: 96 mm\nα6 = 1,414; percentuale sovrapposta = 50%.\nNTC §4.1.6.1.4 / EC2 §8.7\n\nRiscontro manuale · Confinamento / armatura trasversale\nDA COMPLETARE\nDa verificare\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\nRiscontro manuale · Posizione e sfalsamento giunzioni\nDA COMPLETARE\nDa verificare\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\n" · colori #FF39A879 #FF39A879 #FF9AA4AF #FF9AA4AF
@@ -864,20 +864,20 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == pulsante ancoraggi Aggiorna verifiche ancoraggi
 dati AC2372978EE39F7C · byte 8477
 modificato 19 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 4A0FC9C7A9130390
+risultato 69FFEF50B8D62C4B
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == attendi
 dati AC2372978EE39F7C · byte 8477
 modificato 19 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 4A0FC9C7A9130390
+risultato 69FFEF50B8D62C4B
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == scelta ancoraggi confinamento «Verificato sul disegno»
 dati BBA78F493A3EAD72 · byte 8486
   workspace_ca.ancoraggi.confinamento = "Verificato sul disegno"
 modificato 20 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 55C970B27439A72D
+risultato 15DE62A647EE8DFE
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -910,9 +910,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [dettagli]   scelta confinamento "Confinamento / armatura trasversale" = "Verificato sul disegno" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta posizione "Posizione e sfalsamento giunzioni" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta cautele "Cautele per barre Ø > 32 mm" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme" · nascosto
-[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n5 soddisfatti · 2 non soddisfatti · 1 da completare\n\r\n"
+[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n6 soddisfatti · 1 non soddisfatti · 1 da completare\n\r\n"
 [dettagli] riquadri dettagli-cover "Interferro minimo\nVERIFICATA\nValore: 59,2 mm · limite: 30 mm\nmax(20 mm; Ømax; dg + 5 mm), controllo conservativo su tutte le coppie.\nNTC 2018 §4.1.6.1.3 / EC2 §8.2\n\nCopriferro nominale\nDA COMPLETARE\nValore: —  · limite: — \nCompletare esposizione SLE e parametri di durabilità per calcolare cmin,dur.\nNTC 2018 §4.1.6.1.3\n\n" · colori #FF39A879 #FF9AA4AF
-[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nNON VERIFICATA\nValore: 424 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939 #FF39A879 #FF39A879
+[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nVERIFICATA\nValore: 208 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FF39A879 #FF39A879 #FF39A879
 [dettagli] riquadri dettagli-stirrups "Diametro staffe\nVERIFICATA\nValore: 10 mm · limite: 6 mm\nmax(6 mm; Ølong,max/4)\nNTC 2018 §4.1.6.1.2\n\nPasso staffe\nNON VERIFICATA\nValore: 200 mm · limite: 192 mm\nmin(250 mm; 12 Ølong,min)\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939
 [dettagli] riquadri dettagli-anchors ""
 [dettagli] riquadri ancoraggi "Sovrapposizione rettilinea · Ø24\nVERIFICATA\nDisponibile: 800 mm · richiesta: 755,263 mm\nσsd = 300 MPa · fbd = 3,37 MPa · lb,rqd = 534,052 mm\nl0 = max[α6·lb,rqd; 0,3·α6·lb,rqd; 20Ø; 200 mm]; α6 = clamp(√(%/25),1,1,5). Interferro ≤ 4Ø. Barre rettilinee, α1…α5 = 1.\nη1 = 1; η2 = 1; fctk,0.05 = 2,247 MPa (limite C60/75); γc = 1,5. α1…α5 = 1; nessuna riduzione favorevole.\nNTC §§4.1.2.1.1.4, 4.1.2.3.10, 4.1.6.1.4 / EC2 §§8.4 e 8.7.\n\nInterferro della giunzione\nVERIFICATA\nInterferro: 0 mm · massimo: 96 mm\nα6 = 1,414; percentuale sovrapposta = 50%.\nNTC §4.1.6.1.4 / EC2 §8.7\n\nRiscontro manuale · Confinamento / armatura trasversale\nVERIFICATA\nVerificato sul disegno\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\nRiscontro manuale · Posizione e sfalsamento giunzioni\nDA COMPLETARE\nDa verificare\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\n" · colori #FF39A879 #FF39A879 #FF39A879 #FF9AA4AF
@@ -921,7 +921,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 dati 0B8E05C996B3E0EE · byte 8485
   workspace_ca.ancoraggi.posizione = "Non conforme"
 modificato 21 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato F7404265A57AAE52
+risultato 5D338C942B60491D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -954,9 +954,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [dettagli]   scelta confinamento "Confinamento / armatura trasversale" = "Verificato sul disegno" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta posizione "Posizione e sfalsamento giunzioni" = "Non conforme" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta cautele "Cautele per barre Ø > 32 mm" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme" · nascosto
-[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n5 soddisfatti · 2 non soddisfatti · 1 da completare\n\r\n"
+[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n6 soddisfatti · 1 non soddisfatti · 1 da completare\n\r\n"
 [dettagli] riquadri dettagli-cover "Interferro minimo\nVERIFICATA\nValore: 59,2 mm · limite: 30 mm\nmax(20 mm; Ømax; dg + 5 mm), controllo conservativo su tutte le coppie.\nNTC 2018 §4.1.6.1.3 / EC2 §8.2\n\nCopriferro nominale\nDA COMPLETARE\nValore: —  · limite: — \nCompletare esposizione SLE e parametri di durabilità per calcolare cmin,dur.\nNTC 2018 §4.1.6.1.3\n\n" · colori #FF39A879 #FF9AA4AF
-[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nNON VERIFICATA\nValore: 424 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939 #FF39A879 #FF39A879
+[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nVERIFICATA\nValore: 208 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FF39A879 #FF39A879 #FF39A879
 [dettagli] riquadri dettagli-stirrups "Diametro staffe\nVERIFICATA\nValore: 10 mm · limite: 6 mm\nmax(6 mm; Ølong,max/4)\nNTC 2018 §4.1.6.1.2\n\nPasso staffe\nNON VERIFICATA\nValore: 200 mm · limite: 192 mm\nmin(250 mm; 12 Ølong,min)\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939
 [dettagli] riquadri dettagli-anchors ""
 [dettagli] riquadri ancoraggi "Sovrapposizione rettilinea · Ø24\nVERIFICATA\nDisponibile: 800 mm · richiesta: 755,263 mm\nσsd = 300 MPa · fbd = 3,37 MPa · lb,rqd = 534,052 mm\nl0 = max[α6·lb,rqd; 0,3·α6·lb,rqd; 20Ø; 200 mm]; α6 = clamp(√(%/25),1,1,5). Interferro ≤ 4Ø. Barre rettilinee, α1…α5 = 1.\nη1 = 1; η2 = 1; fctk,0.05 = 2,247 MPa (limite C60/75); γc = 1,5. α1…α5 = 1; nessuna riduzione favorevole.\nNTC §§4.1.2.1.1.4, 4.1.2.3.10, 4.1.6.1.4 / EC2 §§8.4 e 8.7.\n\nInterferro della giunzione\nVERIFICATA\nInterferro: 0 mm · massimo: 96 mm\nα6 = 1,414; percentuale sovrapposta = 50%.\nNTC §4.1.6.1.4 / EC2 §8.7\n\nRiscontro manuale · Confinamento / armatura trasversale\nVERIFICATA\nVerificato sul disegno\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\nRiscontro manuale · Posizione e sfalsamento giunzioni\nNON VERIFICATA\nNon conforme\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\n" · colori #FF39A879 #FF39A879 #FF39A879 #FFCB3939
@@ -964,14 +964,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 0B8E05C996B3E0EE · byte 8485
 modificato 21 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato F7404265A57AAE52
+risultato 5D338C942B60491D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == scelta ancoraggi tipo «Ancoraggio rettilineo»
 dati E17C7692D0F9E6F9 · byte 8480
   workspace_ca.ancoraggi.tipo = "Ancoraggio rettilineo"
 modificato 22 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 99F2BA675BCFAE13
+risultato 06E9DB1C6E9B78C5
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] form dettagli-0
 [dettagli]   scelta elemento "Elemento" = "Pilastro" voci "Da scegliere|Trave|Pilastro|Soletta piena|Parete"
@@ -1004,9 +1004,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [dettagli]   scelta confinamento "Confinamento / armatura trasversale" = "Verificato sul disegno" voci "Da verificare|Verificato sul disegno|Non conforme"
 [dettagli]   scelta posizione "Posizione e sfalsamento giunzioni" = "Non conforme" voci "Da verificare|Verificato sul disegno|Non conforme" · nascosto
 [dettagli]   scelta cautele "Cautele per barre Ø > 32 mm" = "Da verificare" voci "Da verificare|Verificato sul disegno|Non conforme" · nascosto
-[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n5 soddisfatti · 2 non soddisfatti · 1 da completare\n\r\n"
+[dettagli] riquadri dettagli "Pilastro · NEd,max compressione = 2500 kN (Combo 1 · SLU)\n6 soddisfatti · 1 non soddisfatti · 1 da completare\n\r\n"
 [dettagli] riquadri dettagli-cover "Interferro minimo\nVERIFICATA\nValore: 59,2 mm · limite: 30 mm\nmax(20 mm; Ømax; dg + 5 mm), controllo conservativo su tutte le coppie.\nNTC 2018 §4.1.6.1.3 / EC2 §8.2\n\nCopriferro nominale\nDA COMPLETARE\nValore: —  · limite: — \nCompletare esposizione SLE e parametri di durabilità per calcolare cmin,dur.\nNTC 2018 §4.1.6.1.3\n\n" · colori #FF39A879 #FF9AA4AF
-[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nNON VERIFICATA\nValore: 424 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939 #FF39A879 #FF39A879
+[dettagli] riquadri dettagli-bars "Diametro longitudinale\nVERIFICATA\nValore: 16 mm · limite: 12 mm\nØmin ≥ 12 mm\nNTC 2018 §4.1.6.1.2\n\nInterasse longitudinale\nVERIFICATA\nValore: 208 mm · limite: 300 mm\nInterasse sulle facce / sul perimetro ≤ 300 mm.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale minima\nVERIFICATA\nValore: 4775,221 mm² · limite: 1440 mm²\nmax(0,10 NEd/fyd; 0,003 Ac), NEd massimo di compressione fra le combinazioni.\nNTC 2018 §4.1.6.1.2\n\nArmatura longitudinale massima\nVERIFICATA\nValore: 4775,221 mm² · limite: 19200 mm²\nAs ≤ 0,04 Ac fuori dalle sovrapposizioni.\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FF39A879 #FF39A879 #FF39A879
 [dettagli] riquadri dettagli-stirrups "Diametro staffe\nVERIFICATA\nValore: 10 mm · limite: 6 mm\nmax(6 mm; Ølong,max/4)\nNTC 2018 §4.1.6.1.2\n\nPasso staffe\nNON VERIFICATA\nValore: 200 mm · limite: 192 mm\nmin(250 mm; 12 Ølong,min)\nNTC 2018 §4.1.6.1.2\n\n" · colori #FF39A879 #FFCB3939
 [dettagli] riquadri dettagli-anchors ""
 [dettagli] riquadri ancoraggi "Ancoraggio rettilineo · Ø24\nVERIFICATA\nDisponibile: 800 mm · richiesta: 534,052 mm\nσsd = 300 MPa · fbd = 3,37 MPa · lb,rqd = 534,052 mm\nlb,rqd = Ø·σsd/(4fbd); lbd = max(lb,rqd; 20Ø; 150 mm). Barra rettilinea, nessuna riduzione favorevole.\nη1 = 1; η2 = 1; fctk,0.05 = 2,247 MPa (limite C60/75); γc = 1,5. α1…α5 = 1; nessuna riduzione favorevole.\nNTC §§4.1.2.1.1.4, 4.1.2.3.10, 4.1.6.1.4 / EC2 §§8.4 e 8.7.\n\nRiscontro manuale · Confinamento / armatura trasversale\nVERIFICATA\nVerificato sul disegno\nEsito dichiarato dal progettista tramite il campo a sinistra. Non incluso nell’esito numerico della lunghezza.\nNTC §4.1.6.1.4 / EC2 §§8.4, 8.7 e 8.8\n\n" · colori #FF39A879 #FF39A879
@@ -1014,13 +1014,13 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati E17C7692D0F9E6F9 · byte 8480
 modificato 22 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 99F2BA675BCFAE13
+risultato 06E9DB1C6E9B78C5
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == conferma
 dati E17C7692D0F9E6F9 · byte 8480
 modificato 22 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 99F2BA675BCFAE13
+risultato 06E9DB1C6E9B78C5
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata
 == riapri
@@ -1032,6 +1032,6 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati E17C7692D0F9E6F9 · byte 8480
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
-risultato 99F2BA675BCFAE13
+risultato 06E9DB1C6E9B78C5
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [dettagli] invariata

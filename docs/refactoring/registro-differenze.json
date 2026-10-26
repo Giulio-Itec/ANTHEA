@@ -1998,7 +1998,9 @@
       "categoria": "difetto-legacy",
       "stato": "corretto",
       "esito_26_10": "Corretta il 26/10 (F5.15, passo e): opzione MemberDetailingOptions.ColumnSpacingAlongPerimeter di Concrete 0.21.0.0 (Checker 3545564c, ramo f5-15-e/concrete), accesa da ANTHEA (X.Calculations/ConcreteDetailing.cs). Nei pilastri NTC l'interasse si misura lungo il perimetro delle barre, sul contorno convesso dei centri, se ogni barra vi giace; con barre interne resta la misura per allineamenti. Il predefinito della libreria resta quello di 0.0.17.0, per il contratto dei dettagli. Il segno è misto. Dove la misura attraversava il nucleo l'esito torna soddisfatto: 600×600 con 8Ø20 dà 249 mm invece di 498. Dove le barre alle estremità di una faccia non sono allineate, la faccia prima non si misurava e ora la correzione è più severa: 300×500 con barre solo sopra e sotto dà 400,12 mm invece di 180, non soddisfatto. È il caso 6 di detailing-legacy.csv: 208 mm prima, 406 mm ora.",
+      "anthea_26_10": "Effetti sulle prove di ANTHEA (full sulle librerie candidate del 26/10, supporto/artefatti/f5-15-e/full-candidato-20261026), tutti a favore: pilastri rettangolari della sezione predefinita 600×800, «Interasse longitudinale» da 424 mm (barre delle facce x = ±212 allineate attraverso il nucleo) a 208 mm, verifica da non soddisfatta a soddisfatta. Prove aggiornate con l'ok dell'utente: categoria R12 del riuso delle API (4 voci, atteso a mano (800 − 2·(70 + 10 + 8))/3, before.json non rigenerata); traccia congelata f5-sezione/storica/dettagli/dettagli-ancoraggi.txt (35 righe: riquadri e impronte dei risultati del pilastro); atteso indipendente del pilastro 400 × 400 della pagina ca.dettagli §10 (pagine_metodi.py: 298 → 149 mm lungo il perimetro, esito invariato; lo script ricontrolla ancora i 298 mm della pagina con la regola predefinita della libreria). Nessun caso di ANTHEA diventa più severo.",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R12): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
+      "decisione_26_10": "Riferimenti aggiornati con l'ok dell'utente del 26/10: «Sì: pubblica master di Checker a 799a6355, fai il set ufficiale, installalo, committa i riferimenti preparati, lancia la full e, se è verde, unisci e pubblica ANTHEA.»",
       "descrizione": "Il controllo dell'interasse massimo delle barre longitudinali dei pilastri NTC misura la distanza fra barre consecutive anche attraverso il nucleo invece che lungo le facce.",
       "codice": [
         "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:152-154",
@@ -10023,6 +10025,37 @@
       ],
       "voci_collegate": [
         "AG-FON-01"
+      ]
+    },
+    {
+      "id": "AI-FON-01",
+      "data": "2026-10-26",
+      "fase": "Librerie GPC del set AI (F5.15 passo e, Checker 799a6355)",
+      "titolo": "Fondazioni superficiali: versione della libreria nel risultato (GPCChecker.Geotechnics 0.19.0.3)",
+      "famiglia": "fondazioni superficiali/risultato",
+      "modulo": "geo_fondazioni_superficiali (F5.9b)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Come AH-FON-01. GPCChecker.Geotechnics passa da 0.19.0.2 a 0.19.0.3: il set AI la ricompila senza modifiche agli algoritmi, perché Checker 799a6355 contiene le opzioni di Concrete 0.21.0.0 (R12, R13, R21) e i testi R19. Il risultato delle fondazioni porta la versione della libreria (library_version). Nelle 8 fixture F3 con un risultato cambia quindi l'impronta SHA-256 del risultato dopo «Calcola», che ui/check-fondazioni-view confronta con i valori registrati. Cambia solo per questo campo: dati, stato, Modified, disegni e numeri restano uguali.",
+      "codice": [
+        "lib/Checker/GPCChecker.Geotechnics.dll",
+        "tests/ANTHEA.Desktop.UiTests/ShallowFoundationViewChecks.cs (HistoricFixtures, impronte del risultato)"
+      ],
+      "segno": "Nessun effetto sui numeri.",
+      "effetto_quantificato": "Cambiano 8 impronte del risultato su 11 fixture; le 3 senza risultato restano uguali. In ogni risultato catturato library_version compare una sola volta. Riportandola a 0.19.0.2 tornano tutte e 8 le impronte di AH-FON-01.",
+      "decisione": {
+        "data": "2026-10-26",
+        "utente": "«Sì: pubblica master di Checker a 799a6355, fai il set ufficiale, installalo, committa i riferimenti preparati, lancia la full e, se è verde, unisci e pubblica ANTHEA.»",
+        "esito": "aggiornata come AH-FON-01: 8 impronte del risultato in HistoricFixtures, con la nota del controllo."
+      },
+      "test": [
+        "ui/check-fondazioni-view"
+      ],
+      "evidenze": [
+        "supporto/artefatti/f5-15-e/diag-r12-20261026/ui_check-fondazioni-view/vista/impronte-f515.txt (impronte catturate con una modifica temporanea non committata, librerie candidate con le stesse versioni)"
+      ],
+      "voci_collegate": [
+        "AH-FON-01"
       ]
     },
     {

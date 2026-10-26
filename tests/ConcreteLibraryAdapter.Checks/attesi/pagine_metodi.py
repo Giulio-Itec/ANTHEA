@@ -14,8 +14,9 @@ pagina ferma lo script.
 - AN-01/02 e SO-01/02: casi della campagna di validazione del 25/9 (supporto/SUPERATI/test/ValidazioneCA20260925/reference_extra.py,
   letto in sola lettura per i dati), C30/37, ricalcolati qui in forma chiusa con le stesse formule.
 - ca.dettagli §10, profilo NTC: trave 300 × 500 (interferro (D.1), copriferro (D.2)-(D.3), As,min e As,max (D.5), staffe (D.6)) e
-  pilastro 400 × 400 (D.8), con l'armatura massima nella giunzione (D.10). L'interasse del pilastro segue la regola dichiarata del
-  programma (riquadro D-2, voce R12: barre allineate anche attraverso il nucleo), come la colonna «a mano» della pagina.
+  pilastro 400 × 400 (D.8), con l'armatura massima nella giunzione (D.10). La pagina stampa l'interasse del pilastro con la regola
+  predefinita della libreria (riquadro D-2: barre allineate anche attraverso il nucleo, 298 mm), ricontrollato qui; ANTHEA accende
+  l'opzione ColumnSpacingAlongPerimeter (voce R12, F5.15 passo e), quindi l'atteso è l'interasse lungo il perimetro delle barre.
 - ca.momento-curvatura §10: R300x500, C30/37, 3Ø20 + 2Ø16, N = 0, lembo superiore compresso, NTC 2018. Sezione netta (σs − σc) As,
   parabola-rettangolo esatta (M.2), acciaio elastico-perfettamente plastico; punto limite a εcu (o εud) e primo snervamento a εyd.
   In più, per lo stesso caso, il lembo inferiore compresso (2Ø16 tese), calcolato qui con le stesse equazioni (la pagina non lo
@@ -200,9 +201,36 @@ def detailing_cases():
                         best = max(best, v - u)
         return best
 
+    def perimeter_spacing(bars):
+        """Voce R12: massima distanza fra barre consecutive lungo il contorno convesso dei centri, chiusura compresa; ogni barra vi giace."""
+        pts = sorted(set((p[0], p[1]) for p in bars))
+        def cross(o, a, b):
+            return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+        hull = []
+        for part in (pts, pts[::-1]):
+            chain = []
+            for q in part:
+                while len(chain) >= 2 and cross(chain[-2], chain[-1], q) <= 0:
+                    chain.pop()
+                chain.append(q)
+            hull += chain[:-1]
+        edges = list(zip(hull, hull[1:] + hull[:1]))
+        stations, start = [], 0.0
+        for a, b in edges:
+            length = math.hypot(b[0] - a[0], b[1] - a[1])
+            for p in bars:
+                t = ((p[0] - a[0]) * (b[0] - a[0]) + (p[1] - a[1]) * (b[1] - a[1])) / length ** 2
+                if -1e-12 <= t < 1 and abs(cross(a, b, p)) / length < 1e-9:
+                    stations.append(start + t * length)
+            start += length
+        assert len(stations) == len(bars), 'barra fuori dal perimetro'
+        stations.sort()
+        return max(v - u for u, v in zip(stations, stations[1:] + [stations[0] + start]))
+
     phis = [p[2] for p in col_bars]
+    page(aligned_spacing(col_bars), 298, 0, 'interasse pilastro (regola predefinita della libreria)')
     col += [dict(chiave='LongitudinalDiameter', nome='Diametro longitudinale', effettivo=min(phis), limite=12.0),
-            dict(chiave='LongitudinalSpacing', nome='Interasse longitudinale', effettivo=aligned_spacing(col_bars), limite=300.0),
+            dict(chiave='LongitudinalSpacing', nome='Interasse longitudinale', effettivo=perimeter_spacing(col_bars), limite=300.0),
             dict(chiave='MinimumLongitudinal', nome='Armatura longitudinale minima', effettivo=a_s, limite=max(0.10 * ned * 1000 / fyd, 0.003 * acc)),
             dict(chiave='MaximumLongitudinal', nome='Armatura longitudinale massima', effettivo=a_s, limite=0.04 * acc),
             dict(chiave='LinkDiameter', nome='Diametro staffe', effettivo=float(link), limite=max(6.0, max(phis) / 4)),
@@ -211,7 +239,7 @@ def detailing_cases():
         c['esito'] = c['effettivo'] <= c['limite'] if c['chiave'] in ('LongitudinalSpacing', 'MaximumLongitudinal', 'LinkSpacing') else c['effettivo'] >= c['limite']
     by = {c['chiave']: c for c in col}
     page(a_s, 1608.50, 2, 'As pilastro'); page(by['MinimumLongitudinal']['limite'], 511.11, 2, 'As,min pilastro')
-    page(by['LinkSpacing']['limite'], 192, 0, 'passo pilastro'); page(by['LongitudinalSpacing']['effettivo'], 298, 0, 'interasse pilastro')
+    page(by['LinkSpacing']['limite'], 192, 0, 'passo pilastro'); assert by['LongitudinalSpacing']['effettivo'] == 149, 'interasse lungo il perimetro'
     assert not by['LinkSpacing']['esito'] and all(c['esito'] for c in col if c['chiave'] != 'LinkSpacing')
     column = dict(id='pilastro', fonte='ca.dettagli §10, pilastro 400 × 400 (profilo NTC)', b=bc, h=hc, fck=fck, fyk=fyk, fctm=f_ctm, barre=[list(p) for p in col_bars],
                   cnom=cnom, staffe=dict(diametro=link, passo=col_spacing, braccia=0), NEd_kN=ned, aggregato=20, cmin_dur=25, delta_c=10, sovrapposizione=False,
