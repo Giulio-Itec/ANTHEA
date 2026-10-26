@@ -1939,3 +1939,31 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
 6. **Chiusura di F5.15.** Full di chiusura (tag f5-15-f-chiusura): 153 PASS e 1 NEW-FAIL. ui/check-fondazioni-view si aspettava ancora i
    Modified di gruppi e «Raccogli input» in sola lettura; il controllo segue ora T6 (c4e61fa3) e ripassa da solo. Le guide restano invariate.
    F5.15 è chiusa sul ramo `refactoring/f5-15-f`; unione e pubblicazione attendono l'ok dell'utente.
+7. **Unione di F5.15.** «Sì: unisci refactoring/f5-15-f su main e refactoring/f5 (fast-forward), pubblica e togli ramo e worktree»:
+   origin main = origin/refactoring/f5 = 1c267f15.
+
+## 26 ottobre (sera) — 1.14.1 e lavori della 1.14.2
+
+Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'utente.
+
+1. **1.14.1.** «fai versione 1.14.1. crea installer e manda percorso»: versione in 7547fa6c, full di rilascio 157 PASS, setup e audit PASS
+   ([verbale](installer-1.14.1.md), [note](note-rilascio-1.14.1.md)). Tag e pubblicazione attendono l'ok.
+2. **1.14.2.** «correggiamo tutti i punti e rifacciamo la guida. facciamo la versione 1.14.2». La guida pratica non descrive ancora
+   «Aspetto › Separatore decimale»: la Rev60 lo aggiunge, con le correzioni che seguono.
+3. **Voci della coda.**
+   - R4: «correggi in base a MC2010» (θmin = 20° + 10 000 εx).
+   - R9: «aggiungi controllo» (VEd ≤ 0,5 bw d ν fcd).
+   - R11: «ok, correggi», con l'aggiornamento del contratto DurabilityContractTests.
+   - R18: «ok correggi»; R5 e R18 «in fondo agli altri punti».
+   - R5: «deve usare le leggi di progetto di design, quindi ridotte. [...] sono analisi diverse, non sono paragonabili. se uno vuole i
+     coefficienti unitari modifica la norma». Scelta voluta, da dichiarare nella guida teorica.
+4. **Bug da decidere del 16/10.**
+   - BUG-MUR-2b: «si, trascura» (passiva a valle fuori dalla resistenza al ribaltamento).
+   - BUG-PO-5b: «ok» (sviluppo parziale delle barre al piede).
+   - BUG-FES-1b: «si. usa copriferro reale»; BUG-FES-1c: «ok, correggi».
+   - BUG-SLU-2b: «confermo la tua risoluzione» («Fuori dominio»).
+   - BUG-TS-2: «ok, va bene la tua proposta» (area efficace hc,eff, fuori dalle SLE per ora).
+   - BUG-N7: «ok modellarla come un acciaio» (nessuna modifica).
+5. **Da attuare.** «poi implementa: teste dei pali e micropali sotto il PC, sposta le combo e la generazione dentro model, palo
+   orizzontale»; i difetti di contrasto del tema Chiaro «vanno visti»; «pulisci le caselle superate». «Un altro agente sta lavorando su
+   checker. te parti sempre da master/main»: le librerie partono da origin/master in worktree propri.

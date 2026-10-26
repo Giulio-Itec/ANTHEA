@@ -15,7 +15,8 @@ Attività richiesta dall'utente su `refactoring/f5-azioni-spettri`, derivato da 
 - [x] Contratto MVVM Palificata corretto e verificato nella ripetizione `spettri-final-rerun-01`.
 - [x] Collaudo di consegna Spettri sul set 03: 7 PASS, zero NEW-FAIL, inclusi 1572 controlli applicativi, 43 WPF e 45 catture del contrasto (quattro fasi nei tre temi, zero difetti a 144 DPI). Anteprima autonoma della Release bea5211b predisposta.
 - [~] Runner full 04 completato sul set 03: 159 PASS, quattro NEW-FAIL; Palificata risolta. Le due esportazioni arrestate da Trend Micro si fermano anche nella ripetizione e restano aperte. Contrasto generale da ripetere a 96 DPI secondo D6 (macchina a 144 DPI). Esiti ed evidenze in `spettri-ntc.md`.
-- [ ] Rilascio definitivo delle librerie dopo autorizzazione al merge/push di Checker su master.
+- [x] Rilascio definitivo delle librerie dopo autorizzazione al merge/push di Checker su master. Superata (26/10, «pulisci le caselle
+  superate»): le librerie sono uscite nei set ufficiali successivi, fino al set AI della 1.14.1.
 
 Piano approvato il 6 ottobre 2026. Decisioni e architettura: [decisioni.md](decisioni.md).
 Il dettaglio di ogni passo (file, comandi di verifica, criteri di uscita) è stato preparato
@@ -892,23 +893,40 @@ cosa serve per riprenderle. Restano aperte: non sono corrette né accettate.
 
 | Voce | Cosa | Serve | Segno |
 | --- | --- | --- | --- |
-| R4 | MC2010, θmin fisso a 20° | testo di MC2010 §7.3.3.3 | non cautelativa, priorità alta |
-| R5 | SLE non lineare con le leggi di progetto | lavoro grande nella libreria | non cautelativa |
+| R4 | MC2010, θmin fisso a 20° | **26/10 sera: da correggere per la 1.14.2** («correggi in base a MC2010») | non cautelativa, priorità alta |
+| R5 | SLE non lineare con le leggi di progetto | **26/10 sera: dichiarata**, scelta voluta dall'utente; da scrivere nella guida teorica Rev60 | — |
 | R6 | DIN, k5 dei trefoli 0,75 invece di 0,65 | appendice nazionale DIN, poi Model | — |
 | R7 | Interpretazioni di taglio, torsione, SLE e fessurazione | revisione della guida teorica, segno di F-4 | — |
 | R8 | MC2010 senza ritiro, DIN hc,ef, EN Tab. 7.1N per XD3 | testi primari, poi voce per voce | — |
-| R9 | EC2 6.2.2(6), nota 2 di 6.2.3(3), staffe di classe A (DK) | testi | priorità alta |
-| R11 | Copriferro NTC, Cmin di default | decisione: contratto DurabilityContractTests o sola dichiarazione (in ANTHEA nessun effetto) | — |
+| R9 | EC2 6.2.2(6), nota 2 di 6.2.3(3), staffe di classe A (DK) | **26/10 sera: da correggere per la 1.14.2** («aggiungi controllo» di 6.2.2(6)) | priorità alta |
+| R11 | Copriferro NTC, Cmin di default | **26/10 sera: da correggere per la 1.14.2**, con l'aggiornamento del contratto DurabilityContractTests | — |
 | R14 | Dettagli e M–χ: regola dei 15Ø, citazioni | riscontro | — |
 | R16 | DS, torsione: νv invece di νt | testo della media pesata | — |
 | R17 | Classe indicativa di XC3 nei profili EN e UNI | impaginazione del prospetto E.1N | — |
-| R18 | Acciaio incrudente riferito a fyk invece che a fyd | lavoro grande in Model, ricattura delle fixture | priorità alta |
+| R18 | Acciaio incrudente riferito a fyk invece che a fyd | **26/10 sera: da correggere per la 1.14.2**, in fondo all'elenco | priorità alta |
 | R20 | DS, travi: ρw,min nazionale | quando serve il DS delle travi | — |
 
 Altre voci dopo F5, fuori da F5.15:
 - la voce di infrastruttura dei calcoli dal limitatore (D-2, D-5) e del taglio sullo sfondo (C2/S5-c);
-- i bug da decidere del 16/10 (BUG-MUR-2b, BUG-PO-5b, BUG-FES-1b, BUG-FES-1c, BUG-SLU-2b, BUG-TS-2, BUG-N7);
+- i bug da decidere del 16/10, decisi il 26/10 sera: BUG-MUR-2b, BUG-PO-5b, BUG-FES-1b, BUG-FES-1c e BUG-TS-2 da correggere per la
+  1.14.2; BUG-SLU-2b e BUG-N7 dichiarati;
 - il percorso Wiki (W-idx con la revisione della Wiki) e l'infrastruttura successiva.
+
+## Lavori della 1.14.2 (decisioni del 26 ottobre sera)
+
+Decisioni in [decisioni.md](decisioni.md), «26 ottobre (sera)». Le librerie partono da origin/master in worktree propri (un altro agente
+lavora su Checker); ANTHEA da `main`. Un solo set di librerie per tutte le correzioni, poi ANTHEA, la guida Rev60 e la 1.14.2.
+
+- [ ] Correzioni della libreria Concrete: R11 (Cmin di default), R4 (θmin di MC2010 nel taglio e nella torsione), R9 (controllo di
+  EN 6.2.2(6)), BUG-FES-1b e BUG-FES-1c (soglia di wk = 0 sul copriferro reale), BUG-PO-5b (sviluppo parziale delle barre al piede).
+- [ ] BUG-MUR-2b: passiva a valle fuori dalla resistenza al ribaltamento (Geotechnics e testo di ANTHEA).
+- [ ] BUG-TS-2: tension stiffening nell'area efficace hc,eff, fuori dalle verifiche SLE per ora.
+- [ ] Teste dei pali e dei micropali sotto il piano campagna, con le tensioni del ricoprimento ([seguito](../paratie/seguito-pali-interrati.md)).
+- [ ] Combinazioni e loro generazione in Model, prima i muri, poi i moduli che costruiscono le combinazioni da sé.
+- [ ] Palo orizzontale: anello interno di diametro diverso dalla prima fila (distinta per diametro nella libreria) e anello nei report.
+- [ ] R18, in fondo: ramo incrudente dell'acciaio di progetto da fyd a k fyk/γs.
+- [ ] Difetti di contrasto del tema Chiaro (719 in 28 gruppi), da vedere con l'utente.
+- [ ] Guida pratica e teorica Rev60 (separatore decimale, correzioni, R5 dichiarata) e rilascio 1.14.2.
 
 ## Wiki (in parallelo)
 
@@ -1217,7 +1235,7 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [x] F5-LIB-02: distinti i metadati F3/F5 nel driver WPF delle fondazioni; registrate separatamente 122 differenze editoriali Wiki esatte, con 30 ricerche storiche conservate. Testing.Tests: 13 controlli delle transizioni PASS, inclusi rifiuti di variazioni numeriche/non editoriali. Attesi numerici e transizioni F4 congelati. Collaudo WPF finale su f82d7ae3 PASS: 104 fixture F3 e 8198 righe delle fondazioni invariate.
 - [x] Predisposta ANTHEA 1.11.0 per le nuove funzioni paratie/spettri; istruzioni installer aggiornate e PDF di tre pagine controllato. I due originali precedenti sono conservati con SHA-256. Commit/push di F5 e creazione installer autorizzati dall'utente, subordinati al collaudo finale.
 - [x] F5-LIB-03: collaudo mirato concluso su f82d7ae3: 18 PASS, più due suite installer rieseguite PASS dopo la diagnosi del percorso moduli PowerShell. Installer 1.11.0 creato, 325 file applicativi estratti e tre PDF verificati; tutte le 13 DLL identiche al set AA. Nove esempi apribili e ZIP con impronte. [Verbale](installer-1.11.0.md). Matrice completa e pali interrati ancora aperti.
-- [ ] Dopo la verifica dell'amministratore: ripetere `ui/check-palo-verticale-view` e `ui/check-muri-view`; ripetere `ui/check-contrast` nell'ambiente a 96 DPI, senza modificare la baseline.
+- [x] Dopo la verifica dell'amministratore: ripetere `ui/check-palo-verticale-view` e `ui/check-muri-view`; ripetere `ui/check-contrast` nell'ambiente a 96 DPI, senza modificare la baseline. Superata (26/10): le tre suite passano nelle full di rilascio successive, fino a `rilascio-1.14.1-full-ai` (157 PASS).
 
 ## Interfaccia paratie richiesta il 20 ottobre 2026
 
@@ -1244,7 +1262,7 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [x] Versione 1.12.0 assegnata su richiesta dell'utente, comprendente persistenza nativa GPC, dodici wizard delle sezioni e guide Rev54; istruzioni installer e PDF aggiornati, predecessori archiviati con SHA-256.
 - [x] Autorizzazione esplicita ricevuta per Checker/master, ANTHEA/refactoring/f5 e tag v1.12.0. Checker pubblicato, set AB non candidato prodotto e installato; 14 DLL identiche al candidato collaudato, 13 distribuite in ANTHEA.
 - [x] Catalogo unico di 52 esempi per 15 moduli, organizzati in sottocartelle e pagina MVVM Esempi. Apertura come copia indipendente, anche da Explorer; componente NSIS facoltativo selezionato inizialmente. 249 controlli del catalogo e 37 calcoli completi PASS, WPF 20 e installer 120; guide Rev55 controllate, 263 pagine e 387 formule conservate. [Dettaglio](esempi.md).
-- [ ] Collaudo completo, creazione e audit del setup self-contained e degli esempi; tag della revisione esatta della build. Nessun esito della 1.11.1 viene esteso automaticamente a questo rilascio.
+- [x] Collaudo completo, creazione e audit del setup self-contained e degli esempi; tag della revisione esatta della build. Nessun esito della 1.11.1 viene esteso automaticamente a questo rilascio. Superata (26/10): la 1.12.0 è uscita con la deroga del 20/10 (riga seguente); collaudo completo e audit sono fatti in ogni rilascio successivo, fino alla 1.14.1.
 
 - [x] F5-REL-112-01: completato il full (157 PASS, 15 rilievi); isolate e corrette impaginazione dei wizard, transizioni Wiki, due confronti DPI e stato dei campi foro. Ripetizioni concluse: 171 PASS consolidati, solo il blocco Trend Micro del palo verticale rimane aperto. Setup e audit del payload completati da 810b62a6; pubblicazione con riserva subordinata a deroga esplicita. [Verbale](installer-1.12.0.md).
 - [x] Deroga puntuale autorizzata dall'utente il 20 ottobre: pubblicati `refactoring/f5` a 9b242761 e tag annotato `v1.12.0` a 810b62a6, con riserva sul test interrotto da Trend Micro. Installer e tag identificano la stessa build.
@@ -1255,5 +1273,5 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [x] Capsula: armature distinte per archi e rettilinei, compatibilità dei documenti precedenti e dettagli generali del pilastro tramite GPC. Cattura del rifiuto precedente, nove geometrie bit-identiche; 3181 PASS nelle librerie, Application 3057, Presentation 3523 e wizard WPF 84. [Dettaglio](capsula-pilastro.md).
 - [x] Guide Rev56 finalizzate e controllate: 264 pagine, 387 formule conservate; 18 originali archiviati. Esempi: 301.420 valori numerici identici e sole versioni/impronte differenti, riprodotte separatamente. Reports 475, Examples 249 e Wiki PASS. Registro F3 editoriale aggiornato dopo diagnosi puntuale; 30 ricerche identiche.
 - [x] Installer candidato locale 1.12.1 completato: 382 file verificati per SHA-256, 13 DLL GPC AC, 52 esempi e guide Rev56. F3 senza differenze residue; collaudo conclusivo cinque suite PASS, Reports 476, sicurezza NSIS 26, guide 30 ed esempi 120 controlli. PDF della capsula verificato anche visivamente. [Verbale](installer-1.12.1.md).
-- [ ] Rilascio ufficiale 1.12.1 differito per scelta dell'utente: «Mantieni per ora il commit solo in locale». Checker 8bf4af33 e ANTHEA restano locali; snapshot ufficiale AB invariato. Nessun push o tag nuovo. Il profilo full sulla nuova candidata non è stato eseguito.
+- [x] Superata (26/10): la 1.12.1 non è mai uscita; il suo contenuto è nella 1.13.0 (tag `v1.13.0`). Rilascio ufficiale 1.12.1 differito per scelta dell'utente: «Mantieni per ora il commit solo in locale». Checker 8bf4af33 e ANTHEA restano locali; snapshot ufficiale AB invariato. Nessun push o tag nuovo. Il profilo full sulla nuova candidata non è stato eseguito.
 - [x] Successiva richiesta di merge dei branch ANTHEA: integrati in `refactoring/f5` i cinque commit di `refactoring/f5-paratie-capsula`, da 9b242761 a b795a550, mediante fast-forward senza conflitti. Tutti gli altri rami di sviluppo erano già inclusi; esclusi i due rami sperimentali `prova/*`. Collaudo sul ramo integrato con set candidato AC: sette suite PASS, Architecture 562, Application 3057 e Presentation 3523 controlli. [Verbale e raccordo con le librerie](merge-f5-sviluppo-20261020.md).
