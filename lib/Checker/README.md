@@ -1,5 +1,20 @@
 # DLL Checker
 
+**Release AI — F5.15 passo e, Concrete 0.21 (26 ottobre 2026).** Set ufficiale da Model `2acc60ef` (invariato) e Checker `799a6355`,
+entrambi su origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Contiene:
+- GPCChecker.Concrete 0.21.0.0: opzioni R12 (`MemberDetailingOptions.ColumnSpacingAlongPerimeter`, interasse dei pilastri lungo il
+  perimetro delle barre), R13 (`LapLinkReductionAboveFourteen`, riduzione 0,6 delle staffe nelle giunzioni EC solo con Ømax > 14 mm) e
+  R21 (`SectionCrackOptions.DinConditionWithCoverOverride`, condizione DIN di hc,eff con il copriferro assegnato), più i testi dei
+  riferimenti della torsione NTC e DS (R19). Il predefinito della libreria non cambia (contratti e K0 invariati); ANTHEA le accende;
+- Steel 2.98.0.1, CompositeBridge 1.15.0.1, GPCModelChecker 2.25.0.1, GPC.Design 0.37.0.1, Geotechnics 0.19.0.3 e Masonry 0.6.0.3
+  ricompilate senza modifiche (commit nuovo di Checker, SourceLink).
+
+Suite di `Release-Set.ps1 -Previous` (set AH), tutte verdi senza fallimenti ammessi: Model (Core 34, UnitTest 1459, API) e Checker,
+Concrete 908 (con il contratto K0 in net472), Steel 122, CompositeBridge 391, Geotechnics 193, Calculation 175, ShallowFoundation 28,
+EmbeddedWalls 99, Steel.Members 5983, Design 109 e 108 (net472), ModelChecker 473; API compatibili. Nessun Gmsh. DLL identiche a quelle
+del set candidato gpc-candidato-f515 provato nella full di ANTHEA. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`. Set in
+`supporto/artefatti/librerie-20261026-ai/gpc-release-20261026-ai`.
+
 **Release AH — giunzioni dei ponti in acciaio, Steel 2.98 (26 ottobre 2026).** Set ufficiale da Model `2acc60ef` e Checker `c74d2477`,
 entrambi su origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Contiene:
 - il lavoro di Codex sulle giunzioni dei ponti in acciaio (ramo `codex/steel-bridge-splices-static`, 44 commit portati su master con
