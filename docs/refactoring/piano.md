@@ -825,7 +825,7 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
     eseguibile `ANTHEA.exe` invariati; figure delle guide in `X.Desktop/Assets/Wiki`, opzione A; spostate in `src/ANTHEA.Desktop/Assets/Wiki` con le guide Rev59, opzione B), prove WPF in
     `tests/ANTHEA.Desktop.UiTests` (stesse sorgenti, build UiTests), terza revisione di AGENTS.md. Resta la forma separata delle prove,
     voce dopo F5.15. Corse finali nella nota, sezione 10.3.
-- [ ] F5.15 [CP] **Voce a sé dopo F5** (decisione dell'utente del 24/10: «Voce a sé dopo F5»; F5.0–F5.14 chiuse con la 1.14.0). Ridiscutere con l'utente le voci sfavorevoli o aperte del registro delle differenze R4-R21 (R4-R14 e R16-R21; R15 è corretta) (decisione del 7/10: "le guardiamo a fine refactoring"; estesa a R16-R21 dal coordinatore su delega, ratificata dall'utente il 15/10, E4). Nello stesso punto si rivedono tutte le scelte provvisorie del coordinatore sulle voci «da decidere» di F5 (decisione dell'utente del 17/10, [decisioni](decisioni.md), 17 ottobre tarda mattina).
+- [x] F5.15 [CP] **Voce a sé dopo F5. Chiusa il 26/10/2026** con il passo f; le voci ferme sono nella [coda dopo il refactoring](#coda-dopo-il-refactoring) (decisione dell'utente del 24/10: «Voce a sé dopo F5»; F5.0–F5.14 chiuse con la 1.14.0). Ridiscutere con l'utente le voci sfavorevoli o aperte del registro delle differenze R4-R21 (R4-R14 e R16-R21; R15 è corretta) (decisione del 7/10: "le guardiamo a fine refactoring"; estesa a R16-R21 dal coordinatore su delega, ratificata dall'utente il 15/10, E4). Nello stesso punto si rivedono tutte le scelte provvisorie del coordinatore sulle voci «da decidere» di F5 (decisione dell'utente del 17/10, [decisioni](decisioni.md), 17 ottobre tarda mattina).
   - Elenco consolidato delle voci da rivedere (23/10): [f5-15-revisione.md](f5-15-revisione.md).
   - 24/10: l'utente accetta le raccomandazioni sulle 13 voci da guardare per prime ([scheda](f5-15-prioritarie.md); [decisioni](decisioni.md), 23 e 24
     ottobre). Da attuare dopo il 28/10: V-a, BD4, SH49 ridotta, regola T6. R4, R5 e R10 vanno con il set di librerie successivo. Restano 207 voci aperte (205 più G11 e W-idx, aggiunte con la Rev59 il 24/10).
@@ -871,7 +871,13 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
       - Corse in `supporto/artefatti/f5-15-e` e `librerie-20261026-ai`.
       - Le voci che servono di testi, decisioni o lavori grandi sono rinviate alla [coda dopo il refactoring](#coda-dopo-il-refactoring)
         (decisione dell'utente del 26/10).
-    - [ ] f. Chiusura: registro, full, guide e note dove serve.
+    - [x] f. Chiusura: registro, full, guide e note dove serve. Fatto il 26/10 (ramo `refactoring/f5-15-f`).
+      - Regola T6 completa (F5-17, 9f4eda71): in sola lettura lo stato della vista resta nella copia in memoria del foglio, senza Modified.
+        Ricatturate le 7 tracce congelate di sola lettura; cambiano solo le righe «modificato».
+      - Registro: 12 voci R rinviate alla coda (decisione dell'utente del 26/10), R19 e F5-17 corrette; nessuna voce resta da correggere.
+      - Full di chiusura (tag f5-15-f-chiusura): 153 PASS e 1 NEW-FAIL. ui/check-fondazioni-view era ferma alla regola di prima: corretta
+        in c4e61fa3 e ripassata da sola (tag f5-15-f-fondazioni). Corse in `supporto/artefatti/f5-15-e`.
+      - Guide invariate: dicono già che le revisioni in sola lettura non ammettono modifiche.
     - Voce di infrastruttura dopo F5, fuori da F5.15: calcoli dal limitatore (D-2, D-5) e taglio sullo sfondo (C2/S5-c).
 
 **F5 chiusa il 25/10/2026 con ANTHEA 1.14.0** (decisione dell'utente del 24/10: «Anche rilascio 1.14.0»). Release AG delle librerie

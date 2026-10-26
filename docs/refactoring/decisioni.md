@@ -1936,3 +1936,6 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
    - una regola sola in `SheetViewModelBase`: niente Modified in sola lettura;
    - lo stato resta nella copia in memoria del foglio, che la shell non conferma nel documento;
    - le 7 tracce congelate di sola lettura sono ricatturate, e cambiano solo le righe «modificato».
+6. **Chiusura di F5.15.** Full di chiusura (tag f5-15-f-chiusura): 153 PASS e 1 NEW-FAIL. ui/check-fondazioni-view si aspettava ancora i
+   Modified di gruppi e «Raccogli input» in sola lettura; il controllo segue ora T6 (c4e61fa3) e ripassa da solo. Le guide restano invariate.
+   F5.15 è chiusa sul ramo `refactoring/f5-15-f`; unione e pubblicazione attendono l'ok dell'utente.
