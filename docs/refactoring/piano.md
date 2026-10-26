@@ -851,7 +851,18 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
       progetti (G11). Fatto il 25/10, primo passo per la quota (ramo `refactoring/f5-15-attuazione`): `DialogSizing` in `WpfDialogService`,
       `ConcreteTableGrid.HeaderWidth`, `ProjectsHelpCommand`; registro F5-64 attuata, F5-65 e F5-66 nuove; prova `ui/check-layout-decisions` (suite
       dello stadio ui da 70 a 71) e G11 in `ui/shell-smoke-project-workspace`.
-    - [ ] e. Librerie: R4, R5, R10 e le voci della famiglia 11, nel set successivo all'unione di Codex, con le voci del registro e una full.
+    - [~] e. Librerie: R4, R5, R10 e le voci della famiglia 11, nel set successivo all'unione di Codex, con le voci del registro e una full.
+      Avviato il 26/10. Il set AH, con le giunzioni dei ponti di Codex (Checker c74d2477, Model 2acc60ef), è installato in a27de118, con la
+      voce AH-FON-01. R10 è attuata nei muri (ramo `refactoring/f5-15-e`): sopra C60/75 fctk,0,05 è limitato al valore di C60/75
+      (`AnchorageCalculator.BondFctk05`), e la prova è in baseline/f4-detail-adapter (56 muri, 30 distinte, 0 differenze; 12 controlli
+      R10). R19 (testi dei riferimenti della torsione NTC e DS) è sul ramo di Checker `f5-15-e/concrete`, suite Concrete 906/906, ed entra
+      nel prossimo set. Corse in `supporto/artefatti/f5-15-e`: full 152 PASS; le 2 prove intermittenti (PDF dei materiali, PNG del palo
+      orizzontale) ripassate da sole. Restano ferme:
+      - R4, R6, R8, R9, R17 e R14 (15Ø): servono i testi normativi;
+      - R5, R18, R12 e R13: lavori grandi;
+      - R21, R16 e R11: cambiano il comportamento predefinito di Concrete (contratto K0);
+      - R7: va dichiarata nella guida teorica;
+      - R20: solo quando serve il DS delle travi.
     - [ ] f. Chiusura: registro, full, guide e note dove serve.
     - Voce di infrastruttura dopo F5, fuori da F5.15: calcoli dal limitatore (D-2, D-5) e taglio sullo sfondo (C2/S5-c).
 
