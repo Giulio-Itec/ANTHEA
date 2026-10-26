@@ -87,7 +87,9 @@ public sealed class ConcreteDetailingCalculator : IConcreteDetailingCalculator
             p.CompressionKn * 1000, p.HasStirrups, p.StirrupDiameter, p.StirrupSpacing, legs,
             p.Aggregate, s.Input.D("cover_mm"), double.IsFinite(p.MinimumDurabilityCover) ? p.MinimumDurabilityCover : null,
             p.CoverDeviation, p.LapZone, p.CompressionBarsRestrained, p.EndSupportAnchorageConfirmed, 0, 0,
-            new(new(p.SecondarySteelPerMetre, p.SecondarySpacing, p.CriticalSlabRegion), legacyNegativeLinkLegs: false));
+            // F5.15: interasse dei pilastri lungo il perimetro delle barre (R12); riduzione 0,6 delle staffe nelle giunzioni EC solo con Ømax > 14 mm (R13).
+            new(new(p.SecondarySteelPerMetre, p.SecondarySpacing, p.CriticalSlabRegion), legacyNegativeLinkLegs: false, legacyPlateSpacingAcrossLayers: false,
+                columnSpacingAlongPerimeter: true, lapLinkReductionAboveFourteen: true));
         try
         {
             var result = capsulePath is null

@@ -118,7 +118,8 @@ public static class ConcreteServiceabilityAdapter
     {
         var options = SectionCrackOptions.Default.WithValidateAtUse(true).WithTrace(true);
         if (EngineHook.Get<IPreviousCrackRules>() is null)
-            options = options.WithModelCode2010BondStages(true).WithDinKtByDuration(true).WithUnreinforcedTensileZoneFails(true).WithCoverFromBarGeometry(true);
+            options = options.WithModelCode2010BondStages(true).WithDinKtByDuration(true).WithUnreinforcedTensileZoneFails(true).WithCoverFromBarGeometry(true)
+                .WithDinConditionWithCoverOverride(true); // F5.15, R21: condizione DIN di hc,eff con il copriferro assegnato della formula
         return CrackProfiles.EffectiveDepthReadsCover(profile) ? options.WithEffectiveDepthCover(effectiveDepthCover) : options;
     }
 

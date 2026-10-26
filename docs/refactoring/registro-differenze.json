@@ -1996,7 +1996,8 @@
       "titolo": "Pilastri NTC: interasse delle barre misurato attraverso il nucleo",
       "famiglia": "calcestruzzo/dettagli",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_26_10": "Corretta il 26/10 (F5.15, passo e): opzione MemberDetailingOptions.ColumnSpacingAlongPerimeter di Concrete 0.21.0.0 (Checker 3545564c, ramo f5-15-e/concrete), accesa da ANTHEA (X.Calculations/ConcreteDetailing.cs). Nei pilastri NTC l'interasse si misura lungo il perimetro delle barre, sul contorno convesso dei centri, se ogni barra vi giace; con barre interne resta la misura per allineamenti. Il predefinito della libreria resta quello di 0.0.17.0, per il contratto dei dettagli. Il segno è misto. Dove la misura attraversava il nucleo l'esito torna soddisfatto: 600×600 con 8Ø20 dà 249 mm invece di 498. Dove le barre alle estremità di una faccia non sono allineate, la faccia prima non si misurava e ora la correzione è più severa: 300×500 con barre solo sopra e sotto dà 400,12 mm invece di 180, non soddisfatto. È il caso 6 di detailing-legacy.csv: 208 mm prima, 406 mm ora.",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R12): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Il controllo dell'interasse massimo delle barre longitudinali dei pilastri NTC misura la distanza fra barre consecutive anche attraverso il nucleo invece che lungo le facce.",
       "codice": [
@@ -2028,7 +2029,8 @@
       "titolo": "Dettagli: interpretazioni cautelative",
       "famiglia": "calcestruzzo/dettagli",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_26_10": "Corretta il 26/10 (F5.15, passo e): opzione MemberDetailingOptions.LapLinkReductionAboveFourteen di Concrete 0.21.0.0 (Checker 3545564c): nella famiglia Eurocodice la riduzione 0,6 delle staffe nelle sovrapposizioni vale solo con Ømax > 14 mm (EN 9.5.3(4)(ii)); 8Ø14: 280 mm invece di 168. Le altre tre interpretazioni restano dichiarate nelle pagine dei metodi (ca.dettagli D-4, ca.ancoraggi A-1, ca.durabilita-copriferri). ANTHEA accende l'opzione, ma i suoi dettagli usano solo il profilo NTC 2018: oggi nessun effetto sui risultati.",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R13): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Riduzione 0,6 dell'interasse delle staffe nelle sovrapposizioni dei pilastri EC anche con Ømax ≤ 14 mm (EN 9.5.3(4)(ii): con 8Ø14 il limite scende a 168 mm invece di 280); sovrapposizione NTC minima 200 mm invece di 150 (§4.1.2.3.10); limite 0,08 Ac nelle giunzioni applicato anche al profilo NTC; nota 2 del prospetto 4.3N (aria inglobata oltre il 4 %) non implementata.",
       "codice": [
@@ -2309,7 +2311,8 @@
       "titolo": "DIN, hc,eff: condizione (h − x)/3 ≥ c + 20 mm con NominalCover invece del copriferro assegnato",
       "famiglia": "calcestruzzo/fessurazione",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_26_10": "Corretta il 26/10 (F5.15, passo e): opzione SectionCrackOptions.DinConditionWithCoverOverride di Concrete 0.21.0.0 (Checker 97a26cd4), accesa da ANTHEA (X.Calculations/ConcreteServiceabilityAdapter.cs, fuori dalle regole precedenti delle prove). Con il copriferro assegnato della fessurazione (copriferro_fessure), la condizione DIN (h − x)/3 ≥ c + 20 mm legge quel copriferro, lo stesso della formula di wk. Senza copriferro assegnato non cambia nulla. Esempio: nominale 90 e assegnato 40 mm danno hc,eff 100 invece di 150.",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R21): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Nel profilo DIN hc,eff = min[β (h − d); h/2] si riduce a (h − x)/3 se (h − x)/3 ≥ c + 20 mm (Bild 7.1DE). Il codice valuta la condizione con il copriferro nominale del dato NominalCover anche quando il copriferro della formula di wk è assegnato con CoverOverride: nello stesso calcolo valgono due copriferri diversi.",
       "riferimento_normativo": [
