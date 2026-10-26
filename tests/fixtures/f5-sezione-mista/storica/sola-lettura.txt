@@ -687,7 +687,6 @@ curva.tabella: 0 blocchi
 ~ comandi-azioni: + Carico(spento) + Ritiro(spento) ↑(spento) ↓(spento) Elimina(spento)
 == pagina [0]
 ~ dati.ui_mista: {"layout_version":4,"tab":0,"vista_1":1,"risultato_1":3,"quote_1":true,"armature_1":false,"segui_ultima_fase":false,"fase":1,"asse_neutro":false,"contour_sezione":true,"limiti_tensioni":true,"amplificazione_cls_auto":false,"amplificazione_cls":5,"soletta_proprieta":{"phi":"0","psi":"1","n":"5.96244303317898","modo":"Da φ"},"dettaglio_sezione":0}
-~ modificato: 1
 ~ pagina: 0 · titolo "Definizione della sezione" · "Geometria, materiali e armature · dimensioni in mm" · pannello proprietà · tabelle no · staccata no
 ~ situazioni: "01 · Dopo G1 · acciaio|02 · Dopo G2 · permanenti|03 · Dopo Ritiro|04 · Dopo Q · fessurata" · scelta 1 · visibile no · attiva sì
 ~ vista: 2 · visibile no · risultati 2
@@ -727,7 +726,6 @@ curva.tabella: 0 blocchi
 == campo proprieta-soletta n «9»
 == pagina [1]
 ~ dati.ui_mista: {"layout_version":4,"tab":1,"vista_1":1,"risultato_1":3,"quote_1":true,"armature_1":false,"segui_ultima_fase":false,"fase":1,"asse_neutro":false,"contour_sezione":true,"limiti_tensioni":true,"amplificazione_cls_auto":false,"amplificazione_cls":5,"soletta_proprieta":{"phi":"0","psi":"1","n":"5.96244303317898","modo":"Da φ"},"dettaglio_sezione":0,"vista_0":2,"risultato_0":2,"quote_0":true,"armature_0":true}
-~ modificato: 2
 ~ pagina: 1 · titolo "Fasi, omogeneizzazione e limiti" · "Carichi incrementali · φ, ψL e n sincronizzati" · pannello riepilogo · tabelle sì · staccata no
 ~ situazioni: "01 · Dopo G1 · acciaio|02 · Dopo G2 · permanenti|03 · Dopo Ritiro|04 · Dopo Q · fessurata" · scelta 1 · visibile sì · attiva sì
 ~ vista: 1 · visibile sì · risultati 3
@@ -745,7 +743,6 @@ curva.tabella: 0 blocchi
 == elimina-fase [0]
 == situazione [0]
 ~ dati.ui_mista: {"layout_version":4,"tab":1,"vista_1":1,"risultato_1":3,"quote_1":true,"armature_1":false,"segui_ultima_fase":false,"fase":0,"asse_neutro":false,"contour_sezione":true,"limiti_tensioni":true,"amplificazione_cls_auto":false,"amplificazione_cls":5,"soletta_proprieta":{"phi":"0","psi":"1","n":"5.96244303317898","modo":"Da φ"},"dettaglio_sezione":0,"vista_0":2,"risultato_0":2,"quote_0":true,"armature_0":true}
-~ modificato: 3
 ~ panoramica: "|σa|max = 41,956 MPa\nσc,min = 0 MPa\n\nAnima inefficace: 152,413 mm\nAeff / Alorda = 0,96\nConvergenza: 9 iterazioni"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,12\nGoverna: Acciaio · estradosso\n4/4 combinazioni\nTaglio e irrigidimenti\nDA COMPLETARE\nη = 0,12\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n1/2 verifiche mancanti / non applicabili\n"
 ~ convergenza: "Convergenza: 9 iterazioni.\nVariazione relativa delle larghezze: 4,030E-008 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 0,000E+000 · limite 1E−5."
@@ -776,12 +773,10 @@ curva.tabella: 0 blocchi
 - pannello.pioli.2.1
 == vista [0]
 ~ dati.ui_mista: {"layout_version":4,"tab":1,"vista_1":0,"risultato_1":3,"quote_1":true,"armature_1":false,"segui_ultima_fase":false,"fase":0,"asse_neutro":false,"contour_sezione":true,"limiti_tensioni":true,"amplificazione_cls_auto":false,"amplificazione_cls":5,"soletta_proprieta":{"phi":"0","psi":"1","n":"5.96244303317898","modo":"Da φ"},"dettaglio_sezione":0,"vista_0":2,"risultato_0":2,"quote_0":true,"armature_0":true}
-~ modificato: 4
 ~ vista: 0 · visibile sì · risultati 3
 ~ disegno: modo 0 · da aggiornare no · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
 == interruttore asse-neutro
 ~ dati.ui_mista: {"layout_version":4,"tab":1,"vista_1":0,"risultato_1":3,"quote_1":true,"armature_1":false,"segui_ultima_fase":false,"fase":0,"asse_neutro":true,"contour_sezione":true,"limiti_tensioni":true,"amplificazione_cls_auto":false,"amplificazione_cls":5,"soletta_proprieta":{"phi":"0","psi":"1","n":"5.96244303317898","modo":"Da φ"},"dettaglio_sezione":0,"vista_0":2,"risultato_0":2,"quote_0":true,"armature_0":true}
-~ modificato: 5
 ~ interruttori: quote sì(nascosto)(spento) · armature no(nascosto)(spento) · asse neutro sì "Zero delle tensioni cumulate nell’acciaio; non è lo zero delle tensioni nella soletta." · contorno sezione sì · contorno tensioni no · limiti sì · menu no
 ~ disegno: modo 0 · da aggiornare no · quote sì · armature no · asse neutro sì · contorni sìno · limiti sì · CLS × 5 · appoggio no
 == interruttore contorno-sezione
@@ -789,12 +784,10 @@ curva.tabella: 0 blocchi
 == ultima-situazione
 == dettagli-efficace
 ~ dati.ui_mista: {"layout_version":4,"tab":1,"vista_1":0,"risultato_1":2,"quote_1":true,"armature_1":false,"segui_ultima_fase":false,"fase":0,"asse_neutro":true,"contour_sezione":true,"limiti_tensioni":true,"amplificazione_cls_auto":false,"amplificazione_cls":5,"soletta_proprieta":{"phi":"0","psi":"1","n":"5.96244303317898","modo":"Da φ"},"dettaglio_sezione":0,"vista_0":2,"risultato_0":2,"quote_0":true,"armature_0":true}
-~ modificato: 6
 ~ vista: 0 · visibile sì · risultati 2
 == risultati [2]
 == pagina [2]
 ~ dati.ui_mista: {"layout_version":4,"tab":2,"vista_1":0,"risultato_1":2,"quote_1":true,"armature_1":false,"segui_ultima_fase":false,"fase":0,"asse_neutro":true,"contour_sezione":true,"limiti_tensioni":true,"amplificazione_cls_auto":false,"amplificazione_cls":5,"soletta_proprieta":{"phi":"0","psi":"1","n":"5.96244303317898","modo":"Da φ"},"dettaglio_sezione":0,"vista_0":2,"risultato_0":2,"quote_0":true,"armature_0":true}
-~ modificato: 7
 ~ pagina: 2 · titolo "Fasi, omogeneizzazione e limiti" · "Carichi incrementali · φ, ψL e n sincronizzati" · pannello riepilogo · tabelle sì · staccata no
 ~ form.curva.tipo: scelta "Curva" = "Momento–curvatura · N costante" voci "Momento–curvatura · N costante|Forza–deformazione · κ costante" · bloccato
 ~ form.curva.origine: scelta "Stato di partenza" = "Sezione composta vergine" voci "Sezione composta vergine|Dopo una fase dello storico" · bloccato
@@ -812,7 +805,6 @@ curva.tabella: 0 blocchi
 == calcola-curva
 == pagina [1]
 ~ dati.ui_mista: {"layout_version":4,"tab":1,"vista_1":0,"risultato_1":2,"quote_1":true,"armature_1":false,"segui_ultima_fase":false,"fase":0,"asse_neutro":true,"contour_sezione":true,"limiti_tensioni":true,"amplificazione_cls_auto":false,"amplificazione_cls":5,"soletta_proprieta":{"phi":"0","psi":"1","n":"5.96244303317898","modo":"Da φ"},"dettaglio_sezione":0,"vista_0":2,"risultato_0":2,"quote_0":true,"armature_0":true}
-~ modificato: 8
 ~ pagina: 1 · titolo "Fasi, omogeneizzazione e limiti" · "Carichi incrementali · φ, ψL e n sincronizzati" · pannello riepilogo · tabelle sì · staccata no
 == calcola
 ~ calcolo: occupato no · risultato 56409FCB5A6108EE · mostrato corrente · esportabile sì

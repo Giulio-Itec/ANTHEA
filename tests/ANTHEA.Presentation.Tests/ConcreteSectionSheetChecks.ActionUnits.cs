@@ -193,7 +193,7 @@ internal static partial class ConcreteSectionSheetChecks
             "Sola lettura: comandi delle tabelle protetti, «Copia», «Template Excel» ed «Esporta Excel» ammessi");
         int modified = 0; sheet.Modified += (_, _) => modified++;
         table.State = "SLV";
-        expect.That(sheet.Settings["dominio3d"]!["stato"]!.ToString() == "SLV" && modified == 1, "Sola lettura: lo stato del dominio scrive ancora con Modified (storico, C5)");
+        expect.That(sheet.Settings["dominio3d"]!["stato"]!.ToString() == "SLV" && modified == 0, "Sola lettura: lo stato del dominio resta in memoria, senza Modified (T6)");
         sheet.IsReadOnly = false;
         expect.That(!table.Table.IsReadOnly && table.AddCommand.CanExecute(null) && actions.EditCommand.CanExecute(null), "Revisione modificabile: comandi delle tabelle di nuovo");
     }

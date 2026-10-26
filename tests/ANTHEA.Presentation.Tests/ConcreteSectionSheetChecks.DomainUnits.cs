@@ -50,8 +50,8 @@ internal static partial class ConcreteSectionSheetChecks
             panel.ActionPointSize = size + 3; panel.BarValues = true;
             expect.That(panel.ActionPointSize == size && !panel.BarValues && modified == 0, "Sola lettura: dimensioni dei punti e valori sulle barre rifiutati");
             panel.Transparency = 60; panel.DisplayOptions[4].IsChecked = true; panel.ForceCommand.Execute(null);
-            expect.That(panel.Options.D("trasparenza") == 60 && panel.Options.B("colora_eta") && panel.Options.B("solo_selezionata") && modified == 3
-                && panel.ForceText == "Forze: selezionata", "Sola lettura: trasparenza, caselle e forze della barra scritte con Modified (storico, C5)");
+            expect.That(panel.Options.D("trasparenza") == 60 && panel.Options.B("colora_eta") && panel.Options.B("solo_selezionata") && modified == 0
+                && panel.ForceText == "Forze: selezionata", "Sola lettura: trasparenza, caselle e forze della barra in memoria, senza Modified (T6)");
         }
 
         ConcreteDomainScaleDialogViewModel? shown = null;

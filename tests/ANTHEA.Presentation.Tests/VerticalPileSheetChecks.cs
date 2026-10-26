@@ -573,12 +573,13 @@ internal static class VerticalPileSheetChecks
         expect.That(sheet.Data.ToJsonString() == before && modified == 0 && sheet.HasResults && !sheet.CanEdit, "Sola lettura: modifica scritta nel documento");
         expect.That(sheet.Surveys[0].Rows[0].Values.S("spessore") == "4", "Sola lettura: cella rifiutata non ripristinata");
         sheet.CurveChoices[0].IsChecked = false;
-        expect.That(modified == 1 && sheet.Data["visibilita_grafici"] is JsonObject, "Sola lettura: curve non ammesse (oggi lo sono)");
+        // Regola T6 (F5.15, F5-17): le curve mostrate restano nella copia in memoria del foglio, senza Modified.
+        expect.That(modified == 0 && sheet.Data["visibilita_grafici"] is JsonObject, "Sola lettura: curve mostrate senza Modified");
         expect.That(await Expect.Within(sheet.CalculateAsync()) && sheet.HasResults, "Sola lettura: calcolo");
         sheet.IsReadOnly = false;
         expect.That(sheet.CanEdit && sheet.GeneralForm["diametro"].Text == "0.6", "Ritorno alla modifica: testi");
         sheet.GeneralForm["diametro"].EditText = "0,7";
-        expect.That(sheet.Data["generali"].S("diametro") == "0,7" && modified == 2 && !sheet.HasResults, "Ritorno alla modifica: il campo non scrive");
+        expect.That(sheet.Data["generali"].S("diametro") == "0,7" && modified == 1 && !sheet.HasResults, "Ritorno alla modifica: il campo non scrive");
     }
 
     /// <summary>Data replaced from outside: built again as at opening (lazy migrations), no Modified, recalculated after the delay.</summary>

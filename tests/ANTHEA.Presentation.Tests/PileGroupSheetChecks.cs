@@ -291,7 +291,8 @@ internal static class PileGroupSheetChecks
         expect.That(sheet.SelectedLayout == "Generica" && sheet.SelectedCapShape == "Contorno palificata" && sheet.SpacingDirectionIndex == 0
             && sheet.Piles[0].X == "-3", "Sola lettura: scelta o cella accettata");
         sheet.SelectedComparison = sheet.Comparison[7];
-        expect.That(modified == 2 && sheet.Data["metodo"]!.ToString() == "1" && sheet.Data.S("direzione_selezionata") == "Y"
+        // Regola T6 (F5.15, F5-17): la selezione resta nella copia in memoria del foglio, senza Modified.
+        expect.That(modified == 1 && sheet.Data["metodo"]!.ToString() == "1" && sheet.Data.S("direzione_selezionata") == "Y"
             && sheet.Result!["selezionato"]!["Method"]!.ToString() == "1" && sheet.Title.StartsWith("AASHTO", StringComparison.Ordinal),
             "Sola lettura: selezione nel confronto");
         expect.That(await Expect.Within(sheet.CalculateAsync()) && sheet.HasResults && sheet.SelectedComparison == sheet.Comparison[7], "Sola lettura: calcolo");
@@ -299,7 +300,7 @@ internal static class PileGroupSheetChecks
         expect.That(sheet.CanEdit && sheet.CanEditCoordinates && sheet.DiameterForm["diametro"].Text == typed && forms.All(f => !f.IsReadOnly)
             && ReferenceEquals(forms[0], sheet.DiameterForm), "Ritorno alla modifica: stato, form o testi mostrati");
         sheet.DiameterForm["diametro"].EditText = "1,5";
-        expect.That(sheet.Data["diametro"]!.GetValue<double>() == 1.5 && modified == 3 && !sheet.HasResults, "Ritorno alla modifica: il campo non scrive");
+        expect.That(sheet.Data["diametro"]!.GetValue<double>() == 1.5 && modified == 2 && !sheet.HasResults, "Ritorno alla modifica: il campo non scrive");
     }
 
     // ---------------------------------------------------------------- reload

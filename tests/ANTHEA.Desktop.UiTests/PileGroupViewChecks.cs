@@ -648,7 +648,8 @@ internal static class PileGroupViewChecks
             "Sola lettura: digitazione e spunte rifiutate, la vista mostra di nuovo i dati");
         host.View.ComparisonGrid.SelectedIndex = 3;
         await host.Settle();
-        Check(host.Modified == 1 && host.Sheet.SelectedComparison == host.Sheet.Comparison[3] && host.Editor.Data["metodo"]!.ToString() == host.Sheet.Comparison[3].Method.ToString(CultureInfo.InvariantCulture),
-            "Sola lettura: la selezione nel confronto resta disponibile");
+        // Regola T6 (F5.15, F5-17): la selezione resta nella copia in memoria del foglio, senza Modified.
+        Check(host.Modified == 0 && host.Sheet.SelectedComparison == host.Sheet.Comparison[3] && host.Editor.Data["metodo"]!.ToString() == host.Sheet.Comparison[3].Method.ToString(CultureInfo.InvariantCulture),
+            "Sola lettura: la selezione nel confronto resta disponibile, senza Modified");
     }
 }

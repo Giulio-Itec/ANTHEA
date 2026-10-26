@@ -617,7 +617,7 @@ internal static class HorizontalPileSheetChecks
         finally { engine.Release(); sheet.Dispose(); }
     }
 
-    /// <summary>Read-only: forms, table, soil editors and stratigraphies refuse; selection, tab (with Modified, as today) and calculation stay.</summary>
+    /// <summary>Read-only: forms, table, soil editors and stratigraphies refuse; selection, tab (in memory, without Modified: rule T6) and calculation stay.</summary>
     private static async Task ReadOnlyAsync(string root, Expect expect)
     {
         using var sheet = Open(Pile, HorizontalPileScenarios.FixtureData(root, Pile, "broms-coesivo-impedita"), readOnly: true);
@@ -635,7 +635,8 @@ internal static class HorizontalPileSheetChecks
         sheet.SelectedSurveyIndex = 1;
         expect.That(sheet.Data.ToJsonString() == before && modified == 0 && sheet.SelectedSurveyIndex == 1, "Modifiche rifiutate, selezione ammessa");
         sheet.SelectedAnalysis = 1;
-        expect.That(modified == 1 && sheet.Data.S("vista_orizzontale") == "elastico", "Scheda delle analisi: scrive anche in sola lettura, come oggi");
+        // Regola T6 (F5.15, F5-17): la scheda resta nella copia in memoria del foglio, senza Modified.
+        expect.That(modified == 0 && sheet.Data.S("vista_orizzontale") == "elastico", "Scheda delle analisi in sola lettura: in memoria, senza Modified");
         sheet.IsReadOnly = false;
         expect.That(sheet.Forms.All(f => !f.Form.IsReadOnly), "Form di nuovo modificabili");
     }

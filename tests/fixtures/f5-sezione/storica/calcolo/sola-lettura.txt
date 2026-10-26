@@ -1429,7 +1429,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == scheda [1]
 dati 59506D13307A2797 · byte 8939
   workspace_ca.tab = 1
-modificato 1 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
 risultato 25A9B936B53811E7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1507,7 +1507,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
 == cella 3D N [riga 0] «-1»
 dati 59506D13307A2797 · byte 8939
-modificato 1 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
 risultato 25A9B936B53811E7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1520,7 +1520,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == riga 3D + Riga [0]
 dati 59506D13307A2797 · byte 8939
-modificato 1 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
 risultato 25A9B936B53811E7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1533,7 +1533,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == scelta 3D criterio «Eccentricità costante»
 dati 59506D13307A2797 · byte 8939
-modificato 1 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
 risultato 25A9B936B53811E7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1547,7 +1547,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == scelta 3D filtro «Fuori dominio»
 dati 3864C52EE571C111 · byte 8947
   workspace_ca.dominio3d.filtro = "Fuori dominio"
-modificato 2 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
 risultato 25A9B936B53811E7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1604,7 +1604,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == spunta 3D Colori η
 dati F057DD98A0AEBAFC · byte 8965
   workspace_ca.dominio3d.colora_eta = true
-modificato 3 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
 risultato 25A9B936B53811E7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1661,7 +1661,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == pulsante 3D Forze: tutte
 dati BF60A81A19EA6F8E · byte 8989
   workspace_ca.dominio3d.solo_selezionata = true
-modificato 4 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
 risultato 25A9B936B53811E7
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1718,7 +1718,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == scheda [3]
 dati 64D6D2808E034947 · byte 8989
   workspace_ca.tab = 3
-modificato 5 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
 risultato 8EF2BFE621EB1BF6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1910,7 +1910,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == scelta SLE esposizione «XC1»
 dati 64D6D2808E034947 · byte 8989
-modificato 5 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
 risultato 8EF2BFE621EB1BF6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1924,7 +1924,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == menu SLE contorno «Solo geometria»
 dati 3D498CD26A987BE1 · byte 8978
   workspace_ca.sle.SLE.contour = "Solo geometria"
-modificato 6 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
 risultato 8EF2BFE621EB1BF6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2117,7 +2117,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == scheda [4]
 dati 14C10BC1FF513C85 · byte 8978
   workspace_ca.tab = 4
-modificato 7 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
 risultato 5040BF9C6EA7EBD0
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2184,7 +2184,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == scelta taglio modello «Senza staffe»
 dati 14C10BC1FF513C85 · byte 8978
-modificato 7 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
 risultato 5040BF9C6EA7EBD0
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2198,7 +2198,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == scheda [5]
 dati 30EABE4E101760A7 · byte 8978
   workspace_ca.tab = 5
-modificato 8 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
 risultato 16AC4BE1A8E3391D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2211,7 +2211,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == scelta dettagli elemento «Trave»
 dati 30EABE4E101760A7 · byte 8978
-modificato 8 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 5
 risultato 16AC4BE1A8E3391D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2225,7 +2225,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == scheda [6]
 dati 0EE783DC35D52FBD · byte 8978
   workspace_ca.tab = 6
-modificato 9 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
 risultato 02303153B76F4386
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2238,7 +2238,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == pulsante curvatura Calcola curva
 dati 0EE783DC35D52FBD · byte 8978
-modificato 9 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
 risultato 02303153B76F4386
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2251,7 +2251,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == attendi
 dati 0EE783DC35D52FBD · byte 8978
-modificato 9 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 6
 risultato 02303153B76F4386
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2265,7 +2265,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == scheda [7]
 dati AC99C1904D78F33C · byte 8978
   workspace_ca.tab = 7
-modificato 10 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
 risultato 98257C0CED9D1007
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2278,7 +2278,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == campo ricerca diametri «16»
 dati AC99C1904D78F33C · byte 8978
-modificato 10 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
 risultato 98257C0CED9D1007
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2291,7 +2291,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == apri sollecitazioni { pulsante dialogo Applica }
 dati AC99C1904D78F33C · byte 8978
-modificato 10 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
 risultato 98257C0CED9D1007
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "finestra non aperta: comando non disponibile"
@@ -2306,7 +2306,7 @@ messaggio "finestra non aperta: comando non disponibile"
 == scheda [0]
 dati 07AFCC1E99E83423 · byte 8978
   workspace_ca.tab = 0
-modificato 11 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato AB17E06F0274695B
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2319,7 +2319,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == attendi
 dati 07AFCC1E99E83423 · byte 8978
-modificato 11 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato AB17E06F0274695B
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2332,7 +2332,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == conferma
 dati 07AFCC1E99E83423 · byte 8978
-modificato 11 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato AB17E06F0274695B
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata

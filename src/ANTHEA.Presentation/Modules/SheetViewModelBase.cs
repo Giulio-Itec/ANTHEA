@@ -185,12 +185,15 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel, IView
         return true;
     }
 
-    /// <summary>The user changed the data (SheetEditor.Changed): new revision, results invalidated, automatic recalculation, <see cref="Modified"/>.</summary>
+    /// <summary>
+    /// The user changed the data (SheetEditor.Changed): new revision, results invalidated, automatic recalculation, <see cref="Modified"/>.
+    /// Read-only, only the state of the view can change (the edits are refused): no <see cref="Modified"/> (<see cref="NotifyModified"/>).
+    /// </summary>
     protected void Changed()
     {
         ThrowIfDisposed();
         NewRevision();
-        Modified?.Invoke(this, EventArgs.Empty);
+        NotifyModified();
     }
 
     /// <summary>
@@ -202,7 +205,17 @@ public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel, IView
         ThrowIfDisposed();
         revision++;
         OnPropertyChanged(nameof(Revision));
-        Modified?.Invoke(this, EventArgs.Empty);
+        NotifyModified();
+    }
+
+    /// <summary>
+    /// Single rule T6 (F5.15, decision B of 24/10, F5-17): in a read-only revision nothing is written into the document. The state of the
+    /// view (tab, filters, options of the panels) stays in the data of this sheet, a copy kept in memory, and the revision does not
+    /// become modified: the host is not told, so it neither marks the document nor saves the copy.
+    /// </summary>
+    private void NotifyModified()
+    {
+        if (!readOnly) Modified?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>Starts the automatic recalculation with the delay of the module (for example at opening, as the vertical piles).</summary>

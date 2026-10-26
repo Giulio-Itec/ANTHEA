@@ -89,7 +89,8 @@ internal static partial class ConcreteSectionSheetChecks
         inputs.ShowAxes = false;
         expect.That(sheet.Data.ToJsonString() == before && modified == 0 && inputs.Drawing.Axes, "Sola lettura: nessuna modifica dei dati");
         sheet.SelectedTab = 1;
-        expect.That(sheet.Data["workspace_ca"]!["tab"]!.ToString() == "1" && modified == 1, "Sola lettura: la scheda scrive ancora tab con Modified (storico, C5)");
+        // Regola T6 (F5.15, F5-17): lo stato della vista resta nella copia in memoria del foglio, senza Modified.
+        expect.That(sheet.Data["workspace_ca"]!["tab"]!.ToString() == "1" && modified == 0, "Sola lettura: la scheda resta in memoria, senza Modified (T6)");
         expect.That(sheet.HasResults && await sheet.CalculateAsync() == sheet.HasResults, "Sola lettura: «Calcola» ammesso");
         // The grids of the bars and of the cables follow the revision (F5.10, traces through the view: they stayed editable).
         var tables = new List<string>();

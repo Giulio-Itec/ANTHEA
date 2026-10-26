@@ -92,10 +92,10 @@ internal static partial class ConcreteSectionSheetChecks
         await IdleAsync(sheet);
         sheet.Report.BuildReport("Report", new HashSet<string> { "curvatura", "grafici" });
         expect.That(sheet.Curvature.Result is not null && ReferenceEquals(Figures.Requests[^1].Drawings.Curvature, sheet.Curvature.Result), "Curva pubblicata nei disegni del report");
-        // Read-only revision: the report is available and saves its sections with Modified, as the historic view (C5).
+        // Read-only revision: the report is available; its sections stay in the copy of the sheet in memory, without Modified (rule T6, F5-17).
         sheet.IsReadOnly = true;
         sheet.Report.BuildReport("Report", new HashSet<string> { "geometria" });
-        expect.That(sheet.Settings["report_sezioni"]!.ToJsonString() == "[\"geometria\"]" && modified == 3, "Sola lettura: report disponibile, sezioni salvate con Modified (storico, C5)");
+        expect.That(sheet.Settings["report_sezioni"]!.ToJsonString() == "[\"geometria\"]" && modified == 2, "Sola lettura: report disponibile, sezioni in memoria senza Modified (T6)");
         // A sheet without a renderer (only the checks build one): the figures are refused, a report without «grafici» is written.
         using var bare = new ConcreteSheetViewModel(new SheetContext(ConcreteSectionScenarios.FixtureData(root, "default"), false, new Host(), Scripted.Services(),
             ModuleServices.Get(ConcreteSectionSheetModule.Id), new CalculationLimiter(1)), new ConcreteAnalysisSession());

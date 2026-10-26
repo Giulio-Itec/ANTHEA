@@ -132,9 +132,9 @@ internal static partial class ConcreteSectionSheetChecks
         panel.ValueOptions[2].IsChecked = true;
         expect.That(!panel.ValueOptions[2].CanChange && !panel.Options.B("testi_cls") && sheet.Data.ToJsonString() == data && modified == 0, "Sola lettura: caselle dei valori rifiutate");
         panel.Contour = "Solo geometria"; panel.NeutralAxis = !panel.NeutralAxis;
-        expect.That(panel.Options.S("contour") == "Solo geometria" && modified == 2 && panel.Map.Legend == "", "Sola lettura: contorno e asse neutro scritti con Modified (storico, C5)");
+        expect.That(panel.Options.S("contour") == "Solo geometria" && modified == 0 && panel.Map.Legend == "", "Sola lettura: contorno e asse neutro in memoria, senza Modified (T6)");
         int zones = panel.Regions.Count;
         if (zones > 1) panel.SelectedRegion = 1;
-        expect.That(zones > 0 && panel.Map.EffectiveRegion == panel.Regions[panel.SelectedRegion] && modified == 2, "Sola lettura: zona efficace scelta senza scritture");
+        expect.That(zones > 0 && panel.Map.EffectiveRegion == panel.Regions[panel.SelectedRegion] && modified == 0, "Sola lettura: zona efficace scelta senza scritture");
     }
 }

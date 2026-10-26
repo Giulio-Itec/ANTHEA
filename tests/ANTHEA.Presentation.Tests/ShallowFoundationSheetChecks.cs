@@ -401,11 +401,12 @@ internal static class ShallowFoundationSheetChecks
         sheet.MechanismAxis = 0;
         sheet.RequestReport();
         sheet.Groups[0].IsExpanded = false;
-        expect.That(sheet.MechanismAxis == 0 && host.Reports == 1 && modified == 1 && sheet.HasResults && sheet.Data["vista_fondazioni"]?["metodo"]?.GetValue<bool>() == false,
+        // Regola T6 (F5.15, F5-17): il gruppo chiuso resta nella copia in memoria del foglio, senza Modified.
+        expect.That(sheet.MechanismAxis == 0 && host.Reports == 1 && modified == 0 && sheet.HasResults && sheet.Data["vista_fondazioni"]?["metodo"]?.GetValue<bool>() == false,
             "Sola lettura: sezione del meccanismo, report o gruppi");
         sheet.IsReadOnly = false;
         sheet.GeometryForm["Width"].EditText = "3,2";
-        expect.That(sheet.Data["input"]!["Width"]!.ToString() == "3,2" && !sheet.HasResults && modified == 2 && sheet.State == "Dati modificati · premere Calcola",
+        expect.That(sheet.Data["input"]!["Width"]!.ToString() == "3,2" && !sheet.HasResults && modified == 1 && sheet.State == "Dati modificati · premere Calcola",
             "Ritorno alla modifica");
     }
 

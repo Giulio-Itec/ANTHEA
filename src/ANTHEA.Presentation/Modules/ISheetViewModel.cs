@@ -38,7 +38,7 @@ public interface ISheetViewModel : IDisposable
     /// <summary>Read-only sheet (a previous revision of the project): edits are refused, results and calculation stay available.</summary>
     bool IsReadOnly { get; set; }
 
-    /// <summary>The user changed the data.</summary>
+    /// <summary>The user changed the data; never raised while read-only (rule T6: the state of the view stays in memory).</summary>
     event EventHandler? Modified;
 
     /// <summary>Writes the drafts of the fields into <see cref="Data"/>.</summary>

@@ -841,8 +841,9 @@ internal static class CompositeSectionSheetChecks
         sheet.SelectedActionIndex = 1; sheet.Detach(); sheet.Reattach();
         await Expect.Within(sheet.CalculateAsync());
         sheet.Report.BuildReport("Sola lettura", ModuleReportService.DefaultSections(CompositeSectionScenarios.Module));
-        expect.That(sheet.Page == 1 && sheet.DisplayIndex == 1 && sheet.ResultsTab == 2 && sheet.SelectedActionIndex == 1 && sheet.Calculation is not null && modified > 0
-            && sheet.ViewSettings["report_sezioni"] is JsonArray, "Sola lettura: viste, calcolo o report rifiutati");
+        // Regola T6 (F5.15, F5-17): viste e sezioni del report restano nella copia in memoria del foglio, senza Modified.
+        expect.That(sheet.Page == 1 && sheet.DisplayIndex == 1 && sheet.ResultsTab == 2 && sheet.SelectedActionIndex == 1 && sheet.Calculation is not null && modified == 0
+            && sheet.ViewSettings["report_sezioni"] is JsonArray, "Sola lettura: viste, calcolo o report rifiutati, o Modified sollevato");
         sheet.IsReadOnly = false;
         expect.That(sheet.Forms.Values.All(f => !f.IsReadOnly) && sheet.Phases.All(c => !c.Form.IsReadOnly) && sheet.AddLoadCommand.CanExecute(null), "Ritorno alla modifica");
         sheet.Forms["soletta"].Set("b_cls", "2100");

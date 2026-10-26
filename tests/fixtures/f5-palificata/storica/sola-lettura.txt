@@ -142,7 +142,7 @@ interassi X [0] "" ""
 disegno 5/"Y-"/270 · basamento 4
 == seleziona [4]
 dati {"versione":2,"diametro":0.8,"angolo":90,"metodo":4,"direzione_selezionata":"Y","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Quinconce","nx":4,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3.5,"sy_d":3,"rotazione":15},"direzioni":{"X":false,"Y":true,"X-":true,"Y-":true,"custom":true,"angolo_custom":30},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Rettangolare","bordo_d":1.25},"pali":[{"id":"P1","x":-3.4357227621680364,"y":-3.405261972524351},{"id":"P2","x":-0.7311304485586448,"y":-2.680568646237293},{"id":"P3","x":1.973461865050747,"y":-1.955875319950235},{"id":"P4","x":4.678054178660138,"y":-1.2311819936631772},{"id":"P5","x":-2.7045923136093903,"y":-0.7246933262870578},{"id":"P6","x":8.579144739409624E-16,"y":2.298774904674523E-16},{"id":"P7","x":2.704592313609393,"y":0.7246933262870585},{"id":"P8","x":-4.678054178660136,"y":1.2311819936631776},{"id":"P9","x":-1.9734618650507447,"y":1.9558753199502357},{"id":"P10","x":0.7311304485586471,"y":2.680568646237294},{"id":"P11","x":3.435722762168038,"y":3.405261972524352}]}
-modificato 1 · modificabile no
+modificato 0 · modificabile no
 risultato B299668BDE14A913 · selezionato 4/"Y"/90
 titolo "Reese / Van Impe · interazione palo-palo · Y 90°"
 stato "11 pali · calcolo automatico · coefficiente Pm di reazione p"
@@ -213,7 +213,7 @@ interassi X [0] "" ""
 disegno 4/"Y"/90 · basamento 4
 == calcola
 dati {"versione":2,"diametro":0.8,"angolo":90,"metodo":4,"direzione_selezionata":"Y","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Quinconce","nx":4,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3.5,"sy_d":3,"rotazione":15},"direzioni":{"X":false,"Y":true,"X-":true,"Y-":true,"custom":true,"angolo_custom":30},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Rettangolare","bordo_d":1.25},"pali":[{"id":"P1","x":-3.4357227621680364,"y":-3.405261972524351},{"id":"P2","x":-0.7311304485586448,"y":-2.680568646237293},{"id":"P3","x":1.973461865050747,"y":-1.955875319950235},{"id":"P4","x":4.678054178660138,"y":-1.2311819936631772},{"id":"P5","x":-2.7045923136093903,"y":-0.7246933262870578},{"id":"P6","x":8.579144739409624E-16,"y":2.298774904674523E-16},{"id":"P7","x":2.704592313609393,"y":0.7246933262870585},{"id":"P8","x":-4.678054178660136,"y":1.2311819936631776},{"id":"P9","x":-1.9734618650507447,"y":1.9558753199502357},{"id":"P10","x":0.7311304485586471,"y":2.680568646237294},{"id":"P11","x":3.435722762168038,"y":3.405261972524352}]}
-modificato 1 · modificabile no
+modificato 0 · modificabile no
 risultato B299668BDE14A913 · selezionato 4/"Y"/90
 titolo "Reese / Van Impe · interazione palo-palo · Y 90°"
 stato "11 pali · calcolo automatico · coefficiente Pm di reazione p"
@@ -284,7 +284,7 @@ interassi X [0] "" ""
 disegno 4/"Y"/90 · basamento 4
 == conferma
 dati {"versione":2,"diametro":0.8,"angolo":90,"metodo":4,"direzione_selezionata":"Y","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Quinconce","nx":4,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3.5,"sy_d":3,"rotazione":15},"direzioni":{"X":false,"Y":true,"X-":true,"Y-":true,"custom":true,"angolo_custom":30},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Rettangolare","bordo_d":1.25},"pali":[{"id":"P1","x":-3.4357227621680364,"y":-3.405261972524351},{"id":"P2","x":-0.7311304485586448,"y":-2.680568646237293},{"id":"P3","x":1.973461865050747,"y":-1.955875319950235},{"id":"P4","x":4.678054178660138,"y":-1.2311819936631772},{"id":"P5","x":-2.7045923136093903,"y":-0.7246933262870578},{"id":"P6","x":8.579144739409624E-16,"y":2.298774904674523E-16},{"id":"P7","x":2.704592313609393,"y":0.7246933262870585},{"id":"P8","x":-4.678054178660136,"y":1.2311819936631776},{"id":"P9","x":-1.9734618650507447,"y":1.9558753199502357},{"id":"P10","x":0.7311304485586471,"y":2.680568646237294},{"id":"P11","x":3.435722762168038,"y":3.405261972524352}]}
-modificato 1 · modificabile no
+modificato 0 · modificabile no
 risultato B299668BDE14A913 · selezionato 4/"Y"/90
 titolo "Reese / Van Impe · interazione palo-palo · Y 90°"
 stato "11 pali · calcolo automatico · coefficiente Pm di reazione p"
@@ -355,7 +355,7 @@ interassi X [0] "" ""
 disegno 4/"Y"/90 · basamento 4
 == seleziona [22]
 dati {"versione":2,"diametro":0.8,"angolo":30,"metodo":4,"direzione_selezionata":"custom","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Quinconce","nx":4,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3.5,"sy_d":3,"rotazione":15},"direzioni":{"X":false,"Y":true,"X-":true,"Y-":true,"custom":true,"angolo_custom":30},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Rettangolare","bordo_d":1.25},"pali":[{"id":"P1","x":-3.4357227621680364,"y":-3.405261972524351},{"id":"P2","x":-0.7311304485586448,"y":-2.680568646237293},{"id":"P3","x":1.973461865050747,"y":-1.955875319950235},{"id":"P4","x":4.678054178660138,"y":-1.2311819936631772},{"id":"P5","x":-2.7045923136093903,"y":-0.7246933262870578},{"id":"P6","x":8.579144739409624E-16,"y":2.298774904674523E-16},{"id":"P7","x":2.704592313609393,"y":0.7246933262870585},{"id":"P8","x":-4.678054178660136,"y":1.2311819936631776},{"id":"P9","x":-1.9734618650507447,"y":1.9558753199502357},{"id":"P10","x":0.7311304485586471,"y":2.680568646237294},{"id":"P11","x":3.435722762168038,"y":3.405261972524352}]}
-modificato 2 · modificabile no
+modificato 0 · modificabile no
 risultato E4C6CDA686D07B03 · selezionato 4/"custom"/30
 titolo "Reese / Van Impe · interazione palo-palo · Personalizzata 30°"
 stato "11 pali · calcolo automatico · coefficiente Pm di reazione p"
@@ -426,7 +426,7 @@ interassi X [0] "" ""
 disegno 4/"custom"/30 · basamento 4
 == conferma
 dati {"versione":2,"diametro":0.8,"angolo":30,"metodo":4,"direzione_selezionata":"custom","estrapolazioni":false,"file_proiettate":false,"generatore":{"tipo":"Quinconce","nx":4,"ny":3,"lato":3,"anelli":1,"suddivisioni":1,"centro":true,"sx_d":3.5,"sy_d":3,"rotazione":15},"direzioni":{"X":false,"Y":true,"X-":true,"Y-":true,"custom":true,"angolo_custom":30},"interassi":{"X":{},"Y":{},"X-":{},"Y-":{},"custom":{}},"basamento":{"tipo":"Rettangolare","bordo_d":1.25},"pali":[{"id":"P1","x":-3.4357227621680364,"y":-3.405261972524351},{"id":"P2","x":-0.7311304485586448,"y":-2.680568646237293},{"id":"P3","x":1.973461865050747,"y":-1.955875319950235},{"id":"P4","x":4.678054178660138,"y":-1.2311819936631772},{"id":"P5","x":-2.7045923136093903,"y":-0.7246933262870578},{"id":"P6","x":8.579144739409624E-16,"y":2.298774904674523E-16},{"id":"P7","x":2.704592313609393,"y":0.7246933262870585},{"id":"P8","x":-4.678054178660136,"y":1.2311819936631776},{"id":"P9","x":-1.9734618650507447,"y":1.9558753199502357},{"id":"P10","x":0.7311304485586471,"y":2.680568646237294},{"id":"P11","x":3.435722762168038,"y":3.405261972524352}]}
-modificato 2 · modificabile no
+modificato 0 · modificabile no
 risultato E4C6CDA686D07B03 · selezionato 4/"custom"/30
 titolo "Reese / Van Impe · interazione palo-palo · Personalizzata 30°"
 stato "11 pali · calcolo automatico · coefficiente Pm di reazione p"
