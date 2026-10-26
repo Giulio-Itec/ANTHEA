@@ -21,13 +21,15 @@
     "da-correggere",
     "corretto",
     "attuato",
-    "da-ricostruire"
+    "da-ricostruire",
+    "rinviato"
   ],
   "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). R15 viene dalla revisione di D7-b. Le voci R16-R21 vengono dalla verifica delle pagine dei metodi unite in Checker develop (F2.2: merge c555a3b8 e 1fbaea61 e correzioni successive, riquadri collegati alle voci in e41a803a); stato da-decidere e stessa decisione di R4-R14 (F5.15). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "nota_audit_14_10": "Audit indipendente del 14/10/2026 (piano.md, sezione iniziale). Le voci F4 indicate come «distribuite con il set W» sono attive in ANTHEA 1.8.0 con il set W installato in lib/Checker dal commit 3f9df6b8, sul ramo refactoring/f4-calcoli-residui: il ramo non è unito a main e il full conforme manca (F4.16). Dove la scelta è stata dell'agente la voce indica «decisione dell'utente da ratificare». Lo stato «da-ricostruire» segnala una voce prevista dai micro-piani e non scritta a suo tempo, ricostruita solo in parte: la descrizione dice cosa manca. La categoria «regressione» è aggiunta per F4-36 e F4-37.",
   "nota_analisi_bug_15_10": "Analisi dei bug del 15/10/2026 (docs/refactoring/analisi-bug-20261015.md, sezione «Esito delle correzioni»). Una voce BUG-<codice> per ogni codice dell'analisi, salvo SLU-2 (rettifica e correzione nella voce F2-17) e FES-1 (testo della voce F2-25). BUG-<codice>b e c: punti aperti dello stesso codice. BUG-N1…N7: difetti nuovi trovati durante le correzioni (decisione dell'utente «Correggili tutti»). BUG-TS-1 e BUG-TS-2: tension stiffening opzionale nelle analisi di risposta. TEST-05 e TEST-06: decisioni E3 ed E6 dei residui di F2. Le correzioni delle librerie sono sui rami di integrazione (Checker anthea-bug-1015; Model bugint-model con bug/model) e si distribuiscono con il rilascio Z: GPCModel 5.5.0.0, GPCModelData 0.0.2.14, GPCChecker.Concrete 0.11.0.0, GPCChecker.Steel 2.0.4.8, GPCChecker.CompositeBridge 1.7.0.0, GPCChecker.Geotechnics 0.4.0.0, GPCModelChecker 2.1.0.8, GPC.Design 0.21.0.0, GPCChecker.Masonry 0.1.0.3. Le parti di ANTHEA sono sui rami refactoring/bug-1015 e refactoring/bug-1015-geo, uniti in refactoring/integrazione-1016. Stato «corretto» anche per le correzioni non ancora distribuite; rilascio Z installato il 16/10 (ANTHEA 89545655; set non candidato da Model bf8563f5 e Checker bce7aaae, release_set_sha256 df4f3c4de6877a91723b48f37678f54d065b721cc14f09daa8ff00db4f457ad4 in tests/fixtures/f4/library-release.json); profilo full con tutti gli stadi sul commit 5c3f5baf: 142 PASS, 0 NEW-FAIL (supporto/artefatti/ci/20261016-022553-int1016-full2); transizioni del confronto UI F3 in tests/fixtures/f3/transitions-f4.json (classificazione in docs/refactoring/bug-1015-transizioni-ui-classificazione.md). Il campo voci_collegate lega le voci nei due versi.",
   "nota_f5_23_10": "Voci F5-03…F5-59, aggiunte il 23/10/2026 (ramo refactoring/f5-registro da refactoring/f5 532a3074) per la revisione F5.15 (docs/refactoring/f5-15-revisione.md). Comprendono: le differenze di comportamento delle viste MVVM rispetto alle viste storiche dichiarate, accettate o scelte in via provvisoria nei documenti F5.4–F5.12; i comportamenti della vista storica della sezione c.a. che il ViewModel conserva per avere tracce identiche (C5 di f5-10-sezione.md: «diventano voci del registro»). Stato «dichiarato»: differenza accettata dall'utente il 17/10 mattina («accetto tutte le proposte, continua col piano»). Stato «da-decidere»: scelta provvisoria o comportamento conservato, aperto per F5.15. C5 era senza proposta: vale la scelta del coordinatore «da ratificare» («i comportamenti storici si conservano e diventano voci del registro», decisioni.md, 17 ottobre mattina), che si rivede in F5.15 per la decisione dell'utente del 17/10 tarda mattina («dove diceva \"da decidere\" a fine refactoring rivediamo tutte le scelte»). Campi nuovi: documento (documento e sezione d'origine), modulo, revisione_f5_15 (gruppo e riga dell'elenco F5.15), opzioni (opzione presa e alternativa dell'elenco). Percorsi del codice su refactoring/f5 532a3074, senza numeri di riga. Non hanno una voce: le differenze di solo aspetto (corpi, colori, misure dei dialoghi); le scelte delle sole prove e dei riferimenti congelati (V-a, V-e, V-g, artefatti delle tracce); i comportamenti storici conservati negli altri moduli (T6: V5, O3, FN3; T7: S6, O4, E4, E5, MU5, MU6, E7, O5; SM5; BD10), perché la decisione non li destina al registro; le differenze senza effetto osservabile (E3, M19, S10); le differenze della shell rispetto a MainWindow (F5.13 non conclusa).",
+  "nota_chiusura_f5_15": "Chiusura di F5.15 (26/10/2026): stato nuovo «rinviato» per le voci che la revisione F5.15 non ha potuto attuare perché servono testi normativi, una decisione o un lavoro grande (R4, R5, R6, R7, R8, R9, R11, R14, R16, R17, R18, R20). Restano aperte nella coda dopo il refactoring (piano.md); ogni voce ha il campo rinvio_26_10 con ciò che serve per riprenderla. Decisione dell'utente: «Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)",
   "voci": [
     {
       "id": "SPETTRI-01",
@@ -1745,7 +1747,8 @@
       "titolo": "MC2010, taglio e torsione: θmin fisso a 20°",
       "famiglia": "calcestruzzo/taglio",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "rinviato",
+      "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "riscontro del testo di MC2010 §7.3.3.3 (θmin = 20° + 10 000 εx), poi correzione con opzione legacy. Non cautelativa, priorità alta.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_24_10": "Decisione dell'utente del 24/10 (F5.15, scheda delle 13 voci, docs/refactoring/f5-15-prioritarie.md): da attuare come raccomandato nella scheda. Stato precedente: da-decidere.",
       "descrizione": "Il profilo MC2010 usa θmin = 20° in ogni caso; MC2010 §7.3.3.3 (livelli di approssimazione II e III) dà θmin = 20° + 10 000 εx.",
       "riferimento_normativo": [
@@ -1781,7 +1784,8 @@
       "titolo": "SLE tensioni con analisi non lineare: leggi di progetto e nessun avviso",
       "famiglia": "calcestruzzo/sle",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "rinviato",
+      "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "lavoro grande: leggi di esercizio nell'analisi non lineare delle tensioni SLE, nella libreria. Non cautelativa.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_24_10": "Decisione dell'utente del 24/10 (F5.15, scheda delle 13 voci, docs/refactoring/f5-15-prioritarie.md): da attuare come raccomandato nella scheda. Stato precedente: da-decidere.",
       "descrizione": "Con il solutore non lineare le tensioni di esercizio si calcolano con le leggi di progetto (σc · αcc/γc, fyd) invece delle leggi di esercizio; StressLimitCheck accetta il risultato senza avviso.",
       "riferimento_normativo": [
@@ -1820,7 +1824,8 @@
       "titolo": "DIN, k5 delle tensioni nei trefoli 0,75 invece di 0,65",
       "famiglia": "calcestruzzo/sle",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "rinviato",
+      "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "riscontro dell'appendice nazionale DIN (k5 = 0,65 per i trefoli), poi correzione in Model con opzione legacy.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R6): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Il profilo DIN eredita k5 = 0,75 (Model StandardModelCode2010); secondo una fonte secondaria il NA dà 0,65.",
       "riferimento_normativo": [
@@ -1848,7 +1853,8 @@
       "titolo": "Interpretazioni cautelative o dichiarate di taglio, torsione, SLE e fessurazione",
       "famiglia": "calcestruzzo",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
+      "stato": "rinviato",
+      "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "dichiarazione delle interpretazioni nella guida teorica e segno di F-4, con la revisione della guida.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R7): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Interazione delle bielle in torsione: somma dei rapporti del taglio nelle due direzioni (riquadro R-1 della pagina ca.torsione). SLE: limite k3 applicato a |σ| anche delle barre compresse; k1 fck in ogni classe di esposizione; k2 fck trattato come limite e non come soglia del creep non lineare. NS: wmax senza il fattore kc = cnom/cmin,dur ≤ 1,3 della Tab. NA.7.1N. DS: cot θ ≤ 2 (già dichiarato). Interpretazioni dichiarate: wk = 0 con asse neutro nel copriferro; 1,3 (h − x) con barre tese fuori da Ac,eff (riquadro F-4 della pagina ca.fessurazione: il limite superiore riguarda sr, mentre εsm − εcm viene dalle barre tese, più vicine all'asse neutro del lembo, quindi wk non è un limite superiore dell'apertura al lembo; segno da stabilire). La componente «NTC torsione: cot θ ≥ 1 anche in torsione pura» è stata tolta il 7/10: vedi rettifica.",
       "rettifica": {
@@ -1885,7 +1891,8 @@
       "titolo": "Punti da riscontrare: MC2010 fessurazione senza ritiro, coefficiente DIN di hc,ef, EN Tab. 7.1N per XD3",
       "famiglia": "calcestruzzo/fessurazione",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "rinviato",
+      "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "riscontro sui testi primari (MC2010 fessurazione senza ritiro, coefficiente DIN di hc,ef, EN Tab. 7.1N per XD3), poi decisione voce per voce.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R8): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "MC2010: apertura senza la deformazione di ritiro εcs e con il minimo (1 − kt) σs/Es. DIN: coefficiente di hc,ef (Bild 7.1DE) concorde con una fonte secondaria, mentre un esempio svolto di un'altra fonte legge 3,25 per h/(h − d) = 25 dove il codice dà 4,5. EN: wmax 0,3 mm assegnato a XD3, da controllare sulla tabella base.",
       "codice": [
@@ -1908,7 +1915,8 @@
       "titolo": "Limiti non controllati: EC2 6.2.2(6), nota 2 di 6.2.3(3), staffe di classe A (DK)",
       "famiglia": "calcestruzzo/taglio",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
+      "stato": "rinviato",
+      "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "testi di EC2 6.2.2(6), nota 2 di 6.2.3(3) e staffe di classe A dell'appendice danese, poi controllo e dichiarazioni. Priorità alta.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R9): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Il calcolo non controlla VEd ≤ 0,5 bw d ν fcd (EN 6.2.2(6)), non usa ν1 = 0,6 della nota 2 di 6.2.3(3) e non distingue la regola danese per le staffe di classe A.",
       "codice": [
@@ -1968,7 +1976,8 @@
       "titolo": "Copriferro NTC: Cmin di default uguale al valore di tabella",
       "famiglia": "calcestruzzo/durabilita",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "rinviato",
+      "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "decisione dell'utente: cambiare il default di Cmin rompe DurabilityContractTests di Checker (contratto); in ANTHEA nessun effetto. Contratto nuovo o sola dichiarazione.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R11): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Nel profilo NTC, se il chiamante non passa la classe minima pertinente, Cmin vale il valore di tabella invece della classe minima dell'esposizione; la maggiorazione di 5 mm per fck < Cmin può allora mancare.",
       "codice": [
@@ -2056,7 +2065,8 @@
       "titolo": "Dettagli e momento-curvatura: regole sostituite, definizioni e citazioni",
       "famiglia": "calcestruzzo",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
+      "stato": "rinviato",
+      "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "riscontro della regola dei 15Ø; correzione delle citazioni e dichiarazione del M–χ.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R14): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Travi EC: la regola dei 15Ø per le barre compresse (EN 9.2.1.2(3), anche NTC §4.1.6.1.1) è sostituita da una conferma. Momento-curvatura: χu al punto limite e χy al primo snervamento di una barra, senza bilineare equivalente e senza φ(M85 %) della Circolare (Fig. C4.1.12). Citazioni: NTC MinimumTension cita EC2 §9.3.1.1 invece di 9.2.1.1; riferimenti NTC «§4.1.6.1 .3» con uno spazio; equazioni As,min NTC 2018 [4.1.45]-[4.1.46] (non 4.1.43-4.1.44); «UNI 11104 prospetto 5» dipende dall'edizione.",
       "codice": [
@@ -2118,7 +2128,8 @@
       "titolo": "DS, torsione: fattore di efficienza delle bielle νv del taglio invece di νt",
       "famiglia": "calcestruzzo/torsione",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "rinviato",
+      "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "testo della media pesata di νv/νt per la torsione DS, poi correzione con opzione legacy.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R16): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Nel profilo DS la resistenza delle bielle in torsione usa in ogni caso ν = νv = max(0,45; 0,7 − fck/200), il fattore del taglio (SectionShearCalculator.StrutEfficiency), anche per le sezioni piene armate sulla sola faccia esterna. DK NA 5.6.1(3)P (informazione supplementare) dà per la torsione νt = 0,7 (0,7 − fck/200) (5.104 NA); νt si può porre uguale a νv solo se le pareti del profilo resistente hanno staffe chiuse sul perimetro e barre longitudinali distribuite su entrambe le facce; con taglio e torsione insieme si usa la media di νv e νt pesata sulle due azioni. L'indicatore HollowWithReinforcementOnBothFaces non è usato dal profilo DS.",
       "riferimento_normativo": [
@@ -2157,7 +2168,8 @@
       "titolo": "Classe indicativa di XC3 nei profili EN e UNI: C25/30 invece di C30/37 (prospetto E.1N)",
       "famiglia": "calcestruzzo/durabilita",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "rinviato",
+      "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "riscontro dell'impaginazione del prospetto E.1N della EN (classe indicativa di XC3).", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R17): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Nei profili EN e UNI la classe minima di resistenza viene dal prospetto E.1N (appendice E informativa). Il catalogo assegna a XC3 C25/30, cioè legge le celle unite del prospetto come XC2-XC3. Il prospetto E.1N del DM 31/07/2012 dà per XC3 e XC4 una sola cella con C30/37 (XC1 e XC2 hanno celle proprie, C25/30); il DM riproduce l'impaginazione del prospetto E.1N della EN 1992-1-1 cambiando i valori nazionali, quindi anche per la EN la classe di XC3 è probabilmente C30/37. Gli attesi dei test della libreria per XC3 vengono dalla stessa lettura del codice e non sono indipendenti.",
       "riferimento_normativo": [
@@ -2201,7 +2213,8 @@
       "titolo": "Acciaio di progetto con incrudimento: ramo superiore riferito a fyk invece che a fyd",
       "famiglia": "calcestruzzo/momento-curvatura",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "rinviato",
+      "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "lavoro grande in Model: ramo incrudente dell'acciaio di progetto riferito a fyd, con la ricattura delle fixture coinvolte. Priorità alta.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R18): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Oltre lo snervamento la legge di progetto dell'acciaio di Model (SteelMaterial) usa la curva caratteristica traslata lungo la retta elastica e abbassata di fyk − fyd: σ(ε) = σk(ε + (fyk − fyd)/Es) − (fyk − fyd). L'incremento di incrudimento è quindi riferito a fyk, mentre il ramo inclinato di EN 1992-1-1 3.2.7(2) e Fig. 3.8 va da fyd in εyd a k fyk/γs in εuk, con il limite εud. Riguarda il momento-curvatura e il dominio di rottura del solutore con acciaio incrudente.",
       "riferimento_normativo": [
@@ -2239,7 +2252,8 @@
       "titolo": "Torsione: citazioni del riferimento restituito per NTC 2018 e DS",
       "famiglia": "calcestruzzo/torsione",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_26_10": "Corretta il 26/10 (F5.15, passo e): TorsionProfiles.Reference cita NTC 2018 §4.1.2.3.6 [4.1.34]-[4.1.40] e, per DS, cot θ ≤ 2 della (6.7b NA) con ν di 5.6.1(3)P (Checker 483d1123, prova ReferencesCiteTheTorsionClauses, pagina ca.torsione). Uscita con GPCChecker.Concrete 0.21.0.0 nel set AI (Checker 799a6355). Solo testo, nessun effetto numerico.",
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R19): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "TorsionProfiles.Reference restituisce per NTC 2018 «NTC 2018 §4.1.2.3.6 (4.1.27-4.1.32)», ma in NTC 2018 [4.1.27]-[4.1.32] sono equazioni del taglio (§4.1.2.3.5.2 e 4.1.2.3.5.3) e la torsione è in [4.1.34]-[4.1.40]; per DS cita «θ 6.7a NA» mentre il limite applicato è cot θ ≤ 2 della (6.7b NA). Solo testo.",
       "riferimento_normativo": [
@@ -2279,7 +2293,8 @@
       "titolo": "DS, travi: ρw,min nazionale non implementato",
       "famiglia": "calcestruzzo/dettagli",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
+      "stato": "rinviato",
+      "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "quando servirà il DS delle travi (ρw,min nazionale).", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R20): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Nel profilo DS i controlli MinimumLinks:<faccia> delle travi (come MinimumTension:<faccia>) restano in sospeso con NotImplemented = true («DK NA national value of ρw,min not available in this implementation»). DK NA:2024 9.2.2(5) fissa ρw,min = 0,063 √fck/fyk (9.5N NA); la scelta nazionale di 9.2.1.1(1) prescrive nelle anime alte un'armatura distribuita sulle facce con lo stesso rapporto; 9.2.1.2(3) estende alle travi la regola 9.5.3(6), che il codice tratta come una conferma.",
       "riferimento_normativo": [
@@ -8663,7 +8678,8 @@
       "famiglia": "interfaccia/sezione c.a./sola lettura",
       "modulo": "F5.10 · Sezione c.a. (str_palo)",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_26_10": "Corretta il 26/10 (F5.15, passo f; decisione B di T6 del 24/10, completata su richiesta dell'utente del 26/10: «Completa la regola T6 (stato della vista in memoria, nessun Modified in sola lettura) con la ricattura delle tracce di sola lettura, poi chiudi F5.15»). Il passo b aveva spento i comandi che cambiano i dati; restava lo stato della vista scritto con Modified. Ora SheetViewModelBase non solleva Modified in sola lettura (NotifyModified), per tutti i moduli: scheda, filtri, opzioni dei pannelli e sezioni del report restano nella copia in memoria del foglio, che la shell non conferma mai nel documento (SheetSession.Commit esce in sola lettura), e la revisione non risulta modificata. Tracce congelate di sola lettura ricatturate (sezione c.a. calcolo/sola-lettura, fondazioni, palo verticale, palo orizzontale, risposta elastica, palificata, sezione mista): cambiano solo le righe «modificato». Prove di Presentation.Tests e ui/check-palificata-view aggiornate dal comportamento storico (C5) alla regola T6.",
       "decisione_24_10": "Decisione dell'utente del 24/10 (F5.15, scheda delle 13 voci, docs/refactoring/f5-15-prioritarie.md): da attuare come raccomandato nella scheda. Stato precedente: da-decidere.",
       "descrizione": "In una revisione in sola lettura la vista storica scrive ancora nei dati, con Modified, chiavi di stato dell'interfaccia: scheda selezionata, filtro dei domini, «Colori η», «Forze», contorno SLE (§2 punto 5, scenario calcolo/sola-lettura); filtro e stato del pannello, caselle e forze della barra, trasparenza, «Scala…» e «Adatta» dei domini (S3); contorno della mappa e «Asse neutro» (S4); il report salva report_sezioni (S9). La revisione risulta modificata senza cambiamenti dei dati di calcolo. Il ViewModel fa lo stesso. È la famiglia di T6 (V5, O3, FN3 degli altri moduli, conservati).",
       "documento": "docs/refactoring/f5-10-sezione.md §2 punto 5, §12.4 punto 2, §13.4 punto 5, §19.4 punto 3",

@@ -1912,3 +1912,27 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
    - **V-a nelle prove senza WPF.** Le tracce congelate valgono sia per Presentation.Tests sia per le suite ui; anche Presentation.Tests gira
      quindi con «Virgola», come AppHarness. Senza questo, sulla macchina del banco (it-IT con il punto) il titolo del dominio 2D direbbe
      «θ = 30.00°» nelle prove del ViewModel e «θ = 30,00°» nella vista.
+
+## 26 ottobre — F5.15: passo e, set AI e chiusura
+
+Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'utente.
+
+1. **Set AH e R10.** «Sì: porta master di Checker sul ramo splices e pubblicalo, fai il set, aggiorna ANTHEA su un ramo con la full, poi unisci e
+   pubblica ANTHEA se la full è verde»; poi «Sì: unisci refactoring/f5-15-e su main e refactoring/f5 e pubblica» (R10 nei muri).
+2. **R12, R13 e R21 come opzioni della libreria.**
+   - Cambiare il predefinito di Concrete rompeva il contratto dei dettagli 0.0.17 e le catture congelate.
+   - Le tre correzioni sono quindi opzioni (`ColumnSpacingAlongPerimeter`, `LapLinkReductionAboveFourteen`,
+     `DinConditionWithCoverOverride`) che ANTHEA accende; contratti e K0 restano invariati.
+   - R12 ha segno misto nella libreria: il caso 6 di detailing-legacy, pilastro 300×500 con barre solo sopra e sotto, passa da 208 a 406 mm.
+     Nelle prove di ANTHEA è solo a favore.
+3. **Set AI.** «Sì: pubblica master di Checker a 799a6355, fai il set ufficiale, installalo, committa i riferimenti preparati, lancia la full e, se
+   è verde, unisci e pubblica ANTHEA»: set AI con Concrete 0.21.0.0; riferimenti di R12 e AI-FON-01; unito in dcbb413b.
+4. **Rinvio.** «Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15».
+   - Stato nuovo «rinviato» nel registro per R4, R5, R6, R7, R8, R9, R11, R14, R16, R17, R18 e R20, con ciò che serve per riprenderle.
+   - Sono in [piano](piano.md#coda-dopo-il-refactoring), «Coda dopo il refactoring».
+5. **T6 completa.** Nella chiusura il coordinatore ha trovato che il passo b aveva spento i comandi ma non lo stato della vista scritto con
+   Modified (F5-17). L'utente: «Completa la regola T6 (stato della vista in memoria, nessun Modified in sola lettura) con la ricattura delle tracce
+   di sola lettura, poi chiudi F5.15». Scelte del coordinatore:
+   - una regola sola in `SheetViewModelBase`: niente Modified in sola lettura;
+   - lo stato resta nella copia in memoria del foglio, che la shell non conferma nel documento;
+   - le 7 tracce congelate di sola lettura sono ricatturate, e cambiano solo le righe «modificato».

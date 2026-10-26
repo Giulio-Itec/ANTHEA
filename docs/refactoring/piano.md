@@ -851,24 +851,58 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
       progetti (G11). Fatto il 25/10, primo passo per la quota (ramo `refactoring/f5-15-attuazione`): `DialogSizing` in `WpfDialogService`,
       `ConcreteTableGrid.HeaderWidth`, `ProjectsHelpCommand`; registro F5-64 attuata, F5-65 e F5-66 nuove; prova `ui/check-layout-decisions` (suite
       dello stadio ui da 70 a 71) e G11 in `ui/shell-smoke-project-workspace`.
-    - [~] e. Librerie: R4, R5, R10 e le voci della famiglia 11, nel set successivo all'unione di Codex, con le voci del registro e una full.
-      Avviato il 26/10. Il set AH, con le giunzioni dei ponti di Codex (Checker c74d2477, Model 2acc60ef), è installato in a27de118, con la
-      voce AH-FON-01. R10 è attuata nei muri (ramo `refactoring/f5-15-e`): sopra C60/75 fctk,0,05 è limitato al valore di C60/75
-      (`AnchorageCalculator.BondFctk05`), e la prova è in baseline/f4-detail-adapter (56 muri, 30 distinte, 0 differenze; 12 controlli
-      R10). R19 (testi dei riferimenti della torsione NTC e DS) è sul ramo di Checker `f5-15-e/concrete`, suite Concrete 906/906, ed entra
-      nel prossimo set. Corse in `supporto/artefatti/f5-15-e`: full 152 PASS; le 2 prove intermittenti (PDF dei materiali, PNG del palo
-      orizzontale) ripassate da sole. Restano ferme:
-      - R4, R6, R8, R9, R17 e R14 (15Ø): servono i testi normativi;
-      - R5, R18, R12 e R13: lavori grandi;
-      - R21, R16 e R11: cambiano il comportamento predefinito di Concrete (contratto K0);
-      - R7: va dichiarata nella guida teorica;
-      - R20: solo quando serve il DS delle travi.
+    - [x] e. Librerie: R4, R5, R10 e le voci della famiglia 11, nel set successivo all'unione di Codex, con le voci del registro e una full.
+      Fatto il 26/10, per le voci attuabili.
+      - Set AH: giunzioni dei ponti di Codex, Checker c74d2477 e Model 2acc60ef. Installato in a27de118, con la voce AH-FON-01.
+      - R10, muri: sopra C60/75 fctk,0,05 è limitato al valore di C60/75 (`AnchorageCalculator.BondFctk05`). Prova in
+        baseline/f4-detail-adapter: 56 muri, 30 distinte, 0 differenze, 12 controlli R10. Unito in eb49904f.
+      - Set AI, Checker 799a6355 pubblicato con l'ok. Contiene GPCChecker.Concrete 0.21.0.0, con:
+        - R19: testi dei riferimenti della torsione NTC e DS;
+        - R12, R13 e R21 come opzioni della libreria, che ANTHEA accende: interasse dei pilastri lungo il perimetro delle barre;
+          riduzione 0,6 delle staffe nelle giunzioni EC solo con Ømax > 14 mm; condizione DIN di hc,eff con il copriferro assegnato.
+          Il predefinito della libreria non cambia (contratti e K0 invariati).
+      - Installazione, 38390d94; riferimenti di R12 e AI-FON-01, dcbb413b, unito e pubblicato con l'ok.
+        - R12 cambia, sempre a favore, il pilastro predefinito 600×800 (424 → 208 mm) e l'atteso della pagina dei metodi (298 → 149 mm).
+        - Le prove lo ammettono con:
+          - la categoria R12 del riuso delle API;
+          - la traccia `dettagli/dettagli-ancoraggi.txt` ricatturata;
+          - l'atteso indipendente aggiornato.
+      - Full del set AI: 153 PASS; ui/smoke, intermittente, ripassata da sola.
+      - Corse in `supporto/artefatti/f5-15-e` e `librerie-20261026-ai`.
+      - Le voci che servono di testi, decisioni o lavori grandi sono rinviate alla [coda dopo il refactoring](#coda-dopo-il-refactoring)
+        (decisione dell'utente del 26/10).
     - [ ] f. Chiusura: registro, full, guide e note dove serve.
     - Voce di infrastruttura dopo F5, fuori da F5.15: calcoli dal limitatore (D-2, D-5) e taglio sullo sfondo (C2/S5-c).
 
 **F5 chiusa il 25/10/2026 con ANTHEA 1.14.0** (decisione dell'utente del 24/10: «Anche rilascio 1.14.0»). Release AG delle librerie
 (Model 2d59bbc6, Checker 22dabe69), guide Rev59, full di rilascio PASS 155 su d7e6b6a7, setup e audit PASS, tag `v1.14.0`.
 [Verbale](installer-1.14.0.md), [note di rilascio](note-rilascio-1.14.0.md). F5.15 prosegue come voce a sé.
+
+## Coda dopo il refactoring
+
+Voci della revisione F5.15 rinviate alla chiusura del 26/10. La decisione dell'utente è: «Rinvia le voci ferme in una coda dopo il
+refactoring, dichiarate nel registro». Nel [registro](registro-differenze.json) hanno lo stato «rinviato»; il campo `rinvio_26_10` dice che
+cosa serve per riprenderle. Restano aperte: non sono corrette né accettate.
+
+| Voce | Cosa | Serve | Segno |
+| --- | --- | --- | --- |
+| R4 | MC2010, θmin fisso a 20° | testo di MC2010 §7.3.3.3 | non cautelativa, priorità alta |
+| R5 | SLE non lineare con le leggi di progetto | lavoro grande nella libreria | non cautelativa |
+| R6 | DIN, k5 dei trefoli 0,75 invece di 0,65 | appendice nazionale DIN, poi Model | — |
+| R7 | Interpretazioni di taglio, torsione, SLE e fessurazione | revisione della guida teorica, segno di F-4 | — |
+| R8 | MC2010 senza ritiro, DIN hc,ef, EN Tab. 7.1N per XD3 | testi primari, poi voce per voce | — |
+| R9 | EC2 6.2.2(6), nota 2 di 6.2.3(3), staffe di classe A (DK) | testi | priorità alta |
+| R11 | Copriferro NTC, Cmin di default | decisione: contratto DurabilityContractTests o sola dichiarazione (in ANTHEA nessun effetto) | — |
+| R14 | Dettagli e M–χ: regola dei 15Ø, citazioni | riscontro | — |
+| R16 | DS, torsione: νv invece di νt | testo della media pesata | — |
+| R17 | Classe indicativa di XC3 nei profili EN e UNI | impaginazione del prospetto E.1N | — |
+| R18 | Acciaio incrudente riferito a fyk invece che a fyd | lavoro grande in Model, ricattura delle fixture | priorità alta |
+| R20 | DS, travi: ρw,min nazionale | quando serve il DS delle travi | — |
+
+Altre voci dopo F5, fuori da F5.15:
+- la voce di infrastruttura dei calcoli dal limitatore (D-2, D-5) e del taglio sullo sfondo (C2/S5-c);
+- i bug da decidere del 16/10 (BUG-MUR-2b, BUG-PO-5b, BUG-FES-1b, BUG-FES-1c, BUG-SLU-2b, BUG-TS-2, BUG-N7);
+- il percorso Wiki (W-idx con la revisione della Wiki) e l'infrastruttura successiva.
 
 ## Wiki (in parallelo)
 
