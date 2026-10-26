@@ -944,8 +944,9 @@ internal static class ShallowFoundationViewChecks
         var group = side.Group("metodo");
         group.IsExpanded = false; Click(side.Collect);
         await host.Settle();
-        Check(host.Modified == modified + 2 && host.Editor.HasResults && host.Editor.Data["vista_fondazioni"]!["metodo"]!.GetValue<bool>() == false
-            && host.Editor.Data["vista_fondazioni"]!["input_raccolti"]!.GetValue<bool>(), "Sola lettura: gruppi e «Raccogli input» scrivono vista_fondazioni e conservano il risultato (FN3, T6)");
+        // Regola T6 (F5.15, F5-17): gruppi e «Raccogli input» restano nella copia in memoria del foglio, senza Modified.
+        Check(host.Modified == modified && host.Editor.HasResults && host.Editor.Data["vista_fondazioni"]!["metodo"]!.GetValue<bool>() == false
+            && host.Editor.Data["vista_fondazioni"]!["input_raccolti"]!.GetValue<bool>(), "Sola lettura: gruppi e «Raccogli input» restano in memoria senza Modified e conservano il risultato (FN3, T6)");
         Click(side.Collect); Click(side.Command("ReportCommand")); Click(side.Command("CalculateCommand"));
         await host.Settle();
         Check(host.Reports == 1 && host.Editor.HasResults, "Sola lettura: report e «Calcola» disponibili");
