@@ -1967,3 +1967,17 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
 5. **Da attuare.** «poi implementa: teste dei pali e micropali sotto il PC, sposta le combo e la generazione dentro model, palo
    orizzontale»; i difetti di contrasto del tema Chiaro «vanno visti»; «pulisci le caselle superate». «Un altro agente sta lavorando su
    checker. te parti sempre da master/main»: le librerie partono da origin/master in worktree propri.
+
+## 26 ottobre (notte) — librerie nuove nella 1.14.2, correzioni nella 1.14.3
+
+Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'utente.
+
+1. **Rilascio sospeso.** «asp a continuare la procedura di rilascio», poi «no, ferma tutto per ora»: la 1.14.1 resta senza tag e senza
+   pubblicazione; la full del set candidato delle correzioni è stata interrotta.
+2. **Librerie nuove.** «tra mezz'ora dovrebbe arrivare una nuova versione di model e cheker. rieffettua il rilascio con le nuove
+   librerie»; «riparti quando checker avrà nuove versioni»: set ufficiale da origin/master appena Checker cambia.
+3. **Numeri.** «versione 1.14.2 e 1.14.3 dopo correzioni»: la 1.14.2 è la 1.14.1 con le librerie nuove; le correzioni e i lavori
+   decisi il 26/10 sera (voci 2-5 della sezione precedente, guida Rev60 compresa) passano alla 1.14.3.
+4. **Pubblicazione.** Al riepilogo «2. Nuovo rilascio di ANTHEA [...] Tag e push solo con il tuo OK» l'utente risponde «punto 2. hai
+   il mio ok»: tag `v1.14.2` e push di `main` e `refactoring/f5` dopo una full pulita; con differenze nei riferimenti congelati o
+   fallimenti nuovi ci si ferma e si riferisce.

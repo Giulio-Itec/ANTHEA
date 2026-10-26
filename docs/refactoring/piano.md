@@ -893,29 +893,38 @@ cosa serve per riprenderle. Restano aperte: non sono corrette né accettate.
 
 | Voce | Cosa | Serve | Segno |
 | --- | --- | --- | --- |
-| R4 | MC2010, θmin fisso a 20° | **26/10 sera: da correggere per la 1.14.2** («correggi in base a MC2010») | non cautelativa, priorità alta |
+| R4 | MC2010, θmin fisso a 20° | **26/10 sera: da correggere per la 1.14.3** («correggi in base a MC2010») | non cautelativa, priorità alta |
 | R5 | SLE non lineare con le leggi di progetto | **26/10 sera: dichiarata**, scelta voluta dall'utente; da scrivere nella guida teorica Rev60 | — |
 | R6 | DIN, k5 dei trefoli 0,75 invece di 0,65 | appendice nazionale DIN, poi Model | — |
 | R7 | Interpretazioni di taglio, torsione, SLE e fessurazione | revisione della guida teorica, segno di F-4 | — |
 | R8 | MC2010 senza ritiro, DIN hc,ef, EN Tab. 7.1N per XD3 | testi primari, poi voce per voce | — |
-| R9 | EC2 6.2.2(6), nota 2 di 6.2.3(3), staffe di classe A (DK) | **26/10 sera: da correggere per la 1.14.2** («aggiungi controllo» di 6.2.2(6)) | priorità alta |
-| R11 | Copriferro NTC, Cmin di default | **26/10 sera: da correggere per la 1.14.2**, con l'aggiornamento del contratto DurabilityContractTests | — |
+| R9 | EC2 6.2.2(6), nota 2 di 6.2.3(3), staffe di classe A (DK) | **26/10 sera: da correggere per la 1.14.3** («aggiungi controllo» di 6.2.2(6)) | priorità alta |
+| R11 | Copriferro NTC, Cmin di default | **26/10 sera: da correggere per la 1.14.3**, con l'aggiornamento del contratto DurabilityContractTests | — |
 | R14 | Dettagli e M–χ: regola dei 15Ø, citazioni | riscontro | — |
 | R16 | DS, torsione: νv invece di νt | testo della media pesata | — |
 | R17 | Classe indicativa di XC3 nei profili EN e UNI | impaginazione del prospetto E.1N | — |
-| R18 | Acciaio incrudente riferito a fyk invece che a fyd | **26/10 sera: da correggere per la 1.14.2**, in fondo all'elenco | priorità alta |
+| R18 | Acciaio incrudente riferito a fyk invece che a fyd | **26/10 sera: da correggere per la 1.14.3**, in fondo all'elenco | priorità alta |
 | R20 | DS, travi: ρw,min nazionale | quando serve il DS delle travi | — |
 
 Altre voci dopo F5, fuori da F5.15:
 - la voce di infrastruttura dei calcoli dal limitatore (D-2, D-5) e del taglio sullo sfondo (C2/S5-c);
 - i bug da decidere del 16/10, decisi il 26/10 sera: BUG-MUR-2b, BUG-PO-5b, BUG-FES-1b, BUG-FES-1c e BUG-TS-2 da correggere per la
-  1.14.2; BUG-SLU-2b e BUG-N7 dichiarati;
+  1.14.3; BUG-SLU-2b e BUG-N7 dichiarati;
 - il percorso Wiki (W-idx con la revisione della Wiki) e l'infrastruttura successiva.
 
-## Lavori della 1.14.2 (decisioni del 26 ottobre sera)
+## Rilascio 1.14.2 (librerie nuove, 26 ottobre notte)
+
+Decisioni in [decisioni.md](decisioni.md), «26 ottobre (notte)». La 1.14.1 non è stata pubblicata: la 1.14.2 ne riprende il contenuto
+con le librerie nuove di Model e Checker dell'altro agente.
+
+- [ ] Set ufficiale delle librerie da origin/master, appena Checker ha le versioni nuove («riparti quando checker avrà nuove versioni»).
+- [ ] Installazione in `lib/Checker`, versione 1.14.2, note di rilascio, full con installer, setup e audit.
+- [ ] Tag `v1.14.2` e pubblicazione di `main` e `refactoring/f5` («punto 2. hai il mio ok»), solo con la full pulita.
+## Lavori della 1.14.3 (decisioni del 26 ottobre sera)
 
 Decisioni in [decisioni.md](decisioni.md), «26 ottobre (sera)». Le librerie partono da origin/master in worktree propri (un altro agente
-lavora su Checker); ANTHEA da `main`. Un solo set di librerie per tutte le correzioni, poi ANTHEA, la guida Rev60 e la 1.14.2.
+lavora su Checker); ANTHEA da `main`. Un solo set di librerie per tutte le correzioni, poi ANTHEA, la guida Rev60 e la 1.14.3. Decise per la 1.14.2, passano
+alla 1.14.3 il 26/10 notte («versione 1.14.2 e 1.14.3 dopo correzioni»): la 1.14.2 è la 1.14.1 con le librerie nuove di Model e Checker.
 
 - [ ] Correzioni della libreria Concrete: R11 (Cmin di default), R4 (θmin di MC2010 nel taglio e nella torsione), R9 (controllo di
   EN 6.2.2(6)), BUG-FES-1b e BUG-FES-1c (soglia di wk = 0 sul copriferro reale), BUG-PO-5b (sviluppo parziale delle barre al piede).
@@ -926,7 +935,7 @@ lavora su Checker); ANTHEA da `main`. Un solo set di librerie per tutte le corre
 - [ ] Palo orizzontale: anello interno di diametro diverso dalla prima fila (distinta per diametro nella libreria) e anello nei report.
 - [ ] R18, in fondo: ramo incrudente dell'acciaio di progetto da fyd a k fyk/γs.
 - [ ] Difetti di contrasto del tema Chiaro (719 in 28 gruppi), da vedere con l'utente.
-- [ ] Guida pratica e teorica Rev60 (separatore decimale, correzioni, R5 dichiarata) e rilascio 1.14.2.
+- [ ] Guida pratica e teorica Rev60 (separatore decimale, correzioni, R5 dichiarata) e rilascio 1.14.3.
 
 ## Wiki (in parallelo)
 
