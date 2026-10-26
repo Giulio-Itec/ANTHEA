@@ -1929,7 +1929,8 @@
       "titolo": "Ancoraggi: fctk,0,05 non limitato alla classe C60/75",
       "famiglia": "calcestruzzo/dettagli",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "corretto",
+      "esito_26_10": "Corretta il 26/10 (F5.15, passo e, ramo refactoring/f5-15-e): gli ancoraggi e le sovrapposizioni dei muri prendono fctk,0,05 limitato al valore di C60/75 (AnchorageCalculator.BondFctk05 di Concrete), come la sezione c.a. e il palo elastico; fino a C60/75 resta il valore del materiale, invariato. Il limite e l'opzione legacy (capAtC60) erano già nella libreria: mancava il chiamante dei muri. Codice: X.Calculations/RetainingWall.Library.Details.cs. Prova: tests/ConcreteLibraryAdapter.Checks/F4DetailAdapterChecks.cs (baseline/f4-detail-adapter): con C60/75 libreria e motore storico uguali barra per barra, con C90/105 fbd uguale a quello di C60/75 e lunghezze richieste non inferiori a quelle storiche, almeno una più lunga. Nessun riferimento congelato cambia: nessuna fixture dei muri supera C60/75.",
       "decisione_24_10": "Decisione dell'utente del 24/10 (F5.15, scheda delle 13 voci, docs/refactoring/f5-15-prioritarie.md): da attuare come raccomandato nella scheda. Stato precedente: da-decidere.",
       "descrizione": "Il metodo di ancoraggio non applica il limite di fctk,0,05 alla classe C60/75 (EN 8.4.2(2); per la NTC da riscontrare) e lo lascia al chiamante.",
       "riferimento_normativo": [

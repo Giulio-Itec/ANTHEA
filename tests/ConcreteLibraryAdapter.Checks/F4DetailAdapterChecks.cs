@@ -45,6 +45,28 @@ internal static class F4DetailAdapterChecks
             }
             if(d.ToJsonString()!=before)errors.Add(id+": caller input changed");
         }
+        // F5.15, R10 (EN 1992-1-1 8.4.2(2)): the bond of the walls takes fctk,0.05 of C60/75 above that class, as the RC section; the historic
+        // engine took the value of the class. At C60/75 nothing changes; with C90/105 the bond is the one of C60/75, so the required
+        // anchorages and laps are longer than those of the historic engine.
+        int bondChecks=0;
+        IReadOnlyList<RetainingWall.BarDetail>? c60=null;
+        foreach(double fck in new[]{60.0,90.0})
+        {
+            var d=Read("inputs/walls/XC1-C25.json");var mat=d["materials"]!.AsObject();
+            string name=fck==60?"C60/75":"C90/105";mat["fck"]=fck;mat["classe_cls"]=name;mat["materiale_cls_nome"]=name;
+            var legacy=LegacyRetainingWall.CalculateReinforcementDetails(d).Bars;var library=RetainingWall.CalculateReinforcementDetails(d).Bars;
+            if(legacy.Count!=library.Count||legacy.Count==0||c60 is not null&&c60.Count!=library.Count){errors.Add($"R10 C{fck:0}: bars "+legacy.Count+" -> "+library.Count);continue;}
+            for(int i=0;i<legacy.Count;i++)
+            {
+                bondChecks++;var b=library[i];var h=legacy[i];
+                if(c60 is null&&(b.Fbd!=h.Fbd||b.RequiredAnchor!=h.RequiredAnchor||b.RequiredLap!=h.RequiredLap))
+                    errors.Add($"R10 C60 {b.Mark}: fbd/anchor/lap {h.Fbd}/{h.RequiredAnchor}/{h.RequiredLap} -> {b.Fbd}/{b.RequiredAnchor}/{b.RequiredLap}");
+                if(c60 is not null&&(Math.Abs(b.Fbd-c60[i].Fbd)>1e-9*c60[i].Fbd||b.Fbd>=h.Fbd||b.RequiredAnchor<h.RequiredAnchor||b.RequiredLap<h.RequiredLap))
+                    errors.Add($"R10 C90 {b.Mark}: fbd {h.Fbd} -> {b.Fbd} (C60/75 {c60[i].Fbd}), anchor/lap {h.RequiredAnchor}/{h.RequiredLap} -> {b.RequiredAnchor}/{b.RequiredLap}");
+            }
+            if(c60 is not null&&!library.Where((b,i)=>b.RequiredAnchor>legacy[i].RequiredAnchor||b.RequiredLap>legacy[i].RequiredLap).Any()) errors.Add("R10 C90: no anchorage or lap lengthened");
+            c60??=library;
+        }
         int refusals=0;
         foreach(var edit in new Action<JsonObject>[] {
             d=>d["geometry"]!["height"]="non numerico",
@@ -57,8 +79,8 @@ internal static class F4DetailAdapterChecks
             if(bad.ToJsonString()!=before)errors.Add("Invalid input was modified");
         }
         Directory.CreateDirectory(output);
-        File.WriteAllText(Path.Combine(output,"comparison.json"),JsonSerializer.Serialize(new{models,schedules,numbers,refusals,maxError,errors},new JsonSerializerOptions{WriteIndented=true}));
-        Console.WriteLine($"F4 details adapter: {models} models, {schedules} schedules/CSV, {numbers} numbers, {errors.Count} differences, max {maxError:R}");
+        File.WriteAllText(Path.Combine(output,"comparison.json"),JsonSerializer.Serialize(new{models,schedules,numbers,refusals,bondChecks,maxError,errors},new JsonSerializerOptions{WriteIndented=true}));
+        Console.WriteLine($"F4 details adapter: {models} models, {schedules} schedules/CSV, {numbers} numbers, {bondChecks} R10 bars, {errors.Count} differences, max {maxError:R}");
         foreach(string e in errors.Take(20))Console.Error.WriteLine(e);
         return errors.Count==0?0:1;
     }

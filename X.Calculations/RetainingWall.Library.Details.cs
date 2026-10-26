@@ -16,6 +16,12 @@ public static partial class RetainingWall
         var section=SectionInput(d,"Fusto",g.Required("stem_base"));
         var strengths=ConcreteMaterials.DesignValues(section,SectionWorkspace.Prepare(SezioneCA.DefaultData()));
         var concrete=ConcreteMaterials.Concrete(section);
+        // F5.15, R10 (EN 1992-1-1 8.4.2(2)): fctk,0.05 of the bond limited to the C60/75 value, as the RC section and the elastic pile
+        // (AnchorageCalculator.BondFctk05). Up to C60/75 the value of the material, unchanged; before, anchorages and laps of the walls
+        // took fctk,0.05 of the class (lb,rqd −11 % with C90/105).
+        double fck=section.Required("fck_mpa");
+        double bondFctk05=fck>GPC.Checkers.Concrete.Detailing.AnchorageCalculator.BondStrengthClassLimit
+            ? GPC.Checkers.Concrete.Detailing.AnchorageCalculator.BondFctk05(fck) : concrete.Fctk05;
         var zones=new Dictionary<WallRebarZone,WallZoneBars>();
         foreach(var (zone,key) in NativeZoneKeys)
         {
@@ -37,7 +43,7 @@ public static partial class RetainingWall
         var (profile,specification)=ConcreteDurabilityAdapter.WallCoverInput(opt.S("cover_method"),code,m.Required("fck"),cover,
             opt.S("cover_element")=="Piastra / soletta / parete",opt.B("cover_quality"));
         return new(new(g.Required("height"),g.Required("slab"),g.Required("toe"),g.Required("stem_base"),g.Required("stem_top"),g.Required("heel")),
-            new(r.B("two_zones"),r.B("two_zones") ? r.Required("lower_height", strict: true) : 0,zones),new(strengths.Fcd,strengths.Fyd,concrete.Fctk05,section.Required("gamma_c")),m.Required("cover"),
+            new(r.B("two_zones"),r.B("two_zones") ? r.Required("lower_height", strict: true) : 0,zones),new(strengths.Fcd,strengths.Fyd,bondFctk05,section.Required("gamma_c")),m.Required("cover"),
             new(opt.Required("aggregate"),opt.Required("lap_clear"),opt.Required("lap_percent"),opt.B("good_bond"),opt.Required("tie_diameter"),opt.Required("tie_spacing"),profile,specification));
     }
     private static readonly IReadOnlyDictionary<WallDetailRule,string> NativeDetailLabels = new Dictionary<WallDetailRule,string>
