@@ -106,7 +106,96 @@ bool Same(string id, Func<object?> legacy, Func<object?> library, Stats stats)
     stats.Results++;
     return false;
 }
-// Motore legacy dell'adattatore contro il legacy diretto: identici bit per bit (stesso JSON) o stesso rifiuto.
+// Taglio, legacy contro libreria, con le due divergenze volute di GPCChecker.Concrete 0.22 e successive (decisioni dell'utente del
+// 26/10/2026, registro R4 e R9); il resto del confronto è quello di Same.
+// - R4: con Model Code 2010 la libreria limita cot θ a quello di θmin = 20° + 10 000 εx ≤ 45° (dettaglio «cot θ massimo», con il suo
+//   valore e la sua espressione), il legacy a cot 20°. Dove il legacy supera il limite la libreria resta nel limite e non dà resistenza
+//   maggiore; un cot θ assegnato oltre il limite è rifiutato; negli altri casi cambia solo quel dettaglio.
+// - R9: senza staffe la libreria aggiunge il dettaglio «VEd,max» (0,5 bw d ν fcd, EN 6.2.2(6)) e limita VRd a quel valore.
+int r4Bounded = 0, r4Rejected = 0, r4Details = 0, r9Limits = 0;
+double Number(JsonNode? json, string name) => json![name]!.GetValue<double>();
+JsonNode? Detail(JsonNode? json, string symbol) => json!["Details"]!.AsArray().FirstOrDefault(d => d!["Symbol"]!.GetValue<string>() == symbol);
+// Rifiutato da entrambi oltre cot 20°: il messaggio della libreria riporta il proprio limite, non più grande di quello del legacy.
+void R4Messages(string id, string legacy, string library)
+{
+    var pattern = new System.Text.RegularExpressions.Regex(@"^(?<head>.*cot θ fuori intervallo \[[^;\]]+; )(?<max>[^\]]+)\]\.$");
+    var (x, y) = (pattern.Match(legacy), pattern.Match(library));
+    Check(x.Success && y.Success && x.Groups["head"].Value == y.Groups["head"].Value
+        && double.Parse(y.Groups["max"].Value, CultureInfo.CurrentCulture) <= double.Parse(x.Groups["max"].Value, CultureInfo.CurrentCulture),
+        $"{id}: messaggio «{legacy}» con il legacy, «{library}» con la libreria");
+    r4Rejected++;
+}
+// Risultato del taglio della libreria contro quello del legacy, entrambi calcolati: toglie le differenze dovute soltanto a R4 e R9
+// (dettaglio del limite, VEd,max) dopo averle verificate. Vero se R4 cambia cot θ: resistenze diverse, già verificate qui.
+bool NormalizeShear(string id, bool modelCode, JsonNode legacy, JsonNode library)
+{
+    bool bounded = false;
+    // Senza staffe non c'è il dettaglio: nessun puntone inclinato, nessun limite di cot θ.
+    if (modelCode && Detail(library, "cot θ massimo") is JsonNode maximum)
+    {
+        double bound = Number(maximum, "Value"), expected = 1 / Math.Tan(Math.Min(45, 20 + 10000 * Number(Detail(library, "εx"), "Value")) * Math.PI / 180);
+        Check(Math.Abs(bound - expected) <= Tolerance * expected, $"{id}: R4, cot θ massimo {bound:R} invece di {expected:R}");
+        if (Number(legacy, "CotTheta") > bound + 1e-9)
+        {
+            Check(Number(library, "CotTheta") <= bound + 1e-9 && Number(library, "VRd") <= Number(legacy, "VRd") * (1 + Tolerance) + Tolerance,
+                $"{id}: R4, cot θ della libreria oltre il limite di MC2010 o resistenza maggiore di quella del legacy");
+            r4Bounded++; bounded = true;
+        }
+        else
+        {
+            // Stesso cot θ: il resto si confronta con il dettaglio del limite del legacy.
+            var details = library["Details"]!.AsArray();
+            details[details.IndexOf(maximum)] = Detail(legacy, "cot θ massimo")!.DeepClone(); r4Details++;
+        }
+    }
+    if (Detail(library, "VEd,max") is JsonNode limit)
+    {
+        Check(Number(library, "VRd") <= Number(limit, "Value") * (1 + Tolerance), $"{id}: R9, VRd della libreria oltre VEd,max");
+        library["Details"]!.AsArray().Remove(limit); r9Limits++;
+    }
+    return bounded;
+}
+bool SameShear(string id, ConcreteCodeChecks.ShearInput c, Stats stats)
+{
+    Func<object?> legacy = () => LegacyConcreteCodeChecks.Shear(c), library = () => ShearTorsionEngines.Shear(c, ShearTorsionEngine.Library);
+    var a = Run(legacy); var b = Run(library); bool modelCode = c.Standard == "Model Code 2010";
+    if (modelCode && a.Outcome != "ok" && b.Outcome == a.Outcome && a.Message != b.Message) { R4Messages(id, a.Message, b.Message); stats.Rejected++; return true; }
+    if (modelCode && a.Outcome == "ok" && b.Outcome != "ok")
+    {
+        var range = System.Text.RegularExpressions.Regex.Match(b.Message, @"cot θ fuori intervallo \[[^;\]]+; (?<max>[^\]]+)\]");
+        Check(range.Success && c.CotTheta is double assigned && assigned > double.Parse(range.Groups["max"].Value, CultureInfo.CurrentCulture) - 5e-4,
+            $"{id}: rifiuto della libreria non dovuto a R4 «{b.Message}»");
+        r4Rejected++; stats.Rejected++; return true;
+    }
+    if (a.Outcome != "ok" || b.Outcome != "ok") return Same(id, legacy, library, stats);
+    var normalized = b.Json!.DeepClone();
+    if (NormalizeShear(id, modelCode, a.Json!, normalized)) { stats.Results++; return false; }
+    return Same(id, () => a.Json, () => normalized, stats);
+}
+// Calcolo headless della sezione: copia del JSON della libreria per il confronto, con le righe del taglio normalizzate come sopra; una
+// direzione in cui R4 cambia cot θ, verificata da NormalizeShear, prende i valori del legacy.
+JsonNode ComparableAnalysis(string label, bool modelCode, JsonNode legacy, JsonNode library)
+{
+    var copy = library.DeepClone();
+    if (legacy["taglio"] is JsonObject rows && copy["taglio"] is JsonObject own)
+        foreach (var (key, row) in rows)
+            if (row is JsonArray x && own[key] is JsonArray y)
+                for (int i = 0; i < Math.Min(x.Count, y.Count); i++)
+                    if (x[i] is JsonNode s && y[i] is JsonNode r && NormalizeShear($"{label}.taglio.{key}[{i}]", modelCode, s, r)) y[i] = s.DeepClone();
+    return copy;
+}// Calcolo del modulo (taglio delle due direzioni e torsione) con le stesse divergenze volute del taglio.
+bool SameModule(string id, bool modelCode, Func<object?> legacy, Func<object?> library, Stats stats)
+{
+    var a = Run(legacy); var b = Run(library);
+    if (modelCode && a.Outcome != "ok" && b.Outcome == a.Outcome && a.Message != b.Message) { R4Messages(id, a.Message, b.Message); stats.Rejected++; return true; }
+    if (a.Outcome != "ok" || b.Outcome != "ok") return Same(id, legacy, library, stats);
+    var normalized = b.Json!.DeepClone(); bool bounded = false;
+    var x = a.Json!["Shear"]!.AsArray(); var y = normalized["Shear"]!.AsArray();
+    for (int i = 0; i < Math.Min(x.Count, y.Count); i++)
+        if (x[i] is JsonNode s && y[i] is JsonNode t) bounded |= NormalizeShear($"{id}.Shear[{i}]", modelCode, s, t);
+    if (bounded) { stats.Results++; return false; }
+    return Same(id, () => a.Json, () => normalized, stats);
+}// Motore legacy dell'adattatore contro il legacy diretto: identici bit per bit (stesso JSON) o stesso rifiuto.
 void Identical(string id, Func<object?> direct, Func<object?> adapter)
 {
     var a = Run(direct); var b = Run(adapter);
@@ -276,13 +365,15 @@ try
     {
         var c = shearCases[i]; string id = "taglio " + i + " " + c.Standard;
         Identical(id, () => LegacyConcreteCodeChecks.Shear(c), () => ShearTorsionEngines.Shear(c, ShearTorsionEngine.Legacy));
-        Same(id, () => LegacyConcreteCodeChecks.Shear(c), () => ShearTorsionEngines.Shear(c, ShearTorsionEngine.Library), shearStats);
+        SameShear(id, c, shearStats);
     }
     // Messaggi con gli estremi di cot θ formattati: anche nella cultura invariante.
     CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
     foreach (var c in shearCases.Where(c => c.CotTheta is > 2.5 or < 1).Take(40))
-        Same("taglio (cultura invariante) " + c.Standard, () => LegacyConcreteCodeChecks.Shear(c), () => ShearTorsionEngines.Shear(c, ShearTorsionEngine.Library), shearStats);
+        SameShear("taglio (cultura invariante) " + c.Standard, c, shearStats);
     CultureInfo.CurrentCulture = italian;
+    Console.WriteLine($"Taglio, divergenze volute dal legacy: R4 {r4Bounded} casi MC2010 nel limite di θmin, {r4Rejected} cot θ assegnati rifiutati, "
+        + $"{r4Details} con il solo dettaglio del limite; R9 {r9Limits} limiti VEd,max.");
 
     // ---------------------------------------------------------------- 3b. torsione, griglia di CheckerMigration.Capture (986 casi)
     var torsionCases = TorsionGrid();
@@ -331,7 +422,7 @@ try
                     string id = $"modulo {norm} {shape} {model} N={loads.Item1} T={loads.Item6}";
                     Identical(id + " (motore predefinito)", () => ShearTorsionEngines.ShearAnalysis(input, settings, options, row, ExpectedDefault),
                         () => ConcreteShearAnalysis.Calculate(input, settings, options, row));
-                    Same(id, () => ShearTorsionEngines.ShearAnalysis(input, settings, options, row, ShearTorsionEngine.Legacy),
+                    SameModule(id, norm == "Model Code 2010", () => ShearTorsionEngines.ShearAnalysis(input, settings, options, row, ShearTorsionEngine.Legacy),
                         () => ShearTorsionEngines.ShearAnalysis(input, settings, options, row, ShearTorsionEngine.Library), moduleStats);
                     var shearLegacy = Run(() => ShearTorsionEngines.ShearAnalysis(input, settings, options, row, ShearTorsionEngine.Legacy).Shear);
                     var shearLibrary = Run(() => ShearTorsionEngines.ShearAnalysis(input, settings, options, row, ShearTorsionEngine.Library).Shear);
@@ -470,7 +561,9 @@ try
         var library = ConcreteAnalysis.Calculate(data);
         var legacy = LegacyAnalysis(data, library);
         var errors = new List<string>();
-        Json.Compare(legacy, library, "analisi " + norm, analysisStats, errors, Tolerance); analysisStats.Results++;
+        // Con MC2010 le righe del taglio cambiate da R4 sono verificate in ComparableAnalysis; il confronto e le relazioni usano quella copia.
+        var comparable = (JsonObject)ComparableAnalysis("analisi " + norm, norm == "Model Code 2010", legacy, library);
+        Json.Compare(legacy, comparable, "analisi " + norm, analysisStats, errors, Tolerance); analysisStats.Results++;
         Check(errors.Count == 0, string.Join(Environment.NewLine, errors.Take(5)));
         HeadlessRouting(data, library, "analisi " + norm);
         // NTC: due righe con torsione; altre norme: la riga con T diverso da zero è rifiutata (torsione accoppiata solo NTC).
@@ -483,7 +576,7 @@ try
             ("sintetica", r => X.Core.ReportConcreteShort.Create("Prova adattatore", (JsonObject)r["dati"]!.DeepClone(), (JsonObject)r.DeepClone()))
         })
         {
-            string a = GenerationTime(DocxText(make(legacy))), b = GenerationTime(DocxText(make(library)));
+            string a = GenerationTime(DocxText(make(legacy))), b = GenerationTime(DocxText(make(comparable)));
             Check(a.Contains("Taglio") && a == b, $"{norm}: relazione {kind} diversa fra legacy e libreria: " + FirstDifference(a, b));
             reports++;
         }
@@ -505,7 +598,8 @@ try
             string label = $"analisi NTC 2018 {shape} cot {cot}";
             var library = ConcreteAnalysis.Calculate(data);
             var errors = new List<string>();
-            Json.Compare(LegacyAnalysis(data, library), library, label, analysisStats, errors, Tolerance); analysisStats.Results++;
+            var legacy = LegacyAnalysis(data, library);
+            Json.Compare(legacy, ComparableAnalysis(label, false, legacy, library), label, analysisStats, errors, Tolerance); analysisStats.Results++;
             Check(errors.Count == 0, string.Join(Environment.NewLine, errors.Take(5)));
             HeadlessRouting(data, library, label);
         }

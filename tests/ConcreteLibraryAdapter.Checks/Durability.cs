@@ -388,13 +388,26 @@ internal static class DurabilityChecks
     {
         ProbeSelfCheck("11c", check);
         var grid = new Comparison("11c", check);
+        // R11 (decisione dell'utente del 26/10/2026, GPCChecker.Concrete 0.22 e successive): senza Cmin pertinente la libreria usa la classe
+        // minima UNI 11104 delle esposizioni, il legacy il valore di tabella 25 + 5 × gruppo. Il confronto dei due motori passa a entrambi il
+        // Cmin di tabella del legacy; a parte, la libreria senza Cmin deve coincidere con la libreria con la classe UNI 11104.
+        double? TableCmin(Exposure[] set, double fck, CoverInput p, bool plate, bool quality)
+        {
+            try { return With(DurabilityEngine.Legacy, () => NtcCover.Calculate(set, fck, p, plate, quality, null)).Cmin; } catch (ArgumentException) { return null; }
+        }
+        int r11 = 0;
         foreach (var (id, set, fck, p, v) in CaptureGrid())
         {
             grid.Same("EC2 " + id, () => Durability.Cover(set, fck, p));
             foreach (bool plate in new[] { false, true })
             {
                 bool quality = v % 2 == 1;
-                grid.Same($"NTC {id} piastra {plate}", () => { int? pertinent = v % 5 == 3 ? MinimumConcrete.Required(set) : null; return NtcCover.Calculate(set, fck, p, plate, quality, pertinent); });
+                double? table = v % 5 == 3 ? null : TableCmin(set, fck, p, plate, quality);
+                grid.Same($"NTC {id} piastra {plate}", () => { double? pertinent = v % 5 == 3 ? MinimumConcrete.Required(set) : table; return NtcCover.Calculate(set, fck, p, plate, quality, pertinent); });
+                if (v % 5 == 3) continue;
+                string Library(Func<object?> f) { try { return J.Node(With(DurabilityEngine.Library, f))!.ToJsonString(); } catch (ArgumentException e) { return "rifiuto: " + e.Message; } }
+                string own = Library(() => NtcCover.Calculate(set, fck, p, plate, quality, null)), uni = Library(() => NtcCover.Calculate(set, fck, p, plate, quality, MinimumConcrete.Required(set)));
+                check(own == uni, $"11c: R11, NTC {id} piastra {plate}: senza Cmin {own}, con la classe UNI 11104 {uni}"); r11++;
             }
         }
         foreach (var set in CaptureSets().Append([]))
@@ -415,13 +428,16 @@ internal static class DurabilityChecks
             {
                 if (cmin is null) errors.Same($"errori EC2 {id} ({culture.Name})", () => Durability.Cover(set, fck, p));
                 foreach (bool plate in new[] { false, true })
-                    errors.Same($"errori NTC {id} piastra {plate} ({culture.Name})", () => NtcCover.Calculate(set, fck, p, plate, false, cmin));
+                {
+                    double? given = cmin ?? TableCmin(set, fck, p, plate, false); // R11, come sopra
+                    errors.Same($"errori NTC {id} piastra {plate} ({culture.Name})", () => NtcCover.Calculate(set, fck, p, plate, false, given));
+                }
             }
         }
         CultureInfo.CurrentCulture = Italian;
         check(grid.Results > 2000 && grid.Rejections > 400 && errors.Rejections > 10000 && errors.Results >= 16,
             $"11c: insiemi poco rappresentativi: {grid.Results} risultati e {grid.Rejections} rifiuti, errori {errors.Results} risultati e {errors.Rejections} rifiuti");
-        return new JsonObject { ["griglia_della_cattura_e_combinazioni"] = grid.Json(), ["griglia_degli_errori_it_IT_e_invariante"] = errors.Json() };
+        return new JsonObject { ["griglia_della_cattura_e_combinazioni"] = grid.Json(), ["griglia_degli_errori_it_IT_e_invariante"] = errors.Json(), ["r11_libreria_senza_cmin_uguale_alla_classe_uni"] = r11 };
     }
 
     // ================================================================ 11d. catalogo
@@ -838,7 +854,11 @@ internal static class DurabilityChecks
             // Pagina del metodo ca.durabilita-copriferri di Checker, §10, esempio 1: NTC 2018, trave in XC3, C28/35, 50 anni, staffe Ø8,
             // dg = 20 mm, Δcdev = 10 mm, elemento non a piastra, senza controllo di qualità.
             var p1 = new CoverInput(50, false, false, false, 8, 20, 10, false, 0, 0);
-            foreach (var (cmin, dur, nominal) in new (double?, double, double)[] { (30, 30, 40), (28, 25, 35), (null, 25, 35) })
+            // Cmin assente: il legacy prende il valore di tabella 25 (gruppo 0), quindi fck 28 ≥ 25 e cmin,dur = 25. Con R11 (decisione
+            // dell'utente del 26/10/2026) la libreria prende la classe UNI 11104 di XC3, C30/37: fck 28 < 30, cmin,dur = 25 + 5 = 30 e
+            // cnom = 30 + 10 = 40, come la riga con Cmin 30.
+            bool r11 = engine == DurabilityEngine.Library;
+            foreach (var (cmin, dur, nominal) in new (double?, double, double)[] { (30, 30, 40), (28, 25, 35), (null, r11 ? 30 : 25, r11 ? 40 : 35) })
             {
                 var r = NtcCover.Calculate(E("XC3"), 28, p1, false, false, cmin);
                 string row = "esempio 1, Cmin " + Show(cmin);

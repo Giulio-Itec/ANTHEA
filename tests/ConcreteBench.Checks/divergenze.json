@@ -6,6 +6,21 @@
     { "chiave": "B12-η-esatto UNI EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." },
     { "chiave": "B12-η-esatto DIN EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." },
     { "chiave": "B12-η-esatto DS EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." },
-    { "chiave": "B12-η-esatto NS EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." }
+    { "chiave": "B12-η-esatto NS EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." },
+    { "chiave": "B12-η-esatto Model Code 2010 con staffe", "id": "R4", "motori": "ConcreteCodeChecks.Shear contro SectionShearCalculator (adattatore), Concrete 0.22 e successive", "sintesi": "R4 (decisione dell'utente del 26/10/2026, «correggi in base a MC2010»): la libreria limita cot θ con θmin = 20° + 10 000 εx ≤ 45°, il legacy con θmin = 20°. Con VEd = VRd del legacy la libreria dà VRd minore (181 contro 292 kN) e «Resistenza insufficiente»: scelta cautelativa voluta." },
+    { "chiave": "B12-η Model Code 2010 con staffe λ*(1-1,0E-4)", "id": "R4", "motori": "come sopra", "sintesi": "Come B12-η-esatto Model Code 2010 con staffe, appena sotto la soglia del legacy." },
+    { "chiave": "B12-η Model Code 2010 con staffe λ*(1-1,0E-6)", "id": "R4", "motori": "come sopra", "sintesi": "Come B12-η-esatto Model Code 2010 con staffe, intorno alla soglia del legacy." },
+    { "chiave": "B12-η Model Code 2010 con staffe λ*(1-1,0E-9)", "id": "R4", "motori": "come sopra", "sintesi": "Come B12-η-esatto Model Code 2010 con staffe, intorno alla soglia del legacy." },
+    { "chiave": "B12-η Model Code 2010 con staffe λ*(1+0)", "id": "R4", "motori": "come sopra", "sintesi": "Come B12-η-esatto Model Code 2010 con staffe, intorno alla soglia del legacy." },
+    { "chiave": "B12-η Model Code 2010 con staffe λ*(1+1,0E-9)", "id": "R4", "motori": "come sopra", "sintesi": "Come B12-η-esatto Model Code 2010 con staffe, intorno alla soglia del legacy." },
+    { "chiave": "B12-η Model Code 2010 con staffe λ*(1+1,0E-6)", "id": "R4", "motori": "come sopra", "sintesi": "Come B12-η-esatto Model Code 2010 con staffe, intorno alla soglia del legacy." },
+    { "chiave": "B12-η Model Code 2010 con staffe λ*(1+1,0E-4)", "id": "R4", "motori": "come sopra", "sintesi": "Come B12-η-esatto Model Code 2010 con staffe, intorno alla soglia del legacy." },
+    { "chiave": "B12-cot-max Model Code 2010 λ*(1-1,0E-4)", "id": "R4", "motori": "come sopra", "sintesi": "Soglia del cot θ ottimo del legacy (cot 20°): la libreria lo limita con θmin = 20° + 10 000 εx, quindi resistenze minori e rapporti maggiori intorno alla soglia." },
+    { "chiave": "B12-cot-max Model Code 2010 λ*(1-1,0E-6)", "id": "R4", "motori": "come sopra", "sintesi": "Soglia del cot θ ottimo del legacy (cot 20°): la libreria lo limita con θmin = 20° + 10 000 εx, quindi resistenze minori e rapporti maggiori intorno alla soglia." },
+    { "chiave": "B12-cot-max Model Code 2010 λ*(1-1,0E-9)", "id": "R4", "motori": "come sopra", "sintesi": "Soglia del cot θ ottimo del legacy (cot 20°): la libreria lo limita con θmin = 20° + 10 000 εx, quindi resistenze minori e rapporti maggiori intorno alla soglia." },
+    { "chiave": "B12-cot-max Model Code 2010 λ*(1+0)", "id": "R4", "motori": "come sopra", "sintesi": "Soglia del cot θ ottimo del legacy (cot 20°): la libreria lo limita con θmin = 20° + 10 000 εx, quindi resistenze minori e rapporti maggiori intorno alla soglia." },
+    { "chiave": "B12-cot-max Model Code 2010 λ*(1+1,0E-9)", "id": "R4", "motori": "come sopra", "sintesi": "Soglia del cot θ ottimo del legacy (cot 20°): la libreria lo limita con θmin = 20° + 10 000 εx, quindi resistenze minori e rapporti maggiori intorno alla soglia." },
+    { "chiave": "B12-cot-max Model Code 2010 λ*(1+1,0E-6)", "id": "R4", "motori": "come sopra", "sintesi": "Soglia del cot θ ottimo del legacy (cot 20°): la libreria lo limita con θmin = 20° + 10 000 εx, quindi resistenze minori e rapporti maggiori intorno alla soglia." },
+    { "chiave": "B12-cot-max Model Code 2010 λ*(1+1,0E-4)", "id": "R4", "motori": "come sopra", "sintesi": "Soglia del cot θ ottimo del legacy (cot 20°): la libreria lo limita con θmin = 20° + 10 000 εx, quindi resistenze minori e rapporti maggiori intorno alla soglia." }
   ]
 }

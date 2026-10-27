@@ -72,8 +72,10 @@ static partial class Program
             int t1 = checkedRing["armature"]!.Array("tratti")[0]!.Array("barre_sezione").Count, t2 = checkedRing["armature"]!.Array("tratti")[1]!.Array("barre_sezione").Count;
             Fact(t1 == outer && t2 == 12 + 8, $"elastic verifications use the inner ring only where it is assigned (T1 {t1}, T2 {t2} bars)");
             var mixed = (JsonObject)trial.DeepClone(); mixed["elastico"]!["tratti"]![1]!["second_inner_diameter"] = phi == 16 ? 20 : 16;
-            string refusal = ""; try { ElasticHorizontalPile.CalculateShared(mixed); } catch (ArgumentException ex) { refusal = ex.Message; }
-            Fact(refusal.Contains("diametri misti"), $"library limit: a second ring of another diameter stops the bill of the pile with an explicit message ({refusal})");
+            // Concrete 0.22 and later (inner ring of another diameter, request of the user of 26/10/2026): the bill has one run per bar diameter,
+            // each with its own anchorage and lap, instead of stopping with «diametri misti».
+            var mixedRuns = ElasticHorizontalPile.CalculateShared(mixed)["armature"]!.Array("tratti")[1]!.Array("dettagli_barre").Select(r => r!["Id"]!.ToString()).ToArray();
+            Fact(mixedRuns.Contains("G02A") && mixedRuns.Contains("G02B"), $"a second ring of another diameter gets its own run in the bill of the pile ({string.Join(", ", mixedRuns)})");
 
             // Segment cards.
             // f5-pass-orizzontale: the cards of the XAML view of the reinforcement, elastic tab of the sheet of the two segments (its own calculation).
