@@ -48,9 +48,9 @@ internal static class ThemeTokens
         // Text.
         new("Ink", "#0B2A4A", ThemeRole.Foreground, "testo", "AppearanceInk, Appearance.foreground.0B2A4A, Appearance.Ink, Ui.Navy"),
         new("InkSecondary", "#234767", ThemeRole.Foreground, "frecce e glifi dell'albero", "Appearance.foreground.234767"),
-        new("Muted", "#64748B", ThemeRole.Foreground, "testo secondario, unità di misura", "Ui.Muted; ex Appearance.foreground.64748B di FieldForm (F5.2)"),
+        new("Muted", "#5B697E", ThemeRole.Foreground, "testo secondario, unità di misura (5,1:1 sulla Surface; #64748B fino al 27/10/2026)", "Ui.Muted e #64748B in primo piano; ex Appearance.foreground.64748B di FieldForm (F5.2)"),
         new("Accent", "#0B5CAD", ThemeRole.Foreground, "collegamenti, enfasi", "Appearance.Accent, Ui.Blue"),
-        new("Disabled", "#808080", ThemeRole.Disabled, "testo disattivato o valore automatico in grigio", "Appearance.Dim(Brushes.Gray)"),
+        new("Disabled", "#767676", ThemeRole.Disabled, "testo disattivato o valore automatico in grigio (4,5:1 sul bianco; #808080 fino al 27/10/2026)", "Appearance.Dim(Brushes.Gray)"),
         // Lines.
         new("Border", "#DCE2E9", ThemeRole.Border, "bordi dei controlli", "Appearance.border.DCE2E9"),
         new("Border.Strong", "#CAD7E5", ThemeRole.Border, "bordi dei pulsanti di progetto", "Appearance.border.CAD7E5"),

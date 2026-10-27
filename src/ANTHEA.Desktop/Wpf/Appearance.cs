@@ -148,6 +148,7 @@ internal static class Appearance
     }
     internal static Brush Colour(Color original, string role)
     {
+        original = Replaced(original, role);
         var key = (original, role);
         if (!brushes.TryGetValue(key, out var brush))
         {
@@ -179,6 +180,16 @@ internal static class Appearance
         if (brush is not SolidColorBrush solid || solid.Color.A == 0) return brush;
         if (origins.TryGetValue(solid, out var source)) return source.Role == role || !Generic(source.Role) ? brush : Colour(source.Color, role);
         return Colour(solid.Color, role);
+    }
+    /// <summary>The colours replaced in the catalogue of the tokens (decision of the user of 27/10/2026, «Sì, #5B697E»): the muted text #64748B
+    /// (4.36:1 on the surface #F3F5F8) is #5B697E (5.1:1), the grey of the automatic values #808080 (3.95:1 on white) is #767676 (4.54:1), still
+    /// dimmer than the muted text. The old colours give the brushes of Token.Muted and Token.Disabled, so the code that names them (Ui.Muted,
+    /// Dim(Brushes.Gray)) follows; the dark appearances keep their colours (the same branch of the foreground role, the fixed disabled grey).</summary>
+    private static Color Replaced(Color c, string role)
+    {
+        if (role == "foreground" && c.R == 0x64 && c.G == 0x74 && c.B == 0x8B) return Color.FromArgb(c.A, 0x5B, 0x69, 0x7E);
+        if (role == "disabled" && c.R == 0x80 && c.G == 0x80 && c.B == 0x80) return Color.FromArgb(c.A, 0x76, 0x76, 0x76);
+        return c;
     }
     private static Color Transform(Color c, string role)
     {

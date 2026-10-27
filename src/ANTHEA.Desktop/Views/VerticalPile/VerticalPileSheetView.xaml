@@ -513,8 +513,10 @@
             <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
              <DataTemplate DataType="{x:Type pile:VerticalPileCurveChoiceViewModel}">
+              <!-- The colour of the curve on the box, the text in ink: light series colours (blue, green, violet) were below 3:1 as text on white
+                   (contrast of Chiara, decision of the user of 27/10/2026). -->
               <CheckBox Content="{Binding Label}" IsChecked="{Binding IsChecked}" Margin="2,4,8,4" FontSize="{DynamicResource Font.Caption}"
-               Foreground="{Binding Color, Converter={StaticResource SeriesForeground}}"/>
+               Foreground="{DynamicResource Token.Ink}" BorderBrush="{Binding Color, Converter={StaticResource SeriesForeground}}" BorderThickness="2"/>
              </DataTemplate>
             </ItemsControl.ItemTemplate>
            </ItemsControl>
