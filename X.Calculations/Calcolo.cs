@@ -55,6 +55,22 @@ public static class Calcolo
     /// condividono γb solo fogli con lo stesso valore della norma (un trivellato non dà il suo γb a un battuto).
     /// </summary>
     public static string AmbitoSicurezzaBase(JsonNode? g,bool micropalo=false)=>Esecuzione(g,micropalo).ToString();
+    /// <summary>
+    /// Profondità d della testa del palo sotto il piano campagna, in m, dai «generali» di un foglio di palo o micropalo (richiesta dell'utente del
+    /// 19/10/2026, contratto HeadDepth delle librerie): 0 se la chiave manca o è vuota (fogli salvati prima del campo, che l'editor mostra con 0
+    /// senza scriverlo); un valore presente deve essere un numero non negativo. Per il micropalo è la profondità verticale.
+    /// </summary>
+    public static double ProfonditaTesta(JsonNode? generali)
+    {
+        if(generali is not JsonObject g||!g.ContainsKey("profondita_testa")||g["profondita_testa"] is JsonValue v&&v.TryGetValue<string>(out var text)&&string.IsNullOrWhiteSpace(text))return 0;
+        return J.Number(g["profondita_testa"]) is double value&&double.IsFinite(value)&&value>=0?value
+            :throw new ArgumentException("Profondità della testa d: inserire un numero non negativo (0 = testa al piano campagna).");
+    }
+    /// <summary>
+    /// Profondità della testa sotto il piano campagna da mostrare (disegni, grafici, report): la chiave «profondita_testa» di <paramref name="nodo"/>
+    /// (i «generali» del foglio o il risultato), 0 se assente o non valida, che il calcolo rifiuta con il messaggio di <see cref="ProfonditaTesta"/>.
+    /// </summary>
+    public static double ProfonditaTestaMostrata(JsonNode? nodo)=>J.Number(nodo?["profondita_testa"]) is double value&&double.IsFinite(value)&&value>0?value:0;
     /// <summary>Versione dei fogli del palo e del micropalo verticale con γb della tecnologia come predefinito (D7-d, opzione d2).</summary>
     public const int VersioneFoglio=2;
     /// <summary>γb predefinito dei fogli salvati prima della versione <see cref="VersioneFoglio"/>, per ogni tecnologia.</summary>
@@ -181,7 +197,7 @@ public static class Calcolo
     private sealed class Motore
     {
         private readonly JsonNode dati;private readonly JsonObject g;private readonly bool micro;
-        private double d,l,zf,cos=1,sb,pct,pi;private bool falda;private JsonObject? pesoChs;
+        private double d,l,zf,cos=1,sb,pct,pi,d0;private bool falda;private JsonObject? pesoChs;
         public Motore(JsonNode input,bool micropalo) { dati=input;micro=micropalo;g=input["generali"] as JsonObject??new JsonObject(); }
         private void Validate()
         {
@@ -192,6 +208,9 @@ public static class Calcolo
                 if(g.S("tipo_iniezione") is not ("IGU" or "IRS"))throw new ArgumentException("Scegliere IGU o IRS per Bustamante–Doix.");
             }
             d=g.Required("diametro",strict:true);l=g.Required("lunghezza",strict:true);
+            // Testa sotto il piano campagna (richiesta del 19/10/2026): d0 ≥ 0, assente nei fogli precedenti = 0; il terreno sopra la testa dà le
+            // tensioni e nessuna resistenza laterale, la punta è a d0 + L (lungo la verticale) e le quote dei risultati partono dalla testa.
+            d0=ProfonditaTesta(g);
             foreach(var k in new[]{"sicurezza_laterale_compressione","sicurezza_laterale_trazione","sicurezza_base","peso_palo_sfavorevole","peso_palo_favorevole"})if(g.ContainsKey(k))g.Required(k,strict:true);
             // γ = 0 ammesso (22/10/2026): peso proprio trascurato, con l'avviso della libreria; negativo rifiutato.
             if(g.ContainsKey("peso_specifico_palo"))g.Required("peso_specifico_palo");
@@ -208,9 +227,10 @@ public static class Calcolo
                 pct=g.B("considera_punta")?g.Required("percentuale_punta"):0;if(pct>15)throw new ArgumentException("Il contributo di punta deve essere compreso tra 0% e 15% della resistenza laterale.");
             }
             else if(Tecnologia(g) is null)throw new ArgumentException("Tipo di palo non riconosciuto.");
+            int index=0;
             foreach(var rows in dati.Array("stratigrafie"))
             {
-                double bottom=0;
+                double bottom=0;index++;
                 foreach(var r in rows!.AsArray())
                 {
                     bottom+=r.Required("spessore",strict:true);
@@ -224,12 +244,16 @@ public static class Calcolo
                     // Terreni di Model: γ > 0, γsat ≥ γ dove la falda lo usa, cu > 0 dove serve il calcolo non drenato.
                     double gamma=r.Required("peso_specifico",strict:true);if(r.Required("angolo_attrito")>=90)throw new ArgumentException("φ deve essere inferiore a 90°.");
                     foreach(var k in new[]{"peso_specifico_saturo","coesione_efficace","coesione_non_drenata","nc"})if(!string.IsNullOrWhiteSpace(r.S(k)))r.Required(k);
-                    if(falda&&bottom>zf&&bottom-r.D("spessore")<l&&r.D("peso_specifico_saturo",gamma)<gamma)throw new ArgumentException("γsat deve essere almeno pari a γ sotto falda.");
-                    // Cu solo negli strati coesivi che il palo attraversa (cielo < L) sotto falda: gli strati sotto la punta non entrano nel calcolo (PV-2).
-                    bool undrained=r.S("tipologia")=="Coesivo"&&falda&&bottom-r.Required("spessore",strict:true)<l&&Math.Min(bottom,l)>zf;
+                    // Con la testa interrata anche gli strati sopra la testa sotto falda pesano con γsat (tensioni del ricoprimento).
+                    if(falda&&bottom>zf&&bottom-r.D("spessore")<d0+l&&r.D("peso_specifico_saturo",gamma)<gamma)throw new ArgumentException("γsat deve essere almeno pari a γ sotto falda.");
+                    // Cu solo negli strati coesivi che il palo attraversa (cielo < d0 + L, fondo > d0) sotto falda, come la libreria: gli strati sotto la
+                    // punta e quelli sopra la testa non hanno resistenza laterale (PV-2).
+                    double top=bottom-r.Required("spessore",strict:true);
+                    bool undrained=r.S("tipologia")=="Coesivo"&&falda&&top<d0+l&&bottom>d0&&Math.Min(bottom,d0+l)>Math.Max(zf,d0);
                     if(undrained&&string.IsNullOrWhiteSpace(r.S("coesione_non_drenata")))throw new ArgumentException("Inserire Cu per il calcolo non drenato.");
                     if(undrained&&r.D("coesione_non_drenata")<=0)throw new ArgumentException("Cu deve essere positiva per il calcolo non drenato.");
                 }
+                if(d0>0&&bottom<=d0)throw new ArgumentException($"Stratigrafia {index}: la stratigrafia non arriva sotto la testa del palo (d = {d0.ToString("0.###",CultureInfo.GetCultureInfo("it-IT"))} m).");
             }
         }
         /// <summary>Strati di una stratigrafia con il cielo sopra la quota della punta (m), nell'ordine: gli altri non entrano nel calcolo.</summary>
@@ -305,7 +329,11 @@ public static class Calcolo
                 var list=new List<Strato>();double top=0;
                 foreach(var r in rows!.AsArray()) { double bottom=top+r!.D("spessore");list.Add(new Strato(r!.AsObject(),top/cos,bottom/cos));top=bottom; }
                 if(list.Count==0)throw new ArgumentException("Inserire almeno uno spessore positivo in ogni stratigrafia.");
-                if(micro)try { _=BustamanteDoix.Tratti(list,l,sb,d,g.S("tipo_iniezione"),pi); }catch(ArgumentException ex){throw new ArgumentException($"Stratigrafia {strata.Count+1}: {ex.Message}");}
+                // Testa interrata del micropalo: l'asse dalla testa parte d0 / cos θ sotto il piano campagna lungo l'asse, come nella libreria; gli
+                // strati sopra la testa non hanno aderenza e restano fuori dai tratti (con la loro numerazione nei messaggi).
+                double s0=d0/cos;int above=list.Count(s=>s.Fondo<=s0);
+                var axis=list.Skip(above).Select(s=>s with{Cielo=Math.Max(0,s.Cielo-s0),Fondo=s.Fondo-s0}).ToList();
+                if(micro)try { _=BustamanteDoix.Tratti(axis,l,sb,d,g.S("tipo_iniezione"),pi,above); }catch(ArgumentException ex){throw new ArgumentException($"Stratigrafia {strata.Count+1}: {ex.Message}");}
                 strata.Add(list);
             }
             if(strata.Count==0)throw new ArgumentException("Aggiungere almeno una stratigrafia.");
@@ -321,9 +349,9 @@ public static class Calcolo
             {
                 // Strati interamente sotto la punta (cielo ≥ L) esclusi dal profilo passato alla libreria (PV-2): la punta è l'ultimo strato con
                 // cielo < z ≤ L e nessun tratto laterale li raggiunge, quindi non entrano nel calcolo e non richiedono Cu. Restano validati.
-                var surveys=rowsList.Select(rows=>Attraversati(rows,l)).Select((rows,i)=>new AxialPileSurvey(Profilo(rows,i,falda?zf:null,Terreno),rows.Select(v=>new AxialPileLayer(v.S("tipologia")=="Coesivo"?SoilBehaviour.Cohesive:SoilBehaviour.Granular,
+                var surveys=rowsList.Select(rows=>Attraversati(rows,d0+l)).Select((rows,i)=>new AxialPileSurvey(Profilo(rows,i,falda?zf:null,Terreno),rows.Select(v=>new AxialPileLayer(v.S("tipologia")=="Coesivo"?SoilBehaviour.Cohesive:SoilBehaviour.Granular,
                     v.S("addensamento")=="Sciolto"?SoilDensity.Loose:SoilDensity.Dense,v.D("nc",9),v.B("laterale_attiva",true))))).ToArray();
-                var pile=new AxialPile(Tecnologia(g)!.Value,d*M,l*M,g.D("peso_specifico_palo",25)*KN3,g.B("considera_sottospinta"),compression,tension);
+                var pile=new AxialPile(Tecnologia(g)!.Value,d*M,l*M,d0*M,g.D("peso_specifico_palo",25)*KN3,g.B("considera_sottospinta"),compression,tension,NqFrictionAngle.Layer);
                 var r=AxialPileCapacity.Calculate(pile,surveys,factors,gruppo.Efficienza);
                 result=Risultato(r,Sondaggio,gruppo.Metodo);
                 warnings.AddRange(r.Warnings);
@@ -343,19 +371,26 @@ public static class Calcolo
                     foreach(var v in rows)
                     {
                         double thickness=v.Required("spessore",strict:true),bottom=top+thickness;
-                        bool grouted=Math.Min(bottom/cos,l)>Math.Max(top/cos,sb);
+                        bool grouted=Math.Min((bottom-d0)/cos,l)>Math.Max((top-d0)/cos,sb);
                         layers.Add(new MicropileDepthLayer(thickness*M,Bd(v!),J.Number(v!["alpha"])??double.NaN,v.B("laterale_attiva",true)&&grouted));top=bottom;
                     }
                     return new MicropileDepthSurvey(layers);
                 }
                 var surveys=rowsList.Select(Survey).ToArray();
                 var pile=new Micropile(d*M,l*M,(J.Number(g["inclinazione"])??0)*Deg,injection,pi,sb*M,g.B("considera_punta")?pct:null,Chs.Sezione(g.S("profilo_chs")),Chs.Acciaio,
-                    g.D("peso_specifico_palo",25)*KN3,compression,tension);
+                    d0*M,g.D("peso_specifico_palo",25)*KN3,compression,tension);
                 var r=AxialPileCapacity.CalculateFromDepths(pile,surveys,factors,gruppo.Efficienza);
                 result=Risultato(r,s=>J.Obj(("compressione",J.Obj(("laterale",s.Shaft/1000),("base",s.Base/1000))),("tratti",s.Segments.Select(t=>Tratto(t,g.S("tipo_iniezione"))).ToList())),gruppo.Metodo);
                 warnings.AddRange(r.Warnings);
                 result["inizio_aderenza"]=sb;result["inclinazione"]=g.D("inclinazione");result["profondita_punta"]=r.PileLength*cos/M;result["coordinata_curve"]="Lungo asse s [m]";result["peso_sezione"]=pesoChs!.DeepClone();
                 result["metodo_micropalo"]=BustamanteDoix.Versione;result["pressione_iniezione"]=pi;result["ipotesi_pressione"]="p_l = p_i";
+            }
+            if(d0>0)
+            {
+                // Solo con la testa interrata: i risultati con d0 = 0 restano quelli di prima.
+                var it=CultureInfo.GetCultureInfo("it-IT");result["profondita_testa"]=d0;
+                warnings.Add(micro?$"Testa del micropalo a d = {d0.ToString("0.###",it)} m sotto il piano campagna: gli strati sopra la testa non hanno aderenza; s e le curve partono dalla testa, la punta è a d + L cos θ = {(d0+l*cos).ToString("0.###",it)} m dal piano campagna."
+                    :$"Testa del palo a d = {d0.ToString("0.###",it)} m sotto il piano campagna: il terreno sopra la testa dà le tensioni verticali senza resistenza laterale; z e le curve partono dalla testa, la punta è a d + L = {(d0+l).ToString("0.###",it)} m dal piano campagna.");
             }
             // D7-d: γb effettivo del foglio (SicurezzaBase); se differisce da quello della tecnologia il calcolo lo dichiara.
             double normative=SicurezzaBaseNormativa(g,micro);

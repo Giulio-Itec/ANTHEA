@@ -155,8 +155,13 @@ public static class VerticalPilePresentation
     /// <summary>Title of the capacity chart with a result (before the first result the chart keeps its own).</summary>
     public static string CapacityTitle(bool micro) => micro ? "Capacità portante del micropalo" : "Capacità portante del palo";
 
-    /// <summary>Vertical axis of the capacity chart with a result.</summary>
-    public static string CapacityAxis(bool micro) => micro ? "Lungo asse s [m]" : "Profondità z [m]";
+    /// <summary>Depth of the pile head below the ground surface (m) of the general data or of a result, for drawings and charts; 0 when absent.</summary>
+    public static double HeadDepth(JsonNode? node) => Calcolo.ProfonditaTestaMostrata(node);
+
+    /// <summary>Vertical axis of the capacity chart with a result: measured from the head when the head is below the ground surface.</summary>
+    public static string CapacityAxis(bool micro, JsonObject? result = null) => HeadDepth(result) > 0
+        ? micro ? "Lungo asse dalla testa s [m]" : "Profondità dalla testa z [m]"
+        : micro ? "Lungo asse s [m]" : "Profondità z [m]";
 
     /// <summary>Message of the capacity chart without curves and without a result.</summary>
     public static string CapacityEmptyMessage(JsonObject data) => data["generali"].D("lunghezza") > 0 ? "Completare i dati · calcolo automatico" : "Lunghezza: inserire un numero valido";

@@ -60,7 +60,8 @@ public sealed class FieldViewModel : ObservableObject
             Choices = choices.Where(v => !string.IsNullOrWhiteSpace(v)).Distinct().ToArray();
             selectedChoice = Choices.Contains(value) ? value : null;
         }
-        else text = values.S(spec.Key);
+        // A text field with a Default (the head depth of the piles, 1.14.3) shows it while the key is missing, without writing it.
+        else text = spec.Default is not null && values[spec.Key] is null ? spec.Default : values.S(spec.Key);
     }
 
     public FormViewModel Form { get; }

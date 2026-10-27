@@ -14,6 +14,7 @@ public static class FieldSymbols
         return key switch
         {
             "diametro" => ("Diametro palo", "D"), "lunghezza" => ("Lunghezza palo", "L"),
+            "profondita_testa" => ("Profondità testa sotto il p.c.", "d"),
             "peso_specifico_palo" => ("Peso specifico CLS / palo", "γp"),
             "azione_compressione" => ("Azione assiale — Compressione", "NEd,c"), "azione_trazione" => ("Azione assiale — Trazione", "NEd,t"),
             "profondita_falda" => ("Profondità falda", "zf"), "verticali_indagate" => ("Verticali indagate", "n"),

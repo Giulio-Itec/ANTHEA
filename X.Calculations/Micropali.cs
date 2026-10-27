@@ -45,9 +45,10 @@ public static class BustamanteDoix
         ("s",1000*s.UnitResistance),("iniezione",s.Injection.ToString()));
     /// <summary>
     /// Tratti di aderenza fra l'inizio dell'iniezione e la quota (m lungo l'asse), con il diametro di perforazione (m): segmenti della libreria
-    /// (Ds = α D, π Ds L s) nelle unità del foglio. I dati degli strati attivi sono controllati prima, con i messaggi del foglio.
+    /// (Ds = α D, π Ds L s) nelle unità del foglio. I dati degli strati attivi sono controllati prima, con i messaggi del foglio; <paramref name="primo"/>
+    /// è il numero degli strati del foglio che precedono il primo dell'elenco (sopra la testa interrata), per numerare i messaggi come il foglio.
     /// </summary>
-    public static List<JsonObject> Tratti(List<Strato> strati,double quota,double inizio,double diametro,string iniezione,double pressione)
+    public static List<JsonObject> Tratti(List<Strato> strati,double quota,double inizio,double diametro,string iniezione,double pressione,int primo=0)
     {
         var injection = Injection(iniezione); var layers = new List<MicropileLayer>();
         for(int i=0;i<strati.Count;i++)
@@ -55,7 +56,7 @@ public static class BustamanteDoix
             var st=strati[i]; bool active=st.Valori.B("laterale_attiva",true); var soil=BustamanteDoixSoil.Gravel; double alpha=double.NaN;
             if(active && Math.Min(st.Fondo,quota)>Math.Max(st.Cielo,inizio))
                 try { alpha=st.Valori.Required("alpha",strict:true); _=Parametro(st.Valori.S("terreno"),iniezione,pressione,alpha); soil=Soil(st.Valori.S("terreno")); }
-                catch(ArgumentException ex) { throw new ArgumentException($"Strato {i+1}: {ex.Message}"); }
+                catch(ArgumentException ex) { throw new ArgumentException($"Strato {primo+i+1}: {ex.Message}"); }
             layers.Add(new MicropileLayer(st.Cielo*1000,st.Fondo*1000,soil,alpha,active));
         }
         return Bd.Segments(layers,quota*1000,inizio*1000,diametro*1000,injection,pressione).Select(s =>

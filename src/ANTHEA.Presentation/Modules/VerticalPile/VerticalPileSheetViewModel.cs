@@ -651,7 +651,7 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
         visibility.Clear();
         foreach (var curve in curves) visibility[curve.Key] = curve.Visible;
         OnPropertyChanged(nameof(Curves));
-        capacityTitle = VerticalPilePresentation.CapacityTitle(IsMicro); capacityAxis = VerticalPilePresentation.CapacityAxis(IsMicro);
+        capacityTitle = VerticalPilePresentation.CapacityTitle(IsMicro); capacityAxis = VerticalPilePresentation.CapacityAxis(IsMicro, result);
         capacityDepth = VerticalPilePresentation.AvailableDepth(result);
         UpdateVisible();
         RebuildCurveChoices();

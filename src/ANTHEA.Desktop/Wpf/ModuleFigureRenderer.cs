@@ -28,7 +28,7 @@ internal sealed partial class ModuleFigureRenderer : IFigureRenderer
         if (c.ModuleId is not ("geo_palo_verticale" or "geo_micropalo_verticale")) throw new NotSupportedException("Figure del modulo non disponibili: " + c.ModuleId);
         bool micro = c.ModuleId == "geo_micropalo_verticale";
         var capacity = new Plot { Capacity = true, Title = VerticalPilePresentation.CapacityTitle(micro),
-            YLabel = VerticalPilePresentation.CapacityAxis(micro), CapacityDepth = VerticalPilePresentation.AvailableDepth(c.Values), EmptyMessage = VerticalPilePresentation.NoCurveSelected,
+            YLabel = VerticalPilePresentation.CapacityAxis(micro, c.Values), CapacityDepth = VerticalPilePresentation.AvailableDepth(c.Values), EmptyMessage = VerticalPilePresentation.NoCurveSelected,
             Series = VerticalPileCharts.Capacity(c.Data, c.Values, micro).Where(s => s.Visible && VerticalPileCharts.CapacityIncludes(s.Key, micro, 0)).Select(s => PlotPresentation.Series(s.Series)).ToList() };
         var reference = new Plot { InvertY = false };
         PlotPresentation.Apply(reference, VerticalPileCharts.Reference(c.Data, c.Values, micro, 0));

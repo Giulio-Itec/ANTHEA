@@ -19,8 +19,8 @@ namespace Anthea.Presentation.Forms;
 /// <param name="HelpTopic">Identifier (URI) of the help topic of the field, when the key alone is ambiguous in the module
 /// (e.g. «modello»): see <see cref="Help.HelpTopics.Find"/>. It replaces the WPF-bound topic object of the former Field.</param>
 /// <param name="Note">Notice shown under the field while it returns a text (for example a choice with known limits).</param>
-/// <param name="Default">Choice shown when the key is missing in the document (sheets saved before the field): presentation
-/// only, the document does not change until the user chooses.</param>
+/// <param name="Default">Choice or text shown when the key is missing in the document (sheets saved before the field): presentation
+/// only, the document does not change until the user chooses or types.</param>
 /// <param name="Write">Rule that writes the text of the field into the document. The historic InputForm always writes the raw
 /// text: the other rules are those of the views that write their fields by hand (proposal F5, section 3.2) and are never
 /// unified during F5.</param>

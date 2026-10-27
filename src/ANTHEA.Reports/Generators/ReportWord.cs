@@ -82,6 +82,10 @@ public static class ReportWord
             body.Add(P("Criteri e unità",true));body.Add(P("Lunghezze m; forze kN; tensioni e aderenze kPa; pesi specifici kN/m³. I valori arrotondati sono solo di presentazione. I minimi dei contributi laterale e di punta sono valutati separatamente."));
             body.Add(P("Rd,c = ηc min[Rb,media/(ξ3 γb) + Rs,media/(ξ3 γs,c); Rb,min/(ξ4 γb) + Rs,min/(ξ4 γs,c)]. Rd,t = ηt min[Rs,media/(ξ3 γs,t); Rs,min/(ξ4 γs,t)]."));
             body.Add(P(micro?"Rs = Σπ (Db α) Δs s_aderenza. Coordinate lungo asse s; z=s cosθ. Il peso proprio è proiettato sull'asse. Rb è la percentuale selezionata di Rs.":"Rd drenata: Rb,calc = Ab σ′v Nq; Rs = ΣπD Δz (c′ + k μ σ′media). Non drenata coesiva sotto falda: τ=α Cu e Rb,calc = Ab (Nc Cu + σv,L totale), formulazione lorda richiesta il 16/09/2026. Sopra falda si usa il ramo drenato. "+Calcolo.RegoleSottospinta));
+            // Testa sotto il piano campagna (richiesta del 19/10/2026): solo quando c'è, così i report dei fogli con la testa al piano campagna non cambiano.
+            if(Calcolo.ProfonditaTestaMostrata(result) is double head&&head>0)body.Add(P(micro
+                ?$"Testa del micropalo a d = {head.ToString("0.###",System.Globalization.CultureInfo.GetCultureInfo("it-IT"))} m sotto il piano campagna (verticale): l'asse dalla testa parte d/cos θ sotto il piano campagna lungo l'asse e gli strati sopra la testa non hanno aderenza. Coordinate s dalla testa."
+                :$"Testa del palo a d = {head.ToString("0.###",System.Globalization.CultureInfo.GetCultureInfo("it-IT"))} m sotto il piano campagna: σ′v integra il peso del terreno dal piano campagna (con la falda), gli strati sopra la testa non hanno resistenza laterale, la punta è a d + L e Nq usa (d + L)/D. Quote z dalla testa."));
         }
         if(options.Contains("risultati"))
         {

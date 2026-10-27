@@ -263,8 +263,10 @@ internal sealed partial class StratigraphyDrawing : DrawingView
         dc.DrawRectangle(Brushes.White, null, new Rect(size)); if (Data is null || size.Width < 80 || size.Height < 110) return;
         var indices = VisibleIndices; var g = Data["generali"]!; var sets = Data.Array("stratigrafie");
         double length = g.D("lunghezza"), angle = Micro ? g.D("inclinazione") * Math.PI / 180 : 0;
+        // Testa sotto il piano campagna (profondita_testa, 0 nei fogli precedenti): il palo parte da d, la stratigrafia dal piano campagna.
+        double head = Anthea.Application.Presentation.VerticalPilePresentation.HeadDepth(g);
         double maximum = indices.Select(i => sets[i]!.AsArray().Sum(r => Math.Max(0, r.D("spessore")))).DefaultIfEmpty(0).Max();
-        maximum = Math.Max(maximum, length * Math.Cos(angle));
+        maximum = Math.Max(maximum, head + length * Math.Cos(angle));
         if (maximum <= 0) { Text(dc, "Inserire la stratigrafia", 8, 30, width: size.Width - 16); return; }
         double top = 34, band = size.Width / Math.Max(1, indices.Length), scale = (size.Height - 90) / maximum;
         if (Micro && length * Math.Sin(angle) > 0) scale = Math.Min(scale, Math.Max(4, (band - 96) * .48 - 20) / (length * Math.Sin(angle)));
@@ -294,12 +296,12 @@ internal sealed partial class StratigraphyDrawing : DrawingView
             if (!Micro && length > 0)
             {
                 double px = x + width - pileWidth - 7;
-                dc.DrawRectangle(Ui.Brush("#96999D"), new Pen(Ui.Brush("#62666B"), 1), new Rect(px, top, pileWidth, length * scale));
+                dc.DrawRectangle(Ui.Brush("#96999D"), new Pen(Ui.Brush("#62666B"), 1), new Rect(px, top + head * scale, pileWidth, length * scale));
                 Text(dc, "Palo", px - 4, top - 18, 10, Ui.Navy, pileWidth + 16);
             }
             if (Micro && length > 0)
             {
-                double px = x + width - run - pileWidth / 2 - 7; Point P(double s) => new(px + s * Math.Sin(angle) * scale, top + s * Math.Cos(angle) * scale);
+                double px = x + width - run - pileWidth / 2 - 7; Point P(double s) => new(px + s * Math.Sin(angle) * scale, top + (head + s * Math.Cos(angle)) * scale);
                 dc.DrawLine(new Pen(Ui.Brush("#96999D"), pileWidth), P(0), P(length));
                 double start = Math.Clamp(g.D("inizio_aderenza"), 0, length);
                 dc.DrawLine(new Pen(Ui.Brush("#62666B"), Math.Max(2, pileWidth * .35)), P(start), P(length));

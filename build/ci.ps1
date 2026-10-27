@@ -135,7 +135,7 @@ Add-Suite @{ Name = 'qa/no-test-code'; Stage = 'fast'; Kind = 'powershell'; Scri
 # The slimming of the old runs (build\Prune-CiRuns.ps1) on a fixture outside the repository.
 Add-Suite @{ Name = 'qa/prune-ci-runs'; Stage = 'fast'; Kind = 'powershell'; Script = 'tests\Build\Test-PruneCiRuns.ps1'; Args = @('-Output', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 
-foreach ($flag in 'checker', 'bridge', 'horizontal', 'coesione', 'gamma-sat', 'pile-factors', 'ca-module', 'ca-data') {
+foreach ($flag in 'checker', 'bridge', 'horizontal', 'coesione', 'gamma-sat', 'pile-factors', 'testa-interrata', 'ca-module', 'ca-data') {
     Add-Suite @{ Name = "verifiche/$flag"; Stage = 'fast'; Kind = 'run'; Project = $Verifiche; Args = @("--$flag") }
 }
 Add-Suite @{ Name = 'verifiche/micropalo'; Stage = 'fast'; Kind = 'run'; Project = $Verifiche; Args = @('--micropalo', '{cases}') }

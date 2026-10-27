@@ -93,18 +93,21 @@ public static class VerticalPileCharts
             foreach (double ratio in big ? Nq.RapportiGrande : Nq.RapportiMedio)
             { double low = big ? 26 : 25, high = big ? 42 : ratio == 5 ? 38.8 : ratio == 10 ? 40 : ratio == 20 ? 41 : 41.6; series.Add(new("z/D=" + ratio, Enumerable.Range(0, 161).Select(k => { double phi = low + (high - low) * k / 160; return new[] { phi, Nq.Dettaglio(phi, ratio, big).D("nq") }; }).ToList(), colors[i++ % colors.Length])); }
             double length = data["generali"].D("lunghezza"), diameter = data["generali"].D("diametro");
-            if (length > 0 && diameter > 0 && double.IsFinite(length / diameter))
+            // Testa sotto il piano campagna: Nq della libreria alla profondità della punta dal piano campagna, (d + L)/D (0 nei fogli precedenti).
+            double head = VerticalPilePresentation.HeadDepth(data["generali"]);
+            string ratioName = head > 0 ? "(d+L)/D" : "L/D";
+            if (length > 0 && diameter > 0 && double.IsFinite((head + length) / diameter))
             {
-                double ratio = length / diameter, low = 25, high = big ? 42 : 41.6; int selected = selectedSurvey;
+                double ratio = (head + length) / diameter, low = 25, high = big ? 42 : 41.6; int selected = selectedSurvey;
                 var surveys = result?.B("copertura_completa") == true ? result.Array("dettagli").LastOrDefault(d => Math.Abs(d.D("z") - length) < 1e-8)?.Array("sondaggi") : null;
                 if (selected >= 0 && surveys is not null && selected < surveys.Count && surveys[selected]?["dettaglio_nq"] is { } detail)
                 {
                     double phi = detail.D("phi"), nq = detail.D("nq"); low = Math.Min(low, phi); high = Math.Max(high, phi);
                     reference.Markers.Add(new(phi, nq, $"S{selected + 1}: φ={phi:0.##}° · {(big ? "Nq*" : "Nq")}={nq:0.###}", "#FFDC143C", ProjectToAxes: true));
-                    reference.Note = $"Stratigrafia {selected + 1} · punta L={length:0.###} m · L/D={ratio:0.###}" + (detail.B("limite_phi") || detail.B("limite_rapporto") ? " · valore limitato al bordo dell'abaco" : "");
+                    reference.Note = $"Stratigrafia {selected + 1} · punta " + (head > 0 ? $"d+L={head + length:0.###} m" : $"L={length:0.###} m") + $" · {ratioName}={ratio:0.###}" + (detail.B("limite_phi") || detail.B("limite_rapporto") ? " · valore limitato al bordo dell'abaco" : "");
                 }
-                else reference.Note = $"L/D effettivo = {ratio:0.###} · punto disponibile con dati completi fino alla punta";
-                reference.XMinimum = low; series.Add(new($"L/D effettivo = {ratio:0.###}", Enumerable.Range(0, 201).Select(k => { double phi = low + (high - low) * k / 200; return new[] { phi, Nq.Dettaglio(phi, ratio, big).D("nq") }; }).ToList(), "#FFDC143C", Highlighted: true));
+                else reference.Note = $"{ratioName} effettivo = {ratio:0.###} · punto disponibile con dati completi fino alla punta";
+                reference.XMinimum = low; series.Add(new($"{ratioName} effettivo = {ratio:0.###}", Enumerable.Range(0, 201).Select(k => { double phi = low + (high - low) * k / 200; return new[] { phi, Nq.Dettaglio(phi, ratio, big).D("nq") }; }).ToList(), "#FFDC143C", Highlighted: true));
             }
         }
         reference.Series = series;
