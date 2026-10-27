@@ -290,7 +290,7 @@ parametri: -
 ~ dati: version|family|geometry|foundation|loads|materials|layers|water|seismic|reinforcement|extensions|global_stability|valley|interfaces|bearing_seismic|bar_schedule|serviceability|detailing|gravity_design|actions|combinations|combination_mode|combination_signature
 ~ dati.combinations: [{"enabled":true,"name":"SLE 1","state":"SLE","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1}},{"enabled":true,"name":"SLE_FREQ 2","state":"SLE_FREQ","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0.5}},{"enabled":true,"name":"Quasi permanente 3","state":"SLE_QP","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0.3}},{"enabled":true,"name":"SLU 4","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 5","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1.3,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 6","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 7","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1.3,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 8","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 9","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1.3,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 10","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 11","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1.3,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 12","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 12b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 13","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1.3,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 13b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1.3,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 14","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 14b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 15","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1.3,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 15b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1.3,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 16","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 16b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 17","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1.3,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 17b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1.3,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 18","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 18b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 19","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1.3,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 19b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1.3,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}}]
 + dati.combination_signature: "<ID-1>/Q/true/0.7/0.5/0.3/legacy|sito/false/Mononobe–Okabe///Da scegliere/Calcolato//Calcolato//Pianeggiante///"
-~ risultato: F9EB9D4AFB511AF0
+~ risultato: A01D49481A9118B1
 ~ stato: "Calcolo aggiornato · 27 combinazioni · 4 controlli non soddisfatti · 0 non disponibili"
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 9|SLU 10|SLU 11|SLU 12|SLU 12b|SLU 13|SLU 13b|SLU 14|SLU 14b|SLU 15|SLU 15b|SLU 16|SLU 16b|SLU 17|SLU 17b|SLU 18|SLU 18b|SLU 19|SLU 19b" · scelta "SLE 1"
 ~ vista: "Geometria e carichi" · elemento "Fusto" nascosto · filtro "Riepilogo completo"
@@ -342,16 +342,16 @@ parametri: -
 + spinte.4.0.1: "3,00–3,45" | "9,25–19,65"
 + spinte.5: testo "Integrale netto delle pressioni (monte + azioni laterali − passiva): P=37,39 kN/m; momento al piano di posa=58,10 kNm/m; quota risultante=1,55 m."
 ~ verifiche: 3 blocchi
-+ verifiche.0: testo "SLE 1 · SLE · γMφ=1; γR scorr./ribalt./port.=1/1/1; γR,e passiva=1\nScorrimento Ed/Rd=45,74/65,36 kN/m · ribaltamento Ed/MRd=60,46/275,79 kNm/m · Rd port.=1953,53 kN/m · U=0,00 kN/m"
-+ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 188 A4F487B5B1D8DF36
++ verifiche.0: testo "SLE 1 · SLE · γMφ=1; γR scorr./ribalt./port.=1/1/1; γR,e passiva=1\nScorrimento Ed/Rd=45,74/65,36 kN/m · ribaltamento Ed/MRd=60,46/273,43 kNm/m · Rd port.=1953,53 kN/m · U=0,00 kN/m"
++ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 188 43110D8EE795FBCF
 + verifiche.1.0: "Scorrimento" | "SLU 16b" | "61,79" | "58,39" | "kN/m" | "1,058" | "Non soddisfatta"
-+ verifiche.1.1: "Ribaltamento" | "SLU 16b" | "82,74" | "243,58" | "kNm/m" | "0,340" | "Soddisfatta"
++ verifiche.1.1: "Ribaltamento" | "SLU 16b" | "82,74" | "241,89" | "kNm/m" | "0,342" | "Soddisfatta"
 + verifiche.1.2: "Capacità portante" | "SLU 17b" | "159,34" | "783,47" | "kN/m" | "0,203" | "Soddisfatta"
 + verifiche.2: testo "Riepilogo: inviluppo delle verifiche locali e della stabilità globale, se attivata. Un controllo non disponibile resta visibile. Per la globale selezionare la vista dedicata e la sua combinazione. Cedimenti da valutare separatamente."
 ~ disegno: caso "SLE 1" · risultato sì · azione <ID-1> · strato -1 · spinta -1 · carichi sì · dati sì · armature sì · spinte sì
 ~ diagrammi: visibili · modo "Geometria e carichi" · diagrammi no · elemento "Fusto" · caso "SLE 1" · armature sì · carichi sì · larghezza 1050
 == parametri
-~ risultato: 2D4E961BB2B554EE
+~ risultato: FCAD3C0E8C288898
 ~ parametri: attiva sì · messaggio "Modificare gli input nella colonna Valore. Per cambiare un coefficiente derivato selezionare la relativa modalità Assegnato. Le forze risultanti sono consultabili; si aggiornano ricalcolando le loro cause." · combinazioni "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 9|SLU 10|SLU 11|SLU 12|SLU 12b|SLU 13|SLU 13b|SLU 14|SLU 14b|SLU 15|SLU 15b|SLU 16|SLU 16b|SLU 17|SLU 17b|SLU 18|SLU 18b|SLU 19|SLU 19b" · scelta "SLE 1"
 + tabella.parametri: colonne "Gruppo|Parametro|Valore assegnato|Unità" · righe 610 · selezione -1
 + tabella.parametri.0: {"path":"geometry/height","group":"Geometria","meaning":"Altezza sopra fondazione","value":"3","unit":"m"}
@@ -965,13 +965,13 @@ parametri: -
 + tabella.parametri.608: {"path":"global_stability/soil_mode","group":"Stabilità globale","meaning":"Profilo unico / Due colonne","value":"Profilo unico","unit":""}
 + tabella.parametri.609: {"path":"global_stability/soil_split_x","group":"Stabilità globale","meaning":"Ascissa del confine valle / monte","value":"2.5","unit":""}
 + parametri.derivati: 1 blocchi
-+ parametri.derivati.0: tabella "Valore|Risultato utilizzato|Origine / significato" · righe 116 5A504D68FF94BF57
++ parametri.derivati.0: tabella "Valore|Risultato utilizzato|Origine / significato" · righe 116 A901BC268321FB7D
 + parametri.derivati.0.0: "Quota terreno di valle Dv" | "0,85 m" | "H+t−Hlib"
 + parametri.derivati.0.1: "Altezza libera Hlib" | "2,6 m" | "Sommità → terreno di valle"
 + parametri.derivati.0.2: "Peso terreno a valle" | "3,034 kN/m" | "Volume reale sopra mensola e paramento × γ × γG,valle × (1−kv)"
 == parametri-combinazione «SLU 5»
 ~ parametri: attiva sì · messaggio "Modificare gli input nella colonna Valore. Per cambiare un coefficiente derivato selezionare la relativa modalità Assegnato. Le forze risultanti sono consultabili; si aggiornano ricalcolando le loro cause." · combinazioni "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 9|SLU 10|SLU 11|SLU 12|SLU 12b|SLU 13|SLU 13b|SLU 14|SLU 14b|SLU 15|SLU 15b|SLU 16|SLU 16b|SLU 17|SLU 17b|SLU 18|SLU 18b|SLU 19|SLU 19b" · scelta "SLU 5"
-~ parametri.derivati.0: tabella "Valore|Risultato utilizzato|Origine / significato" · righe 116 1620755252397F76
+~ parametri.derivati.0: tabella "Valore|Risultato utilizzato|Origine / significato" · righe 116 2FF9ECAC3248CBDA
 ~ parametri.derivati.0.2: "Peso terreno a valle" | "3,9442 kN/m" | "Volume reale sopra mensola e paramento × γ × γG,valle × (1−kv)"
 == parametro valley/free_height «2,4»
 ~ tabella.parametri.17: {"path":"valley/free_height","group":"Terreno valle","meaning":"Altezza libera dalla sommità a valle","value":"2,4","unit":""}
@@ -980,7 +980,7 @@ parametri: -
 == parametri-attendi
 ~ dati.valley: {"height_mode":"Assegnato","free_height":2.4,"linked":false,"layers":[{"name":"Sabbia limosa","thickness":8,"gamma":18.5,"gamma_sat":20,"phi":31,"__index":1,"__from":"0,00","__to":"8,00"}],"passive":true,"mobilization":0.4}
 ~ foglio: modificato 1 · sola lettura no · occupato no · report 0 · terreno 0
-~ risultato: 8A022839B227DDCC
+~ risultato: 733FB8150BC818AF
 ~ stato: "Calcolo aggiornato · 27 combinazioni · 0 controlli non soddisfatti · 0 non disponibili"
 ~ riepilogo: "B 2,80 m · cls 5,39 m³/m\nH 32,99 kN/m · V′ 158,76 kN/m · e 0,03 m"
 ~ campo.valley.free_height: campo "Dalla sommità al terreno di valle" Hlib [m] = "2.4"
@@ -989,10 +989,10 @@ parametri: -
 ~ spinte.4.0.0: "2,40–3,00" | "0,00–13,87"
 ~ spinte.4.0.1: "3,00–3,45" | "13,87–24,27"
 ~ spinte.5: testo "Integrale netto delle pressioni (monte + azioni laterali − passiva): P=32,99 kN/m; momento al piano di posa=56,00 kNm/m; quota risultante=1,70 m."
-~ verifiche.0: testo "SLE 1 · SLE · γMφ=1; γR scorr./ribalt./port.=1/1/1; γR,e passiva=1\nScorrimento Ed/Rd=45,74/70,53 kN/m · ribaltamento Ed/MRd=60,46/278,50 kNm/m · Rd port.=2352,75 kN/m · U=0,00 kN/m"
-~ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 185 346A90376096D064
+~ verifiche.0: testo "SLE 1 · SLE · γMφ=1; γR scorr./ribalt./port.=1/1/1; γR,e passiva=1\nScorrimento Ed/Rd=45,74/70,53 kN/m · ribaltamento Ed/MRd=60,46/274,04 kNm/m · Rd port.=2352,75 kN/m · U=0,00 kN/m"
+~ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 185 0D99B58DBF602F89
 ~ verifiche.1.0: "Scorrimento" | "SLU 16b" | "61,79" | "62,23" | "kN/m" | "0,993" | "Soddisfatta"
-~ verifiche.1.1: "Ribaltamento" | "SLU 16b" | "82,74" | "245,61" | "kNm/m" | "0,337" | "Soddisfatta"
+~ verifiche.1.1: "Ribaltamento" | "SLU 16b" | "82,74" | "242,43" | "kNm/m" | "0,341" | "Soddisfatta"
 ~ verifiche.1.2: "Capacità portante" | "SLU 17b" | "162,10" | "943,86" | "kN/m" | "0,172" | "Soddisfatta"
 ~ parametri: -
 - tabella.parametri
@@ -2225,7 +2225,7 @@ parametri: -
 + tabella.parametri.608: {"path":"global_stability/soil_mode","group":"Stabilità globale","meaning":"Profilo unico / Due colonne","value":"Profilo unico","unit":""}
 + tabella.parametri.609: {"path":"global_stability/soil_split_x","group":"Stabilità globale","meaning":"Ascissa del confine valle / monte","value":"2.5","unit":""}
 + parametri.derivati: 1 blocchi
-+ parametri.derivati.0: tabella "Valore|Risultato utilizzato|Origine / significato" · righe 115 6D3AF988F112160F
++ parametri.derivati.0: tabella "Valore|Risultato utilizzato|Origine / significato" · righe 115 1CBC81D03933E873
 + parametri.derivati.0.0: "Quota terreno di valle Dv" | "1,05 m" | "H+t−Hlib"
 + parametri.derivati.0.1: "Altezza libera Hlib" | "2,4 m" | "Sommità → terreno di valle"
 + parametri.derivati.0.2: "Peso terreno a valle" | "5,1615 kN/m" | "Volume reale sopra mensola e paramento × γ × γG,valle × (1−kv)"
@@ -2900,7 +2900,7 @@ parametri: -
 - parametri.derivati.0.1
 - parametri.derivati.0.2
 == attendi
-~ risultato: 92D9F262BD7E26DF
+~ risultato: 338DE2E02BF5761A
 ~ stato: "Calcolo aggiornato · 27 combinazioni · 0 controlli non soddisfatti · 0 non disponibili"
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 9|SLU 10|SLU 11|SLU 12|SLU 12b|SLU 13|SLU 13b|SLU 14|SLU 14b|SLU 15|SLU 15b|SLU 16|SLU 16b|SLU 17|SLU 17b|SLU 18|SLU 18b|SLU 19|SLU 19b" · scelta "SLE 1"
 ~ riepilogo: "B 2,85 m · cls 5,41 m³/m\nH 32,99 kN/m · V′ 159,88 kN/m · e 0,01 m"
@@ -2922,10 +2922,10 @@ parametri: -
 + spinte.4.0.1: "3,00–3,45" | "13,87–24,27"
 + spinte.5: testo "Integrale netto delle pressioni (monte + azioni laterali − passiva): P=32,99 kN/m; momento al piano di posa=56,00 kNm/m; quota risultante=1,70 m."
 ~ verifiche: 3 blocchi
-+ verifiche.0: testo "SLE 1 · SLE · γMφ=1; γR scorr./ribalt./port.=1/1/1; γR,e passiva=1\nScorrimento Ed/Rd=45,74/70,93 kN/m · ribaltamento Ed/MRd=60,46/286,47 kNm/m · Rd port.=2474,58 kN/m · U=0,00 kN/m"
-+ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 185 BB97361B1F4FC78D
++ verifiche.0: testo "SLE 1 · SLE · γMφ=1; γR scorr./ribalt./port.=1/1/1; γR,e passiva=1\nScorrimento Ed/Rd=45,74/70,93 kN/m · ribaltamento Ed/MRd=60,46/282,01 kNm/m · Rd port.=2474,58 kN/m · U=0,00 kN/m"
++ verifiche.1: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 185 26B4902C2EEF23CD
 + verifiche.1.0: "Scorrimento" | "SLU 16b" | "61,79" | "62,60" | "kN/m" | "0,987" | "Soddisfatta"
-+ verifiche.1.1: "Ribaltamento" | "SLU 16b" | "82,74" | "252,62" | "kNm/m" | "0,328" | "Soddisfatta"
++ verifiche.1.1: "Ribaltamento" | "SLU 16b" | "82,74" | "249,43" | "kNm/m" | "0,332" | "Soddisfatta"
 + verifiche.1.2: "Capacità portante" | "SLU 17b" | "163,39" | "1000,45" | "kN/m" | "0,163" | "Soddisfatta"
 + verifiche.2: testo "Riepilogo: inviluppo delle verifiche locali e della stabilità globale, se attivata. Un controllo non disponibile resta visibile. Per la globale selezionare la vista dedicata e la sua combinazione. Cedimenti da valutare separatamente."
 ~ disegno: caso "SLE 1" · risultato sì · azione <ID-1> · strato -1 · spinta -1 · carichi sì · dati sì · armature sì · spinte sì
@@ -3544,7 +3544,7 @@ parametri: -
 + tabella.parametri.608: {"path":"global_stability/soil_mode","group":"Stabilità globale","meaning":"Profilo unico / Due colonne","value":"Profilo unico","unit":""}
 + tabella.parametri.609: {"path":"global_stability/soil_split_x","group":"Stabilità globale","meaning":"Ascissa del confine valle / monte","value":"2.5","unit":""}
 + parametri.derivati: 1 blocchi
-+ parametri.derivati.0: tabella "Valore|Risultato utilizzato|Origine / significato" · righe 115 AD1D583F542B9340
++ parametri.derivati.0: tabella "Valore|Risultato utilizzato|Origine / significato" · righe 115 BC407C4ED43B923C
 + parametri.derivati.0.0: "Quota terreno di valle Dv" | "1,05 m" | "H+t−Hlib"
 + parametri.derivati.0.1: "Altezza libera Hlib" | "2,4 m" | "Sommità → terreno di valle"
 + parametri.derivati.0.2: "Peso terreno a valle" | "5,7165 kN/m" | "Volume reale sopra mensola e paramento × γ × γG,valle × (1−kv)"

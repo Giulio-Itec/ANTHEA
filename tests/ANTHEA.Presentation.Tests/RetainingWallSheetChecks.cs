@@ -488,9 +488,13 @@ internal static class RetainingWallSheetChecks
         // AG-MUR-01 (24/10/2026): the analytic parabola of the concrete (Model 5.21.0.0, Concrete 0.20.0.0) changes the N–M GPC resistances
         // of the structural checks of ten fixtures: 15271 new transitions, 1668 earlier ones with the new value after (entry extended with
         // « / AG-MUR-01»), 3 earlier ones removed (the new ratio prints as a rounding of the reference).
+        // BUG-MUR-2b (libraries of the 1.14.2, Checker 4a1b0090): the passive in front is no longer an overturning resistance: 112 new
+        // transitions, 16 earlier ones with the new value after (entry extended with « / BUG-MUR-2b»).
         int undrained = transitions.Count(t => t.Entry == "PARATIE-20");
         int parabola = transitions.Count(t => t.Entry == "AG-MUR-01"), extended = transitions.Count(t => t.Entry.EndsWith(" / AG-MUR-01", StringComparison.Ordinal));
-        expect.That(undrained == 2898 && parabola == 15271 && extended == 1668 && transitions.Count - undrained - parabola == 14438 && comparer.NotAdmitted == 0,
+        int overturning = transitions.Count(t => t.Entry == "BUG-MUR-2b"), overturningExtended = transitions.Count(t => t.Entry.EndsWith(" / BUG-MUR-2b", StringComparison.Ordinal));
+        expect.That(undrained == 2898 && parabola == 15271 && extended == 1668 && overturning == 112 && overturningExtended == 16
+            && transitions.Count - undrained - parabola - overturning == 14438 && comparer.NotAdmitted == 0,
             "File con transizioni F4: " + transitions.Count + " transizioni, "
             + comparer.NotAdmitted + " differenze non ammesse o transizioni assenti");
     }

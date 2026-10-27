@@ -1747,8 +1747,9 @@
       "titolo": "MC2010, taglio e torsione: θmin fisso a 20°",
       "famiglia": "calcestruzzo/taglio",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "corretto",
       "decisione_26_10_sera": {"data": "2026-10-26", "utente": "«R4 correggi in base a MC2010»", "esito": "da correggere: θmin = 20° + 10 000 εx (MC2010 §7.3.3.3), nel taglio e nella torsione; da attuare per la 1.14.3 (decisa per la 1.14.2, «correggiamo tutti i punti e rifacciamo la guida. facciamo la versione 1.14.2»; spostata il 26/10 notte: «versione 1.14.2 e 1.14.3 dopo correzioni»), nella libreria e poi in ANTHEA"},
+      "librerie_1142": {"data": "2026-10-27", "librerie": "Checker 4a1b0090 (Concrete 0.25.0.0, Geotechnics 0.24.0.0), set della 1.14.2 («rieffettua il rilascio con le nuove librerie», «versione 1.14.2 e 1.14.3 dopo correzioni»)", "esito": "θmin = 20° + 10 000 εx ≤ 45° nel taglio e nella torsione MC2010 (Checker fde43530). ANTHEA traduce i testi nuovi (ConcreteLibraryMapping). Confronto con il legacy (ConcreteLibraryAdapter.Checks): 89 casi MC2010 della griglia nel limite, senza resistenza maggiore del legacy, 69 cot θ assegnati oltre il limite rifiutati, 65 casi con il solo dettaglio del limite; banco: 15 divergenze R4 registrate (B12-η con staffe, B12-cot-max). Nessuna fixture F3 usa MC2010: nessuna transizione."},
       "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "riscontro del testo di MC2010 §7.3.3.3 (θmin = 20° + 10 000 εx), poi correzione con opzione legacy. Non cautelativa, priorità alta.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_24_10": "Decisione dell'utente del 24/10 (F5.15, scheda delle 13 voci, docs/refactoring/f5-15-prioritarie.md): da attuare come raccomandato nella scheda. Stato precedente: da-decidere.",
       "descrizione": "Il profilo MC2010 usa θmin = 20° in ogni caso; MC2010 §7.3.3.3 (livelli di approssimazione II e III) dà θmin = 20° + 10 000 εx.",
@@ -1917,8 +1918,9 @@
       "titolo": "Limiti non controllati: EC2 6.2.2(6), nota 2 di 6.2.3(3), staffe di classe A (DK)",
       "famiglia": "calcestruzzo/taglio",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
+      "stato": "corretto",
       "decisione_26_10_sera": {"data": "2026-10-26", "utente": "«R9 aggiungi controllo»", "esito": "da correggere: controllo VEd ≤ 0,5 bw d ν fcd di EN 6.2.2(6) per gli elementi senza armatura a taglio; da attuare per la 1.14.3 (decisa per la 1.14.2, «correggiamo tutti i punti e rifacciamo la guida. facciamo la versione 1.14.2»; spostata il 26/10 notte: «versione 1.14.2 e 1.14.3 dopo correzioni»), nella libreria e poi in ANTHEA"},
+      "librerie_1142": {"data": "2026-10-27", "librerie": "Checker 4a1b0090 (Concrete 0.25.0.0, Geotechnics 0.24.0.0), set della 1.14.2 («rieffettua il rilascio con le nuove librerie», «versione 1.14.2 e 1.14.3 dopo correzioni»)", "esito": "VEd ≤ 0,5 bw d ν fcd senza armatura a taglio (EN 6.2.2(6); DIN NA ν = 0,675), come VRd = min(VRd,c; limite) e dettaglio VEd,max, in tutti i profili. Con le formule implementate VRd,c resta sotto il limite: nessun valore cambia. ANTHEA traduce il dettaglio; 350 casi della griglia con il dettaglio; 2 transizioni F3 (taglio-senza-staffe-manuali) e 11 righe delle tracce della sezione."},
       "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "testi di EC2 6.2.2(6), nota 2 di 6.2.3(3) e staffe di classe A dell'appendice danese, poi controllo e dichiarazioni. Priorità alta.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R9): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Il calcolo non controlla VEd ≤ 0,5 bw d ν fcd (EN 6.2.2(6)), non usa ν1 = 0,6 della nota 2 di 6.2.3(3) e non distingue la regola danese per le staffe di classe A.",
@@ -1979,8 +1981,9 @@
       "titolo": "Copriferro NTC: Cmin di default uguale al valore di tabella",
       "famiglia": "calcestruzzo/durabilita",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
+      "stato": "corretto",
       "decisione_26_10_sera": {"data": "2026-10-26", "utente": "«R11 ok, correggi»", "esito": "da correggere: senza Cmin pertinente vale la classe minima UNI 11104 delle esposizioni; l'utente autorizza l'aggiornamento del contratto DurabilityContractTests; da attuare per la 1.14.3 (decisa per la 1.14.2, «correggiamo tutti i punti e rifacciamo la guida. facciamo la versione 1.14.2»; spostata il 26/10 notte: «versione 1.14.2 e 1.14.3 dopo correzioni»), nella libreria e poi in ANTHEA"},
+      "librerie_1142": {"data": "2026-10-27", "librerie": "Checker 4a1b0090 (Concrete 0.25.0.0, Geotechnics 0.24.0.0), set della 1.14.2 («rieffettua il rilascio con le nuove librerie», «versione 1.14.2 e 1.14.3 dopo correzioni»)", "esito": "Senza Cmin pertinente la libreria usa la classe minima UNI 11104 delle esposizioni, non 25 + 5 × gruppo; il legacy resta il riferimento con la tabella. Prove di ANTHEA: confronto dei motori con il Cmin di tabella passato a entrambi e, a parte, libreria senza Cmin uguale alla libreria con la classe UNI 11104; valore a mano dell'esempio 1 (XC3, C28/35, Cmin assente) rifatto per la libreria (C30/37: cmin,dur 30 mm, cnom 40 mm); DurabilityReferenceChecks XF2 fck 25: 45 mm con la libreria, 50 con il legacy. Nessuna fixture F3 cambia."},
       "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "decisione dell'utente: cambiare il default di Cmin rompe DurabilityContractTests di Checker (contratto); in ANTHEA nessun effetto. Contratto nuovo o sola dichiarazione.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R11): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Nel profilo NTC, se il chiamante non passa la classe minima pertinente, Cmin vale il valore di tabella invece della classe minima dell'esposizione; la maggiorazione di 5 mm per fck < Cmin può allora mancare.",
@@ -5906,8 +5909,9 @@
       "titolo": "Fessurazione, FES-1: barre libere più profonde del copriferro nominale",
       "famiglia": "calcestruzzo/sle-fessurazione",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
+      "stato": "corretto",
       "decisione_26_10_sera": {"data": "2026-10-26", "utente": "«si. usa copriferro reale»", "esito": "da correggere: la soglia di wk = 0 usa il copriferro reale della barra tesa più esterna; da attuare per la 1.14.3 (decisa per la 1.14.2, «correggiamo tutti i punti e rifacciamo la guida. facciamo la versione 1.14.2»; spostata il 26/10 notte: «versione 1.14.2 e 1.14.3 dopo correzioni»), nella libreria e poi in ANTHEA"},
+      "librerie_1142": {"data": "2026-10-27", "librerie": "Checker 4a1b0090 (Concrete 0.25.0.0, Geotechnics 0.24.0.0), set della 1.14.2 («rieffettua il rilascio con le nuove librerie», «versione 1.14.2 e 1.14.3 dopo correzioni»)", "esito": "Soglia di wk = 0 sul copriferro reale della barra (Checker fde43530). Nelle prove di ANTHEA nessun caso la raggiunge: nessuna differenza."},
       "descrizione": "Con la regola di FES-1 (F2-25) wk = 0 vale solo se l'asse neutro cade nel copriferro di una barra del lembo teso, h − x ≤ a(c + Ø/2) con c del copriferro della formula. L'agente della libreria segnala il caso delle armature libere poste più in profondità del copriferro nominale: serve una regola, oppure l'utente assegna il copriferro della formula (CoverOverride). Punto non risposto nella notte: non si assume nulla e la regola resta quella confermata.",
       "codice": [
         "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs",
@@ -5932,8 +5936,9 @@
       "titolo": "Fessurazione, FES-1: copriferro assegnato minore di quello reale (stato 480 della griglia)",
       "famiglia": "calcestruzzo/sle-fessurazione",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
+      "stato": "corretto",
       "decisione_26_10_sera": {"data": "2026-10-26", "utente": "«ok, correggi»", "esito": "da correggere: soglia di wk = 0 sul copriferro reale; il copriferro assegnato resta solo nella formula di wk; da attuare per la 1.14.3 (decisa per la 1.14.2, «correggiamo tutti i punti e rifacciamo la guida. facciamo la versione 1.14.2»; spostata il 26/10 notte: «versione 1.14.2 e 1.14.3 dopo correzioni»), nella libreria e poi in ANTHEA"},
+      "librerie_1142": {"data": "2026-10-27", "librerie": "Checker 4a1b0090 (Concrete 0.25.0.0, Geotechnics 0.24.0.0), set della 1.14.2 («rieffettua il rilascio con le nuove librerie», «versione 1.14.2 e 1.14.3 dopo correzioni»)", "esito": "Come BUG-FES-1b, nella stessa correzione della libreria; nessuna differenza nelle prove di ANTHEA."},
       "descrizione": "Con il campo «c barra» assegnato, la soglia di FES-1 usa il copriferro della formula anche quando è minore del copriferro reale delle barre: lo stato 480 della griglia della prova 5n passa a «non soddisfatta». Comportamento attuale, cautelativo, tenuto in attesa della decisione dell'utente richiesta dall'agente.",
       "codice": [
         "X.Calculations/ConcreteServiceabilityAdapter.cs",
@@ -6210,8 +6215,9 @@
       "titolo": "Muri: passiva a valle nella resistenza al ribaltamento con γR,e = 1,4",
       "famiglia": "geotecnica/muri",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
+      "stato": "corretto",
       "decisione_26_10_sera": {"data": "2026-10-26", "utente": "«si, trascura»", "esito": "da correggere: la passiva a valle non entra nella resistenza al ribaltamento (libreria e testo di ANTHEA); da attuare per la 1.14.3 (decisa per la 1.14.2, «correggiamo tutti i punti e rifacciamo la guida. facciamo la versione 1.14.2»; spostata il 26/10 notte: «versione 1.14.2 e 1.14.3 dopo correzioni»), nella libreria e poi in ANTHEA"},
+      "librerie_1142": {"data": "2026-10-27", "librerie": "Checker 4a1b0090 (Concrete 0.25.0.0, Geotechnics 0.24.0.0), set della 1.14.2 («rieffettua il rilascio con le nuove librerie», «versione 1.14.2 e 1.14.3 dopo correzioni»)", "esito": "La passiva a valle non entra nella resistenza al ribaltamento (Checker fde43530); RetainingWall.PassiveResistsOverturning = false scrive i testi. 112 transizioni F3 (numeri di gravita-cls-passiva, testo del metodo e della passiva nei muri e nel report del progetto), 18 transizioni elencate con il valore dopo nuovo, 122 righe delle tracce storiche dei muri."},
       "descrizione": "Con MUR-2 l'agente ha esteso la regola al ribaltamento: la resistenza è Mstab/γR più il momento di ηp·Pp/γR,e rispetto al piede (OverturningResistance = stabilizzante/OverturningFactor + passiveResistingMoment). È attivo nel codice dei rami di integrazione; in ANTHEA il testo dipende da RetainingWall.PassiveResistsOverturning. Per toglierlo servono le due modifiche, in libreria e in ANTHEA. L'utente non ha deciso.",
       "codice": [
         "Checker/GPCChecker.Geotechnics/Walls/RetainingWallAnalysis.cs",
@@ -6572,6 +6578,7 @@
       "categoria": "intenzionale",
       "stato": "da-correggere",
       "decisione_26_10_sera": {"data": "2026-10-26", "utente": "«ok» (sviluppo parziale)", "esito": "da correggere: vicino alla fine delle barre la resistenza si riduce in proporzione alla lunghezza sviluppata, invece di «da completare»; da attuare per la 1.14.3 (decisa per la 1.14.2, «correggiamo tutti i punti e rifacciamo la guida. facciamo la versione 1.14.2»; spostata il 26/10 notte: «versione 1.14.2 e 1.14.3 dopo correzioni»), nella libreria e poi in ANTHEA"},
+      "librerie_1142": {"data": "2026-10-27", "librerie": "Checker 4a1b0090 (Concrete 0.25.0.0, Geotechnics 0.24.0.0), set della 1.14.2 («rieffettua il rilascio con le nuove librerie», «versione 1.14.2 e 1.14.3 dopo correzioni»)", "esito": "Nella libreria: PileReinforcement.ApplyPartialDevelopment e DevelopedFraction (Checker fde43530 ed ebfd4f4c). ANTHEA non chiama ancora lo sviluppo parziale (1.14.3): cambia solo la chiave DevelopedFraction, nulla, nelle verifiche e nella sezione critica delle armature del palo elastico: 1939 transizioni F3 e 117 impronte del risultato nelle tracce storiche."},
       "descrizione": "Dopo PO-5 lo sviluppo resta richiesto al piede, dove M è piccolo ma non nullo: le quote entro lbd + a_l dalla fine delle barre restano «da completare» (65 quote nel caso del verificatore con ancoraggio in testa di 2,0 m). Una regola di sviluppo parziale (resistenza delle barre ridotta in base alla lunghezza sviluppata) è una scelta dell'utente. Punto non risposto nella notte: non si assume nulla.",
       "codice": [
         "Checker/GPCChecker.Concrete/Piles/PileReinforcement.cs"
@@ -10963,6 +10970,89 @@
       "voci_collegate": [
         "AG-CA-01",
         "AG-CA-03"
+      ]
+    },
+    {
+      "id": "AJ-FON-01",
+      "data": "2026-10-27",
+      "fase": "Librerie GPC della 1.14.2 (Checker 4a1b0090)",
+      "titolo": "Fondazioni superficiali: versione della libreria nel risultato (GPCChecker.Geotechnics 0.24.0.0)",
+      "famiglia": "fondazioni superficiali/risultato",
+      "modulo": "geo_fondazioni_superficiali (F5.9b)",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Come AI-FON-01. GPCChecker.Geotechnics passa da 0.19.0.3 a 0.24.0.0 (teste dei pali sotto il piano campagna, BUG-MUR-2b, e i versionamenti dell'altro agente). Il risultato delle fondazioni porta la versione della libreria (library_version): nelle 8 fixture F3 con un risultato cambia l'impronta SHA-256 del risultato dopo «Calcola», che ui/check-fondazioni-view confronta con i valori registrati. Dati, Modified, stato e disegni restano uguali; nel confronto F3 dei risultati cambia solo library_version.",
+      "codice": [
+        "lib/Checker/GPCChecker.Geotechnics.dll",
+        "tests/ANTHEA.Desktop.UiTests/ShallowFoundationViewChecks.cs (HistoricFixtures, impronte del risultato)"
+      ],
+      "segno": "Nessun effetto sui numeri.",
+      "effetto_quantificato": "Cambiano 8 impronte del risultato su 11 fixture; le 3 senza risultato restano uguali.",
+      "decisione": {
+        "data": "2026-10-27",
+        "utente": "«punto 2. hai il mio ok» (rilascio della 1.14.2 con le librerie nuove)",
+        "esito": "impronte preparate sul ramo refactoring/1142-rilascio, catturate con una modifica temporanea non committata; da approvare con AJ-LIB-01"
+      },
+      "test": [
+        "ui/check-fondazioni-view"
+      ],
+      "evidenze": [
+        "supporto/artefatti/lib-1142r/ui-fond-impronte-2 (impronte-temporanee.txt)"
+      ],
+      "voci_collegate": [
+        "AI-FON-01",
+        "AJ-LIB-01"
+      ]
+    },
+    {
+      "id": "AJ-LIB-01",
+      "data": "2026-10-27",
+      "fase": "Librerie GPC della 1.14.2 (Checker 4a1b0090)",
+      "titolo": "Librerie della 1.14.2: riferimenti di ANTHEA aggiornati per R4, R9, R11, BUG-MUR-2b e BUG-PO-5b",
+      "famiglia": "librerie/riferimenti",
+      "modulo": "tutti",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Il master locale di Checker 4a1b0090 unisce le correzioni decise il 26/10 sera (R4, R9, R11, BUG-FES-1b/1c, BUG-PO-5b, BUG-MUR-2b, teste dei pali, distinta per diametro) al lavoro dell'altro agente sui ponti in acciaio. Con quelle librerie ANTHEA adegua testi e prove (commit bea243b6 e ac21a044 del ramo refactoring/1142-rilascio) e aggiorna i riferimenti: transizioni F3 (2071 nuove, 18 sostituite, regola D2), 250 righe di 31 tracce storiche (muri, palo elastico, sezione c.a.; le 20 righe della differenza dichiarata F5-02 restano storiche), 14 valori registrati dei muri e 5 della sezione c.a. (vista-storica.json, da registrazioni temporanee della vista XAML), 8 impronte delle fondazioni (AJ-FON-01), il conteggio delle transizioni del palo in Presentation.Tests (1939 di BUG-PO-5b), 15 divergenze R4 del banco del calcestruzzo, valori a mano di R11 per la libreria. Nessun atteso F3 sostituito, nessuna tolleranza nuova.",
+      "codice": [
+        "tests/fixtures/f3/transitions-f4.json",
+        "tests/fixtures/f3/manifest.json",
+        "tests/fixtures/f5-muri/storica",
+        "tests/fixtures/f5-elastico/storica",
+        "tests/fixtures/f5-sezione",
+        "tests/ANTHEA.Desktop.UiTests/ShallowFoundationViewChecks.cs",
+        "tests/ConcreteBench.Checks/divergenze.json",
+        "tests/ConcreteLibraryAdapter.Checks/Program.cs",
+        "tests/ConcreteLibraryAdapter.Checks/Durability.cs",
+        "supporto/test/Shared/DurabilityReferenceChecks.cs"
+      ],
+      "segno": "Correzioni volute dall'utente: R4 e BUG-MUR-2b più cautelative, R9 senza effetto sui valori, R11 cnom ±5 mm secondo la classe UNI 11104.",
+      "decisione": {
+        "data": "2026-10-27",
+        "utente": "«punto 2. hai il mio ok» (rilascio della 1.14.2; con differenze nei riferimenti congelati ci si ferma e si riferisce)",
+        "esito": "da approvare dall'utente prima dell'unione in refactoring/f5"
+      },
+      "test": [
+        "ui/f3-equivalence",
+        "Presentation.Tests",
+        "ui/check-muri-view",
+        "ui/check-palo-orizzontale-view",
+        "ui/check-sezione-view",
+        "ui/check-fondazioni-view",
+        "ConcreteLibraryAdapter.Checks",
+        "ConcreteBench.Checks"
+      ],
+      "evidenze": [
+        "supporto/artefatti/lib-1142r/full-master (full sul set candidato)",
+        "supporto/artefatti/lib-1142r/f3-completo-master.json"
+      ],
+      "voci_collegate": [
+        "R4",
+        "R9",
+        "R11",
+        "BUG-MUR-2b",
+        "BUG-PO-5b",
+        "AJ-FON-01"
       ]
     }
   ]

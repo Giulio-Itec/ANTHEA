@@ -117,3 +117,4 @@ sulla macchina del banco, come quelli di F5.7. La cattura con `ANTHEA.exe` e con
     tratto T1, gli stessi valori già nelle righe delle verifiche aggiornate con AG-PO-02 (sezione critica al punto adiacente):
     quota 4 → 3,96875 m (lato Below → Interior), N 78,540 → 77,926 kN, M 242,200 → 242,168 kNm, V 0,528 → 1,527 kN, nome della
     combinazione «Critica del palo · x=4 m» → «x=3,9688 m». Struttura dei dati, `Modified` e stati identici.
+- 27/10/2026, librerie della 1.14.2 (Checker 4a1b0090, AJ-LIB-01, voce BUG-PO-5b): in `storica` sostituite 117 righe «risposta … · risultato …» di 9 tracce, solo l'impronta del risultato: la libreria aggiunge alle verifiche e alla sezione critica delle armature la chiave `DevelopedFraction`, nulla finché ANTHEA non usa lo sviluppo parziale (1.14.3). Impronta della risposta, dati e ogni altra riga invariati; le 20 righe della classe dell'acciaio mostrata (differenza dichiarata F5-02) restano storiche.

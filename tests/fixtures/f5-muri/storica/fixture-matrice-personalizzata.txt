@@ -304,7 +304,7 @@ anteprima-globale: caso "" · risultato no · strato -1 monte
 parametri: -
 == conferma
 == calcola
-~ risultato: DE1B404617470CEA
+~ risultato: 432D13070FE1B89C
 ~ stato: "Calcolo aggiornato · 15 combinazioni · 0 controlli non soddisfatti · 0 non disponibili"
 ~ combinazioni: "SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b|SLU 4 copia 16" · scelta "SLE_FREQ 2"
 ~ vista: "Geometria e carichi" · elemento "Fusto" nascosto · filtro "Riepilogo completo"
@@ -362,7 +362,7 @@ parametri: -
 - verifiche.2
 == conferma
 == attendi
-~ risultato: DE1B404617470CEA
+~ risultato: 432D13070FE1B89C
 ~ stato: "Calcolo aggiornato · 15 combinazioni · 0 controlli non soddisfatti · 0 non disponibili"
 ~ combinazioni: "SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b|SLU 4 copia 16" · scelta "SLE_FREQ 2"
 ~ vista: "Geometria e carichi" · elemento "Fusto" nascosto · filtro "Riepilogo completo"

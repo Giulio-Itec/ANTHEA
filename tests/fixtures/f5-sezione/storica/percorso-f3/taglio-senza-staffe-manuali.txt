@@ -458,7 +458,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati 208B1DC924CFEBCD · byte 8479
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato AF524F8C7C677A33
+risultato 7419B7E8A6AE6861
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "EC2 prima generazione, appendice italiana DM 31/07/2012: taglio con ν nazionale; criteri di fessurazione italiani e formule EC2. αcc predefinito 0,85. Le verifiche locali dell’elemento richiedono dati aggiuntivi."
 [ingressi] valori-integrati ""
@@ -799,7 +799,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   {"Mx":"0","My":"0","N":"-100","T":"15","VRdx":"—","VRdy":"—","Vx":"20","Vy":"40","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio UNI EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000160f514a008000000000000016","nome":"Taglio e torsione"}
 [taglio]   {"Mx":"0","My":"0","N":"-150","T":"0","VRdx":"—","VRdy":"—","Vx":"25","Vy":"","esito":"Vy: inserire un numero finito.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"Taglio senza Vy"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 1 · Senza staffe\nN = -200,00 kN (compressione negativa)\nVx / Vy = 30,00 / 60,00 kN\n\nDIREZIONE Vx\nbw = 300,00 mm · d = 450,00 mm\nVRd = 111,92 kN · η = 0,27\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 500,00 mm · d = 250,00 mm\nVRd = 105,10 kN · η = 0,57\nResistenza sufficiente · dettagli da verificare\n\nUNI EN 1992-1-1 · §§6.2.2–6.2.3\nz = 405 mm\n  z/d · d\nσcp = 1,333333333 MPa\n  −N / Ac; compressione positiva\nk = 1,666666667 [−]\n  min[2;1+√(200/d)]\nρl = 0,008888888889 [−]\n  min[0,02;Asl/(bw d)]\nCRd,c = 0,12 [−]\n  Coefficiente della norma\nk1 = 0,15 [−]\n  Coefficiente di σcp\nvmin = 0,4455281926 MPa\n  Minimo della norma\n\nUNI EN 1992-1-1 · §§6.2.2–6.2.3\nz = 225 mm\n  z/d · d\nσcp = 1,333333333 MPa\n  −N / Ac; compressione positiva\nk = 1,894427191 [−]\n  min[2;1+√(200/d)]\nρl = 0,0064 [−]\n  min[0,02;Asl/(bw d)]\nCRd,c = 0,12 [−]\n  Coefficiente della norma\nk1 = 0,15 [−]\n  Coefficiente di σcp\nvmin = 0,5399069828 MPa\n  Minimo della norma\n\n"
+[taglio] taglio dettaglio "Taglio 1 · Senza staffe\nN = -200,00 kN (compressione negativa)\nVx / Vy = 30,00 / 60,00 kN\n\nDIREZIONE Vx\nbw = 300,00 mm · d = 450,00 mm\nVRd = 111,92 kN · η = 0,27\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 500,00 mm · d = 250,00 mm\nVRd = 105,10 kN · η = 0,57\nResistenza sufficiente · dettagli da verificare\n\nUNI EN 1992-1-1 · §§6.2.2–6.2.3\nz = 405 mm\n  z/d · d\nσcp = 1,333333333 MPa\n  −N / Ac; compressione positiva\nk = 1,666666667 [−]\n  min[2;1+√(200/d)]\nρl = 0,008888888889 [−]\n  min[0,02;Asl/(bw d)]\nCRd,c = 0,12 [−]\n  Coefficiente della norma\nk1 = 0,15 [−]\n  Coefficiente di σcp\nvmin = 0,4455281926 MPa\n  Minimo della norma\nVEd,max = 669,375 kN\n  0,5 bw d ν fcd (6.2.2(6))\n\nUNI EN 1992-1-1 · §§6.2.2–6.2.3\nz = 225 mm\n  z/d · d\nσcp = 1,333333333 MPa\n  −N / Ac; compressione positiva\nk = 1,894427191 [−]\n  min[2;1+√(200/d)]\nρl = 0,0064 [−]\n  min[0,02;Asl/(bw d)]\nCRd,c = 0,12 [−]\n  Coefficiente della norma\nk1 = 0,15 [−]\n  Coefficiente di σcp\nvmin = 0,5399069828 MPa\n  Minimo della norma\nVEd,max = 619,7916667 kN\n  0,5 bw d ν fcd (6.2.2(6))\n\n"
 [taglio] taglio sintesi "Taglio: 1/3 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
 [taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0,27\nGoverna: Taglio 1\n2/3 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0,57\nGoverna: Taglio 1\n2/3 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione Rettangolare 500x300 · Ac 150000 · As 2375.0440461138837 · contorno 4 BCCC40AA3581E7F8 · fori 0 · barre 9 DB34D951D669E0DE · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
@@ -809,7 +809,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati 208B1DC924CFEBCD · byte 8479
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato AF524F8C7C677A33
+risultato 7419B7E8A6AE6861
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -822,7 +822,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == visita
 dati 208B1DC924CFEBCD · byte 8479
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato AF524F8C7C677A33
+risultato 7419B7E8A6AE6861
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1008,7 +1008,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == attendi
 dati 208B1DC924CFEBCD · byte 8479
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato AF524F8C7C677A33
+risultato 7419B7E8A6AE6861
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1021,7 +1021,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati 208B1DC924CFEBCD · byte 8479
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato AF524F8C7C677A33
+risultato 7419B7E8A6AE6861
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1034,7 +1034,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == calcola
 dati 208B1DC924CFEBCD · byte 8479
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato AF524F8C7C677A33
+risultato 7419B7E8A6AE6861
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1047,7 +1047,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati 208B1DC924CFEBCD · byte 8479
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato AF524F8C7C677A33
+risultato 7419B7E8A6AE6861
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1431,7 +1431,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati 208B1DC924CFEBCD · byte 8479
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato AF524F8C7C677A33
+risultato 7419B7E8A6AE6861
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "EC2 prima generazione, appendice italiana DM 31/07/2012: taglio con ν nazionale; criteri di fessurazione italiani e formule EC2. αcc predefinito 0,85. Le verifiche locali dell’elemento richiedono dati aggiuntivi."
 [ingressi] valori-integrati ""
@@ -1772,7 +1772,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio]   {"Mx":"0","My":"0","N":"-100","T":"15","VRdx":"—","VRdy":"—","Vx":"20","Vy":"40","esito":"Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio UNI EN 1992-1-1.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000160f514a008000000000000016","nome":"Taglio e torsione"}
 [taglio]   {"Mx":"0","My":"0","N":"-150","T":"0","VRdx":"—","VRdy":"—","Vx":"25","Vy":"","esito":"Vy: inserire un numero finito.","eta_t":"—","eta_vt":"—","eta_x":"—","eta_y":"—","id":"510000150f514a008000000000000015","nome":"Taglio senza Vy"}
 [taglio] taglio comandi + Combinazione − Copia Incolla Template Excel Importa Excel Esporta Excel Sfoglia… ×
-[taglio] taglio dettaglio "Taglio 1 · Senza staffe\nN = -200,00 kN (compressione negativa)\nVx / Vy = 30,00 / 60,00 kN\n\nDIREZIONE Vx\nbw = 300,00 mm · d = 450,00 mm\nVRd = 111,92 kN · η = 0,27\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 500,00 mm · d = 250,00 mm\nVRd = 105,10 kN · η = 0,57\nResistenza sufficiente · dettagli da verificare\n\nUNI EN 1992-1-1 · §§6.2.2–6.2.3\nz = 405 mm\n  z/d · d\nσcp = 1,333333333 MPa\n  −N / Ac; compressione positiva\nk = 1,666666667 [−]\n  min[2;1+√(200/d)]\nρl = 0,008888888889 [−]\n  min[0,02;Asl/(bw d)]\nCRd,c = 0,12 [−]\n  Coefficiente della norma\nk1 = 0,15 [−]\n  Coefficiente di σcp\nvmin = 0,4455281926 MPa\n  Minimo della norma\n\nUNI EN 1992-1-1 · §§6.2.2–6.2.3\nz = 225 mm\n  z/d · d\nσcp = 1,333333333 MPa\n  −N / Ac; compressione positiva\nk = 1,894427191 [−]\n  min[2;1+√(200/d)]\nρl = 0,0064 [−]\n  min[0,02;Asl/(bw d)]\nCRd,c = 0,12 [−]\n  Coefficiente della norma\nk1 = 0,15 [−]\n  Coefficiente di σcp\nvmin = 0,5399069828 MPa\n  Minimo della norma\n\n"
+[taglio] taglio dettaglio "Taglio 1 · Senza staffe\nN = -200,00 kN (compressione negativa)\nVx / Vy = 30,00 / 60,00 kN\n\nDIREZIONE Vx\nbw = 300,00 mm · d = 450,00 mm\nVRd = 111,92 kN · η = 0,27\nResistenza sufficiente · dettagli da verificare\n\nDIREZIONE Vy\nbw = 500,00 mm · d = 250,00 mm\nVRd = 105,10 kN · η = 0,57\nResistenza sufficiente · dettagli da verificare\n\nUNI EN 1992-1-1 · §§6.2.2–6.2.3\nz = 405 mm\n  z/d · d\nσcp = 1,333333333 MPa\n  −N / Ac; compressione positiva\nk = 1,666666667 [−]\n  min[2;1+√(200/d)]\nρl = 0,008888888889 [−]\n  min[0,02;Asl/(bw d)]\nCRd,c = 0,12 [−]\n  Coefficiente della norma\nk1 = 0,15 [−]\n  Coefficiente di σcp\nvmin = 0,4455281926 MPa\n  Minimo della norma\nVEd,max = 669,375 kN\n  0,5 bw d ν fcd (6.2.2(6))\n\nUNI EN 1992-1-1 · §§6.2.2–6.2.3\nz = 225 mm\n  z/d · d\nσcp = 1,333333333 MPa\n  −N / Ac; compressione positiva\nk = 1,894427191 [−]\n  min[2;1+√(200/d)]\nρl = 0,0064 [−]\n  min[0,02;Asl/(bw d)]\nCRd,c = 0,12 [−]\n  Coefficiente della norma\nk1 = 0,15 [−]\n  Coefficiente di σcp\nvmin = 0,5399069828 MPa\n  Minimo della norma\nVEd,max = 619,7916667 kN\n  0,5 bw d ν fcd (6.2.2(6))\n\n"
 [taglio] taglio sintesi "Taglio: 1/3 combinazioni calcolate · 0 oltre resistenza · 0 senza esito · dettagli da verificare. Torsione: 0 calcolate, 0 non soddisfatte."
 [taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη = 0,27\nGoverna: Taglio 1\n2/3 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη = 0,57\nGoverna: Taglio 1\n2/3 verifiche mancanti / non applicabili\nTorsione e interazione V–T\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione Rettangolare 500x300 · Ac 150000 · As 2375.0440461138837 · contorno 4 BCCC40AA3581E7F8 · fori 0 · barre 9 DB34D951D669E0DE · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
@@ -1782,7 +1782,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == conferma
 dati 208B1DC924CFEBCD · byte 8479
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato AF524F8C7C677A33
+risultato 7419B7E8A6AE6861
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata

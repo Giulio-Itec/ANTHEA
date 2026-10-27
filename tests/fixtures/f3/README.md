@@ -456,3 +456,10 @@ ambientali aggiunti all'apertura, valori dei risultati e stili del report) resta
 - Impronte nel manifest, sezione `fixture_aggiunte_f5_12` (input, attesi ed `esito.txt`), sulla forma conservata da git (fine riga
   LF).
 - Le tracce della vista storica (`tests/fixtures/f5-bridge-design/storica`) hanno uno scenario per ognuna delle 10 fixture del modulo.
+Il 27/10/2026, librerie della 1.14.2 (Model 2acc60ef, Checker 4a1b0090: correzioni decise dall'utente il 26/10 sera), l'elenco è
+stato esteso senza toccare le altre voci (56949 voci, chiave ggiornamento_1142; registro AJ-LIB-01, da approvare dall'utente):
+- 1939 voci BUG-PO-5b: chiave DevelopedFraction, nulla, nelle armature delle tre fixture elastiche del palo orizzontale;
+- 112 voci BUG-MUR-2b (passiva fuori dal ribaltamento: numeri di gravita-cls-passiva, testi del metodo e della passiva) e 18 voci
+  elencate con il valore dopo nuovo e la voce estesa con « / BUG-MUR-2b»;
+- 2 voci R9: dettaglio VEd,max di 	aglio-senza-staffe-manuali.
+«a» e «b» vengono dal confronto completo (	ools/qa/f3_confronto_completo.py) della cattura supporto/artefatti/lib-1142r/full-master.

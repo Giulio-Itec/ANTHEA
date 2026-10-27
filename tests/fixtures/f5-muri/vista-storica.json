@@ -4,7 +4,7 @@
     "default": {
       "dati": "15d1e9422020cd19c74836e523cb66b88f17e20cbf18d385b4ab4eeabd17575e",
       "risultati": true,
-      "risultato": "01b7a86623aa8061e3a14272ed9741b0ae7f2f85a05199f378b60b91d5e6c9bd",
+      "risultato": "a87ec409e4aa7788e569836ea293937a3c047c278d4e12fd31ad8e4936ef50d6",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
@@ -15,7 +15,7 @@
     "example-cantilever": {
       "dati": "cbed834a0ffc8b35eeb388002ce44576e562860c718297b161b977fc33ed3848",
       "risultati": true,
-      "risultato": "63566712c5105e5c11d1e3a303ca5ff839af86105838d1add6ebbfa3db680563",
+      "risultato": "675946aa2e90f7b34095686da4e7b73eb37150e3c0376bd48657ced3ebe5c147",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
@@ -26,7 +26,7 @@
     "example-gravity": {
       "dati": "d5177639f59bfedeaaa558db0f87364f7808dcc6720d641e8680049800b3ace5",
       "risultati": true,
-      "risultato": "0aee4eeb657644b8218002dd959c0ab29964822e305886f7a15a7624c44c18b6",
+      "risultato": "7ef11ccae37d91e845ea92af7cfb41fba3dba74ced6ae780c906590d088f00f7",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
@@ -35,7 +35,7 @@
     "globale-drenata-due-colonne": {
       "dati": "a9264bb01e733a8e468d8d8ce668e9c99cb4a7d6cfcbcdab67f90b47fb33cb4c",
       "risultati": true,
-      "risultato": "ed41eefb010bafc728ea913da1017988014aeb4195f35613531b51d4473ca8ee",
+      "risultato": "2e7e43bbef177fa14d4540b3f08b9c3d17372b53c4728d6754a48497252e0c2c",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": "Globale A2–M2–R2 2",
@@ -48,7 +48,7 @@
     "globale-non-drenata-sisma": {
       "dati": "90d827cb40d870fc57e75e8ae2d5ce6fbe11c9b7fc7290f1c5abae967c86600b",
       "risultati": true,
-      "risultato": "a35ec1071a55ca1cba866a6a892754673c86d25e46d08d4aff8d06bc268b893d",
+      "risultato": "b1b0ab4fce40ebfe53397acf37eed84d9f76302bf2d7faa4131ee007cd329a4e",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": "Globale SLV kv− 3",
@@ -61,16 +61,16 @@
     "gravita-cls-passiva": {
       "dati": "851e207250c0d651d0b50774b4435a84b7fa99b1e53eca5a4d0d456401f128b4",
       "risultati": true,
-      "risultato": "0291bc8dd3a90341f6ad6c6ea3883a8ee431dc5701e447deb0967e79ae2ac9a6",
+      "risultato": "d1566f8399470f007b70b99b14f936822bb90289aff45df26e5bf2079aa61b47",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
-      "csv": "41704a6f36455fe59eb5d5c43c59799e54485a2ca929a94b6973a04fa2b485fa"
+      "csv": "a86631fcaf6ffcfc01d55a492d86b668ff2d377e8a3ba5d540f84f089134ac36"
     },
     "gravita-muratura-avvisi": {
       "dati": "2c255b4daed497f23c22db78c73d6c3c5b506b78e0c83eb230b450b86cd123ce",
       "risultati": true,
-      "risultato": "2660854dcc16b245eb58011e814b5cd0ed96b51bf78b336c60fa46b762401169",
+      "risultato": "a9e3fc8dcfd595efa9136ad9c94a88e2e202bcbf886dbab8ede6fef8f3dcc8d0",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
@@ -79,7 +79,7 @@
     "legacy-global-defaults": {
       "dati": "044866b1660252bbbd5122ca8895aacf705d2206b3f213304d9c45efbf3dc9cb",
       "risultati": true,
-      "risultato": "a6cdf9fedda3dd0dfff44cfef7be6e3a5e1c246a914c2a2458b2610781af1a08",
+      "risultato": "ffe46265c447d7fe3fb9f1954c1b110378f0981ecaf7d9ca1eec021de8ec7739",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
@@ -96,7 +96,7 @@
     "matrice-personalizzata": {
       "dati": "3e81934d93c946cc3552d082286a8a2aa362b8703d07e7aabf7e08ce0c04e550",
       "risultati": true,
-      "risultato": "81db1dec57e28d7888e93ce5c1c972ad50f334d5fcd586e275b102721d67bef8",
+      "risultato": "f1d821ed8374b5fd1c873e46e4547a700b5b60f8fcb537534a512c99f3e8da01",
       "calcolo": true,
       "caso": "SLE_FREQ 2",
       "combinazione_globale_report": null,
@@ -107,7 +107,7 @@
     "mensola-avvisi": {
       "dati": "9ffc154258898cab09f886932fe1993786e7b8aa9d3127fe5b4790a78129ba37",
       "risultati": true,
-      "risultato": "13e69a501e4bd4b109b0625851923d64ceb0c36989e055afda006fdf00a81d09",
+      "risultato": "e7321c15bb96ed9481854047cea0400a861c8830ed452fd10f1c8b1e6ca66633",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
@@ -118,7 +118,7 @@
     "mensola-sisma-sito-pendio": {
       "dati": "00a5a2066d96bf534919644219d939fbe3ab752b826b207663923a4e8b942331",
       "risultati": true,
-      "risultato": "7448b32b1f5ed20c72f4a7c960028ace8a1f70706c49b732f57bf8e0a6131764",
+      "risultato": "788103c3838c23da657bb1014dbcee6e5342b9b8a0c7abc72997da1da72ad3e8",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
@@ -129,7 +129,7 @@
     "mensola-wood-azioni": {
       "dati": "c3cd2a443db11a1626fa191ddb72766dd5da93c3c166d9ac50470fbeffb04c91",
       "risultati": true,
-      "risultato": "0e2720967888f663430d6eabf7ed37a28fd531e7d92bb54737766dac4a45760c",
+      "risultato": "2bec40ab88ddbc33bfa3737b38f2dcdf6b82e7ff94c9350f3a5816d032d5116d",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
@@ -140,7 +140,7 @@
     "opzioni-avanzate": {
       "dati": "d00efe53e24bc547fc2b7077410ce96ff7b574612c54ed36d448a59d0e9801c1",
       "risultati": true,
-      "risultato": "5cc200c6a3d2aed229930254a80af6030d4d69a1e1c14f94216b69b9179da1b6",
+      "risultato": "4f550506205c23ab9a0e570d1c8beab3896dc4c58f6698c1a0eee3e656a6aad2",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
