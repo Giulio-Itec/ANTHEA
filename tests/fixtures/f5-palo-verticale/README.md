@@ -63,3 +63,8 @@ quando il risultato non c'è (pressione vuota). Il difetto è riportato in `docs
   tracce, finché la vista storica esiste.
 - `Presentation.Tests`, nello stadio `fast`, confronta le stesse tracce con il ViewModel.
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.
+- 27/10/2026, voce PO-TESTA-01 (1.14.3, testa del palo sotto il piano campagna): il campo nuovo «Profondità della testa sotto il
+  piano campagna d» dei dati generali del palo e del micropalo, che mostra «0» senza scriverlo. Nelle 18 tracce sono inserite solo le
+  righe `campo profondita_testa "Profondità testa sotto il p.c." = "0"` (257), dalla vista XAML (`ui/check-palo-verticale-view`, corsa
+  `supporto/artefatti/1143-teste/verticale-2`); nessun'altra riga cambia. `ui/check-palo-verticale-view` aggiunge l'etichetta «?» del
+  campo a quelle registrate della vista storica.

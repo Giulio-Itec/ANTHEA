@@ -118,3 +118,8 @@ li confronta a ogni corsa.
   di primitive per riga; confrontati i dump con quelli della corsa `20261023-173944-merge-sezione-ui` (vecchie librerie): stesse
   righe per numero e tipo, cambiano solo coordinate e testi numerici (My 1353,08 → 1353,43 kNm, Hu 682,56 → 682,69 e
   599,80 → 599,77 kN, F di Broms 1199,596 → 1199,549 kN). Le altre 28 righe e le fixture del micropalo non cambiano.
+- 27/10/2026, voce PO-TESTA-01 (1.14.3, testa del palo sotto il piano campagna): il campo nuovo «Profondità della testa sotto il
+  piano campagna» dei dati generali, che mostra «0» senza scriverlo. In tutte le 27 tracce sono inserite solo le righe
+  `campo profondita_testa "Profondità della testa sotto il piano campagna" = "0"` (445), prese dalla vista XAML
+  (`ui/check-palo-orizzontale-view`, corsa `supporto/artefatti/1143-teste/orizzontale-1`); ogni altra riga resta quella di prima,
+  comprese le 20 di F5-02. Dati, risultati, diagrammi e disegni non cambiano.
