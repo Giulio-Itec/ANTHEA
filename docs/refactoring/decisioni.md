@@ -2000,4 +2000,7 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
    dei pali sotto il piano campagna.»
 6. **Teste dei pali (1.14.3).** Sul ramo `refactoring/1143-teste-pali` (dopo PO-5b) il dato d della testa entra nei fogli del palo e del
    micropalo verticale e orizzontale (PO-TESTA-01). Con d = 0, cioè nei fogli esistenti, nessun risultato cambia; cambiano solo le tracce
-   dell'editor, che hanno il campo nuovo: riferimenti da approvare dall'utente.
+   dell'editor, che hanno il campo nuovo. Al riepilogo l'utente risponde «Approvo i riferimenti PO-TESTA-01 (f860a3d8 ed e00ef273).
+   Registra la decisione.» PO-TESTA-01 passa da «da-decidere» ad «attuato».
+7. **Pausa.** «fermati per qualche ora. ti riavvio poi io», «ho bisogno che la macchina non lavori, sennò rischio si blocchi»: nessuna
+   prova in corso durante la pausa; ripresa con «puoi ripartire».

@@ -11064,7 +11064,7 @@
       "famiglia": "pali/dati generali",
       "modulo": "Palo e micropalo verticale; palo e micropalo orizzontale (Broms, Stratificato, risposta elastica)",
       "categoria": "intenzionale",
-      "stato": "da-decidere",
+      "stato": "attuato",
       "descrizione": "Richiesta dell'utente del 19/10/2026 (docs/paratie/seguito-pali-interrati.md), da attuare dal 26/10 sera («poi implementa: teste dei pali e micropali sotto il PC»). Dato generali.profondita_testa (m, ≥ 0): assente o vuoto vale 0, senza migrazione; l'editor mostra «0» (FieldSpec.Default anche per i campi di testo, solo presentazione) e il documento cambia solo quando l'utente digita. Le librerie AJ ricevono d (AxialPile, Micropile, LateralPile, ElasticPileInput.HeadDepth); la stratigrafia parte dal piano campagna e deve arrivare a d + L; il terreno sopra la testa dà le tensioni verticali (con la falda) e nessuna resistenza laterale; quote, e e diagrammi dalla testa. Con d > 0 il risultato ha profondita_testa, un avviso e una nota nel report; la risposta elastica ha la chiave «testa» nei dati del modello solo con d > 0, così la chiave della risposta dei fogli esistenti non cambia. d > 0 con un tratto libero sopra il terreno è rifiutato. Con d = 0 risultati, dati, figure e report restano quelli di prima (ui/f3-equivalence, ui/f3-figures, ui/f3-report-chapters PASS). Cambiano solo le tracce dell'editor, che hanno il campo nuovo: 257 righe in 18 tracce del palo verticale e 445 righe in 27 tracce del palo orizzontale, tutte «campo profondita_testa … = \"0\"» (le 20 righe della differenza dichiarata F5-02 restano storiche); il controllo delle etichette «?» del palo verticale aggiunge quella del campo come differenza dichiarata. LateralPileCapacity.ModelName non ha la profondità della testa: ANTHEA le passa la verticale vista dalla testa (strati del palo, falda alla testa se sopra), che dà lo stesso modello del calcolo; seguito per la libreria: un ModelName con headDepth.",
       "codice": [
         "X.Calculations/Calcolo.cs",
@@ -11093,11 +11093,13 @@
         "ui/f3-equivalence",
         "Architecture.Tests"
       ],
+      "decisione": {"data": "2026-10-27", "utente": "«Approvo i riferimenti di PO-5b (3c3babb5). Prosegui con la 1.14.3: teste dei pali sotto il piano campagna.»; al riepilogo delle tracce: «Approvo i riferimenti PO-TESTA-01 (f860a3d8 ed e00ef273). Registra la decisione.»", "esito": "riferimenti approvati: 257 righe di 18 tracce del palo verticale (f860a3d8) e 445 righe di 27 tracce del palo orizzontale (e00ef273), più l'etichetta «?» del campo come differenza dichiarata. Full del ramo: 154 PASS e ui/check-contrast a 96 DPI PASS (Chiara 643 su 645: le 2 occorrenze in meno sono del dominio 3D del verificatore c.a. del palo elastico, dove dopo BUG-PO-5b governa l'azione con |M| massimo). Seguiti: LateralPileCapacity.ModelName con la profondità della testa nella libreria; guida Rev60."},
       "evidenze": [
-        "supporto/artefatti/1143-teste (verticale-2…4, orizzontale-1…16)"
+        "supporto/artefatti/1143-teste (verticale-2…4, orizzontale-1…16, full-1, contrasto-3)"
       ],
       "voci_collegate": [
-        "F5-02"
+        "F5-02",
+        "BUG-PO-5b"
       ]
     }
   ]
