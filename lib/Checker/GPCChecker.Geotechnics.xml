@@ -247,6 +247,15 @@
             (the one of the layer as ANTHEA, or reduced by Kishida: see <see cref="M:GPC.Checkers.Geotechnics.Piles.BearingCapacityFactors.Kishida(GPC.Checkers.Geotechnics.Piles.PileInstallation)"/> for the rule of the installation).
             </summary>
         </member>
+        <member name="P:GPC.Checkers.Geotechnics.Piles.AxialPile.HeadDepth">
+            <summary>
+            Depth of the pile head below the ground surface (mm, ≥ 0; 0 = head at the ground surface, as before). The soil above the head loads the
+            stresses but has no shaft; the depths of the results are measured from the head (request of the ANTHEA user of 19/10/2026).
+            </summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Piles.AxialPile.#ctor(GPC.Checkers.Geotechnics.Piles.PileInstallation,System.Double,System.Double,System.Double,System.Double,System.Boolean,System.Nullable{System.Double},System.Nullable{System.Double},GPC.Checkers.Geotechnics.Piles.NqFrictionAngle)">
+            <summary>Pile with its head <paramref name="headDepth"/> mm below the ground surface (see <see cref="P:GPC.Checkers.Geotechnics.Piles.AxialPile.HeadDepth"/>).</summary>
+        </member>
         <member name="T:GPC.Checkers.Geotechnics.Piles.Micropile">
             <summary>
             Grouted micropile (Bustamante-Doix): drilling diameter D and length along the axis (mm), inclination θ from the vertical (rad), injection and
@@ -254,6 +263,15 @@
             Model <see cref="T:GPC.Model.Sections.SectionCHS"/> of the tube and its Model material (density for the weight), unit weight of the grout (N/mm³) and the design
             actions along the axis (N).
             </summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Piles.Micropile.HeadDepth">
+            <summary>
+            Vertical depth of the head below the ground surface (mm, ≥ 0; 0 = head at the ground surface, as before): the layers are shifted along the
+            axis by d / cos θ and the soil above the head has no shaft; the coordinates of the results stay along the axis from the head.
+            </summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Piles.Micropile.#ctor(System.Double,System.Double,System.Double,GPC.Checkers.Geotechnics.Piles.MicropileInjection,System.Double,System.Double,System.Nullable{System.Double},GPC.Model.Sections.SectionCHS,GPC.Model.Materials.Material,System.Double,System.Double,System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>Micropile with its head <paramref name="headDepth"/> mm below the ground surface (see <see cref="P:GPC.Checkers.Geotechnics.Piles.Micropile.HeadDepth"/>).</summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Piles.PileGroupEfficiency">
             <summary>Group efficiency ηg of the axial capacity in compression and in tension and the number of piles.</summary>
@@ -435,6 +453,12 @@
         <member name="P:GPC.Checkers.Geotechnics.Piles.ElasticPileLayer.Value">
             <summary>F/L³ for kh and kh,ref; F/L² for distributed stiffness.</summary>
         </member>
+        <member name="P:GPC.Checkers.Geotechnics.Piles.ElasticPileInput.HeadDepth">
+            <summary>
+            Depth of the head below the ground surface (≥ 0, 0 = as before; request of the ANTHEA user of 19/10/2026), with no free length. The layers are
+            given from the ground surface: the part above the head is cut, and the linear laws use the depth below the ground (d + x).
+            </summary>
+        </member>
         <member name="P:GPC.Checkers.Geotechnics.Piles.ElasticPileInput.Eccentricity">
             <summary>Alternative to HeadMoment; generalized moment = H e. Never added twice.</summary>
         </member>
@@ -442,6 +466,9 @@
             <summary>Linear Euler–Bernoulli/Winkler FEM. x from head down, z=x−free length from ground.
             theta=y'; M=EI y''; V=M'; q=−k y; V'=q. Head generalized moment C gives M(0)=−C−Rtheta.
             Exact Gauss integration for constant/linear k. Equilibrated force recovery; no displacement finite differences.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Piles.ElasticPile.BelowHead(System.Collections.Generic.IReadOnlyList{GPC.Checkers.Geotechnics.Piles.ElasticPileLayer},System.Double)">
+            <summary>The layers below a head at <paramref name="head"/> below the ground surface (the layers start at the ground); the original numbers are kept.</summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Piles.LateralPileCapacity">
             <summary>
@@ -467,6 +494,12 @@
             (mixed sequences need the stratified method).
             </summary>
         </member>
+        <member name="P:GPC.Checkers.Geotechnics.Piles.LateralPileCapacity.Ground.HeadTotalStress">
+            <summary>Total vertical stress at the head (MPa): the overburden of the soil above the head; 0 with the head at the ground surface.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Piles.LateralPileCapacity.Ground.CoverWeightsAvailable">
+            <summary>Whether the unit weights of the soil above the head are available (always with the head at the ground surface).</summary>
+        </member>
         <member name="T:GPC.Checkers.Geotechnics.Piles.LateralGroupInput">
             <summary>Coordinates, diameter and spacing must use the same length unit. Angle in degrees, counterclockwise from +X.</summary>
         </member>
@@ -487,9 +520,21 @@
             diagrams (mm) and the tolerance of the roots (1e-12 … 1e-5).
             </summary>
         </member>
+        <member name="P:GPC.Checkers.Geotechnics.Piles.LateralPile.HeadDepth">
+            <summary>
+            Depth of the head below the ground surface (mm, ≥ 0; 0 = head at the ground surface, as before; request of the ANTHEA user of 19/10/2026).
+            The limit diagram starts at the head with the overburden of the soil above it (σ'v from the ground surface, water table of the profile), the
+            cohesive zone neglected near the ground is the part of the pile within 1.5D of the ground surface, and the depths of the results and the
+            eccentricity are measured from the head.
+            </summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Piles.LateralPile.#ctor(System.Double,System.Double,System.Double,System.Boolean,System.Double,System.String,GPC.Checkers.Geotechnics.Piles.LateralPileMethod,System.Double,System.Double,System.Double,System.Double)">
+            <summary>Pile with its head <paramref name="headDepth"/> mm below the ground surface (see <see cref="P:GPC.Checkers.Geotechnics.Piles.LateralPile.HeadDepth"/>).</summary>
+        </member>
         <member name="T:GPC.Checkers.Geotechnics.Piles.LateralPileSurvey">
             <summary>
-            An investigated vertical: a Model <see cref="T:GPC.Model.Geotechnics.SoilProfile"/> (pile head at the ground surface, hydrostatic water table of the profile) and the
+            An investigated vertical: a Model <see cref="T:GPC.Model.Geotechnics.SoilProfile"/> (pile head at the ground surface or <see cref="P:GPC.Checkers.Geotechnics.Piles.LateralPile.HeadDepth"/> below it,
+            hydrostatic water table of the profile) and the
             behaviour of each of its layers. Cohesive layers use cu; granular ones φ', γ and γsat with c' = 0.
             </summary>
         </member>

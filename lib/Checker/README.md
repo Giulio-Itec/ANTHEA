@@ -1,5 +1,21 @@
 # DLL Checker
 
+**Release AJ — correzioni di calcolo del 26/10, Concrete 0.25 (27 ottobre 2026).** Set ufficiale da Model `2acc60ef` (invariato) e
+Checker `4a1b0090`, entrambi su origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Contiene:
+- GPCChecker.Concrete 0.25.0.0: R4 (θmin = 20° + 10 000 εx ≤ 45° del Model Code 2010 nel taglio e nella torsione), R9 (controllo
+  VEd ≤ 0,5 bw d ν fcd fra i dettagli del taglio senza staffe), R11 (Cmin dalla classe UNI 11104 delle esposizioni quando non è
+  assegnata) e BUG-FES-1b/1c (soglia di wk = 0 sul copriferro reale della barra tesa più esterna);
+- GPCChecker.Geotechnics 0.24.0.0: BUG-MUR-2b (passiva esclusa dal ribaltamento), BUG-PO-5b (sviluppo parziale delle barre del palo,
+  chiave `DevelopedFraction`), teste dei pali e dei micropali sotto il piano campagna (non ancora usate da ANTHEA);
+- Steel 2.118.0.2, CompositeBridge 1.19.0.5, GPCModelChecker 2.29.0.4, GPC.Design 0.41.0.4 e Masonry 0.10.0.4 dal master di Checker.
+
+Suite di `Release-Set.ps1 -Previous` (set AI), tutte verdi senza fallimenti ammessi: Model (Core 34, UnitTest 1459, API) e Checker,
+Concrete 911 (con il contratto K0 in net472), Steel 122, CompositeBridge 402, Geotechnics 196, Calculation 175, ShallowFoundation 28,
+EmbeddedWalls 99, Steel.Members 6423, Design 109 e 108 (net472), ModelChecker 473; API compatibili. Nessun Gmsh. DLL identiche a quelle
+del set candidato candidato-master-4a1b0090 provato nella full di ANTHEA; le differenze dei risultati sono registrate come AJ-LIB-01 e
+AJ-FON-01. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`. Set in
+`supporto/artefatti/librerie-20261027-aj/gpc-release-20261027-aj`.
+
 **Release AI — F5.15 passo e, Concrete 0.21 (26 ottobre 2026).** Set ufficiale da Model `2acc60ef` (invariato) e Checker `799a6355`,
 entrambi su origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Contiene:
 - GPCChecker.Concrete 0.21.0.0: opzioni R12 (`MemberDetailingOptions.ColumnSpacingAlongPerimeter`, interasse dei pilastri lungo il
