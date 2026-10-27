@@ -57,6 +57,9 @@ public static class ReportOrizzontale
         P("z positivo verso il basso; H positiva; p [kN/m] positiva se opposta a H. V(z)=H−∫p dz; M(z)=M0+Hz−∫(z−s)p(s) ds. Compressione N positiva.");
         P("Coesivo non drenato: p=0 per z<1,5D; p=9CuD al di sotto (Viggiani p.400). Granulare drenato: p=3KpDσ′v; Kp=(1+sinφ′)/(1−sinφ′), σ′v integrata dagli strati sovrastanti; γw=9,81 kN/m³. Nessun modello c–φ. " +
             (distributed ? "Ammesse sequenze miste: il peso efficace degli strati coesivi contribuisce al confinamento dei granulari sottostanti. Il taglio a 1,5D è riferito al piano campagna e si applica solo ai tratti coesivi." : "Sequenze miste escluse dal metodo Broms."));
+        // Testa sotto il piano campagna (richiesta del 19/10/2026): solo quando c'è, così i report dei fogli con la testa al piano campagna non cambiano.
+        if (Calcolo.ProfonditaTestaMostrata(result) is double head && head > 0)
+            P($"Testa del palo a d = {head.ToString("0.###", System.Globalization.CultureInfo.GetCultureInfo("it-IT"))} m sotto il piano campagna: σ′v alla testa è il peso del terreno sovrastante (con la falda), che non dà reazione laterale; nei coesivi p = 0 fino a 1,5D dal piano campagna, cioè fino a 1,5D − d dalla testa. e, z e i diagrammi sono misurati dalla testa; la punta è a d + L.");
         if (distributed)
         {
             P("Sviluppo dell'approccio stratificato: Q(z)=∫p_lim dz; S(z)=∫z p_lim dz; Q(z_f)=H. La coppia inferiore vale C(z_f,t)=S(t)+S(z_f)−2S(b), con Q(b)=[Q(z_f)+Q(t)]/2. Si confrontano i candidati corto, intermedio e lungo con un unico My e si controlla l'equilibrio globale.");

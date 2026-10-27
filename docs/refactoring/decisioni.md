@@ -1998,3 +1998,6 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
 5. **BUG-PO-5b in ANTHEA (1.14.3).** Sviluppo parziale delle barre del palo elastico sul ramo `refactoring/1143-po5b` (0b8bfd66,
    riferimenti 3c3babb5). Al riepilogo l'utente risponde «Approvo i riferimenti di PO-5b (3c3babb5). Prosegui con la 1.14.3: teste
    dei pali sotto il piano campagna.»
+6. **Teste dei pali (1.14.3).** Sul ramo `refactoring/1143-teste-pali` (dopo PO-5b) il dato d della testa entra nei fogli del palo e del
+   micropalo verticale e orizzontale (PO-TESTA-01). Con d = 0, cioè nei fogli esistenti, nessun risultato cambia; cambiano solo le tracce
+   dell'editor, che hanno il campo nuovo: riferimenti da approvare dall'utente.

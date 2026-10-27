@@ -11055,6 +11055,50 @@
         "BUG-PO-5b",
         "AJ-FON-01"
       ]
+    },
+    {
+      "id": "PO-TESTA-01",
+      "data": "2026-10-27",
+      "fase": "1.14.3, teste dei pali sotto il piano campagna (librerie AJ)",
+      "titolo": "Pali e micropali: profondità d della testa sotto il piano campagna nei fogli verticali e orizzontali",
+      "famiglia": "pali/dati generali",
+      "modulo": "Palo e micropalo verticale; palo e micropalo orizzontale (Broms, Stratificato, risposta elastica)",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Richiesta dell'utente del 19/10/2026 (docs/paratie/seguito-pali-interrati.md), da attuare dal 26/10 sera («poi implementa: teste dei pali e micropali sotto il PC»). Dato generali.profondita_testa (m, ≥ 0): assente o vuoto vale 0, senza migrazione; l'editor mostra «0» (FieldSpec.Default anche per i campi di testo, solo presentazione) e il documento cambia solo quando l'utente digita. Le librerie AJ ricevono d (AxialPile, Micropile, LateralPile, ElasticPileInput.HeadDepth); la stratigrafia parte dal piano campagna e deve arrivare a d + L; il terreno sopra la testa dà le tensioni verticali (con la falda) e nessuna resistenza laterale; quote, e e diagrammi dalla testa. Con d > 0 il risultato ha profondita_testa, un avviso e una nota nel report; la risposta elastica ha la chiave «testa» nei dati del modello solo con d > 0, così la chiave della risposta dei fogli esistenti non cambia. d > 0 con un tratto libero sopra il terreno è rifiutato. Con d = 0 risultati, dati, figure e report restano quelli di prima (ui/f3-equivalence, ui/f3-figures, ui/f3-report-chapters PASS). Cambiano solo le tracce dell'editor, che hanno il campo nuovo: 257 righe in 18 tracce del palo verticale e 445 righe in 27 tracce del palo orizzontale, tutte «campo profondita_testa … = \"0\"» (le 20 righe della differenza dichiarata F5-02 restano storiche); il controllo delle etichette «?» del palo verticale aggiunge quella del campo come differenza dichiarata. LateralPileCapacity.ModelName non ha la profondità della testa: ANTHEA le passa la verticale vista dalla testa (strati del palo, falda alla testa se sopra), che dà lo stesso modello del calcolo; seguito per la libreria: un ModelName con headDepth.",
+      "codice": [
+        "X.Calculations/Calcolo.cs",
+        "X.Calculations/Micropali.cs",
+        "X.Calculations/PaloOrizzontale.cs",
+        "X.Calculations/ElasticHorizontalPile.cs",
+        "X.Calculations/ElasticHorizontalPile.Shared.cs",
+        "src/ANTHEA.Presentation/Forms/FieldViewModel.cs",
+        "src/ANTHEA.Presentation/Modules/VerticalPile/VerticalPileFields.cs",
+        "src/ANTHEA.Presentation/Modules/HorizontalPile/HorizontalPileFields.cs",
+        "src/ANTHEA.Application/Presentation/HorizontalPileDiagrams.cs",
+        "src/ANTHEA.Desktop/Wpf/Drawings.cs",
+        "src/ANTHEA.Desktop/Wpf/ElasticPileDrawing.cs",
+        "src/ANTHEA.Reports/Generators/ReportWord.cs",
+        "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
+        "src/ANTHEA.Reports/Generators/ReportElasticPile.cs",
+        "tests/fixtures/f5-palo-verticale/storica",
+        "tests/fixtures/f5-palo-orizzontale/storica"
+      ],
+      "segno": "Funzione nuova voluta dall'utente; con d = 0 nessun valore cambia. Con d > 0 la portata cresce con il ricoprimento (granulari), come nell'esempio della richiesta (d = 2 m, γ = 18 kN/m³: σ′v alla testa 36 kPa).",
+      "test": [
+        "verifiche/testa-interrata (PileHeadDepthChecks 27 controlli, HorizontalHeadDepthChecks 36 controlli: valori a mano di σ′v, Nq, Hu di Broms granulare e coesivo, equivalenze, elastico con kh = nh (d + x)/D)",
+        "Presentation.Tests",
+        "ui/check-palo-verticale-view",
+        "ui/check-palo-orizzontale-view",
+        "ui/f3-equivalence",
+        "Architecture.Tests"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1143-teste (verticale-2…4, orizzontale-1…16)"
+      ],
+      "voci_collegate": [
+        "F5-02"
+      ]
     }
   ]
 }

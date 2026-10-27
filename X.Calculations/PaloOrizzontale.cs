@@ -74,7 +74,8 @@ public static partial class PaloOrizzontale
         ["Equilibrium or moment limit not satisfied: inadmissible solution."] = "Equilibrio o limite di momento non soddisfatto: soluzione non ammissibile.",
         ["Resultant outside the limit diagram."] = "Risultante fuori dal diagramma limite.",
         ["The layers must cover the whole embedded length."] = "La stratigrafia deve coprire tutta la lunghezza infissa.",
-        ["Resisting moment: a positive finite value is required."] = "Momento resistente: valore finito positivo richiesto."
+        ["Resisting moment: a positive finite value is required."] = "Momento resistente: valore finito positivo richiesto.",
+        ["Head below the ground surface: γ (and γsat > γw below the water table) of the soil above the head are required."] = "Testa sotto il piano campagna: servono γ (e γsat > γw sotto falda) del terreno sopra la testa."
     }.ToFrozenDictionary();
     static T Library<T>(Func<T> calculation)
     {
@@ -83,26 +84,29 @@ public static partial class PaloOrizzontale
     }
 
     /// <summary>
-    /// Una verticale del foglio come profilo di Model, con i controlli e i messaggi del foglio. Sono letti gli strati fino alla lunghezza infissa.
-    /// Nel profilo interamente coesivo i pesi di volume non entrano nel modello e possono mancare; Weights dice se sono completi per le tensioni.
+    /// Una verticale del foglio come profilo di Model, con i controlli e i messaggi del foglio. Sono letti gli strati dal piano campagna fino alla
+    /// punta, a d0 + L (d0 profondità della testa, 0 al piano campagna): quelli sopra la testa sono il ricoprimento, di cui la libreria usa solo i pesi.
+    /// Nel palo interamente coesivo i pesi di volume non entrano nel modello e possono mancare; Weights dice se sono completi per le tensioni.
     /// </summary>
-    private static (LateralPileSurvey Survey, bool Weights) Verticale(JsonArray rows, double l, bool water, double zw, bool distributed, double gw)
+    private static (LateralPileSurvey Survey, bool Weights) Verticale(JsonArray rows, double l, bool water, double zw, bool distributed, double gw, double d0 = 0)
     {
         if (rows.Count == 0) throw new ArgumentException("Inserire almeno uno strato.");
-        var layers = new List<(JsonNode Row, double Top, double Thickness, double End)>(); double top = 0;
+        var layers = new List<(JsonNode Row, double Top, double Thickness, double End)>(); double top = 0, toe = d0 + l;
         foreach (var row in rows)
         {
-            if (top >= l) break;
+            if (top >= toe) break;
             double thickness = row.Required("spessore", strict: true), bottom = top + thickness;
             if (!double.IsFinite(bottom)) throw new ArgumentException("Spessore complessivo non finito.");
             // Only absorb accumulated floating-point addition error, not a real gap.
-            if (Math.Abs(bottom - l) <= 16 * 2.2204460492503131e-16 * rows.Count * Math.Max(1, l)) bottom = l;
+            if (Math.Abs(bottom - toe) <= 16 * 2.2204460492503131e-16 * rows.Count * Math.Max(1, toe)) bottom = toe;
             if (row.S("tipologia") is not ("Coesivo" or "Granulare")) throw new ArgumentException("Tipologia del terreno non valida.");
             if (!row.B("laterale_attiva", true)) throw new ArgumentException("Strati disattivati non supportati dal modello orizzontale.");
-            layers.Add((row!, top, thickness, Math.Min(bottom, l))); top = bottom;
+            layers.Add((row!, top, thickness, Math.Min(bottom, toe))); top = bottom;
         }
-        if (top < l) throw new ArgumentException("La stratigrafia deve coprire tutta la lunghezza infissa.");
-        bool clay = layers.All(s => s.Row.S("tipologia") == "Coesivo"), mixed = !clay && layers.Any(s => s.Row.S("tipologia") == "Coesivo");
+        if (top < toe) throw new ArgumentException("La stratigrafia deve coprire tutta la lunghezza infissa.");
+        // Coesivo, misto e pesi richiesti dagli strati del palo (sotto la testa), come nella libreria.
+        var pile = layers.Where(s => s.End > d0).ToArray();
+        bool clay = pile.All(s => s.Row.S("tipologia") == "Coesivo"), mixed = !clay && pile.Any(s => s.Row.S("tipologia") == "Coesivo");
         if (mixed && !distributed) throw new ArgumentException("Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite.");
         var list = new List<SoilLayer>(); var kinds = new List<SoilBehaviour>(); bool weights = true; double depth = 0;
         foreach (var (row, a0, thickness, end) in layers)
@@ -138,16 +142,49 @@ public static partial class PaloOrizzontale
         return water ? gw : Gw;
     }
 
+    /// <summary>
+    /// La testa è sopra il piano campagna (tratto libero, modello elastico) o sotto (profondita_testa, d0), non entrambe: lo stesso controllo per
+    /// Broms e per la risposta elastica.
+    /// </summary>
+    internal static void CheckHead(JsonNode g, double d0)
+    {
+        if (d0 > 0 && J.Number(g["tratto_libero"]) is double free && free > 0)
+            throw new ArgumentException($"Testa sotto il piano campagna (d = {Metres(d0)} m) con tratto libero sopra il terreno di {Metres(free)} m: la testa è sopra o sotto il terreno, azzerare uno dei due.");
+    }
+
+    static string Metres(double value) => value.ToString("0.###", CultureInfo.GetCultureInfo("it-IT"));
+
+    static string HeadWarning(double d0, double l) => $"Testa del palo a d = {Metres(d0)} m sotto il piano campagna: il terreno sopra la testa dà le tensioni verticali senza reazione laterale; e, z e i diagrammi partono dalla testa, la punta è a d + L = {Metres(d0 + l)} m dal piano campagna. Nei coesivi la reazione è nulla fino a 1,5D dal piano campagna, cioè fino a 1,5D − d dalla testa.";
+
     /// <summary>Uses the same active-depth properties and groundwater rules as the solver.</summary>
     public static string ModelloAutomatico(JsonObject data)
     {
         ValidateShape(data); var g = data["generali"]!;
         double l = g.Required("lunghezza", strict: true), d = g.Required("diametro", strict: true); g.Required("tolleranza", strict: true);
-        bool water = g.B("presenza_falda"); double zw = water ? g.Required("profondita_falda") : l;
+        bool water = g.B("presenza_falda"); double zw = water ? g.Required("profondita_falda") : l, d0 = Calcolo.ProfonditaTesta(g);
         bool distributed = DistributedMethod(g);
         double gw = WaterUnitWeight(g, water);
-        var surveys = data.Array("stratigrafie").Select(s => Verticale(s!.AsArray(), l, water, zw, distributed, gw).Survey).ToArray();
+        var surveys = data.Array("stratigrafie").Select(s => FromHead(Verticale(s!.AsArray(), l, water, zw, distributed, gw, d0).Survey, d0)).ToArray();
         return Library(() => LateralPileCapacity.ModelName(surveys, l * M, d * M, distributed ? LateralPileMethod.Stratified : LateralPileMethod.Broms));
+    }
+
+    /// <summary>
+    /// The vertical seen from the head for <see cref="LateralPileCapacity.ModelName"/>, which has no depth of the head: the layers of the pile moved
+    /// up by d0, the water table at the head when it is above it. The model depends only on the layers of the pile and on the water table along
+    /// it, as in <see cref="LateralPileCapacity.Calculate"/> with <see cref="LateralPile.HeadDepth"/>. With d0 = 0 the vertical is unchanged.
+    /// </summary>
+    private static LateralPileSurvey FromHead(LateralPileSurvey survey, double d0)
+    {
+        if (d0 == 0) return survey;
+        var profile = survey.Profile; double head = d0 * M;
+        var layers = new List<SoilLayer>(); var kinds = new List<SoilBehaviour>();
+        for (int i = 0; i < profile.Layers.Count; i++)
+        {
+            if (-profile.Layers[i].Bottom <= head) continue;
+            layers.Add(new SoilLayer(profile.Layers[i].Soil, Math.Min(profile.Layers[i].Top + head, 0), profile.Layers[i].Bottom + head)); kinds.Add(survey.Behaviours[i]);
+        }
+        double? water = profile.GroundwaterElevation is double level ? Math.Min(level + head, 0) : null;
+        return new LateralPileSurvey(new SoilProfile(profile.Name, layers, profile.Source, water, profile.WaterUnitWeight), kinds);
     }
 
     /// <summary>Regola dei vicini di Reese e Van Impe (PO-2, GPCChecker.Geotechnics 07e620a7), per il foglio e il report.</summary>
@@ -227,7 +264,11 @@ public static partial class PaloOrizzontale
             string restraint = g.S("vincolo");
             if (restraint is not ("Libera" or "Impedita")) throw new ArgumentException("Vincolo non riconosciuto.");
             bool fixedHead = restraint == "Impedita", water = g.B("presenza_falda");
-            if (fixedHead && e != 0) throw new ArgumentException("Testa impedita: il modello richiede vincolo e forza al piano campagna (e = 0).");
+            // Testa sotto il piano campagna (richiesta del 19/10/2026, 1.14.3): d0 ≥ 0, assente nei fogli precedenti = 0. La libreria parte dalla
+            // testa con il peso del ricoprimento; e, z e i diagrammi sono misurati dalla testa.
+            double d0 = Calcolo.ProfonditaTesta(g);
+            CheckHead(g, d0);
+            if (fixedHead && e != 0) throw new ArgumentException(d0 > 0 ? "Testa impedita: il modello richiede vincolo e forza alla testa (e = 0)." : "Testa impedita: il modello richiede vincolo e forza al piano campagna (e = 0).");
             // Il tratto libero dei dati condivisi è la quota della testa sopra il piano campagna: con la testa impedita il vincolo sarebbe
             // rialzato, mentre i meccanismi di Broms lo pongono al piano campagna (PO-1). Testa libera invariata: e è la quota della forza.
             if (fixedHead && J.Number(g["tratto_libero"]) is double free && free > 0)
@@ -245,19 +286,20 @@ public static partial class PaloOrizzontale
             else throw new ArgumentException("Origine del momento resistente non riconosciuta.");
             bool distributed = DistributedMethod(g);
             double gw = WaterUnitWeight(g, water);
-            var verticals = data.Array("stratigrafie").Select(s => Verticale(s!.AsArray(), l, water, zw, distributed, gw)).ToArray();
+            var verticals = data.Array("stratigrafie").Select(s => Verticale(s!.AsArray(), l, water, zw, distributed, gw, d0)).ToArray();
             var verification = data["verifica"]!;
             if (!Calcolo.Verticali.ContainsKey(verification.S("verticali_indagate", "1")))
                 throw new ArgumentException("Numero di verticali indagate non riconosciuto.");
             var factors = LateralPileFactors.FromStandard(Ntc, verification.S("verticali_indagate", "1") is "≥10" ? 10 : int.Parse(verification.S("verticali_indagate", "1"), CultureInfo.InvariantCulture));
             var (efficiencyJson, efficiency) = Gruppo(data);
-            var pile = new LateralPile(d * M, l * M, e * M, fixedHead, my * 1e6, source, distributed ? LateralPileMethod.Stratified : LateralPileMethod.Broms, ed * 1000, step * M, tol);
+            var pile = new LateralPile(d * M, l * M, e * M, fixedHead, my * 1e6, source, distributed ? LateralPileMethod.Stratified : LateralPileMethod.Broms, ed * 1000, step * M, tol, d0 * M);
             var r = Library(() => LateralPileCapacity.Calculate(pile, verticals.Select(v => v.Survey).ToArray(), factors, efficiency));
             var results = new JsonArray(r.Surveys.Select((s, i) => (JsonNode)Verticale(s, d, verticals[i].Weights)).ToArray());
             var warnings = r.Warnings.ToList();
             // La sezione è del foglio: il suo modello precede l'avviso dell'efficienza.
             if (section is not null) warnings.Insert(efficiency.ReeseVanImpe ? warnings.Count - 1 : warnings.Count, section.S("modello"));
-            return J.Obj(("errore", ""), ("versione_motore", r.EngineVersion),
+            if (d0 > 0) warnings.Add(HeadWarning(d0, l));
+            var result = J.Obj(("errore", ""), ("versione_motore", r.EngineVersion),
                 ("metodo_calcolo", distributed ? StratifiedMethod : BromsMethod), ("fonte", r.Source), ("riferimenti", References()), ("input", data),
                 ("capacita_kn", r.Capacity / 1000), ("sondaggio_governante", r.GoverningSurvey), ("meccanismo", Mechanisms[(int)r.Mechanism]),
                 ("momento_resistente_knm", my), ("sezione", section), ("sondaggi", results), ("resistenza_caratteristica_manuale_kn", r.CharacteristicResistance / 1000),
@@ -270,6 +312,9 @@ public static partial class PaloOrizzontale
                 ("esito_manuale", r.Satisfied ? "Verifica soddisfatta" : "Verifica non soddisfatta"),
                 ("verifica_normativa", "Incompleta"), ("modello_adottato", r.ModelName), ("selezione_modello", "Automatica"), ("sperimentale", r.Experimental),
                 ("percorso", "Incremento di H con e costante; M applicato = H·e; N costante"), ("avvisi", warnings));
+            // Solo con la testa interrata: i risultati con d0 = 0 restano quelli di prima.
+            if (d0 > 0) result["profondita_testa"] = d0;
+            return result;
         }
         catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or FormatException or OverflowException)
         { return J.Error(ex.Message); }

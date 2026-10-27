@@ -7056,7 +7056,7 @@
       "Rule": "R4-implicit-number",
       "Owner": "ElasticPileDrawing.OnRender",
       "Fingerprint": "3912D44050BECD3174E3AF6DA69185DDA81B047AF24C1E33294F0CFD7B5336F3",
-      "Count": 2,
+      "Count": 1,
       "Example": "input . D ( \"z_falda\" )"
     },
     {
@@ -12832,7 +12832,7 @@
       "Rule": "R2-numeric-literal",
       "Owner": "HorizontalPileDiagrams.Build",
       "Fingerprint": "5E78A2C55DC68EA6A65FF84D557A5E6F513F0C296373DE13EF637722DB128F9B",
-      "Count": 3,
+      "Count": 1,
       "Example": "1.5"
     },
     {

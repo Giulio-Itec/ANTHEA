@@ -23,7 +23,8 @@ public static class HorizontalPileFields
 
     /// <summary>«Dati generali».</summary>
     public static FieldSpec[] General(bool micro) => [new("diametro", micro ? "Diametro geotecnico micropalo" : "Diametro palo", "m", Symbol: "D"), new("lunghezza", "Lunghezza infissa", "m", Symbol: "L"),
-        new("eccentricita", "Eccentricità forza sopra il piano campagna", "m", Symbol: "e"), new("tratto_libero", "Tratto libero sopra il terreno", "m"), new("vincolo", "Rotazione in testa", Choices: ["Libera", "Impedita"]),
+        new("eccentricita", "Eccentricità forza sopra il piano campagna", "m", Symbol: "e"), new("tratto_libero", "Tratto libero sopra il terreno", "m"),
+        new("profondita_testa", "Profondità della testa sotto il piano campagna", "m", Symbol: "d", Default: "0"), new("vincolo", "Rotazione in testa", Choices: ["Libera", "Impedita"]),
         new("azione_orizzontale", "Forza orizzontale", "kN", Symbol: "HEd"), new("azione_assiale", "Forza assiale (+ compressione)", "kN", Symbol: "N"),
         new("presenza_falda", "Presenza falda", Bool: true), new("profondita_falda", "Profondità falda", "m"), new("gamma_acqua", "Peso unitario acqua", "kN/m³")];
 

@@ -937,6 +937,9 @@ alla 1.14.3 il 26/10 notte («versione 1.14.2 e 1.14.3 dopo correzioni»): la 1.
   Decisione dell'utente del 26/10 sera, «TS-2 scelgo 1»: tension stiffening sulle barre con ρs,eff = As/Ac,eff (modello del tirante, MC2010
   e EN 1992-1-1 7.4.3); il calcestruzzo teso non lavora dopo la fessurazione. Da progettare con un modello indipendente e le sue prove.
 - [ ] Teste dei pali e dei micropali sotto il piano campagna, con le tensioni del ricoprimento ([seguito](../paratie/seguito-pali-interrati.md)).
+  27/10: attuata sul ramo `refactoring/1143-teste-pali` per il palo e il micropalo verticale e orizzontale (Broms, Stratificato, risposta
+  elastica), voce PO-TESTA-01; da approvare le tracce dell'editor con il campo nuovo. Restano la guida Rev60 e, nella libreria,
+  `LateralPileCapacity.ModelName` con la profondità della testa (ANTHEA le passa la verticale vista dalla testa).
 - [ ] Combinazioni e loro generazione in Model, prima i muri, poi i moduli che costruiscono le combinazioni da sé.
 - [ ] Palo orizzontale: anello interno di diametro diverso dalla prima fila (distinta per diametro nella libreria) e anello nei report.
 - [ ] R18, in fondo: ramo incrudente dell'acciaio di progetto da fyd a k fyk/γs.

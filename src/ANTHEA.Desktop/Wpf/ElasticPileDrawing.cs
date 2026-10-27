@@ -41,24 +41,28 @@ internal sealed class ElasticPileDrawing : FrameworkElement
             string extra=seismic.D("NominalLength")>length?" · palo più corto: zona su tutta la lunghezza":Math.Abs(zoneEnd-seismic.D("MinimumEnd"))>1e-9?$" · zona assegnata 0–{zoneEnd:0.00} m":"";
             Text($"ZONA SISMICA DI TESTA · 10D = {seismic.D("NominalLength"):0.00} m{extra}"+(seismic.B("MeetsMinimum")?"":" · ESTENSIONE INSUFFICIENTE"),46,67,13,Math.Max(1,ActualWidth-70),seismicBrush);
         }
-        Text("x dalla testa [m] ↓",0,30);double depth=free;
+        // Testa sotto il piano campagna (1.14.3, 0 altrimenti): gli strati sono dati dal piano campagna e quelli sopra la testa non sono nel modello.
+        double head=Anthea.Application.Presentation.VerticalPilePresentation.HeadDepth(result);
+        Text("x dalla testa [m] ↓",0,30);double depth=free-head;
         foreach(var (layer,i) in input.Array("strati").Select((p,i)=>(p!,i)))
         {
             double end=Math.Min(length,depth+layer.D("spessore"));if(end<=depth)break;
-            if(On("strati")){dc.DrawRectangle(new SolidColorBrush(Color.FromArgb(50,(byte)(100+i*31%100),150,190)),null,new Rect(40,Y(depth),Profile-50,Y(end)-Y(depth)));if(Y(end)-Y(depth)>=18)Text($"{i+1} · {layer.S("nome")}",90,Y(depth)+3,11,200);}
+            double start=Math.Max(depth,0);
+            if(end>0&&On("strati")){dc.DrawRectangle(new SolidColorBrush(Color.FromArgb(50,(byte)(100+i*31%100),150,190)),null,new Rect(40,Y(start),Profile-50,Y(end)-Y(start)));if(Y(end)-Y(start)>=18)Text($"{i+1} · {layer.S("nome")}",90,Y(start)+3,11,200);}
             depth=end;
         }
         if(On("kh"))foreach(var p in result.Array("parametri_terreno"))
         {
-            double z=p.D("Top")+free,end=Math.Min(length,p.D("Bottom")+free);if(z>=length||Y(end)-Y(z)<70)continue;
+            double z=Math.Max(0,p.D("Top")+free-head),end=Math.Min(length,p.D("Bottom")+free-head);if(z>=length||Y(end)-Y(z)<70)continue;
             var segment=rows.Where(r=>r.D("Layer")==p.D("Layer")&&r.D("Depth")>=z-1e-9&&r.D("Depth")<=end+1e-9).ToArray();
             // Segment endpoint kh comes from the solver, selecting the correct side of each discontinuity.
             var first=segment.FirstOrDefault(r=>Math.Abs(r.D("Depth")-z)<1e-9&&r.S("Side")=="Below")??segment.FirstOrDefault();
             var last=segment.LastOrDefault(r=>Math.Abs(r.D("Depth")-end)<1e-9&&r.S("Side")=="Above")??segment.LastOrDefault();
             if(first!=null&&last!=null)Text($"kh {first.D("Kh"):G4} → {last.D("Kh"):G4} kN/m³\n{ElasticPileEditor.ParameterLabel(p.S("Law"))}={p.D("AdoptedValue"):G4} {p.S("Unit")}\n{ElasticPileEditor.MethodLabel(p.S("Method"))}",90,Y(z)+22,10,200);
         }
-        dc.DrawLine(new Pen(Ui.Navy,8),new Point(76,Y(0)),new Point(76,Y(length)));dc.DrawLine(new Pen(Brushes.SaddleBrown,1),new Point(36,Y(free)),new Point(ActualWidth,Y(free)));Text("p.c.",2,Y(free)+4);
-        if(On("falda")&&input.B("falda")&&free+input.D("z_falda")<=length){double y=Y(free+input.D("z_falda"));dc.DrawLine(new Pen(Brushes.SteelBlue,1){DashStyle=DashStyles.Dash},new Point(35,y),new Point(ActualWidth,y));Text("falda",92,y-15);}
+        dc.DrawLine(new Pen(Ui.Navy,8),new Point(76,Y(0)),new Point(76,Y(length)));dc.DrawLine(new Pen(Brushes.SaddleBrown,1),new Point(36,Y(free)),new Point(ActualWidth,Y(free)));Text(head>0?$"testa {head:0.##} m sotto il p.c.":"p.c.",2,Y(free)+4,11,head>0?70:240);
+        double water=free+input.D("z_falda")-head;
+        if(On("falda")&&input.B("falda")&&water>=0&&water<=length){double y=Y(water);dc.DrawLine(new Pen(Brushes.SteelBlue,1){DashStyle=DashStyles.Dash},new Point(35,y),new Point(ActualWidth,y));Text("falda",92,y-15);}
         foreach(var node in response.Array("Nodes"))
         {
             double y=Y(node.D("Depth"));if(On("mesh"))dc.DrawEllipse(Brushes.White,new Pen(Ui.Blue,.8),new Point(76,y),2.5,2.5);

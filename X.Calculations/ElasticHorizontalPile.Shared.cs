@@ -127,7 +127,12 @@ public static partial class ElasticHorizontalPile
             if((mode==Laws[4]||mode==Laws[5])&&soil.S("scelta_per")!=SelectionKey(soil))throw new ArgumentException("Teoria/addensamento modificati: confermare la nuova media o mantenere esplicitamente il valore nell'editor dello strato.");
             soil["nome"]=layer.S("nome",layer.S("tipologia"));soil["spessore"]=layer["spessore"]?.DeepClone();soil["gamma"]=layer["peso_specifico"]?.DeepClone();soil["gamma_sat"]=layer["peso_specifico_saturo"]?.DeepClone();layers.Add(soil);
         }
-        return J.Obj(("diametro",g["diametro"]!.DeepClone()),("lunghezza",ElasticPileSection.TotalLength(g.Required("lunghezza",strict:true),free)),("libero",free),("H",h),("C",ElasticPileSection.HeadCouple(h,ecc,free)),("e",0),("EI",section.EI),("fonte_EI",section.Material+"; "+section.Assumption+(section.OverrideReason==""?"":"; override: "+section.OverrideReason)),("vincolo",g.S("vincolo")),("punta",e.S("punta","Libera")),("passo",e["passo"]!.DeepClone()),("falda",g.B("presenza_falda")),("z_falda",g["profondita_falda"]!.DeepClone()),("gamma_w",g["gamma_acqua"]?.DeepClone()??JsonValue.Create(9.81)),("strati",layers));
+        var input=J.Obj(("diametro",g["diametro"]!.DeepClone()),("lunghezza",ElasticPileSection.TotalLength(g.Required("lunghezza",strict:true),free)),("libero",free),("H",h),("C",ElasticPileSection.HeadCouple(h,ecc,free)),("e",0),("EI",section.EI),("fonte_EI",section.Material+"; "+section.Assumption+(section.OverrideReason==""?"":"; override: "+section.OverrideReason)),("vincolo",g.S("vincolo")),("punta",e.S("punta","Libera")),("passo",e["passo"]!.DeepClone()),("falda",g.B("presenza_falda")),("z_falda",g["profondita_falda"]!.DeepClone()),("gamma_w",g["gamma_acqua"]?.DeepClone()??JsonValue.Create(9.81)),("strati",layers));
+        // Testa sotto il piano campagna (1.14.3): la chiave c'è solo con d0 > 0, così la chiave della risposta dei fogli con la testa al piano
+        // campagna non cambia. Gli strati restano dal piano campagna; la libreria toglie quelli sopra la testa.
+        double head=Calcolo.ProfonditaTesta(g);PaloOrizzontale.CheckHead(g,head);
+        if(head>0)input["testa"]=head;
+        return input;
     }
     static JsonObject SharedCalculationInput(JsonObject root)
     {
@@ -152,6 +157,7 @@ public static partial class ElasticHorizontalPile
     {
         cancellation.ThrowIfCancellationRequested();var root=(JsonObject)parent.DeepClone();PrepareShared(root);var input=SharedCalculationInput(root);
         var result=CalculateModel(input,SectionStiffness(root));cancellation.ThrowIfCancellationRequested();result["chiave_risposta"]=InputKey(input);
+        if(input["testa"] is JsonNode head)result["profondita_testa"]=head.DeepClone();
         result["dati_condivisi"]=J.Obj(("stratigrafia",root["elastico"].D("stratigrafia")+1),("geometria","generali"),("sezione","sezione"),("origine_z","piano campagna"),("eccentricita_da_pc",root["generali"]!["eccentricita"]!.DeepClone()),("convenzione_carico","Ctesta=H·(Llibero−e_da_pc); M al p.c. da solo H è H·e_da_pc"),("migrazione",root["elastico"].S("migrazione")));return result;
     }
     public static JsonObject CompleteReinforcement(JsonObject parent,JsonObject response,ElasticPileVerificationCache? cache=null,CancellationToken cancellation=default,int maximumParallelism=0,IProgress<PileCalculationProgress>? progress=null)

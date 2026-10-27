@@ -70,17 +70,22 @@ public static class HorizontalPileDiagrams
         static string F(double n) => Math.Abs(n) >= 10000 ? n.ToString("0.##E+0") : n.ToString("0.##");
         string title = soilView ? "Terreno · dalle tensioni verticali alla reazione laterale" : "Palo · equilibrio delle reazioni e sollecitazioni";
         string subtitle = $"Sondaggio {surveyIndex + 1} · {s.S("meccanismo")} · Hu = {s.D("capacita_kn"):N2} kN · D = {diameter:0.###} m · {result.S("metodo_calcolo")}";
-        var layers = result["input"].Array("stratigrafie")[surveyIndex]!.AsArray(); double layerTop = 0;
+        // Testa sotto il piano campagna (1.14.3, 0 altrimenti): le quote partono dalla testa, gli strati sopra la testa (ricoprimento) non sono
+        // disegnati e il taglio nei coesivi è a 1,5D dal piano campagna, cioè 1,5D − d dalla testa.
+        double head = Calcolo.ProfonditaTestaMostrata(result);
+        var layers = result["input"].Array("stratigrafie")[surveyIndex]!.AsArray(); double layerTop = -head; int cover = 0;
         var drawnLayers = new List<HorizontalDiagramLayer>();
         for (int i = 0; i < layers.Count && layerTop < length; i++)
         {
             double end = Math.Min(length, layerTop + layers[i].D("spessore"));
-            drawnLayers.Add(new(i, layerTop, end, $"{i + 1} · {(layers[i].S("tipologia") == "Coesivo" ? "Coesivo" : "Granulare")}", F(layerTop)));
+            if (head > 0 && end <= 0) { cover++; layerTop = end; continue; }
+            double top = Math.Max(layerTop, 0);
+            drawnLayers.Add(new(i, top, end, $"{i + 1} · {(layers[i].S("tipologia") == "Coesivo" ? "Coesivo" : "Granulare")}", F(top)));
             layerTop = end;
         }
-        double? shear = null; string? shearLabel = null;
-        if (layers.Any(l => l.S("tipologia") == "Coesivo") && 1.5 * diameter < length)
-        { shear = 1.5 * diameter; shearLabel = $"1,5D = {1.5 * diameter:0.###} m\nTaglio nei coesivi"; }
+        double? shear = null; string? shearLabel = null; double neglected = 1.5 * diameter - head;
+        if (layers.Skip(cover).Any(l => l.S("tipologia") == "Coesivo") && neglected > 0 && neglected < length)
+        { shear = neglected; shearLabel = head > 0 ? $"1,5D − d = {neglected:0.###} m\nTaglio nei coesivi" : $"1,5D = {neglected:0.###} m\nTaglio nei coesivi"; }
         var panels = soilView
             ? new[] {
                 ("Tensioni verticali [kPa]", new[] { new Curve("σv totale", "sigma_v_kpa", "#64748B"), new Curve("u idrostatica", "u_kpa", "#0284C7"), new Curve("σ′v efficace", "sigma_eff_kpa", "#B45309") }),
@@ -127,7 +132,7 @@ public static class HorizontalPileDiagrams
             if (z < 0 || z > length) return;
             depths.Add(new(z, $"{label} = {z:0.###} m", color, slot));
         }
-        if (g.B("presenza_falda") && g.D("profondita_falda") <= length) DepthLine(g.D("profondita_falda"), "Falda", "#0284C7", 0);
+        if (g.B("presenza_falda") && g.D("profondita_falda") - head <= length) DepthLine(g.D("profondita_falda") - head, "Falda", "#0284C7", 0);
         DepthLine(s.D("quota_taglio_nullo_m"), "z_f · V = 0", "#7E22CE", 1);
         if (s["inversione_reazioni_m"] is not null) DepthLine(s.D("inversione_reazioni_m"), "b · inversione di p", "#15803D", 2);
         DepthLine(s.D("fine_reazioni_m"), "t · fine reazioni", "#64748B", 3);
@@ -136,7 +141,9 @@ public static class HorizontalPileDiagrams
             : "Fascia grigia sotto la cerniera interna: completamento idealizzato; p, V e M tratteggiati. Nessuna deformata o rotazione viene calcolata.";
         string? broms = Math.Abs(s.D("risultante_concentrata_kn")) > 1e-8
             ? $"Broms: F = {s.D("risultante_concentrata_kn"):0.###} kN a z = {s.D("quota_risultante_m"):0.###} m, nel verso di Hu; è una forza concentrata, separata da p e q." : null;
-        return new(soilView, title, subtitle, "Stato limite alla capacità Hu. z dal piano campagna, positiva verso il basso.", length, F(length), drawnLayers, hinge, shear, shearLabel,
+        string basis = head > 0 ? $"Stato limite alla capacità Hu. z dalla testa, a d = {head:0.###} m sotto il piano campagna, positiva verso il basso."
+            : "Stato limite alla capacità Hu. z dal piano campagna, positiva verso il basso.";
+        return new(soilView, title, subtitle, basis, length, F(length), drawnLayers, hinge, shear, shearLabel,
             drawnPanels, depths, note, hingeNote, broms);
     }
 }

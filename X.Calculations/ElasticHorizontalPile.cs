@@ -44,7 +44,7 @@ public static partial class ElasticHorizontalPile
     {
         double N(JsonNode n,string key)=>J.Number(n[key])??throw new ArgumentException(key+": inserire un numero finito.");
         int Choice(string value,string[] choices,string label){int i=Array.IndexOf(choices,value);if(i<0)throw new ArgumentException(label+": opzione non valida.");return i;}
-        return new ElasticPileInput { Diameter=N(d,"diametro"),Length=N(d,"lunghezza"),FreeLength=N(d,"libero"),EI=N(d,"EI"),EISource=d.S("fonte_EI"),Force=N(d,"H"),HeadMoment=N(d,"C"),Eccentricity=N(d,"e"),FixedHeadRotation=Choice(d.S("vincolo"),["Libera","Impedita"],"Testa")==1,Tip=(ElasticPileTip)Choice(d.S("punta"),["Libera","Cerniera","Incastro"],"Punta"),Step=N(d,"passo"),Layers=profile.Layers };
+        return new ElasticPileInput { Diameter=N(d,"diametro"),Length=N(d,"lunghezza"),FreeLength=N(d,"libero"),EI=N(d,"EI"),EISource=d.S("fonte_EI"),Force=N(d,"H"),HeadMoment=N(d,"C"),Eccentricity=N(d,"e"),FixedHeadRotation=Choice(d.S("vincolo"),["Libera","Impedita"],"Testa")==1,Tip=(ElasticPileTip)Choice(d.S("punta"),["Libera","Cerniera","Incastro"],"Punta"),Step=N(d,"passo"),Layers=profile.Layers,HeadDepth=J.Number(d["testa"])??0 };
     }
     public static JsonObject Calculate(JsonObject data)=>CalculateModel(data,null);
     static JsonObject CalculateModel(JsonObject data,ElasticPileSection? section)

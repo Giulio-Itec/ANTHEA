@@ -312,8 +312,9 @@ internal sealed partial class StratigraphyDrawing : DrawingView
                 double y = top + g.D("profondita_falda") * scale;
                 if (y <= top + z * scale) { dc.DrawLine(new Pen(Brushes.DodgerBlue, 2) { DashStyle = DashStyles.Dash }, new Point(x, y), new Point(x + width, y)); Text(dc, "Falda", x + 3, y - 17, 11, Brushes.DodgerBlue); }
             }
+            // Le quote dei risultati orizzontali partono dalla testa.
             if (HorizontalForces) DrawHorizontalForces(dc, index, x + width - pileWidth / 2 - 7,
-                x + width + 48, left + band - 5, top, scale, length, size.Height);
+                x + width + 48, left + band - 5, top + head * scale, scale, length, size.Height);
         }
         Text(dc, HorizontalForces ? "z [m] ↓ · Stato ultimo · ○ cerniera plastica" : "Quote z [m] · positive verso il basso", 3, size.Height - 22, 11, width: size.Width - 6);
     }
