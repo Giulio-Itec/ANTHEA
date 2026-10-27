@@ -16,10 +16,10 @@ public static partial class RetainingWall
     /// MUR-2 (analisi dei bug del 15/10/2026): GPCChecker.Geotechnics 0.4 adds the moment of the design passive ηp Pp/γR,e about the toe to the
     /// overturning resistance (RetainingWallAnalysis: OverturningResistance = Mstab/γR + M(ηp Pp/γR,e)), an extension of the library agent awaiting
     /// the decision of the user. This flag follows the library and is the only switch of ANTHEA: it writes every text on the passive in the
-    /// overturning (method, help, audit, report); RetainingWall.Checks (DualSoilChecks) verifies it against the library. To exclude the passive from
-    /// the overturning: change the library and set this flag to false.
+    /// overturning (method, help, audit, report); RetainingWall.Checks (DualSoilChecks) verifies it against the library. BUG-MUR-2b, decision of the
+    /// user of 26/10/2026 («si, trascura»): the library neglects the passive in the overturning, so the flag is false.
     /// </summary>
-    public const bool PassiveResistsOverturning = true;
+    public const bool PassiveResistsOverturning = false;
     /// <summary>The passive in front in the checks (MUR-2), as written by <see cref="PassiveResistsOverturning"/>.</summary>
     public const string PassiveResistanceText = "Passiva Rankine a valle facoltativa, esclusa nel sisma, con frazione mobilitata ηp ≤ 0,5 (NTC 2018 §6.5.3.1.1): la resistenza di progetto ηp·Pp/γR,e (γR,e = 1,4 nelle SLU, Tab. 6.5.I; 1 negli altri stati) si somma alla resistenza allo scorrimento"
         + (PassiveResistsOverturning ? " e, con il suo momento rispetto al piede, a quella al ribaltamento" : "; nel ribaltamento non è contata") + ", senza ridurre l’azione di progetto Ed.";

@@ -119,7 +119,11 @@ public static partial class ConcreteLibraryMapping
         ["Assigned"] = "Assegnato",
         ["Maximises min(VRd,s; VRd,max) within the admissible range"] = "Massimizza min(VRd,s;VRd,max) nell’intervallo ammesso",
         ["Strut reduction"] = "Riduzione del puntone",
-        ["Non-prestressed section"] = "Sezione non precompressa"
+        ["Non-prestressed section"] = "Sezione non precompressa",
+        // Concrete 0.22 e successive (R4 e R9, decisioni dell'utente del 26/10/2026): θmin di MC2010 da εx e limite VEd di EN 6.2.2(6).
+        ["cot θmin, θmin = 20° + 10 000 εx ≤ 45° (MC2010 7.3.3.3)"] = "cot θmin, θmin = 20° + 10 000 εx ≤ 45° (MC2010 7.3.3.3)",
+        ["0.5 bw d ν fcd (6.2.2(6))"] = "0,5 bw d ν fcd (6.2.2(6))",
+        ["0.5 bw d ν fcd, ν = 0.675 (DIN NA 6.2.2(6))"] = "0,5 bw d ν fcd, ν = 0,675 (DIN NA 6.2.2(6))"
     }.ToFrozenDictionary(StringComparer.Ordinal);
 
     public static CrackCalculationDetail ShearDetail(ShearCalculationDetail d)
@@ -197,7 +201,8 @@ public static partial class ConcreteLibraryMapping
     }.ToFrozenDictionary(StringComparer.Ordinal);
 
     // Il limite superiore di cot θ è formattato dalla libreria con la cultura corrente; il legacy ha un solo messaggio per i dati non validi.
-    static readonly Regex TorsionCotRange = new(@"^Torsion: cot θ must be within \[[^;\]]+; [^;\]]+\]\.$", RegexOptions.CultureInvariant);
+    // Con MC2010 la libreria aggiunge «(θmin = 20° + 10 000 εx)» (R4, Concrete 0.22 e successive).
+    static readonly Regex TorsionCotRange = new(@"^Torsion: cot θ must be within \[[^;\]]+; [^;\]]+\]( \(θmin = 20° \+ 10 000 εx\))?\.$", RegexOptions.CultureInvariant);
 
     public static ArgumentException TorsionError(ArgumentException e)
     {

@@ -48,7 +48,10 @@ internal static class DurabilityReferenceChecks
         Equal(NtcCover.Calculate([E("XF2")],30,p,true,false,null).Cover.Nominal,40);
         Equal(NtcCover.Calculate([E("XF2")],30,p,false,false,null).Cover.Nominal,45);
         Equal(NtcCover.Calculate([E("XF2")],40,p,false,false,null).Cover.Nominal,40);
-        Equal(NtcCover.Calculate([E("XF2")],25,p,false,false,null).Cover.Nominal,50);
+        // R11 (decisione dell'utente del 26/10/2026): senza Cmin assegnato vale la classe minima UNI 11104 dell'esposizione, per XF2
+        // C25/30; con fck 25 non scatta l'aumento di 5 mm, come nella riga seguente con Cmin 25 (prima il valore di tabella 25 + 5 × gruppo,
+        // 30 per XF2, dava 50).
+        Equal(NtcCover.Calculate([E("XF2")],25,p,false,false,null).Cover.Nominal,45);
         Equal(NtcCover.Calculate([E("XF2")],25,p,false,false,25).Cover.Nominal,45);
         Equal(NtcCover.Calculate([E("XF2")],30,p with{Life=100},false,false,null).Cover.Nominal,55);
         Equal(NtcCover.Calculate([E("XF2")],30,p,false,true,null).Cover.Nominal,40);
