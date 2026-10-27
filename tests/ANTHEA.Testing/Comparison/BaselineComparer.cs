@@ -24,7 +24,7 @@ public sealed class BaselineComparer
     readonly Dictionary<string, int> volatileReasons = new(StringComparer.Ordinal);
     readonly Dictionary<(string, string, string, string?, string?), Queue<Transition>> transitions = [];
     readonly Dictionary<string, int> admittedByEntry = new(StringComparer.Ordinal);
-    int compared, listedTransitions;
+    int compared, listedTransitions, storedAdmitted;
 
     public BaselineComparer(Tolerances tolerances) => this.tolerances = tolerances;
 
@@ -54,7 +54,10 @@ public sealed class BaselineComparer
         counts[d.Class] = counts.GetValueOrDefault(d.Class) + 1;
         if (!d.Admitted) NotAdmitted++;
         if (d.Class == "volatile") { volatileReasons[d.Note ?? ""] = volatileReasons.GetValueOrDefault(d.Note ?? "") + 1; return; }
-        if (stored.Count < MaxStored) stored.Add(d);
+        // Every difference that is not admitted is kept; the admitted ones up to MaxStored, so that a long list of declared transitions does not
+        // hide them (27/10/2026: 57700 admitted differences and 579 not admitted, none of them in the details).
+        if (!d.Admitted) stored.Add(d);
+        else if (storedAdmitted < MaxStored) { stored.Add(d); storedAdmitted++; }
     }
 
     public static IEnumerable<string> Files(string root) => Directory.Exists(root)
