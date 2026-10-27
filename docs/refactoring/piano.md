@@ -939,8 +939,11 @@ ancora aperte passano alla 1.14.4 (sezione sotto).
   27/10: attuata sul ramo `refactoring/1143-teste-pali` per il palo e il micropalo verticale e orizzontale (Broms, Stratificato, risposta
   elastica), voce PO-TESTA-01; tracce dell'editor con il campo nuovo approvate dall'utente il 27/10 (f860a3d8, e00ef273). Il campo va
   nella guida Rev60 (1.14.4).
-- [ ] Versione 1.14.3, note di rilascio, prove delle viste dei pali con l'installer, setup e audit; tag `v1.14.3` e push di `main` e
-  `refactoring/f5`.
+- [x] Versione 1.14.3, note di rilascio, prove delle viste dei pali con l'installer, setup e audit; tag `v1.14.3` e push di `main` e
+  `refactoring/f5`. Setup dal commit 0c17faf9, prove PASS (una ripetizione per un pixel del PNG), audit PASS; verbale in
+  [installer-1.14.3.md](installer-1.14.3.md).
+- [ ] Seguito: «Esporta PNG…» della tavola delle armature confrontato byte per byte in ui/check-palo-orizzontale-view; il 27/10 un pixel
+  di antialiasing ha fatto fallire una corsa (passata alla ripetizione).
 
 ## Lavori della 1.14.4
 
