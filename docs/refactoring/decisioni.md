@@ -1991,3 +1991,10 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
 2. **Riferimenti.** Le correzioni delle librerie cambiano riferimenti congelati di ANTHEA (AJ-LIB-01, AJ-FON-01). Al riepilogo
    l'utente risponde «Approvo i riferimenti aggiornati AJ-LIB-01 della 1.14.2: se la full è pulita, unisci, metti il tag v1.14.2 e
    pubblica.» AJ-LIB-01 passa da «da-decidere» a «dichiarato»; la full di rilascio parte dal commit che contiene l'approvazione.
+3. **Usare tutto il credito.** «ps puoi usare tutto il credito, non ti fermare al 90%»: il limite del 90 % della quota settimanale non vale
+   più per questa settimana.
+4. **Ramo delle correzioni del 26/10.** «riporta nota di TS-2 ed elimina branch.»: la nota su BUG-TS-2 passa nel piano del ramo della
+   1.14.3; `refactoring/1142-correzioni` e il suo worktree sono eliminati (il resto del lavoro era già nella 1.14.2 o rifatto da `main`).
+5. **BUG-PO-5b in ANTHEA (1.14.3).** Sviluppo parziale delle barre del palo elastico sul ramo `refactoring/1143-po5b` (0b8bfd66,
+   riferimenti 3c3babb5). Al riepilogo l'utente risponde «Approvo i riferimenti di PO-5b (3c3babb5). Prosegui con la 1.14.3: teste
+   dei pali sotto il piano campagna.»
