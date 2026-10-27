@@ -49,7 +49,7 @@ public static partial class ElasticHorizontalPile
         var output=new JsonArray();var rows=root["elastico"]!.Array("tratti");var segments=ReadSegments(root);var details=root["elastico"]!["dettagli"]!;
         var workspace=ConcreteStandards.PileWorkspace(root["sezione"]!.AsObject());var options=J.Obj(("criterio","N costante"),("assi","Locali"),("strategia","Iterativo"),("modello","Non lineare"));
         var services=new Dictionary<string,(PileReinforcement Service,JsonObject Input,CheckerSection Engine)>();
-        var detailSegments=new List<PileDetailSegment>();var satisfiedSegments=new HashSet<string>(StringComparer.Ordinal);
+        var detailSegments=new List<PileDetailSegment>();var satisfiedSegments=new HashSet<string>(StringComparer.Ordinal);var detailFailures=new HashSet<string>(StringComparer.Ordinal);
         for(int i=0;i<segments.Length;i++)
         {
             cancellation.ThrowIfCancellationRequested();
@@ -89,7 +89,7 @@ public static partial class ElasticHorizontalPile
                 progress?.Report(new($"Tratto {s.Id}: controlli N–M–V, dettagli e distinta"));
                 record["normativa"]=ConcreteStandards.ResultName(workspace);
                 var construction=cache.Service.ConstructionChecks(checks.Max(c=>c.Action.N));record["controlli_costruttivi"]=JsonSerializer.SerializeToNode(construction);
-                if(construction.Any(c=>c.Passed==false)){record["stato"]="Non soddisfatto: dettaglio della sezione";satisfiedSegments.Remove(s.Id);}
+                if(construction.Any(c=>c.Passed==false)){record["stato"]="Non soddisfatto: dettaglio della sezione";satisfiedSegments.Remove(s.Id);detailFailures.Add(s.Id);}
                 else if(construction.Any(c=>c.Passed==null)&&satisfiedSegments.Remove(s.Id))record["stato"]="Parziale: dettagli da completare";
                 var linkStations=PileReinforcement.LinkStations(s.Start,s.End,input.Required("transverse_spacing_mm"),i==segments.Length-1);
                 record["distinta_staffe"]=J.Obj(("diametro_mm",input["transverse_bar_diameter_mm"]!.DeepClone()),("passo_massimo_mm",input["transverse_spacing_mm"]!.DeepClone()),("quantita",linkStations.Length),("quote_m",J.Node(linkStations)),("stato","Posizioni nominali a passo uniforme non maggiore di quello assegnato. Confine interno assegnato al tratto successivo; sagomatura, ganci e confinamento dei giunti da completare."));
@@ -113,6 +113,18 @@ public static partial class ElasticHorizontalPile
             record!["dettagli_barre"]=JsonSerializer.SerializeToNode(segmentRuns);
             var checks=detailSegments.Single(s=>s.Id==record.S("id")).Checks;
             PileReinforcement.ApplyDevelopment(segmentRuns,checks);
+            // BUG-PO-5b (decisione dell'utente del 26/10/2026): dove le barre non sono sviluppate la libreria verifica con fyd·r; il servizio ridotto è
+            // la stessa sezione con fyk (e fu) moltiplicati per r. Un tratto che diventa non soddisfatto lo dice nello stato, salvo che un dettaglio
+            // della sezione l'abbia già reso tale.
+            bool failedBefore=checks.Any(c=>c.Outcome==EngineeringOutcome.NotSatisfied);var sectionInput=record["sezione"]!.AsObject();
+            PileReinforcement.ApplyPartialDevelopment(segmentRuns,checks,r=>
+            {
+                var reduced=(JsonObject)sectionInput.DeepClone();reduced["fyk_mpa"]=reduced.Required("fyk_mpa")*r;
+                if(reduced.ContainsKey("steel_fu_mpa"))reduced["steel_fu_mpa"]=reduced.Required("steel_fu_mpa")*r;
+                var reducedWorkspace=(JsonObject)workspace.DeepClone();var engine=new CheckerSection(reduced,reducedWorkspace,(JsonObject)options.DeepClone());
+                return new PileReinforcement(RcParameters(reduced,details,reducedWorkspace,engine));
+            });
+            if(!failedBefore&&checks.Any(c=>c.Outcome==EngineeringOutcome.NotSatisfied)&&!detailFailures.Contains(record.S("id"))){satisfiedSegments.Remove(record.S("id"));record["stato"]="Non soddisfatto";}
             record["verifiche"]=JsonSerializer.SerializeToNode(checks);
             // Critica dopo lo sviluppo: stessa scelta per rapporto (PO-4); lo sviluppo insufficiente resta nello stato e fra i punti da completare.
             record["critica"]=JsonSerializer.SerializeToNode(Critical(checks));
@@ -135,7 +147,7 @@ public static partial class ElasticHorizontalPile
             record["riepilogo"]=ReinforcementSummary(record);
         }
         progress?.Report(new("Verifiche e distinta aggiornate",1,1));
-        return J.Obj(("versione_distinta",3),("stato","Verifiche di sezione N–M e taglio; dettagli costruttivi preliminari"),("tratti",output),("distinta",JsonSerializer.SerializeToNode(runs)),("giunti",JsonSerializer.SerializeToNode(runs.SelectMany(r=>r.Joints).Distinct())),("impostazioni",details.DeepClone()),("ipotesi","NTC 2018; azioni concomitanti. MRd nominale a N locale, nei due versi. Taglio: sezione circolare equivalente, bw=D, d dai baricentri delle barre nei semicerchi, z/d assegnato e confermato. Staffe chiuse a 90°, due bracci; nessuna equivalenza automatica della spirale. Dettagli sismici di testa opzionali: risultati nel relativo riepilogo NTC §7.2.5. SLE, sisma globale, duttilità esplicita, confinamento dei giunti e progetto esecutivo esclusi. Barre sovrapposte non sommate alla resistenza nominale. Quote dei tratti come quote finali dei tagli: primo gruppo da 0 alla fine assegnata, successivi da inizio tratto−l0 alla fine assegnata. Nessuna fusione di tratti uguali né prolungamenti automatici oltre testa, confini o punta. Suddivisione interna solo per il limite commerciale. Sviluppo, abbinamento e resistenza restano verifiche distinte; le quote non certificano il dettaglio. Giunti generati al 100%, senza sfalsamento automatico."));
+        return J.Obj(("versione_distinta",3),("stato","Verifiche di sezione N–M e taglio; dettagli costruttivi preliminari"),("tratti",output),("distinta",JsonSerializer.SerializeToNode(runs)),("giunti",JsonSerializer.SerializeToNode(runs.SelectMany(r=>r.Joints).Distinct())),("impostazioni",details.DeepClone()),("ipotesi","NTC 2018; azioni concomitanti. MRd nominale a N locale, nei due versi; dove le barre non sono del tutto sviluppate, MRd con fyd·r, r lunghezza ancorata oltre a_l su lbd arrotondata per difetto a 0,05. Taglio: sezione circolare equivalente, bw=D, d dai baricentri delle barre nei semicerchi, z/d assegnato e confermato. Staffe chiuse a 90°, due bracci; nessuna equivalenza automatica della spirale. Dettagli sismici di testa opzionali: risultati nel relativo riepilogo NTC §7.2.5. SLE, sisma globale, duttilità esplicita, confinamento dei giunti e progetto esecutivo esclusi. Barre sovrapposte non sommate alla resistenza nominale. Quote dei tratti come quote finali dei tagli: primo gruppo da 0 alla fine assegnata, successivi da inizio tratto−l0 alla fine assegnata. Nessuna fusione di tratti uguali né prolungamenti automatici oltre testa, confini o punta. Suddivisione interna solo per il limite commerciale. Sviluppo, abbinamento e resistenza restano verifiche distinte; le quote non certificano il dettaglio. Giunti generati al 100%, senza sfalsamento automatico."));
     }
     /// <summary>
     /// Sezione critica del tratto (analisi dei bug del 15/10/2026, PO-4): rapporto massimo GoverningRatio ?? BendingRatio (un punto non

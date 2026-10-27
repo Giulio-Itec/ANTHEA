@@ -83,7 +83,7 @@ public static class ReportElasticPile
                     P(seismic.S("Reference")+"; "+seismic.S("SourceUrl"));
                 }
                 var links=t["distinta_staffe"];if(links!=null)P($"Distinta {links.S("tipo","Staffe singole")}: {F(links,"quantita")} φ{F(links,"diametro_mm")} mm, passo non maggiore di {F(links,"passo_massimo_mm")} mm; passo effettivo {F(links,"passo_effettivo_mm")} mm; spire {F(links,"spire")}; lunghezza geometrica totale {F(links,"lunghezza_geometrica_m")} m. {links.S("stato")}");
-                var c=t["critica"];var a=c?["Action"];P($"Sezione critica x={F(a,"Depth")} m: N={F(a,"N")} kN, V={F(a,"V")} kN, M={F(a,"M")} kNm. MRd nominale +={F(c,"MRdPositive")}, MRd−={F(c,"MRdNegative")} kNm; VRd={F(c,"VRd")} kN. {c.S("Message")}");
+                var c=t["critica"];var a=c?["Action"];P($"Sezione critica x={F(a,"Depth")} m: N={F(a,"N")} kN, V={F(a,"V")} kN, M={F(a,"M")} kNm. {(c?["DevelopedFraction"] is null?"MRd nominale":"MRd con fyd·r")} +={F(c,"MRdPositive")}, MRd−={F(c,"MRdNegative")} kNm; VRd={F(c,"VRd")} kN. {c.S("Message")}");
                 P("Lato: sup. = superiore, inf. = inferiore, int. = interno all'elemento.");
                 Table(["x [m] / lato","N [kN]","M [kNm]","MRd+ util. [kNm]","MRd− util. [kNm]","V / VRd [kN]","Esito"],t.Array("verifiche").Select(v=>new[]{C(v?["Action"],"Depth")+" "+Side(v?["Action"]),F(v?["Action"],"N"),F(v?["Action"],"M"),F(v,"UsableMRdPositive"),F(v,"UsableMRdNegative"),F(v?["Action"],"V")+" / "+F(v,"VRd"),v.S("Status")}));
             }

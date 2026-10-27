@@ -931,7 +931,11 @@ alla 1.14.3 il 26/10 notte («versione 1.14.2 e 1.14.3 dopo correzioni»): la 1.
 - [ ] Correzioni della libreria Concrete: R11 (Cmin di default), R4 (θmin di MC2010 nel taglio e nella torsione), R9 (controllo di
   EN 6.2.2(6)), BUG-FES-1b e BUG-FES-1c (soglia di wk = 0 sul copriferro reale), BUG-PO-5b (sviluppo parziale delle barre al piede).
 - [ ] BUG-MUR-2b: passiva a valle fuori dalla resistenza al ribaltamento (Geotechnics e testo di ANTHEA).
-- [ ] BUG-TS-2: tension stiffening nell'area efficace hc,eff, fuori dalle verifiche SLE per ora.
+- [ ] BUG-TS-2: tension stiffening nell'area efficace hc,eff, fuori dalle verifiche SLE per ora. 26/10 sera, primo tentativo (patch nello
+  scratchpad della sessione, non committata): la legge di Collins e Mitchell solo nella banda hc,eff e tensione nulla oltre la fessurazione fuori
+  dalla banda. Il salto da fctm a zero e la banda che cambia con l'asse neutro fanno perdere la convergenza (6 prove di Concrete); tolto.
+  Decisione dell'utente del 26/10 sera, «TS-2 scelgo 1»: tension stiffening sulle barre con ρs,eff = As/Ac,eff (modello del tirante, MC2010
+  e EN 1992-1-1 7.4.3); il calcestruzzo teso non lavora dopo la fessurazione. Da progettare con un modello indipendente e le sue prove.
 - [ ] Teste dei pali e dei micropali sotto il piano campagna, con le tensioni del ricoprimento ([seguito](../paratie/seguito-pali-interrati.md)).
 - [ ] Combinazioni e loro generazione in Model, prima i muri, poi i moduli che costruiscono le combinazioni da sé.
 - [ ] Palo orizzontale: anello interno di diametro diverso dalla prima fila (distinta per diametro nella libreria) e anello nei report.
