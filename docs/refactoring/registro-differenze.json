@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-26",
+  "aggiornato": "2026-10-27",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -10991,7 +10991,7 @@
       "decisione": {
         "data": "2026-10-27",
         "utente": "«punto 2. hai il mio ok» (rilascio della 1.14.2 con le librerie nuove)",
-        "esito": "impronte preparate sul ramo refactoring/1142-rilascio, catturate con una modifica temporanea non committata; da approvare con AJ-LIB-01"
+        "esito": "impronte preparate sul ramo refactoring/1142-rilascio, catturate con una modifica temporanea non committata; approvate con AJ-LIB-01 il 27/10"
       },
       "test": [
         "ui/check-fondazioni-view"
@@ -11012,7 +11012,7 @@
       "famiglia": "librerie/riferimenti",
       "modulo": "tutti",
       "categoria": "intenzionale",
-      "stato": "da-decidere",
+      "stato": "dichiarato",
       "descrizione": "Il master locale di Checker 4a1b0090 unisce le correzioni decise il 26/10 sera (R4, R9, R11, BUG-FES-1b/1c, BUG-PO-5b, BUG-MUR-2b, teste dei pali, distinta per diametro) al lavoro dell'altro agente sui ponti in acciaio. Con quelle librerie ANTHEA adegua testi e prove (commit bea243b6 e ac21a044 del ramo refactoring/1142-rilascio) e aggiorna i riferimenti: transizioni F3 (2071 nuove, 18 sostituite, regola D2), 250 righe di 31 tracce storiche (muri, palo elastico, sezione c.a.; le 20 righe della differenza dichiarata F5-02 restano storiche), 14 valori registrati dei muri e 5 della sezione c.a. (vista-storica.json, da registrazioni temporanee della vista XAML), 8 impronte delle fondazioni (AJ-FON-01), il conteggio delle transizioni del palo in Presentation.Tests (1939 di BUG-PO-5b), 15 divergenze R4 del banco del calcestruzzo, valori a mano di R11 per la libreria. Nessun atteso F3 sostituito, nessuna tolleranza nuova.",
       "codice": [
         "tests/fixtures/f3/transitions-f4.json",
@@ -11029,8 +11029,8 @@
       "segno": "Correzioni volute dall'utente: R4 e BUG-MUR-2b più cautelative, R9 senza effetto sui valori, R11 cnom ±5 mm secondo la classe UNI 11104.",
       "decisione": {
         "data": "2026-10-27",
-        "utente": "«punto 2. hai il mio ok» (rilascio della 1.14.2; con differenze nei riferimenti congelati ci si ferma e si riferisce)",
-        "esito": "da approvare dall'utente prima dell'unione in refactoring/f5"
+        "utente": "«punto 2. hai il mio ok» (26/10, rilascio della 1.14.2; con differenze nei riferimenti congelati ci si ferma e si riferisce); il 27/10, al riepilogo delle differenze: «Approvo i riferimenti aggiornati AJ-LIB-01 della 1.14.2: se la full è pulita, unisci, metti il tag v1.14.2 e pubblica.»",
+        "esito": "riferimenti approvati e registrati nella 1.14.2 (commit e2a4f888 del ramo refactoring/1142-rilascio, librerie AJ)"
       },
       "test": [
         "ui/f3-equivalence",

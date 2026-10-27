@@ -1981,3 +1981,13 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
 4. **Pubblicazione.** Al riepilogo «2. Nuovo rilascio di ANTHEA [...] Tag e push solo con il tuo OK» l'utente risponde «punto 2. hai
    il mio ok»: tag `v1.14.2` e push di `main` e `refactoring/f5` dopo una full pulita; con differenze nei riferimenti congelati o
    fallimenti nuovi ci si ferma e si riferisce.
+
+## 27 ottobre — librerie AJ e riferimenti della 1.14.2
+
+Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'utente.
+
+1. **Librerie.** «aggiornate librerie»: su origin/master Checker 4a1b0090 (con le correzioni del 26/10 sera, unite dall'altro agente)
+   e Model 2acc60ef. Set ufficiale AJ con tutte le suite verdi e DLL identiche al candidato provato nella notte.
+2. **Riferimenti.** Le correzioni delle librerie cambiano riferimenti congelati di ANTHEA (AJ-LIB-01, AJ-FON-01). Al riepilogo
+   l'utente risponde «Approvo i riferimenti aggiornati AJ-LIB-01 della 1.14.2: se la full è pulita, unisci, metti il tag v1.14.2 e
+   pubblica.» AJ-LIB-01 passa da «da-decidere» a «dichiarato»; la full di rilascio parte dal commit che contiene l'approvazione.

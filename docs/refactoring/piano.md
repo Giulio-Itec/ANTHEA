@@ -917,7 +917,8 @@ Altre voci dopo F5, fuori da F5.15:
 Decisioni in [decisioni.md](decisioni.md), «26 ottobre (notte)». La 1.14.1 non è stata pubblicata: la 1.14.2 ne riprende il contenuto
 con le librerie nuove di Model e Checker dell'altro agente.
 
-- [ ] Set ufficiale delle librerie da origin/master, appena Checker ha le versioni nuove («riparti quando checker avrà nuove versioni»).
+- [x] Set ufficiale delle librerie da origin/master, appena Checker ha le versioni nuove («riparti quando checker avrà nuove versioni»).
+  Set AJ del 27/10 (Model 2acc60ef, Checker 4a1b0090); riferimenti aggiornati approvati dall'utente (AJ-LIB-01).
 - [ ] Installazione in `lib/Checker`, versione 1.14.2, note di rilascio, full con installer, setup e audit.
 - [ ] Tag `v1.14.2` e pubblicazione di `main` e `refactoring/f5` («punto 2. hai il mio ok»), solo con la full pulita.
 ## Lavori della 1.14.3 (decisioni del 26 ottobre sera)
