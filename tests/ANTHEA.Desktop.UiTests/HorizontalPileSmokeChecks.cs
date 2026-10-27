@@ -492,9 +492,15 @@ internal sealed class HorizontalPileSmoke
         View.Surveys.SelectedIndex = 0; Layout();
         var row = Rows()[0];
         var input = Cell<TextBox>(row, "Spessore [m]");
-        string thickness = input.Text; input.Focus(); input.Text = thickness + " ";
+        string thickness = input.Text; Window.Activate(); input.Focus(); input.Text = thickness + " ";
         await WaitForAutomatic();
-        if (!input.IsKeyboardFocused || input.Text != thickness + " " || row.Values.S("spessore") != input.Text) throw new Exception("Digitazione interrotta");
+        // The window of the smoke runs off screen and the desktop can move the activation and the keyboard focus elsewhere (27/10/2026:
+        // 8 runs of 16, with the window inactive or active again, the keyboard focus nobody's or outside the cell). The cell keeps the
+        // logical focus of its scope, which a rebuild of the rows during the recalculation would take away as well.
+        bool focused = input.IsKeyboardFocused || input.IsFocused;
+        if (!focused || input.Text != thickness + " " || row.Values.S("spessore") != input.Text)
+            throw new Exception($"Digitazione interrotta: fuoco della tastiera {input.IsKeyboardFocused}, fuoco logico {input.IsFocused}, finestra attiva {Window.IsActive}, "
+                + $"testo «{input.Text}», dato «{row.Values.S("spessore")}», atteso «{thickness} », cella nella vista {PresentationSource.FromVisual(input) is not null}, stessa riga {ReferenceEquals(Rows()[0], row)}");
         input.Text = thickness; await WaitForAutomatic();
         // The colour of the layer: the swatch of the row (Token.Swatch.Soil1 = StratigraphyDrawing.LayerColors[0] in Chiara) and its name.
         var swatch = Ui.Descendants<Border>(RowOf(row)).Single(b => b.Width == 18 && b.Height == 12);
