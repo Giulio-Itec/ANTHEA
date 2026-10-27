@@ -919,8 +919,9 @@ con le librerie nuove di Model e Checker dell'altro agente.
 
 - [x] Set ufficiale delle librerie da origin/master, appena Checker ha le versioni nuove («riparti quando checker avrà nuove versioni»).
   Set AJ del 27/10 (Model 2acc60ef, Checker 4a1b0090); riferimenti aggiornati approvati dall'utente (AJ-LIB-01).
-- [ ] Installazione in `lib/Checker`, versione 1.14.2, note di rilascio, full con installer, setup e audit.
-- [ ] Tag `v1.14.2` e pubblicazione di `main` e `refactoring/f5` («punto 2. hai il mio ok»), solo con la full pulita.
+- [x] Installazione in `lib/Checker`, versione 1.14.2, note di rilascio, full con installer, setup e audit. Full PASS 157 sul commit
+  del setup aa887e6a, audit PASS; verbale in [installer-1.14.2.md](installer-1.14.2.md).
+- [x] Tag `v1.14.2` e pubblicazione di `main` e `refactoring/f5` («punto 2. hai il mio ok»), solo con la full pulita.
 ## Lavori della 1.14.3 (decisioni del 26 ottobre sera)
 
 Decisioni in [decisioni.md](decisioni.md), «26 ottobre (sera)». Le librerie partono da origin/master in worktree propri (un altro agente
