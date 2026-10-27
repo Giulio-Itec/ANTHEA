@@ -59,6 +59,7 @@
   "PARATIE-19": 3934,
   "PARATIE-19 / AG-PO-02": 7,
   "PARATIE-20": 2898,
+  "PO-ANELLO-01": 2,
   "R9": 2,
   "SPETTRI-04": 12
  },
@@ -459078,6 +459079,22 @@
    "a": "null",
    "b": "149.00709187638722",
    "voce": "BUG-PO-5b"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/broms-coesivo-impedita/report.txt",
+   "percorso": "riga 65",
+   "classe": "testo",
+   "a": "¶ Diametro e N della sezione corrispondono ai dati generali del palo.",
+   "b": "¶ Secondo anello interno: 8 barre φ20 mm, distanza libera dalla prima fila 30 mm. Diametro e N della sezione corrispondono ai dati generali del palo.",
+   "voce": "PO-ANELLO-01"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/report.txt",
+   "percorso": "riga 21617",
+   "classe": "testo",
+   "a": "¶ Armatura: 10 φ20; Staffe singole φ8/200 mm; copriferro 60 mm.",
+   "b": "¶ Armatura: 10 φ20; secondo anello interno 6 φ20, distanza libera dalla prima fila 30 mm; Staffe singole φ8/200 mm; copriferro 60 mm.",
+   "voce": "PO-ANELLO-01"
   }
  ],
  "aggiornamento_spettri": {
@@ -459155,5 +459172,14 @@
   ],
   "aggiunte": 428,
   "nota": "ANTHEA usa lo sviluppo parziale delle barre della libreria (PileReinforcement.ApplyPartialDevelopment, Checker 4a1b0090), decisione dell'utente del 26/10/2026: dove le barre del palo elastico non sono del tutto sviluppate MRd è quello con fyd·r. Cambiano le verifiche vicine alla testa e alla punta di single-soil-elastic (MRd, rapporto, DevelopedFraction, messaggio), la sua sezione critica e i riepiloghi, e il testo delle ipotesi delle tre fixture elastiche. Sostituite 295 voci elencate il cui valore dopo cambia (AG-PO-02 / BUG-PO-5b 210, BUG-PO-4 + BUG-PO-5 / AG-PO-02 / BUG-PO-5b 3, BUG-PO-4 + BUG-PO-5 / BUG-PO-5b 1, BUG-PO-4 / AG-PO-02 / BUG-PO-5b 7, BUG-PO-5 / BUG-PO-5b 3, BUG-PO-5b 71): valore dopo nuovo, valori prima del riferimento F3 invariati. 1 righe aggiunte elencate (BUG-PO-5) restano uguali e scendono di posizione per la riga nuova «pressoflessione N–M.» prima di loro. Aggiunte 428 voci BUG-PO-5b. Nessun atteso F3 sostituito, nessuna tolleranza nuova."
+ },
+ "aggiornamento_1144_anello": {
+  "data": "2026-10-27",
+  "cattura": "supporto/artefatti/1144/f3-3/ui_f3-equivalence/cattura",
+  "registro": "PO-ANELLO-01",
+  "sostituite": 0,
+  "spostate": [],
+  "aggiunte": 2,
+  "nota": "1.14.4, anello nei report (decisione dell'utente del 26/10/2026, «palo orizzontale (anello interno di diametro diverso + anello nei report)»): il report di Broms riporta il secondo anello nella frase che segue la tabella della sezione (broms-coesivo-impedita) e il report della risposta elastica la riga dell'anello nell'armatura del tratto (elastico-tratti-anello-spirale). Cambiano solo i report di queste due fixture, una riga ciascuno. Sostituite 0 voci elencate il cui valore dopo cambia (); 0 righe elencate spostate. Aggiunte 2 voci PO-ANELLO-01. Nessun atteso F3 sostituito, nessuna tolleranza nuova."
  }
 }

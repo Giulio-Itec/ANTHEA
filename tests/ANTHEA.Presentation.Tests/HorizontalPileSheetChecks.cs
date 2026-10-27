@@ -382,7 +382,8 @@ internal static class HorizontalPileSheetChecks
                 }
                 if (!opensElastic)
                 {
-                    expect.That(listed.All(t => t.Entry == "AG-PO-01"), file + ": transizione F4 su un file della capacità diversa da AG-PO-01");
+                    // PO-ANELLO-01 (1.14.4): the sentence of the second ring in the report of broms-coesivo-impedita.
+                    expect.That(listed.All(t => t.Entry is "AG-PO-01" or "PO-ANELLO-01"), file + ": transizione F4 su un file della capacità diversa da AG-PO-01 e PO-ANELLO-01");
                     capacity++;
                 }
                 foreach (var (folder, text) in new[] { (reference, a), (candidate, b) })
@@ -411,8 +412,10 @@ internal static class HorizontalPileSheetChecks
         var shear = transitions.Where(t => t.Entry.StartsWith("PARATIE-19", StringComparison.Ordinal)).ToList();
         var parabola = transitions.Where(t => t.Entry is "AG-PO-01" or "AG-PO-02").ToList();
         var partial = transitions.Where(t => t.Entry == "BUG-PO-5b").ToList();
-        var others = transitions.Except(shear).Except(parabola).Except(partial).ToList();
-        expect.That(elastic == 11 && capacity == 4 && shear.Count == 3941 && others.Count == 1327
+        // PO-ANELLO-01 (1.14.4): one line of the report of broms-coesivo-impedita and one of elastico-tratti-anello-spirale give the second ring.
+        var ring = transitions.Where(t => t.Entry == "PO-ANELLO-01").ToList();
+        var others = transitions.Except(shear).Except(parabola).Except(partial).Except(ring).ToList();
+        expect.That(elastic == 11 && capacity == 4 && shear.Count == 3941 && others.Count == 1327 && ring.Count == 2 && ring.All(t => t.File.EndsWith("/report.txt", StringComparison.Ordinal))
             && others.All(t => t.File.Contains("/single-soil-elastic/", StringComparison.Ordinal))
             && parabola.Count(t => t.Entry == "AG-PO-01") == 480 && parabola.Count(t => t.Entry == "AG-PO-02") == 6900
             && partial.Count == 2367 && partial.Count(t => t.Path.EndsWith(".DevelopedFraction", StringComparison.Ordinal)) == 1939
@@ -420,7 +423,7 @@ internal static class HorizontalPileSheetChecks
             && transitions.Count(t => t.Entry.EndsWith(" / BUG-PO-5b", StringComparison.Ordinal)) == 224,
             "Transizioni F4 dei pali orizzontali: " + transitions.Count + " (attese le 1327 della risposta elastica di single-soil-elastic, le 3941 di PARATIE-19, "
             + "le 480 di AG-PO-01 su 4 file della capacità, le 6900 di AG-PO-02 e le 2367 di BUG-PO-5b, 1939 delle quali sulla chiave DevelopedFraction; "
-            + "7 voci estese con AG-PO-02 e 224 con BUG-PO-5b)");
+            + "7 voci estese con AG-PO-02 e 224 con BUG-PO-5b, le 2 di PO-ANELLO-01 sui report)");
         expect.That(compared > 0, "Nessun file F3 confrontato");
     }
 
