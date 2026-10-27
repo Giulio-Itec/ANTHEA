@@ -2004,3 +2004,9 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
    Registra la decisione.» PO-TESTA-01 passa da «da-decidere» ad «attuato».
 7. **Pausa.** «fermati per qualche ora. ti riavvio poi io», «ho bisogno che la macchina non lavori, sennò rischio si blocchi»: nessuna
    prova in corso durante la pausa; ripresa con «puoi ripartire».
+8. **Versione 1.14.3.** «mandami il percorso della 1.14.3 quando lo hai fatto»; alla domanda se fare tutti i punti o solo i pali:
+   «solo i pali ma non fare la full. fai solo le viste interessate. poi push e versione». La 1.14.3 contiene PO-5b e le teste dei
+   pali; al posto della full le prove delle viste dei pali con l'installer. Tag `v1.14.3` e push di `main` e `refactoring/f5`
+   autorizzati.
+9. **1.14.4.** «fatta la versione, comincia a lavorare alla 1.14.4 chiudendo gli altri punti che avevamo in lista (vedi combo in model
+   ecc)»: le voci aperte della 1.14.3 passano alla 1.14.4 (piano.md, «Lavori della 1.14.4»), a partire dalle combinazioni in Model.

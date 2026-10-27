@@ -11,7 +11,7 @@
     <RootNamespace>X.Desktop</RootNamespace>
     <Product>ANTHEA</Product>
     <Title>ANTHEA</Title>
-    <Version>1.14.2</Version>
+    <Version>1.14.3</Version>
     <Company>ITEC Engineering</Company>
     <Copyright>© 2026 ITEC Engineering</Copyright>
     <ApplicationManifest>app.manifest</ApplicationManifest>

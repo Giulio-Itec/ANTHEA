@@ -927,26 +927,38 @@ con le librerie nuove di Model e Checker dell'altro agente.
 Decisioni in [decisioni.md](decisioni.md), «26 ottobre (sera)». Le librerie partono da origin/master in worktree propri (un altro agente
 lavora su Checker); ANTHEA da `main`. Un solo set di librerie per tutte le correzioni, poi ANTHEA, la guida Rev60 e la 1.14.3. Decise per la 1.14.2, passano
 alla 1.14.3 il 26/10 notte («versione 1.14.2 e 1.14.3 dopo correzioni»): la 1.14.2 è la 1.14.1 con le librerie nuove di Model e Checker.
+Il 27/10 la 1.14.3 si limita ai pali («solo i pali ma non fare la full. fai solo le viste interessate. poi push e versione»); le voci
+ancora aperte passano alla 1.14.4 (sezione sotto).
 
-- [ ] Correzioni della libreria Concrete: R11 (Cmin di default), R4 (θmin di MC2010 nel taglio e nella torsione), R9 (controllo di
+- [x] Correzioni della libreria Concrete: R11 (Cmin di default), R4 (θmin di MC2010 nel taglio e nella torsione), R9 (controllo di
   EN 6.2.2(6)), BUG-FES-1b e BUG-FES-1c (soglia di wk = 0 sul copriferro reale), BUG-PO-5b (sviluppo parziale delle barre al piede).
-- [ ] BUG-MUR-2b: passiva a valle fuori dalla resistenza al ribaltamento (Geotechnics e testo di ANTHEA).
+  Nelle librerie AJ della 1.14.2 (AJ-LIB-01); ANTHEA usa lo sviluppo parziale dalla 1.14.3 (0b8bfd66, riferimenti 3c3babb5 approvati
+  il 27/10).
+- [x] BUG-MUR-2b: passiva a valle fuori dalla resistenza al ribaltamento (Geotechnics e testo di ANTHEA). Nella 1.14.2.
+- [x] Teste dei pali e dei micropali sotto il piano campagna, con le tensioni del ricoprimento ([seguito](../paratie/seguito-pali-interrati.md)).
+  27/10: attuata sul ramo `refactoring/1143-teste-pali` per il palo e il micropalo verticale e orizzontale (Broms, Stratificato, risposta
+  elastica), voce PO-TESTA-01; tracce dell'editor con il campo nuovo approvate dall'utente il 27/10 (f860a3d8, e00ef273). Il campo va
+  nella guida Rev60 (1.14.4).
+- [ ] Versione 1.14.3, note di rilascio, prove delle viste dei pali con l'installer, setup e audit; tag `v1.14.3` e push di `main` e
+  `refactoring/f5`.
+
+## Lavori della 1.14.4
+
+Decisione del 27/10: «fatta la versione, comincia a lavorare alla 1.14.4 chiudendo gli altri punti che avevamo in lista (vedi combo in
+model ecc)». Le voci vengono dalla 1.14.3.
+
+- [ ] Combinazioni e loro generazione in Model, prima i muri, poi i moduli che costruiscono le combinazioni da sé.
+- [ ] Palo orizzontale: anello interno di diametro diverso dalla prima fila nei report (la distinta per diametro è nella 1.14.2).
 - [ ] BUG-TS-2: tension stiffening nell'area efficace hc,eff, fuori dalle verifiche SLE per ora. 26/10 sera, primo tentativo (patch nello
   scratchpad della sessione, non committata): la legge di Collins e Mitchell solo nella banda hc,eff e tensione nulla oltre la fessurazione fuori
   dalla banda. Il salto da fctm a zero e la banda che cambia con l'asse neutro fanno perdere la convergenza (6 prove di Concrete); tolto.
   Decisione dell'utente del 26/10 sera, «TS-2 scelgo 1»: tension stiffening sulle barre con ρs,eff = As/Ac,eff (modello del tirante, MC2010
   e EN 1992-1-1 7.4.3); il calcestruzzo teso non lavora dopo la fessurazione. Da progettare con un modello indipendente e le sue prove.
-- [x] Teste dei pali e dei micropali sotto il piano campagna, con le tensioni del ricoprimento ([seguito](../paratie/seguito-pali-interrati.md)).
-  27/10: attuata sul ramo `refactoring/1143-teste-pali` per il palo e il micropalo verticale e orizzontale (Broms, Stratificato, risposta
-  elastica), voce PO-TESTA-01; tracce dell'editor con il campo nuovo approvate dall'utente il 27/10 (f860a3d8, e00ef273). Il campo va
-  nella guida Rev60 (voce sotto).
 - [ ] Libreria: `LateralPileCapacity.ModelName` con la profondità della testa (seguito di PO-TESTA-01; ANTHEA le passa la verticale vista
   dalla testa).
-- [ ] Combinazioni e loro generazione in Model, prima i muri, poi i moduli che costruiscono le combinazioni da sé.
-- [ ] Palo orizzontale: anello interno di diametro diverso dalla prima fila (distinta per diametro nella libreria) e anello nei report.
 - [ ] R18, in fondo: ramo incrudente dell'acciaio di progetto da fyd a k fyk/γs.
-- [ ] Difetti di contrasto del tema Chiaro (719 in 28 gruppi), da vedere con l'utente.
-- [ ] Guida pratica e teorica Rev60 (separatore decimale, correzioni, R5 dichiarata, profondità d della testa dei pali) e rilascio 1.14.3.
+- [ ] Difetti di contrasto del tema Chiaro (643 occorrenze in 191 voci il 27/10, baseline 645), da vedere con l'utente.
+- [ ] Guida pratica e teorica Rev60 (separatore decimale, correzioni, R5 dichiarata, profondità d della testa dei pali) e rilascio 1.14.4.
 
 ## Wiki (in parallelo)
 
