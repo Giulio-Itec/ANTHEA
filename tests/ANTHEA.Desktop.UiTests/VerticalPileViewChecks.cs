@@ -634,7 +634,7 @@ internal static class VerticalPileViewChecks
         bool micro = module == Micro;
         var capacity = new Plot
         {
-            Capacity = true, Title = VerticalPilePresentation.CapacityTitle(micro), YLabel = VerticalPilePresentation.CapacityAxis(micro),
+            Capacity = true, Title = VerticalPilePresentation.CapacityTitle(micro), YLabel = VerticalPilePresentation.CapacityAxis(micro, result),
             CapacityDepth = VerticalPilePresentation.AvailableDepth(result), EmptyMessage = VerticalPilePresentation.NoCurveSelected,
             Series = VerticalPileCharts.Capacity(data, result, micro).Where(s => s.Visible && VerticalPileCharts.CapacityIncludes(s.Key, micro, 0)).Select(s => PlotPresentation.Series(s.Series)).ToList()
         };
@@ -783,7 +783,8 @@ internal static class VerticalPileViewChecks
             await host.Settle();
             static string[] Labels(DependencyObject root) => Visual(root).OfType<Button>().Where(b => b.IsVisible && b.Content as string == "?")
                 .Select(b => AutomationProperties.GetName(b)).Order(StringComparer.Ordinal).ToArray();
-            string[] before = HistoricHelpLabels[module], after = Labels(host.Root);
+            // The depth of the head (1.14.3, request of the user of 19/10/2026) is a field that the historic view never had.
+            string[] before = [.. HistoricHelpLabels[module].Append("Wiki: Profondità testa sotto il p.c.").Order(StringComparer.Ordinal)], after = Labels(host.Root);
             Check(after.SequenceEqual(before), module + ": etichette «?» visibili uguali a quelle della vista storica (" + before.Length + "): " + string.Join(", ", after));
             var side = new ViewSide(host, null, services);
             var help = Visual(host.Root).OfType<Button>().Single(b => b.IsVisible && AutomationProperties.GetName(b) == "Wiki: " + host.Sheet.GeneralForm["lunghezza"].Label);

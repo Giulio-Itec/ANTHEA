@@ -8,6 +8,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IGU" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "sì"
   campo percentuale_punta "Punta rispetto alla laterale" = "15"
@@ -59,6 +60,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IGU" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "sì"
   campo percentuale_punta "Punta rispetto alla laterale" = "15"
@@ -125,6 +127,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IGU" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "sì"
   campo percentuale_punta "Punta rispetto alla laterale" = "15"
@@ -176,6 +179,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IGU" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "sì"
   campo percentuale_punta "Punta rispetto alla laterale" = "15"
@@ -227,6 +231,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "sì"
   campo percentuale_punta "Punta rispetto alla laterale" = "15"
@@ -278,6 +283,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "sì"
   campo percentuale_punta "Punta rispetto alla laterale" = "15"
@@ -329,6 +335,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "sì"
   campo percentuale_punta "Punta rispetto alla laterale" = "15"
@@ -380,6 +387,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "sì"
   campo percentuale_punta "Punta rispetto alla laterale" = "15"
@@ -446,6 +454,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "sì"
   campo percentuale_punta "Punta rispetto alla laterale" = "15"
@@ -497,6 +506,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "sì"
   campo percentuale_punta "Punta rispetto alla laterale" = "15"
@@ -563,6 +573,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -614,6 +625,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -680,6 +692,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -731,6 +744,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1.2"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -797,6 +811,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "12"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -848,6 +863,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "12"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -899,6 +915,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -950,6 +967,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1016,6 +1034,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1067,6 +1086,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1133,6 +1153,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1184,6 +1205,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1250,6 +1272,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1301,6 +1324,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1367,6 +1391,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1419,6 +1444,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1471,6 +1497,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1522,6 +1549,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1588,6 +1616,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1648,6 +1677,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1708,6 +1738,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1759,6 +1790,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1825,6 +1857,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1889,6 +1922,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -1953,6 +1987,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -2017,6 +2052,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -2079,6 +2115,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -2143,6 +2180,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -2207,6 +2245,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -2258,6 +2297,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato
@@ -2309,6 +2349,7 @@ generali
   scelta tipo_iniezione "Iniezione" = "IRS" voci "IGU|IRS"
   campo diametro "Diametro perforazione" = "0.25"
   campo lunghezza "Lunghezza palo" = "10.3"
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo inizio_aderenza "Inizio aderenza lungo asse" = "1"
   opzione considera_punta "Considera punta" = "no"
   campo percentuale_punta "Punta rispetto alla laterale" = "15" · spento · attenuato

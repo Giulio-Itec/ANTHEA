@@ -9,6 +9,7 @@ generali
   scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
   campo diametro "Diametro palo" = "1"
   campo lunghezza "Lunghezza palo" = ""
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "" · spento · attenuato
@@ -60,6 +61,7 @@ generali
   scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
   campo diametro "Diametro palo" = "1"
   campo lunghezza "Lunghezza palo" = ""
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "" · spento · attenuato
@@ -111,6 +113,7 @@ generali
   scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
   campo diametro "Diametro palo" = "1"
   campo lunghezza "Lunghezza palo" = ""
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "" · spento · attenuato
@@ -162,6 +165,7 @@ generali
   scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
   campo diametro "Diametro palo" = "1"
   campo lunghezza "Lunghezza palo" = ""
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "" · spento · attenuato
@@ -213,6 +217,7 @@ generali
   scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
   campo diametro "Diametro palo" = "1"
   campo lunghezza "Lunghezza palo" = ""
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "" · spento · attenuato
@@ -264,6 +269,7 @@ generali
   scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
   campo diametro "Diametro palo" = "1"
   campo lunghezza "Lunghezza palo" = ""
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "" · spento · attenuato
@@ -315,6 +321,7 @@ generali
   scelta sottotipo_palo_battuto "Tipo battuto" = "Profilato d'acciaio" voci "Profilato d'acciaio|Tubo d'acciaio chiuso|Calcestruzzo prefabbricato|Calcestruzzo gettato in opera" · spento · attenuato
   campo diametro "Diametro palo" = "1"
   campo lunghezza "Lunghezza palo" = ""
+  campo profondita_testa "Profondità testa sotto il p.c." = "0"
   campo peso_specifico_palo "Peso specifico CLS / palo" = "25"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "" · spento · attenuato
