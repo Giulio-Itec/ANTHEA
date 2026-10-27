@@ -2010,3 +2010,12 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
    autorizzati.
 9. **1.14.4.** «fatta la versione, comincia a lavorare alla 1.14.4 chiudendo gli altri punti che avevamo in lista (vedi combo in model
    ecc)»: le voci aperte della 1.14.3 passano alla 1.14.4 (piano.md, «Lavori della 1.14.4»), a partire dalle combinazioni in Model.
+10. **Decisioni della 1.14.4 (sera).** Al riepilogo con quattro domande l'utente risponde:
+   - anello interno nei report (PO-ANELLO-01, 2 righe di report F3): «Approvo»; la voce passa ad «attuato»;
+   - TS-2 opzione 1 (tension stiffening sulle barre, modello del tirante: calcestruzzo teso nullo dopo εcr, legge dell'acciaio in
+     ε* = εm/(1−β) nella formazione delle fessure e εm + β·σsr/Es a fessurazione stabilizzata, ρeff per barra dall'area efficace del controllo
+     di fessurazione, barre fuori dall'area efficace nude): «β = 0,4» (carichi di lunga durata);
+   - contrasto del tema Chiaro: grigio dei testi secondari #64748B scurito a #5B697E nella sola Chiara (rapporto 5,1 sul fondo #F3F5F8),
+     gli altri difetti corretti a parte; la regola «la modalità chiara non si modifica» cade per questo colore;
+   - scelte normative dei muri (D4 G2 favorevole, D5 γR delle righe sismiche assegnate, D6 variabili favorevoli nel sisma e negli
+     eccezionali): «Quantifica e proponi», nessuna modifica prima del confronto sul corpus.

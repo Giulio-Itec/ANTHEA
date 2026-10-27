@@ -951,8 +951,9 @@ Decisione del 27/10: «fatta la versione, comincia a lavorare alla 1.14.4 chiude
 model ecc)». Le voci vengono dalla 1.14.3.
 
 - [ ] Combinazioni e loro generazione in Model, prima i muri, poi i moduli che costruiscono le combinazioni da sé.
-- [ ] Palo orizzontale: anello interno di diametro diverso dalla prima fila nei report (la distinta per diametro è nella 1.14.2).
-- [ ] BUG-TS-2: tension stiffening nell'area efficace hc,eff, fuori dalle verifiche SLE per ora. 26/10 sera, primo tentativo (patch nello
+- [x] Palo orizzontale: anello interno di diametro diverso dalla prima fila nei report (la distinta per diametro è nella 1.14.2). 27/10:
+  frase del secondo anello nel report di Broms e riga del tratto nel report elastico (PO-ANELLO-01), riferimenti approvati.
+- [ ] BUG-TS-2 (27/10: opzione 1 con β = 0,4, decisioni.md «Decisioni della 1.14.4 (sera)»): tension stiffening nell'area efficace hc,eff, fuori dalle verifiche SLE per ora. 26/10 sera, primo tentativo (patch nello
   scratchpad della sessione, non committata): la legge di Collins e Mitchell solo nella banda hc,eff e tensione nulla oltre la fessurazione fuori
   dalla banda. Il salto da fctm a zero e la banda che cambia con l'asse neutro fanno perdere la convergenza (6 prove di Concrete); tolto.
   Decisione dell'utente del 26/10 sera, «TS-2 scelgo 1»: tension stiffening sulle barre con ρs,eff = As/Ac,eff (modello del tirante, MC2010
@@ -960,7 +961,8 @@ model ecc)». Le voci vengono dalla 1.14.3.
 - [ ] Libreria: `LateralPileCapacity.ModelName` con la profondità della testa (seguito di PO-TESTA-01; ANTHEA le passa la verticale vista
   dalla testa).
 - [ ] R18, in fondo: ramo incrudente dell'acciaio di progetto da fyd a k fyk/γs.
-- [ ] Difetti di contrasto del tema Chiaro (643 occorrenze in 191 voci il 27/10, baseline 645), da vedere con l'utente.
+- [ ] Difetti di contrasto del tema Chiaro (643 occorrenze in 191 voci il 27/10, baseline 645). 27/10, decisione dell'utente: grigio dei
+  testi secondari #64748B scurito a #5B697E nella sola Chiara (627 occorrenze), gli altri difetti corretti a parte.
 - [ ] Guida pratica e teorica Rev60 (separatore decimale, correzioni, R5 dichiarata, profondità d della testa dei pali) e rilascio 1.14.4.
 
 ## Wiki (in parallelo)

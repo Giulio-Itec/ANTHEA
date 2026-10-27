@@ -11110,8 +11110,9 @@
       "famiglia": "pali/report",
       "modulo": "Palo e micropalo orizzontale (Broms, Stratificato, risposta elastica)",
       "categoria": "intenzionale",
-      "stato": "da-decidere",
+      "stato": "attuato",
       "descrizione": "Richiesta dell'utente del 26/10/2026 sera («palo orizzontale (anello interno di diametro diverso + anello nei report)»; la distinta per diametro è nella 1.14.2). Il secondo anello entrava già nella sezione, nelle verifiche e nella distinta, ma i report non lo dicevano. Report di Broms e Stratificato con sezione c.a.: la frase che segue la tabella «Sezione circolare e materiali» comincia con «Secondo anello interno: n barre φ mm, distanza libera dalla prima fila g mm.» quando l'anello è attivo. Report della risposta elastica: la riga «Armatura» di ogni tratto riporta «secondo anello interno n φd, distanza libera dalla prima fila g mm» quando il tratto lo ha, anche di diametro diverso dalla prima fila. Senza anello i report non cambiano. Una tabella separata, provata prima, spostava tutte le righe seguenti del report di Broms (579 differenze a cascata nel confronto F3): scartata per una frase, una riga per report. Riferimenti: 2 transizioni F3 nuove (report.txt di broms-coesivo-impedita ed elastico-tratti-anello-spirale), nessun'altra differenza nel confronto F3 con le librerie candidate della 1.14.4.",
+      "decisione": {"data": "2026-10-27", "utente": "al riepilogo, «Approvo» (riferimenti PO-ANELLO-01, commit 4408b05b)", "esito": "2 transizioni F3 approvate; voce attuata nella 1.14.4"},
       "codice": [
         "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
         "src/ANTHEA.Reports/Generators/ReportElasticPile.cs",
