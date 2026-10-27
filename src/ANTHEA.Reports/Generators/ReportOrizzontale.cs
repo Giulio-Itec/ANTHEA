@@ -104,7 +104,9 @@ public static class ReportOrizzontale
                 ("transverse_bar_diameter_mm", "Diametro staffa [mm]"), ("longitudinal_bar_count", "Numero barre"),
                 ("longitudinal_bar_diameter_mm", "Diametro barre [mm]"), ("fck_mpa", "fck [MPa]"), ("fyk_mpa", "fyk [MPa]"),
                 ("alpha_cc", "αcc"), ("gamma_c", "γc"), ("gamma_s", "γs"), ("steel_modulus_mpa", "Es [MPa]")]);
-            P("Diametro e N della sezione corrispondono ai dati generali del palo.");
+            // Second ring of bars, also of another diameter (1.14.4): it enters the section like the «Secondo anello interno» of the c.a. section.
+            P((actualSection.B("second_inner_enabled") ? $"Secondo anello interno: {actualSection.S("second_inner_count")} barre φ{actualSection.S("second_inner_diameter")} mm, "
+                + $"distanza libera dalla prima fila {actualSection.S("second_inner_gap")} mm. " : "") + "Diametro e N della sezione corrispondono ai dati generali del palo.");
         }
         }
         P($"Coefficienti: verticali indagate {result.S("verticali_indagate")}; ξ3 = {result.D("xi3"):0.00}; ξ4 = {result.D("xi4"):0.00}; γR = {result.D("gamma_r"):0.00}.");

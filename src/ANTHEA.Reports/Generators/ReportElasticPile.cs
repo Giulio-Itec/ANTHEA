@@ -71,7 +71,7 @@ public static class ReportElasticPile
             foreach(var t in reinforcement.Array("tratti"))
             {
                 var s=t!["sezione"]!;P($"{t.S("id")}: x={F(t,"inizio")}–{F(t,"fine")} m. "+(t.B("collegato")?"Collegato alla sezione principale":"Armatura personalizzata")+$". {t.S("stato")} {t.S("errore")}");
-                P($"Armatura: {F(s,"longitudinal_bar_count")} φ{F(s,"longitudinal_bar_diameter_mm")}; {s.S("tipo_trasversale","Staffe singole")} φ{F(s,"transverse_bar_diameter_mm")}/{F(s,"transverse_spacing_mm")} mm; copriferro {F(s,"cover_mm")} mm.");
+                P($"Armatura: {F(s,"longitudinal_bar_count")} φ{F(s,"longitudinal_bar_diameter_mm")}"+(s.B("second_inner_enabled")?$"; secondo anello interno {F(s,"second_inner_count")} φ{F(s,"second_inner_diameter")}, distanza libera dalla prima fila {F(s,"second_inner_gap")} mm":"")+$"; {s.S("tipo_trasversale","Staffe singole")} φ{F(s,"transverse_bar_diameter_mm")}/{F(s,"transverse_spacing_mm")} mm; copriferro {F(s,"cover_mm")} mm.");
                 P("Normativa: "+t.S("normativa")+". Dettagli: "+t.S("comportamento_dettagli")+".");
                 if(t["durabilita"] is JsonNode durability)P($"Durabilità: esposizione {(string.IsNullOrWhiteSpace(durability.S("esposizione"))?"non assegnata":durability.S("esposizione"))}; cmin,dur {(durability["cmin_dur"]==null?"da determinare":F(durability,"cmin_dur")+" mm")}. {durability.S("origine")}. {durability.S("fonte")}");
                 if(t["riepilogo"] is JsonNode summary){P(summary.S("stato"));foreach(var (key,label) in new[]{("non_soddisfatti","Non soddisfatti"),("da_completare","Da completare"),("esclusi","Fuori dal perimetro")})if(summary.Array(key).Count>0){P(label);foreach(var issue in summary.Array(key))P(issue!.ToString());}}

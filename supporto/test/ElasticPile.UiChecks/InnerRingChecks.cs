@@ -74,8 +74,13 @@ static partial class Program
             var mixed = (JsonObject)trial.DeepClone(); mixed["elastico"]!["tratti"]![1]!["second_inner_diameter"] = phi == 16 ? 20 : 16;
             // Concrete 0.22 and later (inner ring of another diameter, request of the user of 26/10/2026): the bill has one run per bar diameter,
             // each with its own anchorage and lap, instead of stopping with «diametri misti».
-            var mixedRuns = ElasticHorizontalPile.CalculateShared(mixed)["armature"]!.Array("tratti")[1]!.Array("dettagli_barre").Select(r => r!["Id"]!.ToString()).ToArray();
+            var mixedResult = ElasticHorizontalPile.CalculateShared(mixed);
+            var mixedRuns = mixedResult["armature"]!.Array("tratti")[1]!.Array("dettagli_barre").Select(r => r!["Id"]!.ToString()).ToArray();
             Fact(mixedRuns.Contains("G02A") && mixedRuns.Contains("G02B"), $"a second ring of another diameter gets its own run in the bill of the pile ({string.Join(", ", mixedRuns)})");
+            // 1.14.4 («anello nei report»): the report of the elastic response gives the inner ring of the segment that has one, with its own diameter.
+            string report = ReportText(X.Core.ReportElasticPile.Create("Palo", mixedResult));
+            string ringLine = $"secondo anello interno 8 φ{(phi == 16 ? 20 : 16)}, distanza libera dalla prima fila 30 mm";
+            Fact(report.Contains(ringLine) && report.Split("secondo anello interno").Length == 2, "the report gives the inner ring of T2 only: " + ringLine);
 
             // Segment cards.
             // f5-pass-orizzontale: the cards of the XAML view of the reinforcement, elastic tab of the sheet of the two segments (its own calculation).
@@ -100,5 +105,13 @@ static partial class Program
             return lines.Any(l => l.StartsWith("FAIL")) && !probe ? 1 : 0;
         }
         finally { File.WriteAllLines(Path.Combine(dir, "anello-interno.txt"), lines); }
+    }
+
+    /// <summary>Text of the paragraphs and cells of a Word report, one run per paragraph as the generators write it.</summary>
+    static string ReportText(byte[] docx)
+    {
+        using var zip = new System.IO.Compression.ZipArchive(new MemoryStream(docx));
+        using var reader = new StreamReader(zip.GetEntry("word/document.xml")!.Open());
+        return string.Join("\n", System.Xml.Linq.XDocument.Parse(reader.ReadToEnd()).Descendants().Where(e => e.Name.LocalName == "t").Select(e => e.Value));
     }
 }
