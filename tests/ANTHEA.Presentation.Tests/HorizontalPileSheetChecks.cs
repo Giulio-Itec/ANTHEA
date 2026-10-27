@@ -403,19 +403,24 @@ internal static class HorizontalPileSheetChecks
         // the two fixtures of the capacity with an RC section (report.txt and result.json of broms-coesivo-impedita and single-soil-layer) and
         // MRd and ratios of the reinforcement checks of the elastic fixtures; 17 earlier transitions keep their value before, with the new
         // value after and the entry extended with « / AG-PO-02».
-        // BUG-PO-5b (libraries of the 1.14.2, Checker 4a1b0090): the key DevelopedFraction, null until ANTHEA uses the partial development
-        // (1.14.3), in the checks and the critical section of the reinforcement of the three elastic fixtures.
+        // BUG-PO-5b (libraries of the 1.14.2, Checker 4a1b0090): the key DevelopedFraction in the checks and the critical section of the
+        // reinforcement of the three elastic fixtures (1939). With the partial development used by ANTHEA (1.14.3) the key has a value near the
+        // head and the toe of single-soil-elastic, where MRd, ratios, critical section and summaries change, and the hypotheses of the three
+        // elastic fixtures say it: 428 new entries; 224 earlier entries keep their value before, with the new value after and the entry extended
+        // with « / BUG-PO-5b» (210 of them were AG-PO-02, 10 extended with AG-PO-02), so they count with the response of single-soil-elastic.
         var shear = transitions.Where(t => t.Entry.StartsWith("PARATIE-19", StringComparison.Ordinal)).ToList();
         var parabola = transitions.Where(t => t.Entry is "AG-PO-01" or "AG-PO-02").ToList();
         var partial = transitions.Where(t => t.Entry == "BUG-PO-5b").ToList();
         var others = transitions.Except(shear).Except(parabola).Except(partial).ToList();
-        expect.That(elastic == 11 && capacity == 4 && shear.Count == 3941 && others.Count == 1117
+        expect.That(elastic == 11 && capacity == 4 && shear.Count == 3941 && others.Count == 1327
             && others.All(t => t.File.Contains("/single-soil-elastic/", StringComparison.Ordinal))
-            && parabola.Count(t => t.Entry == "AG-PO-01") == 480 && parabola.Count(t => t.Entry == "AG-PO-02") == 7110
-            && partial.Count == 1939 && partial.All(t => t.Path.EndsWith(".DevelopedFraction", StringComparison.Ordinal))
-            && transitions.Count(t => t.Entry.EndsWith(" / AG-PO-02", StringComparison.Ordinal)) == 17,
-            "Transizioni F4 dei pali orizzontali: " + transitions.Count + " (attese le 1117 della risposta elastica di single-soil-elastic, le 3941 di PARATIE-19, "
-            + "le 480 di AG-PO-01 su 4 file della capacità, le 7110 di AG-PO-02 e le 1939 di BUG-PO-5b; 17 voci estese con AG-PO-02)");
+            && parabola.Count(t => t.Entry == "AG-PO-01") == 480 && parabola.Count(t => t.Entry == "AG-PO-02") == 6900
+            && partial.Count == 2367 && partial.Count(t => t.Path.EndsWith(".DevelopedFraction", StringComparison.Ordinal)) == 1939
+            && transitions.Count(t => t.Entry.EndsWith(" / AG-PO-02", StringComparison.Ordinal)) == 7
+            && transitions.Count(t => t.Entry.EndsWith(" / BUG-PO-5b", StringComparison.Ordinal)) == 224,
+            "Transizioni F4 dei pali orizzontali: " + transitions.Count + " (attese le 1327 della risposta elastica di single-soil-elastic, le 3941 di PARATIE-19, "
+            + "le 480 di AG-PO-01 su 4 file della capacità, le 6900 di AG-PO-02 e le 2367 di BUG-PO-5b, 1939 delle quali sulla chiave DevelopedFraction; "
+            + "7 voci estese con AG-PO-02 e 224 con BUG-PO-5b)");
         expect.That(compared > 0, "Nessun file F3 confrontato");
     }
 
