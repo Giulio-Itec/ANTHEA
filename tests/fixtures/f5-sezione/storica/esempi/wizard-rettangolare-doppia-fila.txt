@@ -783,7 +783,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == visita
 dati 8E5BAFDC704BFB08 · byte 171296
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 15CF22B6FACA1BA6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1008,7 +1008,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == attendi
 dati 8E5BAFDC704BFB08 · byte 171296
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 15CF22B6FACA1BA6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1022,7 +1022,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == conferma
 dati 8E5BAFDC704BFB08 · byte 171296
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 15CF22B6FACA1BA6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1036,7 +1036,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == calcola
 dati 8E5BAFDC704BFB08 · byte 171296
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 15CF22B6FACA1BA6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1050,7 +1050,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == conferma
 dati 8E5BAFDC704BFB08 · byte 171296
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 15CF22B6FACA1BA6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata

@@ -33,7 +33,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
 {
     /// <summary>The titles of the main tabs, in order.</summary>
     public static ImmutableArray<string> TabTitles { get; } = ["Pannello di controllo", "Dominio 3D", "Dominio 2D", "Tensioni e fessurazione", "Taglio e torsione",
-        "Dettagli costruttivi", "Momento–curvatura", "Calcola armature"];
+        "Dettagli costruttivi", "Momento–curvatura", "Colonna modello", "Calcola armature"];
 
     /// <summary>The status line when the sheet opens.</summary>
     public const string OpeningStatus = "Dati della sezione · selezionare una scheda per iniziare";
@@ -76,8 +76,9 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
     /// <summary>The calculation of the sheet (decision C1).</summary>
     public ConcreteCalculation Calculation { get; private set; } = null!;
 
-    /// <summary>The main tab (0 control panel … 7 reinforcement design). A change by the user commits the sheet, refreshes the detailing and
-    /// saves <c>tab</c> with Modified, also in a read-only revision (historic behaviour, kept as C5).</summary>
+    /// <summary>The main tab (0 control panel … 7 model column, 8 reinforcement design). A change by the user commits the sheet, refreshes the
+    /// detailing and saves <c>tab</c> with Modified, also in a read-only revision (historic behaviour, kept as C5); the code saved is the stable one
+    /// of <see cref="ConcreteSheetPresentation.SavedTab"/> (1.15.0: «Calcola armature» keeps 7, «Colonna modello» is 8).</summary>
     public int SelectedTab
     {
         get => tab;
@@ -86,7 +87,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
             if (value < 0 || value >= TabTitles.Length || tab == value) return;
             tab = value; OnPropertyChanged();
             if (initializing || IsDisposed) return;
-            CommitSheet(); RefreshDetailing(); Settings["tab"] = value; RaiseModified();
+            CommitSheet(); RefreshDetailing(); Settings["tab"] = ConcreteSheetPresentation.SavedTab(value); RaiseModified();
             ShowPanel(value);
         }
     }
@@ -178,8 +179,9 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         CreateShearPanel();
         // 06 · Dettagli costruttivi (S6): no write; from here the detailing is refreshed.
         CreateDetailingPanel();
-        // 07 · Momento–curvatura (S7): no write. 08 · Calcola armature.
+        // 07 · Momento–curvatura (S7): no write. 08 · Colonna modello (1.15.0): no write. 09 · Calcola armature.
         CreateCurvaturePanel();
+        CreateModelColumnPanel();
         ConcreteEditor.PrepareDesign(Settings);
         CreateDesignPanel();
         tab = ConcreteSheetPresentation.InitialTab(Settings);
@@ -220,7 +222,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         // The panels of the domains: no mesh, no chart, the detail waits for the calculation; the families of the serviceability: no stress state.
         foreach (var panel in DomainPanels) panel.Invalidated();
         foreach (var panel in StressPanels) panel.Invalidated();
-        InvalidateCurvature();
+        InvalidateCurvature(); ModelColumn.Invalidate();
         if (!geometryChanged) _ = Inputs.RefreshQuickResistanceAsync();
         // The section σ/ε of both panels cleared, then solved again when shown (S7); the preview below gives it the new section (F5-48).
         foreach (var panel in DomainPanels) _ = panel.Inspection.UpdateAsync();
@@ -303,6 +305,8 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         foreach (var panel in DomainPanels) panel.Form.Commit();
         foreach (string key in actions.Keys) SyncActions(key);
         if (!SectionActionInputs.Unified(Data)) ShearOptions["azioni"] = ConcreteSheetPreparation.StoreShearRows(shearRows.Select(r => r.Values));
+        // The texts typed in the form of the model column (1.15.0), not yet confirmed.
+        ModelColumn?.Commit();
     }
 
     /// <summary>The data were replaced (shared data, the editor of the actions): the sheet opens them again, as the historic view builds a new workspace.</summary>
@@ -322,6 +326,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         Shear?.RefreshEditable(IsReadOnly);
         Detailing?.RefreshEditable(IsReadOnly);
         Curvature?.RefreshEditable(IsReadOnly);
+        ModelColumn?.RefreshEditable(IsReadOnly);
         Design?.RefreshEditable(IsReadOnly);
     }
 
@@ -343,6 +348,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         // The section σ/ε of the panels and the curve: what is running is never published (S7).
         foreach (var panel in DomainPanels) panel.Inspection.Close();
         Curvature.Dispose();
+        ModelColumn.Dispose();
         // The search of the reinforcement design: cancelled, never published (S8).
         Design.Dispose();
     }

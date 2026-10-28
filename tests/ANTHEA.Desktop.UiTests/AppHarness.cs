@@ -510,7 +510,7 @@ public partial class App
                     await view.PrepareDesignSmoke();
                     await view.RunDesignSmoke(folder);
                 }
-                File.WriteAllText(Path.Combine(folder, "ui-pass.txt"), "PASS: eight tabs; alternatives/selection; apply; persistence; stale rejection; full/limited search; parallelism; timing diagnostics; large and compact layout.");
+                File.WriteAllText(Path.Combine(folder, "ui-pass.txt"), "PASS: nine tabs; alternatives/selection; apply; persistence; stale rejection; full/limited search; parallelism; timing diagnostics; large and compact layout.");
                 Shutdown(0);
             }
             catch (Exception ex) { File.WriteAllText(Path.Combine(folder, "errore.txt"), ex.ToString()); Shutdown(1); }

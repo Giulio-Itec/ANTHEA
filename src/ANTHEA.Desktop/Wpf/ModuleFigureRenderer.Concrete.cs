@@ -13,7 +13,8 @@ internal sealed record ConcreteDomainGraphic(bool ThreeD, JsonObject Options, IR
 }
 internal sealed record ConcreteStressGraphic(ConcreteSectionViewport View, IReadOnlyDictionary<string, StressOutcome>? Checks, IReadOnlyList<JsonObject> Rows);
 internal sealed record ConcreteReportGraphics(JsonObject Data, JsonObject Result, ConcreteSectionViewport Preview,
-    IReadOnlyList<ConcreteDomainGraphic> Domains, IReadOnlyDictionary<string, ConcreteStressGraphic> Stresses, Plot? CurvaturePlot = null);
+    IReadOnlyList<ConcreteDomainGraphic> Domains, IReadOnlyDictionary<string, ConcreteStressGraphic> Stresses, Plot? CurvaturePlot = null,
+    IReadOnlyList<Plot>? ModelColumnPlots = null);
 
 internal sealed partial class ModuleFigureRenderer
 {
@@ -53,7 +54,8 @@ internal sealed partial class ModuleFigureRenderer
             curve = PlotPresentation.CurvaturePlot();
             PlotPresentation.ApplyCurvature(curve, curvature);
         }
-        return new(data, analysis.Result, preview, domains, stresses, curve);
+        var column = analysis.ModelColumn is { } modelColumn ? PlotPresentation.ModelColumnPlots(modelColumn) : null;
+        return new(data, analysis.Result, preview, domains, stresses, curve, column);
     }
     internal static IReadOnlyList<ReportFigure> ConcreteFigures(ConcreteReportGraphics graphics, IReadOnlySet<string> options)
     {
@@ -111,6 +113,12 @@ internal sealed partial class ModuleFigureRenderer
                 images.Add(new("Schema indicativo delle staffe · diametro rappresentato in scala", view.Png(), "taglio"));
             }
             if(options.Contains("curvatura")&&graphics.CurvaturePlot is not null)images.Add(new("Momento–curvatura · percorso assegnato",graphics.CurvaturePlot.Png(),"curvatura"));
+            // The model column (1.15.0), in its chapter after the M–χ, with the choice «curvatura»: only when it was calculated.
+            if (options.Contains("curvatura") && graphics.ModelColumnPlots is { } column)
+            {
+                images.Add(new("Colonna modello · M(χ) a N costante, momento esterno e tangente al massimo", column[0].Png(), ConcreteModelColumnPresentation.FigureCategory));
+                images.Add(new("Colonna modello · capacità del primo ordine M − M2", column[1].Png(), ConcreteModelColumnPresentation.FigureCategory));
+            }
         }
         return images;
     }

@@ -37,7 +37,8 @@ internal sealed record ConcreteSectionStep(string Kind, string? Target = null, s
     internal const string ReadOnly = "sola-lettura";
     /// <summary>The visit of the F3 capture: every expander opened, every tab of every tab control selected and restored.</summary>
     internal const string Visit = "visita";
-    /// <summary>Selects the main tab <see cref="Index"/> (0 control panel … 7 reinforcement design).</summary>
+    /// <summary>Selects the main tab <see cref="Index"/> (0 control panel … 7 model column, 8 reinforcement design since 1.15.0: the scenarios select
+    /// «Calcola armature» with 8, the tab 7 of the historic traces).</summary>
     internal const string Tab = "scheda";
     /// <summary>Types <see cref="Text"/> in the text field <see cref="Key"/> of the form <see cref="Target"/>.</summary>
     internal const string Field = "campo";
@@ -436,7 +437,7 @@ internal static class ConcreteSectionScenarios
 
         // ---------------------------------------------------------------- reinforcement design
         list.Add(new("armature", "ricerca-armature", "soletta-dettagli-ricerca", ["armature", "ingressi"], [
-            wait, Tab(7), wait,
+            wait, Tab(8), wait,
             Choice("ricerca", "obiettivo", "Peso"), wait,
             Option("ricerca", "ricerca_completa"), wait,
             Field("ricerca", "diametri", "16;20"), Field("ricerca", "n_superiori", "10"), Field("ricerca", "n_inferiori", "6;7"), Field("ricerca", "diametri_ortogonali", "8;10"),
@@ -448,7 +449,7 @@ internal static class ConcreteSectionScenarios
             // section inside a lap zone (detailing), which the scenario removes.
             Press("ricerca", "Calcola armature"), wait,
             Field("ricerca", "riserva_torsione", "25"), Press("ricerca", "Calcola armature"), wait,
-            Tab(5), Choice("dettagli", "zona_sovrapposizione", "No"), Field("ancoraggi", "lunghezza", "900"), Tab(7), wait,
+            Tab(5), Choice("dettagli", "zona_sovrapposizione", "No"), Field("ancoraggi", "lunghezza", "900"), Tab(8), wait,
             Press("ricerca", "Calcola armature"), wait,
             Choice("mostra", "mostra", "1"), wait,
             Select("alternative", 0), wait,
@@ -457,12 +458,12 @@ internal static class ConcreteSectionScenarios
             Press("ricerca", "Applica configurazione"), wait,
             commit, reopen, wait]));
         list.Add(new("armature", "opzioni-ricerca", "default", ["armature"], [
-            wait, Tab(7), wait,
+            wait, Tab(8), wait,
             Choice("ricerca", "obiettivo", "Compromesso"), wait,
             Choice("ricerca", "staffe", "Mantieni"), wait,
             Option("ricerca", "simmetrica"), Option("ricerca", "ricerca_completa"), wait,
             Field("ricerca", "diametri", "abc"), Press("ricerca", "Calcola armature"), wait,
-            Choice("geometria", "shape", "Circolare"), Tab(7), wait,
+            Choice("geometria", "shape", "Circolare"), Tab(8), wait,
             commit]));
 
         // ---------------------------------------------------------------- inspection: section σ/ε, strain plane, M–χ
@@ -512,7 +513,7 @@ internal static class ConcreteSectionScenarios
             Tab(4), Choice("taglio", "modello", "Senza staffe"),
             Tab(5), Choice("dettagli", "elemento", "Trave"),
             Tab(6), Press("curvatura", "Calcola curva"), wait,
-            Tab(7), Field("ricerca", "diametri", "16"),
+            Tab(8), Field("ricerca", "diametri", "16"),
             Open("sollecitazioni", Press("dialogo", "Applica")),
             Tab(0), wait, commit]));
 

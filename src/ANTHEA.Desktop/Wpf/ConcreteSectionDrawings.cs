@@ -51,6 +51,14 @@ internal static class ConcreteSectionDrawings
         target.InvalidateVisual();
     }
 
+    /// <summary>A chart of the model column from its data (1.15.0); without a result: no series, no marker, the titles of the ViewModel.</summary>
+    internal static void Apply(Plot target, ConcreteModelColumnChartViewModel source)
+    {
+        if (source.Data is { } data) { PlotPresentation.Apply(target, data); return; }
+        target.Title = source.Title; target.XLabel = source.XLabel; target.YLabel = source.YLabel; target.Note = ""; target.EmptyMessage = source.EmptyMessage;
+        target.Series = []; target.Markers = []; target.InvalidateVisual();
+    }
+
     /// <summary>The σ–ε diagram of the window «Nuovo materiale …», as CreateMaterialDialog of the historic view builds it.</summary>
     internal static Plot MaterialPlot(bool concrete, string note) => new()
     {
@@ -114,6 +122,7 @@ internal sealed class ConcreteSectionFigureRenderer : IConcreteSectionFigureRend
             curve = PlotPresentation.CurvaturePlot();
             PlotPresentation.ApplyCurvature(curve, curvature);
         }
-        return ModuleFigureRenderer.ConcreteFigures(new ConcreteReportGraphics(drawings.Data, drawings.Result, preview, domains, stresses, curve), options);
+        var column = drawings.ModelColumn is { } modelColumn ? PlotPresentation.ModelColumnPlots(modelColumn) : null;
+        return ModuleFigureRenderer.ConcreteFigures(new ConcreteReportGraphics(drawings.Data, drawings.Result, preview, domains, stresses, curve, column), options);
     }
 }

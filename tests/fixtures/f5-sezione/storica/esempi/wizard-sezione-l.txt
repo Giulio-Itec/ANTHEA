@@ -787,7 +787,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [wizard] invariata
 == visita
 dati 564CD66F135BE286 · byte 187261
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 39D8DC796B54C7AB
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
@@ -1012,7 +1012,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [wizard] invariata
 == attendi
 dati 564CD66F135BE286 · byte 187261
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 39D8DC796B54C7AB
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
@@ -1026,7 +1026,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [wizard] invariata
 == conferma
 dati 564CD66F135BE286 · byte 187261
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 39D8DC796B54C7AB
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
@@ -1040,7 +1040,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [wizard] invariata
 == calcola
 dati 564CD66F135BE286 · byte 187261
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 39D8DC796B54C7AB
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
@@ -1054,7 +1054,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [wizard] invariata
 == conferma
 dati 564CD66F135BE286 · byte 187261
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 39D8DC796B54C7AB
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata

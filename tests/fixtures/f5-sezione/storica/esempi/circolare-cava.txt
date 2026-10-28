@@ -886,7 +886,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == visita
 dati 2F2F6F47E925AD6C · byte 309191
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
 risultato 94B9877404DE17CC
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1198,7 +1198,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == attendi
 dati 2F2F6F47E925AD6C · byte 309191
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
 risultato 94B9877404DE17CC
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1212,7 +1212,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == conferma
 dati 2F2F6F47E925AD6C · byte 309191
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
 risultato 94B9877404DE17CC
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1226,7 +1226,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == calcola
 dati 2F2F6F47E925AD6C · byte 309191
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
 risultato 94B9877404DE17CC
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1240,7 +1240,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == conferma
 dati 2F2F6F47E925AD6C · byte 309191
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 2
 risultato 94B9877404DE17CC
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata

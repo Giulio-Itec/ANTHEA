@@ -235,7 +235,7 @@
      </Grid>
     </TabItem>
 
-    <!-- ================================================================ 02–08: the panels of the tabs, each on its ViewModel -->
+    <!-- ================================================================ 02–09: the panels of the tabs, each on its ViewModel -->
     <TabItem Padding="14,9,14,9" AutomationProperties.Name="Dominio 3D">
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="02"/><TextBlock Style="{StaticResource T14Bold}" Text="  Dominio 3D"/></WrapPanel></TabItem.Header>
      <views:ConcreteDomainPanelView x:Name="Domain3DView" DataContext="{Binding Domain3D}"/>
@@ -265,8 +265,12 @@
      <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="07"/><TextBlock Style="{StaticResource T14Bold}" Text="  Momento–curvatura"/></WrapPanel></TabItem.Header>
      <views:ConcreteCurvatureView x:Name="CurvatureView" DataContext="{Binding Curvature}"/>
     </TabItem>
+    <TabItem Padding="14,9,14,9" AutomationProperties.Name="Colonna modello">
+     <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="08"/><TextBlock Style="{StaticResource T14Bold}" Text="  Colonna modello"/></WrapPanel></TabItem.Header>
+     <views:ConcreteModelColumnView x:Name="ModelColumnView" DataContext="{Binding ModelColumn}"/>
+    </TabItem>
     <TabItem Padding="14,9,14,9" AutomationProperties.Name="Calcola armature">
-     <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="08"/><TextBlock Style="{StaticResource T14Bold}" Text="  Calcola armature"/></WrapPanel></TabItem.Header>
+     <TabItem.Header><WrapPanel><TextBlock Style="{StaticResource T11BoldMuted}" Text="09"/><TextBlock Style="{StaticResource T14Bold}" Text="  Calcola armature"/></WrapPanel></TabItem.Header>
      <views:ConcreteDesignView x:Name="DesignView" DataContext="{Binding Design}"/>
     </TabItem>
    </TabControl>

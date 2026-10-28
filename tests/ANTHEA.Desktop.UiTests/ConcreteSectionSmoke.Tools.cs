@@ -108,7 +108,7 @@ internal sealed partial class ConcreteSectionSmoke
         await Run();
         File.WriteAllText(Path.Combine(folder, "ui-diagnostics.txt"), design.Status + "\n\n" + design.Diagnostics);
         Assert(Settings["calcola_armature"].B("ricerca_completa") && !design.Form["max_tentativi"].IsVisible, "Full search not default/limited budget still shown");
-        Assert(View.Tabs.Items.Count == 8 && View.Tabs.SelectedIndex == 7, "Missing design tab");
+        Assert(View.Tabs.Items.Count == 9 && View.Tabs.SelectedIndex == ConcreteSheetViewModel.DesignTab, "Missing design tab");
         Assert(Admissible() > 1, "No UI alternatives: " + design.Status + " / " + design.Diagnostics);
         Assert(design.Form["parallelismo"].Kind == Anthea.Presentation.Forms.FieldKind.Choice && design.Diagnostics.Contains("Tempi di ricerca") && design.Diagnostics.Contains("riutilizzati"), "Parallel control or timing diagnostics missing");
         Assert(design.ApplyCommand.CanExecute(null), "Apply not enabled: " + design.Status);

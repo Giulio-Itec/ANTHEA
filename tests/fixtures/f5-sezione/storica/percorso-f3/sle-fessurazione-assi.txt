@@ -853,7 +853,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == visita
 dati 384A3F1BE076F57C · byte 8692
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
 risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1136,7 +1136,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
 == attendi
 dati 384A3F1BE076F57C · byte 8692
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
 risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1149,7 +1149,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == conferma
 dati 384A3F1BE076F57C · byte 8692
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
 risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1162,7 +1162,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == calcola
 dati 384A3F1BE076F57C · byte 8692
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
 risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1175,7 +1175,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == conferma
 dati 384A3F1BE076F57C · byte 8692
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
 risultato CF9CE2965832D070
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata

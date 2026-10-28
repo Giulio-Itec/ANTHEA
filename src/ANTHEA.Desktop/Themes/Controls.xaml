@@ -35,10 +35,12 @@
   <Setter Property="Foreground" Value="{DynamicResource AppearanceInk}"/>
   <Setter Property="BorderBrush" Value="{DynamicResource AppearanceBorder}"/>
  </Trigger></Style.Triggers></Style>
- <!-- Labels over a technical drawing (axes of the 3D domain): in the dark appearances the light text would lie on the light drawing. -->
- <Style x:Key="AppearanceDrawingLabel" TargetType="TextBlock"><Style.Triggers><Trigger Property="local:Appearance.Dark" Value="True">
+ <!-- Labels over a technical drawing (axes of the 3D domain): on the paper in every appearance, as the labels of the points. In the dark
+      appearances the light text would lie on the light drawing; in the Light one the dark text can lie on the domain when the viewport is
+      lower (two rows of tabs of the c.a. section, 1.15.0). -->
+ <Style x:Key="AppearanceDrawingLabel" TargetType="TextBlock">
   <Setter Property="Background" Value="{DynamicResource AppearancePaper}"/>
- </Trigger></Style.Triggers></Style>
+ </Style>
  <Style TargetType="ProgressBar"><Style.Triggers><Trigger Property="local:Appearance.Dark" Value="True">
   <Setter Property="Background" Value="{DynamicResource AppearanceSurface}"/>
   <Setter Property="BorderBrush" Value="{DynamicResource AppearanceBorder}"/>

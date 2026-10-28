@@ -22,9 +22,10 @@ internal sealed partial class ConcreteSectionSmoke
         int count = 0; void Check(bool value, string text) { if (!value) throw new Exception(text); count++; }
         async Task Updated() { await Automatic(); await Sheet.CalculateAsync(); await Settle(); }
         Task Capture(string name) => this.Capture(directory, name);
-        // The eighth tab (reinforcement design, 895bf31) follows the seven checked here: their indices do not change.
-        Check(View.Tabs.Items.Count == 8 && ConcreteSectionViewChecks.AutomationName((TabItem)View.Tabs.Items[6]) == "Momento–curvatura"
-            && ConcreteSectionViewChecks.AutomationName((TabItem)View.Tabs.Items[7]) == "Calcola armature", "Otto schede CA, l'ultima per il calcolo armature");
+        // The model column (1.15.0) and the reinforcement design (895bf31) follow the seven checked here: their indices do not change.
+        Check(View.Tabs.Items.Count == 9 && ConcreteSectionViewChecks.AutomationName((TabItem)View.Tabs.Items[6]) == "Momento–curvatura"
+            && ConcreteSectionViewChecks.AutomationName((TabItem)View.Tabs.Items[7]) == "Colonna modello"
+            && ConcreteSectionViewChecks.AutomationName((TabItem)View.Tabs.Items[8]) == "Calcola armature", "Nove schede CA: colonna modello dopo il M–χ, l'ultima per il calcolo armature");
         Tab(0);
         var materials = Inputs.Materials;
         var originalCls = Input.S("cls_diagramma"); var originalSteel = Input.S("steel_diagramma");
@@ -150,6 +151,31 @@ internal sealed partial class ConcreteSectionSmoke
         curvature.Form.Set("N", "-500"); curvature.Form.Set("passi", "12"); curvature.Form.Set("angoli", "16");
         Tab(6); await curvature.CalculateCommand.ExecuteAsync(null); await Settle();
         Check(curvature.Result?.Points.Count >= 13, "Diagramma fino al limite: " + curvature.Text); await Capture("05_curvatura");
+        // 1.15.0: the tab «Colonna modello» opened, calculated and drawn offscreen (two charts, cards, text), its figures in the report after the M–χ.
+        var column = Sheet.ModelColumn;
+        column.Form.Set("N", "-500"); column.Form.Set("M0Ed", "120"); column.Form.Set("l0", "8"); column.Form.Set("l", "4"); column.Form.Set("passi", "60");
+        Tab(ConcreteSheetViewModel.ModelColumnTab); await Idle();
+        Check(View.ModelColumnView.IsVisible && View.Tabs.SelectedIndex == ConcreteSheetViewModel.ModelColumnTab && Settings["tab"]!.GetValue<int>() == 8,
+            "Scheda «Colonna modello» aperta (codice salvato 8)");
+        await column.CalculateCommand.ExecuteAsync(null); await Settle();
+        var columnView = View.ModelColumnView;
+        Check(column.Result is { Equilibrium: not null } && columnView.CapacityPlot.Series.Count == 4 && columnView.CapacityPlot.Markers.Count >= 3
+            && columnView.FirstOrderPlot.Series.Count == 3 && columnView.FirstOrderPlot.Markers.Count == 1 && column.Cards.Cards.Count >= 6,
+            "Colonna modello calcolata: due grafici, riquadri e testo · " + column.Text);
+        Check(columnView.CapacityPlot.Png(900, 600).Length > 0 && columnView.FirstOrderPlot.Png(900, 600).Length > 0, "Grafici della colonna modello esportabili in PNG");
+        await Capture("05b_colonna_modello");
+        File.WriteAllBytes(Path.Combine(directory, "05c_colonna_modello_M_chi.png"), columnView.CapacityPlot.Png(900, 600));
+        File.WriteAllBytes(Path.Combine(directory, "05d_colonna_modello_M_meno_M2.png"), columnView.FirstOrderPlot.Png(900, 600));
+        var columnReport = Editor.BuildReport("Prova della scheda 08", ["curvatura", "grafici"]);
+        using (var zip = new ZipArchive(new MemoryStream(columnReport)))
+        using (var stream = new StreamReader(zip.GetEntry("word/document.xml")!.Open()))
+        {
+            string xml = stream.ReadToEnd();
+            Check(zip.Entries.Count(e => e.FullName.StartsWith("word/media/")) == 3 && xml.Contains("Colonna modello") && xml.Contains("Passaggi del calcolo")
+                && xml.IndexOf("Colonna modello", StringComparison.Ordinal) > xml.IndexOf("Diagramma momento–curvatura", StringComparison.Ordinal),
+                "Report: capitolo della colonna modello dopo il M–χ, con le sue due figure");
+        }
+        File.WriteAllBytes(Path.Combine(directory, "05e_colonna_modello.docx"), columnReport);
         // The hole, through its switch and its fields (the historic check wrote the data and invalidated).
         Tab(0); await Idle();
         if (!Inputs.HoleChecked) Click(Named<CheckBox>(TabContent(0), ConcreteSectionViewChecks.AutomationName(View.HoleToggle)));

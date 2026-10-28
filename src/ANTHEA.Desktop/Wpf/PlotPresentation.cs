@@ -10,6 +10,20 @@ internal static class PlotPresentation
         YLabel = Anthea.Application.Concrete.ConcreteCurvaturePresentation.YLabel, AxisNumberFormat = Anthea.Application.Concrete.ConcreteCurvaturePresentation.AxisNumberFormat,
         InvertY = false, EmptyMessage = Anthea.Application.Concrete.ConcreteCurvaturePresentation.EmptyMessage
     };
+    /// <summary>A chart of the model column (1.15.0): the style of the M–χ chart; titles, axes, series and markers come from its data.</summary>
+    internal static Plot ModelColumnPlot() => new()
+    {
+        Title = Anthea.Application.Concrete.ConcreteModelColumnPresentation.CapacityTitle, XLabel = Anthea.Application.Concrete.ConcreteModelColumnPresentation.XLabel,
+        YLabel = Anthea.Application.Concrete.ConcreteModelColumnPresentation.CapacityYLabel, AxisNumberFormat = Anthea.Application.Concrete.ConcreteCurvaturePresentation.AxisNumberFormat,
+        InvertY = false, EmptyMessage = Anthea.Application.Concrete.ConcreteModelColumnPresentation.EmptyMessage
+    };
+    /// <summary>The two charts of the model column for the report: M(χ) with the external moment, then M − M2.</summary>
+    internal static IReadOnlyList<Plot> ModelColumnPlots(Anthea.Application.Concrete.ConcreteModelColumnResult source)
+    {
+        var capacity = ModelColumnPlot(); Apply(capacity, Anthea.Application.Concrete.ConcreteModelColumnPresentation.CapacityChart(source));
+        var firstOrder = ModelColumnPlot(); Apply(firstOrder, Anthea.Application.Concrete.ConcreteModelColumnPresentation.FirstOrderChart(source));
+        return [capacity, firstOrder];
+    }
     internal static void ApplyCurvature(Plot target, Anthea.Application.Concrete.ConcreteResults.CurvatureResult source)
     {
         target.Series = [new(Anthea.Application.Concrete.ConcreteCurvaturePresentation.SeriesName, Anthea.Application.Concrete.ConcreteCurvaturePresentation.Points(source), Ui.Blue)];

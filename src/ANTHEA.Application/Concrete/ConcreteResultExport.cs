@@ -10,13 +10,13 @@ public static class ConcreteResultExport
         IReadOnlyDictionary<string, ConcreteResults.ShearResult[]> shearResults,
         IReadOnlyDictionary<string, ConcreteResults.TorsionResult> torsionResults, IReadOnlyList<ConcreteResults.DetailingCheck> detailingResults,
         string detailsText, ConcreteResults.AnchorageResult? anchorageResult, string anchorageText, ConcreteResults.CurvatureResult? curvatureResult,
-        IReadOnlyDictionary<string, string> calculationErrors)
+        IReadOnlyDictionary<string, string> calculationErrors, ConcreteModelColumnResult? modelColumn = null)
     {
         var domains = new JsonObject(); foreach (var (key, rows) in domainResults) domains[key] = J.Node(rows.ToDictionary(p => p.Key, p => p.Value.Source));
         var stresses = new JsonObject();
         foreach (var (key, rows) in stressResults) stresses[key] = ConcreteAnalysisSession.ExportStress(rows);
         // Attach freshly created nodes directly: J.Obj would deep-clone them again.
-        return new JsonObject
+        var export = new JsonObject
         {
             ["errore"] = "", ["motore"] = "GPCChecker.Concrete.dll",
             ["normativa_riferimento"] = Data["workspace_ca"].S("normativa"), ["verifica_normativa_completa"] = false,
@@ -27,5 +27,8 @@ public static class ConcreteResultExport
             ["dati"] = Data.DeepClone(), ["errori_calcolo"] = J.Node(calculationErrors),
             ["avvisi"] = J.Node(new[] { "Compressione negativa; azioni in kN e kNm", "Taglio e fessurazione: vedere esiti specifici e limiti di applicabilità" })
         };
+        // La colonna modello (1.15.0) solo quando è calcolata: le esportazioni senza colonna restano quelle di prima, byte per byte.
+        if (modelColumn is not null) export[ConcreteModelColumn.OptionsKey] = J.Node(modelColumn);
+        return export;
     }
 }

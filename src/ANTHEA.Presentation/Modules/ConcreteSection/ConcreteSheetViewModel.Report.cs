@@ -55,7 +55,7 @@ public sealed partial class ConcreteSheetViewModel
         }).ToArray();
         var stresses = stressPanels.ToDictionary(p => p.Key, p => new ConcreteReportStress(p.Value.Map, stressResults.GetValueOrDefault(p.Key),
             actions[p.Key].Select(r => r.Values).ToArray()), StringComparer.Ordinal);
-        return new ConcreteReportDrawings(Data, result, Inputs.Drawing, domains, stresses, Curvature.Result);
+        return new ConcreteReportDrawings(Data, result, Inputs.Drawing, domains, stresses, Curvature.Result) { ModelColumn = ModelColumn.Result };
     }
 
     /// <summary>The short report (BuildShortReport of the historic view): committed sheet, refused while busy, queued or without results.</summary>

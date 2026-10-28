@@ -9,8 +9,10 @@ namespace X.Core;
 /// <summary>DOCX of the current Checker results; no analysis or rounding of stored data occurs here.</summary>
 public static class ReportConcrete
 {
-    public static readonly System.Collections.Immutable.ImmutableArray<(string Key, string Label)> Sections = [("geometria", "Input: geometria, armature, staffe e trefoli"), ("materiali", "Materiali"), ("coefficienti", "Coefficienti normativi e modifiche"), ("azioni", "Tutte le sollecitazioni"), ("dominio3d", "Verifiche dominio 3D"), ("dominio2d", "Verifiche dominio 2D"), ("SLE", "SLE rara"), ("SLE_FREQ", "SLE frequente"), ("SLE_QP", "SLE quasi permanente"), ("taglio", "Verifiche a taglio e torsione"), ("costruttivi", "Dettagli costruttivi e ancoraggi"), ("curvatura", "Momento–curvatura"), ("sle_tutte", "SLE: stampa tutte le combinazioni (anziché inviluppo)"), ("dettagli", "Dettagli tensioni e deformazioni di barre e vertici"), ("grafici", "Grafici nelle rispettive sezioni")];
+    public static readonly System.Collections.Immutable.ImmutableArray<(string Key, string Label)> Sections = [("geometria", "Input: geometria, armature, staffe e trefoli"), ("materiali", "Materiali"), ("coefficienti", "Coefficienti normativi e modifiche"), ("azioni", "Tutte le sollecitazioni"), ("dominio3d", "Verifiche dominio 3D"), ("dominio2d", "Verifiche dominio 2D"), ("SLE", "SLE rara"), ("SLE_FREQ", "SLE frequente"), ("SLE_QP", "SLE quasi permanente"), ("taglio", "Verifiche a taglio e torsione"), ("costruttivi", "Dettagli costruttivi e ancoraggi"), ("curvatura", "Momento–curvatura e colonna modello"), ("sle_tutte", "SLE: stampa tutte le combinazioni (anziché inviluppo)"), ("dettagli", "Dettagli tensioni e deformazioni di barre e vertici"), ("grafici", "Grafici nelle rispettive sezioni")];
     public sealed record EnvelopeValue(string Label, string Id, double Value);
+    /// <summary>The options of the model column in the settings, its result in the export and the category of its figures (1.15.0).</summary>
+    public const string ModelColumnCategory = "colonna_modello";
     public static KeyValuePair<string, JsonNode?>? Governing(JsonObject rows, bool cracking)
     {
         var candidates = rows.Where(kv => J.Number(cracking ? kv.Value?["CrackResult"]?["Ratio"] : kv.Value?["Ratio"]) is double n && double.IsFinite(n));
@@ -42,7 +44,8 @@ public static class ReportConcrete
         bool unified = settings["sollecitazioni_versione"]?.ToString() == "1";
         string Label(string family) => unified && family is "SLU" or "SLV" ? family : SectionWorkspace.Label(family);
         string ActionName(JsonNode? row) => (row.S("elemento").Length > 0 ? row.S("elemento") + " · " : "") + row.S("nome");
-        var selected = options.Contains("grafici") ? (images ?? []).Where(i => options.Contains(i.Categoria)).ToArray() : [];
+        // The figures of the model column (1.15.0) belong to the choice «curvatura», as their chapter.
+        var selected = options.Contains("grafici") ? (images ?? []).Where(i => options.Contains(i.Categoria == ModelColumnCategory ? "curvatura" : i.Categoria)).ToArray() : [];
         XElement Paragraph(string text, string style = "Normal") => new(w + "p", new XElement(w + "pPr", new XElement(w + "pStyle", new XAttribute(w + "val", style))),
             new XElement(w + "r", new XElement(w + "t", new XAttribute(XNamespace.Xml + "space", "preserve"), text)));
         void P(string text, string style = "Normal") => body.Add(Paragraph(text, style));
@@ -279,6 +282,34 @@ public static class ReportConcrete
             {P(curve.S("Status"));P($"MRd = {F(curve["LimitMoment"])} kNm; χy = {F(curve["YieldCurvature"])} 1/m; χu = {F(curve["UltimateCurvature"])} 1/m.");Figures("curvatura");Table(["M [kNm]","χ [1/m]","ε0 [‰]","εc,comp [‰]","|εs|max [‰]"],curve.Array("Points").Select(p=>new[]{F(p?["Moment"]),F(p?["Curvature"]),F(p?["Epsilon0"]),F(p?["ConcreteCompressionStrain"]),F(p?["SteelStrain"])}));}
             else P(result["errori_calcolo"].S("Momento–curvatura") is { Length: > 0 } curveError
                 ? "Curva non disponibile: " + curveError : "Curva non calcolata con i dati correnti.");
+            // The model column (1.15.0), only for the sheets with its options: the reports of the other sheets do not change.
+            if (settings[ModelColumnCategory] is JsonObject) ModelColumn();
+        }
+        void ModelColumn()
+        {
+            static string G(JsonNode? node) => J.Number(node) is double value ? value.ToString("G5", System.Globalization.CultureInfo.CurrentCulture) : "—";
+            Heading("Colonna modello");
+            if (result[ModelColumnCategory] is not JsonObject column)
+            {
+                P(result["errori_calcolo"].S("Colonna modello") is { Length: > 0 } columnError
+                    ? "Colonna modello non disponibile: " + columnError : "Colonna modello non calcolata con i dati correnti.");
+                return;
+            }
+            P("Metodo della colonna modello: equilibrio nella sezione critica con e2 = χ·l0²/c e M2 = NEd·e2, curvatura dalla risposta della sezione a N costante "
+                + "con i legami di progetto e il calcestruzzo teso trascurato (EN 1992-1-1 5.8.6(6) e 5.8.8.2; NTC 2018 §4.1.2.3.9.2-3, che rinvia ai documenti "
+                + "di comprovata validità). Pilastro isolato, sezione e sforzo normale costanti.");
+            Subheading("Dati");
+            Table(["Parametro", "Valore"], column.Array("Inputs").Select(row => new[] { row.S("Label"), row.S("Value") }));
+            P(column.S("Status"));
+            P("Esito: " + column.S("Outcome") + ".");
+            foreach (var warning in column.Array("Warnings")) P("Avviso: " + warning?.ToString());
+            Subheading("Passaggi del calcolo");
+            Table(["Grandezza", "Formula", "Valore", "Unità", "Riferimento"], column.Array("Trace").Select(step => new[] { step.S("Description"), step.S("Formula"),
+                step?["Value"] is null ? "—" : G(step["Value"]), step.S("Unit"), step.S("Reference") }));
+            Figures(ModelColumnCategory);
+            Subheading("Punti della curva");
+            Table(["χ [1/m]", "M [kNm]", "M2 [kNm]", "M − M2 [kNm]", "εc [‰]", "εs [‰]"], column.Array("Points").Select(point => new[] { G(point?["Curvature"]),
+                G(point?["MomentKnm"]), G(point?["SecondOrderKnm"]), G(point?["FirstOrderCapacityKnm"]), G(point?["ConcreteCompressionStrain"]), G(point?["SteelStrain"]) }));
         }
         void Figures(string category)
         {

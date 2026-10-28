@@ -11441,6 +11441,107 @@
         "MOD-30"
       ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "CA-COLONNA-01",
+      "data": "2026-10-28",
+      "fase": "1.15.0, scheda «Colonna modello» (GPCChecker.Concrete 0.27.0.0, set candidato librerie-1150/candidato-a)",
+      "titolo": "Sezione c.a.: scheda «Colonna modello» dopo «Momento–curvatura»; «Calcola armature» nona con il codice salvato 7",
+      "famiglia": "interfaccia/sezione-ca",
+      "modulo": "str_palo",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Richiesta dell'utente del 28/10/2026 («colonna modello implementa sia libreria che interfaccia»). La scheda 08 «Colonna modello» usa ModelColumnAnalysis della libreria (EN 1992-1-1 5.8.6(6) e 5.8.8.2; NTC 2018 §4.1.2.3.9.3); «Calcola armature» passa da 08 a 09. Il valore salvato in workspace_ca.tab è un codice stabile (ConcreteSheetPresentation.SavedTab): 0-6 invariati, «Calcola armature» resta 7, «Colonna modello» è 8; i documenti salvati con otto schede si riaprono sulla stessa scheda senza migrazione dei dati e la 1.14 apre il codice 8 sulla sua ultima scheda. Le opzioni stanno in workspace_ca.colonna_modello, create alla prima modifica dell'utente: i fogli che non le hanno si aprono con i predefiniti, senza scritture né Modified; l'esportazione dei risultati e la relazione hanno la colonna modello solo quando il foglio ha le opzioni (relazioni ed esportazioni delle fixture invariate).",
+      "codice": [
+        "src/ANTHEA.Application/Concrete/ConcreteModelColumn.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteModelColumnPresentation.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteSheetPresentation.cs (SavedTab, ShownTab)",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteModelColumnViewModel.cs",
+        "src/ANTHEA.Desktop/Views/ConcreteSection/ConcreteModelColumnView.xaml",
+        "src/ANTHEA.Reports/Generators/ReportConcrete.cs (capitolo «Colonna modello»)",
+        "tests/Shared/ConcreteSectionTrace.cs (Tab(7) -> Tab(8))"
+      ],
+      "segno": "Nessun risultato di calcolo delle schede esistenti cambia; i dati dei documenti non cambiano.",
+      "effetto_quantificato": "Riferimenti da approvare (commit «DA APPROVARE»): 32 tracce di tests/fixtures/f5-sezione/storica, 212 righe, tutte di tre tipi (script di classificazione nel resoconto): A, 140 righe, «modificato N» + 1 dopo la «visita» (una scheda in più da selezionare: 11 percorso-f3, 2 muri, 15 esempi, 5 righe ciascuna); B, 72 righe, «scheda 7» -> «scheda 8» nella riga di stato quando è mostrata «Calcola armature» (aperta dal codice salvato 7 o scelta dal passo; workspace_ca.tab resta 7); C, 5 righe, «== scheda [7]» -> «== scheda [8]», il passo che sceglie «Calcola armature». vista-storica.json invariato: la prova della vista porta le chiavi di sola lettura della scheda storica 7 alla 8 con lo stesso codice.",
+      "decisione": {
+        "data": "",
+        "utente": "",
+        "esito": "da approvare dall'utente (riferimenti e scelte di interfaccia)"
+      },
+      "test": [
+        "Presentation.Tests",
+        "Presentation.Tests/sezione-ca",
+        "Application.Tests",
+        "ui/check-sezione-view",
+        "ui/smoke-ca-extensions"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1150/colonna-modello"
+      ],
+      "voci_collegate": []
+    },
+    {
+      "id": "UI-CONTRASTO-02",
+      "data": "2026-10-28",
+      "fase": "1.15.0, scheda «Colonna modello»",
+      "titolo": "Dominio 3D: etichette degli assi sulla carta anche nella Chiara",
+      "famiglia": "interfaccia/temi",
+      "modulo": "str_palo (dominio 3D della sezione c.a.)",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Con la nona scheda della sezione c.a. (CA-COLONNA-01) le schede vanno su due righe a 1600 × 1000 DIP: il riquadro del dominio 3D si abbassa e, nella fixture t2-02, l'etichetta «N −11293,86 kN» cade sulla superficie del dominio (3,18:1 nella Chiara, 2 occorrenze nuove di --check-contrast). Lo stile AppearanceDrawingLabel mette le etichette degli assi sulla carta (AppearancePaper) in tutti gli aspetti, come già le etichette dei punti; prima lo faceva solo negli aspetti scuri. Il controllo del contrasto torna a 3 occorrenze in 1 voce, la baseline. Alternativa: lasciare la Chiara com'era e aggiungere le 2 occorrenze alla baseline, che però può solo scendere.",
+      "codice": [
+        "src/ANTHEA.Desktop/Themes/Controls.xaml (AppearanceDrawingLabel)"
+      ],
+      "segno": "Solo aspetto; nessun numero cambia.",
+      "effetto_quantificato": "Nella Chiara le etichette degli assi del dominio 3D hanno lo sfondo bianco della carta; Scuro e Molto scuro uguali. Nessun riferimento congelato cambia.",
+      "decisione": {
+        "data": "",
+        "utente": "",
+        "esito": "da confermare dall'utente"
+      },
+      "test": [
+        "ui/check-contrast",
+        "ui/check-theme-tokens"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1150/colonna-set-b/ui_check-contrast/difetti, supporto/artefatti/1150/colonna-fix/ui_check-contrast"
+      ],
+      "voci_collegate": [
+        "CA-COLONNA-01",
+        "UI-CONTRASTO-01"
+      ]
+    },
+    {
+      "id": "B-FON-01",
+      "data": "2026-10-28",
+      "fase": "1.15.0, set candidato librerie-1150/candidato-b",
+      "titolo": "Fondazioni superficiali: versione della libreria nel risultato (GPCChecker.Geotechnics 0.25.0.3)",
+      "famiglia": "fondazioni superficiali/risultato",
+      "modulo": "geo_fondazioni_superficiali (F5.9b)",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Come AK-FON-01. Nel set candidato b GPCChecker.Geotechnics passa da 0.25.0.2 a 0.25.0.3: ricompilata senza modifiche al sorgente (Checker ffc28d34; il PDB cita il commit, quindi la DLL cambia e prende una versione nuova). Nelle 8 fixture F3 con un risultato cambia l'impronta SHA-256 del risultato dopo «Calcola»; con 0.25.0.2 al posto di 0.25.0.3 tornano tutte le impronte del set AK. Dati, Modified, stato, disegni ed esportazioni uguali.",
+      "codice": [
+        "lib/Checker/GPCChecker.Geotechnics.dll",
+        "tests/ANTHEA.Desktop.UiTests/ShallowFoundationViewChecks.cs (HistoricFixtures, impronte del risultato)"
+      ],
+      "segno": "Nessun effetto sui numeri.",
+      "effetto_quantificato": "Cambiano 8 impronte del risultato su 11 fixture; le 3 senza risultato restano uguali.",
+      "decisione": {
+        "data": "",
+        "utente": "",
+        "esito": "impronte da approvare dall'utente (commit «DA APPROVARE»)"
+      },
+      "test": [
+        "ui/check-fondazioni-view"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1150/colonna-set-b (full, fallimento atteso), supporto/artefatti/1150/colonna-fix (registra-fon.txt, registrazione temporanea non committata, e corsa con le impronte riportate)"
+      ],
+      "voci_collegate": [
+        "AK-FON-01"
+      ]
     }
   ]
 }

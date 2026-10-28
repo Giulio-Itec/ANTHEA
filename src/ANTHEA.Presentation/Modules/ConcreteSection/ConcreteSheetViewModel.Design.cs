@@ -9,16 +9,16 @@ namespace Anthea.Presentation.Modules.ConcreteSection;
 /// </summary>
 public sealed partial class ConcreteSheetViewModel
 {
-    /// <summary>The main tab of the reinforcement design («Calcola armature»).</summary>
-    public const int DesignTab = 7;
+    /// <summary>The main tab of the reinforcement design («Calcola armature»), ninth since 1.15.0 (saved code 7, ConcreteSheetPresentation.SavedTab).</summary>
+    public const int DesignTab = 8;
 
-    /// <summary>The reinforcement design (tab 08, S8).</summary>
+    /// <summary>The reinforcement design (tab 09, S8).</summary>
     public ConcreteDesignViewModel Design { get; private set; } = null!;
 
     /// <summary>The options of the search in the settings (<c>calcola_armature</c>), prepared at opening.</summary>
     internal JsonObject DesignOptions => Settings["calcola_armature"]!.AsObject();
 
-    // The tab 08, built last, after its options are prepared: no write.
+    // The tab 09, built last, after its options are prepared: no write.
     private void CreateDesignPanel()
     {
         Design = new ConcreteDesignViewModel(this);

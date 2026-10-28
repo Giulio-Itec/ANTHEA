@@ -826,7 +826,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == visita
 dati E99F09CF79363404 · byte 73963
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 450707F66552EDFD
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "EC2 con parametri DIN: CRd,c, vmin, ν1, limite di cotθ dipendente dal carico e z ridotto; hc,eff e distanza fessure nazionali. Riferimento materiali DLL NA:2013-04. Verifiche di sezione, senza certificazione dell’intero annesso."
@@ -1196,7 +1196,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == attendi
 dati E99F09CF79363404 · byte 73963
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 450707F66552EDFD
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1210,7 +1210,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == conferma
 dati E99F09CF79363404 · byte 73963
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 450707F66552EDFD
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1224,7 +1224,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == calcola
 dati E99F09CF79363404 · byte 73963
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 450707F66552EDFD
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1238,7 +1238,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == conferma
 dati E99F09CF79363404 · byte 73963
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 450707F66552EDFD
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata

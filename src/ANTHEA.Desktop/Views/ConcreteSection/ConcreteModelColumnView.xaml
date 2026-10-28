@@ -1,0 +1,81 @@
+<!--
+  The tab 08 «Colonna modello» of the RC section (1.15.0) on ConcreteModelColumnViewModel, with the layout of the tab 07 «Momento–curvatura»
+  (WorkspaceLayout and Rows): the data of the column with «Calcola», «Interrompi», «Esporta CSV…» and the notice; the charts M(χ) with the external
+  moment and M − M2 over the cards and the text of the result. The charts are the Plot of the M–χ tab, fed by the data of the result in the
+  code-behind. Theme tokens only (P7).
+-->
+<UserControl x:Class="X.Desktop.Views.ConcreteSection.ConcreteModelColumnView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:local="clr-namespace:X.Desktop"
+ xmlns:views="clr-namespace:X.Desktop.Views.ConcreteSection">
+ <UserControl.Resources>
+  <ResourceDictionary>
+   <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="ConcreteSectionResources.xaml"/></ResourceDictionary.MergedDictionaries>
+  </ResourceDictionary>
+ </UserControl.Resources>
+ <Grid x:Name="Columns" Tag="ingressi" Margin="0,10,0,0">
+  <Grid.ColumnDefinitions><ColumnDefinition Width="3*" MinWidth="285"/><ColumnDefinition Width="8"/><ColumnDefinition Width="7*" MinWidth="650"/></Grid.ColumnDefinitions>
+  <Border Style="{StaticResource Paper}">
+   <DockPanel>
+    <StackPanel Style="{StaticResource PanelHeading}">
+     <TextBlock Style="{StaticResource T14Bold}" Text="Dati della colonna"/>
+     <TextBlock Style="{StaticResource PanelSubtitle}" Text="EN 1992-1-1 5.8.6(6) e 5.8.8.2 · NTC 2018 §4.1.2.3.9.3"/>
+    </StackPanel>
+    <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+     <StackPanel>
+      <ContentControl Style="{StaticResource Form}" Content="{Binding Form}"/>
+      <WrapPanel>
+       <Button Style="{StaticResource Command}" Content="Calcola colonna" Command="{Binding CalculateCommand}"/>
+       <Button Style="{StaticResource Command}" Content="Interrompi" Command="{Binding StopCommand}"/>
+       <Button Style="{StaticResource Command}" Content="Esporta CSV…" Command="{Binding ExportCommand}"/>
+      </WrapPanel>
+      <TextBlock Style="{StaticResource T12}" TextWrapping="Wrap" Text="{Binding Notice}"/>
+     </StackPanel>
+    </local:ChainedScrollViewer>
+   </DockPanel>
+  </Border>
+  <GridSplitter Style="{StaticResource ColumnSplitter}"/>
+  <Grid x:Name="Rows" Tag="righe" Grid.Column="2">
+   <Grid.RowDefinitions><RowDefinition Height="3.7*" MinHeight="160"/><RowDefinition Height="8"/><RowDefinition Height="2*" MinHeight="155"/></Grid.RowDefinitions>
+   <Grid>
+    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+    <Border Style="{StaticResource Frame}">
+     <DockPanel>
+      <StackPanel DockPanel.Dock="Top" Margin="2,0,2,6">
+       <TextBlock Style="{StaticResource T14Bold}" Text="M [kNm] · χ [1/m]"/>
+       <WrapPanel>
+        <Button Style="{StaticResource Command}" Content="Adatta" Click="FitCapacity_Click"/>
+        <Button Style="{StaticResource Command}" Content="PNG" Click="PngCapacity_Click"/>
+        <Button Style="{StaticResource Command}" Content="Espandi" Click="ExpandCapacity_Click"/>
+       </WrapPanel>
+      </StackPanel>
+      <ContentControl x:Name="CapacityHost" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+     </DockPanel>
+    </Border>
+    <Border Grid.Column="2" Style="{StaticResource Frame}">
+     <DockPanel>
+      <StackPanel DockPanel.Dock="Top" Margin="2,0,2,6">
+       <TextBlock Style="{StaticResource T14Bold}" Text="M − M2 [kNm] · χ [1/m]"/>
+       <WrapPanel>
+        <Button Style="{StaticResource Command}" Content="Adatta" Click="FitFirstOrder_Click"/>
+        <Button Style="{StaticResource Command}" Content="PNG" Click="PngFirstOrder_Click"/>
+        <Button Style="{StaticResource Command}" Content="Espandi" Click="ExpandFirstOrder_Click"/>
+       </WrapPanel>
+      </StackPanel>
+      <ContentControl x:Name="FirstOrderHost" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+     </DockPanel>
+    </Border>
+   </Grid>
+   <GridSplitter Style="{StaticResource RowSplitter}"/>
+   <Grid Grid.Row="2">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+    <local:ChainedScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+     <ContentControl Focusable="False" Content="{Binding Cards}" ContentTemplate="{StaticResource SummaryCards}" AutomationProperties.Name="Esiti della colonna modello"/>
+    </local:ChainedScrollViewer>
+    <TextBox Grid.Column="2" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Text="{Binding Text, Mode=OneWay}"
+     AutomationProperties.Name="Risultato della colonna modello"/>
+   </Grid>
+  </Grid>
+ </Grid>
+</UserControl>

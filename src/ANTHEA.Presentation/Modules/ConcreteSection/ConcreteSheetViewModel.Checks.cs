@@ -86,7 +86,8 @@ public sealed partial class ConcreteSheetViewModel
     {
         if (domainResults.Count == 0 && stressResults.Count == 0 && shearResults.Count == 0) { ResetResult(); return; }
         export = ConcreteResultExport.Create(Data, CollectVerificationSummaries(), domainResults, stressResults, shearResults, torsionResults,
-            detailing?.Checks ?? [], detailing?.DetailsText ?? "", detailing?.Anchorage, detailing?.AnchorageDetails.Text ?? "", Curvature?.Result, Calculation.ErrorsForExport);
+            detailing?.Checks ?? [], detailing?.DetailsText ?? "", detailing?.Anchorage, detailing?.AnchorageDetails.Text ?? "", Curvature?.Result, Calculation.ErrorsForExport,
+            ModelColumn?.Result);
     }
 
     private Dictionary<string, VerificationSummary> CollectVerificationSummaries() => ConcreteVerificationSummaries.Create(Settings,
@@ -384,4 +385,19 @@ public sealed partial class ConcreteSheetViewModel
     }
 
     private void InvalidateCurvature() => Curvature.Invalidate();
+
+    // ---------------------------------------------------------------- model column (1.15.0)
+
+    /// <summary>The main tab «Colonna modello», after «Momento–curvatura».</summary>
+    public const int ModelColumnTab = 7;
+
+    /// <summary>The model column (tab 08, 1.15.0).</summary>
+    public ConcreteModelColumnViewModel ModelColumn { get; private set; } = null!;
+
+    // The tab 08, built after the M–χ: no write (the options of a sheet without them stay detached until the first change).
+    private void CreateModelColumnPanel()
+    {
+        ModelColumn = new ConcreteModelColumnViewModel(this);
+        OnPropertyChanged(nameof(ModelColumn));
+    }
 }

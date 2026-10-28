@@ -1,7 +1,7 @@
 == apertura
 dati ED89461F03EDE4C8 · byte 8347
   tutto = {"versione_sezione":2,"input":{"shape":"Rettangolare","diameter_mm":"1000","circular_sides":"32","width_mm":"1000","height_mm":"250","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"30","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"5","top_bar_diameter_mm":"12","bottom_bar_count":"5","bottom_bar_diameter_mm":"14","side_bar_count_per_side":"0","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","staffe_presenti":"No","gettato_sottile":"No","inner_diameter_mm":"500","inner_width_mm":"300","inner_height_mm":"400","flange_bottom_count":"0","flange_bottom_diameter_mm":"12","flange_bottom_offset_mm":"46","second_top_count":"5","second_top_diameter":"12","second_top_gap":"30","second_bottom_count":"5","second_bottom_diameter":"14","second_bottom_gap":"30","second_inner_count":"16","second_inner_diameter":"24","second_inner_gap":"30"},"n_automatico":true,"combinazioni":{"SLU":[{"id":"510000010f514a008000000000000001","nome":"SLU appoggio","azioni":["0","-110","0"],"visible":true},{"id":"510000020f514a008000000000000002","nome":"SLU campata","azioni":["0","50","0"],"visible":true}],"SLV":[],"SLE":[{"id":"510000030f514a008000000000000003","nome":"Rara","azioni":["0","65","0"],"visible":true}],"SLE_FREQ":[],"SLE_QP":[{"id":"510000040f514a008000000000000004","nome":"Quasi permanente","azioni":["0","45","0"],"visible":true}]},"workspace_ca":{"versione":2,"normativa":"NTC 2018","tab":7,"taglio":{"modello":"Senza staffe","azioni":[],"parametri_precedenti":{"bw_x":"","d_x":"","asl_x":"","bw_y":"","d_y":"","asl_y":""},"parametri":"Automatici da sezione","tipo_staffa":"Staffa chiusa","rami_x":"2","rami_y":"2","rami_interni":"0","schema_interno":"Bracci paralleli","rotazione_staffa":"0","ancoraggio":"Da verificare","bw_x":"250","d_x":"963.42352941176455","asl_x":"267.03537555513242","alpha_x":"90","cot_x":"","bw_y":"1000","d_y":"213","asl_y":"565.48667764616278","alpha_y":"90","cot_y":"","cot_torsione":"1","as_torsione":"0","chiusura_torsione":"Da confermare","modello_circolare":"Da scegliere","z_d":"0.75","eccentricita_mc_x":"0","eccentricita_mc_y":"0"},"dettagli_costruttivi":{"elemento":"Soletta piena","zona_critica":"Sì","as_secondaria":"565","passo_secondaria":"200","vita_durabilita":"100","qualita_copriferro":"Sì","aggregato":"16","delta_c":"5","zona_sovrapposizione":"Sì","cmin_dur":35,"barre_trattenute":"Da confermare","ancoraggio_appoggi":"Da confermare","esposizione_sle":"XS1"},"ancoraggi":{"schema_versione":1,"tipo":"Sovrapposizione rettilinea","lunghezza":"600","percentuale":"50","interferro":"20","diametro":"","sigma":"","aderenza":"Buona","confinamento":"Da verificare","posizione":"Da verificare","cautele":"Da verificare"},"calcola_armature":{"obiettivo":"Compromesso","peso_peso":"2","peso_barre":"1","peso_diametri":"0.5","diametri":"10;12;14","n_superiori":"4;5","n_inferiori":"5;6;7","n_laterali":"0","staffe":"Senza staffe","diametri_ortogonali":"8;10","passi_ortogonali":"150;200","max_diametri":"2","ricerca_completa":false,"max_tentativi":"300","parallelismo":"2","mostra":"5","ancoraggio_confermato":true,"riserva_torsione":"0","slu":"0.95","n_circolari":"8;12;16;20;24","diametri_staffe":"8;10","passi_staffe":"100;150;200;250","ganci_phi":"20","simmetrica":false,"torsione_confermata":false,"slv":"1","sigma_c_rara":"1","sigma_s_rara":"1","sigma_c_qp":"1","wk_freq":"1","wk_qp":"1","vx":"1","vy":"1","torsione":"1","vt_cls":"1","vt_staffe":"1","ancoraggio":"1"},"sle":{"SLE":{"modello":"Lineare","esposizione":"XS1","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XS1","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XS1","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"}},"dominio2d":{"stato":"SLU","tipo":"Mx–My","theta":"0","N":"0","filtro":"Tutte","angoli":"64","strategia":"Iterativo","criterio":"N costante","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"nota":"","dominio3d":{"stato":"SLU","angoli":"32","criterio":"N costante","filtro":"Tutte","strategia":"Iterativo","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"trefoli":[],"sle_precedenti_unificazione":{"SLE":{"modello":"Lineare","esposizione":"XS1","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""}},"sle_comuni":{"modello":"Lineare","phi":"0","phi_trefoli":"0","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XS1","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"coefficienti":{"AlphaCC":"0.85","AlphaCT":"1","GammaC":"1.50","GammaS":"1.15","GammaSPrestress":"1.15","GammaCAccidental":"1","GammaCE":"1.2","GammaSAccidental":"1","GammaSPrestressAccidental":"1","GammaF":"1.5","SteelCoefficientStrainTension":"0.9","ServiceabilityStressConcreteCoefficientForCharacteristicCombination":"0.6","ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination":"0.45","ServiceabilityStressSteelCoefficientForCharacteristicCombination":"0.8","ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination":"0.8"},"momento_curvatura":{"N":"0","theta":"0","passi":"60","frazione":"1","campionamento":"Quadratico","trazione_cls":"No","angoli":"64","tolleranza_n":"1","raffina_snervamento":"12"},"materiale_trefolo":{"id":"EN1992:Y1860","tipo":"Trefoli","nome":"Y1860","Ep":195000,"fpyk":1640,"fpk":1860,"eps_u":75,"diagramma":"Elastoplastico"},"materiali_custom":[],"layout":{},"resistenze_rapide":{"N":"0","tipo":"Plastico"}}}
-modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 7
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 8
 risultato -
 stato "Dati della sezione · selezionare una scheda per iniziare"
 [armature] form ricerca
@@ -189,7 +189,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 == attendi
 dati ED89461F03EDE4C8 · byte 8347
-modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
@@ -327,16 +327,16 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] riquadri riepilogo-SLE_FREQ "Frequente · fessurazione\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF
 [ingressi] riquadri riepilogo-SLE_QP "Quasi permanente · tensioni\nVERIFICATA\nη = 0,72\nGoverna: Quasi permanente\n1/1 combinazioni\nQuasi permanente · fessurazione\nNON VERIFICATA\nη = 1,40\nGoverna: Quasi permanente\n1/1 combinazioni\n" · colori #FFE4C441 #FFCB3939
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
-== scheda [7]
+== scheda [8]
 dati ED89461F03EDE4C8 · byte 8347
-modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 [ingressi] invariata
 == attendi
 dati ED89461F03EDE4C8 · byte 8347
-modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
@@ -344,7 +344,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == scelta ricerca obiettivo «Peso»
 dati 56D1FCF46355C283 · byte 8340
   workspace_ca.calcola_armature.obiettivo = "Peso"
-modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -399,7 +399,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] invariata
 == attendi
 dati 56D1FCF46355C283 · byte 8340
-modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
@@ -407,7 +407,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == opzione ricerca ricerca_completa
 dati EC8D531016F1DECE · byte 8339
   workspace_ca.calcola_armature.ricerca_completa = true
-modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -462,7 +462,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] invariata
 == attendi
 dati EC8D531016F1DECE · byte 8339
-modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
@@ -470,7 +470,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == campo ricerca diametri «16;20»
 dati 6E81F468D2FECCD6 · byte 8336
   workspace_ca.calcola_armature.diametri = "16;20"
-modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -526,7 +526,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == campo ricerca n_superiori «10»
 dati 8386001A3E8C96A1 · byte 8335
   workspace_ca.calcola_armature.n_superiori = "10"
-modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -582,7 +582,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == campo ricerca n_inferiori «6;7»
 dati E0A177B90BB6E969 · byte 8333
   workspace_ca.calcola_armature.n_inferiori = "6;7"
-modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -637,14 +637,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] invariata
 == campo ricerca diametri_ortogonali «8;10»
 dati E0A177B90BB6E969 · byte 8333
-modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 [ingressi] invariata
 == campo ricerca passi_ortogonali «150;200»
 dati E0A177B90BB6E969 · byte 8333
-modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
@@ -652,7 +652,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == campo ricerca max_diametri «3»
 dati 3CE84A079872AFA9 · byte 8333
   workspace_ca.calcola_armature.max_diametri = "3"
-modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -708,7 +708,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == scelta ricerca parallelismo «1»
 dati 996D336E7C7C6BC7 · byte 8333
   workspace_ca.calcola_armature.parallelismo = "1"
-modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -763,7 +763,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] invariata
 == attendi
 dati 996D336E7C7C6BC7 · byte 8333
-modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 9DA3977AC52D6FC8
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
@@ -773,7 +773,7 @@ dati DD9CC2CC7A439196 · byte 8333
   input.cover_mm = "60"
   workspace_ca.taglio.d_x = "933.42352941176466"
   workspace_ca.taglio.d_y = "183"
-modificato 8 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 7
+modificato 8 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 8
 risultato -
 stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [armature] invariata
@@ -913,7 +913,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 == attendi
 dati DD9CC2CC7A439196 · byte 8333
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato DFD149DE6661835C
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
@@ -1053,7 +1053,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 == pulsante ricerca Calcola armature
 dati DD9CC2CC7A439196 · byte 8333
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato DFD149DE6661835C
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -1108,7 +1108,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] invariata
 == attendi
 dati DD9CC2CC7A439196 · byte 8333
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato DFD149DE6661835C
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -1164,7 +1164,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == campo ricerca riserva_torsione «25»
 dati CAB4BAD07BCA4687 · byte 8334
   workspace_ca.calcola_armature.riserva_torsione = "25"
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato DFD149DE6661835C
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -1219,7 +1219,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] invariata
 == pulsante ricerca Calcola armature
 dati CAB4BAD07BCA4687 · byte 8334
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato DFD149DE6661835C
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -1274,7 +1274,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] invariata
 == attendi
 dati CAB4BAD07BCA4687 · byte 8334
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato DFD149DE6661835C
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -1351,24 +1351,24 @@ risultato 33358CC086781029
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 [ingressi] invariata
-== scheda [7]
+== scheda [8]
 dati 6AE69C82B413BB69 · byte 8333
   workspace_ca.tab = 7
-modificato 13 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 13 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato FCD69CDF0D99634D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 [ingressi] invariata
 == attendi
 dati 6AE69C82B413BB69 · byte 8333
-modificato 13 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 13 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato FCD69CDF0D99634D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 [ingressi] invariata
 == pulsante ricerca Calcola armature
 dati 6AE69C82B413BB69 · byte 8333
-modificato 13 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 13 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato FCD69CDF0D99634D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -1423,7 +1423,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] invariata
 == attendi
 dati 6AE69C82B413BB69 · byte 8333
-modificato 13 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 13 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato FCD69CDF0D99634D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -1483,7 +1483,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == scelta mostra mostra «1»
 dati C0BF34EF58EF6717 · byte 8333
   workspace_ca.calcola_armature.mostra = "1"
-modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato FCD69CDF0D99634D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -1539,21 +1539,21 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] invariata
 == attendi
 dati C0BF34EF58EF6717 · byte 8333
-modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato FCD69CDF0D99634D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 [ingressi] invariata
 == seleziona alternative [0]
 dati C0BF34EF58EF6717 · byte 8333
-modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato FCD69CDF0D99634D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 [ingressi] invariata
 == attendi
 dati C0BF34EF58EF6717 · byte 8333
-modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 14 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato FCD69CDF0D99634D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
@@ -1561,7 +1561,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == campo limiti slu «0.9»
 dati 8092407184BABED2 · byte 8332
   workspace_ca.calcola_armature.slu = "0.9"
-modificato 15 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 15 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato FCD69CDF0D99634D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -1617,14 +1617,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] invariata
 == attendi
 dati 8092407184BABED2 · byte 8332
-modificato 15 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 15 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato FCD69CDF0D99634D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 [ingressi] invariata
 == pulsante ricerca Calcola armature
 dati 8092407184BABED2 · byte 8332
-modificato 15 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 15 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato FCD69CDF0D99634D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -1679,7 +1679,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] invariata
 == attendi
 dati 8092407184BABED2 · byte 8332
-modificato 15 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 15 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato FCD69CDF0D99634D
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -1757,7 +1757,7 @@ dati 86FD4A847FD646DC · byte 14788
   workspace_ca.dettagli_costruttivi.passo_secondaria = 150
   workspace_ca.dettagli_costruttivi.diametro_secondaria = 10
   workspace_ca.proposta_armature_applicata = {"descrizione":"Sup. 10Ø16 · inf. 6Ø16 · laterali 0Ø16/lato · senza staffe · ortogonali Ø10/150 per faccia","metriche":{"SteelArea":3216.990877275948,"LongitudinalKgPerM":25.253378386616195,"TransverseKgPerM":8.220500776893294,"Bars":16,"Diameters":2,"PiecesPerM":29.333333333333336,"KgPerM":33.47387916350949},"controlli":[{"Key":"dettagli","Name":"Interferro minimo","Combination":"Sezione proposta","Ratio":null,"Target":1,"Passed":true,"Detail":"80 / 21 mm. max(20 mm; Ømax; dg + 5 mm), controllo conservativo su tutte le coppie. NTC 2018 §4.1.6.1.3 / EC2 §8.2"},{"Key":"dettagli","Name":"Copriferro nominale","Combination":"Sezione proposta","Ratio":null,"Target":1,"Passed":true,"Detail":"60 / 40 mm. max(10; cmin,dur; cmin,b) + Δcdev. cmin,dur proviene dal progetto di durabilità. NTC 2018 §4.1.6.1.3 / EC2 §4.4"},{"Key":"dettagli","Name":"Margine copriferro barre longitudinali","Combination":"Sezione proposta","Ratio":null,"Target":1,"Passed":true,"Detail":"20 / 0 mm. Minimo (copriferro geometrico della barra − copriferro richiesto), su contorno esterno e foro. Stessa classe di esposizione per tutte le superfici. NTC 2018 §4.1.6.1.3 / EC2 §4.4"},{"Key":"dettagli","Name":"As,min inferiore","Combination":"Sezione proposta","Ratio":null,"Target":1,"Passed":true,"Detail":"1206,372 / 337,545 mm². max(0,26 fctm/fyk; 0,0013) bt d; entrambe le facce potenzialmente tese. NTC 2018 §4.1.6.1.1 / EC2 §9.3.1.1"},{"Key":"dettagli","Name":"As,max inferiore","Combination":"Sezione proposta","Ratio":null,"Target":1,"Passed":true,"Detail":"1206,372 / 10000 mm². As della singola zona ≤ 0,04 Ac. NTC 2018 §4.1.6.1.1"},{"Key":"dettagli","Name":"As,min superiore","Combination":"Sezione proposta","Ratio":null,"Target":1,"Passed":true,"Detail":"2010,619 / 337,545 mm². max(0,26 fctm/fyk; 0,0013) bt d; entrambe le facce potenzialmente tese. NTC 2018 §4.1.6.1.1 / EC2 §9.3.1.1"},{"Key":"dettagli","Name":"As,max superiore","Combination":"Sezione proposta","Ratio":null,"Target":1,"Passed":true,"Detail":"2010,619 / 10000 mm². As della singola zona ≤ 0,04 Ac. NTC 2018 §4.1.6.1.1"},{"Key":"dettagli","Name":"Interasse armatura principale","Combination":"Sezione proposta","Ratio":null,"Target":1,"Passed":true,"Detail":"172,8 / 250 mm. Regione critica: min(2h;250); altre zone: min(3h;400). EC2 §9.3.1.1"},{"Key":"dettagli","Name":"Armatura secondaria","Combination":"Sezione proposta","Ratio":null,"Target":1,"Passed":true,"Detail":"1047,198 / 643,398 mm²/m. As,secondaria ≥ 20% As,principale; dati totali delle due facce per metro di larghezza. EC2 §9.3.1.1"},{"Key":"dettagli","Name":"Ripartizione armatura secondaria sulle facce","Combination":"Sezione proposta","Ratio":null,"Target":1,"Passed":null,"Detail":" /  . Il dato totale non verifica da solo il 20% su ciascuna faccia: controllare la distribuzione effettiva. EC2 §9.3.1.1"},{"Key":"dettagli","Name":"Interasse armatura secondaria","Combination":"Sezione proposta","Ratio":null,"Target":1,"Passed":true,"Detail":"150 / 400 mm. Regione critica: min(3h;400); altre zone: min(3,5h;450). EC2 §9.3.1.1"},{"Key":"dettagli","Name":"Bordi, appoggi e punzonamento","Combination":"Sezione proposta","Ratio":null,"Target":1,"Passed":null,"Detail":" /  . Verifiche locali richiedono geometria dell’elemento e degli appoggi; non desumibili dalla striscia di sezione. EC2 §§9.3–9.4 / NTC §4.1.2.3.5.4"},{"Key":"ancoraggio","Name":"Lunghezza ancoraggio / giunzione","Combination":"Ø10","Ratio":0.4560767365957235,"Target":1,"Passed":true,"Detail":"Ø10; l richiesta = 410,5 mm; lb,rqd = 290,2 mm; fbd = 3,37 MPa. σsd = fyd. l0 = max[α6·lb,rqd; 0,3·α6·lb,rqd; 20Ø; 200 mm]; α6 = clamp(√(%/25),1,1,5). Interferro ≤ 4Ø. Barre rettilinee, α1…α5 = 1."},{"Key":"giunzione","Name":"Interferro giunzione","Combination":"Ø10","Ratio":null,"Target":1,"Passed":true,"Detail":"Interferro massimo 40 mm."},{"Key":"ancoraggio","Name":"Lunghezza ancoraggio / giunzione","Combination":"Ø16","Ratio":0.7297227785531575,"Target":1,"Passed":true,"Detail":"Ø16; l richiesta = 656,8 mm; lb,rqd = 464,4 mm; fbd = 3,37 MPa. σsd = fyd. l0 = max[α6·lb,rqd; 0,3·α6·lb,rqd; 20Ø; 200 mm]; α6 = clamp(√(%/25),1,1,5). Interferro ≤ 4Ø. Barre rettilinee, α1…α5 = 1."},{"Key":"giunzione","Name":"Interferro giunzione","Combination":"Ø16","Ratio":null,"Target":1,"Passed":true,"Detail":"Interferro massimo 64 mm."},{"Key":"esecutivo","Name":"Ancoraggi · confinamento","Combination":"Nuova disposizione","Ratio":null,"Target":1,"Passed":null,"Detail":"Riscontro sul disegno della configurazione proposta; le conferme del dettaglio precedente non vengono trasferite."},{"Key":"esecutivo","Name":"Ancoraggi · posizione","Combination":"Nuova disposizione","Ratio":null,"Target":1,"Passed":null,"Detail":"Riscontro sul disegno della configurazione proposta; le conferme del dettaglio precedente non vengono trasferite."},{"Key":"slu","Name":"N–Mx–My · SLU","Combination":"SLU appoggio","Ratio":0.8425353814957437,"Target":0.9,"Passed":true,"Detail":"Dominio plastico (criterio resistente), iterativo 3D a eccentricità costante, assi Locali. N=0 kN; Mx=-110, My=0 kNm."},{"Key":"slu","Name":"N–Mx–My · SLU","Combination":"SLU campata","Ratio":0.5372450432232844,"Target":0.9,"Passed":true,"Detail":"Dominio plastico (criterio resistente), iterativo 3D a eccentricità costante, assi Locali. N=0 kN; Mx=50, My=0 kNm."},{"Key":"sigma_c_rara","Name":"Tensione CLS · rara","Combination":"Rara","Ratio":0.8891201033035947,"Target":1,"Passed":true,"Detail":"|σc,compressione| = 18,672 MPa; limite = 21 MPa."},{"Key":"sigma_s_rara","Name":"Tensione acciaio · rara","Combination":"Rara","Ratio":0.8388705471770633,"Target":1,"Passed":true,"Detail":"|σs|max = 301,993 MPa; limite = 360 MPa."},{"Key":"sigma_c_qp","Name":"Tensione CLS · quasi permanente","Combination":"Quasi permanente","Ratio":0.8207263294825526,"Target":1,"Passed":true,"Detail":"|σc,compressione| = 12,926 MPa; limite = 15,75 MPa."},{"Key":"wk_qp","Name":"Fessurazione · quasi permanente","Combination":"Quasi permanente","Ratio":0.8058676533927511,"Target":1,"Passed":true,"Detail":"wk = 0,1612 mm; wlim = 0,2 mm. Nessuna barra in Ac,eff: limite superiore con sr,max da (h − x) · apertura entro limite"}],"ricerca_completa":true,"riserva_torsione_percento":"25"}
-modificato 16 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 7
+modificato 16 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 8
 risultato -
 stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [armature] form ricerca
@@ -1952,7 +1952,7 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 == attendi
 dati 86FD4A847FD646DC · byte 14788
-modificato 16 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 16 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato EFF8FA960F1E2D94
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
@@ -2098,14 +2098,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 == conferma
 dati 86FD4A847FD646DC · byte 14788
-modificato 16 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 16 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato EFF8FA960F1E2D94
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 [ingressi] invariata
 == riapri
 dati 86FD4A847FD646DC · byte 14788
-modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 7
+modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 8
 risultato -
 stato "Dati della sezione · selezionare una scheda per iniziare"
 [armature] form ricerca
@@ -2299,7 +2299,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 == attendi
 dati 86FD4A847FD646DC · byte 14788
-modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato EFF8FA960F1E2D94
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
