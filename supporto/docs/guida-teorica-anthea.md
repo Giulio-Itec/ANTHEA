@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 28 ottobre 2026 — revisione documentale 60
+Edizione 6 aggiornata il 28 ottobre 2026 — revisione documentale 61
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -177,10 +177,23 @@ I calcoli dei report di progetto vengono eseguiti su copie dei dati, evitando di
 | Sezione CA | mm | MPa | kN e kNm | N negativo a compressione; trazione positiva |
 | Sezione composta | mm | MPa | kN e kNm | N negativo a compressione nelle fasi; appoggi con convenzione propria |
 | Bridge Design | m salvo spessori metallici in mm | MPa e kPa secondo etichetta | kN e kNm | Carichi e momenti dell'intero impalcato |
+| Modelli importati | m | — | kN e kN·m per le aste; kN/m e kN·m/m per le piastre | Mxx, Myy, Mxy e My nella convenzione della copia, uguale per ogni sorgente |
 
 Vale 1 MPa = 1 N/mm² = 1000 kPa. Per trasformare Nmm in kNm si divide per un milione; per trasformare N in kN si divide per mille. Per passare da una curvatura espressa in 1/mm al valore numerico in 1/m si moltiplica per mille. Una deformazione di 0,001 equivale a 1 per mille e a 1000 microdeformazioni.
 
 Le convenzioni del segno non sono intercambiabili fra i moduli. I colori dei diagrammi non costituiscono una convenzione universale dell'applicazione: leggere la legenda. Per confrontare due solver occorre allineare anche origine degli assi, verso dei momenti, punto di applicazione di N e trasformazione delle coordinate.
+
+### Copie dei modelli importati
+
+Il modulo Modelli conserva una copia del modello di calcolo: non esegue analisi, non ricalcola le sollecitazioni dei casi e non calcola reazioni vincolari. Sui dati della sorgente compie tre sole operazioni: copia, conversione delle unità e convenzione di segno. Le combinazioni sono l'unica grandezza costruita in ANTHEA, dalla libreria GPC, a partire dai casi importati.
+
+Dai file di testo .mct e .mgt la libreria GPC traduce i comandi nelle stesse tabelle della copia acquisita dal modello aperto, con le unità dichiarate nelle tabelle (N e mm). Il file descrive il modello e non contiene risultati. Gli elementi senza un equivalente nella vista, come pareti, elementi piani e solidi, restano fuori dalla copia; un modello che la libreria GPC non accetta, per esempio per piastre quadrangolari non piane oltre la sua tolleranza, non viene importato.
+
+Dai modelli .st7 con i risultati statici lineari .lsa la libreria GPC legge il modello in sola lettura, in un processo separato, e la copia riporta i risultati dei casi primari scelti: per le piastre i valori ai nodi di ogni elemento, come li estrapola il solutore, senza medie fra elementi adiacenti; per le aste i valori alle stazioni del solutore; per i nodi spostamenti e rotazioni globali. Il modello della libreria è in N, mm e rad. La copia usa m per coordinate e spostamenti, kN e kN·m per le aste, kN/m per forze di membrana e tagli delle piastre e kN·m/m per i loro momenti; le rotazioni restano in radianti. I fattori sono esatti: 1 N/mm = 1 kN/m, 1 N·mm/mm = 10⁻³ kN·m/m, 1 N·mm = 10⁻⁶ kN·m.
+
+Lo stesso stato fisico si legge con lo stesso segno qualunque sia la sorgente: la convenzione è quella della copia acquisita dal modello aperto. Mxx, Myy e Mxy positivi tendono la faccia −z della piastra e My delle aste è l'opposto del momento M1 della libreria GPC. Nella libreria GPC i momenti delle piastre sono invece positivi con la faccia +z tesa, come nel programma di origine dei file .st7: per quei modelli Mxx, Myy, Mxy e My hanno nella copia il segno opposto a quello della sorgente. Le altre componenti conservano il segno della libreria GPC.
+
+Le combinazioni della sorgente sono conservate come definizioni, cioè casi e coefficienti; quelle dei file .lsa non sono lette come risultati del solutore. Per calcolarne gli effetti la libreria GPC ricostruisce il proprio modello dalla copia, con posizioni, terne, casi e valori riportati nelle unità e nei segni GPC, e combina i risultati dei casi importati con i coefficienti della definizione: nell'analisi statica lineare è la somma pesata dei casi. Una combinazione che richiama un caso non importato non è calcolabile. Aste reticolari e cavi non entrano ancora nelle combinazioni ricostruite; le combinazioni definite su più insiemi di vincoli o su altre combinazioni restano con un avviso.
 
 ### Dati mancanti e validità del risultato
 
@@ -618,6 +631,140 @@ N_{Ed} = \max_r\ \max(0;\ -N_r)
 La curva M χ viene costruita a N fissato nella direzione assegnata, con passi uniformi o quadratici fino al limite resistente. Ogni punto richiede equilibrio di sezione. In ogni riga, punto limite compreso, ε0 è la deformazione nell'origine degli assi locali delle azioni: anche il piano del punto limite, che proviene dal dominio, è letto in quell'origine e non nel vertice con cui il dominio lo costruisce. In una sezione asimmetrica la direzione del gradiente di deformazione può non coincidere con quella del momento. Non sono inclusi automaticamente softening strutturale, lunghezza della cerniera, rotazione globale o interazione con instabilità dell'elemento.
 
 Nei punti della curva il calcestruzzo teso è trascurato, salvo due opzioni. «CLS resistente a trazione» usa il diagramma di trazione del materiale, anche nel dominio. «CLS teso nelle risposte» = Tension stiffening applica, nei soli punti della curva, il tension stiffening sulle barre con il modello del tirante (fib Model Code 2010 §7.6.4.4; EN 1992-1-1 §7.3.4(2) e §7.4.3(3)), con i valori medi Ecm e fctm, senza coefficienti parziali, e β = 0,4 (carichi di lunga durata o ripetuti). Finché nessuna fibra supera εcr = fctm/Ecm la sezione è interamente reagente, con il calcestruzzo teso lineare. Dopo la fessurazione il calcestruzzo teso non lavora; ogni barra tesa che cade nell'area efficace di altezza hc,eff = min[2,5 (h − d); (h − x)/3; h/2] dal lembo teso (EN 1992-1-1 §7.3.2(3)) segue la legge dell'acciaio alla deformazione nella fessura εs2: εs2 = εm/(1 − β) durante la formazione delle fessure, fino a εm = (1 − β) εsr, ed εs2 = εm + β εsr a fessurazione stabilizzata; εm è la deformazione del piano alla barra, εsr = σsr/Es, σsr = fctm (1 + αe ρeff)/ρeff, αe = Es/Ecm e ρeff = As/Ac,eff dell'area efficace della barra. Le barre fuori dall'area efficace restano nude; le aree efficaci vengono dal piano della soluzione. Snervamento, χy e |εs|max della curva sono quelli della barra nella fessura. Con questa opzione il punto limite resta quello del dominio senza resistenza a trazione (NTC 2018 §4.1.2.3.4.1; EN 1992-1-1 §6.1(2)P) e le verifiche SLU e SLE non la usano. Fino alla 1.14.3 l'opzione applicava una legge media del calcestruzzo teso a tutta la zona tesa: ricalcolate, le curve risultano più cedevoli dopo la fessurazione e lo snervamento arriva prima.
+
+### Colonna modello: metodo e campo di applicazione
+
+La colonna modello verifica un pilastro snello concentrando gli effetti del secondo ordine nella sua sezione critica: è il metodo generale semplificato di EN 1992-1-1 5.8.6(6), con la distribuzione di curvatura di 5.8.8.2. NTC 2018 §4.1.2.3.9.3 lo comprende fra i metodi basati sull'equilibrio nelle sezioni critiche e rinvia per le formule a documenti di comprovata validità; il calcolo segue quindi l'Eurocodice, con gli scostamenti dichiarati più avanti. Il campo è quello di un elemento isolato, o a esso assimilabile, con sezione e sforzo normale costanti e una sola sezione critica; la lunghezza libera di inflessione l0 e il momento del primo ordine nella sezione critica sono dati del progettista.
+
+La deformata è assunta con una freccia e2 proporzionale alla curvatura χ della sezione critica. Il fattore c dipende dalla distribuzione della curvatura: 10 ≈ π² per la deformata sinusoidale, fino a 8 per un momento totale costante (EN 1992-1-1 5.8.8.2(4)). Il momento del secondo ordine è quindi lineare nella curvatura, con la rigidezza geometrica k.
+
+```math
+e_2 = \chi\,\frac{l_0^2}{c}
+k = \frac{N_{Ed}\,l_0^2}{c}
+M_2 = N_{Ed}\,e_2 = k\,\chi
+```
+
+La curvatura deriva dalla risposta della sezione a NEd costante, con le ipotesi del dominio plastico: sezioni piane, aderenza perfetta, parabola-rettangolo di progetto con fcd, εc2 ed εcu per il calcestruzzo, legge di progetto delle barre con fyd ed εud, sezione netta e calcestruzzo teso nullo, come chiede NTC 2018 §4.1.2.3.9.2 per l'analisi del secondo ordine. Il tension stiffening non entra. Per ogni curvatura il solutore cerca la deformazione ε0 del piano che porta lo sforzo normale NEd, con l'asse neutro parallelo al vettore momento della direzione θ; w è la distanza misurata lungo la direzione della curvatura. La curvatura ultima χu è la più grande per la quale esiste un piano entro i limiti di deformazione del dominio. Nelle formule NEd è il modulo della compressione; nel foglio N resta negativo a compressione.
+
+```math
+\varepsilon(w) = \varepsilon_0 - \chi\,w
+N(\varepsilon_0,\chi) = N_{Ed}
+```
+
+### Colonna modello: capacità, equilibrio e modo di crisi
+
+La capacità M1Rd,max è il massimo momento del primo ordine che la sezione critica sopporta. È il massimo della differenza fra la curva M(χ) e la retta M2 = kχ, cioè il punto in cui la retta del momento esterno è tangente alla curva; la scheda indica con χ* la curvatura del massimo.
+
+```math
+M_{1Rd,max} = \max_{0 \le \chi \le \chi_u}\left[M(\chi) - k\,\chi\right]
+e_2^{*} = \chi^{*}\,\frac{l_0^2}{c}
+```
+
+Il modo di crisi è l'instabilità quando il massimo cade prima della curvatura ultima, cioè in un punto limite dell'equilibrio, e la rottura della sezione quando cade alla curvatura ultima.
+
+> Scostamento dichiarato K-6 · Modo vicino alla curvatura ultima
+> Norma: EN 1992-1-1 5.8.6(6) non distingue i due modi; la colonna modello classica chiama instabilità il massimo interno alla curva.
+> Programma: rottura della sezione solo se χu − χ* ≤ 10⁻⁹ χu; altrimenti instabilità.
+> Effetto: con la sezione netta la curva è quasi piatta vicino a χu e il massimo resta interno anche per colonne tozze; M1Rd,max differisce comunque dal momento resistente MRd(N) della sezione di meno dello 0,6 % nei casi di prova della libreria.
+
+Con il momento del primo ordine assegnato la colonna è in equilibrio alla prima intersezione stabile fra la curva e la retta M0Ed,tot + kχ, sul ramo crescente di M − M2 che termina nel massimo. Se M0Ed,tot supera M1Rd,max l'intersezione non esiste: la colonna è instabile e la verifica non è soddisfatta. Il rapporto η misura l'utilizzo della capacità del primo ordine, non quello della sezione a MEd.
+
+```math
+M(\chi_{eq}) = M_{0Ed,tot} + k\,\chi_{eq}
+M_{Ed} = M_{0Ed,tot} + k\,\chi_{eq}
+\eta = \frac{M_{0Ed,tot}}{M_{1Rd,max}}
+```
+
+### Colonna modello: imperfezione, eccentricità minima e viscosità
+
+L'imperfezione predefinita è l'inclinazione di EN 1992-1-1 5.2(5) e 5.2(7)a, con θ0 = 1/200 come valore raccomandato, uguale nell'appendice nazionale del DM 31/07/2012; vale anche con le NTC, che rinviano ai documenti di comprovata validità. αh dipende dalla lunghezza dell'elemento l in metri; per l'elemento isolato m = 1 e αm = 1. Le alternative sono ei = l0/400 di EN 1992-1-1 5.2(7), ei = l/300, il difetto di rettilineità di NTC 2018 §4.1.2.3.9.3, un valore assegnato oppure nessuna imperfezione. L'imperfezione agisce nella direzione del momento, quindi in modo sfavorevole.
+
+```math
+\theta_i = \theta_0\,\alpha_h\,\alpha_m
+\alpha_h = \frac{2}{\sqrt{l}}
+\frac{2}{3} \le \alpha_h \le 1
+\alpha_m = \sqrt{0{,}5\left(1+\frac{1}{m}\right)}
+e_i = \theta_i\,\frac{l_0}{2}
+M_{0Ed,tot} = \max\left(M_{0Ed}+N_{Ed}\,e_i;\ N_{Ed}\,e_0\right)
+```
+
+L'eccentricità minima vale e0 = max(l0/200; 20 mm) con NTC 2018 §4.1.2.3.4.2, anche nel profilo CNR-DT 200, ed e0 = max(h/30; 20 mm) con EN 1992-1-1 6.1(4), con h l'altezza della sezione nella direzione di flessione.
+
+> Scostamento dichiarato K-1 · Eccentricità minima come minimo del momento totale
+> Norma: NTC 2018 §4.1.2.3.4.2 chiede per i pilastri compressi un momento MEd = e NEd con e ≥ l0/200 e ≥ 20 mm nella verifica della sezione; EN 1992-1-1 6.1(4) dà e0 = h/30 ≥ 20 mm come minimo del progetto della sezione.
+> Programma: il minimo vale sul momento totale del primo ordine, M0Ed,tot = max(M0Ed + NEd ei; NEd e0), e non si somma all'imperfezione.
+> Effetto: nessuna doppia imperfezione; con momenti piccoli governa e0.
+
+La viscosità entra con il coefficiente efficace φef, assegnato oppure ricavato dalla (5.19) di EN 1992-1-1 5.8.4(2). Le deformazioni del legame del calcestruzzo sono moltiplicate per 1 + φef, comprese εc2 ed εcu (EN 1992-1-1 5.8.6(4)); la legge dell'acciaio non cambia. Con φef = 0 la curva coincide con quella senza viscosità e il programma controlla le tre condizioni di 5.8.4(4) che permettono di trascurarla, φ(∞, t0) ≤ 2, λ ≤ 75 e M0Ed/NEd ≥ h: se non sono dimostrate, anche perché φ(∞, t0) non è noto, il risultato lo segnala. Il coefficiente φ(∞, t0) segue NTC 2018 §11.2.10.7 o EN 1992-1-1 3.1.4.
+
+```math
+\varphi_{ef} = \varphi(\infty,t_0)\,\frac{M_{0Eqp}+N_{Eqp}\,e_i}{M_{0Ed}+N_{Ed}\,e_i}
+```
+
+> Scostamento dichiarato K-2 · Imperfezione nei momenti della (5.19)
+> Norma: nella (5.19) M0Eqp e M0Ed sono momenti del primo ordine; 5.8.8.2(1) comprende le imperfezioni nel momento del primo ordine, mentre 5.8.4 non lo precisa.
+> Programma: entrambi i momenti comprendono l'imperfezione ei, con la stessa geometria e lo sforzo normale della rispettiva combinazione, senza l'eccentricità minima.
+> Effetto: φef è definito anche con M0Ed = 0; quando l'imperfezione domina, il rapporto tende a NEqp/NEd.
+
+### Colonna modello: snellezza e curvatura nominale
+
+La snellezza λ = l0/i usa il raggio d'inerzia della sezione lorda di calcestruzzo nella direzione di flessione. La snellezza limite è quella della norma del foglio: 25/√ν di NTC 2018 §4.1.2.3.9.2, oppure la (5.13N) di EN 1992-1-1 5.8.3.1, con n = ν, ω = As fyd/(Ac fcd) e C = 0,7 quando rm non è assegnato. λ ≤ λlim è riportato come effetti del secondo ordine trascurabili, ma il calcolo della colonna si esegue comunque e non dipende da λlim.
+
+```math
+\lambda = \frac{l_0}{i}
+\nu = \frac{N_{Ed}}{A_c\,f_{cd}}
+\lambda_{lim,NTC} = \frac{25}{\sqrt{\nu}}
+\lambda_{lim,EN} = \frac{20\,A\,B\,C}{\sqrt{n}}
+A = \frac{1}{1+0{,}2\,\varphi_{ef}}
+B = \sqrt{1+2\omega}
+C = 1{,}7-r_m
+```
+
+> Scostamento dichiarato K-5 · Snellezza limite con UNI EN 1992-1-1
+> Norma: λlim è un parametro nazionale di EN 1992-1-1 5.8.3.1(1); il valore dell'appendice nazionale del DM 31/07/2012 è ancora da riscontrare.
+> Programma: con UNI EN 1992-1-1 usa la (5.13N) con i valori raccomandati, come con l'Eurocodice.
+> Effetto: soltanto informativo, perché il calcolo della colonna non dipende da λlim.
+
+Per confronto il risultato riporta il metodo della curvatura nominale di EN 1992-1-1 5.8.8, con n = NEd/(Ac fcd), d = h/2 + is (5.35), is raggio d'inerzia dell'armatura, e MRd(NEd) dal dominio della libreria nella direzione θ. Kr è limitato anche inferiormente a zero. Il confronto è informativo: l'esito è quello della colonna modello.
+
+```math
+K_r = \frac{1+\omega-n}{1+\omega-0{,}4} \le 1
+\beta = 0{,}35+\frac{f_{ck}}{200}-\frac{\lambda}{150}
+K_\varphi = 1+\beta\,\varphi_{ef} \ge 1
+d = \frac{h}{2}+i_s
+\frac{1}{r} = K_r\,K_\varphi\,\frac{\varepsilon_{yd}}{0{,}45\,d}
+M_{Ed} = M_{0Ed,tot}+N_{Ed}\,\frac{1}{r}\,\frac{l_0^2}{c}
+```
+
+### Colonna modello: controllo a mano e limiti
+
+Un pilastro di 300 × 500 mm inflesso nel piano dell'altezza di 500 mm, C30/37 e B450C con NTC 2018 (fcd = 17,0 MPa, fyd = 391,30 MPa, εyd = 1,957 ‰), ha 4Ø20 su ciascuna faccia a 200 mm dall'asse, quindi As = 2513 mm² e is = 200 mm. Con NEd = 800 kN di compressione, l = l0 = 8 m, c = 10, φef = 0 e M0Ed = 40 kNm le grandezze in forma chiusa sono le seguenti.
+
+| Grandezza | Valore |
+| --- | --- |
+| αh = 2/√8, θi = αh/200, ei = θi l0/2 | 0,7071; 0,003536; 14,14 mm |
+| e0 = max(l0/200; 20 mm), NTC | 40 mm |
+| M0Ed + NEd ei; NEd e0 | 51,31 kNm; 32,00 kNm |
+| M0Ed,tot | 51,31 kNm, governa l'imperfezione |
+| k = NEd l0²/c | 5120 kN·m² |
+| i = h/√12, λ = l0/i | 144,34 mm; 55,43 |
+| ν = NEd/(Ac fcd), λlim = 25/√ν | 0,3137; 44,63 |
+| Curvatura nominale: Kr, 1/r = εyd/(0,45 d) con d = 450 mm | 1, perché la formula dà 1,088; 0,009662 1/m |
+| e2 = (1/r) l0²/c, M2 = NEd e2, MEd = M0Ed,tot + M2 | 61,84 mm; 49,47 kNm; 100,78 kNm |
+
+Con φef = 0 la condizione M0Ed/NEd ≥ h di 5.8.4(4) non è soddisfatta (50 mm contro 500 mm) e il risultato avvisa che la viscosità non è dimostrata trascurabile. M1Rd,max, la curvatura del massimo e l'equilibrio richiedono la curva della sezione e si leggono nella scheda; per ogni curvatura il momento del secondo ordine è kχ, per esempio 25,6 kNm a χ = 0,005 1/m.
+
+La scheda tratta una direzione alla volta, in flessione retta. Per la flessione deviata la libreria prevede due colonne modello nelle direzioni principali con il controllo di EN 1992-1-1 5.8.9, (5.38) e (5.39), che la scheda non esegue. Restano fuori telai e colonne a sezione o sforzo normale variabili, per i quali l0 e il metodo generale sono compito del progettista; inviluppi di più combinazioni e dominio ridotto N–M1Rd,max, perché ogni calcolo usa un solo NEd e un solo M0Ed; la legge (3.14) con Ecd per la rigidezza; trefoli, profili d'acciaio, calcestruzzi fibrorinforzati e norme diverse da NTC 2018, CNR-DT 200, EN 1992-1-1 e UNI EN 1992-1-1. Il primo snervamento comprende le barre compresse, come nella curva momento–curvatura.
+
+> Scostamento dichiarato K-3 · Esponente delle sezioni non rettangolari
+> Norma: la (5.39) di EN 1992-1-1 5.8.9 dà l'esponente a per le sezioni circolari ed ellittiche e per le rettangolari.
+> Programma: il controllo della flessione deviata della libreria usa per le altre forme l'esponente delle rettangolari; la scheda non lo esegue.
+> Effetto: a ≤ 2, quindi a favore di sicurezza rispetto ad a = 2.
+
+> Scostamento dichiarato K-4 · Momento trasversale
+> Norma: EN 1992-1-1 5.8.9(2) tratta separatamente le direzioni principali.
+> Programma: i piani di deformazione hanno l'asse neutro parallelo al momento; se il rapporto fra il massimo momento trasversale e il massimo momento nella direzione θ supera il limite ammesso, 1 % in partenza, il calcolo è rifiutato.
+> Effetto: nelle sezioni simmetriche rispetto al piano di flessione il rapporto è nullo; fuori dalle direzioni principali il calcolo non sarebbe una flessione retta.
 
 ### Asse neutro e stato resistente
 

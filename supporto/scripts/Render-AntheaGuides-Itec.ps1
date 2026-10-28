@@ -1,4 +1,4 @@
-param([switch]$VerifyFinal, [string]$Revision = '60', [ValidateSet('pratica', 'teorica')] [string[]]$Kinds = @('pratica', 'teorica'), [string]$ArtifactRoot = $env:ANTHEA_GUIDE_ARTIFACTS)
+param([switch]$VerifyFinal, [string]$Revision = '61', [ValidateSet('pratica', 'teorica')] [string[]]$Kinds = @('pratica', 'teorica'), [string]$ArtifactRoot = $env:ANTHEA_GUIDE_ARTIFACTS)
 $ErrorActionPreference = 'Stop'
 $repoPath = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $wordForGuides = $null
