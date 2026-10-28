@@ -490,11 +490,15 @@ internal static class RetainingWallSheetChecks
         // « / AG-MUR-01»), 3 earlier ones removed (the new ratio prints as a rounding of the reference).
         // BUG-MUR-2b (libraries of the 1.14.2, Checker 4a1b0090): the passive in front is no longer an overturning resistance: 112 new
         // transitions, 16 earlier ones with the new value after (entry extended with « / BUG-MUR-2b»).
+        // COMB-MURI-D4D5 (libraries of the 1.14.4, set AK, decision of 28/10/2026): favourable G2 0.8 and the γR of Tab. 7.11.III in the
+        // seismic rows: 4703 new transitions, 744 AG-MUR-01 ones with the new value after (entry «AG-MUR-01 / COMB-MURI-D4D5»).
         int undrained = transitions.Count(t => t.Entry == "PARATIE-20");
         int parabola = transitions.Count(t => t.Entry == "AG-MUR-01"), extended = transitions.Count(t => t.Entry.EndsWith(" / AG-MUR-01", StringComparison.Ordinal));
         int overturning = transitions.Count(t => t.Entry == "BUG-MUR-2b"), overturningExtended = transitions.Count(t => t.Entry.EndsWith(" / BUG-MUR-2b", StringComparison.Ordinal));
-        expect.That(undrained == 2898 && parabola == 15271 && extended == 1668 && overturning == 112 && overturningExtended == 16
-            && transitions.Count - undrained - parabola - overturning == 14438 && comparer.NotAdmitted == 0,
+        int combinations = transitions.Count(t => t.Entry == "COMB-MURI-D4D5"), combinationsExtended = transitions.Count(t => t.Entry.EndsWith(" / COMB-MURI-D4D5", StringComparison.Ordinal));
+        expect.That(undrained == 2898 && parabola == 14527 && extended == 1668 && overturning == 112 && overturningExtended == 16
+            && combinations == 4703 && combinationsExtended == 744
+            && transitions.Count - undrained - parabola - overturning - combinations == 15182 && comparer.NotAdmitted == 0,
             "File con transizioni F4: " + transitions.Count + " transizioni, "
             + comparer.NotAdmitted + " differenze non ammesse o transizioni assenti");
     }

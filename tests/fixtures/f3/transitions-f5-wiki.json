@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "voce": "F5-LIB-02",
-  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo.",
+  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo. Rev60 (1.14.4): 117 differenze editoriali esatte aggiunte, 33 sostituite e 0 tolte in 15 articoli e nell'indice delle ricerche (separatore decimale, testa dei pali e dei micropali, anello interno, sviluppo parziale delle barre, tension stiffening con il tirante, R5, correzioni di calcolo e combinazioni dei muri), approvate dall'utente il 28/10/2026 («ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»). Nessun risultato di calcolo.",
   "voci": [
     {
       "file": "esito.txt",
@@ -480,40 +480,40 @@
       "percorso": "$.report[25]",
       "classe": "testo",
       "a": "/wiki/guide/moduli/guida-spettri-ntc",
-      "b": "/wiki/guide/moduli/guida-paratie",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/guide/moduli/guida-stratigrafia",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.report[26]",
       "classe": "testo",
       "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
-      "b": "/wiki/manuale/geotecnica/analisi-paratie",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.report[27]",
       "classe": "testo",
       "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "b": "/wiki/guide/moduli/guida-spettri-ntc",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.report[28]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/guide/moduli-singoli/fondazioni-superficiali\"",
-      "voce": "F5-LIB-02"
+      "b": "\"/wiki/guide/moduli/guida-spettri-ntc\"",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.report[29]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
-      "voce": "F5-LIB-02"
+      "b": "\"/wiki/guide/moduli-singoli/fondazioni-superficiali\"",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
@@ -696,72 +696,72 @@
       "percorso": "$.tensioni[19]",
       "classe": "testo",
       "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
-      "b": "/wiki/manuale/geotecnica/analisi-paratie",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.tensioni[20]",
       "classe": "testo",
       "a": "/wiki/manuale/geotecnica/geotecnica-parametri",
-      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/geotecnica/modello-stratigrafia",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.tensioni[21]",
       "classe": "testo",
       "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "b": "/wiki/manuale/geotecnica/geotecnica-parametri",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.tensioni[22]",
       "classe": "testo",
       "a": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
-      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.tensioni[23]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo/taglio-traliccio",
-      "b": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/geotecnica/geotecnica-parametri",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.tensioni[24]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-acciaio-fasi",
-      "b": "/wiki/manuale/calcestruzzo/taglio-traliccio",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.tensioni[25]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-precompressione",
-      "b": "/wiki/manuale/ponti/ponti-acciaio-fasi",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.tensioni[26]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo/reologia",
-      "b": "/wiki/manuale/ponti/ponti-precompressione",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/calcestruzzo/taglio-traliccio",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.tensioni[27]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/manuale/calcestruzzo/reologia\"",
-      "voce": "F5-LIB-02"
+      "b": "\"/wiki/manuale/ponti/ponti-acciaio-fasi\"",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
@@ -840,64 +840,64 @@
       "percorso": "$.σ[10]",
       "classe": "testo",
       "a": "/wiki/manuale/geotecnica/geotecnica-parametri",
-      "b": "/wiki/manuale/geotecnica/analisi-paratie",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/materiali/acciaio-armature",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.σ[11]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-acciaio-fasi",
-      "b": "/wiki/manuale/geotecnica/geotecnica-parametri",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.σ[12]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-precompressione",
-      "b": "/wiki/manuale/ponti/ponti-acciaio-fasi",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/geotecnica/geotecnica-parametri",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.σ[13]",
       "classe": "testo",
       "a": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
-      "b": "/wiki/manuale/ponti/ponti-precompressione",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.σ[14]",
       "classe": "testo",
       "a": "/wiki/guide/moduli/sezione-ca",
-      "b": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/ponti/ponti-precompressione",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.σ[15]",
       "classe": "testo",
       "a": "/wiki/theory/palo-elastico",
-      "b": "/wiki/guide/moduli/sezione-ca",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.σ[16]",
       "classe": "testo",
       "a": "/wiki/manuale/geotecnica/geotecnica-gruppi",
-      "b": "/wiki/theory/palo-elastico",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/guide/moduli/sezione-ca",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.σ[17]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/manuale/geotecnica/geotecnica-gruppi\"",
-      "voce": "F5-LIB-02"
+      "b": "\"/wiki/theory/palo-elastico\"",
+      "voce": "F5-LIB-02 / F5-REL-1144-01"
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
@@ -1397,7 +1397,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 37 (b)",
+      "percorso": "riga 39 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "### Esempi organizzati per modulo",
@@ -1405,7 +1405,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 38 (b)",
+      "percorso": "riga 48 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
@@ -1413,7 +1413,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 39 (b)",
+      "percorso": "riga 41 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Aprire **Esempi** dalla barra laterale oppure **File → Apri esempio…**. La colonna sinistra raggruppa i file per modulo; quella destra mostra i casi disponibili. Selezionare un caso e leggere la descrizione prima di premere **Apri una copia**. Il catalogo comprende almeno due casi per ognuno dei qui…",
@@ -1429,7 +1429,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 41 (b)",
+      "percorso": "riga 43 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Il documento aperto è una copia indipendente senza percorso di salvataggio. **Salva** richiede una destinazione nella cartella dei propri lavori. Anche il doppio clic su un esempio installato apre una copia; il programma impedisce di salvare dentro la cartella degli esempi distribuiti. Prima di sost…",
@@ -1445,7 +1445,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 43 (b)",
+      "percorso": "riga 45 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Gli esempi di calcolo illustrano gli input e i risultati del relativo modulo: un controllo non soddisfatto resta visibile e non viene trasformato in un esito positivo. Le stratigrafie sono esempi di dati. I casi **Wizard** sono modelli geometrici con barre e staffe schematiche: completare le azioni,…",
@@ -1461,7 +1461,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 45 (b)",
+      "percorso": "riga 47 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Nell’installer il componente **Esempi per tutti i moduli** è selezionato inizialmente e può essere escluso. I file sono raccolti nella cartella **Esempi**, suddivisi per modulo, accanto al programma; il menu Start contiene il collegamento alla cartella. Se il componente è assente, la pagina indica d…",
@@ -1477,7 +1477,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
-      "percorso": "riga 47 (b)",
+      "percorso": "riga 48 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: esempi-organizzati-per-modulo",
@@ -1485,7 +1485,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
-      "percorso": "riga 48 (b)",
+      "percorso": "riga 49 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Aprire Esempi dalla barra laterale oppure File → Apri esempio…. La colonna sinistra raggruppa i file per modulo; quella destra mostra i casi disponibili. Selezionare un caso e leggere la descrizione prima di premere Apri una copia. Il catalogo comprende almeno due casi per ognuno dei quindici …",
@@ -1493,7 +1493,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
-      "percorso": "riga 49 (b)",
+      "percorso": "riga 50 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Il documento aperto è una copia indipendente senza percorso di salvataggio. Salva richiede una destinazione nella cartella dei propri lavori. Anche il doppio clic su un esempio installato apre una copia; il programma impedisce di salvare dentro la cartella degli esempi distribuiti. Prima di so…",
@@ -1501,7 +1501,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
-      "percorso": "riga 50 (b)",
+      "percorso": "riga 51 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Gli esempi di calcolo illustrano gli input e i risultati del relativo modulo: un controllo non soddisfatto resta visibile e non viene trasformato in un esito positivo. Le stratigrafie sono esempi di dati. I casi Wizard sono modelli geometrici con barre e staffe schematiche: completare le azion…",
@@ -1509,7 +1509,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
-      "percorso": "riga 51 (b)",
+      "percorso": "riga 52 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Nell’installer il componente Esempi per tutti i moduli è selezionato inizialmente e può essere escluso. I file sono raccolti nella cartella Esempi, suddivisi per modulo, accanto al programma; il menu Start contiene il collegamento alla cartella. Se il componente è assente, la pagina indica di …",
@@ -1664,88 +1664,88 @@
       "percorso": "$.ancoraggio[1]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
-      "b": "/wiki/guide/moduli/sezione-ca",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/guide/moduli-singoli/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "voce": "F5-REL-112-01 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.ancoraggio[2]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
-      "b": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/guide/moduli/sezione-ca",
+      "voce": "F5-REL-112-01 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.ancoraggio[3]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/bridge-design",
-      "b": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "voce": "F5-REL-112-01 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.ancoraggio[4]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
-      "b": "/wiki/manuale/ponti/bridge-design",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+      "voce": "F5-REL-112-01 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.ancoraggio[5]",
       "classe": "testo",
       "a": "/wiki/theory/palo-elastico",
-      "b": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/manuale/ponti/bridge-design",
+      "voce": "F5-REL-112-01 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.ancoraggio[6]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
-      "b": "/wiki/theory/palo-elastico",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "voce": "F5-REL-112-01 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.ancoraggio[7]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo/taglio-traliccio",
-      "b": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/theory/palo-elastico",
+      "voce": "F5-REL-112-01 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.ancoraggio[8]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-solette",
-      "b": "/wiki/manuale/calcestruzzo/taglio-traliccio",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "voce": "F5-REL-112-01 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.ancoraggio[9]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-precompressione",
-      "b": "/wiki/manuale/ponti/ponti-solette",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/manuale/calcestruzzo/taglio-traliccio",
+      "voce": "F5-REL-112-01 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.ancoraggio[10]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-stralli",
-      "b": "/wiki/manuale/ponti/ponti-precompressione",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/manuale/ponti/ponti-solette",
+      "voce": "F5-REL-112-01 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.ancoraggio[11]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-stralli\"",
-      "voce": "F5-REL-112-01"
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
+      "voce": "F5-REL-112-01 / F5-REL-1144-01"
     },
     {
       "file": "wiki/search.json",
@@ -2213,7 +2213,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli-singoli_palo-verticale.md",
-      "percorso": "riga 12 (b)",
+      "percorso": "riga 14 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
@@ -2221,7 +2221,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli-singoli_palo-verticale.md",
-      "percorso": "riga 13 (b)",
+      "percorso": "riga 15 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Estendi, sulla scheda Stratigrafia, allarga la tabella degli strati e lascia a destra, per tutta l'altezza, la scheda Profilo stratigrafico con il palo: il disegno resta visibile mentre si modificano gli strati. Riduci ripristina la disposizione normale. Se la finestra è troppo stretta per affiancar…",
@@ -2237,7 +2237,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli-singoli_palo-verticale.txt",
-      "percorso": "riga 6 (b)",
+      "percorso": "riga 7 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Estendi, sulla scheda Stratigrafia, allarga la tabella degli strati e lascia a destra, per tutta l'altezza, la scheda Profilo stratigrafico con il palo: il disegno resta visibile mentre si modificano gli strati. Riduci ripristina la disposizione normale. Se la finestra è troppo stretta per aff…",
@@ -2477,7 +2477,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 54 (b)",
+      "percorso": "riga 56 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
@@ -2485,7 +2485,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 55 (b)",
+      "percorso": "riga 57 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "La finestra segue l'ingrandimento di Windows. Sotto 1120 × 680 la finestra scorre; i fogli che non si adattano alla larghezza tengono 1120 × 600 e scorrono nella loro scheda. Una pagina più alta della scheda scorre al suo interno: a 1920 × 1080 succede, per esempio, alla pagina principale del palo o…",
@@ -2509,7 +2509,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
-      "percorso": "riga 56 (b)",
+      "percorso": "riga 57 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: La finestra segue l'ingrandimento di Windows. Sotto 1120 × 680 la finestra scorre; i fogli che non si adattano alla larghezza tengono 1120 × 600 e scorrono nella loro scheda. Una pagina più alta della scheda scorre al suo interno: a 1920 × 1080 succede, per esempio, alla pagina principale del …",
@@ -2594,6 +2594,942 @@
       "a": "text: Genera report esporta il progetto o la sezione selezionata con i fogli diretti e le sottosezioni nell'ordine dell'albero. Include i riferimenti necessari degli antenati, senza aggiungere i rami esterni. I dati comuni compatibili vengono riuniti; valori discordanti mantengono provenienza e segnalazioni. Le schede incomplete restano riconoscibili nel documento.",
       "b": "text: Genera report esporta il progetto o la sezione selezionata con i fogli diretti e le sottosezioni nell'ordine dell'albero. Include i riferimenti necessari degli antenati, senza aggiungere i rami esterni. I dati comuni compatibili vengono riuniti; valori discordanti mantengono provenienza e segnalazioni. Le schede incomplete restano riconoscibili nel documento. Il report si chiede con Genera report nel riepilogo oppure con Report Word della sezione nel menu del nodo. Se ci sono differenze o avvisi, un controllo prima del report propone Apri confronto, Genera con segnalazioni e Annulla. Una finestra mostra l'avanzamento; Annulla interrompe al termine del calcolo in corso e non sovrascrive un file esistente.",
       "voce": "F5-REL-1140-02"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_micropalo-verticale.md",
+      "percorso": "riga 9",
+      "classe": "testo",
+      "a": "Inserire l'inclinazione rispetto alla verticale e verificare la lunghezza lungo l'asse. I passaggi di strato sono definiti in profondità verticale e vengono convertiti nella lunghezza percorsa dal micropalo. Controllare quindi sia il profilo del terreno sia il riepilogo delle tratte, soprattutto per inclinazioni elevate.",
+      "b": "Inserire l'inclinazione rispetto alla verticale e verificare la lunghezza lungo l'asse. I passaggi di strato sono definiti in profondità verticale e vengono convertiti nella lunghezza percorsa dal micropalo. Con la testa interrata, Profondità della testa sotto il piano campagna d è verticale: gli strati sopra la testa non hanno aderenza, s e le curve partono dalla testa e la punta è a d + L cos θ dal piano campagna; 0 indica la testa al piano campagna, come nei fogli precedenti. Controllare quindi sia il profilo del terreno sia il riepilogo delle tratte, soprattutto per inclinazioni elevate.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_micropalo-verticale.txt",
+      "percorso": "riga 4",
+      "classe": "testo",
+      "a": "text: Inserire l'inclinazione rispetto alla verticale e verificare la lunghezza lungo l'asse. I passaggi di strato sono definiti in profondità verticale e vengono convertiti nella lunghezza percorsa dal micropalo. Controllare quindi sia il profilo del terreno sia il riepilogo delle tratte, soprattutto per inclinazioni elevate.",
+      "b": "text: Inserire l'inclinazione rispetto alla verticale e verificare la lunghezza lungo l'asse. I passaggi di strato sono definiti in profondità verticale e vengono convertiti nella lunghezza percorsa dal micropalo. Con la testa interrata, Profondità della testa sotto il piano campagna d è verticale: gli strati sopra la testa non hanno aderenza, s e le curve partono dalla testa e la punta è a d + L cos θ dal piano campagna; 0 indica la testa al piano campagna, come nei fogli precedenti. Controllare quindi sia il profilo del terreno sia il riepilogo delle tratte, soprattutto per inclinazioni elevate.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_pali-e-micropali-caricati-orizzontalmente.md",
+      "percorso": "riga 7 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Profondità della testa sotto il piano campagna d, nei dati generali, vale per Broms, Stratificato e risposta elastica, nel palo e nel micropalo orizzontale; 0 indica la testa al piano campagna, come nei fogli precedenti. Con d > 0 la stratigrafia resta riferita al piano campagna e il terreno sopra l…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_pali-e-micropali-caricati-orizzontalmente.md",
+      "percorso": "riga 8 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_pali-e-micropali-caricati-orizzontalmente.md",
+      "percorso": "riga 16 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_pali-e-micropali-caricati-orizzontalmente.md",
+      "percorso": "riga 17 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Secondo anello interno aggiunge una seconda corona di barre all'interno della prima, come nella sezione in c.a.: Numero barre dell'anello interno, Diametro barre dell'anello interno, anche diverso da quello della prima fila, e Distanza libera dalla prima fila; i campi vuoti partono dalle barre della…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_pali-e-micropali-caricati-orizzontalmente.txt",
+      "percorso": "riga 3 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Profondità della testa sotto il piano campagna d, nei dati generali, vale per Broms, Stratificato e risposta elastica, nel palo e nel micropalo orizzontale; 0 indica la testa al piano campagna, come nei fogli precedenti. Con d > 0 la stratigrafia resta riferita al piano campagna e il terreno s…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_pali-e-micropali-caricati-orizzontalmente.txt",
+      "percorso": "riga 8 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Secondo anello interno aggiunge una seconda corona di barre all'interno della prima, come nella sezione in c.a.: Numero barre dell'anello interno, Diametro barre dell'anello interno, anche diverso da quello della prima fila, e Distanza libera dalla prima fila; i campi vuoti partono dalle barre…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_palo-verticale.md",
+      "percorso": "riga 7 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Profondità della testa sotto il piano campagna d, in metri, nei dati generali dopo la lunghezza, descrive un palo con la testa interrata, per esempio sotto un plinto. Il campo mostra 0, cioè testa al piano campagna, e un foglio esistente dà gli stessi risultati di prima. Con d > 0 la stratigrafia re…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_palo-verticale.md",
+      "percorso": "riga 8 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_palo-verticale.txt",
+      "percorso": "riga 3 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Profondità della testa sotto il piano campagna d, in metri, nei dati generali dopo la lunghezza, descrive un palo con la testa interrata, per esempio sotto un plinto. Il campo mostra 0, cioè testa al piano campagna, e un foglio esistente dà gli stessi risultati di prima. Con d > 0 la stratigra…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 117",
+      "classe": "testo",
+      "a": "La curva M χ si avvia con il proprio comando. Assegnare N, direzione del momento, numero di passi e distribuzione dei punti. Il campo «CLS teso nelle risposte», Trascurato oppure Tension stiffening, riguarda solo i punti della curva: punto limite e verifiche non lo usano. Esaminare la progressione della risposta e le deformazioni terminali. La curva arriva al limite trattato dal motore e non descrive automaticamente un ramo post picco di degradazione della struttura.",
+      "b": "La curva M χ si avvia con il proprio comando. Assegnare N, direzione del momento, numero di passi e distribuzione dei punti. Il campo «CLS teso nelle risposte», Trascurato oppure Tension stiffening, riguarda solo i punti della curva: punto limite e verifiche non lo usano. Con Tension stiffening la sezione resta interamente reagente finché il calcestruzzo non si fessura; dopo, il calcestruzzo teso non lavora e le barre tese dell'area efficace di fessurazione seguono il modello del tirante, con β = 0,4 dei carichi di lunga durata e i valori medi Ecm e fctm, mentre le altre barre restano nude. Il primo snervamento e |εs|max sono quelli della barra nella fessura, e lo stato della curva lo dichiara. Fino alla 1.14.3 l'opzione applicava una legge media del calcestruzzo teso a tutta la zona tesa: ricalcolate, le curve di quei fogli risultano più cedevoli dopo la fessurazione e snervano prima. Esaminare la progressione della risposta e le deformazioni terminali. La curva arriva al limite trattato dal motore e non descrive automaticamente un ramo post picco di degradazione della struttura.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 92",
+      "classe": "testo",
+      "a": "text: La curva M χ si avvia con il proprio comando. Assegnare N, direzione del momento, numero di passi e distribuzione dei punti. Il campo «CLS teso nelle risposte», Trascurato oppure Tension stiffening, riguarda solo i punti della curva: punto limite e verifiche non lo usano. Esaminare la progressione della risposta e le deformazioni terminali. La curva arriva al limite trattato dal motore e non descrive automaticamente un ramo post picco di degradazione della struttura.",
+      "b": "text: La curva M χ si avvia con il proprio comando. Assegnare N, direzione del momento, numero di passi e distribuzione dei punti. Il campo «CLS teso nelle risposte», Trascurato oppure Tension stiffening, riguarda solo i punti della curva: punto limite e verifiche non lo usano. Con Tension stiffening la sezione resta interamente reagente finché il calcestruzzo non si fessura; dopo, il calcestruzzo teso non lavora e le barre tese dell'area efficace di fessurazione seguono il modello del tirante, con β = 0,4 dei carichi di lunga durata e i valori medi Ecm e fctm, mentre le altre barre restano nude. Il primo snervamento e |εs|max sono quelli della barra nella fessura, e lo stato della curva lo dichiara. Fino alla 1.14.3 l'opzione applicava una legge media del calcestruzzo teso a tutta la zona tesa: ricalcolate, le curve di quei fogli risultano più cedevoli dopo la fessurazione e snervano prima. Esaminare la progressione della risposta e le deformazioni terminali. La curva arriva al limite trattato dal motore e non descrive automaticamente un ramo post picco di degradazione della struttura.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_palo-elastico.md",
+      "percorso": "riga 9",
+      "classe": "testo",
+      "a": "La lunghezza del campo principale rimane la lunghezza infissa. Il tratto libero è una quantità aggiuntiva: la lunghezza totale del modello è infissa più libera. L'eccentricità condivisa indica la quota della forza sopra il piano campagna, come nel modulo precedente. Checker ricava il momento equivalente alla testa C = H (Llibero − e_da_pc), nella convenzione con θ = dy/dx: il braccio del tratto libero non viene contato due volte. Con tratto libero nullo ed eccentricità positiva il momento interno al piano campagna è H e. Non è presente un secondo campo modificabile C nella scheda elastica.",
+      "b": "La lunghezza del campo principale rimane la lunghezza infissa. Il tratto libero è una quantità aggiuntiva: la lunghezza totale del modello è infissa più libera. L'eccentricità condivisa indica la quota della forza sopra il piano campagna, come nel modulo precedente. Checker ricava il momento equivalente alla testa C = H (Llibero − e_da_pc), nella convenzione con θ = dy/dx: il braccio del tratto libero non viene contato due volte. Con tratto libero nullo ed eccentricità positiva il momento interno al piano campagna è H e. Non è presente un secondo campo modificabile C nella scheda elastica. Con la testa sotto il piano campagna, d dei dati iniziali, il tratto libero è nullo: gli strati sopra la testa non entrano nel modello, x parte dalla testa e z = d + x dal piano campagna, anche nelle leggi di kh che crescono con la profondità.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_palo-elastico.md",
+      "percorso": "riga 97",
+      "classe": "testo",
+      "a": "MRd positivo e negativo sono calcolati al valore locale di N e sovrapposti a MEd con linea tratteggiata. La curva viene interrotta nelle zone prive dello sviluppo richiesto delle barre, evidenziate in colore chiaro; la verifica diventa parziale. Il valore nominale rimane consultabile separatamente e non certifica il confinamento dei giunti. Fuori dal dominio resistente non viene disegnata una resistenza valida. La capacità ultima di Broms non è utilizzata come azione del FEM o delle sezioni.",
+      "b": "MRd positivo e negativo sono calcolati al valore locale di N e sovrapposti a MEd con linea tratteggiata. Le zone prive dello sviluppo completo delle barre, vicino alle loro estremità, sono evidenziate in colore chiaro. Dove la lunghezza ancorata oltre a_l è minore di lbd, MRd usa fyd·r, con r la lunghezza ancorata oltre a_l divisa per lbd e arrotondata per difetto a 0,05: la sezione critica e il report scrivono «MRd con fyd·r» invece di «MRd nominale», e un tratto che così diventa non soddisfatto lo dice nello stato. La curva si interrompe e la verifica resta parziale solo dove r è minore di 0,05 o un giunto non è utilizzabile. Il valore nominale rimane consultabile separatamente e non certifica il confinamento dei giunti. Fuori dal dominio resistente non viene disegnata una resistenza valida. La capacità ultima di Broms non è utilizzata come azione del FEM o delle sezioni.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_palo-elastico.txt",
+      "percorso": "riga 4",
+      "classe": "testo",
+      "a": "text: La lunghezza del campo principale rimane la lunghezza infissa. Il tratto libero è una quantità aggiuntiva: la lunghezza totale del modello è infissa più libera. L'eccentricità condivisa indica la quota della forza sopra il piano campagna, come nel modulo precedente. Checker ricava il momento equivalente alla testa C = H (Llibero − e_da_pc), nella convenzione con θ = dy/dx: il braccio del tratto libero non viene contato due volte. Con tratto libero nullo ed eccentricità positiva il momento interno al piano campagna è H e. Non è presente un secondo campo modificabile C nella scheda elastica.",
+      "b": "text: La lunghezza del campo principale rimane la lunghezza infissa. Il tratto libero è una quantità aggiuntiva: la lunghezza totale del modello è infissa più libera. L'eccentricità condivisa indica la quota della forza sopra il piano campagna, come nel modulo precedente. Checker ricava il momento equivalente alla testa C = H (Llibero − e_da_pc), nella convenzione con θ = dy/dx: il braccio del tratto libero non viene contato due volte. Con tratto libero nullo ed eccentricità positiva il momento interno al piano campagna è H e. Non è presente un secondo campo modificabile C nella scheda elastica. Con la testa sotto il piano campagna, d dei dati iniziali, il tratto libero è nullo: gli strati sopra la testa non entrano nel modello, x parte dalla testa e z = d + x dal piano campagna, anche nelle leggi di kh che crescono con la profondità.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_palo-elastico.txt",
+      "percorso": "riga 48",
+      "classe": "testo",
+      "a": "text: MRd positivo e negativo sono calcolati al valore locale di N e sovrapposti a MEd con linea tratteggiata. La curva viene interrotta nelle zone prive dello sviluppo richiesto delle barre, evidenziate in colore chiaro; la verifica diventa parziale. Il valore nominale rimane consultabile separatamente e non certifica il confinamento dei giunti. Fuori dal dominio resistente non viene disegnata una resistenza valida. La capacità ultima di Broms non è utilizzata come azione del FEM o delle sezioni.",
+      "b": "text: MRd positivo e negativo sono calcolati al valore locale di N e sovrapposti a MEd con linea tratteggiata. Le zone prive dello sviluppo completo delle barre, vicino alle loro estremità, sono evidenziate in colore chiaro. Dove la lunghezza ancorata oltre a_l è minore di lbd, MRd usa fyd·r, con r la lunghezza ancorata oltre a_l divisa per lbd e arrotondata per difetto a 0,05: la sezione critica e il report scrivono «MRd con fyd·r» invece di «MRd nominale», e un tratto che così diventa non soddisfatto lo dice nello stato. La curva si interrompe e la verifica resta parziale solo dove r è minore di 0,05 o un giunto non è utilizzabile. Il valore nominale rimane consultabile separatamente e non certifica il confinamento dei giunti. Fuori dal dominio resistente non viene disegnata una resistenza valida. La capacità ultima di Broms non è utilizzata come azione del FEM o delle sezioni.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 19 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nello stesso menu, Separatore decimale offre Sistema, Virgola e Punto. Sistema, predefinito, segue l'impostazione di Windows; Virgola e Punto la sostituiscono, con il separatore delle migliaia opposto. La scelta vale per i numeri di campi, tabelle, stati e dettagli di tutti i moduli; nella sezione c…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 20 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
+      "percorso": "riga 9 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nello stesso menu, Separatore decimale offre Sistema, Virgola e Punto. Sistema, predefinito, segue l'impostazione di Windows; Virgola e Punto la sostituiscono, con il separatore delle migliaia opposto. La scelta vale per i numeri di campi, tabelle, stati e dettagli di tutti i moduli; nella sez…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_calcestruzzo-armature-e-copriferro.md",
+      "percorso": "riga 52",
+      "classe": "testo",
+      "a": "Il ramo NTC utilizza tre livelli di severità. Il valore tabellare di base è (15 mm per elemento a piastra, 20 mm negli altri casi) più 10 mm per livello di severità; si aggiungono 5 mm se fck è inferiore a C0 = 35 + 5 × severità. La vita di 100 anni aggiunge 10 mm, una resistenza sotto il minimo pertinente aggiunge 5 mm e l'opzione di qualità del copriferro riduce di 5 mm. Il minimo pertinente può essere assegnato nel campo ammesso dal motore e non coincide necessariamente con tutte le prescrizioni di composizione.",
+      "b": "Il ramo NTC utilizza tre livelli di severità. Il valore tabellare di base è (15 mm per elemento a piastra, 20 mm negli altri casi) più 10 mm per livello di severità; si aggiungono 5 mm se fck è inferiore a C0 = 35 + 5 × severità. La vita di 100 anni aggiunge 10 mm, una resistenza sotto il minimo pertinente aggiunge 5 mm e l'opzione di qualità del copriferro riduce di 5 mm. Il minimo pertinente può essere assegnato nel campo ammesso dal motore e non coincide necessariamente con tutte le prescrizioni di composizione. Se non è assegnato, il minimo pertinente è la classe minima UNI 11104 delle esposizioni, la stessa della tabella precedente, e non più il valore 25 + 5 × severità: il nominale può cambiare di 5 mm. Con Δcdev = 10 mm e vita 50 anni, XF2 con C25/30 dà 45 mm invece di 50 e XC3 con C28/35 dà 40 mm invece di 35.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_calcestruzzo-armature-e-copriferro.txt",
+      "percorso": "riga 50",
+      "classe": "testo",
+      "a": "text: Il ramo NTC utilizza tre livelli di severità. Il valore tabellare di base è (15 mm per elemento a piastra, 20 mm negli altri casi) più 10 mm per livello di severità; si aggiungono 5 mm se fck è inferiore a C0 = 35 + 5 × severità. La vita di 100 anni aggiunge 10 mm, una resistenza sotto il minimo pertinente aggiunge 5 mm e l'opzione di qualità del copriferro riduce di 5 mm. Il minimo pertinente può essere assegnato nel campo ammesso dal motore e non coincide necessariamente con tutte le prescrizioni di composizione.",
+      "b": "text: Il ramo NTC utilizza tre livelli di severità. Il valore tabellare di base è (15 mm per elemento a piastra, 20 mm negli altri casi) più 10 mm per livello di severità; si aggiungono 5 mm se fck è inferiore a C0 = 35 + 5 × severità. La vita di 100 anni aggiunge 10 mm, una resistenza sotto il minimo pertinente aggiunge 5 mm e l'opzione di qualità del copriferro riduce di 5 mm. Il minimo pertinente può essere assegnato nel campo ammesso dal motore e non coincide necessariamente con tutte le prescrizioni di composizione. Se non è assegnato, il minimo pertinente è la classe minima UNI 11104 delle esposizioni, la stessa della tabella precedente, e non più il valore 25 + 5 × severità: il nominale può cambiare di 5 mm. Con Δcdev = 10 mm e vita 50 anni, XF2 con C25/30 dà 45 mm invece di 50 e XC3 con C28/35 dà 40 mm invece di 35.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_capacita-orizzontale-con-broms.md",
+      "percorso": "riga 15",
+      "classe": "testo",
+      "a": "Si definiscono Q come integrale delle forze, S come integrale dei momenti rispetto al piano campagna e A come momento rispetto alla sezione alla profondità z. Queste funzioni permettono di formulare in modo uniforme equilibrio e criteri limite.",
+      "b": "Con la testa a una profondità d sotto il piano campagna la stratigrafia resta riferita al piano campagna, mentre z, l'eccentricità e e i diagrammi partono dalla testa, dove si pone anche il vincolo della testa impedita. Il ricoprimento dà le tensioni verticali, con la falda, ma nessuna reazione: nei granulari σ′v è quella alla profondità d + z; nei coesivi p è nullo fino a 1,5D dal piano campagna, cioè fino a 1,5D − d dalla testa. Il modello della verticale, omogeneo o stratificato, è riconosciuto sugli strati attraversati dal palo con la stessa profondità della testa del calcolo. Una testa interrata con un tratto libero sopra il terreno è rifiutata. Con d = 0 il calcolo è quello con la testa al piano campagna.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_capacita-orizzontale-con-broms.md",
+      "percorso": "riga 16 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_capacita-orizzontale-con-broms.md",
+      "percorso": "riga 17 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Si definiscono Q come integrale delle forze, S come integrale dei momenti rispetto al piano campagna, o alla testa se è interrata, e A come momento rispetto alla sezione alla profondità z. Queste funzioni permettono di formulare in modo uniforme equilibrio e criteri limite.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_capacita-orizzontale-con-broms.txt",
+      "percorso": "riga 8",
+      "classe": "testo",
+      "a": "text: Si definiscono Q come integrale delle forze, S come integrale dei momenti rispetto al piano campagna e A come momento rispetto alla sezione alla profondità z. Queste funzioni permettono di formulare in modo uniforme equilibrio e criteri limite.",
+      "b": "text: Con la testa a una profondità d sotto il piano campagna la stratigrafia resta riferita al piano campagna, mentre z, l'eccentricità e e i diagrammi partono dalla testa, dove si pone anche il vincolo della testa impedita. Il ricoprimento dà le tensioni verticali, con la falda, ma nessuna reazione: nei granulari σ′v è quella alla profondità d + z; nei coesivi p è nullo fino a 1,5D dal piano campagna, cioè fino a 1,5D − d dalla testa. Il modello della verticale, omogeneo o stratificato, è riconosciuto sugli strati attraversati dal palo con la stessa profondità della testa del calcolo. Una testa interrata con un tratto libero sopra il terreno è rifiutata. Con d = 0 il calcolo è quello con la testa al piano campagna.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_capacita-orizzontale-con-broms.txt",
+      "percorso": "riga 9 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Si definiscono Q come integrale delle forze, S come integrale dei momenti rispetto al piano campagna, o alla testa se è interrata, e A come momento rispetto alla sezione alla profondità z. Queste funzioni permettono di formulare in modo uniforme equilibrio e criteri limite.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 52 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Con Analisi «Non lineare» nella scheda Tensioni le tensioni di esercizio sono calcolate con le leggi di progetto dei materiali, cioè con i valori caratteristici ridotti da αcc, γc e γs della norma del foglio (fcd = αcc fck/γc, fyd = fyk/γs), non con leggi di esercizio. È una scelta voluta: l'analisi…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 53 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 82",
+      "classe": "testo",
+      "a": "Il copriferro c della formula è il valore del campo «c barra»; con il campo vuoto è il minimo copriferro libero delle barre efficaci verso la faccia tesa, misurato sulla posizione delle barre. Barre più interne del copriferro nominale entrano quindi in Δsm,vicino e in slim con il loro copriferro reale. Senza barre tese wk = 0 solo se l'asse neutro cade nel copriferro di una barra del lembo teso: la barra deve trovarsi, lungo il gradiente delle deformazioni, entro la proiezione a,c del proprio copriferro c + Ø/2, con c assegnato o nominale; la traccia riporta a,c. Altrimenti la zona tesa è priva di armatura, nessuna barra ne controlla le fessure (EN 1992-1-1 §7.3.2(1)) e la verifica non è soddisfatta; lo stesso vale per una faccia della sezione interamente tesa senza barre nella propria fascia efficace.",
+      "b": "Il copriferro c della formula è il valore del campo «c barra»; con il campo vuoto è il minimo copriferro libero delle barre efficaci verso la faccia tesa, misurato sulla posizione delle barre. Barre più interne del copriferro nominale entrano quindi in Δsm,vicino e in slim con il loro copriferro reale. Senza barre tese wk = 0 solo se l'asse neutro cade nel copriferro di una barra del lembo teso: la barra deve trovarsi, lungo il gradiente delle deformazioni, entro la proiezione a,c del proprio copriferro c + Ø/2, con c il copriferro reale della barra verso la faccia tesa, misurato sulla sua posizione; la traccia riporta a,c. Il valore di «c barra», se assegnato, resta solo nella formula di wk: una barra più interna del copriferro nominale, o con un copriferro reale maggiore di quello assegnato, conta con la propria posizione. Altrimenti la zona tesa è priva di armatura, nessuna barra ne controlla le fessure (EN 1992-1-1 §7.3.2(1)) e la verifica non è soddisfatta; lo stesso vale per una faccia della sezione interamente tesa senza barre nella propria fascia efficace.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 138",
+      "classe": "testo",
+      "a": "Nei punti della curva il calcestruzzo teso è trascurato, salvo due opzioni. «CLS resistente a trazione» usa il diagramma di trazione del materiale, anche nel dominio. «CLS teso nelle risposte» = Tension stiffening applica, nei soli punti della curva e a tutta la zona tesa, la legge media di Collins e Mitchell (1991): σ = Ecm ε fino a fctm, poi σ = fctm/(1 + √(500 ε)), con valori medi e senza coefficienti parziali. Con questa opzione il punto limite resta quello del dominio senza resistenza a trazione (NTC 2018 §4.1.2.3.4.1; EN 1992-1-1 §6.1(2)P) e le verifiche SLU e SLE non la usano; nelle sezioni poco armate la risposta è molto più rigida e lo snervamento può comparire solo al punto limite.",
+      "b": "Nei punti della curva il calcestruzzo teso è trascurato, salvo due opzioni. «CLS resistente a trazione» usa il diagramma di trazione del materiale, anche nel dominio. «CLS teso nelle risposte» = Tension stiffening applica, nei soli punti della curva, il tension stiffening sulle barre con il modello del tirante (fib Model Code 2010 §7.6.4.4; EN 1992-1-1 §7.3.4(2) e §7.4.3(3)), con i valori medi Ecm e fctm, senza coefficienti parziali, e β = 0,4 (carichi di lunga durata o ripetuti). Finché nessuna fibra supera εcr = fctm/Ecm la sezione è interamente reagente, con il calcestruzzo teso lineare. Dopo la fessurazione il calcestruzzo teso non lavora; ogni barra tesa che cade nell'area efficace di altezza hc,eff = min[2,5 (h − d); (h − x)/3; h/2] dal lembo teso (EN 1992-1-1 §7.3.2(3)) segue la legge dell'acciaio alla deformazione nella fessura εs2: εs2 = εm/(1 − β) durante la formazione delle fessure, fino a εm = (1 − β) εsr, ed εs2 = εm + β εsr a fessurazione stabilizzata; εm è la deformazione del piano alla barra, εsr = σsr/Es, σsr = fctm (1 + αe ρeff)/ρeff, αe = Es/Ecm e ρeff = As/Ac,eff dell'area efficace della barra. Le barre fuori dall'area efficace restano nude; le aree efficaci vengono dal piano della soluzione. Snervamento, χy e |εs|max della curva sono quelli della barra nella fessura. Con questa opzione il punto limite resta quello del dominio senza resistenza a trazione (NTC 2018 §4.1.2.3.4.1; EN 1992-1-1 §6.1(2)P) e le verifiche SLU e SLE non la usano. Fino alla 1.14.3 l'opzione applicava una legge media del calcestruzzo teso a tutta la zona tesa: ricalcolate, le curve risultano più cedevoli dopo la fessurazione e lo snervamento arriva prima.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 26 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Con Analisi «Non lineare» nella scheda Tensioni le tensioni di esercizio sono calcolate con le leggi di progetto dei materiali, cioè con i valori caratteristici ridotti da αcc, γc e γs della norma del foglio (fcd = αcc fck/γc, fyd = fyk/γs), non con leggi di esercizio. È una scelta voluta: l'a…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 45",
+      "classe": "testo",
+      "a": "text: Il copriferro c della formula è il valore del campo «c barra»; con il campo vuoto è il minimo copriferro libero delle barre efficaci verso la faccia tesa, misurato sulla posizione delle barre. Barre più interne del copriferro nominale entrano quindi in Δsm,vicino e in slim con il loro copriferro reale. Senza barre tese wk = 0 solo se l'asse neutro cade nel copriferro di una barra del lembo teso: la barra deve trovarsi, lungo il gradiente delle deformazioni, entro la proiezione a,c del proprio copriferro c + Ø/2, con c assegnato o nominale; la traccia riporta a,c. Altrimenti la zona tesa è priva di armatura, nessuna barra ne controlla le fessure (EN 1992-1-1 §7.3.2(1)) e la verifica non è soddisfatta; lo stesso vale per una faccia della sezione interamente tesa senza barre nella propria fascia efficace.",
+      "b": "text: Il copriferro c della formula è il valore del campo «c barra»; con il campo vuoto è il minimo copriferro libero delle barre efficaci verso la faccia tesa, misurato sulla posizione delle barre. Barre più interne del copriferro nominale entrano quindi in Δsm,vicino e in slim con il loro copriferro reale. Senza barre tese wk = 0 solo se l'asse neutro cade nel copriferro di una barra del lembo teso: la barra deve trovarsi, lungo il gradiente delle deformazioni, entro la proiezione a,c del proprio copriferro c + Ø/2, con c il copriferro reale della barra verso la faccia tesa, misurato sulla sua posizione; la traccia riporta a,c. Il valore di «c barra», se assegnato, resta solo nella formula di wk: una barra più interna del copriferro nominale, o con un copriferro reale maggiore di quello assegnato, conta con la propria posizione. Altrimenti la zona tesa è priva di armatura, nessuna barra ne controlla le fessure (EN 1992-1-1 §7.3.2(1)) e la verifica non è soddisfatta; lo stesso vale per una faccia della sezione interamente tesa senza barre nella propria fascia efficace.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 77",
+      "classe": "testo",
+      "a": "text: Nei punti della curva il calcestruzzo teso è trascurato, salvo due opzioni. «CLS resistente a trazione» usa il diagramma di trazione del materiale, anche nel dominio. «CLS teso nelle risposte» = Tension stiffening applica, nei soli punti della curva e a tutta la zona tesa, la legge media di Collins e Mitchell (1991): σ = Ecm ε fino a fctm, poi σ = fctm/(1 + √(500 ε)), con valori medi e senza coefficienti parziali. Con questa opzione il punto limite resta quello del dominio senza resistenza a trazione (NTC 2018 §4.1.2.3.4.1; EN 1992-1-1 §6.1(2)P) e le verifiche SLU e SLE non la usano; nelle sezioni poco armate la risposta è molto più rigida e lo snervamento può comparire solo al punto limite.",
+      "b": "text: Nei punti della curva il calcestruzzo teso è trascurato, salvo due opzioni. «CLS resistente a trazione» usa il diagramma di trazione del materiale, anche nel dominio. «CLS teso nelle risposte» = Tension stiffening applica, nei soli punti della curva, il tension stiffening sulle barre con il modello del tirante (fib Model Code 2010 §7.6.4.4; EN 1992-1-1 §7.3.4(2) e §7.4.3(3)), con i valori medi Ecm e fctm, senza coefficienti parziali, e β = 0,4 (carichi di lunga durata o ripetuti). Finché nessuna fibra supera εcr = fctm/Ecm la sezione è interamente reagente, con il calcestruzzo teso lineare. Dopo la fessurazione il calcestruzzo teso non lavora; ogni barra tesa che cade nell'area efficace di altezza hc,eff = min[2,5 (h − d); (h − x)/3; h/2] dal lembo teso (EN 1992-1-1 §7.3.2(3)) segue la legge dell'acciaio alla deformazione nella fessura εs2: εs2 = εm/(1 − β) durante la formazione delle fessure, fino a εm = (1 − β) εsr, ed εs2 = εm + β εsr a fessurazione stabilizzata; εm è la deformazione del piano alla barra, εsr = σsr/Es, σsr = fctm (1 + αe ρeff)/ρeff, αe = Es/Ecm e ρeff = As/Ac,eff dell'area efficace della barra. Le barre fuori dall'area efficace restano nude; le aree efficaci vengono dal piano della soluzione. Snervamento, χy e |εs|max della curva sono quelli della barra nella fessura. Con questa opzione il punto limite resta quello del dominio senza resistenza a trazione (NTC 2018 §4.1.2.3.4.1; EN 1992-1-1 §6.1(2)P) e le verifiche SLU e SLE non la usano. Fino alla 1.14.3 l'opzione applicava una legge media del calcestruzzo teso a tutta la zona tesa: ricalcolate, le curve risultano più cedevoli dopo la fessurazione e lo snervamento arriva prima.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo_profili-calcestruzzo.md",
+      "percorso": "riga 25 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nel Model Code 2010 l'inclinazione minima delle bielle dipende dalla deformazione longitudinale: θmin = 20° + 10 000 εx, al più 45° (fib Model Code 2010 §7.3.3.3), nel taglio con staffe e nella torsione. Quando la sezione è deformata cot θ massimo scende e con esso la resistenza delle staffe; un cot…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo_profili-calcestruzzo.md",
+      "percorso": "riga 26 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo_profili-calcestruzzo.txt",
+      "percorso": "riga 28 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nel Model Code 2010 l'inclinazione minima delle bielle dipende dalla deformazione longitudinale: θmin = 20° + 10 000 εx, al più 45° (fib Model Code 2010 §7.3.3.3), nel taglio con staffe e nella torsione. Quando la sezione è deformata cot θ massimo scende e con esso la resistenza delle staffe; …",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_micropalo-verticale.md",
+      "percorso": "riga 18",
+      "classe": "testo",
+      "a": "Per un'inclinazione θ dalla verticale, una differenza di quota Δz corrisponde a una tratta lungo l'asse Δs = Δz/cos θ. La resistenza viene sommata lungo quell'asse. Non deve essere letta direttamente come componente verticale di una capacità di gruppo senza risolvere la geometria delle azioni.",
+      "b": "Per un'inclinazione θ dalla verticale, una differenza di quota Δz corrisponde a una tratta lungo l'asse Δs = Δz/cos θ. La resistenza viene sommata lungo quell'asse. Con la testa a una profondità d sotto il piano campagna, d è verticale: gli strati sopra la testa non hanno aderenza, s parte dalla testa e la punta è a d + L cos θ dal piano campagna. Non deve essere letta direttamente come componente verticale di una capacità di gruppo senza risolvere la geometria delle azioni.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_micropalo-verticale.txt",
+      "percorso": "riga 9",
+      "classe": "testo",
+      "a": "text: Per un'inclinazione θ dalla verticale, una differenza di quota Δz corrisponde a una tratta lungo l'asse Δs = Δz/cos θ. La resistenza viene sommata lungo quell'asse. Non deve essere letta direttamente come componente verticale di una capacità di gruppo senza risolvere la geometria delle azioni.",
+      "b": "text: Per un'inclinazione θ dalla verticale, una differenza di quota Δz corrisponde a una tratta lungo l'asse Δs = Δz/cos θ. La resistenza viene sommata lungo quell'asse. Con la testa a una profondità d sotto il piano campagna, d è verticale: gli strati sopra la testa non hanno aderenza, s parte dalla testa e la punta è a d + L cos θ dal piano campagna. Non deve essere letta direttamente come componente verticale di una capacità di gruppo senza risolvere la geometria delle azioni.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.md",
+      "percorso": "riga 5",
+      "classe": "testo",
+      "a": "L’attrito automatico usa δd=k·atan(tanφcv,k/γMφ), con k=1 per gettato in opera e 2/3 per prefabbricato liscio. L’assegnazione usa tanδd=tanδk/γMφ. Coulomb/MO sul fusto tiene conto di δ muro; l’equilibrio del blocco muro e terreno sulla mensola usa il piano virtuale a δ=0, evitando il doppio conteggio delle forze interne. La portanza drenata include q′B′Nq iq e 0,5γ′B′²Nγ iγ; rimane fuori campo con base non ruvida, eccentricità eccessiva o inerzia sismica del terreno di fondazione. Lo scorrimento confronta Ed, cioè spinta motrice, azioni orizzontali e inerzia, mai ridotta dalla passiva, con V′tanδb,d/γR + ηp·Pp/γR,e; il ribaltamento confronta il momento ribaltante con Mstab/γR più il momento di ηp·Pp/γR,e rispetto al piede. La passiva a valle è facoltativa ed esclusa nel sisma, con ηp ≤ 0,5 (NTC 2018 §6.5.3.1.1) e γR,e = 1,4 nelle SLU (Tab. 6.5.I), 1 negli altri stati; nell’equilibrio (contatto, eccentricità, inclinazione della portanza e sollecitazioni del fusto) la passiva di progetto è limitata alla spinta motrice. Con la mensola a monte ogni combinazione SLU, sismica o eccezionale con un sovraccarico uniforme variabile ha la gemella «b», con la stessa spinta e senza il sovraccarico variabile sulla mensola: la variabile favorevole non si applica (γQ = 0 nelle SLU, NTC 2018 Tab. 2.6.I; ψ2·q solo se sfavorevole nel sisma e negli eccezionali, §2.5.3), quindi né il suo peso né l’inerzia kh·ψ2·q sulla mensola stabilizzano. Principale e gemella entrano in tutte le verifiche.",
+      "b": "L’attrito automatico usa δd=k·atan(tanφcv,k/γMφ), con k=1 per gettato in opera e 2/3 per prefabbricato liscio. L’assegnazione usa tanδd=tanδk/γMφ. Coulomb/MO sul fusto tiene conto di δ muro; l’equilibrio del blocco muro e terreno sulla mensola usa il piano virtuale a δ=0, evitando il doppio conteggio delle forze interne. La portanza drenata include q′B′Nq iq e 0,5γ′B′²Nγ iγ; rimane fuori campo con base non ruvida, eccentricità eccessiva o inerzia sismica del terreno di fondazione. Lo scorrimento confronta Ed, cioè spinta motrice, azioni orizzontali e inerzia, mai ridotta dalla passiva, con V′tanδb,d/γR + ηp·Pp/γR,e; il ribaltamento confronta il momento ribaltante con Mstab/γR, senza la passiva a valle, che resta fra le sole resistenze allo scorrimento (prima della 1.14.2 il suo momento rispetto al piede, diviso per γR,e, entrava anche nella resistenza al ribaltamento). La passiva a valle è facoltativa ed esclusa nel sisma, con ηp ≤ 0,5 (NTC 2018 §6.5.3.1.1) e γR,e = 1,4 nelle SLU (Tab. 6.5.I), 1 negli altri stati; nell’equilibrio (contatto, eccentricità, inclinazione della portanza e sollecitazioni del fusto) la passiva di progetto è limitata alla spinta motrice. Con la mensola a monte ogni combinazione SLU, sismica o eccezionale con un sovraccarico uniforme variabile ha la gemella «b», con la stessa spinta e senza il sovraccarico variabile sulla mensola: la variabile favorevole non si applica (γQ = 0 nelle SLU, NTC 2018 Tab. 2.6.I; ψ2·q solo se sfavorevole nel sisma e negli eccezionali, §2.5.3), quindi né il suo peso né l’inerzia kh·ψ2·q sulla mensola stabilizzano. Principale e gemella entrano in tutte le verifiche.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.md",
+      "percorso": "riga 7 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le combinazioni automatiche delle verifiche locali sono generate dalla libreria Model secondo NTC 2018 §2.5.3, con l'Approccio 2 A1+M1+R3 (§6.5.3.1.1) nelle righe SLU. I coefficienti A1, favorevole/sfavorevole, sono quelli della Tab. 2.6.I e 6.2.I: 1/1,3 per muro, terreno, acqua e permanenti struttu…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.md",
+      "percorso": "riga 8 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.md",
+      "percorso": "riga 35",
+      "classe": "testo",
+      "a": "Le combinazioni globali sono indipendenti dalle verifiche locali. Il preset statico è A2–M2–R2: γM,tanφ e γM,c′ pari a 1,25, γM,cu pari a 1,40 e γR=1,10. Le azioni e i coefficienti effettivamente usati restano esposti nella matrice. Lo SLV globale usa la propria impostazione, con βs=0,38 per la derivazione dal sito e γR=1,20; i coefficienti delle spinte non vengono trasferiti come se fossero quelli del meccanismo globale.",
+      "b": "Le combinazioni globali sono indipendenti dalle verifiche locali. Il preset statico è A2–M2–R2: γG1 = 1, γG2 = 0,8/1,3 e γQ = 0/1,3 (NTC 2018 Tab. 6.2.I), γM,tanφ e γM,c′ pari a 1,25, γM,cu pari a 1,40 e γR=1,10; fino alla 1.14.3 il G2 favorevole valeva 0. Le azioni e i coefficienti effettivamente usati restano esposti nella matrice. Lo SLV globale usa la propria impostazione, con βs=0,38 per la derivazione dal sito e γR=1,20; i coefficienti delle spinte non vengono trasferiti come se fossero quelli del meccanismo globale.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
+      "percorso": "riga 2",
+      "classe": "testo",
+      "a": "text: L’attrito automatico usa δd=k·atan(tanφcv,k/γMφ), con k=1 per gettato in opera e 2/3 per prefabbricato liscio. L’assegnazione usa tanδd=tanδk/γMφ. Coulomb/MO sul fusto tiene conto di δ muro; l’equilibrio del blocco muro e terreno sulla mensola usa il piano virtuale a δ=0, evitando il doppio conteggio delle forze interne. La portanza drenata include q′B′Nq iq e 0,5γ′B′²Nγ iγ; rimane fuori campo con base non ruvida, eccentricità eccessiva o inerzia sismica del terreno di fondazione. Lo scorrimento confronta Ed, cioè spinta motrice, azioni orizzontali e inerzia, mai ridotta dalla passiva, con V′tanδb,d/γR + ηp·Pp/γR,e; il ribaltamento confronta il momento ribaltante con Mstab/γR più il momento di ηp·Pp/γR,e rispetto al piede. La passiva a valle è facoltativa ed esclusa nel sisma, con ηp ≤ 0,5 (NTC 2018 §6.5.3.1.1) e γR,e = 1,4 nelle SLU (Tab. 6.5.I), 1 negli altri stati; nell’equilibrio (contatto, eccentricità, inclinazione della portanza e sollecitazioni del fusto) la passiva di progetto è limitata alla spinta motrice. Con la mensola a monte ogni combinazione SLU, sismica o eccezionale con un sovraccarico uniforme variabile ha la gemella «b», con la stessa spinta e senza il sovraccarico variabile sulla mensola: la variabile favorevole non si applica (γQ = 0 nelle SLU, NTC 2018 Tab. 2.6.I; ψ2·q solo se sfavorevole nel sisma e negli eccezionali, §2.5.3), quindi né il suo peso né l’inerzia kh·ψ2·q sulla mensola stabilizzano. Principale e gemella entrano in tutte le verifiche.",
+      "b": "text: L’attrito automatico usa δd=k·atan(tanφcv,k/γMφ), con k=1 per gettato in opera e 2/3 per prefabbricato liscio. L’assegnazione usa tanδd=tanδk/γMφ. Coulomb/MO sul fusto tiene conto di δ muro; l’equilibrio del blocco muro e terreno sulla mensola usa il piano virtuale a δ=0, evitando il doppio conteggio delle forze interne. La portanza drenata include q′B′Nq iq e 0,5γ′B′²Nγ iγ; rimane fuori campo con base non ruvida, eccentricità eccessiva o inerzia sismica del terreno di fondazione. Lo scorrimento confronta Ed, cioè spinta motrice, azioni orizzontali e inerzia, mai ridotta dalla passiva, con V′tanδb,d/γR + ηp·Pp/γR,e; il ribaltamento confronta il momento ribaltante con Mstab/γR, senza la passiva a valle, che resta fra le sole resistenze allo scorrimento (prima della 1.14.2 il suo momento rispetto al piede, diviso per γR,e, entrava anche nella resistenza al ribaltamento). La passiva a valle è facoltativa ed esclusa nel sisma, con ηp ≤ 0,5 (NTC 2018 §6.5.3.1.1) e γR,e = 1,4 nelle SLU (Tab. 6.5.I), 1 negli altri stati; nell’equilibrio (contatto, eccentricità, inclinazione della portanza e sollecitazioni del fusto) la passiva di progetto è limitata alla spinta motrice. Con la mensola a monte ogni combinazione SLU, sismica o eccezionale con un sovraccarico uniforme variabile ha la gemella «b», con la stessa spinta e senza il sovraccarico variabile sulla mensola: la variabile favorevole non si applica (γQ = 0 nelle SLU, NTC 2018 Tab. 2.6.I; ψ2·q solo se sfavorevole nel sisma e negli eccezionali, §2.5.3), quindi né il suo peso né l’inerzia kh·ψ2·q sulla mensola stabilizzano. Principale e gemella entrano in tutte le verifiche.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
+      "percorso": "riga 3 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le combinazioni automatiche delle verifiche locali sono generate dalla libreria Model secondo NTC 2018 §2.5.3, con l'Approccio 2 A1+M1+R3 (§6.5.3.1.1) nelle righe SLU. I coefficienti A1, favorevole/sfavorevole, sono quelli della Tab. 2.6.I e 6.2.I: 1/1,3 per muro, terreno, acqua e permanenti s…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
+      "percorso": "riga 17",
+      "classe": "testo",
+      "a": "text: Le combinazioni globali sono indipendenti dalle verifiche locali. Il preset statico è A2–M2–R2: γM,tanφ e γM,c′ pari a 1,25, γM,cu pari a 1,40 e γR=1,10. Le azioni e i coefficienti effettivamente usati restano esposti nella matrice. Lo SLV globale usa la propria impostazione, con βs=0,38 per la derivazione dal sito e γR=1,20; i coefficienti delle spinte non vengono trasferiti come se fossero quelli del meccanismo globale.",
+      "b": "text: Le combinazioni globali sono indipendenti dalle verifiche locali. Il preset statico è A2–M2–R2: γG1 = 1, γG2 = 0,8/1,3 e γQ = 0/1,3 (NTC 2018 Tab. 6.2.I), γM,tanφ e γM,c′ pari a 1,25, γM,cu pari a 1,40 e γR=1,10; fino alla 1.14.3 il G2 favorevole valeva 0. Le azioni e i coefficienti effettivamente usati restano esposti nella matrice. Lo SLV globale usa la propria impostazione, con βs=0,38 per la derivazione dal sito e γR=1,20; i coefficienti delle spinte non vengono trasferiti come se fossero quelli del meccanismo globale.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_palo-verticale.md",
+      "percorso": "riga 16 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La testa del palo può trovarsi a una profondità d sotto il piano campagna; d = 0, il valore dei fogli precedenti, dà il calcolo con la testa al piano campagna. La stratigrafia resta riferita al piano campagna e la punta è alla profondità zg = d + L. Il terreno sopra la testa, il ricoprimento, entra …",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_palo-verticale.md",
+      "percorso": "riga 17 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_palo-verticale.txt",
+      "percorso": "riga 9 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La testa del palo può trovarsi a una profondità d sotto il piano campagna; d = 0, il valore dei fogli precedenti, dà il calcolo con la testa al piano campagna. La stratigrafia resta riferita al piano campagna e la punta è alla profondità zg = d + L. Il terreno sopra la testa, il ricoprimento, …",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_materiali_acciaio-armature.md",
+      "percorso": "riga 25 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Con il diagramma Elastoplastico il ramo di progetto oltre εyd resta orizzontale a fyd. Con il diagramma Incrudente il ramo di progetto va da fyd in εyd a k·fyk/γs in εuk, con k = fu/fyk ed εuk la deformazione ultima del materiale (EN 1992-1-1 §3.2.7(2) e Fig. 3.8; per i trefoli §3.3.6(7) e Fig. 3.10…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_materiali_acciaio-armature.md",
+      "percorso": "riga 26 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_materiali_acciaio-armature.md",
+      "percorso": "riga 27 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_materiali_acciaio-armature.md",
+      "percorso": "riga 28 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\sigma_d(\\varepsilon) = \\frac{1}{\\gamma_s}\\,\\sigma_k\\left(\\varepsilon_{yk}+(|\\varepsilon|-\\varepsilon_{yd})\\frac{\\varepsilon_{uk}-\\varepsilon_{yk}}{\\varepsilon_{uk}-\\varepsilon_{yd}}\\right)",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_materiali_acciaio-armature.md",
+      "percorso": "riga 29 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_materiali_acciaio-armature.md",
+      "percorso": "riga 30 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_materiali_acciaio-armature.md",
+      "percorso": "riga 31 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Fino alla 1.14.3 il ramo incrudente di progetto era la curva caratteristica traslata lungo la retta elastica e abbassata di fyk − fyd, con l'incremento di incrudimento riferito a fyk: per B450C con k = 1,15 ed εuk = 7,5 % la tensione in εud superava di circa 8 MPa (2 %) quella della legge attuale. I…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_materiali_acciaio-armature.md",
+      "percorso": "riga 32 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_materiali_acciaio-armature.txt",
+      "percorso": "riga 24 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Con il diagramma Elastoplastico il ramo di progetto oltre εyd resta orizzontale a fyd. Con il diagramma Incrudente il ramo di progetto va da fyd in εyd a k·fyk/γs in εuk, con k = fu/fyk ed εuk la deformazione ultima del materiale (EN 1992-1-1 §3.2.7(2) e Fig. 3.8; per i trefoli §3.3.6(7) e Fig…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_materiali_acciaio-armature.txt",
+      "percorso": "riga 25 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\sigma_d(\\varepsilon) = \\frac{1}{\\gamma_s}\\,\\sigma_k\\left(\\varepsilon_{yk}+(|\\varepsilon|-\\varepsilon_{yd})\\frac{\\varepsilon_{uk}-\\varepsilon_{yk}}{\\varepsilon_{uk}-\\varepsilon_{yd}}\\right)",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_materiali_acciaio-armature.txt",
+      "percorso": "riga 26 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_materiali_acciaio-armature.txt",
+      "percorso": "riga 27 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Fino alla 1.14.3 il ramo incrudente di progetto era la curva caratteristica traslata lungo la retta elastica e abbassata di fyk − fyd, con l'incremento di incrudimento riferito a fyk: per B450C con k = 1,15 ed εuk = 7,5 % la tensione in εud superava di circa 8 MPa (2 %) quella della legge attu…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.md",
+      "percorso": "riga 63",
+      "classe": "testo",
+      "a": "x cresce dalla testa verso la punta; z = x − Llibero. Ltotale > Llibero ≥ 0. Il tratto libero ha k = 0; gli strati coprono almeno tutta la lunghezza immersa. Si assume EJ positivo e costante, calcolato in Checker dai dati comuni della sezione e del materiale, con origine esplicita. Piccoli spostamenti, sezioni piane, deformabilità a taglio trascurata e molle bilaterali lineari; nessun accoppiamento assiale nel FEM laterale. N è ricavato separatamente dall'equilibrio assiale.",
+      "b": "x cresce dalla testa verso la punta; z = x − Llibero. Ltotale > Llibero ≥ 0. Con la testa a una profondità d sotto il piano campagna il tratto libero è nullo e z = d + x: gli strati sopra la testa non entrano nel modello e le leggi lineari di k usano la profondità dal piano campagna, per esempio kh = nh (d + x)/D. Il tratto libero ha k = 0; gli strati coprono almeno tutta la lunghezza immersa. Si assume EJ positivo e costante, calcolato in Checker dai dati comuni della sezione e del materiale, con origine esplicita. Piccoli spostamenti, sezioni piane, deformabilità a taglio trascurata e molle bilaterali lineari; nessun accoppiamento assiale nel FEM laterale. N è ricavato separatamente dall'equilibrio assiale.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.md",
+      "percorso": "riga 119",
+      "classe": "testo",
+      "a": "Per non accreditare capacità a barre insufficientemente sviluppate, Checker separa MRd nominale e utilizzabile. La disponibilità è limitata, cautelativamente, alle quote comprese fra inizio fisico+lbd+a_l e fine fisica−lbd−a_l di ciascun gruppo necessario alla sezione, usando gli sviluppi pertinenti ai due estremi. Fuori da questi intervalli MRd utilizzabile è nullo, il grafico si interrompe e il controllo resta parziale. Questo filtro richiede il pieno sviluppo a trazione anche nei punti dove potrebbe non occorrere: non è un modello di resistenza ridotta per aderenza e non certifica giunti o nodi speciali.",
+      "b": "Per non accreditare capacità a barre insufficientemente sviluppate, Checker separa MRd nominale e utilizzabile. Il pieno sviluppo è disponibile alle quote comprese fra inizio fisico+lbd+a_l e fine fisica−lbd−a_l di ciascun gruppo necessario alla sezione, usando gli sviluppi pertinenti ai due estremi. Fuori da questi intervalli, vicino alle estremità delle barre, la sezione è verificata con lo sviluppo parziale: la resistenza delle barre è ridotta in proporzione alla lunghezza sviluppata, fyd·r, con",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.md",
+      "percorso": "riga 120 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.md",
+      "percorso": "riga 121 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.md",
+      "percorso": "riga 122 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "r = \\frac{l-a_l}{l_{bd}}",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.md",
+      "percorso": "riga 123 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.md",
+      "percorso": "riga 124 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.md",
+      "percorso": "riga 125 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "limitato fra 0 e 1, dove l è la distanza dall'estremità delle barre più vicina, comprese le lunghezze di ancoraggio fuori dal modello alle estremità del palo, e governa il gruppo con r minore. r è arrotondato per difetto a 0,05; la sezione ridotta è la stessa con fyk e fu moltiplicati per r, e MRd± …",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.txt",
+      "percorso": "riga 71",
+      "classe": "testo",
+      "a": "text: x cresce dalla testa verso la punta; z = x − Llibero. Ltotale > Llibero ≥ 0. Il tratto libero ha k = 0; gli strati coprono almeno tutta la lunghezza immersa. Si assume EJ positivo e costante, calcolato in Checker dai dati comuni della sezione e del materiale, con origine esplicita. Piccoli spostamenti, sezioni piane, deformabilità a taglio trascurata e molle bilaterali lineari; nessun accoppiamento assiale nel FEM laterale. N è ricavato separatamente dall'equilibrio assiale.",
+      "b": "text: x cresce dalla testa verso la punta; z = x − Llibero. Ltotale > Llibero ≥ 0. Con la testa a una profondità d sotto il piano campagna il tratto libero è nullo e z = d + x: gli strati sopra la testa non entrano nel modello e le leggi lineari di k usano la profondità dal piano campagna, per esempio kh = nh (d + x)/D. Il tratto libero ha k = 0; gli strati coprono almeno tutta la lunghezza immersa. Si assume EJ positivo e costante, calcolato in Checker dai dati comuni della sezione e del materiale, con origine esplicita. Piccoli spostamenti, sezioni piane, deformabilità a taglio trascurata e molle bilaterali lineari; nessun accoppiamento assiale nel FEM laterale. N è ricavato separatamente dall'equilibrio assiale.",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.txt",
+      "percorso": "riga 103",
+      "classe": "testo",
+      "a": "text: Per non accreditare capacità a barre insufficientemente sviluppate, Checker separa MRd nominale e utilizzabile. La disponibilità è limitata, cautelativamente, alle quote comprese fra inizio fisico+lbd+a_l e fine fisica−lbd−a_l di ciascun gruppo necessario alla sezione, usando gli sviluppi pertinenti ai due estremi. Fuori da questi intervalli MRd utilizzabile è nullo, il grafico si interrompe e il controllo resta parziale. Questo filtro richiede il pieno sviluppo a trazione anche nei punti dove potrebbe non occorrere: non è un modello di resistenza ridotta per aderenza e non certifica giunti o nodi speciali.",
+      "b": "text: Per non accreditare capacità a barre insufficientemente sviluppate, Checker separa MRd nominale e utilizzabile. Il pieno sviluppo è disponibile alle quote comprese fra inizio fisico+lbd+a_l e fine fisica−lbd−a_l di ciascun gruppo necessario alla sezione, usando gli sviluppi pertinenti ai due estremi. Fuori da questi intervalli, vicino alle estremità delle barre, la sezione è verificata con lo sviluppo parziale: la resistenza delle barre è ridotta in proporzione alla lunghezza sviluppata, fyd·r, con",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.txt",
+      "percorso": "riga 104 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: r = \\frac{l-a_l}{l_{bd}}",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.txt",
+      "percorso": "riga 105 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_theory_palo-elastico.txt",
+      "percorso": "riga 106 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: limitato fra 0 e 1, dove l è la distanza dall'estremità delle barre più vicina, comprese le lunghezze di ancoraggio fuori dal modello alle estremità del palo, e governa il gruppo con r minore. r è arrotondato per difetto a 0,05; la sezione ridotta è la stessa con fyk e fu moltiplicati per r, e…",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[0]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "b": "/wiki/guide/moduli-singoli/pali-e-micropali-caricati-orizzontalmente",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[12]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-stralli\"",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[5]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
+      "b": "/wiki/guide/moduli-singoli/pali-e-micropali-caricati-orizzontalmente",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[6]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/bridge-design",
+      "b": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[7]",
+      "classe": "testo",
+      "a": "/wiki/guide/workflow/percorso-completo-per-un-primo-progetto",
+      "b": "/wiki/guide/moduli-singoli/bridge-design",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[8]",
+      "classe": "testo",
+      "a": "/wiki/guide/faq-e-troubleshooting/problemi-frequenti-e-controlli-finali",
+      "b": "/wiki/guide/workflow/percorso-completo-per-un-primo-progetto",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[9]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/muri-di-sostegno-con-stratigrafie-di-monte-e-valle",
+      "b": "/wiki/guide/faq-e-troubleshooting/problemi-frequenti-e-controlli-finali",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[10]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "b": "/wiki/guide/moduli-singoli/muri-di-sostegno-con-stratigrafie-di-monte-e-valle",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[11]",
+      "classe": "testo",
+      "a": "/wiki/guide/palificata-orizzontale",
+      "b": "/wiki/guide/moduli-singoli/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[12]",
+      "classe": "testo",
+      "a": "/wiki/guide/palo-elastico",
+      "b": "/wiki/guide/palificata-orizzontale",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[13]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli/sezione-ca",
+      "b": "/wiki/guide/palo-elastico",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[14]",
+      "classe": "testo",
+      "a": "/wiki/guide/interpretazione-risultati/interpretazione-dei-risultati-e-controlli-indipendenti",
+      "b": "/wiki/guide/moduli/sezione-ca",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[15]",
+      "classe": "testo",
+      "a": "/wiki/guide/progetti/modelli-importazione-midas",
+      "b": "/wiki/guide/interpretazione-risultati/interpretazione-dei-risultati-e-controlli-indipendenti",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[16]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+      "b": "/wiki/guide/progetti/modelli-importazione-midas",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[17]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
+      "b": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[18]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[19]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+      "b": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[20]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/tracciabilita-e-riferimenti",
+      "b": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[21]",
+      "classe": "testo",
+      "a": "/wiki/theory/palo-elastico",
+      "b": "/wiki/manuale/calcestruzzo-armato/tracciabilita-e-riferimenti",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[22]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/cracking",
+      "b": "/wiki/theory/palo-elastico",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[23]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "b": "/wiki/manuale/calcestruzzo/cracking",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[24]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli/guida-stratigrafia",
+      "b": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[30]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[2]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
+      "b": "/wiki/guide/moduli-singoli/pali-e-micropali-caricati-orizzontalmente",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[3]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli/sezione-ca",
+      "b": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[4]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+      "b": "/wiki/guide/moduli/sezione-ca",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[5]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
+      "b": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[6]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[7]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+      "b": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[8]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+      "b": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[9]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
+      "b": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[10]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "b": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[11]",
+      "classe": "testo",
+      "a": "/wiki/theory/palo-elastico",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[12]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fem/elementi-beam",
+      "b": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[13]",
+      "classe": "testo",
+      "a": "/wiki/manuale/acciaio/instabilita-delle-aste-compresse",
+      "b": "/wiki/theory/palo-elastico",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[14]",
+      "classe": "testo",
+      "a": "/wiki/manuale/metodi-costruttivi/fasi-costruttive-e-percorso-dei-carichi",
+      "b": "/wiki/manuale/fem/elementi-beam",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[15]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/cracking",
+      "b": "/wiki/manuale/acciaio/instabilita-delle-aste-compresse",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[16]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/bearing-capacity",
+      "b": "/wiki/manuale/metodi-costruttivi/fasi-costruttive-e-percorso-dei-carichi",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[17]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "b": "/wiki/manuale/calcestruzzo/cracking",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[18]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/modello-stratigrafia",
+      "b": "/wiki/manuale/geotecnica/bearing-capacity",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[28]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[29]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/calcestruzzo/reologia\"",
+      "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[18]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/geotecnica-gruppi\"",
+      "voce": "F5-REL-1144-01"
     }
   ]
 }

@@ -137,7 +137,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 == attendi
 dati D8AB0962899E838C · byte 9824
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato B49319B184ACB481
+risultato 9D4221734F064924
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "EC2 con parametri DIN: CRd,c, vmin, ν1, limite di cotθ dipendente dal carico e z ridotto; hc,eff e distanza fessure nazionali. Riferimento materiali DLL NA:2013-04. Verifiche di sezione, senza certificazione dell’intero annesso."
 [ingressi] valori-integrati ""
@@ -254,7 +254,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   458,62 kNm\nMx−   -214,18 kNm\nMy+   223,22 kNm\nMy−   -223,22 kNm" · nascosto · riquadri "Mx+ 458,62 kNm | Mx− -214,18 kNm | My+ 223,22 kNm | My− -223,22 kNm"
+[ingressi] rapide "Mx+   456,09 kNm\nMx−   -212,57 kNm\nMy+   222,67 kNm\nMy−   -222,67 kNm" · nascosto · riquadri "Mx+ 456,09 kNm | Mx− -212,57 kNm | My+ 222,67 kNm | My− -222,67 kNm"
 [ingressi] anteprima sezione Rettangolare 500x700 · Ac 350000 · As 2422.1679359177306 · contorno 4 59D185943A054C80 · fori 0 · barre 6 BD0897F50C3A2586 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 6 · selezionata -1
 [ingressi]   {"id":"B01","phi":"26","x":"-180","y":"-280"}
@@ -272,14 +272,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == apri materiale { campo dialogo nome «C35/45» ; pulsante dialogo Salva materiale e applica }
 dati D8AB0962899E838C · byte 9824
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato B49319B184ACB481
+risultato 9D4221734F064924
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "aperta · nome=\"Calcestruzzo personalizzato\" · fck_mpa=\"20\" · cls_diagramma=\"Parabola-rettangolo\" · testi \"Ecm = 29961,95 MPa\\nεc,y = 2,00 ‰\\nεc,u = 3,50 ‰\" · curve \"Caratteristica\" 241 EE04AE9BE20C4B67 \"Progetto · DIN EN 1992-1-1\" 241 0E07E2AA39180C7B\ncampo dialogo nome «C35/45» · nome=\"C35/45\" · fck_mpa=\"20\" · cls_diagramma=\"Parabola-rettangolo\" · testi \"Ecm = 29961,95 MPa\\nεc,y = 2,00 ‰\\nεc,u = 3,50 ‰\" · curve \"Caratteristica\" 241 EE04AE9BE20C4B67 \"Progetto · DIN EN 1992-1-1\" 241 0E07E2AA39180C7B\npulsante dialogo Salva materiale e applica · nome=\"C35/45\" · fck_mpa=\"20\" · cls_diagramma=\"Parabola-rettangolo\" · testi \"Usare un nome distinto dai materiali esistenti. ⏎ Ecm = 29961,95 MPa\\nεc,y = 2,00 ‰\\nεc,u = 3,50 ‰\" · curve \"Caratteristica\" 241 EE04AE9BE20C4B67 \"Progetto · DIN EN 1992-1-1\" 241 0E07E2AA39180C7B\nchiusa dalla traccia"
 [ingressi] invariata
 == apri materiale { campo dialogo nome «CLS secondo» ; campo dialogo fck_mpa «abc» ; pulsante dialogo Salva materiale e applica }
 dati D8AB0962899E838C · byte 9824
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato B49319B184ACB481
+risultato 9D4221734F064924
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "aperta · nome=\"Calcestruzzo personalizzato\" · fck_mpa=\"20\" · cls_diagramma=\"Parabola-rettangolo\" · testi \"Ecm = 29961,95 MPa\\nεc,y = 2,00 ‰\\nεc,u = 3,50 ‰\" · curve \"Caratteristica\" 241 EE04AE9BE20C4B67 \"Progetto · DIN EN 1992-1-1\" 241 0E07E2AA39180C7B\ncampo dialogo nome «CLS secondo» · nome=\"CLS secondo\" · fck_mpa=\"20\" · cls_diagramma=\"Parabola-rettangolo\" · testi \"Ecm = 29961,95 MPa\\nεc,y = 2,00 ‰\\nεc,u = 3,50 ‰\" · curve \"Caratteristica\" 241 EE04AE9BE20C4B67 \"Progetto · DIN EN 1992-1-1\" 241 0E07E2AA39180C7B\ncampo dialogo fck_mpa «abc» · nome=\"CLS secondo\" · fck_mpa=\"abc\" · cls_diagramma=\"Parabola-rettangolo\" · testi \"fck_mpa: inserire un numero finito maggiore di 0. ⏎ \" · curve \npulsante dialogo Salva materiale e applica · nome=\"CLS secondo\" · fck_mpa=\"abc\" · cls_diagramma=\"Parabola-rettangolo\" · testi \"fck_mpa: inserire un numero finito maggiore di 0. ⏎ \" · curve \nchiusa dalla traccia"
 [ingressi] invariata
@@ -434,7 +434,7 @@ messaggio "aperta · nome=\"Calcestruzzo personalizzato\" · fck_mpa=\"20\" · c
 == attendi
 dati 39BA50C5A681C4EE · byte 10051
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato D7C071EEB26815AE
+risultato 15BA74D6B42CB1A3
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "EC2 con parametri DIN: CRd,c, vmin, ν1, limite di cotθ dipendente dal carico e z ridotto; hc,eff e distanza fessure nazionali. Riferimento materiali DLL NA:2013-04. Verifiche di sezione, senza certificazione dell’intero annesso."
 [ingressi] valori-integrati ""
@@ -551,7 +551,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] form rapide
 [ingressi]   campo N "N (− compressione)" = "0"
 [ingressi]   scelta tipo "Resistenza" = "Plastico" voci "Plastico|Elastico"
-[ingressi] rapide "Mx+   468,20 kNm\nMx−   -220,36 kNm\nMy+   230,62 kNm\nMy−   -230,62 kNm" · nascosto · riquadri "Mx+ 468,20 kNm | Mx− -220,36 kNm | My+ 230,62 kNm | My− -230,62 kNm"
+[ingressi] rapide "Mx+   465,09 kNm\nMx−   -218,60 kNm\nMy+   229,92 kNm\nMy−   -229,92 kNm" · nascosto · riquadri "Mx+ 465,09 kNm | Mx− -218,60 kNm | My+ 229,92 kNm | My− -229,92 kNm"
 [ingressi] anteprima sezione Rettangolare 500x700 · Ac 350000 · As 2422.1679359177306 · contorno 4 59D185943A054C80 · fori 0 · barre 6 BD0897F50C3A2586 · trefoli 4F53CDA18C2BAA0C · messaggio "" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110001111 · barra "" · zona ""
 [ingressi] tabella barre · colonne "Barra=id|x [mm]=x|y [mm]=y|Ø [mm]=phi" · righe 6 · selezionata -1
 [ingressi]   {"id":"B01","phi":"26","x":"-180","y":"-280"}

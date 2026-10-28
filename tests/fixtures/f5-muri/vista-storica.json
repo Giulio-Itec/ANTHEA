@@ -35,7 +35,7 @@
     "globale-drenata-due-colonne": {
       "dati": "a9264bb01e733a8e468d8d8ce668e9c99cb4a7d6cfcbcdab67f90b47fb33cb4c",
       "risultati": true,
-      "risultato": "2e7e43bbef177fa14d4540b3f08b9c3d17372b53c4728d6754a48497252e0c2c",
+      "risultato": "fb911032e46ace3a07968e2277affd256b2b53ddf6d7a8612906654d78ce3240",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": "Globale A2–M2–R2 2",
@@ -48,7 +48,7 @@
     "globale-non-drenata-sisma": {
       "dati": "90d827cb40d870fc57e75e8ae2d5ce6fbe11c9b7fc7290f1c5abae967c86600b",
       "risultati": true,
-      "risultato": "b1b0ab4fce40ebfe53397acf37eed84d9f76302bf2d7faa4131ee007cd329a4e",
+      "risultato": "ae3fe18747b5986cb9ab9e93dd63c52800d60b4278fc3d17557685de1b03ecff",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": "Globale SLV kv− 3",
@@ -127,24 +127,24 @@
       "distinta_csv": "7e4b1f99b93fb95dd726c7bb79881eb8c46cf25714594494f4ebec4e9ac24b99"
     },
     "mensola-wood-azioni": {
-      "dati": "c3cd2a443db11a1626fa191ddb72766dd5da93c3c166d9ac50470fbeffb04c91",
+      "dati": "bc232d390bbedafa1585261afe09c746c6d4225901fdcfd0393126ead66e2d83",
       "risultati": true,
-      "risultato": "2bec40ab88ddbc33bfa3737b38f2dcdf6b82e7ff94c9350f3a5816d032d5116d",
+      "risultato": "33b68974a5c6921629e10073d10bb826db6c2976c90822da1406d820661482c2",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
-      "csv": "66d22de396298f765d23dced52ee735936e65f4ab8297b3352f97d88addb585a",
+      "csv": "cb5259f1d6fcc36c5fffee98902f36bc8c73141faedca682e34c232d4dbb120e",
       "pagine_distinta": 5,
-      "distinta_csv": "21dfac594ffdf39fac0678e4fd02e751ccd898a0ea676ab18d5cbb4f9c37560f"
+      "distinta_csv": "6379c6bb9d0614bf7c94f21c95466eba6831d27e60e1143e590f428db7644a23"
     },
     "opzioni-avanzate": {
-      "dati": "d00efe53e24bc547fc2b7077410ce96ff7b574612c54ed36d448a59d0e9801c1",
+      "dati": "a1fb011ca5eb90ba6892faa9cfd02648e34fd07ed8c11337fac6d2648f917ed4",
       "risultati": true,
-      "risultato": "4f550506205c23ab9a0e570d1c8beab3896dc4c58f6698c1a0eee3e656a6aad2",
+      "risultato": "60b6277cc52d04143335b8988be27f11582e06c78faa07229209e814f8ae8771",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
-      "csv": "db8f7e786f713833bb9f292db10774ffb534586c0ae9c4e81c9aaaad5e107210",
+      "csv": "910fe1a42fd147602d65f87afa8d3353f763a362c2f63d050e922c876bd3c40e",
       "pagine_distinta": 5,
       "distinta_csv": "99ba4551160efad914b912b1e2c77e212ce3042f357a0da452f9b5eaeb4e914f"
     },
