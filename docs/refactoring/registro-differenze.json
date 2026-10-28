@@ -11407,6 +11407,38 @@
         "supporto/artefatti/1150/colonna-modello"
       ],
       "voci_collegate": []
+    },
+    {
+      "id": "UI-CONTRASTO-02",
+      "data": "2026-10-28",
+      "fase": "1.15.0, scheda «Colonna modello»",
+      "titolo": "Dominio 3D: etichette degli assi sulla carta anche nella Chiara",
+      "famiglia": "interfaccia/temi",
+      "modulo": "str_palo (dominio 3D della sezione c.a.)",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Con la nona scheda della sezione c.a. (CA-COLONNA-01) le schede vanno su due righe a 1600 × 1000 DIP: il riquadro del dominio 3D si abbassa e, nella fixture t2-02, l'etichetta «N −11293,86 kN» cade sulla superficie del dominio (3,18:1 nella Chiara, 2 occorrenze nuove di --check-contrast). Lo stile AppearanceDrawingLabel mette le etichette degli assi sulla carta (AppearancePaper) in tutti gli aspetti, come già le etichette dei punti; prima lo faceva solo negli aspetti scuri. Il controllo del contrasto torna a 3 occorrenze in 1 voce, la baseline. Alternativa: lasciare la Chiara com'era e aggiungere le 2 occorrenze alla baseline, che però può solo scendere.",
+      "codice": [
+        "src/ANTHEA.Desktop/Themes/Controls.xaml (AppearanceDrawingLabel)"
+      ],
+      "segno": "Solo aspetto; nessun numero cambia.",
+      "effetto_quantificato": "Nella Chiara le etichette degli assi del dominio 3D hanno lo sfondo bianco della carta; Scuro e Molto scuro uguali. Nessun riferimento congelato cambia.",
+      "decisione": {
+        "data": "",
+        "utente": "",
+        "esito": "da confermare dall'utente"
+      },
+      "test": [
+        "ui/check-contrast",
+        "ui/check-theme-tokens"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1150/colonna-set-b/ui_check-contrast/difetti, supporto/artefatti/1150/colonna-fix/ui_check-contrast"
+      ],
+      "voci_collegate": [
+        "CA-COLONNA-01",
+        "UI-CONTRASTO-01"
+      ]
     }
   ]
 }
