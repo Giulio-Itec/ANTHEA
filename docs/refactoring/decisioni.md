@@ -2046,3 +2046,27 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
    - 1.15.0: «colonna modello e straus andranno nella 1.15.0»; importazione dei file MIDAS .mgt e .mct («concludila ed implementala dentro
      anthea»); colonna modello: «implementa quelle che consigli te. stasera ne discutiamo. in generale, segui la normativa», «implementa sia
      libreria che interfaccia».
+
+## 28 ottobre (sera) — decisioni della 1.15.0
+
+Coordinatore: sessione del refactoring F5. Al riepilogo della sera (`ANTHEA-f5-ripresa/resoconto-28-10.md`) l'utente sceglie fra le
+opzioni proposte; fra virgolette le opzioni scelte.
+
+1. **Riferimenti «DA APPROVARE».** «Approva tutti»: CA-COLONNA-01 (83bb940e, 32 tracce della sezione c.a.), B-FON-01 (da14147b, 8
+   impronte delle fondazioni, solo la versione di Geotechnics), UI-CONTRASTO-02 (8c480106, figura del dominio 3D negli 11 report),
+   F5-REL-1150-01 (1093de70, 390 transizioni della Wiki Rev61) e, in Model, 2294d30a (tre attese di rifiuto tolte, MOD-31 e MOD-32).
+2. **Etichette degli assi del dominio 3D.** «Tieni la correzione»: sulla carta anche nella Chiara (UI-CONTRASTO-02 attuato).
+3. **Segno dei modelli Straus7.** «Convenzione unica»: tutte le sorgenti con il segno della copia MIDAS, combinazioni e invio delle
+   azioni senza distinguere la sorgente (MOD-32).
+4. **Compatibilità.** «Accetta»: i documenti con un modello Straus7 hanno il campo `SourceCombinations` e la 1.14 non li apre; limite
+   noto delle note di rilascio, come AG-SHELL-01.
+5. **Librerie.** «Anche steel e model-prepare»: il set ufficiale AL contiene la 1.15.0 (Model `lib-1150/importatori`, Checker
+   `lib-1150/colonna-modello`) e le fasi della revisione steel già nei master locali (Steel 2.124, GPCModelChecker 2.31, GPCModel
+   5.22.0.3). Unione nei rami della 1.15.0 con versioni sopra entrambi i lati (Model 02027760: GPCModel 5.23.0.1, Converter 2.7.0.1;
+   Checker 0951cbf9: Concrete 0.27.0.1, Steel 2.124.0.1, GPCModelChecker 2.31.0.1, Geotechnics 0.25.0.4), push dei master e set
+   ufficiale. Poi «porta il master sulle ultime modifiche»: master locali di Model e Checker avanzati alle unioni.
+6. **Rilascio.** «Tag e push se pulita»: versione 1.15.0, full di rilascio con l'installer, setup e audit; se la full è pulita, tag
+   `v1.15.0` sul commit del setup, merge su `main` e push di `main` e `refactoring/f5`.
+7. **Pulizia.** «Sì, dopo verifica»: worktree e rami già uniti (lib-rel, lib-1142, lib-1142-pali, lib-1144, aw-1144, aw-1144-rev60 e,
+   dopo il rilascio, i rami 1150-*) si tolgono dopo aver controllato che ogni commit sia nei rami in uso.
+8. **Tag v1.14.1.** «Crealo e pushalo»: tag annotato sul commit della 1.14.1 e push del solo tag.

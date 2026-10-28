@@ -11390,6 +11390,11 @@
         "utente": "«lavora anche per l'importazione di un file midas civil e midas gen tramite file txt (mgt e mct). dovrebbe già esserci una base. concludila ed implementala dentro anthea»",
         "esito": "implementato sul ramo refactoring/1150-importatori; merge dopo l'ok dell'utente"
       },
+      "decisione_28_10_sera": {
+        "data": "2026-10-28",
+        "utente": "al riepilogo della sera, sui riferimenti «DA APPROVARE» (83bb940e, da14147b, 8c480106, 1093de70 e Model 2294d30a): «Approva tutti»",
+        "esito": "attese di Model approvate (2294d30a: TRUSS MIDAS ora importato); importatore nella 1.15.0"
+      },
       "data": "2026-10-28",
       "fase": "1.15.0",
       "test": [
@@ -11420,11 +11425,16 @@
         "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Strand7Import.cs",
         "supporto/installer/Crea-Installer.ps1"
       ],
-      "segno": "Momenti delle piastre (Mxx, Myy, Mxy) e My delle aste mostrati con il segno della copia MIDAS (MidasGpcDisplay.DisplayVector): opposti alla convenzione di Straus7 e di GPC (trazione su +z). Da confermare con l'utente. Campo SourceCombinations omesso se null: impronte dei documenti esistenti invariate.",
+      "segno": "Momenti delle piastre (Mxx, Myy, Mxy) e My delle aste mostrati con il segno della copia MIDAS (MidasGpcDisplay.DisplayVector): opposti alla convenzione di Straus7 e di GPC (trazione su +z). Confermato dall'utente il 28/10/2026 (convenzione unica). Campo SourceCombinations omesso se null: impronte dei documenti esistenti invariate.",
       "decisione": {
         "data": "2026-10-28",
         "utente": "«completa e fai test su lettura modello straus7. fai test sia su converter che su antea-model»; «hai la licenza di straus e di midas attivi, per qualsiasi problema»",
         "esito": "implementato e collaudato con Straus7 R31 / API 3.1.5; segno, campo nuovo e distribuzione del worker da confermare"
+      },
+      "decisione_28_10_sera": {
+        "data": "2026-10-28",
+        "utente": "al riepilogo della sera: sul segno «Convenzione unica» (tutte le sorgenti con il segno della copia MIDAS); sui documenti con SourceCombinations «Accetta» (come AG-SHELL-01); sulle attese di Model (2294d30a) «Approva tutti»",
+        "esito": "segno confermato; campo nuovo accettato, limite noto delle note di rilascio (la 1.14 non apre i documenti con un modello Straus7); processo Straus7 accanto ad ANTHEA.exe con la correzione dell'installer 4d1ec8ce"
       },
       "data": "2026-10-28",
       "fase": "1.15.0",
@@ -11450,7 +11460,7 @@
       "famiglia": "interfaccia/sezione-ca",
       "modulo": "str_palo",
       "categoria": "intenzionale",
-      "stato": "da-decidere",
+      "stato": "attuato",
       "descrizione": "Richiesta dell'utente del 28/10/2026 («colonna modello implementa sia libreria che interfaccia»). La scheda 08 «Colonna modello» usa ModelColumnAnalysis della libreria (EN 1992-1-1 5.8.6(6) e 5.8.8.2; NTC 2018 §4.1.2.3.9.3); «Calcola armature» passa da 08 a 09. Il valore salvato in workspace_ca.tab è un codice stabile (ConcreteSheetPresentation.SavedTab): 0-6 invariati, «Calcola armature» resta 7, «Colonna modello» è 8; i documenti salvati con otto schede si riaprono sulla stessa scheda senza migrazione dei dati e la 1.14 apre il codice 8 sulla sua ultima scheda. Le opzioni stanno in workspace_ca.colonna_modello, create alla prima modifica dell'utente: i fogli che non le hanno si aprono con i predefiniti, senza scritture né Modified; l'esportazione dei risultati e la relazione hanno la colonna modello solo quando il foglio ha le opzioni (relazioni ed esportazioni delle fixture invariate).",
       "codice": [
         "src/ANTHEA.Application/Concrete/ConcreteModelColumn.cs",
@@ -11464,9 +11474,9 @@
       "segno": "Nessun risultato di calcolo delle schede esistenti cambia; i dati dei documenti non cambiano.",
       "effetto_quantificato": "Riferimenti da approvare (commit «DA APPROVARE»): 32 tracce di tests/fixtures/f5-sezione/storica, 212 righe, tutte di tre tipi (script di classificazione nel resoconto): A, 140 righe, «modificato N» + 1 dopo la «visita» (una scheda in più da selezionare: 11 percorso-f3, 2 muri, 15 esempi, 5 righe ciascuna); B, 72 righe, «scheda 7» -> «scheda 8» nella riga di stato quando è mostrata «Calcola armature» (aperta dal codice salvato 7 o scelta dal passo; workspace_ca.tab resta 7); C, 5 righe, «== scheda [7]» -> «== scheda [8]», il passo che sceglie «Calcola armature». vista-storica.json invariato: la prova della vista porta le chiavi di sola lettura della scheda storica 7 alla 8 con lo stesso codice.",
       "decisione": {
-        "data": "",
-        "utente": "",
-        "esito": "da approvare dall'utente (riferimenti e scelte di interfaccia)"
+        "data": "2026-10-28",
+        "utente": "al riepilogo della sera, sui riferimenti «DA APPROVARE» (83bb940e, da14147b, 8c480106, 1093de70 e Model 2294d30a): «Approva tutti»",
+        "esito": "riferimenti approvati (83bb940e, 32 tracce); scelte della scheda come raccomandato («implementa quelle che consigli te»)"
       },
       "test": [
         "Presentation.Tests",
@@ -11488,7 +11498,7 @@
       "famiglia": "interfaccia/temi",
       "modulo": "str_palo (dominio 3D della sezione c.a.)",
       "categoria": "intenzionale",
-      "stato": "da-decidere",
+      "stato": "attuato",
       "descrizione": "Con la nona scheda della sezione c.a. (CA-COLONNA-01) le schede vanno su due righe a 1600 × 1000 DIP: il riquadro del dominio 3D si abbassa e, nella fixture t2-02, l'etichetta «N −11293,86 kN» cade sulla superficie del dominio (3,18:1 nella Chiara, 2 occorrenze nuove di --check-contrast). Lo stile AppearanceDrawingLabel mette le etichette degli assi sulla carta (AppearancePaper) in tutti gli aspetti, come già le etichette dei punti; prima lo faceva solo negli aspetti scuri. Il controllo del contrasto torna a 3 occorrenze in 1 voce, la baseline. Alternativa: lasciare la Chiara com'era e aggiungere le 2 occorrenze alla baseline, che però può solo scendere.",
       "codice": [
         "src/ANTHEA.Desktop/Themes/Controls.xaml (AppearanceDrawingLabel)"
@@ -11496,9 +11506,9 @@
       "segno": "Solo aspetto; nessun numero cambia.",
       "effetto_quantificato": "Nella Chiara le etichette degli assi del dominio 3D hanno lo sfondo bianco della carta; Scuro e Molto scuro uguali. La figura del dominio 3D dei report Word si disegna con lo stesso stile: cambia word/media/image1.png negli 11 report della sezione c.a. di tests/fixtures/f5-sezione/vista-storica.json (riferimenti da approvare), in ogni figura solo tre riquadri di circa 85 × 15 pixel, le etichette Mx, My e N sulla carta (script di confronto nel resoconto); tutte le altre parti dei report uguali.",
       "decisione": {
-        "data": "",
-        "utente": "",
-        "esito": "da confermare dall'utente"
+        "data": "2026-10-28",
+        "utente": "al riepilogo della sera, sulle etichette degli assi del dominio 3D: «Tieni la correzione»; sulle figure dei report (8c480106): «Approva tutti»",
+        "esito": "correzione tenuta; 11 figure dei report approvate"
       },
       "test": [
         "ui/check-contrast",
@@ -11521,7 +11531,7 @@
       "famiglia": "fondazioni superficiali/risultato",
       "modulo": "geo_fondazioni_superficiali (F5.9b)",
       "categoria": "intenzionale",
-      "stato": "da-decidere",
+      "stato": "dichiarato",
       "descrizione": "Come AK-FON-01. Nel set candidato b GPCChecker.Geotechnics passa da 0.25.0.2 a 0.25.0.3: ricompilata senza modifiche al sorgente (Checker ffc28d34; il PDB cita il commit, quindi la DLL cambia e prende una versione nuova). Nelle 8 fixture F3 con un risultato cambia l'impronta SHA-256 del risultato dopo «Calcola»; con 0.25.0.2 al posto di 0.25.0.3 tornano tutte le impronte del set AK. Dati, Modified, stato, disegni ed esportazioni uguali.",
       "codice": [
         "lib/Checker/GPCChecker.Geotechnics.dll",
@@ -11530,9 +11540,9 @@
       "segno": "Nessun effetto sui numeri.",
       "effetto_quantificato": "Cambiano 8 impronte del risultato su 11 fixture; le 3 senza risultato restano uguali.",
       "decisione": {
-        "data": "",
-        "utente": "",
-        "esito": "impronte da approvare dall'utente (commit «DA APPROVARE»)"
+        "data": "2026-10-28",
+        "utente": "al riepilogo della sera, sui riferimenti «DA APPROVARE» (83bb940e, da14147b, 8c480106, 1093de70 e Model 2294d30a): «Approva tutti»",
+        "esito": "impronte approvate (da14147b); differenza dichiarata"
       },
       "test": [
         "ui/check-fondazioni-view"
@@ -11552,7 +11562,7 @@
       "famiglia": "guide/wiki",
       "modulo": "Wiki",
       "categoria": "intenzionale",
-      "stato": "da-decidere",
+      "stato": "attuato",
       "descrizione": "Le guide pratica e teorica Rev61 (commit 611ff20e) descrivono la scheda 08 «Colonna modello» della sezione c.a. («Calcola armature» scheda 09), i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli, la teoria della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, scostamenti K-1…K-6) e unità, segni e combinazioni delle copie dei modelli importati. Cambiano 4 articoli della Wiki (guida della sezione c.a., modelli e importazione, sezione in calcestruzzo armato, architettura del calcolo e convenzioni); cambia 1 delle 30 ricerche F3, «combinazioni»: l'articolo architettura del calcolo e convenzioni entra all'undicesimo posto e i successivi scendono di uno. Le differenze sono solo editoriali e sono registrate in transitions-f5-wiki.json: 390 transizioni esatte nuove, 7 sostituite, 0 righe spostate e 0 tolte.",
       "codice": [
         "supporto/docs/guida-pratica-anthea.md",
@@ -11564,9 +11574,9 @@
       "segno": "Nessun risultato di calcolo; nessuna differenza fuori dalla Wiki.",
       "effetto_quantificato": "390 transizioni editoriali nuove, 7 sostituite, 0 spostate, 0 tolte; 4 articoli; cambia 1 delle 30 ricerche F3, «combinazioni»: l'articolo architettura del calcolo e convenzioni entra all'undicesimo posto e i successivi scendono di uno.",
       "decisione": {
-        "data": "",
-        "utente": "",
-        "esito": "da approvare dall'utente (commit «DA APPROVARE»), come F5-REL-1144-01"
+        "data": "2026-10-28",
+        "utente": "al riepilogo della sera, sui riferimenti «DA APPROVARE» (83bb940e, da14147b, 8c480106, 1093de70 e Model 2294d30a): «Approva tutti»",
+        "esito": "transizioni registrate (1093de70)"
       },
       "test": [
         "ui/f3-equivalence",
