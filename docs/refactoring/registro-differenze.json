@@ -11439,6 +11439,37 @@
         "CA-COLONNA-01",
         "UI-CONTRASTO-01"
       ]
+    },
+    {
+      "id": "B-FON-01",
+      "data": "2026-10-28",
+      "fase": "1.15.0, set candidato librerie-1150/candidato-b",
+      "titolo": "Fondazioni superficiali: versione della libreria nel risultato (GPCChecker.Geotechnics 0.25.0.3)",
+      "famiglia": "fondazioni superficiali/risultato",
+      "modulo": "geo_fondazioni_superficiali (F5.9b)",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Come AK-FON-01. Nel set candidato b GPCChecker.Geotechnics passa da 0.25.0.2 a 0.25.0.3: ricompilata senza modifiche al sorgente (Checker ffc28d34; il PDB cita il commit, quindi la DLL cambia e prende una versione nuova). Nelle 8 fixture F3 con un risultato cambia l'impronta SHA-256 del risultato dopo «Calcola»; con 0.25.0.2 al posto di 0.25.0.3 tornano tutte le impronte del set AK. Dati, Modified, stato, disegni ed esportazioni uguali.",
+      "codice": [
+        "lib/Checker/GPCChecker.Geotechnics.dll",
+        "tests/ANTHEA.Desktop.UiTests/ShallowFoundationViewChecks.cs (HistoricFixtures, impronte del risultato)"
+      ],
+      "segno": "Nessun effetto sui numeri.",
+      "effetto_quantificato": "Cambiano 8 impronte del risultato su 11 fixture; le 3 senza risultato restano uguali.",
+      "decisione": {
+        "data": "",
+        "utente": "",
+        "esito": "impronte da approvare dall'utente (commit «DA APPROVARE»)"
+      },
+      "test": [
+        "ui/check-fondazioni-view"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1150/colonna-set-b (full, fallimento atteso), supporto/artefatti/1150/colonna-fix (registra-fon.txt, registrazione temporanea non committata, e corsa con le impronte riportate)"
+      ],
+      "voci_collegate": [
+        "AK-FON-01"
+      ]
     }
   ]
 }
