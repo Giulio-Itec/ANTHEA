@@ -89,6 +89,17 @@ def main():
         check((extract / name).is_file(), f"processo Straus7 incompleto: manca {name}")
     worker_config = json.loads((extract / WORKER[3]).read_text(encoding="utf-8-sig"))
     check("includedFrameworks" in worker_config.get("runtimeOptions", {}), "processo Straus7 non self-contained")
+    # Every assembly of ANTHEA.deps.json with a file version has it in the package: no other publish replaced it (System.Text.Json 10.0.13).
+    deps = json.loads((extract / "ANTHEA.deps.json").read_text(encoding="utf-8-sig"))
+    expected = {Path(name).name: info["fileVersion"] for target in deps["targets"].values() for library in target.values()
+                for name, info in library.get("runtime", {}).items() if info.get("fileVersion")}
+    listing = subprocess.check_output(["powershell", "-NoProfile", "-Command",
+                                       f"Get-ChildItem -LiteralPath '{extract}' -Filter *.dll | ForEach-Object {{ $v = $_.VersionInfo; "
+                                       f"$_.Name + '|' + ($v.FileMajorPart, $v.FileMinorPart, $v.FileBuildPart, $v.FilePrivatePart -join '.') }}"],
+                                      text=True)
+    actual = dict(line.strip().split("|", 1) for line in listing.splitlines() if "|" in line)
+    stale = sorted(f"{name} {actual.get(name)} invece di {version}" for name, version in expected.items() if actual.get(name) != version)
+    check(not stale, f"DLL diverse da ANTHEA.deps.json: {stale}")
 
     product = subprocess.check_output(["powershell", "-NoProfile", "-Command",
                                        f"(Get-Item -LiteralPath '{extract / 'ANTHEA.exe'}').VersionInfo.ProductVersion"], text=True).strip()
