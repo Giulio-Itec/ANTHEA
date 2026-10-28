@@ -56,3 +56,4 @@ supporto/SUPERATI/rilascio-1130-rev58-20261023/** -text
 # F5.13 g: the capture of MainWindow is compared byte for byte (tests/ANTHEA.Desktop.UiTests/ShellReferences.cs): the recorded bytes, LF, on every checkout.
 tests/fixtures/f5-shell/cattura-mainwindow/** -text
 supporto/SUPERATI/rilascio-1140-rev59-20261024/** -text
+supporto/SUPERATI/rilascio-1144-rev60-20261028/** -text

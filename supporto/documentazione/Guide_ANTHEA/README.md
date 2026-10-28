@@ -1,11 +1,13 @@
 # Guide globali ANTHEA
 
-Edizione 6, 24 ottobre 2026. Guide pratica e teorica Rev59. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 28 ottobre 2026. Guide pratica e teorica Rev60. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev59.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev59.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev59.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev59.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev60.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev60.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev60.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev60.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+
+La Rev60 accompagna ANTHEA 1.14.4 e raccoglie anche le novità della 1.14.1, della 1.14.2 e della 1.14.3. Nella guida pratica: Separatore decimale nel menu Aspetto (Sistema, Virgola, Punto); profondità della testa dei pali e dei micropali sotto il piano campagna; secondo anello interno, anche di altro diametro, nei report del palo orizzontale; MRd con fyd·r nello sviluppo parziale delle barre della risposta elastica; il nuovo «Tension stiffening» della curva M–χ. Nella guida teorica: tensioni SLE dell’analisi non lineare con le leggi di progetto, come scelta dichiarata; θmin di Model Code 2010 nel taglio e nella torsione; limite di EN 1992-1-1 §6.2.2(6) senza staffe; copriferro NTC con la classe minima UNI 11104 quando manca il minimo pertinente; ramo incrudente dell’acciaio di progetto riferito a fyd; passiva a valle fuori dal ribaltamento dei muri; soglia di wk = 0 sul copriferro reale; sviluppo parziale delle barre del palo elastico; teste dei pali sotto il piano campagna con le tensioni del ricoprimento; tension stiffening sulle barre con il modello del tirante (β = 0,4); combinazioni dei muri generate da Model, con G2 favorevole 0,8 nelle righe SLU e nella stabilità globale e i γR della Tab. 7.11.III in tutte le righe sismiche. Gli originali Rev59 sono conservati in `supporto/SUPERATI/rilascio-1144-rev60-20261028/`.
 
 La Rev59 accompagna ANTHEA 1.14.0, che apre la finestra nuova. Nella guida pratica: barra di navigazione sempre visibile, fogli in schede, finestre staccate e pagina intera, Wiki in una scheda; albero dei progetti in una colonna, menu dei nodi, Annulla e Ripristina con le schede aperte, revisioni consultate con più schede, controllo e avanzamento del report del ramo; le revisioni in sola lettura dei muri (Valori di calcolo e Stabilità globale); i comandi della Wiki con i loro nomi attuali. La guida teorica cambia solo nell’intestazione e nei percorsi delle figure, che stanno in `src/ANTHEA.Desktop/Assets/Wiki`. Gli originali Rev58 sono conservati in `supporto/SUPERATI/rilascio-1140-rev59-20261024/`.
 

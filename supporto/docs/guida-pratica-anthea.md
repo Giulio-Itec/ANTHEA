@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 24 ottobre 2026 — revisione documentale 59
+Edizione 6 aggiornata il 28 ottobre 2026 — revisione documentale 60
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -121,6 +121,8 @@ Il menu Aspetto, accanto a File, offre Chiaro, Scuro e Molto scuro. Chiaro manti
 
 La scelta è salvata nel profilo Windows e ripristinata al prossimo avvio. Non fa parte dei documenti o delle revisioni di progetto. Le immagini incorporate e le tavole dei grafici conservano i propri colori per mantenere leggibili legende e rappresentazioni tecniche.
 
+Nello stesso menu, Separatore decimale offre Sistema, Virgola e Punto. Sistema, predefinito, segue l'impostazione di Windows; Virgola e Punto la sostituiscono, con il separatore delle migliaia opposto. La scelta vale per i numeri di campi, tabelle, stati e dettagli di tutti i moduli; nella sezione c.a. anche il dettaglio dei domini, la legenda della mappa SLE e i parametri del taglio la seguono. È salvata per l'utente del PC e vale dal prossimo avvio di ANTHEA, come ricorda il messaggio dopo il cambio: i testi e i disegni già aperti non cambiano. Dati salvati, calcoli e risultati non dipendono dal separatore; i report e i disegni che scrivono sempre la virgola restano come sono.
+
 ### Scegliere il foglio adatto
 
 | Foglio disponibile | Domanda alla quale risponde | Informazione da preparare |
@@ -235,6 +237,8 @@ Il trasferimento dei materiali ai fogli compatibili riguarda le proprietà comun
 
 Impostare tecnologia del palo, diametro, lunghezza, peso del materiale, azioni assiali e coefficienti. Il Peso specifico CLS / palo può valere zero: il peso proprio non entra allora nelle azioni e il risultato lo segnala con un avviso; un valore negativo è rifiutato. Compilare poi le stratigrafie. Ogni nuovo sondaggio parte con una riga da completare, non con un terreno automaticamente valido. Inserire nome, spessore, famiglia del terreno, addensamento dove richiesto, pesi di volume e parametri di resistenza.
 
+Profondità della testa sotto il piano campagna d, in metri, nei dati generali dopo la lunghezza, descrive un palo con la testa interrata, per esempio sotto un plinto. Il campo mostra 0, cioè testa al piano campagna, e un foglio esistente dà gli stessi risultati di prima. Con d > 0 la stratigrafia resta riferita al piano campagna e deve arrivare almeno a d + L: il terreno sopra la testa dà le tensioni verticali, anche con la falda, ma nessuna resistenza laterale. Quote, curve e diagrammi partono dalla testa. Il risultato riporta d con un avviso, il report aggiunge una nota e il profilo disegna la testa alla sua profondità. Un valore negativo è rifiutato. Lo stesso campo è nel micropalo verticale.
+
 Per un calcolo drenato occorrono i parametri efficaci. Per il ramo non drenato degli strati coesivi occorre Cu; il programma considera anche la posizione della falda per decidere il tratto nel quale applicare quel ramo. Non usare c′ e Cu come sinonimi. Negli strati granulari il contributo c′ alla resistenza laterale drenata è nullo, anche se il campo contiene un numero.
 
 Indicare la presenza e la profondità della falda. L'effetto sulle tensioni del terreno e l'opzione di sottospinta sul peso proprio sono aspetti distinti. Spuntare la sottospinta solo secondo l'ipotesi di peso immerso che si vuole applicare al palo; non aspettarsi che questo comando definisca da solo la stratigrafia satura. L'opzione riguarda soltanto la compressione drenata e quella non drenata senza base lorda: a trazione il peso sotto falda è sempre alleggerito, nella compressione non drenata con base lorda è sempre intero. Riepilogo, grafici e report confrontano ogni condizione con la propria azione.
@@ -271,7 +275,7 @@ Assegnare diametro di perforazione, iniezione IGU o IRS, famiglia di terreno, co
 
 Definire l'inizio del bulbo resistente. La lunghezza libera o il tratto escluso non produce resistenza laterale del bulbo. La resistenza viene integrata soltanto nelle tratte attive, considerando il terreno attraversato. L'eventuale contributo di punta è una percentuale del laterale: attivarlo non introduce una verifica autonoma della base.
 
-Inserire l'inclinazione rispetto alla verticale e verificare la lunghezza lungo l'asse. I passaggi di strato sono definiti in profondità verticale e vengono convertiti nella lunghezza percorsa dal micropalo. Controllare quindi sia il profilo del terreno sia il riepilogo delle tratte, soprattutto per inclinazioni elevate.
+Inserire l'inclinazione rispetto alla verticale e verificare la lunghezza lungo l'asse. I passaggi di strato sono definiti in profondità verticale e vengono convertiti nella lunghezza percorsa dal micropalo. Con la testa interrata, Profondità della testa sotto il piano campagna d è verticale: gli strati sopra la testa non hanno aderenza, s e le curve partono dalla testa e la punta è a d + L cos θ dal piano campagna; 0 indica la testa al piano campagna, come nei fogli precedenti. Controllare quindi sia il profilo del terreno sia il riepilogo delle tratte, soprattutto per inclinazioni elevate.
 
 ### Tubo e peso
 
@@ -285,6 +289,8 @@ Verificare che p_l rientri nel campo della curva selezionata: il motore rifiuta 
 
 Il modulo applica meccanismi limite di Broms. Definire il diametro geotecnico, la lunghezza infissa, la famiglia del terreno, il vincolo in testa e l'eccentricità della forza. Per la testa libera il momento esterno è H × e. La testa impedita richiede e = 0 e tratto libero nullo, perché i meccanismi di Broms pongono il vincolo al piano campagna; con il plinto rialzato, cioè con un tratto libero sopra il terreno, il calcolo è rifiutato: usare la risposta elastica, che vincola la testa sopra il terreno. Un momento indipendente aggiunto alla forza non è gestito come azione generica.
 
+Profondità della testa sotto il piano campagna d, nei dati generali, vale per Broms, Stratificato e risposta elastica, nel palo e nel micropalo orizzontale; 0 indica la testa al piano campagna, come nei fogli precedenti. Con d > 0 la stratigrafia resta riferita al piano campagna e il terreno sopra la testa dà le tensioni verticali ma nessuna reazione laterale; l'eccentricità e, le quote z e i diagrammi partono dalla testa. Nei coesivi la reazione resta nulla fino a 1,5D dal piano campagna, cioè fino a 1,5D − d dalla testa. Con la testa impedita vincolo e forza sono alla testa, con e = 0. Una testa interrata con un tratto libero sopra il terreno è rifiutata: azzerare uno dei due dati. Risultato, report e disegni riportano la profondità della testa.
+
 Lo sforzo normale N è positivo a compressione in questi fogli. È una convenzione diversa dalla sezione in c.a. Non copiare il segno senza controllarlo. N entra nel calcolo del momento resistente della sezione quando questo è automatico; non trasforma Broms in un'analisi completa del secondo ordine del palo nel terreno.
 
 I casi omogenei costituiscono il campo più direttamente interpretabile. La stratificazione della stessa famiglia e la falda sono indicate come estensioni sperimentali. Le alternanze di terreni coesivi e granulari non vengono assimilate silenziosamente a un unico terreno equivalente.
@@ -292,6 +298,8 @@ I casi omogenei costituiscono il campo più direttamente interpretabile. La stra
 ### Momento resistente del palo in calcestruzzo
 
 Nel ramo automatico assegnare sezione circolare, diametro, copriferro, staffa, barre longitudinali distribuite uniformemente e materiali. Verificare la posizione degli assi delle barre e il valore di N. La procedura confronta due discretizzazioni; se non raggiunge l'accordo richiesto o esce dal campo ammesso, il momento non deve essere considerato disponibile.
+
+Secondo anello interno aggiunge una seconda corona di barre all'interno della prima, come nella sezione in c.a.: Numero barre dell'anello interno, Diametro barre dell'anello interno, anche diverso da quello della prima fila, e Distanza libera dalla prima fila; i campi vuoti partono dalle barre della prima fila e da 30 mm. L'anello entra nella sezione e nelle verifiche; nella distinta della risposta elastica ogni diametro ha il proprio gruppo, per esempio G02A e G02B, con ancoraggio e sovrapposizione propri. Nei report di Broms e Stratificato la frase che segue la tabella Sezione circolare e materiali comincia con «Secondo anello interno:» e riporta numero, diametro e distanza libera; nel report della risposta elastica la riga Armatura di ogni tratto riporta il secondo anello del tratto, quando c'è. Senza anello i report non cambiano.
 
 È possibile assegnare My manualmente, corredandolo della provenienza. Registrare quale sezione, N, diagrammi e coefficienti abbiano prodotto il valore. My non è un parametro da aumentare fino a far passare il controllo. La formazione di una cerniera nel modello richiede inoltre una valutazione separata della capacità rotazionale del dettaglio.
 
@@ -906,7 +914,7 @@ Il modulo Palo orizzontale comprende la scheda Risposta elastica · trave su mol
 
 Compilare geometria, materiale, carico, falda e stratigrafie nella scheda iniziale. Ogni dato ha un solo punto di modifica. Nella scheda elastica rimangono la scelta esplicita della stratigrafia analizzata, il passo FEM e il vincolo alla punta. Modifica dati e strati richiama l'editor iniziale.
 
-La lunghezza del campo principale rimane la lunghezza infissa. Il tratto libero è una quantità aggiuntiva: la lunghezza totale del modello è infissa più libera. L'eccentricità condivisa indica la quota della forza sopra il piano campagna, come nel modulo precedente. Checker ricava il momento equivalente alla testa C = H (Llibero − e_da_pc), nella convenzione con θ = dy/dx: il braccio del tratto libero non viene contato due volte. Con tratto libero nullo ed eccentricità positiva il momento interno al piano campagna è H e. Non è presente un secondo campo modificabile C nella scheda elastica.
+La lunghezza del campo principale rimane la lunghezza infissa. Il tratto libero è una quantità aggiuntiva: la lunghezza totale del modello è infissa più libera. L'eccentricità condivisa indica la quota della forza sopra il piano campagna, come nel modulo precedente. Checker ricava il momento equivalente alla testa C = H (Llibero − e_da_pc), nella convenzione con θ = dy/dx: il braccio del tratto libero non viene contato due volte. Con tratto libero nullo ed eccentricità positiva il momento interno al piano campagna è H e. Non è presente un secondo campo modificabile C nella scheda elastica. Con la testa sotto il piano campagna, d dei dati iniziali, il tratto libero è nullo: gli strati sopra la testa non entrano nel modello, x parte dalla testa e z = d + x dal piano campagna, anche nelle leggi di kh che crescono con la profondità.
 
 EJ viene mostrato in sola lettura con E, J, unità e origine. Per il palo in calcestruzzo si usa la sezione circolare integra lorda, con Ecm del materiale: sono esclusi il contributo aggiuntivo delle armature, fessurazione e viscosità. Per il micropalo CHS si usa il solo tubo di acciaio; il contributo della malta non è incluso. Il modulo elastico del tubo è nei dati iniziali di sezione. L'opzione avanzata Override EJ, nello stesso editor, richiede valore e motivazione; conserva anche il valore geometrico di base. Il momento resistente My della verifica Broms non sostituisce EJ.
 
@@ -994,7 +1002,7 @@ Il primo utilizzo e gli archivi senza tratti hanno un solo tratto collegato alla
 
 Confermare nelle ipotesi la natura delle azioni di progetto e il modello di taglio circolare equivalente, con z/d assegnato. Le verifiche impiegano N, V e M alla stessa quota, includendo interfacce, confini dei tratti, campioni interni ed estremi dei polinomi FEM. Il riepilogo mostra la sezione critica e la sezione trasversale segue la quota selezionata. Gli esiti distinguono non verificabile, non soddisfatto, parziale e soddisfatto N–M–V con dettagli ancora da completare. Il verificatore c.a. non si applica ai CHS.
 
-MRd positivo e negativo sono calcolati al valore locale di N e sovrapposti a MEd con linea tratteggiata. La curva viene interrotta nelle zone prive dello sviluppo richiesto delle barre, evidenziate in colore chiaro; la verifica diventa parziale. Il valore nominale rimane consultabile separatamente e non certifica il confinamento dei giunti. Fuori dal dominio resistente non viene disegnata una resistenza valida. La capacità ultima di Broms non è utilizzata come azione del FEM o delle sezioni.
+MRd positivo e negativo sono calcolati al valore locale di N e sovrapposti a MEd con linea tratteggiata. Le zone prive dello sviluppo completo delle barre, vicino alle loro estremità, sono evidenziate in colore chiaro. Dove la lunghezza ancorata oltre a_l è minore di lbd, MRd usa fyd·r, con r la lunghezza ancorata oltre a_l divisa per lbd e arrotondata per difetto a 0,05: la sezione critica e il report scrivono «MRd con fyd·r» invece di «MRd nominale», e un tratto che così diventa non soddisfatto lo dice nello stato. La curva si interrompe e la verifica resta parziale solo dove r è minore di 0,05 o un giunto non è utilizzabile. Il valore nominale rimane consultabile separatamente e non certifica il confinamento dei giunti. Fuori dal dominio resistente non viene disegnata una resistenza valida. La capacità ultima di Broms non è utilizzata come azione del FEM o delle sezioni.
 
 ### Proposte e vista delle armature
 
@@ -1223,7 +1231,7 @@ Nella scheda dettagli costruttivi scegliere il tipo di elemento e completare le 
 
 ### Curva momento curvatura e aggiornamento
 
-La curva M χ si avvia con il proprio comando. Assegnare N, direzione del momento, numero di passi e distribuzione dei punti. Il campo «CLS teso nelle risposte», Trascurato oppure Tension stiffening, riguarda solo i punti della curva: punto limite e verifiche non lo usano. Esaminare la progressione della risposta e le deformazioni terminali. La curva arriva al limite trattato dal motore e non descrive automaticamente un ramo post picco di degradazione della struttura.
+La curva M χ si avvia con il proprio comando. Assegnare N, direzione del momento, numero di passi e distribuzione dei punti. Il campo «CLS teso nelle risposte», Trascurato oppure Tension stiffening, riguarda solo i punti della curva: punto limite e verifiche non lo usano. Con Tension stiffening la sezione resta interamente reagente finché il calcestruzzo non si fessura; dopo, il calcestruzzo teso non lavora e le barre tese dell'area efficace di fessurazione seguono il modello del tirante, con β = 0,4 dei carichi di lunga durata e i valori medi Ecm e fctm, mentre le altre barre restano nude. Il primo snervamento e |εs|max sono quelli della barra nella fessura, e lo stato della curva lo dichiara. Fino alla 1.14.3 l'opzione applicava una legge media del calcestruzzo teso a tutta la zona tesa: ricalcolate, le curve di quei fogli risultano più cedevoli dopo la fessurazione e snervano prima. Esaminare la progressione della risposta e le deformazioni terminali. La curva arriva al limite trattato dal motore e non descrive automaticamente un ramo post picco di degradazione della struttura.
 
 Nel report di progetto la curva viene ricalcolata automaticamente con N, direzione, passi e opzioni salvati nel foglio. Il capitolo comprende valori limite, tabella dei punti e grafico; non serve aprire la scheda né avviare prima il comando Calcola curva. La preparazione lavora su una copia dei dati. Se il percorso non è valido o contiene trefoli, la curva è segnalata come non disponibile con il motivo e le altre verifiche restano nel report. Interrompere la preparazione conserva il documento precedente. Il report del singolo foglio continua a usare la curva calcolata nella scheda.
 
