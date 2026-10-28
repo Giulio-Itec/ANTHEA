@@ -978,7 +978,8 @@ txt (mgt e mct)… concludila ed implementala dentro anthea». Branch `refactori
 dettagli in [modelli-visualizzatore.md](../sviluppo/modelli-visualizzatore.md), sezione «Importatori MIDAS di testo e Straus7».
 
 - [x] MIDAS Civil .mct e Gen .mgt: nucleo di `ReadDirectory` in `FromTables` (impronte invariate), `MidasTextImporter`,
-  `GpcBatchNormalization` condivisa con tools/ModelViewer.Prepare, filtro del dialogo, 29 controlli; MOD-31.
+  `GpcBatchNormalization` condivisa con tools/ModelViewer.Prepare, filtro del dialogo, 30 controlli; 36 export reali: 26 importati,
+  10 rifiutati come dall'adattatore GPC; MOD-31.
 - [x] Straus7: processo x64 `ANTHEA.Strand7Worker` e protocollo, ponte `GpcModelSnapshot`, campo facoltativo
   `ModelSnapshot.SourceCombinations`, combinazioni LSA ricostruite con GPC, pannello attivo, installer; 48 controlli senza API,
   prove native (fixture della libreria, Plates.st7, quattro modelli BridGHe), prova WPF fuori schermo; MOD-32.

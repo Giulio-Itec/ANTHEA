@@ -881,7 +881,8 @@ combinazioni. Il batch è mappato da `ModelMapper` come fa l'adattatore GPC dei 
 `GpcBatchNormalization`, estratta da `tools/ModelViewer.Prepare`, che ora la chiama. Prima di `Validate` restano fuori, con un
 messaggio di importazione: elementi senza equivalente nella vista (WALL, PLSTRS, PLSTRN, AXISYM, SOLID e simili; i loro nodi
 restano), piastre con spessore irrigidito, diverso nel piano e fuori piano o non definito; le aste di una sezione non definita
-restano ad asse con una sezione segnaposto senza profilo. Nome della copia = nome del file; `Source` «MIDAS Civil · file .mct ·
+restano ad asse con una sezione segnaposto senza profilo. Uno spessore con offset disattivato (bOFFSET NO) che conserva un valore
+nel file non ha offset, come in GPC (la copia API conserva la regola precedente). Nome della copia = nome del file; `Source` «MIDAS Civil · file .mct ·
 ‹file› · SHA-256 ‹12 cifre›» o «MIDAS Gen · file .mgt · …». Filtro del dialogo «File di testo MIDAS Civil / Gen (*.mct;*.mgt)»,
 anche nel confronto con una copia precedente.
 
@@ -952,10 +953,20 @@ alla convenzione GPC** (trazione su +z). Scelta da confermare con l'utente.
 
 ### Collaudo
 
-- ModelWorkspace.Checks 555 controlli (478 prima): 29 per i file MIDAS (fixture sintetiche e native 9.5.5 copiate dalle prove di
-  GPC Model in `tests/fixtures/model-viewer-midas-text`, testo = API, rifiuti atomici, VM) e 48 per Straus7 senza API nativa
-  (ponte, combinazioni GPC, protocollo con un worker sostitutivo, sorgente, VM).
+- ModelWorkspace.Checks 556 controlli (478 prima; 555 con `dotnet exec`, dove il controllo dei processi orfani non si applica):
+  30 per i file MIDAS (fixture sintetiche e native 9.5.5 copiate dalle prove di GPC Model in `tests/fixtures/model-viewer-midas-text`,
+  testo = API, offset disattivato, rifiuti atomici, VM) e 48 per Straus7 senza API nativa (ponte, combinazioni GPC, protocollo con un
+  worker sostitutivo, sorgente, VM).
 - Straus7Native.Checks (`--straus7-native`, variabili `GPC_STRAUS7_*`): fixture `native-elements-r31` della libreria, Plates.st7
   del produttore e i quattro modelli BridGHe REV004 con `.LSA`, sempre copiati; valori della copia identici ai campioni GPC,
-  equilibrio carichi/reazioni per ogni caso risolto, combinazione LSA ricostruita uguale alla somma dei termini.
+  equilibrio carichi/reazioni per ogni caso risolto, combinazione LSA ricostruita uguale alla somma dei termini (ULS della fixture,
+  G2_PERMANENTI di BridGHe 02, RITIRO_FEM di BridGHe 04). Nella stessa corsa, con `GPC_MIDAS_TEXT_SAMPLES`, gli export MIDAS reali di
+  una cartella (letti e mai scritti): sui 36 file locali del 28/10 ANTHEA ne importa 26 e ne rifiuta 10 esattamente come l'adattatore
+  GPC dei file (6 export parziali o non chiusi, 4 con piastre non piane); prima della correzione dell'offset disattivato 3 file erano
+  rifiutati solo da ANTHEA. Si salvano soltanto conteggi ed esiti.
+- Convertitore GPC (prove della libreria, eseguite dal binario di `lib-1150` in sola lettura): NativeElements, ManufacturerPlates,
+  BridgheModels e RealExports PASS con le stesse variabili.
+- Architecture.Tests si ferma alla provenienza del set candidato (atteso); le altre regole, eseguite da una copia della prova senza
+  quella verifica, danno PASS 500 (F4 senza aggiunte, P1-P7). Installer di prova: worker self-contained nella cartella
+  dell'applicazione, nessun St7api, Gmsh o UnsafeEx.
 - ModelViewer.Importers.UiChecks: `.mct` dal pannello «File» e Straus7 dal pannello con il worker reale, fuori schermo.
