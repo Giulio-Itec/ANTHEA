@@ -41,7 +41,7 @@ public static class GpcModelSnapshot
 {
     const double MillimetresPerMetre = 1000;
     public const int VariantPropertyOffset = 1000000;
-    static readonly string[] Dofs = ["DX", "DY", "DZ", "RX", "RY", "RZ"];
+    static readonly IReadOnlyList<string> Dofs = ["DX", "DY", "DZ", "RX", "RY", "RZ"];
 
     public static ModelSnapshot Create(GPC.Model.Models.Model model, GpcSnapshotOptions options, CancellationToken token = default)
     {
@@ -151,11 +151,11 @@ public static class GpcModelSnapshot
             int id = ids[node.Id];
             foreach (var restraint in node.Assignments.Restrains.Where(r => r.Case == null && r.Phase == null && r.Restrain != null))
             {
-                var fixedDofs = restraint.Restrain.Restrains.Where(d => d.IsRestrained && (int)d.Dof < Dofs.Length).Select(d => (int)d.Dof).ToHashSet();
-                if (fixedDofs.Count > 0) yield return new(restraint.SourceRecord ?? "Vincolo " + id, "RESTRAIN", [id], null, Flags(Enumerable.Range(0, Dofs.Length).Select(fixedDofs.Contains)));
+                var fixedDofs = restraint.Restrain.Restrains.Where(d => d.IsRestrained && (int)d.Dof < Dofs.Count).Select(d => (int)d.Dof).ToHashSet();
+                if (fixedDofs.Count > 0) yield return new(restraint.SourceRecord ?? "Vincolo " + id, "RESTRAIN", [id], null, Flags(Enumerable.Range(0, Dofs.Count).Select(fixedDofs.Contains)));
             }
             foreach (var spring in node.Assignments.GroundSprings)
-                yield return new(spring.SourceRecord ?? "Molla " + id, "RESTRAIN", [id], null, "Molla elastica · " + Flags(Enumerable.Range(0, Dofs.Length).Select(i => spring[i, i] != 0)));
+                yield return new(spring.SourceRecord ?? "Molla " + id, "RESTRAIN", [id], null, "Molla elastica · " + Flags(Enumerable.Range(0, Dofs.Count).Select(i => spring[i, i] != 0)));
             foreach (var link in node.Assignments.Links)
             {
                 if (!ids.TryGetValue(link.OtherNodeId, out int other)) continue;

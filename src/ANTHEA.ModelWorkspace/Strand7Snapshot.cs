@@ -16,7 +16,7 @@ public static partial class Strand7Snapshot
     public const int BeamIdOffset = 1000000;
     public const string CombinationSource = "STRAUS7";
     const string Evidence = "Straus7 API";
-    static readonly double[] LengthToMillimetres = [1000, 10, 1, 304.8, 25.4];
+    static readonly IReadOnlyList<double> LengthToMillimetres = [1000, 10, 1, 304.8, 25.4];
 
     [GeneratedRegex(@"^Case (\d+): (.*)$", RegexOptions.CultureInvariant | RegexOptions.Singleline)]
     private static partial Regex ModelCase();
@@ -35,7 +35,7 @@ public static partial class Strand7Snapshot
             try { using var document = JsonDocument.Parse(raw); return document.RootElement.Clone(); } catch (JsonException) { return null; }
         }
         double? lengthToMm = Record("St7GetUnits") is { ValueKind: JsonValueKind.Array } units && units.GetArrayLength() > 0 && units[0].TryGetInt32(out int code)
-            && code >= 0 && code < LengthToMillimetres.Length ? LengthToMillimetres[code] : null;
+            && code >= 0 && code < LengthToMillimetres.Count ? LengthToMillimetres[code] : null;
         int? Property(string family, Element element) => element.Source?.OriginalId is { } id && Record(family + "/" + id) is { ValueKind: JsonValueKind.Object } e
             && e.TryGetProperty("Property", out var p) && p.TryGetInt32(out int number) && number > 0 ? number : null;
         string Name(string family, int number) => Record("Property/" + family + "/" + number.ToString(CultureInfo.InvariantCulture)) is { ValueKind: JsonValueKind.Object } p

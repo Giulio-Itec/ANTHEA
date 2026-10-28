@@ -7,7 +7,7 @@ namespace ANTHEA.ModelWorkspace;
 public static class MidasSnapshotImporter
 {
     /// <summary>Civil NX databases preserved in the snapshot as source tables, in this order.</summary>
-    internal static readonly string[] SourceTableNames = ["UNIT", "NODE", "ELEM", "THIK", "SECT", "MATL", "STLD", "LCOM-CONC", "LCOM-GEN", "LCOM-STEEL", "LCOM-SRC", "LCOM-SEISMIC", "LCOM-STLCOMP", "CONS", "ELNK", "RIGD", "FRLS", "PRLS", "NLNK", "NSPR", "MCON", "SKEW", "OFFS", "GRUP", "BNGR", "LDGR", "CNLD", "BMLD", "PRES", "STAG", "STCT", "BODF", "NBOF", "NLLP"];
+    internal static readonly IReadOnlyList<string> SourceTableNames = ["UNIT", "NODE", "ELEM", "THIK", "SECT", "MATL", "STLD", "LCOM-CONC", "LCOM-GEN", "LCOM-STEEL", "LCOM-SRC", "LCOM-SEISMIC", "LCOM-STLCOMP", "CONS", "ELNK", "RIGD", "FRLS", "PRLS", "NLNK", "NSPR", "MCON", "SKEW", "OFFS", "GRUP", "BNGR", "LDGR", "CNLD", "BMLD", "PRES", "STAG", "STCT", "BODF", "NBOF", "NLLP"];
 
     public static ModelSnapshot ReadDirectory(string directory)
     {

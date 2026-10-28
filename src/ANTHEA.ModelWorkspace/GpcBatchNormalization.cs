@@ -11,7 +11,7 @@ namespace ANTHEA.ModelWorkspace;
 /// recomputed. Shared by the MIDAS text importer and tools/ModelViewer.Prepare (laboratory copy of the Civil NX API).</summary>
 public static class GpcBatchNormalization
 {
-    static readonly string[] Dofs = ["DX", "DY", "DZ", "RX", "RY", "RZ"];
+    static readonly IReadOnlyList<string> Dofs = ["DX", "DY", "DZ", "RX", "RY", "RZ"];
 
     /// <summary>Replaces LocalFrames, NodeFrames (only when the snapshot holds a SKEW table), Boundaries and ImportMessages.
     /// Records of elements or nodes that the snapshot does not contain are skipped. IDs of the batch are the snapshot IDs.</summary>
