@@ -164,27 +164,9 @@ public static partial class PaloOrizzontale
         bool water = g.B("presenza_falda"); double zw = water ? g.Required("profondita_falda") : l, d0 = Calcolo.ProfonditaTesta(g);
         bool distributed = DistributedMethod(g);
         double gw = WaterUnitWeight(g, water);
-        var surveys = data.Array("stratigrafie").Select(s => FromHead(Verticale(s!.AsArray(), l, water, zw, distributed, gw, d0).Survey, d0)).ToArray();
-        return Library(() => LateralPileCapacity.ModelName(surveys, l * M, d * M, distributed ? LateralPileMethod.Stratified : LateralPileMethod.Broms));
-    }
-
-    /// <summary>
-    /// The vertical seen from the head for <see cref="LateralPileCapacity.ModelName"/>, which has no depth of the head: the layers of the pile moved
-    /// up by d0, the water table at the head when it is above it. The model depends only on the layers of the pile and on the water table along
-    /// it, as in <see cref="LateralPileCapacity.Calculate"/> with <see cref="LateralPile.HeadDepth"/>. With d0 = 0 the vertical is unchanged.
-    /// </summary>
-    private static LateralPileSurvey FromHead(LateralPileSurvey survey, double d0)
-    {
-        if (d0 == 0) return survey;
-        var profile = survey.Profile; double head = d0 * M;
-        var layers = new List<SoilLayer>(); var kinds = new List<SoilBehaviour>();
-        for (int i = 0; i < profile.Layers.Count; i++)
-        {
-            if (-profile.Layers[i].Bottom <= head) continue;
-            layers.Add(new SoilLayer(profile.Layers[i].Soil, Math.Min(profile.Layers[i].Top + head, 0), profile.Layers[i].Bottom + head)); kinds.Add(survey.Behaviours[i]);
-        }
-        double? water = profile.GroundwaterElevation is double level ? Math.Min(level + head, 0) : null;
-        return new LateralPileSurvey(new SoilProfile(profile.Name, layers, profile.Source, water, profile.WaterUnitWeight), kinds);
+        // The verticals from the ground surface with the depth of the head, as in the calculation (library of the 1.14.4).
+        var surveys = data.Array("stratigrafie").Select(s => Verticale(s!.AsArray(), l, water, zw, distributed, gw, d0).Survey).ToArray();
+        return Library(() => LateralPileCapacity.ModelName(surveys, l * M, d * M, distributed ? LateralPileMethod.Stratified : LateralPileMethod.Broms, d0 * M));
     }
 
     /// <summary>Regola dei vicini di Reese e Van Impe (PO-2, GPCChecker.Geotechnics 07e620a7), per il foglio e il report.</summary>

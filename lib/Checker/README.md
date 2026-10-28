@@ -1,5 +1,24 @@
 # DLL Checker
 
+**Release AK — librerie della 1.14.4 (28 ottobre 2026).** Set ufficiale da Model `8c0499ae` e Checker `66b33d08`, entrambi su
+origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Contiene:
+- GPCModel 5.22.0.2, ModelData 0.3.0.5, Persistence 3.3.0.5 e Converter 2.6.0.5: generatore delle combinazioni geotecniche (NTC 2018
+  §2.5.3, COMB-MODEL-01), legge del tirante per il tension stiffening (BUG-TS-2), ramo incrudente dell'acciaio di progetto da fyd in εyd a
+  k fyk/γs in εu (R18), cache dei codec dei valori;
+- GPCChecker.Concrete 0.26.0.2: tension stiffening sulle barre con il modello del tirante nelle analisi tensionali non lineari (β = 0,4),
+  snervamento del M–χ alla barra nella fessura, punto limite dal dominio senza tirante;
+- GPCChecker.Geotechnics 0.25.0.2: combinazioni dei muri e coefficienti della stabilità globale da Model, G2 favorevole 0,8 e γR della
+  Tab. 7.11.III nelle righe sismiche assegnate (D4 b, D5 b), `LateralPileCapacity.ModelName` con la profondità della testa;
+- Steel 2.123.0.1, CompositeBridge 1.19.0.8, GPCModelChecker 2.30.0.1, GPC.Design 0.41.0.7 e Masonry 0.10.0.7 con la revisione Steel
+  del 27/10 (γM1 = 1,10 dei ponti NTC, guasti noti mai nascosti, orchestratori lineari, ottimizzazioni).
+
+Suite di `Release-Set.ps1 -Previous` (set AJ), tutte verdi senza fallimenti ammessi: Model (Core 35, UnitTest 1470, API) e Checker,
+Concrete 917 (con il contratto K0 in net472), Steel 122, CompositeBridge 402, Geotechnics 199, Calculation 175, ShallowFoundation 28,
+EmbeddedWalls 99, Steel.Members 6513, Design 109 e 108 (net472), ModelChecker 476; API compatibili. Nessun Gmsh. DLL identiche a quelle
+del set candidato candidato-h provato nella full di ANTHEA; le differenze dei risultati sono registrate come AK-LIB-01, AK-FON-01,
+COMB-MURI-D4D5 e R18. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`. Set in
+`supporto/artefatti/librerie-20261028-ak/gpc-release-20261028-ak`.
+
 **Release AJ — correzioni di calcolo del 26/10, Concrete 0.25 (27 ottobre 2026).** Set ufficiale da Model `2acc60ef` (invariato) e
 Checker `4a1b0090`, entrambi su origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Contiene:
 - GPCChecker.Concrete 0.25.0.0: R4 (θmin = 20° + 10 000 εx ≤ 45° del Model Code 2010 nel taglio e nella torsione), R9 (controllo

@@ -494,6 +494,12 @@
             (mixed sequences need the stratified method).
             </summary>
         </member>
+        <member name="M:GPC.Checkers.Geotechnics.Piles.LateralPileCapacity.ModelName(System.Collections.Generic.IReadOnlyList{GPC.Checkers.Geotechnics.Piles.LateralPileSurvey},System.Double,System.Double,GPC.Checkers.Geotechnics.Piles.LateralPileMethod,System.Double)">
+            <summary>
+            Model of the verticals of a pile whose head is <paramref name="headDepth"/> below the ground surface (as <see cref="P:GPC.Checkers.Geotechnics.Piles.LateralPile.HeadDepth"/>):
+            the layers above the head (cover) give stresses only, the model is that of the layers along the pile, as in <see cref="M:GPC.Checkers.Geotechnics.Piles.LateralPileCapacity.Calculate(GPC.Checkers.Geotechnics.Piles.LateralPile,System.Collections.Generic.IReadOnlyList{GPC.Checkers.Geotechnics.Piles.LateralPileSurvey},GPC.Checkers.Geotechnics.Piles.LateralPileFactors,GPC.Checkers.Geotechnics.Piles.LateralGroupEfficiency)"/>.
+            </summary>
+        </member>
         <member name="P:GPC.Checkers.Geotechnics.Piles.LateralPileCapacity.Ground.HeadTotalStress">
             <summary>Total vertical stress at the head (MPa): the overburden of the soil above the head; 0 with the head at the ground surface.</summary>
         </member>
@@ -1093,10 +1099,10 @@
             <summary>
             Automatic combinations of the wall, NTC 2018 §6.5.3.1.1 Approach 2 (A1+M1+R3) as the preset of ANTHEA (RetainingWall.GenerateCombinations,
             commit fe4652c): SLS characteristic and frequent with every leading variable action, quasi permanent; ULS with every pattern of the factors
-            of the wall (1/1.3), of the fill (1/1.3), of the water (1/1.3), of every permanent group (G1 1/1.3, G2 0/1.5), of the presence of every
+            of the wall (1/1.3), of the fill (1/1.3), of the water (1/1.3), of every permanent group (G1 1/1.3, G2 0.8/1.5), of the presence of every
             variable group and every leading one (1.5, the others 1.5 ψ0), and of the valley soil (1/1.3) when there is soil in front; γR 1.1 sliding,
             1.15 overturning, 1.4 bearing, 1.4 the passive resistance in front (γR,e, NTC 2018 Tab. 6.5.I; 1 in the other rows). Seismic with the quasi permanent actions: assigned kh and ±kv, or from the site general and overturning (γR
-            1, 1, 1.2, NTC Tab. 7.11.III). Accidental: every group of accidental actions with the quasi permanent ones. Identical rows are merged; at
+            1, 1, 1.2 in both, NTC Tab. 7.11.III). Accidental: every group of accidental actions with the quasi permanent ones. Identical rows are merged; at
             most 4096 rows.
             <para>
             Every ULS, seismic (assigned, SLV general and overturning) and accidental row with a variable uniform surcharge (factor &gt; 0: γQ, ψ0 γQ or
@@ -1105,6 +1111,15 @@
             the heel (a favourable variable action is not applied: γQ = 0, NTC 2018 Tab. 2.6.I; ψ2 Qk only where unfavourable in the seismic and
             accidental combinations, NTC 2018 §2.5.3). Both rows enter every check (sliding, overturning, bearing, contact) and the internal forces of
             the heel. The numbers of the other rows do not change.
+            </para>
+            <para>
+            The rows come from the generator of Model (<see cref="T:GPC.Model.Design.Combinations.GeotechnicalCombinations"/>, ANTHEA 1.14.4: «vorrei però che le combo venissero fatte
+            tutte in model»), with A1 and the γR of <see cref="T:GPC.Model.Standards.StandardNTC2018Geotechnics"/>; the wall, the fill and the water are bodies of the pattern,
+            the valley soil a body that doubles every ULS row. This adapter keeps the names, the twins, the seismic coefficients and the limit of the
+            rows, and the passive in front only in the ULS. Decision of the ANTHEA user of 28/10/2026 on the census D4 and D5 («Sì, D4 b e D5 b»): the
+            favourable G2 is 0.8 of NTC 2018 Tab. 2.6.I and 6.2.I (0, the value of NTC 2008, until ANTHEA 1.14.3) and the rows with assigned kh and kv
+            have the γR of Tab. 7.11.III, as those from the site (the static γR of R3 until ANTHEA 1.14.3). The previous generator is the frozen
+            reference of the tests, with these two differences declared.
             </para>
             </summary>
         </member>
@@ -1126,7 +1141,7 @@
             <summary>
             Global stability of the complex retaining wall-soil with the simplified Bishop method (<see cref="T:GPC.Checkers.Geotechnics.Slopes.SlopeStability"/>): the wall is a rigid body,
             the actions are loads of the slope. Transferred from ANTHEA (RetainingWall.GlobalStability.cs, commit fe4652c). NTC 2018 §6.5.3.1.1:
-            Approach 1, Combination 2 (A2+M2+R2): γG1 = 1, γG2 = 0/1.3, γQ = 0/1.3, γM tan φ' = γM c' = 1.25, γM cu = 1.4, γR = 1.1 (Tab. 6.8.I); SLV
+            Approach 1, Combination 2 (A2+M2+R2): γG1 = 1, γG2 = 0.8/1.3, γQ = 0/1.3, γM tan φ' = γM c' = 1.25, γM cu = 1.4, γR = 1.1 (Tab. 6.8.I); SLV
             (§7.11.4): γA = γM = 1, γR = 1.2. Units mm, N/mm, MPa, N/mm³, rad.
             </summary>
         </member>
@@ -1137,7 +1152,10 @@
             <summary>
             Combinations of the global stability from the ordinary ones of the wall (without the seismic action): every ULS with the factors of the actions
             of A2 (G1 1, the others × 1.3/1.5) and M2, γR 1.1; every accidental combination with unit factors; with the seismic action, the quasi
-            permanent actions with ±kv and γR 1.2. Identical rows are merged; at most 256.
+            permanent actions with ±kv and γR 1.2. Identical rows are merged; at most 256. A2, M2 and γR (R2) are those of NTC 2018 in Model
+            (<see cref="T:GPC.Model.Standards.StandardNTC2018Geotechnics"/>, §6.8.2 and §7.11.4; ANTHEA 1.14.4, combinations in Model, step 2); the factors of the actions
+            keep the rule A1 × γQ,A2/γQ,A1 of the rows of the wall (census risk R2: the same digits as before), but the favourable G2, 0.8 in A1 and
+            A2 (census D4 b, decision of the ANTHEA user of 28/10/2026; 0 until ANTHEA 1.14.3).
             </summary>
         </member>
         <member name="M:GPC.Checkers.Geotechnics.Walls.WallGlobalStability.Propose(GPC.Checkers.Geotechnics.Walls.WallInput,System.Int32,System.Int32,System.Int32)">
