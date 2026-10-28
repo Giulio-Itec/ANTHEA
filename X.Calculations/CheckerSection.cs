@@ -225,7 +225,9 @@ public sealed partial class CheckerSection
             ConcreteStressLimit = limits.ConcreteStressLimit,
             SteelStressLimit = limits.SteelStressLimit,
             ConcreteVertices = Geometry.Outline.Select((p, i) => new StressPoint("C" + (i + 1), p[0], p[1], linear ? result.GetConcreteTension(phi, new Point2d(p[0], p[1])) : result.GetConcreteTension(new Point2d(p[0], p[1])), (linear ? result.GetVerticeStrain(new Point2d(p[0], p[1]), phi) : result.GetVerticeStrain(new Point2d(p[0], p[1]))) * 1000)).ToArray(),
-            BarStrains = Section.Rebars.Select(b => (linear ? result.GetRebarStrain(b, b.EpsilonP != 0 ? phiT : phi) : result.GetRebarStrain(b)) * 1000).ToArray()
+            // Non lineare: la deformazione della legge dell'acciaio di ogni barra, quella della sua tensione: nella fessura con il tension stiffening
+            // del M–χ (modello del tirante, BUG-TS-2), del piano altrimenti, bit per bit.
+            BarStrains = Section.Rebars.Select(b => (linear ? result.GetRebarStrain(b, b.EpsilonP != 0 ? phiT : phi) : result.GetRebarSteelStrain(b)) * 1000).ToArray()
             ,RasterFactory = new(() => StressRaster.Sample(Geometry, p => linear ? result.GetConcreteTension(phi, p) : result.GetConcreteTension(p), p => (linear ? result.GetVerticeStrain(p, phi) : result.GetVerticeStrain(p)) * 1000))
         };
     }

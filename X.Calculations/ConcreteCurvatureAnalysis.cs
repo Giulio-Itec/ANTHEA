@@ -11,18 +11,22 @@ public static class ConcreteCurvatureAnalysis
     public const string ResponseConcreteTensionKey = "cls_teso_risposte";
     /// <summary>
     /// Scelte di «CLS teso nelle risposte»: «Trascurato» (predefinito, anche per i fogli salvati prima del 16/10/2026, senza la chiave) o
-    /// «Tension stiffening» (<see cref="ConcreteMaterial.TensionResponseDiagrams.TensionStiffening"/> nell'opzione
-    /// StressAnalysisConcreteTension del verificatore di GPCChecker.Concrete). Vale solo per i punti della curva M–χ: mai nelle verifiche SLE
-    /// e SLU, che costruiscono il verificatore senza l'opzione.
+    /// «Tension stiffening» (<see cref="ConcreteMaterial.TensionResponseDiagrams.TensionChord"/> nell'opzione StressAnalysisConcreteTension
+    /// del verificatore di GPCChecker.Concrete: il modello del tirante con β = 0,4, BUG-TS-2 opzione 1, decisioni dell'utente del 26-27/10/2026;
+    /// fino al 26/10/2026 TensionStiffening, la legge di Collins e Mitchell su tutta la zona tesa). Vale solo per i punti della curva M–χ: mai
+    /// nelle verifiche SLE e SLU, che costruiscono il verificatore senza l'opzione.
     /// </summary>
     public static readonly ImmutableArray<string> ResponseConcreteTensionModes = ["Trascurato", "Tension stiffening"];
-    public const string ResponseConcreteTensionHelp = "Solo nelle analisi di risposta (curva M–χ): il calcestruzzo teso segue la legge di Collins e Mitchell (1991), "
-        + "lineare con Ecm fino a fctm, poi σ = fctm/(1 + √(500 ε)); valori medi, senza coefficienti parziali. Migliora la convergenza; non cambia il punto "
-        + "limite né le resistenze SLU, che trascurano la trazione (NTC §4.1.2.3.4.1, EN 1992-1-1 6.1(2)P). Applicata a tutta la zona tesa: nelle sezioni "
-        + "poco armate la risposta è molto più rigida e lo snervamento arriva tardi.";
+    public const string ResponseConcreteTensionHelp = "Solo nelle analisi di risposta (curva M–χ): tension stiffening sulle barre con il modello del tirante "
+        + "(fib Model Code 2010 §7.6.4.4; EN 1992-1-1 7.3.4(2) e 7.4.3(3)), β = 0,4 per carichi di lunga durata o ripetuti, valori medi Ecm e fctm senza "
+        + "coefficienti parziali. Finché nessuna fibra supera εcr = fctm/Ecm la sezione è interamente reagente. Dopo la fessurazione il calcestruzzo teso non "
+        + "lavora e le barre tese dell'area efficace hc,eff (EN 1992-1-1 7.3.2(3)) seguono la legge dell'acciaio alla deformazione nella fessura: εm/(1 − β) "
+        + "durante la formazione delle fessure, εm + β σsr/Es a fessurazione stabilizzata, σsr = fctm (1 + αe ρeff)/ρeff; le altre barre restano nude. "
+        + "Snervamento e |εs|max sono quelli della barra nella fessura. Non cambia il punto limite né le resistenze SLU, che trascurano la trazione "
+        + "(NTC §4.1.2.3.4.1, EN 1992-1-1 6.1(2)P).";
     /// <summary>Frase aggiunta allo stato della curva quando l'opzione è attiva.</summary>
-    public const string ResponseConcreteTensionStatus = "CLS teso nelle risposte: tension stiffening (Collins e Mitchell 1991, Ecm e fctm medi); "
-        + "punto limite dal dominio, senza trazione.";
+    public const string ResponseConcreteTensionStatus = "CLS teso nelle risposte: tension stiffening sulle barre (modello del tirante, β = 0,4, Ecm e fctm medi; "
+        + "snervamento e |εs|max nella fessura); punto limite dal dominio, senza trazione.";
 
     /// <summary>
     /// Scelta del foglio → diagramma della libreria. La chiave assente vale «Trascurato»: è letta senza J.S, perché il predefinito di una
@@ -33,7 +37,7 @@ public static class ConcreteCurvatureAnalysis
         if (options[ResponseConcreteTensionKey] is not JsonNode node) return ConcreteMaterial.TensionResponseDiagrams.Default;
         string text = node.ToString();
         if (text == ResponseConcreteTensionModes[0]) return ConcreteMaterial.TensionResponseDiagrams.Default;
-        if (text == ResponseConcreteTensionModes[1]) return ConcreteMaterial.TensionResponseDiagrams.TensionStiffening;
+        if (text == ResponseConcreteTensionModes[1]) return ConcreteMaterial.TensionResponseDiagrams.TensionChord;
         throw new ArgumentException("CLS teso nelle risposte: scegliere «Trascurato» o «Tension stiffening».");
     }
 
