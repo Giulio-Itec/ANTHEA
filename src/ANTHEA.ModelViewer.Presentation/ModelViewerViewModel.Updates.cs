@@ -15,7 +15,7 @@ public sealed partial class ModelViewerViewModel
         ? "Ultimo aggiornamento: "+UpdateScopeLabels[(int)info.Scope]+(info.ResultsCompatibilityVerified?" · compatibilità verificata":"")+(info.DiscardedResultCases>0?$" · {info.DiscardedResultCases} casi precedenti rimossi":"")+". Copia letta: "+info.InputSource
         : "La copia comprende i dati presenti nel pacchetto importato.";
     partial void OnSelectedUpdateScopeChanged(int value)
-    {OnPropertyChanged(nameof(UpdateScopeDescription));OnPropertyChanged(nameof(ImportIncludesResults));ResetStrand7Preparation();ImportCommand.NotifyCanExecuteChanged();}
+    {OnPropertyChanged(nameof(UpdateScopeDescription));OnPropertyChanged(nameof(ImportIncludesResults));if(strand7Catalog==null)ResetStrand7Preparation();ImportCommand.NotifyCanExecuteChanged();}
     [RelayCommand] void OpenImportOptions()
     {SelectedPanel=0;IsNavigationCollapsed=false;ShowCombinationManager=false;ShowImportOptions=true;}
     public bool CanCloseImportOptions=>!IsBusy;

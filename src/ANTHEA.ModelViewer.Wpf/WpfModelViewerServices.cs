@@ -61,10 +61,15 @@ internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Ac
     }
     public string? ChooseStrand7File(Strand7ImportFile kind)
     {
-        var dialog=new OpenFileDialog {Title="Predisponi importazione Straus / Strand7",Filter=kind switch
+        var dialog=new OpenFileDialog {Title="Importazione Straus7 / Strand7",Filter=kind switch
         {Strand7ImportFile.Model=>"Modello Straus / Strand7|*.st7",Strand7ImportFile.Results=>"Risultati statici lineari|*.lsa",_=>"API Straus / Strand7 R3|St7api.dll|Librerie native|*.dll"}};
         return dialog.ShowDialog(owner())==true?dialog.FileName:null;
     }
+    // 1.15.0: the Straus7 worker process next to ANTHEA.exe; this process never loads St7api.dll.
+    public Task<Strand7ModelCatalog> InspectStrand7Async(Strand7ImportRequest request,IProgress<ModelImportProgress> progress,CancellationToken token)=>
+        Task.Run(()=>new Strand7ModelSource().InspectAsync(request,progress,token),token);
+    public Task<ModelSnapshot> ImportStrand7Async(Strand7ImportRequest request,IProgress<ModelImportProgress> progress,CancellationToken token)=>
+        Task.Run(()=>new Strand7ModelSource().ReadAsync(request,progress,token),token);
     public async Task<ModelSnapshot> ImportMidasAsync(MidasImportRequest request,IProgress<ModelImportProgress> progress,CancellationToken token)
     {
         using var source=new MidasModelSource();

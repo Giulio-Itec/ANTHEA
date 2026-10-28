@@ -4,7 +4,9 @@ Crea l'installer NSIS di ANTHEA.
 
 .DESCRIPTION
 Pubblica src/ANTHEA.Desktop self-contained per win-x64 (runtime .NET 8 incluso) nella cartella
-di lavoro supporto/artefatti/installer, senza toccare bin/obj del repository; copia l'ultima
+di lavoro supporto/artefatti/installer, senza toccare bin/obj del repository, e nella stessa cartella
+il processo di lettura Straus7 src/ANTHEA.Strand7Worker (self-contained, stesso runtime e stesse DLL
+GPC; dalla 1.15.0 e' l'unico processo che carica St7api.dll, che non viene distribuita); copia l'ultima
 revisione delle guide generali e tutti i PDF del catalogo Guide.json, genera le immagini e gli elenchi dei file
 per installazione e disinstallazione, poi compila ANTHEA.nsi con makensis.
 Si ferma se tools/qa/Assert-NoTestCode.ps1 trova codice di prova negli assembly pubblicati.
@@ -30,6 +32,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 $project = Join-Path $root 'src\ANTHEA.Desktop\ANTHEA.Desktop.csproj'
+$worker = Join-Path $root 'src\ANTHEA.Strand7Worker\ANTHEA.Strand7Worker.csproj'
 $icon = Join-Path $root 'src\ANTHEA.Desktop\Assets\anthea.ico'
 $logo = Join-Path $root 'src\ANTHEA.Desktop\Assets\logo.png'
 . (Join-Path $PSScriptRoot 'Documentazione.ps1')
@@ -180,7 +183,18 @@ else {
     & dotnet publish $project -c Release -r win-x64 --self-contained true -o $app --artifacts-path $build `
         -p:DebugType=None -p:DebugSymbols=false -p:SatelliteResourceLanguages=it
     if ($LASTEXITCODE -ne 0) { throw "dotnet publish non riuscito ($LASTEXITCODE)" }
+    # 1.15.0: the Straus7 worker next to ANTHEA.exe, self-contained like the application (the build copy is framework-dependent).
+    & dotnet publish $worker -c Release -r win-x64 --self-contained true -o $app --artifacts-path $build `
+        -p:DebugType=None -p:DebugSymbols=false -p:SatelliteResourceLanguages=it
+    if ($LASTEXITCODE -ne 0) { throw "dotnet publish del processo Straus7 non riuscito ($LASTEXITCODE)" }
 }
+$workerConfig = Join-Path $app 'ANTHEA.Strand7Worker.runtimeconfig.json'
+if (-not (Test-Path (Join-Path $app 'ANTHEA.Strand7Worker.exe')) -or -not (Test-Path $workerConfig) -or
+    -not ((Get-Content $workerConfig -Raw | ConvertFrom-Json).runtimeOptions.PSObject.Properties.Name -contains 'includedFrameworks')) {
+    throw "Processo Straus7 assente o non self-contained in $app"
+}
+$native = @(Get-ChildItem $app -Recurse -File | Where-Object { $_.Name -match '^(st7api|gmsh)' -or $_.Name -match 'unsafeex' })
+if ($native.Count -gt 0) { throw ("Librerie native vietate nella pubblicazione: " + ($native.Name -join ', ')) }
 
 # The setup must never ship the WPF checks of the UiTests configuration (refactoring F1.2).
 & (Join-Path $root 'tools\qa\Assert-NoTestCode.ps1') -Path $app | Out-Host

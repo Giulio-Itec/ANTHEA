@@ -21,6 +21,16 @@
   <ItemGroup><ProjectReference Include="../ANTHEA.Wiki/ANTHEA.Wiki.csproj" /><ProjectReference Include="../ANTHEA.DesignTools.Presentation/ANTHEA.DesignTools.Presentation.csproj" /></ItemGroup>
   <!-- MVVM presentation layer without WPF (refactoring F5): services, ViewModels and sessions; views and WPF services stay here. -->
   <ItemGroup><ProjectReference Include="../ANTHEA.Presentation/ANTHEA.Presentation.csproj" /></ItemGroup>
+  <!-- 1.15.0: the Straus7 worker, the only process that loads St7api.dll, is built with the application and placed next to ANTHEA.exe in the
+       build and publish folders. Its dependencies are files of the application; the installer publishes it self-contained (Crea-Installer.ps1). -->
+  <ItemGroup><ProjectReference Include="../ANTHEA.Strand7Worker/ANTHEA.Strand7Worker.csproj" ReferenceOutputAssembly="false" Private="false" OutputItemType="Strand7WorkerOutput" /></ItemGroup>
+  <Target Name="IncludeStrand7Worker" AfterTargets="ResolveProjectReferences" Condition="'@(Strand7WorkerOutput)' != ''">
+    <PropertyGroup><Strand7WorkerDirectory>@(Strand7WorkerOutput->'%(RootDir)%(Directory)')</Strand7WorkerDirectory></PropertyGroup>
+    <ItemGroup>
+      <Strand7WorkerFile Include="$(Strand7WorkerDirectory)ANTHEA.Strand7Worker.exe;$(Strand7WorkerDirectory)ANTHEA.Strand7Worker.dll;$(Strand7WorkerDirectory)ANTHEA.Strand7Worker.deps.json;$(Strand7WorkerDirectory)ANTHEA.Strand7Worker.runtimeconfig.json" />
+      <Content Include="@(Strand7WorkerFile)" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+  </Target>
   <ItemGroup><Resource Include="Assets/*.png" /><Resource Include="Assets/anthea.ico" /></ItemGroup>
   <ItemGroup>
     <Content Include="../../supporto/esempi/distribuzione/**/*">

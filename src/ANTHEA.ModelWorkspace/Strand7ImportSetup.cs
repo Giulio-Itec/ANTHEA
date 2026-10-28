@@ -4,10 +4,15 @@ namespace ANTHEA.ModelWorkspace;
 
 public enum Strand7ImportFile { Model, Results, ApiLibrary }
 public sealed record Strand7ImportRequest(string ModelPath, string? ResultsPath, string ApiLibraryPath,
-    ModelUpdateScope Scope, IReadOnlyList<int> CaseNumbers, bool Forces, bool Displacements);
+    ModelUpdateScope Scope, IReadOnlyList<int> CaseNumbers, bool Forces, bool Displacements)
+{
+    /// <summary>Source signature of the catalog the case numbers come from; the read is refused when the files have changed since.</summary>
+    public string? ExpectedSignature { get; init; }
+}
 public sealed record Strand7ImportPreparation(bool FilesReady, string Summary, IReadOnlyList<string> Issues);
 
-/// <summary>Contract for the future GPC native worker; WPF never owns the native API or its licence.</summary>
+/// <summary>Read-only Straus7 source. The implementation (<see cref="Strand7ModelSource"/>) runs the GPC converter in the separate
+/// x64 worker process; WPF never owns the native API or its licence.</summary>
 public interface IStrand7ModelSource
 {
     Task<Strand7ModelCatalog> InspectAsync(Strand7ImportRequest request, IProgress<ModelImportProgress>? progress, CancellationToken token);
@@ -22,6 +27,16 @@ public sealed record Strand7ModelCatalog(int Nodes, int Elements, IReadOnlyList<
 {
     public IReadOnlyList<ModelConstructionPhase> Phases { get; init; } = [];
     public bool StageResultsAvailable { get; init; }
+    // 1.15.0: filled by the worker from the GPC import.
+    public int Beams { get; init; }
+    public int Plates { get; init; }
+    public int Combinations { get; init; }
+    public IReadOnlyList<string> LoadCases { get; init; } = [];
+    public string ApiVersion { get; init; } = "";
+    public IReadOnlyList<string> Warnings { get; init; } = [];
+    [System.Text.Json.Serialization.JsonIgnore]
+    public string Summary => $"{Nodes:N0} nodi · {Beams:N0} aste · {Plates:N0} piastre · {LoadCases.Count} casi di carico · {Combinations} combinazioni LSA · " +
+        (Cases.Count == 0 ? "nessun risultato statico lineare" : $"{Cases.Count} casi di risultato");
 }
 
 /// <summary>Read-only preparation. Does not load or invoke native code, open a model, claim a licence or save files.</summary>
@@ -70,7 +85,7 @@ public static class Strand7ImportSetup
         }
         token.ThrowIfCancellationRequested();
         return new(issues.Count == 0, issues.Count == 0
-            ? "File predisposti. L’importazione nativa sarà attivata collegando il convertitore GPC R3 al processo dedicato; casi e dati non sono ancora stati letti."
+            ? "File pronti per il processo di lettura Straus7 (convertitore GPC R3, sola lettura); casi e dati non sono ancora stati letti."
             : "Configurazione Straus/Strand7 da completare.", issues);
     }
 }
