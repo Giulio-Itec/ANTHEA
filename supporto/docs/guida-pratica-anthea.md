@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 28 ottobre 2026 — revisione documentale 60
+Edizione 6 aggiornata il 28 ottobre 2026 — revisione documentale 61
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1091,7 +1091,7 @@ Questo modulo verifica una sezione in calcestruzzo armato a partire da geometria
 
 ### A cosa serve e quando usarlo
 
-Usalo quando disponi delle terne N, Mx e My per le combinazioni rilevanti e vuoi confrontarle con la risposta della sezione. È adatto anche al controllo di sensibilità: mantenendo le azioni, modifica una dimensione o l'armatura e osserva il dominio. Per un elemento lungo e compresso la verifica della sezione non esaurisce l'eventuale problema di instabilità del sistema.
+Usalo quando disponi delle terne N, Mx e My per le combinazioni rilevanti e vuoi confrontarle con la risposta della sezione. È adatto anche al controllo di sensibilità: mantenendo le azioni, modifica una dimensione o l'armatura e osserva il dominio. Per un elemento lungo e compresso la verifica della sezione non esaurisce l'eventuale problema di instabilità del sistema: la scheda Colonna modello aggiunge gli effetti del secondo ordine di un pilastro isolato, mentre telai e strutture non riconducibili a elementi isolati richiedono un'analisi globale.
 
 [Teoria del modello Beam e trasferimento delle azioni](/wiki/manuale/fem/elementi-beam)
 
@@ -1174,6 +1174,7 @@ I ricalcoli e le viste dipendono dalla scheda attiva. Aspetta la conclusione del
 | Tensioni e deformazioni | Risposta delle fibre e delle barre | Fibra compressa, regime e ipotesi costitutive |
 | Fessurazione | Risultato della combinazione SLE attiva | Azioni SLE, esposizione e parametri effettivi |
 | Taglio e torsione | Controlli dedicati della scheda | Staffe presenti, braccia resistenti e modello |
+| Colonna modello | Capacità del primo ordine del pilastro isolato e, con M0Ed, equilibrio del secondo ordine | l0, l, imperfezione, viscosità e modo di crisi |
 
 Leggi il nome della combinazione e il metodo prima del colore o del rapporto. Un esito favorevole riguarda quel controllo con quegli input. Guarda anche la deformata di sezione e il bordo più sollecitato: un segno sbagliato può produrre un risultato plausibile ma riferito all'armatura opposta.
 
@@ -1239,6 +1240,28 @@ Se si modifica l'input mentre sono visibili risultati precedenti, le sezioni str
 
 Le tabelle CA consentono copia e incolla e dispongono dei comandi di template e reimportazione previsti dall'interfaccia. Prima di un'importazione estesa salvare il foglio, controllare intestazioni e unità, quindi verificare numero di righe, barre e combinazioni importate. La semplice riuscita dell'importazione non dimostra che l'ordine delle colonne fosse quello voluto.
 
+### Colonna modello: dati e calcolo
+
+La scheda 08 Colonna modello, dopo 07 Momento–curvatura, verifica un pilastro isolato snello con il metodo della colonna modello di EN 1992-1-1 5.8.6(6) e 5.8.8.2, al quale rinvia NTC 2018 §4.1.2.3.9.3: gli effetti del secondo ordine sono concentrati nella sezione critica, con sezione e sforzo normale costanti lungo il pilastro. La sezione è quella del foglio. Calcola armature diventa la scheda 09. I documenti salvati con otto schede si riaprono sulla stessa scheda, senza conversione dei dati.
+
+Nel riquadro Dati della colonna assegnare **N costante (− compressione)**, in kN e negativo a compressione, e **Direzione del momento θ**, con la stessa convenzione della scheda Momento–curvatura: (Mx, My) = M (cos θ, sin θ) negli assi locali. **M0Ed nella sezione critica** è il momento del primo ordine, positivo nella direzione θ e senza imperfezione; per un elemento controventato con momenti d'estremità diversi assegnare il momento equivalente M0e di EN 1992-1-1 (5.32) e verificare a parte M02 all'estremità. Con il campo vuoto la scheda calcola la sola capacità. **Lunghezza libera di inflessione l0** e **Lunghezza dell'elemento l**, in metri, sono obbligatorie: l0 dipende dallo schema di vincolo (EN 1992-1-1 5.8.3.2 e Fig. 5.7: 2 l per la mensola, l fra due cerniere, 0,7 l fra incastro e cerniera, 0,5 l fra due incastri); l serve per il fattore αh dell'imperfezione e per l/300. **Fattore della curvatura c** vale 10, adatto alla deformata sinusoidale, e scende fino a 8 quando il momento del primo ordine è costante.
+
+Nel gruppo Imperfezione ed eccentricità minima il valore iniziale di **Imperfezione geometrica** è quello di EN 1992-1-1 5.2(7)a con θ0 = 1/200, usato anche con le NTC; le alternative sono l0/400 di EN 1992-1-1 5.2(7), per i pilastri isolati dei sistemi controventati, l/300 di NTC 2018 §4.1.2.3.9.3, per i pilastri dei telai a nodi fissi, un valore in **Eccentricità assegnata ei** oppure nessuna imperfezione. L'imperfezione agisce nella direzione del momento. **Eccentricità minima** Della norma vale max(l0/200; 20 mm) con NTC 2018 e CNR-DT 200 e max(h/30; 20 mm) con EN 1992-1-1 e UNI EN 1992-1-1. È un minimo del momento totale del primo ordine e non si somma all'imperfezione: il riquadro dei risultati indica quale dei due governa.
+
+Nel gruppo Viscosità il valore iniziale è Trascurata: la scheda controlla le tre condizioni di EN 1992-1-1 5.8.4(4) e avvisa quando non sono dimostrate; per il controllo di φ(∞, t0) ≤ 2 inserire anche **Coefficiente di viscosità φ(∞, t0)**. Con φef assegnato si compila **Coefficiente di viscosità efficace φef**. Con Da φ(∞, t0) con la (5.19) servono φ(∞, t0), **M0Eqp quasi permanente** e **NEqp quasi permanente**, della combinazione quasi permanente nella stessa direzione θ e senza imperfezione. Il gruppo Calcolo, chiuso all'apertura, contiene rm = M01/M02 per la snellezza limite (vuoto: C = 0,7), i passi di curvatura (200, da 10 a 500), la tolleranza su N del confronto con MRd(N) e il momento trasversale ammesso (1 %).
+
+**Calcola colonna** conferma i dati del foglio e avvia il calcolo, che non parte da solo; con gli stessi dati il risultato non viene ripetuto. **Interrompi** abbandona il calcolo in corso senza pubblicare risultati parziali. Ogni modifica dei dati del foglio o della scheda cancella il risultato e chiede di ricalcolare la colonna. La scheda usa sempre il dominio plastico con il calcestruzzo teso trascurato, qualunque sia il criterio scelto nelle verifiche, e non tratta i trefoli. È disponibile con NTC 2018, CNR-DT 200, EN 1992-1-1 con i valori raccomandati e UNI EN 1992-1-1 con l'appendice nazionale del DM 31/07/2012, per sezioni di calcestruzzo ordinario con barre. Sono rifiutati N di trazione, una compressione oltre la resistenza a compressione centrata NRd,c e un momento trasversale oltre il limite ammesso, che compare quando la sezione non è simmetrica rispetto al piano di flessione: scegliere allora una direzione principale. Nelle revisioni in sola lettura i dati si consultano, ma il calcolo non è disponibile.
+
+### Colonna modello: risultati, CSV e relazione
+
+Il grafico M(χ) a N costante e momento esterno riporta la curva della sezione, la retta M2 = k·χ con k = NEd·l0²/c, la tangente al massimo M1Rd,max + k·χ e, se M0Ed è assegnato, la retta del momento esterno M0Ed,tot + k·χ; i punti segnano il massimo, l'equilibrio, il primo snervamento χy e la curvatura ultima χu. Il grafico Capacità del primo ordine M − M2 mostra la differenza fra la curva e M2, con il massimo M1Rd,max e, con M0Ed, la retta M0Ed,tot. Adatta, PNG ed Espandi funzionano come negli altri grafici della sezione.
+
+I riquadri riportano la snellezza λ = l0/i con λlim della norma, solo informativa perché il calcolo si esegue comunque; il momento del primo ordine M0Ed,tot con imperfezione ed eccentricità minima; la viscosità con le condizioni di 5.8.4(4); la capacità M1Rd,max con il modo di crisi, instabilità o rottura della sezione; con M0Ed, la verifica η = M0Ed,tot/M1Rd,max con MEd = M0Ed,tot + M2 all'equilibrio; la curvatura nominale di EN 1992-1-1 5.8.8, come confronto che non decide l'esito; gli avvisi. Il testo accanto ripete stato ed esito e riporta i passaggi del calcolo con i riferimenti normativi e la tabella dei punti. L'esito è Verificata, Non verificata (instabilità) quando M0Ed,tot supera M1Rd,max e non esiste equilibrio, oppure Solo capacità senza M0Ed.
+
+**Esporta CSV…** salva i punti del risultato pubblicato, con il nome proposto ANTHEA_Colonna_modello.csv: un punto per riga, colonne separate da punto e virgola, numeri con il punto decimale e fino a diciassette cifre significative, qualunque sia il separatore scelto nel menu Aspetto. Le colonne sono curvatura in 1/m, M, M2, M − M2 e momento trasversale in kNm, deformazioni ε0, εc ed εs in per mille e i tre indicatori di snervamento, curvatura ultima e massimo.
+
+Le opzioni della colonna entrano nel foglio alla prima modifica di un dato della scheda: un foglio che non le ha si apre con i valori iniziali, non risulta modificato e le sue relazioni restano quelle di prima. Per i fogli con le opzioni la relazione Word ha il capitolo Colonna modello dopo il momento–curvatura, con dati, stato, esito, avvisi, passaggi del calcolo, i due grafici quando sono scelti i grafici e la tabella dei punti. Il capitolo dipende dalla scelta Momento–curvatura e colonna modello del report. Nel report di progetto la colonna viene ricalcolata su una copia dei dati, senza aprire la scheda; il report del singolo foglio usa il risultato della scheda e, se manca, lo dichiara. La teoria, le formule e gli scostamenti dichiarati sono nella [guida teorica della sezione](wiki:sezione-in-calcestruzzo-armato#colonna-modello-metodo-e-campo-di-applicazione).
+
 ### Importare ed esportare le azioni
 
 Aprire Sollecitazioni nella barra inferiore del foglio, oppure Gestisci sollecitazioni nelle schede di verifica. La finestra contiene un unico elenco per tutti gli stati limite. I nuovi fogli partono senza combinazioni precompilate.
@@ -1265,7 +1288,7 @@ La prima pagina raccoglie geometria, coordinate delle armature o definizione deg
 
 La scelta considera tutte le combinazioni inserite, comprese quelle nascoste nei grafici. Tensioni e fessurazione possono avere combinazioni governanti diverse. Per il taglio sono riportate entrambe le direzioni della stessa combinazione. Una famiglia senza azioni è indicata come non richiesta; risultati mancanti o privi di tasso numerico producono un esito incompleto. I criteri senza rapporto numerico, come la decompressione, richiedono il report completo.
 
-Il report short non comprende torsione e interazioni, dettagli costruttivi, ancoraggi, domini 2D e momento–curvatura. Se dati geometrici molto estesi o nomi lunghi impediscono di rispettare due pagine, l'esportazione viene fermata senza tagliare dati: abbreviare i nomi o utilizzare il report completo. Il file di calcolo resta il riferimento riapribile.
+Il report short non comprende torsione e interazioni, dettagli costruttivi, ancoraggi, domini 2D, momento–curvatura e colonna modello. Se dati geometrici molto estesi o nomi lunghi impediscono di rispettare due pagine, l'esportazione viene fermata senza tagliare dati: abbreviare i nomi o utilizzare il report completo. Il file di calcolo resta il riferimento riapribile.
 
 ### Leggere asse neutro, mappe e report
 
@@ -1373,7 +1396,7 @@ Una risultante esterna alla base o azioni oltre il dominio resistente del metodo
 
 ## Modelli e importazione da MIDAS
 
-Questa procedura riguarda la versione di prova del modulo Modelli disponibile al 12 ottobre 2026. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX, con i risultati selezionati; non esegue l'analisi e non modifica il modello sorgente.
+Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.15.0. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.
 
 ### Entrare nel modulo
 
@@ -1446,6 +1469,44 @@ Apri il modello dall'archivio e premi **Aggiorna modello…**. Seleziona la sorg
 
 Il comando **Revisione** serve a esaminare il confronto disponibile dopo l'aggiornamento; non avvia una nuova lettura da MIDAS. Controlla gli elementi aggiunti, modificati o eliminati e salva il progetto quando hai verificato la nuova copia. Le definizioni di combinazione create in ANTHEA vengono conservate, ma i risultati derivati possono dover essere ricalcolati sui nuovi casi base.
 
+### Aprire un file di testo MIDAS Civil o Gen
+
+1. Premi **Importa modello…** oppure **Aggiorna modello…** e seleziona **File · .antheamodel, MIDAS .mct/.mgt o copia acquisita** in **Sorgente del modello**.
+
+2. In **Contenuto da acquisire** scegli **Tutto** oppure **Geometria + attributi + carichi**; **Solo geometria** limita la copia alla forma del modello.
+
+3. Premi **Scegli il file e importa…** e seleziona il file .mct di MIDAS Civil o .mgt di MIDAS Gen. Il dialogo propone tutti i modelli leggibili; il filtro **File di testo MIDAS Civil / Gen** mostra soltanto questi file.
+
+4. Leggi i messaggi di importazione, controlla il modello e premi **Salva progetto**.
+
+La libreria GPC traduce i comandi del file nelle stesse tabelle della copia acquisita dal modello aperto, in N e mm; il file è letto con la codifica Windows-1252, oppure UTF-8 quando inizia con il BOM. La copia contiene geometria, sezioni, spessori e offset, terne locali e nodali, vincoli, molle, link, rilasci, carichi, casi e combinazioni, con terne e simboli già normalizzati dalla libreria. Prende il nome del file; la provenienza riporta programma, estensione, nome del file e le prime dodici cifre della sua impronta SHA-256.
+
+Il file non contiene risultati e la copia non ne ha: **Solo risultati** è rifiutato e, con **Tutto**, i risultati di una copia precedente vengono rimossi. Restano fuori, con un messaggio, gli elementi senza equivalente nella vista, come pareti, elementi piani o assialsimmetrici e solidi, con i loro carichi e gruppi; i loro nodi restano nella copia. Restano fuori anche le piastre con spessore irrigidito, diverso nel piano e fuori piano o non definito nel file. Le aste di una sezione non definita sono rappresentate ad asse, senza profilo. Se la libreria GPC rifiuta il modello, per esempio per piastre quadrangolari non piane oltre la sua tolleranza o per un'esportazione incompleta, l'importazione è rifiutata e la copia aperta resta com'era.
+
+### Importare un modello Straus7
+
+Per leggere un modello Straus7 serve Straus7 R3 installato sul computer nella versione a 64 bit, con la licenza API attiva. ANTHEA usa St7api.dll dell'installazione, in sola lettura, con il convertitore GPC, in un processo dedicato a 64 bit, ANTHEA.Strand7Worker.exe, installato accanto ad ANTHEA.exe. Modello e risultati restano nei file originali: in Straus7 nulla viene salvato, calcolato o modificato.
+
+1. Premi **Importa modello…** oppure **Aggiorna modello…** e seleziona **Straus7 / Strand7 R3 · file .st7 e .lsa** in **Sorgente del modello**.
+
+2. Con **Sfoglia…** scegli **Modello .st7** e, per **Solo risultati** e **Tutto**, **Risultati statici lineari .lsa** dello stesso modello. **API R3 a 64 bit · St7api.dll** è proposta dalla cartella di installazione, se ANTHEA la trova; altrimenti seleziona St7api.dll nella cartella Bin64 dell'installazione.
+
+3. Premi **Controlla file e casi**. Il controllo verifica che i file esistano e che la libreria sia quella nativa a 64 bit, poi apre il modello, verifica che i risultati corrispondano al modello e ne legge il catalogo: nodi, aste, piastre, casi di carico, combinazioni LSA e casi di risultato statici lineari abbinati ai casi di carico. **Annulla controllo** lo interrompe senza leggere dati. Se cambi un file o la sorgente, catalogo e casi vengono scartati: ripeti il controllo.
+
+4. Scegli il contenuto, i casi con **Tutti**, **Nessuno** o le singole caselle e i tipi di risultato **Sollecitazioni locali · beam e plate** e **Spostamenti globali · deformata**, come per la sorgente MIDAS.
+
+5. Premi **Importa da Straus7**. Il pannello mostra l'avanzamento; **Annulla importazione** chiude il processo di lettura. Un'importazione annullata, fallita o incompleta non modifica la copia aperta. Se i file sono cambiati dopo il controllo, la lettura è rifiutata: ripeti **Controlla file e casi**.
+
+6. Leggi i messaggi, compresi gli avvisi del convertitore GPC, controlla il modello e premi **Salva progetto**.
+
+La copia contiene geometria, proprietà con numero e nome di Straus7, terne locali e nodali, vincoli, molle, link e rilasci. Dei casi scelti acquisisce i risultati statici lineari: piastre ai nodi di ogni elemento, senza media fra elementi; aste alle stazioni restituite da Straus7; spostamenti e rotazioni globali dei nodi. I casi hanno i nomi dei casi di risultato di Straus7, per esempio «1: Dead». Nodi e piastre conservano i numeri di Straus7; le aste diventano 1 000 000 + il numero di Straus7, perché Straus7 numera aste e piastre separatamente. Una proprietà di piastra usata con un altro spessore o offset riceve una proprietà in più, numerata da 1 000 001, con l'offset nel nome. Le sezioni diverse dal rettangolo pieno non hanno volume nella vista.
+
+Le sollecitazioni si leggono con la convenzione della copia MIDAS, uguale per ogni sorgente: Mxx, Myy e Mxy delle piastre e My delle aste hanno il segno opposto a quello che Straus7 mostra per gli stessi risultati, e Mxx positivo tende la faccia −z della piastra. Le unità sono kN/m e kN·m/m per le piastre, kN e kN·m per le aste, m e rad per spostamenti e rotazioni.
+
+Le combinazioni LSA compaiono in **Combinazioni** come definizioni della sorgente, non modificabili; si escludono o si ridefiniscono come quelle MIDAS. I loro risultati non sono letti dal file: li costruisce ANTHEA con la libreria GPC dai casi importati, che devono quindi comprendere tutti i casi richiamati. Aste reticolari e cavi non entrano ancora nelle combinazioni ricostruite. Le combinazioni definite su più insiemi di vincoli o su altre combinazioni restano con un avviso.
+
+La lettura riguarda l'analisi statica lineare dei casi primari, senza fasi. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a cerniera, elementi cut-off, contatti, aste di tipo definito dall'utente, temperature, masse e fasi; le reazioni vincolari non sono mostrate. Le combinazioni della sorgente sono un dato nuovo del progetto: una versione precedente di ANTHEA può non riaprire un progetto che contiene una copia Straus7.
+
 ### Risolvere le interruzioni e conoscere i limiti
 
 | Messaggio o situazione | Operazione da eseguire |
@@ -1455,12 +1516,16 @@ Il comando **Revisione** serve a esaminare il confronto disponibile dopo l'aggio
 | Accesso a MIDAS rifiutato | Verifica Base URL e chiave della sessione corrente. |
 | MIDAS non ha risposto entro il tempo previsto | Attendi che MIDAS sia nuovamente disponibile; prova un insieme più piccolo di casi. |
 | Importazione o pulsante non disponibile | Verifica che l'archivio sia modificabile, il controllo della connessione sia riuscito e, se richiesti, siano selezionati casi e tipi di risultato. |
+| File MIDAS non importato o modello rifiutato dal convertitore GPC | Correggi il file o ripeti l'esportazione da MIDAS; la copia precedente resta aperta. |
+| Processo di lettura Straus7 non trovato | Reinstalla ANTHEA: ANTHEA.Strand7Worker.exe deve stare accanto ad ANTHEA.exe. |
+| API Straus7 non disponibile | Verifica l'installazione a 64 bit di Straus7 R3, il percorso di St7api.dll e la licenza API, poi ripeti Controlla file e casi. |
+| File del modello o dei risultati non disponibili o cambiati | I file sono stati spostati o modificati dopo il controllo: ripeti Controlla file e casi. |
 
 Quando una lettura fallisce, ANTHEA mantiene l'ultima copia valida e indica il recupero possibile. Dopo aver ripristinato la sessione ripeti il controllo e avvia nuovamente l'importazione. Un'operazione annullata o fallita non produce una copia parzialmente aggiornata.
 
-**Limiti della versione di prova.** Il collegamento acquisisce casi statici e stati costruttivi esplicitamente selezionati, le sollecitazioni locali beam e plate e gli spostamenti globali disponibili. Non costituisce un importatore completo di ogni famiglia di risultato. Nel primo import diretto la trasformazione delle tabelle in terne locali, vincoli, rilasci e link del visualizzatore è ancora incompleta: i dati originali vengono conservati, ma i relativi simboli possono non essere presenti. Le informazioni già normalizzate di una copia precedente vengono riutilizzate soltanto quando i dati confrontati coincidono. Leggi gli avvisi prima di interpretare l'assenza di un simbolo come assenza del relativo attributo nel modello.
+**Limiti della versione di prova.** Il collegamento al modello aperto in MIDAS acquisisce casi statici e stati costruttivi esplicitamente selezionati, le sollecitazioni locali beam e plate e gli spostamenti globali disponibili. Non costituisce un importatore completo di ogni famiglia di risultato. Nel primo import diretto la trasformazione delle tabelle in terne locali, vincoli, rilasci e link del visualizzatore è ancora incompleta: i dati originali vengono conservati, ma i relativi simboli possono non essere presenti. Le informazioni già normalizzate di una copia precedente vengono riutilizzate soltanto quando i dati confrontati coincidono. Leggi gli avvisi prima di interpretare l'assenza di un simbolo come assenza del relativo attributo nel modello. Dai file di testo MIDAS e da Straus7, invece, terne, vincoli, molle, link e rilasci sono normalizzati dalla libreria GPC durante l'importazione.
 
-Per aprire una copia già acquisita scegli **File o copia già acquisita**: sono previsti il pacchetto **.antheamodel** oppure **NODE.json** della cartella di acquisizione MIDAS completa. Questa scelta non è l'apertura diretta di un file nativo MIDAS; per il modello nativo usa il collegamento al modello aperto descritto sopra.
+Per aprire una copia già acquisita scegli **File · .antheamodel, MIDAS .mct/.mgt o copia acquisita**: sono previsti il pacchetto **.antheamodel** oppure **NODE.json** della cartella di acquisizione MIDAS completa. La stessa scelta apre i file di testo MIDAS descritti sopra. Il file nativo del modello MIDAS non si apre direttamente: esporta il modello come testo .mct o .mgt, oppure usa il collegamento al modello aperto.
 
 ## Reologia del calcestruzzo
 

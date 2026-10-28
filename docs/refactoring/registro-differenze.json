@@ -11543,6 +11543,48 @@
       "voci_collegate": [
         "AK-FON-01"
       ]
+    },
+    {
+      "id": "F5-REL-1150-01",
+      "data": "2026-10-28",
+      "fase": "1.15.0, guide Rev61",
+      "titolo": "Wiki: differenze editoriali delle guide Rev61",
+      "famiglia": "guide/wiki",
+      "modulo": "Wiki",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Le guide pratica e teorica Rev61 (commit 611ff20e) descrivono la scheda 08 «Colonna modello» della sezione c.a. («Calcola armature» scheda 09), i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli, la teoria della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, scostamenti K-1…K-6) e unità, segni e combinazioni delle copie dei modelli importati. Cambiano 4 articoli della Wiki (guida della sezione c.a., modelli e importazione, sezione in calcestruzzo armato, architettura del calcolo e convenzioni); cambia 1 delle 30 ricerche F3, «combinazioni»: l'articolo architettura del calcolo e convenzioni entra all'undicesimo posto e i successivi scendono di uno. Le differenze sono solo editoriali e sono registrate in transitions-f5-wiki.json: 390 transizioni esatte nuove, 7 sostituite, 0 righe spostate e 0 tolte.",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "src/ANTHEA.Wiki/Content/index.json",
+        "src/ANTHEA.Wiki/Content/search.json",
+        "tests/fixtures/f3/transitions-f5-wiki.json"
+      ],
+      "segno": "Nessun risultato di calcolo; nessuna differenza fuori dalla Wiki.",
+      "effetto_quantificato": "390 transizioni editoriali nuove, 7 sostituite, 0 spostate, 0 tolte; 4 articoli; cambia 1 delle 30 ricerche F3, «combinazioni»: l'articolo architettura del calcolo e convenzioni entra all'undicesimo posto e i successivi scendono di uno.",
+      "decisione": {
+        "data": "",
+        "utente": "",
+        "esito": "da approvare dall'utente (commit «DA APPROVARE»), come F5-REL-1144-01"
+      },
+      "test": [
+        "ui/f3-equivalence",
+        "ui/check-wiki-offscreen",
+        "Wiki.Tests",
+        "wiki/indice",
+        "wiki/manuale",
+        "installer/guides"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261028-125234-1150-rev61-f3 (ui/f3-equivalence prima della registrazione: 404 differenze non ammesse, tutte nella Wiki)"
+      ],
+      "voci_collegate": [
+        "F5-REL-1144-01",
+        "CA-COLONNA-01",
+        "MOD-31",
+        "MOD-32"
+      ]
     }
   ]
 }

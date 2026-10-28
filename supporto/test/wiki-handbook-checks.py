@@ -18,7 +18,7 @@ def desktop_wiki_sources():
 ARTIFACT_EXAMPLES=('globale-guidata-20260930/offscreen-rilascio/esempio-stratificato.anthea','muri-completamento-20260930/interfaccia-finale/esempio-completo.anthea','muri-materiali-distinta-20261005/interfaccia/distinta-due-zone.anthea')
 FORBIDDEN_EVERYWHERE=[  # guides, Wiki metadata, review registry and Wiki code
     (r'(?i)\b(?:chatgpt|codex|openai|copilot|gemini|claude)\b','strumento di IA'),
-    (r'(?i)\b(?:sofistik|madosoft|sim-cad|thebridgeeng|comsol|opensees|grasshopper|mcneel|geostru|midas|straus7|sap2000|etabs|csibridge|plaxis)\b','programma concorrente'),
+    (r'(?i)\b(?:sofistik|madosoft|sim-cad|thebridgeeng|comsol|opensees|grasshopper|mcneel|geostru|midas|straus7|strand7|sap2000|etabs|csibridge|plaxis)\b','programma concorrente'),
     (r'\bSCIA\b|\bMAX 16\b','programma concorrente'),
     (r'(?i)thebridgeeng|\bwww\.','sito'),
 ]
@@ -37,6 +37,8 @@ FORBIDDEN_IN_GUIDES=[
 IMPORT_GUIDE_TITLE='Modelli e importazione da MIDAS'
 IMPORT_GUIDE_KEY='guida-modelli-importazione-midas'
 IMPORT_GUIDE_ROUTE='/wiki/guide/progetti/modelli-importazione-midas'
+# 1.15.0: the chapter also reads the text files of MIDAS and the models of Straus7 (Strand7 outside Italy), so it names the three sources.
+IMPORT_SOURCES=('midas','straus7','strand7')
 AI_IMPORT_TITLE='Stratigrafia del terreno'
 AI_IMPORT_ROUTE='/wiki/guide/moduli/guida-stratigrafia'
 
@@ -46,7 +48,7 @@ def diary_violations(text,guide=True,import_source=False,ai_import_source=False)
     # The requested import procedure must name its source. This exception is supplied
     # only for that chapter and its own metadata; external links and other products stay forbidden.
     return [(label,m.group(0)) for pattern,label in rules for m in re.finditer(pattern,text)
-            if not (import_source and label=='programma concorrente' and m.group(0).casefold()=='midas')
+            if not (import_source and label=='programma concorrente' and m.group(0).casefold() in IMPORT_SOURCES)
             and not (ai_import_source and label=='strumento di IA' and m.group(0).casefold()=='openai')]
 def prose(text):
     """Paragraphs over 80 characters, excluding headings, tables, figures, formulas and link lists."""
@@ -137,7 +139,7 @@ class HandbookChecks(unittest.TestCase):
                     self.assertEqual(diary_violations(json.dumps({key:entry},ensure_ascii=False),guide=False,import_source=key==IMPORT_GUIDE_KEY),[],key)
             elif path.name=='search.json':
                 for term,positions in json.loads(data).items():
-                    scoped=term=='midas' and bool(positions) and all(self.articles[p]['id']==IMPORT_GUIDE_ROUTE for p in positions)
+                    scoped=term in IMPORT_SOURCES and bool(positions) and all(self.articles[p]['id']==IMPORT_GUIDE_ROUTE for p in positions)
                     ai_scoped=term=='openai' and bool(positions) and all(self.articles[p]['id']==AI_IMPORT_ROUTE for p in positions)
                     self.assertEqual(diary_violations(json.dumps({term:positions}),guide=False,import_source=scoped,ai_import_source=ai_scoped),[],term)
             else:self.assertEqual(diary_violations(data,guide=False),[],path.name)
@@ -157,6 +159,10 @@ class HandbookChecks(unittest.TestCase):
         self.assertTrue(diary_violations('Confronto con MIDAS.'))
         self.assertEqual(diary_violations('Sorgente MIDAS Civil NX',import_source=True),[])
         self.assertTrue(diary_violations('Fonte esterna midas.com',import_source=True))
+        self.assertTrue(diary_violations('Confronto con Straus7.'))
+        self.assertTrue(diary_violations('Confronto con Strand7.'))
+        self.assertEqual(diary_violations('Sorgente Straus7 / Strand7 R3 · file .st7 e .lsa',import_source=True),[])
+        self.assertTrue(diary_violations('Per Straus il catalogo è predisposto.',import_source=True))
         self.assertTrue(diary_violations('Confronto con SOFiSTiK.',import_source=True))
         self.assertTrue(diary_violations('Invia PDF a OpenAI.'))
         self.assertEqual(diary_violations('Invia PDF a OpenAI.',ai_import_source=True),[])

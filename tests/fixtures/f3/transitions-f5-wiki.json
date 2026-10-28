@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "voce": "F5-LIB-02",
-  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo. Rev60 (1.14.4): 117 differenze editoriali esatte aggiunte, 33 sostituite e 0 tolte in 15 articoli e nell'indice delle ricerche (separatore decimale, testa dei pali e dei micropali, anello interno, sviluppo parziale delle barre, tension stiffening con il tirante, R5, correzioni di calcolo e combinazioni dei muri), approvate dall'utente il 28/10/2026 («ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»). Nessun risultato di calcolo.",
+  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo. Rev60 (1.14.4): 117 differenze editoriali esatte aggiunte, 33 sostituite e 0 tolte in 15 articoli e nell'indice delle ricerche (separatore decimale, testa dei pali e dei micropali, anello interno, sviluppo parziale delle barre, tension stiffening con il tirante, R5, correzioni di calcolo e combinazioni dei muri), approvate dall'utente il 28/10/2026 («ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»). Nessun risultato di calcolo. Rev61 (1.15.0): 390 differenze editoriali esatte aggiunte, 7 sostituite, 0 spostate e 0 tolte in 4 articoli e nell'indice delle ricerche (scheda «Colonna modello» della sezione c.a. e sua teoria, file di testo .mct/.mgt e modelli .st7 nel modulo Modelli, unità e segni delle copie importate); da approvare dall'utente (voce F5-REL-1150-01). Nessun risultato di calcolo.",
   "voci": [
     {
       "file": "esito.txt",
@@ -200,56 +200,56 @@
       "percorso": "$.combinazioni[19]",
       "classe": "testo",
       "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
-      "b": "/wiki/guide/moduli/guida-paratie",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "voce": "F5-LIB-02 / F5-REL-1150-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.combinazioni[20]",
       "classe": "testo",
       "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
-      "b": "/wiki/manuale/geotecnica/analisi-paratie",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02 / F5-REL-1150-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.combinazioni[21]",
       "classe": "testo",
       "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "voce": "F5-LIB-02 / F5-REL-1150-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.combinazioni[22]",
       "classe": "testo",
       "a": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
-      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "voce": "F5-LIB-02 / F5-REL-1150-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.combinazioni[23]",
       "classe": "testo",
       "a": "/wiki/guide/strumenti/reologia-calcestruzzo",
-      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "voce": "F5-LIB-02 / F5-REL-1150-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.combinazioni[24]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/manuale/meccanica/esempi-controlli-indipendenti\"",
-      "voce": "F5-LIB-02"
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "voce": "F5-LIB-02 / F5-REL-1150-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.combinazioni[25]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/guide/strumenti/reologia-calcestruzzo\"",
-      "voce": "F5-LIB-02"
+      "b": "\"/wiki/manuale/meccanica/esempi-controlli-indipendenti\"",
+      "voce": "F5-LIB-02 / F5-REL-1150-01"
     },
     {
       "file": "wiki/search.json",
@@ -3530,6 +3530,3126 @@
       "a": null,
       "b": "\"/wiki/manuale/geotecnica/geotecnica-gruppi\"",
       "voce": "F5-REL-1144-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 14",
+      "classe": "testo",
+      "a": "Usalo quando disponi delle terne N, Mx e My per le combinazioni rilevanti e vuoi confrontarle con la risposta della sezione. È adatto anche al controllo di sensibilità: mantenendo le azioni, modifica una dimensione o l'armatura e osserva il dominio. Per un elemento lungo e compresso la verifica della sezione non esaurisce l'eventuale problema di instabilità del sistema.",
+      "b": "Usalo quando disponi delle terne N, Mx e My per le combinazioni rilevanti e vuoi confrontarle con la risposta della sezione. È adatto anche al controllo di sensibilità: mantenendo le azioni, modifica una dimensione o l'armatura e osserva il dominio. Per un elemento lungo e compresso la verifica della sezione non esaurisce l'eventuale problema di instabilità del sistema: la scheda Colonna modello aggiunge gli effetti del secondo ordine di un pilastro isolato, mentre telai e strutture non riconducibili a elementi isolati richiedono un'analisi globale.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 97 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Colonna modello | Capacità del primo ordine del pilastro isolato e, con M0Ed, equilibrio del secondo ordine | l0, l, imperfezione, viscosità e modo di crisi |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 163 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Colonna modello: dati e calcolo",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 164 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 165 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La scheda 08 Colonna modello, dopo 07 Momento–curvatura, verifica un pilastro isolato snello con il metodo della colonna modello di EN 1992-1-1 5.8.6(6) e 5.8.8.2, al quale rinvia NTC 2018 §4.1.2.3.9.3: gli effetti del secondo ordine sono concentrati nella sezione critica, con sezione e sforzo norma…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 166 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 167 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nel riquadro Dati della colonna assegnare **N costante (− compressione)**, in kN e negativo a compressione, e **Direzione del momento θ**, con la stessa convenzione della scheda Momento–curvatura: (Mx, My) = M (cos θ, sin θ) negli assi locali. **M0Ed nella sezione critica** è il momento del primo or…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 168 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 169 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nel gruppo Imperfezione ed eccentricità minima il valore iniziale di **Imperfezione geometrica** è quello di EN 1992-1-1 5.2(7)a con θ0 = 1/200, usato anche con le NTC; le alternative sono l0/400 di EN 1992-1-1 5.2(7), per i pilastri isolati dei sistemi controventati, l/300 di NTC 2018 §4.1.2.3.9.3,…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 170 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 171 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nel gruppo Viscosità il valore iniziale è Trascurata: la scheda controlla le tre condizioni di EN 1992-1-1 5.8.4(4) e avvisa quando non sono dimostrate; per il controllo di φ(∞, t0) ≤ 2 inserire anche **Coefficiente di viscosità φ(∞, t0)**. Con φef assegnato si compila **Coefficiente di viscosità ef…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 172 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 173 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "**Calcola colonna** conferma i dati del foglio e avvia il calcolo, che non parte da solo; con gli stessi dati il risultato non viene ripetuto. **Interrompi** abbandona il calcolo in corso senza pubblicare risultati parziali. Ogni modifica dei dati del foglio o della scheda cancella il risultato e ch…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 174 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 175 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Colonna modello: risultati, CSV e relazione",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 176 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 177 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il grafico M(χ) a N costante e momento esterno riporta la curva della sezione, la retta M2 = k·χ con k = NEd·l0²/c, la tangente al massimo M1Rd,max + k·χ e, se M0Ed è assegnato, la retta del momento esterno M0Ed,tot + k·χ; i punti segnano il massimo, l'equilibrio, il primo snervamento χy e la curvat…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 178 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 179 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "I riquadri riportano la snellezza λ = l0/i con λlim della norma, solo informativa perché il calcolo si esegue comunque; il momento del primo ordine M0Ed,tot con imperfezione ed eccentricità minima; la viscosità con le condizioni di 5.8.4(4); la capacità M1Rd,max con il modo di crisi, instabilità o r…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 180 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 181 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "**Esporta CSV…** salva i punti del risultato pubblicato, con il nome proposto ANTHEA_Colonna_modello.csv: un punto per riga, colonne separate da punto e virgola, numeri con il punto decimale e fino a diciassette cifre significative, qualunque sia il separatore scelto nel menu Aspetto. Le colonne son…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 182 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 183 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le opzioni della colonna entrano nel foglio alla prima modifica di un dato della scheda: un foglio che non le ha si apre con i valori iniziali, non risulta modificato e le sue relazioni restano quelle di prima. Per i fogli con le opzioni la relazione Word ha il capitolo Colonna modello dopo il momen…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 184 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 151",
+      "classe": "testo",
+      "a": "Il report short non comprende torsione e interazioni, dettagli costruttivi, ancoraggi, domini 2D e momento–curvatura. Se dati geometrici molto estesi o nomi lunghi impediscono di rispettare due pagine, l'esportazione viene fermata senza tagliare dati: abbreviare i nomi o utilizzare il report completo. Il file di calcolo resta il riferimento riapribile.",
+      "b": "Il report short non comprende torsione e interazioni, dettagli costruttivi, ancoraggi, domini 2D, momento–curvatura e colonna modello. Se dati geometrici molto estesi o nomi lunghi impediscono di rispettare due pagine, l'esportazione viene fermata senza tagliare dati: abbreviare i nomi o utilizzare il report completo. Il file di calcolo resta il riferimento riapribile.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 6",
+      "classe": "testo",
+      "a": "text: Usalo quando disponi delle terne N, Mx e My per le combinazioni rilevanti e vuoi confrontarle con la risposta della sezione. È adatto anche al controllo di sensibilità: mantenendo le azioni, modifica una dimensione o l'armatura e osserva il dominio. Per un elemento lungo e compresso la verifica della sezione non esaurisce l'eventuale problema di instabilità del sistema.",
+      "b": "text: Usalo quando disponi delle terne N, Mx e My per le combinazioni rilevanti e vuoi confrontarle con la risposta della sezione. È adatto anche al controllo di sensibilità: mantenendo le azioni, modifica una dimensione o l'armatura e osserva il dominio. Per un elemento lungo e compresso la verifica della sezione non esaurisce l'eventuale problema di instabilità del sistema: la scheda Colonna modello aggiunge gli effetti del secondo ordine di un pilastro isolato, mentre telai e strutture non riconducibili a elementi isolati richiedono un'analisi globale.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 97 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Colonna modello",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 98 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Capacità del primo ordine del pilastro isolato e, con M0Ed, equilibrio del secondo ordine",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 99 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: l0, l, imperfezione, viscosità e modo di crisi",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 136 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: colonna-modello-dati-e-calcolo",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 137 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La scheda 08 Colonna modello, dopo 07 Momento–curvatura, verifica un pilastro isolato snello con il metodo della colonna modello di EN 1992-1-1 5.8.6(6) e 5.8.8.2, al quale rinvia NTC 2018 §4.1.2.3.9.3: gli effetti del secondo ordine sono concentrati nella sezione critica, con sezione e sforzo…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 138 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nel riquadro Dati della colonna assegnare N costante (− compressione), in kN e negativo a compressione, e Direzione del momento θ, con la stessa convenzione della scheda Momento–curvatura: (Mx, My) = M (cos θ, sin θ) negli assi locali. M0Ed nella sezione critica è il momento del primo ordine, …",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 139 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nel gruppo Imperfezione ed eccentricità minima il valore iniziale di Imperfezione geometrica è quello di EN 1992-1-1 5.2(7)a con θ0 = 1/200, usato anche con le NTC; le alternative sono l0/400 di EN 1992-1-1 5.2(7), per i pilastri isolati dei sistemi controventati, l/300 di NTC 2018 §4.1.2.3.9.…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 140 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nel gruppo Viscosità il valore iniziale è Trascurata: la scheda controlla le tre condizioni di EN 1992-1-1 5.8.4(4) e avvisa quando non sono dimostrate; per il controllo di φ(∞, t0) ≤ 2 inserire anche Coefficiente di viscosità φ(∞, t0). Con φef assegnato si compila Coefficiente di viscosità ef…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 141 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Calcola colonna conferma i dati del foglio e avvia il calcolo, che non parte da solo; con gli stessi dati il risultato non viene ripetuto. Interrompi abbandona il calcolo in corso senza pubblicare risultati parziali. Ogni modifica dei dati del foglio o della scheda cancella il risultato e chie…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 142 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: colonna-modello-risultati-csv-e-relazione",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 143 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il grafico M(χ) a N costante e momento esterno riporta la curva della sezione, la retta M2 = k·χ con k = NEd·l0²/c, la tangente al massimo M1Rd,max + k·χ e, se M0Ed è assegnato, la retta del momento esterno M0Ed,tot + k·χ; i punti segnano il massimo, l'equilibrio, il primo snervamento χy e la …",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 144 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: I riquadri riportano la snellezza λ = l0/i con λlim della norma, solo informativa perché il calcolo si esegue comunque; il momento del primo ordine M0Ed,tot con imperfezione ed eccentricità minima; la viscosità con le condizioni di 5.8.4(4); la capacità M1Rd,max con il modo di crisi, instabili…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 145 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Esporta CSV… salva i punti del risultato pubblicato, con il nome proposto ANTHEA_Colonna_modello.csv: un punto per riga, colonne separate da punto e virgola, numeri con il punto decimale e fino a diciassette cifre significative, qualunque sia il separatore scelto nel menu Aspetto. Le colonne s…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 146 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le opzioni della colonna entrano nel foglio alla prima modifica di un dato della scheda: un foglio che non le ha si apre con i valori iniziali, non risulta modificato e le sue relazioni restano quelle di prima. Per i fogli con le opzioni la relazione Word ha il capitolo Colonna modello dopo il…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 109",
+      "classe": "testo",
+      "a": "text: Il report short non comprende torsione e interazioni, dettagli costruttivi, ancoraggi, domini 2D e momento–curvatura. Se dati geometrici molto estesi o nomi lunghi impediscono di rispettare due pagine, l'esportazione viene fermata senza tagliare dati: abbreviare i nomi o utilizzare il report completo. Il file di calcolo resta il riferimento riapribile.",
+      "b": "text: Il report short non comprende torsione e interazioni, dettagli costruttivi, ancoraggi, domini 2D, momento–curvatura e colonna modello. Se dati geometrici molto estesi o nomi lunghi impediscono di rispettare due pagine, l'esportazione viene fermata senza tagliare dati: abbreviare i nomi o utilizzare il report completo. Il file di calcolo resta il riferimento riapribile.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 3",
+      "classe": "testo",
+      "a": "Questa procedura riguarda la versione di prova del modulo Modelli disponibile al 12 ottobre 2026. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX, con i risultati selezionati; non esegue l'analisi e non modifica il modello sorgente.",
+      "b": "Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.15.0. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 76 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Aprire un file di testo MIDAS Civil o Gen",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 77 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 78 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "1. Premi **Importa modello…** oppure **Aggiorna modello…** e seleziona **File · .antheamodel, MIDAS .mct/.mgt o copia acquisita** in **Sorgente del modello**.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 79 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 80 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "2. In **Contenuto da acquisire** scegli **Tutto** oppure **Geometria + attributi + carichi**; **Solo geometria** limita la copia alla forma del modello.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 81 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 82 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "3. Premi **Scegli il file e importa…** e seleziona il file .mct di MIDAS Civil o .mgt di MIDAS Gen. Il dialogo propone tutti i modelli leggibili; il filtro **File di testo MIDAS Civil / Gen** mostra soltanto questi file.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 83 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 84 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "4. Leggi i messaggi di importazione, controlla il modello e premi **Salva progetto**.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 85 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 86 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La libreria GPC traduce i comandi del file nelle stesse tabelle della copia acquisita dal modello aperto, in N e mm; il file è letto con la codifica Windows-1252, oppure UTF-8 quando inizia con il BOM. La copia contiene geometria, sezioni, spessori e offset, terne locali e nodali, vincoli, molle, li…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 87 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 88 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il file non contiene risultati e la copia non ne ha: **Solo risultati** è rifiutato e, con **Tutto**, i risultati di una copia precedente vengono rimossi. Restano fuori, con un messaggio, gli elementi senza equivalente nella vista, come pareti, elementi piani o assialsimmetrici e solidi, con i loro …",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 89 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 90 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Importare un modello Straus7",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 91 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 92 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Per leggere un modello Straus7 serve Straus7 R3 installato sul computer nella versione a 64 bit, con la licenza API attiva. ANTHEA usa St7api.dll dell'installazione, in sola lettura, con il convertitore GPC, in un processo dedicato a 64 bit, ANTHEA.Strand7Worker.exe, installato accanto ad ANTHEA.exe…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 93 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 94 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "1. Premi **Importa modello…** oppure **Aggiorna modello…** e seleziona **Straus7 / Strand7 R3 · file .st7 e .lsa** in **Sorgente del modello**.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 95 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 96 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "2. Con **Sfoglia…** scegli **Modello .st7** e, per **Solo risultati** e **Tutto**, **Risultati statici lineari .lsa** dello stesso modello. **API R3 a 64 bit · St7api.dll** è proposta dalla cartella di installazione, se ANTHEA la trova; altrimenti seleziona St7api.dll nella cartella Bin64 dell'insta…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 97 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 98 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "3. Premi **Controlla file e casi**. Il controllo verifica che i file esistano e che la libreria sia quella nativa a 64 bit, poi apre il modello, verifica che i risultati corrispondano al modello e ne legge il catalogo: nodi, aste, piastre, casi di carico, combinazioni LSA e casi di risultato statici…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 99 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 100 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "4. Scegli il contenuto, i casi con **Tutti**, **Nessuno** o le singole caselle e i tipi di risultato **Sollecitazioni locali · beam e plate** e **Spostamenti globali · deformata**, come per la sorgente MIDAS.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 101 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 102 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "5. Premi **Importa da Straus7**. Il pannello mostra l'avanzamento; **Annulla importazione** chiude il processo di lettura. Un'importazione annullata, fallita o incompleta non modifica la copia aperta. Se i file sono cambiati dopo il controllo, la lettura è rifiutata: ripeti **Controlla file e casi**…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 103 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 104 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "6. Leggi i messaggi, compresi gli avvisi del convertitore GPC, controlla il modello e premi **Salva progetto**.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 105 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 106 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La copia contiene geometria, proprietà con numero e nome di Straus7, terne locali e nodali, vincoli, molle, link e rilasci. Dei casi scelti acquisisce i risultati statici lineari: piastre ai nodi di ogni elemento, senza media fra elementi; aste alle stazioni restituite da Straus7; spostamenti e rota…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 107 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 108 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le sollecitazioni si leggono con la convenzione della copia MIDAS, uguale per ogni sorgente: Mxx, Myy e Mxy delle piastre e My delle aste hanno il segno opposto a quello che Straus7 mostra per gli stessi risultati, e Mxx positivo tende la faccia −z della piastra. Le unità sono kN/m e kN·m/m per le p…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 109 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 110 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le combinazioni LSA compaiono in **Combinazioni** come definizioni della sorgente, non modificabili; si escludono o si ridefiniscono come quelle MIDAS. I loro risultati non sono letti dal file: li costruisce ANTHEA con la libreria GPC dai casi importati, che devono quindi comprendere tutti i casi ri…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 111 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 112 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La lettura riguarda l'analisi statica lineare dei casi primari, senza fasi. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a cerniera, elementi cut-off, contatti, aste di tipo definito dall'utente, temperature, masse e fasi; le reazion…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 113 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 123 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| File MIDAS non importato o modello rifiutato dal convertitore GPC | Correggi il file o ripeti l'esportazione da MIDAS; la copia precedente resta aperta. |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 124 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Processo di lettura Straus7 non trovato | Reinstalla ANTHEA: ANTHEA.Strand7Worker.exe deve stare accanto ad ANTHEA.exe. |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 125 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| API Straus7 non disponibile | Verifica l'installazione a 64 bit di Straus7 R3, il percorso di St7api.dll e la licenza API, poi ripeti Controlla file e casi. |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 126 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| File del modello o dei risultati non disponibili o cambiati | I file sono stati spostati o modificati dopo il controllo: ripeti Controlla file e casi. |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 88",
+      "classe": "testo",
+      "a": "**Limiti della versione di prova.** Il collegamento acquisisce casi statici e stati costruttivi esplicitamente selezionati, le sollecitazioni locali beam e plate e gli spostamenti globali disponibili. Non costituisce un importatore completo di ogni famiglia di risultato. Nel primo import diretto la trasformazione delle tabelle in terne locali, vincoli, rilasci e link del visualizzatore è ancora incompleta: i dati originali vengono conservati, ma i relativi simboli possono non essere presenti. Le informazioni già normalizzate di una copia precedente vengono riutilizzate soltanto quando i dati confrontati coincidono. Leggi gli avvisi prima di interpretare l'assenza di un simbolo come assenza del relativo attributo nel modello.",
+      "b": "**Limiti della versione di prova.** Il collegamento al modello aperto in MIDAS acquisisce casi statici e stati costruttivi esplicitamente selezionati, le sollecitazioni locali beam e plate e gli spostamenti globali disponibili. Non costituisce un importatore completo di ogni famiglia di risultato. Nel primo import diretto la trasformazione delle tabelle in terne locali, vincoli, rilasci e link del visualizzatore è ancora incompleta: i dati originali vengono conservati, ma i relativi simboli possono non essere presenti. Le informazioni già normalizzate di una copia precedente vengono riutilizzate soltanto quando i dati confrontati coincidono. Leggi gli avvisi prima di interpretare l'assenza di un simbolo come assenza del relativo attributo nel modello. Dai file di testo MIDAS e da Straus7, invece, terne, vincoli, molle, link e rilasci sono normalizzati dalla libreria GPC durante l'importazione.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 90",
+      "classe": "testo",
+      "a": "Per aprire una copia già acquisita scegli **File o copia già acquisita**: sono previsti il pacchetto **.antheamodel** oppure **NODE.json** della cartella di acquisizione MIDAS completa. Questa scelta non è l'apertura diretta di un file nativo MIDAS; per il modello nativo usa il collegamento al modello aperto descritto sopra.",
+      "b": "Per aprire una copia già acquisita scegli **File · .antheamodel, MIDAS .mct/.mgt o copia acquisita**: sono previsti il pacchetto **.antheamodel** oppure **NODE.json** della cartella di acquisizione MIDAS completa. La stessa scelta apre i file di testo MIDAS descritti sopra. Il file nativo del modello MIDAS non si apre direttamente: esporta il modello come testo .mct o .mgt, oppure usa il collegamento al modello aperto.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 1",
+      "classe": "testo",
+      "a": "text: Questa procedura riguarda la versione di prova del modulo Modelli disponibile al 12 ottobre 2026. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX, con i risultati selezionati; non esegue l'analisi e non modifica il modello sorgente.",
+      "b": "text: Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.15.0. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 44 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: aprire-un-file-di-testo-midas-civil-o-gen",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 45 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 1. Premi Importa modello… oppure Aggiorna modello… e seleziona File · .antheamodel, MIDAS .mct/.mgt o copia acquisita in Sorgente del modello.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 46 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 2. In Contenuto da acquisire scegli Tutto oppure Geometria + attributi + carichi; Solo geometria limita la copia alla forma del modello.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 47 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 3. Premi Scegli il file e importa… e seleziona il file .mct di MIDAS Civil o .mgt di MIDAS Gen. Il dialogo propone tutti i modelli leggibili; il filtro File di testo MIDAS Civil / Gen mostra soltanto questi file.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 48 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 4. Leggi i messaggi di importazione, controlla il modello e premi Salva progetto.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 49 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La libreria GPC traduce i comandi del file nelle stesse tabelle della copia acquisita dal modello aperto, in N e mm; il file è letto con la codifica Windows-1252, oppure UTF-8 quando inizia con il BOM. La copia contiene geometria, sezioni, spessori e offset, terne locali e nodali, vincoli, mol…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 50 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il file non contiene risultati e la copia non ne ha: Solo risultati è rifiutato e, con Tutto, i risultati di una copia precedente vengono rimossi. Restano fuori, con un messaggio, gli elementi senza equivalente nella vista, come pareti, elementi piani o assialsimmetrici e solidi, con i loro ca…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 51 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: importare-un-modello-straus7",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 52 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Per leggere un modello Straus7 serve Straus7 R3 installato sul computer nella versione a 64 bit, con la licenza API attiva. ANTHEA usa St7api.dll dell'installazione, in sola lettura, con il convertitore GPC, in un processo dedicato a 64 bit, ANTHEA.Strand7Worker.exe, installato accanto ad ANTH…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 53 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 1. Premi Importa modello… oppure Aggiorna modello… e seleziona Straus7 / Strand7 R3 · file .st7 e .lsa in Sorgente del modello.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 54 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 2. Con Sfoglia… scegli Modello .st7 e, per Solo risultati e Tutto, Risultati statici lineari .lsa dello stesso modello. API R3 a 64 bit · St7api.dll è proposta dalla cartella di installazione, se ANTHEA la trova; altrimenti seleziona St7api.dll nella cartella Bin64 dell'installazione.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 55 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 3. Premi Controlla file e casi. Il controllo verifica che i file esistano e che la libreria sia quella nativa a 64 bit, poi apre il modello, verifica che i risultati corrispondano al modello e ne legge il catalogo: nodi, aste, piastre, casi di carico, combinazioni LSA e casi di risultato stati…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 56 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 4. Scegli il contenuto, i casi con Tutti, Nessuno o le singole caselle e i tipi di risultato Sollecitazioni locali · beam e plate e Spostamenti globali · deformata, come per la sorgente MIDAS.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 57 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 5. Premi Importa da Straus7. Il pannello mostra l'avanzamento; Annulla importazione chiude il processo di lettura. Un'importazione annullata, fallita o incompleta non modifica la copia aperta. Se i file sono cambiati dopo il controllo, la lettura è rifiutata: ripeti Controlla file e casi.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 58 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 6. Leggi i messaggi, compresi gli avvisi del convertitore GPC, controlla il modello e premi Salva progetto.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 59 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La copia contiene geometria, proprietà con numero e nome di Straus7, terne locali e nodali, vincoli, molle, link e rilasci. Dei casi scelti acquisisce i risultati statici lineari: piastre ai nodi di ogni elemento, senza media fra elementi; aste alle stazioni restituite da Straus7; spostamenti …",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 60 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le sollecitazioni si leggono con la convenzione della copia MIDAS, uguale per ogni sorgente: Mxx, Myy e Mxy delle piastre e My delle aste hanno il segno opposto a quello che Straus7 mostra per gli stessi risultati, e Mxx positivo tende la faccia −z della piastra. Le unità sono kN/m e kN·m/m pe…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 61 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le combinazioni LSA compaiono in Combinazioni come definizioni della sorgente, non modificabili; si escludono o si ridefiniscono come quelle MIDAS. I loro risultati non sono letti dal file: li costruisce ANTHEA con la libreria GPC dai casi importati, che devono quindi comprendere tutti i casi …",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 62 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La lettura riguarda l'analisi statica lineare dei casi primari, senza fasi. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a cerniera, elementi cut-off, contatti, aste di tipo definito dall'utente, temperature, masse e fasi; le r…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 76 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: File MIDAS non importato o modello rifiutato dal convertitore GPC",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 77 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Correggi il file o ripeti l'esportazione da MIDAS; la copia precedente resta aperta.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 78 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Processo di lettura Straus7 non trovato",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 79 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Reinstalla ANTHEA: ANTHEA.Strand7Worker.exe deve stare accanto ad ANTHEA.exe.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 80 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: API Straus7 non disponibile",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 81 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Verifica l'installazione a 64 bit di Straus7 R3, il percorso di St7api.dll e la licenza API, poi ripeti Controlla file e casi.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 82 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: File del modello o dei risultati non disponibili o cambiati",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 83 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: I file sono stati spostati o modificati dopo il controllo: ripeti Controlla file e casi.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 58",
+      "classe": "testo",
+      "a": "text: Limiti della versione di prova. Il collegamento acquisisce casi statici e stati costruttivi esplicitamente selezionati, le sollecitazioni locali beam e plate e gli spostamenti globali disponibili. Non costituisce un importatore completo di ogni famiglia di risultato. Nel primo import diretto la trasformazione delle tabelle in terne locali, vincoli, rilasci e link del visualizzatore è ancora incompleta: i dati originali vengono conservati, ma i relativi simboli possono non essere presenti. Le informazioni già normalizzate di una copia precedente vengono riutilizzate soltanto quando i dati confrontati coincidono. Leggi gli avvisi prima di interpretare l'assenza di un simbolo come assenza del relativo attributo nel modello.",
+      "b": "text: Limiti della versione di prova. Il collegamento al modello aperto in MIDAS acquisisce casi statici e stati costruttivi esplicitamente selezionati, le sollecitazioni locali beam e plate e gli spostamenti globali disponibili. Non costituisce un importatore completo di ogni famiglia di risultato. Nel primo import diretto la trasformazione delle tabelle in terne locali, vincoli, rilasci e link del visualizzatore è ancora incompleta: i dati originali vengono conservati, ma i relativi simboli possono non essere presenti. Le informazioni già normalizzate di una copia precedente vengono riutilizzate soltanto quando i dati confrontati coincidono. Leggi gli avvisi prima di interpretare l'assenza di un simbolo come assenza del relativo attributo nel modello. Dai file di testo MIDAS e da Straus7, invece, terne, vincoli, molle, link e rilasci sono normalizzati dalla libreria GPC durante l'importazione.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 59",
+      "classe": "testo",
+      "a": "text: Per aprire una copia già acquisita scegli File o copia già acquisita: sono previsti il pacchetto .antheamodel oppure NODE.json della cartella di acquisizione MIDAS completa. Questa scelta non è l'apertura diretta di un file nativo MIDAS; per il modello nativo usa il collegamento al modello aperto descritto sopra.",
+      "b": "text: Per aprire una copia già acquisita scegli File · .antheamodel, MIDAS .mct/.mgt o copia acquisita: sono previsti il pacchetto .antheamodel oppure NODE.json della cartella di acquisizione MIDAS completa. La stessa scelta apre i file di testo MIDAS descritti sopra. Il file nativo del modello MIDAS non si apre direttamente: esporta il modello come testo .mct o .mgt, oppure usa il collegamento al modello aperto.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 28 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Modelli importati | m | — | kN e kN·m per le aste; kN/m e kN·m/m per le piastre | Mxx, Myy, Mxy e My nella convenzione della copia, uguale per ogni sorgente |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 33 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 34 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Copie dei modelli importati",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 35 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 36 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il modulo Modelli conserva una copia del modello di calcolo: non esegue analisi, non ricalcola le sollecitazioni dei casi e non calcola reazioni vincolari. Sui dati della sorgente compie tre sole operazioni: copia, conversione delle unità e convenzione di segno. Le combinazioni sono l'unica grandezz…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 37 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 38 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Dai file di testo .mct e .mgt la libreria GPC traduce i comandi nelle stesse tabelle della copia acquisita dal modello aperto, con le unità dichiarate nelle tabelle (N e mm). Il file descrive il modello e non contiene risultati. Gli elementi senza un equivalente nella vista, come pareti, elementi pi…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 39 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 40 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Dai modelli .st7 con i risultati statici lineari .lsa la libreria GPC legge il modello in sola lettura, in un processo separato, e la copia riporta i risultati dei casi primari scelti: per le piastre i valori ai nodi di ogni elemento, come li estrapola il solutore, senza medie fra elementi adiacenti…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 41 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 42 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Lo stesso stato fisico si legge con lo stesso segno qualunque sia la sorgente: la convenzione è quella della copia acquisita dal modello aperto. Mxx, Myy e Mxy positivi tendono la faccia −z della piastra e My delle aste è l'opposto del momento M1 della libreria GPC. Nella libreria GPC i momenti dell…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 43 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 44 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le combinazioni della sorgente sono conservate come definizioni, cioè casi e coefficienti; quelle dei file .lsa non sono lette come risultati del solutore. Per calcolarne gli effetti la libreria GPC ricostruisce il proprio modello dalla copia, con posizioni, terne, casi e valori riportati nelle unit…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 40 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Modelli importati",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 41 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: m",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 42 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: —",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 43 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: kN e kN·m per le aste; kN/m e kN·m/m per le piastre",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 44 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Mxx, Myy, Mxy e My nella convenzione della copia, uguale per ogni sorgente",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 47 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: copie-dei-modelli-importati",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 48 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il modulo Modelli conserva una copia del modello di calcolo: non esegue analisi, non ricalcola le sollecitazioni dei casi e non calcola reazioni vincolari. Sui dati della sorgente compie tre sole operazioni: copia, conversione delle unità e convenzione di segno. Le combinazioni sono l'unica gr…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 49 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Dai file di testo .mct e .mgt la libreria GPC traduce i comandi nelle stesse tabelle della copia acquisita dal modello aperto, con le unità dichiarate nelle tabelle (N e mm). Il file descrive il modello e non contiene risultati. Gli elementi senza un equivalente nella vista, come pareti, eleme…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 50 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Dai modelli .st7 con i risultati statici lineari .lsa la libreria GPC legge il modello in sola lettura, in un processo separato, e la copia riporta i risultati dei casi primari scelti: per le piastre i valori ai nodi di ogni elemento, come li estrapola il solutore, senza medie fra elementi adi…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 51 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Lo stesso stato fisico si legge con lo stesso segno qualunque sia la sorgente: la convenzione è quella della copia acquisita dal modello aperto. Mxx, Myy e Mxy positivi tendono la faccia −z della piastra e My delle aste è l'opposto del momento M1 della libreria GPC. Nella libreria GPC i moment…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 52 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le combinazioni della sorgente sono conservate come definizioni, cioè casi e coefficienti; quelle dei file .lsa non sono lette come risultati del solutore. Per calcolarne gli effetti la libreria GPC ricostruisce il proprio modello dalla copia, con posizioni, terne, casi e valori riportati nell…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 157 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 158 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Colonna modello: metodo e campo di applicazione",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 159 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 160 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La colonna modello verifica un pilastro snello concentrando gli effetti del secondo ordine nella sua sezione critica: è il metodo generale semplificato di EN 1992-1-1 5.8.6(6), con la distribuzione di curvatura di 5.8.8.2. NTC 2018 §4.1.2.3.9.3 lo comprende fra i metodi basati sull'equilibrio nelle …",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 161 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 162 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La deformata è assunta con una freccia e2 proporzionale alla curvatura χ della sezione critica. Il fattore c dipende dalla distribuzione della curvatura: 10 ≈ π² per la deformata sinusoidale, fino a 8 per un momento totale costante (EN 1992-1-1 5.8.8.2(4)). Il momento del secondo ordine è quindi lin…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 163 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 164 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 165 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "e_2 = \\chi\\,\\frac{l_0^2}{c}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 166 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "k = \\frac{N_{Ed}\\,l_0^2}{c}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 167 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "M_2 = N_{Ed}\\,e_2 = k\\,\\chi",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 168 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 169 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 170 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La curvatura deriva dalla risposta della sezione a NEd costante, con le ipotesi del dominio plastico: sezioni piane, aderenza perfetta, parabola-rettangolo di progetto con fcd, εc2 ed εcu per il calcestruzzo, legge di progetto delle barre con fyd ed εud, sezione netta e calcestruzzo teso nullo, come…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 171 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 172 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 173 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\varepsilon(w) = \\varepsilon_0 - \\chi\\,w",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 174 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "N(\\varepsilon_0,\\chi) = N_{Ed}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 175 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 176 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 177 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Colonna modello: capacità, equilibrio e modo di crisi",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 178 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 179 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La capacità M1Rd,max è il massimo momento del primo ordine che la sezione critica sopporta. È il massimo della differenza fra la curva M(χ) e la retta M2 = kχ, cioè il punto in cui la retta del momento esterno è tangente alla curva; la scheda indica con χ* la curvatura del massimo.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 180 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 181 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 182 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "M_{1Rd,max} = \\max_{0 \\le \\chi \\le \\chi_u}\\left[M(\\chi) - k\\,\\chi\\right]",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 183 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "e_2^{*} = \\chi^{*}\\,\\frac{l_0^2}{c}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 184 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 185 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 186 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il modo di crisi è l'instabilità quando il massimo cade prima della curvatura ultima, cioè in un punto limite dell'equilibrio, e la rottura della sezione quando cade alla curvatura ultima.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 187 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 188 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Scostamento dichiarato K-6 · Modo vicino alla curvatura ultima",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 189 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Norma: EN 1992-1-1 5.8.6(6) non distingue i due modi; la colonna modello classica chiama instabilità il massimo interno alla curva.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 190 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Programma: rottura della sezione solo se χu − χ* ≤ 10⁻⁹ χu; altrimenti instabilità.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 191 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Effetto: con la sezione netta la curva è quasi piatta vicino a χu e il massimo resta interno anche per colonne tozze; M1Rd,max differisce comunque dal momento resistente MRd(N) della sezione di meno dello 0,6 % nei casi di prova della libreria.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 192 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 193 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Con il momento del primo ordine assegnato la colonna è in equilibrio alla prima intersezione stabile fra la curva e la retta M0Ed,tot + kχ, sul ramo crescente di M − M2 che termina nel massimo. Se M0Ed,tot supera M1Rd,max l'intersezione non esiste: la colonna è instabile e la verifica non è soddisfa…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 194 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 195 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 196 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "M(\\chi_{eq}) = M_{0Ed,tot} + k\\,\\chi_{eq}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 197 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "M_{Ed} = M_{0Ed,tot} + k\\,\\chi_{eq}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 198 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\eta = \\frac{M_{0Ed,tot}}{M_{1Rd,max}}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 199 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 200 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 201 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Colonna modello: imperfezione, eccentricità minima e viscosità",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 202 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 203 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "L'imperfezione predefinita è l'inclinazione di EN 1992-1-1 5.2(5) e 5.2(7)a, con θ0 = 1/200 come valore raccomandato, uguale nell'appendice nazionale del DM 31/07/2012; vale anche con le NTC, che rinviano ai documenti di comprovata validità. αh dipende dalla lunghezza dell'elemento l in metri; per l…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 204 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 205 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 206 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\theta_i = \\theta_0\\,\\alpha_h\\,\\alpha_m",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 207 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\alpha_h = \\frac{2}{\\sqrt{l}}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 208 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\frac{2}{3} \\le \\alpha_h \\le 1",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 209 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\alpha_m = \\sqrt{0{,}5\\left(1+\\frac{1}{m}\\right)}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 210 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "e_i = \\theta_i\\,\\frac{l_0}{2}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 211 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "M_{0Ed,tot} = \\max\\left(M_{0Ed}+N_{Ed}\\,e_i;\\ N_{Ed}\\,e_0\\right)",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 212 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 213 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 214 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "L'eccentricità minima vale e0 = max(l0/200; 20 mm) con NTC 2018 §4.1.2.3.4.2, anche nel profilo CNR-DT 200, ed e0 = max(h/30; 20 mm) con EN 1992-1-1 6.1(4), con h l'altezza della sezione nella direzione di flessione.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 215 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 216 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Scostamento dichiarato K-1 · Eccentricità minima come minimo del momento totale",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 217 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Norma: NTC 2018 §4.1.2.3.4.2 chiede per i pilastri compressi un momento MEd = e NEd con e ≥ l0/200 e ≥ 20 mm nella verifica della sezione; EN 1992-1-1 6.1(4) dà e0 = h/30 ≥ 20 mm come minimo del progetto della sezione.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 218 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Programma: il minimo vale sul momento totale del primo ordine, M0Ed,tot = max(M0Ed + NEd ei; NEd e0), e non si somma all'imperfezione.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 219 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Effetto: nessuna doppia imperfezione; con momenti piccoli governa e0.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 220 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 221 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La viscosità entra con il coefficiente efficace φef, assegnato oppure ricavato dalla (5.19) di EN 1992-1-1 5.8.4(2). Le deformazioni del legame del calcestruzzo sono moltiplicate per 1 + φef, comprese εc2 ed εcu (EN 1992-1-1 5.8.6(4)); la legge dell'acciaio non cambia. Con φef = 0 la curva coincide …",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 222 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 223 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 224 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\varphi_{ef} = \\varphi(\\infty,t_0)\\,\\frac{M_{0Eqp}+N_{Eqp}\\,e_i}{M_{0Ed}+N_{Ed}\\,e_i}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 225 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 226 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 227 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Scostamento dichiarato K-2 · Imperfezione nei momenti della (5.19)",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 228 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Norma: nella (5.19) M0Eqp e M0Ed sono momenti del primo ordine; 5.8.8.2(1) comprende le imperfezioni nel momento del primo ordine, mentre 5.8.4 non lo precisa.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 229 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Programma: entrambi i momenti comprendono l'imperfezione ei, con la stessa geometria e lo sforzo normale della rispettiva combinazione, senza l'eccentricità minima.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 230 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Effetto: φef è definito anche con M0Ed = 0; quando l'imperfezione domina, il rapporto tende a NEqp/NEd.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 231 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 232 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Colonna modello: snellezza e curvatura nominale",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 233 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 234 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La snellezza λ = l0/i usa il raggio d'inerzia della sezione lorda di calcestruzzo nella direzione di flessione. La snellezza limite è quella della norma del foglio: 25/√ν di NTC 2018 §4.1.2.3.9.2, oppure la (5.13N) di EN 1992-1-1 5.8.3.1, con n = ν, ω = As fyd/(Ac fcd) e C = 0,7 quando rm non è asse…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 235 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 236 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 237 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\lambda = \\frac{l_0}{i}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 238 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\nu = \\frac{N_{Ed}}{A_c\\,f_{cd}}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 239 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\lambda_{lim,NTC} = \\frac{25}{\\sqrt{\\nu}}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 240 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\lambda_{lim,EN} = \\frac{20\\,A\\,B\\,C}{\\sqrt{n}}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 241 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "A = \\frac{1}{1+0{,}2\\,\\varphi_{ef}}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 242 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "B = \\sqrt{1+2\\omega}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 243 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "C = 1{,}7-r_m",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 244 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 245 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 246 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Scostamento dichiarato K-5 · Snellezza limite con UNI EN 1992-1-1",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 247 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Norma: λlim è un parametro nazionale di EN 1992-1-1 5.8.3.1(1); il valore dell'appendice nazionale del DM 31/07/2012 è ancora da riscontrare.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 248 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Programma: con UNI EN 1992-1-1 usa la (5.13N) con i valori raccomandati, come con l'Eurocodice.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 249 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Effetto: soltanto informativo, perché il calcolo della colonna non dipende da λlim.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 250 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 251 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Per confronto il risultato riporta il metodo della curvatura nominale di EN 1992-1-1 5.8.8, con n = NEd/(Ac fcd), d = h/2 + is (5.35), is raggio d'inerzia dell'armatura, e MRd(NEd) dal dominio della libreria nella direzione θ. Kr è limitato anche inferiormente a zero. Il confronto è informativo: l'e…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 252 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 253 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 254 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "K_r = \\frac{1+\\omega-n}{1+\\omega-0{,}4} \\le 1",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 255 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\beta = 0{,}35+\\frac{f_{ck}}{200}-\\frac{\\lambda}{150}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 256 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "K_\\varphi = 1+\\beta\\,\\varphi_{ef} \\ge 1",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 257 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "d = \\frac{h}{2}+i_s",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 258 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\frac{1}{r} = K_r\\,K_\\varphi\\,\\frac{\\varepsilon_{yd}}{0{,}45\\,d}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 259 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "M_{Ed} = M_{0Ed,tot}+N_{Ed}\\,\\frac{1}{r}\\,\\frac{l_0^2}{c}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 260 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 261 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 262 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Colonna modello: controllo a mano e limiti",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 263 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 264 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Un pilastro di 300 × 500 mm inflesso nel piano dell'altezza di 500 mm, C30/37 e B450C con NTC 2018 (fcd = 17,0 MPa, fyd = 391,30 MPa, εyd = 1,957 ‰), ha 4Ø20 su ciascuna faccia a 200 mm dall'asse, quindi As = 2513 mm² e is = 200 mm. Con NEd = 800 kN di compressione, l = l0 = 8 m, c = 10, φef = 0 e M…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 265 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 266 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Grandezza | Valore |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 267 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| --- | --- |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 268 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| αh = 2/√8, θi = αh/200, ei = θi l0/2 | 0,7071; 0,003536; 14,14 mm |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 269 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| e0 = max(l0/200; 20 mm), NTC | 40 mm |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 270 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| M0Ed + NEd ei; NEd e0 | 51,31 kNm; 32,00 kNm |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 271 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| M0Ed,tot | 51,31 kNm, governa l'imperfezione |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 272 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| k = NEd l0²/c | 5120 kN·m² |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 273 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| i = h/√12, λ = l0/i | 144,34 mm; 55,43 |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 274 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| ν = NEd/(Ac fcd), λlim = 25/√ν | 0,3137; 44,63 |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 275 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Curvatura nominale: Kr, 1/r = εyd/(0,45 d) con d = 450 mm | 1, perché la formula dà 1,088; 0,009662 1/m |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 276 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| e2 = (1/r) l0²/c, M2 = NEd e2, MEd = M0Ed,tot + M2 | 61,84 mm; 49,47 kNm; 100,78 kNm |",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 277 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 278 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Con φef = 0 la condizione M0Ed/NEd ≥ h di 5.8.4(4) non è soddisfatta (50 mm contro 500 mm) e il risultato avvisa che la viscosità non è dimostrata trascurabile. M1Rd,max, la curvatura del massimo e l'equilibrio richiedono la curva della sezione e si leggono nella scheda; per ogni curvatura il moment…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 279 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 280 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La scheda tratta una direzione alla volta, in flessione retta. Per la flessione deviata la libreria prevede due colonne modello nelle direzioni principali con il controllo di EN 1992-1-1 5.8.9, (5.38) e (5.39), che la scheda non esegue. Restano fuori telai e colonne a sezione o sforzo normale variab…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 281 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 282 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Scostamento dichiarato K-3 · Esponente delle sezioni non rettangolari",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 283 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Norma: la (5.39) di EN 1992-1-1 5.8.9 dà l'esponente a per le sezioni circolari ed ellittiche e per le rettangolari.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 284 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Programma: il controllo della flessione deviata della libreria usa per le altre forme l'esponente delle rettangolari; la scheda non lo esegue.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 285 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Effetto: a ≤ 2, quindi a favore di sicurezza rispetto ad a = 2.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 286 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 287 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Scostamento dichiarato K-4 · Momento trasversale",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 288 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Norma: EN 1992-1-1 5.8.9(2) tratta separatamente le direzioni principali.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 289 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Programma: i piani di deformazione hanno l'asse neutro parallelo al momento; se il rapporto fra il massimo momento trasversale e il massimo momento nella direzione θ supera il limite ammesso, 1 % in partenza, il calcolo è rifiutato.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 290 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Effetto: nelle sezioni simmetriche rispetto al piano di flessione il rapporto è nullo; fuori dalle direzioni principali il calcolo non sarebbe una flessione retta.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 87 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: colonna-modello-metodo-e-campo-di-applicazione",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 88 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La colonna modello verifica un pilastro snello concentrando gli effetti del secondo ordine nella sua sezione critica: è il metodo generale semplificato di EN 1992-1-1 5.8.6(6), con la distribuzione di curvatura di 5.8.8.2. NTC 2018 §4.1.2.3.9.3 lo comprende fra i metodi basati sull'equilibrio …",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 89 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La deformata è assunta con una freccia e2 proporzionale alla curvatura χ della sezione critica. Il fattore c dipende dalla distribuzione della curvatura: 10 ≈ π² per la deformata sinusoidale, fino a 8 per un momento totale costante (EN 1992-1-1 5.8.8.2(4)). Il momento del secondo ordine è quin…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 90 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: e_2 = \\chi\\,\\frac{l_0^2}{c}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 91 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: k = \\frac{N_{Ed}\\,l_0^2}{c}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 92 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_2 = N_{Ed}\\,e_2 = k\\,\\chi",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 93 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 94 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La curvatura deriva dalla risposta della sezione a NEd costante, con le ipotesi del dominio plastico: sezioni piane, aderenza perfetta, parabola-rettangolo di progetto con fcd, εc2 ed εcu per il calcestruzzo, legge di progetto delle barre con fyd ed εud, sezione netta e calcestruzzo teso nullo…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 95 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\varepsilon(w) = \\varepsilon_0 - \\chi\\,w",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 96 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N(\\varepsilon_0,\\chi) = N_{Ed}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 97 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 98 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: colonna-modello-capacita-equilibrio-e-modo-di-crisi",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 99 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La capacità M1Rd,max è il massimo momento del primo ordine che la sezione critica sopporta. È il massimo della differenza fra la curva M(χ) e la retta M2 = kχ, cioè il punto in cui la retta del momento esterno è tangente alla curva; la scheda indica con χ* la curvatura del massimo.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 100 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{1Rd,max} = \\max_{0 \\le \\chi \\le \\chi_u}\\left[M(\\chi) - k\\,\\chi\\right]",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 101 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: e_2^{*} = \\chi^{*}\\,\\frac{l_0^2}{c}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 102 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 103 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il modo di crisi è l'instabilità quando il massimo cade prima della curvatura ultima, cioè in un punto limite dell'equilibrio, e la rottura della sezione quando cade alla curvatura ultima.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 104 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Scostamento dichiarato K-6 · Modo vicino alla curvatura ultima",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 105 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: ",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 106 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Norma: EN 1992-1-1 5.8.6(6) non distingue i due modi; la colonna modello classica chiama instabilità il massimo interno alla curva.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 107 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Programma: rottura della sezione solo se χu − χ* ≤ 10⁻⁹ χu; altrimenti instabilità.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 108 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Effetto: con la sezione netta la curva è quasi piatta vicino a χu e il massimo resta interno anche per colonne tozze; M1Rd,max differisce comunque dal momento resistente MRd(N) della sezione di meno dello 0,6 % nei casi di prova della libreria.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 109 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Con il momento del primo ordine assegnato la colonna è in equilibrio alla prima intersezione stabile fra la curva e la retta M0Ed,tot + kχ, sul ramo crescente di M − M2 che termina nel massimo. Se M0Ed,tot supera M1Rd,max l'intersezione non esiste: la colonna è instabile e la verifica non è so…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 110 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M(\\chi_{eq}) = M_{0Ed,tot} + k\\,\\chi_{eq}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 111 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{Ed} = M_{0Ed,tot} + k\\,\\chi_{eq}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 112 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\eta = \\frac{M_{0Ed,tot}}{M_{1Rd,max}}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 113 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 114 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: colonna-modello-imperfezione-eccentricita-minima-e-viscosita",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 115 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: L'imperfezione predefinita è l'inclinazione di EN 1992-1-1 5.2(5) e 5.2(7)a, con θ0 = 1/200 come valore raccomandato, uguale nell'appendice nazionale del DM 31/07/2012; vale anche con le NTC, che rinviano ai documenti di comprovata validità. αh dipende dalla lunghezza dell'elemento l in metri;…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 116 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\theta_i = \\theta_0\\,\\alpha_h\\,\\alpha_m",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 117 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\alpha_h = \\frac{2}{\\sqrt{l}}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 118 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\frac{2}{3} \\le \\alpha_h \\le 1",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 119 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\alpha_m = \\sqrt{0{,}5\\left(1+\\frac{1}{m}\\right)}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 120 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: e_i = \\theta_i\\,\\frac{l_0}{2}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 121 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{0Ed,tot} = \\max\\left(M_{0Ed}+N_{Ed}\\,e_i;\\,N_{Ed}\\,e_0\\right)",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 122 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 123 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: L'eccentricità minima vale e0 = max(l0/200; 20 mm) con NTC 2018 §4.1.2.3.4.2, anche nel profilo CNR-DT 200, ed e0 = max(h/30; 20 mm) con EN 1992-1-1 6.1(4), con h l'altezza della sezione nella direzione di flessione.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 124 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Scostamento dichiarato K-1 · Eccentricità minima come minimo del momento totale",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 125 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: ",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 126 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Norma: NTC 2018 §4.1.2.3.4.2 chiede per i pilastri compressi un momento MEd = e NEd con e ≥ l0/200 e ≥ 20 mm nella verifica della sezione; EN 1992-1-1 6.1(4) dà e0 = h/30 ≥ 20 mm come minimo del progetto della sezione.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 127 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Programma: il minimo vale sul momento totale del primo ordine, M0Ed,tot = max(M0Ed + NEd ei; NEd e0), e non si somma all'imperfezione.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 128 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Effetto: nessuna doppia imperfezione; con momenti piccoli governa e0.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 129 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La viscosità entra con il coefficiente efficace φef, assegnato oppure ricavato dalla (5.19) di EN 1992-1-1 5.8.4(2). Le deformazioni del legame del calcestruzzo sono moltiplicate per 1 + φef, comprese εc2 ed εcu (EN 1992-1-1 5.8.6(4)); la legge dell'acciaio non cambia. Con φef = 0 la curva coi…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 130 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\varphi_{ef} = \\varphi(\\infty,t_0)\\,\\frac{M_{0Eqp}+N_{Eqp}\\,e_i}{M_{0Ed}+N_{Ed}\\,e_i}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 131 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 132 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Scostamento dichiarato K-2 · Imperfezione nei momenti della (5.19)",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 133 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: ",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 134 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Norma: nella (5.19) M0Eqp e M0Ed sono momenti del primo ordine; 5.8.8.2(1) comprende le imperfezioni nel momento del primo ordine, mentre 5.8.4 non lo precisa.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 135 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Programma: entrambi i momenti comprendono l'imperfezione ei, con la stessa geometria e lo sforzo normale della rispettiva combinazione, senza l'eccentricità minima.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 136 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Effetto: φef è definito anche con M0Ed = 0; quando l'imperfezione domina, il rapporto tende a NEqp/NEd.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 137 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: colonna-modello-snellezza-e-curvatura-nominale",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 138 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La snellezza λ = l0/i usa il raggio d'inerzia della sezione lorda di calcestruzzo nella direzione di flessione. La snellezza limite è quella della norma del foglio: 25/√ν di NTC 2018 §4.1.2.3.9.2, oppure la (5.13N) di EN 1992-1-1 5.8.3.1, con n = ν, ω = As fyd/(Ac fcd) e C = 0,7 quando rm non …",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 139 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\lambda = \\frac{l_0}{i}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 140 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\nu = \\frac{N_{Ed}}{A_c\\,f_{cd}}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 141 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\lambda_{lim,NTC} = \\frac{25}{\\sqrt{\\nu}}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 142 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\lambda_{lim,EN} = \\frac{20\\,A\\,B\\,C}{\\sqrt{n}}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 143 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: A = \\frac{1}{1+0{,}2\\,\\varphi_{ef}}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 144 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: B = \\sqrt{1+2\\omega}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 145 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: C = 1{,}7-r_m",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 146 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 147 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Scostamento dichiarato K-5 · Snellezza limite con UNI EN 1992-1-1",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 148 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: ",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 149 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Norma: λlim è un parametro nazionale di EN 1992-1-1 5.8.3.1(1); il valore dell'appendice nazionale del DM 31/07/2012 è ancora da riscontrare.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 150 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Programma: con UNI EN 1992-1-1 usa la (5.13N) con i valori raccomandati, come con l'Eurocodice.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 151 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Effetto: soltanto informativo, perché il calcolo della colonna non dipende da λlim.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 152 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Per confronto il risultato riporta il metodo della curvatura nominale di EN 1992-1-1 5.8.8, con n = NEd/(Ac fcd), d = h/2 + is (5.35), is raggio d'inerzia dell'armatura, e MRd(NEd) dal dominio della libreria nella direzione θ. Kr è limitato anche inferiormente a zero. Il confronto è informativ…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 153 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: K_r = \\frac{1+\\omega-n}{1+\\omega-0{,}4} \\le 1",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 154 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\beta = 0{,}35+\\frac{f_{ck}}{200}-\\frac{\\lambda}{150}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 155 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: K_\\varphi = 1+\\beta\\,\\varphi_{ef} \\ge 1",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 156 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: d = \\frac{h}{2}+i_s",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 157 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\frac{1}{r} = K_r\\,K_\\varphi\\,\\frac{\\varepsilon_{yd}}{0{,}45\\,d}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 158 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{Ed} = M_{0Ed,tot}+N_{Ed}\\,\\frac{1}{r}\\,\\frac{l_0^2}{c}",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 159 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 160 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: colonna-modello-controllo-a-mano-e-limiti",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 161 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Un pilastro di 300 × 500 mm inflesso nel piano dell'altezza di 500 mm, C30/37 e B450C con NTC 2018 (fcd = 17,0 MPa, fyd = 391,30 MPa, εyd = 1,957 ‰), ha 4Ø20 su ciascuna faccia a 200 mm dall'asse, quindi As = 2513 mm² e is = 200 mm. Con NEd = 800 kN di compressione, l = l0 = 8 m, c = 10, φef =…",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 162 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Grandezza",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 163 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Valore",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 164 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: αh = 2/√8, θi = αh/200, ei = θi l0/2",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 165 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 0,7071; 0,003536; 14,14 mm",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 166 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: e0 = max(l0/200; 20 mm), NTC",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 167 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 40 mm",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 168 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: M0Ed + NEd ei; NEd e0",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 169 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 51,31 kNm; 32,00 kNm",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 170 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: M0Ed,tot",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 171 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 51,31 kNm, governa l'imperfezione",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 172 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: k = NEd l0²/c",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 173 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 5120 kN·m²",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 174 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: i = h/√12, λ = l0/i",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 175 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 144,34 mm; 55,43",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 176 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: ν = NEd/(Ac fcd), λlim = 25/√ν",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 177 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 0,3137; 44,63",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 178 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Curvatura nominale: Kr, 1/r = εyd/(0,45 d) con d = 450 mm",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 179 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 1, perché la formula dà 1,088; 0,009662 1/m",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 180 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: e2 = (1/r) l0²/c, M2 = NEd e2, MEd = M0Ed,tot + M2",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 181 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 61,84 mm; 49,47 kNm; 100,78 kNm",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 182 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Con φef = 0 la condizione M0Ed/NEd ≥ h di 5.8.4(4) non è soddisfatta (50 mm contro 500 mm) e il risultato avvisa che la viscosità non è dimostrata trascurabile. M1Rd,max, la curvatura del massimo e l'equilibrio richiedono la curva della sezione e si leggono nella scheda; per ogni curvatura il …",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 183 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La scheda tratta una direzione alla volta, in flessione retta. Per la flessione deviata la libreria prevede due colonne modello nelle direzioni principali con il controllo di EN 1992-1-1 5.8.9, (5.38) e (5.39), che la scheda non esegue. Restano fuori telai e colonne a sezione o sforzo normale …",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 184 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Scostamento dichiarato K-3 · Esponente delle sezioni non rettangolari",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 185 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: ",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 186 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Norma: la (5.39) di EN 1992-1-1 5.8.9 dà l'esponente a per le sezioni circolari ed ellittiche e per le rettangolari.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 187 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Programma: il controllo della flessione deviata della libreria usa per le altre forme l'esponente delle rettangolari; la scheda non lo esegue.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 188 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Effetto: a ≤ 2, quindi a favore di sicurezza rispetto ad a = 2.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 189 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Scostamento dichiarato K-4 · Momento trasversale",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 190 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: ",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 191 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Norma: EN 1992-1-1 5.8.9(2) tratta separatamente le direzioni principali.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 192 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Programma: i piani di deformazione hanno l'asse neutro parallelo al momento; se il rapporto fra il massimo momento trasversale e il massimo momento nella direzione θ supera il limite ammesso, 1 % in partenza, il calcolo è rifiutato.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 193 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Effetto: nelle sezioni simmetriche rispetto al piano di flessione il rapporto è nullo; fuori dalle direzioni principali il calcolo non sarebbe una flessione retta.",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[11]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+      "b": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[12]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "b": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[13]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/bridge-design",
+      "b": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[14]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
+      "b": "/wiki/manuale/ponti/bridge-design",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[15]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fem/elementi-beam",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[16]",
+      "classe": "testo",
+      "a": "/wiki/manuale/dinamica-e-sisma/dinamica-e-sisma-del-modello",
+      "b": "/wiki/manuale/fem/elementi-beam",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[17]",
+      "classe": "testo",
+      "a": "/wiki/manuale/computational/parametric",
+      "b": "/wiki/manuale/dinamica-e-sisma/dinamica-e-sisma-del-modello",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[18]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "b": "/wiki/manuale/computational/parametric",
+      "voce": "F5-REL-1150-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[26]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/strumenti/reologia-calcestruzzo\"",
+      "voce": "F5-REL-1150-01"
     }
   ]
 }

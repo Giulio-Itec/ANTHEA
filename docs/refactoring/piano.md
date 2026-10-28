@@ -1001,6 +1001,9 @@ in generale, segui la normativa». La libreria è GPCChecker.Concrete 0.27.0.0 (
   migrazione dei dati. Riferimenti delle tracce della sezione c.a. da approvare (voce CA-COLONNA-01). Guide: Rev61 dopo la decisione dell'utente. Full sul set candidato b (supporto/artefatti/1150/colonna-set-b): oltre alla provenienza, impronte delle fondazioni con
   Geotechnics 0.25.0.3 (B-FON-01, da approvare) e 2 etichette del dominio 3D sulla superficie nella Chiara, corrette mettendo le etichette
   degli assi sulla carta (UI-CONTRASTO-02, da confermare); corsa colonna-fix PASS.
+- [~] Guide pratica e teorica Rev61 (colonna modello; file MIDAS .mct/.mgt e importazione Straus7 nel modulo Modelli): 611ff20e, con l'eccezione
+  di wiki/manuale per i nomi Straus7/Strand7 nel solo capitolo dell'importazione (4afebd17); transizioni editoriali della Wiki F5-REL-1150-01
+  da approvare (commit «DA APPROVARE»).
 
 ## Wiki (in parallelo)
 

@@ -1,0 +1,110 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "commit": "87c5573a",
+    "sha256": "cf3c6d554854ba08aba68e2baac84748d3262500b327a8224b1541d3b39f230c",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "commit": "87c5573a",
+    "sha256": "abbe047fb5a377a6b5ca17727aa12c31ec53a55f915ba7ffefa87f7a7e407d1d",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "commit": "87c5573a",
+    "sha256": "3a0a4f8a60ec2285e4c72bdca5a2ce4ca6bcd8a2ded12ba08ed0e483445b8e7e",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "commit": "87c5573a",
+    "sha256": "628f7869d9a13873459425a7cf099059bfade3ed154aa30c7ca1c8f494159172",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev60.docx",
+    "commit": "87c5573a",
+    "sha256": "8699e85bf3f98cf7d6497c1e89400fa0606e702c11fec9f90bbfae8307366185",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev60.pdf",
+    "commit": "87c5573a",
+    "sha256": "abbe047fb5a377a6b5ca17727aa12c31ec53a55f915ba7ffefa87f7a7e407d1d",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev60.docx",
+    "commit": "87c5573a",
+    "sha256": "075551052e2e0801ec1ede8ead5a069f729c56e886353a7765f71edb48f60351",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev60.pdf",
+    "commit": "87c5573a",
+    "sha256": "628f7869d9a13873459425a7cf099059bfade3ed154aa30c7ca1c8f494159172",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "commit": "87c5573a",
+    "sha256": "2aef7e66e5ef7df260b4cbf5f218cf0eb566c7a4e84b611fd96cad1401415963",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "commit": "87c5573a",
+    "sha256": "63359481ee441bf1e47f385bac4f366f0c2c1050ad6195ebd1ba98eaaffe3356",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "commit": "87c5573a",
+    "sha256": "7990ad61939bfa91f199fa3f58a5ad4768474a33549b8c7e32b5389c5b65491a",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "commit": "87c5573a",
+    "sha256": "27fdf52f7cef2d4121a8cd953eed12efdbd382aa437efccf6dd3d8df7f6b3a00",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "commit": "8a8ceacf",
+    "sha256": "d649ba23ede5bedbfa67662223fa0ca4fff5b924e010b1d767d4996f53900659",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "commit": "8a8ceacf",
+    "sha256": "2c4453cf71f4600abec0e94fecda57aa53160512840f3edb7f331236c8442d46",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/README.md",
+    "commit": "87c5573a",
+    "sha256": "f9bb8dad8a8c5a64348b5153b50b06367dc337b5c8f13aa0ed2cf2aea6d49acd",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "commit": "87c5573a",
+    "sha256": "326ae9de41ecd1b92e5dda0536d1cbcb35ec415f30514e00f0f97385b62d0ad0",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/scripts/Build-AntheaGuides-Itec.py",
+    "commit": "87c5573a",
+    "sha256": "c077545cac554e310750eb540788f75cdabed16dd34f529e6a8c3546220d1be8",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  },
+  {
+    "origine": "supporto/scripts/Render-AntheaGuides-Itec.ps1",
+    "commit": "87c5573a",
+    "sha256": "e60767e046a8cc5feeba070d483fa9b36a1c52bfbc443c324466a0741dc63008",
+    "motivo": "Sostituito dalla Rev61 (ANTHEA 1.15.0): nella guida pratica la scheda 08 «Colonna modello» della sezione c.a. (dati, imperfezione ed eccentricità minima, viscosità, calcolo e «Interrompi», grafici, riquadri, «Esporta CSV…», capitolo della relazione), «Calcola armature» scheda 09, i file di testo MIDAS Civil .mct e Gen .mgt e l'importazione Straus7 nel modulo Modelli; nella guida teorica il metodo della colonna modello (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3) con gli scostamenti dichiarati K-1…K-6 e unità, segni e combinazioni delle copie dei modelli importati (CA-COLONNA-01, MOD-31, MOD-32)."
+  }
+]
