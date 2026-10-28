@@ -860,7 +860,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == visita
 dati B2B06872596962BB · byte 129018
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
 risultato D9DD214572EAB07E
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1144,7 +1144,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == attendi
 dati B2B06872596962BB · byte 129018
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
 risultato D9DD214572EAB07E
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1158,7 +1158,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == conferma
 dati B2B06872596962BB · byte 129018
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
 risultato D9DD214572EAB07E
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1172,7 +1172,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == calcola
 dati B2B06872596962BB · byte 129018
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
 risultato D9DD214572EAB07E
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1186,7 +1186,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == conferma
 dati B2B06872596962BB · byte 129018
-modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
+modificato 10 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 3
 risultato D9DD214572EAB07E
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata

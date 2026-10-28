@@ -59,26 +59,26 @@ modificato 0 · modificabile sì · occupato no · in coda no · risultati sì �
 risultato A1F267216B4B6DFA
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
-== scheda [7]
+== scheda [8]
 dati 0BAB6C33D8FC88AF · byte 8436
   combinazioni.SLU[0].visible = true
   combinazioni.SLV[0].visible = true
   combinazioni.SLE[0].visible = true
   workspace_ca.tab = 7
-modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 == attendi
 dati 0BAB6C33D8FC88AF · byte 8436
-modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 == scelta ricerca obiettivo «Compromesso»
 dati 8317FBCA34ADF226 · byte 8443
   workspace_ca.calcola_armature.obiettivo = "Compromesso"
-modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -132,14 +132,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 == attendi
 dati 8317FBCA34ADF226 · byte 8443
-modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 == scelta ricerca staffe «Mantieni»
 dati 1C28A8C493C4411A · byte 8442
   workspace_ca.calcola_armature.staffe = "Mantieni"
-modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -193,14 +193,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 == attendi
 dati 1C28A8C493C4411A · byte 8442
-modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 == opzione ricerca simmetrica
 dati 884EC583515EACED · byte 8441
   workspace_ca.calcola_armature.simmetrica = true
-modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -255,7 +255,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 == opzione ricerca ricerca_completa
 dati D187AD43A1A5299B · byte 8442
   workspace_ca.calcola_armature.ricerca_completa = false
-modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -309,14 +309,14 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 == attendi
 dati D187AD43A1A5299B · byte 8442
-modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 == campo ricerca diametri «abc»
 dati EAFA718EF2E6EB98 · byte 8434
   workspace_ca.calcola_armature.diametri = "abc"
-modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -370,7 +370,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 == pulsante ricerca Calcola armature
 dati EAFA718EF2E6EB98 · byte 8434
-modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -424,7 +424,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
 == attendi
 dati EAFA718EF2E6EB98 · byte 8434
-modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato BE6149390CBB30B6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] form ricerca
@@ -485,7 +485,7 @@ dati 2E90C6C83A0B6096 · byte 8448
   workspace_ca.taglio.bw_y = "1000"
   workspace_ca.taglio.d_y = "793.02207325533516"
   workspace_ca.taglio.asl_y = "3166.7253948185112"
-modificato 7 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 7
+modificato 7 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 8
 risultato -
 stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [armature] form ricerca
@@ -537,21 +537,21 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [armature] ricerca scarti ""
 [armature] tabella alternative · colonne "#=rank|Configurazione=config|kg/m=peso|Barre long.=barre|Pezzi/m=pezzi|Ø diversi=diametri|Pareto=pareto|Dettagli esecutivi=esito" · righe 0 · selezionata -1
 [armature] ricerca anteprima sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000000 · barra "" · zona ""
-== scheda [7]
+== scheda [8]
 dati 2E90C6C83A0B6096 · byte 8448
-modificato 7 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 7
+modificato 7 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 8
 risultato -
 stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [armature] invariata
 == attendi
 dati 2E90C6C83A0B6096 · byte 8448
-modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 1883773D196A0A5F
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata
 == conferma
 dati 2E90C6C83A0B6096 · byte 8448
-modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 7 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 1883773D196A0A5F
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [armature] invariata

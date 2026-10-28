@@ -823,7 +823,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == visita
 dati EF581FF9EB9E407E · byte 422130
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato E0CC22C341C289EC
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1048,7 +1048,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == attendi
 dati EF581FF9EB9E407E · byte 422130
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato E0CC22C341C289EC
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1062,7 +1062,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == conferma
 dati EF581FF9EB9E407E · byte 422130
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato E0CC22C341C289EC
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1076,7 +1076,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == calcola
 dati EF581FF9EB9E407E · byte 422130
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato E0CC22C341C289EC
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1090,7 +1090,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [wizard] invariata
 == conferma
 dati EF581FF9EB9E407E · byte 422130
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato E0CC22C341C289EC
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata

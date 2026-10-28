@@ -819,7 +819,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == visita
 dati D8AB0962899E838C · byte 9824
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 9D4221734F064924
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "EC2 con parametri DIN: CRd,c, vmin, ν1, limite di cotθ dipendente dal carico e z ridotto; hc,eff e distanza fessure nazionali. Riferimento materiali DLL NA:2013-04. Verifiche di sezione, senza certificazione dell’intero annesso."
@@ -1188,7 +1188,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
 == attendi
 dati D8AB0962899E838C · byte 9824
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 9D4221734F064924
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1201,7 +1201,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == conferma
 dati D8AB0962899E838C · byte 9824
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 9D4221734F064924
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1214,7 +1214,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == calcola
 dati D8AB0962899E838C · byte 9824
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 9D4221734F064924
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -1227,7 +1227,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == conferma
 dati D8AB0962899E838C · byte 9824
-modificato 8 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
+modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
 risultato 9D4221734F064924
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata

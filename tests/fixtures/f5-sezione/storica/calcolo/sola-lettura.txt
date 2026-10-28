@@ -2262,10 +2262,10 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [dettagli] invariata
 [armature] invariata
 [ispezione] invariata
-== scheda [7]
+== scheda [8]
 dati AC99C1904D78F33C · byte 8978
   workspace_ca.tab = 7
-modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 98257C0CED9D1007
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2278,7 +2278,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == campo ricerca diametri «16»
 dati AC99C1904D78F33C · byte 8978
-modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 98257C0CED9D1007
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
@@ -2291,7 +2291,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 == apri sollecitazioni { pulsante dialogo Applica }
 dati AC99C1904D78F33C · byte 8978
-modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 7
+modificato 0 · modificabile no · occupato no · in coda no · risultati sì · avanzamento no · scheda 8
 risultato 98257C0CED9D1007
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 messaggio "finestra non aperta: comando non disponibile"
