@@ -16,7 +16,7 @@ public sealed partial class ModelViewerViewModel
 {
     MidasModelCatalog? liveCatalog;
     int importOperation;
-    public IReadOnlyList<string> ImportSourceLabels { get; } = ["File o copia già acquisita", "MIDAS Civil NX · modello aperto", "Straus / Strand7 R3 · predisposizione"];
+    public IReadOnlyList<string> ImportSourceLabels { get; } = ["File · .antheamodel, MIDAS .mct/.mgt o copia acquisita", "MIDAS Civil NX · modello aperto", "Straus / Strand7 R3 · predisposizione"];
     [ObservableProperty] int selectedImportSource;
     [ObservableProperty] string midasBaseUrl = "https://moa-engineers.midasit.com/civil";
     // Session only; never included in view presets, reports or the project document.
@@ -33,7 +33,7 @@ public sealed partial class ModelViewerViewModel
     public bool HasImportCases => ImportCases.Count > 0;
     public bool ImportIncludesResults => SelectedUpdateScope is 2 or 3;
     public bool CanEditImport => !IsBusy && !IsReadOnly;
-    public string ImportActionLabel => IsMidasImport ? "Importa dal modello aperto" : IsStrand7Import ? "Import Straus · da attivare" : "Scegli copia e importa…";
+    public string ImportActionLabel => IsMidasImport ? "Importa dal modello aperto" : IsStrand7Import ? "Import Straus · da attivare" : "Scegli il file e importa…";
     public string ImportCasesSummary => $"{ImportCases.Count(c => c.IsSelected)} di {ImportCases.Count} casi selezionati";
     public string LiveImportLimitations => "Casi statici: sollecitazioni locali BEAM/PLATE e spostamenti globali. Stage: scegli fasi, passi e riferimento della deformata; nessuna somma automatica fra stati. Le combinazioni sono acquisite come definizioni. Terne e simboli di vincoli/link richiedono ancora il convertitore GPC distribuito.";
 

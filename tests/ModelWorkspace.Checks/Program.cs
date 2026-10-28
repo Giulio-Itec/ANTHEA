@@ -20,6 +20,7 @@ static partial class Program
         {
             var model = Sample.Model(); model.Validate();
             SnapshotPackageChecks(output);
+            await MidasTextImportChecks(output);
             await CombinationChecks(output);
             var clone = ModelSnapshot.FromJson(JsonSerializer.Serialize(model));
             Check(clone.Fingerprint() == model.Fingerprint(), "snapshot survives round trip, including offsets and per-element result values");

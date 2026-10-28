@@ -1,0 +1,190 @@
+{
+  "SECT": {
+    "1": {
+      "SECTTYPE": "DBUSER",
+      "SECT_NAME": "GPC_PAIR_QA_C_10",
+      "SECT_BEFORE": {
+        "OFFSET_PT": "CC",
+        "OFFSET_CENTER": 0,
+        "USER_OFFSET_REF": 0,
+        "HORZ_OFFSET_OPT": 0,
+        "USERDEF_OFFSET_YI": 0,
+        "VERT_OFFSET_OPT": 0,
+        "USERDEF_OFFSET_ZI": 0,
+        "USE_SHEAR_DEFORM": true,
+        "USE_WARPING_EFFECT": false,
+        "SHAPE": "2C",
+        "DATATYPE": 2,
+        "SECT_I": {
+          "vSIZE": [
+            0.2,
+            0.075,
+            0.01,
+            0.012,
+            0.01,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "2": {
+      "SECTTYPE": "DBUSER",
+      "SECT_NAME": "GPC_PAIR_QA_C_30",
+      "SECT_BEFORE": {
+        "OFFSET_PT": "CC",
+        "OFFSET_CENTER": 0,
+        "USER_OFFSET_REF": 0,
+        "HORZ_OFFSET_OPT": 0,
+        "USERDEF_OFFSET_YI": 0,
+        "VERT_OFFSET_OPT": 0,
+        "USERDEF_OFFSET_ZI": 0,
+        "USE_SHEAR_DEFORM": true,
+        "USE_WARPING_EFFECT": false,
+        "SHAPE": "2C",
+        "DATATYPE": 2,
+        "SECT_I": {
+          "vSIZE": [
+            0.2,
+            0.075,
+            0.01,
+            0.012,
+            0.03,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "3": {
+      "SECTTYPE": "DBUSER",
+      "SECT_NAME": "GPC_PAIR_QA_L-long_10",
+      "SECT_BEFORE": {
+        "OFFSET_PT": "CC",
+        "OFFSET_CENTER": 0,
+        "USER_OFFSET_REF": 0,
+        "HORZ_OFFSET_OPT": 0,
+        "USERDEF_OFFSET_YI": 0,
+        "VERT_OFFSET_OPT": 0,
+        "USERDEF_OFFSET_ZI": 0,
+        "USE_SHEAR_DEFORM": true,
+        "USE_WARPING_EFFECT": false,
+        "SHAPE": "2L",
+        "DATATYPE": 2,
+        "SECT_I": {
+          "vSIZE": [
+            0.15,
+            0.1,
+            0.01,
+            0.012,
+            0.01,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "4": {
+      "SECTTYPE": "DBUSER",
+      "SECT_NAME": "GPC_PAIR_QA_L-long_30",
+      "SECT_BEFORE": {
+        "OFFSET_PT": "CC",
+        "OFFSET_CENTER": 0,
+        "USER_OFFSET_REF": 0,
+        "HORZ_OFFSET_OPT": 0,
+        "USERDEF_OFFSET_YI": 0,
+        "VERT_OFFSET_OPT": 0,
+        "USERDEF_OFFSET_ZI": 0,
+        "USE_SHEAR_DEFORM": true,
+        "USE_WARPING_EFFECT": false,
+        "SHAPE": "2L",
+        "DATATYPE": 2,
+        "SECT_I": {
+          "vSIZE": [
+            0.15,
+            0.1,
+            0.01,
+            0.012,
+            0.03,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "5": {
+      "SECTTYPE": "DBUSER",
+      "SECT_NAME": "GPC_PAIR_QA_L-short_10",
+      "SECT_BEFORE": {
+        "OFFSET_PT": "CC",
+        "OFFSET_CENTER": 0,
+        "USER_OFFSET_REF": 0,
+        "HORZ_OFFSET_OPT": 0,
+        "USERDEF_OFFSET_YI": 0,
+        "VERT_OFFSET_OPT": 0,
+        "USERDEF_OFFSET_ZI": 0,
+        "USE_SHEAR_DEFORM": true,
+        "USE_WARPING_EFFECT": false,
+        "SHAPE": "2L",
+        "DATATYPE": 2,
+        "SECT_I": {
+          "vSIZE": [
+            0.1,
+            0.15,
+            0.01,
+            0.012,
+            0.01,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "6": {
+      "SECTTYPE": "DBUSER",
+      "SECT_NAME": "GPC_PAIR_QA_L-short_30",
+      "SECT_BEFORE": {
+        "OFFSET_PT": "CC",
+        "OFFSET_CENTER": 0,
+        "USER_OFFSET_REF": 0,
+        "HORZ_OFFSET_OPT": 0,
+        "USERDEF_OFFSET_YI": 0,
+        "VERT_OFFSET_OPT": 0,
+        "USERDEF_OFFSET_ZI": 0,
+        "USE_SHEAR_DEFORM": true,
+        "USE_WARPING_EFFECT": false,
+        "SHAPE": "2L",
+        "DATATYPE": 2,
+        "SECT_I": {
+          "vSIZE": [
+            0.1,
+            0.15,
+            0.01,
+            0.012,
+            0.03,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    }
+  }
+}

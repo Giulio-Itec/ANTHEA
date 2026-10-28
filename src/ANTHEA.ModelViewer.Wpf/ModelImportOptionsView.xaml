@@ -78,7 +78,7 @@
       <ProgressBar Height="5" IsIndeterminate="{Binding ImportProgressIndeterminate}" Value="{Binding ImportPercent}" Maximum="100"/>
       <TextBlock Text="{Binding ImportProgressMessage}" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
     </StackPanel>
-    <TextBlock Text="Pacchetto .antheamodel o copia MIDAS già acquisita (seleziona NODE.json)." Visibility="{Binding IsFileImport, Converter={StaticResource Visible}}" TextWrapping="Wrap" FontSize="10" Opacity=".65" Margin="0,8,0,0"/>
+    <TextBlock Text="Pacchetto .antheamodel, file di testo MIDAS Civil .mct o Gen .mgt (solo modello: geometria, attributi, carichi e combinazioni, senza risultati) o copia MIDAS già acquisita (seleziona NODE.json)." Visibility="{Binding IsFileImport, Converter={StaticResource Visible}}" TextWrapping="Wrap" FontSize="10" Opacity=".65" Margin="0,8,0,0"/>
     <TextBlock Text="{Binding UpdateProvenance}" TextWrapping="Wrap" FontSize="10" Opacity=".65" Margin="0,5,0,0"/>
   </StackPanel>
 </UserControl>

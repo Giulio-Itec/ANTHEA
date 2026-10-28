@@ -1,0 +1,87 @@
+;  MIDAS/Civil Text(MCT) File.
+; synthetic MCT, layouts of the MIDAS Civil NX exports
+*VERSION
+   synthetic-coverage
+*UNIT    ; Unit System
+   KN   , M, KJ, C
+*NODE
+     1, 0, 0, 0
+     2, 0, 0, 3
+     3, 6, 0, 3
+     4, 6, 4, 3
+     5, 0, 4, 3
+     6, 6, 0, 0
+     9, 6, 4, 0
+    10, 0, 4, 0
+*MATERIAL
+    1, CONC , C30/37, 0, 0, , C, NO, 0.05, 1, EN04(RC)  ,            , C30/37        , NO, 3.2836e+07
+    2, STEEL, S355  , 0, 0, , C, NO, 0.02, 1, EN05(S)   ,            , S355          , NO, 2.1e+08
+    3, CONC , C35/45 user, 0, 0, , C, NO, 0.05, 2,  3.4e+07,   0.2,  1.0000e-05,     25,     2.5493
+*SECTION    ; Section
+    1, DBUSER    , Pila  , CC, 0, 0, 0, 0, 0, 0, YES, NO, SB , 2, 0.6, 0.4, 0, 0, 0, 0, 0, 0, 0, 0
+    2, DBUSER    , Trave , CT, 0, 0, 0, 0, 0, 0, YES, NO, H  , 2, 0.4, 0.2, 0.01, 0.016, 0.2, 0.016, 0, 0, 0, 0
+    3, DBUSER    , Tubo  , CC, 0, 0, 0, 0, 0, 0, YES, NO, P  , 2, 0.1683, 0.008, 0, 0, 0, 0, 0, 0, 0, 0
+    4, VALUE     , Tirante, CC, 0, 0, 0, 0, 0, 0, YES, NO, SR , BUILT, 0.03, 0, 0, 0, 0, 0, 0, 0, 0
+       0.000706858, 0, 0, 7.95e-08, 3.976e-08, 3.976e-08
+       0.015, 0.015, 0.015, 0.015, 0, 0, 0.0942, 0, 0, 0
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+*THICKNESS    ; Thickness
+    1, VALUE, Soletta, YES, 0.25, 0,  NO, 0, 0
+    2, VALUE, Sbalzo, YES, 0.2, 0,  YES, 0, 0.5
+*ELEMENT    ; Elements
+     1, BEAM  ,    1,     1,     1,     2,     0,     0
+     2, BEAM  ,    1,     1,     6,     3,    90,     0
+     3, BEAM  ,    2,     2,     2,     3,     0,     0
+     4, TRUSS ,    2,     3,     1,     3,     0,     0
+     5, TENSTR,    2,     4,     6,     2,     0,     1,     0,     0,    NO
+    10, PLATE ,    1,     1,     2,     3,     4,     5,     1,     0
+    11, PLATE ,    3,     2,     2,     3,     4,     0,     2,    30
+*GROUP    ; Group
+   Deck, 2to5, 3 10 11, 0
+*LOCALAXIS
+   6, 3, 1, 1, 0, -1, 1, 0
+*CONSTRAINT    ; Supports
+   1, 111111, Base
+   6, 111000, Base
+   10, 1111110, Base
+*OFFSET    ; Beam End Offsets
+   3, GLOBAL , 0.1, 0, 0, -0.1, 0, 0,
+*FRAME-RLS    ; Beam End Release
+   3,  NO, 000011, 0, 0, 0, 0, 0, 0
+             000001, 0, 0, 0, 0, 0, 0.25, Rel
+*ELASTICLINK    ; Elastic Link
+     1,     4,     9, GEN  ,     0, NO, NO, NO, NO, NO, NO, 100, 200, 300, 400, 500, 600, NO, 0.5, 0.5, Links
+     2,     5,    10, RIGID,     0, NO, 0.5, 0.5, Links
+*RIGIDLINK    ; Rigid Link
+   2, 111111, 5,
+*STLDCASE    ; Static Load Cases
+   G, D , permanent
+   Q, L , live
+   W, W , wind
+*USE-STLD, G
+*SELFWEIGHT    ; Self Weight
+0, 0, -1, LG
+*USE-STLD, Q
+*CONLOAD    ; Nodal Loads
+   3, 0, 5, -20, 1, 0, 0, ,
+*BEAMLOAD    ; Element Beam Loads
+   3, BEAM   , UNILOAD, GZ, NO , NO, aDir[1], , , , 0, -10, 1, -10, 0, 0, 0, 0, , NO, 0, 0, NO,
+   3, BEAM   , CONLOAD, LZ, NO , NO, aDir[1], , , , 0.25, -8, 0, 0, 0, 0, 0, 0, , NO, 0, 0, NO,
+   3, BEAM   , UNILOAD, GZ, NO , NO, aDir[1], , , , 0.2, -1, 0.5, -3, 0.8, -3, 0, 0, , NO, 0, 0, NO,
+   1, BEAM   , UNIMOMENT, LX, NO , NO, aDir[1], , , , 0, 2, 1, 2, 0, 0, 0, 0, , NO, 0, 0, NO,
+*PRESSURE    ; Pressure Loads
+    10, PRES , PLATE, FACE, LZ, 0, 0, 0, NO, -2, 0, 0, 0, 0, ,0
+    10, HYDRO, PLATE, FACE, LZ, 0, 0, 0, NO, 0, 1, 1, 2, 2, ,0
+    10, PRES , PLATE, EDGE, 2, GZ, 0, 0, 0, -3, 0, 0,
+*USE-STLD, W
+*PRESSURE    ; Pressure Loads
+    11, PRES , PLATE, FACE, GX, 0, 0, 0, NO, 1.5, 0, 0, 0, 0, ,0
+*LOADCOMB    ; Combinations
+   NAME=C1, GEN, ACTIVE, 0, 0, , 0, 0, 0
+        ST, G, 1.35, ST, Q, 1.5
+   NAME=ENV, GEN, ACTIVE, 0, 1, , 0, 0, 0
+        CB, C1, 1
+        ST, W, 1
+   NAME=S1, STEEL, STRENGTH, 0, 0, , 0, 0, 0, 1
+        ST, G, 1, ST, W, 1.5
+*ENDDATA

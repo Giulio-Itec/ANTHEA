@@ -1,0 +1,24 @@
+{
+  "MATL": {
+    "1": {
+      "TYPE": "STEEL",
+      "NAME": "S355",
+      "HE_SPEC": 0,
+      "HE_COND": 0,
+      "PLMT": 0,
+      "P_NAME": "",
+      "bMASS_DENS": false,
+      "DAMP_RAT": 0,
+      "PARAM": [
+        {
+          "P_TYPE": 1,
+          "STANDARD": "EN05(S)",
+          "CODE": "",
+          "DB": "S355",
+          "bELAST": false,
+          "ELAST": 210000000
+        }
+      ]
+    }
+  }
+}
