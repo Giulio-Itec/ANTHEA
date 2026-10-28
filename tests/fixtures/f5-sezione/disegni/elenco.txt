@@ -68,7 +68,7 @@ rettangolare-materiali-utente piano 3D limite 800x650 · primitivi 60 684BA045E2
 rettangolare-materiali-utente ispezione 3D azione 800x650 · primitivi 175 2B5F6D50D602187F
 rettangolare-materiali-utente piano 3D azione 800x650 · primitivi 56 544C3B32971127C0
 rettangolare-materiali-utente dominio 2D 900x700 · primitivi 141 FAE2972FF4CADAE1
-rettangolare-materiali-utente momento-curvatura 900x650 · primitivi 62 BC03378DEB91DCF5
+rettangolare-materiali-utente momento-curvatura 900x650 · primitivi 62 B3B942C62EFD79C6
 sezione-a-t-sollecitazioni-uniche sezione 900x700 · primitivi 154 06411D270B9CCA31
 sezione-a-t-sollecitazioni-uniche SLE 900x700 · primitivi 225 C13A5F8F4295B2C0
 sezione-a-t-sollecitazioni-uniche SLE_FREQ 900x700 · primitivi 225 A3494E83F31EF54C

@@ -4,8 +4,9 @@ using Anthea.Calculations;
 using GPC.Model.Materials;
 
 /// <summary>
-/// Prova 4d: «CLS teso nelle risposte» del M–χ della sezione c.a. (16/10/2026), opzione SectionOptions.StressAnalysisConcreteTension =
-/// TensionStiffening di GPCChecker.Concrete 0.11 (pagina ca.momento-curvatura, riquadro M-3). (a) Il predefinito e i fogli senza la chiave
+/// Prova 4d: «CLS teso nelle risposte» del M–χ della sezione c.a. (16/10/2026), opzione SectionOptions.StressAnalysisConcreteTension di
+/// GPCChecker.Concrete (pagina ca.momento-curvatura, riquadro M-3): TensionChord di GPCChecker.Concrete 0.26 dal 27/10/2026 (modello del
+/// tirante, β = 0,4, BUG-TS-2 opzione 1), prima TensionStiffening (Collins e Mitchell). (a) Il predefinito e i fogli senza la chiave
 /// danno la curva di prima, bit per bit uguale a quella con «Trascurato» esplicito; (b) con «Tension stiffening» i punti della curva seguono
 /// il modello a fibre indipendente attesi/cls_teso_risposte.py e il punto limite resta quello del dominio, identico al predefinito;
 /// (c) l'opzione raggiunge la libreria solo dal M–χ: le verifiche SLE e SLU costruiscono il verificatore senza.
@@ -60,7 +61,7 @@ internal static class ClsTesoRisposte
         Is(!absent.Status.Contains("CLS teso nelle risposte"), "4d stato del predefinito con la frase del tension stiffening");
         Is(ConcreteCurvatureAnalysis.ResponseConcreteTension(Options(null)) == ConcreteMaterial.TensionResponseDiagrams.Default
             && ConcreteCurvatureAnalysis.ResponseConcreteTension(Options("Trascurato")) == ConcreteMaterial.TensionResponseDiagrams.Default
-            && ConcreteCurvatureAnalysis.ResponseConcreteTension(Options("Tension stiffening")) == ConcreteMaterial.TensionResponseDiagrams.TensionStiffening,
+            && ConcreteCurvatureAnalysis.ResponseConcreteTension(Options("Tension stiffening")) == ConcreteMaterial.TensionResponseDiagrams.TensionChord,
             "4d mappatura della scelta sul diagramma della libreria");
         string? rejection = null;
         try { ConcreteCurvatureAnalysis.Calculate(input, Workspace(), Options("Resistente")); } catch (ArgumentException ex) { rejection = ex.Message; }
@@ -87,27 +88,28 @@ internal static class ClsTesoRisposte
             && BitConverter.DoubleToInt64Bits(stiffening.AxialResidualKn) == BitConverter.DoubleToInt64Bits(absent.AxialResidualKn),
             "4d punto limite diverso con il tension stiffening");
         Is(JsonNode.DeepEquals(J.Node(stiffening.Points.Single(p => p.Limit)), J.Node(absent.Points.Single(p => p.Limit))), "4d riga limite diversa con il tension stiffening");
-        // Stessi campioni k/10 · MRd; il predefinito ha in più il punto del primo snervamento raffinato per bisezione fra 0,9 MRd e il limite.
+        // Stessi campioni k/10 · MRd e, in tutte e due, il punto del primo snervamento raffinato per bisezione fra 0,9 MRd e il limite.
         string Moments(MomentCurvatureResult curve) => string.Join("; ", curve.Points.Select(p => p.Moment.ToString("G9", Invariant)));
-        Is(stiffening.Points.Count == 11 && stiffening.Points.All(p => absent.Points.Any(q => q.Moment == p.Moment)),
+        Is(stiffening.Points.Count == 12 && stiffening.Points.Count(p => absent.Points.Any(q => q.Moment == p.Moment)) == 11,
             "4d campioni diversi: tension stiffening " + Moments(stiffening) + " · predefinito " + Moments(absent));
-        // Primo snervamento (attesi/cls_teso_risposte.py, εs = fyd/Es): senza trazione My = 65,2912 kNm e χy = 5,682050e-3 1/m; con il tension
-        // stiffening My = 104,30 kNm > MRd, quindi nessun punto della curva prima del limite è snervato (riquadro M-3: snervamento al limite).
+        // Primo snervamento (attesi/cls_teso_risposte.py, εs = fyd/Es): senza trazione My = 65,2912 kNm e χy = 5,682050e-3 1/m; con il modello
+        // del tirante la barra nella fessura snerva prima della deformazione media del piano (εm = 1,48381 ‰): My = 64,7117 kNm e
+        // χy = 4,485293e-3 1/m (lo stesso valore del modello indipendente di GPCChecker.Concrete, docs/ts2-tension-chord, righe FirstYield).
+        // Con la legge di Collins e Mitchell (fino al 26/10/2026) My = 104,30 kNm > MRd: nessun punto snervato prima del limite.
         Near(absent.Points.Where(p => p.Yielded).Min(p => p.Moment), 65.2912, .002, "4d Trascurato: momento del primo snervamento raffinato");
         Near(absent.YieldCurvature, 5.682050e-3, .005, "4d Trascurato: χy");
-        Is(stiffening.Points.Where(p => !p.Limit).All(p => !p.Yielded) && stiffening.YieldCurvature == stiffening.UltimateCurvature,
-            "4d tension stiffening: snervamento prima del limite, χy = " + stiffening.YieldCurvature?.ToString("G9", Invariant));
-        // Attesi indipendenti (attesi/cls_teso_risposte.py, Collins e Mitchell 1991 con Ecm = 31475,8 MPa e fctm = 2,56496 MPa): a 0,3 MRd la
-        // sezione non è fessurata, χ = 2,966838e-4 1/m e |εs|max = 0,07462 ‰; a 0,6 MRd χ = 7,698084e-4 1/m e |εs|max = 0,17221 ‰ (1,22804 ‰
-        // senza trazione; a 40,2 kNm lo script dà 0,1666 ‰ contro 1,2019 ‰, come il riquadro M-3). Tolleranze: 0,5% a 0,3 MRd; 1% a 0,6 MRd, dove
-        // d ln εs / d ln M = 1,5 e la legge ha il salto a εcr fra i punti di Gauss della libreria (circa 0,18 fctm, riquadro M-3); scarti
-        // osservati sotto lo 0,05%.
+        Near(stiffening.Points.Where(p => p.Yielded).Min(p => p.Moment), 64.7117, .002, "4d tension stiffening: momento del primo snervamento raffinato");
+        Near(stiffening.YieldCurvature, 4.485293e-3, .005, "4d tension stiffening: χy");
+        // Attesi indipendenti (attesi/cls_teso_risposte.py, modello del tirante con Ecm = 31475,8 MPa, fctm = 2,56496 MPa e β = 0,4): a 0,3 MRd
+        // la sezione non è fessurata (stato I), χ = 2,966838e-4 1/m e |εs|max = 0,07462 ‰, come con Collins e Mitchell, che sotto εcr è la
+        // stessa legge; a 0,6 MRd fessurata (stato II, hc,eff = 2,5 (h − d) = 115 mm, ρeff = 0,011656), χ = 2,410198e-3 1/m e |εs|max nella
+        // fessura 1,24824 ‰ (εm della barra 0,77552 ‰; 1,22804 ‰ e χ = 3,548731e-3 1/m senza trazione). Tolleranze 0,5%.
         Near(At(stiffening, .3).Curvature, 2.966838e-4, .005, "4d tension stiffening, 0,3 MRd: χ");
         // AG-CA-04 (24/10/2026, accettata dall'utente: «5A»): con la legge analitica lo script dà 0,07462 ‰, −3,55 % rispetto a 0,07737 ‰ della
         // legge tabulata (a sfavore, oltre il 3 %, segnalata nel registro).
         Near(At(stiffening, .3).SteelStrain, 0.07462, .005, "4d tension stiffening, 0,3 MRd: |εs|max");
-        Near(At(stiffening, .6).Curvature, 7.698084e-4, .01, "4d tension stiffening, 0,6 MRd: χ");
-        Near(At(stiffening, .6).SteelStrain, 0.17221, .01, "4d tension stiffening, 0,6 MRd: |εs|max");
+        Near(At(stiffening, .6).Curvature, 2.410198e-3, .005, "4d tension stiffening, 0,6 MRd: χ");
+        Near(At(stiffening, .6).SteelStrain, 1.24824, .005, "4d tension stiffening, 0,6 MRd: |εs|max nella fessura");
 
         // ---------------------------------------------------------------- (c) solo il M–χ porta l'opzione alla libreria
         // Opzioni SLE con la chiave (copiata per errore o da un foglio futuro): il verificatore resta senza tension stiffening.
@@ -115,8 +117,8 @@ internal static class ClsTesoRisposte
             (ConcreteCurvatureAnalysis.ResponseConcreteTensionKey, "Tension stiffening"));
         Is(new CheckerSection(input, Workspace(), sle, "SLU").Checker.SectionCheckerOptions.StressAnalysisConcreteTension == ConcreteMaterial.TensionResponseDiagrams.Default,
             "4d opzione letta dalle opzioni SLE");
-        Is(new CheckerSection(input, Workspace(), sle, "SLU", ConcreteMaterial.TensionResponseDiagrams.TensionStiffening).Checker.SectionCheckerOptions.StressAnalysisConcreteTension
-            == ConcreteMaterial.TensionResponseDiagrams.TensionStiffening, "4d opzione del M–χ non passata al verificatore");
+        Is(new CheckerSection(input, Workspace(), sle, "SLU", ConcreteMaterial.TensionResponseDiagrams.TensionChord).Checker.SectionCheckerOptions.StressAnalysisConcreteTension
+            == ConcreteMaterial.TensionResponseDiagrams.TensionChord, "4d opzione del M–χ non passata al verificatore");
         return count;
     }
 }

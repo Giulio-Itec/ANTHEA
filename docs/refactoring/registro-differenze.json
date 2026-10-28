@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-27",
+  "aggiornato": "2026-10-28",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -7209,19 +7209,20 @@
       "titolo": "Tension stiffening: domande aperte (zona tesa, SLE, valori medi, FRC, ModelChecker, ponte, stress block, convergenza)",
       "famiglia": "calcestruzzo/analisi-non-lineari",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
+      "stato": "da-decidere",
       "decisione_26_10_sera": {"data": "2026-10-26", "utente": "«ok, va bene la tua proposta»", "esito": "da correggere: tension stiffening limitato all'area efficace hc,eff e, per ora, fuori dalle verifiche SLE; le altre domande restano come sono; da attuare per la 1.14.3 (decisa per la 1.14.2, «correggiamo tutti i punti e rifacciamo la guida. facciamo la versione 1.14.2»; spostata il 26/10 notte: «versione 1.14.2 e 1.14.3 dopo correzioni»), nella libreria e poi in ANTHEA"},
       "descrizione": "Domande dell'agente all'utente sull'opzione BUG-TS-1: 1) legge applicata a tutta la zona tesa, senza area efficace né controllo della fessura: le sezioni poco armate risultano molto più rigide e lo snervamento arriva tardi; 2) esposizione nelle verifiche SLE (oggi no); 3) fcr di ACI e uso dei valori medi; 4) calcestruzzi fibrorinforzati; 5) collegamento in ModelChecker; 6) enum del ponte (HistoryConcreteTension) accanto al selettore di Model; 7) stress block nel M–χ (i mancati calcoli D800 con N −1500 kN non dipendono dalla trazione: con lo stress block nessun piano in compressione centrata dà N fra 1,01 e 10,8 MN); 8) regola di accettazione della convergenza (residuo minimo entro la tolleranza più due volte il salto della legge a εcr fra i punti di Gauss). Le principali sono la 1 e la 2.",
       "codice": [
         "Model/Model/Materials/Concrete/ConcreteTensionStiffening.cs",
         "Checker/GPCChecker.Concrete/SectionSolvers/SectionSolver.cs"
       ],
-      "segno": "da stabilire",
+      "segno": "Solo le curve M–χ con «Tension stiffening»: più cedevoli di prima dopo la fessurazione (il calcestruzzo teso non lavora fuori dalle barre) e snervamento prima del punto limite; punto limite e verifiche invariati.",
       "decisione": {
         "data": "2026-10-16",
         "utente": "domande dell'agente per l'utente, senza risposta",
         "esito": "da decidere"
       },
+      "attuazione_1144": {"data": "2026-10-28", "librerie": "Model 4860e9ee (GPCModel 5.22.0.0), Checker 41cbb14d, 8def9771, 52e3ecab (GPCChecker.Concrete 0.26.0.0), set candidato supporto/artefatti/librerie-1144/candidato-f", "esito": "Opzione 1 con β = 0,4 (decisioni dell'utente del 26-27/10/2026). Libreria: SectionOptions.StressAnalysisConcreteTension = TensionChord, il modello del tirante di GPCModel (ConcreteTensionChord) in due stati: sezione interamente reagente finché nessuna fibra supera εcr = fctm/Ecm; poi calcestruzzo teso nullo e barre tese dell'area efficace hc,eff (EN 1992-1-1 7.3.2(3)) lette alla deformazione nella fessura ε* = εm/(1 − β) nella formazione delle fessure ed εm + β σsr/Es a fessurazione stabilizzata, ρeff per barra dal piano della soluzione; le altre barre nude. Solo nei risultati delle analisi tensionali del solutore (un risultato costruito su un piano del dominio, come il punto limite del M–χ, tiene le barre alla deformazione del piano); snervamento del M–χ alla barra nella fessura. ANTHEA: «CLS teso nelle risposte» = Tension stiffening passa a TensionChord (prima TensionStiffening, Collins e Mitchell 1991 su tutta la zona tesa), con aiuto e frase di stato nuovi; la deformazione delle barre degli stati non lineari è quella della legge dell'acciaio (GetRebarSteelStrain: nella fessura con l'opzione, del piano altrimenti, bit per bit). Punto limite, domini, resistenze e verifiche SLE invariati. Attesi indipendenti: cls_teso_risposte.py (fibre, 0,3 MRd nello stato I come prima; 0,6 MRd χ = 2,410198e-3 1/m e |εs|max nella fessura 1,24824 ‰; primo snervamento My = 64,7117 kNm, χy = 4,485293e-3 1/m, lo stesso valore del modello indipendente di Checker). Riferimenti da approvare: attesi della prova 4d (ClsTesoRisposte.cs), traccia storica f5-sezione/storica/ispezione/momento-curvatura.txt (3 righe: stato, My 1176,561 → 1066,048 kNm, χy, curva con il punto dello snervamento), elenco dei disegni f5-sezione/disegni/elenco.txt (1 riga, M–χ di rettangolare-materiali-utente), report della curva di rettangolare-materiali-utente in vista-storica.json. Nessuna transizione F3: il confronto F3 non contiene curve M–χ."},
       "voci_collegate": [
         "BUG-TS-1"
       ]
@@ -11128,6 +11129,65 @@
       ],
       "voci_collegate": [
         "AJ-LIB-01"
+      ]
+    },
+    {
+      "id": "AK-FON-01",
+      "data": "2026-10-28",
+      "fase": "Librerie GPC della 1.14.4 (set candidato librerie-1144/candidato-f)",
+      "titolo": "Fondazioni superficiali: versione della libreria nel risultato (GPCChecker.Geotechnics 0.25.0.0)",
+      "famiglia": "fondazioni superficiali/risultato",
+      "modulo": "geo_fondazioni_superficiali (F5.9b)",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Come AJ-FON-01. GPCChecker.Geotechnics passa da 0.24.0.0 a 0.25.0.0 (combinazioni dei muri da Model, ModelName dei pali con la testa interrata). Nelle 8 fixture F3 con un risultato cambia l'impronta SHA-256 del risultato dopo «Calcola»; con 0.24.0.0 al posto di 0.25.0.0 tornano tutte le impronte di AJ-FON-01. Dati, Modified e stato uguali.",
+      "codice": [
+        "lib/Checker/GPCChecker.Geotechnics.dll",
+        "tests/ANTHEA.Desktop.UiTests/ShallowFoundationViewChecks.cs (HistoricFixtures, impronte del risultato)"
+      ],
+      "segno": "Nessun effetto sui numeri.",
+      "effetto_quantificato": "Cambiano 8 impronte del risultato su 11 fixture; le 3 senza risultato restano uguali.",
+      "decisione": null,
+      "test": [
+        "ui/check-fondazioni-view"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1144/registrazione-f2 (fond-hash, registrazione temporanea non committata), registrazione-f3"
+      ],
+      "voci_collegate": [
+        "AJ-FON-01",
+        "UI-CONTRASTO-01"
+      ]
+    },
+    {
+      "id": "UI-CONTRASTO-01",
+      "data": "2026-10-28",
+      "fase": "1.14.4, contrasto della Chiara",
+      "titolo": "Chiara: testo attenuato #5B697E e grigio dei valori automatici #767676, anche nei disegni tecnici e nelle figure dei report",
+      "famiglia": "interfaccia/temi",
+      "modulo": "tutti (tavolozza di Appearance, token Muted e Disabled)",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Decisione dell'utente del 27/10/2026 («Sì, #5B697E»): il testo secondario #64748B (4,36:1 sulla Surface #F3F5F8, 627 dei 643 difetti di contrasto della Chiara) diventa #5B697E (5,1:1); il grigio dei valori automatici #808080 (3,95:1 sul bianco) #767676 (4,54:1). La tavolozza dà ai colori storici i pennelli dei token, quindi cambiano tutti gli usi in primo piano della Chiara, compresi i disegni tecnici e le figure dei report che li usano; Scuro e Molto scuro restano uguali. Il controllo del contrasto passa da 645 occorrenze in 193 voci a 3 in 1 (il glifo «×» sottile della scala del dominio 3D). Le caselle delle curve del palo verticale hanno il testo in inchiostro e il colore della serie sul bordo.",
+      "codice": [
+        "src/ANTHEA.Desktop/Wpf/Appearance.cs (Replaced)",
+        "src/ANTHEA.Desktop/Themes/ThemeTokens.cs",
+        "src/ANTHEA.Desktop/Views/VerticalPile/VerticalPileSheetView.xaml"
+      ],
+      "segno": "Solo colore; nessun numero cambia.",
+      "effetto_quantificato": "Riferimenti da approvare: tabella tests/fixtures/f5/token-colori.json (Muted e Disabled della Chiara), baseline tests/fixtures/f5/contrasto-chiara.json (645 → 3), 136 elenchi dei disegni delle fondazioni (ShallowFoundationViewChecks, HistoricDrawings: con #64748B al posto di #5B697E tornano tutti quelli storici), la figura della sezione (image1.png) negli 11 report Word della sezione c.a. in vista-storica.json (1275-1285 pixel della didascalia, tutti spiegati dal grigio attenuato).",
+      "decisione": null,
+      "test": [
+        "ui/check-contrast",
+        "ui/check-theme-tokens",
+        "ui/check-fondazioni-view",
+        "ui/check-sezione-view"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1144 (ui-1, ui-2, registrazione-f2, registrazione-f3)"
+      ],
+      "voci_collegate": [
+        "AK-FON-01"
       ]
     }
   ]

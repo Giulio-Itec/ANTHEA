@@ -45,7 +45,7 @@
     },
     "Muted": {
       "ruolo": "foreground",
-      "Light": "#64748B",
+      "Light": "#5B697E",
       "Dark": "#B9C9DD",
       "VeryDark": "#BFC2C7"
     },
@@ -57,7 +57,7 @@
     },
     "Disabled": {
       "ruolo": "disabled",
-      "Light": "#808080",
+      "Light": "#767676",
       "Dark": "#8291A5",
       "VeryDark": "#8A8D92"
     },
