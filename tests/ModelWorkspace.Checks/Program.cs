@@ -13,7 +13,9 @@ static partial class Program
     static void Reject(Action action, string message) { try { action(); } catch (Exception ex) when (ex is InvalidDataException or ArgumentException or InvalidOperationException) { Check(true, message); return; } throw new Exception("Accepted: " + message); }
     static async Task<int> Main(string[] args)
     {
+        if (args.Length > 3 && args[0] == "--fake-strand7-worker") return FakeStrand7Worker(args);
         string output = Path.GetFullPath(args.FirstOrDefault() ?? "supporto/artefatti/model-viewer/checks"); Directory.CreateDirectory(output);
+        if (args.Contains("--straus7-native")) return await Strand7NativeChecks(output);
         if (args.Contains("--capture-midas")) return await CaptureLiveMidas(output, args);
         if (args.Contains("--combination-real")) return await CombinationReal(output, args);
         try
@@ -90,6 +92,7 @@ static partial class Program
             await ConstructionStageChecks(output);
             SectionInspectionChecks(output);
             await Strand7ImportSetupChecks(output);
+            await Strand7ImportChecks(output);
             ViewSettingsAndRevisionChecks();
             await ContourAveragingChecks();
             ExplorationChecks(output);

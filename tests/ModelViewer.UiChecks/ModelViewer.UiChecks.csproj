@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
- <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0-windows</TargetFramework><UseWPF>true</UseWPF><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><GpcLibraries>all</GpcLibraries></PropertyGroup>
- <ItemGroup><ProjectReference Include="../../src/ANTHEA.Desktop/ANTHEA.Desktop.csproj"/><Compile Include="../ModelWorkspace.Checks/Sample.cs" Link="Sample.cs"/><Compile Include="../ModelWorkspace.Checks/SectionInspectionSample.cs" Link="SectionInspectionSample.cs"/></ItemGroup>
+ <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0-windows</TargetFramework><UseWPF>true</UseWPF><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><GpcLibraries>GPCUtilities;GPCGeometry;DelaunayMesh;GPCModel;GPCModelData;GPCChecker.Concrete;GPCChecker.Steel;GPCChecker.Geotechnics;GPCChecker.CompositeBridge;GPCChecker.Masonry;GPC.Design;GPC.Converter</GpcLibraries></PropertyGroup>
+ <ItemGroup><ProjectReference Include="../../src/ANTHEA.Desktop/ANTHEA.Desktop.csproj"/><Compile Include="../ModelWorkspace.Checks/Sample.cs" Link="Sample.cs"/><Compile Include="../ModelWorkspace.Checks/SectionInspectionSample.cs" Link="SectionInspectionSample.cs"/><Compile Include="../ModelWorkspace.Checks/Strand7Sample.cs" Link="Strand7Sample.cs"/></ItemGroup>
+ <!-- 1.15.0: the Straus7 worker for the importer view (real worker only with GPC_STRAUS7_ELEMENTS=versioned). -->
+ <ItemGroup><ProjectReference Include="../../src/ANTHEA.Strand7Worker/ANTHEA.Strand7Worker.csproj" ReferenceOutputAssembly="false" Private="false"/></ItemGroup>
  <ItemGroup><EmbeddedResource Include="../../src/ANTHEA.Desktop/App.xaml" LogicalName="ModelViewer.Preview.App.xaml"/></ItemGroup>
 </Project>
