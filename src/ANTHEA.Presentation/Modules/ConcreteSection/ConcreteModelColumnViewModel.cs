@@ -62,7 +62,7 @@ public sealed class ConcreteModelColumnViewModel : ObservableObject, IDisposable
             Text("M0Ed", "M0Ed nella sezione critica (vuoto: solo capacità)", "kNm",
                 "Momento del primo ordine nella sezione critica, ≥ 0 nella direzione θ, senza imperfezione. Per gli elementi controventati con momenti "
                 + "d'estremità diversi il momento equivalente M0e di EN 1992-1-1 (5.32); M02 va verificato a parte all'estremità. Vuoto: solo la capacità M1Rd,max."),
-            Text("l0", "Lunghezza libera di inflessione l0", "m", "l0 dallo schema di vincolo (NTC 2018 [4.1.42], EN 1992-1-1 5.8.3.2 e Fig. 5.7): "
+            Text("l0", "Lunghezza libera di inflessione l0", "m", "l0 dallo schema di vincolo (NTC 2018 §4.1.2.3.9.2, EN 1992-1-1 5.8.3.2 e Fig. 5.7): "
                 + "mensola 2 l, cerniera–cerniera l, incastro–cerniera 0,7 l, incastro–incastro 0,5 l."),
             Text("l", "Lunghezza dell'elemento l", "m", "Lunghezza reale del pilastro: αh = 2/√l di EN 1992-1-1 5.2(5) e difetto l/300 di NTC 2018 §4.1.2.3.9.3."),
             Text("c", "Fattore della curvatura c (8–10)", "−", "e2 = χ·l0²/c (EN 1992-1-1 5.8.8.2(4)): 10 ≈ π² per la deformata sinusoidale, 8 con momento del primo ordine costante."),
