@@ -1,0 +1,36 @@
+;---------------------------------------------------------------------------
+;  midas Gen Text(MGT) File.
+;  Date : 2026/10/28
+;---------------------------------------------------------------------------
+
+*VERSION
+   9.5.5
+
+*UNIT    ; Unit System
+   KN   , M, KJ, C
+*NODE
+1, 0, 0, 0
+2, 5, 0, 0
+3, 5, 0, 3
+4, 0, 0, 3
+5, 5, 4, 3
+6, 0, 4, 3
+*MATERIAL
+1, CONC, C25/30, 0, 0, , C, NO, 0.05, 1, NTC18(RC), , C25/30, NO, 3.1476e+07
+*SECTION
+1, DBUSER, Trave, CC, 0, 0, 0, 0, 0, 0, YES, NO, SB, 2, 0.5, 0.3, 0, 0, 0, 0, 0, 0, 0, 0
+*THICKNESS
+1, VALUE, Solaio, YES, 0.2, 0, NO, 0, 0
+*ELEMENT
+1, BEAM, 1, 1, 4, 3, 0, 0
+2, WALL, 1, 1, 1, 2, 3, 4, 1, 1, 0, 0
+3, PLATE, 1, 1, 4, 3, 5, 6, 3, -90
+*STORY    ; Story
+;  NAME=NAME, LEVEL, bFLDIAP, WINDWX, WINDWY, WINDCX, WINDCY, ECCX, ECCY, IECCX, IECCY, TAFX, TAFY, WTAFX, WTAFY, AreaPosNum ; line 1
+   NAME=1F, 3, YES , 5, 4, 2.5, 2, 0.25, 0.2, 0, 0, 1, 1, 0.75, 0.6, 0
+   NAME=B1, 0, NO , 5, 4, 2.5, 2, 0.25, 0.2, 0, 0, 1, 1, 0.75, 0.6, 0
+*WALLMARK    ; Modify Wall Mark Data
+   W1, 1
+*CONSTRAINT
+1 2, 111111,
+*ENDDATA

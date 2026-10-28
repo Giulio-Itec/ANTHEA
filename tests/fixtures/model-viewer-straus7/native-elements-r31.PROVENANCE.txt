@@ -1,0 +1,25 @@
+Straus7 R31 - native element-family benchmark, 2026-10-28
+
+native-elements-r31.zip contains elements.st7 and elements.LSA, created and solved by
+UnitTest/Fixtures/Straus7/generate_native_elements_fixture.py through the installed, licensed Straus7 R31 API
+(St7api.dll R3.1.5, solver build R3.1.5, linear static). No previous fixture or expected value was regenerated.
+The production converter only reads; the script alone creates and solves this new model.
+
+SHA256 elements.st7  5EA6AA95D116D70DA7D296639470C386A45F1A106CBB6D351DA12FC88C07195A
+SHA256 elements.LSA  AFD2E4CA52E4346D3F14C8578E094C4D005AD7C0C460E0C165A28D4D1C494070
+SHA256 zip           D15C4742EB7E5D576203FF6C2FAE465B9F05136B4F560B62139E68F59815139B
+
+Model (mm, N, MPa, tonne; 22 nodes, 5 beam elements, 2 plates, 1 brick, 2 links):
+  beams 1 (1-2) and 2 (2-3) along +X, steel I 400 x 200 x 16/10; beam 1 End 2: rotation about principal axis 1 released;
+  beam 2 End 2: rotation about axis 1 partial, 1e9 Nmm/rad; truss 3 (4-2) CHS 114.3 x 6.3; cable 4 (5-2) solid 30 mm;
+  spring-damper 5 (1-6) axial 2000 N/mm; node spring kz = 500 N/mm at node 2 (freedom case 1);
+  rigid link 2-7 (global UCS, plane XYZ); master-slave link 7-8 (coincident, all DOFs);
+  plates 1-2: 200 mm steel shells, cantilever from x = 0 (nodes 9 and 12 fixed); one brick (nodes 15-22).
+  Case 1 "Dead": node 8 Fz -1000, beam 2 global Z -2 N/mm, nodes 11 and 14 Fz -500. Case 2 "Live": beam 1 principal-2 force -3000 at 0.5.
+  LSA combination "ULS" = 1.35 Dead + 1.5 Live. Element node forces enabled.
+Solver log: one warning, "A nonlinear solver should be used for analysis of cable elements"; no errors.
+
+Checked by Straus7NativeElementsTest (opt-in, GPC_STRAUS7_ELEMENTS=versioned): release, spring, link and combination
+mapping; plate results at the four nodes of each plate (their mean is the centroid value, bilinear extrapolation);
+zero moment about V1 at the released end; imported loads (-10 kN in case 1) balanced by the solver reactions, which
+include the node spring force at node 2 (-k uz).

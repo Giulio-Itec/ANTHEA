@@ -4,16 +4,16 @@
     <TextBlock Text="Sorgente del modello" Margin="0,0,0,5"/>
     <ComboBox ItemsSource="{Binding ImportSourceLabels}" SelectedIndex="{Binding SelectedImportSource}" IsEnabled="{Binding CanEditImport}" AutomationProperties.Name="Sorgente del modello"/>
     <StackPanel Visibility="{Binding IsStrand7Import, Converter={StaticResource Visible}}" Margin="0,10,0,10">
-      <TextBlock Text="STRAUS / STRAND7 R3" FontWeight="SemiBold"/>
-      <TextBlock Text="Preparazione della sorgente nativa. Modello e risultati rimangono nei file originali; il collegamento GPC sarà eseguito in un processo dedicato." TextWrapping="Wrap" FontSize="11" Margin="0,5,0,8"/>
+      <TextBlock Text="STRAUS7 / STRAND7 R3" FontWeight="SemiBold"/>
+      <TextBlock Text="Lettura in sola lettura con il convertitore GPC R3, in un processo dedicato a 64 bit. Modello e risultati restano nei file originali; serve la licenza API di Straus7." TextWrapping="Wrap" FontSize="11" Margin="0,5,0,8"/>
       <StackPanel IsEnabled="{Binding CanEditImport}">
         <TextBlock Text="Modello .st7"/><DockPanel Margin="0,3,0,7"><Button Content="Sfoglia…" Command="{Binding ChooseStrand7ModelCommand}" DockPanel.Dock="Right" Margin="5,0,0,0"/><TextBox Text="{Binding Strand7ModelPath, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Modello Straus ST7"/></DockPanel>
         <TextBlock Text="Risultati statici lineari .lsa"/><DockPanel Margin="0,3,0,7"><Button Content="Sfoglia…" Command="{Binding ChooseStrand7ResultsCommand}" DockPanel.Dock="Right" Margin="5,0,0,0"/><TextBox Text="{Binding Strand7ResultsPath, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Risultati Straus LSA"/></DockPanel>
         <TextBlock Text="API R3 a 64 bit · St7api.dll"/><DockPanel Margin="0,3,0,7"><Button Content="Sfoglia…" Command="{Binding ChooseStrand7ApiCommand}" DockPanel.Dock="Right" Margin="5,0,0,0"/><TextBox Text="{Binding Strand7ApiPath, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="API Straus R3"/></DockPanel>
       </StackPanel>
-      <WrapPanel><Button Content="Controlla i file" Command="{Binding CheckStrand7SetupCommand}"/><Button Content="Annulla controllo" Command="{Binding CheckStrand7SetupCancelCommand}" Margin="5,0,0,0"/></WrapPanel>
+      <WrapPanel><Button Content="Controlla file e casi" Command="{Binding CheckStrand7SetupCommand}"/><Button Content="Annulla controllo" Command="{Binding CheckStrand7SetupCancelCommand}" Margin="5,0,0,0"/></WrapPanel>
       <TextBlock Text="{Binding Strand7PreparationSummary}" TextWrapping="Wrap" FontSize="11" Margin="0,8,0,0"/>
-      <TextBlock Text="L’elenco dei casi, la corrispondenza modello/risultati e la disponibilità della licenza saranno verificati dal collegamento nativo. Importazione disattivata fino alla sua integrazione. Anche gli stage nativi restano da collegare: non vengono trattati come casi statici." TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,8,0,0"/>
+      <TextBlock Text="Il controllo apre il modello in Straus7, verifica la corrispondenza fra modello e risultati e legge l’elenco dei casi statici lineari. Gli stage non vengono trattati come casi statici." TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,8,0,0"/>
     </StackPanel>
     <StackPanel Visibility="{Binding IsMidasImport, Converter={StaticResource Visible}}" Margin="0,8,0,10">
       <TextBlock Text="In MIDAS: Apps → API Settings → Connect. Copia qui Base URL e MAPI-Key." TextWrapping="Wrap" FontSize="11" Margin="0,0,0,8"/>
@@ -32,7 +32,7 @@
     <TextBlock Text="Contenuto da acquisire" Margin="0,0,0,5"/>
     <ComboBox ItemsSource="{Binding UpdateScopeLabels}" SelectedIndex="{Binding SelectedUpdateScope}" IsEnabled="{Binding CanChooseUpdateScope}" AutomationProperties.Name="Modalità di aggiornamento"/>
     <TextBlock Text="{Binding UpdateScopeDescription}" TextWrapping="Wrap" FontSize="11" Margin="0,7,0,8"/>
-    <StackPanel Visibility="{Binding IsMidasImport, Converter={StaticResource Visible}}">
+    <StackPanel Visibility="{Binding IsLiveImport, Converter={StaticResource Visible}}">
       <StackPanel Visibility="{Binding ImportIncludesResults, Converter={StaticResource Visible}}" IsEnabled="{Binding CanEditImport}">
         <CheckBox Content="Sollecitazioni locali · beam e plate" IsChecked="{Binding ImportForces}"/>
         <CheckBox Content="Spostamenti globali · deformata" IsChecked="{Binding ImportDisplacements}"/>
@@ -78,7 +78,7 @@
       <ProgressBar Height="5" IsIndeterminate="{Binding ImportProgressIndeterminate}" Value="{Binding ImportPercent}" Maximum="100"/>
       <TextBlock Text="{Binding ImportProgressMessage}" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
     </StackPanel>
-    <TextBlock Text="Pacchetto .antheamodel o copia MIDAS già acquisita (seleziona NODE.json)." Visibility="{Binding IsFileImport, Converter={StaticResource Visible}}" TextWrapping="Wrap" FontSize="10" Opacity=".65" Margin="0,8,0,0"/>
+    <TextBlock Text="Pacchetto .antheamodel, file di testo MIDAS Civil .mct o Gen .mgt (solo modello: geometria, attributi, carichi e combinazioni, senza risultati) o copia MIDAS già acquisita (seleziona NODE.json)." Visibility="{Binding IsFileImport, Converter={StaticResource Visible}}" TextWrapping="Wrap" FontSize="10" Opacity=".65" Margin="0,8,0,0"/>
     <TextBlock Text="{Binding UpdateProvenance}" TextWrapping="Wrap" FontSize="10" Opacity=".65" Margin="0,5,0,0"/>
   </StackPanel>
 </UserControl>

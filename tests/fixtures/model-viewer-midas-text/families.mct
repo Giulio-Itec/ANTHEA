@@ -1,0 +1,33 @@
+*UNIT
+KN, M, KJ, C
+*NODE
+1, 0, 0, 0
+2, 4, 0, 0
+3, 4, 0, 3
+4, 0, 0, 3
+5, 0, 3, 0
+6, 4, 3, 0
+7, 4, 3, 3
+8, 0, 3, 3
+*MATERIAL
+1, STEEL, S355, 0, 0, , C, NO, 0.02, 1, EN05(S), , S355, NO, 2.1e+08
+*SECTION
+1, DBUSER, Tubo, CC, 0, 0, 0, 0, 0, 0, YES, NO, P, 2, 0.1, 0.005, 0, 0, 0, 0, 0, 0, 0, 0
+*THICKNESS
+1, VALUE, Parete, YES, 0.3, 0, NO, 0, 0
+*ELEMENT
+1, COMPTR, 1, 1, 1, 2, 0, 1, 0, 0, NO
+2, COMPTR, 1, 1, 2, 3, 0, 2, 0.01, 0, NO
+3, TENSTR, 1, 1, 3, 4, 0, 3, 50, 0, NO
+4, TENSTR, 1, 1, 4, 1, 0, 2, 0, 0, NO
+5, WALL, 1, 1, 1, 2, 3, 4, 2, 7, 0, 0
+6, PLSTRS, 1, 1, 5, 6, 7, 8, 1, 0
+7, SOLID, 1, 1, 1, 2, 6, 5, 4, 3, 7, 8
+*GROUP
+All, , 1to7, 0
+*STLDCASE
+Q, L, 
+*USE-STLD, Q
+*PRESSURE
+5, PRES, PLATE, FACE, LZ, 0, 0, 0, NO, -2, 0, 0, 0, 0, ,0
+*ENDDATA

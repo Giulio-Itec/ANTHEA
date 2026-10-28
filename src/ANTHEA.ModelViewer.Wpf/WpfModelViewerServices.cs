@@ -11,6 +11,8 @@ namespace ANTHEA.ModelViewer.Wpf;
 internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Action<string> saveImage, Func<ModelCameraState?>? captureCamera=null, Action<ModelCameraState>? restoreCamera=null, ModelViewPresetStore? viewStore=null) : IModelViewerServices
 {
     private readonly ModelViewPresetStore views=viewStore??new(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ANTHEA","ModelViews"));
+    // 1.15.0: also the MIDAS Civil/Gen text models, read by ModelSnapshotFiles through the GPC converter.
+    internal const string ModelFileFilter = "Modelli leggibili|*.antheamodel;*.mct;*.mgt;NODE.json|Modello ANTHEA|*.antheamodel|File di testo MIDAS Civil / Gen (*.mct;*.mgt)|*.mct;*.mgt|Copia del laboratorio (NODE.json)|NODE.json";
     public ModelCameraState? CaptureCamera()=>captureCamera?.Invoke();
     public void RestoreCamera(ModelCameraState camera)=>restoreCamera?.Invoke(camera);
     public IReadOnlyList<ModelViewPreset> LoadViews(string revision)=>views.Read(revision);
@@ -48,7 +50,7 @@ internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Ac
     }
     public async Task<ModelSnapshot?> ImportAsync(CancellationToken cancellationToken)
     {
-        var dialog = new OpenFileDialog { Title = "Importa modello nel progetto", Filter = "Modello ANTHEA|*.antheamodel|Copia del laboratorio (NODE.json)|NODE.json" };
+        var dialog = new OpenFileDialog { Title = "Importa modello nel progetto", Filter = ModelFileFilter };
         if (dialog.ShowDialog(owner()) != true) return null;
         return await Task.Run(() => ModelSnapshotFiles.Read(dialog.FileName, cancellationToken), cancellationToken);
     }
@@ -59,10 +61,15 @@ internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Ac
     }
     public string? ChooseStrand7File(Strand7ImportFile kind)
     {
-        var dialog=new OpenFileDialog {Title="Predisponi importazione Straus / Strand7",Filter=kind switch
+        var dialog=new OpenFileDialog {Title="Importazione Straus7 / Strand7",Filter=kind switch
         {Strand7ImportFile.Model=>"Modello Straus / Strand7|*.st7",Strand7ImportFile.Results=>"Risultati statici lineari|*.lsa",_=>"API Straus / Strand7 R3|St7api.dll|Librerie native|*.dll"}};
         return dialog.ShowDialog(owner())==true?dialog.FileName:null;
     }
+    // 1.15.0: the Straus7 worker process next to ANTHEA.exe; this process never loads St7api.dll.
+    public Task<Strand7ModelCatalog> InspectStrand7Async(Strand7ImportRequest request,IProgress<ModelImportProgress> progress,CancellationToken token)=>
+        Task.Run(()=>new Strand7ModelSource().InspectAsync(request,progress,token),token);
+    public Task<ModelSnapshot> ImportStrand7Async(Strand7ImportRequest request,IProgress<ModelImportProgress> progress,CancellationToken token)=>
+        Task.Run(()=>new Strand7ModelSource().ReadAsync(request,progress,token),token);
     public async Task<ModelSnapshot> ImportMidasAsync(MidasImportRequest request,IProgress<ModelImportProgress> progress,CancellationToken token)
     {
         using var source=new MidasModelSource();
@@ -70,7 +77,7 @@ internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Ac
     }
     public async Task<ModelSnapshot?> OpenPreviousModelAsync(CancellationToken cancellationToken)
     {
-        var dialog=new OpenFileDialog {Title="Confronta con una copia precedente del modello",Filter="Modello ANTHEA|*.antheamodel|Copia del laboratorio (NODE.json)|NODE.json"};
+        var dialog=new OpenFileDialog {Title="Confronta con una copia precedente del modello",Filter=ModelFileFilter};
         if(dialog.ShowDialog(owner())!=true)return null;
         return await Task.Run(()=>ModelSnapshotFiles.Read(dialog.FileName,cancellationToken),cancellationToken);
     }

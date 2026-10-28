@@ -16,7 +16,7 @@ public sealed partial class ModelViewerViewModel
 {
     MidasModelCatalog? liveCatalog;
     int importOperation;
-    public IReadOnlyList<string> ImportSourceLabels { get; } = ["File o copia già acquisita", "MIDAS Civil NX · modello aperto", "Straus / Strand7 R3 · predisposizione"];
+    public IReadOnlyList<string> ImportSourceLabels { get; } = ["File · .antheamodel, MIDAS .mct/.mgt o copia acquisita", "MIDAS Civil NX · modello aperto", "Straus7 / Strand7 R3 · file .st7 e .lsa"];
     [ObservableProperty] int selectedImportSource;
     [ObservableProperty] string midasBaseUrl = "https://moa-engineers.midasit.com/civil";
     // Session only; never included in view presets, reports or the project document.
@@ -33,14 +33,23 @@ public sealed partial class ModelViewerViewModel
     public bool HasImportCases => ImportCases.Count > 0;
     public bool ImportIncludesResults => SelectedUpdateScope is 2 or 3;
     public bool CanEditImport => !IsBusy && !IsReadOnly;
-    public string ImportActionLabel => IsMidasImport ? "Importa dal modello aperto" : IsStrand7Import ? "Import Straus · da attivare" : "Scegli copia e importa…";
+    public string ImportActionLabel => IsMidasImport ? "Importa dal modello aperto" : IsStrand7Import ? "Importa da Straus7" : "Scegli il file e importa…";
     public string ImportCasesSummary => $"{ImportCases.Count(c => c.IsSelected)} di {ImportCases.Count} casi selezionati";
-    public string LiveImportLimitations => "Casi statici: sollecitazioni locali BEAM/PLATE e spostamenti globali. Stage: scegli fasi, passi e riferimento della deformata; nessuna somma automatica fra stati. Le combinazioni sono acquisite come definizioni. Terne e simboli di vincoli/link richiedono ancora il convertitore GPC distribuito.";
+    public string LiveImportLimitations => IsStrand7Import
+        ? "Statico lineare, casi primari: piastre ai nodi senza media fra elementi, aste alle stazioni di Straus7, spostamenti e rotazioni globali. Le combinazioni LSA sono definizioni: ANTHEA le costruisce con GPC dai casi importati. Brick, link non mappati, fasi, masse e temperature restano nel file con un avviso."
+        : "Casi statici: sollecitazioni locali BEAM/PLATE e spostamenti globali. Stage: scegli fasi, passi e riferimento della deformata; nessuna somma automatica fra stati. Le combinazioni sono acquisite come definizioni. Terne e simboli di vincoli/link richiedono ancora il convertitore GPC distribuito.";
 
     partial void OnSelectedImportSourceChanged(int value)
     {
         OnPropertyChanged(nameof(IsMidasImport)); OnPropertyChanged(nameof(IsFileImport)); OnPropertyChanged(nameof(ImportActionLabel));
-        OnPropertyChanged(nameof(IsStrand7Import)); CheckStrand7SetupCommand.NotifyCanExecuteChanged();
+        OnPropertyChanged(nameof(IsStrand7Import)); OnPropertyChanged(nameof(IsLiveImport)); OnPropertyChanged(nameof(LiveImportLimitations)); CheckStrand7SetupCommand.NotifyCanExecuteChanged();
+        // The selectable cases belong to the catalog of one source.
+        if (strand7Catalog != null || liveCatalog != null)
+        {
+            strand7Catalog = null; strand7CaseNumbers.Clear(); liveCatalog = null; ImportCases.Clear(); ResetImportStages();
+            ConnectionSummary = "Connessione da controllare."; ResetStrand7Preparation();
+            OnPropertyChanged(nameof(HasImportCases)); OnPropertyChanged(nameof(ImportCasesSummary)); OnPropertyChanged(nameof(HasStrand7Catalog));
+        }
         if(IsStrand7Import && string.IsNullOrWhiteSpace(Strand7ApiPath))Strand7ApiPath=Strand7ImportSetup.FindInstalledApi();
         ImportCommand.NotifyCanExecuteChanged(); InspectMidasCommand.NotifyCanExecuteChanged();
     }
@@ -55,7 +64,7 @@ public sealed partial class ModelViewerViewModel
         ImportCommand.NotifyCanExecuteChanged(); InspectMidasCommand.NotifyCanExecuteChanged();
     }
     void ImportCaseSelectionChanged() { OnPropertyChanged(nameof(ImportCasesSummary)); ImportCommand.NotifyCanExecuteChanged(); }
-    bool HasLiveImportSelection => IsFileImport || IsMidasImport && liveCatalog != null && (!ImportIncludesResults ||
+    bool HasLiveImportSelection => IsFileImport || IsStrand7Import && HasStrand7Selection || IsMidasImport && liveCatalog != null && (!ImportIncludesResults ||
         (ImportCases.Any(c => c.IsSelected) || HasValidStageSelection) && (!ImportConstructionStages || HasValidStageSelection) && (ImportForces || ImportDisplacements));
     bool CanInspectMidas() => IsMidasImport && CanEditImport && !disposed && !IsVerificationRunning && !IsReportRunning && !IsRevisionBusy &&
         !string.IsNullOrWhiteSpace(MidasBaseUrl) && !string.IsNullOrWhiteSpace(MidasApiKey);
@@ -85,10 +94,10 @@ public sealed partial class ModelViewerViewModel
 
     [RelayCommand] void SelectAllImportCases() { if (CanEditImport) foreach (var item in ImportCases) item.IsSelected = true; }
     [RelayCommand] void ClearImportCases() { if (CanEditImport) foreach (var item in ImportCases) item.IsSelected = false; }
-    IProgress<ModelImportProgress> BeginImportProgress()
+    IProgress<ModelImportProgress> BeginImportProgress(string initial = "Connessione a MIDAS…")
     {
         int operation = ++importOperation;
-        ImportPercent = 0; ImportProgressIndeterminate = true; ImportProgressMessage = "Connessione a MIDAS…";
+        ImportPercent = 0; ImportProgressIndeterminate = true; ImportProgressMessage = initial;
         return new Progress<ModelImportProgress>(p =>
         {
             if (disposed || !IsBusy || operation != importOperation) return;

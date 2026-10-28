@@ -24,7 +24,8 @@ fuori dal ramo rende visibile il riferimento non risolto. Collegare non trasferi
 | src/ANTHEA.ModelViewer.Presentation | ViewModel, albero, selezioni, colori, tabelle, unità e comandi; nessuna WPF |
 | src/ANTHEA.ModelViewer.Wpf | Controlli XAML, servizi di dialogo, renderer Helix, interpolazione esclusivamente grafica |
 | X.Desktop/Wpf/ProjectModels.cs | Navigazione e aggancio al documento, limitati al modulo Modelli |
-| tools/ModelViewer.Prepare | Ponte di sviluppo verso un checkout GPC esplicito, fuori dal normale prodotto e dalla soluzione |
+| tools/ModelViewer.Prepare | Ponte di sviluppo verso un checkout GPC esplicito, fuori dal normale prodotto e dalla soluzione; dalla 1.15.0 usa `GpcBatchNormalization` di ModelWorkspace |
+| src/ANTHEA.Strand7Worker | Dalla 1.15.0: processo x64 che legge Straus7 con il convertitore GPC R3; unico punto che carica `St7api.dll` |
 
 Comandi con CommunityToolkit.Mvvm 8.3.2; renderer HelixToolkit.Wpf.SharpDX 3.1.2. Il code-behind collega soltanto
 eventi WPF, selezione e ciclo di vita. La chiusura annulla l'importazione pendente e libera le risorse GPU.
@@ -166,8 +167,9 @@ aggiunge le 3.755 terne nodali. Nel modello reale SKEW è vuota e le terne sono 
 con X=(0,1,0), Y=(-1,0,0), Z=(0,0,1) verifica in WPF l'orientamento ruotato.
 
 Il pulsante «Aggiorna modello» apre il pannello di importazione: pacchetto .antheamodel, copia MIDAS già
-acquisita o modello MIDAS aperto tramite API (dal 12 ottobre, MOD-28). Straus/Strand7 è predisposto
-con selezione dei file e controllo dei prerequisiti, ma la lettura nativa non è ancora attiva (MOD-29).
+acquisita o modello MIDAS aperto tramite API (dal 12 ottobre, MOD-28). Dalla 1.15.0 anche file di testo MIDAS Civil .mct e
+Gen .mgt e modelli Straus/Strand7 R3 letti dal processo dedicato (MOD-29, MOD-31, MOD-32; sezione «Importatori MIDAS di testo e
+Straus7» in fondo).
 Modalità concordate con l'utente l'11 ottobre:
 
 | Modalità | Contenuto acquisito | Uso |
@@ -851,3 +853,120 @@ fallimenti, dopo integrazione dei metadati editoriali. Nessun cambiamento al cod
 La guida pratica corrente è la Rev35: conserva il capitolo Fondazioni di F4 e porta l'importazione Modelli al capitolo 21. La Rev33 descritta sopra resta un'evidenza storica e viene archiviata insieme alla pratica Rev34. La guida teorica resta alla Rev34. Codice del visualizzatore e calcoli delle combinazioni si integrano senza conflitti con F4. Verifica finale del rilascio subordinata alle nuove DLL che l'utente sta preparando.
 
 Controlli dell'integrazione: quick 31 PASS e nessun nuovo fallimento. Guida pratica di 72 pagine: 882 frammenti verificati nel Word, 26 parti ITEC identiche, 63 pagine precedenti del corpo del PDF senza variazioni di testo; nuove pagine 69–72 e indici controllati visivamente. Evidenze `supporto/artefatti/guide_anthea_itec_rev35`.
+
+
+## Importatori MIDAS di testo e Straus7 — 1.15.0, 28 ottobre 2026
+
+Branch `refactoring/1150-importatori` da `main` 81664db2 (1.14.4), set di librerie candidato b (GPCModel 5.23.0.0,
+GPC.Converter 2.7.0.0 da Model `lib-1150/importatori` 021ca957). Richieste dell'utente: «completa e fai test su lettura
+modello straus7», «lavora anche per l'importazione di un file midas civil e midas gen tramite file txt (mgt e mct)».
+Voci del registro MOD-31 e MOD-32.
+
+### Formati letti dal modulo Modelli
+
+| Sorgente | Come | Contenuto della copia |
+| --- | --- | --- |
+| `.antheamodel` | `ModelSnapshotFiles.Read` | invariato |
+| Copia del laboratorio (`NODE.json`) | `MidasSnapshotImporter.ReadDirectory` | invariato (stesse impronte, vedi sotto) |
+| MIDAS Civil `.mct`, MIDAS Gen `.mgt` | pannello «File», `MidasTextImporter` | geometria, attributi, carichi, combinazioni; nessun risultato |
+| MIDAS Civil NX aperto | pannello MIDAS, API | invariato (MOD-28) |
+| Straus7 / Strand7 R3 `.st7` e `.lsa` | pannello Straus7, processo `ANTHEA.Strand7Worker.exe` | geometria, attributi, combinazioni LSA (definizioni), risultati statici lineari dei casi scelti |
+
+**MIDAS di testo.** `MidasTextFiles.ReadTables` di GPC Converter 2.7 traduce i comandi nelle tabelle dell'API Civil NX
+(N, mm, °C; codifica Windows-1252, UTF-8 se il file ha il BOM). Il nucleo di `ReadDirectory` è diventato
+`MidasSnapshotImporter.FromTables` e legge le stesse tabelle in memoria: la copia dal file e quella dall'API hanno la stessa
+forma, e le tabelle (con `SPRING` e `GPC-TEXT`) restano in `SourceTables` per proprietà, sezioni, carichi grafici e
+combinazioni. Il batch è mappato da `ModelMapper` come fa l'adattatore GPC dei file: se GPC rifiuta il modello, l'importazione
+è rifiutata e la copia aperta resta. Terne, terne nodali, vincoli, molle puntuali, link, rilasci e diagnostiche vengono da
+`GpcBatchNormalization`, estratta da `tools/ModelViewer.Prepare`, che ora la chiama. Prima di `Validate` restano fuori, con un
+messaggio di importazione: elementi senza equivalente nella vista (WALL, PLSTRS, PLSTRN, AXISYM, SOLID e simili; i loro nodi
+restano), piastre con spessore irrigidito, diverso nel piano e fuori piano o non definito; le aste di una sezione non definita
+restano ad asse con una sezione segnaposto senza profilo. Uno spessore con offset disattivato (bOFFSET NO) che conserva un valore
+nel file non ha offset, come in GPC (la copia API conserva la regola precedente). Nome della copia = nome del file; `Source` «MIDAS Civil · file .mct ·
+‹file› · SHA-256 ‹12 cifre›» o «MIDAS Gen · file .mgt · …». Filtro del dialogo «File di testo MIDAS Civil / Gen (*.mct;*.mgt)»,
+anche nel confronto con una copia precedente.
+
+`ReadDirectory` è invariato: impronte identiche fra il codice di `main` e quello nuovo su sette cartelle di tabelle (due
+fixture API native 9.5.5 della libreria e cinque cartelle di tabelle tradotte), errori identici sulle tre non valide; evidenza
+in `supporto/artefatti/1150/importatori/readdirectory`.
+
+### Processo Straus7
+
+`ANTHEA.Strand7Worker.exe` (net8.0, x64) è l'unico processo di ANTHEA che carica `St7api.dll`, attraverso
+`Straus7ApiConverter` (sessione in sola lettura, licenza con `lmAbort`, nessun salvataggio, calcolo o modifica). Una richiesta
+per processo; WPF non carica mai l'API. Protocollo (`Strand7WorkerProtocol`, versione 1):
+
+- richiesta: file JSON `Strand7WorkerRequest` (operazione Inspect o Read, percorsi, ambito, numeri dei casi di risultato,
+  forze, spostamenti, firma attesa, percorso del risultato), unico argomento del processo;
+- avanzamento: righe `PROGRESSO ‹completati› ‹totale› ‹testo›` su stdout (totale 0 = durata non nota); errore: una riga
+  `ERRORE ‹testo in italiano›`; successo: `FATTO`;
+- risultato: Inspect scrive un `Strand7ModelCatalog` (conteggi, casi di risultato abbinati ai casi di carico con
+  `Straus7LinearStaticResults.CaseMap`, combinazioni LSA, firma SHA-256 di `.st7` e `.lsa`), Read una `ModelSnapshot`; il file si
+  scrive come `‹risultato›.parziale` e poi si rinomina, mai sopra un risultato esistente;
+- codici di uscita: 0 successo, 2 richiesta non valida, 3 file mancanti o cambiati dopo il controllo, 4 API non disponibile
+  (installazione R3 x64, licenza), 5 modello o risultati rifiutati dal convertitore, 6 errore imprevisto;
+- annullamento: ANTHEA chiude il processo e il suo albero; la cartella temporanea della richiesta si cancella. Un'importazione
+  fallita, annullata o senza risultato completo non tocca il documento; la copia letta passa anche da `Validate`.
+
+`Strand7ModelSource` (ModelWorkspace) controlla i file con `Strand7ImportSetup.Check`, lancia il processo e legge il risultato.
+Nel pannello: «Controlla file e casi» legge il catalogo; casi, sollecitazioni e spostamenti si scelgono come per MIDAS;
+«Importa da Straus7»; cambiare un file o la sorgente scarta catalogo e casi. Read rifiuta file cambiati dopo il controllo
+(firma). Il processo si compila con ANTHEA.Desktop e sta accanto ad `ANTHEA.exe`; l'installer lo pubblica self-contained nella
+stessa cartella (`Crea-Installer.ps1`), senza St7api, Gmsh o UnsafeEx.
+
+### Ponte GPC → copia del documento
+
+`GpcModelSnapshot` (indipendente da MIDAS) copia un modello GPC importato da un convertitore e i risultati di un dataset:
+
+- nodi da mm a m; aste BEAM, TRUSS, CABLE, TENSTR e piastre a 3 o 4 nodi; per Straus7 nodi e piastre con i numeri API e aste con
+  1 000 000 + numero (Straus7 numera beam e plate separatamente);
+- proprietà con numero e nome di Straus7 (record conservati dal convertitore); spessore fisico GPC o, se GPC non lo ha mappato
+  (materiale non isotropo), quello della proprietà Straus7; un offset di elemento diverso dà una proprietà in più
+  (1 000 000 + progressivo); sezioni per la vista: rettangolo pieno SB quando la forma GPC è `SectionRectangular`, altrimenti
+  nome e forma GPC senza profilo;
+- terne locali (aste: x = V3, y = V1, z = V2), terne nodali (orientamento del nodo o dei suoi vincoli e molle, altrimenti
+  globale), vincoli, molle a terra e link elastici, collegamenti rigidi, rilasci con i simboli esistenti;
+- risultati: piastre ai nodi di ogni elemento senza media fra elementi (valori estrapolati dal solutore), aste alle stazioni
+  restituite da Straus7 (almeno 5), spostamenti globali e rotazioni; casi «1: Dead» come i casi di risultato di Straus7;
+- combinazioni LSA: definizioni non modificabili nel nuovo campo facoltativo `ModelSnapshot.SourceCombinations` (casi statici e
+  definizioni; omesso quando è null, quindi le impronte dei documenti esistenti non cambiano). Si possono escludere o
+  ridefinire come le combinazioni MIDAS. I risultati si costruiscono in ANTHEA con `GpcModelCombinationService`: per le
+  sorgenti senza tabelle MIDAS `GpcSnapshotModel` ricostruisce il modello GPC dalla copia (posizioni, terne, casi, valori
+  riportati in unità e segni GPC) e chiama lo stesso `CombinationRebuild`. Truss e cavi non entrano ancora nelle combinazioni.
+
+**Unità e segni.** Piastre: Fxx, Fyy, Fxy, Vxx, Vyy in kN/m (= N/mm, ×1), Mxx, Myy, Mxy in kN·m/m (×1e-3). Aste: kN e kN·m.
+ANTHEA mostra i risultati MIDAS nel segno di MIDAS: dalle tabelle per i casi e da `MidasGpcDisplay.DisplayVector` per le
+combinazioni GPC, che cambia segno a Mxx, Myy, Mxy e a My (= −M1) perché il lettore MIDAS di GPC li ha cambiati rispetto a MIDAS.
+Per coerenza Straus7 usa la stessa `DisplayVector`: lo stesso stato fisico si legge con lo stesso segno qualunque sia la
+sorgente. Mxx positivo significa trazione sulla faccia −z della piastra, cioè **segno opposto a quello mostrato da Straus7 e
+alla convenzione GPC** (trazione su +z). Scelta da confermare con l'utente.
+
+### Limiti dichiarati
+
+- MIDAS di testo: nessun risultato (il file non li contiene); elementi senza equivalente esclusi; travi REF con le terne di
+  default di GPC; quadrilateri sghembi oltre la tolleranza di GPC rifiutati come nella libreria.
+- Straus7: statico lineare, casi primari senza fasi; brick, link diversi da rigidi/master-slave/pinned, cut-off, contatti, beam
+  utente, temperature, masse e fasi restano nel file con un avviso del convertitore; reazioni non mostrate; combinazioni su più
+  freedom case o di combinazioni conservate con avviso; truss e cavi fuori dalle combinazioni ricostruite; sezioni diverse dal
+  rettangolo pieno senza volume. Collaudo nativo con Straus7 R31 / API 3.1.5.
+- La normalizzazione GPC non è ancora applicata all'importazione dal vivo dell'API MIDAS (MIDAS-CONVERTER-PENDING invariato).
+
+### Collaudo
+
+- ModelWorkspace.Checks 556 controlli (478 prima; 555 con `dotnet exec`, dove il controllo dei processi orfani non si applica):
+  30 per i file MIDAS (fixture sintetiche e native 9.5.5 copiate dalle prove di GPC Model in `tests/fixtures/model-viewer-midas-text`,
+  testo = API, offset disattivato, rifiuti atomici, VM) e 48 per Straus7 senza API nativa (ponte, combinazioni GPC, protocollo con un
+  worker sostitutivo, sorgente, VM).
+- Straus7Native.Checks (`--straus7-native`, variabili `GPC_STRAUS7_*`): fixture `native-elements-r31` della libreria, Plates.st7
+  del produttore e i quattro modelli BridGHe REV004 con `.LSA`, sempre copiati; valori della copia identici ai campioni GPC,
+  equilibrio carichi/reazioni per ogni caso risolto, combinazione LSA ricostruita uguale alla somma dei termini (ULS della fixture,
+  G2_PERMANENTI di BridGHe 02, RITIRO_FEM di BridGHe 04). Nella stessa corsa, con `GPC_MIDAS_TEXT_SAMPLES`, gli export MIDAS reali di
+  una cartella (letti e mai scritti): sui 36 file locali del 28/10 ANTHEA ne importa 26 e ne rifiuta 10 esattamente come l'adattatore
+  GPC dei file (6 export parziali o non chiusi, 4 con piastre non piane); prima della correzione dell'offset disattivato 3 file erano
+  rifiutati solo da ANTHEA. Si salvano soltanto conteggi ed esiti.
+- Convertitore GPC (prove della libreria, eseguite dal binario di `lib-1150` in sola lettura): NativeElements, ManufacturerPlates,
+  BridgheModels e RealExports PASS con le stesse variabili.
+- Architecture.Tests si ferma alla provenienza del set candidato (atteso); le altre regole, eseguite da una copia della prova senza
+  quella verifica, danno PASS 500 (F4 senza aggiunte, P1-P7). Installer di prova: worker self-contained nella cartella
+  dell'applicazione, nessun St7api, Gmsh o UnsafeEx.
+- ModelViewer.Importers.UiChecks: `.mct` dal pannello «File» e Straus7 dal pannello con il worker reale, fuori schermo.

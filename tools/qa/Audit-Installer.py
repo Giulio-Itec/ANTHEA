@@ -21,7 +21,9 @@ import subprocess
 import sys
 from pathlib import Path
 
-FORBIDDEN = ("gmsh", "unsafeex", "anthea.legacy", "anthea.testing", ".tests.dll")
+FORBIDDEN = ("gmsh", "unsafeex", "anthea.legacy", "anthea.testing", ".tests.dll", "st7api")
+# 1.15.0: the Straus7 worker ships next to ANTHEA.exe, self-contained; the Straus7 API stays in the user's installation.
+WORKER = ("ANTHEA.Strand7Worker.exe", "ANTHEA.Strand7Worker.dll", "ANTHEA.Strand7Worker.deps.json", "ANTHEA.Strand7Worker.runtimeconfig.json")
 
 
 def sha(path):
@@ -83,6 +85,10 @@ def main():
 
     forbidden = sorted(p.relative_to(extract).as_posix() for p in extract.rglob("*") if any(x in p.name.lower() for x in FORBIDDEN))
     check(not forbidden, f"file vietati nel pacchetto: {forbidden}")
+    for name in WORKER:
+        check((extract / name).is_file(), f"processo Straus7 incompleto: manca {name}")
+    worker_config = json.loads((extract / WORKER[3]).read_text(encoding="utf-8-sig"))
+    check("includedFrameworks" in worker_config.get("runtimeOptions", {}), "processo Straus7 non self-contained")
 
     product = subprocess.check_output(["powershell", "-NoProfile", "-Command",
                                        f"(Get-Item -LiteralPath '{extract / 'ANTHEA.exe'}').VersionInfo.ProductVersion"], text=True).strip()
@@ -94,7 +100,7 @@ def main():
         "setup": {"file": args.setup.name, "bytes": args.setup.stat().st_size, "sha256": sha(args.setup)},
         "application_files": sum(p.is_file() for p in (stage / "app").rglob("*")), "payload_files": len(payload),
         "guide_revision": args.guide_revision, "example_documents": len(catalog["entries"]),
-        "example_modules": len({e["module"] for e in catalog["entries"]}), "forbidden_files": forbidden, "payload": payload,
+        "example_modules": len({e["module"] for e in catalog["entries"]}), "forbidden_files": forbidden, "straus7_worker": list(WORKER), "payload": payload,
     }
     out = args.out or args.setup.with_name("audit-payload.json")
     out.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")

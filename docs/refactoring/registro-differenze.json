@@ -11369,6 +11369,78 @@
       "voci_collegate": [
         "F5-REL-1140-02"
       ]
+    },
+    {
+      "id": "MOD-31",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Importazione nel modulo Modelli dei file di testo MIDAS Civil .mct e Gen .mgt tradotti da GPC.Converter 2.7 nelle tabelle Civil NX: snapshot dallo stesso nucleo della copia API (MidasSnapshotImporter.FromTables), normalizzazione GPC condivisa con tools/ModelViewer.Prepare, elementi senza equivalente esclusi con messaggio. Solo modello, nessun risultato.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/MidasSnapshotImporter.cs",
+        "src/ANTHEA.ModelWorkspace/MidasTextImporter.cs",
+        "src/ANTHEA.ModelWorkspace/GpcBatchNormalization.cs",
+        "src/ANTHEA.ModelWorkspace/ModelSnapshotFiles.cs",
+        "src/ANTHEA.ModelViewer.Wpf/WpfModelViewerServices.cs"
+      ],
+      "segno": "Nessun risultato di calcolo. ReadDirectory invariato: impronte identiche prima e dopo su sette cartelle di tabelle; nessun atteso esistente cambiato.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«lavora anche per l'importazione di un file midas civil e midas gen tramite file txt (mgt e mct). dovrebbe già esserci una base. concludila ed implementala dentro anthea»",
+        "esito": "implementato sul ramo refactoring/1150-importatori; merge dopo l'ok dell'utente"
+      },
+      "data": "2026-10-28",
+      "fase": "1.15.0",
+      "test": [
+        "ModelWorkspace.Checks (MidasTextImportChecks, 30 controlli)",
+        "Straus7Native.Checks con GPC_MIDAS_TEXT_SAMPLES (36 export reali: 26 importati, 10 rifiutati come dall'adattatore GPC)",
+        "ModelViewer.Importers.UiChecks"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1150/importatori/readdirectory",
+        "supporto/artefatti/1150/importatori/midas-reali"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-32",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Attivazione di Straus/Strand7 R3 (seguito di MOD-29): processo x64 ANTHEA.Strand7Worker, unico a caricare St7api.dll, con protocollo a file e righe; ponte GpcModelSnapshot dal modello GPC e dai risultati statici lineari alla copia; combinazioni LSA come definizioni nel nuovo campo facoltativo ModelSnapshot.SourceCombinations, risultati ricostruiti da GPC.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.Strand7Worker/Program.cs",
+        "src/ANTHEA.ModelWorkspace/Strand7WorkerProtocol.cs",
+        "src/ANTHEA.ModelWorkspace/Strand7ModelSource.cs",
+        "src/ANTHEA.ModelWorkspace/GpcModelSnapshot.cs",
+        "src/ANTHEA.ModelWorkspace/Strand7Snapshot.cs",
+        "src/ANTHEA.ModelWorkspace/GpcSnapshotModel.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Strand7Import.cs",
+        "supporto/installer/Crea-Installer.ps1"
+      ],
+      "segno": "Momenti delle piastre (Mxx, Myy, Mxy) e My delle aste mostrati con il segno della copia MIDAS (MidasGpcDisplay.DisplayVector): opposti alla convenzione di Straus7 e di GPC (trazione su +z). Da confermare con l'utente. Campo SourceCombinations omesso se null: impronte dei documenti esistenti invariate.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«completa e fai test su lettura modello straus7. fai test sia su converter che su antea-model»; «hai la licenza di straus e di midas attivi, per qualsiasi problema»",
+        "esito": "implementato e collaudato con Straus7 R31 / API 3.1.5; segno, campo nuovo e distribuzione del worker da confermare"
+      },
+      "data": "2026-10-28",
+      "fase": "1.15.0",
+      "test": [
+        "ModelWorkspace.Checks (Strand7ImportChecks, 48 controlli)",
+        "Straus7Native.Checks (GPC_STRAUS7_ELEMENTS, GPC_STRAUS7_PLATES, GPC_STRAUS7_BRIDGHE)",
+        "ModelViewer.Importers.UiChecks"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1150/importatori"
+      ],
+      "voci_collegate": [
+        "MOD-29",
+        "MOD-30"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

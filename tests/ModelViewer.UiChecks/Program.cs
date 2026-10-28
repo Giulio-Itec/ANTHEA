@@ -298,6 +298,13 @@ static partial class Program
                     File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
                     preview.Close();app.Shutdown();return 0;
                 }
+                if(args.Contains("--importers"))
+                {
+                    ImporterRenderingChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"importer views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
                 if(args.Contains("--live-import"))
                 {
                     LiveImportRenderingChecks(isolated,scene,output);

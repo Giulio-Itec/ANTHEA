@@ -1,0 +1,10 @@
+{
+  "UNIT": {
+    "1": {
+      "FORCE": "KN",
+      "DIST": "M",
+      "HEAT": "KJ",
+      "TEMPER": "C"
+    }
+  }
+}

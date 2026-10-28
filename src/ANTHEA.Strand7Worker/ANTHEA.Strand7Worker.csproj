@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- 1.15.0: the only ANTHEA process that loads St7api.dll (Straus7 R3 API, Windows x64), through the GPC converter. One request per
+       process; protocol in src/ANTHEA.ModelWorkspace/Strand7WorkerProtocol.cs. Built with ANTHEA.Desktop and placed next to ANTHEA.exe. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>ANTHEA.Strand7Worker</AssemblyName>
+    <GpcLibraries>GPCGeometry;GPCUtilities;GPCModel;GPCModelData;GPC.Converter</GpcLibraries>
+  </PropertyGroup>
+  <ItemGroup><ProjectReference Include="../ANTHEA.ModelWorkspace/ANTHEA.ModelWorkspace.csproj" /></ItemGroup>
+  <!-- GPCGeometry needs MathNet.Numerics at run time: the version of X.Calculations, so that the shared folder of ANTHEA.exe holds one copy. -->
+  <ItemGroup><PackageReference Include="MathNet.Numerics" Version="5.0.0" /></ItemGroup>
+</Project>

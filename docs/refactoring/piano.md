@@ -970,6 +970,23 @@ model ecc)». Le voci vengono dalla 1.14.3.
 - [x] Guida pratica e teorica Rev60 (separatore decimale, correzioni, R5 dichiarata, profondità d della testa dei pali): 87c5573a, transizioni editoriali F5-REL-1144-01.
 - [x] Rilascio 1.14.4 con il set AK: full di rilascio con l'installer, setup, audit, tag `v1.14.4` e push («ok tag v1.14.4 e push di main e refactoring/f5 se la full di rilascio è pulita»). Full PASS 158 sul commit del setup 8a8ceacf, audit PASS; verbale in [installer-1.14.4.md](installer-1.14.4.md).
 
+## Lavori della 1.15.0 · importatori del modulo Modelli
+
+Richieste dell'utente del 28/10 (decisioni.md, «Decisioni della 1.14.4 (giorno del 28/10)»): «completa e fai test su lettura modello
+straus7. fai test sia su converter che su antea-model»; «lavora anche per l'importazione di un file midas civil e midas gen tramite file
+txt (mgt e mct)… concludila ed implementala dentro anthea». Branch `refactoring/1150-importatori`, set candidato b (GPC.Converter 2.7.0.0);
+dettagli in [modelli-visualizzatore.md](../sviluppo/modelli-visualizzatore.md), sezione «Importatori MIDAS di testo e Straus7».
+
+- [x] MIDAS Civil .mct e Gen .mgt: nucleo di `ReadDirectory` in `FromTables` (impronte invariate), `MidasTextImporter`,
+  `GpcBatchNormalization` condivisa con tools/ModelViewer.Prepare, filtro del dialogo, 30 controlli; 36 export reali: 26 importati,
+  10 rifiutati come dall'adattatore GPC; MOD-31.
+- [x] Straus7: processo x64 `ANTHEA.Strand7Worker` e protocollo, ponte `GpcModelSnapshot`, campo facoltativo
+  `ModelSnapshot.SourceCombinations`, combinazioni LSA ricostruite con GPC, pannello attivo, installer; 48 controlli senza API,
+  prove native (fixture della libreria, Plates.st7, quattro modelli BridGHe), prova WPF fuori schermo; MOD-32.
+- [ ] Da confermare con l'utente: segno dei momenti Straus7 (convenzione MIDAS della vista, opposta a Straus7), campo nuovo della
+  copia, distribuzione del worker self-contained accanto ad ANTHEA.exe.
+- [ ] Set ufficiale delle librerie dopo l'ok dell'utente (lib/Checker non committata con il set candidato b); guide Rev61 (utente).
+
 ## Wiki (in parallelo)
 
 - [ ] W0.2 [CP] Pipeline riproducibile da clone pulito (figure ed esempi, template Word, dipendenze Python). Difetti di impaginazione delle edizioni Word e PDF, già presenti nella Rev31 e confermati dalla verifica della Rev32 (b1998ec): numero dei titoli di secondo livello a due cifre attaccato al testo («15.10TRATTI…», «16.10TORSIONE»; tabulazione dello stile del titolo nel modello protetto); spazio di `\quad` perso nella conversione in OMML (formula di Rg); celle di tabella oltre 18 caratteri allineate a sinistra (`write_table`); decimali con il punto in alcune tabelle e formule; ≤ e ≥ in Manrope fuori dall'elenco SYMBOLS; date di `docProps/core.xml` del modello.
@@ -1144,7 +1161,7 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] Collaudo della build e25b7ed: standard 43 PASS / 1 KNOWN / 0 nuovi fallimenti; WPF isolato 138 PASS, diagrammi/report 17 PASS, deformate/report 9 PASS, tutte le otto pagine PDF controllate.
 - [x] 12 ottobre: importazione MIDAS API dal modulo Modelli, scelta dei casi, quattro ambiti, progresso/annullamento, controllo completezza e stabilità della sorgente; dati normalizzati riusati solo a input identico. Prova reale G1 identica al riferimento; 381 controlli logici e 17 WPF. MOD-28.
 - [x] 12 ottobre: predisposizione Straus/Strand7 R3 con selezione modello/risultati/API, controllo file e DLL nativa x64 e contratto del futuro worker; importazione esplicitamente disattivata fino all'integrazione del convertitore distribuito. MOD-29.
-- [~] Modelli: `GPC.Converter.dll` è già inclusa nel set coerente e nel manifest (da R, conservata in V); non resta da aggiungere una DLL isolata. L'integrazione MIDAS e il modello normalizzato delle combinazioni sono attivi (MOD-28/MOD-30). Restano da verificare il completamento della normalizzazione del primo import rispetto al perimetro originario e da attivare il worker Straus/Strand7 con prova nativa. La predisposizione MOD-29 non è un'importazione funzionante.
+- [~] Modelli: `GPC.Converter.dll` è già inclusa nel set coerente e nel manifest (da R, conservata in V); non resta da aggiungere una DLL isolata. L'integrazione MIDAS e il modello normalizzato delle combinazioni sono attivi (MOD-28/MOD-30). Resta da verificare il completamento della normalizzazione del primo import rispetto al perimetro originario (import dal vivo MIDAS). 1.15.0: worker Straus/Strand7 attivo con prova nativa (MOD-32) e file di testo MIDAS (MOD-31), sezione «Lavori della 1.15.0».
 - [x] Collaudo finale importazioni: profilo quick 27 PASS, nessun nuovo fallimento; 381 controlli logici, 17 WPF del pannello e 32 WPF di regressione dell'integrazione. Evidenze `20261012-120857-import-midas-straus-finale` e `20261012-121018-import-ui-regressione`.
 - [x] 12 ottobre: guida pratica Rev33, capitolo 20 sull'importazione MIDAS nel modulo Modelli in prova; connessione, quattro ambiti, selezione sostitutiva dei casi, salvataggio, revisione e recupero dagli errori. Aggiornati Word, PDF e indici; Rev32 pratica archiviata con SHA-256. Confronto dei 60 fogli precedenti del corpo del PDF senza variazioni di contenuto. Evidenze `supporto/artefatti/guide_anthea_itec_rev33`.
 - [~] STG-4, spostato il 15/10 dalla traccia degli stage (decisione E8: non dipende dal refactoring di F2). Collaudo sintetico completo e suite ANTHEA concluse; confronto numerico reale ancora aperto. Aggiornamento 13/10: il ponte disponibile espone tre stage e 1715 elementi; le richieste campione di forze/spostamenti non restituiscono tabelle utilizzabili. Non è quindi provata l’equivalenza dei risultati reali per fase. Evidenze midas-stage-live/20261013-112333; nessun risultato inventato. Si riprende quando ci sarà un modello MIDAS con i risultati per fase.

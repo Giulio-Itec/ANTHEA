@@ -1,0 +1,18 @@
+*UNIT
+KN, M, KJ, C
+*NODE
+1, 0, 0, 0
+2, 4, 0, 0
+3, 8, 0, 0
+*ELEMENT
+1, BEAM, 1, 1, 1, 2, 0, 0
+2, BEAM, 1, 1, 2, 3, 0, 0
+*LOCALAXIS
+3, 3, 0, 1, 0, -1, 0, 0
+*CONSTRAINT
+1, 110000,
+*SPRING    ; Point Spring Supports
+   1 , LINEAR, NO, NO, YES, NO, NO, NO, 1000, 2000, 0, 0, 0, 300, NO, 0, 0, 0, 0, 0, 0, Springs, 0, 0, 0, 0, 0
+   3 , LINEAR, NO, NO, NO, NO, NO, NO, 10, 0, 0, 0, 0, 0, NO, 0, 0, 0, 0, 0, 0, , 0, 0, 0, 0, 0
+   2 , COMP, DZ, 0, 0, 0, 1000, , 0, 0, 0, 0
+*ENDDATA

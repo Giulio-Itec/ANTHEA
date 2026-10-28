@@ -1,0 +1,10 @@
+{
+  "STLD": {
+    "1": {
+      "NO": 1,
+      "NAME": "GPC_PAIR_QA",
+      "TYPE": "USER",
+      "DESC": "Six-component cantilever benchmark"
+    }
+  }
+}
