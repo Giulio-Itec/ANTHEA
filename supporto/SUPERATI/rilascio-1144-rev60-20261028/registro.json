@@ -1,0 +1,110 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "commit": "21a781eb",
+    "sha256": "7b274c7b755e1f6b6bdf42b3def1183c46275987dcfb733b9c469f8cd4a533f3",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "commit": "21a781eb",
+    "sha256": "636230b03244f18c964538f625be27d8ae2fec0c1ce95cc3a6cb258f9d525c6a",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "commit": "21a781eb",
+    "sha256": "2245a4f7d15d59c8a81c24616c27948c35feb39aeeb988ad4525deb9277dcacf",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "commit": "21a781eb",
+    "sha256": "ea00e2d20007c960a8118c3d85a108a21761374677d4e76ab97faa231ceaf8a4",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev59.docx",
+    "commit": "21a781eb",
+    "sha256": "d918dc7ec2c4224f8cddc49e232ee10e3bbfa07164528c0aacd6d835f8896753",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev59.pdf",
+    "commit": "21a781eb",
+    "sha256": "636230b03244f18c964538f625be27d8ae2fec0c1ce95cc3a6cb258f9d525c6a",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev59.docx",
+    "commit": "21a781eb",
+    "sha256": "3c3e706a592a9169ab0a7e395f362efc17ef30e2fce893d007d0095c51d2cff2",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev59.pdf",
+    "commit": "21a781eb",
+    "sha256": "ea00e2d20007c960a8118c3d85a108a21761374677d4e76ab97faa231ceaf8a4",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "commit": "21a781eb",
+    "sha256": "d178f7c1dc446e14a1a7bee27873094bdab33edc77c53e177b6f4dd5076a310f",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "commit": "21a781eb",
+    "sha256": "e0eea396a77c646e08429597af5f471625bf3e49e4d253bad5d9bcfd4d02a65c",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "commit": "21a781eb",
+    "sha256": "368a5557be0c50eac3ba0f583a6caa251f6f5503190fda32da189832ae896f1a",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "commit": "21a781eb",
+    "sha256": "692e6390e1861904b3331f1572490b2fc7625e13350854eaf125cf49a60e0b6b",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "commit": "0c17faf9",
+    "sha256": "52574129d9510444d82f634efa29e21de5a1f30103c63970c6659fd313296344",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "commit": "0c17faf9",
+    "sha256": "7ef47e8d2688b4ed66ee2bcee3a3c6d79c55fc117123c9098473e3460dafc7cc",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/README.md",
+    "commit": "21a781eb",
+    "sha256": "4becdb6f9cc05ebecba73506574a854d8e49a3b2e9947262e26810e935ecba6a",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "commit": "21a781eb",
+    "sha256": "2fb8122608756fdbe85074b8026d7a683bc737fa398c776687d4c8cac38a5cb5",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/scripts/Build-AntheaGuides-Itec.py",
+    "commit": "21a781eb",
+    "sha256": "90923f791353e4447dd466bc0f77255e967cd3b56c4de4ad961663e97484d499",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  },
+  {
+    "origine": "supporto/scripts/Render-AntheaGuides-Itec.ps1",
+    "commit": "21a781eb",
+    "sha256": "25a4cd06cd03098bef24040c109489feaf4d30d2f50a21044d3fb2b7d1f11413",
+    "motivo": "Sostituito dalla Rev60 (ANTHEA 1.14.4): separatore decimale nel menu Aspetto, profondità della testa dei pali e dei micropali sotto il piano campagna, secondo anello interno nei report del palo orizzontale, MRd con fyd·r nello sviluppo parziale delle barre, tension stiffening del M–χ con il modello del tirante; nella guida teorica R5 dichiarata (SLE non lineare con le leggi di progetto), R4, R9, R11, R18, BUG-MUR-2b, BUG-FES-1b/1c, BUG-PO-5b, PO-TESTA-01, BUG-TS-2 e le combinazioni dei muri da Model con G2 favorevole 0,8 e γR della Tab. 7.11.III nelle righe sismiche (D4 b, D5 b)."
+  }
+]
