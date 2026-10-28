@@ -184,9 +184,31 @@ else {
         -p:DebugType=None -p:DebugSymbols=false -p:SatelliteResourceLanguages=it
     if ($LASTEXITCODE -ne 0) { throw "dotnet publish non riuscito ($LASTEXITCODE)" }
     # 1.15.0: the Straus7 worker next to ANTHEA.exe, self-contained like the application (the build copy is framework-dependent).
-    & dotnet publish $worker -c Release -r win-x64 --self-contained true -o $app --artifacts-path $build `
+    # Published apart and merged: the files it shares with the application must be identical, so that it never replaces one of them
+    # (a different System.Text.Json would break ANTHEA.deps.json); only its own four files replace the build copy.
+    $workerApp = Join-Path $stage 'worker'   # outside app: the lists of the setup come from app only
+    Remove-StageDirectory $workerApp
+    & dotnet publish $worker -c Release -r win-x64 --self-contained true -o $workerApp --artifacts-path $build `
         -p:DebugType=None -p:DebugSymbols=false -p:SatelliteResourceLanguages=it
     if ($LASTEXITCODE -ne 0) { throw "dotnet publish del processo Straus7 non riuscito ($LASTEXITCODE)" }
+    $own = 'ANTHEA.Strand7Worker.exe', 'ANTHEA.Strand7Worker.dll', 'ANTHEA.Strand7Worker.deps.json', 'ANTHEA.Strand7Worker.runtimeconfig.json'
+    # Facades of Microsoft.NETCore.App that the WindowsDesktop runtime of the application replaces with the complete assemblies (higher
+    # assembly version): the application keeps its own, which the worker can load too (it uses no WPF or WinForms type).
+    $desktop = 'WindowsBase.dll', 'System.Drawing.dll', 'Microsoft.VisualBasic.dll'
+    $different = @()
+    foreach ($file in Get-ChildItem $workerApp -Recurse -File) {
+        $relative = $file.FullName.Substring($workerApp.Length + 1)
+        $target = Join-Path $app $relative
+        if ($own -contains $relative -or -not (Test-Path $target)) {
+            New-Item -ItemType Directory -Force (Split-Path $target) | Out-Null
+            Copy-Item $file.FullName $target -Force
+        }
+        elseif ((Get-FileHash $file.FullName -Algorithm SHA256).Hash -eq (Get-FileHash $target -Algorithm SHA256).Hash) { }
+        elseif ($desktop -contains $relative -and
+            [Reflection.AssemblyName]::GetAssemblyName($target).Version -gt [Reflection.AssemblyName]::GetAssemblyName($file.FullName).Version) { }
+        else { $different += $relative }
+    }
+    if ($different.Count -gt 0) { throw ("Il processo Straus7 porta file diversi da quelli di ANTHEA: " + ($different -join ', ')) }
 }
 $workerConfig = Join-Path $app 'ANTHEA.Strand7Worker.runtimeconfig.json'
 if (-not (Test-Path (Join-Path $app 'ANTHEA.Strand7Worker.exe')) -or -not (Test-Path $workerConfig) -or
