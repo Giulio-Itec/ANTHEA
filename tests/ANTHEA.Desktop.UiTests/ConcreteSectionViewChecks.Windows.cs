@@ -35,7 +35,7 @@ internal static partial class ConcreteSectionViewChecks
     }
 
     /// <summary>
-    /// In the eight tabs of the view (every group opened, three passes), on four fixtures: every name the historic view gave to a control
+    /// In the nine tabs of the view (eight before the model column of 1.15.0; every group opened, three passes), on four fixtures: every name the historic view gave to a control
     /// (AutomationProperties.Name: the editors of its forms, the «Wiki: …» labels, the notices; recorded before the switch in
     /// tests/fixtures/f5-sezione/vista-storica.json) is a name of the XAML view, and every control of the XAML view that the user reaches (buttons,
     /// check boxes, choices, text boxes, sliders, tabs, tables, groups, the progress) has a name.
@@ -71,7 +71,7 @@ internal static partial class ConcreteSectionViewChecks
             var missing = before.Except(after).Order(StringComparer.Ordinal).ToArray();
             Log.Add($"   nomi ({id}): {controls} controlli della vista, nomi storici {before.Count}, nomi nuovi: " + string.Join(", ", after.Except(before).Order(StringComparer.Ordinal).Take(60)));
             Check(missing.Length == 0, $"{id}: nomi di automazione della vista storica presenti nella vista XAML ({before.Count}, registrati)" + (missing.Length == 0 ? "" : "; mancanti: " + string.Join(", ", missing)));
-            Check(unnamed.Count == 0 && controls > 100, $"{id}: ogni controllo raggiungibile delle otto schede ha un nome di automazione ({controls} letture)"
+            Check(unnamed.Count == 0 && controls > 100, $"{id}: ogni controllo raggiungibile delle nove schede ha un nome di automazione ({controls} letture)"
                 + (unnamed.Count == 0 ? "" : "; senza nome: " + string.Join(", ", unnamed)));
         }
     }

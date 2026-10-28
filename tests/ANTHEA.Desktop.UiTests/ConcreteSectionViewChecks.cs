@@ -40,13 +40,13 @@ namespace X.Desktop;
 /// the visit of the F3 capture (and the three appearances that write nothing), after the calculation, the result; then the exports: the Word report
 /// with every part (figures included, dates normalized) and the PDF beside it, the short report, the JSON of the results, the report of the M–χ
 /// curve with its figure.</item>
-/// <item>«schermate»: the tab 01 of the view in Chiara, Scuro and Molto scuro (folder schermate; 144 DPI on this machine), and the eight tabs.</item>
-/// <item>«aiuto»: every F1 on a field of every form of the eight tabs reaches the IWikiNavigator of the services (lesson 1 of 17/10), F1 elsewhere
+/// <item>«schermate»: the tab 01 of the view in Chiara, Scuro and Molto scuro (folder schermate; 144 DPI on this machine), and the nine tabs (1.15.0).</item>
+/// <item>«aiuto»: every F1 on a field of every form of the nine tabs reaches the IWikiNavigator of the services (lesson 1 of 17/10), F1 elsewhere
 /// the guide of the module.</item>
-/// <item>«sola-lettura»: in the eight tabs the buttons and check boxes that accept the user after InspectRevision are those of the historic view.</item>
+/// <item>«sola-lettura»: in the nine tabs the buttons and check boxes that accept the user after InspectRevision are those of the historic view.</item>
 /// <item>«tracce»: the 57 frozen scenarios of tests/Shared/ConcreteSectionTrace.cs driven through the controls of the view, found by their automation names,
 /// with the dialogs shown and driven through their controls, equal to the frozen traces (ConcreteSectionViewChecks.Trace.cs).</item>
-/// <item>«nomi»: the automation names of the historic view kept, every control the user reaches in the eight tabs named
+/// <item>«nomi»: the automation names of the historic view kept, every control the user reaches in the nine tabs named
 /// (ConcreteSectionViewChecks.Windows.cs).</item>
 /// <item>«finestre»: «Scala…» of the 3D and 2D domains and «Proprietà / report…» driven through their controls beside the historic windows.</item>
 /// </list>
@@ -579,7 +579,12 @@ internal static partial class ConcreteSectionViewChecks
             await mvvm.Settle();
             await mvvm.Editor.CalculateAsync();
             await mvvm.Sheet.Curvature.CalculateCommand.ExecuteAsync(null);
+            // 1.15.0: the model column calculated for its screenshot (08-vista.png).
+            var column = mvvm.Sheet.ModelColumn;
+            foreach (var (key, value) in new[] { ("N", "-2500"), ("M0Ed", "300"), ("l0", "10"), ("l", "5") }) column.Form.Set(key, value);
+            await column.CalculateCommand.ExecuteAsync(null);
             await mvvm.Settle();
+            Check(column.Result is not null, "Colonna modello calcolata per la schermata: " + column.Text);
             foreach (int tab in BoundTabs)
             {
                 mvvm.Sheet.SelectedTab = tab;
@@ -589,7 +594,7 @@ internal static partial class ConcreteSectionViewChecks
                 written++;
             }
         }
-        Check(written == 3 + BoundTabs.Length, "Schermate del pannello di controllo nei tre aspetti e delle otto schede: "
+        Check(written == 3 + BoundTabs.Length, "Schermate del pannello di controllo nei tre aspetti e delle nove schede: "
             + written + " PNG in " + folder + " (144 DPI su questa macchina)");
     }
 
@@ -621,8 +626,9 @@ internal static partial class ConcreteSectionViewChecks
 
     // ---------------------------------------------------------------- 6. read-only
 
-    /// <summary>The main tabs of the view, every one bound to its ViewModel (section 20 of docs/refactoring/f5-10-sezione.md).</summary>
-    private static readonly int[] BoundTabs = [0, 1, 2, 3, 4, 5, 6, 7];
+    /// <summary>The main tabs of the view, every one bound to its ViewModel (section 20 of docs/refactoring/f5-10-sezione.md; 1.15.0: the model column 7,
+    /// the reinforcement design 8).</summary>
+    private static readonly int[] BoundTabs = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
     /// <summary>The read-only states changed by F5.15 against the recording of the historic view (rule T6).</summary>
     private static readonly Dictionary<string, string> DeclaredReadOnly = new(StringComparer.Ordinal)
@@ -632,13 +638,24 @@ internal static partial class ConcreteSectionViewChecks
         ["5:Button:Modifica geometria nel pannello di controllo →"] = "libero",
         ["5:Button:Modifica staffe nel pannello di controllo →"] = "libero",
         ["6:Button:Calcola curva"] = "bloccato",
-        ["7:Button:Dettagli →"] = "libero",
-        ["7:Button:SLE / esposizione →"] = "libero",
-        ["7:Button:Sezione →"] = "libero"
+        ["8:Button:Dettagli →"] = "libero",
+        ["8:Button:SLE / esposizione →"] = "libero",
+        ["8:Button:Sezione →"] = "libero"
     };
 
     /// <summary>
-    /// The controls of the eight tabs that accept the user after InspectRevision, in the new view, against those of the historic view on the same data,
+    /// A key «tab:control:name» of the recording of the historic view with the tab where it is now (1.15.0): the tab 7 of the historic view,
+    /// «Calcola armature», is the ninth, as the code saved in the sheet (ConcreteSheetPresentation.ShownTab).
+    /// </summary>
+    private static string ShownKey(string key)
+    {
+        int colon = key.IndexOf(':');
+        return Anthea.Application.Concrete.ConcreteSheetPresentation.ShownTab(int.Parse(key[..colon], System.Globalization.CultureInfo.InvariantCulture))
+            .ToString(System.Globalization.CultureInfo.InvariantCulture) + key[colon..];
+    }
+
+    /// <summary>
+    /// The controls of the nine tabs that accept the user after InspectRevision, in the new view, against those of the historic view on the same data,
     /// recorded before the switch.
     /// </summary>
     private static async Task ReadOnly(string root)
@@ -661,7 +678,7 @@ internal static partial class ConcreteSectionViewChecks
                 after[key] = after.TryGetValue(key, out var previous) && previous != value ? "misto" : value;
             }
         }
-        var before = Recorded(root)["sola_lettura"]!.AsObject().ToDictionary(p => p.Key, p => p.Value!.GetValue<string>(), StringComparer.Ordinal);
+        var before = Recorded(root)["sola_lettura"]!.AsObject().ToDictionary(p => ShownKey(p.Key), p => p.Value!.GetValue<string>(), StringComparer.Ordinal);
         // F5.15, rule T6 (decisions of 24 and 25/10): the buttons that only change the tab are free (S6-a, S8-b, F5-46) and «Calcola curva» is
         // locked (S7-d, F5-19) in a read-only revision; the recording of the historic view has them the other way.
         foreach (var (key, value) in DeclaredReadOnly) if (before.ContainsKey(key)) before[key] = value;
@@ -672,5 +689,8 @@ internal static partial class ConcreteSectionViewChecks
         Check(different.Length == 0 && common.Length >= 30, $"Sola lettura nelle schede legate: stessi pulsanti e caselle bloccati e liberi della vista storica, registrati ({common.Length} comuni)"
             + (different.Length == 0 ? "" : ": " + string.Join("; ", different)));
         Check(host.Editor.HasResults, "Sola lettura: il risultato resta");
+        // 1.15.0: the model column, not in the recording: «Calcola colonna» locked as «Calcola curva» (T6), the charts and the CSV free.
+        Check(after.GetValueOrDefault("7:Button:Calcola colonna") == "bloccato" && after.GetValueOrDefault("7:Button:Esporta CSV…") == "libero"
+            && after.GetValueOrDefault("7:Button:PNG") == "libero", "Sola lettura: «Calcola colonna» bloccato, grafici ed esportazione liberi");
     }
 }

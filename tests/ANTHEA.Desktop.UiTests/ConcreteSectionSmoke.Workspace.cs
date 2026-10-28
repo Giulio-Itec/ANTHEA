@@ -48,8 +48,9 @@ internal sealed partial class ConcreteSectionSmoke
         using (JsonRowViewModel.DeferNotifications([notified])) notified.Output("eta", 1);
         Assert(notifications == 1, "Risultati invariati senza notifiche");
         Task Capture(string name) => this.Capture(directory, "ca_" + name);
-        // Eight CA tabs since 895bf31: the eighth is the reinforcement design ("Calcola armature").
-        Assert(View.Tabs.Items.Count == 8 && ConcreteSectionViewChecks.AutomationName((TabItem)View.Tabs.Items[7]) == "Calcola armature" && View.StressTabs.Items.Count == 3,
+        // Nine CA tabs since 1.15.0: the eighth is the model column, the ninth the reinforcement design ("Calcola armature", 895bf31).
+        Assert(View.Tabs.Items.Count == 9 && ConcreteSectionViewChecks.AutomationName((TabItem)View.Tabs.Items[7]) == "Colonna modello"
+            && ConcreteSectionViewChecks.AutomationName((TabItem)View.Tabs.Items[8]) == "Calcola armature" && View.StressTabs.Items.Count == 3,
             "Schede CA, dettagli, momento–curvatura e calcolo armature");
         Assert(Rows("SLE_FREQ").Count == 0 && Rows("SLE_QP").Count == 0, "Nessuna combinazione inventata");
         Assert(Rows("SLU")[0].Values.D("N") < 0, "Compressione negativa");

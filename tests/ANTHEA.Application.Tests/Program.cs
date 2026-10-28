@@ -139,6 +139,8 @@ try
     checks += await ProjectReportServiceChecks.Run(output);
     checks += ContrastArchiveChecks.Run(root, output);
     checks += await ConcreteReportCurvatureChecks.Run(root, output);
+    // 1.15.0: la colonna modello (GPCChecker.Concrete 0.27), adattatore, testi e capitolo della relazione.
+    checks += await ConcreteModelColumnChecks.Run(root, output);
     string result = $"PASS {checks} controlli Application, documenti e revisioni";
     File.WriteAllText(Path.Combine(output, "esito.txt"), result);
     Console.WriteLine(result);

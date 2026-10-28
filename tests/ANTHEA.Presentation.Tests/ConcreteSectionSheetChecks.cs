@@ -82,6 +82,8 @@ internal static partial class ConcreteSectionSheetChecks
                 await DetailingAsync(root, expect);
                 await InspectionAsync(root, expect);
                 await DesignAsync(root, expect);
+                // 1.15.0: the tab «Colonna modello» (GPCChecker.Concrete 0.27), its tab code and its options.
+                await ModelColumnAsync(root, expect);
                 await ReportAsync(root, expect);
                 await ViewSupportAsync(root, expect);
             }

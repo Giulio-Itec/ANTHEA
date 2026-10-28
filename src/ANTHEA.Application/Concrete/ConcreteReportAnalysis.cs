@@ -9,6 +9,8 @@ public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result, 
     IReadOnlyDictionary<string, Dictionary<string, StressOutcome>> StressChecks)
 {
     public ConcreteResults.CurvatureResult? Curvature { get; init; }
+    /// <summary>La colonna modello, calcolata solo per i fogli che hanno le sue opzioni (1.15.0); null altrimenti o se non calcolabile.</summary>
+    public ConcreteModelColumnResult? ModelColumn { get; init; }
 
     public static async Task<ConcreteReportAnalysis> CalculateAsync(JsonObject preparedData, CancellationToken cancellation)
     {
@@ -64,11 +66,17 @@ public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result, 
         catch (Exception error) when (error is not OperationCanceledException && error is not IOException && error is not UnauthorizedAccessException)
         { errors["Momento–curvatura"] = error.Message; }
         cancellation.ThrowIfCancellationRequested();
+        ConcreteModelColumnResult? modelColumn = null;
+        if (settings[ConcreteModelColumn.OptionsKey] is JsonObject columnOptions)
+            try { modelColumn = await Task.Run(() => ConcreteModelColumn.Calculate(input, settings, columnOptions, cancellation), cancellation); }
+            catch (Exception error) when (error is not OperationCanceledException && error is not IOException && error is not UnauthorizedAccessException)
+            { errors["Colonna modello"] = error.Message; }
+        cancellation.ThrowIfCancellationRequested();
         var summary = ConcreteVerificationSummaries.Create(settings, actions, domains, stresses, shearRows, shear, torsion);
         var exported = ConcreteResultExport.Create(data, summary, domains, stresses, shear, torsion, details.Checks,
-            details.DetailsText, details.Anchorage, details.AnchorageDetails.Text, curvature, errors);
+            details.DetailsText, details.Anchorage, details.AnchorageDetails.Text, curvature, errors, modelColumn);
         var geometry = await Task.Run(() => ConcretePreview.PrepareGeometry(input), cancellation);
         cancellation.ThrowIfCancellationRequested();
-        return new(data, exported, geometry, actions, three, two, domains, stresses) { Curvature = curvature };
+        return new(data, exported, geometry, actions, three, two, domains, stresses) { Curvature = curvature, ModelColumn = modelColumn };
     }
 }

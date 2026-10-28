@@ -34,4 +34,8 @@ public sealed record ConcreteReportStress(ConcreteSectionDrawingViewModel Map, I
 /// M–χ curve published (null without a curve).
 /// </summary>
 public sealed record ConcreteReportDrawings(JsonObject Data, JsonObject Result, ConcreteSectionDrawingViewModel Preview, IReadOnlyList<ConcreteReportDomain> Domains,
-    IReadOnlyDictionary<string, ConcreteReportStress> Stresses, ConcreteResults.CurvatureResult? Curvature);
+    IReadOnlyDictionary<string, ConcreteReportStress> Stresses, ConcreteResults.CurvatureResult? Curvature)
+{
+    /// <summary>The model column published (1.15.0); null without a result.</summary>
+    public ConcreteModelColumnResult? ModelColumn { get; init; }
+}

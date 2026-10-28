@@ -970,6 +970,19 @@ model ecc)». Le voci vengono dalla 1.14.3.
 - [x] Guida pratica e teorica Rev60 (separatore decimale, correzioni, R5 dichiarata, profondità d della testa dei pali): 87c5573a, transizioni editoriali F5-REL-1144-01.
 - [ ] Rilascio 1.14.4 con il set AK: full di rilascio con l'installer, setup, audit, tag `v1.14.4` e push («ok tag v1.14.4 e push di main e refactoring/f5 se la full di rilascio è pulita»).
 
+## Lavori della 1.15.0
+
+Richiesta del 28/10: «colonna modello implementa sia libreria che interfaccia»; sulle scelte normative «implementa quelle che consigli te ...
+in generale, segui la normativa». La libreria è GPCChecker.Concrete 0.27.0.0 (pagina di metodo `ca.colonna-modello`).
+
+- [~] Scheda «08 · Colonna modello» della sezione c.a. dopo «Momento–curvatura», fase 1 (raccomandazioni Q9, Q10 e Q12 del progetto): branch
+  `refactoring/1150-colonna-modello` dal commit di rilascio 1.14.4 8a8ceacf, con il set candidato `librerie-1150/candidato-a` in `lib/Checker`
+  non committato (lo installa l'utente con il set ufficiale). Adattatore `ConcreteModelColumn` in ANTHEA.Application (unità, opzioni
+  `workspace_ca.colonna_modello` con i predefiniti non scritti, rifiuti, avvisi e stato in italiano), ViewModel, vista con i due grafici, CSV,
+  capitolo «Colonna modello» della relazione con la scelta «Momento–curvatura e colonna modello». «Calcola armature» diventa la nona scheda e
+  conserva il codice salvato 7 (`ConcreteSheetPresentation.SavedTab`): i documenti con otto schede si riaprono sulla stessa scheda senza
+  migrazione dei dati. Riferimenti delle tracce della sezione c.a. da approvare (voce CA-COLONNA-01). Guide: Rev61 dopo la decisione dell'utente.
+
 ## Wiki (in parallelo)
 
 - [ ] W0.2 [CP] Pipeline riproducibile da clone pulito (figure ed esempi, template Word, dipendenze Python). Difetti di impaginazione delle edizioni Word e PDF, già presenti nella Rev31 e confermati dalla verifica della Rev32 (b1998ec): numero dei titoli di secondo livello a due cifre attaccato al testo («15.10TRATTI…», «16.10TORSIONE»; tabulazione dello stile del titolo nel modello protetto); spazio di `\quad` perso nella conversione in OMML (formula di Rg); celle di tabella oltre 18 caratteri allineate a sinistra (`write_table`); decimali con il punto in alcune tabelle e formule; ≤ e ≥ in Manrope fuori dall'elenco SYMBOLS; date di `docProps/core.xml` del modello.
