@@ -130,9 +130,9 @@ nel codice storico dello stesso colore con un ruolo compatibile, secondo il cens
 | `Header` | #E8EFF7 | #1D3047 | #090A0C | background | intestazioni delle griglie | Appearance.background.E8EFF7 | 3 |
 | `Ink` | #0B2A4A | #E5EDF7 | #E8E9EB | foreground | testo | AppearanceInk, Appearance.foreground.0B2A4A, Appearance.Ink, Ui.Navy | 44 |
 | `InkSecondary` | #234767 | #E5EDF7 | #E8E9EB | foreground | frecce e glifi dell'albero | Appearance.foreground.234767 | 2 |
-| `Muted` | #64748B | #B9C9DD | #BFC2C7 | foreground | testo secondario, unità di misura | Ui.Muted; ex Appearance.foreground.64748B di FieldForm (F5.2) | 205 |
+| `Muted` | #5B697E | #B9C9DD | #BFC2C7 | foreground | testo secondario, unità di misura (#64748B fino al 27/10/2026, UI-CONTRASTO-01) | Ui.Muted e #64748B in primo piano; ex Appearance.foreground.64748B di FieldForm (F5.2) | 205 |
 | `Accent` | #0B5CAD | #B9C9DD | #BFC2C7 | foreground | collegamenti, enfasi | Appearance.Accent, Ui.Blue | 13 |
-| `Disabled` | #808080 | #8291A5 | #8A8D92 | disabled | testo disattivato o valore automatico in grigio | Appearance.Dim(Brushes.Gray) | 1 |
+| `Disabled` | #767676 | #8291A5 | #8A8D92 | disabled | testo disattivato o valore automatico in grigio (#808080 fino al 27/10/2026, UI-CONTRASTO-01) | Appearance.Dim(Brushes.Gray) | 1 |
 | `Border` | #DCE2E9 | #596B7E | #454C55 | border | bordi dei controlli | Appearance.border.DCE2E9 | 10 |
 | `Border.Strong` | #CAD7E5 | #596B7E | #454C55 | border | bordi dei pulsanti di progetto | Appearance.border.CAD7E5 | 2 |
 | `Border.Default` | #D3D3D3 | #596B7E | #454C55 | border | bordi di sistema (schede, menu, suggerimenti) | AppearanceBorder (LightGray) | 12 |

@@ -953,7 +953,9 @@ model ecc)». Le voci vengono dalla 1.14.3.
 - [ ] Combinazioni e loro generazione in Model, prima i muri, poi i moduli che costruiscono le combinazioni da sé.
 - [x] Palo orizzontale: anello interno di diametro diverso dalla prima fila nei report (la distinta per diametro è nella 1.14.2). 27/10:
   frase del secondo anello nel report di Broms e riga del tratto nel report elastico (PO-ANELLO-01), riferimenti approvati.
-- [ ] BUG-TS-2 (27/10: opzione 1 con β = 0,4, decisioni.md «Decisioni della 1.14.4 (sera)»): tension stiffening nell'area efficace hc,eff, fuori dalle verifiche SLE per ora. 26/10 sera, primo tentativo (patch nello
+- [x] BUG-TS-2 (27/10: opzione 1 con β = 0,4, decisioni.md «Decisioni della 1.14.4 (sera)»): tension stiffening nell'area efficace hc,eff, fuori dalle verifiche SLE per ora.
+  28/10: modello del tirante in GPCModel 5.22 e GPCChecker.Concrete 0.26 (snervamento del M–χ alla barra nella fessura, punto limite
+  senza tirante), «Tension stiffening» del M–χ di ANTHEA su TensionChord (eb5fc416); riferimenti approvati (ab88cc84). 26/10 sera, primo tentativo (patch nello
   scratchpad della sessione, non committata): la legge di Collins e Mitchell solo nella banda hc,eff e tensione nulla oltre la fessurazione fuori
   dalla banda. Il salto da fctm a zero e la banda che cambia con l'asse neutro fanno perdere la convergenza (6 prove di Concrete); tolto.
   Decisione dell'utente del 26/10 sera, «TS-2 scelgo 1»: tension stiffening sulle barre con ρs,eff = As/Ac,eff (modello del tirante, MC2010
@@ -961,8 +963,9 @@ model ecc)». Le voci vengono dalla 1.14.3.
 - [ ] Libreria: `LateralPileCapacity.ModelName` con la profondità della testa (seguito di PO-TESTA-01; ANTHEA le passa la verticale vista
   dalla testa).
 - [ ] R18, in fondo: ramo incrudente dell'acciaio di progetto da fyd a k fyk/γs.
-- [ ] Difetti di contrasto del tema Chiaro (643 occorrenze in 191 voci il 27/10, baseline 645). 27/10, decisione dell'utente: grigio dei
-  testi secondari #64748B scurito a #5B697E nella sola Chiara (627 occorrenze), gli altri difetti corretti a parte.
+- [x] Difetti di contrasto del tema Chiaro (643 occorrenze in 191 voci il 27/10, baseline 645). 27/10, decisione dell'utente: grigio dei
+  testi secondari #64748B scurito a #5B697E nella sola Chiara (627 occorrenze), gli altri difetti corretti a parte. 28/10: 55561f46,
+  baseline 3 (il glifo «×» della scala del dominio 3D); riferimenti approvati (UI-CONTRASTO-01).
 - [ ] Guida pratica e teorica Rev60 (separatore decimale, correzioni, R5 dichiarata, profondità d della testa dei pali) e rilascio 1.14.4.
 
 ## Wiki (in parallelo)

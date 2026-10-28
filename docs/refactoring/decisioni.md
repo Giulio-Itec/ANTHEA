@@ -2019,3 +2019,16 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
      gli altri difetti corretti a parte; la regola «la modalità chiara non si modifica» cade per questo colore;
    - scelte normative dei muri (D4 G2 favorevole, D5 γR delle righe sismiche assegnate, D6 variabili favorevoli nel sisma e negli
      eccezionali): «Quantifica e proponi», nessuna modifica prima del confronto sul corpus.
+11. **Decisioni della 1.14.4 (notte del 27-28/10).** Al riepilogo con quattro domande l'utente risponde:
+   - riferimenti del commit ab88cc84 (BUG-TS-2: attesi della prova 4d, traccia e disegno del M–χ, report della curva di
+     rettangolare-materiali-utente; UI-CONTRASTO-01: tabella dei token, baseline del contrasto 645 → 3, 136 disegni delle fondazioni e
+     la figura degli 11 report della sezione c.a., solo il grigio attenuato; AK-FON-01: 8 impronte, solo la versione di Geotechnics):
+     «Approvo tutto». BUG-TS-2 e UI-CONTRASTO-01 passano ad «attuato», AK-FON-01 a «dichiarato». Il grigio attenuato #5B697E vale anche
+     nei disegni tecnici e nelle figure dei report;
+   - muri, dopo la quantificazione (supporto/artefatti/1144/quantificazione-d4-d6.csv): «Sì, D4 b e D5 b». G2 favorevole 0,8 nelle righe
+     SLU (NTC 2018 Tab. 2.6.I e 6.2.I, il valore di Model) e γR della Tab. 7.11.III nelle righe sismiche con kh e kv assegnati, come
+     quelle dal sito; D6 resta com'è (nessun effetto sui risultati);
+   - R18: «Sì, procedi e misura»: ramo incrudente dell'acciaio di progetto riferito a fyd, i 3 attesi di Model aggiornati; l'effetto su
+     ANTHEA si misura prima di chiedere i riferimenti;
+   - librerie: «Sì, unisci e pubblica»: lib-1144 nei master di Model e Checker, con i commit Steel dell'altro agente, poi il set
+     ufficiale AK.
