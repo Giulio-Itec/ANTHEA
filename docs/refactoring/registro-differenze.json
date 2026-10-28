@@ -11422,7 +11422,7 @@
         "src/ANTHEA.Desktop/Themes/Controls.xaml (AppearanceDrawingLabel)"
       ],
       "segno": "Solo aspetto; nessun numero cambia.",
-      "effetto_quantificato": "Nella Chiara le etichette degli assi del dominio 3D hanno lo sfondo bianco della carta; Scuro e Molto scuro uguali. Nessun riferimento congelato cambia.",
+      "effetto_quantificato": "Nella Chiara le etichette degli assi del dominio 3D hanno lo sfondo bianco della carta; Scuro e Molto scuro uguali. La figura del dominio 3D dei report Word si disegna con lo stesso stile: cambia word/media/image1.png negli 11 report della sezione c.a. di tests/fixtures/f5-sezione/vista-storica.json (riferimenti da approvare), in ogni figura solo tre riquadri di circa 85 × 15 pixel, le etichette Mx, My e N sulla carta (script di confronto nel resoconto); tutte le altre parti dei report uguali.",
       "decisione": {
         "data": "",
         "utente": "",
@@ -11430,10 +11430,11 @@
       },
       "test": [
         "ui/check-contrast",
-        "ui/check-theme-tokens"
+        "ui/check-theme-tokens",
+        "ui/check-sezione-view"
       ],
       "evidenze": [
-        "supporto/artefatti/1150/colonna-set-b/ui_check-contrast/difetti, supporto/artefatti/1150/colonna-fix/ui_check-contrast"
+        "supporto/artefatti/1150/colonna-set-b/ui_check-contrast/difetti, supporto/artefatti/1150/colonna-fix/ui_check-contrast, supporto/artefatti/1150/unione-set-b/ui_check-sezione-view (fallimento), supporto/artefatti/1150/colonna-figure (registra-figure.txt, registrazione temporanea non committata)"
       ],
       "voci_collegate": [
         "CA-COLONNA-01",
