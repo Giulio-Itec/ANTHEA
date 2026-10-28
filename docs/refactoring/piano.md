@@ -968,7 +968,7 @@ model ecc)». Le voci vengono dalla 1.14.3.
   testi secondari #64748B scurito a #5B697E nella sola Chiara (627 occorrenze), gli altri difetti corretti a parte. 28/10: 55561f46,
   baseline 3 (il glifo «×» della scala del dominio 3D); riferimenti approvati (UI-CONTRASTO-01).
 - [x] Guida pratica e teorica Rev60 (separatore decimale, correzioni, R5 dichiarata, profondità d della testa dei pali): 87c5573a, transizioni editoriali F5-REL-1144-01.
-- [ ] Rilascio 1.14.4 con il set AK: full di rilascio con l'installer, setup, audit, tag `v1.14.4` e push («ok tag v1.14.4 e push di main e refactoring/f5 se la full di rilascio è pulita»).
+- [x] Rilascio 1.14.4 con il set AK: full di rilascio con l'installer, setup, audit, tag `v1.14.4` e push («ok tag v1.14.4 e push di main e refactoring/f5 se la full di rilascio è pulita»). Full PASS 158 sul commit del setup 8a8ceacf, audit PASS; verbale in [installer-1.14.4.md](installer-1.14.4.md).
 
 ## Wiki (in parallelo)
 
