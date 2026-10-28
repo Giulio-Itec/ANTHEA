@@ -1,8 +1,8 @@
 {
     "snapshotDate":  "2026-10-28",
     "generator":  "tools/libs/Update-Snapshot.ps1 -ReleaseSet",
-    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\ANTHEA\\supporto\\artefatti\\librerie-20261028-ak\\gpc-release-20261028-ak",
-    "releaseSetCreated":  "2026-10-28T06:22:59",
+    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\ANTHEA\\supporto\\artefatti\\librerie-20261028-al\\gpc-release-20261028-al",
+    "releaseSetCreated":  "2026-10-28T22:29:19",
     "candidate":  false,
     "targetFramework":  "netstandard2.0",
     "nuget":  [
@@ -25,7 +25,7 @@
                            "branch":  "HEAD",
                            "commit":  "e57b440b16a0a311a7bf0af2f9cf4d2681b83491",
                            "pushed":  true,
-                           "sdk":  "8.0.427"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCGeometry.dll",
@@ -36,7 +36,7 @@
                            "branch":  "HEAD",
                            "commit":  "6734eee1004142576b96759e34c15dec48776e23",
                            "pushed":  true,
-                           "sdk":  "8.0.427"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "DelaunayMesh.dll",
@@ -47,117 +47,117 @@
                            "branch":  "HEAD",
                            "commit":  "6734eee1004142576b96759e34c15dec48776e23",
                            "pushed":  true,
-                           "sdk":  "8.0.427"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCModel.dll",
                            "source":  "Model/Model/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "5.22.0.2",
-                           "sha256":  "ADCC94BCA392DE8B296E37E913C6862C099C43907AF938E69BA2DB01E8B76E64",
+                           "assemblyVersion":  "5.23.0.1",
+                           "sha256":  "80385EDB9E16A00A2FF97917A02A2970BE841EE934BBCEC8BA62A0DDFFB4628B",
                            "repository":  "Model",
-                           "branch":  "lib-1144/combinazioni",
-                           "commit":  "8c0499aef556318c64a9568d2ca578093c712c00",
+                           "branch":  "lib-1150/importatori",
+                           "commit":  "02027760a4383ed23660f0606c43e32855995fc9",
                            "pushed":  true,
-                           "sdk":  "8.0.427"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCModelData.dll",
                            "source":  "Model/ModelData/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.3.0.5",
-                           "sha256":  "186FBC6890CBF9B6ABFF038367C3DDC305241937791FFB59BF83F818729C9FFE",
+                           "assemblyVersion":  "0.3.0.7",
+                           "sha256":  "E2326F51FE75065158D5B236E36A8D8C3F0086759495EE4B7239F200DD7D09E1",
                            "repository":  "Model",
-                           "branch":  "lib-1144/combinazioni",
-                           "commit":  "8c0499aef556318c64a9568d2ca578093c712c00",
+                           "branch":  "lib-1150/importatori",
+                           "commit":  "02027760a4383ed23660f0606c43e32855995fc9",
                            "pushed":  true,
-                           "sdk":  "8.0.427"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPC.Converter.dll",
                            "source":  "Model/GPC Converter/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "2.6.0.5",
-                           "sha256":  "8970EED708103650C4F07241509A4561E6AF66EEA74F9D7C66FDEF69A9EA8D0A",
+                           "assemblyVersion":  "2.7.0.1",
+                           "sha256":  "381E835C9BB2393B883300CA6B749770D6C0021995F465A74176EDBFE94320A4",
                            "repository":  "Model",
-                           "branch":  "lib-1144/combinazioni",
-                           "commit":  "8c0499aef556318c64a9568d2ca578093c712c00",
+                           "branch":  "lib-1150/importatori",
+                           "commit":  "02027760a4383ed23660f0606c43e32855995fc9",
                            "pushed":  true,
-                           "sdk":  "8.0.427"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPC.Model.Persistence.dll",
                            "source":  "Model/GPC.Model.Persistence/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "3.3.0.5",
-                           "sha256":  "58CA9FC16F92DFBA7E18FCCA242BCA2309BC59838B5229B05E05224D13DEDB50",
+                           "assemblyVersion":  "3.3.0.7",
+                           "sha256":  "8471A703454357FB13F7FFFC1F46660C2A29D2041C04B387766666C5D29669D6",
                            "repository":  "Model",
-                           "branch":  "lib-1144/combinazioni",
-                           "commit":  "8c0499aef556318c64a9568d2ca578093c712c00",
+                           "branch":  "lib-1150/importatori",
+                           "commit":  "02027760a4383ed23660f0606c43e32855995fc9",
                            "pushed":  true,
-                           "sdk":  "8.0.427"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCChecker.Concrete.dll",
                            "source":  "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.26.0.2",
-                           "sha256":  "A2479BF065BD0D63BCAF721E0B06ED8491242725EBE2BE1DD839EA4B3112CB35",
+                           "assemblyVersion":  "0.27.0.1",
+                           "sha256":  "FBA7645B73F233A80182633E154658507C9C9A72B514F571055D52545F99D98E",
                            "repository":  "Checker",
-                           "branch":  "lib-1144/combinazioni",
-                           "commit":  "66b33d0860cbd6d077f05013d44666ae3b0c581c",
+                           "branch":  "lib-1150/colonna-modello",
+                           "commit":  "0951cbf9f96fc6ebf10add3ca934fcbe1c6e3bcd",
                            "pushed":  true,
-                           "sdk":  "8.0.427"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCChecker.Steel.dll",
                            "source":  "Checker/GPCChecker.Steel/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "2.123.0.1",
-                           "sha256":  "BC94324C00690F4AB8A306396854B697658A8E7AF5B68581D504FDD0E84DD517",
+                           "assemblyVersion":  "2.124.0.1",
+                           "sha256":  "DEFF75A40515E0EA0EDD902F8A987AF20935BC21A15D10DE8D13383392B971AE",
                            "repository":  "Checker",
-                           "branch":  "lib-1144/combinazioni",
-                           "commit":  "66b33d0860cbd6d077f05013d44666ae3b0c581c",
+                           "branch":  "lib-1150/colonna-modello",
+                           "commit":  "0951cbf9f96fc6ebf10add3ca934fcbe1c6e3bcd",
                            "pushed":  true,
-                           "sdk":  "8.0.427"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCChecker.Geotechnics.dll",
                            "source":  "Checker/GPCChecker.Geotechnics/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.25.0.2",
-                           "sha256":  "7CB3B4DF56815A51862DB99FFDB7CA46B012B96A7F88461069FDE6056A5EFEE8",
+                           "assemblyVersion":  "0.25.0.4",
+                           "sha256":  "4EED4B6395633C2E32276A8BF18E8FD54F04920E0E806C7AFBE26F3BD124B8D3",
                            "repository":  "Checker",
-                           "branch":  "lib-1144/combinazioni",
-                           "commit":  "66b33d0860cbd6d077f05013d44666ae3b0c581c",
+                           "branch":  "lib-1150/colonna-modello",
+                           "commit":  "0951cbf9f96fc6ebf10add3ca934fcbe1c6e3bcd",
                            "pushed":  true,
-                           "sdk":  "8.0.427"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCChecker.Masonry.dll",
                            "source":  "Checker/src/GPCChecker.Masonry/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.10.0.7",
-                           "sha256":  "BAE9553A8C119B6A1B0415AAD2764770EC9025BDE64E01E2F298F6DE4AAD8D07",
+                           "assemblyVersion":  "0.10.0.9",
+                           "sha256":  "2BFBA291065502FBEFF2D2AE86EB8064BAC85990B3EDEC46C4E5DCFF939DA5E8",
                            "repository":  "Checker",
-                           "branch":  "lib-1144/combinazioni",
-                           "commit":  "66b33d0860cbd6d077f05013d44666ae3b0c581c",
+                           "branch":  "lib-1150/colonna-modello",
+                           "commit":  "0951cbf9f96fc6ebf10add3ca934fcbe1c6e3bcd",
                            "pushed":  true,
-                           "sdk":  "8.0.427"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPC.Design.dll",
                            "source":  "Checker/src/GPC.Design/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.41.0.7",
-                           "sha256":  "87A4D6CCF56845DF01D7E8B620DB256AAD413E2412F1F2762D3C8AF22F725501",
+                           "assemblyVersion":  "0.41.0.9",
+                           "sha256":  "F3F577BCDA6052B6166F8D02F8EB98662D2027BEDC1E5B1A4122BE746461678A",
                            "repository":  "Checker",
-                           "branch":  "lib-1144/combinazioni",
-                           "commit":  "66b33d0860cbd6d077f05013d44666ae3b0c581c",
+                           "branch":  "lib-1150/colonna-modello",
+                           "commit":  "0951cbf9f96fc6ebf10add3ca934fcbe1c6e3bcd",
                            "pushed":  true,
-                           "sdk":  "8.0.427"
+                           "sdk":  "9.0.320"
                        },
                        {
                            "file":  "GPCChecker.CompositeBridge.dll",
                            "source":  "Checker/GPCChecker.CompositeBridge/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "1.19.0.8",
-                           "sha256":  "18DDD9875F524A42E56051EF3CD379CAFE99923B5E19E0A4DE722E705C3060DB",
+                           "assemblyVersion":  "1.19.0.10",
+                           "sha256":  "AE5EFD603BDC78C188295267223EDFEC1A0E708CE356F465D9FA76108B46D75F",
                            "repository":  "Checker",
-                           "branch":  "lib-1144/combinazioni",
-                           "commit":  "66b33d0860cbd6d077f05013d44666ae3b0c581c",
+                           "branch":  "lib-1150/colonna-modello",
+                           "commit":  "0951cbf9f96fc6ebf10add3ca934fcbe1c6e3bcd",
                            "pushed":  true,
-                           "sdk":  "8.0.427"
+                           "sdk":  "9.0.320"
                        }
                    ]
 }

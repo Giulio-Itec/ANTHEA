@@ -983,16 +983,16 @@ dettagli in [modelli-visualizzatore.md](../sviluppo/modelli-visualizzatore.md), 
 - [x] Straus7: processo x64 `ANTHEA.Strand7Worker` e protocollo, ponte `GpcModelSnapshot`, campo facoltativo
   `ModelSnapshot.SourceCombinations`, combinazioni LSA ricostruite con GPC, pannello attivo, installer; 48 controlli senza API,
   prove native (fixture della libreria, Plates.st7, quattro modelli BridGHe), prova WPF fuori schermo; MOD-32.
-- [ ] Da confermare con l'utente: segno dei momenti Straus7 (convenzione MIDAS della vista, opposta a Straus7), campo nuovo della
-  copia, distribuzione del worker self-contained accanto ad ANTHEA.exe.
-- [ ] Set ufficiale delle librerie dopo l'ok dell'utente (lib/Checker non committata con il set candidato b); guide Rev61 (utente).
+- [x] Confermati dall'utente il 28/10 sera: segno dei momenti Straus7 come la copia MIDAS per tutte le sorgenti («Convenzione unica»),
+  campo nuovo della copia («Accetta», la 1.14 non apre questi documenti), worker accanto ad ANTHEA.exe (correzione dell'installer 4d1ec8ce).
+- [x] Set ufficiale AL (Model 02027760, Checker 0951cbf9, con le fasi della revisione steel, «Anche steel e model-prepare»); guide Rev61.
 
 ## Lavori della 1.15.0 · colonna modello
 
 Richiesta del 28/10: «colonna modello implementa sia libreria che interfaccia»; sulle scelte normative «implementa quelle che consigli te ...
 in generale, segui la normativa». La libreria è GPCChecker.Concrete 0.27.0.0 (pagina di metodo `ca.colonna-modello`).
 
-- [~] Scheda «08 · Colonna modello» della sezione c.a. dopo «Momento–curvatura», fase 1 (raccomandazioni Q9, Q10 e Q12 del progetto): branch
+- [x] Scheda «08 · Colonna modello» della sezione c.a. dopo «Momento–curvatura», fase 1 (raccomandazioni Q9, Q10 e Q12 del progetto): branch
   `refactoring/1150-colonna-modello` dal commit di rilascio 1.14.4 8a8ceacf, con il set candidato `librerie-1150/candidato-a` in `lib/Checker`
   non committato (lo installa l'utente con il set ufficiale). Adattatore `ConcreteModelColumn` in ANTHEA.Application (unità, opzioni
   `workspace_ca.colonna_modello` con i predefiniti non scritti, rifiuti, avvisi e stato in italiano), ViewModel, vista con i due grafici, CSV,
@@ -1001,9 +1001,10 @@ in generale, segui la normativa». La libreria è GPCChecker.Concrete 0.27.0.0 (
   migrazione dei dati. Riferimenti delle tracce della sezione c.a. da approvare (voce CA-COLONNA-01). Guide: Rev61 dopo la decisione dell'utente. Full sul set candidato b (supporto/artefatti/1150/colonna-set-b): oltre alla provenienza, impronte delle fondazioni con
   Geotechnics 0.25.0.3 (B-FON-01, da approvare) e 2 etichette del dominio 3D sulla superficie nella Chiara, corrette mettendo le etichette
   degli assi sulla carta (UI-CONTRASTO-02, da confermare); corsa colonna-fix PASS.
-- [~] Guide pratica e teorica Rev61 (colonna modello; file MIDAS .mct/.mgt e importazione Straus7 nel modulo Modelli): 611ff20e, con l'eccezione
+- [x] Guide pratica e teorica Rev61 (colonna modello; file MIDAS .mct/.mgt e importazione Straus7 nel modulo Modelli): 611ff20e, con l'eccezione
   di wiki/manuale per i nomi Straus7/Strand7 nel solo capitolo dell'importazione (4afebd17); transizioni editoriali della Wiki F5-REL-1150-01
-  da approvare (commit «DA APPROVARE»).
+  approvate il 28/10 sera («Approva tutti»), come CA-COLONNA-01, B-FON-01 e UI-CONTRASTO-02; set ufficiale AL installato (B-FON-01 seguito
+  con Geotechnics 0.25.0.4).
 
 ## Wiki (in parallelo)
 

@@ -11544,6 +11544,12 @@
         "utente": "al riepilogo della sera, sui riferimenti «DA APPROVARE» (83bb940e, da14147b, 8c480106, 1093de70 e Model 2294d30a): «Approva tutti»",
         "esito": "impronte approvate (da14147b); differenza dichiarata"
       },
+      "seguito_al": {
+        "data": "2026-10-28",
+        "set": "AL (Checker 0951cbf9, con le fasi della revisione steel)",
+        "esito": "GPCChecker.Geotechnics 0.25.0.3 -> 0.25.0.4, ricompilata senza modifiche al sorgente: le stesse 8 impronte cambiano di nuovo e con library_version 0.25.0.3 tornano quelle approvate (da14147b); differenza della stessa natura, approvata dalla regola «Approvati se spiegati» del 28/10 sera e registrata nella tabella con il commento del set AL.",
+        "evidenze": "supporto/artefatti/1150/al-mirate (registra-fon.txt, registrazione temporanea non committata; PASS 36)"
+      },
       "test": [
         "ui/check-fondazioni-view"
       ],

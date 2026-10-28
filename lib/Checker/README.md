@@ -1,5 +1,25 @@
 # DLL Checker
 
+**Release AL — librerie della 1.15.0 (28 ottobre 2026).** Set ufficiale da Model `02027760` e Checker `0951cbf9`, entrambi su
+origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Unisce i rami della 1.15.0 con le fasi della revisione steel, su
+richiesta dell'utente («Anche steel e model-prepare»). Contiene:
+- GPCModel 5.23.0.1, ModelData 0.3.0.7, Persistence 3.3.0.7 e Converter 2.7.0.1: file di testo MIDAS Civil .mct e Gen .mgt, modelli
+  Straus7 (rilasci, molle, link, combinazioni LSA, famiglie di elementi, risultati ai nodi delle piastre), aste assiali accettate dalla
+  validazione topologica con un avviso, memo di lettura delle impronte e dell'XML delle proprietà;
+- GPCChecker.Concrete 0.27.0.1: colonna modello del pilastro isolato (EN 1992-1-1 5.8.6(6) e 5.8.8.2, NTC 2018 §4.1.2.3.9.3), metodo in
+  `docs/metodi/ca.colonna-modello.md`;
+- Steel 2.124.0.1 e GPCModelChecker 2.31.0.1: fasi della revisione steel (soglia delle azioni trascurabili impostabile, classificazione
+  sullo stato di taglio reale, N–M in forma chiusa per I e H, svergolamento con la classe a flessione, dettagli preparati dei
+  collegamenti, una tabella di instabilità, tracce complete facoltative, righe di sezione in parallelo);
+- Geotechnics 0.25.0.4, CompositeBridge 1.19.0.10, GPC.Design 0.41.0.9 e Masonry 0.10.0.9 ricompilate senza modifiche al sorgente.
+
+Suite di `Release-Set.ps1 -Previous` (set AK), tutte verdi senza fallimenti ammessi: Model (Core 35, UnitTest 1532, API) e Checker,
+Concrete 933 (con il contratto K0 in net472), Steel 122, CompositeBridge 402, Geotechnics 199, Calculation 175, ShallowFoundation 28,
+EmbeddedWalls 99, Steel.Members 6537, Design 109 e 108 (net472), ModelChecker 483; API compatibili (nessuna firma tolta). Nessun Gmsh.
+DLL identiche a quelle del set candidato candidato-c. Le differenze dei risultati sono registrate come CA-COLONNA-01, B-FON-01, MOD-31
+e MOD-32. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`. Set in
+`supporto/artefatti/librerie-20261028-al/gpc-release-20261028-al`.
+
 **Release AK — librerie della 1.14.4 (28 ottobre 2026).** Set ufficiale da Model `8c0499ae` e Checker `66b33d08`, entrambi su
 origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Contiene:
 - GPCModel 5.22.0.2, ModelData 0.3.0.5, Persistence 3.3.0.5 e Converter 2.6.0.5: generatore delle combinazioni geotecniche (NTC 2018
