@@ -93,7 +93,8 @@ public static class MidasSnapshotImporter
             }
             double thick = t.GetProperty("T_IN").GetDouble() * factor, value = t.TryGetProperty("O_VALUE", out var o) ? o.GetDouble() : 0;
             int kind = t.TryGetProperty("OFFSET", out var opt) ? opt.GetInt32() : 0;
-            double offset = kind switch { 0 when value == 0 => 0, 1 => value * thick, 2 => value * factor, _ => throw new InvalidDataException("Offset non riconosciuto: preview solida non disponibile.") };
+            // A text file keeps the offset value of a thickness whose offset is switched off (bOFFSET NO): no offset, as for GPC.
+            double offset = kind switch { 0 when value == 0 || text != null => 0, 1 => value * thick, 2 => value * factor, _ => throw new InvalidDataException("Offset non riconosciuto: preview solida non disponibile.") };
             return new PlateProperty(int.Parse(p.Name), t.GetProperty("NAME").GetString()!, thick, offset);
         }
         result.Plates = table("THIK").EnumerateObject().Select(Thickness).OfType<PlateProperty>().ToArray();

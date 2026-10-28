@@ -114,6 +114,11 @@ static partial class Program
         string dangling = Path.Combine(directory, "nodo-mancante.mct");
         File.WriteAllText(dangling, File.ReadAllText(coveragePath).Replace("     4, TRUSS ,    2,     3,     1,     3,", "     4, TRUSS ,    2,     3,     1,    99,"), Encoding.ASCII);
         Reject(() => ModelSnapshotFiles.Read(dangling), "MIDAS .mct with a member on a missing node is rejected");
+        // Real exports keep the offset value of a thickness whose offset is switched off: no offset, as in GPC (found on 3 of 36 real files).
+        string switchedOff = Path.Combine(directory, "offset-disattivato.mct");
+        File.WriteAllText(switchedOff, File.ReadAllText(coveragePath).Replace("1, VALUE, Soletta, YES, 0.25, 0,  NO, 0, 0", "1, VALUE, Soletta, YES, 0.25, 0,  NO, 0, 0.3"), Encoding.ASCII);
+        var offsetOff = ModelSnapshotFiles.Read(switchedOff);
+        Check(offsetOff.Plates.Single(p => p.Id == 1).Offset == 0 && File.ReadAllText(switchedOff).Contains("NO, 0, 0.3"), "MIDAS .mct: a switched-off thickness offset keeps its value in the file and gives no offset");
         string foreign = Path.Combine(directory, "testo.mct"); File.WriteAllText(foreign, "questo non è un modello\n", Encoding.UTF8);
         Reject(() => ModelSnapshotFiles.Read(foreign), "a text file that is not a MIDAS model is rejected");
         using (var cancelled = new CancellationTokenSource())

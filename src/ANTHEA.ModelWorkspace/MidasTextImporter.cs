@@ -26,8 +26,9 @@ public static class MidasTextImporter
         if (tables.Batch == null)
         {
             var error = tables.Diagnostics.FirstOrDefault(d => d.Severity == DiagnosticSeverity.Error);
-            throw new InvalidDataException("File MIDAS non importato" + (error?.Record is { Length: > 0 } record ? " (" + record + ")" : "") + ": " + (error?.Message ?? "lettura non riuscita") +
-                ". Correggi il file o ripeti l’esportazione da MIDAS. La copia precedente è stata conservata.");
+            string detail = (error?.Message ?? "lettura non riuscita").TrimEnd('.');
+            if (error?.Record is { Length: > 0 } record && !detail.StartsWith(record, StringComparison.Ordinal)) detail = record + ": " + detail;
+            throw new InvalidDataException("File MIDAS non importato: " + detail + ". Correggi il file o ripeti l’esportazione da MIDAS. La copia precedente è stata conservata.");
         }
         token.ThrowIfCancellationRequested();
         var json = new Dictionary<string, JsonElement>(StringComparer.Ordinal);
@@ -49,8 +50,8 @@ public static class MidasTextImporter
         var mapped = ModelMapper.Map(tables.Batch, token);
         token.ThrowIfCancellationRequested();
         if (mapped.Model == null)
-            throw new InvalidDataException("Il convertitore GPC ha rifiutato il modello: " + string.Join("; ", mapped.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error).Take(3)
-                .Select(d => (d.Record is { Length: > 0 } r ? r + ": " : "") + d.Message)) + ". La copia precedente è stata conservata.");
+            throw new InvalidDataException("Il convertitore GPC ha rifiutato il modello: " + string.Join("; ", mapped.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error)
+                .Select(d => (d.Record is { Length: > 0 } r && !(d.Message ?? "").StartsWith(r, StringComparison.Ordinal) ? r + ": " : "") + (d.Message ?? d.Code).TrimEnd('.')).Distinct().Take(3)) + ". La copia precedente è stata conservata.");
         GpcBatchNormalization.Apply(snapshot, tables.Batch, mapped.Diagnostics);
         snapshot.ImportMessages = [.. selection.Messages, .. snapshot.ImportMessages ?? [],
             new("MIDAS-TEXT", "info", "Importazione", $"{(gen ? "MIDAS Gen" : "MIDAS Civil")} da file di testo {extension}: geometria, sezioni, spessori, vincoli, molle, link, rilasci, carichi e combinazioni tradotti dal convertitore GPC nelle tabelle Civil NX (N, mm). Il file non contiene risultati di analisi."),

@@ -146,7 +146,8 @@ if ($Installer) {
     Add-Suite @{ Name = 'installer/examples'; Stage = 'fast'; Kind = 'powershell'; Script = 'tests\Installer\Test-Examples.ps1'; Args = @('-Output', '{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 }
 Add-Suite @{ Name = 'ModelWorkspace.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelWorkspace.Checks\ModelWorkspace.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-# 1.15.0: Straus7 through the real worker and API, opt-in with GPC_STRAUS7_ELEMENTS, GPC_STRAUS7_PLATES, GPC_STRAUS7_BRIDGHE (PASS 0 without them).
+# 1.15.0: Straus7 through the real worker and API, opt-in with GPC_STRAUS7_ELEMENTS, GPC_STRAUS7_PLATES, GPC_STRAUS7_BRIDGHE, and real MIDAS
+# exports with GPC_MIDAS_TEXT_SAMPLES (a folder, read only); PASS 0 without them.
 Add-Suite @{ Name = 'Straus7Native.Checks'; Stage = 'regression'; Kind = 'run'; Project = 'tests\ModelWorkspace.Checks\ModelWorkspace.Checks.csproj'; Args = @('{out}', '--straus7-native'); Timeout = 1800; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ModelViewer.CombinationBench.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelViewer.CombinationBench.Checks\ModelViewer.CombinationBench.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Architecture.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}') + $(if ($GpcLibDir) { @('--gpc-snapshot', [IO.Path]::GetFullPath($GpcLibDir)) }); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' }; Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }

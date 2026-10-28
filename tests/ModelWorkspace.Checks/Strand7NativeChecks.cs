@@ -39,9 +39,12 @@ static partial class Program
                 foreach (var file in Directory.GetFiles(bridghe, "*.st7").OrderBy(f => f, StringComparer.Ordinal))
                     if (File.Exists(Path.ChangeExtension(file, ".LSA")))
                     { var folder = Fresh(); sources.Add(("BridGHe " + Path.GetFileNameWithoutExtension(file), CopyTo(folder, file), CopyTo(folder, Path.ChangeExtension(file, ".LSA")))); }
+            // Real MIDAS exports (GPC_MIDAS_TEXT_SAMPLES) in the same opt-in run: ANTHEA against the GPC file adapter.
+            int midas = MidasTextRealChecks(directory);
             if (sources.Count == 0)
             {
-                File.WriteAllText(Path.Combine(output, "esito.txt"), "PASS 0 controlli nativi Straus7: variabili GPC_STRAUS7_ELEMENTS, GPC_STRAUS7_PLATES, GPC_STRAUS7_BRIDGHE non impostate");
+                File.WriteAllText(Path.Combine(output, "esito.txt"), midas > 0 ? $"PASS {checks} controlli · {midas} file MIDAS reali, nessun modello Straus7"
+                    : "PASS 0 controlli nativi: variabili GPC_STRAUS7_ELEMENTS, GPC_STRAUS7_PLATES, GPC_STRAUS7_BRIDGHE, GPC_MIDAS_TEXT_SAMPLES non impostate");
                 return 0;
             }
             string api = Strand7ImportSetup.FindInstalledApi();
@@ -50,7 +53,7 @@ static partial class Program
             var summaries = new List<object>();
             foreach (var (label, model, results) in sources) summaries.Add(await NativeModel(label, model, results, worker, api, directory));
             File.WriteAllText(Path.Combine(directory, "riepilogo.json"), JsonSerializer.Serialize(summaries, new JsonSerializerOptions { WriteIndented = true }));
-            File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli nativi Straus7 · {sources.Count} modelli");
+            File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli nativi Straus7 · {sources.Count} modelli" + (midas > 0 ? $" · {midas} file MIDAS reali" : ""));
             return 0;
         }
         catch (Exception ex) { Console.Error.WriteLine(ex); File.WriteAllText(Path.Combine(output, "errore.txt"), ex.ToString()); return 1; }
