@@ -21,8 +21,8 @@ chi usa ANTHEA ed è anche l'annotazione del tag `v1.15.0`, sul commit del setup
 - **Modelli: importazione da Straus7.** Con Straus7 R3 installato e la sua licenza: «Controlla file e casi» legge il modello `.st7` e i
   casi del file di risultati `.lsa`; si scelgono casi e contenuto e «Importa da Straus7» porta geometria, proprietà, vincoli, molle, link,
   rilasci e i risultati scelti. Le combinazioni lineari di Straus7 sono ricostruite dalla libreria. Lettura in sola lettura, in un
-  processo separato: un'importazione annullata o non riuscita non cambia il documento. I momenti hanno il segno della copia MIDAS
-  , come per tutte le sorgenti: Mxx, Myy e Mxy delle piastre e My delle aste sono opposti alla convenzione di Straus7.
+  processo separato: un'importazione annullata o non riuscita non cambia il documento. I momenti hanno il segno della copia MIDAS,
+  come per tutte le sorgenti: Mxx, Myy e Mxy delle piastre e My delle aste sono opposti alla convenzione di Straus7.
 - **Dominio 3D.** Le etichette degli assi stanno sulla carta anche nel tema Chiaro, come le etichette dei punti: si leggono anche quando
   cadono sulla superficie del dominio, nella scheda e nelle figure dei report.
 

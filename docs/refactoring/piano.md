@@ -1005,6 +1005,8 @@ in generale, segui la normativa». La libreria è GPCChecker.Concrete 0.27.0.0 (
   di wiki/manuale per i nomi Straus7/Strand7 nel solo capitolo dell'importazione (4afebd17); transizioni editoriali della Wiki F5-REL-1150-01
   approvate il 28/10 sera («Approva tutti»), come CA-COLONNA-01, B-FON-01 e UI-CONTRASTO-02; set ufficiale AL installato (B-FON-01 seguito
   con Geotechnics 0.25.0.4).
+- [x] Rilascio 1.15.0 con il set AL: full di rilascio con l'installer, setup, audit, tag `v1.15.0` e push («Tag e push se pulita»). Full
+  PASS 160 sul commit del setup 5d5185ba, audit PASS; verbale in [installer-1.15.0.md](installer-1.15.0.md).
 
 ## Wiki (in parallelo)
 
