@@ -763,8 +763,10 @@ internal static partial class HorizontalPileViewChecks
             var reference = new PileReinforcementDrawing { HorizontalAlignment = HorizontalAlignment.Left };
             reference.Set(shown);
             byte[] expectedPng = reference.Png((int)Math.Ceiling(reference.SheetSize.Width * 2), (int)Math.Ceiling(reference.SheetSize.Height * 2));
-            if (!File.Exists(png) || !File.ReadAllBytes(png).SequenceEqual(expectedPng)) File.WriteAllBytes(Path.Combine(folder, "armature-palo-atteso.png"), expectedPng);
-            Check(File.Exists(png) && File.ReadAllBytes(png).SequenceEqual(expectedPng), "«Esporta PNG…» della tavola delle armature scrive l'immagine del bottone storico (risultato mostrato)");
+            // The same drawing rendered twice: a pixel of antialiasing may differ (seguito della 1.14.3), the content may not.
+            bool same = File.Exists(png) && ViewTraceTools.SameRendering(File.ReadAllBytes(png), expectedPng);
+            if (!same) File.WriteAllBytes(Path.Combine(folder, "armature-palo-atteso.png"), expectedPng);
+            Check(same, "«Esporta PNG…» della tavola delle armature scrive l'immagine del bottone storico (risultato mostrato)");
             Check(host.Modified == 0, "Le esportazioni della scheda elastica non modificano il foglio");
         }
     }
