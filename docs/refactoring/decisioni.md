@@ -2032,3 +2032,17 @@ Coordinatore: sessione del refactoring F5. Le parole fra virgolette sono dell'ut
      ANTHEA si misura prima di chiedere i riferimenti;
    - librerie: «Sì, unisci e pubblica»: lib-1144 nei master di Model e Checker, con i commit Steel dell'altro agente, poi il set
      ufficiale AK.
+12. **Decisioni della 1.14.4 (giorno del 28/10).** L'utente, fuori casa, scrive:
+   - librerie: «prima di aggiornare anthea aggiorna model e checker con gli sviluppi avvenuti in master». I master locali della revisione
+     Steel del 27/10 entrano nei rami lib-1144; versioni sopra master (GPCModel 5.22.0.2, Concrete 0.26.0.2, Geotechnics 0.25.0.2, Steel
+     2.123.0.1 e gli altri all'ultimo componente); pubblicati su origin/master (Model 8c0499ae, Checker 66b33d08) con l'ok «Sì, unisci e
+     pubblica»; set ufficiale AK, DLL identiche al candidato h provato nella full;
+   - riferimenti, in anticipo: «ti approvo già ora la richiesta su muri, fondazione e trasizione rev60» e «approvo anche r18 se non da
+     differenze significative». R18 cambia solo le sezioni con acciaio incrudente: resistenza a trazione -0,55 % nella fixture F3, momenti
+     resistenti rapidi da -0,5 a -2 % nelle tracce, a favore di sicurezza; ritenute non significative e registrate (voce R18);
+   - «aggiorna risultati tracce storiche dopo modifica fatta»: tracce dei muri e della sezione c.a. aggiornate riga per riga, ogni riga
+     classificata (COMB-MURI-D4D5, R18);
+   - rilascio: «stasera consegnami l'installer della 1.14.4»; «ok tag v1.14.4 e push di main e refactoring/f5 se la full di rilascio è pulita»;
+   - 1.15.0: «colonna modello e straus andranno nella 1.15.0»; importazione dei file MIDAS .mgt e .mct («concludila ed implementala dentro
+     anthea»); colonna modello: «implementa quelle che consigli te. stasera ne discutiamo. in generale, segui la normativa», «implementa sia
+     libreria che interfaccia».

@@ -2220,9 +2220,19 @@
       "titolo": "Acciaio di progetto con incrudimento: ramo superiore riferito a fyk invece che a fyd",
       "famiglia": "calcestruzzo/momento-curvatura",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
-      "decisione_26_10_sera": {"data": "2026-10-26", "utente": "«R18 ok correggi»; «possiamo spostare R5 e R18 in fondo agli altri punti»", "esito": "da correggere, in fondo all'elenco: incremento di incrudimento (k − 1) fyk/γs, cioè ramo da fyd in εyd a k fyk/γs in εuk; da attuare per la 1.14.3 (decisa per la 1.14.2, «correggiamo tutti i punti e rifacciamo la guida. facciamo la versione 1.14.2»; spostata il 26/10 notte: «versione 1.14.2 e 1.14.3 dopo correzioni»), nella libreria e poi in ANTHEA"},
-      "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "lavoro grande in Model: ramo incrudente dell'acciaio di progetto riferito a fyd, con la ricattura delle fixture coinvolte. Priorità alta.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
+      "stato": "attuato",
+      "decisione_26_10_sera": {
+        "data": "2026-10-26",
+        "utente": "«R18 ok correggi»; «possiamo spostare R5 e R18 in fondo agli altri punti»",
+        "esito": "da correggere, in fondo all'elenco: incremento di incrudimento (k − 1) fyk/γs, cioè ramo da fyd in εyd a k fyk/γs in εuk; da attuare per la 1.14.3 (decisa per la 1.14.2, «correggiamo tutti i punti e rifacciamo la guida. facciamo la versione 1.14.2»; spostata il 26/10 notte: «versione 1.14.2 e 1.14.3 dopo correzioni»), nella libreria e poi in ANTHEA"
+      },
+      "rinvio_26_10": {
+        "data": "2026-10-26",
+        "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)",
+        "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)",
+        "serve": "lavoro grande in Model: ramo incrudente dell'acciaio di progetto riferito a fyd, con la ricattura delle fixture coinvolte. Priorità alta.",
+        "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."
+      },
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R18): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Oltre lo snervamento la legge di progetto dell'acciaio di Model (SteelMaterial) usa la curva caratteristica traslata lungo la retta elastica e abbassata di fyk − fyd: σ(ε) = σk(ε + (fyk − fyd)/Es) − (fyk − fyd). L'incremento di incrudimento è quindi riferito a fyk, mentre il ramo inclinato di EN 1992-1-1 3.2.7(2) e Fig. 3.8 va da fyd in εyd a k fyk/γs in εuk, con il limite εud. Riguarda il momento-curvatura e il dominio di rottura del solutore con acciaio incrudente.",
       "riferimento_normativo": [
@@ -2233,13 +2243,14 @@
         }
       ],
       "codice": [
-        "Model/Model/Materials/Steel/SteelMaterial.cs:857-880"
+        "Model/Model/Materials/Steel/SteelMaterial.cs:857-880",
+        "Model/Model/Materials/Steel/SteelMaterial.cs (209a81b1)"
       ],
       "segno": "NON cautelativo con acciaio incrudente: il ramo di progetto supera quello della norma di circa (k − 1)(fyk − fyd)(ε − εyd)/(εuk − εyd); nessun effetto con il ramo superiore orizzontale",
       "effetto_quantificato": {
         "sintesi": "B450C con k = 1,15 ed εuk = 7,5 %: circa 8 MPa (+2 %) in εud"
       },
-      "effetto_anthea": "Da verificare: dipende dalla legge dell'acciaio delle sezioni di ANTHEA (con o senza incrudimento).",
+      "effetto_anthea": "Misurato il 28/10 (supporto/artefatti/1144/misura-h): solo le sezioni con acciaio incrudente. F3: la fixture str_palo/rettangolare-materiali-utente, 42 valori (resistenza a trazione 988,74 -> 983,33 kN, -0,55 %; rapporto 0,2528 -> 0,2542); figura del dominio 2D alla N di verifica, punti spostati fino al 4 %; 4 disegni (ispezione e piano 3D limite, dominio 2D, M–χ); tracce storiche di 4 scenari (63 righe: momenti resistenti rapidi da -0,5 a -2 %, per esempio Mx− -513,54 -> -504,02 kNm).",
       "raccomandazione": "ramo inclinato della norma in Model, con opzione legacy, e ricattura delle fixture coinvolte",
       "decisione": {
         "data": "2026-10-07",
@@ -2253,7 +2264,12 @@
         "esito": "ratificato il rinvio a F5.15, esteso dal coordinatore il 7/10 (E4)"
       },
       "data": "2026-10-07",
-      "fase": "F2.8 (momento-curvatura, libreria Model); decisione in F5.15"
+      "fase": "F2.8 (momento-curvatura, libreria Model); decisione in F5.15",
+      "decisione_28_10": {
+        "data": "2026-10-28",
+        "utente": "«R18: Sì, procedi e misura»; dopo la misura: «approvo anche r18 se non da differenze significative»",
+        "esito": "attuata in GPCModel 5.22.0.2 (Model 209a81b1, attesi cd699c9b, set AK): ramo di progetto da fyd in εyd a k fyk/γs in εu, cioè la curva caratteristica divisa per γs letta in εyk + (|t| − εyd)(εu − εyk)/(εu − εyd) (EN 1992-1-1 3.2.7(2), Fig. 3.8; 3.3.6(7), Fig. 3.10), riferimento indipendente UnitTest/Reference/r18_ref.py. Differenze piccole e a favore di sicurezza, quindi approvate"
+      }
     },
     {
       "id": "R19",
@@ -11095,14 +11111,19 @@
         "ui/f3-equivalence",
         "Architecture.Tests"
       ],
-      "decisione": {"data": "2026-10-27", "utente": "«Approvo i riferimenti di PO-5b (3c3babb5). Prosegui con la 1.14.3: teste dei pali sotto il piano campagna.»; al riepilogo delle tracce: «Approvo i riferimenti PO-TESTA-01 (f860a3d8 ed e00ef273). Registra la decisione.»", "esito": "riferimenti approvati: 257 righe di 18 tracce del palo verticale (f860a3d8) e 445 righe di 27 tracce del palo orizzontale (e00ef273), più l'etichetta «?» del campo come differenza dichiarata. Full del ramo: 154 PASS e ui/check-contrast a 96 DPI PASS (Chiara 643 su 645: le 2 occorrenze in meno sono del dominio 3D del verificatore c.a. del palo elastico, dove dopo BUG-PO-5b governa l'azione con |M| massimo). Seguiti: LateralPileCapacity.ModelName con la profondità della testa nella libreria; guida Rev60."},
+      "decisione": {
+        "data": "2026-10-27",
+        "utente": "«Approvo i riferimenti di PO-5b (3c3babb5). Prosegui con la 1.14.3: teste dei pali sotto il piano campagna.»; al riepilogo delle tracce: «Approvo i riferimenti PO-TESTA-01 (f860a3d8 ed e00ef273). Registra la decisione.»",
+        "esito": "riferimenti approvati: 257 righe di 18 tracce del palo verticale (f860a3d8) e 445 righe di 27 tracce del palo orizzontale (e00ef273), più l'etichetta «?» del campo come differenza dichiarata. Full del ramo: 154 PASS e ui/check-contrast a 96 DPI PASS (Chiara 643 su 645: le 2 occorrenze in meno sono del dominio 3D del verificatore c.a. del palo elastico, dove dopo BUG-PO-5b governa l'azione con |M| massimo). Seguiti: LateralPileCapacity.ModelName con la profondità della testa nella libreria; guida Rev60."
+      },
       "evidenze": [
         "supporto/artefatti/1143-teste (verticale-2…4, orizzontale-1…16, full-1, contrasto-3)"
       ],
       "voci_collegate": [
         "F5-02",
         "BUG-PO-5b"
-      ]
+      ],
+      "seguito_1144": "28/10/2026, set AK: il nome del modello di Broms del palo orizzontale è calcolato da LateralPileCapacity.ModelName con la profondità della testa (Checker 5149d3fc), al posto della verticale vista dalla testa; stesso modello del calcolo, nessun riferimento cambia. Il limite noto della 1.14.3 cade."
     },
     {
       "id": "PO-ANELLO-01",
@@ -11141,14 +11162,18 @@
       "modulo": "geo_fondazioni_superficiali (F5.9b)",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Come AJ-FON-01. GPCChecker.Geotechnics passa da 0.24.0.0 a 0.25.0.0 (combinazioni dei muri da Model, ModelName dei pali con la testa interrata). Nelle 8 fixture F3 con un risultato cambia l'impronta SHA-256 del risultato dopo «Calcola»; con 0.24.0.0 al posto di 0.25.0.0 tornano tutte le impronte di AJ-FON-01. Dati, Modified e stato uguali.",
+      "descrizione": "Come AJ-FON-01. GPCChecker.Geotechnics passa da 0.24.0.0 a 0.25.0.0 (combinazioni dei muri da Model, ModelName dei pali con la testa interrata). Nelle 8 fixture F3 con un risultato cambia l'impronta SHA-256 del risultato dopo «Calcola»; con 0.24.0.0 al posto di 0.25.0.0 tornano tutte le impronte di AJ-FON-01. Dati, Modified e stato uguali. Il 28/10, con il set ufficiale AK, GPCChecker.Geotechnics è 0.25.0.2 (unione con il master di Checker e D4 b / D5 b): le stesse 8 impronte cambiano di nuovo, e con 0.25.0.0 tornano quelle di ab88cc84.",
       "codice": [
         "lib/Checker/GPCChecker.Geotechnics.dll",
         "tests/ANTHEA.Desktop.UiTests/ShallowFoundationViewChecks.cs (HistoricFixtures, impronte del risultato)"
       ],
       "segno": "Nessun effetto sui numeri.",
       "effetto_quantificato": "Cambiano 8 impronte del risultato su 11 fixture; le 3 senza risultato restano uguali.",
-      "decisione": {"data": "2026-10-28", "utente": "al riepilogo, «Approvo tutto» (riferimenti del commit ab88cc84)", "esito": "impronte approvate; differenza dichiarata"},
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "al riepilogo, «Approvo tutto» (riferimenti del commit ab88cc84)",
+        "esito": "impronte approvate; differenza dichiarata"
+      },
       "test": [
         "ui/check-fondazioni-view"
       ],
@@ -11158,7 +11183,12 @@
       "voci_collegate": [
         "AJ-FON-01",
         "UI-CONTRASTO-01"
-      ]
+      ],
+      "decisione_28_10_ak": {
+        "data": "2026-10-28",
+        "utente": "«ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»",
+        "esito": "impronte registrate con il set AK"
+      }
     },
     {
       "id": "UI-CONTRASTO-01",
@@ -11189,6 +11219,155 @@
       ],
       "voci_collegate": [
         "AK-FON-01"
+      ]
+    },
+    {
+      "id": "COMB-MODEL-01",
+      "data": "2026-10-27",
+      "fase": "1.14.4, combinazioni in Model (censimento, passi 0-2)",
+      "titolo": "Muri: combinazioni e coefficienti della stabilità globale generati da Model",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Muri di sostegno (verifiche locali e stabilità globale)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Richiesta dell'utente del 15-16/10/2026 («vorrei però che le combo venissero fatte tutte in model»), ripresa il 26/10 («sposta le combo e la generazione dentro model») e il 27/10 per la 1.14.4 («comincia a lavorare alla 1.14.4 chiudendo gli altri punti che avevamo in lista (vedi combo in model ecc)»). Passi 0-2 di docs/refactoring/combinazioni-model-censimento.md con le raccomandazioni D1 a (le matrici dell'utente restano dati), D2 a (generatore nuovo in Model, adattatore in Checker) e D3 a (prima l'equivalenza bit per bit, le scelte normative dopo). Model 5.22: GeotechnicalCombinations (NTC 2018 §2.5.3, azioni tipizzate, corpi, righe tipizzate). Checker: WallCombinations.Generate è un adattatore del generatore di Model con A1 e γR di StandardNTC2018Geotechnics; dichiarava le scelte dei muri che differivano dalla norma (G2 favorevole 0, γR statici con kh e kv assegnati, passiva solo negli SLU), decise il 28/10 con D4 b e D5 b (voce COMB-MURI-D4D5); WallGlobalStability prende A2, M2 e R2 da Model. Equivalenza con il generatore precedente, conservato come riferimento congelato nelle prove di Geotechnics: 206 documenti delle catture (7652 righe) e 3000 muri casuali (627765 righe) identici bit per bit, stessi rifiuti; stabilità globale 21330 righe identiche. Differenza dichiarata: la libreria rifiuta ψ incoerenti e gruppi con nature diverse, che ANTHEA rifiuta già prima del calcolo (nelle catture solo i due documenti «errore psi incoerenti»). In ANTHEA nessun risultato cambia: confronto F3 e confronti congelati F4 dei muri senza differenze. I documenti dei muri versione 1 (LegacyCombinations di ANTHEA) restano com'erano (domanda D7 aperta).",
+      "codice": [
+        "Model/Model/Design/Combinations/GeotechnicalCombinations.cs",
+        "Checker/GPCChecker.Geotechnics/Walls/WallCombinations.cs",
+        "Checker/GPCChecker.Geotechnics/Walls/WallGlobalStability.cs"
+      ],
+      "segno": "Nessun valore cambia per lo spostamento del generatore; le decisioni D4 b e D5 b sono nella voce COMB-MURI-D4D5.",
+      "test": [
+        "Model UnitTest GeotechnicalCombinationsTest (attesi a mano NTC 2018 §2.5.3)",
+        "Checker GPCChecker.Test.Geotechnics WallCombinationsEquivalenceTests (bit per bit con FrozenWallCombinations)",
+        "RetainingWall.Checks, GlobalStability.Checks, ConcreteLibraryAdapter.Checks, ui/f3-equivalence, ui/check-muri-view"
+      ],
+      "evidenze": [
+        "supporto/artefatti/librerie-1144 (candidato-b)",
+        "supporto/artefatti/1144 (candidato-b-mirate, f3-3)",
+        "supporto/artefatti/librerie-20261028-ak (set ufficiale AK)"
+      ],
+      "voci_collegate": [
+        "BUG-MUR-1",
+        "BUG-MUR-2b",
+        "COMB-MURI-D4D5",
+        "AK-LIB-01"
+      ]
+    },
+    {
+      "id": "COMB-MURI-D4D5",
+      "data": "2026-10-28",
+      "fase": "1.14.4, combinazioni in Model (censimento, passo 4: decisioni normative)",
+      "titolo": "Muri: G2 favorevole 0,8 nelle SLU e γR della Tab. 7.11.III nelle righe sismiche assegnate (D4 b, D5 b)",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Muri di sostegno (verifiche locali e stabilità globale)",
+      "categoria": "scostamento-normativo",
+      "stato": "attuato",
+      "descrizione": "Censimento delle combinazioni (docs/refactoring/combinazioni-model-censimento.md, domande D4 e D5), dopo la quantificazione sul corpus (supporto/artefatti/1144/quantificazione-d4-d6.csv). D4 b: le righe SLU dei muri usano A1 della NTC 2018 così com'è, con G2 favorevole 0,8 (Tab. 2.6.I e 6.2.I) invece di 0, il valore della NTC 2008; la stabilità globale prende il G2 favorevole di A2, 0,8, e il testo del metodo dice «γG2=0,8/1,3». D5 b: le righe sismiche con kh e kv assegnati hanno i γR della Tab. 7.11.III (1; 1; 1,2), come quelle dal sito, invece degli statici R3 (1,1; 1,15; 1,4); l'approccio si chiama «Sismica · NTC 7.11.III». D6 resta com'è. GPCChecker.Geotechnics 0.25.0.2 (Checker 84ed9666, set AK).",
+      "codice": [
+        "Checker/GPCChecker.Geotechnics/Walls/WallCombinations.cs",
+        "Checker/GPCChecker.Geotechnics/Walls/WallGlobalStability.cs"
+      ],
+      "segno": "D4 b: più cautelativa quando G2 è sfavorevole in una riga che lo dichiarava favorevole (più controlli non soddisfatti), meno quando G2 stabilizza; D5 b: resistenze sismiche più alte (meno cautelativa rispetto ai γR statici, conforme alla Tab. 7.11.III).",
+      "effetto_quantificato": "Corpus: due esiti cambiano, «azioni di ogni tipo» (scorrimento D4 da 1,14 a 0,96) e «v1 sisma» (scorrimento D5 da 1,04 a 0,95). Prove di ANTHEA: 4 fixture F3 cambiano (mensola-wood-azioni, opzioni-avanzate, globale-drenata-due-colonne, globale-non-drenata-sisma); in mensola-wood-azioni la combinazione che governa lo scorrimento passa da «Sisma kv+ 21b» a «Eccezionale Urto di un veicolo 22b» (1,628 -> 1,504, sempre non soddisfatta).",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«Sì, D4 b e D5 b»; per i riferimenti: «ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»",
+        "esito": "attuato nella libreria (set AK) e riferimenti di ANTHEA registrati"
+      },
+      "riferimenti_anthea": "Transizioni F3: 4703 nuove e 744 di AG-MUR-01 con il valore dopo nuovo («AG-MUR-01 / COMB-MURI-D4D5»); 191 righe di 8 tracce storiche dei muri (G2 favorevole, γR e approccio sismici, impronte, conteggi dei controlli non soddisfatti, 2 righe della combinazione governante); 9 valori registrati della vista (vista-storica.json); conteggio delle transizioni in Presentation.Tests. Nessun atteso F3 sostituito, nessuna tolleranza nuova.",
+      "test": [
+        "ui/f3-equivalence",
+        "Presentation.Tests",
+        "ui/check-muri-view",
+        "GPCChecker.Test.Geotechnics (WallsFixture.Decided, DecidedGlobal)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1144/misura-h (full sul set candidato h)",
+        "supporto/artefatti/1144/registra-ak3"
+      ],
+      "voci_collegate": [
+        "COMB-MODEL-01",
+        "AG-MUR-01",
+        "AK-LIB-01"
+      ]
+    },
+    {
+      "id": "AK-LIB-01",
+      "data": "2026-10-28",
+      "fase": "Librerie GPC della 1.14.4 (set AK: Model 8c0499ae, Checker 66b33d08)",
+      "titolo": "Librerie della 1.14.4: riferimenti di ANTHEA aggiornati per D4 b, D5 b e R18",
+      "famiglia": "librerie/riferimenti",
+      "modulo": "tutti",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Model e Checker uniscono il master locale della revisione Steel del 27/10 su richiesta dell'utente del 28/10 («prima di aggiornare anthea aggiorna model e checker con gli sviluppi avvenuti in master») e sono pubblicati («Sì, unisci e pubblica»): GPCModel 5.22.0.2, Concrete 0.26.0.2, Geotechnics 0.25.0.2, Steel 2.123.0.1 e gli altri all'ultimo componente. DLL identiche al set candidato candidato-h provato nella full. Con queste librerie ANTHEA aggiorna i riferimenti delle voci COMB-MURI-D4D5 (muri), R18 (sezione c.a. con acciaio incrudente) e AK-FON-01 (fondazioni, versione); provenienza F4 della release AK. Il nome del modello di Broms del palo orizzontale passa a LateralPileCapacity.ModelName con la profondità della testa (seguito di PO-TESTA-01), senza effetti.",
+      "codice": [
+        "lib/Checker",
+        "tests/fixtures/f4/library-release.json",
+        "X.Calculations/PaloOrizzontale.cs"
+      ],
+      "segno": "Si veda ogni voce collegata.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»; «approvo anche r18 se non da differenze significative»",
+        "esito": "riferimenti registrati nella 1.14.4"
+      },
+      "test": [
+        "Architecture.Tests",
+        "ui/f3-equivalence",
+        "Presentation.Tests",
+        "ui/check-muri-view",
+        "ui/check-sezione-view",
+        "ui/check-fondazioni-view",
+        "ui/f3-concrete-figures"
+      ],
+      "evidenze": [
+        "supporto/artefatti/librerie-20261028-ak/gpc-release-20261028-ak",
+        "supporto/artefatti/1144/misura-h"
+      ],
+      "voci_collegate": [
+        "COMB-MURI-D4D5",
+        "R18",
+        "AK-FON-01",
+        "COMB-MODEL-01",
+        "PO-TESTA-01",
+        "BUG-TS-2"
+      ]
+    },
+    {
+      "id": "F5-REL-1144-01",
+      "data": "2026-10-28",
+      "fase": "1.14.4, guide Rev60",
+      "titolo": "Wiki: differenze editoriali delle guide Rev60",
+      "famiglia": "guide/wiki",
+      "modulo": "Wiki",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Le guide pratica e teorica Rev60 (commit 87c5573a) descrivono il menu «Aspetto › Separatore decimale», la profondità della testa dei pali e dei micropali, il secondo anello nei report, «MRd con fyd·r», il tension stiffening con il tirante, R5, le correzioni di calcolo della 1.14.2-1.14.4 e le combinazioni dei muri. Cambiano 15 articoli della Wiki e 4 delle 30 ricerche, solo con articoli aggiunti: 117 transizioni editoriali esatte nuove, 33 sostituite, 17 righe spostate in transitions-f5-wiki.json.",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "tests/fixtures/f3/transitions-f5-wiki.json"
+      ],
+      "segno": "Nessun risultato di calcolo.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»",
+        "esito": "transizioni registrate"
+      },
+      "test": [
+        "ui/f3-equivalence",
+        "Wiki.Tests",
+        "wiki/indice",
+        "wiki/manuale",
+        "installer/guides"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1144/registra-ak3"
+      ],
+      "voci_collegate": [
+        "F5-REL-1140-02"
       ]
     }
   ]

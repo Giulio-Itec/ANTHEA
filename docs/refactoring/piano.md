@@ -942,15 +942,16 @@ ancora aperte passano alla 1.14.4 (sezione sotto).
 - [x] Versione 1.14.3, note di rilascio, prove delle viste dei pali con l'installer, setup e audit; tag `v1.14.3` e push di `main` e
   `refactoring/f5`. Setup dal commit 0c17faf9, prove PASS (una ripetizione per un pixel del PNG), audit PASS; verbale in
   [installer-1.14.3.md](installer-1.14.3.md).
-- [ ] Seguito: «Esporta PNG…» della tavola delle armature confrontato byte per byte in ui/check-palo-orizzontale-view; il 27/10 un pixel
-  di antialiasing ha fatto fallire una corsa (passata alla ripetizione).
+- [x] Seguito: «Esporta PNG…» della tavola delle armature confrontato byte per byte in ui/check-palo-orizzontale-view; il 27/10 un pixel
+  di antialiasing ha fatto fallire una corsa (passata alla ripetizione). 28/10: confronto dei pixel a meno di un pixel di antialiasing
+  (ViewTraceTools.SameRendering, fe7417e0).
 
 ## Lavori della 1.14.4
 
 Decisione del 27/10: «fatta la versione, comincia a lavorare alla 1.14.4 chiudendo gli altri punti che avevamo in lista (vedi combo in
 model ecc)». Le voci vengono dalla 1.14.3.
 
-- [ ] Combinazioni e loro generazione in Model, prima i muri, poi i moduli che costruiscono le combinazioni da sé.
+- [x] Combinazioni e loro generazione in Model, prima i muri, poi i moduli che costruiscono le combinazioni da sé. 28/10: muri dal generatore di Model (COMB-MODEL-01) e decisioni D4 b e D5 b (COMB-MURI-D4D5) nel set AK; le domande D6-D11 del censimento restano aperte (D11, SLE caratteristica di CreateCombinations, senza chiamanti).
 - [x] Palo orizzontale: anello interno di diametro diverso dalla prima fila nei report (la distinta per diametro è nella 1.14.2). 27/10:
   frase del secondo anello nel report di Broms e riga del tratto nel report elastico (PO-ANELLO-01), riferimenti approvati.
 - [x] BUG-TS-2 (27/10: opzione 1 con β = 0,4, decisioni.md «Decisioni della 1.14.4 (sera)»): tension stiffening nell'area efficace hc,eff, fuori dalle verifiche SLE per ora.
@@ -960,13 +961,14 @@ model ecc)». Le voci vengono dalla 1.14.3.
   dalla banda. Il salto da fctm a zero e la banda che cambia con l'asse neutro fanno perdere la convergenza (6 prove di Concrete); tolto.
   Decisione dell'utente del 26/10 sera, «TS-2 scelgo 1»: tension stiffening sulle barre con ρs,eff = As/Ac,eff (modello del tirante, MC2010
   e EN 1992-1-1 7.4.3); il calcestruzzo teso non lavora dopo la fessurazione. Da progettare con un modello indipendente e le sue prove.
-- [ ] Libreria: `LateralPileCapacity.ModelName` con la profondità della testa (seguito di PO-TESTA-01; ANTHEA le passa la verticale vista
+- [x] Libreria: `LateralPileCapacity.ModelName` con la profondità della testa (seguito di PO-TESTA-01; ANTHEA le passa la verticale vista
   dalla testa).
-- [ ] R18, in fondo: ramo incrudente dell'acciaio di progetto da fyd a k fyk/γs.
+- [x] R18, in fondo: ramo incrudente dell'acciaio di progetto da fyd a k fyk/γs. 28/10: GPCModel 5.22.0.2 (set AK), riferimenti registrati («approvo anche r18 se non da differenze significative»; -0,55 % sulla fixture F3, momenti rapidi fino a -2 %).
 - [x] Difetti di contrasto del tema Chiaro (643 occorrenze in 191 voci il 27/10, baseline 645). 27/10, decisione dell'utente: grigio dei
   testi secondari #64748B scurito a #5B697E nella sola Chiara (627 occorrenze), gli altri difetti corretti a parte. 28/10: 55561f46,
   baseline 3 (il glifo «×» della scala del dominio 3D); riferimenti approvati (UI-CONTRASTO-01).
-- [ ] Guida pratica e teorica Rev60 (separatore decimale, correzioni, R5 dichiarata, profondità d della testa dei pali) e rilascio 1.14.4.
+- [x] Guida pratica e teorica Rev60 (separatore decimale, correzioni, R5 dichiarata, profondità d della testa dei pali): 87c5573a, transizioni editoriali F5-REL-1144-01.
+- [ ] Rilascio 1.14.4 con il set AK: full di rilascio con l'installer, setup, audit, tag `v1.14.4` e push («ok tag v1.14.4 e push di main e refactoring/f5 se la full di rilascio è pulita»).
 
 ## Wiki (in parallelo)
 
