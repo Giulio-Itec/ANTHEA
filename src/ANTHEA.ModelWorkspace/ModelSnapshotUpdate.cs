@@ -36,6 +36,7 @@ public static class ModelSnapshotUpdate
             LocalFrames=basis.LocalFrames?.ToArray(),NodeFrames=basis.NodeFrames?.ToArray(),
             Boundaries=geometryOnly?null:basis.Boundaries?.ToArray(),
             SourceTables=geometryOnly?null:basis.SourceTables?.ToDictionary(p=>p.Key,p=>p.Value),
+            SourceCombinations=geometryOnly?null:basis.SourceCombinations,
             Results=scope==ModelUpdateScope.Results?incoming.Results.Where(r=>r.Combination==null).ToArray():[],
             CustomCombinations=(current?.CustomCombinations??incoming.CustomCombinations)?.ToArray(),
             ExcludedCombinationIds=(current?.ExcludedCombinationIds??incoming.ExcludedCombinationIds)?.ToArray(),
@@ -64,6 +65,7 @@ public static class ModelSnapshotUpdate
         Require((current.LocalFrames??[]).OrderBy(f=>f.Element).SequenceEqual((incoming.LocalFrames??[]).OrderBy(f=>f.Element)) && (current.NodeFrames??[]).OrderBy(f=>f.Node).SequenceEqual((incoming.NodeFrames??[]).OrderBy(f=>f.Node)),"terne locali");
         static object[] Boundaries(ModelSnapshot model)=>(model.Boundaries??[]).OrderBy(b=>b.SourceRecord,StringComparer.Ordinal).ThenBy(b=>b.Kind,StringComparer.Ordinal).ThenBy(b=>b.Element).ThenBy(b=>string.Join(",",b.Nodes),StringComparer.Ordinal).ThenBy(b=>b.Dofs,StringComparer.Ordinal).Cast<object>().ToArray();
         Require(Equal(JsonSerializer.SerializeToElement(Boundaries(current)),JsonSerializer.SerializeToElement(Boundaries(incoming))),"vincoli, rilasci e collegamenti");
+        Require(Equal(JsonSerializer.SerializeToElement(current.SourceCombinations),JsonSerializer.SerializeToElement(incoming.SourceCombinations)),"casi e combinazioni della sorgente");
         var a=current.SourceTables??[];var b=incoming.SourceTables??[];
         Require(a.Count==b.Count,"tabelle disponibili");
         foreach(var table in a)

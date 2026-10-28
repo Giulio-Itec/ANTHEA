@@ -74,6 +74,16 @@ public sealed partial class GpcModelCombinationService
 
     static PreparedModel Prepare(ModelSnapshot snapshot,string revision,IProgress<ModelCombinationProgress>? progress,CancellationToken token)
     {
+        if(!GpcSnapshotModel.MidasTables(snapshot)&&GpcSnapshotModel.CanRebuild(snapshot))
+        {
+            // 1.15.0: sources without MIDAS tables (Straus7). The GPC model is rebuilt from the document copy itself.
+            var basis=snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&r.Stage==null).ToArray();
+            progress?.Report(new($"Preparazione iniziale · {basis.Length} casi base GPC dalla copia del documento. Saranno riutilizzati per le altre combinazioni…"));
+            var (rebuilt,output,notes)=GpcSnapshotModel.Build(snapshot,revision,basis,token);
+            var sampleOwners=new Dictionary<ResultLocation,Element>(ReferenceEqualityComparer.Instance);
+            foreach(var owner in rebuilt.AllElements)foreach(var sample in owner.Results.SelectMany(r=>r.Results))sampleOwners.Add(sample,owner);
+            return new(revision,rebuilt,output,notes,sampleOwners);
+        }
         var source=Source(snapshot);
         progress?.Report(new("Preparazione iniziale del modello GPC…"));
         var import=CivilNxGeometryReader.Import(source,new AnalysisSource {Program=CivilNxModelProfile.Program,

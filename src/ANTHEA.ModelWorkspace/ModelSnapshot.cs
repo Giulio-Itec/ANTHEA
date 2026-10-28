@@ -21,6 +21,9 @@ public sealed record ModelLocalFrame(int Element, ModelDirection X, ModelDirecti
 public sealed record ModelNodeFrame(int Node, ModelDirection X, ModelDirection Y, ModelDirection Z);
 public sealed record ModelBoundary(string SourceRecord, string Kind, int[] Nodes, int? Element, string Dofs);
 public sealed record ModelImportMessage(string Code, string Severity, string Record, string Message);
+/// <summary>Static load cases and combination definitions of a source without MIDAS tables (Straus7 and later solvers): definitions only,
+/// never results. Linear combinations and envelopes are rebuilt by GPC from the imported static cases (GpcModelCombinationService).</summary>
+public sealed record ModelSourceCombinations(string[] StaticCases, ModelCombinationDefinition[] Definitions);
 public sealed record ModelResultSet(string Name, bool IsEnvelope, CornerResult[] Values)
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -62,6 +65,9 @@ public sealed class ModelSnapshot
     public ModelImportMessage[]? ImportMessages { get; set; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ModelUpdateInfo? UpdateInfo { get; set; }
+    // 1.15.0: optional and omitted when null, so the fingerprints of the existing documents do not change.
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelSourceCombinations? SourceCombinations { get; set; }
     public static readonly string[] Components = ["Mxx", "Myy", "Mxy", "Fxx", "Fyy", "Fxy", "Vxx", "Vyy"];
     public static string Unit(string component) => component.StartsWith('M') ? "kN·m/m" : "kN/m";
     public void Validate()
@@ -71,6 +77,15 @@ public sealed class ModelSnapshot
             ModelCombinations.ValidateDefinitions(CustomCombinations);
             if(CustomCombinations.Any(d=>!d.Editable||!d.Id.StartsWith(d.Source+"/",StringComparison.Ordinal)))
                 throw new InvalidDataException("Combinazioni personalizzate non valide.");
+        }
+        if(SourceCombinations is {} source)
+        {
+            if(source.StaticCases==null||source.Definitions==null||source.StaticCases.Length>10000||source.StaticCases.Any(string.IsNullOrWhiteSpace)||
+                source.StaticCases.Distinct(StringComparer.Ordinal).Count()!=source.StaticCases.Length)
+                throw new InvalidDataException("Casi di carico della sorgente non validi.");
+            ModelCombinations.ValidateDefinitions(source.Definitions);
+            if(source.Definitions.Any(d=>d.Editable||!d.Id.StartsWith(d.Source+"/",StringComparison.Ordinal)))
+                throw new InvalidDataException("Combinazioni della sorgente non valide.");
         }
         if(ExcludedCombinationIds is {} excluded && (excluded.Length>10000||excluded.Any(string.IsNullOrWhiteSpace)||excluded.Distinct().Count()!=excluded.Length))
             throw new InvalidDataException("Elenco delle combinazioni escluse non valido.");

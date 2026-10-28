@@ -43,6 +43,8 @@ public static class ModelCombinations
                     value.TryGetProperty("ACTIVE",out var active)?active.ToString():"",terms));
             }
         }
+        // Sources without MIDAS tables carry their definitions in the document (Straus7: LSA combinations).
+        definitions.AddRange(snapshot.SourceCombinations?.Definitions??[]);
         var overrides=(snapshot.CustomCombinations??[]).Select(d=>d.Id).ToHashSet(StringComparer.Ordinal);
         var excluded=(snapshot.ExcludedCombinationIds??[]).ToHashSet(StringComparer.Ordinal);
         definitions.RemoveAll(d=>overrides.Contains(d.Id)||excluded.Contains(d.Id));
@@ -81,8 +83,8 @@ public static class ModelCombinations
                 if(required.Length==0) return new ModelCombinationAvailability(d,"Vuota","Aggiungi almeno un caso di carico.",required,false);
                 var missing=required.Where(c=>!cases.Contains(c)).ToArray();
                 if(missing.Length>0)return new(d,"Casi mancanti","Risultati da importare: "+string.Join(", ",missing),required,false);
-                if(snapshot.SourceTables==null||new[]{"UNIT","NODE","ELEM","STLD"}.Any(t=>!snapshot.SourceTables.ContainsKey(t)))
-                    return new(d,"Sorgente incompleta","Il collegamento GPC richiede le tabelle sorgente MIDAS. La definizione può essere conservata.",required,false);
+                if(!GpcSnapshotModel.CanRebuild(snapshot))
+                    return new(d,"Sorgente incompleta","Il collegamento GPC richiede le tabelle sorgente MIDAS oppure le terne locali e i casi della sorgente importata. La definizione può essere conservata.",required,false);
                 bool ready=snapshot.Results.Any(r=>r.Combination?.DefinitionId==d.Id&&r.Combination.InputRevision==revision);
                 return new(d,ready?"Calcolata":"Da calcolare",ready?"Risultati locali disponibili nella copia del modello.":"Casi base disponibili; costruzione locale con GPC.",required,true);
             }
@@ -128,6 +130,7 @@ public static class ModelCombinations
     {
         var names=snapshot.SourceTables?.TryGetValue("STLD",out var cases)==true
             ?cases.EnumerateObject().Select(p=>p.Value.GetProperty("NAME").GetString()!).ToArray():[];
+        names=[..names,..snapshot.SourceCombinations?.StaticCases??[]];
         if(names.Any(string.IsNullOrWhiteSpace)||names.Distinct(StringComparer.Ordinal).Count()!=names.Length)
             throw new InvalidDataException("Nomi dei casi di carico mancanti o duplicati nella tabella sorgente.");
         return names.Concat(snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&r.Stage==null).Select(r=>r.Name)).Distinct(StringComparer.Ordinal).ToArray();
@@ -136,7 +139,8 @@ public static class ModelCombinations
     internal static ModelSnapshot Copy(ModelSnapshot s)=>new()
     {Version=s.Version,Name=s.Name,Source=s.Source,Nodes=s.Nodes,Elements=s.Elements,Plates=s.Plates,Sections=s.Sections,
         Results=s.Results,SourceTables=s.SourceTables,LocalFrames=s.LocalFrames,NodeFrames=s.NodeFrames,Boundaries=s.Boundaries,
-        ImportMessages=s.ImportMessages,UpdateInfo=s.UpdateInfo,CustomCombinations=s.CustomCombinations,ExcludedCombinationIds=s.ExcludedCombinationIds};
+        ImportMessages=s.ImportMessages,UpdateInfo=s.UpdateInfo,CustomCombinations=s.CustomCombinations,ExcludedCombinationIds=s.ExcludedCombinationIds,
+        SourceCombinations=s.SourceCombinations};
 
     public static ModelSnapshot RestoreImported(ModelSnapshot snapshot)
     {
