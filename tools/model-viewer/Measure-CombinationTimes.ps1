@@ -52,5 +52,5 @@ Write-Host "dopo: dotnet exec $dll $Output $($timing -join ' ')"
 & dotnet exec $dll $Output @timing 2>&1 | ForEach-Object { "$_" } | Tee-Object -FilePath (Join-Path $Output 'corsa.log')
 if ($LASTEXITCODE -ne 0) { $code = $LASTEXITCODE }
 Pop-Location
-Write-Host ("Durata {0:F1} min · esito {1} · {2}" -f $watch.Elapsed.TotalMinutes, $code, (Join-Path $Output 'tempi.md'))
+Write-Host ("Durata {0:F1} min - esito {1} - {2}" -f $watch.Elapsed.TotalMinutes, $code, (Join-Path $Output 'tempi.md'))
 exit $code
