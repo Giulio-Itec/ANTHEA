@@ -47,6 +47,8 @@ public sealed class GpcSnapshotOptions
 public static class GpcModelSnapshot
 {
     const double MillimetresPerMetre = 1000;
+    // 1.16.0: reactions from GPC N and N·mm to kN and kN·m; reported values below this ratio of the largest reaction are solver round-off.
+    const double NewtonsPerKilonewton = 1000, NewtonMillimetresPerKilonewtonMetre = 1e6, RoundOffRatio = 1e-6;
     public const int VariantPropertyOffset = 1000000;
     static readonly IReadOnlyList<string> Dofs = ["DX", "DY", "DZ", "RX", "RY", "RZ"];
 
@@ -270,13 +272,14 @@ public static class GpcModelSnapshot
         {
             token.ThrowIfCancellationRequested();
             int id = nodeIds[node.Id];
-            if (!supports.Contains(id) && samples.All(s => Force(s) <= 1e-6 * forceScale && Moment(s) <= 1e-6 * momentScale)) continue;
+            if (!supports.Contains(id) && samples.All(s => Force(s) <= RoundOffRatio * forceScale && Moment(s) <= RoundOffRatio * momentScale)) continue;
             foreach (var sample in samples)
             {
                 var axes = sample.ResultBeamForces.CoordinateSystem;
                 Vector3d f = axes.V1 * sample.Fx + axes.V2 * sample.Fy + axes.V3 * sample.Fz, m = axes.V1 * sample.Mx + axes.V2 * sample.My + axes.V3 * sample.Mz;
                 string name = Case(sample);
-                (reactions.TryGetValue(name, out var list) ? list : reactions[name] = []).Add(new(id, f.X / 1000, f.Y / 1000, f.Z / 1000, m.X / 1e6, m.Y / 1e6, m.Z / 1e6));
+                (reactions.TryGetValue(name, out var list) ? list : reactions[name] = []).Add(new(id, f.X / NewtonsPerKilonewton, f.Y / NewtonsPerKilonewton, f.Z / NewtonsPerKilonewton,
+                    m.X / NewtonMillimetresPerKilonewtonMetre, m.Y / NewtonMillimetresPerKilonewtonMetre, m.Z / NewtonMillimetresPerKilonewtonMetre));
             }
         }
         return order.Select(name => new ModelResultSet(name, false, corners.GetValueOrDefault(name)?.ToArray() ?? [])

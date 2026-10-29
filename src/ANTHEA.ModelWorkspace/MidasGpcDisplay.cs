@@ -8,6 +8,8 @@ namespace ANTHEA.ModelWorkspace;
 /// <summary>Shared source binding and display conventions for static combinations and construction results.</summary>
 internal static class MidasGpcDisplay
 {
+    // 1.16.0: GPC N and N·mm of the nodal forces to the kN and kN·m of the copy.
+    const double KilonewtonsPerNewton = 1e-3, KilonewtonMetresPerNewtonMillimetre = 1e-6;
     internal static CivilNxSnapshot Source(ModelSnapshot snapshot)
     {
         if(snapshot.SourceTables==null||new[]{"UNIT","NODE","ELEM","STLD"}.Any(t=>!snapshot.SourceTables.ContainsKey(t)))
@@ -43,7 +45,7 @@ internal static class MidasGpcDisplay
         StationResultBeamForces b=>[b.ResultBeamForces.N*.001,b.ResultBeamForces.V1*.001,b.ResultBeamForces.V2*.001,b.ResultBeamForces.T*1e-6,-b.ResultBeamForces.M1*1e-6,b.ResultBeamForces.M2*1e-6],
         NodeResultDisplacement d=>[d.ResultDisplacement.D1*.001,d.ResultDisplacement.D2*.001,d.ResultDisplacement.D3*.001,d.ResultDisplacement.R1,d.ResultDisplacement.R2,d.ResultDisplacement.R3],
         // 1.16.0: support reactions, force on the structure in the axes of the sample (global for Straus7 and for the rebuilt combinations), kN and kN·m.
-        NodeResultForces f=>[f.Fx*.001,f.Fy*.001,f.Fz*.001,f.Mx*1e-6,f.My*1e-6,f.Mz*1e-6],
+        NodeResultForces f=>[f.Fx*KilonewtonsPerNewton,f.Fy*KilonewtonsPerNewton,f.Fz*KilonewtonsPerNewton,f.Mx*KilonewtonMetresPerNewtonMillimetre,f.My*KilonewtonMetresPerNewtonMillimetre,f.Mz*KilonewtonMetresPerNewtonMillimetre],
         _=>throw new InvalidDataException("Famiglia dei risultati GPC non gestita dalla vista.")
     };
 }

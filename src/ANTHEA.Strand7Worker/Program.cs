@@ -67,7 +67,7 @@ static class Strand7Worker
     static Session Open(Strand7WorkerRequest request, bool results, int total)
     {
         string model = Existing(request.ModelPath, "Modello Straus7", ".st7");
-        string? lsa = results ? Existing(request.ResultsPath, "File dei risultati (.lsa o .nla)", Strand7ImportSetup.ResultExtensions) : null;
+        string? lsa = results ? Existing(request.ResultsPath, "File dei risultati (.lsa o .nla)", [.. Strand7ImportSetup.ResultExtensions]) : null;
         if (request.ApiLibraryPath is { } api && !File.Exists(api)) throw new Failure(NativeUnavailable, "St7api.dll non trovata: " + api + ".");
         var converter = new Straus7ApiConverter(request.ApiLibraryPath);
         Step(1, total, "Apertura del modello Straus7 in sola lettura e importazione GPC…");

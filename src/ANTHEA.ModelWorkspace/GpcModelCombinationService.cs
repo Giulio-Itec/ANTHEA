@@ -140,7 +140,7 @@ public sealed partial class GpcModelCombinationService
             // GPC's SourceNodeId is the node's internal Model ID after mapping. Resolve its source identity explicitly.
             int node=family=="PLATE"?sourceNodes[group.Key.Item2??throw new InvalidDataException("Risultato plate privo del nodo sorgente.")]:
                 family is "NODE" or "REACTION"?id:group.Key.Item3==0?elements[id].Nodes[0]:group.Key.Item3==1?elements[id].Nodes[1]:0;
-            string[] components=family switch {"PLATE"=>ModelSnapshot.Components,"NODE"=>["ux","uy","uz"],"REACTION"=>ModelReactions.Components,_=>ResultFields.Components(family,"LOCAL").ToArray()};
+            string[] components=family switch {"PLATE"=>ModelSnapshot.Components,"NODE"=>["ux","uy","uz"],"REACTION"=>[..ModelReactions.Components],_=>ResultFields.Components(family,"LOCAL").ToArray()};
             string[] canonical=family switch {"PLATE"=>["Mxx","Myy","Mxy","Nxx","Nyy","Nxy","Qx","Qy"],"NODE"=>["Dx","Dy","Dz"],"REACTION"=>["Fx","Fy","Fz","Mx","My","Mz"],
                 "BEAM"=>["N","V1","V2","T","M1","M2"],_=>["N"]};
             var values=new double[components.Length];

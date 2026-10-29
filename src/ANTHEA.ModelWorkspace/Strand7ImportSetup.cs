@@ -47,7 +47,7 @@ public sealed record Strand7ModelCatalog(int Nodes, int Elements, IReadOnlyList<
 public static class Strand7ImportSetup
 {
     /// <summary>Results files read by the Straus7 worker: linear static (.lsa) and staged nonlinear static (.nla, 1.16.0).</summary>
-    public static readonly string[] ResultExtensions = [".lsa", ".nla"];
+    public static readonly IReadOnlyList<string> ResultExtensions = [".lsa", ".nla"];
 
     public static string FindInstalledApi()
     {
@@ -74,7 +74,7 @@ public static class Strand7ImportSetup
             catch (UnauthorizedAccessException) { issues.Add(label + ": accesso rifiutato."); }
         }
         FileCheck(request.ModelPath, "Modello", ".st7");
-        if (request.Scope is ModelUpdateScope.Results or ModelUpdateScope.Everything) FileCheck(request.ResultsPath, "Risultati", ResultExtensions);
+        if (request.Scope is ModelUpdateScope.Results or ModelUpdateScope.Everything) FileCheck(request.ResultsPath, "Risultati", [.. ResultExtensions]);
         FileCheck(request.ApiLibraryPath, "Libreria API R3", ".dll");
         if (!string.IsNullOrWhiteSpace(request.ApiLibraryPath) && !Path.GetFileName(request.ApiLibraryPath).Equals("St7api.dll", StringComparison.OrdinalIgnoreCase)) issues.Add("Seleziona St7api.dll dell’installazione Straus/Strand7 R3.");
         if (File.Exists(request.ApiLibraryPath))

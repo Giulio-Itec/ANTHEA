@@ -43,7 +43,7 @@ public sealed record ModelMass(string Kind, int Entity, string? Case, double[] V
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] public ModelDirection? Offset { get; init; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] public double? DynamicFactor { get; init; }
     public string Record { get; init; } = "";
-    public static readonly string[] Kinds = ["NODE", "NODE-ROTATION", "NODE-NS", "BEAM-NS", "PLATE-NS"];
+    public static readonly IReadOnlyList<string> Kinds = ["NODE", "NODE-ROTATION", "NODE-NS", "BEAM-NS", "PLATE-NS"];
 }
 /// <summary>1.16.0: a temperature of a load case, data only. Kind: REFERENCE (reference temperature of the case, Entity 0), NODE (°C; Type: Reference,
 /// Fixed, Initial or Table), BEAM-GRADIENT (°C/m along the principal axes 1 and 2), PLATE-GRADIENT (°C/m along the local z axis).</summary>
@@ -51,7 +51,7 @@ public sealed record ModelTemperature(string Kind, int Entity, string Case, doub
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] public string? Type { get; init; }
     public string Record { get; init; } = "";
-    public static readonly string[] Kinds = ["REFERENCE", "NODE", "BEAM-GRADIENT", "PLATE-GRADIENT"];
+    public static readonly IReadOnlyList<string> Kinds = ["REFERENCE", "NODE", "BEAM-GRADIENT", "PLATE-GRADIENT"];
 }
 /// <summary>1.16.0: a stage of the source model: number, name and label ("1: name") used by its stage results, type (Unmorphed, Morphed, Reset),
 /// groups enabled in it and the document elements of those groups.</summary>

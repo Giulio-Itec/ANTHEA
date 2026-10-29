@@ -18,6 +18,8 @@ public static partial class Strand7Snapshot
     public const string CombinationSource = "STRAUS7";
     const string Evidence = "Straus7 API";
     static readonly IReadOnlyList<double> LengthToMillimetres = [1000, 10, 1, 304.8, 25.4];
+    // 1.16.0: GPC mm, t·mm², t/mm, t/mm², °C/mm, N and N·mm of Straus7ModelData and of the equilibrium check to the m, t·m², t/m, t/m², °C/m, kN and kN·m of the copy.
+    const double MillimetresPerMetre = 1000, SquareMillimetresPerSquareMetre = 1e6, NewtonsPerKilonewton = 1000, NewtonMillimetresPerKilonewtonMetre = 1e6;
 
     [GeneratedRegex(@"^Case (\d+): (.*)$", RegexOptions.CultureInvariant | RegexOptions.Singleline)]
     private static partial Regex ModelCase();
@@ -37,7 +39,7 @@ public static partial class Strand7Snapshot
     {
         var data = Straus7ModelData.Read(model);
         var elements = snapshot.Elements.ToDictionary(e => e.Id); var nodes = snapshot.Nodes.Select(n => n.Id).ToHashSet();
-        static ModelDirection? Offset(double[]? o) => o is { Length: 3 } ? new(o[0] / 1000, o[1] / 1000, o[2] / 1000) : null;
+        static ModelDirection? Offset(double[]? o) => o is { Length: 3 } ? new(o[0] / MillimetresPerMetre, o[1] / MillimetresPerMetre, o[2] / MillimetresPerMetre) : null;
         string Case(string? gpc) => CaseName(gpc ?? "");
         int skipped = 0;
         var masses = new List<ModelMass>();
@@ -50,14 +52,14 @@ public static partial class Strand7Snapshot
             masses.Add(m.Kind switch
             {
                 Straus7MassKind.NodeTranslational => new ModelMass("NODE", m.Number, null, m.Values) { Record = m.Record },
-                Straus7MassKind.NodeRotational => new ModelMass("NODE-ROTATION", m.Number, null, m.Values.Select(v => v * 1e-6).ToArray())
+                Straus7MassKind.NodeRotational => new ModelMass("NODE-ROTATION", m.Number, null, m.Values.Select(v => v / SquareMillimetresPerSquareMetre).ToArray())
                 {
                     Axes = m.Axes is { Length: 9 } a ? new ModelNodeFrame(m.Number, new(a[0], a[1], a[2]), new(a[3], a[4], a[5]), new(a[6], a[7], a[8])) : null, Record = m.Record
                 },
                 Straus7MassKind.NodeNonStructural => new ModelMass("NODE-NS", m.Number, Case(m.Case), m.Values) { Offset = Offset(m.Offset), DynamicFactor = m.DynamicFactor, Record = m.Record },
-                Straus7MassKind.BeamNonStructural => new ModelMass("BEAM-NS", beam, Case(m.Case), m.Values.Select(v => v * 1000).ToArray())
+                Straus7MassKind.BeamNonStructural => new ModelMass("BEAM-NS", beam, Case(m.Case), m.Values.Select(v => v * MillimetresPerMetre).ToArray())
                     { Stations = m.Stations, Offset = Offset(m.Offset), DynamicFactor = m.DynamicFactor, Record = m.Record },
-                _ => new ModelMass("PLATE-NS", m.Number, Case(m.Case), m.Values.Select(v => v * 1e6).ToArray()) { Offset = Offset(m.Offset), DynamicFactor = m.DynamicFactor, Record = m.Record }
+                _ => new ModelMass("PLATE-NS", m.Number, Case(m.Case), m.Values.Select(v => v * SquareMillimetresPerSquareMetre).ToArray()) { Offset = Offset(m.Offset), DynamicFactor = m.DynamicFactor, Record = m.Record }
             });
         }
         var temperatures = new List<ModelTemperature>();
@@ -70,8 +72,8 @@ public static partial class Strand7Snapshot
             {
                 Straus7TemperatureKind.ReferenceTemperature => new ModelTemperature("REFERENCE", 0, Case(t.Case), t.Values) { Record = t.Record },
                 Straus7TemperatureKind.NodeTemperature => new ModelTemperature("NODE", entity, Case(t.Case), t.Values) { Type = t.Type, Record = t.Record },
-                Straus7TemperatureKind.BeamGradient => new ModelTemperature("BEAM-GRADIENT", entity, Case(t.Case), t.Values.Select(v => v * 1000).ToArray()) { Record = t.Record },
-                _ => new ModelTemperature("PLATE-GRADIENT", entity, Case(t.Case), t.Values.Select(v => v * 1000).ToArray()) { Record = t.Record }
+                Straus7TemperatureKind.BeamGradient => new ModelTemperature("BEAM-GRADIENT", entity, Case(t.Case), t.Values.Select(v => v * MillimetresPerMetre).ToArray()) { Record = t.Record },
+                _ => new ModelTemperature("PLATE-GRADIENT", entity, Case(t.Case), t.Values.Select(v => v * MillimetresPerMetre).ToArray()) { Record = t.Record }
             });
         }
         var stages = data.Stages.Select(s => new ModelStageDefinition(s.Number, s.Name ?? "", StageLabel(s.Number, s.Name), s.Type.ToString(), s.EnabledGroups ?? [],
@@ -103,7 +105,7 @@ public static partial class Strand7Snapshot
                 (balance.NotRepresented.Count > 0 ? " (" + string.Join("; ", balance.NotRepresented) + ")" : "") + ". Vedi gli avvisi del convertitore.",
             null => "Equilibrio non valutato: " + string.Join(" ", balance.Diagnostics.Select(d => d.Message))
         };
-        return new(Kilo(balance.AppliedForce, 1000), Kilo(balance.AppliedMoment, 1e6), Kilo(balance.ReactionForce, 1000), Kilo(balance.ReactionMoment, 1e6), balance.Balanced, note);
+        return new(Kilo(balance.AppliedForce, NewtonsPerKilonewton), Kilo(balance.AppliedMoment, NewtonMillimetresPerKilonewtonMetre), Kilo(balance.ReactionForce, NewtonsPerKilonewton), Kilo(balance.ReactionMoment, NewtonMillimetresPerKilonewtonMetre), balance.Balanced, note);
     }
 
     public static GpcSnapshotOptions Options(GPC.Model.Models.Model model, string name, string source, string? datasetId, bool forces, bool displacements,
