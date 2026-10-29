@@ -11453,6 +11453,55 @@
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
+      "id": "MOD-33",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Straus7 (seguito di MOD-32): fasi del modello come fasi GPC e dati della copia (ModelSnapshot.ConstructionStages); risultati statici lineari di un modello con fasi senza fase attiva (prima rifiutati) e con fase attiva (casi statici di quella configurazione, elementi non attivi senza risultati); risultati statici non lineari per fasi (.nla) come risultati per fase «NLA · fase · incremento»; truss e cavi nelle combinazioni ricostruite da GPC; reazioni vincolari dei casi scelti (ModelResultSet.Reactions) con il controllo di equilibrio di GPC fra carichi applicati e reazioni (ModelResultSet.Equilibrium) e nelle combinazioni; masse e temperature come dati del modello (ModelSnapshot.Masses, Temperatures); tabelle «Reazioni vincolari», «Masse», «Temperature», «Fasi». Brick ancora esclusi.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.Strand7Worker/Program.cs",
+        "src/ANTHEA.ModelWorkspace/ModelSnapshot.cs",
+        "src/ANTHEA.ModelWorkspace/ModelReactions.cs",
+        "src/ANTHEA.ModelWorkspace/GpcModelSnapshot.cs",
+        "src/ANTHEA.ModelWorkspace/GpcSnapshotModel.cs",
+        "src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs",
+        "src/ANTHEA.ModelWorkspace/MidasGpcDisplay.cs",
+        "src/ANTHEA.ModelWorkspace/Strand7Snapshot.cs",
+        "src/ANTHEA.ModelWorkspace/Strand7ImportSetup.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Tables.cs",
+        "Model: GPC Converter/Providers/Straus7Api (Straus7ModelData, Straus7StageResults, Straus7Equilibrium, Straus7Assignments.Data)",
+        "Model: Model/Results/Processing/CombinationRebuild.cs"
+      ],
+      "segno": "Reazioni: forza e momento del vincolo sulla struttura, assi globali, kN e kN·m, come la copia MIDAS (convenzione unica decisa il 28/10). Truss e cavi: sforzo normale con il segno della copia (trazione positiva); taglio, torsione e momenti nulli per formulazione. Masse in t, temperature in °C. Campi nuovi facoltativi omessi quando nulli: impronte dei documenti esistenti invariate. Nessun valore numerico esistente cambia: le combinazioni Straus7 hanno in più le aste assiali e le reazioni, le copie MIDAS sono invariate.",
+      "riferimenti_cambiati": {
+        "model": "dcc2cf0e (ramo lib-1160/straus7): riga «stage» di Straus7ApiWorkflowTest.StaticNormalization_RejectsUnsupportedOrUnboundDataWithoutMutatingModel. Prima un modello con una fase e un caso di fase 0 era atteso rifiutato; la correzione dichiarata (fasi, richiesta dell'utente) lo accetta come statico lineare senza fase attiva (verificato sulla fixture nativa: tutti gli elementi attivi, reazioni in equilibrio). La riga ora usa un caso di fase 2 in un modello con una fase, ancora rifiutato. Le altre nove righe sono invariate.",
+        "anthea": "nessuno"
+      },
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "alla domanda su cosa portare nell'importazione Straus7: «fasi si (stage). brick no», «Truss e cavi in combinazione», «Reazioni vincolari», «Masse e temperature»",
+        "esito": "implementato sul ramo refactoring/1160-straus7 (librerie lib-1160/straus7: GPC.Converter 2.8.0.0, GPCModel 5.23.0.2); unione e pubblicazione al coordinatore"
+      },
+      "data": "2026-10-29",
+      "fase": "1.16.0",
+      "test": [
+        "ModelWorkspace.Checks (Strand7DataChecks)",
+        "Straus7Native.Checks (GPC_STRAUS7_ELEMENTS, GPC_STRAUS7_PLATES, GPC_STRAUS7_BRIDGHE, GPC_STRAUS7_STAGES)",
+        "GPC Model UnitTest: Straus7DataImportTest, Straus7NativeStagesTest (GPC_STRAUS7_STAGES=versioned), CombinationRebuildTest",
+        "ModelViewer.Importers.UiChecks"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160/straus7"
+      ],
+      "voci_collegate": [
+        "MOD-29",
+        "MOD-30",
+        "MOD-32"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
       "id": "CA-COLONNA-01",
       "data": "2026-10-28",
       "fase": "1.15.0, scheda «Colonna modello» (GPCChecker.Concrete 0.27.0.0, set candidato librerie-1150/candidato-a)",

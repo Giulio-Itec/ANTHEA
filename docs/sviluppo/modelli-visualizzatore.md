@@ -970,3 +970,111 @@ alla convenzione GPC** (trazione su +z). Scelta da confermare con l'utente.
   quella verifica, danno PASS 500 (F4 senza aggiunte, P1-P7). Installer di prova: worker self-contained nella cartella
   dell'applicazione, nessun St7api, Gmsh o UnsafeEx.
 - ModelViewer.Importers.UiChecks: `.mct` dal pannello «File» e Straus7 dal pannello con il worker reale, fuori schermo.
+
+## Straus7: fasi, truss e cavi nelle combinazioni, reazioni, masse e temperature — 1.16.0, 29 ottobre 2026
+
+Branch `refactoring/1160-straus7` da `main` 1.15.0 (f52f5a76); librerie dal ramo `lib-1160/straus7` di Model (GPC.Converter 2.8.0.0,
+GPCModel 5.23.0.2, GPCModelData 0.3.0.8, GPC.Model.Persistence 3.3.0.8). Richiesta dell'utente (28/10 sera, alla domanda su cosa portare
+nell'importazione Straus7): «fasi si (stage). brick no», «Truss e cavi in combinazione», «Reazioni vincolari», «Masse e temperature».
+Voce del registro MOD-33. I limiti della 1.15.0 elencati sopra («casi primari senza fasi», «temperature, masse e fasi restano nel file»,
+«reazioni non mostrate», «truss e cavi fuori dalle combinazioni ricostruite») sono superati come segue; i brick restano fuori con il
+messaggio attuale.
+
+### Fasi (stage)
+
+Lettura (GPC Converter, `IStraus7StageReadApi`): `St7GetNumStages`, `St7GetStageName`, `St7GetStageData` (morph, nodi vincolati
+trasformati, rotazione dei gruppi, livello di falda della fase, reset) e `St7GetStageGroupState` per ogni gruppo. Ogni fase diventa una
+fase del modello GPC (`Stage` con `StageDefinition`: attiva i gruppi abilitati rispetto alla fase precedente e disattiva quelli
+disabilitati; la prima fase parte da tutti i gruppi inattivi); tipo (non trasformata, trasformata, ripartenza), opzioni ed elementi attivi
+stanno in `Straus7ModelData`. Nella copia: campo facoltativo `ModelSnapshot.ConstructionStages` (numero, nome, etichetta «1: nome», tipo,
+gruppi, elementi della copia attivi) e tabella «Fasi».
+
+Risultati, tre casi (verificati su Straus7 R31 con la fixture `native-stages-r31`):
+
+1. **Modello con fasi risolto senza fase attiva** (statico lineare, casi di fase 0): tutti gli elementi sono attivi, è un'analisi statica
+   lineare come le altre. Prima ogni fase del modello faceva rifiutare i risultati.
+2. **Statico lineare con fase attiva** (`St7SetSolverActiveStage`, casi di fase k): casi statici della configurazione di quella fase. Nella
+   copia restano casi statici («1: Dead») e si combinano fra loro, come fa Straus7 con le combinazioni LSA dello stesso file (stessa
+   rigidezza). Gli elementi non attivi non hanno risultati (`St7GetElementResultState`: saltati in lettura, mai riempiti con zeri), i nodi
+   fuori dalla struttura attiva nemmeno; in GPC lo stato porta la fase come `Phase`. Messaggio `Straus7ActiveStageResults`; equilibrio non
+   valutato (i carichi e la gravità degli elementi non attivi non agiscono).
+3. **Statico non lineare per fasi** (file `.nla`, solutore 3): ogni caso di risultato è lo stato alla fine di un incremento di una fase,
+   con tutti i carichi applicati fino a lì (Straus7 lo chiama «1: Dead [Deck only][U]»). Nella copia sono **risultati per fase**, come
+   quelli MIDAS: `ModelStageResult` con caso «NLA», fase «1: Deck only», passo «1: Dead» (l'incremento), spostamenti «Accumulative»
+   (dall'inizio dell'analisi, `St7SetReferenceDisplacement` assoluto), formato 2; si sfogliano con «Fasi costruttive» e non si combinano.
+   In GPC: caso di uscita `StageResultCase` «Straus7 NLA (stages)» dichiarato all'importazione dei modelli con fasi, `Phase` = fase GPC,
+   `Step` = incremento, semantica `NonlinearStatic` (`Straus7StageResults`), stesse unità, assi e segni dello statico lineare.
+
+Scelta della rappresentazione: casi di risultato per fase, il tipo già usato per le fasi MIDAS (stessa navigazione, stesso formato,
+stesso rifiuto nelle combinazioni); la LSA con fase attiva resta statica perché è un'analisi lineare di una configurazione e le sue
+combinazioni LSA la riguardano. La geometria trasformata delle fasi «morphed» non è rappresentata: la copia mostra la geometria iniziale.
+
+### Truss e cavi nelle combinazioni
+
+`GpcSnapshotModel.Build` porta nel modello GPC ricostruito anche le aste TRUSS e CABLE della copia (formulazione Truss e Cable) con lo
+sforzo normale importato; taglio, torsione e momenti sono nulli per formulazione (aste incernierate a sola forza assiale), non valori
+inventati. `GpcModelCombinationService.DisplayResult` prende la famiglia dal tipo dell'elemento della copia: campi TRUSS/CABLE «Fx» e
+governanti degli inviluppi con famiglia TRUSS o CABLE (validazione dei governanti estesa). I cavi in un'analisi statica lineare di Straus7
+si comportano come truss (avviso del solutore); la combinazione segue l'analisi lineare come le combinazioni LSA di Straus7. Restano
+fuori le aste a sola trazione o sola compressione (TENSTR, COMPTR), con il messaggio della ricostruzione: risposta non lineare.
+
+### Reazioni vincolari
+
+Il processo Straus7 legge le reazioni nodali (`St7GetNodeResult`, `rtNodeReact`) dei nodi con vincoli o molle a terra insieme ai risultati
+scelti (gli spostamenti di tutti i nodi solo se richiesti). Nella copia: `ModelResultSet.Reactions` (facoltativo), forza e momento del
+vincolo sulla struttura in assi globali, kN e kN·m, con il segno della sorgente come MIDAS (convenzione unica: azione sulla struttura).
+Anche i nodi non vincolati con una reazione non nulla in qualche stato (vincoli di altri freedom case) entrano, con gli stessi nodi in ogni
+stato.
+
+**Equilibrio.** Il controllo «carichi applicati contro reazioni» delle prove native della 1.15.0 è ora nel convertitore
+(`Straus7Equilibrium.Check`, con `Equilibrium.Check` di GPC) e il processo lo esegue per ogni caso statico lineare non per fasi: carichi
+nodali, delle aste e delle piastre (pressioni normali e trazioni uniformi, pressioni variabili), gravità su aste e piastre
+(`Equilibrium.Gravity`) e, nei casi di gravità, sulle masse nodali e non strutturali secondo le opzioni di massa del caso
+(`St7GetLoadCaseMassOption`); tolleranza 1e-6 relativa alla somma dei termini. Nella copia `ModelResultSet.Equilibrium` (risultanti dei
+carichi e delle reazioni in kN e kN·m rispetto all'origine, esito, nota) e il messaggio `STRAUS7-EQUILIBRIUM`; un caso non in equilibrio
+è segnalato (azioni della sorgente non rappresentate), non rifiutato. Verifica a mano sulla fixture: peso di aste, truss, piastra, massa
+nodale e masse non strutturali 3,55336 t × 9,80665 = 34,8466 kN = somma delle reazioni verticali del solutore.
+
+Le combinazioni ricostruite da GPC portano anche le reazioni (`NodeResultForces`); gli inviluppi hanno governanti di famiglia REACTION.
+Correzione in GPC (GPCModel 5.23.0.2): `CombinationRebuild` dava ai ruoli dei governanti i nomi delle componenti del primo campione
+dell'elemento; un nodo con spostamenti e reazioni li scambiava. Ora i nomi sono quelli di ogni posizione. Nessun effetto sulle copie MIDAS
+(ai nodi solo spostamenti), sulle aste e sulle piastre.
+
+Tabella «Reazioni vincolari»: reazioni del caso corrente e, nel riepilogo, le risultanti e l'esito del controllo GPC.
+
+### Masse e temperature
+
+Lettura (`IStraus7MassTemperatureReadApi`): masse traslazionali e rotazionali dei nodi (`St7GetNodeTMass3`, `St7GetNodeRMass3` con la
+loro terna), masse non strutturali di nodi, aste e piastre di ogni caso (`St7GetNodeNSMass5ID`, `St7GetBeamNSMass10ID` con la legge di
+distribuzione, `St7GetPlateNSMass5ID`; fattore dinamico e offset globale), temperature nodali di ogni caso con il loro tipo e la temperatura
+di riferimento del caso (`St7GetLoadCaseDefaults`), gradienti termici delle aste (assi principali 1 e 2) e delle piastre (z locale). In GPC
+sono dati del modello (`Straus7ModelData`, un record conservato, in t = N·s²/mm, mm e °C): il dominio GPC non ha carichi termici né masse
+non strutturali e nessun carico ne deriva. Nella copia: `ModelSnapshot.Masses` (t, t/m, t/m², t·m², offset in m) e
+`ModelSnapshot.Temperatures` (°C, °C/m), tabelle «Masse» e «Temperature». Messaggio `STRAUS7-MODEL-DATA` con i conteggi; i dati di
+nodi o elementi assenti dalla copia sono contati e non riportati. Sul modello BridGHe 04 (ritiro modellato con temperature): 48 temperature.
+
+### Compatibilità e protocollo
+
+Campi nuovi facoltativi, omessi quando nulli: `ModelResultSet.Reactions` ed `Equilibrium`, `ModelSnapshot.Masses`, `Temperatures` e
+`ConstructionStages`. Le impronte dei documenti esistenti non cambiano (controllo: una copia senza i dati nuovi non scrive nessun campo
+nuovo). Il protocollo del processo resta alla versione 1: la richiesta è invariata; il catalogo ha in più `NonlinearStages` e le fasi
+(`Phases`, già previste). Il file dei risultati può essere `.lsa` o `.nla` (controllo dei file, dialogo, testi del pannello).
+
+### Collaudo
+
+- GPC Model (ramo `lib-1160/straus7`): `Straus7DataImportTest` (doppio di trasporto: unità di masse, temperature e gradienti, fasi),
+  `Straus7NativeStagesTest` (nativo, `GPC_STRAUS7_STAGES=versioned`: fasi, masse, temperature, equilibrio con le masse, fase attiva,
+  NLA), `Envelope_NamesTheGoverningRolesOfEachResultKindOfANode`; atteso cambiato e spiegato: riga «stage» di
+  `StaticNormalization_RejectsUnsupportedOrUnboundDataWithoutMutatingModel` (dcc2cf0e).
+- ANTHEA: `ModelWorkspace.Checks` con `Strand7DataChecks` (reazioni, truss e reazioni nelle combinazioni e negli inviluppi, equilibrio,
+  masse, temperature, fasi, risultati NLA, tabelle, file `.nla`, impronte invariate); `Straus7Native.Checks` con `GPC_STRAUS7_STAGES`
+  oltre alle variabili della 1.15.0 (truss, cavi e reazioni delle combinazioni contro la somma dei termini, reazioni della copia contro i
+  campioni GPC, equilibrio di ogni caso).
+
+### Limiti dichiarati
+
+- Brick fuori (richiesta dell'utente), con il messaggio attuale.
+- Altre analisi non lette: non lineare senza fasi, dinamiche, instabilità; dal file `.nla` solo l'analisi statica non lineare per fasi.
+- Fasi: geometria trasformata non rappresentata; equilibrio non valutato per i risultati di una fase.
+- Masse e temperature come dati: nessun carico, matrice di massa o deformazione termica nella copia o in GPC; masse rotazionali in terne
+  non cartesiane non lette (avviso).
