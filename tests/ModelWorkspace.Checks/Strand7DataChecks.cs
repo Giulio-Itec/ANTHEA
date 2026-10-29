@@ -148,6 +148,10 @@ static partial class Program
         Check(resultsUpdate.Masses!.Length == 5 && resultsUpdate.Results.Single(r => r.Name == "1: Dead").Reactions!.Length == 2, "a results-only update keeps the data and brings the reactions");
         var differentMasses = ModelSnapshot.FromJson(JsonSerializer.Serialize(withData)); differentMasses.Masses = [differentMasses.Masses![0]];
         Reject(() => ModelSnapshotUpdate.Apply(modelOnly, differentMasses, ModelUpdateScope.Results), "a results-only update refuses a copy with other masses");
+        var withCombination = ModelCombinations.Attach(withData, "STRAUS7/LSA/1", await service.CalculateAsync(withData, "STRAUS7/LSA/1"));
+        var withDefinition = ModelCombinations.Save(withData, new("ANTHEA/c1", "C1", ModelCombinationKind.Linear, "ANTHEA", "", [new("1: Dead", false, 1)], true));
+        Check(withCombination.Masses!.Length == 5 && withCombination.Temperatures!.Length == 4 && withCombination.ConstructionStages!.Length == 2 &&
+              withDefinition.Masses!.Length == 5 && withDefinition.ConstructionStages!.Length == 2, "attaching or defining a combination keeps masses, temperatures and stages");
         var stagedModel = ModelSnapshotUpdate.Apply(null, stagedCopy, ModelUpdateScope.ModelWithoutResults); stagedModel.Version = 1; stagedModel.Validate();
         var stagedUpdate = ModelSnapshotUpdate.Apply(stagedModel, stagedCopy, ModelUpdateScope.Results);
         Check(stagedUpdate.Version == 2 && stagedUpdate.Results.Single().Stage != null, "results for stage update a copy of format 1 to the format 2");

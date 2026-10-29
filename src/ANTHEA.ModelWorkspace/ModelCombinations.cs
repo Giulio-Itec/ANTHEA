@@ -140,7 +140,9 @@ public static class ModelCombinations
     {Version=s.Version,Name=s.Name,Source=s.Source,Nodes=s.Nodes,Elements=s.Elements,Plates=s.Plates,Sections=s.Sections,
         Results=s.Results,SourceTables=s.SourceTables,LocalFrames=s.LocalFrames,NodeFrames=s.NodeFrames,Boundaries=s.Boundaries,
         ImportMessages=s.ImportMessages,UpdateInfo=s.UpdateInfo,CustomCombinations=s.CustomCombinations,ExcludedCombinationIds=s.ExcludedCombinationIds,
-        SourceCombinations=s.SourceCombinations};
+        SourceCombinations=s.SourceCombinations,
+        // 1.16.0: data of the model (Straus7), kept by every copy.
+        Masses=s.Masses,Temperatures=s.Temperatures,ConstructionStages=s.ConstructionStages};
 
     public static ModelSnapshot RestoreImported(ModelSnapshot snapshot)
     {
