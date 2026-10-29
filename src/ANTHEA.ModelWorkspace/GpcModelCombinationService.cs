@@ -17,7 +17,11 @@ public sealed partial class GpcModelCombinationService
 {
     readonly SemaphoreSlim calculationGate=new(1,1);
     PreparedModel? prepared;
-    sealed record PreparedModel(string Revision,GPC.Model.Models.Model Model,GPC.Model.Combinations.Combination Output,string[] Warnings,Dictionary<ResultLocation,Element> Owners);
+    // GPCModel 5.28: the rebuild cache keeps, for the next combinations of the same prepared model, the static samples matched, validated and
+    // rotated at each location. The report is never attached and only its values, roles and concomitant states are displayed: its states
+    // carry no fingerprint of their static sources, the walk of every source of every state that took most of the time of a combination.
+    sealed record PreparedModel(string Revision,GPC.Model.Models.Model Model,GPC.Model.Combinations.Combination Output,string[] Warnings,Dictionary<ResultLocation,Element> Owners)
+    {public CombinationRebuildCache Cache {get;}=new(){SourceFingerprints=false};}
     public void ClearCache()=>prepared=null;
 
     public async Task<ModelCombinationCalculation> CalculateAsync(ModelSnapshot snapshot,string definitionId,
@@ -54,7 +58,7 @@ public sealed partial class GpcModelCombinationService
         double preparationMs=watch.Elapsed.TotalMilliseconds;
         progress?.Report(new($"Calcolo GPC · {alternatives.Length:N0} stati alternativi…"));
         // Keep the prepared model immutable: derived states remain in the report and presentation snapshot.
-        var report=CombinationRebuild.Rebuild(model,output,alternatives,"anthea-static",model.AllElements,false,token);
+        var report=CombinationRebuild.Rebuild(model,output,alternatives,"anthea-static",model.AllElements,false,token,context.Cache);
         token.ThrowIfCancellationRequested();
         if(report.IsRejected||report.Samples.Count==0)throw new InvalidDataException("Combinazione non costruita: "+Messages(report.Diagnostics));
         warnings.AddRange(report.Diagnostics.Select(d=>d.Code+": "+d.Message));
