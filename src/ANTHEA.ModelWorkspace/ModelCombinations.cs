@@ -78,11 +78,13 @@ public static class ModelCombinations
         // The definitions with results of the current revision, once instead of a scan of the results for each definition.
         var calculated=snapshot.Results.Where(r=>r.Combination!=null&&r.Combination.InputRevision==revision).Select(r=>r.Combination!.DefinitionId).ToHashSet(StringComparer.Ordinal);
         var byId=definitions.ToDictionary(d=>d.Id,StringComparer.Ordinal);var counts=new Dictionary<string,(long,bool)>(StringComparer.Ordinal);
-        return definitions.Select(d=>
+        return definitions.Select((d,i)=>
         {
             try
             {
-                var required=CombinationExpansion.StaticCases(records,d.Id).ToArray();
+                // A definition without nested combinations reads only its own record: the same cases and exceptions, without indexing every
+                // definition again for each one (hundreds of generated rows).
+                var required=CombinationExpansion.StaticCases(d.Terms.Any(t=>t.IsCombination)?records:[records[i]],d.Id).ToArray();
                 if(required.Length==0) return new ModelCombinationAvailability(d,"Vuota","Aggiungi almeno un caso di carico.",required,false);
                 // COMBO-B3: every coefficient zero gives no state to combine, nested definitions included (scaled by zero).
                 if(d.Terms.All(t=>t.Factor==0))return new(d,"Vuota",ZeroMessage,required,false);
