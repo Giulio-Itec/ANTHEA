@@ -1202,6 +1202,7 @@ Attività autorizzata dall'utente, ramo `refactoring/f5-fondazioni-superficiali`
 - [x] Pressioni di contatto senza trazione, area efficace nei due assi e schema illustrativo di Prandtl; 23 test Checker, 67 controlli documento/Progetti/UI, input richiudibili senza perdere il risultato.
 - [x] Collaudo estensione: standard 45 PASS / 1 KNOWN / 0 nuovi fallimenti; runner mirato documento/UI tutto PASS. Wiki e guide Rev34 rigenerate, controllo grafico completato, Rev33 archiviate.
 - [x] Rilascio coerente S con versioni assegnate e pubblicate dall’utente: provenienza e impronte verificate, suite del treno conservate, manifest installati e runner full superato. Adattatore Fondazioni aggiornato al contratto 2; dettagli sotto (FON-03).
+- [x] 1.16.0 (29/10/2026, agente 1160-hansen): Brinch Hansen con azione orizzontale, drenato e non drenato, nelle direzioni di B′ e di L′ con la minore (GPCChecker.Geotechnics 0.26.0.0, Checker `lib-1160/hansen`); etichetta del metodo «Brinch Hansen», tracce e impronte registrate. FON-HANSEN-01.
 
 ## Integrazione F4 e combinazioni — 12 ottobre 2026
 
