@@ -13,6 +13,9 @@ namespace Anthea.Application.EmbeddedWalls;
 public static partial class EmbeddedWallDocument
 {
     public const string Module = "geo_paratie";
+    /// <summary>Choices of hydraulic_left_boundary and hydraulic_right_boundary: the head of the stage on the outer vertical boundary, or no flow
+    /// across it (the axis of a symmetric excavation).</summary>
+    public const string FixedHeadBoundary = "Carico imposto", NoFlowBoundary = "Flusso nullo";
     public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd", "global_checks", "global_actions", "steel_members", "anchor_checks", "anchor_layers", "anchor_tests", "steel_tubes", "rc_piles", "distributed_loads", "cases" });
     public static JsonObject Create() => Upgrade(new()
     {
@@ -154,13 +157,19 @@ public static partial class EmbeddedWallDocument
             if (!data.ContainsKey("cases")) data["cases"] = new JsonArray();
             data["schema"] = 11;
         }
+        // Lateral boundaries of the FEM seepage (P5 of the paratie review, 22/10/2026): the documents before kept the fixed head on both sides.
+        if (StratigraphyDocument.Number(data["schema"], "Versione paratie") == 11)
+        {
+            foreach (string key in new[] { "hydraulic_left_boundary", "hydraulic_right_boundary" }) if (!data.ContainsKey(key)) data[key] = FixedHeadBoundary;
+            data["schema"] = 12;
+        }
         Validate(data);
         return data;
     }
     public static void Validate(JsonObject data)
     {
         var schema = StratigraphyDocument.Number(data["schema"], "Versione paratie");
-        if (schema is not (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 or 11)) throw new ArgumentException("Versione del documento paratie non supportata.");
+        if (schema is not (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 or 11 or 12)) throw new ArgumentException("Versione del documento paratie non supportata.");
         foreach (var name in Tables)
         {
             if (schema < 11 && name == "cases") continue;

@@ -25,7 +25,7 @@ internal static partial class EmbeddedWallChecks
     {
         var prior = Example(); prior["schema"] = 10; prior.Remove("cases"); string priorJson = prior.ToJsonString();
         var upgraded = EmbeddedWallDocument.Snapshot(prior);
-        e.That(prior.ToJsonString() == priorJson && upgraded["schema"]!.ToString() == "11" && upgraded["cases"]!.AsArray().Count == 0
+        e.That(prior.ToJsonString() == priorJson && upgraded["schema"]!.ToString() == "12" && upgraded["cases"]!.AsArray().Count == 0
             && prior.All(p => p.Key == "schema" || JsonNode.DeepEquals(p.Value, upgraded[p.Key])),
             "Migrazione schema 10 modifica gli input o introduce un caso.");
         var input = HistoriesExample(); string original = input.ToJsonString(); var service = new EmbeddedWallModule();
@@ -88,7 +88,7 @@ internal static partial class EmbeddedWallChecks
             var opened = DocumentService.Open(path);
             e.That(JsonNode.DeepEquals(document, opened), "Esempio apribile alterato dal salvataggio: " + sample.Item1);
             using var sampleSheet = Open(opened["dati"]!.AsObject());
-            e.That(sampleSheet.Data["schema"]!.ToString() == "11", "Esempio non apribile nel foglio: " + sample.Item1);
+            e.That(sampleSheet.Data["schema"]!.ToString() == "12", "Esempio non apribile nel foglio: " + sample.Item1);
         }
         reopened.Tables.Single(t => t.Key == "cases").Rows[0]["action_basis"] = "Fonte modificata";
         e.That(reopened.Current is null && reopened.ResultCases.Count == 0 && reopened.EnvelopeSeries.Count == 0,

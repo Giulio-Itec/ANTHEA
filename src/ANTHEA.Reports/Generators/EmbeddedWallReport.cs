@@ -243,6 +243,7 @@ public static partial class EmbeddedWallReport
         ["thickness"]="Spessore [mm]", ["cover"]="Copriferro [mm]", ["back_bars"]="Barre retro", ["back_diameter"]="Diametro retro [mm]", ["front_bars"]="Barre fronte", ["front_diameter"]="Diametro fronte [mm]",
         ["fck"]="fck [MPa]", ["fyk"]="fyk [MPa]", ["es"]="Es [MPa]", ["eps_uk"]="εuk", ["creep"]="Viscosità", ["exposure"]="Esposizione",
         ["hydraulic_mode"]="Pressioni interstiziali", ["hydraulic_left_extent"]="Estensione dominio sx [m]", ["hydraulic_right_extent"]="Estensione dominio dx [m]",
+         ["hydraulic_left_boundary"]="Bordo dominio sx", ["hydraulic_right_boundary"]="Bordo dominio dx",
         ["hydraulic_bottom"]="Quota fondo impermeabile [m]", ["hydraulic_thickness"]="Spessore parete impermeabile [m]", ["hydraulic_mesh"]="Passo mesh idraulica [m]", ["hydraulic_iterations"]="Limite iterazioni idrauliche",
         ["ignore_suction"]="Suzione trascurata nel trasferimento meccanico", ["hydraulic_left"]="Strati idraulici sx", ["hydraulic_right"]="Strati idraulici dx",
         ["kxx"]="Kxx [m/s]", ["kzz"]="Kzz [m/s]", ["kxz"]="Kxz [m/s]", ["alpha"]="Van Genuchten α [1/m]", ["n"]="Van Genuchten n",
