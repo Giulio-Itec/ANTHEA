@@ -683,6 +683,8 @@ Anche il riepilogo modificabile dei parametri dei muri ricontrolla la revisione 
 
 Il report di un ramo prepara i capitoli su una copia dei dati, usando gli stessi calcoli e le stesse figure dei fogli. Non occorre visitare prima tutte le schede. Eventuali capitoli incompleti e limiti di verifica restano indicati nel report; il completamento della generazione non equivale al superamento di tutte le verifiche.
 
+ANTHEA esegue insieme al più tanti calcoli quanti sono i processori del computer meno uno; gli altri aspettano il proprio turno, e intanto la finestra resta utilizzabile. Seguono questa regola anche la sezione in c.a., cioè verifiche, taglio, resistenze rapide, sezione σ/ε, curva M–χ, colonna modello e ricerca delle armature, e la risposta elastica del palo orizzontale. Con molte schede aperte un foglio può quindi restare per qualche istante «in attesa» o «in coda»: modificare i dati o chiudere la scheda annulla anche l'attesa. I risultati non dipendono dall'ordine in cui i calcoli partono.
+
 ### Conservare dati e risultati insieme
 
 Il file riapribile conserva gli input e, per i progetti, le revisioni. Word, PDF e immagini documentano risultati e configurazione al momento dell'esportazione. Non sostituire il file riapribile con un'immagine della schermata.
@@ -1002,6 +1004,8 @@ Il controllo riguarda le prescrizioni di testa e le condizioni semplificate in a
 
 Il FEM viene reso disponibile prima delle verifiche resistenti. Modificare solo barre o staffe conserva N, V, M, spostamenti e mesh, ricalcolando MRd e i dettagli. Modificare terreni, carichi, geometria, EJ o quote di partizione aggiorna anche il FEM. Le quote di partizione sono nodi del modello numerico. Le verifiche e le esportazioni complete vengono invalidate immediatamente; un calcolo superato non può sostituire quello corrente. MRd usa calcoli paralleli con solutori indipendenti e conserva i risultati già disponibili per la stessa sezione e gli stessi valori esatti di N.
 
+Con molte schede aperte il ricalcolo resta «in coda» finché non termina uno dei calcoli in corso, come il calcolo della capacità.
+
 ### Tratti e verifica delle sezioni
 
 Il primo utilizzo e gli archivi senza tratti hanno un solo tratto collegato alla sezione principale di Broms. Le quote sono misurate dalla testa; una fine vuota indica la punta. Fine tratto / barre è la quota fisica finale del gruppo: il primo inizia a zero, ogni successivo risale dal proprio inizio della sovrapposizione adottata. Dividi aggiunge un confine interno, Unisci conserva l'armatura del tratto precedente. La partizione deve coprire il palo senza vuoti. I tratti successivi possono restare collegati oppure avere quantità e diametri delle barre, diametro e passo delle staffe personalizzati. Geometria e materiali restano comuni. La modifica della sezione principale aggiorna soltanto i tratti collegati.
@@ -1232,7 +1236,7 @@ La trazione dell'intera sezione segue un ramo specifico con regioni di bordo. Le
 
 ### Taglio torsione e dettagli
 
-Nella scheda taglio e torsione impostare staffe, passo, inclinazione e armatura longitudinale pertinente. Le azioni dei nuovi fogli provengono dalle stesse righe SLU e SLV usate nei domini; modificarle con Gestisci sollecitazioni. Controllare bw, d e braccio interno ricavati. Per sezioni circolari il ramo adottato è quello specifico per pali descritto nella guida teorica; non coincide automaticamente con una formula generica per travi rettangolari.
+Nella scheda taglio e torsione impostare staffe, passo, inclinazione e armatura longitudinale pertinente. Le azioni dei nuovi fogli provengono dalle stesse righe SLU e SLV usate nei domini; modificarle con Gestisci sollecitazioni. Controllare bw, d e braccio interno ricavati. Per sezioni circolari il ramo adottato è quello specifico per pali descritto nella guida teorica; non coincide automaticamente con una formula generica per travi rettangolari. Le verifiche a taglio e torsione si calcolano dopo le verifiche SLU e SLE, sullo sfondo: mentre la riga di stato mostra «GPC Engine · in corso: Taglio» le righe della tabella del taglio restano a «—» e la finestra resta utilizzabile.
 
 La torsione richiede un dettaglio chiuso compatibile e armatura longitudinale disponibile dopo le esigenze di flessione. Non assegnare come disponibile tutta l'armatura senza aver verificato questa condizione. La verifica combinata usa anche un'interazione conservativa fra torsione e i due tagli, esplicitata nel dettaglio.
 
