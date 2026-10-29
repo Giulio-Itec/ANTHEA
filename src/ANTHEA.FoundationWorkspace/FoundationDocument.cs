@@ -11,7 +11,7 @@ namespace Anthea.FoundationWorkspace;
 public static class FoundationDocument
 {
     public const string Module = "geo_fondazioni_superficiali";
-    public static readonly ImmutableArray<string> Methods = ["Eurocodice 7 · allegato D", "Terzaghi · Nγ tabulato", "Meyerhof", "Brinch Hansen · carico normale", "Vesić"];
+    public static readonly ImmutableArray<string> Methods = ["Eurocodice 7 · allegato D", "Terzaghi · Nγ tabulato", "Meyerhof", "Brinch Hansen", "Vesić"];
     public static readonly ImmutableArray<string> Shapes = ["Rettangolare / quadrata", "Nastriforme · azioni per metro", "Circolare · carico centrato"];
     public static readonly ImmutableArray<string> Conditions = ["Drenata", "Non drenata"];
     public static readonly ImmutableArray<string> Profiles = ["NTC 2018 · A1+M1+R3", "Confronto caratteristico"];
