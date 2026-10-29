@@ -17,12 +17,13 @@ internal static class PlotPresentation
         YLabel = Anthea.Application.Concrete.ConcreteModelColumnPresentation.CapacityYLabel, AxisNumberFormat = Anthea.Application.Concrete.ConcreteCurvaturePresentation.AxisNumberFormat,
         InvertY = false, EmptyMessage = Anthea.Application.Concrete.ConcreteModelColumnPresentation.EmptyMessage
     };
-    /// <summary>The two charts of the model column for the report: M(χ) with the external moment, then M − M2.</summary>
+    /// <summary>The charts of the model column for the report: M(χ) with the external moment, M − M2 and the reduced domain N–M1Rd,max (1.16.0).</summary>
     internal static IReadOnlyList<Plot> ModelColumnPlots(Anthea.Application.Concrete.ConcreteModelColumnResult source)
     {
         var capacity = ModelColumnPlot(); Apply(capacity, Anthea.Application.Concrete.ConcreteModelColumnPresentation.CapacityChart(source));
         var firstOrder = ModelColumnPlot(); Apply(firstOrder, Anthea.Application.Concrete.ConcreteModelColumnPresentation.FirstOrderChart(source));
-        return [capacity, firstOrder];
+        var domain = ModelColumnPlot(); Apply(domain, Anthea.Application.Concrete.ConcreteModelColumnPresentation.DomainChart(source));
+        return [capacity, firstOrder, domain];
     }
     internal static void ApplyCurvature(Plot target, Anthea.Application.Concrete.ConcreteResults.CurvatureResult source)
     {

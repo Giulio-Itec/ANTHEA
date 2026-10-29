@@ -1,8 +1,8 @@
 <!--
-  The tab 08 «Colonna modello» of the RC section (1.15.0) on ConcreteModelColumnViewModel, with the layout of the tab 07 «Momento–curvatura»
-  (WorkspaceLayout and Rows): the data of the column with «Calcola», «Interrompi», «Esporta CSV…» and the notice; the charts M(χ) with the external
-  moment and M − M2 over the cards and the text of the result. The charts are the Plot of the M–χ tab, fed by the data of the result in the
-  code-behind. Theme tokens only (P7).
+  The tab 08 «Colonna modello» of the RC section (1.15.0; phase 2 in 1.16.0) on ConcreteModelColumnViewModel, with the layout of the tab 07
+  «Momento–curvatura» (WorkspaceLayout and Rows): the data of the column with «Calcola», «Interrompi», «Esporta CSV…» and the notice; the charts
+  M(χ) with the external moment, M − M2 and the reduced domain N–M1Rd,max over the cards and the text of the result. The charts are the Plot of
+  the M–χ tab, fed by the data of the result in the code-behind. Theme tokens only (P7).
 -->
 <UserControl x:Class="X.Desktop.Views.ConcreteSection.ConcreteModelColumnView"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -39,7 +39,7 @@
   <Grid x:Name="Rows" Tag="righe" Grid.Column="2">
    <Grid.RowDefinitions><RowDefinition Height="3.7*" MinHeight="160"/><RowDefinition Height="8"/><RowDefinition Height="2*" MinHeight="155"/></Grid.RowDefinitions>
    <Grid>
-    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
     <Border Style="{StaticResource Frame}">
      <DockPanel>
       <StackPanel DockPanel.Dock="Top" Margin="2,0,2,6">
@@ -64,6 +64,19 @@
        </WrapPanel>
       </StackPanel>
       <ContentControl x:Name="FirstOrderHost" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+     </DockPanel>
+    </Border>
+    <Border Grid.Column="4" Style="{StaticResource Frame}">
+     <DockPanel>
+      <StackPanel DockPanel.Dock="Top" Margin="2,0,2,6">
+       <TextBlock Style="{StaticResource T14Bold}" Text="Dominio ridotto · N [kN] · M [kNm]"/>
+       <WrapPanel>
+        <Button Style="{StaticResource Command}" Content="Adatta" Click="FitDomain_Click"/>
+        <Button Style="{StaticResource Command}" Content="PNG" Click="PngDomain_Click"/>
+        <Button Style="{StaticResource Command}" Content="Espandi" Click="ExpandDomain_Click"/>
+       </WrapPanel>
+      </StackPanel>
+      <ContentControl x:Name="DomainHost" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
      </DockPanel>
     </Border>
    </Grid>
