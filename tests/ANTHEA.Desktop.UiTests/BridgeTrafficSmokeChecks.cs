@@ -4,6 +4,7 @@ using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Anthea.Application.BridgeDesign;
+using Anthea.Application.Presentation;
 using Anthea.Presentation.Modules.BridgeDesign;
 using X.Core;
 
@@ -29,6 +30,12 @@ internal sealed partial class ShellSmokeWindow
             view.InputTabs.SelectedIndex = 4; view.OutputTabs.SelectedIndex = 1; await Settle();
             ComboBox Model() => Ui.Descendants<ComboBox>(view).Single(c => AutomationProperties.GetName(c) == "Modello di traffico");
             Check(view.InputTabs.Items.Count == 5, "Traffic tab missing");
+            // D8 (1.16.0): a new document takes the ultimate factors from the road bridge rows of Model, without the γQ editor; the
+            // project multipliers (the choice of the documents saved before) keep the user factor checked below.
+            ComboBox Factors() => Ui.Descendants<ComboBox>(view).Single(c => AutomationProperties.GetName(c) == BridgeDesignPresentation.PartialFactorsLabel);
+            Check(Equals(Factors().SelectedItem, BridgeDesignModel.ProfileFactors), "New sheet does not use the factors of the Model profile");
+            Check(!Ui.Descendants<TextBox>(view).Any(t => t.DataContext is BridgeDesignParameter { Group: "assumptions", Key: "gamma_q" }), "γQ editor shown with the Model profile");
+            Factors().SelectedItem = BridgeDesignModel.PartialFactorChoices.Single(c => c != BridgeDesignModel.ProfileFactors); await Settle();
             smoke.Type("assumptions/gamma_q", "1,42"); await Settle();
             Model().SelectedItem = BridgeDesignModel.UniformLegacy; await Settle();
             Check(sheet.Calculation?.Traffic is null && sheet.Data["assumptions"].D("gamma_q") == 1.42, "Switch overwrote factor or kept stale envelope");
