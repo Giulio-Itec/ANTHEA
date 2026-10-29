@@ -1460,7 +1460,7 @@ q_s = G+Q
 q_d = \gamma_G G+\gamma_Q Q
 ```
 
-I valori storici del modello uniforme sono $g_2 = 2{,}5$ kN/m², $q_{traffico} = 9$ kN/m², $\gamma_G = 1{,}35$ e $\gamma_Q = 1{,}50$. nb vale 2, oppure 3 in presenza di spartitraffico. In questo modello il traffico è uniforme e contemporaneo su tutte le campate. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza. I nuovi progetti adottano invece Schema 1 e $\gamma_Q = 1{,}35$, descritti nel seguito.
+I valori storici del modello uniforme sono $g_2 = 2{,}5$ kN/m², $q_{traffico} = 9$ kN/m², $\gamma_G = 1{,}35$ e $\gamma_Q = 1{,}50$. nb vale 2, oppure 3 in presenza di spartitraffico. In questo modello il traffico è uniforme e contemporaneo su tutte le campate. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza. I nuovi progetti adottano invece Schema 1 e i coefficienti parziali delle combinazioni A1 dei ponti stradali, descritti nel seguito.
 
 ### Traffico mobile Schema 1
 
@@ -1468,9 +1468,19 @@ Il modello adotta le corsie convenzionali dello Schema 1 delle NTC 2018 §5.1.3.
 
 Per la trave longitudinale equivalente si costruiscono linee di influenza cubiche di momento, taglio, spostamento e reazione. Si cercano le posizioni sfavorevoli dei tandem e le porzioni favorevoli o sfavorevoli del carico distribuito. La ricerca longitudinale degli estremi avviene sui tratti polinomiali; le 41 sezioni per campata sono punti di restituzione del diagramma, non il passo di avanzamento del veicolo. Restano le ipotesi di elasticità lineare e EI costante della trave equivalente.
 
-Ogni grandezza conserva minimo e massimo. Gli estremi sono indipendenti e non costituiscono una combinazione concomitante; in particolare non si sommano massimi di reazione come se avvenissero insieme. Il predimensionamento degli appoggi usa l’estremo del singolo appoggio, mentre una reazione minima negativa segnala un possibile sollevamento. Il coefficiente γQ è un unico dato assegnato, con valore iniziale sfavorevole 1,35; la traccia riporta i coefficienti usati.
+Ogni grandezza conserva minimo e massimo. Gli estremi sono indipendenti e non costituiscono una combinazione concomitante; in particolare non si sommano massimi di reazione come se avvenissero insieme. Il predimensionamento degli appoggi usa l’estremo del singolo appoggio, mentre una reazione minima negativa segnala un possibile sollevamento. Con i moltiplicatori del progetto il coefficiente γQ è un unico dato assegnato, con valore iniziale sfavorevole 1,35; la traccia riporta i coefficienti usati.
 
 Nelle famiglie con struttura superiore il servizio conserva un modello concettuale: ricava azioni globali equivalenti dagli inviluppi e applica i tandem ai membri locali secondo lo schema adottato. Non ricostruisce le linee di influenza spaziali di cavi, pendini o aste del ponte reale, né la non linearità geometrica. Questi limiti restano distinti dall’analisi longitudinale delle travate ordinarie.
+
+### Coefficienti parziali SLU
+
+«Coefficienti parziali SLU» chiude la scheda Traffico. Con «NTC 2018 Tab. 5.1.V (Model)», la scelta dei documenti nuovi, gli inviluppi SLU sono gli estremi delle combinazioni A1 dei ponti stradali generate dalla libreria Model (NTC 2018 §5.1.3.12, Tab. 5.1.V): γG1 1,35/1,00 su impalcato e strutture, γG2 1,50/0 su finiture e barriere, γQ 1,35/0 sul traffico; nei minimi i permanenti sono favorevoli. Ogni riga combina
+
+```math
+q_d = \gamma_{G1} G_1 + \gamma_{G2} G_2 + \gamma_Q Q
+```
+
+con $G_1$ peso di calcestruzzo, carpenteria e struttura superiore e $G_2$ finiture e barriere; massimi e minimi sono gli estremi sulle otto righe SLU A1. Le aste delle strutture superiori e le antenne usano i coefficienti sfavorevoli (1,35; 1,50; 1,35). Con «Moltiplicatori del progetto», la scelta dei documenti salvati prima della 1.16.0, valgono γG e γQ del progetto, gli stessi nei massimi e nei minimi, come prima ($q_d = \gamma_G G + \gamma_Q Q$). La nota (2) della Tab. 5.1.V (permanenti non strutturali ben definiti) si applica con i moltiplicatori.
 
 ### Analisi della trave equivalente
 
@@ -1721,7 +1731,7 @@ Le combinazioni automatiche delle verifiche locali sono generate dalla libreria 
 
 Nelle combinazioni sismiche ed eccezionali le azioni variabili entrano con $\psi_2 Q_k$ solo se sfavorevoli (NTC 2018 §2.5.3). Per questo, come nelle combinazioni SLU, ogni gruppo di azioni variabili è considerato presente, con $\psi_2$, oppure assente. Per ogni segno di $k_v$, con i coefficienti del sito anche per le righe generali e di ribaltamento, e per ogni azione eccezionale la prima riga ha tutte le variabili; le successive tolgono il primo gruppo, il secondo, entrambi, e così via. Le righe che risultano uguali, per esempio con un gruppo a $\psi_2 = 0$, non si ripetono, e una riga senza il sovraccarico non ha la gemella «b». Le righe sono numerate di seguito, quindi i numeri delle righe sismiche ed eccezionali dopo la prima cambiano rispetto alle versioni precedenti, che avevano una sola riga per segno di $k_v$ e per azione eccezionale, con tutte le variabili a $\psi_2$. La stabilità globale segue la stessa regola nelle righe eccezionali e SLV.
 
-I documenti dei muri della prima versione calcolati senza aprirli, per esempio nel calcolo del progetto, usano i loro casi fissi: caratteristica, frequente, quasi permanente, 8 o 16 SLU e il sisma $\pm k_v$ con le gemelle. Li genera la libreria Model con le stesse regole delle versioni precedenti, quindi i risultati non cambiano; aprendo il documento l'interfaccia lo aggiorna alla seconda versione, con le combinazioni automatiche.
+Un documento dei muri della prima versione si aggiorna alla versione 2 sia quando si apre nell'interfaccia sia quando si calcola senza aprirlo, per esempio nel calcolo del progetto: i tre carichi diventano un gruppo correlato con $\psi_1$ e $\psi_2$ del documento e $\psi_0 = 0{,}7$, oppure $\psi_0 = 1$ se $\psi_1$ supera 0,7 (categoria E della NTC 2018 Tab. 2.5.I, l'unica con $\psi_1 > 0{,}7$), e il calcolo usa le combinazioni automatiche della versione 2, con i nomi della versione 2 («SLE 1», «SLU 4», «Sisma kv− 12», …). Con un gruppo solo $\psi_0$ non entra nelle combinazioni; conta solo se si aggiungono altre azioni variabili. Senza sisma i rapporti governanti sono quelli di prima. Con il sisma ci sono più righe, perché ogni gruppo variabile è presente o assente, e le righe sismiche usano i γR della Tab. 7.11.III (1 a scorrimento e a ribaltamento, 1,2 alla portanza) invece di quelli statici: dove governa una riga sismica i rapporti di scorrimento e di ribaltamento scendono fino al 9 % e al 13 %. Fino alla 1.15.0 il calcolo senza interfaccia usava i casi fissi della prima versione (caratteristica, frequente, quasi permanente, 8 o 16 SLU, sisma $\pm k_v$ con i γR di R3) e un documento con $\psi_1 > 0{,}7$ si apriva non valido.
 
 Le relazioni Word includono stratigrafie e coefficienti utilizzati. Cedimenti e spostamenti sono modelli separati; verifiche idrauliche, liquefazione e completamento esecutivo richiedono analisi dedicate. Il modulo non emette una verifica complessiva dell’opera.
 
@@ -1807,17 +1817,36 @@ Il muro costruisce l'input del verificatore c.a. con gli stessi materiali GPC: f
 
 Il minimo nominale di copriferro è ricavato dallo stesso motore MaterialCover della scheda Calcestruzzo, con esposizione, vita, aggregato, tolleranza, tipo di elemento, superficie di getto, abrasione e opzioni applicabili al metodo selezionato. Il diametro da usare è il massimo delle barre attive, comprese secondarie e collegamenti quando previsti. Il copriferro adottato resta un input distinto dal minimo richiesto. La gerarchia dei progetti condivide materiali e durabilità senza trasferire geometria o azioni del muro.
 
-### Geometria e quantità della distinta ferri del muro
+### Dettagli d'armatura e distinta ferri del muro
 
-La distinta è calcolata separatamente dalle resistenze e dal disegno. La lunghezza L del tratto, il copriferro di estremità ce e la lunghezza commerciale sono parametri del computo, non della striscia strutturale di 1 m. Per una marca con n barre/m e diametro φ, il passo del modello è $p = (1000 - 2c - \phi)/(n - 1)$, in mm. Nel tratto si usa $N = \mathrm{ceil}((1000L - 2c_e - \phi)/p) + 1$ e si ridistribuiscono le N barre con passo non superiore a p. Il peso del tratto non è necessariamente L volte la stima continua kg/m, perché comprende i pezzi alle estremità.
+La distinta è calcolata separatamente dalle resistenze. La lunghezza L del tratto, il copriferro di estremità $c_e$ e la lunghezza commerciale sono parametri del computo, non della striscia strutturale di 1 m.
 
-Lo sviluppo delle principali somma i tratti rettilinei all'asse e gli archi. Per una piega di 90° con mandrino $D_m$ si usa $r = (D_m + \phi)/2$ e sviluppo πr/2. La polilinea campionata serve soltanto al disegno: il peso non usa la somma delle corde. L'armatura alta del fusto comprende la sovrapposizione prevista dal modello; le barre delle due zone restano pezzi distinti. Per la faccia inclinata il raccordo al piede è indicato come dettaglio da completare.
+*Passo.* Le verifiche usano $A_s = n\,\pi\phi^2/4$ per metro di muro; nel muro continuo le n barre per metro hanno passo $p = 1000/n$ mm. Interferro, passo massimo e interferro delle coppie giuntate si controllano con questo passo. Nel tratto della distinta c'è una barra a ogni estremità, al copriferro di estremità, e il numero dei pezzi è arrotondato per eccesso, così che il passo non superi quello verificato (61 barre su 10 m con 6 Ø16/m), con L in m e $c_e$, φ e p in mm:
 
-Le secondarie sono rettilinee lungo il muro, con lunghezza L−2ce/1000; sono disposte sulle due facce con passo non maggiore di quello inserito. Al cambio di zona nel fusto e alla divisione delle due reti nella fondazione, la barra sul confine appartiene alla zona successiva. Per i collegamenti della giunzione, le file sono ceil(l0/passo)+1 e i pezzi per fila sono ceil(collegamenti_per_metro·L). Lo sviluppo assegnato deve includere i ganci; quando manca, il peso della distinta è esplicitamente parziale. Non viene attribuita una verifica dei ganci al solo sviluppo assegnato.
+```math
+N = \mathrm{ceil}\left(\frac{1000L - 2c_e - \phi}{p}\right) + 1
+```
 
-Per ogni marca, peso $= N\,L_{taglio}\,(\pi\phi^2/4) \cdot 0{,}00785$ kg, con φ in mm e Ltaglio in m. Lo sviluppo oltre la barra commerciale produce una nota, senza aggiungere giunti o frammenti non verificati. Quantità, sviluppi e pesi sono preliminari: sfridi, giunti di costruzione, estremità, interferenze e sagomature esecutive richiedono completamento.
+*Nodo fusto–fondazione.* Il terreno tende le fibre di monte del fusto e le superiori della mensola di monte: per il nodo è un momento che apre l'angolo (EN 1992-1-1, Allegato J.2.3, nodi d'angolo con momento in apertura). Le barre tese di monte scendono nella fondazione e piegano verso valle, sotto il fusto; quelle di valle piegano verso monte: i piedi si incrociano. Se la mensola dalla parte opposta non contiene il piede, la barra piega dalla sua parte e la distinta lo segnala. Il piede appoggia sulla rete inferiore: copriferro + Ø trasversale + Ø longitudinale + Ø/2 all'asse. Ancoraggio = tratto verticale dal piano della fondazione + arco + coda, con coda $\geq 5\phi$; mandrino come prima (piegatura e pressione sul calcestruzzo). Fonti secondarie sulla direzione dei piedi nei muri a mensola (manuali di dettaglio delle armature): da riscontrare sul testo.
 
-Riscontro indipendente: $H = 4$ m, soletta 0,60 m, copriferro 50 mm, φ16 e mandrino 160 mm danno $r = 88$ mm. Con ancoraggio assegnato di 1 m, $A = 3{,}942$ m, $B = 0{,}454$ m, arco 0,138230077 m e coda 0,407769923 m; $L_{taglio} = 4{,}942$ m. Sei barre forniscono 46,800823495 kg. Con tratto di 3 m e copriferro di estremità 50 mm, il numero sale a 18. Le prove verificano anche due zone, collegamenti incompleti, limiti commerciali e salvataggio.
+*Fondazione.* Quando le due mensole hanno le stesse barre (Ø e numero per metro) e la barra sta nella barra commerciale, la barra inferiore e quella superiore sono uniche su tutta la larghezza; altrimenti ogni mensola ha la sua barra, prolungata oltre la radice per l'ancoraggio richiesto. Ai bordi liberi le barre inferiori risvoltano in su e le superiori in giù fino al copriferro della faccia opposta, così che il bordo resti chiuso (EN 1992-1-1 §9.3.1.4 e fig. 9.8); mandrino minimo 4Ø fino a Ø16, 7Ø oltre (EN 1992-1-1 prospetto 8.1N).
+
+*Testa del fusto.* Il bordo libero in testa è chiuso da forcelle a U con il Ø dei ferri longitudinali del fusto, una per ogni verticale della faccia più armata, con gambe lunghe due volte lo spessore in testa (fig. 9.8) e un ferro longitudinale in ogni angolo.
+
+*Spilli della giunzione.* Diritti fra le verticali delle due facce alla quota della giunzione, con ganci a 135° prolungati di 10Ø (NTC 2018 §7.4.6.2.2; EN 1992-1-1 §8.5, fig. 8.5) e mandrino 4Ø; file distribuite sulla sovrapposizione $l_0$ a passo non maggiore di quello assegnato. Lo sviluppo inserito dall'utente resta una forzatura.
+
+*Scarpa.* La barra di valle segue la faccia inclinata e diventa verticale nella fondazione con una piega di angolo $\arctan[(s_0 - s_1)/H]$, riportato sulla sagoma.
+
+*Ferri longitudinali.* Stanno nello strato interno: dentro le verticali del fusto, sopra le barre trasversali inferiori e sotto le superiori della fondazione, al passo assegnato e con una barra in ogni angolo di forcelle e risvolti. Nel tratto sono lunghi $L - 2c_e$; oltre la barra commerciale $L_{comm}$ si dividono in k pezzi uguali, ciascuno arrotondato per eccesso al cm, con la sovrapposizione $l_0$ delle regole d'ancoraggio di Concrete (come per le verticali); se dopo l'arrotondamento un pezzo supera la barra commerciale, k cresce di uno:
+
+```math
+k = \mathrm{ceil}\left(\frac{L - 2c_e - l_0}{L_{comm} - l_0}\right)
+L_{pezzo} = \frac{L - 2c_e + (k - 1)\,l_0}{k}
+```
+
+*Distinta.* Quote all'asse, archi sviluppati al raggio $r = (D_m + \phi)/2$, tratti arrotondati al cm e lunghezza unitaria $L_u$ uguale alla loro somma; peso $= N\,L_u\,(\pi\phi^2/4) \cdot 0{,}00785$ kg, con φ in mm e $L_u$ in m (acciaio 7850 kg/m³), netto senza sfridi; incidenza = peso totale / volume di calcestruzzo del tratto. Una posizione che resta più lunga della barra commerciale è segnalata, senza giunti aggiunti nelle barre trasversali.
+
+Riscontro indipendente, con gli attesi calcolati a mano nelle prove della libreria: $H = 4$ m, fondazione di 0,60 m, mensola di valle 1,0 m, fusto 0,40 m, mensola di monte 2,0 m ($B = 3{,}4$ m), copriferro 40 mm, 6 Ø16/m sul fusto e 5 Ø14/m in fondazione, aderenza non buona ($f_{bd} = 1{,}8852$ MPa). Su 10 m le verticali di monte sono 61, perché $(10000 - 80 - 16)/166{,}67 = 59{,}42$ dà 60 intervalli, e le barre inferiori della fondazione 51. La verticale di monte ha mandrino 290 mm e $r = 153$ mm; il piede sta a 72 mm dal fondo (40 + 14 + 10 + 8); l'ancoraggio di 840 mm è tratto verticale 375 mm + arco 240,3 mm + coda 224,7 mm, maggiore di $5\phi = 80$ mm; la barra è lunga 4,792 m. La barra inferiore della fondazione, unica con i risvolti, ha tratti di 0,471, 3,236 e 0,471 m e due archi di 0,055 m: 4,288 m. La forcella Ø10 ha gambe di 0,80 m e sviluppo 1,799 m. Con due zone la sovrapposizione Ø16 è 1250 mm: 8 file di spilli Ø8 lunghi 0,304 m fra le verticali più due ganci di 0,127 m, cioè 0,558 m.
 
 ### Gravità in calcestruzzo o muratura
 
@@ -3186,7 +3215,7 @@ Il Newmark implementato richiede accelerogrammi e soglia di scorrimento assegnat
 | Terrapieno inclinato, geometria e parametri di spinta più generali | Copertura parziale: il modello locale resta a monte verticale, riempimento orizzontale e c′ = 0 |
 | Parametri sismici ricavati dalla località e spettro | Il modulo muri usa kh e kv assegnati oppure ag/g e F0 inseriti; non integra la selezione geografica e lo spettro completo |
 | Spostamento secondo Richards ed Elms | Non implementato; è disponibile Newmark con input propri |
-| Esecutivi DXF e DWG | Non disponibili; tavola e distinta attuali sono un predimensionamento con esportazioni documentali e immagine |
+| Esecutivi DXF e DWG | Non disponibili; la tavola delle armature e la distinta del tratto si esportano in Word, PDF, PNG e CSV |
 | Documentazione di progetto e manutenzione | Report e distinta presenti; mancano relazioni specialistiche complete e piano di manutenzione |
 
 La tabella descrive il campo del codice corrente. Il campo è dichiarato nei modelli RetainingWall; leggere anche gli avvisi del foglio corrente.
@@ -3973,7 +4002,7 @@ k_r=S_e^{1/2}[1-(1-S_e^{1/m})^m]^2
 
 Per $\psi \geq 0$ si assume $S_e = k_r = 1$; il tensore è moltiplicato per kr. Non si introduce una permeabilità minima nascosta. Picard con controllo del residuo e insieme attivo delle superfici drenanti risolve la non linearità; i sistemi lineari usano gradiente coniugato precondizionato. Il controllo comprende variazione di h, residuo nodale e bilancio globale. Un campo non convergente non viene pubblicato come pressione utilizzabile.
 
-Il dominio generato per la paratia contiene due colonne stratificate, parete impermeabile di spessore finito, lati esterni a carico imposto e fondo impermeabile. Si controllano distanza dei bordi, quota del fondo e mesh. Il trasferimento meccanico campiona il campo P1 senza estrapolare attraverso vuoti e conserva gli attraversamenti di $u = 0$. La suzione può essere trascurata solo esplicitamente; non aumenta implicitamente la resistenza. I pesi possono seguire la falda assegnata oppure la classificazione binaria $\gamma_{sat}$ per $u > 0$ e $\gamma_{naturale}$ altrove. Non è un'analisi accoppiata di consolidazione.
+Il dominio generato per la paratia contiene due colonne stratificate, parete impermeabile di spessore finito, lati esterni a carico imposto oppure impermeabili (flusso nullo, per esempio l'asse di uno scavo simmetrico) e fondo impermeabile. Su un lato a flusso nullo il carico idraulico della fase non è imposto sul bordo verticale; sul terreno di quel lato vale la regola generale del ristagno o della superficie di efflusso. Si controllano distanza dei bordi, quota del fondo e mesh. Il trasferimento meccanico campiona il campo P1 senza estrapolare attraverso vuoti e conserva gli attraversamenti di $u = 0$. La suzione può essere trascurata solo esplicitamente; non aumenta implicitamente la resistenza. I pesi possono seguire la falda assegnata oppure la classificazione binaria $\gamma_{sat}$ per $u > 0$ e $\gamma_{naturale}$ altrove. Non è un'analisi accoppiata di consolidazione.
 
 ### Sollevamento idraulico e sifonamento
 
