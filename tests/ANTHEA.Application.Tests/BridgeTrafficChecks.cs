@@ -18,11 +18,17 @@ internal static class BridgeTrafficChecks
         Check(old["input"].S("traffic_model") == BridgeConcept.UniformLegacy && old.S("traffic_migration").Length > 0, "Legacy migration not explicit");
         Check(old["assumptions"].D("gamma_q") == 1.5, "Legacy factor overwritten");
         Check(BridgeConcept.Calculate(old).TotalCost == original.TotalCost, "Legacy document changed under preparation");
+        // D8 (decision of the user of 29/10/2026): an archive has no choice of the partial factors and keeps the multipliers of the project.
+        Check(!old["input"]!.AsObject().ContainsKey("partial_factors") && BridgeConcept.PartialFactors(old) == BridgeConcept.ProjectMultipliers, "Archive moved to the profile factors");
         var data = BridgeConcept.NewDocument(); var result = BridgeConcept.Calculate(data);
         Check(data["input"].S("traffic_model") == BridgeConcept.Schema1 && result.Traffic?.GammaQ == 1.35, "New document does not adopt Schema 1");
         Check(result.Stations.All(s => s.MomentMinimum.HasValue && s.ShearMinimum.HasValue && s.DeflectionMinimumMm.HasValue), "Adapter dropped envelope ordinates");
         Check(result.Supports.All(s => s.MinimumReaction.HasValue), "Adapter dropped minimum reactions");
+        // D8: a new document uses the rows of NTC 2018 Tab. 5.1.V of GPC.Model (γG1 1.35, γG2 1.50, γQ 1.35), not the multipliers of the project.
+        Check(data["input"].S("partial_factors") == BridgeConcept.ProfileFactors && result.Details.Any(d => d.Name == "Permanenti non strutturali G2"), "New document without the profile factors");
         data["assumptions"]!["gamma_q"] = 1.42;
+        Check(BridgeConcept.Calculate(data).Traffic!.GammaQ == 1.35, "Profile factors replaced by the multiplier of the project");
+        data["input"]!["partial_factors"] = BridgeConcept.ProjectMultipliers;
         Check(BridgeConcept.Calculate(data).Traffic!.GammaQ == 1.42, "Explicit factor silently replaced");
         var resultArchive = JsonNode.Parse(result.Json().ToJsonString())!;
         Check(resultArchive["bridge_design"]!["Traffic"]!.S("Model") == BridgeConcept.Schema1, "Result provenance not persisted");
@@ -36,6 +42,9 @@ internal static class BridgeTrafficChecks
         }
         Check(BridgeConceptExport.Csv(result).Contains("Schema 1 NTC 2018"), "CSV dropped traffic provenance");
         try { LegacyBridgeConcept.Calculate(data); throw new Exception("Diagnostic engine silently discarded Schema 1"); } catch (ArgumentException) { checks++; }
+        data["input"]!["partial_factors"] = "unknown";
+        try { BridgeConcept.Calculate(data); throw new Exception("Invalid partial factors accepted"); } catch (ArgumentException) { checks++; }
+        data["input"]!["partial_factors"] = BridgeConcept.ProjectMultipliers;
         data["input"]!["traffic_model"] = "unknown";
         try { BridgeConcept.Calculate(data); throw new Exception("Invalid traffic accepted"); } catch (ArgumentException) { checks++; }
         data["input"]!["traffic_model"] = 123;
