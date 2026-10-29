@@ -11601,6 +11601,39 @@
         "MOD-31",
         "MOD-32"
       ]
+    },
+    {
+      "id": "UI-CONTRASTO-03",
+      "data": "2026-10-29",
+      "fase": "1.16.0, contrasto della Chiara",
+      "titolo": "Scala del dominio 3D: unità «−» dei fattori invece di «×»",
+      "famiglia": "interfaccia/temi",
+      "modulo": "str_palo e sezione c.a. (dialogo «Scala del dominio 3D»)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Ultimo gruppo di difetti della Chiara dopo UI-CONTRASTO-01 e -02: l'unità «×» dei campi Fattore N, MX e MY del dialogo «Scala del dominio 3D», in corpo Caption e colore attenuato #5B697E, misurata dai pixel sotto 4,5:1 perché i tratti diagonali sottili sono sfumati (dalle proprietà il colore vale circa 5,6:1 sul bianco). I fattori sono adimensionali: l'unità diventa «−», come gli altri fattori adimensionali di ANTHEA (per esempio «Fattore di scala» dei muri). La domanda del 28/10 sera citava 719 difetti in 28 gruppi, il dato dell'8/10; dopo la 1.14.4 restava solo questo gruppo (3 occorrenze, baseline 3).",
+      "codice": [
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDomainPanelViewModel.cs (ConcreteDomainScaleDialogViewModel)"
+      ],
+      "segno": "Solo aspetto; nessun numero cambia.",
+      "effetto_quantificato": "--check-contrast: Chiara da 3 occorrenze in 1 voce a 0; Scuro e Molto scuro 0. Baseline tests/fixtures/f5/contrasto-chiara.json abbassata a 0 con baseline-chiara.json della corsa. Nessuna traccia congelata registra l'unità di quei campi.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "alla domanda sul contrasto della Chiara: «Correggi i gruppi reali»",
+        "esito": "attuato"
+      },
+      "test": [
+        "ui/check-contrast",
+        "ui/check-sezione-view",
+        "Presentation.Tests"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160/contrasto-1 (PASS 8; ui_check-contrast: Chiara 0 difetti)"
+      ],
+      "voci_collegate": [
+        "UI-CONTRASTO-01",
+        "UI-CONTRASTO-02"
+      ]
     }
   ]
 }
