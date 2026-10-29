@@ -932,6 +932,38 @@ La scheda tratta una direzione alla volta, in flessione retta. Per la flessione 
 > Programma: i piani di deformazione hanno l'asse neutro parallelo al momento; se il rapporto fra il massimo momento trasversale e il massimo momento nella direzione θ supera il limite ammesso, 1 % in partenza, il calcolo è rifiutato.
 > Effetto: nelle sezioni simmetriche rispetto al piano di flessione il rapporto è nullo; fuori dalle direzioni principali il calcolo non sarebbe una flessione retta.
 
+### Colonna modello: inviluppo delle azioni e dominio ridotto
+
+Con le combinazioni ogni combinazione $i$ è una colonna modello a $N_{Ed,i}$ costante, verificata nella direzione θ se $M_i \geq 0$ e nella direzione θ + 180° altrimenti, con $M_{0Ed,i} = |M_i|$; il rapporto dell'inviluppo è il massimo sulle combinazioni:
+
+```math
+M_i = M_{1,i}\cos\theta + M_{2,i}\sin\theta
+M_{\perp,i} = -M_{1,i}\sin\theta + M_{2,i}\cos\theta
+\eta = \max_i \frac{M_{0Ed,tot,i}}{M_{1Rd,max}(N_{Ed,i})}
+```
+
+Con $\varphi_{ef}$ dalla (5.19) il rapporto $M_{0Eqp}/M_{0Ed}$ è quello della combinazione (EN 1992-1-1 5.8.4(2)); la coppia quasi permanente è una sola.
+
+Il dominio ridotto è la capacità del primo ordine al variare dello sforzo normale, calcolata in $n + 1$ punti fra zero e la resistenza a compressione centrata, con il momento resistente della sezione $M_{Rd}(N_j) = M(\chi_u)$ nella stessa direzione; l'eccentricità minima è la retta $M = |N|\,e_0$:
+
+```math
+N_j = \frac{j}{n}\,N_{Rd,c}
+```
+
+con $j = 0 \ldots n$. A $N = 0$ si ha $k = 0$ e $M_{1Rd,max} = M_{Rd}(0)$; a $N_{Rd,c}$ la curvatura ultima è nulla e $M_{1Rd,max}$ è nullo nelle sezioni simmetriche.
+
+> Scostamento dichiarato K-7 · Componente normale a θ nell'inviluppo
+> Norma: EN 1992-1-1 5.8.9 chiede la verifica in flessione deviata.
+> Programma: la componente $M_\perp$ non è verificata nell'inviluppo; oltre l'1 % di $M_\theta$ c'è un avviso e la 5.8.9 resta da fare a parte, con θ + 90°.
+> Effetto: a sfavore di sicurezza se $M_\perp$ non è trascurabile e la verifica a parte manca.
+
+> Scostamento dichiarato K-8 · Viscosità nel dominio ridotto
+> Norma: con la (5.19) $\varphi_{ef}$ dipende dal rapporto $M_{0Eqp}/M_{0Ed}$ della combinazione.
+> Programma: ogni combinazione è verificata con il proprio $\varphi_{ef}$; il dominio ridotto è disegnato con quello della combinazione che governa.
+> Effetto: solo grafico; i punti delle altre combinazioni vanno letti con il loro esito, non con la curva.
+
+Esempio: sezione 400 × 400 mm con 3Ø24 + 3Ø24, C25/30, B450C, $l_0 = 6$ m, senza imperfezione né eccentricità minima e con $\varphi_{ef} = 0$. Il dominio ridotto vale $M_{1Rd,max}$ = 174,2, 213,9, 223,7, 169,4, 121,9, 65,6 e 17,8 kNm a N = 0, 500, 1000, 1500, 2000, 2500 e 3000 kN. Con le azioni (1000 kN, 180 kNm), (2000 kN, 100 kNm) e (1500 kN, 160 kNm) governa la terza, con $\eta = 160/169{,}4 = 0{,}944$.
+
 ### Asse neutro e stato resistente
 
 L'asse neutro nel c.a. è il luogo di deformazione nulla del piano affine. Con deformazione uniforme non esiste una retta univoca. L'asse del punto resistente sul dominio e quello della combinazione di esercizio appartengono a stati diversi. Nei tendini la predeformazione può separare lo zero della deformazione geometrica da quello della tensione.
