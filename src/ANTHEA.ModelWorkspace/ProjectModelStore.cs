@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -28,7 +29,10 @@ public static class ProjectModelStore
         var models = project[Property] as JsonArray ?? new JsonArray();
         var old = id == null ? null : (Models(project).SingleOrDefault(m => m["id"]?.GetValue<string>() == id) ?? throw new ArgumentException("Modello non trovato nel contenitore."));
         id ??= Guid.NewGuid().ToString("N");
-        var entry = new JsonObject { ["schema"] = 1, ["id"] = id, ["revisione"] = snapshot.Fingerprint(), ["nome"] = old?["nome"]?.GetValue<string>() ?? snapshot.Name, ["snapshot"] = JsonSerializer.SerializeToNode(snapshot) };
+        // Refactoring of the combinations (29/10/2026): the canonical UTF-8 JSON is written once. Its SHA-256 is the fingerprint of the copy
+        // (ModelSnapshot.Fingerprint hashes the same bytes) and its tree is the one SerializeToNode reads back from the same bytes.
+        var json = JsonSerializer.SerializeToUtf8Bytes(snapshot);
+        var entry = new JsonObject { ["schema"] = 1, ["id"] = id, ["revisione"] = Convert.ToHexString(SHA256.HashData(json)), ["nome"] = old?["nome"]?.GetValue<string>() ?? snapshot.Name, ["snapshot"] = JsonNode.Parse(json) };
         if (old != null) models[models.IndexOf(old)] = entry; else models.Add(entry);
         if (project[Property] == null) project[Property] = models;
         return id;

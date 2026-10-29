@@ -186,7 +186,8 @@ public sealed partial class ModelViewerViewModel
             cancellation.Token.ThrowIfCancellationRequested();if(disposed)return;
             var next=await Task.Run(()=>ModelCombinations.Attach(snapshot,id,calculated),cancellation.Token);
             cancellation.Token.ThrowIfCancellationRequested();if(disposed)return;
-            int evicted=snapshot.Results.Count(r=>r.Combination!=null&&r.Combination.DefinitionId!=id&&!next.Results.Any(n=>n.Name==r.Name));
+            var kept=next.Results.Select(n=>n.Name).ToHashSet(StringComparer.Ordinal);
+            int evicted=snapshot.Results.Count(r=>r.Combination!=null&&r.Combination.DefinitionId!=id&&!kept.Contains(r.Name));
             PublishCombinationSnapshot(next);RefreshCombinations(id);
             ShowCombinationResult(calculated.Results[0].Name);
             CombinationMessage=$"{(calculated.PreparationReused?"Casi base riutilizzati":"Preparazione iniziale: "+(calculated.PreparationMilliseconds/1000).ToString("F2")+" s")} · calcolo {calculated.RebuildMilliseconds/1000:F2} s · campi {calculated.DisplayMilliseconds/1000:F2} s.\n"+string.Join("\n",calculated.Warnings.Take(6));

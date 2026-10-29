@@ -113,6 +113,9 @@ public sealed class ModelSnapshot
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ModelStageDefinition[]? ConstructionStages { get; set; }
     public static readonly string[] Components = ["Mxx", "Myy", "Mxy", "Fxx", "Fyy", "Fxy", "Vxx", "Vyy"];
+    // Refactoring of the combinations (29/10/2026): the revisions of the inputs of the combinations, kept with the references of the parts they
+    // were computed from (ModelCombinations.Revisions). A field, so never serialized and never part of the fingerprints.
+    internal ModelCombinations.Revisions? CombinationRevisions;
     public static string Unit(string component) => component.StartsWith('M') ? "kN·m/m" : "kN/m";
     public void Validate()
     {
@@ -220,14 +223,30 @@ public sealed class ModelSnapshot
         { throw new InvalidDataException("Tabelle dei casi di carico o delle combinazioni non valide. La copia precedente è stata conservata.", ex); }
         if (ImportMessages?.Any(m => m == null || string.IsNullOrWhiteSpace(m.Code)) == true) throw new InvalidDataException("Rapporto di importazione non valido.");
     }
-    public string Fingerprint()
+    public string Fingerprint() => FingerprintAndSize().Hash;
+    /// <summary>The fingerprint and the length in bytes of the same canonical UTF-8 JSON, written once.</summary>
+    internal (string Hash, long Bytes) FingerprintAndSize()
     {
         // Same canonical UTF-8 JSON as previous revisions, without allocating another complete copy.
         using var hash = SHA256.Create();
-        using var stream = new CryptoStream(Stream.Null, hash, CryptoStreamMode.Write);
+        using var counter = new ByteCounter();
+        using var stream = new CryptoStream(counter, hash, CryptoStreamMode.Write, leaveOpen: true);
         JsonSerializer.Serialize(stream, this);
         stream.FlushFinalBlock();
-        return Convert.ToHexString(hash.Hash!);
+        return (Convert.ToHexString(hash.Hash!), counter.Length);
+    }
+    /// <summary>A stream that only counts the bytes written to it.</summary>
+    internal sealed class ByteCounter : Stream
+    {
+        long count;
+        public override bool CanRead => false; public override bool CanSeek => false; public override bool CanWrite => true;
+        public override long Length => count; public override long Position { get => count; set => throw new NotSupportedException(); }
+        public override void Write(byte[] buffer, int offset, int size) => count += size;
+        public override void Write(ReadOnlySpan<byte> buffer) => count += buffer.Length;
+        public override void Flush() { }
+        public override int Read(byte[] buffer, int offset, int size) => throw new NotSupportedException();
+        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+        public override void SetLength(long value) => throw new NotSupportedException();
     }
     public static ModelSnapshot FromJson(string json)
     {
