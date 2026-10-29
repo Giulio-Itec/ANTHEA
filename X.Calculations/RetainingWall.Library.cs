@@ -197,9 +197,9 @@ public static partial class RetainingWall
     /// </summary>
     static List<(WallCombination Combination, double Live)> LegacyCombinations(JsonObject d)
     {
-        var loads = d["loads"]!; var seismic = d["seismic"]; bool enabled = seismic.B("enabled");
+        var loads = d["loads"]!; bool enabled = d["seismic"].B("enabled");
         return WallCombinations.Version1(d["water"].B("enabled"), Need(d["geometry"], "heel") > 0, loads.D("psi1"), loads.D("psi2"),
-                enabled ? seismic.D("kh") : null, enabled ? seismic.D("kv") : 0)
+                enabled ? d["seismic"].D("kh") : null, enabled ? d["seismic"].D("kv") : 0)
             .Select(c => (c, c.Coefficients["q"])).ToList();
     }
 

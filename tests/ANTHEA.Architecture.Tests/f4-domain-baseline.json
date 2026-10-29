@@ -2144,7 +2144,7 @@
       "Rule": "R4-implicit-number",
       "Owner": "RetainingWall.LegacyCombinations",
       "Fingerprint": "5984095596BF8DAB3F62CE95A8FBB8035A8946F84AAEE9C4CD089398B7C09664",
-      "Count": 2,
+      "Count": 1,
       "Example": "d [ \"seismic\" ] . D ( \"kv\" )"
     },
     {
@@ -2160,7 +2160,7 @@
       "Rule": "R4-implicit-number",
       "Owner": "RetainingWall.LegacyCombinations",
       "Fingerprint": "D78C90CE278178AAF52AC05837FB08451F474462ECDD11F72E8C96D3EFACED28",
-      "Count": 2,
+      "Count": 1,
       "Example": "loads . D ( \"psi2\" )"
     },
     {
