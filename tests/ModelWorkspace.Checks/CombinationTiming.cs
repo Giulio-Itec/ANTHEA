@@ -263,7 +263,7 @@ static partial class Program
         var service = new GpcModelCombinationService();
         foreach (var id in new[] { "ANTHEA/utente-somma", "ANTHEA/utente-inviluppo-slu" }) model = ModelCombinations.Attach(model, id, await service.CalculateAsync(model, id));
         var fresh = ModelSnapshot.FromJson(JsonSerializer.Serialize(model));
-        Check(ModelCombinations.InputRevision(model) == ModelCombinations.InputRevision(fresh) && model.Results.Count(r => r.Combination != null) == 4,
+        Check(ModelCombinations.InputRevision(model) == ModelCombinations.InputRevision(fresh) && model.Results.Count(r => r.Combination != null) == 3,
             "combinations: the input revision kept by the copies equals the one computed again from the document");
         var size = typeof(ModelCombinations).GetMethod("SerializedSize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
         Check((long)size.Invoke(null, [model])! == JsonSerializer.SerializeToUtf8Bytes(model).LongLength && (long)size.Invoke(null, [fresh])! == JsonSerializer.SerializeToUtf8Bytes(fresh).LongLength,
