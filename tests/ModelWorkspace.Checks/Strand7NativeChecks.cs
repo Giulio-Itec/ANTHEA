@@ -39,9 +39,18 @@ static partial class Program
                 foreach (var file in Directory.GetFiles(bridghe, "*.st7").OrderBy(f => f, StringComparer.Ordinal))
                     if (File.Exists(Path.ChangeExtension(file, ".LSA")))
                     { var folder = Fresh(); sources.Add(("BridGHe " + Path.GetFileNameWithoutExtension(file), CopyTo(folder, file), CopyTo(folder, Path.ChangeExtension(file, ".LSA")))); }
+            // 1.16.0: stages, masses, temperatures, reactions (GPC_STRAUS7_STAGES: "versioned" = tests/fixtures/model-viewer-straus7/native-stages-r31.zip,
+            // or a folder with stages.st7, stages.LSA, stages-stage1.LSA and stages.NLA).
+            string? stagesFolder = null;
+            if (Environment.GetEnvironmentVariable("GPC_STRAUS7_STAGES") is { Length: > 0 } stages)
+            {
+                stagesFolder = Fresh();
+                if (stages == "versioned") ZipFile.ExtractToDirectory(Path.Combine(RepositoryRoot(), "tests", "fixtures", "model-viewer-straus7", "native-stages-r31.zip"), stagesFolder);
+                else foreach (var file in new[] { "stages.st7", "stages.LSA", "stages-stage1.LSA", "stages.NLA" }) CopyTo(stagesFolder, Path.Combine(stages, file));
+            }
             // Real MIDAS exports (GPC_MIDAS_TEXT_SAMPLES) in the same opt-in run: ANTHEA against the GPC file adapter.
             int midas = MidasTextRealChecks(directory);
-            if (sources.Count == 0)
+            if (sources.Count == 0 && stagesFolder == null)
             {
                 File.WriteAllText(Path.Combine(output, "esito.txt"), midas > 0 ? $"PASS {checks} controlli · {midas} file MIDAS reali, nessun modello Straus7"
                     : "PASS 0 controlli nativi: variabili GPC_STRAUS7_ELEMENTS, GPC_STRAUS7_PLATES, GPC_STRAUS7_BRIDGHE, GPC_MIDAS_TEXT_SAMPLES non impostate");
@@ -52,8 +61,9 @@ static partial class Program
             string worker = WorkerExecutable();
             var summaries = new List<object>();
             foreach (var (label, model, results) in sources) summaries.Add(await NativeModel(label, model, results, worker, api, directory));
+            if (stagesFolder != null) summaries.Add(await NativeStages(stagesFolder, worker, api, directory));
             File.WriteAllText(Path.Combine(directory, "riepilogo.json"), JsonSerializer.Serialize(summaries, new JsonSerializerOptions { WriteIndented = true }));
-            File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli nativi Straus7 · {sources.Count} modelli" + (midas > 0 ? $" · {midas} file MIDAS reali" : ""));
+            File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli nativi Straus7 · {sources.Count + (stagesFolder == null ? 0 : 1)} modelli" + (midas > 0 ? $" · {midas} file MIDAS reali" : ""));
             return 0;
         }
         catch (Exception ex) { Console.Error.WriteLine(ex); File.WriteAllText(Path.Combine(output, "errore.txt"), ex.ToString()); return 1; }
@@ -92,7 +102,7 @@ static partial class Program
         Check(geometry.Model != null, label + ": GPC import in the test process");
         var m = geometry.Model!;
         Check(m.NodesElements.Count == snapshot.Nodes.Length && m.AreaElements.Count == catalog.Plates && m.BeamElements.Count == catalog.Beams, label + ": same model as the GPC converter");
-        int corners = 0, stations = 0, equilibrium = 0; double worst = 0; string? combination = null;
+        int corners = 0, stations = 0, equilibrium = 0, axial = 0, combinedReactions = 0, comparedReactions = 0; double worst = 0; string? combination = null;
         if (results != null)
         {
             var listing = converter.ReadResults(new Straus7ResultsRequest { ModelPath = model, ResultPath = results });
@@ -154,12 +164,99 @@ static partial class Program
                 }
                 Check(Math.Abs(value - expected) <= 1e-9 * Math.Max(1, Math.Abs(expected)), $"{label}: GPC rebuilds the LSA combination {definition.Name} as the sum of its terms ({expected:G6} {unit})");
                 combination = definition.Name;
+                // 1.16.0: trusses and cables (axial force) and support reactions of the combination, against the sum of the imported terms.
+                foreach (var type in new[] { "TRUSS", "CABLE" })
+                {
+                    var terms = definition.Terms.Select(t => (t.Factor, Values: ResultFields.Read(byName[t.Reference], type, "LOCAL", "Fx").ToDictionary(v => (v.Element, v.Station), v => v.Value))).ToArray();
+                    var combined = ResultFields.Read(calculated, type, "LOCAL", "Fx");
+                    if (terms.All(t => t.Values.Count == 0)) continue;
+                    Check(combined.Count == terms[0].Values.Count && combined.All(v => Math.Abs(v.Value - terms.Sum(t => t.Factor * t.Values[(v.Element, v.Station)])) <= 1e-9 * Math.Max(1, Math.Abs(v.Value))),
+                        $"{label}: GPC rebuilds the axial force of {combined.Select(v => v.Element).Distinct().Count()} {type} members in {definition.Name} as the sum of its terms");
+                    axial += combined.Count;
+                }
+                if (calculated.Reactions is { Length: > 0 } rebuilt)
+                {
+                    Check(rebuilt.All(r => ModelReactions.Components.Select((_, k) => Math.Abs(r.Values[k] - definition.Terms.Sum(t => t.Factor * byName[t.Reference].Reactions!.Single(x => x.Node == r.Node).Values[k]))).Max()
+                        <= 1e-9 * Math.Max(1, r.Values.Max(Math.Abs))), $"{label}: GPC rebuilds the {rebuilt.Length} support reactions of {definition.Name} as the sum of its terms");
+                    combinedReactions = rebuilt.Length;
+                }
             }
+            // 1.16.0: reactions of the copy against the GPC samples, the equilibrium of every case as checked by the worker.
+            int compared = 0;
+            double scale = m.NodesElements.Values.SelectMany(n => n.Results.SelectMany(r => r.Results)).OfType<NodeResultForces>().Where(r => r.Kind == NodalForceKind.SupportReaction)
+                .Select(r => Math.Max(Math.Abs(r.Fx), Math.Max(Math.Abs(r.Fy), Math.Abs(r.Fz)))).DefaultIfEmpty().Max();
+            foreach (var node in m.NodesElements.Values)
+                foreach (var sample in node.Results.SelectMany(r => r.Results).OfType<NodeResultForces>().Where(r => r.Kind == NodalForceKind.SupportReaction))
+                {
+                    var copy = byName[Strand7Snapshot.CaseName(sample.Case.Name)].Reactions?.SingleOrDefault(r => r.Node == int.Parse(node.Source.OriginalId));
+                    if (copy == null) { Check(Math.Max(Math.Abs(sample.Fx), Math.Max(Math.Abs(sample.Fy), Math.Abs(sample.Fz))) <= 1e-6 * scale, $"{label}: outside the supports only round-off reactions are left out"); continue; }
+                    worst = Math.Max(worst, Math.Abs(copy.Fz - sample.Fz * 1e-3) + Math.Abs(copy.Mx - sample.Mx * 1e-6)); compared++;
+                }
+            Check(compared > 0 && worst <= 1e-9, $"{label}: {compared} reactions of the copy are the GPC values in kN and kN·m");
+            Check(snapshot.Results.All(r => r.Equilibrium?.Balanced == true), $"{label}: the worker checked the equilibrium of every case (GPC Equilibrium.Check)");
+            comparedReactions = compared;
         }
         return new { Label = label, Model = Path.GetFileName(model), Results = results == null ? null : Path.GetFileName(results), catalog.SourceSignature, catalog.ApiVersion,
             Nodes = snapshot.Nodes.Length, Members = members, Plates = plates, Cases = snapshot.Results.Select(r => r.Name).ToArray(),
             SourceCombinations = snapshot.SourceCombinations?.Definitions.Length ?? 0, Boundaries = snapshot.Boundaries?.GroupBy(x => x.Kind).ToDictionary(g => g.Key, g => g.Count()),
             ComparedCorners = corners, ComparedStations = stations, MaximumDifference = worst, BalancedCases = equilibrium, RebuiltCombination = combination,
+            ComparedReactions = comparedReactions, RebuiltAxialValues = axial, RebuiltReactions = combinedReactions,
+            MassesTemperaturesStages = new[] { snapshot.Masses?.Length ?? 0, snapshot.Temperatures?.Length ?? 0, snapshot.ConstructionStages?.Length ?? 0 },
             InspectSeconds = inspect, ReadSeconds = read, Messages = snapshot.ImportMessages?.GroupBy(x => x.Code).ToDictionary(g => g.Key, g => g.Count()) };
+    }
+
+    /// <summary>1.16.0: the stages fixture of GPC Model (generate_native_stages_fixture.py) through the real worker: stages, masses and temperatures as data,
+    /// reactions and equilibrium of the unstaged solution (hand check of the weight 34.8466 kN in the provenance), trusses in the LSA combination,
+    /// results of the active stage 1 without the inactive elements, staged NLA states as stage results.</summary>
+    static async Task<object> NativeStages(string folder, string worker, string api, string directory)
+    {
+        var source = new Strand7ModelSource(worker); string model = Path.Combine(folder, "stages.st7");
+        async Task<(Strand7ModelCatalog Catalog, ModelSnapshot Copy)> Read(string results)
+        {
+            var request = new Strand7ImportRequest(model, Path.Combine(folder, results), api, ModelUpdateScope.Everything, [], true, true);
+            var catalog = await source.InspectAsync(request, null, CancellationToken.None);
+            var copy = await source.ReadAsync(request with { CaseNumbers = catalog.Cases.Select(c => c.Number).ToArray(), ExpectedSignature = catalog.SourceSignature }, null, CancellationToken.None);
+            copy.Validate(); File.WriteAllText(Path.Combine(directory, "stages " + results + ".antheamodel"), JsonSerializer.Serialize(copy));
+            return (catalog, copy);
+        }
+        // Unstaged linear static solution of a model with stages.
+        var (catalog, lsa) = await Read("stages.LSA");
+        Check(catalog.Phases.Select(p => p.Name).SequenceEqual(["1: Deck only", "2: Complete"]) && !catalog.NonlinearStages && catalog.Cases.Count == 3 && catalog.Cases.All(c => c.StageNumber == null),
+            "stages fixture: catalog with the two stages and the three unstaged linear static cases");
+        Check(lsa.ConstructionStages is [{ Label: "1: Deck only", Type: "Unmorphed" } first, { Label: "2: Complete" } second] && first.Elements.SequenceEqual([1, 1000001]) &&
+              second.Elements.SequenceEqual([1, 1000001, 1000002, 1000003]), "stages fixture: stages and their active elements as data of the copy");
+        Check(lsa.Masses!.Length == 5 && lsa.Masses.Single(x => x.Kind == "NODE").Values.SequenceEqual([.5, .5, .5]) && Near(lsa.Masses.Single(x => x.Kind == "BEAM-NS").Values[0], .1) &&
+              Near(lsa.Masses.Single(x => x.Kind == "PLATE-NS").Values[0], .2) && Near(lsa.Masses.Single(x => x.Kind == "NODE-ROTATION").Values[2], 30e-6) &&
+              lsa.Temperatures!.Length == 6 && lsa.Temperatures.Single(x => x.Kind == "REFERENCE").Values[0] == 10 && Near(lsa.Temperatures.Single(x => x.Kind == "BEAM-GRADIENT").Values[0], 10),
+            "stages fixture: masses (t, t/m, t/m², t·m²) and temperatures (°C, °C/m) of the source as data of the copy");
+        var dead = lsa.Results.Single(r => r.Name == "1: Dead");
+        Check(lsa.Results.All(r => r.Equilibrium?.Balanced == true) && Near(dead.Equilibrium!.AppliedForce[2], -34.8466, 1e-5) && Near(dead.Equilibrium.ReactionForce[2], 34.8466, 1e-5),
+            "stages fixture: the GPC check balances loads, gravity on structural, node and non-structural masses against the reactions (34.8466 kN, hand check)");
+        Check(Near(dead.Reactions!.Sum(r => r.Fz), 34.8466, 1e-5) && dead.Reactions!.Select(r => r.Node).SequenceEqual([1, 3, 4, 5, 8]), "stages fixture: reactions of the five supports");
+        var uls = (await new GpcModelCombinationService().CalculateAsync(lsa, "STRAUS7/LSA/1")).Results.Single();
+        var live = lsa.Results.Single(r => r.Name == "2: Live");
+        double Axial(ModelResultSet r, double? station) => ResultFields.Read(r, "TRUSS", "LOCAL", "Fx").Single(v => v.Element == 1000003 && v.Station == station).Value;
+        Check(ResultFields.Read(uls, "TRUSS", "LOCAL", "Fx").Count > 0 && ResultFields.Read(uls, "TRUSS", "LOCAL", "Fx").All(v => Near(v.Value, 1.35 * Axial(dead, v.Station) + 1.5 * Axial(live, v.Station), 1e-9)),
+            "stages fixture: the truss enters the rebuilt ULS = 1.35 Dead + 1.5 Live");
+        // Linear static solution with the active stage 1.
+        var (stageCatalog, stage1) = await Read("stages-stage1.LSA");
+        Check(stageCatalog.StageResultsAvailable && stageCatalog.Cases.All(c => c.StageNumber == 1) && stageCatalog.Warnings.Any(w => w.Contains("fase attiva 1: Deck only")),
+            "active stage: the catalog names the stage of the linear static cases");
+        Check(stage1.Results.All(r => r.Stage == null && r.Equilibrium?.Balanced == null) && stage1.Results.All(r => ResultFields.Read(r, "BEAM", "LOCAL", "Fx").All(v => v.Element == 1000001) &&
+              ResultFields.Read(r, "TRUSS", "LOCAL", "Fx").Count == 0) && stage1.ImportMessages!.Any(m => m.Code == "Straus7ActiveStageResults"),
+            "active stage: static cases of that configuration, without the inactive beam and truss, equilibrium not evaluated");
+        var stageUls = (await new GpcModelCombinationService().CalculateAsync(stage1, "STRAUS7/LSA/1")).Results.Single();
+        Check(ResultFields.Read(stageUls, "BEAM", "LOCAL", "My").Count > 0, "active stage: the LSA combination of the stage is rebuilt from its cases");
+        // Staged nonlinear solution.
+        var (nlaCatalog, nla) = await Read("stages.NLA");
+        Check(nlaCatalog.NonlinearStages && nlaCatalog.Cases.Select(c => c.Name).SequenceEqual(["NLA · 1: Deck only · 1: Dead", "NLA · 2: Complete · 2: Live half", "NLA · 2: Complete · 3: Live full"]),
+            "staged NLA: the catalog lists one state per stage and increment");
+        Check(nla.Version == 2 && nla.Results.Length == 3 && nla.Results.All(r => r.Stage is { SourceCase: "NLA", DisplacementReference: "Accumulative" }) &&
+              nla.Results[0].Name == "NLA [CS · 1: Deck only · 1: Dead · Accumulative]" && ResultFields.Read(nla.Results[0], "TRUSS", "LOCAL", "Fx").Count == 0 &&
+              ResultFields.Read(nla.Results[1], "TRUSS", "LOCAL", "Fx").Count > 0, "staged NLA: stage results of the copy, the truss only from stage 2");
+        Check(Near(nla.Results[1].Reactions!.Single(r => r.Node == 4).Fz, 8.272, 1e-3) && ModelCombinations.Inspect(nla).All(a => !a.CanCalculate),
+            "staged NLA: reactions of the state (truss support 8.272 kN, unmorphed stage) and no combination of stage results");
+        return new { Label = "native-stages-r31", Phases = catalog.Phases.Count, lsa.Masses.Length, Temperatures = lsa.Temperatures.Length, Reactions = dead.Reactions.Length,
+            AppliedZ = dead.Equilibrium.AppliedForce[2], StageCases = stage1.Results.Length, NonlinearStates = nla.Results.Select(r => r.Name).ToArray() };
     }
 }
