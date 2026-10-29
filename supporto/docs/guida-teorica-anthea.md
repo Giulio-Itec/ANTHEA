@@ -1687,6 +1687,10 @@ L’attrito automatico usa $\delta_d = k\,\arctan(\tan\varphi_{cv,k}/\gamma_{M\v
 
 Le combinazioni automatiche delle verifiche locali sono generate dalla libreria Model secondo NTC 2018 §2.5.3, con l'Approccio 2 A1+M1+R3 (§6.5.3.1.1) nelle righe SLU. I coefficienti A1, favorevole/sfavorevole, sono quelli della Tab. 2.6.I e 6.2.I: 1/1,3 per muro, terreno, acqua e permanenti strutturali G1, 0,8/1,5 per i permanenti non strutturali G2, 0/1,5 per le variabili; γR (Tab. 6.5.I, R3) vale 1,1 a scorrimento, 1,15 a ribaltamento e 1,4 a carico limite. Tutte le righe sismiche, con kh e kv assegnati come con i coefficienti del sito, hanno i γR della Tab. 7.11.III: 1 a scorrimento, 1 a ribaltamento e 1,2 a carico limite; l'approccio è «Sismica · NTC 7.11.III» con kh e kv assegnati e «SLV · NTC 7.11.III» con quelli del sito. Le righe eccezionali hanno $\gamma_R = 1$. Fino alla 1.14.3 il G2 favorevole valeva 0 e le righe sismiche con kh e kv assegnati usavano i γR statici di R3 (1,1; 1,15; 1,4). Le combinazioni Personalizzate conservano i coefficienti salvati.
 
+Nelle combinazioni sismiche ed eccezionali le azioni variabili entrano con $\psi_2 Q_k$ solo se sfavorevoli (NTC 2018 §2.5.3). Per questo, come nelle combinazioni SLU, ogni gruppo di azioni variabili è considerato presente, con $\psi_2$, oppure assente. Per ogni segno di $k_v$, con i coefficienti del sito anche per le righe generali e di ribaltamento, e per ogni azione eccezionale la prima riga ha tutte le variabili; le successive tolgono il primo gruppo, il secondo, entrambi, e così via. Le righe che risultano uguali, per esempio con un gruppo a $\psi_2 = 0$, non si ripetono, e una riga senza il sovraccarico non ha la gemella «b». Le righe sono numerate di seguito, quindi i numeri delle righe sismiche ed eccezionali dopo la prima cambiano rispetto alle versioni precedenti, che avevano una sola riga per segno di $k_v$ e per azione eccezionale, con tutte le variabili a $\psi_2$. La stabilità globale segue la stessa regola nelle righe eccezionali e SLV.
+
+I documenti dei muri della prima versione calcolati senza aprirli, per esempio nel calcolo del progetto, usano i loro casi fissi: caratteristica, frequente, quasi permanente, 8 o 16 SLU e il sisma $\pm k_v$ con le gemelle. Li genera la libreria Model con le stesse regole delle versioni precedenti, quindi i risultati non cambiano; aprendo il documento l'interfaccia lo aggiorna alla seconda versione, con le combinazioni automatiche.
+
 Le relazioni Word includono stratigrafie e coefficienti utilizzati. Cedimenti e spostamenti sono modelli separati; verifiche idrauliche, liquefazione e completamento esecutivo richiedono analisi dedicate. Il modulo non emette una verifica complessiva dell’opera.
 
 ### Dati del profilo globale e conversione degli spessori
@@ -2579,6 +2583,8 @@ Resistenza, deformazione, fessurazione e fatica rispondono a domande differenti.
 > Moltiplicare nuovamente un'azione già fattorizzata; includere due volte il peso proprio; confondere carico superficiale e lineare; usare un inviluppo di massimi indipendenti come se fosse una combinazione reale.
 
 Per la definizione delle combinazioni usa il quadro normativo applicabile, i parametri nazionali e la destinazione d'uso. Questo capitolo non assegna coefficienti normativi. Il riferimento italiano di base è il DM 17 gennaio 2018; le opzioni e i limiti della singola verifica sono descritti nei capitoli dei moduli della guida globale.
+
+Le combinazioni generate da ANTHEA seguono la NTC 2018, §2.5.3: coefficienti parziali della tabella 2.6.I (EQU, A1, A2) e coefficienti $\psi$ della tabella 2.5.I per categoria. La libreria conserva anche i valori raccomandati della EN 1990 (tabelle A1.1 e A1.2) per una futura scelta degli Eurocodici con una norma di progetto; oggi la norma delle combinazioni non si sceglie.
 
 ## Dinamica e sisma del modello
 
