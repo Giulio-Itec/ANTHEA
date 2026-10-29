@@ -11762,7 +11762,7 @@
       "modulo": "Model (StandardEN1990.CreateCombinations)",
       "categoria": "difetto-legacy",
       "stato": "corretto",
-      "descrizione": "Censimento, D11 a: nella SLE caratteristica la principale valeva γ·ψ2 invece di Qk (EN 1990 (6.14b), NTC 2018 (2.5.2)). Corretto in StandardEN1990.GetCoefficientLeadingVariableAction; atteso di EN1990GeneratorServiceabilityCharacteristic aggiornato con l'ok dell'utente nella decisione (vento principale 0 → 1, neve principale 0,2 → 1). Nessun chiamante di produzione: nessun risultato di ANTHEA cambia. StandardEN16612 (vetro) ha lo stesso difetto per le azioni climatiche: non corretto, perché cambierebbe i conteggi attesi di EN16612GeneratorAGC_SLS1 e _SLS2 (10 → 11 righe), fuori dalla decisione; domanda aperta.",
+      "descrizione": "Censimento, D11 a: nella SLE caratteristica la principale valeva γ·ψ2 invece di Qk (EN 1990 (6.14b), NTC 2018 (2.5.2)). Corretto in StandardEN1990.GetCoefficientLeadingVariableAction; atteso di EN1990GeneratorServiceabilityCharacteristic aggiornato con l'ok dell'utente nella decisione (vento principale 0 → 1, neve principale 0,2 → 1). Nessun chiamante di produzione: nessun risultato di ANTHEA cambia. StandardEN16612 (vetro) ha lo stesso difetto per le azioni climatiche: non corretto, perché cambierebbe i conteggi attesi di EN16612GeneratorAGC_SLS1 e _SLS2 (10 → 11 righe), fuori dalla decisione; corretto il 29/10 su decisione dell'utente (COMB-D11-EN16612).",
       "codice": [
         "Model/Model/Design/Standards/StandardEN1990.cs",
         "Model/UnitTest/CombinationTest.cs"
@@ -11779,7 +11779,9 @@
       "evidenze": [
         "supporto/artefatti/1160-combinazioni/librerie-candidato-b (Model UnitTest 1537 PASS, Core 35, API; Checker tutte le suite)"
       ],
-      "voci_collegate": []
+      "voci_collegate": [
+        "COMB-D11-EN16612"
+      ]
     },
     {
       "id": "COMB-MURI-D5-NOTA",
@@ -11891,6 +11893,37 @@
         "COMB-MURI-D5-NOTA",
         "COMB-D6",
         "COMB-MURI-D4D5"
+      ]
+    },
+    {
+      "id": "COMB-D11-EN16612",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni del 29/10 mattina)",
+      "titolo": "CreateCombinations del vetro (EN 16612): SLE caratteristica con l'azione climatica principale al valore caratteristico",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Model (StandardEN16612.CreateCombinations)",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Seguito di COMB-D11. Decisione dell'utente del 29/10/2026: «vetro correggi anche se non utilizzato». StandardEN16612.GetCoefficientLeadingVariableAction(ClimateLoadCase, …) dava all'azione climatica principale della SLE caratteristica γ·ψ2 invece del valore caratteristico (EN 1990 (6.14b), a cui la EN 16612 rimanda: Gk + Qk,1 + Σ ψ0,i Qk,i). Con ψ2 = 0 le righe con l'azione climatica principale perdevano ΔP e ΔT e la riga G + ψ0 Q delle due stagioni era una sola. Model 5aba823e, GPCModel 5.24.0.1 (922d8a33); Checker ricompilato e versionato (123ffe5f). Gli attesi di EN16612GeneratorAGC_SLS1 e _SLS2 sono scritti a mano dalla (6.14b) e confrontati come insieme di righe, non più come conteggio: per stagione l'altra azione principale (vento ψ0 0,6 o sovraccarico di categoria C ψ0 0,7, EN 1990 Tab. A1.1) e l'azione climatica principale (ΔP e ΔT a 1), ognuna con e senza ΔH, ΔH da solo, e il solo peso proprio: 11 righe (10 prima). Nessun chiamante di produzione: nessun risultato di ANTHEA cambia. Non corretti, segnalati: i ψ predefiniti delle azioni climatiche (0,3/0,3/0, segnati nel codice come da controllare sulla norma) e GetPsi0/1/2, che per ΔT estivo restituiscono il valore di ΔP (oggi uguali).",
+      "codice": [
+        "Model/Model/Design/Standards/StandardEN16612.cs",
+        "Model/UnitTest/CombinationTest.cs"
+      ],
+      "segno": "Nessun effetto su ANTHEA; nella libreria le righe SLE caratteristiche con l'azione climatica principale la contengono a 1 (più cautelative).",
+      "decisione": {
+        "data": "2026-10-29",
+        "utente": "«vetro correggi anche se non utilizzato»",
+        "esito": "corretto, attesi scritti dalla formula della norma"
+      },
+      "test": [
+        "Model UnitTest CombinationTest.EN16612GeneratorAGC_SLS1 e _SLS2 (righe a mano), CombinationTest e GeotechnicalCombinationsTest 63 PASS",
+        "set candidato librerie-candidato-c: Model 1537 + Core 35, Checker tutte le suite (K0 compreso), Design.Checks net472"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/librerie-candidato-c"
+      ],
+      "voci_collegate": [
+        "COMB-D11"
       ]
     }
   ]

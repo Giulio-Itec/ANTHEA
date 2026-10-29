@@ -527,7 +527,7 @@ Attuazione dell'agente `1160-combinazioni` nella 1.16.0:
 | D8 | b: Bridge Design e Viviani dopo i muri, con un piano proprio | piano in §5.3, non attuato | — |
 | D9 | a: generatore del modulo Modelli sullo stesso generatore | servizio attuato; interfaccia nel piano di §5.4 | ANTHEA `ModelCombinationGenerator` |
 | D10 | a: profilo NTC 2018 ora, valori EN 1990 tenuti; nessuna scelta della norma | attuato | Model `CombinationProfile` |
-| D11 | a: SLE caratteristica con la principale a 1; atteso del test aggiornato | attuato | Model `StandardEN1990` |
+| D11 | a: SLE caratteristica con la principale a 1; atteso del test aggiornato; il 29/10 «vetro correggi anche se non utilizzato» | attuato, anche per il vetro (§5.6) | Model `StandardEN1990`, `StandardEN16612` |
 
 ### 5.1 D6 a — variabili favorevoli nel sisma e negli eccezionali
 
@@ -748,6 +748,10 @@ progetto». Nell'interfaccia nessuna scelta della norma. I muri usano A1 di `Sta
 2018 (2.5.2)), non γ·ψ2. Atteso di `EN1990GeneratorServiceabilityCharacteristic` aggiornato con l'ok dell'utente (vento
 principale 0 → 1, neve principale 0,2 → 1). Nessun chiamante di produzione: nessun risultato di ANTHEA cambia.
 
-`StandardEN16612` (vetro) ha lo stesso difetto per le azioni climatiche (`GetCoefficientLeadingVariableAction(ClimateLoadCase, …)`).
-Non è corretto: cambierebbe i conteggi attesi di `EN16612GeneratorAGC_SLS1` e `_SLS2` (10 → 11 righe), fuori dalla decisione.
-È una domanda per l'utente.
+`StandardEN16612` (vetro) aveva lo stesso difetto per le azioni climatiche (`GetCoefficientLeadingVariableAction(ClimateLoadCase, …)`).
+Decisione dell'utente del 29/10: «vetro correggi anche se non utilizzato» (COMB-D11-EN16612, Model 5aba823e, GPCModel 5.24.0.1). Con ψ2 = 0
+le righe con l'azione climatica principale perdevano ΔP e ΔT e la riga G + ψ0 Q delle due stagioni era una sola. Gli attesi di
+`EN16612GeneratorAGC_SLS1` e `_SLS2` sono ora le righe scritte a mano dalla (6.14b), confrontate come insieme: per stagione l'altra
+azione principale e l'azione climatica principale, ognuna con e senza ΔH, ΔH da solo, e il solo peso proprio; 11 righe (10 prima).
+Restano da verificare, fuori dalla decisione: i ψ predefiniti delle azioni climatiche (segnati nel codice come da controllare) e i
+metodi `GetPsi0/1/2`, che per ΔT estivo restituiscono il valore di ΔP (oggi uguali, nessuna riga cambia).
