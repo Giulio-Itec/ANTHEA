@@ -879,7 +879,8 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
       - Full di chiusura (tag f5-15-f-chiusura): 153 PASS e 1 NEW-FAIL. ui/check-fondazioni-view era ferma alla regola di prima: corretta
         in c4e61fa3 e ripassata da sola (tag f5-15-f-fondazioni). Corse in `supporto/artefatti/f5-15-e`.
       - Guide invariate: dicono già che le revisioni in sola lettura non ammettono modifiche.
-    - Voce di infrastruttura dopo F5, fuori da F5.15: calcoli dal limitatore (D-2, D-5) e taglio sullo sfondo (C2/S5-c).
+    - Voce di infrastruttura dopo F5, fuori da F5.15: calcoli dal limitatore (D-2, D-5) e taglio sullo sfondo (C2/S5-c). Fatta per la
+      1.16.0 il 29/10 (ramo `refactoring/1160-infra`, voce INFRA-LIMITATORE-01 del registro): nessun risultato cambia.
 
 **F5 chiusa il 25/10/2026 con ANTHEA 1.14.0** (decisione dell'utente del 24/10: «Anche rilascio 1.14.0»). Release AG delle librerie
 (Model 2d59bbc6, Checker 22dabe69), guide Rev59, full di rilascio PASS 155 su d7e6b6a7, setup e audit PASS, tag `v1.14.0`.
@@ -907,7 +908,8 @@ cosa serve per riprenderle. Restano aperte: non sono corrette né accettate.
 | R20 | DS, travi: ρw,min nazionale | quando serve il DS delle travi | — |
 
 Altre voci dopo F5, fuori da F5.15:
-- la voce di infrastruttura dei calcoli dal limitatore (D-2, D-5) e del taglio sullo sfondo (C2/S5-c);
+- la voce di infrastruttura dei calcoli dal limitatore (D-2, D-5) e del taglio sullo sfondo (C2/S5-c), fatta per la 1.16.0
+  (INFRA-LIMITATORE-01);
 - i bug da decidere del 16/10, decisi il 26/10 sera: BUG-MUR-2b, BUG-PO-5b, BUG-FES-1b, BUG-FES-1c e BUG-TS-2 da correggere per la
   1.14.3; BUG-SLU-2b e BUG-N7 dichiarati;
 - il percorso Wiki (W-idx con la revisione della Wiki) e l'infrastruttura successiva.
