@@ -151,6 +151,11 @@ public sealed partial class GpcModelCombinationService
         var corners=new List<CornerResult>();var fields=new Dictionary<(string Family,string Component),List<ResultValue>>();
         var displacements=new List<ModelDisplacement>();var reactions=new List<ModelReaction>();var governing=new List<ModelCombinationGoverning>();
         var elements=snapshot.Elements.ToDictionary(e=>e.Id);
+        // The roles of each governing state read once (not for every component of its location) and the position of each label in a lookup:
+        // the same choices and exceptions as reading them each time.
+        var roles=new Dictionary<ResultLocation,string[]>(ReferenceEqualityComparer.Instance);
+        string[] RolesOf(ResultLocation sample)=>roles.TryGetValue(sample,out var known)?known:roles[sample]=Roles(sample);
+        var labelIndex=labels.Select((label,i)=>(label,i)).ToDictionary(p=>p.label,p=>p.i,StringComparer.Ordinal);
         // 1.16.0: displacements and reactions of a node are separate groups; members take the family of their document element (BEAM, TRUSS, CABLE).
         foreach(var group in samples.GroupBy(p=>(p.Owner,p.Sample is PointResultPlateForces plate?plate.SourceNodeId:0,
             p.Sample is StationResultBeamForces beam?(double?)beam.ParametricDistance:null,p.Sample is NodeResultForces)))
@@ -170,10 +175,10 @@ public sealed partial class GpcModelCombinationService
             {
                 bool reverse=family=="PLATE"&&c<3||family=="BEAM"&&c==4;
                 string role=((maximum!=reverse)?"max ":"min ")+canonical[c];
-                var chosen=envelope?group.Select(p=>p.Sample).SingleOrDefault(s=>Roles(s).Contains(role)):first;
+                var chosen=envelope?group.Select(p=>p.Sample).SingleOrDefault(s=>RolesOf(s).Contains(role)):first;
                 if(chosen==null)throw new InvalidDataException("GPC non ha restituito il governante completo per "+components[c]+".");
                 var vector=DisplayVector(chosen);values[c]=vector[c];
-                if(envelope)governing.Add(new(family,id,node,group.Key.Item3,components[c],"A"+(Array.IndexOf(labels,chosen.State.ConcomitantStateId)+1),vector));
+                if(envelope)governing.Add(new(family,id,node,group.Key.Item3,components[c],"A"+((labelIndex.TryGetValue(chosen.State.ConcomitantStateId,out int index)?index:-1)+1),vector));
             }
             if(family=="PLATE")corners.Add(new(id,node,values));
             else if(family=="NODE")
