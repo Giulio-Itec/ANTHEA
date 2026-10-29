@@ -84,6 +84,8 @@ public static class ModelCombinations
             {
                 var required=CombinationExpansion.StaticCases(records,d.Id).ToArray();
                 if(required.Length==0) return new ModelCombinationAvailability(d,"Vuota","Aggiungi almeno un caso di carico.",required,false);
+                // COMBO-B3: every coefficient zero gives no state to combine, nested definitions included (scaled by zero).
+                if(d.Terms.All(t=>t.Factor==0))return new(d,"Vuota",ZeroMessage,required,false);
                 if(AlternativeCount(byId,d.Id,counts) is {Over:true} expansion)return new(d,"Non disponibile",ExpansionMessage(expansion.Count),required,false);
                 var missing=required.Where(c=>!cases.Contains(c)).ToArray();
                 if(missing.Length>0)return new(d,"Casi mancanti","Risultati da importare: "+string.Join(", ",missing),required,false);
@@ -120,6 +122,8 @@ public static class ModelCombinations
         }
         return counts[id]=(count,over);
     }
+
+    internal const string ZeroMessage="Tutti i coefficienti nulli (anche dopo la somma dei termini): nessun caso da combinare. Indica almeno un coefficiente diverso da zero.";
 
     internal static string ExpansionMessage(long count)=>$"Oltre {MaximumAlternatives} stati alternativi ({count}): una somma lineare di inviluppi ha il prodotto "+
         "delle loro alternative. Usa un inviluppo delle combinazioni invece della somma, o riduci i termini degli inviluppi annidati.";

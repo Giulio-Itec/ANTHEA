@@ -48,6 +48,8 @@ public sealed partial class GpcModelCombinationService
         var expansion=ModelCombinations.AlternativeCount(definitions.ToDictionary(d=>d.Id,StringComparer.Ordinal),definitionId,new(StringComparer.Ordinal));
         if(expansion.Over)throw new InvalidDataException(ModelCombinations.ExpansionMessage(expansion.Count));
         var alternatives=Alternatives(CombinationExpansion.Expand(records,definitionId,ModelCombinations.MaximumAlternatives));
+        // COMBO-B3: terms that cancel each other (Q − Q) leave no static case: explained instead of GPC's «EmptyCombination».
+        if(alternatives.All(a=>a.Factors.Count==0))throw new InvalidDataException(ModelCombinations.ZeroMessage);
         token.ThrowIfCancellationRequested();
         string revision=ModelCombinations.InputRevision(snapshot);
         string preparationRevision=ModelCombinations.PreparationRevision(snapshot);

@@ -12873,6 +12873,30 @@
       "test": [
         "ModelWorkspace.Checks: COMBO-B2 (catalogo e calcolo oltre il limite, inviluppo da solo ancora calcolabile)"
       ]
+    },
+    {
+      "id": "COMBO-B3",
+      "data": "2026-10-29",
+      "fase": "dopo la 1.16.0 / combo-modelli",
+      "titolo": "Modelli: combinazione con tutti i coefficienti nulli offerta come calcolabile",
+      "famiglia": "modelli/combinazioni",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "L'editor accetta il coefficiente 0. Una combinazione con tutti i coefficienti nulli, o con termini che si annullano (Q × 1 e Q × −1 in una somma), non ha casi da combinare: il catalogo la dava «Da calcolare» e il calcolo finiva con il messaggio non tradotto «CombinationRejected: EmptyCombination». Il catalogo la mostra ora «Vuota» quando tutti i coefficienti sono nulli (anche quelli delle combinazioni annidate, moltiplicate per zero); il calcolo spiega i termini che si annullano.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelCombinations.cs",
+        "src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs"
+      ],
+      "segno": "Solo stato e messaggio di definizioni che non si potevano calcolare; nessun valore cambia (impronta della 1.16.0 invariata).",
+      "effetto_quantificato": "G × 0 + Q × 0: «Vuota · Tutti i coefficienti nulli …» invece di «Da calcolare»; Q − Q: «Tutti i coefficienti nulli …» invece di «Combinazione non costruita: CombinationRejected: EmptyCombination».",
+      "decisione": {
+        "data": "2026-10-29",
+        "utente": "«cerca colli di bottiglia o bug dentro la gestione delle combo»; regola «Approvati se spiegati».",
+        "esito": "Correzione nel commit dedicato del ramo refactoring/combo-modelli."
+      },
+      "test": [
+        "ModelWorkspace.Checks: COMBO-B3 (catalogo con coefficienti nulli, calcolo con termini che si annullano)"
+      ]
     }
   ]
 }
