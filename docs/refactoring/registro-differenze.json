@@ -12207,6 +12207,33 @@
         "F5-REL-1150-01",
         "F5-REL-1160-02"
       ]
+    },
+    {
+      "id": "PARATIE-21",
+      "data": "2026-10-29",
+      "fase": "1.16.0 / paratie",
+      "titolo": "Filtrazione FEM: bordi laterali a carico imposto o a flusso nullo",
+      "famiglia": "paratie/filtrazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Punto P5 della revisione delle paratie. GPCModel 5.20.0.0 ha i bordi SeepageLateralBoundary (FixedHead, NoFlow) di EmbeddedWallSeepageDomain dalla release AF, ma ANTHEA usava sempre il carico imposto: con la semilarghezza di uno scavo simmetrico come estensione, l'asse faceva da dreno e il gradiente lungo la parete risultava sottostimato, a sfavore di sicurezza (limite citato nelle note dalla 1.13.0 alla 1.14.1). Nella filtrazione FEM 2D ci sono ora «Bordo sinistro del dominio» e «Bordo destro del dominio», con «Carico imposto» o «Flusso nullo». Il documento paratie passa alla versione 12.",
+      "codice": [
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallDocument.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallHydraulics.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallFields.cs",
+        "src/ANTHEA.Presentation/Help/HelpTopics.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallReport.cs"
+      ],
+      "segno": "I documenti precedenti e i nuovi partono con «Carico imposto» sui due bordi: calcolo invariato. Con «Flusso nullo» su un lato non c'è carico imposto sul bordo verticale di quel lato; il carico idraulico della fase resta obbligatorio, perché decide fra ristagno e superficie di efflusso sul terreno. Il report elenca le due scelte fra i dati della filtrazione.",
+      "decisione": {
+        "data": "2026-10-22",
+        "utente": "P5: «Opzione flusso nullo» in Model, Checker e ANTHEA.",
+        "esito": "Librerie nella release AF (22/10); campo in ANTHEA il 29/10 per la 1.16.0, su richiesta dell'utente di chiudere il lavoro aperto («voglio tutto finito»)."
+      },
+      "test": [
+        "Presentation --paratie 1631 PASS: migrazione 11 → 12 con i due bordi a carico imposto; flusso nullo a sinistra o a destra con portata entrante minore; con l'asse dello scavo a destra il carico idraulico sotto il fondo scavo vicino alla parete sale; condizione sconosciuta rifiutata con il lato nel messaggio",
+        "Checker: prove di EmbeddedWallSeepageMesh con NoFlow (revisione paratie, docs/verifiche/paratie-revisione-2026-10.md)"
+      ]
     }
   ]
 }

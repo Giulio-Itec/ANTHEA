@@ -40,6 +40,10 @@ public static class EmbeddedWallFields
     [
         new("hydraulic_mode", "Pressioni interstiziali", Choices: ["Idrostatica", "FEM 2D"], Wide: true),
         new("hydraulic_left_extent", "Estensione a sinistra dall'asse", "m"), new("hydraulic_right_extent", "Estensione a destra dall'asse", "m"),
+        new("hydraulic_left_boundary", "Bordo sinistro del dominio", Choices: [EmbeddedWallDocument.FixedHeadBoundary, EmbeddedWallDocument.NoFlowBoundary],
+            ToolTip: "Carico imposto: sul bordo verticale vale il carico idraulico della fase. Flusso nullo: bordo impermeabile, per esempio l'asse di uno scavo simmetrico largo il doppio dell'estensione."),
+        new("hydraulic_right_boundary", "Bordo destro del dominio", Choices: [EmbeddedWallDocument.FixedHeadBoundary, EmbeddedWallDocument.NoFlowBoundary],
+            ToolTip: "Carico imposto: sul bordo verticale vale il carico idraulico della fase. Flusso nullo: bordo impermeabile, per esempio l'asse di uno scavo simmetrico largo il doppio dell'estensione. Con il carico imposto sull'asse il gradiente lungo la parete risulta sottostimato."),
         new("hydraulic_bottom", "Quota del fondo impermeabile", "m"), new("hydraulic_thickness", "Spessore parete impermeabile", "m"),
         new("hydraulic_mesh", "Passo massimo della mesh", "m"),
         new("hydraulic_iterations", "Numero massimo di iterazioni idrauliche"),

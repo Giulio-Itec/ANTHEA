@@ -149,9 +149,11 @@ internal static partial class EmbeddedWallChecks
         var old = Example(); old["schema"] = 1;
         foreach (string key in old.Select(p => p.Key).Where(k => k.StartsWith("hydraulic_", StringComparison.Ordinal) || k == "ignore_suction").ToArray()) old.Remove(key);
         string oldJson = old.ToJsonString(); var migrated = EmbeddedWallDocument.Snapshot(old);
-        e.That(old.ToJsonString() == oldJson && migrated["schema"]!.ToString() == "11" && migrated["hydraulic_mode"]!.ToString() == "Idrostatica"
+        e.That(old.ToJsonString() == oldJson && migrated["schema"]!.ToString() == "12" && migrated["hydraulic_mode"]!.ToString() == "Idrostatica"
             && migrated["hydraulic_left"]!.AsArray().Count == 0 && migrated["hydraulic_mesh"] is null, "Migrazione ha mutato l'originale o inventato dati idraulici.");
-        using (var legacy = Open(old)) e.That(legacy.Data["schema"]!.ToString() == "11" && legacy.Tables.Count == 23, "Documento precedente non apribile nell'editor.");
+        e.That(migrated["hydraulic_left_boundary"]!.ToString() == EmbeddedWallDocument.FixedHeadBoundary
+            && migrated["hydraulic_right_boundary"]!.ToString() == EmbeddedWallDocument.FixedHeadBoundary, "Migrazione: bordi laterali diversi dal carico imposto dei documenti precedenti.");
+        using (var legacy = Open(old)) e.That(legacy.Data["schema"]!.ToString() == "12" && legacy.Tables.Count == 23, "Documento precedente non apribile nell'editor.");
         var data = HydraulicExample(); string original = data.ToJsonString(); using var sheet = Open(data);
         e.That(await Expect.Within(sheet.CalculateAsync()), "Calcolo idraulico asincrono non pubblicato.");
         var result = sheet.Current ?? throw new InvalidOperationException("Risultato idraulico assente.");
@@ -166,6 +168,24 @@ internal static partial class EmbeddedWallChecks
         var noFem = data.DeepClone().AsObject(); noFem["hydraulic_mode"] = "Idrostatica";
         var hydrostatic = new EmbeddedWallModule().Calculate(noFem).NativeAs<EmbeddedWallReportData>();
         e.That(Math.Abs(hydrostatic.Stages[1].Points[0].Displacement - result.Stages[1].Points[0].Displacement) > 1e-3, "Campo idraulico non trasferito alla paratia.");
+        // P5 (22/10/2026): a no-flow side closes that outer vertical boundary. Under the same heads less water enters; with the right side as the
+        // axis of a symmetric excavation 16 m wide the flow can no longer leave through it, so the head below the bottom next to the wall rises
+        // (with the fixed head the axis drains the flow and the gradient along the wall is underestimated).
+        var closed = new Dictionary<string, EmbeddedWallReportData>();
+        foreach (string key in new[] { "hydraulic_left_boundary", "hydraulic_right_boundary" })
+        {
+            var variant = data.DeepClone().AsObject(); variant[key] = EmbeddedWallDocument.NoFlowBoundary;
+            closed[key] = new EmbeddedWallModule().Calculate(variant).NativeAs<EmbeddedWallReportData>();
+        }
+        int probe = fields[1].Nodes.OrderBy(n => Math.Pow(n.X - 1, 2) + Math.Pow(n.Z + 4, 2)).First().Index;
+        double Head(EmbeddedWallHydraulicData field) => field.Nodes.Single(n => n.Index == probe).Head;
+        var left = closed["hydraulic_left_boundary"].Hydraulics![1]; var right = closed["hydraulic_right_boundary"].Hydraulics![1];
+        e.That(left.Complete && right.Complete && left.InflowLitresPerSecondPerMetre < fields[1].InflowLitresPerSecondPerMetre
+            && right.InflowLitresPerSecondPerMetre < fields[1].InflowLitresPerSecondPerMetre && Head(right) > Head(fields[1]) + 1e-3,
+            "Bordo a flusso nullo non applicato al lato scelto.");
+        var unknown = data.DeepClone().AsObject(); unknown["hydraulic_left_boundary"] = "Drenante";
+        try { new EmbeddedWallModule().Calculate(unknown); e.That(false, "Condizione del bordo sconosciuta accettata."); }
+        catch (ArgumentException error) { e.That(error.Message.Contains("bordo sinistro", StringComparison.Ordinal), "Messaggio del bordo sconosciuto: " + error.Message); }
         var saved = JsonNode.Parse(sheet.Data.ToJsonString())!.AsObject(); using var reopened = Open(saved);
         e.That(reopened.HydraulicStages[1].Nodes.SequenceEqual(fields[1].Nodes) && reopened.HydraulicStages[1].Elements.SequenceEqual(fields[1].Elements)
             && reopened.SelectedHydraulicStage?.Stage == "F2", "Riapertura ha alterato il campo o la provenienza.");
@@ -195,7 +215,7 @@ internal static partial class EmbeddedWallChecks
         var old = HydraulicExample(); old["schema"] = 2;
         foreach (string key in new[] { "hydraulic_weight_mode", "hydraulic_standard", "hydraulic_situation", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd" }) old.Remove(key);
         string oldJson = old.ToJsonString(); var upgraded = EmbeddedWallDocument.Snapshot(old);
-        e.That(old.ToJsonString() == oldJson && upgraded["schema"]!.ToString() == "11" && upgraded["hydraulic_upl"]!.AsArray().Count == 0
+        e.That(old.ToJsonString() == oldJson && upgraded["schema"]!.ToString() == "12" && upgraded["hydraulic_upl"]!.AsArray().Count == 0
             && upgraded["hydraulic_weight_mode"]!.ToString() == "Quota di falda assegnata", "Migrazione 2→3 ha introdotto verifiche o mutato i pesi del terreno.");
         var input = SafetyExample(); using var sheet = Open(input);
         e.That(await Expect.Within(sheet.CalculateAsync()) && sheet.Current?.Complete == true, "Analisi con verifiche idrauliche non completata.");
