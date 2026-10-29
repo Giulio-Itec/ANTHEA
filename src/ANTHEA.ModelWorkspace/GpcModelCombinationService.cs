@@ -44,7 +44,10 @@ public sealed partial class GpcModelCombinationService
             ??throw new InvalidDataException("Risultati del caso base mancanti: "+c)).ToArray();
         progress?.Report(new("Risoluzione delle dipendenze della combinazione…"));
         // Bound expansion before allocating result states. This limit is explicit rather than a silent truncation.
-        var alternatives=Alternatives(CombinationExpansion.Expand(records,definitionId,4096));
+        // COMBO-B2: the same count and explanation as the catalogue, instead of the untranslated «CombinationExpansionLimit» of GPC.
+        var expansion=ModelCombinations.AlternativeCount(definitions.ToDictionary(d=>d.Id,StringComparer.Ordinal),definitionId,new(StringComparer.Ordinal));
+        if(expansion.Over)throw new InvalidDataException(ModelCombinations.ExpansionMessage(expansion.Count));
+        var alternatives=Alternatives(CombinationExpansion.Expand(records,definitionId,ModelCombinations.MaximumAlternatives));
         token.ThrowIfCancellationRequested();
         string revision=ModelCombinations.InputRevision(snapshot);
         string preparationRevision=ModelCombinations.PreparationRevision(snapshot);

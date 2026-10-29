@@ -77,12 +77,14 @@ public static class ModelCombinations
         var cases=snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&r.Stage==null).Select(r=>r.Name).ToHashSet(StringComparer.Ordinal);
         // The definitions with results of the current revision, once instead of a scan of the results for each definition.
         var calculated=snapshot.Results.Where(r=>r.Combination!=null&&r.Combination.InputRevision==revision).Select(r=>r.Combination!.DefinitionId).ToHashSet(StringComparer.Ordinal);
+        var byId=definitions.ToDictionary(d=>d.Id,StringComparer.Ordinal);var counts=new Dictionary<string,(long,bool)>(StringComparer.Ordinal);
         return definitions.Select(d=>
         {
             try
             {
                 var required=CombinationExpansion.StaticCases(records,d.Id).ToArray();
                 if(required.Length==0) return new ModelCombinationAvailability(d,"Vuota","Aggiungi almeno un caso di carico.",required,false);
+                if(AlternativeCount(byId,d.Id,counts) is {Over:true} expansion)return new(d,"Non disponibile",ExpansionMessage(expansion.Count),required,false);
                 var missing=required.Where(c=>!cases.Contains(c)).ToArray();
                 if(missing.Length>0)return new(d,"Casi mancanti","Risultati da importare: "+string.Join(", ",missing),required,false);
                 if(!GpcSnapshotModel.CanRebuild(snapshot))
@@ -94,6 +96,33 @@ public static class ModelCombinations
             { return new(d,"Non disponibile",Explain(ex),[],false); }
         }).ToArray();
     }
+
+    /// <summary>Alternative states a combination may have: the limit of the expansion of GPC (CombinationExpansion.Expand).</summary>
+    public const int MaximumAlternatives=4096;
+
+    /// <summary>
+    /// COMBO-B2 (29/10/2026): the alternatives of a definition with the rules of CombinationExpansion.Expand, without building them: one per
+    /// static term, the sum over the terms for an envelope, the product for a linear combination. GPC refuses an expansion as soon as one step
+    /// exceeds the limit (a nested definition, a partial sum or product): over the limit the count stays over it. The definitions are those of
+    /// <see cref="Read"/> whose static cases were resolved (no cycles, no unknown references).
+    /// </summary>
+    internal static (long Count,bool Over) AlternativeCount(IReadOnlyDictionary<string,ModelCombinationDefinition> definitions,string id,Dictionary<string,(long,bool)> counts)
+    {
+        if(counts.TryGetValue(id,out var known))return known;
+        const long cap=1_000_000_000_000L; // the number in the message, without overflow
+        var definition=definitions[id];bool envelope=definition.Kind==ModelCombinationKind.Envelope;
+        long count=envelope?0:1;bool over=false;
+        foreach(var term in definition.Terms)
+        {
+            var (part,nestedOver)=term.IsCombination?AlternativeCount(definitions,term.Reference,counts):(1L,false);
+            count=Math.Min(cap,envelope?count+part:part==0?0:count>cap/part?cap:count*part);
+            over|=nestedOver||count>MaximumAlternatives;
+        }
+        return counts[id]=(count,over);
+    }
+
+    internal static string ExpansionMessage(long count)=>$"Oltre {MaximumAlternatives} stati alternativi ({count}): una somma lineare di inviluppi ha il prodotto "+
+        "delle loro alternative. Usa un inviluppo delle combinazioni invece della somma, o riduci i termini degli inviluppi annidati.";
 
     internal static string Explain(Exception ex)=>ex.Message.StartsWith("CyclicCombination",StringComparison.Ordinal)
         ?"Dipendenza circolare tra combinazioni. Correggi i riferimenti."

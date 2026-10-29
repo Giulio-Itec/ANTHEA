@@ -12849,6 +12849,30 @@
       "test": [
         "ModelWorkspace.Checks: COMBO-B1 (inviluppo ±Q calcolato, etichette e governanti distinti, salvato come calcolato)"
       ]
+    },
+    {
+      "id": "COMBO-B2",
+      "data": "2026-10-29",
+      "fase": "dopo la 1.16.0 / combo-modelli",
+      "titolo": "Modelli: combinazione oltre 4096 stati alternativi offerta come calcolabile",
+      "famiglia": "modelli/combinazioni",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Una somma lineare di inviluppi ha il prodotto delle loro alternative (per esempio due inviluppi di 65 termini: 4225). Oltre il limite di 4096 il catalogo la dava «Da calcolare» e il calcolo falliva con il messaggio non tradotto «CombinationExpansionLimit». Il catalogo conta ora le alternative con le stesse regole dell'espansione di GPC (somma per gli inviluppi, prodotto per le somme lineari, il limite anche sui passi intermedi) e la mostra «Non disponibile» con il numero e il rimedio; il calcolo la rifiuta con lo stesso testo.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelCombinations.cs",
+        "src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs"
+      ],
+      "segno": "Solo stato e messaggio del catalogo per le definizioni oltre il limite, che prima non si potevano calcolare comunque; nessun valore cambia.",
+      "effetto_quantificato": "Prodotto di due inviluppi di 65 termini: «Non disponibile · Oltre 4096 stati alternativi (4225): …» invece di «Da calcolare».",
+      "decisione": {
+        "data": "2026-10-29",
+        "utente": "«cerca colli di bottiglia o bug dentro la gestione delle combo»; regola «Approvati se spiegati».",
+        "esito": "Correzione nel commit dedicato del ramo refactoring/combo-modelli."
+      },
+      "test": [
+        "ModelWorkspace.Checks: COMBO-B2 (catalogo e calcolo oltre il limite, inviluppo da solo ancora calcolabile)"
+      ]
     }
   ]
 }

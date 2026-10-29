@@ -20,5 +20,17 @@ static partial class Program
             "COMBO-B1: the two alternatives keep distinct labels and governants (" + string.Join(" | ", alternatives) + ")");
         var attached = ModelCombinations.Attach(model, plusMinus.Id, signed);
         Check(ModelCombinations.Inspect(attached).Single(c => c.Definition.Id == plusMinus.Id).State == "Calcolata", "COMBO-B1: the ±Q envelope is stored as calculated");
+
+        // COMBO-B2: a linear combination of two envelopes has the product of their alternatives; over the limit of 4096 the catalogue offered
+        // «Da calcolare» and the calculation failed with the untranslated «CombinationExpansionLimit».
+        var wide = Enumerable.Range(1, 65).Select(i => new ModelCombinationTerm(i % 2 == 0 ? "G" : "Q", false, i)).ToArray();
+        model = ModelCombinations.Save(CombinationModel(), new("ANTHEA/wide", "Inviluppo largo", ModelCombinationKind.Envelope, "ANTHEA", "", wide, true));
+        model = ModelCombinations.Save(model, new("ANTHEA/product", "Prodotto", ModelCombinationKind.Linear, "ANTHEA", "",
+            [new("ANTHEA/wide", true, 1, "CB"), new("ANTHEA/wide", true, 1, "CB")], true));
+        var product = ModelCombinations.Inspect(model).Single(c => c.Definition.Id == "ANTHEA/product");
+        Check(!product.CanCalculate && product.Message.Contains("4096", StringComparison.Ordinal), "COMBO-B2: over 4096 alternatives the catalogue says why it cannot calculate: " + product.Message);
+        Check(ModelCombinations.Inspect(model).Single(c => c.Definition.Id == "ANTHEA/wide").CanCalculate, "COMBO-B2: the envelope of 65 terms alone stays available");
+        try { await service.CalculateAsync(model, "ANTHEA/product"); throw new Exception("COMBO-B2: expansion over the limit accepted"); }
+        catch (InvalidDataException ex) { Check(ex.Message.Contains("4096", StringComparison.Ordinal), "COMBO-B2: the calculation refuses it with the same explanation: " + ex.Message); }
     }
 }
