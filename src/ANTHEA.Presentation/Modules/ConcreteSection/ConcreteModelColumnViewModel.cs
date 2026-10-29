@@ -16,10 +16,11 @@ public sealed class ConcreteModelColumnChartViewModel : ObservableObject
 {
     private PlotData? data;
 
-    internal ConcreteModelColumnChartViewModel(string title, string yLabel) { Title = title; YLabel = yLabel; }
+    internal ConcreteModelColumnChartViewModel(string title, string yLabel, string? xLabel = null)
+    { Title = title; YLabel = yLabel; XLabel = xLabel ?? ConcreteModelColumnPresentation.XLabel; }
 
     public string Title { get; }
-    public string XLabel => ConcreteModelColumnPresentation.XLabel;
+    public string XLabel { get; }
     public string YLabel { get; }
     public string EmptyMessage => ConcreteModelColumnPresentation.EmptyMessage;
     /// <summary>The series and the markers of the result; null without a result.</summary>
@@ -32,10 +33,12 @@ public sealed class ConcreteModelColumnChartViewModel : ObservableObject
 }
 
 /// <summary>
-/// The model column of the RC section (tab 08 «Colonna modello», 1.15.0), without WPF: the form of <c>workspace_ca.colonna_modello</c>, «Calcola»
-/// (not in a read-only revision), «Interrompi» and «Esporta CSV…», the cards and the text of the result and the two charts. The calculation is the
-/// one of GPCChecker.Concrete 0.27 (<see cref="ConcreteModelColumn"/>), on a worker thread with its own scheduler from a copy of the data, as the
-/// M–χ curve; a result with the same data is not calculated again and every change of the data or of the form clears it.
+/// The model column of the RC section (tab 08 «Colonna modello», 1.15.0; phase 2 in 1.16.0), without WPF: the form of
+/// <c>workspace_ca.colonna_modello</c> with the choice of the actions (the single action of the form or every combination SLU, or SLU and SLV, of
+/// the sheet), «Calcola» (not in a read-only revision), «Interrompi» with the progress of the library and «Esporta CSV…», the cards and the text
+/// of the result and the three charts (M(χ), M − M2 and the reduced domain N–M1Rd,max). The calculation is the one of GPCChecker.Concrete
+/// (<see cref="ConcreteModelColumn"/>), on a worker thread with its own scheduler from a copy of the data, as the M–χ curve; a result with the
+/// same data is not calculated again and every change of the data, of the form or of the combinations used clears it.
 /// <para>Sheets saved before 1.15.0 have no <c>colonna_modello</c>: the form shows the defaults of <see cref="ConcreteModelColumn.Defaults"/> on a
 /// detached object, attached to the settings at the first change made by the user, so that opening writes nothing and raises no Modified.</para>
 /// </summary>
@@ -48,6 +51,8 @@ public sealed class ConcreteModelColumnViewModel : ObservableObject, IDisposable
     private string? signature;
     private string text = "";
     private bool running, disposed;
+    private int run;
+    private readonly object gate = new();
 
     internal ConcreteModelColumnViewModel(ConcreteSheetViewModel sheet)
     {
@@ -57,6 +62,10 @@ public sealed class ConcreteModelColumnViewModel : ObservableObject, IDisposable
         FieldSpec Text(string key, string label, string unit, string tip) => new(key, label, unit, Default: d[key], ToolTip: tip);
         FieldSpec Choice(string key, string label, IEnumerable<string> choices, string tip) => new(key, label, Choices: [.. choices], Default: d[key], ToolTip: tip);
         Form = new FormViewModel(values, [
+            Choice("azioni", "Azioni", ConcreteModelColumn.ActionSources, "Azione singola: N e M0Ed di questo form. Combinazioni: tutte le combinazioni dell'insieme "
+                + "SLU (o SLU e SLV) della scheda «Combinazioni», ognuna con il suo N costante e il momento del primo ordine nella direzione θ, "
+                + "Mθ = Mx·cos θ + My·sin θ (θ + 180° se negativo); l'esito è il peggiore. Le combinazioni di trazione non sono pertinenti. "
+                + "Nei fogli con gli insiemi storici SLU è «Plastico» e SLV «Elastico»."),
             Text("N", "N costante (− compressione)", "kN", "Sforzo normale di progetto, costante lungo il pilastro; negativo a compressione. N di trazione rifiutato."),
             Text("theta", "Direzione del momento θ", "°", "Direzione del momento negli assi locali: (Mx, My) = M · (cos θ, sin θ), come nella scheda Momento–curvatura."),
             Text("M0Ed", "M0Ed nella sezione critica (vuoto: solo capacità)", "kNm",
@@ -84,14 +93,17 @@ public sealed class ConcreteModelColumnViewModel : ObservableObject, IDisposable
             Text("tolleranza_n", "Tolleranza su N di MRd(N)", "kN", "Residuo massimo su N della resistenza MRd(N) del confronto con la curvatura nominale; "
                 + "il calcolo usa il maggiore fra questo valore e la regola della libreria."),
             Text("limite_trasversale", "Momento trasversale ammesso", "%", "Oltre questo rapporto fra il momento trasversale e quello nella direzione θ il calcolo è "
-                + "rifiutato: la sezione non è simmetrica rispetto al piano di flessione.")],
+                + "rifiutato: la sezione non è simmetrica rispetto al piano di flessione. Con le combinazioni, oltre lo stesso rapporto il momento del primo "
+                + "ordine normale a θ è segnalato come non verificato (EN 1992-1-1 5.8.9)."),
+            Text("intervalli_dominio", "Intervalli del dominio ridotto (4–200)", "", "Punti del dominio ridotto N–M1Rd,max fra N = 0 e la resistenza a "
+                + "compressione centrata NRd,c, più gli N delle azioni.")],
             Changed, compact: true, wideChoices: true)
         {
             CommitOnFocusLoss = true, FormatNumbers = true, WikiNavigator = sheet.Wiki, IsReadOnly = sheet.IsReadOnly
         };
         Form.GroupFields("Imperfezione ed eccentricità minima", ["imperfezione", "ei", "eccentricita_minima"], expanded: true);
         Form.GroupFields("Viscosità", ["viscosita", "phi_ef", "phi_inf", "M0Eqp", "NEqp"], expanded: true);
-        Form.GroupFields("Calcolo", ["rm", "passi", "tolleranza_n", "limite_trasversale"]);
+        Form.GroupFields("Calcolo", ["rm", "passi", "tolleranza_n", "limite_trasversale", "intervalli_dominio"]);
         RefreshFields();
         CalculateCommand = new AsyncRelayCommand(CalculateAsync, () => sheet.CanEdit, AsyncRelayCommandOptions.AllowConcurrentExecutions);
         StopCommand = new RelayCommand(scheduler.Invalidate);
@@ -100,7 +112,7 @@ public sealed class ConcreteModelColumnViewModel : ObservableObject, IDisposable
 
     /// <summary>The data of the column.</summary>
     public FormViewModel Form { get; }
-    /// <summary>The cards of the result: slenderness, first-order moment, creep, capacity, check, nominal curvature, warnings.</summary>
+    /// <summary>The cards of the result: envelope of the combinations, slenderness, first-order moment, creep, capacity, check, nominal curvature, warnings.</summary>
     public ConcreteCardsViewModel Cards { get; } = new();
     /// <summary>The text of the result (status, steps of the library, points) or the message of the calculation.</summary>
     public string Text { get => text; private set => SetProperty(ref text, value); }
@@ -108,6 +120,9 @@ public sealed class ConcreteModelColumnViewModel : ObservableObject, IDisposable
     public ConcreteModelColumnChartViewModel CapacityChart { get; } = new(ConcreteModelColumnPresentation.CapacityTitle, ConcreteModelColumnPresentation.CapacityYLabel);
     /// <summary>The chart M − M2 with the maximum.</summary>
     public ConcreteModelColumnChartViewModel FirstOrderChart { get; } = new(ConcreteModelColumnPresentation.FirstOrderTitle, ConcreteModelColumnPresentation.FirstOrderYLabel);
+    /// <summary>The reduced domain N–M1Rd,max with the actions (1.16.0).</summary>
+    public ConcreteModelColumnChartViewModel DomainChart { get; } = new(ConcreteModelColumnPresentation.DomainTitle, ConcreteModelColumnPresentation.DomainYLabel,
+        ConcreteModelColumnPresentation.DomainXLabel);
     /// <summary>The note under the form.</summary>
     public string Notice => ConcreteModelColumnPresentation.Notice;
     /// <summary>The result published for the current data; null otherwise.</summary>
@@ -122,9 +137,11 @@ public sealed class ConcreteModelColumnViewModel : ObservableObject, IDisposable
     /// <summary>«Esporta CSV…»: the points of the result published, in a CSV chosen by the user.</summary>
     public IRelayCommand ExportCommand { get; }
 
-    // The fields that depend on a choice: ei with «Assegnata», φef with «φef assegnato», M0Eqp and NEqp with the (5.19).
+    // The fields that depend on a choice: N and M0Ed with the single action, ei with «Assegnata», φef with «φef assegnato», M0Eqp and NEqp with the (5.19).
     private void RefreshFields()
     {
+        bool single = Source() == 0;
+        Form.ShowField("N", single); Form.ShowField("M0Ed", single);
         Form.ShowField("ei", ConcreteModelColumn.Text(values, "imperfezione") == ConcreteModelColumn.ImperfectionModes[3]);
         string creep = ConcreteModelColumn.Text(values, "viscosita");
         Form.ShowField("phi_ef", creep == ConcreteModelColumn.CreepModes[1]);
@@ -138,15 +155,28 @@ public sealed class ConcreteModelColumnViewModel : ObservableObject, IDisposable
         RefreshFields(); Invalidate(); sheet.RaiseModified();
     }
 
+    // The choice of the actions; an unknown text counts as the single action here (the calculation refuses it with its message).
+    private int Source()
+    {
+        try { return ConcreteModelColumn.Source(values); }
+        catch (ArgumentException) { return 0; }
+    }
+
     /// <summary>The data changed: the calculation in progress abandoned, the result cleared, the export to read again.</summary>
     internal void Invalidate()
     {
         scheduler.Invalidate();
         bool shown = result is not null;
-        result = null; signature = null;
+        lock (gate) { result = null; signature = null; run++; }
         if (shown) sheet.ResetExportCache();
-        Cards.Start(); CapacityChart.Show(null); FirstOrderChart.Show(null);
+        Cards.Start(); CapacityChart.Show(null); FirstOrderChart.Show(null); DomainChart.Show(null);
         Text = ConcreteModelColumnPresentation.Stale;
+    }
+
+    /// <summary>A set of combinations of the sheet changed (1.16.0): the result is cleared when the column uses it.</summary>
+    internal void InvalidateActions(string key)
+    {
+        if (ConcreteModelColumn.CombinationSets(Source()).Contains(key)) Invalidate();
     }
 
     /// <summary>The read-only revision changed.</summary>
@@ -161,20 +191,31 @@ public sealed class ConcreteModelColumnViewModel : ObservableObject, IDisposable
         sheet.CommitSheet();
         var input = (JsonObject)sheet.Input.DeepClone(); var workspace = (JsonObject)sheet.Settings.DeepClone();
         var options = (JsonObject)values.DeepClone();
-        string requested = ConcreteModelColumnPresentation.Signature(input, workspace) + options.ToJsonString();
+        // the combinations of the sheet only when the column uses them (the single action does not depend on them)
+        var data = Source() > 0 ? (JsonObject)sheet.Data.DeepClone() : null;
+        var combinations = data is null ? null : ConcreteSheetPreparation.ReadActions(data);
+        string requested = ConcreteModelColumnPresentation.Signature(input, workspace, data?["combinazioni"]) + options.ToJsonString();
         if (signature == requested && result is not null) return;
         running = true; OnPropertyChanged(nameof(IsRunning));
         Text = ConcreteModelColumnPresentation.Running;
+        int id;
+        lock (gate) id = ++run;
+        // The progress of the library, on the thread of the view; a message of an abandoned calculation, or late, is ignored.
+        var progress = new Progress<string>(message => { lock (gate) { if (!disposed && running && id == run && result is null) Text = message; } });
         try
         {
-            var completion = await scheduler.ScheduleAsync(token => Task.Run(() => ConcreteModelColumn.Calculate(input, workspace, options, token), token));
+            var completion = await scheduler.ScheduleAsync(token => Task.Run(() => ConcreteModelColumn.Calculate(input, workspace, options, token, combinations, progress), token));
             if (disposed || sheet.IsDisposed) return;
-            if (completion.Cancelled) { if (Text != ConcreteModelColumnPresentation.Stale) Text = ConcreteModelColumnPresentation.Interrupted; return; }
+            if (completion.Cancelled) { lock (gate) { run++; if (Text != ConcreteModelColumnPresentation.Stale) Text = ConcreteModelColumnPresentation.Interrupted; } return; }
             completion.TryPublish(current =>
             {
-                if (current.Error is not null) { Cards.Start(); Text = ConcreteModelColumnPresentation.Unavailable(current.Error.Message); return; }
-                result = current.Value!; signature = requested;
-                Show(result);
+                lock (gate)
+                {
+                    run++;
+                    if (current.Error is not null) { Cards.Start(); Text = ConcreteModelColumnPresentation.Unavailable(current.Error.Message); return; }
+                    result = current.Value!; signature = requested;
+                    Show(result);
+                }
                 sheet.ResetExportCache();
             });
         }
@@ -189,6 +230,7 @@ public sealed class ConcreteModelColumnViewModel : ObservableObject, IDisposable
             else Cards.AddValue(card.Title, card.Value, card.Explanation);
         CapacityChart.Show(ConcreteModelColumnPresentation.CapacityChart(value));
         FirstOrderChart.Show(ConcreteModelColumnPresentation.FirstOrderChart(value));
+        DomainChart.Show(ConcreteModelColumnPresentation.DomainChart(value));
         Text = ConcreteModelColumnPresentation.Text(value);
     }
 

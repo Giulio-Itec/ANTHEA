@@ -68,7 +68,7 @@ public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result, 
         cancellation.ThrowIfCancellationRequested();
         ConcreteModelColumnResult? modelColumn = null;
         if (settings[ConcreteModelColumn.OptionsKey] is JsonObject columnOptions)
-            try { modelColumn = await Task.Run(() => ConcreteModelColumn.Calculate(input, settings, columnOptions, cancellation), cancellation); }
+            try { modelColumn = await Task.Run(() => ConcreteModelColumn.Calculate(input, settings, columnOptions, cancellation, actions), cancellation); }
             catch (Exception error) when (error is not OperationCanceledException && error is not IOException && error is not UnauthorizedAccessException)
             { errors["Colonna modello"] = error.Message; }
         cancellation.ThrowIfCancellationRequested();

@@ -13,6 +13,8 @@ public static class ReportConcrete
     public sealed record EnvelopeValue(string Label, string Id, double Value);
     /// <summary>The options of the model column in the settings, its result in the export and the category of its figures (1.15.0).</summary>
     public const string ModelColumnCategory = "colonna_modello";
+    /// <summary>La figura del dominio ridotto N–M1Rd,max della colonna modello (1.16.0), nel suo paragrafo del capitolo, con la scelta «curvatura».</summary>
+    public const string ModelColumnDomainCategory = "colonna_modello_dominio";
     public static KeyValuePair<string, JsonNode?>? Governing(JsonObject rows, bool cracking)
     {
         var candidates = rows.Where(kv => J.Number(cracking ? kv.Value?["CrackResult"]?["Ratio"] : kv.Value?["Ratio"]) is double n && double.IsFinite(n));
@@ -45,7 +47,7 @@ public static class ReportConcrete
         string Label(string family) => unified && family is "SLU" or "SLV" ? family : SectionWorkspace.Label(family);
         string ActionName(JsonNode? row) => (row.S("elemento").Length > 0 ? row.S("elemento") + " · " : "") + row.S("nome");
         // The figures of the model column (1.15.0) belong to the choice «curvatura», as their chapter.
-        var selected = options.Contains("grafici") ? (images ?? []).Where(i => options.Contains(i.Categoria == ModelColumnCategory ? "curvatura" : i.Categoria)).ToArray() : [];
+        var selected = options.Contains("grafici") ? (images ?? []).Where(i => options.Contains(i.Categoria is ModelColumnCategory or ModelColumnDomainCategory ? "curvatura" : i.Categoria)).ToArray() : [];
         XElement Paragraph(string text, string style = "Normal") => new(w + "p", new XElement(w + "pPr", new XElement(w + "pStyle", new XAttribute(w + "val", style))),
             new XElement(w + "r", new XElement(w + "t", new XAttribute(XNamespace.Xml + "space", "preserve"), text)));
         void P(string text, string style = "Normal") => body.Add(Paragraph(text, style));
@@ -303,6 +305,21 @@ public static class ReportConcrete
             P(column.S("Status"));
             P("Esito: " + column.S("Outcome") + ".");
             foreach (var warning in column.Array("Warnings")) P("Avviso: " + warning?.ToString());
+            // 1.16.0: every combination with its own constant N, the worst outcome; the steps and the curve are those of the combination shown.
+            if (column.Array("Combinations").Count > 0)
+            {
+                Subheading("Combinazioni");
+                P("Ogni combinazione è una colonna modello con il suo N costante e il momento del primo ordine nella direzione θ, Mθ = Mx·cos θ + My·sin θ "
+                    + "(θ + 180° se negativo); M0Ed,tot comprende imperfezione ed eccentricità minima; η = M0Ed,tot/M1Rd,max. Le combinazioni di trazione "
+                    + "non sono pertinenti. Il momento normale a θ (M⊥) non è verificato: la flessione deviata si tratta con EN 1992-1-1 5.8.9.");
+                Table(["Combinazione", "N [kN]", "Mθ [kNm]", "M⊥ [kNm]", "M0Ed,tot [kNm]", "M1Rd,max [kNm]", "η [-]", "Esito"], column.Array("Combinations").Select(c => new[]
+                {
+                    c.S("Name") + (c?["Governing"]?.GetValue<bool>() == true ? " (governa)" : ""), G(c?["AxialKn"]), G(c?["MomentKnm"]), G(c?["TransverseKnm"]),
+                    G(c?["FirstOrderTotalKnm"]), G(c?["MaximumFirstOrderKnm"]), c?["Ratio"] is null && c?["BeyondResistance"]?.GetValue<bool>() == true ? "∞" : G(c?["Ratio"]),
+                    c.S("Outcome")
+                }));
+                P("Passaggi, curva e grafici della combinazione «" + column.S("Governing") + "», la peggiore fra quelle calcolate.");
+            }
             Subheading("Passaggi del calcolo");
             Table(["Grandezza", "Formula", "Valore", "Unità", "Riferimento"], column.Array("Trace").Select(step => new[] { step.S("Description"), step.S("Formula"),
                 step?["Value"] is null ? "—" : G(step["Value"]), step.S("Unit"), step.S("Reference") }));
@@ -310,6 +327,21 @@ public static class ReportConcrete
             Subheading("Punti della curva");
             Table(["χ [1/m]", "M [kNm]", "M2 [kNm]", "M − M2 [kNm]", "εc [‰]", "εs [‰]"], column.Array("Points").Select(point => new[] { G(point?["Curvature"]),
                 G(point?["MomentKnm"]), G(point?["SecondOrderKnm"]), G(point?["FirstOrderCapacityKnm"]), G(point?["ConcreteCompressionStrain"]), G(point?["SteelStrain"]) }));
+            // 1.16.0: the reduced domain N–M1Rd,max of each direction, with the resistance of the section MRd(N) for comparison.
+            if (column.Array("Domains").Count > 0)
+            {
+                Subheading("Dominio ridotto N–M1Rd,max");
+                P("Capacità del primo ordine M1Rd,max al variare di N fra 0 e la resistenza a compressione centrata NRd,c, con la stessa lunghezza "
+                    + "libera, imperfezione ed eccentricità minima; MRd della sezione senza effetti del secondo ordine per confronto. Un'azione è "
+                    + "verificata se M0Ed,tot ≤ M1Rd,max al suo N.");
+                Figures(ModelColumnDomainCategory);
+                foreach (var domain in column.Array("Domains"))
+                {
+                    P("θ = " + G(domain?["DirectionDegrees"]) + "°, φef = " + G(domain?["EffectiveCreepRatio"]) + ", NRd,c = " + G(domain?["CompressionResistanceKn"]) + " kN.");
+                    Table(["N [kN]", "M1Rd,max [kNm]", "MRd sezione [kNm]", "Modo"], domain.Array("Points").Select(point => new[] { G(point?["AxialKn"]),
+                        point?["Rejected"]?.GetValue<bool>() == true ? "rifiutato" : G(point?["MaximumFirstOrderKnm"]), G(point?["SectionKnm"]), point.S("Mode") }));
+                }
+            }
         }
         void Figures(string category)
         {

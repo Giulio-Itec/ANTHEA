@@ -198,6 +198,8 @@ public sealed partial class ConcreteSheetViewModel
     internal void InvalidateActions(string key)
     {
         if (initializing || IsDisposed || synchronizing) return;
+        // 1.16.0: the model column of the combinations clears its result when a set it uses changes.
+        if (key is "SLU" or "SLV") ModelColumn?.InvalidateActions(key);
         RefreshDetailing();
         if (key == "Taglio") { InvalidateShear(); InvalidateChecks("Taglio"); return; }
         using var notifications = JsonRowViewModel.DeferNotifications(actions[key]);
