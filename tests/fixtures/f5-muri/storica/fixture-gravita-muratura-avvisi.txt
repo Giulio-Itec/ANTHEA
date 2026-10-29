@@ -201,8 +201,8 @@ form.bar_schedule: visibile
 campo.bar_schedule.panel_length: campo "Lunghezza del tratto da armare" [m] = "1"
 campo.bar_schedule.end_cover: campo "Copriferro alle estremità del tratto" [mm] = "40"
 campo.bar_schedule.stock_length: campo "Lunghezza barra commerciale" [m] = "12"
-campo.bar_schedule.ties_per_m: campo "Collegamenti per fila e per metro di muro" [−] = "2"
-campo.bar_schedule.tie_cut_length: campo "Sviluppo collegamento (0 = da definire)" [mm] = "0"
+campo.bar_schedule.ties_per_m: campo "Spilli per fila e per metro di muro" [−] = "2"
+campo.bar_schedule.tie_cut_length: campo "Sviluppo spillo (0 = calcolato)" [mm] = "0"
 form.detailing: nascosto
 campo.detailing.enabled: opzione "Verifica i dettagli delle armature" = "no"
 campo.detailing.good_bond: opzione "Condizioni di buona aderenza documentate" = "no"

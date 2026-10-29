@@ -496,9 +496,14 @@ internal static class RetainingWallSheetChecks
         int parabola = transitions.Count(t => t.Entry == "AG-MUR-01"), extended = transitions.Count(t => t.Entry.EndsWith(" / AG-MUR-01", StringComparison.Ordinal));
         int overturning = transitions.Count(t => t.Entry == "BUG-MUR-2b"), overturningExtended = transitions.Count(t => t.Entry.EndsWith(" / BUG-MUR-2b", StringComparison.Ordinal));
         int combinations = transitions.Count(t => t.Entry == "COMB-MURI-D4D5"), combinationsExtended = transitions.Count(t => t.Entry.EndsWith(" / COMB-MURI-D4D5", StringComparison.Ordinal));
-        expect.That(undrained == 2898 && parabola == 14527 && extended == 1668 && overturning == 112 && overturningExtended == 16
-            && combinations == 4703 && combinationsExtended == 744
-            && transitions.Count - undrained - parabola - overturning - combinations == 15182 && comparer.NotAdmitted == 0,
+        // R-MURI-01…09 (1.16.0, armature del muro a mensola e tavola delle armature, GPC.Design 0.42.0.0): result, report and report
+        // structure of ten cantilever fixtures regenerated from the capture (tests/fixtures/f3/transitions-f4.json, aggiornamento_1160_muri):
+        // 4192 new transitions, 734 earlier ones with the new value after (entry extended with « / R-MURI-…», 2 of them AG-MUR-01),
+        // 96 earlier ones removed (the line or value no longer differs from the reference).
+        int walls = transitions.Count(t => t.Entry.StartsWith("R-MURI-", StringComparison.Ordinal)), wallsExtended = transitions.Count(t => t.Entry.Contains(" / R-MURI-", StringComparison.Ordinal));
+        expect.That(undrained == 2898 && parabola == 14525 && extended == 1668 && overturning == 112 && overturningExtended == 16
+            && combinations == 4703 && combinationsExtended == 744 && walls == 4192 && wallsExtended == 734
+            && transitions.Count - undrained - parabola - overturning - combinations - walls == 15088 && comparer.NotAdmitted == 0,
             "File con transizioni F4: " + transitions.Count + " transizioni, "
             + comparer.NotAdmitted + " differenze non ammesse o transizioni assenti");
     }

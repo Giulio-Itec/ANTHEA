@@ -201,8 +201,8 @@ form.bar_schedule: visibile
 campo.bar_schedule.panel_length: campo "Lunghezza del tratto da armare" [m] = "1"
 campo.bar_schedule.end_cover: campo "Copriferro alle estremità del tratto" [mm] = "40"
 campo.bar_schedule.stock_length: campo "Lunghezza barra commerciale" [m] = "12"
-campo.bar_schedule.ties_per_m: campo "Collegamenti per fila e per metro di muro" [−] = "2"
-campo.bar_schedule.tie_cut_length: campo "Sviluppo collegamento (0 = da definire)" [mm] = "0"
+campo.bar_schedule.ties_per_m: campo "Spilli per fila e per metro di muro" [−] = "2"
+campo.bar_schedule.tie_cut_length: campo "Sviluppo spillo (0 = calcolato)" [mm] = "0"
 form.detailing: visibile
 campo.detailing.enabled: opzione "Verifica i dettagli delle armature" = "no"
 campo.detailing.good_bond: opzione "Condizioni di buona aderenza documentate" = "no"
@@ -289,7 +289,7 @@ parametri: -
 ~ dati: version|family|geometry|foundation|loads|materials|layers|water|seismic|reinforcement|extensions|global_stability|valley|interfaces|bearing_seismic|bar_schedule|serviceability|detailing|gravity_design|actions|combinations|combination_mode|combination_signature
 ~ dati.combinations: [{"enabled":true,"name":"SLE 1","state":"SLE","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1}},{"enabled":true,"name":"SLE_FREQ 2","state":"SLE_FREQ","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0.5}},{"enabled":true,"name":"Quasi permanente 3","state":"SLE_QP","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0.3}},{"enabled":true,"name":"SLU 4","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 5","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 6","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 7","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 8","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 8b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 9","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 9b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 10","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 10b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 11","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 11b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLV Generale kv− 12","state":"SISMA","approach":"SLV · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":true,"kh":0.12236000000000001,"kv":-0.061180000000000005,"coefficients":{"<ID-1>":0.3},"purpose":"Generale"},{"enabled":true,"name":"SLV Generale kv− 12b","state":"SISMA","approach":"SLV · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":false,"kh":0.12236000000000001,"kv":-0.061180000000000005,"coefficients":{"<ID-1>":0.3},"purpose":"Generale"},{"enabled":true,"name":"SLV Generale kv+ 13","state":"SISMA","approach":"SLV · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":true,"kh":0.12236000000000001,"kv":0.061180000000000005,"coefficients":{"<ID-1>":0.3},"purpose":"Generale"},{"enabled":true,"name":"SLV Generale kv+ 13b","state":"SISMA","approach":"SLV · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":false,"kh":0.12236000000000001,"kv":0.061180000000000005,"coefficients":{"<ID-1>":0.3},"purpose":"Generale"},{"enabled":true,"name":"SLV Ribaltamento kv− 14","state":"SISMA","approach":"SLV · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":true,"kh":0.18354000000000004,"kv":-0.09177000000000002,"coefficients":{"<ID-1>":0.3},"purpose":"Ribaltamento"},{"enabled":true,"name":"SLV Ribaltamento kv− 14b","state":"SISMA","approach":"SLV · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":false,"kh":0.18354000000000004,"kv":-0.09177000000000002,"coefficients":{"<ID-1>":0.3},"purpose":"Ribaltamento"},{"enabled":true,"name":"SLV Ribaltamento kv+ 15","state":"SISMA","approach":"SLV · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":true,"kh":0.18354000000000004,"kv":0.09177000000000002,"coefficients":{"<ID-1>":0.3},"purpose":"Ribaltamento"},{"enabled":true,"name":"SLV Ribaltamento kv+ 15b","state":"SISMA","approach":"SLV · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":false,"kh":0.18354000000000004,"kv":0.09177000000000002,"coefficients":{"<ID-1>":0.3},"purpose":"Ribaltamento"}]
 + dati.combination_signature: "<ID-1>/Q/true/0.7/0.5/0.3/legacy|sito/true/Mononobe–Okabe/0.2/2.5/C/Calcolato//Calcolato//Pendio/20/40/30"
-~ risultato: F351D4779E416F2B
+~ risultato: 66970B0457730ABD
 ~ stato: "Calcolo aggiornato · 23 combinazioni · 7 controlli non soddisfatti · 0 non disponibili"
 ~ pulsante.sisma: "Sisma: attivo · 8 combinazioni" · "Apri Input → Azioni → Sisma. Mononobe–Okabe · kh=0,122 · |kv|=0,061. Con matrice personalizzata controllare le righe SISMA; Genera / ripristina automatiche ricrea le combinazioni dai parametri inseriti."
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b|SLV Generale kv− 12|SLV Generale kv− 12b|SLV Generale kv+ 13|SLV Generale kv+ 13b|SLV Ribaltamento kv− 14|SLV Ribaltamento kv− 14b|SLV Ribaltamento kv+ 15|SLV Ribaltamento kv+ 15b" · scelta "SLE 1"
@@ -375,15 +375,15 @@ parametri: -
 == vista «Armature»
 ~ vista: "Armature" · elemento "Monte" nascosto · filtro "Dettagli armature"
 ~ verifiche: 4 blocchi
-~ verifiche.0: testo "Schema di predimensionamento per metro: principali, rete secondaria e collegamenti della giunzione. Ancoraggi a fyd senza riduzioni favorevoli; 100% giunzioni a h₁. Sfridi, giunti di costruzione, estremità lungo muro e piano di posa delle barre fuori piano richiedono il disegno esecutivo. Non è una distinta di officina."
-~ verifiche.1: testo "Acciaio stimato incluse sovrapposizioni, ancoraggi e secondarie: 183,3 kg/m"
-~ verifiche.2: tabella "Marca / zona|Faccia|n Ø|As [mm²/m]|L barra [m]|lbd richiesto/usato [mm]|l0 richiesto/usato [mm]|Mandrino [mm]|fbd [MPa]" · righe 8 518147F22D36D35F
-+ verifiche.2.0: "P1 Fusto inferiore / intero" | "monte" | "6 Ø16" | "1206,37" | "2,49" | "735,22 / 740,00" | "1102,83 / 700,00" | "250,00" | "2,13"
-+ verifiche.2.1: "P2 Fusto inferiore / intero" | "valle" | "5 Ø12" | "565,49" | "2,31" | "551,42 / 560,00" | "827,12 / 700,00" | "170,00" | "2,13"
-+ verifiche.2.2: "P3 Fusto superiore" | "monte" | "5 Ø12" | "565,49" | "2,71" | "0,00 / 0,00" | "827,12 / 1110,00" | "0,00" | "2,13"
-+ verifiche.3: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 82 C98E6AECA84C0C10
-+ verifiche.3.0: "stem · monte · interferro" | "Dettagli" | "25,00" | "164,80" | "mm" | "0,152" | "Soddisfatta"
-+ verifiche.3.1: "stem · monte · interasse principale" | "Dettagli" | "180,80" | "400,00" | "mm" | "0,452" | "Soddisfatta"
+~ verifiche.0: testo "Armature per metro di muro: principali al passo 1000/n, piedi del fusto incrociati in fondazione e appoggiati sulla rete inferiore, barre di fondazione con risvolti ai bordi liberi, forcelle di testa, spilli nella giunzione e ferri longitudinali nello strato interno. Ancoraggi a fyd senza riduzioni favorevoli; 100% giunzioni a h₁. Peso netto, senza sfridi."
+~ verifiche.1: testo "Acciaio stimato incluse sovrapposizioni, ancoraggi e secondarie: 181,1 kg/m"
+~ verifiche.2: tabella "Marca / zona|Faccia|n Ø|As [mm²/m]|L barra [m]|lbd richiesto/usato [mm]|l0 richiesto/usato [mm]|Mandrino [mm]|fbd [MPa]" · righe 6 D866AE62FEDCC052
++ verifiche.2.0: "1 Fusto inferiore / intero" | "monte" | "6 Ø16" | "1206,37" | "2,49" | "735,22 / 740,00" | "1102,83 / 700,00" | "250,00" | "2,13"
++ verifiche.2.1: "2 Fusto inferiore / intero" | "valle" | "5 Ø12" | "565,49" | "2,31" | "551,42 / 560,00" | "827,12 / 700,00" | "170,00" | "2,13"
++ verifiche.2.2: "3 Fusto superiore" | "monte" | "5 Ø12" | "565,49" | "2,71" | "0,00 / 0,00" | "827,12 / 1110,00" | "0,00" | "2,13"
++ verifiche.3: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 82 23144AC79302FF9D
++ verifiche.3.0: "stem · monte · interferro" | "Dettagli" | "25,00" | "150,67" | "mm" | "0,166" | "Soddisfatta"
++ verifiche.3.1: "stem · monte · interasse principale" | "Dettagli" | "166,67" | "400,00" | "mm" | "0,417" | "Soddisfatta"
 + verifiche.3.2: "stem · monte · copriferro" | "Dettagli" | "30,00" | "40,00" | "mm" | "0,750" | "Soddisfatta"
 ~ diagrammi: visibili · modo "Armature" · diagrammi no · elemento "Monte" · caso "SLU 5" · armature sì · carichi no · larghezza 1050
 - verifiche.1.0
@@ -509,15 +509,15 @@ parametri: -
 == filtro «Dettagli armature»
 ~ vista: "Geometria e carichi" · elemento "Monte" nascosto · filtro "Dettagli armature"
 ~ verifiche: 4 blocchi
-~ verifiche.0: testo "Schema di predimensionamento per metro: principali, rete secondaria e collegamenti della giunzione. Ancoraggi a fyd senza riduzioni favorevoli; 100% giunzioni a h₁. Sfridi, giunti di costruzione, estremità lungo muro e piano di posa delle barre fuori piano richiedono il disegno esecutivo. Non è una distinta di officina."
-+ verifiche.1: testo "Acciaio stimato incluse sovrapposizioni, ancoraggi e secondarie: 183,3 kg/m"
-+ verifiche.2: tabella "Marca / zona|Faccia|n Ø|As [mm²/m]|L barra [m]|lbd richiesto/usato [mm]|l0 richiesto/usato [mm]|Mandrino [mm]|fbd [MPa]" · righe 8 518147F22D36D35F
-+ verifiche.2.0: "P1 Fusto inferiore / intero" | "monte" | "6 Ø16" | "1206,37" | "2,49" | "735,22 / 740,00" | "1102,83 / 700,00" | "250,00" | "2,13"
-+ verifiche.2.1: "P2 Fusto inferiore / intero" | "valle" | "5 Ø12" | "565,49" | "2,31" | "551,42 / 560,00" | "827,12 / 700,00" | "170,00" | "2,13"
-+ verifiche.2.2: "P3 Fusto superiore" | "monte" | "5 Ø12" | "565,49" | "2,71" | "0,00 / 0,00" | "827,12 / 1110,00" | "0,00" | "2,13"
-+ verifiche.3: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 82 C98E6AECA84C0C10
-+ verifiche.3.0: "stem · monte · interferro" | "Dettagli" | "25,00" | "164,80" | "mm" | "0,152" | "Soddisfatta"
-+ verifiche.3.1: "stem · monte · interasse principale" | "Dettagli" | "180,80" | "400,00" | "mm" | "0,452" | "Soddisfatta"
+~ verifiche.0: testo "Armature per metro di muro: principali al passo 1000/n, piedi del fusto incrociati in fondazione e appoggiati sulla rete inferiore, barre di fondazione con risvolti ai bordi liberi, forcelle di testa, spilli nella giunzione e ferri longitudinali nello strato interno. Ancoraggi a fyd senza riduzioni favorevoli; 100% giunzioni a h₁. Peso netto, senza sfridi."
++ verifiche.1: testo "Acciaio stimato incluse sovrapposizioni, ancoraggi e secondarie: 181,1 kg/m"
++ verifiche.2: tabella "Marca / zona|Faccia|n Ø|As [mm²/m]|L barra [m]|lbd richiesto/usato [mm]|l0 richiesto/usato [mm]|Mandrino [mm]|fbd [MPa]" · righe 6 D866AE62FEDCC052
++ verifiche.2.0: "1 Fusto inferiore / intero" | "monte" | "6 Ø16" | "1206,37" | "2,49" | "735,22 / 740,00" | "1102,83 / 700,00" | "250,00" | "2,13"
++ verifiche.2.1: "2 Fusto inferiore / intero" | "valle" | "5 Ø12" | "565,49" | "2,31" | "551,42 / 560,00" | "827,12 / 700,00" | "170,00" | "2,13"
++ verifiche.2.2: "3 Fusto superiore" | "monte" | "5 Ø12" | "565,49" | "2,71" | "0,00 / 0,00" | "827,12 / 1110,00" | "0,00" | "2,13"
++ verifiche.3: tabella "Verifica|Combinazione|Ed|Rd|Unità|Ed/Rd|Esito" · righe 82 23144AC79302FF9D
++ verifiche.3.0: "stem · monte · interferro" | "Dettagli" | "25,00" | "150,67" | "mm" | "0,166" | "Soddisfatta"
++ verifiche.3.1: "stem · monte · interasse principale" | "Dettagli" | "166,67" | "400,00" | "mm" | "0,417" | "Soddisfatta"
 + verifiche.3.2: "stem · monte · copriferro" | "Dettagli" | "30,00" | "40,00" | "mm" | "0,750" | "Soddisfatta"
 == filtro «Stabilità globale»
 ~ vista: "Geometria e carichi" · elemento "Monte" nascosto · filtro "Stabilità globale"
@@ -584,7 +584,7 @@ parametri: -
 == pulsante «Apri sezione in c.a.»
 ~ pagina: 1
 == attendi
-~ risultato: CE4C4ACF78582607
+~ risultato: 36F21D0BFD3F6CB5
 ~ stato: "Calcolo aggiornato · 23 combinazioni · 7 controlli non soddisfatti · 0 non disponibili"
 ~ pulsante.sisma: "Sisma: attivo · 8 combinazioni" · "Apri Input → Azioni → Sisma. Mononobe–Okabe · kh=0,122 · |kv|=0,061. Con matrice personalizzata controllare le righe SISMA; Genera / ripristina automatiche ricrea le combinazioni dai parametri inseriti."
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b|SLV Generale kv− 12|SLV Generale kv− 12b|SLV Generale kv+ 13|SLV Generale kv+ 13b|SLV Ribaltamento kv− 14|SLV Ribaltamento kv− 14b|SLV Ribaltamento kv+ 15|SLV Ribaltamento kv+ 15b" · scelta "SLE 1"
