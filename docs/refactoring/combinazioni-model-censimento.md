@@ -516,12 +516,14 @@ Attuazione dell'agente `1160-combinazioni` nella 1.16.0:
 - Model: ramo `lib-1160/combinazioni`, GPCModel 5.24.0.0;
 - Checker: ramo `lib-1160/combinazioni`, GPCChecker.Geotechnics 0.26.0.0;
 - voci del registro COMB-D6, COMB-D7, COMB-D9, COMB-D10, COMB-D11;
+- decisioni dell'utente del 29/10 mattina: D7 b attuato (COMB-D7B, §5.2), vetro EN 16612 corretto (COMB-D11-EN16612, §5.6), D8 su
+  Model per Bridge Design con Viviani a sé (§5.3);
 - seguiti: UPG-PSI0-01 (ψ0 dei documenti versione 1 aggiornati, §5.2) e COMB-MURI-D5-NOTA (nota del sisma assegnato dopo D5 b).
 
 | # | Decisione | Stato | Dove |
 |---|---|---|---|
 | D6 | a: ogni gruppo Q presente o assente nelle righe sismiche ed eccezionali | attuato | Model `GeotechnicalCombinations`; Checker `WallCombinations`, `WallGlobalStability` |
-| D7 | a: versione 1 da Model con le regole fisse, bit per bit; poi valutare b | a attuato; b valutato in §5.2, non attuato | Model (ordine dichiarato); Checker `WallCombinations.Version1`; ANTHEA `LegacyCombinations` |
+| D7 | a: versione 1 da Model con le regole fisse, bit per bit; poi valutare b; il 29/10 «D7b. correggi. aggiornali» | a attuato, poi sostituito da b (attuato, §5.2) | ANTHEA `RetainingWall.Calculate` (versione 1 aggiornata con `Upgrade`); Checker `WallCombinations.Version1` resta nella libreria, senza chiamanti in ANTHEA |
 | D8 | b: Bridge Design e Viviani dopo i muri, con un piano proprio | piano in §5.3, non attuato | — |
 | D9 | a: generatore del modulo Modelli sullo stesso generatore | servizio attuato; interfaccia nel piano di §5.4 | ANTHEA `ModelCombinationGenerator` |
 | D10 | a: profilo NTC 2018 ora, valori EN 1990 tenuti; nessuna scelta della norma | attuato | Model `CombinationProfile` |
@@ -632,8 +634,28 @@ ANTHEA cambia.
 
 **Nota del sisma assegnato (COMB-MURI-D5-NOTA, 29/10).** Dopo D5 b (1.14.4) la nota «kh e kv assegnati» diceva ancora che il preset
 manuale mantiene i γR statici. Ora dice che le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III (scorrimento 1,
-ribaltamento 1, portanza 1,2); per i documenti versione 1 calcolati senza interfaccia dice che i casi fissi usano i γR di R3 (1,1 e
-1,15) e 1,2 alla portanza sismica. Solo testo: 4 transizioni F3, 17 impronte del risultato in 4 tracce storiche, 2 impronte del risultato della vista.
+ribaltamento 1, portanza 1,2); per i documenti versione 1 calcolati senza interfaccia diceva che i casi fissi usano i γR di R3 (1,1 e
+1,15) e 1,2 alla portanza sismica, testo tolto con D7 b. Solo testo: 4 transizioni F3, 17 impronte del risultato in 4 tracce storiche,
+2 impronte del risultato della vista.
+
+**b, attuato (COMB-D7B, 29/10).** Decisione dell'utente: «D7b. correggi. aggiornali». `RetainingWall.Calculate` aggiorna un documento
+versione 1 con `Upgrade`, come l'interfaccia all'apertura, con gli identificatori stabili `v1-surcharge`, `v1-horizontal` e
+`v1-vertical` dei carichi, e lo calcola con le righe automatiche della versione 2 (D4, D5, D6). `LegacyCombinations` è tolto;
+`WallCombinations.Version1` resta nella libreria, con le sue prove, senza chiamanti in ANTHEA. Il risultato contiene il documento
+aggiornato: il report mostra la tabella delle azioni al posto dei tre carichi.
+
+Confronto prima/dopo con il codice di prima di D7 b su 25 documenti versione 1 (i 6 delle catture, la griglia di 16 e 3 documenti di
+RetainingWall.Checks), 7127 verifiche geotecniche e strutturali (`supporto/artefatti/1160-combinazioni/valutazione-d7b-finale.csv`):
+- 18 rapporti governanti cambiano, tutti in meno: scorrimento da −1,92 % a −9,09 % e ribaltamento da −0,09 % a −13,04 %, dove governa
+  una riga sismica (γR 1 della Tab. 7.11.III invece di 1,1 e 1,15 di R3); nessun rapporto aumenta;
+- nessuna verifica strutturale e nessuna portanza cambiano; nessun documento diventa non calcolabile;
+- righe sismiche in più per D6 (19 → 21, 17 → 18, 13 → 15, 12 → 13); nomi della versione 2 («Caratteristica» → «SLE 1», «SLU 2» →
+  «SLU 8», «Sisma kv−» → «Sisma kv− 12», …).
+
+Riferimenti di ANTHEA: solo le prove della versione 1 di RetainingWall.Checks (nomi della versione 2, stessi valori calcolati a mano,
+righe sismiche D6 contate, γR 1 sismici dalle formule a mano, calcolo senza interfaccia uguale al documento aperto) e la baseline F4
+(quattro residui di `LegacyCombinations` in meno). Presentation.Tests, F3, il calcolo dei progetti e la regressione non cambiano:
+nessuna fixture calcola un documento versione 1 senza aprirlo.
 
 ### 5.3 D8 b — piano per Bridge Design e Viviani
 
