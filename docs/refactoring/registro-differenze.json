@@ -11808,7 +11808,8 @@
       "evidenze": [
         "supporto/artefatti/1160-combinazioni/registra-nota (registrazione temporanea non committata, tutti i file F3 e le tracce dei muri)",
         "supporto/artefatti/1160-combinazioni/registra-nota-controllo (testo vecchio della nota: nessuna differenza)",
-        "supporto/artefatti/1160-combinazioni/registra-ui-nota (registrazione temporanea di ui/check-muri-view)"
+        "supporto/artefatti/1160-combinazioni/registra-ui-nota (registrazione temporanea di ui/check-muri-view)",
+        "supporto/artefatti/1160-combinazioni/seguiti (suite mirate sui riferimenti nuovi: Presentation.Tests, ui/f3-equivalence, ui/check-muri-view PASS)"
       ],
       "voci_collegate": [
         "COMB-MURI-D4D5",
@@ -11842,7 +11843,7 @@
       ],
       "evidenze": [
         "supporto/artefatti/1160-combinazioni/valutazione-d7b-upg.csv (22 documenti, nessuno non valido; prima della correzione valutazione-d7b.csv)",
-        "supporto/artefatti/1160-combinazioni/rw-checks-3"
+        "supporto/artefatti/1160-combinazioni/seguiti (RetainingWall.Checks PASS 467, 116 azioni/combinazioni, e le suite mirate dei seguiti)"
       ],
       "voci_collegate": [
         "COMB-D7"
