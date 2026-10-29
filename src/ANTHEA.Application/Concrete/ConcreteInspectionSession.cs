@@ -10,13 +10,17 @@ public sealed class ConcreteInspectionSession : IDisposable
     private ConcreteResults.Check? cachedCheck;
     private Lazy<ConcreteResults.StressState>? applied;
 
+    /// <summary>
+    /// The solution of a checked row, on a worker thread; with a <paramref name="gate"/> (the limiter of the application, 1.16.0 D-5) in a place
+    /// of it. Only the last request is published.
+    /// </summary>
     public Task<ScheduledCalculation<ConcreteResults.StressState>> CalculateAsync(ConcreteResults.Check check, bool limit,
         JsonObject input, JsonObject workspace, JsonObject options, string key, ConcreteResults.Action action,
-        CancellationToken cancellation = default)
+        CancellationToken cancellation = default, CalculationGate? gate = null)
     {
         var sectionInput = (JsonObject)input.DeepClone(); var settings = (JsonObject)workspace.DeepClone();
         var analysisOptions = (JsonObject)options.DeepClone(); analysisOptions["modello"] = "Non lineare";
-        return scheduler.ScheduleAsync(token => Task.Run(() =>
+        return scheduler.ScheduleAsync(token => CalculationGates.RunAsync(gate, () =>
         {
             token.ThrowIfCancellationRequested();
             if (!ReferenceEquals(cachedCheck, check)) { cachedCheck = check; applied = null; }

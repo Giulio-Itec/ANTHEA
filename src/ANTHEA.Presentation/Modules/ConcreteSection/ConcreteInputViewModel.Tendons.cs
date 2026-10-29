@@ -163,7 +163,10 @@ public sealed partial class ConcreteInputViewModel
             key => { _ = RefreshQuickResistanceAsync(); sheet.RaiseModified(); }, wideChoices: true);
     }
 
-    /// <summary>The four resistances at the N of the form, on a background thread with a scheduler of their own (latest request wins).</summary>
+    /// <summary>
+    /// The four resistances at the N of the form, on a background thread with a scheduler of their own (latest request wins), in a place of the
+    /// limiter of the application (1.16.0, D-5).
+    /// </summary>
     internal async Task RefreshQuickResistanceAsync()
     {
         if (sheet.Initializing || sheet.IsDisposed) return;
@@ -178,7 +181,7 @@ public sealed partial class ConcreteInputViewModel
             {
                 var options = workspace["resistenze_rapide"]!;
                 double n = ConcreteEditor.Number(options.S("N"), "N"); bool elastic = options.S("tipo") == "Elastico";
-                return await Task.Run(() => StructuralQueries.ConcreteQuickResistance(input, workspace, n, elastic, token), token);
+                return await sheet.Limiter.RunAsync(() => StructuralQueries.ConcreteQuickResistance(input, workspace, n, elastic, token), token);
             });
             completion.TryPublish(current =>
             {

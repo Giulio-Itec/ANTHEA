@@ -79,6 +79,8 @@ internal static partial class ConcreteSectionSheetChecks
                 await DomainsAsync(root, expect);
                 await ServiceabilityAsync(root, expect);
                 await ShearAsync(root, expect);
+                // 1.16.0 (D-5, C2/S5-c): the batches and the shear through the limiter of the application, the shear on a worker thread.
+                await LimiterAsync(root, expect);
                 await DetailingAsync(root, expect);
                 await InspectionAsync(root, expect);
                 await DesignAsync(root, expect);

@@ -5,6 +5,7 @@ using Anthea.Application.Modules;
 using Anthea.Calculations;
 using Anthea.Application.Presentation;
 using Anthea.Application.Scheduling;
+using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -18,7 +19,10 @@ namespace Anthea.Presentation.Modules.HorizontalPile.Elastic;
 /// <param name="Modified">The data changed (the Modified of the historic view, without recalculation of the capacity).</param>
 /// <param name="EditInputs">«Modifica dati e strati»: the tab of the capacity.</param>
 /// <param name="Migrated">The shared data were replaced (comparison with an old archive, main section from a dialog): the capacity is built again.</param>
-public sealed record ElasticPileSheet(Func<bool> CanEdit, Action Modified, Action EditInputs, Action Migrated, PresentationServices Services, ISheetHost Host, string ModuleId);
+/// <param name="Limiter">The limiter of the calculations of the application (1.16.0, D-2): the elastic response takes a place of it, as the calculation
+/// of the capacity; null calculates without limit.</param>
+public sealed record ElasticPileSheet(Func<bool> CanEdit, Action Modified, Action EditInputs, Action Migrated, PresentationServices Services, ISheetHost Host, string ModuleId,
+    CalculationLimiter? Limiter = null);
 
 /// <summary>A check box of what the drawing shows: the key in «elastico.visualizzazione», its label; checking it is the click of the user.</summary>
 public sealed class ElasticToggleViewModel : ObservableObject
@@ -63,7 +67,8 @@ public sealed class ElasticToggleViewModel : ObservableObject
 /// the status are shown again, the calculation is scheduled again and the sheet is told (Modified).</item>
 /// <item>Calculation (<see cref="CalculateAsync"/>, background): the existing <see cref="IElasticPileAnalysis"/> (FEM, then the reinforcement)
 /// on a copy of the data, through the RecalculationScheduler of the application as the historic view (latest request wins, only the
-/// current one is published), with its intermediate states (the response, the phases of MRd).</item>
+/// current one is published), with its intermediate states (the response, the phases of MRd); since 1.16.0 (D-2) in a place of the limiter of
+/// the application (<see cref="ElasticPileSheet.Limiter"/>), as the calculation of the capacity.</item>
 /// <item>The drawing: what it shows (<see cref="DrawingSource"/>, the options of the data) and the selected point; the section at that depth.</item>
 /// <item>Commands of the view (Q3): «Modifica dati e strati», the comparison with an old archive, «Esporta CSV»; disabled when read-only but
 /// «Esporta CSV» (allowed in a revision, as the historic button). The options form opens its help with the navigator of the services.</item>
@@ -398,6 +403,9 @@ public sealed class ElasticPileViewModel : ObservableObject, IDisposable
         var snapshot = (JsonObject)data.DeepClone();
         var completed = await recalculation.ScheduleAsync(async token =>
         {
+            // 1.16.0, D-2: a place of the limiter of the application first, as the calculation of the capacity. Meanwhile the status of the
+            // request stays («… in coda»), not busy; a change, «Calcola» or the closing cancels the wait. Free places are taken at once.
+            using var place = sheet.Limiter is null ? null : await sheet.Limiter.EnterAsync(token);
             busy = true;
             if (Response == null) CalculationState(ElasticPilePresentation.StatusResponseRunning, true);
             var updates = new Progress<PileProgress>(p => { if (!disposed && !token.IsCancellationRequested && busy && Result == null) CalculationState(ElasticPilePresentation.Phase(p), true, p.Completed, p.Total); });

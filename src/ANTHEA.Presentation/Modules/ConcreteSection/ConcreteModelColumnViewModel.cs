@@ -204,7 +204,7 @@ public sealed class ConcreteModelColumnViewModel : ObservableObject, IDisposable
         var progress = new Progress<string>(message => { lock (gate) { if (!disposed && running && id == run && result is null) Text = message; } });
         try
         {
-            var completion = await scheduler.ScheduleAsync(token => Task.Run(() => ConcreteModelColumn.Calculate(input, workspace, options, token, combinations, progress), token));
+            var completion = await scheduler.ScheduleAsync(token => sheet.Limiter.RunAsync(() => ConcreteModelColumn.Calculate(input, workspace, options, token, combinations, progress), token));
             if (disposed || sheet.IsDisposed) return;
             if (completion.Cancelled) { lock (gate) { run++; if (Text != ConcreteModelColumnPresentation.Stale) Text = ConcreteModelColumnPresentation.Interrupted; } return; }
             completion.TryPublish(current =>

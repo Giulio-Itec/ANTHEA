@@ -11906,6 +11906,51 @@
       "voci_collegate": [
         "CA-COLONNA-01"
       ]
+    },
+    {
+      "id": "INFRA-LIMITATORE-01",
+      "data": "2026-10-29",
+      "fase": "1.16.0, voce di infrastruttura dopo F5 (ramo refactoring/1160-infra da main 1.15.0 f52f5a76)",
+      "titolo": "Sezione c.a. e risposta elastica del palo orizzontale dal limitatore dei calcoli; taglio della sezione c.a. sullo sfondo",
+      "famiglia": "infrastruttura/calcoli",
+      "modulo": "str_palo, geo_palo_orizzontale, geo_micropalo_orizzontale",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "D-5: la sezione c.a. passa dal limitatore dell'applicazione (CalculationLimiter, processori − 1) come i calcoli degli altri moduli. Il lotto delle verifiche prende un posto per la preparazione, i domini e le tensioni (i passi restano paralleli dentro il posto), dopo il lotto precedente e solo quando ha qualcosa da calcolare; il taglio prende un posto suo; le resistenze rapide, la sezione σ/ε, la curva M–χ, la colonna modello e la ricerca delle armature prendono un posto ciascuna. Mentre aspetta il posto il lotto resta occupato (IsBusy, come prima, perché «Calcola», il salvataggio e il report aspettano il lotto) con lo stato della richiesta («in attesa»), senza testi nuovi; ConcreteCalculation.IsEngineRunning dice quando un posto è tenuto (il Running degli altri moduli). Chiusura e modifiche annullano anche l'attesa. Il verificatore c.a. dei tratti del palo elastico ospita la sezione con il limitatore del foglio del palo invece di uno suo. D-2: la risposta elastica del palo orizzontale (ElasticPileViewModel, ElasticPileAnalysisSession) prende un posto prima del motore, come la capacità: mentre aspetta, stato («… in coda») e barra della richiesta, non occupata. C2/S5-c: il taglio della sezione c.a. si calcola su un thread di lavoro: il foglio prepara le righe sul thread dell'interfaccia (parametri automatici, invalidazione, copie dei dati e delle righe), ConcreteShearBatch calcola sulle copie, gli esiti si scrivono sul thread dell'interfaccia nell'ordine delle righe e poi i riepiloghi; un errore che ferma il calcolo lascia le righe calcolate prima, come prima; una modifica nel frattempo annulla il passo. Con un posto libero l'ingresso nel limitatore è immediato, senza giri in più del thread dell'interfaccia. Restano fuori dal limitatore, come i report degli altri moduli: il calcolo del report della sezione c.a. (ConcreteReportAnalysis), la finestra delle proprietà della sezione (ConcretePropertySession), la sola mesh di visualizzazione del dominio 3D e la progettazione di un tratto del palo elastico (PileSegmentDesignSession), lavori su richiesta e brevi.",
+      "documento": "docs/refactoring/f5-15-prioritarie.md §4 (D-5, D-2); f5-15-famiglie.md §10 (C2, S5-c); f5-13-shell.md §11.6 e §11.7.2; f5-10-sezione.md §14.5 (S5-c); f5-15-revisione.md §13.5",
+      "codice": [
+        "src/ANTHEA.Application/Scheduling/CalculationGate.cs (nuovo: porta del limitatore per Application)",
+        "src/ANTHEA.Presentation/Calculation/CalculationLimiter.cs (Gate, RunAsync)",
+        "src/ANTHEA.Application/Concrete/ConcreteAnalysisBatch.cs (CalculateBatchAsync con la porta)",
+        "src/ANTHEA.Application/Concrete/ConcreteInspectionSession.cs (CalculateAsync con la porta)",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteCalculation.cs (posto del lotto e del taglio, IsEngineRunning, taglio sullo sfondo)",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.Checks.cs (PrepareShearCalculation, PublishShear al posto di CalculateShear)",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.cs, ConcreteInputViewModel.Tendons.cs, ConcreteSectionInspectionViewModel.cs, ConcreteCurvatureViewModel.cs, ConcreteModelColumnViewModel.cs, ConcreteDesignViewModel.cs",
+        "src/ANTHEA.Presentation/Modules/HorizontalPile/Elastic/ElasticPileViewModel.cs (ElasticPileSheet.Limiter, posto prima del motore)",
+        "src/ANTHEA.Presentation/Modules/HorizontalPile/Elastic/PileReinforcementViewModel.cs, HorizontalPileSheetViewModel.cs, src/ANTHEA.Desktop/Hosting/ConcreteVerifierSection.cs"
+      ],
+      "segno": "Nessun risultato cambia: stesse tracce, stesse figure, stessi report. Cambia solo dove e quando gira il calcolo (carico con molte schede aperte) e, nella sezione c.a., la finestra resta libera durante il taglio.",
+      "effetto_quantificato": "Riferimenti congelati e attesi cambiati: nessuno (tracce della sezione c.a., della risposta elastica e del palo orizzontale uguali alle storiche congelate; F3 dei pali orizzontali invariato). Prova di uscita --paralleli: le 106 impronte della serie sono identiche byte per byte fra la base f52f5a76 e il ramo; nei giri paralleli fino a 22 lotti della sezione c.a. con un posto del limitatore insieme e al più 23 posti (il limite, 24 processori) all'ingresso di un calcolo dei moduli; serie 15,0 s (base 14,5 s), giri paralleli 8,8 e 10,2 s (base 8,7 e 8,8 s).",
+      "decisione": {
+        "data": "2026-10-25",
+        "utente": "D-5 e D-2 il 24/10 (scheda f5-15-prioritarie.md, voce 4: «A ora, B come voce di infrastruttura dopo F5»); C2/S5-c il 25/10 (famiglie, famiglia 10: B, «Come raccomandato in tutte le famiglie della scheda f5-15-famiglie.md»)",
+        "esito": "attuata il 29/10 per la 1.16.0 (ramo refactoring/1160-infra)"
+      },
+      "test": [
+        "Presentation.Tests (ConcreteSectionSheetChecks.LimiterAsync, ElasticPileSheetChecks.LimiterAsync)",
+        "Presentation.Tests/paralleli (lotti della sezione c.a. con un posto del limitatore contati con i calcoli dei moduli: mai oltre il limite)",
+        "Presentation.Tests/sezione-ca",
+        "ui/check-sezione-view",
+        "ui/check-palo-orizzontale-view",
+        "ElasticPile.UiChecks",
+        "Architecture.Tests (P6: CalculationGate tra i nomi del calcolo vietati nelle viste)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-infra/presentation-1 (Presentation.Tests PASS 4912)",
+        "supporto/artefatti/1160-infra/paralleli-1 e paralleli-base (--paralleli PASS 442 sul ramo, PASS 437 sulla base f52f5a76; 106 impronte della serie identiche)",
+        "supporto/artefatti/1160-infra/ci-mirate-1 (corsa mirata build, fast, regression e ui su 388933f5: PASS 21, NEW-FAIL 0; Architecture.Tests 579, Presentation.Tests 4912, paralleli 442 con le 106 impronte della serie identiche alla base, sezione-ca 70, check-sezione-view 204, check-palo-orizzontale-view 157, ElasticPile.UiChecks, ui/smoke e ui/shell-smoke-*)"
+      ],
+      "voci_collegate": []
     }
   ]
 }
