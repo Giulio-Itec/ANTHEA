@@ -151,7 +151,8 @@ internal sealed partial class ConcreteSectionSmoke
         curvature.Form.Set("N", "-500"); curvature.Form.Set("passi", "12"); curvature.Form.Set("angoli", "16");
         Tab(6); await curvature.CalculateCommand.ExecuteAsync(null); await Settle();
         Check(curvature.Result?.Points.Count >= 13, "Diagramma fino al limite: " + curvature.Text); await Capture("05_curvatura");
-        // 1.15.0: the tab «Colonna modello» opened, calculated and drawn offscreen (two charts, cards, text), its figures in the report after the M–χ.
+        // 1.15.0: the tab «Colonna modello» opened, calculated and drawn offscreen (charts, cards, text), its figures in the report after the M–χ; 1.16.0:
+        // the third chart, the reduced domain N–M1Rd,max, and its figure in the report.
         var column = Sheet.ModelColumn;
         column.Form.Set("N", "-500"); column.Form.Set("M0Ed", "120"); column.Form.Set("l0", "8"); column.Form.Set("l", "4"); column.Form.Set("passi", "60");
         Tab(ConcreteSheetViewModel.ModelColumnTab); await Idle();
@@ -160,20 +161,24 @@ internal sealed partial class ConcreteSectionSmoke
         await column.CalculateCommand.ExecuteAsync(null); await Settle();
         var columnView = View.ModelColumnView;
         Check(column.Result is { Equilibrium: not null } && columnView.CapacityPlot.Series.Count == 4 && columnView.CapacityPlot.Markers.Count >= 3
-            && columnView.FirstOrderPlot.Series.Count == 3 && columnView.FirstOrderPlot.Markers.Count == 1 && column.Cards.Cards.Count >= 6,
-            "Colonna modello calcolata: due grafici, riquadri e testo · " + column.Text);
-        Check(columnView.CapacityPlot.Png(900, 600).Length > 0 && columnView.FirstOrderPlot.Png(900, 600).Length > 0, "Grafici della colonna modello esportabili in PNG");
+            && columnView.FirstOrderPlot.Series.Count == 3 && columnView.FirstOrderPlot.Markers.Count == 1 && column.Cards.Cards.Count >= 6
+            && columnView.DomainPlot.Series.Count >= 2 && columnView.DomainPlot.Markers.Count == 1,
+            "Colonna modello calcolata: tre grafici (M(χ), M − M2, dominio ridotto), riquadri e testo · " + column.Text);
+        Check(columnView.CapacityPlot.Png(900, 600).Length > 0 && columnView.FirstOrderPlot.Png(900, 600).Length > 0 && columnView.DomainPlot.Png(900, 600).Length > 0,
+            "Grafici della colonna modello esportabili in PNG");
         await Capture("05b_colonna_modello");
         File.WriteAllBytes(Path.Combine(directory, "05c_colonna_modello_M_chi.png"), columnView.CapacityPlot.Png(900, 600));
         File.WriteAllBytes(Path.Combine(directory, "05d_colonna_modello_M_meno_M2.png"), columnView.FirstOrderPlot.Png(900, 600));
+        File.WriteAllBytes(Path.Combine(directory, "05f_colonna_modello_dominio_ridotto.png"), columnView.DomainPlot.Png(900, 600));
         var columnReport = Editor.BuildReport("Prova della scheda 08", ["curvatura", "grafici"]);
         using (var zip = new ZipArchive(new MemoryStream(columnReport)))
         using (var stream = new StreamReader(zip.GetEntry("word/document.xml")!.Open()))
         {
             string xml = stream.ReadToEnd();
-            Check(zip.Entries.Count(e => e.FullName.StartsWith("word/media/")) == 3 && xml.Contains("Colonna modello") && xml.Contains("Passaggi del calcolo")
-                && xml.IndexOf("Colonna modello", StringComparison.Ordinal) > xml.IndexOf("Diagramma momento–curvatura", StringComparison.Ordinal),
-                "Report: capitolo della colonna modello dopo il M–χ, con le sue due figure");
+            Check(zip.Entries.Count(e => e.FullName.StartsWith("word/media/")) == 4 && xml.Contains("Colonna modello") && xml.Contains("Passaggi del calcolo")
+                && xml.IndexOf("Colonna modello", StringComparison.Ordinal) > xml.IndexOf("Diagramma momento–curvatura", StringComparison.Ordinal)
+                && xml.IndexOf("Dominio ridotto N–M1Rd,max", StringComparison.Ordinal) > xml.IndexOf("Punti della curva", StringComparison.Ordinal),
+                "Report: capitolo della colonna modello dopo il M–χ, con le sue tre figure (1.16.0: il dominio ridotto nel suo paragrafo)");
         }
         File.WriteAllBytes(Path.Combine(directory, "05e_colonna_modello.docx"), columnReport);
         // The hole, through its switch and its fields (the historic check wrote the data and invalidated).

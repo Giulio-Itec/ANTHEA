@@ -507,7 +507,7 @@ public sealed class ConcreteDomainScaleDialogViewModel : DialogViewModel<bool>
         foreach (string key in keys) Draft[key] = ConcreteDomainChart.AxisScale(panel.Options, key).ToString("G12", System.Globalization.CultureInfo.InvariantCulture);
         Draft["zoom"] = (panel.Zoom * 100).ToString("0", System.Globalization.CultureInfo.InvariantCulture);
         Draft["fit_azioni"] = panel.Options.B("fit_azioni") ? "Sì" : "No";
-        var fields = keys.Select(k => new FieldSpec(k, "Fattore " + k[6..].ToUpperInvariant(), "×")).ToList();
+        var fields = keys.Select(k => new FieldSpec(k, "Fattore " + k[6..].ToUpperInvariant(), "−")).ToList();
         fields.Add(new("zoom", "Zoom", "%")); fields.Add(new("fit_azioni", "Adatta anche le azioni", Choices: ["No", "Sì"]));
         Form = new FormViewModel(Draft, fields) { WikiNavigator = panel.Wiki };
         ApplyCommand = new RelayCommand(Apply);

@@ -118,6 +118,8 @@ internal sealed partial class ModuleFigureRenderer
             {
                 images.Add(new("Colonna modello · M(χ) a N costante, momento esterno e tangente al massimo", column[0].Png(), ConcreteModelColumnPresentation.FigureCategory));
                 images.Add(new("Colonna modello · capacità del primo ordine M − M2", column[1].Png(), ConcreteModelColumnPresentation.FigureCategory));
+                // 1.16.0: the reduced domain N–M1Rd,max with the actions, in its own paragraph of the chapter
+                images.Add(new("Colonna modello · dominio ridotto N–M1Rd,max e azioni", column[2].Png(), ConcreteModelColumnPresentation.DomainFigureCategory));
             }
         }
         return images;

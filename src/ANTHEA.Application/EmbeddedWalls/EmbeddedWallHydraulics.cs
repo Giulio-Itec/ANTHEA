@@ -41,6 +41,7 @@ internal static class EmbeddedWallHydraulics
                 WallThickness = Number(data, "hydraulic_thickness") * SoilUnits.Metre,
                 LeftExtent = Number(data, "hydraulic_left_extent") * SoilUnits.Metre, RightExtent = Number(data, "hydraulic_right_extent") * SoilUnits.Metre,
                 Bottom = Number(data, "hydraulic_bottom") * SoilUnits.Metre, MaximumElementLength = Number(data, "hydraulic_mesh") * SoilUnits.Metre,
+                LeftBoundary = Boundary(data, "hydraulic_left_boundary", "sinistro"), RightBoundary = Boundary(data, "hydraulic_right_boundary", "destro"),
                 LeftGround = stage.Left.Elevation, RightGround = stage.Right.Elevation,
                 LeftHead = stage.Left.WaterElevation ?? throw new ArgumentException(stage.Id + ": assegnare il carico idraulico sinistro."),
                 RightHead = stage.Right.WaterElevation ?? throw new ArgumentException(stage.Id + ": assegnare il carico idraulico destro."),
@@ -66,6 +67,13 @@ internal static class EmbeddedWallHydraulics
         }
         return new(results.AsReadOnly(), new System.Collections.ObjectModel.ReadOnlyDictionary<string, SeepageResult>(fields));
     }
+    // The head of the stage stays required with no flow: it decides ponding or seepage face on the ground of that side.
+    private static SeepageLateralBoundary Boundary(JsonObject data, string key, string side) => Text(data, key) switch
+    {
+        EmbeddedWallDocument.FixedHeadBoundary => SeepageLateralBoundary.FixedHead,
+        EmbeddedWallDocument.NoFlowBoundary => SeepageLateralBoundary.NoFlow,
+        _ => throw new ArgumentException("Scegliere la condizione del bordo " + side + " della filtrazione: carico imposto o flusso nullo.")
+    };
     private static SeepageLayer[] Layers(JsonObject data, string table) => EmbeddedWallDocument.Rows(data, table).Select(s =>
     {
         double? alpha = Optional(s, "alpha"), n = Optional(s, "n");

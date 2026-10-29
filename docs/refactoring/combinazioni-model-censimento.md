@@ -1,6 +1,7 @@
 # Combinazioni di carico generate da Model — censimento e proposta
 
-Stato del 16/10/2026. Documento di sola lettura: nessun codice è cambiato. Ramo `refactoring/combinazioni-model`,
+Stato del 16/10/2026, con l'attuazione delle decisioni D6–D11 del 29/10/2026 nella sezione 5 (le sezioni 1–4 restano quelle del
+censimento). Documento di sola lettura fino alla sezione 4: nessun codice è cambiato. Ramo `refactoring/combinazioni-model`,
 da `main` `8b9ce6d3`. Librerie lette sui master del rilascio Z: Model `bf8563f5` (GPCModel 5.5.0.0) e Checker
 `bce7aaae` (GPCChecker.Geotechnics 0.4.0.0), gli stessi del set installato in `lib/Checker` (`release-set.json`).
 
@@ -506,3 +507,277 @@ cambiano. Due pulizie collegate, senza cambiare risultati:
 | D9 | Generatore automatico del modulo Modelli | a) sullo stesso generatore di Model, dopo i muri, con piano proprio; b) generatore separato | **a** |
 | D10 | Norma dei profili | a) NTC 2018 ora, con i valori EN 1990 tenuti nel profilo per la voce «Eurocodici con una norma di progetto» (dopo il refactoring); b) solo NTC 2018 | **a**, senza scelta della norma nell'interfaccia per ora |
 | D11 | SLE caratteristica di `CreateCombinations` (principale ψ2 invece di 1), fissata da un test di Model | a) correggere e aggiornare l'atteso del test (serve il tuo ok, regola di AGENTS); b) lasciare finché non ci sono chiamanti | **a**: nessun chiamante di produzione, quindi nessun risultato di ANTHEA cambia |
+
+## 5. Decisioni D6–D11 e attuazione (1.16.0)
+
+Decisione dell'utente del 28/10/2026 sera: «Come raccomandato» per D6–D11 ([decisioni.md](decisioni.md), «28 ottobre (sera)»).
+Attuazione dell'agente `1160-combinazioni` nella 1.16.0:
+- ANTHEA: ramo `refactoring/1160-combinazioni`;
+- Model: ramo `lib-1160/combinazioni`, GPCModel 5.24.0.0;
+- Checker: ramo `lib-1160/combinazioni`, GPCChecker.Geotechnics 0.26.0.0;
+- voci del registro COMB-D6, COMB-D7, COMB-D9, COMB-D10, COMB-D11;
+- decisioni dell'utente del 29/10 mattina: D7 b attuato (COMB-D7B, §5.2), vetro EN 16612 corretto (COMB-D11-EN16612, §5.6), D8 su
+  Model per Bridge Design con Viviani a sé (§5.3);
+- seguiti: UPG-PSI0-01 (ψ0 dei documenti versione 1 aggiornati, §5.2) e COMB-MURI-D5-NOTA (nota del sisma assegnato dopo D5 b).
+
+| # | Decisione | Stato | Dove |
+|---|---|---|---|
+| D6 | a: ogni gruppo Q presente o assente nelle righe sismiche ed eccezionali | attuato | Model `GeotechnicalCombinations`; Checker `WallCombinations`, `WallGlobalStability` |
+| D7 | a: versione 1 da Model con le regole fisse, bit per bit; poi valutare b; il 29/10 «D7b. correggi. aggiornali» | a attuato, poi sostituito da b (attuato, §5.2) | ANTHEA `RetainingWall.Calculate` (versione 1 aggiornata con `Upgrade`); Checker `WallCombinations.Version1` resta nella libreria, senza chiamanti in ANTHEA |
+| D8 | b: Bridge Design e Viviani dopo i muri, con un piano proprio; il 29/10 «d8 e bridge design devono usare model», Viviani a sé | Bridge Design attuato (§5.3); Viviani resta com'è | Model `RoadBridgeCombinations`; GPC.Design `BridgeInput.PartialFactors`; ANTHEA `input.partial_factors` |
+| D9 | a: generatore del modulo Modelli sullo stesso generatore | servizio attuato; interfaccia nel piano di §5.4 | ANTHEA `ModelCombinationGenerator` |
+| D10 | a: profilo NTC 2018 ora, valori EN 1990 tenuti; nessuna scelta della norma | attuato | Model `CombinationProfile` |
+| D11 | a: SLE caratteristica con la principale a 1; atteso del test aggiornato; il 29/10 «vetro correggi anche se non utilizzato» | attuato, anche per il vetro (§5.6) | Model `StandardEN1990`, `StandardEN16612` |
+
+### 5.1 D6 a — variabili favorevoli nel sisma e negli eccezionali
+
+Regola (NTC 2018 §2.5.3: ψ2·Qk solo se sfavorevole): nelle righe sismiche ed eccezionali ogni gruppo di azioni variabili è
+presente (ψ2) o assente, come nelle SLU. Per ogni variante sismica (kv− e kv+; con i coefficienti del sito anche le righe generali
+e di ribaltamento) e per ogni gruppo di azioni eccezionali:
+- la prima riga ha tutte le variabili;
+- poi il primo gruppo assente, il secondo, entrambi, … (bit di assenza nell'ordine della prima azione del gruppo);
+- le righe uguali (un gruppo con ψ2 = 0) si fondono senza consumare numeri;
+- un contatore solo numera tutte le righe, quindi cambiano i numeri delle righe sismiche ed eccezionali dopo la prima;
+- una riga con il sovraccarico uniforme assente non ha la gemella «b» (MUR-1).
+
+La stabilità globale segue la stessa regola nelle righe «Globale eccezionale» e «Globale SLV kv±». Nel generatore di Model la
+regola è il comportamento predefinito; il costruttore con `variablePresence: false` conserva la riga unica per le regole fisse
+della versione 1 (D7 a).
+
+Righe in più sul corpus, contate prima di attuare (`WallCombinationsEquivalenceTests.TheRowsOfTheDecisionD6AreCounted`, file
+`d6-righe.csv`):
+
+| Corpus | Ingressi | Con righe in più | Righe prima → dopo | Sismiche ed eccezionali | Globali |
+|---|---|---|---|---|---|
+| Catture di Geotechnics (`walls-combinations.jsonl`, `walls-documents.jsonl.gz`) | 204 | 40 | 7652 → 7852 (+200, +2,6 %) | 228 → 428 | 374 → 406 |
+| Catture e 3000 muri casuali con seme fisso | 2875 | 1075 | 635417 → 642586 (+7169, +1,1 %) | 5918 → 13087 | 21667 → 24115 |
+
+Nessun ingresso supera il limite di 4096 righe per la regola nuova. Esempi:
+- «azioni di ogni tipo» 1709 → 1753 (righe sismiche ed eccezionali 4 → 48);
+- un muro con sisma dal sito e un sovraccarico 23 → 27;
+- un muro con kh e kv assegnati 19 → 21.
+
+Prove:
+- Model `GeotechnicalCombinationsTest`, attesi a mano;
+- Checker `WallCombinationsEquivalenceTests`: adattatore uguale bit per bit alle righe congelate con D4, D5 e D6 applicate da
+  un'espansione indipendente (`WallsFixture.DecidedD6`, `DecidedGlobalD6`): catture 7852 righe, 3002 muri casuali 634734 righe,
+  23901 righe globali;
+- Checker `WallEdgeCaseTests.VariableGroupsAbsentInTheSeismicAndAccidentalRows`: una riga con q assente è la riga del muro senza q.
+
+#### 5.1.1 Effetti in ANTHEA
+
+Solo i documenti dei muri con righe sismiche o eccezionali e azioni variabili con ψ2 > 0. Nelle prove di ANTHEA quattro fixture F3:
+
+| Fixture | Righe | Globali | Controlli non soddisfatti o non disponibili |
+|---|---|---|---|
+| `globale-non-drenata-sisma` | 23 → 27 | 4 → 6 | 20 → 24 |
+| `mensola-sisma-sito-pendio` | 23 → 27 | — | 23 → 27 |
+| `mensola-wood-azioni` | 33 → 36 | — | 72 → 85 |
+| `opzioni-avanzate` | 19 → 21 | — | 17 → 19 |
+
+- **Nessun rapporto massimo cambia** e nessun esito cambia: le righe nuove ripetono i controlli già non soddisfatti delle righe con
+  le variabili (per esempio la portanza sismica), con rapporti non maggiori.
+- Confronto semantico fra la cattura del set AL (rilascio 1.15.0) e quella nuova (`d6_confronto.py`): tolte le righe nuove e
+  rinominate le altre, `result.json` e i dati sono uguali; nel report ogni riga di tabella di prima c'è ancora e le righe nuove sono
+  delle combinazioni nuove; cambiano solo i conteggi.
+- Riferimenti spiegati e registrati (voce COMB-D6):
+  - transizioni F3: 11493 nuove, 992 con il valore dopo nuovo, una tolta (riga del report spostata);
+  - 7 tracce storiche dei muri (279 righe sostituite, 41 aggiunte, 2 tolte) e 16 valori di `vista-storica.json`;
+  - le due sezioni che i muri mandano al c.a. (4 azioni SISMA in più) e le loro tracce della sezione;
+  - attesi di RetainingWall.Checks e di `ui/smoke-retaining-wall` contati a mano; conteggi di Presentation.Tests.
+- Invariati: confronti congelati F4 (ConcreteLibraryAdapter.Checks), GlobalStability.Checks, gli altri moduli.
+- Le impronte del risultato delle fondazioni cambiano solo per la versione di Geotechnics (0.25.0.4 → 0.26.0.0), come B-FON-01.
+- I testi di ANTHEA (metodo, note del report) non cambiano: descrivono già ψ2·q «solo se sfavorevole»; la frase per le guide è
+  nell'avanzamento dell'agente.
+
+### 5.2 D7 — documenti versione 1
+
+**a, attuato.** `RetainingWall.LegacyCombinations` chiama `WallCombinations.Version1` (GPCChecker.Geotechnics 0.26), cioè:
+- il generatore di Model con l'ordine dei bit dichiarato: muro, terreno, presenza dei carichi, acqua, dal più lento;
+- una riga sismica per segno con ψ2 (`variablePresence: false`);
+- γR di R3 e 1,2 della portanza sismica da `StandardNTC2018Geotechnics`.
+
+Le righe sono quelle di prima, bit per bit:
+- nella libreria la copia congelata del codice di ANTHEA 1.15.0 (`FrozenWallVersion1Combinations`) e `Version1` coincidono su 126
+  ingressi, 2458 righe: i 6 documenti versione 1 delle catture e una griglia di 120 (falda, mensola, ψ1, ψ2, sisma);
+- le righe senza gemelle sono anche quelle della cattura storica;
+- in ANTHEA le prove della versione 1 di RetainingWall.Checks non cambiano.
+
+**b, valutazione (non attuata).** Con b i documenti versione 1 calcolati senza interfaccia passerebbero prima da
+`RetainingWall.Upgrade`, come fa l'interfaccia all'apertura, e userebbero le righe della versione 2 (D4, D5, D6). Misura su 22 documenti
+versione 1 (i 6 delle catture di Geotechnics e una griglia di 16: mensola sì/no, falda, sisma assente, kh 0,1 con kv 0,05, kh 0,15 con
+kv 0, ψ1/ψ2 0,5/0,3 e 0,9/0,8), calcolati con i due percorsi (`supporto/artefatti/1160-combinazioni/valutazione-d7b.csv`):
+- **senza sisma**: stesso numero di righe e stessi rapporti governanti di scorrimento, ribaltamento e portanza; cambiano solo i nomi
+  («Caratteristica» → «SLE 1», «SLU 1» → «SLU 4», …). Con terreno a valle la versione 2 raddoppierebbe le righe SLU per il fattore
+  del terreno di valle (nella versione 1 segue quello del terreno di monte): nessun documento del campione lo ha;
+- **con il sisma**: righe in più per D6 (19 → 21, 17 → 18) e, dove governa una riga sismica, rapporti di scorrimento −9,09 % e di
+  ribaltamento −13,04 % (γR 1 della Tab. 7.11.III invece di 1,1 e 1,15 di R3, D5 b): meno cautelativi, conformi alla norma; la
+  portanza sismica (γR 1,2) non cambia;
+- **documenti non più calcolabili**: `Upgrade` dà ψ0 = 0,7 alle tre azioni e conserva ψ1 e ψ2 del documento, quindi un documento con
+  ψ1 > 0,7 diventa non valido («Deve risultare ψ₂ ≤ ψ₁ ≤ ψ₀»): tutti gli 8 della griglia con ψ1 = 0,9. È già un difetto
+  dell'interfaccia di oggi, che aggiorna il documento all'apertura (corretto dopo, UPG-PSI0-01, sotto).
+
+Valutazione: b toglierebbe l'incoerenza di oggi (lo stesso documento dà risultati diversi aperto nell'interfaccia o nel calcolo del
+progetto) e allineerebbe la versione 1 alle decisioni D4–D6, ma è meno cautelativo nel sisma, cambia nomi e righe dei risultati
+archiviati e richiede prima la correzione di `Upgrade` (fatta, UPG-PSI0-01). Non c'è un
+documento versione 1 nelle fixture F3 dei muri: i riferimenti da registrare sarebbero le prove della versione 1 di
+RetainingWall.Checks e le catture di Geotechnics. Raccomandazione: correggere `Upgrade` (difetto dell'interfaccia) e attuare b solo con
+l'ok dell'utente, come scostamento registrato.
+
+**Correzione di `Upgrade` (UPG-PSI0-01, 29/10).** Il documento versione 1 ha ψ1 e ψ2 dei carichi, non ψ0 né la categoria. Regola:
+ψ0 resta 0,7 (il valore di un'azione nuova, quello di prima) se ψ1 ≤ 0,7; altrimenti ψ0 = 1, il valore della categoria E della
+NTC 2018 Tab. 2.5.I (1,0; 0,9; 0,8), l'unica con ψ1 > 0,7. ψ0 = max(0,7; ψ1) darebbe 0,9, valore di nessuna categoria. I tre carichi
+aggiornati sono un solo gruppo correlato, sempre principale: ψ0 non entra in nessuna riga e i risultati non cambiano. Con la correzione
+i 22 documenti della misura si aprono tutti validi (`valutazione-d7b-upg.csv`); le prove di RetainingWall.Checks (15 casi) confrontano
+il documento aggiornato con lo stesso documento con ψ0 = 1 e, senza sisma, con i casi fissi della versione 1. Nessun riferimento di
+ANTHEA cambia.
+
+**Nota del sisma assegnato (COMB-MURI-D5-NOTA, 29/10).** Dopo D5 b (1.14.4) la nota «kh e kv assegnati» diceva ancora che il preset
+manuale mantiene i γR statici. Ora dice che le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III (scorrimento 1,
+ribaltamento 1, portanza 1,2); per i documenti versione 1 calcolati senza interfaccia diceva che i casi fissi usano i γR di R3 (1,1 e
+1,15) e 1,2 alla portanza sismica, testo tolto con D7 b. Solo testo: 4 transizioni F3, 17 impronte del risultato in 4 tracce storiche,
+2 impronte del risultato della vista.
+
+**b, attuato (COMB-D7B, 29/10).** Decisione dell'utente: «D7b. correggi. aggiornali». `RetainingWall.Calculate` aggiorna un documento
+versione 1 con `Upgrade`, come l'interfaccia all'apertura, con gli identificatori stabili `v1-surcharge`, `v1-horizontal` e
+`v1-vertical` dei carichi, e lo calcola con le righe automatiche della versione 2 (D4, D5, D6). `LegacyCombinations` è tolto;
+`WallCombinations.Version1` resta nella libreria, con le sue prove, senza chiamanti in ANTHEA. Il risultato contiene il documento
+aggiornato: il report mostra la tabella delle azioni al posto dei tre carichi.
+
+Confronto prima/dopo con il codice di prima di D7 b su 25 documenti versione 1 (i 6 delle catture, la griglia di 16 e 3 documenti di
+RetainingWall.Checks), 7127 verifiche geotecniche e strutturali (`supporto/artefatti/1160-combinazioni/valutazione-d7b-finale.csv`):
+- 18 rapporti governanti cambiano, tutti in meno: scorrimento da −1,92 % a −9,09 % e ribaltamento da −0,09 % a −13,04 %, dove governa
+  una riga sismica (γR 1 della Tab. 7.11.III invece di 1,1 e 1,15 di R3); nessun rapporto aumenta;
+- nessuna verifica strutturale e nessuna portanza cambiano; nessun documento diventa non calcolabile;
+- righe sismiche in più per D6 (19 → 21, 17 → 18, 13 → 15, 12 → 13); nomi della versione 2 («Caratteristica» → «SLE 1», «SLU 2» →
+  «SLU 8», «Sisma kv−» → «Sisma kv− 12», …).
+
+Riferimenti di ANTHEA: solo le prove della versione 1 di RetainingWall.Checks (nomi della versione 2, stessi valori calcolati a mano,
+righe sismiche D6 contate, γR 1 sismici dalle formule a mano, calcolo senza interfaccia uguale al documento aperto) e la baseline F4
+(quattro residui di `LegacyCombinations` in meno). Presentation.Tests, F3, il calcolo dei progetti e la regressione non cambiano:
+nessuna fixture calcola un documento versione 1 senza aprirlo.
+
+### 5.3 D8 b — piano per Bridge Design e Viviani
+
+Stato oggi:
+- **Bridge Design** (`str_bridge_design`, GPC.Design `BridgeConcept`): una passata di servizio (1/1) e una fattorizzata
+  γG·(G1 + G2) + γQ·Q con l'inviluppo del traffico (`BridgeConcept.Traffic.Loads`). γG = 1,35 anche su G2 (registro D7-f,
+  componente f3 non attuata); γQ = 1,35 (`RoadTraffic.NtcUnfavourableGamma`) per lo Schema 1 dei documenti nuovi, 1,5 negli
+  archivi. Le due sono ipotesi modificabili dell'utente (`assumptions.gamma_g`, `assumptions.gamma_q`, campo 1–2).
+- **Viviani** (`GPCChecker.CompositeBridge.Viviani`): MEd = γG1·M1 + γG2·M2 + γQ·MQ con tre moltiplicatori dell'utente
+  (predefinito 1); `VivianiComparison` li fissa a 1. ANTHEA non lo usa.
+
+Piano, dopo i muri; ogni passo con la sua voce del registro e i riferimenti spiegati:
+1. **Model, profilo dei ponti stradali NTC 2018** nello stesso `CombinationProfile`:
+   - insiemi EQU, A1 e A2 della Tab. 5.1.V: G1 1,35/1,0 in A1, G2 1,5/0, traffico 1,35/0, altre variabili 1,5/0, precompressione
+     1,0;
+   - ψ della Tab. 5.1.VI: gruppi di azioni da traffico, vento, neve, temperatura;
+   - una categoria «traffico» in `VariableActionCategory`, o una tabella ψ propria del profilo;
+   - valori da riscontrare sul testo prima di scriverli; generatore invariato (SLU fondamentale, SLE rara, frequente e quasi
+     permanente).
+2. **GPC.Design, Bridge Design:** `BridgeConcept.Loads` riceve dal generatore le righe (SLU con il traffico principale, SLE rara per
+   le frecce) al posto dei due moltiplicatori:
+   - G1 e G2 separati: chiude D7-f f3 (G2 1,5 invece di 1,35);
+   - traffico con l'inviluppo di oggi e il fattore della riga;
+   - il caso `LegacyUniform` resta com'è.
+3. **Viviani:** i tre moltiplicatori predefiniti dal profilo (A1: γG1 1,35, γG2 1,5, γQ 1,35 per il traffico), modificabili;
+   `VivianiComparison` resta a 1 (confronto con il programma storico).
+4. **Prove:**
+   - cattura prima: `Fixtures/bridge-f4.json.gz`, `BridgeTrafficTests`, `BridgeConceptTests`, F3 `str_bridge_design`,
+     `ui/smoke-bridge-design`, `ui/check-bridge-design-view`;
+   - confronto dopo, differenze quantificate (atteso: SLU più alte per G2 da 1,35 a 1,5) e registrate;
+   - nessun valore normativo nuovo senza la fonte.
+5. **Domande per l'utente:**
+   - Bridge Design è un predimensionamento: γ dal profilo o ipotesi modificabili dell'utente, come oggi?
+   - Archivi con γQ = 1,5: conservarli o portarli a 1,35?
+   - Viviani: predefiniti dal profilo o 1, come il programma storico?
+
+Stima: una giornata per Model e GPC.Design, più la registrazione dei riferimenti di Bridge Design.
+
+**Attuazione (COMB-D8, 29/10).** Decisione dell'utente: «viviani lascialo pure a se stante. è un esempio storico. d8 e bridge design
+devono usare model». Risposte alle domande del piano (raccomandazioni dichiarate, confermate dal coordinamento):
+- γ dal profilo di Model per i documenti nuovi; i moltiplicatori dell'utente restano come scelta esplicita;
+- negli archivi i γ salvati restano ipotesi dell'utente: portare γQ da 1,5 a 1,35 sarebbe a sfavore del 10 % sul traffico;
+- Viviani resta a sé (esempio storico): `GPCChecker.CompositeBridge.Viviani` e `VivianiComparison` non cambiano, moltiplicatori a 1.
+
+Model (GPCModel 5.25.0.0): `RoadBridgeCombinations` con gli insiemi EQU, A1 e A2 della Tab. 5.1.V e i ψ dei gruppi del traffico della
+Tab. 5.1.VI, riscontrati sul testo della Gazzetta Ufficiale (S.O. n. 8 alla G.U. n. 42 del 20/02/2018; la Circolare n. 7/2019, §C5,
+ripete γQ 1,35 per EQU e STR e 1,15 per GEO); `Deck` dà le righe di un impalcato con G1, G2 e un gruppo di traffico dal generatore
+(caratteristica, frequente, quasi permanente e le 8 SLU).
+
+GPC.Design 0.42.0.0: `BridgeInput.PartialFactors`. Con `ProjectMultipliers` (predefinito, archivi) il calcolo è quello di prima, bit per
+bit. Con `Ntc2018RoadBridges` gli inviluppi SLU della trave (traffico uniforme e Schema 1) e le reazioni delle strutture superiori sono
+gli estremi delle 8 righe A1 di Model: G1 (calcestruzzo, acciaio, struttura superiore) 1,35/1,00, G2 (finiture e barriere) 1,50/0,
+traffico 1,35/0, con i permanenti favorevoli nei minimi; aste delle strutture superiori e antenne con i coefficienti sfavorevoli. La
+nota (2) della Tab. 5.1.V (G2 ben definiti con i coefficienti dei permanenti) resta una scelta del progettista: i moltiplicatori del
+progetto.
+
+ANTHEA: `input.partial_factors` («NTC 2018 Tab. 5.1.V (Model)» o «Moltiplicatori del progetto»); i documenti nuovi hanno il profilo, un
+documento senza la scelta (archivio) i moltiplicatori; la scelta chiude la scheda Traffico, e con il profilo γQ e il suo pulsante non
+si mostrano. Confronto sugli 11 ingressi F3 e sul documento nuovo, moltiplicatori contro profilo
+(`supporto/artefatti/1160-combinazioni/d8-confronto.csv`): momenti massimi +0,96 … +2,13 % con lo Schema 1 (G2 1,50 invece di 1,35) e
+minimi più negativi; costi invariati per le travi, +0,42 … +1,61 % per archi, reticolari, sospesi e strallati (aste con G2 1,50); negli
+archivi con γQ 1,5 il profilo darebbe −2,6 % sui momenti (traffico 1,35): per questo gli archivi restano ai moltiplicatori. Documento
+nuovo: momento massimo +1,44 %, costo invariato.
+
+### 5.4 D9 a — combinazioni automatiche del modulo Modelli
+
+**Attuato, servizio senza interfaccia.** `ModelCombinationGenerator` (`src/ANTHEA.ModelWorkspace`):
+- prende i casi statici della copia del modello, ognuno con la sua natura (G1, G2, variabile con la categoria della Tab. 2.5.I,
+  eccezionale, sismico) e un gruppo facoltativo;
+- li passa al generatore di Model (`GeotechnicalCombinations`) con l'insieme strutturale A1 del profilo NTC 2018;
+- trasforma le righe in combinazioni lineari ANTHEA modificabili (`ANTHEA/NTC2018/…`): SLE rara, frequente e quasi permanente;
+  SLU con ogni disposizione dei permanenti e ogni presenza delle variabili; SLV con ogni caso sismico a ±1 e le variabili
+  presenti o assenti (D6 a); eccezionali;
+- le combinazioni generate sono calcolate da GPC come le altre; una nuova generazione sostituisce la precedente e conserva quelle
+  dell'utente;
+- `Propose` propone le nature dai tipi MIDAS della tabella STLD (D, DC → G1; DW → G2; L, LR variabili senza categoria; W, S, T con
+  la loro categoria; E sismico; il resto escluso), da confermare;
+- ANTHEA non scrive coefficienti.
+
+Prove: ModelWorkspace.Checks, 16 controlli con le righe attese a mano e una combinazione generata calcolata da GPC contro la somma
+a mano.
+
+**Piano dell'interfaccia** (passo successivo):
+1. Pannello «Combinazioni»: comando «Genera combinazioni NTC 2018…» con la tabella dei casi statici:
+   - natura proposta da `Propose`, categoria per le variabili, gruppo;
+   - anteprima del numero di righe e conferma, che sostituisce le combinazioni generate e conserva quelle dell'utente.
+2. Persistenza delle scelte nel documento del modello (`ModelSnapshot`, campo nuovo omesso se nullo, per le impronte), così una
+   nuova generazione riparte dalle scelte.
+3. Sisma: oggi ogni caso sismico entra con ±1. Con casi direzionali (Ex, Ey) serve la regola 100/30 (NTC 2018 §7.3.5) come
+   varianti del generatore (Ex ± 0,3 Ey, …): da decidere.
+4. EQU e A2: oggi solo A1 (STR); famiglie da aggiungere su richiesta.
+5. Prove: `ModelViewer.Combinations.UiChecks` per la tabella; testo per la guida pratica.
+
+Domande per l'utente:
+- categoria predefinita dei carichi MIDAS «L» (A? B?) o sempre da scegliere;
+- regola 100/30 per i casi sismici direzionali;
+- limite di righe: oggi 4096 e al più 12 gruppi permanenti e variabili.
+
+### 5.5 D10 a — profili
+
+`CombinationProfile` (Model):
+- **NTC 2018** (`Ntc2018`): A1, A2 e l'insieme sismico da `StandardNTC2018Geotechnics` (riscontrati sul testo nella fase G); EQU
+  della Tab. 2.6.I e ψ della Tab. 2.5.I scritti dalla letteratura tecnica, coincidono con i valori raccomandati della EN 1990
+  per ψ: **da riscontrare sul testo**;
+- **EN 1990** (`En1990`, `FromEN1990`): letto da `StandardEN1990` (Tab. A1.1 e A1.2(A)–(C)), anche con un annesso nazionale
+  impostato sull'istanza; un solo γG per G1 e G2.
+
+Le formule delle righe sono quelle di NTC 2018 §2.5.3 del generatore. Le formule proprie della EN 1990 (6.10a e 6.10b, ψ1 della
+principale nella combinazione eccezionale (6.11b)) non sono implementate: servono alla voce «Eurocodici con una norma di
+progetto». Nell'interfaccia nessuna scelta della norma. I muri usano A1 di `StandardNTC2018Geotechnics`, uguale ad A1 del profilo
+(prova di Model).
+
+### 5.6 D11 a — SLE caratteristica di `CreateCombinations`
+
+`StandardEN1990.GetCoefficientLeadingVariableAction`: nella SLE caratteristica la principale vale γ·1 = 1 (EN 1990 (6.14b), NTC
+2018 (2.5.2)), non γ·ψ2. Atteso di `EN1990GeneratorServiceabilityCharacteristic` aggiornato con l'ok dell'utente (vento
+principale 0 → 1, neve principale 0,2 → 1). Nessun chiamante di produzione: nessun risultato di ANTHEA cambia.
+
+`StandardEN16612` (vetro) aveva lo stesso difetto per le azioni climatiche (`GetCoefficientLeadingVariableAction(ClimateLoadCase, …)`).
+Decisione dell'utente del 29/10: «vetro correggi anche se non utilizzato» (COMB-D11-EN16612, Model 5aba823e, GPCModel 5.24.0.1). Con ψ2 = 0
+le righe con l'azione climatica principale perdevano ΔP e ΔT e la riga G + ψ0 Q delle due stagioni era una sola. Gli attesi di
+`EN16612GeneratorAGC_SLS1` e `_SLS2` sono ora le righe scritte a mano dalla (6.14b), confrontate come insieme: per stagione l'altra
+azione principale e l'azione climatica principale, ognuna con e senza ΔH, ΔH da solo, e il solo peso proprio; 11 righe (10 prima).
+Restano da verificare, fuori dalla decisione: i ψ predefiniti delle azioni climatiche (segnati nel codice come da controllare) e i
+metodi `GetPsi0/1/2`, che per ΔT estivo restituiscono il valore di ΔP (oggi uguali, nessuna riga cambia).

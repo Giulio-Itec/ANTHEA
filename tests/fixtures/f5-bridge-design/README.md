@@ -75,3 +75,12 @@ l'anteprima. I disegni restano WPF (Q3): l'elenco prova che le derivazioni spost
 Due catture uguali byte per byte sul codice di produzione di `7259150a` (prima di toccare la vista): `supporto/artefatti/refactoring/f5-12/traccia-3`
 e `-4` del worktree, non versionate. La vista storica non è modificata: la traccia usa membri interni in una classe parziale compilata solo
 in UiTests.
+
+## Aggiornamenti
+
+- 29/10/2026, 1.16.0, D8 del censimento delle combinazioni (voce COMB-D8, decisione dell'utente «d8 e bridge design devono usare
+  model»): la scheda Traffico si chiude con la scelta «Coefficienti parziali SLU» (righe della NTC 2018 Tab. 5.1.V di Model per i
+  documenti nuovi, moltiplicatori del progetto per gli archivi). In `storica` 19 tracce: per ognuna la riga «ingressi.4: 5 blocchi» →
+  «6 blocchi» e la riga aggiunta «ingressi.4.5: scelta partial_factors … = "Moltiplicatori del progetto"», l'archivio senza la scelta;
+  nessun'altra riga cambia (confronto riga per riga, registrazione temporanea non committata di `Presentation.Tests`, corsa
+  `supporto/artefatti/1160-combinazioni/d8-registra`). I risultati delle fixture non cambiano: gli archivi conservano i loro γ.

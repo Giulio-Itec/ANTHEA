@@ -33,7 +33,7 @@ internal static class F5PresentationRules
         "NameValueCollection", "StringCollection", "StringDictionary", "ConditionalWeakTable", "JsonObject", "JsonArray",
         "IList", "ICollection", "IDictionary", "ISet"];
     static readonly HashSet<string> CalculationNames = ["IModuleService", "ModuleServices", "CalculationService", "ConcreteAnalysis",
-        "RecalculationScheduler", "ScheduledCalculation", "SheetCalculation", "CalculationLimiter"];
+        "RecalculationScheduler", "ScheduledCalculation", "SheetCalculation", "CalculationLimiter", "CalculationGate", "CalculationGates"];
     static readonly string[] CalculationSessionSuffixes = ["AnalysisSession", "CalculationSession", "InspectionSession", "PropertySession", "DesignSession"];
     /// <summary>P7: properties that take a brush or a colour; in the new views their value is a theme token, Transparent or null.</summary>
     static readonly HashSet<string> BrushProperties = ["Background", "Foreground", "BorderBrush", "Fill", "Stroke", "Color", "CaretBrush", "SelectionBrush",

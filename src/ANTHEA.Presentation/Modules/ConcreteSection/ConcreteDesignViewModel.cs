@@ -199,7 +199,8 @@ public sealed class ConcreteDesignViewModel : ObservableObject, IDisposable, IVi
                 Status = ConcreteDesignPresentation.ProgressText(p);
                 if (p.Best is not null && selection?.Id != p.Best.Id) Select(p.Best);
             });
-            var calculated = await Task.Run(() => StructuralQueries.ConcreteReinforcement(snapshot, token, updates));
+            // 1.16.0, D-5: in a place of the limiter of the application («Interrompi» stops also the wait for it).
+            var calculated = await sheet.Limiter.RunAsync(() => StructuralQueries.ConcreteReinforcement(snapshot, token, updates), token);
             if (disposed || sheet.IsDisposed) return;
             result = calculated;
             SetRunning(false); RefreshFreshness();

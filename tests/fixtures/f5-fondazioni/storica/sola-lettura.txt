@@ -4,7 +4,7 @@ modificato 0 · modificabile sì · richieste report 0
 risultato -
 stato "Dati da verificare · premere Calcola"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -42,7 +42,7 @@ modificato 0 · modificabile sì · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -109,7 +109,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -176,7 +176,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -243,7 +243,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -310,7 +310,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -377,7 +377,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -444,7 +444,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -511,7 +511,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -578,7 +578,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -645,7 +645,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -712,7 +712,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -779,7 +779,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -846,7 +846,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -913,7 +913,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -980,7 +980,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -1047,7 +1047,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -1114,7 +1114,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -1181,7 +1181,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -1248,7 +1248,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -1315,7 +1315,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -1382,7 +1382,7 @@ modificato 0 · modificabile no · richieste report 0
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -1449,7 +1449,7 @@ modificato 0 · modificabile no · richieste report 1
 risultato 01581BA4CC7BEE1B
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -1516,7 +1516,7 @@ modificato 0 · modificabile no · richieste report 1
 risultato 3AA229F6B11EEF14
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -1583,7 +1583,7 @@ modificato 0 · modificabile no · richieste report 1
 risultato 3AA229F6B11EEF14
 stato "Calcolato · sondaggio 1 · unica combinazione: Caratteristica · confronto"
 campi
-  scelta Method "Metodo" = "Brinch Hansen · carico normale" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Brinch Hansen" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Non drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "Confronto caratteristico" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"

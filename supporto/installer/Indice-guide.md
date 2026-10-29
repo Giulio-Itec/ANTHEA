@@ -1,10 +1,10 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Revisione 61 · 28 ottobre 2026
+ITEC Engineering · Revisione 62 · 29 ottobre 2026
 
 ## Guida pratica ANTHEA
 
-[Word Rev61](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev61.docx) · [PDF Rev61](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev61.pdf)
+[Word Rev62](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev62.docx) · [PDF Rev62](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev62.pdf)
 
 - Stratigrafia del terreno
 - Avvio e scelta del modulo
@@ -34,7 +34,7 @@ ITEC Engineering · Revisione 61 · 28 ottobre 2026
 
 ## Guida teorica ANTHEA
 
-[Word Rev61](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev61.docx) · [PDF Rev61](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev61.pdf)
+[Word Rev62](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev62.docx) · [PDF Rev62](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev62.pdf)
 
 - Modello della stratigrafia del terreno
 - Architettura del calcolo e convenzioni
@@ -42,6 +42,7 @@ ITEC Engineering · Revisione 61 · 28 ottobre 2026
 - Palo verticale
 - Micropalo verticale
 - Capacità orizzontale con Broms
+- Capacità orizzontale in terreno stratificato
 - Sezione in calcestruzzo armato
 - Sezione composta da ponte
 - Taglio irrigidimenti e connessione della sezione composta
@@ -86,3 +87,9 @@ ITEC Engineering · Revisione 61 · 28 ottobre 2026
 - Risultati dei modelli per fasi
 - Geometria e rappresentazione delle sezioni
 - Analisi per fasi delle paratie
+
+## Articoli
+
+[Word](../documentazione/Guide_ANTHEA/ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx) · [PDF](../documentazione/Guide_ANTHEA/ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf)
+
+- Capacità orizzontale del palo in terreno stratificato: il metodo di G. Pacini, estensione della teoria di Broms (edizione 1)

@@ -69,7 +69,7 @@ internal static partial class EmbeddedWallChecks
         var legacy = Example(); legacy["schema"] = 9;
         foreach (string key in new[] { "embedment_reference", "embedment_minimum", "embedment_maximum", "embedment_increment", "embedment_head_limit", "embedment_source" }) legacy.Remove(key);
         string before = legacy.ToJsonString(); var upgraded = EmbeddedWallDocument.Snapshot(legacy);
-        e.That(legacy.ToJsonString() == before && upgraded["schema"]!.ToString() == "11" && upgraded["embedment_head_limit"] is null,
+        e.That(legacy.ToJsonString() == before && upgraded["schema"]!.ToString() == "12" && upgraded["embedment_head_limit"] is null,
             "Migrazione inventa un limite ingegneristico o modifica il sorgente.");
         e.That(Math.Abs(service.Calculate(legacy).NativeAs<EmbeddedWallReportData>().Stages[0].Points[0].Displacement - 3.6) < 1e-7,
             "Nuova migrazione altera il calcolo singolo.");

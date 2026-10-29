@@ -62,7 +62,7 @@ internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Ac
     public string? ChooseStrand7File(Strand7ImportFile kind)
     {
         var dialog=new OpenFileDialog {Title="Importazione Straus7 / Strand7",Filter=kind switch
-        {Strand7ImportFile.Model=>"Modello Straus / Strand7|*.st7",Strand7ImportFile.Results=>"Risultati statici lineari|*.lsa",_=>"API Straus / Strand7 R3|St7api.dll|Librerie native|*.dll"}};
+        {Strand7ImportFile.Model=>"Modello Straus / Strand7|*.st7",Strand7ImportFile.Results=>"Risultati statici lineari o non lineari per fasi|*.lsa;*.nla|Statici lineari|*.lsa|Non lineari per fasi|*.nla",_=>"API Straus / Strand7 R3|St7api.dll|Librerie native|*.dll"}};
         return dialog.ShowDialog(owner())==true?dialog.FileName:null;
     }
     // 1.15.0: the Straus7 worker process next to ANTHEA.exe; this process never loads St7api.dll.

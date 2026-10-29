@@ -2,6 +2,7 @@ using System.Text.Json.Nodes;
 using Anthea.Application.Modules;
 using Anthea.Calculations;
 using Anthea.Application.Presentation;
+using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Forms;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -248,6 +249,12 @@ public sealed class PileConcreteVerifier : ObservableObject, IDialogViewModel<Js
     /// <summary>The services of the sheet of the pile, for the section hosted by the dialog (messages, dialogs, files, Wiki).</summary>
     public PresentationServices Services => owner.Services;
 
+    /// <summary>
+    /// The limiter of the calculations of the application, for the section hosted by the dialog (1.16.0, D-5: the section takes its places as the
+    /// sheets); null when the sheet of the pile has none (the host then gives the section a limiter of its own).
+    /// </summary>
+    public CalculationLimiter? Limiter => owner.Limiter;
+
     public string Title { get; }
 
     /// <summary>The note above the command: what the verifier does, then the outcome of «Applica».</summary>
@@ -411,6 +418,8 @@ public sealed class PileReinforcementViewModel : ObservableObject, IDisposable
 
     /// <summary>The services of the sheet of the pile (the c.a. verifier hosts the section with them).</summary>
     internal PresentationServices Services => sheet.Services;
+    /// <summary>The limiter of the calculations of the application, when the sheet has one (1.16.0, D-5: the section of the c.a. verifier).</summary>
+    internal CalculationLimiter? Limiter => sheet.Limiter;
     private readonly Dictionary<string, bool> expandedBills = new(StringComparer.Ordinal);
     private string calculationState = ElasticPilePresentation.ReinforcementInitial, phase = "", message = "", checkMode = "Riepilogo", mainTransverse = "";
     private bool progressVisible, progressIndeterminate, resultCommandsEnabled, isBuilt, seismicExpanded, detailsExpanded, extraExpanded, minimum;

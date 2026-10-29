@@ -25,12 +25,12 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = '61'
+REVISION = '62'
 # edition data of the revision: date, contents and description in the revision table of the cover
-DATE = '28/10/2026'
-CONTENTS = '28 ottobre 2026'
-CONTENTS_ISO = '2026-10-28'
-REVISION_NOTE = 'ANTHEA 1.15.0: COLONNA MODELLO E IMPORTATORI'
+DATE = '29/10/2026'
+CONTENTS = '29 ottobre 2026'
+CONTENTS_ISO = '2026-10-29'
+REVISION_NOTE = 'ANTHEA 1.16.0: FORMULE IN LATEX E TEORIA COMPLETATA'
 ART = Path(os.environ.get('ANTHEA_GUIDE_ARTIFACTS', ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'))
 OUT = ROOT / 'supporto/documentazione/Guide_ANTHEA'
 TEMPLATE = Path(os.environ.get('ANTHEA_GUIDE_TEMPLATE', 'C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx'))
@@ -41,6 +41,28 @@ GUIDES = {
     'teorica': ('Guida teorica dei calcoli di ANTHEA', 'Modelli formule ipotesi ed esempi dei moduli disponibili',
                 'Geotecnica e materiali\nSezioni in calcestruzzo e composte\nBridge Design e modelli di calcolo', 'ANTHEA-GT-02'),
 }
+# Standalone articles (exception approved by the user on 28/10/2026 to the rule of the two guides): own source, own revision, same template
+# and the same Build, Render, Finalize and Render -VerifyFinal flow as the guides (kind = key of the dictionary).
+ARTICLES = {
+    'palo-stratificato': dict(
+        source='supporto/docs/articolo-palo-orizzontale-stratificato.md', name='ANTHEA_Articolo_palo_stratificato_ITEC', revision='01',
+        title='Capacità orizzontale del palo in terreno stratificato', subtitle='Il metodo di G. Pacini: estensione della teoria di Broms',
+        summary='Palo e micropalo orizzontale\nTerreno stratificato e metodo Stratificato\nConfronto con la teoria di Broms', code='ANTHEA-AT-01',
+        cover='Articolo tecnico', type='ARTICOLO', date='29/10/2026', contents='29 ottobre 2026', contents_iso='2026-10-29',
+        note='ANTHEA 1.16.0: PRIMA EDIZIONE'),
+}
+
+
+def document(kind):
+    """Source, Word file name and cover data of a guide or of an article."""
+    if kind in ARTICLES:
+        a = ARTICLES[kind]
+        return dict(a, source=ROOT / a['source'], filename=f"{a['name']}_Rev{a['revision']}.docx")
+    title, subtitle, summary, code = GUIDES[kind]
+    return dict(source=ROOT / f'supporto/docs/guida-{kind}-anthea.md', filename=f'ANTHEA_Guida_{kind}_ITEC_Rev{REVISION}.docx', revision=REVISION,
+                title=title, subtitle=subtitle, summary=summary, code=code,
+                cover='Guida pratica all’uso' if kind == 'pratica' else 'Guida teorica dei calcoli', type='MANUALE', date=DATE,
+                contents=CONTENTS, contents_iso=CONTENTS_ISO, note=REVISION_NOTE)
 
 def printed_links(value):
     """Internal routes are UI addresses, not useful printed references."""
@@ -52,6 +74,8 @@ def printed_links(value):
             path=uri.removeprefix('wiki:');path=aliases.get(path,path).split('#')[0];path=aliases.get(path,path)
             article=next((a for a in catalog if path in (a['id'],a['key'])),None)
             return text+' (Wiki: '+article['title']+')' if article and text.casefold()!=article['title'].casefold() else text+' (Wiki)'
+        if uri.startswith('guida:'):
+            return text+' (documento «'+uri.removeprefix('guida:')+'» nella cartella Guide di ANTHEA)'
         return text+' ('+uri+')'
     return re.sub(r'\[([^\]]+)\]\(([^)]+)\)',label,value)
 
@@ -186,10 +210,11 @@ def patch_footer(data, filename):
         data[name] = E.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True)
 
 def build(kind):
-    title, subtitle, summary, code = GUIDES[kind]
-    source = ROOT / f'supporto/docs/guida-{kind}-anthea.md'
+    meta = document(kind)
+    title, subtitle, summary, code = meta['title'], meta['subtitle'], meta['summary'], meta['code']
+    source = meta['source']
     lines = source.read_text(encoding='utf-8').splitlines()
-    filename = f'ANTHEA_Guida_{kind}_ITEC_Rev{REVISION}.docx'
+    filename = meta['filename']
     qa = ART / kind
     qa.mkdir(parents=True, exist_ok=True)
     doc = Document(TEMPLATE)
@@ -206,18 +231,18 @@ def build(kind):
         for cell in row.cells:
             cell_text(cell, '')
     cell_text(doc.tables[1].cell(0, 1), 'Edizione')
-    for ri, values in enumerate([('Rev.', REVISION), ('Data', DATE), ('Testi', DATE)], 1):
+    for ri, values in enumerate([('Rev.', meta['revision']), ('Data', meta['date']), ('Testi', meta['date'])], 1):
         for ci, value in enumerate(values, 1):
             cell_text(doc.tables[1].cell(ri, ci), value)
-    cell_text(doc.tables[2].cell(1, 0), 'Guida pratica all’uso' if kind == 'pratica' else 'Guida teorica dei calcoli')
-    cell_text(doc.tables[2].cell(2, 0), summary + '\nContenuti al ' + CONTENTS)
+    cell_text(doc.tables[2].cell(1, 0), meta['cover'])
+    cell_text(doc.tables[2].cell(2, 0), summary + '\nContenuti al ' + meta['contents'])
     for ri, values in enumerate([
-        ['Tipo documento: MANUALE', 'Documento:', code],
-        ['Software: ANTHEA', 'Revisione:', REVISION + ' — Modello ITEC'],
+        ['Tipo documento: ' + meta['type'], 'Documento:', code],
+        ['Software: ANTHEA', 'Revisione:', meta['revision'] + ' — Modello ITEC'],
     ]):
         for ci, value in enumerate(values):
             cell_text(doc.tables[3].cell(ri, ci), value)
-    for ci, value in enumerate([REVISION, REVISION_NOTE, DATE, '', '', '']):
+    for ci, value in enumerate([meta['revision'], meta['note'], meta['date'], '', '', '']):
         cell_text(doc.tables[4].cell(1, ci), value)
     for ti, size in [(1, 8), (2, 11), (3, 10), (4, 8)]:
         for row in doc.tables[ti].rows:
@@ -334,8 +359,8 @@ def build(kind):
     doc.core_properties.subject = subtitle
     doc.core_properties.author = 'ANTHEA'
     doc.core_properties.last_modified_by = 'ANTHEA'
-    doc.core_properties.revision = int(REVISION)
-    doc.core_properties.keywords = f'ANTHEA; ITEC; Manuale; Rev{REVISION}; Contenuti {CONTENTS_ISO}'
+    doc.core_properties.revision = int(meta['revision'])
+    doc.core_properties.keywords = f"ANTHEA; ITEC; {'Articolo' if kind in ARTICLES else 'Manuale'}; Rev{meta['revision']}; Contenuti {meta['contents_iso']}"
     authored = qa / 'authored.docx'
     doc.save(authored)
 
@@ -382,5 +407,6 @@ if __name__ == '__main__':
         inventory = {n: {'bytes': len(z.read(n)), 'sha256': sha256(z.read(n)).hexdigest()} for n in z.namelist()}
     (ART / 'template/package-inventory.json').write_text(json.dumps(inventory, indent=2), encoding='utf-8')
     OUT.mkdir(parents=True, exist_ok=True)
-    for kind in GUIDES:
+    # Without arguments the two guides; with arguments the given kinds (guides or articles, for example palo-stratificato).
+    for kind in sys.argv[1:] or GUIDES:
         build(kind)

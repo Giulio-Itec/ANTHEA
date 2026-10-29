@@ -80,7 +80,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
 
     [ObservableProperty] private string title = "Nessun modello importato";
     [ObservableProperty] private string summary = "Importa una copia del modello nella fase o sottofase selezionata.";
-    [ObservableProperty] private string information = "Importa dal modello aperto in MIDAS, da Straus7 (.st7 e .lsa) o scegli un pacchetto .antheamodel o un file di testo MIDAS Civil/Gen (.mct, .mgt). La copia viene applicata solo dopo il controllo dei dati.";
+    [ObservableProperty] private string information = "Importa dal modello aperto in MIDAS, da Straus7 (.st7 con .lsa o .nla) o scegli un pacchetto .antheamodel o un file di testo MIDAS Civil/Gen (.mct, .mgt). La copia viene applicata solo dopo il controllo dei dati.";
     [ObservableProperty] private string status = "Pronto";
     [ObservableProperty] private string selectionInformation = "Indica il numero di un elemento per leggerne proprietà e valori.";
     [ObservableProperty] private string minimum = "—";

@@ -1,15 +1,9 @@
 {
   "nota": "Difetti di contrasto della sola Chiara, lasciati per non cambiarla (decisioni.md, «Tema scuro»; F5 Q6): baseline di --check-contrast nello stadio ui (tests/ANTHEA.Desktop.UiTests/ContrastBaseline.cs). Può solo scendere: si sostituisce con baseline-chiara.json di una corsa con meno difetti.",
   "strumento": "tests/ANTHEA.Desktop.UiTests/ContrastAudit.cs --baseline",
-  "comando": "1.14.4, testo attenuato della Chiara #5B697E (decisione del 27/10/2026): supporto/artefatti/1144/ui-2 (la Chiara passa da 645 occorrenze in 193 voci a 3 in 1, il glifo «×» sottile della scala del dominio 3D), con ANTHEA.exe come il runner: ANTHEA.exe --check-contrast <cartella> --baseline tests/fixtures/f5/contrasto-chiara.json",
+  "comando": "1.16.0, unità «−» invece di «×» dei fattori della «Scala del dominio 3D» (decisione del 28/10/2026 «Correggi i gruppi reali», UI-CONTRASTO-03): supporto/artefatti/1160/contrasto-1 (la Chiara passa da 3 occorrenze in 1 voce a 0), con ANTHEA.exe come il runner: ANTHEA.exe --check-contrast <cartella> --baseline tests/fixtures/f5/contrasto-chiara.json",
   "dpi": 96,
-  "totale": 3,
-  "voci_distinte": 1,
-  "voci": [
-    {
-      "vista": "modulo-str_palo--scala-del-dominio-3d",
-      "chiave": "contrasto-testo|TextBlock|FieldForm > ChainedScrollViewer|TextBlock#UnitText #5B697E ParentTemplate|Border #FFFFFF ParentTemplate",
-      "occorrenze": 3
-    }
-  ]
+  "totale": 0,
+  "voci_distinte": 0,
+  "voci": []
 }

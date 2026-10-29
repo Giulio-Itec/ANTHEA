@@ -70,13 +70,15 @@ internal static class LibraryAdapterChecks
         Check(result.Cases.Zip(wall.Cases).All(p => p.First.SlidingDemand == p.Second.SlidingDemand && p.First.OverturningDemand == p.Second.OverturningDemand / 1000 && p.First.PassiveFactor == p.Second.Combination.PassiveFactor), "Ed di scorrimento e ribaltamento e γR,e della libreria");
         Check(result.Cases.All(c => c.Factors is not null && c.LiveFactor == 1 && c.Actions.Count == 4), "Documento versione 2: righe e azioni nei casi");
 
-        // 3. Version 1: the fixed cases on the three loads.
+        // 3. Version 1, calculated without the interface (D7 b, decision of the user of 29/10/2026): upgraded as the interface does when it opens
+        // it and calculated with the automatic rows of the version 2; until 1.15.0 the fixed cases «Caratteristica», «SLU 1»-«SLU 8».
         var legacy = RetainingWall.Calculate(RetainingWall.LegacyDefaults());
-        // MUR-1: nei fattori fissi γQ vale 0 nelle SLU dispari e 1,5 nelle pari; ogni SLU pari è seguita dalla gemella «b» (mensola 1,8 m).
-        Check(legacy.Cases.Select(c => c.Name).SequenceEqual(new[] { "Caratteristica", "Frequente", "Quasi permanente" }.Concat(Enumerable.Range(1, 8).SelectMany(i => i % 2 == 0 ? new[] { "SLU " + i, "SLU " + i + "b" } : new[] { "SLU " + i }))), "Versione 1: tre SLE, otto SLU e quattro gemelle «b»");
+        // MUR-1: SLU 4-7 con γQ = 0 (muro e terreno 1 o 1,3), SLU 8-11 con γQ = 1,5, ognuna seguita dalla gemella «b» (mensola 1,8 m).
+        Check(legacy.Cases.Select(c => c.Name).SequenceEqual(new[] { "SLE 1", "SLE_FREQ 2", "Quasi permanente 3", "SLU 4", "SLU 5", "SLU 6", "SLU 7" }.Concat(Enumerable.Range(8, 4).SelectMany(i => new[] { "SLU " + i, "SLU " + i + "b" }))), "Versione 1 (D7 b): tre SLE, otto SLU e quattro gemelle «b»");
         Check(legacy.Cases.All(c => c.VariableSurchargeOnHeel != c.Name.EndsWith("b")), "Versione 1: gemelle senza il sovraccarico variabile sulla mensola");
-        Same(legacy.Cases[1].LiveFactor, .5, "Versione 1: ψ1 sul carico frequente"); Same(legacy.Cases[2].LiveFactor, .3, "Versione 1: ψ2 quasi permanente");
-        Check(legacy.Cases.All(c => c.Factors is null && c.Actions.Count == 0), "Versione 1: nessuna riga e nessuna azione esposta, come prima");
+        Same(legacy.Cases[1].Actions.Single().Factor, .5, "Versione 1: ψ1 sul carico frequente"); Same(legacy.Cases[2].Actions.Single().Factor, .3, "Versione 1: ψ2 quasi permanente");
+        Check(legacy.Cases.All(c => c.Factors is not null && c.LiveFactor == 1 && c.Actions.Select(a => a.Id).SequenceEqual(new[] { "v1-surcharge" })), "Versione 1 (D7 b): righe e azioni esposte, identificatore stabile del carico");
+        Check(legacy.Input.D("version") == 2 && legacy.Input.Array("actions").Count == 1, "Versione 1 (D7 b): dati del risultato aggiornati alla versione 2");
         var slu = legacy.Cases.First(c => c.State == "SLU");
         Same(slu.SlidingResistance, slu.Vertical * Math.Tan(26 * deg) / 1.1, "Versione 1: γR 1,1 sullo scorrimento con δb del terreno di posa");
         Same(slu.OverturningResistance, slu.Stabilizing / 1.15, "Versione 1: γR 1,15 sul ribaltamento");
@@ -99,7 +101,8 @@ internal static class LibraryAdapterChecks
         var bearing = seismic.Cases.First(c => c.State == "SISMA" && c.SeismicBearing is not null).SeismicBearing!;
         Same(bearing.SoilInertia, .28 / Math.Tan(34 * deg), "F̄ = ag S/(g tan φ′d) senza γRd, EN 1998-5 (F.7)");
         Check(!RetainingWall.ModelFactorOnSoilInertia, "γRd non applicato a F̄ (D7-c)");
-        Check(seismic.Cases.Count(c => c.State == "SISMA" && c.VariableSurchargeOnHeel) == 4 && seismic.Cases.Where(c => c.State == "SISMA").All(c => c.Factors.S("purpose") is "Generale" or "Ribaltamento"), "Sisma dal sito: generale e ribaltamento ±kv");
+        // Censimento D6 a (28/10/2026): ogni variante con q presente (ψ₂) e assente.
+        Check(seismic.Cases.Count(c => c.State == "SISMA" && c.VariableSurchargeOnHeel) == 8 && seismic.Cases.Where(c => c.State == "SISMA").All(c => c.Factors.S("purpose") is "Generale" or "Ribaltamento"), "Sisma dal sito: generale e ribaltamento ±kv, q presente e assente");
         // MUR-1 esteso al sisma: ogni gemella sismica segue la propria riga (stessa destinazione e stessi kh, kv).
         Check(seismic.Cases.Where(c => c.State == "SISMA" && !c.VariableSurchargeOnHeel).All(t => seismic.Cases.Any(p => p.Name + "b" == t.Name && p.VariableSurchargeOnHeel
             && p.Factors.S("purpose") == t.Factors.S("purpose") && p.Kh == t.Kh && p.Kv == t.Kv)), "Gemelle sismiche accanto alla propria riga");

@@ -74,6 +74,7 @@ internal static class BridgeDesignSheetChecks
             await BackgroundAsync(root, expect);
             await ReadOnlyAsync(root, expect);
             await ReloadAsync(root, expect);
+            await PartialFactorsAsync(expect);
             await ExportsAsync(root, output, expect);
             return expect.Count;
         }
@@ -533,6 +534,28 @@ internal static class BridgeDesignSheetChecks
     }
 
     /// <summary>Reload: the same sheet as a new opening on the new data, after the calculation.</summary>
+    /// <summary>
+    /// D8 (census of the combinations, decision of the user of 29/10/2026: «d8 e bridge design devono usare model»): a new document has the
+    /// partial factors of NTC 2018 Tab. 5.1.V from Model, with their note and without γQ and its button at the end of the Traffic tab; the choice
+    /// of the multipliers of the project brings back γQ and the button; an archive (the F3 fixtures) shows the multipliers.
+    /// </summary>
+    private static async Task PartialFactorsAsync(Expect expect)
+    {
+        using var sheet = Open(BridgeDesignModel.Defaults());
+        await Expect.Within(sheet.WaitForCalculationAsync());
+        var traffic = sheet.Inputs[4];
+        var choice = traffic.OfType<BridgeDesignChoice>().Single(c => c.Key == "partial_factors");
+        expect.That(choice.Selected == BridgeDesignModel.ProfileFactors && traffic[^1] is BridgeDesignText { Text: BridgeDesignPresentation.ProfileFactorsNote }
+            && !traffic.OfType<BridgeDesignParameter>().Any(p => p.Key == "gamma_q") && !traffic.OfType<BridgeDesignButton>().Any(), "D8: documento nuovo con i coefficienti della Tab. 5.1.V di Model");
+        expect.That(sheet.Calculation?.Details.Any(d => d.Name == "Permanenti non strutturali G2") == true, "D8: calcolo del documento nuovo con G2 a parte");
+        choice.Selected = choice.Choices[1];
+        await Expect.Within(sheet.WaitForCalculationAsync());
+        traffic = sheet.Inputs[4];
+        expect.That(sheet.Data["input"].S("partial_factors") == choice.Choices[1] && traffic.OfType<BridgeDesignParameter>().Any(p => p.Key == "gamma_q")
+            && traffic.OfType<BridgeDesignButton>().Any() && traffic.OfType<BridgeDesignChoice>().Single(c => c.Key == "partial_factors") == traffic[^1],
+            "D8: con i moltiplicatori del progetto tornano γQ e il pulsante del γQ consigliato");
+    }
+
     private static async Task ReloadAsync(string root, Expect expect)
     {
         var data = BridgeDesignScenarios.FixtureData(root, "confronto-alternativa-a");

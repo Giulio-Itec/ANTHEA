@@ -16,7 +16,7 @@ public sealed partial class ModelViewerViewModel
 {
     MidasModelCatalog? liveCatalog;
     int importOperation;
-    public IReadOnlyList<string> ImportSourceLabels { get; } = ["File · .antheamodel, MIDAS .mct/.mgt o copia acquisita", "MIDAS Civil NX · modello aperto", "Straus7 / Strand7 R3 · file .st7 e .lsa"];
+    public IReadOnlyList<string> ImportSourceLabels { get; } = ["File · .antheamodel, MIDAS .mct/.mgt o copia acquisita", "MIDAS Civil NX · modello aperto", "Straus7 / Strand7 R3 · file .st7, .lsa e .nla"];
     [ObservableProperty] int selectedImportSource;
     [ObservableProperty] string midasBaseUrl = "https://moa-engineers.midasit.com/civil";
     // Session only; never included in view presets, reports or the project document.
@@ -36,7 +36,7 @@ public sealed partial class ModelViewerViewModel
     public string ImportActionLabel => IsMidasImport ? "Importa dal modello aperto" : IsStrand7Import ? "Importa da Straus7" : "Scegli il file e importa…";
     public string ImportCasesSummary => $"{ImportCases.Count(c => c.IsSelected)} di {ImportCases.Count} casi selezionati";
     public string LiveImportLimitations => IsStrand7Import
-        ? "Statico lineare, casi primari: piastre ai nodi senza media fra elementi, aste alle stazioni di Straus7, spostamenti e rotazioni globali. Le combinazioni LSA sono definizioni: ANTHEA le costruisce con GPC dai casi importati. Brick, link non mappati, fasi, masse e temperature restano nel file con un avviso."
+        ? "Statico lineare, casi primari: piastre ai nodi senza media fra elementi, aste alle stazioni di Straus7, spostamenti e rotazioni globali. Reazioni vincolari con il controllo di equilibrio. Le combinazioni LSA sono definizioni: ANTHEA le costruisce con GPC dai casi importati, truss e cavi compresi. Fasi, masse e temperature come dati del modello; dal file .nla i risultati per fase. Brick e link non mappati restano nel file con un avviso."
         : "Casi statici: sollecitazioni locali BEAM/PLATE e spostamenti globali. Stage: scegli fasi, passi e riferimento della deformata; nessuna somma automatica fra stati. Le combinazioni sono acquisite come definizioni. Terne e simboli di vincoli/link richiedono ancora il convertitore GPC distribuito.";
 
     partial void OnSelectedImportSourceChanged(int value)

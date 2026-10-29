@@ -35,6 +35,9 @@ public static partial class BridgeDesignModel
     public static IReadOnlyDictionary<string, string> RateNotes => new System.Collections.ObjectModel.ReadOnlyDictionary<string, string>(Native.RateNotes.ToDictionary(p => p.Key, p => p.Value));
     public static JsonObject Defaults() => Native.NewDocument();
     public static string[] TrafficModels => Native.TrafficModels.ToArray();
+    public static string[] PartialFactorChoices => Native.PartialFactorChoices.ToArray();
+    public const string ProfileFactors = Native.ProfileFactors;
+    public static string PartialFactors(JsonObject data) => Native.PartialFactors(data);
     public const string Schema1 = Native.Schema1;
     public const string UniformLegacy = Native.UniformLegacy;
     public static void ApplyRecommendedTrafficFactor(JsonObject data) => Native.ApplyRecommendedTrafficFactor(data);

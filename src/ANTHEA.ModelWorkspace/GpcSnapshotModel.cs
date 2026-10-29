@@ -39,12 +39,13 @@ internal static class GpcSnapshotModel
         {
             token.ThrowIfCancellationRequested();
             if (!frames.TryGetValue(element.Id, out var frame)) { withoutFrame++; continue; }
-            if (element.Type == "BEAM")
+            if (element.Type is "BEAM" or "TRUSS" or "CABLE")
             {
-                // Snapshot frame: x along the member (GPC V3), y and z the section axes V1 and V2.
+                // Snapshot frame: x along the member (GPC V3), y and z the section axes V1 and V2. 1.16.0: trusses and cables (axial force only) too.
                 var axes = new CoordinateSystem(points[element.Nodes[0]], V(frame.Y), V(frame.Z), V(frame.X)); beamAxes.Add(element.Id, axes);
                 batch.Beams.Add(new BeamRecord { Id = Id(element.Id), I = Id(element.Nodes[0]), J = Id(element.Nodes[1]), CoordinateSystem = axes,
-                    Formulation = BeamFormulation.StraightTwoNode, Record = "Asta " + Id(element.Id) });
+                    Formulation = element.Type == "TRUSS" ? BeamFormulation.Truss : element.Type == "CABLE" ? BeamFormulation.Cable : BeamFormulation.StraightTwoNode,
+                    Record = "Asta " + Id(element.Id) });
             }
             else if (element.Type == "PLATE")
             {
@@ -56,7 +57,7 @@ internal static class GpcSnapshotModel
             else axial++;
         }
         if (withoutFrame > 0) warnings.Add($"{withoutFrame} elementi senza terna locale nella copia: esclusi dalla ricostruzione delle combinazioni.");
-        if (axial > 0) warnings.Add($"{axial} aste assiali (truss, cavi, tiranti): sforzi normali non ricostruiti nelle combinazioni di questa versione.");
+        if (axial > 0) warnings.Add($"{axial} aste a sola trazione o sola compressione: risposta non lineare, sforzi normali non ricostruiti nelle combinazioni.");
         foreach (var result in cases) batch.LoadCases.Add(new LoadCaseRecord { Name = result.Name, Record = "Caso " + result.Name });
         // Factor-free output declared before the results, as for the MIDAS copy; Rebuild receives the expanded factors.
         batch.Combinations.Add(new() { Id = "ANTHEA/runtime", Name = "ANTHEA runtime", Kind = CombinationKind.Envelope, Source = "ANTHEA", Status = "", Terms = [] });
@@ -100,6 +101,27 @@ internal static class GpcSnapshotModel
                     Station = xi, PhysicalDistance = Axes.Length(span) * xi, Body = ActionBody.PositiveSectionFace, StationDomain = "NodeToNode",
                     Record = "Asta " + Id(key.Element) + "/" + result.Name + "/" + xi.ToString("R", CultureInfo.InvariantCulture) });
             }
+            // 1.16.0: trusses and cables carry the axial force only; shears, torque and moments are zero by formulation (pin-ended axial members).
+            foreach (var type in new[] { "TRUSS", "CABLE" })
+                foreach (var v in ResultFields.Read(result, type, "LOCAL", "Fx").Where(v => beamAxes.ContainsKey(v.Element)))
+                {
+                    if (v.Station is not double xi) { stationless++; continue; }
+                    var element = elements[v.Element]; Point3d i = points[element.Nodes[0]], j = points[element.Nodes[1]];
+                    Vector3d span = j - i; var axes = beamAxes[v.Element]; var at = i + span * xi;
+                    results.Beams.Add(new BeamForceRecord { ElementId = Id(v.Element), Case = result.Name, State = State(result.Name, 6), Axes = new CoordinateSystem(at, axes.V1, axes.V2, axes.V3),
+                        Values = [v.Value * NewtonsPerKilonewton, 0, 0, 0, 0, 0], Station = xi, PhysicalDistance = Axes.Length(span) * xi, Body = ActionBody.PositiveSectionFace,
+                        StationDomain = "NodeToNode", Record = "Asta assiale " + Id(v.Element) + "/" + result.Name + "/" + xi.ToString("R", CultureInfo.InvariantCulture) });
+                }
+            // 1.16.0: support reactions (force of the support on the node, global axes), combined like the other nodal results.
+            foreach (var reaction in result.Reactions ?? [])
+            {
+                var p = points[reaction.Node];
+                results.NodeForces.Add(new NodeForceRecord { ElementId = Id(reaction.Node), Case = result.Name, State = State(result.Name, 6),
+                    Axes = new CoordinateSystem(p, new Vector3d(1, 0, 0), new Vector3d(0, 1, 0), new Vector3d(0, 0, 1)),
+                    Values = [reaction.Fx * NewtonsPerKilonewton, reaction.Fy * NewtonsPerKilonewton, reaction.Fz * NewtonsPerKilonewton,
+                        reaction.Mx * NewtonMillimetresPerKilonewtonMetre, reaction.My * NewtonMillimetresPerKilonewtonMetre, reaction.Mz * NewtonMillimetresPerKilonewtonMetre],
+                    Kind = NodalForceKind.SupportReaction, Body = ActionBody.OnNode, Record = "Reazione " + Id(reaction.Node) + "/" + result.Name });
+            }
             foreach (var displacement in result.Displacements ?? [])
             {
                 // The complete six-component state is required: zero rotations are never manufactured.
@@ -113,7 +135,7 @@ internal static class GpcSnapshotModel
         }
         if (stationless > 0) warnings.Add($"{stationless} valori di asta senza stazione: esclusi dalla ricostruzione.");
         if (translationsOnly) warnings.Add("Spostamenti: la copia contiene nodi con sole traslazioni; le deformate delle combinazioni richiedono anche le rotazioni. Nessuna rotazione è stata inventata.");
-        if (results.Shells.Count + results.Beams.Count + results.NodeDisplacements.Count == 0) throw new InvalidDataException("Nessuna sollecitazione plate o beam disponibile nei casi richiesti.");
+        if (results.Shells.Count + results.Beams.Count + results.NodeDisplacements.Count + results.NodeForces.Count == 0) throw new InvalidDataException("Nessuna sollecitazione plate o beam disponibile nei casi richiesti.");
         var imported = ResultMapper.Import(model, results, token);
         token.ThrowIfCancellationRequested();
         if (imported.Status == ImportStatus.Rejected) throw new InvalidDataException("Casi base non compatibili: " + Messages(imported.Diagnostics));

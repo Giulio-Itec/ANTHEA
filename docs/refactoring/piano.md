@@ -879,7 +879,8 @@ Stato e passi da fare aggiornati al 21/10 (set AE, installer 1.12.1, agenti in c
       - Full di chiusura (tag f5-15-f-chiusura): 153 PASS e 1 NEW-FAIL. ui/check-fondazioni-view era ferma alla regola di prima: corretta
         in c4e61fa3 e ripassata da sola (tag f5-15-f-fondazioni). Corse in `supporto/artefatti/f5-15-e`.
       - Guide invariate: dicono già che le revisioni in sola lettura non ammettono modifiche.
-    - Voce di infrastruttura dopo F5, fuori da F5.15: calcoli dal limitatore (D-2, D-5) e taglio sullo sfondo (C2/S5-c).
+    - Voce di infrastruttura dopo F5, fuori da F5.15: calcoli dal limitatore (D-2, D-5) e taglio sullo sfondo (C2/S5-c). Fatta per la
+      1.16.0 il 29/10 (ramo `refactoring/1160-infra`, voce INFRA-LIMITATORE-01 del registro): nessun risultato cambia.
 
 **F5 chiusa il 25/10/2026 con ANTHEA 1.14.0** (decisione dell'utente del 24/10: «Anche rilascio 1.14.0»). Release AG delle librerie
 (Model 2d59bbc6, Checker 22dabe69), guide Rev59, full di rilascio PASS 155 su d7e6b6a7, setup e audit PASS, tag `v1.14.0`.
@@ -907,7 +908,8 @@ cosa serve per riprenderle. Restano aperte: non sono corrette né accettate.
 | R20 | DS, travi: ρw,min nazionale | quando serve il DS delle travi | — |
 
 Altre voci dopo F5, fuori da F5.15:
-- la voce di infrastruttura dei calcoli dal limitatore (D-2, D-5) e del taglio sullo sfondo (C2/S5-c);
+- la voce di infrastruttura dei calcoli dal limitatore (D-2, D-5) e del taglio sullo sfondo (C2/S5-c), fatta per la 1.16.0
+  (INFRA-LIMITATORE-01);
 - i bug da decidere del 16/10, decisi il 26/10 sera: BUG-MUR-2b, BUG-PO-5b, BUG-FES-1b, BUG-FES-1c e BUG-TS-2 da correggere per la
   1.14.3; BUG-SLU-2b e BUG-N7 dichiarati;
 - il percorso Wiki (W-idx con la revisione della Wiki) e l'infrastruttura successiva.
@@ -951,7 +953,7 @@ ancora aperte passano alla 1.14.4 (sezione sotto).
 Decisione del 27/10: «fatta la versione, comincia a lavorare alla 1.14.4 chiudendo gli altri punti che avevamo in lista (vedi combo in
 model ecc)». Le voci vengono dalla 1.14.3.
 
-- [x] Combinazioni e loro generazione in Model, prima i muri, poi i moduli che costruiscono le combinazioni da sé. 28/10: muri dal generatore di Model (COMB-MODEL-01) e decisioni D4 b e D5 b (COMB-MURI-D4D5) nel set AK; le domande D6-D11 del censimento restano aperte (D11, SLE caratteristica di CreateCombinations, senza chiamanti).
+- [x] Combinazioni e loro generazione in Model, prima i muri, poi i moduli che costruiscono le combinazioni da sé. 28/10: muri dal generatore di Model (COMB-MODEL-01) e decisioni D4 b e D5 b (COMB-MURI-D4D5) nel set AK; le domande D6-D11 del censimento restano aperte (D11, SLE caratteristica di CreateCombinations, senza chiamanti). 29/10, 1.16.0 («Come raccomandato» del 28/10 sera): D6 a (variabili presenti o assenti nelle righe sismiche ed eccezionali dei muri, COMB-D6), D7 a (versione 1 da Model, bit per bit; b valutato, COMB-D7), D9 a (servizio del generatore dei Modelli, COMB-D9; interfaccia pianificata), D10 a (profili NTC 2018 ed EN 1990, COMB-D10), D11 a (COMB-D11); D8 b pianificato ([censimento](combinazioni-model-censimento.md) §5).
 - [x] Palo orizzontale: anello interno di diametro diverso dalla prima fila nei report (la distinta per diametro è nella 1.14.2). 27/10:
   frase del secondo anello nel report di Broms e riga del tratto nel report elastico (PO-ANELLO-01), riferimenti approvati.
 - [x] BUG-TS-2 (27/10: opzione 1 con β = 0,4, decisioni.md «Decisioni della 1.14.4 (sera)»): tension stiffening nell'area efficace hc,eff, fuori dalle verifiche SLE per ora.
@@ -1007,6 +1009,26 @@ in generale, segui la normativa». La libreria è GPCChecker.Concrete 0.27.0.0 (
   con Geotechnics 0.25.0.4).
 - [x] Rilascio 1.15.0 con il set AL: full di rilascio con l'installer, setup, audit, tag `v1.15.0` e push («Tag e push se pulita»). Full
   PASS 160 sul commit del setup 5d5185ba, audit PASS; verbale in [installer-1.15.0.md](installer-1.15.0.md).
+- [~] 1.16.0, guide Rev62 e articolo (agente 1160-guide): articolo «Capacità orizzontale del palo in terreno stratificato» (metodo di
+  G. Pacini, f299953e), «Apri riferimento» di G. Pacini e link «guida:» della Wiki (f739b89d, F5-REL-1160-02), guide Rev62 con formule in
+  LaTeX, teoria completata e capitolo del terreno stratificato (05827c85, 8131f89d); transizioni editoriali della Wiki F5-REL-1160-01.
+  Restano da integrare i testi «Per le guide» degli altri agenti della 1.16.0.
+
+## Lavori della 1.16.0 · colonna modello, fase 2
+
+Agente `1160-colonna2` (29/10, notte), sulle decisioni Q9 e Q12 del progetto della colonna («tutte le combinazioni con l'esito peggiore»,
+«dominio ridotto N–M1Rd,max in fase 2») e sulla regola «Approvati se spiegati».
+
+- [x] Libreria, Checker `lib-1160/colonna2` (000d49eb, 088d36c0, 35a0e47d): GPCChecker.Concrete 0.29.0.0 con l'inviluppo delle azioni
+  (`ModelColumnEnvelope`, cache delle curve per N, direzione e φef) e il dominio ridotto (`ModelColumnAnalysis.Domain`); pagina di metodo
+  `ca.colonna-modello` §6.9 con gli scostamenti K-7 e K-8; prove `ModelColumnEnvelopeTests` con il riferimento Python esteso. Set candidato
+  `supporto/artefatti/1160-colonna2/set-candidato-a`, tutte le suite verdi, installato nel worktree e non committato.
+- [x] Scheda «08 · Colonna modello»: scelta delle azioni (azione singola della 1.15.0, combinazioni SLU, SLU e SLV), riquadro dell'inviluppo,
+  terzo grafico del dominio ridotto, avanzamento e «Interrompi», CSV a blocchi, capitolo della relazione con le combinazioni e il dominio
+  (voce CA-COLONNA-02: nessun riferimento cambiato). Suite mirate PASS: Application.Tests, Presentation.Tests, Presentation.Tests/sezione-ca,
+  ui/check-sezione-view, ui/smoke-ca-extensions, ui/f3-report-chapters, ui/f3-equivalence.
+- [ ] Unione con le altre librerie della 1.16.0 (Concrete 0.28.0.0 di `lib-1160/coordinatore`: serve una versione sopra 0.28.0.0 e 0.29.0.0),
+  set ufficiale, full; guide (testo proposto in `ANTHEA-f5-ripresa/f5-agenti/1160-colonna2/avanzamento.md`).
 
 ## Wiki (in parallelo)
 
@@ -1202,6 +1224,7 @@ Attività autorizzata dall'utente, ramo `refactoring/f5-fondazioni-superficiali`
 - [x] Pressioni di contatto senza trazione, area efficace nei due assi e schema illustrativo di Prandtl; 23 test Checker, 67 controlli documento/Progetti/UI, input richiudibili senza perdere il risultato.
 - [x] Collaudo estensione: standard 45 PASS / 1 KNOWN / 0 nuovi fallimenti; runner mirato documento/UI tutto PASS. Wiki e guide Rev34 rigenerate, controllo grafico completato, Rev33 archiviate.
 - [x] Rilascio coerente S con versioni assegnate e pubblicate dall’utente: provenienza e impronte verificate, suite del treno conservate, manifest installati e runner full superato. Adattatore Fondazioni aggiornato al contratto 2; dettagli sotto (FON-03).
+- [x] 1.16.0 (29/10/2026, agente 1160-hansen): Brinch Hansen con azione orizzontale, drenato e non drenato, nelle direzioni di B′ e di L′ con la minore (GPCChecker.Geotechnics 0.26.0.0, Checker `lib-1160/hansen`); etichetta del metodo «Brinch Hansen», tracce e impronte registrate. FON-HANSEN-01.
 
 ## Integrazione F4 e combinazioni — 12 ottobre 2026
 

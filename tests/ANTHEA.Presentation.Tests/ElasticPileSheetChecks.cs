@@ -36,9 +36,9 @@ internal static class ElasticPileSheetChecks
     private static readonly HeldElasticAnalyses Shared = new();
 
     private static HorizontalPileSheetViewModel Open(string module, JsonObject data, HeldElasticAnalyses? engine = null, PresentationServices? services = null,
-        bool readOnly = false, RecordingHost? host = null) =>
+        bool readOnly = false, RecordingHost? host = null, CalculationLimiter? limiter = null) =>
         (HorizontalPileSheetViewModel)new HorizontalPileSheetModule(module, new NoFigures(), (engine ?? Shared).Create).CreateSheet(new SheetContext((JsonObject)data.DeepClone(),
-            readOnly, host ?? new RecordingHost(), services ?? TraceServices(), ModuleServices.Get(module), new CalculationLimiter(1)));
+            readOnly, host ?? new RecordingHost(), services ?? TraceServices(), ModuleServices.Get(module), limiter ?? new CalculationLimiter(1)));
 
     private static async Task<int> RunAsync(string root, string output)
     {
@@ -63,6 +63,8 @@ internal static class ElasticPileSheetChecks
             await ActiveTabAsync(root, expect);
             await CurrentRevisionAsync(root, expect);
             await ClosingAsync(root, expect);
+            // 1.16.0 (D-2): the elastic response through the limiter of the application.
+            await LimiterAsync(root, expect);
             await ReadOnlyAsync(root, expect);
             await ReloadAsync(root, expect);
             await VerifierAsync(root, expect);
@@ -423,6 +425,62 @@ internal static class ElasticPileSheetChecks
         engine.Release();
         await Expect.Within(pending);
         expect.That(sheet.Elastic.Result is null && sheet.Elastic.Response is null, "Chiusura durante il calcolo: nulla pubblicato");
+        await engine.DrainAsync();
+    }
+
+    /// <summary>
+    /// 1.16.0 (D-2): the elastic response takes a place of the limiter of the application, as the capacity. With the only place taken by another
+    /// calculation it waits after its delay without entering the engine, not busy, with the status of the request; with the place freed it gives
+    /// the same response and result as a sheet with a free limiter (the volatile times left out, as in the F3 comparison); closing during the wait
+    /// publishes nothing and the engine is never entered.
+    /// </summary>
+    private static async Task LimiterAsync(string root, Expect expect)
+    {
+        var tolerances = Anthea.Testing.Comparison.Tolerances.Load(Path.Combine(root, "tests", "ANTHEA.Testing", "tolerances.json"));
+        string Stable(JsonNode? node)
+        {
+            if (node is null) return "null";
+            var copy = node.DeepClone();
+            void Strip(JsonNode? n)
+            {
+                if (n is JsonObject o) { foreach (string key in o.Select(p => p.Key).Where(k => tolerances.IsVolatile(k, "") is not null).ToArray()) o.Remove(key); foreach (var (_, v) in o) Strip(v); }
+                else if (n is JsonArray a) foreach (var v in a) Strip(v);
+            }
+            Strip(copy);
+            return copy.ToJsonString();
+        }
+        var data = HorizontalPileScenarios.FixtureData(root, HorizontalPileScenarios.Pile, "single-soil-elastic");
+        string response, result;
+        using (var free = Open(HorizontalPileScenarios.Pile, data))
+        {
+            await Expect.Within(free.Elastic.PendingCalculation);
+            response = Stable(free.Elastic.Response); result = Stable(free.Elastic.Result);
+        }
+        var limiter = new CalculationLimiter(1);
+        var engine = new HeldElasticAnalyses();
+        var other = await limiter.EnterAsync(CancellationToken.None);
+        using (var sheet = Open(HorizontalPileScenarios.Pile, data, engine, limiter: limiter))
+        {
+            var pending = sheet.Elastic.PendingCalculation;
+            string status = sheet.Elastic.Status;
+            // The delay of the recalculation passes with the place taken: the request waits for the place, not for its delay.
+            await Task.Delay(ElasticPileViewModel.RecalculationDelay + TimeSpan.FromMilliseconds(200));
+            expect.That(engine.Calls == 0 && !sheet.Elastic.IsBusy && !pending.IsCompleted && sheet.Elastic.Result is null && sheet.Elastic.Status == status,
+                "Limitatore occupato: risposta elastica in attesa del posto, motore non avviato · " + sheet.Elastic.Status);
+            other.Dispose();
+            await Expect.Within(pending);
+            expect.That(engine.Calls == 1 && Stable(sheet.Elastic.Response) == response && Stable(sheet.Elastic.Result) == result,
+                "Limitatore liberato: stessa risposta e stesso risultato del foglio con il limitatore libero");
+        }
+        other = await limiter.EnterAsync(CancellationToken.None);
+        var closed = Open(HorizontalPileScenarios.Pile, data, engine, limiter: limiter);
+        var waiting = closed.Elastic.PendingCalculation;
+        await Task.Delay(ElasticPileViewModel.RecalculationDelay + TimeSpan.FromMilliseconds(200));
+        closed.Dispose();
+        await Expect.Within(waiting);
+        other.Dispose();
+        expect.That(engine.Calls == 1 && closed.Elastic.Result is null && closed.Elastic.Response is null, "Chiusura durante l'attesa del posto: nulla pubblicato, motore non avviato");
+        using (await limiter.EnterAsync(CancellationToken.None).WaitAsync(Expect.Deadline)) expect.That(true, "Posto del limitatore restituito dopo la chiusura");
         await engine.DrainAsync();
     }
 

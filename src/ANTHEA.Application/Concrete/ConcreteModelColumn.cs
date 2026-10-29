@@ -8,16 +8,29 @@ using GPC.Checkers.Concrete.Slenderness;
 namespace Anthea.Application.Concrete;
 
 /// <summary>
-/// La colonna modello della sezione c.a. (scheda «Colonna modello», 1.15.0): adattatore della libreria GPCChecker.Concrete 0.27
-/// (<see cref="ModelColumnAnalysis"/>, pagina di metodo ca.colonna-modello). Solo conversione delle unità (kN, kNm, m, mm, 1/m, ‰), lettura
-/// delle opzioni del foglio (<c>workspace_ca.colonna_modello</c>) e traduzione di rifiuti, avvisi, modo e stato: nessuna formula.
-/// Le chiavi assenti valgono i predefiniti dichiarati in <see cref="Defaults"/>, letti senza J.S come le chiavi nuove del M–χ: i fogli salvati
-/// prima della 1.15.0 non hanno l'oggetto e si aprono senza scritture.
+/// La colonna modello della sezione c.a. (scheda «Colonna modello», 1.15.0; fase 2 nella 1.16.0): adattatore della libreria GPCChecker.Concrete
+/// (<see cref="ModelColumnAnalysis"/>, <see cref="ModelColumnEnvelope"/>, pagina di metodo ca.colonna-modello). Solo conversione delle unità (kN,
+/// kNm, m, mm, 1/m, ‰), lettura delle opzioni del foglio (<c>workspace_ca.colonna_modello</c>) e delle combinazioni, traduzione di rifiuti,
+/// avvisi, modo e stato: nessuna formula. Le chiavi assenti valgono i predefiniti dichiarati in <see cref="Defaults"/>, letti senza J.S come
+/// le chiavi nuove del M–χ: i fogli salvati prima della 1.15.0 non hanno l'oggetto e si aprono senza scritture; quelli della 1.15.0 non hanno
+/// «azioni» né «intervalli_dominio» e restano sull'azione singola.
 /// </summary>
 public static class ConcreteModelColumn
 {
     /// <summary>L'oggetto delle opzioni nelle impostazioni della sezione.</summary>
     public const string OptionsKey = "colonna_modello";
+
+    /// <summary>
+    /// Le azioni verificate (1.16.0): l'azione singola dei campi N e M0Ed (predefinito, come nella 1.15.0) oppure tutte le combinazioni degli
+    /// insiemi SLU, o SLU e SLV, della scheda «Combinazioni» (N, Mx, My negli assi locali), con l'esito peggiore.
+    /// </summary>
+    public static readonly ImmutableArray<string> ActionSources = ["Azione singola (N, M0Ed)", "Combinazioni SLU", "Combinazioni SLU e SLV"];
+
+    /// <summary>Gli insiemi di combinazioni di una scelta di <see cref="ActionSources"/> (nessuno per l'azione singola).</summary>
+    public static IReadOnlyList<string> CombinationSets(int source) => source switch { 1 => ["SLU"], 2 => ["SLU", "SLV"], _ => [] };
+
+    /// <summary>L'indice della scelta delle azioni; una scelta sconosciuta è rifiutata.</summary>
+    public static int Source(JsonObject? options) => Choice(options, "azioni", ActionSources, "Azioni");
 
     private const double NewtonsPerKilonewton = 1000, NmmPerKilonewtonMetre = 1e6, MillimetresPerMetre = 1000, PermillePerUnit = 1000;
     private const double SquareMillimetresPerSquareMetre = 1e6, NmmSquaredPerKilonewtonMetreSquared = 1e9;
@@ -34,16 +47,16 @@ public static class ConcreteModelColumn
     public static readonly ImmutableArray<string> CreepModes = ["Trascurata", "φef assegnato", "Da φ(∞, t0) con la (5.19)"];
 
     /// <summary>
-    /// I predefiniti delle chiavi (testi del form): N = 0, θ = 0°, M0Ed vuoto (solo capacità), l0 e l da inserire, c = 10 (EN 1992-1-1 5.8.8.2(4)),
-    /// imperfezione EN 5.2(7)a, eccentricità minima della norma, viscosità trascurata con il controllo di 5.8.4(4), rm non noto, 200 passi,
-    /// tolleranza su N di MRd(N) 1 kN, momento trasversale fino all'1 %.
+    /// I predefiniti delle chiavi (testi del form): azione singola, N = 0, θ = 0°, M0Ed vuoto (solo capacità), l0 e l da inserire, c = 10
+    /// (EN 1992-1-1 5.8.8.2(4)), imperfezione EN 5.2(7)a, eccentricità minima della norma, viscosità trascurata con il controllo di 5.8.4(4),
+    /// rm non noto, 200 passi, tolleranza su N di MRd(N) 1 kN, momento trasversale fino all'1 %, 40 intervalli del dominio ridotto (1.16.0).
     /// </summary>
     public static readonly ImmutableDictionary<string, string> Defaults = new Dictionary<string, string>(StringComparer.Ordinal)
     {
-        ["N"] = "0", ["theta"] = "0", ["M0Ed"] = "", ["l0"] = "", ["l"] = "", ["c"] = "10",
+        ["azioni"] = ActionSources[0], ["N"] = "0", ["theta"] = "0", ["M0Ed"] = "", ["l0"] = "", ["l"] = "", ["c"] = "10",
         ["imperfezione"] = ImperfectionModes[0], ["ei"] = "", ["eccentricita_minima"] = MinimumEccentricityModes[0],
         ["viscosita"] = CreepModes[0], ["phi_ef"] = "0", ["phi_inf"] = "", ["M0Eqp"] = "", ["NEqp"] = "", ["rm"] = "",
-        ["passi"] = "200", ["tolleranza_n"] = "1", ["limite_trasversale"] = "1"
+        ["passi"] = "200", ["tolleranza_n"] = "1", ["limite_trasversale"] = "1", ["intervalli_dominio"] = "40"
     }.ToImmutableDictionary(StringComparer.Ordinal);
 
     /// <summary>Il testo di una chiave: il valore salvato o il predefinito (senza J.S: il predefinito è dichiarato, non un ripiego).</summary>
@@ -51,23 +64,130 @@ public static class ConcreteModelColumn
 
     /// <summary>
     /// La colonna modello sui dati della sezione: verificatore nativo con dominio plastico e calcestruzzo teso trascurato (NTC 2018 §4.1.2.3.9.2),
-    /// assi delle forze locali, la sezione del verificatore. Rifiuti della libreria e dati non validi: <see cref="ArgumentException"/> in italiano.
+    /// assi delle forze locali, la sezione del verificatore. Con l'azione singola la colonna di N e M0Ed e il suo dominio ridotto
+    /// (<see cref="ModelColumnAnalysis.Domain"/>); con le combinazioni (<paramref name="combinations"/>: le righe di
+    /// <see cref="ConcreteSheetPreparation.ReadActions"/>) l'inviluppo della libreria (<see cref="ModelColumnEnvelope"/>), con i risultati della
+    /// combinazione che governa nei campi della colonna singola. Rifiuti della libreria e dati non validi: <see cref="ArgumentException"/> in
+    /// italiano. Avanzamento dalla libreria (combinazioni, poi i punti del dominio ridotto).
     /// </summary>
-    public static ConcreteModelColumnResult Calculate(JsonObject input, JsonObject workspace, JsonObject? options, CancellationToken token = default)
+    public static ConcreteModelColumnResult Calculate(JsonObject input, JsonObject workspace, JsonObject? options, CancellationToken token = default,
+        IReadOnlyDictionary<string, JsonObject[]>? combinations = null, IProgress<string>? progress = null)
     {
         ArgumentNullException.ThrowIfNull(input); ArgumentNullException.ThrowIfNull(workspace);
         token.ThrowIfCancellationRequested();
         if (workspace.Array("trefoli").Count > 0)
             throw new ArgumentException("Colonna modello con trefoli: disponibile per la sola armatura ordinaria.");
+        int source = Source(options);
+        int intervals = SectionWorkspace.Subdivisions(Text(options, "intervalli_dominio"), "Intervalli del dominio ridotto",
+            ModelColumnAnalysis.MinimumDomainIntervals, ModelColumnAnalysis.MaximumDomainIntervals);
+        // the combinations read before the section: a value that is not a number is refused with the name of its row
+        var rows = CombinationSets(source).SelectMany(key => (combinations?.GetValueOrDefault(key) ?? []).Select(row => (Key: key, Row: row))).ToList();
+        var actions = rows.Select(r =>
+        {
+            ActionPoint point;
+            try { point = SectionWorkspace.ReadAction(r.Row); }
+            catch (ArgumentException error) { throw new ArgumentException(SectionActionInputs.ActionLabel(r.Row) + " · " + error.Message, error); }
+            return new ModelColumnAction(SectionActionInputs.ActionLabel(r.Row), point.N * NewtonsPerKilonewton, point.Mx * NmmPerKilonewtonMetre, point.My * NmmPerKilonewtonMetre);
+        }).ToList();
+        if (source > 0 && actions.Count == 0)
+            throw new ArgumentException("Nessuna combinazione " + (source == 1 ? "SLU" : "SLU o SLV") + " nella scheda «Combinazioni»: inserirle, oppure scegliere l'azione singola.");
         var settings = J.Obj(("criterio", "N costante"), ("assi", "Locali"), ("modello", "Non lineare"), ("strategia", "Iterativo"),
             ("modello_resistente", "Plastico"), ("trazione_cls", "No"));
         var engine = new CheckerSection(input, workspace, settings);
-        var request = Request(options, engine);
-        ModelColumnResult native;
-        try { native = ModelColumnAnalysis.Calculate(request, engine.Checker, engine.Section, engine.ForceAxes, token); }
-        catch (ModelColumnException rejection) { throw new ArgumentException(Rejection(rejection, workspace, request), rejection); }
-        return Convert(native, Inputs(options), request);
+        if (source == 0)
+        {
+            var request = Request(options, engine);
+            ModelColumnResult native; ModelColumnDomain domain;
+            try
+            {
+                native = ModelColumnAnalysis.Calculate(request, engine.Checker, engine.Section, engine.ForceAxes, token);
+                domain = ModelColumnAnalysis.Domain(request, engine.Checker, engine.Section, engine.ForceAxes, intervals, Relay(progress), token);
+            }
+            catch (ModelColumnException rejection) { throw new ArgumentException(Rejection(rejection, workspace, request), rejection); }
+            return Convert(native, Inputs(options, source), request, new Extra(ActionSources[source], [], [Domain(domain)], null, native.Verified, [], null,
+                request.DirectionDegrees));
+        }
+        // the tolerance on N of MRd(N) at least the rule of the library for the largest |N| of the combinations
+        var template = Request(options, engine, actions.Max(a => Math.Abs(a.AxialForce)));
+        ModelColumnEnvelopeResult envelope;
+        try { envelope = ModelColumnEnvelope.Calculate(template, actions, engine.Checker, engine.Section, engine.ForceAxes, intervals, Relay(progress), token); }
+        catch (ModelColumnException rejection) { throw new ArgumentException(Rejection(rejection, workspace, template), rejection); }
+        var combinationValues = envelope.Actions.Select(a => Combination(a, rows[a.Index].Key, envelope, workspace, template)).ToArray();
+        if (envelope.GoverningCalculated is not int governing)
+            throw new ArgumentException(envelope.Actions.All(a => a.Status == ModelColumnActionStatus.Tension)
+                ? "Nessuna combinazione compressa: la colonna modello vale per gli elementi compressi (N < 0, compressione negativa)."
+                : "Nessuna combinazione calcolabile: " + string.Join("; ", combinationValues.Where(c => c.Status != "Trazione").Select(c => c.Name + " · " + c.Outcome)) + ".");
+        var warnings = new List<string>();
+        if (envelope.Warnings.Contains(ModelColumnEnvelopeWarning.TransverseFirstOrderMoment))
+            warnings.Add("Momento del primo ordine normale alla direzione θ in " + combinationValues.Count(c => c.TransverseNeglected) + " combinazioni (oltre "
+                + (template.TransverseMomentLimit * 100).ToString("0.##", CultureInfo.CurrentCulture) + " % del momento in θ): non verificato. Ripetere la verifica "
+                + "con θ + 90° e combinare le due direzioni con EN 1992-1-1 5.8.9.");
+        if (envelope.Warnings.Contains(ModelColumnEnvelopeWarning.RejectedActions))
+            warnings.Add(combinationValues.Count(c => c.Status == "Non calcolabile") + " combinazioni non calcolabili: esito incompleto.");
+        string status = "Colonna modello, inviluppo di " + actions.Count + " " + (source == 1 ? "combinazioni SLU" : "combinazioni SLU e SLV") + " (θ = "
+            + G(template.DirectionDegrees) + "°): " + Count("Verificata") + " verificate, " + Count("Non verificata") + " non verificate, " + Count("Trazione")
+            + " di trazione (non pertinenti)" + (Count("Non calcolabile") > 0 ? ", " + Count("Non calcolabile") + " non calcolabili" : "")
+            + (envelope.Governing is int worst ? "; governa «" + combinationValues[worst].Name + "», η = " + (combinationValues[worst].Ratio is double ratio
+                ? ratio.ToString("G4", CultureInfo.CurrentCulture) : "∞") : "") + ".";
+        int Count(string kind) => combinationValues.Count(c => c.Status == kind);
+        var shown = envelope.Actions[governing];
+        return Convert(shown.Result, Inputs(options, source), template, new Extra(ActionSources[source], combinationValues,
+            envelope.Domains.Select(Domain).ToArray(), combinationValues[governing].Name, envelope.Verified, warnings, status, template.DirectionDegrees));
     }
+
+    /// <summary>L'avanzamento della libreria come testo in italiano (le combinazioni, poi i punti del dominio ridotto).</summary>
+    private static IProgress<ModelColumnProgress>? Relay(IProgress<string>? target) => target is null ? null : new ProgressText(target);
+
+    /// <summary>Il testo dell'avanzamento della libreria.</summary>
+    public static string ProgressMessage(bool domain, int completed, int total) => domain
+        ? "Colonna modello: dominio ridotto N–M1Rd,max, punto " + completed + " di " + total + "…"
+        : "Colonna modello: combinazione " + completed + " di " + total + "…";
+
+    private sealed class ProgressText(IProgress<string> target) : IProgress<ModelColumnProgress>
+    {
+        public void Report(ModelColumnProgress value) => target.Report(ProgressMessage(value.Stage == ModelColumnStage.Domain, value.Completed, value.Total));
+    }
+
+    /// <summary>Le parti della fase 2 del risultato: azioni, combinazioni, domini, combinazione mostrata, esito complessivo, avvisi e stato dell'inviluppo.</summary>
+    private sealed record Extra(string Source, IReadOnlyList<ConcreteModelColumnResult.CombinationValues> Combinations,
+        IReadOnlyList<ConcreteModelColumnResult.DomainValues> Domains, string? Governing, bool? Verified, IReadOnlyList<string> Warnings, string? EnvelopeStatus,
+        double Theta);
+
+    private static ConcreteModelColumnResult.CombinationValues Combination(ModelColumnActionResult a, string state, ModelColumnEnvelopeResult envelope,
+        JsonObject workspace, ModelColumnRequest template)
+    {
+        var r = a.Result;
+        (string status, string outcome) = a.Status switch
+        {
+            ModelColumnActionStatus.Verified => ("Verificata", "Verificata"),
+            ModelColumnActionStatus.NotVerified => ("Non verificata", "Non verificata (instabilità)"),
+            ModelColumnActionStatus.Tension => ("Trazione", "Trazione: non pertinente"),
+            _ when a.Rejection == ModelColumnRejection.AxialForceBeyondResistance => ("Non verificata", "Non verificata: "
+                + RejectionText(a.Rejection.Value, a.RejectionValue, a.Action.AxialForce, template.TransverseMomentLimit, workspace)),
+            _ => ("Non calcolabile", "Non calcolabile: " + RejectionText(a.Rejection!.Value, a.RejectionValue, a.Action.AxialForce, template.TransverseMomentLimit, workspace))
+        };
+        return new()
+        {
+            Name = a.Action.Name, State = state, AxialKn = Kn(a.Action.AxialForce), MxKnm = Knm(a.Action.Moment1), MyKnm = Knm(a.Action.Moment2),
+            MomentKnm = Knm(a.Moment), TransverseKnm = Knm(a.TransverseMoment), TransverseNeglected = a.TransverseNeglected,
+            DirectionDegrees = a.Status == ModelColumnActionStatus.Tension ? null : a.DirectionDegrees, FirstOrderTotalKnm = Knm(r?.FirstOrder.TotalMoment),
+            MaximumFirstOrderKnm = r is null ? null : Knm(r.Capacity.MaximumFirstOrderMoment), Ratio = Finite(a.Ratio),
+            BeyondResistance = a.Rejection == ModelColumnRejection.AxialForceBeyondResistance, Mode = r is null ? "" : Mode(r.Capacity.Mode),
+            EffectiveCreepRatio = r?.Creep.EffectiveRatio, Verified = a.Verified, Status = status, Outcome = outcome,
+            Governing = envelope.Governing == a.Index, Shown = envelope.GoverningCalculated == a.Index
+        };
+    }
+
+    private static ConcreteModelColumnResult.DomainValues Domain(ModelColumnDomain d) => new()
+    {
+        DirectionDegrees = d.DirectionDegrees, EffectiveCreepRatio = d.EffectiveCreepRatio, CompressionResistanceKn = Kn(d.CompressionResistance),
+        ImperfectionEccentricity = d.ImperfectionEccentricity, MinimumEccentricity = d.MinimumEccentricity,
+        Points = d.Points.Select(p => new ConcreteModelColumnResult.DomainPoint
+        {
+            AxialKn = Kn(p.AxialForce), MaximumFirstOrderKnm = Knm(p.MaximumFirstOrderMoment), SectionKnm = Knm(p.UltimateMoment),
+            Mode = p.Mode is ModelColumnMode mode ? Mode(mode) : "", Rejected = p.Rejection is not null
+        }).ToArray()
+    };
 
     // ---------------------------------------------------------------- request
 
@@ -82,14 +202,20 @@ public static class ConcreteModelColumn
         return index >= 0 ? index : throw new ArgumentException(label + ": scelta non riconosciuta.");
     }
 
-    internal static ModelColumnRequest Request(JsonObject? options, CheckerSection engine)
+    /// <summary>
+    /// La richiesta dei campi del form. Con le combinazioni è il modello dell'inviluppo: N e M0Ed non servono (M0Ed vuoto non è richiesto) e la
+    /// tolleranza su N di MRd(N) segue la regola della libreria per <paramref name="largestAxialForce"/> (il |N| maggiore delle combinazioni, N).
+    /// </summary>
+    internal static ModelColumnRequest Request(JsonObject? options, CheckerSection engine, double? largestAxialForce = null)
     {
-        double axial = Number(options, "N", "N") * NewtonsPerKilonewton;
+        // with the combinations N and M0Ed of the form are hidden and not read (the envelope takes them from each combination)
+        bool single = largestAxialForce is null;
+        double axial = single ? Number(options, "N", "N") * NewtonsPerKilonewton : 0;
         double direction = Number(options, "theta", "Direzione θ");
         if (string.IsNullOrWhiteSpace(Text(options, "l0"))) throw new ArgumentException("Inserire la lunghezza libera di inflessione l0.");
         if (string.IsNullOrWhiteSpace(Text(options, "l"))) throw new ArgumentException("Inserire la lunghezza dell'elemento l (per αh di EN 1992-1-1 5.2(5) e per l/300).");
         double effective = Number(options, "l0", "l0") * MillimetresPerMetre, member = Number(options, "l", "l") * MillimetresPerMetre;
-        double? moment = Optional(options, "M0Ed", "M0Ed") * NmmPerKilonewtonMetre;
+        double? moment = single ? Optional(options, "M0Ed", "M0Ed") * NmmPerKilonewtonMetre : null;
         double factor = Number(options, "c", "c");
         var imperfection = Choice(options, "imperfezione", ImperfectionModes, "Imperfezione") switch
         {
@@ -120,23 +246,30 @@ public static class ConcreteModelColumn
         double tolerance = Number(options, "tolleranza_n", "Tolleranza su N") * NewtonsPerKilonewton;
         // Tolleranza su N di MRd(N) (confronto con la curvatura nominale): almeno la regola della libreria per legame e dimensioni (SLU-3), come
         // il M–χ e la resistenza a N assegnato; un valore non valido resta alla libreria, che lo rifiuta.
-        if (double.IsFinite(tolerance) && tolerance > 0) tolerance = Math.Max(tolerance, DomainPointAxialTolerance.Calculate(engine.Checker.SectionSolver, axial));
+        if (double.IsFinite(tolerance) && tolerance > 0)
+            tolerance = Math.Max(tolerance, DomainPointAxialTolerance.Calculate(engine.Checker.SectionSolver, largestAxialForce is double largest ? -largest : axial));
         double transverse = Number(options, "limite_trasversale", "Limite del momento trasversale") / 100;
         return new ModelColumnRequest(axial, direction, effective, member, moment, factor, imperfection, minimum, creep, ratio, steps, tolerance, transverse);
     }
 
     /// <summary>Le righe dei dati per la relazione: etichetta e valore effettivo (salvato o predefinito).</summary>
-    private static IReadOnlyList<ConcreteModelColumnResult.Row> Inputs(JsonObject? options)
+    private static IReadOnlyList<ConcreteModelColumnResult.Row> Inputs(JsonObject? options, int source)
     {
         string T(string key) => Text(options, key);
-        var rows = new List<ConcreteModelColumnResult.Row>
+        var rows = new List<ConcreteModelColumnResult.Row> { new("Azioni", T("azioni")) };
+        if (source == 0)
         {
-            new("N costante (− compressione) [kN]", T("N")), new("Direzione del momento θ [°]", T("theta")),
-            new("M0Ed nella sezione critica, senza imperfezione [kNm]", string.IsNullOrWhiteSpace(T("M0Ed")) ? "solo capacità" : T("M0Ed")),
+            rows.Add(new("N costante (− compressione) [kN]", T("N")));
+            rows.Add(new("Direzione del momento θ [°]", T("theta")));
+            rows.Add(new("M0Ed nella sezione critica, senza imperfezione [kNm]", string.IsNullOrWhiteSpace(T("M0Ed")) ? "solo capacità" : T("M0Ed")));
+        }
+        else rows.Add(new("Direzione del momento θ [°] (Mθ = Mx·cos θ + My·sin θ)", T("theta")));
+        rows.AddRange(new ConcreteModelColumnResult.Row[]
+        {
             new("Lunghezza libera di inflessione l0 [m]", T("l0")), new("Lunghezza dell'elemento l [m]", T("l")), new("Fattore della curvatura c", T("c")),
             new("Imperfezione", T("imperfezione") == ImperfectionModes[3] ? T("imperfezione") + " · ei = " + T("ei") + " mm" : T("imperfezione")),
             new("Eccentricità minima", T("eccentricita_minima")), new("Viscosità", T("viscosita"))
-        };
+        });
         int creep = CreepModes.IndexOf(T("viscosita"));
         if (creep == 1) rows.Add(new("φef", T("phi_ef")));
         if (!string.IsNullOrWhiteSpace(T("phi_inf"))) rows.Add(new("φ(∞, t0)", T("phi_inf")));
@@ -144,13 +277,18 @@ public static class ConcreteModelColumn
         rows.Add(new("rm = M01/M02", string.IsNullOrWhiteSpace(T("rm")) ? "non noto (C = 0,7)" : T("rm")));
         rows.Add(new("Passi di curvatura", T("passi"))); rows.Add(new("Tolleranza su N di MRd(N) [kN]", T("tolleranza_n")));
         rows.Add(new("Momento trasversale ammesso [%]", T("limite_trasversale")));
+        rows.Add(new("Intervalli del dominio ridotto", T("intervalli_dominio")));
         return rows;
     }
 
     // ---------------------------------------------------------------- messages
 
     /// <summary>Il motivo di un rifiuto della libreria, in italiano.</summary>
-    internal static string Rejection(ModelColumnException rejection, JsonObject workspace, ModelColumnRequest request) => rejection.Reason switch
+    internal static string Rejection(ModelColumnException rejection, JsonObject workspace, ModelColumnRequest request)
+        => RejectionText(rejection.Reason, rejection.Value, request.AxialForce, request.TransverseMomentLimit, workspace);
+
+    /// <summary>Il motivo di un rifiuto, in italiano: il valore del rifiuto, lo sforzo normale della richiesta o della combinazione (N) e il limite trasversale.</summary>
+    private static string RejectionText(ModelColumnRejection reason, double value, double axialForce, double transverseLimit, JsonObject workspace) => reason switch
     {
         ModelColumnRejection.InvalidRequest => "Dati della colonna modello non validi: N e θ finiti; l0 e l maggiori di zero; c fra 8 e 10; passi fra 10 e 500; "
             + "tolleranza su N positiva; momento trasversale ammesso fra 0 e 100 %; M0Ed ≥ 0; rm fra −1 e 1; ei ≥ 0; φef e φ(∞, t0) fra 0 e 10; "
@@ -160,10 +298,10 @@ public static class ConcreteModelColumn
         ModelColumnRejection.UnsupportedSection => "Colonna modello disponibile per le sezioni in calcestruzzo ordinario delle norme europee, con barre e senza profili d'acciaio.",
         ModelColumnRejection.UnsupportedChecker => "Colonna modello: dominio plastico e calcestruzzo teso trascurato (NTC 2018 §4.1.2.3.9.2).",
         ModelColumnRejection.TensionAxialForce => "N di trazione: la colonna modello vale per gli elementi compressi (N ≤ 0, compressione negativa).",
-        ModelColumnRejection.AxialForceBeyondResistance => "|N| = " + Kilo(Math.Abs(request.AxialForce)) + " kN oltre la resistenza a compressione centrata della sezione NRd,c = "
-            + Kilo(Math.Abs(rejection.Value)) + " kN.",
-        ModelColumnRejection.TransverseMomentBeyondLimit => "Momento trasversale pari al " + (rejection.Value * 100).ToString("0.##", CultureInfo.CurrentCulture)
-            + " % del momento nella direzione θ, oltre il " + (request.TransverseMomentLimit * 100).ToString("0.##", CultureInfo.CurrentCulture)
+        ModelColumnRejection.AxialForceBeyondResistance => "|N| = " + Kilo(Math.Abs(axialForce)) + " kN oltre la resistenza a compressione centrata della sezione NRd,c = "
+            + Kilo(Math.Abs(value)) + " kN.",
+        ModelColumnRejection.TransverseMomentBeyondLimit => "Momento trasversale pari al " + (value * 100).ToString("0.##", CultureInfo.CurrentCulture)
+            + " % del momento nella direzione θ, oltre il " + (transverseLimit * 100).ToString("0.##", CultureInfo.CurrentCulture)
             + " % ammesso: la sezione non è simmetrica rispetto al piano di flessione. Scegliere una direzione principale (EN 1992-1-1 5.8.9(2)).",
         _ => "Colonna modello non disponibile."
     };
@@ -235,7 +373,7 @@ public static class ConcreteModelColumn
         return new(step.Code, step.Description, step.Formula, Finite(value), unit, step.Reference);
     }
 
-    private static ConcreteModelColumnResult Convert(ModelColumnResult r, IReadOnlyList<ConcreteModelColumnResult.Row> inputs, ModelColumnRequest request)
+    private static ConcreteModelColumnResult Convert(ModelColumnResult r, IReadOnlyList<ConcreteModelColumnResult.Row> inputs, ModelColumnRequest request, Extra extra)
     {
         var s = r.Section; var l = r.Slenderness; var i = r.Imperfection; var f = r.FirstOrder; var c = r.Creep; var q = r.Capacity; var e = r.Equilibrium;
         var n = r.NominalCurvature;
@@ -302,13 +440,21 @@ public static class ConcreteModelColumn
                 Maximum = p.Maximum
             }).ToArray(),
             Trace = r.Trace.Select(Step).ToArray(),
-            Warnings = r.Warnings.Select(Warning).ToArray(),
-            Verified = r.Verified,
+            Warnings = extra.Warnings.Concat(r.Warnings.Select(Warning)).ToArray(),
+            Verified = extra.Verified,
             Inputs = inputs,
-            TransverseLimit = request.TransverseMomentLimit
+            TransverseLimit = request.TransverseMomentLimit,
+            Source = extra.Source, Combinations = extra.Combinations, Domains = extra.Domains, Governing = extra.Governing, Theta = extra.Theta
         };
-        result.Outcome = result.Verified is null ? "Solo capacità" : result.Verified.Value ? "Verificata" : "Non verificata (instabilità)";
-        result.Status = Status(result);
+        if (extra.Combinations.Count == 0)
+            result.Outcome = result.Verified is null ? "Solo capacità" : result.Verified.Value ? "Verificata" : "Non verificata (instabilità)";
+        else result.Outcome = result.Verified switch
+        {
+            true => "Verificata (tutte le combinazioni)",
+            false => "Non verificata (" + extra.Combinations.Count(c => c.Verified == false) + " combinazioni)",
+            null => "Esito incompleto (combinazioni non calcolabili)"
+        };
+        result.Status = extra.EnvelopeStatus is null ? Status(result) : extra.EnvelopeStatus + " Combinazione mostrata «" + extra.Governing + "»: " + Status(result);
         return result;
     }
 
@@ -456,6 +602,61 @@ public sealed class ConcreteModelColumnResult
         public double? Ratio { get; init; }
     }
 
+    /// <summary>
+    /// Una combinazione dell'inviluppo (1.16.0): nome, insieme (SLU, SLV), N, Mx, My [kN, kNm], il momento nella direzione θ e quello normale
+    /// [kNm], la direzione della colonna (θ o θ + 180°; null per la trazione), M0Ed,tot, M1Rd,max, η (null se infinito, con
+    /// <see cref="BeyondResistance"/> oltre NRd,c), modo, φef, esito; <see cref="Governing"/> per la combinazione con η massimo,
+    /// <see cref="Shown"/> per quella dei grafici e dei riquadri (la peggiore fra le calcolate).
+    /// </summary>
+    public sealed class CombinationValues
+    {
+        public string Name { get; init; } = "";
+        public string State { get; init; } = "";
+        public double AxialKn { get; init; }
+        public double MxKnm { get; init; }
+        public double MyKnm { get; init; }
+        public double MomentKnm { get; init; }
+        public double TransverseKnm { get; init; }
+        public bool TransverseNeglected { get; init; }
+        public double? DirectionDegrees { get; init; }
+        public double? FirstOrderTotalKnm { get; init; }
+        public double? MaximumFirstOrderKnm { get; init; }
+        public double? Ratio { get; init; }
+        public bool BeyondResistance { get; init; }
+        public string Mode { get; init; } = "";
+        public double? EffectiveCreepRatio { get; init; }
+        public bool? Verified { get; init; }
+        /// <summary>«Verificata», «Non verificata», «Trazione» o «Non calcolabile».</summary>
+        public string Status { get; init; } = "";
+        public string Outcome { get; init; } = "";
+        public bool Governing { get; init; }
+        public bool Shown { get; init; }
+    }
+
+    /// <summary>Un punto del dominio ridotto: N [kN, − compressione], M1Rd,max e MRd = M(χu) della sezione [kNm] (null se rifiutato), modo.</summary>
+    public sealed class DomainPoint
+    {
+        public double AxialKn { get; init; }
+        public double? MaximumFirstOrderKnm { get; init; }
+        public double? SectionKnm { get; init; }
+        public string Mode { get; init; } = "";
+        public bool Rejected { get; init; }
+    }
+
+    /// <summary>
+    /// Il dominio ridotto N–M1Rd,max di una direzione (1.16.0): θ [°], φef dei punti, NRd,c [kN, − compressione], eccentricità
+    /// dell'imperfezione e minima [mm], punti da N = 0 a NRd,c.
+    /// </summary>
+    public sealed class DomainValues
+    {
+        public double DirectionDegrees { get; init; }
+        public double EffectiveCreepRatio { get; init; }
+        public double CompressionResistanceKn { get; init; }
+        public double ImperfectionEccentricity { get; init; }
+        public double? MinimumEccentricity { get; init; }
+        public IReadOnlyList<DomainPoint> Points { get; init; } = [];
+    }
+
     public sealed class Point
     {
         public double Curvature { get; init; }
@@ -498,9 +699,22 @@ public sealed class ConcreteModelColumnResult
     public IReadOnlyList<Step> Trace { get; init; } = [];
     public IReadOnlyList<string> Warnings { get; init; } = [];
     public IReadOnlyList<Row> Inputs { get; init; } = [];
-    /// <summary>Null per la sola capacità.</summary>
+    /// <summary>Null per la sola capacità; con le combinazioni l'esito dell'inviluppo (null se una combinazione non è calcolabile).</summary>
     public bool? Verified { get; init; }
-    /// <summary>«Verificata», «Non verificata (instabilità)» o «Solo capacità».</summary>
+    /// <summary>
+    /// «Verificata», «Non verificata (instabilità)» o «Solo capacità»; con le combinazioni «Verificata (tutte le combinazioni)», «Non verificata
+    /// (n combinazioni)» o «Esito incompleto (combinazioni non calcolabili)».
+    /// </summary>
     public string Outcome { get; internal set; } = "";
     public string Status { get; internal set; } = "";
+    /// <summary>Le azioni verificate (scelta di <see cref="ConcreteModelColumn.ActionSources"/>, 1.16.0).</summary>
+    public string Source { get; init; } = "";
+    /// <summary>Le combinazioni dell'inviluppo; vuoto per l'azione singola. I campi della colonna singola sono quelli di <see cref="Governing"/>.</summary>
+    public IReadOnlyList<CombinationValues> Combinations { get; init; } = [];
+    /// <summary>I domini ridotti: θ e, con momenti negativi nelle combinazioni, θ + 180°.</summary>
+    public IReadOnlyList<DomainValues> Domains { get; init; } = [];
+    /// <summary>La combinazione mostrata nei grafici e nei riquadri (la peggiore fra le calcolate); null per l'azione singola.</summary>
+    public string? Governing { get; init; }
+    /// <summary>La direzione θ del form [°]: i domini di θ + 180° si disegnano con i momenti negativi.</summary>
+    public double Theta { get; init; }
 }

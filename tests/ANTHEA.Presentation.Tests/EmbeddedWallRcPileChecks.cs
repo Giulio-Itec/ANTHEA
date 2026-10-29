@@ -27,7 +27,7 @@ internal static partial class EmbeddedWallChecks
     {
         var legacy = Example(); legacy["schema"] = 7; legacy.Remove("rc_piles"); legacy.Remove("rc_pile_standard"); legacy.Remove("rc_pile_check_kind");
         string before = legacy.ToJsonString(); var migrated = EmbeddedWallDocument.Snapshot(legacy);
-        e.That(legacy.ToJsonString() == before && migrated["schema"]!.ToString() == "11" && migrated["rc_pile_standard"]!.ToString() == "Non richieste",
+        e.That(legacy.ToJsonString() == before && migrated["schema"]!.ToString() == "12" && migrated["rc_pile_standard"]!.ToString() == "Non richieste",
             "Migrazione 7→8 modifica il documento precedente o attiva verifiche.");
         var data = RcPileExample(); before = data.ToJsonString(); using var sheet = Open(data);
         e.That(await Expect.Within(sheet.CalculateAsync()), "Calcolo palo c.a. non pubblicato."); var result = sheet.Current!;

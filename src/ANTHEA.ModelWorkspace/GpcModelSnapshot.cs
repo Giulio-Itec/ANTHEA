@@ -4,6 +4,7 @@ using GPC.Geometry;
 using GPC.Model.Attributes;
 using GPC.Model.Elements;
 using GPC.Model.Results.Locations;
+using GPC.Model.Results.State;
 using GPC.Model.Sections;
 using GPC.Model.Structure.Assignments;
 
@@ -30,6 +31,12 @@ public sealed class GpcSnapshotOptions
     /// <summary>Source label of the combination definitions (document identities "label/id").</summary>
     public string CombinationSource { get; init; } = "GPC";
     public IReadOnlyList<ModelImportMessage> Messages { get; init; } = [];
+    /// <summary>1.16.0: SHA-256 (64 hex digits) of the results source, required by stage results (<see cref="ModelStageResult.SourceRevision"/>).</summary>
+    public string? SourceRevision { get; init; }
+    /// <summary>1.16.0: GPC stage name (state Phase) to document phase label.</summary>
+    public Func<string, string> StagePhase { get; init; } = phase => phase;
+    /// <summary>1.16.0: equilibrium of a static case checked by the source library, by GPC load case name; null when not checked.</summary>
+    public Func<string, ModelEquilibrium?>? Equilibrium { get; init; }
 }
 
 /// <summary>Presentation snapshot of a GPC model imported by a converter, with the results of one dataset. Solver independent.
@@ -40,6 +47,8 @@ public sealed class GpcSnapshotOptions
 public static class GpcModelSnapshot
 {
     const double MillimetresPerMetre = 1000;
+    // 1.16.0: reactions from GPC N and N·mm to kN and kN·m; reported values below this ratio of the largest reaction are solver round-off.
+    const double NewtonsPerKilonewton = 1000, NewtonMillimetresPerKilonewtonMetre = 1e6, RoundOffRatio = 1e-6;
     public const int VariantPropertyOffset = 1000000;
     static readonly IReadOnlyList<string> Dofs = ["DX", "DY", "DZ", "RX", "RY", "RZ"];
 
@@ -124,7 +133,13 @@ public static class GpcModelSnapshot
         };
         token.ThrowIfCancellationRequested();
         snapshot.SourceCombinations = Combinations(model, options);
-        if (options.DatasetId != null) snapshot.Results = Results(model, options, nodeIds, owners, token);
+        if (options.DatasetId != null)
+        {
+            var supports = snapshot.Boundaries.Where(b => b.Kind == "RESTRAIN").SelectMany(b => b.Nodes).ToHashSet();
+            snapshot.Results = Results(model, options, nodeIds, owners, supports, token);
+            // Stage results need the version 2 of the format (older versions would read them as static cases).
+            if (snapshot.Results.Any(r => r.Stage != null)) snapshot.Version = 2;
+        }
         snapshot.ImportMessages = messages.ToArray();
         return snapshot;
     }
@@ -187,14 +202,29 @@ public static class GpcModelSnapshot
         return new(cases, definitions);
     }
 
-    static ModelResultSet[] Results(GPC.Model.Models.Model model, GpcSnapshotOptions options, IReadOnlyDictionary<int, int> nodeIds, IReadOnlyDictionary<Element, ModelElement> owners, CancellationToken token)
+    static ModelResultSet[] Results(GPC.Model.Models.Model model, GpcSnapshotOptions options, IReadOnlyDictionary<int, int> nodeIds, IReadOnlyDictionary<Element, ModelElement> owners,
+        IReadOnlySet<int> supports, CancellationToken token)
     {
         var corners = new Dictionary<string, List<CornerResult>>(StringComparer.Ordinal);
         var fields = new Dictionary<(string Case, string Family, string Component), List<ResultValue>>();
         var displacements = new Dictionary<string, List<ModelDisplacement>>(StringComparer.Ordinal);
-        var order = new List<string>();
+        var reactions = new Dictionary<string, List<ModelReaction>>(StringComparer.Ordinal);
+        var order = new List<string>(); var stages = new Dictionary<string, ModelStageResult>(StringComparer.Ordinal); var sources = new Dictionary<string, string>(StringComparer.Ordinal);
         bool Mine(ResultLocation s) => s.State?.DatasetId == options.DatasetId && s.Case != null;
-        string Case(ResultLocation s) { string name = options.CaseName(s.Case.Name); if (!order.Contains(name)) order.Add(name); return name; }
+        string Case(ResultLocation s)
+        {
+            string name;
+            // 1.16.0: a state of a stage output case (staged nonlinear analysis) is a stage result: SourceCase · phase · step, never a static case.
+            if (s.Case is GPC.Model.Stages.StageResultCase stage)
+            {
+                if (options.SourceRevision is not { Length: 64 } revision) throw new InvalidDataException("Risultati per fase senza l’impronta della sorgente.");
+                var context = new ModelStageResult(stage.SourceCaseName, options.StagePhase(s.State.Phase ?? ""), s.State.Step ?? "", options.Displacements ? "Accumulative" : null, revision);
+                name = context.Label; stages.TryAdd(name, context);
+            }
+            else { name = options.CaseName(s.Case.Name); sources.TryAdd(name, s.Case.Name); }
+            if (!order.Contains(name)) order.Add(name);
+            return name;
+        }
         string[] beamComponents = ResultFields.Components("BEAM", "LOCAL").ToArray();
         foreach (var (owner, element) in owners)
         {
@@ -230,10 +260,35 @@ public static class GpcModelSnapshot
                     (displacements.TryGetValue(name, out var list) ? list : displacements[name] = []).Add(new(nodeIds[node.Id], d.X / MillimetresPerMetre, d.Y / MillimetresPerMetre, d.Z / MillimetresPerMetre) { Rotation = new(r.X, r.Y, r.Z) });
                 }
             }
+        // 1.16.0: support reactions of the nodes with a restraint or a spring to ground, and of the nodes with a reported value that is not round-off
+        // (above 1e-6 of the largest reaction of the dataset: supports the copy does not draw, e.g. restraints of other freedom cases), the same nodes in
+        // every state: the force of the support on the node, rotated to global axes, kN and kN·m.
+        var reported = model.NodesElements.Values.Select(n => (Node: n, Samples: n.Results.SelectMany(r => r.Results).Where(Mine).OfType<NodeResultForces>()
+            .Where(s => s.Kind == NodalForceKind.SupportReaction).ToArray())).Where(p => p.Samples.Length > 0).ToArray();
+        static double Force(NodeResultForces s) => Math.Max(Math.Abs(s.Fx), Math.Max(Math.Abs(s.Fy), Math.Abs(s.Fz)));
+        static double Moment(NodeResultForces s) => Math.Max(Math.Abs(s.Mx), Math.Max(Math.Abs(s.My), Math.Abs(s.Mz)));
+        double forceScale = reported.SelectMany(p => p.Samples).Select(Force).DefaultIfEmpty().Max(), momentScale = reported.SelectMany(p => p.Samples).Select(Moment).DefaultIfEmpty().Max();
+        foreach (var (node, samples) in reported)
+        {
+            token.ThrowIfCancellationRequested();
+            int id = nodeIds[node.Id];
+            if (!supports.Contains(id) && samples.All(s => Force(s) <= RoundOffRatio * forceScale && Moment(s) <= RoundOffRatio * momentScale)) continue;
+            foreach (var sample in samples)
+            {
+                var axes = sample.ResultBeamForces.CoordinateSystem;
+                Vector3d f = axes.V1 * sample.Fx + axes.V2 * sample.Fy + axes.V3 * sample.Fz, m = axes.V1 * sample.Mx + axes.V2 * sample.My + axes.V3 * sample.Mz;
+                string name = Case(sample);
+                (reactions.TryGetValue(name, out var list) ? list : reactions[name] = []).Add(new(id, f.X / NewtonsPerKilonewton, f.Y / NewtonsPerKilonewton, f.Z / NewtonsPerKilonewton,
+                    m.X / NewtonMillimetresPerKilonewtonMetre, m.Y / NewtonMillimetresPerKilonewtonMetre, m.Z / NewtonMillimetresPerKilonewtonMetre));
+            }
+        }
         return order.Select(name => new ModelResultSet(name, false, corners.GetValueOrDefault(name)?.ToArray() ?? [])
         {
             Fields = fields.Where(p => p.Key.Case == name).Select(p => new ResultField(p.Key.Family, "LOCAL", p.Key.Component, p.Value.ToArray())).ToArray() is { Length: > 0 } f ? f : null,
-            Displacements = displacements.GetValueOrDefault(name)?.OrderBy(v => v.Node).ToArray()
+            Displacements = displacements.GetValueOrDefault(name)?.OrderBy(v => v.Node).ToArray(),
+            Reactions = reactions.GetValueOrDefault(name)?.OrderBy(v => v.Node).ToArray(),
+            Stage = stages.GetValueOrDefault(name),
+            Equilibrium = sources.TryGetValue(name, out var source) ? options.Equilibrium?.Invoke(source) : null
         }).ToArray();
     }
 }

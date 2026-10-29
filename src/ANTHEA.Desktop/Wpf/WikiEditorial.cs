@@ -60,6 +60,13 @@ internal static class WikiEditorial
                     link.Click += (_, _) =>
                     {
                         if (token.Internal) navigate(token.Target!);
+                        else if (Anthea.Presentation.Services.InstalledDocuments.NameOf(token.Target) is { } document)
+                        {
+                            // An installed document (the article on the layered horizontal pile): opened by its path, or a message when missing.
+                            if (Anthea.Presentation.Services.InstalledDocuments.Resolve(document) is { } path)
+                                Process.Start(new ProcessStartInfo(path) { UseShellExecute = true })?.Dispose();
+                            else MessageBox.Show("Documento non trovato nella cartella Guide dell'installazione: " + document, "Wiki", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
                         else if (Uri.TryCreate(token.Target, UriKind.Absolute, out var uri) && uri.Scheme is "https" or "http")
                             Process.Start(new ProcessStartInfo(uri.AbsoluteUri) { UseShellExecute = true });
                     };

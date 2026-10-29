@@ -1,6 +1,6 @@
 == apertura
-dati E99F09CF79363404 · byte 73963
-  tutto = {"versione_sezione":2,"input":{"shape":"Rettangolare","diameter_mm":"1000","circular_sides":"32","width_mm":"500","height_mm":"700","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"45","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":"32","fyk_mpa":"500","alpha_cc":"1","gamma_c":"1.4","gamma_s":"1.15","steel_modulus_mpa":"205000","axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"Personalizzato","n":"","materiale_cls_nome":"CLS prova 32","cls_diagramma":"Bilineare","classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio prova","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gettato_sottile":"Sì","barre_manuali":[{"id":"B01","x":"-180","y":"-280","phi":"26"},{"id":"B02","x":"0","y":"-280","phi":"26"},{"id":"B03","x":"180","y":"-280","phi":"26"},{"id":"B04","x":"-180","y":"282","phi":"20"},{"id":"B05","x":"180","y":"282","phi":"20"},{"id":"B06","x":"0","y":"0","phi":"16"}],"sezione_gpc":{"versione":1,"stato":"modello","unita":"mm-MPa-N","editor_sha256":"54BEEAD28A7078B6C9DDC9076D280C74AC298F52FC898374D5F33804BAA166DF","archivio_sha256":"F27D7559C6FBC1C7920D93FC8372F48EBCCB58282C203D948663F5660CCA2BBF","archivio":"‹archivio GPC · byte 60067 · F27D7559C6FBC1C7›"},"staffe_presenti":"Sì","inner_diameter_mm":"500","inner_width_mm":"300","inner_height_mm":"400","flange_bottom_count":"0","flange_bottom_diameter_mm":"20","flange_bottom_offset_mm":"65","second_top_count":"4","second_top_diameter":"20","second_top_gap":"30","second_bottom_count":"6","second_bottom_diameter":"24","second_bottom_gap":"30","second_inner_count":"16","second_inner_diameter":"24","second_inner_gap":"30"},"n_automatico":true,"combinazioni":{"SLU":[{"id":"510000010f514a008000000000000001","nome":"SLU deviata","azioni":["-900","300","120"],"visible":true},{"id":"510000020f514a008000000000000002","nome":"SLU flessione retta","azioni":["-600","420","0"],"visible":true},{"id":"510000030f514a008000000000000003","nome":"SLU trazione","azioni":["250","80","20"],"visible":true}],"SLV":[],"SLE":[{"id":"510000040f514a008000000000000004","nome":"Rara 1","azioni":["-450","240","0"],"visible":true},{"id":"510000050f514a008000000000000005","nome":"Rara 2","azioni":["-700","180","60"],"visible":true}],"SLE_FREQ":[],"SLE_QP":[]},"workspace_ca":{"versione":2,"normativa":"DIN EN 1992-1-1","nota":"Materiali definiti dall'utente, barre per coordinate","file_sollecitazioni":"Sollecitazioni\\pila-P3.xlsx","materiali_custom":[{"nome":"CLS prova 32","classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":"32","cls_diagramma":"Bilineare","tipo":"Calcestruzzo","id":"5100001e0f514a00800000000000001e","origine":"Personalizzato","normativa_origine":"DIN EN 1992-1-1"},{"nome":"Acciaio prova","classe_acciaio":"B500B","materiale_acciaio_nome":"B500B","steel_modulus_mpa":"205000","fyk_mpa":"500","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","tipo":"Acciaio","id":"5100001f0f514a00800000000000001f","origine":"Personalizzato","normativa_origine":"DIN EN 1992-1-1"},{"id":"510000200f514a008000000000000020","tipo":"Trefoli","nome":"Trefolo prova","Ep":"190000","fpyk":"1500","fpk":"1700","eps_u":"35","diagramma":"Incrudente","origine":"Personalizzato","normativa_origine":"DIN EN 1992-1-1"}],"legami_trefoli":{"EN1992:Y1770":"Incrudente"},"dominio3d":{"stato":"SLU","angoli":"24","criterio":"Mx–My costanti","strategia":"Intersezione","filtro":"Tutte","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"sle":{"SLE":{"modello":"Non lineare","esposizione":"XC4","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"6.1477073115555303","n_trefoli":"5.8478191500162362","contour":"CLS · gradiente tensioni"},"SLE_FREQ":{"modello":"Non lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XC4","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"6.1477073115555303","n_trefoli":"5.8478191500162362","contour":"CLS · gradiente tensioni"},"SLE_QP":{"modello":"Non lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XC4","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"6.1477073115555303","n_trefoli":"5.8478191500162362","contour":"CLS · gradiente tensioni"}},"momento_curvatura":{"N":"-500","theta":"45","passi":"40","campionamento":"Uniforme","cls_teso_risposte":"Tension stiffening","frazione":"1","trazione_cls":"No","angoli":"64","tolleranza_n":"1","raffina_snervamento":"12"},"proprieta_sezione":{"metodo":"Da n","phi":"0","n":"15"},"dominio2d":{"stato":"SLU","tipo":"Mx–My","N":"-500","proietta":"Sì","filtro":"Tutte","angoli":"64","strategia":"Iterativo","criterio":"N costante","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","interpolazione":"Quadratica","suddivisioni_n":"50"},"tab":0,"trefoli":[],"sle_precedenti_unificazione":{"SLE":{"modello":"Non lineare","esposizione":"XC4","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""}},"sle_comuni":{"modello":"Non lineare","phi":"0","phi_trefoli":"0","n_armature":"6.1477073115555303","n_trefoli":"5.8478191500162362","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XC4","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"coefficienti":{"AlphaCC":"1","AlphaCT":"0.85","GammaC":"1.4","GammaS":"1.15","GammaSPrestress":"1.15","GammaCAccidental":"1.3","GammaCE":"1.2","GammaSAccidental":"1","GammaSPrestressAccidental":"1","GammaF":"1.5","SteelCoefficientStrainTension":"0.9","ServiceabilityStressConcreteCoefficientForCharacteristicCombination":"0.6","ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination":"0.45","ServiceabilityStressSteelCoefficientForCharacteristicCombination":"0.8","ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination":"0.75"},"taglio":{"parametri_precedenti":{"bw_x":"","d_x":"","asl_x":"","bw_y":"","d_y":"","asl_y":""},"parametri":"Automatici da sezione","tipo_staffa":"Staffa chiusa","rami_x":"2","rami_y":"2","rami_interni":"0","schema_interno":"Bracci paralleli","rotazione_staffa":"0","ancoraggio":"Da verificare","modello":"Con staffe","bw_x":"700","d_x":"430","asl_x":"845.08842381565432","alpha_x":"90","cot_x":"","bw_y":"500","d_y":"630","asl_y":"628.31853071795865","alpha_y":"90","cot_y":"","cot_torsione":"1","as_torsione":"0","chiusura_torsione":"Da confermare","modello_circolare":"Da scegliere","z_d":"0.75","eccentricita_mc_x":"0","eccentricita_mc_y":"0","azioni":[]},"dettagli_costruttivi":{"vita_durabilita":"50","qualita_copriferro":"No","elemento":"Da scegliere","aggregato":"20","cmin_dur":"","delta_c":"10","zona_sovrapposizione":"No","as_secondaria":"0","passo_secondaria":"0","zona_critica":"No","barre_trattenute":"Da confermare","ancoraggio_appoggi":"Da confermare"},"ancoraggi":{"schema_versione":1,"tipo":"Ancoraggio rettilineo","diametro":"","sigma":"","aderenza":"Buona","lunghezza":"","percentuale":"100","interferro":"0","confinamento":"Da verificare","posizione":"Da verificare","cautele":"Da verificare"},"materiale_trefolo":{"id":"EN1992:Y1860","tipo":"Trefoli","nome":"Y1860","Ep":195000,"fpyk":1640,"fpk":1860,"eps_u":75,"diagramma":"Elastoplastico"},"layout":{},"resistenze_rapide":{"N":"0","tipo":"Plastico"},"calcola_armature":{"diametri":"12;16;20;24","n_superiori":"2;4;6","n_inferiori":"2;4;6;8","n_laterali":"0;2;4","n_circolari":"8;12;16;20;24","diametri_staffe":"8;10","passi_staffe":"100;150;200;250","staffe":"Ottimizza","obiettivo":"Peso","diametri_ortogonali":"8;10;12;16","passi_ortogonali":"100;150;200;250","max_diametri":"3","max_tentativi":"2000","ganci_phi":"20","riserva_torsione":"25","peso_peso":"1","peso_barre":"1","peso_diametri":"1","mostra":"10","simmetrica":false,"ancoraggio_confermato":false,"torsione_confermata":false,"ricerca_completa":true,"parallelismo":"Automatico","slu":"1","slv":"1","sigma_c_rara":"1","sigma_s_rara":"1","sigma_c_qp":"1","wk_freq":"1","wk_qp":"1","vx":"1","vy":"1","torsione":"1","vt_cls":"1","vt_staffe":"1","ancoraggio":"1"}}}
+dati 3B925C454DC05183 · byte 73963
+  tutto = {"versione_sezione":2,"input":{"shape":"Rettangolare","diameter_mm":"1000","circular_sides":"32","width_mm":"500","height_mm":"700","flange_width_mm":"1200","web_width_mm":"400","flange_thickness_mm":"250","cover_mm":"45","longitudinal_bar_count":"16","longitudinal_bar_diameter_mm":"24","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"6","bottom_bar_diameter_mm":"24","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":"32","fyk_mpa":"500","alpha_cc":"1","gamma_c":"1.4","gamma_s":"1.15","steel_modulus_mpa":"205000","axial_force_kn":"2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"Personalizzato","n":"","materiale_cls_nome":"CLS prova 32","cls_diagramma":"Bilineare","classe_acciaio":"Personalizzato","materiale_acciaio_nome":"Acciaio prova","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","gettato_sottile":"Sì","barre_manuali":[{"id":"B01","x":"-180","y":"-280","phi":"26"},{"id":"B02","x":"0","y":"-280","phi":"26"},{"id":"B03","x":"180","y":"-280","phi":"26"},{"id":"B04","x":"-180","y":"282","phi":"20"},{"id":"B05","x":"180","y":"282","phi":"20"},{"id":"B06","x":"0","y":"0","phi":"16"}],"sezione_gpc":{"versione":1,"stato":"modello","unita":"mm-MPa-N","editor_sha256":"54BEEAD28A7078B6C9DDC9076D280C74AC298F52FC898374D5F33804BAA166DF","archivio_sha256":"F27D7559C6FBC1C7920D93FC8372F48EBCCB58282C203D948663F5660CCA2BBF","archivio":"‹archivio GPC · byte 60067 · F27D7559C6FBC1C7›"},"staffe_presenti":"Sì","inner_diameter_mm":"500","inner_width_mm":"300","inner_height_mm":"400","flange_bottom_count":"0","flange_bottom_diameter_mm":"20","flange_bottom_offset_mm":"65","second_top_count":"4","second_top_diameter":"20","second_top_gap":"30","second_bottom_count":"6","second_bottom_diameter":"24","second_bottom_gap":"30","second_inner_count":"16","second_inner_diameter":"24","second_inner_gap":"30"},"n_automatico":true,"combinazioni":{"SLU":[{"id":"510000010f514a008000000000000001","nome":"SLU deviata","azioni":["-900","300","120"],"visible":true},{"id":"510000020f514a008000000000000002","nome":"SLU flessione retta","azioni":["-600","420","0"],"visible":true},{"id":"510000030f514a008000000000000003","nome":"SLU trazione","azioni":["250","80","20"],"visible":true}],"SLV":[],"SLE":[{"id":"510000040f514a008000000000000004","nome":"Rara 1","azioni":["-450","240","0"],"visible":true},{"id":"510000050f514a008000000000000005","nome":"Rara 2","azioni":["-700","180","60"],"visible":true}],"SLE_FREQ":[],"SLE_QP":[]},"workspace_ca":{"versione":2,"normativa":"DIN EN 1992-1-1","nota":"Materiali definiti dall'utente, barre per coordinate","file_sollecitazioni":"Sollecitazioni\\pila-P3.xlsx","materiali_custom":[{"nome":"CLS prova 32","classe_cls":"C30/37","materiale_cls_nome":"C30/37","fck_mpa":"32","cls_diagramma":"Bilineare","tipo":"Calcestruzzo","id":"5100001e0f514a00800000000000001e","origine":"Personalizzato","normativa_origine":"DIN EN 1992-1-1"},{"nome":"Acciaio prova","classe_acciaio":"B500B","materiale_acciaio_nome":"B500B","steel_modulus_mpa":"205000","fyk_mpa":"500","steel_fu_mpa":"560","steel_eps_u":"60","steel_diagramma":"Incrudente","tipo":"Acciaio","id":"5100001f0f514a00800000000000001f","origine":"Personalizzato","normativa_origine":"DIN EN 1992-1-1"},{"id":"510000200f514a008000000000000020","tipo":"Trefoli","nome":"Trefolo prova","Ep":"190000","fpyk":"1500","fpk":"1700","eps_u":"35","diagramma":"Incrudente","origine":"Personalizzato","normativa_origine":"DIN EN 1992-1-1"}],"legami_trefoli":{"EN1992:Y1770":"Incrudente"},"dominio3d":{"stato":"SLU","angoli":"24","criterio":"Mx–My costanti","strategia":"Intersezione","filtro":"Tutte","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"sle":{"SLE":{"modello":"Non lineare","esposizione":"XC4","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"6.1477073115555303","n_trefoli":"5.8478191500162362","contour":"CLS · gradiente tensioni"},"SLE_FREQ":{"modello":"Non lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XC4","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"6.1477073115555303","n_trefoli":"5.8478191500162362","contour":"CLS · gradiente tensioni"},"SLE_QP":{"modello":"Non lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XC4","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"6.1477073115555303","n_trefoli":"5.8478191500162362","contour":"CLS · gradiente tensioni"}},"momento_curvatura":{"N":"-500","theta":"45","passi":"40","campionamento":"Uniforme","cls_teso_risposte":"Tension stiffening","frazione":"1","trazione_cls":"No","angoli":"64","tolleranza_n":"1","raffina_snervamento":"12"},"proprieta_sezione":{"metodo":"Da n","phi":"0","n":"15"},"dominio2d":{"stato":"SLU","tipo":"Mx–My","N":"-500","proietta":"Sì","filtro":"Tutte","angoli":"64","strategia":"Iterativo","criterio":"N costante","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","interpolazione":"Quadratica","suddivisioni_n":"50"},"tab":0,"trefoli":[],"sle_precedenti_unificazione":{"SLE":{"modello":"Non lineare","esposizione":"XC4","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""}},"sle_comuni":{"modello":"Non lineare","phi":"0","phi_trefoli":"0","n_armature":"6.1477073115555303","n_trefoli":"5.8478191500162362","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"XC4","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"coefficienti":{"AlphaCC":"1","AlphaCT":"0.85","GammaC":"1.4","GammaS":"1.15","GammaSPrestress":"1.15","GammaCAccidental":"1.3","GammaCE":"1.2","GammaSAccidental":"1","GammaSPrestressAccidental":"1","GammaF":"1.5","SteelCoefficientStrainTension":"0.9","ServiceabilityStressConcreteCoefficientForCharacteristicCombination":"0.6","ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination":"0.45","ServiceabilityStressSteelCoefficientForCharacteristicCombination":"0.8","ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination":"0.65"},"taglio":{"parametri_precedenti":{"bw_x":"","d_x":"","asl_x":"","bw_y":"","d_y":"","asl_y":""},"parametri":"Automatici da sezione","tipo_staffa":"Staffa chiusa","rami_x":"2","rami_y":"2","rami_interni":"0","schema_interno":"Bracci paralleli","rotazione_staffa":"0","ancoraggio":"Da verificare","modello":"Con staffe","bw_x":"700","d_x":"430","asl_x":"845.08842381565432","alpha_x":"90","cot_x":"","bw_y":"500","d_y":"630","asl_y":"628.31853071795865","alpha_y":"90","cot_y":"","cot_torsione":"1","as_torsione":"0","chiusura_torsione":"Da confermare","modello_circolare":"Da scegliere","z_d":"0.75","eccentricita_mc_x":"0","eccentricita_mc_y":"0","azioni":[]},"dettagli_costruttivi":{"vita_durabilita":"50","qualita_copriferro":"No","elemento":"Da scegliere","aggregato":"20","cmin_dur":"","delta_c":"10","zona_sovrapposizione":"No","as_secondaria":"0","passo_secondaria":"0","zona_critica":"No","barre_trattenute":"Da confermare","ancoraggio_appoggi":"Da confermare"},"ancoraggi":{"schema_versione":1,"tipo":"Ancoraggio rettilineo","diametro":"","sigma":"","aderenza":"Buona","lunghezza":"","percentuale":"100","interferro":"0","confinamento":"Da verificare","posizione":"Da verificare","cautele":"Da verificare"},"materiale_trefolo":{"id":"EN1992:Y1860","tipo":"Trefoli","nome":"Y1860","Ep":195000,"fpyk":1640,"fpk":1860,"eps_u":75,"diagramma":"Elastoplastico"},"layout":{},"resistenze_rapide":{"N":"0","tipo":"Plastico"},"calcola_armature":{"diametri":"12;16;20;24","n_superiori":"2;4;6","n_inferiori":"2;4;6;8","n_laterali":"0;2;4","n_circolari":"8;12;16;20;24","diametri_staffe":"8;10","passi_staffe":"100;150;200;250","staffe":"Ottimizza","obiettivo":"Peso","diametri_ortogonali":"8;10;12;16","passi_ortogonali":"100;150;200;250","max_diametri":"3","max_tentativi":"2000","ganci_phi":"20","riserva_torsione":"25","peso_peso":"1","peso_barre":"1","peso_diametri":"1","mostra":"10","simmetrica":false,"ancoraggio_confermato":false,"torsione_confermata":false,"ricerca_completa":true,"parallelismo":"Automatico","slu":"1","slv":"1","sigma_c_rara":"1","sigma_s_rara":"1","sigma_c_qp":"1","wk_freq":"1","wk_qp":"1","vx":"1","vy":"1","torsione":"1","vt_cls":"1","vt_staffe":"1","ancoraggio":"1"}}}
 modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
 risultato -
 stato "Dati della sezione · selezionare una scheda per iniziare"
@@ -24,7 +24,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
 [ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
 [ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
-[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.75" · nascosto
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.65" · nascosto
 [ingressi] form materiali
 [ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "Personalizzato" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
 [ingressi]   campo fck_mpa "fck" = "32" · sola lettura
@@ -460,9 +460,9 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [wizard] foro campi
 [wizard] nota-taglio "Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare."
 == attendi
-dati E99F09CF79363404 · byte 73963
+dati 3B925C454DC05183 · byte 73963
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 450707F66552EDFD
+risultato 473AF147C854C7BB
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "EC2 con parametri DIN: CRd,c, vmin, ν1, limite di cotθ dipendente dal carico e z ridotto; hc,eff e distanza fessure nazionali. Riferimento materiali DLL NA:2013-04. Verifiche di sezione, senza certificazione dell’intero annesso."
 [ingressi] valori-integrati ""
@@ -484,7 +484,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
 [ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
 [ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
-[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.75" · nascosto
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.65" · nascosto
 [ingressi] form materiali
 [ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "Personalizzato" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
 [ingressi]   campo fck_mpa "fck" = "32" · sola lettura
@@ -811,9 +811,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 [wizard] invariata
 == conferma
-dati E99F09CF79363404 · byte 73963
+dati 3B925C454DC05183 · byte 73963
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 450707F66552EDFD
+risultato 473AF147C854C7BB
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -825,9 +825,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 [wizard] invariata
 == visita
-dati E99F09CF79363404 · byte 73963
+dati 3B925C454DC05183 · byte 73963
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 450707F66552EDFD
+risultato 473AF147C854C7BB
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "EC2 con parametri DIN: CRd,c, vmin, ν1, limite di cotθ dipendente dal carico e z ridotto; hc,eff e distanza fessure nazionali. Riferimento materiali DLL NA:2013-04. Verifiche di sezione, senza certificazione dell’intero annesso."
 [ingressi] valori-integrati ""
@@ -849,7 +849,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
 [ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
 [ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
-[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.75" · nascosto
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.65" · nascosto
 [ingressi] form materiali
 [ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "Personalizzato" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
 [ingressi]   campo fck_mpa "fck" = "32" · sola lettura
@@ -1195,9 +1195,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
 [wizard] invariata
 == attendi
-dati E99F09CF79363404 · byte 73963
+dati 3B925C454DC05183 · byte 73963
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 450707F66552EDFD
+risultato 473AF147C854C7BB
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1209,9 +1209,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 [wizard] invariata
 == conferma
-dati E99F09CF79363404 · byte 73963
+dati 3B925C454DC05183 · byte 73963
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 450707F66552EDFD
+risultato 473AF147C854C7BB
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1223,9 +1223,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 [wizard] invariata
 == calcola
-dati E99F09CF79363404 · byte 73963
+dati 3B925C454DC05183 · byte 73963
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 450707F66552EDFD
+risultato 473AF147C854C7BB
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1237,9 +1237,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 [wizard] invariata
 == conferma
-dati E99F09CF79363404 · byte 73963
+dati 3B925C454DC05183 · byte 73963
 modificato 9 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 450707F66552EDFD
+risultato 473AF147C854C7BB
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata
@@ -1251,7 +1251,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 [wizard] invariata
 == riapri
-dati E99F09CF79363404 · byte 73963
+dati 3B925C454DC05183 · byte 73963
 modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
 risultato -
 stato "Dati della sezione · selezionare una scheda per iniziare"
@@ -1275,7 +1275,7 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
 [ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
 [ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
-[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.75" · nascosto
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.65" · nascosto
 [ingressi] form materiali
 [ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "Personalizzato" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
 [ingressi]   campo fck_mpa "fck" = "32" · sola lettura
@@ -1622,9 +1622,9 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [ispezione] curvatura grafico "Momento–curvatura" · "Curvatura χ [1/m]" · "Momento M [kNm]" · nota "" · vuoto "Impostare N e direzione per calcolare la curva" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
 [wizard] invariata
 == attendi
-dati E99F09CF79363404 · byte 73963
+dati 3B925C454DC05183 · byte 73963
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 450707F66552EDFD
+risultato 473AF147C854C7BB
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "EC2 con parametri DIN: CRd,c, vmin, ν1, limite di cotθ dipendente dal carico e z ridotto; hc,eff e distanza fessure nazionali. Riferimento materiali DLL NA:2013-04. Verifiche di sezione, senza certificazione dell’intero annesso."
 [ingressi] valori-integrati ""
@@ -1646,7 +1646,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi]   campo ServiceabilityStressConcreteCoefficientForCharacteristicCombination "SLE rara · σc / fck" = "0.6"
 [ingressi]   campo ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination "SLE QP · σc / fck" = "0.45"
 [ingressi]   campo ServiceabilityStressSteelCoefficientForCharacteristicCombination "SLE rara · σs / fyk" = "0.8"
-[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.75" · nascosto
+[ingressi]   campo ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination "SLE rara · σp / fpyk (DLL)" = "0.65" · nascosto
 [ingressi] form materiali
 [ingressi]   scelta classe_cls "Calcestruzzo da normativa" = "Personalizzato" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
 [ingressi]   campo fck_mpa "fck" = "32" · sola lettura
@@ -1973,9 +1973,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ispezione] invariata
 [wizard] invariata
 == conferma
-dati E99F09CF79363404 · byte 73963
+dati 3B925C454DC05183 · byte 73963
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 450707F66552EDFD
+risultato 473AF147C854C7BB
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] invariata
 [azioni] invariata

@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 28 ottobre 2026 — revisione documentale 61
+Edizione 6 aggiornata il 29 ottobre 2026 — revisione documentale 62
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -295,6 +295,8 @@ Lo sforzo normale N è positivo a compressione in questi fogli. È una convenzio
 
 I casi omogenei costituiscono il campo più direttamente interpretabile. La stratificazione della stessa famiglia e la falda sono indicate come estensioni sperimentali. Le alternanze di terreni coesivi e granulari non vengono assimilate silenziosamente a un unico terreno equivalente.
 
+Metodo di calcolo sceglie fra Broms e Stratificato. Broms chiude le reazioni dei terreni granulari con una forza concentrata al piede e accetta solo strati della stessa famiglia. Stratificato, il metodo di G. Pacini, costruisce il diagramma limite strato per strato e chiude le reazioni con un tratto rovesciato distribuito, anche per successioni di argille e sabbie. Nei terreni coesivi omogenei i due metodi danno lo stesso risultato; nei granulari Stratificato dà capacità minori per il palo corto a testa libera e per l'intermedio a testa impedita. La teoria è riassunta nel capitolo [Capacità orizzontale in terreno stratificato](wiki:capacita-orizzontale-in-terreno-stratificato) e svolta per intero nell'articolo installato nella cartella Guide.
+
 ### Momento resistente del palo in calcestruzzo
 
 Nel ramo automatico assegnare sezione circolare, diametro, copriferro, staffa, barre longitudinali distribuite uniformemente e materiali. Verificare la posizione degli assi delle barre e il valore di N. La procedura confronta due discretizzazioni; se non raggiunge l'accordo richiesto o esce dal campo ammesso, il momento non deve essere considerato disponibile.
@@ -313,7 +315,9 @@ Un tubo classificato fuori campo richiede un altro calcolo di sezione oppure un 
 
 Leggere Hu, il regime governante, My usato, profondità caratteristiche e diagrammi di pressione, taglio e momento. La pressione limite rappresentata lungo il palo ha unità kN/m; non è una pressione superficiale in kPa. Il passaggio da Hu a resistenza di progetto introduce separatamente coefficienti statistici, parziale di resistenza ed efficienza di gruppo.
 
-Nei regimi granulari corti o intermedi può comparire una reazione concentrata al piede, necessaria per l'equilibrio del modello. Un salto nel taglio in quel punto non è necessariamente un errore grafico. Il risultato non include spostamenti laterali di esercizio e non è una soluzione con molle p y. Se il problema principale è limitare la rotazione in testa o lo spostamento, occorre un modello di deformabilità ulteriore.
+Con il metodo Broms, nei regimi granulari corti o intermedi può comparire una reazione concentrata al piede, necessaria per l'equilibrio del modello; con Stratificato la stessa chiusura è distribuita sotto la profondità d'inversione. Un salto nel taglio in quel punto non è necessariamente un errore grafico. Il risultato non include spostamenti laterali di esercizio e non è una soluzione con molle p y. Se il problema principale è limitare la rotazione in testa o lo spostamento, occorre un modello di deformabilità ulteriore.
+
+Diagrammi e dettagli riporta nella scheda Riferimenti le fonti del metodo con il loro ruolo nel modello. «Apri riferimento» apre i riferimenti pubblicati e, per «G. Pacini — approccio al terreno stratificato», l'articolo [Capacità orizzontale del palo in terreno stratificato](guida:Palo orizzontale in terreno stratificato.pdf), che si apre anche dal menu Start, nella cartella Articoli di ANTHEA.
 
 ### Separare tubo e diametro geotecnico
 
@@ -679,6 +683,8 @@ Anche il riepilogo modificabile dei parametri dei muri ricontrolla la revisione 
 
 Il report di un ramo prepara i capitoli su una copia dei dati, usando gli stessi calcoli e le stesse figure dei fogli. Non occorre visitare prima tutte le schede. Eventuali capitoli incompleti e limiti di verifica restano indicati nel report; il completamento della generazione non equivale al superamento di tutte le verifiche.
 
+ANTHEA esegue insieme al più tanti calcoli quanti sono i processori del computer meno uno; gli altri aspettano il proprio turno, e intanto la finestra resta utilizzabile. Seguono questa regola anche la sezione in c.a., cioè verifiche, taglio, resistenze rapide, sezione σ/ε, curva M–χ, colonna modello e ricerca delle armature, e la risposta elastica del palo orizzontale. Con molte schede aperte un foglio può quindi restare per qualche istante «in attesa» o «in coda»: modificare i dati o chiudere la scheda annulla anche l'attesa. I risultati non dipendono dall'ordine in cui i calcoli partono.
+
 ### Conservare dati e risultati insieme
 
 Il file riapribile conserva gli input e, per i progetti, le revisioni. Word, PDF e immagini documentano risultati e configurazione al momento dell'esportazione. Non sostituire il file riapribile con un'immagine della schermata.
@@ -724,6 +730,10 @@ La scheda Input definisce muro, terreni e azioni; Verifiche raccoglie gli esiti 
 Le stratigrafie di monte e valle sono affiancate, indipendenti o collegate per spessori e proprietà; le profondità partono dalle rispettive superfici. Hlib è la distanza dalla sommità al terreno di valle: Dv=H+t−Hlib. Il terreno davanti al muro entra nei pesi, nei momenti, nelle sollecitazioni della mensola e nel ricoprimento efficace della portanza. La passiva richiede attivazione e frazione mobilitata, non oltre 0,5: un documento con un valore maggiore è rifiutato con il motivo. È esclusa nel sisma. Gli attriti del muro e della fondazione sono assegnabili oppure ricavati da φcv,k e tipo di interfaccia. Il valore a volume costante va caratterizzato, senza sostituirlo automaticamente con quello di picco.
 
 Valori di calcolo consente di interrogare e modificare gli input e leggere coefficienti effettivi per combinazione, pesi, attriti, pressioni e sollecitazioni. Le forze risultanti dipendono dagli input e non si possono forzare. Le combinazioni sono modificabili: il preset locale è A1+M1+R3, quello globale A2+M2+R2. Con la mensola a monte le righe con il sovraccarico variabile hanno la gemella «b»: la colonna «q var. mensola» non spuntata lascia il sovraccarico nella spinta e lo toglie dalla mensola. La colonna «γR,e passiva» riporta il coefficiente della passiva; nella combinazione selezionata e nei valori di calcolo si leggono Ed e resistenze di scorrimento e ribaltamento. Azioni eccezionali e sisma Mononobe–Okabe o Wood semplificato sono espliciti. Il terreno del lato selezionato può essere trasferito ai moduli dei pali; la sezione selezionata può essere inviata al modulo c.a. Nelle revisioni in sola lettura la finestra Valori di calcolo si consulta soltanto: le righe sono bloccate e Applica e ricalcola è disattivato.
+
+Le combinazioni generate per il muro comprendono righe sismiche ed eccezionali a gruppi: una con le azioni variabili e le altre senza uno o più gruppi variabili, perché nel sisma e nelle eccezionali le variabili entrano con ψ2·Qk solo se sfavorevoli. Il numero delle combinazioni cresce di conseguenza e la numerazione delle righe dopo la prima cambia rispetto alle versioni precedenti; i rapporti governanti si leggono come sempre nella tabella delle verifiche.
+
+Un documento dei muri della prima versione, aperto, si aggiorna alla seconda versione con le combinazioni automatiche: i tre carichi diventano un gruppo correlato con ψ1 e ψ2 del documento e ψ0 = 0,7, oppure ψ0 = 1 se ψ1 supera 0,7, come nella categoria E della tabella 2.5.I delle NTC 2018. Con un solo gruppo ψ0 non entra nelle combinazioni; conta solo se si aggiungono altre azioni variabili. I documenti con ψ1 maggiore di 0,7, che le versioni precedenti aprivano come non validi, ora si aprono. Calcolati senza aprirli, per esempio nel calcolo del progetto, i documenti della prima versione danno gli stessi risultati di prima.
 
 La stabilità globale Bishop ha un motore separato e un proprio profilo esteso, anche con due colonne profonde e confine verticale assegnato. Il pulsante Stabilità globale apre il percorso; al primo accesso a un profilo vuoto ne prepara i dati e attiva la verifica. In una revisione in sola lettura apre la pagina e le schede senza preparare il profilo. Gli strati si inseriscono per spessore, con quota del fondo calcolata automaticamente. La precompilazione non prolunga le indagini: rilievo, terreni profondi e falda del sito vanno controllati e confermati. Il disegno rappresenta anche il terreno sotto il piano di posa. Parametri, dominio e combinazioni restano interrogabili e modificabili.
 
@@ -996,6 +1006,8 @@ Il controllo riguarda le prescrizioni di testa e le condizioni semplificate in a
 
 Il FEM viene reso disponibile prima delle verifiche resistenti. Modificare solo barre o staffe conserva N, V, M, spostamenti e mesh, ricalcolando MRd e i dettagli. Modificare terreni, carichi, geometria, EJ o quote di partizione aggiorna anche il FEM. Le quote di partizione sono nodi del modello numerico. Le verifiche e le esportazioni complete vengono invalidate immediatamente; un calcolo superato non può sostituire quello corrente. MRd usa calcoli paralleli con solutori indipendenti e conserva i risultati già disponibili per la stessa sezione e gli stessi valori esatti di N.
 
+Con molte schede aperte il ricalcolo resta «in coda» finché non termina uno dei calcoli in corso, come il calcolo della capacità.
+
 ### Tratti e verifica delle sezioni
 
 Il primo utilizzo e gli archivi senza tratti hanno un solo tratto collegato alla sezione principale di Broms. Le quote sono misurate dalla testa; una fine vuota indica la punta. Fine tratto / barre è la quota fisica finale del gruppo: il primo inizia a zero, ogni successivo risale dal proprio inizio della sovrapposizione adottata. Dividi aggiunge un confine interno, Unisci conserva l'armatura del tratto precedente. La partizione deve coprire il palo senza vuoti. I tratti successivi possono restare collegati oppure avere quantità e diametri delle barre, diametro e passo delle staffe personalizzati. Geometria e materiali restano comuni. La modifica della sezione principale aggiorna soltanto i tratti collegati.
@@ -1214,6 +1226,8 @@ Nei nuovi fogli scegliere separatamente lo Stato limite (SLU o SLV) e il Criteri
 
 I documenti precedenti mantengono i gruppi Plastico ed Elastico fino alla conversione esplicita delle sollecitazioni. In quei documenti le chiavi interne SLU e SLV indicavano tali gruppi: non assegnavano automaticamente uno stato limite sismico.
 
+Nella **Scala del dominio 3D** i fattori N, MX e MY sono adimensionali e hanno l'unità «−», come gli altri fattori adimensionali del foglio; il cambiamento riguarda solo la presentazione.
+
 ### Tensioni e fessurazione
 
 Aprire la scheda dedicata, scegliere la combinazione e leggere prima lo stato tensionale: zona compressa, barre tese, tensione massima, asse neutro e deformazioni. Le deformazioni a video possono essere in per mille; i coefficienti di curvatura hanno un'altra dimensione. Non confrontare i due numeri senza conversione.
@@ -1224,7 +1238,7 @@ La trazione dell'intera sezione segue un ramo specifico con regioni di bordo. Le
 
 ### Taglio torsione e dettagli
 
-Nella scheda taglio e torsione impostare staffe, passo, inclinazione e armatura longitudinale pertinente. Le azioni dei nuovi fogli provengono dalle stesse righe SLU e SLV usate nei domini; modificarle con Gestisci sollecitazioni. Controllare bw, d e braccio interno ricavati. Per sezioni circolari il ramo adottato è quello specifico per pali descritto nella guida teorica; non coincide automaticamente con una formula generica per travi rettangolari.
+Nella scheda taglio e torsione impostare staffe, passo, inclinazione e armatura longitudinale pertinente. Le azioni dei nuovi fogli provengono dalle stesse righe SLU e SLV usate nei domini; modificarle con Gestisci sollecitazioni. Controllare bw, d e braccio interno ricavati. Per sezioni circolari il ramo adottato è quello specifico per pali descritto nella guida teorica; non coincide automaticamente con una formula generica per travi rettangolari. Le verifiche a taglio e torsione si calcolano dopo le verifiche SLU e SLE, sullo sfondo: mentre la riga di stato mostra «GPC Engine · in corso: Taglio» le righe della tabella del taglio restano a «—» e la finestra resta utilizzabile.
 
 La torsione richiede un dettaglio chiuso compatibile e armatura longitudinale disponibile dopo le esigenze di flessione. Non assegnare come disponibile tutta l'armatura senza aver verificato questa condizione. La verifica combinata usa anche un'interazione conservativa fra torsione e i due tagli, esplicitata nel dettaglio.
 
@@ -1252,6 +1266,10 @@ Nel gruppo Viscosità il valore iniziale è Trascurata: la scheda controlla le t
 
 **Calcola colonna** conferma i dati del foglio e avvia il calcolo, che non parte da solo; con gli stessi dati il risultato non viene ripetuto. **Interrompi** abbandona il calcolo in corso senza pubblicare risultati parziali. Ogni modifica dei dati del foglio o della scheda cancella il risultato e chiede di ricalcolare la colonna. La scheda usa sempre il dominio plastico con il calcestruzzo teso trascurato, qualunque sia il criterio scelto nelle verifiche, e non tratta i trefoli. È disponibile con NTC 2018, CNR-DT 200, EN 1992-1-1 con i valori raccomandati e UNI EN 1992-1-1 con l'appendice nazionale del DM 31/07/2012, per sezioni di calcestruzzo ordinario con barre. Sono rifiutati N di trazione, una compressione oltre la resistenza a compressione centrata NRd,c e un momento trasversale oltre il limite ammesso, che compare quando la sezione non è simmetrica rispetto al piano di flessione: scegliere allora una direzione principale. Nelle revisioni in sola lettura i dati si consultano, ma il calcolo non è disponibile.
 
+**Azioni** sceglie che cosa verificare. «Azione singola (N, M0Ed)» calcola la colonna sui campi N e M0Ed. «Combinazioni SLU» e «Combinazioni SLU e SLV» verificano tutte le combinazioni di quegli insiemi della scheda Combinazioni: ognuna è una colonna modello con il proprio N costante e con il momento del primo ordine nella direzione θ, $M_\theta = M_x\cos\theta + M_y\sin\theta$; con $M_\theta$ negativo la colonna si verifica nella direzione opposta, θ + 180°. Con le combinazioni i campi N e M0Ed si nascondono. Nei fogli con gli insiemi storici SLU è «Plastico» e SLV «Elastico». I progetti salvati con le versioni precedenti si riaprono sull'azione singola, senza modifiche al documento.
+
+**Intervalli del dominio ridotto**, nel gruppo Calcolo, fissa il numero dei punti del dominio ridotto fra 0 e la resistenza a compressione centrata $N_{Rd,c}$: 40 per default, da 4 a 200; gli N delle azioni si aggiungono ai punti. Durante il calcolo il testo mostra la combinazione e il punto del dominio in corso; **Interrompi** abbandona il calcolo senza risultati parziali.
+
 ### Colonna modello: risultati, CSV e relazione
 
 Il grafico M(χ) a N costante e momento esterno riporta la curva della sezione, la retta M2 = k·χ con k = NEd·l0²/c, la tangente al massimo M1Rd,max + k·χ e, se M0Ed è assegnato, la retta del momento esterno M0Ed,tot + k·χ; i punti segnano il massimo, l'equilibrio, il primo snervamento χy e la curvatura ultima χu. Il grafico Capacità del primo ordine M − M2 mostra la differenza fra la curva e M2, con il massimo M1Rd,max e, con M0Ed, la retta M0Ed,tot. Adatta, PNG ed Espandi funzionano come negli altri grafici della sezione.
@@ -1261,6 +1279,16 @@ I riquadri riportano la snellezza λ = l0/i con λlim della norma, solo informat
 **Esporta CSV…** salva i punti del risultato pubblicato, con il nome proposto ANTHEA_Colonna_modello.csv: un punto per riga, colonne separate da punto e virgola, numeri con il punto decimale e fino a diciassette cifre significative, qualunque sia il separatore scelto nel menu Aspetto. Le colonne sono curvatura in 1/m, M, M2, M − M2 e momento trasversale in kNm, deformazioni ε0, εc ed εs in per mille e i tre indicatori di snervamento, curvatura ultima e massimo.
 
 Le opzioni della colonna entrano nel foglio alla prima modifica di un dato della scheda: un foglio che non le ha si apre con i valori iniziali, non risulta modificato e le sue relazioni restano quelle di prima. Per i fogli con le opzioni la relazione Word ha il capitolo Colonna modello dopo il momento–curvatura, con dati, stato, esito, avvisi, passaggi del calcolo, i due grafici quando sono scelti i grafici e la tabella dei punti. Il capitolo dipende dalla scelta Momento–curvatura e colonna modello del report. Nel report di progetto la colonna viene ricalcolata su una copia dei dati, senza aprire la scheda; il report del singolo foglio usa il risultato della scheda e, se manca, lo dichiara. La teoria, le formule e gli scostamenti dichiarati sono nella [guida teorica della sezione](wiki:sezione-in-calcestruzzo-armato#colonna-modello-metodo-e-campo-di-applicazione).
+
+Con le combinazioni il riquadro **Inviluppo delle combinazioni** dà il rapporto massimo $\eta = M_{0Ed,tot}/M_{1Rd,max}$ e la combinazione che governa, con il numero delle combinazioni verificate, non verificate e di trazione. Le combinazioni di trazione non sono pertinenti, perché la sezione si verifica con i domini; quelle con $|N|$ oltre $N_{Rd,c}$ non sono verificate (η infinito). I riquadri seguenti, i grafici M(χ) e M − M2 e i passaggi riguardano la combinazione peggiore fra quelle calcolate; il testo elenca tutte le combinazioni con N, Mθ, M⊥, M0Ed,tot, M1Rd,max, η ed esito.
+
+La componente normale a θ, $M_\perp = -M_x\sin\theta + M_y\cos\theta$, non è verificata: quando supera l'1 % di Mθ compare un avviso. In flessione deviata ripetere il calcolo con θ + 90° e combinare le due direzioni con EN 1992-1-1 5.8.9.
+
+Il terzo grafico, **Dominio ridotto N–M1Rd,max**, con Adatta, PNG ed Espandi, mostra in blu la capacità del primo ordine M1Rd,max al variare di N fra 0 e $N_{Rd,c}$, in grigio tratteggiato il momento resistente della sezione MRd(N) senza effetti del secondo ordine e in arancio la retta $N_{Ed}\,e_0$ dell'eccentricità minima; i punti sono le azioni (N, M0Ed,tot), verdi se verificate e rossi se no. Con momenti negativi compare anche il dominio di θ + 180°, a sinistra. Un'azione è verificata se il suo punto sta dentro la curva blu al suo N.
+
+![Dominio ridotto N–M1Rd,max della colonna modello: capacità del primo ordine in blu, momento resistente della sezione in grigio, retta dell'eccentricità minima in arancio e punto dell'azione.](../../src/ANTHEA.Desktop/Assets/Wiki/colonna-modello-dominio-ridotto.png)
+
+**Esporta CSV…** scrive i punti della curva, poi, dopo una riga vuota, i punti del dominio ridotto e, con le combinazioni, una riga per combinazione. Nella relazione il capitolo «Colonna modello» comprende la tabella «Combinazioni», con la combinazione che governa, e il paragrafo «Dominio ridotto N–M1Rd,max» con la figura e la tabella dei punti.
 
 ### Importare ed esportare le azioni
 
@@ -1342,7 +1370,11 @@ La pagina mantiene insieme dati, tabella degli strati ed esito. Le schede cambia
 
 Scegliere geometria, drenaggio, metodo e profilo. Eurocodice 7 indica le espressioni dell'allegato D della EN 1997-1:2004/AC:2009. Il profilo NTC 2018 applica M1 e R3 alla portanza; richiede azioni A1 già combinate. La modalità Confronto caratteristico non produce un esito di conformità normativa. Non confrontare la resistenza caratteristica con azioni di progetto attribuendo al rapporto il significato di una verifica SLU.
 
-Le formulazioni disponibili hanno campi differenti. Terzaghi accetta carichi verticali centrati e una striscia, un quadrato o un cerchio con D/B non maggiore di 1. Brinch Hansen accetta soltanto carichi normali. Meyerhof accetta carichi inclinati soltanto sulla striscia. Eurocodice 7 e Vesić trattano l'inclinazione delle azioni nei due assi. Il cerchio deve essere centrato; la sua larghezza è il diametro. Queste restrizioni sono controllate dal calcolo.
+Le formulazioni disponibili hanno campi differenti. Terzaghi accetta carichi verticali centrati e una striscia, un quadrato o un cerchio con D/B non maggiore di 1. Brinch Hansen accetta anche azioni orizzontali, con il calcolo nelle due direzioni descritto sotto. Meyerhof accetta carichi inclinati soltanto sulla striscia. Eurocodice 7 e Vesić trattano l'inclinazione delle azioni nei due assi. Il cerchio deve essere centrato; la sua larghezza è il diametro. Queste restrizioni sono controllate dal calcolo.
+
+**Brinch Hansen con azioni orizzontali.** Il metodo «Brinch Hansen» accetta anche Hx, parallela a B, e Hy, parallela a L. Con un'azione orizzontale la verifica calcola la pressione limite per rottura nella direzione di B′ e in quella di L′ e adotta la minore; nella fondazione nastriforme c'è solo la direzione di B′, nel cerchio l'azione orizzontale si considera diretta come B′. Gli avvisi della verifica riportano le due pressioni, la direzione che governa e la pressione limite che si avrebbe con H = 0. Nel non drenato la tabella «Hansen non drenato · correzioni additive» mostra s′, d′ e i′ della direzione che governa.
+
+Anche un'azione orizzontale molto piccola può ridurre la pressione limite rispetto al solo carico verticale: nel non drenato fino a circa il 15 % per una pianta 2 × 3 m, nel drenato soprattutto per fondazioni poco profonde su terreni granulari. È un effetto del metodo, a favore di sicurezza, descritto nella guida teorica. Se l'azione orizzontale è trascurabile per il progetto, conviene valutarlo esplicitamente invece di inserire valori minimi.
 
 ### Geometria terreno falda e azioni
 
@@ -1489,7 +1521,7 @@ Per leggere un modello Straus7 serve Straus7 R3 installato sul computer nella ve
 
 1. Premi **Importa modello…** oppure **Aggiorna modello…** e seleziona **Straus7 / Strand7 R3 · file .st7 e .lsa** in **Sorgente del modello**.
 
-2. Con **Sfoglia…** scegli **Modello .st7** e, per **Solo risultati** e **Tutto**, **Risultati statici lineari .lsa** dello stesso modello. **API R3 a 64 bit · St7api.dll** è proposta dalla cartella di installazione, se ANTHEA la trova; altrimenti seleziona St7api.dll nella cartella Bin64 dell'installazione.
+2. Con **Sfoglia…** scegli **Modello .st7** e, per **Solo risultati** e **Tutto**, **Risultati statici lineari .lsa** dello stesso modello oppure, per un'analisi costruttiva per fasi, il file dei risultati statici non lineari .nla. **API R3 a 64 bit · St7api.dll** è proposta dalla cartella di installazione, se ANTHEA la trova; altrimenti seleziona St7api.dll nella cartella Bin64 dell'installazione.
 
 3. Premi **Controlla file e casi**. Il controllo verifica che i file esistano e che la libreria sia quella nativa a 64 bit, poi apre il modello, verifica che i risultati corrispondano al modello e ne legge il catalogo: nodi, aste, piastre, casi di carico, combinazioni LSA e casi di risultato statici lineari abbinati ai casi di carico. **Annulla controllo** lo interrompe senza leggere dati. Se cambi un file o la sorgente, catalogo e casi vengono scartati: ripeti il controllo.
 
@@ -1503,9 +1535,13 @@ La copia contiene geometria, proprietà con numero e nome di Straus7, terne loca
 
 Le sollecitazioni si leggono con la convenzione della copia MIDAS, uguale per ogni sorgente: Mxx, Myy e Mxy delle piastre e My delle aste hanno il segno opposto a quello che Straus7 mostra per gli stessi risultati, e Mxx positivo tende la faccia −z della piastra. Le unità sono kN/m e kN·m/m per le piastre, kN e kN·m per le aste, m e rad per spostamenti e rotazioni.
 
-Le combinazioni LSA compaiono in **Combinazioni** come definizioni della sorgente, non modificabili; si escludono o si ridefiniscono come quelle MIDAS. I loro risultati non sono letti dal file: li costruisce ANTHEA con la libreria GPC dai casi importati, che devono quindi comprendere tutti i casi richiamati. Aste reticolari e cavi non entrano ancora nelle combinazioni ricostruite. Le combinazioni definite su più insiemi di vincoli o su altre combinazioni restano con un avviso.
+Le combinazioni LSA compaiono in **Combinazioni** come definizioni della sorgente, non modificabili; si escludono o si ridefiniscono come quelle MIDAS. I loro risultati non sono letti dal file: li costruisce ANTHEA con la libreria GPC dai casi importati, che devono quindi comprendere tutti i casi richiamati. Le combinazioni ricostruite comprendono lo sforzo normale delle aste reticolari e dei cavi e le reazioni vincolari. Le combinazioni definite su più insiemi di vincoli o su altre combinazioni restano con un avviso.
 
-La lettura riguarda l'analisi statica lineare dei casi primari, senza fasi. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a cerniera, elementi cut-off, contatti, aste di tipo definito dall'utente, temperature, masse e fasi; le reazioni vincolari non sono mostrate. Le combinazioni della sorgente sono un dato nuovo del progetto: una versione precedente di ANTHEA può non riaprire un progetto che contiene una copia Straus7.
+Controlla file e casi riporta anche il numero delle fasi del modello. Con un file .lsa risolto su una fase attiva il riepilogo lo segnala: i casi sono quelli di quella configurazione e gli elementi non attivi non hanno risultati. Con un file .nla l'elenco mostra uno stato per ogni fase e incremento, con il nome «NLA · fase · incremento». I risultati di un file .nla sono risultati per fase: in **Risultati** si scelgono con **Fasi costruttive** e i selettori di fase e passo, come le fasi MIDAS, e non entrano nelle combinazioni.
+
+Il pulsante **Tabella** offre anche **Reazioni vincolari** del caso corrente, con nel riepilogo la risultante delle reazioni, quella dei carichi e l'esito del controllo di equilibrio, **Masse**, **Temperature** e **Fasi**, con i gruppi e gli elementi attivi di ogni fase. Masse e temperature sono dati del modello: ANTHEA non ne ricava carichi. Le colonne delle tabelle riportano l'unità nell'intestazione.
+
+La lettura riguarda l'analisi statica lineare dei casi primari, anche su una fase attiva, e l'analisi statica non lineare per fasi del file .nla, del quale si legge solo questa. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a cerniera, elementi cut-off, contatti e aste di tipo definito dall'utente; la geometria trasformata delle fasi «morphed» non è mostrata e si vede quella iniziale. Le combinazioni della sorgente sono un dato nuovo del progetto: una versione precedente di ANTHEA può non riaprire un progetto che contiene una copia Straus7.
 
 ### Risolvere le interruzioni e conoscere i limiti
 

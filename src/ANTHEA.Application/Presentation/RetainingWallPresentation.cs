@@ -170,7 +170,7 @@ public static partial class RetainingWallPresentation
 
     public const string DetailingUnavailable = "Armature disponibili per muri a mensola in c.a.";
 
-    public static IReadOnlyList<string> DetailingColumns { get; } = ["Marca / zona", "Faccia", "n Ø", "As [mm²/m]", "L barra [m]", "lbd richiesto/usato [mm]", "l0 richiesto/usato [mm]", "Mandrino [mm]", "fbd [MPa]"];
+    public static IReadOnlyList<string> DetailingColumns { get; } = ["Pos. / zona", "Faccia", "n Ø", "As [mm²/m]", "L barra [m]", "lbd richiesto/usato [mm]", "l0 richiesto/usato [mm]", "Mandrino [mm]", "fbd [MPa]"];
 
     public static IReadOnlyList<string[]> DetailingRows(WallModel.ReinforcementDetails detail) => detail.Bars.Select(b => new[] { b.Mark + " " + WallModel.RebarZoneName(b.Zone),
         b.Face, $"{b.Count} Ø{b.Diameter}", F(b.Area), F(b.Length), F(b.RequiredAnchor) + " / " + F(b.Anchor), F(b.RequiredLap) + " / " + F(b.Lap), F(b.Mandrel), F(b.Fbd) }).ToArray();

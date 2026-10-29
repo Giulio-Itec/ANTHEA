@@ -239,6 +239,17 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
     /// <summary>The references of «Diagrammi e dettagli».</summary>
     public JsonArray References => HorizontalPileEditor.References();
 
+    /// <summary>
+    /// The target of «Apri riferimento» of a reference: its web link, otherwise the installed document named in «documento» (the article on the
+    /// layered method for «G. Pacini», <see cref="InstalledDocuments"/>) as a file URI; null when there is nothing to open.
+    /// </summary>
+    public static string? ReferenceTarget(JsonObject reference)
+    {
+        ArgumentNullException.ThrowIfNull(reference);
+        if (reference["url"]?.GetValue<string>() is { Length: > 0 } url) return url;
+        return reference["documento"]?.GetValue<string>() is { Length: > 0 } document && InstalledDocuments.Uri(document) is { } file ? file.AbsoluteUri : null;
+    }
+
     /// <summary>«Esporta CSV»: the tables of the result into the chosen file; a failure is shown, as today.</summary>
     public void ExportCsv()
     {
@@ -532,11 +543,12 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
             ShowInnerRing(false);
         }
         ejForm = new FormViewModel(section, HorizontalPileFields.Ej(), _ => UserChanged(), compact: true) { InheritedWikiModule = ModuleId, IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
-        // The elastic response (F5.8), built after the capacity as HorizontalWorkspace builds its second tab: it prepares its data.
+        // The elastic response (F5.8), built after the capacity as HorizontalWorkspace builds its second tab: it prepares its data. Since 1.16.0
+        // (D-2) it calculates in a place of the limiter of the sheet, as the capacity.
         // «Modifica dati e strati» brings the tab of the capacity with the stratigraphies extended, as the historic view.
         elastic?.Dispose();
         elastic = new ElasticPileViewModel(Data, new ElasticPileSheet(() => CanEdit, ElasticModified, () => { SelectedAnalysis = 0; ExpandedCard = SurveysCard; }, RefreshAfterMigration,
-            Context.Services, Context.Host, ModuleId), elasticAnalysis());
+            Context.Services, Context.Host, ModuleId, Context.Limiter), elasticAnalysis());
         elastic.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(ElasticPileViewModel.Result) && analysis == 1) OnPropertyChanged(nameof(ActiveResult)); };
         OnPropertyChanged(nameof(Elastic));
         analysis = Data.S("vista_orizzontale") == "elastico" ? 1 : 0;

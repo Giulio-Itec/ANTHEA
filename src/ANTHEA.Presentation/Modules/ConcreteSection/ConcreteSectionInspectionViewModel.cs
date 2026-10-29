@@ -142,7 +142,8 @@ public sealed class ConcreteSectionInspectionViewModel : ObservableObject
         {
             var action = ConcreteDomainChart.ReadNamedAction(row.Values);
             JsonObject options = panel.Options;
-            var completion = await Session.CalculateAsync(check, limit, sheet.Input, sheet.Settings, options, panel.Key, action);
+            // 1.16.0, D-5: in a place of the limiter of the application.
+            var completion = await Session.CalculateAsync(check, limit, sheet.Input, sheet.Settings, options, panel.Key, action, gate: sheet.Limiter.Gate);
             completion.TryPublish(current =>
             {
                 if (!Current()) return;

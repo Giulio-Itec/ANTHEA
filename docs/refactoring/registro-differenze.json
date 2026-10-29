@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-28",
+  "aggiornato": "2026-10-29",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -1827,7 +1827,15 @@
       "titolo": "DIN, k5 delle tensioni nei trefoli 0,75 invece di 0,65",
       "famiglia": "calcestruzzo/sle",
       "categoria": "scostamento-normativo",
-      "stato": "rinviato",
+      "stato": "corretto",
+      "seguito_1160": {
+        "data": "2026-10-29",
+        "decisione": "«Fonti secondarie» (28/10/2026 sera, anche R7 e R14): correzione sulle fonti secondarie, dichiarata con la fonte e «da riscontrare sul testo».",
+        "esito": "k5 = 0,65 nella classe DIN (StandardDINEN1992p11, Model 10ff0592): DIN EN 1992-1-1/NA NDP 7.2(5), per la combinazione quasi permanente secondo un estratto del NA (fonte secondaria, da riscontrare sul testo); il limite resta quello della combinazione caratteristica di GetServiceabilityPrestressLimitStress, a favore di sicurezza. Pagina ca.sle-tensioni, riquadro E-5.",
+        "attesi": "tests/Fixtures/concrete-profiles-before.json di Model: una riga (DIN 0,75 -> 0,65), spiegata.",
+        "effetto_anthea": "Solo i documenti della sezione c.a. con il profilo DIN: il coefficiente «SLE rara · σp / fpyk (DLL)» 0,75 -> 0,65 nei dati, nella riga del report e nelle tracce (2 fixture F3, 16 transizioni R6; 4 tracce di tests/fixtures/f5-sezione/storica, sole righe del coefficiente, del documento e delle impronte). Nessun altro valore cambia.",
+        "evidenze": "supporto/artefatti/1160/int-b (ui_f3-equivalence/cattura/confronto.json); librerie del ramo lib-1160/coordinatore (Checker c7395300…532fc1a4, 9f7ab415; Model 10ff0592, ba6721b5), set candidato di integrazione int-b"
+      },
       "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "riscontro dell'appendice nazionale DIN (k5 = 0,65 per i trefoli), poi correzione in Model con opzione legacy.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R6): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Il profilo DIN eredita k5 = 0,75 (Model StandardModelCode2010); secondo una fonte secondaria il NA dà 0,65.",
@@ -1856,7 +1864,13 @@
       "titolo": "Interpretazioni cautelative o dichiarate di taglio, torsione, SLE e fessurazione",
       "famiglia": "calcestruzzo",
       "categoria": "intenzionale",
-      "stato": "rinviato",
+      "stato": "dichiarato",
+      "seguito_1160": {
+        "data": "2026-10-29",
+        "decisione": "«Fonti secondarie» (28/10/2026 sera, anche R7 e R14): correzione sulle fonti secondarie, dichiarata con la fonte e «da riscontrare sul testo».",
+        "esito": "Interpretazioni dichiarate nella guida teorica Rev62 (sei voci con il loro segno: interazione delle bielle in torsione, k3 fyk su |σ| anche delle barre compresse, k1 fck in ogni classe, k2 fck come limite, wk = 0 con l'asse neutro nel copriferro di una barra del lembo teso, limite 1,3 (h − x) con barre tese fuori da Ac,eff, riquadro F-4). F-4: wk viene dalle barre tese e non è un limite superiore dell'apertura al lembo, che la norma non chiede.",
+        "effetto_anthea": "Nessuno sui valori; testo della guida (F5-REL-1160-01)."
+      },
       "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "dichiarazione delle interpretazioni nella guida teorica e segno di F-4, con la revisione della guida.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R7): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Interazione delle bielle in torsione: somma dei rapporti del taglio nelle due direzioni (riquadro R-1 della pagina ca.torsione). SLE: limite k3 applicato a |σ| anche delle barre compresse; k1 fck in ogni classe di esposizione; k2 fck trattato come limite e non come soglia del creep non lineare. NS: wmax senza il fattore kc = cnom/cmin,dur ≤ 1,3 della Tab. NA.7.1N. DS: cot θ ≤ 2 (già dichiarato). Interpretazioni dichiarate: wk = 0 con asse neutro nel copriferro; 1,3 (h − x) con barre tese fuori da Ac,eff (riquadro F-4 della pagina ca.fessurazione: il limite superiore riguarda sr, mentre εsm − εcm viene dalle barre tese, più vicine all'asse neutro del lembo, quindi wk non è un limite superiore dell'apertura al lembo; segno da stabilire). La componente «NTC torsione: cot θ ≥ 1 anche in torsione pura» è stata tolta il 7/10: vedi rettifica.",
@@ -1894,7 +1908,14 @@
       "titolo": "Punti da riscontrare: MC2010 fessurazione senza ritiro, coefficiente DIN di hc,ef, EN Tab. 7.1N per XD3",
       "famiglia": "calcestruzzo/fessurazione",
       "categoria": "scostamento-normativo",
-      "stato": "rinviato",
+      "stato": "corretto",
+      "seguito_1160": {
+        "data": "2026-10-29",
+        "decisione": "«Fonti secondarie» (28/10/2026 sera, anche R7 e R14): correzione sulle fonti secondarie, dichiarata con la fonte e «da riscontrare sul testo».",
+        "esito": "MC2010: ritiro libero εcs nella (7.6-3) come opzione SectionCrackOptions.ModelCode2010ShrinkageStrain (predefinito 0, fixture e K0 invariati; ηr non applicato, da riscontrare). DIN hc,ef (Bild 7.1DE): fonti discordi, lettura del programma a favore di sicurezza, dichiarata. EN prospetto 7.1N: XD3, che il prospetto non elenca, con XD1, XD2 e XS1-XS3 (0,3 mm), come altri programmi (fonte secondaria): interpretazione dichiarata. Checker d2d69712, pagina ca.fessurazione.",
+        "effetto_anthea": "Nessuno (ANTHEA non usa l'opzione del Model Code 2010).",
+        "evidenze": "librerie del ramo lib-1160/coordinatore (Checker c7395300…532fc1a4, 9f7ab415; Model 10ff0592, ba6721b5), set candidato di integrazione int-b"
+      },
       "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "riscontro sui testi primari (MC2010 fessurazione senza ritiro, coefficiente DIN di hc,ef, EN Tab. 7.1N per XD3), poi decisione voce per voce.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R8): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "MC2010: apertura senza la deformazione di ritiro εcs e con il minimo (1 − kt) σs/Es. DIN: coefficiente di hc,ef (Bild 7.1DE) concorde con una fonte secondaria, mentre un esempio svolto di un'altra fonte legge 3,25 per h/(h − d) = 25 dove il codice dà 4,5. EN: wmax 0,3 mm assegnato a XD3, da controllare sulla tabella base.",
@@ -2072,7 +2093,15 @@
       "titolo": "Dettagli e momento-curvatura: regole sostituite, definizioni e citazioni",
       "famiglia": "calcestruzzo",
       "categoria": "intenzionale",
-      "stato": "rinviato",
+      "stato": "corretto",
+      "seguito_1160": {
+        "data": "2026-10-29",
+        "decisione": "«Fonti secondarie» (28/10/2026 sera, anche R7 e R14): correzione sulle fonti secondarie, dichiarata con la fonte e «da riscontrare sul testo».",
+        "esito": "EN 9.2.1.2(3): CompressionBarRestraint (passo ≤ 15 Ømin) calcolato anche per EN, UNI e DS come per NTC; BarsHeldByLinks resta solo per DS sulla 9.5.3(6). Citazioni NTC senza lo spazio («§4.1.6.1.3»), MinimumTension delle travi con EC2 §9.2.1.1, MaximumAtLap dei pilastri con «EC2 §9.5.2(3)». Momento–curvatura: definizioni di χu e χy,1 dichiarate, μφ con la bilineare non calcolata. Checker e9dd06c1, 532fc1a4.",
+        "attesi": "detailing-contract-0.0.17.csv di Concrete: 2754 righe di soli riferimenti e 246 casi del 15Ø, verificati riga per riga da script (Approvati se spiegati).",
+        "effetto_anthea": "Solo il testo dei riferimenti NTC dei controlli costruttivi della risposta elastica del palo orizzontale: 57 transizioni F3 R14 in 3 fixture e le tracce di tests/fixtures/f5-elastico/storica (9 file, sole impronte della risposta e le etichette dei controlli). Nessun numero cambia.",
+        "evidenze": "supporto/artefatti/1160/int-b (ui_f3-equivalence, ui_check-palo-orizzontale-view); librerie del ramo lib-1160/coordinatore (Checker c7395300…532fc1a4, 9f7ab415; Model 10ff0592, ba6721b5), set candidato di integrazione int-b"
+      },
       "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "riscontro della regola dei 15Ø; correzione delle citazioni e dichiarazione del M–χ.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R14): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Travi EC: la regola dei 15Ø per le barre compresse (EN 9.2.1.2(3), anche NTC §4.1.6.1.1) è sostituita da una conferma. Momento-curvatura: χu al punto limite e χy al primo snervamento di una barra, senza bilineare equivalente e senza φ(M85 %) della Circolare (Fig. C4.1.12). Citazioni: NTC MinimumTension cita EC2 §9.3.1.1 invece di 9.2.1.1; riferimenti NTC «§4.1.6.1 .3» con uno spazio; equazioni As,min NTC 2018 [4.1.45]-[4.1.46] (non 4.1.43-4.1.44); «UNI 11104 prospetto 5» dipende dall'edizione.",
@@ -2135,7 +2164,14 @@
       "titolo": "DS, torsione: fattore di efficienza delle bielle νv del taglio invece di νt",
       "famiglia": "calcestruzzo/torsione",
       "categoria": "scostamento-normativo",
-      "stato": "rinviato",
+      "stato": "corretto",
+      "seguito_1160": {
+        "data": "2026-10-29",
+        "decisione": "«Fonti secondarie» (28/10/2026 sera, anche R7 e R14): correzione sulle fonti secondarie, dichiarata con la fonte e «da riscontrare sul testo».",
+        "esito": "Torsione DS: νt = 0,7 (0,7 − fck/200) (5.104 NA) per le pareti armate sulla sola faccia esterna, νv con le pareti armate su entrambe le facce; con il taglio la media pesata sulle tensioni tangenziali delle pareti, (R.6a) della pagina ca.torsione. Il DK NA dice solo «media pesata»: i pesi sono una nostra lettura, da riscontrare sul testo (copia secondaria del DK NA). Opzione storica DsTorsionStrutEfficiency.ShearFactor. Checker c7395300.",
+        "effetto_anthea": "Nessuno: ANTHEA calcola la torsione solo con NTC 2018.",
+        "evidenze": "librerie del ramo lib-1160/coordinatore (Checker c7395300…532fc1a4, 9f7ab415; Model 10ff0592, ba6721b5), set candidato di integrazione int-b"
+      },
       "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "testo della media pesata di νv/νt per la torsione DS, poi correzione con opzione legacy.", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R16): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Nel profilo DS la resistenza delle bielle in torsione usa in ogni caso ν = νv = max(0,45; 0,7 − fck/200), il fattore del taglio (SectionShearCalculator.StrutEfficiency), anche per le sezioni piene armate sulla sola faccia esterna. DK NA 5.6.1(3)P (informazione supplementare) dà per la torsione νt = 0,7 (0,7 − fck/200) (5.104 NA); νt si può porre uguale a νv solo se le pareti del profilo resistente hanno staffe chiuse sul perimetro e barre longitudinali distribuite su entrambe le facce; con taglio e torsione insieme si usa la media di νv e νt pesata sulle due azioni. L'indicatore HollowWithReinforcementOnBothFaces non è usato dal profilo DS.",
@@ -2175,7 +2211,15 @@
       "titolo": "Classe indicativa di XC3 nei profili EN e UNI: C25/30 invece di C30/37 (prospetto E.1N)",
       "famiglia": "calcestruzzo/durabilita",
       "categoria": "scostamento-normativo",
-      "stato": "rinviato",
+      "stato": "corretto",
+      "seguito_1160": {
+        "data": "2026-10-29",
+        "decisione": "«Fonti secondarie» (28/10/2026 sera, anche R7 e R14): correzione sulle fonti secondarie, dichiarata con la fonte e «da riscontrare sul testo».",
+        "esito": "XC3 C30/37 nel prospetto E.1N dei profili EN e UNI (cella di XC4): UNI dal testo del DM 31/07/2012, EN da una riproduzione del prospetto (fonte secondaria, da riscontrare). Opzione storica IndicativeStrengthReading.MergedXc2Xc3. Checker c56a138f.",
+        "attesi": "durability-contract.json: 5 righe, spiegate; DurabilityDetailingTest di ModelChecker: il caso EN con XC3 e fck 25 non soddisfa la classe indicativa (a favore).",
+        "effetto_anthea": "Nessuno: ANTHEA usa la classe minima della UNI 11104, non quella del prospetto E.1N.",
+        "evidenze": "librerie del ramo lib-1160/coordinatore (Checker c7395300…532fc1a4, 9f7ab415; Model 10ff0592, ba6721b5), set candidato di integrazione int-b"
+      },
       "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "riscontro dell'impaginazione del prospetto E.1N della EN (classe indicativa di XC3).", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R17): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Nei profili EN e UNI la classe minima di resistenza viene dal prospetto E.1N (appendice E informativa). Il catalogo assegna a XC3 C25/30, cioè legge le celle unite del prospetto come XC2-XC3. Il prospetto E.1N del DM 31/07/2012 dà per XC3 e XC4 una sola cella con C30/37 (XC1 e XC2 hanno celle proprie, C25/30); il DM riproduce l'impaginazione del prospetto E.1N della EN 1992-1-1 cambiando i valori nazionali, quindi anche per la EN la classe di XC3 è probabilmente C30/37. Gli attesi dei test della libreria per XC3 vengono dalla stessa lettura del codice e non sono indipendenti.",
@@ -2317,7 +2361,15 @@
       "titolo": "DS, travi: ρw,min nazionale non implementato",
       "famiglia": "calcestruzzo/dettagli",
       "categoria": "intenzionale",
-      "stato": "rinviato",
+      "stato": "corretto",
+      "seguito_1160": {
+        "data": "2026-10-29",
+        "decisione": "«Fonti secondarie» (28/10/2026 sera, anche R7 e R14): correzione sulle fonti secondarie, dichiarata con la fonte e «da riscontrare sul testo».",
+        "esito": "Travi DS: ρw,min = 0,063 √fck/fyk (DK NA 9.5N NA) in MinimumLinks:<faccia>, prima in sospeso; As,min della 9.2.1.1(1) resta in sospeso. Checker 9ef06aa2.",
+        "attesi": "detailing-contract-0.0.17.csv: 168 righe (164 controlli e 4 esiti complessivi DS), verificati riga per riga da script.",
+        "effetto_anthea": "Nessuno: ANTHEA non usa il profilo DS nei dettagli.",
+        "evidenze": "librerie del ramo lib-1160/coordinatore (Checker c7395300…532fc1a4, 9f7ab415; Model 10ff0592, ba6721b5), set candidato di integrazione int-b"
+      },
       "rinvio_26_10": {"data": "2026-10-26", "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)", "coda": "coda dopo il refactoring (docs/refactoring/piano.md, sezione «Coda dopo il refactoring»)", "serve": "quando servirà il DS delle travi (ρw,min nazionale).", "esito": "rinviata alla chiusura di F5.15: resta aperta nella coda, non è corretta né dichiarata accettata."},
       "decisione_25_10": "Decisione dell'utente del 25/10 (F5.15, scheda per famiglie, docs/refactoring/f5-15-famiglie.md, famiglia 11, riga R20): «Come raccomandato in tutte le famiglie». Stato precedente: da-decidere.",
       "descrizione": "Nel profilo DS i controlli MinimumLinks:<faccia> delle travi (come MinimumTension:<faccia>) restano in sospeso con NotImplemented = true («DK NA national value of ρw,min not available in this implementation»). DK NA:2024 9.2.2(5) fissa ρw,min = 0,063 √fck/fyk (9.5N NA); la scelta nazionale di 9.2.1.1(1) prescrive nelle anime alte un'armatura distribuita sulle facce con lo stesso rapporto; 9.2.1.2(3) estende alle travi la regola 9.5.3(6), che il codice tratta come una conferma.",
@@ -11289,7 +11341,8 @@
       "voci_collegate": [
         "COMB-MODEL-01",
         "AG-MUR-01",
-        "AK-LIB-01"
+        "AK-LIB-01",
+        "COMB-MURI-D5-NOTA"
       ]
     },
     {
@@ -11453,6 +11506,58 @@
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
+      "id": "MOD-33",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Straus7 (seguito di MOD-32): fasi del modello come fasi GPC e dati della copia (ModelSnapshot.ConstructionStages); risultati statici lineari di un modello con fasi senza fase attiva (prima rifiutati) e con fase attiva (casi statici di quella configurazione, elementi non attivi senza risultati); risultati statici non lineari per fasi (.nla) come risultati per fase «NLA · fase · incremento»; truss e cavi nelle combinazioni ricostruite da GPC; reazioni vincolari dei casi scelti (ModelResultSet.Reactions) con il controllo di equilibrio di GPC fra carichi applicati e reazioni (ModelResultSet.Equilibrium) e nelle combinazioni; masse e temperature come dati del modello (ModelSnapshot.Masses, Temperatures); tabelle «Reazioni vincolari», «Masse», «Temperature», «Fasi». Brick ancora esclusi. Correzioni collegate: GPC CombinationRebuild (nomi dei ruoli dei governanti per posizione, GPCModel 5.23.0.2), aggiornamenti parziali e copie delle combinazioni che conservano i dati nuovi, celle delle colonne della tabella con l'unità fra parentesi quadre (prima vuote).",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.Strand7Worker/Program.cs",
+        "src/ANTHEA.ModelWorkspace/ModelSnapshot.cs",
+        "src/ANTHEA.ModelWorkspace/ModelReactions.cs",
+        "src/ANTHEA.ModelWorkspace/GpcModelSnapshot.cs",
+        "src/ANTHEA.ModelWorkspace/GpcSnapshotModel.cs",
+        "src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs",
+        "src/ANTHEA.ModelWorkspace/MidasGpcDisplay.cs",
+        "src/ANTHEA.ModelWorkspace/Strand7Snapshot.cs",
+        "src/ANTHEA.ModelWorkspace/Strand7ImportSetup.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Tables.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelTableView.xaml.cs",
+        "src/ANTHEA.ModelWorkspace/ModelSnapshotUpdate.cs",
+        "src/ANTHEA.ModelWorkspace/ModelCombinations.cs",
+        "Model: GPC Converter/Providers/Straus7Api (Straus7ModelData, Straus7StageResults, Straus7Equilibrium, Straus7Assignments.Data)",
+        "Model: Model/Results/Processing/CombinationRebuild.cs"
+      ],
+      "segno": "Reazioni: forza e momento del vincolo sulla struttura, assi globali, kN e kN·m, come la copia MIDAS (convenzione unica decisa il 28/10). Truss e cavi: sforzo normale con il segno della copia (trazione positiva); taglio, torsione e momenti nulli per formulazione. Masse in t, temperature in °C. Campi nuovi facoltativi omessi quando nulli: impronte dei documenti esistenti invariate. Nessun valore numerico esistente cambia: le combinazioni Straus7 hanno in più le aste assiali e le reazioni, le copie MIDAS sono invariate.",
+      "riferimenti_cambiati": {
+        "model": "dcc2cf0e (ramo lib-1160/straus7): riga «stage» di Straus7ApiWorkflowTest.StaticNormalization_RejectsUnsupportedOrUnboundDataWithoutMutatingModel. Prima un modello con una fase e un caso di fase 0 era atteso rifiutato; la correzione dichiarata (fasi, richiesta dell'utente) lo accetta come statico lineare senza fase attiva (verificato sulla fixture nativa: tutti gli elementi attivi, reazioni in equilibrio). La riga ora usa un caso di fase 2 in un modello con una fase, ancora rifiutato. Le altre nove righe sono invariate.",
+        "anthea": "nessuno"
+      },
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "alla domanda su cosa portare nell'importazione Straus7: «fasi si (stage). brick no», «Truss e cavi in combinazione», «Reazioni vincolari», «Masse e temperature»",
+        "esito": "implementato sul ramo refactoring/1160-straus7 (librerie lib-1160/straus7: GPC.Converter 2.8.0.0, GPCModel 5.23.0.2); unione e pubblicazione al coordinatore"
+      },
+      "data": "2026-10-29",
+      "fase": "1.16.0",
+      "test": [
+        "ModelWorkspace.Checks (Strand7DataChecks): 592 PASS",
+        "Straus7Native.Checks (GPC_STRAUS7_ELEMENTS, GPC_STRAUS7_PLATES, GPC_STRAUS7_BRIDGHE, GPC_STRAUS7_STAGES): 243 PASS su 7 modelli",
+        "GPC Model UnitTest: Straus7DataImportTest, Straus7NativeStagesTest (GPC_STRAUS7_STAGES=versioned), CombinationRebuildTest",
+        "ModelViewer.Importers.UiChecks"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160/straus7"
+      ],
+      "voci_collegate": [
+        "MOD-29",
+        "MOD-30",
+        "MOD-32"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
       "id": "CA-COLONNA-01",
       "data": "2026-10-28",
       "fase": "1.15.0, scheda «Colonna modello» (GPCChecker.Concrete 0.27.0.0, set candidato librerie-1150/candidato-a)",
@@ -11549,6 +11654,12 @@
         "set": "AL (Checker 0951cbf9, con le fasi della revisione steel)",
         "esito": "GPCChecker.Geotechnics 0.25.0.3 -> 0.25.0.4, ricompilata senza modifiche al sorgente: le stesse 8 impronte cambiano di nuovo e con library_version 0.25.0.3 tornano quelle approvate (da14147b); differenza della stessa natura, approvata dalla regola «Approvati se spiegati» del 28/10 sera e registrata nella tabella con il commento del set AL.",
         "evidenze": "supporto/artefatti/1150/al-mirate (registra-fon.txt, registrazione temporanea non committata; PASS 36)"
+      },
+      "seguito_1160": {
+        "data": "2026-10-29",
+        "set": "candidato b della 1.16.0 (Model lib-1160/combinazioni 1f48507b, Checker 3f0623f9), combinazioni D6 e D7",
+        "esito": "GPCChecker.Geotechnics 0.25.0.4 -> 0.26.0.0 (le combinazioni dei muri, che le fondazioni non usano): le stesse 8 impronte cambiano di nuovo e con library_version 0.25.0.4 tornano tutte quelle del set AL; differenza della stessa natura, regola «Approvati se spiegati», tabella con il commento del set candidato. Con il set ufficiale della 1.16.0 la versione può cambiare ancora.",
+        "evidenze": "supporto/artefatti/1160-combinazioni/registra-ui (registra-fon.txt, registrazione temporanea non committata) e ui-2 (ui/check-fondazioni-view PASS)"
       },
       "test": [
         "ui/check-fondazioni-view"
@@ -12063,6 +12174,649 @@
         "R-MURI-06",
         "R-MURI-07",
         "R-MURI-08"
+      ]
+    },
+    {
+      "id": "UI-CONTRASTO-03",
+      "data": "2026-10-29",
+      "fase": "1.16.0, contrasto della Chiara",
+      "titolo": "Scala del dominio 3D: unità «−» dei fattori invece di «×»",
+      "famiglia": "interfaccia/temi",
+      "modulo": "str_palo e sezione c.a. (dialogo «Scala del dominio 3D»)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Ultimo gruppo di difetti della Chiara dopo UI-CONTRASTO-01 e -02: l'unità «×» dei campi Fattore N, MX e MY del dialogo «Scala del dominio 3D», in corpo Caption e colore attenuato #5B697E, misurata dai pixel sotto 4,5:1 perché i tratti diagonali sottili sono sfumati (dalle proprietà il colore vale circa 5,6:1 sul bianco). I fattori sono adimensionali: l'unità diventa «−», come gli altri fattori adimensionali di ANTHEA (per esempio «Fattore di scala» dei muri). La domanda del 28/10 sera citava 719 difetti in 28 gruppi, il dato dell'8/10; dopo la 1.14.4 restava solo questo gruppo (3 occorrenze, baseline 3).",
+      "codice": [
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteDomainPanelViewModel.cs (ConcreteDomainScaleDialogViewModel)"
+      ],
+      "segno": "Solo aspetto; nessun numero cambia.",
+      "effetto_quantificato": "--check-contrast: Chiara da 3 occorrenze in 1 voce a 0; Scuro e Molto scuro 0. Baseline tests/fixtures/f5/contrasto-chiara.json abbassata a 0 con baseline-chiara.json della corsa. Nessuna traccia congelata registra l'unità di quei campi.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "alla domanda sul contrasto della Chiara: «Correggi i gruppi reali»",
+        "esito": "attuato"
+      },
+      "test": [
+        "ui/check-contrast",
+        "ui/check-sezione-view",
+        "Presentation.Tests"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160/contrasto-1 (PASS 8; ui_check-contrast: Chiara 0 difetti)"
+      ],
+      "voci_collegate": [
+        "UI-CONTRASTO-01",
+        "UI-CONTRASTO-02"
+      ]
+    },
+    {
+      "id": "COMB-D6",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni D6-D11)",
+      "titolo": "Muri: variabili presenti o assenti nelle righe sismiche ed eccezionali (D6 a)",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Muri di sostegno (verifiche locali e stabilità globale)",
+      "categoria": "scostamento-normativo",
+      "stato": "attuato",
+      "descrizione": "Censimento delle combinazioni (docs/refactoring/combinazioni-model-censimento.md, §5.1), D6 a: nelle combinazioni sismiche ed eccezionali ψ2·Qk entra solo se sfavorevole (NTC 2018 §2.5.3), quindi ogni gruppo variabile è presente (ψ2) o assente, come nelle SLU. Il generatore di Model (GeotechnicalCombinations) dà, per ogni variante sismica e per ogni gruppo eccezionale, una riga per ogni disposizione: prima tutte le variabili, poi il primo gruppo assente, il secondo, entrambi, …; le righe uguali (ψ2 = 0) si fondono senza numero; un contatore solo numera le righe, quindi le righe sismiche ed eccezionali dopo la prima cambiano numero; una riga con il sovraccarico assente non ha la gemella «b». Anche le righe «Globale eccezionale» e «Globale SLV» della stabilità globale. Prima di attuare, righe in più contate sul corpus delle catture di Geotechnics: 7652 → 7852 (+200, 40 documenti su 204; sismiche ed eccezionali 228 → 428), globali 374 → 406; con 3000 muri casuali 635417 → 642586 (+7169), globali 21667 → 24115; nessun rifiuto nuovo oltre 4096 righe. Model lib-1160/combinazioni (GPCModel 5.24.0.0) e Checker lib-1160/combinazioni (GPCChecker.Geotechnics 0.26.0.0), set candidato librerie-candidato-b, non ancora uniti nei master. I documenti versione 1 conservano la riga unica (COMB-D7).",
+      "codice": [
+        "Model/Model/Design/Combinations/GeotechnicalCombinations.cs",
+        "Checker/GPCChecker.Geotechnics/Walls/WallCombinations.cs",
+        "Checker/GPCChecker.Geotechnics/Walls/WallGlobalStability.cs"
+      ],
+      "segno": "Righe in più, nessuna tolta: a favore di sicurezza o neutro. Nelle quattro fixture F3 interessate nessun rapporto massimo cambia e nessun esito cambia; aumentano le righe e i controlli non soddisfatti o non disponibili delle righe nuove (per esempio 42 → 52 in mensola-wood-azioni), con gli stessi rapporti massimi.",
+      "effetto_quantificato": "Corpus delle catture di Geotechnics: 40 documenti su 204 con righe in più, 7652 → 7852 righe (+200), sismiche ed eccezionali 228 → 428, globali 374 → 406; con 3000 muri casuali 635417 → 642586 (+7169). ANTHEA: quattro fixture F3 (globale-non-drenata-sisma 23 → 27 righe e globali 4 → 6, mensola-sisma-sito-pendio 23 → 27, mensola-wood-azioni 33 → 36, opzioni-avanzate 19 → 21); nessun rapporto massimo e nessun esito cambiano; i controlli non soddisfatti o non disponibili crescono con le righe nuove (20 → 24, 23 → 27, 72 → 85, 17 → 19), con gli stessi massimi. Come la quantificazione della 1.14.4 (supporto/artefatti/1144/quantificazione-d4-d6.csv: per D6 nessun rapporto cambiato su 19 documenti).",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«Come raccomandato» (riepilogo della sera, domande D6-D11 del censimento delle combinazioni)",
+        "esito": "attuato (librerie e riferimenti di ANTHEA spiegati riga per riga, regola «Approvati se spiegati»)"
+      },
+      "riferimenti_anthea": "Transizioni F3 (chiave aggiornamento_1160_d6, 73616 voci): 11493 COMB-D6 nuove, 992 con il valore dopo nuovo e la voce estesa « / COMB-D6» (220 PARATIE-20, 718 AG-MUR-01, 54 COMB-MURI-D4D5), una PARATIE-20 tolta (riga del report spostata); 7 tracce storiche dei muri (279 righe sostituite, 41 aggiunte, 2 tolte); 16 valori di vista-storica.json dei muri; le due sezioni che i muri mandano al c.a. (4 azioni SISMA in più) e le loro tracce storica/muri della sezione; conteggi delle transizioni in Presentation.Tests; attesi di RetainingWall.Checks e di ui/smoke-retaining-wall contati a mano. Ogni riga cambiata spiegata dal confronto semantico con la cattura del set AL (d6_confronto.py, sez_tracce.py): tolte le righe nuove e rinominate le altre, i risultati sono uguali. Nessun atteso F3 sostituito, nessuna tolleranza nuova.",
+      "test": [
+        "Model UnitTest GeotechnicalCombinationsTest (attesi a mano)",
+        "Checker GPCChecker.Test.Geotechnics WallCombinationsEquivalenceTests (bit per bit con le righe congelate e l'espansione indipendente WallsFixture.DecidedD6), WallEdgeCaseTests.VariableGroupsAbsentInTheSeismicAndAccidentalRows",
+        "RetainingWall.Checks, Presentation.Tests, ui/f3-equivalence, ui/check-muri-view, ui/smoke-retaining-wall"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/librerie-candidato-b (tutte le suite di Model e Checker; d6-righe.csv dei risultati di Geotechnics)",
+        "supporto/artefatti/1160-combinazioni/registra-1 e registra-ui (registrazioni temporanee non committate), sez-2",
+        "supporto/artefatti/1160-combinazioni/mirate-1, ui-1, ui-2 (suite mirate)"
+      ],
+      "voci_collegate": [
+        "COMB-MODEL-01",
+        "COMB-MURI-D4D5",
+        "BUG-MUR-1",
+        "COMB-D7"
+      ]
+    },
+    {
+      "id": "COMB-D7",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni D6-D11)",
+      "titolo": "Muri versione 1: casi fissi generati da Model, bit per bit (D7 a); valutazione di D7 b",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Muri di sostegno, documenti versione 1 calcolati senza interfaccia",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Censimento, D7 a: RetainingWall.LegacyCombinations non scrive più fattori e γR: chiama WallCombinations.Version1 di GPCChecker.Geotechnics 0.26, cioè il generatore di Model con l'ordine dei bit dichiarato (muro, terreno, carichi, acqua) e una riga sismica per segno con ψ2, γR di R3 e 1,2 della portanza sismica da StandardNTC2018Geotechnics. Le righe sono quelle di prima bit per bit: la copia congelata del codice di ANTHEA 1.15.0 (FrozenWallVersion1Combinations) e Version1 coincidono su 126 ingressi (i 6 documenti versione 1 delle catture e una griglia di 120), 2458 righe; le righe senza gemelle sono anche quelle della cattura storica. D4, D5 e D6 non valgono per questi casi fissi. D7 b (aggiornare questi documenti alla versione 2 anche nel calcolo) è valutato e non attuato: su 22 documenti versione 1 (6 delle catture, 16 di una griglia) senza sisma stessi rapporti governanti e solo nomi diversi; con il sisma righe in più (D6) e rapporti di scorrimento −9,09 % e di ribaltamento −13,04 % dove governa una riga sismica (γR della Tab. 7.11.III, D5 b), meno cautelativi; Upgrade dà ψ0 = 0,7 e rende non validi i documenti con ψ1 > 0,7 (8 su 16 della griglia), difetto già presente nell'interfaccia, corretto dopo la valutazione (UPG-PSI0-01: ψ0 = 1 se ψ1 > 0,7, categoria E della Tab. 2.5.I; con la correzione i 22 documenti si aprono tutti validi, valutazione-d7b-upg.csv). Il 29/10 l'utente ha deciso b («D7b. correggi. aggiornali»): attuato in COMB-D7B, che sostituisce a in ANTHEA; WallCombinations.Version1 resta nella libreria senza chiamanti. Raccomandazione: correggere Upgrade e attuare b solo con l'ok dell'utente (censimento §5.2, supporto/artefatti/1160-combinazioni/valutazione-d7b.csv).",
+      "codice": [
+        "X.Calculations/RetainingWall.Library.cs (LegacyCombinations)",
+        "Checker/GPCChecker.Geotechnics/Walls/WallCombinations.cs (Version1)",
+        "Model/Model/Design/Combinations/GeotechnicalCombinations.cs (ordine dichiarato, variablePresence)",
+        "tests/ANTHEA.Architecture.Tests/f4-domain-baseline.json (due residui R4 ridotti da 2 a 1)"
+      ],
+      "segno": "Nessun valore cambia (a); b cambierebbe nomi, righe e γR sismici dei documenti versione 1.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«Come raccomandato» (riepilogo della sera, domande D6-D11 del censimento delle combinazioni)",
+        "esito": "a attuato; b valutato (censimento §5.2), non attuato"
+      },
+      "test": [
+        "Checker WallCombinationsEquivalenceTests.TheVersion1CasesAreTheFrozenOnes",
+        "Model GeotechnicalCombinationsTest.TheDeclaredPatternOrderSetsTheBitsOfTheUltimateRows",
+        "RetainingWall.Checks (versione 1 invariata), Architecture.Tests (F4 senza aggiunte)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/librerie-candidato-b (GPCChecker.Test.Geotechnics 202 PASS)",
+        "supporto/artefatti/1160-combinazioni/mirate-1 (RetainingWall.Checks PASS)",
+        "supporto/artefatti/1160-combinazioni/valutazione-d7b.csv"
+      ],
+      "voci_collegate": [
+        "COMB-MODEL-01",
+        "COMB-D6",
+        "UPG-PSI0-01",
+        "COMB-MURI-D5-NOTA",
+        "COMB-D7B"
+      ]
+    },
+    {
+      "id": "COMB-D9",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni D6-D11)",
+      "titolo": "Modelli: combinazioni automatiche NTC 2018 sul generatore di Model (D9 a, servizio)",
+      "famiglia": "modelli/combinazioni",
+      "modulo": "Modelli (ANTHEA.ModelWorkspace)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Censimento, D9 a: il generatore automatico del modulo Modelli usa lo stesso generatore di Model dei muri. ModelCombinationGenerator trasforma i casi statici della copia del modello, con la loro natura (G1, G2, variabile con la categoria della Tab. 2.5.I, eccezionale, sismico), nelle righe di GeotechnicalCombinations con l'insieme A1 di CombinationProfile.Ntc2018 e le scrive come combinazioni lineari ANTHEA modificabili (ANTHEA/NTC2018/…), calcolate da GPC come le altre: SLE rara, frequente, quasi permanente, SLU, SLV (ogni caso sismico ±1, variabili presenti o assenti), eccezionali. Propose propone le nature dai tipi MIDAS (STLD). Nessuna interfaccia ancora: il passo successivo, con le domande, è nel piano del censimento (§5.4). Nessun risultato esistente cambia.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelCombinationGenerator.cs",
+        "tests/ModelWorkspace.Checks/CombinationGeneratorChecks.cs"
+      ],
+      "segno": "Funzione nuova; nessun documento esistente cambia.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«Come raccomandato» (riepilogo della sera, domande D6-D11 del censimento delle combinazioni)",
+        "esito": "servizio attuato; interfaccia pianificata"
+      },
+      "test": [
+        "ModelWorkspace.Checks (16 controlli, righe attese a mano e una combinazione calcolata da GPC)",
+        "ModelViewer.Combinations.UiChecks"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/mirate-1 (ModelWorkspace.Checks PASS)",
+        "supporto/artefatti/1160-combinazioni/ui-1 (ModelViewer.Combinations.UiChecks PASS)"
+      ],
+      "voci_collegate": [
+        "COMB-D10",
+        "MOD-30"
+      ]
+    },
+    {
+      "id": "COMB-D10",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni D6-D11)",
+      "titolo": "Profili delle combinazioni: NTC 2018 ora, valori EN 1990 tenuti (D10 a)",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Model (GPC.Model.Design.Combinations)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Censimento, D10 a: CombinationProfile con gli insiemi delle righe SLU (EQU, A1/STR, A2/GEO, sismico) e ψ0, ψ1, ψ2 per categoria. Ntc2018: A1, A2 e l'insieme sismico da StandardNTC2018Geotechnics (riscontrati sul testo nella fase G); EQU della Tab. 2.6.I (G1 0,9/1,1, G2 0,8/1,5, Q 0/1,5) e ψ della Tab. 2.5.I scritti dalla letteratura tecnica: da riscontrare sul testo (per ψ coincidono con i valori raccomandati della EN 1990). En1990/FromEN1990: Tab. A1.1 e A1.2(A)-(C) da StandardEN1990, anche con un annesso nazionale impostato sull'istanza, un solo γG per G1 e G2, per la futura voce «Eurocodici con una norma di progetto». Le formule restano quelle di NTC 2018 §2.5.3 (6.10a/b e ψ1 della principale eccezionale della EN 1990 non implementati); nessuna scelta della norma nell'interfaccia.",
+      "riferimento_normativo": "NTC 2018 Tab. 2.5.I e 2.6.I (da riscontrare sul testo per EQU e ψ); EN 1990 Tab. A1.1, A1.2(A)-(C)",
+      "codice": [
+        "Model/Model/Design/Combinations/CombinationProfile.cs",
+        "Model/Model/Core/Values/ModelDataContracts.cs (VariableActionCategory)"
+      ],
+      "segno": "Nessun valore esistente cambia; i valori servono al generatore dei Modelli (COMB-D9).",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«Come raccomandato» (riepilogo della sera, domande D6-D11 del censimento delle combinazioni)",
+        "esito": "attuato"
+      },
+      "test": [
+        "Model GeotechnicalCombinationsTest.TheProfilesHoldTheValuesOfTheStandards, TheLoadCasesOfAModelUseTheSameGenerator"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/librerie-candidato-b (Model UnitTest 1537 PASS, Core 35, API; Checker tutte le suite)"
+      ],
+      "voci_collegate": [
+        "COMB-D9"
+      ]
+    },
+    {
+      "id": "COMB-D11",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni D6-D11)",
+      "titolo": "CreateCombinations: SLE caratteristica con la principale al valore caratteristico (D11 a)",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Model (StandardEN1990.CreateCombinations)",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Censimento, D11 a: nella SLE caratteristica la principale valeva γ·ψ2 invece di Qk (EN 1990 (6.14b), NTC 2018 (2.5.2)). Corretto in StandardEN1990.GetCoefficientLeadingVariableAction; atteso di EN1990GeneratorServiceabilityCharacteristic aggiornato con l'ok dell'utente nella decisione (vento principale 0 → 1, neve principale 0,2 → 1). Nessun chiamante di produzione: nessun risultato di ANTHEA cambia. StandardEN16612 (vetro) ha lo stesso difetto per le azioni climatiche: non corretto, perché cambierebbe i conteggi attesi di EN16612GeneratorAGC_SLS1 e _SLS2 (10 → 11 righe), fuori dalla decisione; corretto il 29/10 su decisione dell'utente (COMB-D11-EN16612).",
+      "codice": [
+        "Model/Model/Design/Standards/StandardEN1990.cs",
+        "Model/UnitTest/CombinationTest.cs"
+      ],
+      "segno": "Nessun effetto su ANTHEA.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«Come raccomandato» (riepilogo della sera, domande D6-D11 del censimento delle combinazioni)",
+        "esito": "corretto con l'atteso del test di Model; EN 16612 aperto"
+      },
+      "test": [
+        "Model UnitTest CombinationTest.EN1990GeneratorServiceabilityCharacteristic"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/librerie-candidato-b (Model UnitTest 1537 PASS, Core 35, API; Checker tutte le suite)"
+      ],
+      "voci_collegate": [
+        "COMB-D11-EN16612"
+      ]
+    },
+    {
+      "id": "CA-COLONNA-02",
+      "data": "2026-10-29",
+      "fase": "1.16.0, colonna modello fase 2 (GPCChecker.Concrete 0.29.0.0, set candidato 1160-colonna2/set-candidato-a)",
+      "titolo": "Sezione c.a., «Colonna modello»: tutte le combinazioni con l'esito peggiore e dominio ridotto N–M1Rd,max",
+      "famiglia": "interfaccia/sezione-ca",
+      "modulo": "str_palo",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Fase 2 della colonna modello, decisa nel progetto del 28/10 (Q9: tutte le combinazioni con l'esito peggiore; Q12: dominio ridotto N–M1Rd,max) e richiesta dall'utente («colonna modello implementa sia libreria che interfaccia», «segui la normativa»). Libreria: ModelColumnEnvelope (una colonna modello per combinazione a N costante, Mθ = Mx·cos θ + My·sin θ, θ + 180° se negativo, trazione non pertinente, |N| oltre NRd,c non verificata, φef della (5.19) per combinazione, cache delle curve per N, direzione e φef) e ModelColumnAnalysis.Domain (M1Rd,max e MRd(N) = M(χu) per N fra 0 e NRd,c), pagina ca.colonna-modello §6.9 con gli scostamenti K-7 (momento normale a θ non verificato, avviso; 5.8.9 a parte) e K-8 (dominio al φef della combinazione che governa con la (5.19)). ANTHEA: opzione «azioni» (predefinito l'azione singola della 1.15.0, poi «Combinazioni SLU» e «Combinazioni SLU e SLV») e «intervalli_dominio» (40), non scritte finché l'utente non le cambia; riquadro «Inviluppo delle combinazioni», riquadri, grafici e passaggi della combinazione peggiore fra le calcolate; terzo grafico «Dominio ridotto N–M1Rd,max»; avanzamento nel testo e «Interrompi»; CSV a blocchi; capitolo della relazione con la tabella delle combinazioni e il paragrafo del dominio. Il risultato esportato (colonna_modello) ha i campi nuovi Source, Combinations, Domains, Governing e Theta e le righe dei dati «Azioni» e «Intervalli del dominio ridotto»; i valori della colonna singola sono quelli della 1.15.0 bit per bit (stesso Calculate della libreria, prova CreepPathAtZeroIsBitIdentical e le 16 prove della 0.27 invariate). Unica correzione della libreria fuori dalle funzioni nuove: il rapporto del momento trasversale non si calcola quando tutti i momenti della curva sono solo arrotondamenti (N = NRd,c di una sezione simmetrica), caso che la 1.15.0 non raggiungeva.",
+      "codice": [
+        "Checker lib-1160/colonna2 000d49eb (GPCChecker.Concrete/Slenderness/ModelColumnEnvelope.cs, ModelColumnAnalysis.cs, ModelColumnEnvelopeTests.cs, ReferenceCalculations/model-column, docs/metodi/ca.colonna-modello.md), 088d36c0 (versioni), 35a0e47d (API)",
+        "src/ANTHEA.Application/Concrete/ConcreteModelColumn.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteModelColumnPresentation.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteReportAnalysis.cs",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteModelColumnViewModel.cs",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.Checks.cs (InvalidateActions)",
+        "src/ANTHEA.Desktop/Views/ConcreteSection/ConcreteModelColumnView.xaml(.cs)",
+        "src/ANTHEA.Desktop/Wpf/PlotPresentation.cs, ModuleFigureRenderer.Concrete.cs",
+        "src/ANTHEA.Reports/Generators/ReportConcrete.cs (capitolo «Colonna modello»)"
+      ],
+      "segno": "Nessun valore della colonna singola cambia; le combinazioni si verificano con la stessa colonna, ognuna al suo N. Il dominio ridotto è informativo; l'esito con le combinazioni è il peggiore.",
+      "effetto_quantificato": "Nessun riferimento congelato né atteso cambia: Presentation.Tests/sezione-ca (tracce storiche della sezione c.a.), ui/check-sezione-view, ui/smoke-ca-extensions, ui/f3-report-chapters e ui/f3-equivalence PASS senza registrazioni (le fixture non hanno l'oggetto colonna_modello). Cambiano solo prove di codice, spiegate dalla funzione nuova: il CSV della colonna (Application.Tests e Presentation.Tests: dopo i punti della curva, invariati, il blocco del dominio ridotto, 43 righe con l'intestazione per l'azione singola) e le figure della relazione nello smoke della sezione c.a. (4 invece di 3: il dominio ridotto, nel suo paragrafo dopo i punti della curva). Libreria: 939 prove di Concrete (933 + 6 nuove), attesi della 0.27 invariati; riferimento Python rigenerato identico nei casi esistenti, con 2 casi nuovi (dominio di R400 a l0 = 6 m: M1Rd,max della libreria da −0,0003 % a +0,0013 %, M(χu) entro 0,0001 %; φef della (5.19) a 1000 kN +0,0002 %).",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "regola «Approvati se spiegati» delle decisioni della 1.15.0 (sera del 28/10) per la coda della 1.16.0",
+        "esito": "nessun riferimento da approvare; risultato esportato con i campi nuovi e prove di codice spiegate riga per riga dalla funzione nuova"
+      },
+      "test": [
+        "GPCChecker.Test.Concrete (939, ModelColumnEnvelopeTests 6 nuove)",
+        "Application.Tests (ConcreteModelColumnChecks, 118 controlli)",
+        "Presentation.Tests (4918 controlli)",
+        "Presentation.Tests/sezione-ca",
+        "ui/check-sezione-view",
+        "ui/smoke-ca-extensions",
+        "ui/f3-report-chapters",
+        "ui/f3-equivalence"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-colonna2 (set-candidato-a con release-set-a.log, ci-a … ci-d, ui-a)"
+      ],
+      "voci_collegate": [
+        "CA-COLONNA-01"
+      ]
+    },
+    {
+      "id": "INFRA-LIMITATORE-01",
+      "data": "2026-10-29",
+      "fase": "1.16.0, voce di infrastruttura dopo F5 (ramo refactoring/1160-infra da main 1.15.0 f52f5a76)",
+      "titolo": "Sezione c.a. e risposta elastica del palo orizzontale dal limitatore dei calcoli; taglio della sezione c.a. sullo sfondo",
+      "famiglia": "infrastruttura/calcoli",
+      "modulo": "str_palo, geo_palo_orizzontale, geo_micropalo_orizzontale",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "D-5: la sezione c.a. passa dal limitatore dell'applicazione (CalculationLimiter, processori − 1) come i calcoli degli altri moduli. Il lotto delle verifiche prende un posto per la preparazione, i domini e le tensioni (i passi restano paralleli dentro il posto), dopo il lotto precedente e solo quando ha qualcosa da calcolare; il taglio prende un posto suo; le resistenze rapide, la sezione σ/ε, la curva M–χ, la colonna modello e la ricerca delle armature prendono un posto ciascuna. Mentre aspetta il posto il lotto resta occupato (IsBusy, come prima, perché «Calcola», il salvataggio e il report aspettano il lotto) con lo stato della richiesta («in attesa»), senza testi nuovi; ConcreteCalculation.IsEngineRunning dice quando un posto è tenuto (il Running degli altri moduli). Chiusura e modifiche annullano anche l'attesa. Il verificatore c.a. dei tratti del palo elastico ospita la sezione con il limitatore del foglio del palo invece di uno suo. D-2: la risposta elastica del palo orizzontale (ElasticPileViewModel, ElasticPileAnalysisSession) prende un posto prima del motore, come la capacità: mentre aspetta, stato («… in coda») e barra della richiesta, non occupata. C2/S5-c: il taglio della sezione c.a. si calcola su un thread di lavoro: il foglio prepara le righe sul thread dell'interfaccia (parametri automatici, invalidazione, copie dei dati e delle righe), ConcreteShearBatch calcola sulle copie, gli esiti si scrivono sul thread dell'interfaccia nell'ordine delle righe e poi i riepiloghi; un errore che ferma il calcolo lascia le righe calcolate prima, come prima; una modifica nel frattempo annulla il passo. Con un posto libero l'ingresso nel limitatore è immediato, senza giri in più del thread dell'interfaccia. Restano fuori dal limitatore, come i report degli altri moduli: il calcolo del report della sezione c.a. (ConcreteReportAnalysis), la finestra delle proprietà della sezione (ConcretePropertySession), la sola mesh di visualizzazione del dominio 3D e la progettazione di un tratto del palo elastico (PileSegmentDesignSession), lavori su richiesta e brevi.",
+      "documento": "docs/refactoring/f5-15-prioritarie.md §4 (D-5, D-2); f5-15-famiglie.md §10 (C2, S5-c); f5-13-shell.md §11.6 e §11.7.2; f5-10-sezione.md §14.5 (S5-c); f5-15-revisione.md §13.5",
+      "codice": [
+        "src/ANTHEA.Application/Scheduling/CalculationGate.cs (nuovo: porta del limitatore per Application)",
+        "src/ANTHEA.Presentation/Calculation/CalculationLimiter.cs (Gate, RunAsync)",
+        "src/ANTHEA.Application/Concrete/ConcreteAnalysisBatch.cs (CalculateBatchAsync con la porta)",
+        "src/ANTHEA.Application/Concrete/ConcreteInspectionSession.cs (CalculateAsync con la porta)",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteCalculation.cs (posto del lotto e del taglio, IsEngineRunning, taglio sullo sfondo)",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.Checks.cs (PrepareShearCalculation, PublishShear al posto di CalculateShear)",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.cs, ConcreteInputViewModel.Tendons.cs, ConcreteSectionInspectionViewModel.cs, ConcreteCurvatureViewModel.cs, ConcreteModelColumnViewModel.cs, ConcreteDesignViewModel.cs",
+        "src/ANTHEA.Presentation/Modules/HorizontalPile/Elastic/ElasticPileViewModel.cs (ElasticPileSheet.Limiter, posto prima del motore)",
+        "src/ANTHEA.Presentation/Modules/HorizontalPile/Elastic/PileReinforcementViewModel.cs, HorizontalPileSheetViewModel.cs, src/ANTHEA.Desktop/Hosting/ConcreteVerifierSection.cs"
+      ],
+      "segno": "Nessun risultato cambia: stesse tracce, stesse figure, stessi report. Cambia solo dove e quando gira il calcolo (carico con molte schede aperte) e, nella sezione c.a., la finestra resta libera durante il taglio.",
+      "effetto_quantificato": "Riferimenti congelati e attesi cambiati: nessuno (tracce della sezione c.a., della risposta elastica e del palo orizzontale uguali alle storiche congelate; F3 dei pali orizzontali invariato). Prova di uscita --paralleli: le 106 impronte della serie sono identiche byte per byte fra la base f52f5a76 e il ramo; nei giri paralleli fino a 22 lotti della sezione c.a. con un posto del limitatore insieme e al più 23 posti (il limite, 24 processori) all'ingresso di un calcolo dei moduli; serie 15,0 s (base 14,5 s), giri paralleli 8,8 e 10,2 s (base 8,7 e 8,8 s).",
+      "decisione": {
+        "data": "2026-10-25",
+        "utente": "D-5 e D-2 il 24/10 (scheda f5-15-prioritarie.md, voce 4: «A ora, B come voce di infrastruttura dopo F5»); C2/S5-c il 25/10 (famiglie, famiglia 10: B, «Come raccomandato in tutte le famiglie della scheda f5-15-famiglie.md»)",
+        "esito": "attuata il 29/10 per la 1.16.0 (ramo refactoring/1160-infra)"
+      },
+      "test": [
+        "Presentation.Tests (ConcreteSectionSheetChecks.LimiterAsync, ElasticPileSheetChecks.LimiterAsync)",
+        "Presentation.Tests/paralleli (lotti della sezione c.a. con un posto del limitatore contati con i calcoli dei moduli: mai oltre il limite)",
+        "Presentation.Tests/sezione-ca",
+        "ui/check-sezione-view",
+        "ui/check-palo-orizzontale-view",
+        "ElasticPile.UiChecks",
+        "Architecture.Tests (P6: CalculationGate tra i nomi del calcolo vietati nelle viste)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-infra/presentation-1 (Presentation.Tests PASS 4912)",
+        "supporto/artefatti/1160-infra/paralleli-1 e paralleli-base (--paralleli PASS 442 sul ramo, PASS 437 sulla base f52f5a76; 106 impronte della serie identiche)",
+        "supporto/artefatti/1160-infra/ci-mirate-1 (corsa mirata build, fast, regression e ui su 388933f5: PASS 21, NEW-FAIL 0; Architecture.Tests 579, Presentation.Tests 4912, paralleli 442 con le 106 impronte della serie identiche alla base, sezione-ca 70, check-sezione-view 204, check-palo-orizzontale-view 157, ElasticPile.UiChecks, ui/smoke e ui/shell-smoke-*)"
+      ],
+      "voci_collegate": []
+    },
+    {
+      "id": "FON-HANSEN-01",
+      "data": "2026-10-29",
+      "fase": "1.16.0, agente 1160-hansen (set candidato librerie-candidato-a, Checker lib-1160/hansen 4d90a78b)",
+      "titolo": "Fondazioni superficiali: Brinch Hansen con azione orizzontale, drenato e non drenato",
+      "famiglia": "fondazioni superficiali/portanza",
+      "modulo": "geo_fondazioni_superficiali (F5.9b)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Lavoro in coda dalla revisione delle fondazioni del 12/10, confermato per la 1.16.0. Fino a GPCChecker.Geotechnics 0.25.0.4 Brinch Hansen con H > 0 lanciava NotSupportedException e il foglio mostrava l'errore. Dalla 0.26.0.0 la libreria segue alla lettera il manuale di riferimento usato dalla suite Califfo: drenato (3.23)-(3.25), con iq = (1 − 0,5 x)^5, iγ = (1 − 0,7 x)^5, x = H/(N + A′c′ cot φ′), ic per correlazione, fattori di forma con l'inclinazione e sγ ≥ 0,6; non drenato (3.27), (3.27′), (3.27″) in forma additiva, i′c = 0,5 − 0,5 √(1 − H/(A′cu)), s′c = 0,2 i′c B′/L′. Con H > 0 la capacità si calcola per rottura nella direzione di B′ e di L′ (anche con HL = 0, lettura letterale di §3.4.1) e si adotta la minore; la nastriforme ha solo la direzione di B′, sul cerchio H è allineata a B′ (convenzione «le»). Un fattore di inclinazione negativo o HB/HL oltre A′cu danno capacità nulla (DomainExhausted). Fonte secondaria: USACE EM 1110-1-1905 (1992), tab. 4-5 («Data from Hansen 1970»), stessi fattori di inclinazione; Brinch Hansen 1970 (DGI Bulletin 28) e Bowles non consultati: da riscontrare sul testo. Discontinuità con il carico normale, dichiarate e non risolte, a favore di sicurezza: (1) nel non drenato s′c = 0,2 i′c B′/L′ si annulla per H → 0 invece di tendere a 0,2 B′/L′ della (3.28); USACE dà 0,2 B′/L′ solo senza fattori di inclinazione e ne esclude l'uso congiunto; (2) la direzione di L′ con HL = 0 (forma L′/B′, profondità D/L′) non tende al carico normale. Gli avvisi del risultato riportano qlim nelle due direzioni, la direzione che governa e qlim con H = 0. In ANTHEA cambia solo l'etichetta del metodo, da «Brinch Hansen · carico normale» a «Brinch Hansen»; i documenti salvano l'indice e restano invariati. Il risultato non ha campi nuovi; con H = 0 numeri e Reference sono quelli di prima.",
+      "codice": [
+        "Checker GPCChecker.Geotechnics/Foundations/ShallowFoundationBearing.cs (HansenDrainedInclined, HansenUndrainedInclined)",
+        "Checker tests/ShallowFoundation.Tests/califfo_reference.py, califfo-reference.json, BearingTests.cs",
+        "Checker docs/metodi/fondazioni-superficiali.md (sezione «Hansen con carico inclinato»)",
+        "src/ANTHEA.FoundationWorkspace/FoundationDocument.cs (Methods)",
+        "tests/FoundationWorkspace.Checks/Program.cs",
+        "tests/fixtures/f5-fondazioni/storica/*.txt",
+        "tests/ANTHEA.Desktop.UiTests/ShallowFoundationViewChecks.cs (HistoricFixtures)"
+      ],
+      "segno": "Funzione nuova: prima nessun risultato. Rispetto al carico normale la capacità con H piccola è minore (a favore di sicurezza): fino a −14,5% nel non drenato (B = 2 m, L = 3 m, D = 1 m, cu = 75 kPa: 532,16 → 455,04 kPa con H = 1 N) e −18,2% nel drenato su fondazione superficiale (D = 0, φ′ = 30°, c′ = 0: 198,92 → 162,75 kPa con H = 6 kN). La convenzione del cerchio è a favore di sicurezza rispetto alla lettura letterale (−0,8/−3,7%). Nessun valore esistente cambia.",
+      "effetto_quantificato": "Riferimenti cambiati, ogni riga spiegata: (a) 15 tracce della vista storica, 172 righe e 203 occorrenze, tutte righe «scelta Method» in cui cambia solo l'etichetta (voci e, nelle tracce di Hansen non drenato e sola lettura, il valore scelto); nessun'altra riga; (b) 8 impronte del risultato su 11 fixture in HistoricFixtures, solo per library_version 0.25.0.4 -> 0.26.0.0: con 0.25.0.4 tornano tutte quelle approvate del set AL; (c) Checker califfo-reference.json: 45 casi aggiunti (426-470), i 426 esistenti identici byte per byte (cambia solo la virgola dopo il caso 425). Attesi indipendenti nuovi, nessuno sovrascritto; contratto K0 non toccato.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "regola «Approvati se spiegati» (decisioni del 28/10 sera); richiesta della 1.16.0: «In generale, segui la normativa», fonti secondarie ammesse",
+        "esito": "differenze spiegate riga per riga (classificazione nel commit dei riferimenti); discontinuità dichiarate, a favore di sicurezza; domande aperte all'utente nel resoconto dell'agente"
+      },
+      "test": [
+        "Checker: ShallowFoundation.Tests 29/29 (CaliffoReferenceTests 471 casi, BearingTests.HansenWithAnInclinedLoad), tutte le suite di Model e Checker nel set candidato",
+        "FoundationWorkspace.Checks (casi 426 e 459 del riferimento indipendente)",
+        "FoundationWorkspace.UiChecks",
+        "Presentation.Tests",
+        "Application.Tests",
+        "ui/check-fondazioni-view",
+        "ui/f3-equivalence"
+      ],
+      "evidenze": [
+        "lib-1160-hansen: set candidato supporto/artefatti/1160-hansen/librerie-candidato-a (tutte le suite di Model e Checker superate, K0 compreso) e release-set-a.log",
+        "supporto/artefatti/1160-hansen/mirate-a (build, Application.Tests, Presentation.Tests, FoundationWorkspace.Checks e UiChecks, ui/f3-equivalence, ui/check-fondazioni-view: PASS 10; registra-fon.txt in ui_check-fondazioni-view/vista/esportazioni, registrazione temporanea non committata, con l'impronta a 0.25.0.4 uguale a quella approvata per le 8 fixture)",
+        "supporto/artefatti/1160-hansen/mirate-b (ui/check-fondazioni-view con le impronte riportate)"
+      ],
+      "voci_collegate": [
+        "FON-03",
+        "B-FON-01"
+      ]
+    },
+    {
+      "id": "COMB-MURI-D5-NOTA",
+      "data": "2026-10-29",
+      "fase": "1.16.0, seguito di COMB-MURI-D4D5 (1160-combinazioni)",
+      "titolo": "Muri: nota del sisma con kh e kv assegnati coerente con D5 b (γR della Tab. 7.11.III)",
+      "famiglia": "geotecnica/muri",
+      "modulo": "Muri di sostegno (note del calcolo e report)",
+      "categoria": "correzione",
+      "stato": "corretto",
+      "descrizione": "Dalla 1.14.4 (D5 b, COMB-MURI-D4D5) le righe sismiche automatiche con kh e kv assegnati hanno i γR della NTC 2018 Tab. 7.11.III (scorrimento 1, ribaltamento 1, portanza 1,2), come quelle da parametri del sito, ma la nota del calcolo diceva ancora «kh e kv assegnati: il preset manuale mantiene γR statici e non maggiora kh per il ribaltamento. …». Testo nuovo per i documenti della versione 2: «kh e kv assegnati: le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III, come quelle da parametri del sito (scorrimento 1, ribaltamento 1, portanza 1,2); kh non è maggiorato per il ribaltamento. Matrici personalizzate: fanno fede kh, kv e coefficienti di ogni riga. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).» I documenti della versione 1 calcolati senza interfaccia conservano i casi fissi con i γR di R3 (COMB-D7), e per loro la nota lo dice: «kh e kv assegnati (documento della prima versione): i casi sismici fissi usano γR 1,1 a scorrimento e 1,15 a ribaltamento (R3) e 1,2 alla portanza sismica; kh non è maggiorato per il ribaltamento. …». Solo testo: nessun numero cambia. Con D7 b (COMB-D7B, stesso giorno) i documenti della versione 1 si calcolano con le righe della versione 2 e la nota della prima versione è tolta.",
+      "codice": [
+        "X.Calculations/RetainingWall.Equilibrium.cs"
+      ],
+      "segno": "Nessun effetto sui numeri: cambia solo il testo della nota, che ora descrive i γR davvero usati.",
+      "decisione": {
+        "data": "2026-10-29",
+        "utente": "nessuna decisione nuova: correzione di un testo rimasto indietro rispetto a D5 b, chiesta dal coordinamento (domanda 3 del resoconto di 1160-combinazioni); riferimenti secondo la regola «Approvati se spiegati» della 1.16.0",
+        "esito": "corretto, riferimenti registrati e spiegati riga per riga"
+      },
+      "riferimenti_anthea": "Transizioni F3 (chiave aggiornamento_1160_nota, 73620 voci): 4 voci COMB-MURI-D5-NOTA nuove, il testo della nota nell'avviso di result.json ($.avvisi[11] di mensola-wood-azioni, $.avvisi[10] di opzioni-avanzate) e nella riga del report (riga 16 e riga 15), le sole due fixture con kh e kv assegnati. Tracce storiche: 17 righe «~ risultato» in 4 tracce (fixture-mensola-wood-azioni 2, fixture-opzioni-avanzate 2, azioni-sisma-matrice 5, opzioni-armature 8), impronte del risultato, che contiene le note; nessun'altra riga cambia. In vista-storica.json 2 valori, dalla vista XAML con una registrazione temporanea non committata di ui/check-muri-view (corsa registra-ui-nota): impronte del risultato dopo il calcolo di mensola-wood-azioni e opzioni-avanzate (il risultato contiene le note); dati, CSV delle verifiche, distinta e combinazioni mostrate invariati. Conteggio delle transizioni in Presentation.Tests (note == 4). Prova che le righe cambiate sono solo quelle della nota: la stessa registrazione con il testo vecchio della nota (e la correzione UPG-PSI0-01 già presente) non trova differenze né nei file F3 dei muri né nelle tracce (corsa registra-nota-controllo). Nessun atteso F3 sostituito, nessuna tolleranza nuova.",
+      "test": [
+        "Presentation.Tests",
+        "ui/f3-equivalence",
+        "ui/check-muri-view"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/registra-nota (registrazione temporanea non committata, tutti i file F3 e le tracce dei muri)",
+        "supporto/artefatti/1160-combinazioni/registra-nota-controllo (testo vecchio della nota: nessuna differenza)",
+        "supporto/artefatti/1160-combinazioni/registra-ui-nota (registrazione temporanea di ui/check-muri-view)",
+        "supporto/artefatti/1160-combinazioni/seguiti (suite mirate sui riferimenti nuovi: Presentation.Tests, ui/f3-equivalence, ui/check-muri-view PASS)"
+      ],
+      "voci_collegate": [
+        "COMB-MURI-D4D5",
+        "COMB-D7",
+        "COMB-D7B"
+      ]
+    },
+    {
+      "id": "UPG-PSI0-01",
+      "data": "2026-10-29",
+      "fase": "1.16.0, seguito di COMB-D7 (1160-combinazioni)",
+      "titolo": "Muri: ψ0 dei carichi dei documenti della prima versione aggiornati all'apertura",
+      "famiglia": "geotecnica/muri",
+      "modulo": "Muri di sostegno (aggiornamento dei documenti versione 1, RetainingWall.Upgrade)",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "RetainingWall.Upgrade, che l'interfaccia chiama all'apertura di un documento della versione 1, dava ψ0 = 0,7 (il valore di un'azione nuova) ai tre carichi del documento, che ha solo ψ1 e ψ2: con ψ1 > 0,7 il documento aperto diventava non valido («Deve risultare ψ₂ ≤ ψ₁ ≤ ψ₀») e non si calcolava (8 dei 16 documenti della griglia della valutazione D7 b). Regola: ψ0 resta 0,7 se ψ1 ≤ 0,7; altrimenti ψ0 = 1, il valore della categoria E della NTC 2018 Tab. 2.5.I (ψ0 1,0, ψ1 0,9, ψ2 0,8), l'unica categoria con ψ1 > 0,7. Il documento non dice la categoria: con ψ1 ≤ 0,7 non si deduce (A, B, C, D, F, G, neve, vento, temperatura hanno ψ1 fra 0 e 0,7) e 0,7 è il valore di oggi; ψ0 = max(0,7; ψ1), proposto nel censimento §5.2, darebbe 0,9, valore di nessuna categoria. Nessun dato mancante rende la regola insicura: i tre carichi aggiornati sono un solo gruppo correlato («legacy»), sempre principale, e ψ0 moltiplica solo le variabili di accompagnamento, quindi non entra in nessuna riga e i risultati del documento non dipendono da ψ0. Se l'utente aggiunge poi un'altra azione variabile, il gruppo legacy di accompagnamento usa ψ0 = 1, il valore della norma per la categoria E e cautelativo per le altre.",
+      "codice": [
+        "X.Calculations/RetainingWall.Actions.cs"
+      ],
+      "segno": "Nessun effetto sui risultati dei documenti aperti; i documenti versione 1 con ψ1 > 0,7 si aprono validi invece di essere rifiutati.",
+      "effetto_quantificato": "22 documenti versione 1 (6 delle catture di Geotechnics, 16 della griglia: mensola sì/no, falda, sisma assente, kh 0,1 con kv 0,05, kh 0,15 con kv 0, ψ1/ψ2 0,5/0,3 e 0,9/0,8): non validi aperti 8 → 0; senza sisma i rapporti governanti di scorrimento, ribaltamento e portanza del documento aggiornato sono quelli dei casi fissi (valutazione-d7b-upg.csv). RetainingWall.Checks: 15 casi (ψ1/ψ2 0,5/0,3, 0,7/0,6, 0,75/0,5, 0,9/0,8, 1/1; senza falda, con falda, con sisma kh 0,1 kv 0,05): ψ0 aggiornato come da regola e ψ1, ψ2 conservati, documento valido, righe, H, V, momenti e verifiche uguali a quelli dello stesso documento con ψ0 = 1, e senza sisma governanti uguali ai casi fissi della versione 1 (1e-9; dopo D7 b, COMB-D7B, il confronto è con il calcolo senza interfaccia, che usa le stesse righe). Nessun riferimento di ANTHEA cambia: con la correzione la registrazione dei muri di Presentation.Tests non trova differenze (corsa registra-nota-controllo).",
+      "decisione": {
+        "data": "2026-10-29",
+        "utente": "nessuna decisione nuova: difetto segnalato nella valutazione di D7 b (COMB-D7), correzione chiesta dal coordinamento (domanda 2 del resoconto di 1160-combinazioni) con la regola più fedele alla norma e ai dati del documento",
+        "esito": "corretto"
+      },
+      "test": [
+        "RetainingWall.Checks (ActionsChecks, UPG-PSI0-01)",
+        "Presentation.Tests",
+        "ui/f3-equivalence"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/valutazione-d7b-upg.csv (22 documenti, nessuno non valido; prima della correzione valutazione-d7b.csv)",
+        "supporto/artefatti/1160-combinazioni/seguiti (RetainingWall.Checks PASS 467, 116 azioni/combinazioni, e le suite mirate dei seguiti)"
+      ],
+      "voci_collegate": [
+        "COMB-D7",
+        "COMB-D7B"
+      ]
+    },
+    {
+      "id": "COMB-D7B",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni del 29/10 mattina)",
+      "titolo": "Muri: documenti versione 1 calcolati con le righe della versione 2 anche senza interfaccia (D7 b)",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Muri di sostegno, documenti versione 1 calcolati senza interfaccia (calcolo del progetto, motore)",
+      "categoria": "scostamento-normativo",
+      "stato": "attuato",
+      "descrizione": "Decisione dell'utente del 29/10/2026: «D7b. correggi. aggiornali», dopo la valutazione di D7 b (censimento §5.2, COMB-D7). RetainingWall.Calculate aggiorna un documento versione 1 con RetainingWall.Upgrade, come fa l'interfaccia all'apertura (UPG-PSI0-01 per ψ0), con identificatori stabili dei carichi (v1-surcharge, v1-horizontal, v1-vertical, perché il risultato non dipenda da GUID nuovi), e lo calcola con le combinazioni automatiche della versione 2 (D4, D5, D6) invece dei casi fissi (D7 a, WallCombinations.Version1). LegacyCombinations è tolto, e con esso la nota sismica della prima versione (COMB-MURI-D5-NOTA); WallCombinations.Version1 resta nella libreria con le sue prove, senza chiamanti in ANTHEA. Il risultato contiene il documento aggiornato alla versione 2: il report mostra le azioni al posto dei tre carichi. Solo ANTHEA; nessuna libreria cambia.",
+      "codice": [
+        "X.Calculations/RetainingWall.Equilibrium.cs",
+        "X.Calculations/RetainingWall.Actions.cs",
+        "X.Calculations/RetainingWall.Library.cs"
+      ],
+      "segno": "Meno cautelativo nel sisma, conforme alla norma: dove governa una riga sismica i γR di scorrimento e ribaltamento sono quelli della NTC 2018 Tab. 7.11.III (1) invece di R3 (1,1 e 1,15); nessun rapporto aumenta.",
+      "effetto_quantificato": "25 documenti versione 1 (6 delle catture di Geotechnics, griglia di 16: mensola sì/no, falda, sisma assente, kh 0,1 con kv 0,05, kh 0,15 con kv 0, ψ1/ψ2 0,5/0,3 e 0,9/0,8; i 3 documenti versione 1 di RetainingWall.Checks), calcolati con il codice di prima di D7 b nei due percorsi, 7127 verifiche geotecniche e strutturali: 18 rapporti governanti cambiano, tutti in meno, solo scorrimento (9 documenti, da −1,92 % a −9,09 %) e ribaltamento (9 documenti, da −0,09 % a −13,04 %) dove governa una riga sismica; nessuna verifica strutturale, nessuna portanza e nessun esito di SLE cambiano; nessun documento diventa non calcolabile; righe in più per D6 nei documenti con il sisma (19 → 21, 17 → 18, 13 → 15, 12 → 13); nomi della versione 2 («Caratteristica» → «SLE 1», «SLU 2» → «SLU 8», «Sisma kv−» → «Sisma kv− 12», …).",
+      "decisione": {
+        "data": "2026-10-29",
+        "utente": "«D7b. correggi. aggiornali»",
+        "esito": "attuato; differenze registrate e spiegate (−9,09 % e −13,04 % sono la conseguenza decisa)"
+      },
+      "riferimenti_anthea": "RetainingWall.Checks: attesi della versione 1 con i nomi della versione 2 (SLU 2 → SLU 8, SLU 2b → SLU 8b, Sisma kv− → Sisma kv− 12, Caratteristica → SLE 1, …) e gli stessi valori calcolati a mano; righe sismiche con kv per segno 2 → 4 (D6); due controlli nuovi dei γR sismici 1 dalle formule a mano dello scorrimento (V tan δb) e del ribaltamento (Mstab); il fattore dei carichi letto dalle azioni del caso (LiveFactor 1 nella versione 2); per i 15 casi di UPG-PSI0-01 il calcolo senza interfaccia è uguale al documento aperto (sostituisce il confronto con i casi fissi). Architecture.Tests: baseline F4 2094 → 2090 (i quattro residui R4 di LegacyCombinations). Presentation.Tests, F3, verifiche/project-calculations e verifiche/regressione senza differenze: nessuna fixture calcola un documento versione 1 senza aprirlo. Nessun atteso indipendente sostituito con un risultato del codice.",
+      "test": [
+        "RetainingWall.Checks (Program, LibraryAdapterChecks, ActionsChecks)",
+        "Architecture.Tests (baseline F4)",
+        "Presentation.Tests, verifiche/project-calculations, verifiche/regressione"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/valutazione-d7b-finale.csv (prima/dopo, codice di prima di D7 b: d7b-confronto)",
+        "supporto/artefatti/1160-combinazioni/d7b-mirate-1 (suite mirate)",
+        "supporto/artefatti/1160-combinazioni/d7b-finale (suite mirate dopo i documenti)"
+      ],
+      "voci_collegate": [
+        "COMB-D7",
+        "UPG-PSI0-01",
+        "COMB-MURI-D5-NOTA",
+        "COMB-D6",
+        "COMB-MURI-D4D5"
+      ]
+    },
+    {
+      "id": "COMB-D11-EN16612",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni del 29/10 mattina)",
+      "titolo": "CreateCombinations del vetro (EN 16612): SLE caratteristica con l'azione climatica principale al valore caratteristico",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Model (StandardEN16612.CreateCombinations)",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Seguito di COMB-D11. Decisione dell'utente del 29/10/2026: «vetro correggi anche se non utilizzato». StandardEN16612.GetCoefficientLeadingVariableAction(ClimateLoadCase, …) dava all'azione climatica principale della SLE caratteristica γ·ψ2 invece del valore caratteristico (EN 1990 (6.14b), a cui la EN 16612 rimanda: Gk + Qk,1 + Σ ψ0,i Qk,i). Con ψ2 = 0 le righe con l'azione climatica principale perdevano ΔP e ΔT e la riga G + ψ0 Q delle due stagioni era una sola. Model 5aba823e, GPCModel 5.24.0.1 (922d8a33); Checker ricompilato e versionato (123ffe5f). Gli attesi di EN16612GeneratorAGC_SLS1 e _SLS2 sono scritti a mano dalla (6.14b) e confrontati come insieme di righe, non più come conteggio: per stagione l'altra azione principale (vento ψ0 0,6 o sovraccarico di categoria C ψ0 0,7, EN 1990 Tab. A1.1) e l'azione climatica principale (ΔP e ΔT a 1), ognuna con e senza ΔH, ΔH da solo, e il solo peso proprio: 11 righe (10 prima). Nessun chiamante di produzione: nessun risultato di ANTHEA cambia. Non corretti, segnalati: i ψ predefiniti delle azioni climatiche (0,3/0,3/0, segnati nel codice come da controllare sulla norma) e GetPsi0/1/2, che per ΔT estivo restituiscono il valore di ΔP (oggi uguali).",
+      "codice": [
+        "Model/Model/Design/Standards/StandardEN16612.cs",
+        "Model/UnitTest/CombinationTest.cs"
+      ],
+      "segno": "Nessun effetto su ANTHEA; nella libreria le righe SLE caratteristiche con l'azione climatica principale la contengono a 1 (più cautelative).",
+      "decisione": {
+        "data": "2026-10-29",
+        "utente": "«vetro correggi anche se non utilizzato»",
+        "esito": "corretto, attesi scritti dalla formula della norma"
+      },
+      "test": [
+        "Model UnitTest CombinationTest.EN16612GeneratorAGC_SLS1 e _SLS2 (righe a mano), CombinationTest e GeotechnicalCombinationsTest 63 PASS",
+        "set candidato librerie-candidato-c: Model 1537 + Core 35, Checker tutte le suite (K0 compreso), Design.Checks net472"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/librerie-candidato-c"
+      ],
+      "voci_collegate": [
+        "COMB-D11"
+      ]
+    },
+    {
+      "id": "COMB-D8",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni del 29/10 mattina)",
+      "titolo": "Bridge Design: coefficienti SLU dalle righe dei ponti stradali di Model (NTC 2018 Tab. 5.1.V); Viviani a sé (D8)",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Bridge Design (predimensionamento dei ponti)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Decisione dell'utente del 29/10/2026: «viviani lascialo pure a se stante. è un esempio storico. d8 e bridge design devono usare model»; piano nel censimento §5.3, raccomandazioni dichiarate e confermate dal coordinamento. Model (GPCModel 5.25.0.0, Model 69fe2be9): RoadBridgeCombinations con EQU, A1 e A2 della NTC 2018 Tab. 5.1.V (g1 1,10/0,90, 1,35/1,00, 1,00/1,00; g2 1,50/0, 1,50/0, 1,30/0; traffico 1,35/0, 1,35/0, 1,15/0; altre variabili 1,50/0, 1,50/0, 1,30/0) e i ψ del traffico della Tab. 5.1.VI, riscontrati sul testo della G.U. (S.O. n. 8 del 20/02/2018); Deck: righe di un impalcato con G1, G2 e un gruppo di traffico dal generatore. GPC.Design 0.42.0.0 (Checker fbd802ef): BridgeInput.PartialFactors; con i moltiplicatori del progetto (predefinito) il calcolo è quello di prima; con il profilo gli inviluppi SLU sono gli estremi delle 8 righe A1 (G1 calcestruzzo, acciaio e struttura superiore 1,35/1,00; G2 finiture e barriere 1,50/0; traffico 1,35/0), con i permanenti favorevoli nei minimi; aste e antenne delle strutture superiori con i coefficienti sfavorevoli. ANTHEA: input.partial_factors; i documenti nuovi hanno il profilo, gli archivi (documenti senza la scelta) i moltiplicatori salvati, con i risultati di prima; la scelta chiude la scheda Traffico; con il profilo γQ e il pulsante del γQ consigliato non si mostrano. Viviani resta a sé, esempio storico: GPCChecker.CompositeBridge.Viviani e VivianiComparison invariati.",
+      "codice": [
+        "Model/Model/Design/Combinations/RoadBridgeCombinations.cs",
+        "Checker/src/GPC.Design/Bridges/BridgeConcept.PartialFactors.cs",
+        "Checker/src/GPC.Design/Bridges/BridgeConcept.Traffic.cs",
+        "Checker/src/GPC.Design/Bridges/BridgeConcept.UpperTraffic.cs",
+        "Checker/src/GPC.Design/Bridges/BridgeConcept.Calculation.cs",
+        "Checker/src/GPC.Design/Bridges/BridgeConcept.AdvancedCalculation.cs",
+        "X.Calculations/BridgeConcept.Traffic.cs",
+        "X.Calculations/BridgeConcept.Library.cs",
+        "src/ANTHEA.Presentation/Modules/BridgeDesign/BridgeDesignSheetViewModel.Inputs.cs"
+      ],
+      "segno": "Documenti nuovi più cautelativi: massimi SLU con G2 1,50 invece di 1,35, minimi con i permanenti favorevoli (1,00 G1, 0 G2), aste delle strutture superiori più pesanti. Archivi invariati (moltiplicatori salvati); passarli al profilo darebbe −2,6 % sui momenti degli archivi con γQ 1,5, perciò non si fa d'ufficio.",
+      "effetto_quantificato": "11 ingressi F3 di Bridge Design e un documento nuovo, moltiplicatori contro profilo (d8-confronto.csv): con lo Schema 1 momenti massimi da +0,96 % a +2,13 % e minimi più negativi (da +1,0 % a +2,6 % in valore assoluto); reazioni di servizio, frecce e quantità delle travi invariate; costi delle travi invariati, delle strutture superiori da +0,42 % a +1,61 % (aste con G2 1,50); negli archivi con il traffico uniforme e γQ 1,5 il profilo darebbe −2,59 % sul momento massimo (γQ 1,35), il motivo per cui gli archivi restano ai moltiplicatori. Documento nuovo: momento massimo +1,44 %, minimo −2,1 %, costo invariato.",
+      "decisione": {
+        "data": "2026-10-29",
+        "utente": "«viviani lascialo pure a se stante. è un esempio storico. d8 e bridge design devono usare model»",
+        "esito": "attuato per Bridge Design; Viviani invariato; riferimenti spiegati"
+      },
+      "riferimenti_anthea": "Tracce storiche di Bridge Design (tests/fixtures/f5-bridge-design/storica): 19 tracce, due righe ciascuna, «ingressi.4: 5 blocchi» → «6 blocchi» e la riga aggiunta della scelta «Coefficienti parziali SLU» = «Moltiplicatori del progetto» (archivi senza la scelta), registrazione temporanea non committata di Presentation.Tests (d8-registra); nessun'altra riga cambia. F3, report, vista storica (vista-storica.json), fixture bridge-f4 di GPC.Design e catture F4 invariati: gli archivi conservano i loro moltiplicatori. Prove nuove: Application.Tests (documento nuovo con il profilo, archivio con i moltiplicatori, γQ esplicito solo con i moltiplicatori, scelta non valida rifiutata), Presentation.Tests (scheda Traffico del documento nuovo e passaggio ai moltiplicatori). Nessun atteso indipendente sostituito, nessuna tolleranza nuova.",
+      "test": [
+        "Model UnitTest RoadBridgeCombinationsTest (valori delle Tab. 5.1.V e 5.1.VI e righe A1 a mano)",
+        "Checker Design.Checks BridgeProfileFactorTests (inviluppi della trave appoggiata a mano, net8 e net472)",
+        "Application.Tests (BridgeTrafficChecks), Presentation.Tests, ui/check-bridge-design-view, ui/smoke-bridge-design, ui/f3-equivalence"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/librerie-candidato-d (Model 1540 + Core 35, Checker tutte le suite, K0 e Design net472)",
+        "supporto/artefatti/1160-combinazioni/d8-confronto.csv",
+        "supporto/artefatti/1160-combinazioni/d8-mirate-1, d8-finale"
+      ],
+      "voci_collegate": [
+        "COMB-MODEL-01",
+        "COMB-D10"
+      ]
+    },
+    {
+      "id": "F5-REL-1160-02",
+      "data": "2026-10-29",
+      "fase": "1.16.0, articolo sul palo orizzontale in terreno stratificato",
+      "titolo": "Palo orizzontale: il riferimento «G. Pacini» cita e apre l'articolo sul metodo stratificato",
+      "famiglia": "pali/riferimenti",
+      "modulo": "Palo e micropalo orizzontale (Broms, Stratificato)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Richiesta dell'utente del 28/10/2026 sera: l'articolo sulla teoria del metodo stratificato di G. Pacini «deve essere ripescato anche da info modello», dove «il primo [riferimento] è G Pacini». Il riferimento «G. Pacini — approccio al terreno stratificato» dei risultati del palo e del micropalo orizzontale cita nel dettaglio l'articolo «Capacità orizzontale del palo in terreno stratificato» (cartella Guide dell'installazione) e ha il campo nuovo «documento» con il nome del PDF installato; «Apri riferimento» di «Diagrammi e dettagli › Riferimenti» lo apre (InstalledDocuments, HorizontalPileSheetViewModel.ReferenceTarget). Url vuoto e altri riferimenti invariati. Nel confronto F3 cambiano 6 fixture (3 del palo, 3 del micropalo), con 3 differenze ciascuna: testo del dettaglio di riferimenti[0] e chiave «documento» aggiunta in result.json, riga del dettaglio nella relazione (report.txt). Ogni differenza è spiegata dalla modifica; registrate in transitions-f4.json (18 transizioni esatte, aggiornamento_1160_pacini). Nelle tracce storiche della vista del palo orizzontale (tests/fixtures/f5-palo-orizzontale/storica) cambia solo la riga «risultato» con l'impronta del JSON del risultato: 143 righe in 16 tracce, sostituite dallo script tracce_pacini.py che si ferma su ogni altra differenza; Presentation.Tests ammette le 18 transizioni sui 12 file della capacità.",
+      "codice": [
+        "X.Calculations/PaloOrizzontale.Diagnostics.cs",
+        "src/ANTHEA.Presentation/Services/InstalledDocuments.cs",
+        "src/ANTHEA.Presentation/Modules/HorizontalPile/HorizontalPileSheetViewModel.cs",
+        "src/ANTHEA.Desktop/Views/HorizontalPile/HorizontalPileResultsView.xaml.cs",
+        "supporto/installer/Guide.json",
+        "tests/fixtures/f3/transitions-f4.json",
+        "tests/fixtures/f3/manifest.json",
+      "tests/fixtures/f5-palo-orizzontale/storica",
+      "tests/ANTHEA.Presentation.Tests/HorizontalPileSheetChecks.cs"
+      ],
+      "segno": "Solo testo dei riferimenti e della relazione; nessun valore di calcolo cambia.",
+      "effetto_quantificato": "18 transizioni F3 nuove (6 dettagli, 6 chiavi «documento», 6 righe di relazione) in 6 fixture del palo e del micropalo orizzontale; nessuna sostituita o tolta; 143 righe «risultato» in 16 tracce storiche; nessun atteso F3 sostituito, nessuna tolleranza nuova.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "regola «Approvati se spiegati» delle decisioni della 1.15.0 (sera del 28/10) per la coda della 1.16.0",
+        "esito": "transizioni registrate; ogni riga spiegata dal riferimento all'articolo"
+      },
+      "test": [
+        "ui/f3-equivalence (transizioni F5-REL-1160-02)",
+        "ui/check-palo-orizzontale-view (parte «disegni»: «Apri riferimento» di G. Pacini apre l'articolo)",
+        "Wiki.Tests (collegamenti «guida:»)",
+        "installer/guides (quattro PDF)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261029-012204-1160-guide-rif (ui/f3-equivalence prima della registrazione: 18 differenze non ammesse, tutte nei riferimenti del palo e del micropalo orizzontale)"
+      ],
+      "voci_collegate": [
+        "F5-REL-1160-01"
+      ]
+    },
+    {
+      "id": "F5-REL-1160-01",
+      "data": "2026-10-29",
+      "fase": "1.16.0, guide Rev62",
+      "titolo": "Wiki: differenze editoriali delle guide Rev62",
+      "famiglia": "guide/wiki",
+      "modulo": "Wiki",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Le guide pratica e teorica Rev62 (commit 05827c85 e 8131f89d) scrivono in LaTeX le formule della guida teorica (relazioni su righe separate, spazi delle condizioni conservati in Office Math, virgola decimale, formule del testo dei capitoli spettri, palo e micropalo verticale, Broms, fondazioni superficiali e reologia), completano la teoria della sezione c.a. (limiti delle tensioni di esercizio, aderenza, ancoraggi e sovrapposizioni), aggiungono il capitolo «Capacità orizzontale in terreno stratificato» che richiama l'articolo sul metodo di G. Pacini e spiegano nella guida pratica la scelta fra Broms e Stratificato e i riferimenti di Diagrammi e dettagli. Cambiano 14 articoli (uno nuovo) della Wiki (pali e micropali caricati orizzontalmente, capacità orizzontale con Broms, capitolo nuovo capacità orizzontale in terreno stratificato, sezione in calcestruzzo armato, spettri e isolamento, palo e micropalo verticale, fondazioni superficiali e capacità portante, efficienza orizzontale, risposta elastica del palo, reologia, fessurazione, instabilità delle aste compresse); cambiano 6 delle 30 ricerche F3. Le differenze sono solo editoriali e sono registrate in transitions-f5-wiki.json: 828 transizioni esatte nuove, 149 sostituite, 143 righe spostate e 0 tolte. Seconda passata della Rev62 (commit 2e69da4a, 62c1ceaf e 5d7f5337: formule in LaTeX di altri otto capitoli e testi «Per le guide» degli agenti della 1.16.0, cioè modulo Modelli con fasi, tabelle e combinazioni delle copie, voci R della sezione c.a., combinazioni sismiche ed eccezionali dei muri con le variabili solo se sfavorevoli, ricerca dei simboli con pedice e unità della scala del dominio 3D): cambiano altri 14 articoli e 3 ricerche («Nq», «torsione», «σ»); 860 transizioni nuove, 160 sostituite, 176 righe spostate e 24 transizioni editoriali precedenti tolte perché il loro testo è sostituito; il conteggio degli articoli resta 78. Colonna modello fase 2 (commit 27d25916: scelta Azioni, inviluppo delle combinazioni, dominio ridotto N–M1Rd,max con la figura, scostamenti K-7 e K-8): cambiano 2 articoli (guida della sezione c.a., sezione in calcestruzzo armato), nessuna ricerca; 109 transizioni nuove, 10 sostituite, 0 spostate, 0 tolte. Brinch Hansen e W-idx (commit de261e8f e 474e3389: carico inclinato di Brinch Hansen nelle fondazioni superficiali; percorsi delle figure fuori dall'indice di ricerca, decisione dell'utente del 25/10, che toglie 19 termini e 31 occorrenze dalla ricerca ma non cambia nessuna delle 30 ricerche F3): cambiano 2 articoli; 152 transizioni nuove, 54 sostituite, 2 spostate e 1 tolta perché il suo testo è sostituito. Calcoli in coda (commit e6c97aaa, guida pratica: limitatore dei calcoli anche per la sezione c.a. e la risposta elastica, taglio sullo sfondo): cambiano 3 articoli e 3 ricerche («armature», «taglio», «σ»); 27 transizioni nuove e 45 sostituite. Documenti dei muri della prima versione (commit 5caa0fd7, guida pratica, UPG-PSI0-01): cambia 1 articolo, nessuna ricerca; 3 transizioni nuove e 2 sostituite.",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "src/ANTHEA.Wiki/Content/editorial.json",
+        "src/ANTHEA.Wiki/Content/index.json",
+        "src/ANTHEA.Wiki/Content/search.json",
+        "tests/fixtures/f3/transitions-f5-wiki.json"
+      ],
+      "segno": "Nessun risultato di calcolo; nessuna differenza fuori dalla Wiki.",
+      "effetto_quantificato": "Prima passata: 828 transizioni editoriali nuove, 149 sostituite, 143 spostate, 0 tolte; 14 articoli, uno nuovo; cambiano 6 delle 30 ricerche F3. Seconda passata: 860 nuove, 160 sostituite, 176 spostate, 24 tolte; 14 articoli; 3 ricerche. Colonna modello fase 2: 109 nuove, 10 sostituite; 2 articoli. Brinch Hansen e W-idx: 152 nuove, 54 sostituite, 2 spostate, 1 tolta; 2 articoli; nessuna ricerca F3. Calcoli in coda: 27 nuove, 45 sostituite; 3 articoli; 3 ricerche. Documenti della prima versione: 3 nuove, 2 sostituite; 1 articolo.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "regola «Approvati se spiegati» delle decisioni della 1.15.0 (sera del 28/10) per la coda della 1.16.0; transizioni editoriali come F5-REL-1150-01",
+        "esito": "transizioni registrate; ogni differenza nella Wiki, editoriale"
+      },
+      "test": [
+        "ui/f3-equivalence",
+        "ui/check-wiki-offscreen",
+        "Wiki.Tests",
+        "wiki/indice",
+        "wiki/manuale",
+        "installer/guides"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261029-015204-1160-guide-rev62b (ui/f3-equivalence prima della registrazione: 1410 differenze non ammesse nella Wiki più il conteggio degli articoli in esito.txt)",
+        "supporto/artefatti/ci/20261029-031459-1160-guide-rev62e (seconda passata, prima della registrazione: 1556 differenze non ammesse, tutte nella Wiki)",
+        "supporto/artefatti/ci/20261029-034904-1160-guide-rev62f (colonna modello fase 2, prima della registrazione: 129 differenze non ammesse, tutte nella Wiki)",
+        "supporto/artefatti/ci/20261029-041626-1160-guide-rev62g (Brinch Hansen e W-idx, prima della registrazione: 265 differenze non ammesse, tutte negli articoli della Wiki)",
+        "supporto/artefatti/ci/20261029-043958-1160-guide-rev62h (calcoli in coda, prima della registrazione: 117 differenze non ammesse, tutte nella Wiki)",
+        "supporto/artefatti/ci/20261029-050313-1160-guide-rev62i (documenti dei muri della prima versione, prima della registrazione: 7 differenze non ammesse, tutte nella Wiki)"
+      ],
+      "voci_collegate": [
+        "F5-REL-1150-01",
+        "F5-REL-1160-02"
+      ]
+    },
+    {
+      "id": "PARATIE-21",
+      "data": "2026-10-29",
+      "fase": "1.16.0 / paratie",
+      "titolo": "Filtrazione FEM: bordi laterali a carico imposto o a flusso nullo",
+      "famiglia": "paratie/filtrazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Punto P5 della revisione delle paratie. GPCModel 5.20.0.0 ha i bordi SeepageLateralBoundary (FixedHead, NoFlow) di EmbeddedWallSeepageDomain dalla release AF, ma ANTHEA usava sempre il carico imposto: con la semilarghezza di uno scavo simmetrico come estensione, l'asse faceva da dreno e il gradiente lungo la parete risultava sottostimato, a sfavore di sicurezza (limite citato nelle note dalla 1.13.0 alla 1.14.1). Nella filtrazione FEM 2D ci sono ora «Bordo sinistro del dominio» e «Bordo destro del dominio», con «Carico imposto» o «Flusso nullo». Il documento paratie passa alla versione 12.",
+      "codice": [
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallDocument.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallHydraulics.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallFields.cs",
+        "src/ANTHEA.Presentation/Help/HelpTopics.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallReport.cs"
+      ],
+      "segno": "I documenti precedenti e i nuovi partono con «Carico imposto» sui due bordi: calcolo invariato. Con «Flusso nullo» su un lato non c'è carico imposto sul bordo verticale di quel lato; il carico idraulico della fase resta obbligatorio, perché decide fra ristagno e superficie di efflusso sul terreno. Il report elenca le due scelte fra i dati della filtrazione.",
+      "decisione": {
+        "data": "2026-10-22",
+        "utente": "P5: «Opzione flusso nullo» in Model, Checker e ANTHEA.",
+        "esito": "Librerie nella release AF (22/10); campo in ANTHEA il 29/10 per la 1.16.0, su richiesta dell'utente di chiudere il lavoro aperto («voglio tutto finito»)."
+      },
+      "test": [
+        "Presentation --paratie 1631 PASS: migrazione 11 → 12 con i due bordi a carico imposto; flusso nullo a sinistra o a destra con portata entrante minore; con l'asse dello scavo a destra il carico idraulico sotto il fondo scavo vicino alla parete sale; condizione sconosciuta rifiutata con il lato nel messaggio",
+        "Checker: prove di EmbeddedWallSeepageMesh con NoFlow (revisione paratie, docs/verifiche/paratie-revisione-2026-10.md)"
       ]
     }
   ]

@@ -2134,38 +2134,6 @@
     {
       "File": "X.Calculations/RetainingWall.Library.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "RetainingWall.LegacyCombinations",
-      "Fingerprint": "4EB0F3F3EC74DB442F9721F22B42CF4BBC74AD4FAF523BD123ECDCD16CC0DFC9",
-      "Count": 1,
-      "Example": "d [ \"seismic\" ] . D ( \"kh\" )"
-    },
-    {
-      "File": "X.Calculations/RetainingWall.Library.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWall.LegacyCombinations",
-      "Fingerprint": "5984095596BF8DAB3F62CE95A8FBB8035A8946F84AAEE9C4CD089398B7C09664",
-      "Count": 2,
-      "Example": "d [ \"seismic\" ] . D ( \"kv\" )"
-    },
-    {
-      "File": "X.Calculations/RetainingWall.Library.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWall.LegacyCombinations",
-      "Fingerprint": "CE8755505026F5336753A7BCD33449B1921BE4DECAF704365E02EEE39ADBB380",
-      "Count": 1,
-      "Example": "loads . D ( \"psi1\" )"
-    },
-    {
-      "File": "X.Calculations/RetainingWall.Library.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWall.LegacyCombinations",
-      "Fingerprint": "D78C90CE278178AAF52AC05837FB08451F474462ECDD11F72E8C96D3EFACED28",
-      "Count": 2,
-      "Example": "loads . D ( \"psi2\" )"
-    },
-    {
-      "File": "X.Calculations/RetainingWall.Library.cs",
-      "Rule": "R4-implicit-number",
       "Owner": "RetainingWall.ToLoadCase",
       "Fingerprint": "0A1F2C6B3BEB6D620C02BDA186F462728A6F9678FB24184DEE3347D7EE09E8E6",
       "Count": 1,
