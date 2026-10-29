@@ -21,21 +21,23 @@ public static partial class RetainingWall
     public static Result Calculate(JsonObject data, CancellationToken token = default)
     {
         ValidateShape(data); var d = (JsonObject)data.DeepClone(); CompleteSoilInput(d); CompleteAdvancedInput(d); CompleteMaterialInput(d); ResolveSeismic(d); Validate(d);
-        bool modern = d.D("version") >= 2;
-        JsonArray? definitions = modern ? d.S("combination_mode") == "Automatiche" ? GenerateCombinations(d) : d.Array("combinations") : null;
-        if (modern) d["combinations"] = definitions!.DeepClone();
+        // D7 b (decision of the user of 29/10/2026, «D7b. correggi. aggiornali»): a version 1 document calculated without the interface (project
+        // calculation, engine) is upgraded like the interface does when it opens it, and calculated with the automatic rows of the version 2
+        // (D4, D5, D6); until 1.16.0 its fixed cases (WallCombinations.Version1). The identifiers of the upgraded loads are stable (COMB-D7B).
+        if (d.D("version") < 2) { Upgrade(d, stableIds: true); ResolveSeismic(d); Validate(d); }
+        var definitions = d.S("combination_mode") == "Automatiche" ? GenerateCombinations(d) : d.Array("combinations");
+        d["combinations"] = definitions.DeepClone();
         var input = ToWallInput(d);
-        var rows = modern ? definitions!.OfType<JsonObject>().Where(c => c.B("enabled")).Select(c => (Definition: (JsonObject?)c, Combination: ToCombination(c), Live: 1d)).ToList()
-            : LegacyCombinations(d).Select(c => (Definition: (JsonObject?)null, c.Combination, c.Live)).ToList();
+        var rows = definitions.OfType<JsonObject>().Where(c => c.B("enabled")).Select(c => (Definition: c, Combination: ToCombination(c))).ToList();
         var wall = RetainingWallAnalysis.Calculate(input, rows.Select(r => r.Combination), token);
-        var cases = wall.Cases.Select((c, i) => ToLoadCase(d, c, rows[i].Definition, rows[i].Live)).ToList();
+        var cases = wall.Cases.Select((c, i) => ToLoadCase(d, c, rows[i].Definition, 1)).ToList();
         var checks = wall.Checks.Select(c => ToCheck(c)).ToList();
         bool wood = input.Seismic?.Method == WallSeismicMethod.Wood, water = input.Water is not null;
         var notes = new List<string> { Scope, Limits, Method, "GPC.Geometry: area e baricentro; GPC.Model e GPCChecker.Concrete: materiali, equilibrio N–M e tensioni delle sezioni armate. Pressioni geotecniche, equilibrio del muro, combinazioni, esercizio e stabilità globale: GPCChecker.Geotechnics (GPC.Checkers.Geotechnics.Walls)." };
         notes.Add(SoilHelp); notes.Add(FrictionHelp);
         notes.Add(EquilibriumNote);
-        if (modern) { notes.Add(ApproachHelp); notes.Add("Azioni indipendenti con ψ propri e gruppi correlati. Matrice " + d.S("combination_mode") + ": fanno fede i coefficienti salvati in ogni riga. Urto: forza statica equivalente assegnata per metro; eventi eccezionali separati, ψ₂ delle variabili e γR=1 nel preset. Resistenze del materiale conservate cautelativamente ai valori ordinari."); }
-        if (modern && d.S("combination_mode") != "Automatiche" && MissingHeelTwins(input, rows.Select(r => r.Combination)) is { Length: > 0 } missing)
+        notes.Add(ApproachHelp); notes.Add("Azioni indipendenti con ψ propri e gruppi correlati. Matrice " + d.S("combination_mode") + ": fanno fede i coefficienti salvati in ogni riga. Urto: forza statica equivalente assegnata per metro; eventi eccezionali separati, ψ₂ delle variabili e γR=1 nel preset. Resistenze del materiale conservate cautelativamente ai valori ordinari.");
+        if (d.S("combination_mode") != "Automatiche" && MissingHeelTwins(input, rows.Select(r => r.Combination)) is { Length: > 0 } missing)
             notes.Add("Matrice personalizzata: " + string.Join(", ", missing.Take(ListedRows)) + (missing.Length > ListedRows ? $" e altre {missing.Length - ListedRows}" : "") + " con il sovraccarico variabile anche sulla mensola a monte e senza la gemella che lo esclude (colonna «q var. mensola» non spuntata): la disposizione senza la variabile favorevole sulla mensola (γQ = 0, NTC 2018 Tab. 2.6.I; ψ2·q solo se sfavorevole nel sisma e negli eccezionali, §2.5.3) non è verificata. Rigenerare le combinazioni automatiche o aggiungere le righe «b».");
         if (wood) notes.Add(SeismicHelp);
         if (water) notes.Add("Sottospinta lineare fra i battenti a valle e a monte, senza riduzioni da drenaggi. Peso saturo totale sopra la mensola; pressione efficace nel terreno. Per la portanza si adotta cautelativamente γ′ su tutta la zona di rottura.");
@@ -44,10 +46,8 @@ public static partial class RetainingWall
             notes.Add("Pseudostatica locale " + (wood ? "Wood semplificato" : "Mononobe–Okabe") + ": incremento dinamico a metà altezza, inerzia di muro e terreno sulla mensola, ±kv. Direzione verso valle. Portanza sismica Annex F con accelerazione del terreno indipendente dal kh ridotto del muro: interazione N–V–M, γRD e γR espliciti; ricoprimento favorevole escluso. Spostamenti Newmark e stabilità globale Bishop richiedono l’attivazione dei rispettivi calcoli separati.");
             if (DeriveSeismic(d) is { } derivation) notes.Add(derivation.Description + " Casi generali e ribaltamento separati; γR del preset SLV: scorrimento 1, ribaltamento 1, portanza 1,2. Matrici personalizzate: fanno fede kh, kv e coefficienti di ogni riga; l’accelerazione della fondazione è definita separatamente.");
             // COMB-MURI-D5-NOTA: since D5 b (1.14.4, COMB-MURI-D4D5) the automatic seismic rows with assigned kh and kv have the γR of NTC 2018
-            // Tab. 7.11.III; the fixed cases of a version 1 document keep their own (R3 for sliding and overturning, 1.2 for the bearing).
-            else notes.Add(modern
-                ? "kh e kv assegnati: le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III, come quelle da parametri del sito (scorrimento 1, ribaltamento 1, portanza 1,2); kh non è maggiorato per il ribaltamento. Matrici personalizzate: fanno fede kh, kv e coefficienti di ogni riga. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV)."
-                : "kh e kv assegnati (documento della prima versione): i casi sismici fissi usano γR 1,1 a scorrimento e 1,15 a ribaltamento (R3) e 1,2 alla portanza sismica; kh non è maggiorato per il ribaltamento. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).");
+            // Tab. 7.11.III; since D7 b (1.16.0) also those of a version 1 document.
+            else notes.Add("kh e kv assegnati: le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III, come quelle da parametri del sito (scorrimento 1, ribaltamento 1, portanza 1,2); kh non è maggiorato per il ribaltamento. Matrici personalizzate: fanno fede kh, kv e coefficienti di ogni riga. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).");
         }
         notes.AddRange(wall.Warnings);
         var structural = StructuralChecks(d, cases.Where(c => c.Factors.S("purpose") != "Ribaltamento").ToList(), token, out double steel);

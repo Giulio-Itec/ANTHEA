@@ -37,14 +37,15 @@ try
     // mensola: 8 SLU, 4 gemelle (le righe con γQ = 1,5) e 3 SLE.
     Check(result.Cases.Count == 15 && result.Cases.Count(x => !x.VariableSurchargeOnHeel) == 4, "Otto SLU, quattro gemelle «b» e tre SLE");
     {
-        // SLU 2: γG = 1, γQ = 1,5. La gemella SLU 2b conserva la spinta; sulla mensola manca 1,5 · q · b = 1,5 · 10 · 1,9 = 28,5 kN/m, con il
-        // braccio dal piede a + s + b/2 = 0,8 + 0,3 + 0,95 = 2,05 m (calcolo a mano).
-        var main = result.Cases.Single(x => x.Name == "SLU 2"); var twin = result.Cases.Single(x => x.Name == "SLU 2b");
-        Check(main.VariableSurchargeOnHeel && !twin.VariableSurchargeOnHeel && twin.LiveFactor == 1.5, "MUR-1: gemella della SLU con il sovraccarico");
+        // SLU 8 (D7 b: il documento versione 1 è calcolato con le righe della versione 2; fino alla 1.15.0 «SLU 2»): γG = 1, γQ = 1,5. La gemella
+        // SLU 8b conserva la spinta; sulla mensola manca 1,5 · q · b = 1,5 · 10 · 1,9 = 28,5 kN/m, con il braccio dal piede a + s + b/2 =
+        // 0,8 + 0,3 + 0,95 = 2,05 m (calcolo a mano).
+        var main = result.Cases.Single(x => x.Name == "SLU 8"); var twin = result.Cases.Single(x => x.Name == "SLU 8b");
+        Check(main.VariableSurchargeOnHeel && !twin.VariableSurchargeOnHeel && twin.Actions.Single().Factor == 1.5, "MUR-1: gemella della SLU con il sovraccarico");
         Near(twin.Horizontal, main.Horizontal, "MUR-1: la gemella conserva la spinta K·γQ·q");
         Near(main.Vertical - twin.Vertical, 1.5 * 10 * 1.9, "MUR-1: sovraccarico variabile assente sulla mensola");
         Near(main.Stabilizing - twin.Stabilizing, 1.5 * 10 * 1.9 * 2.05, "MUR-1: momento stabilizzante del sovraccarico sulla mensola");
-        Check(result.Checks.Count(x => x.Combination == "SLU 2b") == result.Checks.Count(x => x.Combination == "SLU 2"), "MUR-1: la gemella entra in tutte le verifiche geotecniche");
+        Check(result.Checks.Count(x => x.Combination == "SLU 8b") == result.Checks.Count(x => x.Combination == "SLU 8"), "MUR-1: la gemella entra in tutte le verifiche geotecniche");
     }
     double phi = 34 * Math.PI / 180, nqf = Math.Exp(Math.PI * Math.Tan(phi)) * Math.Pow(Math.Tan(Math.PI / 4 + phi / 2), 2);
     Near(c.BearingResistance!.Value, .5 * 19 * c.EffectiveWidth * c.EffectiveWidth * 2 * (nqf - 1) * Math.Tan(phi) * Math.Pow(1 - c.Horizontal / c.Vertical, 3), "Portanza drenata con riduzione per inclinazione");
@@ -77,14 +78,19 @@ try
     split["layers"] = new JsonArray(l, l2); var splitResult = RetainingWall.Calculate(split).Cases[0];
     Near(splitResult.Horizontal, c.Horizontal, "Invarianza alla suddivisione di uno strato"); Near(splitResult.Overturning, c.Overturning, "Invarianza del momento per strato suddiviso");
     var seismic = (JsonObject)data.DeepClone(); seismic["seismic"]!["enabled"] = true; var sr = RetainingWall.Calculate(seismic);
-    Check(sr.Cases.Count(s => s.State == "SISMA" && s.VariableSurchargeOnHeel) == 2, "Entrambi i segni di kv");
+    // D7 b con D6 a: per ogni segno di kv la riga con ψ2·q e quella senza il sovraccarico (fino alla 1.15.0 una sola riga per segno).
+    Check(sr.Cases.Where(s => s.State == "SISMA").Select(s => s.Kv).Distinct().Count() == 2 && sr.Cases.Count(s => s.State == "SISMA" && s.VariableSurchargeOnHeel) == 4, "Entrambi i segni di kv");
     {
-        // MUR-1 esteso al sisma (decisione del 16/10): la gemella «Sisma kv−b» non ha ψ2·q = 0,3 · 10 kPa sulla mensola di 1,9 m; la spinta resta,
-        // cambiano N per (1 − kv) = 1,05 e l'inerzia kh · ψ2 q b = 0,1 · 5,7 kN/m (pseudostatica a mano).
-        var main = sr.Cases.Single(s => s.Name == "Sisma kv−"); var twin = sr.Cases.Single(s => s.Name == "Sisma kv−b");
-        Check(!twin.VariableSurchargeOnHeel && sr.Cases.Count(s => s.State == "SISMA" && !s.VariableSurchargeOnHeel) == 2, "MUR-1: gemelle sismiche nella versione 1");
+        // MUR-1 esteso al sisma (decisione del 16/10): la gemella «Sisma kv− 12b» non ha ψ2·q = 0,3 · 10 kPa sulla mensola di 1,9 m; la spinta resta,
+        // cambiano N per (1 − kv) = 1,05 e l'inerzia kh · ψ2 q b = 0,1 · 5,7 kN/m (pseudostatica a mano). Fino alla 1.15.0 «Sisma kv−» e «Sisma kv−b».
+        var main = sr.Cases.Single(s => s.Name == "Sisma kv− 12"); var twin = sr.Cases.Single(s => s.Name == "Sisma kv− 12b");
+        Check(!twin.VariableSurchargeOnHeel && sr.Cases.Count(s => s.State == "SISMA" && !s.VariableSurchargeOnHeel) == 2, "MUR-1: gemelle sismiche del documento versione 1");
         Near(main.Vertical - twin.Vertical, .3 * 10 * 1.9 * 1.05, "MUR-1: ψ2·q assente sulla mensola nel sisma");
         Near(main.Horizontal - twin.Horizontal, .1 * .3 * 10 * 1.9, "MUR-1: inerzia del sovraccarico sulla mensola esclusa nel sisma");
+        // D7 b: le righe sismiche del documento versione 1 hanno i γR della NTC 2018 Tab. 7.11.III, 1 a scorrimento e a ribaltamento (fino
+        // alla 1.15.0 1,1 e 1,15 di R3): resistenze dalle formule a mano dello scorrimento (V tan δb) e del ribaltamento (Mstab).
+        Near(main.SlidingResistance, main.Vertical * Math.Tan(26 * Math.PI / 180), "D7 b: γR 1 allo scorrimento sismico (Tab. 7.11.III)");
+        Near(main.OverturningResistance, main.Stabilizing, "D7 b: γR 1 al ribaltamento sismico (Tab. 7.11.III)");
     }
     Check(sr.Cases.Where(s => s.State == "SISMA").All(s => s.BearingResistance is null), "Nessun esito di portanza sismica senza inerzia del terreno");
     Near(RetainingWall.SeismicKa(30, 0, 0), RetainingWallFunctions.Ka(30), "Mononobe–Okabe al limite statico");
