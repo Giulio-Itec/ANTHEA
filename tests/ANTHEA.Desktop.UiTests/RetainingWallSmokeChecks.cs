@@ -53,8 +53,9 @@ internal sealed partial class ShellSmokeWindow
         w.Set("seismic", "kh", "0.12"); w.Set("seismic", "kv", "0.04"); await w.CalculateAsync();
         // MUR-1 (15-16/10/2026): ogni combinazione sismica con il sovraccarico variabile ha la gemella «b» senza q sulla mensola.
         var seismicAll = w.Calculation!.Cases.Where(c => c.State == "SISMA").ToArray(); var seismicCases = seismicAll.Where(c => c.VariableSurchargeOnHeel).ToArray();
-        Check(seismicCases.Length == 2 && seismicCases.All(c => c.Kh == .12 && c.PressureDetails.All(p => p.Dynamic > 0 && p.Ke > p.K)) && seismicCases.Select(c => c.Kv).Order().SequenceEqual(new[] { -.04, .04 }), "Attivazione UI genera SISMA ±kv e incremento Mononobe–Okabe");
-        Check(seismicAll.Length == 2 * seismicCases.Length && seismicAll.Where(c => !c.VariableSurchargeOnHeel).Select(c => c.Kv).Order().SequenceEqual(new[] { -.04, .04 }), "Gemelle «b» delle combinazioni sismiche senza q sulla mensola (MUR-1)");
+        // Censimento D6 a (28/10/2026): per ogni segno q presente (ψ₂) e assente, quindi 4 righe proprie; le gemelle solo per le righe con q.
+        Check(seismicCases.Length == 4 && seismicCases.All(c => c.Kh == .12 && c.PressureDetails.All(p => p.Dynamic > 0 && p.Ke > p.K)) && seismicCases.Select(c => c.Kv).Order().SequenceEqual(new[] { -.04, -.04, .04, .04 }), "Attivazione UI genera SISMA ±kv e incremento Mononobe–Okabe, con q presente e assente");
+        Check(seismicAll.Length == seismicCases.Length + 2 && seismicAll.Where(c => !c.VariableSurchargeOnHeel).Select(c => c.Kv).Order().SequenceEqual(new[] { -.04, .04 }), "Gemelle «b» delle combinazioni sismiche senza q sulla mensola (MUR-1)");
         Check(w.SeismicButtonText.Contains($"{seismicAll.Length} combinazioni"), "Stato sisma riporta le combinazioni effettivamente calcolate");
         w.Combination = seismicCases[0].Name; await Settle(); File.WriteAllBytes(Path.Combine(directory, "sisma-mononobe.png"), Ui.Snapshot(Window));
         w.Set("seismic", "method", "Wood semplificato"); await w.CalculateAsync(); var woodCase = w.Calculation!.Cases.First(c => c.State == "SISMA");
@@ -64,7 +65,7 @@ internal sealed partial class ShellSmokeWindow
         w.Set("seismic", "ag_g", "0.20"); w.Set("seismic", "f0", "2.5"); w.Set("seismic", "soil_class", "C");
         w.Set("seismic", "topography", RetainingWall.TopographySlope); w.Set("seismic", "slope", "20"); w.Set("seismic", "relief_height", "100"); w.Set("seismic", "site_height", "50");
         await w.CalculateAsync(); var siteCases = w.Calculation!.Cases.Where(c => c.State == "SISMA" && c.VariableSurchargeOnHeel).ToArray();
-        Check(siteCases.Length == 4 && siteCases.Where(c => c.Factors.S("purpose") == "Generale").All(c => Math.Abs(c.Kh - .11704) < 1e-9), "Input del sito genera kh da Ss e St e quattro casi SLV");
+        Check(siteCases.Length == 8 && siteCases.Where(c => c.Factors.S("purpose") == "Generale").All(c => Math.Abs(c.Kh - .11704) < 1e-9), "Input del sito genera kh da Ss e St e otto casi SLV (quattro con q presente e quattro assente, D6 a)");
         Check(siteCases.Where(c => c.Factors.S("purpose") == "Ribaltamento").All(c => Math.Abs(c.Kh - .17556) < 1e-9), "Ribaltamento usa il coefficiente maggiorato calcolato dalla UI");
         w.Combination = siteCases[0].Name; w.BringIntoView("seismic", "source"); await Settle(); File.WriteAllBytes(Path.Combine(directory, "sisma-sito-input.png"), Ui.Snapshot(Window));
         w.BringTextIntoView("Sisma", "SLV ·"); await Settle(); File.WriteAllBytes(Path.Combine(directory, "sisma-sito-coefficienti.png"), Ui.Snapshot(Window));

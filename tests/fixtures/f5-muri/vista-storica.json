@@ -46,17 +46,17 @@
       "distinta_csv": "a75bf72d96972f6cf6ff475e194ce0b3d174417b79ddfe6f57d3eeedd6c45248"
     },
     "globale-non-drenata-sisma": {
-      "dati": "90d827cb40d870fc57e75e8ae2d5ce6fbe11c9b7fc7290f1c5abae967c86600b",
+      "dati": "ff5fe1fc1745843e6c48db678a512bb4b02a68caa63ae1ecffb1c50b60b184e8",
       "risultati": true,
-      "risultato": "ae3fe18747b5986cb9ab9e93dd63c52800d60b4278fc3d17557685de1b03ecff",
+      "risultato": "61a8608e4b1a1fb8f6e4683f87c128ce05f1807f19451a9605f7af82d971d3bf",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": "Globale SLV kv− 3",
-      "csv": "3cf8270757bd0c070eea14914039a7b6012da4ba5e9f3b6d5c15249bc3a3af8b",
-      "conci": "7082fe2f831d71aa3d8a98638cd29a11362147cafea422d146b140e4656a8751",
+      "csv": "b54843f43248b4f772f4fae1b66589e034b09178cfb6ac468336c9f4ae69a0c7",
+      "conci": "e65293968ef2e9ebcd91e54ff07307b4e92c09c20c614f2bee6450249e509cfc",
       "combinazione_globale": "Globale SLV kv− 3",
       "pagine_distinta": 5,
-      "distinta_csv": "e9e67d09c06bdbd6ce6aaa3d314ceb222092cdf6f09cc5fe13acaa63e1b9fb16"
+      "distinta_csv": "1ce52c19223af8cc116331f7c9f0a929ff1e9d9a0d31f753fefa48bddcf69ec9"
     },
     "gravita-cls-passiva": {
       "dati": "851e207250c0d651d0b50774b4435a84b7fa99b1e53eca5a4d0d456401f128b4",
@@ -116,35 +116,35 @@
       "distinta_csv": "159b63dcbd6cbb510d23896970b11996e12decd986212c2dd5f2f96692d4e304"
     },
     "mensola-sisma-sito-pendio": {
-      "dati": "00a5a2066d96bf534919644219d939fbe3ab752b826b207663923a4e8b942331",
+      "dati": "5ca5c46ae4a446f623d59636a8cfad25305739373b6c20eaf73d9a07a2d3e299",
       "risultati": true,
-      "risultato": "788103c3838c23da657bb1014dbcee6e5342b9b8a0c7abc72997da1da72ad3e8",
+      "risultato": "41f6d8c7c264b605d46256c0533e0989089a44094db28e12cb054a4687a6cec4",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
-      "csv": "e186b3ea43f993ccda407da8f4294b8879e7326d0ad7792eaded94960d4cb587",
+      "csv": "77724d358d0fc0bda6807f6c9a36e54e8a4ddd48ad52f81679d3e83fcce02ac5",
       "pagine_distinta": 7,
-      "distinta_csv": "7e4b1f99b93fb95dd726c7bb79881eb8c46cf25714594494f4ebec4e9ac24b99"
+      "distinta_csv": "0ceabc5b7b844fc148458c2d33125c0f2ee042cb0b8b800ae8cb5b9335b7cd41"
     },
     "mensola-wood-azioni": {
-      "dati": "bc232d390bbedafa1585261afe09c746c6d4225901fdcfd0393126ead66e2d83",
+      "dati": "e3c1cee05a86d508c98a2cd1fe9db3779ddc8563127441b01ff6fae697db18c4",
       "risultati": true,
-      "risultato": "33b68974a5c6921629e10073d10bb826db6c2976c90822da1406d820661482c2",
+      "risultato": "2d4efdf9d949d471926bc2832ae310d499c48e8c4aaf14671f7f22db7afedb50",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
-      "csv": "cb5259f1d6fcc36c5fffee98902f36bc8c73141faedca682e34c232d4dbb120e",
+      "csv": "ec68a9d6dc710c1ec3d18a4efa2edcf98e12545c50a7eb2431a4790cf939736f",
       "pagine_distinta": 5,
-      "distinta_csv": "6379c6bb9d0614bf7c94f21c95466eba6831d27e60e1143e590f428db7644a23"
+      "distinta_csv": "8cc4dde121203f990988054fb046aa18786e9f064c698e5bf3dee3415b57bae7"
     },
     "opzioni-avanzate": {
-      "dati": "a1fb011ca5eb90ba6892faa9cfd02648e34fd07ed8c11337fac6d2648f917ed4",
+      "dati": "dc7e6d14b5a76370bfe959eeafcdb6794b58f763a7ac9ba8a5f45de437b83b08",
       "risultati": true,
-      "risultato": "60b6277cc52d04143335b8988be27f11582e06c78faa07229209e814f8ae8771",
+      "risultato": "f03b57176a419f7a7d278f026ba14e4a4dc569ee6c84401b6fc3ac1601903277",
       "calcolo": true,
       "caso": "SLE 1",
       "combinazione_globale_report": null,
-      "csv": "910fe1a42fd147602d65f87afa8d3353f763a362c2f63d050e922c876bd3c40e",
+      "csv": "25f2b6faf9054a434975725ffe5d331f6243f9a82e3e5ebda868600846691963",
       "pagine_distinta": 5,
       "distinta_csv": "99ba4551160efad914b912b1e2c77e212ce3042f357a0da452f9b5eaeb4e914f"
     },

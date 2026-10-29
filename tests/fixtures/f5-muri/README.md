@@ -116,3 +116,8 @@ fa nulla. Il calcolo passa da `HeldModuleService`, che può trattenere il motore
   dati delle combinazioni (righe nuove e righe rinominate), elenco delle combinazioni, conteggi dello stato e del pulsante «Sisma»,
   impronte del risultato, righe delle verifiche con il nome nuovo (stessi valori), combinazioni e casi globali, impronte delle
   sezioni inviate al modulo c.a. Tolti i nomi e le impronte, i valori delle verifiche sono uguali.
+  In `vista-storica.json` 16 valori di 4 fixture, dalla vista XAML con una registrazione temporanea non committata di
+  `ui/check-muri-view` (corsa `supporto/artefatti/1160-combinazioni/registra-ui`): impronte dei dati e del risultato dopo il calcolo
+  (stesse differenze spiegate di F3), CSV delle verifiche (ogni riga di prima c'è ancora, con il nome nuovo; le righe nuove sono delle
+  combinazioni nuove), CSV dei conci di `globale-non-drenata-sisma` (casi globali nuovi), CSV della distinta di tre fixture (solo il numero
+  delle verifiche non soddisfatte o non disponibili nella nota, per esempio 42 → 52). Pagine della distinta e combinazioni mostrate invariate.
