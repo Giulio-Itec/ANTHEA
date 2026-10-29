@@ -24,8 +24,45 @@ public sealed record ModelImportMessage(string Code, string Severity, string Rec
 /// <summary>Static load cases and combination definitions of a source without MIDAS tables (Straus7 and later solvers): definitions only,
 /// never results. Linear combinations and envelopes are rebuilt by GPC from the imported static cases (GpcModelCombinationService).</summary>
 public sealed record ModelSourceCombinations(string[] StaticCases, ModelCombinationDefinition[] Definitions);
+/// <summary>1.16.0: support reaction of a node, as reported by the solver: force and moment exerted by the support (restraint or spring to ground)
+/// on the structure, global axes, kN and kN·m. The same sign for every source (MIDAS and Straus7 report the action on the structure).</summary>
+public sealed record ModelReaction(int Node, double Fx, double Fy, double Fz, double Mx, double My, double Mz)
+{
+    [JsonIgnore] public double[] Values => [Fx, Fy, Fz, Mx, My, Mz];
+}
+/// <summary>1.16.0: global equilibrium of a static case checked by the source library (GPC): resultants of the applied loads and of the reactions,
+/// global axes, kN and kN·m about the global origin. Balanced is null when the check was not evaluated; Note says what was or was not covered.</summary>
+public sealed record ModelEquilibrium(double[] AppliedForce, double[] AppliedMoment, double[] ReactionForce, double[] ReactionMoment, bool? Balanced, string Note);
+/// <summary>1.16.0: a mass of the source model, data only (no load is derived). Kind: NODE (Values = mass along global X, Y, Z, t), NODE-ROTATION
+/// (rotational mass about Axes X, Y, Z, t·m²), NODE-NS (non-structural mass of a case, t), BEAM-NS (t/m at Stations, fractions of the length),
+/// PLATE-NS (t/m²). Entity: document node or element. Offset: global, m.</summary>
+public sealed record ModelMass(string Kind, int Entity, string? Case, double[] Values)
+{
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] public double[]? Stations { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] public ModelNodeFrame? Axes { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] public ModelDirection? Offset { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] public double? DynamicFactor { get; init; }
+    public string Record { get; init; } = "";
+    public static readonly string[] Kinds = ["NODE", "NODE-ROTATION", "NODE-NS", "BEAM-NS", "PLATE-NS"];
+}
+/// <summary>1.16.0: a temperature of a load case, data only. Kind: REFERENCE (reference temperature of the case, Entity 0), NODE (°C; Type: Reference,
+/// Fixed, Initial or Table), BEAM-GRADIENT (°C/m along the principal axes 1 and 2), PLATE-GRADIENT (°C/m along the local z axis).</summary>
+public sealed record ModelTemperature(string Kind, int Entity, string Case, double[] Values)
+{
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] public string? Type { get; init; }
+    public string Record { get; init; } = "";
+    public static readonly string[] Kinds = ["REFERENCE", "NODE", "BEAM-GRADIENT", "PLATE-GRADIENT"];
+}
+/// <summary>1.16.0: a stage of the source model: number, name and label ("1: name") used by its stage results, type (Unmorphed, Morphed, Reset),
+/// groups enabled in it and the document elements of those groups.</summary>
+public sealed record ModelStageDefinition(int Number, string Name, string Label, string Type, string[] Groups, int[] Elements);
 public sealed record ModelResultSet(string Name, bool IsEnvelope, CornerResult[] Values)
 {
+    // 1.16.0: optional and omitted when null.
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelReaction[]? Reactions { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelEquilibrium? Equilibrium { get; init; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ModelStageResult? Stage { get; init; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -68,6 +105,13 @@ public sealed class ModelSnapshot
     // 1.15.0: optional and omitted when null, so the fingerprints of the existing documents do not change.
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ModelSourceCombinations? SourceCombinations { get; set; }
+    // 1.16.0: masses, temperatures and stages of the source model (Straus7), optional and omitted when null.
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelMass[]? Masses { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelTemperature[]? Temperatures { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelStageDefinition[]? ConstructionStages { get; set; }
     public static readonly string[] Components = ["Mxx", "Myy", "Mxy", "Fxx", "Fyy", "Fxy", "Vxx", "Vyy"];
     public static string Unit(string component) => component.StartsWith('M') ? "kN·m/m" : "kN/m";
     public void Validate()
@@ -132,6 +176,19 @@ public sealed class ModelSnapshot
                     throw new InvalidDataException("Terna nodale non ortonormale e destrorsa.");
             }
         }
+        static bool Finite(double[]? values, int? length = null) => values != null && (length == null || values.Length == length) && values.All(double.IsFinite);
+        if (Masses?.Any(m => m == null || !ModelMass.Kinds.Contains(m.Kind) || !Finite(m.Values) || m.Values.Length == 0 ||
+            (m.Kind.StartsWith("NODE", StringComparison.Ordinal) ? !ids.Contains(m.Entity) : !elements.TryGetValue(m.Entity, out var owner) || (owner.Type == "PLATE") != (m.Kind == "PLATE-NS")) ||
+            (m.Kind is "NODE" or "NODE-ROTATION") != (m.Case == null) || m.Kind == "BEAM-NS" && (!Finite(m.Stations, m.Values.Length) || m.Stations!.Any(s => s is < 0 or > 1)) ||
+            m.Offset is { } o && !(double.IsFinite(o.X) && double.IsFinite(o.Y) && double.IsFinite(o.Z))) == true)
+            throw new InvalidDataException("Masse del modello non associabili o non valide.");
+        if (Temperatures?.Any(t => t == null || !ModelTemperature.Kinds.Contains(t.Kind) || string.IsNullOrWhiteSpace(t.Case) || !Finite(t.Values) || t.Values.Length == 0 ||
+            t.Kind switch { "REFERENCE" => t.Entity != 0, "NODE" => !ids.Contains(t.Entity), _ => !elements.TryGetValue(t.Entity, out var owner) || (owner.Type == "PLATE") != (t.Kind == "PLATE-GRADIENT") }) == true)
+            throw new InvalidDataException("Temperature del modello non associabili o non valide.");
+        if (ConstructionStages is { } stages && (stages.Any(s => s == null || s.Number < 1 || string.IsNullOrWhiteSpace(s.Label) || s.Name == null || s.Type == null || s.Groups == null ||
+            s.Elements == null || s.Elements.Any(e => !elements.ContainsKey(e))) || stages.Select(s => s.Number).Distinct().Count() != stages.Length ||
+            stages.Select(s => s.Label).Distinct(StringComparer.Ordinal).Count() != stages.Length))
+            throw new InvalidDataException("Fasi del modello non valide o non associabili agli elementi.");
         if (Results.Select(r => r.Name).Distinct().Count() != Results.Length) throw new InvalidDataException("Casi di risultato duplicati.");
         ModelConstructionStages.ValidateResults(Results);
         foreach (var result in Results)
@@ -141,10 +198,17 @@ public sealed class ModelSnapshot
                 string.IsNullOrWhiteSpace(g.Alternative)||g.ConcomitantValues==null||g.ConcomitantValues.Any(v=>!double.IsFinite(v))||
                 !(g.Family=="PLATE"&&g.ConcomitantValues.Length==8&&elements.TryGetValue(g.Element,out var plate)&&plate.Type=="PLATE"&&plate.Nodes.Contains(g.Node)&&Components.Contains(g.Component)||
                   g.Family=="BEAM"&&g.ConcomitantValues.Length==6&&elements.TryGetValue(g.Element,out var beam)&&beam.Type=="BEAM"&&g.Station is >=0 and <=1&&ResultFields.Components("BEAM","LOCAL").Contains(g.Component)||
+                  // 1.16.0: trusses and cables of the sources without MIDAS tables, axial force only.
+                  g.Family!="BEAM"&&ElementFamilies.IsLine(g.Family)&&g.ConcomitantValues.Length==6&&elements.TryGetValue(g.Element,out var axial)&&axial.Type==g.Family&&g.Station is >=0 and <=1&&ResultFields.Components(g.Family,"LOCAL").Contains(g.Component)||
+                  g.Family=="REACTION"&&g.ConcomitantValues.Length==6&&ids.Contains(g.Node)&&ModelReactions.Components.Contains(g.Component)||
                   g.Family=="NODE"&&g.ConcomitantValues.Length==6&&ids.Contains(g.Node)&&new[]{"ux","uy","uz"}.Contains(g.Component)))))
                 throw new InvalidDataException("Provenienza o governanti della combinazione non validi.");
             if (string.IsNullOrWhiteSpace(result.Name) || result.Values.Select(v => (v.Element, v.Node)).Distinct().Count() != result.Values.Length || result.Values.Any(v => !elements.TryGetValue(v.Element, out var e) || e.Type != "PLATE" || !e.Nodes.Contains(v.Node) || v.Values.Length != 8 || v.Values.Any(x => !double.IsFinite(x)))) throw new InvalidDataException("Risultati non validi o non associabili agli elementi.");
             ResultFields.Validate(result, elements);
+            if (result.Reactions is { } reactions && (reactions.Any(r => r == null || !ids.Contains(r.Node) || !r.Values.All(double.IsFinite)) || reactions.Select(r => r.Node).Distinct().Count() != reactions.Length))
+                throw new InvalidDataException("Reazioni vincolari non valide o non associabili ai nodi.");
+            if (result.Equilibrium is { } balance && (!Finite(balance.AppliedForce, 3) || !Finite(balance.AppliedMoment, 3) || !Finite(balance.ReactionForce, 3) || !Finite(balance.ReactionMoment, 3) || balance.Note == null))
+                throw new InvalidDataException("Controllo di equilibrio non valido.");
             if(result.Displacements is {} displacements && (displacements.Any(d=>d==null||!ids.Contains(d.Node)||!double.IsFinite(d.X)||!double.IsFinite(d.Y)||!double.IsFinite(d.Z)||d.Rotation is {} rotation&&(!double.IsFinite(rotation.X)||!double.IsFinite(rotation.Y)||!double.IsFinite(rotation.Z)))||displacements.Select(d=>d.Node).Distinct().Count()!=displacements.Length))
                 throw new InvalidDataException("Spostamenti importati non validi o non associabili ai nodi.");
         }

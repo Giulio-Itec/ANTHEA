@@ -42,6 +42,8 @@ internal static class MidasGpcDisplay
         PointResultPlateForces p=>[-p.Forces.Mxx*.001,-p.Forces.Myy*.001,-p.Forces.Mxy*.001,p.Forces.Fxx,p.Forces.Fyy,p.Forces.Fxy,p.Forces.Fxz,p.Forces.Fyz],
         StationResultBeamForces b=>[b.ResultBeamForces.N*.001,b.ResultBeamForces.V1*.001,b.ResultBeamForces.V2*.001,b.ResultBeamForces.T*1e-6,-b.ResultBeamForces.M1*1e-6,b.ResultBeamForces.M2*1e-6],
         NodeResultDisplacement d=>[d.ResultDisplacement.D1*.001,d.ResultDisplacement.D2*.001,d.ResultDisplacement.D3*.001,d.ResultDisplacement.R1,d.ResultDisplacement.R2,d.ResultDisplacement.R3],
+        // 1.16.0: support reactions, force on the structure in the axes of the sample (global for Straus7 and for the rebuilt combinations), kN and kN·m.
+        NodeResultForces f=>[f.Fx*.001,f.Fy*.001,f.Fz*.001,f.Mx*1e-6,f.My*1e-6,f.Mz*1e-6],
         _=>throw new InvalidDataException("Famiglia dei risultati GPC non gestita dalla vista.")
     };
 }
