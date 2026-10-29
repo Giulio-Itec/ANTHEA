@@ -44,8 +44,7 @@ public sealed partial class GpcModelCombinationService
             ??throw new InvalidDataException("Risultati del caso base mancanti: "+c)).ToArray();
         progress?.Report(new("Risoluzione delle dipendenze della combinazione…"));
         // Bound expansion before allocating result states. This limit is explicit rather than a silent truncation.
-        var alternatives=CombinationExpansion.Expand(records,definitionId,4096)
-            .Select(a=>new CombinationAlternative(a.Label,a.Factors)).ToArray();
+        var alternatives=Alternatives(CombinationExpansion.Expand(records,definitionId,4096));
         token.ThrowIfCancellationRequested();
         string revision=ModelCombinations.InputRevision(snapshot);
         string preparationRevision=ModelCombinations.PreparationRevision(snapshot);
@@ -106,6 +105,20 @@ public sealed partial class GpcModelCombinationService
         var owners=new Dictionary<ResultLocation,Element>(ReferenceEqualityComparer.Instance);
         foreach(var owner in model.AllElements)foreach(var sample in owner.Results.SelectMany(r=>r.Results))owners.Add(sample,owner);
         return new(revision,model,model.Combinations.Values.Single(),warnings.ToArray(),owners);
+    }
+
+    /// <summary>COMBO-B1 (29/10/2026): the same term twice in an envelope (±Q, ±E: Q × 1 and Q × −1) gives two alternatives with the same
+    /// label, and GPC refuses an envelope whose labels repeat. The second and following ones take « #2», « #3» in the order of the terms;
+    /// the labels of the envelopes without repetitions do not change.</summary>
+    static CombinationAlternative[] Alternatives(IReadOnlyList<LinearAlternative> expanded)
+    {
+        var used=new HashSet<string>(StringComparer.Ordinal);
+        return expanded.Select(a=>
+        {
+            string label=a.Label;
+            for(int n=2;!used.Add(label);n++)label=a.Label+" #"+n.ToString(CultureInfo.InvariantCulture);
+            return new CombinationAlternative(label,a.Factors);
+        }).ToArray();
     }
 
     static string Messages(IEnumerable<ModelDiagnostic> diagnostics)=>string.Join("; ",diagnostics

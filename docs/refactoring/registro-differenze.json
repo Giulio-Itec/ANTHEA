@@ -12826,6 +12826,29 @@
         "Presentation --paratie 1631 PASS: migrazione 11 → 12 con i due bordi a carico imposto; flusso nullo a sinistra o a destra con portata entrante minore; con l'asse dello scavo a destra il carico idraulico sotto il fondo scavo vicino alla parete sale; condizione sconosciuta rifiutata con il lato nel messaggio",
         "Checker: prove di EmbeddedWallSeepageMesh con NoFlow (revisione paratie, docs/verifiche/paratie-revisione-2026-10.md)"
       ]
+    },
+    {
+      "id": "COMBO-B1",
+      "data": "2026-10-29",
+      "fase": "dopo la 1.16.0 / combo-modelli",
+      "titolo": "Modelli: inviluppo con lo stesso termine due volte (±Q, ±E) rifiutato da GPC",
+      "famiglia": "modelli/combinazioni",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Un inviluppo dell'utente con lo stesso caso o la stessa combinazione due volte (il modo abituale di scrivere ±Q o ±E: Q × 1 e Q × −1) dava due alternative con la stessa etichetta («±Q=Q»): GPC (CombinationRebuild) rifiutava l'intero inviluppo con DuplicateAlternativeLabel, mentre il catalogo lo dava «Da calcolare». ANTHEA distingue ora le etichette ripetute con « #2», « #3» nell'ordine dei termini; le etichette degli inviluppi senza ripetizioni non cambiano.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs"
+      ],
+      "segno": "Prima nessun risultato (errore «Combinazione non costruita: … DuplicateAlternativeLabel»), ora gli estremi per componente delle alternative, ognuna con il proprio stato concomitante. Nessun risultato già calcolabile cambia: impronta di ogni campo del modello di misura 100 × 50 e del modello ridotto uguale alla 1.16.0.",
+      "effetto_quantificato": "±Q sulla fixture a mano delle combinazioni: minimo −|Q| e massimo +|Q| su ognuna delle 8 componenti delle piastre, due alternative distinte nei governanti.",
+      "decisione": {
+        "data": "2026-10-29",
+        "utente": "«cerca colli di bottiglia o bug dentro la gestione delle combo»; regola «Approvati se spiegati».",
+        "esito": "Correzione nel commit dedicato del ramo refactoring/combo-modelli; nessun riferimento congelato cambia."
+      },
+      "test": [
+        "ModelWorkspace.Checks: COMBO-B1 (inviluppo ±Q calcolato, etichette e governanti distinti, salvato come calcolato)"
+      ]
     }
   ]
 }
