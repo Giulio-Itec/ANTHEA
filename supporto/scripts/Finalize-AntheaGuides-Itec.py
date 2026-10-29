@@ -71,7 +71,7 @@ def compact_toc_boundary(document):
 
 def finalize(kind):
     qa = B.ART / kind
-    target = B.OUT / f'ANTHEA_Guida_{kind}_ITEC_Rev{B.REVISION}.docx'
+    target = B.OUT / B.document(kind)['filename']
     pdf = PdfReader(qa / 'fields_updated.pdf')
     body_pages = int(re.search(r'Pagina\s+\d+\s+di\s+(\d+)', pdf.pages[-1].extract_text()).group(1))
     with ZipFile(target) as original, ZipFile(qa / 'word_updated.docx') as updated:
@@ -153,7 +153,7 @@ def finalize(kind):
                     assert value in new_rel_map, (key, value)
         # Text-level identity after accounting for Word's native heading numbers.
         doc_text = ''.join(final.xpath('//w:body//w:t/text()|//w:body//m:t/text()', namespaces=NS))
-        source_lines = (B.ROOT / f'supporto/docs/guida-{kind}-anthea.md').read_text(encoding='utf-8').splitlines()
+        source_lines = B.document(kind)['source'].read_text(encoding='utf-8').splitlines()
         start = next(i for i, line in enumerate(source_lines) if line.startswith('Edizione ')) + 1
         required = []
         formulas = []
@@ -215,5 +215,7 @@ def finalize(kind):
     assert sha256(B.TEMPLATE.read_bytes()).hexdigest() == B.TEMPLATE_HASH
 
 if __name__ == '__main__':
-    for kind in B.GUIDES:
+    import sys
+    # Without arguments the two guides; with arguments the given kinds (guides or articles).
+    for kind in sys.argv[1:] or B.GUIDES:
         finalize(kind)
