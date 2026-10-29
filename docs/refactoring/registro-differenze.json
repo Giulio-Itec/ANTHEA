@@ -11611,7 +11611,7 @@
       "modulo": "Palo e micropalo orizzontale (Broms, Stratificato)",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Richiesta dell'utente del 28/10/2026 sera: l'articolo sulla teoria del metodo stratificato di G. Pacini «deve essere ripescato anche da info modello», dove «il primo [riferimento] è G Pacini». Il riferimento «G. Pacini — approccio al terreno stratificato» dei risultati del palo e del micropalo orizzontale cita nel dettaglio l'articolo «Capacità orizzontale del palo in terreno stratificato» (cartella Guide dell'installazione) e ha il campo nuovo «documento» con il nome del PDF installato; «Apri riferimento» di «Diagrammi e dettagli › Riferimenti» lo apre (InstalledDocuments, HorizontalPileSheetViewModel.ReferenceTarget). Url vuoto e altri riferimenti invariati. Nel confronto F3 cambiano 6 fixture (3 del palo, 3 del micropalo), con 3 differenze ciascuna: testo del dettaglio di riferimenti[0] e chiave «documento» aggiunta in result.json, riga del dettaglio nella relazione (report.txt). Ogni differenza è spiegata dalla modifica; registrate in transitions-f4.json (18 transizioni esatte, aggiornamento_1160_pacini).",
+      "descrizione": "Richiesta dell'utente del 28/10/2026 sera: l'articolo sulla teoria del metodo stratificato di G. Pacini «deve essere ripescato anche da info modello», dove «il primo [riferimento] è G Pacini». Il riferimento «G. Pacini — approccio al terreno stratificato» dei risultati del palo e del micropalo orizzontale cita nel dettaglio l'articolo «Capacità orizzontale del palo in terreno stratificato» (cartella Guide dell'installazione) e ha il campo nuovo «documento» con il nome del PDF installato; «Apri riferimento» di «Diagrammi e dettagli › Riferimenti» lo apre (InstalledDocuments, HorizontalPileSheetViewModel.ReferenceTarget). Url vuoto e altri riferimenti invariati. Nel confronto F3 cambiano 6 fixture (3 del palo, 3 del micropalo), con 3 differenze ciascuna: testo del dettaglio di riferimenti[0] e chiave «documento» aggiunta in result.json, riga del dettaglio nella relazione (report.txt). Ogni differenza è spiegata dalla modifica; registrate in transitions-f4.json (18 transizioni esatte, aggiornamento_1160_pacini). Nelle tracce storiche della vista del palo orizzontale (tests/fixtures/f5-palo-orizzontale/storica) cambia solo la riga «risultato» con l'impronta del JSON del risultato: 143 righe in 16 tracce, sostituite dallo script tracce_pacini.py che si ferma su ogni altra differenza; Presentation.Tests ammette le 18 transizioni sui 12 file della capacità.",
       "codice": [
         "X.Calculations/PaloOrizzontale.Diagnostics.cs",
         "src/ANTHEA.Presentation/Services/InstalledDocuments.cs",
@@ -11619,10 +11619,12 @@
         "src/ANTHEA.Desktop/Views/HorizontalPile/HorizontalPileResultsView.xaml.cs",
         "supporto/installer/Guide.json",
         "tests/fixtures/f3/transitions-f4.json",
-        "tests/fixtures/f3/manifest.json"
+        "tests/fixtures/f3/manifest.json",
+      "tests/fixtures/f5-palo-orizzontale/storica",
+      "tests/ANTHEA.Presentation.Tests/HorizontalPileSheetChecks.cs"
       ],
       "segno": "Solo testo dei riferimenti e della relazione; nessun valore di calcolo cambia.",
-      "effetto_quantificato": "18 transizioni F3 nuove (6 dettagli, 6 chiavi «documento», 6 righe di relazione) in 6 fixture del palo e del micropalo orizzontale; nessuna sostituita o tolta; nessun atteso F3 sostituito, nessuna tolleranza nuova.",
+      "effetto_quantificato": "18 transizioni F3 nuove (6 dettagli, 6 chiavi «documento», 6 righe di relazione) in 6 fixture del palo e del micropalo orizzontale; nessuna sostituita o tolta; 143 righe «risultato» in 16 tracce storiche; nessun atteso F3 sostituito, nessuna tolleranza nuova.",
       "decisione": {
         "data": "2026-10-28",
         "utente": "regola «Approvati se spiegati» delle decisioni della 1.15.0 (sera del 28/10) per la coda della 1.16.0",
