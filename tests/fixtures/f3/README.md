@@ -471,3 +471,19 @@ MRd con fyd·r dove le barre non sono del tutto sviluppate). Chiave `aggiornamen
 - 224 voci elencate con il valore dopo nuovo e la voce estesa con « / BUG-PO-5b» (210 erano AG-PO-02), più una riga aggiunta da
   BUG-PO-5 che scende di una posizione per la riga nuova «pressoflessione N–M.».
 Confronto completo della cattura `supporto/artefatti/1143-po5b/mirate-2`; valori prima del riferimento F3 invariati.
+
+Il 29/10/2026, 1.16.0, censimento delle combinazioni, decisione dell'utente del 28/10 «Come raccomandato», D6 a (voce COMB-D6, set
+candidato `librerie-candidato-b`: GPCModel 5.24.0.0, GPCChecker.Geotechnics 0.26.0.0): nelle righe sismiche ed eccezionali dei muri,
+anche globali, ogni gruppo variabile è presente (ψ2) o assente. Chiave `aggiornamento_1160_d6`, 73616 voci:
+- solo le quattro fixture con righe sismiche o eccezionali e variabili: `globale-non-drenata-sisma`, `mensola-sisma-sito-pendio`,
+  `mensola-wood-azioni`, `opzioni-avanzate`;
+- 11493 voci COMB-D6 nuove: righe e casi nuovi, righe sismiche ed eccezionali successive rinumerate, elementi spostati
+  dall'inserimento, conteggi;
+- 992 voci elencate con il valore dopo nuovo e la voce estesa con « / COMB-D6» (220 PARATIE-20, 718 AG-MUR-01, 54 COMB-MURI-D4D5);
+- una voce PARATIE-20 tolta: una riga del report spostata dalle righe inserite, il cui stato nuovo è nelle voci COMB-D6 dello stesso
+  file.
+
+«a» e «b» vengono dal confronto di `Presentation.Tests` con una registrazione temporanea non committata che mette a confronto tutti i
+file dei muri (`supporto/artefatti/1160-combinazioni/registra-1`). Ogni differenza è spiegata dalla regola: tolte le righe nuove e
+rinominate le altre, `result.json` e i dati sono uguali a quelli del set AL (cattura del rilascio 1.15.0) e le righe di tabella del
+report di prima ci sono tutte (`d6_confronto.py`); nessun rapporto massimo cambia. Valori prima del riferimento F3 invariati.
