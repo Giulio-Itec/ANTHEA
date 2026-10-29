@@ -3633,7 +3633,7 @@ i_c = i_q = \left(1 - \frac{\theta}{\pi/2}\right)^2
 i_\gamma = \left(1 - \frac{\theta}{\varphi}\right)^2
 ```
 
- Gli angoli nelle formule sono radianti. Hansen con azioni tangenziali non è implementato: non si applicano i fattori di un altro autore.
+ Gli angoli nelle formule sono radianti. Brinch Hansen con azioni tangenziali segue le espressioni del paragrafo «Brinch Hansen con carico inclinato».
 
 ### Condizioni non drenate
 
@@ -3648,11 +3648,63 @@ i_c = \frac{1}{2}\left(1 + \sqrt{1 - \frac{H}{A' c_u}}\right)
 
 Per Vesić si usano $s_c = 1 + 0{,}2\,r$, $d_c = 1 + 0{,}4\,k$ e $i_c = 1 - m H/(A' c_u N_c)$, non negativo, in forma moltiplicativa. Meyerhof usa $s_c = 1 + 0{,}2\,r$, $d_c = 1 + 0{,}2\,D/B$ e il fattore di inclinazione sopra descritto, limitato alla striscia quando $H$ non è nullo. A differenza di Eurocodice 7, Vesić, Hansen e Terzaghi, che sommano $q$, Meyerhof applica l'inclinazione anche al sovraccarico, $q_{lim} = c_u N_c s_c d_c i_c + q\,i_q$ con $i_q = i_c = (1 - \theta/(\pi/2))^2$, in continuità con il ramo drenato (Meyerhof, 1963; USACE EM 1110-1-1905, tabella 4-3).
 
-Hansen con carico normale usa invece una forma additiva:
+Brinch Hansen con carico verticale usa invece una forma additiva:
 
 $$ q_{lim}=c_u(\pi+2)(1+0{,}2r+0{,}4k)+q
 
-I valori s′ e d′ della tabella additiva sono gli incrementi 0,2r e 0,4k, mentre i′ = 0. La stessa tabella espone il fattore 1 + s′ + d′ − i′. Moltiplicarli sarebbe un errore. Il ramo Hansen non drenato inclinato è escluso; non si adotta una correzione non riscontrata del fattore di forma.
+I valori s′ e d′ della tabella additiva sono gli incrementi 0,2r e 0,4k, mentre i′ = 0. La stessa tabella espone il fattore 1 + s′ + d′ − i′. Moltiplicarli sarebbe un errore. Con carico inclinato la forma additiva è quella del paragrafo «Brinch Hansen con carico inclinato».
+
+### Brinch Hansen con carico inclinato
+
+Con un'azione orizzontale il metodo di Brinch Hansen calcola la pressione limite per rottura nella direzione di $B'$ e in quella di $L'$ e adotta la minore; nella fondazione nastriforme c'è solo la direzione di $B'$, nel cerchio l'azione orizzontale si considera diretta come $B'$. $H$ è la componente considerata, $H_B$ parallela a $B'$ oppure $H_L$ parallela a $L'$, $A' = B'L'$ è l'area efficace e base e piano campagna sono orizzontali. In condizioni drenate i fattori di inclinazione sono:
+
+```math
+x = \frac{H}{N + A' c' \cot\varphi'}
+i_q = (1 - 0{,}5\,x)^5
+i_\gamma = (1 - 0{,}7\,x)^5
+i_c = i_q - \frac{1 - i_q}{N_q - 1}
+```
+
+Per la rottura nella direzione di $B'$ i fattori di forma e di profondità sono i seguenti, con $k = D/B$ e $k = \arctan(D/B)$ oltre uno; $s_\gamma$ non scende sotto 0,6:
+
+```math
+s_q = 1 + i_{q,B}\,\frac{B'}{L'}\sin\varphi'
+s_c = s_q - \frac{1 - s_q}{N_q - 1}
+s_\gamma = 1 - 0{,}4\,\frac{i_{\gamma,B}\,B'}{i_{\gamma,L}\,L'}
+d_q = 1 + 2\tan\varphi'\,(1 - \sin\varphi')^2\,k
+d_c = d_q - \frac{1 - d_q}{N_q - 1}
+d_\gamma = 1
+```
+
+Per la rottura nella direzione di $L'$ valgono le stesse espressioni con $B'$ e $L'$ scambiati e i fattori di inclinazione di $H_L$; la profondità usa $D/L'$ e il termine di peso resta $0{,}5\,\gamma B' N_\gamma$. In ciascuna direzione si calcola la pressione limite e si adotta la minore:
+
+```math
+q_{lim} = c' N_c s_c d_c i_c + q N_q s_q d_q i_q + 0{,}5\,\gamma B' N_\gamma s_\gamma d_\gamma i_\gamma
+```
+
+In condizioni non drenate la forma è additiva; le espressioni seguenti valgono nella direzione di $B'$, mentre nella direzione di $L'$ si usano $i'_c$ con $H_L$, $s'_c = 0{,}2\,i'_c\,L'/B'$ e $d'_c$ con $D/L'$, e si adotta il minore dei due valori:
+
+```math
+q_{lim} = (\pi + 2)\,c_u\,(1 + s'_c + d'_c - i'_c) + q
+i'_c = 0{,}5 - 0{,}5\sqrt{1 - \frac{H}{A' c_u}}
+s'_c = 0{,}2\,i'_c\,\frac{B'}{L'}
+d'_c = 0{,}4\,k
+```
+
+Un fattore di inclinazione negativo nel drenato, o una componente orizzontale maggiore di $A' c_u$ nel non drenato, indica che l'azione tangenziale supera la resistenza della formula: la capacità portante si assume nulla e la verifica non è soddisfatta.
+
+> Limite del metodo · Discontinuità con il carico verticale
+> Metodo: con $H = 0$ valgono le espressioni del carico verticale, $s'_c = 0{,}2\,B'/L'$ nel non drenato e fattori di forma senza inclinazione nel drenato.
+> Programma: per $H \rightarrow 0$ il calcolo inclinato non tende sempre a quei valori; nel non drenato la correzione di forma $0{,}2\,i'_c\,B'/L'$ si annulla con $i'_c$, e la rottura nella direzione di $L'$ si calcola anche con $H_L = 0$, con forma $L'/B'$ e profondità $D/L'$.
+> Effetto: con un'azione orizzontale piccola la pressione limite può essere sensibilmente minore di quella del carico verticale, a favore di sicurezza; ANTHEA applica il metodo così com'è e riporta negli avvisi il valore con $H = 0$.
+
+Esempi con $B = 2$ m, $L = 3$ m, $D = 1$ m, $N = 600$ kN e $\gamma = 18$ kN/m³. Drenato con $\varphi' = 30$° e $c' = 0$: 704,29 kPa con $H = 0$ e 522,63 kPa con $H = 60$ kN lungo B, nella direzione di $B'$ (798,16 kPa nella direzione di $L'$). Non drenato con $c_u = 75$ kPa: 532,16 kPa con $H = 0$ e 455,04 kPa con $H = 60$ kN lungo B e anche con un'azione orizzontale di pochi newton, nella direzione di $L'$:
+
+```math
+q_{lim} = (\pi + 2) \cdot 75 \cdot (1 + 0{,}4/3) + 18 = 455{,}04
+```
+
+Bibliografia del metodo: J. Brinch Hansen, A revised and extended formula for bearing capacity, Danish Geotechnical Institute, Bulletin 28, 1970; U.S. Army Corps of Engineers, EM 1110-1-1905, Bearing Capacity of Soils, 1992, tabella 4-5.
 
 ### Terzaghi e rottura locale
 
