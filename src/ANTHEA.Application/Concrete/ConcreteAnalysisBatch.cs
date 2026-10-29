@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using Anthea.Application.Scheduling;
 
 namespace Anthea.Calculations;
 
@@ -12,11 +13,13 @@ public sealed partial class ConcreteAnalysisSession
 
     /// <summary>Coordinates one incremental batch on owned snapshots. Callbacks use the caller's
     /// synchronization context; the numerical work runs in the background. A session serializes batches
-    /// while retaining independent domain and stress caches.</summary>
+    /// while retaining independent domain and stress caches. With a <paramref name="gate"/> (the limiter of the application,
+    /// 1.16.0 D-5) the batch takes one place for its preparation and all its steps, after the batch before it and only when it has
+    /// something to calculate; the steps keep their parallelism inside the place.</summary>
     public async Task CalculateBatchAsync(JsonObject sourceInput, JsonObject sourceWorkspace,
         IReadOnlyDictionary<string, JsonObject[]> sourceRows, IReadOnlySet<string> requested,
         Action<ConcreteAnalysisStep> completed, Action<IReadOnlyCollection<string>>? running = null,
-        CancellationToken cancellation = default)
+        CancellationToken cancellation = default, CalculationGate? gate = null)
     {
         ArgumentNullException.ThrowIfNull(completed);
         var input = (JsonObject)sourceInput.DeepClone();
@@ -29,6 +32,8 @@ public sealed partial class ConcreteAnalysisSession
             cancellation.ThrowIfCancellationRequested();
             if (!steps.Any(s => s.StartsWith("3D:", StringComparison.Ordinal) ||
                 s.StartsWith("2D:", StringComparison.Ordinal) || SectionWorkspace.Sets.Skip(2).Contains(s))) return;
+            using var place = gate is null ? null : await gate(cancellation);
+            cancellation.ThrowIfCancellationRequested();
             string signature = input.ToJsonString() + workspace["trefoli"]?.ToJsonString();
             CheckerSectionModel prepared;
             if (preparedSection is { } cached && cached.Signature == signature) prepared = cached.Model;

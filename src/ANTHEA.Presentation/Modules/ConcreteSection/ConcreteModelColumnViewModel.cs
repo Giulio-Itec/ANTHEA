@@ -167,7 +167,7 @@ public sealed class ConcreteModelColumnViewModel : ObservableObject, IDisposable
         Text = ConcreteModelColumnPresentation.Running;
         try
         {
-            var completion = await scheduler.ScheduleAsync(token => Task.Run(() => ConcreteModelColumn.Calculate(input, workspace, options, token), token));
+            var completion = await scheduler.ScheduleAsync(token => sheet.Limiter.RunAsync(() => ConcreteModelColumn.Calculate(input, workspace, options, token), token));
             if (disposed || sheet.IsDisposed) return;
             if (completion.Cancelled) { if (Text != ConcreteModelColumnPresentation.Stale) Text = ConcreteModelColumnPresentation.Interrupted; return; }
             completion.TryPublish(current =>

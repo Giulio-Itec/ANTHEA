@@ -145,7 +145,10 @@ public sealed partial class ConcreteSheetViewModel
         if (stressPanels.TryGetValue(key, out var panel)) panel.UpdateSelection();
     }
 
-    void IConcreteCalculationHost.CalculateShear() => CalculateShear();
+    ConcreteShearRequest? IConcreteCalculationHost.PrepareShear() => PrepareShearCalculation();
+
+    void IConcreteCalculationHost.PublishShear(ConcreteShearRequest request, IReadOnlyList<ConcreteShearOutcome> outcomes, bool complete) =>
+        PublishShear(request, outcomes, complete);
 
     void IConcreteCalculationHost.Published()
     {
@@ -282,7 +285,7 @@ public sealed partial class ConcreteSheetViewModel
         }
     }
 
-    // ---------------------------------------------------------------- shear (S5): rows, automatic parameters, calculation on the UI thread (C2)
+    // ---------------------------------------------------------------- shear (S5): rows, automatic parameters, calculation (worker thread since 1.16.0, C2/S5-c)
 
     /// <summary>The note of the automatic shear parameters (shown by the shear tab).</summary>
     public string ShearAutomaticNote { get; private set; } = "";
@@ -340,18 +343,28 @@ public sealed partial class ConcreteSheetViewModel
         foreach (var row in shearRows) foreach (string key in new[] { "VRdx", "VRdy", "eta_x", "eta_y", "eta_t", "eta_vt", "esito" }) row.Output(key, "—");
     }
 
-    // The shear and torsion of every row, on the UI thread inside the batch (decision C2); an error of the links stops the step. Then the
-    // summaries of the tab, the first row selected when none is, the detail and the summaries of the checks (CalculateShear of the historic
-    // view; its text of the worst checks is replaced at once by the summaries of the checks, and is not written).
-    private void CalculateShear()
+    // The shear and torsion of every row (CalculateShear of the historic view), in two parts since 1.16.0 (C2/S5-c): the checks run on a worker
+    // thread of the calculation, between them. First part, on the UI thread: the automatic parameters, the rows and the results invalidated, the
+    // copies of the data and of the rows that the checks read (the same values the historic batch read from the live data). Nothing without the
+    // tab of the shear.
+    private ConcreteShearRequest? PrepareShearCalculation()
     {
-        if (!shearBuilt) return;
+        if (!shearBuilt) return null;
         RefreshAutomaticShear();
-        using var notifications = JsonRowViewModel.DeferNotifications(shearRows);
         InvalidateShear();
-        ConcreteShearBatch.Calculate(Input, Settings, shearRows.Select(r => r.Values).ToArray(), (index, calculated, error) =>
+        var targets = shearRows.ToArray();
+        return new(targets, (JsonObject)Input.DeepClone(), (JsonObject)Settings.DeepClone(), targets.Select(r => (JsonObject)r.Values.DeepClone()).ToArray());
+    }
+
+    // Second part, on the UI thread: the outcome of every row in its order (an error of the links stops the step: the rows before it are kept).
+    // Then the summaries of the tab, the first row selected when none is, the detail and the summaries of the checks (CalculateShear of the
+    // historic view; its text of the worst checks is replaced at once by the summaries of the checks, and is not written).
+    private void PublishShear(ConcreteShearRequest request, IReadOnlyList<ConcreteShearOutcome> outcomes, bool complete)
+    {
+        using var notifications = JsonRowViewModel.DeferNotifications(request.Targets);
+        foreach (var (index, calculated, error) in outcomes)
         {
-            var row = shearRows[index]; string id = row.Values.S("id");
+            var row = request.Targets[index]; string id = row.Values.S("id");
             if (calculated is not null)
             {
                 shearResults[id] = calculated.Shear;
@@ -363,7 +376,8 @@ public sealed partial class ConcreteSheetViewModel
                 shearResults.Remove(id); torsionResults.Remove(id);
                 foreach (var (key, value) in ConcreteShearPresentation.FailedOutputs(error)) row.Output(key, value);
             }
-        });
+        }
+        if (!complete) return;
         ShearDashboard.Text = ConcreteShearPresentation.ShearSummary(shearRows.Count, shearResults.Values);
         if (Shear is not null) Shear.Summary = ConcreteShearPresentation.Summary(shearRows.Count, shearResults.Values, torsionResults.Values);
         // The table of the shear selects its first row after a calculation, when none is selected (CalculateShear of the historic view).

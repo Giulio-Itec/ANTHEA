@@ -24,9 +24,9 @@ namespace Anthea.Presentation.Tests;
 internal static partial class ConcreteSectionSheetChecks
 {
     private static ConcreteSheetViewModel OpenSheet(JsonObject data, ISheetHost? host = null, PresentationServices? services = null, bool readOnly = false,
-        ConcreteAnalysisSession? session = null) =>
+        ConcreteAnalysisSession? session = null, CalculationLimiter? limiter = null) =>
         new(new SheetContext((JsonObject)data.DeepClone(), readOnly, host ?? new Host(), services ?? Scripted.Services(),
-            ModuleServices.Get(ConcreteSectionSheetModule.Id), new CalculationLimiter(1)), session ?? new ConcreteAnalysisSession(), Figures);
+            ModuleServices.Get(ConcreteSectionSheetModule.Id), limiter ?? new CalculationLimiter(1)), session ?? new ConcreteAnalysisSession(), Figures);
 
     /// <summary>Waits until the sheet has nothing left to do (calculation, queue, quick resistances).</summary>
     private static async Task IdleAsync(ConcreteSheetViewModel sheet)

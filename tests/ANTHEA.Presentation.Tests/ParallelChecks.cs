@@ -41,13 +41,19 @@ namespace Anthea.Presentation.Tests;
 /// of the calculations running together never exceeds the limiter.
 /// <para>
 /// Since F5.13 (d2) also the RC section (<c>str_palo</c>, <see cref="ConcreteSheetViewModel"/>): its sheet calculates with a coordinator of its
-/// own (decision C1, mode None of the sheet: one preparation and parallel steps of <c>ConcreteAnalysisSession</c> on worker threads, the shear
-/// on the UI thread), not through the module service and the limiter. Its fixtures come first, so that in the parallel rounds all its batches
-/// are running when the calculations of the other modules start; its fingerprint adds the status line, the errors of the checks and the quick
-/// resistances (also on worker threads). A fixture without the ids of the rows of its actions gets them when the sheet opens: the fingerprint
-/// numbers them by their first appearance (<see cref="Fingerprint"/>). The batches of the section running together and those running when a
-/// calculation of the other modules enters are counted apart from the limiter: one and none in the series, at least two and at least one in
-/// the parallel rounds.
+/// own (decision C1, mode None of the sheet: one preparation and parallel steps of <c>ConcreteAnalysisSession</c> on worker threads, then the
+/// shear), not through the module service. Its fixtures come first, so that in the parallel rounds all its batches are started when the
+/// calculations of the other modules start; its fingerprint adds the status line, the errors of the checks and the quick resistances (also on
+/// worker threads). A fixture without the ids of the rows of its actions gets them when the sheet opens: the fingerprint numbers them by their
+/// first appearance (<see cref="Fingerprint"/>). The batches of the section in progress (busy) together and those in progress when a calculation
+/// of the other modules enters are counted from the sheets: one and none in the series, at least two and at least one in the parallel rounds.
+/// </para>
+/// <para>
+/// Since 1.16.0 (D-2, D-5, C2/S5-c) the batches and the shear of the section, its side calculations and the elastic response of the horizontal
+/// piles take a place of the same limiter, and the shear runs on a worker thread. The batches and the shears that hold a place
+/// (<see cref="ConcreteCalculation.IsEngineRunning"/>) are counted with the calculations of the modules: when a calculation of the modules enters,
+/// they never exceed the limit together; in the parallel rounds at least two sections hold a place together (when the limit admits two), one in
+/// the series. The fingerprints do not change: the same bits in series and in parallel, the same as before the change.
 /// </para>
 /// </summary>
 internal static class ParallelChecks
@@ -101,6 +107,8 @@ internal static class ParallelChecks
             expect.That(engines.Peak == 1, "Calcoli contemporanei nella serie: " + engines.Peak);
             expect.That(engines.ConcretePeak == 1 && engines.Overlap == 0,
                 $"Sezione c.a. nella serie: {engines.ConcretePeak} lotti insieme, {engines.Overlap} in corso all'ingresso di un calcolo dei moduli");
+            expect.That(engines.ConcreteEnginePeak == 1 && engines.Occupied <= limiter.Maximum,
+                $"Sezione c.a. nella serie: {engines.ConcreteEnginePeak} lotti con un posto del limitatore insieme, {engines.Occupied} posti all'ingresso di un calcolo dei moduli");
             var summary = new List<string> { $"processori {Environment.ProcessorCount}; limite {limiter.Maximum}; casi {cases.Count}; serie {watch.Elapsed.TotalSeconds:0.0} s" };
 
             for (int round = 1; round <= rounds; round++)
@@ -124,13 +132,18 @@ internal static class ParallelChecks
                         sheets.Add((item, sheet));
                     }
                 await Task.WhenAll(running).WaitAsync(RoundDeadline);
-                int peak = engines.Peak, concretePeak = engines.ConcretePeak, overlap = engines.Overlap;
+                int peak = engines.Peak, concretePeak = engines.ConcretePeak, overlap = engines.Overlap, concreteEngines = engines.ConcreteEnginePeak, occupied = engines.Occupied;
                 bool gate = engines.Disarm();
                 expect.That(gate, $"Giro parallelo {round}: il cancello non ha visto {Math.Min(limiter.Maximum, counted)} calcoli contemporanei");
                 expect.That(peak <= limiter.Maximum, $"Giro parallelo {round}: {peak} calcoli contemporanei oltre il limite {limiter.Maximum}");
                 expect.That(limiter.Maximum == 1 || peak >= 2, $"Giro parallelo {round}: nessun calcolo contemporaneo (picco {peak})");
                 expect.That(concretePeak >= 2, $"Giro parallelo {round}: lotti della sezione c.a. mai insieme (picco {concretePeak})");
                 expect.That(overlap >= 1, $"Giro parallelo {round}: nessun lotto della sezione c.a. in corso accanto ai calcoli dei moduli");
+                // 1.16.0, D-5: the sections hold places of the same limiter as the modules.
+                expect.That(occupied <= limiter.Maximum,
+                    $"Giro parallelo {round}: {occupied} posti fra calcoli dei moduli e lotti della sezione c.a. oltre il limite {limiter.Maximum}");
+                expect.That(concreteEngines <= limiter.Maximum && (limiter.Maximum == 1 || concreteEngines >= 2),
+                    $"Giro parallelo {round}: {concreteEngines} lotti della sezione c.a. con un posto del limitatore insieme (limite {limiter.Maximum})");
                 foreach (var (item, sheet) in sheets)
                 {
                     string actual = Fingerprint(item, sheet, tolerances);
@@ -143,7 +156,8 @@ internal static class ParallelChecks
                     expect.That(actual == serial[item.Name], $"Giro parallelo {round}, {item.Name}: risultato diverso dalla serie ({FirstDifference(serial[item.Name], actual)})");
                 }
                 summary.Add($"giro parallelo {round}: {sheets.Count} fogli, picco {peak} calcoli contemporanei, sezione c.a. {concretePeak} lotti insieme"
-                    + $" e {overlap} in corso all'ingresso di un calcolo dei moduli, {watch.Elapsed.TotalSeconds:0.0} s");
+                    + $" e {overlap} in corso all'ingresso di un calcolo dei moduli, {concreteEngines} con un posto del limitatore insieme,"
+                    + $" {occupied} posti all'ingresso di un calcolo dei moduli, {watch.Elapsed.TotalSeconds:0.0} s");
             }
             summary.AddRange(cases.Select(c => c.Name + " " + Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(serial[c.Name])))[..16]));
             File.WriteAllLines(Path.Combine(folder, "riepilogo.txt"), summary, new UTF8Encoding(false));
@@ -363,12 +377,14 @@ internal static class ParallelChecks
     /// <summary>
     /// The calculation services of the modules (ModuleServices), with the count of the calculations running together. Armed for a parallel
     /// round, a gate holds the first calculations off the UI thread until <c>target</c> of them run together (the UI thread is never held).
-    /// The batches of the RC section (which do not pass through the services) are counted apart, from the busy state of their sheets.
+    /// The batches of the RC section (which do not pass through the services) are counted apart, from the busy state of their sheets; since
+    /// 1.16.0 also those that hold a place of the limiter (<see cref="ConcreteCalculation.IsEngineRunning"/>), with the calculations of the
+    /// services when one of them enters.
     /// </summary>
     private sealed class Engines(int uiThread)
     {
         private readonly object sync = new();
-        private int running, peak, arrivals, target, concreteRunning, concretePeak, overlap;
+        private int running, peak, arrivals, target, concreteRunning, concretePeak, overlap, concreteEngines, concreteEnginePeak, occupied;
         private ManualResetEventSlim? gate;
         private bool timedOut;
 
@@ -377,10 +393,20 @@ internal static class ParallelChecks
         internal int ConcretePeak { get { lock (sync) return concretePeak; } }
         /// <summary>The most batches of the RC section running when a calculation of the module services entered.</summary>
         internal int Overlap { get { lock (sync) return overlap; } }
+        /// <summary>The most batches (or shears) of the RC section holding a place of the limiter together (1.16.0, D-5).</summary>
+        internal int ConcreteEnginePeak { get { lock (sync) return concreteEnginePeak; } }
+        /// <summary>
+        /// The most places counted when a calculation of the module services entered: the calculations of the services running (that one
+        /// included) and the batches of the RC section holding a place. Never above the limit when the sections pass through the limiter.
+        /// </summary>
+        internal int Occupied { get { lock (sync) return occupied; } }
 
         internal IModuleService Get(string module) => new Counted(ModuleServices.Get(module), this);
 
-        /// <summary>Counts the batches of an RC section sheet: its busy state changes on the UI thread, when a batch starts and ends.</summary>
+        /// <summary>
+        /// Counts the batches of an RC section sheet: its busy state changes on the UI thread, when a batch starts and ends; the place of the
+        /// limiter of its calculation is taken after the busy state and freed before it ends (cleared before the place is freed).
+        /// </summary>
         internal void Watch(ConcreteSheetViewModel sheet)
         {
             bool busy = sheet.IsBusy;
@@ -391,6 +417,15 @@ internal static class ParallelChecks
                 busy = sheet.IsBusy;
                 Concrete(busy ? 1 : -1);
             };
+            var calculation = sheet.Calculation;
+            bool engine = calculation.IsEngineRunning;
+            if (engine) ConcreteEngine(1);
+            calculation.PropertyChanged += (_, e) =>
+            {
+                if (e.PropertyName != nameof(ConcreteCalculation.IsEngineRunning) || calculation.IsEngineRunning == engine) return;
+                engine = calculation.IsEngineRunning;
+                ConcreteEngine(engine ? 1 : -1);
+            };
         }
 
         private void Concrete(int change)
@@ -398,12 +433,17 @@ internal static class ParallelChecks
             lock (sync) { concreteRunning += change; concretePeak = Math.Max(concretePeak, concreteRunning); }
         }
 
+        private void ConcreteEngine(int change)
+        {
+            lock (sync) { concreteEngines += change; concreteEnginePeak = Math.Max(concreteEnginePeak, concreteEngines); }
+        }
+
         internal void Arm(int count)
         {
             lock (sync)
             {
                 target = count; arrivals = 0; peak = running; timedOut = false; gate = new ManualResetEventSlim(false);
-                concretePeak = concreteRunning; overlap = 0;
+                concretePeak = concreteRunning; overlap = 0; concreteEnginePeak = concreteEngines; occupied = 0;
             }
         }
 
@@ -415,7 +455,7 @@ internal static class ParallelChecks
                 bool reached = gate is { IsSet: true } && !timedOut;
                 gate?.Set();
                 gate = null; target = 0;
-                peak = 0; concretePeak = 0; overlap = 0;
+                peak = 0; concretePeak = 0; overlap = 0; concreteEnginePeak = 0; occupied = 0;
                 return reached;
             }
         }
@@ -428,6 +468,7 @@ internal static class ParallelChecks
                 running++;
                 peak = Math.Max(peak, running);
                 overlap = Math.Max(overlap, concreteRunning);
+                occupied = Math.Max(occupied, running + concreteEngines);
                 if (gate is { } g && Environment.CurrentManagedThreadId != uiThread && ++arrivals <= target)
                 {
                     if (arrivals == target) g.Set();

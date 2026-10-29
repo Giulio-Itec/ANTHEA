@@ -53,8 +53,8 @@ public sealed class ConcreteStirrupsViewModel
 /// <item>the detail of the selected row, the summary under the table, the summary of the checks (<see cref="Worst"/>) and the section drawn as
 /// plain data (<see cref="Drawing"/>, decisions Q3 and C8).</item>
 /// </list>
-/// The calculation of the shear runs on the UI thread inside the batch of the sheet (decision C2), which owns the rows, the results and the
-/// automatic parameters (ConcreteSheetViewModel.Checks.cs). The detail and the drawing follow the selection only while the tab is shown, as the
+/// The calculation of the shear runs inside the batch of the sheet (since 1.16.0 on a worker thread, C2/S5-c; the rows are written on the UI
+/// thread), which owns the rows, the results and the automatic parameters (ConcreteSheetViewModel.Checks.cs). The detail and the drawing follow the selection only while the tab is shown, as the
 /// historic grid (IsVisibleChanged).
 /// </summary>
 public sealed class ConcreteShearViewModel : ObservableObject

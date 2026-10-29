@@ -6,7 +6,7 @@ namespace Anthea.Presentation.Modules.ConcreteSection;
 
 /// <summary>
 /// The side of the sheet that the shear and torsion (sub-step S5, <see cref="ConcreteShearViewModel"/>) uses: the panel, the results of a row and the change of an option of the shear. The rows
-/// of the shear, their calculation on the UI thread (C2), the automatic parameters and the invalidations stay in
+/// of the shear, their calculation (on a worker thread since 1.16.0, C2/S5-c), the automatic parameters and the invalidations stay in
 /// ConcreteSheetViewModel.Checks.cs, where S1 put them.
 /// </summary>
 public sealed partial class ConcreteSheetViewModel

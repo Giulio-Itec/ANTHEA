@@ -111,6 +111,11 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
     /// <summary>The services of the sheet for its children.</summary>
     internal IWikiNavigator Wiki => Context.Services.Wiki;
     internal IDialogService Dialogs => Context.Services.Dialogs;
+    /// <summary>
+    /// The limiter of the calculations of the application (1.16.0, D-5): the batches and the side calculations of the sheet (quick resistances,
+    /// section σ/ε, M–χ, model column, reinforcement design) take a place of it, as the calculations of the modules.
+    /// </summary>
+    internal CalculationLimiter Limiter => Context.Limiter;
 
     /// <summary>True while the sheet is built or reloaded (the historic flag «initializing»): the callbacks of the forms do nothing.</summary>
     internal bool Initializing { get => initializing; set => initializing = value; }
@@ -159,7 +164,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         PrepareCoefficients();
         ConcreteEditor.PrepareParameters(Input, Settings);
         CreateActions();
-        Calculation = new ConcreteCalculation(session, this, ui);
+        Calculation = new ConcreteCalculation(session, this, ui, Context.Limiter);
         Calculation.PropertyChanged += OnCalculationChanged;
         // 01 · Pannello di controllo.
         Inputs = new ConcreteInputViewModel(this);
