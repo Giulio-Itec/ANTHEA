@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "voce": "F5-LIB-02",
-  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo. Rev60 (1.14.4): 117 differenze editoriali esatte aggiunte, 33 sostituite e 0 tolte in 15 articoli e nell'indice delle ricerche (separatore decimale, testa dei pali e dei micropali, anello interno, sviluppo parziale delle barre, tension stiffening con il tirante, R5, correzioni di calcolo e combinazioni dei muri), approvate dall'utente il 28/10/2026 («ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»). Nessun risultato di calcolo. Rev61 (1.15.0): 390 differenze editoriali esatte aggiunte, 7 sostituite, 0 spostate e 0 tolte in 4 articoli e nell'indice delle ricerche (scheda «Colonna modello» della sezione c.a. e sua teoria, file di testo .mct/.mgt e modelli .st7 nel modulo Modelli, unità e segni delle copie importate); da approvare dall'utente (voce F5-REL-1150-01). Nessun risultato di calcolo. Rev62 (1.16.0): 828 differenze editoriali esatte aggiunte, 148 sostituite, 143 spostate e 0 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Conteggio degli articoli della Wiki 77 → 78 (capitolo nuovo sulla capacità orizzontale in terreno stratificato). Rev62, seconda passata (1.16.0): 860 differenze editoriali esatte aggiunte, 160 sostituite, 176 spostate e 24 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX di otto capitoli in più, testi «Per le guide» degli agenti della 1.16.0: modulo Modelli con fasi, tabelle e combinazioni, voci R della sezione c.a., unità della scala del dominio 3D; prima passata: formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, colonna modello fase 2 (1.16.0): 109 differenze editoriali esatte aggiunte, 10 sostituite, 0 spostate e 0 tolte in 2 articoli (scelta Azioni, inviluppo delle combinazioni, dominio ridotto N–M1Rd,max e scostamenti K-7 e K-8 della colonna modello nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, Brinch Hansen e W-idx (1.16.0): 152 differenze editoriali esatte aggiunte, 54 sostituite, 2 spostate e 1 tolte in 2 articoli (Brinch Hansen con carico inclinato nelle fondazioni superficiali delle due guide; W-idx, percorsi delle figure fuori dall'indice di ricerca, senza effetto sulle 30 ricerche F3); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, calcoli in coda (1.16.0): 27 differenze editoriali esatte aggiunte, 45 sostituite, 0 spostate e 0 tolte in 3 articoli e nell'indice delle ricerche (calcoli in coda dal limitatore anche per la sezione c.a. e la risposta elastica, taglio sullo sfondo, nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, documenti dei muri della prima versione (1.16.0): 3 differenze editoriali esatte aggiunte, 2 sostituite, 0 spostate e 0 tolte in 1 articoli (aggiornamento dei documenti dei muri della prima versione con ψ0, nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo.",
+  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo. Rev60 (1.14.4): 117 differenze editoriali esatte aggiunte, 33 sostituite e 0 tolte in 15 articoli e nell'indice delle ricerche (separatore decimale, testa dei pali e dei micropali, anello interno, sviluppo parziale delle barre, tension stiffening con il tirante, R5, correzioni di calcolo e combinazioni dei muri), approvate dall'utente il 28/10/2026 («ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»). Nessun risultato di calcolo. Rev61 (1.15.0): 390 differenze editoriali esatte aggiunte, 7 sostituite, 0 spostate e 0 tolte in 4 articoli e nell'indice delle ricerche (scheda «Colonna modello» della sezione c.a. e sua teoria, file di testo .mct/.mgt e modelli .st7 nel modulo Modelli, unità e segni delle copie importate); da approvare dall'utente (voce F5-REL-1150-01). Nessun risultato di calcolo. Rev62 (1.16.0): 828 differenze editoriali esatte aggiunte, 148 sostituite, 143 spostate e 0 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Conteggio degli articoli della Wiki 77 → 78 (capitolo nuovo sulla capacità orizzontale in terreno stratificato). Rev62, seconda passata (1.16.0): 860 differenze editoriali esatte aggiunte, 160 sostituite, 176 spostate e 24 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX di otto capitoli in più, testi «Per le guide» degli agenti della 1.16.0: modulo Modelli con fasi, tabelle e combinazioni, voci R della sezione c.a., unità della scala del dominio 3D; prima passata: formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, colonna modello fase 2 (1.16.0): 109 differenze editoriali esatte aggiunte, 10 sostituite, 0 spostate e 0 tolte in 2 articoli (scelta Azioni, inviluppo delle combinazioni, dominio ridotto N–M1Rd,max e scostamenti K-7 e K-8 della colonna modello nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, Brinch Hansen e W-idx (1.16.0): 152 differenze editoriali esatte aggiunte, 54 sostituite, 2 spostate e 1 tolte in 2 articoli (Brinch Hansen con carico inclinato nelle fondazioni superficiali delle due guide; W-idx, percorsi delle figure fuori dall'indice di ricerca, senza effetto sulle 30 ricerche F3); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, calcoli in coda (1.16.0): 27 differenze editoriali esatte aggiunte, 45 sostituite, 0 spostate e 0 tolte in 3 articoli e nell'indice delle ricerche (calcoli in coda dal limitatore anche per la sezione c.a. e la risposta elastica, taglio sullo sfondo, nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, documenti dei muri della prima versione (1.16.0): 3 differenze editoriali esatte aggiunte, 2 sostituite, 0 spostate e 0 tolte in 1 articoli (aggiornamento dei documenti dei muri della prima versione con ψ0, nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, ultima passata (1.16.0): 101 differenze editoriali esatte aggiunte, 29 sostituite, 55 spostate e 4 tolte in 7 articoli (bordi laterali a flusso nullo della filtrazione delle paratie; tavola delle armature e distinta come da tavola dei muri, con la figura nuova; documenti dei muri della prima versione aggiornati anche nel calcolo senza apertura, D7 b; coefficienti parziali SLU di Bridge Design, D8; nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo.",
   "voci": [
     {
       "file": "esito.txt",
@@ -13088,7 +13088,7 @@
       "percorso": "riga 11 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "Un documento dei muri della prima versione, aperto, si aggiorna alla seconda versione con le combinazioni automatiche: i tre carichi diventano un gruppo correlato con ψ1 e ψ2 del documento e ψ0 = 0,7, oppure ψ0 = 1 se ψ1 supera 0,7, come nella categoria E della tabella 2.5.I delle NTC 2018. Con un s…",
+      "b": "Un documento dei muri della prima versione si aggiorna alla seconda versione con le combinazioni automatiche sia quando si apre sia quando si calcola senza aprirlo, per esempio nel calcolo del progetto: i tre carichi diventano un gruppo correlato con ψ1 e ψ2 del documento e ψ0 = 0,7, oppure ψ0 = 1 s…",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13096,7 +13096,7 @@
       "percorso": "riga 5 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Un documento dei muri della prima versione, aperto, si aggiorna alla seconda versione con le combinazioni automatiche: i tre carichi diventano un gruppo correlato con ψ1 e ψ2 del documento e ψ0 = 0,7, oppure ψ0 = 1 se ψ1 supera 0,7, come nella categoria E della tabella 2.5.I delle NTC 2018. Co…",
+      "b": "text: Un documento dei muri della prima versione si aggiorna alla seconda versione con le combinazioni automatiche sia quando si apre sia quando si calcola senza aprirlo, per esempio nel calcolo del progetto: i tre carichi diventano un gruppo correlato con ψ1 e ψ2 del documento e ψ0 = 0,7, oppure ψ0…",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13504,7 +13504,7 @@
       "percorso": "riga 41",
       "classe": "testo",
       "a": "La distinta è calcolata separatamente dalle resistenze e dal disegno. La lunghezza L del tratto, il copriferro di estremità ce e la lunghezza commerciale sono parametri del computo, non della striscia strutturale di 1 m. Per una marca con n barre/m e diametro φ, il passo del modello è p=(1000−2c−φ)/(n−1), in mm. Nel tratto si usa N=ceil((1000L−2ce−φ)/p)+1 e si ridistribuiscono le N barre con passo non superiore a p. Il peso del tratto non è necessariamente L volte la stima continua kg/m, perché comprende i pezzi alle estremità.",
-      "b": "La distinta è calcolata separatamente dalle resistenze e dal disegno. La lunghezza L del tratto, il copriferro di estremità ce e la lunghezza commerciale sono parametri del computo, non della striscia strutturale di 1 m. Per una marca con n barre/m e diametro φ, il passo del modello è $p = (1000 - 2c - \\phi)/(n - 1)$, in mm. Nel tratto si usa $N = \\mathrm{ceil}((1000L - 2c_e - \\phi)/p) + 1$ e si ridistribuiscono le N barre con passo non superiore a p. Il peso del tratto non è necessariamente L volte la stima continua kg/m, perché comprende i pezzi alle estremità.",
+      "b": "La distinta è calcolata separatamente dalle resistenze. La lunghezza L del tratto, il copriferro di estremità $c_e$ e la lunghezza commerciale sono parametri del computo, non della striscia strutturale di 1 m.",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13512,7 +13512,7 @@
       "percorso": "riga 43",
       "classe": "testo",
       "a": "Lo sviluppo delle principali somma i tratti rettilinei all'asse e gli archi. Per una piega di 90° con mandrino Dm si usa r=(Dm+φ)/2 e sviluppo πr/2. La polilinea campionata serve soltanto al disegno: il peso non usa la somma delle corde. L'armatura alta del fusto comprende la sovrapposizione prevista dal modello; le barre delle due zone restano pezzi distinti. Per la faccia inclinata il raccordo al piede è indicato come dettaglio da completare.",
-      "b": "Lo sviluppo delle principali somma i tratti rettilinei all'asse e gli archi. Per una piega di 90° con mandrino $D_m$ si usa $r = (D_m + \\phi)/2$ e sviluppo πr/2. La polilinea campionata serve soltanto al disegno: il peso non usa la somma delle corde. L'armatura alta del fusto comprende la sovrapposizione prevista dal modello; le barre delle due zone restano pezzi distinti. Per la faccia inclinata il raccordo al piede è indicato come dettaglio da completare.",
+      "b": "*Passo.* Le verifiche usano $A_s = n\\,\\pi\\phi^2/4$ per metro di muro; nel muro continuo le n barre per metro hanno passo $p = 1000/n$ mm. Interferro, passo massimo e interferro delle coppie giuntate si controllano con questo passo. Nel tratto della distinta c'è una barra a ogni estremità, al copriferro di estremità, e il numero dei pezzi è arrotondato per eccesso, così che il passo non superi quello verificato (61 barre su 10 m con 6 Ø16/m), con L in m e $c_e$, φ e p in mm:",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13520,7 +13520,7 @@
       "percorso": "riga 47",
       "classe": "testo",
       "a": "Per ogni marca, peso=N·Ltaglio·(πφ²/4)·0,00785 kg, con φ in mm e Ltaglio in m. Lo sviluppo oltre la barra commerciale produce una nota, senza aggiungere giunti o frammenti non verificati. Quantità, sviluppi e pesi sono preliminari: sfridi, giunti di costruzione, estremità, interferenze e sagomature esecutive richiedono completamento.",
-      "b": "Per ogni marca, peso $= N\\,L_{taglio}\\,(\\pi\\phi^2/4) \\cdot 0{,}00785$ kg, con φ in mm e Ltaglio in m. Lo sviluppo oltre la barra commerciale produce una nota, senza aggiungere giunti o frammenti non verificati. Quantità, sviluppi e pesi sono preliminari: sfridi, giunti di costruzione, estremità, interferenze e sagomature esecutive richiedono completamento.",
+      "b": "*Nodo fusto–fondazione.* Il terreno tende le fibre di monte del fusto e le superiori della mensola di monte: per il nodo è un momento che apre l'angolo (EN 1992-1-1, Allegato J.2.3, nodi d'angolo con momento in apertura). Le barre tese di monte scendono nella fondazione e piegano verso valle, sotto il fusto; quelle di valle piegano verso monte: i piedi si incrociano. Se la mensola dalla parte opposta non contiene il piede, la barra piega dalla sua parte e la distinta lo segnala. Il piede appoggia sulla rete inferiore: copriferro + Ø trasversale + Ø longitudinale + Ø/2 all'asse. Ancoraggio = tratto verticale dal piano della fondazione + arco + coda, con coda $\\geq 5\\phi$; mandrino come prima (piegatura e pressione sul calcestruzzo). Fonti secondarie sulla direzione dei piedi nei muri a mensola (manuali di dettaglio delle armature): da riscontrare sul testo.",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13528,7 +13528,7 @@
       "percorso": "riga 49",
       "classe": "testo",
       "a": "Riscontro indipendente: H=4 m, soletta 0,60 m, copriferro 50 mm, φ16 e mandrino 160 mm danno r=88 mm. Con ancoraggio assegnato di 1 m, A=3,942 m, B=0,454 m, arco=0,138230077 m e coda=0,407769923 m; Ltaglio=4,942 m. Sei barre forniscono 46,800823495 kg. Con tratto di 3 m e copriferro di estremità 50 mm, il numero sale a 18. Le prove verificano anche due zone, collegamenti incompleti, limiti commerciali e salvataggio.",
-      "b": "Riscontro indipendente: $H = 4$ m, soletta 0,60 m, copriferro 50 mm, φ16 e mandrino 160 mm danno $r = 88$ mm. Con ancoraggio assegnato di 1 m, $A = 3{,}942$ m, $B = 0{,}454$ m, arco 0,138230077 m e coda 0,407769923 m; $L_{taglio} = 4{,}942$ m. Sei barre forniscono 46,800823495 kg. Con tratto di 3 m e copriferro di estremità 50 mm, il numero sale a 18. Le prove verificano anche due zone, collegamenti incompleti, limiti commerciali e salvataggio.",
+      "b": "*Fondazione.* Quando le due mensole hanno le stesse barre (Ø e numero per metro) e la barra sta nella barra commerciale, la barra inferiore e quella superiore sono uniche su tutta la larghezza; altrimenti ogni mensola ha la sua barra, prolungata oltre la radice per l'ancoraggio richiesto. Ai bordi liberi le barre inferiori risvoltano in su e le superiori in giù fino al copriferro della faccia opposta, così che il bordo resti chiuso (EN 1992-1-1 §9.3.1.4 e fig. 9.8); mandrino minimo 4Ø fino a Ø16, 7Ø oltre (EN 1992-1-1 prospetto 8.1N).",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13816,7 +13816,7 @@
       "percorso": "riga 20",
       "classe": "testo",
       "a": "text: La distinta è calcolata separatamente dalle resistenze e dal disegno. La lunghezza L del tratto, il copriferro di estremità ce e la lunghezza commerciale sono parametri del computo, non della striscia strutturale di 1 m. Per una marca con n barre/m e diametro φ, il passo del modello è p=(1000−2c−φ)/(n−1), in mm. Nel tratto si usa N=ceil((1000L−2ce−φ)/p)+1 e si ridistribuiscono le N barre con passo non superiore a p. Il peso del tratto non è necessariamente L volte la stima continua kg/m, perché comprende i pezzi alle estremità.",
-      "b": "text: La distinta è calcolata separatamente dalle resistenze e dal disegno. La lunghezza L del tratto, il copriferro di estremità ce e la lunghezza commerciale sono parametri del computo, non della striscia strutturale di 1 m. Per una marca con n barre/m e diametro φ, il passo del modello è  , in mm. Nel tratto si usa   e si ridistribuiscono le N barre con passo non superiore a p. Il peso del tratto non è necessariamente L volte la stima continua kg/m, perché comprende i pezzi alle estremità.",
+      "b": "text: La distinta è calcolata separatamente dalle resistenze. La lunghezza L del tratto, il copriferro di estremità   e la lunghezza commerciale sono parametri del computo, non della striscia strutturale di 1 m.",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13824,31 +13824,7 @@
       "percorso": "riga 21",
       "classe": "testo",
       "a": "text: Lo sviluppo delle principali somma i tratti rettilinei all'asse e gli archi. Per una piega di 90° con mandrino Dm si usa r=(Dm+φ)/2 e sviluppo πr/2. La polilinea campionata serve soltanto al disegno: il peso non usa la somma delle corde. L'armatura alta del fusto comprende la sovrapposizione prevista dal modello; le barre delle due zone restano pezzi distinti. Per la faccia inclinata il raccordo al piede è indicato come dettaglio da completare.",
-      "b": "formula: p = (1000 - 2c - \\phi)/(n - 1)",
-      "voce": "F5-REL-1160-01"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
-      "percorso": "riga 46 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: N = \\mathrm{ceil}((1000L - 2c_e - \\phi)/p) + 1",
-      "voce": "F5-REL-1160-01"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
-      "percorso": "riga 47 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Lo sviluppo delle principali somma i tratti rettilinei all'asse e gli archi. Per una piega di 90° con mandrino   si usa   e sviluppo πr/2. La polilinea campionata serve soltanto al disegno: il peso non usa la somma delle corde. L'armatura alta del fusto comprende la sovrapposizione prevista da…",
-      "voce": "F5-REL-1160-01"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
-      "percorso": "riga 48 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: D_m",
+      "b": "formula: c_e",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13856,7 +13832,7 @@
       "percorso": "riga 49 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: r = (D_m + \\phi)/2",
+      "b": "formula: c_e",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13864,7 +13840,7 @@
       "percorso": "riga 23",
       "classe": "testo",
       "a": "text: Per ogni marca, peso=N·Ltaglio·(πφ²/4)·0,00785 kg, con φ in mm e Ltaglio in m. Lo sviluppo oltre la barra commerciale produce una nota, senza aggiungere giunti o frammenti non verificati. Quantità, sviluppi e pesi sono preliminari: sfridi, giunti di costruzione, estremità, interferenze e sagomature esecutive richiedono completamento.",
-      "b": "text: Per ogni marca, peso   kg, con φ in mm e Ltaglio in m. Lo sviluppo oltre la barra commerciale produce una nota, senza aggiungere giunti o frammenti non verificati. Quantità, sviluppi e pesi sono preliminari: sfridi, giunti di costruzione, estremità, interferenze e sagomature esecutive richiedono completamento.",
+      "b": "formula: A_s = n\\,\\pi\\phi^2/4",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13872,7 +13848,7 @@
       "percorso": "riga 24",
       "classe": "testo",
       "a": "text: Riscontro indipendente: H=4 m, soletta 0,60 m, copriferro 50 mm, φ16 e mandrino 160 mm danno r=88 mm. Con ancoraggio assegnato di 1 m, A=3,942 m, B=0,454 m, arco=0,138230077 m e coda=0,407769923 m; Ltaglio=4,942 m. Sei barre forniscono 46,800823495 kg. Con tratto di 3 m e copriferro di estremità 50 mm, il numero sale a 18. Le prove verificano anche due zone, collegamenti incompleti, limiti commerciali e salvataggio.",
-      "b": "formula: = N\\,L_{taglio}\\,(\\pi\\phi^2/4) \\cdot 0{,}00785",
+      "b": "formula: p = 1000/n",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13880,7 +13856,7 @@
       "percorso": "riga 53 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Riscontro indipendente:   m, soletta 0,60 m, copriferro 50 mm, φ16 e mandrino 160 mm danno   mm. Con ancoraggio assegnato di 1 m,   m,   m, arco 0,138230077 m e coda 0,407769923 m;   m. Sei barre forniscono 46,800823495 kg. Con tratto di 3 m e copriferro di estremità 50 mm, il numero sale a 18…",
+      "b": "formula: \\geq 5\\phi",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13888,7 +13864,7 @@
       "percorso": "riga 54 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: H = 4",
+      "b": "text: *Fondazione.* Quando le due mensole hanno le stesse barre (Ø e numero per metro) e la barra sta nella barra commerciale, la barra inferiore e quella superiore sono uniche su tutta la larghezza; altrimenti ogni mensola ha la sua barra, prolungata oltre la radice per l'ancoraggio richiesto. Ai b…",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13896,7 +13872,7 @@
       "percorso": "riga 55 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: r = 88",
+      "b": "text: *Testa del fusto.* Il bordo libero in testa è chiuso da forcelle a U con il Ø dei ferri longitudinali del fusto, una per ogni verticale della faccia più armata, con gambe lunghe due volte lo spessore in testa (fig. 9.8) e un ferro longitudinale in ogni angolo.",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13904,7 +13880,7 @@
       "percorso": "riga 56 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: A = 3{,}942",
+      "b": "text: *Spilli della giunzione.* Diritti fra le verticali delle due facce alla quota della giunzione, con ganci a 135° prolungati di 10Ø (NTC 2018 §7.4.6.2.2; EN 1992-1-1 §8.5, fig. 8.5) e mandrino 4Ø; file distribuite sulla sovrapposizione   a passo non maggiore di quello assegnato. Lo sviluppo inse…",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13912,7 +13888,7 @@
       "percorso": "riga 57 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: B = 0{,}454",
+      "b": "formula: l_0",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13920,7 +13896,7 @@
       "percorso": "riga 58 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: L_{taglio} = 4{,}942",
+      "b": "text: *Scarpa.* La barra di valle segue la faccia inclinata e diventa verticale nella fondazione con una piega di angolo  , riportato sulla sagoma.",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13944,7 +13920,7 @@
       "percorso": "riga 62 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Il fusto è una mensola libera: lunghezza efficace almeno 2H, imperfezione almeno H/200, rigidezza EI minima e amplificazione  . La verifica rimane nel campo senza trazione e  . Se queste condizioni non sono soddisfatte serve un modello non lineare e l’esito non è dichiarato favorevole. Per mur…",
+      "b": "formula: L_{comm}",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13952,7 +13928,7 @@
       "percorso": "riga 63 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: 1/(1 - N/N_{cr})",
+      "b": "formula: l_0",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13960,7 +13936,7 @@
       "percorso": "riga 64 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: N < 0{,}8\\,N_{cr}",
+      "b": "formula: k = \\mathrm{ceil}\\left(\\frac{L - 2c_e - l_0}{L_{comm} - l_0}\\right)",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13968,7 +13944,7 @@
       "percorso": "riga 65 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: 0{,}85\\,f_k/(\\gamma_M\\,FC)",
+      "b": "formula: L_{pezzo} = \\frac{L - 2c_e + (k - 1)\\,l_0}{k}",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13984,7 +13960,7 @@
       "percorso": "riga 69 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: H = 3",
+      "b": "formula: L_u",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13992,7 +13968,7 @@
       "percorso": "riga 70 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: B = 3",
+      "b": "formula: = N\\,L_u\\,(\\pi\\phi^2/4) \\cdot 0{,}00785",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -14000,7 +13976,7 @@
       "percorso": "riga 71 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: M = 30000",
+      "b": "formula: L_u",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -14013,7 +13989,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
-      "percorso": "riga 81 (b)",
+      "percorso": "riga 101 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: H/K",
@@ -16096,7 +16072,7 @@
       "percorso": "riga 11 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "I documenti dei muri della prima versione calcolati senza aprirli, per esempio nel calcolo del progetto, usano i loro casi fissi: caratteristica, frequente, quasi permanente, 8 o 16 SLU e il sisma $\\pm k_v$ con le gemelle. Li genera la libreria Model con le stesse regole delle versioni precedenti, q…",
+      "b": "Un documento dei muri della prima versione si aggiorna alla versione 2 sia quando si apre nell'interfaccia sia quando si calcola senza aprirlo, per esempio nel calcolo del progetto: i tre carichi diventano un gruppo correlato con $\\psi_1$ e $\\psi_2$ del documento e $\\psi_0 = 0{,}7$, oppure $\\psi_0 =…",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -16272,7 +16248,7 @@
       "percorso": "riga 19 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: I documenti dei muri della prima versione calcolati senza aprirli, per esempio nel calcolo del progetto, usano i loro casi fissi: caratteristica, frequente, quasi permanente, 8 o 16 SLU e il sisma   con le gemelle. Li genera la libreria Model con le stesse regole delle versioni precedenti, qui…",
+      "b": "text: Un documento dei muri della prima versione si aggiorna alla versione 2 sia quando si apre nell'interfaccia sia quando si calcola senza aprirlo, per esempio nel calcolo del progetto: i tre carichi diventano un gruppo correlato con   e   del documento e  , oppure   se   supera 0,7 (categoria E d…",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -16280,7 +16256,7 @@
       "percorso": "riga 20 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: \\pm k_v",
+      "b": "formula: \\psi_1",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -16301,7 +16277,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 29 (b)",
+      "percorso": "riga 37 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: In Drenata si utilizzano φ′k, c′k, pesi naturali e saturi e pressioni interstiziali dalla falda. In Non drenata serve cu,k di ogni strato: l’analisi a tensioni totali usa   e non sottrae nuovamente le pressioni interstiziali nella resistenza del concio. La falda globale è una polilinea di quot…",
@@ -16309,7 +16285,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 30 (b)",
+      "percorso": "riga 38 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\varphi_u = 0",
@@ -16325,7 +16301,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 33 (b)",
+      "percorso": "riga 41 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: x = -0{,}10",
@@ -16333,7 +16309,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 34 (b)",
+      "percorso": "riga 42 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: x = B + 0{,}10",
@@ -16341,7 +16317,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 40 (b)",
+      "percorso": "riga 48 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\varphi = 0",
@@ -16349,7 +16325,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 41 (b)",
+      "percorso": "riga 49 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: c\\,l",
@@ -16357,7 +16333,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 42 (b)",
+      "percorso": "riga 50 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: N'",
@@ -16365,7 +16341,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 43 (b)",
+      "percorso": "riga 51 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: N' < 0",
@@ -16373,7 +16349,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 44 (b)",
+      "percorso": "riga 52 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Le combinazioni globali sono indipendenti dalle verifiche locali. Il preset statico è A2–M2–R2:  ,   e   (NTC 2018 Tab. 6.2.I), γM,tanφ e γM,c′ pari a 1,25, γM,cu pari a 1,40 e  ; fino alla 1.14.3 il G2 favorevole valeva 0. Le azioni e i coefficienti effettivamente usati restano esposti nella …",
@@ -16381,7 +16357,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 45 (b)",
+      "percorso": "riga 53 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\gamma_{G1} = 1",
@@ -16389,7 +16365,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 46 (b)",
+      "percorso": "riga 54 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\gamma_{G2} = 0{,}8/1{,}3",
@@ -16397,7 +16373,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 47 (b)",
+      "percorso": "riga 55 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\gamma_Q = 0/1{,}3",
@@ -16405,7 +16381,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 48 (b)",
+      "percorso": "riga 56 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\gamma_R = 1{,}10",
@@ -16413,7 +16389,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 49 (b)",
+      "percorso": "riga 57 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\beta_s = 0{,}38",
@@ -16421,7 +16397,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 50 (b)",
+      "percorso": "riga 58 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\gamma_R = 1{,}20",
@@ -16437,7 +16413,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 55 (b)",
+      "percorso": "riga 63 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: F \\geq \\gamma_R",
@@ -16445,7 +16421,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 56 (b)",
+      "percorso": "riga 64 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\eta \\leq 1",
@@ -16461,7 +16437,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 60 (b)",
+      "percorso": "riga 68 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: H = 3",
@@ -16469,7 +16445,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 61 (b)",
+      "percorso": "riga 69 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: t = 0{,}45",
@@ -16477,7 +16453,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 62 (b)",
+      "percorso": "riga 70 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: y = -10",
@@ -16485,7 +16461,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 63 (b)",
+      "percorso": "riga 71 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: F = 1{,}176315",
@@ -16493,7 +16469,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 64 (b)",
+      "percorso": "riga 72 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: F = 1{,}075737",
@@ -16501,7 +16477,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
-      "percorso": "riga 65 (b)",
+      "percorso": "riga 73 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\gamma_R = 1{,}10",
@@ -16592,7 +16568,7 @@
       "percorso": "riga 137",
       "classe": "testo",
       "a": "I valori storici del modello uniforme sono g2 = 2,5 kN/m², qtraffico = 9 kN/m², γG = 1,35 e γQ = 1,50. nb vale 2, oppure 3 in presenza di spartitraffico. In questo modello il traffico è uniforme e contemporaneo su tutte le campate. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza. I nuovi progetti adottano invece Schema 1 e γQ = 1,35, descritti nel seguito.",
-      "b": "I valori storici del modello uniforme sono $g_2 = 2{,}5$ kN/m², $q_{traffico} = 9$ kN/m², $\\gamma_G = 1{,}35$ e $\\gamma_Q = 1{,}50$. nb vale 2, oppure 3 in presenza di spartitraffico. In questo modello il traffico è uniforme e contemporaneo su tutte le campate. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza. I nuovi progetti adottano invece Schema 1 e $\\gamma_Q = 1{,}35$, descritti nel seguito.",
+      "b": "I valori storici del modello uniforme sono $g_2 = 2{,}5$ kN/m², $q_{traffico} = 9$ kN/m², $\\gamma_G = 1{,}35$ e $\\gamma_Q = 1{,}50$. nb vale 2, oppure 3 in presenza di spartitraffico. In questo modello il traffico è uniforme e contemporaneo su tutte le campate. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza. I nuovi progetti adottano invece Schema 1 e i coefficienti parziali delle combinazioni A1 dei ponti stradali, descritti nel seguito.",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -16936,7 +16912,7 @@
       "percorso": "riga 138",
       "classe": "testo",
       "a": "text: I valori storici del modello uniforme sono g2 = 2,5 kN/m², qtraffico = 9 kN/m², γG = 1,35 e γQ = 1,50. nb vale 2, oppure 3 in presenza di spartitraffico. In questo modello il traffico è uniforme e contemporaneo su tutte le campate. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza. I nuovi progetti adottano invece Schema 1 e γQ = 1,35, descritti nel seguito.",
-      "b": "text: I valori storici del modello uniforme sono   kN/m²,   kN/m²,   e  . nb vale 2, oppure 3 in presenza di spartitraffico. In questo modello il traffico è uniforme e contemporaneo su tutte le campate. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza. I nuovi progetti adottano invece Schema 1 e  , descritti nel seguito.",
+      "b": "text: I valori storici del modello uniforme sono   kN/m²,   kN/m²,   e  . nb vale 2, oppure 3 in presenza di spartitraffico. In questo modello il traffico è uniforme e contemporaneo su tutte le campate. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza. I nuovi progetti adottano invece Schema 1 e i coefficienti parziali delle combinazioni A1 dei ponti stradali, descritti nel seguito.",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -16973,14 +16949,6 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 161 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: \\gamma_Q = 1{,}35",
-      "voce": "F5-REL-1160-01"
-    },
-    {
-      "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
       "percorso": "riga 153",
       "classe": "testo",
       "a": "text: La freccia è ricavata integrando M/EI due volte e imponendo spostamento nullo ai due appoggi. Il motore campiona 41 punti per campata e aggiunge il punto di taglio nullo per individuare l’estremo del momento. L’estremo della freccia resta campionato: il valore visualizzato non è sempre il massimo analitico esatto. I diagrammi delle azioni usano qd; la freccia indicativa e le reazioni usate nel dimensionamento ordinario delle fondazioni sono riferite a qs.",
@@ -16997,7 +16965,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 178 (b)",
+      "percorso": "riga 185 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Per una campata appoggiata valgono  ,   e  . Per due campate uguali continue, il momento centrale è  , la reazione esterna 3ql/8, quella centrale 5ql/4 e il massimo positivo  . Questi casi sono controllati direttamente dalla suite. La verifica indipendente usa elementi trave di Euler–Bernoulli…",
@@ -17005,7 +16973,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 179 (b)",
+      "percorso": "riga 186 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: R = q l/2",
@@ -17013,7 +16981,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 180 (b)",
+      "percorso": "riga 187 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: M_{max} = q l^2/8",
@@ -17021,7 +16989,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 181 (b)",
+      "percorso": "riga 188 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: v_{max} = 5 q l^4/(384 EI)",
@@ -17029,7 +16997,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 182 (b)",
+      "percorso": "riga 189 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: -q l^2/8",
@@ -17037,7 +17005,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 183 (b)",
+      "percorso": "riga 190 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: 9 q l^2/128",
@@ -17061,7 +17029,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 188 (b)",
+      "percorso": "riga 195 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Il pulvino ordinario vale W × 1,5 × 1,4 m³; la testa a martello W × 2 × 1,8 m³. La spalla ha volume convenzionale  . Il termine 3 è un’area equivalente in m² per metro di larghezza, non una misura completa di paraghiaia, muri d’ala e mensole. La spalla non è verificata per spinta del terreno o…",
@@ -17069,7 +17037,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 189 (b)",
+      "percorso": "riga 196 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: W\\,[H \\max(0{,}6;\\,H/7) + 3]",
@@ -17085,7 +17053,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 194 (b)",
+      "percorso": "riga 201 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\max(1{,}2;\\,8H/90;\\,\\sqrt{4A_{req}/(\\pi n_c)})",
@@ -17093,7 +17061,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 195 (b)",
+      "percorso": "riga 202 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\max(1;\\,2H\\sqrt{12}/90;\\,A_{req}/\\max(1;\\,W - 2))",
@@ -17101,7 +17069,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 196 (b)",
+      "percorso": "riga 203 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: 2H/r",
@@ -17109,7 +17077,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 197 (b)",
+      "percorso": "riga 204 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: r = D/4",
@@ -17117,7 +17085,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 198 (b)",
+      "percorso": "riga 205 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: t/\\sqrt{12}",
@@ -17141,7 +17109,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 230 (b)",
+      "percorso": "riga 237 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: N/(n_p R_{pal})",
@@ -17149,7 +17117,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 231 (b)",
+      "percorso": "riga 238 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Per il plinto diretto si parte da una dimensione basata su  , con minimo geometrico e arrotondamento a 0,25 m; lo spessore è  . La dimensione viene aumentata a passi di 0,25 m finché il rapporto è non maggiore di 1. Per i pali il numero automatico è pari e non inferiore a 4; aumenta di almeno …",
@@ -17157,7 +17125,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 232 (b)",
+      "percorso": "riga 239 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\sqrt{N/(0{,}85\\,p)}",
@@ -17165,7 +17133,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 233 (b)",
+      "percorso": "riga 240 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\max(0{,}60;\\,B/6)",
@@ -17173,7 +17141,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 234 (b)",
+      "percorso": "riga 241 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: 3D\\,(\\mathrm{ceil}(\\sqrt{n_p}) - 1) + 2D",
@@ -17229,7 +17197,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 246 (b)",
+      "percorso": "riga 253 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: q_d l^2/(16 h)",
@@ -17237,7 +17205,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 247 (b)",
+      "percorso": "riga 254 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Nello strallato lo schema è simmetrico, L/4–L/2–L/4, con due antenne. L’altezza sopra impalcato è quella imposta oppure il massimo fra 10 m e 0,20 volte la luce centrale. Gli stralli a ventaglio sostengono le fasce di lunghezza Δx e, per ciascun piano, hanno forza  . Il modello assegna a ciasc…",
@@ -17245,7 +17213,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 248 (b)",
+      "percorso": "riga 255 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: T = q_d\\,\\Delta x/(2\\sin\\alpha)",
@@ -17253,7 +17221,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 249 (b)",
+      "percorso": "riga 256 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Nel sospeso la freccia del cavo principale è un rapporto della luce centrale; l’antenna deve superarla di almeno 2 m. Per ciascuno dei due cavi  ,  . I cavi di riva sono anch’essi parabolici e i pendini sostengono anche le campate laterali. Il computo include i cavi di riva, non soltanto la ca…",
@@ -17261,7 +17229,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 250 (b)",
+      "percorso": "riga 257 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: H = q_d l^2/(16 f)",
@@ -17269,7 +17237,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 251 (b)",
+      "percorso": "riga 258 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: T = \\sqrt{H^2 + (q_d l/4)^2}",
@@ -17277,7 +17245,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 252 (b)",
+      "percorso": "riga 259 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Per le reazioni del sospeso, Htot è la componente orizzontale dei due cavi calcolata con il carico pertinente; indicando con a la campata di riva e ht l’altezza antenna sopra impalcato, la reazione all’estremo è  . Può risultare negativa. La stima dei due blocchi è Vanc = 2[max(0; −Restremo,d)…",
@@ -17285,7 +17253,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 253 (b)",
+      "percorso": "riga 260 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: q a/2 - H_{tot} h_t/a",
@@ -17301,7 +17269,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 320 (b)",
+      "percorso": "riga 327 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: S = 148{,}50",
@@ -17309,7 +17277,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 321 (b)",
+      "percorso": "riga 328 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: g = 15",
@@ -17317,7 +17285,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 322 (b)",
+      "percorso": "riga 329 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: u = 10",
@@ -17325,7 +17293,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 323 (b)",
+      "percorso": "riga 330 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: G = 22{,}275",
@@ -17333,7 +17301,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
-      "percorso": "riga 324 (b)",
+      "percorso": "riga 331 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: U = 17{,}0775",
@@ -22281,6 +22249,814 @@
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: La stabilità globale Bishop ha un motore separato e un proprio profilo esteso, anche con due colonne profonde e confine verticale assegnato. Il pulsante Stabilità globale apre il percorso; al primo accesso a un profilo vuoto ne prepara i dati e attiva la verifica. In una revisione in sola lett…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_bridge-design.md",
+      "percorso": "riga 32",
+      "classe": "testo",
+      "a": "6. In Traffico scegli il modello e controlla il coefficiente γQ. Apri Prezzario e Ipotesi e coefficienti per tariffe, resistenze geotecniche di riferimento e fattori ambientali.",
+      "b": "6. In Traffico scegli il modello e, in fondo alla scheda, i Coefficienti parziali SLU. Apri Prezzario e Ipotesi e coefficienti per tariffe, resistenze geotecniche di riferimento e fattori ambientali.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_bridge-design.md",
+      "percorso": "riga 57",
+      "classe": "testo",
+      "a": "I nuovi progetti adottano Schema 1 NTC 2018. Nella scheda Traffico controlla le carreggiate, il modello e γQ. Il comando per il coefficiente consigliato propone 1,35; un valore assegnato rimane una scelta esplicita dell’utente. Il diagramma mostra estremi positivi e negativi; la reazione minima aiuta a riconoscere possibili sollevamenti.",
+      "b": "I nuovi progetti adottano Schema 1 NTC 2018. Nella scheda Traffico controlla le carreggiate e il modello. «Coefficienti parziali SLU» chiude la scheda Traffico. Con «NTC 2018 Tab. 5.1.V (Model)», la scelta dei documenti nuovi, gli inviluppi SLU sono gli estremi delle combinazioni A1 dei ponti stradali generate dalla libreria Model: γG1 1,35/1,00 su impalcato e strutture, γG2 1,50/0 su finiture e barriere, γQ 1,35/0 sul traffico; nei minimi i permanenti sono favorevoli. Con «Moltiplicatori del progetto», la scelta dei documenti salvati prima della 1.16.0, valgono γG e γQ del progetto, gli stessi nei massimi e nei minimi, come prima: solo con questa scelta la scheda mostra γQ e il comando per il coefficiente consigliato, che propone 1,35; un valore assegnato rimane una scelta esplicita dell’utente. La nota (2) della Tab. 5.1.V (permanenti non strutturali ben definiti) si applica con i moltiplicatori. Il diagramma mostra estremi positivi e negativi; la reazione minima aiuta a riconoscere possibili sollevamenti.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_bridge-design.md",
+      "percorso": "riga 59",
+      "classe": "testo",
+      "a": "I documenti precedenti mantengono Uniforme equivalente (legacy) e il proprio coefficiente. Il passaggio a Schema 1 è volontario e richiede un nuovo calcolo e una nuova ricerca. Gli estremi di momento, taglio, freccia e reazione possono provenire da posizioni differenti del traffico: non sono un unico stato simultaneo. Per arco, reticolare, strallato e sospeso leggi l’ambito parametrico dichiarato dal risultato; il predimensionamento non sostituisce un’analisi spaziale del ponte.",
+      "b": "I documenti precedenti mantengono Uniforme equivalente (legacy), i Moltiplicatori del progetto e il proprio coefficiente, quindi i loro risultati non cambiano. Il passaggio a Schema 1 è volontario e richiede un nuovo calcolo e una nuova ricerca. Gli estremi di momento, taglio, freccia e reazione possono provenire da posizioni differenti del traffico: non sono un unico stato simultaneo. Per arco, reticolare, strallato e sospeso leggi l’ambito parametrico dichiarato dal risultato; il predimensionamento non sostituisce un’analisi spaziale del ponte.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_bridge-design.md",
+      "percorso": "riga 125",
+      "classe": "testo",
+      "a": "Questo esempio conserva i risultati della revisione storica con traffico uniforme. Se parti da un nuovo documento, seleziona Uniforme equivalente (legacy), imposta γQ = 1,50 e mantieni il listino iniziale riportato nella guida teorica. Schema 1 o un prezzario diverso producono un altro confronto: non devono restituire i numeri di questo esempio.",
+      "b": "Questo esempio conserva i risultati della revisione storica con traffico uniforme. Se parti da un nuovo documento, seleziona Uniforme equivalente (legacy) e «Moltiplicatori del progetto» in Coefficienti parziali SLU, poi imposta γQ = 1,50 e mantieni il listino iniziale riportato nella guida teorica. Schema 1 o un prezzario diverso producono un altro confronto: non devono restituire i numeri di questo esempio.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_bridge-design.txt",
+      "percorso": "riga 37",
+      "classe": "testo",
+      "a": "text: 6. In Traffico scegli il modello e controlla il coefficiente γQ. Apri Prezzario e Ipotesi e coefficienti per tariffe, resistenze geotecniche di riferimento e fattori ambientali.",
+      "b": "text: 6. In Traffico scegli il modello e, in fondo alla scheda, i Coefficienti parziali SLU. Apri Prezzario e Ipotesi e coefficienti per tariffe, resistenze geotecniche di riferimento e fattori ambientali.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_bridge-design.txt",
+      "percorso": "riga 50",
+      "classe": "testo",
+      "a": "text: I nuovi progetti adottano Schema 1 NTC 2018. Nella scheda Traffico controlla le carreggiate, il modello e γQ. Il comando per il coefficiente consigliato propone 1,35; un valore assegnato rimane una scelta esplicita dell’utente. Il diagramma mostra estremi positivi e negativi; la reazione minima aiuta a riconoscere possibili sollevamenti.",
+      "b": "text: I nuovi progetti adottano Schema 1 NTC 2018. Nella scheda Traffico controlla le carreggiate e il modello. «Coefficienti parziali SLU» chiude la scheda Traffico. Con «NTC 2018 Tab. 5.1.V (Model)», la scelta dei documenti nuovi, gli inviluppi SLU sono gli estremi delle combinazioni A1 dei ponti stradali generate dalla libreria Model: γG1 1,35/1,00 su impalcato e strutture, γG2 1,50/0 su finiture e barriere, γQ 1,35/0 sul traffico; nei minimi i permanenti sono favorevoli. Con «Moltiplicatori del progetto», la scelta dei documenti salvati prima della 1.16.0, valgono γG e γQ del progetto, gli stessi nei massimi e nei minimi, come prima: solo con questa scelta la scheda mostra γQ e il comando per il coefficiente consigliato, che propone 1,35; un valore assegnato rimane una scelta esplicita dell’utente. La nota (2) della Tab. 5.1.V (permanenti non strutturali ben definiti) si applica con i moltiplicatori. Il diagramma mostra estremi positivi e negativi; la reazione minima aiuta a riconoscere possibili sollevamenti.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_bridge-design.txt",
+      "percorso": "riga 51",
+      "classe": "testo",
+      "a": "text: I documenti precedenti mantengono Uniforme equivalente (legacy) e il proprio coefficiente. Il passaggio a Schema 1 è volontario e richiede un nuovo calcolo e una nuova ricerca. Gli estremi di momento, taglio, freccia e reazione possono provenire da posizioni differenti del traffico: non sono un unico stato simultaneo. Per arco, reticolare, strallato e sospeso leggi l’ambito parametrico dichiarato dal risultato; il predimensionamento non sostituisce un’analisi spaziale del ponte.",
+      "b": "text: I documenti precedenti mantengono Uniforme equivalente (legacy), i Moltiplicatori del progetto e il proprio coefficiente, quindi i loro risultati non cambiano. Il passaggio a Schema 1 è volontario e richiede un nuovo calcolo e una nuova ricerca. Gli estremi di momento, taglio, freccia e reazione possono provenire da posizioni differenti del traffico: non sono un unico stato simultaneo. Per arco, reticolare, strallato e sospeso leggi l’ambito parametrico dichiarato dal risultato; il predimensionamento non sostituisce un’analisi spaziale del ponte.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_bridge-design.txt",
+      "percorso": "riga 103",
+      "classe": "testo",
+      "a": "text: Questo esempio conserva i risultati della revisione storica con traffico uniforme. Se parti da un nuovo documento, seleziona Uniforme equivalente (legacy), imposta γQ = 1,50 e mantieni il listino iniziale riportato nella guida teorica. Schema 1 o un prezzario diverso producono un altro confronto: non devono restituire i numeri di questo esempio.",
+      "b": "text: Questo esempio conserva i risultati della revisione storica con traffico uniforme. Se parti da un nuovo documento, seleziona Uniforme equivalente (legacy) e «Moltiplicatori del progetto» in Coefficienti parziali SLU, poi imposta γQ = 1,50 e mantieni il listino iniziale riportato nella guida teorica. Schema 1 o un prezzario diverso producono un altro confronto: non devono restituire i numeri di questo esempio.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 49",
+      "classe": "testo",
+      "a": "In Vista dei risultati scegliere Armature: si vedono i percorsi delle barre, le pieghe, la fascia di sovrapposizione e le marche. Le barre giuntate sono affiancate lungo lo sviluppo del muro; le proiezioni sono leggermente distanziate sul disegno per leggibilità. Dettagli armature riporta la distinta, fbd, lunghezze richieste e usate, mandrini, quantità e tutti i controlli. I pesi sono stime per metro comprensive di ancoraggi, giunzioni e secondarie. Restano da definire il disegno esecutivo, i giunti di costruzione, i bordi lungo il muro, le interferenze tridimensionali e gli sfridi: la vista non è una distinta di officina.",
+      "b": "In Vista dei risultati scegliere Armature: si vedono i percorsi delle barre, le pieghe, la fascia di sovrapposizione e i numeri delle posizioni della tavola. Le barre giuntate sono affiancate lungo lo sviluppo del muro; le proiezioni sono leggermente distanziate sul disegno per leggibilità. Dettagli armature riporta per posizione e zona la faccia, le barre, l'area, la lunghezza, lbd e l0 richiesti e usati, il mandrino, fbd e tutti i controlli. I pesi sono stime per metro comprensive di ancoraggi, giunzioni e secondarie; sagome e quantità del tratto sono nella tavola delle armature. Restano da definire i giunti di costruzione, le interferenze tridimensionali e gli sfridi.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 53",
+      "classe": "testo",
+      "a": "In Input, sotto le armature, aprire Distinta ferri del tratto di muro. Inserire la lunghezza reale del tratto, il copriferro alle sue estremità e la lunghezza commerciale delle barre. La lunghezza del tratto cambia soltanto il computo: le verifiche strutturali rimangono riferite a una striscia di 1 m. Con due zone, indicare anche i collegamenti per fila e per metro. Lo sviluppo di un collegamento comprende tutti i tratti e i ganci della sagoma scelta; zero significa da definire e produce un peso parziale.",
+      "b": "In Input, sotto le armature, aprire Distinta ferri del tratto di muro. Inserire la lunghezza reale del tratto in «Lunghezza del tratto da armare», il copriferro alle sue estremità e la lunghezza commerciale delle barre. La lunghezza del tratto cambia soltanto il computo: le verifiche strutturali rimangono riferite a una striscia di 1 m. Con due zone, indicare anche gli spilli per fila e per metro di muro.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 55",
+      "classe": "testo",
+      "a": "Dopo il ricalcolo, premere Tavola armature e distinta ferri nel riquadro di input oppure Distinta ferri in Verifiche. La finestra ha selezione della pagina e zoom. La prima tavola presenta la sezione quotata con le marche delle principali e la tabella dei pezzi del tratto. Le pagine successive separano le sagome e riportano diametro, faccia, tratti A/B/C, arco, mandrino, sviluppo totale, passo e sovrapposizione. P identifica le principali, S le secondarie lungo muro e C i collegamenti. Le due zone del fusto mantengono marche distinte.",
+      "b": "Dopo il ricalcolo, «Tavola armature e distinta ferri…» nel riquadro di input oppure «Distinta ferri…» in Verifiche apre la tavola delle armature del tratto di muro lungo quanto «Lunghezza del tratto da armare»; la finestra ha selezione della pagina e zoom. La prima pagina è la sezione trasversale con tutte le posizioni, numerate nell'ordine del disegno (pos. 1, 2, …): le verticali del fusto (blu a monte, rosse a valle), le barre di fondazione con i risvolti ai bordi liberi, la forcella in testa al fusto, gli spilli della giunzione e i ferri longitudinali, disegnati come punti neri nella loro posizione. Ogni posizione ha un richiamo: «pos. 1 Ø16/16,7» è una barra Ø16 a passo 16,7 cm; «pos. 9 21 Ø10» sono 21 ferri longitudinali Ø10. A destra il riepilogo per diametro (lunghezza totale, kg/m e peso), il peso totale, il volume di calcestruzzo del tratto e l'incidenza in kg/m³.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 57",
+      "classe": "testo",
+      "a": "PDF completo esporta tutte le tavole in A3 orizzontale. Word completo aggiunge tabelle modificabili; CSV distinta conserva quantità, impostazioni e note; PNG pagina esporta la pagina visualizzata. Anche la relazione Word del muro contiene la distinta del tratto e le tavole. Se si modificano i dati occorre attendere il nuovo calcolo prima di esportare.",
+      "b": "Le pagine seguenti sono la distinta ferri, sei posizioni a pagina: Pos., sagoma con le lunghezze dei tratti in cm, Ø, numero dei pezzi nel tratto, lunghezza unitaria in cm, lunghezza totale in m e peso in kg. Le sagome non sono in scala: le barre alte del fusto sono disegnate coricate e i tratti corti ingranditi. Le quote sono all'asse della barra; gli archi delle pieghe sono sviluppati e compresi nella lunghezza unitaria, che è la somma dei tratti arrotondati al cm. Accanto al tratto inclinato della barra di valle compare l'angolo della piega della scarpa. Per i ferri longitudinali più lunghi della barra commerciale la sagoma riporta il numero di pezzi per filo e la sovrapposizione l₀. L'ultima pagina riporta i criteri e gli avvisi; resta l'avviso quando le verifiche del muro non sono tutte soddisfatte.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 59",
+      "classe": "testo",
+      "a": "Le barre oltre la lunghezza commerciale sono segnalate: il programma non introduce giunti automatici. Le secondarie sono conteggiate come barre rettilinee lungo muro; estremità, raccordi, ganci e disposizione degli strati richiedono il dettaglio esecutivo. Un computo completo non equivale a verifiche soddisfatte: gli esiti mancanti o sfavorevoli restano indicati nella tavola delle note.",
+      "b": "Il peso è netto, senza sfridi. «Sviluppo spillo (0 = calcolato)»: con 0 la sagoma e lo sviluppo degli spilli sono calcolati; un valore diverso da zero è una forzatura. Le stesse informazioni sono nel Word, nel PDF, nei PNG e nel CSV (con le righe RIEPILOGO, TOTALE, CALCESTRUZZO e INCIDENZA): PDF completo esporta tutte le pagine in A3 orizzontale, Word completo aggiunge tabelle modificabili, CSV distinta conserva posizioni, impostazioni e note, PNG pagina esporta la pagina visualizzata. Anche la relazione Word del muro contiene la distinta del tratto e la tavola. Se si modificano i dati occorre attendere il nuovo calcolo prima di esportare.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 61",
+      "classe": "testo",
+      "a": "![Esempio di distinta del muro con due zone di armatura e tratto di quattro metri](../artefatti/muri-materiali-distinta-20261005/interfaccia/distinta-due-zone-1.png)",
+      "b": "I ferri longitudinali più lunghi della barra commerciale si dividono in pezzi uguali con la sovrapposizione l₀; le barre di fondazione che non stanno in una barra commerciale diventano due, una per mensola, prolungate oltre la radice per l'ancoraggio. Una posizione che resta più lunga della barra commerciale, per esempio una verticale alta del fusto, è segnalata: il programma non introduce giunti nelle barre trasversali. Se la mensola dalla parte opposta non contiene il piede di una verticale, la barra piega dalla sua parte e la distinta lo segnala. Un computo completo non equivale a verifiche soddisfatte: gli esiti mancanti o sfavorevoli restano indicati nell'ultima pagina.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 63",
+      "classe": "testo",
+      "a": "Esempio riapribile: supporto/artefatti/muri-materiali-distinta-20261005/interfaccia/distinta-due-zone.anthea. Il muro ha H=3 m, due zone con cambio a 1,5 m e un tratto lungo 4 m. La distinta mostra 23 pezzi per ciascuna marca principale e segnala lo sviluppo mancante dei collegamenti C1. I PDF e i Word della stessa cartella consentono di ripercorrere la lettura. L'esempio illustra input e computo, non costituisce un muro esecutivo verificato.",
+      "b": "![Prima pagina della tavola delle armature del muro con due zone e tratto di quattro metri: sezione trasversale con le posizioni, riepilogo per diametro e incidenza](../../src/ANTHEA.Desktop/Assets/Wiki/muri-tavola-armature.png)",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 64 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 65 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Esempio riapribile: supporto/artefatti/muri-materiali-distinta-20261005/interfaccia/distinta-due-zone.anthea. Il muro ha H=3 m, due zone con cambio a 1,5 m e un tratto lungo 4 m. La tavola ha 14 posizioni: le quattro verticali del fusto, le barre inferiori e superiori della fondazione, la forcella, …",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 38",
+      "classe": "testo",
+      "a": "text: In Vista dei risultati scegliere Armature: si vedono i percorsi delle barre, le pieghe, la fascia di sovrapposizione e le marche. Le barre giuntate sono affiancate lungo lo sviluppo del muro; le proiezioni sono leggermente distanziate sul disegno per leggibilità. Dettagli armature riporta la distinta, fbd, lunghezze richieste e usate, mandrini, quantità e tutti i controlli. I pesi sono stime per metro comprensive di ancoraggi, giunzioni e secondarie. Restano da definire il disegno esecutivo, i giunti di costruzione, i bordi lungo il muro, le interferenze tridimensionali e gli sfridi: la vista non è una distinta di officina.",
+      "b": "text: In Vista dei risultati scegliere Armature: si vedono i percorsi delle barre, le pieghe, la fascia di sovrapposizione e i numeri delle posizioni della tavola. Le barre giuntate sono affiancate lungo lo sviluppo del muro; le proiezioni sono leggermente distanziate sul disegno per leggibilità. Dettagli armature riporta per posizione e zona la faccia, le barre, l'area, la lunghezza, lbd e l0 richiesti e usati, il mandrino, fbd e tutti i controlli. I pesi sono stime per metro comprensive di ancoraggi, giunzioni e secondarie; sagome e quantità del tratto sono nella tavola delle armature. Restano da definire i giunti di costruzione, le interferenze tridimensionali e gli sfridi.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 40",
+      "classe": "testo",
+      "a": "text: In Input, sotto le armature, aprire Distinta ferri del tratto di muro. Inserire la lunghezza reale del tratto, il copriferro alle sue estremità e la lunghezza commerciale delle barre. La lunghezza del tratto cambia soltanto il computo: le verifiche strutturali rimangono riferite a una striscia di 1 m. Con due zone, indicare anche i collegamenti per fila e per metro. Lo sviluppo di un collegamento comprende tutti i tratti e i ganci della sagoma scelta; zero significa da definire e produce un peso parziale.",
+      "b": "text: In Input, sotto le armature, aprire Distinta ferri del tratto di muro. Inserire la lunghezza reale del tratto in «Lunghezza del tratto da armare», il copriferro alle sue estremità e la lunghezza commerciale delle barre. La lunghezza del tratto cambia soltanto il computo: le verifiche strutturali rimangono riferite a una striscia di 1 m. Con due zone, indicare anche gli spilli per fila e per metro di muro.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 41",
+      "classe": "testo",
+      "a": "text: Dopo il ricalcolo, premere Tavola armature e distinta ferri nel riquadro di input oppure Distinta ferri in Verifiche. La finestra ha selezione della pagina e zoom. La prima tavola presenta la sezione quotata con le marche delle principali e la tabella dei pezzi del tratto. Le pagine successive separano le sagome e riportano diametro, faccia, tratti A/B/C, arco, mandrino, sviluppo totale, passo e sovrapposizione. P identifica le principali, S le secondarie lungo muro e C i collegamenti. Le due zone del fusto mantengono marche distinte.",
+      "b": "text: Dopo il ricalcolo, «Tavola armature e distinta ferri…» nel riquadro di input oppure «Distinta ferri…» in Verifiche apre la tavola delle armature del tratto di muro lungo quanto «Lunghezza del tratto da armare»; la finestra ha selezione della pagina e zoom. La prima pagina è la sezione trasversale con tutte le posizioni, numerate nell'ordine del disegno (pos. 1, 2, …): le verticali del fusto (blu a monte, rosse a valle), le barre di fondazione con i risvolti ai bordi liberi, la forcella in testa al fusto, gli spilli della giunzione e i ferri longitudinali, disegnati come punti neri nella loro posizione. Ogni posizione ha un richiamo: «pos. 1 Ø16/16,7» è una barra Ø16 a passo 16,7 cm; «pos. 9 21 Ø10» sono 21 ferri longitudinali Ø10. A destra il riepilogo per diametro (lunghezza totale, kg/m e peso), il peso totale, il volume di calcestruzzo del tratto e l'incidenza in kg/m³.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 42",
+      "classe": "testo",
+      "a": "text: PDF completo esporta tutte le tavole in A3 orizzontale. Word completo aggiunge tabelle modificabili; CSV distinta conserva quantità, impostazioni e note; PNG pagina esporta la pagina visualizzata. Anche la relazione Word del muro contiene la distinta del tratto e le tavole. Se si modificano i dati occorre attendere il nuovo calcolo prima di esportare.",
+      "b": "text: Le pagine seguenti sono la distinta ferri, sei posizioni a pagina: Pos., sagoma con le lunghezze dei tratti in cm, Ø, numero dei pezzi nel tratto, lunghezza unitaria in cm, lunghezza totale in m e peso in kg. Le sagome non sono in scala: le barre alte del fusto sono disegnate coricate e i tratti corti ingranditi. Le quote sono all'asse della barra; gli archi delle pieghe sono sviluppati e compresi nella lunghezza unitaria, che è la somma dei tratti arrotondati al cm. Accanto al tratto inclinato della barra di valle compare l'angolo della piega della scarpa. Per i ferri longitudinali più lunghi della barra commerciale la sagoma riporta il numero di pezzi per filo e la sovrapposizione l₀. L'ultima pagina riporta i criteri e gli avvisi; resta l'avviso quando le verifiche del muro non sono tutte soddisfatte.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 43",
+      "classe": "testo",
+      "a": "text: Le barre oltre la lunghezza commerciale sono segnalate: il programma non introduce giunti automatici. Le secondarie sono conteggiate come barre rettilinee lungo muro; estremità, raccordi, ganci e disposizione degli strati richiedono il dettaglio esecutivo. Un computo completo non equivale a verifiche soddisfatte: gli esiti mancanti o sfavorevoli restano indicati nella tavola delle note.",
+      "b": "text: Il peso è netto, senza sfridi. «Sviluppo spillo (0 = calcolato)»: con 0 la sagoma e lo sviluppo degli spilli sono calcolati; un valore diverso da zero è una forzatura. Le stesse informazioni sono nel Word, nel PDF, nei PNG e nel CSV (con le righe RIEPILOGO, TOTALE, CALCESTRUZZO e INCIDENZA): PDF completo esporta tutte le pagine in A3 orizzontale, Word completo aggiunge tabelle modificabili, CSV distinta conserva posizioni, impostazioni e note, PNG pagina esporta la pagina visualizzata. Anche la relazione Word del muro contiene la distinta del tratto e la tavola. Se si modificano i dati occorre attendere il nuovo calcolo prima di esportare.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 44",
+      "classe": "testo",
+      "a": "text: Esempio di distinta del muro con due zone di armatura e tratto di quattro metri",
+      "b": "text: I ferri longitudinali più lunghi della barra commerciale si dividono in pezzi uguali con la sovrapposizione l₀; le barre di fondazione che non stanno in una barra commerciale diventano due, una per mensola, prolungate oltre la radice per l'ancoraggio. Una posizione che resta più lunga della barra commerciale, per esempio una verticale alta del fusto, è segnalata: il programma non introduce giunti nelle barre trasversali. Se la mensola dalla parte opposta non contiene il piede di una verticale, la barra piega dalla sua parte e la distinta lo segnala. Un computo completo non equivale a verifiche soddisfatte: gli esiti mancanti o sfavorevoli restano indicati nell'ultima pagina.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 45",
+      "classe": "testo",
+      "a": "text: Esempio riapribile: supporto/artefatti/muri-materiali-distinta-20261005/interfaccia/distinta-due-zone.anthea. Il muro ha H=3 m, due zone con cambio a 1,5 m e un tratto lungo 4 m. La distinta mostra 23 pezzi per ciascuna marca principale e segnala lo sviluppo mancante dei collegamenti C1. I PDF e i Word della stessa cartella consentono di ripercorrere la lettura. L'esempio illustra input e computo, non costituisce un muro esecutivo verificato.",
+      "b": "text: Prima pagina della tavola delle armature del muro con due zone e tratto di quattro metri: sezione trasversale con le posizioni, riepilogo per diametro e incidenza",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 46 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Esempio riapribile: supporto/artefatti/muri-materiali-distinta-20261005/interfaccia/distinta-due-zone.anthea. Il muro ha H=3 m, due zone con cambio a 1,5 m e un tratto lungo 4 m. La tavola ha 14 posizioni: le quattro verticali del fusto, le barre inferiori e superiori della fondazione, la forc…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 39",
+      "classe": "testo",
+      "a": "### Geometria e quantità della distinta ferri del muro",
+      "b": "### Dettagli d'armatura e distinta ferri del muro",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 45",
+      "classe": "testo",
+      "a": "Le secondarie sono rettilinee lungo il muro, con lunghezza L−2ce/1000; sono disposte sulle due facce con passo non maggiore di quello inserito. Al cambio di zona nel fusto e alla divisione delle due reti nella fondazione, la barra sul confine appartiene alla zona successiva. Per i collegamenti della giunzione, le file sono ceil(l0/passo)+1 e i pezzi per fila sono ceil(collegamenti_per_metro·L). Lo sviluppo assegnato deve includere i ganci; quando manca, il peso della distinta è esplicitamente parziale. Non viene attribuita una verifica dei ganci al solo sviluppo assegnato.",
+      "b": "```math",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 46 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "N = \\mathrm{ceil}\\left(\\frac{1000L - 2c_e - \\phi}{p}\\right) + 1",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 47 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 53 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "*Testa del fusto.* Il bordo libero in testa è chiuso da forcelle a U con il Ø dei ferri longitudinali del fusto, una per ogni verticale della faccia più armata, con gambe lunghe due volte lo spessore in testa (fig. 9.8) e un ferro longitudinale in ogni angolo.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 54 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 55 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "*Spilli della giunzione.* Diritti fra le verticali delle due facce alla quota della giunzione, con ganci a 135° prolungati di 10Ø (NTC 2018 §7.4.6.2.2; EN 1992-1-1 §8.5, fig. 8.5) e mandrino 4Ø; file distribuite sulla sovrapposizione $l_0$ a passo non maggiore di quello assegnato. Lo sviluppo inseri…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 56 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 57 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "*Scarpa.* La barra di valle segue la faccia inclinata e diventa verticale nella fondazione con una piega di angolo $\\arctan[(s_0 - s_1)/H]$, riportato sulla sagoma.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 58 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 59 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "*Ferri longitudinali.* Stanno nello strato interno: dentro le verticali del fusto, sopra le barre trasversali inferiori e sotto le superiori della fondazione, al passo assegnato e con una barra in ogni angolo di forcelle e risvolti. Nel tratto sono lunghi $L - 2c_e$; oltre la barra commerciale $L_{c…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 60 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 61 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 62 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "k = \\mathrm{ceil}\\left(\\frac{L - 2c_e - l_0}{L_{comm} - l_0}\\right)",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 63 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "L_{pezzo} = \\frac{L - 2c_e + (k - 1)\\,l_0}{k}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 64 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 65 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 66 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "*Distinta.* Quote all'asse, archi sviluppati al raggio $r = (D_m + \\phi)/2$, tratti arrotondati al cm e lunghezza unitaria $L_u$ uguale alla loro somma; peso $= N\\,L_u\\,(\\pi\\phi^2/4) \\cdot 0{,}00785$ kg, con φ in mm e $L_u$ in m (acciaio 7850 kg/m³), netto senza sfridi; incidenza = peso totale / vol…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 67 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 68 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Riscontro indipendente, con gli attesi calcolati a mano nelle prove della libreria: $H = 4$ m, fondazione di 0,60 m, mensola di valle 1,0 m, fusto 0,40 m, mensola di monte 2,0 m ($B = 3{,}4$ m), copriferro 40 mm, 6 Ø16/m sul fusto e 5 Ø14/m in fondazione, aderenza non buona ($f_{bd} = 1{,}8852$ MPa)…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.md",
+      "percorso": "riga 69 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 19",
+      "classe": "testo",
+      "a": "text: geometria-e-quantita-della-distinta-ferri-del-muro",
+      "b": "text: dettagli-d-armatura-e-distinta-ferri-del-muro",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 22",
+      "classe": "testo",
+      "a": "text: Le secondarie sono rettilinee lungo il muro, con lunghezza L−2ce/1000; sono disposte sulle due facce con passo non maggiore di quello inserito. Al cambio di zona nel fusto e alla divisione delle due reti nella fondazione, la barra sul confine appartiene alla zona successiva. Per i collegamenti della giunzione, le file sono ceil(l0/passo)+1 e i pezzi per fila sono ceil(collegamenti_per_metro·L). Lo sviluppo assegnato deve includere i ganci; quando manca, il peso della distinta è esplicitamente parziale. Non viene attribuita una verifica dei ganci al solo sviluppo assegnato.",
+      "b": "text: *Passo.* Le verifiche usano   per metro di muro; nel muro continuo le n barre per metro hanno passo   mm. Interferro, passo massimo e interferro delle coppie giuntate si controllano con questo passo. Nel tratto della distinta c'è una barra a ogni estremità, al copriferro di estremità, e il numero dei pezzi è arrotondato per eccesso, così che il passo non superi quello verificato (61 barre su 10 m con 6 Ø16/m), con L in m e  , φ e p in mm:",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 50 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N = \\mathrm{ceil}\\left(\\frac{1000L - 2c_e - \\phi}{p}\\right) + 1",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 51 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 52 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: *Nodo fusto–fondazione.* Il terreno tende le fibre di monte del fusto e le superiori della mensola di monte: per il nodo è un momento che apre l'angolo (EN 1992-1-1, Allegato J.2.3, nodi d'angolo con momento in apertura). Le barre tese di monte scendono nella fondazione e piegano verso valle, …",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 59 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\arctan[(s_0 - s_1)/H]",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 60 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: *Ferri longitudinali.* Stanno nello strato interno: dentro le verticali del fusto, sopra le barre trasversali inferiori e sotto le superiori della fondazione, al passo assegnato e con una barra in ogni angolo di forcelle e risvolti. Nel tratto sono lunghi  ; oltre la barra commerciale   si div…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 61 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: L - 2c_e",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 66 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 67 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: *Distinta.* Quote all'asse, archi sviluppati al raggio  , tratti arrotondati al cm e lunghezza unitaria   uguale alla loro somma; peso   kg, con φ in mm e   in m (acciaio 7850 kg/m³), netto senza sfridi; incidenza = peso totale / volume di calcestruzzo del tratto. Una posizione che resta più l…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 68 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: r = (D_m + \\phi)/2",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 72 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Riscontro indipendente, con gli attesi calcolati a mano nelle prove della libreria:   m, fondazione di 0,60 m, mensola di valle 1,0 m, fusto 0,40 m, mensola di monte 2,0 m (  m), copriferro 40 mm, 6 Ø16/m sul fusto e 5 Ø14/m in fondazione, aderenza non buona (  MPa). Su 10 m le verticali di mo…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 73 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: H = 4",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 74 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: B = 3{,}4",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 75 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: f_{bd} = 1{,}8852",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 76 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: (10000 - 80 - 16)/166{,}67 = 59{,}42",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 77 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: r = 153",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 78 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: 5\\phi = 80",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 82 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il fusto è una mensola libera: lunghezza efficace almeno 2H, imperfezione almeno H/200, rigidezza EI minima e amplificazione  . La verifica rimane nel campo senza trazione e  . Se queste condizioni non sono soddisfatte serve un modello non lineare e l’esito non è dichiarato favorevole. Per mur…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 83 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: 1/(1 - N/N_{cr})",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 84 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N < 0{,}8\\,N_{cr}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 85 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: 0{,}85\\,f_k/(\\gamma_M\\,FC)",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 89 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: H = 3",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 90 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: B = 3",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_portanza-sismica-cedimenti-spostamenti-e-armature-rev07.txt",
+      "percorso": "riga 91 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M = 30000",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
+      "percorso": "riga 21 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\psi_2",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
+      "percorso": "riga 22 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\psi_0 = 0{,}7",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
+      "percorso": "riga 23 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\psi_0 = 1",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
+      "percorso": "riga 24 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\psi_1",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
+      "percorso": "riga 25 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\psi_1 > 0{,}7",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
+      "percorso": "riga 26 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\psi_0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
+      "percorso": "riga 27 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\pm k_v",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_muri-di-sostegno-e-stabilita-globale.txt",
+      "percorso": "riga 28 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\psi_1 > 0{,}7",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_geotecnica_muri-metodi-perimetro.md",
+      "percorso": "riga 26",
+      "classe": "testo",
+      "a": "| Esecutivi DXF e DWG | Non disponibili; tavola e distinta attuali sono un predimensionamento con esportazioni documentali e immagine |",
+      "b": "| Esecutivi DXF e DWG | Non disponibili; la tavola delle armature e la distinta del tratto si esportano in Word, PDF, PNG e CSV |",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_geotecnica_muri-metodi-perimetro.txt",
+      "percorso": "riga 22",
+      "classe": "testo",
+      "a": "text: Non disponibili; tavola e distinta attuali sono un predimensionamento con esportazioni documentali e immagine",
+      "b": "text: Non disponibili; la tavola delle armature e la distinta del tratto si esportano in Word, PDF, PNG e CSV",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.md",
+      "percorso": "riga 145",
+      "classe": "testo",
+      "a": "Ogni grandezza conserva minimo e massimo. Gli estremi sono indipendenti e non costituiscono una combinazione concomitante; in particolare non si sommano massimi di reazione come se avvenissero insieme. Il predimensionamento degli appoggi usa l’estremo del singolo appoggio, mentre una reazione minima negativa segnala un possibile sollevamento. Il coefficiente γQ è un unico dato assegnato, con valore iniziale sfavorevole 1,35; la traccia riporta i coefficienti usati.",
+      "b": "Ogni grandezza conserva minimo e massimo. Gli estremi sono indipendenti e non costituiscono una combinazione concomitante; in particolare non si sommano massimi di reazione come se avvenissero insieme. Il predimensionamento degli appoggi usa l’estremo del singolo appoggio, mentre una reazione minima negativa segnala un possibile sollevamento. Con i moltiplicatori del progetto il coefficiente γQ è un unico dato assegnato, con valore iniziale sfavorevole 1,35; la traccia riporta i coefficienti usati.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.md",
+      "percorso": "riga 149 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Coefficienti parziali SLU",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.md",
+      "percorso": "riga 150 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.md",
+      "percorso": "riga 151 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "«Coefficienti parziali SLU» chiude la scheda Traffico. Con «NTC 2018 Tab. 5.1.V (Model)», la scelta dei documenti nuovi, gli inviluppi SLU sono gli estremi delle combinazioni A1 dei ponti stradali generate dalla libreria Model (NTC 2018 §5.1.3.12, Tab. 5.1.V): γG1 1,35/1,00 su impalcato e strutture,…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.md",
+      "percorso": "riga 152 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.md",
+      "percorso": "riga 153 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.md",
+      "percorso": "riga 154 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "q_d = \\gamma_{G1} G_1 + \\gamma_{G2} G_2 + \\gamma_Q Q",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.md",
+      "percorso": "riga 155 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.md",
+      "percorso": "riga 156 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.md",
+      "percorso": "riga 157 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "con $G_1$ peso di calcestruzzo, carpenteria e struttura superiore e $G_2$ finiture e barriere; massimi e minimi sono gli estremi sulle otto righe SLU A1. Le aste delle strutture superiori e le antenne usano i coefficienti sfavorevoli (1,35; 1,50; 1,35). Con «Moltiplicatori del progetto», la scelta d…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.md",
+      "percorso": "riga 158 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
+      "percorso": "riga 142",
+      "classe": "testo",
+      "a": "text: Ogni grandezza conserva minimo e massimo. Gli estremi sono indipendenti e non costituiscono una combinazione concomitante; in particolare non si sommano massimi di reazione come se avvenissero insieme. Il predimensionamento degli appoggi usa l’estremo del singolo appoggio, mentre una reazione minima negativa segnala un possibile sollevamento. Il coefficiente γQ è un unico dato assegnato, con valore iniziale sfavorevole 1,35; la traccia riporta i coefficienti usati.",
+      "b": "text: Ogni grandezza conserva minimo e massimo. Gli estremi sono indipendenti e non costituiscono una combinazione concomitante; in particolare non si sommano massimi di reazione come se avvenissero insieme. Il predimensionamento degli appoggi usa l’estremo del singolo appoggio, mentre una reazione minima negativa segnala un possibile sollevamento. Con i moltiplicatori del progetto il coefficiente γQ è un unico dato assegnato, con valore iniziale sfavorevole 1,35; la traccia riporta i coefficienti usati.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
+      "percorso": "riga 166 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: coefficienti-parziali-slu",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
+      "percorso": "riga 167 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: «Coefficienti parziali SLU» chiude la scheda Traffico. Con «NTC 2018 Tab. 5.1.V (Model)», la scelta dei documenti nuovi, gli inviluppi SLU sono gli estremi delle combinazioni A1 dei ponti stradali generate dalla libreria Model (NTC 2018 §5.1.3.12, Tab. 5.1.V): γG1 1,35/1,00 su impalcato e stru…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
+      "percorso": "riga 168 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: q_d = \\gamma_{G1} G_1 + \\gamma_{G2} G_2 + \\gamma_Q Q",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
+      "percorso": "riga 169 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
+      "percorso": "riga 170 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: con   peso di calcestruzzo, carpenteria e struttura superiore e   finiture e barriere; massimi e minimi sono gli estremi sulle otto righe SLU A1. Le aste delle strutture superiori e le antenne usano i coefficienti sfavorevoli (1,35; 1,50; 1,35). Con «Moltiplicatori del progetto», la scelta dei…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
+      "percorso": "riga 171 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: G_1",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
+      "percorso": "riga 172 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: G_2",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_ponti_bridge-design.txt",
+      "percorso": "riga 173 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: q_d = \\gamma_G G + \\gamma_Q Q",
       "voce": "F5-REL-1160-01"
     }
   ]
