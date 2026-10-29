@@ -233,7 +233,8 @@ public static class ConcreteModelColumnPresentation
         foreach (var d in r.Domains)
         {
             double sign = Sign(d.DirectionDegrees);
-            string direction = " · θ = " + F(d.DirectionDegrees) + "°";
+            // the direction in the names only with the two domains (θ and θ + 180°)
+            string direction = r.Domains.Count > 1 ? " · θ = " + F(d.DirectionDegrees) + "°" : "";
             var valid = d.Points.Where(p => !p.Rejected && p.MaximumFirstOrderKnm is not null).ToList();
             chart.Series.Add(new("M1Rd,max (dominio ridotto)" + direction, valid.Select(p => new[] { sign * p.MaximumFirstOrderKnm!.Value, p.AxialKn }).ToList(), Blue));
             chart.Series.Add(new("MRd della sezione" + direction, valid.Select(p => new[] { sign * p.SectionKnm!.Value, p.AxialKn }).ToList(), Grey, true, DashPattern: "Dash"));
