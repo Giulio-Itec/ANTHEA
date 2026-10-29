@@ -1008,6 +1008,22 @@ in generale, segui la normativa». La libreria è GPCChecker.Concrete 0.27.0.0 (
 - [x] Rilascio 1.15.0 con il set AL: full di rilascio con l'installer, setup, audit, tag `v1.15.0` e push («Tag e push se pulita»). Full
   PASS 160 sul commit del setup 5d5185ba, audit PASS; verbale in [installer-1.15.0.md](installer-1.15.0.md).
 
+## Lavori della 1.16.0 · colonna modello, fase 2
+
+Agente `1160-colonna2` (29/10, notte), sulle decisioni Q9 e Q12 del progetto della colonna («tutte le combinazioni con l'esito peggiore»,
+«dominio ridotto N–M1Rd,max in fase 2») e sulla regola «Approvati se spiegati».
+
+- [x] Libreria, Checker `lib-1160/colonna2` (000d49eb, 088d36c0, 35a0e47d): GPCChecker.Concrete 0.29.0.0 con l'inviluppo delle azioni
+  (`ModelColumnEnvelope`, cache delle curve per N, direzione e φef) e il dominio ridotto (`ModelColumnAnalysis.Domain`); pagina di metodo
+  `ca.colonna-modello` §6.9 con gli scostamenti K-7 e K-8; prove `ModelColumnEnvelopeTests` con il riferimento Python esteso. Set candidato
+  `supporto/artefatti/1160-colonna2/set-candidato-a`, tutte le suite verdi, installato nel worktree e non committato.
+- [x] Scheda «08 · Colonna modello»: scelta delle azioni (azione singola della 1.15.0, combinazioni SLU, SLU e SLV), riquadro dell'inviluppo,
+  terzo grafico del dominio ridotto, avanzamento e «Interrompi», CSV a blocchi, capitolo della relazione con le combinazioni e il dominio
+  (voce CA-COLONNA-02: nessun riferimento cambiato). Suite mirate PASS: Application.Tests, Presentation.Tests, Presentation.Tests/sezione-ca,
+  ui/check-sezione-view, ui/smoke-ca-extensions, ui/f3-report-chapters, ui/f3-equivalence.
+- [ ] Unione con le altre librerie della 1.16.0 (Concrete 0.28.0.0 di `lib-1160/coordinatore`: serve una versione sopra 0.28.0.0 e 0.29.0.0),
+  set ufficiale, full; guide (testo proposto in `ANTHEA-f5-ripresa/f5-agenti/1160-colonna2/avanzamento.md`).
+
 ## Wiki (in parallelo)
 
 - [ ] W0.2 [CP] Pipeline riproducibile da clone pulito (figure ed esempi, template Word, dipendenze Python). Difetti di impaginazione delle edizioni Word e PDF, già presenti nella Rev31 e confermati dalla verifica della Rev32 (b1998ec): numero dei titoli di secondo livello a due cifre attaccato al testo («15.10TRATTI…», «16.10TORSIONE»; tabulazione dello stile del titolo nel modello protetto); spazio di `\quad` perso nella conversione in OMML (formula di Rg); celle di tabella oltre 18 caratteri allineate a sinistra (`write_table`); decimali con il punto in alcune tabelle e formule; ≤ e ≥ in Manrope fuori dall'elenco SYMBOLS; date di `docProps/core.xml` del modello.

@@ -11601,6 +11601,51 @@
         "MOD-31",
         "MOD-32"
       ]
+    },
+    {
+      "id": "CA-COLONNA-02",
+      "data": "2026-10-29",
+      "fase": "1.16.0, colonna modello fase 2 (GPCChecker.Concrete 0.29.0.0, set candidato 1160-colonna2/set-candidato-a)",
+      "titolo": "Sezione c.a., «Colonna modello»: tutte le combinazioni con l'esito peggiore e dominio ridotto N–M1Rd,max",
+      "famiglia": "interfaccia/sezione-ca",
+      "modulo": "str_palo",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Fase 2 della colonna modello, decisa nel progetto del 28/10 (Q9: tutte le combinazioni con l'esito peggiore; Q12: dominio ridotto N–M1Rd,max) e richiesta dall'utente («colonna modello implementa sia libreria che interfaccia», «segui la normativa»). Libreria: ModelColumnEnvelope (una colonna modello per combinazione a N costante, Mθ = Mx·cos θ + My·sin θ, θ + 180° se negativo, trazione non pertinente, |N| oltre NRd,c non verificata, φef della (5.19) per combinazione, cache delle curve per N, direzione e φef) e ModelColumnAnalysis.Domain (M1Rd,max e MRd(N) = M(χu) per N fra 0 e NRd,c), pagina ca.colonna-modello §6.9 con gli scostamenti K-7 (momento normale a θ non verificato, avviso; 5.8.9 a parte) e K-8 (dominio al φef della combinazione che governa con la (5.19)). ANTHEA: opzione «azioni» (predefinito l'azione singola della 1.15.0, poi «Combinazioni SLU» e «Combinazioni SLU e SLV») e «intervalli_dominio» (40), non scritte finché l'utente non le cambia; riquadro «Inviluppo delle combinazioni», riquadri, grafici e passaggi della combinazione peggiore fra le calcolate; terzo grafico «Dominio ridotto N–M1Rd,max»; avanzamento nel testo e «Interrompi»; CSV a blocchi; capitolo della relazione con la tabella delle combinazioni e il paragrafo del dominio. Il risultato esportato (colonna_modello) ha i campi nuovi Source, Combinations, Domains, Governing e Theta e le righe dei dati «Azioni» e «Intervalli del dominio ridotto»; i valori della colonna singola sono quelli della 1.15.0 bit per bit (stesso Calculate della libreria, prova CreepPathAtZeroIsBitIdentical e le 16 prove della 0.27 invariate). Unica correzione della libreria fuori dalle funzioni nuove: il rapporto del momento trasversale non si calcola quando tutti i momenti della curva sono solo arrotondamenti (N = NRd,c di una sezione simmetrica), caso che la 1.15.0 non raggiungeva.",
+      "codice": [
+        "Checker lib-1160/colonna2 000d49eb (GPCChecker.Concrete/Slenderness/ModelColumnEnvelope.cs, ModelColumnAnalysis.cs, ModelColumnEnvelopeTests.cs, ReferenceCalculations/model-column, docs/metodi/ca.colonna-modello.md), 088d36c0 (versioni), 35a0e47d (API)",
+        "src/ANTHEA.Application/Concrete/ConcreteModelColumn.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteModelColumnPresentation.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteReportAnalysis.cs",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteModelColumnViewModel.cs",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.Checks.cs (InvalidateActions)",
+        "src/ANTHEA.Desktop/Views/ConcreteSection/ConcreteModelColumnView.xaml(.cs)",
+        "src/ANTHEA.Desktop/Wpf/PlotPresentation.cs, ModuleFigureRenderer.Concrete.cs",
+        "src/ANTHEA.Reports/Generators/ReportConcrete.cs (capitolo «Colonna modello»)"
+      ],
+      "segno": "Nessun valore della colonna singola cambia; le combinazioni si verificano con la stessa colonna, ognuna al suo N. Il dominio ridotto è informativo; l'esito con le combinazioni è il peggiore.",
+      "effetto_quantificato": "Nessun riferimento congelato né atteso cambia: Presentation.Tests/sezione-ca (tracce storiche della sezione c.a.), ui/check-sezione-view, ui/smoke-ca-extensions, ui/f3-report-chapters e ui/f3-equivalence PASS senza registrazioni (le fixture non hanno l'oggetto colonna_modello). Cambiano solo prove di codice, spiegate dalla funzione nuova: il CSV della colonna (Application.Tests e Presentation.Tests: dopo i punti della curva, invariati, il blocco del dominio ridotto, 43 righe con l'intestazione per l'azione singola) e le figure della relazione nello smoke della sezione c.a. (4 invece di 3: il dominio ridotto, nel suo paragrafo dopo i punti della curva). Libreria: 939 prove di Concrete (933 + 6 nuove), attesi della 0.27 invariati; riferimento Python rigenerato identico nei casi esistenti, con 2 casi nuovi (dominio di R400 a l0 = 6 m: M1Rd,max della libreria da −0,0003 % a +0,0013 %, M(χu) entro 0,0001 %; φef della (5.19) a 1000 kN +0,0002 %).",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "regola «Approvati se spiegati» delle decisioni della 1.15.0 (sera del 28/10) per la coda della 1.16.0",
+        "esito": "nessun riferimento da approvare; risultato esportato con i campi nuovi e prove di codice spiegate riga per riga dalla funzione nuova"
+      },
+      "test": [
+        "GPCChecker.Test.Concrete (939, ModelColumnEnvelopeTests 6 nuove)",
+        "Application.Tests (ConcreteModelColumnChecks, 118 controlli)",
+        "Presentation.Tests (4918 controlli)",
+        "Presentation.Tests/sezione-ca",
+        "ui/check-sezione-view",
+        "ui/smoke-ca-extensions",
+        "ui/f3-report-chapters",
+        "ui/f3-equivalence"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-colonna2 (set-candidato-a con release-set-a.log, ci-a … ci-d, ui-a)"
+      ],
+      "voci_collegate": [
+        "CA-COLONNA-01"
+      ]
     }
   ]
 }
