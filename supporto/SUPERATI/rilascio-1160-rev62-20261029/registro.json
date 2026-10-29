@@ -1,0 +1,122 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "commit": "611ff20e",
+    "sha256": "aaf5f4bb24aecd0056e9f33a096bc1722c552ef8f336ebdca5905a6a48a9b698",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "commit": "611ff20e",
+    "sha256": "1d7fe1dd4c91228068b277d2741d3c68b0b732a02a1e4cf068a75b9d06fac9d3",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "commit": "611ff20e",
+    "sha256": "e82c4f0c2e57712f4803b01e4849c7066d5b796c8d5255f1015f7d86a23a8f51",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "commit": "611ff20e",
+    "sha256": "4d6e0d386bd0a8aeee5dd4f1a62576010b2fa90c60d96ed9cf9ffe3515627c98",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev61.docx",
+    "commit": "611ff20e",
+    "sha256": "3f9467b431db9f39dcfeef3d8cb14db32e01d927830feb292dab4449584fe5c4",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev61.pdf",
+    "commit": "611ff20e",
+    "sha256": "1d7fe1dd4c91228068b277d2741d3c68b0b732a02a1e4cf068a75b9d06fac9d3",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev61.docx",
+    "commit": "611ff20e",
+    "sha256": "483a357f07a32eaf80b2d0aac4087ae7b2db53e3eea645286cb63f46aa2c4431",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev61.pdf",
+    "commit": "611ff20e",
+    "sha256": "4d6e0d386bd0a8aeee5dd4f1a62576010b2fa90c60d96ed9cf9ffe3515627c98",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "commit": "611ff20e",
+    "sha256": "526eb4e54494a2decbdf2ef82069c9c891ed260ee3fc5434ccb655879994f4fe",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "commit": "611ff20e",
+    "sha256": "a3c7d1a859b5ea0c30fbfce34df43e72d42e745555d3f503a5d7a37813d51856",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "commit": "611ff20e",
+    "sha256": "36e245bb4409c74ef5646ab865722f737f260d685b40f6bf8559f399d13d0291",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "commit": "611ff20e",
+    "sha256": "b2bd1cc32026e6313d8b069818b85d5f225cacb39eb37ece8a41ef1ebbd473ed",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "commit": "5d5185ba",
+    "sha256": "b4c103fc96bcaa6acfa19c7d973ba1bd4e4b81fef45b371882f6b61ee5a3ab94",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "commit": "5d5185ba",
+    "sha256": "88f5cd9d3097a85e85b964ca9ae2bce6c4f1b30201f108b463145f1d6adb6936",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/README.md",
+    "commit": "611ff20e",
+    "sha256": "2068b29a43dc85601f290f45b2a80f757bce91ca476069f971f79fc1ee6a2896",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "commit": "611ff20e",
+    "sha256": "fb74a975bd7b3ed387408f17fd74ee56878c07ecd4e56ad7b5a01c95b2fb827a",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/scripts/Build-AntheaGuides-Itec.py",
+    "commit": "611ff20e",
+    "sha256": "92954d80c6a26f3af40bca42f459562a9cd55b104cc8381cd293c192641378ee",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/scripts/Render-AntheaGuides-Itec.ps1",
+    "commit": "611ff20e",
+    "sha256": "dd649265c6692224177eede2cc6f91049fe735a57397519166e2352f0a4b9ed4",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/scripts/Finalize-AntheaGuides-Itec.py",
+    "commit": "bce1e337",
+    "sha256": "9629e25db11cbee7adf2363c80a93262e6aa9a12144e60401e6430f38e3dbb22",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  },
+  {
+    "origine": "supporto/installer/Guide.json",
+    "commit": "c2d9a21a",
+    "sha256": "4dd15911c38d187600202240bfd8068165979a25a2f0d9ca8d503469e18a96a9",
+    "motivo": "Sostituito dalla Rev62 (ANTHEA 1.16.0): formule in LaTeX nella guida teorica (relazioni su righe separate, spazi conservati in Office Math, virgola decimale; spettri, palo e micropalo verticale, Broms, fondazioni superficiali, reologia), teoria completata (limiti delle tensioni di esercizio e ancoraggi della sezione c.a.), capitolo «Capacità orizzontale in terreno stratificato» con l'articolo autonomo sul metodo di G. Pacini e il suo collegamento da «Diagrammi e dettagli» e dalla Wiki (F5-REL-1160-01, F5-REL-1160-02)."
+  }
+]

@@ -60,11 +60,12 @@ La cartella `Guide` accanto ad `ANTHEA.exe` contiene tre PDF:
 
 - `Indice-guide.pdf`: indice dei due volumi globali;
 - `Guida pratica ANTHEA.pdf`: uso e UI di tutti i moduli;
-- `Guida teorica ANTHEA.pdf`: teoria, formule, ipotesi e limiti di tutti i moduli.
+- `Guida teorica ANTHEA.pdf`: teoria, formule, ipotesi e limiti di tutti i moduli;
+- `Palo orizzontale in terreno stratificato.pdf`: articolo sul metodo Stratificato di G. Pacini, aperto anche da Diagrammi e dettagli e dalla Wiki.
 
-Tutti gli approfondimenti sono incorporati nelle due guide globali Rev61. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
+Gli approfondimenti sono incorporati nelle due guide globali Rev62; l'articolo sul palo orizzontale in terreno stratificato è l'eccezione approvata dall'utente. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica, Articoli e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
 
-Per i nuovi argomenti aggiornare i due volumi, i PDF corrispondenti e l’indice. Per casi particolari chiedere all’utente prima di creare un documento autonomo. `Guide.json` contiene soltanto l’indice; i due manuali sono selezionati automaticamente alla revisione più recente.
+Per i nuovi argomenti aggiornare i due volumi, i PDF corrispondenti e l’indice. Per casi particolari chiedere all’utente prima di creare un documento autonomo. `Guide.json` contiene l’indice e l’articolo; i due manuali sono selezionati automaticamente alla revisione più recente.
 
 `Documentazione.ps1` usa lo stesso catalogo per copia, collegamenti e disinstallazione;
 la rimozione elimina solo i file elencati e le cartelle rimaste vuote.

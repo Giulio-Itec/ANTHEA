@@ -1,11 +1,17 @@
 # Guide globali ANTHEA
 
-Edizione 6, 28 ottobre 2026. Guide pratica e teorica Rev61. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 29 ottobre 2026. Guide pratica e teorica Rev62, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev61.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev61.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev61.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev61.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev62.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev62.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev62.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev62.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+
+| Articolo | Word | PDF | Sorgente |
+|---|---|---|---|
+| Capacità orizzontale del palo in terreno stratificato (metodo di G. Pacini), edizione 1 | [Word](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx) | [PDF](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf) | [Markdown](../../docs/articolo-palo-orizzontale-stratificato.md) |
+
+La Rev62 accompagna ANTHEA 1.16.0. Nella guida teorica le formule sono scritte in LaTeX anche nel testo dei capitoli degli spettri, del palo e del micropalo verticale, della capacità orizzontale con Broms, delle fondazioni superficiali e della reologia; le relazioni stanno su righe separate e gli spazi delle condizioni si conservano nelle edizioni Word e PDF; le tabelle dell'efficienza orizzontale usano la virgola decimale. La teoria è completata con i limiti delle tensioni di esercizio e con le formule di aderenza, ancoraggio e sovrapposizione della sezione c.a. e con il capitolo nuovo «Capacità orizzontale in terreno stratificato», che riassume il metodo Stratificato di G. Pacini. Nella guida pratica il capitolo dei pali orizzontali spiega la scelta fra Broms e Stratificato e i riferimenti di Diagrammi e dettagli. L'articolo autonomo, eccezione approvata alla regola delle due guide, espone la teoria completa del metodo con le dimostrazioni, il confronto con Broms e esempi verificati; si apre da Diagrammi e dettagli › Riferimenti › G. Pacini, dalla Wiki e dal menu Start. Gli originali Rev61 sono conservati in `supporto/SUPERATI/rilascio-1160-rev62-20261029/`.
 
 La Rev61 accompagna ANTHEA 1.15.0. Nella guida pratica: la scheda 08 Colonna modello della sezione c.a., con dati, imperfezione ed eccentricità minima, viscosità, calcolo e Interrompi, i due grafici, i riquadri dei risultati, Esporta CSV… e il capitolo della relazione con la scelta Momento–curvatura e colonna modello; Calcola armature diventa la scheda 09 e i documenti salvati prima si riaprono sulla stessa scheda; nel modulo Modelli i file di testo MIDAS Civil .mct e Gen .mgt, senza risultati, e l’importazione dei modelli Straus7 .st7 con i risultati statici lineari .lsa, con il controllo di file e casi, le combinazioni LSA ricostruite dalla libreria GPC, la numerazione delle aste e la convenzione di segno della copia. Nella guida teorica: il metodo della colonna modello di EN 1992-1-1 5.8.6(6) e 5.8.8.2, richiamato da NTC 2018 §4.1.2.3.9.3, con formule, imperfezione, eccentricità minima, viscosità efficace, modo di crisi, curvatura nominale come confronto, limiti e scostamenti dichiarati K-1…K-6; unità, segni e combinazioni delle copie dei modelli importati. Gli originali Rev60 sono conservati in `supporto/SUPERATI/rilascio-1150-rev61-20261028/`.
 

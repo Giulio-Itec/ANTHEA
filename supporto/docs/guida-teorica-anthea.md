@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 28 ottobre 2026 — revisione documentale 61
+Edizione 6 aggiornata il 29 ottobre 2026 — revisione documentale 62
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -17,7 +17,8 @@ Il reticolo originale contiene 10.751 nodi, con ag, F0, Tc∗ e ordinate spettra
 La vita di riferimento e il tempo di ritorno derivano da:
 
 ```math
-V_R = \max(V_N C_U,35), \qquad T_R = -\frac{V_R}{\ln(1-P_{VR})}
+V_R = \max(V_N C_U,35)
+T_R = -\frac{V_R}{\ln(1-P_{VR})}
 ```
 
 VN e VR sono in anni; CU è adimensionale. Le probabilità PVR sono 0,81, 0,63, 0,10 e 0,05 per SLO, SLD, SLV e SLC. Il TR adottato è limitato al campo dei dati; per compatibilità si conservano il confronto inferiore 30,11 anni dello SLV e il limite superiore 2474,9 anni dello SLC. Negli altri casi i limiti sono 30 e 2475 anni.
@@ -28,11 +29,19 @@ Tra due TR tabulati, i parametri sono interpolati logaritmicamente. Posti p1 e p
 \ln p = \ln p_1 + \frac{\ln(T_R/T_{R1})}{\ln(T_{R2}/T_{R1})}\ln(p_2/p_1)
 ```
 
-Il riferimento usa lo stesso rapporto per i tre parametri; nel caso particolare ag2/ag1 = 1 il denominatore viene posto pari a 1. Questa convenzione è conservata nella modalità compatibile. L’assegnazione manuale delle quattro terne sostituisce l’interpolazione per gli stati limite e viene dichiarata nei risultati.
+Il riferimento usa lo stesso rapporto per i tre parametri; nel caso particolare $a_{g2}/a_{g1} = 1$ il denominatore viene posto pari a 1. Questa convenzione è conservata nella modalità compatibile. L’assegnazione manuale delle quattro terne sostituisce l’interpolazione per gli stati limite e viene dichiarata nei risultati.
 
 ### Forma dello spettro
 
-ag è espresso come frazione di g, F0 è adimensionale e Tc∗ è in secondi. Le categorie di sottosuolo determinano SS e CC; ST deriva dalla categoria topografica e dalla quota relativa h/H. I periodi caratteristici sono TB = TC/3, TC = CC Tc∗ e TD = 1,6 + 4 ag. Il valore numerico di ag in questa espressione è in g.
+ag è espresso come frazione di g, F0 è adimensionale e Tc∗ è in secondi. Le categorie di sottosuolo determinano SS e CC; ST deriva dalla categoria topografica e dalla quota relativa h/H. I periodi caratteristici sono:
+
+```math
+T_B = \frac{T_C}{3}
+T_C = C_C\,T_C^*
+T_D = 1{,}6 + 4\,a_g
+```
+
+Il valore numerico di $a_g$ nell'ultima espressione è in g.
 
 | Sottosuolo | SS | CC |
 | --- | --- | --- |
@@ -42,27 +51,32 @@ ag è espresso come frazione di g, F0 è adimensionale e Tc∗ è in secondi. Le
 | D | 2,4 − 1,5 F0 ag, limitato a 0,9–1,8 | $1{,}25\,(T_c^*)^{-0{,}5}$ |
 | E | 2 − 1,1 F0 ag, limitato a 1–1,6 | $1{,}15\,(T_c^*)^{-0{,}4}$ |
 
-ST = 1 + (ST,max − 1) h/H; ST,max vale 1, 1,2, 1,2 e 1,4 per T1–T4. Per lo spettro elastico η = max[0,55; √(10/(5 + ξ))], con ξ in percentuale. Nel ramo Progetto con q si usa η = 1/q, con q = q0 Kr e Kr pari a 1 per regolarità in altezza oppure 0,8 negli altri casi.
-
-Posto A = ag SS ST, la forma elastica orizzontale senza soglia inferiore è:
+Il coefficiente topografico vale $S_T = 1 + (S_{T,max} - 1)\,h/H$, con $S_{T,max}$ pari a 1, 1,2, 1,2 e 1,4 per T1–T4. Il fattore $\eta$ vale, nell'ordine, per lo spettro elastico, con $\xi$ in percentuale, e nel ramo Progetto, con $q = q_0 K_r$ e $K_r$ pari a 1 per regolarità in altezza oppure 0,8 negli altri casi:
 
 ```math
-S_a(T)=A[1+(\eta F_0-1)T/T_B] \quad (0\leq T<T_B)
+\eta = \max\left[0{,}55;\ \sqrt{\frac{10}{5+\xi}}\right]
+\eta = \frac{1}{q}
+```
+
+Posto $A = a_g S_S S_T$, la forma elastica orizzontale senza soglia inferiore è:
+
+```math
+S_a(T)=A[1+(\eta F_0-1)T/T_B] \ \ (0\leq T<T_B)
 ```
 
 ```math
-S_a(T)=A\eta F_0 \quad (T_B\leq T<T_C)
+S_a(T)=A\eta F_0 \ \ (T_B\leq T<T_C)
 ```
 
 ```math
-S_a(T)=A\eta F_0 T_C/T \quad (T_C\leq T<T_D)
+S_a(T)=A\eta F_0 T_C/T \ \ (T_C\leq T<T_D)
 ```
 
 ```math
-S_a(T)=A\eta F_0 T_C T_D/T^2 \quad (T\geq T_D)
+S_a(T)=A\eta F_0 T_C T_D/T^2 \ \ (T\geq T_D)
 ```
 
-La parte compatibile conserva la soglia 0,2 ag per SLV e SLC, anche nella scelta Elastico, secondo le celle del riferimento. Per la componente verticale conserva TB = 0,05 s, TC = 0,15 s, TD = 1 s, Fv = 1,35 F0 √ag, valore iniziale ag Fv ST/F0 e plateau ag Fv ST/qv. La componente verticale del riferimento dipende dal proprio qv. Queste particolarità sono convenzioni di compatibilità, non prescrizioni da estendere ad altri profili normativi.
+La parte compatibile conserva la soglia $0{,}2\,a_g$ per SLV e SLC, anche nella scelta Elastico, secondo le celle del riferimento. Per la componente verticale conserva $T_B = 0{,}05$ s, $T_C = 0{,}15$ s, $T_D = 1$ s, $F_v = 1{,}35\,F_0\sqrt{a_g}$, valore iniziale $a_g F_v S_T/F_0$ e plateau $a_g F_v S_T/q_v$. La componente verticale del riferimento dipende dal proprio qv. Queste particolarità sono convenzioni di compatibilità, non prescrizioni da estendere ad altri profili normativi.
 
 Le curve delle fasi 2 e 3 hanno 45 punti ciascuna fino a 4 s, con ascisse distinte per orizzontale e verticale. Il reticolo conserva anche gli 11 periodi delle ordinate tabulate. Esportare le coppie T, Sa della componente richiesta: non assumere che due righe con lo stesso indice abbiano lo stesso periodo.
 
@@ -71,32 +85,37 @@ Le curve delle fasi 2 e 3 hanno 45 punti ciascuna fino a 4 s, con ascisse distin
 Il modello fisico è una massa M con dispositivi in parallelo, in una direzione traslazionale. Non comprende torsione né risposta verticale. Con nj dispositivi di rigidezza kj per gruppo e fattore di rigidezza α:
 
 ```math
-K = \alpha\sum_j n_j k_j, \qquad T_{is}=2\pi\sqrt{\frac{M}{1000K}}
+K = \alpha\sum_j n_j k_j
+T_{is}=2\pi\sqrt{\frac{M}{1000K}}
 ```
 
-M è in kN·s²/m; kj e K sono in kN/mm. Il fattore 1000 converte K in kN/m, rendendo M/(1000K) dimensionalmente un tempo al quadrato. SLO e SLD utilizzano αSLE; SLV e SLC utilizzano αSLU. I fattori sono assegnati dal progettista e non rappresentano una legge universale del dispositivo.
+M è in kN·s²/m; kj e K sono in kN/mm. Il fattore 1000 converte K in kN/m, rendendo $M/(1000K)$ dimensionalmente un tempo al quadrato. SLO e SLD utilizzano αSLE; SLV e SLC utilizzano αSLU. I fattori sono assegnati dal progettista e non rappresentano una legge universale del dispositivo.
 
 Per T minore di 0,8 Tis lo spettro usa lo smorzamento della struttura; da T uguale a 0,8 Tis usa quello equivalente dell’isolamento, secondo NTC 2018 §7.10.5.3.2. La transizione può essere discontinua. Il calcolo adotta la forma elastica senza la soglia inferiore della modalità compatibile e non applica q0. I due smorzamenti sono ammessi tra 5% e 30%; il programma non estende il modello oltre questo intervallo.
 
 ```math
-F=M\,g\,S_a(T_{is}), \qquad d=\frac{F}{K}, \qquad F_j=\frac{F k_j}{\sum_i n_i k_i}
+F=M\,g\,S_a(T_{is})
+d=\frac{F}{K}
+F_j=\frac{F k_j}{\sum_i n_i k_i}
 ```
 
-g = 9,81 m/s², Sa è in g, F e la forza Fj del singolo dispositivo sono in kN, d è in mm. I fattori comuni di rigidezza si elidono nella ripartizione. La curva visualizzata contiene un campionamento uniforme e i punti caratteristici, compresi i due lati della soglia; forza e spostamento sono valutati direttamente a Tis, senza ricerca del campione precedente.
+$g = 9{,}81$ m/s², $S_a$ è in g, F e la forza Fj del singolo dispositivo sono in kN, d è in mm. I fattori comuni di rigidezza si elidono nella ripartizione. La curva visualizzata contiene un campionamento uniforme e i punti caratteristici, compresi i due lati della soglia; forza e spostamento sono valutati direttamente a Tis, senza ricerca del campione precedente.
 
 ### Pendolo e esempio riproducibile
 
 Il pendolo equivalente usa carico verticale N, attrito μ, spostamento positivo d e raggio equivalente R positivo:
 
 ```math
-F_\mu=\mu N, \qquad K_e=N\left(\frac{1}{R}+\frac{\mu}{d}\right), \qquad \xi_e=\frac{2}{\pi}\frac{1}{1+d/(\mu R)}
+F_\mu=\mu N
+K_e=N\left(\frac{1}{R}+\frac{\mu}{d}\right)
+\xi_e=\frac{2}{\pi}\frac{1}{1+d/(\mu R)}
 ```
 
 ```math
 T_e=2\pi\sqrt{\frac{1}{g(1/R+\mu/d)}}
 ```
 
-N è in kN, d e R in mm, Ke in kN/mm. ξe è una frazione, convertita in percentuale in interfaccia. Per il periodo del pendolo si conserva g = 9806 mm/s² dell’esempio; è distinto dal valore 9,81 m/s² usato per la forza globale. Il modello implementato richiede attrito strettamente positivo; l’eventuale impiego del risultato nel calcolo dell’isolamento resta soggetto al campo di smorzamento ammesso da quest’ultimo. Il raggio non viene ricavato dalla corsa.
+N è in kN, d e R in mm, Ke in kN/mm. ξe è una frazione, convertita in percentuale in interfaccia. Per il periodo del pendolo si conserva $g = 9806$ mm/s² dell’esempio; è distinto dal valore 9,81 m/s² usato per la forza globale. Il modello implementato richiede attrito strettamente positivo; l’eventuale impiego del risultato nel calcolo dell’isolamento resta soggetto al campo di smorzamento ammesso da quest’ultimo. Il raggio non viene ricavato dalla corsa.
 
 Un caso riproducibile usa M = 412,6 kN·s²/m, otto dispositivi da 1,01 kN/mm, αSLU = 1, sottosuolo B, ST = 1, ξ struttura = 5% e ξ isolamento = 10%. Allo SLC assegnare ag = 0,24191837917593156 g, F0 = 2,3947171362491604 e Tc∗ = 0,3155006983889627 s. Si ottengono K = 8,08 kN/mm, Tis = 1,4198380147 s, SS = 1,1682695647 e CC = 1,3854556248.
 
@@ -110,7 +129,7 @@ Il confronto campionato riproduce il campionamento dell’esempio, compreso il s
 
 ### Campo di applicazione
 
-Le NTC 2018 §3.2.3.2 limitano l’impiego di questi spettri a periodi fondamentali non superiori a 4 s. Il modulo ammette 0 < Tis ≤ 4 s in tutti gli stati limite e limita il grafico a 4 s. Se anche un solo periodo supera il limite, il calcolo viene rifiutato: servono apposite analisi oppure storie temporali del moto del terreno, non un’estrapolazione della formula.
+Le NTC 2018 §3.2.3.2 limitano l’impiego di questi spettri a periodi fondamentali non superiori a 4 s. Il modulo ammette $0 < T_{is} \leq 4$ s in tutti gli stati limite e limita il grafico a 4 s. Se anche un solo periodo supera il limite, il calcolo viene rifiutato: servono apposite analisi oppure storie temporali del moto del terreno, non un’estrapolazione della formula.
 
 Sono calcolati domanda spettrale e risposta del sistema equivalente. Non sono verificate distribuzione spaziale e torsione, eccentricità accidentali, irregolarità, capacità e stabilità dei dispositivi, risposta verticale, spostamenti di progetto con relative amplificazioni o condizioni complessive di applicabilità dell’analisi. Il confronto numerico con un foglio di riferimento verifica le quantità confrontate, non l’idoneità del modello per una struttura reale.
 
@@ -271,7 +290,7 @@ u = \pi D
 
 La media della tensione efficace in una tratta è ottenuta integrando il profilo effettivo, compreso il cambio di pendenza in corrispondenza della falda. Usare la sola tensione al centro dello strato può dare un valore diverso se il tratto attraversa quella discontinuità. Il peso del terreno di uno strato continua a influire sugli strati sottostanti anche quando la sua resistenza laterale viene esclusa.
 
-La testa del palo può trovarsi a una profondità d sotto il piano campagna; d = 0, il valore dei fogli precedenti, dà il calcolo con la testa al piano campagna. La stratigrafia resta riferita al piano campagna e la punta è alla profondità zg = d + L. Il terreno sopra la testa, il ricoprimento, entra nelle tensioni verticali con il proprio peso e con la falda, ma non dà resistenza laterale: alla testa σ′v vale il peso efficace del ricoprimento, per esempio 36 kPa con d = 2 m e γ = 18 kN/m³ sopra falda. Le quote z dei risultati partono dalla testa e la base usa Nq con zg/D, la profondità dal piano campagna; poiché Nq decresce con z/D la scelta è a favore di sicurezza.
+La testa del palo può trovarsi a una profondità $d$ sotto il piano campagna; $d = 0$, il valore dei fogli precedenti, dà il calcolo con la testa al piano campagna. La stratigrafia resta riferita al piano campagna e la punta è alla profondità $z_g = d + L$. Il terreno sopra la testa, il ricoprimento, entra nelle tensioni verticali con il proprio peso e con la falda, ma non dà resistenza laterale: alla testa $\sigma'_v$ vale il peso efficace del ricoprimento, per esempio 36 kPa con $d = 2$ m e $\gamma = 18$ kN/m³ sopra falda. Le quote $z$ dei risultati partono dalla testa e la base usa $N_q$ con $z_g/D$, la profondità dal piano campagna; poiché $N_q$ decresce con $z/D$ la scelta è a favore di sicurezza.
 
 ### Laterale drenato
 
@@ -295,7 +314,7 @@ La tabella descrive i valori presenti nel programma, inclusa la particolare copp
 
 ### Laterale non drenato
 
-Negli strati coesivi interessati dal ramo non drenato sotto falda si impiega τs = α Cu. Per pali battuti α vale 1 fino a Cu = 25 kPa, decresce secondo 1 − 0,0111(Cu − 25) fra 25 e 70 kPa e vale 0,5 da 70 kPa. Per le altre tecnologie vale 0,7, poi 0,7 − 0,008(Cu − 25), poi 0,35 negli stessi intervalli. Queste sono le espressioni a tratti effettivamente implementate.
+Negli strati coesivi interessati dal ramo non drenato sotto falda si impiega $\tau_s = \alpha\,c_u$, con $c_u$ in kPa. Per pali battuti $\alpha$ vale 1 fino a $c_u = 25$ kPa, decresce secondo $1 - 0{,}0111\,(c_u - 25)$ fra 25 e 70 kPa e vale 0,5 da 70 kPa. Per le altre tecnologie vale 0,7, poi $0{,}7 - 0{,}008\,(c_u - 25)$, poi 0,35 negli stessi intervalli. Queste sono le espressioni a tratti effettivamente implementate.
 
 I tratti sopra falda che non soddisfano le condizioni del ramo non drenato riutilizzano il calcolo drenato; gli strati granulari conservano la propria formulazione. La curva denominata non drenata può quindi essere composta da contributi calcolati con rami diversi. Occorre leggere la stratigrafia e non attribuire Cu a tutto il profilo.
 
@@ -308,13 +327,13 @@ R_{b,\mathrm{drenata}} = A_b\sigma'_v N_q
 R_{b,\mathrm{non\ drenata}} = A_b(N_c C_u+\sigma_v)
 ```
 
-Nq proviene dall'abaco parametrizzato NQ 2026 09 09 e non dalla sola formula esponenziale classica della capacità portante. Per D ≤ 0,8 m sono disponibili le curve z/D = 5, 10, 20 e 50. Ciascuna è descritta dalle coppie di angoli alle quali Nq vale 10 e 100: (23; 35,6), (24,6; 37), (25,8; 37,8), (27,5; 38,8) gradi.
+Nq proviene dall'abaco parametrizzato NQ 2026 09 09 e non dalla sola formula esponenziale classica della capacità portante. Per $D \leq 0{,}8$ m sono disponibili le curve $z/D$ = 5, 10, 20 e 50. Ciascuna è descritta dalle coppie di angoli alle quali $N_q$ vale 10 e 100: (23; 35,6), (24,6; 37), (25,8; 37,8), (27,5; 38,8) gradi.
 
 ```math
 \log_{10}(N_q) = 1+\frac{\varphi-\varphi_{10}}{\varphi_{100}-\varphi_{10}}
 ```
 
-Fra le curve si interpola nella scala logaritmica del rapporto z/D e di Nq. Per D > 0,8 m si usano le curve per z/D = 4 e 32, definite da polinomi cubici raccordati, con interpolazione aritmetica fra esse e φ limitato al campo 26–42°. I valori esterni vengono ricondotti al bordo e segnalati; non costituiscono un'estrapolazione validata.
+Fra le curve si interpola nella scala logaritmica del rapporto $z/D$ e di $N_q$. Per $D > 0{,}8$ m si usano le curve per $z/D$ = 4 e 32, definite da polinomi cubici raccordati, con interpolazione aritmetica fra esse e $\varphi$ limitato al campo 26–42°. I valori esterni vengono ricondotti al bordo e segnalati; non costituiscono un'estrapolazione validata.
 
 ### Più indagini e coefficienti
 
@@ -335,7 +354,7 @@ R_{d,T} = \eta_T\min\left[\frac{R_{s,medio}}{\xi_3\gamma_t};\frac{R_{s,\min}}{\x
 | 7 | 1,45 | 1,28 |
 | Almeno 10 | 1,40 | 1,21 |
 
-I coefficienti parziali sono quelli della NTC 2018 Tab. 6.4.II (R3): γs = 1,15 per la laterale in compressione e γt = 1,25 per la laterale in trazione per ogni tecnologia; γb della punta dipende dalla tecnologia.
+I coefficienti parziali sono quelli della NTC 2018 Tab. 6.4.II (R3): $\gamma_s = 1{,}15$ per la laterale in compressione e $\gamma_t = 1{,}25$ per la laterale in trazione per ogni tecnologia; $\gamma_b$ della punta dipende dalla tecnologia.
 
 | Tecnologia | γb |
 | --- | --- |
@@ -344,11 +363,11 @@ I coefficienti parziali sono quelli della NTC 2018 Tab. 6.4.II (R3): γs = 1,15 
 | Elica continua | 1,30 |
 | Micropalo (perforato e iniettato, senza valori propri nella norma) | 1,35 |
 
-Il foglio nuovo parte dal palo trivellato con γb = 1,35. Quando si cambia la tecnologia, e con Reset, il foglio propone il γb della tabella. Il valore resta modificabile e il foglio conserva quello scelto. Un foglio senza γb usa quello della tecnologia nel calcolo, nella relazione e nei progetti. Se γb differisce da quello della tecnologia, il calcolo lo usa e lo dichiara negli avvisi. Nei progetti γb si confronta e si condivide solo tra fogli con la stessa esecuzione della tabella: pali battuti con pali battuti, elica continua con elica continua, trivellati con trivellati e micropali. Gli altri coefficienti si confrontano tra tutti i fogli dei pali verticali.
+Il foglio nuovo parte dal palo trivellato con $\gamma_b = 1{,}35$. Quando si cambia la tecnologia, e con Reset, il foglio propone il γb della tabella. Il valore resta modificabile e il foglio conserva quello scelto. Un foglio senza γb usa quello della tecnologia nel calcolo, nella relazione e nei progetti. Se γb differisce da quello della tecnologia, il calcolo lo usa e lo dichiara negli avvisi. Nei progetti γb si confronta e si condivide solo tra fogli con la stessa esecuzione della tabella: pali battuti con pali battuti, elica continua con elica continua, trivellati con trivellati e micropali. Gli altri coefficienti si confrontano tra tutti i fogli dei pali verticali.
 
 I fogli del formato precedente, privi del numero di versione del foglio, proponevano 1,35 per ogni tecnologia. Per i pali battuti e a elica continua di questi fogli, un γb di 1,35 o mancante vale come il γb della tabella. Il foglio è aggiornato una sola volta, all'apertura o quando un progetto vi trascrive dei valori, e riceve il numero di versione: un 1,35 scelto in seguito resta quindi 1,35. Il calcolo e la relazione applicano la stessa regola senza modificare il documento. I pali trivellati e i micropali non cambiano, e ogni altro valore di γb resta quello memorizzato. Sui casi di prova, con il γb della tabella la resistenza di progetto drenata alla profondità massima aumenta del 4,3–7,0 % per i pali battuti e dell'1,0–1,2 % per l'elica continua.
 
-L'azione di compressione comprende il peso proprio sfavorevole e quella di trazione è ridotta dal peso favorevole, con i coefficienti specificati. Il peso del palo nelle azioni dipende dalla condizione e dal verso. A trazione, drenata e non drenata, si usa sempre il peso alleggerito W′ = W − γw A (z − zf) sotto falda, con z profondità della punta e zf della falda. A compressione non drenata con la base lorda Ab (Nc Cu + σv,L totale), cioè con la punta coesiva sotto falda in almeno una verticale, si usa sempre il peso intero W: σv contiene già la pressione dell'acqua alla base. A compressione drenata, e non drenata senza base lorda, si usa W′ con «Considera sottospinta», altrimenti W, a favore di sicurezza. Ogni condizione è confrontata con la propria resistenza. La sottospinta sul peso resta separata dal calcolo delle tensioni del terreno. Con peso specifico del palo nullo W = W′ = 0 a ogni profondità: le azioni di progetto coincidono con quelle assegnate, le resistenze non cambiano e il calcolo segnala che il peso proprio non è considerato. Un peso specifico negativo è rifiutato.
+L'azione di compressione comprende il peso proprio sfavorevole e quella di trazione è ridotta dal peso favorevole, con i coefficienti specificati. Il peso del palo nelle azioni dipende dalla condizione e dal verso. A trazione, drenata e non drenata, si usa sempre il peso alleggerito $W' = W - \gamma_w A\,(z - z_f)$ sotto falda, con $z$ profondità della punta e $z_f$ della falda. A compressione non drenata con la base lorda $A_b\,(N_c\,c_u + \sigma_{v,L})$, con $\sigma_{v,L}$ totale, cioè con la punta coesiva sotto falda in almeno una verticale, si usa sempre il peso intero W: σv contiene già la pressione dell'acqua alla base. A compressione drenata, e non drenata senza base lorda, si usa W′ con «Considera sottospinta», altrimenti W, a favore di sicurezza. Ogni condizione è confrontata con la propria resistenza. La sottospinta sul peso resta separata dal calcolo delle tensioni del terreno. Con peso specifico del palo nullo $W = W' = 0$ a ogni profondità: le azioni di progetto coincidono con quelle assegnate, le resistenze non cambiano e il calcolo segnala che il peso proprio non è considerato. Un peso specifico negativo è rifiutato.
 
 ```math
 E_{d,C} = N_C+\gamma_{G,sfav}W
@@ -363,7 +382,14 @@ Converse Labarre usa la geometria del reticolo nelle due direzioni. Gli angoli d
 \eta = 1-\frac{\arctan(D/s_x)}{90}\frac{n_x-1}{n_x} -\frac{\arctan(D/s_y)}{90}\frac{n_y-1}{n_y}
 ```
 
-Feld conta le coppie adiacenti ortogonali e diagonali: P = (nx−1)ny + nx(ny−1) + 2(nx−1)(ny−1), poi η = 1 − 2P/(16 nx ny). Per questi due metodi il modulo applica la stessa efficienza a compressione e trazione. L'opzione manuale permette valori distinti. Un risultato non positivo viene rifiutato.
+Feld conta le coppie adiacenti ortogonali e diagonali di una maglia di $n_x \times n_y$ pali:
+
+```math
+P = (n_x-1)\,n_y + n_x\,(n_y-1) + 2\,(n_x-1)(n_y-1)
+\eta = 1 - \frac{2P}{16\,n_x n_y}
+```
+
+ Per questi due metodi il modulo applica la stessa efficienza a compressione e trazione. L'opzione manuale permette valori distinti. Un risultato non positivo viene rifiutato.
 
 La profondità analizzabile deve essere coperta dalle stratigrafie necessarie. Sono fuori dal modello automatico cedimenti, attrito negativo, resistenza del blocco di gruppo e interazione completa terreno struttura. Il rapporto Ed/Rd riguarda la resistenza assiale considerata e non esprime da solo la prestazione di esercizio.
 
@@ -373,18 +399,18 @@ La profondità analizzabile deve essere coperta dalle stratigrafie necessarie. S
 
 La resistenza laterale usa curve digitalizzate Bustamante Doix documentate nel materiale di riferimento di Viggiani, sezione 13.1.6. Le famiglie SG, AL, MC e R e le curve 1 IRS e 2 IGU individuano la correlazione applicabile. La grandezza p_l, in MPa, viene interpolata linearmente fra i punti della curva; l'ordinata viene convertita in kPa. Il codice rifiuta valori esterni al campo disponibile. Il campo dell'interfaccia è «Pressione p_i = p_l»: l'uguaglianza è un'assunzione del modulo e non dimostra che la pressione della pompa coincida fisicamente con il parametro geotecnico dell'abaco.
 
-Il diametro del bulbo viene stimato come Ds = α D, dove D è il diametro di perforazione. La resistenza di ogni tratta attiva vale π Ds Lj τj. α rappresenta l'espansione convenzionale e va scelto in relazione a terreno e iniezione; non è un incremento di resistenza indipendente dalla geometria.
+Il diametro del bulbo viene stimato come $D_s = \alpha\,D$, dove $D$ è il diametro di perforazione. La resistenza di ogni tratta attiva vale $\pi D_s L_j \tau_j$. α rappresenta l'espansione convenzionale e va scelto in relazione a terreno e iniezione; non è un incremento di resistenza indipendente dalla geometria.
 
 ```math
 D_s = \alpha D
 R_s = \sum_j\pi D_s L_j\tau_j
 ```
 
-Per esempio, D = 0,20 m, α = 1,30, lunghezza attiva 8 m e τ = 150 kPa producono Ds = 0,26 m e Rs = 980,18 kN prima dei coefficienti. Aumentare α del 10% aumenta linearmente la superficie resistente, a parità delle altre ipotesi. Il risultato resta condizionato alla validità della correlazione e della realizzazione del bulbo.
+Per esempio, $D = 0{,}20$ m, $\alpha = 1{,}30$, lunghezza attiva 8 m e $\tau = 150$ kPa producono $D_s = 0{,}26$ m e $R_s = \pi \cdot 0{,}26 \cdot 8 \cdot 150 = 980{,}18$ kN prima dei coefficienti. Aumentare α del 10% aumenta linearmente la superficie resistente, a parità delle altre ipotesi. Il risultato resta condizionato alla validità della correlazione e della realizzazione del bulbo.
 
 ### Inclinazione punta e peso
 
-Per un'inclinazione θ dalla verticale, una differenza di quota Δz corrisponde a una tratta lungo l'asse Δs = Δz/cos θ. La resistenza viene sommata lungo quell'asse. Con la testa a una profondità d sotto il piano campagna, d è verticale: gli strati sopra la testa non hanno aderenza, s parte dalla testa e la punta è a d + L cos θ dal piano campagna. Non deve essere letta direttamente come componente verticale di una capacità di gruppo senza risolvere la geometria delle azioni.
+Per un'inclinazione $\theta$ dalla verticale, una differenza di quota $\Delta z$ corrisponde a una tratta lungo l'asse $\Delta s = \Delta z/\cos\theta$. La resistenza viene sommata lungo quell'asse. Con la testa a una profondità d sotto il piano campagna, d è verticale: gli strati sopra la testa non hanno aderenza, s parte dalla testa e la punta è a $d + L\cos\theta$ dal piano campagna. Non deve essere letta direttamente come componente verticale di una capacità di gruppo senza risolvere la geometria delle azioni.
 
 La punta opzionale è una frazione assegnata del laterale; non deriva da una capacità portante indipendente. Per il peso si separano area del tubo e area di boiacca. Il diametro del tubo è distinto da quello del bulbo. La componente adottata nella procedura segue il fattore cos θ previsto dal modello.
 
@@ -400,68 +426,86 @@ Diametri e aree devono essere riportati in metri e metri quadrati nella formula 
 
 ### Idealizzazione e pressione limite
 
-Il palo viene analizzato attraverso meccanismi limite compatibili con la resistenza del terreno e un momento plastico My assegnato. Non si introduce una legge di spostamento delle molle; il risultato principale è il carico limite H. Il terreno omogeneo costituisce il riferimento più diretto, mentre stratificazioni della stessa famiglia e falda sono estensioni sperimentali della procedura integrale.
+Il palo viene analizzato attraverso meccanismi limite compatibili con la resistenza del terreno e un momento plastico $M_y$ assegnato. Non si introduce una legge di spostamento delle molle; il risultato principale è il carico limite $H$. Il terreno omogeneo costituisce il riferimento più diretto, mentre stratificazioni della stessa famiglia e falda sono estensioni sperimentali della procedura integrale. Le successioni di strati coesivi e granulari richiedono il metodo Stratificato, riassunto nel capitolo [Capacità orizzontale in terreno stratificato](wiki:capacita-orizzontale-in-terreno-stratificato).
 
-Nei coesivi la resistenza laterale per unità di lunghezza è nulla nei primi 1,5D dal piano campagna e vale poi 9CuD. Il tratto escluso non ricomincia a ogni cambio di strato. Nei granulari la resistenza è 3KpDσ′v. Le unità di p sono kN/m.
+Nei coesivi la resistenza laterale per unità di lunghezza è nulla nei primi $1{,}5\,D$ dal piano campagna e vale poi $9\,c_u D$. Il tratto escluso non ricomincia a ogni cambio di strato. Nei granulari la resistenza è $3\,K_p D\,\sigma'_v$, con il coefficiente di spinta passiva di Rankine. Le unità di $p$ sono kN/m. Nei coesivi, per $z \geq 1{,}5\,D$, e nei granulari valgono rispettivamente:
 
 ```math
-p(z) = 9 C_u D\quad\mathrm{per}\ z\geq1{,}5D\ \mathrm{nei\ coesivi}
-p(z) = 3 K_p D\sigma'_v(z)\quad\mathrm{nei\ granulari}
-K_p = \frac{1+\sin\varphi}{1-\sin\varphi}
+p(z) = 9\,c_u\,D
+p(z) = 3\,K_p\,D\,\sigma'_v(z)
+K_p = \frac{1+\sin\varphi'}{1-\sin\varphi'}
 ```
 
-Con la testa a una profondità d sotto il piano campagna la stratigrafia resta riferita al piano campagna, mentre z, l'eccentricità e e i diagrammi partono dalla testa, dove si pone anche il vincolo della testa impedita. Il ricoprimento dà le tensioni verticali, con la falda, ma nessuna reazione: nei granulari σ′v è quella alla profondità d + z; nei coesivi p è nullo fino a 1,5D dal piano campagna, cioè fino a 1,5D − d dalla testa. Il modello della verticale, omogeneo o stratificato, è riconosciuto sugli strati attraversati dal palo con la stessa profondità della testa del calcolo. Una testa interrata con un tratto libero sopra il terreno è rifiutata. Con d = 0 il calcolo è quello con la testa al piano campagna.
+L'angolo è ammesso fra 0 e 60° escluso, come controllo dei dati e non come soglia di Broms; nei granulari la coesione efficace deve essere nulla: i terreni con coesione e attrito insieme non sono trattati.
 
-Si definiscono Q come integrale delle forze, S come integrale dei momenti rispetto al piano campagna, o alla testa se è interrata, e A come momento rispetto alla sezione alla profondità z. Queste funzioni permettono di formulare in modo uniforme equilibrio e criteri limite.
+Con la testa a una profondità $d$ sotto il piano campagna la stratigrafia resta riferita al piano campagna, mentre $z$, l'eccentricità $e$ e i diagrammi partono dalla testa, dove si pone anche il vincolo della testa impedita. Il ricoprimento dà le tensioni verticali, con la falda, ma nessuna reazione: nei granulari $\sigma'_v$ è quella alla profondità $d + z$; nei coesivi $p$ è nullo fino a $1{,}5\,D$ dal piano campagna, cioè fino a $1{,}5\,D - d$ dalla testa. Il modello della verticale, omogeneo o stratificato, è riconosciuto sugli strati attraversati dal palo con la stessa profondità della testa del calcolo. Una testa interrata con un tratto libero sopra il terreno è rifiutata. Con $d = 0$ il calcolo è quello con la testa al piano campagna.
+
+Si definiscono $Q$ come integrale delle forze, $S$ come integrale dei momenti rispetto al piano campagna, o alla testa se è interrata, e $A$ come momento rispetto alla sezione alla profondità $z$. Queste funzioni permettono di formulare in modo uniforme equilibrio e criteri limite.
 
 ```math
 Q(z) = \int_0^z p(s)\,ds
-S(z) = \int_0^z s p(s)\,ds
-A(z) = z Q(z)-S(z)
+S(z) = \int_0^z s\,p(s)\,ds
+A(z) = z\,Q(z)-S(z)
 V(z) = H-Q(z)
-M(z) = M_0+H z-A(z)
+M(z) = M_0+H\,z-A(z)
 ```
 
-Con testa libera M0 = He. La profondità zf del massimo momento soddisfa Q(zf) = H. Per il terreno coesivo omogeneo zf = 1,5D + H/(9CuD). I rami vengono confrontati in base a equilibrio e capacità, non soltanto mediante una soglia geometrica L/D.
+Con testa libera $M_0 = H e$. La profondità $z_f$ del massimo momento soddisfa $Q(z_f) = H$, e in quella sezione il momento vale $M(z_f) = M_0 + S(z_f)$. Per il terreno coesivo omogeneo $z_f = 1{,}5\,D + H/(9\,c_u D)$. I rami vengono confrontati in base a equilibrio e capacità, non soltanto mediante una soglia geometrica $L/D$.
 
 ### Meccanismi granulari
 
-Per la testa libera e il palo corto H = A(L)/(L+e). Nel ramo lungo il momento massimo raggiunge My: He + S(zf) = My. Per testa impedita il ramo corto ha H = Q(L), M0 = −S(L), ed è ammissibile quando il momento alla testa non supera My.
+Per la testa libera il palo corto ruota attorno a un punto interno e Broms chiude le reazioni con una forza al piede; nel ramo lungo il momento massimo raggiunge $M_y$:
 
-Nel ramo intermedio impedito H = [My + A(L)]/L con momento in testa −My. Nel ramo lungo impedito la condizione è S(zf) = 2My. L'equilibrio può richiedere una forza concentrata al piede F = Q(L) − H nei regimi corti e intermedi. Tale forza spiega il salto del taglio e non deve essere rimossa per rendere il diagramma visivamente continuo.
+```math
+H = \frac{A(L)}{L+e}
+H\,e + S(z_f) = M_y
+```
+
+Per testa impedita il ramo corto ha $H = Q(L)$ e $M_0 = -S(L)$, ed è ammissibile quando il momento alla testa non supera $M_y$. Nel ramo intermedio impedito il momento in testa è $-M_y$; nel ramo lungo impedito si forma una seconda cerniera a $z_f$:
+
+```math
+H = \frac{M_y + A(L)}{L}
+S(z_f) = 2\,M_y
+```
+
+L'equilibrio può richiedere una forza concentrata al piede $F = Q(L) - H$ nei regimi corti e intermedi. Tale forza spiega il salto del taglio e non deve essere rimossa per rendere il diagramma visivamente continuo.
 
 Per un palo lungo, la porzione mobilitata e l'eventuale chiusura del diagramma oltre il massimo derivano dall'idealizzazione del meccanismo; non costituiscono una distribuzione elastica univoca delle reazioni del terreno.
 
 ### Meccanismi coesivi
 
-La coppia resistente inferiore C fra zf e t è ottenuta dividendo la distribuzione al punto che ne equilibra le risultanti. Nel coesivo omogeneo vale 9CuD(t−zf)²/4. Più in generale, individuato b in modo che Q(b) sia la media di Q(zf) e Q(t), si usa C = S(t) + S(zf) − 2S(b).
+La coppia resistente inferiore $C$ fra $z_f$ e $t$ è ottenuta dividendo la distribuzione al punto che ne equilibra le risultanti. Nel coesivo omogeneo vale $9\,c_u D\,(t-z_f)^2/4$. Più in generale, individuata la profondità $z_r$ in modo che $Q(z_r)$ sia la media di $Q(z_f)$ e $Q(t)$, si usa:
 
-Per testa libera corta si impone He + S(zf) = C(zf,L); per il ramo lungo He + S(zf) = My e C(zf,t) = My con t ≤ L. Con testa impedita, nel ramo intermedio −My + S(zf) = C(zf,L), mentre nel lungo S(zf) = 2My. Il ramo corto impedito resta H = Q(L) con controllo del momento alla testa.
+```math
+C(z_f,t) = S(t) + S(z_f) - 2\,S(z_r)
+```
 
-La ricerca numerica usa bisezione e verifiche dell'equilibrio. La tolleranza della radice è dell'ordine di 10⁻⁸ con massimo 100 iterazioni; i residui di equilibrio sono controllati rispetto alle scale delle azioni. Il regime governante è quello ammissibile con capacità minore.
+Per testa libera corta si impone $H e + S(z_f) = C(z_f,L)$; per il ramo lungo $H e + S(z_f) = M_y$ e $C(z_f,t) = M_y$ con $t \leq L$. Con testa impedita, nel ramo intermedio $-M_y + S(z_f) = C(z_f,L)$, mentre nel lungo $S(z_f) = 2\,M_y$. Il ramo corto impedito resta $H = Q(L)$ con controllo del momento alla testa. Nel coesivo omogeneo queste condizioni coincidono con le relazioni di Broms; la chiusura distribuita è usata in ogni profilo interamente coesivo, anche con il metodo Broms.
+
+La ricerca numerica usa bisezione e verifiche dell'equilibrio. La tolleranza della radice è dell'ordine di $10^{-8}$ con massimo 100 iterazioni; i residui di equilibrio sono controllati rispetto alle scale delle azioni. Il regime governante è quello ammissibile con capacità minore.
 
 ### Da Hu alla resistenza di progetto
 
-Le capacità dei sondaggi vengono combinate tramite media e minimo e i fattori ξ selezionati. La riduzione di gruppo e il coefficiente di resistenza vengono applicati successivamente. Nel percorso implementato il parziale di resistenza laterale vale 1,3.
+Le capacità dei sondaggi vengono combinate tramite media e minimo e i fattori $\xi$ selezionati (NTC 2018, tabella 6.4.IV). La riduzione di gruppo e il coefficiente di resistenza vengono applicati successivamente. Nel percorso implementato il parziale di resistenza laterale vale 1,3 (tabella 6.4.VI).
 
 ```math
 R_k = \min\left(\frac{H_{u,medio}}{\xi_3};\frac{H_{u,\min}}{\xi_4}\right)
 R_d = \frac{\eta R_k}{1{,}3}
 ```
 
-HEd è già un'azione di progetto assegnata. Il motore non genera l'intero percorso delle combinazioni normative. L'efficienza di gruppo basata su Reese e Van Impe usa fattori direzionali riferiti al verso di H. Con il vicino davanti il palo è nella sua scia, min[1; 0,48(s/D)^0,38]; con il vicino dietro è capofila, min[1; 0,70(s/D)^0,26]; lateralmente vale min[1; 0,64(s/D)^0,34]. Ogni contributo diagonale combina secondo l'angolo il fattore laterale con quello longitudinale del proprio lato, anteriore o posteriore; il prodotto dei vicini attivi dà η. Questa riduzione agisce su Rd, senza ridisegnare il meccanismo Hu del singolo palo.
+$H_{Ed}$ è già un'azione di progetto assegnata. Il motore non genera l'intero percorso delle combinazioni normative. L'efficienza di gruppo basata su Reese e Van Impe usa fattori direzionali riferiti al verso di $H$. Con il vicino davanti il palo è nella sua scia, $\min[1;\ 0{,}48\,(s/D)^{0{,}38}]$; con il vicino dietro è capofila, $\min[1;\ 0{,}70\,(s/D)^{0{,}26}]$; lateralmente vale $\min[1;\ 0{,}64\,(s/D)^{0{,}34}]$. Ogni contributo diagonale combina secondo l'angolo il fattore laterale con quello longitudinale del proprio lato, anteriore o posteriore; il prodotto dei vicini attivi dà $\eta$. Questa riduzione agisce su $R_d$, senza ridisegnare il meccanismo $H_u$ del singolo palo.
 
 ### Momento resistente del palo in c a
 
-La procedura automatica considera una sezione circolare con 4–512 barre uniformemente distribuite. La distanza dell'asse delle barre dal bordo comprende copriferro, diametro della staffa e mezzo diametro longitudinale. N è positivo a compressione in questo motore.
+La procedura automatica considera una sezione circolare con 4–512 barre uniformemente distribuite. La distanza dell'asse delle barre dal bordo comprende copriferro, diametro della staffa e mezzo diametro longitudinale. $N$ è positivo a compressione in questo motore.
 
-Si assume conservazione delle sezioni piane, calcestruzzo compresso a parabola rettangolo senza contributo teso e acciaio elastico perfettamente plastico. Si sottrae il calcestruzzo sostituito dalle barre. L'equilibrio assiale viene ricercato nel campo con asse neutro interno, 0 < x < D. Non è quindi una procedura generale per qualsiasi stato assiale, inclusi i campi interamente tesi o compressi.
+Si assume conservazione delle sezioni piane, calcestruzzo compresso a parabola rettangolo senza contributo teso e acciaio elastico perfettamente plastico. Si sottrae il calcestruzzo sostituito dalle barre. L'equilibrio assiale viene ricercato nel campo con asse neutro interno, $0 < x < D$. Non è quindi una procedura generale per qualsiasi stato assiale, inclusi i campi interamente tesi o compressi.
 
-Due integrazioni, 28 × 96 e 56 × 192, vengono confrontate. Se lo scarto supera il 2% il momento automatico non è accettato. Un My manuale può essere utilizzato con provenienza esplicita, ma il meccanismo di Broms non dimostra la duttilità necessaria a sviluppare la cerniera.
+Due integrazioni, 28 × 96 e 56 × 192, vengono confrontate. Se lo scarto supera il 2% il momento automatico non è accettato. Un $M_y$ manuale può essere utilizzato con provenienza esplicita, ma il meccanismo di Broms non dimostra la duttilità necessaria a sviluppare la cerniera.
 
 ### Tubo CHS del micropalo
 
-La sezione resistente è il solo tubo; la boiacca non contribuisce. Le formule geometriche sono esatte per l'anello, con De e Di in millimetri. Il diametro geotecnico usato in p(z) resta un parametro separato.
+La sezione resistente è il solo tubo; la boiacca non contribuisce. Le formule geometriche sono esatte per l'anello, con $D_e$ e $D_i$ in millimetri. Il diametro geotecnico usato in $p(z)$ resta un parametro separato.
 
 ```math
 A = \frac{\pi(D_e^2-D_i^2)}{4}
@@ -473,7 +517,67 @@ M_{pl} = \frac{W_{pl}f_y}{\gamma_{M0}}
 M_y(N) = M_{pl}\left(1-\frac{|N|}{N_{pl}}\right)
 ```
 
-L'ultimo rapporto va valutato con N e Npl nelle stesse unità; i risultati di forza e momento sono convertiti in kN e kNm. Il ramo automatico richiede classe 1 secondo De/t ≤ 50ε², con ε² = 235/fy. Le soglie 70ε² e 90ε² identificano i campi successivi, senza abilitarli come sezione plastica automatica. La relazione lineare N M è la semplificazione adottata; non verifica instabilità globale, fatica o ovalizzazione locale.
+L'ultimo rapporto va valutato con $N$ e $N_{pl}$ nelle stesse unità; i risultati di forza e momento sono convertiti in kN e kNm. Il ramo automatico richiede classe 1 secondo $D_e/t \leq 50\,\varepsilon^2$, con $\varepsilon^2 = 235/f_y$. Le soglie $70\,\varepsilon^2$ e $90\,\varepsilon^2$ identificano i campi successivi, senza abilitarli come sezione plastica automatica. La relazione lineare $N$–$M$ è la semplificazione adottata; non verifica instabilità globale, fatica o ovalizzazione locale.
+
+## Capacità orizzontale in terreno stratificato
+
+Il metodo Stratificato del palo e del micropalo orizzontale estende la teoria di Broms ai terreni a strati, anche con successioni di strati coesivi e granulari; è stato ideato da G. Pacini. Questo capitolo ne riassume ipotesi, equazioni e limiti. La teoria completa, con le dimostrazioni, il confronto con Broms e gli esempi controllati con la libreria e con un calcolo indipendente, è nell'articolo [Capacità orizzontale del palo in terreno stratificato](guida:Palo orizzontale in terreno stratificato.pdf); lo apre anche «Apri riferimento» del riferimento «G. Pacini» in Diagrammi e dettagli.
+
+### Diagramma limite per strato
+
+Ogni strato usa la propria legge di Broms: $9\,c_u D$ nei coesivi, con reazione nulla fino a $1{,}5\,D$ dal piano campagna, e $3\,K_p D\,\sigma'_v$ nei granulari. La zona coesiva senza reazione si misura dal piano campagna e non ricomincia a ogni strato; la tensione verticale efficace si accumula attraverso tutti gli strati soprastanti, coesivi compresi e con la falda ($\gamma$ sopra, $\gamma_{sat} - \gamma_w$ sotto). Il diagramma $p(z)$ risulta lineare a tratti, con un tratto per ogni strato e per ogni lato della falda e della profondità $1{,}5\,D - d$, e con salti alle interfacce, che non vengono raccordati. In ogni tratto:
+
+```math
+p(z) = p_0 + k\,(z-a)
+```
+
+### Equilibrio con tre integrali
+
+Tutte le condizioni di equilibrio si scrivono con gli integrali $Q$, $S$ e $A$ del capitolo di Broms, che per un diagramma lineare a tratti sono esatti: il terreno stratificato non richiede formule nuove. Alla profondità di taglio nullo $z_f$ il momento è massimo:
+
+```math
+Q(z_f) = H
+M(z_f) = M_0 + S(z_f)
+```
+
+con $M_0 = H e$ per la testa libera, $M_0 = -M_y$ con la cerniera in testa e $M_0 = -S(L)$ per il palo impedito che trasla. Dentro un tratto $z_f$ si ricava invertendo l'area del trapezio, con la forma stabile $z_f = a + 2r/(p_0 + \sqrt{p_0^2 + 2 k r})$, dove $r = H - Q(a)$.
+
+### Chiusura distribuita delle reazioni
+
+Sotto $z_f$ le reazioni continuano a contrastare $H$ fino alla profondità d'inversione $z_r$ e poi agiscono in verso opposto fino a $t$, con risultanti uguali: le due parti formano una coppia che equilibra $M(z_f)$. Nel palo corto e nell'intermedio $t = L$; nel palo lungo $t \leq L$ è la profondità in cui la coppia raggiunge $M_y$.
+
+```math
+Q(z_r) = \frac{Q(z_f) + Q(t)}{2}
+C(z_f,t) = S(t) + S(z_f) - 2\,S(z_r)
+C(z_f,t) = M(z_f)
+```
+
+Nel palo corto le due condizioni coincidono con l'equilibrio globale del palo rigido che ruota attorno a $z_r$, con le reazioni limite dalle due parti: $H = 2\,Q(z_r) - Q(L)$ e $M_0 + 2\,S(z_r) - S(L) = 0$. Broms, nei granulari, sostituisce invece il tratto rovesciato con la forza concentrata al piede $F = Q(L) - H$.
+
+### Meccanismi e confronto con Broms
+
+| Testa e meccanismo | Metodo Stratificato | Broms nei granulari |
+| --- | --- | --- |
+| Libera, corto | $H e + S(z_f) = C(z_f,L)$ | $H(L+e) = A(L)$ |
+| Libera, lungo | $H e + S(z_f) = M_y$ | uguale |
+| Impedita, corto | $H = Q(L)$, $S(L) \leq M_y$ | uguale |
+| Impedita, intermedio | $-M_y + S(z_f) = C(z_f,L)$ | $H L = M_y + A(L)$ |
+| Impedita, lungo | $S(z_f) = 2\,M_y$ | uguale |
+
+La capacità è il minore dei candidati ammissibili. Nel terreno coesivo omogeneo il metodo restituisce esattamente le relazioni di Broms per tutti i meccanismi. Nel granulare omogeneo coincide con Broms per il palo lungo e per il corto impedito, mentre dà capacità minori per il corto a testa libera e per l'intermedio impedito: nel corto a testa libera, con $\zeta = z_r/L$ ed $\varepsilon = e/L$, l'equilibrio si riduce alla cubica
+
+```math
+2\,\zeta^3 + 3\,\varepsilon\,\zeta^2 - \frac{3}{2}\,\varepsilon - 1 = 0
+\frac{H_{distribuita}}{H_{Broms}} = 6\,(1+\varepsilon)\left(\zeta^2 - \frac{1}{2}\right)
+```
+
+e la capacità è il 78,0 % di quella di Broms con $e = 0$, il 67,9 % con $e = L$ e tende al 58,6 % per eccentricità molto grandi.
+
+### Esempi verificati e limiti
+
+Per argilla con $c_u = 40$ kPa fino a 2 m su sabbia con $\varphi' = 32°$, falda a 3 m, palo di diametro 0,8 m a testa libera con $e = 0{,}5$ m e lunghezza 5 m, il palo è corto con $H_u = 350{,}09$ kN, $z_f = 2{,}386$ m e $z_r = 3{,}850$ m; con la testa impedita, lunghezza 6 m e $M_y = 1500$ kNm il meccanismo è intermedio con $H_u = 890{,}66$ kN. L'articolo riporta otto casi, calcolati con la libreria e con un programma indipendente, con scarti relativi sotto $10^{-10}$.
+
+Il metodo è sperimentale: non ha una validazione sperimentale indipendente e i risultati lo dichiarano. Le leggi locali sono quelle di Broms per il terreno omogeneo; applicarle strato per strato è un'ipotesi, meno affidabile per strati sottili e molto diversi. L'inversione brusca della reazione è un'idealizzazione dello stato limite, non una legge pressione–spostamento, e il calcolo non fornisce spostamenti: per l'esercizio serve la [risposta elastica del palo orizzontale](wiki:palo-elastico).
 
 ## Sezione in calcestruzzo armato
 
@@ -524,7 +628,15 @@ La risposta dipende dai diagrammi selezionati per cls, barre e tendini. Nelle le
 
 Per un gruppo di n fili o trefoli con area assegnata, l'eventuale diametro equivalente rappresenta la somma delle aree; a parità di diametro elementare cresce con √n. La tensione iniziale del tendine è un input efficace. Il motore non ricostruisce in modo generale attrito, rientro degli ancoraggi, rilassamento e tutte le perdite differite della struttura.
 
-Le verifiche di tensione di esercizio utilizzano le combinazioni già assegnate e i limiti disponibili nel modulo. La scelta Rara, Frequente o Quasi permanente non genera le combinazioni. In alcuni percorsi la verifica di decompressione o di formazione delle fessure usa uno stato ausiliario interamente reagente: tale stato non va confuso con quello fessurato usato per le tensioni delle barre.
+Le verifiche di tensione di esercizio utilizzano le combinazioni già assegnate e i limiti di NTC 2018 §4.1.2.2.5 ed EN 1992-1-1 §7.2: per il calcestruzzo $k_1 = 0{,}60$ nella combinazione caratteristica (rara) e $k_2 = 0{,}45$ nella quasi permanente, per le barre $k_3 = 0{,}80$, con gli stessi coefficienti in tutte le famiglie normative del modulo. Il fattore $f_s$ vale 0,8 per gli elementi piani gettati in opera con spessore inferiore a 50 mm e 1 negli altri casi, e riguarda solo il calcestruzzo:
+
+```math
+\sigma_{c,lim} = f_s\,k_1\,f_{ck}
+\sigma_{c,lim} = f_s\,k_2\,f_{ck}
+\sigma_{s,lim} = k_3\,f_{yk}
+```
+
+Per i trefoli il limite è $0{,}75\,f_{pk}$ nella famiglia Eurocodice e Model Code 2010, $0{,}70\,f_{pk}$ con l'appendice nazionale italiana e $0{,}80\,f_{p(0,1)k}$ con NTC 2018 e CNR-DT 200. Il rapporto del calcestruzzo è il massimo di $|\sigma_c|/\sigma_{c,lim}$ sui vertici compressi della sezione. La scelta Rara, Frequente o Quasi permanente non genera le combinazioni. In alcuni percorsi la verifica di decompressione o di formazione delle fessure usa uno stato ausiliario interamente reagente: tale stato non va confuso con quello fessurato usato per le tensioni delle barre.
 
 Con Analisi «Non lineare» nella scheda Tensioni le tensioni di esercizio sono calcolate con le leggi di progetto dei materiali, cioè con i valori caratteristici ridotti da αcc, γc e γs della norma del foglio (fcd = αcc fck/γc, fyd = fyk/γs), non con leggi di esercizio. È una scelta voluta: l'analisi non lineare con le leggi di progetto e l'analisi lineare a sezione fessurata sono analisi diverse e i loro risultati non sono confrontabili; il riferimento abituale delle verifiche SLE resta l'analisi lineare. Chi vuole le leggi con coefficienti unitari modifica la norma, assegnando αcc, γc e γs pari a 1 nei Coefficienti da normativa del foglio: gli stessi coefficienti valgono per tutte le verifiche del foglio. Con Non lineare la scheda Tensioni mostra l'avviso sui legami di progetto.
 
@@ -620,7 +732,15 @@ Asl,disp è l'armatura longitudinale disponibile per la torsione dopo la flessio
 
 ### Dettagli e curva momento curvatura
 
-Le verifiche costruttive dipendono dal tipo di elemento scelto. Il modulo confronta geometria, armature e parametri necessari con i limiti implementati e mantiene «Da completare» quando mancano informazioni. La lunghezza di ancoraggio rettilineo parte da lbrqd = φσsd/(4fbd), con i coefficienti di forma e condizioni α1–α5 assunti unitari nel ramo documentato. Le regole di aderenza sono quelle delle barre ad aderenza migliorata, fbd = 2,25 η1 η2 fctd (NTC 2018 §4.1.2.1.1.4; EN 1992-1-1 §8.4.2): con «Barre: Liscia» nella sezione, la stessa scelta usata dalla fessurazione, l'ancoraggio resta da completare, anche nella ricerca delle armature. Le sovrapposizioni introducono α6 e i relativi minimi; i dettagli speciali non vengono ricavati da un disegno ideale della sezione.
+Le verifiche costruttive dipendono dal tipo di elemento scelto. Il modulo confronta geometria, armature e parametri necessari con i limiti implementati e mantiene «Da completare» quando mancano informazioni. La lunghezza di ancoraggio rettilineo parte dalla lunghezza di base $l_{b,rqd}$, con i coefficienti di forma e condizioni $\alpha_1$–$\alpha_5$ assunti unitari nel ramo documentato. Le regole di aderenza sono quelle delle barre ad aderenza migliorata (NTC 2018 §4.1.2.1.1.4; EN 1992-1-1 §8.4.2 e §8.4.3), con $\eta_1 = 1$ in buone condizioni di aderenza e 0,7 altrimenti, $\eta_2 = 1$ fino al diametro di 32 mm e $(132 - \phi)/100$ oltre, $f_{ctd} = \alpha_{ct} f_{ctk,0{,}05}/\gamma_c$ e $\alpha_{ct} = 1$ nel ramo NTC; nelle sovrapposizioni $\alpha_6$ dipende dalla percentuale $\rho_1$ di barre sovrapposte (EN 1992-1-1 §8.7.3):
+
+```math
+f_{bd} = 2{,}25\,\eta_1\,\eta_2\,f_{ctd}
+l_{b,rqd} = \frac{\phi\,\sigma_{sd}}{4\,f_{bd}}
+\alpha_6 = \min\left[1{,}5;\ \max(1;\ \sqrt{\rho_1/25})\right]
+```
+
+Le barre lisce non sono trattate: con «Barre: Liscia» nella sezione, la stessa scelta usata dalla fessurazione, l'ancoraggio resta da completare, anche nella ricerca delle armature. Le sovrapposizioni introducono $\alpha_6$ e i relativi minimi; i dettagli speciali non vengono ricavati da un disegno ideale della sezione.
 
 Lo sforzo NEd dei minimi di armatura dei pilastri (NTC 2018 §4.1.6.1.2) è la compressione più gravosa fra tutte le combinazioni del foglio: SLU, SLV, taglio, rara, frequente e quasi permanente. A parità di valore prevale una combinazione di progetto. Con combinazioni ultime complete le SLE di norma non governano; se governano, il risultato indica che NEd è un valore di esercizio.
 
@@ -1661,9 +1781,11 @@ $$ \overline{P_m}=\frac{1}{N}\sum_{i=1}^{N}P_{m,i}
 
 L'identificazione fra questa media ed efficienza di capacità richiede ipotesi sulla risposta dei singoli pali e sulla ripartizione del carico; non è effettuata come verifica di resistenza. Per Davisson il fattore Rg ha una grandezza fisica diversa.
 
-$$ u=(\cos\theta,\sin\theta),\qquad v=(-\sin\theta,\cos\theta)
+$$ u=(\cos\theta,\sin\theta)
+$$ v=(-\sin\theta,\cos\theta)
 
-$$ q_i=r_i\cdot u,\qquad t_i=r_i\cdot v
+$$ q_i=r_i\cdot u
+$$ t_i=r_i\cdot v
 
 La fila 1 corrisponde al massimo q, quindi al lato avanzato nel verso H. Le coordinate sono proiettate dopo una traslazione dell'origine per migliorare la stabilità numerica. La tolleranza di raggruppamento delle file è D per 10 alla meno 6. Gli interassi automatici di Davisson, AASHTO, FHWA e Rollins richiedono un reticolo completo con interassi uniformi nei due assi del carico. Per un reticolo obliquo o irregolare non esiste un interasse equivalente automatico giustificato da queste formule: il programma richiede accettazione esplicita della schematizzazione proiettata e interassi rappresentativi assegnati.
 
@@ -1671,18 +1793,19 @@ La fila 1 corrisponde al massimo q, quindi al lato avanzato nel verso H. Le coor
 
 $$ R_g=\frac{k_{h,g}}{k_{h,1}}=\frac{n_{h,g}}{n_{h,1}}
 
-$$ k_{h,g}=R_g k_{h,1},\qquad n_{h,g}=R_g n_{h,1}
+$$ k_{h,g}=R_g k_{h,1}
+$$ n_{h,g}=R_g n_{h,1}
 
 | S parallelo su D | Rg |
 | --- | --- |
-| 3 | 0.25 |
-| 4 | 0.40 |
-| 5 | 0.55 |
-| 6 | 0.70 |
-| 7 | 0.85 |
-| 8 e oltre | 1.00 |
+| 3 | 0,25 |
+| 4 | 0,40 |
+| 5 | 0,55 |
+| 6 | 0,70 |
+| 7 | 0,85 |
+| 8 e oltre | 1,00 |
 
-$$ R_g=0.15\frac{S_{\parallel}}{D}-0.20\quad\text{per }3\leq\frac{S_{\parallel}}D\leq8
+$$ R_g=0{,}15\frac{S_{\parallel}}{D}-0{,}20\ \ \text{per }3\leq\frac{S_{\parallel}}D\leq8
 
 La riduzione del modulo è cento volte uno meno Rg, in percentuale. Sotto 3D il calcolo è indisponibile per default; l'opzione di estrapolazione usa la stessa retta, con limite zero–uno e avviso. L'interazione trasversale può essere trascurata nella schematizzazione citata per S trasversale almeno 2.5D. Sotto tale soglia il calcolo rimane non disponibile: non viene inventato un secondo fattore da moltiplicare. In assenza di file successive si assume assenza di riduzione longitudinale, sempre subordinata alla condizione trasversale.
 
@@ -1694,12 +1817,12 @@ Le due tabelle sono mantenute come metodi distinti e con edizione esplicita. S �
 
 | Metodo | S su D | Fila 1 | Fila 2 | Fila 3 e successive |
 | --- | --- | --- | --- | --- |
-| AASHTO 2014 | 3 | 0.80 | 0.40 | 0.30 |
-| AASHTO 2014 | 5 | 1.00 | 0.85 | 0.70 |
-| FHWA 2018 | 3 | 0.70 | 0.50 | 0.35 |
-| FHWA 2018 | 4 | 0.85 | 0.65 | 0.50 |
-| FHWA 2018 | 5 | 1.00 | 0.85 | 0.70 |
-| FHWA 2018 | 6 e oltre | 1.00 | 1.00 | 1.00 |
+| AASHTO 2014 | 3 | 0,80 | 0,40 | 0,30 |
+| AASHTO 2014 | 5 | 1,00 | 0,85 | 0,70 |
+| FHWA 2018 | 3 | 0,70 | 0,50 | 0,35 |
+| FHWA 2018 | 4 | 0,85 | 0,65 | 0,50 |
+| FHWA 2018 | 5 | 1,00 | 0,85 | 0,70 |
+| FHWA 2018 | 6 e oltre | 1,00 | 1,00 | 1,00 |
 
 Interpolazione lineare fra nodi. Per AASHTO oltre 5D il software conserva i valori dell'ultimo nodo, con avviso: è una scelta conservativa dichiarata del modulo, non un'estrapolazione normativa fino a uno. Per FHWA da 6D i valori sono unitari. Sotto 3D il calcolo richiede l'opzione esplicita di estrapolazione. Non viene applicata una legge aggiuntiva di interazione trasversale: la sua assenza dalla tabella non prova l'assenza fisica dell'effetto.
 
@@ -1707,11 +1830,11 @@ Interpolazione lineare fra nodi. Per AASHTO oltre 5D il software conserva i valo
 
 Ponendo lambda uguale a S su D, il modulo usa logaritmi naturali.
 
-$$ P_{m,1}=\min(1,0.26\ln\lambda+0.50)
+$$ P_{m,1}=\min(1,0{,}26\ln\lambda+0{,}50)
 
-$$ P_{m,2}=\min(1,0.52\ln\lambda)
+$$ P_{m,2}=\min(1,0{,}52\ln\lambda)
 
-$$ P_{m,\geq3}=\min(1,0.60\ln\lambda-0.25)
+$$ P_{m,\geq3}=\min(1,0{,}60\ln\lambda-0{,}25)
 
 Le prove di riferimento riguardano principalmente argilla rigida e interassi circa 3.3D–5.65D. Il programma richiede estrapolazione esplicita al di fuori di tale intervallo e impone anche un limite inferiore nullo. A 3D i tre valori sono 0.785639, 0.571278 e 0.409167; la media su tre file di pari numero di pali è 0.588695. L'indicazione del campo sperimentale non sostituisce la verifica della pertinenza geotecnica.
 
@@ -1719,19 +1842,20 @@ Le prove di riferimento riguardano principalmente argilla rigida e interassi cir
 
 Si considerano tutte le coppie distinte, senza limitarsi ai vicini. La distanza s è quella reale fra i centri, anche per coppie oblique. Per ciascuna coppia, il fattore affiancato è il seguente.
 
-$$ \beta_a=0.64(s/D)^{0.34}\quad\text{per }1\leq s/D<3.75
+$$ \beta_a=0{,}64(s/D)^{0{,}34}\ \ \text{per }1\leq s/D<3{,}75
 
 Da 3.75D il fattore affiancato è uno. Per l'allineamento nel verso del carico si distinguono palo avanzato e arretrato.
 
-$$ \beta_{bl}=0.70(s/D)^{0.26}\quad\text{per }1\leq s/D<4
+$$ \beta_{bl}=0{,}70(s/D)^{0{,}26}\ \ \text{per }1\leq s/D<4
 
-$$ \beta_{bt}=0.48(s/D)^{0.38}\quad\text{per }1\leq s/D<7
+$$ \beta_{bt}=0{,}48(s/D)^{0{,}38}\ \ \text{per }1\leq s/D<7
 
 Da 4D il fattore leading è uno; da 7D quello trailing è uno. I rami sono limitati a uno anche immediatamente prima delle soglie, per evitare lievi superamenti dovuti ai coefficienti empirici arrotondati. L'angolo phi è fra congiungente dei pali e carico; leading e trailing dipendono dal segno della differenza di q.
 
 $$ \beta_{ji}=\sqrt{\beta_b^2\cos^2\phi+\beta_a^2\sin^2\phi}
 
-$$ \beta_i=\prod_{j\ne i}\beta_{ji},\qquad P_{m,i}=\beta_i
+$$ \beta_i=\prod_{j\ne i}\beta_{ji}
+$$ P_{m,i}=\beta_i
 
 L'interazione è direzionale: beta ji non coincide in generale con beta ij. Geometrie irregolari e carichi obliqui sono trattati direttamente. I pali sovrapposti sono rifiutati. Un solo palo ha prodotto vuoto unitario. La media finale pesa ciascun palo una volta, quindi rispetta anche file con popolazioni diverse.
 
@@ -1743,11 +1867,11 @@ $$ P_{m,i}=\alpha_i\beta_i
 
 | Interasse medio fra file su D | Fila 1 | Fila 2 | Fila 3 | Oltre fila 3 |
 | --- | --- | --- | --- | --- |
-| 2 | 1.0 | 1.0 | 1.0 | 1.0 |
-| 3 | 0.9 | 1.0 | 0.8 | 0.8 |
-| 5 | 1.0 | 1.0 | 0.8 | 0.9 |
-| 7 | 1.0 | 1.0 | 0.9 | 1.0 |
-| 8 | 1.0 | 1.0 | 1.0 | 1.0 |
+| 2 | 1,0 | 1,0 | 1,0 | 1,0 |
+| 3 | 0,9 | 1,0 | 0,8 | 0,8 |
+| 5 | 1,0 | 1,0 | 0,8 | 0,9 |
+| 7 | 1,0 | 1,0 | 0,9 | 1,0 |
+| 8 | 1,0 | 1,0 | 1,0 | 1,0 |
 
 L'interasse è misurato nella direzione del carico; per interassi fra file non uniformi la fonte richiede la media aritmetica degli intervalli fra file. Non si usa la media delle distanze fra tutte le coppie. Si interpola linearmente. Oltre 8D il modulo mantiene alfa unitario; per una sola fila adotta alfa unitario, dichiarandolo. Sotto 2D occorre abilitare l'estrapolazione; alfa è limitato a zero–uno. Per disposizioni oblique o irregolari occorre accettare esplicitamente l'estensione per file proiettate prima di applicare la correzione per fila.
 
@@ -1778,13 +1902,15 @@ Carlo Viggiani, Fondazioni: pp. 464–465 (§14.4.1), pp. 466–467 e pp. 478–
 
 Si definisce kh come pressione orizzontale divisa per spostamento: unità F/L³. La larghezza di interazione adottata è il diametro geotecnico D, costante. La pressione elastica sul palo è opposta allo spostamento; la reazione per unità di lunghezza q ha unità F/L.
 
-$$ k = D k_h,\quad q=-k y
+$$ k = D k_h
+$$ q=-k y
 
 La rigidezza distribuita k ha unità F/L². Se l'utente assegna direttamente k, il diametro non viene moltiplicato una seconda volta. In tabella si mostra anche kh equivalente = k/D. Per una discretizzazione a molle concentrate sarebbe K_i = integrale di k sulla lunghezza tributaria, con unità F/L. Qui si calcola K* esclusivamente per la rappresentazione e la tabella dei nodi: il solutore continua a usare la matrice consistente. La lunghezza tributaria va dai punti medi dei due elementi adiacenti; agli estremi è una sola mezza lunghezza. Checker integra k su questi tratti, separatamente sui due lati di eventuali discontinuità. Non si assegnano molle scalari al posto della matrice FEM.
 
 Sono disponibili kh costante manuale, nh manuale nella legge Reese–Matlock, selezione assistita di nh nelle tabelle 14.5 e 14.6, correlazione A γ/1,35 e k distribuito manuale. Viggiani scrive p = kh y, P = p d ed Es = kh d; il nostro k corrisponde a Es. p e P nel testo sono le intensità resistenti; la reazione sul palo qui ha il segno q = −k y.
 
-$$ k_h(z)=n_h\frac{z}{D},\quad k(z)=E_s=n_h z
+$$ k_h(z)=n_h\frac{z}{D}
+$$ k(z)=E_s=n_h z
 
 kh e nh hanno entrambi dimensioni F/L³, k ha F/L². La legge lineare è attribuita a Reese e Matlock (1956). Il testo la associa a terreni incoerenti, argille normalmente consolidate o debolmente sovraconsolidate; kh costante è associato alle argille sovraconsolidate. Le correlazioni costanti con E50 e cu discusse a p. 466 non sono assegnate automaticamente: questa implementazione mantiene kh costante come input manuale. L'utente documenta drenaggio, stato tensionale e livello di deformazione; non si deduce kh dalla sola classificazione del terreno.
 
@@ -1802,7 +1928,8 @@ $$ 1\,\mathrm{N/cm^3}=1000\,\mathrm{kN/m^3}
 
 Per la correlazione, equazione 14.25:
 
-$$ n_h=\frac{A\gamma}{1,35},\quad \gamma'=\gamma_{sat}-\gamma_w
+$$ n_h=\frac{A\gamma}{1,35}
+$$ \gamma'=\gamma_{sat}-\gamma_w
 
 Con γ in kN/m³ si ottiene nh in kN/m³. Sotto falda si usa γ′. A è inizializzato alla media aritmetica dell’intervallo della singola riga: 200, 650 o 2000. Il valore consigliato rimane distinto: 200, 600 o 1500. La media iniziale è una convenzione del software, non un valore consigliato da Viggiani. L’utente può modificarla e il ricalcolo conserva la scelta. La modalità correlazione è distinta dalla selezione dei valori di nh tabellati: ad esempio A=600 e γ=18 danno nh=8000 kN/m³, mentre la riga Medio non immerso della tabella dà 7500 kN/m³. Con γsat=20 e γw=9,81, la correlazione dà nh=4528,888889 kN/m³ sotto falda.
 
@@ -1830,7 +1957,9 @@ x cresce dalla testa verso la punta; z = x − Llibero. Ltotale > Llibero ≥ 0.
 
 La convenzione adottata è H e y positivi verso destra, θ = y′, C positivo nel verso della rotazione nodale, M = EI y″, V = M′ e q = −k y. Ne consegue:
 
-$$ EI y^{(4)} + k y = 0,\quad V'=q,\quad M'=V
+$$ EI y^{(4)} + k y = 0
+$$ V'=q
+$$ M'=V
 
 H agisce sulla traslazione della testa. Nel solutore generale C può essere assegnato oppure ottenuto da un’eccentricità riferita alla testa, senza sommare i due input. Nell’interfaccia con dati condivisi l’eccentricità esistente e è invece la quota della forza sopra il piano campagna. Checker adatta tale convenzione con C = H (Llibero − e); la lunghezza totale è Linfissa + Llibero. Il momento interno al piano campagna dovuto a H è quindi H e, indipendentemente dalla ripartizione del braccio. La migrazione conserva esplicitamente la convenzione dei vecchi modelli separati.
 
@@ -1842,7 +1971,8 @@ Alla testa M = −C − Rθ e V = H. Alla punta i segni delle azioni interne son
 
 ElasticPileSection in Checker riutilizza ConcreteMaterialEN1992.Ecm e le inerzie SectionCircular e SectionCHS di Model. Per la sezione circolare in calcestruzzo:
 
-$$ E_{cm}=22000\left(\frac{f_{ck}+8}{10}\right)^{0.3},\quad J=\frac{\pi D^4}{64}
+$$ E_{cm}=22000\left(\frac{f_{ck}+8}{10}\right)^{0{,}3}
+$$ J=\frac{\pi D^4}{64}
 
 Ecm è in MPa; con D in mm, J è in mm⁴. Si usa la sezione integra lorda in calcestruzzo, senza aggiungere il contributo delle armature. Fessurazione e viscosità non sono introdotte automaticamente. Per CHS, J = π (De⁴ − Di⁴)/64 ed E è il modulo dell’acciaio assegnato nell’editor iniziale; il contributo della malta è escluso. Non è attiva un’ipotesi di collaborazione composta implicita.
 
@@ -1993,7 +2123,8 @@ Entrambi i residui devono tendere a zero. Il report mostra inoltre numero degli 
 
 Per un palo semi-infinito con k costante, testa libera e solo H, la soluzione decadente dell'equazione differenziale fornisce un riferimento indipendente dalla discretizzazione:
 
-$$ \beta=\left(\frac{k}{4EI}\right)^{1/4},\quad y_0=\frac{H}{2EI\beta^3}
+$$ \beta=\left(\frac{k}{4EI}\right)^{1/4}
+$$ y_0=\frac{H}{2EI\beta^3}
 $$ y(x)=y_0 e^{-\beta x}\cos(\beta x)
 $$ V(x)=H e^{-\beta x}\left[\cos(\beta x)-\sin(\beta x)\right]
 $$ M(x)=\frac{H}{\beta}e^{-\beta x}\sin(\beta x)
@@ -2344,7 +2475,8 @@ Si assegnano $E=210000\,\mathrm{N/mm^2}$, $I=8\cdot10^6\,\mathrm{mm^4}$, $A=4000
 ```math
 N_{cr}=\frac{\pi^2\cdot210000\cdot8\cdot10^6}{4000^2}
 N_{cr}=1036308\,\mathrm{N}=1036{,}31\,\mathrm{kN}
-i=44{,}72\,\mathrm{mm},\quad\lambda=89{,}44
+i=44{,}72\,\mathrm{mm}
+\lambda=89{,}44
 \sigma_{cr}=259{,}08\,\mathrm{MPa}
 ```
 
@@ -2520,7 +2652,8 @@ Le relazioni qui riportate riguardano la formulazione classica di EN 1992-1-1 (�
 
 ```math
 w_k=s_{r,max}(\varepsilon_{sm}-\varepsilon_{cm})
-\rho_{eff}=\frac{A_s}{A_{c,eff}},\quad\alpha_e=\frac{E_s}{E_{cm}}
+\rho_{eff}=\frac{A_s}{A_{c,eff}}
+\alpha_e=\frac{E_s}{E_{cm}}
 \Delta\varepsilon=\max\left(\frac{\sigma_s-k_t\frac{f_{ct,eff}}{\rho_{eff}}(1+\alpha_e\rho_{eff})}{E_s},\frac{0{,}6\sigma_s}{E_s}\right)
 s_{r,max}=3{,}4c+0{,}425k_1k_2\frac{\phi}{\rho_{eff}}
 ```
@@ -2605,7 +2738,10 @@ Il simbolo $\gamma'$ non significa che tutta la zona sia necessariamente immersa
 Per una striscia su terreno omogeneo idealmente puramente coesivo, carico verticale centrato e correzioni geometriche non applicate, il riferimento limite è:
 
 ```math
-\phi_u=0,\quad N_q=1,\quad N_\gamma=0,\quad N_c=2+\pi
+\phi_u=0
+N_q=1
+N_\gamma=0
+N_c=2+\pi
 q_{ult,net}=(2+\pi)c_u
 q_{ult,gross}=(2+\pi)c_u+q
 ```
@@ -3295,7 +3431,7 @@ Un collegamento a un modulo indica pertinenza tecnica, non l’implementazione a
 
 ## Fondazioni superficiali
 
-Il modello valuta il carico limite di una fondazione rigida su terreno resistente omogeneo. Base e piano campagna sono orizzontali. La verifica riguarda una singola combinazione statica e non comprende scorrimento, cedimenti, stabilità globale o resistenza strutturale. Le condizioni drenate descrivono la resistenza mediante c′ e φ′; quelle non drenate mediante cu, con φ = 0.
+Il modello valuta il carico limite di una fondazione rigida su terreno resistente omogeneo. Base e piano campagna sono orizzontali. La verifica riguarda una singola combinazione statica e non comprende scorrimento, cedimenti, stabilità globale o resistenza strutturale. Le condizioni drenate descrivono la resistenza mediante c′ e φ′; quelle non drenate mediante $c_u$, con $\varphi = 0$.
 
 ### Convenzioni e area efficace
 
@@ -3303,11 +3439,14 @@ Il modello valuta il carico limite di una fondazione rigida su terreno resistent
 
 Le unità del foglio sono m, kN, kNm, kPa e gradi. B e L sono i lati lungo X e Y; D è la profondità di posa. N positivo è la risultante normale compressiva al piano di posa; Hx e Hy sono le componenti tangenziali. Il modello usa H come modulo della risultante e conserva l'associazione tra azioni e lati quando ordina le dimensioni efficaci.
 
-$$ e_x=M_y/N,\qquad e_y=M_x/N
+$$ e_x=M_y/N
+$$ e_y=M_x/N
 
-$$ B'=B-2|e_x|,\qquad L'=L-2|e_y|,\qquad A'=B'L'
+$$ B'=B-2|e_x|
+$$ L'=L-2|e_y|
+$$ A'=B'L'
 
-Le due dimensioni devono essere positive. Il metodo dell'area efficace è una rappresentazione del carico limite e non un diagramma elastico delle pressioni. Per il cerchio centrato A′ = πB²/4; il caso eccentrico circolare è escluso. Per la striscia si usa un metro di sviluppo e rapporto di forma nullo. Si pone r = B′/L′ dopo aver ordinato i lati; il lato minore governa il termine di peso. Eccentricità maggiori di un terzo del lato originale generano l'avviso previsto dalla EN 1997-1 §6.5.4; la portanza da sola non conclude il progetto.
+Le due dimensioni devono essere positive. Il metodo dell'area efficace è una rappresentazione del carico limite e non un diagramma elastico delle pressioni. Per il cerchio centrato $A' = \pi B^2/4$; il caso eccentrico circolare è escluso. Per la striscia si usa un metro di sviluppo e rapporto di forma nullo. Si pone $r = B'/L'$ dopo aver ordinato i lati; il lato minore governa il termine di peso. Eccentricità maggiori di un terzo del lato originale generano l'avviso previsto dalla EN 1997-1 §6.5.4; la portanza da sola non conclude il progetto.
 
 ### Falda domanda e coefficienti parziali
 
@@ -3317,9 +3456,11 @@ La domanda N include tutti i pesi e le pertinenti azioni idrauliche. In condizio
 
 Il profilo implementato è NTC 2018, DM 17 gennaio 2018, §6.4.2.1, Approccio 2 A1+M1+R3. I coefficienti M1 sono unitari e γR per carico limite è 2,3 (tabella 6.4.I). Le azioni A1 sono fornite già combinate: il foglio non applica un secondo fattore alle risultanti. Il riferimento Eurocodice 7 identifica esclusivamente le espressioni dell'allegato D della EN 1997-1:2004/AC:2009; non dichiara una verifica secondo la seconda generazione né applica un allegato nazionale europeo diverso dal profilo NTC scelto.
 
-$$ R_d=A'q_{lim}/\gamma_R,\qquad E_d=N,\qquad \eta=E_d/R_d
+$$ R_d=A'q_{lim}/\gamma_R
+$$ E_d=N
+$$ \eta=E_d/R_d
 
-La verifica usa qlim lordo. Il valore netto qlim − q è esposto separatamente e non sostituisce il valore lordo nel confronto. Se Rd è nullo l'indice non è definito e la verifica con N positivo non è soddisfatta. La modalità caratteristica pone γR = 1 e restituisce un confronto privo di dichiarazione normativa.
+La verifica usa $q_{lim}$ lordo. Il valore netto $q_{lim} - q$ è esposto separatamente e non sostituisce il valore lordo nel confronto. Se Rd è nullo l'indice non è definito e la verifica con N positivo non è soddisfatta. La modalità caratteristica pone $\gamma_R = 1$ e restituisce un confronto privo di dichiarazione normativa.
 
 ### Espressione drenata e fattori di capacità portante
 
@@ -3327,42 +3468,101 @@ $$ q_{lim}=c'N_cs_cd_ci_c+qN_qs_qd_qi_q+\frac{1}{2}\gamma B'N_\gamma s_\gamma d_
 
 I fattori di inclinazione di base e piano campagna valgono uno perché tali piani sono orizzontali. Non sono opzioni implicite per fondazioni su pendio. Per Meyerhof, Hansen, Vesić ed Eurocodice 7:
 
-$$ N_q=e^{\pi\tan\varphi}\tan^2(\pi/4+\varphi/2),\qquad N_c=(N_q-1)/\tan\varphi
+$$ N_q=e^{\pi\tan\varphi}\tan^2(\pi/4+\varphi/2)
+$$ N_c=(N_q-1)/\tan\varphi
 
-| Metodo | Nγ |
+| Metodo | $N_\gamma$ |
 |---|---|
-| Meyerhof | (Nq − 1) tan(1,4φ) |
-| Hansen | 1,5 (Nq − 1) tan φ |
-| Vesić | 2 (Nq + 1) tan φ |
-| Eurocodice 7 | 2 (Nq − 1) tan φ |
+| Meyerhof | $(N_q - 1)\tan(1{,}4\,\varphi)$ |
+| Hansen | $1{,}5\,(N_q - 1)\tan\varphi$ |
+| Vesić | $2\,(N_q + 1)\tan\varphi$ |
+| Eurocodice 7 | $2\,(N_q - 1)\tan\varphi$ |
 
-Per angoli molto piccoli il codice valuta esponenziale meno uno e logaritmo di uno più x con espressioni numericamente stabili. Il limite di Nc è π + 2. Il ramo drenato generalizzato richiede φ′ positivo; per φ = 0 il foglio richiede il ramo non drenato con cu esplicito. Non è quindi disponibile una distinta analisi drenata a resistenza puramente coesiva. Sono ammessi angoli fino a 50°.
+Per angoli molto piccoli il codice valuta esponenziale meno uno e logaritmo di uno più x con espressioni numericamente stabili. Il limite di $N_c$ è $\pi + 2$. Il ramo drenato generalizzato richiede $\varphi'$ positivo; per $\varphi = 0$ il foglio richiede il ramo non drenato con cu esplicito. Non è quindi disponibile una distinta analisi drenata a resistenza puramente coesiva. Sono ammessi angoli fino a 50°.
 
 ### Forma e profondità
 
-Eurocodice 7 usa sq = 1 + r sin φ, sc = 1 + r sin φ Nq/(Nq − 1), sγ = 1 − 0,3r e d = 1. La base deve essere sufficientemente ruvida, δ almeno φ′/2. Per la geometria circolare centrata r = 1.
+Eurocodice 7 usa i fattori di forma seguenti e fattori di profondità unitari. La base deve essere sufficientemente ruvida, $\delta \geq \varphi'/2$. Per la geometria circolare centrata $r = 1$.
 
-Per Hansen il foglio adotta la variante correlata sc = 1 + (sq − 1)Nq/(Nq − 1), con sq = 1 + r sin φ e sγ = 1 − 0,4r. Per Vesić usa sq = 1 + r tan φ, sc = 1 + r Nq/Nc e sγ = 1 − 0,4r. Non sono combinazioni intercambiabili.
+```math
+s_q = 1 + r\sin\varphi
+s_c = 1 + \frac{r\sin\varphi\,N_q}{N_q - 1}
+s_\gamma = 1 - 0{,}3\,r
+```
 
-Definito k = D/B per D/B non maggiore di uno, e k = arctan(D/B) oltre tale limite, per Hansen e Vesić si applicano dq = 1 + 2 tan φ (1 − sin φ)²k, dc = 1 + 2(1 − sin φ)²k (tan φ + 1/Nc), dγ = 1. B in questo rapporto è la larghezza geometrica corrispondente al lato efficace minore. La legge empirica di k è discontinua in D/B = 1: il foglio la conserva senza introdurre raccordi arbitrari. Disabilitando i fattori di profondità si pone k = 0.
+Per Hansen il foglio adotta la variante correlata, per Vesić la propria; non sono combinazioni intercambiabili. Hansen, poi Vesić:
 
-Meyerhof usa Kp = tan²(π/4 + φ/2), sc = 1 + 0,2Kp r e dc = 1 + 0,2√Kp D/B. Per φ almeno 10°: sq = sγ = 1 + 0,1Kp r e dq = dγ = 1 + 0,1√Kp D/B. Fra zero e 10° gli incrementi q e γ sono interpolati linearmente fra zero e il valore a 10°, secondo USACE EM 1110-1-1905, tabella 4-3. Non si interpola Nc o Nq. Non si associa tale serie di fattori di forma a carichi inclinati su una fondazione finita.
+```math
+s_q = 1 + r\sin\varphi
+s_c = 1 + \frac{(s_q - 1)\,N_q}{N_q - 1}
+s_\gamma = 1 - 0{,}4\,r
+s_q = 1 + r\tan\varphi
+s_c = 1 + \frac{r\,N_q}{N_c}
+s_\gamma = 1 - 0{,}4\,r
+```
+
+Definito $k = D/B$ per $D/B$ non maggiore di uno, e $k = \arctan(D/B)$ oltre tale limite, per Hansen e Vesić si applicano:
+
+```math
+d_q = 1 + 2\tan\varphi\,(1 - \sin\varphi)^2\,k
+d_c = 1 + 2\,(1 - \sin\varphi)^2\,k\left(\tan\varphi + \frac{1}{N_c}\right)
+d_\gamma = 1
+```
+
+$B$ in questo rapporto è la larghezza geometrica corrispondente al lato efficace minore. La legge empirica di k è discontinua in D/B = 1: il foglio la conserva senza introdurre raccordi arbitrari. Disabilitando i fattori di profondità si pone k = 0.
+
+Meyerhof usa $K_p = \tan^2(\pi/4 + \varphi/2)$ e i fattori seguenti; le ultime due righe valgono per $\varphi \geq 10°$:
+
+```math
+s_c = 1 + 0{,}2\,K_p\,r
+d_c = 1 + 0{,}2\sqrt{K_p}\,D/B
+s_q = s_\gamma = 1 + 0{,}1\,K_p\,r
+d_q = d_\gamma = 1 + 0{,}1\sqrt{K_p}\,D/B
+```
+
+ Fra zero e 10° gli incrementi q e γ sono interpolati linearmente fra zero e il valore a 10°, secondo USACE EM 1110-1-1905, tabella 4-3. Non si interpola Nc o Nq. Non si associa tale serie di fattori di forma a carichi inclinati su una fondazione finita.
 
 La relazione correlata tra singoli fattori c e q non dimostra l'equivalenza di un prodotto di più correzioni: compaiono termini incrociati. Per questo il foglio identifica la variante scelta e non presenta una differenza tra varianti come errore universale della teoria.
 
 ### Inclinazione delle azioni
 
-Per Eurocodice 7 e Vesić si definiscono mB = (2 + r)/(1 + r), mL = (1 + 2r)/(1 + r) e m = mB(Hx/H)² + mL(Hy/H)² negli assi ordinati. Per H nullo i fattori valgono uno; per la striscia m = 2.
+Per Eurocodice 7 e Vesić si definiscono, negli assi ordinati:
 
-$$ a=H/(N+A'c'\cot\varphi),\quad i_q=(1-a)^m,\quad i_\gamma=(1-a)^{m+1}
+```math
+m_B = \frac{2 + r}{1 + r}
+m_L = \frac{1 + 2r}{1 + r}
+m = m_B\left(\frac{H_x}{H}\right)^2 + m_L\left(\frac{H_y}{H}\right)^2
+```
+
+Per $H$ nullo i fattori valgono uno; per la striscia $m = 2$.
+
+$$ a=H/(N+A'c'\cot\varphi)
+$$ i_q=(1-a)^m
+$$ i_\gamma=(1-a)^{m+1}
 
 $$ i_c=i_q-(1-i_q)/(N_q-1)
 
-Per una resistenza positiva si richiede a minore di uno e ic non negativo. Azioni oltre questi limiti esauriscono il dominio resistente: la resistenza restituita è nulla, con avviso ed esito negativo nel profilo normativo. Per Meyerhof sulla striscia, θ = arctan(H/N), ic = iq = (1 − θ/(π/2))²; iγ = (1 − θ/φ)² se θ non supera φ, altrimenti zero. Gli angoli nelle formule sono radianti. Hansen con azioni tangenziali non è implementato: non si applicano i fattori di un altro autore.
+Per una resistenza positiva si richiede $a < 1$ e $i_c \geq 0$. Azioni oltre questi limiti esauriscono il dominio resistente: la resistenza restituita è nulla, con avviso ed esito negativo nel profilo normativo. Per Meyerhof sulla striscia, con $\theta = \arctan(H/N)$, valgono le relazioni seguenti, la seconda se $\theta \leq \varphi$ e altrimenti $i_\gamma = 0$:
+
+```math
+i_c = i_q = \left(1 - \frac{\theta}{\pi/2}\right)^2
+i_\gamma = \left(1 - \frac{\theta}{\varphi}\right)^2
+```
+
+ Gli angoli nelle formule sono radianti. Hansen con azioni tangenziali non è implementato: non si applicano i fattori di un altro autore.
 
 ### Condizioni non drenate
 
-Per Eurocodice 7 Nc = π + 2, sc = 1 + 0,2r, dc = 1 e ic = (1 + √(1 − H/(A′cu)))/2, con H non maggiore di A′cu. La pressione limite è cu Nc sc ic + q. Per Vesić si usano sc = 1 + 0,2r, dc = 1 + 0,4k, ic = 1 − mH/(A′cuNc), non negativo, in forma moltiplicativa. Meyerhof usa sc = 1 + 0,2r, dc = 1 + 0,2D/B e il fattore di inclinazione sopra descritto, limitato alla striscia quando H non è nullo. A differenza di Eurocodice 7, Vesić, Hansen e Terzaghi, che sommano q, Meyerhof applica l'inclinazione anche al sovraccarico: cu Nc sc dc ic + q iq, con iq = ic = (1 − θ/(π/2))², in continuità con il ramo drenato (Meyerhof, 1963; USACE EM 1110-1-1905, tabella 4-3).
+Per Eurocodice 7, con $H \leq A' c_u$:
+
+```math
+q_{lim} = c_u\,N_c\,s_c\,i_c + q
+N_c = \pi + 2
+s_c = 1 + 0{,}2\,r
+i_c = \frac{1}{2}\left(1 + \sqrt{1 - \frac{H}{A' c_u}}\right)
+```
+
+Per Vesić si usano $s_c = 1 + 0{,}2\,r$, $d_c = 1 + 0{,}4\,k$ e $i_c = 1 - m H/(A' c_u N_c)$, non negativo, in forma moltiplicativa. Meyerhof usa $s_c = 1 + 0{,}2\,r$, $d_c = 1 + 0{,}2\,D/B$ e il fattore di inclinazione sopra descritto, limitato alla striscia quando $H$ non è nullo. A differenza di Eurocodice 7, Vesić, Hansen e Terzaghi, che sommano $q$, Meyerhof applica l'inclinazione anche al sovraccarico, $q_{lim} = c_u N_c s_c d_c i_c + q\,i_q$ con $i_q = i_c = (1 - \theta/(\pi/2))^2$, in continuità con il ramo drenato (Meyerhof, 1963; USACE EM 1110-1-1905, tabella 4-3).
 
 Hansen con carico normale usa invece una forma additiva:
 
@@ -3372,11 +3572,26 @@ I valori s′ e d′ della tabella additiva sono gli incrementi 0,2r e 0,4k, men
 
 ### Terzaghi e rottura locale
 
-Il ramo Terzaghi è limitato a striscia, quadrato e cerchio con carico verticale centrato e D/B non maggiore di uno. Per φ positivo la base è ruvida e Nq = exp[(3π/2 − φ)tanφ]/(1 − sinφ), Nc = (Nq − 1)/tanφ. Nγ è interpolato linearmente nella tabella 4-1 di USACE EM 1110-1-1905 (1992), per 0°–50°. Non si usa un'espressione interpolante non documentata. Per φ = 0 si adottano Nq = 1, Nγ = 0, Nc = 1 + 3π/2 per base ruvida oppure Nc = π + 2 per base liscia.
+Il ramo Terzaghi è limitato a striscia, quadrato e cerchio con carico verticale centrato e D/B non maggiore di uno. Per $\varphi$ positivo la base è ruvida e:
+
+```math
+N_q = \frac{\exp\left[(3\pi/2 - \varphi)\tan\varphi\right]}{1 - \sin\varphi}
+N_c = \frac{N_q - 1}{\tan\varphi}
+```
+
+$N_\gamma$ è interpolato linearmente nella tabella 4-1 di USACE EM 1110-1-1905 (1992), per 0°–50°. Non si usa un'espressione interpolante non documentata. Per $\varphi = 0$ si adottano $N_q = 1$, $N_\gamma = 0$, $N_c = 1 + 3\pi/2$ per base ruvida oppure $N_c = \pi + 2$ per base liscia.
 
 I fattori sc sono 1 per striscia e 1,3 per quadrato e cerchio; sγ vale rispettivamente 1, 0,8 e 0,6. Gli altri fattori sono unitari. Nγ è spesso determinante nei terreni incoerenti e non viene trascurato.
 
-La riduzione di Terzaghi per rottura locale pone c′rid = 2c′/3 e tan φrid = 2 tan φ′/3. La riduzione per densità relativa di Vesić, solo per sabbie con c′ = 0 e 0 ≤ Dr ≤ 2/3, pone tan φrid = (2/3 + Dr − 3Dr²/4)tan φ′. Sono riduzioni dei parametri selezionate consapevolmente; il modello non calcola fattori di compressibilità da modulo di taglio, deformazione volumetrica o indice di rigidezza.
+La riduzione di Terzaghi per rottura locale (prime due relazioni) e quella per densità relativa di Vesić, solo per sabbie con $c' = 0$ e $0 \leq D_r \leq 2/3$ (terza), sono:
+
+```math
+c'_{rid} = \frac{2}{3}\,c'
+\tan\varphi_{rid} = \frac{2}{3}\tan\varphi'
+\tan\varphi_{rid} = \left(\frac{2}{3} + D_r - \frac{3}{4}D_r^2\right)\tan\varphi'
+```
+
+ Sono riduzioni dei parametri selezionate consapevolmente; il modello non calcola fattori di compressibilità da modulo di taglio, deformazione volumetrica o indice di rigidezza.
 
 ### Stratigrafia e materiali comuni
 
@@ -3392,19 +3607,29 @@ Per una fondazione rettangolare rigida si adotta una distribuzione convenzionale
 
 $$ p(x,y)=\max(0,a+bx+cy)
 
-$$ \int_{A_c}p\,dA=N,\qquad \int_{A_c}xp\,dA=M_y,\qquad \int_{A_c}yp\,dA=M_x
+$$ \int_{A_c}p\,dA=N
+$$ \int_{A_c}xp\,dA=M_y
+$$ \int_{A_c}yp\,dA=M_x
 
 Il calcolo integra esattamente area, momenti primi e secondi del poligono di contatto; risolve il sistema con coordinate e pressioni normalizzate e controlla il residuo di equilibrio. Una mancata convergenza viene segnalata e la mappa non viene mostrata. Il disegno campiona la soluzione su una griglia; i valori estremi derivano dai vertici e non dalla risoluzione grafica.
 
-A contatto completo, la relazione restituisce p = N/(BL) [1 + 12ex x/B² + 12ey y/L²]. Se una parte perde contatto non si tronca semplicemente questa prima distribuzione: si risolvono nuovamente a, b e c sulla zona compressa. Per eccentricità lungo X superiore a B/6 la soluzione monoassiale triangolare ha larghezza compressa 3(B/2 − |ex|), mentre la larghezza efficace vale B − 2|ex|. La distinzione spiega perché Ac e A′ differiscono.
+A contatto completo la relazione restituisce:
+
+```math
+p = \frac{N}{BL}\left(1 + \frac{12\,e_x\,x}{B^2} + \frac{12\,e_y\,y}{L^2}\right)
+```
+
+ Se una parte perde contatto non si tronca semplicemente questa prima distribuzione: si risolvono nuovamente a, b e c sulla zona compressa. Per eccentricità lungo X superiore a $B/6$ la soluzione monoassiale triangolare ha larghezza compressa $3\,(B/2 - |e_x|)$, mentre la larghezza efficace vale $B - 2|e_x|$. La distinzione spiega perché Ac e A′ differiscono.
 
 La distribuzione è coerente con una piastra rigida su appoggio elastico locale uniforme senza trazione, a meno di una rigidezza moltiplicativa che non serve a determinarne le pressioni. Non è la soluzione elastica di un semispazio, non usa moduli del terreno e non consente di dedurre cedimenti. Per il cerchio, ammesso solo con risultante centrata, la pressione è uniforme. Per la striscia si considera un metro di lunghezza. La portanza confronta N con A′qlim/γR; pmax non sostituisce N/A′ in questa verifica.
 
 ### Schema illustrativo del meccanismo di rottura
 
-La vista Rottura rappresenta il riferimento di Prandtl per una striscia su terreno omogeneo privo di peso. Non è ottenuta ottimizzando una superficie per Terzaghi, Meyerhof, Hansen, Vesić o Eurocodice 7. Si usa il lato efficace nella sezione scelta e l'angolo adottato nel calcolo; in non drenato φ = 0. Il cuneo centrale è inclinato di α = π/4 + φ/2; la zona passiva termina con inclinazione β = π/4 − φ/2. Nel ventaglio:
+La vista Rottura rappresenta il riferimento di Prandtl per una striscia su terreno omogeneo privo di peso. Non è ottenuta ottimizzando una superficie per Terzaghi, Meyerhof, Hansen, Vesić o Eurocodice 7. Si usa il lato efficace nella sezione scelta e l'angolo adottato nel calcolo; in non drenato φ = 0. Il cuneo centrale è inclinato di $\alpha = \pi/4 + \varphi/2$; la zona passiva termina con inclinazione $\beta = \pi/4 - \varphi/2$. Nel ventaglio:
 
-$$ r=r_0e^{\theta\tan\varphi},\qquad r_0=\frac{B'}{2\cos\alpha},\qquad 0\leq\theta\leq\pi/2
+$$ r=r_0e^{\theta\tan\varphi}
+$$ r_0=\frac{B'}{2\cos\alpha}
+$$ 0\leq\theta\leq\pi/2
 
 Le sezioni X e Y sono rappresentazioni separate, non una superficie tridimensionale. Il disegno non incorpora peso proprio del terreno, profondità di posa o componenti tangenziali; non dimostra l'estensione della zona di rottura reale né giustifica una profondità d'indagine. La dipendenza della geometria critica dal peso del terreno impedisce di interpretare questo riferimento come superficie universale per il termine Nγ.
 
@@ -3420,31 +3645,33 @@ Lo strumento considera viscosità lineare e maturazione del modulo secante del c
 
 ### Coefficiente di viscosità e limite analitico
 
-$$ \varphi(t,t_0)=\varphi_0\left(\frac{t-t_0}{\beta_H+t-t_0}\right)^{0.3}
+$$ \varphi(t,t_0)=\varphi_0\left(\frac{t-t_0}{\beta_H+t-t_0}\right)^{0{,}3}
 
 L'espressione vale per t maggiore di t₀; prima del carico il coefficiente è zero. Il limite è analitico, indipendente dall'età finale scelta per il grafico:
 
 $$ \varphi(\infty,t_0)=\varphi_0=\varphi_{RH}\,\beta(f_{cm})\,\beta(t_{0,adj})
 
-I fattori di umidità, resistenza, dimensione nominale e sviluppo temporale sono quelli delle espressioni B.2–B.9. La resistenza media a 28 giorni è fcm = fck + 8 MPa. La dimensione nominale h₀ = 2 Ac / u usa area di calcestruzzo e perimetro esposto all'essiccamento, con unità coerenti. La correzione dell'età di carico per il cemento è:
+I fattori di umidità, resistenza, dimensione nominale e sviluppo temporale sono quelli delle espressioni B.2–B.9. La resistenza media a 28 giorni è $f_{cm} = f_{ck} + 8$ MPa. La dimensione nominale $h_0 = 2A_c/u$ usa area di calcestruzzo e perimetro esposto all'essiccamento, con unità coerenti. La correzione dell'età di carico per il cemento è:
 
-$$ t_{0,adj}=\max\left(0.5,\ t_0\left[1+\frac{9}{2+t_0^{1.2}}\right]^{\alpha}\right)
+$$ t_{0,adj}=\max\left(0{,}5,\ t_0\left[1+\frac{9}{2+t_0^{1{,}2}}\right]^{\alpha}\right)
 
-L'esponente α vale −1, 0 e 1 rispettivamente per cemento S, N e R. L'età corretta entra nel fattore β(t₀); la durata t − t₀ resta cronologica. Il coefficiente φ è riferito al modulo tangente Ec = 1,05 Ecm,28. L'espressione non restituisce direttamente una deformazione: nel campo lineare, la deformazione viscosa dipende anche dalla tensione e dal modulo di riferimento.
+L'esponente α vale −1, 0 e 1 rispettivamente per cemento S, N e R. L'età corretta entra nel fattore β(t₀); la durata $t - t_0$ resta cronologica. Il coefficiente $\varphi$ è riferito al modulo tangente $E_c = 1{,}05\,E_{cm,28}$. L'espressione non restituisce direttamente una deformazione: nel campo lineare, la deformazione viscosa dipende anche dalla tensione e dal modulo di riferimento.
 
 ### Maturazione del modulo elastico
 
 Il modulo secante riusa la legge di maturazione del materiale:
 
-$$ \beta_{cc}(t)=\exp\left[s\left(1-\sqrt{\frac{28}{t}}\right)\right],\qquad f_{cm}(t)=\beta_{cc}(t)f_{cm}
+$$ \beta_{cc}(t)=\exp\left[s\left(1-\sqrt{\frac{28}{t}}\right)\right]
+$$ f_{cm}(t)=\beta_{cc}(t)f_{cm}
 
-$$ E_{cm}(t)=\left(\frac{f_{cm}(t)}{f_{cm}}\right)^{0.3}E_{cm,28},\qquad k_E(t)=\frac{E_{cm}(t)}{E_{cm,28}}
+$$ E_{cm}(t)=\left(\frac{f_{cm}(t)}{f_{cm}}\right)^{0{,}3}E_{cm,28}
+$$ k_E(t)=\frac{E_{cm}(t)}{E_{cm,28}}
 
-Il coefficiente s vale 0,38, 0,25 e 0,20 rispettivamente per cemento S, N e R. Si usa il modulo nominale del materiale EN 1992 con aggregato di riferimento; la finestra non introduce una correzione per il tipo di aggregato. A 28 giorni kE = 1. Il rapporto può superare 1 alle età successive e non rappresenta un fattore di riduzione per viscosità. La resistenza e il modulo nel tempo non sono intercambiabili con la legge di deformazione differita.
+Il coefficiente s vale 0,38, 0,25 e 0,20 rispettivamente per cemento S, N e R. Si usa il modulo nominale del materiale EN 1992 con aggregato di riferimento; la finestra non introduce una correzione per il tipo di aggregato. A 28 giorni $k_E = 1$. Il rapporto può superare 1 alle età successive e non rappresenta un fattore di riduzione per viscosità. La resistenza e il modulo nel tempo non sono intercambiabili con la legge di deformazione differita.
 
 ### Esempio e campo di applicazione
 
-Con fck = 25 MPa, cemento N, RH = 50 %, h₀ = 200 mm e t₀ = 7 giorni, un riferimento indipendente dà φ∞ = 3,4427042105 ed Ecm,28 = 31475,806210 MPa.
+Con fck = 25 MPa, cemento N, RH = 50 %, h₀ = 200 mm e t₀ = 7 giorni, un riferimento indipendente dà $\varphi_\infty = 3{,}4427042105$ ed $E_{cm,28} = 31475{,}806210$ MPa.
 
 | Età t in giorni | φ(t, t₀) | Ecm(t) in MPa | Ecm(t) / Ecm,28 |
 | --- | --- | --- | --- |

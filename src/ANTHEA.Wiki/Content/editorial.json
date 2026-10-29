@@ -109,7 +109,8 @@
       "geo_micropalo_orizzontale"
     ],
     "related": [
-      "capacita-orizzontale-con-broms"
+      "capacita-orizzontale-con-broms",
+      "capacita-orizzontale-in-terreno-stratificato"
     ],
     "key": "guida-pali-e-micropali-caricati-orizzontalmente",
     "chapterId": "anthea",
@@ -501,6 +502,29 @@
     "order": 22,
     "summary": "Superficie del bulbo, correlazioni, tratti attivi e peso del micropalo inclinato."
   },
+  "theory:Capacità orizzontale in terreno stratificato": {
+    "area": "Fondazioni e geotecnica",
+    "id": "/wiki/manuale/fondazioni-e-geotecnica/capacita-orizzontale-in-terreno-stratificato",
+    "modules": [
+      "geo_palo_orizzontale",
+      "geo_micropalo_orizzontale"
+    ],
+    "related": [
+      "capacita-orizzontale-con-broms",
+      "guida-pali-e-micropali-caricati-orizzontalmente"
+    ],
+    "key": "capacita-orizzontale-in-terreno-stratificato",
+    "chapterId": "geotecnica",
+    "status": "reviewed",
+    "level": "advanced",
+    "prerequisites": [
+      "capacita-orizzontale-con-broms"
+    ],
+    "references": [],
+    "title": "Capacità orizzontale in terreno stratificato",
+    "order": 24,
+    "summary": "Metodo Stratificato di G. Pacini: diagramma limite per strato, equilibrio con tre integrali e chiusura distribuita; confronto con Broms."
+  },
   "theory:Capacità orizzontale con Broms": {
     "area": "Fondazioni e geotecnica",
     "id": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
@@ -509,7 +533,8 @@
       "geo_micropalo_orizzontale"
     ],
     "related": [
-      "guida-pali-e-micropali-caricati-orizzontalmente"
+      "guida-pali-e-micropali-caricati-orizzontalmente",
+      "capacita-orizzontale-in-terreno-stratificato"
     ],
     "key": "capacita-orizzontale-con-broms",
     "chapterId": "geotecnica",

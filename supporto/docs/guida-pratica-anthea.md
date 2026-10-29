@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 28 ottobre 2026 — revisione documentale 61
+Edizione 6 aggiornata il 29 ottobre 2026 — revisione documentale 62
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -295,6 +295,8 @@ Lo sforzo normale N è positivo a compressione in questi fogli. È una convenzio
 
 I casi omogenei costituiscono il campo più direttamente interpretabile. La stratificazione della stessa famiglia e la falda sono indicate come estensioni sperimentali. Le alternanze di terreni coesivi e granulari non vengono assimilate silenziosamente a un unico terreno equivalente.
 
+Metodo di calcolo sceglie fra Broms e Stratificato. Broms chiude le reazioni dei terreni granulari con una forza concentrata al piede e accetta solo strati della stessa famiglia. Stratificato, il metodo di G. Pacini, costruisce il diagramma limite strato per strato e chiude le reazioni con un tratto rovesciato distribuito, anche per successioni di argille e sabbie. Nei terreni coesivi omogenei i due metodi danno lo stesso risultato; nei granulari Stratificato dà capacità minori per il palo corto a testa libera e per l'intermedio a testa impedita. La teoria è riassunta nel capitolo [Capacità orizzontale in terreno stratificato](wiki:capacita-orizzontale-in-terreno-stratificato) e svolta per intero nell'articolo installato nella cartella Guide.
+
 ### Momento resistente del palo in calcestruzzo
 
 Nel ramo automatico assegnare sezione circolare, diametro, copriferro, staffa, barre longitudinali distribuite uniformemente e materiali. Verificare la posizione degli assi delle barre e il valore di N. La procedura confronta due discretizzazioni; se non raggiunge l'accordo richiesto o esce dal campo ammesso, il momento non deve essere considerato disponibile.
@@ -313,7 +315,9 @@ Un tubo classificato fuori campo richiede un altro calcolo di sezione oppure un 
 
 Leggere Hu, il regime governante, My usato, profondità caratteristiche e diagrammi di pressione, taglio e momento. La pressione limite rappresentata lungo il palo ha unità kN/m; non è una pressione superficiale in kPa. Il passaggio da Hu a resistenza di progetto introduce separatamente coefficienti statistici, parziale di resistenza ed efficienza di gruppo.
 
-Nei regimi granulari corti o intermedi può comparire una reazione concentrata al piede, necessaria per l'equilibrio del modello. Un salto nel taglio in quel punto non è necessariamente un errore grafico. Il risultato non include spostamenti laterali di esercizio e non è una soluzione con molle p y. Se il problema principale è limitare la rotazione in testa o lo spostamento, occorre un modello di deformabilità ulteriore.
+Con il metodo Broms, nei regimi granulari corti o intermedi può comparire una reazione concentrata al piede, necessaria per l'equilibrio del modello; con Stratificato la stessa chiusura è distribuita sotto la profondità d'inversione. Un salto nel taglio in quel punto non è necessariamente un errore grafico. Il risultato non include spostamenti laterali di esercizio e non è una soluzione con molle p y. Se il problema principale è limitare la rotazione in testa o lo spostamento, occorre un modello di deformabilità ulteriore.
+
+Diagrammi e dettagli riporta nella scheda Riferimenti le fonti del metodo con il loro ruolo nel modello. «Apri riferimento» apre i riferimenti pubblicati e, per «G. Pacini — approccio al terreno stratificato», l'articolo [Capacità orizzontale del palo in terreno stratificato](guida:Palo orizzontale in terreno stratificato.pdf), che si apre anche dal menu Start, nella cartella Articoli di ANTHEA.
 
 ### Separare tubo e diametro geotecnico
 
