@@ -42,10 +42,17 @@ public static partial class RetainingWall
         string code=m.S("exposure");
         var (profile,specification)=ConcreteDurabilityAdapter.WallCoverInput(opt.S("cover_method"),code,m.Required("fck"),cover,
             opt.S("cover_element")=="Piastra / soletta / parete",opt.B("cover_quality"));
+        // 1.16.0: the stock bar decides whether toe and heel bars of a layer are one continuous bar (also in the details of the result).
+        double stock=d["bar_schedule"] is JsonObject schedule && schedule["stock_length"] is not null ? schedule.Required("stock_length") : 12;
         return new(new(g.Required("height"),g.Required("slab"),g.Required("toe"),g.Required("stem_base"),g.Required("stem_top"),g.Required("heel")),
             new(r.B("two_zones"),r.B("two_zones") ? r.Required("lower_height", strict: true) : 0,zones),new(strengths.Fcd,strengths.Fyd,bondFctk05,section.Required("gamma_c")),m.Required("cover"),
-            new(opt.Required("aggregate"),opt.Required("lap_clear"),opt.Required("lap_percent"),opt.B("good_bond"),opt.Required("tie_diameter"),opt.Required("tie_spacing"),profile,specification));
+            new(opt.Required("aggregate"),opt.Required("lap_clear"),opt.Required("lap_percent"),opt.B("good_bond"),opt.Required("tie_diameter"),opt.Required("tie_spacing"),profile,specification) { StockLength=stock });
     }
+    private const double MillimetresPerCentimetre = 10;
+    private static string NativeFootText(WallFootDirection foot) => foot switch { WallFootDirection.Valley=>"valle",WallFootDirection.Mountain=>"monte",_=>"" };
+    private static BarPoint NativePoint(WallBarPoint p) => new(p.X,p.Y);
+    private static BarLeg NativeLeg(WallBarLeg l) => new(l.Kind==WallBarLegKind.Arc ? "arco "+Math.Round(l.Angle).ToString(System.Globalization.CultureInfo.InvariantCulture)+"°" : l.Name,l.Length)
+        { Arc=l.Kind==WallBarLegKind.Arc,Angle=l.Angle,From=l.From is { } f ? NativePoint(f) : null,To=l.To is { } t ? NativePoint(t) : null };
     private static readonly IReadOnlyDictionary<WallDetailRule,string> NativeDetailLabels = new Dictionary<WallDetailRule,string>
     {
         [WallDetailRule.ClearSpacing]="interferro",[WallDetailRule.MainSpacing]="interasse principale",[WallDetailRule.Cover]="copriferro",
@@ -65,10 +72,18 @@ public static partial class RetainingWall
         var d=(JsonObject)input.DeepClone();CompleteAdvancedInput(d);
         var native=WallReinforcementDetailing.Calculate(NativeDetailInput(d));
         var bars=native.Bars.Select(b=>new BarDetail(b.Mark,NativeZoneKeys[b.Zone],NativeFaceText(b.Face),b.Diameter,b.Count,b.Spacing,b.Area,b.Length,
-            b.RequiredAnchor,b.Anchor,b.RequiredLap,b.Lap,b.Mandrel,b.Fbd,b.Path.Select(p=>new BarPoint(p.X,p.Y)).ToArray())).ToArray();
+            b.RequiredAnchor,b.Anchor,b.RequiredLap,b.Lap,b.Mandrel,b.Fbd,b.Path.Select(NativePoint).ToArray()) {Foot=NativeFootText(b.Foot),Continuous=b.Continuous}).ToArray();
         var checks=native.Checks.Select(c=>new Check((c.Zone.HasValue?NativeZoneKeys[c.Zone.Value]+" · "+NativeFaceText(c.Face!.Value):"Giunzione")+" · "+NativeDetailLabels[c.Rule],
             "Dettagli",c.Demand,c.Capacity,c.Unit=="bars"?"barre":c.Unit,c.Ratio,NativeOutcomeText(c.Outcome,c.Capacity)) {Outcome=c.Outcome,Execution=c.Execution,Data=c.Data}).ToArray();
-        return new(bars,checks,native.SteelKg,DetailingScopeNote);
+        var others=new List<SectionBar>();
+        if(native.Head is { } head) others.Add(new(head.Mark,"Forcella",NativeZoneKeys[head.Zone],"testa",head.Diameter,head.Spacing,head.Length,head.Path.Select(NativePoint).ToArray(),[]));
+        if(native.Tie is { } tie)
+        {
+            double middle=(tie.Path[0].X+tie.Path[tie.Path.Count-1].X)/2;
+            others.Add(new(tie.Mark,"Spillo","stem","fra facce",tie.Diameter,tie.Spacing,tie.Length,tie.Path.Select(NativePoint).ToArray(),tie.Levels.Select(y=>new BarPoint(middle,y)).ToArray()));
+        }
+        others.AddRange(native.Longitudinals.Select(l=>new SectionBar(l.Mark,"Longitudinale",NativeZoneKeys[l.Zone],NativeFaceText(l.Face),l.Diameter,l.Spacing,0,[],l.Points.Select(NativePoint).ToArray())));
+        return new(bars,checks,native.SteelKg,DetailingScopeNote) {Others=others.ToArray()};
     }
     private static BarSchedule CalculateBarScheduleNative(JsonObject input)
     {
@@ -78,26 +93,33 @@ public static partial class RetainingWall
         if(perMetre%1!=0) throw new ArgumentException("Collegamenti per fila: inserire un numero intero per metro.");
         var n=WallBarScheduling.Calculate(NativeDetailInput(d),new(o.Required("panel_length"),o.Required("end_cover"),o.Required("stock_length"),(int)perMetre,
             o.Required("tie_cut_length"),d["detailing"].B("enabled")));
+        var ci=System.Globalization.CultureInfo.GetCultureInfo("it-IT");
+        string Cm(double millimetres) => (millimetres/MillimetresPerCentimetre).ToString("0",ci);
         string Note(WallScheduledBar b) => b.Note switch
         {
-            WallBarNote.None=>"",WallBarNote.InclinedStemTransition=>"Raccordo del tratto inclinato al piede da dettagliare.",
-            WallBarNote.LongitudinalEndsToDetail=>"Rettilinea lungo muro; estremità e sovrapposizioni longitudinali da dettagliare. Zona "+b.ZoneStart!.Value.ToString("0.###",System.Globalization.CultureInfo.InvariantCulture)+"–"+b.ZoneEnd!.Value.ToString("0.###",System.Globalization.CultureInfo.InvariantCulture)+" m.",
-            WallBarNote.TieShapeToDetail=>$"{b.TieRows} file nella sovrapposizione, {perMetre:0}/m per fila. Sagoma e ganci da definire; sviluppo "+(b.CutLength is null?"mancante.":"assegnato dall’utente."),
+            WallBarNote.None=>"",
+            WallBarNote.FootTowardsValley=>"Piede verso valle, sulla rete inferiore della fondazione.",
+            WallBarNote.FootTowardsMountain=>"Piede verso monte, sulla rete inferiore della fondazione.",
+            WallBarNote.Continuous=>"Barra unica fra le due mensole, risvolti ai bordi liberi.",
+            WallBarNote.Longitudinal=>b.Pieces>1?$"{b.Lines} fili × {b.Pieces} pezzi uguali, {b.Pieces-1} sovrapposizioni l₀ = {Cm(b.Lap)} cm per filo.":$"{b.Lines} fili, un pezzo per filo.",
+            WallBarNote.Tie=>$"{b.TieRows} file nella sovrapposizione, {perMetre:0}/m per fila; ganci a 135° prolungati di 10Ø.",
+            WallBarNote.TieAssignedLength=>$"{b.TieRows} file nella sovrapposizione, {perMetre:0}/m per fila; sviluppo assegnato dall’utente.",
+            WallBarNote.Head=>"Forcella di testa (bordo libero), gambe 2·spessore in testa.",
             _=>throw new ArgumentOutOfRangeException(nameof(b))
         };
-        var bars=n.Bars.Select(b=>new ScheduledBar(b.Mark,NativeZoneKeys[b.Zone],b.Face.HasValue?NativeFaceText(b.Face.Value):"fra facce",
-            b.Kind switch {WallBarKind.Main=>"Principale",WallBarKind.Secondary=>"Secondaria",WallBarKind.Tie=>"Collegamento",_=>throw new ArgumentOutOfRangeException(nameof(b))},
-            b.Diameter,b.Quantity,b.CutLength,b.Spacing,b.Mandrel,b.Lap,b.Legs.Select(l=>new BarLeg(l.Name=="Arc90"?"arco 90°":l.Name,l.Length)).ToArray(),
-            b.Shape.Select(p=>new BarPoint(p.X,p.Y)).ToArray(),Note(b))).ToArray();
+        var bars=n.Bars.Select(b=>new ScheduledBar(b.Mark,NativeZoneKeys[b.Zone],b.Face.HasValue?NativeFaceText(b.Face.Value):b.Kind==WallBarKind.Head?"testa":"fra facce",
+            b.Kind switch {WallBarKind.Main=>"Principale",WallBarKind.Secondary=>"Longitudinale",WallBarKind.Tie=>"Spillo",WallBarKind.Head=>"Forcella",_=>throw new ArgumentOutOfRangeException(nameof(b))},
+            b.Diameter,b.Quantity,b.CutLength,b.Spacing,b.Mandrel,b.Lap,b.Legs.Select(NativeLeg).ToArray(),
+            b.Shape.Select(NativePoint).ToArray(),Note(b)) {Lines=b.Lines,Pieces=b.Pieces,SectionPoints=b.SectionPoints.Select(NativePoint).ToArray()}).ToArray();
         string Warning(WallScheduleWarning w) => w.Code switch
         {
             WallScheduleWarningCode.DetailChecksIncomplete=>$"{w.Count} controlli dei dettagli non soddisfatti o non disponibili: consultare le verifiche prima dell’esecuzione.",
             WallScheduleWarningCode.DetailSummaryDisabled=>"Verifica dei dettagli non attivata nel riepilogo del muro.",
-            WallScheduleWarningCode.LongerThanStock=>$"{w.Mark}: sviluppo {n.Bars.Single(b=>b.Mark==w.Mark).CutLength:0.###} m maggiore della barra commerciale {n.StockLength:0.###} m; definire un giunto, nessun taglio automatico.",
-            WallScheduleWarningCode.MissingTieDevelopment=>"Peso parziale: manca lo sviluppo dei collegamenti C1.",
-            WallScheduleWarningCode.Preliminary=>"Distinta preliminare senza sfridi. Quote all’asse delle barre; archi sviluppati al raggio (mandrino + Ø)/2. Estremità lungo muro, disposizione degli strati, raccordi e ganci richiedono il dettaglio esecutivo.",
+            WallScheduleWarningCode.LongerThanStock=>$"pos. {w.Mark}: sviluppo {n.Bars.Single(b=>b.Mark==w.Mark).CutLength:0.###} m maggiore della barra commerciale {n.StockLength:0.###} m; definire un giunto, nessun taglio automatico.",
+            WallScheduleWarningCode.FootReversed=>$"pos. {w.Mark}: il piede non sta nella mensola dalla parte opposta e piega dalla sua parte; verificare il nodo fusto–fondazione.",
             _=>throw new ArgumentOutOfRangeException(nameof(w))
         };
-        return new(n.PanelLength,n.EndCover,n.StockLength,bars,n.Warnings.Select(Warning).ToArray());
+        return new(n.PanelLength,n.EndCover,n.StockLength,bars,n.Warnings.Select(Warning).ToArray())
+            {Diameters=n.Diameters.Select(x=>new DiameterTotal(x.Diameter,x.Length,x.KgPerMetre,x.Weight)).ToArray(),ConcreteVolume=n.ConcreteVolume};
     }
 }

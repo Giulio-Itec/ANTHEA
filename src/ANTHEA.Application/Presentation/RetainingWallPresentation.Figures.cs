@@ -29,15 +29,17 @@ public static partial class RetainingWallPresentation
     /// <summary>The sheet of the bar schedule (the drawing) and the size of its images in the report and in the exports.</summary>
     public const double BarSheetWidth = 1120, BarSheetHeight = 790;
     public const int BarSheetPngWidth = 3360, BarSheetPngHeight = 2370;
-    private const int BarsPerPage = 4, WarningsPerPage = 8;
+    private const int WarningsPerPage = 8;
+    /// <summary>Rows of the bar schedule on a page of the drawing (shape, Ø, number, lengths, weight).</summary>
+    public const int BarRowsPerPage = 6;
 
     /// <summary>The aspect ratio of a page of the bar schedule.</summary>
     public static double BarSheetAspect => BarSheetWidth / BarSheetHeight;
 
-    /// <summary>The pages with the shapes of the bars, four bars a page.</summary>
-    public static int BarShapePages(WallModel.BarSchedule schedule) => (int)Math.Ceiling(schedule.Bars.Count / (double)BarsPerPage);
+    /// <summary>The pages of the bar schedule with the shapes, <see cref="BarRowsPerPage"/> positions a page.</summary>
+    public static int BarShapePages(WallModel.BarSchedule schedule) => (int)Math.Ceiling(schedule.Bars.Count / (double)BarRowsPerPage);
 
-    /// <summary>The pages of the bar schedule: the reinforced section with the inventory, the shapes of the bars, the criteria (eight warnings a page).</summary>
+    /// <summary>The pages of the drawing: the reinforced section with the totals per diameter, the bar schedule, the criteria (eight warnings a page).</summary>
     public static int BarSchedulePages(WallModel.BarSchedule schedule) => 1 + BarShapePages(schedule) + Math.Max(1, (int)Math.Ceiling(schedule.Warnings.Count / (double)WarningsPerPage));
 
     /// <summary>The figure of «Word globale»: the global stability with the combination shown (the export of the historic view draws it with the same size).</summary>

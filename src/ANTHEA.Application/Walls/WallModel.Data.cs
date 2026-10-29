@@ -48,6 +48,9 @@ public static partial class WallModel
         public double Mandrel { get; }
         public double Fbd { get; }
         public IReadOnlyList<WallModel.BarPoint> Path { get; }
+        /// <summary>Piede delle barre del fusto: «valle», «monte» o vuoto.</summary>
+        public string Foot { get; }
+        public bool Continuous { get; }
         internal BarDetail(global::Anthea.Calculations.RetainingWall.BarDetail source)
         {
             Source = source;
@@ -67,6 +70,8 @@ public static partial class WallModel
             Mandrel = source.Mandrel;
             Fbd = source.Fbd;
             Path = source.Path.Select(item0 => new WallModel.BarPoint(item0)).ToArray();
+            Foot = source.Foot;
+            Continuous = source.Continuous;
         }
     }
 
@@ -75,11 +80,20 @@ public static partial class WallModel
         internal global::Anthea.Calculations.RetainingWall.BarLeg Source { get; }
         public string Name { get; }
         public double Length { get; }
+        /// <summary>Arco sviluppato; Angle: angolo della piega in gradi (anche quella senza raggio all'inizio di un tratto rettilineo).</summary>
+        public bool Arc { get; }
+        public double Angle { get; }
+        public WallModel.BarPoint? From { get; }
+        public WallModel.BarPoint? To { get; }
         internal BarLeg(global::Anthea.Calculations.RetainingWall.BarLeg source)
         {
             Source = source;
             Name = source.Name;
             Length = source.Length;
+            Arc = source.Arc;
+            Angle = source.Angle;
+            From = source.From is { } from ? new WallModel.BarPoint(from) : null;
+            To = source.To is { } to ? new WallModel.BarPoint(to) : null;
         }
     }
 
@@ -106,6 +120,9 @@ public static partial class WallModel
         public IReadOnlyList<string> Warnings { get; }
         public double KnownWeight { get; }
         public bool CompleteQuantities { get; }
+        public IReadOnlyList<WallModel.DiameterTotal> Diameters { get; }
+        public double ConcreteVolume { get; }
+        public double Incidence { get; }
         internal BarSchedule(global::Anthea.Calculations.RetainingWall.BarSchedule source)
         {
             Source = source;
@@ -116,6 +133,53 @@ public static partial class WallModel
             Warnings = source.Warnings.Select(item0 => item0).ToArray();
             KnownWeight = source.KnownWeight;
             CompleteQuantities = source.CompleteQuantities;
+            Diameters = source.Diameters.Select(item0 => new WallModel.DiameterTotal(item0)).ToArray();
+            ConcreteVolume = source.ConcreteVolume;
+            Incidence = source.Incidence;
+        }
+    }
+
+    public sealed class DiameterTotal
+    {
+        internal global::Anthea.Calculations.RetainingWall.DiameterTotal Source { get; }
+        public double Diameter { get; }
+        public double Length { get; }
+        public double KgPerMetre { get; }
+        public double Weight { get; }
+        internal DiameterTotal(global::Anthea.Calculations.RetainingWall.DiameterTotal source)
+        {
+            Source = source;
+            Diameter = source.Diameter;
+            Length = source.Length;
+            KgPerMetre = source.KgPerMetre;
+            Weight = source.Weight;
+        }
+    }
+
+    public sealed class SectionBar
+    {
+        internal global::Anthea.Calculations.RetainingWall.SectionBar Source { get; }
+        public string Mark { get; }
+        public string Kind { get; }
+        public string Zone { get; }
+        public string Face { get; }
+        public double Diameter { get; }
+        public double Spacing { get; }
+        public double Length { get; }
+        public IReadOnlyList<WallModel.BarPoint> Path { get; }
+        public IReadOnlyList<WallModel.BarPoint> Points { get; }
+        internal SectionBar(global::Anthea.Calculations.RetainingWall.SectionBar source)
+        {
+            Source = source;
+            Mark = source.Mark;
+            Kind = source.Kind;
+            Zone = source.Zone;
+            Face = source.Face;
+            Diameter = source.Diameter;
+            Spacing = source.Spacing;
+            Length = source.Length;
+            Path = source.Path.Select(item0 => new WallModel.BarPoint(item0)).ToArray();
+            Points = source.Points.Select(item0 => new WallModel.BarPoint(item0)).ToArray();
         }
     }
 
@@ -372,6 +436,8 @@ public static partial class WallModel
         public IReadOnlyList<WallModel.Check> Checks { get; }
         public double SteelKg { get; }
         public string Note { get; }
+        /// <summary>Forcella di testa, spilli della giunzione e ferri longitudinali (posizioni nella sezione).</summary>
+        public IReadOnlyList<WallModel.SectionBar> Others { get; }
         internal ReinforcementDetails(global::Anthea.Calculations.RetainingWall.ReinforcementDetails source)
         {
             Source = source;
@@ -379,6 +445,7 @@ public static partial class WallModel
             Checks = source.Checks.Select(item0 => new WallModel.Check(item0)).ToArray();
             SteelKg = source.SteelKg;
             Note = source.Note;
+            Others = source.Others.Select(item0 => new WallModel.SectionBar(item0)).ToArray();
         }
     }
 
@@ -453,6 +520,9 @@ public static partial class WallModel
         public string Note { get; }
         public double? TotalLength { get; }
         public double? Weight { get; }
+        public int? Lines { get; }
+        public int? Pieces { get; }
+        public IReadOnlyList<WallModel.BarPoint> SectionPoints { get; }
         internal ScheduledBar(global::Anthea.Calculations.RetainingWall.ScheduledBar source)
         {
             Source = source;
@@ -471,6 +541,9 @@ public static partial class WallModel
             Note = source.Note;
             TotalLength = source.TotalLength;
             Weight = source.Weight;
+            Lines = source.Lines;
+            Pieces = source.Pieces;
+            SectionPoints = source.SectionPoints.Select(item0 => new WallModel.BarPoint(item0)).ToArray();
         }
     }
 

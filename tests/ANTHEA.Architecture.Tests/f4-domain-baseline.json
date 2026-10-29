@@ -9950,142 +9950,6 @@
     {
       "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card.P",
-      "Fingerprint": "F73A0006549F00BC21A1CF25BBC937A04E8AD1DC266DBC96A028CCACE08EF8B2",
-      "Count": 1,
-      "Example": "161"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card.P",
-      "Fingerprint": "F7C79FBE2E627BE0ADDE99F33EFC8736292C99C3C2D7C20274DC601AA73F0166",
-      "Count": 1,
-      "Example": "48"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "102CA21FC7F72B007EA10EC93B45D400E853E59E64E4DD250E0E978565DACE93",
-      "Count": 4,
-      "Example": "24"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "1FD46D770940063203D0ABC8160937DC5E926C8031C7A808044ACDE063A6F8EF",
-      "Count": 2,
-      "Example": "1000"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "461A36D38821235818F5E4333475D840FE7DB59E7F36F3C732DE2AE1B80503C5",
-      "Count": 1,
-      "Example": "13"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "59048135D27F6C6733ADAC2B430BAF6C668D9EFEFEFAC328D3DF8595CBFCC2A6",
-      "Count": 1,
-      "Example": "10"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "5C93EDD396F953AA315F467B5E64A151D07BC02E56AE9AB6B1BC9A4523CE47B7",
-      "Count": 1,
-      "Example": "104"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "787AF113569E21E46D49EB9332C69E9D1BF34C3B79783E30700333514D183010",
-      "Count": 1,
-      "Example": "228"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "7B2EEBE7E1DCBD535F59A6E9C6FEBB87886A5C0C28F1E38DE78AAA8906F6F41E",
-      "Count": 1,
-      "Example": "15"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "A426C9B829CDA9A653B2E9FC696CE3C4C54349425F521F23551D0B16641FBB44",
-      "Count": 1,
-      "Example": "115"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "B45B65A5B46F3D12FF8AE8BED70CF48D831AA6800FEDAE39BA5B9CE480112997",
-      "Count": 1,
-      "Example": "130"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "B59C6C97930878CA36A54FF0D6C86EF0F7B29E5192B186CC3D63034DB335CFC4",
-      "Count": 1,
-      "Example": "25"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "B6EA8DA7C567A3F8A2B76445F5AE8E961B1CB8632954734B70162E966710FFAD",
-      "Count": 1,
-      "Example": "70"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "BD92E092DB425B8946241B786ABE9D80201B7CCA7FE7F69408C0100355F6CDE0",
-      "Count": 1,
-      "Example": "275"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "EE5F5308A11DEFB67D06EAC914DC8D2BFBF5FD9DA0F0E6C771421B0330A068A0",
-      "Count": 1,
-      "Example": "198"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "F069A9C9EB6B24D04DF3D0C093059236D4F8D4714E420E8E9D784D7BA663FE00",
-      "Count": 1,
-      "Example": "176"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "FDDFDE0A9413C8C81DC8D1860FCA207B1A2FEF8DE7BCDFBA10CF9E33A35CF5AF",
-      "Count": 1,
-      "Example": "5"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
       "Owner": "RetainingWallBarDrawing.Dimension",
       "Fingerprint": "1C2EA7C0835812091DC68E31C8EBBA26CA62A0841C1672BB7BA7C7DD4F04A3A4",
       "Count": 1,
@@ -10110,30 +9974,6 @@
     {
       "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Inventory",
-      "Fingerprint": "005A22E3A0664E4F409ACA3FEAF90210B91D6A8E5587402AB142C3B154D020F8",
-      "Count": 2,
-      "Example": "20"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Inventory",
-      "Fingerprint": "3D9E7D5F608501D9204B408F5B01478EF0C7B3DE25F5975BFF1CF1FB9FE487E7",
-      "Count": 1,
-      "Example": "16"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Inventory",
-      "Fingerprint": "4A485974430FD8315361F385BB66B810BE7E0A63832DE3C45158E8C55EEC9C21",
-      "Count": 1,
-      "Example": "46"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
       "Owner": "RetainingWallBarDrawing.Notes",
       "Fingerprint": "7081A08245665FAB7430C193DB60D4BCA16C3C8D5CF0E4DE67A3209B4D8319D1",
       "Count": 1,
@@ -10146,134 +9986,6 @@
       "Fingerprint": "F489678A341057AA135FF014783B47DB30FDA766CFC270EC74D340C31F463D81",
       "Count": 1,
       "Example": "8"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Render",
-      "Fingerprint": "51510A98D0370F6757422E877FC2197A51C3CCDF3EC120473FCFA914A01228F4",
-      "Count": 1,
-      "Example": "293"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Render",
-      "Fingerprint": "62A9AFFA3AB6AA39D670FFCBF64F7BE27639A8761EA37D55FC64DA3884943576",
-      "Count": 1,
-      "Example": "130"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Render",
-      "Fingerprint": "6CA1BA5640E519EBB791BAAED11EE9ECD625F344FF06BF7249FC8A46C8880D6A",
-      "Count": 1,
-      "Example": "4"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Render",
-      "Fingerprint": "B1FF9E386B2147A9065D0B369792C01FF3DB6743E76D9AE06968C7140D13ECBC",
-      "Count": 1,
-      "Example": "35"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Render",
-      "Fingerprint": "EA47222F1C38FC4898A2278E11ED7583C49BB0B335D08E4FA095409E1C995955",
-      "Count": 1,
-      "Example": "532"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Section",
-      "Fingerprint": "2544AFBC9E33D6BF918A1AFE5760582B6B5787EA90FA13701AFE8338122810DC",
-      "Count": 1,
-      "Example": "66"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Section",
-      "Fingerprint": "3D9E9B4BCBA7CF622F9B117C98971DAD34E9BD87D7400EE7D883234ACF598B3B",
-      "Count": 1,
-      "Example": "47"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Section",
-      "Fingerprint": "434E2D7D4940765F64076495352F72862727B1FB7F6FFE1376CABE359346CF65",
-      "Count": 1,
-      "Example": "50"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Section",
-      "Fingerprint": "5B1D242032B991176B65348C943AAD466E1AC32D6BE2EB44F83429315DE0E70D",
-      "Count": 1,
-      "Example": "4"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Section",
-      "Fingerprint": "79311C42273F99C0A5BA646B63E74EFB3B4CAE6A2A07AB04F61B288AAF3CDB60",
-      "Count": 1,
-      "Example": "9"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Section",
-      "Fingerprint": "80AD41D776BC10E89D435EB6C9737765F9F061070C2B3553145434E86C4A7DD5",
-      "Count": 1,
-      "Example": "350"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Section",
-      "Fingerprint": "DCD69481EDC1409C6D808540C9C147B562BEACFA6772F517778CCD32B95CA58E",
-      "Count": 9,
-      "Example": "1000"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Section",
-      "Fingerprint": "E2C31171732AFADB32BE68F62CA057FE0384D3FDF4E1A6F51C8611E774A564AC",
-      "Count": 1,
-      "Example": "6"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Section",
-      "Fingerprint": "E778D24467E6808B64B91DD84FC7365751E5AB4F4526DCFE62BAD9BCAA5A11CD",
-      "Count": 1,
-      "Example": "18"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Section",
-      "Fingerprint": "EE14ADBB97B2B9A6E6ABC3407C6D7BA1A74CF9CC5F6D874CE1E5677AC647096D",
-      "Count": 1,
-      "Example": "221"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallBarDrawing.Section",
-      "Fingerprint": "F7EEFD667E548C6A15E95A5EAD64AA18D975E91624271EDB0FD7EC4EA9688372",
-      "Count": 1,
-      "Example": "390"
     },
     {
       "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
@@ -10330,22 +10042,6 @@
       "Fingerprint": "C6EF07EE04D3093E96578FA3EDC23491F7437E50A2DD803B7D5F5B23113C184A",
       "Count": 1,
       "Example": "g . D ( \"slab\" )"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "RetainingWallBarDrawing.Card",
-      "Fingerprint": "1FD46D770940063203D0ABC8160937DC5E926C8031C7A808044ACDE063A6F8EF",
-      "Count": 2,
-      "Example": "1000"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallBarDrawing.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "RetainingWallBarDrawing.Section",
-      "Fingerprint": "DCD69481EDC1409C6D808540C9C147B562BEACFA6772F517778CCD32B95CA58E",
-      "Count": 9,
-      "Example": "1000"
     },
     {
       "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Ground.cs",
@@ -10863,14 +10559,6 @@
       "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "4B7A6FF0D2C354FB2813485E2BB1F652A0A059E1DAB49AB33C04C248747F6A76",
-      "Count": 1,
-      "Example": "39"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
       "Fingerprint": "774021E03479B11455F56185B87EA0C704515A380C0A933700B82B80039795EE",
       "Count": 1,
       "Example": "33"
@@ -10888,7 +10576,7 @@
       "Rule": "R2-numeric-literal",
       "Owner": "RetainingWallDrawing.DrawReinforcementSection",
       "Fingerprint": "8F105EDEF6D7D0AC434F3A9D6C4D09EA38A82B4F9C820D7938159FBAB8460293",
-      "Count": 8,
+      "Count": 2,
       "Example": "1000"
     },
     {
@@ -10898,46 +10586,6 @@
       "Fingerprint": "96064D2A8F3E3B0F38348DC9D86072B235B2447E21F75F9CC9850D7FDE937634",
       "Count": 1,
       "Example": ".56"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "A04267055CA7618501B43A8270F8050CC49BA8D71B9523CA890F66BE9BE85A07",
-      "Count": 2,
-      "Example": ".06"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "A23E0EA9B19A4D5528E39396ADE4E12315C4D716E0E0C0DE1B6A811C2063EDC4",
-      "Count": 1,
-      "Example": "34"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "C2B6B0C3F74CEF1D7E57ECA0CECF5A3806C70C4C5D0C08EF847ED0AADC7F2A5E",
-      "Count": 1,
-      "Example": ".60"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "E5ED96C96E704A6BEEF3A782AA5AD7E1ED733F0163EF547D626436B43057913F",
-      "Count": 4,
-      "Example": "4"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "EF9CB2377C96B0E8BA88E18DCA04C7C7F4B11F5DCFBA941A666506EF932449E2",
-      "Count": 1,
-      "Example": "15"
     },
     {
       "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
@@ -10959,38 +10607,6 @@
       "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
       "Rule": "R4-implicit-number",
       "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "0DF99DB28741840907AAAF9428E3C6A427815FDE9FFCB6E252269A60D4FB3B9C",
-      "Count": 1,
-      "Example": "arm . D ( \"diameter\" )"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "0F60E541F7ADD5BFC00FFA51859FE40E1C7272693216421B66AF61C2B3025A2E",
-      "Count": 1,
-      "Example": "r . D ( \"secondary_diameter\" )"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "32BCD92207BA3FAE62FEF723F930A03995E5898CFE7ED8CB19A7DAAFA379042A",
-      "Count": 2,
-      "Example": "g . D ( \"stem_top\" )"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "3B161775017D076749BE7CAEF6089E10570430617BE1BBD76D10B93FD3DEC93A",
-      "Count": 1,
-      "Example": "arm . D ( \"secondary_diameter\" )"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
       "Fingerprint": "403E202B816AA094DAF0D34034979547F3C207209F785C8252CA12144AA841E4",
       "Count": 1,
       "Example": "g . D ( \"height\" )"
@@ -11000,7 +10616,7 @@
       "Rule": "R4-implicit-number",
       "Owner": "RetainingWallDrawing.DrawReinforcementSection",
       "Fingerprint": "42B40900CB505735BB54A3C6802BCBF19DAF6F3EFC7EBAA954D45FC332B12CFA",
-      "Count": 5,
+      "Count": 1,
       "Example": "g . D ( \"stem_base\" )"
     },
     {
@@ -11015,25 +10631,9 @@
       "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
       "Rule": "R4-implicit-number",
       "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "7464D79CBF1418022BADA15D4503638FD742D9CDBB74E6FC7AB15EA7649A4CB8",
-      "Count": 1,
-      "Example": "arm . D ( \"secondary_spacing\" )"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
       "Fingerprint": "8CC6A60758A0A38BF13D8B4143B69248A34133817993A816D1B2F038D7675119",
       "Count": 1,
       "Example": "g . D ( \"heel\" )"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "8E86D55408DB47CA4FA01D7B3E6A54ACEB959C4CF0B01791F8A36619D793853D",
-      "Count": 1,
-      "Example": "r . D ( \"diameter\" )"
     },
     {
       "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
@@ -11055,32 +10655,16 @@
       "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
       "Rule": "R4-implicit-number",
       "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "B670F2334A7A35E6138395BEC28D82D6429C9AC909BF400E0142F98CE5DBB44F",
-      "Count": 1,
-      "Example": "Data [ \"detailing\" ] . D ( \"tie_spacing\" )"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
       "Fingerprint": "E23F474F6B475612B63C9288C1DA3189375A35594983D87A2A978F7AAB88CC8B",
-      "Count": 3,
-      "Example": "Data [ \"materials\" ] . D ( \"cover\" )"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "RetainingWallDrawing.DrawReinforcementSection",
-      "Fingerprint": "E790A766F06BD43BA31BD1B57F0717500C9EC57B15F47F238ED8D75073DE09B6",
       "Count": 1,
-      "Example": "r . D ( \"secondary_spacing\" )"
+      "Example": "Data [ \"materials\" ] . D ( \"cover\" )"
     },
     {
       "File": "src/ANTHEA.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
       "Rule": "R6-unit-factor",
       "Owner": "RetainingWallDrawing.DrawReinforcementSection",
       "Fingerprint": "8F105EDEF6D7D0AC434F3A9D6C4D09EA38A82B4F9C820D7938159FBAB8460293",
-      "Count": 8,
+      "Count": 2,
       "Example": "1000"
     },
     {
@@ -16338,38 +15922,6 @@
       "Fingerprint": "D1C6067400FAE38877DA7137D481287E6FEAEB8FE9CC19318AC12EEC85811631",
       "Count": 1,
       "Example": "row . D ( \"Method\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportRetainingWall.BarSchedule.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ReportRetainingWall.BarScheduleCsv",
-      "Fingerprint": "28D55427C06BBB5B47DC9EAA166279146554C88D0AABA78B55DFAADA7B0B7BDC",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportRetainingWall.BarSchedule.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ReportRetainingWall.ScheduleTables",
-      "Fingerprint": "981BD85A572A85ECFC73976011C9A3A541EC2A86E980D8F3AF04F2D792F9B44C",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportRetainingWall.BarSchedule.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "ReportRetainingWall.BarScheduleCsv",
-      "Fingerprint": "28D55427C06BBB5B47DC9EAA166279146554C88D0AABA78B55DFAADA7B0B7BDC",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportRetainingWall.BarSchedule.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "ReportRetainingWall.ScheduleTables",
-      "Fingerprint": "981BD85A572A85ECFC73976011C9A3A541EC2A86E980D8F3AF04F2D792F9B44C",
-      "Count": 1,
-      "Example": "1000"
     },
     {
       "File": "src/ANTHEA.Reports/Generators/ReportRetainingWall.cs",

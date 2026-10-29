@@ -9,9 +9,21 @@ public static partial class RetainingWall
     public sealed record BarPoint(double X, double Y);
     public sealed record BarDetail(string Mark, string Zone, string Face, double Diameter, double Count,
         double Spacing, double Area, double Length, double RequiredAnchor, double Anchor,
-        double RequiredLap, double Lap, double Mandrel, double Fbd, IReadOnlyList<BarPoint> Path);
-    public sealed record ReinforcementDetails(IReadOnlyList<BarDetail> Bars, IReadOnlyList<Check> Checks, double SteelKg, string Note);
-    internal const string DetailingScopeNote = "Schema di predimensionamento per metro: principali, rete secondaria e collegamenti della giunzione. Ancoraggi a fyd senza riduzioni favorevoli; 100% giunzioni a h₁. Sfridi, giunti di costruzione, estremità lungo muro e piano di posa delle barre fuori piano richiedono il disegno esecutivo. Non è una distinta di officina.";
+        double RequiredLap, double Lap, double Mandrel, double Fbd, IReadOnlyList<BarPoint> Path)
+    {
+        /// <summary>Piede delle barre del fusto: «valle», «monte» o vuoto; «Continuous» per la barra unica di fondazione.</summary>
+        public string Foot { get; init; } = "";
+        public bool Continuous { get; init; }
+    }
+    /// <summary>Altre posizioni della sezione (GPC.Design, 1.16.0): forcella di testa, spilli della giunzione, ferri longitudinali.
+    /// Kind «Forcella», «Spillo» o «Longitudinale»; Path in m all'asse; Points: righe degli spilli o posizioni dei longitudinali.</summary>
+    public sealed record SectionBar(string Mark, string Kind, string Zone, string Face, double Diameter, double Spacing, double Length,
+        IReadOnlyList<BarPoint> Path, IReadOnlyList<BarPoint> Points);
+    public sealed record ReinforcementDetails(IReadOnlyList<BarDetail> Bars, IReadOnlyList<Check> Checks, double SteelKg, string Note)
+    {
+        public IReadOnlyList<SectionBar> Others { get; init; } = [];
+    }
+    internal const string DetailingScopeNote = "Armature per metro di muro: principali al passo 1000/n, piedi del fusto incrociati in fondazione e appoggiati sulla rete inferiore, barre di fondazione con risvolti ai bordi liberi, forcelle di testa, spilli nella giunzione e ferri longitudinali nello strato interno. Ancoraggi a fyd senza riduzioni favorevoli; 100% giunzioni a h₁. Peso netto, senza sfridi.";
     public sealed record ReinforcementProposal(JsonObject Input, IReadOnlyList<Check> Checks, bool Passed, string Message);
 
     /// <summary>Dettagli d'armatura del muro a mensola (GPC.Design). Il percorso storico è LegacyRetainingWall in tests/ANTHEA.Legacy

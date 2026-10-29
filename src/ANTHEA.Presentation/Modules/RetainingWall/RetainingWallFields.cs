@@ -179,7 +179,7 @@ public static class RetainingWallFields
 
     public static IReadOnlyList<FieldSpec> BarSchedule { get; } = [new("panel_length", "Lunghezza del tratto da armare", "m"),
         new("end_cover", "Copriferro alle estremità del tratto", "mm"), new("stock_length", "Lunghezza barra commerciale", "m"),
-        new("ties_per_m", "Collegamenti per fila e per metro di muro", "−"), new("tie_cut_length", "Sviluppo collegamento (0 = da definire)", "mm")];
+        new("ties_per_m", "Spilli per fila e per metro di muro", "−"), new("tie_cut_length", "Sviluppo spillo (0 = calcolato)", "mm")];
 
     public static IReadOnlyList<FieldSpec> Detailing { get; } = [new("enabled", "Verifica i dettagli delle armature", Bool: true),
         new("good_bond", "Condizioni di buona aderenza documentate", Bool: true), new("lap_percent", "Percentuale barre giuntate (schema: 100%)", "%"),
