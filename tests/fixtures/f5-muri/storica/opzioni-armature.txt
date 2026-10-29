@@ -299,7 +299,7 @@ parametri: -
 ~ dati: version|family|geometry|foundation|loads|materials|layers|water|seismic|reinforcement|extensions|global_stability|valley|interfaces|bearing_seismic|bar_schedule|serviceability|detailing|gravity_design|actions|combinations|combination_mode|combination_signature
 ~ dati.combinations: [{"enabled":true,"name":"SLE 1","state":"SLE","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1}},{"enabled":true,"name":"SLE_FREQ 2","state":"SLE_FREQ","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0.5}},{"enabled":true,"name":"Quasi permanente 3","state":"SLE_QP","approach":"SLE","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1,"rpassive":1,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0.3}},{"enabled":true,"name":"SLU 4","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 5","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 6","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 7","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"SLU 8","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 8b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 9","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 9b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 10","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 10b","state":"SLU","approach":"A1+M1+R3","wall":1,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 11","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":true,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"SLU 11b","state":"SLU","approach":"A1+M1+R3","wall":1.3,"soil":1.3,"valley_soil":1,"water":1,"mphi":1,"rslide":1.1,"rover":1.15,"rbearing":1.4,"rpassive":1.4,"heel_surcharge":false,"kh":0,"kv":0,"coefficients":{"<ID-1>":1.5}},{"enabled":true,"name":"Sisma kv− 12","state":"SISMA","approach":"Sismica · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":true,"kh":0.1,"kv":-0.05,"coefficients":{"<ID-1>":0.3}},{"enabled":true,"name":"Sisma kv− 12b","state":"SISMA","approach":"Sismica · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":false,"kh":0.1,"kv":-0.05,"coefficients":{"<ID-1>":0.3}},{"enabled":true,"name":"Sisma kv− 13","state":"SISMA","approach":"Sismica · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":true,"kh":0.1,"kv":-0.05,"coefficients":{"<ID-1>":0}},{"enabled":true,"name":"Sisma kv+ 14","state":"SISMA","approach":"Sismica · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":true,"kh":0.1,"kv":0.05,"coefficients":{"<ID-1>":0.3}},{"enabled":true,"name":"Sisma kv+ 14b","state":"SISMA","approach":"Sismica · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":false,"kh":0.1,"kv":0.05,"coefficients":{"<ID-1>":0.3}},{"enabled":true,"name":"Sisma kv+ 15","state":"SISMA","approach":"Sismica · NTC 7.11.III","wall":1,"soil":1,"valley_soil":1,"water":1,"mphi":1,"rslide":1,"rover":1,"rbearing":1.2,"rpassive":1,"heel_surcharge":true,"kh":0.1,"kv":0.05,"coefficients":{"<ID-1>":0}}]
 + dati.combination_signature: "<ID-1>/Q/true/0.7/0.5/0.3/legacy"
-~ risultato: 547B51A303769D6C
+~ risultato: 74BDE051655468CB
 ~ stato: "Calcolo aggiornato · 21 combinazioni · 1 controlli non soddisfatti · 0 non disponibili"
 ~ pulsante.sisma: "Sisma: attivo · 6 combinazioni" · "Apri Input → Azioni → Sisma. Mononobe–Okabe · kh=0,1 · |kv|=0,05. Con matrice personalizzata controllare le righe SISMA; Genera / ripristina automatiche ricrea le combinazioni dai parametri inseriti."
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b|Sisma kv− 12|Sisma kv− 12b|Sisma kv− 13|Sisma kv+ 14|Sisma kv+ 14b|Sisma kv+ 15" · scelta "SLE 1"
@@ -484,7 +484,7 @@ parametri: -
 ~ tabella.cedimenti.1: {"name":"Strato deformabile","thickness":2,"modulus":"60000"}
 - tabella.cedimenti.2
 == attendi
-~ risultato: 36A7A939B4357181
+~ risultato: C1AEE3C83796978D
 ~ stato: "Calcolo aggiornato · 21 combinazioni · 1 controlli non soddisfatti · 9 non disponibili"
 ~ pulsante.sisma: "Sisma: attivo · 6 combinazioni" · "Apri Input → Azioni → Sisma. Mononobe–Okabe · kh=0,1 · |kv|=0,05. Con matrice personalizzata controllare le righe SISMA; Genera / ripristina automatiche ricrea le combinazioni dai parametri inseriti."
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b|Sisma kv− 12|Sisma kv− 12b|Sisma kv− 13|Sisma kv+ 14|Sisma kv+ 14b|Sisma kv+ 15" · scelta "SLE 1"
@@ -553,7 +553,7 @@ parametri: -
 - verifiche.3.1
 - verifiche.3.2
 == attendi
-~ risultato: 157C41BD9779A427
+~ risultato: 02D12DA716586A9E
 ~ stato: "Calcolo aggiornato · 21 combinazioni · 1 controlli non soddisfatti · 15 non disponibili"
 ~ pulsante.sisma: "Sisma: attivo · 6 combinazioni" · "Apri Input → Azioni → Sisma. Mononobe–Okabe · kh=0,1 · |kv|=0,05. Con matrice personalizzata controllare le righe SISMA; Genera / ripristina automatiche ricrea le combinazioni dai parametri inseriti."
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b|Sisma kv− 12|Sisma kv− 12b|Sisma kv− 13|Sisma kv+ 14|Sisma kv+ 14b|Sisma kv+ 15" · scelta "SLE 1"
@@ -646,7 +646,7 @@ parametri: -
 - campo.history_1.limit_mm
 - campo.history_1.compatible
 == attendi
-~ risultato: 13F82561A27CEB63
+~ risultato: BEBBF2ACB7ACC904
 ~ stato: "Calcolo aggiornato · 21 combinazioni · 0 controlli non soddisfatti · 16 non disponibili"
 ~ pulsante.sisma: "Sisma: attivo · 6 combinazioni" · "Apri Input → Azioni → Sisma. Mononobe–Okabe · kh=0,1 · |kv|=0,05. Con matrice personalizzata controllare le righe SISMA; Genera / ripristina automatiche ricrea le combinazioni dai parametri inseriti."
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b|Sisma kv− 12|Sisma kv− 12b|Sisma kv− 13|Sisma kv+ 14|Sisma kv+ 14b|Sisma kv+ 15" · scelta "SLE 1"
@@ -750,7 +750,7 @@ parametri: -
 - proposta.2.2
 - proposta.3
 == attendi
-~ risultato: DB510B6BEAA31C08
+~ risultato: DB742AC597D458C5
 ~ stato: "Calcolo aggiornato · 21 combinazioni · 0 controlli non soddisfatti · 16 non disponibili"
 ~ pulsante.sisma: "Sisma: attivo · 6 combinazioni" · "Apri Input → Azioni → Sisma. Mononobe–Okabe · kh=0,1 · |kv|=0,05. Con matrice personalizzata controllare le righe SISMA; Genera / ripristina automatiche ricrea le combinazioni dai parametri inseriti."
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b|Sisma kv− 12|Sisma kv− 12b|Sisma kv− 13|Sisma kv+ 14|Sisma kv+ 14b|Sisma kv+ 15" · scelta "SLE 1"
@@ -849,7 +849,7 @@ parametri: -
 - proposta.2.2
 - proposta.3
 == attendi
-~ risultato: C42AA1C66A431AB6
+~ risultato: 5994D12DACE0B320
 ~ stato: "Calcolo aggiornato · 21 combinazioni · 0 controlli non soddisfatti · 16 non disponibili"
 ~ pulsante.sisma: "Sisma: attivo · 6 combinazioni" · "Apri Input → Azioni → Sisma. Mononobe–Okabe · kh=0,1 · |kv|=0,05. Con matrice personalizzata controllare le righe SISMA; Genera / ripristina automatiche ricrea le combinazioni dai parametri inseriti."
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b|Sisma kv− 12|Sisma kv− 12b|Sisma kv− 13|Sisma kv+ 14|Sisma kv+ 14b|Sisma kv+ 15" · scelta "SLE 1"
@@ -931,7 +931,7 @@ parametri: -
 - verifiche.3.2
 == attendi
 ~ foglio: modificato 9 · sola lettura no · occupato no · report 0 · terreno 0
-~ risultato: 2050C6DCEAC23722
+~ risultato: A1A33A17BB46082A
 ~ stato: "Calcolo aggiornato · 21 combinazioni · 0 controlli non soddisfatti · 16 non disponibili"
 ~ pulsante.sisma: "Sisma: attivo · 6 combinazioni" · "Apri Input → Azioni → Sisma. Mononobe–Okabe · kh=0,1 · |kv|=0,05. Con matrice personalizzata controllare le righe SISMA; Genera / ripristina automatiche ricrea le combinazioni dai parametri inseriti."
 ~ pulsante.armature: sì
@@ -1003,7 +1003,7 @@ parametri: -
 - proposta.0
 == conferma
 == attendi
-~ risultato: 2050C6DCEAC23722
+~ risultato: A1A33A17BB46082A
 ~ stato: "Calcolo aggiornato · 21 combinazioni · 0 controlli non soddisfatti · 16 non disponibili"
 ~ pulsante.sisma: "Sisma: attivo · 6 combinazioni" · "Apri Input → Azioni → Sisma. Mononobe–Okabe · kh=0,1 · |kv|=0,05. Con matrice personalizzata controllare le righe SISMA; Genera / ripristina automatiche ricrea le combinazioni dai parametri inseriti."
 ~ combinazioni: "SLE 1|SLE_FREQ 2|Quasi permanente 3|SLU 4|SLU 5|SLU 6|SLU 7|SLU 8|SLU 8b|SLU 9|SLU 9b|SLU 10|SLU 10b|SLU 11|SLU 11b|Sisma kv− 12|Sisma kv− 12b|Sisma kv− 13|Sisma kv+ 14|Sisma kv+ 14b|Sisma kv+ 15" · scelta "SLE 1"

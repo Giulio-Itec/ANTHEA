@@ -496,14 +496,18 @@ internal static class RetainingWallSheetChecks
         // variable group present or absent (four fixtures): 11493 new transitions, 992 earlier ones with the new value after (entries extended
         // with « / COMB-D6»: 220 PARATIE-20, 718 AG-MUR-01, 54 COMB-MURI-D4D5), one PARATIE-20 transition of a report line moved by the inserted
         // rows removed (its new state is in the COMB-D6 differences of the same file).
+        // COMB-MURI-D5-NOTA (1.16.0, follow-up of COMB-MURI-D4D5): the note on the assigned kh and kv says that the automatic seismic rows have
+        // the γR of Tab. 7.11.III, no longer «il preset manuale mantiene γR statici»: 4 new transitions, the warning of result.json and the
+        // report line of mensola-wood-azioni and opzioni-avanzate.
         int undrained = transitions.Count(t => t.Entry == "PARATIE-20");
         int parabola = transitions.Count(t => t.Entry == "AG-MUR-01"), extended = transitions.Count(t => t.Entry.EndsWith(" / AG-MUR-01", StringComparison.Ordinal));
         int overturning = transitions.Count(t => t.Entry == "BUG-MUR-2b"), overturningExtended = transitions.Count(t => t.Entry.EndsWith(" / BUG-MUR-2b", StringComparison.Ordinal));
         int combinations = transitions.Count(t => t.Entry == "COMB-MURI-D4D5"), combinationsExtended = transitions.Count(t => t.Entry.EndsWith(" / COMB-MURI-D4D5", StringComparison.Ordinal));
         int presence = transitions.Count(t => t.Entry == "COMB-D6"), presenceExtended = transitions.Count(t => t.Entry.EndsWith(" / COMB-D6", StringComparison.Ordinal));
+        int note = transitions.Count(t => t.Entry == "COMB-MURI-D5-NOTA");
         expect.That(undrained == 2677 && parabola == 13809 && extended == 1668 && overturning == 112 && overturningExtended == 16
-            && combinations == 4649 && combinationsExtended == 744 && presence == 11493 && presenceExtended == 992
-            && transitions.Count - undrained - parabola - overturning - combinations - presence == 16174 && comparer.NotAdmitted == 0,
+            && combinations == 4649 && combinationsExtended == 744 && presence == 11493 && presenceExtended == 992 && note == 4
+            && transitions.Count - undrained - parabola - overturning - combinations - presence - note == 16174 && comparer.NotAdmitted == 0,
             "File con transizioni F4: " + transitions.Count + " transizioni, "
             + comparer.NotAdmitted + " differenze non ammesse o transizioni assenti");
     }

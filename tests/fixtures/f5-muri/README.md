@@ -121,3 +121,8 @@ fa nulla. Il calcolo passa da `HeldModuleService`, che può trattenere il motore
   (stesse differenze spiegate di F3), CSV delle verifiche (ogni riga di prima c'è ancora, con il nome nuovo; le righe nuove sono delle
   combinazioni nuove), CSV dei conci di `globale-non-drenata-sisma` (casi globali nuovi), CSV della distinta di tre fixture (solo il numero
   delle verifiche non soddisfatte o non disponibili nella nota, per esempio 42 → 52). Pagine della distinta e combinazioni mostrate invariate.
+- 29/10/2026, 1.16.0, nota del sisma assegnato (voce COMB-MURI-D5-NOTA, seguito di COMB-MURI-D4D5): la nota «kh e kv assegnati» dice
+  che le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III. In `storica` sostituite 17 righe «~ risultato» di 4 tracce
+  (`fixture-mensola-wood-azioni` 2, `fixture-opzioni-avanzate` 2, `azioni-sisma-matrice` 5, `opzioni-armature` 8), con il valore del
+  ViewModel (`Presentation.Tests`, registrazione temporanea non committata, corsa `supporto/artefatti/1160-combinazioni/registra-nota`);
+  con il testo vecchio della nota le tracce sono uguali (corsa `registra-nota-controllo`). In `vista-storica.json` 2 valori dalla vista XAML (registrazione temporanea non committata di `ui/check-muri-view`, corsa `registra-ui-nota`): impronte del risultato dopo il calcolo di `mensola-wood-azioni` e `opzioni-avanzate`; dati, CSV delle verifiche, distinta e combinazioni mostrate invariati.
