@@ -2070,3 +2070,28 @@ opzioni proposte; fra virgolette le opzioni scelte.
 7. **Pulizia.** «Sì, dopo verifica»: worktree e rami già uniti (lib-rel, lib-1142, lib-1142-pali, lib-1144, aw-1144, aw-1144-rev60 e,
    dopo il rilascio, i rami 1150-*) si tolgono dopo aver controllato che ogni commit sia nei rami in uso.
 8. **Tag v1.14.1.** «Crealo e pushalo»: tag annotato sul commit della 1.14.1 e push del solo tag.
+
+## 29 ottobre — decisioni della 1.16.0
+
+Coordinatore: sessione del refactoring F5. Risposte dell'utente al resoconto della notte (`ANTHEA-f5-ripresa/resoconto-29-10.md`) e
+istruzioni del giorno; la coda della 1.16.0 era già autorizzata fino al rilascio il 28 ottobre sera («Fino alla 1.16.0 pulita», «Approvati
+se spiegati»).
+
+1. **Combinazioni.** «D7b. correggi. aggiornali»: i documenti dei muri della prima versione passano alle regole della versione 2 anche
+   calcolati senza aprirli, con le differenze del sisma accettate (COMB-D7B). «viviani lascialo pure a se stante. è un esempio storico. d8 e
+   bridge design devono usare model»: i documenti nuovi di Bridge Design usano le combinazioni dei ponti stradali di Model (COMB-D8),
+   l'esempio Viviani resta com'è. «vetro correggi anche se non utilizzato»: EN 16612 come D11 (COMB-D11-EN16612).
+2. **Palo orizzontale, metodo Stratificato, e Hansen con carico inclinato.** «ricordamelo lunedì che ne discutiamo apertamente»: se ne
+   discute lunedì 2 novembre; fino ad allora restano come sono nella 1.16.0.
+3. **R16 e R17.** «per ora va bene come hai scelto te» e «per ora ok come hai fatto. ricordamelo lunedì e ti mando la norma»: restano come
+   attuate, da riscontrare sul testo della norma lunedì.
+4. **Straus7.** `.nla` senza fasi: «per ora no», resta il rifiuto con il messaggio (limite noto).
+5. **R14.** Ramo dopo il picco e bilineare della Circolare (Fig. C4.1.12) per μφ: «si», in una versione dopo la 1.16.0.
+6. **Muri a mensola.** «rendi le armature dentro il modulo muro corrette, fai una distinta come da tavola di armatura. quella è solo una
+   indicazione. aggiungi anche ferri longitudinali»: armature e tavola della distinta rifatte (R-MURI-01…09).
+7. **Librerie.** «Sì: unisci i master locali con lo steel … nel set della 1.16.0 e pushali insieme»; poi «prima di rilasciare la 1.16.0
+   aspetta che tutti gli altri agenti che stanno lavorando sulle librerie finiscano. almeno esce con l'ultima versione delle librerie in
+   sviluppo»: il set ufficiale AM è costruito da origin/master dopo l'unione del lavoro di tutte le sessioni delle librerie (Model
+   d0d76b51, Checker c301be7a). Regola generale, ora negli AGENTS.md di Model e Checker: «finito il lavoro, aggiornate il master … voglio
+   che esca con le librerie su master».
+8. **Pulizia.** «pulizia: si» per `Repository\ANTHEA-prova-f5` (pacchetto di prova della 1.12.1), spostata nel Cestino.

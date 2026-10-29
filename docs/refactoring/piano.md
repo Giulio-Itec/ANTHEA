@@ -1009,10 +1009,12 @@ in generale, segui la normativa». La libreria è GPCChecker.Concrete 0.27.0.0 (
   con Geotechnics 0.25.0.4).
 - [x] Rilascio 1.15.0 con il set AL: full di rilascio con l'installer, setup, audit, tag `v1.15.0` e push («Tag e push se pulita»). Full
   PASS 160 sul commit del setup 5d5185ba, audit PASS; verbale in [installer-1.15.0.md](installer-1.15.0.md).
-- [~] 1.16.0, guide Rev62 e articolo (agente 1160-guide): articolo «Capacità orizzontale del palo in terreno stratificato» (metodo di
+- [x] 1.16.0, guide Rev62 e articolo (agente 1160-guide): articolo «Capacità orizzontale del palo in terreno stratificato» (metodo di
   G. Pacini, f299953e), «Apri riferimento» di G. Pacini e link «guida:» della Wiki (f739b89d, F5-REL-1160-02), guide Rev62 con formule in
   LaTeX, teoria completata e capitolo del terreno stratificato (05827c85, 8131f89d); transizioni editoriali della Wiki F5-REL-1160-01.
-  Restano da integrare i testi «Per le guide» degli altri agenti della 1.16.0.
+  Testi «Per le guide» degli altri agenti (paratie, muri, D7 b, D8) integrati dall'agente 1160-guide2 (6730cb93).
+- [x] Rilascio 1.16.0 con il set AM: full di rilascio con l'installer, setup, audit, tag `v1.16.0` e push («Fino alla 1.16.0 pulita»). Full
+  PASS 160 sul commit del setup bc6add07, audit PASS; verbale in [installer-1.16.0.md](installer-1.16.0.md).
 
 ## Lavori della 1.16.0 · colonna modello, fase 2
 
@@ -1027,8 +1029,7 @@ Agente `1160-colonna2` (29/10, notte), sulle decisioni Q9 e Q12 del progetto del
   terzo grafico del dominio ridotto, avanzamento e «Interrompi», CSV a blocchi, capitolo della relazione con le combinazioni e il dominio
   (voce CA-COLONNA-02: nessun riferimento cambiato). Suite mirate PASS: Application.Tests, Presentation.Tests, Presentation.Tests/sezione-ca,
   ui/check-sezione-view, ui/smoke-ca-extensions, ui/f3-report-chapters, ui/f3-equivalence.
-- [ ] Unione con le altre librerie della 1.16.0 (Concrete 0.28.0.0 di `lib-1160/coordinatore`: serve una versione sopra 0.28.0.0 e 0.29.0.0),
-  set ufficiale, full; guide (testo proposto in `ANTHEA-f5-ripresa/f5-agenti/1160-colonna2/avanzamento.md`).
+- [x] Unione con le altre librerie della 1.16.0 (GPCChecker.Concrete 0.31.0.0 nel set AM), set ufficiale, full di rilascio; guide Rev62.
 
 ## Wiki (in parallelo)
 
