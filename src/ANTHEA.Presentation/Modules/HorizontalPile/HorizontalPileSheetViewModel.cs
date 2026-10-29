@@ -532,11 +532,12 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
             ShowInnerRing(false);
         }
         ejForm = new FormViewModel(section, HorizontalPileFields.Ej(), _ => UserChanged(), compact: true) { InheritedWikiModule = ModuleId, IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
-        // The elastic response (F5.8), built after the capacity as HorizontalWorkspace builds its second tab: it prepares its data.
+        // The elastic response (F5.8), built after the capacity as HorizontalWorkspace builds its second tab: it prepares its data. Since 1.16.0
+        // (D-2) it calculates in a place of the limiter of the sheet, as the capacity.
         // «Modifica dati e strati» brings the tab of the capacity with the stratigraphies extended, as the historic view.
         elastic?.Dispose();
         elastic = new ElasticPileViewModel(Data, new ElasticPileSheet(() => CanEdit, ElasticModified, () => { SelectedAnalysis = 0; ExpandedCard = SurveysCard; }, RefreshAfterMigration,
-            Context.Services, Context.Host, ModuleId), elasticAnalysis());
+            Context.Services, Context.Host, ModuleId, Context.Limiter), elasticAnalysis());
         elastic.PropertyChanged += (_, e) => { if (e.PropertyName == nameof(ElasticPileViewModel.Result) && analysis == 1) OnPropertyChanged(nameof(ActiveResult)); };
         OnPropertyChanged(nameof(Elastic));
         analysis = Data.S("vista_orizzontale") == "elastico" ? 1 : 0;
