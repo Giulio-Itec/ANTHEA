@@ -1059,6 +1059,13 @@ Campi nuovi facoltativi, omessi quando nulli: `ModelResultSet.Reactions` ed `Equ
 `ConstructionStages`. Le impronte dei documenti esistenti non cambiano (controllo: una copia senza i dati nuovi non scrive nessun campo
 nuovo). Il protocollo del processo resta alla versione 1: la richiesta è invariata; il catalogo ha in più `NonlinearStages` e le fasi
 (`Phases`, già previste). Il file dei risultati può essere `.lsa` o `.nla` (controllo dei file, dialogo, testi del pannello).
+Masse, temperature e fasi sono attributi del modello come i vincoli: restano negli aggiornamenti «Geometria + attributi + carichi» e
+«Solo risultati» (che le richiede uguali), si tolgono con «Solo geometria»; le copie delle combinazioni (salvataggio, aggancio,
+revisioni) le conservano. «Solo risultati» con risultati per fase porta la copia al formato 2.
+
+**Correzione della tabella.** Le colonne con l'unità fra parentesi quadre («X [m]», «Rotazione [°]», «Fz [kN]») si legavano al nome
+come percorso di proprietà e WPF lo leggeva come indicizzatore: le celle restavano vuote. Difetto preesistente, riprodotto da
+ModelViewer.Importers.UiChecks con il codice di prima; ora queste colonne si legano all'indicizzatore della riga.
 
 ### Collaudo
 
@@ -1067,9 +1074,12 @@ nuovo). Il protocollo del processo resta alla versione 1: la richiesta è invari
   NLA), `Envelope_NamesTheGoverningRolesOfEachResultKindOfANode`; atteso cambiato e spiegato: riga «stage» di
   `StaticNormalization_RejectsUnsupportedOrUnboundDataWithoutMutatingModel` (dcc2cf0e).
 - ANTHEA: `ModelWorkspace.Checks` con `Strand7DataChecks` (reazioni, truss e reazioni nelle combinazioni e negli inviluppi, equilibrio,
-  masse, temperature, fasi, risultati NLA, tabelle, file `.nla`, impronte invariate); `Straus7Native.Checks` con `GPC_STRAUS7_STAGES`
-  oltre alle variabili della 1.15.0 (truss, cavi e reazioni delle combinazioni contro la somma dei termini, reazioni della copia contro i
-  campioni GPC, equilibrio di ogni caso).
+  masse, temperature, fasi, risultati NLA, aggiornamenti parziali e copie delle combinazioni, tabelle, file `.nla`, impronte invariate):
+  592 controlli (555 prima); `Straus7Native.Checks` con `GPC_STRAUS7_STAGES` oltre alle variabili della 1.15.0 (truss, cavi e reazioni
+  delle combinazioni contro la somma dei termini, reazioni della copia contro i campioni GPC, equilibrio di ogni caso): 243 controlli
+  su 7 modelli (fixture degli elementi, Plates.st7, i quattro BridGHe REV004, fixture delle fasi); ModelViewer.Importers.UiChecks con la
+  tabella delle reazioni (worker reale). Set candidato delle librerie (`Release-Set.ps1 -Candidate`): tutte le suite di Model e Checker
+  PASS. Evidenze in `supporto/artefatti/1160/straus7`.
 
 ### Limiti dichiarati
 

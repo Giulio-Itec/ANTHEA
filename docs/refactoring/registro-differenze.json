@@ -11457,7 +11457,7 @@
       "famiglia": "interfaccia/modelli",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Straus7 (seguito di MOD-32): fasi del modello come fasi GPC e dati della copia (ModelSnapshot.ConstructionStages); risultati statici lineari di un modello con fasi senza fase attiva (prima rifiutati) e con fase attiva (casi statici di quella configurazione, elementi non attivi senza risultati); risultati statici non lineari per fasi (.nla) come risultati per fase «NLA · fase · incremento»; truss e cavi nelle combinazioni ricostruite da GPC; reazioni vincolari dei casi scelti (ModelResultSet.Reactions) con il controllo di equilibrio di GPC fra carichi applicati e reazioni (ModelResultSet.Equilibrium) e nelle combinazioni; masse e temperature come dati del modello (ModelSnapshot.Masses, Temperatures); tabelle «Reazioni vincolari», «Masse», «Temperature», «Fasi». Brick ancora esclusi.",
+      "descrizione": "Straus7 (seguito di MOD-32): fasi del modello come fasi GPC e dati della copia (ModelSnapshot.ConstructionStages); risultati statici lineari di un modello con fasi senza fase attiva (prima rifiutati) e con fase attiva (casi statici di quella configurazione, elementi non attivi senza risultati); risultati statici non lineari per fasi (.nla) come risultati per fase «NLA · fase · incremento»; truss e cavi nelle combinazioni ricostruite da GPC; reazioni vincolari dei casi scelti (ModelResultSet.Reactions) con il controllo di equilibrio di GPC fra carichi applicati e reazioni (ModelResultSet.Equilibrium) e nelle combinazioni; masse e temperature come dati del modello (ModelSnapshot.Masses, Temperatures); tabelle «Reazioni vincolari», «Masse», «Temperature», «Fasi». Brick ancora esclusi. Correzioni collegate: GPC CombinationRebuild (nomi dei ruoli dei governanti per posizione, GPCModel 5.23.0.2), aggiornamenti parziali e copie delle combinazioni che conservano i dati nuovi, celle delle colonne della tabella con l'unità fra parentesi quadre (prima vuote).",
       "riferimento_normativo": [],
       "codice": [
         "src/ANTHEA.Strand7Worker/Program.cs",
@@ -11470,6 +11470,9 @@
         "src/ANTHEA.ModelWorkspace/Strand7Snapshot.cs",
         "src/ANTHEA.ModelWorkspace/Strand7ImportSetup.cs",
         "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Tables.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelTableView.xaml.cs",
+        "src/ANTHEA.ModelWorkspace/ModelSnapshotUpdate.cs",
+        "src/ANTHEA.ModelWorkspace/ModelCombinations.cs",
         "Model: GPC Converter/Providers/Straus7Api (Straus7ModelData, Straus7StageResults, Straus7Equilibrium, Straus7Assignments.Data)",
         "Model: Model/Results/Processing/CombinationRebuild.cs"
       ],
@@ -11486,8 +11489,8 @@
       "data": "2026-10-29",
       "fase": "1.16.0",
       "test": [
-        "ModelWorkspace.Checks (Strand7DataChecks)",
-        "Straus7Native.Checks (GPC_STRAUS7_ELEMENTS, GPC_STRAUS7_PLATES, GPC_STRAUS7_BRIDGHE, GPC_STRAUS7_STAGES)",
+        "ModelWorkspace.Checks (Strand7DataChecks): 592 PASS",
+        "Straus7Native.Checks (GPC_STRAUS7_ELEMENTS, GPC_STRAUS7_PLATES, GPC_STRAUS7_BRIDGHE, GPC_STRAUS7_STAGES): 243 PASS su 7 modelli",
         "GPC Model UnitTest: Straus7DataImportTest, Straus7NativeStagesTest (GPC_STRAUS7_STAGES=versioned), CombinationRebuildTest",
         "ModelViewer.Importers.UiChecks"
       ],
