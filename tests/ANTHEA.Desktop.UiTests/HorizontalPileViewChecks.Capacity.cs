@@ -408,8 +408,10 @@ internal static partial class HorizontalPileViewChecks
     {
         string folder = Path.Combine(output, "disegni-capacita");
         Directory.CreateDirectory(folder);
-        var editors = Editors(new Services());
+        var services = new Services();
+        var editors = Editors(services);
         var list = new List<string>();
+        bool references = false;
         foreach (string module in new[] { Pile, Micro })
             foreach (string id in HorizontalPileScenarios.Fixtures(root, module))
             {
@@ -422,6 +424,19 @@ internal static partial class HorizontalPileViewChecks
                 Press(host.View.DetailsButton);
                 await host.Settle();
                 var dialog = (HorizontalPileResultsView)host.Dialogs.Single().Content;
+                if (!references)
+                {
+                    // 1.16.0: «Apri riferimento» of «G. Pacini» opens the article on the layered method: the PDF of the Guide folder when installed,
+                    // the published source of supporto/installer/Guide.json in this checkout.
+                    references = true;
+                    var pacini = dialog.References.ItemsSource.Cast<HorizontalPileReference>().First();
+                    string? target = pacini.Url;
+                    Check(pacini.Title.StartsWith("G. Pacini", StringComparison.Ordinal) && target is not null && new Uri(target).IsFile && File.Exists(new Uri(target).LocalPath)
+                        && Path.GetFileName(new Uri(target).LocalPath) is "ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf" or Anthea.Calculations.PaloOrizzontale.ArticleDocument,
+                        $"{module}--{id}: «Apri riferimento» di G. Pacini apre l'articolo sul palo stratificato ({target})");
+                    host.Sheet.OpenReferenceCommand.Execute(target);
+                    Check(services.Links.Count > 0 && services.Links[^1] == new Uri(target!), $"{module}--{id}: l'articolo passa al servizio dei collegamenti");
+                }
                 int surveys = result.Array("sondaggi").Count;
                 var surveyTabs = dialog.Tabs.Items.Cast<TabItem>().Where(t => ((string)t.Header).StartsWith("Sondaggio ", StringComparison.Ordinal)).ToList();
                 Check(surveyTabs.Count == surveys, $"{module}--{id}: «Diagrammi e dettagli» con una scheda per sondaggio ({surveys})");

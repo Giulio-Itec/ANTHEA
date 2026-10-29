@@ -239,6 +239,17 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
     /// <summary>The references of «Diagrammi e dettagli».</summary>
     public JsonArray References => HorizontalPileEditor.References();
 
+    /// <summary>
+    /// The target of «Apri riferimento» of a reference: its web link, otherwise the installed document named in «documento» (the article on the
+    /// layered method for «G. Pacini», <see cref="InstalledDocuments"/>) as a file URI; null when there is nothing to open.
+    /// </summary>
+    public static string? ReferenceTarget(JsonObject reference)
+    {
+        ArgumentNullException.ThrowIfNull(reference);
+        if (reference["url"]?.GetValue<string>() is { Length: > 0 } url) return url;
+        return reference["documento"]?.GetValue<string>() is { Length: > 0 } document && InstalledDocuments.Uri(document) is { } file ? file.AbsoluteUri : null;
+    }
+
     /// <summary>«Esporta CSV»: the tables of the result into the chosen file; a failure is shown, as today.</summary>
     public void ExportCsv()
     {

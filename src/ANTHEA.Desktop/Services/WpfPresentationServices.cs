@@ -116,14 +116,14 @@ internal sealed class WpfClipboardService : IClipboardService
     public string GetText() => Clipboard.ContainsText() ? Clipboard.GetText() : "";
 }
 
-/// <summary>Opens a link with the program of the system, as WikiEditorial and HorizontalDiagrams do today.</summary>
+/// <summary>Opens a link with the program of the system, as WikiEditorial and HorizontalDiagrams do today; a file URI (installed document) by its path.</summary>
 internal sealed class WpfExternalLinkService : IExternalLinkService
 {
     public void Open(Uri target)
     {
         ArgumentNullException.ThrowIfNull(target);
         if (!target.IsAbsoluteUri) throw new ArgumentException("Collegamento non assoluto: " + target, nameof(target));
-        Process.Start(new ProcessStartInfo(target.AbsoluteUri) { UseShellExecute = true })?.Dispose();
+        Process.Start(new ProcessStartInfo(target.IsFile ? target.LocalPath : target.AbsoluteUri) { UseShellExecute = true })?.Dispose();
     }
 }
 

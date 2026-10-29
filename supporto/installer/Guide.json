@@ -3,5 +3,10 @@
     "source": "supporto/installer/Indice-guide.pdf",
     "target": "Indice-guide.pdf",
     "shortcut": "Indice delle guide"
+  },
+  {
+    "source": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf",
+    "target": "Palo orizzontale in terreno stratificato.pdf",
+    "shortcut": "Articoli/Palo orizzontale in terreno stratificato"
   }
 ]

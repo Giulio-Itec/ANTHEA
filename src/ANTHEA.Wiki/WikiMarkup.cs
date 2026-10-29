@@ -89,7 +89,9 @@ public static class WikiMarkup
                 var label = token.Groups[5].Success ? url : token.Groups[3].Value;
                 bool internalLink = url.StartsWith("/wiki/") || url.StartsWith("wiki:");
                 if (internalLink && WikiCatalog.Resolve(url) is { } article) label = article.Title;
-                if (!internalLink && !(Uri.TryCreate(url, UriKind.Absolute, out var destination) && destination.Scheme is "https" or "http"))
+                // «guida:Nome.pdf»: a PDF document installed with the program (the article on the layered horizontal pile); only a plain file name.
+                if (IsDocumentLink(url)) spans.Add(new(WikiInlineKind.Link, label, url, false));
+                else if (!internalLink && !(Uri.TryCreate(url, UriKind.Absolute, out var destination) && destination.Scheme is "https" or "http"))
                     spans.Add(new(WikiInlineKind.Text, label + " (" + url + ")"));
                 else spans.Add(new(WikiInlineKind.Link, label, url, internalLink));
             }
@@ -97,4 +99,9 @@ public static class WikiMarkup
         spans.Add(new(WikiInlineKind.Text, value[position..]));
         return spans;
     }
+
+    /// <summary>True for «guida:» followed by a plain PDF file name (no folders, drive or parent references): a document of the installation.</summary>
+    public static bool IsDocumentLink(string url)
+        => url.StartsWith("guida:", StringComparison.Ordinal) && url[6..] is { Length: > 4 } name && name.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase)
+           && name.IndexOfAny(['/', '\\', ':']) < 0 && !name.StartsWith('.') && name.Trim() == name;
 }

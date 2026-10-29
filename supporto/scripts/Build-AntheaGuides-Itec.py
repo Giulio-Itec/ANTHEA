@@ -74,6 +74,8 @@ def printed_links(value):
             path=uri.removeprefix('wiki:');path=aliases.get(path,path).split('#')[0];path=aliases.get(path,path)
             article=next((a for a in catalog if path in (a['id'],a['key'])),None)
             return text+' (Wiki: '+article['title']+')' if article and text.casefold()!=article['title'].casefold() else text+' (Wiki)'
+        if uri.startswith('guida:'):
+            return text+' (documento «'+uri.removeprefix('guida:')+'» nella cartella Guide di ANTHEA)'
         return text+' ('+uri+')'
     return re.sub(r'\[([^\]]+)\]\(([^)]+)\)',label,value)
 
