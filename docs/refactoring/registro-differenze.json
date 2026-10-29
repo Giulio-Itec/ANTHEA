@@ -11925,6 +11925,50 @@
       "voci_collegate": [
         "COMB-D11"
       ]
+    },
+    {
+      "id": "COMB-D8",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni del 29/10 mattina)",
+      "titolo": "Bridge Design: coefficienti SLU dalle righe dei ponti stradali di Model (NTC 2018 Tab. 5.1.V); Viviani a sé (D8)",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Bridge Design (predimensionamento dei ponti)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Decisione dell'utente del 29/10/2026: «viviani lascialo pure a se stante. è un esempio storico. d8 e bridge design devono usare model»; piano nel censimento §5.3, raccomandazioni dichiarate e confermate dal coordinamento. Model (GPCModel 5.25.0.0, Model 69fe2be9): RoadBridgeCombinations con EQU, A1 e A2 della NTC 2018 Tab. 5.1.V (g1 1,10/0,90, 1,35/1,00, 1,00/1,00; g2 1,50/0, 1,50/0, 1,30/0; traffico 1,35/0, 1,35/0, 1,15/0; altre variabili 1,50/0, 1,50/0, 1,30/0) e i ψ del traffico della Tab. 5.1.VI, riscontrati sul testo della G.U. (S.O. n. 8 del 20/02/2018); Deck: righe di un impalcato con G1, G2 e un gruppo di traffico dal generatore. GPC.Design 0.42.0.0 (Checker fbd802ef): BridgeInput.PartialFactors; con i moltiplicatori del progetto (predefinito) il calcolo è quello di prima; con il profilo gli inviluppi SLU sono gli estremi delle 8 righe A1 (G1 calcestruzzo, acciaio e struttura superiore 1,35/1,00; G2 finiture e barriere 1,50/0; traffico 1,35/0), con i permanenti favorevoli nei minimi; aste e antenne delle strutture superiori con i coefficienti sfavorevoli. ANTHEA: input.partial_factors; i documenti nuovi hanno il profilo, gli archivi (documenti senza la scelta) i moltiplicatori salvati, con i risultati di prima; la scelta chiude la scheda Traffico; con il profilo γQ e il pulsante del γQ consigliato non si mostrano. Viviani resta a sé, esempio storico: GPCChecker.CompositeBridge.Viviani e VivianiComparison invariati.",
+      "codice": [
+        "Model/Model/Design/Combinations/RoadBridgeCombinations.cs",
+        "Checker/src/GPC.Design/Bridges/BridgeConcept.PartialFactors.cs",
+        "Checker/src/GPC.Design/Bridges/BridgeConcept.Traffic.cs",
+        "Checker/src/GPC.Design/Bridges/BridgeConcept.UpperTraffic.cs",
+        "Checker/src/GPC.Design/Bridges/BridgeConcept.Calculation.cs",
+        "Checker/src/GPC.Design/Bridges/BridgeConcept.AdvancedCalculation.cs",
+        "X.Calculations/BridgeConcept.Traffic.cs",
+        "X.Calculations/BridgeConcept.Library.cs",
+        "src/ANTHEA.Presentation/Modules/BridgeDesign/BridgeDesignSheetViewModel.Inputs.cs"
+      ],
+      "segno": "Documenti nuovi più cautelativi: massimi SLU con G2 1,50 invece di 1,35, minimi con i permanenti favorevoli (1,00 G1, 0 G2), aste delle strutture superiori più pesanti. Archivi invariati (moltiplicatori salvati); passarli al profilo darebbe −2,6 % sui momenti degli archivi con γQ 1,5, perciò non si fa d'ufficio.",
+      "effetto_quantificato": "11 ingressi F3 di Bridge Design e un documento nuovo, moltiplicatori contro profilo (d8-confronto.csv): con lo Schema 1 momenti massimi da +0,96 % a +2,13 % e minimi più negativi (da +1,0 % a +2,6 % in valore assoluto); reazioni di servizio, frecce e quantità delle travi invariate; costi delle travi invariati, delle strutture superiori da +0,42 % a +1,61 % (aste con G2 1,50); negli archivi con il traffico uniforme e γQ 1,5 il profilo darebbe −2,59 % sul momento massimo (γQ 1,35), il motivo per cui gli archivi restano ai moltiplicatori. Documento nuovo: momento massimo +1,44 %, minimo −2,1 %, costo invariato.",
+      "decisione": {
+        "data": "2026-10-29",
+        "utente": "«viviani lascialo pure a se stante. è un esempio storico. d8 e bridge design devono usare model»",
+        "esito": "attuato per Bridge Design; Viviani invariato; riferimenti spiegati"
+      },
+      "riferimenti_anthea": "Tracce storiche di Bridge Design (tests/fixtures/f5-bridge-design/storica): 19 tracce, due righe ciascuna, «ingressi.4: 5 blocchi» → «6 blocchi» e la riga aggiunta della scelta «Coefficienti parziali SLU» = «Moltiplicatori del progetto» (archivi senza la scelta), registrazione temporanea non committata di Presentation.Tests (d8-registra); nessun'altra riga cambia. F3, report, vista storica (vista-storica.json), fixture bridge-f4 di GPC.Design e catture F4 invariati: gli archivi conservano i loro moltiplicatori. Prove nuove: Application.Tests (documento nuovo con il profilo, archivio con i moltiplicatori, γQ esplicito solo con i moltiplicatori, scelta non valida rifiutata), Presentation.Tests (scheda Traffico del documento nuovo e passaggio ai moltiplicatori). Nessun atteso indipendente sostituito, nessuna tolleranza nuova.",
+      "test": [
+        "Model UnitTest RoadBridgeCombinationsTest (valori delle Tab. 5.1.V e 5.1.VI e righe A1 a mano)",
+        "Checker Design.Checks BridgeProfileFactorTests (inviluppi della trave appoggiata a mano, net8 e net472)",
+        "Application.Tests (BridgeTrafficChecks), Presentation.Tests, ui/check-bridge-design-view, ui/smoke-bridge-design, ui/f3-equivalence"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/librerie-candidato-d (Model 1540 + Core 35, Checker tutte le suite, K0 e Design net472)",
+        "supporto/artefatti/1160-combinazioni/d8-confronto.csv",
+        "supporto/artefatti/1160-combinazioni/d8-mirate-1, d8-finale"
+      ],
+      "voci_collegate": [
+        "COMB-MODEL-01",
+        "COMB-D10"
+      ]
     }
   ]
 }

@@ -524,7 +524,7 @@ Attuazione dell'agente `1160-combinazioni` nella 1.16.0:
 |---|---|---|---|
 | D6 | a: ogni gruppo Q presente o assente nelle righe sismiche ed eccezionali | attuato | Model `GeotechnicalCombinations`; Checker `WallCombinations`, `WallGlobalStability` |
 | D7 | a: versione 1 da Model con le regole fisse, bit per bit; poi valutare b; il 29/10 «D7b. correggi. aggiornali» | a attuato, poi sostituito da b (attuato, §5.2) | ANTHEA `RetainingWall.Calculate` (versione 1 aggiornata con `Upgrade`); Checker `WallCombinations.Version1` resta nella libreria, senza chiamanti in ANTHEA |
-| D8 | b: Bridge Design e Viviani dopo i muri, con un piano proprio | piano in §5.3, non attuato | — |
+| D8 | b: Bridge Design e Viviani dopo i muri, con un piano proprio; il 29/10 «d8 e bridge design devono usare model», Viviani a sé | Bridge Design attuato (§5.3); Viviani resta com'è | Model `RoadBridgeCombinations`; GPC.Design `BridgeInput.PartialFactors`; ANTHEA `input.partial_factors` |
 | D9 | a: generatore del modulo Modelli sullo stesso generatore | servizio attuato; interfaccia nel piano di §5.4 | ANTHEA `ModelCombinationGenerator` |
 | D10 | a: profilo NTC 2018 ora, valori EN 1990 tenuti; nessuna scelta della norma | attuato | Model `CombinationProfile` |
 | D11 | a: SLE caratteristica con la principale a 1; atteso del test aggiornato; il 29/10 «vetro correggi anche se non utilizzato» | attuato, anche per il vetro (§5.6) | Model `StandardEN1990`, `StandardEN16612` |
@@ -693,6 +693,32 @@ Piano, dopo i muri; ogni passo con la sua voce del registro e i riferimenti spie
    - Viviani: predefiniti dal profilo o 1, come il programma storico?
 
 Stima: una giornata per Model e GPC.Design, più la registrazione dei riferimenti di Bridge Design.
+
+**Attuazione (COMB-D8, 29/10).** Decisione dell'utente: «viviani lascialo pure a se stante. è un esempio storico. d8 e bridge design
+devono usare model». Risposte alle domande del piano (raccomandazioni dichiarate, confermate dal coordinamento):
+- γ dal profilo di Model per i documenti nuovi; i moltiplicatori dell'utente restano come scelta esplicita;
+- negli archivi i γ salvati restano ipotesi dell'utente: portare γQ da 1,5 a 1,35 sarebbe a sfavore del 10 % sul traffico;
+- Viviani resta a sé (esempio storico): `GPCChecker.CompositeBridge.Viviani` e `VivianiComparison` non cambiano, moltiplicatori a 1.
+
+Model (GPCModel 5.25.0.0): `RoadBridgeCombinations` con gli insiemi EQU, A1 e A2 della Tab. 5.1.V e i ψ dei gruppi del traffico della
+Tab. 5.1.VI, riscontrati sul testo della Gazzetta Ufficiale (S.O. n. 8 alla G.U. n. 42 del 20/02/2018; la Circolare n. 7/2019, §C5,
+ripete γQ 1,35 per EQU e STR e 1,15 per GEO); `Deck` dà le righe di un impalcato con G1, G2 e un gruppo di traffico dal generatore
+(caratteristica, frequente, quasi permanente e le 8 SLU).
+
+GPC.Design 0.42.0.0: `BridgeInput.PartialFactors`. Con `ProjectMultipliers` (predefinito, archivi) il calcolo è quello di prima, bit per
+bit. Con `Ntc2018RoadBridges` gli inviluppi SLU della trave (traffico uniforme e Schema 1) e le reazioni delle strutture superiori sono
+gli estremi delle 8 righe A1 di Model: G1 (calcestruzzo, acciaio, struttura superiore) 1,35/1,00, G2 (finiture e barriere) 1,50/0,
+traffico 1,35/0, con i permanenti favorevoli nei minimi; aste delle strutture superiori e antenne con i coefficienti sfavorevoli. La
+nota (2) della Tab. 5.1.V (G2 ben definiti con i coefficienti dei permanenti) resta una scelta del progettista: i moltiplicatori del
+progetto.
+
+ANTHEA: `input.partial_factors` («NTC 2018 Tab. 5.1.V (Model)» o «Moltiplicatori del progetto»); i documenti nuovi hanno il profilo, un
+documento senza la scelta (archivio) i moltiplicatori; la scelta chiude la scheda Traffico, e con il profilo γQ e il suo pulsante non
+si mostrano. Confronto sugli 11 ingressi F3 e sul documento nuovo, moltiplicatori contro profilo
+(`supporto/artefatti/1160-combinazioni/d8-confronto.csv`): momenti massimi +0,96 … +2,13 % con lo Schema 1 (G2 1,50 invece di 1,35) e
+minimi più negativi; costi invariati per le travi, +0,42 … +1,61 % per archi, reticolari, sospesi e strallati (aste con G2 1,50); negli
+archivi con γQ 1,5 il profilo darebbe −2,6 % sui momenti (traffico 1,35): per questo gli archivi restano ai moltiplicatori. Documento
+nuovo: momento massimo +1,44 %, costo invariato.
 
 ### 5.4 D9 a — combinazioni automatiche del modulo Modelli
 
