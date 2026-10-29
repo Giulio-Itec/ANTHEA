@@ -144,8 +144,10 @@ static class Strand7Worker
                     throw new Failure(SourceUnavailable, "Il caso di risultato " + n + " non è disponibile nel file dei risultati: ricontrolla i casi.");
             static int[] Numbers(IEnumerable<GPC.Model.Elements.Element> elements) =>
                 elements.Select(e => int.Parse(e.Source.OriginalId, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture)).Order().ToArray();
-            // Reactions of the supports (restraints, springs to ground) always; every node with the displacements.
-            var nodes = request.Displacements ? model.NodesElements.Values
+            // Reactions of the supports (restraints, springs to ground) always; every node with the displacements, or when the converter could not
+            // map the restraints (several freedom cases, other coordinate systems, enforced values): their reactions are needed by the equilibrium.
+            bool unmappedSupports = session.Geometry.Diagnostics.Any(d => d.Code is "Straus7FreedomCasesPreserved" or "Straus7RestraintUcsPreserved" or "Straus7EnforcedDisplacementPreserved");
+            var nodes = request.Displacements || unmappedSupports ? model.NodesElements.Values
                 : model.NodesElements.Values.Where(n => n.Assignments.Restrains.Any(r => r.Restrain != null) || n.Assignments.GroundSprings.Count > 0);
             var read = new Straus7ResultsRequest { ModelPath = session.ModelPath, ResultPath = session.ResultsPath!, CaseNumbers = request.CaseNumbers.ToArray(),
                 BeamNumbers = request.Forces ? Numbers(model.BeamElements.Values) : [], PlateNumbers = request.Forces ? Numbers(model.AreaElements.Values) : [],
