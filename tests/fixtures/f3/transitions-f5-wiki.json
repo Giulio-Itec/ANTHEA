@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "voce": "F5-LIB-02",
-  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo. Rev60 (1.14.4): 117 differenze editoriali esatte aggiunte, 33 sostituite e 0 tolte in 15 articoli e nell'indice delle ricerche (separatore decimale, testa dei pali e dei micropali, anello interno, sviluppo parziale delle barre, tension stiffening con il tirante, R5, correzioni di calcolo e combinazioni dei muri), approvate dall'utente il 28/10/2026 («ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»). Nessun risultato di calcolo. Rev61 (1.15.0): 390 differenze editoriali esatte aggiunte, 7 sostituite, 0 spostate e 0 tolte in 4 articoli e nell'indice delle ricerche (scheda «Colonna modello» della sezione c.a. e sua teoria, file di testo .mct/.mgt e modelli .st7 nel modulo Modelli, unità e segni delle copie importate); da approvare dall'utente (voce F5-REL-1150-01). Nessun risultato di calcolo. Rev62 (1.16.0): 828 differenze editoriali esatte aggiunte, 148 sostituite, 143 spostate e 0 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Conteggio degli articoli della Wiki 77 → 78 (capitolo nuovo sulla capacità orizzontale in terreno stratificato). Rev62, seconda passata (1.16.0): 860 differenze editoriali esatte aggiunte, 160 sostituite, 176 spostate e 24 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX di otto capitoli in più, testi «Per le guide» degli agenti della 1.16.0: modulo Modelli con fasi, tabelle e combinazioni, voci R della sezione c.a., unità della scala del dominio 3D; prima passata: formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, colonna modello fase 2 (1.16.0): 109 differenze editoriali esatte aggiunte, 10 sostituite, 0 spostate e 0 tolte in 2 articoli (scelta Azioni, inviluppo delle combinazioni, dominio ridotto N–M1Rd,max e scostamenti K-7 e K-8 della colonna modello nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, Brinch Hansen e W-idx (1.16.0): 152 differenze editoriali esatte aggiunte, 54 sostituite, 2 spostate e 1 tolte in 2 articoli (Brinch Hansen con carico inclinato nelle fondazioni superficiali delle due guide; W-idx, percorsi delle figure fuori dall'indice di ricerca, senza effetto sulle 30 ricerche F3); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo.",
+  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo. Rev60 (1.14.4): 117 differenze editoriali esatte aggiunte, 33 sostituite e 0 tolte in 15 articoli e nell'indice delle ricerche (separatore decimale, testa dei pali e dei micropali, anello interno, sviluppo parziale delle barre, tension stiffening con il tirante, R5, correzioni di calcolo e combinazioni dei muri), approvate dall'utente il 28/10/2026 («ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»). Nessun risultato di calcolo. Rev61 (1.15.0): 390 differenze editoriali esatte aggiunte, 7 sostituite, 0 spostate e 0 tolte in 4 articoli e nell'indice delle ricerche (scheda «Colonna modello» della sezione c.a. e sua teoria, file di testo .mct/.mgt e modelli .st7 nel modulo Modelli, unità e segni delle copie importate); da approvare dall'utente (voce F5-REL-1150-01). Nessun risultato di calcolo. Rev62 (1.16.0): 828 differenze editoriali esatte aggiunte, 148 sostituite, 143 spostate e 0 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Conteggio degli articoli della Wiki 77 → 78 (capitolo nuovo sulla capacità orizzontale in terreno stratificato). Rev62, seconda passata (1.16.0): 860 differenze editoriali esatte aggiunte, 160 sostituite, 176 spostate e 24 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX di otto capitoli in più, testi «Per le guide» degli agenti della 1.16.0: modulo Modelli con fasi, tabelle e combinazioni, voci R della sezione c.a., unità della scala del dominio 3D; prima passata: formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, colonna modello fase 2 (1.16.0): 109 differenze editoriali esatte aggiunte, 10 sostituite, 0 spostate e 0 tolte in 2 articoli (scelta Azioni, inviluppo delle combinazioni, dominio ridotto N–M1Rd,max e scostamenti K-7 e K-8 della colonna modello nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, Brinch Hansen e W-idx (1.16.0): 152 differenze editoriali esatte aggiunte, 54 sostituite, 2 spostate e 1 tolte in 2 articoli (Brinch Hansen con carico inclinato nelle fondazioni superficiali delle due guide; W-idx, percorsi delle figure fuori dall'indice di ricerca, senza effetto sulle 30 ricerche F3); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, calcoli in coda (1.16.0): 27 differenze editoriali esatte aggiunte, 45 sostituite, 0 spostate e 0 tolte in 3 articoli e nell'indice delle ricerche (calcoli in coda dal limitatore anche per la sezione c.a. e la risposta elastica, taglio sullo sfondo, nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo.",
   "voci": [
     {
       "file": "esito.txt",
@@ -120,32 +120,32 @@
       "percorso": "$.armature[22]",
       "classe": "testo",
       "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "b": "/wiki/guide/moduli/guida-paratie",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/calcestruzzo/cracking",
+      "voce": "F5-LIB-02 / F5-REL-1160-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.armature[23]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-solette",
-      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/guide/moduli/guida-paratie",
+      "voce": "F5-LIB-02 / F5-REL-1160-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.armature[24]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-precompressione",
-      "b": "/wiki/manuale/ponti/ponti-solette",
-      "voce": "F5-LIB-02"
+      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "voce": "F5-LIB-02 / F5-REL-1160-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.armature[25]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
-      "voce": "F5-LIB-02"
+      "b": "\"/wiki/manuale/ponti/ponti-solette\"",
+      "voce": "F5-LIB-02 / F5-REL-1160-01"
     },
     {
       "file": "wiki/search.json",
@@ -840,7 +840,7 @@
       "percorso": "$.σ[10]",
       "classe": "testo",
       "a": "/wiki/manuale/geotecnica/geotecnica-parametri",
-      "b": "/wiki/manuale/acciaio/instabilita-delle-aste-compresse",
+      "b": "/wiki/manuale/fem/elementi-beam",
       "voce": "F5-LIB-02 / F5-REL-1144-01 / F5-REL-1160-01"
     },
     {
@@ -848,7 +848,7 @@
       "percorso": "$.σ[11]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-acciaio-fasi",
-      "b": "/wiki/manuale/calcestruzzo/cracking",
+      "b": "/wiki/manuale/acciaio/instabilita-delle-aste-compresse",
       "voce": "F5-LIB-02 / F5-REL-1144-01 / F5-REL-1160-01"
     },
     {
@@ -856,7 +856,7 @@
       "percorso": "$.σ[12]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-precompressione",
-      "b": "/wiki/manuale/materiali/acciaio-armature",
+      "b": "/wiki/manuale/calcestruzzo/cracking",
       "voce": "F5-LIB-02 / F5-REL-1144-01 / F5-REL-1160-01"
     },
     {
@@ -864,7 +864,7 @@
       "percorso": "$.σ[13]",
       "classe": "testo",
       "a": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
-      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "b": "/wiki/manuale/materiali/acciaio-armature",
       "voce": "F5-LIB-02 / F5-REL-1144-01 / F5-REL-1160-01"
     },
     {
@@ -872,7 +872,7 @@
       "percorso": "$.σ[14]",
       "classe": "testo",
       "a": "/wiki/guide/moduli/sezione-ca",
-      "b": "/wiki/manuale/geotecnica/geotecnica-parametri",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
       "voce": "F5-LIB-02 / F5-REL-1144-01 / F5-REL-1160-01"
     },
     {
@@ -880,7 +880,7 @@
       "percorso": "$.σ[15]",
       "classe": "testo",
       "a": "/wiki/theory/palo-elastico",
-      "b": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+      "b": "/wiki/manuale/geotecnica/geotecnica-parametri",
       "voce": "F5-LIB-02 / F5-REL-1144-01 / F5-REL-1160-01"
     },
     {
@@ -888,7 +888,7 @@
       "percorso": "$.σ[16]",
       "classe": "testo",
       "a": "/wiki/manuale/geotecnica/geotecnica-gruppi",
-      "b": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/manuale/ponti/ponti-acciaio-fasi",
       "voce": "F5-LIB-02 / F5-REL-1144-01 / F5-REL-1160-01"
     },
     {
@@ -896,7 +896,7 @@
       "percorso": "$.σ[17]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/guide/moduli-singoli/sezione-composta-da-ponte\"",
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
       "voce": "F5-LIB-02 / F5-REL-1144-01 / F5-REL-1160-01"
     },
     {
@@ -1856,55 +1856,55 @@
       "percorso": "$.taglio[6]",
       "classe": "testo",
       "a": "/wiki/guide/palo-elastico",
-      "b": "/wiki/guide/moduli-singoli/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/guide/esportazione/salvataggio-e-report",
+      "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.taglio[7]",
       "classe": "testo",
       "a": "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
-      "b": "/wiki/guide/palo-elastico",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/guide/moduli-singoli/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.taglio[8]",
       "classe": "testo",
       "a": "/wiki/guide/moduli/sezione-ca",
-      "b": "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/guide/palo-elastico",
+      "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.taglio[9]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
-      "b": "/wiki/guide/moduli/sezione-ca",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
+      "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.taglio[10]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
-      "b": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/guide/moduli/sezione-ca",
+      "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.taglio[11]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
-      "b": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
-      "voce": "F5-REL-112-01"
+      "b": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+      "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.taglio[12]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/sezione-composta-da-ponte",
-      "b": "/wiki/manuale/fondazioni-e-geotecnica/capacita-orizzontale-in-terreno-stratificato",
+      "b": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -1912,7 +1912,7 @@
       "percorso": "$.taglio[13]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/bridge-design",
-      "b": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/capacita-orizzontale-in-terreno-stratificato",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -1920,7 +1920,7 @@
       "percorso": "$.taglio[14]",
       "classe": "testo",
       "a": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
-      "b": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+      "b": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -1928,7 +1928,7 @@
       "percorso": "$.taglio[15]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
-      "b": "/wiki/manuale/ponti/bridge-design",
+      "b": "/wiki/manuale/ponti/sezione-composta-da-ponte",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -1936,7 +1936,7 @@
       "percorso": "$.taglio[16]",
       "classe": "testo",
       "a": "/wiki/theory/palo-elastico",
-      "b": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
+      "b": "/wiki/manuale/ponti/bridge-design",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -1944,7 +1944,7 @@
       "percorso": "$.taglio[17]",
       "classe": "testo",
       "a": "/wiki/manuale/fem/elementi-beam",
-      "b": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -1952,7 +1952,7 @@
       "percorso": "$.taglio[18]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/bridge",
-      "b": "/wiki/theory/palo-elastico",
+      "b": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -1960,7 +1960,7 @@
       "percorso": "$.taglio[19]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
-      "b": "/wiki/manuale/fem/elementi-beam",
+      "b": "/wiki/theory/palo-elastico",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -1968,7 +1968,7 @@
       "percorso": "$.taglio[20]",
       "classe": "testo",
       "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
-      "b": "/wiki/manuale/ponti/bridge",
+      "b": "/wiki/manuale/fem/elementi-beam",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -1976,7 +1976,7 @@
       "percorso": "$.taglio[21]",
       "classe": "testo",
       "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "b": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+      "b": "/wiki/manuale/ponti/bridge",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -1984,7 +1984,7 @@
       "percorso": "$.taglio[22]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-solette",
-      "b": "/wiki/guide/moduli/guida-paratie",
+      "b": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -1992,7 +1992,7 @@
       "percorso": "$.taglio[23]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-precompressione",
-      "b": "/wiki/manuale/geotecnica/analisi-paratie",
+      "b": "/wiki/guide/moduli/guida-paratie",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -2000,7 +2000,7 @@
       "percorso": "$.taglio[24]",
       "classe": "testo",
       "a": "/wiki/manuale/fondamenti/biblioteca-tecnica",
-      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "b": "/wiki/manuale/geotecnica/analisi-paratie",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -2008,7 +2008,7 @@
       "percorso": "$.taglio[25]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "b": "\"/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali\"",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -2016,7 +2016,7 @@
       "percorso": "$.taglio[26]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-solette\"",
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -2024,7 +2024,7 @@
       "percorso": "$.taglio[27]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
+      "b": "\"/wiki/manuale/ponti/ponti-solette\"",
       "voce": "F5-REL-112-01 / F5-REL-1160-01"
     },
     {
@@ -3512,7 +3512,7 @@
       "percorso": "$.σ[18]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/guide/moduli/sezione-ca\"",
+      "b": "\"/wiki/guide/moduli-singoli/sezione-composta-da-ponte\"",
       "voce": "F5-REL-1144-01 / F5-REL-1160-01"
     },
     {
@@ -12816,7 +12816,7 @@
       "percorso": "$.taglio[28]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13008,7 +13008,7 @@
       "percorso": "$.σ[2]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
-      "b": "/wiki/manuale/fondazioni-e-geotecnica/capacita-orizzontale-in-terreno-stratificato",
+      "b": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13016,7 +13016,7 @@
       "percorso": "$.σ[3]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/sezione-composta-da-ponte",
-      "b": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/capacita-orizzontale-in-terreno-stratificato",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13024,7 +13024,7 @@
       "percorso": "$.σ[4]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
-      "b": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+      "b": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13032,7 +13032,7 @@
       "percorso": "$.σ[5]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/bridge-design",
-      "b": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+      "b": "/wiki/manuale/ponti/sezione-composta-da-ponte",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13040,7 +13040,7 @@
       "percorso": "$.σ[6]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
-      "b": "/wiki/manuale/ponti/bridge-design",
+      "b": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13048,7 +13048,7 @@
       "percorso": "$.σ[7]",
       "classe": "testo",
       "a": "/wiki/manuale/fem/elementi-beam",
-      "b": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+      "b": "/wiki/manuale/ponti/bridge-design",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13056,7 +13056,7 @@
       "percorso": "$.σ[8]",
       "classe": "testo",
       "a": "/wiki/manuale/acciaio/instabilita-delle-aste-compresse",
-      "b": "/wiki/theory/palo-elastico",
+      "b": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13064,7 +13064,7 @@
       "percorso": "$.σ[9]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo/cracking",
-      "b": "/wiki/manuale/fem/elementi-beam",
+      "b": "/wiki/theory/palo-elastico",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -13072,7 +13072,7 @@
       "percorso": "$.σ[19]",
       "classe": "elemento-aggiunto",
       "a": null,
-      "b": "\"/wiki/manuale/geotecnica/geotecnica-gruppi\"",
+      "b": "\"/wiki/guide/moduli/sezione-ca\"",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -22041,6 +22041,222 @@
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: 0\\leq\\theta\\leq\\pi/2",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.md",
+      "percorso": "riga 29 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "ANTHEA esegue insieme al più tanti calcoli quanti sono i processori del computer meno uno; gli altri aspettano il proprio turno, e intanto la finestra resta utilizzabile. Seguono questa regola anche la sezione in c.a., cioè verifiche, taglio, resistenze rapide, sezione σ/ε, curva M–χ, colonna modell…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.md",
+      "percorso": "riga 30 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.txt",
+      "percorso": "riga 14 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: ANTHEA esegue insieme al più tanti calcoli quanti sono i processori del computer meno uno; gli altri aspettano il proprio turno, e intanto la finestra resta utilizzabile. Seguono questa regola anche la sezione in c.a., cioè verifiche, taglio, resistenze rapide, sezione σ/ε, curva M–χ, colonna …",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 109",
+      "classe": "testo",
+      "a": "Nella scheda taglio e torsione impostare staffe, passo, inclinazione e armatura longitudinale pertinente. Le azioni dei nuovi fogli provengono dalle stesse righe SLU e SLV usate nei domini; modificarle con Gestisci sollecitazioni. Controllare bw, d e braccio interno ricavati. Per sezioni circolari il ramo adottato è quello specifico per pali descritto nella guida teorica; non coincide automaticamente con una formula generica per travi rettangolari.",
+      "b": "Nella scheda taglio e torsione impostare staffe, passo, inclinazione e armatura longitudinale pertinente. Le azioni dei nuovi fogli provengono dalle stesse righe SLU e SLV usate nei domini; modificarle con Gestisci sollecitazioni. Controllare bw, d e braccio interno ricavati. Per sezioni circolari il ramo adottato è quello specifico per pali descritto nella guida teorica; non coincide automaticamente con una formula generica per travi rettangolari. Le verifiche a taglio e torsione si calcolano dopo le verifiche SLU e SLE, sullo sfondo: mentre la riga di stato mostra «GPC Engine · in corso: Taglio» le righe della tabella del taglio restano a «—» e la finestra resta utilizzabile.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 88",
+      "classe": "testo",
+      "a": "text: Nella scheda taglio e torsione impostare staffe, passo, inclinazione e armatura longitudinale pertinente. Le azioni dei nuovi fogli provengono dalle stesse righe SLU e SLV usate nei domini; modificarle con Gestisci sollecitazioni. Controllare bw, d e braccio interno ricavati. Per sezioni circolari il ramo adottato è quello specifico per pali descritto nella guida teorica; non coincide automaticamente con una formula generica per travi rettangolari.",
+      "b": "text: Nella scheda taglio e torsione impostare staffe, passo, inclinazione e armatura longitudinale pertinente. Le azioni dei nuovi fogli provengono dalle stesse righe SLU e SLV usate nei domini; modificarle con Gestisci sollecitazioni. Controllare bw, d e braccio interno ricavati. Per sezioni circolari il ramo adottato è quello specifico per pali descritto nella guida teorica; non coincide automaticamente con una formula generica per travi rettangolari. Le verifiche a taglio e torsione si calcolano dopo le verifiche SLU e SLE, sullo sfondo: mentre la riga di stato mostra «GPC Engine · in corso: Taglio» le righe della tabella del taglio restano a «—» e la finestra resta utilizzabile.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_palo-elastico.md",
+      "percorso": "riga 91 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Con molte schede aperte il ricalcolo resta «in coda» finché non termina uno dei calcoli in corso, come il calcolo della capacità.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_palo-elastico.md",
+      "percorso": "riga 92 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_palo-elastico.txt",
+      "percorso": "riga 45 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Con molte schede aperte il ricalcolo resta «in coda» finché non termina uno dei calcoli in corso, come il calcolo della capacità.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[8]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/muri-di-sostegno-con-stratigrafie-di-monte-e-valle",
+      "b": "/wiki/guide/esportazione/salvataggio-e-report",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[9]",
+      "classe": "testo",
+      "a": "/wiki/guide/palo-elastico",
+      "b": "/wiki/guide/moduli-singoli/muri-di-sostegno-con-stratigrafie-di-monte-e-valle",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[10]",
+      "classe": "testo",
+      "a": "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
+      "b": "/wiki/guide/palo-elastico",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[11]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli/sezione-ca",
+      "b": "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[12]",
+      "classe": "testo",
+      "a": "/wiki/guide/tutorial/tutorial-dal-modello-beam-alla-verifica-di-sezione",
+      "b": "/wiki/guide/moduli/sezione-ca",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[13]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+      "b": "/wiki/guide/tutorial/tutorial-dal-modello-beam-alla-verifica-di-sezione",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[14]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "b": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[15]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+      "b": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[16]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+      "b": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[17]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/bridge-design",
+      "b": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[18]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
+      "b": "/wiki/manuale/ponti/bridge-design",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[19]",
+      "classe": "testo",
+      "a": "/wiki/theory/palo-elastico",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[20]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fem/elementi-beam",
+      "b": "/wiki/theory/palo-elastico",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[21]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/cracking",
+      "b": "/wiki/manuale/fem/elementi-beam",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[26]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.taglio[29]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[0]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
+      "b": "/wiki/guide/esportazione/salvataggio-e-report",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[1]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[20]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/geotecnica-gruppi\"",
       "voce": "F5-REL-1160-01"
     }
   ]
