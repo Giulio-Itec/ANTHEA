@@ -347,8 +347,8 @@
   },
   "transitions": {
     "file": "tests/fixtures/f3/transitions-f4.json",
-    "sha256": "c1ca1e64009c22450a7d48c1c021e366606041b36058d4ec2ee59d447af8b664",
-    "entries": 73711,
+    "sha256": "ed89f32eb21ad9f4dac8c76fbf50d61469bc60897c64e2dee6d39579fb31e9eb",
+    "entries": 77911,
     "decision": "D2 del 15/10/2026"
   },
   "editorial_updates_rev45": {
