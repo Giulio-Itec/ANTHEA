@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "voce": "F5-LIB-02",
-  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo. Rev60 (1.14.4): 117 differenze editoriali esatte aggiunte, 33 sostituite e 0 tolte in 15 articoli e nell'indice delle ricerche (separatore decimale, testa dei pali e dei micropali, anello interno, sviluppo parziale delle barre, tension stiffening con il tirante, R5, correzioni di calcolo e combinazioni dei muri), approvate dall'utente il 28/10/2026 («ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»). Nessun risultato di calcolo. Rev61 (1.15.0): 390 differenze editoriali esatte aggiunte, 7 sostituite, 0 spostate e 0 tolte in 4 articoli e nell'indice delle ricerche (scheda «Colonna modello» della sezione c.a. e sua teoria, file di testo .mct/.mgt e modelli .st7 nel modulo Modelli, unità e segni delle copie importate); da approvare dall'utente (voce F5-REL-1150-01). Nessun risultato di calcolo. Rev62 (1.16.0): 828 differenze editoriali esatte aggiunte, 148 sostituite, 143 spostate e 0 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Conteggio degli articoli della Wiki 77 → 78 (capitolo nuovo sulla capacità orizzontale in terreno stratificato). Rev62, seconda passata (1.16.0): 860 differenze editoriali esatte aggiunte, 160 sostituite, 176 spostate e 24 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX di otto capitoli in più, testi «Per le guide» degli agenti della 1.16.0: modulo Modelli con fasi, tabelle e combinazioni, voci R della sezione c.a., unità della scala del dominio 3D; prima passata: formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo.",
+  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo. Rev60 (1.14.4): 117 differenze editoriali esatte aggiunte, 33 sostituite e 0 tolte in 15 articoli e nell'indice delle ricerche (separatore decimale, testa dei pali e dei micropali, anello interno, sviluppo parziale delle barre, tension stiffening con il tirante, R5, correzioni di calcolo e combinazioni dei muri), approvate dall'utente il 28/10/2026 («ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»). Nessun risultato di calcolo. Rev61 (1.15.0): 390 differenze editoriali esatte aggiunte, 7 sostituite, 0 spostate e 0 tolte in 4 articoli e nell'indice delle ricerche (scheda «Colonna modello» della sezione c.a. e sua teoria, file di testo .mct/.mgt e modelli .st7 nel modulo Modelli, unità e segni delle copie importate); da approvare dall'utente (voce F5-REL-1150-01). Nessun risultato di calcolo. Rev62 (1.16.0): 828 differenze editoriali esatte aggiunte, 148 sostituite, 143 spostate e 0 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Conteggio degli articoli della Wiki 77 → 78 (capitolo nuovo sulla capacità orizzontale in terreno stratificato). Rev62, seconda passata (1.16.0): 860 differenze editoriali esatte aggiunte, 160 sostituite, 176 spostate e 24 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX di otto capitoli in più, testi «Per le guide» degli agenti della 1.16.0: modulo Modelli con fasi, tabelle e combinazioni, voci R della sezione c.a., unità della scala del dominio 3D; prima passata: formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, colonna modello fase 2 (1.16.0): 109 differenze editoriali esatte aggiunte, 10 sostituite, 0 spostate e 0 tolte in 2 articoli (scelta Azioni, inviluppo delle combinazioni, dominio ridotto N–M1Rd,max e scostamenti K-7 e K-8 della colonna modello nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo.",
   "voci": [
     {
       "file": "esito.txt",
@@ -3632,8 +3632,8 @@
       "percorso": "riga 177 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "### Colonna modello: risultati, CSV e relazione",
-      "voce": "F5-REL-1150-01"
+      "b": "**Azioni** sceglie che cosa verificare. «Azione singola (N, M0Ed)» calcola la colonna sui campi N e M0Ed. «Combinazioni SLU» e «Combinazioni SLU e SLV» verificano tutte le combinazioni di quegli insiemi della scheda Combinazioni: ognuna è una colonna modello con il proprio N costante e con il moment…",
+      "voce": "F5-REL-1150-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
@@ -3648,8 +3648,8 @@
       "percorso": "riga 179 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "Il grafico M(χ) a N costante e momento esterno riporta la curva della sezione, la retta M2 = k·χ con k = NEd·l0²/c, la tangente al massimo M1Rd,max + k·χ e, se M0Ed è assegnato, la retta del momento esterno M0Ed,tot + k·χ; i punti segnano il massimo, l'equilibrio, il primo snervamento χy e la curvat…",
-      "voce": "F5-REL-1150-01"
+      "b": "**Intervalli del dominio ridotto**, nel gruppo Calcolo, fissa il numero dei punti del dominio ridotto fra 0 e la resistenza a compressione centrata $N_{Rd,c}$: 40 per default, da 4 a 200; gli N delle azioni si aggiungono ai punti. Durante il calcolo il testo mostra la combinazione e il punto del dom…",
+      "voce": "F5-REL-1150-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
@@ -3664,8 +3664,8 @@
       "percorso": "riga 181 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "I riquadri riportano la snellezza λ = l0/i con λlim della norma, solo informativa perché il calcolo si esegue comunque; il momento del primo ordine M0Ed,tot con imperfezione ed eccentricità minima; la viscosità con le condizioni di 5.8.4(4); la capacità M1Rd,max con il modo di crisi, instabilità o r…",
-      "voce": "F5-REL-1150-01"
+      "b": "### Colonna modello: risultati, CSV e relazione",
+      "voce": "F5-REL-1150-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
@@ -3680,8 +3680,8 @@
       "percorso": "riga 183 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "**Esporta CSV…** salva i punti del risultato pubblicato, con il nome proposto ANTHEA_Colonna_modello.csv: un punto per riga, colonne separate da punto e virgola, numeri con il punto decimale e fino a diciassette cifre significative, qualunque sia il separatore scelto nel menu Aspetto. Le colonne son…",
-      "voce": "F5-REL-1150-01"
+      "b": "Il grafico M(χ) a N costante e momento esterno riporta la curva della sezione, la retta M2 = k·χ con k = NEd·l0²/c, la tangente al massimo M1Rd,max + k·χ e, se M0Ed è assegnato, la retta del momento esterno M0Ed,tot + k·χ; i punti segnano il massimo, l'equilibrio, il primo snervamento χy e la curvat…",
+      "voce": "F5-REL-1150-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
@@ -3696,8 +3696,8 @@
       "percorso": "riga 185 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "Le opzioni della colonna entrano nel foglio alla prima modifica di un dato della scheda: un foglio che non le ha si apre con i valori iniziali, non risulta modificato e le sue relazioni restano quelle di prima. Per i fogli con le opzioni la relazione Word ha il capitolo Colonna modello dopo il momen…",
-      "voce": "F5-REL-1150-01"
+      "b": "I riquadri riportano la snellezza λ = l0/i con λlim della norma, solo informativa perché il calcolo si esegue comunque; il momento del primo ordine M0Ed,tot con imperfezione ed eccentricità minima; la viscosità con le condizioni di 5.8.4(4); la capacità M1Rd,max con il modo di crisi, instabilità o r…",
+      "voce": "F5-REL-1150-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
@@ -3800,40 +3800,40 @@
       "percorso": "riga 143 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: colonna-modello-risultati-csv-e-relazione",
-      "voce": "F5-REL-1150-01"
+      "b": "text: Azioni sceglie che cosa verificare. «Azione singola (N, M0Ed)» calcola la colonna sui campi N e M0Ed. «Combinazioni SLU» e «Combinazioni SLU e SLV» verificano tutte le combinazioni di quegli insiemi della scheda Combinazioni: ognuna è una colonna modello con il proprio N costante e con il mome…",
+      "voce": "F5-REL-1150-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
       "percorso": "riga 144 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Il grafico M(χ) a N costante e momento esterno riporta la curva della sezione, la retta M2 = k·χ con k = NEd·l0²/c, la tangente al massimo M1Rd,max + k·χ e, se M0Ed è assegnato, la retta del momento esterno M0Ed,tot + k·χ; i punti segnano il massimo, l'equilibrio, il primo snervamento χy e la …",
-      "voce": "F5-REL-1150-01"
+      "b": "formula: M_\\theta = M_x\\cos\\theta + M_y\\sin\\theta",
+      "voce": "F5-REL-1150-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
       "percorso": "riga 145 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: I riquadri riportano la snellezza λ = l0/i con λlim della norma, solo informativa perché il calcolo si esegue comunque; il momento del primo ordine M0Ed,tot con imperfezione ed eccentricità minima; la viscosità con le condizioni di 5.8.4(4); la capacità M1Rd,max con il modo di crisi, instabili…",
-      "voce": "F5-REL-1150-01"
+      "b": "formula: M_\\theta",
+      "voce": "F5-REL-1150-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
       "percorso": "riga 146 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Esporta CSV… salva i punti del risultato pubblicato, con il nome proposto ANTHEA_Colonna_modello.csv: un punto per riga, colonne separate da punto e virgola, numeri con il punto decimale e fino a diciassette cifre significative, qualunque sia il separatore scelto nel menu Aspetto. Le colonne s…",
-      "voce": "F5-REL-1150-01"
+      "b": "text: Intervalli del dominio ridotto, nel gruppo Calcolo, fissa il numero dei punti del dominio ridotto fra 0 e la resistenza a compressione centrata  : 40 per default, da 4 a 200; gli N delle azioni si aggiungono ai punti. Durante il calcolo il testo mostra la combinazione e il punto del dominio in…",
+      "voce": "F5-REL-1150-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
       "percorso": "riga 147 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Le opzioni della colonna entrano nel foglio alla prima modifica di un dato della scheda: un foglio che non le ha si apre con i valori iniziali, non risulta modificato e le sue relazioni restano quelle di prima. Per i fogli con le opzioni la relazione Word ha il capitolo Colonna modello dopo il…",
-      "voce": "F5-REL-1150-01"
+      "b": "formula: N_{Rd,c}",
+      "voce": "F5-REL-1150-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
@@ -19961,6 +19961,878 @@
       "classe": "elemento-aggiunto",
       "a": null,
       "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 187 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "**Esporta CSV…** salva i punti del risultato pubblicato, con il nome proposto ANTHEA_Colonna_modello.csv: un punto per riga, colonne separate da punto e virgola, numeri con il punto decimale e fino a diciassette cifre significative, qualunque sia il separatore scelto nel menu Aspetto. Le colonne son…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 188 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 189 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le opzioni della colonna entrano nel foglio alla prima modifica di un dato della scheda: un foglio che non le ha si apre con i valori iniziali, non risulta modificato e le sue relazioni restano quelle di prima. Per i fogli con le opzioni la relazione Word ha il capitolo Colonna modello dopo il momen…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 190 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 191 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Con le combinazioni il riquadro **Inviluppo delle combinazioni** dà il rapporto massimo $\\eta = M_{0Ed,tot}/M_{1Rd,max}$ e la combinazione che governa, con il numero delle combinazioni verificate, non verificate e di trazione. Le combinazioni di trazione non sono pertinenti, perché la sezione si ver…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 192 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 193 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La componente normale a θ, $M_\\perp = -M_x\\sin\\theta + M_y\\cos\\theta$, non è verificata: quando supera l'1 % di Mθ compare un avviso. In flessione deviata ripetere il calcolo con θ + 90° e combinare le due direzioni con EN 1992-1-1 5.8.9.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 194 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 195 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il terzo grafico, **Dominio ridotto N–M1Rd,max**, con Adatta, PNG ed Espandi, mostra in blu la capacità del primo ordine M1Rd,max al variare di N fra 0 e $N_{Rd,c}$, in grigio tratteggiato il momento resistente della sezione MRd(N) senza effetti del secondo ordine e in arancio la retta $N_{Ed}\\,e_0$…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 196 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 197 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "![Dominio ridotto N–M1Rd,max della colonna modello: capacità del primo ordine in blu, momento resistente della sezione in grigio, retta dell'eccentricità minima in arancio e punto dell'azione.](../../src/ANTHEA.Desktop/Assets/Wiki/colonna-modello-dominio-ridotto.png)",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 198 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 199 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "**Esporta CSV…** scrive i punti della curva, poi, dopo una riga vuota, i punti del dominio ridotto e, con le combinazioni, una riga per combinazione. Nella relazione il capitolo «Colonna modello» comprende la tabella «Combinazioni», con la combinazione che governa, e il paragrafo «Dominio ridotto N–…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 200 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 148 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: colonna-modello-risultati-csv-e-relazione",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 149 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il grafico M(χ) a N costante e momento esterno riporta la curva della sezione, la retta M2 = k·χ con k = NEd·l0²/c, la tangente al massimo M1Rd,max + k·χ e, se M0Ed è assegnato, la retta del momento esterno M0Ed,tot + k·χ; i punti segnano il massimo, l'equilibrio, il primo snervamento χy e la …",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 150 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: I riquadri riportano la snellezza λ = l0/i con λlim della norma, solo informativa perché il calcolo si esegue comunque; il momento del primo ordine M0Ed,tot con imperfezione ed eccentricità minima; la viscosità con le condizioni di 5.8.4(4); la capacità M1Rd,max con il modo di crisi, instabili…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 151 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Esporta CSV… salva i punti del risultato pubblicato, con il nome proposto ANTHEA_Colonna_modello.csv: un punto per riga, colonne separate da punto e virgola, numeri con il punto decimale e fino a diciassette cifre significative, qualunque sia il separatore scelto nel menu Aspetto. Le colonne s…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 152 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le opzioni della colonna entrano nel foglio alla prima modifica di un dato della scheda: un foglio che non le ha si apre con i valori iniziali, non risulta modificato e le sue relazioni restano quelle di prima. Per i fogli con le opzioni la relazione Word ha il capitolo Colonna modello dopo il…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 153 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Con le combinazioni il riquadro Inviluppo delle combinazioni dà il rapporto massimo   e la combinazione che governa, con il numero delle combinazioni verificate, non verificate e di trazione. Le combinazioni di trazione non sono pertinenti, perché la sezione si verifica con i domini; quelle co…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 154 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\eta = M_{0Ed,tot}/M_{1Rd,max}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 155 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: |N|",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 156 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N_{Rd,c}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 157 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La componente normale a θ,  , non è verificata: quando supera l'1 % di Mθ compare un avviso. In flessione deviata ripetere il calcolo con θ + 90° e combinare le due direzioni con EN 1992-1-1 5.8.9.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 158 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_\\perp = -M_x\\sin\\theta + M_y\\cos\\theta",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 159 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il terzo grafico, Dominio ridotto N–M1Rd,max, con Adatta, PNG ed Espandi, mostra in blu la capacità del primo ordine M1Rd,max al variare di N fra 0 e  , in grigio tratteggiato il momento resistente della sezione MRd(N) senza effetti del secondo ordine e in arancio la retta   dell'eccentricità …",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 160 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N_{Rd,c}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 161 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N_{Ed}\\,e_0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 162 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Dominio ridotto N–M1Rd,max della colonna modello: capacità del primo ordine in blu, momento resistente della sezione in grigio, retta dell'eccentricità minima in arancio e punto dell'azione.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 163 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Esporta CSV… scrive i punti della curva, poi, dopo una riga vuota, i punti del dominio ridotto e, con le combinazioni, una riga per combinazione. Nella relazione il capitolo «Colonna modello» comprende la tabella «Combinazioni», con la combinazione che governa, e il paragrafo «Dominio ridotto …",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 336 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 337 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Colonna modello: inviluppo delle azioni e dominio ridotto",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 338 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 339 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Con le combinazioni ogni combinazione $i$ è una colonna modello a $N_{Ed,i}$ costante, verificata nella direzione θ se $M_i \\geq 0$ e nella direzione θ + 180° altrimenti, con $M_{0Ed,i} = |M_i|$; il rapporto dell'inviluppo è il massimo sulle combinazioni:",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 340 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 341 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 342 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "M_i = M_{1,i}\\cos\\theta + M_{2,i}\\sin\\theta",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 343 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "M_{\\perp,i} = -M_{1,i}\\sin\\theta + M_{2,i}\\cos\\theta",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 344 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\eta = \\max_i \\frac{M_{0Ed,tot,i}}{M_{1Rd,max}(N_{Ed,i})}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 345 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 346 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 347 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Con $\\varphi_{ef}$ dalla (5.19) il rapporto $M_{0Eqp}/M_{0Ed}$ è quello della combinazione (EN 1992-1-1 5.8.4(2)); la coppia quasi permanente è una sola.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 348 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 349 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il dominio ridotto è la capacità del primo ordine al variare dello sforzo normale, calcolata in $n + 1$ punti fra zero e la resistenza a compressione centrata, con il momento resistente della sezione $M_{Rd}(N_j) = M(\\chi_u)$ nella stessa direzione; l'eccentricità minima è la retta $M = |N|\\,e_0$:",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 350 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 351 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 352 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "N_j = \\frac{j}{n}\\,N_{Rd,c}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 353 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 354 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 355 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "con $j = 0 \\ldots n$. A $N = 0$ si ha $k = 0$ e $M_{1Rd,max} = M_{Rd}(0)$; a $N_{Rd,c}$ la curvatura ultima è nulla e $M_{1Rd,max}$ è nullo nelle sezioni simmetriche.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 356 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 357 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Scostamento dichiarato K-7 · Componente normale a θ nell'inviluppo",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 358 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Norma: EN 1992-1-1 5.8.9 chiede la verifica in flessione deviata.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 359 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Programma: la componente $M_\\perp$ non è verificata nell'inviluppo; oltre l'1 % di $M_\\theta$ c'è un avviso e la 5.8.9 resta da fare a parte, con θ + 90°.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 360 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Effetto: a sfavore di sicurezza se $M_\\perp$ non è trascurabile e la verifica a parte manca.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 361 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 362 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Scostamento dichiarato K-8 · Viscosità nel dominio ridotto",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 363 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Norma: con la (5.19) $\\varphi_{ef}$ dipende dal rapporto $M_{0Eqp}/M_{0Ed}$ della combinazione.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 364 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Programma: ogni combinazione è verificata con il proprio $\\varphi_{ef}$; il dominio ridotto è disegnato con quello della combinazione che governa.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 365 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Effetto: solo grafico; i punti delle altre combinazioni vanno letti con il loro esito, non con la curva.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 366 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.md",
+      "percorso": "riga 367 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Esempio: sezione 400 × 400 mm con 3Ø24 + 3Ø24, C25/30, B450C, $l_0 = 6$ m, senza imperfezione né eccentricità minima e con $\\varphi_{ef} = 0$. Il dominio ridotto vale $M_{1Rd,max}$ = 174,2, 213,9, 223,7, 169,4, 121,9, 65,6 e 17,8 kNm a N = 0, 500, 1000, 1500, 2000, 2500 e 3000 kN. Con le azioni (100…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 379 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: colonna-modello-inviluppo-delle-azioni-e-dominio-ridotto",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 380 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Con le combinazioni ogni combinazione   è una colonna modello a   costante, verificata nella direzione θ se   e nella direzione θ + 180° altrimenti, con  ; il rapporto dell'inviluppo è il massimo sulle combinazioni:",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 381 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: i",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 382 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N_{Ed,i}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 383 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_i \\geq 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 384 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{0Ed,i} = |M_i|",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 385 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_i = M_{1,i}\\cos\\theta + M_{2,i}\\sin\\theta",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 386 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{\\perp,i} = -M_{1,i}\\sin\\theta + M_{2,i}\\cos\\theta",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 387 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\eta = \\max_i \\frac{M_{0Ed,tot,i}}{M_{1Rd,max}(N_{Ed,i})}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 388 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 389 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Con   dalla (5.19) il rapporto   è quello della combinazione (EN 1992-1-1 5.8.4(2)); la coppia quasi permanente è una sola.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 390 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\varphi_{ef}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 391 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{0Eqp}/M_{0Ed}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 392 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il dominio ridotto è la capacità del primo ordine al variare dello sforzo normale, calcolata in   punti fra zero e la resistenza a compressione centrata, con il momento resistente della sezione   nella stessa direzione; l'eccentricità minima è la retta  :",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 393 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: n + 1",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 394 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{Rd}(N_j) = M(\\chi_u)",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 395 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M = |N|\\,e_0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 396 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N_j = \\frac{j}{n}\\,N_{Rd,c}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 397 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 398 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: con  . A   si ha   e  ; a   la curvatura ultima è nulla e   è nullo nelle sezioni simmetriche.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 399 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: j = 0 \\ldots n",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 400 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N = 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 401 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: k = 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 402 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{1Rd,max} = M_{Rd}(0)",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 403 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N_{Rd,c}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 404 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{1Rd,max}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 405 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Scostamento dichiarato K-7 · Componente normale a θ nell'inviluppo",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 406 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: ",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 407 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Norma: EN 1992-1-1 5.8.9 chiede la verifica in flessione deviata.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 408 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Programma: la componente   non è verificata nell'inviluppo; oltre l'1 % di   c'è un avviso e la 5.8.9 resta da fare a parte, con θ + 90°.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 409 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Effetto: a sfavore di sicurezza se   non è trascurabile e la verifica a parte manca.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 410 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_\\perp",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 411 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_\\theta",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 412 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_\\perp",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 413 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Scostamento dichiarato K-8 · Viscosità nel dominio ridotto",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 414 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: ",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 415 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Norma: con la (5.19)   dipende dal rapporto   della combinazione.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 416 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Programma: ogni combinazione è verificata con il proprio  ; il dominio ridotto è disegnato con quello della combinazione che governa.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 417 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Effetto: solo grafico; i punti delle altre combinazioni vanno letti con il loro esito, non con la curva.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 418 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\varphi_{ef}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 419 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{0Eqp}/M_{0Ed}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 420 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\varphi_{ef}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 421 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Esempio: sezione 400 × 400 mm con 3Ø24 + 3Ø24, C25/30, B450C,   m, senza imperfezione né eccentricità minima e con  . Il dominio ridotto vale   = 174,2, 213,9, 223,7, 169,4, 121,9, 65,6 e 17,8 kNm a N = 0, 500, 1000, 1500, 2000, 2500 e 3000 kN. Con le azioni (1000 kN, 180 kNm), (2000 kN, 100 k…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 422 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: l_0 = 6",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 423 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\varphi_{ef} = 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 424 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{1Rd,max}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_sezione-in-calcestruzzo-armato.txt",
+      "percorso": "riga 425 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\eta = 160/169{,}4 = 0{,}944",
       "voce": "F5-REL-1160-01"
     }
   ]
