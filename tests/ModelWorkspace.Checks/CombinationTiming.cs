@@ -23,6 +23,8 @@ static partial class Program
     const string CombinationPipelineDigest100x50 = "0B143997D020FF1C42FFC47F3200EA3764183F037DCA092B54967745F71C1CA0";
     /// <summary>Digest of the pipeline on the reduced model of the fast suite (24 elements × 12 cases, 4 generated linear rows), captured as above.</summary>
     const string CombinationPipelineDigestSmall = "9F1336D34363F62E1E878294C7002B3C8974810B29C5AE7FC0F99F9821340011";
+    /// <summary>Digest of the pipeline on the 500 elements × 100 cases model with 8 generated linear rows (long campaign), captured as above.</summary>
+    const string CombinationPipelineDigest500x100 = "D7E5E0650629027341B63B739EE1B881E23F28B4582ABE70B347B8FD21EA4D8A";
 
     /// <summary>
     /// A slab of nx × ny plates on its edge beams and on columns, MIDAS tables included, so that the GPC import of the geometry is the real one.
@@ -307,7 +309,8 @@ static partial class Program
                 digest = result.Digest; definitions = result.Definitions; linear = result.Linear;
                 Console.WriteLine($"{source.Label} corsa {run + 1}{(run < warmup ? " (riscaldamento)" : "")}: {watch.Elapsed.TotalSeconds:F1} s · impronta {digest[..16]}");
             }
-            string expected = (source.Label, linearCount) switch { ("100x50", 8) => CombinationPipelineDigest100x50, ("24x12", 4) => CombinationPipelineDigestSmall, _ => "" };
+            string expected = (source.Label, linearCount) switch { ("100x50", 8) => CombinationPipelineDigest100x50, ("24x12", 4) => CombinationPipelineDigestSmall,
+                ("500x100", 8) => CombinationPipelineDigest500x100, _ => "" };
             string equivalence = expected.Length == 0 ? "non registrata" : expected == digest ? "uguale a 1.16.0" : "DIVERSA da 1.16.0";
             markdown.AppendLine($"## {source.Label}: {source.Snapshot.Elements.Length} elementi, {source.Snapshot.Nodes.Length} nodi, {source.Natures.Length} casi, {definitions} definizioni ({linear} lineari generate calcolate)").AppendLine();
             markdown.AppendLine($"Impronta dei risultati: `{digest}` ({equivalence}).").AppendLine();

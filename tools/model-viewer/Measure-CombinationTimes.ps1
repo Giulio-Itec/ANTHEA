@@ -7,8 +7,8 @@
   generatore di Model, aggiunge le definizioni dell'utente (somma, inviluppi SLU e SLV, inviluppo annidato con coefficiente
   negativo) e misura ogni fase: generazione, catalogo, preparazione GPC, somma dei casi, campi ANTHEA, Attach, salvataggio e
   riapertura, view model (tabelle, diagrammi, modifica e calcolo dal view model). Corse di riscaldamento escluse; mediana, minimo e
-  massimo delle corse misurate in tempi.md e tempi.json. Ogni corsa calcola l'impronta di tutti i risultati: per il modello
-  100 × 50 (8 lineari) deve coincidere con quella della 1.16.0, altrimenti la corsa fallisce.
+  massimo delle corse misurate in tempi.md e tempi.json. Ogni corsa calcola l'impronta di tutti i risultati: per i modelli
+  100 × 50 e 500 × 100 (8 lineari) deve coincidere con quella della 1.16.0, altrimenti la corsa fallisce.
   -Baseline: cartella con ModelWorkspace.Checks.dll compilato dal codice della 1.16.0 (main 61dc4ff3, set AM; per esempio
   supporto\artefatti\combo-modelli\bin-1.16.0): le stesse corse in <Output>\prima, per il confronto prima/dopo.
 .EXAMPLE
