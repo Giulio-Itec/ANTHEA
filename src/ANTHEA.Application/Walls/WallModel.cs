@@ -67,6 +67,8 @@ public static partial class WallModel
         => RebarMaterial.CatalogueDifference(Native.MaterialSectionInput(J.Obj(("materials", materials.DeepClone()))), "NTC 2018");
     public static double RequiredCover(JsonObject d) => Native.RequiredCover(d);
     public static string RebarZoneName(string key) => Native.RebarZoneName(key);
+    public static string BarPositionName(WallModel.ScheduledBar bar) => Native.BarPositionName(bar.Source);
+    public static string BarShapeText(WallModel.ScheduledBar bar) => Native.BarShapeText(bar.Source);
     public static WallModel.ReinforcementDetails CalculateReinforcementDetails(JsonObject input) => new WallModel.ReinforcementDetails(Native.CalculateReinforcementDetails(input));
     public static JsonObject ExportSection(WallModel.Result result, string member, double position, string selectedCombination) => (JsonObject)Native.ExportSection(result.Source, member, position, selectedCombination).DeepClone();
     public static WallModel.SeismicDerivation? DeriveSeismic(JsonObject d)

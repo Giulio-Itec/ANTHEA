@@ -27,51 +27,66 @@ internal sealed partial class RetainingWallDrawing
             Text(dc, $"h₁={split:0.##} m", 4, P(0, t + split).Y, size: 10);
         }
         int index = 0;
+        void Legend(string mark, string title, string detail, Brush color)
+        {
+            double lx = ActualWidth * .60, ly = 39 + index++ * 30;
+            Text(dc, $"{mark}  {title}", lx, ly, color, 12);
+            Text(dc, detail, lx, ly + 14, Ui.Muted, 10.5);
+        }
         foreach (var bar in details.Bars)
         {
             Brush color = bar.Zone switch { "stem" => Ui.Brush("#B84539"), "stem_upper" => Ui.Brush("#C67A10"), "toe" => Ui.Brush("#1B6A9A"), _ => Ui.Brush("#298361") };
             var pen = new Pen(color, 2.2);
-            // Upper bars are projected with a small screen offset: their out-of-plane lap pairing is explicit.
-            Point Project(WallModel.BarPoint point) { var p = P(point.X, point.Y); return bar.Zone == "stem_upper" ? new(p.X + (bar.Face == "monte" ? -4 : 4), p.Y) : p; }
+            // Upper bars are projected with a small screen offset: their out-of-plane lap pairing is explicit; the end bends of the top
+            // foundation bars are drawn just inside those of the bottom bars, which lie in other planes along the wall.
+            Point Project(WallModel.BarPoint point)
+            {
+                var p = P(point.X, point.Y);
+                return bar.Zone == "stem_upper" ? new(p.X + (bar.Face == "monte" ? -4 : 4), p.Y) : bar.Face == "superiore" ? new(p.X + (point.X < a + g.D("stem_base") / 2 ? 2.5 : -2.5), p.Y) : p;
+            }
             var points = bar.Path.Select(Project).ToArray();
             for (int i = 1; i < points.Length; i++) dc.DrawLine(pen, points[i - 1], points[i]);
             var min = new Point(points.Min(p => p.X) - 4, points.Min(p => p.Y) - 4); var max = new Point(points.Max(p => p.X) + 4, points.Max(p => p.Y) + 4);
-            string info = $"{bar.Mark} · {WallModel.RebarZoneName(bar.Zone)} {bar.Face}: {bar.Count} Ø{bar.Diameter}/m; As={bar.Area:0} mm²/m\nL={bar.Length:0.###} m; lbd richiesto/usato={bar.RequiredAnchor:0}/{bar.Anchor:0} mm; l0={bar.Lap:0} mm; mandrino={bar.Mandrel:0} mm; fbd={bar.Fbd:0.##} MPa";
+            string zone = bar.Continuous ? "Fondazione" : WallModel.RebarZoneName(bar.Zone), foot = bar.Foot.Length > 0 ? $"; piede verso {bar.Foot}" : "";
+            string info = $"pos. {bar.Mark} · {zone} {bar.Face}: {bar.Count} Ø{bar.Diameter}/m (passo {bar.Spacing:0.#} mm); As={bar.Area:0} mm²/m\nL={bar.Length:0.###} m; lbd richiesto/usato={bar.RequiredAnchor:0}/{bar.Anchor:0} mm; l0={bar.Lap:0} mm; mandrino={bar.Mandrel:0} mm; fbd={bar.Fbd:0.##} MPa{foot}";
             hits.Add((new Rect(min, max), info, null));
-            Text(dc, bar.Mark, points[0].X + (bar.Face is "monte" or "superiore" ? 5 : -20), points[0].Y - 13, color, 10);
-            double lx = ActualWidth * .60, ly = 39 + index++ * 34;
-            Text(dc, $"{bar.Mark}  {WallModel.RebarZoneName(bar.Zone)} · {bar.Face}   {bar.Count} Ø{bar.Diameter}/m", lx, ly, color, 12);
-            Text(dc, $"lbd {bar.Anchor:0} / l0 {bar.Lap:0} · L {bar.Length:0.00} m", lx, ly + 15, Ui.Muted, 11);
+            Text(dc, bar.Mark, points[0].X + (bar.Face is "monte" or "superiore" ? 5 : -14), points[0].Y - 13, color, 10);
+            Legend(bar.Mark, $"{zone} · {bar.Face}   {bar.Count} Ø{bar.Diameter}/m", $"lbd {bar.Anchor:0} / l0 {bar.Lap:0} · L {bar.Length:0.00} m{foot}", color);
         }
-        // Orthogonal bars are represented by their circular sections on both faces.
-        foreach (string key in two ? new[] { "stem", "stem_upper" } : new[] { "stem" })
+        foreach (var other in details.Others)
         {
-            var r = Data["reinforcement"]![key]!; double step = r.D("secondary_spacing") / 1000, cover = (Data["materials"].D("cover") + r.D("diameter") + r.D("secondary_diameter") / 2) / 1000;
-            if (step <= 0) continue;
-            double low = key == "stem_upper" ? split : 0, high = key == "stem" && two ? split : h;
-            for (double y = low + cover; y < high - cover; y += step)
+            switch (other.Kind)
             {
-                foreach (double x in new[] { back - cover, a + (g.D("stem_base") - g.D("stem_top")) * y / h + cover })
-                    dc.DrawEllipse(Brushes.White, new Pen(Ui.Muted, 1), P(x, t + y), 2, 2);
+                case "Forcella":
+                {
+                    var color = Ui.Brush("#7B3FA0"); var points = other.Path.Select(p => P(p.X, p.Y)).ToArray();
+                    for (int i = 1; i < points.Length; i++) dc.DrawLine(new Pen(color, 1.6), points[i - 1], points[i]);
+                    hits.Add((new Rect(new Point(points.Min(p => p.X) - 4, points.Min(p => p.Y) - 4), new Point(points.Max(p => p.X) + 4, points.Max(p => p.Y) + 4)),
+                        $"pos. {other.Mark} · forcella di testa Ø{other.Diameter}/{other.Spacing:0.#} mm; L={other.Length:0.###} m", null));
+                    Legend(other.Mark, $"Forcella di testa   Ø{other.Diameter}/{other.Spacing:0.#} mm", $"L {other.Length:0.00} m", color);
+                    break;
+                }
+                case "Spillo":
+                {
+                    var color = Ui.Brush("#997139"); double y0 = other.Path.Average(p => p.Y);
+                    foreach (var row in other.Points)
+                    {
+                        var points = other.Path.Select(p => P(p.X, p.Y - y0 + row.Y)).ToArray();
+                        for (int i = 1; i < points.Length; i++) dc.DrawLine(new Pen(color, 1), points[i - 1], points[i]);
+                    }
+                    Legend(other.Mark, $"Spilli della giunzione   Ø{other.Diameter}, {other.Points.Count} file", $"L {other.Length:0.00} m", color);
+                    break;
+                }
+                default:
+                    // Longitudinal bars in their true position, inside the main bars.
+                    foreach (var p in other.Points) dc.DrawEllipse(Brushes.White, new Pen(Ui.Muted, 1), P(p.X, p.Y), 2.2, 2.2);
+                    break;
             }
         }
-        if (two)
-        {
-            double lap = details.Bars.Max(x => x.Lap) / 1000, step = Data["detailing"].D("tie_spacing") / 1000;
-            if (step > 0) for (double y = t + split - lap / 2 + step / 2; y < t + split + lap / 2; y += step)
-                dc.DrawLine(new Pen(Ui.Brush("#997139"), 1), P(a + (g.D("stem_base") - g.D("stem_top")) * (y - t) / h + .06, y), P(back - .06, y));
-        }
-        foreach (string key in new[] { "toe", "heel" })
-        {
-            var arm = Data["reinforcement"]![key]!;
-            double step = arm.D("secondary_spacing") / 1000;
-            double c = (Data["materials"].D("cover") + arm.D("diameter") + arm.D("secondary_diameter") / 2) / 1000;
-            double start = key == "toe" ? c : a + g.D("stem_base") / 2, end = key == "toe" ? a + g.D("stem_base") / 2 : b - c;
-            if (step <= 0) continue;
-            for (double x = start; x <= end; x += step)
-                foreach (double y in new[] { c, t - c }) dc.DrawEllipse(Brushes.White, new Pen(Ui.Muted, 1), P(x, y), 2, 2);
-        }
-        Text(dc, $"B={b:0.##} m · H={h:0.##} m · c={Data["materials"].D("cover"):0} mm · acciaio stimato {details.SteelKg:0.0} kg/m", 15, ActualHeight - 33, size: 11);
-        Text(dc, "Schema di predimensionamento · selezionare Dettagli armature per controlli e distinta", 15, ActualHeight - 17, Ui.Muted, 10);
+        var longitudinal = details.Others.Where(o => o.Kind == "Longitudinale").ToArray();
+        if (longitudinal.Length > 0)
+            Legend(longitudinal[0].Mark + "–" + longitudinal[^1].Mark, "Ferri longitudinali (cerchi)", string.Join(" · ", longitudinal.Select(o => $"{o.Points.Count} Ø{o.Diameter}")), Ui.Muted);
+        Text(dc, $"B={b:0.##} m · H={h:0.##} m · c={Data["materials"].D("cover"):0} mm · acciaio {details.SteelKg:0.0} kg/m", 15, ActualHeight - 33, size: 11);
+        Text(dc, "Numeri = posizioni della tavola · selezionare Distinta ferri per sagome e quantità del tratto", 15, ActualHeight - 17, Ui.Muted, 10);
     }
 }

@@ -54,7 +54,8 @@ internal static class WallMaterialChecks
         var transferred = Anthea.Application.Walls.WallModel.ExportSection(view.Calculation, "Fusto", 3, section.Name);
         Check(transferred["input"].D("steel_modulus_mpa") == 190000, "Trasferimento al modulo c.a. conserva il materiale");
         var drawing = new RetainingWallBarDrawing(view.Calculation.Input, host.Sheet.CreateBarSchedule());
-        Check(drawing.Schedule.Bars.Count == 12, "Tavola disponibile dal risultato aggiornato");
+        // 1.16.0: fusto monte e valle, fondazione inferiore e superiore, forcella e quattro file di longitudinali.
+        Check(drawing.Schedule.Bars.Count == 9 && drawing.Schedule.CompleteQuantities, "Tavola disponibile dal risultato aggiornato");
         var figures = ModuleFigureRenderer.BarFigures(drawing);
         File.WriteAllBytes(Path.Combine(directory, "distinta-unica.docx"), Anthea.Application.Walls.WallExports.CreateBarSchedule(drawing.Data, drawing.Schedule, figures));
         File.WriteAllBytes(Path.Combine(directory, "distinta-unica.pdf"), DrawingPdf.Create(figures.Select(f => f.Png)));
@@ -62,7 +63,8 @@ internal static class WallMaterialChecks
         var two = RetainingWall.Defaults(); two["reinforcement"]!["two_zones"] = true; two["reinforcement"]!["lower_height"] = 1.5; two["bar_schedule"]!["panel_length"] = 4;
         using var twoView = await OffscreenWall.OpenAsync(two); await twoView.Wall.CalculateAsync();
         var twoDrawing = new RetainingWallBarDrawing(twoView.Wall.Calculation!.Input, twoView.Sheet.CreateBarSchedule()); var twoFigures = ModuleFigureRenderer.BarFigures(twoDrawing);
-        Check(twoDrawing.Schedule.Bars.Count == 17 && !twoDrawing.Schedule.CompleteQuantities, "Tavola a due zone segnala il peso parziale dei collegamenti");
+        // Due zone: quattro principali del fusto, fondazione, forcella, spilli con sagoma calcolata, sei file di longitudinali.
+        Check(twoDrawing.Schedule.Bars.Count == 14 && twoDrawing.Schedule.CompleteQuantities, "Tavola a due zone con gli spilli calcolati");
         File.WriteAllBytes(Path.Combine(directory, "distinta-due-zone.docx"), Anthea.Application.Walls.WallExports.CreateBarSchedule(twoDrawing.Data, twoDrawing.Schedule, twoFigures));
         File.WriteAllBytes(Path.Combine(directory, "distinta-due-zone.pdf"), DrawingPdf.Create(twoFigures.Select(f => f.Png)));
         for (int i = 0; i < twoFigures.Count; i++) File.WriteAllBytes(Path.Combine(directory, $"distinta-due-zone-{i + 1}.png"), twoFigures[i].Png);
