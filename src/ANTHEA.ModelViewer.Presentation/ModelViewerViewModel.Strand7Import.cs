@@ -11,7 +11,7 @@ public sealed partial class ModelViewerViewModel
     [ObservableProperty] string strand7ModelPath = "";
     [ObservableProperty] string strand7ResultsPath = "";
     [ObservableProperty] string strand7ApiPath = "";
-    [ObservableProperty] string strand7PreparationSummary = "Seleziona il modello .st7, gli eventuali risultati statici lineari .lsa e l’API R3 a 64 bit, poi controlla file e casi.";
+    [ObservableProperty] string strand7PreparationSummary = "Seleziona il modello .st7, gli eventuali risultati .lsa (statici lineari) o .nla (non lineari per fasi) e l’API R3 a 64 bit, poi controlla file e casi.";
     public bool IsStrand7Import => SelectedImportSource == 2;
     public bool IsLiveImport => IsMidasImport || IsStrand7Import;
     public bool HasStrand7Catalog => strand7Catalog != null;
