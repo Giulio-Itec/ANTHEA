@@ -43,7 +43,11 @@ public static partial class RetainingWall
         {
             notes.Add("Pseudostatica locale " + (wood ? "Wood semplificato" : "Mononobe–Okabe") + ": incremento dinamico a metà altezza, inerzia di muro e terreno sulla mensola, ±kv. Direzione verso valle. Portanza sismica Annex F con accelerazione del terreno indipendente dal kh ridotto del muro: interazione N–V–M, γRD e γR espliciti; ricoprimento favorevole escluso. Spostamenti Newmark e stabilità globale Bishop richiedono l’attivazione dei rispettivi calcoli separati.");
             if (DeriveSeismic(d) is { } derivation) notes.Add(derivation.Description + " Casi generali e ribaltamento separati; γR del preset SLV: scorrimento 1, ribaltamento 1, portanza 1,2. Matrici personalizzate: fanno fede kh, kv e coefficienti di ogni riga; l’accelerazione della fondazione è definita separatamente.");
-            else notes.Add("kh e kv assegnati: il preset manuale mantiene γR statici e non maggiora kh per il ribaltamento. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).");
+            // COMB-MURI-D5-NOTA: since D5 b (1.14.4, COMB-MURI-D4D5) the automatic seismic rows with assigned kh and kv have the γR of NTC 2018
+            // Tab. 7.11.III; the fixed cases of a version 1 document keep their own (R3 for sliding and overturning, 1.2 for the bearing).
+            else notes.Add(modern
+                ? "kh e kv assegnati: le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III, come quelle da parametri del sito (scorrimento 1, ribaltamento 1, portanza 1,2); kh non è maggiorato per il ribaltamento. Matrici personalizzate: fanno fede kh, kv e coefficienti di ogni riga. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV)."
+                : "kh e kv assegnati (documento della prima versione): i casi sismici fissi usano γR 1,1 a scorrimento e 1,15 a ribaltamento (R3) e 1,2 alla portanza sismica; kh non è maggiorato per il ribaltamento. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).");
         }
         notes.AddRange(wall.Warnings);
         var structural = StructuralChecks(d, cases.Where(c => c.Factors.S("purpose") != "Ribaltamento").ToList(), token, out double steel);
