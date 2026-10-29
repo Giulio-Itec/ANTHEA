@@ -8,7 +8,9 @@ namespace ANTHEA.ModelViewer.Presentation;
 
 public sealed partial class ModelViewerViewModel
 {
-    public IReadOnlyList<string> TableKinds { get; } = ["Nodi", "Elementi", "Sezioni", "Spessori e offset", "Vincoli e collegamenti", "Risultato corrente", "Attributi della selezione"];
+    // 1.16.0: reactions of the current case, masses, temperatures and stages of the copy (Straus7), after the historical kinds (saved indexes unchanged).
+    public IReadOnlyList<string> TableKinds { get; } = ["Nodi", "Elementi", "Sezioni", "Spessori e offset", "Vincoli e collegamenti", "Risultato corrente", "Attributi della selezione",
+        "Reazioni vincolari", "Masse", "Temperature", "Fasi"];
     public bool CanFilterTableVisibility => SelectedTableKind != 5;
     [ObservableProperty] private bool showTable;
     [ObservableProperty] private int selectedTableKind = 1;
@@ -38,11 +40,12 @@ public sealed partial class ModelViewerViewModel
         if (!ShowTable || Snapshot == null || disposed || updating) return;
         string state = string.Join("|", SelectedTableKind, TableOnlyVisible ? VisibleElementIds == null ? "all" : string.Join(",", VisibleElementIds.Order()) : "all",
             TableOnlySelected ? string.Join(",", SelectedElementIds.Order()) + "/" + string.Join(",", SelectedNodeIds.Order()) : "all", TableSearch,
-            SelectedTableKind == 5 ? $"{SelectedCase}/{Family}/{Axes}/{SelectedComponent}/{ForceUnit}/{LengthUnit}/{DisplacementUnit}/{SelectedBeamLocation}" : "",
+            SelectedTableKind == 5 ? $"{SelectedCase}/{Family}/{Axes}/{SelectedComponent}/{ForceUnit}/{LengthUnit}/{DisplacementUnit}/{SelectedBeamLocation}" : SelectedTableKind == 7 ? SelectedCase : "",
             SelectedTableKind == 6 ? SelectedTreeItem?.Key : "");
         if (!force && tableState == state) return;
         tableState = state;
-        var table = new DataTable(TableKinds[Math.Clamp(SelectedTableKind, 0, 6)]) { Locale = CultureInfo.CurrentCulture };
+        var table = new DataTable(TableKinds[Math.Clamp(SelectedTableKind, 0, TableKinds.Count - 1)]) { Locale = CultureInfo.CurrentCulture };
+        string? extraSummary = null;
         table.Columns.Add("ObjectKey", typeof(string));
         void Columns(params (string Name, Type Type)[] columns) { foreach (var c in columns) table.Columns.Add(c.Name, c.Type); }
         void Add(string key, params object?[] values)
@@ -107,6 +110,48 @@ public sealed partial class ModelViewerViewModel
                     Add("ELEM:"+v.Element,row);
                 }
                 break;
+            case 7:
+                {
+                    // Reported reactions of the current case (force of the support on the structure, global axes); the resultants come from the GPC check.
+                    var result = Snapshot.Results.FirstOrDefault(r => r.Name == SelectedCase);
+                    Columns(("Nodo", typeof(int)), ("Fx [kN]", typeof(double)), ("Fy [kN]", typeof(double)), ("Fz [kN]", typeof(double)),
+                        ("Mx [kN·m]", typeof(double)), ("My [kN·m]", typeof(double)), ("Mz [kN·m]", typeof(double)));
+                    foreach (var r in result?.Reactions ?? [])
+                        if ((AllNodes || nodes.Contains(r.Node)) && (!TableOnlySelected || SelectedNodeIds.Contains(r.Node))) Add("NODE:" + r.Node, r.Node, r.Fx, r.Fy, r.Fz, r.Mx, r.My, r.Mz);
+                    extraSummary = result == null ? "nessun caso scelto" : result.Reactions == null ? "il caso non ha reazioni importate" : ReactionSummary(result.Equilibrium);
+                    break;
+                }
+            case 8:
+                Columns(("Tipo", typeof(string)), ("Nodo / elemento", typeof(int)), ("Caso", typeof(string)), ("Valori", typeof(string)), ("Unità", typeof(string)),
+                    ("Offset [m]", typeof(string)), ("Fattore dinamico", typeof(double)), ("Sorgente", typeof(string)));
+                foreach (var m in Snapshot.Masses ?? [])
+                {
+                    bool node = m.Kind.StartsWith("NODE", StringComparison.Ordinal);
+                    if (node ? !AllNodes && !nodes.Contains(m.Entity) || TableOnlySelected && !SelectedNodeIds.Contains(m.Entity) : !Accept(m.Entity)) continue;
+                    Add((node ? "NODE:" : "ELEM:") + m.Entity, MassLabel(m.Kind), m.Entity, m.Case, Values(m.Values, m.Stations), MassUnit(m.Kind),
+                        m.Offset is { } o ? Values([o.X, o.Y, o.Z], null) : null, m.DynamicFactor, m.Record);
+                }
+                extraSummary = "dati del modello: nessun carico ne deriva";
+                break;
+            case 9:
+                Columns(("Tipo", typeof(string)), ("Nodo / elemento", typeof(int)), ("Caso", typeof(string)), ("Valori", typeof(string)), ("Unità", typeof(string)),
+                    ("Tipo di temperatura", typeof(string)), ("Sorgente", typeof(string)));
+                foreach (var x in Snapshot.Temperatures ?? [])
+                {
+                    bool node = x.Kind is "NODE" or "REFERENCE";
+                    if (x.Kind == "NODE" && (!AllNodes && !nodes.Contains(x.Entity) || TableOnlySelected && !SelectedNodeIds.Contains(x.Entity)) || !node && !Accept(x.Entity)) continue;
+                    Add(x.Kind == "REFERENCE" ? "" : (node ? "NODE:" : "ELEM:") + x.Entity, TemperatureLabel(x.Kind), x.Kind == "REFERENCE" ? null : x.Entity, x.Case,
+                        Values(x.Values, null), TemperatureUnit(x.Kind), x.Type, x.Record);
+                }
+                extraSummary = "dati del modello: nessun carico ne deriva";
+                break;
+            case 10:
+                Columns(("Fase", typeof(string)), ("Tipo", typeof(string)), ("Gruppi attivi", typeof(string)), ("Elementi attivi", typeof(int)), ("Risultati per fase", typeof(int)));
+                foreach (var s in Snapshot.ConstructionStages ?? [])
+                    Add("", s.Label, StageTypeLabel(s.Type), string.Join(", ", s.Groups), s.Elements.Count(e => !TableOnlyVisible || VisibleElementIds == null || VisibleElementIds.Contains(e)),
+                        Snapshot.Results.Count(r => r.Stage?.Phase == s.Label));
+                extraSummary = "fasi della sorgente: attivazione dei gruppi, nessuna simulazione in ANTHEA";
+                break;
             default:
                 Columns(("Attributo", typeof(string)), ("Valore", typeof(string)));
                 foreach (var a in Attributes) Add(SelectedTreeItem?.Key ?? "", a.Name, a.Value);
@@ -115,7 +160,33 @@ public sealed partial class ModelViewerViewModel
         TableRows = table.DefaultView;
         TableSummary = $"{table.Rows.Count:N0} righe · sola lettura · copia con Ctrl+C · ordina dalle intestazioni";
         if (SelectedTableKind == 5) TableSummary += " · campo e unità della vista";
+        if (extraSummary != null) TableSummary += " · " + extraSummary;
         ExportTableCommand.NotifyCanExecuteChanged();
+    }
+
+    static string Values(double[] values, double[]? stations) => string.Join("; ", values.Select((v, i) =>
+        (stations != null && i < stations.Length ? "x/L " + stations[i].ToString("G4", CultureInfo.CurrentCulture) + ": " : "") + v.ToString("G6", CultureInfo.CurrentCulture)));
+    static string MassLabel(string kind) => kind switch
+    {
+        "NODE" => "Massa nodale", "NODE-ROTATION" => "Massa rotazionale nodale", "NODE-NS" => "Massa non strutturale · nodo",
+        "BEAM-NS" => "Massa non strutturale · asta", "PLATE-NS" => "Massa non strutturale · piastra", _ => kind
+    };
+    static string MassUnit(string kind) => kind switch
+    {
+        "NODE" => "t (X, Y, Z globali)", "NODE-ROTATION" => "t·m² (assi 1, 2, 3)", "BEAM-NS" => "t/m", "PLATE-NS" => "t/m²", _ => "t"
+    };
+    static string TemperatureLabel(string kind) => kind switch
+    {
+        "REFERENCE" => "Temperatura di riferimento del caso", "NODE" => "Temperatura nodale", "BEAM-GRADIENT" => "Gradiente termico · asta",
+        "PLATE-GRADIENT" => "Gradiente termico · piastra", _ => kind
+    };
+    static string TemperatureUnit(string kind) => kind switch { "BEAM-GRADIENT" => "°C/m (assi principali 1, 2)", "PLATE-GRADIENT" => "°C/m (z locale)", _ => "°C" };
+    static string StageTypeLabel(string type) => type switch { "Morphed" => "Trasformata (morphed)", "Reset" => "Ripartenza (reset)", "Unmorphed" => "Non trasformata (unmorphed)", _ => type };
+    static string ReactionSummary(ANTHEA.ModelWorkspace.ModelEquilibrium? balance)
+    {
+        if (balance == null) return "equilibrio non controllato per questo risultato";
+        string Vector(double[] v) => string.Join(", ", v.Select(x => x.ToString("G6", CultureInfo.CurrentCulture)));
+        return $"risultante delle reazioni [{Vector(balance.ReactionForce)}] kN, dei carichi [{Vector(balance.AppliedForce)}] kN · " + balance.Note;
     }
 
     public string TableCsv()
@@ -137,7 +208,7 @@ public sealed partial class ModelViewerViewModel
     [RelayCommand(CanExecute = nameof(CanExportTable))]
     private void ExportTable()
     {
-        try { services.ExportTable(TableKinds[Math.Clamp(SelectedTableKind, 0, 6)], TableCsv()); }
+        try { services.ExportTable(TableKinds[Math.Clamp(SelectedTableKind, 0, TableKinds.Count - 1)], TableCsv()); }
         catch (Exception ex) { Status = "Tabella non esportata: " + ex.Message; }
     }
 }

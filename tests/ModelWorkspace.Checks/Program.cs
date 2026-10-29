@@ -93,6 +93,7 @@ static partial class Program
             SectionInspectionChecks(output);
             await Strand7ImportSetupChecks(output);
             await Strand7ImportChecks(output);
+            await Strand7DataChecks(output);
             ViewSettingsAndRevisionChecks();
             await ContourAveragingChecks();
             ExplorationChecks(output);

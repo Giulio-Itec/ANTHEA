@@ -95,6 +95,11 @@ static class Strand7Sample
                 results.NodeDisplacements.Add(new NodeDisplacementRecord { ElementId = node.Source.OriginalId, Case = name, State = State(name, 6),
                     Axes = new CoordinateSystem(node.Position, new Vector3d(1, 0, 0), new Vector3d(0, 1, 0), new Vector3d(0, 0, 1)),
                     Values = [scale * 1, scale * -2, scale * -3, scale * 1e-4, 0, scale * -2e-4], Record = "node " + node.Source.OriginalId + "/" + name });
+            // 1.16.0: support reactions of the restrained nodes 1 (0, 0, 0) and 4 (0, 1000, 0), a self-balanced pair: Fz ±100 N and Mx 1e5 N·mm at node 4.
+            foreach (var (node, values) in new[] { ("1", new[] { 0, 0, scale * 100, 0, 0, 0 }), ("4", new[] { 0, 0, scale * -100, scale * 1e5, 0, 0 }) })
+                results.NodeForces.Add(new NodeForceRecord { ElementId = node, Case = name, State = State(name, 6), Kind = NodalForceKind.SupportReaction, Body = ActionBody.OnNode,
+                    Axes = new CoordinateSystem(model.NodesElements.Values.Single(n => n.Source.OriginalId == node).Position, new Vector3d(1, 0, 0), new Vector3d(0, 1, 0), new Vector3d(0, 0, 1)),
+                    Values = values.Select(v => (double?)v).ToArray(), Record = "reaction " + node + "/" + name });
         }
         var imported = ResultMapper.Import(model, results);
         if (imported.Status != ImportStatus.Completed) throw new InvalidDataException("Synthetic Straus7 results rejected: " + string.Join("; ", imported.Diagnostics.Select(d => d.Code + " " + d.Message)));

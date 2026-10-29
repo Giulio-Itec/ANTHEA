@@ -1,0 +1,31 @@
+Straus7 R31 - native stages, masses and temperatures benchmark, 2026-10-29
+
+native-stages-r31.zip contains stages.st7, stages.LSA, stages-stage1.LSA and stages.NLA, created and solved by
+UnitTest/Fixtures/Straus7/generate_native_stages_fixture.py through the installed, licensed Straus7 R31 API
+(St7api.dll R3.1.5). No previous fixture or expected value was regenerated. The production converter only reads;
+the script alone creates and solves this new model.
+
+SHA256 stages.st7          B5287F1DFD4D81DFBD4FA12A50411F2BB5331748E930F79E3BA8B7E706FE0454
+SHA256 stages.LSA          03AA9D5AE4F9470EC51D71E4DF4BABE8EDB2DADB24B4A090118366A23101D1F4
+SHA256 stages-stage1.LSA   AC44F33C110F3DD29ED30A7137BDB3680C322308F3AA6A92887EEE489BEFECBA
+SHA256 stages.NLA          D17D25C9101AFC25AE7540E3ED5473B91B360284F030E41F79E9FECB93333AEC
+SHA256 zip                 68D774908F1BDD1966531EF6661C32EC106CE9DAD7841485F99E0E823E5AE9A8
+
+Model (mm, N, MPa, tonne, Celsius; 8 nodes, 3 beam elements, 1 plate):
+  beam 1 (1-2) and beam 2 (2-3) along +X, steel I 400 x 200 x 16/10; truss 3 (4-2) CHS 114.3 x 6.3; plate 1 (5-6-7-8) 200 mm steel shell;
+  groups "Deck" (beam 1, plate 1) and "Span 2" (beam 2, truss 3) under "Model"; stage 1 "Deck only" (Span 2 disabled), stage 2 "Complete";
+  nodes 1, 4, 5, 8 fixed, node 3 pinned;
+  masses: node 3 translational 0.5 t and rotational 10/20/30 t mm2 (global); case 1 non-structural: node 2 0.2 t (offset Z 100 mm),
+  beam 1 1e-4 t/mm, plate 1 2e-7 t/mm2;
+  case 1 "Dead": gravity -Z on structural and non-structural mass; case 2 "Live": node 2 Fz -1000 N; case 3 "Thermal": reference 10 C,
+  nodes 1-3 at 40 C, beam 1 gradient 0.01 C/mm (principal axis 1), plate 1 gradient 0.02 C/mm; LSA combination "ULS" = 1.35 Dead + 1.5 Live.
+Solutions: stages.LSA linear static without active stage (result cases "1: Dead", "2: Live", "3: Thermal", stage 0); stages-stage1.LSA
+linear static with active stage 1 (same names, stage 1; beam 2 and truss 3 inactive: St7GetElementResultState 0, 0, 0); stages.NLA staged
+nonlinear static (cases "1: Dead [Deck only][U]" stage 1, "2: Live half [Complete][U]" and "3: Live full [Complete][U]" stage 2; beam 2 and
+truss 3 born in stage 2).
+Hand check of case 1 of stages.LSA: weight = (0.63302 beams + 0.05034 truss + 1.57 plate + 0.5 node mass + 0.8 non-structural) t
+x 9806.65 mm/s2 = 34 846.6 N, equal to the sum of the vertical reactions reported by the solver (34 846.59 N).
+
+Checked by Straus7NativeStagesTest (opt-in, GPC_STRAUS7_STAGES=versioned): stage definitions and active elements, masses and temperatures
+as Straus7ModelData, equilibrium of the loads (gravity on structural, node and non-structural masses) against the solver reactions,
+results of the active stage 1 without the inactive elements, staged NLA states per stage and increment.

@@ -92,6 +92,21 @@ static partial class Program
             var combination = vm.Snapshot!.SourceCombinations!.Definitions[0].Id;
             var task = new GpcModelCombinationService().CalculateAsync(vm.Snapshot, combination); Await(task, 120);
             Check(task.Result.Results.Single().Values.Length > 0, "the Straus7 LSA combination is rebuilt by GPC from the imported cases");
+            // 1.16.0: support reactions of the current case in the table of the viewer, with the GPC equilibrium check of the real worker.
+            vm.SelectedCase = vm.Cases.First(); vm.ShowTable = true; vm.TableOnlyVisible = false; vm.SelectedTableKind = 7; Wait(400);
+            Check(vm.TableRows is { Count: > 0 } rows && Children<DataGrid>(control).Any(g => g.IsVisible && g.Items.Count == rows.Count) &&
+                  (!native || vm.TableSummary.Contains("in equilibrio")), "Straus7 reactions of the current case in the table of the viewer" + (native ? " with the GPC equilibrium check" : ""));
+            Capture(control, viewport, Path.Combine(directory, "straus7-reazioni.png"));
+            string Cell(string header)
+            {
+                var grid = Children<DataGrid>(control).Single(g => g.IsVisible); grid.UpdateLayout();
+                var column = grid.Columns.Single(c => c.Header as string == header);
+                return (column.GetCellContent(grid.Items[0]) as TextBlock)?.Text ?? "";
+            }
+            Check(Cell("Fz [kN]").Length > 0, "table cells of a column with the unit in brackets are bound (reactions, Fz [kN])");
+            vm.SelectedTableKind = 0; Wait(250);
+            Check(Cell("X [m]").Length > 0, "table cells of a column with the unit in brackets are bound (nodes, X [m])");
+            vm.ShowTable = false; vm.SelectedTableKind = 1; Wait(100);
             vm.SelectedImportSource = 0;
         }
         field.SetValue(state, production); SetAppearance("Light");

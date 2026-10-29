@@ -126,20 +126,23 @@ public sealed partial class GpcModelCombinationService
     static ModelResultSet DisplayResult(ModelSnapshot snapshot,ModelCombinationDefinition definition,string[] required,string revision,
         (Element Owner,ResultLocation Sample)[] samples,IReadOnlyDictionary<int,int> sourceNodes,string[] labels,bool envelope,bool maximum,CancellationToken token)
     {
-        var corners=new List<CornerResult>();var fields=new Dictionary<string,List<ResultValue>>();
-        var displacements=new List<ModelDisplacement>();var governing=new List<ModelCombinationGoverning>();
+        var corners=new List<CornerResult>();var fields=new Dictionary<(string Family,string Component),List<ResultValue>>();
+        var displacements=new List<ModelDisplacement>();var reactions=new List<ModelReaction>();var governing=new List<ModelCombinationGoverning>();
+        var elements=snapshot.Elements.ToDictionary(e=>e.Id);
+        // 1.16.0: displacements and reactions of a node are separate groups; members take the family of their document element (BEAM, TRUSS, CABLE).
         foreach(var group in samples.GroupBy(p=>(p.Owner,p.Sample is PointResultPlateForces plate?plate.SourceNodeId:0,
-            p.Sample is StationResultBeamForces beam?(double?)beam.ParametricDistance:null)))
+            p.Sample is StationResultBeamForces beam?(double?)beam.ParametricDistance:null,p.Sample is NodeResultForces)))
         {
             token.ThrowIfCancellationRequested();
             int id=int.Parse(group.Key.Owner.Source.OriginalId,CultureInfo.InvariantCulture);
             var first=group.First().Sample;
-            string family=first is PointResultPlateForces?"PLATE":first is StationResultBeamForces?"BEAM":"NODE";
+            string family=first is PointResultPlateForces?"PLATE":first is StationResultBeamForces?elements[id].Type:first is NodeResultForces?"REACTION":"NODE";
             // GPC's SourceNodeId is the node's internal Model ID after mapping. Resolve its source identity explicitly.
             int node=family=="PLATE"?sourceNodes[group.Key.Item2??throw new InvalidDataException("Risultato plate privo del nodo sorgente.")]:
-                family=="NODE"?id:group.Key.Item3==0?snapshot.Elements.Single(e=>e.Id==id).Nodes[0]:group.Key.Item3==1?snapshot.Elements.Single(e=>e.Id==id).Nodes[1]:0;
-            string[] components=family=="PLATE"?ModelSnapshot.Components:family=="BEAM"?ResultFields.Components("BEAM","LOCAL").ToArray():["ux","uy","uz"];
-            string[] canonical=family=="PLATE"?["Mxx","Myy","Mxy","Nxx","Nyy","Nxy","Qx","Qy"]:family=="BEAM"?["N","V1","V2","T","M1","M2"]:["Dx","Dy","Dz"];
+                family is "NODE" or "REACTION"?id:group.Key.Item3==0?elements[id].Nodes[0]:group.Key.Item3==1?elements[id].Nodes[1]:0;
+            string[] components=family switch {"PLATE"=>ModelSnapshot.Components,"NODE"=>["ux","uy","uz"],"REACTION"=>[..ModelReactions.Components],_=>ResultFields.Components(family,"LOCAL").ToArray()};
+            string[] canonical=family switch {"PLATE"=>["Mxx","Myy","Mxy","Nxx","Nyy","Nxy","Qx","Qy"],"NODE"=>["Dx","Dy","Dz"],"REACTION"=>["Fx","Fy","Fz","Mx","My","Mz"],
+                "BEAM"=>["N","V1","V2","T","M1","M2"],_=>["N"]};
             var values=new double[components.Length];
             for(int c=0;c<components.Length;c++)
             {
@@ -156,14 +159,16 @@ public sealed partial class GpcModelCombinationService
                 var vector=DisplayVector(first);
                 displacements.Add(new(id,values[0],values[1],values[2]){Rotation=envelope?null:new(vector[3],vector[4],vector[5])});
             }
+            else if(family=="REACTION")reactions.Add(new(id,values[0],values[1],values[2],values[3],values[4],values[5]));
             else for(int c=0;c<components.Length;c++)
-            {if(!fields.TryGetValue(components[c],out var list))fields[components[c]]=list=[];list.Add(new(id,node,values[c],group.Key.Item3));}
+            {if(!fields.TryGetValue((family,components[c]),out var list))fields[(family,components[c])]=list=[];list.Add(new(id,node,values[c],group.Key.Item3));}
         }
         string name=definition.Name+" ["+definition.Source+"]"+(envelope?(maximum?" (max)":" (min)"):"");
         return new(name,envelope,corners.ToArray())
         {
-            Fields=fields.Select(p=>new ResultField("BEAM","LOCAL",p.Key,p.Value.ToArray())).ToArray(),
+            Fields=fields.OrderBy(p=>p.Key.Family=="BEAM"?0:1).Select(p=>new ResultField(p.Key.Family,"LOCAL",p.Key.Component,p.Value.ToArray())).ToArray(),
             Displacements=displacements.Count>0?displacements.ToArray():null,
+            Reactions=reactions.Count>0?reactions.OrderBy(r=>r.Node).ToArray():null,
             Combination=new(definition.Id,revision,"GPCModel 5 / GPC.Converter 2.0.3",required,governing.ToArray(),labels)
         };
     }

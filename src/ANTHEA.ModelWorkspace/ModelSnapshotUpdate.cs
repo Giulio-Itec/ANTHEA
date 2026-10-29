@@ -31,12 +31,16 @@ public static class ModelSnapshotUpdate
         bool geometryOnly=scope==ModelUpdateScope.Geometry;
         var result=new ModelSnapshot
         {
-            Version=basis.Version,Name=basis.Name,Source=basis.Source,
+            // 1.16.0: results for stage (Straus7 NLA) need the format 2 also when they update a copy of format 1.
+            Version=scope==ModelUpdateScope.Results?Math.Max(basis.Version,incoming.Version):basis.Version,Name=basis.Name,Source=basis.Source,
             Nodes=basis.Nodes.ToArray(),Elements=basis.Elements.ToArray(),Plates=basis.Plates.ToArray(),Sections=basis.Sections.ToArray(),
             LocalFrames=basis.LocalFrames?.ToArray(),NodeFrames=basis.NodeFrames?.ToArray(),
             Boundaries=geometryOnly?null:basis.Boundaries?.ToArray(),
             SourceTables=geometryOnly?null:basis.SourceTables?.ToDictionary(p=>p.Key,p=>p.Value),
             SourceCombinations=geometryOnly?null:basis.SourceCombinations,
+            // 1.16.0: masses, temperatures and stages are attributes of the model, like the boundaries.
+            Masses=geometryOnly?null:basis.Masses?.ToArray(),Temperatures=geometryOnly?null:basis.Temperatures?.ToArray(),
+            ConstructionStages=geometryOnly?null:basis.ConstructionStages?.ToArray(),
             Results=scope==ModelUpdateScope.Results?incoming.Results.Where(r=>r.Combination==null).ToArray():[],
             CustomCombinations=(current?.CustomCombinations??incoming.CustomCombinations)?.ToArray(),
             ExcludedCombinationIds=(current?.ExcludedCombinationIds??incoming.ExcludedCombinationIds)?.ToArray(),
@@ -66,6 +70,9 @@ public static class ModelSnapshotUpdate
         static object[] Boundaries(ModelSnapshot model)=>(model.Boundaries??[]).OrderBy(b=>b.SourceRecord,StringComparer.Ordinal).ThenBy(b=>b.Kind,StringComparer.Ordinal).ThenBy(b=>b.Element).ThenBy(b=>string.Join(",",b.Nodes),StringComparer.Ordinal).ThenBy(b=>b.Dofs,StringComparer.Ordinal).Cast<object>().ToArray();
         Require(Equal(JsonSerializer.SerializeToElement(Boundaries(current)),JsonSerializer.SerializeToElement(Boundaries(incoming))),"vincoli, rilasci e collegamenti");
         Require(Equal(JsonSerializer.SerializeToElement(current.SourceCombinations),JsonSerializer.SerializeToElement(incoming.SourceCombinations)),"casi e combinazioni della sorgente");
+        Require(Equal(JsonSerializer.SerializeToElement(current.Masses),JsonSerializer.SerializeToElement(incoming.Masses))&&
+            Equal(JsonSerializer.SerializeToElement(current.Temperatures),JsonSerializer.SerializeToElement(incoming.Temperatures))&&
+            Equal(JsonSerializer.SerializeToElement(current.ConstructionStages),JsonSerializer.SerializeToElement(incoming.ConstructionStages)),"masse, temperature e fasi");
         var a=current.SourceTables??[];var b=incoming.SourceTables??[];
         Require(a.Count==b.Count,"tabelle disponibili");
         foreach(var table in a)
