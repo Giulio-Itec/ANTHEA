@@ -294,7 +294,7 @@ static partial class Program
         {
             var parts = size.Split('x'); int elements = int.Parse(parts[0], CultureInfo.InvariantCulture), cases = int.Parse(parts[1], CultureInfo.InvariantCulture);
             var watch = Stopwatch.StartNew();
-            var source = elements switch { 100 => SyntheticMidasModel(5, 8, 100, cases), 500 => SyntheticMidasModel(15, 14, 500, cases), 24 => SyntheticMidasModel(3, 2, 24, cases), _ => throw new ArgumentException("Modelli: 24, 100 o 500 elementi.") };
+            var source = ModelOfSize(elements, cases);
             Console.WriteLine($"{source.Label}: modello sintetico in {watch.Elapsed.TotalMilliseconds:F0} ms; {source.Snapshot.Nodes.Length} nodi");
             var times = new TimingRecorder(); string? digest = null; int definitions = 0, linear = 0;
             for (int run = 0; run < warmup + runs; run++)
@@ -330,6 +330,20 @@ static partial class Program
         Console.WriteLine(markdown);
         File.WriteAllText(Path.Combine(output, "esito.txt"), "PASS tempi delle combinazioni");
         return 0;
+    }
+
+    /// <summary>The models of the measures (24, 100 and 500 elements, the layouts of the registered digests) and, for the long campaign, any
+    /// other size: about half plates on a slab of proportion 3:2, the rest edge beams and columns under the slab nodes.</summary>
+    static TimingModel ModelOfSize(int elements, int cases)
+    {
+        if (elements == 24) return SyntheticMidasModel(3, 2, 24, cases);
+        if (elements == 100) return SyntheticMidasModel(5, 8, 100, cases);
+        if (elements == 500) return SyntheticMidasModel(15, 14, 500, cases);
+        int nx = Math.Max(2, (int)Math.Round(Math.Sqrt(elements * .75))), ny = Math.Max(1, (int)Math.Round(elements * .5 / nx));
+        while (ny > 1 && nx * ny + 2 * (nx + ny) > elements) ny--;
+        int columns = elements - nx * ny - 2 * (nx + ny);
+        if (elements < 24 || columns < 0 || columns > (nx + 1) * (ny + 1)) throw new ArgumentException($"Modello di {elements} elementi non costruibile: usa almeno 24 elementi.");
+        return SyntheticMidasModel(nx, ny, elements, cases);
     }
 
     static bool IsRelease() =>
