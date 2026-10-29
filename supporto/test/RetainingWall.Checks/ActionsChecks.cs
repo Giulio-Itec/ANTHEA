@@ -25,6 +25,33 @@ internal static class ActionsChecks
             Near(upgraded.Cases[0].Vertical, old.Cases[0].Vertical, "Migrazione conserva i pesi");
             Near(upgraded.Cases[0].Overturning, old.Cases[0].Overturning, "Migrazione conserva i momenti");
             Check(upgraded.Cases.Count == old.Cases.Count, "Gruppo legacy conserva otto SLU e tre SLE");
+            // UPG-PSI0-01: un documento della prima versione ha ψ1 e ψ2 dei carichi, non ψ0. Aggiornato, ψ0 resta 0,7 se ψ1 ≤ 0,7, altrimenti 1
+            // (categoria E della NTC 2018 Tab. 2.5.I, l'unica con ψ1 > 0,7): il documento si apre valido. I tre carichi sono un gruppo solo, sempre
+            // principale: ψ0 non entra in nessuna riga, quindi i risultati sono quelli dello stesso documento con un altro ψ0 valido (1) e, senza
+            // sisma, quelli dei casi fissi della prima versione (con il sisma le righe della versione 2 hanno D5 b e D6).
+            foreach (var (p1, p2) in new[] { (.5, .3), (.7, .6), (.75, .5), (.9, .8), (1d, 1d) })
+                foreach (var (water, withSeismic) in new[] { (false, false), (true, false), (false, true) })
+                {
+                    var v1 = RetainingWall.LegacyDefaults(); v1["loads"]!["psi1"] = p1; v1["loads"]!["psi2"] = p2; v1["loads"]!["horizontal"] = 5; v1["loads"]!["vertical"] = 10;
+                    v1["water"]!["enabled"] = water; if (water) v1["water"]!["depth"] = 1.4;
+                    if (withSeismic) { v1["seismic"]!["enabled"] = true; v1["seismic"]!["kh"] = .1; v1["seismic"]!["kv"] = .05; }
+                    string id = $"UPG-PSI0-01 ψ {p1}/{p2}{(water ? ", falda" : "")}{(withSeismic ? ", sisma" : "")}";
+                    var fixedCases = RetainingWall.Calculate((JsonObject)v1.DeepClone());
+                    var up = (JsonObject)v1.DeepClone(); RetainingWall.Upgrade(up);
+                    Check(up.Array("actions").All(a => a.D("psi0") == (p1 > .7 ? 1 : .7) && a.D("psi1") == p1 && a.D("psi2") == p2), id + ": ψ0 dei carichi aggiornati");
+                    var opened = RetainingWall.Calculate(up);
+                    var other = (JsonObject)up.DeepClone(); foreach (var a in other.Array("actions")) a!["psi0"] = 1;
+                    var reference = RetainingWall.Calculate(other);
+                    Check(opened.Cases.Select(c => c.Name).SequenceEqual(reference.Cases.Select(c => c.Name))
+                        && opened.Cases.Zip(reference.Cases).All(c => c.First.Horizontal == c.Second.Horizontal && c.First.Vertical == c.Second.Vertical && c.First.Overturning == c.Second.Overturning)
+                        && opened.Checks.Select(c => (c.Name, c.Combination, c.Ratio)).SequenceEqual(reference.Checks.Select(c => (c.Name, c.Combination, c.Ratio))),
+                        id + ": documento aggiornato valido, risultati indipendenti da ψ0");
+                    if (withSeismic) continue;
+                    double? Worst(RetainingWall.Result r, string check) => r.Checks.Where(c => c.Name == check && c.Ratio.HasValue).Max(c => c.Ratio);
+                    foreach (string check in new[] { "Scorrimento", "Ribaltamento", "Capacità portante" })
+                        Check(Worst(opened, check) is double u && Worst(fixedCases, check) is double v && Math.Abs(u - v) <= 1e-9 * Math.Max(1, Math.Abs(v)),
+                            id + ": " + check + " governante uguale a quello dei casi fissi della prima versione");
+                }
             var d = RetainingWall.Example("gravity"); var q1 = d.Array("actions")[0]!; q1["group"] = ""; q1["psi0"] = .6;
             var q2 = RetainingWall.NewAction(d); q2["value"] = 20; q2["psi0"] = .8; q2["psi1"] = .6; d.Array("actions").Add(q2);
             var combinations = RetainingWall.GenerateCombinations(d);

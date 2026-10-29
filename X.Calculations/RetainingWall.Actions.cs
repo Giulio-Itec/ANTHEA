@@ -30,6 +30,11 @@ public static partial class RetainingWall
         {
             if (l.D(key) == 0 && key != "surcharge") continue;
             var a = NewAction(d, type); a["value"] = l[key]!.DeepClone(); a["psi1"] = l["psi1"]!.DeepClone(); a["psi2"] = l["psi2"]!.DeepClone();
+            // A version 1 document has ψ1 and ψ2 of its loads, not ψ0. ψ0 stays the one of a new action (0.7) when ψ1 does not exceed it; above,
+            // ψ0 = 1 of the category E of NTC 2018 Tab. 2.5.I, the only category with ψ1 > 0.7, so that ψ2 ≤ ψ1 ≤ ψ0 holds and the document
+            // opens valid (until 1.15.0 it was refused, «Deve risultare ψ₂ ≤ ψ₁ ≤ ψ₀»). The three loads are one correlated group, always the
+            // leading one: ψ0 enters no combination row, so the results do not depend on it (registro UPG-PSI0-01).
+            if (J.Number(l["psi1"]) is double psi1 && psi1 > (double)a["psi0"]!) a["psi0"] = 1d;
             a["group"] = "legacy"; actions.Add(a); // Preserve the correlation of the three original components.
         }
         d["actions"] = actions; d["combinations"] = new JsonArray(); d["combination_mode"] = "Automatiche";
