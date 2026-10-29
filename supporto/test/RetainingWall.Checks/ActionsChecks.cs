@@ -40,13 +40,20 @@ internal static class ActionsChecks
             // MUR-1 (esteso agli eccezionali il 16/10): le righe proprie, ognuna con l'eventuale gemella «b» senza ψ2·q sulla mensola.
             var r = RetainingWall.Calculate(d); var accidents = r.Cases.Where(c => c.State == "ECCEZIONALE" && c.VariableSurchargeOnHeel).ToArray();
             Check(r.Cases.Where(c => c.State == "ECCEZIONALE" && !c.VariableSurchargeOnHeel).All(t => accidents.Any(p => p.Name + "b" == t.Name && p.Actions.Select(a => a.Factor).SequenceEqual(t.Actions.Select(a => a.Factor)))), "MUR-1: gemelle eccezionali accanto alla propria riga");
-            Check(accidents.Length == 2 && accidents.All(c => c.Actions.Count(a => a.Type == "Urto" && a.Factor != 0) == 1), "Eventi eccezionali separati");
+            // Censimento D6 a (decisione del 28/10/2026): ψ₂·Q solo se sfavorevole, quindi per ogni urto i due gruppi variabili q1 e q2 presenti
+            // (ψ₂ = 0,3) o assenti: 4 righe per urto, la prima con entrambi.
+            Check(accidents.Length == 8 && accidents.All(c => c.Actions.Count(a => a.Type == "Urto" && a.Factor != 0) == 1), "Eventi eccezionali separati, con le variabili presenti o assenti");
             Check(r.Cases.Where(c => c.State != "ECCEZIONALE").All(c => c.Actions.Where(a => a.Type == "Urto").All(a => a.Factor == 0)), "Urto assente nelle combinazioni ordinarie");
-            Check(accidents.All(c => c.Actions.Where(a => a.Type == "Sovraccarico uniforme").All(a => a.Factor == .3)), "Eccezionali con ψ₂ delle variabili");
-            var a1 = accidents.Single(c => c.Actions.Single(a => a.Id == impact.S("id")).Factor == 1);
+            Check(accidents.All(c => c.Actions.Where(a => a.Type == "Sovraccarico uniforme").All(a => a.Factor is .3 or 0)), "Eccezionali con ψ₂ delle variabili presenti");
+            foreach (var u in new[] { impact, impact2 })
+            {
+                var rows = accidents.Where(c => c.Actions.Single(a => a.Id == u.S("id")).Factor == 1).Select(c => (c.Actions.Single(a => a.Id == q1.S("id")).Factor, c.Actions.Single(a => a.Id == q2.S("id")).Factor)).ToArray();
+                Check(rows.SequenceEqual([(.3, .3), (0, .3), (.3, 0), (0, 0)]), "D6 a: q1 e q2 presenti, q1 assente, q2 assente, entrambi assenti");
+            }
+            var a1 = accidents.First(c => c.Actions.Single(a => a.Id == impact.S("id")).Factor == 1);
             var qp = r.Cases.Single(c => c.State == "SLE_QP"); Near(a1.Horizontal - qp.Horizontal, 40, "Urto: somma delle forze"); Near(a1.Overturning - qp.Overturning, 80, "Urto: braccio assegnato");
             impact["visible"] = false; Near(RetainingWall.Calculate(d).Cases[0].Horizontal, r.Cases[0].Horizontal, "Visibilità non modifica il calcolo");
-            impact["enabled"] = false; Check(RetainingWall.GenerateCombinations(d).Count(c => c.S("state") == "ECCEZIONALE" && WallModelRow(c)) == 1, "Azione esclusa non genera casi");
+            impact["enabled"] = false; Check(RetainingWall.GenerateCombinations(d).Count(c => c.S("state") == "ECCEZIONALE" && WallModelRow(c)) == 4, "Azione esclusa non genera casi (le 4 righe dell'altro evento, D6 a)");
             d = RetainingWall.Example("gravity"); d.Array("actions").Clear();
             var hor = RetainingWall.NewAction(d, "Forza orizzontale"); hor["value"] = 10; hor["z"] = 1.45; d.Array("actions").Add(hor);
             var moment = RetainingWall.NewAction(d, "Momento"); moment["value"] = 8; moment["z"] = 3.45; d.Array("actions").Add(moment);
@@ -69,13 +76,15 @@ internal static class ActionsChecks
             d.Array("actions")[0]!["psi0"] = .9; Reject(d, "Matrice obsoleta dopo modifica ψ bloccata");
             d["combination_signature"] = RetainingWall.CombinationSignature(d); def["coefficients"]![hor.S("id")] = ""; Reject(d, "Coefficiente vuoto rifiutato");
             var seismic = RetainingWall.Example("gravity"); seismic["seismic"]!["source"] = RetainingWall.SeismicManual; seismic["seismic"]!["enabled"] = true; seismic["seismic"]!["method"] = "Wood semplificato"; seismic["seismic"]!["kv"] = 0;
-            var wr = RetainingWall.Calculate(seismic); var wc = wr.Cases.Single(c => c.State == "SISMA" && c.VariableSurchargeOnHeel); double ht = 3.45;
+            // La riga con ψ₂·q presente: la prima della variante (D6 a aggiunge quella con q assente).
+            var wr = RetainingWall.Calculate(seismic); var wc = wr.Cases.First(c => c.State == "SISMA" && c.VariableSurchargeOnHeel); double ht = 3.45;
+            Check(wr.Cases.Count(c => c.State == "SISMA" && c.VariableSurchargeOnHeel) == 2 && wr.Cases.Last(c => c.State == "SISMA").Actions.Where(a => a.Type == "Sovraccarico uniforme").All(a => a.Factor == 0), "D6 a: kv = 0, q presente e assente");
             Near(wc.PressureDetails[0].K, .5, "Wood: K₀ per terreno normalmente consolidato");
             Near(wc.PressureDetails[0].Dynamic * ht, .1 * 18 * ht * ht, "Wood: risultante kh γ Ht²");
             Near(wc.PressureDetails[0].Surcharge, .5 * 10 * .3, "Wood: componente statica del sovraccarico esplicita");
             var woodCustom = (JsonObject)seismic.DeepClone(); var woodDef = Single(woodCustom, "SISMA"); woodDef["soil"] = 1.3;
             Near(RetainingWall.Calculate(woodCustom).Cases[0].PressureDetails[0].Dynamic, wc.PressureDetails[0].Dynamic * 1.3, "γ terreno personalizzato applicato anche alla componente sismica");
-            seismic["seismic"]!["method"] = "Mononobe–Okabe"; seismic["seismic"]!["kh"] = 0; var mo = RetainingWall.Calculate(seismic).Cases.Single(c => c.State == "SISMA" && c.VariableSurchargeOnHeel);
+            seismic["seismic"]!["method"] = "Mononobe–Okabe"; seismic["seismic"]!["kh"] = 0; var mo = RetainingWall.Calculate(seismic).Cases.First(c => c.State == "SISMA" && c.VariableSurchargeOnHeel);
             Near(mo.PressureDetails[0].K, 1d / 3, "MO usa Ka"); Near(mo.PressureDetails[0].Dynamic, 0, "MO a kh=0 non genera incremento");
             var rc = RetainingWall.Defaults(); rc["geometry"]!["stem_top"] = .4; rc["reinforcement"]!["two_zones"] = true; rc["reinforcement"]!["lower_height"] = 1.2; rc["reinforcement"]!["stem_upper"]!["diameter"] = 12;
             Near(RetainingWall.SectionInput(rc, "Fusto", .4, 1).D("top_bar_diameter_mm"), 12, "Sezione superiore usa Ø12");
