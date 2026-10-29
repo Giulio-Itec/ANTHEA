@@ -36,6 +36,7 @@
   "COMB-D6": 11493,
   "COMB-MURI-D4D5": 4649,
   "COMB-MURI-D4D5 / COMB-D6": 54,
+  "COMB-MURI-D5-NOTA": 4,
   "F2-17 (SLU-2)": 28,
   "F2-17 (SLU-2) / AG-CA-01": 19,
   "F3-11": 315,
@@ -588998,6 +588999,38 @@
    "a": null,
    "b": "{\"Combination\":\"Dettagli\",\"Demand\":500,\"Member\":null,\"Name\":\"heel \\u00B7 superiore \\u00B7 ingombro ancoraggio\",\"Position\":null,\"Ratio\":0.4340277777777777,\"Resistance\":1152.0000000000002,\"Status\":\"Soddisfatta\",\"Unit\":\"mm\"}",
    "voce": "COMB-D6"
+  },
+  {
+   "file": "sheets/geo_muri_sostegno/mensola-wood-azioni/report.txt",
+   "percorso": "riga 16",
+   "classe": "testo",
+   "a": "¶ kh e kv assegnati: il preset manuale mantiene γR statici e non maggiora kh per il ribaltamento. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).",
+   "b": "¶ kh e kv assegnati: le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III, come quelle da parametri del sito (scorrimento 1, ribaltamento 1, portanza 1,2); kh non è maggiorato per il ribaltamento. Matrici personalizzate: fanno fede kh, kv e coefficienti di ogni riga. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).",
+   "voce": "COMB-MURI-D5-NOTA"
+  },
+  {
+   "file": "sheets/geo_muri_sostegno/mensola-wood-azioni/result.json",
+   "percorso": "$.avvisi[11]",
+   "classe": "testo",
+   "a": "kh e kv assegnati: il preset manuale mantiene γR statici e non maggiora kh per il ribaltamento. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).",
+   "b": "kh e kv assegnati: le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III, come quelle da parametri del sito (scorrimento 1, ribaltamento 1, portanza 1,2); kh non è maggiorato per il ribaltamento. Matrici personalizzate: fanno fede kh, kv e coefficienti di ogni riga. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).",
+   "voce": "COMB-MURI-D5-NOTA"
+  },
+  {
+   "file": "sheets/geo_muri_sostegno/opzioni-avanzate/report.txt",
+   "percorso": "riga 15",
+   "classe": "testo",
+   "a": "¶ kh e kv assegnati: il preset manuale mantiene γR statici e non maggiora kh per il ribaltamento. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).",
+   "b": "¶ kh e kv assegnati: le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III, come quelle da parametri del sito (scorrimento 1, ribaltamento 1, portanza 1,2); kh non è maggiorato per il ribaltamento. Matrici personalizzate: fanno fede kh, kv e coefficienti di ogni riga. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).",
+   "voce": "COMB-MURI-D5-NOTA"
+  },
+  {
+   "file": "sheets/geo_muri_sostegno/opzioni-avanzate/result.json",
+   "percorso": "$.avvisi[10]",
+   "classe": "testo",
+   "a": "kh e kv assegnati: il preset manuale mantiene γR statici e non maggiora kh per il ribaltamento. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).",
+   "b": "kh e kv assegnati: le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III, come quelle da parametri del sito (scorrimento 1, ribaltamento 1, portanza 1,2); kh non è maggiorato per il ribaltamento. Matrici personalizzate: fanno fede kh, kv e coefficienti di ogni riga. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).",
+   "voce": "COMB-MURI-D5-NOTA"
   }
  ],
  "aggiornamento_spettri": {
@@ -589110,5 +589143,20 @@
    "sheets/geo_muri_sostegno/globale-non-drenata-sisma/report.txt riga 2035#1 (PARATIE-20)"
   ],
   "nota": "1.16.0, set candidato b (Model lib-1160/combinazioni 1f48507b, GPCModel 5.24.0.0; Checker 3f0623f9, Geotechnics 0.26.0.0). Muri, decisione dell'utente del 28/10/2026 «Come raccomandato», censimento D6 a: nelle righe sismiche ed eccezionali (anche globali) ogni gruppo variabile presente (psi2) o assente. Solo le quattro fixture con righe sismiche o eccezionali e variabili (globale-non-drenata-sisma, mensola-sisma-sito-pendio, mensola-wood-azioni, opzioni-avanzate): righe nuove, righe sismiche ed eccezionali successive rinumerate, elementi spostati dall'inserimento, conteggi. Tolte le righe nuove e rinominate le altre, result.json e i dati sono uguali a quelli del set AL e le righe di tabella del report sono le stesse (confronto semantico d6_confronto.py); nessun rapporto massimo cambia. Sostituite 992 voci elencate il cui valore dopo cambia (AG-MUR-01 / COMB-D6 718, COMB-MURI-D4D5 / COMB-D6 54, PARATIE-20 / COMB-D6 220); 0 righe elencate spostate. Tolte 1 transizioni di righe del report spostate dalle righe inserite (il loro stato nuovo e' nelle differenze COMB-D6 dello stesso file). Aggiunte 11493 COMB-D6. Nessun atteso F3 sostituito, nessuna tolleranza nuova."
+ },
+ "aggiornamento_1160_nota": {
+  "data": "2026-10-29",
+  "cattura": "supporto/artefatti/1160-combinazioni/registra-nota",
+  "registro": [
+   "COMB-MURI-D5-NOTA"
+  ],
+  "aggiunte": 4,
+  "file": [
+   "sheets/geo_muri_sostegno/mensola-wood-azioni/report.txt",
+   "sheets/geo_muri_sostegno/mensola-wood-azioni/result.json",
+   "sheets/geo_muri_sostegno/opzioni-avanzate/report.txt",
+   "sheets/geo_muri_sostegno/opzioni-avanzate/result.json"
+  ],
+  "nota": "1.16.0, seguito di COMB-MURI-D4D5 (D5 b, 1.14.4): la nota «kh e kv assegnati» dei muri della versione 2 diceva ancora «il preset manuale mantiene γR statici», non più vero dal set AK: le righe sismiche automatiche con kh e kv assegnati hanno i γR della Tab. 7.11.III (scorrimento 1, ribaltamento 1, portanza 1,2). Solo il testo della nota cambia, nell'avviso di result.json e nella riga del report delle due fixture con kh e kv assegnati (mensola-wood-azioni, opzioni-avanzate): 4 voci nuove. Nessun altro file e nessun numero cambia; nessun atteso F3 sostituito, nessuna tolleranza nuova."
  }
 }

@@ -11289,7 +11289,8 @@
       "voci_collegate": [
         "COMB-MODEL-01",
         "AG-MUR-01",
-        "AK-LIB-01"
+        "AK-LIB-01",
+        "COMB-MURI-D5-NOTA"
       ]
     },
     {
@@ -11742,7 +11743,7 @@
       "modulo": "Muri di sostegno, documenti versione 1 calcolati senza interfaccia",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Censimento, D7 a: RetainingWall.LegacyCombinations non scrive più fattori e γR: chiama WallCombinations.Version1 di GPCChecker.Geotechnics 0.26, cioè il generatore di Model con l'ordine dei bit dichiarato (muro, terreno, carichi, acqua) e una riga sismica per segno con ψ2, γR di R3 e 1,2 della portanza sismica da StandardNTC2018Geotechnics. Le righe sono quelle di prima bit per bit: la copia congelata del codice di ANTHEA 1.15.0 (FrozenWallVersion1Combinations) e Version1 coincidono su 126 ingressi (i 6 documenti versione 1 delle catture e una griglia di 120), 2458 righe; le righe senza gemelle sono anche quelle della cattura storica. D4, D5 e D6 non valgono per questi casi fissi. D7 b (aggiornare questi documenti alla versione 2 anche nel calcolo) è valutato e non attuato: su 22 documenti versione 1 (6 delle catture, 16 di una griglia) senza sisma stessi rapporti governanti e solo nomi diversi; con il sisma righe in più (D6) e rapporti di scorrimento −9,09 % e di ribaltamento −13,04 % dove governa una riga sismica (γR della Tab. 7.11.III, D5 b), meno cautelativi; Upgrade dà ψ0 = 0,7 e rende non validi i documenti con ψ1 > 0,7 (8 su 16 della griglia), difetto già presente nell'interfaccia. Raccomandazione: correggere Upgrade e attuare b solo con l'ok dell'utente (censimento §5.2, supporto/artefatti/1160-combinazioni/valutazione-d7b.csv).",
+      "descrizione": "Censimento, D7 a: RetainingWall.LegacyCombinations non scrive più fattori e γR: chiama WallCombinations.Version1 di GPCChecker.Geotechnics 0.26, cioè il generatore di Model con l'ordine dei bit dichiarato (muro, terreno, carichi, acqua) e una riga sismica per segno con ψ2, γR di R3 e 1,2 della portanza sismica da StandardNTC2018Geotechnics. Le righe sono quelle di prima bit per bit: la copia congelata del codice di ANTHEA 1.15.0 (FrozenWallVersion1Combinations) e Version1 coincidono su 126 ingressi (i 6 documenti versione 1 delle catture e una griglia di 120), 2458 righe; le righe senza gemelle sono anche quelle della cattura storica. D4, D5 e D6 non valgono per questi casi fissi. D7 b (aggiornare questi documenti alla versione 2 anche nel calcolo) è valutato e non attuato: su 22 documenti versione 1 (6 delle catture, 16 di una griglia) senza sisma stessi rapporti governanti e solo nomi diversi; con il sisma righe in più (D6) e rapporti di scorrimento −9,09 % e di ribaltamento −13,04 % dove governa una riga sismica (γR della Tab. 7.11.III, D5 b), meno cautelativi; Upgrade dà ψ0 = 0,7 e rende non validi i documenti con ψ1 > 0,7 (8 su 16 della griglia), difetto già presente nell'interfaccia, corretto dopo la valutazione (UPG-PSI0-01: ψ0 = 1 se ψ1 > 0,7, categoria E della Tab. 2.5.I; con la correzione i 22 documenti si aprono tutti validi, valutazione-d7b-upg.csv). Raccomandazione: correggere Upgrade e attuare b solo con l'ok dell'utente (censimento §5.2, supporto/artefatti/1160-combinazioni/valutazione-d7b.csv).",
       "codice": [
         "X.Calculations/RetainingWall.Library.cs (LegacyCombinations)",
         "Checker/GPCChecker.Geotechnics/Walls/WallCombinations.cs (Version1)",
@@ -11767,7 +11768,9 @@
       ],
       "voci_collegate": [
         "COMB-MODEL-01",
-        "COMB-D6"
+        "COMB-D6",
+        "UPG-PSI0-01",
+        "COMB-MURI-D5-NOTA"
       ]
     },
     {
@@ -11995,6 +11998,75 @@
       "voci_collegate": [
         "FON-03",
         "B-FON-01"
+      ]
+    },
+    {
+      "id": "COMB-MURI-D5-NOTA",
+      "data": "2026-10-29",
+      "fase": "1.16.0, seguito di COMB-MURI-D4D5 (1160-combinazioni)",
+      "titolo": "Muri: nota del sisma con kh e kv assegnati coerente con D5 b (γR della Tab. 7.11.III)",
+      "famiglia": "geotecnica/muri",
+      "modulo": "Muri di sostegno (note del calcolo e report)",
+      "categoria": "correzione",
+      "stato": "corretto",
+      "descrizione": "Dalla 1.14.4 (D5 b, COMB-MURI-D4D5) le righe sismiche automatiche con kh e kv assegnati hanno i γR della NTC 2018 Tab. 7.11.III (scorrimento 1, ribaltamento 1, portanza 1,2), come quelle da parametri del sito, ma la nota del calcolo diceva ancora «kh e kv assegnati: il preset manuale mantiene γR statici e non maggiora kh per il ribaltamento. …». Testo nuovo per i documenti della versione 2: «kh e kv assegnati: le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III, come quelle da parametri del sito (scorrimento 1, ribaltamento 1, portanza 1,2); kh non è maggiorato per il ribaltamento. Matrici personalizzate: fanno fede kh, kv e coefficienti di ogni riga. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).» I documenti della versione 1 calcolati senza interfaccia conservano i casi fissi con i γR di R3 (COMB-D7), e per loro la nota lo dice: «kh e kv assegnati (documento della prima versione): i casi sismici fissi usano γR 1,1 a scorrimento e 1,15 a ribaltamento (R3) e 1,2 alla portanza sismica; kh non è maggiorato per il ribaltamento. …». Solo testo: nessun numero cambia.",
+      "codice": [
+        "X.Calculations/RetainingWall.Equilibrium.cs"
+      ],
+      "segno": "Nessun effetto sui numeri: cambia solo il testo della nota, che ora descrive i γR davvero usati.",
+      "decisione": {
+        "data": "2026-10-29",
+        "utente": "nessuna decisione nuova: correzione di un testo rimasto indietro rispetto a D5 b, chiesta dal coordinamento (domanda 3 del resoconto di 1160-combinazioni); riferimenti secondo la regola «Approvati se spiegati» della 1.16.0",
+        "esito": "corretto, riferimenti registrati e spiegati riga per riga"
+      },
+      "riferimenti_anthea": "Transizioni F3 (chiave aggiornamento_1160_nota, 73620 voci): 4 voci COMB-MURI-D5-NOTA nuove, il testo della nota nell'avviso di result.json ($.avvisi[11] di mensola-wood-azioni, $.avvisi[10] di opzioni-avanzate) e nella riga del report (riga 16 e riga 15), le sole due fixture con kh e kv assegnati. Tracce storiche: 17 righe «~ risultato» in 4 tracce (fixture-mensola-wood-azioni 2, fixture-opzioni-avanzate 2, azioni-sisma-matrice 5, opzioni-armature 8), impronte del risultato, che contiene le note; nessun'altra riga cambia. In vista-storica.json 2 valori, dalla vista XAML con una registrazione temporanea non committata di ui/check-muri-view (corsa registra-ui-nota): impronte del risultato dopo il calcolo di mensola-wood-azioni e opzioni-avanzate (il risultato contiene le note); dati, CSV delle verifiche, distinta e combinazioni mostrate invariati. Conteggio delle transizioni in Presentation.Tests (note == 4). Prova che le righe cambiate sono solo quelle della nota: la stessa registrazione con il testo vecchio della nota (e la correzione UPG-PSI0-01 già presente) non trova differenze né nei file F3 dei muri né nelle tracce (corsa registra-nota-controllo). Nessun atteso F3 sostituito, nessuna tolleranza nuova.",
+      "test": [
+        "Presentation.Tests",
+        "ui/f3-equivalence",
+        "ui/check-muri-view"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/registra-nota (registrazione temporanea non committata, tutti i file F3 e le tracce dei muri)",
+        "supporto/artefatti/1160-combinazioni/registra-nota-controllo (testo vecchio della nota: nessuna differenza)",
+        "supporto/artefatti/1160-combinazioni/registra-ui-nota (registrazione temporanea di ui/check-muri-view)",
+        "supporto/artefatti/1160-combinazioni/seguiti (suite mirate sui riferimenti nuovi: Presentation.Tests, ui/f3-equivalence, ui/check-muri-view PASS)"
+      ],
+      "voci_collegate": [
+        "COMB-MURI-D4D5",
+        "COMB-D7"
+      ]
+    },
+    {
+      "id": "UPG-PSI0-01",
+      "data": "2026-10-29",
+      "fase": "1.16.0, seguito di COMB-D7 (1160-combinazioni)",
+      "titolo": "Muri: ψ0 dei carichi dei documenti della prima versione aggiornati all'apertura",
+      "famiglia": "geotecnica/muri",
+      "modulo": "Muri di sostegno (aggiornamento dei documenti versione 1, RetainingWall.Upgrade)",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "RetainingWall.Upgrade, che l'interfaccia chiama all'apertura di un documento della versione 1, dava ψ0 = 0,7 (il valore di un'azione nuova) ai tre carichi del documento, che ha solo ψ1 e ψ2: con ψ1 > 0,7 il documento aperto diventava non valido («Deve risultare ψ₂ ≤ ψ₁ ≤ ψ₀») e non si calcolava (8 dei 16 documenti della griglia della valutazione D7 b). Regola: ψ0 resta 0,7 se ψ1 ≤ 0,7; altrimenti ψ0 = 1, il valore della categoria E della NTC 2018 Tab. 2.5.I (ψ0 1,0, ψ1 0,9, ψ2 0,8), l'unica categoria con ψ1 > 0,7. Il documento non dice la categoria: con ψ1 ≤ 0,7 non si deduce (A, B, C, D, F, G, neve, vento, temperatura hanno ψ1 fra 0 e 0,7) e 0,7 è il valore di oggi; ψ0 = max(0,7; ψ1), proposto nel censimento §5.2, darebbe 0,9, valore di nessuna categoria. Nessun dato mancante rende la regola insicura: i tre carichi aggiornati sono un solo gruppo correlato («legacy»), sempre principale, e ψ0 moltiplica solo le variabili di accompagnamento, quindi non entra in nessuna riga e i risultati del documento non dipendono da ψ0. Se l'utente aggiunge poi un'altra azione variabile, il gruppo legacy di accompagnamento usa ψ0 = 1, il valore della norma per la categoria E e cautelativo per le altre.",
+      "codice": [
+        "X.Calculations/RetainingWall.Actions.cs"
+      ],
+      "segno": "Nessun effetto sui risultati dei documenti aperti; i documenti versione 1 con ψ1 > 0,7 si aprono validi invece di essere rifiutati.",
+      "effetto_quantificato": "22 documenti versione 1 (6 delle catture di Geotechnics, 16 della griglia: mensola sì/no, falda, sisma assente, kh 0,1 con kv 0,05, kh 0,15 con kv 0, ψ1/ψ2 0,5/0,3 e 0,9/0,8): non validi aperti 8 → 0; senza sisma i rapporti governanti di scorrimento, ribaltamento e portanza del documento aggiornato sono quelli dei casi fissi (valutazione-d7b-upg.csv). RetainingWall.Checks: 15 casi (ψ1/ψ2 0,5/0,3, 0,7/0,6, 0,75/0,5, 0,9/0,8, 1/1; senza falda, con falda, con sisma kh 0,1 kv 0,05): ψ0 aggiornato come da regola e ψ1, ψ2 conservati, documento valido, righe, H, V, momenti e verifiche uguali a quelli dello stesso documento con ψ0 = 1, e senza sisma governanti uguali ai casi fissi della versione 1 (1e-9). Nessun riferimento di ANTHEA cambia: con la correzione la registrazione dei muri di Presentation.Tests non trova differenze (corsa registra-nota-controllo).",
+      "decisione": {
+        "data": "2026-10-29",
+        "utente": "nessuna decisione nuova: difetto segnalato nella valutazione di D7 b (COMB-D7), correzione chiesta dal coordinamento (domanda 2 del resoconto di 1160-combinazioni) con la regola più fedele alla norma e ai dati del documento",
+        "esito": "corretto"
+      },
+      "test": [
+        "RetainingWall.Checks (ActionsChecks, UPG-PSI0-01)",
+        "Presentation.Tests",
+        "ui/f3-equivalence"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/valutazione-d7b-upg.csv (22 documenti, nessuno non valido; prima della correzione valutazione-d7b.csv)",
+        "supporto/artefatti/1160-combinazioni/seguiti (RetainingWall.Checks PASS 467, 116 azioni/combinazioni, e le suite mirate dei seguiti)"
+      ],
+      "voci_collegate": [
+        "COMB-D7"
       ]
     }
   ]

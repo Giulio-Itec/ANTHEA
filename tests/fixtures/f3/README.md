@@ -487,3 +487,9 @@ anche globali, ogni gruppo variabile è presente (ψ2) o assente. Chiave `aggior
 file dei muri (`supporto/artefatti/1160-combinazioni/registra-1`). Ogni differenza è spiegata dalla regola: tolte le righe nuove e
 rinominate le altre, `result.json` e i dati sono uguali a quelli del set AL (cattura del rilascio 1.15.0) e le righe di tabella del
 report di prima ci sono tutte (`d6_confronto.py`); nessun rapporto massimo cambia. Valori prima del riferimento F3 invariati.
+
+Il 29/10/2026, 1.16.0, seguito di COMB-MURI-D4D5 (voce COMB-MURI-D5-NOTA): la nota «kh e kv assegnati» dei muri dice che le
+combinazioni sismiche automatiche usano i γR della Tab. 7.11.III, non più che «il preset manuale mantiene γR statici». Chiave
+`aggiornamento_1160_nota`, 73620 voci: 4 voci nuove, il testo della nota nell'avviso di `result.json` e nella riga del report delle due
+fixture con kh e kv assegnati (`mensola-wood-azioni`, `opzioni-avanzate`). Nessun altro file cambia: la stessa registrazione con il
+testo vecchio della nota non trova differenze (`supporto/artefatti/1160-combinazioni/registra-nota` e `registra-nota-controllo`).

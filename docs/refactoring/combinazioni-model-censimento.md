@@ -515,7 +515,8 @@ Attuazione dell'agente `1160-combinazioni` nella 1.16.0:
 - ANTHEA: ramo `refactoring/1160-combinazioni`;
 - Model: ramo `lib-1160/combinazioni`, GPCModel 5.24.0.0;
 - Checker: ramo `lib-1160/combinazioni`, GPCChecker.Geotechnics 0.26.0.0;
-- voci del registro COMB-D6, COMB-D7, COMB-D9, COMB-D10, COMB-D11.
+- voci del registro COMB-D6, COMB-D7, COMB-D9, COMB-D10, COMB-D11;
+- seguiti: UPG-PSI0-01 (ψ0 dei documenti versione 1 aggiornati, §5.2) e COMB-MURI-D5-NOTA (nota del sisma assegnato dopo D5 b).
 
 | # | Decisione | Stato | Dove |
 |---|---|---|---|
@@ -612,14 +613,27 @@ kv 0, ψ1/ψ2 0,5/0,3 e 0,9/0,8), calcolati con i due percorsi (`supporto/artefa
   portanza sismica (γR 1,2) non cambia;
 - **documenti non più calcolabili**: `Upgrade` dà ψ0 = 0,7 alle tre azioni e conserva ψ1 e ψ2 del documento, quindi un documento con
   ψ1 > 0,7 diventa non valido («Deve risultare ψ₂ ≤ ψ₁ ≤ ψ₀»): tutti gli 8 della griglia con ψ1 = 0,9. È già un difetto
-  dell'interfaccia di oggi, che aggiorna il documento all'apertura.
+  dell'interfaccia di oggi, che aggiorna il documento all'apertura (corretto dopo, UPG-PSI0-01, sotto).
 
 Valutazione: b toglierebbe l'incoerenza di oggi (lo stesso documento dà risultati diversi aperto nell'interfaccia o nel calcolo del
 progetto) e allineerebbe la versione 1 alle decisioni D4–D6, ma è meno cautelativo nel sisma, cambia nomi e righe dei risultati
-archiviati e richiede prima la correzione di `Upgrade` (ψ0 = max(0,7; ψ1), con un gruppo solo ψ0 non entra nelle righe). Non c'è un
+archiviati e richiede prima la correzione di `Upgrade` (fatta, UPG-PSI0-01). Non c'è un
 documento versione 1 nelle fixture F3 dei muri: i riferimenti da registrare sarebbero le prove della versione 1 di
 RetainingWall.Checks e le catture di Geotechnics. Raccomandazione: correggere `Upgrade` (difetto dell'interfaccia) e attuare b solo con
 l'ok dell'utente, come scostamento registrato.
+
+**Correzione di `Upgrade` (UPG-PSI0-01, 29/10).** Il documento versione 1 ha ψ1 e ψ2 dei carichi, non ψ0 né la categoria. Regola:
+ψ0 resta 0,7 (il valore di un'azione nuova, quello di prima) se ψ1 ≤ 0,7; altrimenti ψ0 = 1, il valore della categoria E della
+NTC 2018 Tab. 2.5.I (1,0; 0,9; 0,8), l'unica con ψ1 > 0,7. ψ0 = max(0,7; ψ1) darebbe 0,9, valore di nessuna categoria. I tre carichi
+aggiornati sono un solo gruppo correlato, sempre principale: ψ0 non entra in nessuna riga e i risultati non cambiano. Con la correzione
+i 22 documenti della misura si aprono tutti validi (`valutazione-d7b-upg.csv`); le prove di RetainingWall.Checks (15 casi) confrontano
+il documento aggiornato con lo stesso documento con ψ0 = 1 e, senza sisma, con i casi fissi della versione 1. Nessun riferimento di
+ANTHEA cambia.
+
+**Nota del sisma assegnato (COMB-MURI-D5-NOTA, 29/10).** Dopo D5 b (1.14.4) la nota «kh e kv assegnati» diceva ancora che il preset
+manuale mantiene i γR statici. Ora dice che le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III (scorrimento 1,
+ribaltamento 1, portanza 1,2); per i documenti versione 1 calcolati senza interfaccia dice che i casi fissi usano i γR di R3 (1,1 e
+1,15) e 1,2 alla portanza sismica. Solo testo: 4 transizioni F3, 17 impronte del risultato in 4 tracce storiche, 2 impronte del risultato della vista.
 
 ### 5.3 D8 b — piano per Bridge Design e Viviani
 
