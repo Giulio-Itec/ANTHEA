@@ -36,7 +36,7 @@ internal sealed class RetainingWallBarDrawing : DrawingView
     const double TableTop = 146, RowHeight = 95, CellPad = 6, MarkIndent = 14, ValueDrop = 38, MarkDrop = 36, SketchTrim = 16;
     const double SketchSide = 45, SketchTopBottom = 18, SketchLeg = 110, SketchMinimumLeg = 12, SketchMaximumScale = 2.6, SketchKnee = .25;
     const double TallShape = 2.5, CompressRatio = 5, LabelOffset = 11, CharacterWidth = 6.2, LabelHalfHeight = 8, PiecesDrop = 14;
-    static readonly double[] SummaryColumns = [0, 70, 160, 230];
+    static readonly IReadOnlyList<double> SummaryColumns = [0, 70, 160, 230];
 
     internal RetainingWallBarDrawing(JsonObject data, WallModel.BarSchedule schedule)
     { Data = data; Schedule = schedule; Width = SheetSize.Width; Height = SheetSize.Height; }
