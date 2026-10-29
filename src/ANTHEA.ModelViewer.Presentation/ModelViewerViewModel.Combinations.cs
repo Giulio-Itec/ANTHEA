@@ -115,6 +115,9 @@ public sealed partial class ModelViewerViewModel
         ShowImportOptions=false;IsNavigationCollapsed=false;ShowCombinationManager=!IsCombinationDetached;PauseAnimation();
         if(IsCombinationDetached)CombinationWindowChanged?.Invoke(this,EventArgs.Empty);
         if(!IsCombinationDirty&&!IsCombinationBusy)RefreshCombinations(SelectedTreeItem?.Table=="COMBINATION"?SelectedTreeItem.Key[6..]:Snapshot.Results.FirstOrDefault(r=>r.Name==SelectedCase)?.Combination?.DefinitionId??SelectedCombination?.Definition.Id);
+        // Refactoring of the combinations (29/10/2026): the GPC model of the copy is prepared in the background while the catalogue is on screen,
+        // so that the first combination does not wait for it (a calculation started meanwhile waits for the same preparation).
+        if(CanManageCombinations&&Combinations.Any(c=>c.CanCalculate))_=combinationService.PrepareAsync(Snapshot,lifetime.Token);
     }
     [RelayCommand] void CloseCombinationManager(){IsNavigationCollapsed=true;ShowCombinationManager=false;IsCombinationDetached=false;}
     bool CanStartCombination()=>CanManageCombinations&&!IsCombinationDirty;

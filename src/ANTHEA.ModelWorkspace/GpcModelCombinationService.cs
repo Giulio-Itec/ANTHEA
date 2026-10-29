@@ -24,6 +24,33 @@ public sealed partial class GpcModelCombinationService
     {public CombinationRebuildCache Cache {get;}=new(){SourceFingerprints=false};}
     public void ClearCache()=>prepared=null;
 
+    /// <summary>
+    /// Refactoring of the combinations (29/10/2026): the preparation of GPC (geometry and static cases of the copy, about 1 s for 100 elements
+    /// and 50 cases, 8 s for 500 × 100) made in advance, for instance while the user looks at the catalogue, so that the first combination
+    /// does not wait for it. The same preparation and the same gate as <see cref="CalculateAsync"/>: a calculation started meanwhile waits for
+    /// it and reuses it. Nothing is reported: a copy that cannot be prepared is explained by the calculation, as before.
+    /// </summary>
+    public async Task PrepareAsync(ModelSnapshot snapshot,CancellationToken token=default)
+    {
+        try
+        {
+            await calculationGate.WaitAsync(token).ConfigureAwait(false);
+            try
+            {
+                await Task.Run(()=>
+                {
+                    snapshot.Validate();
+                    if(!GpcSnapshotModel.CanRebuild(snapshot))return;
+                    string revision=ModelCombinations.PreparationRevision(snapshot);
+                    if(prepared?.Revision!=revision)prepared=Prepare(snapshot,revision,null,token);
+                },token).ConfigureAwait(false);
+            }
+            finally {calculationGate.Release();}
+        }
+        catch(Exception ex) when(ex is OperationCanceledException or InvalidDataException or ArgumentException or InvalidOperationException
+            or NotSupportedException or FormatException or KeyNotFoundException or System.Text.Json.JsonException) {}
+    }
+
     public async Task<ModelCombinationCalculation> CalculateAsync(ModelSnapshot snapshot,string definitionId,
         IProgress<ModelCombinationProgress>? progress=null,CancellationToken token=default)
     {
