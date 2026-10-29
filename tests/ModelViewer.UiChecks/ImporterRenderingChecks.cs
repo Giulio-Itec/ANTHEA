@@ -97,6 +97,15 @@ static partial class Program
             Check(vm.TableRows is { Count: > 0 } rows && Children<DataGrid>(control).Any(g => g.IsVisible && g.Items.Count == rows.Count) &&
                   (!native || vm.TableSummary.Contains("in equilibrio")), "Straus7 reactions of the current case in the table of the viewer" + (native ? " with the GPC equilibrium check" : ""));
             Capture(control, viewport, Path.Combine(directory, "straus7-reazioni.png"));
+            string Cell(string header)
+            {
+                var grid = Children<DataGrid>(control).Single(g => g.IsVisible); grid.UpdateLayout();
+                var column = grid.Columns.Single(c => c.Header as string == header);
+                return (column.GetCellContent(grid.Items[0]) as TextBlock)?.Text ?? "";
+            }
+            Check(Cell("Fz [kN]").Length > 0, "table cells of a column with the unit in brackets are bound (reactions, Fz [kN])");
+            vm.SelectedTableKind = 0; Wait(250);
+            Check(Cell("X [m]").Length > 0, "table cells of a column with the unit in brackets are bound (nodes, X [m])");
             vm.ShowTable = false; vm.SelectedTableKind = 1; Wait(100);
             vm.SelectedImportSource = 0;
         }
