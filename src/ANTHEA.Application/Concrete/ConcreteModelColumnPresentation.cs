@@ -40,6 +40,8 @@ public static class ConcreteModelColumnPresentation
     public const string DomainFigureCategory = "colonna_modello_dominio";
 
     private const string Blue = "#0B5CAD", Red = "#C62828", Green = "#16703B", Grey = "#64748B", Orange = "#B45309";
+    // e0 is in mm, the moment of the NEd·e0 line in kNm
+    private const double MillimetresPerMetre = 1000;
 
     /// <summary>Il messaggio di una colonna non calcolabile.</summary>
     public static string Unavailable(string error) => "Colonna modello non disponibile: " + error;
@@ -240,7 +242,7 @@ public static class ConcreteModelColumnPresentation
             chart.Series.Add(new("MRd della sezione" + direction, valid.Select(p => new[] { sign * p.SectionKnm!.Value, p.AxialKn }).ToList(), Grey, true, DashPattern: "Dash"));
             if (d.MinimumEccentricity is double e0)
                 chart.Series.Add(new("NEd·e0, e0 = " + F(e0, "0.#") + " mm" + direction,
-                    [[0, 0], [sign * Math.Abs(d.CompressionResistanceKn) * e0 / 1000, d.CompressionResistanceKn]], Orange, true, DashPattern: "Dot"));
+                    [[0, 0], [sign * Math.Abs(d.CompressionResistanceKn) * e0 / MillimetresPerMetre, d.CompressionResistanceKn]], Orange, true, DashPattern: "Dot"));
         }
         static string Color(bool? verified) => verified switch { true => Green, false => Red, _ => Grey };
         if (r.Combinations.Count > 0)
