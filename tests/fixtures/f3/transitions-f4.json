@@ -68,7 +68,9 @@
   "PARATIE-20": 2677,
   "PARATIE-20 / COMB-D6": 220,
   "PO-ANELLO-01": 2,
+  "R14": 57,
   "R18": 42,
+  "R6": 16,
   "R9": 2,
   "SPETTRI-04": 12
  },
@@ -589176,6 +589178,590 @@
    "a": null,
    "b": "\"Palo orizzontale in terreno stratificato.pdf\"",
    "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[0].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3 / EC2 §8.2",
+   "b": "NTC 2018 §4.1.6.1.3 / EC2 §8.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[1].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3 / EC2 §4.4",
+   "b": "NTC 2018 §4.1.6.1.3 / EC2 §4.4",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[2].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3 / EC2 §4.4",
+   "b": "NTC 2018 §4.1.6.1.3 / EC2 §4.4",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[3].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1 / EC2 §9.3.1.1",
+   "b": "NTC 2018 §4.1.6.1.1 / EC2 §9.2.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[4].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[5].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[6].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[7].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1 / EC2 §9.3.1.1",
+   "b": "NTC 2018 §4.1.6.1.1 / EC2 §9.2.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[8].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[9].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[10].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[11].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[0].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3 / EC2 §8.2",
+   "b": "NTC 2018 §4.1.6.1.3 / EC2 §8.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[1].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3 / EC2 §4.4",
+   "b": "NTC 2018 §4.1.6.1.3 / EC2 §4.4",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[2].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3 / EC2 §4.4",
+   "b": "NTC 2018 §4.1.6.1.3 / EC2 §4.4",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[3].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1 / EC2 §9.3.1.1",
+   "b": "NTC 2018 §4.1.6.1.1 / EC2 §9.2.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[4].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[5].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[6].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[7].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1 / EC2 §9.3.1.1",
+   "b": "NTC 2018 §4.1.6.1.1 / EC2 §9.2.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[8].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[9].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[10].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[11].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .1",
+   "b": "NTC 2018 §4.1.6.1.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[0].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3 / EC2 §8.2",
+   "b": "NTC 2018 §4.1.6.1.3 / EC2 §8.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[1].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3",
+   "b": "NTC 2018 §4.1.6.1.3",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[2].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[3].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[4].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[5].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[6].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[7].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[0].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3 / EC2 §8.2",
+   "b": "NTC 2018 §4.1.6.1.3 / EC2 §8.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[1].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3",
+   "b": "NTC 2018 §4.1.6.1.3",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[2].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[3].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[4].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[5].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[6].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[1].controlli_costruttivi[7].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[2].controlli_costruttivi[0].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3 / EC2 §8.2",
+   "b": "NTC 2018 §4.1.6.1.3 / EC2 §8.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[2].controlli_costruttivi[1].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3",
+   "b": "NTC 2018 §4.1.6.1.3",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[2].controlli_costruttivi[2].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[2].controlli_costruttivi[3].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[2].controlli_costruttivi[4].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[2].controlli_costruttivi[5].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[2].controlli_costruttivi[6].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "percorso": "$.armature.tratti[2].controlli_costruttivi[7].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/single-soil-elastic/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[0].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3 / EC2 §8.2",
+   "b": "NTC 2018 §4.1.6.1.3 / EC2 §8.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/single-soil-elastic/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[1].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .3",
+   "b": "NTC 2018 §4.1.6.1.3",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/single-soil-elastic/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[2].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/single-soil-elastic/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[3].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/single-soil-elastic/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[4].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/single-soil-elastic/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[5].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/single-soil-elastic/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[6].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/single-soil-elastic/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[7].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 .2",
+   "b": "NTC 2018 §4.1.6.1.2",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/single-soil-elastic/result.json",
+   "percorso": "$.armature.tratti[0].controlli_costruttivi[8].Reference",
+   "classe": "testo",
+   "a": "NTC 2018 §4.1.6.1 ",
+   "b": "NTC 2018 §4.1.6.1",
+   "voce": "R14"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/calculated-data.json",
+   "percorso": "$.workspace_ca.coefficienti.ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination#1",
+   "classe": "numero",
+   "a": "0.75",
+   "b": "0.65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/exported-data.json",
+   "percorso": "$.workspace_ca.coefficienti.ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination#1",
+   "classe": "numero",
+   "a": "0.75",
+   "b": "0.65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/opened.json",
+   "percorso": "$.workspace_ca.coefficienti.ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination#1",
+   "classe": "numero",
+   "a": "0.75",
+   "b": "0.65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/reopened.json",
+   "percorso": "$.workspace_ca.coefficienti.ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination#1",
+   "classe": "numero",
+   "a": "0.75",
+   "b": "0.65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/report.txt",
+   "percorso": "riga 252#1",
+   "classe": "numero",
+   "a": "0,75",
+   "b": "0,65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/report.txt",
+   "percorso": "riga 253#1",
+   "classe": "numero",
+   "a": "0,75",
+   "b": "0,65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "percorso": "$.dati.workspace_ca.coefficienti.ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination#1",
+   "classe": "numero",
+   "a": "0.75",
+   "b": "0.65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/visited.json",
+   "percorso": "$.workspace_ca.coefficienti.ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination#1",
+   "classe": "numero",
+   "a": "0.75",
+   "b": "0.65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/rettangolare-materiali-utente/calculated-data.json",
+   "percorso": "$.workspace_ca.coefficienti.ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination#1",
+   "classe": "numero",
+   "a": "0.75",
+   "b": "0.65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/rettangolare-materiali-utente/exported-data.json",
+   "percorso": "$.workspace_ca.coefficienti.ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination#1",
+   "classe": "numero",
+   "a": "0.75",
+   "b": "0.65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/rettangolare-materiali-utente/opened.json",
+   "percorso": "$.workspace_ca.coefficienti.ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination#1",
+   "classe": "numero",
+   "a": "0.75",
+   "b": "0.65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/rettangolare-materiali-utente/reopened.json",
+   "percorso": "$.workspace_ca.coefficienti.ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination#1",
+   "classe": "numero",
+   "a": "0.75",
+   "b": "0.65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/rettangolare-materiali-utente/report.txt",
+   "percorso": "riga 215#1",
+   "classe": "numero",
+   "a": "0,75",
+   "b": "0,65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/rettangolare-materiali-utente/report.txt",
+   "percorso": "riga 216#1",
+   "classe": "numero",
+   "a": "0,75",
+   "b": "0,65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/rettangolare-materiali-utente/result.json",
+   "percorso": "$.dati.workspace_ca.coefficienti.ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination#1",
+   "classe": "numero",
+   "a": "0.75",
+   "b": "0.65",
+   "voce": "R6"
+  },
+  {
+   "file": "sheets/str_palo/rettangolare-materiali-utente/visited.json",
+   "percorso": "$.workspace_ca.coefficienti.ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination#1",
+   "classe": "numero",
+   "a": "0.75",
+   "b": "0.65",
+   "voce": "R6"
   }
  ],
  "aggiornamento_spettri": {
@@ -589314,5 +589900,38 @@
   "spostate": [],
   "aggiunte": 18,
   "nota": "1.16.0, richiesta dell'utente del 28/10 sera: il riferimento «G. Pacini — approccio al terreno stratificato» del palo e del micropalo orizzontale cita l'articolo «Capacità orizzontale del palo in terreno stratificato» e ha il campo «documento» con il PDF installato, che «Apri riferimento» apre. 6 fixture (3 del palo, 3 del micropalo): dettaglio di riferimenti[0] e chiave documento in result.json, riga del dettaglio in report.txt. Nessun valore di calcolo, nessun atteso F3 sostituito, nessuna tolleranza nuova."
+ },
+ "aggiornamento_1160_voci_r": {
+  "data": "2026-10-29",
+  "cattura": "supporto/artefatti/1160/int-b/ui_f3-equivalence/cattura",
+  "registro": [
+   "R6",
+   "R14"
+  ],
+  "aggiunte": 73,
+  "per_voce": {
+   "R14": 57,
+   "R6": 16
+  },
+  "file": [
+   "sheets/geo_palo_orizzontale/elastico-sisma-testa-impedita/result.json",
+   "sheets/geo_palo_orizzontale/elastico-tratti-anello-spirale/result.json",
+   "sheets/geo_palo_orizzontale/single-soil-elastic/result.json",
+   "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/calculated-data.json",
+   "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/exported-data.json",
+   "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/opened.json",
+   "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/reopened.json",
+   "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/report.txt",
+   "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/result.json",
+   "sheets/str_palo/corpus-sezione-ca-taglio-din-rettangolare/visited.json",
+   "sheets/str_palo/rettangolare-materiali-utente/calculated-data.json",
+   "sheets/str_palo/rettangolare-materiali-utente/exported-data.json",
+   "sheets/str_palo/rettangolare-materiali-utente/opened.json",
+   "sheets/str_palo/rettangolare-materiali-utente/reopened.json",
+   "sheets/str_palo/rettangolare-materiali-utente/report.txt",
+   "sheets/str_palo/rettangolare-materiali-utente/result.json",
+   "sheets/str_palo/rettangolare-materiali-utente/visited.json"
+  ],
+  "nota": "1.16.0, librerie del ramo lib-1160/coordinatore (decisione dell'utente del 28/10/2026 «Fonti secondarie»; «Approvati se spiegati»): R6, k5 della classe DIN 0,75 -> 0,65 nei coefficienti dei documenti con il profilo DIN; R14, riferimenti NTC dei controlli costruttivi senza lo spazio prima del sottoparagrafo («§4.1.6.1.3») e MinimumTension delle travi con EC2 §9.2.1.1 invece di §9.3.1.1. Solo questi valori cambiano; nessun numero di calcolo, nessuna tolleranza nuova."
  }
 }

@@ -417,8 +417,12 @@ internal static class HorizontalPileSheetChecks
         var ring = transitions.Where(t => t.Entry == "PO-ANELLO-01").ToList();
         // F5-REL-1160-02 (1.16.0): 3 lines in each of the 6 fixtures of the capacity (3 of the pile, 3 of the micropile), so 12 files of the capacity.
         var pacini = transitions.Where(t => t.Entry == "F5-REL-1160-02").ToList();
-        var others = transitions.Except(shear).Except(parabola).Except(partial).Except(ring).Except(pacini).ToList();
+        // R14 (1.16.0, libraries): the NTC references of the detailing checks of the elastic response, «§4.1.6.1.3» without the space and EC2 §9.2.1.1
+        // for MinimumTension of beams: 24 + 24 + 9 lines in result.json of elastico-sisma-testa-impedita, elastico-tratti-anello-spirale, single-soil-elastic.
+        var references = transitions.Where(t => t.Entry == "R14").ToList();
+        var others = transitions.Except(shear).Except(parabola).Except(partial).Except(ring).Except(pacini).Except(references).ToList();
         expect.That(elastic == 11 && capacity == 12 && pacini.Count == 18 && pacini.All(t => t.File.EndsWith("/result.json", StringComparison.Ordinal) || t.File.EndsWith("/report.txt", StringComparison.Ordinal))
+            && references.Count == 57 && references.All(t => t.File.EndsWith("/result.json", StringComparison.Ordinal) && t.Path.EndsWith(".Reference", StringComparison.Ordinal))
             && shear.Count == 3941 && others.Count == 1327 && ring.Count == 2 && ring.All(t => t.File.EndsWith("/report.txt", StringComparison.Ordinal))
             && others.All(t => t.File.Contains("/single-soil-elastic/", StringComparison.Ordinal))
             && parabola.Count(t => t.Entry == "AG-PO-01") == 480 && parabola.Count(t => t.Entry == "AG-PO-02") == 6900
@@ -427,7 +431,8 @@ internal static class HorizontalPileSheetChecks
             && transitions.Count(t => t.Entry.EndsWith(" / BUG-PO-5b", StringComparison.Ordinal)) == 224,
             "Transizioni F4 dei pali orizzontali: " + transitions.Count + " (attese le 1327 della risposta elastica di single-soil-elastic, le 3941 di PARATIE-19, "
             + "le 480 di AG-PO-01 su 4 file della capacità, le 6900 di AG-PO-02 e le 2367 di BUG-PO-5b, 1939 delle quali sulla chiave DevelopedFraction; "
-            + "7 voci estese con AG-PO-02 e 224 con BUG-PO-5b, le 2 di PO-ANELLO-01 sui report, le 18 di F5-REL-1160-02 su 12 file della capacità)");
+            + "7 voci estese con AG-PO-02 e 224 con BUG-PO-5b, le 2 di PO-ANELLO-01 sui report, le 18 di F5-REL-1160-02 su 12 file della capacità, "
+            + "le 57 di R14 sui riferimenti dei controlli costruttivi della risposta elastica)");
         expect.That(compared > 0, "Nessun file F3 confrontato");
     }
 
