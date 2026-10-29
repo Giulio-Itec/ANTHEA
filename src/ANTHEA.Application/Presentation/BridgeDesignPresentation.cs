@@ -63,7 +63,9 @@ public static class BridgeDesignPresentation
     public static IReadOnlyList<string> OutputTabs { get; } = ["Quantità e costi", "Dettagli del predimensionamento", "Confronto A / B", "Prezzario", "Ipotesi e coefficienti", "Sezioni e quote"];
 
     public const string ObstacleLabel = "Ostacolo da attraversare", SoilLabel = "Terreno convenzionale", DeckLabel = "Piano carrabile", PierLabel = "Tipologia pila",
-        FoundationLabel = "Fondazioni", TrafficLabel = "Modello di traffico";
+        FoundationLabel = "Fondazioni", TrafficLabel = "Modello di traffico", PartialFactorsLabel = "Coefficienti parziali SLU";
+    /// <summary>Note of the partial factors of the profile (census of the combinations, D8).</summary>
+    public const string ProfileFactorsNote = "Righe SLU A1 della NTC 2018 Tab. 5.1.V dalla libreria Model: γG1 1,35/1,00 su impalcato e strutture, γG2 1,50/0 su finiture e barriere, γQ 1,35/0 sul traffico; minimi con i permanenti favorevoli. I moltiplicatori del progetto non si usano.";
     public const string ContinuousLabel = "Impalcato continuo", StartPierLabel = "Inizio su pila · viadotto prosegue", EndPierLabel = "Fine su pila · viadotto prosegue";
     public const string SpansNote = "Campate terminali = 0,8 × interne per schemi continui con almeno 3 campate. Le pile vengono spostate fuori dall'ostacolo, ove possibile.";
     public const string TowersNote = "Antenne a due fusti quadrati: la quota sopra impalcato è nella Sezione. La dimensione pila imposta indica il lato del fusto; 0 = predimensionamento.";
@@ -122,7 +124,7 @@ public static class BridgeDesignPresentation
     }
 
     /// <summary>A choice that rebuilds the inputs after the change (the deck and the traffic model change the fields shown).</summary>
-    public static bool ChoiceRebuilds(string key) => key is "deck_type" or "traffic_model";
+    public static bool ChoiceRebuilds(string key) => key is "deck_type" or "traffic_model" or "partial_factors";
 
     /// <summary>The button of a typology: the typology and the rules that come with it (towers, continuity, orthotropic deck).</summary>
     public static void SelectFamily(JsonObject input, string id)
@@ -150,7 +152,10 @@ public static class BridgeDesignPresentation
     {
         var f = BridgeDesignModel.Families[random.Next(BridgeDesignModel.Families.Length)];
         var input = data["input"]!.AsObject();
-        var defaults = BridgeDesignModel.Defaults()["input"]!.AsObject(); defaults["traffic_model"] = input["traffic_model"]?.DeepClone(); data["input"] = defaults.DeepClone();
+        var defaults = BridgeDesignModel.Defaults()["input"]!.AsObject(); defaults["traffic_model"] = input["traffic_model"]?.DeepClone();
+        // The partial factors of the document are kept, as the traffic model (an archive without the choice stays without it).
+        if (input["partial_factors"] is { } factors) defaults["partial_factors"] = factors.DeepClone(); else defaults.Remove("partial_factors");
+        data["input"] = defaults.DeepClone();
         input = data["input"]!.AsObject();
         input["family"] = f.Id; int spans = random.Next(2, 7); input["spans"] = spans;
         input["length"] = Math.Round((f.MinSpan + (f.MaxSpan - f.MinSpan) * (.2 + random.NextDouble() * .45)) * (spans - .4));

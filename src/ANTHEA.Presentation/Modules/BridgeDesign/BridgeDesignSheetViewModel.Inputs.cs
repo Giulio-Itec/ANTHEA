@@ -72,15 +72,20 @@ public sealed partial class BridgeDesignSheetViewModel
         sub.Add(Choice("foundation", BridgeDesignPresentation.FoundationLabel, BridgeDesignModel.Foundations));
         foreach (var p in BridgeDesignModel.Substructure) sub.Add(Parameter("input", p, true));
         sub.Add(new BridgeDesignText(BridgeDesignPresentation.SubstructureNote, BridgeDesignTextRole.Note));
+        // D8: the partial factors of the profile of Model (new documents) or the multipliers of the project (archives, a document without the
+        // choice). The choice closes the tab, so the items of an archive keep their places; with the profile γQ and its button are not shown.
+        bool profile = BridgeDesignModel.PartialFactors(Data) == BridgeDesignModel.ProfileFactors;
         var traffic = new List<BridgeDesignItem>
         {
             Choice("traffic_model", BridgeDesignPresentation.TrafficLabel, BridgeDesignModel.TrafficModels),
-            new BridgeDesignText(BridgeDesignPresentation.TrafficNote(Input.S("traffic_model")), BridgeDesignTextRole.Note),
-            Parameter("assumptions", BridgeDesignModel.Assumptions.Single(p => p.Key == "gamma_q"), false)
+            new BridgeDesignText(BridgeDesignPresentation.TrafficNote(Input.S("traffic_model")), BridgeDesignTextRole.Note)
         };
+        if (!profile) traffic.Add(Parameter("assumptions", BridgeDesignModel.Assumptions.Single(p => p.Key == "gamma_q"), false));
         if (Input.S("traffic_model") == BridgeDesignModel.UniformLegacy) traffic.Add(Parameter("assumptions", BridgeDesignModel.Assumptions.Single(p => p.Key == "traffic_load"), false));
-        else traffic.Add(new BridgeDesignButton(BridgeDesignPresentation.RecommendedTrafficButton, RecommendedTrafficCommand));
+        else if (!profile) traffic.Add(new BridgeDesignButton(BridgeDesignPresentation.RecommendedTrafficButton, RecommendedTrafficCommand));
         traffic.Add(new BridgeDesignText(BridgeDesignPresentation.TrafficFootnote, BridgeDesignTextRole.Note));
+        traffic.Add(new BridgeDesignChoice(this, "partial_factors", BridgeDesignPresentation.PartialFactorsLabel, BridgeDesignModel.PartialFactorChoices, BridgeDesignModel.PartialFactors(Data)));
+        if (profile) traffic.Add(new BridgeDesignText(BridgeDesignPresentation.ProfileFactorsNote, BridgeDesignTextRole.Note));
         Inputs = [site, layout, section, sub, traffic];
     }
 

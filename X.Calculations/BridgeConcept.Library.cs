@@ -42,6 +42,7 @@ public static partial class BridgeConcept
         var input = new BridgeInput
         {
             TrafficModel = ReadTrafficModel(data),
+            PartialFactors = ReadPartialFactors(data),
             Length = Number("input", "length"),
             Height = Number("input", "height"),
             ObstacleWidth = Number("input", "obstacle_width"),
@@ -206,6 +207,8 @@ public static partial class BridgeConcept
         result["input"]!["continuous"] = model.Input.Continuous;
         if (result["input"]!.AsObject().ContainsKey("traffic_model") || model.Input.TrafficModel != TrafficModel.LegacyUniform)
             result["input"]!["traffic_model"] = model.Input.TrafficModel == TrafficModel.Ntc2018Schema1 ? Schema1 : UniformLegacy;
+        if (result["input"]!.AsObject().ContainsKey("partial_factors") || model.Input.PartialFactors != PartialFactorSource.ProjectMultipliers)
+            result["input"]!["partial_factors"] = model.Input.PartialFactors == PartialFactorSource.Ntc2018RoadBridges ? ProfileFactors : ProjectMultipliers;
         result["input"]!["start_pier"] = model.Input.StartPier;
         result["input"]!["end_pier"] = model.Input.EndPier;
         result["input"]!["low_carbon"] = model.Input.LowCarbon;
