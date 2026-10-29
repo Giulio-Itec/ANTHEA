@@ -52,6 +52,44 @@
         <member name="M:GPC.Design.Bridges.BridgeConcept.OptimizationRange(System.Double,System.Double,System.Double)">
             <summary>Inclusive percentage grid, with the upper endpoint included even when the step does not divide the interval.</summary>
         </member>
+        <member name="T:GPC.Design.Bridges.BridgeConcept.ProfileFactors">
+            <summary>
+            The ultimate rows of a model with <see cref="F:GPC.Design.Bridges.PartialFactorSource.Ntc2018RoadBridges"/>: the factors of the structural permanent actions
+            (G1: concrete, steel and upper structure), of the non structural ones (G2: surfacing and barriers) and of the traffic of every ultimate row
+            of GPC.Model (RoadBridgeCombinations.Deck, set A1 of NTC 2018 Tab. 5.1.V), with the unfavourable factors of the set. ANTHEA census of the
+            combinations, D8 (decision of the user of 29/10/2026: «d8 e bridge design devono usare model»).
+            </summary>
+        </member>
+        <member name="M:GPC.Design.Bridges.BridgeConcept.ProfileFactors.#ctor(System.Double,System.Double,System.Double,System.ValueTuple{System.Double,System.Double,System.Double}[])">
+            <summary>
+            The ultimate rows of a model with <see cref="F:GPC.Design.Bridges.PartialFactorSource.Ntc2018RoadBridges"/>: the factors of the structural permanent actions
+            (G1: concrete, steel and upper structure), of the non structural ones (G2: surfacing and barriers) and of the traffic of every ultimate row
+            of GPC.Model (RoadBridgeCombinations.Deck, set A1 of NTC 2018 Tab. 5.1.V), with the unfavourable factors of the set. ANTHEA census of the
+            combinations, D8 (decision of the user of 29/10/2026: «d8 e bridge design devono usare model»).
+            </summary>
+        </member>
+        <member name="M:GPC.Design.Bridges.BridgeConcept.UnfavourableAssumptions(GPC.Design.Bridges.BridgeModel)">
+            <summary>
+            The assumptions with the unfavourable factors of the profile (γG = γG1 1.35, γQ = 1.35) for the formulas that use only the unfavourable
+            factors (members of the upper structures, towers); the multipliers of the project otherwise.
+            </summary>
+        </member>
+        <member name="M:GPC.Design.Bridges.BridgeConcept.DesignPermanent(GPC.Design.Bridges.BridgeModel,System.Double,System.Double)">
+            <summary>The design permanent load with the unfavourable factors: γG1 G1 + γG2 G2 with the profile, γG (G1 + G2) otherwise.</summary>
+        </member>
+        <member name="M:GPC.Design.Bridges.BridgeConcept.ProfileLoads(GPC.Design.Bridges.BridgeModel,System.Double[],System.Double,System.Double,System.Double)">
+            <summary>
+            Ultimate envelopes of the deck beam with the rows of the profile: for every reaction and section the maximum and the minimum over the rows
+            of γG1 G1 + γG2 G2 + γQ Q, with Q the maximum or the minimum of the traffic (Schema 1 envelope, or the uniform traffic of the legacy model).
+            G1, G2 and the uniform traffic from one analysis with a unit load (linear beam).
+            </summary>
+        </member>
+        <member name="M:GPC.Design.Bridges.BridgeConcept.ProfileUpperLoads(GPC.Design.Bridges.BridgeModel,System.String,System.Double[],System.Double,System.Double,GPC.Design.Bridges.BridgeConcept.UpperStructure)">
+            <summary>
+            Ultimate reactions of the upper structures with the rows of the profile: G1 and G2 through the same reaction scheme with a unit load, the
+            traffic as today (uniform traffic, Schema 1 envelope, or the tributary bounds of the towers), maximum and minimum over the rows.
+            </summary>
+        </member>
         <member name="M:GPC.Design.Bridges.BridgeConcept.TechnicalSchedule(GPC.Design.Bridges.BridgeModel,GPC.Design.Bridges.BridgeConcept.Result)">
             <summary>Adopted dimensions of the calculation, independent of formatting and UI.</summary>
         </member>
@@ -61,8 +99,18 @@
         <member name="P:GPC.Design.Bridges.BridgeInput.TrafficModel">
             <summary>Defaults only for source compatibility; archive adapters must explicitly identify old documents.</summary>
         </member>
+        <member name="P:GPC.Design.Bridges.BridgeInput.PartialFactors">
+            <summary>Default for source and archive compatibility: the multipliers of the project. New documents choose the rows of the profile.</summary>
+        </member>
         <member name="P:GPC.Design.Bridges.BridgeModel.Prices">
             <summary>Null preserves the rates and arithmetic of a legacy calculation. Otherwise this owned snapshot governs every candidate.</summary>
+        </member>
+        <member name="T:GPC.Design.Bridges.PartialFactorSource">
+            <summary>
+            Source of the partial factors of the ultimate envelopes: the multipliers of the project (γG on G1 and G2, γQ on the traffic, the same in the
+            maxima and in the minima, as until GPC.Design 0.41), or the rows of NTC 2018 Tab. 5.1.V, set A1, from GPC.Model (γG1 1.35/1.00, γG2 1.50/0,
+            γQ 1.35/0; ANTHEA census of the combinations, D8).
+            </summary>
         </member>
         <member name="M:GPC.Design.Bridges.PlaneTraffic.LocalSupportForce(System.Double)">
             <summary>Interior support between two simply supported deck panels of equal length.</summary>
@@ -368,9 +416,54 @@
             <summary>Limited gravity-wall orchestration inherited from ANTHEA. mm/N/MPa; no JSON or UI dependency.
             Elastic magnification and compressed block apply only to stable, uncracked cantilevers. Assigned strengths retain their explicit independent policy.</summary>
         </member>
+        <member name="T:GPC.Design.Walls.WallScheduleOptions">
+            <summary>Panel and stock length in m, end cover in mm, ties per metre of wall and row, tie cut length in mm (0 = calculated).</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallScheduleOptions.#ctor(System.Double,System.Double,System.Double,System.Int32,System.Double,System.Boolean)">
+            <summary>Panel and stock length in m, end cover in mm, ties per metre of wall and row, tie cut length in mm (0 = calculated).</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallScheduledBar">
+            <summary>A position of the bar schedule. Quantity is the number of pieces in the panel, CutLength the length of a piece (m, sum of the
+            legs rounded to the cm), Spacing the nominal spacing (mm). Longitudinal bars: Lines in the section, Pieces per line spliced by Lap
+            (mm); SectionPoints their positions in the section. Ties: rows of ties in the lap; SectionPoints the rows.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallScheduledBar.#ctor(System.String,GPC.Design.Walls.WallRebarZone,System.Nullable{GPC.Design.Walls.WallRebarFace},GPC.Design.Walls.WallBarKind,System.Double,System.Int32,System.Nullable{System.Double},System.Double,System.Double,System.Double,System.Collections.Generic.IReadOnlyList{GPC.Design.Walls.WallBarLeg},System.Collections.Generic.IReadOnlyList{GPC.Design.Walls.WallBarPoint},GPC.Design.Walls.WallBarNote,System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Int32})">
+            <summary>A position of the bar schedule. Quantity is the number of pieces in the panel, CutLength the length of a piece (m, sum of the
+            legs rounded to the cm), Spacing the nominal spacing (mm). Longitudinal bars: Lines in the section, Pieces per line spliced by Lap
+            (mm); SectionPoints their positions in the section. Ties: rows of ties in the lap; SectionPoints the rows.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallDiameterTotal">
+            <summary>Total of a diameter: length (m), mass per metre (kg/m) and weight (kg).</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallDiameterTotal.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>Total of a diameter: length (m), mass per metre (kg/m) and weight (kg).</summary>
+        </member>
+        <member name="P:GPC.Design.Walls.WallScheduleResult.ConcreteVolume">
+            <summary>Concrete of the panel (m³) and steel per cubic metre of concrete (kg/m³), net weight without waste.</summary>
+        </member>
         <member name="T:GPC.Design.Walls.WallBarScheduling">
-            <summary>Preliminary take-off of the entered reinforcement, not a certification of a fabrication drawing.
-            Panel, stock, cut lengths and shape coordinates in m; cover, diameters, spacing, laps and tie cut input in mm.</summary>
+            <summary>Bar schedule of a panel of wall, as on a reinforcement drawing: positions in drawing order, shapes with the legs at the centre
+            line rounded to the cm, pieces in the panel, longitudinal bars spliced along the panel, totals per diameter and incidence. Net weight
+            without waste. Panel, stock, cut lengths and shape coordinates in m; cover, diameters, spacing, laps and tie cut input in mm.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallBarScheduling.Rounded(System.Collections.Generic.IReadOnlyList{GPC.Design.Walls.WallBarLeg})">
+            <summary>Legs at the centre line rounded to the cm (arcs developed); the cut length is their sum, as written on the shape.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallBarShapes">
+            <summary>Centre line of a bent bar from the corner points of its straight legs (m) and the centre-line bend radius at each inner
+            corner (m, 0 = sharp bend of known angle). Straight legs run between tangent points; arcs are developed exactly and sampled for
+            drawing only. A radius that does not fit in the adjacent legs is reduced.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallBarShapes.MinimumMandrel(System.Double)">
+            <summary>Minimum mandrel diameter (mm) of EN 1992-1-1 Table 8.1N and NTC 2018: 4Ø up to Ø16, 7Ø above.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallBarShapes.Nested(GPC.Design.Walls.WallBarPoint,System.Double,System.Double,System.Double,System.Double)">
+            <summary>Centre of a longitudinal bar of diameter <paramref name="bar"/> (mm) held in the bend of a bar: the bend centre
+            <paramref name="centre"/> moved towards the corner (unit diagonal <paramref name="dx"/>, <paramref name="dy"/>) until the bar
+            touches the inside of the bend (mandrel in mm).</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallFootDirection">
+            <summary>Direction of the foot (horizontal tail) of a stem bar in the foundation: towards the toe (valley) or the heel (mountain).</summary>
         </member>
         <member name="T:GPC.Design.Walls.WallDetailGeometry">
             <summary>Wall dimensions in metres. Reinforcement/detail lengths below are in mm unless stated otherwise.</summary>
@@ -387,11 +480,55 @@
         <member name="M:GPC.Design.Walls.WallDetailMaterial.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>Positive design strengths in MPa, obtained from the selected material/standard services.</summary>
         </member>
+        <member name="P:GPC.Design.Walls.WallDetailOptions.StockLength">
+            <summary>Stock bar (m): the toe and heel bars of a layer of the foundation are one continuous bar only if it fits.</summary>
+        </member>
         <member name="T:GPC.Design.Walls.WallBarPoint">
             <summary>Coordinates in metres, at the centre line of the bar.</summary>
         </member>
         <member name="M:GPC.Design.Walls.WallBarPoint.#ctor(System.Double,System.Double)">
             <summary>Coordinates in metres, at the centre line of the bar.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallBarLeg">
+            <summary>A leg of the centre line of a bar, in m. Straight legs carry their end points (section coordinates) and the angle in degrees
+            of a sharp bend at their start (0 if none); arcs carry the bend angle in degrees.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallBarLeg.#ctor(System.String,System.Double)">
+            <summary>A leg of the centre line of a bar, in m. Straight legs carry their end points (section coordinates) and the angle in degrees
+            of a sharp bend at their start (0 if none); arcs carry the bend angle in degrees.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallBarDetail">
+            <summary>Main bar of a zone and face (stem verticals, foundation transverse bars). Mark is the position number of the drawing.
+            A continuous foundation bar serves the toe and the heel (Zone is the toe).</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallBarDetail.#ctor(System.String,GPC.Design.Walls.WallRebarZone,GPC.Design.Walls.WallRebarFace,System.Double,System.Int32,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Collections.Generic.IReadOnlyList{GPC.Design.Walls.WallBarPoint})">
+            <summary>Main bar of a zone and face (stem verticals, foundation transverse bars). Mark is the position number of the drawing.
+            A continuous foundation bar serves the toe and the heel (Zone is the toe).</summary>
+        </member>
+        <member name="P:GPC.Design.Walls.WallBarDetail.FootReversed">
+            <summary>The foot does not fit on the preferred side (stem bars cross in the foundation) and turns the other way.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallHeadDetail">
+            <summary>U-bar closing the free head of the stem (EN 1992-1-1 9.3.1.4, fig. 9.8): Count bars per metre, legs from the top in m.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallHeadDetail.#ctor(System.String,GPC.Design.Walls.WallRebarZone,System.Double,System.Int32,System.Double,System.Double,System.Double,System.Double,System.Collections.Generic.IReadOnlyList{GPC.Design.Walls.WallBarPoint},System.Collections.Generic.IReadOnlyList{GPC.Design.Walls.WallBarLeg})">
+            <summary>U-bar closing the free head of the stem (EN 1992-1-1 9.3.1.4, fig. 9.8): Count bars per metre, legs from the top in m.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallTieDetail">
+            <summary>Cross ties between the faces in the lap of the stem bars: straight through the thickness at the junction, 135° hooks
+            extended by <see cref="P:GPC.Design.Walls.WallTieDetail.Hook"/> mm. Levels are the heights of the rows (m).</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallTieDetail.#ctor(System.String,System.Double,System.Double,System.Int32,System.Double,System.Double,System.Double,System.Collections.Generic.IReadOnlyList{GPC.Design.Walls.WallBarPoint},System.Collections.Generic.IReadOnlyList{GPC.Design.Walls.WallBarLeg},System.Collections.Generic.IReadOnlyList{System.Double})">
+            <summary>Cross ties between the faces in the lap of the stem bars: straight through the thickness at the junction, 135° hooks
+            extended by <see cref="P:GPC.Design.Walls.WallTieDetail.Hook"/> mm. Levels are the heights of the rows (m).</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallLongitudinalDetail">
+            <summary>Longitudinal (distribution) bars of a layer, inside the main bars: their positions in the section (m), the nominal
+            spacing and the lap l0 (mm) when they are spliced along the wall.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallLongitudinalDetail.#ctor(System.String,GPC.Design.Walls.WallRebarZone,GPC.Design.Walls.WallRebarFace,System.Double,System.Double,System.Double,System.Double,System.Collections.Generic.IReadOnlyList{GPC.Design.Walls.WallBarPoint})">
+            <summary>Longitudinal (distribution) bars of a layer, inside the main bars: their positions in the section (m), the nominal
+            spacing and the lap l0 (mm) when they are spliced along the wall.</summary>
         </member>
         <member name="T:GPC.Design.Walls.WallDetailCheck">
             <summary>Absolute demand and historical signed capacity (e.g. impossible free space). A nonpositive
@@ -400,6 +537,12 @@
         <member name="M:GPC.Design.Walls.WallDetailCheck.#ctor(GPC.Design.Walls.WallDetailRule,System.Nullable{GPC.Design.Walls.WallRebarZone},System.Nullable{GPC.Design.Walls.WallRebarFace},System.Double,System.Double,System.String)">
             <summary>Absolute demand and historical signed capacity (e.g. impossible free space). A nonpositive
             capacity with positive demand is never satisfied; negative capacity retains unavailable legacy ratio.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallReinforcementDetails">
+            <summary>Bars of the section in drawing order (marks 1, 2, …): main bars, head U-bars, ties, longitudinal bars. SteelKg per metre of wall.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallReinforcementDetails.#ctor(System.Collections.Generic.IReadOnlyList{GPC.Design.Walls.WallBarDetail},System.Collections.Generic.IReadOnlyList{GPC.Design.Walls.WallDetailCheck},System.Double)">
+            <summary>Bars of the section in drawing order (marks 1, 2, …): main bars, head U-bars, ties, longitudinal bars. SteelKg per metre of wall.</summary>
         </member>
         <member name="T:GPC.Design.Walls.WallRebarQuantities">
             <summary>Preliminary main reinforcement mass per metre of wall. The detailed take-off remains
@@ -416,8 +559,10 @@
             the delegate must evaluate a fresh candidate and must not change the caller's document.</summary>
         </member>
         <member name="T:GPC.Design.Walls.WallReinforcementDetailing">
-            <summary>Existing NTC retaining-wall detail policy, coordinated through shared Concrete services.
-            Geometry/path/length in m; cover, spacing, diameters, anchor and lap lengths in mm. No shop-detail certification.</summary>
+            <summary>NTC retaining-wall detail policy, coordinated through shared Concrete services: main bars at the spacing 1000/n of the
+            continuous wall, stem feet crossed in the foundation and resting on the bottom mesh, foundation bars continuous when possible with
+            end bends at the free edges, U-bars at the free head of the stem, cross ties in the lap and longitudinal bars inside the main bars.
+            Geometry/path/length in m; cover, spacing, diameters, anchor and lap lengths in mm.</summary>
         </member>
     </members>
 </doc>

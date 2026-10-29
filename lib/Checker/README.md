@@ -1,5 +1,23 @@
 # DLL Checker
 
+**Release AM — librerie della 1.16.0 (29 ottobre 2026).** Set ufficiale da Model `d0d76b51` e Checker `c301be7a`, entrambi su
+origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Unisce i rami della 1.16.0 con il lavoro delle altre sessioni sulle
+librerie, su richiesta dell'utente («aspetta che tutti gli altri agenti che stanno lavorando sulle librerie finiscano»). Contiene:
+- GPCModel 5.27.0.0, ModelData 0.3.0.12, Persistence 3.4.0.2 e Converter 2.9.0.0: Straus7 con fasi, truss e cavi nelle combinazioni,
+  reazioni, masse e temperature; combinazioni D6–D11 generate da Model con le righe dei ponti stradali (D8) ed EN 16612; R6 (k5 DIN);
+  limiti di lettura degli archivi, attualità dei report e compiti di esercizio delle aste della sessione steel;
+- GPCChecker.Concrete 0.31.0.0: voci R16, R20, R17, R8 e R14, inviluppo della colonna modello, cache dei domini di rottura;
+- GPCChecker.Geotechnics 0.27.0.0: Brinch Hansen con carico inclinato, drenato e non drenato;
+- GPC.Design 0.43.0.0: coefficienti parziali dei ponti stradali (D8) e armature e distinta del muro a mensola come tavola;
+- Steel 2.126.0.1 e GPCModelChecker 2.34.0.1: punti aperti della revisione steel, esercizio delle aste e delle sezioni, collegamenti;
+- CompositeBridge 1.19.0.16 e Masonry 0.10.0.15 ricompilate senza modifiche al sorgente.
+
+Suite di `Release-Set.ps1 -Previous` (set AL), tutte verdi senza fallimenti ammessi: Model (Core 59, UnitTest 1569, API) e Checker,
+Concrete 950 (con il contratto K0 in net472), Steel 122, CompositeBridge 402, Geotechnics 202, Calculation 175, ShallowFoundation 29,
+EmbeddedWalls 99, Steel.Members 6826, Design 122 e 121 (net472), ModelChecker 627; nessuna firma tolta oltre quelle approvate. Nessun
+Gmsh. DLL identiche a quelle del set candidato int-f. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`. Set in
+`supporto/artefatti/librerie-20261029-am/gpc-release-20261029-am`.
+
 **Release AL — librerie della 1.15.0 (28 ottobre 2026).** Set ufficiale da Model `02027760` e Checker `0951cbf9`, entrambi su
 origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Unisce i rami della 1.15.0 con le fasi della revisione steel, su
 richiesta dell'utente («Anche steel e model-prepare»). Contiene:

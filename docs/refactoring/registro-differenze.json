@@ -11661,6 +11661,12 @@
         "esito": "GPCChecker.Geotechnics 0.25.0.4 -> 0.26.0.0 (le combinazioni dei muri, che le fondazioni non usano): le stesse 8 impronte cambiano di nuovo e con library_version 0.25.0.4 tornano tutte quelle del set AL; differenza della stessa natura, regola «Approvati se spiegati», tabella con il commento del set candidato. Con il set ufficiale della 1.16.0 la versione può cambiare ancora.",
         "evidenze": "supporto/artefatti/1160-combinazioni/registra-ui (registra-fon.txt, registrazione temporanea non committata) e ui-2 (ui/check-fondazioni-view PASS)"
       },
+      "seguito_am": {
+        "data": "2026-10-29",
+        "set": "AM, set ufficiale della 1.16.0 (Model d0d76b51, Checker c301be7a, su origin/master)",
+        "esito": "GPCChecker.Geotechnics 0.26.0.0 -> 0.27.0.0 (Hansen con carico inclinato, D6 e D7, master con lo steel): le stesse 8 impronte cambiano di nuovo e con library_version 0.26.0.0 tornano tutte quelle della tabella dei set candidati della 1.16.0; nessuna fixture usa Hansen con azione orizzontale. Differenza della stessa natura, regola «Approvati se spiegati», tabella con il commento del set AM.",
+        "evidenze": "supporto/artefatti/1160/registra-fon-am (registra-fon-am.txt, registrazione temporanea non committata; ui/check-fondazioni-view PASS)"
+      },
       "test": [
         "ui/check-fondazioni-view"
       ],
