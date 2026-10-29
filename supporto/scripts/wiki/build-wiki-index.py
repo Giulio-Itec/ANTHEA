@@ -47,7 +47,12 @@ for kind, source in [('guide','pratica'),('theory','teorica')]:
         summary=re.sub(r'\*\*|`','',prose[0]) if prose else f'{clean}: metodi, procedure e limiti del modello.'
         if len(summary)>220: summary=summary[:220].rsplit(' ',1)[0]+'…'
         summary=meta.get('summary',summary)
-        words=set(re.findall('[a-z0-9]+',normalize(body+' '+area)))
+        # W-idx (decision of 25/10/2026, family 9 of docs/refactoring/f5-15-famiglie.md): the path of a figure is not a search term; its
+        # caption stays. Before, «src», «assets», «png» and the folders of the figures found the articles with figures.
+        searchable=re.sub(r'!\[([^\]]*)\]\([^)]*\)',r'\1',body)
+        words=set(re.findall('[a-z0-9]+',normalize(searchable+' '+area)))
+        # Rev62: a symbol written in LaTeX with a subscript (f_{ck}, N_q, \gamma_R) is found also as written in the text (fck, nq, gammar).
+        words.update(re.findall('[a-z0-9]+',normalize(' '.join(x+y for x,y in re.findall(r'\\?([A-Za-z]+)_\{?([A-Za-z0-9]+)\}?',searchable)))))
         aliases=[]
         for key, values in [('instabilita',['buckling','euler','snellezza']),('beam',['trave','finite','element','FEM']),('calcestruzzo',['concrete','rc']),('taglio',['shear']),('progett',['project']),('fessur',['cracking'])]:
             if key in normalize(body): aliases+=values

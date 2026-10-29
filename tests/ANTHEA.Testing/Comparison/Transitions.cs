@@ -10,6 +10,12 @@ public sealed record Transition(string File, string Path, string Class, string? 
 {
     public (string, string, string, string?, string?) Key => (File, Path, Class, A, B);
 
+    /// <summary>
+    /// Articles of the Wiki in the F3 capture declared by the editorial record: 77 up to the guides Rev61, 78 from the Rev62 (1.16.0) with the
+    /// chapter «Capacità orizzontale in terreno stratificato».
+    /// </summary>
+    public const string EditorialArticleCount = "78";
+
     /// <summary>Keep F4 engineering transitions immutable. The separate F5 editorial record replaces only the article count
     /// and adds exact Wiki differences; it cannot admit any engineering result, missing article, or numerical body change.</summary>
     public static IReadOnlyList<Transition> WithEditorialUpdate(IReadOnlyList<Transition> historical, IReadOnlyList<Transition> editorial)
@@ -18,8 +24,8 @@ public sealed record Transition(string File, string Path, string Class, string? 
         var oldCount = historical.Where(t => t.File == "esito.txt").ToArray();
         var newCount = editorial.Where(t => t.File == "esito.txt").ToArray();
         if (oldCount.Length != 1 || !Count(oldCount[0]) || oldCount[0].B != "75"
-            || newCount.Length != 1 || !Count(newCount[0]) || newCount[0].B != "77")
-            throw new InvalidDataException("Censimento editoriale F3/F5 diverso dalla revisione dichiarata (71 → 75 → 77).");
+            || newCount.Length != 1 || !Count(newCount[0]) || newCount[0].B != EditorialArticleCount)
+            throw new InvalidDataException("Censimento editoriale F3/F5 diverso dalla revisione dichiarata (71 → 75 → " + EditorialArticleCount + ").");
         foreach (var t in editorial.Where(t => t.File != "esito.txt"))
             if (!t.File.StartsWith("wiki/", StringComparison.Ordinal) || t.Class is not ("testo" or "elemento-aggiunto" or "file-aggiunto" or "riga-aggiunta"))
                 throw new InvalidDataException("Transizione non editoriale nel registro Wiki F5: " + t.File + " " + t.Path);

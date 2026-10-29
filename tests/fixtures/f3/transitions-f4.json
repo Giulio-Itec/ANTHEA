@@ -62,6 +62,7 @@
   "F4-40": 384,
   "F4-47": 4,
   "F4-51 / SPETTRI-04": 1,
+  "F5-REL-1160-02": 18,
   "PARATIE-19": 3934,
   "PARATIE-19 / AG-PO-02": 7,
   "PARATIE-20": 2677,
@@ -589031,6 +589032,150 @@
    "a": "kh e kv assegnati: il preset manuale mantiene γR statici e non maggiora kh per il ribaltamento. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).",
    "b": "kh e kv assegnati: le combinazioni sismiche automatiche usano i γR della Tab. 7.11.III, come quelle da parametri del sito (scorrimento 1, ribaltamento 1, portanza 1,2); kh non è maggiorato per il ribaltamento. Matrici personalizzate: fanno fede kh, kv e coefficienti di ogni riga. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).",
    "voce": "COMB-MURI-D5-NOTA"
+  },
+  {
+   "file": "sheets/geo_micropalo_orizzontale/chs-manuale-impedita/report.txt",
+   "percorso": "riga 1175",
+   "classe": "testo",
+   "a": "¶ Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+   "b": "¶ Articolo «Capacità orizzontale del palo in terreno stratificato» della documentazione di ANTHEA (cartella Guide); origine: Checker/PileCalculator.cs, diagrammi per strato e FindDepthForForce",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_micropalo_orizzontale/chs-manuale-impedita/result.json",
+   "percorso": "$.riferimenti[0].dettaglio",
+   "classe": "testo",
+   "a": "Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+   "b": "Articolo «Capacità orizzontale del palo in terreno stratificato» della documentazione di ANTHEA (cartella Guide); origine: Checker/PileCalculator.cs, diagrammi per strato e FindDepthForForce",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_micropalo_orizzontale/chs-manuale-impedita/result.json",
+   "percorso": "$.riferimenti[0].documento",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "\"Palo orizzontale in terreno stratificato.pdf\"",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_micropalo_orizzontale/single-soil-layer/report.txt",
+   "percorso": "riga 657",
+   "classe": "testo",
+   "a": "¶ Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+   "b": "¶ Articolo «Capacità orizzontale del palo in terreno stratificato» della documentazione di ANTHEA (cartella Guide); origine: Checker/PileCalculator.cs, diagrammi per strato e FindDepthForForce",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_micropalo_orizzontale/single-soil-layer/result.json",
+   "percorso": "$.riferimenti[0].dettaglio",
+   "classe": "testo",
+   "a": "Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+   "b": "Articolo «Capacità orizzontale del palo in terreno stratificato» della documentazione di ANTHEA (cartella Guide); origine: Checker/PileCalculator.cs, diagrammi per strato e FindDepthForForce",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_micropalo_orizzontale/single-soil-layer/result.json",
+   "percorso": "$.riferimenti[0].documento",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "\"Palo orizzontale in terreno stratificato.pdf\"",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_micropalo_orizzontale/stratificato-chs-catalogo/report.txt",
+   "percorso": "riga 798",
+   "classe": "testo",
+   "a": "¶ Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+   "b": "¶ Articolo «Capacità orizzontale del palo in terreno stratificato» della documentazione di ANTHEA (cartella Guide); origine: Checker/PileCalculator.cs, diagrammi per strato e FindDepthForForce",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_micropalo_orizzontale/stratificato-chs-catalogo/result.json",
+   "percorso": "$.riferimenti[0].dettaglio",
+   "classe": "testo",
+   "a": "Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+   "b": "Articolo «Capacità orizzontale del palo in terreno stratificato» della documentazione di ANTHEA (cartella Guide); origine: Checker/PileCalculator.cs, diagrammi per strato e FindDepthForForce",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_micropalo_orizzontale/stratificato-chs-catalogo/result.json",
+   "percorso": "$.riferimenti[0].documento",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "\"Palo orizzontale in terreno stratificato.pdf\"",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/broms-coesivo-impedita/report.txt",
+   "percorso": "riga 559",
+   "classe": "testo",
+   "a": "¶ Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+   "b": "¶ Articolo «Capacità orizzontale del palo in terreno stratificato» della documentazione di ANTHEA (cartella Guide); origine: Checker/PileCalculator.cs, diagrammi per strato e FindDepthForForce",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/broms-coesivo-impedita/result.json",
+   "percorso": "$.riferimenti[0].dettaglio",
+   "classe": "testo",
+   "a": "Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+   "b": "Articolo «Capacità orizzontale del palo in terreno stratificato» della documentazione di ANTHEA (cartella Guide); origine: Checker/PileCalculator.cs, diagrammi per strato e FindDepthForForce",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/broms-coesivo-impedita/result.json",
+   "percorso": "$.riferimenti[0].documento",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "\"Palo orizzontale in terreno stratificato.pdf\"",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/single-soil-layer/report.txt",
+   "percorso": "riga 647",
+   "classe": "testo",
+   "a": "¶ Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+   "b": "¶ Articolo «Capacità orizzontale del palo in terreno stratificato» della documentazione di ANTHEA (cartella Guide); origine: Checker/PileCalculator.cs, diagrammi per strato e FindDepthForForce",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/single-soil-layer/result.json",
+   "percorso": "$.riferimenti[0].dettaglio",
+   "classe": "testo",
+   "a": "Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+   "b": "Articolo «Capacità orizzontale del palo in terreno stratificato» della documentazione di ANTHEA (cartella Guide); origine: Checker/PileCalculator.cs, diagrammi per strato e FindDepthForForce",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/single-soil-layer/result.json",
+   "percorso": "$.riferimenti[0].documento",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "\"Palo orizzontale in terreno stratificato.pdf\"",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/stratificato-misto-manuale/report.txt",
+   "percorso": "riga 964",
+   "classe": "testo",
+   "a": "¶ Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+   "b": "¶ Articolo «Capacità orizzontale del palo in terreno stratificato» della documentazione di ANTHEA (cartella Guide); origine: Checker/PileCalculator.cs, diagrammi per strato e FindDepthForForce",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/stratificato-misto-manuale/result.json",
+   "percorso": "$.riferimenti[0].dettaglio",
+   "classe": "testo",
+   "a": "Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+   "b": "Articolo «Capacità orizzontale del palo in terreno stratificato» della documentazione di ANTHEA (cartella Guide); origine: Checker/PileCalculator.cs, diagrammi per strato e FindDepthForForce",
+   "voce": "F5-REL-1160-02"
+  },
+  {
+   "file": "sheets/geo_palo_orizzontale/stratificato-misto-manuale/result.json",
+   "percorso": "$.riferimenti[0].documento",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "\"Palo orizzontale in terreno stratificato.pdf\"",
+   "voce": "F5-REL-1160-02"
   }
  ],
  "aggiornamento_spettri": {
@@ -589158,5 +589303,16 @@
    "sheets/geo_muri_sostegno/opzioni-avanzate/result.json"
   ],
   "nota": "1.16.0, seguito di COMB-MURI-D4D5 (D5 b, 1.14.4): la nota «kh e kv assegnati» dei muri della versione 2 diceva ancora «il preset manuale mantiene γR statici», non più vero dal set AK: le righe sismiche automatiche con kh e kv assegnati hanno i γR della Tab. 7.11.III (scorrimento 1, ribaltamento 1, portanza 1,2). Solo il testo della nota cambia, nell'avviso di result.json e nella riga del report delle due fixture con kh e kv assegnati (mensola-wood-azioni, opzioni-avanzate): 4 voci nuove. Nessun altro file e nessun numero cambia; nessun atteso F3 sostituito, nessuna tolleranza nuova."
+ },
+ "aggiornamento_1160_pacini": {
+  "data": "2026-10-29",
+  "cattura": "supporto/artefatti/ci/20261029-012204-1160-guide-rif/ui_f3-equivalence/cattura",
+  "registro": [
+   "F5-REL-1160-02"
+  ],
+  "sostituite": 0,
+  "spostate": [],
+  "aggiunte": 18,
+  "nota": "1.16.0, richiesta dell'utente del 28/10 sera: il riferimento «G. Pacini — approccio al terreno stratificato» del palo e del micropalo orizzontale cita l'articolo «Capacità orizzontale del palo in terreno stratificato» e ha il campo «documento» con il PDF installato, che «Apri riferimento» apre. 6 fixture (3 del palo, 3 del micropalo): dettaglio di riferimenti[0] e chiave documento in result.json, riga del dettaglio in report.txt. Nessun valore di calcolo, nessun atteso F3 sostituito, nessuna tolleranza nuova."
  }
 }

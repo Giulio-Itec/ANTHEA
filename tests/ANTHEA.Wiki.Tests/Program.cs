@@ -13,7 +13,7 @@ try
     foreach (var expected in historical)
         Check(WikiCatalog.Articles.Any(a => a.Id == expected.GetProperty("id").GetString() && a.Key == expected.GetProperty("key").GetString()),
             "Articolo F5 perso o rinominato: " + expected.GetProperty("key").GetString());
-    string[] added = ["guida-paratie", "analisi-paratie", "guida-spettri-ntc", "spettri-isolamento"];
+    string[] added = ["guida-paratie", "analisi-paratie", "guida-spettri-ntc", "spettri-isolamento", "capacita-orizzontale-in-terreno-stratificato"];
     Check(WikiCatalog.Articles.Count(a => !added.Contains(a.Key)) == historical.Length, "Censimento storico F5 modificato");
     foreach (string key in added) Check(WikiCatalog.Resolve(key) is not null, "Capitolo aggiunto mancante: " + key);
     Check(WikiCatalog.ForModule("geo_paratie")?.Key == "guida-paratie", "Guida paratie non collegata");
@@ -52,6 +52,11 @@ try
         Check(WikiMarkup.Inline("[link](" + destination + ")").All(s => s.Kind != WikiInlineKind.Link), "Collegamento non ammesso: " + destination);
     var web = WikiMarkup.Inline("[link](https://example.test/path)").Single(s => s.Kind == WikiInlineKind.Link);
     Check(!web.Internal && web.Target == "https://example.test/path", "Collegamento web");
+    // 1.16.0: «guida:» links open a PDF installed in the Guide folder; only a plain file name is a link.
+    var document = WikiMarkup.Inline("[articolo](guida:Palo orizzontale in terreno stratificato.pdf)").Single(s => s.Kind == WikiInlineKind.Link);
+    Check(!document.Internal && document.Text == "articolo" && document.Target == "guida:Palo orizzontale in terreno stratificato.pdf", "Collegamento a un documento installato");
+    foreach (string destination in new[] { "guida:../a.pdf", "guida:C:\\a.pdf", "guida:a.exe", "guida:", "guida:.pdf" })
+        Check(WikiMarkup.Inline("[link](" + destination + ")").All(s => s.Kind != WikiInlineKind.Link), "Documento non ammesso: " + destination);
     string file = Path.Combine(output, "progress.json");
     var progress = new WikiProgress(file); progress.Update("beam", "dati", double.NaN, true); progress.Update("beam", "dati", 2, true); progress.Save();
     var reopened = new WikiProgress(file); Check(reopened.Entries["beam"].Fraction == 1 && reopened.Entries["beam"].Read.SequenceEqual(new[] { "dati" }), "Persistenza lettura");

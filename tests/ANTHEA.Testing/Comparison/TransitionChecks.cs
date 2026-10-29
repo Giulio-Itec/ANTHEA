@@ -43,14 +43,14 @@ public static class TransitionChecks
             catch (InvalidDataException) { Check(true, ""); }
 
             var historicCount = new Transition("esito.txt", "riga 1#2", "numero", "71", "75", "F4");
-            var currentCount = historicCount with { B = "77", Entry = "F5" };
+            var currentCount = historicCount with { B = Transition.EditorialArticleCount, Entry = "F5" };
             var article = new Transition("wiki/new.md", "", "file-aggiunto", null, "wiki/new.md", "F5");
             var engineering = listed[0];
             var updated = Transition.WithEditorialUpdate([historicCount, engineering], [currentCount, article]);
             Check(updated.Contains(engineering) && updated.Contains(currentCount) && updated.Contains(article) && updated.Count == 3,
                 "aggiornamento editoriale: conservare tutte le transizioni ingegneristiche");
             foreach (var invalid in new[] { article with { File = "sheets/result.json" }, article with { Class = "numero" },
-                article with { Class = "file-rimosso" }, currentCount with { B = "78" } })
+                article with { Class = "file-rimosso" }, currentCount with { B = "79" }, currentCount with { B = "77" } })
             {
                 try { Transition.WithEditorialUpdate([historicCount, engineering], [currentCount, invalid]); Check(false, "aggiornamento editoriale non valido accettato"); }
                 catch (InvalidDataException) { Check(true, ""); }

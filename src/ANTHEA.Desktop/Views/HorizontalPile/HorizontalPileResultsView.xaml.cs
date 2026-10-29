@@ -40,7 +40,7 @@ public partial class HorizontalPileResultsView : UserControl
             Tabs.Items.Insert(i, Tab("Sondaggio " + (i + 1).ToString(System.Globalization.CultureInfo.InvariantCulture), new DockPanel { Children = { info, panel } }));
         }
         References.ItemsSource = sheet.References.OfType<System.Text.Json.Nodes.JsonObject>()
-            .Select(r => new HorizontalPileReference(r.S("titolo"), r.S("dettaglio"), r.S("uso"), r.S("url") is { Length: > 0 } url ? url : null)).ToArray();
+            .Select(r => new HorizontalPileReference(r.S("titolo"), r.S("dettaglio"), r.S("uso"), HorizontalPileSheetViewModel.ReferenceTarget(r))).ToArray();
         Json.Text = sheet.Result?.ToJsonString(J.Options) ?? "";
         Tabs.SelectedIndex = 0;
     }
