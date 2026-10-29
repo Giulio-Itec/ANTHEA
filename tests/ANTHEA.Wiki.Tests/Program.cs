@@ -13,7 +13,7 @@ try
     foreach (var expected in historical)
         Check(WikiCatalog.Articles.Any(a => a.Id == expected.GetProperty("id").GetString() && a.Key == expected.GetProperty("key").GetString()),
             "Articolo F5 perso o rinominato: " + expected.GetProperty("key").GetString());
-    string[] added = ["guida-paratie", "analisi-paratie", "guida-spettri-ntc", "spettri-isolamento"];
+    string[] added = ["guida-paratie", "analisi-paratie", "guida-spettri-ntc", "spettri-isolamento", "capacita-orizzontale-in-terreno-stratificato"];
     Check(WikiCatalog.Articles.Count(a => !added.Contains(a.Key)) == historical.Length, "Censimento storico F5 modificato");
     foreach (string key in added) Check(WikiCatalog.Resolve(key) is not null, "Capitolo aggiunto mancante: " + key);
     Check(WikiCatalog.ForModule("geo_paratie")?.Key == "guida-paratie", "Guida paratie non collegata");

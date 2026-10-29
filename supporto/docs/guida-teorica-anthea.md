@@ -575,7 +575,7 @@ e la capacità è il 78,0 % di quella di Broms con $e = 0$, il 67,9 % con $e = L
 
 ### Esempi verificati e limiti
 
-Per argilla con $c_u = 40$ kPa fino a 2 m su sabbia con $\varphi' = 32°$, falda a 3 m, palo di diametro 0,8 m a testa libera con $e = 0{,}5$ m e lunghezza 5 m, il palo è corto con $H_u = 350{,}09$ kN, $z_f = 2{,}386$ m e $z_r = 3{,}850$ m; con la testa impedita, lunghezza 6 m e $M_y = 1500$ kNm il meccanismo è intermedio con $H_u = 890{,}66$ kN. L'articolo riporta otto casi, calcolati con la libreria e con un programma indipendente, con scarti relativi sotto $10^{-10}$.
+Per argilla con $c_u = 40$ kPa fino a 2 m su sabbia con $\varphi' = 32$°, falda a 3 m, palo di diametro 0,8 m a testa libera con $e = 0{,}5$ m e lunghezza 5 m, il palo è corto con $H_u = 350{,}09$ kN, $z_f = 2{,}386$ m e $z_r = 3{,}850$ m; con la testa impedita, lunghezza 6 m e $M_y = 1500$ kNm il meccanismo è intermedio con $H_u = 890{,}66$ kN. L'articolo riporta otto casi, calcolati con la libreria e con un programma indipendente, con scarti relativi sotto $10^{-10}$.
 
 Il metodo è sperimentale: non ha una validazione sperimentale indipendente e i risultati lo dichiarano. Le leggi locali sono quelle di Broms per il terreno omogeneo; applicarle strato per strato è un'ipotesi, meno affidabile per strati sottili e molto diversi. L'inversione brusca della reazione è un'idealizzazione dello stato limite, non una legge pressione–spostamento, e il calcolo non fornisce spostamenti: per l'esercizio serve la [risposta elastica del palo orizzontale](wiki:palo-elastico).
 
@@ -3511,7 +3511,7 @@ d_\gamma = 1
 
 $B$ in questo rapporto è la larghezza geometrica corrispondente al lato efficace minore. La legge empirica di k è discontinua in D/B = 1: il foglio la conserva senza introdurre raccordi arbitrari. Disabilitando i fattori di profondità si pone k = 0.
 
-Meyerhof usa $K_p = \tan^2(\pi/4 + \varphi/2)$ e i fattori seguenti; le ultime due righe valgono per $\varphi \geq 10°$:
+Meyerhof usa $K_p = \tan^2(\pi/4 + \varphi/2)$ e i fattori seguenti; le ultime due righe valgono per $\varphi \geq 10$°:
 
 ```math
 s_c = 1 + 0{,}2\,K_p\,r
