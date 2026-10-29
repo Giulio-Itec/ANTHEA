@@ -179,8 +179,17 @@
           ]
         },
         {
+          "id": "0d260339529c4926842c8132cc153c82",
+          "nome": "SLV Generale kv− 13 [SISMA]",
+          "azioni": [
+            -12.194947912499998,
+            9.162735169344597,
+            0
+          ]
+        },
+        {
           "id": "d7f1ba20f440479a92fc1ec1b1b4e8a1",
-          "nome": "SLV Generale kv+ 13 [SISMA]",
+          "nome": "SLV Generale kv+ 14 [SISMA]",
           "azioni": [
             -10.788802087499999,
             10.266517121951692,
@@ -189,7 +198,7 @@
         },
         {
           "id": "86b0e90d9b3d42b09125bd1a21d76fa8",
-          "nome": "SLV Generale kv+ 13b [SISMA]",
+          "nome": "SLV Generale kv+ 14b [SISMA]",
           "azioni": [
             -10.788802087499999,
             10.266517121951692,
@@ -197,8 +206,17 @@
           ]
         },
         {
+          "id": "29429eae783b4855a7b10cefef0ff6e9",
+          "nome": "SLV Generale kv+ 15 [SISMA]",
+          "azioni": [
+            -10.788802087499999,
+            8.720970114013399,
+            0
+          ]
+        },
+        {
           "id": "0c8dded1692e4b28aa263907cca78d96",
-          "nome": "SLV Ribaltamento kv− 14 [SISMA]",
+          "nome": "SLV Ribaltamento kv− 16 [SISMA]",
           "azioni": [
             -12.546484368749997,
             13.938829589340525,
@@ -207,7 +225,7 @@
         },
         {
           "id": "d6b8c92a10914b3f8b7caf43c4ceb33d",
-          "nome": "SLV Ribaltamento kv− 14b [SISMA]",
+          "nome": "SLV Ribaltamento kv− 16b [SISMA]",
           "azioni": [
             -12.546484368749997,
             13.938829589340525,
@@ -215,8 +233,17 @@
           ]
         },
         {
+          "id": "67c0786ad7fb46a69ba36da8d941e57a",
+          "nome": "SLV Ribaltamento kv− 17 [SISMA]",
+          "azioni": [
+            -12.546484368749997,
+            12.017454977092594,
+            0
+          ]
+        },
+        {
           "id": "09b979c69a0f46a5a774321c19ddaad9",
-          "nome": "SLV Ribaltamento kv+ 15 [SISMA]",
+          "nome": "SLV Ribaltamento kv+ 18 [SISMA]",
           "azioni": [
             -10.437265631249998,
             13.187318968803107,
@@ -225,10 +252,19 @@
         },
         {
           "id": "32e3b48a32a04bc39e4ec489bbc821b2",
-          "nome": "SLV Ribaltamento kv+ 15b [SISMA]",
+          "nome": "SLV Ribaltamento kv+ 18b [SISMA]",
           "azioni": [
             -10.437265631249998,
             13.187318968803107,
+            0
+          ]
+        },
+        {
+          "id": "a1af23f635ed4e8e9f9e36678566bd0f",
+          "nome": "SLV Ribaltamento kv+ 19 [SISMA]",
+          "azioni": [
+            -10.437265631249998,
+            11.488878766667485,
             0
           ]
         }
@@ -652,8 +688,18 @@
             "T": 0
           },
           {
+            "id": "e6f18c5c88324317956ce50b277eb46f",
+            "nome": "SLV Generale kv− 13 [SISMA]",
+            "N": -12.194947912499998,
+            "Mx": 9.162735169344597,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 14.39671828989842,
+            "T": 0
+          },
+          {
             "id": "14012a170cfc4c5bad69c16fb9cc5e1d",
-            "nome": "SLV Generale kv+ 13 [SISMA]",
+            "nome": "SLV Generale kv+ 14 [SISMA]",
             "N": -10.788802087499999,
             "Mx": 10.266517121951692,
             "My": 0,
@@ -663,7 +709,7 @@
           },
           {
             "id": "74e7fc4ff90a4d0e9bf38a6a71fa75e7",
-            "nome": "SLV Generale kv+ 13b [SISMA]",
+            "nome": "SLV Generale kv+ 14b [SISMA]",
             "N": -10.788802087499999,
             "Mx": 10.266517121951692,
             "My": 0,
@@ -672,8 +718,18 @@
             "T": 0
           },
           {
+            "id": "59b627d3e2184ca7b483f3fcef8bb603",
+            "nome": "SLV Generale kv+ 15 [SISMA]",
+            "N": -10.788802087499999,
+            "Mx": 8.720970114013399,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 13.502074508074413,
+            "T": 0
+          },
+          {
             "id": "4c225bf1725b43ca8ae292d39d732326",
-            "nome": "SLV Ribaltamento kv− 14 [SISMA]",
+            "nome": "SLV Ribaltamento kv− 16 [SISMA]",
             "N": -12.546484368749997,
             "Mx": 13.938829589340525,
             "My": 0,
@@ -683,7 +739,7 @@
           },
           {
             "id": "b2eda68803264e5d8a2a0a8e6cc8dd67",
-            "nome": "SLV Ribaltamento kv− 14b [SISMA]",
+            "nome": "SLV Ribaltamento kv− 16b [SISMA]",
             "N": -12.546484368749997,
             "Mx": 13.938829589340525,
             "My": 0,
@@ -692,8 +748,18 @@
             "T": 0
           },
           {
+            "id": "fa638404ad1440db82e931739caa80ed",
+            "nome": "SLV Ribaltamento kv− 17 [SISMA]",
+            "N": -12.546484368749997,
+            "Mx": 12.017454977092594,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 18.03625257521887,
+            "T": 0
+          },
+          {
             "id": "b471e674d0c04ca58bdbc2ec7b1d6adb",
-            "nome": "SLV Ribaltamento kv+ 15 [SISMA]",
+            "nome": "SLV Ribaltamento kv+ 18 [SISMA]",
             "N": -10.437265631249998,
             "Mx": 13.187318968803107,
             "My": 0,
@@ -703,12 +769,22 @@
           },
           {
             "id": "70446af94e3d41f08588ab89855b595d",
-            "nome": "SLV Ribaltamento kv+ 15b [SISMA]",
+            "nome": "SLV Ribaltamento kv+ 18b [SISMA]",
             "N": -10.437265631249998,
             "Mx": 13.187318968803107,
             "My": 0,
             "Vx": 0,
             "Vy": 18.95664687125731,
+            "T": 0
+          },
+          {
+            "id": "f4fc06b2f4684ff99d1bd205f4878efe",
+            "nome": "SLV Ribaltamento kv+ 19 [SISMA]",
+            "N": -10.437265631249998,
+            "Mx": 11.488878766667485,
+            "My": 0,
+            "Vx": 0,
+            "Vy": 16.85980711553432,
             "T": 0
           }
         ]

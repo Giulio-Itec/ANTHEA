@@ -108,3 +108,16 @@ fa nulla. Il calcolo passa da `HeldModuleService`, che può trattenere il motore
   già registrato con AG-MUR-01 (`Presentation.Tests`, f3-transizioni); i CSV delle verifiche, confrontati con quelli della corsa
   `20261023-193404-merge-muri-ui`, hanno le stesse righe e cambiano solo nei numeri (al più 0,22 %). Le altre 6 fixture non cambiano.
 - 27/10/2026, librerie della 1.14.2 (Checker 4a1b0090, AJ-LIB-01, voce BUG-MUR-2b): la passiva a valle non entra più nella resistenza al ribaltamento. In `storica` sostituite 122 righe di 21 tracce (impronte del risultato, MRd del ribaltamento e righe delle verifiche dei muri con passiva, testo della passiva nei parametri derivati); in `vista-storica.json` 14 valori dalla vista XAML con una registrazione temporanea di `ui/check-muri-view`, non committata (corsa `supporto/artefatti/lib-1142r/ui-muri-registrazione`): 13 impronte del risultato (testo del metodo) e il CSV delle verifiche di `gravita-cls-passiva`. Impronte dei dati, combinazioni, conci, distinta e report (ricetta) invariati.
+- 29/10/2026, 1.16.0, censimento delle combinazioni D6 a (voce COMB-D6, decisione dell'utente del 28/10 «Come raccomandato»): nelle
+  righe sismiche ed eccezionali ogni gruppo variabile presente (ψ2) o assente. In `storica` sostituite 279 righe, aggiunte 41 e tolte 2
+  in 7 tracce (`fixture-globale-non-drenata-sisma`, `fixture-mensola-sisma-sito-pendio`, `fixture-mensola-wood-azioni`,
+  `fixture-opzioni-avanzate`, `azioni-sisma-matrice`, `risultati-sezione`, `opzioni-armature`), con il valore del ViewModel
+  (`Presentation.Tests`, registrazione temporanea non committata, corsa `supporto/artefatti/1160-combinazioni/registra-1`): matrice e
+  dati delle combinazioni (righe nuove e righe rinominate), elenco delle combinazioni, conteggi dello stato e del pulsante «Sisma»,
+  impronte del risultato, righe delle verifiche con il nome nuovo (stessi valori), combinazioni e casi globali, impronte delle
+  sezioni inviate al modulo c.a. Tolti i nomi e le impronte, i valori delle verifiche sono uguali.
+  In `vista-storica.json` 16 valori di 4 fixture, dalla vista XAML con una registrazione temporanea non committata di
+  `ui/check-muri-view` (corsa `supporto/artefatti/1160-combinazioni/registra-ui`): impronte dei dati e del risultato dopo il calcolo
+  (stesse differenze spiegate di F3), CSV delle verifiche (ogni riga di prima c'è ancora, con il nome nuovo; le righe nuove sono delle
+  combinazioni nuove), CSV dei conci di `globale-non-drenata-sisma` (casi globali nuovi), CSV della distinta di tre fixture (solo il numero
+  delle verifiche non soddisfatte o non disponibili nella nota, per esempio 42 → 52). Pagine della distinta e combinazioni mostrate invariate.

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-28",
+  "aggiornato": "2026-10-29",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -11602,6 +11602,12 @@
         "esito": "GPCChecker.Geotechnics 0.25.0.3 -> 0.25.0.4, ricompilata senza modifiche al sorgente: le stesse 8 impronte cambiano di nuovo e con library_version 0.25.0.3 tornano quelle approvate (da14147b); differenza della stessa natura, approvata dalla regola «Approvati se spiegati» del 28/10 sera e registrata nella tabella con il commento del set AL.",
         "evidenze": "supporto/artefatti/1150/al-mirate (registra-fon.txt, registrazione temporanea non committata; PASS 36)"
       },
+      "seguito_1160": {
+        "data": "2026-10-29",
+        "set": "candidato b della 1.16.0 (Model lib-1160/combinazioni 1f48507b, Checker 3f0623f9), combinazioni D6 e D7",
+        "esito": "GPCChecker.Geotechnics 0.25.0.4 -> 0.26.0.0 (le combinazioni dei muri, che le fondazioni non usano): le stesse 8 impronte cambiano di nuovo e con library_version 0.25.0.4 tornano tutte quelle del set AL; differenza della stessa natura, regola «Approvati se spiegati», tabella con il commento del set candidato. Con il set ufficiale della 1.16.0 la versione può cambiare ancora.",
+        "evidenze": "supporto/artefatti/1160-combinazioni/registra-ui (registra-fon.txt, registrazione temporanea non committata) e ui-2 (ui/check-fondazioni-view PASS)"
+      },
       "test": [
         "ui/check-fondazioni-view"
       ],
@@ -11686,6 +11692,175 @@
         "UI-CONTRASTO-01",
         "UI-CONTRASTO-02"
       ]
+    },
+    {
+      "id": "COMB-D6",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni D6-D11)",
+      "titolo": "Muri: variabili presenti o assenti nelle righe sismiche ed eccezionali (D6 a)",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Muri di sostegno (verifiche locali e stabilità globale)",
+      "categoria": "scostamento-normativo",
+      "stato": "attuato",
+      "descrizione": "Censimento delle combinazioni (docs/refactoring/combinazioni-model-censimento.md, §5.1), D6 a: nelle combinazioni sismiche ed eccezionali ψ2·Qk entra solo se sfavorevole (NTC 2018 §2.5.3), quindi ogni gruppo variabile è presente (ψ2) o assente, come nelle SLU. Il generatore di Model (GeotechnicalCombinations) dà, per ogni variante sismica e per ogni gruppo eccezionale, una riga per ogni disposizione: prima tutte le variabili, poi il primo gruppo assente, il secondo, entrambi, …; le righe uguali (ψ2 = 0) si fondono senza numero; un contatore solo numera le righe, quindi le righe sismiche ed eccezionali dopo la prima cambiano numero; una riga con il sovraccarico assente non ha la gemella «b». Anche le righe «Globale eccezionale» e «Globale SLV» della stabilità globale. Prima di attuare, righe in più contate sul corpus delle catture di Geotechnics: 7652 → 7852 (+200, 40 documenti su 204; sismiche ed eccezionali 228 → 428), globali 374 → 406; con 3000 muri casuali 635417 → 642586 (+7169), globali 21667 → 24115; nessun rifiuto nuovo oltre 4096 righe. Model lib-1160/combinazioni (GPCModel 5.24.0.0) e Checker lib-1160/combinazioni (GPCChecker.Geotechnics 0.26.0.0), set candidato librerie-candidato-b, non ancora uniti nei master. I documenti versione 1 conservano la riga unica (COMB-D7).",
+      "codice": [
+        "Model/Model/Design/Combinations/GeotechnicalCombinations.cs",
+        "Checker/GPCChecker.Geotechnics/Walls/WallCombinations.cs",
+        "Checker/GPCChecker.Geotechnics/Walls/WallGlobalStability.cs"
+      ],
+      "segno": "Righe in più, nessuna tolta: a favore di sicurezza o neutro. Nelle quattro fixture F3 interessate nessun rapporto massimo cambia e nessun esito cambia; aumentano le righe e i controlli non soddisfatti o non disponibili delle righe nuove (per esempio 42 → 52 in mensola-wood-azioni), con gli stessi rapporti massimi.",
+      "effetto_quantificato": "Corpus delle catture di Geotechnics: 40 documenti su 204 con righe in più, 7652 → 7852 righe (+200), sismiche ed eccezionali 228 → 428, globali 374 → 406; con 3000 muri casuali 635417 → 642586 (+7169). ANTHEA: quattro fixture F3 (globale-non-drenata-sisma 23 → 27 righe e globali 4 → 6, mensola-sisma-sito-pendio 23 → 27, mensola-wood-azioni 33 → 36, opzioni-avanzate 19 → 21); nessun rapporto massimo e nessun esito cambiano; i controlli non soddisfatti o non disponibili crescono con le righe nuove (20 → 24, 23 → 27, 72 → 85, 17 → 19), con gli stessi massimi. Come la quantificazione della 1.14.4 (supporto/artefatti/1144/quantificazione-d4-d6.csv: per D6 nessun rapporto cambiato su 19 documenti).",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«Come raccomandato» (riepilogo della sera, domande D6-D11 del censimento delle combinazioni)",
+        "esito": "attuato (librerie e riferimenti di ANTHEA spiegati riga per riga, regola «Approvati se spiegati»)"
+      },
+      "riferimenti_anthea": "Transizioni F3 (chiave aggiornamento_1160_d6, 73616 voci): 11493 COMB-D6 nuove, 992 con il valore dopo nuovo e la voce estesa « / COMB-D6» (220 PARATIE-20, 718 AG-MUR-01, 54 COMB-MURI-D4D5), una PARATIE-20 tolta (riga del report spostata); 7 tracce storiche dei muri (279 righe sostituite, 41 aggiunte, 2 tolte); 16 valori di vista-storica.json dei muri; le due sezioni che i muri mandano al c.a. (4 azioni SISMA in più) e le loro tracce storica/muri della sezione; conteggi delle transizioni in Presentation.Tests; attesi di RetainingWall.Checks e di ui/smoke-retaining-wall contati a mano. Ogni riga cambiata spiegata dal confronto semantico con la cattura del set AL (d6_confronto.py, sez_tracce.py): tolte le righe nuove e rinominate le altre, i risultati sono uguali. Nessun atteso F3 sostituito, nessuna tolleranza nuova.",
+      "test": [
+        "Model UnitTest GeotechnicalCombinationsTest (attesi a mano)",
+        "Checker GPCChecker.Test.Geotechnics WallCombinationsEquivalenceTests (bit per bit con le righe congelate e l'espansione indipendente WallsFixture.DecidedD6), WallEdgeCaseTests.VariableGroupsAbsentInTheSeismicAndAccidentalRows",
+        "RetainingWall.Checks, Presentation.Tests, ui/f3-equivalence, ui/check-muri-view, ui/smoke-retaining-wall"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/librerie-candidato-b (tutte le suite di Model e Checker; d6-righe.csv dei risultati di Geotechnics)",
+        "supporto/artefatti/1160-combinazioni/registra-1 e registra-ui (registrazioni temporanee non committate), sez-2",
+        "supporto/artefatti/1160-combinazioni/mirate-1, ui-1, ui-2 (suite mirate)"
+      ],
+      "voci_collegate": [
+        "COMB-MODEL-01",
+        "COMB-MURI-D4D5",
+        "BUG-MUR-1",
+        "COMB-D7"
+      ]
+    },
+    {
+      "id": "COMB-D7",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni D6-D11)",
+      "titolo": "Muri versione 1: casi fissi generati da Model, bit per bit (D7 a); valutazione di D7 b",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Muri di sostegno, documenti versione 1 calcolati senza interfaccia",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Censimento, D7 a: RetainingWall.LegacyCombinations non scrive più fattori e γR: chiama WallCombinations.Version1 di GPCChecker.Geotechnics 0.26, cioè il generatore di Model con l'ordine dei bit dichiarato (muro, terreno, carichi, acqua) e una riga sismica per segno con ψ2, γR di R3 e 1,2 della portanza sismica da StandardNTC2018Geotechnics. Le righe sono quelle di prima bit per bit: la copia congelata del codice di ANTHEA 1.15.0 (FrozenWallVersion1Combinations) e Version1 coincidono su 126 ingressi (i 6 documenti versione 1 delle catture e una griglia di 120), 2458 righe; le righe senza gemelle sono anche quelle della cattura storica. D4, D5 e D6 non valgono per questi casi fissi. D7 b (aggiornare questi documenti alla versione 2 anche nel calcolo) è valutato e non attuato: su 22 documenti versione 1 (6 delle catture, 16 di una griglia) senza sisma stessi rapporti governanti e solo nomi diversi; con il sisma righe in più (D6) e rapporti di scorrimento −9,09 % e di ribaltamento −13,04 % dove governa una riga sismica (γR della Tab. 7.11.III, D5 b), meno cautelativi; Upgrade dà ψ0 = 0,7 e rende non validi i documenti con ψ1 > 0,7 (8 su 16 della griglia), difetto già presente nell'interfaccia. Raccomandazione: correggere Upgrade e attuare b solo con l'ok dell'utente (censimento §5.2, supporto/artefatti/1160-combinazioni/valutazione-d7b.csv).",
+      "codice": [
+        "X.Calculations/RetainingWall.Library.cs (LegacyCombinations)",
+        "Checker/GPCChecker.Geotechnics/Walls/WallCombinations.cs (Version1)",
+        "Model/Model/Design/Combinations/GeotechnicalCombinations.cs (ordine dichiarato, variablePresence)",
+        "tests/ANTHEA.Architecture.Tests/f4-domain-baseline.json (due residui R4 ridotti da 2 a 1)"
+      ],
+      "segno": "Nessun valore cambia (a); b cambierebbe nomi, righe e γR sismici dei documenti versione 1.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«Come raccomandato» (riepilogo della sera, domande D6-D11 del censimento delle combinazioni)",
+        "esito": "a attuato; b valutato (censimento §5.2), non attuato"
+      },
+      "test": [
+        "Checker WallCombinationsEquivalenceTests.TheVersion1CasesAreTheFrozenOnes",
+        "Model GeotechnicalCombinationsTest.TheDeclaredPatternOrderSetsTheBitsOfTheUltimateRows",
+        "RetainingWall.Checks (versione 1 invariata), Architecture.Tests (F4 senza aggiunte)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/librerie-candidato-b (GPCChecker.Test.Geotechnics 202 PASS)",
+        "supporto/artefatti/1160-combinazioni/mirate-1 (RetainingWall.Checks PASS)",
+        "supporto/artefatti/1160-combinazioni/valutazione-d7b.csv"
+      ],
+      "voci_collegate": [
+        "COMB-MODEL-01",
+        "COMB-D6"
+      ]
+    },
+    {
+      "id": "COMB-D9",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni D6-D11)",
+      "titolo": "Modelli: combinazioni automatiche NTC 2018 sul generatore di Model (D9 a, servizio)",
+      "famiglia": "modelli/combinazioni",
+      "modulo": "Modelli (ANTHEA.ModelWorkspace)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Censimento, D9 a: il generatore automatico del modulo Modelli usa lo stesso generatore di Model dei muri. ModelCombinationGenerator trasforma i casi statici della copia del modello, con la loro natura (G1, G2, variabile con la categoria della Tab. 2.5.I, eccezionale, sismico), nelle righe di GeotechnicalCombinations con l'insieme A1 di CombinationProfile.Ntc2018 e le scrive come combinazioni lineari ANTHEA modificabili (ANTHEA/NTC2018/…), calcolate da GPC come le altre: SLE rara, frequente, quasi permanente, SLU, SLV (ogni caso sismico ±1, variabili presenti o assenti), eccezionali. Propose propone le nature dai tipi MIDAS (STLD). Nessuna interfaccia ancora: il passo successivo, con le domande, è nel piano del censimento (§5.4). Nessun risultato esistente cambia.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelCombinationGenerator.cs",
+        "tests/ModelWorkspace.Checks/CombinationGeneratorChecks.cs"
+      ],
+      "segno": "Funzione nuova; nessun documento esistente cambia.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«Come raccomandato» (riepilogo della sera, domande D6-D11 del censimento delle combinazioni)",
+        "esito": "servizio attuato; interfaccia pianificata"
+      },
+      "test": [
+        "ModelWorkspace.Checks (16 controlli, righe attese a mano e una combinazione calcolata da GPC)",
+        "ModelViewer.Combinations.UiChecks"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/mirate-1 (ModelWorkspace.Checks PASS)",
+        "supporto/artefatti/1160-combinazioni/ui-1 (ModelViewer.Combinations.UiChecks PASS)"
+      ],
+      "voci_collegate": [
+        "COMB-D10",
+        "MOD-30"
+      ]
+    },
+    {
+      "id": "COMB-D10",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni D6-D11)",
+      "titolo": "Profili delle combinazioni: NTC 2018 ora, valori EN 1990 tenuti (D10 a)",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Model (GPC.Model.Design.Combinations)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Censimento, D10 a: CombinationProfile con gli insiemi delle righe SLU (EQU, A1/STR, A2/GEO, sismico) e ψ0, ψ1, ψ2 per categoria. Ntc2018: A1, A2 e l'insieme sismico da StandardNTC2018Geotechnics (riscontrati sul testo nella fase G); EQU della Tab. 2.6.I (G1 0,9/1,1, G2 0,8/1,5, Q 0/1,5) e ψ della Tab. 2.5.I scritti dalla letteratura tecnica: da riscontrare sul testo (per ψ coincidono con i valori raccomandati della EN 1990). En1990/FromEN1990: Tab. A1.1 e A1.2(A)-(C) da StandardEN1990, anche con un annesso nazionale impostato sull'istanza, un solo γG per G1 e G2, per la futura voce «Eurocodici con una norma di progetto». Le formule restano quelle di NTC 2018 §2.5.3 (6.10a/b e ψ1 della principale eccezionale della EN 1990 non implementati); nessuna scelta della norma nell'interfaccia.",
+      "riferimento_normativo": "NTC 2018 Tab. 2.5.I e 2.6.I (da riscontrare sul testo per EQU e ψ); EN 1990 Tab. A1.1, A1.2(A)-(C)",
+      "codice": [
+        "Model/Model/Design/Combinations/CombinationProfile.cs",
+        "Model/Model/Core/Values/ModelDataContracts.cs (VariableActionCategory)"
+      ],
+      "segno": "Nessun valore esistente cambia; i valori servono al generatore dei Modelli (COMB-D9).",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«Come raccomandato» (riepilogo della sera, domande D6-D11 del censimento delle combinazioni)",
+        "esito": "attuato"
+      },
+      "test": [
+        "Model GeotechnicalCombinationsTest.TheProfilesHoldTheValuesOfTheStandards, TheLoadCasesOfAModelUseTheSameGenerator"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/librerie-candidato-b (Model UnitTest 1537 PASS, Core 35, API; Checker tutte le suite)"
+      ],
+      "voci_collegate": [
+        "COMB-D9"
+      ]
+    },
+    {
+      "id": "COMB-D11",
+      "data": "2026-10-29",
+      "fase": "1.16.0, combinazioni in Model (censimento, decisioni D6-D11)",
+      "titolo": "CreateCombinations: SLE caratteristica con la principale al valore caratteristico (D11 a)",
+      "famiglia": "librerie/combinazioni",
+      "modulo": "Model (StandardEN1990.CreateCombinations)",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Censimento, D11 a: nella SLE caratteristica la principale valeva γ·ψ2 invece di Qk (EN 1990 (6.14b), NTC 2018 (2.5.2)). Corretto in StandardEN1990.GetCoefficientLeadingVariableAction; atteso di EN1990GeneratorServiceabilityCharacteristic aggiornato con l'ok dell'utente nella decisione (vento principale 0 → 1, neve principale 0,2 → 1). Nessun chiamante di produzione: nessun risultato di ANTHEA cambia. StandardEN16612 (vetro) ha lo stesso difetto per le azioni climatiche: non corretto, perché cambierebbe i conteggi attesi di EN16612GeneratorAGC_SLS1 e _SLS2 (10 → 11 righe), fuori dalla decisione; domanda aperta.",
+      "codice": [
+        "Model/Model/Design/Standards/StandardEN1990.cs",
+        "Model/UnitTest/CombinationTest.cs"
+      ],
+      "segno": "Nessun effetto su ANTHEA.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "«Come raccomandato» (riepilogo della sera, domande D6-D11 del censimento delle combinazioni)",
+        "esito": "corretto con l'atteso del test di Model; EN 16612 aperto"
+      },
+      "test": [
+        "Model UnitTest CombinationTest.EN1990GeneratorServiceabilityCharacteristic"
+      ],
+      "evidenze": [
+        "supporto/artefatti/1160-combinazioni/librerie-candidato-b (Model UnitTest 1537 PASS, Core 35, API; Checker tutte le suite)"
+      ],
+      "voci_collegate": []
     }
   ]
 }

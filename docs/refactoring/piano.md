@@ -951,7 +951,7 @@ ancora aperte passano alla 1.14.4 (sezione sotto).
 Decisione del 27/10: «fatta la versione, comincia a lavorare alla 1.14.4 chiudendo gli altri punti che avevamo in lista (vedi combo in
 model ecc)». Le voci vengono dalla 1.14.3.
 
-- [x] Combinazioni e loro generazione in Model, prima i muri, poi i moduli che costruiscono le combinazioni da sé. 28/10: muri dal generatore di Model (COMB-MODEL-01) e decisioni D4 b e D5 b (COMB-MURI-D4D5) nel set AK; le domande D6-D11 del censimento restano aperte (D11, SLE caratteristica di CreateCombinations, senza chiamanti).
+- [x] Combinazioni e loro generazione in Model, prima i muri, poi i moduli che costruiscono le combinazioni da sé. 28/10: muri dal generatore di Model (COMB-MODEL-01) e decisioni D4 b e D5 b (COMB-MURI-D4D5) nel set AK; le domande D6-D11 del censimento restano aperte (D11, SLE caratteristica di CreateCombinations, senza chiamanti). 29/10, 1.16.0 («Come raccomandato» del 28/10 sera): D6 a (variabili presenti o assenti nelle righe sismiche ed eccezionali dei muri, COMB-D6), D7 a (versione 1 da Model, bit per bit; b valutato, COMB-D7), D9 a (servizio del generatore dei Modelli, COMB-D9; interfaccia pianificata), D10 a (profili NTC 2018 ed EN 1990, COMB-D10), D11 a (COMB-D11); D8 b pianificato ([censimento](combinazioni-model-censimento.md) §5).
 - [x] Palo orizzontale: anello interno di diametro diverso dalla prima fila nei report (la distinta per diametro è nella 1.14.2). 27/10:
   frase del secondo anello nel report di Broms e riga del tratto nel report elastico (PO-ANELLO-01), riferimenti approvati.
 - [x] BUG-TS-2 (27/10: opzione 1 con β = 0,4, decisioni.md «Decisioni della 1.14.4 (sera)»): tension stiffening nell'area efficace hc,eff, fuori dalle verifiche SLE per ora.

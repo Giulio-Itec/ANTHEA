@@ -92,6 +92,14 @@ degli identificativi nuovi) e che i loro nomi e le loro impronte sono quelli del
 (`tests/fixtures/f5-muri/storica/risultati-sezione.txt`). Gli scenari `muri/…` li aprono nella vista storica (tracce in `storica/muri`,
 catturate il 18/10/2026 sul codice di `68668f1b`) e nel ViewModel della sezione.
 
+Il 29/10/2026 (1.16.0, censimento delle combinazioni D6 a, voce COMB-D6) i muri mandano quattro righe SISMA in più per sezione (le righe SLV
+con il sovraccarico assente: `SLV Generale kv− 13`, `kv+ 15`, `SLV Ribaltamento kv− 17`, `kv+ 19`), nelle azioni del taglio e nell'insieme SLU, e
+le righe SLV successive cambiano numero. I due file `muri/*.json` sono quelli prodotti dal ViewModel dei muri, con gli identificativi delle
+20 righe di prima conservati (stessi valori); le tracce `storica/muri` sono quelle del ViewModel della sezione con le 24 righe: tolti gli
+identificativi, le impronte e i conteggi (20 → 24 azioni, verifiche, punti del grafico 21 → 25) e rinominate le righe, ogni riga di prima
+c'è ancora e le righe nuove sono quelle delle quattro azioni nuove (controllo `sez_tracce.py`, corsa
+`supporto/artefatti/1160-combinazioni/sez-2`).
+
 ## Disegni
 
 `disegni/elenco.txt`: per ogni fixture F3 aperta e calcolata, una riga per disegno (primitivi e impronta) degli elenchi di disegno
