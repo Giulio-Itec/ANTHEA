@@ -39,10 +39,10 @@ public sealed partial class GpcModelCombinationService
             {
                 await Task.Run(()=>
                 {
-                    snapshot.Validate();
                     if(!GpcSnapshotModel.CanRebuild(snapshot))return;
                     string revision=ModelCombinations.PreparationRevision(snapshot);
-                    if(prepared?.Revision!=revision)prepared=Prepare(snapshot,revision,null,token);
+                    if(prepared?.Revision==revision)return; // already prepared: the catalogue opened again
+                    snapshot.Validate();prepared=Prepare(snapshot,revision,null,token);
                 },token).ConfigureAwait(false);
             }
             finally {calculationGate.Release();}
