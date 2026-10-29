@@ -11640,6 +11640,47 @@
       "voci_collegate": [
         "F5-REL-1160-01"
       ]
+    },
+    {
+      "id": "F5-REL-1160-01",
+      "data": "2026-10-29",
+      "fase": "1.16.0, guide Rev62",
+      "titolo": "Wiki: differenze editoriali delle guide Rev62",
+      "famiglia": "guide/wiki",
+      "modulo": "Wiki",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Le guide pratica e teorica Rev62 (commit 05827c85 e 8131f89d) scrivono in LaTeX le formule della guida teorica (relazioni su righe separate, spazi delle condizioni conservati in Office Math, virgola decimale, formule del testo dei capitoli spettri, palo e micropalo verticale, Broms, fondazioni superficiali e reologia), completano la teoria della sezione c.a. (limiti delle tensioni di esercizio, aderenza, ancoraggi e sovrapposizioni), aggiungono il capitolo «Capacità orizzontale in terreno stratificato» che richiama l'articolo sul metodo di G. Pacini e spiegano nella guida pratica la scelta fra Broms e Stratificato e i riferimenti di Diagrammi e dettagli. Cambiano 14 articoli (uno nuovo) della Wiki (pali e micropali caricati orizzontalmente, capacità orizzontale con Broms, capitolo nuovo capacità orizzontale in terreno stratificato, sezione in calcestruzzo armato, spettri e isolamento, palo e micropalo verticale, fondazioni superficiali e capacità portante, efficienza orizzontale, risposta elastica del palo, reologia, fessurazione, instabilità delle aste compresse); cambiano 6 delle 30 ricerche F3. Le differenze sono solo editoriali e sono registrate in transitions-f5-wiki.json: 828 transizioni esatte nuove, 149 sostituite, 143 righe spostate e 0 tolte.",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "src/ANTHEA.Wiki/Content/editorial.json",
+        "src/ANTHEA.Wiki/Content/index.json",
+        "src/ANTHEA.Wiki/Content/search.json",
+        "tests/fixtures/f3/transitions-f5-wiki.json"
+      ],
+      "segno": "Nessun risultato di calcolo; nessuna differenza fuori dalla Wiki.",
+      "effetto_quantificato": "828 transizioni editoriali nuove, 149 sostituite, 143 spostate, 0 tolte; 14 articoli, uno nuovo; cambiano 6 delle 30 ricerche F3.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "regola «Approvati se spiegati» delle decisioni della 1.15.0 (sera del 28/10) per la coda della 1.16.0; transizioni editoriali come F5-REL-1150-01",
+        "esito": "transizioni registrate; ogni differenza nella Wiki, editoriale"
+      },
+      "test": [
+        "ui/f3-equivalence",
+        "ui/check-wiki-offscreen",
+        "Wiki.Tests",
+        "wiki/indice",
+        "wiki/manuale",
+        "installer/guides"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261029-015204-1160-guide-rev62b (ui/f3-equivalence prima della registrazione: 1410 differenze non ammesse nella Wiki più il conteggio degli articoli in esito.txt)"
+      ],
+      "voci_collegate": [
+        "F5-REL-1150-01",
+        "F5-REL-1160-02"
+      ]
     }
   ]
 }
