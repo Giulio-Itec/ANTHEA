@@ -85,6 +85,7 @@ internal static class ShallowFoundationViewChecks
     // 28/10/2026, set candidato b della 1.15.0 (B-FON-01): library_version 0.25.0.2 -> 0.25.0.3 (Geotechnics ricompilata senza modifiche al sorgente, Checker ffc28d34); con 0.25.0.2 tornano quelle del set AK.
     // 28/10/2026, set ufficiale AL della 1.15.0 (B-FON-01): library_version 0.25.0.3 -> 0.25.0.4 (Geotechnics ricompilata senza modifiche al sorgente, Checker 0951cbf9 con le fasi della revisione steel); con 0.25.0.3 tornano quelle del set candidato b.
     // 29/10/2026, set candidato b della 1.16.0 (COMB-D6, B-FON-01): library_version 0.25.0.4 -> 0.26.0.0 (Geotechnics con le combinazioni D6 e D7, che le fondazioni non usano; Checker 3f0623f9); con 0.25.0.4 tornano quelle del set AL.
+    // 29/10/2026, Hansen con carico inclinato della 1.16.0 (FON-HANSEN-01): library_version 0.25.0.4 -> 0.26.0.0 (Checker lib-1160/hansen 4d90a78b, set candidato librerie-candidato-a); con 0.25.0.4 tornano quelle del set AL. Nessuna fixture usa Hansen con azione orizzontale.
     // Disegni: testo attenuato della Chiara #64748B -> #5B697E (decisione del 27/10/2026, UI-CONTRASTO-01); con #64748B tornano gli elenchi storici.
     private static readonly Dictionary<string, (int Modified, string Data, bool HasResults, string Result)> HistoricFixtures = new(StringComparer.Ordinal)
     {

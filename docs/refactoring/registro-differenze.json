@@ -11951,6 +11951,51 @@
         "supporto/artefatti/1160-infra/ci-mirate-1 (corsa mirata build, fast, regression e ui su 388933f5: PASS 21, NEW-FAIL 0; Architecture.Tests 579, Presentation.Tests 4912, paralleli 442 con le 106 impronte della serie identiche alla base, sezione-ca 70, check-sezione-view 204, check-palo-orizzontale-view 157, ElasticPile.UiChecks, ui/smoke e ui/shell-smoke-*)"
       ],
       "voci_collegate": []
+    },
+    {
+      "id": "FON-HANSEN-01",
+      "data": "2026-10-29",
+      "fase": "1.16.0, agente 1160-hansen (set candidato librerie-candidato-a, Checker lib-1160/hansen 4d90a78b)",
+      "titolo": "Fondazioni superficiali: Brinch Hansen con azione orizzontale, drenato e non drenato",
+      "famiglia": "fondazioni superficiali/portanza",
+      "modulo": "geo_fondazioni_superficiali (F5.9b)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Lavoro in coda dalla revisione delle fondazioni del 12/10, confermato per la 1.16.0. Fino a GPCChecker.Geotechnics 0.25.0.4 Brinch Hansen con H > 0 lanciava NotSupportedException e il foglio mostrava l'errore. Dalla 0.26.0.0 la libreria segue alla lettera il manuale di riferimento usato dalla suite Califfo: drenato (3.23)-(3.25), con iq = (1 − 0,5 x)^5, iγ = (1 − 0,7 x)^5, x = H/(N + A′c′ cot φ′), ic per correlazione, fattori di forma con l'inclinazione e sγ ≥ 0,6; non drenato (3.27), (3.27′), (3.27″) in forma additiva, i′c = 0,5 − 0,5 √(1 − H/(A′cu)), s′c = 0,2 i′c B′/L′. Con H > 0 la capacità si calcola per rottura nella direzione di B′ e di L′ (anche con HL = 0, lettura letterale di §3.4.1) e si adotta la minore; la nastriforme ha solo la direzione di B′, sul cerchio H è allineata a B′ (convenzione «le»). Un fattore di inclinazione negativo o HB/HL oltre A′cu danno capacità nulla (DomainExhausted). Fonte secondaria: USACE EM 1110-1-1905 (1992), tab. 4-5 («Data from Hansen 1970»), stessi fattori di inclinazione; Brinch Hansen 1970 (DGI Bulletin 28) e Bowles non consultati: da riscontrare sul testo. Discontinuità con il carico normale, dichiarate e non risolte, a favore di sicurezza: (1) nel non drenato s′c = 0,2 i′c B′/L′ si annulla per H → 0 invece di tendere a 0,2 B′/L′ della (3.28); USACE dà 0,2 B′/L′ solo senza fattori di inclinazione e ne esclude l'uso congiunto; (2) la direzione di L′ con HL = 0 (forma L′/B′, profondità D/L′) non tende al carico normale. Gli avvisi del risultato riportano qlim nelle due direzioni, la direzione che governa e qlim con H = 0. In ANTHEA cambia solo l'etichetta del metodo, da «Brinch Hansen · carico normale» a «Brinch Hansen»; i documenti salvano l'indice e restano invariati. Il risultato non ha campi nuovi; con H = 0 numeri e Reference sono quelli di prima.",
+      "codice": [
+        "Checker GPCChecker.Geotechnics/Foundations/ShallowFoundationBearing.cs (HansenDrainedInclined, HansenUndrainedInclined)",
+        "Checker tests/ShallowFoundation.Tests/califfo_reference.py, califfo-reference.json, BearingTests.cs",
+        "Checker docs/metodi/fondazioni-superficiali.md (sezione «Hansen con carico inclinato»)",
+        "src/ANTHEA.FoundationWorkspace/FoundationDocument.cs (Methods)",
+        "tests/FoundationWorkspace.Checks/Program.cs",
+        "tests/fixtures/f5-fondazioni/storica/*.txt",
+        "tests/ANTHEA.Desktop.UiTests/ShallowFoundationViewChecks.cs (HistoricFixtures)"
+      ],
+      "segno": "Funzione nuova: prima nessun risultato. Rispetto al carico normale la capacità con H piccola è minore (a favore di sicurezza): fino a −14,5% nel non drenato (B = 2 m, L = 3 m, D = 1 m, cu = 75 kPa: 532,16 → 455,04 kPa con H = 1 N) e −18,2% nel drenato su fondazione superficiale (D = 0, φ′ = 30°, c′ = 0: 198,92 → 162,75 kPa con H = 6 kN). La convenzione del cerchio è a favore di sicurezza rispetto alla lettura letterale (−0,8/−3,7%). Nessun valore esistente cambia.",
+      "effetto_quantificato": "Riferimenti cambiati, ogni riga spiegata: (a) 15 tracce della vista storica, 172 righe e 203 occorrenze, tutte righe «scelta Method» in cui cambia solo l'etichetta (voci e, nelle tracce di Hansen non drenato e sola lettura, il valore scelto); nessun'altra riga; (b) 8 impronte del risultato su 11 fixture in HistoricFixtures, solo per library_version 0.25.0.4 -> 0.26.0.0: con 0.25.0.4 tornano tutte quelle approvate del set AL; (c) Checker califfo-reference.json: 45 casi aggiunti (426-470), i 426 esistenti identici byte per byte (cambia solo la virgola dopo il caso 425). Attesi indipendenti nuovi, nessuno sovrascritto; contratto K0 non toccato.",
+      "decisione": {
+        "data": "2026-10-28",
+        "utente": "regola «Approvati se spiegati» (decisioni del 28/10 sera); richiesta della 1.16.0: «In generale, segui la normativa», fonti secondarie ammesse",
+        "esito": "differenze spiegate riga per riga (classificazione nel commit dei riferimenti); discontinuità dichiarate, a favore di sicurezza; domande aperte all'utente nel resoconto dell'agente"
+      },
+      "test": [
+        "Checker: ShallowFoundation.Tests 29/29 (CaliffoReferenceTests 471 casi, BearingTests.HansenWithAnInclinedLoad), tutte le suite di Model e Checker nel set candidato",
+        "FoundationWorkspace.Checks (casi 426 e 459 del riferimento indipendente)",
+        "FoundationWorkspace.UiChecks",
+        "Presentation.Tests",
+        "Application.Tests",
+        "ui/check-fondazioni-view",
+        "ui/f3-equivalence"
+      ],
+      "evidenze": [
+        "lib-1160-hansen: set candidato supporto/artefatti/1160-hansen/librerie-candidato-a (tutte le suite di Model e Checker superate, K0 compreso) e release-set-a.log",
+        "supporto/artefatti/1160-hansen/mirate-a (build, Application.Tests, Presentation.Tests, FoundationWorkspace.Checks e UiChecks, ui/f3-equivalence, ui/check-fondazioni-view: PASS 10; registra-fon.txt in ui_check-fondazioni-view/vista/esportazioni, registrazione temporanea non committata, con l'impronta a 0.25.0.4 uguale a quella approvata per le 8 fixture)",
+        "supporto/artefatti/1160-hansen/mirate-b (ui/check-fondazioni-view con le impronte riportate)"
+      ],
+      "voci_collegate": [
+        "FON-03",
+        "B-FON-01"
+      ]
     }
   ]
 }

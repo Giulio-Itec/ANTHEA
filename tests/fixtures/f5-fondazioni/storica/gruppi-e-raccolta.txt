@@ -4,7 +4,7 @@ modificato 0 · modificabile sì · richieste report 0
 risultato -
 stato "Dati da verificare · premere Calcola"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -42,7 +42,7 @@ modificato 0 · modificabile sì · richieste report 0
 risultato B3F2A932ACF46F27
 stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -107,7 +107,7 @@ modificato 1 · modificabile sì · richieste report 0
 risultato B3F2A932ACF46F27
 stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -172,7 +172,7 @@ modificato 2 · modificabile sì · richieste report 0
 risultato B3F2A932ACF46F27
 stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -237,7 +237,7 @@ modificato 3 · modificabile sì · richieste report 0
 risultato B3F2A932ACF46F27
 stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -302,7 +302,7 @@ modificato 4 · modificabile sì · richieste report 0
 risultato B3F2A932ACF46F27
 stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -367,7 +367,7 @@ modificato 4 · modificabile sì · richieste report 0
 risultato B3F2A932ACF46F27
 stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -432,7 +432,7 @@ modificato 4 · modificabile sì · richieste report 0
 risultato B3F2A932ACF46F27
 stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -497,7 +497,7 @@ modificato 4 · modificabile sì · richieste report 1
 risultato B3F2A932ACF46F27
 stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -562,7 +562,7 @@ modificato 5 · modificabile sì · richieste report 1
 risultato B3F2A932ACF46F27
 stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -627,7 +627,7 @@ modificato 6 · modificabile sì · richieste report 1
 risultato B3F2A932ACF46F27
 stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -692,7 +692,7 @@ modificato 7 · modificabile sì · richieste report 1
 risultato -
 stato "Dati modificati · premere Calcola"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -730,7 +730,7 @@ modificato 8 · modificabile sì · richieste report 1
 risultato -
 stato "Dati modificati · premere Calcola"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -768,7 +768,7 @@ modificato 9 · modificabile sì · richieste report 1
 risultato -
 stato "Dati modificati · premere Calcola"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -806,7 +806,7 @@ modificato 9 · modificabile sì · richieste report 1
 risultato 263B09C28CAB405B
 stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -871,7 +871,7 @@ modificato 9 · modificabile sì · richieste report 1
 risultato 263B09C28CAB405B
 stato "Calcolato · sondaggio 1 · unica combinazione: SLU · A1"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -936,7 +936,7 @@ modificato 0 · modificabile sì · richieste report 0
 risultato -
 stato "Dati da verificare · premere Calcola"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"
@@ -974,7 +974,7 @@ modificato 0 · modificabile sì · richieste report 0
 risultato -
 stato "Dati da verificare · premere Calcola"
 campi
-  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen · carico normale|Vesić"
+  scelta Method "Metodo" = "Meyerhof" voci "Eurocodice 7 · allegato D|Terzaghi · Nγ tabulato|Meyerhof|Brinch Hansen|Vesić"
   scelta Shape "Geometria" = "Rettangolare / quadrata" voci "Rettangolare / quadrata|Nastriforme · azioni per metro|Circolare · carico centrato"
   scelta Condition "Drenaggio" = "Drenata" voci "Drenata|Non drenata"
   scelta Profile "Verifica" = "NTC 2018 · A1+M1+R3" voci "NTC 2018 · A1+M1+R3|Confronto caratteristico"

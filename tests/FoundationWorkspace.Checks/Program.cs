@@ -146,7 +146,26 @@ internal static class Program
         File.WriteAllText(Path.Combine(output,"hansen.json"),result.ToJsonString(new(){WriteIndented=true}));
         File.WriteAllBytes(Path.Combine(output,"hansen.pdf"),FoundationReport.Pdf("Hansen non drenato",result));
         File.WriteAllBytes(Path.Combine(output,"hansen.docx"),FoundationReport.Word("Hansen non drenato",result));
-        if(ui)foreach(var sample in new[]{("fuori-dominio",outside),("hansen",hansen)})
+        // Brinch Hansen with an inclined load (1.16.0, FON-HANSEN-01). Independent references: Checker/tests/ShallowFoundation.Tests/
+        // califfo-reference.json, cases 426 (drained) and 459 (undrained), B=2 m, L=3 m, D=1 m, φ′=30°, cu=75 kPa, N=600 kN, Hx=60 kN.
+        Check(FoundationDocument.Methods[3]=="Brinch Hansen","Hansen: etichetta del metodo senza «carico normale»");
+        var inclined=data.DeepClone().AsObject();inclined["input"]!["Method"]=3;inclined["input"]!["HorizontalX"]=60;
+        var drained=library.Calculate(inclined);
+        Check(Math.Abs(drained["UltimatePressure"]!.GetValue<double>()/0.522631572822004-1)<1e-9 && !drained["DomainExhausted"]!.GetValue<bool>(),"Hansen drenato con H: atteso indipendente (caso 426)");
+        var lines=FoundationPresentation.ReportLines(drained);
+        Check(lines.Any(v=>v.Contains("direzioni di B′ e di L′")) && lines.Any(v=>v.Contains("si adotta la minore (B′)")) && lines.Any(v=>v.Contains("Con H = 0")),"Hansen drenato con H: relazione con le due direzioni e il carico normale");
+        var inclinedUndrained=inclined.DeepClone().AsObject();inclinedUndrained["input"]!["Condition"]=1;
+        var undrained=library.Calculate(inclinedUndrained);
+        Check(Math.Abs(undrained["UltimatePressure"]!.GetValue<double>()/0.4550353755551324-1)<1e-9,"Hansen non drenato con H: atteso indipendente (caso 459)");
+        Check(FoundationPresentation.AdditiveRows(undrained).Single().SequenceEqual(new[]{"Coesione","0","0,133","0","1,133"}),"Hansen non drenato con H: correzioni della direzione di L′ in tabella");
+        Check(FoundationPresentation.ReportLines(undrained).Any(v=>v.Contains("0,2 i′c B′/L′")),"Hansen non drenato con H: discontinuità dichiarata nella relazione");
+        foreach(var (name,sample) in new[]{("hansen-inclinato",drained),("hansen-inclinato-non-drenato",undrained)})
+        {
+            File.WriteAllText(Path.Combine(output,name+".json"),sample.ToJsonString(new(){WriteIndented=true}));
+            File.WriteAllBytes(Path.Combine(output,name+".pdf"),FoundationReport.Pdf("Hansen con carico inclinato",sample));
+            File.WriteAllBytes(Path.Combine(output,name+".docx"),FoundationReport.Word("Hansen con carico inclinato",sample));
+        }
+        if(ui)foreach(var sample in new[]{("fuori-dominio",outside),("hansen",hansen),("hansen-inclinato",inclined),("hansen-inclinato-non-drenato",inclinedUndrained)})
         {string folder=Path.Combine(output,sample.Item1);Directory.CreateDirectory(folder);Ui(folder,sample.Item2,library);}
     }
     /// <summary>
