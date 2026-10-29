@@ -48,6 +48,8 @@ for kind, source in [('guide','pratica'),('theory','teorica')]:
         if len(summary)>220: summary=summary[:220].rsplit(' ',1)[0]+'…'
         summary=meta.get('summary',summary)
         words=set(re.findall('[a-z0-9]+',normalize(body+' '+area)))
+        # Rev62: a symbol written in LaTeX with a subscript (f_{ck}, N_q, \gamma_R) is found also as written in the text (fck, nq, gammar).
+        words.update(re.findall('[a-z0-9]+',normalize(' '.join(x+y for x,y in re.findall(r'\\?([A-Za-z]+)_\{?([A-Za-z0-9]+)\}?',body)))))
         aliases=[]
         for key, values in [('instabilita',['buckling','euler','snellezza']),('beam',['trave','finite','element','FEM']),('calcestruzzo',['concrete','rc']),('taglio',['shear']),('progett',['project']),('fessur',['cracking'])]:
             if key in normalize(body): aliases+=values
