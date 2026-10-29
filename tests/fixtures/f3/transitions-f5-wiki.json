@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "voce": "F5-LIB-02",
-  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo. Rev60 (1.14.4): 117 differenze editoriali esatte aggiunte, 33 sostituite e 0 tolte in 15 articoli e nell'indice delle ricerche (separatore decimale, testa dei pali e dei micropali, anello interno, sviluppo parziale delle barre, tension stiffening con il tirante, R5, correzioni di calcolo e combinazioni dei muri), approvate dall'utente il 28/10/2026 («ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»). Nessun risultato di calcolo. Rev61 (1.15.0): 390 differenze editoriali esatte aggiunte, 7 sostituite, 0 spostate e 0 tolte in 4 articoli e nell'indice delle ricerche (scheda «Colonna modello» della sezione c.a. e sua teoria, file di testo .mct/.mgt e modelli .st7 nel modulo Modelli, unità e segni delle copie importate); da approvare dall'utente (voce F5-REL-1150-01). Nessun risultato di calcolo. Rev62 (1.16.0): 828 differenze editoriali esatte aggiunte, 148 sostituite, 143 spostate e 0 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Conteggio degli articoli della Wiki 77 → 78 (capitolo nuovo sulla capacità orizzontale in terreno stratificato). Rev62, seconda passata (1.16.0): 860 differenze editoriali esatte aggiunte, 160 sostituite, 176 spostate e 24 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX di otto capitoli in più, testi «Per le guide» degli agenti della 1.16.0: modulo Modelli con fasi, tabelle e combinazioni, voci R della sezione c.a., unità della scala del dominio 3D; prima passata: formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, colonna modello fase 2 (1.16.0): 109 differenze editoriali esatte aggiunte, 10 sostituite, 0 spostate e 0 tolte in 2 articoli (scelta Azioni, inviluppo delle combinazioni, dominio ridotto N–M1Rd,max e scostamenti K-7 e K-8 della colonna modello nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo.",
+  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo. Rev60 (1.14.4): 117 differenze editoriali esatte aggiunte, 33 sostituite e 0 tolte in 15 articoli e nell'indice delle ricerche (separatore decimale, testa dei pali e dei micropali, anello interno, sviluppo parziale delle barre, tension stiffening con il tirante, R5, correzioni di calcolo e combinazioni dei muri), approvate dall'utente il 28/10/2026 («ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»). Nessun risultato di calcolo. Rev61 (1.15.0): 390 differenze editoriali esatte aggiunte, 7 sostituite, 0 spostate e 0 tolte in 4 articoli e nell'indice delle ricerche (scheda «Colonna modello» della sezione c.a. e sua teoria, file di testo .mct/.mgt e modelli .st7 nel modulo Modelli, unità e segni delle copie importate); da approvare dall'utente (voce F5-REL-1150-01). Nessun risultato di calcolo. Rev62 (1.16.0): 828 differenze editoriali esatte aggiunte, 148 sostituite, 143 spostate e 0 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Conteggio degli articoli della Wiki 77 → 78 (capitolo nuovo sulla capacità orizzontale in terreno stratificato). Rev62, seconda passata (1.16.0): 860 differenze editoriali esatte aggiunte, 160 sostituite, 176 spostate e 24 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX di otto capitoli in più, testi «Per le guide» degli agenti della 1.16.0: modulo Modelli con fasi, tabelle e combinazioni, voci R della sezione c.a., unità della scala del dominio 3D; prima passata: formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, colonna modello fase 2 (1.16.0): 109 differenze editoriali esatte aggiunte, 10 sostituite, 0 spostate e 0 tolte in 2 articoli (scelta Azioni, inviluppo delle combinazioni, dominio ridotto N–M1Rd,max e scostamenti K-7 e K-8 della colonna modello nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, Brinch Hansen e W-idx (1.16.0): 152 differenze editoriali esatte aggiunte, 54 sostituite, 2 spostate e 1 tolte in 2 articoli (Brinch Hansen con carico inclinato nelle fondazioni superficiali delle due guide; W-idx, percorsi delle figure fuori dall'indice di ricerca, senza effetto sulle 30 ricerche F3); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo.",
   "voci": [
     {
       "file": "esito.txt",
@@ -9648,7 +9648,7 @@
       "percorso": "riga 121 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": " Gli angoli nelle formule sono radianti. Hansen con azioni tangenziali non è implementato: non si applicano i fattori di un altro autore.",
+      "b": " Gli angoli nelle formule sono radianti. Brinch Hansen con azioni tangenziali segue le espressioni del paragrafo «Brinch Hansen con carico inclinato».",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9669,7 +9669,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
-      "percorso": "riga 127 (b)",
+      "percorso": "riga 155 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "```math",
@@ -9717,7 +9717,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
-      "percorso": "riga 133 (b)",
+      "percorso": "riga 137 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
@@ -9760,7 +9760,7 @@
       "percorso": "riga 147 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "N_q = \\frac{\\exp\\left[(3\\pi/2 - \\varphi)\\tan\\varphi\\right]}{1 - \\sin\\varphi}",
+      "b": "x = \\frac{H}{N + A' c' \\cot\\varphi'}",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9768,7 +9768,7 @@
       "percorso": "riga 148 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "N_c = \\frac{N_q - 1}{\\tan\\varphi}",
+      "b": "i_q = (1 - 0{,}5\\,x)^5",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9776,7 +9776,7 @@
       "percorso": "riga 149 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "```",
+      "b": "i_\\gamma = (1 - 0{,}7\\,x)^5",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9784,7 +9784,7 @@
       "percorso": "riga 150 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "",
+      "b": "i_c = i_q - \\frac{1 - i_q}{N_q - 1}",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9792,7 +9792,7 @@
       "percorso": "riga 151 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "$N_\\gamma$ è interpolato linearmente nella tabella 4-1 di USACE EM 1110-1-1905 (1992), per 0°–50°. Non si usa un'espressione interpolante non documentata. Per $\\varphi = 0$ si adottano $N_q = 1$, $N_\\gamma = 0$, $N_c = 1 + 3\\pi/2$ per base ruvida oppure $N_c = \\pi + 2$ per base liscia.",
+      "b": "```",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9816,7 +9816,7 @@
       "percorso": "riga 157 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "```math",
+      "b": "s_c = s_q - \\frac{1 - s_q}{N_q - 1}",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9824,7 +9824,7 @@
       "percorso": "riga 158 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "c'_{rid} = \\frac{2}{3}\\,c'",
+      "b": "s_\\gamma = 1 - 0{,}4\\,\\frac{i_{\\gamma,B}\\,B'}{i_{\\gamma,L}\\,L'}",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9832,7 +9832,7 @@
       "percorso": "riga 159 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "\\tan\\varphi_{rid} = \\frac{2}{3}\\tan\\varphi'",
+      "b": "d_q = 1 + 2\\tan\\varphi'\\,(1 - \\sin\\varphi')^2\\,k",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9840,7 +9840,7 @@
       "percorso": "riga 160 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "\\tan\\varphi_{rid} = \\left(\\frac{2}{3} + D_r - \\frac{3}{4}D_r^2\\right)\\tan\\varphi'",
+      "b": "d_c = d_q - \\frac{1 - d_q}{N_q - 1}",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9848,7 +9848,7 @@
       "percorso": "riga 161 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "```",
+      "b": "d_\\gamma = 1",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9856,7 +9856,7 @@
       "percorso": "riga 162 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "",
+      "b": "```",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9864,7 +9864,7 @@
       "percorso": "riga 163 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": " Sono riduzioni dei parametri selezionate consapevolmente; il modello non calcola fattori di compressibilità da modulo di taglio, deformazione volumetrica o indice di rigidezza.",
+      "b": "",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9872,7 +9872,7 @@
       "percorso": "riga 164 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "",
+      "b": "Per la rottura nella direzione di $L'$ valgono le stesse espressioni con $B'$ e $L'$ scambiati e i fattori di inclinazione di $H_L$; la profondità usa $D/L'$ e il termine di peso resta $0{,}5\\,\\gamma B' N_\\gamma$. In ciascuna direzione si calcola la pressione limite e si adotta la minore:",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9888,7 +9888,7 @@
       "percorso": "riga 180 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "$$ \\int_{A_c}xp\\,dA=M_y",
+      "b": "",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9896,7 +9896,7 @@
       "percorso": "riga 181 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "$$ \\int_{A_c}yp\\,dA=M_x",
+      "b": "> Limite del metodo · Discontinuità con il carico verticale",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9912,7 +9912,7 @@
       "percorso": "riga 187 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "```math",
+      "b": "",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9920,7 +9920,7 @@
       "percorso": "riga 188 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "p = \\frac{N}{BL}\\left(1 + \\frac{12\\,e_x\\,x}{B^2} + \\frac{12\\,e_y\\,y}{L^2}\\right)",
+      "b": "```math",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9928,7 +9928,7 @@
       "percorso": "riga 189 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "```",
+      "b": "q_{lim} = (\\pi + 2) \\cdot 75 \\cdot (1 + 0{,}4/3) + 18 = 455{,}04",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9936,7 +9936,7 @@
       "percorso": "riga 190 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "",
+      "b": "```",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9944,7 +9944,7 @@
       "percorso": "riga 191 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": " Se una parte perde contatto non si tronca semplicemente questa prima distribuzione: si risolvono nuovamente a, b e c sulla zona compressa. Per eccentricità lungo X superiore a $B/6$ la soluzione monoassiale triangolare ha larghezza compressa $3\\,(B/2 - |e_x|)$, mentre la larghezza efficace vale $B …",
+      "b": "",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9952,7 +9952,7 @@
       "percorso": "riga 192 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "",
+      "b": "Bibliografia del metodo: J. Brinch Hansen, A revised and extended formula for bearing capacity, Danish Geotechnical Institute, Bulletin 28, 1970; U.S. Army Corps of Engineers, EM 1110-1-1905, Bearing Capacity of Soils, 1992, tabella 4-5.",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9976,7 +9976,7 @@
       "percorso": "riga 200 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "$$ r_0=\\frac{B'}{2\\cos\\alpha}",
+      "b": "N_c = \\frac{N_q - 1}{\\tan\\varphi}",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -9984,7 +9984,7 @@
       "percorso": "riga 201 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "$$ 0\\leq\\theta\\leq\\pi/2",
+      "b": "```",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10704,7 +10704,7 @@
       "percorso": "riga 116 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Gli angoli nelle formule sono radianti. Hansen con azioni tangenziali non è implementato: non si applicano i fattori di un altro autore.",
+      "b": "text: Gli angoli nelle formule sono radianti. Brinch Hansen con azioni tangenziali segue le espressioni del paragrafo «Brinch Hansen con carico inclinato».",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10713,14 +10713,6 @@
       "classe": "testo",
       "a": "text: Per Eurocodice 7 Nc = π + 2, sc = 1 + 0,2r, dc = 1 e ic = (1 + √(1 − H/(A′cu)))/2, con H non maggiore di A′cu. La pressione limite è cu Nc sc ic + q. Per Vesić si usano sc = 1 + 0,2r, dc = 1 + 0,4k, ic = 1 − mH/(A′cuNc), non negativo, in forma moltiplicativa. Meyerhof usa sc = 1 + 0,2r, dc = 1 + 0,2D/B e il fattore di inclinazione sopra descritto, limitato alla striscia quando H non è nullo. A differenza di Eurocodice 7, Vesić, Hansen e Terzaghi, che sommano q, Meyerhof applica l'inclinazione anche al sovraccarico: cu Nc sc dc ic + q iq, con iq = ic = (1 − θ/(π/2))², in continuità con il ramo drenato (Meyerhof, 1963; USACE EM 1110-1-1905, tabella 4-3).",
       "b": "text: Per Eurocodice 7, con  :",
-      "voce": "F5-REL-1160-01"
-    },
-    {
-      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
-      "percorso": "riga 119 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: H \\leq A' c_u",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10856,7 +10848,7 @@
       "percorso": "riga 141 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: \\varphi",
+      "b": "formula: B'",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10864,7 +10856,7 @@
       "percorso": "riga 142 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: N_q = \\frac{\\exp\\left[(3\\pi/2 - \\varphi)\\tan\\varphi\\right]}{1 - \\sin\\varphi}",
+      "b": "formula: L'",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10872,7 +10864,7 @@
       "percorso": "riga 143 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: N_c = \\frac{N_q - 1}{\\tan\\varphi}",
+      "b": "formula: B'",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10880,7 +10872,7 @@
       "percorso": "riga 144 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Copia LaTeX",
+      "b": "formula: B'",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10888,7 +10880,7 @@
       "percorso": "riga 145 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text:   è interpolato linearmente nella tabella 4-1 di USACE EM 1110-1-1905 (1992), per 0°–50°. Non si usa un'espressione interpolante non documentata. Per   si adottano  ,  ,   per base ruvida oppure   per base liscia.",
+      "b": "formula: H",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10896,7 +10888,7 @@
       "percorso": "riga 146 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: N_\\gamma",
+      "b": "formula: H_B",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10904,7 +10896,7 @@
       "percorso": "riga 147 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: \\varphi = 0",
+      "b": "formula: B'",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10912,7 +10904,7 @@
       "percorso": "riga 148 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: N_q = 1",
+      "b": "formula: H_L",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10920,7 +10912,7 @@
       "percorso": "riga 149 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: N_\\gamma = 0",
+      "b": "formula: L'",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10928,7 +10920,7 @@
       "percorso": "riga 150 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: N_c = 1 + 3\\pi/2",
+      "b": "formula: A' = B'L'",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10936,7 +10928,7 @@
       "percorso": "riga 151 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: N_c = \\pi + 2",
+      "b": "formula: x = \\frac{H}{N + A' c' \\cot\\varphi'}",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10952,7 +10944,7 @@
       "percorso": "riga 154 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: c' = 0",
+      "b": "formula: i_c = i_q - \\frac{1 - i_q}{N_q - 1}",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10960,7 +10952,7 @@
       "percorso": "riga 155 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: 0 \\leq D_r \\leq 2/3",
+      "b": "text: Copia LaTeX",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10968,7 +10960,7 @@
       "percorso": "riga 156 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: c'_{rid} = \\frac{2}{3}\\,c'",
+      "b": "text: Per la rottura nella direzione di   i fattori di forma e di profondità sono i seguenti, con   e   oltre uno;   non scende sotto 0,6:",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10976,7 +10968,7 @@
       "percorso": "riga 157 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: \\tan\\varphi_{rid} = \\frac{2}{3}\\tan\\varphi'",
+      "b": "formula: B'",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10984,7 +10976,7 @@
       "percorso": "riga 158 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: \\tan\\varphi_{rid} = \\left(\\frac{2}{3} + D_r - \\frac{3}{4}D_r^2\\right)\\tan\\varphi'",
+      "b": "formula: k = D/B",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -10992,7 +10984,7 @@
       "percorso": "riga 159 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Copia LaTeX",
+      "b": "formula: k = \\arctan(D/B)",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -11000,7 +10992,7 @@
       "percorso": "riga 160 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Sono riduzioni dei parametri selezionate consapevolmente; il modello non calcola fattori di compressibilità da modulo di taglio, deformazione volumetrica o indice di rigidezza.",
+      "b": "formula: s_\\gamma",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -11016,7 +11008,7 @@
       "percorso": "riga 170 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: \\int_{A_c}xp\\,dA=M_y",
+      "b": "formula: B'",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -11024,7 +11016,7 @@
       "percorso": "riga 171 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: \\int_{A_c}yp\\,dA=M_x",
+      "b": "formula: L'",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -11040,7 +11032,7 @@
       "percorso": "riga 175 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: p = \\frac{N}{BL}\\left(1 + \\frac{12\\,e_x\\,x}{B^2} + \\frac{12\\,e_y\\,y}{L^2}\\right)",
+      "b": "formula: q_{lim} = c' N_c s_c d_c i_c + q N_q s_q d_q i_q + 0{,}5\\,\\gamma B' N_\\gamma s_\\gamma d_\\gamma i_\\gamma",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -11056,7 +11048,7 @@
       "percorso": "riga 177 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Se una parte perde contatto non si tronca semplicemente questa prima distribuzione: si risolvono nuovamente a, b e c sulla zona compressa. Per eccentricità lungo X superiore a   la soluzione monoassiale triangolare ha larghezza compressa  , mentre la larghezza efficace vale  . La distinzione s…",
+      "b": "text: In condizioni non drenate la forma è additiva; le espressioni seguenti valgono nella direzione di  , mentre nella direzione di   si usano   con  ,   e   con  , e si adotta il minore dei due valori:",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -11064,7 +11056,7 @@
       "percorso": "riga 178 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: B/6",
+      "b": "formula: B'",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -11072,7 +11064,7 @@
       "percorso": "riga 179 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: 3\\,(B/2 - |e_x|)",
+      "b": "formula: L'",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -11080,7 +11072,7 @@
       "percorso": "riga 180 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: B - 2|e_x|",
+      "b": "formula: i'_c",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -11104,7 +11096,7 @@
       "percorso": "riga 185 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: \\beta = \\pi/4 - \\varphi/2",
+      "b": "formula: q_{lim} = (\\pi + 2)\\,c_u\\,(1 + s'_c + d'_c - i'_c) + q",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -11112,7 +11104,7 @@
       "percorso": "riga 186 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: r=r_0e^{\\theta\\tan\\varphi}",
+      "b": "formula: i'_c = 0{,}5 - 0{,}5\\sqrt{1 - \\frac{H}{A' c_u}}",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -11120,7 +11112,7 @@
       "percorso": "riga 187 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: r_0=\\frac{B'}{2\\cos\\alpha}",
+      "b": "formula: s'_c = 0{,}2\\,i'_c\\,\\frac{B'}{L'}",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -11128,7 +11120,7 @@
       "percorso": "riga 188 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: 0\\leq\\theta\\leq\\pi/2",
+      "b": "formula: d'_c = 0{,}4\\,k",
       "voce": "F5-REL-1160-01"
     },
     {
@@ -20833,6 +20825,1222 @@
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: \\eta = 160/169{,}4 = 0{,}944",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_fondazioni-superficiali.md",
+      "percorso": "riga 11",
+      "classe": "testo",
+      "a": "Le formulazioni disponibili hanno campi differenti. Terzaghi accetta carichi verticali centrati e una striscia, un quadrato o un cerchio con D/B non maggiore di 1. Brinch Hansen accetta soltanto carichi normali. Meyerhof accetta carichi inclinati soltanto sulla striscia. Eurocodice 7 e Vesić trattano l'inclinazione delle azioni nei due assi. Il cerchio deve essere centrato; la sua larghezza è il diametro. Queste restrizioni sono controllate dal calcolo.",
+      "b": "Le formulazioni disponibili hanno campi differenti. Terzaghi accetta carichi verticali centrati e una striscia, un quadrato o un cerchio con D/B non maggiore di 1. Brinch Hansen accetta anche azioni orizzontali, con il calcolo nelle due direzioni descritto sotto. Meyerhof accetta carichi inclinati soltanto sulla striscia. Eurocodice 7 e Vesić trattano l'inclinazione delle azioni nei due assi. Il cerchio deve essere centrato; la sua larghezza è il diametro. Queste restrizioni sono controllate dal calcolo.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_fondazioni-superficiali.md",
+      "percorso": "riga 12 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_fondazioni-superficiali.md",
+      "percorso": "riga 13 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "**Brinch Hansen con azioni orizzontali.** Il metodo «Brinch Hansen» accetta anche Hx, parallela a B, e Hy, parallela a L. Con un'azione orizzontale la verifica calcola la pressione limite per rottura nella direzione di B′ e in quella di L′ e adotta la minore; nella fondazione nastriforme c'è solo la…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_fondazioni-superficiali.md",
+      "percorso": "riga 14 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_fondazioni-superficiali.md",
+      "percorso": "riga 15 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Anche un'azione orizzontale molto piccola può ridurre la pressione limite rispetto al solo carico verticale: nel non drenato fino a circa il 15 % per una pianta 2 × 3 m, nel drenato soprattutto per fondazioni poco profonde su terreni granulari. È un effetto del metodo, a favore di sicurezza, descrit…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_fondazioni-superficiali.txt",
+      "percorso": "riga 5",
+      "classe": "testo",
+      "a": "text: Le formulazioni disponibili hanno campi differenti. Terzaghi accetta carichi verticali centrati e una striscia, un quadrato o un cerchio con D/B non maggiore di 1. Brinch Hansen accetta soltanto carichi normali. Meyerhof accetta carichi inclinati soltanto sulla striscia. Eurocodice 7 e Vesić trattano l'inclinazione delle azioni nei due assi. Il cerchio deve essere centrato; la sua larghezza è il diametro. Queste restrizioni sono controllate dal calcolo.",
+      "b": "text: Le formulazioni disponibili hanno campi differenti. Terzaghi accetta carichi verticali centrati e una striscia, un quadrato o un cerchio con D/B non maggiore di 1. Brinch Hansen accetta anche azioni orizzontali, con il calcolo nelle due direzioni descritto sotto. Meyerhof accetta carichi inclinati soltanto sulla striscia. Eurocodice 7 e Vesić trattano l'inclinazione delle azioni nei due assi. Il cerchio deve essere centrato; la sua larghezza è il diametro. Queste restrizioni sono controllate dal calcolo.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_fondazioni-superficiali.txt",
+      "percorso": "riga 6 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Brinch Hansen con azioni orizzontali. Il metodo «Brinch Hansen» accetta anche Hx, parallela a B, e Hy, parallela a L. Con un'azione orizzontale la verifica calcola la pressione limite per rottura nella direzione di B′ e in quella di L′ e adotta la minore; nella fondazione nastriforme c'è solo …",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli-singoli_fondazioni-superficiali.txt",
+      "percorso": "riga 7 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Anche un'azione orizzontale molto piccola può ridurre la pressione limite rispetto al solo carico verticale: nel non drenato fino a circa il 15 % per una pianta 2 × 3 m, nel drenato soprattutto per fondazioni poco profonde su terreni granulari. È un effetto del metodo, a favore di sicurezza, d…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 72",
+      "classe": "testo",
+      "a": "Hansen con carico normale usa invece una forma additiva:",
+      "b": "```math",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 136 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Brinch Hansen con carico verticale usa invece una forma additiva:",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 76",
+      "classe": "testo",
+      "a": "I valori s′ e d′ della tabella additiva sono gli incrementi 0,2r e 0,4k, mentre i′ = 0. La stessa tabella espone il fattore 1 + s′ + d′ − i′. Moltiplicarli sarebbe un errore. Il ramo Hansen non drenato inclinato è escluso; non si adotta una correzione non riscontrata del fattore di forma.",
+      "b": "I valori s′ e d′ della tabella additiva sono gli incrementi 0,2r e 0,4k, mentre i′ = 0. La stessa tabella espone il fattore 1 + s′ + d′ − i′. Moltiplicarli sarebbe un errore. Con carico inclinato la forma additiva è quella del paragrafo «Brinch Hansen con carico inclinato».",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 142 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Brinch Hansen con carico inclinato",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 143 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 144 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Con un'azione orizzontale il metodo di Brinch Hansen calcola la pressione limite per rottura nella direzione di $B'$ e in quella di $L'$ e adotta la minore; nella fondazione nastriforme c'è solo la direzione di $B'$, nel cerchio l'azione orizzontale si considera diretta come $B'$. $H$ è la component…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 145 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 153 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Per la rottura nella direzione di $B'$ i fattori di forma e di profondità sono i seguenti, con $k = D/B$ e $k = \\arctan(D/B)$ oltre uno; $s_\\gamma$ non scende sotto 0,6:",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 154 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 156 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "s_q = 1 + i_{q,B}\\,\\frac{B'}{L'}\\sin\\varphi'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 165 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 166 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 167 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "q_{lim} = c' N_c s_c d_c i_c + q N_q s_q d_q i_q + 0{,}5\\,\\gamma B' N_\\gamma s_\\gamma d_\\gamma i_\\gamma",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 168 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 169 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 170 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "In condizioni non drenate la forma è additiva; le espressioni seguenti valgono nella direzione di $B'$, mentre nella direzione di $L'$ si usano $i'_c$ con $H_L$, $s'_c = 0{,}2\\,i'_c\\,L'/B'$ e $d'_c$ con $D/L'$, e si adotta il minore dei due valori:",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 171 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 172 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 173 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "q_{lim} = (\\pi + 2)\\,c_u\\,(1 + s'_c + d'_c - i'_c) + q",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 174 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "i'_c = 0{,}5 - 0{,}5\\sqrt{1 - \\frac{H}{A' c_u}}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 175 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "s'_c = 0{,}2\\,i'_c\\,\\frac{B'}{L'}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 176 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "d'_c = 0{,}4\\,k",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 177 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 178 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 179 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Un fattore di inclinazione negativo nel drenato, o una componente orizzontale maggiore di $A' c_u$ nel non drenato, indica che l'azione tangenziale supera la resistenza della formula: la capacità portante si assume nulla e la verifica non è soddisfatta.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 182 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Metodo: con $H = 0$ valgono le espressioni del carico verticale, $s'_c = 0{,}2\\,B'/L'$ nel non drenato e fattori di forma senza inclinazione nel drenato.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 183 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Programma: per $H \\rightarrow 0$ il calcolo inclinato non tende sempre a quei valori; nel non drenato la correzione di forma $0{,}2\\,i'_c\\,B'/L'$ si annulla con $i'_c$, e la rottura nella direzione di $L'$ si calcola anche con $H_L = 0$, con forma $L'/B'$ e profondità $D/L'$.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 184 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "> Effetto: con un'azione orizzontale piccola la pressione limite può essere sensibilmente minore di quella del carico verticale, a favore di sicurezza; ANTHEA applica il metodo così com'è e riporta negli avvisi il valore con $H = 0$.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 185 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 186 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Esempi con $B = 2$ m, $L = 3$ m, $D = 1$ m, $N = 600$ kN e $\\gamma = 18$ kN/m³. Drenato con $\\varphi' = 30$° e $c' = 0$: 704,29 kPa con $H = 0$ e 522,63 kPa con $H = 60$ kN lungo B, nella direzione di $B'$ (798,16 kPa nella direzione di $L'$). Non drenato con $c_u = 75$ kPa: 532,16 kPa con $H = 0$ e…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 193 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 198 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 199 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "N_q = \\frac{\\exp\\left[(3\\pi/2 - \\varphi)\\tan\\varphi\\right]}{1 - \\sin\\varphi}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 202 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 203 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "$N_\\gamma$ è interpolato linearmente nella tabella 4-1 di USACE EM 1110-1-1905 (1992), per 0°–50°. Non si usa un'espressione interpolante non documentata. Per $\\varphi = 0$ si adottano $N_q = 1$, $N_\\gamma = 0$, $N_c = 1 + 3\\pi/2$ per base ruvida oppure $N_c = \\pi + 2$ per base liscia.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 204 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 209 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 210 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "c'_{rid} = \\frac{2}{3}\\,c'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 211 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\tan\\varphi_{rid} = \\frac{2}{3}\\tan\\varphi'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 212 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\tan\\varphi_{rid} = \\left(\\frac{2}{3} + D_r - \\frac{3}{4}D_r^2\\right)\\tan\\varphi'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 213 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 214 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 215 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": " Sono riduzioni dei parametri selezionate consapevolmente; il modello non calcola fattori di compressibilità da modulo di taglio, deformazione volumetrica o indice di rigidezza.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 216 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 232 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "$$ \\int_{A_c}xp\\,dA=M_y",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 233 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "$$ \\int_{A_c}yp\\,dA=M_x",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 239 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 240 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "p = \\frac{N}{BL}\\left(1 + \\frac{12\\,e_x\\,x}{B^2} + \\frac{12\\,e_y\\,y}{L^2}\\right)",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 241 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 242 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 243 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": " Se una parte perde contatto non si tronca semplicemente questa prima distribuzione: si risolvono nuovamente a, b e c sulla zona compressa. Per eccentricità lungo X superiore a $B/6$ la soluzione monoassiale triangolare ha larghezza compressa $3\\,(B/2 - |e_x|)$, mentre la larghezza efficace vale $B …",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 244 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 252 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "$$ r_0=\\frac{B'}{2\\cos\\alpha}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.md",
+      "percorso": "riga 253 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "$$ 0\\leq\\theta\\leq\\pi/2",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 49",
+      "classe": "testo",
+      "a": "text: Hansen con carico normale usa invece una forma additiva:",
+      "b": "formula: H \\leq A' c_u",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 135 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Brinch Hansen con carico verticale usa invece una forma additiva:",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 52",
+      "classe": "testo",
+      "a": "text: I valori s′ e d′ della tabella additiva sono gli incrementi 0,2r e 0,4k, mentre i′ = 0. La stessa tabella espone il fattore 1 + s′ + d′ − i′. Moltiplicarli sarebbe un errore. Il ramo Hansen non drenato inclinato è escluso; non si adotta una correzione non riscontrata del fattore di forma.",
+      "b": "text: I valori s′ e d′ della tabella additiva sono gli incrementi 0,2r e 0,4k, mentre i′ = 0. La stessa tabella espone il fattore 1 + s′ + d′ − i′. Moltiplicarli sarebbe un errore. Con carico inclinato la forma additiva è quella del paragrafo «Brinch Hansen con carico inclinato».",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 139 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: brinch-hansen-con-carico-inclinato",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 140 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Con un'azione orizzontale il metodo di Brinch Hansen calcola la pressione limite per rottura nella direzione di   e in quella di   e adotta la minore; nella fondazione nastriforme c'è solo la direzione di  , nel cerchio l'azione orizzontale si considera diretta come  .   è la componente consid…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 152 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: i_q = (1 - 0{,}5\\,x)^5",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 153 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: i_\\gamma = (1 - 0{,}7\\,x)^5",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 161 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: s_q = 1 + i_{q,B}\\,\\frac{B'}{L'}\\sin\\varphi'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 162 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: s_c = s_q - \\frac{1 - s_q}{N_q - 1}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 163 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: s_\\gamma = 1 - 0{,}4\\,\\frac{i_{\\gamma,B}\\,B'}{i_{\\gamma,L}\\,L'}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 164 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: d_q = 1 + 2\\tan\\varphi'\\,(1 - \\sin\\varphi')^2\\,k",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 165 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: d_c = d_q - \\frac{1 - d_q}{N_q - 1}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 166 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: d_\\gamma = 1",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 167 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 168 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Per la rottura nella direzione di   valgono le stesse espressioni con   e   scambiati e i fattori di inclinazione di  ; la profondità usa   e il termine di peso resta  . In ciascuna direzione si calcola la pressione limite e si adotta la minore:",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 169 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: L'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 172 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: H_L",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 173 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: D/L'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 174 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: 0{,}5\\,\\gamma B' N_\\gamma",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 181 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: H_L",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 182 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: s'_c = 0{,}2\\,i'_c\\,L'/B'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 183 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: d'_c",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 184 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: D/L'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 189 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 190 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Un fattore di inclinazione negativo nel drenato, o una componente orizzontale maggiore di   nel non drenato, indica che l'azione tangenziale supera la resistenza della formula: la capacità portante si assume nulla e la verifica non è soddisfatta.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 191 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: A' c_u",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 192 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Limite del metodo · Discontinuità con il carico verticale",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 193 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: ",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 194 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Metodo: con   valgono le espressioni del carico verticale,   nel non drenato e fattori di forma senza inclinazione nel drenato.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 195 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Programma: per   il calcolo inclinato non tende sempre a quei valori; nel non drenato la correzione di forma   si annulla con  , e la rottura nella direzione di   si calcola anche con  , con forma   e profondità  .",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 196 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Effetto: con un'azione orizzontale piccola la pressione limite può essere sensibilmente minore di quella del carico verticale, a favore di sicurezza; ANTHEA applica il metodo così com'è e riporta negli avvisi il valore con  .",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 197 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: H = 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 198 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: s'_c = 0{,}2\\,B'/L'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 199 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: H \\rightarrow 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 200 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: 0{,}2\\,i'_c\\,B'/L'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 201 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: i'_c",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 202 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: L'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 203 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: H_L = 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 204 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: L'/B'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 205 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: D/L'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 206 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: H = 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 207 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Esempi con   m,   m,   m,   kN e   kN/m³. Drenato con  ° e  : 704,29 kPa con   e 522,63 kPa con   kN lungo B, nella direzione di   (798,16 kPa nella direzione di  ). Non drenato con   kPa: 532,16 kPa con   e 455,04 kPa con   kN lungo B e anche con un'azione orizzontale di pochi newton, nella d…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 208 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: B = 2",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 209 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: L = 3",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 210 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: D = 1",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 211 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N = 600",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 212 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\gamma = 18",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 213 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\varphi' = 30",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 214 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: c' = 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 215 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: H = 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 216 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: H = 60",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 217 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: B'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 218 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: L'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 219 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: c_u = 75",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 220 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: H = 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 221 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: H = 60",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 222 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: L'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 223 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: q_{lim} = (\\pi + 2) \\cdot 75 \\cdot (1 + 0{,}4/3) + 18 = 455{,}04",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 224 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 225 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Bibliografia del metodo: J. Brinch Hansen, A revised and extended formula for bearing capacity, Danish Geotechnical Institute, Bulletin 28, 1970; U.S. Army Corps of Engineers, EM 1110-1-1905, Bearing Capacity of Soils, 1992, tabella 4-5.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 228 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\varphi",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 229 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N_q = \\frac{\\exp\\left[(3\\pi/2 - \\varphi)\\tan\\varphi\\right]}{1 - \\sin\\varphi}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 230 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N_c = \\frac{N_q - 1}{\\tan\\varphi}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 231 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 232 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text:   è interpolato linearmente nella tabella 4-1 di USACE EM 1110-1-1905 (1992), per 0°–50°. Non si usa un'espressione interpolante non documentata. Per   si adottano  ,  ,   per base ruvida oppure   per base liscia.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 233 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N_\\gamma",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 234 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\varphi = 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 235 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N_q = 1",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 236 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N_\\gamma = 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 237 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N_c = 1 + 3\\pi/2",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 238 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: N_c = \\pi + 2",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 241 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: c' = 0",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 242 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: 0 \\leq D_r \\leq 2/3",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 243 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: c'_{rid} = \\frac{2}{3}\\,c'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 244 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\tan\\varphi_{rid} = \\frac{2}{3}\\tan\\varphi'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 245 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\tan\\varphi_{rid} = \\left(\\frac{2}{3} + D_r - \\frac{3}{4}D_r^2\\right)\\tan\\varphi'",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 246 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 247 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Sono riduzioni dei parametri selezionate consapevolmente; il modello non calcola fattori di compressibilità da modulo di taglio, deformazione volumetrica o indice di rigidezza.",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 257 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\int_{A_c}xp\\,dA=M_y",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 258 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\int_{A_c}yp\\,dA=M_x",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 262 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: p = \\frac{N}{BL}\\left(1 + \\frac{12\\,e_x\\,x}{B^2} + \\frac{12\\,e_y\\,y}{L^2}\\right)",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 263 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 264 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Se una parte perde contatto non si tronca semplicemente questa prima distribuzione: si risolvono nuovamente a, b e c sulla zona compressa. Per eccentricità lungo X superiore a   la soluzione monoassiale triangolare ha larghezza compressa  , mentre la larghezza efficace vale  . La distinzione s…",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 265 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: B/6",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 266 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: 3\\,(B/2 - |e_x|)",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 267 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: B - 2|e_x|",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 272 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\beta = \\pi/4 - \\varphi/2",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 273 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: r=r_0e^{\\theta\\tan\\varphi}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 274 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: r_0=\\frac{B'}{2\\cos\\alpha}",
+      "voce": "F5-REL-1160-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_fondazioni-e-geotecnica_fondazioni-superficiali.txt",
+      "percorso": "riga 275 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: 0\\leq\\theta\\leq\\pi/2",
       "voce": "F5-REL-1160-01"
     }
   ]
