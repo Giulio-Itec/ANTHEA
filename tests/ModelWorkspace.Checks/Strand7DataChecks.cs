@@ -137,6 +137,20 @@ static partial class Program
 
         // ---- Tables of the viewer ----
         withData.Results = Strand7Sample.Snapshot().Results.Select(r => r with { Equilibrium = r.Name == "1: Dead" ? check : null }).ToArray(); withData.Validate();
+
+        // ---- Partial updates: masses, temperatures and stages are attributes of the model ----
+        var modelOnly = ModelSnapshotUpdate.Apply(null, withData, ModelUpdateScope.ModelWithoutResults);
+        Check(modelOnly.Masses!.Length == 5 && modelOnly.Temperatures!.Length == 4 && modelOnly.ConstructionStages!.Length == 2 && modelOnly.Results.Length == 0,
+            "an update of the model without results keeps masses, temperatures and stages");
+        var geometryOnly = ModelSnapshotUpdate.Apply(null, withData, ModelUpdateScope.Geometry);
+        Check(geometryOnly.Masses == null && geometryOnly.Temperatures == null && geometryOnly.ConstructionStages == null, "a geometry-only update leaves them out with the other attributes");
+        var resultsUpdate = ModelSnapshotUpdate.Apply(modelOnly, withData, ModelUpdateScope.Results);
+        Check(resultsUpdate.Masses!.Length == 5 && resultsUpdate.Results.Single(r => r.Name == "1: Dead").Reactions!.Length == 2, "a results-only update keeps the data and brings the reactions");
+        var differentMasses = ModelSnapshot.FromJson(JsonSerializer.Serialize(withData)); differentMasses.Masses = [differentMasses.Masses![0]];
+        Reject(() => ModelSnapshotUpdate.Apply(modelOnly, differentMasses, ModelUpdateScope.Results), "a results-only update refuses a copy with other masses");
+        var stagedModel = ModelSnapshotUpdate.Apply(null, stagedCopy, ModelUpdateScope.ModelWithoutResults); stagedModel.Version = 1; stagedModel.Validate();
+        var stagedUpdate = ModelSnapshotUpdate.Apply(stagedModel, stagedCopy, ModelUpdateScope.Results);
+        Check(stagedUpdate.Version == 2 && stagedUpdate.Results.Single().Stage != null, "results for stage update a copy of format 1 to the format 2");
         using var vm = new ModelViewerViewModel(withData, [], false, new FakeServices(), _ => { }, (_, _, _, _) => { });
         vm.ShowAllCommand.Execute(null); vm.ShowTable = true; vm.TableOnlyVisible = false; vm.SelectedCase = "1: Dead";
         vm.SelectedTableKind = 7;
