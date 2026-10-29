@@ -1218,6 +1218,8 @@ Nei nuovi fogli scegliere separatamente lo Stato limite (SLU o SLV) e il Criteri
 
 I documenti precedenti mantengono i gruppi Plastico ed Elastico fino alla conversione esplicita delle sollecitazioni. In quei documenti le chiavi interne SLU e SLV indicavano tali gruppi: non assegnavano automaticamente uno stato limite sismico.
 
+Nella **Scala del dominio 3D** i fattori N, MX e MY sono adimensionali e hanno l'unità «−», come gli altri fattori adimensionali del foglio; il cambiamento riguarda solo la presentazione.
+
 ### Tensioni e fessurazione
 
 Aprire la scheda dedicata, scegliere la combinazione e leggere prima lo stato tensionale: zona compressa, barre tese, tensione massima, asse neutro e deformazioni. Le deformazioni a video possono essere in per mille; i coefficienti di curvatura hanno un'altra dimensione. Non confrontare i due numeri senza conversione.
@@ -1493,7 +1495,7 @@ Per leggere un modello Straus7 serve Straus7 R3 installato sul computer nella ve
 
 1. Premi **Importa modello…** oppure **Aggiorna modello…** e seleziona **Straus7 / Strand7 R3 · file .st7 e .lsa** in **Sorgente del modello**.
 
-2. Con **Sfoglia…** scegli **Modello .st7** e, per **Solo risultati** e **Tutto**, **Risultati statici lineari .lsa** dello stesso modello. **API R3 a 64 bit · St7api.dll** è proposta dalla cartella di installazione, se ANTHEA la trova; altrimenti seleziona St7api.dll nella cartella Bin64 dell'installazione.
+2. Con **Sfoglia…** scegli **Modello .st7** e, per **Solo risultati** e **Tutto**, **Risultati statici lineari .lsa** dello stesso modello oppure, per un'analisi costruttiva per fasi, il file dei risultati statici non lineari .nla. **API R3 a 64 bit · St7api.dll** è proposta dalla cartella di installazione, se ANTHEA la trova; altrimenti seleziona St7api.dll nella cartella Bin64 dell'installazione.
 
 3. Premi **Controlla file e casi**. Il controllo verifica che i file esistano e che la libreria sia quella nativa a 64 bit, poi apre il modello, verifica che i risultati corrispondano al modello e ne legge il catalogo: nodi, aste, piastre, casi di carico, combinazioni LSA e casi di risultato statici lineari abbinati ai casi di carico. **Annulla controllo** lo interrompe senza leggere dati. Se cambi un file o la sorgente, catalogo e casi vengono scartati: ripeti il controllo.
 
@@ -1507,9 +1509,13 @@ La copia contiene geometria, proprietà con numero e nome di Straus7, terne loca
 
 Le sollecitazioni si leggono con la convenzione della copia MIDAS, uguale per ogni sorgente: Mxx, Myy e Mxy delle piastre e My delle aste hanno il segno opposto a quello che Straus7 mostra per gli stessi risultati, e Mxx positivo tende la faccia −z della piastra. Le unità sono kN/m e kN·m/m per le piastre, kN e kN·m per le aste, m e rad per spostamenti e rotazioni.
 
-Le combinazioni LSA compaiono in **Combinazioni** come definizioni della sorgente, non modificabili; si escludono o si ridefiniscono come quelle MIDAS. I loro risultati non sono letti dal file: li costruisce ANTHEA con la libreria GPC dai casi importati, che devono quindi comprendere tutti i casi richiamati. Aste reticolari e cavi non entrano ancora nelle combinazioni ricostruite. Le combinazioni definite su più insiemi di vincoli o su altre combinazioni restano con un avviso.
+Le combinazioni LSA compaiono in **Combinazioni** come definizioni della sorgente, non modificabili; si escludono o si ridefiniscono come quelle MIDAS. I loro risultati non sono letti dal file: li costruisce ANTHEA con la libreria GPC dai casi importati, che devono quindi comprendere tutti i casi richiamati. Le combinazioni ricostruite comprendono lo sforzo normale delle aste reticolari e dei cavi e le reazioni vincolari. Le combinazioni definite su più insiemi di vincoli o su altre combinazioni restano con un avviso.
 
-La lettura riguarda l'analisi statica lineare dei casi primari, senza fasi. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a cerniera, elementi cut-off, contatti, aste di tipo definito dall'utente, temperature, masse e fasi; le reazioni vincolari non sono mostrate. Le combinazioni della sorgente sono un dato nuovo del progetto: una versione precedente di ANTHEA può non riaprire un progetto che contiene una copia Straus7.
+Controlla file e casi riporta anche il numero delle fasi del modello. Con un file .lsa risolto su una fase attiva il riepilogo lo segnala: i casi sono quelli di quella configurazione e gli elementi non attivi non hanno risultati. Con un file .nla l'elenco mostra uno stato per ogni fase e incremento, con il nome «NLA · fase · incremento». I risultati di un file .nla sono risultati per fase: in **Risultati** si scelgono con **Fasi costruttive** e i selettori di fase e passo, come le fasi MIDAS, e non entrano nelle combinazioni.
+
+Il pulsante **Tabella** offre anche **Reazioni vincolari** del caso corrente, con nel riepilogo la risultante delle reazioni, quella dei carichi e l'esito del controllo di equilibrio, **Masse**, **Temperature** e **Fasi**, con i gruppi e gli elementi attivi di ogni fase. Masse e temperature sono dati del modello: ANTHEA non ne ricava carichi. Le colonne delle tabelle riportano l'unità nell'intestazione.
+
+La lettura riguarda l'analisi statica lineare dei casi primari, anche su una fase attiva, e l'analisi statica non lineare per fasi del file .nla, del quale si legge solo questa. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a cerniera, elementi cut-off, contatti e aste di tipo definito dall'utente; la geometria trasformata delle fasi «morphed» non è mostrata e si vede quella iniziale. Le combinazioni della sorgente sono un dato nuovo del progetto: una versione precedente di ANTHEA può non riaprire un progetto che contiene una copia Straus7.
 
 ### Risolvere le interruzioni e conoscere i limiti
 
