@@ -65,12 +65,13 @@ ingressi.3.4: campo input/pile_count "Pali per appoggio · 0 = auto" = "12" [n.]
 ingressi.3.5: campo input/footing_size "Lato fondazione · 0 = auto" = "0" [m] · cursore 0
 ingressi.3.6: campo input/fc_sub "Resistenza cls sottostrutture" = "40" [MPa] · cursore 40
 ingressi.3.7: testo [nota] "0 mantiene il dimensionamento automatico. Le classi di terreno sono parametri convenzionali modificabili nelle ipotesi."
-ingressi.4: 5 blocchi
+ingressi.4: 6 blocchi
 ingressi.4.0: scelta traffic_model "Modello di traffico" = "Schema 1 NTC 2018" voci "Schema 1 NTC 2018|Uniforme equivalente (legacy)"
 ingressi.4.1: testo [nota] "Schema 1: tandem e distribuito sulle zone sfavorevoli. Lo spartitraffico positivo è assunto con barriera fissa; carreggiate simmetriche. Le barriere sono escluse dalla larghezza carrabile."
 ingressi.4.2: campo assumptions/gamma_q "Moltiplicatore traffico" = "1.35" [—]
 ingressi.4.3: pulsante "Applica γQ NTC consigliato"
 ingressi.4.4: testo [nota] "Il coefficiente adottato è registrato nel risultato. Le strutture superiori usano azioni globali equivalenti e tandem locali: restano modelli di predimensionamento."
+ingressi.4.5: scelta partial_factors "Coefficienti parziali SLU" = "Moltiplicatori del progetto" voci "NTC 2018 Tab. 5.1.V (Model)|Moltiplicatori del progetto"
 risultati: "Quantità e costi|Dettagli del predimensionamento|Confronto A / B|Prezzario|Ipotesi e coefficienti|Sezioni e quote"
 pannello.quantita: -
 pannello.dettagli: -
