@@ -48,6 +48,7 @@ public static partial class RetainingWall
             new(r.B("two_zones"),r.B("two_zones") ? r.Required("lower_height", strict: true) : 0,zones),new(strengths.Fcd,strengths.Fyd,bondFctk05,section.Required("gamma_c")),m.Required("cover"),
             new(opt.Required("aggregate"),opt.Required("lap_clear"),opt.Required("lap_percent"),opt.B("good_bond"),opt.Required("tie_diameter"),opt.Required("tie_spacing"),profile,specification) { StockLength=stock });
     }
+    private const double MillimetresPerCentimetre = 10;
     private static string NativeFootText(WallFootDirection foot) => foot switch { WallFootDirection.Valley=>"valle",WallFootDirection.Mountain=>"monte",_=>"" };
     private static BarPoint NativePoint(WallBarPoint p) => new(p.X,p.Y);
     private static BarLeg NativeLeg(WallBarLeg l) => new(l.Kind==WallBarLegKind.Arc ? "arco "+Math.Round(l.Angle).ToString(System.Globalization.CultureInfo.InvariantCulture)+"°" : l.Name,l.Length)
@@ -93,14 +94,14 @@ public static partial class RetainingWall
         var n=WallBarScheduling.Calculate(NativeDetailInput(d),new(o.Required("panel_length"),o.Required("end_cover"),o.Required("stock_length"),(int)perMetre,
             o.Required("tie_cut_length"),d["detailing"].B("enabled")));
         var ci=System.Globalization.CultureInfo.GetCultureInfo("it-IT");
-        string Cm(double metres) => (metres*100).ToString("0",ci);
+        string Cm(double millimetres) => (millimetres/MillimetresPerCentimetre).ToString("0",ci);
         string Note(WallScheduledBar b) => b.Note switch
         {
             WallBarNote.None=>"",
             WallBarNote.FootTowardsValley=>"Piede verso valle, sulla rete inferiore della fondazione.",
             WallBarNote.FootTowardsMountain=>"Piede verso monte, sulla rete inferiore della fondazione.",
             WallBarNote.Continuous=>"Barra unica fra le due mensole, risvolti ai bordi liberi.",
-            WallBarNote.Longitudinal=>b.Pieces>1?$"{b.Lines} fili × {b.Pieces} pezzi uguali, {b.Pieces-1} sovrapposizioni l₀ = {Cm(b.Lap/1000)} cm per filo.":$"{b.Lines} fili, un pezzo per filo.",
+            WallBarNote.Longitudinal=>b.Pieces>1?$"{b.Lines} fili × {b.Pieces} pezzi uguali, {b.Pieces-1} sovrapposizioni l₀ = {Cm(b.Lap)} cm per filo.":$"{b.Lines} fili, un pezzo per filo.",
             WallBarNote.Tie=>$"{b.TieRows} file nella sovrapposizione, {perMetre:0}/m per fila; ganci a 135° prolungati di 10Ø.",
             WallBarNote.TieAssignedLength=>$"{b.TieRows} file nella sovrapposizione, {perMetre:0}/m per fila; sviluppo assegnato dall’utente.",
             WallBarNote.Head=>"Forcella di testa (bordo libero), gambe 2·spessore in testa.",

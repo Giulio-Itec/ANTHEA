@@ -89,7 +89,7 @@ internal static class WallAdvancedChecks
             using (var read = new StreamReader(zip.GetEntry("word/document.xml")!.Open()))
             {
                 var xml = read.ReadToEnd();
-                Check(xml.Contains("Distinta di predimensionamento") && xml.Contains("Newmark") && xml.Contains("Portanza sismica con inerzia"), "Relazione Word con nuovi capitoli");
+                Check(xml.Contains("Armature per metro di muro") && xml.Contains("Newmark") && xml.Contains("Portanza sismica con inerzia"), "Relazione Word con nuovi capitoli");
                 Check(zip.Entries.Count(e => e.FullName.EndsWith(".png")) == zip.Entries.Count(e => e.FullName.StartsWith("word/media/")), "Figure della relazione in PNG");
             }
             var captions = w.ReportFigureCaptions(global: false);

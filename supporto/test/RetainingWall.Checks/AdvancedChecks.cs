@@ -48,10 +48,12 @@ internal static class AdvancedChecks
             Check(interaction.Capacity < seismic.Capacity, "Interazione e inerzia verticale riducono la capacità");
             var d = RetainingWall.Defaults(); string initial = d.ToJsonString();
             var detail = RetainingWall.CalculateReinforcementDetails(d); Check(d.ToJsonString() == initial, "Dettagli non mutano input");
-            Check(detail.Bars.Count == 6 && detail.Bars.Where(b => b.Zone == "stem").All(b => b.Mandrel > 0 && b.Anchor >= b.RequiredAnchor && b.Path.Count > 10), "Percorsi con pieghe e ancoraggi verificabili");
+            // 1.16.0: fusto monte e valle, barre uniche di fondazione inferiore e superiore; forcella e longitudinali fra le altre posizioni.
+            Check(detail.Bars.Count == 4 && detail.Bars.Count(b => b.Continuous) == 2 && detail.Others.Count(o => o.Kind == "Forcella") == 1 && detail.Others.Count(o => o.Kind == "Longitudinale") == 4
+                && detail.Bars.Where(b => b.Zone == "stem").All(b => b.Mandrel > 0 && b.Anchor >= b.RequiredAnchor && b.Path.Count > 10), "Percorsi con pieghe e ancoraggi verificabili");
             d["reinforcement"]!["two_zones"] = true; d["reinforcement"]!["lower_height"] = 1.5;
             d["reinforcement"]!["stem_upper"]!["diameter"] = 12;
-            detail = RetainingWall.CalculateReinforcementDetails(d); Check(detail.Bars.Count == 8 && detail.Bars.Where(b => b.Zone.StartsWith("stem")).All(b => b.Lap > 0), "Due zone con sovrapposizioni");
+            detail = RetainingWall.CalculateReinforcementDetails(d); Check(detail.Bars.Count == 6 && detail.Bars.Where(b => b.Zone.StartsWith("stem")).All(b => b.Lap > 0) && detail.Others.Count(o => o.Kind == "Spillo") == 1, "Due zone con sovrapposizioni e spilli");
             d["reinforcement"]!["stem"]!["symmetric"] = false; d["reinforcement"]!["stem"]!["opposite_diameter"] = 12; d["reinforcement"]!["stem"]!["opposite_count"] = 5;
             var section = RetainingWall.SectionInput(d, "Fusto", .4, 3);
             Check(section.D("top_bar_diameter_mm") == 12 && section.D("bottom_bar_diameter_mm") == 16 && section.D("top_bar_count") == 5, "Sezione GPC con facce indipendenti");

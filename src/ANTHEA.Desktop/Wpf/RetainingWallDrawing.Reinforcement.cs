@@ -6,6 +6,8 @@ namespace X.Desktop;
 
 internal sealed partial class RetainingWallDrawing
 {
+    // Legend beside the section (fraction of the width, top, step and second line) and margin of the hit boxes of the bars.
+    const double LegendColumn = .60, LegendTop = 39, LegendStep = 30, LegendDetail = 14, HitMargin = 4, TopBarShift = 2.5;
     private void DrawReinforcementSection(DrawingContext dc)
     {
         if (Data is null) return;
@@ -26,12 +28,12 @@ internal sealed partial class RetainingWallDrawing
             dc.DrawRectangle(Ui.Brush("#FFEAC5"), null, box); hits.Add((box, $"Giunzione a h₁={split:0.###} m; l0 massimo={lap * 1000:0} mm. Barre giuntate affiancate lungo lo sviluppo del muro; proiezioni distanziate nel disegno per leggibilità.", null));
             Text(dc, $"h₁={split:0.##} m", 4, P(0, t + split).Y, size: 10);
         }
-        int index = 0;
+        int index = 0; double middle = (a + back) / 2;
         void Legend(string mark, string title, string detail, Brush color)
         {
-            double lx = ActualWidth * .60, ly = 39 + index++ * 30;
+            double lx = ActualWidth * LegendColumn, ly = LegendTop + index++ * LegendStep;
             Text(dc, $"{mark}  {title}", lx, ly, color, 12);
-            Text(dc, detail, lx, ly + 14, Ui.Muted, 10.5);
+            Text(dc, detail, lx, ly + LegendDetail, Ui.Muted, 10.5);
         }
         foreach (var bar in details.Bars)
         {
@@ -42,11 +44,11 @@ internal sealed partial class RetainingWallDrawing
             Point Project(WallModel.BarPoint point)
             {
                 var p = P(point.X, point.Y);
-                return bar.Zone == "stem_upper" ? new(p.X + (bar.Face == "monte" ? -4 : 4), p.Y) : bar.Face == "superiore" ? new(p.X + (point.X < a + g.D("stem_base") / 2 ? 2.5 : -2.5), p.Y) : p;
+                return bar.Zone == "stem_upper" ? new(p.X + (bar.Face == "monte" ? -4 : 4), p.Y) : bar.Face == "superiore" ? new(p.X + (point.X < middle ? TopBarShift : -TopBarShift), p.Y) : p;
             }
             var points = bar.Path.Select(Project).ToArray();
             for (int i = 1; i < points.Length; i++) dc.DrawLine(pen, points[i - 1], points[i]);
-            var min = new Point(points.Min(p => p.X) - 4, points.Min(p => p.Y) - 4); var max = new Point(points.Max(p => p.X) + 4, points.Max(p => p.Y) + 4);
+            var min = new Point(points.Min(p => p.X) - HitMargin, points.Min(p => p.Y) - HitMargin); var max = new Point(points.Max(p => p.X) + HitMargin, points.Max(p => p.Y) + HitMargin);
             string zone = bar.Continuous ? "Fondazione" : WallModel.RebarZoneName(bar.Zone), foot = bar.Foot.Length > 0 ? $"; piede verso {bar.Foot}" : "";
             string info = $"pos. {bar.Mark} · {zone} {bar.Face}: {bar.Count} Ø{bar.Diameter}/m (passo {bar.Spacing:0.#} mm); As={bar.Area:0} mm²/m\nL={bar.Length:0.###} m; lbd richiesto/usato={bar.RequiredAnchor:0}/{bar.Anchor:0} mm; l0={bar.Lap:0} mm; mandrino={bar.Mandrel:0} mm; fbd={bar.Fbd:0.##} MPa{foot}";
             hits.Add((new Rect(min, max), info, null));
@@ -61,7 +63,7 @@ internal sealed partial class RetainingWallDrawing
                 {
                     var color = Ui.Brush("#7B3FA0"); var points = other.Path.Select(p => P(p.X, p.Y)).ToArray();
                     for (int i = 1; i < points.Length; i++) dc.DrawLine(new Pen(color, 1.6), points[i - 1], points[i]);
-                    hits.Add((new Rect(new Point(points.Min(p => p.X) - 4, points.Min(p => p.Y) - 4), new Point(points.Max(p => p.X) + 4, points.Max(p => p.Y) + 4)),
+                    hits.Add((new Rect(new Point(points.Min(p => p.X) - HitMargin, points.Min(p => p.Y) - HitMargin), new Point(points.Max(p => p.X) + HitMargin, points.Max(p => p.Y) + HitMargin)),
                         $"pos. {other.Mark} · forcella di testa Ø{other.Diameter}/{other.Spacing:0.#} mm; L={other.Length:0.###} m", null));
                     Legend(other.Mark, $"Forcella di testa   Ø{other.Diameter}/{other.Spacing:0.#} mm", $"L {other.Length:0.00} m", color);
                     break;
