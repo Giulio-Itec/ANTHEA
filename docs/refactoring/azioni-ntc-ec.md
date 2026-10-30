@@ -1,6 +1,6 @@
 # Azioni NTC / EN — lavoro del 29–30 ottobre 2026
 
-Branch ANTHEA `refactoring/f5-azioni-climatiche`, da `refactoring/f5` 61dc4ff3. Model e Checker: `codex/azioni-climatiche-ntc-ec`. Il 30/10 l'utente ha chiesto di non eseguire merge fino a sera; nessun merge o push eseguito. Il tentativo precedente di pubblicare le librerie, motivato dalla regola presente nei loro AGENTS, è stato rifiutato dalla revisione automatica prima dell'esecuzione. Si usano soltanto snapshot candidati esterni a `lib/Checker`.
+Branch ANTHEA `refactoring/f5-azioni-climatiche`, da `refactoring/f5` 61dc4ff3. Model e Checker: `codex/azioni-climatiche-ntc-ec`. Il divieto temporaneo di merge del 30/10 è stato successivamente revocato dall'utente: «poi merge e versione delle varie librerie. porta le tue modifiche sul master anche di anthea». Il ramo principale di ANTHEA si chiama `main`. L'allineamento neve EN A1:2015 resta **da completare**, come confermato dall'utente. Il precedente tentativo di pubblicare le librerie era stato rifiutato dalla revisione automatica prima dell'esecuzione; fino all'autorizzazione si sono usati soltanto snapshot candidati esterni a `lib/Checker`.
 
 ## Perimetro autorizzato
 
@@ -35,6 +35,16 @@ La copia locale è supporto/artefatti/azioni-climatiche/app/ANTHEA.exe, versione
 Il 30/10, alla ripresa, quattro sorgenti non committati risultavano costituiti soltanto da byte nulli: ClimateDocument, ClimateSheetViewModel, ClimateSheetView.xaml e ClimateCaseChart. Ripristinati dai patch originali della stessa chat; originali azzerati e registro del recupero in `supporto/artefatti/azioni-climatiche/recupero`. Calcoli GPC già committati integri; prove mirate ripetute dopo il recupero. Nessuna fixture indipendente modificata.
 
 ## Architettura e riproduzione
+
+### Integrazione autorizzata del 30 ottobre
+
+- Integrati sui rami di lavoro `origin/master` Model 8fb97ef8 e Checker f253ee4e, e `origin/main` ANTHEA 25f05436 (1.16.1). Conservati i cambiamenti già pubblicati su combinazioni, steel, Concrete e CompositeBridge.
+- Versioni assegnate: Model 5.32.0.0 e Design 0.44.0.0 per le nuove funzionalità; ModelData 0.3.0.17, Persistence 3.4.0.7, Converter 2.10.0.4, Concrete 0.32.0.3, Steel 2.127.0.2, CompositeBridge 1.21.0.1, Geotechnics 0.27.0.5, ModelChecker 2.35.0.2 e Masonry 0.10.0.20 per ricompilazione coerente. Utilities, Geometry e DelaunayMesh invariati.
+- Merge ANTHEA: conservate tutte le voci del registro; confronto Fondazioni sulle impronte AN già presenti su `main`, normalizzando soltanto `library_version` a 0.27.0.1 dopo la verifica della DLL caricata. Nessun atteso numerico rigenerato. Indice installer unito e PDF ricontrollato; versioni precedenti archiviate con SHA-256.
+- [ ] Suite complete sul set integrato, merge/push Model e Checker, produzione del set ufficiale.
+- [ ] Snapshot ufficiale in ANTHEA, profilo full, integrazione su `main`. Suite UI prima dell'integrazione: 73; nessuna rimossa.
+
+### Riproduzione della build candidata precedente
 
 Calcoli esclusivamente in Model/Checker/GPC.Design. Application adatta contratti e risultati; Presentation non contiene tipi di calcolo o WPF; Desktop contiene viste e disegni; Reports compone i documenti senza calcoli ingegneristici. Le immagini sono risorse locali, rigenerabili con `tools/figures/climate_schematics.py` (Matplotlib di solo sviluppo).
 
