@@ -1683,5 +1683,121 @@
     "title": "Analisi per fasi delle paratie",
     "order": 100,
     "summary": "Trave e molle elastoplastiche, storia costruttiva, filtrazione e verificatori GPC: ipotesi, unità, equilibrio e campo collaudato."
+  },
+  "guide:Azioni climatiche": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli/azioni-climatiche",
+    "modules": [
+      "act_neve",
+      "act_vento_edifici",
+      "act_temperatura_edifici",
+      "act_vento_ponti",
+      "act_temperatura_ponti"
+    ],
+    "related": [
+      "azioni-climatiche"
+    ],
+    "key": "guida-azioni-climatiche",
+    "chapterId": "anthea",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "climate-en-snow",
+      "climate-en-wind",
+      "climate-en-thermal",
+      "climate-cnr-wind"
+    ],
+    "title": "Azioni climatiche",
+    "order": 151,
+    "summary": "Neve, vento e temperatura negli edifici; vento CNR e temperatura negli impalcati. Formule, schemi, casi ed edizioni normative."
+  },
+  "theory:Azioni climatiche": {
+    "area": "Azioni e combinazioni",
+    "id": "/wiki/manuale/azioni/azioni-climatiche",
+    "modules": [
+      "act_neve",
+      "act_vento_edifici",
+      "act_temperatura_edifici",
+      "act_vento_ponti",
+      "act_temperatura_ponti"
+    ],
+    "related": [
+      "guida-azioni-climatiche"
+    ],
+    "key": "azioni-climatiche",
+    "chapterId": "fondamenti",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "climate-en-snow",
+      "climate-en-wind",
+      "climate-en-thermal",
+      "climate-cnr-wind"
+    ],
+    "title": "Azioni climatiche",
+    "order": 151,
+    "summary": "Neve, vento e temperatura negli edifici; vento CNR e temperatura negli impalcati. Formule, schemi, casi ed edizioni normative."
+  },
+  "guide:Carichi combinazioni e traffico": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli/carichi-traffico",
+    "modules": [
+      "act_carichi_edifici",
+      "act_combinazioni",
+      "act_traffico_ponti",
+      "act_ripartizione_traffico",
+      "act_urti_veicolari"
+    ],
+    "related": [
+      "carichi-traffico"
+    ],
+    "key": "guida-carichi-traffico",
+    "chapterId": "anthea",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "actions-en-loads",
+      "actions-en-combinations",
+      "actions-en-traffic",
+      "actions-en-impact"
+    ],
+    "title": "Carichi combinazioni e traffico",
+    "order": 152,
+    "summary": "Permanenti, sovraccarichi, combinazioni degli edifici, traffico stradale, ripartizione rigida/deformabile e urti veicolari."
+  },
+  "theory:Carichi combinazioni e traffico": {
+    "area": "Azioni e combinazioni",
+    "id": "/wiki/manuale/azioni/carichi-traffico",
+    "modules": [
+      "act_carichi_edifici",
+      "act_combinazioni",
+      "act_traffico_ponti",
+      "act_ripartizione_traffico",
+      "act_urti_veicolari"
+    ],
+    "related": [
+      "guida-carichi-traffico"
+    ],
+    "key": "carichi-traffico",
+    "chapterId": "fondamenti",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "actions-en-loads",
+      "actions-en-combinations",
+      "actions-en-traffic",
+      "actions-en-impact"
+    ],
+    "title": "Carichi combinazioni e traffico",
+    "order": 152,
+    "summary": "Permanenti, sovraccarichi, combinazioni degli edifici, traffico stradale, ripartizione rigida/deformabile e urti veicolari."
   }
 }

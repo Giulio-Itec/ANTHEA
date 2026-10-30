@@ -51,7 +51,7 @@ internal static class ModuleHostWpfChecks
     /// switched on 23/10 (passaggi della Release: materials, vertical and horizontal pile and micropile, stratigraphy, shallow foundations,
     /// composite bridge section, Bridge Design, RC section, retaining walls).
     /// </summary>
-    private static readonly string[] ReleaseMvvm = [SpectraModule, PileGroupModule, "geo_fondazioni_superficiali", HorizontalMicropileModule, "geo_micropalo_verticale", RetainingWallModule, HorizontalPileModule, "geo_palo_verticale", EmbeddedWallModule, "geo_stratigrafia", ProbeModule, ConcreteModule, BridgeDesignModule, CompositeSectionModule, ConcreteSectionModule];
+    private static readonly string[] ReleaseMvvm = new string[] {SpectraModule, PileGroupModule, "geo_fondazioni_superficiali", HorizontalMicropileModule, "geo_micropalo_verticale", RetainingWallModule, HorizontalPileModule, "geo_palo_verticale", EmbeddedWallModule, "geo_stratigrafia", ProbeModule, ConcreteModule, BridgeDesignModule, CompositeSectionModule, ConcreteSectionModule }.Concat(Anthea.Application.Actions.ClimateDocument.Modules.Select(m=>m.Id)).Order(StringComparer.Ordinal).ToArray();
     /// <summary>The RC section, MVVM in the Release since the switch of 23/10/2026 (F5.10).</summary>
     private const string ConcreteSectionModule = "str_palo";
 
@@ -100,7 +100,7 @@ internal static class ModuleHostWpfChecks
                     or "geo_fondazioni_superficiali" or "geo_palo_orizzontale" or "geo_micropalo_orizzontale" or "geo_stratigrafia" or "geo_muri_sostegno"
                     or "str_palo" or SpectraModule or EmbeddedWallModule
                     or "str_mista_ponte"
-                    or "str_bridge_design")),
+                    or "str_bridge_design" || Anthea.Application.Actions.ClimateDocument.Supports(m))),
             "Radice di composizione: registro uguale a ModuleDirectory, con la palificata, i pali verticali e orizzontali, i materiali, le fondazioni, la stratigrafia, i muri e la sezione c.a. MVVM");
         using (var steel = composition.SheetEditors.Open(ProbeModule, ModuleDirectory.CreateData(ProbeModule)))
             Check(steel is MvvmSheetEditor { Sheet: RebarMaterialSheetViewModel }, "Radice di composizione: la Release apre l'acciaio (il modulo della sonda) con la vista MVVM");

@@ -4,6 +4,8 @@
  <UserControl.Resources>
   <Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/></Style>
   <Style TargetType="ContentControl"><Setter Property="HorizontalContentAlignment" Value="Stretch"/></Style>
+  <Style TargetType="ListBox"><Setter Property="Background" Value="{DynamicResource Token.Paper}"/><Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/><Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/></Style>
+  <Style TargetType="ListBoxItem"><Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/><Setter Property="Padding" Value="4,3"/><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem"><Border x:Name="Row" Background="{DynamicResource Token.Paper}" Padding="{TemplateBinding Padding}"><ContentPresenter/></Border><ControlTemplate.Triggers><Trigger Property="IsSelected" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter></Style>
   <Style x:Key="Quantities" TargetType="DataGrid">
    <Setter Property="AutoGenerateColumns" Value="False"/><Setter Property="IsReadOnly" Value="True"/><Setter Property="CanUserAddRows" Value="False"/><Setter Property="CanUserDeleteRows" Value="False"/><Setter Property="HeadersVisibility" Value="Column"/>
   </Style>
@@ -14,6 +16,13 @@
     <ItemsControl ItemsSource="{Binding Forms}"><ItemsControl.ItemTemplate><DataTemplate>
      <Expander Header="{Binding Name}" IsExpanded="True" Margin="0,0,0,12"><ContentControl Content="{Binding Form}" Margin="0,8,0,0"/></Expander>
     </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+    <ItemsControl ItemsSource="{Binding Tables}"><ItemsControl.ItemTemplate><DataTemplate>
+     <Expander Header="{Binding Title}" IsExpanded="True" Margin="0,0,0,12"><StackPanel Margin="0,8,0,0">
+      <StackPanel Orientation="Horizontal"><Button Content="Aggiungi" Command="{Binding AddCommand}" Margin="0,0,8,8" Padding="10,4"/><Button Content="Rimuovi" Command="{Binding RemoveCommand}" Margin="0,0,0,8" Padding="10,4"/></StackPanel>
+      <ListBox ItemsSource="{Binding Rows}" SelectedItem="{Binding Selected}" DisplayMemberPath="Name" MaxHeight="150" MinHeight="45" Margin="0,0,0,8"/>
+      <ContentControl Content="{Binding Editor}"/>
+     </StackPanel></Expander>
+    </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
    </StackPanel>
   </ScrollViewer>
   <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="{DynamicResource Token.Border}"/>
@@ -21,6 +30,7 @@
    <StackPanel><TextBlock Text="{Binding Reference}" FontWeight="SemiBold" TextWrapping="Wrap"/><TextBlock Text="{Binding Scope}" TextWrapping="Wrap" Margin="0,6,0,12"/></StackPanel>
    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10"><Button Content="Esporta CSV" Command="{Binding ExportCommand}" Padding="12,5" Margin="0,0,8,0"/><Button Content="Copia risultati" Command="{Binding CopyCommand}" Padding="12,5"/></StackPanel>
    <TabControl Grid.Row="2">
+    <TabItem Header="Impalcato e influenza"><TabItem.Style><Style TargetType="TabItem"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding IsDistribution}" Value="True"><Setter Property="Visibility" Value="Visible"/><Setter Property="IsSelected" Value="True"/></DataTrigger></Style.Triggers></Style></TabItem.Style><ScrollViewer VerticalScrollBarVisibility="Auto"><views:TrafficDistributionChart Drawing="{Binding TrafficDrawing}" Margin="8"/></ScrollViewer></TabItem>
     <TabItem Header="Casi di carico"><Grid Margin="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
      <ComboBox ItemsSource="{Binding Cases}" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedCase}" Margin="0,0,0,8"/>
      <TextBlock Grid.Row="1" Text="{Binding CaseDescription}" TextWrapping="Wrap" Margin="0,0,0,10"/>

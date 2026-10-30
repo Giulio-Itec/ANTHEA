@@ -1761,5 +1761,19 @@
         "after_sha256": "a4302af3be15d0d5bbdaa8affc5546e00eeee7c13b455dc86b9b73887c0d9a98"
       }
     ]
+  },
+  "editorial_transitions_rev63": {
+    "capture": "supporto/artefatti/ci/20261030-073420-actions-ui-02/ui_f3-equivalence/cattura",
+    "before_sha256": "b665e4ebab1c8e7a18d39fbfa5be987691dd5abf3235b9f78c2de371ebefcd1d",
+    "after_sha256": "04b731e835890e1de17fe0bf18b14730c9fa99fc8ad1058f74d7eb73563f98d0",
+    "counts": {
+      "previous": 2882,
+      "current": 2926,
+      "added": 102,
+      "removed": 58
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "AZIONI-01",
+    "note": "Only exact Wiki/count transitions. Historical expected files and engineering transitions remain unchanged."
   }
 }

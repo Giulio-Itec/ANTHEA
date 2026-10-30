@@ -77,6 +77,11 @@ internal sealed class DesktopComposition
             new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.BuildingThermal),
             new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.BridgeWind),
             new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.BridgeThermal),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.PermanentLoads),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.Combinations),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.RoadTraffic),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.Distribution),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.Impact),
             new Anthea.Presentation.Modules.EmbeddedWalls.EmbeddedWallSheetModule(),
             // F5.11: the composite bridge section, with the WPF figures of its report; the Release keeps the historic view until its checkpoint.
             new Anthea.Presentation.Modules.CompositeSection.CompositeSectionSheetModule(new CompositeSectionFigureRenderer()),

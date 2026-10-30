@@ -40,12 +40,17 @@ internal sealed partial class ModuleImplementations
         ("mat_acciaio_armatura", SheetImplementation.Mvvm),
         ("geo_stratigrafia", SheetImplementation.Mvvm),
         ("act_spettri_ntc", SheetImplementation.Mvvm),
+        ("geo_paratie", SheetImplementation.Mvvm),
         ("act_neve", SheetImplementation.Mvvm),
         ("act_vento_edifici", SheetImplementation.Mvvm),
         ("act_temperatura_edifici", SheetImplementation.Mvvm),
         ("act_vento_ponti", SheetImplementation.Mvvm),
         ("act_temperatura_ponti", SheetImplementation.Mvvm),
-        ("geo_paratie", SheetImplementation.Mvvm),
+        ("act_carichi_edifici", SheetImplementation.Mvvm),
+        ("act_combinazioni", SheetImplementation.Mvvm),
+        ("act_traffico_ponti", SheetImplementation.Mvvm),
+        ("act_ripartizione_traffico", SheetImplementation.Mvvm),
+        ("act_urti_veicolari", SheetImplementation.Mvvm),
     ];
 
     /// <summary>The implementations of the Release.</summary>

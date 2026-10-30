@@ -31,7 +31,7 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
         {
             var climateData=sheet["dati"] as JsonObject??Actions.ClimateDocument.Create(module);
             var climate=await Task.Run(()=>ModuleServices.Get(module).Calculate(climateData,cancellation),cancellation);
-            return new(Document:ClimateReport.Create(sheet.S("nome"),climate.Data,climate.Values));
+            return new(Document:ClimateReport.Create(sheet.S("nome"),climate.Data,climate.Values,Actions.ClimateDocument.ReportInputs(module,climate.Data)));
         }
         if(module==Actions.SpectraDocument.Module){
             var spectraData=sheet["dati"] as JsonObject??Actions.SpectraDocument.Create();
@@ -106,7 +106,7 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
     public static DocxDocument CreateDocument(ModuleReportRequest request, IReadOnlyList<ReportFigure> figures)
     {
         var c = request.Calculation;
-        if(Actions.ClimateDocument.Supports(c.ModuleId))return ClimateReport.Create(request.Title,c.Data,c.Values);
+        if(Actions.ClimateDocument.Supports(c.ModuleId))return ClimateReport.Create(request.Title,c.Data,c.Values,Actions.ClimateDocument.ReportInputs(c.ModuleId,c.Data));
         if(c.ModuleId==Actions.SpectraDocument.Module)return SpectraReport.Create(request.Title,c.Data,c.Values);
         if (c.ModuleId == EmbeddedWalls.EmbeddedWallDocument.Module) return EmbeddedWallReport.Create(request.Title, c.NativeAs<EmbeddedWallReportData>());
         if (c.ModuleId == "str_palo") return ReportConcrete.CreateDocument(request.Title, Anthea.Application.Concrete.SectionActionInputs.CalculationCopy(c.Data), c.Values, request.Options.ToHashSet(), figures.Select(f => f.Image()).ToList(), !request.ProjectReport);

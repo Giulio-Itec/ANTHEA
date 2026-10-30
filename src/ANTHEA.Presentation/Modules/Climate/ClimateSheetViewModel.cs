@@ -29,6 +29,9 @@ public sealed class ClimateSheetViewModel : SheetViewModelBase
     public IRelayCommand ExportCommand{get;}
     public IRelayCommand CopyCommand{get;}
     public IReadOnlyList<ClimateFormPanel> Forms{get;private set;}=[];
+    public IReadOnlyList<ActionTableViewModel> Tables{get;private set;}=[];
+    public bool IsDistribution=>module==ClimateDocument.Distribution;
+    public TrafficDrawing? TrafficDrawing=>IsDistribution?ClimateDocument.Drawing(Data,Result):null;
     public IReadOnlyList<string> Schematics=>ClimateFigures.Names(Data).Select(n=>"pack://application:,,,/ANTHEA;component/Assets/Wiki/clima-"+n+".png").ToArray();
     public IReadOnlyList<string> ChartUnits=>CaseValues.Select(v=>v.Unit).Where(u=>u.Length>0&&u!="−"&&u!="-").Distinct().ToArray();
     private string? chartUnit;
@@ -50,36 +53,39 @@ public sealed class ClimateSheetViewModel : SheetViewModelBase
         rebuilding=true;
         Forms=ClimateDocument.Forms(module,Data).Select(g=>
         {
-            var fields=g.Fields.Select(f=>new FieldSpec(f.Key,f.Label,f.Unit,Choices:f.Choices,Bool:f.Boolean,Wide:f.Choices is not null||!f.Numeric&&!f.Boolean,Write:f.Numeric?FieldWriteRule.NumberOrText:FieldWriteRule.RawText,Multiline:!f.Numeric&&!f.Boolean&&f.Choices is null,ToolTip:f.Help)).ToArray();
+            var fields=g.Fields.Select(Field).ToArray();
             var form=new FormViewModel(g.Values,fields,key=>Edited(g,key),compact:true){IsReadOnly=!CanEdit,WikiNavigator=Context.Services.Wiki};
             return new ClimateFormPanel(g.Name,form);
         }).ToArray();
-        rebuilding=false;OnPropertyChanged(nameof(Forms));OnPropertyChanged(nameof(Schematics));
+        Tables=ClimateDocument.Tables(Data).Select(t=>new ActionTableViewModel(module,t,TableEdited,()=>CanEdit,Guard,Context.Services.Wiki)).ToArray();
+        rebuilding=false;OnPropertyChanged(nameof(Forms));OnPropertyChanged(nameof(Tables));OnPropertyChanged(nameof(Schematics));OnPropertyChanged(nameof(TrafficDrawing));
     }
+    internal static FieldSpec Field(ClimateField f)=>new(f.Key,f.Label,f.Unit,Choices:f.Choices,Bool:f.Boolean,Wide:f.Choices is not null||!f.Numeric&&!f.Boolean,Write:f.Numeric?FieldWriteRule.NumberOrText:FieldWriteRule.RawText,Multiline:!f.Numeric&&!f.Boolean&&f.Choices is null,ToolTip:f.Help);
+    private void TableEdited(){if(rebuilding||IsDisposed)return;Changed();OnPropertyChanged(nameof(TrafficDrawing));}
     private void Edited(ClimateFormGroup group,string key)
     {
         if(rebuilding||IsDisposed)return;
-        ClimateDocument.ApplyField(Data,group,key);Changed();
+        ClimateDocument.ApplyField(Data,group,key);Changed();OnPropertyChanged(nameof(TrafficDrawing));
         var f=group.Fields.First(f=>f.Key==key);if(f.Boolean||f.Choices is not null)BuildForms();
     }
-    protected override void OnCommit(){foreach(var panel in Forms)panel.Form.Commit();ClimateDocument.Validate(module,Data);}
+    protected override void OnCommit(){foreach(var panel in Forms)panel.Form.Commit();foreach(var table in Tables)table.Commit();ClimateDocument.Validate(module,Data);}
     protected override void OnReloaded()=>BuildForms();
     protected override void OnCalculationPublished()=>RefreshResults();
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
-        if(e.PropertyName==nameof(CanEdit))foreach(var panel in Forms)panel.Form.IsReadOnly=!CanEdit;
+        if(e.PropertyName==nameof(CanEdit)){foreach(var panel in Forms)panel.Form.IsReadOnly=!CanEdit;foreach(var table in Tables)table.RefreshAccess();}
         if(e.PropertyName==nameof(Result))RefreshResults();
     }
     private void RefreshResults()
     {
         if(selectedCase<0||selectedCase>=Cases.Count)selectedCase=0;
-        foreach(string p in new[]{nameof(Reference),nameof(Scope),nameof(Notes),nameof(Parameters),nameof(Cases),nameof(SelectedCase),nameof(CaseValues),nameof(CaseDescription)})OnPropertyChanged(p);
+        foreach(string p in new[]{nameof(Reference),nameof(Scope),nameof(Notes),nameof(Parameters),nameof(Cases),nameof(SelectedCase),nameof(CaseValues),nameof(CaseDescription),nameof(TrafficDrawing)})OnPropertyChanged(p);
         ExportCommand?.NotifyCanExecuteChanged();CopyCommand?.NotifyCanExecuteChanged();
         RefreshChart();
     }
-    private void RefreshChart(){OnPropertyChanged(nameof(ChartUnits));OnPropertyChanged(nameof(ChartUnit));OnPropertyChanged(nameof(ChartValues));}
+    private void RefreshChart(){if(IsDistribution&&ChartUnits.Contains("%")&&chartUnit is null)chartUnit="%";OnPropertyChanged(nameof(ChartUnits));OnPropertyChanged(nameof(ChartUnit));OnPropertyChanged(nameof(ChartValues));}
     private void Export(){if(Result is null)return;var path=Context.Services.Files.SaveFile(new([new("Azioni CSV","*.csv")],Title+".csv"));if(path is not null)File.WriteAllText(path,ClimateDocument.Csv(Result),new System.Text.UTF8Encoding(true));}
     private sealed class ReportSource(ClimateSheetViewModel sheet):IModuleReportSource
-    {public byte[] BuildReport(string title,IReadOnlySet<string> options,bool projectReport=false){sheet.Commit();var result=sheet.CalculateModule(sheet.Data);return DocxWriter.Write(ClimateReport.Create(title,result.Data,result.Values));}}
+    {public byte[] BuildReport(string title,IReadOnlySet<string> options,bool projectReport=false){sheet.Commit();var result=sheet.CalculateModule(sheet.Data);return DocxWriter.Write(ClimateReport.Create(title,result.Data,result.Values,ClimateDocument.ReportInputs(sheet.module,result.Data)));}}
 }

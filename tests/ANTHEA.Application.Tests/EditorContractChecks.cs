@@ -14,7 +14,8 @@ internal static class EditorContractChecks
         // Keep the complete frozen legacy catalogue; the three Application-owned additions have dedicated suites.
         comparison.Compare(ModuleCatalog.All, ModuleDirectory.All.Where(m => m.Id != Anthea.Application.Stratigraphy.StratigraphyDocument.Module
             && m.Id != Anthea.Application.Actions.SpectraDocument.Module
-            && m.Id != Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module).ToArray(), "Catalogo");
+            && m.Id != Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module
+            && !Anthea.Application.Actions.ClimateDocument.Supports(m.Id)).ToArray(), "Catalogo");
         foreach (var module in ModuleDirectory.All)
         {
             Check(ReferenceEquals(module, ModuleDirectory.Get(module.Id)), "Identità dei metadati del catalogo");

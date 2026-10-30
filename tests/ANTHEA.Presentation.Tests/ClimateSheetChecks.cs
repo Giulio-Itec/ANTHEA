@@ -24,20 +24,32 @@ internal static class ClimateSheetChecks
             expect.That(await sheet.CalculateAsync()&&sheet.HasResults,"Calcolo "+scenario.Title+": "+sheet.CalculationMessage);
             expect.That(sheet.Cases.Count>0&&sheet.Parameters.Count>0&&sheet.CaseValues.Count>0,"Casi e parametri disponibili");
             var before=sheet.Data.DeepClone();foreach(var panel in sheet.Forms)panel.Form.Commit();expect.That(JsonNode.DeepEquals(before,sheet.Data),"La proiezione italiana non modifica il contratto GPC");
-            sheet.IsReadOnly=true;var field=sheet.Forms.SelectMany(f=>f.Form.Fields).FirstOrDefault(f=>f.Kind==Anthea.Presentation.Forms.FieldKind.Text&&f.Spec.Write==Anthea.Presentation.Forms.FieldWriteRule.NumberOrText);
+            sheet.IsReadOnly=true;var field=sheet.Forms.SelectMany(f=>f.Form.Fields).Concat(sheet.Tables.Where(t=>t.Editor is not null).SelectMany(t=>t.Editor!.Fields)).FirstOrDefault(f=>f.Kind==Anthea.Presentation.Forms.FieldKind.Text&&f.Spec.Write==Anthea.Presentation.Forms.FieldWriteRule.NumberOrText);
             expect.That(field is not null,"Campo numerico disponibile");field!.EditText="999";expect.That(JsonNode.DeepEquals(before,sheet.Data),"Sola lettura");sheet.IsReadOnly=false;
-            var form=sheet.Forms.Last().Form;string key=scenario.Module is ClimateDocument.Snow or ClimateDocument.BuildingWind or ClimateDocument.BridgeWind?"WidthM":"LengthM";
-            form[key].EditText="12,5";expect.That(!sheet.HasResults&&sheet.Data["input"]![key]!.GetValue<double>()==12.5,"Modifica decimale e invalidazione");
+            var form=scenario.Module==ClimateDocument.Combinations?sheet.Tables.Single().Editor!:sheet.Forms.Last().Form;
+            string key=scenario.Module switch{ClimateDocument.Snow or ClimateDocument.BuildingWind or ClimateDocument.BridgeWind=>"WidthM",ClimateDocument.PermanentLoads=>"TributaryWidthM",ClimateDocument.Combinations=>"Effect",ClimateDocument.RoadTraffic=>"LoadedLengthM",ClimateDocument.Impact=>scenario.Data["input"]!["Target"]!.ToString()=="Superstructure"?"ClearanceM":"MemberWidthM",ClimateDocument.Distribution=>"SpanM",_=>"LengthM"};
+            double edited=scenario.Module==ClimateDocument.Distribution?30:12.5;
+            form[key].EditText=edited.ToString(System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
+            var changed=scenario.Module==ClimateDocument.Combinations?sheet.Data["input"]!["Actions"]![0]:sheet.Data["input"];
+            expect.That(!sheet.HasResults&&changed![key]!.GetValue<double>()==edited,"Modifica decimale e invalidazione");
             expect.That(await sheet.CalculateAsync(),"Ricalcolo dopo modifica");sheet.Reload(before.AsObject());expect.That(await sheet.CalculateAsync(),"Ripristino dei dati e ricalcolo");
-            sheet.Forms.Last().Form[key].EditText="abc";await sheet.CalculateAsync();expect.That(!sheet.HasResults&&sheet.CalculationMessage.Length>0,"Errore di input non conserva risultati");sheet.Reload(before.AsObject());expect.That(await sheet.CalculateAsync()&&sheet.HasResults,"Recupero da errore");
+            (scenario.Module==ClimateDocument.Combinations?sheet.Tables.Single().Editor!:sheet.Forms.Last().Form)[key].EditText="abc";await sheet.CalculateAsync();expect.That(!sheet.HasResults&&sheet.CalculationMessage.Length>0,"Errore di input non conserva risultati");sheet.Reload(before.AsObject());expect.That(await sheet.CalculateAsync()&&sheet.HasResults,"Recupero da errore");
             string folder=Path.Combine(output,scenario.Module);Directory.CreateDirectory(folder);string path=Path.Combine(folder,scenario.File+".anthea");
             var document=DocumentService.CreateDocument(scenario.Module);document["dati"]=sheet.Data.DeepClone();DocumentService.Save(path,document);var reopened=DocumentService.Open(path);
             expect.That(JsonNode.DeepEquals(reopened["dati"],sheet.Data),"Salvataggio e apertura del contratto GPC");
             var recalculated=ModuleServices.Get(scenario.Module).Calculate(reopened["dati"]!.AsObject());expect.That(JsonNode.DeepEquals(recalculated.Values,sheet.Result),"Equivalenza dopo riapertura");
             string csv=ClimateDocument.Csv(sheet.Result!);expect.That(csv.Contains("Formula")&&!csv.Contains("NaN"),"CSV tracciabile");File.WriteAllText(Path.ChangeExtension(path,"csv"),csv);
             foreach(var unit in sheet.ChartUnits){sheet.ChartUnit=unit;expect.That(sheet.ChartValues.Count>0&&sheet.ChartValues.All(v=>v.Unit==unit),"Diagrammi con unità omogenee");}
-            var report=ClimateReport.Create(scenario.Title,sheet.Data,sheet.Result!);expect.That(report.Contains("word/media/climate1.png"),"Relazione con schema incorporato");File.WriteAllBytes(Path.ChangeExtension(path,"docx"),DocxWriter.Write(report));var pdf=DocxPdf.Render(report,scenario.Title);File.WriteAllBytes(Path.ChangeExtension(path,"pdf"),pdf.Bytes);expect.That(pdf.Pages>0,"PDF non vuoto");
+            var inputRows=ClimateDocument.ReportInputs(scenario.Module,sheet.Data);expect.That(inputRows.Count>0&&inputRows.All(r=>r.Length==2),"Dati del report con etichette e unità");
+            var report=ClimateReport.Create(scenario.Title,sheet.Data,sheet.Result!,inputRows);expect.That(report.Contains("word/media/climate1.png"),"Relazione con schema incorporato");File.WriteAllBytes(Path.ChangeExtension(path,"docx"),DocxWriter.Write(report));var pdf=DocxPdf.Render(report,scenario.Title);File.WriteAllBytes(Path.ChangeExtension(path,"pdf"),pdf.Bytes);expect.That(pdf.Pages>0,"PDF non vuoto");
             expect.That(Anthea.Application.Reporting.ModuleReportService.Supports(scenario.Module),"Capitolo nella relazione di progetto");
+            foreach(var table in sheet.Tables)
+            {
+                int count=table.Rows.Count;table.AddCommand.Execute(null);expect.That(table.Rows.Count==count+1&&!sheet.HasResults,"Aggiunta riga e invalidazione");
+                table.RemoveCommand.Execute(null);expect.That(table.Rows.Count==count,"Rimozione della riga appena aggiunta");
+                sheet.IsReadOnly=true;table.AddCommand.Execute(null);expect.That(table.Rows.Count==count&&table.Editor?.IsReadOnly!=false,"Tabelle in sola lettura");sheet.IsReadOnly=false;
+            }
+            if(sheet.IsDistribution){expect.That(sheet.TrafficDrawing?.Girders.Count==3,"Geometria delle tre travi proiettata");expect.That(await sheet.CalculateAsync()&&sheet.TrafficDrawing?.Influence.Count>0,"Linee d’influenza pubblicate");}
         }
         var snow=ClimateDocument.Create(ClimateDocument.Snow);
         using(var sheet=new ClimateSheetViewModel(ClimateDocument.Snow,new(snow,false,new Host(),Scripted.Services(),ModuleServices.Get(ClimateDocument.Snow),new CalculationLimiter(1))))

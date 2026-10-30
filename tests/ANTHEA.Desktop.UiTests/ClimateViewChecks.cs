@@ -20,8 +20,9 @@ internal static class ClimateViewChecks
         var bindings=new StringWriter();var listener=new TextWriterTraceListener(bindings);PresentationTraceSources.DataBindingSource.Listeners.Add(listener);
         try
         {
-            foreach(var scenario in ClimateScenarios.All().GroupBy(s=>s.Module).Select(g=>g.First()))
+            foreach(var scenario in ClimateScenarios.All().GroupBy(s=>s.Module).SelectMany(g=>g.Key==Anthea.Application.Actions.ClimateDocument.Distribution?g:g.Take(1)))
             {
+                string captureName=scenario.Module+(scenario.File=="ripartizione-deformabile"?"-deformabile":"");
                 var factory=ModuleHostBench.SheetEditors([]);using var editor=factory.Open(scenario.Module,scenario.Data);
                 Check(editor is MvvmSheetEditor,"Modulo climatico MVVM");var sheet=(ClimateSheetViewModel)((MvvmSheetEditor)editor).Sheet;
                 var window=new Window{Content=editor.View,Width=1450,Height=1000,Left=-32000,Top=-32000,ShowActivated=false,ShowInTaskbar=false,WindowStyle=WindowStyle.None,WindowStartupLocation=WindowStartupLocation.Manual};Appearance.Watch(window);
@@ -30,6 +31,14 @@ internal static class ClimateViewChecks
                     window.Show();await editor.CalculateAsync();window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
                     Check(sheet.HasResults,"Calcolo "+scenario.Module+": "+sheet.CalculationMessage);
                     Check(Visual(editor.View).OfType<ClimateSheetView>().Count()==1,"Template XAML risolto");
+                    var actionTabs=Visual(editor.View).OfType<TabControl>().First(t=>t.Items.OfType<TabItem>().Any(i=>Equals(i.Header,"Casi di carico")));
+                    if(sheet.IsDistribution)
+                    {
+                        actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Impalcato e influenza"));window.UpdateLayout();
+                        Check(Visual(editor.View).OfType<TrafficDistributionChart>().Any(c=>c.IsVisible&&c.Drawing?.Influence.Count>0),"Pianta, sezione e influenza con dati calcolati");
+                        File.WriteAllBytes(Path.Combine(output,captureName+"-impalcato.png"),Png(editor.View));
+                    }
+                    actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Casi di carico"));window.UpdateLayout();
                     foreach(var theme in new[]{AppAppearance.Light,AppAppearance.Dark,AppAppearance.VeryDark})
                     {
                         Appearance.Set(theme,false);window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
@@ -37,21 +46,27 @@ internal static class ClimateViewChecks
                         var selector=Visual(editor.View).OfType<ComboBox>().Single(c=>c.DisplayMemberPath=="Name");selector.SelectedIndex=sheet.Cases.Count-1;
                         window.UpdateLayout();Check(sheet.SelectedCase==sheet.Cases.Count-1&&sheet.CaseValues.Count>0,"Selezione caso");
                         Check(Visual(editor.View).OfType<ClimateCaseChart>().Any(c=>c.IsVisible&&c.ActualHeight>50&&c.Values?.Count>0),"Diagramma con valori del caso");
-                        File.WriteAllBytes(Path.Combine(output,scenario.Module+"-"+theme+".png"),Png(editor.View));
+                        File.WriteAllBytes(Path.Combine(output,captureName+"-"+theme+".png"),Png(editor.View));
+                        if(sheet.IsDistribution)
+                        {
+                            actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Impalcato e influenza"));window.UpdateLayout();
+                            File.WriteAllBytes(Path.Combine(output,captureName+"-impalcato-"+theme+".png"),Png(editor.View));
+                            actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Casi di carico"));window.UpdateLayout();
+                        }
                     }
                     var tabs=Visual(editor.View).OfType<TabControl>().First(t=>t.Items.OfType<TabItem>().Any(i=>Equals(i.Header,"Schemi")));
                     tabs.SelectedItem=tabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Schemi"));window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
                     Check(Visual(editor.View).OfType<Image>().Count(i=>i.IsVisible&&i.Source is BitmapSource b&&b.PixelWidth>1000)==sheet.Schematics.Count,"Schemi incorporati risolti");
-                    File.WriteAllBytes(Path.Combine(output,scenario.Module+"-schemi.png"),Png(editor.View));tabs.SelectedIndex=0;
+                    File.WriteAllBytes(Path.Combine(output,captureName+"-schemi.png"),Png(editor.View));tabs.SelectedItem=tabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Casi di carico"));
                     editor.InspectRevision();window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
                     Check(sheet.Forms.All(f=>f.Form.IsReadOnly),"Revisione blocca tutti i moduli di input");
                     Check(Visual(editor.View).OfType<TextBox>().Where(t=>t.IsVisible).All(t=>t.IsReadOnly),"Campi effettivi in sola lettura");
-                    window.Width=1000;window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);File.WriteAllBytes(Path.Combine(output,scenario.Module+"-stretta.png"),Png(editor.View));
+                    window.Width=1000;window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);File.WriteAllBytes(Path.Combine(output,captureName+"-stretta.png"),Png(editor.View));
                 }
                 finally{window.Content=null;window.Close();}
             }
             listener.Flush();Check(!bindings.ToString().Contains("Error:"),"Errori binding: "+bindings);
-            File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} controlli climatici WPF, cinque moduli e tre temi");
+            File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} controlli Azioni WPF, dieci moduli e tre temi");
         }
         finally{PresentationTraceSources.DataBindingSource.Listeners.Remove(listener);listener.Dispose();Appearance.Set(AppAppearance.Light,false);}
     }

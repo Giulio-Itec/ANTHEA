@@ -1,5 +1,6 @@
 using System.IO;
 using System.Windows.Controls;
+using Anthea.Application.Modules;
 using Anthea.Presentation.Examples;
 using Anthea.Presentation.Services;
 using Anthea.Presentation.Shell.Navigation;
@@ -27,7 +28,8 @@ internal static class ExampleLibraryChecks
         var vm = (ExampleLibraryViewModel)view.DataContext;
         var modules = (ListBox)view.FindName("ModuleList");
         var examples = (ListBox)view.FindName("ExampleList");
-        Check(modules.Items.Count == 15, "Moduli del catalogo");
+        Check(modules.Items.Count == ModuleDirectory.All.Count &&
+            vm.Groups.Select(g => g.Module).Order().SequenceEqual(ModuleDirectory.All.Select(m => m.Id).Order()), "Moduli del catalogo");
         foreach (var group in vm.Groups)
         {
             modules.SelectedItem = group;

@@ -16,6 +16,11 @@ public static class ClimateFigures
             "BuildingThermalInput"=>["temperatura-edifici"],
             "BridgeWindInput"=>["vento-ponti"],
             "BridgeThermalInput"=>["temperatura-ponti"],
+            "BuildingLoadsInput"=>["carichi"],
+            "ActionCombinationsInput"=>["combinazioni"],
+            "RoadTrafficInput"=>["traffico"],
+            "TransverseDistributionInput"=>["ripartizione"],
+            "VehicleImpactInput"=>["urti"],
             _=>[]
         };
     }

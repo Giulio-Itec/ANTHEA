@@ -11,10 +11,10 @@ public sealed record Transition(string File, string Path, string Class, string? 
     public (string, string, string, string?, string?) Key => (File, Path, Class, A, B);
 
     /// <summary>
-    /// Articles of the Wiki in the F3 capture declared by the editorial record: 77 up to the guides Rev61, 78 from the Rev62 (1.16.0) with the
-    /// chapter «Capacità orizzontale in terreno stratificato».
+    /// Articles of the Wiki in the F3 capture declared by the editorial record: 78 in Rev62, 82 in Rev63 with the
+    /// four practical/theoretical chapters about climate actions, loads, combinations and traffic (AZIONI-01).
     /// </summary>
-    public const string EditorialArticleCount = "78";
+    public const string EditorialArticleCount = "82";
 
     /// <summary>Keep F4 engineering transitions immutable. The separate F5 editorial record replaces only the article count
     /// and adds exact Wiki differences; it cannot admit any engineering result, missing article, or numerical body change.</summary>

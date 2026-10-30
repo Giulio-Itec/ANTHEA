@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="864pt" height="345.6pt" viewBox="0 0 864 345.6" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-30T07:13:22.737307</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 345.6 
+L 864 345.6 
+L 864 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 64.669091 227.37787 
+L 365.76 227.37787 
+L 365.76 189.137455 
+L 64.669091 189.137455 
+z
+" clip-path="url(#pae3c2dc3b3)" style="fill: #cbd6df; stroke: #203348; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 64.669091 189.137455 
+L 365.76 189.137455 
+L 365.76 173.203948 
+L 64.669091 173.203948 
+z
+" clip-path="url(#pae3c2dc3b3)" style="fill: #e3ceb5; stroke: #203348; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 64.669091 173.203948 
+L 365.76 173.203948 
+L 365.76 163.643844 
+L 64.669091 163.643844 
+z
+" clip-path="url(#pae3c2dc3b3)" style="fill: #b7c7b5; stroke: #203348; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="215.214545" y="210.855709" transform="rotate(-0 215.214545 210.855709)">G1 · soletta</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="215.214545" y="183.768358" transform="rotate(-0 215.214545 183.768358)">G2 · massetto</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="215.214545" y="171.021943" transform="rotate(-0 215.214545 171.021943)">G2 · pavimento</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 79.723636 111.471335 
+Q 79.723636 131.777509 79.723636 150.183025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 81.923636 145.783025 
+L 79.723636 150.183025 
+L 77.523636 145.783025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 109.832727 111.471335 
+Q 109.832727 131.777509 109.832727 150.183025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 112.032727 145.783025 
+L 109.832727 150.183025 
+L 107.632727 145.783025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 139.941818 111.471335 
+Q 139.941818 131.777509 139.941818 150.183025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 142.141818 145.783025 
+L 139.941818 150.183025 
+L 137.741818 145.783025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 170.050909 111.471335 
+Q 170.050909 131.777509 170.050909 150.183025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 172.250909 145.783025 
+L 170.050909 150.183025 
+L 167.850909 145.783025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 200.16 111.471335 
+Q 200.16 131.777509 200.16 150.183025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 202.36 145.783025 
+L 200.16 150.183025 
+L 197.96 145.783025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 230.269091 111.471335 
+Q 230.269091 131.777509 230.269091 150.183025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 232.469091 145.783025 
+L 230.269091 150.183025 
+L 228.069091 145.783025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 260.378182 111.471335 
+Q 260.378182 131.777509 260.378182 150.183025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 262.578182 145.783025 
+L 260.378182 150.183025 
+L 258.178182 145.783025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 290.487273 111.471335 
+Q 290.487273 131.777509 290.487273 150.183025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 292.687273 145.783025 
+L 290.487273 150.183025 
+L 288.287273 145.783025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 320.596364 111.471335 
+Q 320.596364 131.777509 320.596364 150.183025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 322.796364 145.783025 
+L 320.596364 150.183025 
+L 318.396364 145.783025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 350.705455 111.471335 
+Q 350.705455 131.777509 350.705455 150.183025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 352.905455 145.783025 
+L 350.705455 150.183025 
+L 348.505455 145.783025 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1976a3" x="215.214545" y="90.020865" transform="rotate(-0 215.214545 90.020865)">qk · sovraccarico distribuito</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="215.214545" y="262.102735" transform="rotate(-0 215.214545 262.102735)">g = spessore × peso specifico</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_15">
+    <path d="M 627.709091 230.564571 
+L 669.861818 230.564571 
+L 669.861818 224.191169 
+L 627.709091 224.191169 
+z
+" clip-path="url(#ped2e405e7f)" style="fill: #c36522"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 498.24 227.37787 
+L 799.330909 227.37787 
+" clip-path="url(#ped2e405e7f)" style="fill: none; stroke: #203348; stroke-width: 1.8; stroke-linecap: square"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 648.785455 114.655994 
+Q 648.785455 165.237312 648.785455 213.917971 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 650.985455 209.517971 
+L 648.785455 213.917971 
+L 646.585455 209.517971 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #c36522" x="648.785455" y="90.020865" transform="rotate(-0 648.785455 90.020865)">Qk · verifica locale alternativa</text>
+   </g>
+   <g id="patch_17">
+    <path d="M 666.968327 252.871481 
+Q 648.788294 252.871481 630.60826 252.871481 
+" style="fill: none; stroke: #203348; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 662.568327 250.671481 
+L 666.968327 252.871481 
+L 662.568327 255.071481 
+" style="fill: none; stroke: #203348; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 635.00826 255.071481 
+L 630.60826 252.871481 
+L 635.00826 250.671481 
+" style="fill: none; stroke: #203348; stroke-width: 0.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="648.785455" y="266.622982" transform="rotate(-0 648.785455 266.622982)">impronta</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="648.785455" y="287.33654" transform="rotate(-0 648.785455 287.33654)">F / G: due impronte, carico Qk per ruota</text>
+   </g>
+  </g>
+  <g id="text_9">
+   <text style="font-weight: 700; font-size: 17px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203348" x="34.56" y="19.829344" transform="rotate(-0 34.56 19.829344)">Carichi d’edificio · permanenti, distribuiti e locali</text>
+  </g>
+  <g id="text_10">
+   <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203348" x="34.56" y="333.504" transform="rotate(-0 34.56 333.504)">NTC §3.1; EN 1991-1-1. Partizioni: NTC → G2; EN, mobili → aggiunta a Q. Riduzioni per area e per piani alternative.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pae3c2dc3b3">
+   <rect x="34.56" y="55.296" width="361.309091" height="245.376"/>
+  </clipPath>
+  <clipPath id="ped2e405e7f">
+   <rect x="468.130909" y="55.296" width="361.309091" height="245.376"/>
+  </clipPath>
+ </defs>
+</svg>

@@ -591,7 +591,10 @@ internal static class ShallowFoundationViewChecks
             Click(new ViewSide(mvvm).Command("CalculateCommand")); await mvvm.Settle();
             mvvm.Editor.Commit();
             var result = mvvm.Editor.Result;
-            Check(Hash(mvvm.Editor.Data) == historic.Data && mvvm.Editor.HasResults == historic.HasResults && (result is null ? "-" : Hash(result)) == historic.Result,
+            // The AM hashes include Geotechnics 0.27.0.0. Validate the real runtime provenance first, then
+            // compare every other byte with that frozen version; no numerical expected value is regenerated.
+            var historicVersionResult=ShallowFoundationVersionProjection.Result(result,"0.27.0.0");
+            Check(Hash(mvvm.Editor.Data) == historic.Data && mvvm.Editor.HasResults == historic.HasResults && (historicVersionResult is null ? "-" : Hash(historicVersionResult)) == historic.Result,
                 id + ": dati, stato e risultato dopo «Calcola» uguali a quelli della vista storica");
             drawings += SameDrawings(id, mvvm);
             if (!mvvm.Editor.HasResults)

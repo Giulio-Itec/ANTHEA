@@ -21,5 +21,15 @@ internal static class ClimateScenarios
         yield return S(ClimateDocument.BridgeWind,"vento-cnr-affiancati","Vento CNR · impalcati indipendenti affiancati",p=>{p["ApplicabilityConfirmed"]=true;p["WidthM"]=10;p["SecondWidthM"]=10;p["TotalHeightM"]=2;p["DeckCentreHeightM"]=19;p["AdjacentDeck"]=true;p["GapM"]=1;});
         yield return S(ClimateDocument.BridgeThermal,"temperatura-ponte-cassone","Temperatura ponte · cassone in calcestruzzo",p=>{p["Site"]!["AssignedTemperatures"]=true;p["Site"]!["MinimumAirC"]=-10;p["Site"]!["MaximumAirC"]=40;});
         yield return S(ClimateDocument.BridgeThermal,"temperatura-ponte-acciaio","Temperatura EN · impalcato in acciaio",p=>{En(p["Site"]!.AsObject());p["Site"]!["AssignedTemperatures"]=true;p["Deck"]="SteelTrussOrPlate";p["SurfacingMm"]=100;p["BearingSettingTemperatureKnown"]=true;});
+        yield return S(ClimateDocument.PermanentLoads,"carichi-ntc-abitazione","Carichi NTC · solaio residenziale e tramezzi",p=>{p["PartitionLineKnM"]=2.1;p["PartitionDistributionConfirmed"]=true;});
+        yield return S(ClimateDocument.PermanentLoads,"carichi-en-ufficio","Carichi EN · ufficio con partizioni mobili",p=>{En(p);p["AssignedImposedLoads"]=true;p["Occupancy"]="OfficeB1";p["DistributedKnM2"]=3;p["ConcentratedKn"]=4.5;p["HorizontalKnM"]=1;p["PartitionLineKnM"]=1;p["PartitionDistributionConfirmed"]=true;});
+        yield return S(ClimateDocument.Combinations,"combinazioni-ntc-slu","Combinazioni NTC · SLU con vento di segno opposto",p=>{});
+        yield return S(ClimateDocument.Combinations,"combinazioni-en-610ab","Combinazioni EN · confronto 6.10a e 6.10b",p=>{En(p);p["RecommendedEnFactorsConfirmed"]=true;p["EnExpression"]="Equations610a610b";});
+        yield return S(ClimateDocument.RoadTraffic,"traffico-ntc-curva","Traffico NTC · carreggiata 10 m e curva R=1000 m",p=>p["StraightBridge"]=false);
+        yield return S(ClimateDocument.RoadTraffic,"traffico-en-giunto","Traffico EN · asse LM2 presso giunto",p=>{En(p);p["AddJointAmplification"]=true;p["JointDistanceM"]=0;});
+        yield return S(ClimateDocument.Distribution,"ripartizione-rigida","Ripartizione rigida · tre travi e corsia eccentrica",p=>{p["ApplicabilityConfirmed"]=true;p["Method"]="RigidCourbon";});
+        yield return S(ClimateDocument.Distribution,"ripartizione-deformabile","Ripartizione deformabile · tre travi flesso-torsionali",p=>p["ApplicabilityConfirmed"]=true);
+        yield return S(ClimateDocument.Impact,"urto-ntc-pila","Urto NTC · pila prossima alla strada",p=>{});
+        yield return S(ClimateDocument.Impact,"urto-en-impalcato","Urto EN · impalcato con franco netto 5,5 m",p=>{En(p);p["Target"]="Superstructure";});
     }
 }

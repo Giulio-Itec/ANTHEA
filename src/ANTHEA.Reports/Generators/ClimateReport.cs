@@ -7,7 +7,8 @@ namespace Anthea.Reports;
 /// <summary>Pure document composition: all numbers, equations and references come from the GPC result.</summary>
 public static class ClimateReport
 {
-    public static DocxDocument Create(string title,JsonObject input,JsonObject result)
+    private const int TableWidthTwips=9600;
+    public static DocxDocument Create(string title,JsonObject input,JsonObject result,IReadOnlyList<string[]> inputRows)
     {
         XNamespace w="http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         var body=new XElement(w+"body");var package=new DocxDocument();
@@ -15,7 +16,7 @@ public static class ClimateReport
         string Text(JsonNode? n)=>n is JsonValue v&&v.TryGetValue<double>(out var d)?d.ToString("G10",CultureInfo.GetCultureInfo("it-IT")):n?.ToString()??"";
         void Table(string[] headers,IEnumerable<string[]> rows)
         {
-            int width=9600/headers.Length;
+            int width=TableWidthTwips/headers.Length;
             XElement Row(string[] cells,bool header=false)=>new(w+"tr",new XElement(w+"trPr",new XElement(w+"cantSplit"),header?new XElement(w+"tblHeader"):null),cells.Select(s=>new XElement(w+"tc",new XElement(w+"tcPr",new XElement(w+"tcW",new XAttribute(w+"w",width),new XAttribute(w+"type","dxa")),header?new XElement(w+"shd",new XAttribute(w+"fill","E8EEF4")):null),P(s))));
             body.Add(new XElement(w+"tbl",new XElement(w+"tblPr",new XElement(w+"tblW",new XAttribute(w+"w",9600),new XAttribute(w+"type","dxa")),new XElement(w+"tblBorders",new[]{"top","left","bottom","right","insideH","insideV"}.Select(s=>new XElement(w+s,new XAttribute(w+"val","single"),new XAttribute(w+"sz",4),new XAttribute(w+"color","BCC7D3"))))),new XElement(w+"tblGrid",headers.Select(_=>new XElement(w+"gridCol",new XAttribute(w+"w",width)))),Row(headers,true),rows.Select(row=>Row(row))),P(""));
         }
@@ -23,12 +24,10 @@ public static class ClimateReport
         {
             Table(["Grandezza / descrizione","Valore / unità","Formula / riferimento"],(values??[]).Select(v=>new[]{Text(v!["Symbol"])+" · "+Text(v["Description"]),Text(v["Value"])+" "+Text(v["Unit"]),Text(v["Formula"])+" · "+Text(v["Reference"])}));
         }
-        IEnumerable<string[]> Inputs(JsonObject obj,string prefix="")
-        {foreach(var p in obj){if(p.Value is JsonObject nested){foreach(var row in Inputs(nested,prefix+p.Key+"."))yield return row;}else yield return [prefix+p.Key,Text(p.Value)];}}
-        body.Add(P(title,true),P("ANTHEA · Azioni climatiche"),P(Text(result["Standard"])),P(Text(result["Scope"])));
+        body.Add(P(title,true),P("ANTHEA · Azioni"),P(Text(result["Standard"])),P(Text(result["Scope"])));
         ClimateFigures.Append(package,body,input);
-        body.Add(P("Dati di ingresso",true),P("Contratto GPC: "+Text(input["input_type"])+"; schema "+Text(input["climate_schema"])+". Unità SI: m, m/s, kg/m³, kN/m², °C; suffissi Mm in mm, Deg in gradi e PerKelvin in 1/K."));
-        Table(["Parametro del contratto","Valore"],Inputs(input["input"]!.AsObject()));
+        body.Add(P("Dati di ingresso",true));
+        Table(["Parametro","Valore / unità"],inputRows);
         body.Add(P("Parametri e formule",true));Values(result["Parameters"]?.AsArray());
         foreach(var c in result["Cases"]?.AsArray()??[]){body.Add(P(Text(c!["Name"]),true),P(Text(c["Description"])));Values(c["Values"]?.AsArray());}
         body.Add(P("Ipotesi e campo di applicazione",true));foreach(var note in result["Notes"]?.AsArray()??[])body.Add(P(Text(note)));
