@@ -1,10 +1,10 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Revisione 62 · 29 ottobre 2026
+ITEC Engineering · Revisione 63 · 30 ottobre 2026
 
 ## Guida pratica ANTHEA
 
-[Word Rev62](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev62.docx) · [PDF Rev62](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev62.pdf)
+[Word Rev63](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev63.docx) · [PDF Rev63](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev63.pdf)
 
 - Stratigrafia del terreno
 - Avvio e scelta del modulo
@@ -31,10 +31,12 @@ ITEC Engineering · Revisione 62 · 29 ottobre 2026
 - Reologia del calcestruzzo
 - Esaminare le sezioni del modello
 - Paratie e sostegni flessibili
+- Azioni climatiche
+- Carichi combinazioni e traffico
 
 ## Guida teorica ANTHEA
 
-[Word Rev62](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev62.docx) · [PDF Rev62](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev62.pdf)
+[Word Rev63](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev63.docx) · [PDF Rev63](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev63.pdf)
 
 - Modello della stratigrafia del terreno
 - Architettura del calcolo e convenzioni
@@ -87,9 +89,13 @@ ITEC Engineering · Revisione 62 · 29 ottobre 2026
 - Risultati dei modelli per fasi
 - Geometria e rappresentazione delle sezioni
 - Analisi per fasi delle paratie
+- Azioni climatiche
+- Carichi combinazioni e traffico
 
 ## Articoli
 
 [Word](../documentazione/Guide_ANTHEA/ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx) · [PDF](../documentazione/Guide_ANTHEA/ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf)
 
 - Capacità orizzontale del palo in terreno stratificato: il metodo di G. Pacini, estensione della teoria di Broms (edizione 1)
+
+Azioni: neve, vento e temperatura negli edifici; vento CNR e temperatura negli impalcati; permanenti e sovraccarichi, combinazioni SLU/SLE, traffico stradale, ripartizione rigida e deformabile, urti veicolari. Dieci fogli con schemi e formule; venti esempi nel catalogo centrale, con dati ANTHEA e relazioni Word/PDF e CSV.

@@ -1,0 +1,46 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_carichi_edifici",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "BuildingLoadsInput",
+    "input": {
+      "Standard": "EurocodeFirstGeneration",
+      "NationalParameters": "Esempio didattico: valori raccomandati EN di prima generazione, clima assegnato; nessuna appendice nazionale selezionata.",
+      "Occupancy": "OfficeB1",
+      "AssignedImposedLoads": true,
+      "DistributedKnM2": 3,
+      "ConcentratedKn": 4.5,
+      "HorizontalKnM": 1,
+      "ContactSideM": 0.05,
+      "PartitionLineKnM": 1,
+      "PartitionDistributionConfirmed": true,
+      "Reduction": "None",
+      "LoadedAreaM2": 20,
+      "Storeys": 3,
+      "TributaryWidthM": 5,
+      "Layers": [
+        {
+          "Name": "Soletta",
+          "ThicknessM": 0.25,
+          "UnitWeightKnM3": 25,
+          "Structural": true
+        },
+        {
+          "Name": "Massetto",
+          "ThicknessM": 0.06,
+          "UnitWeightKnM3": 20,
+          "Structural": false
+        },
+        {
+          "Name": "Pavimento",
+          "ThicknessM": 0.02,
+          "UnitWeightKnM3": 22,
+          "Structural": false
+        }
+      ]
+    }
+  }
+}

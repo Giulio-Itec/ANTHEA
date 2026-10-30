@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 29 ottobre 2026 — revisione documentale 62
+Edizione 6 aggiornata il 30 ottobre 2026 — revisione documentale 63
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -4137,3 +4137,238 @@ Italia, D.M.17 gennaio 2018, Norme tecniche per le costruzioni, capitoli 4 e 6, 
 M.Th. van Genuchten, 1980, A closed-form equation for predicting the hydraulic conductivity of unsaturated soils. USACE, EM 1110-2-1901, Seepage Analysis and Control for Dams, 1986, per i principi della filtrazione, senza assumerlo come profilo normativo italiano.
 
 C. Viggiani, Fondazioni, §13.1.6, per gli abachi e il campo documentato di Bustamante–Doix. La precisione numerica con cui sono lette le curve non rappresenta la precisione empirica del metodo.
+
+## Azioni climatiche
+
+### Sistemi normativi, unità e ambito
+
+I cinque modelli climatici sono implementati nelle librerie GPC. ANTHEA gestisce dati, presentazione, persistenza e reportistica. Ogni risultato conserva standard, campo di applicazione, parametri, formule e casi distinti. Le pressioni sono in kN/m², le azioni lineari in kN/m, i momenti distribuiti in kN·m/m; le temperature sono in °C e le differenze in K o, numericamente equivalenti, °C. Le deformazioni libere sono adimensionali, i movimenti riportati in mm e le curvature in 1/m.
+
+| Azione | Testo di riferimento implementato |
+| --- | --- |
+| Clima, vento, neve e temperatura italiani | NTC, DM 17 gennaio 2018, §§3.3–3.5; Circolare 21 gennaio 2019 n. 7 |
+| Neve EN | EN 1991-1-3:2003 con AC:2009, valori raccomandati; A1:2015 non implementato |
+| Vento EN | EN 1991-1-4:2005 con A1:2010 e AC:2010 |
+| Temperatura EN | EN 1991-1-5:2003 con AC:2009 |
+| Vento sugli impalcati | CNR-DT 207 R1/2018, §G.11 |
+| Temperatura nei ponti con clima NTC | NTC §§3.5 e 5.1.3.9; metodo EN degli impalcati come documento integrativo |
+
+La dicitura EN identifica queste edizioni di prima generazione, non gli Eurocodici di seconda generazione. Il software non sceglie automaticamente l'appendice nazionale: i dati climatici EN sono assegnati con fonte, i coefficienti nazionali disponibili come input vanno verificati per il progetto. Le geometrie e le condizioni fuori dal campo implementato richiedono il metodo pertinente. Le componenti caratteristiche non vengono trasformate automaticamente in combinazioni SLU/SLE.
+
+### Neve al suolo e sulle coperture
+
+Il carico verticale sulla proiezione orizzontale è:
+
+$$ s=\mu_i C_E C_t s_k
+
+In NTC, fino a 200 m, sk vale 1,50 kN/m² nelle due zone I, 1,00 nella zona II e 0,60 nella III. Oltre 200 m e fino a 1500 m:
+
+| Zona | Espressione di sk in kN/m², quota a in m |
+| --- | --- |
+| I Alpina | $1.39[1+(a/728)^2]$ |
+| I Mediterranea | $1.35[1+(a/602)^2]$ |
+| II | $0.85[1+(a/481)^2]$ |
+| III | $0.51[1+(a/481)^2]$ |
+
+Le zone sono quelle delle province elencate in NTC §3.4.2, nella denominazione del testo del 2018; non si deducono dalle sole regioni. Sopra 1500 m si usa un valore locale assegnato non inferiore a quello a 1500 m. Per il ramo EN sk è un input documentato. I coefficienti di esposizione per copertura battuta, normale e riparata sono rispettivamente 0,9/1,0/1,1 in NTC e 0,8/1,0/1,2 nei valori raccomandati EN: i due sistemi non vengono scambiati. Ct diverso da 1 richiede una valutazione specifica.
+
+Per falde ordinarie, μ1 = 0,8 fino a 30°, diminuisce linearmente a zero fra 30° e 60° ed è nullo da 60°. Se lo scivolamento è impedito, il valore non scende sotto 0,8. Le due falde producono il caso pieno su entrambe e i due casi con una falda ridotta della metà. Le falde multiple comprendono l'accumulo nella valle con μ2 = 0,8 + 0,8 α/30, limitando α a 30° per il valore di picco; l'applicabilità della geometria è controllata dal motore.
+
+Le coperture cilindriche seguono EN §5.3.5: μ3 = 0,2 + 10 f/b, limitato a 2,0, con caso uniforme e due disposizioni di accumulo speculari. Nei profili di accumulo i picchi sulle due metà sono 0,5 μ3 e μ3; i tratti con inclinazione locale oltre 60° non portano il carico previsto dalla formulazione ordinaria. Il modello fornisce i parametri della distribuzione, non una discretizzazione automatica del carico sul modello FEM.
+
+Per una copertura inferiore presso salto si usa μ2 = μw + μs. Il contributo del vento dipende da (b1+b2)/(2h), è limitato dal rapporto γh/sk e dal campo raccomandato 0,8–4,0. La lunghezza di accumulo ls = 2h è limitata a 5–15 m; quando il tetto inferiore è più corto, la distribuzione è troncata senza annullarne artificialmente l'ordinata al bordo. Per falda superiore oltre 15° μs va assegnato sulla base dell'azione di scivolamento pertinente. Non sono comprese le situazioni eccezionali dell'Appendice B, gli accumuli locali presso parapetti e le forze sui fermaneve.
+
+Controllo indipendente: zona II, a = 481 m, Ce = Ct = 1 dà sk = 1,70 kN/m². Due falde di 30° e 45° hanno μ = 0,8 e 0,4: carichi pieni 1,36 e 0,68 kN/m²; casi sbilanciati 0,68/0,68 e 1,36/0,34 kN/m².
+
+### Clima del vento e pressioni di picco
+
+Per NTC si applicano la velocità base della zona, la correzione altimetrica e il coefficiente di ritorno. Il valore a 50 anni è assunto esattamente pari a 1. I coefficienti di rugosità, lunghezza z0 e quota minima zmin per le cinque categorie NTC sono:
+
+| Categoria NTC | kr | z0 [m] | zmin [m] |
+| --- | --- | --- | --- |
+| I | 0,17 | 0,01 | 2 |
+| II | 0,19 | 0,05 | 4 |
+| III | 0,20 | 0,10 | 5 |
+| IV | 0,22 | 0,30 | 8 |
+| V | 0,23 | 0,70 | 12 |
+
+Per z almeno pari a zmin, il coefficiente di esposizione NTC e la pressione di picco adottata sono:
+
+$$ c_e=k_r^2 c_t \ln(z/z_0)[7+c_t\ln(z/z_0)]
+
+$$ q_p=\frac{\rho v_r^2}{2000}c_e
+
+Il fattore 2000 converte la pressione da N/m² a kN/m² e comprende il divisore 2. Sotto zmin il profilo è mantenuto al valore minimo. Per EN si usano vm = cr co vb, cr = kr ln(z/z0), kr = 0,19(z0/0,05)^0,07 e Iv = kI/[co ln(z/z0)]; quindi qp = (1+7Iv)ρvm²/2000. Le categorie EN 0–IV hanno z0 = 0,003/0,01/0,05/0,30/1,00 m e zmin = 1/1/2/5/10 m. Direzionalità, stagionalità, probabilità, orografia e turbolenza sono parametri distinti. Il campo in altezza gestito arriva a 200 m.
+
+### Vento sugli edifici: zone e casi
+
+Gli edifici sono rettangolari, con h/d non superiore a 5. b è ortogonale al vento, d è parallela; e = min(b,2h). Le pareti A, B, C sono laterali; D è sopravento ed E sottovento. La facciata sopravento usa le quote di riferimento coerenti con h/b; la discretizzazione adottata per edifici alti è conservativa. Non viene applicata una riduzione automatica per correlazione fra le facce D ed E.
+
+![Vento su copertura piana: zone F, G, H e I](../../src/ANTHEA.Desktop/Assets/Wiki/clima-vento-piana.png)
+
+![Vento su falda singola: direzioni 0, 90 e 180 gradi](../../src/ANTHEA.Desktop/Assets/Wiki/clima-vento-mono.png)
+
+![Vento su due falde: direzioni ortogonale e parallela al colmo](../../src/ANTHEA.Desktop/Assets/Wiki/clima-vento-doppia.png)
+
+Sono implementate coperture piane a spigolo vivo o con parapetto hp/h fino a 0,1 e coperture inclinate positive da 5° a 75°. I coefficienti derivano dalle tabelle EN §7.2, con interpolazione fra gli angoli tabellati. I rami di pressione e depressione restano casi distinti secondo le tabelle; non si interpola attraverso uno zero quando il testo richiede due rami.
+
+Per area caricata A fino a 1 m² si usa cpe,1, da 10 m² cpe,10; fra i due estremi:
+
+$$ c_{pe}=c_{pe,1}+(c_{pe,10}-c_{pe,1})\log_{10}A
+
+La pressione netta EN è qp(ze)cpe − qp(zi)cpi. In NTC il coefficiente dinamico moltiplica la differenza fra i due contributi; in EN le pressioni locali non sono moltiplicate automaticamente per cs·cd, e l'eventuale azione equivalente esterna amplificata è una riga separata. Per aperture distribuite si considerano cpi = −0,3 e +0,2. Per una faccia dominante, il moltiplicatore del cpe medio alle aperture cresce da 0,75 a 0,90 al crescere del rapporto fra aperture da 2 a 3. Sono ammessi anche cpi assegnati con quota interna esplicita.
+
+L'attrito superficiale è riportato separatamente con la distanza di inizio min(2b,4h); non viene integrato automaticamente in una risultante globale. Sono escluse tettoie, edifici con due facce oltre il 30% di aperture, coperture concave, bordi curvi e interferenze che richiedono valutazioni specifiche. Per NTC i coefficienti EN dichiarati sono impiegati come documentazione integrativa, secondo il campo richiamato dalla Circolare C3.3.8.1.
+
+### Vento sugli impalcati secondo CNR
+
+Il modello CNR-DT 207 R1/2018 §G.11 riguarda la sezione ordinaria a sviluppo costante. L'utente conferma le condizioni di applicazione; il foglio limita la lunghezza totale del ponte a 200 m. La quota di riferimento è il massimo dislivello del centro dell'impalcato rispetto al suolo più htot/2. L'ingombro htot include arredi o sagoma del traffico del caso considerato.
+
+Posto r = d/htot, il coefficiente orizzontale è 1,85/r − 0,10 per 2 ≤ r ≤ 5 e 1,35/r per r > 5; per r < 2 si richiede un coefficiente assegnato. Il modulo del coefficiente verticale vale 0,7+0,1r fino a r = 5 e 1,2 oltre; quello del momento vale 0,2. Le azioni per unità di lunghezza sono:
+
+$$ f_x=q_p d c_{fX},\qquad f_y=q_p d c_{fY},\qquad m_z=q_p d^2 c_{mz}
+
+I segni di fy e mz generano quattro casi simultanei. Il coefficiente dinamico assegnato amplifica soltanto la componente orizzontale equivalente prevista dal metodo. Per due impalcati vicini, s/max(d1,d2) < 0,25, si distinguono impalcati indipendenti, collegati e pile comuni; vengono confrontate le azioni del singolo e dell'insieme secondo §G.11.2. I due versi del vento restano separati. Per interspazi maggiori il modello vicino non viene applicato. Non si eseguono automaticamente verifiche di distacco dei vortici, flutter, galloping o risposta aeroelastica.
+
+Controllo dimensionale indipendente, qp = 1 kN/m², d = 10 m, htot = 2 m: r = 5, cfX = 0,27, cfY = ±1,2, cmz = ±0,2. Si ottengono fx = 2,7 kN/m, fy = ±12 kN/m e mz = ±20 kN·m/m, prima dell'eventuale coefficiente dinamico.
+
+### Temperatura negli edifici
+
+Il clima NTC è riferito a 50 anni. Le espressioni di Tmin/Tmax in °C, con quota a in m, sono: zona I −15−0,004a / 42−0,006a; II −8−0,006a / 42−0,002a; III −8−0,007a / 42−0,0003a; IV −2−0,009a / 42−0,002a. Per EN si assegnano gli estremi e la loro fonte nazionale.
+
+Il metodo semplificato NTC §3.5.5 vale soltanto quando l'azione termica non è fondamentale: ±15 °C per c.a. esposto e ±10 °C protetto; ±25 °C per acciaio esposto e ±15 °C protetto. Gli altri due metodi usano le temperature di superficie assegnate oppure il profilo stazionario monostrato. In quest'ultimo:
+
+$$ R=R_{si}+h/\lambda+R_{se},\qquad q=(T_{est}-T_{int})/R
+
+Le temperature delle facce risultano dalle cadute su Rsi e Rse, con incremento solare assegnato sull'aria esterna estiva. La componente uniforme è la media delle facce meno T0; quella differenziale è la differenza esterna meno interna. Per un elemento omogeneo:
+
+$$ \varepsilon_T=\alpha\Delta T_u,\qquad \Delta L=1000\alpha L\Delta T_u,\qquad \kappa_T=\alpha\Delta T_M/h
+
+Il fattore 1000 fornisce ΔL in mm con L in m. I coefficienti automatici sono 10×10⁻⁶/K per c.a. e 12×10⁻⁶/K per acciaio; l'assegnazione esplicita prevale. Esempio indipendente: c.a. esposto, α = 10×10⁻⁶/K, L = 20 m e ΔT = ±15 °C danno ε = ±0,00015 e ΔL = ±3 mm. Non si deducono sforzi normali o momenti senza le condizioni di vincolo.
+
+### Temperatura negli impalcati e simultaneità
+
+L'Approccio 1 lineare EN distingue impalcati in acciaio, composti e in calcestruzzo. Nell'intervallo della figura 6.1 implementato, gli scarti fra temperature efficaci e aria sono rispettivamente −3/+16, +4/+4 e +8/+2 °C per minimo/massimo. Per travi e reticolari in acciaio il massimo è ridotto di 3 °C. Fuori dal dominio dell'interpolazione dell'aria, Tmin fra −50 e 0 °C e Tmax fra 0 e 50 °C, si assegnano temperature efficaci giustificate.
+
+| Impalcato | Sopra più caldo [°C] | Sopra più freddo, modulo [°C] |
+| --- | --- | --- |
+| Acciaio | 18 | 13 |
+| Composto acciaio-calcestruzzo | 15 | 18 |
+| Cassone in calcestruzzo | 10 | 5 |
+| Travi o soletta in calcestruzzo | 15 | 8 |
+
+I valori di base sono corretti con ksur per il rivestimento secondo la tabella EN 6.2; gli spessori bituminosi ammessi sono i punti tabellati, senza interpolazione non prevista. I gradienti assegnati sono già corretti e non ricevono una seconda moltiplicazione. Le variazioni uniformi sono Te,max−T0 e Te,min−T0; il raffreddamento differenziale ha segno negativo.
+
+Le due famiglie di simultaneità sono ΔTM + ωN ΔTN e ωM ΔTM + ΔTN. Il modello usa come proposta ωN = 0,35 e ωM = 0,75, modificabili per la scelta nazionale, e sviluppa tutti gli abbinamenti di segno: otto casi, oltre alle componenti isolate. Per appoggi e giunti l'intervallo uniforme viene ampliato di 10 °C quando la temperatura di posa è specificata e di 20 °C altrimenti. La differenza orizzontale proposta di 5 °C è una componente separata.
+
+Esempio indipendente: cassone in c.a., aria −10/+40 °C, T0 = 10 °C, pavimentazione 50 mm, α = 10×10⁻⁶/K e L = 20 m. Le temperature efficaci sono −2/+42 °C, quindi ΔTN = −12/+32 °C e i movimenti uniformi −2,4/+6,4 mm. I gradienti di base sono +10/−5 °C. Con posa specificata l'intervallo per appoggi/giunti diventa −22/+42 °C, ossia −4,4/+8,4 mm.
+
+Il modello non implementa l'Approccio 2 non lineare, le differenze locali fra facce interne ed esterne dei cassoni, le pile o l'interazione binario–ponte. Attrito, rigidezza degli appoggi e vincoli devono entrare nel modello strutturale. Le figure e le formule riportate sono elaborazioni originali di supporto alla lettura dei metodi implementati.
+
+## Carichi combinazioni e traffico
+
+Questo capitolo descrive i cinque fogli non sismici aggiunti al gruppo Azioni. I calcoli normativi e numerici risiedono nelle librerie GPC; le tabelle di ANTHEA espongono dati, risultati, formule e riferimenti. Il campo comprende edifici ordinari, traffico stradale di base e ripartizione elastica su impalcati rettilinei in semplice appoggio.
+
+### Permanenti e carichi imposti
+
+Per uno strato i di spessore ti in m e peso specifico γi in kN/m³:
+
+$$ g_i = t_i \gamma_i
+
+La somma separa G1 strutturale e G2 non strutturale. Un carico superficiale q in kN/m² produce il carico lineare q b in kN/m sulla larghezza tributaria b; questa trasformazione non determina la distribuzione reale di un solaio a comportamento bidirezionale.
+
+Per NTC 2018 §3.1.3, nelle condizioni di ripartizione e destinazione ammesse, i divisori equivalenti introducono G2 pari a 0,40; 0,80; 1,20; 1,60; 2,00 kN/m² per le successive fasce di peso lineare fino a 1; 2; 3; 4; 5 kN/m. I divisori più pesanti richiedono la posizione effettiva. EN 1991-1-1:2002 §6.3.1.2 tratta invece le partizioni mobili come aggiunta al carico imposto: 0,50; 0,80; 1,20 kN/m² fino a 1; 2; 3 kN/m. La diversa classificazione influisce sulle combinazioni.
+
+Il catalogo NTC contiene i valori della Tab. 3.1.II per A, scale/balconi A-B, B1/B2, C1-C5, D1/D2, E1, F/G e H. E1 e G richiedono la valutazione specifica rispettando i minimi. Le categorie speciali sono assegnate. EN richiede qk, Qk e Hk espliciti della categoria e della fonte nazionale dichiarata; nessuna scelta nazionale è automatica.
+
+Per categorie e condizioni ammesse, le riduzioni alternative sono:
+
+$$ \alpha_A = \min(1;\ 5 \psi_0 / 7 + 10 / A)
+$$ \alpha_n = [2 + (n - 2) \psi_0] / n
+
+A è in m²; per C/D si impone αA ≥ 0,60. La riduzione per piani richiede n > 2 e piani della stessa categoria A-D. Per EN si adottano le raccomandazioni di §6.3.1.2, da confermare rispetto all'appendice nazionale. Il carico concentrato locale resta distinto dal distribuito e non riceve queste riduzioni. In F/G il carico tabellato si riferisce alla singola impronta della coppia di ruote.
+
+Esempio NTC: soletta 0,25 m × 25 kN/m³ → G1=6,25 kN/m²; massetto 0,06 × 20 e pavimento 0,02 × 22 → G2=1,64 kN/m². Divisori di 2,10 kN/m aggiungono 1,20 kN/m²: G2=2,84 kN/m². Per A, qk=2 kN/m²; con b=5 m il sovraccarico lineare è 10 kN/m.
+
+### Matrice delle combinazioni
+
+Il generatore considera le formule NTC 2018 §2.5.3 e, per EN, EN 1990:2002+A1:2005 con Allegato A1. Non usa i fattori specifici dei ponti dell'Allegato A2. Per NTC i fattori delle azioni sono quelli della Tab. 2.6.I degli edifici; in particolare G2 favorevole vale 0,80, distinto dai set di altre verifiche. G2 ben definito può adottare i fattori G1 quando l'opzione è esplicitamente selezionata.
+
+Le combinazioni SLE usano dominante caratteristica, dominante frequente o tutte le azioni quasi permanenti, secondo famiglia. Le combinazioni eccezionali NTC includono Ad e ψ2 delle variabili. EN ammette la selezione ψ1 oppure ψ2 per la dominante eccezionale. Ogni azione eccezionale è considerata separatamente.
+
+Per EN Set B, la scelta fra 6.10 e la coppia 6.10a/6.10b è del progetto nazionale. Nel secondo caso, 6.10a riduce anche la dominante mediante ψ0, mentre 6.10b riduce i permanenti sfavorevoli mediante ξ e conserva la dominante caratteristica. Il valore raccomandato di ξ è 0,85. Si devono esaminare entrambe le espressioni.
+
+Le parti permanenti della stessa sorgente condividono la scelta favorevole/sfavorevole; le parti variabili correlate condividono presenza e dominanza. Un gruppo di esclusione impedisce la simultaneità di alternative. Il generatore enumera le presenze ammissibili e rimuove soltanto matrici identiche; non elimina casi sulla base di un segno non noto.
+
+Per una risposta scalare lineare E, con tutti gli Ei nella stessa unità:
+
+$$ E_d = \sum_i c_i E_i
+
+Gli estremi sono calcolati sulla matrice generata. Non rappresentano un inviluppo universale di sezioni o componenti diverse. In analisi non lineare si combinano i carichi e si risolve ogni caso. Precompressione con γP=1 è un trattamento limitato, da sostituire nei casi particolari previsti dalle norme di materiale.
+
+Esempio SLU NTC A1: G1=100, G2=30, uso A=50 e vento=-20, tutti in kN·m. Il massimo è 1,30×100+1,50×30+1,50×50=250 kN·m; il minimo è 100+0,80×30-1,50×20=94 kN·m. L'omissione della variabile favorevole è parte dell'enumerazione.
+
+### Traffico stradale
+
+Il modello principale segue NTC 2018 §§5.1.3.3–5.1.3.6 o EN 1991-2:2003 §§4.2–4.4. Il numero di corsie è 1 per w<5,40 m, 2 per 5,40≤w<6,00 m, Int(w/3) oltre; nel secondo intervallo la larghezza è w/2, negli altri 3 m. La numerazione è per gravosità e va ricercata per l'effetto esaminato.
+
+Le prime tre corsie hanno assi da 300, 200 e 100 kN; i tandem comprendono due assi. Il distribuito è 9 kN/m² sulla prima corsia e 2,50 sulle altre e sull'area rimanente. Nel ramo EN si applicano i coefficienti α assegnati. L'interasse degli assi è 1,20 m, quello delle ruote 2,00 m; ogni ruota porta metà carico d'asse.
+
+La frenatura/accelerazione è:
+
+$$ Q_{lk} = 0{,}60 (2 \alpha_{Q1} Q_{1k}) + 0{,}10 \alpha_{q1} q_{1k} w_1 L
+
+Si applicano il limite inferiore 180 αQ1 kN e quello superiore 900 kN; NTC usa α=1. La forza è a quota pavimentazione, con entrambi i segni. EN contempla anche la componente trasversale da frenatura obliqua, ove pertinente, pari al 25% del modulo della longitudinale.
+
+Con Qv somma dei tandem caratteristici, la centrifuga vale 0,20 Qv per R<200 m; 40 Qv/R per 200≤R≤1500 m; zero oltre. Agisce radialmente verso l'esterno della curva. Per una carreggiata da 10 m, Qv=1200 kN; a R=1000 m si ottengono 48 kN. Con L=25 m, la frenatura NTC è 427,50 kN.
+
+LM2/schema 2 consiste nell'asse locale da 400 βQ kN, o singola ruota da 200 βQ kN se più sfavorevole. Le impronte sono 0,35 × 0,60 m. La diffusione a 45° fino al piano medio della soletta aggiunge 2 hpav+hsoletta a entrambi i lati dell'impronta. Il foglio non somma questo caso a LM1.
+
+La dinamica ordinaria è inclusa. L'opzione aggiuntiva presso il giunto riguarda LM2: EN §§4.3.3(3), 4.6.1(6) usa max[1; 1,30(1-D/26)], D in m; NTC richiede un fattore da studio. Folla caratteristica 5 kN/m² e carico del marciapiede concomitante a LM1 sono distinti: quest'ultimo è 2,50 kN/m² NTC e 3 kN/m² nella raccomandazione EN Tab. 4.4a.
+
+I gruppi di traffico sono alternativi e richiedono le regole di simultaneità pertinenti. Per NTC, i gruppi 2a/2b associano verticali frequenti a frenatura/centrifuga; per schema 1, ψ1 è 0,75 sui tandem e 0,40 sui distribuiti. Il foglio prepara le componenti, senza costruire automaticamente l'intero insieme di combinazioni del ponte.
+
+### Ripartizione rigida
+
+Le travi hanno luce comune L e rigidezze flessionali EIi. Nel modello rigido gli spostamenti trasversali sono affini in y, la torsione delle travi è trascurata. Con yc baricentro delle rigidezze, la quota della forza a coordinata y è:
+
+$$ y_c = \frac{\sum_i EI_i y_i}{\sum_i EI_i}
+$$ r_i(y) = \frac{EI_i}{\sum_j EI_j} + \frac{EI_i (y_i-y_c)(y-y_c)}{\sum_j EI_j (y_j-y_c)^2}
+
+Il momento nella sezione longitudinale x si ottiene integrando il prodotto di questa quota e della funzione d'influenza longitudinale del semplice appoggio. Il metodo conserva risultante ed eccentricità e può produrre quote negative. Non è applicabile come rigidezza infinita implicita a un impalcato realmente deformabile senza giustificazione.
+
+### Ripartizione deformabile
+
+Il modello fisico comprende travi longitudinali rettilinee prismatiche semplicemente appoggiate, con rotazione torsionale impedita agli estremi, e soletta rappresentata da strisce trasversali Euler-Bernoulli. D è l'EI di una striscia per metro longitudinale, in kN·m. Con strisce indipendenti di spessore t e modulo E, D=Et³/12; eventuali correzioni di piastra richiedono un modello coerente e non sono introdotte automaticamente.
+
+Gli spostamenti e le rotazioni sono sviluppati in seni lungo la luce. Per ogni armonica:
+
+$$ \lambda_n = n \pi / L
+$$ k_{vi,n} = EI_i \lambda_n^4
+$$ k_{\theta i,n} = GJ_i \lambda_n^2
+
+La trave trasversale ha due gradi di libertà per nodo, spostamento e rotazione; i nodi coincidono con bordi e travi. Si impiegano funzioni cubiche di Hermite e carichi nodali consistenti. I carichi rettangolari sono integrati esattamente in direzione trasversale mediante quadratura a tre punti; le loro componenti longitudinali sono analitiche.
+
+$$ q_n = \frac{2 q [\cos(\lambda_n x_a) - \cos(\lambda_n x_b)]}{L \lambda_n}
+$$ M_i(x) = EI_i \sum_n \lambda_n^2 w_{i,n} \sin(\lambda_n x)
+$$ T_i(x) = GJ_i \sum_n \lambda_n \theta_{i,n} \cos(\lambda_n x)
+
+Il sistema simmetrico è scalato sulla diagonale e risolto mediante Cholesky, con controllo dei pivot e del residuo relativo. I troncamenti crescono da 16 fino al limite assegnato; la convergenza richiede almeno il confronto 16/32 e controlla tutti i momenti per trave, la statica globale e tutte le ordinate delle linee d'influenza. La tolleranza predefinita è 10^-3 rispetto al momento globale di riferimento; il massimo previsto è 512 modi.
+
+La quota percentuale è 100 Mi/ΣMi nella sezione x, non una quota universale del carico verticale. La linea d'influenza riporta M per forza unitaria a x fissata, variando y; ha unità m. Le torsioni sono riportate come grandezze accessorie al troncamento scelto, senza attribuire loro il controllo di convergenza dei momenti.
+
+La verifica indipendente usa tre travi equidistanti con EI uguale, GJ=0 e carico unitario centrale. Per una singola armonica, con interasse a e k=EI λ^4, la compatibilità della trave trasversale restituisce r_esterno=1/[3+k a³/(3D)] e r_centro=1-2r_esterno. Un calcolo Python indipendente integra i termini della serie e costituisce l'atteso conservato. Sono verificati anche simmetria, linearità, equilibrio, limite rigido e regola della leva con due travi senza torsione.
+
+Il modello esclude impalcati continui, obliqui, curvi, non prismatici e traversi intermedi discreti. Non risolve tensioni locali di piastra, tagli e reazioni da usare automaticamente nelle verifiche. La rigidezza longitudinale della soletta è inclusa nell'EI efficace delle travi assegnato dall'utente.
+
+### Urti veicolari
+
+Le forze statiche equivalenti sono azioni eccezionali di progetto Ad. Si applicano NTC 2018 §3.6.3.3.1 oppure EN 1991-1-7:2006 §§4.3–4.4, tenendo distinti i rispettivi parametri.
+
+Per i piedritti le categorie implementate hanno forza parallela di 1000, 750, 500, 50 e 150 kN, rispettivamente per strade principali, locali/rurali, urbane, parcheggi auto e parcheggi autocarri. La trasversale è metà della parallela, in caso alternativo. NTC applica gli autocarri a 1,25 m; EN richiede l'esame delle quote pertinenti fra 0,50 e 1,50 m. Per automobili la quota è 0,50 m.
+
+Per le sovrastrutture la forza base EN Tab. 4.2 è distinta: 500, 375, 250 oppure 75 kN. NTC richiama invece la propria forza parallela di base. La riduzione per franco è unitaria fino ad h0, lineare fino a zero in h1, nulla oltre. NTC usa h0=5 m e h1=6 m; in EN i valori raccomandati richiedono gli adeguamenti geometrici e nazionali del caso.
+
+Il caso all'intradosso ha risultante inclinata di 10° verso l'alto; le componenti sono F cos(10°) e F sin(10°). L'impronta è 0,25 × 0,25 m. Per carrelli elevatori la forza equivalente è 5W a 0,75 m, con W comprensivo del massimo carico trasportabile.
+
+Il foglio non è una verifica dinamica d'impatto e non determina la capacità dissipativa. Barriere stradali e ancoraggi, urti ferroviari/navali, incendio ed esplosioni richiedono modelli specifici.

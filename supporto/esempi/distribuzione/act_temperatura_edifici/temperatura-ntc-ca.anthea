@@ -1,0 +1,41 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_temperatura_edifici",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "BuildingThermalInput",
+    "input": {
+      "Site": {
+        "Standard": "Ntc2018",
+        "NationalParameters": "",
+        "NtcZone": 2,
+        "AltitudeM": 200,
+        "AssignedTemperatures": false,
+        "MinimumAirC": -10,
+        "MaximumAirC": 40
+      },
+      "Method": "SimplifiedNtc",
+      "Material": "ReinforcedConcrete",
+      "Exposed": true,
+      "SimplifiedApplicabilityConfirmed": true,
+      "InitialTemperatureC": 15,
+      "SummerOuterSurfaceC": 50,
+      "SummerInnerSurfaceC": 25,
+      "WinterOuterSurfaceC": -10,
+      "WinterInnerSurfaceC": 20,
+      "ProfileSource": "",
+      "SummerInnerAirC": 20,
+      "WinterInnerAirC": 25,
+      "SolarIncrementC": 30,
+      "ConductivityWmK": 1.5,
+      "InnerResistanceM2KW": 0.13,
+      "OuterResistanceM2KW": 0.04,
+      "ExpansionPerKelvin": 1E-05,
+      "AssignedExpansionCoefficient": false,
+      "LengthM": 30,
+      "ThicknessM": 0.3
+    }
+  }
+}

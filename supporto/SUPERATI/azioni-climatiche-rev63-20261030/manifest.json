@@ -1,0 +1,66 @@
+[
+  {
+    "path": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "e388ed183b9283924b0ef3290ed75ff5b3721a5c6be88c4f05cc92a99e5bae82"
+  },
+  {
+    "path": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "ed6207cfdca4132055ab7f9f5b0d14d423a47a7c589af243f9a03fec1ebf0323"
+  },
+  {
+    "path": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "45eb0b6a8d8ce67f6b0cd1b07d2f705b980b43a3b9e68bc181b621fd898f5b31"
+  },
+  {
+    "path": "supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "9c3c64bc8276735165857d28cccc4001f055d80a2d94d9828b9a51a3cbb8818a"
+  },
+  {
+    "path": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev62.docx",
+    "sha256": "ae8b03e8bbf4e9d60feb624c571a38ad90c23f139c001f7642b3b147b9c3f068"
+  },
+  {
+    "path": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev62.pdf",
+    "sha256": "ed6207cfdca4132055ab7f9f5b0d14d423a47a7c589af243f9a03fec1ebf0323"
+  },
+  {
+    "path": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev62.docx",
+    "sha256": "6823cb90dcc424f021d8b8795b15215234d650b6c5b38484c77f5c19c6ec89c0"
+  },
+  {
+    "path": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev62.pdf",
+    "sha256": "9c3c64bc8276735165857d28cccc4001f055d80a2d94d9828b9a51a3cbb8818a"
+  },
+  {
+    "path": "supporto/README.md",
+    "sha256": "5867863270684e3925befa91c6fc62953ec1a957c776e160e7b91bc964b59390"
+  },
+  {
+    "path": "supporto\\README.pdf",
+    "sha256": "18a9b754a62c1a3b5ac26d92fd9b3772fa8fd98ce21cf2255a46e01cee056127"
+  },
+  {
+    "path": "supporto/installer/README.md",
+    "sha256": "6f641781b43f7b85f82b65fcc0ceab16a6b3d6d0e258d46300854c46960143b1"
+  },
+  {
+    "path": "supporto\\installer\\README.pdf",
+    "sha256": "0bc516b9d70e770ed5b2a0c9d68ab464629c0e685598908fbbb3ea07d614d5d3"
+  },
+  {
+    "path": "supporto/installer/Indice-guide.md",
+    "sha256": "d1eafffcf2095a7cd176ff3144bb27da541931d4af644f15269350df87848c9b"
+  },
+  {
+    "path": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "554c1d5366e8dcd6919b8275f1310dcec89be5df47479a73e08bf287e7b6fd99"
+  },
+  {
+    "path": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "505814411ce2e1f4f8324fa3e4fe569d20c96240ba1399d4e2591e18485accbd"
+  },
+  {
+    "path": "supporto\\documentazione\\Guide_ANTHEA\\README.pdf",
+    "sha256": "c42f03da9e606652c45e2865c07e5064ed6917569089779f74090c991f53c0c9"
+  }
+]

@@ -12,17 +12,15 @@ Branch ANTHEA `refactoring/f5-azioni-climatiche`, da `refactoring/f5` 61dc4ff3. 
 
 ## Stato e verifiche
 
-- [x] Contratti climatici GPC tipizzati e vocabolario esplicito degli enum negli archivi Model.
-- [x] Calcoli GPC, riferimenti per ogni risultato e casi di carico distinti; limiti delle edizioni EN espliciti.
-- [x] Cinque moduli MVVM, persistenza JSON delle classi GPC, formule e report DOCX/PDF/CSV.
-- [x] Otto schemi originali SVG/PNG, condivisi da UI, report e guide; diagrammi con unità omogenee per caso.
-- [x] Dieci esempi nel catalogo, due per modulo.
-- [x] Prove mirate ANTHEA: 199 controlli Presentation e 76 WPF, cinque moduli e tre temi (`20261030-055610-climate-graphics`).
-- [x] Set candidato GPC completo `gpc-candidate-03`: Model f351653e, Checker f75b5d35; tutte le suite di Model e Checker verdi, comprese net472. Fixture climatica indipendente Python con 80 punti; 33 prove climatiche iniziali, incluse in Design.Checks.
-- [ ] Collaudo full ANTHEA sul candidato, avviato in `20261030-060827-climate-full`.
-- [ ] Guide Rev63 Word/PDF finalizzate e ispezionate; originali archiviati con hash in `supporto/SUPERATI/azioni-climatiche-rev63-20261030`.
-- [ ] Moduli aggiuntivi autorizzati il 30/10, relativa UI, esempi, formule e collaudi indipendenti.
-- [ ] Build locale finale e verbale consolidato.
+- [x] Dieci moduli MVVM e calcoli GPC; persistenza JSON delle classi GPC, tabelle, DOCX/PDF/CSV e sola lettura.
+- [x] Tredici schemi originali SVG/PNG; pianta, sezione e linee d'influenza per la ripartizione.
+- [x] Venti esempi, due per modulo, ANTHEA/CSV/DOCX/PDF nel catalogo centrale; 72 esempi per 25 moduli complessivi.
+- [x] Set candidato 04: Model b961d663, Checker 5e0bca33; tutte le suite GPC, comprese net472. Nuove prove generali/ripartizione: 37 net8 + 37 net472. Oracoli Python indipendenti climatici (80 punti) e della ripartizione conservati.
+- [x] ANTHEA mirate: 442 controlli dei venti scenari; architettura 583; catalogo 359. WPF dieci moduli/tre temi 152; catalogo, host e Fondazioni superati. Ultima cattura estesa al disegno deformabile.
+- [x] Primo full 20261030-060827-climate-full: 151 PASS e 8 rilievi durante lo sviluppo. Diagnosi: conteggi storici, ordine dei moduli, nuove occorrenze architetturali, Wiki e versione DLL Fondazioni. Corretti senza deroghe nuove.
+- [x] Guide Rev63: 123 e 200 pagine, 26 parti ITEC identiche, 1.502 formule conservate. Capitoli nuovi ispezionati, originali Rev62 archiviati con SHA-256.
+- [x] F3 completo: 1.201 file in 122 gruppi, 80.836 transizioni ammesse, zero residue. Quattro articoli nuovi (82 totali): 102 transizioni editoriali aggiunte, 58 superate sostituite, 2.824 conservate. Nessun atteso numerico modificato.
+- [ ] Full conclusivo su sorgenti congelati e build locale pronta per revisione.
 
 Il 30/10, alla ripresa, quattro sorgenti non committati risultavano costituiti soltanto da byte nulli: ClimateDocument, ClimateSheetViewModel, ClimateSheetView.xaml e ClimateCaseChart. Ripristinati dai patch originali della stessa chat; originali azzerati e registro del recupero in `supporto/artefatti/azioni-climatiche/recupero`. Calcoli GPC già committati integri; prove mirate ripetute dopo il recupero. Nessuna fixture indipendente modificata.
 
@@ -30,7 +28,7 @@ Il 30/10, alla ripresa, quattro sorgenti non committati risultavano costituiti s
 
 Calcoli esclusivamente in Model/Checker/GPC.Design. Application adatta contratti e risultati; Presentation non contiene tipi di calcolo o WPF; Desktop contiene viste e disegni; Reports compone i documenti senza calcoli ingegneristici. Le immagini sono risorse locali, rigenerabili con `tools/figures/climate_schematics.py` (Matplotlib di solo sviluppo).
 
-Lo snapshot candidato è `supporto/artefatti/azioni-climatiche/candidate-libs`. Per compilare sul branch usare `-p:GpcLibDir=<percorso assoluto dello snapshot>`; per il runner `build/ci.ps1 -Profile full -GpcLibDir <percorso> -Keep`. Le DLL ufficiali non sono sostituite. Le suite UI passano da 72 a 73 con `ui/check-climate-view`; nessuna rimossa.
+Lo snapshot candidato è `supporto/artefatti/azioni-climatiche/candidate-actions-libs`. Per compilare sul branch usare `-p:GpcLibDir=<percorso assoluto dello snapshot>`; per il runner `build/ci.ps1 -Profile full -GpcLibDir <percorso> -Keep`. Le DLL ufficiali non sono sostituite. Le suite UI passano da 72 a 73 con `ui/check-climate-view`; nessuna rimossa.
 
 Si tratta di funzionalità nuove: nessun motore legacy spostato o eliminato. Le modifiche agli indici Wiki sono editoriali; gli attesi indipendenti numerici non si rigenerano.
 
@@ -46,3 +44,13 @@ Testi consultati e figure normative verificate prima della trascrizione delle ta
 - Le copie EN provengono dall'archivio https://www.phd.eng.br/wp-content/uploads/2015/12/; fanno fede le edizioni stampate sulle copie, non la data del sito.
 
 Le edizioni di seconda generazione e la selezione automatica delle appendici nazionali non sono comprese. Nei rami EN il dato climatico e la sua fonte sono obbligatori.
+
+## Campo dei moduli aggiuntivi
+
+- Carichi: strati G1/G2; partizioni permanenti NTC e mobili EN distinte; categorie NTC e valori EN assegnati; riduzioni, concentrati locali e orizzontali separati.
+- Combinazioni: edifici, NTC Tab. 2.6.I ed EN Allegato A1; SLU/SLE/eccezionali, dominanti, correlazioni ed esclusioni. EN 6.10 oppure entrambe 6.10a/b; effetti scalari con unità comune. Non genera le combinazioni specifiche dei ponti dell'Allegato A2.
+- Traffico: corsie convenzionali, LM1/LM2, frenatura, centrifuga, folla e marciapiedi. La ricerca delle posizioni più gravose resta del progetto; gruppi simultanei documentati.
+- Ripartizione: Courbon pesato con EI oppure travi flesso-torsionali e soletta trasversale con sviluppo di Fourier. Travi rettilinee prismatiche in semplice appoggio, torsione impedita agli estremi. Percentuali del momento nella sezione scelta, non della forza verticale totale. Residuo, equilibrio e convergenza su momenti e influenze; torsioni accessorie senza la medesima attestazione di convergenza. Esclusi impalcati obliqui, curvi, continui e traversi discreti. Oracolo indipendente in Checker.
+- Urti: forze statiche equivalenti eccezionali per piedritti, impalcati e carrelli; non analisi dinamica né verifica di barriere.
+
+Fonti aggiuntive: NTC 2018 capitoli 2/3/5, EN 1990:2002+A1:2005, EN 1991-1-1:2002, EN 1991-1-7:2006, EN 1991-2:2003. Copie e impronte negli artefatti, non distribuite. Nessuna selezione automatica delle appendici nazionali né implementazione delle edizioni EN di seconda generazione.

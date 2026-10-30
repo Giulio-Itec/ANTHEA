@@ -1,0 +1,65 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_ripartizione_traffico",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "TransverseDistributionInput",
+    "input": {
+      "Method": "DeformableFourier",
+      "ApplicabilityConfirmed": true,
+      "SpanM": 25,
+      "SectionM": 12.5,
+      "DeckLeftM": -5,
+      "DeckRightM": 5,
+      "TransverseRigidityKnM": 39062.5,
+      "RelativeTolerance": 0.001,
+      "MaximumModes": 512,
+      "InfluenceLongitudinalM": 12.5,
+      "InfluenceStations": 61,
+      "Girders": [
+        {
+          "Name": "T1",
+          "PositionM": -4,
+          "FlexuralRigidityKnM2": 12000000,
+          "TorsionalRigidityKnM2": 200000
+        },
+        {
+          "Name": "T2",
+          "PositionM": 0,
+          "FlexuralRigidityKnM2": 12000000,
+          "TorsionalRigidityKnM2": 200000
+        },
+        {
+          "Name": "T3",
+          "PositionM": 4,
+          "FlexuralRigidityKnM2": 12000000,
+          "TorsionalRigidityKnM2": 200000
+        }
+      ],
+      "Lanes": [
+        {
+          "Name": "L1",
+          "LeftM": -3,
+          "WidthM": 3,
+          "StartM": 0,
+          "EndM": 25,
+          "LoadKnM2": 9
+        }
+      ],
+      "Tandems": [
+        {
+          "Name": "TS1",
+          "CentreTransverseM": -1.5,
+          "CentreLongitudinalM": 12.5,
+          "AxleLoadKn": 300,
+          "AxleSpacingM": 1.2,
+          "WheelSpacingM": 2,
+          "FootprintLengthM": 0.4,
+          "FootprintWidthM": 0.4
+        }
+      ]
+    }
+  }
+}

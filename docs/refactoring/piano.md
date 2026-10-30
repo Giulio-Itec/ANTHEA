@@ -1382,6 +1382,6 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 
 ## Azioni NTC / EN — 29–30 ottobre 2026
 
-- [x] Cinque fogli climatici GPC + MVVM, report e grafici: 199 controlli Presentation e 76 WPF; tutte le suite GPC sul candidato verdi. [Stato, perimetro e riproduzione](azioni-ntc-ec.md).
-- [ ] Chiudere full ANTHEA, guide e build locale; completare combinazioni, carichi degli edifici, traffico, ripartizione trasversale rigida/deformabile e azioni eccezionali richiesti il 30/10. Azioni sismiche escluse. Nessun merge fino a sera.
-
+- [x] Dieci fogli GPC + MVVM: cinque climatici, permanenti/sovraccarichi, combinazioni, traffico, ripartizione rigida/deformabile e urti. Model b961d663 e Checker 5e0bca33; set candidato completo con tutte le suite GPC superate; 37 prove mirate net8 e 37 net472. ANTHEA: 442 controlli dei venti scenari, architettura 583, esempi 359, dieci moduli WPF e tre temi 152. Nessuna baseline architetturale alzata. [Dettagli](azioni-ntc-ec.md).
+- [x] Guide globali Rev63, tredici schemi originali, venti esempi ANTHEA/CSV/Word/PDF. Quattro articoli Wiki aggiunti: 82 totali. Confronto F3: 1.201 file, 80.836 transizioni ammesse, zero differenze residue; attesi ingegneristici invariati. Corretto il confronto della sola versione GPC nella vista Fondazioni.
+- [ ] Full ANTHEA conclusivo su sorgenti congelati e build locale pronta per revisione. Azioni sismiche escluse. Nessun merge né push: vincolo dell'utente fino a sera.

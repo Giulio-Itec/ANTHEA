@@ -1,0 +1,75 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_combinazioni",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "ActionCombinationsInput",
+    "input": {
+      "Standard": "EurocodeFirstGeneration",
+      "NationalParameters": "Esempio didattico: valori raccomandati EN di prima generazione, clima assegnato; nessuna appendice nazionale selezionata.",
+      "Family": "Ultimate",
+      "Set": "Structural",
+      "EnExpression": "Equations610a610b",
+      "EnXi": 0.85,
+      "EnAccidentalLeadingPsi1": true,
+      "EffectUnit": "kN·m",
+      "RecommendedEnFactorsConfirmed": true,
+      "Actions": [
+        {
+          "Name": "G1",
+          "Nature": "PermanentG1",
+          "Effect": 100,
+          "Correlation": "",
+          "ExclusiveGroup": "",
+          "PsiCategory": "Residential",
+          "Psi0": 0.7,
+          "Psi1": 0.5,
+          "Psi2": 0.3,
+          "DefinedPermanentG2": false,
+          "OmitFavourableG2": false
+        },
+        {
+          "Name": "G2",
+          "Nature": "PermanentG2",
+          "Effect": 30,
+          "Correlation": "",
+          "ExclusiveGroup": "",
+          "PsiCategory": "Residential",
+          "Psi0": 0.7,
+          "Psi1": 0.5,
+          "Psi2": 0.3,
+          "DefinedPermanentG2": false,
+          "OmitFavourableG2": false
+        },
+        {
+          "Name": "Uso",
+          "Nature": "Variable",
+          "Effect": 50,
+          "Correlation": "",
+          "ExclusiveGroup": "",
+          "PsiCategory": "Residential",
+          "Psi0": 0.7,
+          "Psi1": 0.5,
+          "Psi2": 0.3,
+          "DefinedPermanentG2": false,
+          "OmitFavourableG2": false
+        },
+        {
+          "Name": "Vento",
+          "Nature": "Variable",
+          "Effect": -20,
+          "Correlation": "",
+          "ExclusiveGroup": "",
+          "PsiCategory": "Wind",
+          "Psi0": 0.7,
+          "Psi1": 0.5,
+          "Psi2": 0.3,
+          "DefinedPermanentG2": false,
+          "OmitFavourableG2": false
+        }
+      ]
+    }
+  }
+}

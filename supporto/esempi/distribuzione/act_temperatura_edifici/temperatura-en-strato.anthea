@@ -1,0 +1,41 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_temperatura_edifici",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "BuildingThermalInput",
+    "input": {
+      "Site": {
+        "Standard": "EurocodeFirstGeneration",
+        "NationalParameters": "Esempio didattico: valori raccomandati EN di prima generazione, clima assegnato; nessuna appendice nazionale selezionata.",
+        "NtcZone": 2,
+        "AltitudeM": 200,
+        "AssignedTemperatures": true,
+        "MinimumAirC": -10,
+        "MaximumAirC": 40
+      },
+      "Method": "HomogeneousLayer",
+      "Material": "ReinforcedConcrete",
+      "Exposed": true,
+      "SimplifiedApplicabilityConfirmed": false,
+      "InitialTemperatureC": 15,
+      "SummerOuterSurfaceC": 50,
+      "SummerInnerSurfaceC": 25,
+      "WinterOuterSurfaceC": -10,
+      "WinterInnerSurfaceC": 20,
+      "ProfileSource": "Esempio monostrato: Rsi=0,16; Rse=0,04 m²K/W; h=0,30 m; λ=1 W/(m K); incremento solare assegnato 30 °C.",
+      "SummerInnerAirC": 20,
+      "WinterInnerAirC": 20,
+      "SolarIncrementC": 30,
+      "ConductivityWmK": 1,
+      "InnerResistanceM2KW": 0.16,
+      "OuterResistanceM2KW": 0.04,
+      "ExpansionPerKelvin": 1E-05,
+      "AssignedExpansionCoefficient": false,
+      "LengthM": 30,
+      "ThicknessM": 0.3
+    }
+  }
+}

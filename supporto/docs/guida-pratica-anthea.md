@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 29 ottobre 2026 — revisione documentale 62
+Edizione 6 aggiornata il 30 ottobre 2026 — revisione documentale 63
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1747,3 +1747,166 @@ Un caso non convergente rende incompleto il gruppo e parziale l'inviluppo; gli a
 ### Funzioni ancora da completare
 
 Restano aperti: sezioni complesse e più file; effetto arco e cedimenti; interazione tra pareti e strutture interne; cerniere plastiche; criteri aggiuntivi per la ricerca dell’infissione; instabilità del fondo e tampone; combinazioni automatiche e sisma avanzato; progetto automatico completo delle armature; DXF e integrazioni esterne. Le opzioni non disponibili non producono verifiche sostitutive. I successivi incrementi saranno documentati dopo il collaudo.
+
+## Azioni climatiche
+
+Moduli singoli → Azioni comprende cinque fogli: Neve sugli edifici, Vento sugli edifici, Temperatura negli edifici, Vento sui ponti e Temperatura nei ponti. Ogni foglio salva i dati del proprio modello GPC, può entrare in un progetto e produce una relazione Word/PDF con input, formule, riferimenti, schemi e tutti i casi di carico.
+
+### Procedura comune e lettura dei risultati
+
+1. Scegliere il foglio e la normativa. Il selettore distingue Italia · NTC 2018 da Eurocodice 1 · prima generazione. Le edizioni EN implementate sono dichiarate nel risultato e nella guida teorica; il selettore non applica automaticamente un'appendice nazionale.
+2. Compilare i dati del sito e la geometria. Lunghezze in metri, angoli in gradi, temperature in gradi Celsius, pressioni in kN/m². Il campo della pavimentazione dei ponti usa millimetri. La virgola decimale è accettata.
+3. In modalità EN assegnare i dati climatici richiesti e indicare paese, appendice nazionale e fonte. I valori proposti nei campi sono dati iniziali modificabili, da confermare per il progetto.
+4. Calcolare. Un dato incompatibile con il campo di applicazione produce un messaggio e rimuove i risultati precedenti. Modificare un dato invalida i risultati finché non termina il nuovo calcolo.
+5. In Casi di carico scegliere il caso; il diagramma riporta grandezze con una sola unità alla volta. Il selettore dell'unità permette di passare da pressioni a forze, momenti o movimenti, se presenti. Segni, descrizioni, formule e riferimenti sono nelle righe della tabella.
+6. Consultare Parametri e formule, Schemi e Ipotesi e applicabilità. Gli schemi spiegano geometrie e convenzioni: non sono un disegno in scala della costruzione. Esporta CSV e Copia risultati comprendono tutti i casi, non soltanto quello selezionato.
+
+I valori sono azioni caratteristiche o componenti cinematiche. I fogli non costruiscono automaticamente le combinazioni SLU/SLE, non applicano un modello di vincolo e non sommano i massimi di casi incompatibili. Per ogni combinazione strutturale si conserva l'insieme di grandezze appartenente al medesimo caso.
+
+### Neve sugli edifici
+
+Selezionare zona NTC, quota, esposizione e coefficiente termico. Il valore al suolo NTC è riferito a 50 anni; oltre 1500 m occorre assegnare un dato locale almeno pari al valore normativo a 1500 m. In EN il carico caratteristico al suolo è assegnato. Un coefficiente termico diverso da 1 richiede una motivazione specifica.
+
+La geometria offre copertura piana, falda singola, due falde, falde multiple, cilindrica e copertura inferiore presso un salto. Cambiando tipologia compaiono i soli campi pertinenti. Per il salto, b1 è la larghezza del tetto superiore, b2 quella del tetto inferiore e h il dislivello; oltre 15° della falda superiore il coefficiente di scivolamento deve essere valutato e assegnato. Per la copertura cilindrica inserire larghezza e freccia; il caso con fermaneve richiede uno studio specifico e non è automatizzato.
+
+![Neve: geometrie, direzione verticale del carico e accumuli](../../src/ANTHEA.Desktop/Assets/Wiki/clima-neve.png)
+
+Il carico è riferito alla proiezione orizzontale. Nelle coperture a due falde leggere il caso uniforme e i due casi sbilanciati. Nei casi di accumulo i risultati riportano intensità e lunghezze caratteristiche; per applicare il carico al modello occorre rispettare il profilo descritto nel caso. Non usare il massimo come carico uniforme sull'intera copertura.
+
+### Vento sugli edifici
+
+I dati climatici comprendono velocità base, periodo di ritorno, categoria di esposizione, topografia e densità dell'aria. Le categorie numeriche hanno significati diversi: NTC da 1 a 5; EN da 0 a 4. L'assegnazione della categoria deve derivare dall'esposizione effettiva del sito. Il modulo non la deduce dal solo indirizzo.
+
+| Zona vento NTC | Territorio del prospetto NTC | Velocità base a bassa quota |
+| --- | --- | --- |
+| 1 | Valle d'Aosta, Piemonte, Lombardia, Trentino-Alto Adige, Veneto, Friuli-Venezia Giulia esclusa Trieste | 25 m/s |
+| 2 | Emilia-Romagna | 25 m/s |
+| 3 | Toscana, Marche, Umbria, Lazio, Abruzzo, Molise, Puglia, Campania, Basilicata, Calabria esclusa Reggio Calabria | 27 m/s |
+| 4 | Sicilia e provincia di Reggio Calabria | 28 m/s |
+| 5 | Sardegna a oriente della congiungente Capo Teulada–Isola di La Maddalena | 28 m/s |
+| 6 | Sardegna a occidente della medesima congiungente | 28 m/s |
+| 7 | Liguria | 28 m/s |
+| 8 | Provincia di Trieste | 30 m/s |
+| 9 | Altre isole e mare aperto | 31 m/s |
+
+Il foglio applica anche la dipendenza dalla quota e dal periodo di ritorno: la velocità in tabella non è sempre quella finale di progetto. Oltre 1500 m si assegna una velocità supportata da uno studio locale, rispettando il limite inferiore gestito dal motore.
+
+![Vento: dimensioni ortogonale e parallela alla direzione, pressioni esterne e interne](../../src/ANTHEA.Desktop/Assets/Wiki/clima-vento-edifici.png)
+
+Assegnare b ortogonale al vento, d parallela al vento e h massima. Per cambiare direzione sul fabbricato aggiornare coerentemente b, d e direzione rispetto al colmo. Le coperture sono piane, a una falda o a due falde con pendenza positiva. Per quelle piane è ammesso il parapetto nel campo previsto; per le inclinate sono disponibili le direzioni tabellate. L'area caricata A è quella pertinente all'elemento verificato: i coefficienti locali per piccoli elementi possono essere più gravosi di quelli per superfici estese.
+
+La pressione interna può essere trattata con aperture distribuite, faccia dominante o coefficienti assegnati. Nel caso dominante il coefficiente esterno medio alle aperture è un dato del progetto. Il coefficiente dinamico/strutturale richiede una valutazione coerente con la struttura; le pressioni locali EN restano distinte dalle equivalenti esterne amplificate. Le pressioni positive sono dirette verso la superficie, quelle negative verso l'esterno.
+
+### Temperatura negli edifici
+
+Il metodo semplificato NTC richiede la conferma che l'azione termica non sia fondamentale per la sicurezza o l'efficienza funzionale. Determina una variazione uniforme convenzionale, distinta per materiale ed esposizione. Per altri casi scegliere temperature di superficie assegnate oppure trasmissione stazionaria in uno strato omogeneo, specificando la fonte dei parametri.
+
+![Temperatura: profilo uniforme, differenziale e resistenze di uno strato omogeneo](../../src/ANTHEA.Desktop/Assets/Wiki/clima-temperatura-edifici.png)
+
+Il modello monostrato richiede spessore, conduttività, resistenze superficiali, temperature interne e incremento solare estivo. Non rappresenta automaticamente pareti multistrato, ponti termici o fenomeni transitori. Il coefficiente di dilatazione è proposto dal materiale; può essere assegnato esplicitamente. La lunghezza efficace è misurata dal punto fisso. I risultati sono temperatura uniforme, differenza fra facce, deformazione libera, allungamento e curvatura; le reazioni richiedono il modello strutturale.
+
+| Zona termica NTC | Regioni |
+| --- | --- |
+| I | Valle d'Aosta, Piemonte, Lombardia, Trentino-Alto Adige, Veneto, Friuli-Venezia Giulia, Emilia-Romagna |
+| II | Liguria, Toscana, Umbria, Lazio, Sardegna, Campania, Basilicata |
+| III | Marche, Abruzzo, Molise, Puglia |
+| IV | Calabria, Sicilia |
+
+### Vento sui ponti
+
+Il calcolo adotta il modello CNR-DT 207 R1/2018 §G.11 per impalcati ordinari, a sezione costante e nel campo di applicabilità dichiarato. Confermare l'applicabilità e la valutazione dinamica. Inserire la quota massima del centro dell'impalcato rispetto al suolo sottostante: il motore aggiunge metà dell'ingombro totale per la quota di riferimento del vento.
+
+![Vento sui ponti: sezione, azioni distribuite e impalcati affiancati](../../src/ANTHEA.Desktop/Assets/Wiki/clima-vento-ponti.png)
+
+d è la larghezza nella direzione del vento; htot include arredi e, quando presente nel caso studiato, traffico. La sagoma convenzionale dei veicoli è 3 m per ponti stradali e 4 m per ponti ferroviari. Predisporre casi distinti con e senza traffico e combinarli con i coefficienti pertinenti. Per d/htot inferiore a 2 il coefficiente di forza orizzontale va assegnato sulla base della valutazione applicabile.
+
+Le azioni fx e fy sono in kN/m; il momento mz è per unità di lunghezza dell'impalcato. I quattro segni combinati di fy e mz sono casi simultanei distinti. Per due impalcati specificare larghezza del secondo, interspazio netto e collegamento strutturale; leggere separatamente i risultati dei singoli impalcati e quelli del sistema/pile comuni, per entrambi i versi del vento. Le verifiche aeroelastiche non sono comprese nel foglio.
+
+### Temperatura nei ponti
+
+Scegliere il materiale/tipo di impalcato e il rivestimento. Il metodo implementato è l'Approccio 1 lineare EN 1991-1-5, con clima italiano NTC quando selezionato. La pavimentazione bituminosa usa i valori tabellati a 50, 100 o 150 mm; per altri spessori si assegnano gradienti già corretti e documentati. Sono disponibili anche assenza di pavimentazione, impermeabilizzazione e ballast di 750 mm.
+
+![Temperatura nei ponti: componenti e movimenti liberi dal punto fisso](../../src/ANTHEA.Desktop/Assets/Wiki/clima-temperatura-ponti.png)
+
+Specificare temperatura iniziale, lunghezza efficace e altezza dell'impalcato. Indicare se la temperatura di posa degli appoggi/giunti è specificata: la maggiorazione dell'intervallo termico dipende da questa scelta. I risultati distinguono variazioni uniformi, riscaldamento/raffreddamento differenziale e otto combinazioni di simultaneità. I coefficienti proposti sono ωN = 0,35 e ωM = 0,75; controllare l'appendice nazionale scelta. La differenza termica trasversale è riportata separatamente e non è confusa con il gradiente verticale.
+
+### Esempi e documenti
+
+La pagina Esempi raccoglie due casi per ciascun modulo, nelle cartelle act_neve, act_vento_edifici, act_temperatura_edifici, act_vento_ponti e act_temperatura_ponti. Per ogni esempio sono disponibili il foglio modificabile, il CSV e la relazione Word/PDF. Aprire una copia, cambiare un dato, ricalcolare e confrontare il caso corrispondente. Gli esempi EN dichiarano espressamente l'uso didattico dei valori raccomandati: non rappresentano l'appendice nazionale di un paese scelto automaticamente.
+
+Le verifiche non comprese e le restrizioni geometriche sono elencate nella scheda Ipotesi e applicabilità e nel capitolo teorico Azioni climatiche. I fogli determinano azioni per il successivo modello strutturale; non costituiscono una verifica completa dell'edificio o del ponte.
+
+## Carichi combinazioni e traffico
+
+I cinque fogli aggiuntivi di Moduli singoli > Azioni preparano permanenti e sovraccarichi, combinazioni, traffico stradale, ripartizione trasversale e urti veicolari. Le azioni sismiche non fanno parte di questa estensione. I dati sono salvati nel documento come contratti GPC; riaprendo il foglio si ricalcolano gli stessi casi.
+
+### Strati e sovraccarichi degli edifici
+
+In Permanenti e sovraccarichi aggiungere gli strati nella lista a sinistra. Ogni riga contiene nome, spessore in m, peso specifico in kN/m³ e indicazione Strato strutturale. La distinzione alimenta G1 oppure G2; il risultato mantiene separati i due contributi. La larghezza tributaria converte i carichi superficiali in carichi lineari senza analizzare il solaio.
+
+Selezionare la destinazione d'uso NTC. Per E1 e G occorre assegnare valori valutati sul progetto, almeno pari ai minimi tabellati. Per categorie speciali utilizzare Valori assegnati e documentare le condizioni. Nel ramo EN assegnare sempre qk, Qk per impronta e Hk, indicando paese e appendice nazionale: il foglio non trasferisce i valori NTC al sistema EN.
+
+![Strati permanenti e distinzione fra carico distribuito e concentrato locale](../../src/ANTHEA.Desktop/Assets/Wiki/clima-carichi.png)
+
+Per i tramezzi equivalenti inserire il peso per metro di parete, non il peso per metro quadrato. Confermare l'adeguata ripartizione trasversale e il campo d'impiego. NTC: divisori di abitazioni/uffici fino a 5 kN/m, sommati a G2. EN: partizioni mobili fino a 3 kN/m, aggiunte al sovraccarico Q. Oltre questi limiti modellare posizione e direzione reali.
+
+La riduzione per area riguarda un elemento di orizzontamento; quella per piani riguarda pilastri o pareti caricati da più di due piani della stessa categoria. Sono scelte alternative. Il concentrato locale non si riduce e costituisce un caso distinto dal distribuito. Nelle categorie F/G, Qk è il carico di una ruota; il foglio indica due impronte.
+
+### Combinazioni degli edifici
+
+Il foglio Combinazioni delle azioni genera la matrice dei moltiplicatori delle azioni e, facoltativamente, gli estremi della somma di effetti lineari con segno. La medesima unità deve valere per tutte le righe: ad esempio momenti flettenti in kN·m nella stessa sezione. Non mescolare forze, momenti e carichi superficiali.
+
+1. Scegliere norma, famiglia SLU/SLE/eccezionale e set di fattori.
+2. Per ogni azione assegnare natura, effetto e categoria dei coefficienti ψ.
+3. Indicare la stessa Correlazione per le parti della stessa sorgente permanente o della stessa azione variabile. Per alternative incompatibili, ad esempio vento positivo e negativo, usare lo stesso nome nel campo Esclusione.
+4. Controllare la matrice di ciascuna combinazione e gli estremi Emin/Emax nei parametri.
+
+![Coefficienti, sorgenti correlate e casi variabili alternativi](../../src/ANTHEA.Desktop/Assets/Wiki/clima-combinazioni.png)
+
+Per NTC si usa la tabella degli edifici 2.6.I. Per EN si confermano esplicitamente i fattori raccomandati dell'Allegato A1 e la loro applicabilità nel progetto. Nel Set B sono disponibili 6.10 oppure entrambe 6.10a/6.10b; la scelta dipende dall'appendice nazionale. Nella combinazione eccezionale EN si può scegliere ψ1 oppure ψ2 per la variabile dominante; NTC usa ψ2.
+
+Il foglio enumera presenza/assenza delle variabili, dominanti e scelte favorevoli/sfavorevoli dei permanenti. L'omissione di G2 favorevole richiede una scelta esplicita. La matrice è utilizzabile anche per un modello non lineare, ma in quel caso si applicano i fattori ai carichi e si risolve nuovamente il modello. La somma degli effetti scalari è valida soltanto con sovrapposizione lineare. Il modulo non applica i fattori specifici del traffico sui ponti.
+
+### Traffico sui ponti
+
+Il foglio tratta una carreggiata ordinaria, larga almeno 3 m, con lunghezza caricata fra 1,20 e 300 m. Inserire la larghezza utile fra cordoli/barriere e distinguere la lunghezza caricata dalla luce del ponte. Il numero delle corsie convenzionali non coincide necessariamente con quello delle corsie dipinte.
+
+![Corsie convenzionali, zona rimanente e tandem](../../src/ANTHEA.Desktop/Assets/Wiki/clima-traffico.png)
+
+I risultati riportano separatamente carico per asse, carico per ruota, tandem, distribuito e area rimanente. Il totale assegnato considera l'intera lunghezza caricata; non è un inviluppo automatico delle sollecitazioni. Per ogni verifica cercare numerazione, disposizione e porzioni caricate più sfavorevoli.
+
+Frenatura e accelerazione hanno due segni. La centrifuga dipende dal raggio e dai tandem presenti; per ponte rettilineo è nulla. LM2/schema 2 è un caso locale alternativo a LM1. L'opzione del giunto aggiunge l'amplificazione soltanto a questo caso locale; NTC richiede un fattore motivato da studio, EN usa l'espressione richiamata dal modello.
+
+La diffusione a 45° raggiunge il piano medio della soletta. Le pressioni diffuse di una singola ruota non risolvono la sovrapposizione delle impronte né la resistenza locale. I carichi pedonali caratteristici, concomitanti e concentrati sono casi distinti. Non sono compresi veicoli speciali, fatica e traffico ferroviario.
+
+### Ripartizione trasversale del traffico
+
+La percentuale restituita è la quota del momento longitudinale nella sezione x scelta. Non è un coefficiente universale per taglio, reazioni vincolari e verifiche locali della soletta. Per queste grandezze occorre un modello e una funzione d'influenza pertinenti.
+
+Assegnare luce comune L, bordi trasversali y sinistro/destro e ascissa x della sezione. Le travi sono rettilinee, prismatiche e semplicemente appoggiate. Nella tabella Travi longitudinali specificare posizione y ed EI; il metodo deformabile usa anche GJ. Le rigidezze, in kN·m², devono rappresentare la sezione efficace del progetto.
+
+![Modello rigido e modello deformabile di ripartizione](../../src/ANTHEA.Desktop/Assets/Wiki/clima-ripartizione.png)
+
+Per il traverso deformabile inserire EI della soletta per metro longitudinale, in kN·m. Il modello considera strisce trasversali indipendenti e molle armoniche flesso-torsionali delle travi. Non rappresenta automaticamente traversi intermedi discreti, continuità, obliquità o curvatura. La rigidezza longitudinale della soletta appartiene all'EI assegnato alle travi e non va aggiunta una seconda volta.
+
+Ogni corsia è un rettangolo caricato: bordo y, larghezza, estremi longitudinali e intensità. Ogni tandem ha centro x/y, interassi degli assi e delle ruote, carico per asse e impronte. Posizionare i carichi dentro l'impalcato; il motore rifiuta quelli esterni. Le tabelle non aggiungono coefficienti dinamici o combinazioni normative.
+
+La scheda Impalcato e influenza mostra pianta, sezione e diagrammi per forza unitaria applicata all'ascissa longitudinale indicata. I casi includono ogni corsia, ogni tandem e il totale simultaneo assegnato. La scheda Casi di carico riporta momenti e percentuali con segno: eventuali quote negative sono conservate.
+
+Il metodo deformabile aumenta il numero di termini della serie fino alla tolleranza, verificando incremento dei momenti, somma rispetto alla statica globale e linee d'influenza. Se il limite dei modi non basta, il foglio segnala RISULTATI PROVVISORI. Le torsioni sono valori accessori al troncamento indicato; la convergenza dichiarata riguarda i momenti. Esporta CSV comprende anche tutte le ordinate delle linee d'influenza.
+
+### Urti veicolari
+
+Scegliere piedritto, sovrastruttura oppure carrello elevatore. Il foglio restituisce forze statiche equivalenti di progetto Ad, da usare nella combinazione eccezionale senza moltiplicarle per il fattore delle variabili ordinarie.
+
+![Urto su piedritto e su impalcato sopra la strada](../../src/ANTHEA.Desktop/Assets/Wiki/clima-urti.png)
+
+Per il piedritto indicare categoria stradale e larghezza della membratura. Le direzioni parallela e ortogonale sono alternative. Per autocarri, NTC applica la risultante a 1,25 m; EN richiede di esaminare le quote pertinenti nell'intervallo 0,50–1,50 m, con eventuali adattamenti del progetto. Il foglio calcola la quota selezionata.
+
+Per l'impalcato usare il franco netto futuro al punto d'impatto. NTC ed EN adottano forze base diverse; il foglio mantiene distinti i due sistemi e riporta caso sul prospetto e caso all'intradosso inclinato di 10° verso l'alto. Per il carrello W comprende peso proprio e massimo carico trasportabile.
+
+Non usare questo foglio per dimensionare automaticamente barriere di sicurezza e ancoraggi: tali elementi richiedono le azioni specifiche del sistema di ritenuta. Incendio, esplosioni e urti ferroviari/navali non sono compresi.
+
+### Esempi aggiuntivi
+
+Il catalogo Esempi contiene due casi per ciascuno dei cinque moduli aggiuntivi, con documento ANTHEA, CSV e relazione Word/PDF. Le cartelle sono act_carichi_edifici, act_combinazioni, act_traffico_ponti, act_ripartizione_traffico e act_urti_veicolari. Per confrontare i due metodi di ripartizione aprire copie degli esempi rigido e deformabile e mantenere identici geometria e carichi.

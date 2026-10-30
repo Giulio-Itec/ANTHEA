@@ -1,0 +1,8 @@
+Caso;Simbolo;Descrizione;Valore;Unita;Formula;Riferimento
+"Parametri";"h";"Quota impatto";"1.25";"m";"Rispetto al piano di marcia";"NTC 2018 §3.6.3.3.1"
+"Parametri";"a";"Altezza impronta";"0.5";"m";"Impronta rettangolare";"NTC 2018 §3.6.3.3.1"
+"Parametri";"b";"Larghezza impronta";"1";"m";"min(1,50 m, larghezza membratura) per piedritti";"NTC 2018 §3.6.3.3.1"
+"Parallelo alla marcia";"F";"Forza orizzontale";"1000";"kN";"Tabella forze equivalenti";"NTC 2018 §3.6.3.3.1"
+"Parallelo alla marcia";"M";"Momento rispetto al piano viario";"1250";"kN·m";"F h";"NTC 2018 §3.6.3.3.1"
+"Ortogonale alla marcia";"F";"Forza orizzontale";"500";"kN";"Tabella forze equivalenti";"NTC 2018 §3.6.3.3.1"
+"Ortogonale alla marcia";"M";"Momento rispetto al piano viario";"625";"kN·m";"F h";"NTC 2018 §3.6.3.3.1"

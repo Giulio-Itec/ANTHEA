@@ -468,6 +468,186 @@
       "kind": "geometria",
       "sha256": "c54cbbe43a3c9b668659af7a2d8cfa31a8b7d6b09c450babb4e7fcd3270fbb0c",
       "origin": "supporto/artefatti/ci/20261020-141707-versione-1.12.0-preparazione/Application.Tests/wizard-11.json"
+    },
+    {
+      "path": "act_carichi_edifici/carichi-en-ufficio.anthea",
+      "module": "act_carichi_edifici",
+      "title": "Carichi EN · ufficio con partizioni mobili",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "10f1576df92788f69847f94179cc029ba489cb82e4b4d2946acb287822e2187c",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_carichi_edifici/carichi-ntc-abitazione.anthea",
+      "module": "act_carichi_edifici",
+      "title": "Carichi NTC · solaio residenziale e tramezzi",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "3e8739cf5c836ff98d3bb806f8fd955fe316451146be172595a8002c156aa1b4",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_combinazioni/combinazioni-en-610ab.anthea",
+      "module": "act_combinazioni",
+      "title": "Combinazioni EN · confronto 6.10a e 6.10b",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "6bc2494b50e72143dbf8b00365679f016a340419e01a884d72cdd7180b10ad24",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_combinazioni/combinazioni-ntc-slu.anthea",
+      "module": "act_combinazioni",
+      "title": "Combinazioni NTC · SLU con vento di segno opposto",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "b1a0acd6ef5025dda5204f5a0b05c58f955206c6a46b957fe91847653ab62004",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_neve/neve-en-salto.anthea",
+      "module": "act_neve",
+      "title": "Neve EN · accumulo presso salto",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "e781d16b7589b620e8ab64523800bdc7bb30cd815e69c4de05acc01349d02602",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_neve/neve-ntc-due-falde.anthea",
+      "module": "act_neve",
+      "title": "Neve NTC · due falde 30° / 45°",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "19af075c1f25f02e26d224f506e3b54c29136b220d6f7346d496dcb06182e3fb",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_ripartizione_traffico/ripartizione-deformabile.anthea",
+      "module": "act_ripartizione_traffico",
+      "title": "Ripartizione deformabile · tre travi flesso-torsionali",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "2fca19a5744ca6c7604ae8d61be268eac143d4eabd78430524deacefe752f544",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_ripartizione_traffico/ripartizione-rigida.anthea",
+      "module": "act_ripartizione_traffico",
+      "title": "Ripartizione rigida · tre travi e corsia eccentrica",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "c8646ab32439f117014e3602469ae1e8db3a624219906449e68e10da4407a5cb",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_temperatura_edifici/temperatura-en-strato.anthea",
+      "module": "act_temperatura_edifici",
+      "title": "Temperatura EN · parete omogenea",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "7463735537a021a9e1a36f60d1eac5a6b7b53539b8f20e6d713099ff353a965e",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_temperatura_edifici/temperatura-ntc-ca.anthea",
+      "module": "act_temperatura_edifici",
+      "title": "Temperatura NTC · elemento in c.a. esposto",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "9faa955f5100d0c645d7399bad21a9dc96b989a6a8b4bafb19b9d03bd5420379",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_temperatura_ponti/temperatura-ponte-acciaio.anthea",
+      "module": "act_temperatura_ponti",
+      "title": "Temperatura EN · impalcato in acciaio",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "0252e5994dfbfff16a1607e19c07a7e077cad6c17e3bd6692afd7f48d45860fa",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_temperatura_ponti/temperatura-ponte-cassone.anthea",
+      "module": "act_temperatura_ponti",
+      "title": "Temperatura ponte · cassone in calcestruzzo",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "5647dca44f6b3fec64e129f40e39f9a7a9320b620ca8a5819d979a8c82b350fc",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_traffico_ponti/traffico-en-giunto.anthea",
+      "module": "act_traffico_ponti",
+      "title": "Traffico EN · asse LM2 presso giunto",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "c7cef452cafb6514a7c206f667b3219dc9519ccdbd2fa49dc2dd344cc62e893c",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_traffico_ponti/traffico-ntc-curva.anthea",
+      "module": "act_traffico_ponti",
+      "title": "Traffico NTC · carreggiata 10 m e curva R=1000 m",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "e5f08401d20df572f4fdc02a38691c44aa2bce89cc7401892a2a18276c09e3ec",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_urti_veicolari/urto-en-impalcato.anthea",
+      "module": "act_urti_veicolari",
+      "title": "Urto EN · impalcato con franco netto 5,5 m",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "a34524c29bf619099391c2a89ee9428c11fd63786a6bdbbe76bea7af38a34b03",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_urti_veicolari/urto-ntc-pila.anthea",
+      "module": "act_urti_veicolari",
+      "title": "Urto NTC · pila prossima alla strada",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "8ab8805bdd2845a8420ed805eaa3d622eaaee7e06e75af520a52c48d6bca53e2",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_vento_edifici/vento-en-piana.anthea",
+      "module": "act_vento_edifici",
+      "title": "Vento EN · copertura piana con parapetto",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "8b0e00a8ecdcda4cff843dac004653e062dc37d72e9d98ce1a1854482cbd35fb",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_vento_edifici/vento-ntc-due-falde.anthea",
+      "module": "act_vento_edifici",
+      "title": "Vento NTC · edificio a due falde",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "c21632ced47da5c3fd12fef27a505c5fb2af8058d0e9fbc3292af40003c4bd93",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_vento_ponti/vento-cnr-affiancati.anthea",
+      "module": "act_vento_ponti",
+      "title": "Vento CNR · impalcati indipendenti affiancati",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "5fe08425c9ec43a7ac5333efdb9f51fac10de0afa81cea625da2499817a85c79",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_vento_ponti/vento-cnr-isolato.anthea",
+      "module": "act_vento_ponti",
+      "title": "Vento CNR · impalcato isolato",
+      "description": "Dati GPC modificabili, casi di carico e riferimenti; relazione Word/PDF e tabella CSV nella stessa cartella.",
+      "kind": "calcolo",
+      "sha256": "49b435cf08d29c4708ff91aed146d67e33e848251c2b79b97c42458d209306e5",
+      "origin": "tests/Shared/ClimateScenarios.cs"
     }
   ]
 }

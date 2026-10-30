@@ -1,0 +1,31 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_neve",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "SnowInput",
+    "input": {
+      "Standard": "EurocodeFirstGeneration",
+      "NationalParameters": "Esempio didattico: valori raccomandati EN di prima generazione, clima assegnato; nessuna appendice nazionale selezionata.",
+      "Zone": "II",
+      "AltitudeM": 200,
+      "AssignedGroundLoad": true,
+      "GroundLoadKnM2": 1,
+      "Exposure": "Normal",
+      "ThermalCoefficient": 1,
+      "ThermalJustification": "",
+      "Roof": "LowerRoof",
+      "PitchLeftDeg": 0,
+      "PitchRightDeg": 20,
+      "SnowGuards": false,
+      "WidthM": 3,
+      "RiseM": 3,
+      "UpperWidthM": 9,
+      "StepHeightM": 3,
+      "SlidingCoefficient": 0,
+      "SnowDensityKnM3": 2
+    }
+  }
+}

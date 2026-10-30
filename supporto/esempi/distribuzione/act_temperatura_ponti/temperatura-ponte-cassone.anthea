@@ -1,0 +1,40 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_temperatura_ponti",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "BridgeThermalInput",
+    "input": {
+      "Site": {
+        "Standard": "Ntc2018",
+        "NationalParameters": "",
+        "NtcZone": 2,
+        "AltitudeM": 200,
+        "AssignedTemperatures": true,
+        "MinimumAirC": -10,
+        "MaximumAirC": 40
+      },
+      "Deck": "ConcreteBox",
+      "Surfacing": "Asphalt",
+      "SurfacingMm": 50,
+      "InitialTemperatureC": 15,
+      "ExpansionPerKelvin": 1E-05,
+      "AssignedExpansionCoefficient": false,
+      "LengthM": 100,
+      "DepthM": 2,
+      "WidthM": 12,
+      "OmegaN": 0.35,
+      "OmegaM": 0.75,
+      "BearingSettingTemperatureKnown": false,
+      "HorizontalDifferenceC": 5,
+      "AssignedBridgeTemperatures": false,
+      "MinimumBridgeC": -5,
+      "MaximumBridgeC": 42,
+      "AssignedGradients": false,
+      "HeatingDifferenceC": 10,
+      "CoolingDifferenceC": 5
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_vento_ponti",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "BridgeWindInput",
+    "input": {
+      "Site": {
+        "Standard": "Ntc2018",
+        "NationalParameters": "",
+        "NtcZone": 3,
+        "AltitudeM": 200,
+        "AssignedBaseSpeed": false,
+        "BaseSpeedMs": 27,
+        "ReturnYears": 50,
+        "ExposureCategory": 2,
+        "TopographyFactor": 1,
+        "DirectionFactor": 1,
+        "SeasonFactor": 1,
+        "ProbabilityK": 0.2,
+        "ProbabilityExponent": 0.5,
+        "TurbulenceFactor": 1,
+        "AirDensityKgM3": 1.25
+      },
+      "WidthM": 10,
+      "TotalHeightM": 2,
+      "DeckCentreHeightM": 19,
+      "BridgeLengthM": 100,
+      "StructuralFactor": 1,
+      "ApplicabilityConfirmed": true,
+      "AssignedDragCoefficient": false,
+      "DragCoefficient": 1,
+      "AdjacentDeck": false,
+      "SecondWidthM": 12,
+      "GapM": 1,
+      "CoupledDecks": false
+    }
+  }
+}

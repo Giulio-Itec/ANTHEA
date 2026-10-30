@@ -1,0 +1,26 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_urti_veicolari",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "VehicleImpactInput",
+    "input": {
+      "Standard": "EurocodeFirstGeneration",
+      "NationalParameters": "Esempio didattico: valori raccomandati EN di prima generazione, clima assegnato; nessuna appendice nazionale selezionata.",
+      "Target": "Superstructure",
+      "Road": "Motorway",
+      "MemberWidthM": 1,
+      "ClearanceM": 5.5,
+      "EnTruckImpactHeightM": 1.5,
+      "EnFullImpactClearanceM": 5,
+      "EnNoImpactClearanceM": 6,
+      "ForkliftWeightKn": 50,
+      "AssignedImpactForce": false,
+      "ImpactForceKn": 1000,
+      "TransverseForceKn": 500,
+      "ForceSource": ""
+    }
+  }
+}

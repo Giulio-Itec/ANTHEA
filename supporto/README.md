@@ -1,6 +1,6 @@
 # Materiale di supporto ANTHEA
 
-La documentazione utente è raccolta in due guide globali: pratica e teorica Rev62 del 29 ottobre 2026. L'articolo [Capacità orizzontale del palo in terreno stratificato](docs/articolo-palo-orizzontale-stratificato.md) espone il metodo di G. Pacini.
+La documentazione utente è raccolta in due guide globali: pratica e teorica Rev63 del 30 ottobre 2026. L'articolo [Capacità orizzontale del palo in terreno stratificato](docs/articolo-palo-orizzontale-stratificato.md) espone il metodo di G. Pacini.
 
 - [Guida pratica e UI](docs/guida-pratica-anthea.md): procedure e interfaccia di tutti i moduli; comprende importazione dei modelli e finestra di supporto per la reologia del calcestruzzo.
 - [Guida teorica](docs/guida-teorica-anthea.md): modelli, formule, ipotesi, limiti, approfondimenti e appendici tecniche di tutti i moduli.
@@ -74,3 +74,5 @@ Portanza sismica, cedimenti, Newmark e armature: [rapporto aggiornamento](artefa
 - Revisione 31: guide con soli contenuti propri, senza corpus esterno, diario di sviluppo, strumenti di IA, programmi concorrenti e paragrafi duplicati; portanza sismica dei muri secondo EN 1998-5 Annesso F senza γRD sull'inerzia del terreno; γb della punta dei pali secondo la tecnologia (NTC 2018 Tab. 6.4.II). Le edizioni Rev30 sono in `SUPERATI/documentazione/Guide_ANTHEA`, con `SUPERATI/registro-20261007.json`.
 
 - Revisione 32: classi minime del calcestruzzo secondo il prospetto 6 della UNI 11104:2025, con XF1 a C32/40 del prospetto 5 dell'edizione 2016; composizione secondo il prospetto 5 dell'edizione 2016. Le edizioni Rev31 sono in `SUPERATI/documentazione/Guide_ANTHEA`, con `SUPERATI/registro-20261007-rev32.json`.
+
+Azioni: neve, vento e temperatura negli edifici; vento CNR e temperatura negli impalcati; permanenti e sovraccarichi, combinazioni SLU/SLE, traffico stradale, ripartizione rigida e deformabile, urti veicolari. Dieci fogli con schemi e formule; venti esempi nel catalogo centrale, con dati ANTHEA e relazioni Word/PDF e CSV.

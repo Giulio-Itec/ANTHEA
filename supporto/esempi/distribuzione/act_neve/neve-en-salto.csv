@@ -1,0 +1,12 @@
+Caso;Simbolo;Descrizione;Valore;Unita;Formula;Riferimento
+"Parametri";"sk";"Carico caratteristico al suolo";"1";"kN/m²";"valore assegnato";"EN 1991-1-3:2003 + AC:2009 §§4–5"
+"Parametri";"Ce";"Coefficiente di esposizione";"1";"–";"categoria topografica";"EN tab. 5.1"
+"Parametri";"Ct";"Coefficiente termico";"1";"–";"";"EN 1991-1-3:2003 + AC:2009 §§4–5"
+"Parametri";"ls";"Lunghezza teorica accumulo";"6";"m";"min(15; max(5; 2h))";"EN §5.3.6"
+"Parametri";"μw";"Accumulo da vento";"2";"–";"min((b1+b2)/(2h); γh/sk), limiti 0,8…4";"EN §5.3.6"
+"Copertura inferiore · non accumulata";"μ · copertura";"uniforme";"0.80000000000000004";"–";"coefficiente di forma";"EN 1991-1-3:2003 + AC:2009 §§4–5"
+"Copertura inferiore · non accumulata";"s · copertura";"Carico verticale · uniforme";"0.80000000000000004";"kN/m²";"μ · Ce · Ct · sk";"EN 1991-1-3:2003 + AC:2009 §§4–5"
+"Copertura inferiore · accumulo";"μ · salto x=0";"uniforme";"2";"–";"coefficiente di forma";"EN 1991-1-3:2003 + AC:2009 §§4–5"
+"Copertura inferiore · accumulo";"s · salto x=0";"Carico verticale · uniforme";"2";"kN/m²";"μ · Ce · Ct · sk";"EN 1991-1-3:2003 + AC:2009 §§4–5"
+"Copertura inferiore · accumulo";"μ · bordo x=b2";"uniforme";"1.3999999999999999";"–";"coefficiente di forma";"EN 1991-1-3:2003 + AC:2009 §§4–5"
+"Copertura inferiore · accumulo";"s · bordo x=b2";"Carico verticale · uniforme";"1.3999999999999999";"kN/m²";"μ · Ce · Ct · sk";"EN 1991-1-3:2003 + AC:2009 §§4–5"

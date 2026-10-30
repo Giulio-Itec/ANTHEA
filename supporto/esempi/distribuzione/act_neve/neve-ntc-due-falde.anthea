@@ -1,0 +1,31 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_neve",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "SnowInput",
+    "input": {
+      "Standard": "Ntc2018",
+      "NationalParameters": "",
+      "Zone": "II",
+      "AltitudeM": 481,
+      "AssignedGroundLoad": false,
+      "GroundLoadKnM2": 1,
+      "Exposure": "Normal",
+      "ThermalCoefficient": 1,
+      "ThermalJustification": "",
+      "Roof": "Duopitch",
+      "PitchLeftDeg": 30,
+      "PitchRightDeg": 45,
+      "SnowGuards": false,
+      "WidthM": 20,
+      "RiseM": 3,
+      "UpperWidthM": 10,
+      "StepHeightM": 3,
+      "SlidingCoefficient": 0,
+      "SnowDensityKnM3": 2
+    }
+  }
+}

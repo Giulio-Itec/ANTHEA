@@ -2095,3 +2095,12 @@ se spiegati»).
    d0d76b51, Checker c301be7a). Regola generale, ora negli AGENTS.md di Model e Checker: «finito il lavoro, aggiornate il master … voglio
    che esca con le librerie su master».
 8. **Pulizia.** «pulizia: si» per `Repository\ANTHEA-prova-f5` (pacchetto di prova della 1.12.1), spostata nel Cestino.
+
+
+## 30 ottobre — Azioni su branch separati
+
+1. Calcoli in Model/Checker e interfacce ANTHEA, su branch separati, per neve, vento e temperatura negli edifici secondo NTC/EN, vento CNR e temperatura negli impalcati, con immagini e grafici.
+2. Confermati carichi degli edifici, combinazioni SLU/SLE, traffico e urti; per la ripartizione confermati entrambi i metodi, rigido e deformabile. Percentuali del momento nella sezione scelta, con ipotesi esplicite.
+3. «Salta, per ora, le azioni sismiche». Spettri esistenti invariati.
+4. «Non fare merge fino a stasera». Prevale sulla regola generale delle librerie: nessuna integrazione né pubblicazione. ANTHEA refactoring/f5-azioni-climatiche; Model e Checker codex/azioni-climatiche-ntc-ec. Snapshot candidato esterno a lib/Checker.
+5. Guide globali Rev63, quattro capitoli Wiki, venti esempi centrali, tredici figure originali. Transizioni esatte AZIONI-01; attesi numerici immutati. Il confronto Fondazioni normalizza soltanto la versione GPC, verificata prima contro la DLL caricata (AZIONI-02).

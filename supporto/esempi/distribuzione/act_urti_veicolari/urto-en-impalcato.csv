@@ -1,0 +1,8 @@
+Caso;Simbolo;Descrizione;Valore;Unita;Formula;Riferimento
+"Parametri";"r";"Riduzione per franco";"0.5";"−";"1 fino ad h0; (h1−h)/(h1−h0); 0 oltre h1";"EN 1991-1-7:2006 §§4.3–4.4"
+"Parametri";"h";"Quota impatto";"5.5";"m";"Rispetto al piano di marcia";"EN 1991-1-7:2006 §§4.3–4.4"
+"Parametri";"a";"Altezza impronta";"0.25";"m";"Impronta rettangolare";"EN 1991-1-7:2006 §§4.3–4.4"
+"Parametri";"b";"Larghezza impronta";"0.25";"m";"min(1,50 m, larghezza membratura) per piedritti";"EN 1991-1-7:2006 §§4.3–4.4"
+"Prospetto verticale";"Fx";"Urto frontale";"250";"kN";"r Fd,x";"EN 1991-1-7:2006 §§4.3–4.4"
+"Intradosso · 10° verso l’alto";"Fx";"Componente orizzontale";"246.20193825305199";"kN";"F cos(10°)";"EN 1991-1-7:2006 §§4.3–4.4"
+"Intradosso · 10° verso l’alto";"Fz";"Componente verso l’alto";"43.412044416732584";"kN";"F sin(10°)";"EN 1991-1-7:2006 §§4.3–4.4"

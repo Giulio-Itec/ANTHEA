@@ -1,0 +1,32 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_traffico_ponti",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "RoadTrafficInput",
+    "input": {
+      "Standard": "EurocodeFirstGeneration",
+      "NationalParameters": "Esempio didattico: valori raccomandati EN di prima generazione, clima assegnato; nessuna appendice nazionale selezionata.",
+      "CarriagewayWidthM": 10,
+      "LoadedLengthM": 25,
+      "RadiusM": 1000,
+      "StraightBridge": true,
+      "AlphaQ1": 1,
+      "AlphaQ2": 1,
+      "AlphaQ3": 1,
+      "Alphaq1": 1,
+      "AlphaqOther": 1,
+      "AlphaqRemaining": 1,
+      "BetaQ": 1,
+      "PavementThicknessM": 0.08,
+      "SlabThicknessM": 0.25,
+      "JointDistanceM": 0,
+      "AddJointAmplification": true,
+      "NtcJointFactor": 1,
+      "JointSource": "",
+      "FootwayWidthM": 1.5
+    }
+  }
+}

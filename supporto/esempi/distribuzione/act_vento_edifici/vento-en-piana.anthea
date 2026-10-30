@@ -1,0 +1,46 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_vento_edifici",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "BuildingWindInput",
+    "input": {
+      "Site": {
+        "Standard": "EurocodeFirstGeneration",
+        "NationalParameters": "Esempio didattico: valori raccomandati EN di prima generazione, clima assegnato; nessuna appendice nazionale selezionata.",
+        "NtcZone": 3,
+        "AltitudeM": 200,
+        "AssignedBaseSpeed": true,
+        "BaseSpeedMs": 27,
+        "ReturnYears": 50,
+        "ExposureCategory": 2,
+        "TopographyFactor": 1,
+        "DirectionFactor": 1,
+        "SeasonFactor": 1,
+        "ProbabilityK": 0.2,
+        "ProbabilityExponent": 0.5,
+        "TurbulenceFactor": 1,
+        "AirDensityKgM3": 1.25
+      },
+      "WidthM": 20,
+      "DepthM": 30,
+      "HeightM": 10,
+      "Roof": "Flat",
+      "PitchDeg": 20,
+      "WindDirectionDeg": 0,
+      "ParapetM": 0.5,
+      "LoadedAreaM2": 10,
+      "InternalPressure": "DominantFace",
+      "DominantOpeningRatio": 2.5,
+      "DominantExternalCoefficient": 0.8,
+      "InternalCoefficientMin": -0.3,
+      "InternalCoefficientMax": 0.2,
+      "InternalReferenceHeightM": 10.5,
+      "StructuralFactor": 1,
+      "StructuralFactorAssessed": false,
+      "FrictionCoefficient": 0.01
+    }
+  }
+}
