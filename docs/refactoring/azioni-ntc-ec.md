@@ -39,9 +39,10 @@ Il 30/10, alla ripresa, quattro sorgenti non committati risultavano costituiti s
 ### Integrazione autorizzata del 30 ottobre
 
 - Integrati sui rami di lavoro `origin/master` Model 8fb97ef8 e Checker f253ee4e, e `origin/main` ANTHEA 25f05436 (1.16.1). Conservati i cambiamenti già pubblicati su combinazioni, steel, Concrete e CompositeBridge.
-- Versioni assegnate: Model 5.32.0.0 e Design 0.44.0.0 per le nuove funzionalità; ModelData 0.3.0.17, Persistence 3.4.0.7, Converter 2.10.0.4, Concrete 0.32.0.3, Steel 2.127.0.2, CompositeBridge 1.21.0.1, Geotechnics 0.27.0.5, ModelChecker 2.35.0.2 e Masonry 0.10.0.20 per ricompilazione coerente. Utilities, Geometry e DelaunayMesh invariati.
+- Versioni assegnate: Model 5.32.0.0 e Design 0.44.0.0 per le nuove funzionalità; ModelData 0.3.0.17, Persistence 3.4.0.7, Converter 2.10.0.4, Concrete 0.32.0.3, Steel 2.127.0.3, CompositeBridge 1.21.0.2, Geotechnics 0.27.0.5, ModelChecker 2.35.0.3 e Masonry 0.10.0.20 per ricompilazione coerente. Utilities, Geometry e DelaunayMesh invariati.
 - Merge ANTHEA: conservate tutte le voci del registro; confronto Fondazioni sulle impronte AN già presenti su `main`, normalizzando soltanto `library_version` a 0.27.0.1 dopo la verifica della DLL caricata. Nessun atteso numerico rigenerato. Indice installer unito e PDF ricontrollato; versioni precedenti archiviate con SHA-256.
-- [ ] Suite complete sul set integrato, merge/push Model e Checker, produzione del set ufficiale.
+- [x] Suite Model sul commit a6f664c9: 62 Core e 1.601 UnitTest superati; dodici prove facoltative non eseguite. Suite Checker complete sul commit 0d2dec71, inclusa la successiva correzione CHS pubblicata da un’altra sessione (94b92533): 954 Concrete, 122 Steel, 411 CompositeBridge, 202 Geotechnics, 175 Calculation, 29 ShallowFoundation, 99 EmbeddedWalls, 6.990 Steel.Members, 192 Design net8, 191 Design net472, 655 ModelChecker; zero fallimenti, API compatibili. Merge locali conclusi sui rispettivi master.
+- [ ] Push dei master e produzione del set ufficiale: il controllo automatico ha rifiutato la pubblicazione remota per assenza di autorizzazione esplicita al push. Richiesta all’utente per i tre remoti; nessun push eseguito. Evidenze in `supporto/artefatti/azioni-climatiche/merge-20261030/prepush-verification.json`.
 - [ ] Snapshot ufficiale in ANTHEA, profilo full, integrazione su `main`. Suite UI prima dell'integrazione: 73; nessuna rimossa.
 
 ### Riproduzione della build candidata precedente
