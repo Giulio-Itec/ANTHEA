@@ -29,8 +29,8 @@ Opzioni: `-SkipPublish` riusa la pubblicazione già presente, aggiornando comunq
 ## Versione
 
 La versione è `<Version>` in `src/ANTHEA.Desktop/ANTHEA.Desktop.csproj`, formato `maggiore.minore.patch`
-(oggi `1.16.1`). Determina il nome del setup, le proprietà degli eseguibili e la voce in
-«App installate». ANTHEA.exe riporta versione file `1.16.1.0` e prodotto `1.16.1+<commit>`.
+(oggi `1.16.2`). Determina il nome del setup, le proprietà degli eseguibili e la voce in
+«App installate». ANTHEA.exe riporta versione file `1.16.2.0` e prodotto `1.16.2+<commit>`.
 
 A parità di versione il setup viene sovrascritto. Prima della distribuzione aumentare
 `patch` per correzioni, `minore` per funzioni, `maggiore` per cambi di formato degli archivi.
@@ -65,7 +65,7 @@ La cartella `Guide` accanto ad `ANTHEA.exe` contiene quattro PDF:
 - `Guida teorica ANTHEA.pdf`: teoria, formule, ipotesi e limiti di tutti i moduli;
 - `Palo orizzontale in terreno stratificato.pdf`: articolo sul metodo Stratificato di G. Pacini, aperto anche da Diagrammi e dettagli e dalla Wiki.
 
-Gli approfondimenti sono incorporati nelle due guide globali Rev63; l'articolo sul palo orizzontale in terreno stratificato è l'eccezione approvata dall'utente. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica, Articoli e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
+Gli approfondimenti sono incorporati nelle due guide globali Rev64; l'articolo sul palo orizzontale in terreno stratificato è l'eccezione approvata dall'utente. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica, Articoli e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
 
 Per i nuovi argomenti aggiornare i due volumi, i PDF corrispondenti e l’indice. Per casi particolari chiedere all’utente prima di creare un documento autonomo. `Guide.json` contiene l’indice e l’articolo; i due manuali sono selezionati automaticamente alla revisione più recente.
 
@@ -88,8 +88,8 @@ l'installazione reale, il registro o i collegamenti dell'utente. Richiede NSIS 3
 Riga di comando (installazioni silenziose o distribuite):
 
 ```bat
-ANTHEA-1.16.1-Setup-x64.exe /S /AllUsers
-ANTHEA-1.16.1-Setup-x64.exe /S /CurrentUser /D=C:\Programmi\ANTHEA
+ANTHEA-1.16.2-Setup-x64.exe /S /AllUsers
+ANTHEA-1.16.2-Setup-x64.exe /S /CurrentUser /D=C:\Programmi\ANTHEA
 "C:\Program Files\ANTHEA\Uninstall.exe" /S /AllUsers
 ```
 

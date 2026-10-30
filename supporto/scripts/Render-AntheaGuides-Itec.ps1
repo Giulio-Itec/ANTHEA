@@ -1,4 +1,4 @@
-param([switch]$VerifyFinal, [string]$Revision = '63', [ValidateSet('pratica', 'teorica', 'palo-stratificato')] [string[]]$Kinds = @('pratica', 'teorica'), [string]$ArtifactRoot = $env:ANTHEA_GUIDE_ARTIFACTS)
+param([switch]$VerifyFinal, [string]$Revision = '64', [ValidateSet('pratica', 'teorica', 'palo-stratificato')] [string[]]$Kinds = @('pratica', 'teorica'), [string]$ArtifactRoot = $env:ANTHEA_GUIDE_ARTIFACTS)
 # Standalone articles (Build-AntheaGuides-Itec.py, ARTICLES): Word file and PDF next to the Markdown source, with their own revision.
 $articles = @{ 'palo-stratificato' = @{ Word = 'ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx'; Pdf = 'supporto/docs/articolo-palo-orizzontale-stratificato.pdf' } }
 $ErrorActionPreference = 'Stop'

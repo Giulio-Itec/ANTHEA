@@ -1,6 +1,6 @@
 # Materiale di supporto ANTHEA
 
-La documentazione utente è raccolta in due guide globali: pratica e teorica Rev63 del 30 ottobre 2026. L'articolo [Capacità orizzontale del palo in terreno stratificato](docs/articolo-palo-orizzontale-stratificato.md) espone il metodo di G. Pacini.
+La documentazione utente è raccolta in due guide globali: pratica e teorica Rev64 del 30 ottobre 2026. L'articolo [Capacità orizzontale del palo in terreno stratificato](docs/articolo-palo-orizzontale-stratificato.md) espone il metodo di G. Pacini.
 
 - [Guida pratica e UI](docs/guida-pratica-anthea.md): procedure e interfaccia di tutti i moduli; comprende importazione dei modelli e finestra di supporto per la reologia del calcestruzzo.
 - [Guida teorica](docs/guida-teorica-anthea.md): modelli, formule, ipotesi, limiti, approfondimenti e appendici tecniche di tutti i moduli.

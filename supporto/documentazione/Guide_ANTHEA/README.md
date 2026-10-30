@@ -1,15 +1,17 @@
 # Guide globali ANTHEA
 
-Edizione 6, 30 ottobre 2026. Guide pratica e teorica Rev63, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 30 ottobre 2026. Guide pratica e teorica Rev64, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev63.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev63.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev63.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev63.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev64.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev64.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev64.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev64.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
 
 | Articolo | Word | PDF | Sorgente |
 |---|---|---|---|
 | Capacità orizzontale del palo in terreno stratificato (metodo di G. Pacini), edizione 1 | [Word](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx) | [PDF](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf) | [Markdown](../../docs/articolo-palo-orizzontale-stratificato.md) |
+
+La Rev64 accompagna ANTHEA 1.16.2: materiali assegnabili alle singole barre e materiale/tensione iniziale modificabili per trefoli e cavi, salvataggio GPC e limiti espliciti dei modelli accessori. Le revisioni precedenti sono conservate in supporto/SUPERATI/rilascio-1162-rev64-20261030/.
 
 La Rev63 aggiunge i cinque fogli Azioni climatiche, le edizioni normative implementate, otto tavole tecniche originali, esempi e limiti. Gli originali precedenti sono in `supporto/SUPERATI/azioni-climatiche-rev63-20261030/`.
 

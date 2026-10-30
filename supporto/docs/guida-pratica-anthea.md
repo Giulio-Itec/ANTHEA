@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 30 ottobre 2026 — revisione documentale 63
+Edizione 6 aggiornata il 30 ottobre 2026 — revisione documentale 64
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1166,6 +1166,12 @@ Il nuovo foglio rettangolare parte da b = 600 mm, h = 800 mm, copriferro netto 7
 Le resistenze dei materiali sono in MPa, equivalenti a N/mm². La selezione dal catalogo trasferisce i parametri effettivi della voce scelta; controlla il riepilogo dopo una selezione. Numero e diametro delle barre devono descrivere l'armatura presente; le barre devono rimanere nel contorno con copriferro e spaziatura coerenti. Le opzioni specifiche per pali o zone dissipative richiedono il contesto corrispondente.
 
 Scegli la normativa prima di personalizzare i coefficienti. Cambiarla ripristina i coefficienti della nuova classe normativa: ricontrolla eventuali modifiche manuali. I default non attestano l'applicabilità della norma al caso concreto. Le funzionalità predisposte nei coefficienti non implicano che ogni meccanismo sia implementato.
+
+Nella prima scheda, sotto il disegno, la tabella **Armature ordinarie** espone ID, coordinate, **Materiale** e diametro. La scelta **Del foglio** segue l'acciaio generale; una voce del catalogo o un acciaio personalizzato salvato nel foglio assegna invece le proprie proprietà soltanto a quella barra. L'assegnazione passa alla disposizione manuale. Le altre barre continuano a seguire il materiale generale; **Ripristina barre da wizard** elimina anche le assegnazioni individuali. Le staffe mantengono l'acciaio generale.
+
+Nella tabella **Trefoli / cavi**, subito dopo ID e coordinate, sono modificabili **Materiale** e **Tensione iniziale σp0 [MPa]**. La selezione aggiorna Ep, fpyk, fpk e deformazione ultima del cavo; σp0 resta il valore assegnato e deve essere ricontrollato dopo il cambio di materiale. La tensione è positiva a trazione ed è quella efficace all'inizio dell'analisi: il foglio non calcola automaticamente le perdite dal martinetto. Nei pannelli stretti usare lo scorrimento orizzontale della tabella o allargare il pannello.
+
+Materiali distinti e pretensione sono salvati nella sezione GPC e conservati anche dopo la modifica delle coordinate. Le analisi N–M e tensionali usano ogni materiale. Le verifiche accessorie che richiedono proprietà uniformi rimangono esplicitamente **da completare** se incompatibili: dettagli, ancoraggi e torsione per fyk diversi; fessurazione e taglio Model Code 2010 per Es diversi; individuazione del primo snervamento M–χ per fyk o Es diversi. B450A e B450C, con uguali fyk ed Es, non attivano queste limitazioni.
 
 ### Input azioni e convenzioni
 

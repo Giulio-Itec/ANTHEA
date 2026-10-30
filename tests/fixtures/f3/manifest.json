@@ -1775,5 +1775,19 @@
     "file": "tests/fixtures/f3/transitions-f5-wiki.json",
     "record": "AZIONI-01",
     "note": "Only exact Wiki/count transitions. Historical expected files and engineering transitions remain unchanged."
+  },
+  "editorial_transitions_rev64": {
+    "capture": "supporto/artefatti/ci/20261030-204457-release-1162-f3/ui_f3-equivalence/cattura",
+    "before_sha256": "04b731e835890e1de17fe0bf18b14730c9fa99fc8ad1058f74d7eb73563f98d0",
+    "after_sha256": "264f3f9991b95126ce3ef301a54154404a93470acf35b3b66cfe07ac59cdbc1b",
+    "counts": {
+      "previous": 2926,
+      "current": 2944,
+      "added": 613,
+      "removed": 595
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "R-1162-MAT",
+    "note": "Only exact changes in two Wiki articles. All engineering expectations and historical captures untouched."
   }
 }

@@ -1,0 +1,53 @@
+param([switch]$VerifyFinal, [string]$Revision = '63', [ValidateSet('pratica', 'teorica', 'palo-stratificato')] [string[]]$Kinds = @('pratica', 'teorica'), [string]$ArtifactRoot = $env:ANTHEA_GUIDE_ARTIFACTS)
+# Standalone articles (Build-AntheaGuides-Itec.py, ARTICLES): Word file and PDF next to the Markdown source, with their own revision.
+$articles = @{ 'palo-stratificato' = @{ Word = 'ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx'; Pdf = 'supporto/docs/articolo-palo-orizzontale-stratificato.pdf' } }
+$ErrorActionPreference = 'Stop'
+$repoPath = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
+$wordForGuides = $null
+$guideDoc = $null
+try {
+    $wordForGuides = New-Object -ComObject Word.Application
+    $wordForGuides.Visible = $false
+    $wordForGuides.DisplayAlerts = 0
+    $wordForGuides.AutomationSecurity = 3
+    foreach ($kind in $Kinds) {
+        $word = if ($articles.ContainsKey($kind)) { $articles[$kind].Word } else { "ANTHEA_Guida_${kind}_ITEC_Rev${Revision}.docx" }
+        $sourcePath = Join-Path $repoPath "supporto/documentazione/Guide_ANTHEA/$word"
+        $artifactFolder = if ($Revision -eq '02') { 'guide_anthea_itec' } else { "guide_anthea_itec_rev${Revision}" }
+        $artifactPath = if ($ArtifactRoot) { Join-Path $ArtifactRoot $kind } else { Join-Path $repoPath "supporto/artefatti/$artifactFolder/$kind" }
+        # COM paths as plain strings: in Windows PowerShell 5.1 the output of Join-Path reaches Word wrapped in a PSObject and
+        # SaveAs2 waited on an invisible dialog (28/09/2026); with [string] the two guides take seconds
+        $guideDoc = $wordForGuides.Documents.Open([string]$sourcePath, $false, $false)
+        Write-Output "${kind}: documento aperto"
+        # Update fields in one native call (including the TOC), without a second
+        # TOC.Update or per-field repagination. Final verification uses audited caches.
+        if (-not $VerifyFinal) {
+            $guideDoc.Fields.Update() | Out-Null
+            Write-Output "${kind}: indice aggiornato"
+        }
+        $guideDoc.Repaginate()
+        if (-not $VerifyFinal) { foreach ($toc in $guideDoc.TablesOfContents) { $toc.UpdatePageNumbers() } }
+        if (-not $VerifyFinal) {
+            $guideDoc.SaveAs2([string](Join-Path $artifactPath 'word_updated.docx'), 16)
+        }
+        $pdfName = if ($VerifyFinal) { 'final_verified.pdf' } else { 'fields_updated.pdf' }
+        $guideDoc.ExportAsFixedFormat([string](Join-Path $artifactPath $pdfName), 17)
+        if ($VerifyFinal) {
+            $verifiedPdf = Join-Path $artifactPath $pdfName
+            Copy-Item -LiteralPath $verifiedPdf -Destination ([IO.Path]::ChangeExtension($sourcePath, '.pdf')) -Force
+            # La stessa impaginazione con immagini e formule accompagna anche il sorgente Markdown.
+            $markdownPdf = if ($articles.ContainsKey($kind)) { $articles[$kind].Pdf } else { "supporto/docs/guida-${kind}-anthea.pdf" }
+            Copy-Item -LiteralPath $verifiedPdf -Destination (Join-Path $repoPath $markdownPdf) -Force
+        }
+        Write-Output ("${kind}: " + $guideDoc.ComputeStatistics(2) + ' pagine')
+        $guideDoc.Close(0)
+        [Runtime.InteropServices.Marshal]::ReleaseComObject($guideDoc) | Out-Null
+        $guideDoc = $null
+    }
+} finally {
+    if ($null -ne $guideDoc) { $guideDoc.Close(0) }
+    if ($null -ne $wordForGuides) {
+        $wordForGuides.Quit()
+        [Runtime.InteropServices.Marshal]::ReleaseComObject($wordForGuides) | Out-Null
+    }
+}

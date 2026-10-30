@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 30 ottobre 2026 — revisione documentale 63
+Edizione 6 aggiornata il 30 ottobre 2026 — revisione documentale 64
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -640,6 +640,12 @@ Il dominio bidimensionale N–M è la sezione del dominio sul meridiano della di
 Con i criteri a N assegnato («N costante», «N e Mx costanti», «N e My costanti») un NEd fuori dal campo resistente [NRd,c; NRd,t] non ha punti del dominio a quel valore: l'esito è «Fuori dominio (N fuori dal campo [NRd,c; NRd,t])» con $\eta > 1$, valutato sul punto a eccentricità costante. Con «N costante» e momento di domanda nullo l'esito è «Entro il dominio (momento nullo)» con $\eta = 0$. Per un N fuori dal campo anche la resistenza a N assegnato e il punto limite della curva M–χ non sono disponibili, e il messaggio riporta NRd,c e NRd,t in kN.
 
 ### Materiali tendini e analisi di esercizio
+
+Il materiale può essere assegnato a ogni barra ordinaria, con Es, fyk, fu, deformazione ultima e legame propri. Il modello GPC conserva tali materiali e integra ciascun contributo con la sua legge; anche i limiti tensionali SLE sono valutati per barra. Il coefficiente di omogeneizzazione mostrato tra i parametri generali resta riferito all'acciaio generale e non sostituisce i moduli dei materiali assegnati.
+
+Per i trefoli e i cavi il materiale e la tensione iniziale σp0 sono indipendenti. Nel ramo elastico la predeformazione è σp0/Ep; negli altri rami la conversione segue il legame del materiale GPC. Il valore è una tensione efficace iniziale positiva, non la forza complessiva del cavo e non una stima automatica delle perdite di precompressione. La modifica del materiale conserva σp0 e impone una nuova validazione rispetto alle proprietà aggiornate.
+
+Le procedure accessorie con un solo parametro d'acciaio non effettuano medie tra materiali: dettagli, ancoraggi e torsione richiedono fyk delle barre uguale a quello generale; fessurazione e taglio Model Code 2010 richiedono Es uguale; il criterio di primo snervamento della curva M–χ richiede entrambi. Se la condizione manca, la specifica verifica resta da completare con motivazione esplicita. Le analisi N–M e tensionali restano disponibili. Il materiale delle staffe è quello generale.
 
 La risposta dipende dai diagrammi selezionati per cls, barre e tendini. Nelle leggi senza resistenza a trazione, il calcestruzzo teso non contribuisce all'equilibrio. Nelle analisi elastiche si distinguono le proprietà del modello tensionale da quelle impiegate successivamente nelle formule di fessurazione.
 
