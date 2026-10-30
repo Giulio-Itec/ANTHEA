@@ -16,11 +16,21 @@ Branch ANTHEA `refactoring/f5-azioni-climatiche`, da `refactoring/f5` 61dc4ff3. 
 - [x] Tredici schemi originali SVG/PNG; pianta, sezione e linee d'influenza per la ripartizione.
 - [x] Venti esempi, due per modulo, ANTHEA/CSV/DOCX/PDF nel catalogo centrale; 72 esempi per 25 moduli complessivi.
 - [x] Set candidato 04: Model b961d663, Checker 5e0bca33; tutte le suite GPC, comprese net472. Nuove prove generali/ripartizione: 37 net8 + 37 net472. Oracoli Python indipendenti climatici (80 punti) e della ripartizione conservati.
-- [x] ANTHEA mirate: 442 controlli dei venti scenari; architettura 583; catalogo 359. WPF dieci moduli/tre temi 152; catalogo, host e Fondazioni superati. Ultima cattura estesa al disegno deformabile.
+- [x] ANTHEA mirate: 442 controlli dei venti scenari; architettura 583; catalogo 359. WPF dieci moduli/tre temi 168, compreso il disegno deformabile; catalogo, host e Fondazioni superati.
 - [x] Primo full 20261030-060827-climate-full: 151 PASS e 8 rilievi durante lo sviluppo. Diagnosi: conteggi storici, ordine dei moduli, nuove occorrenze architetturali, Wiki e versione DLL Fondazioni. Corretti senza deroghe nuove.
 - [x] Guide Rev63: 123 e 200 pagine, 26 parti ITEC identiche, 1.502 formule conservate. Capitoli nuovi ispezionati, originali Rev62 archiviati con SHA-256.
 - [x] F3 completo: 1.201 file in 122 gruppi, 80.836 transizioni ammesse, zero residue. Quattro articoli nuovi (82 totali): 102 transizioni editoriali aggiunte, 58 superate sostituite, 2.824 conservate. Nessun atteso numerico modificato.
-- [ ] Full conclusivo su sorgenti congelati e build locale pronta per revisione.
+- [x] Full conclusivo su 4e2f29cc: 161 PASS e un difetto grafico; correzione isolata fa09abc8 e nove suite interessate PASS. Consolidamento: 162 PASS, 73 suite UI, 1.520 catture di contrasto e zero difetti. Nessuna baseline modificata.
+- [x] Build locale fa09abc8 pronta per revisione: 256 file con SHA-256, 13 DLL GPC coerenti, 72 esempi e quattro PDF. Controllo assenza codice di prova PASS. Nessun installer o rilascio ufficiale nuovo.
+- [ ] Neve EN: allineamento ad A1:2015 aperto. Il testo integrale non è disponibile nel workspace; il disco Y: non è accessibile. Richiesto all'utente un percorso alla norma integrale o consolidata. Il modulo dichiara la sola EN 1991-1-3:2003+AC:2009 implementata.
+
+### Collaudo conclusivo e copia avviabile
+
+Il full completo è conservato in supporto/artefatti/ci/20261030-075003-actions-full-final; i sorgenti erano puliti e sono rimasti congelati. L'unico fallimento era il fondo bianco della scheda Impalcato e influenza nei temi scuri: venti occorrenze della stessa causa in dieci viste della ripartizione. Il solo cambiamento di codice successivo è l'ereditarietà dello stile TabItem globale. La corsa supporto/artefatti/ci/20261030-091138-actions-contrast-final, su fa09abc8 pulito, ripete build, architettura, WPF Azioni, temi, layout e scansione completa del contrasto: nove PASS. Gli esiti originali restano conservati; non si presenta la seconda corsa filtrata come un nuovo full integrale.
+
+Il riepilogo per suite, con provenienza, è supporto/artefatti/azioni-climatiche/consolidated-verification.json. Restano non eseguite dal runner le tre voci infrastrutturali storiche: ElasticPile.Checks e BridgeValidationCurrent, coperte dalle suite GPC, ed ElasticPile.Performance, misura facoltativa con input negli artefatti. Le suite GPC del set candidato 04 hanno zero fallimenti.
+
+La copia locale è supporto/artefatti/azioni-climatiche/app/ANTHEA.exe, versione 1.16.0+fa09abc8, con runtime .NET Desktop 8. La provenienza sta in app/provenance.json e le impronte in app-sha256.json. Esempi e Guide sono nelle cartelle risolte dall'applicazione. Il verbale visivo dei PDF è pdf-qa/visual-review.json: tutte le miniature esaminate, nuovi capitoli pratica 112–123 e teoria 190–200 letti a piena scala; venti relazioni e quattro indici controllati. L'aggiornamento A1:2015 resta distinto dal collaudo delle funzionalità implementate.
 
 Il 30/10, alla ripresa, quattro sorgenti non committati risultavano costituiti soltanto da byte nulli: ClimateDocument, ClimateSheetViewModel, ClimateSheetView.xaml e ClimateCaseChart. Ripristinati dai patch originali della stessa chat; originali azzerati e registro del recupero in `supporto/artefatti/azioni-climatiche/recupero`. Calcoli GPC già committati integri; prove mirate ripetute dopo il recupero. Nessuna fixture indipendente modificata.
 
@@ -44,6 +54,8 @@ Testi consultati e figure normative verificate prima della trascrizione delle ta
 - Le copie EN provengono dall'archivio https://www.phd.eng.br/wp-content/uploads/2015/12/; fanno fede le edizioni stampate sulle copie, non la data del sito.
 
 Le edizioni di seconda generazione e la selezione automatica delle appendici nazionali non sono comprese. Nei rami EN il dato climatico e la sua fonte sono obbligatori.
+
+L'[anteprima ufficiale SIST dell'A1:2015](https://preview.sist.si/sist-preview/40457/e5bb9d96e0c140539f6065fd0f2b2989/SIST-EN-1991-1-3-2004-A1-2015.pdf), consultata il 30/10, arriva solo all'inizio delle modifiche alle coperture a due falde. Documenta modifiche anche ai coefficienti di forma, ma non consente il riscontro completo degli altri casi. Non si estende la dichiarazione di conformità sulla base di un'anteprima parziale.
 
 ## Campo dei moduli aggiuntivi
 

@@ -12848,7 +12848,7 @@
         "Climate.Tests: 442",
         "Architecture.Tests: 583",
         "Examples.Tests: 359",
-        "WPF: 152",
+        "WPF: 168",
         "F3 completo: 1201 file, 80836 transizioni ammesse, zero residue"
       ],
       "evidenze": [
@@ -12884,6 +12884,30 @@
       "evidenze": [
         "supporto/artefatti/ci/20261030-060827-climate-full",
         "supporto/artefatti/ci/20261030-072736-actions-ui-final"
+      ]
+    },
+    {
+      "id": "AZIONI-03",
+      "data": "2026-10-30",
+      "fase": "Collaudo Azioni",
+      "titolo": "Tema della scheda Impalcato e influenza",
+      "famiglia": "ui/contrasto",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Lo stile locale della scheda di ripartizione non ereditava lo stile TabItem globale: il template WPF lasciava il fondo bianco nei temi scuri. La cattura prima della modifica rileva 20 occorrenze della stessa causa. fa09abc8 aggiunge soltanto BasedOn allo stile esistente, conservando visibilita e selezione; il confronto dopo restituisce zero difetti in 1520 catture.",
+      "codice": [
+        "src/ANTHEA.Desktop/Views/Climate/ClimateSheetView.xaml"
+      ],
+      "segno": "Solo aspetto grafico, nessun dato o calcolo modificato. Baseline ed esclusioni del contrasto invariate.",
+      "test": [
+        "Full 4e2f29cc: 161 PASS, 1 rilievo di contrasto",
+        "Correzione fa09abc8: 9 suite PASS, incluse 168 prove WPF Azioni e contrasto completo",
+        "Consolidamento per suite: 162 PASS, 73 suite UI"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261030-075003-actions-full-final/ui_check-contrast/report.json",
+        "supporto/artefatti/ci/20261030-091138-actions-contrast-final/ui_check-contrast/report.json",
+        "supporto/artefatti/azioni-climatiche/consolidated-verification.json"
       ]
     }
   ]
