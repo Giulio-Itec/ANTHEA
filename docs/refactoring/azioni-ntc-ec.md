@@ -22,7 +22,7 @@ Branch ANTHEA `refactoring/f5-azioni-climatiche`, da `refactoring/f5` 61dc4ff3. 
 - [x] F3 completo: 1.201 file in 122 gruppi, 80.836 transizioni ammesse, zero residue. Quattro articoli nuovi (82 totali): 102 transizioni editoriali aggiunte, 58 superate sostituite, 2.824 conservate. Nessun atteso numerico modificato.
 - [x] Full conclusivo su 4e2f29cc: 161 PASS e un difetto grafico; correzione isolata fa09abc8 e nove suite interessate PASS. Consolidamento: 162 PASS, 73 suite UI, 1.520 catture di contrasto e zero difetti. Nessuna baseline modificata.
 - [x] Build locale fa09abc8 pronta per revisione: 256 file con SHA-256, 13 DLL GPC coerenti, 72 esempi e quattro PDF. Controllo assenza codice di prova PASS. Nessun installer o rilascio ufficiale nuovo.
-- [ ] Neve EN: allineamento ad A1:2015 aperto. Il testo integrale non è disponibile nel workspace; il disco Y: non è accessibile. Richiesto all'utente un percorso alla norma integrale o consolidata. Il modulo dichiara la sola EN 1991-1-3:2003+AC:2009 implementata.
+- [ ] Neve EN: allineamento ad A1:2015 aperto per indisponibilità del testo integrale. Il 30/10 l'utente ha fornito la UNI EN 1991-1-3:2004 e confermato di non possedere l'A1:2015; acquisizione e lettura riuscite, ma il PDF non include l'emendamento. La ricerca presso fonti ufficiali ha reperito soltanto un'anteprima incompleta. Il modulo dichiara la sola EN 1991-1-3:2003+AC:2009 implementata; il limite non blocca la revisione degli altri moduli.
 
 ### Collaudo conclusivo e copia avviabile
 
@@ -56,6 +56,8 @@ Testi consultati e figure normative verificate prima della trascrizione delle ta
 Le edizioni di seconda generazione e la selezione automatica delle appendici nazionali non sono comprese. Nei rami EN il dato climatico e la sua fonte sono obbligatori.
 
 L'[anteprima ufficiale SIST dell'A1:2015](https://preview.sist.si/sist-preview/40457/e5bb9d96e0c140539f6065fd0f2b2989/SIST-EN-1991-1-3-2004-A1-2015.pdf), consultata il 30/10, arriva solo all'inizio delle modifiche alle coperture a due falde. Documenta modifiche anche ai coefficienti di forma, ma non consente il riscontro completo degli altri casi. Non si estende la dichiarazione di conformità sulla base di un'anteprima parziale.
+
+Il PDF fornito dall'utente, `X:/ITEC-SGI-CONSULTAZIONE/UNI/UNI EN 1991 - Azioni sulle strutture/EN1991-1-3-2004 - Carichi da neve.pdf`, è stato letto il 30/10: 92 pagine, tutte con testo estraibile; frontespizi verificati anche visivamente. Si tratta della UNI EN 1991-1-3:2004, edizione bilingue febbraio 2005, che recepisce EN 1991-1-3:2003, senza A1:2015. Copia ed evidenze restano negli artefatti non distribuiti `supporto/artefatti/azioni-climatiche/fonti/uni-neve-utente`; SHA-256 `b3a7b1b241f0e11d8b9364249ba086ebf96282343ef7ac414d30e190fb6f89e0`. L'originale non è stato modificato. La conferma dell'utente di non possedere l'emendamento chiude la richiesta di reperimento a lui rivolta, non l'allineamento normativo ancora da eseguire.
 
 ## Campo dei moduli aggiuntivi
 
