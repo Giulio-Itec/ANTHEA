@@ -48,7 +48,7 @@ Il setup sostituisce anche una versione installata più recente, senza conferma.
 
 ## Esempi distribuiti
 
-Il componente **Esempi per tutti i moduli** installa 52 file nella cartella `Esempi`, suddivisi per modulo, e il collegamento Esempi nel menu Start. Dentro ANTHEA si consultano dalla pagina **Esempi** e si aprono come copie senza percorso; il primo salvataggio richiede una destinazione personale. Il componente è facoltativo, selezionato per impostazione iniziale.
+Il componente **Esempi per tutti i moduli** installa 72 esempi nella cartella `Esempi`, suddivisi per modulo, e il collegamento Esempi nel menu Start. Dentro ANTHEA si consultano dalla pagina **Esempi** e si aprono come copie senza percorso; il primo salvataggio richiede una destinazione personale. Il componente è facoltativo, selezionato per impostazione iniziale.
 
 La fonte unica è `supporto/esempi/distribuzione/catalogo.json`, con percorso, modulo, descrizione, provenienza e SHA-256 di ciascun file. `Esempi.ps1` verifica integrità e percorsi prima della build e genera elenchi espliciti per installazione e rimozione. I file sono versionati insieme al catalogo. I casi geometrici da wizard indicano nella descrizione le verifiche ancora da completare.
 
