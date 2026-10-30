@@ -3,22 +3,22 @@
   "replacement": "supporto/installer/README.md",
   "entries": [
     {
-      "source": "HEAD:supporto/installer/README.md",
+      "source": "564afaf27a8eebeedc1b9fce856f1812f96da631:supporto/installer/README.md",
       "path": "ramo-azioni/supporto/installer/README.md",
       "sha256": "a486ebb020047bd2b621a351eba7a339a3b65b243f0c1fbbc8176b74d60b5ded"
     },
     {
-      "source": "HEAD:supporto/installer/README.pdf",
+      "source": "564afaf27a8eebeedc1b9fce856f1812f96da631:supporto/installer/README.pdf",
       "path": "ramo-azioni/supporto/installer/README.pdf",
       "sha256": "c8854040d34ea03f1b1adc70b8be8c456bb0466126c9b335115abd298222a5da"
     },
     {
-      "source": "origin/main:supporto/installer/README.md",
+      "source": "25f0543656db00b97745fc0b2bfca42e4229a7c3:supporto/installer/README.md",
       "path": "main-1161/supporto/installer/README.md",
       "sha256": "d6710b2ccfa841ea079f1e9996c02cef12e2bdf31643b4d0e9dc665f745f04f3"
     },
     {
-      "source": "origin/main:supporto/installer/README.pdf",
+      "source": "25f0543656db00b97745fc0b2bfca42e4229a7c3:supporto/installer/README.pdf",
       "path": "main-1161/supporto/installer/README.pdf",
       "sha256": "4fe8e0a69470cb5d24d2310d9737c83045b334ad3ebbba7a9a4443508097107c"
     }
