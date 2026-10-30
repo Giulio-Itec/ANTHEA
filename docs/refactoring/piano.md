@@ -1389,6 +1389,12 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [x] Superata (26/10): la 1.12.1 non è mai uscita; il suo contenuto è nella 1.13.0 (tag `v1.13.0`). Rilascio ufficiale 1.12.1 differito per scelta dell'utente: «Mantieni per ora il commit solo in locale». Checker 8bf4af33 e ANTHEA restano locali; snapshot ufficiale AB invariato. Nessun push o tag nuovo. Il profilo full sulla nuova candidata non è stato eseguito.
 - [x] Successiva richiesta di merge dei branch ANTHEA: integrati in `refactoring/f5` i cinque commit di `refactoring/f5-paratie-capsula`, da 9b242761 a b795a550, mediante fast-forward senza conflitti. Tutti gli altri rami di sviluppo erano già inclusi; esclusi i due rami sperimentali `prova/*`. Collaudo sul ramo integrato con set candidato AC: sette suite PASS, Architecture 562, Application 3057 e Presentation 3523 controlli. [Verbale e raccordo con le librerie](merge-f5-sviluppo-20261020.md).
 
+## Materiali per barra e rilascio 1.16.2 — 30 ottobre 2026
+
+- [x] Materiale selezionabile per barra ordinaria, trasferito alle classi GPC; materiale e tensione iniziale dei trefoli accanto alle coordinate. Persistenza nativa e ricostruzione dopo modifica delle coordinate verificate con 17 controlli dedicati; modelli accessori a proprietà uniformi protetti contro assegnazioni incompatibili. Nessuna modifica alle librerie AO.
+- [x] Guide globali Rev64 e Wiki aggiornate, con Word/PDF e archivio della revisione precedente.
+- [ ] Completare collaudo UI, confronto F3 e collaudo del commit di rilascio, poi creare e verificare l'installer 1.16.2. [Verbale](installer-1.16.2.md).
+
 ## Azioni NTC / EN — 29–30 ottobre 2026
 
 - [x] Dieci fogli GPC + MVVM: cinque climatici, permanenti/sovraccarichi, combinazioni, traffico, ripartizione rigida/deformabile e urti. Model b961d663 e Checker 5e0bca33; set candidato completo con tutte le suite GPC superate; 37 prove mirate net8 e 37 net472. ANTHEA: 442 controlli dei venti scenari, architettura 583, esempi 359, dieci moduli WPF e tre temi 168. Nessuna baseline architetturale alzata. [Dettagli](azioni-ntc-ec.md).

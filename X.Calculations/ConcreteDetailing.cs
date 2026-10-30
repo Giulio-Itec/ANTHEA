@@ -64,6 +64,7 @@ public sealed class ConcreteDetailingCalculator : IConcreteDetailingCalculator
     public IReadOnlyList<DetailingCheck> Calculate(ConcreteDetailingInput p)
     {
         var s = p.Section;
+        Anthea.ConcreteWorkspace.ConcreteBarMaterials.RequireSheetProperties(s.Input, "Dettagli costruttivi", "fyk_mpa");
         var capsulePath = s.Shape == "Capsula" && p.Kind == ConcreteMemberKind.Column ? s.Template?.ColumnBarPath : null;
         if (s.Template is not null && capsulePath is null)
             throw new ArgumentException("Dettagli della tipologia da wizard: verificare separatamente pareti, ali, ancoraggi e trattenimento delle barre. Le regole automatiche delle sezioni usuali non sono applicate a questa disposizione.");

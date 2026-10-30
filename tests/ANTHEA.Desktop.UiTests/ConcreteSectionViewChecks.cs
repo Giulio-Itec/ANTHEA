@@ -89,6 +89,7 @@ internal static partial class ConcreteSectionViewChecks
             System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.CurrentUICulture = culture;
             if (Part("esportazioni")) await Exports(root, Path.Combine(output, "esportazioni"));
             if (Part("schermate")) await Screenshots(root, Path.Combine(output, "schermate"));
+            if (Part("materiali")) await BarMaterialEditors(root, Path.Combine(output, "materiali"));
             if (Part("aiuto")) await Help(root);
             if (Part("sola-lettura")) await ReadOnly(root);
             if (Part("nomi")) await AutomationNames(root);

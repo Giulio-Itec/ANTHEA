@@ -189,20 +189,20 @@
          <DockPanel>
           <StackPanel Style="{StaticResource PanelHeading}">
            <TextBlock Style="{StaticResource T14Bold}" Text="Armature della sezione"/>
-           <TextBlock Style="{StaticResource PanelSubtitle}" Text="Coordinate modificabili · mm · inserimento cavi nel pannello a sinistra"/>
+           <TextBlock Style="{StaticResource PanelSubtitle}" Text="Coordinate [mm] · materiali delle barre · tensione iniziale dei cavi [MPa]"/>
           </StackPanel>
           <TabControl common:TabMemory.Key="armature">
            <TabItem Header="Armature ordinarie">
             <DockPanel>
              <WrapPanel DockPanel.Dock="Top"><Button Style="{StaticResource Command}" Content="Ripristina barre da wizard" Command="{Binding Inputs.RestoreBarsCommand}"/></WrapPanel>
              <ContentControl DockPanel.Dock="Top" Focusable="False" Content="{Binding Inputs.Bars.Filter}" ContentTemplate="{StaticResource FilterBar}"/>
-             <views:ConcreteTableGrid x:Name="BarsGrid" Table="{Binding Inputs.Bars}" StretchColumns="True" AutomationProperties.Name="Barre della sezione"/>
+             <views:ConcreteTableGrid x:Name="BarsGrid" Table="{Binding Inputs.Bars}" StretchColumns="True" views:ConcreteTableGrid.MinimumWidths="materiale=185" AutomationProperties.Name="Barre della sezione"/>
             </DockPanel>
            </TabItem>
            <TabItem Header="Trefoli / cavi">
             <DockPanel>
              <ContentControl DockPanel.Dock="Top" Focusable="False" Content="{Binding Inputs.Tendons.Filter}" ContentTemplate="{StaticResource FilterBar}"/>
-             <views:ConcreteTableGrid x:Name="TendonsGrid" Table="{Binding Inputs.Tendons}" AutomationProperties.Name="Trefoli e cavi"/>
+            <views:ConcreteTableGrid x:Name="TendonsGrid" Table="{Binding Inputs.Tendons}" StretchColumns="True" views:ConcreteTableGrid.MinimumWidths="materiale=160 sigma0=190" AutomationProperties.Name="Trefoli e cavi"/>
             </DockPanel>
            </TabItem>
           </TabControl>

@@ -105,7 +105,8 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
         Group = Groups.ToDictionary(g => GroupKey(g.Title), StringComparer.Ordinal);
         // The viewport of the section: the dimensions saved in the sheet.
         Drawing.Dimensions = settings.B("quote_dimensioni", true); Drawing.CoverDimensions = settings.B("quote_copriferro", true); Drawing.SpacingDimensions = settings.B("quote_interferro", true);
-        Bars = new ConcreteTableViewModel([new("id", "Barra", readOnly: true), new("x", "x [mm]"), new("y", "y [mm]"), new("phi", "Ø [mm]")], [], () => sheet.IsReadOnly);
+        Bars = new ConcreteTableViewModel([new("id", "Barra", readOnly: true), new("x", "x [mm]"), new("y", "y [mm]"),
+            new("materiale", "Materiale", ConcreteColumnKind.Choice), new("phi", "Ø [mm]")], [], () => sheet.IsReadOnly);
         Bars.SelectionChanged += (_, _) => { Drawing.SelectedBar = Bars.Selected?.Values.S("id") ?? ""; Drawing.Invalidate(); };
         Drawing.BarClicked += (_, index) => { if (index < Bars.Rows.Count) Bars.SelectedIndex = index; };
         // The tables of the bars and of the cables get their views here (the bars are added later by the preview).
@@ -366,15 +367,27 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
     /// <summary>The rows of the bars from the section of the engine, unless the coordinates of the bars are active and the table has rows.</summary>
     internal void RefreshBars(ConcreteGeometry? engine)
     {
-        if (Input["barre_manuali"] is JsonArray && Bars.Rows.Count > 0) return;
+        if (Input["barre_manuali"] is JsonArray && Bars.Rows.Count > 0) { ReloadBarMaterials(); return; }
         Bars.Rows.Clear();
-        if (engine is null) return;
+        if (engine is null) { ReloadBarMaterials(); return; }
         for (int i = 0; i < engine.Bars.Count; i++)
         {
             var b = engine.Bars[i];
-            Bars.Rows.Add(EditableBar(J.Obj(("id", "B" + (i + 1).ToString("D2", System.Globalization.CultureInfo.InvariantCulture)), ("x", ConcreteInputPresentation.Exact(b.X)),
-                ("y", ConcreteInputPresentation.Exact(b.Y)), ("phi", ConcreteInputPresentation.Exact(b.Diametro)))));
+            var values = J.Obj(("id", "B" + (i + 1).ToString("D2", System.Globalization.CultureInfo.InvariantCulture)), ("x", ConcreteInputPresentation.Exact(b.X)),
+                ("y", ConcreteInputPresentation.Exact(b.Y)), ("phi", ConcreteInputPresentation.Exact(b.Diametro)));
+            if (Input["barre_manuali"] is JsonArray manual && manual[i] is JsonObject stored && stored.ContainsKey("acciaio"))
+                values["acciaio"] = stored["acciaio"]?.DeepClone();
+            Bars.Rows.Add(EditableBar(values));
         }
+        ReloadBarMaterials();
+    }
+
+    private void ReloadBarMaterials()
+    {
+        foreach (var row in Bars.Rows) row.Output("materiale", ConcreteBarMaterialPresentation.Label(Input, row.Values));
+        Bars.Columns.First(c => c.Key == "materiale").Choices = new[] { ConcreteBarMaterialPresentation.DefaultLabel(Input) }
+            .Concat(ConcreteBarMaterialPresentation.Catalog(Settings).Select(m => m.S("nome")))
+            .Concat(Bars.Rows.Select(r => r.Values.S("materiale"))).Distinct(StringComparer.Ordinal).ToArray();
     }
 
     /// <summary>The read-only revision changed: the forms and the tables of the bars and of the cables refuse or accept the user, the commands follow.</summary>
@@ -450,9 +463,10 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
 
     // A bar of the table: the first edit writes the coordinates of every bar, invalidates without refreshing the preview, then refreshes it
     // one turn of the UI thread later (as the historic view posts RefreshPreview after the commit of the cell).
-    private JsonRowViewModel EditableBar(JsonObject values) => new(values, _ =>
+    private JsonRowViewModel EditableBar(JsonObject values) => new(values, field =>
     {
-        Input["barre_manuali"] = new JsonArray(Bars.Rows.Select(r => (JsonNode)r.Values.DeepClone()).ToArray());
+        if (field == "materiale") ConcreteBarMaterialPresentation.Select(values, values.S(field), Input, Settings);
+        Input["barre_manuali"] = new JsonArray(Bars.Rows.Select(r => (JsonNode)ConcreteBarMaterialPresentation.StoredRow(r.Values)).ToArray());
         sheet.Invalidate(false);
         sheet.PostRefreshPreview();
     });

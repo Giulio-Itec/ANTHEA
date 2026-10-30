@@ -45,6 +45,7 @@ public static class ConcreteCurvatureAnalysis
         CancellationToken token = default)
     {
         token.ThrowIfCancellationRequested();
+        Anthea.ConcreteWorkspace.ConcreteBarMaterials.RequireSheetProperties(input, "M–χ: criterio di primo snervamento", "fyk_mpa", "steel_modulus_mpa");
         if (workspace.Array("trefoli").Count > 0)
             throw new ArgumentException("M–χ con trefoli: definire prima il criterio di snervamento/predeformazione; disponibile per armatura ordinaria.");
         var o = (JsonObject)options.DeepClone();

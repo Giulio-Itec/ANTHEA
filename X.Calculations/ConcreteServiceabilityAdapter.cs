@@ -141,6 +141,7 @@ public static class ConcreteServiceabilityAdapter
     static Ntc2018Checks.CrackResult LibraryCracking(CheckerSection section, CheckerStressState state, ActionPoint force, JsonObject input, JsonObject workspace,
         JsonObject options, string set)
     {
+        Anthea.ConcreteWorkspace.ConcreteBarMaterials.RequireSheetProperties(input, "Fessurazione", "steel_modulus_mpa");
         var native = state.Native;
         // Voci che ripetono gli ingressi, lette come il legacy (Ntc2018Checks.cs:60-67).
         var header = ConcreteLibraryMapping.CrackInputDetails(set, options.S("esposizione"), options.S("sensibilita"), options.S("durata"), options.S("aderenza"),

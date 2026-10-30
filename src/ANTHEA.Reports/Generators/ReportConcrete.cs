@@ -127,6 +127,18 @@ public static class ReportConcrete
             Heading("Materiali");
             Parameters("Calcestruzzo", input, [("classe_cls", "Classe CLS"), ("materiale_cls_nome", "Materiale CLS custom"), ("cls_diagramma", "Diagramma CLS"), ("fck_mpa", "fck [MPa]"), ("gettato_sottile", "Riduzione NTC per getto sottile")]);
             Parameters("Acciaio per armature", input, [("materiale_acciaio_nome", "Acciaio custom"), ("fyk_mpa", "fyk [MPa]"), ("steel_modulus_mpa", "Es [MPa]"), ("steel_fu_mpa", "fu [MPa]"), ("steel_eps_u", "εu [‰]"), ("steel_diagramma", "Diagramma acciaio")]);
+            if (Anthea.ConcreteWorkspace.ConcreteBarMaterials.HasOverrides(input.AsObject()))
+            {
+                Subheading("Materiali assegnati alle barre");
+                Table(["Barra", "Materiale", "Es [MPa]", "fyk [MPa]", "fu [MPa]", "εuk [‰]", "Legame"],
+                    input.Array("barre_manuali").Select((_, i) =>
+                    {
+                        var m = Anthea.ConcreteWorkspace.ConcreteBarMaterials.InputForBar(input.AsObject(), i);
+                        return new[] { $"B{i + 1:00}", m.S("materiale_acciaio_nome"), F(m["steel_modulus_mpa"]), F(m["fyk_mpa"]),
+                            F(m["steel_fu_mpa"]), F(m["steel_eps_u"]), m.S("steel_diagramma") };
+                    }));
+                P("Le staffe usano l’acciaio generale del foglio. I modelli automatici che richiedono proprietà uniformi segnalano le assegnazioni incompatibili come verifiche da completare.");
+            }
             if (settings.Array("trefoli").Count > 0) { Subheading("Acciaio da precompressione"); Table(["Trefolo", "Ep [MPa]", "fpyk [MPa]", "fpk [MPa]", "εpu [‰]"], settings.Array("trefoli").Select(t => new[] { t.S("id"), F(t?["Ep"]), F(t?["fpyk"]), F(t?["fpk"]), F(t?["eps_u"]) })); }
         }
         if (options.Contains("coefficienti"))

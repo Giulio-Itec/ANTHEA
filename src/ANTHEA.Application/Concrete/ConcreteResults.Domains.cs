@@ -19,6 +19,7 @@ public static partial class ConcreteResults
         public double ConcreteTensionStrength { get; }
         public double? ConcreteStressLimit { get; }
         public double SteelStressLimit { get; }
+        public IReadOnlyList<double> OrdinarySteelStressLimits { get; }
         public StressPoint[] ConcreteVertices { get; }
         public double[] BarStrains { get; }
         public double[] BarStrengths { get; }
@@ -40,6 +41,7 @@ public static partial class ConcreteResults
             ConcreteTensionStrength = value.ConcreteTensionStrength;
             ConcreteStressLimit = value.ConcreteStressLimit;
             SteelStressLimit = value.SteelStressLimit;
+            OrdinarySteelStressLimits = value.OrdinarySteelStressLimits.ToArray();
             ConcreteVertices = value.ConcreteVertices.Select(item0 => new StressPoint(item0)).ToArray();
             BarStrains = value.BarStrains.Select(item0 => item0).ToArray();
             BarStrengths = value.BarStrengths.Select(item0 => item0).ToArray();

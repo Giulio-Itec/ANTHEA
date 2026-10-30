@@ -57,7 +57,9 @@ public sealed partial class CheckerSection
         for (int i = 0; i < geometry.Bars.Count; i++)
         {
             var b = geometry.Bars[i]; ValidateRebarPosition(boundary, holes, section, b.X, b.Y, b.Diametro / 2, "B" + (i + 1).ToString("D2"));
-            section.AddRebars([new ReinforcedConcreteRebar(new RebarSectionCircular(b.Diametro, steel), new Point2d(b.X, b.Y))]);
+            var barInput = Anthea.ConcreteWorkspace.ConcreteBarMaterials.InputForBar(input, i);
+            var barSteel = ReferenceEquals(barInput, input) ? steel : ConcreteMaterials.Rebar(barInput);
+            section.AddRebars([new ReinforcedConcreteRebar(new RebarSectionCircular(b.Diametro, barSteel), new Point2d(b.X, b.Y))]);
         }
         foreach (var t in workspace.Array("trefoli"))
         {
@@ -224,6 +226,8 @@ public sealed partial class CheckerSection
             FiberStrains = Geometry.Fibers.Select(f => (linear ? result.GetVerticeStrain(new Point2d(f.X, f.Y), phi) : result.GetVerticeStrain(new Point2d(f.X, f.Y))) * 1000).ToArray(),
             ConcreteStressLimit = limits.ConcreteStressLimit,
             SteelStressLimit = limits.SteelStressLimit,
+            OrdinarySteelStressLimits = Section.Rebars.Take(Geometry.Bars.Count)
+                .Select(r => GPC.Checkers.Concrete.Serviceability.StressLimitCheck.SteelLimit(standard, r.RebarMaterial)).ToArray(),
             ConcreteVertices = Geometry.Outline.Select((p, i) => new StressPoint("C" + (i + 1), p[0], p[1], linear ? result.GetConcreteTension(phi, new Point2d(p[0], p[1])) : result.GetConcreteTension(new Point2d(p[0], p[1])), (linear ? result.GetVerticeStrain(new Point2d(p[0], p[1]), phi) : result.GetVerticeStrain(new Point2d(p[0], p[1]))) * 1000)).ToArray(),
             // Non lineare: la deformazione della legge dell'acciaio di ogni barra, quella della sua tensione: nella fessura con il tension stiffening
             // del M–χ (modello del tirante, BUG-TS-2), del piano altrimenti, bit per bit.
@@ -243,6 +247,7 @@ public sealed record CheckerStressState(double sigma_cls, double sigma_acciaio, 
     public double ConcreteTensionStrength { get; init; }
     public double? ConcreteStressLimit { get; init; }
     public double SteelStressLimit { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore] public double[] OrdinarySteelStressLimits { get; init; } = [];
     public StressPoint[] ConcreteVertices { get; init; } = [];
     public double[] BarStrains { get; init; } = [];
     internal Lazy<StressRaster>? RasterFactory { get; init; }

@@ -100,6 +100,7 @@ public static class ConcreteDetailingAnalysis
 
     public static ConcreteAnchorageResult Anchorage(JsonObject input, JsonObject settings)
     {
+        Anthea.ConcreteWorkspace.ConcreteBarMaterials.RequireSheetProperties(input, "Ancoraggi", "fyk_mpa");
         if (settings.S("normativa") != "NTC 2018")
             throw new ArgumentException("Ancoraggi disponibili per NTC 2018 con integrazioni EC2.");
         var section = new SezioneCA(input); var a = settings["ancoraggi"]!;

@@ -157,6 +157,7 @@ Add-Suite @{ Name = 'Examples.Tests'; Stage = 'fast'; Kind = 'run'; Project = 't
 Add-Suite @{ Name = 'Wiki.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Wiki.Tests\ANTHEA.Wiki.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # ViewModels, services and calculation scheduling of the MVVM interface without WPF (refactoring F5.1, proposal F5 section 7.1).
 Add-Suite @{ Name = 'Presentation.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ConcreteMaterialEditors.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--sezione-materiali'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Spettri.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--spettri'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Climate.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--climate'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # F5.13 (d), proposal 4.6: the F3 fixtures of bridge, walls, piles, foundations and the reinforcing steel calculated through the sheets of the shell in series and in parallel, bit for bit.

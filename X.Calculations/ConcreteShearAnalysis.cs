@@ -33,6 +33,10 @@ public static class ConcreteShearAnalysis
             input.Required("fyk_mpa", strict: true), input.Required("steel_fu_mpa", strict: true), input.Required("steel_eps_u", strict: true)))
             throw new ArgumentException("DS: il modello richiede proprietà di duttilità almeno B (εuk ≥ 5%, fu/fyk ≥ 1,08). Classe A: verifica di capacità deformativa non descritta.");
         double torque = SectionWorkspace.Number(row.S("T", "0"), "T");
+        if (code == "Model Code 2010")
+            Anthea.ConcreteWorkspace.ConcreteBarMaterials.RequireSheetProperties(input, "Taglio Model Code 2010", "steel_modulus_mpa");
+        if (torque != 0)
+            Anthea.ConcreteWorkspace.ConcreteBarMaterials.RequireSheetProperties(input, "Torsione", "fyk_mpa");
         if ((!stirrups || code == "Model Code 2010") && options.S("parametri") == "Automatici da sezione" && options.S("ancoraggio") != "Confermato") throw new ArgumentException("Asl ricavata dalla geometria: confermare l’ancoraggio efficace per la verifica senza staffe e per Model Code 2010.");
         double n = SectionWorkspace.Number(row.S("N"), "N"), phi = stirrups ? input.Required("transverse_bar_diameter_mm", strict: true) : 0, spacing = stirrups ? input.Required("transverse_spacing_mm", strict: true) : 1;
         var results = new List<Ntc2018Checks.ShearResult>();

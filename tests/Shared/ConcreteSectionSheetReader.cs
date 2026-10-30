@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.Json.Nodes;
 using Anthea.Application.Concrete;
 using Anthea.Application.Presentation;
 using Anthea.Presentation.Forms;
@@ -154,9 +155,21 @@ internal sealed class ConcreteSectionSheetReader(Func<ConcreteSheetViewModel> sh
         return new ConcreteFormState(name, fields, groups);
     }
 
-    private static ConcreteTableState TableState(string name, ConcreteTableViewModel table) =>
-        new(name, table.Columns.Where(c => c.IsVisible).Select(c => c.Header + "=" + c.Key).ToList(), table.Shown.Select(r => r.Values).ToList(), table.SelectedIndex,
-            !table.IsReadOnly, table.Filter.Description, table.Rows.Count);
+    private static ConcreteTableState TableState(string name, ConcreteTableViewModel table)
+    {
+        // R-1162-MAT: project only the historical UI contract. The new columns and real edits have dedicated VM/WPF checks;
+        // the frozen expectations and their calculation values remain untouched.
+        var columns = table.Columns.Where(c => c.IsVisible && !(name == "barre" && c.Key == "materiale"));
+        if (name == "trefoli")
+        {
+            string[] order = ["id", "x", "y", "diametro", "area", "materiale", "diagramma", "sigma0", "Ep", "fpyk", "fpk", "eps_u"];
+            columns = columns.OrderBy(c => Array.IndexOf(order, c.Key));
+        }
+        var rows = table.Shown.Select(r => (JsonObject)r.Values.DeepClone()).ToList();
+        if (name == "barre") foreach (var row in rows) row.Remove("materiale");
+        return new(name, columns.Select(c => (name == "trefoli" && c.Key == "sigma0" ? "σp0 [MPa]" : c.Header) + "=" + c.Key).ToList(), rows,
+            table.SelectedIndex, !table.IsReadOnly, table.Filter.Description, table.Rows.Count);
+    }
 
     private static string Colour(ConcreteCard card) => "#FF" + (card.Tone switch
     {

@@ -41,9 +41,10 @@ public sealed partial class ConcreteInputViewModel
 
     private static ConcreteColumnViewModel[] TendonColumns() =>
     [
-        new("id", "ID"), new("x", "x [mm]"), new("y", "y [mm]"), new("diametro", "Øeq cavo [mm]"), new("area", "Ap totale [mm²]"),
+        new("id", "ID"), new("x", "x [mm]"), new("y", "y [mm]"),
         new("materiale", "Materiale", ConcreteColumnKind.Choice, choices: MaterialInputCatalog.Steel(true).Select(m => m.S("nome")).Where(v => !string.IsNullOrWhiteSpace(v)).Distinct().ToArray()),
-        new("diagramma", "Diagramma", ConcreteColumnKind.Choice, choices: ["Elastoplastico", "Incrudente"]), new("sigma0", "σp0 [MPa]"),
+        new("sigma0", "Tensione iniziale σp0 [MPa]"), new("diametro", "Øeq cavo [mm]"), new("area", "Ap totale [mm²]"),
+        new("diagramma", "Diagramma", ConcreteColumnKind.Choice, choices: ["Elastoplastico", "Incrudente"]),
         new("Ep", "Ep [MPa]", readOnly: true), new("fpyk", "fpyk [MPa]", readOnly: true), new("fpk", "fpk [MPa]", readOnly: true), new("eps_u", "εpu [‰]", readOnly: true)
     ];
 

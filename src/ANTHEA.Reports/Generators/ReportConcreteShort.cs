@@ -63,7 +63,9 @@ public static class ReportConcreteShort
                 if(worstSle.Result is null) values="Tasso wk/wlim non disponibile; verificare dati o criterio senza tasso (decompressione/formazione).";
             }
             else values = $"σc,min={F(state?["sigma_cls"])} MPa; limite |σc|={F(state?["ConcreteStressLimit"])} MPa" +
-                (family=="SLE" ? $"\n|σs|max={F(state?["sigma_acciaio"])} MPa; limite={F(state?["SteelStressLimit"])} MPa" : "");
+                (family=="SLE" ? $"\n|σs|max={F(state?["sigma_acciaio"])} MPa; " + (state?["OrdinarySteelStressLimits"] is JsonArray limits
+                    ? "limiti per barra [MPa]: " + string.Join("; ", limits.Select((v, i) => $"B{i + 1:00}={F(v)}"))
+                    : $"limite={F(state?["SteelStressLimit"])} MPa") : "");
             output.Add(new(label, ActionName(worstSle.Action), Actions(worstSle.Action), values, Ratio(worstSle.Result),valid.Length,actions.Count));
         }
         return output.ToArray();
@@ -128,6 +130,12 @@ public static class ReportConcreteShort
         dataRows.Insert(5,new[]{"Coefficienti",string.Join("; ",ConcreteStandards.Coefficients.Where(c=>c.Key is "AlphaCC" or "GammaC" or "GammaS" or "SteelCoefficientStrainTension" ||
             Math.Abs((double)coefficients.GetType().GetProperty(c.Key)!.GetValue(coefficients)!-ConcreteStandards.Defaults(ws.S("normativa")).D(c.Key))>1e-12).Select(c=>CoefficientLabel(c.Key)+"="+N((double)coefficients.GetType().GetProperty(c.Key)!.GetValue(coefficients)!)))+"; getto sottile="+input.S("gettato_sottile")});
         if(ws.Array("trefoli").Count>0)dataRows.Add(new[]{"Trefoli",string.Join("\n",ws.Array("trefoli").Select(t=>fields(t,"id","x","y","area","Ep","fpyk","fpk","eps_u","sigma0")))+$"; φp={sle.S("phi_trefoli")}"});
+        if (Anthea.ConcreteWorkspace.ConcreteBarMaterials.HasOverrides(input))
+            dataRows.Add(new[] { "Acciai delle barre", string.Join("\n", input.Array("barre_manuali").Select((_, i) =>
+            {
+                var m = Anthea.ConcreteWorkspace.ConcreteBarMaterials.InputForBar(input, i);
+                return $"B{i + 1:00}: {m.S("materiale_acciaio_nome")}; Es={m.S("steel_modulus_mpa")}; fyk={m.S("fyk_mpa")}; fu={m.S("steel_fu_mpa")}; εuk={m.S("steel_eps_u")} ‰; {m.S("steel_diagramma")}.";
+            })) + "\nStaffe: acciaio generale. n è riferito al materiale generale; la risposta usa Es di ogni barra." });
         Table(["Dati essenziali","Valori utilizzati"],[2100,7260],dataRows);
         if (section.Template is null)
         {

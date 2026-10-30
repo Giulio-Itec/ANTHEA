@@ -22,6 +22,13 @@ try
     }
     // F5.10: --sezione-tracce runs only the long traces of the RC section (decision C7, ui stage), --sezione-rapide only its checks of the fast
     // stage (to work on the module); the other arguments are positional.
+    if (args.Contains("--sezione-materiali"))
+    {
+        string target = args.First(a => a != "--sezione-materiali"); Directory.CreateDirectory(target);
+        int count = ConcreteSectionSheetChecks.RunBarMaterials(root, target);
+        string materialsMessage = $"PASS {count} controlli materiali barre e trefoli";
+        File.WriteAllText(Path.Combine(target, "esito.txt"), materialsMessage); Console.WriteLine(materialsMessage); return 0;
+    }
     bool sectionTraces = args.Contains("--sezione-tracce"), sectionFast = args.Contains("--sezione-rapide"), embeddedWalls = args.Contains("--paratie"), versionAudit = args.Contains("--paratie-regression-audit");
     args = args.Where(a => a is not ("--sezione-tracce" or "--sezione-rapide" or "--paratie" or "--paratie-regression-audit")).ToArray();
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f5/presentation") : Path.GetFullPath(args[0]);

@@ -36,6 +36,8 @@ public sealed partial class ConcreteAnalysisSession
                 outcome.Cracking,
                 CrackResult = outcome.CrackResult?.Source
             });
+            if (s is not null && s.OrdinarySteelStressLimits.Distinct().Count() > 1)
+                result[id]!["State"]!["OrdinarySteelStressLimits"] = J.Node(s.OrdinarySteelStressLimits);
         }
         return result;
     }

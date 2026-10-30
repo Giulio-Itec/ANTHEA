@@ -14166,6 +14166,35 @@
         "supporto/artefatti/ci/20261030-182344-azioni-merge-official-full/ui_check-contrast/report.json",
         "supporto/artefatti/azioni-climatiche/merge-20261030/merged-visual-review.json"
       ]
+    },
+    {
+      "id": "R-1162-MAT",
+      "fase": "ANTHEA 1.16.2",
+      "titolo": "Materiali per barra e tensione iniziale dei trefoli",
+      "famiglia": "sezione-ca/input-persistenza",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Materiale per barra ordinaria trasferito alle classi GPC; materiale e sigma p0 dei trefoli accanto alle coordinate. Limiti SLE distinti per materiale. Gli adattatori a parametro unico rifiutano override incompatibili, senza sostituirli con il valore generale.",
+      "codice": [
+        "src/ANTHEA.Application/Concrete/ConcreteBarMaterialPresentation.cs",
+        "src/ANTHEA.ConcreteWorkspace/ConcreteBarMaterials.cs",
+        "X.Calculations/CheckerSection.cs",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteInputViewModel.cs"
+      ],
+      "segno": "Nessuna differenza numerica per i documenti precedenti. Nuove colonne e ordine della tabella intenzionali; la proiezione delle tracce storiche conserva le vecchie colonne, collaudando quelle nuove separatamente. Le guide Rev64 descrivono il nuovo uso e i limiti, senza cambiare i metodi normativi.",
+      "decisione": {
+        "data": "2026-10-30",
+        "utente": "Aggiungi il materiale settabile alle barre; fai lo stesso per i trefoli e aggiungi la tensione di tiro iniziale; compila e fai installer 1.16.2."
+      },
+      "test": [
+        "ConcreteMaterialEditors.Tests: 17 PASS, comprese verifiche indipendenti sigma=Es*epsilon ed equilibrio, archivio GPC e input non validi",
+        "ConcreteSectionViewChecks: 234 PASS, inclusa modifica reale ComboBox/TextBox nei tre temi; ultima rifinitura delle larghezze da ricontrollare nel collaudo finale"
+      ],
+      "evidenze": [
+        "supporto/artefatti/rilascio-1.16.2/prima/provenienza.json",
+        "supporto/artefatti/ci/20261030-204922-release-1162-materials-reports2/summary.json"
+      ],
+      "wiki": "Guide globali Rev64: Modulo Sezione in c.a. e Sezione in calcestruzzo armato"
     }
   ]
 }

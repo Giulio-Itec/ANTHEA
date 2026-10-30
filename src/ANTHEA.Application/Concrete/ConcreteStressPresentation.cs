@@ -77,7 +77,9 @@ public static class ConcreteStressPresentation
         bool stressRequired = ConcreteEditor.HasStressCheck(key), crackRequired = ConcreteEditor.HasCrackCheck(key, settings);
         var options = settings["sle"]![key]!; var force = ConcreteDomainChart.ReadNamedAction(row!);
         string limits = state.ConcreteStressLimit is double limit ? $"|σc,comp| ≤ {limit:0.00} MPa" : "Nessun limite tensionale automatico";
-        if (key == "SLE") limits += $"\nσs ≤ {state.SteelStressLimit:0.00} MPa (armatura ordinaria)";
+        if (key == "SLE") limits += state.OrdinarySteelStressLimits.Distinct().Count() > 1
+            ? "\nLimiti σs per barra [MPa]: " + string.Join("; ", state.OrdinarySteelStressLimits.Select((v, i) => $"B{i + 1:00}: {v:0.00}"))
+            : $"\nσs ≤ {state.SteelStressLimit:0.00} MPa (armatura ordinaria)";
         string text = $"{ConcreteEditor.Label(key)} · {options.S("modello")}\n{row!.S("nome")} · assi {options.S("assi")}\nN = {force.N:0.00} kN\nMx / My = {force.Mx:0.00} / {force.My:0.00} kNm\n\nTENSIONI · NTC 2018\n{limits}\nησ = {outcome.Ratio?.ToString("0.00") ?? "—"}\n{outcome.Status}\n"
             + ConcreteResponsePresentation.ResponseSummary(state.Response, "STATO ALL’AZIONE APPLICATA")
             + $"\n\nFESSURAZIONE\n{options.S("esposizione")} · armatura {options.S("sensibilita").ToLowerInvariant()}\nCarico di durata {options.S("durata").ToLowerInvariant()}\n{outcome.Cracking}\nwk / limite = {outcome.CrackResult?.Width?.ToString("0.00") ?? "—"} / {outcome.CrackResult?.Limit?.ToString("0.00") ?? "—"} mm\nηw = {outcome.CrackResult?.Ratio?.ToString("0.00") ?? "—"}\nAc,eff = {outcome.CrackResult?.EffectiveArea?.ToString("0.00") ?? "—"} mm²\nAs,eff = {outcome.CrackResult?.EffectiveSteel?.ToString("0.00") ?? "—"} mm²";
