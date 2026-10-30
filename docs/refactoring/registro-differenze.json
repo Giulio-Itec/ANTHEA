@@ -14155,11 +14155,16 @@
       },
       "test": [
         "Suite complete Model e Checker: zero fallimenti; 14 hash DLL candidato/rilascio identici",
-        "Full ANTHEA dopo installazione da completare"
+        "Full ANTHEA su 02cd4d2d: 162 PASS, zero fallimenti, 73 suite UI prima e dopo, nessun file versionato modificato",
+        "F3: 1.201 file e zero differenze non ammesse; contrasto: 1.566 catture e zero difetti nei tre temi"
       ],
       "evidenze": [
         "supporto/artefatti/azioni-climatiche/merge-20261030/gpc-release/release-set.json",
-        "supporto/artefatti/azioni-climatiche/merge-20261030/candidate-release-equivalence.json"
+        "supporto/artefatti/azioni-climatiche/merge-20261030/candidate-release-equivalence.json",
+        "supporto/artefatti/ci/20261030-182344-azioni-merge-official-full/summary.json",
+        "supporto/artefatti/ci/20261030-182344-azioni-merge-official-full/ui_f3-equivalence/cattura/confronto.json",
+        "supporto/artefatti/ci/20261030-182344-azioni-merge-official-full/ui_check-contrast/report.json",
+        "supporto/artefatti/azioni-climatiche/merge-20261030/merged-visual-review.json"
       ]
     }
   ]

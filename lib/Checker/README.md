@@ -15,7 +15,10 @@ eseguite); Concrete 954, Steel 122, CompositeBridge 411, Geotechnics 202, Calcul
 Steel.Members 6990, Design 192 net8 e 191 net472, ModelChecker 655. Zero fallimenti, API compatibili. Le 14 DLL del set sono identiche
 bit per bit al candidato finale; lo snapshot ANTHEA ne usa 13. Utilities, Geometry e DelaunayMesh invariati; Gmsh escluso.
 Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; set completo in
-`supporto/artefatti/azioni-climatiche/merge-20261030/gpc-release`. Full ANTHEA dopo installazione da completare prima del merge su main.
+`supporto/artefatti/azioni-climatiche/merge-20261030/gpc-release`. Full ANTHEA dopo installazione, su `02cd4d2d`: 162 PASS
+(32 build e 130 suite, di cui 73 UI), zero fallimenti e nessun sorgente modificato dalle prove. Evidenze in
+`supporto/artefatti/ci/20261030-182344-azioni-merge-official-full`: F3, 1.201 file e zero differenze non ammesse; contrasto,
+1.566 catture e zero difetti nei tre temi. Confermate le tre voci infrastrutturali storiche non eseguite dal runner.
 
 **Da completare:** allineamento neve EN all'A1:2015, mantenuto aperto su conferma dell'utente. Il modulo implementa e dichiara
 EN 1991-1-3:2003+AC:2009; non dichiara l'A1:2015 né la seconda generazione degli Eurocodici.
