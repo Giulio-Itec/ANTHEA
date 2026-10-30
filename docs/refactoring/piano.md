@@ -1015,6 +1015,15 @@ in generale, segui la normativa». La libreria è GPCChecker.Concrete 0.27.0.0 (
   Testi «Per le guide» degli altri agenti (paratie, muri, D7 b, D8) integrati dall'agente 1160-guide2 (6730cb93).
 - [x] Rilascio 1.16.0 con il set AM: full di rilascio con l'installer, setup, audit, tag `v1.16.0` e push («Fino alla 1.16.0 pulita»). Full
   PASS 160 sul commit del setup bc6add07, audit PASS; verbale in [installer-1.16.0.md](installer-1.16.0.md).
+- [x] Combinazioni del modulo Modelli dopo la 1.16.0 (agente `combo-modelli`): risultati identici bit per bit alla 1.16.0 (prova
+  `CombinationTiming`), cache di ricostruzione di GPCModel 5.28, revisioni tenute dalle copie, ricerche quadratiche tolte, preparazione
+  GPC anticipata; bug COMBO-B1, B2 e B3. Librerie AN su origin/master (Model 9f40d98a, Checker bc2b3435), `main` a 48047f3c dopo la
+  full del ramo (PASS 157). Campagna dei tempi della notte del 29/10 in `supporto/artefatti/combo-modelli`. Da decidere lunedì 2/11:
+  scrittura del risultato sul thread dell'interfaccia, revisione per definizione, preparazione GPC a freddo. Testo per le guide in
+  `ANTHEA-f5-ripresa/f5-agenti/combo-modelli/avanzamento.md`, per la prossima revisione.
+- [x] Rilascio 1.16.1 con il set AN: full di rilascio con l'installer, setup, audit, tag `v1.16.1` e push («prepara l'installer 1.16.1»,
+  «Sì: se la full di rilascio è pulita, tag v1.16.1 …»). Full PASS 160 sul commit del setup 30f48e51, audit PASS; verbale in
+  [installer-1.16.1.md](installer-1.16.1.md).
 
 ## Lavori della 1.16.0 · colonna modello, fase 2
 
