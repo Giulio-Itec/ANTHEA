@@ -1,5 +1,25 @@
 # DLL Checker
 
+**Release AO — Azioni non sismiche e master GPC integrati (30 ottobre 2026).** Set ufficiale da Model `a6f664c9` e Checker
+`0d2dec71`, entrambi su origin/master dopo autorizzazione esplicita dell'utente. Geometry `6734eee1` e Utilities `e57b440b` invariati.
+Integra dieci fogli Azioni, con ripartizione trasversale rigida e deformabile, e le evoluzioni dei master successive al set AN:
+limiti di esercizio delle aste, uguaglianze nulle, integrazione di Gauss e cache, analisi per stazione di CompositeBridge e correzione
+CHS secondo EN 1993-1-6 eq. (D.40). Versioni:
+- GPCModel 5.32.0.0 e GPC.Design 0.44.0.0: nuove funzionalità Azioni;
+- ModelData 0.3.0.17, Persistence 3.4.0.7, Converter 2.10.0.4;
+- Concrete 0.32.0.3, Steel 2.127.0.3, CompositeBridge 1.21.0.2, Geotechnics 0.27.0.5;
+- GPCModelChecker 2.35.0.3 e Masonry 0.10.0.20. Ultimo componente incrementato per le ricompilazioni coerenti.
+
+`Release-Set.ps1 -Previous` rispetto ad AN: Model Core 62 e UnitTest 1601 PASS (12 prove con archivi esterni o misura tempi non
+eseguite); Concrete 954, Steel 122, CompositeBridge 411, Geotechnics 202, Calculation 175, ShallowFoundation 29, EmbeddedWalls 99,
+Steel.Members 6990, Design 192 net8 e 191 net472, ModelChecker 655. Zero fallimenti, API compatibili. Le 14 DLL del set sono identiche
+bit per bit al candidato finale; lo snapshot ANTHEA ne usa 13. Utilities, Geometry e DelaunayMesh invariati; Gmsh escluso.
+Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; set completo in
+`supporto/artefatti/azioni-climatiche/merge-20261030/gpc-release`. Full ANTHEA dopo installazione da completare prima del merge su main.
+
+**Da completare:** allineamento neve EN all'A1:2015, mantenuto aperto su conferma dell'utente. Il modulo implementa e dichiara
+EN 1991-1-3:2003+AC:2009; non dichiara l'A1:2015 né la seconda generazione degli Eurocodici.
+
 **Release AN — combinazioni del modulo Modelli, dopo la 1.16.0 (29 ottobre 2026).** Set ufficiale da Model `9f40d98a` e Checker
 `bc2b3435`, entrambi su origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Porta il refactoring delle combinazioni del
 modulo Modelli chiesto dall'utente dopo la 1.16.0 («cerca colli di bottiglia o bug dentro la gestione delle combo»). Contiene:

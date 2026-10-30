@@ -14133,6 +14133,34 @@
         "supporto/artefatti/ci/20261030-091138-actions-contrast-final/ui_check-contrast/report.json",
         "supporto/artefatti/azioni-climatiche/consolidated-verification.json"
       ]
+    },
+    {
+      "id": "AZIONI-04",
+      "data": "2026-10-30",
+      "fase": "Integrazione Azioni",
+      "titolo": "Set ufficiale AO e provenienza delle librerie",
+      "famiglia": "librerie/provenienza",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Set coerente da Model a6f664c9 e Checker 0d2dec71 su origin/master. Include i master pubblicati durante lo sviluppo e le Azioni non sismiche. Le 14 DLL del rilascio sono identiche al candidato finale; lo snapshot ANTHEA ne usa 13. Aggiornati soltanto i metadati di provenienza F4, lasciando intatti input, attesi numerici e hash F3.",
+      "codice": [
+        "lib/Checker/manifest.json",
+        "lib/Checker/release-set.json",
+        "tests/fixtures/f4/library-release.json"
+      ],
+      "segno": "Confronto Fondazioni sulle impronte AN gia congelate, con proiezione della sola library_version verificata. A1:2015 esplicitamente da completare.",
+      "decisione": {
+        "data": "2026-10-30",
+        "utente": "Merge e versioni delle librerie, modifiche sul ramo principale ANTHEA; successiva autorizzazione esplicita ai push dopo collaudo."
+      },
+      "test": [
+        "Suite complete Model e Checker: zero fallimenti; 14 hash DLL candidato/rilascio identici",
+        "Full ANTHEA dopo installazione da completare"
+      ],
+      "evidenze": [
+        "supporto/artefatti/azioni-climatiche/merge-20261030/gpc-release/release-set.json",
+        "supporto/artefatti/azioni-climatiche/merge-20261030/candidate-release-equivalence.json"
+      ]
     }
   ]
 }

@@ -4,6 +4,9 @@
         <name>GPC.Design</name>
     </assembly>
     <members>
+        <member name="T:GPC.Design.Actions.Climate.SnowActions">
+            <summary>Characteristic roof snow loads, vertical and referred to the horizontal projection.</summary>
+        </member>
         <member name="T:GPC.Design.Actions.Cslp103Data">
             <summary>Immutable numerical tables of the public CSLP Spettri-NTC 1.0.3 workbook.</summary>
         </member>
@@ -13,6 +16,10 @@
             Bulk nearest-node searches replace the workbook's identical 10751-row distance/MIN/MAX/MATCH operations.
             No formulas or executable code are loaded from documents at runtime.
             </summary>
+        </member>
+        <member name="T:GPC.Design.Actions.General.ActionCombinations">
+            <summary>Building action combinations. Enumerates presence/leading alternatives and common-source permanent factors.
+            Optional signed effects are for one response of a LINEAR model; the coefficient matrix remains the primary result.</summary>
         </member>
         <member name="T:GPC.Design.Actions.IsolationSpectra">
             <summary>Equivalent linear isolation spectra, NTC 2018 §7.10.5.3.2. Does not verify the applicability of the structural analysis model.</summary>
@@ -28,6 +35,12 @@
         </member>
         <member name="T:GPC.Design.Actions.NtcSpectra">
             <summary>Numerical compatibility with CSLP Spettri-NTC 1.0.3 (NTC 2008). All accelerations are in g, periods in seconds.</summary>
+        </member>
+        <member name="T:GPC.Design.Actions.Traffic.TransverseDistribution">
+            <summary>Courbon or deformable transverse strip with a converged longitudinal sine expansion.
+            Girders simply supported in bending and restrained in torsional rotation at both ends.
+            Per harmonic λ=nπ/L the transverse nodal springs are EI λ⁴ and GJ λ².
+            Reported percentages are shares of the longitudinal bending moment at the chosen section, not universal load factors.</summary>
         </member>
         <member name="T:GPC.Design.Bridges.BeamTrafficEnvelope">
             <summary>
