@@ -2134,3 +2134,5 @@ Coordinatore: sessione del refactoring F5. Istruzioni dell'utente del 29 ottobre
 ## 30 ottobre — integrazione Azioni autorizzata
 
 L’utente conferma: «lasciala aperta e segnala come da completare. poi merge e versione delle varie librerie. porta le tue modifiche sul master anche di anthea». L’allineamento neve EN A1:2015 resta da completare. Il precedente vincolo temporale sui merge è superato; l’integrazione comprende i master aggiornati di Model e Checker e il ramo principale ANTHEA, che si chiama `main`. Versioni delegate secondo AGENTS.md; set coerente, tutte le suite delle librerie e full ANTHEA obbligatori sul risultato unito.
+
+Conferma successiva esplicita: «Sì, autorizzo i push indicati dopo i collaudi» per `ITEC-GPA/Model` e `ITEC-GPA/Checker` su `master`, quindi `Giulio-Itec/ANTHEA` su `main`. Supera il blocco della revisione automatica; i push restano subordinati ai rispettivi collaudi.
