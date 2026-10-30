@@ -17,8 +17,39 @@ public sealed partial class GpcModelCombinationService
 {
     readonly SemaphoreSlim calculationGate=new(1,1);
     PreparedModel? prepared;
-    sealed record PreparedModel(string Revision,GPC.Model.Models.Model Model,GPC.Model.Combinations.Combination Output,string[] Warnings,Dictionary<ResultLocation,Element> Owners);
+    // GPCModel 5.28: the rebuild cache keeps, for the next combinations of the same prepared model, the static samples matched, validated and
+    // rotated at each location. The report is never attached and only its values, roles and concomitant states are displayed: its states
+    // carry no fingerprint of their static sources, the walk of every source of every state that took most of the time of a combination.
+    sealed record PreparedModel(string Revision,GPC.Model.Models.Model Model,GPC.Model.Combinations.Combination Output,string[] Warnings,Dictionary<ResultLocation,Element> Owners)
+    {public CombinationRebuildCache Cache {get;}=new(){SourceFingerprints=false};}
     public void ClearCache()=>prepared=null;
+
+    /// <summary>
+    /// Refactoring of the combinations (29/10/2026): the preparation of GPC (geometry and static cases of the copy, about 1 s for 100 elements
+    /// and 50 cases, 8 s for 500 × 100) made in advance, for instance while the user looks at the catalogue, so that the first combination
+    /// does not wait for it. The same preparation and the same gate as <see cref="CalculateAsync"/>: a calculation started meanwhile waits for
+    /// it and reuses it. Nothing is reported: a copy that cannot be prepared is explained by the calculation, as before.
+    /// </summary>
+    public async Task PrepareAsync(ModelSnapshot snapshot,CancellationToken token=default)
+    {
+        try
+        {
+            await calculationGate.WaitAsync(token).ConfigureAwait(false);
+            try
+            {
+                await Task.Run(()=>
+                {
+                    if(!GpcSnapshotModel.CanRebuild(snapshot))return;
+                    string revision=ModelCombinations.PreparationRevision(snapshot);
+                    if(prepared?.Revision==revision)return; // already prepared: the catalogue opened again
+                    snapshot.Validate();prepared=Prepare(snapshot,revision,null,token);
+                },token).ConfigureAwait(false);
+            }
+            finally {calculationGate.Release();}
+        }
+        catch(Exception ex) when(ex is OperationCanceledException or InvalidDataException or ArgumentException or InvalidOperationException
+            or NotSupportedException or FormatException or KeyNotFoundException or System.Text.Json.JsonException) {}
+    }
 
     public async Task<ModelCombinationCalculation> CalculateAsync(ModelSnapshot snapshot,string definitionId,
         IProgress<ModelCombinationProgress>? progress=null,CancellationToken token=default)
@@ -40,8 +71,12 @@ public sealed partial class GpcModelCombinationService
             ??throw new InvalidDataException("Risultati del caso base mancanti: "+c)).ToArray();
         progress?.Report(new("Risoluzione delle dipendenze della combinazione…"));
         // Bound expansion before allocating result states. This limit is explicit rather than a silent truncation.
-        var alternatives=CombinationExpansion.Expand(records,definitionId,4096)
-            .Select(a=>new CombinationAlternative(a.Label,a.Factors)).ToArray();
+        // COMBO-B2: the same count and explanation as the catalogue, instead of the untranslated «CombinationExpansionLimit» of GPC.
+        var expansion=ModelCombinations.AlternativeCount(definitions.ToDictionary(d=>d.Id,StringComparer.Ordinal),definitionId,new(StringComparer.Ordinal));
+        if(expansion.Over)throw new InvalidDataException(ModelCombinations.ExpansionMessage(expansion.Count));
+        var alternatives=Alternatives(CombinationExpansion.Expand(records,definitionId,ModelCombinations.MaximumAlternatives));
+        // COMBO-B3: terms that cancel each other (Q − Q) leave no static case: explained instead of GPC's «EmptyCombination».
+        if(alternatives.All(a=>a.Factors.Count==0))throw new InvalidDataException(ModelCombinations.ZeroMessage);
         token.ThrowIfCancellationRequested();
         string revision=ModelCombinations.InputRevision(snapshot);
         string preparationRevision=ModelCombinations.PreparationRevision(snapshot);
@@ -54,7 +89,7 @@ public sealed partial class GpcModelCombinationService
         double preparationMs=watch.Elapsed.TotalMilliseconds;
         progress?.Report(new($"Calcolo GPC · {alternatives.Length:N0} stati alternativi…"));
         // Keep the prepared model immutable: derived states remain in the report and presentation snapshot.
-        var report=CombinationRebuild.Rebuild(model,output,alternatives,"anthea-static",model.AllElements,false,token);
+        var report=CombinationRebuild.Rebuild(model,output,alternatives,"anthea-static",model.AllElements,false,token,context.Cache);
         token.ThrowIfCancellationRequested();
         if(report.IsRejected||report.Samples.Count==0)throw new InvalidDataException("Combinazione non costruita: "+Messages(report.Diagnostics));
         warnings.AddRange(report.Diagnostics.Select(d=>d.Code+": "+d.Message));
@@ -104,6 +139,20 @@ public sealed partial class GpcModelCombinationService
         return new(revision,model,model.Combinations.Values.Single(),warnings.ToArray(),owners);
     }
 
+    /// <summary>COMBO-B1 (29/10/2026): the same term twice in an envelope (±Q, ±E: Q × 1 and Q × −1) gives two alternatives with the same
+    /// label, and GPC refuses an envelope whose labels repeat. The second and following ones take « #2», « #3» in the order of the terms;
+    /// the labels of the envelopes without repetitions do not change.</summary>
+    static CombinationAlternative[] Alternatives(IReadOnlyList<LinearAlternative> expanded)
+    {
+        var used=new HashSet<string>(StringComparer.Ordinal);
+        return expanded.Select(a=>
+        {
+            string label=a.Label;
+            for(int n=2;!used.Add(label);n++)label=a.Label+" #"+n.ToString(CultureInfo.InvariantCulture);
+            return new CombinationAlternative(label,a.Factors);
+        }).ToArray();
+    }
+
     static string Messages(IEnumerable<ModelDiagnostic> diagnostics)=>string.Join("; ",diagnostics
         .Where(d=>d.Severity!=DiagnosticSeverity.Information).Take(5).Select(d=>d.Code+": "+d.Message));
 
@@ -129,6 +178,11 @@ public sealed partial class GpcModelCombinationService
         var corners=new List<CornerResult>();var fields=new Dictionary<(string Family,string Component),List<ResultValue>>();
         var displacements=new List<ModelDisplacement>();var reactions=new List<ModelReaction>();var governing=new List<ModelCombinationGoverning>();
         var elements=snapshot.Elements.ToDictionary(e=>e.Id);
+        // The roles of each governing state read once (not for every component of its location) and the position of each label in a lookup:
+        // the same choices and exceptions as reading them each time.
+        var roles=new Dictionary<ResultLocation,string[]>(ReferenceEqualityComparer.Instance);
+        string[] RolesOf(ResultLocation sample)=>roles.TryGetValue(sample,out var known)?known:roles[sample]=Roles(sample);
+        var labelIndex=labels.Select((label,i)=>(label,i)).ToDictionary(p=>p.label,p=>p.i,StringComparer.Ordinal);
         // 1.16.0: displacements and reactions of a node are separate groups; members take the family of their document element (BEAM, TRUSS, CABLE).
         foreach(var group in samples.GroupBy(p=>(p.Owner,p.Sample is PointResultPlateForces plate?plate.SourceNodeId:0,
             p.Sample is StationResultBeamForces beam?(double?)beam.ParametricDistance:null,p.Sample is NodeResultForces)))
@@ -148,10 +202,10 @@ public sealed partial class GpcModelCombinationService
             {
                 bool reverse=family=="PLATE"&&c<3||family=="BEAM"&&c==4;
                 string role=((maximum!=reverse)?"max ":"min ")+canonical[c];
-                var chosen=envelope?group.Select(p=>p.Sample).SingleOrDefault(s=>Roles(s).Contains(role)):first;
+                var chosen=envelope?group.Select(p=>p.Sample).SingleOrDefault(s=>RolesOf(s).Contains(role)):first;
                 if(chosen==null)throw new InvalidDataException("GPC non ha restituito il governante completo per "+components[c]+".");
                 var vector=DisplayVector(chosen);values[c]=vector[c];
-                if(envelope)governing.Add(new(family,id,node,group.Key.Item3,components[c],"A"+(Array.IndexOf(labels,chosen.State.ConcomitantStateId)+1),vector));
+                if(envelope)governing.Add(new(family,id,node,group.Key.Item3,components[c],"A"+((labelIndex.TryGetValue(chosen.State.ConcomitantStateId,out int index)?index:-1)+1),vector));
             }
             if(family=="PLATE")corners.Add(new(id,node,values));
             else if(family=="NODE")

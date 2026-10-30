@@ -29,8 +29,8 @@ Opzioni: `-SkipPublish` riusa la pubblicazione già presente, aggiornando comunq
 ## Versione
 
 La versione è `<Version>` in `src/ANTHEA.Desktop/ANTHEA.Desktop.csproj`, formato `maggiore.minore.patch`
-(oggi `1.16.0`). Determina il nome del setup, le proprietà degli eseguibili e la voce in
-«App installate». ANTHEA.exe riporta versione file `1.16.0.0` e prodotto `1.16.0+<commit>`.
+(oggi `1.16.1`). Determina il nome del setup, le proprietà degli eseguibili e la voce in
+«App installate». ANTHEA.exe riporta versione file `1.16.1.0` e prodotto `1.16.1+<commit>`.
 
 A parità di versione il setup viene sovrascritto. Prima della distribuzione aumentare
 `patch` per correzioni, `minore` per funzioni, `maggiore` per cambi di formato degli archivi.
@@ -54,9 +54,11 @@ La fonte unica è `supporto/esempi/distribuzione/catalogo.json`, con percorso, m
 
 `tests/Installer/Test-Examples.ps1` collauda la sezione reale NSIS in una destinazione isolata, inclusi collegamento, integrità e rimozione che conserva i file personali. Il runner lo esegue con `-Installer`.
 
+Azioni: neve, vento e temperatura negli edifici; vento CNR e temperatura negli impalcati; permanenti e sovraccarichi, combinazioni SLU/SLE, traffico stradale, ripartizione rigida e deformabile, urti veicolari. Dieci fogli con schemi e formule; venti esempi nel catalogo centrale, con dati ANTHEA e relazioni Word/PDF e CSV.
+
 ## Documentazione distribuita
 
-La cartella `Guide` accanto ad `ANTHEA.exe` contiene tre PDF:
+La cartella `Guide` accanto ad `ANTHEA.exe` contiene quattro PDF:
 
 - `Indice-guide.pdf`: indice dei due volumi globali;
 - `Guida pratica ANTHEA.pdf`: uso e UI di tutti i moduli;
@@ -86,8 +88,8 @@ l'installazione reale, il registro o i collegamenti dell'utente. Richiede NSIS 3
 Riga di comando (installazioni silenziose o distribuite):
 
 ```bat
-ANTHEA-1.16.0-Setup-x64.exe /S /AllUsers
-ANTHEA-1.16.0-Setup-x64.exe /S /CurrentUser /D=C:\Programmi\ANTHEA
+ANTHEA-1.16.1-Setup-x64.exe /S /AllUsers
+ANTHEA-1.16.1-Setup-x64.exe /S /CurrentUser /D=C:\Programmi\ANTHEA
 "C:\Program Files\ANTHEA\Uninstall.exe" /S /AllUsers
 ```
 
@@ -99,5 +101,3 @@ Il setup non è firmato digitalmente: al primo avvio Windows SmartScreen può mo
 «Windows ha protetto il PC» (Ulteriori informazioni → Esegui comunque). Con un certificato di
 firma del codice si firmano `ANTHEA.exe` prima della compilazione NSIS, il disinstallatore con
 `!uninstfinalize` e il setup finale.
-
-Azioni: neve, vento e temperatura negli edifici; vento CNR e temperatura negli impalcati; permanenti e sovraccarichi, combinazioni SLU/SLE, traffico stradale, ripartizione rigida e deformabile, urti veicolari. Dieci fogli con schemi e formule; venti esempi nel catalogo centrale, con dati ANTHEA e relazioni Word/PDF e CSV.

@@ -75,23 +75,60 @@ public static class ModelCombinations
         var definitions=Read(snapshot);var records=definitions.Select(ToGpc).ToArray();
         string? revision=snapshot.Results.Any(r=>r.Combination!=null)?InputRevision(snapshot):null;
         var cases=snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&r.Stage==null).Select(r=>r.Name).ToHashSet(StringComparer.Ordinal);
-        return definitions.Select(d=>
+        // The definitions with results of the current revision, once instead of a scan of the results for each definition.
+        var calculated=snapshot.Results.Where(r=>r.Combination!=null&&r.Combination.InputRevision==revision).Select(r=>r.Combination!.DefinitionId).ToHashSet(StringComparer.Ordinal);
+        var byId=definitions.ToDictionary(d=>d.Id,StringComparer.Ordinal);var counts=new Dictionary<string,(long,bool)>(StringComparer.Ordinal);
+        return definitions.Select((d,i)=>
         {
             try
             {
-                var required=CombinationExpansion.StaticCases(records,d.Id).ToArray();
+                // A definition without nested combinations reads only its own record: the same cases and exceptions, without indexing every
+                // definition again for each one (hundreds of generated rows).
+                var required=CombinationExpansion.StaticCases(d.Terms.Any(t=>t.IsCombination)?records:[records[i]],d.Id).ToArray();
                 if(required.Length==0) return new ModelCombinationAvailability(d,"Vuota","Aggiungi almeno un caso di carico.",required,false);
+                // COMBO-B3: every coefficient zero gives no state to combine, nested definitions included (scaled by zero).
+                if(d.Terms.All(t=>t.Factor==0))return new(d,"Vuota",ZeroMessage,required,false);
+                if(AlternativeCount(byId,d.Id,counts) is {Over:true} expansion)return new(d,"Non disponibile",ExpansionMessage(expansion.Count),required,false);
                 var missing=required.Where(c=>!cases.Contains(c)).ToArray();
                 if(missing.Length>0)return new(d,"Casi mancanti","Risultati da importare: "+string.Join(", ",missing),required,false);
                 if(!GpcSnapshotModel.CanRebuild(snapshot))
                     return new(d,"Sorgente incompleta","Il collegamento GPC richiede le tabelle sorgente MIDAS oppure le terne locali e i casi della sorgente importata. La definizione può essere conservata.",required,false);
-                bool ready=snapshot.Results.Any(r=>r.Combination?.DefinitionId==d.Id&&r.Combination.InputRevision==revision);
+                bool ready=calculated.Contains(d.Id);
                 return new(d,ready?"Calcolata":"Da calcolare",ready?"Risultati locali disponibili nella copia del modello.":"Casi base disponibili; costruzione locale con GPC.",required,true);
             }
             catch(Exception ex) when(ex is ArgumentException or InvalidOperationException or NotSupportedException)
             { return new(d,"Non disponibile",Explain(ex),[],false); }
         }).ToArray();
     }
+
+    /// <summary>Alternative states a combination may have: the limit of the expansion of GPC (CombinationExpansion.Expand).</summary>
+    public const int MaximumAlternatives=4096;
+
+    /// <summary>
+    /// COMBO-B2 (29/10/2026): the alternatives of a definition with the rules of CombinationExpansion.Expand, without building them: one per
+    /// static term, the sum over the terms for an envelope, the product for a linear combination. GPC refuses an expansion as soon as one step
+    /// exceeds the limit (a nested definition, a partial sum or product): over the limit the count stays over it. The definitions are those of
+    /// <see cref="Read"/> whose static cases were resolved (no cycles, no unknown references).
+    /// </summary>
+    internal static (long Count,bool Over) AlternativeCount(IReadOnlyDictionary<string,ModelCombinationDefinition> definitions,string id,Dictionary<string,(long,bool)> counts)
+    {
+        if(counts.TryGetValue(id,out var known))return known;
+        const long cap=1_000_000_000_000L; // the number in the message, without overflow
+        var definition=definitions[id];bool envelope=definition.Kind==ModelCombinationKind.Envelope;
+        long count=envelope?0:1;bool over=false;
+        foreach(var term in definition.Terms)
+        {
+            var (part,nestedOver)=term.IsCombination?AlternativeCount(definitions,term.Reference,counts):(1L,false);
+            count=Math.Min(cap,envelope?count+part:part==0?0:count>cap/part?cap:count*part);
+            over|=nestedOver||count>MaximumAlternatives;
+        }
+        return counts[id]=(count,over);
+    }
+
+    internal const string ZeroMessage="Tutti i coefficienti nulli (anche dopo la somma dei termini): nessun caso da combinare. Indica almeno un coefficiente diverso da zero.";
+
+    internal static string ExpansionMessage(long count)=>$"Oltre {MaximumAlternatives} stati alternativi ({count}): una somma lineare di inviluppi ha il prodotto "+
+        "delle loro alternative. Usa un inviluppo delle combinazioni invece della somma, o riduci i termini degli inviluppi annidati.";
 
     internal static string Explain(Exception ex)=>ex.Message.StartsWith("CyclicCombination",StringComparison.Ordinal)
         ?"Dipendenza circolare tra combinazioni. Correggi i riferimenti."
@@ -142,24 +179,60 @@ public static class ModelCombinations
         ImportMessages=s.ImportMessages,UpdateInfo=s.UpdateInfo,CustomCombinations=s.CustomCombinations,ExcludedCombinationIds=s.ExcludedCombinationIds,
         SourceCombinations=s.SourceCombinations,
         // 1.16.0: data of the model (Straus7), kept by every copy.
-        Masses=s.Masses,Temperatures=s.Temperatures,ConstructionStages=s.ConstructionStages};
+        Masses=s.Masses,Temperatures=s.Temperatures,ConstructionStages=s.ConstructionStages,
+        // The copy shares the arrays of the original: its revisions hold while the parts are the same references (Revisions).
+        CombinationRevisions=s.CombinationRevisions};
 
     public static ModelSnapshot RestoreImported(ModelSnapshot snapshot)
     {
         var copy=Copy(snapshot);copy.ExcludedCombinationIds=null;copy.Results=copy.Results.Where(r=>r.Combination==null).ToArray();copy.Validate();return copy;
     }
 
-    public static string InputRevision(ModelSnapshot snapshot)
+    /// <summary>
+    /// Refactoring of the combinations (29/10/2026): the revisions of a copy, kept with the references of the parts they were computed from.
+    /// Each was a complete serialization of the copy (several MB), computed again by the calculation, Attach, the catalogue and the view
+    /// model for the same parts. The copies share their arrays and records and never change them in place (ModelCombinations.Copy, the
+    /// updates and the importers build new ones): the same references give the same canonical JSON, hence the same revision. Immutable, so a
+    /// copy may share it and another thread may read it; a different part computes the value again, exactly as before.
+    /// </summary>
+    internal sealed record Revisions(int Version,string Name,string Source,object?[] Parts,ModelResultSet[] Basis,object? Custom,object? Excluded,
+        string? Input,long InputBytes,string? Preparation)
     {
-        var basis=Copy(snapshot);basis.Results=basis.Results.Where(r=>r.Combination==null).ToArray();
-        return basis.Fingerprint();
+        static object?[] PartsOf(ModelSnapshot s)=>[s.Nodes,s.Elements,s.Plates,s.Sections,s.SourceTables,s.LocalFrames,s.NodeFrames,s.Boundaries,
+            s.ImportMessages,s.UpdateInfo,s.SourceCombinations,s.Masses,s.Temperatures,s.ConstructionStages];
+        internal static ModelResultSet[] BasisOf(ModelSnapshot s)=>s.Results.Where(r=>r.Combination==null).ToArray();
+        internal static Revisions Of(ModelSnapshot s,ModelResultSet[] basis)=>new(s.Version,s.Name,s.Source,PartsOf(s),basis,s.CustomCombinations,s.ExcludedCombinationIds,null,0,null);
+        /// <summary>Same parts except the definitions of the user: the preparation of GPC is the same.</summary>
+        internal bool SameBase(ModelSnapshot s,ModelResultSet[] basis)=>Version==s.Version&&string.Equals(Name,s.Name,StringComparison.Ordinal)&&
+            string.Equals(Source,s.Source,StringComparison.Ordinal)&&Parts.SequenceEqual(PartsOf(s),ReferenceEqualityComparer.Instance)&&
+            Basis.SequenceEqual(basis,ReferenceEqualityComparer.Instance);
+        internal bool SameInput(ModelSnapshot s,ModelResultSet[] basis)=>ReferenceEquals(Custom,s.CustomCombinations)&&ReferenceEquals(Excluded,s.ExcludedCombinationIds)&&SameBase(s,basis);
+    }
+
+    public static string InputRevision(ModelSnapshot snapshot)=>Input(snapshot).Hash;
+
+    /// <summary>The input revision and the length of its canonical JSON (the copy without the derived results).</summary>
+    static (string Hash,long Bytes) Input(ModelSnapshot snapshot)
+    {
+        var basis=Revisions.BasisOf(snapshot);var known=snapshot.CombinationRevisions;
+        if(known is {Input:{} input}&&known.SameInput(snapshot,basis))return (input,known.InputBytes);
+        var copy=Copy(snapshot);copy.Results=basis;
+        var (hash,bytes)=copy.FingerprintAndSize();
+        var next=known!=null&&known.SameBase(snapshot,basis)?known with {Custom=snapshot.CustomCombinations,Excluded=snapshot.ExcludedCombinationIds}:Revisions.Of(snapshot,basis);
+        snapshot.CombinationRevisions=next with {Input=hash,InputBytes=bytes};
+        return (hash,bytes);
     }
 
     internal static string PreparationRevision(ModelSnapshot snapshot)
     {
-        var basis=Copy(snapshot);basis.Results=basis.Results.Where(r=>r.Combination==null).ToArray();
-        basis.CustomCombinations=null;basis.ExcludedCombinationIds=null;
-        return basis.Fingerprint();
+        var basis=Revisions.BasisOf(snapshot);var known=snapshot.CombinationRevisions;
+        if(known is {Preparation:{} preparation}&&known.SameBase(snapshot,basis))return preparation;
+        var copy=Copy(snapshot);copy.Results=basis;
+        copy.CustomCombinations=null;copy.ExcludedCombinationIds=null;
+        string value=copy.Fingerprint();
+        var next=known!=null&&known.SameBase(snapshot,basis)?known:Revisions.Of(snapshot,basis);
+        snapshot.CombinationRevisions=next with {Preparation=value};
+        return value;
     }
 
     public static ModelSnapshot Attach(ModelSnapshot snapshot,string definitionId,ModelCombinationCalculation calculated)
@@ -169,7 +242,8 @@ public static class ModelCombinations
         if(calculated.Results.Length==0||!Read(snapshot).Any(d=>d.Id==definitionId)||calculated.Results.Any(r=>r.Combination?.DefinitionId!=definitionId||r.Combination.InputRevision!=revision))
             throw new InvalidDataException("Il modello o la definizione sono cambiati durante il calcolo. Ricalcola la combinazione.");
         var original=snapshot.Results.Where(r=>r.Combination?.DefinitionId!=definitionId).ToArray();
-        if(calculated.Results.Any(r=>original.Any(old=>old.Name==r.Name)))throw new InvalidDataException("Il nome del risultato calcolato coincide con un risultato esistente.");
+        var names=original.Select(r=>r.Name).ToHashSet(StringComparer.Ordinal);
+        if(calculated.Results.Any(r=>names.Contains(r.Name)))throw new InvalidDataException("Il nome del risultato calcolato coincide con un risultato esistente.");
         copy.Results=[..original,..calculated.Results];copy.Validate();
         // Keep the document reopenable. Only derived caches may be evicted; static cases and definitions are retained.
         while(SerializedSize(copy)>ModelSnapshotFiles.MaximumPackageBytes)
@@ -181,16 +255,16 @@ public static class ModelCombinations
         return copy;
     }
 
-    static long SerializedSize(ModelSnapshot model)
-    {using var counter=new SizeStream();JsonSerializer.Serialize(counter,model);return counter.Length;}
-    sealed class SizeStream:Stream
+    /// <summary>Length of the canonical JSON of the copy. With the input revision of its parts known, the JSON is that of the input revision
+    /// with the derived results inserted in the array of the results, each with its JSON and one comma (the array already has the static
+    /// cases): the same length as the complete serialization, without serializing the static cases again.</summary>
+    internal static long SerializedSize(ModelSnapshot model)
     {
-        long count;
-        public override bool CanRead=>false;public override bool CanSeek=>false;public override bool CanWrite=>true;
-        public override long Length=>count;public override long Position{get=>count;set=>throw new NotSupportedException();}
-        public override void Write(byte[] buffer,int offset,int size)=>count+=size;
-        public override void Write(ReadOnlySpan<byte> buffer)=>count+=buffer.Length;
-        public override void Flush(){}public override int Read(byte[] buffer,int offset,int size)=>throw new NotSupportedException();
-        public override long Seek(long offset,SeekOrigin origin)=>throw new NotSupportedException();public override void SetLength(long value)=>throw new NotSupportedException();
+        var basis=Revisions.BasisOf(model);
+        if(basis.Length>0&&model.CombinationRevisions is {Input:{}} known&&known.SameInput(model,basis))
+            return known.InputBytes+model.Results.Where(r=>r.Combination!=null).Sum(r=>Size(r)+1);
+        return Size(model);
     }
+    static long Size<T>(T value)
+    {using var counter=new ModelSnapshot.ByteCounter();JsonSerializer.Serialize(counter,value);return counter.Length;}
 }

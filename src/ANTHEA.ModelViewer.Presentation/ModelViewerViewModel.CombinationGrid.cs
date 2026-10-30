@@ -48,8 +48,12 @@ public sealed partial class ModelViewerViewModel
         foreach(var item in Combinations)
         {
             var d=item.Definition;
+            // The coefficients of each term of the definition, in their order, grouped once: a cell is a lookup instead of a scan of the
+            // terms for every column (hundreds of generated rows × hundreds of columns).
+            var cells=d.Terms.GroupBy(t=>(t.Reference,t.IsCombination))
+                .ToDictionary(g=>g.Key,g=>string.Join("; ",g.Select(t=>t.Factor.ToString("G9",CultureInfo.CurrentCulture))));
             table.Rows.Add(new object[]{d.Id,d.Name,CombinationKindLabels[(int)d.Kind],d.Source}
-                .Concat(refs.Select(r=>(object)string.Join("; ",d.Terms.Where(t=>t.Reference==r.Id&&t.IsCombination==r.Combo).Select(t=>t.Factor.ToString("G9",CultureInfo.CurrentCulture)))))
+                .Concat(refs.Select(r=>(object)(cells.TryGetValue((r.Id,r.Combo),out var cell)?cell:"")))
                 .Append(item.State).ToArray());
         }
         CombinationGridHeaders=headers;CombinationGridRows=table.DefaultView;SyncCombinationGridSelection();

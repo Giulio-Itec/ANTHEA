@@ -1,5 +1,21 @@
 # DLL Checker
 
+**Release AN — combinazioni del modulo Modelli, dopo la 1.16.0 (29 ottobre 2026).** Set ufficiale da Model `9f40d98a` e Checker
+`bc2b3435`, entrambi su origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Porta il refactoring delle combinazioni del
+modulo Modelli chiesto dall'utente dopo la 1.16.0 («cerca colli di bottiglia o bug dentro la gestione delle combo»). Contiene:
+- GPCModel 5.28.0.0: `CombinationRebuildCache`, che tiene fra una combinazione e l'altra i campioni statici abbinati, validati e ruotati,
+  con lo stesso rapporto bit per bit, e l'impronta delle sorgenti facoltativa per i rapporti non registrati;
+- GPC.Converter 2.10.0.0: ogni risposta delle tabelle dei risultati MIDAS letta una volta, indici delle colonne calcolati una volta;
+- ModelData 0.3.0.13 e Persistence 3.4.0.3 ricompilate;
+- Concrete 0.31.0.1, Steel 2.126.0.2, CompositeBridge 1.19.0.17, Geotechnics 0.27.0.1, GPCModelChecker 2.34.0.2, Masonry 0.10.0.16 e
+  GPC.Design 0.43.0.1 ricompilate contro GPCModel 5.28.0.0 senza modifiche al sorgente.
+
+Suite di `Release-Set.ps1 -Previous` (set AM), tutte verdi senza fallimenti ammessi: Model (Core 59, UnitTest 1571, API) e Checker,
+Concrete 950 (con il contratto K0 in net472), Steel 122, CompositeBridge 402, Geotechnics 202, Calculation 175, ShallowFoundation 29,
+EmbeddedWalls 99, Steel.Members 6826, Design 122 e 121 (net472), ModelChecker 627; nessuna firma tolta oltre quelle approvate. Nessun
+Gmsh. DLL identiche a quelle del set candidato cand-3. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`. Set in
+`supporto/artefatti/librerie-20261029-an/gpc-release-20261029-an`.
+
 **Release AM — librerie della 1.16.0 (29 ottobre 2026).** Set ufficiale da Model `d0d76b51` e Checker `c301be7a`, entrambi su
 origin/master; Geometry `6734eee1` e Utilities `e57b440b` invariati. Unisce i rami della 1.16.0 con il lavoro delle altre sessioni sulle
 librerie, su richiesta dell'utente («aspetta che tutti gli altri agenti che stanno lavorando sulle librerie finiscano»). Contiene:

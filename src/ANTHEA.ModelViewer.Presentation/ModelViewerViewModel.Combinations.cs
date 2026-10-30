@@ -115,6 +115,9 @@ public sealed partial class ModelViewerViewModel
         ShowImportOptions=false;IsNavigationCollapsed=false;ShowCombinationManager=!IsCombinationDetached;PauseAnimation();
         if(IsCombinationDetached)CombinationWindowChanged?.Invoke(this,EventArgs.Empty);
         if(!IsCombinationDirty&&!IsCombinationBusy)RefreshCombinations(SelectedTreeItem?.Table=="COMBINATION"?SelectedTreeItem.Key[6..]:Snapshot.Results.FirstOrDefault(r=>r.Name==SelectedCase)?.Combination?.DefinitionId??SelectedCombination?.Definition.Id);
+        // Refactoring of the combinations (29/10/2026): the GPC model of the copy is prepared in the background while the catalogue is on screen,
+        // so that the first combination does not wait for it (a calculation started meanwhile waits for the same preparation).
+        if(CanManageCombinations&&Combinations.Any(c=>c.CanCalculate))_=combinationService.PrepareAsync(Snapshot,lifetime.Token);
     }
     [RelayCommand] void CloseCombinationManager(){IsNavigationCollapsed=true;ShowCombinationManager=false;IsCombinationDetached=false;}
     bool CanStartCombination()=>CanManageCombinations&&!IsCombinationDirty;
@@ -186,7 +189,8 @@ public sealed partial class ModelViewerViewModel
             cancellation.Token.ThrowIfCancellationRequested();if(disposed)return;
             var next=await Task.Run(()=>ModelCombinations.Attach(snapshot,id,calculated),cancellation.Token);
             cancellation.Token.ThrowIfCancellationRequested();if(disposed)return;
-            int evicted=snapshot.Results.Count(r=>r.Combination!=null&&r.Combination.DefinitionId!=id&&!next.Results.Any(n=>n.Name==r.Name));
+            var kept=next.Results.Select(n=>n.Name).ToHashSet(StringComparer.Ordinal);
+            int evicted=snapshot.Results.Count(r=>r.Combination!=null&&r.Combination.DefinitionId!=id&&!kept.Contains(r.Name));
             PublishCombinationSnapshot(next);RefreshCombinations(id);
             ShowCombinationResult(calculated.Results[0].Name);
             CombinationMessage=$"{(calculated.PreparationReused?"Casi base riutilizzati":"Preparazione iniziale: "+(calculated.PreparationMilliseconds/1000).ToString("F2")+" s")} · calcolo {calculated.RebuildMilliseconds/1000:F2} s · campi {calculated.DisplayMilliseconds/1000:F2} s.\n"+string.Join("\n",calculated.Warnings.Take(6));

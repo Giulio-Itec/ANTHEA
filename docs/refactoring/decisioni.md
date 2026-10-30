@@ -2096,6 +2096,31 @@ se spiegati»).
    che esca con le librerie su master».
 8. **Pulizia.** «pulizia: si» per `Repository\ANTHEA-prova-f5` (pacchetto di prova della 1.12.1), spostata nel Cestino.
 
+## 29 ottobre (sera) — decisioni della 1.16.1
+
+Coordinatore: sessione del refactoring F5. Istruzioni dell'utente del 29 ottobre, dopo il rilascio della 1.16.0.
+
+1. **Combinazioni del modulo Modelli.** La richiesta: «dopo aver rilasciato la 1.16.0 devi fare un refactoring della gestione delle
+   combinazioni dentro il modulo modelli dentro anthea. … cerca colli di bottiglia o bug dentro la gestione delle combo. stanotte potrai
+   fare i test per i tempi».
+   - Risultati identici bit per bit alla 1.16.0 (prova `CombinationTiming`).
+   - Bug COMBO-B1, COMBO-B2 e COMBO-B3 corretti.
+   - Librerie della release AN.
+   - Campagna dei tempi nella notte del 29/10, in `supporto/artefatti/combo-modelli/tempi-20261029-notte*`.
+2. **Master.** La regola: «in generale, finito il lavoro, aggiornate il master. riguarda tutti gli agenti questa cosa. soprattutto se deve
+   uscire anthea. voglio che esca con le librerie su master».
+   - Model 9f40d98a e Checker bc2b3435 sono su origin/master prima del set AN.
+   - `main` è portato in avanti a 48047f3c dopo la full del ramo (PASS 157).
+3. **1.16.1.** «prepara l'installer 1.16.1»: versione 1.16.1 con il contenuto di `main`. Le guide restano Rev62, come nelle versioni
+   correttive precedenti; il testo sulle combinazioni entra nella prossima revisione delle guide. «Sì: se la full di rilascio è pulita,
+   tag v1.16.1 sul commit del setup e push di main e refactoring/f5».
+4. **Da decidere.** Proposti nel resoconto della sera:
+   - scrittura del risultato nel documento sul thread dell'interfaccia;
+   - revisione per singola definizione;
+   - preparazione GPC a freddo.
+
+   «poi lunedì discutiamo della gestione delle combo»: se ne discute lunedì 2 novembre, insieme agli altri punti già fissati per quel
+   giorno.
 
 ## 30 ottobre — Azioni su branch separati
 
@@ -2104,3 +2129,8 @@ se spiegati»).
 3. «Salta, per ora, le azioni sismiche». Spettri esistenti invariati.
 4. «Non fare merge fino a stasera». Prevale sulla regola generale delle librerie: nessuna integrazione né pubblicazione. ANTHEA refactoring/f5-azioni-climatiche; Model e Checker codex/azioni-climatiche-ntc-ec. Snapshot candidato esterno a lib/Checker.
 5. Guide globali Rev63, quattro capitoli Wiki, venti esempi centrali, tredici figure originali. Transizioni esatte AZIONI-01; attesi numerici immutati. Il confronto Fondazioni normalizza soltanto la versione GPC, verificata prima contro la DLL caricata (AZIONI-02).
+
+
+## 30 ottobre — integrazione Azioni autorizzata
+
+L’utente conferma: «lasciala aperta e segnala come da completare. poi merge e versione delle varie librerie. porta le tue modifiche sul master anche di anthea». L’allineamento neve EN A1:2015 resta da completare. Il precedente vincolo temporale sui merge è superato; l’integrazione comprende i master aggiornati di Model e Checker e il ramo principale ANTHEA, che si chiama `main`. Versioni delegate secondo AGENTS.md; set coerente, tutte le suite delle librerie e full ANTHEA obbligatori sul risultato unito.
