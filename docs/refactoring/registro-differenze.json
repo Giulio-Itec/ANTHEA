@@ -14188,11 +14188,14 @@
       },
       "test": [
         "ConcreteMaterialEditors.Tests: 17 PASS, comprese verifiche indipendenti sigma=Es*epsilon ed equilibrio, archivio GPC e input non validi",
-        "ConcreteSectionViewChecks: 234 PASS, inclusa modifica reale ComboBox/TextBox nei tre temi; ultima rifinitura delle larghezze da ricontrollare nel collaudo finale"
+        "ConcreteSectionViewChecks: 234 PASS sul commit finale 71c51c1b, inclusa modifica reale ComboBox/TextBox nei tre temi e verifica delle larghezze definitive",
+        "Collaudo 1.16.2: 91 verifiche distinte PASS consolidate; F3 su 1201 file con zero differenze non ammesse; contrasto su 1520 schermate con zero difetti; installer verificato"
       ],
       "evidenze": [
         "supporto/artefatti/rilascio-1.16.2/prima/provenienza.json",
-        "supporto/artefatti/ci/20261030-204922-release-1162-materials-reports2/summary.json"
+        "supporto/artefatti/ci/20261030-204922-release-1162-materials-reports2/summary.json",
+        "supporto/artefatti/rilascio-1.16.2/collaudo-consolidato.json",
+        "supporto/artefatti/rilascio-1.16.2/audit-payload.json"
       ],
       "wiki": "Guide globali Rev64: Modulo Sezione in c.a. e Sezione in calcestruzzo armato"
     }

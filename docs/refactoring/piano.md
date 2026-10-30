@@ -1393,7 +1393,7 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 
 - [x] Materiale selezionabile per barra ordinaria, trasferito alle classi GPC; materiale e tensione iniziale dei trefoli accanto alle coordinate. Persistenza nativa e ricostruzione dopo modifica delle coordinate verificate con 17 controlli dedicati; modelli accessori a proprietà uniformi protetti contro assegnazioni incompatibili. Nessuna modifica alle librerie AO.
 - [x] Guide globali Rev64 e Wiki aggiornate, con Word/PDF e archivio della revisione precedente.
-- [ ] Completare collaudo UI, confronto F3 e collaudo del commit di rilascio, poi creare e verificare l'installer 1.16.2. [Verbale](installer-1.16.2.md).
+- [x] Collaudo e installer 1.16.2 conclusi sul commit 71c51c1b: 91 verifiche distinte PASS consolidate (standard, UI della sezione, F3, contrasto e installer), 1.520 schermate senza difetti di contrasto. Ripetuta soltanto installer/safety dopo la chiusura del processo UiTests concorrente. Setup, 13 DLL AO, guide Rev64 e 72 esempi verificati per SHA-256. Tag v1.16.2 sul commit del setup. [Verbale](installer-1.16.2.md).
 
 ## Azioni NTC / EN — 29–30 ottobre 2026
 
