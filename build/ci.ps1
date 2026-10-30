@@ -158,6 +158,7 @@ Add-Suite @{ Name = 'Wiki.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests
 # ViewModels, services and calculation scheduling of the MVVM interface without WPF (refactoring F5.1, proposal F5 section 7.1).
 Add-Suite @{ Name = 'Presentation.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Spettri.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--spettri'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'Climate.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--climate'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # F5.13 (d), proposal 4.6: the F3 fixtures of bridge, walls, piles, foundations and the reinforcing steel calculated through the sheets of the shell in series and in parallel, bit for bit.
 Add-Suite @{ Name = 'Presentation.Tests/paralleli'; Stage = 'regression'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--paralleli'); Timeout = 900; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS \d+ controlli dei calcoli in parallelo' } }
 Add-Suite @{ Name = 'Architecture.F4.Inventory'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}', '--f4-inventory'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS F4 inventory:' } }
@@ -389,6 +390,7 @@ Add-Suite @{ Name = 'ui/check-fondazioni-view'; Stage = 'ui'; Kind = 'check'; Ar
 # supporto/SUPERATI/ui-storica/stratigrafia since the Release switch (Q11).
 Add-Suite @{ Name = 'ui/check-stratigrafia-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-stratigrafia-view', '{root}', '{out}\vista'); Timeout = 600; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-spettri-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-spettri-view', '{root}', '{out}\vista'); Timeout = 180; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ui/check-climate-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-climate-view', '{out}\vista'); Timeout = 300; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-spettri-contrast'; Stage = 'ui'; Kind = 'check'; Args = @('--check-spettri-contrast', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-paratie-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-paratie-view', '{root}', '{out}\vista'); Timeout = 180; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
 # F5.9: the XAML view of the retaining walls hosted by MvvmSheetEditor off screen, as the Release opens it since the switch of 23/10/2026: the 24

@@ -1379,3 +1379,9 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [x] Installer candidato locale 1.12.1 completato: 382 file verificati per SHA-256, 13 DLL GPC AC, 52 esempi e guide Rev56. F3 senza differenze residue; collaudo conclusivo cinque suite PASS, Reports 476, sicurezza NSIS 26, guide 30 ed esempi 120 controlli. PDF della capsula verificato anche visivamente. [Verbale](installer-1.12.1.md).
 - [x] Superata (26/10): la 1.12.1 non è mai uscita; il suo contenuto è nella 1.13.0 (tag `v1.13.0`). Rilascio ufficiale 1.12.1 differito per scelta dell'utente: «Mantieni per ora il commit solo in locale». Checker 8bf4af33 e ANTHEA restano locali; snapshot ufficiale AB invariato. Nessun push o tag nuovo. Il profilo full sulla nuova candidata non è stato eseguito.
 - [x] Successiva richiesta di merge dei branch ANTHEA: integrati in `refactoring/f5` i cinque commit di `refactoring/f5-paratie-capsula`, da 9b242761 a b795a550, mediante fast-forward senza conflitti. Tutti gli altri rami di sviluppo erano già inclusi; esclusi i due rami sperimentali `prova/*`. Collaudo sul ramo integrato con set candidato AC: sette suite PASS, Architecture 562, Application 3057 e Presentation 3523 controlli. [Verbale e raccordo con le librerie](merge-f5-sviluppo-20261020.md).
+
+## Azioni NTC / EN — 29–30 ottobre 2026
+
+- [x] Cinque fogli climatici GPC + MVVM, report e grafici: 199 controlli Presentation e 76 WPF; tutte le suite GPC sul candidato verdi. [Stato, perimetro e riproduzione](azioni-ntc-ec.md).
+- [ ] Chiudere full ANTHEA, guide e build locale; completare combinazioni, carichi degli edifici, traffico, ripartizione trasversale rigida/deformabile e azioni eccezionali richiesti il 30/10. Azioni sismiche escluse. Nessun merge fino a sera.
+

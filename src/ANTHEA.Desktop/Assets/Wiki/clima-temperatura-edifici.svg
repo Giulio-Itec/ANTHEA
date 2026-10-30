@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="864pt" height="345.6pt" viewBox="0 0 864 345.6" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-30T05:58:45.860126</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 345.6 
+L 864 345.6 
+L 864 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 64.669091 259.244883 
+L 64.669091 131.776831 
+" clip-path="url(#pe0b35daba4)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #203348; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 94.778182 259.244883 
+L 94.778182 131.776831 
+" clip-path="url(#pe0b35daba4)" style="fill: none; stroke: #c36522; stroke-width: 1.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 185.105455 259.244883 
+L 185.105455 131.776831 
+" clip-path="url(#pe0b35daba4)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #203348; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 161.018182 259.244883 
+L 209.192727 131.776831 
+" clip-path="url(#pe0b35daba4)" style="fill: none; stroke: #c36522; stroke-width: 1.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 305.541818 259.244883 
+L 305.541818 131.776831 
+" clip-path="url(#pe0b35daba4)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #203348; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 311.563636 259.244883 
+L 359.738182 131.776831 
+" clip-path="url(#pe0b35daba4)" style="fill: none; stroke: #c36522; stroke-width: 1.8; stroke-linecap: square"/>
+   </g>
+   <g id="patch_2">
+    <path d="M 66.672198 141.336935 
+Q 79.725081 141.336935 90.877306 141.336935 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 86.477306 139.136935 
+L 90.877306 141.336935 
+L 86.477306 143.536935 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 66.672198 249.684779 
+Q 79.725081 249.684779 90.877306 249.684779 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 86.477306 247.484779 
+L 90.877306 249.684779 
+L 86.477306 251.884779 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="79.723636" y="281.222513" transform="rotate(-0 79.723636 281.222513)">ΔTu</text>
+   </g>
+   <g id="patch_4">
+    <path d="M 187.107827 141.336935 
+Q 197.151442 141.336935 205.2944 141.336935 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 200.8944 139.136935 
+L 205.2944 141.336935 
+L 200.8944 143.536935 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 183.103082 249.684779 
+Q 173.059467 249.684779 164.916509 249.684779 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 169.316509 251.884779 
+L 164.916509 249.684779 
+L 169.316509 247.484779 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="200.16" y="281.222513" transform="rotate(-0 200.16 281.222513)">ΔTM</text>
+   </g>
+   <g id="patch_6">
+    <path d="M 307.543088 141.336935 
+Q 332.641907 141.336935 355.840068 141.336935 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 351.440068 139.136935 
+L 355.840068 141.336935 
+L 351.440068 143.536935 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 307.54419 249.684779 
+Q 308.55494 249.684779 307.665031 249.684779 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 303.265031 247.484779 
+L 307.665031 249.684779 
+L 303.265031 251.884779 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="320.596364" y="281.222513" transform="rotate(-0 320.596364 281.222513)">somma</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="215.214545" y="92.947761" transform="rotate(-0 215.214545 92.947761)">ΔTM = Testerna/sopra − Tinterna/sotto</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="215.214545" y="111.808164" transform="rotate(-0 215.214545 111.808164)">Linea tratteggiata: T0; ascissa: variazione T</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="215.214545" y="49.296" transform="rotate(-0 215.214545 49.296)">Profilo lineare: uniforme + differenziale</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_8">
+    <path d="M 618.676364 259.244883 
+L 678.894545 259.244883 
+L 678.894545 131.776831 
+L 618.676364 131.776831 
+z
+" clip-path="url(#pae6dc4cdd6)" style="fill: #e7edf2; stroke: #203348; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 528.349091 227.37787 
+L 618.676364 211.444364 
+L 678.894545 147.710338 
+L 769.221818 138.150234 
+" clip-path="url(#pae6dc4cdd6)" style="fill: none; stroke: #c36522; stroke-width: 1.8; stroke-linecap: square"/>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="528.349091" y="109.141072" transform="rotate(-0 528.349091 109.141072)">aria interna</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="769.221818" y="109.141072" transform="rotate(-0 769.221818 109.141072)">aria esterna</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="528.349091" y="278.036241" transform="rotate(-0 528.349091 278.036241)">Rsi</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="648.785455" y="278.036241" transform="rotate(-0 648.785455 278.036241)">h/λ</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="769.221818" y="278.035811" transform="rotate(-0 769.221818 278.035811)">Rse</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="648.785455" y="83.387657" transform="rotate(-0 648.785455 83.387657)">Resistenze termiche in serie</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="648.785455" y="49.296" transform="rotate(-0 648.785455 49.296)">Strato omogeneo · regime stazionario</text>
+   </g>
+  </g>
+  <g id="text_14">
+   <text style="font-weight: 700; font-size: 17px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203348" x="34.56" y="19.829344" transform="rotate(-0 34.56 19.829344)">Temperatura negli edifici · profilo attraverso lo spessore</text>
+  </g>
+  <g id="text_15">
+   <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203348" x="34.56" y="333.504" transform="rotate(-0 34.56 333.504)">Schemi originali non in scala. Segno positivo: riscaldamento / faccia superiore o esterna più calda. Le deformazioni non sono reazioni vincolari.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pe0b35daba4">
+   <rect x="34.56" y="55.296" width="361.309091" height="245.376"/>
+  </clipPath>
+  <clipPath id="pae6dc4cdd6">
+   <rect x="468.130909" y="55.296" width="361.309091" height="245.376"/>
+  </clipPath>
+ </defs>
+</svg>

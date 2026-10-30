@@ -1,0 +1,40 @@
+<UserControl x:Class="X.Desktop.Views.Climate.ClimateSheetView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:views="clr-namespace:X.Desktop.Views.Climate"
+ Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}">
+ <UserControl.Resources>
+  <Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/></Style>
+  <Style TargetType="ContentControl"><Setter Property="HorizontalContentAlignment" Value="Stretch"/></Style>
+  <Style x:Key="Quantities" TargetType="DataGrid">
+   <Setter Property="AutoGenerateColumns" Value="False"/><Setter Property="IsReadOnly" Value="True"/><Setter Property="CanUserAddRows" Value="False"/><Setter Property="CanUserDeleteRows" Value="False"/><Setter Property="HeadersVisibility" Value="Column"/>
+  </Style>
+ </UserControl.Resources>
+ <Grid Margin="14"><Grid.ColumnDefinitions><ColumnDefinition Width="390" MinWidth="300"/><ColumnDefinition Width="7"/><ColumnDefinition Width="*" MinWidth="420"/></Grid.ColumnDefinitions>
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="0,0,12,0">
+   <StackPanel><TextBlock Text="{Binding Title}" FontSize="21" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,12"/>
+    <ItemsControl ItemsSource="{Binding Forms}"><ItemsControl.ItemTemplate><DataTemplate>
+     <Expander Header="{Binding Name}" IsExpanded="True" Margin="0,0,0,12"><ContentControl Content="{Binding Form}" Margin="0,8,0,0"/></Expander>
+    </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+   </StackPanel>
+  </ScrollViewer>
+  <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="{DynamicResource Token.Border}"/>
+  <Grid Grid.Column="2" Margin="12,0,0,0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+   <StackPanel><TextBlock Text="{Binding Reference}" FontWeight="SemiBold" TextWrapping="Wrap"/><TextBlock Text="{Binding Scope}" TextWrapping="Wrap" Margin="0,6,0,12"/></StackPanel>
+   <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10"><Button Content="Esporta CSV" Command="{Binding ExportCommand}" Padding="12,5" Margin="0,0,8,0"/><Button Content="Copia risultati" Command="{Binding CopyCommand}" Padding="12,5"/></StackPanel>
+   <TabControl Grid.Row="2">
+    <TabItem Header="Casi di carico"><Grid Margin="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <ComboBox ItemsSource="{Binding Cases}" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedCase}" Margin="0,0,0,8"/>
+     <TextBlock Grid.Row="1" Text="{Binding CaseDescription}" TextWrapping="Wrap" Margin="0,0,0,10"/>
+     <Expander Grid.Row="2" Header="Diagramma dei valori" IsExpanded="True" Margin="0,0,0,8"><StackPanel><ComboBox ItemsSource="{Binding ChartUnits}" SelectedItem="{Binding ChartUnit}" HorizontalAlignment="Left" MinWidth="110" ToolTip="Unità delle grandezze da rappresentare"/><ScrollViewer MaxHeight="240" VerticalScrollBarVisibility="Auto"><views:ClimateCaseChart Values="{Binding ChartValues}"/></ScrollViewer></StackPanel></Expander>
+     <DataGrid Grid.Row="3" ItemsSource="{Binding CaseValues}" Style="{StaticResource Quantities}"><DataGrid.Columns>
+      <DataGridTextColumn Header="Grandezza / zona" Binding="{Binding Symbol}" Width="200"/><DataGridTextColumn Header="Valore" Binding="{Binding DisplayValue}" Width="110"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}" Width="80"/><DataGridTextColumn Header="Descrizione" Binding="{Binding Description}" Width="220"/><DataGridTextColumn Header="Formula" Binding="{Binding Formula}" Width="300"/><DataGridTextColumn Header="Riferimento" Binding="{Binding Reference}" Width="260"/>
+     </DataGrid.Columns></DataGrid>
+    </Grid></TabItem>
+    <TabItem Header="Parametri e formule"><DataGrid Margin="8" ItemsSource="{Binding Parameters}" Style="{StaticResource Quantities}"><DataGrid.Columns>
+     <DataGridTextColumn Header="Simbolo" Binding="{Binding Symbol}" Width="100"/><DataGridTextColumn Header="Valore" Binding="{Binding DisplayValue}" Width="110"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}" Width="80"/><DataGridTextColumn Header="Descrizione" Binding="{Binding Description}" Width="230"/><DataGridTextColumn Header="Formula" Binding="{Binding Formula}" Width="300"/><DataGridTextColumn Header="Riferimento" Binding="{Binding Reference}" Width="230"/>
+    </DataGrid.Columns></DataGrid></TabItem>
+    <TabItem Header="Schemi"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="8"><TextBlock Text="Geometrie simboliche e convenzioni. Dimensioni e valori del progetto sono nei dati e nelle tabelle." TextWrapping="Wrap" Margin="4,0,4,10"/><ItemsControl ItemsSource="{Binding Schematics}"><ItemsControl.ItemTemplate><DataTemplate><Image Source="{Binding}" Stretch="Uniform" Margin="0,0,0,16"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></StackPanel></ScrollViewer></TabItem>
+    <TabItem Header="Ipotesi e applicabilità"><ScrollViewer VerticalScrollBarVisibility="Auto"><TextBlock Text="{Binding Notes}" TextWrapping="Wrap" Margin="16" MaxWidth="950" HorizontalAlignment="Left"/></ScrollViewer></TabItem>
+   </TabControl>
+  </Grid>
+ </Grid>
+</UserControl>

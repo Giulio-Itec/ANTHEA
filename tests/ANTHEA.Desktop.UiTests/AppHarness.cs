@@ -33,6 +33,10 @@ public partial class App
         // included), so that the recorded references do not depend on the separator of the machine.
         WpfNumberSeparatorService.Apply(DecimalSeparatorChoice.Comma);
         handled = true;
+        if(e.Args.Length==2&&e.Args[0]=="--check-climate-view"){
+            ShutdownMode=ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async()=>{int code=0;try{await ClimateViewChecks.Run(e.Args[1]);}catch(Exception ex){Directory.CreateDirectory(e.Args[1]);File.WriteAllText(Path.Combine(e.Args[1],"errore.txt"),ex.ToString());code=1;}finally{Shutdown(code);}}));return;
+        }
         if (e.Args.Length == 2 && e.Args[0] == "--check-spettri-contrast")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;

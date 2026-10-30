@@ -9,4 +9,5 @@
     <ProjectReference Include="../../X.Calculations/X.Calculations.csproj" />
   </ItemGroup>
   <ItemGroup><PackageReference Include="PDFsharp-MigraDoc" Version="6.2.4" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="../ANTHEA.Desktop/Assets/Wiki/clima-*.png" LogicalName="Anthea.Climate.%(Filename)%(Extension)" /></ItemGroup>
 </Project>

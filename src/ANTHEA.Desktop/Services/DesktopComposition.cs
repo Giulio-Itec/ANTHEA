@@ -72,6 +72,11 @@ internal sealed class DesktopComposition
             // F5.10: the RC section, with the WPF figures of its report (S9); the Release keeps the historic view until its switch (C10).
             new ConcreteSectionSheetModule(new ConcreteSectionFigureRenderer()),
             new Anthea.Presentation.Modules.Spectra.SpectraSheetModule(),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.Snow),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.BuildingWind),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.BuildingThermal),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.BridgeWind),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.BridgeThermal),
             new Anthea.Presentation.Modules.EmbeddedWalls.EmbeddedWallSheetModule(),
             // F5.11: the composite bridge section, with the WPF figures of its report; the Release keeps the historic view until its checkpoint.
             new Anthea.Presentation.Modules.CompositeSection.CompositeSectionSheetModule(new CompositeSectionFigureRenderer()),

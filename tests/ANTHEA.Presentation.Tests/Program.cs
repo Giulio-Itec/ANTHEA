@@ -16,6 +16,10 @@ try
         string target=args.FirstOrDefault(a=>a!="--spettri")??Path.Combine(root,"supporto/artefatti/spettri-ntc/presentation");Directory.CreateDirectory(target);
         int count=SpectraSheetChecks.Run(root,target);string spectraMessage=$"PASS {count} controlli Spettri";File.WriteAllText(Path.Combine(target,"esito.txt"),spectraMessage);Console.WriteLine(spectraMessage);return 0;
     }
+    if(args.Contains("--climate")){
+        string target=args.FirstOrDefault(a=>a!="--climate")??Path.Combine(root,"supporto/artefatti/azioni-climatiche/presentation");Directory.CreateDirectory(target);
+        int count=ClimateSheetChecks.Run(root,target);string climateMessage=$"PASS {count} controlli azioni climatiche";File.WriteAllText(Path.Combine(target,"esito.txt"),climateMessage);Console.WriteLine(climateMessage);return 0;
+    }
     // F5.10: --sezione-tracce runs only the long traces of the RC section (decision C7, ui stage), --sezione-rapide only its checks of the fast
     // stage (to work on the module); the other arguments are positional.
     bool sectionTraces = args.Contains("--sezione-tracce"), sectionFast = args.Contains("--sezione-rapide"), embeddedWalls = args.Contains("--paratie"), versionAudit = args.Contains("--paratie-regression-audit");

@@ -47,6 +47,7 @@
     <EmbeddedResource Include="Assets/Wiki/*.svg"><LogicalName>Wiki.figures.%(Filename)%(Extension)</LogicalName></EmbeddedResource>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'UiTests'">
+    <Compile Include="../../tests/Shared/ClimateScenarios.cs" Link="Tests/Shared/ClimateScenarios.cs" />
     <Compile Include="../../tests/Shared/ConcretePersistenceComparison.cs" Link="Tests/Shared/ConcretePersistenceComparison.cs" />
     <ProjectReference Include="../../tests/ANTHEA.Testing/ANTHEA.Testing.csproj" />
     <!-- Motori storici delle prove WPF (decisione D3): esplicito, perché ConcreteShort.UiChecks costruisce X.Desktop senza riferimenti transitivi. -->

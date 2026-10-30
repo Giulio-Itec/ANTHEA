@@ -18,7 +18,7 @@ public interface IFigureRenderer
 
 public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectReportChapterBuilder
 {
-    public static bool Supports(string module) => module is Actions.SpectraDocument.Module or EmbeddedWalls.EmbeddedWallDocument.Module or Stratigraphy.StratigraphyDocument.Module or "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo" or RetainingWall.Module or BridgeSection.Module or PaloOrizzontale.Module or MicropaloOrizzontale.Module or "str_palo";
+    public static bool Supports(string module) => Actions.ClimateDocument.Supports(module) || module is Actions.SpectraDocument.Module or EmbeddedWalls.EmbeddedWallDocument.Module or Stratigraphy.StratigraphyDocument.Module or "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo" or RetainingWall.Module or BridgeSection.Module or PaloOrizzontale.Module or MicropaloOrizzontale.Module or "str_palo";
     public static HashSet<string> DefaultSections(string module) => module == BridgeSection.Module ? ReportBridge.DefaultSections()
         : module == "str_palo" ? ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet()
         : ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
@@ -27,6 +27,12 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
     {
         cancellation.ThrowIfCancellationRequested();
         string module = sheet.S("modulo_id");
+        if(Actions.ClimateDocument.Supports(module))
+        {
+            var climateData=sheet["dati"] as JsonObject??Actions.ClimateDocument.Create(module);
+            var climate=await Task.Run(()=>ModuleServices.Get(module).Calculate(climateData,cancellation),cancellation);
+            return new(Document:ClimateReport.Create(sheet.S("nome"),climate.Data,climate.Values));
+        }
         if(module==Actions.SpectraDocument.Module){
             var spectraData=sheet["dati"] as JsonObject??Actions.SpectraDocument.Create();
             var result=await Task.Run(()=>ModuleServices.Get(module).Calculate(spectraData,cancellation),cancellation);
@@ -100,6 +106,7 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
     public static DocxDocument CreateDocument(ModuleReportRequest request, IReadOnlyList<ReportFigure> figures)
     {
         var c = request.Calculation;
+        if(Actions.ClimateDocument.Supports(c.ModuleId))return ClimateReport.Create(request.Title,c.Data,c.Values);
         if(c.ModuleId==Actions.SpectraDocument.Module)return SpectraReport.Create(request.Title,c.Data,c.Values);
         if (c.ModuleId == EmbeddedWalls.EmbeddedWallDocument.Module) return EmbeddedWallReport.Create(request.Title, c.NativeAs<EmbeddedWallReportData>());
         if (c.ModuleId == "str_palo") return ReportConcrete.CreateDocument(request.Title, Anthea.Application.Concrete.SectionActionInputs.CalculationCopy(c.Data), c.Values, request.Options.ToHashSet(), figures.Select(f => f.Image()).ToList(), !request.ProjectReport);

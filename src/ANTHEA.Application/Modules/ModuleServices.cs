@@ -6,7 +6,8 @@ public static class ModuleServices
     // Identities come from the existing catalog; this is not a second module catalog.
     private static readonly IReadOnlyDictionary<string, IModuleService> Services = ModuleCatalog.All
         .ToDictionary(m => m.Id, m => (IModuleService)new CalculationModule(m.Id), StringComparer.Ordinal);
-    public static IModuleService Get(string module) => module == Actions.SpectraDocument.Module ? new Actions.SpectraModuleService()
+    public static IModuleService Get(string module) => Actions.ClimateDocument.Supports(module) ? new Actions.ClimateModuleService(module)
+        : module == Actions.SpectraDocument.Module ? new Actions.SpectraModuleService()
         : module == EmbeddedWalls.EmbeddedWallDocument.Module ? new EmbeddedWalls.EmbeddedWallModule()
         : module == Stratigraphy.StratigraphyDocument.Module ? new StratigraphyModule() : Services.TryGetValue(module, out var service) ? service
         : throw new ArgumentException("Modulo di calcolo non disponibile: " + module, nameof(module));
