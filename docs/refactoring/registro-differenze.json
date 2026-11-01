@@ -14391,6 +14391,24 @@
         "supporto/artefatti/ci/20261101-215151-azioni-cranes-01/summary.json"
       ],
       "wiki": "Edizione globale in preparazione."
+    },
+    {
+      "id": "AZIONI-FIRE-20261101",
+      "fase": "Azioni aggiuntive",
+      "titolo": "Azioni termiche da incendio",
+      "famiglia": "azioni/incendio",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Nuovo calcolo GPC delle curve dei gas e dei flussi su temperature superficiali prescritte. Nessun calcolo di conduzione o R/REI implicito.",
+      "test": [
+        "16 prove indipendenti net8/net472 PASS",
+        "Set completo candidate-fire-01 PASS",
+        "Climate.Tests 1084; WPF 600; Architecture.Tests PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261101-220415-azioni-fire-01/summary.json"
+      ],
+      "wiki": "Edizione globale in preparazione."
     }
   ]
 }

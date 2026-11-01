@@ -172,6 +172,12 @@ public static partial class ClimateDocument
             foreach(var point in history)
                 foreach(string field in new[]{"FreeStrain","ActualStrain","StressMpa","FreeDisplacementMm","ActualDisplacementMm","EcmMpa"})
                     b.AppendLine(string.Join(";",new[]{"Storia temporale",field,"Età = "+point!["AgeDays"]+" giorni",point[field]!.GetValue<double>().ToString("G17",CultureInfo.InvariantCulture),field.EndsWith("Mpa")?"MPa":field.EndsWith("Mm")?"mm":"−","Ordinata calcolata","GPC.Design · effetti differiti"}.Select(Q)));
+        if(result["Fire"] is JsonObject fire)
+        {
+            foreach(var gas in fire["GasHistory"]!.AsArray())b.AppendLine(string.Join(";",new[]{"Incendio · gas",gas!["TimeMinutes"]!.ToString(),"TemperatureC",gas["TemperatureC"]!.GetValue<double>().ToString("G17",CultureInfo.InvariantCulture),"°C","Tempo in minuti","GPC.Design · incendio"}.Select(Q)));
+            foreach(var face in fire["Faces"]!.AsArray())foreach(var point in face!["History"]!.AsArray())foreach(string field in new[]{"GasC","SurfaceC","ConvectionWm2","RadiationWm2","NetWm2"})
+                if(point![field] is JsonValue value)b.AppendLine(string.Join(";",new[]{face["Name"]!.ToString(),point["TimeMinutes"]!.ToString(),field,value.GetValue<double>().ToString("G17",CultureInfo.InvariantCulture),field is "GasC" or "SurfaceC"?"°C":"W/m²","Temperatura prescritta / flusso al contorno","GPC.Design · incendio"}.Select(Q)));
+        }
         if(result["CraneGroups"] is JsonArray craneGroups)
             foreach(var group in craneGroups)
                 foreach(var point in group!["Points"]!.AsArray())

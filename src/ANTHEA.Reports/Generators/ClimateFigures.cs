@@ -16,6 +16,7 @@ public static class ClimateFigures
             "TimeEffectsInput"=>["effetti-differiti"],
             "PrestressActionsInput"=>["precompressione"],
             "CraneActionsInput"=>["carriponte"],
+            "FireActionsInput"=>["incendio"],
             "SnowInput"=>["neve"],
             "BuildingWindInput"=>["vento-edifici", "vento-"+(document["input"]?["Roof"]?.ToString() switch {"Monopitch"=>"mono","Duopitch"=>"doppia",_=>"piana"})],
             "BuildingThermalInput"=>["temperatura-edifici"],

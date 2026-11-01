@@ -1451,5 +1451,5 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - [x] Ritiro, viscosità, maturazione e spostamenti assiali imposti: storia libera e barra integra vincolata, controllo della discretizzazione e del campo lineare, quattro grafici e tre esempi; GPC, MVVM e WPF PASS.
 - [x] Precompressione e perdite: attrito, rientro, rilassamento, trasferimento e perdite accoppiate; quattro esempi, grafici e copia della sezione Concrete con stato GPC efficace. Prove numeriche, MVVM/persistenza e WPF PASS.
 - [x] Gru e carriponte: gruppi EN compatibili, quattro ruote o componenti del costruttore, pianta delle vie, tre esempi. Test GPC e interfaccia PASS.
-- [ ] Azioni termiche da incendio.
+- [x] Incendio: curve nominali e storia assegnata, facce e flussi su temperature superficiali prescritte, grafici e quattro esempi; calcoli GPC, persistenza e WPF PASS.
 - [ ] Guide globali e PDF, Wiki, collaudo finale, nuove versioni GPC e integrazione dei branch.

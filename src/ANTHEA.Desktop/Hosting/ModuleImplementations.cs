@@ -56,6 +56,7 @@ internal sealed partial class ModuleImplementations
         ("act_effetti_differiti", SheetImplementation.Mvvm),
         ("act_precompressione", SheetImplementation.Mvvm),
         ("act_gru_carriponte", SheetImplementation.Mvvm),
+        ("act_incendio", SheetImplementation.Mvvm),
     ];
 
     /// <summary>The implementations of the Release.</summary>

@@ -30,6 +30,17 @@ internal static class ClimateScenarios
         yield return S("fasi-deposito-ponte","Fasi EN · deposito temporaneo su ponte",p=>
         {En(p);p["ConstructionStages"]![0]!["Name"]="Deposito";p["ConstructionStages"]![1]!["Name"]="Sgombero";var loads=p["ConstructionLoads"]!.AsArray();loads.RemoveAt(1);loads[0]!["Name"]="Materiali depositati";loads[0]!["Model"]="EnBridgeStorage";loads[0]!["PointXM"]=4;loads[0]!["PointYM"]=2;});
     }
+    private static IEnumerable<Scenario> FireScenarios()
+    {
+        Scenario S(string file,string title,Action<JsonObject> configure)
+        {var data=ClimateDocument.Create(ClimateDocument.Fire);var p=data["input"]!.AsObject();p["FireScenarioSource"]="Esempio didattico, durata 120 minuti; non determina la classe R/REI richiesta.";p["BoundaryParametersSource"]="Parametri generici EN 1991-1-2:2002, εm=0,8 e Φ=1: controllare norma del materiale e geometria del progetto.";configure(p);return new(ClimateDocument.Fire,file,title,data);}
+        yield return S("incendio-standard","Incendio NTC · curva standard e facce",p=>{});
+        yield return S("incendio-esterno","Incendio EN · curva nominale esterna",p=>{p["Standard"]="EurocodeFirstGeneration";p["NationalParameters"]="EN 1991-1-2:2002, curva nominale esterna e parametri raccomandati.";p["Curve"]="External";});
+        void Flux(JsonObject p){p["CalculateBoundaryFlux"]=true;p["PrescribedSurfaceStateConfirmed"]=true;p["RadiationEqualsGasConfirmed"]=true;foreach(var f in p["FireFaces"]!.AsArray())f!["SurfaceSource"]="Superficie a temperatura costante assegnata per confronto dei flussi; non è il risultato di un’analisi di conduzione.";}
+        yield return S("incendio-idrocarburi","Incendio idrocarburi · flussi su superficie di riferimento",p=>{Flux(p);p["Curve"]="Hydrocarbon";p["FireFaces"]![2]!["CombinedUnexposedTransfer"]=true;p["FireFaces"]![3]!["Exposure"]="Adiabatic";});
+        yield return S("incendio-raffreddamento","Incendio assegnato · riscaldamento e raffreddamento",p=>
+        {Flux(p);p["Curve"]="AssignedHistory";p["FireFaces"]!.AsArray().RemoveAt(3);p["FireFaces"]!.AsArray().RemoveAt(2);p["FireFaces"]!.AsArray().RemoveAt(1);var f=p["FireFaces"]![0]!;f["AssignedConvection"]=true;f["ConvectionWm2K"]=35;f["SurfaceState"]="AssignedHistory";f["SurfaceSource"]="Storia dimostrativa prescritta: 20 °C iniziali, 500 °C a 60 min e mantenuti fino a 120 min. Non calcolata dal foglio.";foreach(var pair in new[]{(0d,20d),(60d,500d),(120d,500d)})p["SurfaceTemperatures"]!.AsArray().Add(new JsonObject{["Name"]="Superficie",["Face"]=1,["TimeMinutes"]=pair.Item1,["TemperatureC"]=pair.Item2});});
+    }
     private static IEnumerable<Scenario> CraneScenarios()
     {
         Scenario S(string file,string title,Action<JsonObject> configure)
@@ -56,6 +67,7 @@ internal static class ClimateScenarios
         foreach(var scenario in HydraulicScenarios())yield return scenario;
         foreach(var scenario in ConstructionScenarios())yield return scenario;
         foreach(var scenario in CraneScenarios())yield return scenario;
+        foreach(var scenario in FireScenarios())yield return scenario;
         yield return S(ClimateDocument.TimeEffects,"tempo-ntc-libero","Effetti differiti NTC · carico sostenuto e ritiro",p=>{});
         yield return S(ClimateDocument.TimeEffects,"tempo-en-molla","Effetti differiti EN · barra con molla e spostamento imposto",p=>
         {En(p);p["NationalParameters"]="Esempio didattico EN 1992-1-1:2004 a 20 °C, cemento N e RH costante; nessuna appendice nazionale implicita.";p["Restraint"]="EndSpring";p["StressEvents"]!.AsArray().Clear();p["Displacements"]!.AsArray().Add(new JsonObject{["Name"]="Spostamento graduale",["AgeDays"]=365,["DisplacementMm"]=.2});});

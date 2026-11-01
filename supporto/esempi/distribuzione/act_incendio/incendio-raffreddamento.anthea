@@ -1,0 +1,80 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_incendio",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "FireActionsInput",
+    "input": {
+      "Standard": "Ntc2018",
+      "NationalParameters": "",
+      "Curve": "AssignedHistory",
+      "DurationMinutes": 120,
+      "TimeStepMinutes": 0.25,
+      "LengthM": 1,
+      "AmbientC": 20,
+      "FireEmissivity": 1,
+      "FireScenarioSource": "Esempio didattico, durata 120 minuti; non determina la classe R/REI richiesta.",
+      "BoundaryParametersSource": "Parametri generici EN 1991-1-2:2002, εm=0,8 e Φ=1: controllare norma del materiale e geometria del progetto.",
+      "CalculateBoundaryFlux": true,
+      "PrescribedSurfaceStateConfirmed": true,
+      "RadiationEqualsGasConfirmed": true,
+      "GasTemperatures": [
+        {
+          "Name": "Inizio",
+          "TimeMinutes": 0,
+          "TemperatureC": 20
+        },
+        {
+          "Name": "Picco",
+          "TimeMinutes": 60,
+          "TemperatureC": 900
+        },
+        {
+          "Name": "Fine",
+          "TimeMinutes": 120,
+          "TemperatureC": 20
+        }
+      ],
+      "SurfaceTemperatures": [
+        {
+          "Name": "Superficie",
+          "Face": 1,
+          "TimeMinutes": 0,
+          "TemperatureC": 20
+        },
+        {
+          "Name": "Superficie",
+          "Face": 1,
+          "TimeMinutes": 60,
+          "TemperatureC": 500
+        },
+        {
+          "Name": "Superficie",
+          "Face": 1,
+          "TimeMinutes": 120,
+          "TemperatureC": 500
+        }
+      ],
+      "FireFaces": [
+        {
+          "Name": "Inferiore",
+          "Exposure": "Exposed",
+          "StartXM": 0,
+          "StartYM": 0,
+          "EndXM": 0.3,
+          "EndYM": 0,
+          "MemberEmissivity": 0.8,
+          "ConfigurationFactor": 1,
+          "AssignedConvection": true,
+          "ConvectionWm2K": 35,
+          "CombinedUnexposedTransfer": false,
+          "SurfaceState": "AssignedHistory",
+          "ReferenceSurfaceC": 20,
+          "SurfaceSource": "Storia dimostrativa prescritta: 20 °C iniziali, 500 °C a 60 min e mantenuti fino a 120 min. Non calcolata dal foglio."
+        }
+      ]
+    }
+  }
+}

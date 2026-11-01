@@ -1,0 +1,109 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_incendio",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "FireActionsInput",
+    "input": {
+      "Standard": "EurocodeFirstGeneration",
+      "NationalParameters": "EN 1991-1-2:2002, curva nominale esterna e parametri raccomandati.",
+      "Curve": "External",
+      "DurationMinutes": 120,
+      "TimeStepMinutes": 0.25,
+      "LengthM": 1,
+      "AmbientC": 20,
+      "FireEmissivity": 1,
+      "FireScenarioSource": "Esempio didattico, durata 120 minuti; non determina la classe R/REI richiesta.",
+      "BoundaryParametersSource": "Parametri generici EN 1991-1-2:2002, εm=0,8 e Φ=1: controllare norma del materiale e geometria del progetto.",
+      "CalculateBoundaryFlux": false,
+      "PrescribedSurfaceStateConfirmed": false,
+      "RadiationEqualsGasConfirmed": false,
+      "GasTemperatures": [
+        {
+          "Name": "Inizio",
+          "TimeMinutes": 0,
+          "TemperatureC": 20
+        },
+        {
+          "Name": "Picco",
+          "TimeMinutes": 60,
+          "TemperatureC": 900
+        },
+        {
+          "Name": "Fine",
+          "TimeMinutes": 120,
+          "TemperatureC": 20
+        }
+      ],
+      "SurfaceTemperatures": [],
+      "FireFaces": [
+        {
+          "Name": "Inferiore",
+          "Exposure": "Exposed",
+          "StartXM": 0,
+          "StartYM": 0,
+          "EndXM": 0.3,
+          "EndYM": 0,
+          "MemberEmissivity": 0.8,
+          "ConfigurationFactor": 1,
+          "AssignedConvection": false,
+          "ConvectionWm2K": 25,
+          "CombinedUnexposedTransfer": false,
+          "SurfaceState": "ConstantReference",
+          "ReferenceSurfaceC": 20,
+          "SurfaceSource": ""
+        },
+        {
+          "Name": "Destra",
+          "Exposure": "Exposed",
+          "StartXM": 0.3,
+          "StartYM": 0,
+          "EndXM": 0.3,
+          "EndYM": 0.5,
+          "MemberEmissivity": 0.8,
+          "ConfigurationFactor": 1,
+          "AssignedConvection": false,
+          "ConvectionWm2K": 25,
+          "CombinedUnexposedTransfer": false,
+          "SurfaceState": "ConstantReference",
+          "ReferenceSurfaceC": 20,
+          "SurfaceSource": ""
+        },
+        {
+          "Name": "Superiore",
+          "Exposure": "Unexposed",
+          "StartXM": 0.3,
+          "StartYM": 0.5,
+          "EndXM": 0,
+          "EndYM": 0.5,
+          "MemberEmissivity": 0.8,
+          "ConfigurationFactor": 1,
+          "AssignedConvection": false,
+          "ConvectionWm2K": 25,
+          "CombinedUnexposedTransfer": false,
+          "SurfaceState": "ConstantReference",
+          "ReferenceSurfaceC": 20,
+          "SurfaceSource": ""
+        },
+        {
+          "Name": "Sinistra",
+          "Exposure": "Exposed",
+          "StartXM": 0,
+          "StartYM": 0.5,
+          "EndXM": 0,
+          "EndYM": 0,
+          "MemberEmissivity": 0.8,
+          "ConfigurationFactor": 1,
+          "AssignedConvection": false,
+          "ConvectionWm2K": 25,
+          "CombinedUnexposedTransfer": false,
+          "SurfaceState": "ConstantReference",
+          "ReferenceSurfaceC": 20,
+          "SurfaceSource": ""
+        }
+      ]
+    }
+  }
+}

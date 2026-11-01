@@ -801,6 +801,42 @@
       "kind": "calcolo",
       "sha256": "2c17674b8a534841de0cfd8cf9810d8325b8d9d08b540d8e2f0e3d0f722d22d3",
       "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_incendio/incendio-standard.anthea",
+      "module": "act_incendio",
+      "title": "Incendio NTC · gas e facce",
+      "description": "Azioni termiche al contorno; temperatura superficiale eventualmente prescritta, nessuna analisi di conduzione o resistenza al fuoco.",
+      "kind": "calcolo",
+      "sha256": "30565d587439df3b0a75fd788b460212d1ee42e83b55ab2ae4214e4b1ae71772",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_incendio/incendio-esterno.anthea",
+      "module": "act_incendio",
+      "title": "Incendio EN · curva esterna",
+      "description": "Azioni termiche al contorno; temperatura superficiale eventualmente prescritta, nessuna analisi di conduzione o resistenza al fuoco.",
+      "kind": "calcolo",
+      "sha256": "852415383966618d2d742ebfa4d05ab533f98f038a20e1c7d97cfbd775fdebd2",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_incendio/incendio-idrocarburi.anthea",
+      "module": "act_incendio",
+      "title": "Idrocarburi · flussi su superficie di riferimento",
+      "description": "Azioni termiche al contorno; temperatura superficiale eventualmente prescritta, nessuna analisi di conduzione o resistenza al fuoco.",
+      "kind": "calcolo",
+      "sha256": "39cddc0ef20a4f223df2a9b323392904fdd87869b247f638507704ee667d5d2c",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_incendio/incendio-raffreddamento.anthea",
+      "module": "act_incendio",
+      "title": "Incendio assegnato · raffreddamento",
+      "description": "Azioni termiche al contorno; temperatura superficiale eventualmente prescritta, nessuna analisi di conduzione o resistenza al fuoco.",
+      "kind": "calcolo",
+      "sha256": "13f0b654daffacdaae500839ff6b39724aeb8c3de8a0d97571a1b22e0c73ebd1",
+      "origin": "tests/Shared/ClimateScenarios.cs"
     }
   ]
 }

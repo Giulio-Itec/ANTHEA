@@ -120,8 +120,30 @@ def cranes():
     save(fig,'carriponte','Schema originale. Le azioni del costruttore conservano posizione, segno e stato dinamico; il foglio non verifica le vie di corsa né combina più gru.')
 
 
+def fire_actions():
+    import math
+    fig, axes = canvas('Incendio · temperatura dei gas e condizioni al contorno', 1, 2)
+    ax = axes[0, 0]
+    ax.set_position([.10,.20,.37,.60]);ax.set_axis_on();ax.set_xlim(0,120);ax.set_ylim(0,1200)
+    t=[n/4 for n in range(481)]
+    for label,values,color in [('Standard',[20+345*math.log10(8*x+1) for x in t],BLUE),('Esterna',[20+660*(1-.687*math.exp(-.32*x)-.313*math.exp(-3.8*x)) for x in t],'#218463'),('Idrocarburi',[20+1080*(1-.325*math.exp(-.167*x)-.675*math.exp(-2.5*x)) for x in t],ORANGE)]:
+        ax.plot(t,values,label=label,color=color,lw=2)
+    ax.set_xlabel('t [min]');ax.set_ylabel('Temperatura dei gas [°C]');ax.grid(alpha=.2);ax.legend(loc='lower right',frameon=False)
+    ax = axes[0, 1]
+    ax.add_patch(Rectangle((3,1.4),4,3.4,fc='#edf1f4',ec=INK,lw=2))
+    for x in [3.5,5,6.5]:arrow(ax,x,.3,0,.9,ORANGE)
+    for y in [2,3.3,4.5]:arrow(ax,1.8,y,.9,0,ORANGE)
+    line(ax,[3,7],[4.8,4.8],color=BLUE,lw=3)
+    text(ax,5,5.5,'Faccia non esposta',fontsize=10)
+    text(ax,5,3.7,'θm prescritta',fontsize=11)
+    text(ax,5,2.8,'da analisi termica',fontsize=10)
+    text(ax,5,2.2,'o riferimento dichiarato',fontsize=9)
+    text(ax,5,-.4,'hnet = hc + hr · positivo entrante',fontsize=10)
+    save(fig,'incendio','Curve e schema originali. La temperatura dei gas non è quella della sezione. Il foglio determina azioni al contorno, senza risolvere conduzione o resistenza al fuoco.')
+
+
 if __name__ == '__main__':
     import sys
-    choices = {'idraulica': hydraulics, 'fasi': construction, 'tempo': time_effects, 'precompressione': prestressing, 'carriponte': cranes}
+    choices = {'idraulica': hydraulics, 'fasi': construction, 'tempo': time_effects, 'precompressione': prestressing, 'carriponte': cranes, 'incendio': fire_actions}
     for name in sys.argv[1:] or choices:
         choices[name]()

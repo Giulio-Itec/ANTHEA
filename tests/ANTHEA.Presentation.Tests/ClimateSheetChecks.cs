@@ -72,6 +72,12 @@ internal static class ClimateSheetChecks
                     expect.Throws<ArgumentException>(()=>ClimateDocument.ApplyPrestressToSection(source,sheet.Result!,sheet.SelectedCase,sheet.SelectedStation.Index,"P1"),"Trasferimento rifiuta area non corrispondente");
                 }
             }
+            if(sheet.IsFire)
+            {
+                expect.That(await sheet.CalculateAsync()&&sheet.FireDrawing?.Faces.Count>0,"Esposizione delle facce disponibile");sheet.SelectedCase=sheet.Cases.Count-1;
+                expect.That(sheet.FireDrawing?.Name==sheet.Cases.Last().Name,"Istante delle facce coincide con il selettore");expect.That(sheet.FirePlots[0].Series[0].Points.Last().X==120,"Curva dei gas sull’intera durata");
+                bool flux=sheet.Data["input"]!["CalculateBoundaryFlux"]!.GetValue<bool>();expect.That(sheet.FirePlots.Count==(flux?5:1),"Grafici dei flussi solo con stato superficiale prescritto");expect.That(csv.Contains("Incendio · gas")&&(!flux||csv.Contains("NetWm2")),"CSV completo delle storie termiche");
+            }
             if(sheet.IsCranes)
             {
                 expect.That(await sheet.CalculateAsync()&&sheet.CraneDrawing?.Points.Count>=4,"Azioni alle ruote proiettate");sheet.SelectedCase=sheet.Cases.Count-1;
