@@ -1,15 +1,17 @@
 # Guide globali ANTHEA
 
-Edizione 6, 30 ottobre 2026. Guide pratica e teorica Rev64, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 1 novembre 2026. Guide pratica e teorica Rev65, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev64.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev64.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev64.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev64.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev65.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev65.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev65.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev65.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
 
 | Articolo | Word | PDF | Sorgente |
 |---|---|---|---|
 | Capacità orizzontale del palo in terreno stratificato (metodo di G. Pacini), edizione 1 | [Word](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx) | [PDF](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf) | [Markdown](../../docs/articolo-palo-orizzontale-stratificato.md) |
+
+La Rev65 accompagna ANTHEA 1.17.0. Nel modulo Modelli: stati del catalogo delle combinazioni, alternative ±Q, preparazione e scrittura del risultato in background, risultati scartati solo per le definizioni cambiate, combinazioni oltre 4096 stati calcolate per termini, generatore NTC 2018 con categoria dei carichi variabili, regola 100/30 per i casi sismici con direzione e limiti, componenti principali dei plate. Nella Sezione in c.a.: duttilità in curvatura μφ nella scheda Momento–curvatura e regole EN delle sovrapposizioni della libreria. Le revisioni precedenti sono conservate in supporto/SUPERATI/rilascio-1170-rev65-20261101/.
 
 La Rev64 accompagna ANTHEA 1.16.2: materiali assegnabili alle singole barre e materiale/tensione iniziale modificabili per trefoli e cavi, salvataggio GPC e limiti espliciti dei modelli accessori. Le revisioni precedenti sono conservate in supporto/SUPERATI/rilascio-1162-rev64-20261030/.
 
