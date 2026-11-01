@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using GPC.Converter;
 
@@ -73,10 +75,10 @@ public static class ModelCombinations
     public static ModelCombinationAvailability[] Inspect(ModelSnapshot snapshot)
     {
         var definitions=Read(snapshot);var records=definitions.Select(ToGpc).ToArray();
-        string? revision=snapshot.Results.Any(r=>r.Combination!=null)?InputRevision(snapshot):null;
         var cases=snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&r.Stage==null).Select(r=>r.Name).ToHashSet(StringComparer.Ordinal);
-        // The definitions with results of the current revision, once instead of a scan of the results for each definition.
-        var calculated=snapshot.Results.Where(r=>r.Combination!=null&&r.Combination.InputRevision==revision).Select(r=>r.Combination!.DefinitionId).ToHashSet(StringComparer.Ordinal);
+        // The definitions with results of their current revision (decision of 1/11/2026: a revision for each definition), once instead of a scan
+        // of the results for each definition.
+        var calculated=CurrentDefinitions(snapshot,definitions);
         var byId=definitions.ToDictionary(d=>d.Id,StringComparer.Ordinal);var counts=new Dictionary<string,(long,bool)>(StringComparer.Ordinal);
         return definitions.Select((d,i)=>
         {
@@ -150,7 +152,7 @@ public static class ModelCombinations
         var required=CombinationExpansion.StaticCases(records,definition.Id);
         var known=StaticCaseNames(snapshot).ToHashSet(StringComparer.Ordinal);
         if(required.Any(c=>!known.Contains(c)))throw new InvalidDataException("La combinazione contiene un caso non presente nel modello.");
-        copy.Results=copy.Results.Where(r=>r.Combination==null).ToArray();copy.Validate();return copy;
+        copy.Results=CurrentResults(copy,all);copy.Validate();return copy;
     }
 
     public static ModelSnapshot Remove(ModelSnapshot snapshot,string id)
@@ -160,7 +162,7 @@ public static class ModelCombinations
         if(all.Any(d=>d.Id!=id&&d.Terms.Any(t=>t.IsCombination&&t.Reference==id)))throw new InvalidDataException("La combinazione è usata da altre definizioni: rimuovi prima quei riferimenti.");
         var copy=Copy(snapshot);copy.CustomCombinations=(snapshot.CustomCombinations??[]).Where(d=>d.Id!=id).ToArray();
         if(!id.StartsWith("ANTHEA/",StringComparison.Ordinal))copy.ExcludedCombinationIds=[..snapshot.ExcludedCombinationIds??[],id];
-        copy.Results=copy.Results.Where(r=>r.Combination==null).ToArray();copy.Validate();return copy;
+        copy.Results=CurrentResults(copy,Read(copy));copy.Validate();return copy;
     }
 
     public static string[] StaticCaseNames(ModelSnapshot snapshot)
@@ -185,63 +187,130 @@ public static class ModelCombinations
 
     public static ModelSnapshot RestoreImported(ModelSnapshot snapshot)
     {
-        var copy=Copy(snapshot);copy.ExcludedCombinationIds=null;copy.Results=copy.Results.Where(r=>r.Combination==null).ToArray();copy.Validate();return copy;
+        var copy=Copy(snapshot);copy.ExcludedCombinationIds=null;copy.Results=CurrentResults(copy,Read(copy));copy.Validate();return copy;
     }
 
     /// <summary>
-    /// Refactoring of the combinations (29/10/2026): the revisions of a copy, kept with the references of the parts they were computed from.
-    /// Each was a complete serialization of the copy (several MB), computed again by the calculation, Attach, the catalogue and the view
-    /// model for the same parts. The copies share their arrays and records and never change them in place (ModelCombinations.Copy, the
+    /// Refactoring of the combinations (29/10/2026): the revision of the preparation of a copy, kept with the references of the parts it was
+    /// computed from. It was a complete serialization of the copy (several MB), computed again by the calculation, Attach, the catalogue and the
+    /// view model for the same parts. The copies share their arrays and records and never change them in place (ModelCombinations.Copy, the
     /// updates and the importers build new ones): the same references give the same canonical JSON, hence the same revision. Immutable, so a
-    /// copy may share it and another thread may read it; a different part computes the value again, exactly as before.
+    /// copy may share it and another thread may read it; a different part computes the value again, exactly as before. The definitions of the
+    /// user are not parts of the preparation: each definition has its own revision (<see cref="DefinitionRevision"/>).
     /// </summary>
-    internal sealed record Revisions(int Version,string Name,string Source,object?[] Parts,ModelResultSet[] Basis,object? Custom,object? Excluded,
-        string? Input,long InputBytes,string? Preparation)
+    internal sealed record Revisions(int Version,string Name,string Source,object?[] Parts,ModelResultSet[] Basis,string Preparation,long PreparationBytes)
     {
         static object?[] PartsOf(ModelSnapshot s)=>[s.Nodes,s.Elements,s.Plates,s.Sections,s.SourceTables,s.LocalFrames,s.NodeFrames,s.Boundaries,
             s.ImportMessages,s.UpdateInfo,s.SourceCombinations,s.Masses,s.Temperatures,s.ConstructionStages];
         internal static ModelResultSet[] BasisOf(ModelSnapshot s)=>s.Results.Where(r=>r.Combination==null).ToArray();
-        internal static Revisions Of(ModelSnapshot s,ModelResultSet[] basis)=>new(s.Version,s.Name,s.Source,PartsOf(s),basis,s.CustomCombinations,s.ExcludedCombinationIds,null,0,null);
+        internal static Revisions Of(ModelSnapshot s,ModelResultSet[] basis,string preparation,long bytes)=>new(s.Version,s.Name,s.Source,PartsOf(s),basis,preparation,bytes);
         /// <summary>Same parts except the definitions of the user: the preparation of GPC is the same.</summary>
         internal bool SameBase(ModelSnapshot s,ModelResultSet[] basis)=>Version==s.Version&&string.Equals(Name,s.Name,StringComparison.Ordinal)&&
             string.Equals(Source,s.Source,StringComparison.Ordinal)&&Parts.SequenceEqual(PartsOf(s),ReferenceEqualityComparer.Instance)&&
             Basis.SequenceEqual(basis,ReferenceEqualityComparer.Instance);
-        internal bool SameInput(ModelSnapshot s,ModelResultSet[] basis)=>ReferenceEquals(Custom,s.CustomCombinations)&&ReferenceEquals(Excluded,s.ExcludedCombinationIds)&&SameBase(s,basis);
     }
 
-    public static string InputRevision(ModelSnapshot snapshot)=>Input(snapshot).Hash;
-
-    /// <summary>The input revision and the length of its canonical JSON (the copy without the derived results).</summary>
-    static (string Hash,long Bytes) Input(ModelSnapshot snapshot)
+    /// <summary>The revision of the preparation (the copy without the derived results and the definitions of the user) and the length of its
+    /// canonical JSON.</summary>
+    static (string Hash,long Bytes) Preparation(ModelSnapshot snapshot)
     {
         var basis=Revisions.BasisOf(snapshot);var known=snapshot.CombinationRevisions;
-        if(known is {Input:{} input}&&known.SameInput(snapshot,basis))return (input,known.InputBytes);
+        if(known!=null&&known.SameBase(snapshot,basis))return (known.Preparation,known.PreparationBytes);
         var copy=Copy(snapshot);copy.Results=basis;
+        copy.CustomCombinations=null;copy.ExcludedCombinationIds=null;
         var (hash,bytes)=copy.FingerprintAndSize();
-        var next=known!=null&&known.SameBase(snapshot,basis)?known with {Custom=snapshot.CustomCombinations,Excluded=snapshot.ExcludedCombinationIds}:Revisions.Of(snapshot,basis);
-        snapshot.CombinationRevisions=next with {Input=hash,InputBytes=bytes};
+        snapshot.CombinationRevisions=Revisions.Of(snapshot,basis,hash,bytes);
         return (hash,bytes);
     }
 
-    internal static string PreparationRevision(ModelSnapshot snapshot)
+    internal static string PreparationRevision(ModelSnapshot snapshot)=>Preparation(snapshot).Hash;
+
+    /// <summary>
+    /// Decision of the user of 1/11/2026 («Revisione per singola definizione»): the revision of the inputs of one definition, the SHA-256 of
+    /// a format label, the revision of the preparation (geometry, static cases and every source table: <see cref="PreparationRevision"/>) and
+    /// the canonical JSON of the definitions it reads, itself and the nested ones at any depth, in the order of their identifiers. Saving or
+    /// deleting a definition changes the revisions of that definition and of the definitions that use it, and no other: the results of the
+    /// others stay valid. Until 1/11/2026 the revision was the one of the whole copy without the derived results (every definition included):
+    /// the results saved with it are not current any more and are calculated again once (<see cref="WithCurrentResults"/>).
+    /// </summary>
+    public static string DefinitionRevision(ModelSnapshot snapshot,string definitionId)=>
+        DefinitionRevisions(snapshot,Read(snapshot),[definitionId]).TryGetValue(definitionId,out var revision)?revision:throw new InvalidDataException("Combinazione non trovata.");
+
+    const string RevisionFormat="ANTHEA combination revision 2 (1/11/2026)";
+
+    /// <summary>The revisions of the definitions <paramref name="ids"/> that exist among <paramref name="definitions"/> (those of <see cref="Read"/>).</summary>
+    static Dictionary<string,string> DefinitionRevisions(ModelSnapshot snapshot,IReadOnlyList<ModelCombinationDefinition> definitions,IEnumerable<string> ids)
     {
-        var basis=Revisions.BasisOf(snapshot);var known=snapshot.CombinationRevisions;
-        if(known is {Preparation:{} preparation}&&known.SameBase(snapshot,basis))return preparation;
-        var copy=Copy(snapshot);copy.Results=basis;
-        copy.CustomCombinations=null;copy.ExcludedCombinationIds=null;
-        string value=copy.Fingerprint();
-        var next=known!=null&&known.SameBase(snapshot,basis)?known:Revisions.Of(snapshot,basis);
-        snapshot.CombinationRevisions=next with {Preparation=value};
-        return value;
+        var byId=definitions.ToDictionary(d=>d.Id,StringComparer.Ordinal);var revisions=new Dictionary<string,string>(StringComparer.Ordinal);
+        string? preparation=null;
+        foreach(string id in ids)
+        {
+            if(revisions.ContainsKey(id)||!byId.ContainsKey(id))continue;
+            preparation??=PreparationRevision(snapshot);
+            // The definitions read by the expansion, cycles and missing references included (a missing one enters by its identifier).
+            var closure=new SortedSet<string>(StringComparer.Ordinal);var pending=new Stack<string>();pending.Push(id);
+            while(pending.Count>0)
+            {
+                string next=pending.Pop();
+                if(!closure.Add(next)||!byId.TryGetValue(next,out var nested))continue;
+                foreach(var term in nested.Terms)if(term.IsCombination)pending.Push(term.Reference);
+            }
+            var read=closure.Select(c=>byId.TryGetValue(c,out var d)?(object)d:new {Missing=c}).ToArray();
+            using var hash=IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+            hash.AppendData(Encoding.UTF8.GetBytes(RevisionFormat+"\n"+preparation+"\n"));hash.AppendData(JsonSerializer.SerializeToUtf8Bytes(read));
+            revisions[id]=Convert.ToHexString(hash.GetHashAndReset());
+        }
+        return revisions;
+    }
+
+    /// <summary>The definitions whose derived results in the copy are of their current revision.</summary>
+    static HashSet<string> CurrentDefinitions(ModelSnapshot snapshot,IReadOnlyList<ModelCombinationDefinition> definitions)
+    {
+        var derived=snapshot.Results.Where(r=>r.Combination!=null).ToArray();
+        if(derived.Length==0)return new(StringComparer.Ordinal);
+        var revisions=DefinitionRevisions(snapshot,definitions,derived.Select(r=>r.Combination!.DefinitionId));
+        return derived.Where(r=>revisions.TryGetValue(r.Combination!.DefinitionId,out var current)&&current==r.Combination.InputRevision)
+            .Select(r=>r.Combination!.DefinitionId).ToHashSet(StringComparer.Ordinal);
+    }
+
+    /// <summary>The results of the copy without the derived results that are not of the current revision of their definition (definition
+    /// changed, removed, or one it uses changed): the static cases and every result still valid, in their order.</summary>
+    internal static ModelResultSet[] CurrentResults(ModelSnapshot copy,IReadOnlyList<ModelCombinationDefinition> definitions)
+    {
+        var current=CurrentDefinitions(copy,definitions);
+        var derived=copy.Results.Where(r=>r.Combination!=null).GroupBy(r=>r.Combination!.DefinitionId,StringComparer.Ordinal);
+        // A definition is current only with all its results of the current revision (an envelope has two).
+        var whole=derived.Where(g=>current.Contains(g.Key)&&g.All(r=>r.Combination!.InputRevision==g.First().Combination!.InputRevision)).Select(g=>g.Key).ToHashSet(StringComparer.Ordinal);
+        return copy.Results.Where(r=>r.Combination==null||whole.Contains(r.Combination.DefinitionId)).ToArray();
+    }
+
+    /// <summary>
+    /// The copy shown by the viewer: the same copy when every derived result is of the current revision of its definition, otherwise a copy
+    /// without the others. A document saved before 1/11/2026 has the revisions of the whole copy: its results are not shown as valid, the
+    /// catalogue offers them «Da calcolare» and the next change of the copy writes the document without them. Never an error.
+    /// </summary>
+    public static ModelSnapshot WithCurrentResults(ModelSnapshot snapshot)
+    {
+        ArgumentNullException.ThrowIfNull(snapshot);
+        if(!snapshot.Results.Any(r=>r.Combination!=null))return snapshot;
+        ModelResultSet[] results;
+        try {results=CurrentResults(snapshot,Read(snapshot));}
+        catch(Exception ex) when(ex is InvalidDataException or ArgumentException or InvalidOperationException or NotSupportedException or KeyNotFoundException)
+        {results=snapshot.Results.Where(r=>r.Combination==null).ToArray();}
+        if(results.Length==snapshot.Results.Length)return snapshot;
+        var copy=Copy(snapshot);copy.Results=results;return copy;
     }
 
     public static ModelSnapshot Attach(ModelSnapshot snapshot,string definitionId,ModelCombinationCalculation calculated)
     {
         var copy=Copy(snapshot);
-        string revision=InputRevision(snapshot);
-        if(calculated.Results.Length==0||!Read(snapshot).Any(d=>d.Id==definitionId)||calculated.Results.Any(r=>r.Combination?.DefinitionId!=definitionId||r.Combination.InputRevision!=revision))
+        var definitions=Read(snapshot);
+        if(calculated.Results.Length==0||!definitions.Any(d=>d.Id==definitionId))throw new InvalidDataException("Il modello o la definizione sono cambiati durante il calcolo. Ricalcola la combinazione.");
+        string revision=DefinitionRevision(snapshot,definitionId);
+        if(calculated.Results.Any(r=>r.Combination?.DefinitionId!=definitionId||r.Combination.InputRevision!=revision))
             throw new InvalidDataException("Il modello o la definizione sono cambiati durante il calcolo. Ricalcola la combinazione.");
-        var original=snapshot.Results.Where(r=>r.Combination?.DefinitionId!=definitionId).ToArray();
+        // The other derived results of their current revision (all of them when the copy came from the viewer).
+        var original=CurrentResults(snapshot,definitions).Where(r=>r.Combination?.DefinitionId!=definitionId).ToArray();
         var names=original.Select(r=>r.Name).ToHashSet(StringComparer.Ordinal);
         if(calculated.Results.Any(r=>names.Contains(r.Name)))throw new InvalidDataException("Il nome del risultato calcolato coincide con un risultato esistente.");
         copy.Results=[..original,..calculated.Results];copy.Validate();
@@ -255,15 +324,18 @@ public static class ModelCombinations
         return copy;
     }
 
-    /// <summary>Length of the canonical JSON of the copy. With the input revision of its parts known, the JSON is that of the input revision
-    /// with the derived results inserted in the array of the results, each with its JSON and one comma (the array already has the static
-    /// cases): the same length as the complete serialization, without serializing the static cases again.</summary>
+    /// <summary>Length of the canonical JSON of the copy. With the revision of the preparation of its parts known, the JSON is that of the
+    /// preparation with the definitions of the user inserted (each property with its comma, after Results) and the derived results inserted in
+    /// the array of the results, each with its JSON and one comma (the array already has the static cases): the same length as the complete
+    /// serialization, without serializing the static cases again.</summary>
     internal static long SerializedSize(ModelSnapshot model)
     {
         var basis=Revisions.BasisOf(model);
-        if(basis.Length>0&&model.CombinationRevisions is {Input:{}} known&&known.SameInput(model,basis))
-            return known.InputBytes+model.Results.Where(r=>r.Combination!=null).Sum(r=>Size(r)+1);
+        if(basis.Length>0&&model.CombinationRevisions is {} known&&known.SameBase(model,basis))
+            return known.PreparationBytes+Property(nameof(ModelSnapshot.CustomCombinations),model.CustomCombinations)+
+                Property(nameof(ModelSnapshot.ExcludedCombinationIds),model.ExcludedCombinationIds)+model.Results.Where(r=>r.Combination!=null).Sum(r=>Size(r)+1);
         return Size(model);
+        static long Property<T>(string name,T? value) where T:class=>value==null?0:1+Encoding.UTF8.GetByteCount(JsonSerializer.Serialize(name))+1+Size(value);
     }
     static long Size<T>(T value)
     {using var counter=new ModelSnapshot.ByteCounter();JsonSerializer.Serialize(counter,value);return counter.Length;}

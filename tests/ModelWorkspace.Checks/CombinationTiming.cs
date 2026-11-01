@@ -282,11 +282,14 @@ static partial class Program
         var service = new GpcModelCombinationService();
         foreach (var id in new[] { "ANTHEA/utente-somma", "ANTHEA/utente-inviluppo-slu" }) model = ModelCombinations.Attach(model, id, await service.CalculateAsync(model, id));
         var fresh = ModelSnapshot.FromJson(JsonSerializer.Serialize(model));
-        Check(ModelCombinations.InputRevision(model) == ModelCombinations.InputRevision(fresh) && model.Results.Count(r => r.Combination != null) == 3,
-            "combinations: the input revision kept by the copies equals the one computed again from the document");
+        Check(new[] { "ANTHEA/utente-somma", "ANTHEA/utente-inviluppo-slu" }.All(id => ModelCombinations.DefinitionRevision(model, id) == ModelCombinations.DefinitionRevision(fresh, id)) &&
+            model.Results.Count(r => r.Combination != null) == 3, "combinations: the revision of a definition kept by the copies equals the one computed again from the document");
         var size = typeof(ModelCombinations).GetMethod("SerializedSize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
         Check((long)size.Invoke(null, [model])! == JsonSerializer.SerializeToUtf8Bytes(model).LongLength && (long)size.Invoke(null, [fresh])! == JsonSerializer.SerializeToUtf8Bytes(fresh).LongLength,
             "combinations: the size of a copy from its input revision equals the complete serialization");
+        var excluded = ModelCombinations.Remove(model, "LCOM-GEN/cENV");
+        Check(excluded.ExcludedCombinationIds is { Length: 1 } && (long)size.Invoke(null, [excluded])! == JsonSerializer.SerializeToUtf8Bytes(excluded).LongLength,
+            "combinations: the size of a copy with excluded imported definitions from its preparation equals the complete serialization");
         var container = new JsonObject(); ProjectModelStore.Set(container, model);
         var entry = ProjectModelStore.Models(container).Single();
         Check(entry["revisione"]!.GetValue<string>() == model.Fingerprint() && entry["snapshot"]!.ToJsonString() == JsonSerializer.SerializeToNode(model)!.ToJsonString(),
@@ -298,8 +301,9 @@ static partial class Program
             ProjectModelStore.Models(c).Single()["snapshot"]!.ToJsonString() == JsonSerializer.SerializeToNode(model)!.ToJsonString()) && ProjectModelStore.Read(second, ProjectModelStore.Models(second).Single()["id"]!.GetValue<string>())!.Fingerprint() == model.Fingerprint(),
             "combinations: an entry prepared off the thread of the interface gives the same document entry as before, in every container");
         var renamed = ModelCombinations.RestoreImported(model); renamed.Name = "Altro nome"; // a copy that carries the revisions of the original
-        Check(ModelCombinations.InputRevision(renamed) == ModelCombinations.InputRevision(ModelSnapshot.FromJson(JsonSerializer.Serialize(renamed))) &&
-            ModelCombinations.InputRevision(renamed) != ModelCombinations.InputRevision(model), "combinations: a part set on a copy gives its own revision");
+        Check(ModelCombinations.DefinitionRevision(renamed, "ANTHEA/utente-somma") == ModelCombinations.DefinitionRevision(ModelSnapshot.FromJson(JsonSerializer.Serialize(renamed)), "ANTHEA/utente-somma") &&
+            ModelCombinations.DefinitionRevision(renamed, "ANTHEA/utente-somma") != ModelCombinations.DefinitionRevision(model, "ANTHEA/utente-somma"), "combinations: a part set on a copy gives its own revision");
+        await DefinitionRevisionChecks(model);
     }
 
     /// <summary>

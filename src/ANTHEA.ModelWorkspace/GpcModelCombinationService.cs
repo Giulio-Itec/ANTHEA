@@ -78,7 +78,7 @@ public sealed partial class GpcModelCombinationService
         // COMBO-B3: terms that cancel each other (Q − Q) leave no static case: explained instead of GPC's «EmptyCombination».
         if(alternatives.All(a=>a.Factors.Count==0))throw new InvalidDataException(ModelCombinations.ZeroMessage);
         token.ThrowIfCancellationRequested();
-        string revision=ModelCombinations.InputRevision(snapshot);
+        string revision=ModelCombinations.DefinitionRevision(snapshot,definitionId);
         string preparationRevision=ModelCombinations.PreparationRevision(snapshot);
         bool reused=prepared?.Revision==preparationRevision;
         var context=reused?prepared!:Prepare(snapshot,preparationRevision,progress,token);

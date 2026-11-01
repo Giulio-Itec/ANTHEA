@@ -159,6 +159,8 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     {
         combinationService.ClearCache();
         if (!validated) snapshot.Validate();
+        // Decision of 1/11/2026 (a revision for each definition): the derived results of an older revision are not shown as valid.
+        snapshot = ModelCombinations.WithCurrentResults(snapshot);
         updating = true; Snapshot = snapshot;
         categoryColors.Clear();
         ResetRevision();

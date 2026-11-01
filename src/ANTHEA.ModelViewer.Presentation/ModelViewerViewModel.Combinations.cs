@@ -65,7 +65,7 @@ public sealed partial class ModelViewerViewModel
     {
         if(loadingCombination)return;
         IsCombinationDirty=true;
-        CombinationMessage="Modifiche da salvare. I risultati già calcolati verranno invalidati al salvataggio.";
+        CombinationMessage="Modifiche da salvare. Al salvataggio si scartano i risultati di questa definizione e di quelle che la usano; gli altri restano.";
     }
     void AddTermEditor(CombinationSource? source,string factor)
     {
@@ -155,7 +155,7 @@ public sealed partial class ModelViewerViewModel
             var definition=new ModelCombinationDefinition(editingCombinationId!,CombinationName.Trim(),(ModelCombinationKind)SelectedCombinationKind,editingCombinationSource,editingCombinationStatus,terms,true);
             if(!await PublishCombinationChangeAsync(s=>ModelCombinations.Save(s,definition),"Salvataggio della definizione…"))return;
             RefreshCombinations(definition.Id);
-            CombinationMessage="Combinazione salvata nel modello. I risultati derivati precedenti sono stati invalidati. Salva il progetto per conservarla.";
+            CombinationMessage="Combinazione salvata nel modello. Scartati solo i risultati di questa definizione e di quelle che la usano. Salva il progetto per conservarla.";
         }
         catch(Exception ex){CombinationMessage="Salvataggio non completato: "+ex.Message;}
     }

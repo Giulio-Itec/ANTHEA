@@ -73,7 +73,9 @@ static partial class Program
         var nestedResult=await service.CalculateAsync(nested,linear.Id);
         Check(nestedResult.Results[0].Values[0].Values[0]==-20&&nestedResult.Results[1].Values[0].Values[0]==8,"nested envelope with negative factor reverses extrema");
         Reject(()=>ModelCombinations.Remove(nested,env.Id),"referenced custom definition cannot be deleted");
-        Check(ModelCombinations.Save(attached,linear).Results.All(r=>r.Combination==null),"editing definitions invalidates derived fields");
+        // Decision of 1/11/2026 (a revision for each definition): editing a definition invalidates its derived fields and those of the definitions
+        // that use it, no other (until then every derived field).
+        Check(ModelCombinations.Save(attached,linear).Results.Count(r=>r.Combination?.DefinitionId==env.Id)==2&&ModelCombinations.Save(attached,env with {Terms=[new("G",false,1),new("Q",false,2)]}).Results.All(r=>r.Combination==null),"editing a definition invalidates only its derived fields and those that use it");
         using var cancelled=new CancellationTokenSource();cancelled.Cancel();
         try {await service.CalculateAsync(model,env.Id,token:cancelled.Token);throw new Exception("Cancellation ignored");}
         catch(OperationCanceledException){Check(true,"cancelled calculation never publishes partial fields");}
