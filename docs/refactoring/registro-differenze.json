@@ -14281,6 +14281,85 @@
         "supporto/artefatti/rilascio-1.16.2/audit-payload.json"
       ],
       "wiki": "Guide globali Rev64: Modulo Sezione in c.a. e Sezione in calcestruzzo armato"
+    },
+    {
+      "id": "COMBO-GEN-01",
+      "data": "2026-11-01",
+      "fase": "dopo la 1.16.2 / modelli-8",
+      "titolo": "Modelli: interfaccia del generatore delle combinazioni NTC 2018 e regola 100/30 dei casi sismici direzionali",
+      "famiglia": "modelli/combinazioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Il generatore automatico delle combinazioni (D9 a, servizio senza interfaccia dal 28/10) ha il pannello «Genera NTC 2018…» nel gestore delle combinazioni: natura, categoria della Tab. 2.5.I, gruppo e direzione sismica di ogni caso statico, anteprima delle righe per stato limite, generazione che sostituisce le generate e conserva quelle dell'utente. Decisioni dell'utente del 1/11/2026: i carichi MIDAS «L» non hanno categoria predefinita e la generazione aspetta la scelta; i casi sismici con direzione X, Y o Z seguono la regola 100/30 di NTC 2018 §7.3.5 (1,00 E di una direzione e 0,30 delle altre, ogni direzione principale una volta, tutti i segni) con i coefficienti del generatore di Model (SeismicCombinations); senza direzione entrano da soli con ±1 come prima; il limite di 4096 righe e 12 gruppi resta e l'anteprima lo dice con il numero e il rimedio. Le scelte restano nella copia (ModelSnapshot.GeneratorCases, campo nuovo omesso se nullo).",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelCombinationGenerator.cs",
+        "src/ANTHEA.ModelWorkspace/ModelSnapshot.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Generator.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelCombinationsView.xaml"
+      ],
+      "segno": "Nessun valore calcolato cambia: senza direzione le righe SLV sono quelle di prima; le impronte dei documenti senza scelte non cambiano.",
+      "effetto_quantificato": "Con due casi sismici direzionali (X, Y) le varianti sismiche passano da 4 (±E1, ±E2) a 8 (E1 ± 0,3 E2 con tutti i segni e viceversa): le righe SLV raddoppiano.",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "Punto 8 dell'elenco dei prossimi lavori; «L» sempre da scegliere, 100/30 con la direzione indicata, limite invariato.",
+        "esito": "Attuato nei rami lib-modelli/8 (Model c1d4950c) e refactoring/modelli-8 (7a55cf58)."
+      },
+      "test": [
+        "Model UnitTest: SeismicCombinationsTest (varianti scritte a mano)",
+        "ModelWorkspace.Checks: righe SLV 100/30 a mano, anteprima e limiti, persistenza delle scelte",
+        "ModelViewer.Combinations.UiChecks: pannello del generatore"
+      ]
+    },
+    {
+      "id": "COMBO-PRIN-01",
+      "data": "2026-11-01",
+      "fase": "dopo la 1.16.2 / modelli-8",
+      "titolo": "Modelli: componenti principali dei plate calcolate da GPC nelle combinazioni",
+      "famiglia": "modelli/combinazioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Le combinazioni calcolate da GPC hanno ora Mmax, Mmin, Fmax e Fmin dei plate (richiesta del 12/10): per una combinazione lineare le principali dello stato locale combinato, per un inviluppo le principali di ogni stato simultaneo con estremi, stato governante e vettore locale concomitante; mai la somma delle principali dei casi né gli estremi locali non simultanei. Convenzione mostrata: MIDAS (Mmax = −Mmin di GPC). Nel documento: campi PLATE/PRINCIPAL dopo i campi locali e, per gli inviluppi, PrincipalGoverning e PrincipalAlternatives (campi nuovi omessi se nulli). Le combinazioni oltre 4096 stati (COMBO-B2-bis) non hanno principali: richiedono ogni stato.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs",
+        "src/ANTHEA.ModelWorkspace/ModelCombinations.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Tables.cs"
+      ],
+      "segno": "Aggiunte: i valori, i governanti e le alternative esistenti non cambiano (impronta dei valori della 1.16.0, che lascia fuori le aggiunte). Le combinazioni calcolate prima restano valide senza principali; la vista chiede di ricalcolarle.",
+      "effetto_quantificato": "Per ogni risultato di combinazione con plate quattro campi in più (un valore per nodo di ogni plate) e, per gli inviluppi, quattro governanti per nodo e per risultato.",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "Punto 8 dell'elenco dei prossimi lavori: «componenti principali dei plate (Mmax, Mmin, Fmax, Fmin)».",
+        "esito": "Attuato nei rami lib-modelli/8 (Model d1e1abf1) e refactoring/modelli-8 (f1fc6ea6). Nessun dato MIDAS con le principali disponibile per il confronto."
+      },
+      "test": [
+        "Model UnitTest: PlatePrincipalsTest (formula, rotazione, inviluppo e combinazione lineare a mano)",
+        "ModelWorkspace.Checks: CombinationPrincipalChecks (attesi a mano sui valori mostrati)"
+      ]
+    },
+    {
+      "id": "COMBO-B2-bis",
+      "data": "2026-11-01",
+      "fase": "dopo la 1.16.2 / modelli-8",
+      "titolo": "Modelli: combinazioni oltre 4096 stati alternativi calcolate per termini invece che rifiutate",
+      "famiglia": "modelli/combinazioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Con COMBO-B2 una somma lineare di inviluppi con più di 4096 stati alternativi era «Non disponibile» e il calcolo la rifiutava. Ora oltre il limite GPC riceve l'albero della definizione e cerca gli estremi termine per termine (l'estremo di una somma è la somma degli estremi dei termini, quello di un inviluppo l'estremo sui termini), con il governante come stato concomitante completo; sotto il limite resta l'espansione, con risultati invariati. Il catalogo dà la definizione «Da calcolare» con il motivo; le componenti principali dei plate non sono disponibili per queste combinazioni.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs",
+        "src/ANTHEA.ModelWorkspace/ModelCombinations.cs"
+      ],
+      "segno": "Solo combinazioni prima non calcolabili; sotto il limite nessun valore cambia (impronta dei valori della 1.16.0). In Model la valutazione per termini dà sotto il limite gli stessi governanti e valori bit per bit dell'espansione.",
+      "effetto_quantificato": "Prodotto di due inviluppi di 65 termini (4225 stati): «Non disponibile» prima, ora calcolato con gli estremi uguali a mano. Prove di COMBO-B2 sostituite: «over 4096 alternatives the catalogue says why it cannot calculate» e «the calculation refuses it with the same explanation» diventano le prove COMBO-B2-bis.",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "Punto 8 dell'elenco dei prossimi lavori: «inviluppi annidati senza espansione completa».",
+        "esito": "Attuato nei rami lib-modelli/8 (Model 22713135) e refactoring/modelli-8 (7e02ab88)."
+      },
+      "test": [
+        "Model UnitTest: CombinationTreeTest (sotto il limite uguale all'espansione bit per bit, sopra il limite a mano)",
+        "ModelWorkspace.Checks: COMBO-B2-bis"
+      ]
     }
   ]
 }
