@@ -2196,3 +2196,30 @@ L'utente richiede materiale selezionabile per ogni barra nella prima scheda dell
    profilo, attesi per modulo e norma), l'utente decide: «aspetta al punto per più norme. di base tante cose le facciamo
    solo con NTC2018. mettilo in attesa». Il punto resta nel piano come in attesa, senza censimento né proposta; i moduli
    fissi restano su NTC 2018 e i selettori di sezioni c.a. e Ponte restano come sono.
+
+## 1 novembre (sera) — punti 7 e 8
+
+Domande degli agenti `modelli-8` e `ca-metodi` (secondo giro), tutte decise come raccomandato:
+
+1. **Archivio dei risultati dei modelli grandi** (proposta in `f5-agenti/modelli-8/avanzamento.md`: oggi 103 MB di JSON
+   nel documento sul 500 × 100, 191 MB sul 1000 × 100): «Blocchi accanto», cioè archivio a blocchi binari compressi
+   accanto al documento, uno per caso o combinazione, indirizzati dalla loro impronta. È il prossimo passo; restano da
+   decidere un file o due, la soglia e quante revisioni dello storico conservare.
+2. **Principali dei plate oltre 4096 stati**: «Non disponibili», con il motivo nel catalogo; le altre grandezze si calcolano
+   per termini (COMBO-B2-bis).
+3. **Combinazioni calcolate con le versioni precedenti**: «Calcolate + avviso». Restano «Calcolate» con i risultati di prima
+   e la vista propone il ricalcolo solo quando si chiedono le principali. L'agente delle guide ha notato che il codice della
+   mattina (COMBO-REV-01) apriva «Da calcolare» i progetti salvati fino alla 1.16.2. Corretto prima del rilascio
+   (COMBO-REV-01-bis):
+   - un risultato con la revisione dell'intera copia della 1.16.2 resta valido se la copia non è cambiata dopo il calcolo;
+   - il comando «Ricalcola con le componenti principali» aggiunge le principali.
+4. **Report**: principali dei plate, governanti per termini e μφ non entrano nei report finché l'utente non porta il suo
+   abbozzo (regola del 1/11).
+5. **EN 8.8 con l'annesso danese**: φlarge = 32 mm, il valore raccomandato, dichiarato nel controllo finché non arriva il
+   testo del DK NA.
+6. **Dati delle sovrapposizioni nel verificatore del modello**: «Aggiungi i campi in Model». Percentuale giuntata e numero
+   di strati diventano campi facoltativi dei dati dei dettagli, nel giro successivo; fino ad allora le sezioni Eurocodice in
+   zona di sovrapposizione danno «dati insufficienti» per EN 8.7.2(4).
+7. **Nuova versione**: «fai nuova versione di anthea se tutto passa», poi «ricordati di fare merge dei vari branch e di
+   pulire a fine lavoro. porta master sul commit della versione e push su git». Esce come ANTHEA 1.17.0: funzioni nuove,
+   quindi sale il secondo numero. Contiene librerie AQ e guide Rev65; il tag `v1.17.0` va sul commit del setup.

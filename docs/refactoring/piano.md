@@ -1432,11 +1432,24 @@ i report di calcolo restano aperti finché l'utente non porta il suo abbozzo. De
 - [x] Set AP da `origin/master` (Model 391cfea9, Checker a3c53320), installazione e full di ANTHEA: PASS 160
   (`supporto/artefatti/integrazione-1101`). Architecture.Tests ripassata dopo l'aggiornamento della provenienza F4
   (`tests/fixtures/f4/library-release.json`), dimenticato nel commit d'installazione.
-- [ ] Campagna dei tempi delle combinazioni a macchina ferma.
-- [ ] Pagine dei metodi del c.a., seconda parte: μφ nella scheda «Momento–curvatura», EN 8.7.2(3) con l'intero interferro, controlli
-  di EN 8.8 e 8.7.2(4).
-- [ ] Modulo Modelli (punto 8, agente `modelli-8`): interfaccia del generatore, componenti principali dei plate, inviluppi annidati
-  senza espansione completa, proposta per l'archivio dei risultati.
+- [x] Campagna dei tempi delle combinazioni a macchina ferma, set AP: PASS, impronte dei valori uguali alla 1.16.0; sul
+  500 × 100 la corsa passa da 122 a 30 s e l'inviluppo SLU da 23,9 a 2,9 s
+  (`supporto/artefatti/combo-chiusura/tempi-20261101-ap*`).
+- [x] Pagine dei metodi del c.a., seconda parte: μφ nella scheda «Momento–curvatura» (non nel report), EN 8.7.2(3) con l'intero
+  interferro, controlli di EN 8.8 e 8.7.2(4) in sospeso senza dati (GPCChecker.Concrete 0.35; voci CA-METODI-01..03).
+- [x] Modulo Modelli (punto 8, agente `modelli-8`): interfaccia del generatore con la regola 100/30, componenti principali dei
+  plate, combinazioni oltre 4096 stati calcolate per termini, proposta per l'archivio dei risultati (GPCModel 5.34; voci
+  COMBO-GEN-01, COMBO-PRIN-01, COMBO-B2-bis).
+- [x] Set AQ da `origin/master` con i punti 7 e 8 (Model f4f78752, Checker eb16e72c), installazione e corsa rapida;
+  correzioni delle due suite che il secondo giro del c.a. non aveva lanciato (b71f4ad3).
+- [x] Combinazioni dei progetti salvati fino alla 1.16.2 ancora valide: restano «Calcolate», con il comando «Ricalcola con
+  le componenti principali» (COMBO-REV-01-bis, decisione del 1/11 sera).
+- [x] Guide pratica e teorica Rev65 (agente `guide-1170`, voce F5-REL-1170-01).
+- [x] ANTHEA 1.17.0: commit di rilascio, full con l'installer e setup (esiti nel tag `v1.17.0`).
+- [ ] Archivio dei risultati dei modelli grandi a blocchi binari compressi accanto al documento (decisione del 1/11 sera):
+  da progettare; restano da decidere un file o due, la soglia e le revisioni dello storico.
+- [ ] Percentuale giuntata e numero di strati nei dati dei dettagli di Model, letti dal verificatore del modello per
+  EN 8.7.2(4) (decisione del 1/11 sera).
 - [ ] Norma di progetto unica per documento (punto 5): **in attesa** per decisione dell'utente del 1/11 («di base tante
   cose le facciamo solo con NTC2018»); nessun censimento né proposta finché l'utente non lo riapre.
 - [ ] Report di calcolo: dopo l'abbozzo dell'utente.
