@@ -85,3 +85,8 @@ Guide Rev65: pratica 129 pagine, teorica 209; 1341 e 2537 frammenti di testo ver
 Wiki: 94 capitoli, dodici nuovi, collegamenti dai sei moduli verificati. Il primo controllo ha rilevato il censimento delle aggiunte non aggiornato; esteso soltanto l’elenco dei nuovi capitoli e aggiunti sei controlli di collegamento, preservando la fixture dei 73 articoli F5. Corsa 20261101-221622-azioni-wiki-final PASS. Climate.Tests 1084 controlli e catalogo dei 93 esempi PASS nella precedente azioni-final-docs.
 
 Set candidate-final-versions da Model 07fb7618 e Checker c79f2c81: 11933 test PASS, zero fallimenti, 13 prove già ignorate dalle suite; API compatibili. GPCModel 5.35.0.0 e GPC.Design 0.45.0.0 per nuove funzionalità, revisioni di ricompilazione per le dipendenze. Nessuna modifica agli attesi numerici. Allineamento remoto finale verificato prima della pubblicazione.
+
+
+## Integrazione GPC e set ufficiale AQ
+
+Model 07fb7618 e Checker c79f2c81 integrati per fast-forward nei rispettivi origin/master; gli origin precedenti erano già antenati dei branch verificati. Nessun checkout degli altri lavori modificato. Set ufficiale release-aq ricostruito dopo il push con -Previous sul set AP: 11933 PASS, zero fallimenti, 13 prove già ignorate. Tutte le 14 DLL sono identiche al candidato finale. Snapshot ANTHEA installato mediante Update-Snapshot, manifest e provenienza F4 aggiornati; attesi numerici invariati. Full ANTHEA da eseguire su questo insieme prima del merge finale.

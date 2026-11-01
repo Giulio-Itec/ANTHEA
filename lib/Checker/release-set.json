@@ -1,9 +1,9 @@
 {
     "schema":  1,
     "generator":  "Checker/build/Release-Set.ps1",
-    "created":  "2026-11-01T14:23:26",
+    "created":  "2026-11-01T22:23:35",
     "candidate":  false,
-    "previous":  "C:\\Users\\g.pacini\\Documents\\Repository\\ANTHEA\\supporto\\artefatti\\azioni-climatiche\\merge-20261030\\gpc-release\\release-set.json",
+    "previous":  "C:/Users/g.pacini/Documents/Repository/ANTHEA/supporto/artefatti/librerie-20261101-ap/release-set.json",
     "repositories":  {
                          "Utilities":  {
                                            "commit":  "e57b440b16a0a311a7bf0af2f9cf4d2681b83491",
@@ -16,13 +16,13 @@
                                           "onOriginMaster":  true
                                       },
                          "Model":  {
-                                       "commit":  "391cfea955412e24af9777f6d82cf30da57a89eb",
-                                       "branch":  "rel/20261101",
+                                       "commit":  "07fb7618975cdcbf8ce694e66d31592a676271ec",
+                                       "branch":  "codex/azioni-estese-20261101",
                                        "onOriginMaster":  true
                                    },
                          "Checker":  {
-                                         "commit":  "a3c533205e441872dce24bede81b44e0aba37276",
-                                         "branch":  "rel/20261101",
+                                         "commit":  "c79f2c8112c861be21ecd917a1b764a1afcdc0d3",
+                                         "branch":  "codex/azioni-estese-20261101",
                                          "onOriginMaster":  true
                                      }
                      },
@@ -61,111 +61,111 @@
                       "file":  "GPCModel.dll",
                       "repository":  "Model",
                       "source":  "Model/bin/Release/netstandard2.0/GPCModel.dll",
-                      "assemblyVersion":  "5.32.0.1",
-                      "fileVersion":  "5.32.0.1",
-                      "informationalVersion":  "5.32.0.1",
-                      "sha256":  "428213A5B50F41E0645C17B6350A1A5D549618852214B6C9F7B627E09E52F862",
-                      "commit":  "391cfea955412e24af9777f6d82cf30da57a89eb"
+                      "assemblyVersion":  "5.35.0.0",
+                      "fileVersion":  "5.35.0.0",
+                      "informationalVersion":  "5.35.0.0",
+                      "sha256":  "FB6BE5747CC101F3C053899BA610086E5B3F9B1F9DABE526EC8F40D6A36516DF",
+                      "commit":  "07fb7618975cdcbf8ce694e66d31592a676271ec"
                   },
                   {
                       "file":  "GPCModelData.dll",
                       "repository":  "Model",
                       "source":  "ModelData/bin/Release/netstandard2.0/GPCModelData.dll",
-                      "assemblyVersion":  "0.3.0.18",
-                      "fileVersion":  "0.3.0.18",
-                      "informationalVersion":  "0.3.0.18",
-                      "sha256":  "030994F609F05C9DB135DEF4551C86442A7CDFDCA9FBCA0A8C272AED25092A01",
-                      "commit":  "391cfea955412e24af9777f6d82cf30da57a89eb"
+                      "assemblyVersion":  "0.3.0.21",
+                      "fileVersion":  "0.3.0.21",
+                      "informationalVersion":  "0.3.0.21",
+                      "sha256":  "5DC4D7ADFD5DD0D839E7046775FD242B45683CEB6495C3D508BA05DD146736FA",
+                      "commit":  "07fb7618975cdcbf8ce694e66d31592a676271ec"
                   },
                   {
                       "file":  "GPC.Model.Persistence.dll",
                       "repository":  "Model",
                       "source":  "GPC.Model.Persistence/bin/Release/netstandard2.0/GPC.Model.Persistence.dll",
-                      "assemblyVersion":  "3.4.0.8",
-                      "fileVersion":  "3.4.0.8",
-                      "informationalVersion":  "3.4.0.8+391cfea955412e24af9777f6d82cf30da57a89eb",
-                      "sha256":  "C915DF8A18CBFFAEBDCB11C007BC572D085CD2B5047D8EE84F647D5B85E115C4",
-                      "commit":  "391cfea955412e24af9777f6d82cf30da57a89eb"
+                      "assemblyVersion":  "3.4.0.11",
+                      "fileVersion":  "3.4.0.11",
+                      "informationalVersion":  "3.4.0.11+07fb7618975cdcbf8ce694e66d31592a676271ec",
+                      "sha256":  "3CF0869D427492924B7A826D5969230283FBE03CDC2898DEF58D0901BFDC6E89",
+                      "commit":  "07fb7618975cdcbf8ce694e66d31592a676271ec"
                   },
                   {
                       "file":  "GPC.Converter.dll",
                       "repository":  "Model",
                       "source":  "GPC Converter/bin/Release/netstandard2.0/GPC.Converter.dll",
-                      "assemblyVersion":  "2.11.0.0",
-                      "fileVersion":  "2.11.0.0",
-                      "informationalVersion":  "2.11.0.0+391cfea955412e24af9777f6d82cf30da57a89eb",
-                      "sha256":  "097A30D60E0388F0C674D5C46D3B3A008083E5CC91AD0F8E13FF70D44639DCEF",
-                      "commit":  "391cfea955412e24af9777f6d82cf30da57a89eb"
+                      "assemblyVersion":  "2.12.0.1",
+                      "fileVersion":  "2.12.0.1",
+                      "informationalVersion":  "2.12.0.1+07fb7618975cdcbf8ce694e66d31592a676271ec",
+                      "sha256":  "BCEF5ADEDA5541EBEE187C6B192186251646822ECE3345462D628C4E6A381FA4",
+                      "commit":  "07fb7618975cdcbf8ce694e66d31592a676271ec"
                   },
                   {
                       "file":  "GPCChecker.Concrete.dll",
                       "repository":  "Checker",
                       "source":  "GPCChecker.Concrete/bin/Release/netstandard2.0/GPCChecker.Concrete.dll",
-                      "assemblyVersion":  "0.33.0.0",
-                      "fileVersion":  "0.33.0.0",
-                      "informationalVersion":  "0.33.0.0",
-                      "sha256":  "EB098053C485E5058E1D7EDD2297DA7728DE4CF9F7398B1F369A12D147328047",
-                      "commit":  "a3c533205e441872dce24bede81b44e0aba37276"
+                      "assemblyVersion":  "0.35.0.1",
+                      "fileVersion":  "0.35.0.1",
+                      "informationalVersion":  "0.35.0.1",
+                      "sha256":  "4DE01F34296A28CEB530343642ECA76CF4270CA0F1DC469DB64341D1BF17BEAF",
+                      "commit":  "c79f2c8112c861be21ecd917a1b764a1afcdc0d3"
                   },
                   {
                       "file":  "GPCChecker.Steel.dll",
                       "repository":  "Checker",
                       "source":  "GPCChecker.Steel/bin/Release/netstandard2.0/GPCChecker.Steel.dll",
-                      "assemblyVersion":  "2.127.0.6",
-                      "fileVersion":  "2.127.0.6",
-                      "informationalVersion":  "2.127.0.6",
-                      "sha256":  "458C024C46D92157F2C25B68794FE04C6F939F05D15F934F9233E03271DEFF9A",
-                      "commit":  "a3c533205e441872dce24bede81b44e0aba37276"
+                      "assemblyVersion":  "2.128.0.1",
+                      "fileVersion":  "2.128.0.1",
+                      "informationalVersion":  "2.128.0.1",
+                      "sha256":  "7F2EFC02BDC025D1E04F349F3AE51B8E80BFB43849560ABAC850ACEA2B3F6DB1",
+                      "commit":  "c79f2c8112c861be21ecd917a1b764a1afcdc0d3"
                   },
                   {
                       "file":  "GPCChecker.CompositeBridge.dll",
                       "repository":  "Checker",
                       "source":  "GPCChecker.CompositeBridge/bin/Release/netstandard2.0/GPCChecker.CompositeBridge.dll",
-                      "assemblyVersion":  "1.22.0.2",
-                      "fileVersion":  "1.22.0.2",
-                      "informationalVersion":  "1.22.0.2+a3c533205e441872dce24bede81b44e0aba37276",
-                      "sha256":  "E742709B0C7B8E9C1A06321E41F520E4F2579596176A40A892FBA234129D76F4",
-                      "commit":  "a3c533205e441872dce24bede81b44e0aba37276"
+                      "assemblyVersion":  "1.23.0.2",
+                      "fileVersion":  "1.23.0.2",
+                      "informationalVersion":  "1.23.0.2+c79f2c8112c861be21ecd917a1b764a1afcdc0d3",
+                      "sha256":  "A4C7476B5B33919181641986233644861D1AFD0858C55825926EA66B5BA097D8",
+                      "commit":  "c79f2c8112c861be21ecd917a1b764a1afcdc0d3"
                   },
                   {
                       "file":  "GPCChecker.Geotechnics.dll",
                       "repository":  "Checker",
                       "source":  "GPCChecker.Geotechnics/bin/Release/netstandard2.0/GPCChecker.Geotechnics.dll",
-                      "assemblyVersion":  "0.27.0.8",
-                      "fileVersion":  "0.27.0.8",
-                      "informationalVersion":  "0.27.0.8+a3c533205e441872dce24bede81b44e0aba37276",
-                      "sha256":  "8763AE95FD3B946FDE46E0F2EC084FADDBE070DFF56AD7E8DCCE48E6645923D9",
-                      "commit":  "a3c533205e441872dce24bede81b44e0aba37276"
+                      "assemblyVersion":  "0.27.0.11",
+                      "fileVersion":  "0.27.0.11",
+                      "informationalVersion":  "0.27.0.11+c79f2c8112c861be21ecd917a1b764a1afcdc0d3",
+                      "sha256":  "C496AAF7FCAF295E76E5D5A7A7E494A06D4E065B9A47D512E1886AB4D1B27613",
+                      "commit":  "c79f2c8112c861be21ecd917a1b764a1afcdc0d3"
                   },
                   {
                       "file":  "GPCModelChecker.dll",
                       "repository":  "Checker",
                       "source":  "ModelChecker/bin/Release/netstandard2.0/GPCModelChecker.dll",
-                      "assemblyVersion":  "2.35.0.6",
-                      "fileVersion":  "2.35.0.6",
-                      "informationalVersion":  "2.35.0.6+a3c533205e441872dce24bede81b44e0aba37276",
-                      "sha256":  "0FEBF1C3E2B9DA60003A89A33A3495C9BD6162044EC54740FA6C27855DB42E09",
-                      "commit":  "a3c533205e441872dce24bede81b44e0aba37276"
+                      "assemblyVersion":  "2.36.0.1",
+                      "fileVersion":  "2.36.0.1",
+                      "informationalVersion":  "2.36.0.1+c79f2c8112c861be21ecd917a1b764a1afcdc0d3",
+                      "sha256":  "54B46A9354E971048D6F13881C65624224C537E504FFF006B367D4071EF7452A",
+                      "commit":  "c79f2c8112c861be21ecd917a1b764a1afcdc0d3"
                   },
                   {
                       "file":  "GPCChecker.Masonry.dll",
                       "repository":  "Checker",
                       "source":  "src/GPCChecker.Masonry/bin/Release/netstandard2.0/GPCChecker.Masonry.dll",
-                      "assemblyVersion":  "0.10.0.23",
-                      "fileVersion":  "0.10.0.23",
-                      "informationalVersion":  "0.10.0.23+a3c533205e441872dce24bede81b44e0aba37276",
-                      "sha256":  "702D1082E74889D6D08C635EC0BA0740493F0AB6EA26DFA29099CA26D9A80052",
-                      "commit":  "a3c533205e441872dce24bede81b44e0aba37276"
+                      "assemblyVersion":  "0.10.0.26",
+                      "fileVersion":  "0.10.0.26",
+                      "informationalVersion":  "0.10.0.26+c79f2c8112c861be21ecd917a1b764a1afcdc0d3",
+                      "sha256":  "790DA03E780F2ACC22694041F80012C2548609FC346E1D4A6C02A855DC8246D9",
+                      "commit":  "c79f2c8112c861be21ecd917a1b764a1afcdc0d3"
                   },
                   {
                       "file":  "GPC.Design.dll",
                       "repository":  "Checker",
                       "source":  "src/GPC.Design/bin/Release/netstandard2.0/GPC.Design.dll",
-                      "assemblyVersion":  "0.44.0.3",
-                      "fileVersion":  "0.44.0.3",
-                      "informationalVersion":  "0.44.0.3+a3c533205e441872dce24bede81b44e0aba37276",
-                      "sha256":  "3CD4466944C94CC3E37396E23E92003FC612A6C070D11561FDA170D03B277590",
-                      "commit":  "a3c533205e441872dce24bede81b44e0aba37276"
+                      "assemblyVersion":  "0.45.0.0",
+                      "fileVersion":  "0.45.0.0",
+                      "informationalVersion":  "0.45.0.0+c79f2c8112c861be21ecd917a1b764a1afcdc0d3",
+                      "sha256":  "4BE2F44ADE90515D1F38100956682DE59F98139569E97FCE2F760E5CB35D6678",
+                      "commit":  "c79f2c8112c861be21ecd917a1b764a1afcdc0d3"
                   }
               ],
     "suites":  [
@@ -179,14 +179,14 @@
                    {
                        "name":  "UnitTest",
                        "repository":  "Model",
-                       "passed":  1602,
+                       "passed":  1611,
                        "failed":  0,
                        "other":  12
                    },
                    {
                        "name":  "GPCChecker.Test.Concrete",
                        "repository":  "Checker",
-                       "passed":  959,
+                       "passed":  962,
                        "failed":  0,
                        "other":  0,
                        "knownFailures":  [
@@ -256,7 +256,7 @@
                    {
                        "name":  "Steel.Members.Tests",
                        "repository":  "Checker",
-                       "passed":  6990,
+                       "passed":  7035,
                        "failed":  0,
                        "other":  0,
                        "knownFailures":  [
@@ -266,7 +266,7 @@
                    {
                        "name":  "Design.Checks",
                        "repository":  "Checker",
-                       "passed":  192,
+                       "passed":  274,
                        "failed":  0,
                        "other":  0,
                        "knownFailures":  [
@@ -276,7 +276,7 @@
                    {
                        "name":  "Design.Checks.net472",
                        "repository":  "Checker",
-                       "passed":  191,
+                       "passed":  273,
                        "failed":  0,
                        "other":  0,
                        "knownFailures":  [
@@ -286,7 +286,7 @@
                    {
                        "name":  "ModelChecker.Tests",
                        "repository":  "Checker",
-                       "passed":  655,
+                       "passed":  669,
                        "failed":  0,
                        "other":  1,
                        "knownFailures":  [
