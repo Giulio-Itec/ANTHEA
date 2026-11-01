@@ -51,6 +51,7 @@ internal sealed partial class ModuleImplementations
         ("act_traffico_ponti", SheetImplementation.Mvvm),
         ("act_ripartizione_traffico", SheetImplementation.Mvvm),
         ("act_urti_veicolari", SheetImplementation.Mvvm),
+        ("act_idrauliche", SheetImplementation.Mvvm),
     ];
 
     /// <summary>The implementations of the Release.</summary>

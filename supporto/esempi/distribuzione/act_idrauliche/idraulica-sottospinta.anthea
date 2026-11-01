@@ -1,0 +1,54 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_idrauliche",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "HydraulicActionsInput",
+    "input": {
+      "Element": "HorizontalSlab",
+      "UnitWeightKnM3": 9.81,
+      "BottomElevationM": 0,
+      "TopElevationM": 5,
+      "WidthM": 2,
+      "SlabLengthM": 10,
+      "SlabThicknessM": 0.5,
+      "Uplift": "AssignedPressureProfile",
+      "PressureSource": "Esempio didattico di distribuzione lineare assegnata; non è un calcolo di filtrazione.",
+      "PressureProfile": [
+        {
+          "PositionM": 0,
+          "PressureKpa": 30
+        },
+        {
+          "PositionM": 10,
+          "PressureKpa": 10
+        }
+      ],
+      "DragCoefficient": 1,
+      "DragSource": "",
+      "UseVelocityProfile": false,
+      "VelocityProfile": [
+        {
+          "ElevationM": 0,
+          "VelocityMs": 0
+        },
+        {
+          "ElevationM": 5,
+          "VelocityMs": 2
+        }
+      ],
+      "WaterCases": [
+        {
+          "Name": "Ordinario",
+          "LeftLevelM": 3,
+          "RightLevelM": 0,
+          "CurrentVelocityMs": 2,
+          "ProfileMultiplier": 1
+        }
+      ],
+      "ProjectSource": ""
+    }
+  }
+}

@@ -6,11 +6,25 @@ namespace Anthea.Testing.Climate;
 internal static class ClimateScenarios
 {
     internal sealed record Scenario(string Module,string File,string Title,JsonObject Data);
+    private static IEnumerable<Scenario> HydraulicScenarios()
+    {
+        Scenario S(string file,string title,Action<JsonObject> configure)
+        {var data=ClimateDocument.Create(ClimateDocument.Hydraulics);configure(data["input"]!.AsObject());return new(ClimateDocument.Hydraulics,file,title,data);}
+        yield return S("idraulica-parete","Parete · livelli ordinario e piena",p=>
+        {p["UnitWeightKnM3"]=10;p["WaterCases"]!.AsArray().Add(new JsonObject{["Name"]="Piena",["LeftLevelM"]=5,["RightLevelM"]=1,["CurrentVelocityMs"]=0,["ProfileMultiplier"]=1});});
+        yield return S("idraulica-platea","Platea sommersa · spinta di Archimede",p=>
+        {p["Element"]="HorizontalSlab";p["UnitWeightKnM3"]=10;p["WaterCases"]![0]!["LeftLevelM"]=5;p["WaterCases"]![0]!["RightLevelM"]=5;});
+        yield return S("idraulica-sottospinta","Platea · sottospinta da profilo assegnato",p=>
+        {p["Element"]="HorizontalSlab";p["Uplift"]="AssignedPressureProfile";p["PressureSource"]="Esempio didattico di distribuzione lineare assegnata; non è un calcolo di filtrazione.";});
+        yield return S("idraulica-corrente","Pila · corrente variabile lungo l’altezza",p=>
+        {p["Element"]="RiverPier";p["UseVelocityProfile"]=true;p["DragCoefficient"]=1.2;p["DragSource"]="Coefficiente assegnato per il solo esempio numerico, non tabella normativa.";});
+    }
     internal static IEnumerable<Scenario> All()
     {
         Scenario S(string module,string file,string title,Action<JsonObject> configure)
         {var data=ClimateDocument.Create(module);configure(data["input"]!.AsObject());return new(module,file,title,data);}
         void En(JsonObject p){p["Standard"]="EurocodeFirstGeneration";p["NationalParameters"]="Esempio didattico: valori raccomandati EN di prima generazione, clima assegnato; nessuna appendice nazionale selezionata.";}
+        foreach(var scenario in HydraulicScenarios())yield return scenario;
         yield return S(ClimateDocument.Snow,"neve-ntc-due-falde","Neve NTC · due falde 30° / 45°",p=>{p["PitchLeftDeg"]=30;p["PitchRightDeg"]=45;p["AltitudeM"]=481;p["Zone"]="II";});
         yield return S(ClimateDocument.Snow,"neve-en-salto","Neve EN · accumulo presso salto",p=>{En(p);p["AssignedGroundLoad"]=true;p["GroundLoadKnM2"]=1;p["Roof"]="LowerRoof";p["PitchLeftDeg"]=0;p["StepHeightM"]=3;p["WidthM"]=3;p["UpperWidthM"]=9;});
         yield return S(ClimateDocument.BuildingWind,"vento-ntc-due-falde","Vento NTC · edificio a due falde",p=>{p["PitchDeg"]=15;p["LoadedAreaM2"]=10;});

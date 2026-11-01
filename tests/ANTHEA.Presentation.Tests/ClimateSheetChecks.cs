@@ -27,7 +27,7 @@ internal static class ClimateSheetChecks
             sheet.IsReadOnly=true;var field=sheet.Forms.SelectMany(f=>f.Form.Fields).Concat(sheet.Tables.Where(t=>t.Editor is not null).SelectMany(t=>t.Editor!.Fields)).FirstOrDefault(f=>f.Kind==Anthea.Presentation.Forms.FieldKind.Text&&f.Spec.Write==Anthea.Presentation.Forms.FieldWriteRule.NumberOrText);
             expect.That(field is not null,"Campo numerico disponibile");field!.EditText="999";expect.That(JsonNode.DeepEquals(before,sheet.Data),"Sola lettura");sheet.IsReadOnly=false;
             var form=scenario.Module==ClimateDocument.Combinations?sheet.Tables.Single().Editor!:sheet.Forms.Last().Form;
-            string key=scenario.Module switch{ClimateDocument.Snow or ClimateDocument.BuildingWind or ClimateDocument.BridgeWind=>"WidthM",ClimateDocument.PermanentLoads=>"TributaryWidthM",ClimateDocument.Combinations=>"Effect",ClimateDocument.RoadTraffic=>"LoadedLengthM",ClimateDocument.Impact=>scenario.Data["input"]!["Target"]!.ToString()=="Superstructure"?"ClearanceM":"MemberWidthM",ClimateDocument.Distribution=>"SpanM",_=>"LengthM"};
+            string key=scenario.Module switch{ClimateDocument.Snow or ClimateDocument.BuildingWind or ClimateDocument.BridgeWind=>"WidthM",ClimateDocument.Hydraulics=>"WidthM",ClimateDocument.PermanentLoads=>"TributaryWidthM",ClimateDocument.Combinations=>"Effect",ClimateDocument.RoadTraffic=>"LoadedLengthM",ClimateDocument.Impact=>scenario.Data["input"]!["Target"]!.ToString()=="Superstructure"?"ClearanceM":"MemberWidthM",ClimateDocument.Distribution=>"SpanM",_=>"LengthM"};
             double edited=scenario.Module==ClimateDocument.Distribution?30:12.5;
             form[key].EditText=edited.ToString(System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
             var changed=scenario.Module==ClimateDocument.Combinations?sheet.Data["input"]!["Actions"]![0]:sheet.Data["input"];
@@ -48,6 +48,12 @@ internal static class ClimateSheetChecks
                 int count=table.Rows.Count;table.AddCommand.Execute(null);expect.That(table.Rows.Count==count+1&&!sheet.HasResults,"Aggiunta riga e invalidazione");
                 table.RemoveCommand.Execute(null);expect.That(table.Rows.Count==count,"Rimozione della riga appena aggiunta");
                 sheet.IsReadOnly=true;table.AddCommand.Execute(null);expect.That(table.Rows.Count==count&&table.Editor?.IsReadOnly!=false,"Tabelle in sola lettura");sheet.IsReadOnly=false;
+            }
+            if(sheet.IsHydraulics)
+            {
+                expect.That(await sheet.CalculateAsync()&&sheet.HydraulicDrawing?.Points.Count>=2,"Geometria e pressioni GPC proiettate");
+                sheet.SelectedCase=sheet.Cases.Count-1;expect.That(sheet.HydraulicDrawing?.Name==sheet.Cases.Last().Name,"Diagramma del caso selezionato");
+                expect.That(csv.Contains("NetPressureKpa"),"CSV delle ordinate di pressione");
             }
             if(sheet.IsDistribution){expect.That(sheet.TrafficDrawing?.Girders.Count==3,"Geometria delle tre travi proiettata");expect.That(await sheet.CalculateAsync()&&sheet.TrafficDrawing?.Influence.Count>0,"Linee d’influenza pubblicate");}
         }

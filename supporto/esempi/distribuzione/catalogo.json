@@ -648,6 +648,42 @@
       "kind": "calcolo",
       "sha256": "49b435cf08d29c4708ff91aed146d67e33e848251c2b79b97c42458d209306e5",
       "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_idrauliche/idraulica-parete.anthea",
+      "module": "act_idrauliche",
+      "title": "Parete · livelli ordinario e piena",
+      "description": "Esempio del modello fisico; scenari e fonti dei parametri sono consultabili nel foglio.",
+      "kind": "calcolo",
+      "sha256": "7e0a6566fa73394b05c72d8ac2edf061352678f722bf90473a33ae14798fb594",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_idrauliche/idraulica-platea.anthea",
+      "module": "act_idrauliche",
+      "title": "Platea sommersa · spinta di Archimede",
+      "description": "Esempio del modello fisico; scenari e fonti dei parametri sono consultabili nel foglio.",
+      "kind": "calcolo",
+      "sha256": "fe533c4e4ec873d82b970a51d884643470dc963f155d5f1f00aa3ce7bf995262",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_idrauliche/idraulica-sottospinta.anthea",
+      "module": "act_idrauliche",
+      "title": "Platea · sottospinta assegnata",
+      "description": "Esempio del modello fisico; scenari e fonti dei parametri sono consultabili nel foglio.",
+      "kind": "calcolo",
+      "sha256": "357a6b34c98fdffa7a6f0176eac2c20a3f219e59e5141c312912b8775b3fe206",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_idrauliche/idraulica-corrente.anthea",
+      "module": "act_idrauliche",
+      "title": "Pila · corrente variabile",
+      "description": "Esempio del modello fisico; scenari e fonti dei parametri sono consultabili nel foglio.",
+      "kind": "calcolo",
+      "sha256": "fa99b1e6c91cc40add107ee711cd9d72fe2523b6cca570fd18464cc1c10a26d7",
+      "origin": "tests/Shared/ClimateScenarios.cs"
     }
   ]
 }

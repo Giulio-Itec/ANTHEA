@@ -12,7 +12,7 @@ namespace Anthea.Presentation.Modules.Climate;
 public sealed class ActionRowViewModel(JsonObject data):ObservableObject
 {
     internal JsonObject Data{get;}=data;
-    public string Name=>Data["Name"]?.ToString()??"Riga";
+    public string Name=>Data["Name"]?.ToString()??(Data["PositionM"] is { } x?"x = "+x+" m · p = "+Data["PressureKpa"]+" kPa":Data["ElevationM"] is { } z?"z = "+z+" m · v = "+Data["VelocityMs"]+" m/s":"Riga");
     internal void Refresh()=>OnPropertyChanged(nameof(Name));
 }
 public sealed class ActionTableViewModel:ObservableObject
@@ -43,7 +43,7 @@ public sealed class ActionTableViewModel:ObservableObject
             if(value is null)editor=null;
             else
             {
-                var form=ClimateDocument.RowForm(module,table.Key,value.Data);
+                var form=ClimateDocument.RowForm(module,table.Key,value.Data,table.Context);
                 var fields=form.Fields.Select(f=>ClimateSheetViewModel.Field(f)).ToArray();
                 editor=new(form.Values,fields,key=>{ClimateDocument.ApplyRowField(value.Data,form,key);value.Refresh();changed();},compact:true){IsReadOnly=!editable(),WikiNavigator=wiki};
             }

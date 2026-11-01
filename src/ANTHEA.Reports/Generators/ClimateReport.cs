@@ -30,6 +30,12 @@ public static class ClimateReport
         Table(["Parametro","Valore / unità"],inputRows);
         body.Add(P("Parametri e formule",true));Values(result["Parameters"]?.AsArray());
         foreach(var c in result["Cases"]?.AsArray()??[]){body.Add(P(Text(c!["Name"]),true),P(Text(c["Description"])));Values(c["Values"]?.AsArray());}
+        if(result["Hydraulics"] is JsonObject hydraulic)
+            foreach(var c in hydraulic["Cases"]!.AsArray())
+            {
+                body.Add(P("Diagramma delle pressioni · "+Text(c!["Name"]),true));
+                Table(["Coordinata [m]","p+ [kPa]","p− [kPa]","pnet [kPa]","qnet [kN/m]"],c["Diagram"]!.AsArray().Select(p=>new[]{Text(p!["PositionM"]),Text(p["PositivePressureKpa"]),Text(p["OpposingPressureKpa"]),Text(p["NetPressureKpa"]),Text(p["NetLineLoadKnM"])}));
+            }
         body.Add(P("Ipotesi e campo di applicazione",true));foreach(var note in result["Notes"]?.AsArray()??[])body.Add(P(Text(note)));
         body.Add(new XElement(w+"sectPr",new XElement(w+"pgSz",new XAttribute(w+"w",11906),new XAttribute(w+"h",16838)),new XElement(w+"pgMar",new XAttribute(w+"top",1134),new XAttribute(w+"bottom",1134),new XAttribute(w+"left",1134),new XAttribute(w+"right",1134))));
         package.SetXml("[Content_Types].xml","<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"png\" ContentType=\"image/png\"/><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/></Types>");

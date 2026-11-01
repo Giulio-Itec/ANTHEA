@@ -1440,3 +1440,16 @@ i report di calcolo restano aperti finché l'utente non porta il suo abbozzo. De
 - [ ] Norma di progetto unica per documento (punto 5): **in attesa** per decisione dell'utente del 1/11 («di base tante
   cose le facciamo solo con NTC2018»); nessun censimento né proposta finché l'utente non lo riapre.
 - [ ] Report di calcolo: dopo l'abbozzo dell'utente.
+
+
+## Azioni aggiuntive — incarico del 1 novembre 2026
+
+Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch isolati `codex/azioni-estese-20261101` in ANTHEA, Model e Checker. Traffico sospeso perché seguito da un collega. Merge finale dei nostri branch autorizzato al completamento; allineamento ai rami pubblicati durante lo sviluppo.
+
+- [x] Idraulica: contratti GPC, pareti, platee e pile in corrente, scenari, diagrammi, report e quattro esempi. Dodici prove numeriche indipendenti su net8/net472; archivio dei due enum registrato e collaudato. Interfaccia e persistenza verificate; completamento editoriale insieme agli altri fogli.
+- [ ] Fasi costruttive.
+- [ ] Ritiro, viscosità, maturazione e spostamenti imposti.
+- [ ] Precompressione e perdite.
+- [ ] Gru e carriponte.
+- [ ] Azioni termiche da incendio.
+- [ ] Guide globali e PDF, Wiki, collaudo finale, nuove versioni GPC e integrazione dei branch.

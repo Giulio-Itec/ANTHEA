@@ -24,7 +24,7 @@ public static partial class ClimateDocument
         Info(BuildingThermal,"Temperatura negli edifici","NTC / EN · componente uniforme e profilo termico"),
         Info(BridgeWind,"Vento sui ponti","CNR-DT 207 R1/2018 · impalcati isolati e affiancati"),
         Info(BridgeThermal,"Temperatura nei ponti","NTC / EN · impalcati, gradienti, appoggi e giunti")
-    }.Concat(AdditionalModules).ToArray();
+    }.Concat(AdditionalModules).Concat(ExtendedModules).ToArray();
     private static ModuleInfo Info(string id,string name,string description)=>new(id,"Azioni",name,description,"Azione",name,"Azioni climatiche");
     public static bool Supports(string module)=>Modules.Any(m=>m.Id==module);
     private static readonly JsonSerializerOptions Options = new() { Converters = { new JsonStringEnumConverter() }, NumberHandling=JsonNumberHandling.AllowReadingFromString, UnmappedMemberHandling=JsonUnmappedMemberHandling.Disallow };
@@ -46,6 +46,7 @@ public static partial class ClimateDocument
     {
         cancellation.ThrowIfCancellationRequested(); object input=Read(module,document);
         if(module==Distribution)return CalculateDistribution((GPC.Model.Actions.Traffic.TransverseDistributionInput)input,cancellation);
+        if(IsExtended(module))return CalculateExtended(input);
         ClimateResult result=input switch
         {
             SnowInput x=>SnowActions.Calculate(x), BuildingWindInput x=>BuildingWindActions.Calculate(x), BuildingThermalInput x=>ThermalActions.Building(x), BridgeWindInput x=>BridgeWindActions.Calculate(x), BridgeThermalInput x=>ThermalActions.Bridge(x), _=>CalculateAdditional(input,cancellation)
@@ -82,10 +83,10 @@ public static partial class ClimateDocument
             var display=(JsonObject)values.DeepClone();var fields=new List<ClimateField>();
             foreach(var p in type.GetProperties().Where(p=>p.PropertyType.IsEnum||p.PropertyType==typeof(double)||p.PropertyType==typeof(int)||p.PropertyType==typeof(bool)||p.PropertyType==typeof(string)))
             {
-                if(!Visible(p.Name,values)||!AdditionalVisible(module,p.Name,values))continue;
-                var caption=ExtraLabel(module,p.Name)??(Labels.TryGetValue(p.Name,out var label)?label:p.Name);
-                if(p.Name=="WidthM")caption=module==BuildingWind?"Larghezza ortogonale al vento b|m":module==Snow?"Larghezza copertura b / inferiore b2|m":"Larghezza impalcato d|m";
-                if(p.Name=="DepthM")caption=module==BuildingWind?"Profondità parallela al vento d|m":"Altezza strutturale impalcato h|m";
+                if(IsExtended(module)?!ExtendedVisible(module,p.Name,values):!Visible(p.Name,values)||!AdditionalVisible(module,p.Name,values))continue;
+                var caption=ExtendedLabel(module,p.Name,values)??ExtraLabel(module,p.Name)??(Labels.TryGetValue(p.Name,out var label)?label:p.Name);
+                if(p.Name=="WidthM"&&!IsExtended(module))caption=module==BuildingWind?"Larghezza ortogonale al vento b|m":module==Snow?"Larghezza copertura b / inferiore b2|m":"Larghezza impalcato d|m";
+                if(p.Name=="DepthM"&&!IsExtended(module))caption=module==BuildingWind?"Profondità parallela al vento d|m":"Altezza strutturale impalcato h|m";
                 if(p.Name=="NtcZone")caption=module is BuildingWind or BridgeWind?"Zona vento NTC (1…9)":"Zona termica NTC (1…4)";
                 var parts=caption.Split('|');
                 string[]? choices=p.PropertyType.IsEnum?Enum.GetNames(p.PropertyType).Select(Caption).ToArray():null;
@@ -115,7 +116,7 @@ public static partial class ClimateDocument
         foreach(var group in Forms(module,document))Add(group,group.Path.Length==0?"":"Sito · ");
         foreach(var table in Tables(document))
             foreach(var row in table.Rows.OfType<JsonObject>())
-                Add(RowForm(module,table.Key,row),table.Title+" · "+row["Name"]+" · ");
+                Add(RowForm(module,table.Key,row,table.Context),table.Title+" · "+row["Name"]+" · ");
         return rows;
     }
     private static bool Visible(string key,JsonObject v)
@@ -162,6 +163,11 @@ public static partial class ClimateDocument
                 for(int i=0;i<ordinates.Count;i++)b.AppendLine(string.Join(";",new[]{"Influenza y="+y+" m",names[i],"Momento per forza unitaria alla x dichiarata",ordinates[i]!.GetValue<double>().ToString("G17",CultureInfo.InvariantCulture),"m","M / Punit","Modello meccanico assegnato"}.Select(Q)));
             }
         }
+        if(result["Hydraulics"] is JsonObject hydraulics)
+            foreach(var c in hydraulics["Cases"]!.AsArray())
+                foreach(var p in c!["Diagram"]!.AsArray())
+                    foreach(string field in new[]{"PositivePressureKpa","OpposingPressureKpa","NetPressureKpa","NetLineLoadKnM"})
+                        b.AppendLine(string.Join(";",new[]{c["Name"]!.ToString(),field,"Coordinata = "+p!["PositionM"]!.ToString()+" m",p[field]!.GetValue<double>().ToString("G17",CultureInfo.InvariantCulture),field=="NetLineLoadKnM"?"kN/m":"kPa","Ordinata del diagramma","GPC.Design · modello idraulico"}.Select(Q)));
         return b.ToString();
     }
 }
