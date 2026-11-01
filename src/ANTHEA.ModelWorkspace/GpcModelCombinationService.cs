@@ -222,7 +222,7 @@ public sealed partial class GpcModelCombinationService
             {
                 corners.Add(new(id,node,values));
                 if(principals.TryGetValue((group.Key.Owner,group.Key.Item2),out var principal))
-                    for(int c=0;c<PrincipalComponents.Length;c++)
+                    for(int c=0;c<PrincipalComponents.Count;c++)
                     {
                         var (value,state,vector)=PrincipalExtreme(principal,c,maximum);
                         principalFields[PrincipalComponents[c]].Add(new(id,node,value));
@@ -253,18 +253,19 @@ public sealed partial class GpcModelCombinationService
 
     /// <summary>1/11/2026: the principal components of the plates as displayed (MIDAS convention, kN·m/m and kN/m), in the order of
     /// ResultFields.Components("PLATE", "PRINCIPAL").</summary>
-    static readonly string[] PrincipalComponents=["Mmax","Mmin","Fmax","Fmin"];
+    static IReadOnlyList<string> PrincipalComponents=>ResultFields.Components("PLATE","PRINCIPAL");
 
     /// <summary>A displayed principal component from those of GPC (positive section face, N and mm): the displayed moments are the opposite of
     /// GPC's, so Mmax = −Mmin(GPC) and Mmin = −Mmax(GPC), and the displayed maximum of a moment is the GPC minimum; Fmax and Fmin are Nmax and
     /// Nmin. With the id of the governing state and its local vector as displayed (as DisplayVector).</summary>
     static (double Value,string State,double[] Vector) PrincipalExtreme(PlatePrincipalResult principal,int component,bool maximum)
     {
-        var (gpc,reverse,scale)=component switch {0=>(3,true,-.001),1=>(2,true,-.001),2=>(0,false,1d),_=>(1,false,1d)};
+        const double moment=-MidasGpcDisplay.KilonewtonMetresPerMetrePerNewtonMillimetrePerMillimetre;
+        var (gpc,reverse,scale)=component switch {0=>(3,true,moment),1=>(2,true,moment),2=>(0,false,1d),_=>(1,false,1d)};
         var extreme=principal.Components[gpc];bool upper=maximum!=reverse;
         var v=upper?extreme.MaximumState:extreme.MinimumState;
         return ((upper?extreme.Maximum:extreme.Minimum)*scale,upper?extreme.MaximumStateId:extreme.MinimumStateId,
-            [-v[5]*.001,-v[6]*.001,-v[7]*.001,v[0],v[1],v[2],v[3],v[4]]);
+            MidasGpcDisplay.PlateDisplayVector(v));
     }
 
     // The released GPC contract records the governing roles in Coverage. Read it strictly, never infer a missing extreme.
