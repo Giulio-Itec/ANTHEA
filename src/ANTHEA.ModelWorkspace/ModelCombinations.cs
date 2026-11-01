@@ -185,6 +185,8 @@ public static class ModelCombinations
         SourceCombinations=s.SourceCombinations,
         // 1.16.0: data of the model (Straus7), kept by every copy.
         Masses=s.Masses,Temperatures=s.Temperatures,ConstructionStages=s.ConstructionStages,
+        // 1/11/2026: the choices of the generator.
+        GeneratorCases=s.GeneratorCases,
         // The copy shares the arrays of the original: its revisions hold while the parts are the same references (Revisions).
         CombinationRevisions=s.CombinationRevisions};
 
@@ -220,7 +222,7 @@ public static class ModelCombinations
         var basis=Revisions.BasisOf(snapshot);var known=snapshot.CombinationRevisions;
         if(known!=null&&known.SameBase(snapshot,basis))return (known.Preparation,known.PreparationBytes);
         var copy=Copy(snapshot);copy.Results=basis;
-        copy.CustomCombinations=null;copy.ExcludedCombinationIds=null;
+        copy.CustomCombinations=null;copy.ExcludedCombinationIds=null;copy.GeneratorCases=null;
         var (hash,bytes)=copy.FingerprintAndSize();
         snapshot.CombinationRevisions=Revisions.Of(snapshot,basis,hash,bytes);
         return (hash,bytes);
@@ -336,7 +338,7 @@ public static class ModelCombinations
         var basis=Revisions.BasisOf(model);
         if(basis.Length>0&&model.CombinationRevisions is {} known&&known.SameBase(model,basis))
             return known.PreparationBytes+Property(nameof(ModelSnapshot.CustomCombinations),model.CustomCombinations)+
-                Property(nameof(ModelSnapshot.ExcludedCombinationIds),model.ExcludedCombinationIds)+model.Results.Where(r=>r.Combination!=null).Sum(r=>Size(r)+1);
+                Property(nameof(ModelSnapshot.ExcludedCombinationIds),model.ExcludedCombinationIds)+Property(nameof(ModelSnapshot.GeneratorCases),model.GeneratorCases)+model.Results.Where(r=>r.Combination!=null).Sum(r=>Size(r)+1);
         return Size(model);
         static long Property<T>(string name,T? value) where T:class=>value==null?0:1+Encoding.UTF8.GetByteCount(JsonSerializer.Serialize(name))+1+Size(value);
     }

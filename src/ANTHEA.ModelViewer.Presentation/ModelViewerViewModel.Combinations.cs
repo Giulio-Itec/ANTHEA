@@ -106,7 +106,7 @@ public sealed partial class ModelViewerViewModel
         NewCombinationCommand.NotifyCanExecuteChanged();DuplicateCombinationCommand.NotifyCanExecuteChanged();SaveCombinationCommand.NotifyCanExecuteChanged();
         DeleteCombinationCommand.NotifyCanExecuteChanged();RestoreImportedCombinationsCommand.NotifyCanExecuteChanged();
         AddCombinationTermCommand.NotifyCanExecuteChanged();RemoveCombinationTermCommand.NotifyCanExecuteChanged();CalculateCombinationCommand.NotifyCanExecuteChanged();
-        DiscardCombinationEditsCommand.NotifyCanExecuteChanged();
+        DiscardCombinationEditsCommand.NotifyCanExecuteChanged();NotifyGeneratorCommands();
     }
     [RelayCommand] void OpenCombinationManager()
     {
