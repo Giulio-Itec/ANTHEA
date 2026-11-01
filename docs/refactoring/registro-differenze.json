@@ -14710,14 +14710,16 @@
         "ConcreteTimeEffects.Checks: riferimento indipendente e 12 catture IEEE754 prima/dopo",
         "ConcreteTimeEffects.UiChecks: tre temi, tabella, query, errori, dimensioni compatte e PNG",
         "Rheology.Tests: salvataggio/riapertura, sola lettura, invalidazione, report, esempi",
-        "Architecture.Tests, Application.Tests, Presentation.Tests, Examples.Tests, Wiki e UI del ModuleHost: collaudo integrato in chiusura"
+        "Corsa pulita 20261102-004152-reologia-final: 24 PASS, zero NEW-FAIL; F3 1201 file senza differenze non ammesse. Presentation completa 4948 controlli; Application 3323, esempi 472 su 95 file."
       ],
       "evidenze": [
         "supporto/artefatti/ci/20261102-001031-reologia-before",
         "tests/fixtures/rheology/manifest.json",
         "supporto/SUPERATI/ui-storica/reologia-modulo-20261102/manifest.json",
         "supporto/artefatti/ci/20261102-002108-reologia-after-first",
-        "supporto/artefatti/azioni-estese/reologia-f4-relocation.json"
+        "supporto/artefatti/azioni-estese/reologia-f4-relocation.json",
+        "supporto/artefatti/ci/20261102-004152-reologia-final/summary.json",
+        "supporto/artefatti/azioni-estese/consolidated-final.json"
       ],
       "wiki": "Capitoli pratica/teoria Reologia già esistenti; totale 94 articoli. Nessuna nuova guida autonoma."
     }

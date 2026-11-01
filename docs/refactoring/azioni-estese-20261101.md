@@ -130,3 +130,14 @@ Collaudo Reologia: `20261102-002434-reologia-integrata` ha 4948 controlli Presen
 Corsa pulita `20261102-003500-reologia-candidate`, commit `2552af70`: 23 PASS e un rilievo F3 soltanto editoriale. Application 3323 controlli, Reologia 24, Esempi 472 su 95 esempi e 32 moduli, architettura, confronto IEEE754, tre temi WPF, shell e ModuleHost PASS. F3: 1201 file, 26 differenze non ammesse, esclusivamente tre articoli Wiki e due ricerche. La parola chiave reologia mantiene il capitolo sui risultati per fasi nella ricerca; registrate 24 variazioni esatte e rimossa una posizione report superata, senza modificare attesi, transizioni ingegneristiche o tolleranze. Nuova cattura finale da eseguire.
 
 Guide finali: 131 e 212 pagine, 1359 e 2551 frammenti verificati, 9 e 1566 formule native e 26 parti ITEC identiche. Capitoli modificati, indici, copertine e istruzioni dei nuovi esempi controllati in PDF. Le relazioni del nuovo foglio usano tabelle con bordi e intestazioni ripetute; i campioni indistinguibili alla precisione stampata sono riportati una volta soltanto nella tabella sintetica, senza cambiare i dati o la tabella interattiva.
+
+
+## Esito finale del collaudo
+
+Corsa pulita `20261102-004152-reologia-final` sul commit `332b4c11`: **24 PASS, zero NEW-FAIL, zero blocchi, nessun file versionato modificato dalle prove**. Nuova cattura F3: 119 fixture, 94 articoli, 30 ricerche, 1201 file confrontati e zero differenze non ammesse. La ricerca reologia conserva la sequenza precedente; il solo risultato nuovo della ricerca report è la guida del foglio. Le relazioni dei due esempi, due pagine ciascuna, sono copiate byte per byte dagli artefatti della prova e controllate graficamente.
+
+Consolidamento del full AR e dei ricontrolli mirati: **161 voci PASS**, incluse le build e la nuova suite rapida Rheology.Tests; non è una seconda corsa full completa sul commit finale. Inventario UI invariato a **73 suite** prima e dopo. Il dettaglio per suite, commit e corsa è in `supporto/artefatti/azioni-estese/consolidated-final.json`. Le tre voci infrastrutturali non eseguite dal runner restano quelle già spiegate; nessuna nuova esclusione o tolleranza. Catture numeriche, mesh, DLL ufficiali, attesi e transizioni ingegneristiche restano invariati rispetto al collaudo AR.
+
+Verifiche del nuovo foglio: 12 casi storici IEEE754 esatti, riferimenti Python indipendenti, tre temi e formato compatto, tabella, lettura puntuale e PNG; 24 controlli di persistenza, revisioni, invalidazione, relazioni autonome/di progetto ed esempi. Catalogo: 472 controlli su 95 esempi e 32 moduli. Application: 3323 controlli; Presentation completa: 4948; architettura: 591. Guide, indici e report PDF controllati.
+
+Codice e documentazione pronti per l’integrazione finale autorizzata su main, che contiene già la base pubblicata 1.17.0. Nessuna modifica al lavoro degli altri checkout.
