@@ -49,6 +49,12 @@ internal static class ClimateSheetChecks
                 table.RemoveCommand.Execute(null);expect.That(table.Rows.Count==count,"Rimozione della riga appena aggiunta");
                 sheet.IsReadOnly=true;table.AddCommand.Execute(null);expect.That(table.Rows.Count==count&&table.Editor?.IsReadOnly!=false,"Tabelle in sola lettura");sheet.IsReadOnly=false;
             }
+            if(sheet.IsTimeEffects)
+            {
+                expect.That(await sheet.CalculateAsync()&&sheet.TimePlots.Count==4,"Grafici temporali con unità distinte");
+                sheet.SelectedCase=0;expect.That(sheet.TimePlots[0].Series[0].Points.Last().X==28,"Intervallo del grafico fino al caso selezionato");
+                expect.That(csv.Contains("Storia temporale")&&csv.Contains("FreeDisplacementMm"),"CSV della storia temporale completa");
+            }
             if(sheet.IsConstruction)
             {
                 expect.That(await sheet.CalculateAsync()&&sheet.ConstructionDrawing?.Phases.Count==2,"Sequenza GPC proiettata");

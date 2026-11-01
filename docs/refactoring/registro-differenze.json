@@ -14336,6 +14336,25 @@
         "supporto/artefatti/ci/20261101-205409-azioni-fasi-02/summary.json"
       ],
       "wiki": "Edizione globale in preparazione."
+    },
+    {
+      "id": "AZIONI-TEMPO-20261101",
+      "fase": "Azioni aggiuntive",
+      "titolo": "Ritiro, viscosità e storia assiale",
+      "famiglia": "azioni/effetti-differiti",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Nuovo calcolo in GPC.Design con riuso di ConcreteTimeEffects. API storica del ritiro invariata. Modello locale di barra integra con molla o spostamento imposto, controllo del campo lineare e della convergenza. ANTHEA proietta quattro grafici temporali e conserva i contratti GPC.",
+      "test": [
+        "14 prove indipendenti su net8/net472 PASS",
+        "Set candidato 11843 PASS",
+        "Climate.Tests 753 PASS; WPF 372 PASS; Architecture.Tests PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/azioni-estese/candidate-tempo-01/release-set.json",
+        "supporto/artefatti/ci/20261101-211144-azioni-tempo-01/summary.json"
+      ],
+      "wiki": "Edizione globale dei sei fogli in preparazione."
     }
   ]
 }

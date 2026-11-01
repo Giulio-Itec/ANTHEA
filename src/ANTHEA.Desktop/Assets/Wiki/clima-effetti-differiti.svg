@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="864pt" height="345.6pt" viewBox="0 0 864 345.6" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-01T21:09:48.658093</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 345.6 
+L 864 345.6 
+L 864 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 94.778182 189.137455 
+L 305.541818 189.137455 
+L 305.541818 154.08374 
+L 94.778182 154.08374 
+z
+" clip-path="url(#p56889355ca)" style="fill: #dce5eb; stroke: #203348; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 94.778182 211.444364 
+L 94.778182 131.776831 
+" clip-path="url(#p56889355ca)" style="fill: none; stroke: #203348; stroke-width: 1.8; stroke-linecap: square"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 302.650256 230.564571 
+Q 200.160094 230.564571 97.669933 230.564571 
+" style="fill: none; stroke: #203348; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 298.250256 228.364571 
+L 302.650256 230.564571 
+L 298.250256 232.764571 
+" style="fill: none; stroke: #203348; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 102.069933 232.764571 
+L 97.669933 230.564571 
+L 102.069933 228.364571 
+" style="fill: none; stroke: #203348; stroke-width: 0.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="200.16" y="244.316073" transform="rotate(-0 200.16 244.316073)">L · configurazione priva di tensioni a tref</text>
+   </g>
+   <g id="patch_4">
+    <path d="M 307.540331 171.610597 
+Q 328.123066 171.610597 346.805143 171.610597 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 342.405143 169.410597 
+L 346.805143 171.610597 
+L 342.405143 173.810597 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="215.214545" y="86.834163" transform="rotate(-0 215.214545 86.834163)">Barra libera: N = P</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="215.214545" y="121.887878" transform="rotate(-0 215.214545 121.887878)">ε = Δεcs + Σ Δσ J(t, ti)</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="215.214545" y="274.32993" transform="rotate(-0 215.214545 274.32993)">Carico a ti · salto elastico e sviluppo viscoso</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_5">
+    <path d="M 498.24 189.137455 
+L 648.785455 189.137455 
+L 648.785455 154.08374 
+L 498.24 154.08374 
+z
+" clip-path="url(#p0d99aa58f3)" style="fill: #dce5eb; stroke: #203348; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 498.24 211.444364 
+L 498.24 131.776831 
+" clip-path="url(#p0d99aa58f3)" style="fill: none; stroke: #203348; stroke-width: 1.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 784.276364 211.444364 
+L 784.276364 131.776831 
+" clip-path="url(#p0d99aa58f3)" style="fill: none; stroke: #203348; stroke-width: 1.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 648.785455 171.610597 
+L 669.861818 171.610597 
+L 681.905455 157.270442 
+L 693.949091 185.950753 
+L 705.992727 157.270442 
+L 718.036364 185.950753 
+L 730.08 157.270442 
+L 742.123636 185.950753 
+L 754.167273 171.610597 
+L 784.276364 171.610597 
+" clip-path="url(#p0d99aa58f3)" style="fill: none; stroke: #c36522; stroke-width: 1.8; stroke-linecap: square"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 650.783416 138.150234 
+Q 666.847818 138.150234 681.011562 138.150234 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 676.611562 135.950234 
+L 681.011562 138.150234 
+L 676.611562 140.350234 
+" style="fill: none; stroke: #1976a3; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="669.861818" y="124.814384" transform="rotate(-0 669.861818 124.814384)">P</text>
+   </g>
+   <g id="patch_7">
+    <path d="M 786.275428 119.030026 
+Q 794.815034 119.030026 801.453983 119.030026 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+    <path d="M 797.053983 116.830026 
+L 801.453983 119.030026 
+L 797.053983 121.230026 
+" style="fill: none; stroke: #c36522; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="784.276364" y="99.580539" transform="rotate(-0 784.276364 99.580539)">δ</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="648.785455" y="77.274059" transform="rotate(-0 648.785455 77.274059)">Molla K o distanza imposta</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="648.785455" y="246.168798" transform="rotate(-0 648.785455 246.168798)">N = P + K(δ − u) · u = L ε</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #203348" x="648.785455" y="274.32993" transform="rotate(-0 648.785455 274.32993)">Distanza imposta: u = δ; libero: K = 0</text>
+   </g>
+  </g>
+  <g id="text_10">
+   <text style="font-weight: 700; font-size: 17px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203348" x="34.56" y="19.829344" transform="rotate(-0 34.56 19.829344)">Calcestruzzo nel tempo · deformazione libera e vincolo assiale</text>
+  </g>
+  <g id="text_11">
+   <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203348" x="34.56" y="333.504" transform="rotate(-0 34.56 333.504)">Schema originale. Asta assiale integra a temperatura e umidità costanti. Le reazioni richiedono compatibilità e storia; la fessurazione non è simulata.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p56889355ca">
+   <rect x="34.56" y="55.296" width="361.309091" height="245.376"/>
+  </clipPath>
+  <clipPath id="p0d99aa58f3">
+   <rect x="468.130909" y="55.296" width="361.309091" height="245.376"/>
+  </clipPath>
+ </defs>
+</svg>

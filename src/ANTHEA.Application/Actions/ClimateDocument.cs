@@ -163,6 +163,10 @@ public static partial class ClimateDocument
                 for(int i=0;i<ordinates.Count;i++)b.AppendLine(string.Join(";",new[]{"Influenza y="+y+" m",names[i],"Momento per forza unitaria alla x dichiarata",ordinates[i]!.GetValue<double>().ToString("G17",CultureInfo.InvariantCulture),"m","M / Punit","Modello meccanico assegnato"}.Select(Q)));
             }
         }
+        if(result["TimeEffects"]?["History"] is JsonArray history)
+            foreach(var point in history)
+                foreach(string field in new[]{"FreeStrain","ActualStrain","StressMpa","FreeDisplacementMm","ActualDisplacementMm","EcmMpa"})
+                    b.AppendLine(string.Join(";",new[]{"Storia temporale",field,"Età = "+point!["AgeDays"]+" giorni",point[field]!.GetValue<double>().ToString("G17",CultureInfo.InvariantCulture),field.EndsWith("Mpa")?"MPa":field.EndsWith("Mm")?"mm":"−","Ordinata calcolata","GPC.Design · effetti differiti"}.Select(Q)));
         if(result["ConstructionStages"] is JsonArray phases)
             foreach(var phase in phases)
                 foreach(var load in phase!["Loads"]!.AsArray())

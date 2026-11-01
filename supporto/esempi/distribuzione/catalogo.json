@@ -711,6 +711,33 @@
       "kind": "calcolo",
       "sha256": "defca87351b523b307840e5bcf2c8d6b13bdf236c9b16bc95f1406bd1dd353db",
       "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_effetti_differiti/tempo-ntc-libero.anthea",
+      "module": "act_effetti_differiti",
+      "title": "Effetti differiti NTC · carico sostenuto e ritiro",
+      "description": "Calcestruzzo a 20 °C e RH costante; storia libera o modello di barra assiale integra con controllo dei limiti.",
+      "kind": "calcolo",
+      "sha256": "2a331ba8517e28b6aa853a36b57371ef781b07aee71f76ecc0df4632d9b562cc",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_effetti_differiti/tempo-en-molla.anthea",
+      "module": "act_effetti_differiti",
+      "title": "Effetti differiti EN · molla e spostamento imposto",
+      "description": "Calcestruzzo a 20 °C e RH costante; storia libera o modello di barra assiale integra con controllo dei limiti.",
+      "kind": "calcolo",
+      "sha256": "539364a7d45b833e6ecfdf69469e82d5173ddacabede871cfb792fda6aedd278",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_effetti_differiti/tempo-ntc-vincolato.anthea",
+      "module": "act_effetti_differiti",
+      "title": "Ritiro impedito · previsione integra e fessurazione",
+      "description": "Calcestruzzo a 20 °C e RH costante; storia libera o modello di barra assiale integra con controllo dei limiti.",
+      "kind": "calcolo",
+      "sha256": "f275a61426b4ec56ce50a7a3f84890377c2bf4011c7409c98995484dca81d618",
+      "origin": "tests/Shared/ClimateScenarios.cs"
     }
   ]
 }

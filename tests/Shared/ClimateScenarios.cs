@@ -37,6 +37,11 @@ internal static class ClimateScenarios
         void En(JsonObject p){p["Standard"]="EurocodeFirstGeneration";p["NationalParameters"]="Esempio didattico: valori raccomandati EN di prima generazione, clima assegnato; nessuna appendice nazionale selezionata.";}
         foreach(var scenario in HydraulicScenarios())yield return scenario;
         foreach(var scenario in ConstructionScenarios())yield return scenario;
+        yield return S(ClimateDocument.TimeEffects,"tempo-ntc-libero","Effetti differiti NTC · carico sostenuto e ritiro",p=>{});
+        yield return S(ClimateDocument.TimeEffects,"tempo-en-molla","Effetti differiti EN · barra con molla e spostamento imposto",p=>
+        {En(p);p["NationalParameters"]="Esempio didattico EN 1992-1-1:2004 a 20 °C, cemento N e RH costante; nessuna appendice nazionale implicita.";p["Restraint"]="EndSpring";p["StressEvents"]!.AsArray().Clear();p["Displacements"]!.AsArray().Add(new JsonObject{["Name"]="Spostamento graduale",["AgeDays"]=365,["DisplacementMm"]=.2});});
+        yield return S(ClimateDocument.TimeEffects,"tempo-ntc-vincolato","Ritiro impedito · previsione integra e controllo di fessurazione",p=>
+        {p["Restraint"]="FixedDistance";p["StressEvents"]!.AsArray().Clear();});
         yield return S(ClimateDocument.Snow,"neve-ntc-due-falde","Neve NTC · due falde 30° / 45°",p=>{p["PitchLeftDeg"]=30;p["PitchRightDeg"]=45;p["AltitudeM"]=481;p["Zone"]="II";});
         yield return S(ClimateDocument.Snow,"neve-en-salto","Neve EN · accumulo presso salto",p=>{En(p);p["AssignedGroundLoad"]=true;p["GroundLoadKnM2"]=1;p["Roof"]="LowerRoof";p["PitchLeftDeg"]=0;p["StepHeightM"]=3;p["WidthM"]=3;p["UpperWidthM"]=9;});
         yield return S(ClimateDocument.BuildingWind,"vento-ntc-due-falde","Vento NTC · edificio a due falde",p=>{p["PitchDeg"]=15;p["LoadedAreaM2"]=10;});

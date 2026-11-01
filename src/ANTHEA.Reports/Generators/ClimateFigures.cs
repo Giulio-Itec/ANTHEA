@@ -13,6 +13,7 @@ public static class ClimateFigures
         {
             "HydraulicActionsInput"=>["idraulica"],
             "ConstructionActionsInput"=>["fasi-costruttive"],
+            "TimeEffectsInput"=>["effetti-differiti"],
             "SnowInput"=>["neve"],
             "BuildingWindInput"=>["vento-edifici", "vento-"+(document["input"]?["Roof"]?.ToString() switch {"Monopitch"=>"mono","Duopitch"=>"doppia",_=>"piana"})],
             "BuildingThermalInput"=>["temperatura-edifici"],

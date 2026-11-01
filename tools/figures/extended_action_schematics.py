@@ -52,8 +52,31 @@ def construction():
     save(fig, 'fasi-costruttive', 'Schema originale. Le fasi definiscono le azioni e i tempi; vincoli, puntellazione, redistribuzione e verifiche della struttura richiedono un modello dedicato.')
 
 
+
+
+def time_effects():
+    fig, axes = canvas('Calcestruzzo nel tempo · deformazione libera e vincolo assiale', 1, 2)
+    ax = axes[0, 0]
+    ax.add_patch(Rectangle((1, 2.2), 7, 1.1, fc='#dce5eb', ec=INK))
+    line(ax, [1, 1], [1.5, 4]); dim(ax, 1, .9, 8, .9, 'L · configurazione priva di tensioni a tref')
+    arrow(ax, 8, 2.75, 1.5, 0, BLUE)
+    text(ax, 5, 5.5, 'Barra libera: N = P', fontsize=11)
+    text(ax, 5, 4.4, 'ε = Δεcs + Σ Δσ J(t, ti)', fontsize=11)
+    text(ax, 5, -.4, 'Carico a ti · salto elastico e sviluppo viscoso', fontsize=9)
+    ax = axes[0, 1]
+    ax.add_patch(Rectangle((0, 2.2), 5, 1.1, fc='#dce5eb', ec=INK))
+    line(ax, [0, 0], [1.5, 4]); line(ax, [9.5, 9.5], [1.5, 4])
+    line(ax, [5, 5.7, 6.1, 6.5, 6.9, 7.3, 7.7, 8.1, 8.5, 9.5], [2.75, 2.75, 3.2, 2.3, 3.2, 2.3, 3.2, 2.3, 2.75, 2.75], color=ORANGE)
+    arrow(ax, 5, 3.8, 1.2, 0, BLUE);text(ax, 5.7, 4.3, 'P', fontsize=10)
+    arrow(ax, 9.5, 4.4, .7, 0, ORANGE);text(ax, 9.5, 5.1, 'δ', fontsize=11)
+    text(ax, 5, 5.8, 'Molla K o distanza imposta', fontsize=11)
+    text(ax, 5, .5, 'N = P + K(δ − u) · u = L ε', fontsize=11)
+    text(ax, 5, -.4, 'Distanza imposta: u = δ; libero: K = 0', fontsize=9)
+    save(fig, 'effetti-differiti', 'Schema originale. Asta assiale integra a temperatura e umidità costanti. Le reazioni richiedono compatibilità e storia; la fessurazione non è simulata.')
+
+
 if __name__ == '__main__':
     import sys
-    choices = {'idraulica': hydraulics, 'fasi': construction}
+    choices = {'idraulica': hydraulics, 'fasi': construction, 'tempo': time_effects}
     for name in sys.argv[1:] or choices:
         choices[name]()
