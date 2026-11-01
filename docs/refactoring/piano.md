@@ -1160,6 +1160,7 @@ Agente `1160-colonna2` (29/10, notte), sulle decisioni Q9 e Q12 del progetto del
   1991-2, copriferri e durabilità; il calcestruzzo ha già i profili EC2); i moduli che non supportano la norma scelta
   rifiutano il calcolo; rimandi normativi dei report dal profilo; attesi indipendenti per ogni modulo e norma. Oggi solo
   sezioni c.a. e Bridge hanno una scelta della norma, gli altri moduli sono fissi su NTC (`CalculationCoefficients.cs`).
+  **In attesa dal 1/11** per decisione dell'utente: molti moduli si usano solo con NTC 2018.
 - [ ] Eventuale, fuori da questo refactoring (decisione dell'utente del 14/10): spostamenti SLE dei muri per
   sovrapposizione, quasi permanente con viscosità più incremento dei carichi variabili senza viscosità. Fino ad allora
   (1+φ) vale in tutte e tre le combinazioni SLE.
@@ -1428,11 +1429,14 @@ i report di calcolo restano aperti finché l'utente non porta il suo abbozzo. De
 - [x] Pagine dei metodi del c.a., prima parte (agente `ca-metodi`): μφ con il ramo post-picco e la bilineare della Circolare
   Fig. C4.1.12 (GPCChecker.Concrete 0.33), pagine sle-tensioni, fessurazione, dettagli, ancoraggi e momento–curvatura riviste,
   riscontro sul testo EN di R8 (XD3) e R14 (15Ø); R6 e R20 restano da fonte secondaria.
-- [~] Set AP da `origin/master` (Model 391cfea9, Checker a3c53320), installazione e full di ANTHEA.
+- [x] Set AP da `origin/master` (Model 391cfea9, Checker a3c53320), installazione e full di ANTHEA: PASS 160
+  (`supporto/artefatti/integrazione-1101`). Architecture.Tests ripassata dopo l'aggiornamento della provenienza F4
+  (`tests/fixtures/f4/library-release.json`), dimenticato nel commit d'installazione.
 - [ ] Campagna dei tempi delle combinazioni a macchina ferma.
 - [ ] Pagine dei metodi del c.a., seconda parte: μφ nella scheda «Momento–curvatura», EN 8.7.2(3) con l'intero interferro, controlli
   di EN 8.8 e 8.7.2(4).
 - [ ] Modulo Modelli (punto 8, agente `modelli-8`): interfaccia del generatore, componenti principali dei plate, inviluppi annidati
   senza espansione completa, proposta per l'archivio dei risultati.
-- [ ] Norma di progetto unica per documento (punto 5).
+- [ ] Norma di progetto unica per documento (punto 5): **in attesa** per decisione dell'utente del 1/11 («di base tante
+  cose le facciamo solo con NTC2018»); nessun censimento né proposta finché l'utente non lo riapre.
 - [ ] Report di calcolo: dopo l'abbozzo dell'utente.

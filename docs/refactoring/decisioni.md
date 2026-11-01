@@ -2191,3 +2191,8 @@ L'utente richiede materiale selezionabile per ogni barra nella prima scheda dell
    Restano per il confronto con l'utente: interasse delle solette con il profilo NTC (appendice italiana 9.3.1.1(3), serve il testo
    NTC) e fori eccentrici nella fessurazione dei cerchi cavi. Testi primari mancanti nella raccolta: NTC 2018, Circolare 2019,
    DIN EN 1992-1-1/NA, DK NA:2024, NS NA, fib Model Code 2010.
+7. **Norma di progetto unica (punto 5).** Sentita la descrizione del punto (profilo di progetto con norma e annesso
+   nazionale, profili per disciplina nelle librerie, rifiuto esplicito dei moduli non supportati, rimandi dei report dal
+   profilo, attesi per modulo e norma), l'utente decide: «aspetta al punto per più norme. di base tante cose le facciamo
+   solo con NTC2018. mettilo in attesa». Il punto resta nel piano come in attesa, senza censimento né proposta; i moduli
+   fissi restano su NTC 2018 e i selettori di sezioni c.a. e Ponte restano come sono.
