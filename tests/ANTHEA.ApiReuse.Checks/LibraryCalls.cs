@@ -23,12 +23,17 @@ internal static class LibraryCalls
         if (ConcreteServiceabilityAdapter.EngineName != "Library") throw new Exception("SLE production engine is not Checker");
     }
 
+    // Every public overload must call the library, directly or through another overload of the same facade that does
+    // (1/11/2026: MomentCurvatureCalculator.Calculate gained the overload with the curvature ductility).
     private static void Require(Type facade, string methodName, string libraryType, string libraryMethod)
     {
-        var method = facade.GetMethod(methodName) ?? throw new Exception(facade.Name + "." + methodName + " missing");
-        if (!Calls(method).Any(c => c.DeclaringType?.FullName == libraryType && c.Name == libraryMethod
-            && c.DeclaringType.Assembly.GetName().Name!.StartsWith("GPC", StringComparison.Ordinal)))
-            throw new Exception(facade.Name + "." + methodName + " does not call " + libraryType + "." + libraryMethod);
+        var overloads = facade.GetMethods().Where(m => m.Name == methodName).ToArray();
+        if (overloads.Length == 0) throw new Exception(facade.Name + "." + methodName + " missing");
+        var direct = overloads.Where(m => Calls(m).Any(c => c.DeclaringType?.FullName == libraryType && c.Name == libraryMethod
+            && c.DeclaringType.Assembly.GetName().Name!.StartsWith("GPC", StringComparison.Ordinal))).ToArray();
+        foreach (var method in overloads)
+            if (!direct.Contains(method) && !Calls(method).Any(c => direct.Any(d => d.Module == c.Module && d.MetadataToken == c.MetadataToken)))
+                throw new Exception(facade.Name + "." + methodName + " does not call " + libraryType + "." + libraryMethod);
     }
 
     private static IEnumerable<MethodBase> Calls(MethodInfo method)

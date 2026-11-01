@@ -104,10 +104,13 @@ public sealed class MomentCurvatureCalculator
         { LimitAxialKn=r.LimitAxialForce, AxialResidualKn=r.AxialResidual, Ductility=Ductility(r.Ductility),
           DuctilityMessage=ductility is null || r.Ductility is not null ? null : DuctilityMessage(r.DuctilityMessage) };
     }
+    /// <summary>Curvature: 1/mm della libreria in 1/m della curva.</summary>
+    const double MillimetresPerMetre = 1e3;
     /// <summary>Curvature della libreria in 1/mm, momenti già in kNm: curvature in 1/m come i punti della curva.</summary>
     static MomentCurvatureDuctility? Ductility(NativeCurve.MomentCurvatureDuctility? d) => d is null ? null
-        : new(d.FirstYieldMoment, d.FirstYieldCurvature*1000, d.FirstYield == NativeCurve.MomentCurvatureFirstYield.TensionSteel, d.ResistingMoment,
-            d.YieldCurvature*1000, d.MaximumMoment, d.MaximumMomentCurvature*1000, d.LimitCurvature*1000, d.UltimateCurvature*1000,
+        : new(d.FirstYieldMoment, d.FirstYieldCurvature*MillimetresPerMetre, d.FirstYield == NativeCurve.MomentCurvatureFirstYield.TensionSteel,
+            d.ResistingMoment, d.YieldCurvature*MillimetresPerMetre, d.MaximumMoment, d.MaximumMomentCurvature*MillimetresPerMetre,
+            d.LimitCurvature*MillimetresPerMetre, d.UltimateCurvature*MillimetresPerMetre,
             d.Ultimate == NativeCurve.MomentCurvatureUltimate.PostPeakReduction, d.CurvatureDuctility);
     static string DuctilityMessage(string? message) => message switch
     {
