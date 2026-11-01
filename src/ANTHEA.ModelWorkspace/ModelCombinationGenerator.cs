@@ -188,6 +188,7 @@ public static class ModelCombinationGenerator
         var kept = (snapshot.CustomCombinations ?? []).Where(d => !d.Id.StartsWith(IdPrefix, StringComparison.Ordinal)).ToArray();
         if (kept.Any(d => generated.Any(g => g.Name == d.Name)))
             throw new InvalidDataException("Una combinazione ANTHEA ha già il nome di una combinazione generata: rinominala prima.");
+        snapshot = ModelCombinations.Upgraded(snapshot, ModelCombinations.Read(snapshot)); // results of 1.16.2 still current (1/11/2026 evening)
         var copy = ModelCombinations.Copy(snapshot);
         copy.CustomCombinations = [.. kept, .. generated];
         // Decision of 1/11/2026: the results of the rows generated again with the same definition stay valid (a revision for each definition).

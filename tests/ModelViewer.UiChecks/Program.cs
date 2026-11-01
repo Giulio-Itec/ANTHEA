@@ -206,6 +206,7 @@ static partial class Program
                 if(args.Contains("--combinations"))
                 {
                     CombinationRenderingChecks(isolated,scene,output);
+                    CombinationLegacyRenderingChecks(output);
                     listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"combination panel has no WPF binding errors");
                     File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
                     preview.Close();app.Shutdown();return 0;
