@@ -14052,6 +14052,34 @@
       ]
     },
     {
+      "id": "COMBO-REV-01",
+      "data": "2026-11-01",
+      "fase": "dopo la 1.16.2 / combo-chiusura",
+      "titolo": "Modelli: revisione dei risultati delle combinazioni per singola definizione",
+      "famiglia": "modelli/combinazioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Ogni risultato derivato (combinazione o inviluppo calcolato con GPC) conserva la revisione dei dati da cui è calcolato. Fino al 1/11/2026 era l'impronta dell'intera copia senza i risultati derivati, tutte le definizioni comprese: salvare o eliminare una qualunque definizione scartava tutti i risultati derivati, anche gli inviluppi (2,9 s di ricalcolo sul 500 × 100). Ora la revisione è propria di ogni definizione: SHA-256 di un'etichetta di formato, della revisione della preparazione (geometria, casi statici, tabelle sorgente) e delle definizioni che legge, sé stessa e le annidate a ogni livello. Salvare, eliminare, ripristinare o rigenerare scarta solo i risultati delle definizioni cambiate e di quelle che le usano. Cambia la revisione scritta nei risultati salvati: i documenti salvati prima hanno revisioni dell'intera copia, che non corrispondono più; la vista non li mostra come validi (ModelCombinations.WithCurrentResults), il catalogo li offre «Da calcolare» e la modifica successiva scrive il documento senza di essi. Nessun errore all'apertura; si ricalcolano una volta.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelCombinations.cs",
+        "src/ANTHEA.ModelWorkspace/ModelCombinationGenerator.cs",
+        "src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Combinations.cs"
+      ],
+      "segno": "Nessun valore cambia: cambiano solo la revisione d'ingresso dei risultati derivati e quali risultati restano dopo una modifica delle definizioni. Impronta dei valori della prova dei tempi (revisioni escluse) uguale a quella della 1.16.0 su 24 × 12, 100 × 50 e 500 × 100.",
+      "effetto_quantificato": "Documenti esistenti con combinazioni calcolate: i risultati derivati salvati tornano «Da calcolare» una volta. Dopo una modifica: restano i risultati delle definizioni non toccate e non dipendenti (prima nessuno). Prova ModelWorkspace.Checks «editing definitions invalidates derived fields» sostituita da «editing a definition invalidates only its derived fields and those that use it».",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "«chiudi combo e cerca possibili ottimizzazioni»; sulla revisione per definizione: «Sì, per definizione».",
+        "esito": "Attuata nel commit dedicato del ramo refactoring/combo-chiusura, con la voce del registro per il cambio delle revisioni salvate."
+      },
+      "test": [
+        "ModelWorkspace.Checks: revision per definition (somma, riga dell'inviluppo, definizione invariata, eliminazione, ripristino, rigenerazione, documento di una revisione precedente nel catalogo e nella vista, ricalcolo)",
+        "ModelWorkspace.Checks: impronta dei valori della prova ridotta uguale alla 1.16.0"
+      ]
+    },
+    {
       "id": "AZIONI-01",
       "data": "2026-10-30",
       "fase": "Azioni NTC / EN",
