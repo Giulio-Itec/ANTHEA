@@ -154,6 +154,9 @@ public static partial class ConcreteResults
         public string Status { get; }
         public double LimitAxialKn { get; }
         public double AxialResidualKn { get; }
+        /// <summary>Duttilità in curvatura della scheda (null se non richiesta o non calcolata) e motivo quando non è calcolata.</summary>
+        public CurvatureDuctilityResult? Ductility { get; }
+        public string? DuctilityMessage { get; }
         internal CurvatureResult(Native.MomentCurvatureResult value)
         {
             Source = value;
@@ -164,6 +167,40 @@ public static partial class ConcreteResults
             Status = value.Status;
             LimitAxialKn = value.LimitAxialKn;
             AxialResidualKn = value.AxialResidualKn;
+            Ductility = value.Ductility is { } ductility ? new CurvatureDuctilityResult(ductility) : null;
+            DuctilityMessage = value.DuctilityMessage;
+        }
+    }
+
+    /// <summary>Duttilità in curvatura μφ della scheda «Momento–curvatura» (kNm, 1/m), copia dei valori del calcolo.</summary>
+    public sealed class CurvatureDuctilityResult
+    {
+        internal Native.MomentCurvatureDuctility Source { get; }
+        public double FirstYieldMoment { get; }
+        public double FirstYieldCurvature { get; }
+        public bool FirstYieldInSteel { get; }
+        public double ResistingMoment { get; }
+        public double YieldCurvature { get; }
+        public double MaximumMoment { get; }
+        public double MaximumMomentCurvature { get; }
+        public double LimitCurvature { get; }
+        public double UltimateCurvature { get; }
+        public bool UltimateAfterPeak { get; }
+        public double CurvatureDuctility { get; }
+        internal CurvatureDuctilityResult(Native.MomentCurvatureDuctility value)
+        {
+            Source = value;
+            FirstYieldMoment = value.FirstYieldMoment;
+            FirstYieldCurvature = value.FirstYieldCurvature;
+            FirstYieldInSteel = value.FirstYieldInSteel;
+            ResistingMoment = value.ResistingMoment;
+            YieldCurvature = value.YieldCurvature;
+            MaximumMoment = value.MaximumMoment;
+            MaximumMomentCurvature = value.MaximumMomentCurvature;
+            LimitCurvature = value.LimitCurvature;
+            UltimateCurvature = value.UltimateCurvature;
+            UltimateAfterPeak = value.UltimateAfterPeak;
+            CurvatureDuctility = value.CurvatureDuctility;
         }
     }
 

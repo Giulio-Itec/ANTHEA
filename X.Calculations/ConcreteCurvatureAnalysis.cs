@@ -42,6 +42,15 @@ public static class ConcreteCurvatureAnalysis
     }
 
     public static MomentCurvatureResult Calculate(JsonObject input, JsonObject workspace, JsonObject options,
+        CancellationToken token = default) => Calculate(input, workspace, options, false, token);
+
+    /// <summary>
+    /// La curva e, con <paramref name="ductility"/> (scheda «Momento–curvatura», decisione dell'utente del 1/11/2026), la duttilità in curvatura μφ
+    /// della libreria (NTC 2018 §4.1.2.3.4.2, Circolare 2019 Fig. C4.1.12) sulla stessa sezione: forze dei piani dal verificatore negli assi locali,
+    /// gli stessi della curva, in kN e kNm. Con «CLS teso nelle risposte» non trascurato la duttilità non è calcolata e il motivo è nel risultato.
+    /// La curva è la stessa, bit per bit; il report non chiede la duttilità.
+    /// </summary>
+    public static MomentCurvatureResult Calculate(JsonObject input, JsonObject workspace, JsonObject options, bool ductility,
         CancellationToken token = default)
     {
         token.ThrowIfCancellationRequested();
@@ -70,8 +79,13 @@ public static class ConcreteCurvatureAnalysis
         // quello della norma effettiva (fyk, γs = 1), come TAG-2 per taglio e torsione e come ancoraggi e dettagli; prima SezioneCA.Fyd, cioè
         // fyk/γs dell'input, anche con la legge a fyk (seguito del 16/10/2026). Senza coefficienti unitari SezioneCA.Fyd come prima, bit per bit.
         double fyd = input.B("coefficienti_unitari") ? ConcreteMaterials.DesignValues(input, workspace).Fyd : engine.Geometry.Fyd;
+        // μφ: assi «Locali» (sopra), quindi assi delle forze del verificatore = assi della curva; unità kN e kNm.
+        var section = ductility && tension == ConcreteMaterial.TensionResponseDiagrams.Default
+            ? GPC.Checkers.Concrete.Response.MomentCurvatureDuctilitySection.From(engine.Checker, engine.Section, 1000, 1e6) : null;
         var result = new MomentCurvatureCalculator().Calculate(request, domain.Check,
-            a => engine.Stress(a, "CURVA"), fyd / engine.Geometry.Es, token);
+            a => engine.Stress(a, "CURVA"), fyd / engine.Geometry.Es, section, token);
+        if (ductility && section is null)
+            result = result with { DuctilityMessage = "solo con «CLS teso nelle risposte» trascurato." };
         return tension == ConcreteMaterial.TensionResponseDiagrams.Default ? result
             : result with { Status = result.Status + " " + ResponseConcreteTensionStatus };
     }
