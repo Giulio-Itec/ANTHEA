@@ -148,6 +148,9 @@ public static class ModelCombinations
         if(custom.Any(d=>d.Id!=definition.Id&&d.Name==definition.Name))throw new InvalidDataException("Esiste già una combinazione ANTHEA con questo nome.");
         var copy=Copy(snapshot);copy.CustomCombinations=custom;
         var all=Read(copy);var records=all.Select(ToGpc).ToArray();
+        // COMBO-B4 (1/11/2026): the results are named «name [source]»: an imported definition may not take the name of another of its source.
+        if(all.Any(d=>d.Id!=definition.Id&&d.Source==definition.Source&&d.Name==definition.Name))
+            throw new InvalidDataException("Esiste già una combinazione "+definition.Source+" con questo nome: i risultati avrebbero lo stesso nome.");
         // Missing results are allowed while editing; missing definitions/cases and cycles are not.
         var required=CombinationExpansion.StaticCases(records,definition.Id);
         var known=StaticCaseNames(snapshot).ToHashSet(StringComparer.Ordinal);

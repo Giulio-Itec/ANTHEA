@@ -1,3 +1,4 @@
+using System.Text.Json;
 using ANTHEA.ModelWorkspace;
 
 /// <summary>Bugs of the combinations of the Models module found by the refactoring of 29/10/2026, each with the check that reproduced it.</summary>
@@ -41,5 +42,17 @@ static partial class Program
         model = ModelCombinations.Save(model, new("ANTHEA/cancel", "Annullata", ModelCombinationKind.Linear, "ANTHEA", "", [new("Q", false, 1), new("Q", false, -1)], true));
         try { await service.CalculateAsync(model, "ANTHEA/cancel"); throw new Exception("COMBO-B3: empty combination accepted"); }
         catch (InvalidDataException ex) { Check(ex.Message.Contains("coefficienti nulli", StringComparison.Ordinal), "COMBO-B3: terms that cancel each other: explained, not EmptyCombination: " + ex.Message); }
+
+        // COMBO-B4 (1/11/2026): an imported definition renamed as another of its table was saved; the catalogue showed two «A [LCOM-GEN]» and the
+        // calculation of the second failed when attached («Il nome del risultato calcolato coincide con un risultato esistente»).
+        var imported = CombinationModel();
+        imported.SourceTables = new Dictionary<string, JsonElement>(imported.SourceTables!) { ["LCOM-GEN"] = JsonSerializer.Deserialize<JsonElement>(
+            """{"1":{"NAME":"A","iTYPE":0,"ACTIVE":"ACTIVE","vCOMB":[{"ANAL":"ST","LCNAME":"G","FACTOR":1}]},"2":{"NAME":"B","iTYPE":0,"ACTIVE":"ACTIVE","vCOMB":[{"ANAL":"ST","LCNAME":"Q","FACTOR":1}]}}""") };
+        imported.Validate();
+        var second = ModelCombinations.Read(imported).Single(d => d.Name == "B");
+        Reject(() => ModelCombinations.Save(imported, second with { Name = "A", Editable = true }), "COMBO-B4: an imported definition cannot take the name of another definition of its table");
+        var both = ModelCombinations.Save(imported, second with { Name = "B2", Editable = true });
+        foreach (var id in new[] { "LCOM-GEN/A", "LCOM-GEN/B" }) both = ModelCombinations.Attach(both, id, await service.CalculateAsync(both, id));
+        Check(both.Results.Count(r => r.Combination != null) == 2, "COMBO-B4: a different name: both imported definitions are calculated and attached");
     }
 }
