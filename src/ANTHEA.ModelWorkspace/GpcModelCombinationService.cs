@@ -73,10 +73,12 @@ public sealed partial class GpcModelCombinationService
         // Bound expansion before allocating result states. This limit is explicit rather than a silent truncation.
         // COMBO-B2: the same count and explanation as the catalogue, instead of the untranslated «CombinationExpansionLimit» of GPC.
         var expansion=ModelCombinations.AlternativeCount(definitions.ToDictionary(d=>d.Id,StringComparer.Ordinal),definitionId,new(StringComparer.Ordinal));
-        if(expansion.Over)throw new InvalidDataException(ModelCombinations.ExpansionMessage(expansion.Count));
-        var alternatives=Alternatives(CombinationExpansion.Expand(records,definitionId,ModelCombinations.MaximumAlternatives));
+        // 1/11/2026 (point 8): over the limit the extremes are found term by term on the tree of the definition (GPC CombinationTreeNode),
+        // without listing the alternatives; below it the expansion as before, so the results below the limit do not change.
+        var tree=expansion.Over?CombinationExpansion.Tree(records,definitionId):null;
+        var alternatives=tree==null?Alternatives(CombinationExpansion.Expand(records,definitionId,ModelCombinations.MaximumAlternatives)):[];
         // COMBO-B3: terms that cancel each other (Q − Q) leave no static case: explained instead of GPC's «EmptyCombination».
-        if(alternatives.All(a=>a.Factors.Count==0))throw new InvalidDataException(ModelCombinations.ZeroMessage);
+        if(tree==null&&alternatives.All(a=>a.Factors.Count==0))throw new InvalidDataException(ModelCombinations.ZeroMessage);
         token.ThrowIfCancellationRequested();
         string revision=ModelCombinations.DefinitionRevision(snapshot,definitionId);
         string preparationRevision=ModelCombinations.PreparationRevision(snapshot);
@@ -87,15 +89,16 @@ public sealed partial class GpcModelCombinationService
         var output=context.Output;
         var warnings=context.Warnings.ToList();
         double preparationMs=watch.Elapsed.TotalMilliseconds;
-        progress?.Report(new($"Calcolo GPC · {alternatives.Length:N0} stati alternativi…"));
+        progress?.Report(new(tree==null?$"Calcolo GPC · {alternatives.Length:N0} stati alternativi…":$"Calcolo GPC · {tree.AlternativeCount():N0} stati alternativi, estremi per termini…"));
         // Keep the prepared model immutable: derived states remain in the report and presentation snapshot.
-        var report=CombinationRebuild.Rebuild(model,output,alternatives,"anthea-static",model.AllElements,false,token,context.Cache);
+        var report=tree==null?CombinationRebuild.Rebuild(model,output,alternatives,"anthea-static",model.AllElements,false,token,context.Cache)
+            :CombinationRebuild.Rebuild(model,output,tree,"anthea-static",model.AllElements,false,token,context.Cache);
         token.ThrowIfCancellationRequested();
         if(report.IsRejected||report.Samples.Count==0)throw new InvalidDataException("Combinazione non costruita: "+Messages(report.Diagnostics));
         warnings.AddRange(report.Diagnostics.Select(d=>d.Code+": "+d.Message));
         double rebuildMs=watch.Elapsed.TotalMilliseconds-preparationMs;
         progress?.Report(new("Preparazione di contouring, diagrammi e governanti…"));
-        bool envelope=alternatives.Length>1;
+        bool envelope=tree!=null||alternatives.Length>1;
         var samples=report.Samples.Select(s=>(Owner:context.Owners[s.State.DerivedFrom[0]],Sample:s)).ToArray();
         var sourceNodes=model.NodesElements.Values.ToDictionary(n=>n.Id,n=>int.Parse(n.Source.OriginalId,CultureInfo.InvariantCulture));
         var labels=samples.Select(s=>s.Sample.State.ConcomitantStateId).Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();

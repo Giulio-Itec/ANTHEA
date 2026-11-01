@@ -98,13 +98,15 @@ public static class ModelCombinations
                 if(required.Length==0) return new ModelCombinationAvailability(d,"Vuota","Aggiungi almeno un caso di carico.",required,false);
                 // COMBO-B3: every coefficient zero gives no state to combine, nested definitions included (scaled by zero).
                 if(d.Terms.All(t=>t.Factor==0))return new(d,"Vuota",ZeroMessage,required,false);
-                if(AlternativeCount(byId,d.Id,counts) is {Over:true} expansion)return new(d,"Non disponibile",ExpansionMessage(expansion.Count),required,false);
+                // 1/11/2026 (point 8): over the limit of the expansion the combination is calculated term by term (GpcModelCombinationService).
+                var expansion=AlternativeCount(byId,d.Id,counts);
                 var missing=required.Where(c=>!cases.Contains(c)).ToArray();
                 if(missing.Length>0)return new(d,"Casi mancanti","Risultati da importare: "+string.Join(", ",missing),required,false);
                 if(!GpcSnapshotModel.CanRebuild(snapshot))
                     return new(d,"Sorgente incompleta","Il collegamento GPC richiede le tabelle sorgente MIDAS oppure le terne locali e i casi della sorgente importata. La definizione può essere conservata.",required,false);
                 bool ready=calculated.Contains(d.Id);
-                return new(d,ready?"Calcolata":"Da calcolare",ready?"Risultati locali disponibili nella copia del modello.":"Casi base disponibili; costruzione locale con GPC.",required,true);
+                return new(d,ready?"Calcolata":"Da calcolare",(ready?"Risultati locali disponibili nella copia del modello.":"Casi base disponibili; costruzione locale con GPC.")+
+                    (expansion.Over?" "+ExpansionMessage(expansion.Count):""),required,true);
             }
             catch(Exception ex) when(ex is ArgumentException or InvalidOperationException or NotSupportedException)
             { return new(d,"Non disponibile",Explain(ex),[],false); }
@@ -135,10 +137,18 @@ public static class ModelCombinations
         return counts[id]=(count,over);
     }
 
+    /// <summary>1/11/2026 (point 8): true when the definition has more alternatives than the expansion allows, so that GPC finds its extremes term
+    /// by term (no principal components of the plates); false for an unknown definition.</summary>
+    public static bool ExceedsExpansion(ModelSnapshot snapshot,string definitionId)
+    {
+        var byId=Read(snapshot).ToDictionary(d=>d.Id,StringComparer.Ordinal);
+        return byId.ContainsKey(definitionId)&&AlternativeCount(byId,definitionId,new(StringComparer.Ordinal)).Over;
+    }
+
     internal const string ZeroMessage="Tutti i coefficienti nulli (anche dopo la somma dei termini): nessun caso da combinare. Indica almeno un coefficiente diverso da zero.";
 
-    internal static string ExpansionMessage(long count)=>$"Oltre {MaximumAlternatives} stati alternativi ({count}): una somma lineare di inviluppi ha il prodotto "+
-        "delle loro alternative. Usa un inviluppo delle combinazioni invece della somma, o riduci i termini degli inviluppi annidati.";
+    internal static string ExpansionMessage(long count)=>$"Oltre {MaximumAlternatives} stati alternativi ({(count>=1_000_000_000_000L?"più di 10¹²":count.ToString(System.Globalization.CultureInfo.InvariantCulture))}): "+
+        "GPC cerca gli estremi termine per termine, senza elencare gli stati; governanti completi. Componenti principali dei plate non disponibili: richiedono ogni stato.";
 
     internal static string Explain(Exception ex)=>ex.Message.StartsWith("CyclicCombination",StringComparison.Ordinal)
         ?"Dipendenza circolare tra combinazioni. Correggi i riferimenti."
