@@ -14,12 +14,12 @@ public static partial class ClimateDocument
     public const string Hydraulics="act_idrauliche";
     private static IEnumerable<ModuleInfo> ExtendedModules=>new[]
     {
-        new ModuleInfo(Fire,"Azioni","Incendio","Curve dei gas, facce esposte e flussi su temperature superficiali prescritte","Azione","Azioni termiche da incendio","Incendio"),
-        new ModuleInfo(Cranes,"Azioni","Gru e carriponte","Azioni alle ruote e gruppi compatibili EN 1991-3:2006","Azione","Gru e carriponte","Gru industriali"),
-        new ModuleInfo(Prestressing,"Azioni","Precompressione e perdite","Profilo, tiro, attrito, ancoraggi e stato efficace nel tempo","Azione","Precompressione e perdite","Precompressione"),
-        new ModuleInfo(TimeEffects,"Azioni","Ritiro e viscosità","Storia dei carichi, maturazione e spostamenti assiali imposti","Azione","Ritiro e viscosità","Effetti differiti"),
         new ModuleInfo(Hydraulics,"Azioni","Azioni idrauliche","Pareti, platee e pile in corrente · scenari e pressioni nette","Azione","Azioni idrauliche","Acqua e corrente"),
-        new ModuleInfo(Construction,"Azioni","Fasi costruttive","Sequenza, carichi temporanei, getto e azioni assegnate","Azione","Fasi costruttive","Esecuzione")
+        new ModuleInfo(Construction,"Azioni","Fasi costruttive","Sequenza, carichi temporanei, getto e azioni assegnate","Azione","Fasi costruttive","Esecuzione"),
+        new ModuleInfo(TimeEffects,"Azioni","Ritiro e viscosità","Storia dei carichi, maturazione e spostamenti assiali imposti","Azione","Ritiro e viscosità","Effetti differiti"),
+        new ModuleInfo(Prestressing,"Azioni","Precompressione e perdite","Profilo, tiro, attrito, ancoraggi e stato efficace nel tempo","Azione","Precompressione e perdite","Precompressione"),
+        new ModuleInfo(Cranes,"Azioni","Gru e carriponte","Azioni alle ruote e gruppi compatibili EN 1991-3:2006","Azione","Gru e carriponte","Gru industriali"),
+        new ModuleInfo(Fire,"Azioni","Incendio","Curve dei gas, facce esposte e flussi su temperature superficiali prescritte","Azione","Azioni termiche da incendio","Incendio")
     };
     private static bool IsExtended(string module)=>ExtendedModules.Any(m=>m.Id==module);
     private static object ExtendedInput(string module)=>module switch

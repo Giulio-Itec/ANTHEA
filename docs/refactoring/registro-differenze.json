@@ -14680,17 +14680,21 @@
       "famiglia": "wiki/documentazione",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Aggiunti sei capitoli per guida e dodici articoli Wiki; 94 articoli e 93 esempi totali. Nessun atteso numerico sovrascritto. Archivio Rev64 verificato per SHA-256. Unificati i contenuti della 1.17.0 nella Rev66; entrambe le Rev65 archiviate. Il censimento della shell passa da 10 a 16 Azioni e quello editoriale da 82 a 94 articoli, senza modificare gli attesi numerici.",
+      "descrizione": "Aggiunti sei capitoli per guida e dodici articoli Wiki; 94 articoli e 93 esempi totali. Nessun atteso numerico sovrascritto. Archivio Rev64 verificato per SHA-256. Unificati i contenuti della 1.17.0 nella Rev66; entrambe le Rev65 archiviate. Il censimento della shell passa da 10 a 16 Azioni e quello editoriale da 82 a 94 articoli, senza modificare gli attesi numerici. Full fe14dae2: 168 differenze non ammesse, tutte in wiki/search.json. Le 30 sequenze della 1.17.0 restano identiche rimuovendo i soli dodici nuovi ID. Registrate 108 transizioni esatte e rimosse 60 posizioni superate; nessuna tolleranza ampliata. Riallineato il catalogo dei sei nuovi moduli all’ordine richiesto, identico a ModuleImplementations: idraulica, fasi, effetti differiti, precompressione, carriponte, incendio.",
       "test": [
         "Word/PDF: audit dei contenuti, formule e parti ITEC conservate; verifica visiva delle pagine aggiunte e degli indici",
-        "Wiki.Tests, wiki/indice e wiki/manuale PASS"
+        "Wiki.Tests, wiki/indice e wiki/manuale PASS",
+        "Confronto F3 della cattura immutabile: 1201 file, zero differenze non ammesse; errore.txt diagnostico conservato nella cattura originale ed escluso solo dalla copia di ricontrollo, con manifest SHA-256"
       ],
       "evidenze": [
         "supporto/artefatti/guide_anthea_itec_rev65/pratica/audit.json",
         "supporto/artefatti/guide_anthea_itec_rev65/teorica/audit.json",
         "supporto/artefatti/ci/20261101-221622-azioni-wiki-final/summary.json",
         "supporto/artefatti/guide_anthea_itec_rev66/pratica/audit.json",
-        "supporto/artefatti/guide_anthea_itec_rev66/teorica/audit.json"
+        "supporto/artefatti/guide_anthea_itec_rev66/teorica/audit.json",
+        "supporto/artefatti/ci/20261101-224308-azioni-ar-full/summary.json",
+        "supporto/artefatti/azioni-estese/f3-rev66-recomparison.json",
+        "supporto/artefatti/azioni-estese/f3-rev66-recomparison-provenance.json"
       ],
       "wiki": "Capitoli Azioni idrauliche, Fasi costruttive, Ritiro viscosità, Precompressione, Gru e carriponte, Incendio."
     }

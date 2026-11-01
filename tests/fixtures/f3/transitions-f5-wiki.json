@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "voce": "F5-LIB-02",
-  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo. Rev60 (1.14.4): 117 differenze editoriali esatte aggiunte, 33 sostituite e 0 tolte in 15 articoli e nell'indice delle ricerche (separatore decimale, testa dei pali e dei micropali, anello interno, sviluppo parziale delle barre, tension stiffening con il tirante, R5, correzioni di calcolo e combinazioni dei muri), approvate dall'utente il 28/10/2026 («ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»). Nessun risultato di calcolo. Rev61 (1.15.0): 390 differenze editoriali esatte aggiunte, 7 sostituite, 0 spostate e 0 tolte in 4 articoli e nell'indice delle ricerche (scheda «Colonna modello» della sezione c.a. e sua teoria, file di testo .mct/.mgt e modelli .st7 nel modulo Modelli, unità e segni delle copie importate); da approvare dall'utente (voce F5-REL-1150-01). Nessun risultato di calcolo. Rev62 (1.16.0): 828 differenze editoriali esatte aggiunte, 148 sostituite, 143 spostate e 0 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Conteggio degli articoli della Wiki 77 → 78 (capitolo nuovo sulla capacità orizzontale in terreno stratificato). Rev62, seconda passata (1.16.0): 860 differenze editoriali esatte aggiunte, 160 sostituite, 176 spostate e 24 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX di otto capitoli in più, testi «Per le guide» degli agenti della 1.16.0: modulo Modelli con fasi, tabelle e combinazioni, voci R della sezione c.a., unità della scala del dominio 3D; prima passata: formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, colonna modello fase 2 (1.16.0): 109 differenze editoriali esatte aggiunte, 10 sostituite, 0 spostate e 0 tolte in 2 articoli (scelta Azioni, inviluppo delle combinazioni, dominio ridotto N–M1Rd,max e scostamenti K-7 e K-8 della colonna modello nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, Brinch Hansen e W-idx (1.16.0): 152 differenze editoriali esatte aggiunte, 54 sostituite, 2 spostate e 1 tolte in 2 articoli (Brinch Hansen con carico inclinato nelle fondazioni superficiali delle due guide; W-idx, percorsi delle figure fuori dall'indice di ricerca, senza effetto sulle 30 ricerche F3); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, calcoli in coda (1.16.0): 27 differenze editoriali esatte aggiunte, 45 sostituite, 0 spostate e 0 tolte in 3 articoli e nell'indice delle ricerche (calcoli in coda dal limitatore anche per la sezione c.a. e la risposta elastica, taglio sullo sfondo, nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, documenti dei muri della prima versione (1.16.0): 3 differenze editoriali esatte aggiunte, 2 sostituite, 0 spostate e 0 tolte in 1 articoli (aggiornamento dei documenti dei muri della prima versione con ψ0, nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, ultima passata (1.16.0): 101 differenze editoriali esatte aggiunte, 29 sostituite, 55 spostate e 4 tolte in 7 articoli (bordi laterali a flusso nullo della filtrazione delle paratie; tavola delle armature e distinta come da tavola dei muri, con la figura nuova; documenti dei muri della prima versione aggiornati anche nel calcolo senza apertura, D7 b; coefficienti parziali SLU di Bridge Design, D8; nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev64 (1.16.2): materiali per barra e tensione iniziale dei trefoli; 613 voci editoriali aggiunte e 595 superate per spostamento del testo nei soli due articoli della sezione in c.a. Le 30 ricerche non cambiano. Nessun atteso o risultato ingegneristico modificato. Rev65 (1.17.0): 183 differenze editoriali esatte aggiunte, 397 sostituite, 96 spostate e 0 tolte in 4 articoli e nell'indice delle ricerche (combinazioni del modulo Modelli: stati del catalogo, ±Q, calcolo in background, revisione per definizione, calcolo per termini, generatore NTC 2018, componenti principali dei plate; duttilità in curvatura μφ e regole EN delle sovrapposizioni della sezione c.a.; nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1170-01). Nessun risultato di calcolo. Rev65, seconda passata (1.17.0): 0 differenze editoriali esatte aggiunte, 4 sostituite, 0 spostate e 0 tolte in 1 articoli (combinazioni calcolate fino alla 1.16.2 «Calcolata» con «Ricalcola con le componenti principali», COMBO-REV-01-bis; guida pratica); regola «Approvati se spiegati» (voce F5-REL-1170-01). Nessun risultato di calcolo. Rev66: dodici nuovi capitoli dei sei fogli Azioni (24 file), conteggio 82 → 94; contenuti storici della 1.17.0 conservati. Nessun atteso ingegneristico modificato.",
+  "origine": "Capture e39741c9; 30 ricerche: sequenze storiche identiche rimuovendo soltanto i due nuovi ID paratie. Due righe vuote finali, quattro file dei due articoli, conteggio 75 → 77. Nessun risultato di calcolo. Rev55 (2a7740a7): 145 differenze editoriali esatte per persistenza CA, wizard e catalogo Esempi; sostituite dieci posizioni di ricerca precedenti. Tutte le 30 sequenze rimangono identiche rimuovendo soltanto i tre articoli aggiornati. Nessun risultato di calcolo. Rev56 (1.12.1): 22 differenze editoriali esatte per i dettagli e le armature della capsula; sostituite quattro righe superate. Le 30 ricerche sono integralmente identiche alla 1.12.0. Nessun risultato di calcolo. Rev58 (1.13.0): 21 differenze editoriali esatte, 14 in 5 articoli (Tab, stratigrafia estesa e peso nullo del palo, taglio dei pali circolari, conci con φ = 0) e 7 nella ricerca «micropalo», dove l'articolo del palo verticale entra al quinto posto e i sei successivi scendono di uno. Nessun risultato di calcolo. Rev59 (1.14.0): 31 differenze editoriali esatte in 6 articoli (avvio e scelta del modulo, Wiki e centro della conoscenza, progetti e gestione del lavoro, muri di sostegno, guida stratigrafia, sezione c.a.) per la shell nuova; tolte 3 righe aggiunte della Rev58 nell'articolo di avvio, il cui paragrafo sul Tab ora sostituisce quello sull'ingrandimento. Le 30 ricerche non cambiano. Nessun risultato di calcolo. Rev60 (1.14.4): 117 differenze editoriali esatte aggiunte, 33 sostituite e 0 tolte in 15 articoli e nell'indice delle ricerche (separatore decimale, testa dei pali e dei micropali, anello interno, sviluppo parziale delle barre, tension stiffening con il tirante, R5, correzioni di calcolo e combinazioni dei muri), approvate dall'utente il 28/10/2026 («ti approvo già ora la richiesta su muri, fondazione e trasizione rev60»). Nessun risultato di calcolo. Rev61 (1.15.0): 390 differenze editoriali esatte aggiunte, 7 sostituite, 0 spostate e 0 tolte in 4 articoli e nell'indice delle ricerche (scheda «Colonna modello» della sezione c.a. e sua teoria, file di testo .mct/.mgt e modelli .st7 nel modulo Modelli, unità e segni delle copie importate); da approvare dall'utente (voce F5-REL-1150-01). Nessun risultato di calcolo. Rev62 (1.16.0): 828 differenze editoriali esatte aggiunte, 148 sostituite, 143 spostate e 0 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Conteggio degli articoli della Wiki 77 → 78 (capitolo nuovo sulla capacità orizzontale in terreno stratificato). Rev62, seconda passata (1.16.0): 860 differenze editoriali esatte aggiunte, 160 sostituite, 176 spostate e 24 tolte in 14 articoli e nell'indice delle ricerche (formule in LaTeX di otto capitoli in più, testi «Per le guide» degli agenti della 1.16.0: modulo Modelli con fasi, tabelle e combinazioni, voci R della sezione c.a., unità della scala del dominio 3D; prima passata: formule in LaTeX e relazioni su righe separate nella guida teorica, limiti delle tensioni di esercizio e ancoraggi della sezione c.a., capitolo nuovo sulla capacità orizzontale in terreno stratificato con l'articolo di G. Pacini, scelta fra Broms e Stratificato nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, colonna modello fase 2 (1.16.0): 109 differenze editoriali esatte aggiunte, 10 sostituite, 0 spostate e 0 tolte in 2 articoli (scelta Azioni, inviluppo delle combinazioni, dominio ridotto N–M1Rd,max e scostamenti K-7 e K-8 della colonna modello nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, Brinch Hansen e W-idx (1.16.0): 152 differenze editoriali esatte aggiunte, 54 sostituite, 2 spostate e 1 tolte in 2 articoli (Brinch Hansen con carico inclinato nelle fondazioni superficiali delle due guide; W-idx, percorsi delle figure fuori dall'indice di ricerca, senza effetto sulle 30 ricerche F3); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, calcoli in coda (1.16.0): 27 differenze editoriali esatte aggiunte, 45 sostituite, 0 spostate e 0 tolte in 3 articoli e nell'indice delle ricerche (calcoli in coda dal limitatore anche per la sezione c.a. e la risposta elastica, taglio sullo sfondo, nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, documenti dei muri della prima versione (1.16.0): 3 differenze editoriali esatte aggiunte, 2 sostituite, 0 spostate e 0 tolte in 1 articoli (aggiornamento dei documenti dei muri della prima versione con ψ0, nella guida pratica); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev62, ultima passata (1.16.0): 101 differenze editoriali esatte aggiunte, 29 sostituite, 55 spostate e 4 tolte in 7 articoli (bordi laterali a flusso nullo della filtrazione delle paratie; tavola delle armature e distinta come da tavola dei muri, con la figura nuova; documenti dei muri della prima versione aggiornati anche nel calcolo senza apertura, D7 b; coefficienti parziali SLU di Bridge Design, D8; nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1160-01). Nessun risultato di calcolo. Rev64 (1.16.2): materiali per barra e tensione iniziale dei trefoli; 613 voci editoriali aggiunte e 595 superate per spostamento del testo nei soli due articoli della sezione in c.a. Le 30 ricerche non cambiano. Nessun atteso o risultato ingegneristico modificato. Rev65 (1.17.0): 183 differenze editoriali esatte aggiunte, 397 sostituite, 96 spostate e 0 tolte in 4 articoli e nell'indice delle ricerche (combinazioni del modulo Modelli: stati del catalogo, ±Q, calcolo in background, revisione per definizione, calcolo per termini, generatore NTC 2018, componenti principali dei plate; duttilità in curvatura μφ e regole EN delle sovrapposizioni della sezione c.a.; nelle due guide); regola «Approvati se spiegati» (voce F5-REL-1170-01). Nessun risultato di calcolo. Rev65, seconda passata (1.17.0): 0 differenze editoriali esatte aggiunte, 4 sostituite, 0 spostate e 0 tolte in 1 articoli (combinazioni calcolate fino alla 1.16.2 «Calcolata» con «Ricalcola con le componenti principali», COMBO-REV-01-bis; guida pratica); regola «Approvati se spiegati» (voce F5-REL-1170-01). Nessun risultato di calcolo. Rev66: dodici nuovi capitoli dei sei fogli Azioni (24 file), conteggio 82 → 94; contenuti storici della 1.17.0 conservati. Nessun atteso ingegneristico modificato. Rev66, ricerca: 108 differenze esatte sostituiscono 60 transizioni di posizione superate. Le 30 sequenze della 1.17.0 restano identiche rimuovendo soltanto i dodici nuovi ID. Nessun file di calcolo, report o risultato numerico cambia.",
   "voci": [
     {
       "file": "wiki/_wiki_guide_moduli_guida-paratie.md",
@@ -85,22 +85,6 @@
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.armature[24]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-precompressione",
-      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "voce": "F5-LIB-02 / F5-REL-1160-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.armature[25]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-solette\"",
-      "voce": "F5-LIB-02 / F5-REL-1160-01"
-    },
-    {
-      "file": "wiki/search.json",
       "percorso": "$.calcestruzzo[28]",
       "classe": "testo",
       "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
@@ -177,14 +161,6 @@
       "classe": "testo",
       "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
       "b": "/wiki/manuale/geotecnica/analisi-paratie",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.fessurazione[16]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
       "voce": "F5-LIB-02"
     },
     {
@@ -317,14 +293,6 @@
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.report[29]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/guide/moduli-singoli/fondazioni-superficiali\"",
-      "voce": "F5-LIB-02 / F5-REL-1144-01"
-    },
-    {
-      "file": "wiki/search.json",
       "percorso": "$.sezioni[25]",
       "classe": "testo",
       "a": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
@@ -425,46 +393,6 @@
       "classe": "testo",
       "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
       "b": "/wiki/manuale/dinamica/spettri-isolamento",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.stabilità[14]",
-      "classe": "testo",
-      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.stabilità[15]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-acciaio-fasi",
-      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.stabilità[16]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-deformazioni",
-      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.stabilità[17]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-acciaio-fasi\"",
-      "voce": "F5-LIB-02"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.stabilità[18]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-deformazioni\"",
       "voce": "F5-LIB-02"
     },
     {
@@ -601,30 +529,6 @@
       "classe": "testo",
       "a": "/wiki/guide/moduli/sezione-ca",
       "b": "/wiki/manuale/geotecnica/analisi-paratie",
-      "voce": "F5-LIB-02 / F5-REL-1144-01 / F5-REL-1160-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.σ[15]",
-      "classe": "testo",
-      "a": "/wiki/theory/palo-elastico",
-      "b": "/wiki/manuale/geotecnica/geotecnica-parametri",
-      "voce": "F5-LIB-02 / F5-REL-1144-01 / F5-REL-1160-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.σ[16]",
-      "classe": "testo",
-      "a": "/wiki/manuale/geotecnica/geotecnica-gruppi",
-      "b": "/wiki/manuale/ponti/ponti-acciaio-fasi",
-      "voce": "F5-LIB-02 / F5-REL-1144-01 / F5-REL-1160-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.σ[17]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
       "voce": "F5-LIB-02 / F5-REL-1144-01 / F5-REL-1160-01"
     },
     {
@@ -1449,30 +1353,6 @@
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-solette",
       "b": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
-      "voce": "F5-REL-112-01 / F5-REL-1144-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.ancoraggio[9]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-precompressione",
-      "b": "/wiki/manuale/calcestruzzo/taglio-traliccio",
-      "voce": "F5-REL-112-01 / F5-REL-1144-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.ancoraggio[10]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-stralli",
-      "b": "/wiki/manuale/ponti/ponti-solette",
-      "voce": "F5-REL-112-01 / F5-REL-1144-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.ancoraggio[11]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
       "voce": "F5-REL-112-01 / F5-REL-1144-01"
     },
     {
@@ -2853,14 +2733,6 @@
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.ancoraggio[12]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-stralli\"",
-      "voce": "F5-REL-1144-01"
-    },
-    {
-      "file": "wiki/search.json",
       "percorso": "$.report[5]",
       "classe": "testo",
       "a": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
@@ -3021,14 +2893,6 @@
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.report[30]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
-      "voce": "F5-REL-1144-01"
-    },
-    {
-      "file": "wiki/search.json",
       "percorso": "$.tensioni[2]",
       "classe": "testo",
       "a": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
@@ -3162,14 +3026,6 @@
       "a": "/wiki/manuale/geotecnica/modello-stratigrafia",
       "b": "/wiki/manuale/geotecnica/bearing-capacity",
       "voce": "F5-REL-1144-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.σ[18]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/guide/moduli-singoli/sezione-composta-da-ponte\"",
-      "voce": "F5-REL-1144-01 / F5-REL-1160-01"
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
@@ -10356,14 +10212,6 @@
       "voce": "F5-REL-1160-01"
     },
     {
-      "file": "wiki/search.json",
-      "percorso": "$.σ[19]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/guide/moduli/sezione-ca\"",
-      "voce": "F5-REL-1160-01"
-    },
-    {
       "file": "wiki/_wiki_guide_moduli-singoli_muri-di-sostegno-con-stratigrafie-di-monte-e-valle.md",
       "percorso": "riga 10 (b)",
       "classe": "riga-aggiunta",
@@ -16981,14 +16829,6 @@
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.armature[26]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
-      "voce": "F5-REL-1160-01"
-    },
-    {
-      "file": "wiki/search.json",
       "percorso": "$.σ[0]",
       "classe": "testo",
       "a": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
@@ -17917,90 +17757,10 @@
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.acciaio[27]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-deformazioni",
-      "b": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.acciaio[28]",
-      "classe": "testo",
-      "a": "/wiki/manuale/fondamenti/biblioteca-tecnica",
-      "b": "/wiki/manuale/ponti/ponti-acciaio-fasi",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.acciaio[29]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-cassoni\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.acciaio[30]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-deformazioni\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.acciaio[31]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
       "percorso": "$.calcestruzzo[29]",
       "classe": "testo",
       "a": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
       "b": "/wiki/manuale/azioni/azioni-climatiche",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.calcestruzzo[30]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-solette",
-      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.calcestruzzo[31]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-precompressione",
-      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.calcestruzzo[32]",
-      "classe": "testo",
-      "a": "/wiki/manuale/fondamenti/biblioteca-tecnica",
-      "b": "/wiki/manuale/ponti/ponti-solette",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.calcestruzzo[33]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.calcestruzzo[34]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
       "voce": "AZIONI-01"
     },
     {
@@ -18205,46 +17965,6 @@
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.combinazioni[26]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/guide/moduli-singoli/fondazioni-superficiali\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.combinazioni[27]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.combinazioni[28]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.combinazioni[29]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/meccanica/esempi-controlli-indipendenti\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.combinazioni[30]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/guide/strumenti/reologia-calcestruzzo\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
       "percorso": "$.curvatura[9]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-deformazioni",
@@ -18341,122 +18061,10 @@
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.ponte[16]",
-      "classe": "testo",
-      "a": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
-      "b": "/wiki/guide/moduli/azioni-climatiche",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.ponte[17]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-cassoni",
-      "b": "/wiki/manuale/azioni/azioni-climatiche",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.ponte[18]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-stralli",
-      "b": "/wiki/guide/moduli/carichi-traffico",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.ponte[19]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-deformazioni",
-      "b": "/wiki/manuale/azioni/carichi-traffico",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.ponte[20]",
-      "classe": "testo",
-      "a": "/wiki/manuale/fondamenti/biblioteca-tecnica",
-      "b": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.ponte[21]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-cassoni\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.ponte[22]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-stralli\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.ponte[23]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-deformazioni\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.ponte[24]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.report[31]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/azioni/azioni-climatiche\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
       "percorso": "$.sezioni[27]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo/taglio-traliccio",
       "b": "/wiki/manuale/azioni/carichi-traffico",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.sezioni[28]",
-      "classe": "testo",
-      "a": "/wiki/guide/strumenti/reologia-calcestruzzo",
-      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.sezioni[29]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.sezioni[30]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/calcestruzzo/taglio-traliccio\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.sezioni[31]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/guide/strumenti/reologia-calcestruzzo\"",
       "voce": "AZIONI-01"
     },
     {
@@ -18517,70 +18125,6 @@
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.tensioni[23]",
-      "classe": "testo",
-      "a": "/wiki/manuale/calcestruzzo/taglio-traliccio",
-      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.tensioni[24]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-acciaio-fasi",
-      "b": "/wiki/manuale/geotecnica/geotecnica-parametri",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.tensioni[25]",
-      "classe": "testo",
-      "a": "/wiki/manuale/ponti/ponti-precompressione",
-      "b": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.tensioni[26]",
-      "classe": "testo",
-      "a": "/wiki/manuale/calcestruzzo/reologia",
-      "b": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.tensioni[27]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/calcestruzzo/taglio-traliccio\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.tensioni[28]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-acciaio-fasi\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.tensioni[29]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.tensioni[30]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/calcestruzzo/reologia\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
       "percorso": "$.torsione[14]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/ponti-solette",
@@ -18633,22 +18177,6 @@
       "classe": "elemento-aggiunto",
       "a": null,
       "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.σ[20]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/azioni/carichi-traffico\"",
-      "voce": "AZIONI-01"
-    },
-    {
-      "file": "wiki/search.json",
-      "percorso": "$.σ[21]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/geotecnica/geotecnica-gruppi\"",
       "voce": "AZIONI-01"
     },
     {
@@ -24957,14 +24485,6 @@
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.inviluppo[14]",
-      "classe": "elemento-aggiunto",
-      "a": null,
-      "b": "\"/wiki/manuale/fem/risultati-per-fasi\"",
-      "voce": "F5-REL-1170-01"
-    },
-    {
-      "file": "wiki/search.json",
       "percorso": "$.sisma[5]",
       "classe": "testo",
       "a": "/wiki/manuale/ponti/bridge-design",
@@ -25209,6 +24729,870 @@
       "classe": "file-aggiunto",
       "a": null,
       "b": "wiki/_wiki_manuale_azioni_incendio.txt",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[27]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-deformazioni",
+      "b": "/wiki/manuale/azioni/precompressione",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[28]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondamenti/biblioteca-tecnica",
+      "b": "/wiki/guide/moduli/incendio",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[29]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/meccanica/esempi-controlli-indipendenti\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[30]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-acciaio-fasi\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[31]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-cassoni\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[32]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-deformazioni\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.acciaio[33]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[9]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/guide/moduli/precompressione",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[10]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-stralli",
+      "b": "/wiki/manuale/azioni/precompressione",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[11]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/calcestruzzo/taglio-traliccio\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[12]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-solette\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[13]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ancoraggio[14]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-stralli\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[24]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/manuale/azioni/effetti-differiti",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[25]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[26]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-solette\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.armature[27]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[30]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-solette",
+      "b": "/wiki/guide/moduli/fasi-costruttive",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[31]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/manuale/azioni/fasi-costruttive",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[32]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondamenti/biblioteca-tecnica",
+      "b": "/wiki/guide/moduli/effetti-differiti",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[33]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/effetti-differiti\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[34]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli/precompressione\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[35]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/precompressione\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[36]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli/incendio\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[37]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli-singoli/fondazioni-superficiali\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[38]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[39]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-solette\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[40]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.calcestruzzo[41]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[26]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/idraulica\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[27]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/fasi-costruttive\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[28]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/effetti-differiti\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[29]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/precompressione\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[30]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/carriponte\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[31]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/incendio\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[32]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli-singoli/fondazioni-superficiali\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[33]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[34]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[35]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/meccanica/esempi-controlli-indipendenti\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.combinazioni[36]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/strumenti/reologia-calcestruzzo\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.fessurazione[16]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/effetti-differiti\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.fessurazione[17]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[14]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli/carriponte\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[15]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/carriponte\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.inviluppo[16]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fem/risultati-per-fasi\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[3]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-solette",
+      "b": "/wiki/guide/moduli/carriponte",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[4]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+      "b": "/wiki/manuale/azioni/carriponte",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[5]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/manuale/ponti/ponti-solette",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[6]",
+      "classe": "testo",
+      "a": "/wiki/guide/primi-passi/avvio-e-scelta-del-modulo",
+      "b": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[7]",
+      "classe": "testo",
+      "a": "/wiki/guide/progetti/progetti-e-gestione-del-lavoro",
+      "b": "/wiki/manuale/ponti/ponti-precompressione",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[8]",
+      "classe": "testo",
+      "a": "/wiki/guide/moduli-singoli/bridge-design",
+      "b": "/wiki/guide/primi-passi/avvio-e-scelta-del-modulo",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[9]",
+      "classe": "testo",
+      "a": "/wiki/guide/workflow/percorso-completo-per-un-primo-progetto",
+      "b": "/wiki/guide/progetti/progetti-e-gestione-del-lavoro",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[10]",
+      "classe": "testo",
+      "a": "/wiki/guide/faq-e-troubleshooting/problemi-frequenti-e-controlli-finali",
+      "b": "/wiki/guide/moduli-singoli/bridge-design",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[11]",
+      "classe": "testo",
+      "a": "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
+      "b": "/wiki/guide/workflow/percorso-completo-per-un-primo-progetto",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[12]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/bridge-design",
+      "b": "/wiki/guide/faq-e-troubleshooting/problemi-frequenti-e-controlli-finali",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[13]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo-armato/esempi-trasversali-e-lettura-critica",
+      "b": "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[14]",
+      "classe": "testo",
+      "a": "/wiki/theory/palo-elastico",
+      "b": "/wiki/manuale/ponti/bridge-design",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[15]",
+      "classe": "testo",
+      "a": "/wiki/manuale/metodi-costruttivi/fasi-costruttive-e-percorso-dei-carichi",
+      "b": "/wiki/manuale/calcestruzzo-armato/esempi-trasversali-e-lettura-critica",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[16]",
+      "classe": "testo",
+      "a": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
+      "b": "/wiki/theory/palo-elastico",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[17]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-cassoni",
+      "b": "/wiki/manuale/metodi-costruttivi/fasi-costruttive-e-percorso-dei-carichi",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[18]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-stralli",
+      "b": "/wiki/guide/moduli/azioni-climatiche",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[19]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-deformazioni",
+      "b": "/wiki/manuale/azioni/azioni-climatiche",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[20]",
+      "classe": "testo",
+      "a": "/wiki/manuale/fondamenti/biblioteca-tecnica",
+      "b": "/wiki/guide/moduli/carichi-traffico",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[21]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/carichi-traffico\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[22]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli/fasi-costruttive\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[23]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/meccanica/esempi-controlli-indipendenti\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[24]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-cassoni\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[25]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-stralli\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[26]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-deformazioni\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.ponte[27]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fondamenti/biblioteca-tecnica\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[29]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli/idraulica\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[30]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli/precompressione\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[31]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli-singoli/fondazioni-superficiali\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[32]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.report[33]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/azioni-climatiche\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sezioni[28]",
+      "classe": "testo",
+      "a": "/wiki/guide/strumenti/reologia-calcestruzzo",
+      "b": "/wiki/guide/moduli/precompressione",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sezioni[29]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli-singoli/fondazioni-superficiali\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sezioni[30]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sezioni[31]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/calcestruzzo/taglio-traliccio\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.sezioni[32]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/strumenti/reologia-calcestruzzo\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[14]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+      "b": "/wiki/manuale/azioni/fasi-costruttive",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[15]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+      "b": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[16]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-deformazioni",
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[17]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[18]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-acciaio-fasi\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.stabilità[19]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-deformazioni\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[23]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/taglio-traliccio",
+      "b": "/wiki/guide/moduli/effetti-differiti",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[24]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+      "b": "/wiki/manuale/azioni/effetti-differiti",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[25]",
+      "classe": "testo",
+      "a": "/wiki/manuale/ponti/ponti-precompressione",
+      "b": "/wiki/guide/moduli/precompressione",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[26]",
+      "classe": "testo",
+      "a": "/wiki/manuale/calcestruzzo/reologia",
+      "b": "/wiki/manuale/azioni/precompressione",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[27]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli-singoli/fondazioni-superficiali\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[28]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/geotecnica-parametri\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[29]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/muri-metodi-perimetro\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[30]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/meccanica/esempi-controlli-indipendenti\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[31]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/calcestruzzo/taglio-traliccio\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[32]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-acciaio-fasi\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[33]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.tensioni[34]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/calcestruzzo/reologia\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[15]",
+      "classe": "testo",
+      "a": "/wiki/theory/palo-elastico",
+      "b": "/wiki/manuale/azioni/effetti-differiti",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[16]",
+      "classe": "testo",
+      "a": "/wiki/manuale/geotecnica/geotecnica-gruppi",
+      "b": "/wiki/manuale/azioni/precompressione",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[17]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/incendio\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[18]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/geotecnica-parametri\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[19]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-acciaio-fasi\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[20]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/ponti/ponti-precompressione\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[21]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli-singoli/sezione-composta-da-ponte\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[22]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/guide/moduli/sezione-ca\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[23]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/azioni/carichi-traffico\"",
+      "voce": "AZIONI-EXT-DOC-20261101"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.σ[24]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/geotecnica/geotecnica-gruppi\"",
       "voce": "AZIONI-EXT-DOC-20261101"
     }
   ],
