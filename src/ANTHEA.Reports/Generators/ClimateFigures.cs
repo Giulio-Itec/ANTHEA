@@ -12,6 +12,7 @@ public static class ClimateFigures
         return type switch
         {
             "HydraulicActionsInput"=>["idraulica"],
+            "ConstructionActionsInput"=>["fasi-costruttive"],
             "SnowInput"=>["neve"],
             "BuildingWindInput"=>["vento-edifici", "vento-"+(document["input"]?["Roof"]?.ToString() switch {"Monopitch"=>"mono","Duopitch"=>"doppia",_=>"piana"})],
             "BuildingThermalInput"=>["temperatura-edifici"],

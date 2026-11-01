@@ -53,7 +53,7 @@ public static partial class ClimateDocument
         ["Wind"]="Vento",["SnowLow"]="Neve fino a 1000 m",["SnowHigh"]="Neve oltre 1000 m",["Temperature"]="Temperatura"
     }.ToFrozenDictionary();
     private static string Caption(string name)=>ExtendedCaptions.GetValueOrDefault(name)??ExtraCaptions.GetValueOrDefault(name)??Captions.GetValueOrDefault(name)??name;
-    private static string Uncaption(string value)=>ExtendedCaptions.FirstOrDefault(p=>p.Value==value).Key??ExtraCaptions.FirstOrDefault(p=>p.Value==value).Key??Captions.FirstOrDefault(p=>p.Value==value).Key??value;
+    private static string Uncaption(string value)=>ConstructionCaptions.FirstOrDefault(p=>p.Value==value).Key??ExtendedCaptions.FirstOrDefault(p=>p.Value==value).Key??ExtraCaptions.FirstOrDefault(p=>p.Value==value).Key??Captions.FirstOrDefault(p=>p.Value==value).Key??value;
     private static readonly FrozenDictionary<string,string> ExtraLabels=new Dictionary<string,string>()
     {
         ["Name"]="Nome",["Occupancy"]="Destinazione d’uso",["AssignedImposedLoads"]="Assegna sovraccarichi (obbligatorio EN / E1 / G)",["DistributedKnM2"]="Distribuito qk|kN/m²",["ConcentratedKn"]="Concentrato per impronta Qk|kN",["HorizontalKnM"]="Orizzontale locale Hk|kN/m",["ContactSideM"]="Lato impronta EN|m",
@@ -84,7 +84,7 @@ public static partial class ClimateDocument
         return true;
     }
     private static Type RowType(string key)=>key switch{"Girders"=>typeof(DistributionGirder),"Lanes"=>typeof(DistributionLane),"Tandems"=>typeof(DistributionTandem),"Layers"=>typeof(LoadLayer),"Actions"=>typeof(CombinationAction),_=>ExtendedRowType(key)};
-    public static IReadOnlyList<ActionTableDescriptor> Tables(JsonObject document)=>document["input"]!.AsObject().Where(p=>p.Value is JsonArray&&ExtendedVisible(document["input_type"]?.ToString()=="HydraulicActionsInput"?Hydraulics:"",p.Key,document["input"]!.AsObject())).Select(p=>new ActionTableDescriptor(p.Key,p.Key switch{"Girders"=>"Travi longitudinali","Lanes"=>"Corsie / aree distribuite","Tandems"=>"Tandem","Layers"=>"Strati permanenti","Actions"=>"Azioni elementari",_=>ExtendedTableTitle(p.Key)},p.Value!.AsArray(),document["input"]!.AsObject())).ToArray();
+    public static IReadOnlyList<ActionTableDescriptor> Tables(JsonObject document)=>document["input"]!.AsObject().Where(p=>p.Value is JsonArray&&ExtendedVisible(ExtendedModule(document),p.Key,document["input"]!.AsObject())).Select(p=>new ActionTableDescriptor(p.Key,p.Key switch{"Girders"=>"Travi longitudinali","Lanes"=>"Corsie / aree distribuite","Tandems"=>"Tandem","Layers"=>"Strati permanenti","Actions"=>"Azioni elementari",_=>ExtendedTableTitle(p.Key)},p.Value!.AsArray(),document["input"]!.AsObject())).ToArray();
     public static JsonObject NewTableRow(string key,JsonArray existing)
     {
         var row=JsonSerializer.SerializeToNode(Activator.CreateInstance(RowType(key)),Options)!.AsObject();
@@ -96,10 +96,10 @@ public static partial class ClimateDocument
         var values=(JsonObject)row.DeepClone();var fields=new List<ClimateField>();
         foreach(var p in RowType(key).GetProperties())
         {
-            if(!ExtendedRowVisible(module,key,p.Name,context))continue;
+            if(!ExtendedRowVisible(module,key,p.Name,context,row))continue;
             string caption=key=="Lanes"&&p.Name=="WidthM"?"Larghezza corsia|m":ExtendedLabel(module,p.Name,context)??ExtraLabel(module,p.Name)??Labels.GetValueOrDefault(p.Name)??p.Name;var parts=caption.Split('|');
-            var choices=p.PropertyType.IsEnum?Enum.GetNames(p.PropertyType).Select(Caption).ToArray():null;
-            if(choices is not null&&values[p.Name] is { } v)values[p.Name]=Caption(v.ToString());
+            var choices=p.PropertyType.IsEnum?FieldEnumNames(module,p.Name,p.PropertyType).Select(name=>UiCaption(module,name)).ToArray():null;
+            if(choices is not null&&values[p.Name] is { } v)values[p.Name]=UiCaption(module,v.ToString());
             fields.Add(new(p.Name,parts[0],parts.Length>1?parts[1]:"",p.PropertyType==typeof(bool),p.PropertyType==typeof(double)||p.PropertyType==typeof(int),choices,caption.Replace('|',' ')));
         }
         return new(key,"",values,fields);

@@ -26,14 +26,14 @@ internal static class ClimateSheetChecks
             var before=sheet.Data.DeepClone();foreach(var panel in sheet.Forms)panel.Form.Commit();expect.That(JsonNode.DeepEquals(before,sheet.Data),"La proiezione italiana non modifica il contratto GPC");
             sheet.IsReadOnly=true;var field=sheet.Forms.SelectMany(f=>f.Form.Fields).Concat(sheet.Tables.Where(t=>t.Editor is not null).SelectMany(t=>t.Editor!.Fields)).FirstOrDefault(f=>f.Kind==Anthea.Presentation.Forms.FieldKind.Text&&f.Spec.Write==Anthea.Presentation.Forms.FieldWriteRule.NumberOrText);
             expect.That(field is not null,"Campo numerico disponibile");field!.EditText="999";expect.That(JsonNode.DeepEquals(before,sheet.Data),"Sola lettura");sheet.IsReadOnly=false;
-            var form=scenario.Module==ClimateDocument.Combinations?sheet.Tables.Single().Editor!:sheet.Forms.Last().Form;
-            string key=scenario.Module switch{ClimateDocument.Snow or ClimateDocument.BuildingWind or ClimateDocument.BridgeWind=>"WidthM",ClimateDocument.Hydraulics=>"WidthM",ClimateDocument.PermanentLoads=>"TributaryWidthM",ClimateDocument.Combinations=>"Effect",ClimateDocument.RoadTraffic=>"LoadedLengthM",ClimateDocument.Impact=>scenario.Data["input"]!["Target"]!.ToString()=="Superstructure"?"ClearanceM":"MemberWidthM",ClimateDocument.Distribution=>"SpanM",_=>"LengthM"};
+            var form=scenario.Module==ClimateDocument.Construction?sheet.Tables.Single(t=>t.Key=="ConstructionLoads").Editor!:scenario.Module==ClimateDocument.Combinations?sheet.Tables.Single().Editor!:sheet.Forms.Last().Form;
+            string key=scenario.Module switch{ClimateDocument.Snow or ClimateDocument.BuildingWind or ClimateDocument.BridgeWind=>"WidthM",ClimateDocument.Hydraulics or ClimateDocument.Construction=>"WidthM",ClimateDocument.PermanentLoads=>"TributaryWidthM",ClimateDocument.Combinations=>"Effect",ClimateDocument.RoadTraffic=>"LoadedLengthM",ClimateDocument.Impact=>scenario.Data["input"]!["Target"]!.ToString()=="Superstructure"?"ClearanceM":"MemberWidthM",ClimateDocument.Distribution=>"SpanM",_=>"LengthM"};
             double edited=scenario.Module==ClimateDocument.Distribution?30:12.5;
             form[key].EditText=edited.ToString(System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
-            var changed=scenario.Module==ClimateDocument.Combinations?sheet.Data["input"]!["Actions"]![0]:sheet.Data["input"];
+            var changed=scenario.Module==ClimateDocument.Construction?sheet.Data["input"]!["ConstructionLoads"]![0]:scenario.Module==ClimateDocument.Combinations?sheet.Data["input"]!["Actions"]![0]:sheet.Data["input"];
             expect.That(!sheet.HasResults&&changed![key]!.GetValue<double>()==edited,"Modifica decimale e invalidazione");
             expect.That(await sheet.CalculateAsync(),"Ricalcolo dopo modifica");sheet.Reload(before.AsObject());expect.That(await sheet.CalculateAsync(),"Ripristino dei dati e ricalcolo");
-            (scenario.Module==ClimateDocument.Combinations?sheet.Tables.Single().Editor!:sheet.Forms.Last().Form)[key].EditText="abc";await sheet.CalculateAsync();expect.That(!sheet.HasResults&&sheet.CalculationMessage.Length>0,"Errore di input non conserva risultati");sheet.Reload(before.AsObject());expect.That(await sheet.CalculateAsync()&&sheet.HasResults,"Recupero da errore");
+            (scenario.Module==ClimateDocument.Construction?sheet.Tables.Single(t=>t.Key=="ConstructionLoads").Editor!:scenario.Module==ClimateDocument.Combinations?sheet.Tables.Single().Editor!:sheet.Forms.Last().Form)[key].EditText="abc";await sheet.CalculateAsync();expect.That(!sheet.HasResults&&sheet.CalculationMessage.Length>0,"Errore di input non conserva risultati");sheet.Reload(before.AsObject());expect.That(await sheet.CalculateAsync()&&sheet.HasResults,"Recupero da errore");
             string folder=Path.Combine(output,scenario.Module);Directory.CreateDirectory(folder);string path=Path.Combine(folder,scenario.File+".anthea");
             var document=DocumentService.CreateDocument(scenario.Module);document["dati"]=sheet.Data.DeepClone();DocumentService.Save(path,document);var reopened=DocumentService.Open(path);
             expect.That(JsonNode.DeepEquals(reopened["dati"],sheet.Data),"Salvataggio e apertura del contratto GPC");
@@ -49,6 +49,12 @@ internal static class ClimateSheetChecks
                 table.RemoveCommand.Execute(null);expect.That(table.Rows.Count==count,"Rimozione della riga appena aggiunta");
                 sheet.IsReadOnly=true;table.AddCommand.Execute(null);expect.That(table.Rows.Count==count&&table.Editor?.IsReadOnly!=false,"Tabelle in sola lettura");sheet.IsReadOnly=false;
             }
+            if(sheet.IsConstruction)
+            {
+                expect.That(await sheet.CalculateAsync()&&sheet.ConstructionDrawing?.Phases.Count==2,"Sequenza GPC proiettata");
+                sheet.SelectedCase=1;expect.That(sheet.ConstructionDrawing?.Selected==1,"Grafico della fase selezionata");
+                expect.That(csv.Contains("PressureKpa"),"CSV delle aree di carico");
+            }
             if(sheet.IsHydraulics)
             {
                 expect.That(await sheet.CalculateAsync()&&sheet.HydraulicDrawing?.Points.Count>=2,"Geometria e pressioni GPC proiettate");
@@ -62,6 +68,13 @@ internal static class ClimateSheetChecks
         {
             sheet.Forms[0].Form["Roof"].SelectedChoice="Copertura inferiore presso salto";
             expect.That(sheet.Data["input"]!["Roof"]!.ToString()=="LowerRoof"&&sheet.Forms[0].Form.Fields.Any(f=>f.Key=="StepHeightM"),"Scelta italiana, contratto enum stabile e campi condizionali");
+        }
+        using(var sheet=new ClimateSheetViewModel(ClimateDocument.Construction,new(ClimateDocument.Create(ClimateDocument.Construction),false,new Host(),Scripted.Services(),ModuleServices.Get(ClimateDocument.Construction),new CalculationLimiter(1))))
+        {
+            var table=sheet.Tables.Single(t=>t.Key=="ConstructionLoads");
+            table.Editor!["Model"].SelectedChoice="Azioni assegnate";
+            expect.That(sheet.Data["input"]!["ConstructionLoads"]![0]!["Model"]!.ToString()=="Assigned","Modello del carico: contratto enum stabile");
+            expect.That(table.Editor!.Fields.Any(f=>f.Key=="AssignedPressureKpa")&&!table.Editor.Fields.Any(f=>f.Key=="ThicknessM"),"Cambio modello: aggiornamento dei campi della riga");
         }
         return expect.Count;
     });

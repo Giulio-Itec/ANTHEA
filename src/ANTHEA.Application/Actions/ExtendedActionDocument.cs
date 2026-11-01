@@ -14,11 +14,12 @@ public static partial class ClimateDocument
     public const string Hydraulics="act_idrauliche";
     private static IEnumerable<ModuleInfo> ExtendedModules=>new[]
     {
-        new ModuleInfo(Hydraulics,"Azioni","Azioni idrauliche","Pareti, platee e pile in corrente · scenari e pressioni nette","Azione","Azioni idrauliche","Acqua e corrente")
+        new ModuleInfo(Hydraulics,"Azioni","Azioni idrauliche","Pareti, platee e pile in corrente · scenari e pressioni nette","Azione","Azioni idrauliche","Acqua e corrente"),
+        new ModuleInfo(Construction,"Azioni","Fasi costruttive","Sequenza, carichi temporanei, getto e azioni assegnate","Azione","Fasi costruttive","Esecuzione")
     };
     private static bool IsExtended(string module)=>ExtendedModules.Any(m=>m.Id==module);
     private static object ExtendedInput(string module)=>module switch
-    {Hydraulics=>new HydraulicActionsInput(),_=>throw new ArgumentException("Modulo Azioni sconosciuto.")};
+    {Hydraulics=>new HydraulicActionsInput(),Construction=>new GPC.Model.Actions.Construction.ConstructionActionsInput(),_=>throw new ArgumentException("Modulo Azioni sconosciuto.")};
     private static JsonObject CalculateExtended(object input)
     {
         if(input is HydraulicActionsInput hydraulic)
@@ -30,6 +31,7 @@ public static partial class ClimateDocument
             result["HydraulicInput"]=JsonSerializer.SerializeToNode(hydraulic,Options);
             return result;
         }
+        if(input is GPC.Model.Actions.Construction.ConstructionActionsInput construction)return CalculateConstruction(construction);
         throw new ArgumentException("Input Azioni non riconosciuto.");
     }
     private static readonly IReadOnlyDictionary<string,string> ExtendedCaptions=new Dictionary<string,string>
@@ -39,6 +41,7 @@ public static partial class ClimateDocument
     };
     private static string? ExtendedLabel(string module,string key,JsonObject? context=null)
     {
+        if(module==Construction)return ConstructionLabel(key);
         if(module!=Hydraulics)return null;
         string element=context?["Element"]?.ToString()??"";
         return key switch
@@ -59,6 +62,7 @@ public static partial class ClimateDocument
     }
     private static bool ExtendedVisible(string module,string key,JsonObject values)
     {
+        if(module==Construction)return key is "NationalParameters" or "RecommendedEnLoadsConfirmed"?values["Standard"]?.ToString()=="EurocodeFirstGeneration":true;
         if(module!=Hydraulics)return true;
         string element=values["Element"]?.ToString()??"";
         bool slab=element=="HorizontalSlab",pier=element=="RiverPier";
@@ -70,8 +74,9 @@ public static partial class ClimateDocument
             "VelocityProfile"=>pier&&values["UseVelocityProfile"]?.GetValue<bool>()==true,_=>true
         };
     }
-    private static bool ExtendedRowVisible(string module,string table,string key,JsonObject? context)
+    private static bool ExtendedRowVisible(string module,string table,string key,JsonObject? context,JsonObject row)
     {
+        if(module==Construction)return ConstructionRowVisible(table,key,row);
         if(module!=Hydraulics||table!="WaterCases"||context is null)return true;
         string element=context["Element"]?.ToString()??"";
         bool profile=context["UseVelocityProfile"]?.GetValue<bool>()==true;
@@ -84,9 +89,9 @@ public static partial class ClimateDocument
         };
     }
     private static Type ExtendedRowType(string key)=>key switch
-    {"WaterCases"=>typeof(HydraulicWaterCase),"PressureProfile"=>typeof(HydraulicPressurePoint),"VelocityProfile"=>typeof(HydraulicVelocityPoint),_=>throw new ArgumentException("Tabella Azioni sconosciuta.")};
+    {"ConstructionStages"=>typeof(GPC.Model.Actions.Construction.ConstructionStageInput),"ConstructionLoads"=>typeof(GPC.Model.Actions.Construction.ConstructionLoadInput),"WaterCases"=>typeof(HydraulicWaterCase),"PressureProfile"=>typeof(HydraulicPressurePoint),"VelocityProfile"=>typeof(HydraulicVelocityPoint),_=>throw new ArgumentException("Tabella Azioni sconosciuta.")};
     private static string ExtendedTableTitle(string key)=>key switch
-    {"WaterCases"=>"Scenari idraulici alternativi","PressureProfile"=>"Profilo di sottospinta · x crescente","VelocityProfile"=>"Profilo di velocità · z crescente",_=>key};
+    {"ConstructionStages"=>"Sequenza delle fasi (ordine della lista)","ConstructionLoads"=>"Carichi e intervalli di attivazione","WaterCases"=>"Scenari idraulici alternativi","PressureProfile"=>"Profilo di sottospinta · x crescente","VelocityProfile"=>"Profilo di velocità · z crescente",_=>key};
     public static HydraulicDrawing? HydraulicDiagram(JsonObject? result,int selectedCase)
     {
         if(result?["Hydraulics"] is not JsonObject calculated||result["HydraulicInput"] is not JsonObject input)return null;

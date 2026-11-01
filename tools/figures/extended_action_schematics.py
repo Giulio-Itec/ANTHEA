@@ -32,5 +32,28 @@ def hydraulics():
     save(fig, 'idraulica', 'Schemi qualitativi originali. Scenari alternativi; Cd e profili da studio documentato. Non comprende filtrazione, erosione o urti da detriti.')
 
 
+def construction():
+    fig, axes = canvas('Esecuzione · attivazione dei carichi e area di getto', 1, 2)
+    ax = axes[0, 0]
+    for y, x0, x1, label, colour in [(4, 0, 5, 'Getto · calcestruzzo fresco e casseri', BLUE), (2, 5, 10, 'Disarmo · peso permanente', ORANGE)]:
+        ax.add_patch(Rectangle((x0, y), x1-x0, .5, fc=colour))
+        text(ax, 5, y-.7, label, fontsize=10)
+    line(ax, [0, 10], [0, 0])
+    for x, label in [(0, '0'), (5, '14'), (10, '28 giorni')]:
+        line(ax, [x, x], [-.15, .15]); text(ax, x, -.5, label)
+    text(ax, 5, 5.8, 'Eventi all’inizio di ciascuna fase')
+    ax = axes[0, 1]
+    ax.add_patch(Rectangle((0, 0), 10, 5, fc='#eaf3f7', ec=INK))
+    ax.add_patch(Rectangle((1, 1), 3, 3, fc='#f4d5b9', ec=ORANGE, lw=2))
+    text(ax, 2.5, 2.5, 'Area\ndi lavoro', fontsize=10)
+    text(ax, 7, 3.4, 'Peso getto\n+ casseri', fontsize=10)
+    text(ax, 7, 1.6, '+ carico di lavoro\nesterno', fontsize=10)
+    text(ax, 5, 5.8, 'Pianta · incremento locale senza duplicazioni')
+    save(fig, 'fasi-costruttive', 'Schema originale. Le fasi definiscono le azioni e i tempi; vincoli, puntellazione, redistribuzione e verifiche della struttura richiedono un modello dedicato.')
+
+
 if __name__ == '__main__':
-    hydraulics()
+    import sys
+    choices = {'idraulica': hydraulics, 'fasi': construction}
+    for name in sys.argv[1:] or choices:
+        choices[name]()

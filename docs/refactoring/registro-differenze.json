@@ -14311,6 +14311,31 @@
         "supporto/artefatti/ci/20261101-203553-azioni-idraulica-checkpoint/summary.json"
       ],
       "wiki": "Edizione globale dei sei fogli in preparazione; nessuna pubblicazione ufficiale ancora eseguita."
+    },
+    {
+      "id": "AZIONI-FASI-20261101",
+      "fase": "Azioni aggiuntive",
+      "titolo": "Carichi e sequenza delle fasi costruttive",
+      "famiglia": "azioni/fasi",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Nuovo foglio GPC con carichi per fase, preset EN 1991-1-6:2005, eventi nativi StageDefinition e risultanti esterne. ANTHEA proietta sequenza e aree caricate, senza risolvere una struttura. Nessuna formula preesistente cambiata.",
+      "codice": [
+        "src/ANTHEA.Application/Actions/ConstructionActionDocument.cs",
+        "src/ANTHEA.Desktop/Views/Climate/ConstructionActionsChart.cs",
+        "Checker/src/GPC.Design/Actions/Construction/ConstructionActions.cs"
+      ],
+      "test": [
+        "Tutte le suite del set candidato candidate-fasi-01 PASS",
+        "Climate.Tests 649 + 2 controlli PASS",
+        "Examples.Tests 79 esempi PASS",
+        "WPF 318 controlli PASS; Architecture.Tests PASS, nessun aumento baseline"
+      ],
+      "evidenze": [
+        "supporto/artefatti/azioni-estese/candidate-fasi-01/release-set.json",
+        "supporto/artefatti/ci/20261101-205409-azioni-fasi-02/summary.json"
+      ],
+      "wiki": "Edizione globale in preparazione."
     }
   ]
 }

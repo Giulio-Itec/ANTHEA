@@ -1,0 +1,53 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_fasi_costruttive",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "ConstructionActionsInput",
+    "input": {
+      "Standard": "EurocodeFirstGeneration",
+      "NationalParameters": "Esempio didattico con valori raccomandati EN 1991-1-6:2005; nessuna appendice nazionale implicita.",
+      "RecommendedEnLoadsConfirmed": true,
+      "ExecutionPlan": "",
+      "ConstructionStages": [
+        {
+          "Name": "Deposito",
+          "DurationDays": 14
+        },
+        {
+          "Name": "Sgombero",
+          "DurationDays": 14
+        }
+      ],
+      "ConstructionLoads": [
+        {
+          "Name": "Materiali depositati",
+          "Model": "EnBridgeStorage",
+          "Nature": "Variable",
+          "StartStage": 1,
+          "StopStage": 2,
+          "LeftXM": 0,
+          "BottomYM": 0,
+          "LengthM": 10,
+          "WidthM": 5,
+          "ThicknessM": 0.2,
+          "UnitWeightKnM3": 25,
+          "FormworkKpa": 0.5,
+          "AssignedPressureKpa": 0,
+          "PointLoadKn": 0,
+          "PointXM": 4,
+          "PointYM": 2,
+          "HorizontalXKn": 0,
+          "HorizontalYKn": 0,
+          "HorizontalHeightM": 0,
+          "WorkXOffsetM": 0,
+          "WorkYOffsetM": 0,
+          "DynamicFactor": 1,
+          "Source": ""
+        }
+      ]
+    }
+  }
+}

@@ -684,6 +684,33 @@
       "kind": "calcolo",
       "sha256": "fa99b1e6c91cc40add107ee711cd9d72fe2523b6cca570fd18464cc1c10a26d7",
       "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_fasi_costruttive/fasi-peso-proprio.anthea",
+      "module": "act_fasi_costruttive",
+      "title": "Fasi NTC · getto e disarmo",
+      "description": "Sequenza e azioni caratteristiche di esecuzione; nessuna soluzione strutturale implicita.",
+      "kind": "calcolo",
+      "sha256": "065b5138fd73ba25cdf254048c206f7e7bb05707310a4dc290f64af7237288ff",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_fasi_costruttive/fasi-getto-en.anthea",
+      "module": "act_fasi_costruttive",
+      "title": "Fasi EN · getto e area di lavoro",
+      "description": "Sequenza e azioni caratteristiche di esecuzione; nessuna soluzione strutturale implicita.",
+      "kind": "calcolo",
+      "sha256": "4af52bafc302a073531a95786078adccb852d506fc93d086102874e889cdfe82",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_fasi_costruttive/fasi-deposito-ponte.anthea",
+      "module": "act_fasi_costruttive",
+      "title": "Fasi EN · deposito temporaneo su ponte",
+      "description": "Sequenza e azioni caratteristiche di esecuzione; nessuna soluzione strutturale implicita.",
+      "kind": "calcolo",
+      "sha256": "defca87351b523b307840e5bcf2c8d6b13bdf236c9b16bc95f1406bd1dd353db",
+      "origin": "tests/Shared/ClimateScenarios.cs"
     }
   ]
 }

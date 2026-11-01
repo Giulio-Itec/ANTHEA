@@ -89,8 +89,8 @@ public static partial class ClimateDocument
                 if(p.Name=="DepthM"&&!IsExtended(module))caption=module==BuildingWind?"Profondità parallela al vento d|m":"Altezza strutturale impalcato h|m";
                 if(p.Name=="NtcZone")caption=module is BuildingWind or BridgeWind?"Zona vento NTC (1…9)":"Zona termica NTC (1…4)";
                 var parts=caption.Split('|');
-                string[]? choices=p.PropertyType.IsEnum?Enum.GetNames(p.PropertyType).Select(Caption).ToArray():null;
-                if(choices is not null && display[p.Name] is { } raw)display[p.Name]=Caption(raw.ToString());
+                string[]? choices=p.PropertyType.IsEnum?FieldEnumNames(module,p.Name,p.PropertyType).Select(name=>UiCaption(module,name)).ToArray():null;
+                if(choices is not null && display[p.Name] is { } raw)display[p.Name]=UiCaption(module,raw.ToString());
                 fields.Add(new(p.Name,parts[0],parts.Length>1?parts[1]:"",p.PropertyType==typeof(bool),p.PropertyType==typeof(double)||p.PropertyType==typeof(int),choices,caption.Replace('|',' ')));
             }
             groups.Add(new(name,path,display,fields));
@@ -163,6 +163,12 @@ public static partial class ClimateDocument
                 for(int i=0;i<ordinates.Count;i++)b.AppendLine(string.Join(";",new[]{"Influenza y="+y+" m",names[i],"Momento per forza unitaria alla x dichiarata",ordinates[i]!.GetValue<double>().ToString("G17",CultureInfo.InvariantCulture),"m","M / Punit","Modello meccanico assegnato"}.Select(Q)));
             }
         }
+        if(result["ConstructionStages"] is JsonArray phases)
+            foreach(var phase in phases)
+                foreach(var load in phase!["Loads"]!.AsArray())
+                    foreach(var patch in load!["Patches"]!.AsArray())
+                        foreach(string field in new[]{"LeftXM","BottomYM","LengthM","WidthM","PressureKpa"})
+                            b.AppendLine(string.Join(";",new[]{phase["Name"]!.ToString(),load["Name"]+" · "+patch!["Name"],field,patch[field]!.GetValue<double>().ToString("G17",CultureInfo.InvariantCulture),field=="PressureKpa"?"kPa":"m","Geometria e pressione della zona","GPC.Design · carichi di esecuzione"}.Select(Q)));
         if(result["Hydraulics"] is JsonObject hydraulics)
             foreach(var c in hydraulics["Cases"]!.AsArray())
                 foreach(var p in c!["Diagram"]!.AsArray())

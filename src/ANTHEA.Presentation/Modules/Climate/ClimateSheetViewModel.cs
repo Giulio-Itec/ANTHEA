@@ -31,6 +31,8 @@ public sealed class ClimateSheetViewModel : SheetViewModelBase
     public IRelayCommand CopyCommand{get;}
     public IReadOnlyList<ClimateFormPanel> Forms{get;private set;}=[];
     public IReadOnlyList<ActionTableViewModel> Tables{get;private set;}=[];
+    public bool IsConstruction=>module==ClimateDocument.Construction;
+    public ConstructionDrawing? ConstructionDrawing=>IsConstruction?ClimateDocument.ConstructionDiagram(Result,SelectedCase):null;
     public bool IsHydraulics=>module==ClimateDocument.Hydraulics;
     public HydraulicDrawing? HydraulicDrawing=>IsHydraulics?ClimateDocument.HydraulicDiagram(Result,SelectedCase):null;
     public bool IsDistribution=>module==ClimateDocument.Distribution;
@@ -46,7 +48,7 @@ public sealed class ClimateSheetViewModel : SheetViewModelBase
     public string Notes=>Result is null?"Unità dei singoli campi indicate accanto ai valori. I parametri delle appendici nazionali EN devono essere documentati. Le condizioni di applicabilità sono verificate dal motore al calcolo.":string.Join("\n\n",Result["Notes"]!.AsArray().Select(n=>n!.ToString()));
     public IReadOnlyList<ClimateQuantityRow> Parameters=>Rows(Result?["Parameters"]);
     public IReadOnlyList<ClimateCaseItem> Cases{get;private set;}=[];
-    public int SelectedCase{get=>selectedCase;set{if(value>=0&&value<Cases.Count&&SetProperty(ref selectedCase,value)){OnPropertyChanged(nameof(SelectedCaseItem));OnPropertyChanged(nameof(CaseValues));OnPropertyChanged(nameof(CaseDescription));OnPropertyChanged(nameof(HydraulicDrawing));RefreshChart();}}}
+    public int SelectedCase{get=>selectedCase;set{if(value>=0&&value<Cases.Count&&SetProperty(ref selectedCase,value)){OnPropertyChanged(nameof(SelectedCaseItem));OnPropertyChanged(nameof(CaseValues));OnPropertyChanged(nameof(CaseDescription));OnPropertyChanged(nameof(HydraulicDrawing));OnPropertyChanged(nameof(ConstructionDrawing));RefreshChart();}}}
     public ClimateCaseItem? SelectedCaseItem{get=>Cases.ElementAtOrDefault(SelectedCase);set{if(value is not null){int index=Cases.ToList().IndexOf(value);if(index>=0)SelectedCase=index;}}}
     public IReadOnlyList<ClimateQuantityRow> CaseValues=>Cases.ElementAtOrDefault(SelectedCase)?.Values??[];
     public string CaseDescription=>Cases.ElementAtOrDefault(SelectedCase)?.Description??"Calcolare per visualizzare i casi di carico.";
@@ -89,7 +91,7 @@ public sealed class ClimateSheetViewModel : SheetViewModelBase
             Cases=Result?["Cases"]?.AsArray().Select(c=>new ClimateCaseItem(c!["Name"]!.ToString(),c["Description"]!.ToString(),Rows(c["Values"]))).ToArray()??[];
         }
         if(selectedCase<0||selectedCase>=Cases.Count)selectedCase=0;
-        foreach(string p in new[]{nameof(Reference),nameof(Scope),nameof(Notes),nameof(Parameters),nameof(Cases),nameof(SelectedCase),nameof(SelectedCaseItem),nameof(CaseValues),nameof(CaseDescription),nameof(TrafficDrawing),nameof(HydraulicDrawing)})OnPropertyChanged(p);
+        foreach(string p in new[]{nameof(Reference),nameof(Scope),nameof(Notes),nameof(Parameters),nameof(Cases),nameof(SelectedCase),nameof(SelectedCaseItem),nameof(CaseValues),nameof(CaseDescription),nameof(TrafficDrawing),nameof(HydraulicDrawing),nameof(ConstructionDrawing)})OnPropertyChanged(p);
         ExportCommand?.NotifyCanExecuteChanged();CopyCommand?.NotifyCanExecuteChanged();
         RefreshChart();
     }

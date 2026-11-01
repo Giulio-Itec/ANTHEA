@@ -19,12 +19,24 @@ internal static class ClimateScenarios
         yield return S("idraulica-corrente","Pila · corrente variabile lungo l’altezza",p=>
         {p["Element"]="RiverPier";p["UseVelocityProfile"]=true;p["DragCoefficient"]=1.2;p["DragSource"]="Coefficiente assegnato per il solo esempio numerico, non tabella normativa.";});
     }
+    private static IEnumerable<Scenario> ConstructionScenarios()
+    {
+        Scenario S(string file,string title,Action<JsonObject> configure)
+        {var data=ClimateDocument.Create(ClimateDocument.Construction);configure(data["input"]!.AsObject());return new(ClimateDocument.Construction,file,title,data);}
+        yield return S("fasi-peso-proprio","Fasi NTC · getto e disarmo",p=>p["ExecutionPlan"]="Esempio didattico: peso fresco temporaneo nella prima fase, peso G1 dalla fase di disarmo. Il foglio non calcola la capacità dei puntelli.");
+        void En(JsonObject p){p["Standard"]="EurocodeFirstGeneration";p["NationalParameters"]="Esempio didattico con valori raccomandati EN 1991-1-6:2005; nessuna appendice nazionale implicita.";p["RecommendedEnLoadsConfirmed"]=true;}
+        yield return S("fasi-getto-en","Fasi EN · getto e area di lavoro",p=>
+        {En(p);p["ConstructionLoads"]![0]!["Model"]="EnConcreteCasting";p["ConstructionLoads"]![0]!["ThicknessM"]=.4;p["ConstructionLoads"]![1]!["ThicknessM"]=.4;p["ConstructionLoads"]![0]!["WorkXOffsetM"]=4;p["ConstructionLoads"]![0]!["WorkYOffsetM"]=2;});
+        yield return S("fasi-deposito-ponte","Fasi EN · deposito temporaneo su ponte",p=>
+        {En(p);p["ConstructionStages"]![0]!["Name"]="Deposito";p["ConstructionStages"]![1]!["Name"]="Sgombero";var loads=p["ConstructionLoads"]!.AsArray();loads.RemoveAt(1);loads[0]!["Name"]="Materiali depositati";loads[0]!["Model"]="EnBridgeStorage";loads[0]!["PointXM"]=4;loads[0]!["PointYM"]=2;});
+    }
     internal static IEnumerable<Scenario> All()
     {
         Scenario S(string module,string file,string title,Action<JsonObject> configure)
         {var data=ClimateDocument.Create(module);configure(data["input"]!.AsObject());return new(module,file,title,data);}
         void En(JsonObject p){p["Standard"]="EurocodeFirstGeneration";p["NationalParameters"]="Esempio didattico: valori raccomandati EN di prima generazione, clima assegnato; nessuna appendice nazionale selezionata.";}
         foreach(var scenario in HydraulicScenarios())yield return scenario;
+        foreach(var scenario in ConstructionScenarios())yield return scenario;
         yield return S(ClimateDocument.Snow,"neve-ntc-due-falde","Neve NTC · due falde 30° / 45°",p=>{p["PitchLeftDeg"]=30;p["PitchRightDeg"]=45;p["AltitudeM"]=481;p["Zone"]="II";});
         yield return S(ClimateDocument.Snow,"neve-en-salto","Neve EN · accumulo presso salto",p=>{En(p);p["AssignedGroundLoad"]=true;p["GroundLoadKnM2"]=1;p["Roof"]="LowerRoof";p["PitchLeftDeg"]=0;p["StepHeightM"]=3;p["WidthM"]=3;p["UpperWidthM"]=9;});
         yield return S(ClimateDocument.BuildingWind,"vento-ntc-due-falde","Vento NTC · edificio a due falde",p=>{p["PitchDeg"]=15;p["LoadedAreaM2"]=10;});

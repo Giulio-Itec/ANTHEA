@@ -40,15 +40,26 @@ public sealed class ActionTableViewModel:ObservableObject
         set
         {
             if(!SetProperty(ref selected,value))return;
+            BuildEditor();
+            RemoveCommand.NotifyCanExecuteChanged();
+        }
+    }
+    private void BuildEditor()
+    {
+            var value=selected;
             if(value is null)editor=null;
             else
             {
                 var form=ClimateDocument.RowForm(module,table.Key,value.Data,table.Context);
                 var fields=form.Fields.Select(f=>ClimateSheetViewModel.Field(f)).ToArray();
-                editor=new(form.Values,fields,key=>{ClimateDocument.ApplyRowField(value.Data,form,key);value.Refresh();changed();},compact:true){IsReadOnly=!editable(),WikiNavigator=wiki};
+                editor=new(form.Values,fields,key=>
+                {
+                    ClimateDocument.ApplyRowField(value.Data,form,key);value.Refresh();changed();
+                    var field=form.Fields.First(f=>f.Key==key);
+                    if(field.Boolean||field.Choices is not null)BuildEditor();
+                },compact:true){IsReadOnly=!editable(),WikiNavigator=wiki};
             }
-            OnPropertyChanged(nameof(Editor));RemoveCommand.NotifyCanExecuteChanged();
-        }
+            OnPropertyChanged(nameof(Editor));
     }
     public FormViewModel? Editor=>editor;
     public IRelayCommand AddCommand{get;}

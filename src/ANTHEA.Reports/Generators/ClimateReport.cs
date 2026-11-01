@@ -30,6 +30,12 @@ public static class ClimateReport
         Table(["Parametro","Valore / unità"],inputRows);
         body.Add(P("Parametri e formule",true));Values(result["Parameters"]?.AsArray());
         foreach(var c in result["Cases"]?.AsArray()??[]){body.Add(P(Text(c!["Name"]),true),P(Text(c["Description"])));Values(c["Values"]?.AsArray());}
+        if(result["ConstructionStages"] is JsonArray phases)
+            foreach(var phase in phases)
+            {
+                body.Add(P("Aree caricate · "+Text(phase!["Name"]),true));
+                Table(["Carico / zona","Origine x; y [m]","L × B [m]","Pressione [kPa]"],phase["Loads"]!.AsArray().SelectMany(l=>l!["Patches"]!.AsArray().Select(p=>new[]{Text(l["Name"])+" · "+Text(p!["Name"]),Text(p["LeftXM"])+"; "+Text(p["BottomYM"]),Text(p["LengthM"])+" × "+Text(p["WidthM"]),Text(p["PressureKpa"])})));
+            }
         if(result["Hydraulics"] is JsonObject hydraulic)
             foreach(var c in hydraulic["Cases"]!.AsArray())
             {

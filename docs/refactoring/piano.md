@@ -1447,7 +1447,7 @@ i report di calcolo restano aperti finché l'utente non porta il suo abbozzo. De
 Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch isolati `codex/azioni-estese-20261101` in ANTHEA, Model e Checker. Traffico sospeso perché seguito da un collega. Merge finale dei nostri branch autorizzato al completamento; allineamento ai rami pubblicati durante lo sviluppo.
 
 - [x] Idraulica: contratti GPC, pareti, platee e pile in corrente, scenari, diagrammi, report e quattro esempi. Dodici prove numeriche indipendenti su net8/net472; archivio dei due enum registrato e collaudato. Interfaccia e persistenza verificate; completamento editoriale insieme agli altri fogli.
-- [ ] Fasi costruttive.
+- [x] Fasi costruttive: sequenza GPC, carichi EN e assegnati, pianta, report e tre esempi; suite librerie, architettura, MVVM e WPF PASS. Guide nella revisione complessiva.
 - [ ] Ritiro, viscosità, maturazione e spostamenti imposti.
 - [ ] Precompressione e perdite.
 - [ ] Gru e carriponte.

@@ -1,0 +1,78 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_fasi_costruttive",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "ConstructionActionsInput",
+    "input": {
+      "Standard": "Ntc2018",
+      "NationalParameters": "",
+      "RecommendedEnLoadsConfirmed": false,
+      "ExecutionPlan": "Esempio didattico: peso fresco temporaneo nella prima fase, peso G1 dalla fase di disarmo. Il foglio non calcola la capacità dei puntelli.",
+      "ConstructionStages": [
+        {
+          "Name": "Getto",
+          "DurationDays": 14
+        },
+        {
+          "Name": "Disarmo",
+          "DurationDays": 14
+        }
+      ],
+      "ConstructionLoads": [
+        {
+          "Name": "Calcestruzzo fresco",
+          "Model": "SelfWeight",
+          "Nature": "Variable",
+          "StartStage": 1,
+          "StopStage": 2,
+          "LeftXM": 0,
+          "BottomYM": 0,
+          "LengthM": 10,
+          "WidthM": 5,
+          "ThicknessM": 0.2,
+          "UnitWeightKnM3": 25,
+          "FormworkKpa": 0.5,
+          "AssignedPressureKpa": 0,
+          "PointLoadKn": 0,
+          "PointXM": 0,
+          "PointYM": 0,
+          "HorizontalXKn": 0,
+          "HorizontalYKn": 0,
+          "HorizontalHeightM": 0,
+          "WorkXOffsetM": 0,
+          "WorkYOffsetM": 0,
+          "DynamicFactor": 1,
+          "Source": ""
+        },
+        {
+          "Name": "Peso permanente",
+          "Model": "SelfWeight",
+          "Nature": "PermanentG1",
+          "StartStage": 2,
+          "StopStage": 0,
+          "LeftXM": 0,
+          "BottomYM": 0,
+          "LengthM": 10,
+          "WidthM": 5,
+          "ThicknessM": 0.2,
+          "UnitWeightKnM3": 25,
+          "FormworkKpa": 0.5,
+          "AssignedPressureKpa": 0,
+          "PointLoadKn": 0,
+          "PointXM": 0,
+          "PointYM": 0,
+          "HorizontalXKn": 0,
+          "HorizontalYKn": 0,
+          "HorizontalHeightM": 0,
+          "WorkXOffsetM": 0,
+          "WorkYOffsetM": 0,
+          "DynamicFactor": 1,
+          "Source": ""
+        }
+      ]
+    }
+  }
+}
