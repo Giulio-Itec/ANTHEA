@@ -1,5 +1,25 @@
 # DLL Checker
 
+**Release AQ — modulo Modelli punto 8 e controlli del c.a. (1 novembre 2026, ANTHEA 1.17.0).** Set ufficiale da Model
+`f4f78752` e Checker `eb16e72c` su origin/master (regola dell'utente del 29/10). Geometry `6734eee1` e Utilities `e57b440b`
+invariati. Contenuto rispetto ad AP:
+- GPCModel 5.34.0.0: regola 100/30 di NTC 2018 §7.3.5 nelle varianti sismiche con direzione, componenti principali dei plate nelle
+  combinazioni (opzione della cache, campioni invariati senza), somme lineari di inviluppi oltre 4096 stati valutate per termini
+  (agente `modelli-8`); GPC.Converter 2.12.0.0, ModelData 0.3.0.20 e Persistence 3.4.0.10 (vocabolario `SeismicDirection`);
+  contiene anche GPCModel 5.33 della sessione CompositeBridge (meno allocazioni nelle proprietà omogeneizzate);
+- GPCChecker.Concrete 0.35.0.0: EN 8.7.2(3) con l'intero interferro (lettura precedente come opzione storica), controlli EN 8.8 e
+  8.7.2(4) in sospeso senza dati, adattatore μφ sulla variante generica (agente `ca-metodi`); contiene Concrete 0.34 della sessione
+  CompositeBridge;
+- CompositeBridge 1.23.0.1 (meno allocazioni nell'analisi per fasi, sessione CompositeBridge);
+- ricompilazioni all'ultimo componente: Steel 2.127.0.8, Geotechnics 0.27.0.10, GPCModelChecker 2.35.0.8, Masonry 0.10.0.25,
+  GPC.Design 0.44.0.5.
+
+`Release-Set.ps1 -Previous` rispetto ad AP: Model Core 62 e UnitTest 1611 PASS (12 ignorati); Concrete 962, Steel 122,
+CompositeBridge 420, Geotechnics 202, Calculation 175, ShallowFoundation 29, EmbeddedWalls 99, Steel.Members 6990, Design 192 net8 e
+191 net472, ModelChecker 655. Zero fallimenti; API compatibili (GPCModel +47 firme, nessuna rimozione nuova). Le DLL sono identiche
+bit per bit al candidato `cand-aq` dello stesso albero. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; set completo in
+`supporto/artefatti/librerie-20261101-aq`.
+
 **Release AP — combinazioni del modulo Modelli e duttilità in curvatura (1 novembre 2026).** Set ufficiale da Model `391cfea9` e
 Checker `a3c53320` su origin/master (regola dell'utente del 29/10: il lavoro finito va sul master). Geometry `6734eee1` e Utilities
 `e57b440b` invariati. Contenuto rispetto ad AO:
