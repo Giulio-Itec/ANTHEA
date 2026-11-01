@@ -11,10 +11,11 @@ internal static class EditorContractChecks
         int checks = 0;
         void Check(bool ok, string text) { if (!ok) throw new InvalidOperationException(text); checks++; }
         var comparison = new OwnedProjectionComparison();
-        // Keep the complete frozen legacy catalogue; the three Application-owned additions have dedicated suites.
+        // Keep the complete frozen legacy catalogue; Application-owned additions have dedicated suites.
         comparison.Compare(ModuleCatalog.All, ModuleDirectory.All.Where(m => m.Id != Anthea.Application.Stratigraphy.StratigraphyDocument.Module
             && m.Id != Anthea.Application.Actions.SpectraDocument.Module
             && m.Id != Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module
+            && m.Id != RheologyDocument.Module
             && !Anthea.Application.Actions.ClimateDocument.Supports(m.Id)).ToArray(), "Catalogo");
         foreach (var module in ModuleDirectory.All)
         {

@@ -1470,6 +1470,7 @@
     "area": "Moduli singoli",
     "id": "/wiki/guide/strumenti/reologia-calcestruzzo",
     "modules": [
+      "mat_reologia",
       "str_palo"
     ],
     "related": [
@@ -1491,6 +1492,7 @@
     "area": "Calcestruzzo armato",
     "id": "/wiki/manuale/calcestruzzo/reologia",
     "modules": [
+      "mat_reologia",
       "str_palo"
     ],
     "related": [

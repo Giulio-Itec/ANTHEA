@@ -12,11 +12,13 @@ public static class ModuleDirectory
         new ModuleInfo(Stratigraphy.StratigraphyDocument.Module, "Geotecnica", "Stratigrafia del terreno",
             "Strati, parametri e falda", "Stratigrafia", "Stratigrafia del terreno", "Dati geotecnici condivisibili"))
         .Append(new ModuleInfo(Actions.SpectraDocument.Module, "Azioni", "Spettri NTC e isolamento sismico", "Pericolosità, spettri orizzontali e verticali, isolamento", "Spettro", "Spettri NTC", "Azioni sismiche"))
-        .Append(new ModuleInfo(EmbeddedWalls.EmbeddedWallDocument.Module, "Geotecnica", "Paratie", "Analisi per fasi di paratie e sostegni", "Paratia", "Paratie", "Terreno, fasi e sostegni")).Concat(Actions.ClimateDocument.Modules).ToArray());
+        .Append(new ModuleInfo(EmbeddedWalls.EmbeddedWallDocument.Module, "Geotecnica", "Paratie", "Analisi per fasi di paratie e sostegni", "Paratia", "Paratie", "Terreno, fasi e sostegni")).Concat(Actions.ClimateDocument.Modules)
+        .Append(new ModuleInfo(Materials.RheologyDocument.Module, "Materiali", "Viscosità e maturazione", "Reologia del calcestruzzo: curve, lettura puntuale e tabella", "Reologia", "Viscosità e maturazione", "Proprietà del calcestruzzo nel tempo")).ToArray());
     public static ModuleInfo Get(string id) => All.FirstOrDefault(m => m.Id == id)
         ?? throw new ArgumentException("Modulo del foglio non disponibile: " + id);
     public static JsonObject CreateData(string id)
     {
+        if (id == Materials.RheologyDocument.Module) return Materials.RheologyDocument.Create();
         if(Actions.ClimateDocument.Supports(id))return Actions.ClimateDocument.Create(id);
         if(id==Actions.SpectraDocument.Module)return Actions.SpectraDocument.Create();
         if (id == Stratigraphy.StratigraphyDocument.Module) return Stratigraphy.StratigraphyDocument.Create();
@@ -26,7 +28,8 @@ public static class ModuleDirectory
     }
     public static void ValidateData(string id, JsonObject data)
     {
-        if (Actions.ClimateDocument.Supports(id)) Actions.ClimateDocument.Validate(id,data);
+        if (id == Materials.RheologyDocument.Module) Materials.RheologyDocument.Validate(data);
+        else if (Actions.ClimateDocument.Supports(id)) Actions.ClimateDocument.Validate(id,data);
         else if (id == Actions.SpectraDocument.Module) Actions.SpectraDocument.Validate(data);
         else if (id == Stratigraphy.StratigraphyDocument.Module) Stratigraphy.StratigraphyDocument.Validate(data);
         else if (id == EmbeddedWalls.EmbeddedWallDocument.Module) EmbeddedWalls.EmbeddedWallDocument.Validate(data);

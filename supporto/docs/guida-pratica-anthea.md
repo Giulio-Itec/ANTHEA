@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 1 novembre 2026 — revisione documentale 65
+Edizione 6 aggiornata il 2 novembre 2026 — revisione documentale 66
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1601,11 +1601,11 @@ Per aprire una copia già acquisita scegli **File · .antheamodel, MIDAS .mct/.m
 
 ## Reologia del calcestruzzo
 
-La finestra di supporto calcola il coefficiente di viscosità nel tempo, il suo limite a infinito e la maturazione del modulo elastico. Si apre da **Strumenti → Reologia del calcestruzzo…**, oppure dai materiali e dalle opzioni SLE della sezione in calcestruzzo. Il richiamo dalla sezione propone la resistenza del materiale corrente. Gli altri parametri richiedono la scelta del progettista.
+Il foglio **Moduli singoli → Materiali → Viscosità e maturazione** calcola il coefficiente di viscosità nel tempo, il suo limite a infinito e la maturazione del modulo elastico. Si può salvare come file ANTHEA o aggiungere a un progetto. Il richiamo contestuale dai materiali e dalle opzioni SLE della sezione in calcestruzzo resta disponibile e propone la resistenza del materiale corrente; apre una consultazione separata. Gli altri parametri richiedono la scelta del progettista.
 
 ### Impostare materiale ambiente ed età
 
-Inserisci fck in MPa, classe di cemento S, N o R, umidità relativa in percentuale, dimensione nominale h₀ in mm ed età di applicazione del carico t₀ in giorni. La dimensione nominale è h₀ = 2 Ac / u, dove Ac è l'area di calcestruzzo e u il solo perimetro esposto all'essiccamento. La finestra non ricava automaticamente questo perimetro dalla sezione.
+Inserisci fck in MPa, classe di cemento S, N o R, umidità relativa in percentuale, dimensione nominale h₀ in mm ed età di applicazione del carico t₀ in giorni. La dimensione nominale è h₀ = 2 Ac / u, dove Ac è l'area di calcestruzzo e u il solo perimetro esposto all'essiccamento. Il foglio non ricava automaticamente questo perimetro dalla sezione.
 
 L'età t è misurata dal getto, non dall'applicazione del carico. Scegli età iniziale, età finale e risoluzione del campionamento, poi premi **Aggiorna le curve**. Sono ammessi fck fra 12 e 90 MPa, umidità fra 40 e 100 %, h₀ positivo e t₀ almeno pari a 0,5 giorni. L'intervallo deve avere età positive crescenti; la risoluzione è un intero fra 20 e 1000. Sono accettati punto e virgola come separatore decimale, senza separatori delle migliaia.
 
@@ -1619,9 +1619,17 @@ La rotella ingrandisce il grafico; trascinando lo si sposta; il doppio clic o **
 
 Una modifica a materiale, ambiente, età o campionamento svuota i risultati precedenti finché non si aggiornano le curve. Un'età di lettura errata svuota soltanto la lettura puntuale. I messaggi indicano il campo da correggere; nessun valore non valido è trasformato implicitamente in zero.
 
+### Salvare e riaprire il foglio
+
+Il salvataggio conserva materiale, ambiente, età, campionamento, grandezza del grafico, scale degli assi ed età di lettura. Alla riapertura le curve vengono ricostruite dagli stessi dati. Una bozza con un campo numerico incompleto resta salvabile; non produce risultati finché il campo non è corretto. Nelle revisioni in sola lettura gli ingressi sono protetti, mentre lettura puntuale, grafico ed esportazioni restano disponibili senza alterare la revisione.
+
+**Report Word…** genera anche il PDF con ingressi, parametri, lettura puntuale e tabella sintetica delle curve; la tabella del foglio contiene tutti i campioni. In **Esempi → Materiali → Viscosità e maturazione** sono disponibili un caso C25 con cemento normale e un caso C35 con cemento rapido.
+
 ### Usare il risultato nel progetto
 
-Ecm(t) è il modulo per maturazione, non il modulo efficace ridotto per viscosità. La finestra non modifica automaticamente φ, n, materiali, combinazioni o revisioni del foglio aperto. Il coefficiente da trasferire alle verifiche richiede coerenza con l'età di carico, la durata e il modulo di riferimento descritti nella [teoria della reologia](wiki:reologia-calcestruzzo).
+Ecm(t) è il modulo per maturazione, non il modulo efficace ridotto per viscosità. Il foglio non modifica automaticamente φ, n, materiali o combinazioni di altre schede. Il coefficiente da trasferire alle verifiche richiede coerenza con l'età di carico, la durata e il modulo di riferimento descritti nella [teoria della reologia](wiki:reologia-calcestruzzo).
+
+Il modulo **Azioni → Ritiro e viscosità** tratta invece la storia dei carichi e la risposta assiale vincolata, con le proprie ipotesi di calcolo.
 
 Esempio: fck = 25 MPa, cemento N, RH = 50 %, h₀ = 200 mm e t₀ = 7 giorni danno φ∞ = 3,442704. A 365 giorni si ottengono φ = 2,603961, Ecm = 33229,780 MPa e fattore E = 1,055724. A 28 giorni il fattore E vale esattamente 1; prima del carico φ vale zero.
 

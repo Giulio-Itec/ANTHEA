@@ -1,7 +1,7 @@
 {
   "Schema": 1,
   "SourceCommit": "7b2a0c4bf7b705256c87885f1458e85200f500a7",
-  "Note": "Inherited syntax candidates before F4 ports, fingerprinted per source/method/expression. This is a debt ratchet, not a normative approval. Drawing and adapter candidates remain individually listed. Reduce entries whenever removed; additions require a separately reviewed explanation. See docs/refactoring/f4-architettura.md.",
+  "Note": "Inherited syntax candidates before F4 ports, fingerprinted per source/method/expression. This is a debt ratchet, not a normative approval. Drawing and adapter candidates remain individually listed. Reduce entries whenever removed; additions require a separately reviewed explanation. See docs/refactoring/f4-architettura.md. 02/11/2026: sei espressioni identiche di campionamento grafico Reologia spostate dal vecchio ViewModel a RheologyEvaluation.Sample; nessuna nuova occorrenza o eccezione. Confronto IEEE754 congelato in tests/fixtures/rheology.",
   "Findings": [
     {
       "File": "X.Calculations/BridgeConcept.cs",
@@ -13772,50 +13772,50 @@
       "Example": "profile . D ( \"versione\" )"
     },
     {
-      "File": "src/ANTHEA.DesignTools.Presentation/ConcreteTimeEffectsViewModel.cs",
+      "File": "src/ANTHEA.Application/Materials/RheologyDocument.cs",
       "Rule": "R1-math",
-      "Owner": "ConcreteTimeEffectsViewModel.Calculate",
-      "Fingerprint": "139D752B1774820DFFD9BEBDE700A5876E54C7216125ED7173A3F5ABA090C49C",
+      "Owner": "RheologyEvaluation.Sample",
+      "Fingerprint": "BC1A2C284582C3FBE8059B75744D8B7333B3D79F1C7B27D93E73ABE038186954",
       "Count": 1,
       "Example": "Math . Log ( last )"
     },
     {
-      "File": "src/ANTHEA.DesignTools.Presentation/ConcreteTimeEffectsViewModel.cs",
+      "File": "src/ANTHEA.Application/Materials/RheologyDocument.cs",
       "Rule": "R1-math",
-      "Owner": "ConcreteTimeEffectsViewModel.Calculate",
-      "Fingerprint": "3394CA9B36CD734C437F0E9E9165F9451B184C022BBBFE7070F18A7613409A21",
+      "Owner": "RheologyEvaluation.Sample",
+      "Fingerprint": "D79AD8D30CD729DF79810EB2DFDC421BD2706EFE107A8CFA2DD5C4A8049E6CD1",
       "Count": 1,
       "Example": "Math . Exp ( Math . Log ( 1e-4 ) * ( 1 - p ) + Math . Log ( Math . Max ( 1e-4 , last - t0 ) ) * p )"
     },
     {
-      "File": "src/ANTHEA.DesignTools.Presentation/ConcreteTimeEffectsViewModel.cs",
+      "File": "src/ANTHEA.Application/Materials/RheologyDocument.cs",
       "Rule": "R1-math",
-      "Owner": "ConcreteTimeEffectsViewModel.Calculate",
-      "Fingerprint": "4425C629BD8E11F01E061A19968D96DD582E7EB13E445F664FE88AE04F0727CD",
+      "Owner": "RheologyEvaluation.Sample",
+      "Fingerprint": "F4E0A0028E2D53DB3F9A196A8ED38A4045C5BA704D3330689B35B2EF59F46F06",
       "Count": 1,
       "Example": "Math . Log ( first )"
     },
     {
-      "File": "src/ANTHEA.DesignTools.Presentation/ConcreteTimeEffectsViewModel.cs",
+      "File": "src/ANTHEA.Application/Materials/RheologyDocument.cs",
       "Rule": "R1-math",
-      "Owner": "ConcreteTimeEffectsViewModel.Calculate",
-      "Fingerprint": "503C0BB68FE90DB23405B9D8B9A570428D4A30398179966BAAA53D846EA82E5F",
+      "Owner": "RheologyEvaluation.Sample",
+      "Fingerprint": "9DC5CF6CFF4BC9C8FF718CA7FBA09EFFC83FD87A721A44A2FC374C552A274A03",
       "Count": 1,
       "Example": "Math . Log ( 1e-4 )"
     },
     {
-      "File": "src/ANTHEA.DesignTools.Presentation/ConcreteTimeEffectsViewModel.cs",
+      "File": "src/ANTHEA.Application/Materials/RheologyDocument.cs",
       "Rule": "R1-math",
-      "Owner": "ConcreteTimeEffectsViewModel.Calculate",
-      "Fingerprint": "66FE3E6094FB6EDFAA15D60BBD3B023441063D799EAF5A7991094D2E4D3B7142",
+      "Owner": "RheologyEvaluation.Sample",
+      "Fingerprint": "0CB2E2C09473DAECB1CFC03B5A6F573156860BA25642736465EFD42BFB896739",
       "Count": 1,
       "Example": "Math . Exp ( Math . Log ( first ) * ( 1 - p ) + Math . Log ( last ) * p )"
     },
     {
-      "File": "src/ANTHEA.DesignTools.Presentation/ConcreteTimeEffectsViewModel.cs",
+      "File": "src/ANTHEA.Application/Materials/RheologyDocument.cs",
       "Rule": "R1-math",
-      "Owner": "ConcreteTimeEffectsViewModel.Calculate",
-      "Fingerprint": "D9116923C043DDF9C3D8A3C8E4A6B69F55773B06EE63E04CAEE33F820BFBB191",
+      "Owner": "RheologyEvaluation.Sample",
+      "Fingerprint": "3B8FB2C61BE8E9F785962EEFB62D888550683F1EC0B211C143A54AB0BB802847",
       "Count": 1,
       "Example": "Math . Log ( Math . Max ( 1e-4 , last - t0 ) )"
     },

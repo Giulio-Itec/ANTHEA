@@ -158,7 +158,8 @@ internal static class ModuleHostChecks
     {
         var historic = new ModuleRegistry([]);
         expect.That(historic.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All)
-            && historic.All.Count(d => d.Info.Id is not (Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module or Anthea.Application.Actions.SpectraDocument.Module) && !Anthea.Application.Actions.ClimateDocument.Supports(d.Info.Id)) == 13
+            && historic.All.Count(d => d.Info.Id is not (Anthea.Application.Materials.RheologyDocument.Module or Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module or Anthea.Application.Actions.SpectraDocument.Module) && !Anthea.Application.Actions.ClimateDocument.Supports(d.Info.Id)) == 13
+            && historic.All.Count(d => d.Info.Id == Anthea.Application.Materials.RheologyDocument.Module && d.Info.Area == "Materiali") == 1
             && historic.All.Count(d=>Anthea.Application.Actions.ClimateDocument.Supports(d.Info.Id))==16
             && historic.All.Count(d => d.Info.Id == Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module) == 1
             && historic.All.Count(d => d.Info.Id == Anthea.Application.Actions.SpectraDocument.Module) == 1,

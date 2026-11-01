@@ -18,7 +18,7 @@
     <ApplicationIcon>Assets/anthea.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup><ProjectReference Include="../ANTHEA.Application/ANTHEA.Application.csproj" /><ProjectReference Include="../ANTHEA.ModelViewer.Wpf/ANTHEA.ModelViewer.Wpf.csproj" /></ItemGroup>
-  <ItemGroup><ProjectReference Include="../ANTHEA.Wiki/ANTHEA.Wiki.csproj" /><ProjectReference Include="../ANTHEA.DesignTools.Presentation/ANTHEA.DesignTools.Presentation.csproj" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="../ANTHEA.Wiki/ANTHEA.Wiki.csproj" /></ItemGroup>
   <!-- MVVM presentation layer without WPF (refactoring F5): services, ViewModels and sessions; views and WPF services stay here. -->
   <ItemGroup><ProjectReference Include="../ANTHEA.Presentation/ANTHEA.Presentation.csproj" /></ItemGroup>
   <!-- 1.15.0: the Straus7 worker, the only process that loads St7api.dll, is built with the application and placed next to ANTHEA.exe in the

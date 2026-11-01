@@ -18,7 +18,7 @@ public interface IFigureRenderer
 
 public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectReportChapterBuilder
 {
-    public static bool Supports(string module) => Actions.ClimateDocument.Supports(module) || module is Actions.SpectraDocument.Module or EmbeddedWalls.EmbeddedWallDocument.Module or Stratigraphy.StratigraphyDocument.Module or "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo" or RetainingWall.Module or BridgeSection.Module or PaloOrizzontale.Module or MicropaloOrizzontale.Module or "str_palo";
+    public static bool Supports(string module) => Actions.ClimateDocument.Supports(module) || module is Materials.RheologyDocument.Module or Actions.SpectraDocument.Module or EmbeddedWalls.EmbeddedWallDocument.Module or Stratigraphy.StratigraphyDocument.Module or "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo" or RetainingWall.Module or BridgeSection.Module or PaloOrizzontale.Module or MicropaloOrizzontale.Module or "str_palo";
     public static HashSet<string> DefaultSections(string module) => module == BridgeSection.Module ? ReportBridge.DefaultSections()
         : module == "str_palo" ? ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet()
         : ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
@@ -27,6 +27,12 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
     {
         cancellation.ThrowIfCancellationRequested();
         string module = sheet.S("modulo_id");
+        if (module == Materials.RheologyDocument.Module)
+        {
+            var rheologyData = sheet["dati"] as JsonObject ?? Materials.RheologyDocument.Create();
+            var rheology = ModuleServices.Get(module).Calculate(rheologyData, cancellation);
+            return new(Document: RheologyReport.Create(sheet.S("nome"), rheology.Data, rheology.Values));
+        }
         if(Actions.ClimateDocument.Supports(module))
         {
             var climateData=sheet["dati"] as JsonObject??Actions.ClimateDocument.Create(module);
@@ -106,6 +112,7 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
     public static DocxDocument CreateDocument(ModuleReportRequest request, IReadOnlyList<ReportFigure> figures)
     {
         var c = request.Calculation;
+        if (c.ModuleId == Materials.RheologyDocument.Module) return RheologyReport.Create(request.Title, c.Data, c.Values);
         if(Actions.ClimateDocument.Supports(c.ModuleId))return ClimateReport.Create(request.Title,c.Data,c.Values,Actions.ClimateDocument.ReportInputs(c.ModuleId,c.Data));
         if(c.ModuleId==Actions.SpectraDocument.Module)return SpectraReport.Create(request.Title,c.Data,c.Values);
         if (c.ModuleId == EmbeddedWalls.EmbeddedWallDocument.Module) return EmbeddedWallReport.Create(request.Title, c.NativeAs<EmbeddedWallReportData>());

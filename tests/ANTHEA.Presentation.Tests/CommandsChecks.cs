@@ -53,14 +53,13 @@ internal static class CommandsChecks
             "Report short CLS…", "Risultati JSON…", "Esci"]), "Voci del menu File");
         expect.That(commands.File.Where(i => i.Shortcut is not null).Select(i => (i.Title, i.Shortcut!.Key, i.Shortcut.Shift)).SequenceEqual([("Nuovo palo", "N", false),
             ("Apri…", "O", false), ("Salva", "S", false), ("Salva con nome…", "S", true)]) && commands.File.Count(i => i.IsSeparator) == 2, "Scorciatoie");
-        expect.That(commands.Appearances.SequenceEqual(["Chiaro", "Scuro", "Molto scuro"]) && ShellCommandsViewModel.RheologyTitle == "Reologia del calcestruzzo…", "Aspetto e strumenti");
+        expect.That(commands.Appearances.SequenceEqual(["Chiaro", "Scuro", "Molto scuro"]), "Aspetto");
         int requests = 0;
         commands.ExamplesRequested += (_, _) => requests++;
         commands.ExitRequested += (_, _) => requests += 10;
-        commands.RheologyRequested += (_, _) => requests += 100;
         commands.File.Single(i => i.Title == "Apri esempio…").Command!.Execute(null);
-        commands.ExitCommand.Execute(null); commands.RheologyCommand.Execute(null);
-        expect.That(requests == 111, "Richieste alla vista");
+        commands.ExitCommand.Execute(null);
+        expect.That(requests == 11, "Richieste alla vista");
 
         // «Nuovo …»: the modules of the directory, a new tab each; «Report short» only for the RC section.
         commands.File[0].Command!.Execute(null);

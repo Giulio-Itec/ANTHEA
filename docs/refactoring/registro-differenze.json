@@ -14697,6 +14697,29 @@
         "supporto/artefatti/azioni-estese/f3-rev66-recomparison-provenance.json"
       ],
       "wiki": "Capitoli Azioni idrauliche, Fasi costruttive, Ritiro viscosità, Precompressione, Gru e carriponte, Incendio."
+    },
+    {
+      "id": "REOLOGIA-MODULO-20261102",
+      "fase": "F5 MVVM / moduli Materiali",
+      "titolo": "Viscosità e maturazione come foglio salvabile",
+      "famiglia": "reologia/interfaccia/persistenza",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Richiesta utente del 02/11/2026: spostare la finestra di viscosità dai comandi superiori a Moduli singoli. Nuovo mat_reologia nel gruppo Materiali, parametri e opzioni grafiche persistenti, revisioni in sola lettura, report DOCX/PDF e due esempi. Richiami contestuali Concrete conservati. ViewModel trasferito in Presentation senza GPC/WPF, layout in XAML con DataTemplate; solo il disegno tecnico resta in codice. Adapter Application sullo stesso ConcreteTimeEffects GPC, nessuna formula normativa cambiata. Sei espressioni di campionamento grafico spostate identiche nell’adattatore: stessa cardinalità F4 e token esatti, nessuna nuova eccezione. Progetto DesignTools.Presentation vuoto rimosso. Cattura precedente congelata e originali archiviati con impronte. Guide Rev66 e Wiki aggiornate, attesi ingegneristici invariati.",
+      "test": [
+        "ConcreteTimeEffects.Checks: riferimento indipendente e 12 catture IEEE754 prima/dopo",
+        "ConcreteTimeEffects.UiChecks: tre temi, tabella, query, errori, dimensioni compatte e PNG",
+        "Rheology.Tests: salvataggio/riapertura, sola lettura, invalidazione, report, esempi",
+        "Architecture.Tests, Application.Tests, Presentation.Tests, Examples.Tests, Wiki e UI del ModuleHost: collaudo integrato in chiusura"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261102-001031-reologia-before",
+        "tests/fixtures/rheology/manifest.json",
+        "supporto/SUPERATI/ui-storica/reologia-modulo-20261102/manifest.json",
+        "supporto/artefatti/ci/20261102-002108-reologia-after-first",
+        "supporto/artefatti/azioni-estese/reologia-f4-relocation.json"
+      ],
+      "wiki": "Capitoli pratica/teoria Reologia già esistenti; totale 94 articoli. Nessuna nuova guida autonoma."
     }
   ]
 }

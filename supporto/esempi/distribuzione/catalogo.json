@@ -837,6 +837,24 @@
       "kind": "calcolo",
       "sha256": "13f0b654daffacdaae500839ff6b39724aeb8c3de8a0d97571a1b22e0c73ebd1",
       "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "mat_reologia/c25-umidita-50.anthea",
+      "module": "mat_reologia",
+      "title": "Calcestruzzo C25 · umidità 50 %",
+      "description": "Viscosità e maturazione: cemento N, h0 = 200 mm, carico a 7 giorni, lettura a un anno.",
+      "kind": "calcolo",
+      "sha256": "39904972e2cc9f85f2e6c6b1e512c89aa0da1463a9a1a8764e9716b6148ee87d",
+      "origin": "Esempio originale ANTHEA, 02/11/2026; riferimento numerico indipendente in ConcreteTimeEffects.Checks"
+    },
+    {
+      "path": "mat_reologia/c35-cemento-rapido.anthea",
+      "module": "mat_reologia",
+      "title": "Calcestruzzo C35 · cemento rapido",
+      "description": "Maturazione con cemento R, h0 = 560 mm, carico a 10 giorni e lettura a 28 giorni.",
+      "kind": "calcolo",
+      "sha256": "ca64d046f85da9c595ae458a40eaf38a6634a793597f36a0d4d9385e88543aa1",
+      "origin": "Esempio originale ANTHEA, 02/11/2026; riferimento numerico indipendente in ConcreteTimeEffects.Checks"
     }
   ]
 }

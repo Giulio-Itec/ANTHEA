@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 1 novembre 2026 — revisione documentale 65
+Edizione 6 aggiornata il 2 novembre 2026 — revisione documentale 66
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -3917,7 +3917,7 @@ Le curve sono campionate solo per la rappresentazione; ogni lettura puntuale è 
 
 ### Getti sottili nelle verifiche di sezione
 
-Per l'opzione di getto in opera inferiore a 50 mm, le verifiche NTC e UNI EN 1992 con appendice italiana applicano la riduzione prevista del 20 % ai limiti pertinenti del calcestruzzo e al coefficiente αcc, quindi a fcd. Le altre norme conservano la propria regola. Questa scelta delle verifiche di sezione non modifica le curve di reologia dello strumento, che dipendono dagli ingressi esplicitamente indicati.
+Per l'opzione di getto in opera inferiore a 50 mm, le verifiche NTC e UNI EN 1992 con appendice italiana applicano la riduzione prevista del 20 % ai limiti pertinenti del calcestruzzo e al coefficiente αcc, quindi a fcd. Le altre norme conservano la propria regola. Questa scelta delle verifiche di sezione non modifica le curve del foglio Materiali → Viscosità e maturazione, che dipendono dagli ingressi esplicitamente indicati.
 
 ## Risultati dei modelli per fasi
 
@@ -3935,7 +3935,7 @@ La durata di una fase, l'età di attivazione di un elemento e il tempo del passo
 
 L'assenza di un risultato può dipendere dall'inattività dell'oggetto, da un output non richiesto o da dati non disponibili. Non equivale a una sollecitazione o a uno spostamento nullo. La vista associa soltanto i campioni disponibili agli oggetti identificati, con le stesse convenzioni di unità e assi usate per i casi statici. I vincoli temporanei non diventano vincoli permanenti per il solo fatto di comparire nelle tabelle del modello.
 
-In questa versione la geometria completa è un contesto grafico; non è la ricostruzione del sistema resistente attivo nella fase. L'importazione non esegue un'analisi per fasi, non calcola viscosità o ritiro del modello e non aggiorna la rigidezza degli elementi. La finestra di reologia è uno strumento separato di supporto al progettista. Il confronto dei risultati stage con un modello reale rimane una verifica aperta; le prove disponibili riguardano identità, protocollo, unità, segni e conservazione dei dati sintetici.
+In questa versione la geometria completa è un contesto grafico; non è la ricostruzione del sistema resistente attivo nella fase. L'importazione non esegue un'analisi per fasi, non calcola viscosità o ritiro del modello e non aggiorna la rigidezza degli elementi. Il foglio Materiali → Viscosità e maturazione valuta separatamente le proprietà del materiale a partire dagli ingressi assegnati. Il confronto dei risultati stage con un modello reale rimane una verifica aperta; le prove disponibili riguardano identità, protocollo, unità, segni e conservazione dei dati sintetici.
 
 ## Geometria e rappresentazione delle sezioni
 

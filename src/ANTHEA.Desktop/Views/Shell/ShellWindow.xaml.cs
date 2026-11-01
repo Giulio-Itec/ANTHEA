@@ -35,7 +35,6 @@ public partial class ShellWindow : Window, IShellWikiHost
         Closing += OnClosing;
         Closed += (_, _) => tracker.CloseAll();
         shell.Commands.ExitRequested += (_, _) => Close();
-        shell.Commands.RheologyRequested += (_, _) => ConcreteTimeEffectsView.CreateWindow(this).Show();
     }
 
     /// <summary>The ViewModel of the window.</summary>

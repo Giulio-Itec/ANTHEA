@@ -47,7 +47,6 @@ public sealed class ShellCommandsViewModel : ViewModelBase
 {
     public const string WordFilter = "Word e PDF affiancati";
     public const string ShortTitle = "Report short";
-    public const string RheologyTitle = "Reologia del calcestruzzo…";
     public const string UndoLabel = "↶ Annulla";
     public const string RedoLabel = "↷ Ripristina";
     public const string UndoToolTip = "Annulla l’ultima operazione · Ctrl+Z";
@@ -89,7 +88,6 @@ public sealed class ShellCommandsViewModel : ViewModelBase
         ShortReportCommand = new AsyncRelayCommand(ExportShortReportAsync, () => !shortRunning);
         ResultsCommand = GuardedCommands.Create(guard, ExportResults);
         ExitCommand = GuardedCommands.Create(guard, () => ExitRequested?.Invoke(this, EventArgs.Empty));
-        RheologyCommand = GuardedCommands.Create(guard, () => RheologyRequested?.Invoke(this, EventArgs.Empty));
         UndoCommand = GuardedCommands.Create(guard, () => workspace.Project?.Restore(false), () => workspace.Project?.CanUndo == true);
         RedoCommand = GuardedCommands.Create(guard, () => workspace.Project?.Restore(true), () => workspace.Project?.CanRedo == true);
         File =
@@ -126,7 +124,6 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     public IAsyncRelayCommand ShortReportCommand { get; }
     public IRelayCommand ResultsCommand { get; }
     public IRelayCommand ExitCommand { get; }
-    public IRelayCommand RheologyCommand { get; }
     public IRelayCommand UndoCommand { get; }
     public IRelayCommand RedoCommand { get; }
 
@@ -138,9 +135,6 @@ public sealed class ShellCommandsViewModel : ViewModelBase
 
     /// <summary>«Esci»: the main window closes (with the questions of the coordinator).</summary>
     public event EventHandler? ExitRequested;
-
-    /// <summary>«Reologia del calcestruzzo…»: the window of the tool (not modal).</summary>
-    public event EventHandler? RheologyRequested;
 
     /// <summary>«Apri…» (MainWindow.Open): the file chosen opens, or is activated when it is open already.</summary>
     public void Open()
@@ -202,10 +196,11 @@ public sealed class ShellCommandsViewModel : ViewModelBase
             services.Messages.Inform("", module == "str_palo" ? WaitConcrete : CompleteFirst);
             return;
         }
-        if (module is "geo_efficienza_orizzontale" or "geo_palo_orizzontale" or "geo_micropalo_orizzontale" or "str_bridge_design" or "geo_muri_sostegno")
+        if (module is "mat_reologia" or "geo_efficienza_orizzontale" or "geo_palo_orizzontale" or "geo_micropalo_orizzontale" or "str_bridge_design" or "geo_muri_sostegno")
         {
             Export(sheet, module switch
             {
+                "mat_reologia" => "Viscosita_maturazione.docx",
                 "geo_efficienza_orizzontale" => "Relazione_palificata_orizzontale.docx",
                 "geo_muri_sostegno" => "Relazione_muro_sostegno.docx",
                 "str_bridge_design" => "BridgeDesign.docx",

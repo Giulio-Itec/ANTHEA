@@ -3,37 +3,46 @@ using System.ComponentModel;
 using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GPC.Model.Materials;
+using Anthea.Application.Materials;
+using Anthea.Presentation.Mvvm;
 
-namespace Anthea.DesignTools.Presentation;
+namespace Anthea.Presentation.Modules.Rheology;
 
-public sealed record CementChoice(ConcreteMaterialEuropeanCommon.CementTypes Value, string Label);
+public sealed record CementChoice(string Value, string Label);
 public enum ConcreteTimeCurve { Creep, Modulus, ModulusFactor }
 public sealed record CurveChoice(ConcreteTimeCurve Value, string Label);
 
 /// <summary>Presentation state only. All material properties and time effects are evaluated by Model.</summary>
-public sealed partial class ConcreteTimeEffectsViewModel : ObservableObject, IDataErrorInfo
+public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataErrorInfo
 {
     private static readonly CultureInfo Italian = CultureInfo.GetCultureInfo("it-IT");
     private readonly Dictionary<string, string> errors = new();
-    private ConcreteTimeEffects? calculation;
+    private RheologyEvaluation? calculation;
     // The input properties, in the order of their notifications (the insertion order of the former HashSet); immutable catalogue (F5.13 d, P3).
     private static readonly ImmutableArray<string> Inputs = [nameof(Fck), nameof(Humidity), nameof(NotionalSize),
         nameof(LoadingAge), nameof(Cement), nameof(StartAge), nameof(EndAge), nameof(Samples)];
     public IReadOnlyList<CementChoice> Cements { get; } = [
-        new(ConcreteMaterialEuropeanCommon.CementTypes.ClassS, "S · lento"),
-        new(ConcreteMaterialEuropeanCommon.CementTypes.ClassN, "N · normale"),
-        new(ConcreteMaterialEuropeanCommon.CementTypes.ClassR, "R · rapido")];
+        new("ClassS", "S · lento"),
+        new("ClassN", "N · normale"),
+        new("ClassR", "R · rapido")];
     public IReadOnlyList<CurveChoice> Curves { get; } = [new(ConcreteTimeCurve.Creep, "Viscosità · φ(t, t₀)"),
         new(ConcreteTimeCurve.Modulus, "Modulo elastico · Ecm(t)"), new(ConcreteTimeCurve.ModulusFactor, "Fattore · Ecm(t) / Ecm,28")];
-    [ObservableProperty] private string fck = "35";
-    [ObservableProperty] private string humidity = "70";
-    [ObservableProperty] private string notionalSize = "560";
-    [ObservableProperty] private string loadingAge = "10";
-    [ObservableProperty] private CementChoice cement = null!;
-    [ObservableProperty] private string startAge = "0,5";
-    [ObservableProperty] private string endAge = "10000";
-    [ObservableProperty] private string samples = "160";
+    private string fck = "35";
+    public string Fck { get => fck; set { if (!IsReadOnly) SetProperty(ref fck, value); } }
+    private string humidity = "70";
+    public string Humidity { get => humidity; set { if (!IsReadOnly) SetProperty(ref humidity, value); } }
+    private string notionalSize = "560";
+    public string NotionalSize { get => notionalSize; set { if (!IsReadOnly) SetProperty(ref notionalSize, value); } }
+    private string loadingAge = "10";
+    public string LoadingAge { get => loadingAge; set { if (!IsReadOnly) SetProperty(ref loadingAge, value); } }
+    private CementChoice cement = null!;
+    public CementChoice Cement { get => cement; set { if (!IsReadOnly) SetProperty(ref cement, value); } }
+    private string startAge = "0,5";
+    public string StartAge { get => startAge; set { if (!IsReadOnly) SetProperty(ref startAge, value); } }
+    private string endAge = "10000";
+    public string EndAge { get => endAge; set { if (!IsReadOnly) SetProperty(ref endAge, value); } }
+    private string samples = "160";
+    public string Samples { get => samples; set { if (!IsReadOnly) SetProperty(ref samples, value); } }
     [ObservableProperty] private string queryAge = "365";
     [ObservableProperty] private bool logX = true;
     [ObservableProperty] private bool logY;
@@ -44,6 +53,9 @@ public sealed partial class ConcreteTimeEffectsViewModel : ObservableObject, IDa
     [ObservableProperty] private string status = "Imposta i dati e aggiorna le curve.";
     [ObservableProperty] private string queryError = "";
     [ObservableProperty] private bool hasResults;
+    [ObservableProperty] private bool isReadOnly;
+    public bool CanEdit => !IsReadOnly;
+    partial void OnIsReadOnlyChanged(bool value) => OnPropertyChanged(nameof(CanEdit));
     public string Error => string.Join(" · ", errors.Values);
     public string this[string columnName] => errors.GetValueOrDefault(columnName, "");
     public string InfinityText => Format(calculation?.CreepInfinity, "0.000");
@@ -58,7 +70,7 @@ public sealed partial class ConcreteTimeEffectsViewModel : ObservableObject, IDa
         ? LogY ? "Scala logaritmica: φ = 0 prima del carico non è rappresentabile. La tabella conserva tutti i valori."
             : "Età t dal getto. φ = 0 fino all'applicazione del carico t₀. Rotella: zoom · doppio clic: adatta."
         : "Maturazione del modulo secante; Ecm(t) / Ecm,28 = 1 a 28 giorni. Rotella: zoom · doppio clic: adatta.";
-    public const string Assumptions = "EN 1992-1-1:2004 · allegato B e §3.1.3. Calcestruzzo ordinario, 20 °C, umidità costante e viscosità lineare. Ecm(t) descrive la maturazione: non è il modulo efficace ridotto per viscosità. Ritiro e storia termica esclusi.";
+    public const string Assumptions = RheologyDocument.Assumptions;
 
     public ConcreteTimeEffectsViewModel(double? fckMpa = null)
     {
@@ -118,24 +130,8 @@ public sealed partial class ConcreteTimeEffectsViewModel : ObservableObject, IDa
         {
             try
             {
-                var candidate = new ConcreteTimeEffects(f, Cement!.Value, rh, h, t0);
-                // Sampling and scale projection serve the chart; no material formula is implemented here.
-                var ages = new SortedSet<double> { first, last };
-                for (int i = 0; i < (int)count; i++)
-                {
-                    double p = i / (count - 1);
-                    ages.Add(Math.Clamp(Math.Exp(Math.Log(first) * (1 - p) + Math.Log(last) * p), first, last));
-                    if (last > t0)
-                    {
-                        double elapsed = Math.Exp(Math.Log(1e-4) * (1 - p) + Math.Log(Math.Max(1e-4, last - t0)) * p);
-                        double age = t0 + elapsed;
-                        if (age >= first && age <= last) ages.Add(age);
-                    }
-                }
-                foreach (double age in new[] { t0, 28d }) if (age >= first && age <= last) ages.Add(age);
-                var rows = ages.Select(age => ConcreteTimePointView.Read(candidate.AtAge(age))).ToArray();
-                if (rows.Any(p => !double.IsFinite(p.CreepCoefficient) || !double.IsFinite(p.EcmMpa) || !double.IsFinite(p.ModulusFactor)))
-                    throw new ArgumentException("L'intervallo scelto non produce valori rappresentabili: ridurre le età estreme.");
+                var candidate = new RheologyEvaluation(f, Cement!.Value, rh, h, t0);
+                var rows = candidate.Sample(first, last, count).Select(ConcreteTimePointView.Read).ToArray();
                 calculation = candidate; HasResults = true; Points = rows;
                 Status = $"Curve aggiornate · {rows.Length} punti · età in giorni dal getto.";
                 ReadAge();
@@ -171,6 +167,6 @@ public sealed partial class ConcreteTimeEffectsViewModel : ObservableObject, IDa
 
 public sealed record ConcreteTimePointView(double AgeDays, double CreepCoefficient, double EcmMpa, double ModulusFactor)
 {
-    internal static ConcreteTimePointView Read(ConcreteTimePoint value)
+    internal static ConcreteTimePointView Read(RheologyPoint value)
         => new(value.AgeDays, value.CreepCoefficient, value.EcmMpa, value.ModulusFactor);
 }

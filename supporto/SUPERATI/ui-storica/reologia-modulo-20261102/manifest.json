@@ -1,0 +1,14 @@
+[
+  {
+    "original": "src/ANTHEA.DesignTools.Presentation/ConcreteTimeEffectsViewModel.cs",
+    "archived": "supporto/SUPERATI/ui-storica/reologia-modulo-20261102/src/ANTHEA.DesignTools.Presentation/ConcreteTimeEffectsViewModel.cs",
+    "sha256": "8cef32e141b46f823b73d1bc46816efb9004e9c69f1de22d2caf1e6823dc47ca",
+    "reason": "Finestra di supporto spostata nel modulo Materiali, cattura prima c2c646ad"
+  },
+  {
+    "original": "src/ANTHEA.Desktop/Wpf/ConcreteTimeEffectsView.cs",
+    "archived": "supporto/SUPERATI/ui-storica/reologia-modulo-20261102/src/ANTHEA.Desktop/Wpf/ConcreteTimeEffectsView.cs",
+    "sha256": "0947ffeea61d18d3bc8114f2570e05da447f4e5c01f252d4dc88b058c3f2998a",
+    "reason": "Finestra di supporto spostata nel modulo Materiali, cattura prima c2c646ad"
+  }
+]

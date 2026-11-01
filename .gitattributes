@@ -71,3 +71,7 @@ supporto/SUPERATI/rilascio-1162-rev64-20261030/** -text
 supporto/SUPERATI/rilascio-1170-rev65-20261101/** -text
 supporto/SUPERATI/azioni-estese-rev65-20261101/** -text
 supporto/SUPERATI/azioni-estese-rev66-20261101/** -text
+
+# Rheology relocation: exact historical sources and IEEE754 capture.
+supporto/SUPERATI/ui-storica/reologia-modulo-20261102/** -text
+tests/fixtures/rheology/historic-capture.json -text

@@ -1,6 +1,6 @@
 # Guide globali ANTHEA
 
-Edizione 6, 1 novembre 2026. Guide pratica e teorica Rev66, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 2 novembre 2026. Guide pratica e teorica Rev66, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
@@ -75,3 +75,5 @@ La Rev47, i suoi sorgenti e gli indici sostituiti sono conservati in `supporto/S
 La Rev48, i sorgenti e gli indici sostituiti sono conservati in `supporto/SUPERATI/paratie-rev49-20261019/`, con origine e SHA-256.
 
 La Rev49, i sorgenti e gli indici sostituiti sono conservati in `supporto/SUPERATI/paratie-rev50-20261019/`, con origine e SHA-256.
+
+Il foglio **Materiali → Viscosità e maturazione** si apre da **Moduli singoli**, salva parametri e opzioni grafiche e dispone di due esempi nel catalogo centrale. Il precedente richiamo globale nel menu Strumenti è rimosso. La guida pratica descrive salvataggio, revisioni in sola lettura ed esportazione della relazione.
