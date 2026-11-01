@@ -1,5 +1,22 @@
 # DLL Checker
 
+**Release AP — combinazioni del modulo Modelli e duttilità in curvatura (1 novembre 2026).** Set ufficiale da Model `391cfea9` e
+Checker `a3c53320` su origin/master (regola dell'utente del 29/10: il lavoro finito va sul master). Geometry `6734eee1` e Utilities
+`e57b440b` invariati. Contenuto rispetto ad AO:
+- GPC.Converter 2.11.0.0: preparazione fredda dei risultati statici con le righe elaborate in parallelo, risultati identici
+  (agente `combo-chiusura`); GPCModel 5.32.0.1, ModelData 0.3.0.18 e Persistence 3.4.0.8 solo ricompilati;
+- GPCChecker.Concrete 0.33.0.0: duttilità in curvatura μφ con il ramo post-picco e la bilineare della Circolare Fig. C4.1.12, nuovo
+  overload di `MomentCurvatureAnalysis.Calculate`, curve esistenti identiche (agente `ca-metodi`);
+- CompositeBridge 1.22 della sessione CompositeBridge (ricalcolo dei dettagli dalle situazioni di un'analisi precedente), qui 1.22.0.2;
+- ricompilazioni coerenti all'ultimo componente: Steel 2.127.0.6, Geotechnics 0.27.0.8, GPCModelChecker 2.35.0.6, Masonry 0.10.0.23,
+  GPC.Design 0.44.0.3. Tutte le DLL di Checker cambiano versione: il set AO installato non si riproduceva bit per bit per Steel,
+  Geotechnics e Masonry a versione invariata (segnalato da `ca-metodi`), ora superato.
+
+`Release-Set.ps1 -Previous` rispetto ad AO: Model Core 62 e UnitTest 1602 PASS (12 ignorati); Concrete 959, Steel 122,
+CompositeBridge 420, Geotechnics 202, Calculation 175, ShallowFoundation 29, EmbeddedWalls 99, Steel.Members 6990, Design 192 net8 e
+191 net472, ModelChecker 655. Zero fallimenti, API compatibili. Le DLL sono identiche bit per bit al candidato `cand-1` dello stesso
+albero. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; set completo in `supporto/artefatti/librerie-20261101-ap`.
+
 **Release AO — Azioni non sismiche e master GPC integrati (30 ottobre 2026).** Set ufficiale da Model `a6f664c9` e Checker
 `0d2dec71`, entrambi su origin/master dopo autorizzazione esplicita dell'utente. Geometry `6734eee1` e Utilities `e57b440b` invariati.
 Integra dieci fogli Azioni, con ripartizione trasversale rigida e deformabile, e le evoluzioni dei master successive al set AN:
