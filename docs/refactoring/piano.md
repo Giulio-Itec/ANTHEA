@@ -14,7 +14,7 @@ Attività richiesta dall'utente su `refactoring/f5-azioni-spettri`, derivato da 
 - [x] Tracce F5 Fondazioni conservate e banco adeguato al set: tutte le prove Presentation e le due viste Fondazioni passate (`spettri-f5-metadata-02`, 5 PASS).
 - [x] Contratto MVVM Palificata corretto e verificato nella ripetizione `spettri-final-rerun-01`.
 - [x] Collaudo di consegna Spettri sul set 03: 7 PASS, zero NEW-FAIL, inclusi 1572 controlli applicativi, 43 WPF e 45 catture del contrasto (quattro fasi nei tre temi, zero difetti a 144 DPI). Anteprima autonoma della Release bea5211b predisposta.
-- [~] Runner full 04 completato sul set 03: 159 PASS, quattro NEW-FAIL; Palificata risolta. Le due esportazioni arrestate da Trend Micro si fermano anche nella ripetizione e restano aperte. Contrasto generale da ripetere a 96 DPI secondo D6 (macchina a 144 DPI). Esiti ed evidenze in `spettri-ntc.md`.
+- [x] Runner full 04 completato sul set 03: 159 PASS, quattro NEW-FAIL; Palificata risolta. Le due esportazioni arrestate da Trend Micro si fermano anche nella ripetizione e restano aperte. Contrasto generale da ripetere a 96 DPI secondo D6 (macchina a 144 DPI). Esiti ed evidenze in `spettri-ntc.md`. Superata (1/11): le due esportazioni (viste del palo verticale e dei muri) e il contrasto a 96 DPI passano nelle full di rilascio dal 25–26/10 in poi, come nella voce di «Rilascio F5 autorizzato il 19 ottobre 2026».
 - [x] Rilascio definitivo delle librerie dopo autorizzazione al merge/push di Checker su master. Superata (26/10, «pulisci le caselle
   superate»): le librerie sono uscite nei set ufficiali successivi, fino al set AI della 1.14.1.
 
@@ -892,26 +892,30 @@ Voci della revisione F5.15 rinviate alla chiusura del 26/10. La decisione dell'u
 refactoring, dichiarate nel registro». Nel [registro](registro-differenze.json) hanno lo stato «rinviato»; il campo `rinvio_26_10` dice che
 cosa serve per riprenderle. Restano aperte: non sono corrette né accettate.
 
-| Voce | Cosa | Serve | Segno |
-| --- | --- | --- | --- |
-| R4 | MC2010, θmin fisso a 20° | **26/10 sera: da correggere per la 1.14.3** («correggi in base a MC2010») | non cautelativa, priorità alta |
-| R5 | SLE non lineare con le leggi di progetto | **26/10 sera: dichiarata**, scelta voluta dall'utente; da scrivere nella guida teorica Rev60 | — |
-| R6 | DIN, k5 dei trefoli 0,75 invece di 0,65 | appendice nazionale DIN, poi Model | — |
-| R7 | Interpretazioni di taglio, torsione, SLE e fessurazione | revisione della guida teorica, segno di F-4 | — |
-| R8 | MC2010 senza ritiro, DIN hc,ef, EN Tab. 7.1N per XD3 | testi primari, poi voce per voce | — |
-| R9 | EC2 6.2.2(6), nota 2 di 6.2.3(3), staffe di classe A (DK) | **26/10 sera: da correggere per la 1.14.3** («aggiungi controllo» di 6.2.2(6)) | priorità alta |
-| R11 | Copriferro NTC, Cmin di default | **26/10 sera: da correggere per la 1.14.3**, con l'aggiornamento del contratto DurabilityContractTests | — |
-| R14 | Dettagli e M–χ: regola dei 15Ø, citazioni | riscontro | — |
-| R16 | DS, torsione: νv invece di νt | testo della media pesata | — |
-| R17 | Classe indicativa di XC3 nei profili EN e UNI | impaginazione del prospetto E.1N | — |
-| R18 | Acciaio incrudente riferito a fyk invece che a fyd | **26/10 sera: da correggere per la 1.14.3**, in fondo all'elenco | priorità alta |
-| R20 | DS, travi: ρw,min nazionale | quando serve il DS delle travi | — |
+Stato al 1/11: nel registro nessuna voce è più «rinviata»; sono tutte corrette o dichiarate (colonna «Stato al 1/11»). Le correzioni
+della 1.16.0 fatte su fonti secondarie (decisione «Fonti secondarie» del 28/10 sera) restano da riscontrare sui testi primari; R16 e R17
+sono nel confronto di lunedì 2/11.
+
+| Voce | Cosa | Serve | Segno | Stato al 1/11 |
+| --- | --- | --- | --- | --- |
+| R4 | MC2010, θmin fisso a 20° | **26/10 sera: da correggere per la 1.14.3** («correggi in base a MC2010») | non cautelativa, priorità alta | corretta, librerie AJ della 1.14.2 |
+| R5 | SLE non lineare con le leggi di progetto | **26/10 sera: dichiarata**, scelta voluta dall'utente; da scrivere nella guida teorica Rev60 | — | dichiarata nella guida teorica Rev60 |
+| R6 | DIN, k5 dei trefoli 0,75 invece di 0,65 | appendice nazionale DIN, poi Model | — | corretta nella 1.16.0 (k5 = 0,65) su fonte secondaria, da riscontrare sul NA DIN |
+| R7 | Interpretazioni di taglio, torsione, SLE e fessurazione | revisione della guida teorica, segno di F-4 | — | dichiarata nella guida teorica Rev62 |
+| R8 | MC2010 senza ritiro, DIN hc,ef, EN Tab. 7.1N per XD3 | testi primari, poi voce per voce | — | corretta nella 1.16.0 (ritiro MC2010 come opzione; DIN hc,ef e XD3 dichiarati), da riscontrare |
+| R9 | EC2 6.2.2(6), nota 2 di 6.2.3(3), staffe di classe A (DK) | **26/10 sera: da correggere per la 1.14.3** («aggiungi controllo» di 6.2.2(6)) | priorità alta | corretta, librerie AJ della 1.14.2 |
+| R11 | Copriferro NTC, Cmin di default | **26/10 sera: da correggere per la 1.14.3**, con l'aggiornamento del contratto DurabilityContractTests | — | corretta, librerie AJ della 1.14.2 |
+| R14 | Dettagli e M–χ: regola dei 15Ø, citazioni | riscontro | — | corretta nella 1.16.0; resta μφ con la bilineare, non calcolata (in coda) |
+| R16 | DS, torsione: νv invece di νt | testo della media pesata | — | corretta nella 1.16.0 (νt); pesi della media da riscontrare sul DK NA, lunedì 2/11 |
+| R17 | Classe indicativa di XC3 nei profili EN e UNI | impaginazione del prospetto E.1N | — | corretta nella 1.16.0 (C30/37); prospetto EN da riscontrare, lunedì 2/11 |
+| R18 | Acciaio incrudente riferito a fyk invece che a fyd | **26/10 sera: da correggere per la 1.14.3**, in fondo all'elenco | priorità alta | corretta, librerie AK della 1.14.4 |
+| R20 | DS, travi: ρw,min nazionale | quando serve il DS delle travi | — | corretta nella 1.16.0; As,min DS della 9.2.1.1(1) resta in sospeso |
 
 Altre voci dopo F5, fuori da F5.15:
 - la voce di infrastruttura dei calcoli dal limitatore (D-2, D-5) e del taglio sullo sfondo (C2/S5-c), fatta per la 1.16.0
   (INFRA-LIMITATORE-01);
 - i bug da decidere del 16/10, decisi il 26/10 sera: BUG-MUR-2b, BUG-PO-5b, BUG-FES-1b, BUG-FES-1c e BUG-TS-2 da correggere per la
-  1.14.3; BUG-SLU-2b e BUG-N7 dichiarati;
+  1.14.3; BUG-SLU-2b e BUG-N7 dichiarati. Corretti fra la 1.14.2 e la 1.14.4 (sezioni della 1.14.3 e della 1.14.4 più sotto);
 - il percorso Wiki (W-idx con la revisione della Wiki) e l'infrastruttura successiva.
 
 ## Rilascio 1.14.2 (librerie nuove, 26 ottobre notte)
@@ -1073,7 +1077,9 @@ Agente `1160-colonna2` (29/10, notte), sulle decisioni Q9 e Q12 del progetto del
   - esito in `decisioni.md`, sezione «Tema scuro».
 
   Seguiti:
-  - [ ] difetti di contrasto della sola Chiara (719 in 28 gruppi), da decidere con l'utente;
+  - [x] difetti di contrasto della sola Chiara (719 in 28 gruppi), da decidere con l'utente; decisi il 27/10 e corretti nella
+    1.14.4 (UI-CONTRASTO-01) e nella 1.15.0 (UI-CONTRASTO-02); le full successive passano il controllo del contrasto (1.16.2:
+    1.520 catture senza difetti);
   - [ ] misura del testo disegnato in OnRender in `ContrastAudit`;
   - [ ] attesa più robusta nelle catture di `str_mista_ponte`;
   - [ ] figure della guida pratica in `supporto/artefatti` (ignorato da git), che fanno fallire lo stadio wiki in un
@@ -1103,8 +1109,11 @@ Agente `1160-colonna2` (29/10, notte), sulle decisioni Q9 e Q12 del progetto del
     - la sezione «Materiali tendini e analisi di esercizio» della guida teorica, a cui rimanda il «?» accanto al tipo
       di analisi della scheda Tensioni, va completata con la scelta fra analisi lineare e non lineare (legami di
       progetto, avviso dell'8/10).
-- [ ] Dopo la release delle correzioni dei bug (richiesta dell'utente della notte fra il 15 e il 16/10, «vorrei che le
-  combo venissero fatte tutte in model»): tutte le combinazioni di carico generate dal generatore di Model.
+- [x] Dopo la release delle correzioni dei bug (richiesta dell'utente della notte fra il 15 e il 16/10, «vorrei che le
+  combo venissero fatte tutte in model»): tutte le combinazioni di carico generate dal generatore di Model. Fatto (1/11): muri dal
+  generatore di Model nella 1.14.4 (COMB-MODEL-01, COMB-MURI-D4D5), decisioni D6–D11 e Bridge Design (COMB-D8) nella 1.16.0; Viviani
+  resta a sé per decisione dell'utente; il generatore dei Modelli ha il servizio (D9), l'interfaccia è nella voce «Generatore
+  automatico delle combinazioni» della Bozza del modulo Modelli ([censimento](combinazioni-model-censimento.md) §5).
   - Generatori: `StandardEN1990.CreateCombinations` e `StandardGeotechnical.Combinations`; le parti variabili favorevoli
     sono casi di carico con γQ,fav = 0.
   - Prima i muri, che usano un generatore proprio: `WallCombinations.Generate` di GPCChecker.Geotechnics, port del
@@ -1112,12 +1121,14 @@ Agente `1160-colonna2` (29/10, notte), sulle decisioni Q9 e Q12 del progetto del
   - Poi il censimento di tutti i moduli che costruiscono le combinazioni da sé e la migrazione modulo per modulo, con
     cattura prima, confronto dopo e differenze nel registro.
   - Collegato al generatore automatico delle combinazioni del modulo Modelli («Bozza del modulo Modelli»).
-- [ ] Secondo anello interno del palo orizzontale, seguiti di F2-16 (decisione dell'utente del 9/10: «aggiungilo nella
+- [x] Secondo anello interno del palo orizzontale, seguiti di F2-16 (decisione dell'utente del 9/10: «aggiungilo nella
   lista di cose da fare successivamente insieme alla correzione vista»):
-  - [ ] anello di diametro diverso dalla prima fila: la distinta di `GPC.Checkers.Concrete.Piles.PileReinforcement`
+  - [x] anello di diametro diverso dalla prima fila: la distinta di `GPC.Checkers.Concrete.Piles.PileReinforcement`
     rifiuta i diametri misti e il calcolo elastico del palo si ferma; serve la distinta per diametro nella libreria
     (release successiva di `lib/Checker`), poi la prova `ElasticPile.UiChecks --inner-ring-only` con l'anello misto;
-  - [ ] report del palo (ReportElasticPile, ReportOrizzontale) con l'anello, quando l'utente sblocca i report.
+    distinta con un gruppo per diametro nella 1.14.2 ([note di rilascio](note-rilascio-1.14.2.md));
+  - [x] report del palo (ReportElasticPile, ReportOrizzontale) con l'anello, quando l'utente sblocca i report. Nella 1.14.4
+    (PO-ANELLO-01).
 - [x] Report di calcolo: non si modificano finché l'utente non lo dice (decisione dell'8/10). Audit 14/10: dall'8/10
   30 commit hanno toccato `src/ANTHEA.Reports` e i report; 8 cambiano testo o comportamento: EXCEL-SOL `504de76e` e
   `9e1ac2ca`; Bridge Design `440db3fd`, `3ecaf795` e `d4762582`; F3.4-U5 `4a3044cb`, autorizzato dall'utente; F4.14
@@ -1176,14 +1187,14 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] Finestra di prova interattiva aggiornata: controllo WPF reale, scorciatoia alle impostazioni e simulazione esplicita dei cinque avvisi MIDAS, senza connessioni o modifiche ai file sorgente. Combinazioni locali e confronto revisioni restano separati dalla preview.
 - [x] Confronto revisioni collegato all’importazione delle copie: elenco e grafica, aggiunte/modifiche/cancellazioni, delta per campo su richiesta, annullamento e report con provenienza; MOD-19.
 - [x] Connettore MIDAS live e aggiornamenti parziali delle copie collegati alla UI, con gestione del rifiuto; collaudi del 12/10, MOD-21 e documentazione importazione.
-- [ ] Storico completo delle copie e dei risultati nel progetto e completamento del worker Straus: integrazione successiva.
+- [ ] Storico completo delle copie e dei risultati nel progetto e completamento del worker Straus: integrazione successiva. Il worker Straus è attivo dalla 1.15.0 (MOD-32); resta lo storico.
 - [x] Rilascio Modelli, guide globali e merge conclusi il 12/10 su autorizzazione dell’utente: main/origin `9b42f093`, set S coerente (Converter 2.0.3.1 e Model 5.0.0.1), guide pratiche/teoriche Rev36 con Word/PDF e indici aggiornati. Full `20261012-170114-release-s-full`: 88 PASS, 1 KNOWN storico ora risolto in F3.3a, zero NEW-FAIL; tutte le suite WPF Modelli superate. Impronte delle DLL ricontrollate il 12/10 sera. Resta aperto soltanto quanto elencato nelle voci successive (prestazioni, generatori, principali, archivio storico).
 - [x] 11 ottobre: esperimento sui 49 casi statici completi, 73 definizioni Add/Envelope, misure C# e confronto numerico. Somma delle combinazioni fuori dalla UI e dalle librerie di produzione; dettagli e limiti in [benchmark casi base](../sviluppo/modelli-benchmark-casi-base.md), registro MOD-07.
 - [x] 12 ottobre: gestione delle combo importate e locali, CRUD, griglia coefficienti, finestra staccabile, persistenza e risultati GPC collegati a vista/tabelle. Cache del modello normalizzato, governanti e stati concomitanti; GPC.Converter acquisito dallo stesso set R. Confronto di 109744 valori plate riuscito. [Dettagli e limiti](../sviluppo/modelli-combinazioni.md), MOD-30.
 - [x] Collaudo combinazioni: full 83 PASS / 1 KNOWN / 0 nuovi fallimenti; 426 controlli logici finali e tre suite WPF Modelli passate. Model rieseguito sul set rilasciato: 1192 PASS, 2 esclusi; importazione malformata rifiutata prima di modificare il documento.
 - [x] Combinazioni nella scheda sinistra, ordine Vista/Modello/Combinazioni/Risultati/Verifiche/Report e barra ridotta coerente; finestra staccabile conservata. Coefficienti ripuliti solo nella visualizzazione. Corsa finale `20261012-154019-combo-tab-sinistra-finale`, nessun nuovo fallimento.
-- [ ] Ottimizzare il motore integrato e ampliare il confronto a ENV_SLU completo e beam reali: ricostruzione a caldo misurata 7,606 s, obiettivo 5 s non ancora raggiunto. Il precedente inviluppo MIDAS completo ha superato 180 s; i tempi del prototipo non certificano quelli GPC.
-- [ ] Diagnostica e scalabilità degli inviluppi annidati: anticipare in UI il limite di 4096 alternative e spiegare il rifiuto, mantenendo la definizione. Nel documento aperto il 12/10 sera ENV_SLE_R è una somma lineare con G1 fra i termini e genera CombinationExpansionLimit; nella copia MIDAS conservata è invece un inviluppo delle cinque SLE_R (736 alternative). ENV_SLU originale genera 26168 alternative. Verificare conteggio e dipendenze in GPC, poi valutazione senza espansione cartesiana completa, con attesi indipendenti e governanti concomitanti. Non cambiare automaticamente il tipo dalla sola etichetta ENV.
+- [ ] Ottimizzare il motore integrato e ampliare il confronto a ENV_SLU completo e beam reali: ricostruzione a caldo misurata 7,606 s, obiettivo 5 s non ancora raggiunto. Il precedente inviluppo MIDAS completo ha superato 180 s; i tempi del prototipo non certificano quelli GPC. 1.16.1: motore riscritto dall'agente `combo-modelli` (cache di ricostruzione di GPCModel 5.28, risultati identici bit per bit) e misurato sui modelli MIDAS sintetici 100×50, 500×100 e 1000×100 (`supporto/artefatti/combo-modelli`); manca la misura sul modello reale; tre scelte da decidere con l'utente il 2/11.
+- [~] Diagnostica e scalabilità degli inviluppi annidati: anticipare in UI il limite di 4096 alternative e spiegare il rifiuto, mantenendo la definizione. 1.16.1: la prima parte è fatta con COMBO-B2 (il catalogo conta le alternative con le regole di GPC e mostra «Non disponibile» con il numero e il rimedio); resta la valutazione senza espansione completa. Nel documento aperto il 12/10 sera ENV_SLE_R è una somma lineare con G1 fra i termini e genera CombinationExpansionLimit; nella copia MIDAS conservata è invece un inviluppo delle cinque SLE_R (736 alternative). ENV_SLU originale genera 26168 alternative. Verificare conteggio e dipendenze in GPC, poi valutazione senza espansione cartesiana completa, con attesi indipendenti e governanti concomitanti. Non cambiare automaticamente il tipo dalla sola etichetta ENV.
 - [ ] Generatore automatico delle combinazioni: fase successiva richiesta dall'utente, con regole e coefficienti nelle librerie GPC e collegamento al medesimo catalogo/editor. Non implementato nella gestione manuale.
 - [ ] **In coda dopo combinazioni e inviluppi — richiesta del 12 ottobre:** calcolo GPC delle componenti principali dei plate (`Mmax`, `Mmin`, `Fmax`, `Fmin`) e collegamento al selettore Principali, contouring, tabelle e report. Per ogni combinazione calcolare prima lo stato locale combinato e poi le principali; per gli inviluppi valutare le principali dei singoli stati simultanei e conservarne estremi e governanti. Non sommare le principali dei casi base né ricavarle da estremi locali non simultanei. Confronti indipendenti e MIDAS; distinguere disponibilità dei dati e supporto al calcolo nella UI. Gli assi principali delle sezioni delle aste richiedono una copertura distinta.
 - [x] 11 ottobre: contouring plate con media opzionale ai vertici condivisi, confini per proprietà/materiale/terne, legenda sul campo grafico e dati originali invariati. Attesi manuali e verifica dei valori nel buffer GPU; 129 controlli di logica e 74 WPF reali, registro MOD-08.
@@ -1306,7 +1317,7 @@ Nessun motore legacy spostato o rimosso; nessun atteso indipendente modificato.
 - [x] Regressione PARATIE-08 su 03da426c/snapshot-13: standard 74 PASS, 0 NEW-FAIL, sorgenti ANTHEA invariati durante tutta la corsa.
 - [x] PARATIE-09: sezioni tubolari CHS classe 1–2 N–M–V in Checker Steel, EI e azioni per interasse in Design; schema 7, editor/esiti/report/CSV. 13 test Steel, due Design, 303 controlli applicativi e 31 WPF PASS; candidato 3134 PASS, stessi 17 fallimenti storici ammessi. [Evidenze e limiti](../paratie/incremento-07.md). Altre famiglie/classi, instabilità della membratura e collaudo complessivo restano aperti.
 - [x] Regressione PARATIE-09 su f52db8d8/snapshot-14: standard 74 PASS, 0 NEW-FAIL, sorgenti ANTHEA invariati durante tutta la corsa.
-- [ ] Richiesta in coda del 19/10, confermata: approfondimento della testa di pali e micropali rispetto al piano di campagna, tensioni litostatiche comprensive del ricoprimento nelle verifiche verticali/orizzontali. [Interpretazione e accettazione](../paratie/seguito-pali-interrati.md). Da implementare dopo paratie, prima dell'integrazione finale.
+- [x] Richiesta in coda del 19/10, confermata: approfondimento della testa di pali e micropali rispetto al piano di campagna, tensioni litostatiche comprensive del ricoprimento nelle verifiche verticali/orizzontali. [Interpretazione e accettazione](../paratie/seguito-pali-interrati.md). Da implementare dopo paratie, prima dell'integrazione finale. Fatto nella 1.14.3 (PO-TESTA-01).
 - [x] PARATIE-10: sezioni circolari in c.a., SLU/SLE in Checker Concrete e dettagli separati; EI e trasferimento in Design. Schema 8, editor, persistenza, report/CSV. Sei nuovi test Design, 483 controlli applicativi e 35 WPF PASS; candidato 3140 PASS, stessi 17 fallimenti storici Steel ammessi. [Evidenze e limiti](../paratie/incremento-08.md). Progetto automatico, matrice e rilascio restano aperti.
 - [x] Regressione PARATIE-10 su 6a84c4e9/snapshot-15: standard con stadio UI filtrato, 94 PASS e nessun nuovo fallimento. Corretto un falso positivo del driver WPF booleano (raccolta vuota); riesecuzione dedicata con 35 controlli PASS e schermata verificata, produzione e attesi numerici invariati.
 - [x] PARATIE-11: carichi distribuiti lineari per intervalli e fasi, integrazione consistente e trasferimento di forza/coppia alla stabilità globale. Schema 9, editor scorrevole, diagramma q netto, persistenza, CSV e report. 60 test Geotechnics, 1206 applicativi/MVVM, 39 WPF e architettura PASS; candidato 3150 PASS, stessi 17 fallimenti storici ammessi. Cattura numerica preesistente identica. [Evidenze e limiti](../paratie/incremento-09.md). Regressione standard su 8db29979/snapshot-17: 74 PASS, 0 NEW-FAIL, sorgenti invariati. Diffusione dei carichi sul terreno e matrice completa ancora aperte.
@@ -1400,5 +1411,5 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [x] Dieci fogli GPC + MVVM: cinque climatici, permanenti/sovraccarichi, combinazioni, traffico, ripartizione rigida/deformabile e urti. Model b961d663 e Checker 5e0bca33; set candidato completo con tutte le suite GPC superate; 37 prove mirate net8 e 37 net472. ANTHEA: 442 controlli dei venti scenari, architettura 583, esempi 359, dieci moduli WPF e tre temi 168. Nessuna baseline architetturale alzata. [Dettagli](azioni-ntc-ec.md).
 - [x] Guide globali Rev63, tredici schemi originali, venti esempi ANTHEA/CSV/Word/PDF. Quattro articoli Wiki aggiunti: 82 totali. Confronto F3: 1.201 file, 80.836 transizioni ammesse, zero differenze residue; attesi ingegneristici invariati. Corretto il confronto della sola versione GPC nella vista Fondazioni.
 - [x] Full ANTHEA 4e2f29cc: 161 PASS e un rilievo grafico; correzione isolata fa09abc8, nove suite interessate PASS. Esito consolidato 162 PASS, 73 suite UI, 1.520 catture di contrasto senza difetti (AZIONI-03). Build locale pronta in supporto/artefatti/azioni-climatiche/app, con esempi, guide e manifest. Azioni sismiche escluse. Nessun merge né push: vincolo dell'utente fino a sera.
-- [ ] **Da completare: neve EN A1:2015.** Stato aperto confermato dall'utente il 30/10; integrare quando disponibile il testo integrale. Letto il PDF UNI EN 1991-1-3:2004 fornito dall'utente (92 pagine, senza emendamento). Dichiarata e collaudata soltanto l'edizione 2003+AC:2009; anteprima ufficiale insufficiente per completare l'allineamento. Nessuna richiesta di reperimento ancora pendente presso l'utente.
+- [ ] **Da completare: neve EN A1:2015.** Stato aperto confermato dall'utente il 30/10; integrare quando disponibile il testo integrale. Il 1/11 l'utente ribadisce di non avere questa norma («la neve non ho quella norma specifica»): la voce non aspetta l'utente, ma il reperimento del testo per altra via. Letto il PDF UNI EN 1991-1-3:2004 fornito dall'utente (92 pagine, senza emendamento). Dichiarata e collaudata soltanto l'edizione 2003+AC:2009; anteprima ufficiale insufficiente per completare l'allineamento. Nessuna richiesta di reperimento ancora pendente presso l'utente.
 - [x] Integrazione Azioni autorizzata il 30/10 («merge e versione delle varie librerie», anche ramo principale ANTHEA): Model 5.32.0.0 e Design 0.44.0.0, dipendenze incrementate. Suite complete delle librerie superate; Model a6f664c9 e Checker 0d2dec71 integrati e pubblicati sui rispettivi master dopo conferma esplicita al push. Set ufficiale AO installato; full ANTHEA su 02cd4d2d: 162 PASS, zero fallimenti, 73 suite UI prima e dopo, F3 senza differenze non ammesse, 1.566 catture di contrasto senza difetti. Ramo integrato su `main` dopo il full; push su `origin/main` esplicitamente autorizzato. A1:2015 resta aperto come indicato sopra. [Stato e versioni](azioni-ntc-ec.md).

@@ -2142,3 +2142,23 @@ Il collaudo integrale sul set ufficiale AO è concluso su `02cd4d2d`: 162 PASS, 
 ## 30 ottobre 2026 — materiali delle armature e 1.16.2
 
 L'utente richiede materiale selezionabile per ogni barra nella prima scheda della sezione in c.a., lo stesso per i trefoli con tensione iniziale, quindi compilazione e installer 1.16.2. La scelta è un dato dell'editor trasferito alle classi GPC e salvato nell'archivio nativo. Nessuna formula nuova in ANTHEA. Gli adattatori con un solo parametro d'acciaio non ignorano gli override: le sole verifiche incompatibili restano da completare con motivazione. Guide Rev64; nuova prova rapida dedicata; mantenute tutte le 73 suite UI. Dettagli nel verbale installer-1.16.2.md.
+
+## 1 novembre — ordine del piano, neve e rami locali
+
+1. **Piano.** «Sì, aggiornalo». In `piano.md` sono segnate come fatte le voci già chiuse nelle versioni precedenti:
+   - combinazioni generate da Model;
+   - secondo anello del palo orizzontale;
+   - teste dei pali sotto il piano campagna;
+   - contrasto della Chiara;
+   - esportazioni degli spettri e contrasto a 96 DPI.
+
+   La tabella della coda dopo il refactoring ha la colonna «Stato al 1/11». Nessuna decisione nuova sulle voci.
+2. **Neve EN A1:2015.** «la neve non ho quella norma specifica». La voce resta da completare, come chiesto il 30/10 («lasciala aperta
+   e segnala come da completare»). Non aspetta l'utente, ma il reperimento del testo per altra via.
+3. **Rami locali.** «rimuovi i rami locali non più utilizzati».
+   - Tolti i rami di ANTHEA già contenuti in `origin/main`: `codex/release-1.16.2`, `refactoring/f5-azioni-climatiche`,
+     `refactoring/1160-paratie-flusso-nullo` con il suo worktree.
+   - Le prove del worktree delle paratie sono copiate in `supporto/artefatti/1160-paratie-flusso-nullo`.
+   - Tolti anche due rami mai uniti e non più usati: `refactoring/rel-af`, riserva AF della 1.14.0, e `prova/f5-viste-3`, prova
+     portatile. Prima sono salvati nel bundle `ANTHEA-f5-ripresa/backup-rami/anthea-rel-af-prova-f5-viste-3.bundle`.
+   - Restano `main`, `refactoring/f5` e `codex/steel-2.113-integration`, il ramo del worktree di un'altra sessione.
