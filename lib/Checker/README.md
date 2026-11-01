@@ -1,5 +1,25 @@
 # DLL Checker
 
+**Release AR — dati delle sovrapposizioni nel verificatore del modello (1 novembre 2026, notte).** Set ufficiale da Model
+`1a51dad5` e Checker `c2ee6cf0` su origin/master (regola dell'utente del 29/10; decisione «Sì, integra» del 1/11 notte). Geometry
+`6734eee1` e Utilities `e57b440b` invariati. Contenuto rispetto ad AQ:
+- GPCModel 5.36.0.0: campi facoltativi `LappedPercent` (da 0 a 100) e `LapLayers` (almeno 1) in `ConcreteDetailingData`, da dare
+  insieme o nessuno dei due; documenti senza i campi riscritti identici (agente `ca-metodi`, terzo giro); ModelData 0.3.0.22,
+  Persistence 3.4.0.12 e GPC.Converter 2.12.0.2 ricompilati; contiene il lavoro Codex «azioni estese» già su origin/master
+  (Model 07fb7618, Checker c79f2c81);
+- GPCModelChecker 2.37.0.0: i due campi passano a `LapArrangementData` per EN 1992-1-1 8.7.2(4) nelle sezioni EN, UNI e DS in zona
+  di sovrapposizione; senza i campi resta «dati insufficienti»;
+- GPCChecker.Concrete 0.35.0.2: la percentuale di `LapArrangementData` ammette anche 0;
+- ricompilazioni all'ultimo componente: Steel 2.128.0.2, CompositeBridge 1.23.0.3, Geotechnics 0.27.0.12, Masonry 0.10.0.27,
+  GPC.Design 0.45.0.1.
+
+`Release-Set.ps1 -Previous` rispetto ad AQ: Model Core 63 e UnitTest 1615 PASS (12 ignorati); Concrete 962, Steel 122,
+CompositeBridge 420, Geotechnics 202, Calculation 175, ShallowFoundation 29, EmbeddedWalls 99, Steel.Members 7035, Design 274 net8 e
+273 net472, ModelChecker 670. Zero fallimenti; API solo con aggiunte (GPCModel: le stesse 26 rimozioni approvate di AQ, nessuna
+nuova). Contratti dei dettagli, K0 e verificatore del modello invariati. Le DLL sono identiche bit per bit al candidato
+`set-ca-sovrapposizioni-1` dell'agente. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; set completo in
+`supporto/artefatti/librerie-20261101-ar`.
+
 **Release AQ — modulo Modelli punto 8 e controlli del c.a. (1 novembre 2026, ANTHEA 1.17.0).** Set ufficiale da Model
 `f4f78752` e Checker `eb16e72c` su origin/master (regola dell'utente del 29/10). Geometry `6734eee1` e Utilities `e57b440b`
 invariati. Contenuto rispetto ad AP:

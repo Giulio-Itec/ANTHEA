@@ -7,6 +7,12 @@
         <member name="T:GPC.Design.Actions.Climate.SnowActions">
             <summary>Characteristic roof snow loads, vertical and referred to the horizontal projection.</summary>
         </member>
+        <member name="T:GPC.Design.Actions.Construction.ConstructionActions">
+            <summary>Construction load geometry and schedule, not a staged structural analysis or a combination generator.</summary>
+        </member>
+        <member name="T:GPC.Design.Actions.Cranes.CraneActions">
+            <summary>One overhead bridge crane on two straight runways. EN 1991-3:2006 load groups, not runway verification.</summary>
+        </member>
         <member name="T:GPC.Design.Actions.Cslp103Data">
             <summary>Immutable numerical tables of the public CSLP Spettri-NTC 1.0.3 workbook.</summary>
         </member>
@@ -17,9 +23,15 @@
             No formulas or executable code are loaded from documents at runtime.
             </summary>
         </member>
+        <member name="T:GPC.Design.Actions.Fire.FireActions">
+            <summary>Thermal boundary actions only. No conduction, section temperature, strength or fire resistance solver.</summary>
+        </member>
         <member name="T:GPC.Design.Actions.General.ActionCombinations">
             <summary>Building action combinations. Enumerates presence/leading alternatives and common-source permanent factors.
             Optional signed effects are for one response of a LINEAR model; the coefficient matrix remains the primary result.</summary>
+        </member>
+        <member name="T:GPC.Design.Actions.Hydraulics.HydraulicActions">
+            <summary>Hydrostatics and stationary drag from a supplied hydraulic study. No flood, seepage or scour solver.</summary>
         </member>
         <member name="T:GPC.Design.Actions.IsolationSpectra">
             <summary>Equivalent linear isolation spectra, NTC 2018 §7.10.5.3.2. Does not verify the applicability of the structural analysis model.</summary>
@@ -35,6 +47,26 @@
         </member>
         <member name="T:GPC.Design.Actions.NtcSpectra">
             <summary>Numerical compatibility with CSLP Spettri-NTC 1.0.3 (NTC 2008). All accelerations are in g, periods in seconds.</summary>
+        </member>
+        <member name="T:GPC.Design.Actions.Prestressing.PrestressActions">
+            <summary>Planar tendon, constant section and assigned concrete stress changes. Friction, compatible anchorage draw-in,
+            elastic shortening, relaxation and simplified coupled deferred losses. No structural or anchorage-zone verification.</summary>
+        </member>
+        <member name="M:GPC.Design.Actions.Prestressing.PrestressActions.RelaxationLoss(GPC.Model.Actions.Prestressing.PrestressRelaxationClass,System.Double,System.Double,System.Double,System.Double)">
+            <summary>Constant-stress relaxation loss in MPa. 20 °C, hours since tensioning, rho1000 in percent.
+            The final conventional value is capped at 500000 h per §3.3.2(8).</summary>
+        </member>
+        <member name="M:GPC.Design.Actions.Prestressing.PrestressActions.SubsequentRelaxationLoss(GPC.Model.Actions.Prestressing.PrestressRelaxationClass,System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>EN Annex D equivalent-time continuation after an instantaneous stress change.
+            Current stress excludes the already consumed relaxation loss; previous loss is never counted twice.</summary>
+        </member>
+        <member name="T:GPC.Design.Actions.TimeEffects.ConcreteDeformationLaw">
+            <summary>EN 1992-1-1:2004 §§3.1.2–3.1.4 and Annex B; optional NTC 2018 Table 11.2.Va drying values.
+            Constant 20 °C and RH, normal-weight concrete, h0 >= 100 mm. Shortening negative.</summary>
+        </member>
+        <member name="T:GPC.Design.Actions.TimeEffects.ConcreteTimeActions">
+            <summary>Linear ageing viscoelasticity by stress-increment superposition. Optional isolated axial bar with end spring.
+            This is not a cracked reinforced-concrete section or a frame solver.</summary>
         </member>
         <member name="T:GPC.Design.Actions.Traffic.TransverseDistribution">
             <summary>Courbon or deformable transverse strip with a converged longitudinal sine expansion.
