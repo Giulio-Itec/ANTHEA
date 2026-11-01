@@ -68,6 +68,15 @@ internal static class ConcreteAuxiliaryContractChecks
             foreach (var value in StructuralQueries.ConcreteQuickResistance(section, ws, -100, elastic)) Same(value);
         var curveOptions = ws["momento_curvatura"]!.AsObject(); curveOptions["passi"] = "10";
         var curve = StructuralQueries.ConcreteCurvature(section, ws, curveOptions); Same(curve);
+        // μφ della scheda «Momento–curvatura» (1/11/2026): stessa curva, duttilità in più, fuori dal JSON delle esportazioni e del report.
+        var withDuctility = StructuralQueries.ConcreteCurvature(section, ws, curveOptions, true); Same(withDuctility);
+        Check(curve.Ductility is null && curve.DuctilityMessage is null && withDuctility.Ductility is { } du && du.CurvatureDuctility > 1
+            && Math.Abs(du.CurvatureDuctility - du.UltimateCurvature / du.YieldCurvature) <= 1e-12 * du.CurvatureDuctility
+            && Math.Abs(du.YieldCurvature - du.ResistingMoment / du.FirstYieldMoment * du.FirstYieldCurvature) <= 1e-12 * du.YieldCurvature
+            && du.ResistingMoment == withDuctility.LimitMoment && withDuctility.Points.Select(p => (p.Moment, p.Curvature)).SequenceEqual(curve.Points.Select(p => (p.Moment, p.Curvature))),
+            "Duttilità in curvatura della scheda: definizioni di φyd e μφ, MRd del punto limite, curva invariata");
+        string plainJson = J.Node(Original(curve))!.ToJsonString(), ductilityJson = J.Node(Original(withDuctility))!.ToJsonString();
+        Check(plainJson == ductilityJson && !ductilityJson.Contains("Ductility", StringComparison.Ordinal), "μφ fuori dal JSON della curva (esportazioni e report)");
         Check(curve.Points.Count >= 11 && shearRows > 0 && torsionRows > 0 && mutableDetails > 0 && comparison.Values > 1000, $"Copertura dei contratti CA insufficiente: curve {curve.Points.Count}, taglio {shearRows}, torsione {torsionRows}, valori {comparison.Values}, stato {curve.Status}");
         bool Native(Type t) => t.Assembly == typeof(SezioneCA).Assembly || t.Assembly.GetName().Name!.StartsWith("GPC")
             || t.HasElementType && Native(t.GetElementType()!) || t.IsGenericType && t.GenericTypeArguments.Any(Native);
