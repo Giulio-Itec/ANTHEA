@@ -14080,6 +14080,29 @@
       ]
     },
     {
+      "id": "COMBO-B4",
+      "data": "2026-11-01",
+      "fase": "dopo la 1.16.2 / combo-chiusura",
+      "titolo": "Modelli: definizione importata rinominata come un'altra della sua tabella",
+      "famiglia": "modelli/combinazioni",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "I risultati di una combinazione si chiamano «nome [sorgente]». Il salvataggio di una definizione controllava i nomi solo fra le definizioni ANTHEA: una definizione importata (LCOM-GEN e simili) modificata e rinominata come un'altra della stessa tabella era accettata, il catalogo mostrava due definizioni con lo stesso nome e il calcolo della seconda falliva all'aggancio con «Il nome del risultato calcolato coincide con un risultato esistente». Il salvataggio la rifiuta ora con il motivo.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelCombinations.cs"
+      ],
+      "segno": "Solo un salvataggio rifiutato prima di un errore; nessun valore cambia.",
+      "effetto_quantificato": "Rinomina di LCOM-GEN/B in «A» con LCOM-GEN/A presente: «Esiste già una combinazione LCOM-GEN con questo nome: i risultati avrebbero lo stesso nome.» invece del salvataggio e dell'errore al secondo calcolo.",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "«chiudi combo e cerca possibili ottimizzazioni»; ricerca dei bug come nel prompt del 29/10; regola «Approvati se spiegati».",
+        "esito": "Correzione nel commit dedicato del ramo refactoring/combo-chiusura."
+      },
+      "test": [
+        "ModelWorkspace.Checks: COMBO-B4 (rinomina rifiutata; con un nome diverso entrambe le importate si calcolano e si agganciano)"
+      ]
+    },
+    {
       "id": "AZIONI-01",
       "data": "2026-10-30",
       "fase": "Azioni NTC / EN",
