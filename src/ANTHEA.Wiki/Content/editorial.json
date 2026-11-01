@@ -1523,7 +1523,10 @@
     "references": [],
     "title": "Risultati dei modelli per fasi",
     "order": 211,
-    "summary": "Identità di fase e passo, riferimento degli spostamenti, copertura e limiti della lettura degli stage."
+    "summary": "Identità di fase e passo, riferimento degli spostamenti, copertura e limiti della lettura degli stage.",
+    "keywords": [
+      "reologia"
+    ]
   },
   "guide:Esaminare le sezioni del modello": {
     "area": "FEM e modellazione",
