@@ -45,7 +45,14 @@ public sealed partial class ModelViewerViewModel
     public string CombinationOrigin=>SelectedCombination is {} selected&&!IsCombinationDirty
         ?$"{selected.Definition.Source} · {selected.State}. {selected.Message}"
         :"Definizione locale: salva le modifiche prima di calcolare.";
-    public string CombinationActionLabel=>SelectedCombination?.State=="Calcolata"?"Visualizza risultati":"Calcola e visualizza";
+    public string CombinationActionLabel=>SelectedCombination?.State!="Calcolata"?"Calcola e visualizza":RecalculatesPrincipals(SelectedCombination)?RecalculatePrincipalsLabel:"Visualizza risultati";
+    public const string RecalculatePrincipalsLabel="Ricalcola con le componenti principali";
+    /// <summary>Decision of the user of 1/11/2026 evening («Calcolate + avviso»): a combination calculated before the principal components of the
+    /// plates (results of 1.16.x still valid) stays «Calcolata»; when its saved results have plates and no principal components and the
+    /// combination can have them (within the alternatives of GPC), the command calculates it again instead of showing the saved results.</summary>
+    bool RecalculatesPrincipals(ModelCombinationAvailability? combination)=>combination is {State:"Calcolata"} c&&Snapshot is {} snapshot&&
+        snapshot.Results.Any(r=>r.Combination?.DefinitionId==c.Definition.Id&&r.Values.Length>0&&r.Fields?.Any(f=>f.Family=="PLATE"&&f.Axes=="PRINCIPAL")!=true)&&
+        !ModelCombinations.ExceedsExpansion(snapshot,c.Definition.Id);
     public string CombinationRules=>SelectedCombinationKind==1
         ?"Ogni termine è un’alternativa. Gli estremi sono calcolati per componente; il governante conserva il proprio stato concomitante."
         :"I termini vengono sommati con i coefficienti indicati. Un inviluppo annidato genera più alternative.";
@@ -180,7 +187,7 @@ public sealed partial class ModelViewerViewModel
     {
         var snapshot=Snapshot!;string id=SelectedCombination!.Definition.Id;
         var cached=snapshot.Results.FirstOrDefault(r=>r.Combination?.DefinitionId==id);
-        if(SelectedCombination.State=="Calcolata"&&cached!=null)
+        if(SelectedCombination.State=="Calcolata"&&cached!=null&&!RecalculatesPrincipals(SelectedCombination))
         {ShowCombinationResult(cached.Name);CombinationMessage="Risultati già calcolati: visualizzazione dalla copia salvata, senza nuovo calcolo.";return;}
         using var cancellation=CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token,cancellationToken);
         IsCombinationBusy=true;IsBusy=true;NotifyCombinationCommands();

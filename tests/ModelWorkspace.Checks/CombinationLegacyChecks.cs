@@ -43,6 +43,10 @@ static partial class Program
             Check(vm.Combinations.Count(c => c.State == "Calcolata") == 2 && vm.Cases.Contains(max) &&
                 vm.ResultAvailability.StartsWith("Componenti principali non calcolate per questa combinazione", StringComparison.Ordinal),
                 "legacy revision: the viewer opens them «Calcolata»; asking the principal components proposes the calculation again");
+            vm.SelectedCombination = vm.Combinations.Single(c => c.Definition.Id == envelope);
+            Check(vm.CombinationActionLabel == ModelViewerViewModel.RecalculatePrincipalsLabel && vm.CalculateCombinationCommand.CanExecute(null) &&
+                vm.ResultAvailability.Contains(ModelViewerViewModel.RecalculatePrincipalsLabel, StringComparison.Ordinal),
+                "legacy revision: the command of a combination without principal components calculates it again, as the notice says");
         }
         // Written once, the document has the revisions of the definitions: nothing to convert at the next opening.
         ProjectModelStore.Set(container, current, id);

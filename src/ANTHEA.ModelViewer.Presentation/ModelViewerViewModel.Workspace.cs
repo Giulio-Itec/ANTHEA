@@ -159,7 +159,7 @@ public sealed partial class ModelViewerViewModel
             : SelectedAxes == 1 ? (Snapshot?.Results.FirstOrDefault(r => r.Name == SelectedCase)?.Combination is { } derivation
                 ? ModelCombinations.ExceedsExpansion(Snapshot, derivation.DefinitionId)
                     ? "Componenti principali non disponibili: oltre 4096 stati alternativi GPC cerca gli estremi termine per termine, mentre le principali richiedono ogni stato."
-                    : "Componenti principali non calcolate per questa combinazione: calcolala di nuovo con GPC per ottenerle dagli stati simultanei."
+                    : "Componenti principali non calcolate per questa combinazione (risultati di una versione precedente): calcolala di nuovo con «" + RecalculatePrincipalsLabel + "» nel gestore delle combinazioni, per ottenerle dagli stati simultanei."
                 : "Componenti principali non importate per questo caso. Non si ricavano dagli estremi non simultanei di un inviluppo.")
             : raw.Count > 0 ? "Nessun risultato negli elementi attualmente visibili. Usa «Mostra tutto»."
             : $"Nessun risultato {Family} disponibile per questa combinazione nella copia importata.";
