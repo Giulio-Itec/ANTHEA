@@ -1789,5 +1789,21 @@
     "file": "tests/fixtures/f3/transitions-f5-wiki.json",
     "record": "R-1162-MAT",
     "note": "Only exact changes in two Wiki articles. All engineering expectations and historical captures untouched."
+  },
+  "editorial_transitions_rev65": {
+    "capture": "supporto/artefatti/ci/20261101-200543-guide-1170-b/ui_f3-equivalence/cattura",
+    "before_sha256": "adc344d31c53a39f26b182682d50519062351d8b9d4a3b060ff57a3ba7cf3fd1",
+    "after_sha256": "4e015e322880be7484663b9ffe89239c78065de1d4beecd0e270f0fb80f1e611",
+    "counts": {
+      "previous": 2944,
+      "current": 3127,
+      "added": 183,
+      "replaced": 397,
+      "moved": 96,
+      "removed": 0
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "F5-REL-1170-01",
+    "note": "Only exact changes in four Wiki articles and two searches (1169 differences of the capture, all in wiki/). All engineering expectations, reports and historical captures untouched."
   }
 }

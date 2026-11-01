@@ -14457,6 +14457,57 @@
       "attesi": "Catture della scheda: tests/fixtures/f5-sezione/storica/ispezione/momento-curvatura.txt, solo le righe «[ispezione] curvatura testo» dei calcoli, con il blocco della duttilità in coda al testo; valori della libreria contro il riferimento indipendente tools/attesi/duttilita_curvatura.py di Checker e contro la variante nativa (MomentCurvatureDuctilityTests).",
       "effetto_anthea": "Scheda «Momento–curvatura» della sezione c.a.: testo del risultato con la duttilità in curvatura; tempo di calcolo della scheda maggiore del ramo a curvatura controllata.",
       "evidenze": "supporto/artefatti/ca-metodi-2/ci-e (Application.Tests, Testing.Tests, ConcreteLibraryAdapter.Checks e /attesi, wiki/manuale, Presentation.Tests/sezione-ca, ui/check-sezione-view, ui/f3-equivalence: 1201 file, 0 differenze non ammesse) e supporto/artefatti/ca-metodi-2/traccia-mc-classificazione.txt (3 righe su 410: μφ 6,31 e 2,608; la terza curva, con il tension stiffening, «non calcolata»); librerie del ramo lib-ca/metodi-2 (Checker ebc52e9a…eb16e72c con il merge di origin/master 50979c27, GPCChecker.Concrete 0.35.0.0; Model fe353243), set candidato lib-ca-metodi/set-ca-metodi-5"
+    },
+    {
+      "id": "F5-REL-1170-01",
+      "data": "2026-11-01",
+      "fase": "1.17.0, guide Rev65",
+      "titolo": "Wiki: differenze editoriali delle guide Rev65",
+      "famiglia": "guide/wiki",
+      "modulo": "Wiki",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Le guide pratica e teorica Rev65 (commit 9bc1ed68) integrano i testi «Per le guide» dei lavori del 1/11 e il testo della 1.16.1 rimandato alla revisione successiva. Pratica, capitolo Modelli e importazione: stati del catalogo delle combinazioni («Calcolata», «Da calcolare», «Casi mancanti», «Sorgente incompleta», «Vuota», «Non disponibile»), alternative ±Q, preparazione GPC e scrittura del risultato in background, risultati scartati solo per le definizioni cambiate (COMBO-REV-01), progetti della 1.16.2 «Da calcolare», nomi delle definizioni importate (COMBO-B4), combinazioni oltre 4096 stati per termini (COMBO-B2-bis), generatore NTC 2018 (COMBO-GEN-01) e componenti principali dei plate (COMBO-PRIN-01); Sezione in c.a., μφ nella scheda Momento–curvatura (CA-METODI-03). Teorica: alternative e calcolo per termini, componenti principali dei plate, generazione NTC 2018 con la regola 100/30 di NTC 2018 §7.3.5, μφ con la bilineare della Circolare 2019 ed esempio a mano, regole EN 8.7.2(3), 8.7.2(4) e 8.8 della libreria (CA-METODI-01 e 02), formule in LaTeX. La cattura ui/f3-equivalence del commit delle guide ha 1169 differenze non ammesse, tutte in wiki/: quattro articoli (guida della sezione c.a., guida dei modelli e dell'importazione, architettura del calcolo e convenzioni, sezione in calcestruzzo armato) e due ricerche («inviluppo», «sisma»). Sono registrate in tests/fixtures/f3/transitions-f5-wiki.json come transizioni esatte; le transizioni delle revisioni precedenti con lo stesso valore prima prendono il valore nuovo e la voce « / F5-REL-1170-01».",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "src/ANTHEA.Wiki/Content/index.json",
+        "src/ANTHEA.Wiki/Content/search.json",
+        "src/ANTHEA.Wiki/Content/sources.props",
+        "tests/fixtures/f3/transitions-f5-wiki.json",
+        "tests/fixtures/f3/manifest.json"
+      ],
+      "segno": "Nessun risultato di calcolo; nessuna differenza fuori dalla Wiki; report di calcolo non toccati.",
+      "effetto_quantificato": "1169 differenze non ammesse (649 righe aggiunte, 493 transizioni assenti, 18 testi, 9 elementi aggiunti): 183 transizioni nuove, 397 sostituite (363 di R-1162-MAT, 14 di F5-REL-1150-01, 8 di F5-REL-112-01, 7 di F5-LIB-02, 3 di AZIONI-01, 2 di F5-REL-1160-01), 96 spostate, 0 tolte; voci da 2944 a 3127.",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "nuova versione di ANTHEA (1.17.0) se tutto passa; AGENTS.md: ogni argomento nuovo nelle due guide globali con le edizioni Word e PDF; regola «Approvati se spiegati» per le transizioni editoriali, come F5-REL-1160-01",
+        "esito": "transizioni registrate; ogni differenza nella Wiki, editoriale"
+      },
+      "test": [
+        "ui/f3-equivalence",
+        "ui/check-wiki-offscreen",
+        "Wiki.Tests",
+        "wiki/indice",
+        "wiki/manuale",
+        "installer/guides"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261101-200543-guide-1170-b (commit 9bc1ed68, prima della registrazione: Wiki.Tests, wiki/indice, wiki/manuale, installer/guides, ui/check-wiki-offscreen PASS; ui/f3-equivalence 1169 differenze non ammesse, tutte nella Wiki)",
+        "supporto/artefatti/ci/20261101-195832-guide-1170-a (prima prova: \\Big non accettato dal motore delle formule della Wiki, sostituito con \\left e \\right nello stesso commit)"
+      ],
+      "voci_collegate": [
+        "F5-REL-1160-01",
+        "R-1162-MAT",
+        "COMBO-REV-01",
+        "COMBO-B4",
+        "COMBO-B2-bis",
+        "COMBO-GEN-01",
+        "COMBO-PRIN-01",
+        "CA-METODI-01",
+        "CA-METODI-02",
+        "CA-METODI-03"
+      ]
     }
   ]
 }
