@@ -49,6 +49,29 @@ internal static class ClimateSheetChecks
                 table.RemoveCommand.Execute(null);expect.That(table.Rows.Count==count,"Rimozione della riga appena aggiunta");
                 sheet.IsReadOnly=true;table.AddCommand.Execute(null);expect.That(table.Rows.Count==count&&table.Editor?.IsReadOnly!=false,"Tabelle in sola lettura");sheet.IsReadOnly=false;
             }
+            if(sheet.IsPrestressing)
+            {
+                expect.That(await sheet.CalculateAsync()&&sheet.PrestressPlots.Count==4&&sheet.PrestressStations.Count>100,"Profili di precompressione proiettati");
+                sheet.SelectedCase=sheet.Cases.Count-1;sheet.SelectedStation=sheet.PrestressStations[sheet.PrestressStations.Count/2];
+                expect.That(sheet.PrestressState.Contains("σeff")&&sheet.SelectedStation.EffectiveMpa<sheet.SelectedStation.InitialMpa,"Stato efficace distinto dal tiro e dal trasferimento");
+                expect.That(csv.Contains("AfterAnchoringMpa")&&csv.Contains("EffectivePrestrain"),"CSV di tutte le stazioni e degli stati");
+                expect.That(sheet.TransferPrestressCommand.CanExecute(null)==(scenario.File!="precompressione-non-aderente"),"Trasferimento a Concrete limitato ai cavi aderenti e agli stati validi");
+                if(scenario.File=="precompressione-posteso")
+                {
+                    var source=ClimateScenarios.PrestressTargetSection();var original=source.DeepClone();var dialog=sheet.CreatePrestressTransferDialog(source);
+                    expect.That(!dialog.ConfirmCommand.CanExecute(null),"Trasferimento: geometria e stati strutturali da associare esplicitamente");
+                    dialog.Confirmed=true;dialog.ConfirmCommand.Execute(null);expect.That(dialog.Result is not null,"Copia della sezione con stato efficace: "+dialog.Error);
+                    var copy=dialog.Result!;var native=Anthea.ConcreteWorkspace.ConcreteSectionArchive.Restore(copy["input"]!.AsObject(),copy["workspace_ca"]!.AsObject(),requireCurrent:true)!;
+                    var tendon=native.Rebars.Single(r=>r.RebarMaterial.SteelType==GPC.Model.Materials.SteelMaterial.SteelTypes.Tendon);
+                    expect.That(Math.Abs(tendon.EpsilonP-sheet.SelectedStation.EffectiveMpa/195000)<1e-12,"σeff diventa predeformazione GPC senza duplicare azioni esterne");
+                    expect.That(JsonNode.DeepEquals(source,original)&&copy["workspace_ca"]!["trefoli"]![0]!["origine_precompressione"]!["sigma_martinetto_mpa"]!.GetValue<double>()==1350,"Origine conservata e sorgente invariata");
+                    var targetDocument=DocumentService.CreateDocument("str_palo");targetDocument["dati"]=copy.DeepClone();string targetFile=Path.Combine(folder,"stato-efficace-concrete.anthea");DocumentService.Save(targetFile,targetDocument);
+                    var reloaded=DocumentService.Open(targetFile)["dati"]!.AsObject();var restored=Anthea.ConcreteWorkspace.ConcreteSectionArchive.Restore(reloaded["input"]!.AsObject(),reloaded["workspace_ca"]!.AsObject(),requireCurrent:true)!;
+                    expect.That(restored.Rebars.Single(r=>r.RebarMaterial.SteelType==GPC.Model.Materials.SteelMaterial.SteelTypes.Tendon).EpsilonP==tendon.EpsilonP,"Stato efficace persistito nelle classi GPC");
+                    source["workspace_ca"]!["trefoli"]![0]!["area"]="150";
+                    expect.Throws<ArgumentException>(()=>ClimateDocument.ApplyPrestressToSection(source,sheet.Result!,sheet.SelectedCase,sheet.SelectedStation.Index,"P1"),"Trasferimento rifiuta area non corrispondente");
+                }
+            }
             if(sheet.IsTimeEffects)
             {
                 expect.That(await sheet.CalculateAsync()&&sheet.TimePlots.Count==4,"Grafici temporali con unità distinte");

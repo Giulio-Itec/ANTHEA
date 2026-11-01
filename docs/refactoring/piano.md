@@ -1449,7 +1449,7 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - [x] Idraulica: contratti GPC, pareti, platee e pile in corrente, scenari, diagrammi, report e quattro esempi. Dodici prove numeriche indipendenti su net8/net472; archivio dei due enum registrato e collaudato. Interfaccia e persistenza verificate; completamento editoriale insieme agli altri fogli.
 - [x] Fasi costruttive: sequenza GPC, carichi EN e assegnati, pianta, report e tre esempi; suite librerie, architettura, MVVM e WPF PASS. Guide nella revisione complessiva.
 - [x] Ritiro, viscosità, maturazione e spostamenti assiali imposti: storia libera e barra integra vincolata, controllo della discretizzazione e del campo lineare, quattro grafici e tre esempi; GPC, MVVM e WPF PASS.
-- [ ] Precompressione e perdite.
+- [x] Precompressione e perdite: attrito, rientro, rilassamento, trasferimento e perdite accoppiate; quattro esempi, grafici e copia della sezione Concrete con stato GPC efficace. Prove numeriche, MVVM/persistenza e WPF PASS.
 - [ ] Gru e carriponte.
 - [ ] Azioni termiche da incendio.
 - [ ] Guide globali e PDF, Wiki, collaudo finale, nuove versioni GPC e integrazione dei branch.

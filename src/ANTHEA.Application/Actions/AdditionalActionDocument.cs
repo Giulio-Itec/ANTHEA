@@ -53,7 +53,7 @@ public static partial class ClimateDocument
         ["Wind"]="Vento",["SnowLow"]="Neve fino a 1000 m",["SnowHigh"]="Neve oltre 1000 m",["Temperature"]="Temperatura"
     }.ToFrozenDictionary();
     private static string Caption(string name)=>ExtendedCaptions.GetValueOrDefault(name)??ExtraCaptions.GetValueOrDefault(name)??Captions.GetValueOrDefault(name)??name;
-    private static string Uncaption(string value)=>TimeCaptions.FirstOrDefault(p=>p.Value==value).Key??ConstructionCaptions.FirstOrDefault(p=>p.Value==value).Key??ExtendedCaptions.FirstOrDefault(p=>p.Value==value).Key??ExtraCaptions.FirstOrDefault(p=>p.Value==value).Key??Captions.FirstOrDefault(p=>p.Value==value).Key??value;
+    private static string Uncaption(string value)=>PrestressCaptions.FirstOrDefault(p=>p.Value==value).Key??TimeCaptions.FirstOrDefault(p=>p.Value==value).Key??ConstructionCaptions.FirstOrDefault(p=>p.Value==value).Key??ExtendedCaptions.FirstOrDefault(p=>p.Value==value).Key??ExtraCaptions.FirstOrDefault(p=>p.Value==value).Key??Captions.FirstOrDefault(p=>p.Value==value).Key??value;
     private static readonly FrozenDictionary<string,string> ExtraLabels=new Dictionary<string,string>()
     {
         ["Name"]="Nome",["Occupancy"]="Destinazione d’uso",["AssignedImposedLoads"]="Assegna sovraccarichi (obbligatorio EN / E1 / G)",["DistributedKnM2"]="Distribuito qk|kN/m²",["ConcentratedKn"]="Concentrato per impronta Qk|kN",["HorizontalKnM"]="Orizzontale locale Hk|kN/m",["ContactSideM"]="Lato impronta EN|m",

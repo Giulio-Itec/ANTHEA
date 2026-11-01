@@ -738,6 +738,42 @@
       "kind": "calcolo",
       "sha256": "f275a61426b4ec56ce50a7a3f84890377c2bf4011c7409c98995484dca81d618",
       "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_precompressione/precompressione-posteso.anthea",
+      "module": "act_precompressione",
+      "title": "Posteso aderente · perdite e stato efficace",
+      "description": "Profilo piano e sezione costante; dati del sistema e tensioni nel calcestruzzo assegnati con fonte. Stato efficace distinto dal tiro.",
+      "kind": "calcolo",
+      "sha256": "1bc7ad006f8f79e0dbda1894094b799e7666d7b95117c13e8fde1dbf6519582a",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_precompressione/precompressione-bilaterale.anthea",
+      "module": "act_precompressione",
+      "title": "Posteso EN · tiro bilaterale simmetrico",
+      "description": "Profilo piano e sezione costante; dati del sistema e tensioni nel calcestruzzo assegnati con fonte. Stato efficace distinto dal tiro.",
+      "kind": "calcolo",
+      "sha256": "70bbf59cedb6b07eb7e2b99d14910e53a6eb62f8f7bf2edf412153d214e7be30",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_precompressione/precompressione-preteso.anthea",
+      "module": "act_precompressione",
+      "title": "Preteso · trasferimento e rilassamento",
+      "description": "Profilo piano e sezione costante; dati del sistema e tensioni nel calcestruzzo assegnati con fonte. Stato efficace distinto dal tiro.",
+      "kind": "calcolo",
+      "sha256": "837c6b8d0ff6a50e48d54a8c966fdceeac88e886f324acf07d8b8015440eefb1",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_precompressione/precompressione-non-aderente.anthea",
+      "module": "act_precompressione",
+      "title": "Posteso interno non aderente · perdita media",
+      "description": "Profilo piano e sezione costante; dati del sistema e tensioni nel calcestruzzo assegnati con fonte. Stato efficace distinto dal tiro.",
+      "kind": "calcolo",
+      "sha256": "b1cf2cdd708cf96aaca2df1e478a4fb45579254f7462419dd37dfc5fe430471c",
+      "origin": "tests/Shared/ClimateScenarios.cs"
     }
   ]
 }

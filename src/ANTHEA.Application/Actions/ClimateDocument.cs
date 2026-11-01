@@ -163,6 +163,11 @@ public static partial class ClimateDocument
                 for(int i=0;i<ordinates.Count;i++)b.AppendLine(string.Join(";",new[]{"Influenza y="+y+" m",names[i],"Momento per forza unitaria alla x dichiarata",ordinates[i]!.GetValue<double>().ToString("G17",CultureInfo.InvariantCulture),"m","M / Punit","Modello meccanico assegnato"}.Select(Q)));
             }
         }
+        if(result["Prestress"]?["Stages"] is JsonArray prestressStages)
+            foreach(var stage in prestressStages)
+                foreach(var point in stage!["Points"]!.AsArray())
+                    foreach(string field in new[]{"JackingStressMpa","AfterFrictionMpa","AfterAnchoringMpa","ShortRelaxationLossMpa","ElasticLossMpa","InitialStressMpa","DeferredLossMpa","EffectiveStressMpa","EffectiveForceKn","EffectivePrestrain"})
+                        b.AppendLine(string.Join(";",new[]{stage["Name"]!.ToString(),field,"x = "+point!["XM"]+" m",point[field]!.GetValue<double>().ToString("G17",CultureInfo.InvariantCulture),field.EndsWith("Mpa")?"MPa":field.EndsWith("Kn")?"kN":"−","Profilo calcolato","GPC.Design · precompressione"}.Select(Q)));
         if(result["TimeEffects"]?["History"] is JsonArray history)
             foreach(var point in history)
                 foreach(string field in new[]{"FreeStrain","ActualStrain","StressMpa","FreeDisplacementMm","ActualDisplacementMm","EcmMpa"})

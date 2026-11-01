@@ -30,6 +30,13 @@ internal static class ClimateScenarios
         yield return S("fasi-deposito-ponte","Fasi EN · deposito temporaneo su ponte",p=>
         {En(p);p["ConstructionStages"]![0]!["Name"]="Deposito";p["ConstructionStages"]![1]!["Name"]="Sgombero";var loads=p["ConstructionLoads"]!.AsArray();loads.RemoveAt(1);loads[0]!["Name"]="Materiali depositati";loads[0]!["Model"]="EnBridgeStorage";loads[0]!["PointXM"]=4;loads[0]!["PointYM"]=2;});
     }
+    internal static JsonObject PrestressTargetSection()
+    {
+        var data=Anthea.Application.Modules.ModuleDirectory.CreateData("str_palo");
+        if(data["workspace_ca"] is not JsonObject)data["workspace_ca"]=new JsonObject();
+        data["workspace_ca"]!["trefoli"]=new JsonArray(new JsonObject{["id"]="P1",["x"]="0",["y"]="0",["area"]="1800",["Ep"]="195000",["fpyk"]="1640",["fpk"]="1860",["eps_u"]="35",["sigma0"]="1000",["diagramma"]="Incrudente",["materiale"]="Trefolo di prova 1860/1640"});
+        return data;
+    }
     internal static IEnumerable<Scenario> All()
     {
         Scenario S(string module,string file,string title,Action<JsonObject> configure)
@@ -42,6 +49,13 @@ internal static class ClimateScenarios
         {En(p);p["NationalParameters"]="Esempio didattico EN 1992-1-1:2004 a 20 °C, cemento N e RH costante; nessuna appendice nazionale implicita.";p["Restraint"]="EndSpring";p["StressEvents"]!.AsArray().Clear();p["Displacements"]!.AsArray().Add(new JsonObject{["Name"]="Spostamento graduale",["AgeDays"]=365,["DisplacementMm"]=.2});});
         yield return S(ClimateDocument.TimeEffects,"tempo-ntc-vincolato","Ritiro impedito · previsione integra e controllo di fessurazione",p=>
         {p["Restraint"]="FixedDistance";p["StressEvents"]!.AsArray().Clear();});
+        void PrestressSource(JsonObject p){p["SystemSource"]="Dati esemplificativi: trefolo 1860/1640, Ep 195000 MPa, μ 0,19, k 0,006 rad/m, rientro 6 mm. Sostituire con ETA e certificati del sistema.";p["ConcreteStressSource"]="Esempio numerico con tensioni uniformi assegnate: Δσc=8 MPa, σc,QP=6 MPa. Da ricavare dall’analisi strutturale del progetto.";}
+        yield return S(ClimateDocument.Prestressing,"precompressione-posteso","Posteso NTC · cavo parabolico e perdite",p=>PrestressSource(p));
+        yield return S(ClimateDocument.Prestressing,"precompressione-bilaterale","Posteso EN · tiro bilaterale simultaneo",p=>{PrestressSource(p);En(p);p["NationalParameters"]="Valori raccomandati EN 1992-1-1:2004, esempio didattico.";p["Jacking"]="BothSymmetric";});
+        yield return S(ClimateDocument.Prestressing,"precompressione-preteso","Preteso NTC · banco, rilassamento e trasferimento",p=>
+        {PrestressSource(p);p["Method"]="PreTensioned";p["Profile"]="Straight";p["StartEccentricityM"]=-.3;p["EndEccentricityM"]=-.3;p["JackingAgeDays"]=0;p["TransferAgeDays"]=7;p["Observations"]![0]!["AgeDays"]=7;});
+        yield return S(ClimateDocument.Prestressing,"precompressione-non-aderente","Posteso EN interno non aderente · perdite medie",p=>
+        {PrestressSource(p);En(p);p["NationalParameters"]="Valori raccomandati EN 1992-1-1:2004, esempio didattico.";p["Method"]="PostTensionedUnbonded";});
         yield return S(ClimateDocument.Snow,"neve-ntc-due-falde","Neve NTC · due falde 30° / 45°",p=>{p["PitchLeftDeg"]=30;p["PitchRightDeg"]=45;p["AltitudeM"]=481;p["Zone"]="II";});
         yield return S(ClimateDocument.Snow,"neve-en-salto","Neve EN · accumulo presso salto",p=>{En(p);p["AssignedGroundLoad"]=true;p["GroundLoadKnM2"]=1;p["Roof"]="LowerRoof";p["PitchLeftDeg"]=0;p["StepHeightM"]=3;p["WidthM"]=3;p["UpperWidthM"]=9;});
         yield return S(ClimateDocument.BuildingWind,"vento-ntc-due-falde","Vento NTC · edificio a due falde",p=>{p["PitchDeg"]=15;p["LoadedAreaM2"]=10;});

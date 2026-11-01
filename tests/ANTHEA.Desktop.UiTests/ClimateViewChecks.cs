@@ -20,9 +20,9 @@ internal static class ClimateViewChecks
         var bindings=new StringWriter();var listener=new TextWriterTraceListener(bindings);PresentationTraceSources.DataBindingSource.Listeners.Add(listener);
         try
         {
-            foreach(var scenario in ClimateScenarios.All().GroupBy(s=>s.Module).SelectMany(g=>g.Key is Anthea.Application.Actions.ClimateDocument.Distribution or Anthea.Application.Actions.ClimateDocument.Hydraulics or Anthea.Application.Actions.ClimateDocument.Construction or Anthea.Application.Actions.ClimateDocument.TimeEffects?g:g.Take(1)))
+            foreach(var scenario in ClimateScenarios.All().GroupBy(s=>s.Module).SelectMany(g=>g.Key is Anthea.Application.Actions.ClimateDocument.Distribution or Anthea.Application.Actions.ClimateDocument.Hydraulics or Anthea.Application.Actions.ClimateDocument.Construction or Anthea.Application.Actions.ClimateDocument.TimeEffects or Anthea.Application.Actions.ClimateDocument.Prestressing?g:g.Take(1)))
             {
-                string captureName=(scenario.Module is Anthea.Application.Actions.ClimateDocument.Hydraulics or Anthea.Application.Actions.ClimateDocument.Construction or Anthea.Application.Actions.ClimateDocument.TimeEffects?scenario.File:scenario.Module)+(scenario.File=="ripartizione-deformabile"?"-deformabile":"");
+                string captureName=(scenario.Module is Anthea.Application.Actions.ClimateDocument.Hydraulics or Anthea.Application.Actions.ClimateDocument.Construction or Anthea.Application.Actions.ClimateDocument.TimeEffects or Anthea.Application.Actions.ClimateDocument.Prestressing?scenario.File:scenario.Module)+(scenario.File=="ripartizione-deformabile"?"-deformabile":"");
                 var factory=ModuleHostBench.SheetEditors([]);using var editor=factory.Open(scenario.Module,scenario.Data);
                 Check(editor is MvvmSheetEditor,"Modulo climatico MVVM");var sheet=(ClimateSheetViewModel)((MvvmSheetEditor)editor).Sheet;
                 var window=new Window{Content=editor.View,Width=1450,Height=1000,Left=-32000,Top=-32000,ShowActivated=false,ShowInTaskbar=false,WindowStyle=WindowStyle.None,WindowStartupLocation=WindowStartupLocation.Manual};Appearance.Watch(window);
@@ -47,6 +47,28 @@ internal static class ClimateViewChecks
                         window.UpdateLayout();Check(sheet.SelectedCase==sheet.Cases.Count-1&&sheet.CaseValues.Count>0,"Selezione caso");
                         Check(Visual(editor.View).OfType<ClimateCaseChart>().Any(c=>c.IsVisible&&c.ActualHeight>50&&c.Values?.Count>0),"Diagramma con valori del caso");
                         File.WriteAllBytes(Path.Combine(output,captureName+"-"+theme+".png"),Png(editor.View));
+                        if(sheet.IsPrestressing)
+                        {
+                            actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Profilo e perdite"));window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
+                            Check(Visual(editor.View).OfType<ActionHistoryChart>().Count(c=>c.Drawing?.Series.Count>0)==4,"Profilo e curve delle perdite");
+                            var stations=Visual(editor.View).OfType<ComboBox>().Single(c=>Equals(c.Tag,"PrestressStations"));stations.SelectedIndex=sheet.PrestressStations.Count/2;window.UpdateLayout();
+                            Check(sheet.SelectedStation?.Index==sheet.PrestressStations.Count/2,"Selezione dell’ascissa dello stato efficace");
+                            File.WriteAllBytes(Path.Combine(output,captureName+"-profilo-"+theme+".png"),Png(editor.View));
+                            if(scenario.File=="precompressione-posteso")
+                            {
+                                var dialog=sheet.CreatePrestressTransferDialog(ClimateScenarios.PrestressTargetSection());var content=new ContentControl{Content=dialog};
+                                var modal=new Window{Content=content,Width=820,Height=470,Left=-32000,Top=-32000,ShowActivated=false,ShowInTaskbar=false,WindowStartupLocation=WindowStartupLocation.Manual};Appearance.Watch(modal);
+                                try
+                                {
+                                    modal.Show();modal.UpdateLayout();await modal.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
+                                    Check(Visual(content).OfType<PrestressTransferDialogView>().Count()==1,"Dialogo MVVM del trasferimento risolto");
+                                    var consent=Visual(content).OfType<CheckBox>().Single();consent.IsChecked=true;modal.UpdateLayout();Check(dialog.ConfirmCommand.CanExecute(null),"Associazione esplicita della sezione nel dialogo");
+                                    File.WriteAllBytes(Path.Combine(output,captureName+"-trasferimento-"+theme+".png"),Png(content));
+                                }
+                                finally{modal.Content=null;modal.Close();}
+                            }
+                            actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Casi di carico"));window.UpdateLayout();
+                        }
                         if(sheet.IsTimeEffects)
                         {
                             actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Evoluzione nel tempo"));window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);

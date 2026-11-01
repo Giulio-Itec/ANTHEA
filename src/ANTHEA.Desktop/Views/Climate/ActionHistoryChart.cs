@@ -17,7 +17,7 @@ public sealed class ActionHistoryChart:FrameworkElement
     protected override Size MeasureOverride(Size available)=>new(double.IsInfinity(available.Width)?DefaultWidth:Math.Max(MinimumWidth,available.Width),LegendTop+(Drawing?.Series.Count??1)*RowHeight+TextGap);
     protected override void OnRender(DrawingContext dc)
     {
-        base.OnRender(dc);var ink=ThemeTokens.Brush("Ink");var grid=ThemeTokens.Brush("Border");Brush[] colours=[ThemeTokens.Brush("Series.Blue"),ThemeTokens.Brush("Series.Orange"),ThemeTokens.Brush("Series.Green"),ThemeTokens.Brush("Series.Magenta")];
+        base.OnRender(dc);var ink=ThemeTokens.Brush("Ink");var grid=ThemeTokens.Brush("Border");Brush[] colours=[ThemeTokens.Brush("Series.Blue"),ThemeTokens.Brush("Series.Orange"),ThemeTokens.Brush("Series.Green"),ThemeTokens.Brush("Series.Magenta"),ThemeTokens.Brush("Series.Red")];
         void Text(string s,double x,double y,double size=12,Brush? colour=null)=>dc.DrawText(new FormattedText(s,CultureInfo.CurrentCulture,FlowDirection.LeftToRight,new Typeface("Segoe UI"),size,colour??ink,VisualTreeHelper.GetDpi(this).PixelsPerDip),new(x,y));
         void Line(double x,double y,double xx,double yy,Brush colour,double thickness=1)=>dc.DrawLine(new Pen(colour,thickness),new(x,y),new(xx,yy));
         string N(double x)=>Math.Abs(x)<LabelZeroTolerance?"0":x.ToString("G5",CultureInfo.CurrentCulture);

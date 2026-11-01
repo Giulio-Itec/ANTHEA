@@ -14,15 +14,17 @@ public static partial class ClimateDocument
     public const string Hydraulics="act_idrauliche";
     private static IEnumerable<ModuleInfo> ExtendedModules=>new[]
     {
+        new ModuleInfo(Prestressing,"Azioni","Precompressione e perdite","Profilo, tiro, attrito, ancoraggi e stato efficace nel tempo","Azione","Precompressione e perdite","Precompressione"),
         new ModuleInfo(TimeEffects,"Azioni","Ritiro e viscosità","Storia dei carichi, maturazione e spostamenti assiali imposti","Azione","Ritiro e viscosità","Effetti differiti"),
         new ModuleInfo(Hydraulics,"Azioni","Azioni idrauliche","Pareti, platee e pile in corrente · scenari e pressioni nette","Azione","Azioni idrauliche","Acqua e corrente"),
         new ModuleInfo(Construction,"Azioni","Fasi costruttive","Sequenza, carichi temporanei, getto e azioni assegnate","Azione","Fasi costruttive","Esecuzione")
     };
     private static bool IsExtended(string module)=>ExtendedModules.Any(m=>m.Id==module);
     private static object ExtendedInput(string module)=>module switch
-    {TimeEffects=>new GPC.Model.Actions.TimeEffects.TimeEffectsInput(),Hydraulics=>new HydraulicActionsInput(),Construction=>new GPC.Model.Actions.Construction.ConstructionActionsInput(),_=>throw new ArgumentException("Modulo Azioni sconosciuto.")};
+    {Prestressing=>new GPC.Model.Actions.Prestressing.PrestressActionsInput(),TimeEffects=>new GPC.Model.Actions.TimeEffects.TimeEffectsInput(),Hydraulics=>new HydraulicActionsInput(),Construction=>new GPC.Model.Actions.Construction.ConstructionActionsInput(),_=>throw new ArgumentException("Modulo Azioni sconosciuto.")};
     private static JsonObject CalculateExtended(object input)
     {
+        if(input is GPC.Model.Actions.Prestressing.PrestressActionsInput prestress)return CalculatePrestress(prestress);
         if(input is GPC.Model.Actions.TimeEffects.TimeEffectsInput time)return CalculateTimeEffects(time);
         if(input is HydraulicActionsInput hydraulic)
         {
@@ -43,6 +45,7 @@ public static partial class ClimateDocument
     };
     private static string? ExtendedLabel(string module,string key,JsonObject? context=null)
     {
+        if(module==Prestressing)return PrestressLabel(key);
         if(module==TimeEffects)return TimeLabel(key);
         if(module==Construction)return ConstructionLabel(key);
         if(module!=Hydraulics)return null;
@@ -65,6 +68,7 @@ public static partial class ClimateDocument
     }
     private static bool ExtendedVisible(string module,string key,JsonObject values)
     {
+        if(module==Prestressing)return PrestressVisible(key,values);
         if(module==TimeEffects)return TimeVisible(key,values);
         if(module==Construction)return key is "NationalParameters" or "RecommendedEnLoadsConfirmed"?values["Standard"]?.ToString()=="EurocodeFirstGeneration":true;
         if(module!=Hydraulics)return true;

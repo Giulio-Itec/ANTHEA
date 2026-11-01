@@ -75,8 +75,31 @@ def time_effects():
     save(fig, 'effetti-differiti', 'Schema originale. Asta assiale integra a temperatura e umidità costanti. Le reazioni richiedono compatibilità e storia; la fessurazione non è simulata.')
 
 
+
+
+def prestressing():
+    fig, axes = canvas('Precompressione · profilo del cavo e stati successivi', 1, 2)
+    ax = axes[0, 0]
+    ax.add_patch(Rectangle((0, 1), 10, 3.8, fc='#edf1f4', ec=INK))
+    x = [n/10 for n in range(101)]; y = [4-.09*v*(10-v) for v in x]
+    line(ax, x, y, color=BLUE, lw=2.5)
+    arrow(ax, .5, 4, -1.3, 0, ORANGE);text(ax, 1, 5.5, 'Martinetto', fontsize=10)
+    line(ax, [0, 10], [3, 3], color='#7c8b99', ls='--')
+    dim(ax, 0, .2, 10, .2, 'x · L orizzontale; s lungo il cavo')
+    dim(ax, 5, 1.75, 5, 3, 'e')
+    text(ax, 7.5, 5.5, 'z positivo verso l’alto', fontsize=10)
+    text(ax, 5, -.6, 'σ(s) = σjack exp[−μ(θ + k s)]', fontsize=11)
+    ax = axes[0, 1]
+    for pos, width, label, colour in [(5, 10, 'Tiro al martinetto', BLUE), (3.9, 9, 'Dopo attrito e rientro', ORANGE), (2.8, 8, 'Dopo trasferimento · σpm0', '#218463'), (1.7, 6.7, 'Dopo perdite differite · σeff', '#C02672')]:
+        ax.add_patch(Rectangle((0, pos-.3), width, .38, fc=colour))
+        text(ax, 0, pos+.35, label, ha='left', fontsize=10)
+    text(ax, 5, .3, 'Perdite differite accoppiate:', fontsize=10)
+    text(ax, 5, -.4, 'ritiro + viscosità + rilassamento', fontsize=10)
+    save(fig, 'precompressione', 'Schema originale qualitativo. Profilo piano, sezione costante e tensioni del cls da analisi strutturale. Il trasferimento a Concrete usa lo stato efficace senza duplicare N e M.')
+
+
 if __name__ == '__main__':
     import sys
-    choices = {'idraulica': hydraulics, 'fasi': construction, 'tempo': time_effects}
+    choices = {'idraulica': hydraulics, 'fasi': construction, 'tempo': time_effects, 'precompressione': prestressing}
     for name in sys.argv[1:] or choices:
         choices[name]()

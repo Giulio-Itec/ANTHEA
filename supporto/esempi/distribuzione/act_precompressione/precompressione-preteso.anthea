@@ -1,0 +1,71 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_precompressione",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "PrestressActionsInput",
+    "input": {
+      "Standard": "Ntc2018",
+      "NationalParameters": "",
+      "Method": "PreTensioned",
+      "Profile": "Straight",
+      "Jacking": "Left",
+      "LengthM": 30,
+      "StartEccentricityM": -0.3,
+      "MiddleEccentricityM": -0.4,
+      "EndEccentricityM": -0.3,
+      "TendonAreaMm2": 1800,
+      "TendonModulusMpa": 195000,
+      "FpkMpa": 1860,
+      "Fp01kMpa": 1640,
+      "JackingStressMpa": 1350,
+      "FrictionCoefficient": 0.19,
+      "WobbleRadM": 0.006,
+      "AnchorageSlipMm": 6,
+      "SystemSource": "Dati esemplificativi: trefolo 1860/1640, Ep 195000 MPa, μ 0,19, k 0,006 rad/m, rientro 6 mm. Sostituire con ETA e certificati del sistema.",
+      "JackingAgeDays": 0,
+      "TransferAgeDays": 7,
+      "SuccessiveTendons": 1,
+      "ConcreteStressChangeMpa": 8,
+      "ConcreteQpStressMpa": 6,
+      "TendonQpStressIncrementMpa": 0,
+      "ConcreteStressSource": "Esempio numerico con tensioni uniformi assegnate: Δσc=8 MPa, σc,QP=6 MPa. Da ricavare dall’analisi strutturale del progetto.",
+      "ConcreteAreaMm2": 500000,
+      "ConcreteInertiaMm4": 41666666667,
+      "DryingPerimeterMm": 3000,
+      "FckMpa": 40,
+      "Cement": "ClassN",
+      "RelativeHumidityPercent": 70,
+      "DryingStartDays": 7,
+      "Relaxation": "LowRelaxationWireStrand",
+      "CertifiedRelaxation": false,
+      "CertifiedRho1000Percent": 2.5,
+      "IncludeDeferredLosses": true,
+      "EnJackingFpkFactor": 0.8,
+      "EnJackingFp01Factor": 0.9,
+      "EnInitialFpkFactor": 0.75,
+      "EnInitialFp01Factor": 0.85,
+      "ProfileIntervals": 200,
+      "Observations": [
+        {
+          "Name": "Trasferimento",
+          "AgeDays": 7
+        },
+        {
+          "Name": "1 anno",
+          "AgeDays": 365
+        },
+        {
+          "Name": "10 anni",
+          "AgeDays": 3650
+        },
+        {
+          "Name": "100 anni",
+          "AgeDays": 36500
+        }
+      ]
+    }
+  }
+}

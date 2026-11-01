@@ -8,6 +8,7 @@ namespace Anthea.Reports;
 public static class ClimateReport
 {
     private const int TableWidthTwips=9600;
+    private const int PrestressReportSegments=4,LastPointOffset=1;
     public static DocxDocument Create(string title,JsonObject input,JsonObject result,IReadOnlyList<string[]> inputRows)
     {
         XNamespace w="http://schemas.openxmlformats.org/wordprocessingml/2006/main";
@@ -30,6 +31,13 @@ public static class ClimateReport
         Table(["Parametro","Valore / unità"],inputRows);
         body.Add(P("Parametri e formule",true));Values(result["Parameters"]?.AsArray());
         foreach(var c in result["Cases"]?.AsArray()??[]){body.Add(P(Text(c!["Name"]),true),P(Text(c["Description"])));Values(c["Values"]?.AsArray());}
+        if(result["Prestress"]?["Stages"] is JsonArray prestressStages)
+            foreach(var stage in prestressStages)
+            {
+                var points=stage!["Points"]!.AsArray();int stride=(points.Count-LastPointOffset)/PrestressReportSegments;
+                body.Add(P("Profilo campionato · "+Text(stage["Name"]),true),P("Cinque sezioni equispaziate. Il CSV contiene il profilo completo e i contributi alle perdite."));
+                Table(["x [m]","Dopo attrito [MPa]","Dopo ancoraggio [MPa]","Iniziale [MPa]","Efficace [MPa]"],points.Where((p,n)=>n%stride==0).Select(p=>new[]{Text(p!["XM"]),Text(p["AfterFrictionMpa"]),Text(p["AfterAnchoringMpa"]),Text(p["InitialStressMpa"]),Text(p["EffectiveStressMpa"])}));
+            }
         if(result["ConstructionStages"] is JsonArray phases)
             foreach(var phase in phases)
             {

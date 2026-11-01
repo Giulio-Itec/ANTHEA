@@ -54,6 +54,7 @@ internal sealed partial class ModuleImplementations
         ("act_idrauliche", SheetImplementation.Mvvm),
         ("act_fasi_costruttive", SheetImplementation.Mvvm),
         ("act_effetti_differiti", SheetImplementation.Mvvm),
+        ("act_precompressione", SheetImplementation.Mvvm),
     ];
 
     /// <summary>The implementations of the Release.</summary>
