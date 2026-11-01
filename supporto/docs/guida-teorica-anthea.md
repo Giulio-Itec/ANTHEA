@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 30 ottobre 2026 — revisione documentale 64
+Edizione 6 aggiornata il 1 novembre 2026 — revisione documentale 65
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -228,6 +228,49 @@ Le aste reticolari e i cavi trasmettono solo sforzo normale: nelle combinazioni 
 Un'analisi statica lineare con una fase attiva è l'analisi lineare della configurazione di quella fase: i suoi casi si combinano fra loro. Un'analisi statica non lineare per fasi, dai file .nla, dà lo stato alla fine di ogni incremento, con tutti i carichi applicati fino a quel punto e gli spostamenti accumulati dall'inizio: questi stati non si sovrappongono e non si combinano.
 
 Le masse sono in t, cioè kN·s²/m, le masse distribuite in t/m e t/m², le inerzie rotazionali in t·m²; le temperature in °C e i gradienti termici in °C/m, lungo gli assi principali 1 e 2 per le aste e lungo l'asse z locale per le piastre.
+
+### Alternative delle combinazioni e calcolo per termini
+
+Una combinazione lineare è la somma pesata dei suoi termini; un inviluppo è l'insieme delle sue alternative, ciascuna uno stato simultaneo, di cui si cercano gli estremi. Lo stesso caso può comparire in un inviluppo con coefficienti opposti, per esempio $Q$ e $-Q$: sono due alternative distinte. Il numero $n$ degli stati alternativi di una definizione segue le regole dell'espansione: un caso ne ha uno, un inviluppo la somma di quelli dei termini, una combinazione lineare il prodotto.
+
+```math
+n_{caso} = 1
+n_{inviluppo} = \sum_i n_i
+n_{lineare} = \prod_i n_i
+```
+
+Fino a $n = 4096$ la libreria GPC elenca gli stati e ne prende gli estremi componente per componente, con lo stato governante e lo stato concomitante completo. Oltre questo limite la combinazione si calcola per termini, senza elencare gli stati. Le alternative di termini diversi di una somma lineare sono indipendenti, come nell'espansione: l'estremo di una componente $r$ della somma, $r^{max}$ o $r^{min}$, è la somma degli estremi dei termini, presi con il segno del coefficiente, e l'estremo di un inviluppo è il più grande, o il più piccolo, fra quelli dei suoi termini.
+
+```math
+r^{max}\left(\sum_i c_i T_i\right) = \sum_{c_i \ge 0} c_i\, r^{max}(T_i) + \sum_{c_i < 0} c_i\, r^{min}(T_i)
+r^{max}\left(\mathrm{inv}(T_1;\ \ldots;\ T_m)\right) = \max_j\ r^{max}(T_j)
+```
+
+Il minimo $r^{min}$ si ottiene scambiando massimi e minimi. Lo stato governante è la scelta, in ogni inviluppo, dell'alternativa che dà l'estremo; il suo stato concomitante è la somma di quelle scelte, quindi tutte le componenti riportate sono simultanee. Sotto il limite il calcolo per termini darebbe gli stessi estremi e gli stessi governanti dell'elenco degli stati. Le componenti principali dei plate non sono funzioni lineari delle componenti locali: l'estremo di una somma non è la somma degli estremi, e oltre il limite non sono calcolate.
+
+### Componenti principali dei plate nelle combinazioni
+
+Per ogni stato combinato le componenti principali dei plate sono i valori principali dei tensori dei momenti e delle forze di membrana, in kN·m/m e kN/m, nella convenzione della copia:
+
+```math
+M_{max,min} = \frac{M_{xx}+M_{yy}}{2} \pm \sqrt{\left(\frac{M_{xx}-M_{yy}}{2}\right)^2 + M_{xy}^2}
+F_{max,min} = \frac{N_{xx}+N_{yy}}{2} \pm \sqrt{\left(\frac{N_{xx}-N_{yy}}{2}\right)^2 + N_{xy}^2}
+```
+
+I valori non dipendono dalla rotazione degli assi locali nel piano. Nella libreria GPC i momenti dei plate hanno il segno opposto a quello della copia, quindi $M_{max}$ della copia è $-M_{min}$ della libreria. In una combinazione lineare le principali sono quelle dello stato locale combinato. In un inviluppo si calcolano per ogni alternativa e si tengono il minimo e il massimo, con l'alternativa governante e il suo vettore locale completo. Non sono la somma delle principali dei casi né le principali degli estremi locali, che appartengono a stati diversi. Richiedono ogni stato simultaneo: nelle combinazioni calcolate per termini non sono disponibili.
+
+### Generazione delle combinazioni NTC 2018 del modello
+
+Il generatore del modulo Modelli usa il motore delle combinazioni automatiche dei muri, con le righe di NTC 2018 §2.5.3: SLE rara, frequente e quasi permanente, SLU con l'insieme A1 della Tab. 6.2.I (G1 1/1,3; G2 0,8/1,5; variabili 0/1,5), sismiche ed eccezionali, con i coefficienti $\psi$ della Tab. 2.5.I della categoria scelta. Ogni gruppo è presente o assente per intero e uno solo è il principale; senza gruppo i casi G1 formano un gruppo, i casi G2 un altro e ogni altro caso un gruppo proprio. La categoria di un carico variabile non si deduce dal tipo del caso: senza categoria la generazione è rifiutata.
+
+Nelle righe sismiche $E + G_1 + G_2 + \psi_{21} Q_{k1} + \psi_{22} Q_{k2} + \ldots$ un caso sismico senza direzione entra da solo con i due segni. I casi con direzione seguono la regola di NTC 2018 §7.3.5: la direzione principale con coefficiente 1,00 e le altre con 0,30, permutando la direzione principale fra quelle presenti e con tutte le combinazioni di segno; per ogni direzione si sceglie uno dei suoi casi, che sono alternativi.
+
+```math
+E = \pm 1{,}00\,E_X \pm 0{,}30\,E_Y \pm 0{,}30\,E_Z
+n_E = d \cdot 2^{d} \cdot \prod_{k=1}^{d} n_k
+```
+
+Qui $d$ è il numero delle direzioni presenti e $n_k$ il numero dei casi della direzione $k$: con un caso per ciascuna delle tre direzioni le varianti sono 24; con una sola direzione la regola si riduce a $\pm 1$ di ogni caso. La componente verticale entra solo se un caso ha la direzione Z: la sua necessità (NTC 2018 §7.2.2) resta una valutazione del progettista. Le presenze dei gruppi crescono come $2^g$: il generatore si ferma oltre 4096 righe o 12 gruppi di casi permanenti e variabili.
 
 ### Dati mancanti e validità del risultato
 
@@ -802,7 +845,23 @@ Nei punti della curva il calcestruzzo teso è trascurato, salvo due opzioni. «C
 
 Con il profilo DS l'armatura trasversale minima delle travi è quella dell'appendice danese (DK NA 9.5N NA), $\rho_{w,min} = 0{,}063\sqrt{f_{ck}}/f_{yk}$; l'armatura minima delle anime alte resta da completare. Con gli Eurocodici il passo delle staffe delle barre compresse delle travi è limitato a $15\,\phi_{min}$ (EN 1992-1-1 §9.2.1.2(3)) e calcolato come per le NTC; con il profilo DS resta la conferma richiesta dalla 9.5.3(6).
 
-Nella curva momento–curvatura $\chi_u$ è la curvatura del punto limite e $\chi_{y,1}$ quella del primo snervamento di una barra. La duttilità in curvatura $\mu_\varphi$ della NTC, definita con il ramo dopo il picco fino a $0{,}85\,M_{max}$ e con la bilineare della figura C4.1.12 della Circolare, non è calcolata: il rapporto $\chi_u/\chi_{y,1}$ non va usato al suo posto.
+La scheda dei dettagli di ANTHEA calcola ancoraggi e sovrapposizioni solo con il profilo NTC 2018, con integrazioni EC2: l'interferro delle barre sovrapposte vi resta una verifica, $s \le 4\phi$. Per i profili Eurocodice la libreria GPC applica inoltre le regole seguenti, che non cambiano i risultati di ANTHEA. Con EN 1992-1-1 e le appendici UNI e DS, quando l'interferro $s$ delle barre sovrapposte supera $\min(4\phi;\ 50\ \mathrm{mm})$ la lunghezza di sovrapposizione aumenta dell'intero interferro (8.7.2(3), lettura adottata: tutto $s$, non solo l'eccedenza). Nella zona di sovrapposizione la libreria controlla la percentuale di barre tese giuntate (8.7.2(4): 100 % con un solo strato, 50 % con più strati), in sospeso se la disposizione non è data.
+
+```math
+l_0' = l_0 + s
+```
+
+Per le barre di diametro maggiore di $\phi_{large} = 32$ mm le regole di 8.8 (ancoraggio e armatura trasversale aggiuntiva, controllo della fessurazione, sovrapposizione solo in sezioni con dimensione minima di almeno 1 m o con tensione non oltre l'80 % della resistenza di calcolo) sono conferme in sospeso, salvo la sovrapposizione nelle sezioni con dimensione minima di almeno 1 m, che è ammessa. Con il profilo DS $\phi_{large}$ vale 32 mm, il valore raccomandato, dichiarato nel controllo e da riscontrare sul testo dell'appendice danese.
+
+Nella curva momento–curvatura $\chi_u$ è la curvatura del punto limite e $\chi_{y,1}$ quella del primo snervamento di una barra: il loro rapporto, riportato come μχ, non è la duttilità della norma. La scheda «Momento–curvatura» calcola anche la duttilità in curvatura $\mu_\varphi$ della NTC 2018 §4.1.2.3.4.2, su un ramo a curvatura controllata alla stessa N che segue il momento anche dopo il picco, fino al punto limite. $M'_{yd}$ e $\varphi'_{yd}$ sono quelli del primo snervamento convenzionale: la barra più tesa raggiunge $\varepsilon_{yd}$ o il calcestruzzo la deformazione di picco $\varepsilon_{c2}$, quello che avviene prima. La bilineare della Circolare 2019 (Fig. C4.1.12) passa per $(\varphi_{yd};\ M_{Rd})$, con $M_{Rd}$ momento limite del dominio alla stessa N, non il massimo della curva; $\chi_{0{,}85}$ è la prima curvatura dopo il picco a cui il momento scende sotto $0{,}85\,M_{max}$.
+
+```math
+\varphi_{yd} = \frac{M_{Rd}}{M'_{yd}}\,\varphi'_{yd}
+\varphi_u = \min\left(\chi_{0{,}85};\ \chi_u\right)
+\mu_\varphi = \frac{\varphi_u}{\varphi_{yd}}
+```
+
+Con la parabola-rettangolo e l'acciaio senza incrudimento il momento a N costante cresce di norma fino al punto limite e $\varphi_u = \chi_u$; con un legame del calcestruzzo con ramo decrescente il picco può precedere il punto limite e governare $\varphi_u$. Per esempio, in una sezione 300 × 500 mm in C30/37 con 3Ø20 tese e 2Ø16 compresse, acciaio con $f_{yk} = 450$ MPa senza incrudimento, a N = 0 governano le barre tese: $M'_{yd} = 147{,}54$ kNm e $\varphi'_{yd} = 6{,}507 \cdot 10^{-6}$ mm⁻¹; $M_{Rd} = 154{,}69$ kNm, quindi $\varphi_{yd} = 6{,}822 \cdot 10^{-6}$ mm⁻¹; il momento cresce fino al punto limite, $\varphi_u = \chi_u = 5{,}119 \cdot 10^{-5}$ mm⁻¹ e $\mu_\varphi = 7{,}50$. Con il tension stiffening nelle risposte, o con una frazione di $M_{Rd}$ finale minore di 1, $\mu_\varphi$ non è calcolata. La duttilità resta nella scheda: il report e l'esportazione CSV non la riportano.
 
 ### Colonna modello: metodo e campo di applicazione
 

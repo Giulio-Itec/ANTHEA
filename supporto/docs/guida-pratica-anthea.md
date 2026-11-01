@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 30 ottobre 2026 — revisione documentale 64
+Edizione 6 aggiornata il 1 novembre 2026 — revisione documentale 65
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1256,6 +1256,8 @@ Nella scheda dettagli costruttivi scegliere il tipo di elemento e completare le 
 
 La curva M χ si avvia con il proprio comando. Assegnare N, direzione del momento, numero di passi e distribuzione dei punti. Il campo «CLS teso nelle risposte», Trascurato oppure Tension stiffening, riguarda solo i punti della curva: punto limite e verifiche non lo usano. Con Tension stiffening la sezione resta interamente reagente finché il calcestruzzo non si fessura; dopo, il calcestruzzo teso non lavora e le barre tese dell'area efficace di fessurazione seguono il modello del tirante, con β = 0,4 dei carichi di lunga durata e i valori medi Ecm e fctm, mentre le altre barre restano nude. Il primo snervamento e |εs|max sono quelli della barra nella fessura, e lo stato della curva lo dichiara. Fino alla 1.14.3 l'opzione applicava una legge media del calcestruzzo teso a tutta la zona tesa: ricalcolate, le curve di quei fogli risultano più cedevoli dopo la fessurazione e snervano prima. Esaminare la progressione della risposta e le deformazioni terminali. La curva arriva al limite trattato dal motore e non descrive automaticamente un ramo post picco di degradazione della struttura.
 
+Dopo il calcolo della curva la scheda riporta anche la duttilità in curvatura μφ della NTC 2018 §4.1.2.3.4.2: M'yd e φ'yd del primo snervamento convenzionale, cioè della barra più tesa a εyd o del calcestruzzo alla deformazione di picco εc2, quello che arriva prima; MRd e φyd = (MRd/M'yd)·φ'yd della bilineare della Circolare 2019 (Fig. C4.1.12); il momento massimo del ramo; φu, dove il momento scende a 0,85 Mmax dopo il picco oppure al punto limite; infine μφ = φu/φyd. Il calcolo usa un ramo a curvatura controllata alla stessa N, che segue il momento anche dopo il picco. La riga μχ = χu/χy resta il rapporto delle curvature della curva e non è la μφ della norma. Con «CLS teso nelle risposte» = Tension stiffening, o con una «Frazione di MRd finale» minore di 1, μφ non è calcolata e la scheda ne indica il motivo. μφ non entra nel report né nell'esportazione CSV.
+
 Nel report di progetto la curva viene ricalcolata automaticamente con N, direzione, passi e opzioni salvati nel foglio. Il capitolo comprende valori limite, tabella dei punti e grafico; non serve aprire la scheda né avviare prima il comando Calcola curva. La preparazione lavora su una copia dei dati. Se il percorso non è valido o contiene trefoli, la curva è segnalata come non disponibile con il motivo e le altre verifiche restano nel report. Interrompere la preparazione conserva il documento precedente. Il report del singolo foglio continua a usare la curva calcolata nella scheda.
 
 Se si modifica l'input mentre sono visibili risultati precedenti, le sezioni strutturali possono segnalarli come «DA AGGIORNARE». Quel risultato non deve essere esportato o letto come riferito ai nuovi dati. Attendere il completamento del ricalcolo e controllare lo stato. La conservazione grafica serve a orientarsi durante l'editing, non a certificare la validità di valori obsoleti.
@@ -1488,6 +1490,32 @@ Le schede laterali seguono l'ordine **Vista**, **Modello**, **Combinazioni**, **
 In **Risultati** seleziona caso, famiglia di elementi, componente e unità. Per controllare un plate scegli, ad esempio, G1, la famiglia plate e Mxx negli assi locali. Confronta un elemento noto, tenendo conto della posizione di lettura e dell'eventuale media ai vertici: un colore mediato non è il valore grezzo di ogni campione. Attiva **Mostra modello deformato** per la deformata; controlla il fattore applicato, perché la scala automatica amplifica gli spostamenti per renderli leggibili.
 
 Le combinazioni vengono acquisite come definizioni. La loro presenza nella scheda **Combinazioni** non significa che tutti i relativi campi di risultato siano già stati scaricati o calcolati. Il calcolo locale richiede i risultati dei casi base richiamati e un tipo di combinazione supportato. Puoi quindi acquisire i casi base e gestire successivamente le combinazioni in ANTHEA.
+
+### Calcolare le combinazioni del modello
+
+Nella scheda **Combinazioni** il catalogo riporta lo stato di ogni definizione. **Calcolata**: i risultati locali sono nella copia del modello. **Da calcolare**: i casi base ci sono e la combinazione si costruisce con la libreria GPC. **Casi mancanti**: il messaggio elenca i casi da importare. **Sorgente incompleta**: la copia non ha le tabelle che servono al collegamento GPC; la definizione resta conservata. **Vuota**: la definizione non richiama casi, oppure ha tutti i coefficienti nulli, anche dopo la somma dei termini; indica almeno un coefficiente diverso da zero. **Non disponibile**: la definizione non si può risolvere, per esempio per una dipendenza circolare fra combinazioni; correggi i riferimenti.
+
+Un inviluppo può contenere lo stesso caso due volte con segni opposti, per esempio Q × 1 e Q × −1 per ±Q, oppure ±E per il sisma: ogni termine è un'alternativa e la tabella dei governanti le distingue con un numero d'ordine («±Q=Q» e «±Q=Q #2»).
+
+All'apertura del catalogo ANTHEA prepara in background il modello di calcolo GPC della copia: la prima combinazione parte prima e un calcolo avviato nel frattempo attende la stessa preparazione. Il calcolo e il salvataggio di una definizione scrivono la copia del modello nel progetto senza fermare la finestra; nel frattempo il gestore delle combinazioni resta occupato.
+
+Salvare, eliminare, ripristinare o generare di nuovo le definizioni scarta solo i risultati delle definizioni cambiate e delle combinazioni e degli inviluppi che le usano: gli altri risultati calcolati restano validi e non si ricalcolano. Nei progetti salvati con ANTHEA 1.16.2 o con una versione precedente, alla prima apertura le combinazioni già calcolate compaiono «Da calcolare»: si ricalcolano una volta, e il nuovo calcolo dà anche le componenti principali dei plate. Una definizione importata, per esempio da MIDAS, non può prendere il nome di un'altra definizione della stessa tabella, perché i risultati avrebbero lo stesso nome: il salvataggio la rifiuta e ne indica il motivo.
+
+Una somma lineare di inviluppi ha come alternative tutte le scelte di un termine per ogni inviluppo, cioè il prodotto delle loro alternative. Fino a 4096 stati alternativi GPC li elenca tutti. Oltre questo numero la riga del catalogo lo segnala e GPC cerca gli estremi termine per termine, senza elencare gli stati: valori e stati governanti sono completi, con lo stato concomitante, ma le componenti principali dei plate non sono disponibili, perché richiedono ogni stato. Se servono, sostituisci la somma con un inviluppo delle combinazioni.
+
+### Generare le combinazioni NTC 2018
+
+Nel gestore delle combinazioni **Genera NTC 2018…** apre la tabella dei casi statici del modello, con le colonne **Caso**, **Natura**, **Categoria**, **Gruppo** e **Direzione**. Per ogni caso scegli la natura: **Permanente G1**, **Permanente G2**, **Variabile**, **Eccezionale**, **Sismica** oppure **Esclusa**. ANTHEA propone la natura dai tipi dei casi di MIDAS: D e DC permanenti G1, DW permanenti G2, W vento, S neve, T variazioni termiche, E sismici; gli altri tipi e i casi delle sorgenti senza tipi partono esclusi. I carichi variabili L e LR non hanno una categoria predefinita: scegli la categoria della Tab. 2.5.I (A–H, vento, neve, variazioni termiche), che dà i coefficienti ψ. Finché un carico variabile non ha la categoria, la generazione non parte e il pannello indica il caso da completare.
+
+Il **Gruppo** riunisce i casi correlati: in ogni combinazione un gruppo è presente o assente per intero e uno solo è il principale. Per un caso sismico puoi indicare la direzione dell'azione, X, Y o Z. I casi con direzione si combinano con la regola 100/30 di NTC 2018 §7.3.5: 1,00 della direzione principale e 0,30 delle altre, ogni direzione principale una volta e con tutti i segni; i casi di una stessa direzione sono alternativi. Senza direzione un caso sismico entra da solo, con +1 e −1.
+
+Prima di generare, il pannello mostra quante combinazioni nascono per ogni stato limite: SLE rara, frequente e quasi permanente, SLU con l'insieme A1, SLV ed eccezionali. Oltre 4096 combinazioni, o con più di 12 gruppi di casi permanenti e variabili, la generazione non parte: riunisci i casi correlati nello stesso gruppo o escludi quelli che non servono. **Genera e sostituisci** sostituisce le combinazioni generate in precedenza e conserva quelle create da te, con i loro risultati. Le scelte restano nella copia del modello e la generazione successiva riparte da esse.
+
+### Leggere le componenti principali dei plate
+
+Le combinazioni calcolate con GPC hanno anche le componenti principali dei plate: **Mmax**, **Mmin**, **Fmax** e **Fmin**. In **Risultati** scegli la famiglia plate e **Principali** al posto di **Locali**: i valori compaiono nella vista, nel contouring e nelle tabelle. Per una combinazione lineare sono le principali dello stato locale combinato. Per un inviluppo ANTHEA calcola le principali di ogni stato simultaneo e ne mostra il minimo e il massimo; la tabella riporta lo stato governante e il suo stato concomitante. Non sono mai la somma delle principali dei casi né il risultato degli estremi locali, che non avvengono insieme.
+
+Se una combinazione calcolata non ha le principali, la vista ne indica il motivo: oltre 4096 stati alternativi non sono disponibili; negli altri casi calcola di nuovo la combinazione con GPC. Per un caso statico la vista mostra le principali importate, quando la sorgente le fornisce.
 
 ### Importare e visualizzare i risultati per fase
 

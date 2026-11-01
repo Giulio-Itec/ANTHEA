@@ -1,0 +1,110 @@
+[
+  {
+    "origin": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "4d20470d51834bef4b8c4a6e79f391eac837b1182523c3e691866cc42097f9f8",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "a9ae522e31151c533d6079a70dac08c91f02b2741cc5d7f6dfc708f3e0360062",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "9a75126139c7813f549c35bd3f4ef39a910ef66f1deee748f014fc842b9f3415",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "4f52c9dc7de4d537a34632df724c89b828c0d30fbf018f8f6fa44c31b7a0c28e",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "b706bbadddfad16310681a733b4f533fb26d2bf702b43e73919e9b6ea0b61693",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "d82af7db9b038b62bbf26be24bac0c289d84a2f431bb7f3abfbb6305cab3b5b1",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/installer/README.md",
+    "sha256": "d04ba5c64bbbda6ed55ce5e40cb19979426fa9b963cecc08e5e8a305bb798973",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/installer/README.pdf",
+    "sha256": "0a29bc1d1b81d27dddc3b51534b9439783f40dbce516ea847ce71d61e9d8bf3c",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/installer/Indice-guide.md",
+    "sha256": "df38928beb7c367ecf4c81769c88ce4620cd467b5454c3f9133c42c1b73afc7d",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/installer/Indice-guide.pdf",
+    "sha256": "b74254cacefac611087fad98ec5e214e784078071f2d105dafbc724787333247",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/README.md",
+    "sha256": "dc7b3cf7d8896aa57dfba36617262630d5964d1126a163d7b1c4fae9e54ec142",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/README.pdf",
+    "sha256": "4c1fe7092f9fc47e26f1c71f033ea39a33b2a5ea721b5a39e26d43753486e52d",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/scripts/Build-AntheaGuides-Itec.py",
+    "sha256": "bc498a575e274af034d4cbbb044c8ad772848014855dd896899183427f1945df",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/scripts/Render-AntheaGuides-Itec.ps1",
+    "sha256": "6fb3855a72956e1c176fdf7a3851a21827b5dfbd198f7b93121bda223425138c",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev64.docx",
+    "sha256": "eac253c74cddf5494761931c8c8a6af8620339a81ba40ff504b25224f0c38a1b",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev64.pdf",
+    "sha256": "a9ae522e31151c533d6079a70dac08c91f02b2741cc5d7f6dfc708f3e0360062",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev64.docx",
+    "sha256": "3b4e7f60a9defc7dc6480a24d7bae3ae1bccd2eb087653f5cdce46af0dbde4b1",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  },
+  {
+    "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev64.pdf",
+    "sha256": "4f52c9dc7de4d537a34632df724c89b828c0d30fbf018f8f6fa44c31b7a0c28e",
+    "reason": "Sostituita da Rev65 per ANTHEA 1.17.0",
+    "source_commit": "079b38bd554fd3eeb3caea9a295df42653cfd286"
+  }
+]
