@@ -300,6 +300,13 @@ static partial class Program
         Check(prepared.Revision == model.Fingerprint() && new[] { first, second }.All(c => ProjectModelStore.Models(c).Single()["revisione"]!.GetValue<string>() == prepared.Revision &&
             ProjectModelStore.Models(c).Single()["snapshot"]!.ToJsonString() == JsonSerializer.SerializeToNode(model)!.ToJsonString()) && ProjectModelStore.Read(second, ProjectModelStore.Models(second).Single()["id"]!.GetValue<string>())!.Fingerprint() == model.Fingerprint(),
             "combinations: an entry prepared off the thread of the interface gives the same document entry as before, in every container");
+        // Reopening (1/11/2026): the canonical bytes of the entry hash to its revision; an entry with the same copy in other bytes (another order of
+        // the properties) is checked through the canonical serialization, as before, and a changed value is still rejected.
+        var reordered = new JsonObject(); string reorderedId = ProjectModelStore.Set(reordered, model);
+        var stored = (JsonObject)ProjectModelStore.Models(reordered).Single()["snapshot"]!; var version = stored["Version"]!.DeepClone(); stored.Remove("Version"); stored["Version"] = version;
+        Check(ProjectModelStore.Read(reordered, reorderedId)!.Fingerprint() == model.Fingerprint() && ProjectModelStore.Read(first, ProjectModelStore.Models(first).Single()["id"]!.GetValue<string>())!.Fingerprint() == model.Fingerprint(),
+            "reopening: the canonical entry and an entry in other bytes give the same copy");
+        stored["Name"] = "Altro"; Reject(() => ProjectModelStore.Read(reordered, reorderedId), "reopening: a changed copy is rejected by its revision");
         var renamed = ModelCombinations.RestoreImported(model); renamed.Name = "Altro nome"; // a copy that carries the revisions of the original
         Check(ModelCombinations.DefinitionRevision(renamed, "ANTHEA/utente-somma") == ModelCombinations.DefinitionRevision(ModelSnapshot.FromJson(JsonSerializer.Serialize(renamed)), "ANTHEA/utente-somma") &&
             ModelCombinations.DefinitionRevision(renamed, "ANTHEA/utente-somma") != ModelCombinations.DefinitionRevision(model, "ANTHEA/utente-somma"), "combinations: a part set on a copy gives its own revision");

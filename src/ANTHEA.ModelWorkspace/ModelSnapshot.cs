@@ -248,6 +248,13 @@ public sealed class ModelSnapshot
         public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
         public override void SetLength(long value) => throw new NotSupportedException();
     }
+    /// <summary>The same as <see cref="FromJson(string)"/> from the UTF-8 bytes of the JSON (same limit: the length in UTF-8).</summary>
+    public static ModelSnapshot FromJson(byte[] json)
+    {
+        ArgumentNullException.ThrowIfNull(json);
+        if (json.LongLength > ModelSnapshotFiles.MaximumPackageBytes) throw new InvalidDataException(ModelSnapshotFiles.PackageSizeMessage);
+        var value = JsonSerializer.Deserialize<ModelSnapshot>(json) ?? throw new InvalidDataException("Modello vuoto."); value.Validate(); return value;
+    }
     public static ModelSnapshot FromJson(string json)
     {
         if (json.Length > ModelSnapshotFiles.MaximumPackageBytes || System.Text.Encoding.UTF8.GetByteCount(json) > ModelSnapshotFiles.MaximumPackageBytes)

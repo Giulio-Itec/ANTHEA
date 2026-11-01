@@ -61,8 +61,13 @@ public static class ProjectModelStore
     {
         var model = Models(project).SingleOrDefault(m => m["id"]?.GetValue<string>() == id); if (model == null) return null;
         if (model["schema"]?.GetValue<int>() != 1) throw new InvalidDataException("Versione del collegamento al modello non supportata.");
-        var snapshot = ModelSnapshot.FromJson(model["snapshot"]?.ToJsonString() ?? throw new InvalidDataException("Modello mancante."));
-        if (snapshot.Fingerprint() != model["revisione"]?.GetValue<string>()) throw new InvalidDataException("Impronta del modello non corrispondente ai dati.");
+        // Combinations of the Models module (1/11/2026): the copy read from its UTF-8 JSON (the text ToJsonString wrote, without the UTF-16 copy).
+        // The entry written by Set holds the canonical bytes of the copy: when they hash to the revision they are the bytes the revision was
+        // computed from, and the canonical serialization of the copy read from them is not written again; any other entry is checked as before.
+        var json = JsonSerializer.SerializeToUtf8Bytes(model["snapshot"] ?? throw new InvalidDataException("Modello mancante."));
+        var snapshot = ModelSnapshot.FromJson(json);
+        string? revision = model["revisione"]?.GetValue<string>();
+        if (Convert.ToHexString(SHA256.HashData(json)) != revision && snapshot.Fingerprint() != revision) throw new InvalidDataException("Impronta del modello non corrispondente ai dati.");
         return snapshot;
     }
     public static string Set(JsonObject project, ModelSnapshot snapshot, string? id = null) => Set(project, ModelDocumentEntry.Prepare(snapshot), id);
