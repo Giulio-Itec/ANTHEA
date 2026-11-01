@@ -25,7 +25,7 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = '65'
+REVISION = '66'
 # edition data of the revision: date, contents and description in the revision table of the cover
 DATE = '01/11/2026'
 CONTENTS = '1 novembre 2026'

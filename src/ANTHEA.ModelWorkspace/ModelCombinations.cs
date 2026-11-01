@@ -11,7 +11,15 @@ public sealed record ModelCombinationDefinition(string Id, string Name, ModelCom
     string Status, ModelCombinationTerm[] Terms, bool Editable = false);
 public sealed record ModelCombinationAvailability(ModelCombinationDefinition Definition, string State, string Message, string[] RequiredCases, bool CanCalculate);
 public sealed record ModelCombinationDerivation(string DefinitionId, string InputRevision, string Engine, string[] RequiredCases,
-    ModelCombinationGoverning[] Governing, string[]? Alternatives = null);
+    ModelCombinationGoverning[] Governing, string[]? Alternatives = null)
+{
+    // 1/11/2026: governing states of the principal components of the plates (GPC, PlatePrincipals) of an envelope, their alternatives
+    // «P1», «P2»… in PrincipalAlternatives. Optional and omitted when null: the results calculated before have no principal components.
+    [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public ModelCombinationGoverning[]? PrincipalGoverning { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string[]? PrincipalAlternatives { get; init; }
+}
 // The whole local vector belongs to one alternative; it is never assembled from independent extrema.
 public sealed record ModelCombinationGoverning(string Family, int Element, int Node, double? Station, string Component,
     string Alternative, double[] ConcomitantValues);
@@ -75,6 +83,7 @@ public static class ModelCombinations
     public static ModelCombinationAvailability[] Inspect(ModelSnapshot snapshot)
     {
         var definitions=Read(snapshot);var records=definitions.Select(ToGpc).ToArray();
+        snapshot=Upgraded(snapshot,definitions); // results of 1.16.2 still current: «Calcolata» (decision of 1/11/2026 evening)
         var cases=snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&r.Stage==null).Select(r=>r.Name).ToHashSet(StringComparer.Ordinal);
         // The definitions with results of their current revision (decision of 1/11/2026: a revision for each definition), once instead of a scan
         // of the results for each definition.
@@ -90,13 +99,15 @@ public static class ModelCombinations
                 if(required.Length==0) return new ModelCombinationAvailability(d,"Vuota","Aggiungi almeno un caso di carico.",required,false);
                 // COMBO-B3: every coefficient zero gives no state to combine, nested definitions included (scaled by zero).
                 if(d.Terms.All(t=>t.Factor==0))return new(d,"Vuota",ZeroMessage,required,false);
-                if(AlternativeCount(byId,d.Id,counts) is {Over:true} expansion)return new(d,"Non disponibile",ExpansionMessage(expansion.Count),required,false);
+                // 1/11/2026 (point 8): over the limit of the expansion the combination is calculated term by term (GpcModelCombinationService).
+                var expansion=AlternativeCount(byId,d.Id,counts);
                 var missing=required.Where(c=>!cases.Contains(c)).ToArray();
                 if(missing.Length>0)return new(d,"Casi mancanti","Risultati da importare: "+string.Join(", ",missing),required,false);
                 if(!GpcSnapshotModel.CanRebuild(snapshot))
                     return new(d,"Sorgente incompleta","Il collegamento GPC richiede le tabelle sorgente MIDAS oppure le terne locali e i casi della sorgente importata. La definizione può essere conservata.",required,false);
                 bool ready=calculated.Contains(d.Id);
-                return new(d,ready?"Calcolata":"Da calcolare",ready?"Risultati locali disponibili nella copia del modello.":"Casi base disponibili; costruzione locale con GPC.",required,true);
+                return new(d,ready?"Calcolata":"Da calcolare",(ready?"Risultati locali disponibili nella copia del modello.":"Casi base disponibili; costruzione locale con GPC.")+
+                    (expansion.Over?" "+ExpansionMessage(expansion.Count):""),required,true);
             }
             catch(Exception ex) when(ex is ArgumentException or InvalidOperationException or NotSupportedException)
             { return new(d,"Non disponibile",Explain(ex),[],false); }
@@ -127,10 +138,18 @@ public static class ModelCombinations
         return counts[id]=(count,over);
     }
 
+    /// <summary>1/11/2026 (point 8): true when the definition has more alternatives than the expansion allows, so that GPC finds its extremes term
+    /// by term (no principal components of the plates); false for an unknown definition.</summary>
+    public static bool ExceedsExpansion(ModelSnapshot snapshot,string definitionId)
+    {
+        var byId=Read(snapshot).ToDictionary(d=>d.Id,StringComparer.Ordinal);
+        return byId.ContainsKey(definitionId)&&AlternativeCount(byId,definitionId,new(StringComparer.Ordinal)).Over;
+    }
+
     internal const string ZeroMessage="Tutti i coefficienti nulli (anche dopo la somma dei termini): nessun caso da combinare. Indica almeno un coefficiente diverso da zero.";
 
-    internal static string ExpansionMessage(long count)=>$"Oltre {MaximumAlternatives} stati alternativi ({count}): una somma lineare di inviluppi ha il prodotto "+
-        "delle loro alternative. Usa un inviluppo delle combinazioni invece della somma, o riduci i termini degli inviluppi annidati.";
+    internal static string ExpansionMessage(long count)=>$"Oltre {MaximumAlternatives} stati alternativi ({(count>=1_000_000_000_000L?"più di 10¹²":count.ToString(System.Globalization.CultureInfo.InvariantCulture))}): "+
+        "GPC cerca gli estremi termine per termine, senza elencare gli stati; governanti completi. Componenti principali dei plate non disponibili: richiedono ogni stato.";
 
     internal static string Explain(Exception ex)=>ex.Message.StartsWith("CyclicCombination",StringComparison.Ordinal)
         ?"Dipendenza circolare tra combinazioni. Correggi i riferimenti."
@@ -144,6 +163,7 @@ public static class ModelCombinations
             throw new InvalidDataException("Identità della combinazione non valida.");
         if(definition.Kind is not(ModelCombinationKind.Linear or ModelCombinationKind.Envelope) || definition.Terms.Length==0)
             throw new InvalidDataException("Scegli Somma lineare o Inviluppo e almeno un termine.");
+        snapshot=Upgraded(snapshot,Read(snapshot));
         var custom=(snapshot.CustomCombinations??[]).Where(d=>d.Id!=definition.Id).Append(definition with {Terms=definition.Terms.ToArray()}).ToArray();
         if(custom.Any(d=>d.Id!=definition.Id&&d.Name==definition.Name))throw new InvalidDataException("Esiste già una combinazione ANTHEA con questo nome.");
         var copy=Copy(snapshot);copy.CustomCombinations=custom;
@@ -161,6 +181,7 @@ public static class ModelCombinations
     public static ModelSnapshot Remove(ModelSnapshot snapshot,string id)
     {
         var all=Read(snapshot);
+        snapshot=Upgraded(snapshot,all);
         if(!all.Any(d=>d.Id==id))throw new InvalidDataException("Combinazione non trovata.");
         if(all.Any(d=>d.Id!=id&&d.Terms.Any(t=>t.IsCombination&&t.Reference==id)))throw new InvalidDataException("La combinazione è usata da altre definizioni: rimuovi prima quei riferimenti.");
         var copy=Copy(snapshot);copy.CustomCombinations=(snapshot.CustomCombinations??[]).Where(d=>d.Id!=id).ToArray();
@@ -185,11 +206,14 @@ public static class ModelCombinations
         SourceCombinations=s.SourceCombinations,
         // 1.16.0: data of the model (Straus7), kept by every copy.
         Masses=s.Masses,Temperatures=s.Temperatures,ConstructionStages=s.ConstructionStages,
+        // 1/11/2026: the choices of the generator.
+        GeneratorCases=s.GeneratorCases,
         // The copy shares the arrays of the original: its revisions hold while the parts are the same references (Revisions).
         CombinationRevisions=s.CombinationRevisions};
 
     public static ModelSnapshot RestoreImported(ModelSnapshot snapshot)
     {
+        snapshot=Upgraded(snapshot,Read(snapshot));
         var copy=Copy(snapshot);copy.ExcludedCombinationIds=null;copy.Results=CurrentResults(copy,Read(copy));copy.Validate();return copy;
     }
 
@@ -220,7 +244,7 @@ public static class ModelCombinations
         var basis=Revisions.BasisOf(snapshot);var known=snapshot.CombinationRevisions;
         if(known!=null&&known.SameBase(snapshot,basis))return (known.Preparation,known.PreparationBytes);
         var copy=Copy(snapshot);copy.Results=basis;
-        copy.CustomCombinations=null;copy.ExcludedCombinationIds=null;
+        copy.CustomCombinations=null;copy.ExcludedCombinationIds=null;copy.GeneratorCases=null;
         var (hash,bytes)=copy.FingerprintAndSize();
         snapshot.CombinationRevisions=Revisions.Of(snapshot,basis,hash,bytes);
         return (hash,bytes);
@@ -234,7 +258,8 @@ public static class ModelCombinations
     /// the canonical JSON of the definitions it reads, itself and the nested ones at any depth, in the order of their identifiers. Saving or
     /// deleting a definition changes the revisions of that definition and of the definitions that use it, and no other: the results of the
     /// others stay valid. Until 1/11/2026 the revision was the one of the whole copy without the derived results (every definition included):
-    /// the results saved with it are not current any more and are calculated again once (<see cref="WithCurrentResults"/>).
+    /// the results saved with it stay current while that revision is still the one of the copy (<see cref="Upgraded"/>), otherwise they are
+    /// calculated again once (<see cref="WithCurrentResults"/>).
     /// </summary>
     public static string DefinitionRevision(ModelSnapshot snapshot,string definitionId)=>
         DefinitionRevisions(snapshot,Read(snapshot),[definitionId]).TryGetValue(definitionId,out var revision)?revision:throw new InvalidDataException("Combinazione non trovata.");
@@ -289,25 +314,58 @@ public static class ModelCombinations
 
     /// <summary>
     /// The copy shown by the viewer: the same copy when every derived result is of the current revision of its definition, otherwise a copy
-    /// without the others. A document saved before 1/11/2026 has the revisions of the whole copy: its results are not shown as valid, the
-    /// catalogue offers them «Da calcolare» and the next change of the copy writes the document without them. Never an error.
+    /// without the others. A document saved until 1.16.2 has the revisions of the whole copy: its results still current take the revision of
+    /// their definition (<see cref="Upgraded"/>) and stay «Calcolata»; the others are not shown as valid, the catalogue offers them «Da
+    /// calcolare» and the next change of the copy writes the document without them. Never an error.
     /// </summary>
     public static ModelSnapshot WithCurrentResults(ModelSnapshot snapshot)
     {
         ArgumentNullException.ThrowIfNull(snapshot);
         if(!snapshot.Results.Any(r=>r.Combination!=null))return snapshot;
-        ModelResultSet[] results;
-        try {results=CurrentResults(snapshot,Read(snapshot));}
+        ModelResultSet[] results;var upgraded=snapshot;
+        try {var definitions=Read(snapshot);upgraded=Upgraded(snapshot,definitions);results=CurrentResults(upgraded,definitions);}
         catch(Exception ex) when(ex is InvalidDataException or ArgumentException or InvalidOperationException or NotSupportedException or KeyNotFoundException)
-        {results=snapshot.Results.Where(r=>r.Combination==null).ToArray();}
-        if(results.Length==snapshot.Results.Length)return snapshot;
-        var copy=Copy(snapshot);copy.Results=results;return copy;
+        {upgraded=snapshot;results=snapshot.Results.Where(r=>r.Combination==null).ToArray();}
+        if(ReferenceEquals(upgraded,snapshot)&&results.Length==snapshot.Results.Length)return snapshot;
+        var copy=Copy(upgraded);copy.Results=results;return copy;
+    }
+
+    /// <summary>
+    /// Decision of the user of 1/11/2026 evening («Combinazioni calcolate con le versioni precedenti → Calcolate + avviso»), after COMBO-REV-01.
+    /// A derived result saved until 1.16.2 carries the revision of format 1: the one of the whole copy without the derived results, every
+    /// definition included (<see cref="WholeCopyRevision"/>). When it is the revision of the copy, computed exactly as 1.16.2 did, the result
+    /// is still current: it keeps its values and takes the revision of its definition (format 2), which the document receives the first time
+    /// the copy is written. A copy changed since (a definition, a case, the geometry) or written differently gives another revision: those
+    /// results are calculated again, as before. The principal components that 1.16.2 did not calculate stay missing, as for every result
+    /// without them. The same copy when no result needs it; the revision of the whole copy is computed only for results not current.
+    /// </summary>
+    internal static ModelSnapshot Upgraded(ModelSnapshot snapshot,IReadOnlyList<ModelCombinationDefinition> definitions)
+    {
+        var derived=snapshot.Results.Where(r=>r.Combination!=null).ToArray();
+        if(derived.Length==0)return snapshot;
+        var revisions=DefinitionRevisions(snapshot,definitions,derived.Select(r=>r.Combination!.DefinitionId));
+        if(derived.All(r=>!revisions.TryGetValue(r.Combination!.DefinitionId,out var current)||current==r.Combination.InputRevision))return snapshot;
+        string whole=WholeCopyRevision(snapshot);
+        if(!derived.Any(r=>r.Combination!.InputRevision==whole&&revisions.ContainsKey(r.Combination.DefinitionId)))return snapshot;
+        var copy=Copy(snapshot);
+        copy.Results=[..snapshot.Results.Select(r=>r.Combination is {} c&&c.InputRevision==whole&&revisions.TryGetValue(c.DefinitionId,out var current)
+            ?r with {Combination=c with {InputRevision=current}}:r)];
+        return copy;
+    }
+
+    /// <summary>The revision of format 1, ModelCombinations.InputRevision until 1.16.2: the SHA-256 of the canonical JSON of the copy without
+    /// its derived results, the definitions of the user included. The choices of the generator (1/11/2026) were not part of the copy then.</summary>
+    internal static string WholeCopyRevision(ModelSnapshot snapshot)
+    {
+        var copy=Copy(snapshot);copy.Results=Revisions.BasisOf(snapshot);copy.GeneratorCases=null;
+        return copy.Fingerprint();
     }
 
     public static ModelSnapshot Attach(ModelSnapshot snapshot,string definitionId,ModelCombinationCalculation calculated)
     {
-        var copy=Copy(snapshot);
         var definitions=Read(snapshot);
+        snapshot=Upgraded(snapshot,definitions);
+        var copy=Copy(snapshot);
         if(calculated.Results.Length==0||!definitions.Any(d=>d.Id==definitionId))throw new InvalidDataException("Il modello o la definizione sono cambiati durante il calcolo. Ricalcola la combinazione.");
         string revision=DefinitionRevision(snapshot,definitionId);
         if(calculated.Results.Any(r=>r.Combination?.DefinitionId!=definitionId||r.Combination.InputRevision!=revision))
@@ -336,7 +394,7 @@ public static class ModelCombinations
         var basis=Revisions.BasisOf(model);
         if(basis.Length>0&&model.CombinationRevisions is {} known&&known.SameBase(model,basis))
             return known.PreparationBytes+Property(nameof(ModelSnapshot.CustomCombinations),model.CustomCombinations)+
-                Property(nameof(ModelSnapshot.ExcludedCombinationIds),model.ExcludedCombinationIds)+model.Results.Where(r=>r.Combination!=null).Sum(r=>Size(r)+1);
+                Property(nameof(ModelSnapshot.ExcludedCombinationIds),model.ExcludedCombinationIds)+Property(nameof(ModelSnapshot.GeneratorCases),model.GeneratorCases)+model.Results.Where(r=>r.Combination!=null).Sum(r=>Size(r)+1);
         return Size(model);
         static long Property<T>(string name,T? value) where T:class=>value==null?0:1+Encoding.UTF8.GetByteCount(JsonSerializer.Serialize(name))+1+Size(value);
     }

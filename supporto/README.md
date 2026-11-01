@@ -1,6 +1,6 @@
 # Materiale di supporto ANTHEA
 
-La documentazione utente è raccolta in due guide globali: pratica e teorica Rev65 del 1 novembre 2026. L'articolo [Capacità orizzontale del palo in terreno stratificato](docs/articolo-palo-orizzontale-stratificato.md) espone il metodo di G. Pacini.
+La documentazione utente è raccolta in due guide globali: pratica e teorica Rev66 del 1 novembre 2026. L'articolo [Capacità orizzontale del palo in terreno stratificato](docs/articolo-palo-orizzontale-stratificato.md) espone il metodo di G. Pacini.
 
 - [Guida pratica e UI](docs/guida-pratica-anthea.md): procedure e interfaccia di tutti i moduli; comprende importazione dei modelli e finestra di supporto per la reologia del calcestruzzo.
 - [Guida teorica](docs/guida-teorica-anthea.md): modelli, formule, ipotesi, limiti, approfondimenti e appendici tecniche di tutti i moduli.
@@ -75,4 +75,4 @@ Portanza sismica, cedimenti, Newmark e armature: [rapporto aggiornamento](artefa
 
 - Revisione 32: classi minime del calcestruzzo secondo il prospetto 6 della UNI 11104:2025, con XF1 a C32/40 del prospetto 5 dell'edizione 2016; composizione secondo il prospetto 5 dell'edizione 2016. Le edizioni Rev31 sono in `SUPERATI/documentazione/Guide_ANTHEA`, con `SUPERATI/registro-20261007-rev32.json`.
 
-Azioni: neve, vento e temperatura negli edifici; vento CNR e temperatura negli impalcati; permanenti e sovraccarichi, combinazioni SLU/SLE, traffico stradale, ripartizione rigida e deformabile, urti veicolari. Dieci fogli con schemi e formule; venti esempi nel catalogo centrale, con dati ANTHEA e relazioni Word/PDF e CSV.
+Azioni: neve, vento e temperatura negli edifici; vento CNR e temperatura negli impalcati; permanenti e sovraccarichi, combinazioni SLU/SLE, traffico stradale, ripartizione rigida e deformabile, urti veicolari. Sedici fogli con schemi e formule, compresi idraulica, fasi costruttive, effetti differiti, precompressione, carriponte e incendio; quarantuno esempi Azioni nel catalogo centrale, con dati ANTHEA e relazioni Word/PDF e CSV.

@@ -90,3 +90,12 @@ Set candidate-final-versions da Model 07fb7618 e Checker c79f2c81: 11933 test PA
 ## Integrazione GPC e set ufficiale AQ
 
 Model 07fb7618 e Checker c79f2c81 integrati per fast-forward nei rispettivi origin/master; gli origin precedenti erano già antenati dei branch verificati. Nessun checkout degli altri lavori modificato. Set ufficiale release-aq ricostruito dopo il push con -Previous sul set AP: 11933 PASS, zero fallimenti, 13 prove già ignorate. Tutte le 14 DLL sono identiche al candidato finale. Snapshot ANTHEA installato mediante Update-Snapshot, manifest e provenienza F4 aggiornati; attesi numerici invariati. Full ANTHEA da eseguire su questo insieme prima del merge finale.
+
+
+## Allineamento alla 1.17.0 e set AR
+
+Durante il full della base precedente è arrivato origin/main f2906bbd (1.17.0). Corsa 20261101-222412-azioni-aq-full interrotta esplicitamente prima delle prove UI: risultati parziali conservati, non dichiarata completa. Rilevato un solo conteggio obsoleto in Presentation.Tests (10 fogli anziché 16): corretto e aggiunto il controllo di presenza univoca dei sei nuovi ID.
+
+Integrato origin/main nel branch Azioni: nessun conflitto di codice; registri uniti per ID senza scartare modifiche, snapshot più recente conservato, tutti i contenuti delle guide di main preservati integralmente. Le due Rev65 sono archiviate con SHA-256 e confluiscono nella Rev66: 130 e 212 pagine, 1355 e 2551 frammenti verificati, 9 e 1566 formule native, 26 parti ITEC identiche. Controllate visivamente copertine, indici, pagine nuove e sezioni interessate dall’integrazione; PDF degli indici e README aggiornati.
+
+Il nome AQ era già utilizzato dalla 1.17.0: il set finale è AR. Ripetuto Release-Set con -Previous sul vero AQ pubblicato: 11933 PASS, zero fallimenti, 13 prove già ignorate; 14 DLL identiche al candidato. Installazione ufficiale e provenienza F4 aggiornate. Nuovo full da eseguire sul risultato unito; nessun installer o tag aggiuntivo creato da questa attività.

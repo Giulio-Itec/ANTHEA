@@ -1,8 +1,8 @@
 {
     "snapshotDate":  "2026-11-01",
     "generator":  "tools/libs/Update-Snapshot.ps1 -ReleaseSet",
-    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\azioni-estese-20261101\\ANTHEA\\supporto\\artefatti\\azioni-estese\\release-aq",
-    "releaseSetCreated":  "2026-11-01T22:23:35",
+    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\azioni-estese-20261101\\ANTHEA\\supporto\\artefatti\\azioni-estese\\release-ar",
+    "releaseSetCreated":  "2026-11-01T22:37:54",
     "candidate":  false,
     "targetFramework":  "netstandard2.0",
     "nuget":  [

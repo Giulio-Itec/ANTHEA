@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using GPC.Model.Design.Combinations;
 
 namespace ANTHEA.ModelWorkspace;
@@ -10,9 +11,41 @@ public enum ModelCaseNature { Excluded, G1, G2, Variable, Accidental, Seismic }
 /// <summary>
 /// A static load case with its nature for the generator: the category of a variable case gives its ψ (NTC 2018 Tab. 2.5.I); the group joins
 /// correlated cases (one presence and one lead in the enumeration, as the groups of the walls); empty group: G1 and G2 one group each, the other
-/// natures one group per case. A seismic case enters the seismic rows with both signs.
+/// natures one group per case. A seismic case without direction enters the seismic rows alone with both signs; with a direction (decision of the
+/// user of 1/11/2026) the directional cases follow the rule 100/30 of NTC 2018 §7.3.5, with the coefficients of Model (SeismicCombinations).
 /// </summary>
-public sealed record ModelCaseAssignment(string Case, ModelCaseNature Nature, VariableActionCategory? Category = null, string? Group = null);
+public sealed record ModelCaseAssignment(string Case, ModelCaseNature Nature, VariableActionCategory? Category = null, string? Group = null,
+    SeismicDirection Direction = SeismicDirection.None)
+{
+    /// <summary>For the interface, which has no types of GPC: the category as its index in VariableActionCategory (NTC 2018 Tab. 2.5.I, A-H, wind,
+    /// snow up to and above 1000 m, temperature), the direction as its index (none, X, Y, Z).</summary>
+    public int? CategoryIndex => Category is { } c ? (int)c : null;
+    public int DirectionIndex => (int)Direction;
+    public static int CategoryCount => Enum.GetValues<VariableActionCategory>().Length;
+    public static ModelCaseAssignment FromIndexes(string @case, ModelCaseNature nature, int? category, string? group, int direction) =>
+        new(@case, nature, category is { } c ? (VariableActionCategory)c : null, group, (SeismicDirection)direction);
+}
+
+/// <summary>
+/// The choices of the generator kept in the copy of the model (decision of the user of 1/11/2026), so that a new generation starts from them:
+/// names of the enumerations as text (the order of an enumeration may change), the optional ones omitted when empty.
+/// </summary>
+public sealed record ModelGeneratorCase(string Case, string Nature,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? Category = null,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? Group = null,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? Direction = null)
+{
+    internal static ModelGeneratorCase From(ModelCaseAssignment a) => new(a.Case, a.Nature.ToString(), a.Category?.ToString(),
+        string.IsNullOrWhiteSpace(a.Group) ? null : a.Group.Trim(), a.Direction == SeismicDirection.None ? null : a.Direction.ToString());
+
+    /// <summary>The assignment, or null when a name is not one of the enumerations (a document of a newer version).</summary>
+    internal ModelCaseAssignment? ToAssignment() =>
+        string.IsNullOrWhiteSpace(Case) || !Enum.TryParse<ModelCaseNature>(Nature, false, out var nature) || !Enum.IsDefined(nature) ? null
+        : Category is { } c && !(Enum.TryParse<VariableActionCategory>(c, false, out var category) && Enum.IsDefined(typeof(VariableActionCategory), category)) ? null
+        : Direction is { } d && !(Enum.TryParse<SeismicDirection>(d, false, out var direction) && Enum.IsDefined(typeof(SeismicDirection), direction)) ? null
+        : new(Case, nature, Category is null ? null : Enum.Parse<VariableActionCategory>(Category), Group,
+            Direction is null ? SeismicDirection.None : Enum.Parse<SeismicDirection>(Direction));
+}
 
 /// <summary>
 /// Automatic combinations of the Models module on the generator of Model (ANTHEA census of the combinations, D9 a, decision of the user of
@@ -64,7 +97,8 @@ public static class ModelCombinationGenerator
     {
         ArgumentNullException.ThrowIfNull(snapshot); ArgumentNullException.ThrowIfNull(assignments);
         var known = ModelCombinations.StaticCaseNames(snapshot).ToHashSet(StringComparer.Ordinal);
-        if (assignments.Any(a => a is null || string.IsNullOrWhiteSpace(a.Case) || !Enum.IsDefined(a.Nature)))
+        if (assignments.Any(a => a is null || string.IsNullOrWhiteSpace(a.Case) || !Enum.IsDefined(a.Nature) || !Enum.IsDefined(a.Direction)
+            || a.Category is { } category && !Enum.IsDefined(category)))
             throw new InvalidDataException("Natura dei casi di carico mancante o non valida.");
         if (assignments.Select(a => a.Case).Distinct(StringComparer.Ordinal).Count() != assignments.Count)
             throw new InvalidDataException("Ogni caso di carico va indicato una volta sola.");
@@ -84,27 +118,69 @@ public static class ModelCombinationGenerator
             ModelCaseNature.Variable => profile.Variable(a.Case, Group(a), a.Category!.Value),
             _ => new GeotechnicalDesignAction(a.Case, Group(a), GeotechnicalActionNature.A)
         }).ToArray();
-        var seismic = used.Where(a => a.Nature == ModelCaseNature.Seismic).SelectMany(a => new[] { (a.Case, Sign: 1d), (a.Case, Sign: -1d) }).ToArray();
+        // The seismic variants and their coefficients come from Model: ±1 for a case without direction, 100/30 for the directional cases.
+        if (assignments.FirstOrDefault(a => a.Nature != ModelCaseNature.Seismic && a.Direction != SeismicDirection.None) is { } directed)
+            throw new InvalidDataException("La direzione del sisma vale solo per i casi sismici («" + directed.Case + "»).");
+        var seismic = SeismicCombinations.Variants(used.Where(a => a.Nature == ModelCaseNature.Seismic).Select(a => new SeismicCase(a.Case, a.Direction)));
         int groups = actions.Where(a => a.Nature != GeotechnicalActionNature.A).Select(a => a.Group).Distinct(StringComparer.Ordinal).Count();
-        if (groups > 12) throw new InvalidDataException($"Generazione troppo estesa ({groups} gruppi di casi permanenti e variabili, al più 12): raggruppa i casi correlati.");
+        if (groups > 12) throw new InvalidDataException($"Generazione troppo estesa ({groups} gruppi di casi permanenti e variabili, al più 12): riunisci i casi correlati nello stesso gruppo o escludi quelli che non servono.");
         IReadOnlyList<GeotechnicalCombinationRow> rows;
-        try { rows = GeotechnicalCombinations.Generate(new GeotechnicalCombinationRequest(profile.Structural, actions, seismicVariants: seismic.Length)); }
+        try { rows = GeotechnicalCombinations.Generate(new GeotechnicalCombinationRequest(profile.Structural, actions, seismicVariants: seismic.Count)); }
         catch (ArgumentException ex) { throw new InvalidDataException("Combinazioni non generate: " + ex.Message, ex); }
-        if (rows.Count > MaximumRows) throw new InvalidDataException($"Oltre {MaximumRows} combinazioni ({rows.Count}): raggruppa i casi correlati.");
+        if (rows.Count > MaximumRows) throw new InvalidDataException($"Oltre {MaximumRows} combinazioni ({rows.Count} righe): riunisci i casi correlati nello stesso gruppo o escludi quelli che non servono.");
         var counters = new Dictionary<GeotechnicalLimitState, int>();
         return rows.Select(row =>
         {
             int n = counters[row.State] = counters.GetValueOrDefault(row.State) + 1;
             string name = Label(row.State) + " " + n.ToString(CultureInfo.InvariantCulture);
             var terms = actions.Where(a => row.Factors[a.Id] != 0).Select(a => new ModelCombinationTerm(a.Id, false, row.Factors[a.Id])).ToList();
-            if (row.SeismicVariant >= 0) terms.Add(new ModelCombinationTerm(seismic[row.SeismicVariant].Case, false, seismic[row.SeismicVariant].Sign));
+            if (row.SeismicVariant >= 0) terms.AddRange(seismic[row.SeismicVariant].Factors.Select(f => new ModelCombinationTerm(f.Key, false, f.Value)));
             return new ModelCombinationDefinition(IdPrefix + name, name, ModelCombinationKind.Linear, "ANTHEA", Status, terms.ToArray(), true);
         }).ToArray();
     }
 
     /// <summary>The copy of the model with the generated combinations instead of those of a previous generation; as when a definition is saved,
     /// the results of the definitions that change (and of those that use them) are discarded, the others kept.</summary>
-    public static ModelSnapshot Apply(ModelSnapshot snapshot, IReadOnlyList<ModelCombinationDefinition> generated)
+    public static ModelSnapshot Apply(ModelSnapshot snapshot, IReadOnlyList<ModelCombinationDefinition> generated) => Apply(snapshot, generated, null);
+
+    /// <summary>The same, keeping the <paramref name="choices"/> of the generation in the copy (<see cref="ModelSnapshot.GeneratorCases"/>):
+    /// a new generation starts from them (<see cref="Choices"/>). Null keeps the choices of the copy.</summary>
+    public static ModelSnapshot Apply(ModelSnapshot snapshot, IReadOnlyList<ModelCombinationDefinition> generated, IReadOnlyList<ModelCaseAssignment>? choices)
+    {
+        var copy = Replace(snapshot, generated);
+        if (choices != null) copy.GeneratorCases = choices.Select(ModelGeneratorCase.From).ToArray();
+        return copy;
+    }
+
+    /// <summary>
+    /// The choices to show for a new generation: those kept in the copy for the cases still in the model, the proposal (<see cref="Propose"/>) for
+    /// the new cases, in the order of the static cases of the copy.
+    /// </summary>
+    public static ModelCaseAssignment[] Choices(ModelSnapshot snapshot)
+    {
+        var kept = (snapshot.GeneratorCases ?? []).Select(c => c.ToAssignment()).OfType<ModelCaseAssignment>()
+            .GroupBy(a => a.Case, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.First(), StringComparer.Ordinal);
+        return Propose(snapshot).Select(p => kept.TryGetValue(p.Case, out var k) ? k : p).ToArray();
+    }
+
+    /// <summary>A preview of a generation: the number of rows for each limit state, or why it cannot be generated (category to choose, limit of
+    /// rows or groups, with the number and the remedy), without changing the copy.</summary>
+    public static (bool CanGenerate, int Rows, string Message) Preview(ModelSnapshot snapshot, IReadOnlyList<ModelCaseAssignment> assignments)
+    {
+        var missing = assignments.Where(a => a.Nature == ModelCaseNature.Variable && a.Category is null).Select(a => a.Case).ToArray();
+        if (missing.Length > 0)
+            return (false, 0, "Scegli la categoria della Tab. 2.5.I per i carichi variabili: " + string.Join(", ", missing) + ". La generazione parte solo con tutte le categorie.");
+        try
+        {
+            var rows = Generate(snapshot, assignments);
+            var counts = rows.GroupBy(r => r.Name[..r.Name.LastIndexOf(' ')]).Select(g => g.Key + " " + g.Count().ToString(CultureInfo.InvariantCulture));
+            return (true, rows.Length, rows.Length.ToString(CultureInfo.InvariantCulture) + " combinazioni (" + string.Join(", ", counts) + ", al più " +
+                MaximumRows.ToString(CultureInfo.InvariantCulture) + "). Sostituiscono le generate in precedenza; quelle dell'utente restano.");
+        }
+        catch (InvalidDataException ex) { return (false, 0, ex.Message); }
+    }
+
+    static ModelSnapshot Replace(ModelSnapshot snapshot, IReadOnlyList<ModelCombinationDefinition> generated)
     {
         ArgumentNullException.ThrowIfNull(snapshot); ArgumentNullException.ThrowIfNull(generated);
         if (generated.Any(d => d is null || !d.Id.StartsWith(IdPrefix, StringComparison.Ordinal) || d.Source != "ANTHEA" || !d.Editable))
@@ -112,6 +188,7 @@ public static class ModelCombinationGenerator
         var kept = (snapshot.CustomCombinations ?? []).Where(d => !d.Id.StartsWith(IdPrefix, StringComparison.Ordinal)).ToArray();
         if (kept.Any(d => generated.Any(g => g.Name == d.Name)))
             throw new InvalidDataException("Una combinazione ANTHEA ha già il nome di una combinazione generata: rinominala prima.");
+        snapshot = ModelCombinations.Upgraded(snapshot, ModelCombinations.Read(snapshot)); // results of 1.16.2 still current (1/11/2026 evening)
         var copy = ModelCombinations.Copy(snapshot);
         copy.CustomCombinations = [.. kept, .. generated];
         // Decision of 1/11/2026: the results of the rows generated again with the same definition stay valid (a revision for each definition).

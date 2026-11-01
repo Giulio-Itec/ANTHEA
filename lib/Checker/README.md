@@ -1,10 +1,30 @@
 # DLL Checker
 
-**Release AQ — sei fogli Azioni aggiuntive (1 novembre 2026).** Set ufficiale da Model `07fb7618` e Checker `c79f2c81`, integrati e pubblicati su origin/master dopo tutte le prove. Utilities `e57b440b` e Geometry `6734eee1` invariati. Contratti GPCModel **5.35.0.0** e calcoli GPC.Design **0.45.0.0**: idraulica, carichi delle fasi costruttive, ritiro/viscosità e barra vincolata, precompressione e perdite, gruppi del carroponte, curve e condizioni termiche da incendio. Comprende le modifiche già integrate nei master dopo AP (preparazione delle combinazioni/inviluppi, componenti principali dei plate, archivio degli enum, metodi Concrete e verifiche Steel).
+**Release AR — sei fogli Azioni aggiuntive (1 novembre 2026).** Set ufficiale da Model `07fb7618` e Checker `c79f2c81`, integrati e pubblicati su origin/master dopo tutte le prove. Utilities `e57b440b` e Geometry `6734eee1` invariati. Contratti GPCModel **5.35.0.0** e calcoli GPC.Design **0.45.0.0**: idraulica, carichi delle fasi costruttive, ritiro/viscosità e barra vincolata, precompressione e perdite, gruppi del carroponte, curve e condizioni termiche da incendio. Comprende le modifiche già integrate nei master dopo AP (preparazione delle combinazioni/inviluppi, componenti principali dei plate, archivio degli enum, metodi Concrete e verifiche Steel).
 
 Ricompilazioni coerenti: ModelData 0.3.0.21, Persistence 3.4.0.11, Converter 2.12.0.1, Concrete 0.35.0.1, Steel 2.128.0.1, CompositeBridge 1.23.0.2, Geotechnics 0.27.0.11, ModelChecker 2.36.0.1 e Masonry 0.10.0.26. Il set completo contiene 14 DLL; lo snapshot ANTHEA ne usa 13. Nessun Gmsh nel prodotto.
 
-`Release-Set.ps1 -Previous` rispetto ad AP: **11933 PASS, zero fallimenti, 13 prove già ignorate**; API compatibili. Le 14 DLL sono identiche bit per bit al candidato finale. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; provenienza F4 aggiornata senza modificare attesi o input numerici. Evidenze in `supporto/artefatti/azioni-estese/release-aq`. Full ANTHEA richiesto dopo questa installazione, esito finale nel verbale [Azioni aggiuntive](../../docs/refactoring/azioni-estese-20261101.md).
+`Release-Set.ps1 -Previous` rispetto al set AQ della 1.17.0: **11933 PASS, zero fallimenti, 13 prove già ignorate**; API compatibili. Le 14 DLL sono identiche bit per bit al candidato finale. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; provenienza F4 aggiornata senza modificare attesi o input numerici. Evidenze in `supporto/artefatti/azioni-estese/release-ar`. Full ANTHEA richiesto dopo questa installazione, esito finale nel verbale [Azioni aggiuntive](../../docs/refactoring/azioni-estese-20261101.md).
+
+**Release AQ — modulo Modelli punto 8 e controlli del c.a. (1 novembre 2026, ANTHEA 1.17.0).** Set ufficiale da Model
+`f4f78752` e Checker `eb16e72c` su origin/master (regola dell'utente del 29/10). Geometry `6734eee1` e Utilities `e57b440b`
+invariati. Contenuto rispetto ad AP:
+- GPCModel 5.34.0.0: regola 100/30 di NTC 2018 §7.3.5 nelle varianti sismiche con direzione, componenti principali dei plate nelle
+  combinazioni (opzione della cache, campioni invariati senza), somme lineari di inviluppi oltre 4096 stati valutate per termini
+  (agente `modelli-8`); GPC.Converter 2.12.0.0, ModelData 0.3.0.20 e Persistence 3.4.0.10 (vocabolario `SeismicDirection`);
+  contiene anche GPCModel 5.33 della sessione CompositeBridge (meno allocazioni nelle proprietà omogeneizzate);
+- GPCChecker.Concrete 0.35.0.0: EN 8.7.2(3) con l'intero interferro (lettura precedente come opzione storica), controlli EN 8.8 e
+  8.7.2(4) in sospeso senza dati, adattatore μφ sulla variante generica (agente `ca-metodi`); contiene Concrete 0.34 della sessione
+  CompositeBridge;
+- CompositeBridge 1.23.0.1 (meno allocazioni nell'analisi per fasi, sessione CompositeBridge);
+- ricompilazioni all'ultimo componente: Steel 2.127.0.8, Geotechnics 0.27.0.10, GPCModelChecker 2.35.0.8, Masonry 0.10.0.25,
+  GPC.Design 0.44.0.5.
+
+`Release-Set.ps1 -Previous` rispetto ad AP: Model Core 62 e UnitTest 1611 PASS (12 ignorati); Concrete 962, Steel 122,
+CompositeBridge 420, Geotechnics 202, Calculation 175, ShallowFoundation 29, EmbeddedWalls 99, Steel.Members 6990, Design 192 net8 e
+191 net472, ModelChecker 655. Zero fallimenti; API compatibili (GPCModel +47 firme, nessuna rimozione nuova). Le DLL sono identiche
+bit per bit al candidato `cand-aq` dello stesso albero. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; set completo in
+`supporto/artefatti/librerie-20261101-aq`.
 
 **Release AP — combinazioni del modulo Modelli e duttilità in curvatura (1 novembre 2026).** Set ufficiale da Model `391cfea9` e
 Checker `a3c53320` su origin/master (regola dell'utente del 29/10: il lavoro finito va sul master). Geometry `6734eee1` e Utilities

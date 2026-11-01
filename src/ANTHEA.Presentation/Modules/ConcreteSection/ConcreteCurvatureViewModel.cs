@@ -120,7 +120,7 @@ public sealed class ConcreteCurvatureViewModel : ObservableObject, IDisposable
         try
         {
             // 1.16.0, D-5: in a place of the limiter of the application, as the calculations of the modules.
-            var completion = await scheduler.ScheduleAsync(token => sheet.Limiter.RunAsync(() => StructuralQueries.ConcreteCurvature(input, workspace, options, token), token));
+            var completion = await scheduler.ScheduleAsync(token => sheet.Limiter.RunAsync(() => StructuralQueries.ConcreteCurvature(input, workspace, options, true, token), token));
             if (disposed || sheet.IsDisposed) return;
             // F5.15, C5·S7 (F5-49): a change of the data meanwhile keeps «Dati modificati…»; only «Interrompi» says the calculation stopped.
             if (completion.Cancelled) { if (Text != ConcreteCurvaturePresentation.Stale) Text = ConcreteCurvaturePresentation.Interrupted; return; }

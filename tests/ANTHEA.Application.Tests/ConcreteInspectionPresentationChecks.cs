@@ -39,6 +39,13 @@ internal static class ConcreteInspectionPresentationChecks
             // χy = 0,00406697 1/m, χu = 0,0288128 1/m, μχ = 7,085).
             Check(text.StartsWith(curve.Status + "\n\nMRd = 800,171 kNm\nχy = 0,00406197 1/m\nχu = 0,0288742 1/m\r\nμχ = 7,108\r\n\nM [kNm]   χ [1/m]   ε0 [‰]   εc,comp [‰]   |εs|max [‰]\r\n0   0   0   0   0\r\n",
                 StringComparison.Ordinal) && text.EndsWith(" · limite\r\n", StringComparison.Ordinal), "Testo della curva della fixture default (traccia storica congelata)");
+            // 1/11/2026 (domanda 2 di ca-metodi): la scheda chiede anche μφ; il testo è lo stesso con il blocco della duttilità dopo la riga μχ.
+            var tab = StructuralQueries.ConcreteCurvature(input, workspace, options, true);
+            string? ductility = ConcreteCurvaturePresentation.Ductility(tab);
+            Check(ConcreteCurvaturePresentation.Ductility(curve) is null && ductility is not null && tab.Ductility is { } d
+                && ductility.Contains($"μφ = φu/φyd = {d.CurvatureDuctility:0.###}", StringComparison.Ordinal) && ductility.Contains("M'yd = ", StringComparison.Ordinal)
+                && ConcreteCurvaturePresentation.Text(tab) == text.Replace("μχ = 7,108\r\n", "μχ = 7,108\r\n" + ductility, StringComparison.Ordinal),
+                "Testo della scheda con la duttilità in curvatura μφ dopo la riga μχ, resto invariato");
             var points = ConcreteCurvaturePresentation.Points(curve);
             Check(points.Count == 62 && points[0][0] == 0 && points[0][1] == 0 && points[^1][1] == curve.Points[^1].Moment, "Serie della curva: 62 punti (χ, M)");
             string[] csv = ConcreteCurvaturePresentation.Csv(curve).Split('\n');

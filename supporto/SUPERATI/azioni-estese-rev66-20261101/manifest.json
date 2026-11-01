@@ -1,0 +1,226 @@
+[
+  {
+    "original": "supporto/docs/guida-pratica-anthea.md",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/docs/guida-pratica-anthea.md",
+    "sha256": "1035a764a4adf0ab7110a2e89561038ea6cdd280f6ee0309adaed4ab8a74e647",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/docs/guida-pratica-anthea.pdf",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "01c52b37739b4d3191f29516839d5f557f33ee3c26e816f81a52dbd3967c7b7b",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/docs/guida-teorica-anthea.md",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/docs/guida-teorica-anthea.md",
+    "sha256": "9f0108eaebab432fc7cf9326737e1f8c31ffde4e844257df9040bf2cd47b7c62",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/docs/guida-teorica-anthea.pdf",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "5c336e77f8ae0ba038551461de5c2f667d092ced1ac30cca35d68688f8a705d2",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "c5536fed598d759e8675e99b60195044ee91a3b4a6e79c8ebbb4c19445ac5b23",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "76cbac5511625e9a1a4bd747dae10e41ae216fa2de3b8496389ef09d3dca9d27",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/installer/Indice-guide.md",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/installer/Indice-guide.md",
+    "sha256": "2a0141026b50cd6e53b496d6cf20428f9779f2807069c64abe1ab85917b65094",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/installer/Indice-guide.pdf",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/installer/Indice-guide.pdf",
+    "sha256": "bbe49d69128c69e0efa492812030d4658825e281e380438b938b3374adcc0982",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/README.md",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/README.md",
+    "sha256": "1e5f51fd7c6555ab166589e73f1923ddba7106488475856134fb4a12ef4d1205",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/README.pdf",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/README.pdf",
+    "sha256": "4c1fe7092f9fc47e26f1c71f033ea39a33b2a5ea721b5a39e26d43753486e52d",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/installer/README.md",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/installer/README.md",
+    "sha256": "561b0d23607e9df930027e1a1eb206b8b7b2854c7dc9eaa297b6930cd2f7ecc5",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/installer/README.pdf",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/installer/README.pdf",
+    "sha256": "0a29bc1d1b81d27dddc3b51534b9439783f40dbce516ea847ce71d61e9d8bf3c",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev65.docx",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev65.docx",
+    "sha256": "01cac8f4690db5b0e886de59e57180c6caae0d0c662921f0400a479f8a8ecd7b",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev65.pdf",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev65.pdf",
+    "sha256": "01c52b37739b4d3191f29516839d5f557f33ee3c26e816f81a52dbd3967c7b7b",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev65.docx",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev65.docx",
+    "sha256": "abad3637c25f4fca34a5d2424ca10c56729123779e088b88edf38dc1aeac754d",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev65.pdf",
+    "ref": "1fdd926bd6a4bf6a8f2ee189ac530d878b43d949",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/bozza-azioni/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev65.pdf",
+    "sha256": "5c336e77f8ae0ba038551461de5c2f667d092ced1ac30cca35d68688f8a705d2",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/docs/guida-pratica-anthea.md",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/docs/guida-pratica-anthea.md",
+    "sha256": "105e77f62960b08d3c7572e8070de9ed06de5ea55bdccc9af3bb34128b59ee52",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/docs/guida-pratica-anthea.pdf",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "9e6e51544bd2db1d3ad9041e759eb285293dbdedbf9cc42878f515ec20269f9e",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/docs/guida-teorica-anthea.md",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/docs/guida-teorica-anthea.md",
+    "sha256": "4a7a20a0c1c7031a0208b0e3adc6857dfacbb79631ea7aa0b9d64482a3508f46",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/docs/guida-teorica-anthea.pdf",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "58c2582aebe57344ba574f17c78de0c437cbe723fddc068b413008ad2fb475f9",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "ae169e9f038b91206bc69e0aaf29f82f47bfef6572be93e7833ef5508c26bf56",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "23748c20f9ea563bd6574665ab0e97e1f4e06e777bace41a30551aef1c917d64",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/installer/Indice-guide.md",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/installer/Indice-guide.md",
+    "sha256": "d01b886b1e0c06af4726bd9c0d293b44ab8be31535158ba836422f5ddd93bd08",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/installer/Indice-guide.pdf",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/installer/Indice-guide.pdf",
+    "sha256": "aae42e58124ec15f682f30bdaa0834a1269297059cbaadf9b8e3e7c727003ab3",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/README.md",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/README.md",
+    "sha256": "1e5f51fd7c6555ab166589e73f1923ddba7106488475856134fb4a12ef4d1205",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/README.pdf",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/README.pdf",
+    "sha256": "5ddceda225004645187120900ea68cc8389675a0e88b08f29ae98e1edfa4695b",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/installer/README.md",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/installer/README.md",
+    "sha256": "00b4cc6819bb601d3f4eaccc76aa98d716a4a4794ee0eb059a32feb3c6cb5af8",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/installer/README.pdf",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/installer/README.pdf",
+    "sha256": "e020dd85efa6292a5966e98252b26d5a1fdd2ddaa3389836ecb1a06c5a13d6b8",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev65.docx",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev65.docx",
+    "sha256": "fc048b6723c74989e70d823442240c5b28625f3d983c76233f99d784b20ecaef",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev65.pdf",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev65.pdf",
+    "sha256": "9e6e51544bd2db1d3ad9041e759eb285293dbdedbf9cc42878f515ec20269f9e",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev65.docx",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev65.docx",
+    "sha256": "bcda29e1e4e94ae8e6833995c231055ae41216eaee512e2eb640e596dab9d988",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev65.pdf",
+    "ref": "f2906bbd33f008ef650662692e8d743717ee5eeb",
+    "archived": "supporto/SUPERATI/azioni-estese-rev66-20261101/edizione-1170/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev65.pdf",
+    "sha256": "58c2582aebe57344ba574f17c78de0c437cbe723fddc068b413008ad2fb475f9",
+    "reason": "Unificazione delle due Rev65 nella Rev66"
+  }
+]

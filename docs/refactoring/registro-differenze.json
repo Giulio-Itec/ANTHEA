@@ -14283,6 +14283,269 @@
       "wiki": "Guide globali Rev64: Modulo Sezione in c.a. e Sezione in calcestruzzo armato"
     },
     {
+      "id": "COMBO-GEN-01",
+      "data": "2026-11-01",
+      "fase": "dopo la 1.16.2 / modelli-8",
+      "titolo": "Modelli: interfaccia del generatore delle combinazioni NTC 2018 e regola 100/30 dei casi sismici direzionali",
+      "famiglia": "modelli/combinazioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Il generatore automatico delle combinazioni (D9 a, servizio senza interfaccia dal 28/10) ha il pannello «Genera NTC 2018…» nel gestore delle combinazioni: natura, categoria della Tab. 2.5.I, gruppo e direzione sismica di ogni caso statico, anteprima delle righe per stato limite, generazione che sostituisce le generate e conserva quelle dell'utente. Decisioni dell'utente del 1/11/2026: i carichi MIDAS «L» non hanno categoria predefinita e la generazione aspetta la scelta; i casi sismici con direzione X, Y o Z seguono la regola 100/30 di NTC 2018 §7.3.5 (1,00 E di una direzione e 0,30 delle altre, ogni direzione principale una volta, tutti i segni) con i coefficienti del generatore di Model (SeismicCombinations); senza direzione entrano da soli con ±1 come prima; il limite di 4096 righe e 12 gruppi resta e l'anteprima lo dice con il numero e il rimedio. Le scelte restano nella copia (ModelSnapshot.GeneratorCases, campo nuovo omesso se nullo).",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelCombinationGenerator.cs",
+        "src/ANTHEA.ModelWorkspace/ModelSnapshot.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Generator.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelCombinationsView.xaml"
+      ],
+      "segno": "Nessun valore calcolato cambia: senza direzione le righe SLV sono quelle di prima; le impronte dei documenti senza scelte non cambiano.",
+      "effetto_quantificato": "Con due casi sismici direzionali (X, Y) le varianti sismiche passano da 4 (±E1, ±E2) a 8 (E1 ± 0,3 E2 con tutti i segni e viceversa): le righe SLV raddoppiano.",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "Punto 8 dell'elenco dei prossimi lavori; «L» sempre da scegliere, 100/30 con la direzione indicata, limite invariato.",
+        "esito": "Attuato nei rami lib-modelli/8 (Model c1d4950c) e refactoring/modelli-8 (7a55cf58)."
+      },
+      "test": [
+        "Model UnitTest: SeismicCombinationsTest (varianti scritte a mano)",
+        "ModelWorkspace.Checks: righe SLV 100/30 a mano, anteprima e limiti, persistenza delle scelte",
+        "ModelViewer.Combinations.UiChecks: pannello del generatore"
+      ]
+    },
+    {
+      "id": "COMBO-PRIN-01",
+      "data": "2026-11-01",
+      "fase": "dopo la 1.16.2 / modelli-8",
+      "titolo": "Modelli: componenti principali dei plate calcolate da GPC nelle combinazioni",
+      "famiglia": "modelli/combinazioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Le combinazioni calcolate da GPC hanno ora Mmax, Mmin, Fmax e Fmin dei plate (richiesta del 12/10): per una combinazione lineare le principali dello stato locale combinato, per un inviluppo le principali di ogni stato simultaneo con estremi, stato governante e vettore locale concomitante; mai la somma delle principali dei casi né gli estremi locali non simultanei. Convenzione mostrata: MIDAS (Mmax = −Mmin di GPC). Nel documento: campi PLATE/PRINCIPAL dopo i campi locali e, per gli inviluppi, PrincipalGoverning e PrincipalAlternatives (campi nuovi omessi se nulli). Le combinazioni oltre 4096 stati (COMBO-B2-bis) non hanno principali: richiedono ogni stato.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs",
+        "src/ANTHEA.ModelWorkspace/ModelCombinations.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Tables.cs"
+      ],
+      "segno": "Aggiunte: i valori, i governanti e le alternative esistenti non cambiano (impronta dei valori della 1.16.0, che lascia fuori le aggiunte). Le combinazioni calcolate prima restano valide senza principali; la vista chiede di ricalcolarle.",
+      "effetto_quantificato": "Per ogni risultato di combinazione con plate quattro campi in più (un valore per nodo di ogni plate) e, per gli inviluppi, quattro governanti per nodo e per risultato.",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "Punto 8 dell'elenco dei prossimi lavori: «componenti principali dei plate (Mmax, Mmin, Fmax, Fmin)».",
+        "esito": "Attuato nei rami lib-modelli/8 (Model d1e1abf1) e refactoring/modelli-8 (f1fc6ea6). Nessun dato MIDAS con le principali disponibile per il confronto."
+      },
+      "test": [
+        "Model UnitTest: PlatePrincipalsTest (formula, rotazione, inviluppo e combinazione lineare a mano)",
+        "ModelWorkspace.Checks: CombinationPrincipalChecks (attesi a mano sui valori mostrati)"
+      ]
+    },
+    {
+      "id": "COMBO-B2-bis",
+      "data": "2026-11-01",
+      "fase": "dopo la 1.16.2 / modelli-8",
+      "titolo": "Modelli: combinazioni oltre 4096 stati alternativi calcolate per termini invece che rifiutate",
+      "famiglia": "modelli/combinazioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Con COMBO-B2 una somma lineare di inviluppi con più di 4096 stati alternativi era «Non disponibile» e il calcolo la rifiutava. Ora oltre il limite GPC riceve l'albero della definizione e cerca gli estremi termine per termine (l'estremo di una somma è la somma degli estremi dei termini, quello di un inviluppo l'estremo sui termini), con il governante come stato concomitante completo; sotto il limite resta l'espansione, con risultati invariati. Il catalogo dà la definizione «Da calcolare» con il motivo; le componenti principali dei plate non sono disponibili per queste combinazioni.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs",
+        "src/ANTHEA.ModelWorkspace/ModelCombinations.cs"
+      ],
+      "segno": "Solo combinazioni prima non calcolabili; sotto il limite nessun valore cambia (impronta dei valori della 1.16.0). In Model la valutazione per termini dà sotto il limite gli stessi governanti e valori bit per bit dell'espansione.",
+      "effetto_quantificato": "Prodotto di due inviluppi di 65 termini (4225 stati): «Non disponibile» prima, ora calcolato con gli estremi uguali a mano. Prove di COMBO-B2 sostituite: «over 4096 alternatives the catalogue says why it cannot calculate» e «the calculation refuses it with the same explanation» diventano le prove COMBO-B2-bis.",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "Punto 8 dell'elenco dei prossimi lavori: «inviluppi annidati senza espansione completa».",
+        "esito": "Attuato nei rami lib-modelli/8 (Model 22713135) e refactoring/modelli-8 (7e02ab88)."
+      },
+      "test": [
+        "Model UnitTest: CombinationTreeTest (sotto il limite uguale all'espansione bit per bit, sopra il limite a mano)",
+        "ModelWorkspace.Checks: COMBO-B2-bis"
+      ]
+    },
+    {
+      "id": "CA-METODI-01",
+      "data": "2026-11-01",
+      "fase": "Pagine dei metodi del c.a., secondo giro (dopo la 1.16.2)",
+      "titolo": "EN 8.7.2(3): sovrapposizione allungata dell'intero interferro oltre min(4Ø; 50 mm)",
+      "famiglia": "calcestruzzo/ancoraggi",
+      "categoria": "scostamento-normativo",
+      "stato": "corretto",
+      "descrizione": "Nella famiglia Eurocodice (EN, UNI, DS) la sovrapposizione si allungava della sola eccedenza s − min(4Ø; 50 mm) quando l'interferro s supera la soglia; EN 1992-1-1 8.7.2(3) dice «increased by a length equal to the clear space where it exceeds 4Ø or 50 mm». Dalla 0.35.0.0 si somma l'intero interferro (lettura letterale); la lettura precedente resta come opzione storica EurocodeLapLengthening.ExcessOnly. La soglia min(4Ø; 50 mm) non cambia.",
+      "riferimento_normativo": [
+        {
+          "fonte": "UNI EN 1992-1-1:2015 (EN 1992-1-1:2004 + AC:2010 + A1:2014, testo inglese)",
+          "punto": "8.7.2(3)",
+          "riscontro": "testo (supporto/artefatti/ca-metodi/fonti, pagina ca.ancoraggi riquadro A-2)"
+        }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:181-187"
+      ],
+      "segno": "La lettura precedente era a sfavore di sicurezza di min(4Ø; 50 mm), 50 mm per Ø ≥ 12,5 mm: caso C della pagina ca.ancoraggi l0 891,76 -> 941,76 mm, non più entro 900 mm.",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "Domanda 3 di ca-metodi, «tutte come raccomandato»: oltre 4Ø o 50 mm la sovrapposizione si allunga dell'intero interferro (lettura letterale), non della sola eccedenza."
+      },
+      "attesi": "detailing-contract-0.0.17.csv di Concrete: 714 righe di ancoraggio Eurocodice con sovrapposizione (testo dell'espressione), di cui 459 con l0 + slim e 6 con esito della lunghezza da soddisfatto a non soddisfatto, verificate riga per riga da Checker/tools/attesi/classifica_contratto_dettagli_20261101.py (Approvati se spiegati). Atteso indipendente: calcolo a mano nella pagina (caso C) e in DetailingMigrationTests.",
+      "effetto_anthea": "Nessuno: ANTHEA calcola ancoraggi e sovrapposizioni con il profilo NTC 2018 (interferro ≤ 4Ø come verifica), che non cambia.",
+      "evidenze": "librerie del ramo lib-ca/metodi-2 (Checker ebc52e9a…eb16e72c con il merge di origin/master 50979c27, GPCChecker.Concrete 0.35.0.0; Model fe353243), set candidato lib-ca-metodi/set-ca-metodi-5"
+    },
+    {
+      "id": "CA-METODI-02",
+      "data": "2026-11-01",
+      "fase": "Pagine dei metodi del c.a., secondo giro (dopo la 1.16.2)",
+      "titolo": "EN 8.7.2(4) e 8.8: controlli dei dettagli della famiglia Eurocodice, in sospeso senza i dati",
+      "famiglia": "calcestruzzo/dettagli",
+      "categoria": "scostamento-normativo",
+      "stato": "corretto",
+      "descrizione": "I dettagli della famiglia Eurocodice non controllavano la percentuale di barre tese giuntate nella stessa sezione (EN 8.7.2(4): 100% solo con un solo strato, altrimenti 50%) né le regole delle barre oltre φlarge = 32 mm (EN 8.8: ancoraggio, armatura trasversale aggiuntiva, controllo della fessurazione, sovrapposizioni solo con dimensione minima 1,0 m o tensione ≤ 80%). Dalla 0.35.0.0 i controlli LapPercentage, LargeBarAnchorage, LargeBarCrackControl e LargeBarLap seguono gli altri controlli: LapPercentage è calcolato con il dato facoltativo LapArrangementData (percentuale e strati), in sospeso senza; le regole di 8.8 sono conferme in sospeso, salvo LargeBarLap soddisfatto con dimensione minima ≥ 1 m in una sezione senza fori. Mai un esito inventato.",
+      "riferimento_normativo": [
+        {
+          "fonte": "UNI EN 1992-1-1:2015 (EN 1992-1-1:2004 + AC:2010 + A1:2014, testo inglese)",
+          "punto": "8.7.2(4), 8.8(1)-(8)",
+          "riscontro": "testo (pagina ca.dettagli, §6.6 e riquadro D-8)"
+        },
+        {
+          "fonte": "DS/EN 1992-1-1 con DK NA:2024",
+          "punto": "8.8(1)",
+          "riscontro": "da riscontrare: usato il valore raccomandato 32 mm, dichiarato nel controllo"
+        }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:391-417"
+      ],
+      "segno": "A favore di sicurezza: un caso Eurocodice nella zona di sovrapposizione o con barre oltre 32 mm non è più «soddisfatto» senza i dati o le conferme.",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "Domanda 4 di ca-metodi, «tutte come raccomandato»: controlli aggiunti, «in sospeso» quando mancano i dati."
+      },
+      "attesi": "detailing-contract-0.0.17.csv di Concrete: 66 casi Eurocodice nella zona di sovrapposizione con LapPercentage in sospeso in coda, altri controlli identici, 2 esiti complessivi da soddisfatto a in sospeso, verificati riga per riga da Checker/tools/attesi/classifica_contratto_dettagli_20261101.py. Attesi indipendenti dal testo: EurocodeLapAndLargeBarTests.",
+      "effetto_anthea": "Nessuno: i dettagli di ANTHEA usano il profilo NTC 2018, che non cambia.",
+      "evidenze": "librerie del ramo lib-ca/metodi-2 (Checker ebc52e9a…eb16e72c con il merge di origin/master 50979c27, GPCChecker.Concrete 0.35.0.0; Model fe353243), set candidato lib-ca-metodi/set-ca-metodi-5"
+    },
+    {
+      "id": "CA-METODI-03",
+      "data": "2026-11-01",
+      "fase": "Pagine dei metodi del c.a., secondo giro (dopo la 1.16.2)",
+      "titolo": "Scheda «Momento–curvatura»: duttilità in curvatura μφ (NTC §4.1.2.3.4.2, Circolare Fig. C4.1.12)",
+      "famiglia": "sezione-ca/momento-curvatura",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "La scheda mostrava solo χu/χy,1 («μχ»), che non è la μφ della NTC. Dalla libreria 0.35.0.0 (variante generica con MomentCurvatureDuctilitySection) la scheda calcola anche il ramo a curvatura controllata alla stessa N e mostra M'yd e φ'yd del primo snervamento convenzionale, MRd e φyd = (MRd/M'yd) φ'yd della bilineare, Mmax, φu (0,85 Mmax dopo il picco o punto limite) e μφ = φu/φyd; con «CLS teso nelle risposte» non trascurato, o senza punto limite, il motivo. La curva, la riga «μχ», il CSV, i risultati esportati e il report non cambiano: il report non chiede la duttilità e il campo è escluso dalla serializzazione (JsonIgnore).",
+      "riferimento_normativo": [
+        {
+          "fonte": "NTC 2018",
+          "punto": "§4.1.2.3.4.2",
+          "riscontro": "testo mancante nella raccolta dell'ufficio (pagina ca.momento-curvatura, riquadro M-1)"
+        },
+        {
+          "fonte": "Circolare 21/1/2019 n. 7",
+          "punto": "C4.1.2.3.4.2, Fig. C4.1.12",
+          "riscontro": "testo mancante nella raccolta dell'ufficio"
+        }
+      ],
+      "codice": [
+        "X.Calculations/ConcreteCurvatureAnalysis.cs",
+        "X.Calculations/MomentCurvature.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteCurvaturePresentation.cs",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteCurvatureViewModel.cs"
+      ],
+      "segno": "Solo un dato in più nella scheda; nessun valore esistente cambia.",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "Domanda 2 di ca-metodi, «tutte come raccomandato»: μφ nella scheda «Momento–curvatura» di ANTHEA, non nel report."
+      },
+      "attesi": "Catture della scheda: tests/fixtures/f5-sezione/storica/ispezione/momento-curvatura.txt, solo le righe «[ispezione] curvatura testo» dei calcoli, con il blocco della duttilità in coda al testo; valori della libreria contro il riferimento indipendente tools/attesi/duttilita_curvatura.py di Checker e contro la variante nativa (MomentCurvatureDuctilityTests).",
+      "effetto_anthea": "Scheda «Momento–curvatura» della sezione c.a.: testo del risultato con la duttilità in curvatura; tempo di calcolo della scheda maggiore del ramo a curvatura controllata.",
+      "evidenze": "supporto/artefatti/ca-metodi-2/ci-e (Application.Tests, Testing.Tests, ConcreteLibraryAdapter.Checks e /attesi, wiki/manuale, Presentation.Tests/sezione-ca, ui/check-sezione-view, ui/f3-equivalence: 1201 file, 0 differenze non ammesse) e supporto/artefatti/ca-metodi-2/traccia-mc-classificazione.txt (3 righe su 410: μφ 6,31 e 2,608; la terza curva, con il tension stiffening, «non calcolata»); librerie del ramo lib-ca/metodi-2 (Checker ebc52e9a…eb16e72c con il merge di origin/master 50979c27, GPCChecker.Concrete 0.35.0.0; Model fe353243), set candidato lib-ca-metodi/set-ca-metodi-5"
+    },
+    {
+      "id": "F5-REL-1170-01",
+      "data": "2026-11-01",
+      "fase": "1.17.0, guide Rev65",
+      "titolo": "Wiki: differenze editoriali delle guide Rev65",
+      "famiglia": "guide/wiki",
+      "modulo": "Wiki",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Le guide pratica e teorica Rev65 (commit 9bc1ed68) integrano i testi «Per le guide» dei lavori del 1/11 e il testo della 1.16.1 rimandato alla revisione successiva. Pratica, capitolo Modelli e importazione: stati del catalogo delle combinazioni («Calcolata», «Da calcolare», «Casi mancanti», «Sorgente incompleta», «Vuota», «Non disponibile»), alternative ±Q, preparazione GPC e scrittura del risultato in background, risultati scartati solo per le definizioni cambiate (COMBO-REV-01), combinazioni dei progetti fino alla 1.16.2 «Calcolata» con «Ricalcola con le componenti principali» (COMBO-REV-01-bis), nomi delle definizioni importate (COMBO-B4), combinazioni oltre 4096 stati per termini (COMBO-B2-bis), generatore NTC 2018 (COMBO-GEN-01) e componenti principali dei plate (COMBO-PRIN-01); Sezione in c.a., μφ nella scheda Momento–curvatura (CA-METODI-03). Teorica: alternative e calcolo per termini, componenti principali dei plate, generazione NTC 2018 con la regola 100/30 di NTC 2018 §7.3.5, μφ con la bilineare della Circolare 2019 ed esempio a mano, regole EN 8.7.2(3), 8.7.2(4) e 8.8 della libreria (CA-METODI-01 e 02), formule in LaTeX. La cattura ui/f3-equivalence del commit delle guide ha 1169 differenze non ammesse, tutte in wiki/: quattro articoli (guida della sezione c.a., guida dei modelli e dell'importazione, architettura del calcolo e convenzioni, sezione in calcestruzzo armato) e due ricerche («inviluppo», «sisma»). Sono registrate in tests/fixtures/f3/transitions-f5-wiki.json come transizioni esatte; le transizioni delle revisioni precedenti con lo stesso valore prima prendono il valore nuovo e la voce « / F5-REL-1170-01».",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "src/ANTHEA.Wiki/Content/index.json",
+        "src/ANTHEA.Wiki/Content/search.json",
+        "src/ANTHEA.Wiki/Content/sources.props",
+        "tests/fixtures/f3/transitions-f5-wiki.json",
+        "tests/fixtures/f3/manifest.json"
+      ],
+      "segno": "Nessun risultato di calcolo; nessuna differenza fuori dalla Wiki; report di calcolo non toccati.",
+      "effetto_quantificato": "1169 differenze non ammesse (649 righe aggiunte, 493 transizioni assenti, 18 testi, 9 elementi aggiunti): 183 transizioni nuove, 397 sostituite (363 di R-1162-MAT, 14 di F5-REL-1150-01, 8 di F5-REL-112-01, 7 di F5-LIB-02, 3 di AZIONI-01, 2 di F5-REL-1160-01), 96 spostate, 0 tolte; voci da 2944 a 3127.",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "nuova versione di ANTHEA (1.17.0) se tutto passa; AGENTS.md: ogni argomento nuovo nelle due guide globali con le edizioni Word e PDF; regola «Approvati se spiegati» per le transizioni editoriali, come F5-REL-1160-01",
+        "esito": "transizioni registrate; ogni differenza nella Wiki, editoriale"
+      },
+      "test": [
+        "ui/f3-equivalence",
+        "ui/check-wiki-offscreen",
+        "Wiki.Tests",
+        "wiki/indice",
+        "wiki/manuale",
+        "installer/guides"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261101-200543-guide-1170-b (commit 9bc1ed68, prima della registrazione: Wiki.Tests, wiki/indice, wiki/manuale, installer/guides, ui/check-wiki-offscreen PASS; ui/f3-equivalence 1169 differenze non ammesse, tutte nella Wiki)",
+        "supporto/artefatti/ci/20261101-195832-guide-1170-a (prima prova: \\Big non accettato dal motore delle formule della Wiki, sostituito con \\left e \\right nello stesso commit)",
+        "supporto/artefatti/ci/20261101-203951-guide-1170-c (commit 9fd6a3f9, seconda passata per COMBO-REV-01-bis, decisione «Calcolate + avviso»: installer/guides, Wiki.Tests, wiki/indice, wiki/manuale PASS; ui/f3-equivalence 8 differenze non ammesse, tutte nella guida dei modelli e dell'importazione della Wiki: 4 transizioni sostituite, 2 di F5-REL-1150-01 e 2 di F5-REL-1170-01; voci invariate, 3127)"
+      ],
+      "voci_collegate": [
+        "F5-REL-1160-01",
+        "R-1162-MAT",
+        "COMBO-REV-01",
+        "COMBO-B4",
+        "COMBO-B2-bis",
+        "COMBO-GEN-01",
+        "COMBO-PRIN-01",
+        "CA-METODI-01",
+        "CA-METODI-02",
+        "CA-METODI-03"
+      ]
+    },
+    {
+      "id": "COMBO-REV-01-bis",
+      "data": "2026-11-01",
+      "fase": "1.17.0 / combo-legacy",
+      "titolo": "Modelli: combinazioni calcolate fino alla 1.16.2 ancora valide restano «Calcolate»",
+      "famiglia": "modelli/combinazioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Seguito di COMBO-REV-01. I progetti salvati fino alla 1.16.2 hanno nei risultati derivati la revisione di formato 1: l'impronta dell'intera copia senza i risultati derivati, tutte le definizioni comprese (ModelCombinations.InputRevision della 1.16.2). Con COMBO-REV-01 la vista li apriva tutti «Da calcolare». Ora (ModelCombinations.Upgraded, da WithCurrentResults, Inspect, Save, Remove, RestoreImported, Attach e dalla rigenerazione) un risultato la cui revisione non è quella della sua definizione è confrontato con la revisione dell'intera copia calcolata esattamente come nella 1.16.2 (copia senza risultati derivati e senza le scelte del generatore, che allora non esistevano; JSON canonico, SHA-256): se coincide resta, con gli stessi valori, e prende la revisione della sua definizione (formato 2), che il documento riceve la prima volta che la copia si scrive. Se non coincide (una definizione, un caso o la geometria cambiati, serializzazione diversa) resta il comportamento di COMBO-REV-01: «Da calcolare», mai un errore. Le componenti principali dei plate, che la 1.16.2 non calcolava, restano mancanti come per ogni risultato senza principali: chiedendole, la vista mostra l'avviso «Componenti principali non calcolate per questa combinazione (risultati di una versione precedente): calcolala di nuovo con «Ricalcola con le componenti principali» nel gestore delle combinazioni…». Aggiunta del 1/11 sera (seconda risposta del coordinatore): se i risultati salvati di una combinazione «Calcolata» hanno plate e non hanno le principali e la combinazione le può avere (entro 4096 stati alternativi), il comando del gestore diventa «Ricalcola con le componenti principali» e ricalcola con GPC invece di mostrare i risultati salvati: i valori già salvati restano identici bit per bit e si aggiungono le principali; negli altri casi «Visualizza risultati» resta com'è. L'impronta dell'intera copia si calcola solo quando ci sono risultati non correnti (una serializzazione della copia alla prima apertura di un progetto della 1.16.2).",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelCombinations.cs",
+        "src/ANTHEA.ModelWorkspace/ModelCombinationGenerator.cs",
+        "tests/ModelWorkspace.Checks/CombinationLegacyChecks.cs",
+        "tests/fixtures/model-viewer-combinations-1.16.2/progetto-1.16.2.json",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Combinations.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Workspace.cs",
+        "tests/ModelViewer.UiChecks/CombinationLegacyRenderingChecks.cs"
+      ],
+      "segno": "Nessun valore cambia: i risultati della 1.16.2 ancora validi si mostrano con i valori salvati (stesso JSON, quindi stessi bit, a parte la revisione d'ingresso); cambia solo la revisione scritta alla prima scrittura del documento.",
+      "effetto_quantificato": "Progetti della 1.16.x con combinazioni calcolate e copia invariata: le combinazioni restano «Calcolata» (prima di questa voce tornavano «Da calcolare» e si ricalcolavano una volta). Progetti con la copia cambiata dopo il calcolo: invariato, «Da calcolare». Fixture: contenitore scritto dal codice della 1.16.2 (DLL dell'installatore, supporto/artefatti/rilascio-1.16.2/estratto), modello sintetico 24 × 12 con «Somma utente» e l'inviluppo importato «cENV» calcolati (3 risultati derivati).",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "domanda 4 della sera del 1/11: «Combinazioni calcolate con le versioni precedenti → Calcolate + avviso»; restano «Calcolate» con i risultati di prima, solo chiedendo le principali la vista propone il ricalcolo.",
+        "esito": "Attuata nel ramo refactoring/combo-legacy prima del rilascio della 1.17.0; nessuna libreria toccata."
+      },
+      "test": [
+        "ModelWorkspace.Checks: legacy revision (fixture della 1.16.2 con la revisione dell'intera copia ricalcolata come la 1.16.2; valori bit per bit e revisione per definizione; catalogo e vista «Calcolata»; avviso delle principali; prima scrittura del documento; salvataggio di un'altra definizione; progetto con una definizione cambiata «Da calcolare» senza errori)",
+        "ModelWorkspace.Checks: revision per definition, documento di una revisione precedente non corrispondente ancora «Da calcolare»",
+        "ModelViewer.Combinations.UiChecks: combination of 1.16.2 (fixture della 1.16.2: «Ricalcola con le componenti principali» offerto, ricalcolo, valori salvati identici bit per bit, principali nella vista e nel documento, poi «Visualizza risultati»)"
+      ],
+      "voci_collegate": [
+        "COMBO-REV-01",
+        "COMBO-PRIN-01"
+      ]
+    },
+    {
       "id": "AZIONI-IDRAULICA-20261101",
       "fase": "Azioni aggiuntive",
       "titolo": "Pareti, platee e pile in corrente",
@@ -14310,7 +14573,7 @@
         "supporto/artefatti/azioni-estese/candidate-idraulica-03/release-set.json",
         "supporto/artefatti/ci/20261101-203553-azioni-idraulica-checkpoint/summary.json"
       ],
-      "wiki": "Guide globali Rev65 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
+      "wiki": "Guide globali Rev66 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
     },
     {
       "id": "AZIONI-FASI-20261101",
@@ -14335,7 +14598,7 @@
         "supporto/artefatti/azioni-estese/candidate-fasi-01/release-set.json",
         "supporto/artefatti/ci/20261101-205409-azioni-fasi-02/summary.json"
       ],
-      "wiki": "Guide globali Rev65 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
+      "wiki": "Guide globali Rev66 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
     },
     {
       "id": "AZIONI-TEMPO-20261101",
@@ -14354,7 +14617,7 @@
         "supporto/artefatti/azioni-estese/candidate-tempo-01/release-set.json",
         "supporto/artefatti/ci/20261101-211144-azioni-tempo-01/summary.json"
       ],
-      "wiki": "Guide globali Rev65 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
+      "wiki": "Guide globali Rev66 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
     },
     {
       "id": "AZIONI-PRESTRESS-20261101",
@@ -14372,7 +14635,7 @@
       "evidenze": [
         "supporto/artefatti/ci/20261101-213706-azioni-prestress-transfer/summary.json"
       ],
-      "wiki": "Guide globali Rev65 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
+      "wiki": "Guide globali Rev66 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
     },
     {
       "id": "AZIONI-CRANES-20261101",
@@ -14390,7 +14653,7 @@
       "evidenze": [
         "supporto/artefatti/ci/20261101-215151-azioni-cranes-01/summary.json"
       ],
-      "wiki": "Guide globali Rev65 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
+      "wiki": "Guide globali Rev66 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
     },
     {
       "id": "AZIONI-FIRE-20261101",
@@ -14408,16 +14671,16 @@
       "evidenze": [
         "supporto/artefatti/ci/20261101-220415-azioni-fire-01/summary.json"
       ],
-      "wiki": "Guide globali Rev65 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
+      "wiki": "Guide globali Rev66 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
     },
     {
       "id": "AZIONI-EXT-DOC-20261101",
       "fase": "Azioni aggiuntive",
-      "titolo": "Guide Rev65 e dodici capitoli Wiki",
+      "titolo": "Guide Rev66 e dodici capitoli Wiki",
       "famiglia": "wiki/documentazione",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Aggiunti sei capitoli per guida e dodici articoli Wiki; 94 articoli e 93 esempi totali. Nessun atteso numerico sovrascritto. Archivio Rev64 verificato per SHA-256.",
+      "descrizione": "Aggiunti sei capitoli per guida e dodici articoli Wiki; 94 articoli e 93 esempi totali. Nessun atteso numerico sovrascritto. Archivio Rev64 verificato per SHA-256. Unificati i contenuti della 1.17.0 nella Rev66; entrambe le Rev65 archiviate. Il censimento della shell passa da 10 a 16 Azioni e quello editoriale da 82 a 94 articoli, senza modificare gli attesi numerici.",
       "test": [
         "Word/PDF: audit dei contenuti, formule e parti ITEC conservate; verifica visiva delle pagine aggiunte e degli indici",
         "Wiki.Tests, wiki/indice e wiki/manuale PASS"
@@ -14425,7 +14688,9 @@
       "evidenze": [
         "supporto/artefatti/guide_anthea_itec_rev65/pratica/audit.json",
         "supporto/artefatti/guide_anthea_itec_rev65/teorica/audit.json",
-        "supporto/artefatti/ci/20261101-221622-azioni-wiki-final/summary.json"
+        "supporto/artefatti/ci/20261101-221622-azioni-wiki-final/summary.json",
+        "supporto/artefatti/guide_anthea_itec_rev66/pratica/audit.json",
+        "supporto/artefatti/guide_anthea_itec_rev66/teorica/audit.json"
       ],
       "wiki": "Capitoli Azioni idrauliche, Fasi costruttive, Ritiro viscosità, Precompressione, Gru e carriponte, Incendio."
     }

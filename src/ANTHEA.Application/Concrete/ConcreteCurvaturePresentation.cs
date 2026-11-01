@@ -47,8 +47,28 @@ public static class ConcreteCurvaturePresentation
         ArgumentNullException.ThrowIfNull(result);
         var b = new StringBuilder(result.Status); b.AppendLine($"\n\nMRd = {result.LimitMoment:0.###} kNm\nχy = {result.YieldCurvature?.ToString("G6") ?? "non raggiunta"} 1/m\nχu = {result.UltimateCurvature?.ToString("G6") ?? "non raggiunta"} 1/m");
         if (result.YieldCurvature is > 0 && result.UltimateCurvature is double u) b.AppendLine($"μχ = {u / result.YieldCurvature:0.###}");
+        if (Ductility(result) is { } ductility) b.Append(ductility);
         b.AppendLine("\nM [kNm]   χ [1/m]   ε0 [‰]   εc,comp [‰]   |εs|max [‰]");
         foreach (var p in result.Points) b.AppendLine($"{p.Moment:G7}   {p.Curvature:G7}   {p.Epsilon0:G6}   {p.ConcreteCompressionStrain:G6}   {p.SteelStrain:G6}{(p.Limit ? " · limite" : "")}");
+        return b.ToString();
+    }
+
+    /// <summary>
+    /// The curvature ductility of the tab (1/11/2026, decision of the user: in the tab, not in the report): M'yd and φ'yd of the conventional first yield,
+    /// MRd and φyd of the bilinear of the Circolare Fig. C4.1.12, the maximum of the curvature-controlled branch, φu and μφ (NTC 2018 §4.1.2.3.4.2);
+    /// or the reason why it is not computed. Null when it was not requested.
+    /// </summary>
+    public static string? Ductility(ConcreteResults.CurvatureResult result)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        if (result.Ductility is not { } d)
+            return result.DuctilityMessage is { } message ? $"\nDuttilità in curvatura μφ (NTC 2018 §4.1.2.3.4.2) non calcolata: {message}\n" : null;
+        var b = new StringBuilder("\nDuttilità in curvatura (NTC 2018 §4.1.2.3.4.2; bilineare della Circolare 2019, Fig. C4.1.12; ramo a curvatura controllata a N costante)\n");
+        b.AppendLine($"M'yd = {d.FirstYieldMoment:0.###} kNm; φ'yd = {d.FirstYieldCurvature:G6} 1/m ({(d.FirstYieldInSteel ? "snervamento della barra più tesa, εyd" : "calcestruzzo alla deformazione di picco εc2")})");
+        b.AppendLine($"MRd = {d.ResistingMoment:0.###} kNm; φyd = (MRd/M'yd)·φ'yd = {d.YieldCurvature:G6} 1/m");
+        b.AppendLine($"Mmax = {d.MaximumMoment:0.###} kNm a χ = {d.MaximumMomentCurvature:G6} 1/m");
+        b.AppendLine($"φu = {d.UltimateCurvature:G6} 1/m ({(d.UltimateAfterPeak ? "momento sceso a 0,85 Mmax dopo il picco" : "punto limite: deformazione ultima del calcestruzzo o dell'acciaio")})");
+        b.AppendLine($"μφ = φu/φyd = {d.CurvatureDuctility:0.###}");
         return b.ToString();
     }
 

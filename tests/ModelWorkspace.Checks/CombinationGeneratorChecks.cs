@@ -61,5 +61,66 @@ static partial class Program
         Reject(() => ModelCombinationGenerator.Generate(model, [new("G", ModelCaseNature.G1), new("G", ModelCaseNature.G2)]), "generator: repeated case refused");
         Reject(() => ModelCombinationGenerator.Generate(model, [new("G", ModelCaseNature.Excluded)]), "generator: nothing to combine refused");
         File.WriteAllText(Path.Combine(output, "combinazioni-generate.json"), JsonSerializer.Serialize(full, new JsonSerializerOptions { WriteIndented = true }));
+        await GeneratorInterfaceChecks(seismic, assignments);
+    }
+
+    /// <summary>
+    /// Decisions of the user of 1/11/2026 for the interface of the generator: the category of a «L» case is always chosen (no default), the
+    /// directional seismic cases follow the rule 100/30 of NTC 2018 §7.3.5 with the coefficients of Model, the limits are told before generating,
+    /// the choices are kept in the copy (new field omitted when null). Expected SLV rows written by hand.
+    /// </summary>
+    static Task GeneratorInterfaceChecks(ModelSnapshot seismic, ModelCaseAssignment[] assignments)
+    {
+        double Factor(ModelCombinationDefinition d, string c) => d.Terms.SingleOrDefault(t => t.Reference == c)?.Factor ?? 0;
+        // Two directional cases: the model of the fixture has a single E; E as X and a second seismic case as Y.
+        var twoWay = ModelSnapshot.FromJson(JsonSerializer.Serialize(seismic));
+        twoWay.SourceTables!["STLD"] = JsonSerializer.SerializeToElement(new Dictionary<string, object>
+        {
+            ["1"] = new { NAME = "G", TYPE = "D" }, ["2"] = new { NAME = "Q", TYPE = "L" }, ["3"] = new { NAME = "E", TYPE = "E" }, ["4"] = new { NAME = "U", TYPE = "E" }
+        });
+        var directional = assignments.Append(new("E", ModelCaseNature.Seismic, Direction: SeismicDirection.X)).Append(new("U", ModelCaseNature.Seismic, Direction: SeismicDirection.Y)).ToArray();
+        var slv = ModelCombinationGenerator.Generate(twoWay, directional).Where(r => r.Name.StartsWith("SLV ", StringComparison.Ordinal)).ToArray();
+        // For each of the 8 variants (E leads ±1 with U ±0.3, then U leads ±1 with E ±0.3), Q present (ψ2 = 0.3) then absent.
+        var variants = new (double E, double U)[] { (1, .3), (1, -.3), (-1, .3), (-1, -.3), (.3, 1), (-.3, 1), (.3, -1), (-.3, -1) };
+        var expected = variants.SelectMany(v => new[] { (G: 1d, Q: .3, v.E, v.U), (G: 1d, Q: 0d, v.E, v.U) }).ToArray();
+        Check(slv.Length == 16 && slv.Select(r => (Factor(r, "G"), Factor(r, "Q"), Factor(r, "E"), Factor(r, "U"))).SequenceEqual(expected),
+            "generator: rule 100/30 (NTC 2018 §7.3.5), 16 SLV rows = 8 variants × Q present or absent, by hand");
+        var noDirection = ModelCombinationGenerator.Generate(twoWay, [.. assignments, new("E", ModelCaseNature.Seismic), new("U", ModelCaseNature.Seismic)])
+            .Where(r => r.Name.StartsWith("SLV ", StringComparison.Ordinal)).ToArray();
+        Check(noDirection.Length == 8 && noDirection.All(r => Math.Abs(Factor(r, "E")) + Math.Abs(Factor(r, "U")) == 1), "generator: seismic cases without direction alone with ±1, as before");
+        Reject(() => ModelCombinationGenerator.Generate(twoWay, [.. assignments, new("E", ModelCaseNature.G2, Direction: SeismicDirection.X)]), "generator: a direction only for seismic cases");
+        // «L» never gets a category by itself; the preview waits for it and then counts the rows.
+        var proposal = ModelCombinationGenerator.Choices(twoWay);
+        Check(proposal.Single(a => a.Case == "Q") is { Nature: ModelCaseNature.Variable, Category: null } && !ModelCombinationGenerator.Preview(twoWay, proposal).CanGenerate
+            && ModelCombinationGenerator.Preview(twoWay, proposal).Message.Contains("categoria della Tab. 2.5.I per i carichi variabili: Q.", StringComparison.Ordinal), "generator: a «L» case waits for its category, no default");
+        var preview = ModelCombinationGenerator.Preview(twoWay, directional);
+        Check(preview.CanGenerate && preview.Rows == 7 + 16 && preview.Message.StartsWith("23 combinazioni (", StringComparison.Ordinal) && preview.Message.Contains("SLV 16", StringComparison.Ordinal),
+            "generator: preview of the rows of each limit state: " + preview.Message);
+        var many = Enumerable.Range(0, 13).Select(i => new ModelCaseAssignment("Q" + i, ModelCaseNature.Variable, VariableActionCategory.A)).ToArray();
+        var wide = ModelSnapshot.FromJson(JsonSerializer.Serialize(seismic));
+        wide.Results = [.. wide.Results, .. many.Select(m => wide.Results[0] with { Name = m.Case })];
+        var limit = ModelCombinationGenerator.Preview(wide, [new("G", ModelCaseNature.G1), .. many]);
+        Check(!limit.CanGenerate && limit.Message.Contains("14 gruppi", StringComparison.Ordinal) && limit.Message.Contains("al più 12", StringComparison.Ordinal) && limit.Message.Contains("stesso gruppo", StringComparison.Ordinal),
+            "generator: over 12 groups told with the number and the remedy: " + limit.Message);
+        var rows = ModelCombinationGenerator.Preview(wide, [new("G", ModelCaseNature.G1), .. many.Take(11)]);
+        Check(!rows.CanGenerate && System.Text.RegularExpressions.Regex.IsMatch(rows.Message, @"^Oltre 4096 combinazioni \(\d+ righe\): riunisci"), "generator: over 4096 rows told with the number and the remedy: " + rows.Message);
+        var grouped = ModelCombinationGenerator.Preview(wide, [new("G", ModelCaseNature.G1), .. many.Select((m, i) => m with { Group = i < 7 ? "a" : "b" })]);
+        Check(grouped.CanGenerate, "generator: the same cases in two groups can be generated: " + grouped.Message);
+        // Choices kept in the copy: omitted when null (old fingerprints unchanged), names as text, restored for a new generation.
+        Check(!JsonSerializer.Serialize(seismic).Contains("GeneratorCases", StringComparison.Ordinal), "generator: no choices, no new field in the document");
+        var applied = ModelCombinationGenerator.Apply(twoWay, ModelCombinationGenerator.Generate(twoWay, directional), directional);
+        string json = JsonSerializer.Serialize(applied);
+        var reopened = ModelSnapshot.FromJson(json);
+        Check(json.Contains("\"Direction\":\"X\"", StringComparison.Ordinal) && json.Contains("\"Category\":\"B\"", StringComparison.Ordinal) && !json.Contains("\"Group\"", StringComparison.Ordinal)
+            && ModelCombinationGenerator.Choices(reopened).SequenceEqual(directional), "generator: choices kept as text and restored after reopening");
+        var preparation = typeof(ModelCombinations).GetMethod("PreparationRevision", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
+        Check((string)preparation.Invoke(null, [applied])! == (string)preparation.Invoke(null, [twoWay])!, "generator: the choices are not an input of the GPC preparation");
+        var size = typeof(ModelCombinations).GetMethod("SerializedSize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
+        Check((long)size.Invoke(null, [applied])! == JsonSerializer.SerializeToUtf8Bytes(applied).LongLength, "generator: the size of a copy with choices equals its serialization");
+        var updated = ModelSnapshotUpdate.Apply(applied, ModelSnapshot.FromJson(JsonSerializer.Serialize(twoWay)), ModelUpdateScope.Everything);
+        Check(updated.GeneratorCases?.Length == directional.Length, "generator: an update of the copy keeps the choices");
+        var unknown = ModelSnapshot.FromJson(json.Replace("\"Direction\":\"X\"", "\"Direction\":\"W\"", StringComparison.Ordinal));
+        Check(ModelCombinationGenerator.Choices(unknown).Single(a => a.Case == "E").Direction == SeismicDirection.None, "generator: a choice unknown to this version falls back to the proposal");
+        return Task.CompletedTask;
     }
 }

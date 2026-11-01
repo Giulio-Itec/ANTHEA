@@ -1,9 +1,9 @@
 {
     "schema":  1,
     "generator":  "Checker/build/Release-Set.ps1",
-    "created":  "2026-11-01T22:23:35",
+    "created":  "2026-11-01T22:37:54",
     "candidate":  false,
-    "previous":  "C:/Users/g.pacini/Documents/Repository/ANTHEA/supporto/artefatti/librerie-20261101-ap/release-set.json",
+    "previous":  "../ANTHEA/supporto/artefatti/azioni-estese/previous-AQ-release-set.json",
     "repositories":  {
                          "Utilities":  {
                                            "commit":  "e57b440b16a0a311a7bf0af2f9cf4d2681b83491",

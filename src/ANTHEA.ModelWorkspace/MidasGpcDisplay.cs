@@ -10,6 +10,16 @@ internal static class MidasGpcDisplay
 {
     // 1.16.0: GPC N and N·mm of the nodal forces to the kN and kN·m of the copy.
     const double KilonewtonsPerNewton = 1e-3, KilonewtonMetresPerNewtonMillimetre = 1e-6;
+    /// <summary>Plate moments: N·mm/mm of GPC to kN·m/m displayed.</summary>
+    internal const double KilonewtonMetresPerMetrePerNewtonMillimetrePerMillimetre = 1e-3;
+
+    /// <summary>1/11/2026: a plate state of GPC in the order of the combination (Nxx, Nyy, Nxy, Qx, Qy, Mxx, Myy, Mxy; N/mm, N·mm/mm) as
+    /// displayed, the same values as <see cref="DisplayVector"/> of a sample with those forces.</summary>
+    internal static double[] PlateDisplayVector(IReadOnlyList<double> v) =>
+    [
+        -v[5] * KilonewtonMetresPerMetrePerNewtonMillimetrePerMillimetre, -v[6] * KilonewtonMetresPerMetrePerNewtonMillimetrePerMillimetre,
+        -v[7] * KilonewtonMetresPerMetrePerNewtonMillimetrePerMillimetre, v[0], v[1], v[2], v[3], v[4]
+    ];
     internal static CivilNxSnapshot Source(ModelSnapshot snapshot)
     {
         if(snapshot.SourceTables==null||new[]{"UNIT","NODE","ELEM","STLD"}.Any(t=>!snapshot.SourceTables.ContainsKey(t)))
