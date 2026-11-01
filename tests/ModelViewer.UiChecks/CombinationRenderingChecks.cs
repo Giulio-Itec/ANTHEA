@@ -22,7 +22,7 @@ partial class Program
         var editor=Children<DataGrid>(view).Single(g=>AutomationProperties.GetName(g)=="Termini combinazione");
         Check(editor.Items.Count==1&&editor.ActualHeight>100,"term editor is visible and has working space");
         state.AddCombinationTermCommand.Execute(null);state.SelectedCombinationTerm=state.CombinationTerms[1];state.RemoveCombinationTermCommand.Execute(null);
-        Run(state.SaveCombinationCommand.ExecuteAsync(null));Wait(150);
+        Run(()=>state.SaveCombinationCommand.ExecuteAsync(null));Wait(150);
         Check(state.Combinations.Count==1&&!state.IsCombinationDirty,"combination saved through the production UI commands");
         Check(!state.CalculateCombinationCommand.CanExecute(null)&&state.CombinationOrigin.Contains("Sorgente incompleta"),"incomplete source has an explanatory state and cannot run GPC");
         foreach(string theme in new[]{"Light","Dark","VeryDark"})
@@ -40,7 +40,7 @@ partial class Program
         Check(!state.ShowCombinationManager&&scene.ActualWidth>width+400,"combination panel collapses and releases the viewport width");
         state.OpenCombinationManagerCommand.Execute(null);state.DuplicateCombinationCommand.Execute(null);Wait(100);
         Check(state.IsCombinationDirty&&state.CombinationName.Contains("copia"),"duplicate opens an independent draft");
-        state.DiscardCombinationEditsCommand.Execute(null);Run(state.DeleteCombinationCommand.ExecuteAsync(null));
+        state.DiscardCombinationEditsCommand.Execute(null);Run(()=>state.DeleteCombinationCommand.ExecuteAsync(null));
         Check(state.Combinations.Count==0,"saved custom combination can be deleted from the view");
     }
 }

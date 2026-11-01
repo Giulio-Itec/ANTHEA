@@ -29,8 +29,9 @@ static partial class Program
         for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++) foreach (var child in Children<T>(VisualTreeHelper.GetChild(root, i))) yield return child;
     }
     // An asynchronous command of the view model (1/11/2026: saving and deleting a definition write the document off the thread of the
-    // interface): the dispatcher keeps running until it completes.
-    static void Run(Task task) { while (!task.IsCompleted) Wait(20); task.GetAwaiter().GetResult(); }
+    // interface), started inside the dispatcher as a click is (its continuations and CanExecuteChanged on this thread, as in
+    // RevisionRenderingChecks); the dispatcher keeps running until it completes.
+    static void Run(Func<Task> start) { var task = Dispatcher.CurrentDispatcher.InvokeAsync(start).Task.Unwrap(); while (!task.IsCompleted) Wait(20); task.GetAwaiter().GetResult(); }
     static void Wait(int milliseconds)
     {
         var frame = new DispatcherFrame(); var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(milliseconds) };
