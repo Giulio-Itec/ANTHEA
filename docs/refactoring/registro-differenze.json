@@ -14310,7 +14310,7 @@
         "supporto/artefatti/azioni-estese/candidate-idraulica-03/release-set.json",
         "supporto/artefatti/ci/20261101-203553-azioni-idraulica-checkpoint/summary.json"
       ],
-      "wiki": "Edizione globale dei sei fogli in preparazione; nessuna pubblicazione ufficiale ancora eseguita."
+      "wiki": "Guide globali Rev65 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
     },
     {
       "id": "AZIONI-FASI-20261101",
@@ -14335,7 +14335,7 @@
         "supporto/artefatti/azioni-estese/candidate-fasi-01/release-set.json",
         "supporto/artefatti/ci/20261101-205409-azioni-fasi-02/summary.json"
       ],
-      "wiki": "Edizione globale in preparazione."
+      "wiki": "Guide globali Rev65 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
     },
     {
       "id": "AZIONI-TEMPO-20261101",
@@ -14354,7 +14354,7 @@
         "supporto/artefatti/azioni-estese/candidate-tempo-01/release-set.json",
         "supporto/artefatti/ci/20261101-211144-azioni-tempo-01/summary.json"
       ],
-      "wiki": "Edizione globale dei sei fogli in preparazione."
+      "wiki": "Guide globali Rev65 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
     },
     {
       "id": "AZIONI-PRESTRESS-20261101",
@@ -14372,7 +14372,7 @@
       "evidenze": [
         "supporto/artefatti/ci/20261101-213706-azioni-prestress-transfer/summary.json"
       ],
-      "wiki": "Edizione globale in preparazione."
+      "wiki": "Guide globali Rev65 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
     },
     {
       "id": "AZIONI-CRANES-20261101",
@@ -14390,7 +14390,7 @@
       "evidenze": [
         "supporto/artefatti/ci/20261101-215151-azioni-cranes-01/summary.json"
       ],
-      "wiki": "Edizione globale in preparazione."
+      "wiki": "Guide globali Rev65 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
     },
     {
       "id": "AZIONI-FIRE-20261101",
@@ -14408,7 +14408,26 @@
       "evidenze": [
         "supporto/artefatti/ci/20261101-220415-azioni-fire-01/summary.json"
       ],
-      "wiki": "Edizione globale in preparazione."
+      "wiki": "Guide globali Rev65 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
+    },
+    {
+      "id": "AZIONI-EXT-DOC-20261101",
+      "fase": "Azioni aggiuntive",
+      "titolo": "Guide Rev65 e dodici capitoli Wiki",
+      "famiglia": "wiki/documentazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Aggiunti sei capitoli per guida e dodici articoli Wiki; 94 articoli e 93 esempi totali. Nessun atteso numerico sovrascritto. Archivio Rev64 verificato per SHA-256.",
+      "test": [
+        "Word/PDF: audit dei contenuti, formule e parti ITEC conservate; verifica visiva delle pagine aggiunte e degli indici",
+        "Wiki.Tests, wiki/indice e wiki/manuale PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/guide_anthea_itec_rev65/pratica/audit.json",
+        "supporto/artefatti/guide_anthea_itec_rev65/teorica/audit.json",
+        "supporto/artefatti/ci/20261101-221622-azioni-wiki-final/summary.json"
+      ],
+      "wiki": "Capitoli Azioni idrauliche, Fasi costruttive, Ritiro viscosità, Precompressione, Gru e carriponte, Incendio."
     }
   ]
 }
