@@ -165,7 +165,9 @@ static partial class Program
 
     /// <summary>Two digests of the same items: the complete one (every byte, input revisions of the derived results included) and the one of the
     /// values, where the input revision of each derived result is left empty. The decision of 1/11/2026 (a revision for each definition)
-    /// changes the revisions and never a value: the values digest is the bit-identity of the results across it.</summary>
+    /// changes the revisions and never a value: the values digest is the bit-identity of the results across it. The principal components of the
+    /// plates (1/11/2026, GPC PlatePrincipals) are additions after the local fields and in their own governing list: the values digest leaves
+    /// them out, so it is the bit-identity of every value that existed before (they are checked on their own, PrincipalChecks).</summary>
     sealed class DigestWriter
     {
         readonly IncrementalHash hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256), values = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
@@ -174,8 +176,13 @@ static partial class Program
         public void AddResults(string label, IEnumerable<ModelResultSet> results)
         {
             var list = results.ToArray(); hash.AppendData(Bytes(label, list));
-            values.AppendData(Bytes(label, list.Select(r => r.Combination is { } c ? r with { Combination = c with { InputRevision = "" } } : r).ToArray())); Items++;
+            values.AppendData(Bytes(label, list.Select(Existing).ToArray())); Items++;
         }
+        static ModelResultSet Existing(ModelResultSet r) => r with
+        {
+            Fields = r.Fields?.Where(f => f.Axes != "PRINCIPAL").ToArray(),
+            Combination = r.Combination is { } c ? c with { InputRevision = "", PrincipalGoverning = null, PrincipalAlternatives = null } : null
+        };
         static byte[] Bytes(string label, object value) => Encoding.UTF8.GetBytes(label + "\n" + JsonSerializer.Serialize(value) + "\n");
         public string Value => Convert.ToHexString(hash.GetCurrentHash());
         public string ValuesDigest => Convert.ToHexString(values.GetCurrentHash());

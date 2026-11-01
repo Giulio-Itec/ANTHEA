@@ -29,10 +29,18 @@ static partial class Program
         model = ModelCombinations.Save(model, new("ANTHEA/product", "Prodotto", ModelCombinationKind.Linear, "ANTHEA", "",
             [new("ANTHEA/wide", true, 1, "CB"), new("ANTHEA/wide", true, 1, "CB")], true));
         var product = ModelCombinations.Inspect(model).Single(c => c.Definition.Id == "ANTHEA/product");
-        Check(!product.CanCalculate && product.Message.Contains("4096", StringComparison.Ordinal), "COMBO-B2: over 4096 alternatives the catalogue says why it cannot calculate: " + product.Message);
+        // 1/11/2026 (point 8, COMBO-B2-bis): over the limit the combination is calculated term by term (GPC CombinationTreeNode), no longer refused.
+        Check(product.CanCalculate && product.State == "Da calcolare" && product.Message.Contains("4096", StringComparison.Ordinal) && product.Message.Contains("(4225)", StringComparison.Ordinal),
+            "COMBO-B2-bis: over 4096 alternatives the catalogue offers the calculation term by term and says so: " + product.Message);
         Check(ModelCombinations.Inspect(model).Single(c => c.Definition.Id == "ANTHEA/wide").CanCalculate, "COMBO-B2: the envelope of 65 terms alone stays available");
-        try { await service.CalculateAsync(model, "ANTHEA/product"); throw new Exception("COMBO-B2: expansion over the limit accepted"); }
-        catch (InvalidDataException ex) { Check(ex.Message.Contains("4096", StringComparison.Ordinal), "COMBO-B2: the calculation refuses it with the same explanation: " + ex.Message); }
+        var products = (await service.CalculateAsync(model, "ANTHEA/product")).Results;
+        // By hand: the extreme of wide + wide is twice the extreme of wide, i × G (i even) or i × Q (i odd), i = 1…65, for every plate component.
+        double[] gPlate = [10, 20, 30, 40, 50, 60, 70, 80], qPlate = [-4, 8, -12, 16, -20, 24, -28, 32];
+        var singles = Enumerable.Range(1, 65).Select(i => (i % 2 == 0 ? gPlate : qPlate).Select(v => i * v).ToArray()).ToArray();
+        Check(products.Length == 2 && Enumerable.Range(0, 8).All(k => products[0].Values.All(v => v.Values[k] == 2 * singles.Min(s => s[k])) && products[1].Values.All(v => v.Values[k] == 2 * singles.Max(s => s[k]))),
+            "COMBO-B2-bis: the extremes of the 4225 states by hand (twice the extreme of the envelope), with the GPC governing states");
+        Check(products.All(r => r.Combination!.Governing.Length == 4 * 8 + 2 * 6 && r.Fields!.All(f => f.Axes != "PRINCIPAL") && r.Combination.PrincipalGoverning == null),
+            "COMBO-B2-bis: complete governing states, no principal components (they need every state)");
 
         // COMBO-B3: a combination whose coefficients are all zero (the editor accepts 0) was offered «Da calcolare» and failed with the
         // untranslated «CombinationRejected: EmptyCombination»; the same for terms that cancel each other (Q − Q).

@@ -14,10 +14,12 @@ public static class ModelSnapshotUpdate
         token.ThrowIfCancellationRequested();incoming.Validate();
         if(scope==ModelUpdateScope.Everything)
         {
-            if(current?.CustomCombinations==null&&current?.ExcludedCombinationIds==null)return incoming;
+            if(current?.CustomCombinations==null&&current?.ExcludedCombinationIds==null&&current?.GeneratorCases==null)return incoming;
             var copy=ModelCombinations.Copy(incoming);
             copy.CustomCombinations=(current?.CustomCombinations??[]).Concat(incoming.CustomCombinations??[]).GroupBy(d=>d.Id).Select(g=>g.Last()).ToArray();
             copy.ExcludedCombinationIds=(current?.ExcludedCombinationIds??[]).Concat(incoming.ExcludedCombinationIds??[]).Distinct().ToArray();
+            // 1/11/2026: the choices of the generator of the open copy, for the cases with the same name (ModelCombinationGenerator.Choices).
+            copy.GeneratorCases=current?.GeneratorCases??incoming.GeneratorCases;
             copy.Results=copy.Results.Where(r=>r.Combination==null).ToArray();copy.Validate();return copy;
         }
         if(scope==ModelUpdateScope.Results)
@@ -44,6 +46,7 @@ public static class ModelSnapshotUpdate
             Results=scope==ModelUpdateScope.Results?incoming.Results.Where(r=>r.Combination==null).ToArray():[],
             CustomCombinations=(current?.CustomCombinations??incoming.CustomCombinations)?.ToArray(),
             ExcludedCombinationIds=(current?.ExcludedCombinationIds??incoming.ExcludedCombinationIds)?.ToArray(),
+            GeneratorCases=(current?.GeneratorCases??incoming.GeneratorCases)?.ToArray(),
             ImportMessages=(basis.ImportMessages??[]).Where(m=>m.Code!="UPDATE-SCOPE").Append(new("UPDATE-SCOPE","info","Importazione",Description(scope))).ToArray(),
             UpdateInfo=new(scope,incoming.Source,scope==ModelUpdateScope.Results,scope==ModelUpdateScope.Results?0:current?.Results.Length??0)
         };
