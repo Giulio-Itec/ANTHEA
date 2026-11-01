@@ -223,10 +223,18 @@ public sealed class ModelTabViewModel : ViewModelBase
     public void Imported(ModelSnapshot snapshot)
     {
         ArgumentNullException.ThrowIfNull(snapshot);
+        Imported(ModelDocumentEntry.Prepare(snapshot));
+    }
+
+    /// <summary>The same with the entry already prepared off the thread of the interface (the viewer, decision of 1/11/2026): only the
+    /// insertion in the document runs here.</summary>
+    public void Imported(ModelDocumentEntry prepared)
+    {
+        ArgumentNullException.ThrowIfNull(prepared);
         string? id = ModelId;
-        if (!project.ChangeData(() => { id = ProjectModelStore.Set(Container, snapshot, id); return true; }, Container)) return;
+        if (!project.ChangeData(() => { id = ProjectModelStore.Set(Container, prepared, id); return true; }, Container)) return;
         ModelId = id;
-        Snapshot = snapshot;
+        Snapshot = prepared.Snapshot;
         Title = RenameText = ProjectModelStore.Models(Container).Single(m => m.S("id") == id).S("nome");
         Targets = ReadTargets(Container);
         OnPropertyChanged(nameof(ModelId)); OnPropertyChanged(nameof(Targets));

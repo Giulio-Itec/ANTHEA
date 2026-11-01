@@ -141,7 +141,7 @@ public sealed partial class ModelViewerViewModel
     [RelayCommand(CanExecute=nameof(CanRemoveCombinationTerm))] void RemoveCombinationTerm()
     {CombinationTerms.Remove(SelectedCombinationTerm!);SelectedCombinationTerm=null;CombinationEdited();}
     bool CanSaveCombination()=>CanEditCombination&&IsCombinationDirty;
-    [RelayCommand(CanExecute=nameof(CanSaveCombination))] void SaveCombination()
+    [RelayCommand(CanExecute=nameof(CanSaveCombination))] async Task SaveCombinationAsync()
     {
         try
         {
@@ -153,7 +153,8 @@ public sealed partial class ModelViewerViewModel
                 return new ModelCombinationTerm(t.Source.Id,t.Source.IsCombination,factor,t.Source.IsCombination?"CB":t.Source.Analysis);
             }).ToArray();
             var definition=new ModelCombinationDefinition(editingCombinationId!,CombinationName.Trim(),(ModelCombinationKind)SelectedCombinationKind,editingCombinationSource,editingCombinationStatus,terms,true);
-            PublishCombinationSnapshot(ModelCombinations.Save(Snapshot!,definition));RefreshCombinations(definition.Id);
+            if(!await PublishCombinationChangeAsync(s=>ModelCombinations.Save(s,definition),"Salvataggio della definizione…"))return;
+            RefreshCombinations(definition.Id);
             CombinationMessage="Combinazione salvata nel modello. I risultati derivati precedenti sono stati invalidati. Salva il progetto per conservarla.";
         }
         catch(Exception ex){CombinationMessage="Salvataggio non completato: "+ex.Message;}
@@ -162,14 +163,17 @@ public sealed partial class ModelViewerViewModel
     [RelayCommand(CanExecute=nameof(CanDiscardCombination))] void DiscardCombinationEdits()
     {RefreshCombinations(SelectedCombination?.Definition.Id);CombinationMessage="Modifiche non salvate annullate.";}
     bool CanDeleteCombination()=>CanStartCombination()&&SelectedCombination!=null;
-    [RelayCommand(CanExecute=nameof(CanDeleteCombination))] void DeleteCombination()
+    [RelayCommand(CanExecute=nameof(CanDeleteCombination))] async Task DeleteCombinationAsync()
     {
-        try {PublishCombinationSnapshot(ModelCombinations.Remove(Snapshot!,SelectedCombination!.Definition.Id));RefreshCombinations();CombinationMessage="Combinazione rimossa dalla copia ANTHEA. Le definizioni importate originali restano conservate nella sorgente.";}
+        try {string id=SelectedCombination!.Definition.Id;if(!await PublishCombinationChangeAsync(s=>ModelCombinations.Remove(s,id),"Eliminazione della definizione…"))return;RefreshCombinations();CombinationMessage="Combinazione rimossa dalla copia ANTHEA. Le definizioni importate originali restano conservate nella sorgente.";}
         catch(Exception ex){CombinationMessage="Eliminazione non completata: "+ex.Message;}
     }
     bool CanRestoreImported()=>CanStartCombination()&&Snapshot?.ExcludedCombinationIds is {Length:>0};
-    [RelayCommand(CanExecute=nameof(CanRestoreImported))] void RestoreImportedCombinations()
-    {PublishCombinationSnapshot(ModelCombinations.RestoreImported(Snapshot!));RefreshCombinations();CombinationMessage="Combinazioni importate eliminate ripristinate.";}
+    [RelayCommand(CanExecute=nameof(CanRestoreImported))] async Task RestoreImportedCombinationsAsync()
+    {
+        try {if(!await PublishCombinationChangeAsync(ModelCombinations.RestoreImported,"Ripristino delle combinazioni importate…"))return;RefreshCombinations();CombinationMessage="Combinazioni importate eliminate ripristinate.";}
+        catch(Exception ex){CombinationMessage="Ripristino non completato: "+ex.Message;}
+    }
     bool CanCalculateCombination()=>CanStartCombination()&&SelectedCombination?.CanCalculate==true;
     [RelayCommand(CanExecute=nameof(CanCalculateCombination),IncludeCancelCommand=true)]
     async Task CalculateCombinationAsync(CancellationToken cancellationToken)
@@ -187,11 +191,13 @@ public sealed partial class ModelViewerViewModel
         {
             var calculated=await combinationService.CalculateAsync(snapshot,id,progress,cancellation.Token);
             cancellation.Token.ThrowIfCancellationRequested();if(disposed)return;
-            var next=await Task.Run(()=>ModelCombinations.Attach(snapshot,id,calculated),cancellation.Token);
+            // Decision of 1/11/2026: the copy with the result and its document entry are written here, off the thread of the interface.
+            var entry=await Task.Run(()=>ModelDocumentEntry.Prepare(ModelCombinations.Attach(snapshot,id,calculated)),cancellation.Token);
+            var next=entry.Snapshot;
             cancellation.Token.ThrowIfCancellationRequested();if(disposed)return;
             var kept=next.Results.Select(n=>n.Name).ToHashSet(StringComparer.Ordinal);
             int evicted=snapshot.Results.Count(r=>r.Combination!=null&&r.Combination.DefinitionId!=id&&!kept.Contains(r.Name));
-            PublishCombinationSnapshot(next);RefreshCombinations(id);
+            PublishCombinationSnapshot(entry);RefreshCombinations(id);
             ShowCombinationResult(calculated.Results[0].Name);
             CombinationMessage=$"{(calculated.PreparationReused?"Casi base riutilizzati":"Preparazione iniziale: "+(calculated.PreparationMilliseconds/1000).ToString("F2")+" s")} · calcolo {calculated.RebuildMilliseconds/1000:F2} s · campi {calculated.DisplayMilliseconds/1000:F2} s.\n"+string.Join("\n",calculated.Warnings.Take(6));
             if(evicted>0)CombinationMessage+=$"\n{evicted} campi derivati precedenti rimossi dalla cache per rispettare il limite del pacchetto. Le definizioni restano disponibili per il ricalcolo.";
@@ -202,9 +208,24 @@ public sealed partial class ModelViewerViewModel
     }
     void ShowCombinationResult(string name)
     {SelectedCase=name;SelectedPanel=1;SelectedAxes=0;ShowResults=true;Status="Risultato della combinazione disponibile nella vista e nelle tabelle.";}
-    void PublishCombinationSnapshot(ModelSnapshot snapshot)
+    /// <summary>Decision of the user of 1/11/2026: a change of the definitions made and written off the thread of the interface (the copy and its
+    /// document entry, ModelDocumentEntry), busy meanwhile as during a calculation; false when the view closed meanwhile.</summary>
+    async Task<bool> PublishCombinationChangeAsync(Func<ModelSnapshot,ModelSnapshot> change,string working)
     {
-        snapshot.Validate();imported(snapshot);Snapshot=snapshot;fields.Clear();tableState=null;
+        var snapshot=Snapshot!;
+        IsCombinationBusy=true;IsBusy=true;NotifyCombinationCommands();CombinationMessage=working;
+        try
+        {
+            var entry=await Task.Run(()=>ModelDocumentEntry.Prepare(change(snapshot)),lifetime.Token);
+            if(disposed)return false;
+            PublishCombinationSnapshot(entry);return true;
+        }
+        finally {IsCombinationBusy=false;IsBusy=false;NotifyCombinationCommands();}
+    }
+    /// <summary>The copy in the document and on screen: on the thread of the interface only the insertion of the prepared entry and the view.</summary>
+    void PublishCombinationSnapshot(ModelDocumentEntry entry)
+    {
+        var snapshot=entry.Snapshot;imported(entry);Snapshot=snapshot;fields.Clear();tableState=null;
         bool previous=updating;updating=true;
         Cases=snapshot.Results.Select(r=>r.Name).ToArray();if(!Cases.Contains(SelectedCase))SelectedCase=Cases.FirstOrDefault();
         allTree=ModelTreeBuilder.Build(snapshot);OnSearchTextChanged(SearchText);

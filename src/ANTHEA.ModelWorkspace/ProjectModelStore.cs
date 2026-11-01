@@ -4,6 +4,49 @@ using System.Text.Json.Nodes;
 
 namespace ANTHEA.ModelWorkspace;
 
+/// <summary>
+/// Decision of the user of 1/11/2026 («Scrittura del risultato fuori dal thread dell'interfaccia»): the entry of a copy in the project
+/// document, prepared where the copy is made (a calculation, a saved definition, an import), so that the thread of the interface only
+/// inserts it. The copy is validated, its canonical UTF-8 JSON written once: its SHA-256 is the fingerprint of the copy (the bytes
+/// <see cref="ModelSnapshot.Fingerprint"/> hashes) and its tree is the one SerializeToNode reads back from the same bytes, so the document
+/// and the saved file are the same as before. The copy must not change after the preparation (the copies never change in place).
+/// </summary>
+public sealed class ModelDocumentEntry
+{
+    readonly object gate = new();
+    JsonNode? tree;
+    readonly byte[] json;
+
+    ModelDocumentEntry(ModelSnapshot snapshot, byte[] json)
+    {
+        Snapshot = snapshot; this.json = json; Revision = Convert.ToHexString(SHA256.HashData(json)); tree = JsonNode.Parse(json);
+    }
+
+    /// <summary>The copy.</summary>
+    public ModelSnapshot Snapshot { get; }
+
+    /// <summary>The fingerprint of the copy, the «revisione» of its entry.</summary>
+    public string Revision { get; }
+
+    /// <summary>Validates the copy and writes its entry: the work of <see cref="ProjectModelStore.Set(JsonObject, ModelSnapshot, string?)"/>
+    /// before the insertion, for a thread other than the one of the interface.</summary>
+    public static ModelDocumentEntry Prepare(ModelSnapshot snapshot)
+    {
+        ArgumentNullException.ThrowIfNull(snapshot);
+        snapshot.Validate();
+        return new(snapshot, JsonSerializer.SerializeToUtf8Bytes(snapshot));
+    }
+
+    /// <summary>The tree for the document: the prepared one the first time, read again from the same bytes afterwards (a second container).</summary>
+    internal JsonNode TakeTree()
+    {
+        lock (gate)
+        {
+            var taken = tree ?? JsonNode.Parse(json)!; tree = null; return taken;
+        }
+    }
+}
+
 public static class ProjectModelStore
 {
     public const string Property = "modelli_calcolo";
@@ -22,17 +65,18 @@ public static class ProjectModelStore
         if (snapshot.Fingerprint() != model["revisione"]?.GetValue<string>()) throw new InvalidDataException("Impronta del modello non corrispondente ai dati.");
         return snapshot;
     }
-    public static string Set(JsonObject project, ModelSnapshot snapshot, string? id = null)
+    public static string Set(JsonObject project, ModelSnapshot snapshot, string? id = null) => Set(project, ModelDocumentEntry.Prepare(snapshot), id);
+
+    /// <summary>The copy prepared by <see cref="ModelDocumentEntry.Prepare"/> (off the thread of the interface) becomes the model
+    /// <paramref name="id"/> of the container, or a new one: only the entry is inserted, its JSON is already written.</summary>
+    public static string Set(JsonObject project, ModelDocumentEntry prepared, string? id = null)
     {
-        snapshot.Validate();
+        ArgumentNullException.ThrowIfNull(prepared);
         _ = Models(project); // Reject malformed metadata instead of losing an import silently.
         var models = project[Property] as JsonArray ?? new JsonArray();
         var old = id == null ? null : (Models(project).SingleOrDefault(m => m["id"]?.GetValue<string>() == id) ?? throw new ArgumentException("Modello non trovato nel contenitore."));
         id ??= Guid.NewGuid().ToString("N");
-        // Refactoring of the combinations (29/10/2026): the canonical UTF-8 JSON is written once. Its SHA-256 is the fingerprint of the copy
-        // (ModelSnapshot.Fingerprint hashes the same bytes) and its tree is the one SerializeToNode reads back from the same bytes.
-        var json = JsonSerializer.SerializeToUtf8Bytes(snapshot);
-        var entry = new JsonObject { ["schema"] = 1, ["id"] = id, ["revisione"] = Convert.ToHexString(SHA256.HashData(json)), ["nome"] = old?["nome"]?.GetValue<string>() ?? snapshot.Name, ["snapshot"] = JsonNode.Parse(json) };
+        var entry = new JsonObject { ["schema"] = 1, ["id"] = id, ["revisione"] = prepared.Revision, ["nome"] = old?["nome"]?.GetValue<string>() ?? prepared.Snapshot.Name, ["snapshot"] = prepared.TakeTree() };
         if (old != null) models[models.IndexOf(old)] = entry; else models.Add(entry);
         if (project[Property] == null) project[Property] = models;
         return id;

@@ -219,7 +219,8 @@ static partial class Program
         var container = new JsonObject(); string modelId = ProjectModelStore.Set(container, model);
         int publications = 0;
         using var vm = times.Time("vista: apertura del modello (view model)", () => new ModelViewerViewModel(model, [], false, new FakeServices(),
-            s => { publications++; ProjectModelStore.Set(container, s, modelId); }, (_, _, _, _) => { }));
+            // Decision of 1/11/2026: what the thread of the interface does with the copy, the insertion of its prepared entry.
+            s => { publications++; times.Time("vista: scrittura nel documento sul thread dell'interfaccia", () => ProjectModelStore.Set(container, s, modelId)); }, (_, _, _, _) => { }));
         string envelope = model.Results.First(r => r.Combination?.DefinitionId == "ANTHEA/utente-inviluppo-slu" && r.Name.EndsWith("(max)", StringComparison.Ordinal)).Name;
         string linear = model.Results.First(r => r.Combination?.DefinitionId == "ANTHEA/utente-somma").Name;
         vm.ShowTable = true; vm.SelectedTableKind = 5;
@@ -238,7 +239,7 @@ static partial class Program
         vm.ShowCombinationGrid = false;
         vm.SelectedCombination = vm.Combinations.Single(c => c.Definition.Id == "ANTHEA/utente-somma");
         vm.CombinationTerms[0].Factor = "1.35";
-        times.Time("modifica: salvataggio di una definizione dal view model", () => { vm.SaveCombinationCommand.Execute(null); return 0; });
+        await times.TimeAsync("modifica: salvataggio di una definizione dal view model", async () => { await vm.SaveCombinationCommand.ExecuteAsync(null); return 0; });
         if (vm.IsCombinationDirty) throw new InvalidOperationException("Timing pipeline: definition not saved: " + vm.CombinationMessage);
         await times.TimeAsync("modifica: calcolo dal view model (calcolo + Attach + pubblicazione)", async () => { await vm.CalculateCombinationCommand.ExecuteAsync(null); return 0; });
         if (!vm.CombinationMessage.Contains("calcolo", StringComparison.Ordinal)) throw new InvalidOperationException("Timing pipeline: calculation from the view model: " + vm.CombinationMessage);
@@ -274,6 +275,12 @@ static partial class Program
         var entry = ProjectModelStore.Models(container).Single();
         Check(entry["revisione"]!.GetValue<string>() == model.Fingerprint() && entry["snapshot"]!.ToJsonString() == JsonSerializer.SerializeToNode(model)!.ToJsonString(),
             "combinations: the document entry written once equals SerializeToNode and the fingerprint");
+        // Decision of 1/11/2026: the entry is prepared off the thread of the interface; the document only inserts it, in one container or more.
+        var prepared = await Task.Run(() => ModelDocumentEntry.Prepare(model));
+        var first = new JsonObject(); var second = new JsonObject(); ProjectModelStore.Set(first, prepared); ProjectModelStore.Set(second, prepared);
+        Check(prepared.Revision == model.Fingerprint() && new[] { first, second }.All(c => ProjectModelStore.Models(c).Single()["revisione"]!.GetValue<string>() == prepared.Revision &&
+            ProjectModelStore.Models(c).Single()["snapshot"]!.ToJsonString() == JsonSerializer.SerializeToNode(model)!.ToJsonString()) && ProjectModelStore.Read(second, ProjectModelStore.Models(second).Single()["id"]!.GetValue<string>())!.Fingerprint() == model.Fingerprint(),
+            "combinations: an entry prepared off the thread of the interface gives the same document entry as before, in every container");
         var renamed = ModelCombinations.RestoreImported(model); renamed.Name = "Altro nome"; // a copy that carries the revisions of the original
         Check(ModelCombinations.InputRevision(renamed) == ModelCombinations.InputRevision(ModelSnapshot.FromJson(JsonSerializer.Serialize(renamed))) &&
             ModelCombinations.InputRevision(renamed) != ModelCombinations.InputRevision(model), "combinations: a part set on a copy gives its own revision");

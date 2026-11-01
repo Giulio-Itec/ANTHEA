@@ -126,34 +126,35 @@ static partial class Program
 
     static async Task CombinationPresentationChecks(ModelSnapshot imported)
     {
-        int changes=0;
-        using var vm=new ModelViewerViewModel(imported,[],false,new FakeServices(),_=>changes++,(_,_,_,_)=>{});
+        int changes=0;ModelDocumentEntry? published=null;
+        using var vm=new ModelViewerViewModel(imported,[],false,new FakeServices(),e=>{changes++;published=e;},(_,_,_,_)=>{});
         vm.ShowInspector=false;vm.SelectedRepresentation=1;
         vm.OpenCombinationManagerCommand.Execute(null);
         vm.NewCombinationCommand.Execute(null);
         Check(vm.IsCombinationDirty&&vm.CanEditCombination&&vm.CombinationTerms.Count==1,"new combination opens an editable draft");
         vm.CombinationName="Somma UI";vm.CombinationTerms[0].Factor="2";
         vm.AddCombinationTermCommand.Execute(null);vm.CombinationTerms[1].Source=vm.CombinationSources.Single(s=>s.Id=="Q");vm.CombinationTerms[1].Factor="-0.5";
-        vm.SaveCombinationCommand.Execute(null);
+        await vm.SaveCombinationCommand.ExecuteAsync(null);
         Check(changes==1&&!vm.IsCombinationDirty&&vm.CalculateCombinationCommand.CanExecute(null)&&vm.SelectedRepresentation==1&&!vm.ShowInspector,"saving from MVVM preserves viewport representation and panel state");
         await vm.CalculateCombinationCommand.ExecuteAsync(null);
         Check(changes==2&&vm.ResultKind.Contains("GPC")&&vm.Snapshot!.Results.Last().Values[0].Values[0]==22&&!vm.IsBusy,"MVVM calculation atomically publishes GPC results into the viewer");
+        Check(ReferenceEquals(published!.Snapshot,vm.Snapshot)&&published.Revision==vm.Snapshot.Fingerprint(),"decision 1/11: the calculated copy reaches the document as an entry already written (revision and copy of the view)");
         await vm.CalculateCombinationCommand.ExecuteAsync(null);
         Check(changes==2&&vm.CombinationMessage.Contains("già calcolati"),"calculated result reselected without rebuilding or rewriting document");
-        vm.CombinationTerms[0].Factor="NaN";vm.SaveCombinationCommand.Execute(null);
+        vm.CombinationTerms[0].Factor="NaN";await vm.SaveCombinationCommand.ExecuteAsync(null);
         Check(changes==2&&vm.IsCombinationDirty&&vm.CombinationMessage.Contains("non valido"),"invalid coefficients remain editable and cannot modify the model");
-        vm.DiscardCombinationEditsCommand.Execute(null);vm.DeleteCombinationCommand.Execute(null);
+        vm.DiscardCombinationEditsCommand.Execute(null);await vm.DeleteCombinationCommand.ExecuteAsync(null);
         Check(changes==3&&vm.Combinations.Count==1,"custom combination can be removed from the interface");
-        vm.SelectedCombination=vm.Combinations[0];vm.DeleteCombinationCommand.Execute(null);
+        vm.SelectedCombination=vm.Combinations[0];await vm.DeleteCombinationCommand.ExecuteAsync(null);
         Check(vm.Combinations.Count==0&&vm.RestoreImportedCombinationsCommand.CanExecute(null),"imported combination can be deleted from the interface");
-        vm.RestoreImportedCombinationsCommand.Execute(null);Check(vm.Combinations.Count==1,"restore imported definitions from retained source tables");
+        await vm.RestoreImportedCombinationsCommand.ExecuteAsync(null);Check(vm.Combinations.Count==1,"restore imported definitions from retained source tables");
         vm.ShowCombinationGrid=true;
         Check(vm.CombinationGridRows?.Count==1&&vm.CombinationGridHeaders.Values.Contains("↓ G"),"combination matrix exposes coefficients from saved definitions");
         using var readOnly=new ModelViewerViewModel(imported,[],true,new FakeServices(),_=>throw new Exception("readonly mutated"),(_,_,_,_)=>{});
         readOnly.OpenCombinationManagerCommand.Execute(null);
         Check(!readOnly.NewCombinationCommand.CanExecute(null)&&!readOnly.DeleteCombinationCommand.CanExecute(null)&&!readOnly.CalculateCombinationCommand.CanExecute(null),"historical revision permits catalogue inspection and blocks combination mutations");
         using var editImported=new ModelViewerViewModel(imported,[],false,new FakeServices(),_=>{},(_,_,_,_)=>{});
-        editImported.CombinationName="Importata modificata";editImported.SaveCombinationCommand.Execute(null);
+        editImported.CombinationName="Importata modificata";await editImported.SaveCombinationCommand.ExecuteAsync(null);
         Check(editImported.Snapshot!.CustomCombinations?.Single().Status=="ACTIVE","editing imported definition preserves its source activity status");
     }
 

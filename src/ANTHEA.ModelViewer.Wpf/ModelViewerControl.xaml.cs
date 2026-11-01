@@ -17,7 +17,7 @@ public partial class ModelViewerControl : UserControl, IDisposable
     public void SetDisplayName(string name) => viewModel.SetDisplayName(name);
 
     public ModelViewerControl(ModelSnapshot? snapshot, IReadOnlyList<SheetTarget> sheets, bool readOnly,
-        Action<ModelSnapshot> imported, Action<string, int, string, string> linked, ModelViewPresetStore? viewStore=null)
+        Action<ModelDocumentEntry> imported, Action<string, int, string, string> linked, ModelViewPresetStore? viewStore=null)
     {
         InitializeComponent();
         var services = new WpfModelViewerServices(() => Window.GetWindow(this), () => {previousCamera=renderer?.CameraState();renderer?.Fit(viewModel?.IncludeHiddenInFit ?? false);}, SaveConfiguredImage,()=>renderer?.CameraState() is {} captured ? captured with { AspectRatio=Viewport.ActualWidth/Math.Max(1,Viewport.ActualHeight) } : null,camera=>{viewModel!.IsOrthographic=camera.Orthographic;renderer?.RestoreCamera(camera);},viewStore);

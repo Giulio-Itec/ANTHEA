@@ -28,6 +28,9 @@ static partial class Program
         if (root is T match) yield return match;
         for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++) foreach (var child in Children<T>(VisualTreeHelper.GetChild(root, i))) yield return child;
     }
+    // An asynchronous command of the view model (1/11/2026: saving and deleting a definition write the document off the thread of the
+    // interface): the dispatcher keeps running until it completes.
+    static void Run(Task task) { while (!task.IsCompleted) Wait(20); task.GetAwaiter().GetResult(); }
     static void Wait(int milliseconds)
     {
         var frame = new DispatcherFrame(); var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(milliseconds) };
@@ -131,7 +134,7 @@ static partial class Program
                 int preferencesArgument=Array.IndexOf(args,"--preferences");
                 string preferences=preferencesArgument>=0&&preferencesArgument+1<args.Length?Path.GetFullPath(args[preferencesArgument+1]):Path.Combine(output,"preferenze-viste");
                 using var isolated = new ModelViewerControl(directSnapshot??ProjectModelStore.Read(owner, id), targets, false,
-                    imported => {if(directSnapshot!=null)directSnapshot=imported;else ProjectModelStore.Set(owner, imported, id);},
+                    imported => {if(directSnapshot!=null)directSnapshot=imported.Snapshot;else ProjectModelStore.Set(owner, imported, id);},
                     (sheetId, element, result, component) => ProjectModelStore.Link(owner,
                         ProjectModelStore.DescendantSheets(owner).Single(s => s.S("id") == sheetId), id, element, result, component),new ModelViewPresetStore(preferences));
                 window?.Close(); window = null;
