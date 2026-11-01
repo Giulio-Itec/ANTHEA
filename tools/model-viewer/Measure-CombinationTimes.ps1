@@ -7,8 +7,10 @@
   generatore di Model, aggiunge le definizioni dell'utente (somma, inviluppi SLU e SLV, inviluppo annidato con coefficiente
   negativo) e misura ogni fase: generazione, catalogo, preparazione GPC, somma dei casi, campi ANTHEA, Attach, salvataggio e
   riapertura, view model (tabelle, diagrammi, modifica e calcolo dal view model). Corse di riscaldamento escluse; mediana, minimo e
-  massimo delle corse misurate in tempi.md e tempi.json. Ogni corsa calcola l'impronta di tutti i risultati: per i modelli
-  100 × 50 e 500 × 100 (8 lineari) deve coincidere con quella della 1.16.0, altrimenti la corsa fallisce.
+  massimo delle corse misurate in tempi.md e tempi.json. Ogni corsa calcola due impronte di tutti i risultati: completa e dei
+  valori (revisioni d'ingresso dei risultati derivati escluse, perché dal 1/11/2026 sono per definizione): per 100 × 50 e
+  500 × 100 (8 lineari) l'impronta dei valori deve coincidere con quella della 1.16.0, altrimenti la corsa fallisce. La fase
+  «vista: scrittura nel documento sul thread dell'interfaccia» misura quello che resta sul thread dell'interfaccia (1/11/2026).
   -Baseline: cartella con ModelWorkspace.Checks.dll compilato dal codice della 1.16.0 (main 61dc4ff3, set AM; per esempio
   supporto\artefatti\combo-modelli\bin-1.16.0): le stesse corse in <Output>\prima, per il confronto prima/dopo.
 .EXAMPLE
@@ -27,7 +29,7 @@ $ErrorActionPreference = 'Stop'
 $root = Resolve-Path (Join-Path $PSScriptRoot '..\..')
 # The SDK of global.json is found from the current folder: build and run from the root of the checkout, as ci.ps1.
 Push-Location $root
-if (-not $Output) { $Output = Join-Path $root ('supporto\artefatti\combo-modelli\tempi-' + (Get-Date -Format 'yyyyMMdd-HHmm')) }
+if (-not $Output) { $Output = Join-Path $root ('supporto\artefatti\combo-chiusura\tempi-' + (Get-Date -Format 'yyyyMMdd-HHmm')) }
 New-Item -ItemType Directory -Force $Output | Out-Null
 $project = Join-Path $root 'tests\ModelWorkspace.Checks\ModelWorkspace.Checks.csproj'
 if (-not $NoBuild) {
