@@ -19,7 +19,7 @@ Contratti, unità e dati in GPC.Model; formule e integrazioni in GPC.Design, riu
 - [x] Gru/carriponte: azioni alle ruote e gruppi di carico compatibili, parametri e dati del costruttore tracciati.
 - [x] Incendio: azioni termiche nominali, facce esposte e condizioni termiche; la temperatura dei gas non è la temperatura della sezione.
 - [x] Guide globali, Word/PDF, esempi e collaudi UI nei tre temi; nessuna suite UI eliminata.
-- [ ] Allineamento finale, versioni GPC, tutte le suite, merge e set ufficiale; full ANTHEA sul set coerente.
+- [x] Allineamento finale, versioni GPC, collaudi, merge e set ufficiale AR; full ANTHEA e ricontrolli mirati conclusi.
 
 ## Fonti controllate
 
@@ -140,4 +140,4 @@ Consolidamento del full AR e dei ricontrolli mirati: **161 voci PASS**, incluse 
 
 Verifiche del nuovo foglio: 12 casi storici IEEE754 esatti, riferimenti Python indipendenti, tre temi e formato compatto, tabella, lettura puntuale e PNG; 24 controlli di persistenza, revisioni, invalidazione, relazioni autonome/di progetto ed esempi. Catalogo: 472 controlli su 95 esempi e 32 moduli. Application: 3323 controlli; Presentation completa: 4948; architettura: 591. Guide, indici e report PDF controllati.
 
-Codice e documentazione pronti per l’integrazione finale autorizzata su main, che contiene già la base pubblicata 1.17.0. Nessuna modifica al lavoro degli altri checkout.
+Integrazione finale autorizzata eseguita il 02/11/2026 nel checkout principale: main avanzato con fast-forward a 7f907040, comprensivo della base pubblicata 1.17.0. Il checkout principale era pulito. Nessuna modifica al lavoro degli altri checkout. Riepilogo consolidato copiato anche in supporto/artefatti/azioni-reologia-20261102/consolidated-final.json del checkout principale; le evidenze complete restano nel checkout isolato indicato all’inizio del verbale.

@@ -1467,6 +1467,6 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - [x] Incendio: curve nominali e storia assegnata, facce e flussi su temperature superficiali prescritte, grafici e quattro esempi; calcoli GPC, persistenza e WPF PASS.
 - [x] Guide globali Rev66 e PDF controllati, unificate con la 1.17.0 arrivata durante il collaudo; Wiki con 94 capitoli, 95 esempi dopo il foglio Reologia. Set ufficiale AR, 11933 prove GPC PASS.
 - [x] Commit GPC pubblicati, set ufficiale AR e full ANTHEA con ricontrolli mirati: 161 voci PASS, 73 suite UI conservate.
-- [ ] Integrazione finale del branch ANTHEA su main, autorizzata dall’utente.
+- [x] Integrazione finale del branch ANTHEA su main, autorizzata dall’utente: fast-forward al commit 7f907040 del 02/11/2026, base 1.17.0 conservata.
 
 - [x] Reologia, richiesta del 02/11: foglio **Materiali → Viscosità e maturazione**, persistenza, sola lettura, report ed esempi; voce globale Strumenti rimossa. Cattura storica e confronto IEEE754 esatti, tre temi WPF PASS; collaudo integrato finale `20261102-004152-reologia-final`: 24 PASS, zero NEW-FAIL; F3, 1201 file senza differenze non ammesse (REOLOGIA-MODULO-20261102).
