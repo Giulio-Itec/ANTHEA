@@ -25,6 +25,12 @@ static partial class Program
     const string CombinationPipelineDigestSmall = "9F1336D34363F62E1E878294C7002B3C8974810B29C5AE7FC0F99F9821340011";
     /// <summary>Digest of the pipeline on the 500 elements × 100 cases model with 8 generated linear rows (long campaign), captured as above.</summary>
     const string CombinationPipelineDigest500x100 = "D7E5E0650629027341B63B739EE1B881E23F28B4582ABE70B347B8FD21EA4D8A";
+    /// <summary>Values digests (DigestWriter.ValuesDigest: input revisions of the derived results left empty) of the same pipelines, captured with
+    /// refactoring/combo-chiusura ea736a8a and Model 391cfea9, whose complete digests are the three of 1.16.0 above: the bit-identity of the
+    /// results across the revision of each definition (decision of 1/11/2026), which changes the revisions only.</summary>
+    const string CombinationPipelineValues100x50 = "6AE45A167BA7D343031DDE851A40F58C3FE51D31D9F8F066A74F88AD57B35C68";
+    const string CombinationPipelineValuesSmall = "2EF7742590CBC1079376E9F2D4D1C913C0AAA877AFDE5249A4EE5B8A4CEBB8BD";
+    const string CombinationPipelineValues500x100 = "342829B4ABF93CFC9AB3ED123EBC4513343008DB11E2242503BC8E5A52A9EDB4";
 
     /// <summary>
     /// A slab of nx × ny plates on its edge beams and on columns, MIDAS tables included, so that the GPC import of the geometry is the real one.
@@ -157,12 +163,22 @@ static partial class Program
         public async Task<T> TimeAsync<T>(string phase, Func<Task<T>> action) { var w = Stopwatch.StartNew(); var r = await action(); Add(phase, w.Elapsed.TotalMilliseconds); return r; }
     }
 
+    /// <summary>Two digests of the same items: the complete one (every byte, input revisions of the derived results included) and the one of the
+    /// values, where the input revision of each derived result is left empty. The decision of 1/11/2026 (a revision for each definition)
+    /// changes the revisions and never a value: the values digest is the bit-identity of the results across it.</summary>
     sealed class DigestWriter
     {
-        readonly IncrementalHash hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+        readonly IncrementalHash hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256), values = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
         public int Items;
-        public void Add(string label, object value) { hash.AppendData(Encoding.UTF8.GetBytes(label + "\n" + JsonSerializer.Serialize(value) + "\n")); Items++; }
+        public void Add(string label, object value) { var bytes = Bytes(label, value); hash.AppendData(bytes); values.AppendData(bytes); Items++; }
+        public void AddResults(string label, IEnumerable<ModelResultSet> results)
+        {
+            var list = results.ToArray(); hash.AppendData(Bytes(label, list));
+            values.AppendData(Bytes(label, list.Select(r => r.Combination is { } c ? r with { Combination = c with { InputRevision = "" } } : r).ToArray())); Items++;
+        }
+        static byte[] Bytes(string label, object value) => Encoding.UTF8.GetBytes(label + "\n" + JsonSerializer.Serialize(value) + "\n");
         public string Value => Convert.ToHexString(hash.GetCurrentHash());
+        public string ValuesDigest => Convert.ToHexString(values.GetCurrentHash());
     }
 
     /// <summary>
@@ -170,7 +186,7 @@ static partial class Program
     /// definitions (each attached to the copy), view model with tables and member diagram, edit and calculation from the view model, save and
     /// reopen. Every calculated field enters the digest; the times enter the recorder.
     /// </summary>
-    static async Task<(string Digest, int Definitions, int Linear)> CombinationPipeline(TimingModel source, TimingRecorder times, int linearCount, bool viewModel = true)
+    static async Task<(string Digest, string Values, int Definitions, int Linear)> CombinationPipeline(TimingModel source, TimingRecorder times, int linearCount, bool viewModel = true)
     {
         var digest = new DigestWriter();
         var model = source.Snapshot;
@@ -192,7 +208,7 @@ static partial class Program
             times.Add("calcolo: " + phase + " · preparazione", calculated.PreparationMilliseconds);
             times.Add("calcolo: " + phase + " · somma GPC", calculated.RebuildMilliseconds);
             times.Add("calcolo: " + phase + " · campi ANTHEA", calculated.DisplayMilliseconds);
-            digest.Add(id, calculated.Results);
+            digest.AddResults(id, calculated.Results);
             digest.Add(id + "/warnings", calculated.Warnings);
             model = times.Time("calcolo: " + phase + " · Attach", () => ModelCombinations.Attach(model, id, calculated));
         }
@@ -211,7 +227,7 @@ static partial class Program
         var reopened = times.Time("riapertura: JSON + ProjectModelStore.Read", () => ProjectModelStore.Read((JsonObject)JsonNode.Parse(text)!, modelId)!);
         digest.Add("reopened", reopened.Fingerprint() == model.Fingerprint());
         if (viewModel) await ViewModelPhases(reopened, times, digest);
-        return (digest.Value, catalogue.Length, chosen.Length);
+        return (digest.Value, digest.ValuesDigest, catalogue.Length, chosen.Length);
     }
 
     static async Task ViewModelPhases(ModelSnapshot model, TimingRecorder times, DigestWriter digest)
@@ -219,7 +235,8 @@ static partial class Program
         var container = new JsonObject(); string modelId = ProjectModelStore.Set(container, model);
         int publications = 0;
         using var vm = times.Time("vista: apertura del modello (view model)", () => new ModelViewerViewModel(model, [], false, new FakeServices(),
-            s => { publications++; ProjectModelStore.Set(container, s, modelId); }, (_, _, _, _) => { }));
+            // Decision of 1/11/2026: what the thread of the interface does with the copy, the insertion of its prepared entry.
+            s => { publications++; times.Time("vista: scrittura nel documento sul thread dell'interfaccia", () => ProjectModelStore.Set(container, s, modelId)); }, (_, _, _, _) => { }));
         string envelope = model.Results.First(r => r.Combination?.DefinitionId == "ANTHEA/utente-inviluppo-slu" && r.Name.EndsWith("(max)", StringComparison.Ordinal)).Name;
         string linear = model.Results.First(r => r.Combination?.DefinitionId == "ANTHEA/utente-somma").Name;
         vm.ShowTable = true; vm.SelectedTableKind = 5;
@@ -238,11 +255,11 @@ static partial class Program
         vm.ShowCombinationGrid = false;
         vm.SelectedCombination = vm.Combinations.Single(c => c.Definition.Id == "ANTHEA/utente-somma");
         vm.CombinationTerms[0].Factor = "1.35";
-        times.Time("modifica: salvataggio di una definizione dal view model", () => { vm.SaveCombinationCommand.Execute(null); return 0; });
+        await times.TimeAsync("modifica: salvataggio di una definizione dal view model", async () => { await vm.SaveCombinationCommand.ExecuteAsync(null); return 0; });
         if (vm.IsCombinationDirty) throw new InvalidOperationException("Timing pipeline: definition not saved: " + vm.CombinationMessage);
         await times.TimeAsync("modifica: calcolo dal view model (calcolo + Attach + pubblicazione)", async () => { await vm.CalculateCombinationCommand.ExecuteAsync(null); return 0; });
         if (!vm.CombinationMessage.Contains("calcolo", StringComparison.Ordinal)) throw new InvalidOperationException("Timing pipeline: calculation from the view model: " + vm.CombinationMessage);
-        digest.Add("vm/calculated", vm.Snapshot!.Results.Where(r => r.Combination?.DefinitionId == "ANTHEA/utente-somma").Select(r => r with { }));
+        digest.AddResults("vm/calculated", vm.Snapshot!.Results.Where(r => r.Combination?.DefinitionId == "ANTHEA/utente-somma").Select(r => r with { }));
         digest.Add("vm/publications", publications);
         // After the digest: a second calculation from the view model, with the GPC preparation of the first one reused.
         vm.SelectedCombination = vm.Combinations.Single(c => c.Definition.Id == ModelCombinationGenerator.IdPrefix + "SLU 2");
@@ -255,28 +272,45 @@ static partial class Program
     {
         var small = SyntheticMidasModel(3, 2, 24, 12);
         var times = new TimingRecorder();
-        var (digest, definitions, _) = await CombinationPipeline(small, times, 4);
-        File.WriteAllText(Path.Combine(output, "combinazioni-impronta.txt"), digest + Environment.NewLine);
+        var (digest, values, definitions, _) = await CombinationPipeline(small, times, 4);
+        File.WriteAllText(Path.Combine(output, "combinazioni-impronta.txt"), digest + Environment.NewLine + values + Environment.NewLine);
         Check(definitions > 50, $"timing model: {definitions} definitions from the generator and the user");
-        Check(digest == CombinationPipelineDigestSmall,
-            "combinations: every calculated field, governing state, table and diagram bit-identical to 1.16.0 (" + digest[..12] + ")");
+        Check(values == CombinationPipelineValuesSmall,
+            "combinations: every calculated field, governing state, table and diagram bit-identical to 1.16.0 (" + values[..12] + ")");
         // The shortcuts of the refactoring against the complete computations they replace, on a copy with derived results.
         var model = AddUserCombinations(ModelCombinationGenerator.Apply(small.Snapshot, ModelCombinationGenerator.Generate(small.Snapshot, small.Natures)), small);
         var service = new GpcModelCombinationService();
         foreach (var id in new[] { "ANTHEA/utente-somma", "ANTHEA/utente-inviluppo-slu" }) model = ModelCombinations.Attach(model, id, await service.CalculateAsync(model, id));
         var fresh = ModelSnapshot.FromJson(JsonSerializer.Serialize(model));
-        Check(ModelCombinations.InputRevision(model) == ModelCombinations.InputRevision(fresh) && model.Results.Count(r => r.Combination != null) == 3,
-            "combinations: the input revision kept by the copies equals the one computed again from the document");
+        Check(new[] { "ANTHEA/utente-somma", "ANTHEA/utente-inviluppo-slu" }.All(id => ModelCombinations.DefinitionRevision(model, id) == ModelCombinations.DefinitionRevision(fresh, id)) &&
+            model.Results.Count(r => r.Combination != null) == 3, "combinations: the revision of a definition kept by the copies equals the one computed again from the document");
         var size = typeof(ModelCombinations).GetMethod("SerializedSize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
         Check((long)size.Invoke(null, [model])! == JsonSerializer.SerializeToUtf8Bytes(model).LongLength && (long)size.Invoke(null, [fresh])! == JsonSerializer.SerializeToUtf8Bytes(fresh).LongLength,
             "combinations: the size of a copy from its input revision equals the complete serialization");
+        var excluded = ModelCombinations.Remove(model, "LCOM-GEN/cENV");
+        Check(excluded.ExcludedCombinationIds is { Length: 1 } && (long)size.Invoke(null, [excluded])! == JsonSerializer.SerializeToUtf8Bytes(excluded).LongLength,
+            "combinations: the size of a copy with excluded imported definitions from its preparation equals the complete serialization");
         var container = new JsonObject(); ProjectModelStore.Set(container, model);
         var entry = ProjectModelStore.Models(container).Single();
         Check(entry["revisione"]!.GetValue<string>() == model.Fingerprint() && entry["snapshot"]!.ToJsonString() == JsonSerializer.SerializeToNode(model)!.ToJsonString(),
             "combinations: the document entry written once equals SerializeToNode and the fingerprint");
+        // Decision of 1/11/2026: the entry is prepared off the thread of the interface; the document only inserts it, in one container or more.
+        var prepared = await Task.Run(() => ModelDocumentEntry.Prepare(model));
+        var first = new JsonObject(); var second = new JsonObject(); ProjectModelStore.Set(first, prepared); ProjectModelStore.Set(second, prepared);
+        Check(prepared.Revision == model.Fingerprint() && new[] { first, second }.All(c => ProjectModelStore.Models(c).Single()["revisione"]!.GetValue<string>() == prepared.Revision &&
+            ProjectModelStore.Models(c).Single()["snapshot"]!.ToJsonString() == JsonSerializer.SerializeToNode(model)!.ToJsonString()) && ProjectModelStore.Read(second, ProjectModelStore.Models(second).Single()["id"]!.GetValue<string>())!.Fingerprint() == model.Fingerprint(),
+            "combinations: an entry prepared off the thread of the interface gives the same document entry as before, in every container");
+        // Reopening (1/11/2026): the canonical bytes of the entry hash to its revision; an entry with the same copy in other bytes (another order of
+        // the properties) is checked through the canonical serialization, as before, and a changed value is still rejected.
+        var reordered = new JsonObject(); string reorderedId = ProjectModelStore.Set(reordered, model);
+        var stored = (JsonObject)ProjectModelStore.Models(reordered).Single()["snapshot"]!; var version = stored["Version"]!.DeepClone(); stored.Remove("Version"); stored["Version"] = version;
+        Check(ProjectModelStore.Read(reordered, reorderedId)!.Fingerprint() == model.Fingerprint() && ProjectModelStore.Read(first, ProjectModelStore.Models(first).Single()["id"]!.GetValue<string>())!.Fingerprint() == model.Fingerprint(),
+            "reopening: the canonical entry and an entry in other bytes give the same copy");
+        stored["Name"] = "Altro"; Reject(() => ProjectModelStore.Read(reordered, reorderedId), "reopening: a changed copy is rejected by its revision");
         var renamed = ModelCombinations.RestoreImported(model); renamed.Name = "Altro nome"; // a copy that carries the revisions of the original
-        Check(ModelCombinations.InputRevision(renamed) == ModelCombinations.InputRevision(ModelSnapshot.FromJson(JsonSerializer.Serialize(renamed))) &&
-            ModelCombinations.InputRevision(renamed) != ModelCombinations.InputRevision(model), "combinations: a part set on a copy gives its own revision");
+        Check(ModelCombinations.DefinitionRevision(renamed, "ANTHEA/utente-somma") == ModelCombinations.DefinitionRevision(ModelSnapshot.FromJson(JsonSerializer.Serialize(renamed)), "ANTHEA/utente-somma") &&
+            ModelCombinations.DefinitionRevision(renamed, "ANTHEA/utente-somma") != ModelCombinations.DefinitionRevision(model, "ANTHEA/utente-somma"), "combinations: a part set on a copy gives its own revision");
+        await DefinitionRevisionChecks(model);
     }
 
     /// <summary>
@@ -298,22 +332,22 @@ static partial class Program
             var watch = Stopwatch.StartNew();
             var source = ModelOfSize(elements, cases);
             Console.WriteLine($"{source.Label}: modello sintetico in {watch.Elapsed.TotalMilliseconds:F0} ms; {source.Snapshot.Nodes.Length} nodi");
-            var times = new TimingRecorder(); string? digest = null; int definitions = 0, linear = 0;
+            var times = new TimingRecorder(); string? digest = null, valuesDigest = null; int definitions = 0, linear = 0;
             for (int run = 0; run < warmup + runs; run++)
             {
                 var recorder = run < warmup ? new TimingRecorder() : times;
                 watch.Restart();
                 var result = await CombinationPipeline(source, recorder, linearCount);
                 recorder.Add("totale della corsa", watch.Elapsed.TotalMilliseconds);
-                if (digest != null && digest != result.Digest) throw new InvalidOperationException("Impronta diversa tra due corse: risultato non deterministico.");
-                digest = result.Digest; definitions = result.Definitions; linear = result.Linear;
+                if (digest != null && (digest != result.Digest || valuesDigest != result.Values)) throw new InvalidOperationException("Impronta diversa tra due corse: risultato non deterministico.");
+                digest = result.Digest; valuesDigest = result.Values; definitions = result.Definitions; linear = result.Linear;
                 Console.WriteLine($"{source.Label} corsa {run + 1}{(run < warmup ? " (riscaldamento)" : "")}: {watch.Elapsed.TotalSeconds:F1} s · impronta {digest[..16]}");
             }
-            string expected = (source.Label, linearCount) switch { ("100x50", 8) => CombinationPipelineDigest100x50, ("24x12", 4) => CombinationPipelineDigestSmall,
-                ("500x100", 8) => CombinationPipelineDigest500x100, _ => "" };
-            string equivalence = expected.Length == 0 ? "non registrata" : expected == digest ? "uguale a 1.16.0" : "DIVERSA da 1.16.0";
+            string expected = (source.Label, linearCount) switch { ("100x50", 8) => CombinationPipelineValues100x50, ("24x12", 4) => CombinationPipelineValuesSmall,
+                ("500x100", 8) => CombinationPipelineValues500x100, _ => "" };
+            string equivalence = expected.Length == 0 ? "non registrata" : expected == valuesDigest ? "uguale a 1.16.0" : "DIVERSA da 1.16.0";
             markdown.AppendLine($"## {source.Label}: {source.Snapshot.Elements.Length} elementi, {source.Snapshot.Nodes.Length} nodi, {source.Natures.Length} casi, {definitions} definizioni ({linear} lineari generate calcolate)").AppendLine();
-            markdown.AppendLine($"Impronta dei risultati: `{digest}` ({equivalence}).").AppendLine();
+            markdown.AppendLine($"Impronta dei valori: `{valuesDigest}` ({equivalence}); impronta completa, con le revisioni: `{digest}`.").AppendLine();
             markdown.AppendLine("| Fase | Mediana | Min | Max | n |").AppendLine("|---|---:|---:|---:|---:|");
             var phases = new List<object>();
             foreach (string phase in times.Order)
@@ -325,8 +359,8 @@ static partial class Program
             }
             markdown.AppendLine();
             report.Add(new { Model = source.Label, Elements = source.Snapshot.Elements.Length, Nodes = source.Snapshot.Nodes.Length, Cases = source.Natures.Length, Definitions = definitions,
-                Digest = digest, Equivalence = equivalence, Runs = runs, Warmup = warmup, Phases = phases });
-            if (expected.Length > 0 && expected != digest) { File.WriteAllText(Path.Combine(output, "tempi.md"), markdown.ToString()); Console.Error.WriteLine("FAIL impronta diversa da 1.16.0 per " + source.Label); return 1; }
+                Digest = digest, Values = valuesDigest, Equivalence = equivalence, Runs = runs, Warmup = warmup, Phases = phases });
+            if (expected.Length > 0 && expected != valuesDigest) { File.WriteAllText(Path.Combine(output, "tempi.md"), markdown.ToString()); Console.Error.WriteLine("FAIL impronta diversa da 1.16.0 per " + source.Label); return 1; }
         }
         File.WriteAllText(Path.Combine(output, "tempi.json"), JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true }));
         File.WriteAllText(Path.Combine(output, "tempi.md"), markdown.ToString());

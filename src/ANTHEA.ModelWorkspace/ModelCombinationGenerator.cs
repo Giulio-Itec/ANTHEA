@@ -102,8 +102,8 @@ public static class ModelCombinationGenerator
         }).ToArray();
     }
 
-    /// <summary>The copy of the model with the generated combinations instead of those of a previous generation; the results of the combinations
-    /// are discarded, as when a definition is saved.</summary>
+    /// <summary>The copy of the model with the generated combinations instead of those of a previous generation; as when a definition is saved,
+    /// the results of the definitions that change (and of those that use them) are discarded, the others kept.</summary>
     public static ModelSnapshot Apply(ModelSnapshot snapshot, IReadOnlyList<ModelCombinationDefinition> generated)
     {
         ArgumentNullException.ThrowIfNull(snapshot); ArgumentNullException.ThrowIfNull(generated);
@@ -114,7 +114,8 @@ public static class ModelCombinationGenerator
             throw new InvalidDataException("Una combinazione ANTHEA ha già il nome di una combinazione generata: rinominala prima.");
         var copy = ModelCombinations.Copy(snapshot);
         copy.CustomCombinations = [.. kept, .. generated];
-        copy.Results = copy.Results.Where(r => r.Combination == null).ToArray();
+        // Decision of 1/11/2026: the results of the rows generated again with the same definition stay valid (a revision for each definition).
+        copy.Results = ModelCombinations.CurrentResults(copy, ModelCombinations.Read(copy));
         copy.Validate(); ModelCombinations.Read(copy);
         return copy;
     }

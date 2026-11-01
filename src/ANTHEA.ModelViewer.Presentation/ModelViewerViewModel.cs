@@ -37,7 +37,8 @@ public interface IModelViewerServices
 public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
 {
     private readonly IModelViewerServices services;
-    private readonly Action<ModelSnapshot> imported;
+    // Decision of 1/11/2026: the copy reaches the document as an entry prepared off the thread of the interface (ModelDocumentEntry).
+    private readonly Action<ModelDocumentEntry> imported;
     private readonly Action<string, int, string, string> linked;
     private readonly CancellationTokenSource lifetime = new();
     private bool updating;
@@ -46,7 +47,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     public void SetDisplayName(string name) { displayName = name; Title = name; }
 
     public ModelViewerViewModel(ModelSnapshot? snapshot, IReadOnlyList<SheetTarget> sheets, bool readOnly,
-        IModelViewerServices services, Action<ModelSnapshot> imported, Action<string, int, string, string> linked)
+        IModelViewerServices services, Action<ModelDocumentEntry> imported, Action<string, int, string, string> linked)
     {
         this.services = services; this.imported = imported; this.linked = linked; IsReadOnly = readOnly;
         Sheets = sheets; selectedSheet = sheets.FirstOrDefault();
@@ -130,15 +131,17 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         {
             var incoming = liveImport ? await ReadLiveModelAsync(scope,token) : strand7 ? await ReadStrand7ModelAsync(scope,token) : await services.ImportAsync(scope,token);
             if (incoming == null || disposed) { if (!disposed) Status = "Importazione annullata"; return; }
-            var snapshot=await Task.Run(()=>
+            var current=Snapshot;
+            var entry=await Task.Run(()=>
             {
-                if(liveImport)MidasNormalizationReuse.TryApply(Snapshot,incoming,token);
-                return ModelSnapshotUpdate.Apply(Snapshot,incoming,scope,token);
+                if(liveImport)MidasNormalizationReuse.TryApply(current,incoming,token);
+                return ModelDocumentEntry.Prepare(ModelSnapshotUpdate.Apply(current,incoming,scope,token));
             },token);
+            var snapshot=entry.Snapshot;
             var previousView=scope==ModelUpdateScope.Results?CaptureView("Vista corrente"):null;
             (ModelRevisionReview Review,ModelRevisionOverlay Overlay)? review=Snapshot is {} previous?await CreateRevisionAsync(previous,snapshot,token):null;
             token.ThrowIfCancellationRequested();if(disposed)return;
-            imported(snapshot); SetSnapshot(snapshot);
+            imported(entry); SetSnapshot(snapshot,validated:true);
             if(previousView!=null)ApplyView(previousView with {Case=Cases.Contains(previousView.Case)?previousView.Case:Cases.FirstOrDefault(),RevisionOverlay=null});
             if(review!=null)ApplyRevision(review.Value.Review,review.Value.Overlay);
             if(scope!=ModelUpdateScope.Results)services.FitView();
@@ -152,10 +155,13 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         finally { IsBusy = false; }
     }
 
-    private void SetSnapshot(ModelSnapshot snapshot)
+    private void SetSnapshot(ModelSnapshot snapshot, bool validated = false)
     {
         combinationService.ClearCache();
-        snapshot.Validate(); updating = true; Snapshot = snapshot;
+        if (!validated) snapshot.Validate();
+        // Decision of 1/11/2026 (a revision for each definition): the derived results of an older revision are not shown as valid.
+        snapshot = ModelCombinations.WithCurrentResults(snapshot);
+        updating = true; Snapshot = snapshot;
         categoryColors.Clear();
         ResetRevision();
         Title = displayName ?? snapshot.Name; Summary = $"{snapshot.Nodes.Length:N0} nodi · {snapshot.Elements.Length:N0} elementi";
