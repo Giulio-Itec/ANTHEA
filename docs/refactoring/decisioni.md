@@ -2162,3 +2162,32 @@ L'utente richiede materiale selezionabile per ogni barra nella prima scheda dell
    - Tolti anche due rami mai uniti e non più usati: `refactoring/rel-af`, riserva AF della 1.14.0, e `prova/f5-viste-3`, prova
      portatile. Prima sono salvati nel bundle `ANTHEA-f5-ripresa/backup-rami/anthea-rel-af-prova-f5-viste-3.bundle`.
    - Restano `main`, `refactoring/f5` e `codex/steel-2.113-integration`, il ramo del worktree di un'altra sessione.
+
+## 1 novembre (giorno) — ordine dei lavori, combinazioni e c.a.
+
+1. **Ordine dei lavori.** Sull'elenco dei prossimi punti l'utente sceglie: «3. pulisci … 2. chiudi combo e cerca possibili
+   ottimizzazioni», «poi 7 8 5», cioè pulizia, combinazioni, pagine dei metodi del c.a., modulo Modelli, norma di progetto unica.
+   «puoi lanciarli in parallelo se pensi si possa fare. occhio. arriva al 90% dei token».
+2. **Report di calcolo.** «report li vorrei vedere insieme prima di fare qualcosa. vorrei abbozzarli io e poi farteli fare. quindi il
+   punto resta aperto». Nessuna modifica ai report finché l'utente non porta l'abbozzo.
+3. **Pulizia.** Elenchi, classificatore e script in `ANTHEA-f5-ripresa/pulizia-artefatti/20261101`; li ha lanciati l'utente: 22,85 GB
+   dagli artefatti (resta intera solo l'ultima full; guide Rev03, Rev04, Rev47 e Rev64; rilasci 1.16.1 e 1.16.2; set AN e AO) e
+   18,30 GB fuori (radici e worktree già uniti, copie di settembre in Temp).
+4. **Combinazioni del modulo Modelli**, le tre scelte rimaste aperte il 29/10, tutte come raccomandato:
+   - scrittura del risultato fuori dal thread dell'interfaccia («Sì, correggi»);
+   - revisione per singola definizione («Sì, per definizione»; voce COMBO-REV-01);
+   - preparazione GPC a freddo ottimizzata in Model («Ottimizza in GPC»). Salvare la preparazione nel progetto non conviene
+     (sul 500 × 100: 47 MB in più, 7,5 s a ogni salvataggio e 6,9 s alla riapertura).
+5. **Generatore automatico delle combinazioni** (censimento §5.4), le tre domande del piano, tutte come raccomandato:
+   - casi MIDAS «L»: categoria della Tab. 2.5.I sempre da scegliere, nessun valore predefinito;
+   - casi sismici con la direzione indicata: regola 100/30 di NTC 2018 §7.3.5; senza direzione ±1 come oggi;
+   - limite di 4096 righe e 12 gruppi invariato.
+6. **Pagine dei metodi del c.a.** (agente `ca-metodi`), le domande sul testo EN 1992-1-1, tutte come raccomandato:
+   - MRd della bilineare di μφ: il momento limite del dominio, non il massimo della curva;
+   - μφ nella scheda «Momento–curvatura» di ANTHEA, non nel report;
+   - EN 8.7.2(3): la sovrapposizione si allunga dell'intero interferro oltre 4Ø o 50 mm;
+   - EN 8.8 (barre oltre 32 mm) e 8.7.2(4) (giunzione del 100 % solo con un solo strato): controlli aggiunti, in sospeso se mancano
+     i dati.
+   Restano per il confronto con l'utente: interasse delle solette con il profilo NTC (appendice italiana 9.3.1.1(3), serve il testo
+   NTC) e fori eccentrici nella fessurazione dei cerchi cavi. Testi primari mancanti nella raccolta: NTC 2018, Circolare 2019,
+   DIN EN 1992-1-1/NA, DK NA:2024, NS NA, fib Model Code 2010.

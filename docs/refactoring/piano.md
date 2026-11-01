@@ -1413,3 +1413,26 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 - [x] Full ANTHEA 4e2f29cc: 161 PASS e un rilievo grafico; correzione isolata fa09abc8, nove suite interessate PASS. Esito consolidato 162 PASS, 73 suite UI, 1.520 catture di contrasto senza difetti (AZIONI-03). Build locale pronta in supporto/artefatti/azioni-climatiche/app, con esempi, guide e manifest. Azioni sismiche escluse. Nessun merge né push: vincolo dell'utente fino a sera.
 - [ ] **Da completare: neve EN A1:2015.** Stato aperto confermato dall'utente il 30/10; integrare quando disponibile il testo integrale. Il 1/11 l'utente ribadisce di non avere questa norma («la neve non ho quella norma specifica»): la voce non aspetta l'utente, ma il reperimento del testo per altra via. Letto il PDF UNI EN 1991-1-3:2004 fornito dall'utente (92 pagine, senza emendamento). Dichiarata e collaudata soltanto l'edizione 2003+AC:2009; anteprima ufficiale insufficiente per completare l'allineamento. Nessuna richiesta di reperimento ancora pendente presso l'utente.
 - [x] Integrazione Azioni autorizzata il 30/10 («merge e versione delle varie librerie», anche ramo principale ANTHEA): Model 5.32.0.0 e Design 0.44.0.0, dipendenze incrementate. Suite complete delle librerie superate; Model a6f664c9 e Checker 0d2dec71 integrati e pubblicati sui rispettivi master dopo conferma esplicita al push. Set ufficiale AO installato; full ANTHEA su 02cd4d2d: 162 PASS, zero fallimenti, 73 suite UI prima e dopo, F3 senza differenze non ammesse, 1.566 catture di contrasto senza difetti. Ramo integrato su `main` dopo il full; push su `origin/main` esplicitamente autorizzato. A1:2015 resta aperto come indicato sopra. [Stato e versioni](azioni-ntc-ec.md).
+
+## Lavori del 1 novembre 2026
+
+Ordine scelto dall'utente: pulizia, combinazioni, pagine dei metodi del c.a. (7), modulo Modelli (8), norma di progetto unica (5);
+i report di calcolo restano aperti finché l'utente non porta il suo abbozzo. Decisioni in [decisioni.md](decisioni.md), «1 novembre
+(giorno)».
+
+- [x] Pulizia degli artefatti e delle cartelle non più usate: 41,1 GB, elenchi e script in
+  `ANTHEA-f5-ripresa/pulizia-artefatti/20261101`.
+- [x] Chiusura delle combinazioni del modulo Modelli (agente `combo-chiusura`): scrittura del risultato fuori dal thread
+  dell'interfaccia, revisione per singola definizione (COMBO-REV-01), preparazione GPC a freddo in parallelo (GPC.Converter 2.11),
+  riapertura più veloce, bug COMBO-B4; risultati identici bit per bit alla 1.16.0.
+- [x] Pagine dei metodi del c.a., prima parte (agente `ca-metodi`): μφ con il ramo post-picco e la bilineare della Circolare
+  Fig. C4.1.12 (GPCChecker.Concrete 0.33), pagine sle-tensioni, fessurazione, dettagli, ancoraggi e momento–curvatura riviste,
+  riscontro sul testo EN di R8 (XD3) e R14 (15Ø); R6 e R20 restano da fonte secondaria.
+- [~] Set AP da `origin/master` (Model 391cfea9, Checker a3c53320), installazione e full di ANTHEA.
+- [ ] Campagna dei tempi delle combinazioni a macchina ferma.
+- [ ] Pagine dei metodi del c.a., seconda parte: μφ nella scheda «Momento–curvatura», EN 8.7.2(3) con l'intero interferro, controlli
+  di EN 8.8 e 8.7.2(4).
+- [ ] Modulo Modelli (punto 8, agente `modelli-8`): interfaccia del generatore, componenti principali dei plate, inviluppi annidati
+  senza espansione completa, proposta per l'archivio dei risultati.
+- [ ] Norma di progetto unica per documento (punto 5).
+- [ ] Report di calcolo: dopo l'abbozzo dell'utente.
