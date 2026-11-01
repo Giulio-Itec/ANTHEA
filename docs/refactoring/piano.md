@@ -1452,4 +1452,5 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - [x] Precompressione e perdite: attrito, rientro, rilassamento, trasferimento e perdite accoppiate; quattro esempi, grafici e copia della sezione Concrete con stato GPC efficace. Prove numeriche, MVVM/persistenza e WPF PASS.
 - [x] Gru e carriponte: gruppi EN compatibili, quattro ruote o componenti del costruttore, pianta delle vie, tre esempi. Test GPC e interfaccia PASS.
 - [x] Incendio: curve nominali e storia assegnata, facce e flussi su temperature superficiali prescritte, grafici e quattro esempi; calcoli GPC, persistenza e WPF PASS.
-- [ ] Guide globali e PDF, Wiki, collaudo finale, nuove versioni GPC e integrazione dei branch.
+- [x] Guide globali Rev65 e PDF controllati, Wiki con 94 capitoli, 93 esempi nel catalogo; set candidato finale con nuove versioni e 11933 prove GPC PASS.
+- [ ] Pubblicazione dei commit GPC, set ufficiale, full ANTHEA e integrazione finale dei branch.

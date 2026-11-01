@@ -12,13 +12,13 @@ Contratti, unità e dati in GPC.Model; formule e integrazioni in GPC.Design, riu
 
 ## Piano e verifiche
 
-- [ ] Idraulica: parete, platea e pila in corrente; scenari alternativi, pressioni nette, risultanti e primi momenti; profili assegnati di sottospinta e velocità. Prove indipendenti su triangolo/trapezio, Archimede, traslazione del riferimento, corrente uniforme/variabile/inversa, coppia pura e input non validi.
-- [ ] Fasi costruttive: carichi e sequenza, senza attribuire al foglio una redistribuzione strutturale non calcolata. Riusare i contratti delle fasi GPC.
-- [ ] Ritiro, viscosità, maturazione e spostamenti imposti: storia degli eventi e separazione fra deformazioni libere e risposta vincolata.
-- [ ] Precompressione: geometria del cavo, tiro, attrito, ancoraggi, perdite immediate/differite e stato efficace inviabile alla sezione.
-- [ ] Gru/carriponte: azioni alle ruote e gruppi di carico compatibili, parametri e dati del costruttore tracciati.
-- [ ] Incendio: azioni termiche nominali, facce esposte e condizioni termiche; la temperatura dei gas non è la temperatura della sezione.
-- [ ] Guide globali, Word/PDF, esempi e collaudi UI nei tre temi; nessuna suite UI eliminata.
+- [x] Idraulica: parete, platea e pila in corrente; scenari alternativi, pressioni nette, risultanti e primi momenti; profili assegnati di sottospinta e velocità. Prove indipendenti su triangolo/trapezio, Archimede, traslazione del riferimento, corrente uniforme/variabile/inversa, coppia pura e input non validi.
+- [x] Fasi costruttive: carichi e sequenza, senza attribuire al foglio una redistribuzione strutturale non calcolata. Riusare i contratti delle fasi GPC.
+- [x] Ritiro, viscosità, maturazione e spostamenti imposti: storia degli eventi e separazione fra deformazioni libere e risposta vincolata.
+- [x] Precompressione: geometria del cavo, tiro, attrito, ancoraggi, perdite immediate/differite e stato efficace inviabile alla sezione.
+- [x] Gru/carriponte: azioni alle ruote e gruppi di carico compatibili, parametri e dati del costruttore tracciati.
+- [x] Incendio: azioni termiche nominali, facce esposte e condizioni termiche; la temperatura dei gas non è la temperatura della sezione.
+- [x] Guide globali, Word/PDF, esempi e collaudi UI nei tre temi; nessuna suite UI eliminata.
 - [ ] Allineamento finale, versioni GPC, tutte le suite, merge e set ufficiale; full ANTHEA sul set coerente.
 
 ## Fonti controllate
@@ -76,3 +76,12 @@ Model 14588a87, Checker 595adbf1: EN 1991-3:2006 Tab. 2.2 e gruppi compatibili, 
 Model b1f26e2f, Checker 5c99a732: curve nominali NTC 2018 ed EN 1991-1-2:2002, storia assegnata con raffreddamento, facce esposte/non esposte/adiabatiche. Scambio convettivo e radiativo con temperature superficiali prescritte e conferme esplicite; nessuna temperatura interna o resistenza R/REI dichiarata. Irraggiamento distinto dall’opzione α=9 del lato non esposto, senza doppio conteggio. Interpolazione senza extrapolazione; nodi delle storie inclusi nel campionamento. Formule e coefficienti controllati sul rendering EN pp. 23–25 e NTC §3.6.1.5.1.
 
 16 prove numeriche su net8/net472 e tutte le suite candidate-fire-01 PASS. ANTHEA 20261101-220415-azioni-fire-01: Climate.Tests 1084, WPF 600 controlli e Architecture.Tests PASS. Verificati grafici nei temi chiaro/scuro e schema originale; corretto il margine del grafico statico per eliminare sovrapposizione della didascalia. Quattro esempi distribuiti, totale 93. Inventario UI sempre 73 suite. Guide globali in completamento.
+
+
+## Chiusura editoriale e set candidato finale
+
+Guide Rev65: pratica 129 pagine, teorica 209; 1341 e 2537 frammenti di testo verificati, 9 e 1513 formule native OMML conservate, 26 parti del modello ITEC e cinque sezioni inalterate per documento. Rendering Word nativo, controllo visivo di copertine, indici, confine e tutte le pagine aggiunte; schemi e formule senza tagli. LibreOffice non disponibile nel runtime Windows: i PNG di verifica derivano dai PDF finali esportati da Word. Template conservato della Rev64 verificato per SHA-256. Fonti, Word/PDF precedenti e indici archiviati con manifest; PDF accanto a tutti i sorgenti destinati agli utenti.
+
+Wiki: 94 capitoli, dodici nuovi, collegamenti dai sei moduli verificati. Il primo controllo ha rilevato il censimento delle aggiunte non aggiornato; esteso soltanto l’elenco dei nuovi capitoli e aggiunti sei controlli di collegamento, preservando la fixture dei 73 articoli F5. Corsa 20261101-221622-azioni-wiki-final PASS. Climate.Tests 1084 controlli e catalogo dei 93 esempi PASS nella precedente azioni-final-docs.
+
+Set candidate-final-versions da Model 07fb7618 e Checker c79f2c81: 11933 test PASS, zero fallimenti, 13 prove già ignorate dalle suite; API compatibili. GPCModel 5.35.0.0 e GPC.Design 0.45.0.0 per nuove funzionalità, revisioni di ricompilazione per le dipendenze. Nessuna modifica agli attesi numerici. Allineamento remoto finale verificato prima della pubblicazione.

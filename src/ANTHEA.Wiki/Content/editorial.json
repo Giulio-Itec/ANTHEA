@@ -1799,5 +1799,265 @@
     "title": "Carichi combinazioni e traffico",
     "order": 152,
     "summary": "Permanenti, sovraccarichi, combinazioni degli edifici, traffico stradale, ripartizione rigida/deformabile e urti veicolari."
+  },
+  "guide:Azioni idrauliche": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli/idraulica",
+    "modules": [
+      "act_idrauliche"
+    ],
+    "related": [
+      "idraulica"
+    ],
+    "key": "guida-idraulica",
+    "chapterId": "anthea",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018"
+    ],
+    "title": "Azioni idrauliche",
+    "order": 153,
+    "summary": "Pareti, platee e pile in corrente; pressioni nette, risultanti e primi momenti."
+  },
+  "theory:Azioni idrauliche": {
+    "area": "Azioni e combinazioni",
+    "id": "/wiki/manuale/azioni/idraulica",
+    "modules": [
+      "act_idrauliche"
+    ],
+    "related": [
+      "guida-idraulica"
+    ],
+    "key": "idraulica",
+    "chapterId": "fondamenti",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018"
+    ],
+    "title": "Azioni idrauliche",
+    "order": 153,
+    "summary": "Pareti, platee e pile in corrente; pressioni nette, risultanti e primi momenti."
+  },
+  "guide:Fasi costruttive": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli/fasi-costruttive",
+    "modules": [
+      "act_fasi_costruttive"
+    ],
+    "related": [
+      "fasi-costruttive"
+    ],
+    "key": "guida-fasi-costruttive",
+    "chapterId": "anthea",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "actions-en-construction"
+    ],
+    "title": "Fasi costruttive",
+    "order": 154,
+    "summary": "Carichi per fase, getto e aree di lavoro; cronologia senza soluzione strutturale implicita."
+  },
+  "theory:Fasi costruttive": {
+    "area": "Azioni e combinazioni",
+    "id": "/wiki/manuale/azioni/fasi-costruttive",
+    "modules": [
+      "act_fasi_costruttive"
+    ],
+    "related": [
+      "guida-fasi-costruttive"
+    ],
+    "key": "fasi-costruttive",
+    "chapterId": "fondamenti",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "actions-en-construction"
+    ],
+    "title": "Fasi costruttive",
+    "order": 154,
+    "summary": "Carichi per fase, getto e aree di lavoro; cronologia senza soluzione strutturale implicita."
+  },
+  "guide:Ritiro viscosità e spostamenti imposti": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli/effetti-differiti",
+    "modules": [
+      "act_effetti_differiti"
+    ],
+    "related": [
+      "effetti-differiti"
+    ],
+    "key": "guida-effetti-differiti",
+    "chapterId": "anthea",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "en1992-1-1"
+    ],
+    "title": "Ritiro viscosità e spostamenti imposti",
+    "order": 155,
+    "summary": "Storia dei carichi, deformazioni libere e risposta di una barra assiale integra con vincoli."
+  },
+  "theory:Ritiro viscosità e spostamenti imposti": {
+    "area": "Azioni e combinazioni",
+    "id": "/wiki/manuale/azioni/effetti-differiti",
+    "modules": [
+      "act_effetti_differiti"
+    ],
+    "related": [
+      "guida-effetti-differiti"
+    ],
+    "key": "effetti-differiti",
+    "chapterId": "fondamenti",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "en1992-1-1"
+    ],
+    "title": "Ritiro viscosità e spostamenti imposti",
+    "order": 155,
+    "summary": "Storia dei carichi, deformazioni libere e risposta di una barra assiale integra con vincoli."
+  },
+  "guide:Precompressione e perdite": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli/precompressione",
+    "modules": [
+      "act_precompressione"
+    ],
+    "related": [
+      "precompressione"
+    ],
+    "key": "guida-precompressione",
+    "chapterId": "anthea",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "actions-en-prestress"
+    ],
+    "title": "Precompressione e perdite",
+    "order": 156,
+    "summary": "Attrito, rientro, trasferimento, perdite differite e stato efficace nella copia Concrete."
+  },
+  "theory:Precompressione e perdite": {
+    "area": "Azioni e combinazioni",
+    "id": "/wiki/manuale/azioni/precompressione",
+    "modules": [
+      "act_precompressione"
+    ],
+    "related": [
+      "guida-precompressione"
+    ],
+    "key": "precompressione",
+    "chapterId": "fondamenti",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "actions-en-prestress"
+    ],
+    "title": "Precompressione e perdite",
+    "order": 156,
+    "summary": "Attrito, rientro, trasferimento, perdite differite e stato efficace nella copia Concrete."
+  },
+  "guide:Gru e carriponte": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli/carriponte",
+    "modules": [
+      "act_gru_carriponte"
+    ],
+    "related": [
+      "carriponte"
+    ],
+    "key": "guida-carriponte",
+    "chapterId": "anthea",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "actions-en-cranes"
+    ],
+    "title": "Gru e carriponte",
+    "order": 157,
+    "summary": "Azioni alle ruote, dati del costruttore e gruppi alternativi compatibili."
+  },
+  "theory:Gru e carriponte": {
+    "area": "Azioni e combinazioni",
+    "id": "/wiki/manuale/azioni/carriponte",
+    "modules": [
+      "act_gru_carriponte"
+    ],
+    "related": [
+      "guida-carriponte"
+    ],
+    "key": "carriponte",
+    "chapterId": "fondamenti",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "actions-en-cranes"
+    ],
+    "title": "Gru e carriponte",
+    "order": 157,
+    "summary": "Azioni alle ruote, dati del costruttore e gruppi alternativi compatibili."
+  },
+  "guide:Azioni termiche da incendio": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli/incendio",
+    "modules": [
+      "act_incendio"
+    ],
+    "related": [
+      "incendio"
+    ],
+    "key": "guida-incendio",
+    "chapterId": "anthea",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "actions-en-fire"
+    ],
+    "title": "Azioni termiche da incendio",
+    "order": 158,
+    "summary": "Curve dei gas, facce esposte e flussi su temperature superficiali prescritte."
+  },
+  "theory:Azioni termiche da incendio": {
+    "area": "Azioni e combinazioni",
+    "id": "/wiki/manuale/azioni/incendio",
+    "modules": [
+      "act_incendio"
+    ],
+    "related": [
+      "guida-incendio"
+    ],
+    "key": "incendio",
+    "chapterId": "fondamenti",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "actions-en-fire"
+    ],
+    "title": "Azioni termiche da incendio",
+    "order": 158,
+    "summary": "Curve dei gas, facce esposte e flussi su temperature superficiali prescritte."
   }
 }

@@ -1,10 +1,10 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Revisione 64 · 30 ottobre 2026
+ITEC Engineering · Revisione 65 · 1 novembre 2026
 
 ## Guida pratica ANTHEA
 
-[Word Rev64](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev64.docx) · [PDF Rev64](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev64.pdf)
+[Word Rev65](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev65.docx) · [PDF Rev65](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev65.pdf)
 
 - Stratigrafia del terreno
 - Avvio e scelta del modulo
@@ -33,10 +33,16 @@ ITEC Engineering · Revisione 64 · 30 ottobre 2026
 - Paratie e sostegni flessibili
 - Azioni climatiche
 - Carichi combinazioni e traffico
+- Azioni idrauliche
+- Fasi costruttive
+- Ritiro viscosità e spostamenti imposti
+- Precompressione e perdite
+- Gru e carriponte
+- Azioni termiche da incendio
 
 ## Guida teorica ANTHEA
 
-[Word Rev64](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev64.docx) · [PDF Rev64](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev64.pdf)
+[Word Rev65](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev65.docx) · [PDF Rev65](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev65.pdf)
 
 - Modello della stratigrafia del terreno
 - Architettura del calcolo e convenzioni
@@ -91,6 +97,12 @@ ITEC Engineering · Revisione 64 · 30 ottobre 2026
 - Analisi per fasi delle paratie
 - Azioni climatiche
 - Carichi combinazioni e traffico
+- Azioni idrauliche
+- Fasi costruttive
+- Ritiro viscosità e spostamenti imposti
+- Precompressione e perdite
+- Gru e carriponte
+- Azioni termiche da incendio
 
 ## Articoli
 
