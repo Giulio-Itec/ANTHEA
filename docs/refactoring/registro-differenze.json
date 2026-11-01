@@ -14508,6 +14508,37 @@
         "CA-METODI-02",
         "CA-METODI-03"
       ]
+    },
+    {
+      "id": "COMBO-REV-01-bis",
+      "data": "2026-11-01",
+      "fase": "1.17.0 / combo-legacy",
+      "titolo": "Modelli: combinazioni calcolate fino alla 1.16.2 ancora valide restano «Calcolate»",
+      "famiglia": "modelli/combinazioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Seguito di COMBO-REV-01. I progetti salvati fino alla 1.16.2 hanno nei risultati derivati la revisione di formato 1: l'impronta dell'intera copia senza i risultati derivati, tutte le definizioni comprese (ModelCombinations.InputRevision della 1.16.2). Con COMBO-REV-01 la vista li apriva tutti «Da calcolare». Ora (ModelCombinations.Upgraded, da WithCurrentResults, Inspect, Save, Remove, RestoreImported, Attach e dalla rigenerazione) un risultato la cui revisione non è quella della sua definizione è confrontato con la revisione dell'intera copia calcolata esattamente come nella 1.16.2 (copia senza risultati derivati e senza le scelte del generatore, che allora non esistevano; JSON canonico, SHA-256): se coincide resta, con gli stessi valori, e prende la revisione della sua definizione (formato 2), che il documento riceve la prima volta che la copia si scrive. Se non coincide (una definizione, un caso o la geometria cambiati, serializzazione diversa) resta il comportamento di COMBO-REV-01: «Da calcolare», mai un errore. Le componenti principali dei plate, che la 1.16.2 non calcolava, restano mancanti come per ogni risultato senza principali: chiedendole, la vista mostra l'avviso «Componenti principali non calcolate per questa combinazione: calcolala di nuovo con GPC…». L'impronta dell'intera copia si calcola solo quando ci sono risultati non correnti (una serializzazione della copia alla prima apertura di un progetto della 1.16.2).",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelCombinations.cs",
+        "src/ANTHEA.ModelWorkspace/ModelCombinationGenerator.cs",
+        "tests/ModelWorkspace.Checks/CombinationLegacyChecks.cs",
+        "tests/fixtures/model-viewer-combinations-1.16.2/progetto-1.16.2.json"
+      ],
+      "segno": "Nessun valore cambia: i risultati della 1.16.2 ancora validi si mostrano con i valori salvati (stesso JSON, quindi stessi bit, a parte la revisione d'ingresso); cambia solo la revisione scritta alla prima scrittura del documento.",
+      "effetto_quantificato": "Progetti della 1.16.x con combinazioni calcolate e copia invariata: le combinazioni restano «Calcolata» (prima di questa voce tornavano «Da calcolare» e si ricalcolavano una volta). Progetti con la copia cambiata dopo il calcolo: invariato, «Da calcolare». Fixture: contenitore scritto dal codice della 1.16.2 (DLL dell'installatore, supporto/artefatti/rilascio-1.16.2/estratto), modello sintetico 24 × 12 con «Somma utente» e l'inviluppo importato «cENV» calcolati (3 risultati derivati).",
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "domanda 4 della sera del 1/11: «Combinazioni calcolate con le versioni precedenti → Calcolate + avviso»; restano «Calcolate» con i risultati di prima, solo chiedendo le principali la vista propone il ricalcolo.",
+        "esito": "Attuata nel ramo refactoring/combo-legacy prima del rilascio della 1.17.0; nessuna libreria toccata."
+      },
+      "test": [
+        "ModelWorkspace.Checks: legacy revision (fixture della 1.16.2 con la revisione dell'intera copia ricalcolata come la 1.16.2; valori bit per bit e revisione per definizione; catalogo e vista «Calcolata»; avviso delle principali; prima scrittura del documento; salvataggio di un'altra definizione; progetto con una definizione cambiata «Da calcolare» senza errori)",
+        "ModelWorkspace.Checks: revision per definition, documento di una revisione precedente non corrispondente ancora «Da calcolare»"
+      ],
+      "voci_collegate": [
+        "COMBO-REV-01",
+        "COMBO-PRIN-01"
+      ]
     }
   ]
 }

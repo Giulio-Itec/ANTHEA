@@ -83,6 +83,7 @@ public static class ModelCombinations
     public static ModelCombinationAvailability[] Inspect(ModelSnapshot snapshot)
     {
         var definitions=Read(snapshot);var records=definitions.Select(ToGpc).ToArray();
+        snapshot=Upgraded(snapshot,definitions); // results of 1.16.2 still current: «Calcolata» (decision of 1/11/2026 evening)
         var cases=snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&r.Stage==null).Select(r=>r.Name).ToHashSet(StringComparer.Ordinal);
         // The definitions with results of their current revision (decision of 1/11/2026: a revision for each definition), once instead of a scan
         // of the results for each definition.
@@ -162,6 +163,7 @@ public static class ModelCombinations
             throw new InvalidDataException("Identità della combinazione non valida.");
         if(definition.Kind is not(ModelCombinationKind.Linear or ModelCombinationKind.Envelope) || definition.Terms.Length==0)
             throw new InvalidDataException("Scegli Somma lineare o Inviluppo e almeno un termine.");
+        snapshot=Upgraded(snapshot,Read(snapshot));
         var custom=(snapshot.CustomCombinations??[]).Where(d=>d.Id!=definition.Id).Append(definition with {Terms=definition.Terms.ToArray()}).ToArray();
         if(custom.Any(d=>d.Id!=definition.Id&&d.Name==definition.Name))throw new InvalidDataException("Esiste già una combinazione ANTHEA con questo nome.");
         var copy=Copy(snapshot);copy.CustomCombinations=custom;
@@ -179,6 +181,7 @@ public static class ModelCombinations
     public static ModelSnapshot Remove(ModelSnapshot snapshot,string id)
     {
         var all=Read(snapshot);
+        snapshot=Upgraded(snapshot,all);
         if(!all.Any(d=>d.Id==id))throw new InvalidDataException("Combinazione non trovata.");
         if(all.Any(d=>d.Id!=id&&d.Terms.Any(t=>t.IsCombination&&t.Reference==id)))throw new InvalidDataException("La combinazione è usata da altre definizioni: rimuovi prima quei riferimenti.");
         var copy=Copy(snapshot);copy.CustomCombinations=(snapshot.CustomCombinations??[]).Where(d=>d.Id!=id).ToArray();
@@ -210,6 +213,7 @@ public static class ModelCombinations
 
     public static ModelSnapshot RestoreImported(ModelSnapshot snapshot)
     {
+        snapshot=Upgraded(snapshot,Read(snapshot));
         var copy=Copy(snapshot);copy.ExcludedCombinationIds=null;copy.Results=CurrentResults(copy,Read(copy));copy.Validate();return copy;
     }
 
@@ -254,7 +258,8 @@ public static class ModelCombinations
     /// the canonical JSON of the definitions it reads, itself and the nested ones at any depth, in the order of their identifiers. Saving or
     /// deleting a definition changes the revisions of that definition and of the definitions that use it, and no other: the results of the
     /// others stay valid. Until 1/11/2026 the revision was the one of the whole copy without the derived results (every definition included):
-    /// the results saved with it are not current any more and are calculated again once (<see cref="WithCurrentResults"/>).
+    /// the results saved with it stay current while that revision is still the one of the copy (<see cref="Upgraded"/>), otherwise they are
+    /// calculated again once (<see cref="WithCurrentResults"/>).
     /// </summary>
     public static string DefinitionRevision(ModelSnapshot snapshot,string definitionId)=>
         DefinitionRevisions(snapshot,Read(snapshot),[definitionId]).TryGetValue(definitionId,out var revision)?revision:throw new InvalidDataException("Combinazione non trovata.");
@@ -309,25 +314,58 @@ public static class ModelCombinations
 
     /// <summary>
     /// The copy shown by the viewer: the same copy when every derived result is of the current revision of its definition, otherwise a copy
-    /// without the others. A document saved before 1/11/2026 has the revisions of the whole copy: its results are not shown as valid, the
-    /// catalogue offers them «Da calcolare» and the next change of the copy writes the document without them. Never an error.
+    /// without the others. A document saved until 1.16.2 has the revisions of the whole copy: its results still current take the revision of
+    /// their definition (<see cref="Upgraded"/>) and stay «Calcolata»; the others are not shown as valid, the catalogue offers them «Da
+    /// calcolare» and the next change of the copy writes the document without them. Never an error.
     /// </summary>
     public static ModelSnapshot WithCurrentResults(ModelSnapshot snapshot)
     {
         ArgumentNullException.ThrowIfNull(snapshot);
         if(!snapshot.Results.Any(r=>r.Combination!=null))return snapshot;
-        ModelResultSet[] results;
-        try {results=CurrentResults(snapshot,Read(snapshot));}
+        ModelResultSet[] results;var upgraded=snapshot;
+        try {var definitions=Read(snapshot);upgraded=Upgraded(snapshot,definitions);results=CurrentResults(upgraded,definitions);}
         catch(Exception ex) when(ex is InvalidDataException or ArgumentException or InvalidOperationException or NotSupportedException or KeyNotFoundException)
-        {results=snapshot.Results.Where(r=>r.Combination==null).ToArray();}
-        if(results.Length==snapshot.Results.Length)return snapshot;
-        var copy=Copy(snapshot);copy.Results=results;return copy;
+        {upgraded=snapshot;results=snapshot.Results.Where(r=>r.Combination==null).ToArray();}
+        if(ReferenceEquals(upgraded,snapshot)&&results.Length==snapshot.Results.Length)return snapshot;
+        var copy=Copy(upgraded);copy.Results=results;return copy;
+    }
+
+    /// <summary>
+    /// Decision of the user of 1/11/2026 evening («Combinazioni calcolate con le versioni precedenti → Calcolate + avviso»), after COMBO-REV-01.
+    /// A derived result saved until 1.16.2 carries the revision of format 1: the one of the whole copy without the derived results, every
+    /// definition included (<see cref="WholeCopyRevision"/>). When it is the revision of the copy, computed exactly as 1.16.2 did, the result
+    /// is still current: it keeps its values and takes the revision of its definition (format 2), which the document receives the first time
+    /// the copy is written. A copy changed since (a definition, a case, the geometry) or written differently gives another revision: those
+    /// results are calculated again, as before. The principal components that 1.16.2 did not calculate stay missing, as for every result
+    /// without them. The same copy when no result needs it; the revision of the whole copy is computed only for results not current.
+    /// </summary>
+    internal static ModelSnapshot Upgraded(ModelSnapshot snapshot,IReadOnlyList<ModelCombinationDefinition> definitions)
+    {
+        var derived=snapshot.Results.Where(r=>r.Combination!=null).ToArray();
+        if(derived.Length==0)return snapshot;
+        var revisions=DefinitionRevisions(snapshot,definitions,derived.Select(r=>r.Combination!.DefinitionId));
+        if(derived.All(r=>!revisions.TryGetValue(r.Combination!.DefinitionId,out var current)||current==r.Combination.InputRevision))return snapshot;
+        string whole=WholeCopyRevision(snapshot);
+        if(!derived.Any(r=>r.Combination!.InputRevision==whole&&revisions.ContainsKey(r.Combination.DefinitionId)))return snapshot;
+        var copy=Copy(snapshot);
+        copy.Results=[..snapshot.Results.Select(r=>r.Combination is {} c&&c.InputRevision==whole&&revisions.TryGetValue(c.DefinitionId,out var current)
+            ?r with {Combination=c with {InputRevision=current}}:r)];
+        return copy;
+    }
+
+    /// <summary>The revision of format 1, ModelCombinations.InputRevision until 1.16.2: the SHA-256 of the canonical JSON of the copy without
+    /// its derived results, the definitions of the user included. The choices of the generator (1/11/2026) were not part of the copy then.</summary>
+    internal static string WholeCopyRevision(ModelSnapshot snapshot)
+    {
+        var copy=Copy(snapshot);copy.Results=Revisions.BasisOf(snapshot);copy.GeneratorCases=null;
+        return copy.Fingerprint();
     }
 
     public static ModelSnapshot Attach(ModelSnapshot snapshot,string definitionId,ModelCombinationCalculation calculated)
     {
-        var copy=Copy(snapshot);
         var definitions=Read(snapshot);
+        snapshot=Upgraded(snapshot,definitions);
+        var copy=Copy(snapshot);
         if(calculated.Results.Length==0||!definitions.Any(d=>d.Id==definitionId))throw new InvalidDataException("Il modello o la definizione sono cambiati durante il calcolo. Ricalcola la combinazione.");
         string revision=DefinitionRevision(snapshot,definitionId);
         if(calculated.Results.Any(r=>r.Combination?.DefinitionId!=definitionId||r.Combination.InputRevision!=revision))
