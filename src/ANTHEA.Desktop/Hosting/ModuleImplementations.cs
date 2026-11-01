@@ -55,6 +55,7 @@ internal sealed partial class ModuleImplementations
         ("act_fasi_costruttive", SheetImplementation.Mvvm),
         ("act_effetti_differiti", SheetImplementation.Mvvm),
         ("act_precompressione", SheetImplementation.Mvvm),
+        ("act_gru_carriponte", SheetImplementation.Mvvm),
     ];
 
     /// <summary>The implementations of the Release.</summary>

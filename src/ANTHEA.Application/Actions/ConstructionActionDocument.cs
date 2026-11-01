@@ -17,10 +17,10 @@ public static partial class ClimateDocument
         ["Assigned"]="Azioni assegnate",["SelfWeight"]="Peso proprio da volume",
         ["EnPersonnel"]="EN · personale e piccoli utensili",["EnBridgeStorage"]="EN · deposito su ponti",["EnConcreteCasting"]="EN · getto del calcestruzzo"
     };
-    private static string UiCaption(string module,string name)=>module==Prestressing?PrestressCaptions.GetValueOrDefault(name)??TimeCaptions.GetValueOrDefault(name)??Caption(name):module==TimeEffects?TimeCaptions.GetValueOrDefault(name)??Caption(name):module==Construction?ConstructionCaptions.GetValueOrDefault(name)??Caption(name):Caption(name);
+    private static string UiCaption(string module,string name)=>module==Cranes?CraneCaptions.GetValueOrDefault(name)??Caption(name):module==Prestressing?PrestressCaptions.GetValueOrDefault(name)??TimeCaptions.GetValueOrDefault(name)??Caption(name):module==TimeEffects?TimeCaptions.GetValueOrDefault(name)??Caption(name):module==Construction?ConstructionCaptions.GetValueOrDefault(name)??Caption(name):Caption(name);
     private static IEnumerable<string> FieldEnumNames(string module,string key,Type type)=>Enum.GetNames(type).Where(name=>module!=Construction||key!="Nature"||name!="Prestress");
     private static string ExtendedModule(JsonObject document)=>document["input_type"]?.ToString() switch
-    {"PrestressActionsInput"=>Prestressing,"TimeEffectsInput"=>TimeEffects,"HydraulicActionsInput"=>Hydraulics,"ConstructionActionsInput"=>Construction,_=>""};
+    {"CraneActionsInput"=>Cranes,"PrestressActionsInput"=>Prestressing,"TimeEffectsInput"=>TimeEffects,"HydraulicActionsInput"=>Hydraulics,"ConstructionActionsInput"=>Construction,_=>""};
     private static JsonObject CalculateConstruction(ConstructionActionsInput input)
     {
         var calculation=GPC.Design.Actions.Construction.ConstructionActions.Calculate(input);

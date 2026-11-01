@@ -774,6 +774,33 @@
       "kind": "calcolo",
       "sha256": "b1cf2cdd708cf96aaca2df1e478a4fb45579254f7462419dd37dfc5fe430471c",
       "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_gru_carriponte/carriponte-quattro-ruote.anthea",
+      "module": "act_gru_carriponte",
+      "title": "Carroponte EN · gruppi compatibili",
+      "description": "Componenti nominali statiche, fattori dinamici una sola volta e gruppi alternativi. Fonti del costruttore dimostrative.",
+      "kind": "calcolo",
+      "sha256": "eb16425acd93ec0c078eb3fb6ea8bb07ecbbff61c7de9be4866ad1321439ecf3",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_gru_carriponte/carriponte-rilascio.anthea",
+      "module": "act_gru_carriponte",
+      "title": "Carroponte NTC con modello EN · rilascio e urto",
+      "description": "Componenti nominali statiche, fattori dinamici una sola volta e gruppi alternativi. Fonti del costruttore dimostrative.",
+      "kind": "calcolo",
+      "sha256": "14849d744447f0ba6ca001ab1687b4707642d87c653594caf38fbc1f70eb0f2f",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_gru_carriponte/carriponte-costruttore.anthea",
+      "module": "act_gru_carriponte",
+      "title": "Carroponte EN · componenti alle ruote assegnate",
+      "description": "Componenti nominali statiche, fattori dinamici una sola volta e gruppi alternativi. Fonti del costruttore dimostrative.",
+      "kind": "calcolo",
+      "sha256": "2c17674b8a534841de0cfd8cf9810d8325b8d9d08b540d8e2f0e3d0f722d22d3",
+      "origin": "tests/Shared/ClimateScenarios.cs"
     }
   ]
 }

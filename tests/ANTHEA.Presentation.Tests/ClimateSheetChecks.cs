@@ -27,7 +27,7 @@ internal static class ClimateSheetChecks
             sheet.IsReadOnly=true;var field=sheet.Forms.SelectMany(f=>f.Form.Fields).Concat(sheet.Tables.Where(t=>t.Editor is not null).SelectMany(t=>t.Editor!.Fields)).FirstOrDefault(f=>f.Kind==Anthea.Presentation.Forms.FieldKind.Text&&f.Spec.Write==Anthea.Presentation.Forms.FieldWriteRule.NumberOrText);
             expect.That(field is not null,"Campo numerico disponibile");field!.EditText="999";expect.That(JsonNode.DeepEquals(before,sheet.Data),"Sola lettura");sheet.IsReadOnly=false;
             var form=scenario.Module==ClimateDocument.Construction?sheet.Tables.Single(t=>t.Key=="ConstructionLoads").Editor!:scenario.Module==ClimateDocument.Combinations?sheet.Tables.Single().Editor!:sheet.Forms.Last().Form;
-            string key=scenario.Module switch{ClimateDocument.Snow or ClimateDocument.BuildingWind or ClimateDocument.BridgeWind=>"WidthM",ClimateDocument.Hydraulics or ClimateDocument.Construction=>"WidthM",ClimateDocument.PermanentLoads=>"TributaryWidthM",ClimateDocument.Combinations=>"Effect",ClimateDocument.RoadTraffic=>"LoadedLengthM",ClimateDocument.Impact=>scenario.Data["input"]!["Target"]!.ToString()=="Superstructure"?"ClearanceM":"MemberWidthM",ClimateDocument.Distribution=>"SpanM",_=>"LengthM"};
+            string key=scenario.Module switch{ClimateDocument.Snow or ClimateDocument.BuildingWind or ClimateDocument.BridgeWind=>"WidthM",ClimateDocument.Hydraulics or ClimateDocument.Construction=>"WidthM",ClimateDocument.PermanentLoads=>"TributaryWidthM",ClimateDocument.Combinations=>"Effect",ClimateDocument.RoadTraffic=>"LoadedLengthM",ClimateDocument.Impact=>scenario.Data["input"]!["Target"]!.ToString()=="Superstructure"?"ClearanceM":"MemberWidthM",ClimateDocument.Cranes=>"RailHeadWidthMm",ClimateDocument.Distribution=>"SpanM",_=>"LengthM"};
             double edited=scenario.Module==ClimateDocument.Distribution?30:12.5;
             form[key].EditText=edited.ToString(System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
             var changed=scenario.Module==ClimateDocument.Construction?sheet.Data["input"]!["ConstructionLoads"]![0]:scenario.Module==ClimateDocument.Combinations?sheet.Data["input"]!["Actions"]![0]:sheet.Data["input"];
@@ -71,6 +71,11 @@ internal static class ClimateSheetChecks
                     source["workspace_ca"]!["trefoli"]![0]!["area"]="150";
                     expect.Throws<ArgumentException>(()=>ClimateDocument.ApplyPrestressToSection(source,sheet.Result!,sheet.SelectedCase,sheet.SelectedStation.Index,"P1"),"Trasferimento rifiuta area non corrispondente");
                 }
+            }
+            if(sheet.IsCranes)
+            {
+                expect.That(await sheet.CalculateAsync()&&sheet.CraneDrawing?.Points.Count>=4,"Azioni alle ruote proiettate");sheet.SelectedCase=sheet.Cases.Count-1;
+                expect.That(sheet.CraneDrawing?.Name==sheet.Cases.Last().Name,"Gruppo disegnato coincide con il caso selezionato");expect.That(csv.Contains("EccentricTorsionKnM"),"CSV delle componenti e torsioni locali");
             }
             if(sheet.IsTimeEffects)
             {

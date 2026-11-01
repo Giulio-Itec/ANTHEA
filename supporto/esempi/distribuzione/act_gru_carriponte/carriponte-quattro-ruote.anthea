@@ -1,0 +1,71 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_gru_carriponte",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "CraneActionsInput",
+    "input": {
+      "Standard": "EurocodeFirstGeneration",
+      "NationalParameters": "Esempio EN 1991-3:2006, valori raccomandati.",
+      "SupplierSource": "Dati nominali dimostrativi, da sostituire con documentazione del costruttore.",
+      "StaticComponentsConfirmed": true,
+      "ApplicabilityAssessment": "Esempio: ponte a quattro ruote, azioni alle guide assegnate; vento, urti e fatica da valutare per il progetto reale.",
+      "Distribution": "FourWheelBridge",
+      "LengthM": 20,
+      "WheelbaseM": 4,
+      "BridgeWeightKn": 100,
+      "CrabWeightKn": 20,
+      "HoistLoadKn": 200,
+      "HoistingClass": "HC2",
+      "HoistingSpeedMs": 0.2,
+      "SupplierPhi2": false,
+      "AssignedPhi2": 1.168,
+      "TrackTolerancesConfirmed": true,
+      "Phi4": 1,
+      "Phi5": 1.5,
+      "AutomaticBridgeAcceleration": true,
+      "DriveForceKn": 10,
+      "RailHeadWidthMm": 60,
+      "WheelEccentricityFactor": 0.25,
+      "ResidualHoistFraction": 0.1,
+      "IncludeRelease": false,
+      "ReleaseDevice": "Grab",
+      "ReleasedMassFraction": 0.9,
+      "IncludeTests": true,
+      "DynamicTestRatio": 1.1,
+      "StaticTestRatio": 1.25,
+      "IncludeAccidental": false,
+      "Phi7": 1.25,
+      "CranePositions": [
+        {
+          "Name": "Carrello a sinistra",
+          "CraneXM": 0,
+          "CrabYM": 1,
+          "TravelDirection": 1
+        },
+        {
+          "Name": "Carrello a destra",
+          "CraneXM": 0,
+          "CrabYM": 19,
+          "TravelDirection": -1
+        }
+      ],
+      "SupplierWheels": [],
+      "AuxiliaryActions": [
+        {
+          "Name": "Guida",
+          "Position": 0,
+          "Component": "Skewing",
+          "XM": 0,
+          "YM": 0,
+          "VerticalDownKn": 0,
+          "LongitudinalKn": 0,
+          "TransverseKn": 12,
+          "Source": "Forza dimostrativa del costruttore, già caratteristica."
+        }
+      ]
+    }
+  }
+}

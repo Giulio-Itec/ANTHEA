@@ -20,9 +20,9 @@ internal static class ClimateViewChecks
         var bindings=new StringWriter();var listener=new TextWriterTraceListener(bindings);PresentationTraceSources.DataBindingSource.Listeners.Add(listener);
         try
         {
-            foreach(var scenario in ClimateScenarios.All().GroupBy(s=>s.Module).SelectMany(g=>g.Key is Anthea.Application.Actions.ClimateDocument.Distribution or Anthea.Application.Actions.ClimateDocument.Hydraulics or Anthea.Application.Actions.ClimateDocument.Construction or Anthea.Application.Actions.ClimateDocument.TimeEffects or Anthea.Application.Actions.ClimateDocument.Prestressing?g:g.Take(1)))
+            foreach(var scenario in ClimateScenarios.All().GroupBy(s=>s.Module).SelectMany(g=>g.Key is Anthea.Application.Actions.ClimateDocument.Distribution or Anthea.Application.Actions.ClimateDocument.Hydraulics or Anthea.Application.Actions.ClimateDocument.Construction or Anthea.Application.Actions.ClimateDocument.TimeEffects or Anthea.Application.Actions.ClimateDocument.Prestressing or Anthea.Application.Actions.ClimateDocument.Cranes?g:g.Take(1)))
             {
-                string captureName=(scenario.Module is Anthea.Application.Actions.ClimateDocument.Hydraulics or Anthea.Application.Actions.ClimateDocument.Construction or Anthea.Application.Actions.ClimateDocument.TimeEffects or Anthea.Application.Actions.ClimateDocument.Prestressing?scenario.File:scenario.Module)+(scenario.File=="ripartizione-deformabile"?"-deformabile":"");
+                string captureName=(scenario.Module is Anthea.Application.Actions.ClimateDocument.Hydraulics or Anthea.Application.Actions.ClimateDocument.Construction or Anthea.Application.Actions.ClimateDocument.TimeEffects or Anthea.Application.Actions.ClimateDocument.Prestressing or Anthea.Application.Actions.ClimateDocument.Cranes?scenario.File:scenario.Module)+(scenario.File=="ripartizione-deformabile"?"-deformabile":"");
                 var factory=ModuleHostBench.SheetEditors([]);using var editor=factory.Open(scenario.Module,scenario.Data);
                 Check(editor is MvvmSheetEditor,"Modulo climatico MVVM");var sheet=(ClimateSheetViewModel)((MvvmSheetEditor)editor).Sheet;
                 var window=new Window{Content=editor.View,Width=1450,Height=1000,Left=-32000,Top=-32000,ShowActivated=false,ShowInTaskbar=false,WindowStyle=WindowStyle.None,WindowStartupLocation=WindowStartupLocation.Manual};Appearance.Watch(window);
@@ -75,6 +75,12 @@ internal static class ClimateViewChecks
                             Check(Visual(editor.View).OfType<ActionHistoryChart>().Count(c=>c.Drawing?.Series.Count>0)==4,"Quattro grafici temporali con dati calcolati");
                             File.WriteAllBytes(Path.Combine(output,captureName+"-tempo-"+theme+".png"),Png(editor.View));
                             actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Casi di carico"));window.UpdateLayout();
+                        }
+                        if(sheet.IsCranes)
+                        {
+                            sheet.SelectedCase=0;actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Vie di corsa"));window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
+                            Check(Visual(editor.View).OfType<CraneActionsChart>().Any(c=>c.IsVisible&&c.Drawing?.Points.Count>=4),"Pianta delle ruote e azioni del gruppo");
+                            File.WriteAllBytes(Path.Combine(output,captureName+"-vie-"+theme+".png"),Png(editor.View));actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Casi di carico"));window.UpdateLayout();
                         }
                         if(sheet.IsConstruction)
                         {

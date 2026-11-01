@@ -22,25 +22,7 @@
     "corretto",
     "attuato",
     "da-ricostruire",
-    "rinviato",
-    {
-      "id": "AZIONI-PRESTRESS-20261101",
-      "fase": "Azioni aggiuntive",
-      "titolo": "Precompressione e stato efficace",
-      "famiglia": "azioni/precompressione",
-      "categoria": "intenzionale",
-      "stato": "attuato",
-      "descrizione": "Nuovo calcolo GPC.Design e trasferimento alla copia Concrete mediante archivio nativo. Nessun motore preesistente sostituito; nessun doppio conteggio N/M.",
-      "test": [
-        "16 test indipendenti net8/net472 PASS",
-        "Set candidato completo PASS",
-        "Climate.Tests 871 PASS, WPF 462 PASS, Architecture.Tests PASS"
-      ],
-      "evidenze": [
-        "supporto/artefatti/ci/20261101-213706-azioni-prestress-transfer/summary.json"
-      ],
-      "wiki": "Edizione globale in preparazione."
-    }
+    "rinviato"
   ],
   "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). R15 viene dalla revisione di D7-b. Le voci R16-R21 vengono dalla verifica delle pagine dei metodi unite in Checker develop (F2.2: merge c555a3b8 e 1fbaea61 e correzioni successive, riquadri collegati alle voci in e41a803a); stato da-decidere e stessa decisione di R4-R14 (F5.15). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
@@ -14373,6 +14355,42 @@
         "supporto/artefatti/ci/20261101-211144-azioni-tempo-01/summary.json"
       ],
       "wiki": "Edizione globale dei sei fogli in preparazione."
+    },
+    {
+      "id": "AZIONI-PRESTRESS-20261101",
+      "fase": "Azioni aggiuntive",
+      "titolo": "Precompressione e stato efficace",
+      "famiglia": "azioni/precompressione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Nuovo calcolo GPC.Design e trasferimento alla copia Concrete mediante archivio nativo. Nessun motore preesistente sostituito; nessun doppio conteggio N/M.",
+      "test": [
+        "16 test indipendenti net8/net472 PASS",
+        "Set candidato completo PASS",
+        "Climate.Tests 871 PASS, WPF 462 PASS, Architecture.Tests PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261101-213706-azioni-prestress-transfer/summary.json"
+      ],
+      "wiki": "Edizione globale in preparazione."
+    },
+    {
+      "id": "AZIONI-CRANES-20261101",
+      "fase": "Azioni aggiuntive",
+      "titolo": "Gruppi di carico per carriponte",
+      "famiglia": "azioni/carriponte",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Nuovo calcolo GPC e pianta delle azioni alle vie; gruppi alternativi conservati senza doppia dinamica. Corretto il posizionamento della precedente voce prestress nel registro.",
+      "test": [
+        "13 prove indipendenti net8/net472 PASS",
+        "Set completo candidate-cranes-01 PASS",
+        "Climate.Tests 961; WPF 516; Architecture.Tests dopo correzione del registro PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261101-215151-azioni-cranes-01/summary.json"
+      ],
+      "wiki": "Edizione globale in preparazione."
     }
   ]
 }

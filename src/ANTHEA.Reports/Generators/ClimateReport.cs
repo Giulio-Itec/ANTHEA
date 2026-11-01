@@ -30,7 +30,13 @@ public static class ClimateReport
         body.Add(P("Dati di ingresso",true));
         Table(["Parametro","Valore / unità"],inputRows);
         body.Add(P("Parametri e formule",true));Values(result["Parameters"]?.AsArray());
-        foreach(var c in result["Cases"]?.AsArray()??[]){body.Add(P(Text(c!["Name"]),true),P(Text(c["Description"])));Values(c["Values"]?.AsArray());}
+        if(result["CraneGroups"] is JsonArray craneGroups)
+            foreach(var group in craneGroups)
+            {
+                body.Add(P(Text(group!["Name"]),true),P("Fattori Qc="+Text(group["CraneFactor"])+"; Qh="+Text(group["HoistFactor"])+"; componente orizzontale="+Text(group["HorizontalFactor"])+". Torsioni ±T alternative."));
+                Table(["Punto / x; y [m]","Q↓ [kN]","Hx [kN]","Hy [kN]","±T [kN·m]"],group["Points"]!.AsArray().Select(p=>new[]{Text(p!["Name"])+" / "+Text(p["XM"])+"; "+Text(p["YM"]),Text(p["VerticalDownKn"]),Text(p["LongitudinalKn"]),Text(p["TransverseKn"]),Text(p["EccentricTorsionKnM"])}));
+            }
+        else foreach(var c in result["Cases"]?.AsArray()??[]){body.Add(P(Text(c!["Name"]),true),P(Text(c["Description"])));Values(c["Values"]?.AsArray());}
         if(result["Prestress"]?["Stages"] is JsonArray prestressStages)
             foreach(var stage in prestressStages)
             {

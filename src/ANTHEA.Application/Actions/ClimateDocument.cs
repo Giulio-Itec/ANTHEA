@@ -172,6 +172,11 @@ public static partial class ClimateDocument
             foreach(var point in history)
                 foreach(string field in new[]{"FreeStrain","ActualStrain","StressMpa","FreeDisplacementMm","ActualDisplacementMm","EcmMpa"})
                     b.AppendLine(string.Join(";",new[]{"Storia temporale",field,"Età = "+point!["AgeDays"]+" giorni",point[field]!.GetValue<double>().ToString("G17",CultureInfo.InvariantCulture),field.EndsWith("Mpa")?"MPa":field.EndsWith("Mm")?"mm":"−","Ordinata calcolata","GPC.Design · effetti differiti"}.Select(Q)));
+        if(result["CraneGroups"] is JsonArray craneGroups)
+            foreach(var group in craneGroups)
+                foreach(var point in group!["Points"]!.AsArray())
+                    foreach(string field in new[]{"XM","YM","VerticalDownKn","LongitudinalKn","TransverseKn","EccentricTorsionKnM"})
+                        b.AppendLine(string.Join(";",new[]{group["Name"]!.ToString(),point!["Name"]!.ToString(),field,point[field]!.GetValue<double>().ToString("G17",CultureInfo.InvariantCulture),field is "XM" or "YM"?"m":field=="EccentricTorsionKnM"?"kN·m":"kN","Azioni puntuali del gruppo compatibile","GPC.Design · carriponte"}.Select(Q)));
         if(result["ConstructionStages"] is JsonArray phases)
             foreach(var phase in phases)
                 foreach(var load in phase!["Loads"]!.AsArray())

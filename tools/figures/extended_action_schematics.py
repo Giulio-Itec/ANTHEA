@@ -98,8 +98,30 @@ def prestressing():
     save(fig, 'precompressione', 'Schema originale qualitativo. Profilo piano, sezione costante e tensioni del cls da analisi strutturale. Il trasferimento a Concrete usa lo stato efficace senza duplicare N e M.')
 
 
+def cranes():
+    fig, axes = canvas('Carriponte · ruote, direzioni e gruppi di carico', 1, 2)
+    ax = axes[0, 0]
+    for y in [1, 5]:
+        line(ax, [-.5, 10.5], [y, y], color=INK)
+        for x in [2, 8]:
+            ax.add_patch(Rectangle((x-.3, y-.15), .6, .3, fc=BLUE))
+            arrow(ax, x, y, 0, .8 if y==5 else -.8, ORANGE)
+    ax.add_patch(Rectangle((2, 1), 6, 4, fc='#eaf3f7', ec=BLUE, alpha=.4))
+    ax.add_patch(Rectangle((4, 1.5), 2, 1, fc=ORANGE, alpha=.7))
+    text(ax, 5, 2, 'Carrello', fontsize=9)
+    dim(ax, .3, 1, .3, 5, 'ℓ')
+    dim(ax, 2, -.2, 8, -.2, 'a · passo ruote')
+    text(ax, 5, 5.8, 'Pianta · x lungo via, y fra le vie', fontsize=10)
+    ax = axes[0, 1]
+    for y,label,color in [(5,'Sollevamento + accelerazione + vento',BLUE),(3.7,'Traslazione + serpeggiamento + vento',ORANGE),(2.4,'Traslazione + frenatura carrello','#218463'),(1.1,'Urto ponte / urto carrello / ribaltamento','#C02672')]:
+        ax.add_patch(Rectangle((-.3,y-.35),10.6,.75,fc=color,alpha=.12))
+        text(ax,5,y,label,fontsize=9)
+    text(ax,5,-.1,'Gruppi alternativi · componenti compatibili',fontsize=10)
+    save(fig,'carriponte','Schema originale. Le azioni del costruttore conservano posizione, segno e stato dinamico; il foglio non verifica le vie di corsa né combina più gru.')
+
+
 if __name__ == '__main__':
     import sys
-    choices = {'idraulica': hydraulics, 'fasi': construction, 'tempo': time_effects, 'precompressione': prestressing}
+    choices = {'idraulica': hydraulics, 'fasi': construction, 'tempo': time_effects, 'precompressione': prestressing, 'carriponte': cranes}
     for name in sys.argv[1:] or choices:
         choices[name]()

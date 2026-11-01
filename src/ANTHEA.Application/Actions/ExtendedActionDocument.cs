@@ -14,6 +14,7 @@ public static partial class ClimateDocument
     public const string Hydraulics="act_idrauliche";
     private static IEnumerable<ModuleInfo> ExtendedModules=>new[]
     {
+        new ModuleInfo(Cranes,"Azioni","Gru e carriponte","Azioni alle ruote e gruppi compatibili EN 1991-3:2006","Azione","Gru e carriponte","Gru industriali"),
         new ModuleInfo(Prestressing,"Azioni","Precompressione e perdite","Profilo, tiro, attrito, ancoraggi e stato efficace nel tempo","Azione","Precompressione e perdite","Precompressione"),
         new ModuleInfo(TimeEffects,"Azioni","Ritiro e viscosità","Storia dei carichi, maturazione e spostamenti assiali imposti","Azione","Ritiro e viscosità","Effetti differiti"),
         new ModuleInfo(Hydraulics,"Azioni","Azioni idrauliche","Pareti, platee e pile in corrente · scenari e pressioni nette","Azione","Azioni idrauliche","Acqua e corrente"),
@@ -21,9 +22,10 @@ public static partial class ClimateDocument
     };
     private static bool IsExtended(string module)=>ExtendedModules.Any(m=>m.Id==module);
     private static object ExtendedInput(string module)=>module switch
-    {Prestressing=>new GPC.Model.Actions.Prestressing.PrestressActionsInput(),TimeEffects=>new GPC.Model.Actions.TimeEffects.TimeEffectsInput(),Hydraulics=>new HydraulicActionsInput(),Construction=>new GPC.Model.Actions.Construction.ConstructionActionsInput(),_=>throw new ArgumentException("Modulo Azioni sconosciuto.")};
+    {Cranes=>new GPC.Model.Actions.Cranes.CraneActionsInput(),Prestressing=>new GPC.Model.Actions.Prestressing.PrestressActionsInput(),TimeEffects=>new GPC.Model.Actions.TimeEffects.TimeEffectsInput(),Hydraulics=>new HydraulicActionsInput(),Construction=>new GPC.Model.Actions.Construction.ConstructionActionsInput(),_=>throw new ArgumentException("Modulo Azioni sconosciuto.")};
     private static JsonObject CalculateExtended(object input)
     {
+        if(input is GPC.Model.Actions.Cranes.CraneActionsInput crane)return CalculateCranes(crane);
         if(input is GPC.Model.Actions.Prestressing.PrestressActionsInput prestress)return CalculatePrestress(prestress);
         if(input is GPC.Model.Actions.TimeEffects.TimeEffectsInput time)return CalculateTimeEffects(time);
         if(input is HydraulicActionsInput hydraulic)
@@ -45,6 +47,7 @@ public static partial class ClimateDocument
     };
     private static string? ExtendedLabel(string module,string key,JsonObject? context=null)
     {
+        if(module==Cranes)return CraneLabel(key);
         if(module==Prestressing)return PrestressLabel(key);
         if(module==TimeEffects)return TimeLabel(key);
         if(module==Construction)return ConstructionLabel(key);
@@ -68,6 +71,7 @@ public static partial class ClimateDocument
     }
     private static bool ExtendedVisible(string module,string key,JsonObject values)
     {
+        if(module==Cranes)return CraneVisible(key,values);
         if(module==Prestressing)return PrestressVisible(key,values);
         if(module==TimeEffects)return TimeVisible(key,values);
         if(module==Construction)return key is "NationalParameters" or "RecommendedEnLoadsConfirmed"?values["Standard"]?.ToString()=="EurocodeFirstGeneration":true;
@@ -97,9 +101,9 @@ public static partial class ClimateDocument
         };
     }
     private static Type ExtendedRowType(string key)=>key switch
-    {"StressEvents"=>typeof(GPC.Model.Actions.TimeEffects.ConcreteStressEvent),"Observations"=>typeof(GPC.Model.Actions.TimeEffects.ConcreteObservation),"Displacements"=>typeof(GPC.Model.Actions.TimeEffects.AxialDisplacementPoint),"ConstructionStages"=>typeof(GPC.Model.Actions.Construction.ConstructionStageInput),"ConstructionLoads"=>typeof(GPC.Model.Actions.Construction.ConstructionLoadInput),"WaterCases"=>typeof(HydraulicWaterCase),"PressureProfile"=>typeof(HydraulicPressurePoint),"VelocityProfile"=>typeof(HydraulicVelocityPoint),_=>throw new ArgumentException("Tabella Azioni sconosciuta.")};
+    {"CranePositions"=>typeof(GPC.Model.Actions.Cranes.CranePosition),"SupplierWheels"=>typeof(GPC.Model.Actions.Cranes.CraneWheelInput),"AuxiliaryActions"=>typeof(GPC.Model.Actions.Cranes.CraneAuxiliaryAction),"StressEvents"=>typeof(GPC.Model.Actions.TimeEffects.ConcreteStressEvent),"Observations"=>typeof(GPC.Model.Actions.TimeEffects.ConcreteObservation),"Displacements"=>typeof(GPC.Model.Actions.TimeEffects.AxialDisplacementPoint),"ConstructionStages"=>typeof(GPC.Model.Actions.Construction.ConstructionStageInput),"ConstructionLoads"=>typeof(GPC.Model.Actions.Construction.ConstructionLoadInput),"WaterCases"=>typeof(HydraulicWaterCase),"PressureProfile"=>typeof(HydraulicPressurePoint),"VelocityProfile"=>typeof(HydraulicVelocityPoint),_=>throw new ArgumentException("Tabella Azioni sconosciuta.")};
     private static string ExtendedTableTitle(string key)=>key switch
-    {"StressEvents"=>"Incrementi di carico esterno P/A","Observations"=>"Età di osservazione","Displacements"=>"Spostamenti relativi degli appoggi · età crescente","ConstructionStages"=>"Sequenza delle fasi (ordine della lista)","ConstructionLoads"=>"Carichi e intervalli di attivazione","WaterCases"=>"Scenari idraulici alternativi","PressureProfile"=>"Profilo di sottospinta · x crescente","VelocityProfile"=>"Profilo di velocità · z crescente",_=>key};
+    {"CranePositions"=>"Posizioni e direzioni da analizzare","SupplierWheels"=>"Componenti nominali per ruota e posizione","AuxiliaryActions"=>"Azioni del costruttore · componenti firmate","StressEvents"=>"Incrementi di carico esterno P/A","Observations"=>"Età di osservazione","Displacements"=>"Spostamenti relativi degli appoggi · età crescente","ConstructionStages"=>"Sequenza delle fasi (ordine della lista)","ConstructionLoads"=>"Carichi e intervalli di attivazione","WaterCases"=>"Scenari idraulici alternativi","PressureProfile"=>"Profilo di sottospinta · x crescente","VelocityProfile"=>"Profilo di velocità · z crescente",_=>key};
     public static HydraulicDrawing? HydraulicDiagram(JsonObject? result,int selectedCase)
     {
         if(result?["Hydraulics"] is not JsonObject calculated||result["HydraulicInput"] is not JsonObject input)return null;

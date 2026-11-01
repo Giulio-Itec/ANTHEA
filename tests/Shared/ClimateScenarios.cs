@@ -30,6 +30,17 @@ internal static class ClimateScenarios
         yield return S("fasi-deposito-ponte","Fasi EN · deposito temporaneo su ponte",p=>
         {En(p);p["ConstructionStages"]![0]!["Name"]="Deposito";p["ConstructionStages"]![1]!["Name"]="Sgombero";var loads=p["ConstructionLoads"]!.AsArray();loads.RemoveAt(1);loads[0]!["Name"]="Materiali depositati";loads[0]!["Model"]="EnBridgeStorage";loads[0]!["PointXM"]=4;loads[0]!["PointYM"]=2;});
     }
+    private static IEnumerable<Scenario> CraneScenarios()
+    {
+        Scenario S(string file,string title,Action<JsonObject> configure)
+        {var data=ClimateDocument.Create(ClimateDocument.Cranes);var p=data["input"]!.AsObject();p["NationalParameters"]="Esempio EN 1991-3:2006, valori raccomandati.";p["SupplierSource"]="Dati nominali dimostrativi, da sostituire con documentazione del costruttore.";p["StaticComponentsConfirmed"]=true;p["TrackTolerancesConfirmed"]=true;p["ApplicabilityAssessment"]="Esempio: ponte a quattro ruote, azioni alle guide assegnate; vento, urti e fatica da valutare per il progetto reale.";configure(p);return new(ClimateDocument.Cranes,file,title,data);}
+        yield return S("carriponte-quattro-ruote","Carroponte EN · sollevamento e gruppi compatibili",p=>
+        {p["AuxiliaryActions"]!.AsArray().Add(new JsonObject{["Name"]="Guida",["Position"]=0,["Component"]="Skewing",["XM"]=0,["YM"]=0,["VerticalDownKn"]=0,["LongitudinalKn"]=0,["TransverseKn"]=12,["Source"]="Forza dimostrativa del costruttore, già caratteristica."});});
+        yield return S("carriponte-rilascio","Carroponte NTC con modello EN · rilascio e urto assegnato",p=>
+        {p["Standard"]="Ntc2018";p["IncludeRelease"]=true;p["ReleaseDevice"]="Magnet";p["IncludeAccidental"]=true;p["IncludeTests"]=false;p["AuxiliaryActions"]!.AsArray().Add(new JsonObject{["Name"]="Respingente R1",["Position"]=0,["Component"]="BridgeBuffer",["XM"]=0,["YM"]=0,["VerticalDownKn"]=0,["LongitudinalKn"]=50,["TransverseKn"]=0,["Source"]="Forza dimostrativa prima di φ7; sostituire con sistema/massa/velocità del costruttore."});});
+        yield return S("carriponte-costruttore","Carroponte EN · componenti alle ruote assegnate",p=>
+        {p["Distribution"]="SupplierWheelComponents";p["AutomaticBridgeAcceleration"]=false;p["IncludeTests"]=false;p["CranePositions"]!.AsArray().RemoveAt(1);for(int n=0;n<4;n++)p["SupplierWheels"]!.AsArray().Add(new JsonObject{["Name"]="Ruota "+(n+1),["Position"]=1,["Rail"]=n<2?1:2,["XM"]=n%2*4,["CraneWeightKn"]=n<2?35:25,["HoistLoadKn"]=n<2?90:10});});
+    }
     internal static JsonObject PrestressTargetSection()
     {
         var data=Anthea.Application.Modules.ModuleDirectory.CreateData("str_palo");
@@ -44,6 +55,7 @@ internal static class ClimateScenarios
         void En(JsonObject p){p["Standard"]="EurocodeFirstGeneration";p["NationalParameters"]="Esempio didattico: valori raccomandati EN di prima generazione, clima assegnato; nessuna appendice nazionale selezionata.";}
         foreach(var scenario in HydraulicScenarios())yield return scenario;
         foreach(var scenario in ConstructionScenarios())yield return scenario;
+        foreach(var scenario in CraneScenarios())yield return scenario;
         yield return S(ClimateDocument.TimeEffects,"tempo-ntc-libero","Effetti differiti NTC · carico sostenuto e ritiro",p=>{});
         yield return S(ClimateDocument.TimeEffects,"tempo-en-molla","Effetti differiti EN · barra con molla e spostamento imposto",p=>
         {En(p);p["NationalParameters"]="Esempio didattico EN 1992-1-1:2004 a 20 °C, cemento N e RH costante; nessuna appendice nazionale implicita.";p["Restraint"]="EndSpring";p["StressEvents"]!.AsArray().Clear();p["Displacements"]!.AsArray().Add(new JsonObject{["Name"]="Spostamento graduale",["AgeDays"]=365,["DisplacementMm"]=.2});});
