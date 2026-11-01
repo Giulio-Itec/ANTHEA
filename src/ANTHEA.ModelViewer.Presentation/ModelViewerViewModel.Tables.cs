@@ -86,7 +86,9 @@ public sealed partial class ModelViewerViewModel
                 break;
             case 5:
                 var derivation=Snapshot.Results.FirstOrDefault(r=>r.Name==SelectedCase)?.Combination;
-                var governants=derivation?.Governing.Where(g=>g.Component==SelectedComponent&&g.Family==Family).ToDictionary(g=>(g.Element,g.Node,g.Station));
+                // 1/11/2026: the principal components of the plates have their own governing states and alternatives.
+                bool principal=Axes=="PRINCIPAL";
+                var governants=(principal?derivation?.PrincipalGoverning:derivation?.Governing)?.Where(g=>g.Component==SelectedComponent&&g.Family==Family).ToDictionary(g=>(g.Element,g.Node,g.Station));
                 if (IsDisplacementResult)
                 {
                     Columns(("Nodo", typeof(int)), ("Caso", typeof(string)), ("Assi", typeof(string)), ("Componente", typeof(string)), ("Unità", typeof(string)), ("Valore", typeof(double)));
@@ -104,7 +106,7 @@ public sealed partial class ModelViewerViewModel
                     {
                         governants.TryGetValue((v.Element,v.Node,v.Station),out var g);
                         string label=g?.Alternative??"";
-                        string alternative=int.TryParse(label.AsSpan(Math.Min(1,label.Length)),out int n)&&derivation?.Alternatives is {} alternatives&&n>0&&n<=alternatives.Length?alternatives[n-1]:label;
+                        string alternative=int.TryParse(label.AsSpan(Math.Min(1,label.Length)),out int n)&&(principal?derivation?.PrincipalAlternatives:derivation?.Alternatives) is {} alternatives&&n>0&&n<=alternatives.Length?alternatives[n-1]:label;
                         row=[..row,label,alternative,g==null?"":string.Join("; ",ANTHEA.ModelWorkspace.ResultFields.Components(Family,"LOCAL").Zip(g.ConcomitantValues,(c,x)=>c+"="+x.ToString("G9",CultureInfo.CurrentCulture)))];
                     }
                     Add("ELEM:"+v.Element,row);

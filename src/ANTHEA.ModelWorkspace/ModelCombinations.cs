@@ -11,7 +11,15 @@ public sealed record ModelCombinationDefinition(string Id, string Name, ModelCom
     string Status, ModelCombinationTerm[] Terms, bool Editable = false);
 public sealed record ModelCombinationAvailability(ModelCombinationDefinition Definition, string State, string Message, string[] RequiredCases, bool CanCalculate);
 public sealed record ModelCombinationDerivation(string DefinitionId, string InputRevision, string Engine, string[] RequiredCases,
-    ModelCombinationGoverning[] Governing, string[]? Alternatives = null);
+    ModelCombinationGoverning[] Governing, string[]? Alternatives = null)
+{
+    // 1/11/2026: governing states of the principal components of the plates (GPC, PlatePrincipals) of an envelope, their alternatives
+    // «P1», «P2»… in PrincipalAlternatives. Optional and omitted when null: the results calculated before have no principal components.
+    [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public ModelCombinationGoverning[]? PrincipalGoverning { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string[]? PrincipalAlternatives { get; init; }
+}
 // The whole local vector belongs to one alternative; it is never assembled from independent extrema.
 public sealed record ModelCombinationGoverning(string Family, int Element, int Node, double? Station, string Component,
     string Alternative, double[] ConcomitantValues);

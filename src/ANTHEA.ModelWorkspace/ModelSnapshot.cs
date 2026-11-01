@@ -214,6 +214,14 @@ public sealed class ModelSnapshot
                   g.Family=="REACTION"&&g.ConcomitantValues.Length==6&&ids.Contains(g.Node)&&ModelReactions.Components.Contains(g.Component)||
                   g.Family=="NODE"&&g.ConcomitantValues.Length==6&&ids.Contains(g.Node)&&new[]{"ux","uy","uz"}.Contains(g.Component)))))
                 throw new InvalidDataException("Provenienza o governanti della combinazione non validi.");
+            // 1/11/2026: governing states of the principal components of the plates, alternatives «P1», «P2»… of PrincipalAlternatives.
+            if(result.Combination is {PrincipalGoverning:var principal,PrincipalAlternatives:var labels}&&(principal is null)!=(labels is null)||
+               result.Combination?.PrincipalGoverning is {} governing&&(result.Combination.PrincipalAlternatives!.Any(string.IsNullOrWhiteSpace)||governing.Any(g=>g==null||
+                g.Family!="PLATE"||g.Station!=null||g.ConcomitantValues==null||g.ConcomitantValues.Length!=8||g.ConcomitantValues.Any(v=>!double.IsFinite(v))||
+                !ResultFields.Components("PLATE","PRINCIPAL").Contains(g.Component)||!elements.TryGetValue(g.Element,out var p)||p.Type!="PLATE"||!p.Nodes.Contains(g.Node)||
+                !(g.Alternative is ['P',..]&&int.TryParse(g.Alternative.AsSpan(1),System.Globalization.NumberStyles.None,System.Globalization.CultureInfo.InvariantCulture,out int n)&&
+                  n>=1&&n<=result.Combination.PrincipalAlternatives.Length))))
+                throw new InvalidDataException("Governanti delle componenti principali non validi.");
             if (string.IsNullOrWhiteSpace(result.Name) || result.Values.Select(v => (v.Element, v.Node)).Distinct().Count() != result.Values.Length || result.Values.Any(v => !elements.TryGetValue(v.Element, out var e) || e.Type != "PLATE" || !e.Nodes.Contains(v.Node) || v.Values.Length != 8 || v.Values.Any(x => !double.IsFinite(x)))) throw new InvalidDataException("Risultati non validi o non associabili agli elementi.");
             ResultFields.Validate(result, elements);
             if (result.Reactions is { } reactions && (reactions.Any(r => r == null || !ids.Contains(r.Node) || !r.Values.All(double.IsFinite)) || reactions.Select(r => r.Node).Distinct().Count() != reactions.Length))

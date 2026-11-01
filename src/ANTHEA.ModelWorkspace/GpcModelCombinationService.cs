@@ -21,7 +21,7 @@ public sealed partial class GpcModelCombinationService
     // rotated at each location. The report is never attached and only its values, roles and concomitant states are displayed: its states
     // carry no fingerprint of their static sources, the walk of every source of every state that took most of the time of a combination.
     sealed record PreparedModel(string Revision,GPC.Model.Models.Model Model,GPC.Model.Combinations.Combination Output,string[] Warnings,Dictionary<ResultLocation,Element> Owners)
-    {public CombinationRebuildCache Cache {get;}=new(){SourceFingerprints=false};}
+    {public CombinationRebuildCache Cache {get;}=new(){SourceFingerprints=false,PlatePrincipals=true};}
     public void ClearCache()=>prepared=null;
 
     /// <summary>
@@ -99,8 +99,13 @@ public sealed partial class GpcModelCombinationService
         var samples=report.Samples.Select(s=>(Owner:context.Owners[s.State.DerivedFrom[0]],Sample:s)).ToArray();
         var sourceNodes=model.NodesElements.Values.ToDictionary(n=>n.Id,n=>int.Parse(n.Source.OriginalId,CultureInfo.InvariantCulture));
         var labels=samples.Select(s=>s.Sample.State.ConcomitantStateId).Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
+        // 1/11/2026: the principal components of the plates computed by GPC for every combined state (PlatePrincipals), by location.
+        var principals=new Dictionary<(Element,int?),PlatePrincipalResult>();
+        foreach(var p in report.PlatePrincipals)if(p.Location is PointResultPlateForces {SourceNodeId:not null} at)principals.TryAdd((p.Owner,at.SourceNodeId),p);
+        var principalLabels=report.PlatePrincipals.SelectMany(p=>p.Components).SelectMany(e=>new[]{e.MinimumStateId,e.MaximumStateId})
+            .Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
         var results=(envelope?new[]{false,true}:new[]{false}).Select(max=>DisplayResult(snapshot,selected,required,revision,
-            samples,sourceNodes,labels,envelope,max,token)).ToArray();
+            samples,sourceNodes,labels,envelope,max,token,principals,principalLabels)).ToArray();
         if(results.All(r=>r.Values.Length==0&&(r.Fields?.Length??0)==0&&(r.Displacements?.Length??0)==0))
             throw new InvalidDataException("Nessun campo completo disponibile per la visualizzazione.");
         return new(results,warnings.Distinct().ToArray(),watch.Elapsed.TotalMilliseconds,preparationMs,rebuildMs,
@@ -173,10 +178,13 @@ public sealed partial class GpcModelCombinationService
     }
 
     static ModelResultSet DisplayResult(ModelSnapshot snapshot,ModelCombinationDefinition definition,string[] required,string revision,
-        (Element Owner,ResultLocation Sample)[] samples,IReadOnlyDictionary<int,int> sourceNodes,string[] labels,bool envelope,bool maximum,CancellationToken token)
+        (Element Owner,ResultLocation Sample)[] samples,IReadOnlyDictionary<int,int> sourceNodes,string[] labels,bool envelope,bool maximum,CancellationToken token,
+        IReadOnlyDictionary<(Element,int?),PlatePrincipalResult> principals,string[] principalLabels)
     {
         var corners=new List<CornerResult>();var fields=new Dictionary<(string Family,string Component),List<ResultValue>>();
         var displacements=new List<ModelDisplacement>();var reactions=new List<ModelReaction>();var governing=new List<ModelCombinationGoverning>();
+        var principalFields=PrincipalComponents.ToDictionary(c=>c,_=>new List<ResultValue>());var principalGoverning=new List<ModelCombinationGoverning>();
+        var principalIndex=principalLabels.Select((label,i)=>(label,i)).ToDictionary(p=>p.label,p=>p.i,StringComparer.Ordinal);
         var elements=snapshot.Elements.ToDictionary(e=>e.Id);
         // The roles of each governing state read once (not for every component of its location) and the position of each label in a lookup:
         // the same choices and exceptions as reading them each time.
@@ -207,7 +215,17 @@ public sealed partial class GpcModelCombinationService
                 var vector=DisplayVector(chosen);values[c]=vector[c];
                 if(envelope)governing.Add(new(family,id,node,group.Key.Item3,components[c],"A"+((labelIndex.TryGetValue(chosen.State.ConcomitantStateId,out int index)?index:-1)+1),vector));
             }
-            if(family=="PLATE")corners.Add(new(id,node,values));
+            if(family=="PLATE")
+            {
+                corners.Add(new(id,node,values));
+                if(principals.TryGetValue((group.Key.Owner,group.Key.Item2),out var principal))
+                    for(int c=0;c<PrincipalComponents.Length;c++)
+                    {
+                        var (value,state,vector)=PrincipalExtreme(principal,c,maximum);
+                        principalFields[PrincipalComponents[c]].Add(new(id,node,value));
+                        if(envelope)principalGoverning.Add(new("PLATE",id,node,null,PrincipalComponents[c],"P"+(principalIndex[state]+1).ToString(CultureInfo.InvariantCulture),vector));
+                    }
+            }
             else if(family=="NODE")
             {
                 var vector=DisplayVector(first);
@@ -220,11 +238,30 @@ public sealed partial class GpcModelCombinationService
         string name=definition.Name+" ["+definition.Source+"]"+(envelope?(maximum?" (max)":" (min)"):"");
         return new(name,envelope,corners.ToArray())
         {
-            Fields=fields.OrderBy(p=>p.Key.Family=="BEAM"?0:1).Select(p=>new ResultField(p.Key.Family,"LOCAL",p.Key.Component,p.Value.ToArray())).ToArray(),
+            // 1/11/2026: the principal components of the plates after the local fields (the local ones are unchanged).
+            Fields=[..fields.OrderBy(p=>p.Key.Family=="BEAM"?0:1).Select(p=>new ResultField(p.Key.Family,"LOCAL",p.Key.Component,p.Value.ToArray())),
+                ..PrincipalComponents.Where(c=>principalFields[c].Count>0).Select(c=>new ResultField("PLATE","PRINCIPAL",c,principalFields[c].ToArray()))],
             Displacements=displacements.Count>0?displacements.ToArray():null,
             Reactions=reactions.Count>0?reactions.OrderBy(r=>r.Node).ToArray():null,
             Combination=new(definition.Id,revision,"GPCModel 5 / GPC.Converter 2.0.3",required,governing.ToArray(),labels)
+            {PrincipalGoverning=principalGoverning.Count>0?principalGoverning.ToArray():null,PrincipalAlternatives=principalGoverning.Count>0?principalLabels:null}
         };
+    }
+
+    /// <summary>1/11/2026: the principal components of the plates as displayed (MIDAS convention, kN·m/m and kN/m), in the order of
+    /// ResultFields.Components("PLATE", "PRINCIPAL").</summary>
+    static readonly string[] PrincipalComponents=["Mmax","Mmin","Fmax","Fmin"];
+
+    /// <summary>A displayed principal component from those of GPC (positive section face, N and mm): the displayed moments are the opposite of
+    /// GPC's, so Mmax = −Mmin(GPC) and Mmin = −Mmax(GPC), and the displayed maximum of a moment is the GPC minimum; Fmax and Fmin are Nmax and
+    /// Nmin. With the id of the governing state and its local vector as displayed (as DisplayVector).</summary>
+    static (double Value,string State,double[] Vector) PrincipalExtreme(PlatePrincipalResult principal,int component,bool maximum)
+    {
+        var (gpc,reverse,scale)=component switch {0=>(3,true,-.001),1=>(2,true,-.001),2=>(0,false,1d),_=>(1,false,1d)};
+        var extreme=principal.Components[gpc];bool upper=maximum!=reverse;
+        var v=upper?extreme.MaximumState:extreme.MinimumState;
+        return ((upper?extreme.Maximum:extreme.Minimum)*scale,upper?extreme.MaximumStateId:extreme.MinimumStateId,
+            [-v[5]*.001,-v[6]*.001,-v[7]*.001,v[0],v[1],v[2],v[3],v[4]]);
     }
 
     // The released GPC contract records the governing roles in Coverage. Read it strictly, never infer a missing extreme.

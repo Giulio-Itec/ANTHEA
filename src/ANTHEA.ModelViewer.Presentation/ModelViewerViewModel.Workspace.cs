@@ -156,7 +156,9 @@ public sealed partial class ModelViewerViewModel
         ResultAvailability = HasResults ? $"{ActiveValues.Select(v => v.Element).Distinct().Count():N0} elementi con valori · {SampleLocation.ToLowerInvariant()}"
             : IsDisplacementResult ? HasDisplacements ? "Nessun risultato nodale negli elementi visibili." : "Spostamenti nodali non acquisiti per questo caso."
             : SelectedFamily > 0 && SelectedAxes == 1 ? "Per le aste scegli gli assi locali. Gli assi principali delle sezioni richiedono un contratto dedicato."
-            : SelectedAxes == 1 ? "Componenti principali non importate. Non si ricavano dagli estremi non simultanei di un inviluppo."
+            : SelectedAxes == 1 ? (Snapshot?.Results.FirstOrDefault(r => r.Name == SelectedCase)?.Combination != null
+                ? "Componenti principali non calcolate per questa combinazione: calcolala di nuovo con GPC per ottenerle dagli stati simultanei."
+                : "Componenti principali non importate per questo caso. Non si ricavano dagli estremi non simultanei di un inviluppo.")
             : raw.Count > 0 ? "Nessun risultato negli elementi attualmente visibili. Usa «Mostra tutto»."
             : $"Nessun risultato {Family} disponibile per questa combinazione nella copia importata.";
         foreach (string property in new[] { nameof(HasResults), nameof(FieldTitle), nameof(ResultKind), nameof(Middle), nameof(VisibilitySummary) }) OnPropertyChanged(property);
