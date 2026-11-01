@@ -20,7 +20,7 @@ pagina ferma lo script.
 - ca.momento-curvatura §10: R300x500, C30/37, 3Ø20 + 2Ø16, N = 0, lembo superiore compresso, NTC 2018. Sezione netta (σs − σc) As,
   parabola-rettangolo esatta (M.2), acciaio elastico-perfettamente plastico; punto limite a εcu (o εud) e primo snervamento a εyd.
   In più, per lo stesso caso, il lembo inferiore compresso (2Ø16 tese), calcolato qui con le stesse equazioni (la pagina non lo
-  riporta). Le tolleranze verso il programma sono quelle delle cause dichiarate dalla pagina (§4 e §10): ramo parabolico tabellato a
+  riporta). Per il lembo superiore anche la duttilità in curvatura μφ = χu/φyd, φyd = (Mr/My,1) χy,1 (pagina §10, 1/11/2026). Le tolleranze verso il programma sono quelle delle cause dichiarate dalla pagina (§4 e §10): ramo parabolico tabellato a
   8 tratti, mesh e residuo su N; lo scarto della tabella è calcolato qui (campo 'tabella') e la tolleranza lo contiene con margine.
 """
 import hashlib
@@ -365,11 +365,19 @@ def curvature_cases():
             page(exact['chi_u_1_m'] / 1000, 5.11906e-5, 10, 'χu'); page(exact['eps_s_limite'] / 1000, 0.019638, 6, 'εs1 limite')
             page(exact['x_snervamento'], 151.315, 3, 'x snervamento'); page(exact['My_kNm'] * 1e6, 147535472, -3, 'My,1')
             page(exact['chi_y_1_m'] / 1000, 6.50688e-6, 11, 'χy,1'); page(exact['eps_c_snervamento'] / 1000, 0.00098459, 8, 'εc snervamento')
+            # duttilità in curvatura (pagina §6.4 e §10, NTC 2018 §4.1.2.3.4.2): il primo snervamento convenzionale è quello delle barre tese
+            # (εc = 0,98 ‰ < εc2 = 2 ‰), MRd = Mr; a N = 0 il momento cresce fino al punto limite, quindi φu = χu
+            assert exact['eps_c_snervamento'] / 1000 < EPS_C2
+            phi_yd = exact['Mr_kNm'] / exact['My_kNm'] * exact['chi_y_1_m']
+            page(phi_yd / 1000, 6.8223e-6, 10, 'φyd'); page(exact['chi_u_1_m'] / phi_yd, 7.503, 3, 'μφ')
+            ductility = dict(phi_yd_1_m=phi_yd, mu_phi=exact['chi_u_1_m'] / phi_yd)
+        else:
+            ductility = None
         out.append(dict(id='lembo-' + face, lembo_compresso=face,
                         fonte='ca.momento-curvatura §10' if face == 'superiore' else 'stesso caso di ca.momento-curvatura §10 con il lembo inferiore compresso (calcolato qui)',
                         b=b, h=h, barre=[list(p) for p in bars], fck=fck, fyk=fyk, Es=es, fu=fyk, eps_uk_permille=100, alpha_cc=0.85, gamma_c=1.5, gamma_s=1.15,
                         N_kN=0, passi=40, campionamento='Quadratico', bisezioni=12, tolleranza_N_kN=1,
-                        atteso=exact, tabella={k: tab[k] / exact[k] - 1 for k in exact}))
+                        atteso=exact, tabella={k: tab[k] / exact[k] - 1 for k in exact}, **({'duttilita': ductility} if ductility else {})))
     return out
 
 

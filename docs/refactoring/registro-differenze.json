@@ -1879,6 +1879,14 @@
         "effetto_anthea": "Solo i documenti della sezione c.a. con il profilo DIN: il coefficiente «SLE rara · σp / fpyk (DLL)» 0,75 -> 0,65 nei dati, nella riga del report e nelle tracce (2 fixture F3, 16 transizioni R6; 4 tracce di tests/fixtures/f5-sezione/storica, sole righe del coefficiente, del documento e delle impronte). Nessun altro valore cambia.",
         "evidenze": "supporto/artefatti/1160/int-b (ui_f3-equivalence/cattura/confronto.json); librerie del ramo lib-1160/coordinatore (Checker c7395300…532fc1a4, 9f7ab415; Model 10ff0592, ba6721b5), set candidato di integrazione int-b"
       },
+      "riscontro_testi_20261101": {
+        "data": "2026-11-01",
+        "agente": "ca-metodi (prompt-ca-metodi.md, punto 2)",
+        "testi": "UNI EN 1992-1-1:2015 (testo inglese ufficiale di EN 1992-1-1:2004 + AC:2010 + A1:2014), raccolta dell'ufficio X:\\ITEC-SGI-CONSULTAZIONE\\UNI, copia con impronta SHA-256 d9d3fbc0… in supporto/artefatti/ca-metodi/fonti (pagine del PDF)",
+        "esito": "Testo primario del DIN non disponibile: la raccolta non contiene il DIN EN 1992-1-1/NA, quindi k5 = 0,65 resta dalla fonte secondaria, «da riscontrare sul testo». Riscontrati sul testo i valori raccomandati della EN 7.2(2), (3) e (5) (k1 0,6, k2 0,45, k3 0,8, k4 1, k5 0,75; p. 150), che il codice usa per il profilo EN.",
+        "pagina": "ca.sle-tensioni (Checker aaecfd80): riga EN 7.2 da «da riscontrare» a «testo»; riquadro E-5 invariato.",
+        "testi_mancanti": "DIN EN 1992-1-1/NA (NDP 7.2(5))."
+      },
       "rinvio_26_10": {
         "data": "2026-10-26",
         "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)",
@@ -1970,6 +1978,14 @@
         "esito": "MC2010: ritiro libero εcs nella (7.6-3) come opzione SectionCrackOptions.ModelCode2010ShrinkageStrain (predefinito 0, fixture e K0 invariati; ηr non applicato, da riscontrare). DIN hc,ef (Bild 7.1DE): fonti discordi, lettura del programma a favore di sicurezza, dichiarata. EN prospetto 7.1N: XD3, che il prospetto non elenca, con XD1, XD2 e XS1-XS3 (0,3 mm), come altri programmi (fonte secondaria): interpretazione dichiarata. Checker d2d69712, pagina ca.fessurazione.",
         "effetto_anthea": "Nessuno (ANTHEA non usa l'opzione del Model Code 2010).",
         "evidenze": "librerie del ramo lib-1160/coordinatore (Checker c7395300…532fc1a4, 9f7ab415; Model 10ff0592, ba6721b5), set candidato di integrazione int-b"
+      },
+      "riscontro_testi_20261101": {
+        "data": "2026-11-01",
+        "agente": "ca-metodi (prompt-ca-metodi.md, punto 2)",
+        "testi": "UNI EN 1992-1-1:2015 (testo inglese ufficiale di EN 1992-1-1:2004 + AC:2010 + A1:2014), raccolta dell'ufficio X:\\ITEC-SGI-CONSULTAZIONE\\UNI, copia con impronta SHA-256 d9d3fbc0… in supporto/artefatti/ca-metodi/fonti (pagine del PDF)",
+        "esito": "XD3 riscontrato sul testo: l'errata EN 1992-1-1:2004/AC:2010, modifica 98 al 7.3.1(5) (p. 27), sostituisce nel prospetto 7.1N «XD1, XD2, XS1, XS2, XS3» con «XD1, XD2, XD3, XS1, XS2, XS3»; XD3 ha quindi 0,3 mm per il c.a. come nel codice (CrackRequirements.For, ramo EN), che non è più un'interpretazione. MC2010 (ritiro nella (7.6-3), ηr) e DIN hc,ef (Bild 7.1DE): testi primari non disponibili nella raccolta, restano da fonte secondaria.",
+        "pagina": "ca.fessurazione (Checker aaecfd80): riga del prospetto 7.1N «testo (XD3 aggiunto nel prospetto dall'errata AC:2010, modifica 98)»; scritta «XD3, che il prospetto non elenca» tolta.",
+        "testi_mancanti": "fib Model Code 2010 (7.6.4.4); DIN EN 1992-1-1/NA (7.3.2(3), Bild 7.1DE)."
       },
       "rinvio_26_10": {
         "data": "2026-10-26",
@@ -2190,6 +2206,15 @@
         "attesi": "detailing-contract-0.0.17.csv di Concrete: 2754 righe di soli riferimenti e 246 casi del 15Ø, verificati riga per riga da script (Approvati se spiegati).",
         "effetto_anthea": "Solo il testo dei riferimenti NTC dei controlli costruttivi della risposta elastica del palo orizzontale: 57 transizioni F3 R14 in 3 fixture e le tracce di tests/fixtures/f5-elastico/storica (9 file, sole impronte della risposta e le etichette dei controlli). Nessun numero cambia.",
         "evidenze": "supporto/artefatti/1160/int-b (ui_f3-equivalence, ui_check-palo-orizzontale-view); librerie del ramo lib-1160/coordinatore (Checker c7395300…532fc1a4, 9f7ab415; Model 10ff0592, ba6721b5), set candidato di integrazione int-b"
+      },
+      "riscontro_testi_20261101": {
+        "data": "2026-11-01",
+        "agente": "ca-metodi (prompt-ca-metodi.md, punti 2 e 3)",
+        "testi": "UNI EN 1992-1-1:2015 (testo inglese ufficiale di EN 1992-1-1:2004 + AC:2010 + A1:2014), raccolta dell'ufficio X:\\ITEC-SGI-CONSULTAZIONE\\UNI, copia con impronta SHA-256 d9d3fbc0… in supporto/artefatti/ca-metodi/fonti (pagine del PDF)",
+        "esito": "Regola dei 15 Ø riscontrata sul testo: EN 9.2.1.2(3) (p. 185) chiede che ogni barra compressa considerata nella resistenza sia trattenuta da armatura trasversale con passo non maggiore di 15 volte il suo diametro; CompressionBarRestraint usa Ømin di tutte le barre, lettura a favore di sicurezza già dichiarata (riquadro D-1). Riscontrate le citazioni EC2 §9.2.1.1 (p. 184) e §9.5.2(3), 0,08 Ac nelle sovrapposizioni (p. 194). Citazioni NTC 2018 ([4.1.45]-[4.1.46], §4.1.6.1.x) e Circolare 2019: testi non disponibili nella raccolta, restano da riscontrare.",
+        "mu_phi": "Calcolata nella libreria (Checker 7c691edc, GPCChecker.Concrete 0.33.0.0, nuovo overload MomentCurvatureAnalysis.Calculate con MomentCurvatureDuctilityRequest): ramo a curvatura controllata a N costante fino alla curvatura del punto limite, che segue il momento anche dopo il picco; primo snervamento convenzionale (barra più tesa a εyd o vertice più compresso alla deformazione di picco εc2); MRd = momento del punto limite; φyd = (MRd/M'yd) φ'yd; φu a 0,85 Mmax dopo il picco se prima del punto limite, altrimenti al punto limite; μφ = φu/φyd. Attesi indipendenti tools/attesi/duttilita_curvatura.py di Checker (scarti ≤ 4e-7 con la parabola-rettangolo, ≤ 7e-4 con la legge non lineare EN 3.1.5); esempio della pagina ca.momento-curvatura §10: μφ = 7,503. Scelte aperte nelle domande (MRd del punto limite o Mmax, scheda di ANTHEA).",
+        "effetto_anthea": "Nessuno: ANTHEA non chiama il nuovo overload; la curva e le uscite esistenti sono identiche bit per bit (test TheCurveIsTheSameWithAndWithoutTheDuctility). La scheda Momento–curvatura non mostra μφ finché l'utente non lo decide.",
+        "testi_mancanti": "NTC 2018 (DM 17/1/2018, §4.1.2.3.4.2, §4.1.6.1); Circolare 21/1/2019 n. 7 (§C4.1.2.3.4.2, Fig. C4.1.12); UNI 11104:2016 (copia non riuscita: disco di rete non raggiungibile durante la copia)."
       },
       "rinvio_26_10": {
         "data": "2026-10-26",
@@ -2476,6 +2501,13 @@
         "attesi": "detailing-contract-0.0.17.csv: 168 righe (164 controlli e 4 esiti complessivi DS), verificati riga per riga da script.",
         "effetto_anthea": "Nessuno: ANTHEA non usa il profilo DS nei dettagli.",
         "evidenze": "librerie del ramo lib-1160/coordinatore (Checker c7395300…532fc1a4, 9f7ab415; Model 10ff0592, ba6721b5), set candidato di integrazione int-b"
+      },
+      "riscontro_testi_20261101": {
+        "data": "2026-11-01",
+        "agente": "ca-metodi (prompt-ca-metodi.md, punto 2)",
+        "testi": "UNI EN 1992-1-1:2015 (testo inglese ufficiale di EN 1992-1-1:2004 + AC:2010 + A1:2014), raccolta dell'ufficio X:\\ITEC-SGI-CONSULTAZIONE\\UNI, copia con impronta SHA-256 d9d3fbc0… in supporto/artefatti/ca-metodi/fonti (pagine del PDF)",
+        "esito": "Testo primario del DK NA non disponibile nella raccolta dell'ufficio: ρw,min = 0,063 √fck/fyk (9.5N NA) non è stato riscontrato di nuovo (la voce del 7/10 lo dà letto sul testo, la decisione «Fonti secondarie» del 28/10 lo tratta come fonte secondaria; resta «da riscontrare sull'edizione ufficiale»). Riscontrato sul testo il valore raccomandato EN (9.5N), 0,08 √fck/fyk (9.2.2(5), p. 188), usato per EN e UNI.",
+        "testi_mancanti": "DS/EN 1992-1-1 con DK NA:2024 (9.2.2(5), 9.2.1.1(1), 9.2.1.2(3))."
       },
       "rinvio_26_10": {
         "data": "2026-10-26",
