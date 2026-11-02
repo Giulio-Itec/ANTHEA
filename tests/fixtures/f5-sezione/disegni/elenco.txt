@@ -78,7 +78,7 @@ sezione-a-t-sollecitazioni-uniche ispezione 3D limite 800x650 · primitivi 223 E
 sezione-a-t-sollecitazioni-uniche piano 3D limite 800x650 · primitivi 74 DB2EAFAA97C5DB0C
 sezione-a-t-sollecitazioni-uniche ispezione 3D azione 800x650 · primitivi 223 046D4F1573666005
 sezione-a-t-sollecitazioni-uniche piano 3D azione 800x650 · primitivi 73 2BCF8DA7FBD5A9B9
-sezione-a-t-sollecitazioni-uniche dominio 2D 900x700 · primitivi 146 E9D36CAC6B4EB04C
+sezione-a-t-sollecitazioni-uniche dominio 2D 900x700 · primitivi 146 71AB692F158B0D65
 sezione-a-t-sollecitazioni-uniche momento-curvatura 900x650 · primitivi 60 BF7CD8C8A0B94FC3
 sle-fessurazione-assi sezione 900x700 · primitivi 117 D3281FF056FF9CBC
 sle-fessurazione-assi SLE 900x700 · primitivi 227 CBC2D247C4AC555D

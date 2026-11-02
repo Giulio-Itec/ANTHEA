@@ -20,4 +20,10 @@ report dipendono dalle librerie e la data della copertina dall'ora.
 è passato da 3 a 4 (23 sostituzioni); i file sono identici byte per byte alla cattura della shell della corsa
 `20261024-132441-ag-upstream-ui`. Nessun altro valore è cambiato.
 
+**2/11/2026, criterio resistente per stato limite (CA-CRITERIO-STATI-01, ANTHEA 1.17.1).** I fogli c.a. nuovi hanno un criterio per
+stato limite, `workspace_ca.modello_resistente` = {SLU: Plastico, SLV: Elastico}, al posto del «Plastico» unico dei pannelli dominio3d e
+dominio2d. Nei 13 file di `cattura-mainwindow/` (26 fogli) e nell'esempio Wiki `beam-ca` di `finestra-storica.json` è cambiato solo questo:
+i file di `cattura-mainwindow/` sono identici byte per byte alla cattura della shell della corsa `20261102-111306-criterio-stati-ui-1`
+(senza gli scarti dell'ora), trasformati riga per riga per conservare la scrittura .NET.
+
 Corsa da cui vengono i valori: `supporto/artefatti/ci/20261023-195541-f5-13-g-rif1` del worktree.

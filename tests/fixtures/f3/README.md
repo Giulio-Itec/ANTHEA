@@ -493,3 +493,13 @@ combinazioni sismiche automatiche usano i γR della Tab. 7.11.III, non più che 
 `aggiornamento_1160_nota`, 73620 voci: 4 voci nuove, il testo della nota nell'avviso di `result.json` e nella riga del report delle due
 fixture con kh e kv assegnati (`mensola-wood-azioni`, `opzioni-avanzate`). Nessun altro file cambia: la stessa registrazione con il
 testo vecchio della nota non trova differenze (`supporto/artefatti/1160-combinazioni/registra-nota` e `registra-nota-controllo`).
+
+Il 2/11/2026, 1.17.1, criterio resistente per stato limite comune ai domini 3D e 2D, con la migrazione «Conserva i numeri» decisa
+dall'utente (voce CA-CRITERIO-STATI-01). Chiave `aggiornamento_criterio_stati`, 78138 voci; cambia solo la fixture
+`sezione-a-t-sollecitazioni-uniche`, salvata con il dominio 3D plastico e il 2D elastico:
+- 227 voci nuove: nei dati il criterio passa dai pannelli a `workspace_ca.modello_resistente` con `migrazione_criterio`; il dominio 2D SLV
+  diventa plastico (risultato, riepilogo, report e sua struttura); il report breve scrive «SLV plastico» al posto della frase fissa
+  «SLV elastico»;
+- 17 voci AG-CA-01 dello stesso dominio 2D elencate con il valore dopo nuovo e la voce estesa con « / CA-CRITERIO-STATI-01».
+Confronto della cattura `supporto/artefatti/ci/20261102-111306-criterio-stati-ui-1`; domini 3D e altre fixture invariati. La figura del
+dominio 2D della stessa fixture in `tests/fixtures/f3-concrete-figures` è ricatturata (sezione `fixture_aggiunte_f5_10` del manifest).

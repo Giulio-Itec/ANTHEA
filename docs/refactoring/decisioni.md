@@ -2237,3 +2237,18 @@ L'agente `ca-metodi` (terzo giro) ha aggiunto in Model i campi decisi al punto 6
 Risposta dell'utente: «Sì, integra». Entrambe come raccomandato; rami portati su origin/master (Model 1a51dad5,
 Checker c2ee6cf0), poi set ufficiale AS (dopo AR delle azioni aggiuntive, entrato in `main` nella stessa notte),
 installazione e full.
+
+## 2 novembre — criterio resistente per stato limite e 1.17.1
+
+Richiesta dell'utente: nelle schede Dominio 3D e Dominio 2D SLU e SLV mostrano il dominio e le combinazioni dello stato, ma
+l'utente deve poter dire «SLU plastico e SLV elastico (che sarà il default)»; il dato è condiviso fra 3D e 2D.
+
+1. **Disegno.** Proposto e seguito: un criterio per stato limite, `workspace_ca.modello_resistente = {SLU, SLV}`, fuori dai
+   pannelli; nelle schede «Stato limite mostrato» e sotto «Criterio resistente SLU» e «Criterio resistente SLV», sempre
+   visibili. Lo stato mostrato resta del pannello. Visto nel codice: fino alla 1.17.0 il criterio unico del pannello valeva
+   per entrambi gli stati e un foglio nuovo calcolava anche SLV plastico (CA-CRITERIO-STATI-01).
+2. **Fogli salvati.** Domanda: conservare i numeri o applicare i nuovi predefiniti? Risposta: «Conserva i numeri». SLU e SLV
+   prendono il criterio del dominio 3D; il 2D cambia solo dove era diverso, con una nota sotto il criterio.
+3. **Versione.** «finito tutto merge, commit, nuova versione di anthea», poi «usa 1.17.1». Funzione nuova, ma il numero è
+   quello scelto dall'utente: esce come ANTHEA 1.17.1, con il set AT già pronto su `refactoring/lib-at` (full PASS 161) e
+   le guide Rev68; il tag `v1.17.1` va sul commit del setup.

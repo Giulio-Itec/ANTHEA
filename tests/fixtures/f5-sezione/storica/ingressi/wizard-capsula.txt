@@ -1,6 +1,6 @@
 == apertura
-dati 369CD5372C86E127 · byte 347600
-  tutto = {"versione_sezione":2,"input":{"shape":"Capsula","diameter_mm":"1000","circular_sides":"96","width_mm":"1000","height_mm":"1600","flange_width_mm":"1000","web_width_mm":"300","flange_thickness_mm":"300","cover_mm":"70","longitudinal_bar_count":"24","longitudinal_bar_diameter_mm":"20","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"4","bottom_bar_diameter_mm":"20","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"-2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gettato_sottile":"No","staffe_presenti":"Sì","inner_diameter_mm":"400","inner_width_mm":"400","inner_height_mm":"500","flange_bottom_count":"0","flange_bottom_diameter_mm":"20","flange_bottom_offset_mm":"90","second_top_count":"4","second_top_diameter":"20","second_top_gap":"40","second_bottom_count":"4","second_bottom_diameter":"20","second_bottom_gap":"40","second_inner_count":"16","second_inner_diameter":"20","second_inner_gap":"60","wizard_type":"Capsula · armatura radiale","foro_presente":false,"wizard_layout":"Perimetro","second_top_enabled":false,"second_bottom_enabled":false,"second_inner_enabled":false,"bottom_flange_width_mm":"800","bottom_flange_thickness_mm":"250","wizard_bar_diameter_mm":"20","wizard_bar_spacing_mm":"180","wizard_radial_count":"24","wizard_inner_count":"16","wizard_polygon_sides":"8","sezione_gpc":{"versione":1,"stato":"modello","unita":"mm-MPa-N","editor_sha256":"3D3F5711E845F2AE91014AA95D305439D6E3360F57FFDD12C718BF36DE277CC4","archivio_sha256":"A108D5D17057F3AC7B51B1165F5A2EF2A8E8501A9D08A798D3CCDBCDF51ACB15","archivio":"‹archivio GPC · byte 317385 · A108D5D17057F3AC›"}},"n_automatico":true,"combinazioni":{"SLU":[],"SLV":[],"SLE":[],"SLE_FREQ":[],"SLE_QP":[]},"workspace_ca":{"normativa":"NTC 2018","versione":2,"nota":"","tab":0,"dominio3d":{"stato":"SLU","angoli":"32","criterio":"N costante","filtro":"Tutte","strategia":"Iterativo","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50","modello_resistente":"Plastico"},"dominio2d":{"stato":"SLU","tipo":"Mx–My","theta":"0","N":"-1000","filtro":"Tutte","angoli":"64","strategia":"Iterativo","criterio":"N costante","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50","modello_resistente":"Plastico"},"trefoli":[],"sle":{"SLE":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"}},"convenzione":"N negativo a compressione","migrazione_segni":"N convertito dalla precedente convenzione ANTHEA; momenti invariati","sle_precedenti_unificazione":{"SLE":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""}},"sle_comuni":{"modello":"Lineare","phi":"0","phi_trefoli":"0","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"coefficienti":{"AlphaCC":"0.85","AlphaCT":"1","GammaC":"1.50","GammaS":"1.15","GammaSPrestress":"1.15","GammaCAccidental":"1","GammaCE":"1.2","GammaSAccidental":"1","GammaSPrestressAccidental":"1","GammaF":"1.5","SteelCoefficientStrainTension":"0.9","ServiceabilityStressConcreteCoefficientForCharacteristicCombination":"0.6","ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination":"0.45","ServiceabilityStressSteelCoefficientForCharacteristicCombination":"0.8","ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination":"0.8"},"taglio":{"parametri_precedenti":{"bw_x":"","d_x":"","asl_x":"","bw_y":"","d_y":"","asl_y":""},"parametri":"Manuali","tipo_staffa":"Staffa chiusa","rami_x":"","rami_y":"","rami_interni":"0","schema_interno":"Bracci paralleli","rotazione_staffa":"0","ancoraggio":"Da verificare","modello":"Con staffe","bw_x":"","d_x":"","asl_x":"","alpha_x":"90","cot_x":"","bw_y":"","d_y":"","asl_y":"","alpha_y":"90","cot_y":"","cot_torsione":"1","as_torsione":"0","chiusura_torsione":"Da confermare","modello_circolare":"Da scegliere","z_d":"0.75","eccentricita_mc_x":"0","eccentricita_mc_y":"0","azioni":[],"nota_wizard":"Staffe nei singoli elementi, con copriferro assegnato. Verificare piegature, ancoraggi e trattenimento delle barre. Il taglio richiede bw, d, Asl e bracci efficaci assegnati per direzione; non viene ricavato automaticamente dallo schema. L’applicazione azzera i precedenti parametri del taglio. Torsione: modello automatico limitato a rettangolo e cerchio."},"momento_curvatura":{"N":"0","theta":"0","passi":"60","frazione":"1","campionamento":"Quadratico","trazione_cls":"No","angoli":"64","tolleranza_n":"1","raffina_snervamento":"12"},"dettagli_costruttivi":{"vita_durabilita":"50","qualita_copriferro":"No","elemento":"Da scegliere","aggregato":"20","cmin_dur":"","delta_c":"10","zona_sovrapposizione":"No","as_secondaria":"0","passo_secondaria":"0","zona_critica":"No","barre_trattenute":"Da confermare","ancoraggio_appoggi":"Da confermare"},"ancoraggi":{"schema_versione":1,"tipo":"Ancoraggio rettilineo","diametro":"","sigma":"","aderenza":"Buona","lunghezza":"","percentuale":"100","interferro":"0","confinamento":"Da verificare","posizione":"Da verificare","cautele":"Da verificare"},"sollecitazioni_versione":1,"materiale_trefolo":{"id":"EN1992:Y1860","tipo":"Trefoli","nome":"Y1860","Ep":195000,"fpyk":1640,"fpk":1860,"eps_u":75,"diagramma":"Elastoplastico"},"materiali_custom":[],"layout":{},"resistenze_rapide":{"N":"0","tipo":"Plastico"},"calcola_armature":{"diametri":"12;16;20;24","n_superiori":"2;4;6","n_inferiori":"2;4;6;8","n_laterali":"0;2;4","n_circolari":"8;12;16;20;24","diametri_staffe":"8;10","passi_staffe":"100;150;200;250","staffe":"Ottimizza","obiettivo":"Peso","diametri_ortogonali":"8;10;12;16","passi_ortogonali":"100;150;200;250","max_diametri":"3","max_tentativi":"2000","ganci_phi":"20","riserva_torsione":"25","peso_peso":"1","peso_barre":"1","peso_diametri":"1","mostra":"10","simmetrica":false,"ancoraggio_confermato":false,"torsione_confermata":false,"ricerca_completa":true,"parallelismo":"Automatico","slu":"1","slv":"1","sigma_c_rara":"1","sigma_s_rara":"1","sigma_c_qp":"1","wk_freq":"1","wk_qp":"1","vx":"1","vy":"1","torsione":"1","vt_cls":"1","vt_staffe":"1","ancoraggio":"1"}}}
+dati DC94889AA206E786 · byte 347593
+  tutto = {"versione_sezione":2,"input":{"shape":"Capsula","diameter_mm":"1000","circular_sides":"96","width_mm":"1000","height_mm":"1600","flange_width_mm":"1000","web_width_mm":"300","flange_thickness_mm":"300","cover_mm":"70","longitudinal_bar_count":"24","longitudinal_bar_diameter_mm":"20","top_bar_count":"4","top_bar_diameter_mm":"20","bottom_bar_count":"4","bottom_bar_diameter_mm":"20","side_bar_count_per_side":"2","side_bar_diameter_mm":"16","transverse_bar_diameter_mm":"10","transverse_spacing_mm":"200","apply_pile_requirements":false,"dissipative_zone":false,"fck_mpa":35,"fyk_mpa":450,"alpha_cc":"0.85","gamma_c":"1.50","gamma_s":"1.15","steel_modulus_mpa":200000,"axial_force_kn":"-2500","moment_x_knm":"500","moment_y_knm":"250","apply_minimum_eccentricity":false,"minimum_eccentricity_mm":"0","classe_cls":"C35/45","n":"","materiale_cls_nome":"C35/45","cls_diagramma":"Parabola-rettangolo","classe_acciaio":"B450C","materiale_acciaio_nome":"B450C","steel_fu_mpa":540,"steel_eps_u":75,"steel_diagramma":"Elastoplastico","gettato_sottile":"No","staffe_presenti":"Sì","inner_diameter_mm":"400","inner_width_mm":"400","inner_height_mm":"500","flange_bottom_count":"0","flange_bottom_diameter_mm":"20","flange_bottom_offset_mm":"90","second_top_count":"4","second_top_diameter":"20","second_top_gap":"40","second_bottom_count":"4","second_bottom_diameter":"20","second_bottom_gap":"40","second_inner_count":"16","second_inner_diameter":"20","second_inner_gap":"60","wizard_type":"Capsula · armatura radiale","foro_presente":false,"wizard_layout":"Perimetro","second_top_enabled":false,"second_bottom_enabled":false,"second_inner_enabled":false,"bottom_flange_width_mm":"800","bottom_flange_thickness_mm":"250","wizard_bar_diameter_mm":"20","wizard_bar_spacing_mm":"180","wizard_radial_count":"24","wizard_inner_count":"16","wizard_polygon_sides":"8","sezione_gpc":{"versione":1,"stato":"modello","unita":"mm-MPa-N","editor_sha256":"3D3F5711E845F2AE91014AA95D305439D6E3360F57FFDD12C718BF36DE277CC4","archivio_sha256":"A108D5D17057F3AC7B51B1165F5A2EF2A8E8501A9D08A798D3CCDBCDF51ACB15","archivio":"‹archivio GPC · byte 317385 · A108D5D17057F3AC›"}},"n_automatico":true,"combinazioni":{"SLU":[],"SLV":[],"SLE":[],"SLE_FREQ":[],"SLE_QP":[]},"workspace_ca":{"normativa":"NTC 2018","versione":2,"nota":"","tab":0,"dominio3d":{"stato":"SLU","angoli":"32","criterio":"N costante","filtro":"Tutte","strategia":"Iterativo","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"dominio2d":{"stato":"SLU","tipo":"Mx–My","theta":"0","N":"-1000","filtro":"Tutte","angoli":"64","strategia":"Iterativo","criterio":"N costante","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","proietta":"No","interpolazione":"Quadratica","suddivisioni_n":"50"},"trefoli":[],"sle":{"SLE":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":"","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","contour":"CLS · gradiente tensioni"}},"convenzione":"N negativo a compressione","migrazione_segni":"N convertito dalla precedente convenzione ANTHEA; momenti invariati","sle_precedenti_unificazione":{"SLE":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_FREQ":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"SLE_QP":{"modello":"Lineare","sigma_c_lim":"","sigma_s_lim":"","wk_lim":"","phi":"0","phi_trefoli":"0","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""}},"sle_comuni":{"modello":"Lineare","phi":"0","phi_trefoli":"0","n_armature":"5.8690360639635326","n_trefoli":"5.7223101623644439","trazione_cls":"No","assi":"Locali","origine_x":"0","origine_y":"0","rotazione":"0","esposizione":"Da scegliere","sensibilita":"Poco sensibile","durata":"Lunga","aderenza":"Migliorata","copriferro_fessure":"","spaziatura_fessure":"","limite_fessure":""},"coefficienti":{"AlphaCC":"0.85","AlphaCT":"1","GammaC":"1.50","GammaS":"1.15","GammaSPrestress":"1.15","GammaCAccidental":"1","GammaCE":"1.2","GammaSAccidental":"1","GammaSPrestressAccidental":"1","GammaF":"1.5","SteelCoefficientStrainTension":"0.9","ServiceabilityStressConcreteCoefficientForCharacteristicCombination":"0.6","ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination":"0.45","ServiceabilityStressSteelCoefficientForCharacteristicCombination":"0.8","ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination":"0.8"},"taglio":{"parametri_precedenti":{"bw_x":"","d_x":"","asl_x":"","bw_y":"","d_y":"","asl_y":""},"parametri":"Manuali","tipo_staffa":"Staffa chiusa","rami_x":"","rami_y":"","rami_interni":"0","schema_interno":"Bracci paralleli","rotazione_staffa":"0","ancoraggio":"Da verificare","modello":"Con staffe","bw_x":"","d_x":"","asl_x":"","alpha_x":"90","cot_x":"","bw_y":"","d_y":"","asl_y":"","alpha_y":"90","cot_y":"","cot_torsione":"1","as_torsione":"0","chiusura_torsione":"Da confermare","modello_circolare":"Da scegliere","z_d":"0.75","eccentricita_mc_x":"0","eccentricita_mc_y":"0","azioni":[],"nota_wizard":"Staffe nei singoli elementi, con copriferro assegnato. Verificare piegature, ancoraggi e trattenimento delle barre. Il taglio richiede bw, d, Asl e bracci efficaci assegnati per direzione; non viene ricavato automaticamente dallo schema. L’applicazione azzera i precedenti parametri del taglio. Torsione: modello automatico limitato a rettangolo e cerchio."},"momento_curvatura":{"N":"0","theta":"0","passi":"60","frazione":"1","campionamento":"Quadratico","trazione_cls":"No","angoli":"64","tolleranza_n":"1","raffina_snervamento":"12"},"dettagli_costruttivi":{"vita_durabilita":"50","qualita_copriferro":"No","elemento":"Da scegliere","aggregato":"20","cmin_dur":"","delta_c":"10","zona_sovrapposizione":"No","as_secondaria":"0","passo_secondaria":"0","zona_critica":"No","barre_trattenute":"Da confermare","ancoraggio_appoggi":"Da confermare"},"ancoraggi":{"schema_versione":1,"tipo":"Ancoraggio rettilineo","diametro":"","sigma":"","aderenza":"Buona","lunghezza":"","percentuale":"100","interferro":"0","confinamento":"Da verificare","posizione":"Da verificare","cautele":"Da verificare"},"sollecitazioni_versione":1,"materiale_trefolo":{"id":"EN1992:Y1860","tipo":"Trefoli","nome":"Y1860","Ep":195000,"fpyk":1640,"fpk":1860,"eps_u":75,"diagramma":"Elastoplastico"},"materiali_custom":[],"layout":{},"resistenze_rapide":{"N":"0","tipo":"Plastico"},"calcola_armature":{"diametri":"12;16;20;24","n_superiori":"2;4;6","n_inferiori":"2;4;6;8","n_laterali":"0;2;4","n_circolari":"8;12;16;20;24","diametri_staffe":"8;10","passi_staffe":"100;150;200;250","staffe":"Ottimizza","obiettivo":"Peso","diametri_ortogonali":"8;10;12;16","passi_ortogonali":"100;150;200;250","max_diametri":"3","max_tentativi":"2000","ganci_phi":"20","riserva_torsione":"25","peso_peso":"1","peso_barre":"1","peso_diametri":"1","mostra":"10","simmetrica":false,"ancoraggio_confermato":false,"torsione_confermata":false,"ricerca_completa":true,"parallelismo":"Automatico","slu":"1","slv":"1","sigma_c_rara":"1","sigma_s_rara":"1","sigma_c_qp":"1","wk_freq":"1","wk_qp":"1","vx":"1","vy":"1","torsione":"1","vt_cls":"1","vt_staffe":"1","ancoraggio":"1"},"modello_resistente":{"SLU":"Plastico","SLV":"Plastico"}}}
 modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
 risultato -
 stato "Dati della sezione · selezionare una scheda per iniziare"
@@ -158,9 +158,9 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [wizard] foro campi · spenti
 [wizard] nota-taglio "Staffe nei singoli elementi, con copriferro assegnato. Verificare piegature, ancoraggi e trattenimento delle barre. Il taglio richiede bw, d, Asl e bracci efficaci assegnati per direzione; non viene ricavato automaticamente dallo schema. L’applicazione azzera i precedenti parametri del taglio. Torsione: modello automatico limitato a rettangolo e cerchio."
 == attendi
-dati 369CD5372C86E127 · byte 347600
+dati DC94889AA206E786 · byte 347593
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 06CD3895709423B9
+risultato 8242A4A0857004BC
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -312,7 +312,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [wizard] invariata
 == cella barre phi [riga 0] «24»
-dati AC982F4A9066F7CE · byte 349286
+dati 2C789A077425D4CC · byte 349279
   input.barre_manuali = [{"id":"B01","x":"409.999999","y":"0","phi":"24"},{"id":"B02","x":"409.999999","y":"109.8591686288111","phi":"20"},{"id":"B03","x":"409.999999","y":"236.71360979039625","phi":"20"},{"id":"B04","x":"398.0735510410177","y":"398.0735510410177","phi":"20"},{"id":"B05","x":"320.6720257241682","y":"555.4202411202932","phi":"20"},{"id":"B06","x":"179.18576163997523","y":"668.730366433314","phi":"20"},{"id":"B07","x":"4.34745463369308E-14","y":"709.993222","phi":"20"},{"id":"B08","x":"-179.18576163997514","y":"668.730366433314","phi":"20"},{"id":"B09","x":"-320.67202572416795","y":"555.4202411202932","phi":"20"},{"id":"B10","x":"-398.0735510410177","y":"398.0735510410178","phi":"20"},{"id":"B11","x":"-410","y":"236.71361036774653","phi":"20"},{"id":"B12","x":"-410","y":"109.85916889676042","phi":"20"},{"id":"B13","x":"-410","y":"5.021051876504148E-14","phi":"20"},{"id":"B14","x":"-410","y":"-109.85916889676032","phi":"20"},{"id":"B15","x":"-409.99999999999994","y":"-236.71361036774636","phi":"20"},{"id":"B16","x":"-398.0735510410178","y":"-398.07355104101737","phi":"20"},{"id":"B17","x":"-320.6720257241683","y":"-555.4202411202929","phi":"20"},{"id":"B18","x":"-179.18576163997514","y":"-668.730366433314","phi":"20"},{"id":"B19","x":"-1.3042363919448942E-13","y":"-709.993223","phi":"20"},{"id":"B20","x":"179.1857616399749","y":"-668.730366433314","phi":"20"},{"id":"B21","x":"320.6720257241682","y":"-555.4202411202932","phi":"20"},{"id":"B22","x":"398.07355104101777","y":"-398.07355104101794","phi":"20"},{"id":"B23","x":"409.99999900000006","y":"-236.7136097903966","phi":"20"},{"id":"B24","x":"409.99999899999995","y":"-109.85916862881147","phi":"20"}]
 modificato 1 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
 risultato -
@@ -467,9 +467,9 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [wizard] invariata
 == attendi
-dati AC982F4A9066F7CE · byte 349286
+dati 2C789A077425D4CC · byte 349279
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 1E0690199D3E5F49
+risultato 297494BEDF5D7645
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -621,7 +621,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [wizard] invariata
 == pulsante armatura Ripristina barre da wizard
-dati 369CD5372C86E127 · byte 347600
+dati DC94889AA206E786 · byte 347593
   input.barre_manuali rimosso
 modificato 2 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
 risultato -
@@ -776,9 +776,9 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [wizard] invariata
 == attendi
-dati 369CD5372C86E127 · byte 347600
+dati DC94889AA206E786 · byte 347593
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 06CD3895709423B9
+risultato 8242A4A0857004BC
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -930,7 +930,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [wizard] invariata
 == apri wizard { scelta dialogo wizard_stadium_layout «Curve e rettilinei separati» ; campo dialogo wizard_stadium_curve_count «1» ; pulsante dialogo Applica sezione ; campo dialogo wizard_stadium_curve_count «11» ; campo dialogo wizard_stadium_straight_diameter_mm «16» ; pulsante dialogo Applica sezione }
-dati CA17B5C6C82F9D82 · byte 9407
+dati 0AAAFB5D533096A1 · byte 9400
   input.wizard_type = "Capsula · curve e rettilinei"
   input.wizard_stadium_layout = "Curve e rettilinei separati"
   input.wizard_stadium_curve_count = "11"
@@ -1103,9 +1103,9 @@ messaggio "aperta · tipologia \"Capsula · curve e rettilinei\" · applica sì 
 [wizard] foro campi · spenti
 [wizard] nota-taglio "Capsula: conteggi per ciascuna semicirconferenza e per ciascun rettilineo; le barre di tangenza appartengono agli archi. Disponibili i dettagli generali del pilastro; il confinamento sismico della pila richiede una verifica separata. Staffe nei singoli elementi, con copriferro assegnato. Verificare piegature, ancoraggi e trattenimento delle barre. Il taglio richiede bw, d, Asl e bracci efficaci assegnati per direzione; non viene ricavato automaticamente dallo schema. L’applicazione azzera i precedenti parametri del taglio. Torsione: modello automatico limitato a rettangolo e cerchio."
 == attendi
-dati CA17B5C6C82F9D82 · byte 9407
+dati 0AAAFB5D533096A1 · byte 9400
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato DB30A9DEF9FF77DF
+risultato F2F6E5C8032663B5
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -1263,7 +1263,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [wizard] invariata
 == apri wizard { scelta dialogo wizard_stadium_layout «Radiale dal centro (precedente)» ; campo dialogo wizard_radial_count «28» ; pulsante dialogo Applica sezione }
-dati B62DF2900E87E25B · byte 9366
+dati 03FC9FBEB2A25C16 · byte 9359
   input.wizard_radial_count = "28"
   input.wizard_stadium_layout = "Radiale dal centro (precedente)"
   workspace_ca.taglio.nota_wizard = "Capsula: disposizione radiale precedente, riferita al centro della sezione. Disponibili i dettagli generali del pilastro; il confinamento sismico della pila richiede una verifica separata. Staffe nei singoli elementi, con copriferro assegnato. Verificare piegature, ancoraggi e trattenimento delle barre. Il taglio richiede bw, d, Asl e bracci efficaci assegnati per direzione; non viene ricavato automaticamente dallo schema. L’applicazione azzera i precedenti parametri del taglio. Torsione: modello automatico limitato a rettangolo e cerchio."
@@ -1429,9 +1429,9 @@ messaggio "aperta · tipologia \"Capsula · curve e rettilinei\" · applica sì 
 [wizard] foro campi · spenti
 [wizard] nota-taglio "Capsula: disposizione radiale precedente, riferita al centro della sezione. Disponibili i dettagli generali del pilastro; il confinamento sismico della pila richiede una verifica separata. Staffe nei singoli elementi, con copriferro assegnato. Verificare piegature, ancoraggi e trattenimento delle barre. Il taglio richiede bw, d, Asl e bracci efficaci assegnati per direzione; non viene ricavato automaticamente dallo schema. L’applicazione azzera i precedenti parametri del taglio. Torsione: modello automatico limitato a rettangolo e cerchio."
 == attendi
-dati B62DF2900E87E25B · byte 9366
+dati 03FC9FBEB2A25C16 · byte 9359
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato CA54EDE46EFB4A5B
+risultato 2F28F7C19890408A
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -1587,7 +1587,7 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [wizard] invariata
 == scelta staffe staffe_presenti «No»
-dati 50DADCF9DE8D68DE · byte 9367
+dati C5C6F8902EEC4413 · byte 9360
   input.staffe_presenti = "No"
   workspace_ca.taglio.modello = "Senza staffe"
 modificato 5 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
@@ -1747,9 +1747,9 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [wizard] invariata
 == attendi
-dati 50DADCF9DE8D68DE · byte 9367
+dati C5C6F8902EEC4413 · byte 9360
 modificato 5 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 4B75944051D85B61
+risultato 7B9E37ADDEE0CA99
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -1905,7 +1905,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [wizard] invariata
 == scelta staffe staffe_presenti «Sì»
-dati FED2B30ECBFA3EE9 · byte 9368
+dati C554706277B3D37E · byte 9361
   input.staffe_presenti = "Sì"
 modificato 6 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
 risultato -
@@ -2064,9 +2064,9 @@ stato "Modifiche acquisite · aggiornamento automatico in attesa…"
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [wizard] invariata
 == attendi
-dati FED2B30ECBFA3EE9 · byte 9368
+dati C554706277B3D37E · byte 9361
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato BB21A6FDC32AA3E4
+risultato 3451AABA7E852333
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""
@@ -2222,14 +2222,14 @@ stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [wizard] invariata
 == conferma
-dati FED2B30ECBFA3EE9 · byte 9368
+dati C554706277B3D37E · byte 9361
 modificato 6 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato BB21A6FDC32AA3E4
+risultato 3451AABA7E852333
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] invariata
 [wizard] invariata
 == riapri
-dati FED2B30ECBFA3EE9 · byte 9368
+dati C554706277B3D37E · byte 9361
 modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 0
 risultato -
 stato "Dati della sezione · selezionare una scheda per iniziare"
@@ -2387,9 +2387,9 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [ingressi] riquadri riepilogo-taglio "Taglio Vx\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\nTaglio Vy\nNESSUNA AZIONE\nη —\n—\n0/0 combinazioni\n" · colori #FF9AA4AF #FF9AA4AF
 [wizard] invariata
 == attendi
-dati FED2B30ECBFA3EE9 · byte 9368
+dati C554706277B3D37E · byte 9361
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato BB21A6FDC32AA3E4
+risultato 3451AABA7E852333
 stato "Aggiornamento parziale · Taglio: rami_x: inserire un numero finito."
 [ingressi] nota-normativa "NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe."
 [ingressi] valori-integrati ""

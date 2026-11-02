@@ -4,7 +4,7 @@
  "cattura": "supporto/artefatti/ci/20261016-005646-f3-bug1016/ui_f3-equivalence/cattura",
  "commit": "e34f176cd17dc05b092e170a187f530e9951bad9",
  "per_voce": {
-  "AG-CA-01": 381,
+  "AG-CA-01": 364,
   "AG-MUR-01": 13807,
   "AG-MUR-01 / COMB-D6": 718,
   "AG-MUR-01 / COMB-MURI-D4D5": 744,
@@ -88,7 +88,9 @@
   "R18": 42,
   "R6": 16,
   "R9": 2,
-  "SPETTRI-04": 12
+  "SPETTRI-04": 12,
+  "AG-CA-01 / CA-CRITERIO-STATI-01": 17,
+  "CA-CRITERIO-STATI-01": 227
  },
  "voci": [
   {
@@ -448520,128 +448522,128 @@
    "percorso": "riga 488#1",
    "classe": "numero",
    "a": "703,02",
-   "b": "703,18",
-   "voce": "AG-CA-01"
+   "b": "803,92",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
    "percorso": "riga 489#1",
    "classe": "numero",
    "a": "187,47",
-   "b": "187,51",
-   "voce": "AG-CA-01"
+   "b": "214,38",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Resistance.Length",
    "classe": "numero",
    "a": "754.5796110862553",
-   "b": "754.7327666148368",
-   "voce": "AG-CA-01"
+   "b": "855.7152825121366",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Resistance.Mx",
    "classe": "numero",
    "a": "703.0249921190274",
-   "b": "703.1784641098156",
-   "voce": "AG-CA-01"
+   "b": "803.9217800741154",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Resistance.My",
    "classe": "numero",
    "a": "187.47333123174064",
-   "b": "187.51425709595082",
-   "voce": "AG-CA-01"
+   "b": "214.37914135309745",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.CMin",
    "classe": "numero",
    "a": "-10.099688330012686",
-   "b": "-10.084287358239377",
-   "voce": "AG-CA-01"
+   "b": "-17",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.EcMax",
    "classe": "numero",
    "a": "2.348395880600491",
-   "b": "2.348188961847473",
-   "voce": "AG-CA-01"
+   "b": "30.501881224695676",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.EcMin",
    "classe": "numero",
    "a": "-0.7277808196802299",
-   "b": "-0.7243721138420985",
-   "voce": "AG-CA-01"
+   "b": "-3.5",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.EsMax",
    "classe": "numero",
    "a": "2.134772498636552",
-   "b": "2.134816664924586",
-   "voce": "AG-CA-01"
+   "b": "28.1406394729807",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.EsMin",
    "classe": "numero",
    "a": "-0.5295383212176947",
-   "b": "-0.5263626222976598",
-   "voce": "AG-CA-01"
+   "b": "-1.3087676544085012",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.NeutralAngle",
    "classe": "numero",
    "a": "5.52095118543233",
-   "b": "5.517681162155061",
-   "voce": "AG-CA-01"
+   "b": "2.040421297152847",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.NeutralDistance",
    "classe": "numero",
    "a": "232.42548827041492",
-   "b": "231.59821338938215",
-   "voce": "AG-CA-01"
+   "b": "95.88166766458001",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.SMax",
    "classe": "numero",
    "a": "426.95449972731035",
-   "b": "426.96333298491714",
-   "voce": "AG-CA-01"
+   "b": "434.7826086956522",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.SMin",
    "classe": "numero",
    "a": "-105.90766424353893",
-   "b": "-105.27252445953195",
-   "voce": "AG-CA-01"
+   "b": "-261.7535308817002",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Response.UsefulDepth",
    "classe": "numero",
    "a": "927.1026253776749",
-   "b": "927.0594149911828",
-   "voce": "AG-CA-01"
+   "b": "879.4451611488325",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
    "percorso": "$.domini[\"2D:SLV\"][\"<GUID-3>\"].Utilization",
    "classe": "numero",
    "a": "0.4267273615632825",
-   "b": "0.4266342263194638",
-   "voce": "AG-CA-01"
+   "b": "0.37317063355634217",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
@@ -448928,8 +448930,8 @@
    "percorso": "$.riepilogo_verifiche[\"2D:SLV\"].Ratio",
    "classe": "numero",
    "a": "0.4267273615632825",
-   "b": "0.4266342263194638",
-   "voce": "AG-CA-01"
+   "b": "0.37317063355634217",
+   "voce": "AG-CA-01 / CA-CRITERIO-STATI-01"
   },
   {
    "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
@@ -623378,6 +623380,1822 @@
    "a": "357",
    "b": "352",
    "voce": "R-MURI-09"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/calculated-data.json",
+   "percorso": "$.workspace_ca.dominio2d.modello_resistente",
+   "classe": "chiave-rimossa",
+   "a": "\"Elastico\"",
+   "b": null,
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/calculated-data.json",
+   "percorso": "$.workspace_ca.dominio3d.modello_resistente",
+   "classe": "chiave-rimossa",
+   "a": "\"Plastico\"",
+   "b": null,
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/calculated-data.json",
+   "percorso": "$.workspace_ca.migrazione_criterio",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "{\"SLU\":\"Elastico\",\"SLV\":\"Elastico\"}",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/calculated-data.json",
+   "percorso": "$.workspace_ca.modello_resistente",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "{\"SLU\":\"Plastico\",\"SLV\":\"Plastico\"}",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/exported-data.json",
+   "percorso": "$.workspace_ca.dominio2d.modello_resistente",
+   "classe": "chiave-rimossa",
+   "a": "\"Elastico\"",
+   "b": null,
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/exported-data.json",
+   "percorso": "$.workspace_ca.dominio3d.modello_resistente",
+   "classe": "chiave-rimossa",
+   "a": "\"Plastico\"",
+   "b": null,
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/exported-data.json",
+   "percorso": "$.workspace_ca.migrazione_criterio",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "{\"SLU\":\"Elastico\",\"SLV\":\"Elastico\"}",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/exported-data.json",
+   "percorso": "$.workspace_ca.modello_resistente",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "{\"SLU\":\"Plastico\",\"SLV\":\"Plastico\"}",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/opened.json",
+   "percorso": "$.workspace_ca.dominio2d.modello_resistente",
+   "classe": "chiave-rimossa",
+   "a": "\"Elastico\"",
+   "b": null,
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/opened.json",
+   "percorso": "$.workspace_ca.dominio3d.modello_resistente",
+   "classe": "chiave-rimossa",
+   "a": "\"Plastico\"",
+   "b": null,
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/opened.json",
+   "percorso": "$.workspace_ca.migrazione_criterio",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "{\"SLU\":\"Elastico\",\"SLV\":\"Elastico\"}",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/opened.json",
+   "percorso": "$.workspace_ca.modello_resistente",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "{\"SLU\":\"Plastico\",\"SLV\":\"Plastico\"}",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/reopened.json",
+   "percorso": "$.workspace_ca.dominio2d.modello_resistente",
+   "classe": "chiave-rimossa",
+   "a": "\"Elastico\"",
+   "b": null,
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/reopened.json",
+   "percorso": "$.workspace_ca.dominio3d.modello_resistente",
+   "classe": "chiave-rimossa",
+   "a": "\"Plastico\"",
+   "b": null,
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/reopened.json",
+   "percorso": "$.workspace_ca.migrazione_criterio",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "{\"SLU\":\"Elastico\",\"SLV\":\"Elastico\"}",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/reopened.json",
+   "percorso": "$.workspace_ca.modello_resistente",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "{\"SLU\":\"Plastico\",\"SLV\":\"Plastico\"}",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.cells",
+   "classe": "numero",
+   "a": "611",
+   "b": "615",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.rows",
+   "classe": "numero",
+   "a": "183",
+   "b": "185",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[406]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[407]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[408]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[409]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[414]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[415]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[426]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[427]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[428]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[429]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[434]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[435]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[440]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[441]",
+   "classe": "testo",
+   "a": "Caption",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[442]",
+   "classe": "testo",
+   "a": "Heading1",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[443]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "Caption",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[444]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Heading1",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[445]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[446]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[447]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[474]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[475]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[476]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[477]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[478]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[479]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[482]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[483]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[484]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[485]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[494]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[495]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[496]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[497]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[498]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[499]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[502]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[503]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[504]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[505]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[508]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[509]",
+   "classe": "testo",
+   "a": "Caption",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[510]",
+   "classe": "testo",
+   "a": "Heading1",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[511]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[512]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[513]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Caption",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[514]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "Heading1",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[515]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[516]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[517]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[532]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[533]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[534]",
+   "classe": "testo",
+   "a": "Heading1",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[535]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[536]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[537]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[538]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Heading1",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[539]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[540]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[542]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[543]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[544]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[545]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[547]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[548]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[549]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[550]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[551]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[552]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[553]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[554]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[555]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[576]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[577]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[578]",
+   "classe": "testo",
+   "a": "Caption",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[579]",
+   "classe": "testo",
+   "a": "Heading1",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[581]",
+   "classe": "testo",
+   "a": "Heading1",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[582]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "Caption",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[583]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "Heading1",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[584]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[585]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Heading1",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[586]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[587]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[589]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[590]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[591]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[592]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[594]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[595]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[596]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[597]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[598]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[599]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[600]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[601]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[602]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[623]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[624]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[625]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[626]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[627]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[628]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[629]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[631]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[632]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[633]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[634]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[636]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[637]",
+   "classe": "testo",
+   "a": "Caption",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[638]",
+   "classe": "testo",
+   "a": "Heading1",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[639]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[640]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[641]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Caption",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[642]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Heading1",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[643]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[644]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[645]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[646]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[665]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[666]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[667]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[668]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[669]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[670]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[671]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[672]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[673]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[682]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[683]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[684]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[685]",
+   "classe": "testo",
+   "a": "Caption",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[686]",
+   "classe": "testo",
+   "a": "Heading1",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[689]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "Caption",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[690]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "Heading1",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[695]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[699]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[701]",
+   "classe": "testo",
+   "a": "Heading1",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[702]",
+   "classe": "testo",
+   "a": "Heading2",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[703]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[704]",
+   "classe": "testo",
+   "a": "TableHeader",
+   "b": "Normal",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[705]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "Heading1",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[706]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "Heading2",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[707]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[708]",
+   "classe": "testo",
+   "a": "TableText",
+   "b": "TableHeader",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[717]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[718]",
+   "classe": "testo",
+   "a": "Normal",
+   "b": "TableText",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[719]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"TableText\"",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[720]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"TableText\"",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[721]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"Normal\"",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report-structure.json",
+   "percorso": "$.styles[722]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"Normal\"",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 34#1",
+   "classe": "numero",
+   "a": "0,43",
+   "b": "0,37",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 373",
+   "classe": "testo",
+   "a": "[T14 r2 c1] Criterio resistente",
+   "b": "[T14 r2 c1] Criterio resistente SLU",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 375",
+   "classe": "testo",
+   "a": "[T14 r3 c1] Ricerca resistenza",
+   "b": "[T14 r3 c1] Criterio resistente SLV",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 376",
+   "classe": "testo",
+   "a": "[T14 r3 c2] Eccentricità costante",
+   "b": "[T14 r3 c2] Plastico",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 377",
+   "classe": "testo",
+   "a": "[T14 r4 c1] Strategia",
+   "b": "[T14 r4 c1] Ricerca resistenza",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 378",
+   "classe": "testo",
+   "a": "[T14 r4 c2] Iterativo",
+   "b": "[T14 r4 c2] Eccentricità costante",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 379",
+   "classe": "testo",
+   "a": "[T14 r5 c1] Assi",
+   "b": "[T14 r5 c1] Strategia",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 380",
+   "classe": "testo",
+   "a": "[T14 r5 c2] Locali",
+   "b": "[T14 r5 c2] Iterativo",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 381",
+   "classe": "testo",
+   "a": "[T14 r6 c1] Origine x [mm]",
+   "b": "[T14 r6 c1] Assi",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 382",
+   "classe": "testo",
+   "a": "[T14 r6 c2] 0,00",
+   "b": "[T14 r6 c2] Locali",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 383",
+   "classe": "testo",
+   "a": "[T14 r7 c1] Origine y [mm]",
+   "b": "[T14 r7 c1] Origine x [mm]",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 385",
+   "classe": "testo",
+   "a": "[T14 r8 c1] Rotazione [°]",
+   "b": "[T14 r8 c1] Origine y [mm]",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 387",
+   "classe": "testo",
+   "a": "[T14 r9 c1] Proiezione sul piano",
+   "b": "[T14 r9 c1] Rotazione [°]",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 388",
+   "classe": "testo",
+   "a": "[T14 r9 c2] No",
+   "b": "[T14 r9 c2] 0,00",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 389",
+   "classe": "testo",
+   "a": "[T14 r10 c1] CLS teso",
+   "b": "[T14 r10 c1] Proiezione sul piano",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 391",
+   "classe": "testo",
+   "a": "[T14 r11 c1] Direzioni",
+   "b": "[T14 r11 c1] CLS teso",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 392",
+   "classe": "testo",
+   "a": "[T14 r11 c2] 32,00",
+   "b": "[T14 r11 c2] No",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 393",
+   "classe": "testo",
+   "a": "[T14 r12 c1] Interpolazione mesh",
+   "b": "[T14 r12 c1] Direzioni",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 394",
+   "classe": "testo",
+   "a": "[T14 r12 c2] Quadratica",
+   "b": "[T14 r12 c2] 32,00",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 395 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "[T14 r13 c1] Interpolazione mesh",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 396 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "[T14 r13 c2] Quadratica",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 432",
+   "classe": "testo",
+   "a": "[T17 r2 c1] Criterio resistente",
+   "b": "[T17 r2 c1] Criterio resistente SLU",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 433",
+   "classe": "testo",
+   "a": "[T17 r2 c2] Elastico",
+   "b": "[T17 r2 c2] Plastico",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 434",
+   "classe": "testo",
+   "a": "[T17 r3 c1] Ricerca resistenza",
+   "b": "[T17 r3 c1] Criterio resistente SLV",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 435",
+   "classe": "testo",
+   "a": "[T17 r3 c2] N costante",
+   "b": "[T17 r3 c2] Plastico",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 436",
+   "classe": "testo",
+   "a": "[T17 r4 c1] Strategia",
+   "b": "[T17 r4 c1] Ricerca resistenza",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 437",
+   "classe": "testo",
+   "a": "[T17 r4 c2] Iterativo",
+   "b": "[T17 r4 c2] N costante",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 438",
+   "classe": "testo",
+   "a": "[T17 r5 c1] Piano",
+   "b": "[T17 r5 c1] Strategia",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 439",
+   "classe": "testo",
+   "a": "[T17 r5 c2] Mx–My",
+   "b": "[T17 r5 c2] Iterativo",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 440",
+   "classe": "testo",
+   "a": "[T17 r6 c1] N piano [kN]",
+   "b": "[T17 r6 c1] Piano",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 441",
+   "classe": "testo",
+   "a": "[T17 r6 c2] -200,00",
+   "b": "[T17 r6 c2] Mx–My",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 442",
+   "classe": "testo",
+   "a": "[T17 r7 c1] θ [°]",
+   "b": "[T17 r7 c1] N piano [kN]",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 443#1",
+   "classe": "numero",
+   "a": "0,00",
+   "b": "-200,00",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 444",
+   "classe": "testo",
+   "a": "[T17 r8 c1] Assi",
+   "b": "[T17 r8 c1] θ [°]",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 445",
+   "classe": "testo",
+   "a": "[T17 r8 c2] Locali",
+   "b": "[T17 r8 c2] 0,00",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 446",
+   "classe": "testo",
+   "a": "[T17 r9 c1] Origine x [mm]",
+   "b": "[T17 r9 c1] Assi",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 447",
+   "classe": "testo",
+   "a": "[T17 r9 c2] 0,00",
+   "b": "[T17 r9 c2] Locali",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 448",
+   "classe": "testo",
+   "a": "[T17 r10 c1] Origine y [mm]",
+   "b": "[T17 r10 c1] Origine x [mm]",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 450",
+   "classe": "testo",
+   "a": "[T17 r11 c1] Rotazione [°]",
+   "b": "[T17 r11 c1] Origine y [mm]",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 452",
+   "classe": "testo",
+   "a": "[T17 r12 c1] Proiezione sul piano",
+   "b": "[T17 r12 c1] Rotazione [°]",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 453",
+   "classe": "testo",
+   "a": "[T17 r12 c2] No",
+   "b": "[T17 r12 c2] 0,00",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 454",
+   "classe": "testo",
+   "a": "[T17 r13 c1] CLS teso",
+   "b": "[T17 r13 c1] Proiezione sul piano",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 456",
+   "classe": "testo",
+   "a": "[T17 r14 c1] Direzioni",
+   "b": "[T17 r14 c1] CLS teso",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 457",
+   "classe": "testo",
+   "a": "[T17 r14 c2] 64,00",
+   "b": "[T17 r14 c2] No",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 458",
+   "classe": "testo",
+   "a": "[T17 r15 c1] Interpolazione mesh",
+   "b": "[T17 r15 c1] Direzioni",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 459",
+   "classe": "testo",
+   "a": "[T17 r15 c2] Quadratica",
+   "b": "[T17 r15 c2] 64,00",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 462 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "[T17 r16 c1] Interpolazione mesh",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 463 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "[T17 r16 c2] Quadratica",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 490#1",
+   "classe": "numero",
+   "a": "0,43",
+   "b": "0,37",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/report.txt",
+   "percorso": "riga 492",
+   "classe": "testo",
+   "a": "¶ SLV · Elastico · Mx–My, N = -200,00 kN nella configurazione grafica corrente",
+   "b": "¶ SLV · Plastico · Mx–My, N = -200,00 kN nella configurazione grafica corrente",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.dati.workspace_ca.dominio2d.modello_resistente",
+   "classe": "chiave-rimossa",
+   "a": "\"Elastico\"",
+   "b": null,
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.dati.workspace_ca.dominio3d.modello_resistente",
+   "classe": "chiave-rimossa",
+   "a": "\"Plastico\"",
+   "b": null,
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.dati.workspace_ca.migrazione_criterio",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "{\"SLU\":\"Elastico\",\"SLV\":\"Elastico\"}",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/result.json",
+   "percorso": "$.dati.workspace_ca.modello_resistente",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "{\"SLU\":\"Plastico\",\"SLV\":\"Plastico\"}",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/short.txt",
+   "percorso": "riga 20",
+   "classe": "testo",
+   "a": "[T1 r8 c2] SLU plastico; SLV elastico. Iterativo; Eccentricità costante; CLS teso=No; assi Locali.",
+   "b": "[T1 r8 c2] SLU plastico; SLV plastico. Iterativo; Eccentricità costante; CLS teso=No; assi Locali.",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/visited.json",
+   "percorso": "$.workspace_ca.dominio2d.modello_resistente",
+   "classe": "chiave-rimossa",
+   "a": "\"Elastico\"",
+   "b": null,
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/visited.json",
+   "percorso": "$.workspace_ca.dominio3d.modello_resistente",
+   "classe": "chiave-rimossa",
+   "a": "\"Plastico\"",
+   "b": null,
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/visited.json",
+   "percorso": "$.workspace_ca.migrazione_criterio",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "{\"SLU\":\"Elastico\",\"SLV\":\"Elastico\"}",
+   "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "sheets/str_palo/sezione-a-t-sollecitazioni-uniche/visited.json",
+   "percorso": "$.workspace_ca.modello_resistente",
+   "classe": "chiave-aggiunta",
+   "a": null,
+   "b": "{\"SLU\":\"Plastico\",\"SLV\":\"Plastico\"}",
+   "voce": "CA-CRITERIO-STATI-01"
   }
  ],
  "aggiornamento_spettri": {
@@ -623602,5 +625420,13 @@
   "tolte": 228,
   "invariate_nei_file": 42611,
   "nota": "1.16.0, armature del muro a mensola e tavola delle armature (GPC.Design 0.42.0.0, Checker lib-1160/muri 31ef62eb). Ogni differenza dei file rigenerati è una voce: le già ammesse conservano la voce; le nuove ricevono R-MURI-01 (passo 1000/n: Spacing, interferro, interasse, mandrino), R-MURI-02 + R-MURI-03 + R-MURI-04 (piedi incrociati, quota del piede, barre uniche con risvolti: percorsi, sviluppi, ordine e marche delle barre), R-MURI-03 (altezza per la piega), R-MURI-02 + R-MURI-03 (ingombro coda e ancoraggio al piede), R-MURI-05 + R-MURI-06 + R-MURI-08 (forcella, spilli e longitudinali nel risultato), R-MURI-04 + R-MURI-05 + R-MURI-06 + R-MURI-08 (acciaio per metro) e R-MURI-09 (report del muro e del progetto: tabelle dei dettagli e della distinta, pagine della tavola e numerazione delle righe e delle tabelle che seguono); quelle con lo stesso percorso e valore prima di una transizione assente ne estendono la voce. Le transizioni assenti dei file rigenerati sono tolte. Nessun altro file cambia; nessuna tolleranza nuova."
+ },
+ "aggiornamento_criterio_stati": {
+  "data": "2026-11-02",
+  "cattura": "supporto/artefatti/ci/20261102-111306-criterio-stati-ui-1/ui_f3-equivalence/cattura",
+  "registro": "CA-CRITERIO-STATI-01",
+  "sostituite": 17,
+  "aggiunte": 227,
+  "nota": "1.17.1, criterio resistente per stato limite comune ai domini 3D e 2D, migrazione «Conserva i numeri» (decisione dell'utente del 2/11/2026). Cambia solo la fixture sezione-a-t-sollecitazioni-uniche, salvata con il dominio 3D plastico e il 2D elastico: SLU e SLV prendono il criterio plastico del 3D. I dati spostano modello_resistente dai pannelli a workspace_ca.modello_resistente e annotano migrazione_criterio; il dominio 2D SLV diventa plastico (risultato, report, riepilogo e struttura del report); il report breve riporta «SLV plastico» al posto della frase fissa «SLV elastico». I domini 3D e ogni altra fixture sono invariati. Le transizioni AG-CA-01 dello stesso dominio 2D prendono il nuovo valore dopo, con la voce combinata. Nessuna tolleranza nuova."
  }
 }

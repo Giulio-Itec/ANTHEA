@@ -182,8 +182,7 @@
                       "rotazione": "0",
                       "proietta": "No",
                       "interpolazione": "Quadratica",
-                      "suddivisioni_n": "50",
-                      "modello_resistente": "Plastico"
+                      "suddivisioni_n": "50"
                     },
                     "dominio2d": {
                       "stato": "SLU",
@@ -201,8 +200,7 @@
                       "rotazione": "0",
                       "proietta": "No",
                       "interpolazione": "Quadratica",
-                      "suddivisioni_n": "50",
-                      "modello_resistente": "Plastico"
+                      "suddivisioni_n": "50"
                     },
                     "trefoli": [],
                     "sle": {
@@ -448,7 +446,11 @@
                       "posizione": "Da verificare",
                       "cautele": "Da verificare"
                     },
-                    "sollecitazioni_versione": 1
+                    "sollecitazioni_versione": 1,
+                    "modello_resistente": {
+                      "SLU": "Plastico",
+                      "SLV": "Elastico"
+                    }
                   }
                 }
               },

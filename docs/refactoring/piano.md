@@ -1,5 +1,13 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Criterio resistente per stato limite e 1.17.1 — 2 novembre 2026
+
+Decisioni in [decisioni](decisioni.md), «2 novembre — criterio resistente per stato limite e 1.17.1»; voce CA-CRITERIO-STATI-01.
+
+- [x] Dato `workspace_ca.modello_resistente` per SLU e SLV, migrazione «Conserva i numeri», due menu nelle schede dei domini, titoli e report.
+- [ ] Tracce e catture ricatturate dopo il confronto riga per riga, registro delle differenze.
+- [ ] Guide Rev68, set AT, versione 1.17.1, full sul commit del setup, installer, tag e push.
+
 ## Assistenza grafica Azioni — 2 novembre 2026
 
 - [x] Cattura precedente; pannello comune e schemi vettoriali per i sedici fogli Azioni, selezioni collegate e stile condiviso.

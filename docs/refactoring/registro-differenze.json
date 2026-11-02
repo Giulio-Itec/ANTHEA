@@ -14747,6 +14747,31 @@
         "supporto/artefatti/guide_anthea_itec_rev67"
       ],
       "wiki": "Procedura comune della guida pratica aggiornata; due guide globali Rev67 Word/PDF. 94 articoli, revisione precedente archiviata con SHA-256."
+    },
+    {
+      "id": "CA-CRITERIO-STATI-01",
+      "fase": "Dopo il refactoring / sezione c.a. 1.17.1",
+      "titolo": "Criterio resistente per stato limite, comune ai domini 3D e 2D",
+      "famiglia": "sezione-ca/domini/interfaccia",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Fino alla 1.17.0 ogni pannello (dominio3d, dominio2d) aveva un solo modello_resistente, usato per SLU e per SLV; Replace lo scriveva dallo stato mostrato in quel momento, quindi un foglio nuovo calcolava anche SLV plastico e non si poteva avere SLU plastico con SLV elastico. Ora workspace_ca.modello_resistente = {SLU, SLV}, predefiniti Plastico ed Elastico, letto da domini 3D e 2D, sezione σ/ε, Calcola armature e report (SectionWorkspace.DomainOptions); CheckerSection invariato. Nelle schede «Stato limite mostrato» e sotto «Criterio resistente SLU» e «Criterio resistente SLV», campi sul dato condiviso (FieldSpec.Source, additivo): il cambio aggiorna l'altra scheda e invalida solo i domini 3D e 2D di quello stato. Migrazione «Conserva i numeri» (decisione dell'utente del 2/11/2026): i fogli unificati salvati prendono per SLU e SLV il criterio del dominio 3D; il 2D cambia solo dove era diverso, migrazione_criterio lo annota e una nota sotto il criterio lo dice finché l'utente non lo cambia. Titoli, dettaglio della combinazione e report riportano il criterio dello stato; il report breve riporta i criteri effettivi al posto della frase fissa «SLU plastico; SLV elastico». Fogli con azioni storiche invariati. Effetto sui riferimenti: solo la fixture F3 sezione-a-t-sollecitazioni-uniche (3D plastico, 2D elastico) cambia il dominio 2D, per esempio MxRd del 2D SLV da 703,18 a 803,92 kNm; domini 3D e altre fixture identici.",
+      "test": [
+        "Application.Tests: SectionActionInputsChecks (predefiniti dei fogli nuovi, opzioni e tipo di dominio per stato, migrazione con criteri uguali, diversi e assenti, idempotenza, Replace che conserva la scelta, rifiuto di un modello_resistente non oggetto); DesignActionChecks (ARM-4 con SLV elastico o plastico e SLU plastico)",
+        "ui/smoke-section-actions: due menu sotto lo stato, criterio condiviso con il 2D, invalidazione dei soli domini SLU",
+        "ui/f3-equivalence e Presentation.Tests/sezione-ca: 244 transizioni della fixture sezione-a-t-sollecitazioni-uniche (227 nuove, 17 AG-CA-01 con il nuovo valore dopo), aggiornamento_criterio_stati in transitions-f4.json",
+        "ui/f3-concrete-figures e ui/check-sezione-view: figura 2D e impronta del disegno della stessa fixture, stessa struttura (64 segmenti); vista-storica.json della stessa fixture da una registrazione temporanea non committata",
+        "Presentation.Tests/sezione-ca: 17 tracce ricatturate dopo il confronto riga per riga (campi del form, dati, impronte, dettaglio con il criterio; 2D SLV η 0,43 → 0,37 nella fixture con criteri diversi; conversione dell'editor delle sollecitazioni con SLV elastico, η 0,53 → 0,69)",
+        "ui/shell-capture, ui/shell-capture-confronto e ui/check-shell-draft: 13 catture registrate della finestra storica e l'esempio Wiki beam-ca con il criterio per stato dei fogli nuovi, identiche alla cattura della shell",
+        "Archivio di prova del contrasto (tests/fixtures/f5/contrasto-progetti.programma) rigenerato: i fogli nuovi hanno SLV elastico"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261102-105521-criterio-stati-1",
+        "supporto/artefatti/ci/20261102-111306-criterio-stati-ui-1",
+        "supporto/artefatti/ci/20261102-121706-criterio-stati-ui-2",
+        "supporto/artefatti/ci/20261102-123857-criterio-stati-registrazione"
+      ],
+      "wiki": "Guide Rev68: paragrafi delle schede dei domini nella guida pratica e punto del criterio resistente nella teorica."
     }
   ]
 }

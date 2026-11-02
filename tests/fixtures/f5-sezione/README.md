@@ -183,3 +183,23 @@ riga invariati, nessun testo diverso oltre ai numeri e alle impronte.
   nessun testo cambia oltre ai numeri (fino a ±0,37 %, un η stampato 2,69 → 2,68); `rettangolare-materiali-utente` cambia solo nel report
   della curva M–χ. Sola lettura, nomi e finestre invariati.
 - 27/10/2026, librerie della 1.14.2 (Checker 4a1b0090, AJ-LIB-01, voce R9): il taglio senza staffe ha il dettaglio VEd,max (0,5 bw d ν fcd). In `percorso-f3/taglio-senza-staffe-manuali.txt` sostituite 11 righe (9 impronte del risultato e 2 dettagli del taglio); in `vista-storica.json` 5 valori della sequenza della stessa fixture (risultati e JSON esportato), dalla vista XAML con una registrazione temporanea di `ui/check-sezione-view`, non committata (corsa `supporto/artefatti/lib-1142r/ui-sezione-registrazione`). Report Word, breve e della curva M–χ e le altre 10 fixture invariati.
+
+## Criterio resistente per stato limite (2/11/2026, ANTHEA 1.17.1, registro CA-CRITERIO-STATI-01)
+
+Un criterio per stato limite, comune ai domini 3D e 2D, con la migrazione «Conserva i numeri» decisa dall'utente. Righe del ViewModel
+(`Presentation.Tests/sezione-ca`, corsa `supporto/artefatti/ci/20261102-121706-criterio-stati-ui-2`), confrontate una per una con le
+tracce prima della ricattura: 17 tracce dei fogli con azioni unificate, nessun'altra.
+- In tutte: il campo «Stato limite mostrato» e i due campi «Criterio resistente SLU/SLV» al posto di «Criterio resistente»; nei dati
+  (`tutto =`, `workspace_ca.…`) il criterio passa dai pannelli a `workspace_ca.modello_resistente`; impronte di «dati» e «risultato» di
+  conseguenza; il dettaglio della combinazione scrive anche il criterio («SLU · Plastico · …»).
+- `percorso-f3/sezione-a-t-sollecitazioni-uniche.txt` e `azioni/sollecitazioni-uniche.txt` (3D plastico e 2D elastico nel file): SLU e SLV
+  prendono il criterio plastico del 3D, con la nota della migrazione sotto i due campi; il 2D SLV diventa plastico (η 0,43 → 0,37,
+  Mx,Rd 703,18 → 803,92 kNm). Domini 3D invariati.
+- `azioni/editor-sollecitazioni.txt` (conversione di un foglio storico): ora SLV elastico come dice l'avviso di conversione, η 3D SLV
+  0,53 → 0,69; prima la conversione dava SLV plastico.
+- Esempi del wizard (`esempi/*`, `ingressi/wizard-*`): salvati con «Plastico» nei due pannelli, lo conservano per SLU e SLV; nessun numero
+  cambia.
+- `disegni/elenco.txt`: impronta del dominio 2D di `sezione-a-t-sollecitazioni-uniche`, stessi 146 primitivi.
+- `vista-storica.json`: per la sola `sezione-a-t-sollecitazioni-uniche` i 17 valori della sequenza (i dati), `word/document.xml` e la figura
+  del dominio 2D del report, `word/document.xml` del breve, da una registrazione temporanea di `ui/check-sezione-view`, non committata
+  (corsa `supporto/artefatti/ci/20261102-123857-criterio-stati-registrazione`). Report della curva M–χ e le altre 10 fixture invariati.

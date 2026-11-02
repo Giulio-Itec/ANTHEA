@@ -253,7 +253,7 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] invariata
 [taglio] invariata
 == apri sollecitazioni { cella dialogo State [riga 0] «SLU» ; cella dialogo State [riga 1] «SLV» ; cella dialogo State [riga 2] «Rara» ; seleziona dialogo [0] ; pulsante dialogo Vuoti a zero · riga selezionata ; seleziona dialogo [1] ; pulsante dialogo Vuoti a zero · riga selezionata ; seleziona dialogo [2] ; pulsante dialogo Vuoti a zero · riga selezionata ; pulsante dialogo + Riga ; pulsante dialogo Applica ; cella dialogo State [riga 3] «Frequente» ; cella dialogo N [riga 3] «-700» ; cella dialogo Mx [riga 3] «90» ; cella dialogo My [riga 3] «0» ; cella dialogo Vx [riga 3] «0» ; cella dialogo Vy [riga 3] «0» ; cella dialogo T [riga 3] «0» ; cella dialogo Element [riga 3] «Pila» ; seleziona dialogo [3] ; pulsante dialogo Duplica ; cella dialogo State [riga 4] «Quasi permanente» ; pulsante dialogo Applica }
-dati D67F10656DBDCBD4 · byte 8820
+dati 75332D14CC77322C · byte 8813
   combinazioni.SLU[0].azioni = ["-2500","500","250","0","0","0"]
   combinazioni.SLU[0].elemento = ""
   combinazioni.SLV[0].azioni = ["-2500","500","250","0","0","0"]
@@ -262,9 +262,8 @@ dati D67F10656DBDCBD4 · byte 8820
   combinazioni.SLE[0].elemento = ""
   combinazioni.SLE_FREQ = [{"id":"<nuovo-4>","nome":"Combo 4","azioni":["-700","90","0","0","0","0"],"visible":true,"elemento":"Pila"}]
   combinazioni.SLE_QP = [{"id":"<nuovo-5>","nome":"Combo 4","azioni":["-700","90","0","0","0","0"],"visible":true,"elemento":"Pila"}]
-  workspace_ca.dominio3d.modello_resistente = "Plastico"
-  workspace_ca.dominio2d.modello_resistente = "Plastico"
   workspace_ca.sollecitazioni_versione = 1
+  workspace_ca.modello_resistente = {"SLU":"Plastico","SLV":"Elastico"}
 modificato 1 · modificabile sì · occupato no · in coda no · risultati no · avanzamento no · scheda 0
 risultato -
 stato "Dati della sezione · selezionare una scheda per iniziare"
@@ -284,8 +283,9 @@ messaggio "aperta · righe 3 · selezionata -1 · stato \"Le modifiche saranno a
 [azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","id":"<nuovo-2>","nome":"Combo 1","stato":"SLV","visible":true}
 [domini] form 3D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta criterio "Ricerca resistenza" = "N costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
 [domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
 [domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
@@ -308,8 +308,9 @@ messaggio "aperta · righe 3 · selezionata -1 · stato \"Le modifiche saranno a
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "Dominio in attesa di aggiornamento automatico"
 [domini] form 2D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
 [domini]   campo theta "Direzione θ" = "0" · spento
 [domini]   campo N "N fissato" = "-1000"
@@ -385,9 +386,9 @@ messaggio "aperta · righe 3 · selezionata -1 · stato \"Le modifiche saranno a
 [taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n2/2 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == attendi
-dati D67F10656DBDCBD4 · byte 8820
+dati 75332D14CC77322C · byte 8813
 modificato 1 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 0
-risultato 25A16166E85614E0
+risultato DDDB307498D8EE02
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche sì · file ""
 [azioni] azioni SLU · 1
@@ -404,8 +405,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,00","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"0","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,00","id":"<nuovo-2>","nome":"Combo 1","stato":"SLV","visible":true}
 [domini] form 3D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta criterio "Ricerca resistenza" = "N costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
 [domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
 [domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
@@ -422,14 +424,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
 [domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] 3D dettaglio "Selezionare una combinazione"
-[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nVERIFICATA\nη = 0,69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh -
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "Dominio in attesa di aggiornamento automatico"
 [domini] form 2D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
 [domini]   campo theta "Direzione θ" = "0" · spento
 [domini]   campo N "N fissato" = "-1000"
@@ -505,15 +508,16 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0,00\nGoverna: Combo 1\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0,00\nGoverna: Combo 1\n2/2 combinazioni\n" · colori #FF397BCC #FF397BCC
 [taglio] taglio sezione sezione - · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == scheda [1]
-dati BC7A9494C048C5DA · byte 8820
+dati 02D20EFF952A120A · byte 8813
   workspace_ca.tab = 1
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 818B126F50C1A295
+risultato 7EEC09FD305E7733
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] form 3D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta criterio "Ricerca resistenza" = "N costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
 [domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
 [domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
@@ -529,15 +533,16 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini]   gruppo "Modello e assi delle azioni" trazione_cls|assi|origine_x|origine_y|rotazione
 [domini] tabella 3D · colonne "Elemento=elemento|Mostra=visible|Combinazione=nome|N [kN]=N|Mx [kNm]=Mx|My [kNm]=My|η [-]=eta3d|Esito=esito3d" · righe 1 · selezionata 0
 [domini]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"0","elemento":"","esito":"Da calcolare","esito2d":"Fuori dal piano selezionato","esito3d":"Entro il dominio","eta":"—","eta2d":"—","eta3d":"0,53","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
-[domini] 3D dettaglio "SLU · N costante / Iterativo\n\nAZIONI · Locali\nCombo 1\n\nNEd = -2500,00 kN\nMx,Ed = 500,00 kNm\nMy,Ed = 250,00 kNm\n\nη = 0,53\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -2500,00 kN\nMx,Rd = 935,40 kNm\nMy,Rd = 467,70 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19,83 / 0,00 MPa\nσs min / max: -391,30 / 391,30 MPa\nεc min / max: -3,50 / 3,75 ‰\nεs min / max: -2,56 / 2,79 ‰\n\nd utile: 862,76 mm\nDistanza asse neutro dal lembo (GPC Engine): 473,12 mm\nInclinazione asse neutro: 48,40°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293,86 … 1868,46 kN\nMx: -1397,67 … 1407,46 kNm\nMy: -913,07 … 913,07 kNm\nEstremi campionati; non sono resistenze al N della riga."
-[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
+[domini] 3D dettaglio "SLU · Plastico · N costante / Iterativo\n\nAZIONI · Locali\nCombo 1\n\nNEd = -2500,00 kN\nMx,Ed = 500,00 kNm\nMy,Ed = 250,00 kNm\n\nη = 0,53\nEntro il dominio\n\nRESISTENZA · assi locali\nNRd = -2500,00 kN\nMx,Rd = 935,40 kNm\nMy,Rd = 467,70 kNm\n\nSTATO AL PUNTO RESISTENTE\nσc min / max: -19,83 / 0,00 MPa\nσs min / max: -391,30 / 391,30 MPa\nεc min / max: -3,50 / 3,75 ‰\nεs min / max: -2,56 / 2,79 ‰\n\nd utile: 862,76 mm\nDistanza asse neutro dal lembo (GPC Engine): 473,12 mm\nInclinazione asse neutro: 48,40°\n— indica dato non disponibile (es. deformazione uniforme).\n\nESTREMI MESH\nN: -11293,86 … 1868,46 kN\nMx: -1397,67 … 1407,46 kNm\nMy: -913,07 … 913,07 kNm\nEstremi campionati; non sono resistenze al N della riga."
+[domini] riquadri 3D-riepilogo "3D · SLU\nVERIFICATA\nη = 0,53\nGoverna: Combo 1\n1/1 combinazioni\n3D · SLV\nVERIFICATA\nη = 0,69\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF39A879 #FF39A879
 [domini] 3D comandi "Forze: tutte" · Sollecitazioni=sì Resistenze=sì Tutti i punti resistenti=no Linee di verifica=sì Colori η=no Asse neutro=sì Valori σ/ε sulle barre=no · cursori 5 5 35
 [domini] 3D vista mesh Plastic vertici 1570 6662E3CA0C30D18B triangoli 3136 EF5B97CED469EC60 scala E04E91B3D6FE0EB6
 [domini] 3D vista azioni 1 1708F359478EE6DC · selezionata 0 · Ed 593A4C541CD95A3F · Rd BADAD3E5AF76DF14
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi 1 · resistenze - · nota "3.136 triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente"
 [domini] form 2D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
 [domini]   campo theta "Direzione θ" = "0" · spento
 [domini]   campo N "N fissato" = "-1000"
@@ -559,18 +564,18 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] 2D grafico "Sezione del dominio" · "Forza assiale [kN]" · "Profondità z [m]" · nota "" · vuoto "Dominio in attesa di aggiornamento automatico" · serie  4F53CDA18C2BAA0C · segmenti 0 4F53CDA18C2BAA0C · verifiche 0 4F53CDA18C2BAA0C · punti 0 4F53CDA18C2BAA0C · scala 1/1
 [taglio] invariata
 == attendi
-dati BC7A9494C048C5DA · byte 8820
+dati 02D20EFF952A120A · byte 8813
 modificato 2 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 1
-risultato 818B126F50C1A295
+risultato 7EEC09FD305E7733
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
 [taglio] invariata
 == scheda [4]
-dati 8D78F45BD8D27AB5 · byte 8820
+dati 4B7C5FD91D9B5990 · byte 8813
   workspace_ca.tab = 4
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato C60A94CD57C3520D
+risultato CE3A516F91875098
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
@@ -630,15 +635,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0,00\nGoverna: Combo 1\n2/2 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0,00\nGoverna: Combo 1\n2/2 combinazioni\n" · colori #FF397BCC #FF397BCC
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == attendi
-dati 8D78F45BD8D27AB5 · byte 8820
+dati 4B7C5FD91D9B5990 · byte 8813
 modificato 3 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato C60A94CD57C3520D
+risultato CE3A516F91875098
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
 [taglio] invariata
 == apri sollecitazioni { seleziona dialogo [1] ; pulsante dialogo Elimina ; cella dialogo Vy [riga 0] «120» ; pulsante dialogo Applica }
-dati 4FFB851790D9CE4A · byte 8715
+dati 5E134CBF95DA1F55 · byte 8708
   combinazioni.SLU[0].azioni[4] = "120"
   combinazioni.SLV = []
 modificato 4 · modificabile sì · occupato no · in coda no · risultati no · avanzamento no · scheda 4
@@ -658,8 +663,9 @@ messaggio "aperta · righe 5 · selezionata -1 · stato \"Le modifiche saranno a
 [azioni] azioni taglio · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] form 3D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta criterio "Ricerca resistenza" = "N costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
 [domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
 [domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
@@ -682,8 +688,9 @@ messaggio "aperta · righe 5 · selezionata -1 · stato \"Le modifiche saranno a
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "Dominio in attesa di aggiornamento automatico"
 [domini] form 2D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
 [domini]   campo theta "Direzione θ" = "0" · spento
 [domini]   campo N "N fissato" = "-1000"
@@ -758,9 +765,9 @@ messaggio "aperta · righe 5 · selezionata -1 · stato \"Le modifiche saranno a
 [taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == attendi
-dati 4FFB851790D9CE4A · byte 8715
+dati 5E134CBF95DA1F55 · byte 8708
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato FEDB2F73A3D5D8F7
+risultato B1A9DA6652CF0BA6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche sì · file ""
 [azioni] azioni SLU · 1
@@ -775,8 +782,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [azioni] azioni taglio · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"120","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,25","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] form 3D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta criterio "Ricerca resistenza" = "N costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
 [domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
 [domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
@@ -799,8 +807,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "Dominio in attesa di aggiornamento automatico"
 [domini] form 2D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
 [domini]   campo theta "Direzione θ" = "0" · spento
 [domini]   campo N "N fissato" = "-1000"
@@ -875,15 +884,15 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [taglio] riquadri taglio-peggiori "Taglio Vx\nVERIFICATA\nη = 0,00\nGoverna: Combo 1\n1/1 combinazioni\nTaglio Vy\nVERIFICATA\nη = 0,25\nGoverna: Combo 1\n1/1 combinazioni\n" · colori #FF397BCC #FF397BCC
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == conferma
-dati 4FFB851790D9CE4A · byte 8715
+dati 5E134CBF95DA1F55 · byte 8708
 modificato 4 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato FEDB2F73A3D5D8F7
+risultato B1A9DA6652CF0BA6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] invariata
 [domini] invariata
 [taglio] invariata
 == riapri
-dati 4FFB851790D9CE4A · byte 8715
+dati 5E134CBF95DA1F55 · byte 8708
 modificato 0 · modificabile sì · occupato no · in coda sì · risultati no · avanzamento no · scheda 4
 risultato -
 stato "Dati della sezione · selezionare una scheda per iniziare"
@@ -900,8 +909,9 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [azioni] azioni taglio · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","Vx":"0","Vy":"120","elemento":"","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] form 3D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta criterio "Ricerca resistenza" = "N costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
 [domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
 [domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
@@ -924,8 +934,9 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "Dominio in attesa di aggiornamento automatico"
 [domini] form 2D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
 [domini]   campo theta "Direzione θ" = "0" · spento
 [domini]   campo N "N fissato" = "-1000"
@@ -1000,9 +1011,9 @@ stato "Dati della sezione · selezionare una scheda per iniziare"
 [taglio] riquadri taglio-peggiori "Taglio Vx\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\nTaglio Vy\nDA COMPLETARE\nη —\n—\n1/1 verifiche mancanti / non applicabili\n" · colori #FF9AA4AF #FF9AA4AF
 [taglio] taglio sezione sezione Rettangolare 600x800 · Ac 480000 · As 4775.220833456486 · contorno 4 19C7D7DFEEB0CD1F · fori 0 · barre 14 0A20D3725A9EBF2E · trefoli 4F53CDA18C2BAA0C · messaggio "Inserire la geometria della sezione" · tensioni - · contorno "CLS · gradiente tensioni" · opzioni 1110000001 · barra "" · zona ""
 == attendi
-dati 4FFB851790D9CE4A · byte 8715
+dati 5E134CBF95DA1F55 · byte 8708
 modificato 0 · modificabile sì · occupato no · in coda no · risultati sì · avanzamento no · scheda 4
-risultato FEDB2F73A3D5D8F7
+risultato B1A9DA6652CF0BA6
 stato "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità"
 [azioni] sollecitazioni uniche sì · file ""
 [azioni] azioni SLU · 1
@@ -1017,8 +1028,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [azioni] azioni taglio · 1
 [azioni]   {"Mx":"500","My":"250","N":"-2500","T":"0","VRdx":"352,60","VRdy":"489,58","Vx":"0","Vy":"120","elemento":"","esito":"x: Resistenza sufficiente · dettagli da verificare · y: Resistenza sufficiente · dettagli da verificare","eta_t":"—","eta_vt":"—","eta_x":"0,00","eta_y":"0,25","id":"<nuovo-1>","nome":"Combo 1","stato":"SLU","visible":true}
 [domini] form 3D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta criterio "Ricerca resistenza" = "N costante" voci "N costante|Eccentricità costante|Mx–My costanti|N e Mx costanti|N e My costanti"
 [domini]   scelta strategia "Metodo" = "Iterativo" voci "Iterativo|Intersezione"
 [domini]   scelta interpolazione "Interpolazione mesh" = "Quadratica" voci "Quadratica|Lineare"
@@ -1041,8 +1053,9 @@ stato "Aggiornamento automatico completato · risultati riferiti ai dati corrent
 [domini] 3D vista azioni 0 4F53CDA18C2BAA0C · selezionata - · Ed - · Rd -
 [domini] 3D vista opzioni 1011000 · criterio "N costante" · punti 5/5 · opacità 0.65 · scale 1/1/1 · tassi - · resistenze - · nota "Dominio in attesa di aggiornamento automatico"
 [domini] form 2D
-[domini]   scelta stato "Stato limite" = "SLU" voci "SLU|SLV"
-[domini]   scelta modello_resistente "Criterio resistente" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta stato "Stato limite mostrato" = "SLU" voci "SLU|SLV"
+[domini]   scelta SLU "Criterio resistente SLU" = "Plastico" voci "Plastico|Elastico"
+[domini]   scelta SLV "Criterio resistente SLV" = "Elastico" voci "Plastico|Elastico"
 [domini]   scelta tipo "Sezione dominio" = "Mx–My" voci "N–M|Mx–My"
 [domini]   campo theta "Direzione θ" = "0" · spento
 [domini]   campo N "N fissato" = "-1000"

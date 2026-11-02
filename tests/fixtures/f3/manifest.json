@@ -347,8 +347,8 @@
   },
   "transitions": {
     "file": "tests/fixtures/f3/transitions-f4.json",
-    "sha256": "ed89f32eb21ad9f4dac8c76fbf50d61469bc60897c64e2dee6d39579fb31e9eb",
-    "entries": 77911,
+    "sha256": "82e347d9ca9ee5c16b18766bdda91deacc56b99aebeffb1a66e2ea253fc74b59",
+    "entries": 78138,
     "decision": "D2 del 15/10/2026"
   },
   "editorial_updates_rev45": {
@@ -1484,7 +1484,7 @@
       "../f3-concrete-figures/str_palo--circolare-cava.json": "39f63c0a1514a9c62373de0f9db81b6770959536232f92b3cff59fbbd9b37c63",
       "../f3-concrete-figures/str_palo--dati-incompleti-avvisi.json": "f21f7c7028f746ef1e6103e33a8254ea471c2f0396eb6f5b6b162ca20d6200c5",
       "../f3-concrete-figures/str_palo--rettangolare-materiali-utente.json": "13f796a61c26c92e6b5f089352d658e698210dc28e275277e3d282173df82749",
-      "../f3-concrete-figures/str_palo--sezione-a-t-sollecitazioni-uniche.json": "389c73eb6e3082540f61dcb1a94662caea798d94e941ed4e3542bc6c559110ca",
+      "../f3-concrete-figures/str_palo--sezione-a-t-sollecitazioni-uniche.json": "8f4faf173d4cad56ea2cd13df2693ebd0860f9bae5457978c7051c59f0a7a16a",
       "../f3-concrete-figures/str_palo--sle-fessurazione-assi.json": "f44fa03e64b69b38d9b7915d58e4d6301777140876c5dc3cde6eff01938225bb",
       "../f3-concrete-figures/str_palo--soletta-dettagli-ricerca.json": "8d7fd5d92c51b961f76a27244067d018d7c3960729477e09e4e7cb19f1b6124c",
       "../f3-concrete-figures/str_palo--taglio-senza-staffe-manuali.json": "aab9714e88d6cd9a1fc504f4dc58fad2485994c7db9eb42073a22381c2bfb60c"
@@ -1531,6 +1531,12 @@
         "before_sha256": "6e28a465572d4dc77dd20be69c04f41c68c8206b80200e9a9d1ba3814f2956da",
         "after_sha256": "aab9714e88d6cd9a1fc504f4dc58fad2485994c7db9eb42073a22381c2bfb60c",
         "note": "Set AG ufficiale (Model 2d59bbc6, Checker 22dabe69, GPCChecker.Concrete 0.20.0.1), voce AG-CA-05 del registro, 24/10/2026: stessa struttura e stesso numero di segmenti, linee e marcatori; cambiano solo le coordinate dei domini 2D (parabola analitica, AG-CA-01), al massimo lo 0,27 % della scala del grafico. Ricattura -CaptureConcreteFigures dalla vista XAML (corsa 20261024-225640-ag-ca2-cattura)."
+      },
+      {
+        "file": "../f3-concrete-figures/str_palo--sezione-a-t-sollecitazioni-uniche.json",
+        "before_sha256": "389c73eb6e3082540f61dcb1a94662caea798d94e941ed4e3542bc6c559110ca",
+        "after_sha256": "8f4faf173d4cad56ea2cd13df2693ebd0860f9bae5457978c7051c59f0a7a16a",
+        "note": "1.17.1, voce CA-CRITERIO-STATI-01 del registro, 2/11/2026: il foglio salvato con il dominio 3D plastico e il 2D elastico prende il criterio plastico del 3D per SLU e SLV (migrazione «Conserva i numeri»). Nei 16 stati della figura 2D cambiano il titolo («Elastico» → «Plastico») e le coordinate del dominio, delle linee e del punto Rd; stessa struttura. Le altre 10 figure sono invariate. Dati della corsa 20261102-111306-criterio-stati-ui-1."
       }
     ]
   },
