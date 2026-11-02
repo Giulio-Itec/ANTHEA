@@ -29,7 +29,10 @@ public sealed class ModelSectionDetail
     public int Id { get; }
     public string Name { get; }
     public string Type { get; }
-    public string Label => $"{Id} · {Name}";
+    /// <summary>Source table of the property: SECT for the sections of the members, THIK for the thicknesses of the plates.</summary>
+    public string Table { get; internal set; } = "SECT";
+    public bool IsPlateThickness => Table=="THIK";
+    public string Label => IsPlateThickness ? $"Spessore {Id} · {Name}" : $"{Id} · {Name}";
     public override string ToString() => Label;
     public SectionContour[] Contours { get; internal set; } = [];
     public SectionPartInfo[] Parts { get; internal set; } = [];
@@ -47,8 +50,9 @@ public sealed class ModelSectionDetail
     public double? HeightMillimetres { get; internal set; }
     public bool IsComposite { get; internal set; }
     public bool HasGeometry => Contours.Length>0;
-    public string GeometryMeaning => IsComposite ? "Geometria fisica delle parti · proprietà non omogeneizzate" : "Geometria della sezione · proprietà GPC";
-    public string OffsetMessage => Insertion==null ? "Punto di inserimento non risolto: volume dell’asta non disponibile." : "Punto di inserimento risolto rispetto alla geometria.";
+    public string GeometryMeaning => IsPlateThickness ? "Striscia di piastra larga 1 m · spessore e offset della proprietà" : IsComposite ? "Geometria fisica delle parti · proprietà non omogeneizzate" : "Geometria della sezione · proprietà GPC";
+    public string OffsetMessage => IsPlateThickness ? "O sul piano dei nodi, G sul piano medio: l’offset sposta lo spessore lungo la normale locale z." :
+        Insertion==null ? "Punto di inserimento non risolto: volume dell’asta non disponibile." : "Punto di inserimento risolto rispetto alla geometria.";
     internal Lazy<SectionMesh> MeshFactory { get; set; } = new(() => new([], "Contorno non disponibile."));
     public SectionMesh Mesh => MeshFactory.Value;
     public bool CanExtrude(int element) => HasGeometry && Insertion!=null && !ElementsWithUnresolvedEndOffset.Contains(element) && Mesh.Problem==null;
@@ -56,15 +60,43 @@ public sealed class ModelSectionDetail
 
 public sealed class ModelSectionCatalog
 {
+    /// <summary>Width of the strip drawn across a plate thickness.</summary>
+    public const double StripMillimetres=1000;
+    const double MillimetresPerMetre=1000;
     public IReadOnlyList<ModelSectionDetail> Sections { get; }
-    private readonly IReadOnlyDictionary<int,ModelSectionDetail> byId;
-    private ModelSectionCatalog(ModelSectionDetail[] sections) { Sections=Array.AsReadOnly(sections); byId=sections.ToDictionary(s=>s.Id); }
+    /// <summary>2/11/2026: the thicknesses of the plates, inspected in the same window as the sections (THIK, own identifiers).</summary>
+    public IReadOnlyList<ModelSectionDetail> Thicknesses { get; }
+    private readonly IReadOnlyDictionary<int,ModelSectionDetail> byId,thicknessById;
+    private ModelSectionCatalog(ModelSectionDetail[] sections,ModelSectionDetail[] thicknesses)
+    {
+        Sections=Array.AsReadOnly(sections);Thicknesses=Array.AsReadOnly(thicknesses);
+        byId=sections.ToDictionary(s=>s.Id);thicknessById=thicknesses.ToDictionary(t=>t.Id);
+    }
     public ModelSectionDetail? Find(int id) => byId.GetValueOrDefault(id);
+    public ModelSectionDetail? FindThickness(int id) => thicknessById.GetValueOrDefault(id);
 
     public static ModelSectionCatalog Create(ModelSnapshot model)
     {
         var sections=model.Sections.Select(property=>Read(model,property)).ToArray();
-        return new(sections);
+        return new(sections,model.Plates.Select(plate=>Read(model,plate)).ToArray());
+    }
+
+    /// <summary>A plate property as values of the copy: thickness and offset along the local normal, a strip one metre wide, G on the middle
+    /// surface and O on the plane of the nodes (as the extruded view, ModelSceneRenderer). Nothing is computed.</summary>
+    private static ModelSectionDetail Read(ModelSnapshot model,PlateProperty property)
+    {
+        double thickness=property.Thickness*MillimetresPerMetre,offset=property.Offset*MillimetresPerMetre,half=StripMillimetres/2;
+        var result=new ModelSectionDetail(property.Id,property.Name,"Spessore piastra") { Table="THIK" };
+        result.Elements=model.Elements.Where(e=>e.Type=="PLATE"&&e.Property==property.Id).Select(e=>e.Id).ToArray();
+        result.Attributes=ModelSourceAttributes.Read(model,"THIK",property.Id).ToArray();
+        result.Materials=ReadMaterials(model,result.Elements);
+        result.Contours=[new([new(-half,offset-thickness/2),new(half,offset-thickness/2),new(half,offset+thickness/2),new(-half,offset+thickness/2)],[],0)];
+        result.Centroid=new(0,offset);result.Insertion=new(0,0);
+        result.WidthMillimetres=StripMillimetres;result.HeightMillimetres=thickness;
+        result.Quantities=[new("Spessore",thickness,"mm","Importato"),new("Offset",offset,"mm","Importato")];
+        result.ReferenceValues=[new("G · z",offset,"mm","Piano medio dello spessore"),new("O · z",0,"mm","Piano dei nodi")];
+        result.Diagnostics=["Proprietà della piastra rappresentata come striscia larga 1 m attraverso lo spessore; nessuna proprietà di sezione calcolata."];
+        return result;
     }
 
     private static ModelSectionDetail Read(ModelSnapshot model, SectionProperty property)

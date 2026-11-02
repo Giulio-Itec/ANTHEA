@@ -30,25 +30,38 @@ static partial class Program
         Check(!JsonSerializer.Serialize(snapshot).Contains("test-private-key") && !JsonSerializer.Serialize(snapshot).Contains("example.test"), "snapshot and provenance never persist connection credentials or URL");
         Check(handler.Requests.Where(r => r.Method == "POST").All(r => r.Path == "/civil/post/TABLE" && !r.Body.Contains("EXPORT_PATH") && r.Body.Contains("Dead(ST)") && !r.Body.Contains("Live(ST)")), "only read-only result tables are posted with explicit selected static cases");
         Check(handler.Keys.All(k => k == "test-private-key"), "MAPI key is sent only in the expected request header");
-        var normalized = ModelSnapshot.FromJson(JsonSerializer.Serialize(snapshot));
+        // 2/11/2026: the GPC normalization of the API copy (MidasLiveNormalization): plate and beam frames, restraint symbols, no pending notice.
+        Check(snapshot.LocalFrames!.Select(f => f.Element).Order().SequenceEqual([10, 20]) && Math.Abs(snapshot.LocalFrames!.Single(f => f.Element == 10).Z.Z) > .999 &&
+              snapshot.Boundaries!.Any(b => b.Kind == "RESTRAIN" && b.Nodes.SequenceEqual([1])) && snapshot.ImportMessages!.Any(m => m.Code == "MIDAS-CONVERTER") &&
+              snapshot.ImportMessages!.All(m => m.Code != MidasLiveNormalization.PendingCode), "live acquisition: GPC frames of plates and beams and restraint symbols from the source tables");
+        var liveLoads = MidasGraphicalLoads.Read(snapshot);
+        Check(liveLoads.Unsupported.Values.Sum() == 0 && liveLoads.Loads.Single(l => l.Case == "Dead") is { Element: 10, Unit: "kN/m²" } dead && Math.Abs(Math.Abs(dead.Vector.Z) - 5) < 1e-9 &&
+              Math.Sign(dead.Vector.Z) == -Math.Sign(snapshot.LocalFrames!.Single(f => f.Element == 10).Z.Z) && liveLoads.Loads.Single(l => l.Case == "Live").Vector.Z is var live && Math.Abs(live + 3) < 1e-9,
+            "live acquisition: plate pressure in local z and uniform pressure written per corner drawn in kN/m²");
+        var upgraded = ModelSnapshotUpdate.Apply(PendingCopy(snapshot), snapshot, ModelUpdateScope.Results);
+        Check(upgraded.LocalFrames!.SequenceEqual(snapshot.LocalFrames!) && upgraded.Boundaries!.Length == snapshot.Boundaries!.Length && upgraded.Results.Length == 1 &&
+              upgraded.ImportMessages!.All(m => m.Code != MidasLiveNormalization.PendingCode), "results-only update of a copy read before the normalization adds the frames of the same tables");
+        Reject(() => ModelSnapshotUpdate.Apply(snapshot, PendingCopy(snapshot), ModelUpdateScope.Results), "results-only update never drops existing frames for a copy without them");
+        var normalized = PendingCopy(snapshot);
         normalized.LocalFrames = [new(10, new(1,0,0), new(0,1,0), new(0,0,1))];
         normalized.NodeFrames = [new(1, new(1,0,0), new(0,1,0), new(0,0,1))];
         normalized.Boundaries = [new("CONS/1", "RESTRAIN", [1], null, "DX, DY, DZ")];
-        var update = ModelSnapshot.FromJson(JsonSerializer.Serialize(snapshot));
+        var update = PendingCopy(snapshot);
         Check(MidasNormalizationReuse.TryApply(normalized, update) && update.LocalFrames!.SequenceEqual(normalized.LocalFrames) && update.Boundaries!.Length == 1, "unchanged complete source preserves existing normalized axes and constraints");
         Check(!ReferenceEquals(update.Boundaries![0].Nodes, normalized.Boundaries![0].Nodes) && ModelSnapshotUpdate.Apply(normalized, update, ModelUpdateScope.Results).Results.Length == 1, "normalization reuse is independent and allows compatible results-only updates");
-        var changedSource = ModelSnapshot.FromJson(JsonSerializer.Serialize(snapshot));
+        var changedSource = PendingCopy(snapshot);
         changedSource.SourceTables!["CONS"] = JsonSerializer.SerializeToElement(new { changed = true });
         Check(!MidasNormalizationReuse.TryApply(normalized, changedSource) && changedSource.LocalFrames == null, "a changed restraint prevents reuse of all stale normalization");
-        var changedGeometry = ModelSnapshot.FromJson(JsonSerializer.Serialize(snapshot));
+        var changedGeometry = PendingCopy(snapshot);
         changedGeometry.Nodes[0] = changedGeometry.Nodes[0] with { X = 1 };
         Check(!MidasNormalizationReuse.TryApply(normalized, changedGeometry), "geometry mismatch prevents reuse even if source tables were retained");
-        Check(!MidasNormalizationReuse.TryApply(null, snapshot) && !MidasNormalizationReuse.TryApply(normalized, normalized), "first imports and already normalized inputs are never rewritten");
+        Check(!MidasNormalizationReuse.TryApply(null, PendingCopy(snapshot)) && !MidasNormalizationReuse.TryApply(normalized, normalized) && !MidasNormalizationReuse.TryApply(normalized, snapshot),
+            "first imports and already normalized inputs are never rewritten");
         var incompleteBefore = ModelSnapshot.FromJson(JsonSerializer.Serialize(normalized));
-        var incompleteAfter = ModelSnapshot.FromJson(JsonSerializer.Serialize(snapshot));
+        var incompleteAfter = PendingCopy(snapshot);
         incompleteBefore.SourceTables!.Remove("FRLS"); incompleteAfter.SourceTables!.Remove("FRLS");
         Check(!MidasNormalizationReuse.TryApply(incompleteBefore, incompleteAfter), "missing normalization inputs block reuse even when both partial table sets match");
-        var equivalent = ModelSnapshot.FromJson(JsonSerializer.Serialize(snapshot));
+        var equivalent = PendingCopy(snapshot);
         using (var equivalentMaterial = JsonDocument.Parse("{\"1\":{\"NAME\":\"Concrete\",\"test\":1.0}}")) equivalent.SourceTables!["MATL"] = equivalentMaterial.RootElement.Clone();
         using (var previousMaterial = JsonDocument.Parse("{\"1\":{\"test\":1,\"NAME\":\"Concrete\"}}")) normalized.SourceTables!["MATL"] = previousMaterial.RootElement.Clone();
         Check(MidasNormalizationReuse.TryApply(normalized, equivalent), "source equality ignores object order and equivalent decimal spellings");
@@ -56,6 +69,7 @@ static partial class Program
         handler.Requests.Clear();
         var geometry = await source.ReadAsync(request with { Scope = ModelUpdateScope.Geometry, StaticCases = [], Forces = false, Displacements = false }, null, default);
         Check(geometry.Results.Length == 0 && handler.Requests.All(r => r.Method == "GET") && handler.Requests.All(r => !r.Path.EndsWith("/MATL")), "geometry acquisition avoids all result and material requests");
+        Check(geometry.LocalFrames!.Length == 2 && geometry.Boundaries == null, "geometry acquisition has the GPC frames and leaves the boundary symbols not acquired");
         await RejectLive(() => source.ReadAsync(request with { StaticCases = [] }, null, default), "results import requires a nonempty case selection");
         await RejectLive(() => source.ReadAsync(request with { ExpectedSignature = "stale" }, null, default), "changed source after catalog selection requires another inspection");
 
@@ -116,6 +130,15 @@ static partial class Program
         vm.Dispose(); Check(vm.MidasApiKey.Length == 0, "closing the viewer clears its session credential");
     }
 
+    /// <summary>The copy of a reading the GPC converter could not normalize: no frames or symbols, with the pending notice.</summary>
+    static ModelSnapshot PendingCopy(ModelSnapshot source)
+    {
+        var copy = ModelSnapshot.FromJson(JsonSerializer.Serialize(source));
+        copy.LocalFrames = null; copy.NodeFrames = null; copy.Boundaries = null;
+        copy.ImportMessages = [.. (copy.ImportMessages ?? []).Where(m => m.Code != "MIDAS-CONVERTER"), new(MidasLiveNormalization.PendingCode, "warning", "Geometria", "Prova")];
+        return copy;
+    }
+
     static async Task RejectLive(Func<Task> operation, string message)
     {
         try { await operation(); }
@@ -159,12 +182,17 @@ static partial class Program
             {
                 "UNIT" => "{\"1\":{\"DIST\":\"MM\",\"FORCE\":\"N\"}}",
                 "NODE" => "{\"1\":{\"X\":0,\"Y\":0,\"Z\":0},\"2\":{\"X\":2000,\"Y\":0,\"Z\":0},\"3\":{\"X\":0,\"Y\":3000,\"Z\":0},\"4\":{\"X\":2000,\"Y\":0,\"Z\":4000}}",
-                "ELEM" => "{\"10\":{\"TYPE\":\"PLATE\",\"SECT\":1,\"NODE\":[1,2,3,0]},\"20\":{\"TYPE\":\"BEAM\",\"SECT\":2,\"NODE\":[2,4]}}",
+                "ELEM" => "{\"10\":{\"TYPE\":\"PLATE\",\"MATL\":1,\"SECT\":1,\"NODE\":[1,2,3,0]},\"20\":{\"TYPE\":\"BEAM\",\"MATL\":1,\"SECT\":2,\"NODE\":[2,4]}}",
                 "THIK" => "{\"1\":{\"TYPE\":\"VALUE\",\"NAME\":\"Wall\",\"T_IN\":200,\"OFFSET\":2,\"O_VALUE\":-100}}",
                 "SECT" => "{\"2\":{\"SECT_NAME\":\"Beam\",\"SECT_BEFORE\":{\"SHAPE\":\"SB\",\"OFFSET_PT\":\"CC\",\"SECT_I\":{\"vSIZE\":[500,300]}}}}",
                 "STLD" => "{\"1\":{\"NAME\":\"Dead\"},\"2\":{\"NAME\":\"Live\"}}",
-                "MATL" => Mode == "changed-attributes" && ++materialReads > 1 ? "{\"1\":{\"NAME\":\"Changed\"}}" : "{\"1\":{\"NAME\":\"Concrete\"}}",
-                "CONS" => "{\"1\":{\"ITEMS\":[{\"CONSTRAINT\":\"111111\"}]}}",
+                // A code grade as in the Civil NX API, so that the GPC converter maps the elements (MissingMaterial otherwise).
+                "MATL" => "{\"1\":{\"TYPE\":\"CONC\",\"NAME\":\"" + (Mode == "changed-attributes" && ++materialReads > 1 ? "Changed" : "Concrete") +
+                    "\",\"PARAM\":[{\"P_TYPE\":1,\"STANDARD\":\"EN04(RC)\",\"CODE\":\"\",\"DB\":\"C30/37\",\"bELAST\":false,\"ELAST\":32836}]}}",
+                "CONS" => "{\"1\":{\"ITEMS\":[{\"ID\":1,\"GROUP_NAME\":\"\",\"CONSTRAINT\":\"1111110\"}]}}",
+                // Pressures in N/mm²: in local z (-5 kN/m²) and uniform written per corner on the triangle (-3 kN/m², global z).
+                "PRES" => "{\"10\":{\"ITEMS\":[{\"ID\":1,\"LCNAME\":\"Dead\",\"CMD\":\"PRES\",\"ELEM_TYPE\":\"PLATE\",\"FACE_EDGE_TYPE\":\"FACE\",\"DIRECTION\":\"LZ\",\"FORCES\":[-0.005,0,0,0,0]}," +
+                    "{\"ID\":2,\"LCNAME\":\"Live\",\"CMD\":\"PRES\",\"ELEM_TYPE\":\"PLATE\",\"FACE_EDGE_TYPE\":\"FACE\",\"DIRECTION\":\"GZ\",\"FORCES\":[0,-0.003,-0.003,-0.003,0]}]}}",
                 _ => ""
             };
             return Reply(data.Length == 0 ? "{\"message\":\"\"}" : "{\"" + name + "\":" + data + "}");

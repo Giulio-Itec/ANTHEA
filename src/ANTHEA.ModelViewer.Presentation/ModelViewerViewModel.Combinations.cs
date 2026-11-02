@@ -104,7 +104,7 @@ public sealed partial class ModelViewerViewModel
         Combinations=Snapshot==null?[]:ModelCombinations.Inspect(Snapshot);
         SelectedCombination=Combinations.FirstOrDefault(c=>c.Definition.Id==selectId)??Combinations.FirstOrDefault();
         loadingCombination=false;LoadCombination(SelectedCombination?.Definition);
-        OnPropertyChanged(nameof(CombinationSummary));
+        OnPropertyChanged(nameof(CombinationSummary));SelectedCombinationIds=SelectedCombinationIds.Where(id=>Combinations.Any(c=>c.Definition.Id==id)).ToArray();
         if(ShowCombinationGrid)BuildCombinationGrid();
     }
     void NotifyCombinationCommands()
@@ -113,7 +113,7 @@ public sealed partial class ModelViewerViewModel
         NewCombinationCommand.NotifyCanExecuteChanged();DuplicateCombinationCommand.NotifyCanExecuteChanged();SaveCombinationCommand.NotifyCanExecuteChanged();
         DeleteCombinationCommand.NotifyCanExecuteChanged();RestoreImportedCombinationsCommand.NotifyCanExecuteChanged();
         AddCombinationTermCommand.NotifyCanExecuteChanged();RemoveCombinationTermCommand.NotifyCanExecuteChanged();CalculateCombinationCommand.NotifyCanExecuteChanged();
-        DiscardCombinationEditsCommand.NotifyCanExecuteChanged();NotifyGeneratorCommands();
+        DiscardCombinationEditsCommand.NotifyCanExecuteChanged();NotifyGeneratorCommands();NotifyCombinationBatch();
     }
     [RelayCommand] void OpenCombinationManager()
     {

@@ -27,6 +27,24 @@ public static class MidasGraphicalLoads
             "GX"=>new(1,0,0),"GY"=>new(0,1,0),"GZ"=>new(0,0,1),
             "LX" when frames.ContainsKey(id)=>frames[id].X,"LY" when frames.ContainsKey(id)=>frames[id].Y,"LZ" when frames.ContainsKey(id)=>frames[id].Z,_=>null
         };
+        // Pressure direction «VECTOR»: the unit vector of VECTORS, as in the GPC converter (CivilNxModelProfile.Pressures).
+        static ModelDirection? Vector(JsonElement r)
+        {
+            if(!r.TryGetProperty("VECTORS",out var values)||values.ValueKind!=JsonValueKind.Array||values.GetArrayLength()!=3)return null;
+            var v=new GPC.Geometry.Vector3d(values[0].GetDouble(),values[1].GetDouble(),values[2].GetDouble());double n=v.Length;
+            return n>1e-12&&double.IsFinite(n)?new(v.X/n,v.Y/n,v.Z/n):null;
+        }
+        // Uniform pressure in the two layouts the GPC converter reads as uniform: [P,0,0,0,0] and [0,P1..P4] with equal corner values
+        // (P4 unused on triangles). A varying pressure has no single glyph and is counted as not represented.
+        static double? Uniform(JsonElement forces,int corners)
+        {
+            if(forces.ValueKind!=JsonValueKind.Array||forces.GetArrayLength()==0)return null;
+            double[] f=forces.EnumerateArray().Select(x=>x.GetDouble()).ToArray();
+            if(f.Skip(1).All(x=>x==0))return f[0];
+            if(f.Length!=5||f[0]!=0)return null;
+            var values=f.Skip(1).Take(corners).ToArray();
+            return values.All(x=>x==values[0])&&(corners==4||f[4]==0||f[4]==values[0])?values[0]:null;
+        }
         foreach(string table in new[]{"CNLD","BMLD","PRES"})
         {
             if(model.SourceTables?.TryGetValue(table,out var data)!=true||data.ValueKind!=JsonValueKind.Object)continue;
@@ -51,7 +69,7 @@ public static class MidasGraphicalLoads
                             }
                             continue;
                         }
-                        if(!elements.TryGetValue(id,out var element)||Direction(Text(item,"DIRECTION"),id) is not {} direction) {Skip();continue;}
+                        if(!elements.TryGetValue(id,out var element)||(table=="PRES"&&Text(item,"DIRECTION")=="VECTOR"?Vector(item):Direction(Text(item,"DIRECTION"),id)) is not {} direction) {Skip();continue;}
                         double magnitude;string symbol;
                         if(table=="BMLD"&&ElementFamilies.IsLine(element.Type)&&Text(item,"TYPE")=="UNILOAD"&&!Flag(item,"USE_PROJECTION")&&!Flag(item,"USE_ECCEN")&&!Flag(item,"USE_ADDITIONAL"))
                         {
@@ -61,11 +79,10 @@ public static class MidasGraphicalLoads
                             if(!double.IsFinite(magnitude)){Skip();continue;}
                             for(int station=0;station<=4;station++) loads.Add(new(loadCase,0,id,station/4.0,new(direction.X*magnitude,direction.Y*magnitude,direction.Z*magnitude),symbol));
                         }
-                        else if(table=="PRES"&&element.Type=="PLATE"&&Text(item,"CMD")=="PRES"&&Text(item,"FACE_EDGE_TYPE")=="FACE")
+                        else if(table=="PRES"&&element.Type=="PLATE"&&Text(item,"CMD")=="PRES"&&Text(item,"FACE_EDGE_TYPE")=="FACE"&&!Flag(item,"OPT_PROJECTION"))
                         {
-                            var forces=item.GetProperty("FORCES");
-                            if(forces.ValueKind!=JsonValueKind.Array||forces.GetArrayLength()==0||forces.EnumerateArray().Skip(1).Any(x=>x.GetDouble()!=0)) {Skip();continue;}
-                            magnitude=forces[0].GetDouble()*k/(m*m);symbol="kN/m²";
+                            if(Uniform(item.GetProperty("FORCES"),element.Nodes.Length) is not {} pressure) {Skip();continue;}
+                            magnitude=pressure*k/(m*m);symbol="kN/m²";
                             if(!double.IsFinite(magnitude)){Skip();continue;}
                             loads.Add(new(loadCase,0,id,.5,new(direction.X*magnitude,direction.Y*magnitude,direction.Z*magnitude),symbol));
                         }

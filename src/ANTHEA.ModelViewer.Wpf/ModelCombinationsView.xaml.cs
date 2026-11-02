@@ -9,6 +9,13 @@ public partial class ModelCombinationsView:UserControl
         if(sender is DataGrid grid&&grid.SelectedItem!=null)
             grid.Dispatcher.BeginInvoke(new Action(()=>{if(grid.IsVisible&&grid.SelectedItem!=null)grid.ScrollIntoView(grid.SelectedItem);}));
     }
+    /// <summary>The rows selected in the list (Ctrl or Shift + click) become the combinations of «Calcola selezionate».</summary>
+    void CombinationRowsChanged(object sender,SelectionChangedEventArgs args)
+    {
+        RevealSelection(sender,args);
+        if(sender is DataGrid grid&&DataContext is ModelViewerViewModel vm)
+            vm.SelectedCombinationIds=grid.SelectedItems.OfType<ModelWorkspace.ModelCombinationAvailability>().Select(c=>c.Definition.Id).ToArray();
+    }
     void CombinationColumn(object sender,DataGridAutoGeneratingColumnEventArgs e)
     {
         if(e.PropertyName=="DefinitionId"){e.Cancel=true;return;}

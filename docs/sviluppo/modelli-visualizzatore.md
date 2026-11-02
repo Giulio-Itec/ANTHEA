@@ -949,7 +949,11 @@ alla convenzione GPC** (trazione su +z). Scelta da confermare con l'utente.
   utente, temperature, masse e fasi restano nel file con un avviso del convertitore; reazioni non mostrate; combinazioni su più
   freedom case o di combinazioni conservate con avviso; truss e cavi fuori dalle combinazioni ricostruite; sezioni diverse dal
   rettangolo pieno senza volume. Collaudo nativo con Straus7 R31 / API 3.1.5.
-- La normalizzazione GPC non è ancora applicata all'importazione dal vivo dell'API MIDAS (MIDAS-CONVERTER-PENDING invariato).
+- Dal 2/11/2026 l'importazione dal vivo dell'API MIDAS applica la normalizzazione GPC (`MidasLiveNormalization`): le tabelle
+  sorgente passano da `CivilNxModelProfile` e `GpcBatchNormalization` aggiunge terne, terne nodali e simboli, come per i file
+  .mct. Senza terne non si orientavano le pressioni in LZ e non si faceva la media ai vertici. La sola geometria non costruisce il
+  modello GPC (mancano i materiali) e lascia i vincoli non acquisiti; MIDAS-CONVERTER-PENDING resta solo se la lettura delle
+  tabelle non riesce. «Solo risultati» su una copia letta prima aggiunge terne e simboli delle stesse tabelle.
 
 ### Collaudo
 

@@ -51,7 +51,9 @@ public sealed class ModelSectionPreview : FrameworkElement
         if(detail.Centroid is {} centroid)
         {
             Point c=Map(centroid);
-            if(ShowLocalAxes){Arrow(c,c+new Vector(55,0),Brushes.SeaGreen,"Y");Arrow(c,c+new Vector(0,-55),Brushes.DodgerBlue,"Z");}
+            // A plate strip: only the local normal z of the plate, the in-plane axes are not those of a member section.
+            if(ShowLocalAxes&&detail.IsPlateThickness)Arrow(Map(new(0,0)),Map(new(0,0))+new Vector(0,-55),Brushes.DodgerBlue,"z");
+            else if(ShowLocalAxes){Arrow(c,c+new Vector(55,0),Brushes.SeaGreen,"Y");Arrow(c,c+new Vector(0,-55),Brushes.DodgerBlue,"Z");}
             if(ShowPrincipalAxes&&detail.PrincipalAngleRadians is double angle)
             {
                 var axis=new Vector(Math.Cos(angle),-Math.Sin(angle));Arrow(c,c+axis*70,Brushes.DarkOrange,"1");Arrow(c,c+new Vector(axis.Y,-axis.X)*50,Brushes.DarkOrange,"2");
