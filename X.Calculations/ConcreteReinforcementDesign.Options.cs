@@ -106,7 +106,7 @@ public sealed record ConcreteDesignOptions
 public static partial class ConcreteReinforcementDesign
 {
     public static readonly System.Collections.Immutable.ImmutableArray<(string Key, string Name)> Targets =
-    // Nomi per stato limite (ARM-4): il criterio resistente effettivo (modello_resistente di dominio3d) è nel dettaglio di ogni verifica.
+    // Nomi per stato limite (ARM-4): il criterio resistente effettivo (modello_resistente dello stato limite, 1.17.1) è nel dettaglio di ogni verifica.
     [ ("slu", "N–Mx–My · SLU"), ("slv", "N–Mx–My · SLV"),
       ("sigma_c_rara", "Tensione CLS · rara"), ("sigma_s_rara", "Tensione acciaio · rara"), ("sigma_c_qp", "Tensione CLS · quasi permanente"),
       ("wk_freq", "Fessurazione · frequente"), ("wk_qp", "Fessurazione · quasi permanente"),

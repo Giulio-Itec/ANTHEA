@@ -51,6 +51,53 @@ internal static class SectionActionInputsChecks
             Check(new CheckerSection(input, settings, options, state).Checker.SectionCheckerOptions.FailureDomainType == elastic, "Elastico dipende dallo stato limite");
         }
         options["modello_resistente"] = "sconosciuto"; Reject(() => new CheckerSection(input, settings, options));
+        ResistanceModels(Check, Reject, old);
         return count;
+    }
+
+    // 1.17.1: one resistance model per limit state, shared by the 3D and 2D domains (workspace_ca.modello_resistente), with the migration
+    // «Conserva i numeri» of the sheets saved up to 1.17.0 (user decision of 2/11/2026).
+    private static void ResistanceModels(Action<bool, string> Check, Action<Action> Reject, JsonObject legacy)
+    {
+        Check(SectionActionInputs.ResistanceModel(legacy["workspace_ca"]!.AsObject(), "SLV") is null && legacy["workspace_ca"]!["modello_resistente"] is null,
+            "Criterio per stato nei fogli storici: lo stato dà il criterio");
+        var fresh = DocumentService.CreateSheet("str_palo"); var ws = fresh["workspace_ca"]!.AsObject();
+        Check(ws["modello_resistente"]?.ToJsonString() == """{"SLU":"Plastico","SLV":"Elastico"}""", "Nuovo foglio: SLU plastico e SLV elastico");
+        Check(ws["dominio3d"]!["modello_resistente"] is null && ws["dominio2d"]!["modello_resistente"] is null, "Criterio ancora nei pannelli");
+        var input = fresh["input"]!.AsObject();
+        foreach (var (state, expected) in new[] { ("SLU", "Plastico"), ("SLV", "Elastico") })
+            foreach (string panel in new[] { "dominio3d", "dominio2d" })
+            {
+                var o = SectionActionInputs.DomainOptions(ws, ws[panel]!.AsObject(), state);
+                Check(o.S("modello_resistente") == expected, $"{panel} {state}: criterio {o.S("modello_resistente")}");
+                string type = new CheckerSection(input, ws, o, state).Checker.SectionCheckerOptions.FailureDomainType.ToString();
+                Check(type == (expected == "Elastico" ? "Elastic" : "Plastic"), $"{panel} {state}: dominio {type}");
+            }
+        Check(ws["dominio3d"]!["modello_resistente"] is null, "Le opzioni per stato scrivono nel pannello");
+        // A unified sheet of 1.17.0: the single model of the 3D panel for both states; the 2D panel had another one.
+        JsonObject Saved(string? three, string? two)
+        {
+            var data = (JsonObject)fresh.DeepClone(); var settings = data["workspace_ca"]!.AsObject(); settings.Remove("modello_resistente");
+            if (three is not null) settings["dominio3d"]!["modello_resistente"] = three;
+            if (two is not null) settings["dominio2d"]!["modello_resistente"] = two;
+            SectionWorkspace.Prepare(data); return settings;
+        }
+        var mixed = Saved("Plastico", "Elastico");
+        Check(mixed["modello_resistente"]?.ToJsonString() == """{"SLU":"Plastico","SLV":"Plastico"}""", "Migrazione: criterio del 3D per SLU e SLV");
+        Check(mixed["migrazione_criterio"]?.ToJsonString() == """{"SLU":"Elastico","SLV":"Elastico"}""", "Migrazione: criterio del 2D non annotato");
+        Check(mixed["dominio3d"]!["modello_resistente"] is null && mixed["dominio2d"]!["modello_resistente"] is null, "Migrazione: criterio rimasto nei pannelli");
+        var same = Saved("Elastico", "Elastico");
+        Check(same["modello_resistente"]?.ToJsonString() == """{"SLU":"Elastico","SLV":"Elastico"}""" && same["migrazione_criterio"] is null, "Migrazione: stessi criteri annotati");
+        var none = Saved(null, "Elastico");
+        Check(none["modello_resistente"]?.ToJsonString() == """{"SLU":"Plastico","SLV":"Elastico"}""", "Migrazione senza criterio: predefiniti per stato");
+        Check(none["migrazione_criterio"]?.ToJsonString() == """{"SLU":"Elastico"}""", "Migrazione: solo lo stato cambiato del 2D");
+        string once = none.ToJsonString(); SectionWorkspace.Prepare(none.Parent!.AsObject());
+        Check(once == none.ToJsonString(), "Migrazione ripetuta all'apertura");
+        // The actions written again keep the models chosen.
+        none["modello_resistente"]!["SLU"] = "Elastico";
+        SectionActionInputs.Replace(none.Parent!.AsObject(), []);
+        Check(none["modello_resistente"]!.S("SLU") == "Elastico", "Le azioni riscritte cambiano il criterio");
+        var broken = (JsonObject)fresh.DeepClone(); broken["workspace_ca"]!["modello_resistente"] = "Plastico";
+        Reject(() => ModuleCatalog.ValidateData("str_palo", broken));
     }
 }

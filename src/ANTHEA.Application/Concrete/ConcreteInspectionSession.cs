@@ -19,7 +19,7 @@ public sealed class ConcreteInspectionSession : IDisposable
         CancellationToken cancellation = default, CalculationGate? gate = null)
     {
         var sectionInput = (JsonObject)input.DeepClone(); var settings = (JsonObject)workspace.DeepClone();
-        var analysisOptions = (JsonObject)options.DeepClone(); analysisOptions["modello"] = "Non lineare";
+        var analysisOptions = SectionWorkspace.DomainOptions(workspace, options, key); analysisOptions["modello"] = "Non lineare";
         return scheduler.ScheduleAsync(token => CalculationGates.RunAsync(gate, () =>
         {
             token.ThrowIfCancellationRequested();

@@ -166,8 +166,12 @@ public static class ReportConcrete
         foreach (string dimension in new[] { "3D", "2D" }) if (options.Contains("dominio" + dimension.ToLowerInvariant()))
         {
             Heading("Verifiche dominio " + dimension);
-            var domainOptions = settings["dominio" + dimension.ToLowerInvariant()]!;
-            Parameters("Opzioni dominio " + dimension, domainOptions, [("modello_resistente", "Criterio resistente"), ("criterio", unified ? "Ricerca resistenza" : "Criterio"), ("strategia", "Strategia"), ("tipo", "Piano"), ("N", "N piano [kN]"), ("theta", "θ [°]"), ("assi", "Assi"), ("origine_x", "Origine x [mm]"), ("origine_y", "Origine y [mm]"), ("rotazione", "Rotazione [°]"), ("proietta", "Proiezione sul piano"), ("trazione_cls", "CLS teso"), ("angoli", "Direzioni"), ("interpolazione", "Interpolazione mesh")]);
+            var domainOptions = (JsonObject)settings["dominio" + dimension.ToLowerInvariant()]!.DeepClone();
+            // 1.17.1: one resistance model per limit state, shared by the 3D and 2D domains, listed with the options of both.
+            foreach (string state in new[] { "SLU", "SLV" })
+                if (SectionWorkspace.ResistanceModel(settings.AsObject(), state) is { } model) domainOptions["modello_resistente_" + state] = model;
+            Parameters("Opzioni dominio " + dimension, domainOptions, [("modello_resistente", "Criterio resistente"), ("modello_resistente_SLU", "Criterio resistente SLU"),
+                ("modello_resistente_SLV", "Criterio resistente SLV"), ("criterio", unified ? "Ricerca resistenza" : "Criterio"), ("strategia", "Strategia"), ("tipo", "Piano"), ("N", "N piano [kN]"), ("theta", "θ [°]"), ("assi", "Assi"), ("origine_x", "Origine x [mm]"), ("origine_y", "Origine y [mm]"), ("rotazione", "Rotazione [°]"), ("proietta", "Proiezione sul piano"), ("trazione_cls", "CLS teso"), ("angoli", "Direzioni"), ("interpolazione", "Interpolazione mesh")]);
             foreach (string family in new[] { "SLU", "SLV" })
             {
                 Subheading("Dominio " + dimension + " " + Label(family));

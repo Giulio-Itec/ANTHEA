@@ -10,6 +10,10 @@ public static class SectionActionInputs
     public static bool Unified(JsonObject data) => data["workspace_ca"]?[VersionKey]?.ToString() == "1";
     public static string StateLabel(string key) => key switch { "SLE" => "Rara", "SLE_FREQ" => "Frequente", "SLE_QP" => "Quasi permanente", _ => key };
     public static string Label(string key, JsonObject settings) => settings[VersionKey]?.ToString() == "1" ? StateLabel(key) : SectionWorkspace.Label(key);
+    /// <summary>The resistance model of a limit state, shared by the 3D and 2D domains (1.17.1); null in the historic sheets.</summary>
+    public static string? ResistanceModel(JsonObject settings, string state) => SectionWorkspace.ResistanceModel(settings, state);
+    /// <summary>The options of a domain panel for a limit state, with the resistance model of the state (1.17.1).</summary>
+    public static JsonObject DomainOptions(JsonObject settings, JsonObject options, string state) => SectionWorkspace.DomainOptions(settings, options, state);
     public static string ActionLabel(JsonObject row) => row.S("elemento") is { Length: > 0 } element ? element + " · " + row.S("nome") : row.S("nome");
     public static JsonObject[] ShearRows(JsonObject data)
     {
@@ -51,10 +55,7 @@ public static class SectionActionInputs
         data["combinazioni"] = sets;
         settings[VersionKey] = 1;
         settings["taglio"]!["azioni"] = new JsonArray();
-        foreach (string name in new[] { "dominio3d", "dominio2d" })
-        {
-            var options = settings[name]!;
-            if (options["modello_resistente"] is null) options["modello_resistente"] = options.S("stato") == "SLV" ? "Elastico" : "Plastico";
-        }
+        // One resistance model per limit state, shared by the 3D and 2D domains (1.17.1): SLU plastic and SLV elastic at the conversion.
+        SectionWorkspace.PrepareResistanceModels(settings);
     }
 }

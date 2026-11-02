@@ -49,7 +49,8 @@ public sealed partial class ConcreteSheetViewModel
         {
             if (options.Contains("grafici") && options.Contains("dominio2d") && !panel.ThreeD && checker2D.ContainsKey(panel.Key)) panel.RefreshPanel(renderHidden: true);
             var table = panel.Table.Table;
-            return new ConcreteReportDomain(panel.ThreeD, panel.Options, table.Shown.Select(r => r.Values).ToArray(), table.Selected?.Values.S("id"),
+            // The options of the panel with the resistance model of the state shown (1.17.1): the titles of the figures read it.
+            return new ConcreteReportDomain(panel.ThreeD, SectionActionInputs.DomainOptions(Settings, panel.Options, panel.Key), table.Shown.Select(r => r.Values).ToArray(), table.Selected?.Values.S("id"),
                 checker3D.GetValueOrDefault(panel.Key), checker2D.GetValueOrDefault(panel.Key), domainResults.GetValueOrDefault(panel.Prefix + panel.Key),
                 panel.Chart, panel.Zoom);
         }).ToArray();

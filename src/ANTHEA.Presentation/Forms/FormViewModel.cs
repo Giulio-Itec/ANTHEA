@@ -186,7 +186,7 @@ public sealed class FormViewModel : ObservableObject, INotifyDataErrorInfo
                 string shown = field.EditText;
                 field.SetRaw(value);
                 if (shown != value) field.OnEdited();
-                if (!display && Values.S(key) != value) Store(field, value);
+                if (!display && (field.Spec.Source ?? Values).S(key) != value) Store(field, value);
             }
             else if (field.Kind == FieldKind.Choice) field.Select(value);
         }
@@ -268,7 +268,7 @@ public sealed class FormViewModel : ObservableObject, INotifyDataErrorInfo
     internal void Store(FieldViewModel field, object value)
     {
         if (DisplayOnly) return;
-        FieldWrite.Apply(Values, field.Key, value, field.Spec.Write);
+        FieldWrite.Apply(field.Spec.Source ?? Values, field.Key, value, field.Spec.Write);
         UpdateNote(field.Key);
         changed?.Invoke(field.Key);
         Changed?.Invoke(field.Key);

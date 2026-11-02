@@ -20,6 +20,10 @@ public static class ReportConcreteShort
     private static string Actions(JsonNode? row, bool shear = false) => shear
         ? $"N={F(row?["N"])}; Mx={F(row?["Mx"])}; My={F(row?["My"])}\nVx={F(row?["Vx"])}; Vy={F(row?["Vy"])}"
         : $"N={F(row?.Array("azioni").ElementAtOrDefault(0))}; Mx={F(row?.Array("azioni").ElementAtOrDefault(1))}; My={F(row?.Array("azioni").ElementAtOrDefault(2))}";
+    // The resistance model of the domains of a limit state: per state since 1.17.1, the single model of the 3D panel in a unified sheet not
+    // migrated yet, the state itself (SLU plastic, SLV elastic) in a historic sheet.
+    private static string Model(JsonObject ws, string state) => SectionWorkspace.ResistanceModel(ws, state)
+        ?? (ws["sollecitazioni_versione"] is null ? null : ws["dominio3d"]?["modello_resistente"]?.ToString()) ?? (state == "SLV" ? "Elastico" : "Plastico");
     public static Row[] Select(JsonObject data, JsonObject result)
     {
         var output = new List<Row>();
@@ -29,7 +33,7 @@ public static class ReportConcreteShort
             var valid = actions.Select(a => (Action:a, Result:results?[a.S("id")])).Where(x => Number(x.Result?["Utilization"]) is not null).ToArray();
             var chosen = valid.OrderByDescending(x => Number(x.Result?["Utilization"])).FirstOrDefault();
             var rd = chosen.Result?["Resistance"];
-            output.Add(new(family + " N–Mx–My" + (data["workspace_ca"]?["sollecitazioni_versione"] is null ? "" : " · " + data["workspace_ca"]?["dominio3d"].S("modello_resistente")), ActionName(chosen.Action), Actions(chosen.Action),
+            output.Add(new(family + " N–Mx–My" + (data["workspace_ca"]?["sollecitazioni_versione"] is null ? "" : " · " + Model(data["workspace_ca"]!.AsObject(), family)), ActionName(chosen.Action), Actions(chosen.Action),
                 rd is null ? "Resistenza non disponibile" : $"NRd={F(rd["N"])} kN\nMxRd={F(rd["Mx"])}; MyRd={F(rd["My"])} kNm",
                 Number(chosen.Result?["Utilization"]), valid.Length, actions.Count));
         }
@@ -116,7 +120,7 @@ public static class ReportConcreteShort
             new[]{"Armature longitudinali",$"As={N(section.AreaSteel)} mm²; coordinate nel riferimento geometrico della sezione.\n"+string.Join(section.Template is null ? "\n" : " · ",bars)},
             new[]{"Staffe",input.S("staffe_presenti")+"; Ø"+input.S("transverse_bar_diameter_mm")+" / "+input.S("transverse_spacing_mm")+" mm; "+shear.S("tipo_staffa")+$"; rami x/y={shear.S("rami_x")}/{shear.S("rami_y")}; interni={shear.S("rami_interni")}"},
             new[]{"Materiali",$"CLS {input.S("classe_cls")}: fck={input.S("fck_mpa")}; {input.S("cls_diagramma")}.\nAcciaio {input.S("classe_acciaio")}: fyk={input.S("fyk_mpa")}; Es={input.S("steel_modulus_mpa")}; fu={input.S("steel_fu_mpa")}; εu={input.S("steel_eps_u")} ‰; {input.S("steel_diagramma")}."},
-            new[]{"Resistenze NMM",$"SLU plastico; SLV elastico. {domain.S("strategia")}; {domain.S("criterio")}; CLS teso={domain.S("trazione_cls")}; assi {axes(domain)}."},
+            new[]{"Resistenze NMM",$"SLU {Model(ws, "SLU").ToLowerInvariant()}; SLV {Model(ws, "SLV").ToLowerInvariant()}. {domain.S("strategia")}; {domain.S("criterio")}; CLS teso={domain.S("trazione_cls")}; assi {axes(domain)}."},
             new[]{"Tensioni e fessurazione",$"{sle.S("modello")}; "+(sle.S("modello")=="Lineare"?$"n={N(modularRatio)}; φ={F(sle["phi"])}; ":"")+$"CLS teso={sle.S("trazione_cls")}; assi {axes(sle)}.\n{sle.S("esposizione")}; {sle.S("sensibilita")}; durata {sle.S("durata")}; aderenza {sle.S("aderenza")}. c e interasse fessure: {sle.S("copriferro_fessure","auto")}/{sle.S("spaziatura_fessure","auto")} mm (c vuoto: copriferro delle barre efficaci verso la faccia tesa; interasse vuoto: automatico)."},
             new[]{"Parametri a taglio",$"{shear.S("modello")}; {shear.S("parametri")}; Asl in mm².\nx: bw={F(shear["bw_x"])}; d={F(shear["d_x"])}; Asl={F(shear["asl_x"])}; α={F(shear["alpha_x"])}°.\ny: bw={F(shear["bw_y"])}; d={F(shear["d_y"])}; Asl={F(shear["asl_y"])}; α={F(shear["alpha_y"])}°."+(section.Shape=="Circolare"?$" {shear.S("modello_circolare")}; z/d={N(circularLever)}":"")}
         };

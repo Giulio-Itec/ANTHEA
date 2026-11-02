@@ -55,6 +55,8 @@ public sealed partial class ConcreteAnalysisSession
         bool threeD, JsonObject[] snapshots, CancellationToken token, CheckerSectionModel? prepared)
     {
         token.ThrowIfCancellationRequested();
+        // The resistance model of the limit state, shared by the 3D and 2D domains (1.17.1).
+        options = SectionWorkspace.DomainOptions(workspace, options, key);
         var computationOptions = (JsonObject)options.DeepClone();
         foreach (string visual in new[] { "stato", "filtro", "solo_selezionata", "trasparenza", "mostra_ed", "mostra_rd", "tutte_rd", "mostra_linee", "colora_eta", "criterio", "strategia", "proietta", "scala_x", "scala_y", "scala_n", "scala_mx", "scala_my", "fit_azioni", "dimensione_ed", "dimensione_rd", "interpolazione", "suddivisioni_n", "asse_neutro" }) computationOptions.Remove(visual);
         string signature = input.ToJsonString() + workspace.S("normativa") + workspace["coefficienti"]?.ToJsonString() + workspace["trefoli"]?.ToJsonString() + computationOptions.ToJsonString();

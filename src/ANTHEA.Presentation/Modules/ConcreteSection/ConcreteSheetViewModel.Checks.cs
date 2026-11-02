@@ -269,6 +269,26 @@ public sealed partial class ConcreteSheetViewModel
         InvalidateChecks(panel.Prefix + "SLU", panel.Prefix + "SLV");
     }
 
+    /// <summary>
+    /// The resistance model of a limit state changed in a panel (1.17.1, one per state, shared by the 3D and 2D domains): the other panel shows
+    /// it, the notice of the migration of that state goes away, and the 3D and 2D domains of the state are calculated again; Modified.
+    /// </summary>
+    internal void ResistanceModelChanged(ConcreteDomainPanelViewModel source, string state)
+    {
+        if (Settings["migrazione_criterio"] is JsonObject migration && migration.Remove(state) && migration.Count == 0) Settings.Remove("migrazione_criterio");
+        string model = SectionActionInputs.ResistanceModel(Settings, state)!;
+        using (JsonRowViewModel.DeferNotifications(actions[state]))
+            foreach (var panel in DomainPanels)
+            {
+                if (ReferenceEquals(panel, source)) panel.Form.UpdateNote(state); else panel.ShowResistanceModel(state, model);
+                domainResults.Remove(panel.Prefix + state);
+                foreach (var row in actions[state]) { row.Output(panel.ThreeD ? "eta3d" : "eta2d", "—"); row.Output(panel.ThreeD ? "esito3d" : "esito2d", "Da calcolare"); }
+                if (panel.Key == state) { panel.ClearDomain(); panel.UpdateSelection(); }
+            }
+        RefreshSummary(); Status = "Criterio resistente " + state + " " + model.ToLowerInvariant() + " · domini 3D e 2D in aggiornamento";
+        InvalidateChecks("3D:" + state, "2D:" + state);
+    }
+
     /// <summary>The cache of the export only (a new mesh of the 3D domain).</summary>
     internal void ResetExportCache() => ResetExport();
 

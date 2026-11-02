@@ -68,7 +68,8 @@ internal static class F4SectionDesignChecks
     // Differenza intenzionale classificata ARM-4 (analisi dei bug del 15/10/2026), applicata solo al riferimento congelato: la ricerca
     // precedente di ANTHEA.Legacy usa lo stesso LongitudinalChecks. I nomi «Resistenza plastica/elastica N–Mx–My» diventano «N–Mx–My · SLU/SLV»
     // (anche come chiavi delle esclusioni) e il dettaglio delle verifiche slu/slv dichiara il criterio resistente effettivo, cioè
-    // dominio3d.modello_resistente con il predefinito per stato (Plastico per SLU, Elastico per SLV). Nessun numero cambia.
+    // dominio3d.modello_resistente (dalla 1.17.1 il modello_resistente dello stato limite) con il predefinito per stato (Plastico per SLU,
+    // Elastico per SLV). Nessun numero cambia.
     static readonly Dictionary<string,string> Arm4Names=new(){["Resistenza plastica N–Mx–My"]="N–Mx–My · SLU",["Resistenza elastica N–Mx–My"]="N–Mx–My · SLV"};
     static int Arm4(JsonNode? node,JsonObject document)
     {
@@ -83,7 +84,9 @@ internal static class F4SectionDesignChecks
         }
         if(o["Key"]?.ToString() is "slu" or "slv"&&o["Detail"]?.ToString() is string detail&&detail.StartsWith("Iterativo 3D a eccentricità costante",StringComparison.Ordinal))
         {
-            string criterion=document["workspace_ca"]?["dominio3d"]?["modello_resistente"]?.ToString()??(o["Key"]!.ToString()=="slv"?"Elastico":"Plastico");
+            // 1.17.1: the model of the limit state (workspace_ca.modello_resistente) in a migrated document, the single one of the 3D panel before.
+            string criterion=document["workspace_ca"]?["modello_resistente"]?[o["Key"]!.ToString().ToUpperInvariant()]?.ToString()
+                ??document["workspace_ca"]?["dominio3d"]?["modello_resistente"]?.ToString()??(o["Key"]!.ToString()=="slv"?"Elastico":"Plastico");
             o["Detail"]="Dominio "+criterion.ToLowerInvariant()+" (criterio resistente), iterativo 3D a eccentricità costante"+detail["Iterativo 3D a eccentricità costante".Length..];changed++;
         }
         return changed;

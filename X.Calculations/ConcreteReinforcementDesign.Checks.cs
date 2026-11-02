@@ -28,7 +28,7 @@ public static partial class ConcreteReinforcementDesign
         foreach (string set in new[] { "SLU", "SLV" })
         {
             if (rows[set].Length == 0) continue;
-            var o = (JsonObject)workspace["dominio3d"]!.DeepClone(); o["strategia"] = "Iterativo";
+            var o = SectionWorkspace.DomainOptions(workspace, workspace["dominio3d"]!.AsObject(), set); o["strategia"] = "Iterativo";
             // One radial N–Mx–My check covers combined and pure axial actions, without a mesh.
             o["criterio"] = "Eccentricità costante";
             var engine = new CheckerSection(resistanceModel, reduced, workspace, o, set);

@@ -31,7 +31,9 @@ internal sealed partial class ModuleFigureRenderer
         var domains = new List<ConcreteDomainGraphic>();
         foreach (bool three in new[] { true, false })
         {
-            var o = settings[three ? "dominio3d" : "dominio2d"]!.AsObject(); string key = o.S("stato", "SLU");
+            var panel = settings[three ? "dominio3d" : "dominio2d"]!.AsObject(); string key = panel.S("stato", "SLU");
+            // The options of the panel with the resistance model of the state shown (1.17.1): the titles of the figures read it.
+            var o = SectionActionInputs.DomainOptions(settings, panel, key);
             var checks = analysis.DomainChecks.GetValueOrDefault((three ? "3D:" : "2D:") + key);
             var rows = analysis.Actions[key].Where(r => ConcreteDomainChart.Includes(o, checks?.GetValueOrDefault(r.S("id"))))
                 .Order(Comparer<JsonObject>.Create((a, b) => TableValues.Compare(a.S("nome"), b.S("nome")))).ToArray();

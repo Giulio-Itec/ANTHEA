@@ -35,13 +35,19 @@ internal sealed partial class ConcreteSectionSmoke
         Check(ShearResults.Count == 2 && DomainResults("3D:SLU").Count == 1 && DomainResults("3D:SLV").Count == 1, "Verifiche non alimentate");
         Editor.Commit(); Check(Settings["taglio"]!.Array("azioni").Count == 0 && Data["combinazioni"]!["SLU"]![0]!.Array("azioni").Count == 6, "Commit duplica/perde dati");
         var panel = Three; Tab(1); await Idle();
-        Check(panel.Form["stato"].Label == "Stato limite" && panel.Form.Contains("modello_resistente"), "Criterio non separato dallo stato limite");
+        // 1.17.1: one resistance model per limit state under the state shown, shared by the 3D and 2D panels.
+        Check(panel.Form["stato"].Label == "Stato limite mostrato" && panel.Form["SLU"].Label == "Criterio resistente SLU" && panel.Form["SLV"].Label == "Criterio resistente SLV"
+            && !panel.Form.Contains("modello_resistente"), "Criterio non separato dallo stato limite");
+        Check(panel.Form.Get("SLU") == "Plastico" && panel.Form.Get("SLV") == "Elastico" && Two.Form.Get("SLV") == "Elastico", "Criteri predefiniti per stato limite");
         string first = Part("domini", "3D:SLU");
-        panel.Form.Set("modello_resistente", "Elastico");
+        panel.Form.Set("SLU", "Elastico");
         var pending = Pending;
+        Check(Two.Form.Get("SLU") == "Elastico" && Settings["modello_resistente"]!.S("SLU") == "Elastico" && Settings["dominio3d"]!["modello_resistente"] is null,
+            "Criterio SLU non condiviso con il dominio 2D");
         await Sheet.CalculateAsync(); await Settle();
-        Check(pending.Contains("3D:SLU") && Part("domini", "3D:SLU") != first, "Cambio criterio non invalida dominio " + PendingText(pending));
-        panel.Form.Set("modello_resistente", "Plastico"); await Sheet.CalculateAsync(); await Settle();
+        Check(pending.Contains("3D:SLU") && pending.Contains("2D:SLU") && !pending.Contains("3D:SLV") && !pending.Contains("2D:SLV") && Part("domini", "3D:SLU") != first,
+            "Cambio criterio non invalida i domini SLU " + PendingText(pending));
+        panel.Form.Set("SLU", "Plastico"); await Sheet.CalculateAsync(); await Settle();
         Layout(); File.WriteAllBytes(Path.Combine(directory, "dominio-slu.png"), Ui.Snapshot(Window));
         Tab(4); Layout(); File.WriteAllBytes(Path.Combine(directory, "taglio-slu-slv.png"), Ui.Snapshot(Window));
         bool shown = false;

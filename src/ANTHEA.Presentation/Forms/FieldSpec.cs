@@ -30,9 +30,12 @@ namespace Anthea.Presentation.Forms;
 /// <param name="ToolTip">Tooltip of the label and of the editor in place of the calculation help of the key
 /// (<c>CalculationHelp.Field</c>), for a key whose help belongs to another quantity (the φ′ of the stratigraphy is not the creep
 /// coefficient φ of the concrete). Additive: null keeps the tooltips of InputForm.</param>
+/// <param name="Source">Object of the document that the field reads and writes in place of the one of the form, for a value shared by more
+/// forms (1.17.1: the resistance model per limit state, common to the 3D and 2D domains of the RC section). Additive: null keeps the object of
+/// the form; the notices and the validation stay on the object of the form.</param>
 public sealed record FieldSpec(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false,
     string Symbol = "", bool Wide = false, string? HelpTopic = null, Func<JsonObject, string?>? Note = null, string? Default = null,
-    FieldWriteRule Write = FieldWriteRule.RawText, bool Multiline = false, string? ToolTip = null);
+    FieldWriteRule Write = FieldWriteRule.RawText, bool Multiline = false, string? ToolTip = null, JsonObject? Source = null);
 
 /// <summary>How the text of a field goes into the document. The saved format is part of the equivalence: one rule per field.</summary>
 public enum FieldWriteRule

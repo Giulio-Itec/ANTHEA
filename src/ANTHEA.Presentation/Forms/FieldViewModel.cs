@@ -49,7 +49,7 @@ public sealed class FieldViewModel : ObservableObject
             : Kind == FieldKind.Choice && spec.Unit == "" && !form.Compact ? FieldLayout.EditorSpansUnit
             : FieldLayout.Standard;
         FixedHelp = HelpTopics.Find(spec.HelpTopic);
-        var values = form.Values;
+        var values = spec.Source ?? form.Values;
         // The same reads of the document as InputForm, in the same order: they are observed by the capture of the fallbacks.
         if (Kind == FieldKind.Bool) isChecked = values.B(spec.Key);
         else if (Kind == FieldKind.Choice)

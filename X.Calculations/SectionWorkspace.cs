@@ -85,6 +85,7 @@ public static class SectionWorkspace
             Opt("trazione_cls", "No"); Opt("assi", "Locali"); Opt("origine_x", "0"); Opt("origine_y", "0"); Opt("rotazione", "0");
             Opt("proietta", "No"); Opt("interpolazione", "Quadratica"); Opt("suddivisioni_n", "50");
         }
+        if (settings["sollecitazioni_versione"]?.ToString() == "1") PrepareResistanceModels(settings);
         foreach (string set in Sets.Skip(2))
         {
             var o = settings["sle"]![set]!.AsObject();
@@ -103,6 +104,46 @@ public static class SectionWorkspace
         ConcreteCalculationSettings.Prepare(data["input"]!.AsObject(), settings);
         return settings;
     }
+    /// <summary>
+    /// The resistance model of the domains of a limit state (SLU, SLV) in the sheets with unified actions: one per state, shared by the 3D and
+    /// 2D domains, in <c>workspace_ca.modello_resistente</c> (1.17.1). Null in the historic sheets, where the state gives the model (SLU plastic,
+    /// SLV elastic, the default of CheckerSection).
+    /// </summary>
+    public static string? ResistanceModel(JsonObject workspace, string state)
+        => workspace["modello_resistente"] is JsonObject models ? models.S(state, state == "SLV" ? "Elastico" : "Plastico") : null;
+
+    /// <summary>The options of a domain for a limit state: a copy of the options of the panel with the resistance model of the state, when given.</summary>
+    public static JsonObject DomainOptions(JsonObject workspace, JsonObject options, string state)
+    {
+        var copy = (JsonObject)options.DeepClone();
+        if (ResistanceModel(workspace, state) is { } model) copy["modello_resistente"] = model;
+        return copy;
+    }
+
+    /// <summary>
+    /// The resistance model per limit state of the unified sheets (1.17.1). Up to 1.17.0 each panel had one model, used for both SLU and SLV:
+    /// saved sheets take the one of the 3D domain for both states, so the 3D domain, the reports and «Calcola armature» keep their numbers (user
+    /// decision of 2/11/2026, «Conserva i numeri»). Without a saved model the defaults stay, SLU plastic and SLV elastic. The 2D domain changes
+    /// only where its model differed: the old value stays in <c>migrazione_criterio</c>, shown by the panels.
+    /// </summary>
+    public static void PrepareResistanceModels(JsonObject settings)
+    {
+        if (settings["modello_resistente"] is JsonObject) return;
+        var three = settings["dominio3d"] as JsonObject; var two = settings["dominio2d"] as JsonObject;
+        // An unknown model is kept: CheckerSection refuses it at the calculation, as before.
+        static string Old(JsonObject? options, string state) => options?["modello_resistente"]?.ToString() ?? (state == "SLV" ? "Elastico" : "Plastico");
+        var models = new JsonObject(); var changed = new JsonObject();
+        foreach (string state in new[] { "SLU", "SLV" })
+        {
+            string model = Old(three, state);
+            models[state] = model;
+            if (Old(two, state) != model) changed[state] = Old(two, state);
+        }
+        settings["modello_resistente"] = models;
+        if (changed.Count > 0) settings["migrazione_criterio"] = changed;
+        three?.Remove("modello_resistente"); two?.Remove("modello_resistente");
+    }
+
     public static double Number(string text, string label)
         => J.Number(JsonValue.Create(text)) ?? throw new ArgumentException(label + ": inserire un numero finito.");
     public static int Subdivisions(string text, string label, int min, int max)

@@ -40,7 +40,7 @@ internal static class DesignActionChecks
         Check(result.Candidates[0].Metrics.KgPerM <= lean.Metrics.KgPerM + 1e-12, "proposta più leggera non in testa");
 
         // ARM-4: il nome della verifica N–Mx–My dichiara solo lo stato limite e il dettaglio il criterio resistente effettivamente usato
-        // (dominio3d.modello_resistente, scritto da Replace e valido per tutte le righe dei fogli unificati). Riga SLV (−300; 150; 20).
+        // (modello_resistente dello stato limite, comune ai domini 3D e 2D dalla 1.17.1). Riga SLV (−300; 150; 20); SLU resta plastico.
         foreach (string criterion in new[] { "Plastico", "Elastico" })
         {
             var sheet = SezioneCA.DefaultData(); var sws = SectionWorkspace.Prepare(sheet); var si = sheet["input"]!;
@@ -48,7 +48,7 @@ internal static class DesignActionChecks
             sws["dettagli_costruttivi"]!["elemento"] = "Trave"; sws["sle_comuni"]!["esposizione"] = "XC1"; sws["ancoraggi"]!["lunghezza"] = "2000";
             SectionActionInputs.Replace(sheet, [J.Obj(("id", "s1"), ("nome", "E1"), ("stato", "SLV"), ("N", "-300"), ("Mx", "150"), ("My", "20"), ("Vx", "0"), ("Vy", "0"), ("T", "0"), ("elemento", "")),
                 J.Obj(("id", "u1"), ("nome", "U1"), ("stato", "SLU"), ("N", "-300"), ("Mx", "150"), ("My", "20"), ("Vx", "0"), ("Vy", "0"), ("T", "0"), ("elemento", ""))]);
-            sws["dominio3d"]!["modello_resistente"] = criterion;
+            sws["modello_resistente"]!["SLV"] = criterion;
             var r = ConcreteReinforcementDesign.Optimize(SectionActionInputs.CalculationCopy(sheet), options with { TopCounts = [4], BottomCounts = [4], SideCounts = [0], Diameters = [16, 20] });
             Check(r.Candidates.Count > 0, "ARM-4: nessuna proposta");
             foreach (var c in r.Candidates)
@@ -56,7 +56,7 @@ internal static class DesignActionChecks
                 var slv = c.Checks.Single(x => x.Key == "slv"); var slu = c.Checks.Single(x => x.Key == "slu");
                 Check(slv.Name == "N–Mx–My · SLV" && slu.Name == "N–Mx–My · SLU", "ARM-4: nome con un criterio diverso da quello usato: " + slv.Name + " / " + slu.Name);
                 string declared = "Dominio " + criterion.ToLowerInvariant() + " (criterio resistente)";
-                Check(slv.Detail.StartsWith(declared) && slu.Detail.StartsWith(declared), "ARM-4: criterio effettivo non dichiarato: " + slv.Detail);
+                Check(slv.Detail.StartsWith(declared) && slu.Detail.StartsWith("Dominio plastico (criterio resistente)"), "ARM-4: criterio effettivo non dichiarato: " + slv.Detail + " / " + slu.Detail);
             }
         }
         Check(ConcreteEditor.DesignTargets.Take(2).SequenceEqual([("slu", "N–Mx–My · SLU"), ("slv", "N–Mx–My · SLV")]), "ARM-4: limiti η della ricerca con i nomi precedenti");

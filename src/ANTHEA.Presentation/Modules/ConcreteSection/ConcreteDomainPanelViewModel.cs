@@ -114,8 +114,13 @@ public sealed class ConcreteDomainPanelViewModel : ObservableObject, IViewTabMem
         Options = sheet.Settings[threeD ? "dominio3d" : "dominio2d"]!.AsObject();
         // BuildDomainPanel of the historic view, in its order; nothing is written.
         bool unified = table.Unified;
-        var fields = new List<FieldSpec> { new("stato", unified ? "Stato limite" : "Tipo di dominio precedente", Choices: ["SLU", "SLV"]) };
-        if (unified) fields.Add(new("modello_resistente", "Criterio resistente", Choices: ["Plastico", "Elastico"]));
+        var fields = new List<FieldSpec> { new("stato", unified ? "Stato limite mostrato" : "Tipo di dominio precedente", Choices: ["SLU", "SLV"]) };
+        // 1.17.1: one resistance model per limit state, under the state shown, written in the object «modello_resistente» of the sheet shared by
+        // the 3D and 2D panels (the fields have the keys of the states).
+        if (unified && sheet.Settings["modello_resistente"] is JsonObject models)
+            foreach (string state in new[] { "SLU", "SLV" })
+                fields.Add(new(state, "Criterio resistente " + state, Choices: ["Plastico", "Elastico"], Note: _ => MigrationNote(state),
+                    ToolTip: $"Dominio plastico o elastico delle verifiche N–Mx–My {state}: comune alle schede 3D e 2D, ai report e a «Calcola armature».", Source: models));
         if (threeD) fields.AddRange([new("criterio", "Ricerca resistenza", Choices: ConcreteEditor.ResistanceCriteria), new("strategia", "Metodo", Choices: ["Iterativo", "Intersezione"]),
             new("interpolazione", "Interpolazione mesh", Choices: ["Quadratica", "Lineare"]), new("suddivisioni_n", "Suddivisioni N (mesh)")]);
         else fields.AddRange([new("tipo", "Sezione dominio", Choices: ["N–M", "Mx–My"]), new("theta", "Direzione θ", "°"), new("N", "N fissato", "kN")]);
@@ -270,6 +275,7 @@ public sealed class ConcreteDomainPanelViewModel : ObservableObject, IViewTabMem
     {
         if (sheet.Initializing) return;
         if (key is "filtro" or "stato") { Attach(); RefreshPanel(); sheet.RaiseModified(); }
+        else if (key is "SLU" or "SLV") sheet.ResistanceModelChanged(this, key);
         else if (key is "interpolazione" or "suddivisioni_n") _ = RefreshDisplayMeshAsync();
         else if (key is "criterio" or "strategia" or "proietta") sheet.InvalidateDomainForces(this);
         else
@@ -279,6 +285,24 @@ public sealed class ConcreteDomainPanelViewModel : ObservableObject, IViewTabMem
             sheet.InvalidateDomainForces(this);
         }
         EnableFields();
+    }
+
+    // The notice of a sheet saved up to 1.17.0 whose 2D domain had another resistance model (SectionWorkspace.PrepareResistanceModels).
+    private string? MigrationNote(string state) => sheet.Settings["migrazione_criterio"]?[state] is { } old
+        ? $"Fino alla 1.17.0 il dominio 2D usava «{old}» per {state}: ora 3D e 2D usano il criterio scelto qui." : null;
+
+    /// <summary>The resistance model of a limit state, changed in the other panel: shown, with its notice, without writing.</summary>
+    internal void ShowResistanceModel(string state, string model)
+    {
+        Form.Set(state, model, display: true);
+        Form.UpdateNote(state);
+    }
+
+    /// <summary>The domain of the limit state shown is calculated again (its resistance model changed): no mesh, no chart until then.</summary>
+    internal void ClearDomain()
+    {
+        NeedsVisualRefresh = true;
+        if (ThreeD) View3D!.SetMesh(null); else Chart!.ClearSegments();
     }
 
     private void EnableFields()
@@ -332,7 +356,8 @@ public sealed class ConcreteDomainPanelViewModel : ObservableObject, IViewTabMem
             if (mesh is not null) meshes[Key] = mesh;
             View3D!.SetMesh(mesh);
         }
-        else Chart!.ApplyGeometry(ConcreteDomainChart.Geometry(Key, Options, sheet.Checker2D(Key), sheet.Calculation.Errors.GetValueOrDefault(Prefix + Key)));
+        else Chart!.ApplyGeometry(ConcreteDomainChart.Geometry(Key, SectionActionInputs.DomainOptions(sheet.Settings, Options, Key), sheet.Checker2D(Key),
+            sheet.Calculation.Errors.GetValueOrDefault(Prefix + Key)));
         UpdateSelection(renderHidden);
     }
 
@@ -365,7 +390,9 @@ public sealed class ConcreteDomainPanelViewModel : ObservableObject, IViewTabMem
         else Chart!.ApplyActions(ConcreteDomainChart.Actions(Options, sheet.Checker2D(Key), shown.Select(r => r.Values).ToArray(), id, checks));
         if (row is null) { Detail = "Nessuna combinazione selezionata"; return; }
         var extrema = ThreeD ? meshes.GetValueOrDefault(Key)?.Vertices.AsEnumerable() : sheet.Checker2D(Key)?.Segments.SelectMany(s => new[] { s.A, s.B });
-        Detail = ConcreteDomainChart.Detail(SectionActionInputs.Label(Key, sheet.Settings), ThreeD, Options, row.Values, selectedCheck, extrema,
+        // The label of the limit state with its resistance model (1.17.1), as the title of the 2D chart.
+        string label = SectionActionInputs.Label(Key, sheet.Settings) + (SectionActionInputs.ResistanceModel(sheet.Settings, Key) is { } model ? " · " + model : "");
+        Detail = ConcreteDomainChart.Detail(label, ThreeD, Options, row.Values, selectedCheck, extrema,
             sheet.Calculation.Errors.GetValueOrDefault(Prefix + Key));
     }
 
