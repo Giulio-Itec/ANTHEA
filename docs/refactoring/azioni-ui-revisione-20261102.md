@@ -31,14 +31,19 @@ Nessun motore GPC, contratto, attesi numerici, formula o relazione modificati. L
 
 ## Verifiche
 
-Le corse sono nel worktree `C:\Users\g.pacini\AppData\Local\Temp\aw-azioni-ui`, in `supporto/artefatti/ci`, conservate con `-Keep`.
+Le corse sono state eseguite nel worktree del ramo e spostate in `supporto/artefatti/ci` del checkout principale, conservate con `-Keep`.
 
 - **`20261102-151931-azioni-ui-mirata-1`**, codice di 9837c8d7 prima dei commit: 28 PASS e 1 NEW-FAIL.
   - PASS: Architecture, Application, Wiki, Presentation (4987 controlli), Spettri, Climate.Tests, Headless/help, Rheology, f3-equivalence (nessuna differenza non ammessa), materiali, Spettri WPF, Azioni WPF, parità di FieldForm, token, decisioni di layout, contrasto completo (1399 s), bozza della shell, shell-smoke-project-workspace, ModuleHost.
   - NEW-FAIL `ConcreteTimeEffects.Checks`: il controllo attendeva la virgola fissa («1,000»). Questa macchina ha Windows it-IT con punto decimale, cioè proprio il caso del rilievo 8. L'atteso ora segue il separatore dell'applicazione.
 - **`20261102-155845-azioni-ui-pulita-2`**, commit 9837c8d7: 12 PASS, 0 NEW-FAIL, comprese ConcreteTimeEffects.Checks/UiChecks e le due suite WPF di Azioni e Spettri. La suite Azioni WPF ripetuta tre volte: 1125 controlli ogni volta.
 - **`20261102-160747-azioni-ui-pulita-3`**, commit 6ac9f5db (correzione di CappedSplitPanel): 9 PASS, 0 NEW-FAIL, tra cui Architecture, Climate.Tests (1536 controlli), Azioni WPF (1125), token e decisioni di layout.
+- **`20261102-161130-azioni-ui-dopo-1172`**, merge 289cfe78 con main 1.17.2 (1272b85c): 10 PASS, 0 NEW-FAIL (Architecture, Climate.Tests, Rheology, ConcreteTimeEffects.Checks, Azioni WPF).
 
 Il contrasto completo è stato eseguito prima di 6ac9f5db, che cambia solo le altezze del pannello e non i colori.
 
-Suite UI: 73 prima e dopo, nessuna rimossa. La full resta quella prevista dall'utente per la notte.
+Suite UI: 73 prima e dopo, nessuna rimossa. Full non eseguita; resta quella prevista dall'utente per la notte.
+
+## Integrazione
+
+L'utente ha approvato merge e push («Sì, merge e push»). Avanzamento rapido di main sul ramo, che contiene già 1.17.2; nessuna nuova versione né tag: il numero della prossima versione resta da decidere.

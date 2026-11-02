@@ -30,8 +30,9 @@ Ramo `refactoring/f5-azioni-ui-revisione` da f9d0f354. [Rilievi corretti, esclus
 
 - [x] Rilievi alti e medi della revisione dei fogli Azioni e della reologia: schede e stato della vista nel foglio, messaggio del calcolo, calcolo all'apertura, testo nei campi numerici, area minima, separatore, «?» della guida, focus.
 - [x] Test che vedono i difetti: traccia dei binding attiva, prove nella shell, area minima, reologia; suite UI 73 prima e dopo.
-- [x] Corse mirate PASS (`azioni-ui-mirata-1`, `azioni-ui-pulita-2`, `azioni-ui-pulita-3`).
-- [ ] Merge su main dopo l'approvazione dell'utente; full con la correzione successiva.
+- [x] Corse mirate PASS (`azioni-ui-mirata-1`, `azioni-ui-pulita-2`, `azioni-ui-pulita-3`, `azioni-ui-dopo-1172` sul merge con 1.17.2).
+- [x] Merge su main e push approvati dall'utente; avanzamento rapido, nessuna nuova versione né tag.
+- [ ] Full: con la prossima correzione, come per 1.17.1 e 1.17.2.
 
 ## Assistenza grafica Azioni — 2 novembre 2026
 
