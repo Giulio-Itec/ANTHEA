@@ -106,3 +106,43 @@ Obiettivi di tempo sul 500 × 100, da confermare in F1: combinazione lineare sot
 
 Con le risposte su D1, D2, D3 e D6 si parte da F0 (riferimenti) e F1 (motore in GPCModel) su un ramo di Model dall'ultimo master;
 D4 e D5 si decidono dopo F4.
+
+## La serie dopo la 1.17.4 (2 novembre 2026, sera)
+
+Richiesta dell'utente («Sì, procedi»: preparazione e Attach una volta per la serie). Con il motore la somma GPC di una lineare costa
+circa 5 ms; il resto del tempo di una combinazione della serie era di ANTHEA, misurato con marcatori provvisori su 120 righe generate del
+500 × 100 (`supporto/artefatti/combo-serie/serie-prima-marcatori`):
+
+| Passo, per combinazione | Prima | Dopo |
+| --- | ---: | ---: |
+| Controlli della copia (`ModelSnapshot.Validate`, nel calcolo e nell'Attach) | 2 × 125 ms | 2 × 4–5 ms |
+| Lunghezza del pacchetto (limite di 256 MiB) | da 0,24 a 0,74 s, cresce con la serie | 4 ms |
+| Revisioni delle definizioni dei risultati derivati (due volte nell'Attach) | 2 × 16 ms, cresce con la serie | 2 × 1 ms |
+
+Nessun calcolo nuovo: ognuno di questi passi controllava, misurava o firmava di nuovo dati che non erano cambiati. Ora lo fa una volta per
+riferimento, con la stessa regola di `ModelCombinations.Revisions` (le copie condividono array e record e non li cambiano mai):
+
+- `ModelSnapshot.Validate` salta un risultato già controllato con gli stessi nodi ed elementi;
+- `ModelCombinations.SerializedSize` misura una volta ogni risultato derivato e ogni elenco di definizioni;
+- `ModelCombinations.Read` legge una volta le tabelle MIDAS di un dizionario, quindi le definizioni restano gli stessi record;
+- `DefinitionRevisions` tiene la revisione di una definizione con la preparazione e i record da cui è calcolata.
+
+La preparazione GPC era già una sola per la serie, e la pubblicazione ogni 20 secondi resta com'è.
+
+Prove (`supporto/artefatti/combo-serie`):
+- `ModelWorkspace.Checks` PASS 710, con le 5 prove nuove di `CombinationSeriesChecks`:
+  - controlli ripetuti con altri nodi ed elementi;
+  - stessi record delle tabelle;
+  - definizioni e revisioni uguali a quelle rilette dal documento;
+  - lunghezza uguale alla serializzazione dopo ogni Attach;
+  - «Calcola selezionate» uguale al calcolo una per una.
+- Impronte del banco `--serie 120` uguali prima e dopo: valori `342829B4…EDB4`, completa `16AF3A90…D062`, serie `54BB22FC…51BD`.
+
+Tempi sul 500 × 100 (`tempi-dopo`, mediana di 2 corse dopo una di riscaldamento):
+
+| Operazione | Prima | Dopo |
+| --- | ---: | ---: |
+| «Calcola selezionate» di 120 combinazioni | 98,6 s (821 ms l'una) | 4,8 s (40 ms l'una) |
+| Lineare calda, calcolo e Attach | 163 ms | 24 ms |
+| Inviluppo SLU, calcolo e Attach | 506 ms | 291 ms |
+| Quattro salvataggi di definizioni | 540 ms | 27 ms |

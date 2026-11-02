@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -207,6 +208,10 @@ public sealed class ModelSnapshot
         ModelConstructionStages.ValidateResults(Results);
         foreach (var result in Results)
         {
+            // 2/11/2026 (series of the combinations): a result set already checked against the same nodes and elements is not checked again. The
+            // copies share their arrays and records and never change them in place (ModelCombinations.Revisions): the same references pass the
+            // same checks. Each calculation and each Attach of a series checked the static cases and every result calculated before.
+            if (CheckedResults.TryGetValue(result, out var checkedWith) && ReferenceEquals(checkedWith.Nodes, Nodes) && ReferenceEquals(checkedWith.Elements, Elements)) continue;
             if(result.Combination is {} derivation && (string.IsNullOrWhiteSpace(derivation.DefinitionId)||derivation.InputRevision?.Length!=64||string.IsNullOrWhiteSpace(derivation.Engine)||
                 derivation.RequiredCases==null||derivation.RequiredCases.Any(string.IsNullOrWhiteSpace)||derivation.Governing==null||derivation.Governing.Any(g=>g==null||
                 string.IsNullOrWhiteSpace(g.Alternative)||g.ConcomitantValues==null||g.ConcomitantValues.Any(v=>!double.IsFinite(v))||
@@ -233,6 +238,7 @@ public sealed class ModelSnapshot
                 throw new InvalidDataException("Controllo di equilibrio non valido.");
             if(result.Displacements is {} displacements && (displacements.Any(d=>d==null||!ids.Contains(d.Node)||!double.IsFinite(d.X)||!double.IsFinite(d.Y)||!double.IsFinite(d.Z)||d.Rotation is {} rotation&&(!double.IsFinite(rotation.X)||!double.IsFinite(rotation.Y)||!double.IsFinite(rotation.Z)))||displacements.Select(d=>d.Node).Distinct().Count()!=displacements.Length))
                 throw new InvalidDataException("Spostamenti importati non validi o non associabili ai nodi.");
+            CheckedResults.AddOrUpdate(result, new(Nodes, Elements));
         }
         if (SourceTables?.Any(t => string.IsNullOrWhiteSpace(t.Key) || t.Value.ValueKind != JsonValueKind.Object) == true)
             throw new InvalidDataException("Tabelle degli attributi non valide.");
@@ -242,6 +248,9 @@ public sealed class ModelSnapshot
         { throw new InvalidDataException("Tabelle dei casi di carico o delle combinazioni non valide. La copia precedente è stata conservata.", ex); }
         if (ImportMessages?.Any(m => m == null || string.IsNullOrWhiteSpace(m.Code)) == true) throw new InvalidDataException("Rapporto di importazione non valido.");
     }
+    /// <summary>The result sets that passed the checks of <see cref="Validate"/>, with the nodes and elements they were checked against.</summary>
+    static readonly ConditionalWeakTable<ModelResultSet, CheckedParts> CheckedResults = new();
+    sealed record CheckedParts(ModelNode[] Nodes, ModelElement[] Elements);
     public string Fingerprint() => FingerprintAndSize().Hash;
     /// <summary>The fingerprint and the length in bytes of the same canonical UTF-8 JSON, written once.</summary>
     internal (string Hash, long Bytes) FingerprintAndSize()

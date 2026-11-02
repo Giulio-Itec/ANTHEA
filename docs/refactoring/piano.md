@@ -21,7 +21,9 @@ Richiesta dell'utente («spacchettando delle parti comuni», poi «Sì, prepara 
 - [x] F4: `GpcModelCombinationService` sulla matrice; le 373 definizioni del 24 × 12 e 78 del 100 × 50 danno lo stesso risultato
   salvato byte per byte; sul 500 × 100 lineare 0,60 → 0,165 s, inviluppo SLU 5,4–5,9 → 0,71 s (macchina carica, giri alternati).
 - [ ] F2: inviluppi oltre il limite di espansione sulla matrice (oggi restano sull'albero della ricostruzione).
-- [ ] F5 e D4/D5: combinazioni calcolate solo quando servono; preparazione della chiamata e Attach una volta per la serie.
+- [x] Serie (richiesta dell'utente, «Sì, procedi»): controlli, lunghezza del pacchetto e revisioni una volta per riferimento; «Calcola
+  selezionate» di 120 righe del 500 × 100 da 98,6 a 4,8 s, risultati uguali ([dettaglio](../sviluppo/modelli-motore-combinazioni.md)).
+- [ ] F5 e D4/D5: combinazioni calcolate solo quando servono, invece di salvarle; il destino di «Calcola tutte».
 
 ## ANTHEA 1.17.3 — 2 novembre 2026
 
