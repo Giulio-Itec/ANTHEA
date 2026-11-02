@@ -20,4 +20,4 @@ Tipografia, superfici, palette delle serie, frecce e marcatura sono comuni. I co
 
 Le corse esplorative precedenti contengono anche un errore di permessi del sandbox, la vecchia aspettativa di immagini raster, il conteggio di campi limitato ai soli parametri generali e un tentativo di compilazione sovrapposto alla suite completa Presentation. Cause risolte senza esclusioni. Presentation completa sul primo stato della modifica: 4948 controlli passati; il collaudo conclusivo è quello mirato sopra, non un secondo full.
 
-Integrazione locale su main e compilazione finale da registrare a chiusura. Nessun nuovo installer o tag richiesto in questa attività.
+Integrazione locale su main completata con fast-forward a 7b8e98df. Compilazione Release e controllo qa/no-test-code su main pulito: 2 PASS nella corsa `supporto/artefatti/ci/20261102-102655-azioni-assistenza-main` del checkout principale. Le modifiche successive a quel commit riguardano soltanto questo verbale. Nessun push, nuovo installer o tag eseguito in questa attività.
