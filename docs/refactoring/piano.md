@@ -1,5 +1,15 @@
 # Refactoring di ANTHEA: piano operativo
 
+## ANTHEA 1.17.3 — 2 novembre 2026
+
+Correzioni dell'interfaccia dei fogli Azioni e della reologia ([revisione](azioni-ui-revisione-20261102.md)); versione chiesta dall'utente, «fallo. ma non fare il full».
+
+- [x] Versione 1.17.3 e [note di rilascio](note-rilascio-1.17.3.md); istruzioni dell'installer e PDF, originali in `supporto/SUPERATI/rilascio-1173-20261102`.
+- [x] Profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto e audit PASS; tag `v1.17.3` sul commit del setup 4707f776
+  ([verbale](installer-1.17.3.md)).
+- [ ] Full: non eseguita su questo commit, per richiesta dell'utente.
+- [ ] Guide: calcolo automatico e «?» dei fogli Azioni nella prossima edizione (Rev68 invariata).
+
 ## Modelli dopo le prove della 1.17.1 e 1.17.2 — 2 novembre 2026
 
 Segnalazioni dell'utente sulla 1.17.1 (carichi sui plate non visibili, media ai nodi, spessori nell'interrogazione, «Calcola tutte»);
