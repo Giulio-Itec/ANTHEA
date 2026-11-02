@@ -4,7 +4,8 @@
  Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}">
  <UserControl.Resources>
   <Style TargetType="TextBlock"><Setter Property="TextWrapping" Value="Wrap"/><Setter Property="FontSize" Value="{DynamicResource Font.Body}"/><Setter Property="Margin" Value="0,3"/></Style>
-  <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}"><Setter Property="MinHeight" Value="30"/><Setter Property="Margin" Value="0,3,0,8"/></Style>
+  <!-- A previous revision (IsReadOnly from the sheet): every text box read-only, the reading age too; the table still sets it. -->
+  <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}"><Setter Property="MinHeight" Value="30"/><Setter Property="Margin" Value="0,3,0,8"/><Setter Property="IsReadOnly" Value="{Binding IsReadOnly}"/></Style>
   <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}"><Setter Property="MinHeight" Value="30"/><Setter Property="Margin" Value="0,3,8,8"/></Style>
   <Style x:Key="Heading" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"><Setter Property="FontWeight" Value="Bold"/><Setter Property="Margin" Value="0,12,0,7"/></Style>
   <Style x:Key="Card" TargetType="Border"><Setter Property="Background" Value="{DynamicResource Token.Paper}"/><Setter Property="Padding" Value="12"/><Setter Property="Margin" Value="0,0,8,0"/></Style>
