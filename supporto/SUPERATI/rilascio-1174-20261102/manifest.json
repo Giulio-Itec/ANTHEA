@@ -1,0 +1,14 @@
+[
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/rilascio-1174-20261102/installer/README.md",
+    "sha256": "36af2c282a241918279276f4a1c4d71d6a81e62af0b8157ccfe5c1f76e8f67aa",
+    "motivo": "Sostituito dalle istruzioni dell'installer di ANTHEA 1.17.4: cambia solo il numero di versione (1.17.3 → 1.17.4) nel testo e nei comandi."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "archivio": "supporto/SUPERATI/rilascio-1174-20261102/installer/README.pdf",
+    "sha256": "856285b059ecb0377655b151a8915c2f1ab13a828ec85f0ac3f90b82bb647218",
+    "motivo": "Sostituito dalle istruzioni dell'installer di ANTHEA 1.17.4: cambia solo il numero di versione (1.17.3 → 1.17.4) nel testo e nei comandi."
+  }
+]
