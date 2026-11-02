@@ -160,7 +160,10 @@ internal static class ClimateViewChecks
                     // The minimum sheet of the shell (SheetLayout 1120 × 600): the assistance shrinks, the table of the case keeps a usable height.
                     window.Width=1120;window.Height=600;actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Casi di carico"));await Idle(window);
                     var smallGrid=Visual(editor.View).OfType<DataGrid>().First(g=>g.IsVisible);var smallSketch=Visual(editor.View).OfType<ActionInputSketch>().First(c=>c.IsVisible);
-                    Check(sheet.IsAssistanceExpanded&&smallGrid.ActualHeight>=90&&smallSketch.ActualHeight>=50,"Area minima 1120×600: tabella dei casi "+smallGrid.ActualHeight.ToString("0")+" px, schema "+smallSketch.ActualHeight.ToString("0")+" px");
+                    // The table of the case shows all its rows, or at least 90 px (header and three rows) when it is longer.
+                    var rowsScroll=Visual(smallGrid).OfType<ScrollViewer>().First();
+                    Check(sheet.IsAssistanceExpanded&&(rowsScroll.ScrollableHeight<=0||smallGrid.ActualHeight>=90)&&smallSketch.ActualHeight>=50,
+                        "Area minima 1120×600: tabella dei casi "+smallGrid.ActualHeight.ToString("0")+" px (da scorrere "+rowsScroll.ScrollableHeight.ToString("0")+"), schema "+smallSketch.ActualHeight.ToString("0")+" px");
                     File.WriteAllBytes(Path.Combine(output,captureName+"-minima.png"),Png(editor.View));
                     window.Width=1450;window.Height=1000;await Idle(window);
                     editor.InspectRevision();window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);

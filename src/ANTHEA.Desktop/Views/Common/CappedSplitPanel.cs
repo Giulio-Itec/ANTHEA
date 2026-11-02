@@ -4,10 +4,11 @@ using System.Windows.Controls;
 namespace X.Desktop.Views.Common;
 
 /// <summary>
-/// Two children one above the other (review of the Actions sheets, 2/11/2026): the first takes its own height, never more than
-/// <see cref="FirstMaximumFraction"/> of the panel; the second takes the rest. On the minimum sheet of the shell (1120 × 600) the assistance
-/// of the Actions sheets and the diagram of a case shrink, and the tabs and the table of the case keep a usable height; with room enough
-/// the first child keeps its full height. In an unbounded height (a scroll viewer) both take their own height. Layout only.
+/// Two children one above the other (review of the Actions sheets, 2/11/2026): the first takes its own height, but not more than
+/// <see cref="FirstMaximumFraction"/> of the panel when the second needs the room; the second takes the rest. On the minimum sheet of the
+/// shell (1120 × 600) the assistance of the Actions sheets and the diagram of a case shrink, and the tabs and the table of the case keep a
+/// usable height; with room enough the first child keeps its full height. In an unbounded height (a scroll viewer) both take their own
+/// height. Layout only.
 /// </summary>
 public sealed class CappedSplitPanel : Panel
 {
@@ -20,7 +21,13 @@ public sealed class CappedSplitPanel : Panel
     protected override Size MeasureOverride(Size available)
     {
         UIElement? first = InternalChildren.Count > 0 ? InternalChildren[0] : null, second = InternalChildren.Count > 1 ? InternalChildren[1] : null;
-        double height = available.Height, limit = double.IsInfinity(height) ? height : height * FirstMaximumFraction;
+        double height = available.Height, limit = height;
+        if (!double.IsInfinity(height))
+        {
+            // The share of the first child grows over the fraction with the room that the second one does not use (a short table).
+            second?.Measure(new Size(available.Width, double.PositiveInfinity));
+            limit = Math.Max(height * FirstMaximumFraction, height - (second?.DesiredSize.Height ?? 0));
+        }
         first?.Measure(new Size(available.Width, limit));
         double top = first?.DesiredSize.Height ?? 0;
         second?.Measure(new Size(available.Width, double.IsInfinity(height) ? height : Math.Max(0, height - top)));
