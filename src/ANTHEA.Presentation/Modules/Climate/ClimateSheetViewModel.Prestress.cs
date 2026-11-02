@@ -13,7 +13,7 @@ public sealed partial class ClimateSheetViewModel
     public IReadOnlyList<ActionPlotDrawing> PrestressPlots=>IsPrestressing?ClimateDocument.PrestressPlots(Result,SelectedCase):[];
     public IReadOnlyList<PrestressStation> PrestressStations{get;private set;}=[];
     public PrestressStation? SelectedStation{get=>selectedStation;set{if(SetProperty(ref selectedStation,value)){OnPropertyChanged(nameof(PrestressState));TransferPrestressCommand?.NotifyCanExecuteChanged();}}}
-    public string PrestressState=>SelectedStation?.Description??"Calcolare e selezionare lo stato temporale e l’ascissa.";
+    public string PrestressState=>SelectedStation?.Description??"Dopo un calcolo completato: scegliere il caso (stato temporale) e l’ascissa.";
     public IAsyncRelayCommand TransferPrestressCommand{get;private set;}=null!;
     private void InitializePrestress()=>TransferPrestressCommand=GuardedCommands.CreateAsync(Guard,TransferPrestressAsync,Lifetime,()=>IsPrestressing&&HasResults&&SelectedStation is not null&&ClimateDocument.PrestressCanTransfer(Result));
     private void RefreshPrestress()

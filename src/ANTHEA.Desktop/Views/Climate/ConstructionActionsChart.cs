@@ -22,7 +22,7 @@ public sealed class ConstructionActionsChart:FrameworkElement
         void Text(string value,double x,double y,double size=12,Brush? colour=null)=>ActionDrawingStyle.Text(this,dc,value,x,y,size,colour);
         void Line(double x0,double y0,double x1,double y1,Brush colour,double thickness=1)=>dc.DrawLine(new Pen(colour,thickness),new(x0,y0),new(x1,y1));
         string N(double v)=>v.ToString("G5",CultureInfo.CurrentCulture);
-        var d=Drawing;if(d is null){Text("Calcolare per visualizzare fasi e aree caricate.",MarginLeft,TextGap);return;}
+        var d=Drawing;if(d is null){Text("Fasi e aree caricate disponibili dopo un calcolo completato.",MarginLeft,TextGap);return;}
         Text("Sequenza di esecuzione · durate in giorni",MarginLeft,TextGap,15);
         double last=d.Phases.Max(p=>p.End),timeRange=last>0?last:1;
         double T(double day)=>MarginLeft+day/timeRange*width;

@@ -60,7 +60,7 @@ public sealed class TrafficDistributionChart:FrameworkElement
         Text("Influenza di M per forza verticale unitaria · ordinate in m",LeftMargin,InfluenceTop-LegendRow*2,TitleSize);
         Text("Carico unitario a x = "+d.InfluenceX.ToString("G5")+" m; momento nella sezione x = "+d.Section.ToString("G5")+" m.",LeftMargin,InfluenceTop-LegendRow);
         var ordinates=d.Influence.SelectMany(p=>p.Ordinates).Where(Finite).ToArray();
-        if(ordinates.Length==0){Text("Calcolare per ottenere le linee d’influenza.",LeftMargin,InfluenceTop+LegendRow);return;}
+        if(ordinates.Length==0){Text("Linee d’influenza disponibili dopo un calcolo completato.",LeftMargin,InfluenceTop+LegendRow);return;}
         double lo=Math.Min(0,ordinates.Min()),hi=Math.Max(0,ordinates.Max()),range=hi-lo;if(range<=0)range=1;lo-=range*RangePadding;hi+=range*RangePadding;
         double V(double v)=>InfluenceTop+(hi-v)/(hi-lo)*InfluenceHeight;
         for(int tick=0;tick<=TickCount;tick++)

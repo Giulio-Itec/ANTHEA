@@ -12,7 +12,8 @@ namespace Anthea.Presentation.Modules.Climate;
 public sealed class ActionRowViewModel(JsonObject data):ObservableObject
 {
     internal JsonObject Data{get;}=data;
-    public string Name=>Data["Name"]?.ToString()??(Data["PositionM"] is { } x?"x = "+x+" m · p = "+Data["PressureKpa"]+" kPa":Data["ElevationM"] is { } z?"z = "+z+" m · v = "+Data["VelocityMs"]+" m/s":"Riga");
+    public string Name=>Data["Name"]?.ToString()??(Data["PositionM"] is { } x?"x = "+ActionFieldPresentation.Text(x)+" m · p = "+ActionFieldPresentation.Text(Data["PressureKpa"])+" kPa"
+        :Data["ElevationM"] is { } z?"z = "+ActionFieldPresentation.Text(z)+" m · v = "+ActionFieldPresentation.Text(Data["VelocityMs"])+" m/s":"Riga");
     internal void Refresh()=>OnPropertyChanged(nameof(Name));
 }
 public sealed class ActionTableViewModel:ObservableObject
@@ -44,20 +45,21 @@ public sealed class ActionTableViewModel:ObservableObject
             RemoveCommand.NotifyCanExecuteChanged();
         }
     }
-    private void BuildEditor()
+    /// <param name="focusKey">Field whose editor takes the focus again in the rebuilt editor (the choice that rebuilt it).</param>
+    private void BuildEditor(string? focusKey=null)
     {
             var value=selected;
             if(value is null)editor=null;
             else
             {
                 var form=ClimateDocument.RowForm(module,table.Key,value.Data,table.Context);
-                var fields=form.Fields.Select(f=>ClimateSheetViewModel.Field(f)).ToArray();
-                editor=new(form.Values,fields,key=>
+                var fields=form.Fields.Select(f=>ActionFieldPresentation.Spec(f,module)).ToArray();
+                editor=new(ActionFieldPresentation.Localize(form.Values,form.Fields),fields,key=>
                 {
                     ClimateDocument.ApplyRowField(value.Data,form,key);value.Refresh();changed();
                     var field=form.Fields.First(f=>f.Key==key);
-                    if(field.Boolean||field.Choices is not null)BuildEditor();
-                },compact:true){IsReadOnly=!editable(),WikiNavigator=wiki};
+                    if(field.Boolean||field.Choices is not null)BuildEditor(key);
+                },compact:true,validator:new ActionFieldPresentation.NumberValidator(form.Fields)){IsReadOnly=!editable(),WikiNavigator=wiki,PendingFocusKey=focusKey};
             }
             OnPropertyChanged(nameof(Editor));
     }

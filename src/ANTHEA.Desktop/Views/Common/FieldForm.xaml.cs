@@ -1,6 +1,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace X.Desktop.Views.Common;
 
@@ -75,6 +77,31 @@ public partial class FieldForm : UserControl
         if (DataContext is not FormViewModel form) return;
         form.FormatNumbers = NumericPresentation.Enabled(this);
         form.InheritedWikiModule = GetValue(WikiContextHelp.ModuleProperty) as string;
+        if (form.PendingFocusKey is not null) Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => FocusPending(form)));
+    }
+
+    /// <summary>
+    /// The editor of <see cref="FormViewModel.PendingFocusKey"/> takes the focus once its row exists (a form rebuilt by its module after a
+    /// choice): the keyboard focus in an active window, and the logical focus of its scope, which the window gives back when it is activated.
+    /// </summary>
+    private void FocusPending(FormViewModel form)
+    {
+        if (!ReferenceEquals(DataContext, form) || form.PendingFocusKey is not { } key) return;
+        form.PendingFocusKey = null;
+        var editor = Editors(this).FirstOrDefault(e => e.DataContext is FieldViewModel field && field.Key == key && e.IsVisible && e.IsEnabled);
+        if (editor is null) return;
+        editor.Focus();
+        if (FocusManager.GetFocusScope(editor) is { } scope) FocusManager.SetFocusedElement(scope, editor);
+    }
+
+    private static IEnumerable<Control> Editors(DependencyObject root)
+    {
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+        {
+            var child = VisualTreeHelper.GetChild(root, i);
+            if (child is TextBox or ComboBox or CheckBox) yield return (Control)child;
+            else foreach (var inner in Editors(child)) yield return inner;
+        }
     }
 
     private void Editor_FocusChanged(object sender, DependencyPropertyChangedEventArgs e)

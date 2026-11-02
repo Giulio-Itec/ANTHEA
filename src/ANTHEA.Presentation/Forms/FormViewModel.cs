@@ -143,6 +143,13 @@ public sealed class FormViewModel : ObservableObject, INotifyDataErrorInfo
     /// </summary>
     public IWikiNavigator? WikiNavigator { get; set; }
 
+    /// <summary>
+    /// Key of the field whose editor takes the keyboard focus when the view of this form is shown: a module that rebuilds its forms after a
+    /// choice (the Actions sheets, review of 2/11/2026) gives the key of the choice, so that the user keeps the place. The FieldForm consumes
+    /// it (sets it back to null); null asks nothing. Additive: the other forms never set it.
+    /// </summary>
+    public string? PendingFocusKey { get; set; }
+
     /// <summary>Numbers shown with <see cref="NumericDisplay.Format"/> in the fields without focus (presentation only).</summary>
     public bool FormatNumbers
     {

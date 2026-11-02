@@ -52,8 +52,29 @@ public static class HelpTopics
         new("Paratia: falda e filtrazione FEM", "guida-paratie#impostare-falda-e-filtrazione", ["geo_paratie"], ["hydraulic_mode", "hydraulic_left_extent", "hydraulic_right_extent", "hydraulic_left_boundary", "hydraulic_right_boundary", "hydraulic_bottom", "hydraulic_thickness", "hydraulic_mesh", "hydraulic_iterations", "hydraulic_weight_mode", "ignore_suction"]),
         new("Paratia: verifiche e applicabilità", "guida-paratie#richiedere-le-verifiche", ["geo_paratie"], ["case_id", "action_basis", "check_kind", "steel_standard", "steel_check_kind", "anchor_standard", "anchor_situation", "anchor_a1m1", "tube_standard", "tube_check_kind", "rc_pile_standard", "rc_pile_check_kind", "hydraulic_standard", "hydraulic_situation", "shear_confirmed", "detailing_mode"]),
         new("Paratia: ricerca dell'infissione", "guida-paratie#ricercare-l-infissione-sulla-griglia-assegnata", ["geo_paratie"],
-            ["embedment_reference", "embedment_minimum", "embedment_maximum", "embedment_increment", "embedment_head_limit", "embedment_source"])
+            ["embedment_reference", "embedment_minimum", "embedment_maximum", "embedment_increment", "embedment_head_limit", "embedment_source"]),
+        // The sixteen Actions sheets (review of the interface, 2/11/2026): every field of a sheet opens the section of its module in the
+        // practical guide (ActionsGuide), whatever its key; no topic per key.
+        new("Neve sugli edifici · guida del foglio", "/wiki/guide/moduli/azioni-climatiche#neve-sugli-edifici", ["act_neve"], []),
+        new("Vento sugli edifici · guida del foglio", "/wiki/guide/moduli/azioni-climatiche#vento-sugli-edifici", ["act_vento_edifici"], []),
+        new("Temperatura negli edifici · guida del foglio", "/wiki/guide/moduli/azioni-climatiche#temperatura-negli-edifici", ["act_temperatura_edifici"], []),
+        new("Vento sui ponti · guida del foglio", "/wiki/guide/moduli/azioni-climatiche#vento-sui-ponti", ["act_vento_ponti"], []),
+        new("Temperatura nei ponti · guida del foglio", "/wiki/guide/moduli/azioni-climatiche#temperatura-nei-ponti", ["act_temperatura_ponti"], []),
+        new("Strati e sovraccarichi degli edifici · guida del foglio", "/wiki/guide/moduli/carichi-traffico#strati-e-sovraccarichi-degli-edifici", ["act_carichi_edifici"], []),
+        new("Combinazioni degli edifici · guida del foglio", "/wiki/guide/moduli/carichi-traffico#combinazioni-degli-edifici", ["act_combinazioni"], []),
+        new("Traffico sui ponti · guida del foglio", "/wiki/guide/moduli/carichi-traffico#traffico-sui-ponti", ["act_traffico_ponti"], []),
+        new("Ripartizione trasversale del traffico · guida del foglio", "/wiki/guide/moduli/carichi-traffico#ripartizione-trasversale-del-traffico", ["act_ripartizione_traffico"], []),
+        new("Urti veicolari · guida del foglio", "/wiki/guide/moduli/carichi-traffico#urti-veicolari", ["act_urti_veicolari"], []),
+        new("Azioni idrauliche · guida del foglio", "/wiki/guide/moduli/idraulica", ["act_idrauliche"], []),
+        new("Fasi costruttive · guida del foglio", "/wiki/guide/moduli/fasi-costruttive", ["act_fasi_costruttive"], []),
+        new("Ritiro, viscosità e spostamenti imposti · guida del foglio", "/wiki/guide/moduli/effetti-differiti", ["act_effetti_differiti"], []),
+        new("Precompressione e perdite · guida del foglio", "/wiki/guide/moduli/precompressione", ["act_precompressione"], []),
+        new("Gru e carriponte · guida del foglio", "/wiki/guide/moduli/carriponte", ["act_gru_carriponte"], []),
+        new("Azioni termiche da incendio · guida del foglio", "/wiki/guide/moduli/incendio", ["act_incendio"], [])
     ];
+
+    /// <summary>The guide section of an Actions sheet, given to all the fields of <paramref name="module"/>; null for the other modules.</summary>
+    public static Topic? ActionsGuide(string module) => Topics.FirstOrDefault(t => t.Keys.Count == 0 && t.Modules.Count == 1 && t.Modules[0] == module);
     /// <summary>Type of stress analysis of the c.a. section («modello» of the SLE tab; the same key names the shear model).</summary>
     public static Topic StressAnalysis { get; } = new("Analisi tensionale di esercizio: lineare o non lineare", "sezione-in-calcestruzzo-armato#materiali-tendini-e-analisi-di-esercizio", ["str_palo"], []);
 

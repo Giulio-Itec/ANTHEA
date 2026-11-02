@@ -38,7 +38,7 @@ public sealed class HydraulicActionsChart:FrameworkElement
         }
         string N(double x)=>x.ToString("G5",CultureInfo.CurrentCulture);
         var d=Drawing;
-        if(d is null){Text("Calcolare per visualizzare geometria e pressioni.",left,24);return;}
+        if(d is null){Text("Geometria e pressioni disponibili dopo un calcolo completato.",left,24);return;}
         bool slab=d.Element=="HorizontalSlab",pier=d.Element=="RiverPier";
         Text(slab?"Platea · forza positiva verso l’alto":pier?"Pila · forza positiva nel verso della velocità positiva":"Parete · forza positiva da sinistra a destra",left,10,15);
         Text("Schema in sezione; larghezza fuori piano B = "+N(d.Width)+" m",left,36);

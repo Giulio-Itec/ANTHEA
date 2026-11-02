@@ -21,7 +21,7 @@ public sealed class ActionHistoryChart:FrameworkElement
         void Text(string s,double x,double y,double size=12,Brush? colour=null)=>ActionDrawingStyle.Text(this,dc,s,x,y,size,colour);
         void Line(double x,double y,double xx,double yy,Brush colour,double thickness=1)=>dc.DrawLine(new Pen(colour,thickness),new(x,y),new(xx,yy));
         string N(double x)=>Math.Abs(x)<LabelZeroTolerance?"0":x.ToString("G5",CultureInfo.CurrentCulture);
-        var d=Drawing;if(d is null){Text("Calcolare per visualizzare la storia.",Left,TextGap);return;}
+        var d=Drawing;if(d is null){Text("Storia disponibile dopo un calcolo completato.",Left,TextGap);return;}
         var points=d.Series.SelectMany(s=>s.Points).ToArray();if(points.Length==0)return;
         double xmin=points.Min(p=>p.X),xmax=points.Max(p=>p.X),ymin=Math.Min(0,points.Min(p=>p.Y)),ymax=Math.Max(0,points.Max(p=>p.Y));
         if(xmax<=xmin)xmax=xmin+UnitRange;if(ymax<=ymin)ymax=ymin+UnitRange;

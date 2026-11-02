@@ -18,7 +18,7 @@ public sealed class FireBoundaryChart:FrameworkElement
     {
         base.OnRender(dc);ActionDrawingStyle.Surface(this,dc);var ink=ThemeTokens.Brush("Ink");Brush[] colours=ActionDrawingStyle.Palette;
         void Text(string s,double x,double y,Brush? colour=null)=>ActionDrawingStyle.Text(this,dc,s,x,y,12,colour);
-        var d=Drawing;if(d is null){Text("Calcolare per visualizzare le facce e le condizioni al contorno.",Margin,Gap);return;}
+        var d=Drawing;if(d is null){Text("Facce e condizioni al contorno disponibili dopo un calcolo completato.",Margin,Gap);return;}
         Text("Facce assegnate · "+d.Name,Margin,Gap);Text("Geometria in metri, scala uniforme. Colori identificativi delle facce.",Margin,Gap+Row);
         double xmin=d.Faces.SelectMany(f=>new[]{f.X0,f.X1}).Min(),xmax=d.Faces.SelectMany(f=>new[]{f.X0,f.X1}).Max(),ymin=d.Faces.SelectMany(f=>new[]{f.Y0,f.Y1}).Min(),ymax=d.Faces.SelectMany(f=>new[]{f.Y0,f.Y1}).Max();
         double xr=xmax-xmin,yr=ymax-ymin;if(xr==0)xr=1;if(yr==0)yr=1;double width=Math.Max(MinimumWidth,ActualWidth)-Margin-Margin,scale=Math.Min(width/xr,PlotHeight/yr);

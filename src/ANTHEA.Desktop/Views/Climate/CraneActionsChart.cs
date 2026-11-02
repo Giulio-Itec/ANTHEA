@@ -19,7 +19,7 @@ public sealed class CraneActionsChart:FrameworkElement
         void Text(string s,double x,double y,Brush? colour=null,double size=TextSize)=>ActionDrawingStyle.Text(this,dc,s,x,y,size,colour);
         void Line(double x,double y,double xx,double yy,Brush c)=>dc.DrawLine(new Pen(c,1),new(x,y),new(xx,yy));
         string N(double v)=>v.ToString("G5",CultureInfo.CurrentCulture);
-        var d=Drawing;if(d is null){Text("Calcolare per visualizzare le azioni sulle vie.",Left,Gap);return;}
+        var d=Drawing;if(d is null){Text("Azioni sulle vie disponibili dopo un calcolo completato.",Left,Gap);return;}
         Text("Pianta delle vie · azioni del gruppo selezionato",Left,Gap,size:TitleSize);
         Text("x lungo la via; y verso rotaia 2. Q positivo verso il basso.",Left,Gap+Row);
         double right=Math.Max(MinimumWidth,ActualWidth)-Right,width=right-Left;
