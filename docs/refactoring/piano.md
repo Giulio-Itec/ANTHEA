@@ -1,5 +1,16 @@
 # Refactoring di ANTHEA: piano operativo
 
+## ANTHEA 1.17.4 — 2 novembre 2026
+
+Motore a matrici delle combinazioni e set AU; versione chiesta dall'utente, «ricorda di fare la nuova versione» (decisione D3).
+
+- [x] Full sul commit del contenuto a6d25fb2: PASS 159, più i 2 controlli di Straus7 ripassati con la chiave della licenza.
+- [x] Versione 1.17.4 e [note di rilascio](note-rilascio-1.17.4.md); istruzioni dell'installer e PDF, originali in
+  `supporto/SUPERATI/rilascio-1174-20261102`.
+- [x] Profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto e audit PASS; tag `v1.17.4` sul commit del setup a2f90766
+  ([verbale](installer-1.17.4.md)).
+- [ ] Guide: spessori, calcolo in serie e fogli Azioni nella prossima edizione (Rev68 invariata).
+
 ## Motore a matrici delle combinazioni — 2 novembre 2026
 
 Richiesta dell'utente («spacchettando delle parti comuni», poi «Sì, prepara il piano» e «Sì, parti»); piano in
