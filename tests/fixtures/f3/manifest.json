@@ -1821,5 +1821,33 @@
     "file": "tests/fixtures/f3/transitions-f5-wiki.json",
     "record": "F5-REL-1170-01",
     "note": "Second pass of the Rev65 (COMBO-REV-01-bis): only exact changes in one Wiki article (8 differences of the capture). All engineering expectations, reports and historical captures untouched."
+  },
+  "editorial_transitions_rev66": {
+    "capture": "supporto/artefatti/ci/20261101-224308-azioni-ar-full/ui_f3-equivalence/cattura",
+    "before_sha256": "596976f50fe515f589313179835326c08e8ce3b2451a82e47d51e449b7c1d4f7",
+    "after_sha256": "05406d1940e52ed7a520412c2f9a2acbd6aba5d4b5c1d3f7563c675226416204",
+    "counts": {
+      "previous": 3127,
+      "current": 3199,
+      "added": 133,
+      "removed": 61
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "AZIONI-EXT-DOC-20261101",
+    "note": "24 files for 12 new articles; count 82 to 94; 108 exact search differences replace 60 superseded positional transitions. All 30 historical search sequences remain identical after removing only the 12 new IDs. Independent comparison of 1201 files passes with zero unadmitted differences. Inputs, expected files, engineering transitions and numerical tolerances remain unchanged."
+  },
+  "editorial_transitions_reologia": {
+    "capture": "supporto/artefatti/ci/20261102-003500-reologia-candidate/ui_f3-equivalence/cattura",
+    "before_sha256": "05406d1940e52ed7a520412c2f9a2acbd6aba5d4b5c1d3f7563c675226416204",
+    "after_sha256": "c95b277efc3aacc685a2f270c8ce64cd297e3824ba5d35c047aeac1ee04c276b",
+    "counts": {
+      "previous": 3199,
+      "current": 3222,
+      "added": 24,
+      "removed": 1
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "REOLOGIA-MODULO-20261102",
+    "note": "Exact text updates in three existing articles and report search positions; reologia search membership preserved with the explicit keyword. No expected files, engineering transitions or tolerances changed."
   }
 }

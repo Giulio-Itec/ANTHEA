@@ -1,0 +1,6 @@
+{
+  "source_commit": "c2c646ad660b84e9ffc9a44e168bf63de9cfb200",
+  "capture": "supporto/artefatti/ci/20261102-001031-reologia-before/ConcreteTimeEffects.Checks/historic-capture.json",
+  "sha256": "3c663317f52ebec93dfa2572f323c7c944c00d9db8c993b215bdcb9a539182b4",
+  "note": "Historic UI capture, twelve cases, IEEE-754 bits. Independent Python constants remain in the original tests; this capture never replaces them."
+}

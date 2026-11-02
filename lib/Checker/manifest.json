@@ -1,7 +1,7 @@
 {
-    "snapshotDate":  "2026-11-01",
+    "snapshotDate":  "2026-11-02",
     "generator":  "tools/libs/Update-Snapshot.ps1 -ReleaseSet",
-    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\ANTHEA\\supporto\\artefatti\\librerie-20261101-ar",
+    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\ANTHEA\\supporto\\artefatti\\librerie-20261102-as",
     "releaseSetCreated":  "2026-11-01T23:56:45",
     "candidate":  false,
     "targetFramework":  "netstandard2.0",

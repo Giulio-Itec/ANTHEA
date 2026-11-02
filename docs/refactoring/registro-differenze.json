@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-30",
+  "aggiornato": "2026-11-01",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -14544,6 +14544,184 @@
         "COMBO-REV-01",
         "COMBO-PRIN-01"
       ]
+    },
+    {
+      "id": "AZIONI-IDRAULICA-20261101",
+      "fase": "Azioni aggiuntive",
+      "titolo": "Pareti, platee e pile in corrente",
+      "famiglia": "azioni/idraulica",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Nuovo foglio idraulico su branch dedicato: contratti e calcoli GPC, interfaccia MVVM, diagrammi, report e quattro esempi. La selezione del caso è condivisa fra tabella e diagramma. Nessuna modifica delle formule dei fogli esistenti.",
+      "codice": [
+        "src/ANTHEA.Application/Actions/ExtendedActionDocument.cs",
+        "src/ANTHEA.Desktop/Views/Climate/HydraulicActionsChart.cs",
+        "Checker/src/GPC.Design/Actions/Hydraulics/HydraulicActions.cs"
+      ],
+      "decisione": {
+        "data": "2026-11-01",
+        "utente": "Seguire l’ordine concordato, completare tutti i lavori e unire i propri branch ai rami principali; traffico in standby."
+      },
+      "test": [
+        "12 prove analitiche GPC.Design su net8 e net472",
+        "Set candidato: 11734 PASS, zero fallimenti",
+        "Climate.Tests: 556 controlli PASS",
+        "Examples.Tests: 378 controlli, 76 esempi PASS",
+        "WPF: 264 controlli nei tre temi PASS; Architecture.Tests PASS senza incremento delle baseline"
+      ],
+      "evidenze": [
+        "supporto/artefatti/azioni-estese/candidate-idraulica-03/release-set.json",
+        "supporto/artefatti/ci/20261101-203553-azioni-idraulica-checkpoint/summary.json"
+      ],
+      "wiki": "Guide globali Rev66 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
+    },
+    {
+      "id": "AZIONI-FASI-20261101",
+      "fase": "Azioni aggiuntive",
+      "titolo": "Carichi e sequenza delle fasi costruttive",
+      "famiglia": "azioni/fasi",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Nuovo foglio GPC con carichi per fase, preset EN 1991-1-6:2005, eventi nativi StageDefinition e risultanti esterne. ANTHEA proietta sequenza e aree caricate, senza risolvere una struttura. Nessuna formula preesistente cambiata.",
+      "codice": [
+        "src/ANTHEA.Application/Actions/ConstructionActionDocument.cs",
+        "src/ANTHEA.Desktop/Views/Climate/ConstructionActionsChart.cs",
+        "Checker/src/GPC.Design/Actions/Construction/ConstructionActions.cs"
+      ],
+      "test": [
+        "Tutte le suite del set candidato candidate-fasi-01 PASS",
+        "Climate.Tests 649 + 2 controlli PASS",
+        "Examples.Tests 79 esempi PASS",
+        "WPF 318 controlli PASS; Architecture.Tests PASS, nessun aumento baseline"
+      ],
+      "evidenze": [
+        "supporto/artefatti/azioni-estese/candidate-fasi-01/release-set.json",
+        "supporto/artefatti/ci/20261101-205409-azioni-fasi-02/summary.json"
+      ],
+      "wiki": "Guide globali Rev66 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
+    },
+    {
+      "id": "AZIONI-TEMPO-20261101",
+      "fase": "Azioni aggiuntive",
+      "titolo": "Ritiro, viscosità e storia assiale",
+      "famiglia": "azioni/effetti-differiti",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Nuovo calcolo in GPC.Design con riuso di ConcreteTimeEffects. API storica del ritiro invariata. Modello locale di barra integra con molla o spostamento imposto, controllo del campo lineare e della convergenza. ANTHEA proietta quattro grafici temporali e conserva i contratti GPC.",
+      "test": [
+        "14 prove indipendenti su net8/net472 PASS",
+        "Set candidato 11843 PASS",
+        "Climate.Tests 753 PASS; WPF 372 PASS; Architecture.Tests PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/azioni-estese/candidate-tempo-01/release-set.json",
+        "supporto/artefatti/ci/20261101-211144-azioni-tempo-01/summary.json"
+      ],
+      "wiki": "Guide globali Rev66 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
+    },
+    {
+      "id": "AZIONI-PRESTRESS-20261101",
+      "fase": "Azioni aggiuntive",
+      "titolo": "Precompressione e stato efficace",
+      "famiglia": "azioni/precompressione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Nuovo calcolo GPC.Design e trasferimento alla copia Concrete mediante archivio nativo. Nessun motore preesistente sostituito; nessun doppio conteggio N/M.",
+      "test": [
+        "16 test indipendenti net8/net472 PASS",
+        "Set candidato completo PASS",
+        "Climate.Tests 871 PASS, WPF 462 PASS, Architecture.Tests PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261101-213706-azioni-prestress-transfer/summary.json"
+      ],
+      "wiki": "Guide globali Rev66 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
+    },
+    {
+      "id": "AZIONI-CRANES-20261101",
+      "fase": "Azioni aggiuntive",
+      "titolo": "Gruppi di carico per carriponte",
+      "famiglia": "azioni/carriponte",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Nuovo calcolo GPC e pianta delle azioni alle vie; gruppi alternativi conservati senza doppia dinamica. Corretto il posizionamento della precedente voce prestress nel registro.",
+      "test": [
+        "13 prove indipendenti net8/net472 PASS",
+        "Set completo candidate-cranes-01 PASS",
+        "Climate.Tests 961; WPF 516; Architecture.Tests dopo correzione del registro PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261101-215151-azioni-cranes-01/summary.json"
+      ],
+      "wiki": "Guide globali Rev66 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
+    },
+    {
+      "id": "AZIONI-FIRE-20261101",
+      "fase": "Azioni aggiuntive",
+      "titolo": "Azioni termiche da incendio",
+      "famiglia": "azioni/incendio",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Nuovo calcolo GPC delle curve dei gas e dei flussi su temperature superficiali prescritte. Nessun calcolo di conduzione o R/REI implicito.",
+      "test": [
+        "16 prove indipendenti net8/net472 PASS",
+        "Set completo candidate-fire-01 PASS",
+        "Climate.Tests 1084; WPF 600; Architecture.Tests PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261101-220415-azioni-fire-01/summary.json"
+      ],
+      "wiki": "Guide globali Rev66 e relativi dodici capitoli Wiki, con schemi, esempi e limiti; fonti normative identificate per edizione."
+    },
+    {
+      "id": "AZIONI-EXT-DOC-20261101",
+      "fase": "Azioni aggiuntive",
+      "titolo": "Guide Rev66 e dodici capitoli Wiki",
+      "famiglia": "wiki/documentazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Aggiunti sei capitoli per guida e dodici articoli Wiki; 94 articoli e 93 esempi totali. Nessun atteso numerico sovrascritto. Archivio Rev64 verificato per SHA-256. Unificati i contenuti della 1.17.0 nella Rev66; entrambe le Rev65 archiviate. Il censimento della shell passa da 10 a 16 Azioni e quello editoriale da 82 a 94 articoli, senza modificare gli attesi numerici. Full fe14dae2: 168 differenze non ammesse, tutte in wiki/search.json. Le 30 sequenze della 1.17.0 restano identiche rimuovendo i soli dodici nuovi ID. Registrate 108 transizioni esatte e rimosse 60 posizioni superate; nessuna tolleranza ampliata. Riallineato il catalogo dei sei nuovi moduli all’ordine richiesto, identico a ModuleImplementations: idraulica, fasi, effetti differiti, precompressione, carriponte, incendio.",
+      "test": [
+        "Word/PDF: audit dei contenuti, formule e parti ITEC conservate; verifica visiva delle pagine aggiunte e degli indici",
+        "Wiki.Tests, wiki/indice e wiki/manuale PASS",
+        "Confronto F3 della cattura immutabile: 1201 file, zero differenze non ammesse; errore.txt diagnostico conservato nella cattura originale ed escluso solo dalla copia di ricontrollo, con manifest SHA-256"
+      ],
+      "evidenze": [
+        "supporto/artefatti/guide_anthea_itec_rev65/pratica/audit.json",
+        "supporto/artefatti/guide_anthea_itec_rev65/teorica/audit.json",
+        "supporto/artefatti/ci/20261101-221622-azioni-wiki-final/summary.json",
+        "supporto/artefatti/guide_anthea_itec_rev66/pratica/audit.json",
+        "supporto/artefatti/guide_anthea_itec_rev66/teorica/audit.json",
+        "supporto/artefatti/ci/20261101-224308-azioni-ar-full/summary.json",
+        "supporto/artefatti/azioni-estese/f3-rev66-recomparison.json",
+        "supporto/artefatti/azioni-estese/f3-rev66-recomparison-provenance.json"
+      ],
+      "wiki": "Capitoli Azioni idrauliche, Fasi costruttive, Ritiro viscosità, Precompressione, Gru e carriponte, Incendio."
+    },
+    {
+      "id": "REOLOGIA-MODULO-20261102",
+      "fase": "F5 MVVM / moduli Materiali",
+      "titolo": "Viscosità e maturazione come foglio salvabile",
+      "famiglia": "reologia/interfaccia/persistenza",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Richiesta utente del 02/11/2026: spostare la finestra di viscosità dai comandi superiori a Moduli singoli. Nuovo mat_reologia nel gruppo Materiali, parametri e opzioni grafiche persistenti, revisioni in sola lettura, report DOCX/PDF e due esempi. Richiami contestuali Concrete conservati. ViewModel trasferito in Presentation senza GPC/WPF, layout in XAML con DataTemplate; solo il disegno tecnico resta in codice. Adapter Application sullo stesso ConcreteTimeEffects GPC, nessuna formula normativa cambiata. Sei espressioni di campionamento grafico spostate identiche nell’adattatore: stessa cardinalità F4 e token esatti, nessuna nuova eccezione. Progetto DesignTools.Presentation vuoto rimosso. Cattura precedente congelata e originali archiviati con impronte. Guide Rev66 e Wiki aggiornate, attesi ingegneristici invariati.",
+      "test": [
+        "ConcreteTimeEffects.Checks: riferimento indipendente e 12 catture IEEE754 prima/dopo",
+        "ConcreteTimeEffects.UiChecks: tre temi, tabella, query, errori, dimensioni compatte e PNG",
+        "Rheology.Tests: salvataggio/riapertura, sola lettura, invalidazione, report, esempi",
+        "Corsa pulita 20261102-004152-reologia-final: 24 PASS, zero NEW-FAIL; F3 1201 file senza differenze non ammesse. Presentation completa 4948 controlli; Application 3323, esempi 472 su 95 file."
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261102-001031-reologia-before",
+        "tests/fixtures/rheology/manifest.json",
+        "supporto/SUPERATI/ui-storica/reologia-modulo-20261102/manifest.json",
+        "supporto/artefatti/ci/20261102-002108-reologia-after-first",
+        "supporto/artefatti/azioni-estese/reologia-f4-relocation.json",
+        "supporto/artefatti/ci/20261102-004152-reologia-final/summary.json",
+        "supporto/artefatti/azioni-estese/consolidated-final.json"
+      ],
+      "wiki": "Capitoli pratica/teoria Reologia già esistenti; totale 94 articoli. Nessuna nuova guida autonoma."
     }
   ]
 }

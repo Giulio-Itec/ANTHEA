@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 1 novembre 2026 — revisione documentale 65
+Edizione 6 aggiornata il 2 novembre 2026 — revisione documentale 66
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1601,11 +1601,11 @@ Per aprire una copia già acquisita scegli **File · .antheamodel, MIDAS .mct/.m
 
 ## Reologia del calcestruzzo
 
-La finestra di supporto calcola il coefficiente di viscosità nel tempo, il suo limite a infinito e la maturazione del modulo elastico. Si apre da **Strumenti → Reologia del calcestruzzo…**, oppure dai materiali e dalle opzioni SLE della sezione in calcestruzzo. Il richiamo dalla sezione propone la resistenza del materiale corrente. Gli altri parametri richiedono la scelta del progettista.
+Il foglio **Moduli singoli → Materiali → Viscosità e maturazione** calcola il coefficiente di viscosità nel tempo, il suo limite a infinito e la maturazione del modulo elastico. Si può salvare come file ANTHEA o aggiungere a un progetto. Il richiamo contestuale dai materiali e dalle opzioni SLE della sezione in calcestruzzo resta disponibile e propone la resistenza del materiale corrente; apre una consultazione separata. Gli altri parametri richiedono la scelta del progettista.
 
 ### Impostare materiale ambiente ed età
 
-Inserisci fck in MPa, classe di cemento S, N o R, umidità relativa in percentuale, dimensione nominale h₀ in mm ed età di applicazione del carico t₀ in giorni. La dimensione nominale è h₀ = 2 Ac / u, dove Ac è l'area di calcestruzzo e u il solo perimetro esposto all'essiccamento. La finestra non ricava automaticamente questo perimetro dalla sezione.
+Inserisci fck in MPa, classe di cemento S, N o R, umidità relativa in percentuale, dimensione nominale h₀ in mm ed età di applicazione del carico t₀ in giorni. La dimensione nominale è h₀ = 2 Ac / u, dove Ac è l'area di calcestruzzo e u il solo perimetro esposto all'essiccamento. Il foglio non ricava automaticamente questo perimetro dalla sezione.
 
 L'età t è misurata dal getto, non dall'applicazione del carico. Scegli età iniziale, età finale e risoluzione del campionamento, poi premi **Aggiorna le curve**. Sono ammessi fck fra 12 e 90 MPa, umidità fra 40 e 100 %, h₀ positivo e t₀ almeno pari a 0,5 giorni. L'intervallo deve avere età positive crescenti; la risoluzione è un intero fra 20 e 1000. Sono accettati punto e virgola come separatore decimale, senza separatori delle migliaia.
 
@@ -1619,9 +1619,17 @@ La rotella ingrandisce il grafico; trascinando lo si sposta; il doppio clic o **
 
 Una modifica a materiale, ambiente, età o campionamento svuota i risultati precedenti finché non si aggiornano le curve. Un'età di lettura errata svuota soltanto la lettura puntuale. I messaggi indicano il campo da correggere; nessun valore non valido è trasformato implicitamente in zero.
 
+### Salvare e riaprire il foglio
+
+Il salvataggio conserva materiale, ambiente, età, campionamento, grandezza del grafico, scale degli assi ed età di lettura. Alla riapertura le curve vengono ricostruite dagli stessi dati. Una bozza con un campo numerico incompleto resta salvabile; non produce risultati finché il campo non è corretto. Nelle revisioni in sola lettura gli ingressi sono protetti, mentre lettura puntuale, grafico ed esportazioni restano disponibili senza alterare la revisione.
+
+**Report Word…** genera anche il PDF con ingressi, parametri, lettura puntuale e tabella sintetica delle curve; la tabella del foglio contiene tutti i campioni. In **Esempi → Materiali → Viscosità e maturazione** sono disponibili un caso C25 con cemento normale e un caso C35 con cemento rapido.
+
 ### Usare il risultato nel progetto
 
-Ecm(t) è il modulo per maturazione, non il modulo efficace ridotto per viscosità. La finestra non modifica automaticamente φ, n, materiali, combinazioni o revisioni del foglio aperto. Il coefficiente da trasferire alle verifiche richiede coerenza con l'età di carico, la durata e il modulo di riferimento descritti nella [teoria della reologia](wiki:reologia-calcestruzzo).
+Ecm(t) è il modulo per maturazione, non il modulo efficace ridotto per viscosità. Il foglio non modifica automaticamente φ, n, materiali o combinazioni di altre schede. Il coefficiente da trasferire alle verifiche richiede coerenza con l'età di carico, la durata e il modulo di riferimento descritti nella [teoria della reologia](wiki:reologia-calcestruzzo).
+
+Il modulo **Azioni → Ritiro e viscosità** tratta invece la storia dei carichi e la risposta assiale vincolata, con le proprie ipotesi di calcolo.
 
 Esempio: fck = 25 MPa, cemento N, RH = 50 %, h₀ = 200 mm e t₀ = 7 giorni danno φ∞ = 3,442704. A 365 giorni si ottengono φ = 2,603961, Ecm = 33229,780 MPa e fattore E = 1,055724. A 28 giorni il fattore E vale esattamente 1; prima del carico φ vale zero.
 
@@ -1944,3 +1952,91 @@ Non usare questo foglio per dimensionare automaticamente barriere di sicurezza e
 ### Esempi aggiuntivi
 
 Il catalogo Esempi contiene due casi per ciascuno dei cinque moduli aggiuntivi, con documento ANTHEA, CSV e relazione Word/PDF. Le cartelle sono act_carichi_edifici, act_combinazioni, act_traffico_ponti, act_ripartizione_traffico e act_urti_veicolari. Per confrontare i due metodi di ripartizione aprire copie degli esempi rigido e deformabile e mantenere identici geometria e carichi.
+
+## Azioni idrauliche
+
+Aprire Moduli singoli → Azioni → Azioni idrauliche. Il foglio considera pareti verticali, platee orizzontali e pile investite da corrente. Ogni scenario conserva i propri livelli e velocità; il selettore Caso aggiorna tabella e diagramma. Quote e dimensioni sono in metri, pressioni in kPa e forze in kN.
+
+Per una parete assegnare quota di base e sommità, larghezza fuori piano e livelli dell’acqua sui due lati. Per una platea indicare lunghezza, larghezza e spessore; scegliere battente idrostatico oppure un profilo di sottospinta assegnato con ascisse crescenti. La pressione dell’acqua soprastante viene sottratta. Registrare la fonte del profilo: questo ingresso non esegue un calcolo di filtrazione.
+
+Per una pila indicare la larghezza proiettata normale alla corrente, il coefficiente Cd e la sua fonte. La velocità può essere uniforme o definita per quote crescenti, con un moltiplicatore per scenario. Il segno distingue i due versi della corrente. I soli tratti sommersi contribuiscono all’azione.
+
+Schema e pressioni mostra geometria e distribuzioni dell’ultimo calcolo. Le risultanti possono essere nulle pur in presenza di una coppia: in questo caso non esiste una singola quota di applicazione. Il CSV conserva tutte le ordinate e il report riporta pressioni, risultanti, primi momenti e fonti. Il peso della platea non viene aggiunto automaticamente.
+
+![Parete, platea e pila in corrente](../../src/ANTHEA.Desktop/Assets/Wiki/clima-idraulica.png)
+
+Nella raccolta Esempi, cartella Azioni idrauliche, sono disponibili parete con livelli alternativi, platea sommersa, sottospinta assegnata e corrente variabile. Gli esempi illustrano il modello fisico; livelli, velocità e Cd del progetto devono provenire dallo studio idraulico. Non sono calcolati erosione, scalzamento, impatto di corpi, moto ondoso o filtrazione.
+
+## Fasi costruttive
+
+Il foglio Fasi costruttive definisce la sequenza delle azioni durante l’esecuzione. Inserire le fasi in ordine e assegnare la durata in giorni. Ogni carico ha una prima fase attiva e una prima fase esclusa; il valore zero per la fase esclusa lo mantiene attivo fino alla fine. Gli eventi sono applicati all’inizio della fase.
+
+Per ciascun carico scegliere il modello e la natura G1, G2 o variabile, quindi definire l’area in pianta, eventuali forze concentrate e componenti orizzontali con quota di applicazione. Il peso proprio deriva da peso specifico e spessore. Le azioni assegnate e le amplificazioni dinamiche richiedono una fonte; il fattore dinamico viene applicato una sola volta.
+
+Nel ramo EN 1991-1-6:2005 sono disponibili personale, deposito sui ponti e getto. Confermare l’applicabilità dei valori raccomandati. Il preset di getto comprende il carico di lavoro: non aggiungere personale sulla stessa area. Peso del calcestruzzo e casseri sono separati dall’incremento sull’area di lavoro, che può essere posizionata in pianta. Per verificare posizioni alternative occorrono configurazioni distinte: il foglio non cerca automaticamente la collocazione più sfavorevole.
+
+![Sequenza delle fasi e area di lavoro](../../src/ANTHEA.Desktop/Assets/Wiki/clima-fasi-costruttive.png)
+
+Fasi e pianta mostra cronologia e carichi attivi; il selettore cambia fase senza modificarne i dati. Il CSV conserva geometrie e pressioni delle zone. Gli esempi illustrano getto e disarmo, getto EN e deposito temporaneo su ponte. Le risultanti delle azioni non sono reazioni vincolari: rigidezza, puntellazione, disarmo, redistribuzione e capacità degli elementi richiedono un modello strutturale dedicato.
+
+## Ritiro viscosità e spostamenti imposti
+
+Il foglio Ritiro e viscosità considera calcestruzzo ordinario a 20 °C e umidità costante. Assegnare fck, classe di cemento, umidità, area, perimetro esposto all’essiccamento, lunghezza e data d’inizio dell’essiccamento. Il rapporto tra area e perimetro determina lo spessore equivalente; il campo implementato richiede almeno 100 mm. Il ramo NTC usa i valori tabellari del ritiro da essiccamento; maturazione, viscosità ed evoluzione autogena seguono i modelli EN dichiarati.
+
+L’età di riferimento identifica una configurazione inizialmente priva di tensioni. Gli incrementi di carico esterno P/A si assegnano in MPa, positivi a trazione: non inserire ogni volta il valore totale del carico già applicato. Un incremento opposto rappresenta lo scarico. Le osservazioni indicano le età per cui riportare i risultati.
+
+Scegliere barra libera, distanza imposta o molla all’estremità. Nel modello vincolato l’estremità sinistra è fissa; lo spostamento positivo dell’estremità destra allunga la barra. I punti della storia degli spostamenti devono avere età crescenti. Fra i punti viene applicata un’interpolazione lineare dalla configurazione di riferimento.
+
+![Barra assiale libera o vincolata](../../src/ANTHEA.Desktop/Assets/Wiki/clima-effetti-differiti.png)
+
+I quattro grafici separano spostamento, tensione, deformazioni e maturazione. Il caso selezionato stabilisce l’età finale visualizzata. Il programma confronta due discretizzazioni temporali e segnala l’eventuale mancata convergenza. Se la trazione supera fctm o la compressione supera il campo lineare dichiarato, il risultato resta una previsione della barra integra: non è una soluzione fessurata o una verifica di resistenza.
+
+Gli esempi comprendono carico sostenuto con deformazione libera, molla con spostamento imposto e ritiro impedito. Il CSV esporta l’intera storia, compresi i salti elastici e le componenti di deformazione.
+
+## Precompressione e perdite
+
+Il foglio Precompressione e perdite distingue tiro al martinetto, stato dopo attrito, stato dopo rientro, trasferimento e stato efficace nel tempo. Selezionare preteso rettilineo, posteso aderente o posteso interno non aderente. Il modello considera un cavo piano o una famiglia equivalente, una sezione costante e inclinazioni non superiori a 10°.
+
+Assegnare lunghezza ed eccentricità rispetto al baricentro del calcestruzzo, positiva verso l’alto. Per il posteso sono disponibili profilo rettilineo o parabolico e tiro da sinistra, destra oppure bilaterale simultaneo simmetrico. Quest’ultimo richiede estremità alla stessa quota e uguali dati di tiro e rientro; non rappresenta una tesatura sequenziale da due estremità.
+
+Indicare area e materiale del cavo, tensione di tiro, attrito, deviazione involontaria e rientro dell’ancoraggio con la fonte del sistema. Il coefficiente k è in rad/m ed è interno al prodotto con μ. Il rientro è riferito a ciascuna estremità attiva. Le tensioni nel calcestruzzo al trasferimento e nella combinazione quasi permanente provengono dall’analisi strutturale; il foglio non le ricava automaticamente dalle azioni esterne. Inserire anche Ac, Ic, perimetro esposto, umidità, cemento ed età.
+
+![Profilo del cavo e stati della precompressione](../../src/ANTHEA.Desktop/Assets/Wiki/clima-precompressione.png)
+
+Profilo e perdite mostra geometria, cinque stati di tensione, contributi alle perdite differite e forza efficace. Il selettore Caso sceglie l’età; l’ascissa identifica la sezione del cavo. Il report campiona cinque sezioni, mentre il CSV conserva tutti i punti. Il ramo NTC adotta conservativamente il limite iniziale anche al tiro; le formule delle perdite sono quelle EC2 esplicitamente dichiarate. Non è previsto il sovratiro.
+
+### Stato efficace in Concrete
+
+Per un cavo aderente, con limiti rispettati e discretizzazione convergente, selezionare Stato efficace in una sezione. Aprire un file del singolo modulo Concrete nel quale siano già definiti posizione, area e materiale del trefolo. Scegliere il trefolo da aggiornare e confermare la corrispondenza dei dati della sezione e del modello delle perdite. Area, Ep, fpk e fp0,1k devono coincidere; Ac, Ic, eccentricità, esposizione e stati di carico richiedono il controllo del progettista.
+
+Il comando apre una copia non salvata della sezione con la tensione efficace all’età selezionata. Il trefolo nativo GPC e il suo archivio vengono aggiornati; tiro originario e tensione al trasferimento restano registrati nella provenienza. Non vengono aggiunte altre azioni N/M di precompressione. Salvare la copia con un nome che identifichi età e sezione. Il trasferimento locale non è disponibile per il cavo non aderente.
+
+Gli esempi comprendono posteso aderente, tiro bilaterale, preteso e posteso interno non aderente. Restano esterne al foglio le verifiche delle zone di ancoraggio, dei deviatori, delle tensioni del calcestruzzo e della struttura completa.
+
+## Gru e carriponte
+
+Il foglio Gru e carriponte considera una gru a ponte su due vie rettilinee. Scegliere lo schema a quattro ruote oppure le componenti nominali per ruota fornite dal costruttore. Registrare la fonte e confermare che le componenti verticali siano statiche: i coefficienti dinamici vengono applicati dal foglio. Dati già amplificati non devono essere inseriti come componenti nominali.
+
+Nello schema a quattro ruote il ponte è centrato fra le vie e il carrello fra i due assi longitudinali. Indicare interasse delle vie, passo delle ruote, pesi del ponte e del carrello, carico nominale e posizioni da analizzare. L’asse x segue le vie; y va dalla rotaia 1 alla 2. Il verso ±1 riguarda soltanto l’accelerazione automatica del ponte. Le componenti del costruttore mantengono il segno assegnato e non vengono specchiate.
+
+Definire classe e velocità di sollevamento oppure φ2 del costruttore, φ4 e condizioni delle vie, φ5 e forza motrice. L’opzione automatica HL/HT vale per quattro ruote con asse motore x=0. Il serpeggiamento, il vento, la frenatura del carrello, gli urti e il ribaltamento si introducono nella tabella delle azioni del costruttore con posizione, componenti e fonte. L’indice posizione zero applica la riga a tutte le posizioni. Documentare anche le azioni escluse: una tabella vuota non dimostra che siano trascurabili.
+
+![Ruote e gruppi di azioni del carroponte](../../src/ANTHEA.Desktop/Assets/Wiki/clima-carriponte.png)
+
+Ogni Caso è un gruppo compatibile della EN 1991-3:2006. Sollevamento, rilascio, traslazione, serpeggiamento, frenatura del carrello, prove e azioni accidentali rimangono distinti. Non sommare le azioni orizzontali di gruppi alternativi. Il diagramma Vie di corsa mostra punti, forze e torsioni locali ±e, anch’esse alternative. Le reazioni negative da rilascio sono conservate e richiedono il controllo del contatto e delle ritenute.
+
+Gli esempi comprendono quattro ruote, rilascio con urto assegnato e componenti del costruttore. Il foglio non verifica travi, rotaie, collegamenti o fatica, non combina più gru e non determina un inviluppo degli effetti lungo la via. L’edizione implementata è EN 1991-3:2006; non è dichiarato l’allineamento all’edizione 2026.
+
+## Azioni termiche da incendio
+
+Il foglio Incendio prepara la temperatura dei gas e le condizioni termiche sulle facce. Scegliere curva nominale standard, esterna, idrocarburi oppure storia assegnata. Indicare durata, passo di campionamento e fonte dello scenario. La durata è un dato del progetto: il programma non determina la classe di resistenza R/REI richiesta. Una storia assegnata può comprendere il raffreddamento e deve coprire l’intera durata senza extrapolazione.
+
+Le facce sono segmenti della sezione identificati da estremi x/y. La lunghezza estrusa determina le aree. Per ciascuna faccia indicare esposizione al fuoco, ambiente o adiabaticità, emissività e fattore di configurazione. Il contorno e le schermature non sono ricostruiti automaticamente. Sostituire i parametri generici con quelli applicabili al materiale e allo scenario, registrandone la fonte.
+
+![Curve nominali e condizioni sulle facce](../../src/ANTHEA.Desktop/Assets/Wiki/clima-incendio.png)
+
+Senza l’opzione dei flussi il risultato comprende la curva dei gas e i coefficienti al contorno. Per calcolare i flussi occorre fornire e confermare la temperatura superficiale: costante di riferimento oppure storia per faccia ricavata da un’analisi termica esterna. Confermare anche l’applicabilità di θr=θg. Una superficie mantenuta a 20 °C è soltanto un riferimento per il confronto dei flussi, non la previsione della temperatura del calcestruzzo o dell’acciaio.
+
+Per le facce non esposte sono distinti αc=4 W/(m² K) con irraggiamento separato e α=9 W/(m² K) comprensivo dell’irraggiamento. Il foglio evita il doppio conteggio nel secondo caso. La curva assegnata richiede un coefficiente convettivo esplicito sulle facce esposte. Il flusso positivo entra nella superficie; durante il raffreddamento può diventare negativo.
+
+Incendio e facce mostra lo stato all’istante selezionato e i grafici sull’intera durata. Il CSV conserva le storie complete. Gli esempi illustrano curva standard, esterna, idrocarburi su temperatura di riferimento e raffreddamento con temperatura superficiale assegnata. Non sono calcolati propagazione del calore, temperatura interna, protezioni, resistenza al fuoco o dilatazioni impedite. Il modello di scambio implementato è EN 1991-1-2:2002; non è dichiarato l’allineamento all’edizione 2024.

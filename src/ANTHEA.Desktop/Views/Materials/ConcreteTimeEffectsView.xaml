@@ -1,0 +1,77 @@
+<UserControl x:Class="X.Desktop.ConcreteTimeEffectsView" x:ClassModifier="internal"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:vm="clr-namespace:Anthea.Presentation.Modules.Rheology;assembly=ANTHEA.Presentation"
+ Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}">
+ <UserControl.Resources>
+  <Style TargetType="TextBlock"><Setter Property="TextWrapping" Value="Wrap"/><Setter Property="FontSize" Value="{DynamicResource Font.Body}"/><Setter Property="Margin" Value="0,3"/></Style>
+  <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}"><Setter Property="MinHeight" Value="30"/><Setter Property="Margin" Value="0,3,0,8"/></Style>
+  <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}"><Setter Property="MinHeight" Value="30"/><Setter Property="Margin" Value="0,3,8,8"/></Style>
+  <Style x:Key="Heading" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"><Setter Property="FontWeight" Value="Bold"/><Setter Property="Margin" Value="0,12,0,7"/></Style>
+  <Style x:Key="Card" TargetType="Border"><Setter Property="Background" Value="{DynamicResource Token.Paper}"/><Setter Property="Padding" Value="12"/><Setter Property="Margin" Value="0,0,8,0"/></Style>
+  <Style x:Key="Value" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"><Setter Property="FontSize" Value="{DynamicResource Font.Title}"/><Setter Property="FontWeight" Value="Bold"/></Style>
+ </UserControl.Resources>
+ <Grid Margin="16">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <StackPanel Margin="0,0,0,12"><TextBlock Text="Viscosità e maturazione" FontSize="{DynamicResource Font.Title}" FontWeight="Bold"/><TextBlock Text="Reologia del calcestruzzo · curve, lettura puntuale e tabella" Foreground="{DynamicResource Token.Muted}"/></StackPanel>
+  <Grid Grid.Row="1">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="300"/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
+   <ScrollViewer VerticalScrollBarVisibility="Auto"><Border Style="{StaticResource Card}"><StackPanel>
+    <StackPanel IsEnabled="{Binding CanEdit}">
+     <TextBlock Text="MATERIALE E AMBIENTE" Style="{StaticResource Heading}"/>
+     <TextBlock Text="Resistenza cilindrica fck [MPa]"/><TextBox AutomationProperties.Name="Resistenza cilindrica fck" Text="{Binding Fck, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+     <TextBlock Text="Classe di cemento"/><ComboBox AutomationProperties.Name="Classe di cemento" ItemsSource="{Binding Cements}" SelectedItem="{Binding Cement}" DisplayMemberPath="Label"/>
+     <TextBlock Text="Umidità relativa RH [%]"/><TextBox AutomationProperties.Name="Umidità relativa" Text="{Binding Humidity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+     <TextBlock Text="Dimensione nominale h₀ [mm]"/><TextBox AutomationProperties.Name="Dimensione nominale h0" Text="{Binding NotionalSize, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+     <TextBlock Text="h₀ = 2 Ac / u · u è il perimetro esposto all'essiccamento." Foreground="{DynamicResource Token.Muted}"/>
+     <TextBlock Text="Età all'applicazione del carico t₀ [giorni]"/><TextBox AutomationProperties.Name="Età al carico" Text="{Binding LoadingAge, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+     <TextBlock Text="INTERVALLO DI OSSERVAZIONE" Style="{StaticResource Heading}"/>
+     <TextBlock Text="Età iniziale [giorni]"/><TextBox AutomationProperties.Name="Età iniziale" Text="{Binding StartAge, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+     <TextBlock Text="Età finale [giorni]"/><TextBox AutomationProperties.Name="Età finale" Text="{Binding EndAge, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+     <TextBlock Text="Risoluzione del campionamento"/><TextBox AutomationProperties.Name="Campionamento" Text="{Binding Samples, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+    </StackPanel>
+    <Button Content="Aggiorna le curve" Command="{Binding CalculateCommand}" Margin="0,10" MinHeight="38"/>
+    <TextBlock Text="{x:Static vm:ConcreteTimeEffectsViewModel.Assumptions}" Foreground="{DynamicResource Token.Muted}"/>
+   </StackPanel></Border></ScrollViewer>
+   <Grid Grid.Column="2">
+    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*" MinHeight="260"/><RowDefinition Height="8"/><RowDefinition Height="0.5*" MinHeight="150"/></Grid.RowDefinitions>
+    <UniformGrid Rows="1">
+     <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="φ(∞, t₀)" FontWeight="Bold"/><TextBlock Text="{Binding InfinityText}" Style="{StaticResource Value}"/><TextBlock Text="Limite analitico della viscosità" Foreground="{DynamicResource Token.Muted}"/></StackPanel></Border>
+     <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="Ecm,28" FontWeight="Bold"/><TextBlock Text="{Binding E28Text}" Style="{StaticResource Value}"/><TextBlock Text="Modulo secante a 28 giorni" Foreground="{DynamicResource Token.Muted}"/></StackPanel></Border>
+    </UniformGrid>
+    <Border Grid.Row="1" Style="{StaticResource Card}" Padding="8" Margin="0,10,0,0"><DockPanel>
+     <WrapPanel DockPanel.Dock="Top">
+      <StackPanel Width="250"><TextBlock Text="Grandezza"/><ComboBox ItemsSource="{Binding Curves}" SelectedItem="{Binding SelectedCurve}" DisplayMemberPath="Label" AutomationProperties.Name="Grandezza del grafico"/></StackPanel>
+      <CheckBox Content="Asse X log" IsChecked="{Binding LogX}" Margin="8" VerticalAlignment="Center"/>
+      <CheckBox Content="Asse Y log" IsChecked="{Binding LogY}" Margin="8" VerticalAlignment="Center"/>
+      <Button Content="Adatta" Click="OnFit" Margin="4" VerticalAlignment="Center"/>
+      <Button Content="Esporta grafico…" Click="OnExport" IsEnabled="{Binding HasResults}" Margin="4" VerticalAlignment="Center"/>
+     </WrapPanel>
+     <ContentControl x:Name="PlotHost" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+    </DockPanel></Border>
+    <GridSplitter Grid.Row="2" Height="6" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{DynamicResource Token.Border}" ResizeDirection="Rows"/>
+    <TabControl Grid.Row="3">
+     <TabItem Header="Lettura puntuale"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="12">
+      <WrapPanel>
+       <StackPanel Width="150" Margin="0,0,12,0"><TextBlock Text="Leggi all'età t [giorni]"/><TextBox AutomationProperties.Name="Età di lettura" Text="{Binding QueryAge, UpdateSourceTrigger=PropertyChanged}"/></StackPanel>
+       <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="φ(t, t₀)"/><TextBlock Text="{Binding QueryPhiText}" Style="{StaticResource Value}"/></StackPanel></Border>
+       <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="Ecm(t) [MPa]"/><TextBlock Text="{Binding QueryEText}" Style="{StaticResource Value}"/></StackPanel></Border>
+       <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="Ecm(t) / Ecm,28"/><TextBlock Text="{Binding QueryFactorText}" Style="{StaticResource Value}"/></StackPanel></Border>
+      </WrapPanel>
+      <TextBlock Text="{Binding QueryError}"/><TextBlock Text="{Binding ReferenceText}" Foreground="{DynamicResource Token.Muted}"/>
+     </StackPanel></ScrollViewer></TabItem>
+     <TabItem Header="Tabella · seleziona un'età">
+      <DataGrid ItemsSource="{Binding Points}" SelectedItem="{Binding SelectedPoint}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True" SelectionMode="Single" Margin="4" AutomationProperties.Name="Valori di viscosità e maturazione">
+       <DataGrid.Columns>
+        <DataGridTextColumn Header="Età t [giorni]" Binding="{Binding AgeDays, StringFormat=0.###, ConverterCulture=it-IT}" Width="*"/>
+        <DataGridTextColumn Header="φ(t, t₀)" Binding="{Binding CreepCoefficient, StringFormat=0.0000, ConverterCulture=it-IT}" Width="*"/>
+        <DataGridTextColumn Header="Ecm(t) [MPa]" Binding="{Binding EcmMpa, StringFormat=N1, ConverterCulture=it-IT}" Width="*"/>
+        <DataGridTextColumn Header="Ecm(t) / Ecm,28" Binding="{Binding ModulusFactor, StringFormat=0.0000, ConverterCulture=it-IT}" Width="*"/>
+       </DataGrid.Columns>
+      </DataGrid>
+     </TabItem>
+    </TabControl>
+   </Grid>
+  </Grid>
+  <TextBlock Grid.Row="2" Text="{Binding Status}" Margin="0,12,0,0"/>
+ </Grid>
+</UserControl>

@@ -1450,7 +1450,24 @@ i report di calcolo restano aperti finché l'utente non porta il suo abbozzo. De
   da progettare; restano da decidere un file o due, la soglia e le revisioni dello storico.
 - [x] Percentuale giuntata e numero di strati nei dati dei dettagli di Model, letti dal verificatore del modello per
   EN 8.7.2(4) (decisione del 1/11 sera; scelte dell'agente approvate con «Sì, integra»): `LappedPercent` e `LapLayers` in
-  `ConcreteDetailingData` (GPCModel 5.36), GPCModelChecker 2.37, GPCChecker.Concrete 0.35.0.2; set ufficiale AR installato.
+  `ConcreteDetailingData` (GPCModel 5.36), GPCModelChecker 2.37, GPCChecker.Concrete 0.35.0.2; set ufficiale AS installato sopra AR delle azioni aggiuntive.
 - [ ] Norma di progetto unica per documento (punto 5): **in attesa** per decisione dell'utente del 1/11 («di base tante
   cose le facciamo solo con NTC2018»); nessun censimento né proposta finché l'utente non lo riapre.
 - [ ] Report di calcolo: dopo l'abbozzo dell'utente.
+
+
+## Azioni aggiuntive — incarico del 1 novembre 2026
+
+Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch isolati `codex/azioni-estese-20261101` in ANTHEA, Model e Checker. Traffico sospeso perché seguito da un collega. Merge finale dei nostri branch autorizzato al completamento; allineamento ai rami pubblicati durante lo sviluppo.
+
+- [x] Idraulica: contratti GPC, pareti, platee e pile in corrente, scenari, diagrammi, report e quattro esempi. Dodici prove numeriche indipendenti su net8/net472; archivio dei due enum registrato e collaudato. Interfaccia e persistenza verificate; completamento editoriale insieme agli altri fogli.
+- [x] Fasi costruttive: sequenza GPC, carichi EN e assegnati, pianta, report e tre esempi; suite librerie, architettura, MVVM e WPF PASS. Guide nella revisione complessiva.
+- [x] Ritiro, viscosità, maturazione e spostamenti assiali imposti: storia libera e barra integra vincolata, controllo della discretizzazione e del campo lineare, quattro grafici e tre esempi; GPC, MVVM e WPF PASS.
+- [x] Precompressione e perdite: attrito, rientro, rilassamento, trasferimento e perdite accoppiate; quattro esempi, grafici e copia della sezione Concrete con stato GPC efficace. Prove numeriche, MVVM/persistenza e WPF PASS.
+- [x] Gru e carriponte: gruppi EN compatibili, quattro ruote o componenti del costruttore, pianta delle vie, tre esempi. Test GPC e interfaccia PASS.
+- [x] Incendio: curve nominali e storia assegnata, facce e flussi su temperature superficiali prescritte, grafici e quattro esempi; calcoli GPC, persistenza e WPF PASS.
+- [x] Guide globali Rev66 e PDF controllati, unificate con la 1.17.0 arrivata durante il collaudo; Wiki con 94 capitoli, 95 esempi dopo il foglio Reologia. Set ufficiale AR, 11933 prove GPC PASS.
+- [x] Commit GPC pubblicati, set ufficiale AR e full ANTHEA con ricontrolli mirati: 161 voci PASS, 73 suite UI conservate.
+- [x] Integrazione finale del branch ANTHEA su main, autorizzata dall’utente: fast-forward al commit 7f907040 del 02/11/2026, base 1.17.0 conservata.
+
+- [x] Reologia, richiesta del 02/11: foglio **Materiali → Viscosità e maturazione**, persistenza, sola lettura, report ed esempi; voce globale Strumenti rimossa. Cattura storica e confronto IEEE754 esatti, tre temi WPF PASS; collaudo integrato finale `20261102-004152-reologia-final`: 24 PASS, zero NEW-FAIL; F3, 1201 file senza differenze non ammesse (REOLOGIA-MODULO-20261102).

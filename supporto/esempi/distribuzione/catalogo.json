@@ -648,6 +648,213 @@
       "kind": "calcolo",
       "sha256": "49b435cf08d29c4708ff91aed146d67e33e848251c2b79b97c42458d209306e5",
       "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_idrauliche/idraulica-parete.anthea",
+      "module": "act_idrauliche",
+      "title": "Parete · livelli ordinario e piena",
+      "description": "Esempio del modello fisico; scenari e fonti dei parametri sono consultabili nel foglio.",
+      "kind": "calcolo",
+      "sha256": "7e0a6566fa73394b05c72d8ac2edf061352678f722bf90473a33ae14798fb594",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_idrauliche/idraulica-platea.anthea",
+      "module": "act_idrauliche",
+      "title": "Platea sommersa · spinta di Archimede",
+      "description": "Esempio del modello fisico; scenari e fonti dei parametri sono consultabili nel foglio.",
+      "kind": "calcolo",
+      "sha256": "fe533c4e4ec873d82b970a51d884643470dc963f155d5f1f00aa3ce7bf995262",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_idrauliche/idraulica-sottospinta.anthea",
+      "module": "act_idrauliche",
+      "title": "Platea · sottospinta assegnata",
+      "description": "Esempio del modello fisico; scenari e fonti dei parametri sono consultabili nel foglio.",
+      "kind": "calcolo",
+      "sha256": "357a6b34c98fdffa7a6f0176eac2c20a3f219e59e5141c312912b8775b3fe206",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_idrauliche/idraulica-corrente.anthea",
+      "module": "act_idrauliche",
+      "title": "Pila · corrente variabile",
+      "description": "Esempio del modello fisico; scenari e fonti dei parametri sono consultabili nel foglio.",
+      "kind": "calcolo",
+      "sha256": "fa99b1e6c91cc40add107ee711cd9d72fe2523b6cca570fd18464cc1c10a26d7",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_fasi_costruttive/fasi-peso-proprio.anthea",
+      "module": "act_fasi_costruttive",
+      "title": "Fasi NTC · getto e disarmo",
+      "description": "Sequenza e azioni caratteristiche di esecuzione; nessuna soluzione strutturale implicita.",
+      "kind": "calcolo",
+      "sha256": "065b5138fd73ba25cdf254048c206f7e7bb05707310a4dc290f64af7237288ff",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_fasi_costruttive/fasi-getto-en.anthea",
+      "module": "act_fasi_costruttive",
+      "title": "Fasi EN · getto e area di lavoro",
+      "description": "Sequenza e azioni caratteristiche di esecuzione; nessuna soluzione strutturale implicita.",
+      "kind": "calcolo",
+      "sha256": "4af52bafc302a073531a95786078adccb852d506fc93d086102874e889cdfe82",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_fasi_costruttive/fasi-deposito-ponte.anthea",
+      "module": "act_fasi_costruttive",
+      "title": "Fasi EN · deposito temporaneo su ponte",
+      "description": "Sequenza e azioni caratteristiche di esecuzione; nessuna soluzione strutturale implicita.",
+      "kind": "calcolo",
+      "sha256": "defca87351b523b307840e5bcf2c8d6b13bdf236c9b16bc95f1406bd1dd353db",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_effetti_differiti/tempo-ntc-libero.anthea",
+      "module": "act_effetti_differiti",
+      "title": "Effetti differiti NTC · carico sostenuto e ritiro",
+      "description": "Calcestruzzo a 20 °C e RH costante; storia libera o modello di barra assiale integra con controllo dei limiti.",
+      "kind": "calcolo",
+      "sha256": "2a331ba8517e28b6aa853a36b57371ef781b07aee71f76ecc0df4632d9b562cc",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_effetti_differiti/tempo-en-molla.anthea",
+      "module": "act_effetti_differiti",
+      "title": "Effetti differiti EN · molla e spostamento imposto",
+      "description": "Calcestruzzo a 20 °C e RH costante; storia libera o modello di barra assiale integra con controllo dei limiti.",
+      "kind": "calcolo",
+      "sha256": "539364a7d45b833e6ecfdf69469e82d5173ddacabede871cfb792fda6aedd278",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_effetti_differiti/tempo-ntc-vincolato.anthea",
+      "module": "act_effetti_differiti",
+      "title": "Ritiro impedito · previsione integra e fessurazione",
+      "description": "Calcestruzzo a 20 °C e RH costante; storia libera o modello di barra assiale integra con controllo dei limiti.",
+      "kind": "calcolo",
+      "sha256": "f275a61426b4ec56ce50a7a3f84890377c2bf4011c7409c98995484dca81d618",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_precompressione/precompressione-posteso.anthea",
+      "module": "act_precompressione",
+      "title": "Posteso aderente · perdite e stato efficace",
+      "description": "Profilo piano e sezione costante; dati del sistema e tensioni nel calcestruzzo assegnati con fonte. Stato efficace distinto dal tiro.",
+      "kind": "calcolo",
+      "sha256": "1bc7ad006f8f79e0dbda1894094b799e7666d7b95117c13e8fde1dbf6519582a",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_precompressione/precompressione-bilaterale.anthea",
+      "module": "act_precompressione",
+      "title": "Posteso EN · tiro bilaterale simmetrico",
+      "description": "Profilo piano e sezione costante; dati del sistema e tensioni nel calcestruzzo assegnati con fonte. Stato efficace distinto dal tiro.",
+      "kind": "calcolo",
+      "sha256": "70bbf59cedb6b07eb7e2b99d14910e53a6eb62f8f7bf2edf412153d214e7be30",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_precompressione/precompressione-preteso.anthea",
+      "module": "act_precompressione",
+      "title": "Preteso · trasferimento e rilassamento",
+      "description": "Profilo piano e sezione costante; dati del sistema e tensioni nel calcestruzzo assegnati con fonte. Stato efficace distinto dal tiro.",
+      "kind": "calcolo",
+      "sha256": "837c6b8d0ff6a50e48d54a8c966fdceeac88e886f324acf07d8b8015440eefb1",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_precompressione/precompressione-non-aderente.anthea",
+      "module": "act_precompressione",
+      "title": "Posteso interno non aderente · perdita media",
+      "description": "Profilo piano e sezione costante; dati del sistema e tensioni nel calcestruzzo assegnati con fonte. Stato efficace distinto dal tiro.",
+      "kind": "calcolo",
+      "sha256": "b1cf2cdd708cf96aaca2df1e478a4fb45579254f7462419dd37dfc5fe430471c",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_gru_carriponte/carriponte-quattro-ruote.anthea",
+      "module": "act_gru_carriponte",
+      "title": "Carroponte EN · gruppi compatibili",
+      "description": "Componenti nominali statiche, fattori dinamici una sola volta e gruppi alternativi. Fonti del costruttore dimostrative.",
+      "kind": "calcolo",
+      "sha256": "eb16425acd93ec0c078eb3fb6ea8bb07ecbbff61c7de9be4866ad1321439ecf3",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_gru_carriponte/carriponte-rilascio.anthea",
+      "module": "act_gru_carriponte",
+      "title": "Carroponte NTC con modello EN · rilascio e urto",
+      "description": "Componenti nominali statiche, fattori dinamici una sola volta e gruppi alternativi. Fonti del costruttore dimostrative.",
+      "kind": "calcolo",
+      "sha256": "14849d744447f0ba6ca001ab1687b4707642d87c653594caf38fbc1f70eb0f2f",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_gru_carriponte/carriponte-costruttore.anthea",
+      "module": "act_gru_carriponte",
+      "title": "Carroponte EN · componenti alle ruote assegnate",
+      "description": "Componenti nominali statiche, fattori dinamici una sola volta e gruppi alternativi. Fonti del costruttore dimostrative.",
+      "kind": "calcolo",
+      "sha256": "2c17674b8a534841de0cfd8cf9810d8325b8d9d08b540d8e2f0e3d0f722d22d3",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_incendio/incendio-standard.anthea",
+      "module": "act_incendio",
+      "title": "Incendio NTC · gas e facce",
+      "description": "Azioni termiche al contorno; temperatura superficiale eventualmente prescritta, nessuna analisi di conduzione o resistenza al fuoco.",
+      "kind": "calcolo",
+      "sha256": "30565d587439df3b0a75fd788b460212d1ee42e83b55ab2ae4214e4b1ae71772",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_incendio/incendio-esterno.anthea",
+      "module": "act_incendio",
+      "title": "Incendio EN · curva esterna",
+      "description": "Azioni termiche al contorno; temperatura superficiale eventualmente prescritta, nessuna analisi di conduzione o resistenza al fuoco.",
+      "kind": "calcolo",
+      "sha256": "852415383966618d2d742ebfa4d05ab533f98f038a20e1c7d97cfbd775fdebd2",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_incendio/incendio-idrocarburi.anthea",
+      "module": "act_incendio",
+      "title": "Idrocarburi · flussi su superficie di riferimento",
+      "description": "Azioni termiche al contorno; temperatura superficiale eventualmente prescritta, nessuna analisi di conduzione o resistenza al fuoco.",
+      "kind": "calcolo",
+      "sha256": "39cddc0ef20a4f223df2a9b323392904fdd87869b247f638507704ee667d5d2c",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "act_incendio/incendio-raffreddamento.anthea",
+      "module": "act_incendio",
+      "title": "Incendio assegnato · raffreddamento",
+      "description": "Azioni termiche al contorno; temperatura superficiale eventualmente prescritta, nessuna analisi di conduzione o resistenza al fuoco.",
+      "kind": "calcolo",
+      "sha256": "13f0b654daffacdaae500839ff6b39724aeb8c3de8a0d97571a1b22e0c73ebd1",
+      "origin": "tests/Shared/ClimateScenarios.cs"
+    },
+    {
+      "path": "mat_reologia/c25-umidita-50.anthea",
+      "module": "mat_reologia",
+      "title": "Calcestruzzo C25 · umidità 50 %",
+      "description": "Viscosità e maturazione: cemento N, h0 = 200 mm, carico a 7 giorni, lettura a un anno.",
+      "kind": "calcolo",
+      "sha256": "39904972e2cc9f85f2e6c6b1e512c89aa0da1463a9a1a8764e9716b6148ee87d",
+      "origin": "Esempio originale ANTHEA, 02/11/2026; riferimento numerico indipendente in ConcreteTimeEffects.Checks"
+    },
+    {
+      "path": "mat_reologia/c35-cemento-rapido.anthea",
+      "module": "mat_reologia",
+      "title": "Calcestruzzo C35 · cemento rapido",
+      "description": "Maturazione con cemento R, h0 = 560 mm, carico a 10 giorni e lettura a 28 giorni.",
+      "kind": "calcolo",
+      "sha256": "ca64d046f85da9c595ae458a40eaf38a6634a793597f36a0d4d9385e88543aa1",
+      "origin": "Esempio originale ANTHEA, 02/11/2026; riferimento numerico indipendente in ConcreteTimeEffects.Checks"
     }
   ]
 }

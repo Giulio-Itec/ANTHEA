@@ -1,0 +1,53 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_effetti_differiti",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "TimeEffectsInput",
+    "input": {
+      "Standard": "EurocodeFirstGeneration",
+      "NationalParameters": "Esempio didattico EN 1992-1-1:2004 a 20 °C, cemento N e RH costante; nessuna appendice nazionale implicita.",
+      "FckMpa": 30,
+      "Cement": "ClassN",
+      "RelativeHumidityPercent": 70,
+      "AreaMm2": 150000,
+      "DryingPerimeterMm": 1600,
+      "LengthM": 10,
+      "ReferenceAgeDays": 7,
+      "DryingStartDays": 7,
+      "IncludeShrinkage": true,
+      "IncludeCreep": true,
+      "Restraint": "EndSpring",
+      "EndSpringKnMm": 50,
+      "TimeSteps": 150,
+      "StressEvents": [],
+      "Observations": [
+        {
+          "Name": "28 giorni",
+          "AgeDays": 28
+        },
+        {
+          "Name": "90 giorni",
+          "AgeDays": 90
+        },
+        {
+          "Name": "1 anno",
+          "AgeDays": 365
+        },
+        {
+          "Name": "10 anni",
+          "AgeDays": 3650
+        }
+      ],
+      "Displacements": [
+        {
+          "Name": "Spostamento graduale",
+          "AgeDays": 365,
+          "DisplacementMm": 0.2
+        }
+      ]
+    }
+  }
+}

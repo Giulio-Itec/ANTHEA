@@ -1,0 +1,21 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "mat_reologia",
+  "dati": {
+    "rheology_schema": 1,
+    "Fck": "35",
+    "Humidity": "70",
+    "NotionalSize": "560",
+    "LoadingAge": "10",
+    "Cement": "ClassR",
+    "StartAge": "0,5",
+    "EndAge": "10000",
+    "Samples": "160",
+    "QueryAge": "28",
+    "SelectedCurve": "Modulus",
+    "LogX": true,
+    "LogY": false
+  }
+}

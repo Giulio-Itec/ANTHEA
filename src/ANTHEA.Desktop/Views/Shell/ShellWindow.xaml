@@ -2,7 +2,7 @@
   DRAFT of the main window of the new shell (F5.13 c), for the user's checkpoint on the layout (docs/refactoring/f5-13-shell.md, section «Bozza
   della disposizione per il punto di controllo»). Since F5.13 g it is the window of the application (App.StartShell). It binds to
   ShellViewModel and follows the arrangement of MainWindow with the sheets in tabs (proposal 4.2):
-  - the menus File, Strumenti and Aspetto of today, with the same shortcuts;
+  - the menus File and Aspetto, with the same shortcuts;
   - on the left the navigation bar (Home, Progetti, Modelli, Moduli singoli, Esempi, Wiki) with the file commands, always visible;
   - beside it, with a project open, the tree of the project, which closes with «▸»;
   - in the centre the strip of the tabs, the project bar (undo and redo) with its revision bar, the bar of the sheet with the focus, the status
@@ -53,9 +53,6 @@
  <DockPanel>
   <Menu DockPanel.Dock="Top" Background="{DynamicResource Token.Paper}">
    <MenuItem Header="_File" ItemsSource="{Binding Commands.File}" ItemContainerStyle="{StaticResource Shell.FileItem}"/>
-   <MenuItem Header="_Strumenti">
-    <MenuItem Header="{x:Static cmd:ShellCommandsViewModel.RheologyTitle}" Command="{Binding Commands.RheologyCommand}"/>
-   </MenuItem>
    <!-- «Aspetto»: the three appearances of today, then «Separatore decimale» (F5.15, V-a: Sistema, Virgola, Punto; it applies at the next start-up). -->
    <MenuItem x:Name="AppearanceMenu" Header="{x:Static cmd:AppearanceMenuViewModel.Title}" SubmenuOpened="OnAppearanceOpened">
     <MenuItem Style="{StaticResource Shell.AppearanceItem}" DataContext="{Binding Appearance.Items[0]}"/>

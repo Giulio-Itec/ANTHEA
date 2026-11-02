@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 1 novembre 2026 — revisione documentale 65
+Edizione 6 aggiornata il 2 novembre 2026 — revisione documentale 66
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -3917,7 +3917,7 @@ Le curve sono campionate solo per la rappresentazione; ogni lettura puntuale è 
 
 ### Getti sottili nelle verifiche di sezione
 
-Per l'opzione di getto in opera inferiore a 50 mm, le verifiche NTC e UNI EN 1992 con appendice italiana applicano la riduzione prevista del 20 % ai limiti pertinenti del calcestruzzo e al coefficiente αcc, quindi a fcd. Le altre norme conservano la propria regola. Questa scelta delle verifiche di sezione non modifica le curve di reologia dello strumento, che dipendono dagli ingressi esplicitamente indicati.
+Per l'opzione di getto in opera inferiore a 50 mm, le verifiche NTC e UNI EN 1992 con appendice italiana applicano la riduzione prevista del 20 % ai limiti pertinenti del calcestruzzo e al coefficiente αcc, quindi a fcd. Le altre norme conservano la propria regola. Questa scelta delle verifiche di sezione non modifica le curve del foglio Materiali → Viscosità e maturazione, che dipendono dagli ingressi esplicitamente indicati.
 
 ## Risultati dei modelli per fasi
 
@@ -3935,7 +3935,7 @@ La durata di una fase, l'età di attivazione di un elemento e il tempo del passo
 
 L'assenza di un risultato può dipendere dall'inattività dell'oggetto, da un output non richiesto o da dati non disponibili. Non equivale a una sollecitazione o a uno spostamento nullo. La vista associa soltanto i campioni disponibili agli oggetti identificati, con le stesse convenzioni di unità e assi usate per i casi statici. I vincoli temporanei non diventano vincoli permanenti per il solo fatto di comparire nelle tabelle del modello.
 
-In questa versione la geometria completa è un contesto grafico; non è la ricostruzione del sistema resistente attivo nella fase. L'importazione non esegue un'analisi per fasi, non calcola viscosità o ritiro del modello e non aggiorna la rigidezza degli elementi. La finestra di reologia è uno strumento separato di supporto al progettista. Il confronto dei risultati stage con un modello reale rimane una verifica aperta; le prove disponibili riguardano identità, protocollo, unità, segni e conservazione dei dati sintetici.
+In questa versione la geometria completa è un contesto grafico; non è la ricostruzione del sistema resistente attivo nella fase. L'importazione non esegue un'analisi per fasi, non calcola viscosità o ritiro del modello e non aggiorna la rigidezza degli elementi. Il foglio Materiali → Viscosità e maturazione valuta separatamente le proprietà del materiale a partire dagli ingressi assegnati. Il confronto dei risultati stage con un modello reale rimane una verifica aperta; le prove disponibili riguardano identità, protocollo, unità, segni e conservazione dei dati sintetici.
 
 ## Geometria e rappresentazione delle sezioni
 
@@ -4437,3 +4437,241 @@ Per le sovrastrutture la forza base EN Tab. 4.2 è distinta: 500, 375, 250 oppur
 Il caso all'intradosso ha risultante inclinata di 10° verso l'alto; le componenti sono F cos(10°) e F sin(10°). L'impronta è 0,25 × 0,25 m. Per carrelli elevatori la forza equivalente è 5W a 0,75 m, con W comprensivo del massimo carico trasportabile.
 
 Il foglio non è una verifica dinamica d'impatto e non determina la capacità dissipativa. Barriere stradali e ancoraggi, urti ferroviari/navali, incendio ed esplosioni richiedono modelli specifici.
+
+## Azioni idrauliche
+
+Il modello determina pressioni e risultanti per scenari assegnati. Non determina portate, livelli di piena o condizioni di compatibilità idraulica. Nel contesto dei ponti, i riferimenti NTC 2018 §§5.1.2.3 e 5.1.3.8 richiedono le valutazioni specifiche del progetto; non viene attribuito alla norma un coefficiente Cd universale.
+
+### Idrostatica e risultanti
+
+La quota z cresce verso l’alto. Un livello idrico h produce la pressione p(z), nulla sopra il pelo libero. Per una parete larga B si integrano le pressioni nette dei due lati:
+
+```formula
+p(z)=\gamma_w\max(0,h-z),\qquad q(z)=B[p_L(z)-p_R(z)]
+```
+
+```formula
+F=\int_{z_0}^{z_1}q(z)\,dz,\qquad M_{z_0}=\int_{z_0}^{z_1}(z-z_0)q(z)\,dz
+```
+
+γw è in kN/m³, p in kPa, q in kN/m, F in kN e il primo momento in kN·m. La quota della risultante è z0+M/F soltanto se F non è nullo. Il programma conserva anche il caso di coppia pura, senza costruire una quota di applicazione artificiale. Le distribuzioni lineari a tratti sono integrate esattamente, includendo i livelli idrici tra i punti di discontinuità della pendenza.
+
+Per la platea il verso positivo è il sollevamento. La sottospinta inferiore, idrostatica oppure assegnata per ascisse, è ridotta della pressione dell’acqua sulla faccia superiore. L’integrazione lungo x restituisce forza e primo momento rispetto al bordo iniziale. Non viene aggiunto il peso proprio. Una platea di area A e spessore t completamente sommersa in un campo idrostatico restituisce la spinta γwAt, indipendente dall’immersione assoluta, se le due facce sono entrambe bagnate.
+
+### Pila in corrente
+
+La resistenza stazionaria usa larghezza proiettata B, velocità con segno v e coefficiente Cd assegnato:
+
+```formula
+q(z)=\frac{1}{2}\frac{\gamma_w}{g}C_dBv(z)|v(z)|,\qquad g=9{,}81\ \mathrm{m/s^2}
+```
+
+Con γw espresso in kN/m³ il risultato è in kN/m. Si integra soltanto la porzione immersa. Per un profilo di velocità lineare a tratti, il programma introduce anche gli attraversamenti dello zero e usa una quadratura di Gauss a due punti, esatta per forza e primo momento sui singoli tratti. Il modello non include onde, instabilità fluido-strutturale, urti, trasporto solido o scalzamento.
+
+![Modelli delle azioni idrauliche](../../src/ANTHEA.Desktop/Assets/Wiki/clima-idraulica.png)
+
+Come controllo indipendente, una parete larga 1 m con battente di 3 m e γw=10 kN/m³, asciutta sul lato opposto, riceve F=45 kN, applicata a 1 m dalla base. Una platea 10×2×0,5 m completamente sommersa riceve una risultante netta verso l’alto di 100 kN, prima del proprio peso.
+
+## Fasi costruttive
+
+Le fasi costituiscono una sequenza di attivazioni e disattivazioni delle azioni. Un carico con prima fase a e prima fase esclusa b è attivo per a≤j<b; b=0 lo mantiene fino alla fine. I contratti GPC registrano questi eventi all’inizio di ogni fase. La durata non modifica automaticamente materiali o rigidezze e non produce redistribuzione strutturale.
+
+### Carichi di esecuzione
+
+Il peso proprio per unità di superficie è q=γt. I carichi assegnati conservano la natura G1, G2 o variabile e l’eventuale fattore dinamico dichiarato. I preset specialistici implementati si riferiscono alla EN 1991-1-6:2005, Tabelle 4.1–4.2 e §4.11; non è dichiarato l’aggiornamento alla seconda generazione del 2026.
+
+Il preset di personale assume almeno 1 kPa. Per il deposito temporaneo sui ponti vengono conservati separatamente il distribuito minimo di 0,2 kPa e la forza concentrata minima di 100 kN. Le posizioni sono assegnate e devono comprendere quelle sfavorevoli per la struttura esaminata.
+
+Nel getto si aggiungono peso del calcestruzzo fresco, casseri e carico di lavoro. All’esterno della zona di lavoro quest’ultimo vale 0,75 kPa; nella zona di lavoro vale:
+
+```formula
+q_{lavoro}=\max\left(0{,}75;\min(1{,}5;0{,}10\gamma t)\right)\ \mathrm{kPa}
+```
+
+La zona è 3×3 m, limitata all’impronta effettivamente disponibile. Il programma applica 0,75 kPa all’area completa e aggiunge nella zona soltanto la differenza: il personale non viene contato due volte. Un esempio con area 10×5 m, spessore 0,4 m, γ=25 kN/m³ e casseri 0,5 kPa dà 50·(10+0,5+0,75)+9·(1−0,75)=564,75 kN.
+
+### Risultanti e convenzioni
+
+Gli assi x,y giacciono in pianta e z è positivo verso l’alto. Il carico verticale Q è positivo verso il basso; Hx e Hy seguono gli assi. Per un carico concentrato applicato in (x,y,z):
+
+```formula
+M_x=-Qy-H_yz,\qquad M_y=Qx+H_xz,\qquad M_z=H_yx-H_xy
+```
+
+Le pressioni uniformi contribuiscono con risultante qA applicata al baricentro dell’area. Queste sono risultanti esterne delle azioni, non reazioni dei puntelli né combinazioni SLU/SLE. Pressioni laterali del getto, stabilità delle opere provvisionali, capacità di casseri e puntelli e comportamento per fasi restano analisi distinte.
+
+![Carichi e sequenza costruttiva](../../src/ANTHEA.Desktop/Assets/Wiki/clima-fasi-costruttive.png)
+
+## Ritiro viscosità e spostamenti imposti
+
+Il modello è una barra assiale integra di calcestruzzo ordinario, a 20 °C e umidità relativa costante fra 40% e 100%. Sono ammessi h0≥100 mm, fck fra 20 e 80 MPa nel ramo NTC e fra 12 e 90 MPa nel ramo EN. L’area Ac e il perimetro esposto u definiscono h0=2Ac/u. Il segno positivo indica allungamento e trazione.
+
+### Deformazioni libere e maturazione
+
+Il ritiro è la somma della componente da essiccamento e di quella autogena. La componente finale da essiccamento segue la Tabella 11.2.Va delle NTC 2018, interpolata nelle due variabili, oppure l’Appendice B della EN 1992-1-1:2004. Il coefficiente kh è interpolato fra i valori 1,00, 0,85, 0,75 e 0,70, rispettivamente per h0 di 100, 200, 300 e almeno 500 mm.
+
+```formula
+\varepsilon_{cd}(t)=k_h\varepsilon_{cd,0}\frac{\max(0,t-t_s)}{\max(0,t-t_s)+0{,}04h_0^{3/2}}
+```
+
+```formula
+\varepsilon_{ca}(t)=-2{,}5(f_{ck}-10)10^{-6}\left[1-\exp(-0{,}2\sqrt{t})\right]
+```
+
+Le età sono in giorni e h0 in mm; εcd,0 è assunto negativo per il ritiro. L’evoluzione autogena EN è dichiarata anche nel ramo NTC. Per l’essiccamento EN i coefficienti dipendono dal cemento S/N/R e la resistenza media fcm=fck+8 MPa entra nell’esponenziale con valore positivo. Maturazione di Ecm, fck e fctm e coefficiente di viscosità seguono EN 1992-1-1:2004 §§3.1.2–3.1.4 e Appendice B, con riuso del modello dei materiali GPC.
+
+L’età di riferimento t_ref identifica uno stato iniziale privo di tensioni: il calcolo usa εcs(t)−εcs(t_ref), senza attribuire alla barra un ritiro precedente già impedito.
+
+### Storia del carico e compatibilità
+
+Il carico è descritto da incrementi di tensione esterna P/A. La cedevolezza per un incremento applicato all’età ti è:
+
+```formula
+J(t,t_i)=\frac{1}{E_{cm}(t_i)}+\frac{\varphi(t,t_i)}{1{,}05E_{cm}(28)}
+```
+
+```formula
+\varepsilon(t)=\Delta\varepsilon_{cs}(t)+\sum_i\Delta\sigma_iJ(t,t_i),\qquad u(t)=L\varepsilon(t)
+```
+
+La parte elastica rispetta l’età di applicazione; la viscosità usa il modulo tangente di riferimento 1,05Ecm(28). Gli scarichi sono incrementi di segno opposto e conservano la propria età. Il modello non sostituisce questa storia con un unico modulo efficace.
+
+Per una molla K all’estremità destra, con estremità sinistra fissa e spostamento imposto δ, equilibrio e compatibilità impongono:
+
+```formula
+N(t)=P(t)+K[\delta(t)-u(t)]
+```
+
+K=0 restituisce la barra libera. Per la distanza imposta si impone direttamente u=δ. La soluzione incrementale comprende i tempi degli eventi e delle osservazioni e una griglia logaritmica; viene ripetuta con griglia doppia. Il confronto delle tensioni usa una tolleranza di 0,01 MPa più l’1% della massima tensione assoluta.
+
+![Deformazione libera e risposta vincolata](../../src/ANTHEA.Desktop/Assets/Wiki/clima-effetti-differiti.png)
+
+Il superamento di fctm in trazione o di 0,45 fck(t) in compressione segnala l’uscita dal campo della previsione lineare integra. Non vengono simulati fessurazione, plasticità, variazioni igrometriche o termiche, armature e interazione fra più elementi.
+
+## Precompressione e perdite
+
+Il modello considera cavo piano rettilineo o parabolico, sezione costante e inclinazione non superiore a 10°. Le tensioni del calcestruzzo richieste sono dati dell’analisi strutturale, uniformi lungo il cavo nel modello corrente. Il preteso è limitato al banco rettilineo; il tiro bilaterale è simultaneo, simmetrico e con identici dati alle due estremità.
+
+### Attrito rientro e trasferimento
+
+Con s ascissa curvilinea e θ variazione angolare cumulata dalla testata attiva:
+
+```formula
+\sigma_p(s)=\sigma_{jack}\exp[-\mu(\theta(s)+ks)]
+```
+
+k è in rad/m ed è interno al prodotto con μ. Il rientro dell’ancoraggio inverte l’attrito nel tratto interessato. La tensione alla testata dopo rientro viene ricercata imponendo che l’integrale della riduzione di allungamento sia uguale al rientro assegnato; oltre la lunghezza d’influenza rimane il profilo precedente. Il modello gestisce anche un’influenza estesa all’intero cavo. Per attrito nullo la perdita è Ep·Δs/L: Ep=195000 MPa, Δs=6 mm e L=30 m danno 39 MPa.
+
+La perdita elastica al trasferimento è Ep/Ecm(t0)·j·Δσc. Nel preteso j=1; per n cavi postesi identici tesati in successione j=(n−1)/(2n). La tensione Δσc è compressiva positiva e deve rappresentare l’incremento pertinente al processo considerato.
+
+Il ramo EN verifica distintamente i limiti al tiro e quelli iniziali di EN 1992-1-1:2004 §5.10.2, con fattori nazionali espliciti. Nel ramo NTC il limite iniziale del §4.1.8.1.5 è applicato conservativamente anche al martinetto; non viene implementato il sovratiro. Il rispetto del limite dell’acciaio non costituisce verifica del calcestruzzo o delle zone di ancoraggio.
+
+### Rilassamento e perdite differite
+
+Il rilassamento segue le tre classi di EN 1992-1-1:2004 §3.3.2, con ρ1000 certificato oppure valore raccomandato della classe. Per la classe 2 a basso rilassamento, con t in ore e μp=σpi/fpk:
+
+```formula
+\frac{\Delta\sigma_{pr}}{\sigma_{pi}}=0{,}66\rho_{1000}\exp(9{,}1\mu_p)\left(\frac{t}{1000}\right)^{0{,}75(1-\mu_p)}10^{-5}
+```
+
+ρ1000 è inserito in percento. Le altre due classi mantengono i rispettivi coefficienti normativi. Il valore finale è limitato alla durata convenzionale di 500000 ore. Nel preteso il rilassamento sul banco precede il trasferimento; la prosecuzione utilizza il tempo equivalente dell’Appendice D, evitando di riavviare la storia di rilassamento dopo l’accorciamento elastico.
+
+Le perdite differite accoppiate seguono EN 1992-1-1:2004 §5.10.6, espressione 5.46:
+
+```formula
+\Delta\sigma_p=\frac{E_p|\Delta\varepsilon_{cs}|+0{,}8\Delta\sigma_{pr}+(E_p/E_{cm})\varphi(t,t_0)\sigma_{c,QP}}{1+(E_p/E_{cm})(A_p/A_c)(1+A_cz^2/I_c)[1+0{,}8\varphi(t,t_0)]}
+```
+
+Qui Ecm è il modulo medio a 28 giorni, come nell’espressione 5.46: non si introduce un ulteriore fattore 1,05. Il ritiro è quello successivo al trasferimento. σc,QP è compressiva positiva; l’eventuale incremento quasi permanente di tensione del cavo serve alla valutazione del rilassamento e non viene esportato come predeformazione. Per il cavo interno non aderente i contributi pertinenti vengono mediati lungo l’arco e la perdita differita è costante; non si rappresenta un cavo esterno deviato.
+
+Il caso indipendente EN con fck=30 MPa, h0=200 mm, RH=70%, cemento N, Ap=1000 mm², Ac=200000 mm², eccentricità nulla, tiro 1350 MPa senza attrito/rientro, trasferimento a 28 giorni e σc,QP=6 MPa restituisce, a 365 giorni, σeff=1245,354711 MPa con Ep=195000 MPa, fpk=1860 MPa, classe di rilassamento 2, ρ1000=2,5%, inizio essiccamento a 7 giorni, un solo cavo posteso e incremento di tensione del cavo da carichi quasi permanenti nullo. I tre contributi accoppiati sono 37,003500 MPa da ritiro, 48,629903 MPa da viscosità e 19,011886 MPa da rilassamento.
+
+### Stato efficace e sezione
+
+La discretizzazione longitudinale viene confrontata con una griglia doppia; la tolleranza è 0,05 MPa più 0,0001σjack. Il trasferimento alla verifica locale Concrete è disponibile solo per cavi aderenti, con convergenza e limiti rispettati. Lo stato efficace è rappresentato nel trefolo GPC dalla deformazione iniziale σeff/Ep; non viene duplicato mediante ulteriori carichi N/M.
+
+Le azioni primarie equivalenti riportate dal foglio, con trazione assiale positiva e z positivo verso l’alto, sono N=−Pcosα e M=Pcosα·z. Non comprendono effetti iperstatici. Restano separate le verifiche della struttura, delle fasi di tesatura, degli ancoraggi e dei deviatori.
+
+![Stati del cavo precompresso](../../src/ANTHEA.Desktop/Assets/Wiki/clima-precompressione.png)
+
+## Gru e carriponte
+
+Il modello specialistico è EN 1991-3:2006, applicato a un carroponte su due vie rettilinee. Le componenti nominali del costruttore costituiscono la base dei carichi: il foglio applica i fattori dinamici una sola volta e mantiene i gruppi della Tabella 2.2 come azioni alternative. Nel ramo NTC l’adozione del modello EN è esplicita; coefficienti parziali e combinazioni di progetto restano esterni.
+
+### Distribuzione alle ruote
+
+Nello schema a quattro ruote, con carrello centrato longitudinalmente, le quote di una ruota della rotaia sinistra sono:
+
+```formula
+Q_{c,L}=\frac{G_{ponte}}{4}+\frac{G_{carrello}}{2}\left(1-\frac{y}{\ell}\right),\qquad Q_{h,L}=\frac{Q_h}{2}\left(1-\frac{y}{\ell}\right)
+```
+
+Per la rotaia destra il fattore trasversale diventa y/ℓ. In alternativa si assegnano componenti Qc e Qh e posizioni per ciascuna ruota, senza imporre una ripartizione uniforme.
+
+φ2=φ2,min+β2vh, con vh in m/s. Per HC1–HC4 i valori di β2 sono 0,17, 0,34, 0,51 e 0,68; quelli di φ2,min sono 1,05, 1,10, 1,15 e 1,20. Il rilascio segue φ3=1−(Δm/m)(1+β3), con β3=0,5 per benna e 1 per magnete. Il risultato negativo viene conservato e può produrre perdita del contatto alla ruota.
+
+I gruppi di sollevamento conservano entrambe le pulsazioni φ1=0,9 e 1,1. φ4=1 richiede la conferma delle tolleranze delle vie; φ5 e gli altri dati sono documentati. La prova dinamica usa almeno 1,10Qh e φ6=(1+φ2)/2; quella statica almeno 1,25Qh e φ6=1. Il carico di prova sostituisce quello nominale, non si somma ad esso.
+
+### Componenti orizzontali e gruppi
+
+Per lo schema automatico a quattro ruote, con due vie e asse motore x=0, la forza longitudinale su ciascuna via è φ5K/2. Definiti ξ1 come frazione del carico statico sulla rotaia 1, ξ2=1−ξ1 e a come passo delle guide:
+
+```formula
+M=K(\xi_1-0{,}5)\ell,\qquad H_{T,1}=\varphi_5\xi_2\frac{M}{a},\qquad H_{T,2}=\varphi_5\xi_1\frac{M}{a}
+```
+
+Su ciascuna via le due componenti trasversali hanno segno opposto e formano la coppia pertinente. Per K=10 kN, φ5=1,5, ponte da 100 kN, carrello da 20 kN e carico da 200 kN a y=1 m su ℓ=20 m, il totale longitudinale è 15 kN e il momento nel piano è −57,1875 kN·m, coerente con la posizione del baricentro statico a y=3,8125 m.
+
+Serpeggiamento, frenatura del carrello, vento di esercizio, urti e ribaltamento sono componenti assegnate con fonte e segno. Accelerazione e urto del ponte sono inseriti prima di φ5 e φ7; le altre componenti sono già caratteristiche o accidentali. I gruppi distinguono traslazione con accelerazione, con serpeggiamento o con frenatura del carrello. Gli urti del ponte e del carrello sono alternative distinte; le azioni accidentali sono valori di progetto.
+
+L’eccentricità locale della ruota è e=ke·br, con ke raccomandato 0,25 e br larghezza della testa della rotaia. Si riportano le due torsioni alternative ±|Q|e. Il programma non somma i due segni, non esegue l’inviluppo strutturale delle posizioni e non determina fatica, carichi di più gru o vento fuori servizio.
+
+![Gruppi alternativi e punti di applicazione](../../src/ANTHEA.Desktop/Assets/Wiki/clima-carriponte.png)
+
+## Azioni termiche da incendio
+
+Il foglio determina azioni al contorno per un’analisi termica. Le curve nominali seguono NTC 2018 §3.6.1.5.1 oppure EN 1991-1-2:2002 §3.2; il modello di scambio segue EN §3.1. Non sono implementate le prescrizioni della successiva edizione 2024.
+
+### Temperatura dei gas
+
+Con t espresso in minuti e temperatura in °C:
+
+```formula
+\theta_{g,std}=20+345\log_{10}(8t+1)
+```
+
+```formula
+\theta_{g,ext}=20+660[1-0{,}687\exp(-0{,}32t)-0{,}313\exp(-3{,}8t)]
+```
+
+```formula
+\theta_{g,HC}=20+1080[1-0{,}325\exp(-0{,}167t)-0{,}675\exp(-2{,}5t)]
+```
+
+La curva standard vale 841,795880 °C a 30 minuti e 945,340051 °C a 60 minuti. Le tre curve partono da 20 °C e non comprendono una fase di raffreddamento. Una storia assegnata è interpolata linearmente, richiede inizio a t=0 e copertura dell’intera durata; i suoi vertici vengono inclusi esattamente nel campionamento.
+
+### Flusso termico alla superficie
+
+Con flusso positivo entrante nella superficie:
+
+```formula
+h_{net}=h_c+h_r,\qquad h_c=\alpha_c(\theta_g-\theta_m)
+```
+
+```formula
+h_r=\Phi\varepsilon_m\varepsilon_f\sigma[(\theta_r+273)^4-(\theta_m+273)^4]
+```
+
+σ=5,67·10⁻⁸ W/(m² K⁴), Φ è il fattore di configurazione, εm l’emissività superficiale ed εf quella del fuoco. Il programma conserva la conversione +273 dell’espressione EN. θr=θg richiede una conferma esplicita dell’applicabilità dell’ipotesi. Per la superficie non esposta si usa la temperatura ambiente.
+
+Le curve standard ed esterna adottano αc=25 W/(m² K), quella degli idrocarburi 50 W/(m² K). Una curva assegnata richiede αc esplicito. Sul lato non esposto sono disponibili αc=4 con irraggiamento separato oppure α=9 comprensivo dell’irraggiamento; nel secondo caso il contributo radiativo separato è nullo. La faccia adiabatica ha hnet=0.
+
+I valori generici εm=0,8, εf=1 e Φ=1 non sostituiscono le indicazioni della norma del materiale o un calcolo della schermatura. Per θg=θr=800 °C, θm=200 °C, αc=25, εm=0,8 e gli altri due fattori unitari, risultano hc=15000 W/m², hr=57856,852404 W/m² e hnet=72856,852404 W/m².
+
+### Campo di applicazione
+
+θm è un ingresso, costante di riferimento oppure storia superficiale proveniente da un’altra analisi. Non viene risolta l’equazione di conduzione e non sono utilizzati calore specifico, conducibilità o densità del materiale. Le componenti mantengono il segno: durante il raffreddamento una superficie più calda dell’ambiente cede calore, con flusso negativo.
+
+Il passo temporale riguarda il campionamento delle azioni, non la convergenza di un solutore termico. Il modello non determina temperatura interna, degrado meccanico, protezioni, resistenza R/REI, carico d’incendio o dilatazioni impedite. Le azioni meccaniche in situazione di incendio e la loro combinazione eccezionale restano da definire secondo il progetto.
+
+![Curve dei gas e scambio termico](../../src/ANTHEA.Desktop/Assets/Wiki/clima-incendio.png)

@@ -2235,4 +2235,5 @@ L'agente `ca-metodi` (terzo giro) ha aggiunto in Model i campi decisi al punto 6
    i dati; l'alternativa era rifiutarli in Model.
 
 Risposta dell'utente: «Sì, integra». Entrambe come raccomandato; rami portati su origin/master (Model 1a51dad5,
-Checker c2ee6cf0), poi set ufficiale AR, installazione e full.
+Checker c2ee6cf0), poi set ufficiale AS (dopo AR delle azioni aggiuntive, entrato in `main` nella stessa notte),
+installazione e full.

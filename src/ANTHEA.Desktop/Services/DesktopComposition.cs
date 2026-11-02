@@ -82,6 +82,13 @@ internal sealed class DesktopComposition
             new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.RoadTraffic),
             new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.Distribution),
             new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.Impact),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.Hydraulics),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.Construction),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.TimeEffects),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.Prestressing),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.Cranes),
+            new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.Fire),
+            new Anthea.Presentation.Modules.Rheology.RheologySheetModule(),
             new Anthea.Presentation.Modules.EmbeddedWalls.EmbeddedWallSheetModule(),
             // F5.11: the composite bridge section, with the WPF figures of its report; the Release keeps the historic view until its checkpoint.
             new Anthea.Presentation.Modules.CompositeSection.CompositeSectionSheetModule(new CompositeSectionFigureRenderer()),

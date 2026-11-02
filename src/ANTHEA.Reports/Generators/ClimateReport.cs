@@ -8,6 +8,7 @@ namespace Anthea.Reports;
 public static class ClimateReport
 {
     private const int TableWidthTwips=9600;
+    private const int PrestressReportSegments=4,LastPointOffset=1;
     public static DocxDocument Create(string title,JsonObject input,JsonObject result,IReadOnlyList<string[]> inputRows)
     {
         XNamespace w="http://schemas.openxmlformats.org/wordprocessingml/2006/main";
@@ -29,7 +30,32 @@ public static class ClimateReport
         body.Add(P("Dati di ingresso",true));
         Table(["Parametro","Valore / unità"],inputRows);
         body.Add(P("Parametri e formule",true));Values(result["Parameters"]?.AsArray());
-        foreach(var c in result["Cases"]?.AsArray()??[]){body.Add(P(Text(c!["Name"]),true),P(Text(c["Description"])));Values(c["Values"]?.AsArray());}
+        if(result["CraneGroups"] is JsonArray craneGroups)
+            foreach(var group in craneGroups)
+            {
+                body.Add(P(Text(group!["Name"]),true),P("Fattori Qc="+Text(group["CraneFactor"])+"; Qh="+Text(group["HoistFactor"])+"; componente orizzontale="+Text(group["HorizontalFactor"])+". Torsioni ±T alternative."));
+                Table(["Punto / x; y [m]","Q↓ [kN]","Hx [kN]","Hy [kN]","±T [kN·m]"],group["Points"]!.AsArray().Select(p=>new[]{Text(p!["Name"])+" / "+Text(p["XM"])+"; "+Text(p["YM"]),Text(p["VerticalDownKn"]),Text(p["LongitudinalKn"]),Text(p["TransverseKn"]),Text(p["EccentricTorsionKnM"])}));
+            }
+        else foreach(var c in result["Cases"]?.AsArray()??[]){body.Add(P(Text(c!["Name"]),true),P(Text(c["Description"])));Values(c["Values"]?.AsArray());}
+        if(result["Prestress"]?["Stages"] is JsonArray prestressStages)
+            foreach(var stage in prestressStages)
+            {
+                var points=stage!["Points"]!.AsArray();int stride=(points.Count-LastPointOffset)/PrestressReportSegments;
+                body.Add(P("Profilo campionato · "+Text(stage["Name"]),true),P("Cinque sezioni equispaziate. Il CSV contiene il profilo completo e i contributi alle perdite."));
+                Table(["x [m]","Dopo attrito [MPa]","Dopo ancoraggio [MPa]","Iniziale [MPa]","Efficace [MPa]"],points.Where((p,n)=>n%stride==0).Select(p=>new[]{Text(p!["XM"]),Text(p["AfterFrictionMpa"]),Text(p["AfterAnchoringMpa"]),Text(p["InitialStressMpa"]),Text(p["EffectiveStressMpa"])}));
+            }
+        if(result["ConstructionStages"] is JsonArray phases)
+            foreach(var phase in phases)
+            {
+                body.Add(P("Aree caricate · "+Text(phase!["Name"]),true));
+                Table(["Carico / zona","Origine x; y [m]","L × B [m]","Pressione [kPa]"],phase["Loads"]!.AsArray().SelectMany(l=>l!["Patches"]!.AsArray().Select(p=>new[]{Text(l["Name"])+" · "+Text(p!["Name"]),Text(p["LeftXM"])+"; "+Text(p["BottomYM"]),Text(p["LengthM"])+" × "+Text(p["WidthM"]),Text(p["PressureKpa"])})));
+            }
+        if(result["Hydraulics"] is JsonObject hydraulic)
+            foreach(var c in hydraulic["Cases"]!.AsArray())
+            {
+                body.Add(P("Diagramma delle pressioni · "+Text(c!["Name"]),true));
+                Table(["Coordinata [m]","p+ [kPa]","p− [kPa]","pnet [kPa]","qnet [kN/m]"],c["Diagram"]!.AsArray().Select(p=>new[]{Text(p!["PositionM"]),Text(p["PositivePressureKpa"]),Text(p["OpposingPressureKpa"]),Text(p["NetPressureKpa"]),Text(p["NetLineLoadKnM"])}));
+            }
         body.Add(P("Ipotesi e campo di applicazione",true));foreach(var note in result["Notes"]?.AsArray()??[])body.Add(P(Text(note)));
         body.Add(new XElement(w+"sectPr",new XElement(w+"pgSz",new XAttribute(w+"w",11906),new XAttribute(w+"h",16838)),new XElement(w+"pgMar",new XAttribute(w+"top",1134),new XAttribute(w+"bottom",1134),new XAttribute(w+"left",1134),new XAttribute(w+"right",1134))));
         package.SetXml("[Content_Types].xml","<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"png\" ContentType=\"image/png\"/><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/></Types>");

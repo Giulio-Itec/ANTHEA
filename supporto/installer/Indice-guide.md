@@ -1,10 +1,10 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Revisione 65 · 1 novembre 2026
+ITEC Engineering · Revisione 66 · 2 novembre 2026
 
 ## Guida pratica ANTHEA
 
-[Word Rev65](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev65.docx) · [PDF Rev65](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev65.pdf)
+[Word Rev66](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev66.docx) · [PDF Rev66](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev66.pdf)
 
 - Stratigrafia del terreno
 - Avvio e scelta del modulo
@@ -33,10 +33,16 @@ ITEC Engineering · Revisione 65 · 1 novembre 2026
 - Paratie e sostegni flessibili
 - Azioni climatiche
 - Carichi combinazioni e traffico
+- Azioni idrauliche
+- Fasi costruttive
+- Ritiro viscosità e spostamenti imposti
+- Precompressione e perdite
+- Gru e carriponte
+- Azioni termiche da incendio
 
 ## Guida teorica ANTHEA
 
-[Word Rev65](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev65.docx) · [PDF Rev65](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev65.pdf)
+[Word Rev66](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev66.docx) · [PDF Rev66](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev66.pdf)
 
 - Modello della stratigrafia del terreno
 - Architettura del calcolo e convenzioni
@@ -91,6 +97,12 @@ ITEC Engineering · Revisione 65 · 1 novembre 2026
 - Analisi per fasi delle paratie
 - Azioni climatiche
 - Carichi combinazioni e traffico
+- Azioni idrauliche
+- Fasi costruttive
+- Ritiro viscosità e spostamenti imposti
+- Precompressione e perdite
+- Gru e carriponte
+- Azioni termiche da incendio
 
 ## Articoli
 
@@ -98,4 +110,6 @@ ITEC Engineering · Revisione 65 · 1 novembre 2026
 
 - Capacità orizzontale del palo in terreno stratificato: il metodo di G. Pacini, estensione della teoria di Broms (edizione 1)
 
-Azioni: neve, vento e temperatura negli edifici; vento CNR e temperatura negli impalcati; permanenti e sovraccarichi, combinazioni SLU/SLE, traffico stradale, ripartizione rigida e deformabile, urti veicolari. Dieci fogli con schemi e formule; venti esempi nel catalogo centrale, con dati ANTHEA e relazioni Word/PDF e CSV.
+Azioni: neve, vento e temperatura negli edifici; vento CNR e temperatura negli impalcati; permanenti e sovraccarichi, combinazioni SLU/SLE, traffico stradale, ripartizione rigida e deformabile, urti veicolari. Sedici fogli con schemi e formule, compresi idraulica, fasi costruttive, effetti differiti, precompressione, carriponte e incendio; quarantuno esempi Azioni nel catalogo centrale, con dati ANTHEA e relazioni Word/PDF e CSV.
+
+Il foglio **Materiali → Viscosità e maturazione** si apre da **Moduli singoli**, salva parametri e opzioni grafiche e dispone di due esempi nel catalogo centrale. Il precedente richiamo globale nel menu Strumenti è rimosso. La guida pratica descrive salvataggio, revisioni in sola lettura ed esportazione della relazione.

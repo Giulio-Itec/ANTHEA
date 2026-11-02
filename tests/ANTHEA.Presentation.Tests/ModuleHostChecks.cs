@@ -158,11 +158,15 @@ internal static class ModuleHostChecks
     {
         var historic = new ModuleRegistry([]);
         expect.That(historic.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All)
-            && historic.All.Count(d => d.Info.Id is not (Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module or Anthea.Application.Actions.SpectraDocument.Module) && !Anthea.Application.Actions.ClimateDocument.Supports(d.Info.Id)) == 13
-            && historic.All.Count(d=>Anthea.Application.Actions.ClimateDocument.Supports(d.Info.Id))==10
+            && historic.All.Count(d => d.Info.Id is not (Anthea.Application.Materials.RheologyDocument.Module or Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module or Anthea.Application.Actions.SpectraDocument.Module) && !Anthea.Application.Actions.ClimateDocument.Supports(d.Info.Id)) == 13
+            && historic.All.Count(d => d.Info.Id == Anthea.Application.Materials.RheologyDocument.Module && d.Info.Area == "Materiali") == 1
+            && historic.All.Count(d=>Anthea.Application.Actions.ClimateDocument.Supports(d.Info.Id))==16
             && historic.All.Count(d => d.Info.Id == Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module) == 1
             && historic.All.Count(d => d.Info.Id == Anthea.Application.Actions.SpectraDocument.Module) == 1,
-            "Il registro deve conservare i 13 moduli precedenti e includere paratie e spettri una sola volta");
+            "Il registro deve conservare i 13 moduli precedenti, i 16 fogli Azioni, paratie e spettri senza duplicati");
+        foreach (string id in new[] { "act_idrauliche", "act_fasi_costruttive", "act_effetti_differiti",
+            "act_precompressione", "act_gru_carriponte", "act_incendio" })
+            expect.That(historic.All.Count(d => d.Info.Id == id) == 1, "Modulo Azioni assente o duplicato: " + id);
         expect.That(historic.SheetModuleIds.Count == 0 && historic.All.All(d => d is not ISheetModule), "Moduli MVVM nel registro storico");
         expect.That(historic.All.All(d => d.Help.GuideId == WikiCatalog.ForModule(d.Info.Id)?.Id && d.Persistence == ModulePersistence.Undeclared
             && d.Reports == ModuleReportCapabilities.Undeclared), "Guida, persistenza o report dei moduli storici");

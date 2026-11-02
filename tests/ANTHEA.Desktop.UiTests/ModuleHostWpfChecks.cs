@@ -51,7 +51,7 @@ internal static class ModuleHostWpfChecks
     /// switched on 23/10 (passaggi della Release: materials, vertical and horizontal pile and micropile, stratigraphy, shallow foundations,
     /// composite bridge section, Bridge Design, RC section, retaining walls).
     /// </summary>
-    private static readonly string[] ReleaseMvvm = new string[] {SpectraModule, PileGroupModule, "geo_fondazioni_superficiali", HorizontalMicropileModule, "geo_micropalo_verticale", RetainingWallModule, HorizontalPileModule, "geo_palo_verticale", EmbeddedWallModule, "geo_stratigrafia", ProbeModule, ConcreteModule, BridgeDesignModule, CompositeSectionModule, ConcreteSectionModule }.Concat(Anthea.Application.Actions.ClimateDocument.Modules.Select(m=>m.Id)).Order(StringComparer.Ordinal).ToArray();
+    private static readonly string[] ReleaseMvvm = new string[] {"mat_reologia", SpectraModule, PileGroupModule, "geo_fondazioni_superficiali", HorizontalMicropileModule, "geo_micropalo_verticale", RetainingWallModule, HorizontalPileModule, "geo_palo_verticale", EmbeddedWallModule, "geo_stratigrafia", ProbeModule, ConcreteModule, BridgeDesignModule, CompositeSectionModule, ConcreteSectionModule }.Concat(Anthea.Application.Actions.ClimateDocument.Modules.Select(m=>m.Id)).Order(StringComparer.Ordinal).ToArray();
     /// <summary>The RC section, MVVM in the Release since the switch of 23/10/2026 (F5.10).</summary>
     private const string ConcreteSectionModule = "str_palo";
 
@@ -96,7 +96,7 @@ internal static class ModuleHostWpfChecks
         var composition = new DesktopComposition(() => null);
         Check(composition.Modules.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All)
             && composition.Modules.SheetModuleIds.SequenceEqual(ModuleDirectory.All.Select(m => m.Id)
-                .Where(m => m is "geo_efficienza_orizzontale" or "geo_palo_verticale" or "geo_micropalo_verticale" or "mat_calcestruzzo" or "mat_acciaio_armatura"
+                .Where(m => m is "mat_reologia" or "geo_efficienza_orizzontale" or "geo_palo_verticale" or "geo_micropalo_verticale" or "mat_calcestruzzo" or "mat_acciaio_armatura"
                     or "geo_fondazioni_superficiali" or "geo_palo_orizzontale" or "geo_micropalo_orizzontale" or "geo_stratigrafia" or "geo_muri_sostegno"
                     or "str_palo" or SpectraModule or EmbeddedWallModule
                     or "str_mista_ponte"
@@ -112,6 +112,20 @@ internal static class ModuleHostWpfChecks
             Check(wall is MvvmSheetEditor { Sheet: EmbeddedWallSheetViewModel }, "Radice di composizione: la Release apre paratie con la vista MVVM");
         using (var spectra = composition.SheetEditors.Open(SpectraModule, ModuleDirectory.CreateData(SpectraModule)))
             Check(spectra is MvvmSheetEditor { Sheet: SpectraSheetViewModel }, "Radice di composizione: la Release apre Spettri con la vista MVVM");
+        using (var rheology = composition.SheetEditors.Open("mat_reologia", ModuleDirectory.CreateData("mat_reologia")))
+        {
+            Check(rheology is MvvmSheetEditor { Sheet: Anthea.Presentation.Modules.Rheology.RheologySheetViewModel { HasResults: true } }, "Radice di composizione: Reologia è un foglio MVVM con risultati");
+            var window = new Window { Content = rheology.View, Width = 1320, Height = 880, Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+            try
+            {
+                window.Show(); window.UpdateLayout();
+                var sheet = (Anthea.Presentation.Modules.Rheology.RheologySheetViewModel)((MvvmSheetEditor)rheology).Sheet;
+                Check(rheology.View.ActualWidth > 1000 && !string.IsNullOrEmpty(sheet.Model.InfinityText), "DataTemplate del foglio Reologia risolto");
+                rheology.InspectRevision();
+                Check(!sheet.Model.CanEdit, "Reologia: la consultazione delle revisioni protegge gli ingressi");
+            }
+            finally { window.Close(); }
+        }
         foreach (string horizontal in new[] { HorizontalPileModule, HorizontalMicropileModule })
             using (var pile = composition.SheetEditors.Open(horizontal, ModuleDirectory.CreateData(horizontal)))
                 Check(pile is MvvmSheetEditor { Sheet: HorizontalPileSheetViewModel }, "Radice di composizione: la Release apre " + horizontal + " con la vista MVVM");

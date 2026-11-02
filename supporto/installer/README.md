@@ -48,13 +48,13 @@ Il setup sostituisce anche una versione installata più recente, senza conferma.
 
 ## Esempi distribuiti
 
-Il componente **Esempi per tutti i moduli** installa 72 esempi nella cartella `Esempi`, suddivisi per modulo, e il collegamento Esempi nel menu Start. Dentro ANTHEA si consultano dalla pagina **Esempi** e si aprono come copie senza percorso; il primo salvataggio richiede una destinazione personale. Il componente è facoltativo, selezionato per impostazione iniziale.
+Il componente **Esempi per tutti i moduli** installa 93 esempi nella cartella `Esempi`, suddivisi per modulo, e il collegamento Esempi nel menu Start. Dentro ANTHEA si consultano dalla pagina **Esempi** e si aprono come copie senza percorso; il primo salvataggio richiede una destinazione personale. Il componente è facoltativo, selezionato per impostazione iniziale.
 
 La fonte unica è `supporto/esempi/distribuzione/catalogo.json`, con percorso, modulo, descrizione, provenienza e SHA-256 di ciascun file. `Esempi.ps1` verifica integrità e percorsi prima della build e genera elenchi espliciti per installazione e rimozione. I file sono versionati insieme al catalogo. I casi geometrici da wizard indicano nella descrizione le verifiche ancora da completare.
 
 `tests/Installer/Test-Examples.ps1` collauda la sezione reale NSIS in una destinazione isolata, inclusi collegamento, integrità e rimozione che conserva i file personali. Il runner lo esegue con `-Installer`.
 
-Azioni: neve, vento e temperatura negli edifici; vento CNR e temperatura negli impalcati; permanenti e sovraccarichi, combinazioni SLU/SLE, traffico stradale, ripartizione rigida e deformabile, urti veicolari. Dieci fogli con schemi e formule; venti esempi nel catalogo centrale, con dati ANTHEA e relazioni Word/PDF e CSV.
+Azioni: neve, vento e temperatura negli edifici; vento CNR e temperatura negli impalcati; permanenti e sovraccarichi, combinazioni SLU/SLE, traffico stradale, ripartizione rigida e deformabile, urti veicolari. Sedici fogli con schemi e formule, compresi idraulica, fasi costruttive, effetti differiti, precompressione, carriponte e incendio; quarantuno esempi Azioni nel catalogo centrale, con dati ANTHEA e relazioni Word/PDF e CSV.
 
 ## Documentazione distribuita
 
@@ -65,7 +65,7 @@ La cartella `Guide` accanto ad `ANTHEA.exe` contiene quattro PDF:
 - `Guida teorica ANTHEA.pdf`: teoria, formule, ipotesi e limiti di tutti i moduli;
 - `Palo orizzontale in terreno stratificato.pdf`: articolo sul metodo Stratificato di G. Pacini, aperto anche da Diagrammi e dettagli e dalla Wiki.
 
-Gli approfondimenti sono incorporati nelle due guide globali Rev65; l'articolo sul palo orizzontale in terreno stratificato è l'eccezione approvata dall'utente. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica, Articoli e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
+Gli approfondimenti sono incorporati nelle due guide globali Rev66; l'articolo sul palo orizzontale in terreno stratificato è l'eccezione approvata dall'utente. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica, Articoli e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
 
 Per i nuovi argomenti aggiornare i due volumi, i PDF corrispondenti e l’indice. Per casi particolari chiedere all’utente prima di creare un documento autonomo. `Guide.json` contiene l’indice e l’articolo; i due manuali sono selezionati automaticamente alla revisione più recente.
 

@@ -17,7 +17,7 @@ internal static class F5PresentationRules
 {
     internal const string Presentation = "ANTHEA.Presentation";
     /// <summary>P1: projects without WPF. P4 and P5 apply to the same projects (section 2.1: they adopt the Presentation rules).</summary>
-    internal static readonly string[] WpfFreeProjects = [Presentation, "ANTHEA.ModelViewer.Presentation", "ANTHEA.DesignTools.Presentation"];
+    internal static readonly string[] WpfFreeProjects = [Presentation, "ANTHEA.ModelViewer.Presentation"];
     /// <summary>New views (section 2.1): Views/&lt;modulo&gt; and the F5.13 shell. Historical views stay under src/ANTHEA.Desktop/Wpf.</summary>
     internal static readonly string[] NewViewFolders = ["src/ANTHEA.Desktop/Views/", "src/ANTHEA.Desktop/Shell/"];
     const string BaselineFile = "tests/ANTHEA.Architecture.Tests/f5-static-baseline.json";
@@ -672,7 +672,7 @@ internal static class F5PresentationRules
         Check(cleanOutcome.Statuses.Single(s => s.Rule == "P2").State == "vacua" && cleanOutcome.Statuses.Single(s => s.Rule == "P6").State == "vacua"
             && cleanOutcome.Statuses.Single(s => s.Rule == "P7").State == "vacua", "regole vacue non dichiarate");
         Check(cleanOutcome.Statuses.Where(s => s.Rule is "P1" or "P2" or "P3" or "P4" or "P5").All(s => s.Note.Contains("progetto non ancora presente", StringComparison.Ordinal)), "nota «progetto non ancora presente» mancante");
-        Directory.Delete(Path.Combine(clean, "src", "ANTHEA.DesignTools.Presentation"), true);
+        Directory.Delete(Path.Combine(clean, "src"), true);
         Check(Evaluate(new Inputs(clean, [], [], null, null, isDesktop, [])).Violations.Any(v => v.Rule == "P1"), "progetto senza WPF esistente scomparso senza segnalazione");
         return checks;
     }
@@ -684,7 +684,6 @@ internal static class F5PresentationRules
         const string clean = "<Project Sdk=\"Microsoft.NET.Sdk\"><PropertyGroup><TargetFramework>net8.0</TargetFramework></PropertyGroup></Project>";
         Write("src/ANTHEA.ModelViewer.Presentation/ANTHEA.ModelViewer.Presentation.csproj", clean);
         Write("src/ANTHEA.ModelViewer.Presentation/Clean.cs", "namespace Anthea.ModelViewer; public sealed class CleanViewModel { public System.Threading.Tasks.Task LoadAsync() => System.Threading.Tasks.Task.CompletedTask; }");
-        Write("src/ANTHEA.DesignTools.Presentation/ANTHEA.DesignTools.Presentation.csproj", clean);
         Write("src/ANTHEA.Desktop/Wpf/Legacy.cs", "namespace Anthea; class LegacyView { object A() => System.Windows.Application.Current; }");
         if (!includePresentation) return;
         Write("src/ANTHEA.Presentation/ANTHEA.Presentation.csproj", "<Project Sdk=\"Microsoft.NET.Sdk\"><PropertyGroup><TargetFramework>net8.0-windows</TargetFramework><UseWPF>true</UseWPF>"

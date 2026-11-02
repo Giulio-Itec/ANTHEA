@@ -8,9 +8,9 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Anthea.DesignTools.Presentation;
+using Anthea.Presentation.Modules.Rheology;
 
-internal static class Program
+internal static partial class Program
 {
     private const BindingFlags Members = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
     private const BindingFlags Statics = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
@@ -21,7 +21,7 @@ internal static class Program
     [STAThread] private static int Main(string[] args)
     {
         string output = Path.GetFullPath(args[0]); Directory.CreateDirectory(output);
-        try { if (args.Contains("--ui")) Ui(output); else Domain(); }
+        try { if (args.Contains("--ui")) Ui(output); else { Domain(); CaptureHistory(output); } }
         catch (Exception ex) { outcomes.Add("FAIL " + ex); }
         File.WriteAllLines(Path.Combine(output, "esito.txt"), outcomes);
         foreach (string line in outcomes) Console.WriteLine(line);

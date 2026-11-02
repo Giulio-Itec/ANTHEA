@@ -1,0 +1,86 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "act_gru_carriponte",
+  "dati": {
+    "climate_schema": 1,
+    "input_type": "CraneActionsInput",
+    "input": {
+      "Standard": "EurocodeFirstGeneration",
+      "NationalParameters": "Esempio EN 1991-3:2006, valori raccomandati.",
+      "SupplierSource": "Dati nominali dimostrativi, da sostituire con documentazione del costruttore.",
+      "StaticComponentsConfirmed": true,
+      "ApplicabilityAssessment": "Esempio: ponte a quattro ruote, azioni alle guide assegnate; vento, urti e fatica da valutare per il progetto reale.",
+      "Distribution": "SupplierWheelComponents",
+      "LengthM": 20,
+      "WheelbaseM": 4,
+      "BridgeWeightKn": 100,
+      "CrabWeightKn": 20,
+      "HoistLoadKn": 200,
+      "HoistingClass": "HC2",
+      "HoistingSpeedMs": 0.2,
+      "SupplierPhi2": false,
+      "AssignedPhi2": 1.168,
+      "TrackTolerancesConfirmed": true,
+      "Phi4": 1,
+      "Phi5": 1.5,
+      "AutomaticBridgeAcceleration": false,
+      "DriveForceKn": 10,
+      "RailHeadWidthMm": 60,
+      "WheelEccentricityFactor": 0.25,
+      "ResidualHoistFraction": 0.1,
+      "IncludeRelease": false,
+      "ReleaseDevice": "Grab",
+      "ReleasedMassFraction": 0.9,
+      "IncludeTests": false,
+      "DynamicTestRatio": 1.1,
+      "StaticTestRatio": 1.25,
+      "IncludeAccidental": false,
+      "Phi7": 1.25,
+      "CranePositions": [
+        {
+          "Name": "Carrello a sinistra",
+          "CraneXM": 0,
+          "CrabYM": 1,
+          "TravelDirection": 1
+        }
+      ],
+      "SupplierWheels": [
+        {
+          "Name": "Ruota 1",
+          "Position": 1,
+          "Rail": 1,
+          "XM": 0,
+          "CraneWeightKn": 35,
+          "HoistLoadKn": 90
+        },
+        {
+          "Name": "Ruota 2",
+          "Position": 1,
+          "Rail": 1,
+          "XM": 4,
+          "CraneWeightKn": 35,
+          "HoistLoadKn": 90
+        },
+        {
+          "Name": "Ruota 3",
+          "Position": 1,
+          "Rail": 2,
+          "XM": 0,
+          "CraneWeightKn": 25,
+          "HoistLoadKn": 10
+        },
+        {
+          "Name": "Ruota 4",
+          "Position": 1,
+          "Rail": 2,
+          "XM": 4,
+          "CraneWeightKn": 25,
+          "HoistLoadKn": 10
+        }
+      ],
+      "AuxiliaryActions": []
+    }
+  }
+}

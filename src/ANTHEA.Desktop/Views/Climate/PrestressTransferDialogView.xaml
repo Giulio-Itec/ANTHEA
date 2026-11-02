@@ -1,0 +1,13 @@
+<UserControl x:Class="X.Desktop.Views.Climate.PrestressTransferDialogView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Width="780" MinHeight="360" Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}">
+ <StackPanel Margin="20">
+  <TextBlock Text="{Binding State}" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,16"/>
+  <TextBlock Text="Cavo di destinazione" Margin="0,0,0,6"/>
+  <ComboBox ItemsSource="{Binding Targets}" SelectedItem="{Binding Selected}" DisplayMemberPath="Label" Margin="0,0,0,16"/>
+  <TextBlock Text="La copia userà σeff come tensione iniziale della verifica della sezione all’età selezionata. Tiro al martinetto e stato al trasferimento restano registrati nella provenienza. Area e materiale del cavo devono coincidere. Non vengono aggiunte altre azioni N/M di precompressione." TextWrapping="Wrap" Margin="0,0,0,16"/>
+  <CheckBox IsChecked="{Binding Confirmed}" Margin="0,0,0,16"><TextBlock Text="Confermo che Ac, Ic, eccentricità, esposizione e stati di carico usati nel calcolo delle perdite corrispondono alla sezione scelta." TextWrapping="Wrap" MaxWidth="700"/></CheckBox>
+  <TextBlock Text="{Binding Error}" TextWrapping="Wrap" Margin="0,0,0,12"/>
+  <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"><Button Content="Annulla" Command="{Binding CancelCommand}" Padding="14,6" Margin="0,0,10,0"/><Button Content="Apri copia della sezione" Command="{Binding ConfirmCommand}" Padding="14,6"/></StackPanel>
+ </StackPanel>
+</UserControl>

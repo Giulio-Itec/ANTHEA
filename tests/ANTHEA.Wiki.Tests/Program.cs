@@ -13,11 +13,17 @@ try
     foreach (var expected in historical)
         Check(WikiCatalog.Articles.Any(a => a.Id == expected.GetProperty("id").GetString() && a.Key == expected.GetProperty("key").GetString()),
             "Articolo F5 perso o rinominato: " + expected.GetProperty("key").GetString());
-    string[] added = ["guida-paratie", "analisi-paratie", "guida-spettri-ntc", "spettri-isolamento", "capacita-orizzontale-in-terreno-stratificato", "guida-azioni-climatiche", "azioni-climatiche", "guida-carichi-traffico", "carichi-traffico"];
+    string[] added = ["guida-paratie", "analisi-paratie", "guida-spettri-ntc", "spettri-isolamento", "capacita-orizzontale-in-terreno-stratificato", "guida-azioni-climatiche", "azioni-climatiche", "guida-carichi-traffico", "carichi-traffico",
+        "guida-idraulica", "idraulica", "guida-fasi-costruttive", "fasi-costruttive", "guida-effetti-differiti", "effetti-differiti",
+        "guida-precompressione", "precompressione", "guida-carriponte", "carriponte", "guida-incendio", "incendio"];
     Check(WikiCatalog.Articles.Count(a => !added.Contains(a.Key)) == historical.Length, "Censimento storico F5 modificato");
     foreach (string key in added) Check(WikiCatalog.Resolve(key) is not null, "Capitolo aggiunto mancante: " + key);
     Check(WikiCatalog.ForModule("geo_paratie")?.Key == "guida-paratie", "Guida paratie non collegata");
     Check(WikiCatalog.ForModule("act_spettri_ntc")?.Key == "guida-spettri-ntc", "Guida Spettri non collegata");
+    foreach (var (module, key) in new[] { ("act_idrauliche", "guida-idraulica"), ("act_fasi_costruttive", "guida-fasi-costruttive"),
+        ("act_effetti_differiti", "guida-effetti-differiti"), ("act_precompressione", "guida-precompressione"),
+        ("act_gru_carriponte", "guida-carriponte"), ("act_incendio", "guida-incendio") })
+        Check(WikiCatalog.ForModule(module)?.Key == key, "Guida Azioni non collegata: " + module);
     Check(WikiCatalog.Resolve("guida-stratigrafia") is not null && WikiCatalog.Resolve("modello-stratigrafia") is not null, "Capitoli stratigrafia mancanti");
     Check(WikiCatalog.ForModule("geo_stratigrafia") is not null, "Guida stratigrafia non collegata");
     foreach (var article in WikiCatalog.Articles)

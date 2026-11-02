@@ -15,6 +15,5 @@
     <ProjectReference Include="../ANTHEA.Application/ANTHEA.Application.csproj" />
     <ProjectReference Include="../ANTHEA.Wiki/ANTHEA.Wiki.csproj" />
     <ProjectReference Include="../ANTHEA.ModelViewer.Presentation/ANTHEA.ModelViewer.Presentation.csproj" />
-    <ProjectReference Include="../ANTHEA.DesignTools.Presentation/ANTHEA.DesignTools.Presentation.csproj" />
   </ItemGroup>
 </Project>

@@ -12,6 +12,13 @@ try
     var directory = new DirectoryInfo(AppContext.BaseDirectory);
     while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "ANTHEA.sln"))) directory = directory.Parent;
     string root = directory?.FullName ?? throw new DirectoryNotFoundException("ANTHEA.sln non trovato.");
+    if (args.Contains("--rheology"))
+    {
+        string target = args.First(a => a != "--rheology"); Directory.CreateDirectory(target);
+        int count = RheologySheetChecks.Run(root, target);
+        string rheologyMessage = $"PASS {count} controlli foglio Reologia";
+        File.WriteAllText(Path.Combine(target, "esito.txt"), rheologyMessage); Console.WriteLine(rheologyMessage); return 0;
+    }
     if(args.Contains("--spettri")){
         string target=args.FirstOrDefault(a=>a!="--spettri")??Path.Combine(root,"supporto/artefatti/spettri-ntc/presentation");Directory.CreateDirectory(target);
         int count=SpectraSheetChecks.Run(root,target);string spectraMessage=$"PASS {count} controlli Spettri";File.WriteAllText(Path.Combine(target,"esito.txt"),spectraMessage);Console.WriteLine(spectraMessage);return 0;
@@ -98,6 +105,7 @@ try
     checks += ModuleHostChecks.Run();
     checks += PileGroupSheetChecks.Run(root, output);
     checks += MaterialSheetChecks.Run(root, output);
+    checks += RheologySheetChecks.Run(root, output);
     checks += VerticalPileSheetChecks.Run(root, output);
     checks += ShallowFoundationSheetChecks.Run(root, output);
     checks += HorizontalPileSheetChecks.Run(root, output);
