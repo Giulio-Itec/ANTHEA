@@ -16,7 +16,8 @@ Geometry `6734eee1` e Utilities `e57b440b` invariati. Contenuto rispetto ad AS:
 122, CompositeBridge 420, Geotechnics 202, Calculation 175, ShallowFoundation 29, EmbeddedWalls 99, Steel.Members 7132, Design 274
 net8 e 273 net472, ModelChecker 673. Zero fallimenti; API solo con aggiunte. Le DLL sono identiche bit per bit al candidato
 `gpc-cand-20261102-perf`. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; set completo in
-`supporto/artefatti/librerie-20261102-at`.
+`supporto/artefatti/librerie-20261102-at`. Full ANTHEA dopo l'installazione (`lib-at-full` sul commit `a393f84e`):
+161 voci PASS, nessun nuovo fallimento, 81 minuti; evidenze in `supporto/artefatti/integrazione-at/full`.
 
 **Release AS — dati delle sovrapposizioni nel verificatore del modello (2 novembre 2026, notte).** Set ufficiale da Model
 `1a51dad5` e Checker `c2ee6cf0` su origin/master (regola dell'utente del 29/10; decisione «Sì, integra» del 1/11 notte). Geometry
