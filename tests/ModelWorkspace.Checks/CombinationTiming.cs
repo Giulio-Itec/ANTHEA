@@ -241,9 +241,11 @@ static partial class Program
     {
         var container = new JsonObject(); string modelId = ProjectModelStore.Set(container, model);
         int publications = 0;
+        // 2/11/2026: the project of the shell has a results archive (ProjectSession.Results): the large copies enter the document without their results.
+        var archive = new ModelResultArchive(null);
         using var vm = times.Time("vista: apertura del modello (view model)", () => new ModelViewerViewModel(model, [], false, new FakeServices(),
             // Decision of 1/11/2026: what the thread of the interface does with the copy, the insertion of its prepared entry.
-            s => { publications++; times.Time("vista: scrittura nel documento sul thread dell'interfaccia", () => ProjectModelStore.Set(container, s, modelId)); }, (_, _, _, _) => { }));
+            s => { publications++; times.Time("vista: scrittura nel documento sul thread dell'interfaccia", () => ProjectModelStore.Set(container, s, modelId, archive)); }, (_, _, _, _) => { }));
         string envelope = model.Results.First(r => r.Combination?.DefinitionId == "ANTHEA/utente-inviluppo-slu" && r.Name.EndsWith("(max)", StringComparison.Ordinal)).Name;
         string linear = model.Results.First(r => r.Combination?.DefinitionId == "ANTHEA/utente-somma").Name;
         vm.ShowTable = true; vm.SelectedTableKind = 5;

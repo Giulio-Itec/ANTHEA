@@ -19,6 +19,7 @@ static partial class Program
         if (args.Contains("--capture-midas")) return await CaptureLiveMidas(output, args);
         if (args.Contains("--combination-real")) return await CombinationReal(output, args);
         if (args.Contains("--combination-timing")) return await CombinationTiming(output, args);
+        if (args.Contains("--archive-timing")) return await ResultArchiveTiming(output, args);
         try
         {
             var model = Sample.Model(); model.Validate();
