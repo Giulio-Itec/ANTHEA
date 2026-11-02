@@ -21,7 +21,9 @@ internal static class SpectraViewChecks
         Check(editor is MvvmSheetEditor, "Spettri deve aprirsi con MVVM nella Release"); var sheet = (SpectraSheetViewModel)((MvvmSheetEditor)editor).Sheet;
         int modified = 0; editor.Modified += () => modified++;
         var window = new Window { Content = editor.View, Width = 1400, Height = 1000, Left = -32000, Top = -32000, ShowActivated = false, ShowInTaskbar = false, WindowStyle = WindowStyle.None, WindowStartupLocation = WindowStartupLocation.Manual }; Appearance.Watch(window);
-        var bindings = new StringWriter(); var listener = new TextWriterTraceListener(bindings); PresentationTraceSources.DataBindingSource.Listeners.Add(listener);
+        // Outside the debugger the WPF trace sources stay off until Refresh: without it the listener heard nothing (review of the Actions sheets, 2/11/2026).
+        var bindings = new StringWriter(); var listener = new TextWriterTraceListener(bindings);
+        PresentationTraceSources.Refresh(); PresentationTraceSources.DataBindingSource.Listeners.Add(listener); PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
         try
         {
             window.Show(); await editor.CalculateAsync(); window.UpdateLayout(); await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle);

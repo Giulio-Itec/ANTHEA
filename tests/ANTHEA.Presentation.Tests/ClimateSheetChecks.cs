@@ -21,9 +21,15 @@ internal static class ClimateSheetChecks
             var data=scenario.Data;var services=Scripted.Services();
             using var sheet=new ClimateSheetViewModel(scenario.Module,new(data,false,new Host(),services,ModuleServices.Get(scenario.Module),new CalculationLimiter(1)));
             expect.That(ModuleDirectory.Get(scenario.Module).Area=="Azioni","Sottogruppo Azioni: "+scenario.Module);
+            await sheet.PendingCalculation;expect.That(sheet.HasResults,"Calcolo all’apertura, senza «Calcola»: "+scenario.Title+": "+sheet.CalculationMessage);
             expect.That(await sheet.CalculateAsync()&&sheet.HasResults,"Calcolo "+scenario.Title+": "+sheet.CalculationMessage);
             expect.That(sheet.Cases.Count>0&&sheet.Parameters.Count>0&&sheet.CaseValues.Count>0,"Casi e parametri disponibili");
             CheckAssistance(sheet,expect);
+            // Review of the interface (2/11/2026): the tab of the results belongs to the sheet and is never a hidden one; every field opens the guide of the sheet.
+            expect.That(sheet.ResultTabIndex==(sheet.HasModuleTab?0:1),"Scheda dei risultati predefinita: quella del modulo o «Casi di carico»");
+            sheet.ResultTabIndex=0;expect.That(sheet.ResultTabIndex==(sheet.HasModuleTab?0:1),"La scheda del modulo si sceglie solo dove esiste");
+            sheet.ResultTabIndex=5;sheet.ResultTabIndex=2;expect.That(sheet.ResultTabIndex==2,"Scheda scelta conservata, indici fuori campo ignorati");sheet.ResultTabIndex=sheet.HasModuleTab?0:1;
+            expect.That(sheet.Forms.SelectMany(f=>f.Form.Fields).All(f=>f.HasHelp&&f.HelpTopic?.Modules.Contains(scenario.Module)==true),"«?» della guida del foglio su ogni campo");
             var before=sheet.Data.DeepClone();foreach(var panel in sheet.Forms)panel.Form.Commit();expect.That(JsonNode.DeepEquals(before,sheet.Data),"La proiezione italiana non modifica il contratto GPC");
             sheet.IsReadOnly=true;var field=sheet.Forms.SelectMany(f=>f.Form.Fields).Concat(sheet.Tables.Where(t=>t.Editor is not null).SelectMany(t=>t.Editor!.Fields)).FirstOrDefault(f=>f.Kind==Anthea.Presentation.Forms.FieldKind.Text&&f.Spec.Write==Anthea.Presentation.Forms.FieldWriteRule.NumberOrText);
             expect.That(field is not null,"Campo numerico disponibile");field!.EditText="999";expect.That(JsonNode.DeepEquals(before,sheet.Data),"Sola lettura");sheet.IsReadOnly=false;
@@ -34,7 +40,15 @@ internal static class ClimateSheetChecks
             var changed=scenario.Module==ClimateDocument.Construction?sheet.Data["input"]!["ConstructionLoads"]![0]:scenario.Module==ClimateDocument.Combinations?sheet.Data["input"]!["Actions"]![0]:sheet.Data["input"];
             expect.That(!sheet.HasResults&&changed![key]!.GetValue<double>()==edited,"Modifica decimale e invalidazione");
             expect.That(await sheet.CalculateAsync(),"Ricalcolo dopo modifica");sheet.Reload(before.AsObject());expect.That(await sheet.CalculateAsync(),"Ripristino dei dati e ricalcolo");
-            (scenario.Module==ClimateDocument.Construction?sheet.Tables.Single(t=>t.Key=="ConstructionLoads").Editor!:scenario.Module==ClimateDocument.Combinations?sheet.Tables.Single().Editor!:sheet.Forms.Last().Form)[key].EditText="abc";await sheet.CalculateAsync();expect.That(!sheet.HasResults&&sheet.CalculationMessage.Length>0&&sheet.AssistanceSketch.Parts.Count>0,"Errore di input non conserva risultati e mantiene l’assistenza");sheet.Reload(before.AsObject());expect.That(await sheet.CalculateAsync()&&sheet.HasResults,"Recupero da errore");
+            (scenario.Module==ClimateDocument.Construction?sheet.Tables.Single(t=>t.Key=="ConstructionLoads").Editor!:scenario.Module==ClimateDocument.Combinations?sheet.Tables.Single().Editor!:sheet.Forms.Last().Form)[key].EditText="abc";await sheet.CalculateAsync();expect.That(!sheet.HasResults&&sheet.CalculationMessage.Length>0&&sheet.AssistanceSketch.Parts.Count>0,"Errore di input non conserva risultati e mantiene l’assistenza");
+            {
+                // The text stays in the field and in the document, as in the other modules: an error under the field, a message with its label, and the
+                // sheet can still be confirmed, saved and reopened (review of 2/11/2026; before, the confirmation threw «$.Path» and blocked the shell).
+                var wrong=(scenario.Module==ClimateDocument.Construction?sheet.Tables.Single(t=>t.Key=="ConstructionLoads").Editor!:scenario.Module==ClimateDocument.Combinations?sheet.Tables.Single().Editor!:sheet.Forms.Last().Form)[key];
+                expect.That(wrong.Error is not null&&sheet.CalculationMessage.Contains(wrong.Label)&&!sheet.CalculationMessage.Contains("$."),"Testo nel campo numerico: errore sul campo e messaggio con l’etichetta: "+sheet.CalculationMessage);
+                try{sheet.Commit();var saved=DocumentService.CreateDocument(scenario.Module);saved["dati"]=sheet.Data.DeepClone();DocumentService.Validate(saved);expect.That(true,"Conferma e salvataggio con un testo nel campo numerico");}
+                catch(ArgumentException e){expect.That(false,"Conferma con un testo nel campo numerico: "+e.Message);}
+            }sheet.Reload(before.AsObject());expect.That(await sheet.CalculateAsync()&&sheet.HasResults,"Recupero da errore");
             string folder=Path.Combine(output,scenario.Module);Directory.CreateDirectory(folder);string path=Path.Combine(folder,scenario.File+".anthea");
             var document=DocumentService.CreateDocument(scenario.Module);document["dati"]=sheet.Data.DeepClone();DocumentService.Save(path,document);var reopened=DocumentService.Open(path);
             expect.That(JsonNode.DeepEquals(reopened["dati"],sheet.Data),"Salvataggio e apertura del contratto GPC");

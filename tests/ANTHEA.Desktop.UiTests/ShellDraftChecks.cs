@@ -572,7 +572,7 @@ internal static class ShellDraftChecks
     }
 
     /// <summary>A window outside the screen, never activated (the checks of the night share the desktop).</summary>
-    private static T Offscreen<T>(T window) where T : Window
+    internal static T Offscreen<T>(T window) where T : Window
     {
         window.Left = -32000; window.Top = -32000;
         window.WindowStartupLocation = WindowStartupLocation.Manual;
@@ -673,7 +673,7 @@ internal static class ShellDraftChecks
     /// <see cref="Activate"/> it is active and has reported <see cref="Activated"/> once; a request to an active window changes nothing, as
     /// Window.Activate on the desktop. It stays active until it closes (nothing else takes the focus of the system in this check).
     /// </summary>
-    private sealed class QuietWindow : IShellWindow
+    internal sealed class QuietWindow : IShellWindow
     {
         public QuietWindow(DetachedShellWindow window)
         {
@@ -735,7 +735,7 @@ internal static class ShellDraftChecks
     }
 
     /// <summary>Services that never ask: no file, no dialog, «Non salvare» at closing, the messages recorded.</summary>
-    private sealed class DraftServices : IMessageService, IConfirmationService, IFileDialogService, IDialogService, IClipboardService, IExternalLinkService, IWikiNavigator
+    internal sealed class DraftServices : IMessageService, IConfirmationService, IFileDialogService, IDialogService, IClipboardService, IExternalLinkService, IWikiNavigator
     {
         internal List<string> Failures { get; } = [];
         internal PresentationServices Create() => new(this, this, this, this, this, this, this);
