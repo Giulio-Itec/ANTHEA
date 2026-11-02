@@ -1,0 +1,98 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/docs/guida-pratica-anthea.md",
+    "sha256": "bd364d2720fc4f44f8478345efb9a1d47ec679741945e88614b39689915f0a9b",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/docs/guida-pratica-anthea.pdf",
+    "sha256": "1879d76ad810f1fd89ef33fbd30c5ac01804e471ffc44b0860ffa5f391dd5422",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/docs/guida-teorica-anthea.md",
+    "sha256": "af4902f9fb27983ff92a5c46be4b7cb7b8812efbc398ae2e151eaeadb8c139bd",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/docs/guida-teorica-anthea.pdf",
+    "sha256": "b2b63e3f86fb06358df6d400f616ddf7cf556479f8c6b813654941a8316877ed",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev67.docx",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev67.docx",
+    "sha256": "d288001a758f288a5985acbe1b9c38d2b626ef1f6dcadd051b6e31b2c322bbfa",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev67.pdf",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev67.pdf",
+    "sha256": "1879d76ad810f1fd89ef33fbd30c5ac01804e471ffc44b0860ffa5f391dd5422",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev67.docx",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev67.docx",
+    "sha256": "beb378fa59df279fdea9811d2eb701f7696084849ffd8901528a7ff2ec0007e3",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev67.pdf",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev67.pdf",
+    "sha256": "b2b63e3f86fb06358df6d400f616ddf7cf556479f8c6b813654941a8316877ed",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/README.md",
+    "sha256": "feda1080a14247e9a35db7af01992f33c41bd77e73214ceaf78029f45f6de2a8",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/README.pdf",
+    "sha256": "7fadb821234c6645a68175e8964865390036c9429c1e7d575bb7ca1d067ad6c0",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/installer/README.md",
+    "sha256": "91a7ed8990adf8b704239478242513609f9e4ca07b71ec12c4dd439cd4ea04c4",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/installer/README.pdf",
+    "sha256": "42585e48a53e0b7a7afa02b07e33d6393ead78f6c2a63e910287427646fc5122",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/installer/Indice-guide.md",
+    "sha256": "e758cbb72cae4e10beadc8943f71784fcd8afe49ffd092180410ad50d18cc6d6",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/installer/Indice-guide.pdf",
+    "sha256": "cd232d725becba6747243226cb39fc6d7a384c4bace83bc9149f38e9a24a776e",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "d4a4f6c52eb88cae0ceaa1569413c3098469f70ead271f335516c48b960cab9c",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/criterio-stati-rev68-20261102/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "572bc980ea4e56a224a6d8de0b043d769b5f131634bbdd42c49a681defd74781",
+    "motivo": "Sostituita dalla Rev68: criterio resistente per stato limite nei domini della Sezione c.a."
+  }
+]

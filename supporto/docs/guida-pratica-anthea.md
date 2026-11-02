@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 2 novembre 2026 — revisione documentale 67
+Edizione 6 aggiornata il 2 novembre 2026 — revisione documentale 68
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1230,7 +1230,9 @@ Le schede dominio 3D e dominio 2D permettono di esaminare le resistenze della se
 
 Un dominio bidimensionale è una sezione o una proiezione del problema. Se il punto ha componenti fuori dal piano rappresentato, leggere l'indicazione di proiezione e non trattare l'immagine come una verifica completa della pressoflessione deviata. Con «Proietta azioni sul piano» il grafico N–M mostra il punto verificato: Mθ = Mx cos θ + My sin θ con N invariato, sulla retta dall'origine a Rd. I quattro momenti rapidi Mx positivo e negativo, My positivo e negativo sono utili per orientarsi, ma non descrivono da soli l'intero dominio N Mx My.
 
-Nei nuovi fogli scegliere separatamente lo Stato limite (SLU o SLV) e il Criterio resistente (Plastico o Elastico). Il criterio si imposta nella verifica, nelle schede dominio 3D e dominio 2D, e si applica alle combinazioni dei due stati limite. Cambiarlo aggiorna i domini e i risultati. Non vengono calcolati sempre entrambi i criteri. La ricerca della resistenza, ad esempio N costante, rimane una scelta distinta.
+Nei nuovi fogli lo Stato limite mostrato (SLU o SLV) sceglie il dominio e l'elenco delle combinazioni visualizzati nella scheda. Sotto, Criterio resistente SLU e Criterio resistente SLV (Plastico o Elastico) fissano il dominio di ciascuno stato limite; il valore predefinito è Plastico per SLU ed Elastico per SLV. I due criteri sono comuni alle schede dominio 3D e dominio 2D, ai report e a Calcola armature: cambiarli in una scheda li cambia anche nell'altra e aggiorna i domini e i risultati del solo stato limite interessato. La ricerca della resistenza, ad esempio N costante, rimane una scelta distinta.
+
+Fino alla versione 1.17.0 ogni scheda aveva un solo criterio, usato per entrambi gli stati limite. All'apertura dei fogli salvati prima, SLU e SLV prendono il criterio della scheda dominio 3D, così i risultati del dominio 3D, dei report e di Calcola armature non cambiano. Se la scheda dominio 2D usava un criterio diverso, il suo dominio cambia e una nota sotto il criterio lo segnala fino alla modifica successiva.
 
 I documenti precedenti mantengono i gruppi Plastico ed Elastico fino alla conversione esplicita delle sollecitazioni. In quei documenti le chiavi interne SLU e SLV indicavano tali gruppi: non assegnavano automaticamente uno stato limite sismico.
 
@@ -1312,7 +1314,7 @@ SLU e SLV alimentano i domini 2D e 3D e le verifiche di taglio e torsione. Le tr
 
 Importa e sostituisci sostituisce l’intero elenco della finestra; Importa e aggiungi conserva le righe già presenti. Aggiungi, Duplica ed Elimina permettono l’editing manuale. Le modifiche restano nella finestra fino ad Applica; Annulla conserva il foglio. Dopo Applica le verifiche vengono aggiornate. Esporta Excel salva tutte le righe del nuovo elenco.
 
-I vecchi file Excel con Famiglia e i vecchi documenti restano leggibili. Nell’editor la colonna Origine precedente identifica Plastico, Elastico o Taglio: assegnare esplicitamente SLU o SLV alle rispettive righe e completare le componenti mancanti. Per la riga selezionata, Vuoti a zero è un’assegnazione esplicita da usare soltanto quando le componenti sono effettivamente nulle. Le righe storiche non vengono fuse dal nome e il criterio resistente rimane selezionabile nella verifica.
+I vecchi file Excel con Famiglia e i vecchi documenti restano leggibili. Nell’editor la colonna Origine precedente identifica Plastico, Elastico o Taglio: assegnare esplicitamente SLU o SLV alle rispettive righe e completare le componenti mancanti. Per la riga selezionata, Vuoti a zero è un’assegnazione esplicita da usare soltanto quando le componenti sono effettivamente nulle. Le righe storiche non vengono fuse dal nome e i criteri resistenti di SLU e di SLV restano selezionabili nelle schede dei domini.
 
 L’importazione controlla tutte le righe prima di modificare l’elenco. Sono ammessi fino a 10.000 combinazioni e file fino a 20 MB. Le formule Excel non vengono eseguite: vengono segnalati e letti i valori memorizzati nel file. Ricalcolare e salvare il file in Excel prima dell’importazione. Errori di cella e formule senza risultato memorizzato impediscono l’importazione.
 

@@ -1,15 +1,17 @@
 # Guide globali ANTHEA
 
-Edizione 6, 2 novembre 2026. Guide pratica e teorica Rev67, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 2 novembre 2026. Guide pratica e teorica Rev68, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev67.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev67.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev67.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev67.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev68.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev68.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev68.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev68.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
 
 | Articolo | Word | PDF | Sorgente |
 |---|---|---|---|
 | Capacità orizzontale del palo in terreno stratificato (metodo di G. Pacini), edizione 1 | [Word](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx) | [PDF](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf) | [Markdown](../../docs/articolo-palo-orizzontale-stratificato.md) |
+
+La Rev68 accompagna ANTHEA 1.17.1: nella Sezione in c.a. lo Stato limite mostrato delle schede Dominio 3D e Dominio 2D sceglie soltanto dominio e combinazioni visualizzati, mentre il criterio resistente per stato limite (Criterio resistente SLU e Criterio resistente SLV, predefiniti Plastico ed Elastico) è comune ai domini 3D e 2D, ai report e a Calcola armature. I fogli salvati prima prendono per entrambi gli stati limite il criterio della scheda Dominio 3D. La guida teorica cambia soltanto nel punto sul criterio resistente. Le Rev67 di partenza sono conservate in `supporto/SUPERATI/criterio-stati-rev68-20261102/`, con manifest.
 
 La Rev67 aggiunge i sei fogli Azioni idrauliche, Fasi costruttive, Ritiro e viscosità, Precompressione e perdite, Gru e carriponte e Incendio, conservando tutti gli aggiornamenti della Rev65 per ANTHEA 1.17.0. Comprende schemi originali, formule, esempi, edizioni normative e limiti. Entrambe le Rev65 di partenza sono conservate in `supporto/SUPERATI/azioni-estese-rev66-20261101/`, con manifest.
 
