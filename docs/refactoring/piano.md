@@ -1,5 +1,18 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Modelli dopo le prove della 1.17.1 e 1.17.2 — 2 novembre 2026
+
+Segnalazioni dell'utente sulla 1.17.1 (carichi sui plate non visibili, media ai nodi, spessori nell'interrogazione, «Calcola tutte»);
+versione scelta dall'utente («Sì, 1.17.2»).
+
+- [x] Terne GPC nella lettura dal vivo di MIDAS (c901c09b), spessori nella finestra delle sezioni (d668aa92), calcolo in serie delle
+  combinazioni (62c14ccb); 25 suite mirate del modulo Modelli PASS.
+- [x] Versione 1.17.2 e [note di rilascio](note-rilascio-1.17.2.md); profilo standard e suite dell'installer PASS; setup e controllo PASS,
+  tag `v1.17.2` sul commit del setup dbacb9d6 ([verbale](installer-1.17.2.md)).
+- [ ] Guide: spessori e calcolo in serie non ancora descritti (Rev68 invariata).
+- [ ] Full: non eseguita su questo commit.
+- [ ] Riuso delle combinazioni già calcolate negli inviluppi: proposta in GPC, decide l'utente.
+
 ## Criterio resistente per stato limite e 1.17.1 — 2 novembre 2026
 
 Decisioni in [decisioni](decisioni.md), «2 novembre — criterio resistente per stato limite e 1.17.1»; voce CA-CRITERIO-STATI-01.
