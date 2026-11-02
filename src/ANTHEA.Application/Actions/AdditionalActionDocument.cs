@@ -100,7 +100,7 @@ public static partial class ClimateDocument
             string caption=key=="Lanes"&&p.Name=="WidthM"?"Larghezza corsia|m":ExtendedLabel(module,p.Name,context)??ExtraLabel(module,p.Name)??Labels.GetValueOrDefault(p.Name)??p.Name;var parts=caption.Split('|');
             var choices=p.PropertyType.IsEnum?FieldEnumNames(module,p.Name,p.PropertyType).Select(name=>UiCaption(module,name)).ToArray():null;
             if(choices is not null&&values[p.Name] is { } v)values[p.Name]=UiCaption(module,v.ToString());
-            fields.Add(new(p.Name,parts[0],parts.Length>1?parts[1]:"",p.PropertyType==typeof(bool),p.PropertyType==typeof(double)||p.PropertyType==typeof(int),choices,caption.Replace('|',' ')));
+            fields.Add(new(p.Name,parts[0],parts.Length>1?parts[1]:"",p.PropertyType==typeof(bool),p.PropertyType==typeof(double)||p.PropertyType==typeof(int),choices,caption.Replace('|',' '),p.PropertyType==typeof(int)));
         }
         return new(key,"",values,fields);
     }

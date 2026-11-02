@@ -10,7 +10,7 @@ using GPC.Model.Actions.Climate;
 
 namespace Anthea.Application.Actions;
 
-public sealed record ClimateField(string Key, string Label, string Unit, bool Boolean, bool Numeric, string[]? Choices, string Help);
+public sealed record ClimateField(string Key, string Label, string Unit, bool Boolean, bool Numeric, string[]? Choices, string Help, bool Integer=false);
 public sealed record ClimateFormGroup(string Name, string Path, JsonObject Values, IReadOnlyList<ClimateField> Fields);
 
 /// <summary>Versioned GPC input document, UI projections and application dispatch. Engineering stays in GPC.Design.</summary>
@@ -39,9 +39,62 @@ public static partial class ClimateDocument
         Type type=DefaultInput(module).GetType();
         if(document["input_type"]?.ToString()!=type.Name || document["input"] is not JsonObject input)throw new ArgumentException("Contratto GPC del foglio Azioni non coerente con il modulo.");
         try {return input.Deserialize(type,Options)??throw new ArgumentException("Input climatico mancante.");}
-        catch(JsonException e){throw new ArgumentException("Campo non valido nel documento Azioni: "+e.Path,e);}
+        catch(JsonException e){throw new ArgumentException(InvalidValueMessage(module,document,e.Path),e);}
     }
-    public static void Validate(string module,JsonObject document)=>Read(module,document);
+    // Structure of the document as Read. A number field holding text (typed by the user, kept in the document as in the other modules) is
+    // accepted here and reported by the field and by the calculation, so that the sheet can still be confirmed, saved and reopened.
+    public static void Validate(string module,JsonObject document)
+    {
+        var copy=(JsonObject)document.DeepClone();
+        for(int attempt=0;;attempt++)
+        {
+            try{Read(module,copy);return;}
+            catch(ArgumentException e) when(e.InnerException is JsonException json&&attempt<MaximumTextNumbers&&TextNumber(module,copy,json.Path) is { } text)
+            {text.ReplaceWith(0);}
+        }
+    }
+    private const int MaximumTextNumbers=1000;
+    private static readonly System.Text.RegularExpressions.Regex PathSegment=new(@"\.([^.\[]+)|\[(\d+)\]",System.Text.RegularExpressions.RegexOptions.Compiled);
+    // The JSON value at the serializer path of the input when a number property of the GPC contract holds what the user typed and is not
+    // its number: a text, or a decimal in an integer property. Null otherwise (a structural error of the document).
+    private static JsonValue? TextNumber(string module,JsonObject document,string? path)
+    {
+        if(path is null||document["input"] is not JsonObject input)return null;
+        Type? type=DefaultInput(module).GetType();JsonNode? node=input;
+        foreach(System.Text.RegularExpressions.Match m in PathSegment.Matches(path))
+        {
+            if(m.Groups[1].Success){type=type?.GetProperty(m.Groups[1].Value)?.PropertyType;node=(node as JsonObject)?[m.Groups[1].Value];}
+            else{type=ElementType(type);node=(node as JsonArray)?.ElementAtOrDefault(int.Parse(m.Groups[2].Value,CultureInfo.InvariantCulture));}
+        }
+        type=type is null?null:Nullable.GetUnderlyingType(type)??type;
+        bool integer=type==typeof(int)||type==typeof(long),number=integer||type==typeof(double)||type==typeof(float)||type==typeof(decimal);
+        if(!number||node is not JsonValue value)return null;
+        if(value.GetValueKind()==JsonValueKind.String)
+            return (integer?int.TryParse(value.ToString(),NumberStyles.Integer,CultureInfo.InvariantCulture,out _):double.TryParse(value.ToString(),NumberStyles.Float,CultureInfo.InvariantCulture,out _))?null:value;
+        return integer&&value.GetValueKind()==JsonValueKind.Number&&!value.TryGetValue<int>(out _)&&!value.TryGetValue<long>(out _)?value:null;
+    }
+    private static Type? ElementType(Type? type)=>type is null?null:type.IsArray?type.GetElementType():type.GetInterfaces().Concat([type]).FirstOrDefault(i=>i.IsGenericType&&i.GetGenericTypeDefinition()==typeof(IEnumerable<>))?.GetGenericArguments()[0];
+    // The message of an invalid value with the label of its field (and table row), as the user sees them, instead of the serializer path.
+    private static string InvalidValueMessage(string module,JsonObject document,string? path)
+    {
+        var segments=PathSegment.Matches(path??"").Select(m=>m.Groups[1].Success?m.Groups[1].Value:"#"+m.Groups[2].Value).ToArray();
+        string? label=null,place="";
+        try
+        {
+            if(segments.Length>=3&&segments[1].StartsWith('#')&&Tables(document).FirstOrDefault(t=>t.Key==segments[0]) is { } table&&table.Rows.ElementAtOrDefault(int.Parse(segments[1][1..],CultureInfo.InvariantCulture)) is JsonObject row)
+            {
+                label=RowForm(module,table.Key,row,table.Context).Fields.FirstOrDefault(f=>f.Key==segments[2])?.Label;
+                place=table.Title+" · "+(row["Name"]?.ToString()??"riga "+(int.Parse(segments[1][1..],CultureInfo.InvariantCulture)+1))+" · ";
+            }
+            else if(segments.Length>0)
+                label=Forms(module,document).Where(g=>g.Path==(segments.Length>1?segments[0]:"")).SelectMany(g=>g.Fields).FirstOrDefault(f=>f.Key==segments[^1])?.Label;
+        }
+        catch(Exception){label=null;}// the message of the error never hides the error itself
+        label??=segments.Length==0?"Dato del foglio":Labels.TryGetValue(segments[^1],out var caption)?caption.Split('|')[0]:segments[^1];
+        if(TextNumber(module,document,path) is not { } text)return place+label+": valore non valido.";
+        string shown=text.GetValueKind()==JsonValueKind.Number?text.GetValue<double>().ToString(CultureInfo.CurrentCulture):text.ToString();
+        return place+label+": «"+shown+"» "+(text.GetValueKind()==JsonValueKind.Number?"non è un numero intero; inserire un intero.":"non è un numero; inserire un valore numerico.");
+    }
     public static JsonObject Calculate(string module,JsonObject document,CancellationToken cancellation=default)
     {
         cancellation.ThrowIfCancellationRequested(); object input=Read(module,document);
@@ -91,7 +144,7 @@ public static partial class ClimateDocument
                 var parts=caption.Split('|');
                 string[]? choices=p.PropertyType.IsEnum?FieldEnumNames(module,p.Name,p.PropertyType).Select(name=>UiCaption(module,name)).ToArray():null;
                 if(choices is not null && display[p.Name] is { } raw)display[p.Name]=UiCaption(module,raw.ToString());
-                fields.Add(new(p.Name,parts[0],parts.Length>1?parts[1]:"",p.PropertyType==typeof(bool),p.PropertyType==typeof(double)||p.PropertyType==typeof(int),choices,caption.Replace('|',' ')));
+                fields.Add(new(p.Name,parts[0],parts.Length>1?parts[1]:"",p.PropertyType==typeof(bool),p.PropertyType==typeof(double)||p.PropertyType==typeof(int),choices,caption.Replace('|',' '),p.PropertyType==typeof(int)));
             }
             groups.Add(new(name,path,display,fields));
         }
