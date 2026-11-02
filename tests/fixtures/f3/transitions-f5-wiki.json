@@ -3053,7 +3053,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 174 (b)",
+      "percorso": "riga 142 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
@@ -18237,7 +18237,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 143 (b)",
+      "percorso": "riga 145 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Nella **Scala del dominio 3D** i fattori N, MX e MY sono adimensionali e hanno l'unità «−», come gli altri fattori adimensionali del foglio; il cambiamento riguarda solo la presentazione.",
@@ -18245,7 +18245,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 144 (b)",
+      "percorso": "riga 146 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
@@ -18253,7 +18253,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 173 (b)",
+      "percorso": "riga 175 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "### Colonna modello: dati e calcolo",
@@ -18261,7 +18261,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 175 (b)",
+      "percorso": "riga 177 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "La scheda 08 Colonna modello, dopo 07 Momento–curvatura, verifica un pilastro isolato snello con il metodo della colonna modello di EN 1992-1-1 5.8.6(6) e 5.8.8.2, al quale rinvia NTC 2018 §4.1.2.3.9.3: gli effetti del secondo ordine sono concentrati nella sezione critica, con sezione e sforzo norma…",
@@ -18269,7 +18269,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 177 (b)",
+      "percorso": "riga 179 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Nel riquadro Dati della colonna assegnare **N costante (− compressione)**, in kN e negativo a compressione, e **Direzione del momento θ**, con la stessa convenzione della scheda Momento–curvatura: (Mx, My) = M (cos θ, sin θ) negli assi locali. **M0Ed nella sezione critica** è il momento del primo or…",
@@ -18277,7 +18277,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 179 (b)",
+      "percorso": "riga 181 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Nel gruppo Imperfezione ed eccentricità minima il valore iniziale di **Imperfezione geometrica** è quello di EN 1992-1-1 5.2(7)a con θ0 = 1/200, usato anche con le NTC; le alternative sono l0/400 di EN 1992-1-1 5.2(7), per i pilastri isolati dei sistemi controventati, l/300 di NTC 2018 §4.1.2.3.9.3,…",
@@ -18285,7 +18285,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 181 (b)",
+      "percorso": "riga 183 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Nel gruppo Viscosità il valore iniziale è Trascurata: la scheda controlla le tre condizioni di EN 1992-1-1 5.8.4(4) e avvisa quando non sono dimostrate; per il controllo di φ(∞, t0) ≤ 2 inserire anche **Coefficiente di viscosità φ(∞, t0)**. Con φef assegnato si compila **Coefficiente di viscosità ef…",
@@ -18293,7 +18293,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 183 (b)",
+      "percorso": "riga 185 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "**Calcola colonna** conferma i dati del foglio e avvia il calcolo, che non parte da solo; con gli stessi dati il risultato non viene ripetuto. **Interrompi** abbandona il calcolo in corso senza pubblicare risultati parziali. Ogni modifica dei dati del foglio o della scheda cancella il risultato e ch…",
@@ -18301,7 +18301,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 185 (b)",
+      "percorso": "riga 187 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "**Azioni** sceglie che cosa verificare. «Azione singola (N, M0Ed)» calcola la colonna sui campi N e M0Ed. «Combinazioni SLU» e «Combinazioni SLU e SLV» verificano tutte le combinazioni di quegli insiemi della scheda Combinazioni: ognuna è una colonna modello con il proprio N costante e con il moment…",
@@ -18309,7 +18309,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 187 (b)",
+      "percorso": "riga 189 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "**Intervalli del dominio ridotto**, nel gruppo Calcolo, fissa il numero dei punti del dominio ridotto fra 0 e la resistenza a compressione centrata $N_{Rd,c}$: 40 per default, da 4 a 200; gli N delle azioni si aggiungono ai punti. Durante il calcolo il testo mostra la combinazione e il punto del dom…",
@@ -18317,7 +18317,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 189 (b)",
+      "percorso": "riga 191 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "### Colonna modello: risultati, CSV e relazione",
@@ -18325,7 +18325,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 191 (b)",
+      "percorso": "riga 193 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Il grafico M(χ) a N costante e momento esterno riporta la curva della sezione, la retta M2 = k·χ con k = NEd·l0²/c, la tangente al massimo M1Rd,max + k·χ e, se M0Ed è assegnato, la retta del momento esterno M0Ed,tot + k·χ; i punti segnano il massimo, l'equilibrio, il primo snervamento χy e la curvat…",
@@ -18333,7 +18333,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 193 (b)",
+      "percorso": "riga 195 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "I riquadri riportano la snellezza λ = l0/i con λlim della norma, solo informativa perché il calcolo si esegue comunque; il momento del primo ordine M0Ed,tot con imperfezione ed eccentricità minima; la viscosità con le condizioni di 5.8.4(4); la capacità M1Rd,max con il modo di crisi, instabilità o r…",
@@ -18341,7 +18341,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 195 (b)",
+      "percorso": "riga 197 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "**Esporta CSV…** salva i punti del risultato pubblicato, con il nome proposto ANTHEA_Colonna_modello.csv: un punto per riga, colonne separate da punto e virgola, numeri con il punto decimale e fino a diciassette cifre significative, qualunque sia il separatore scelto nel menu Aspetto. Le colonne son…",
@@ -18349,7 +18349,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 197 (b)",
+      "percorso": "riga 199 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Le opzioni della colonna entrano nel foglio alla prima modifica di un dato della scheda: un foglio che non le ha si apre con i valori iniziali, non risulta modificato e le sue relazioni restano quelle di prima. Per i fogli con le opzioni la relazione Word ha il capitolo Colonna modello dopo il momen…",
@@ -18357,7 +18357,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 199 (b)",
+      "percorso": "riga 201 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Con le combinazioni il riquadro **Inviluppo delle combinazioni** dà il rapporto massimo $\\eta = M_{0Ed,tot}/M_{1Rd,max}$ e la combinazione che governa, con il numero delle combinazioni verificate, non verificate e di trazione. Le combinazioni di trazione non sono pertinenti, perché la sezione si ver…",
@@ -18365,7 +18365,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 201 (b)",
+      "percorso": "riga 203 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "La componente normale a θ, $M_\\perp = -M_x\\sin\\theta + M_y\\cos\\theta$, non è verificata: quando supera l'1 % di Mθ compare un avviso. In flessione deviata ripetere il calcolo con θ + 90° e combinare le due direzioni con EN 1992-1-1 5.8.9.",
@@ -18373,7 +18373,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 203 (b)",
+      "percorso": "riga 205 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Il terzo grafico, **Dominio ridotto N–M1Rd,max**, con Adatta, PNG ed Espandi, mostra in blu la capacità del primo ordine M1Rd,max al variare di N fra 0 e $N_{Rd,c}$, in grigio tratteggiato il momento resistente della sezione MRd(N) senza effetti del secondo ordine e in arancio la retta $N_{Ed}\\,e_0$…",
@@ -18389,7 +18389,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 205 (b)",
+      "percorso": "riga 207 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "![Dominio ridotto N–M1Rd,max della colonna modello: capacità del primo ordine in blu, momento resistente della sezione in grigio, retta dell'eccentricità minima in arancio e punto dell'azione.](../../src/ANTHEA.Desktop/Assets/Wiki/colonna-modello-dominio-ridotto.png)",
@@ -18405,7 +18405,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 207 (b)",
+      "percorso": "riga 209 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "**Esporta CSV…** scrive i punti della curva, poi, dopo una riga vuota, i punti del dominio ridotto e, con le combinazioni, una riga per combinazione. Nella relazione il capitolo «Colonna modello» comprende la tabella «Combinazioni», con la combinazione che governa, e il paragrafo «Dominio ridotto N–…",
@@ -18469,7 +18469,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 126 (b)",
+      "percorso": "riga 127 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Nella Scala del dominio 3D i fattori N, MX e MY sono adimensionali e hanno l'unità «−», come gli altri fattori adimensionali del foglio; il cambiamento riguarda solo la presentazione.",
@@ -18477,7 +18477,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 141 (b)",
+      "percorso": "riga 142 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: colonna-modello-dati-e-calcolo",
@@ -18485,7 +18485,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 142 (b)",
+      "percorso": "riga 143 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: La scheda 08 Colonna modello, dopo 07 Momento–curvatura, verifica un pilastro isolato snello con il metodo della colonna modello di EN 1992-1-1 5.8.6(6) e 5.8.8.2, al quale rinvia NTC 2018 §4.1.2.3.9.3: gli effetti del secondo ordine sono concentrati nella sezione critica, con sezione e sforzo…",
@@ -18493,7 +18493,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 143 (b)",
+      "percorso": "riga 144 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Nel riquadro Dati della colonna assegnare N costante (− compressione), in kN e negativo a compressione, e Direzione del momento θ, con la stessa convenzione della scheda Momento–curvatura: (Mx, My) = M (cos θ, sin θ) negli assi locali. M0Ed nella sezione critica è il momento del primo ordine, …",
@@ -18501,7 +18501,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 144 (b)",
+      "percorso": "riga 145 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Nel gruppo Imperfezione ed eccentricità minima il valore iniziale di Imperfezione geometrica è quello di EN 1992-1-1 5.2(7)a con θ0 = 1/200, usato anche con le NTC; le alternative sono l0/400 di EN 1992-1-1 5.2(7), per i pilastri isolati dei sistemi controventati, l/300 di NTC 2018 §4.1.2.3.9.…",
@@ -18509,7 +18509,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 145 (b)",
+      "percorso": "riga 146 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Nel gruppo Viscosità il valore iniziale è Trascurata: la scheda controlla le tre condizioni di EN 1992-1-1 5.8.4(4) e avvisa quando non sono dimostrate; per il controllo di φ(∞, t0) ≤ 2 inserire anche Coefficiente di viscosità φ(∞, t0). Con φef assegnato si compila Coefficiente di viscosità ef…",
@@ -18517,7 +18517,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 146 (b)",
+      "percorso": "riga 147 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Calcola colonna conferma i dati del foglio e avvia il calcolo, che non parte da solo; con gli stessi dati il risultato non viene ripetuto. Interrompi abbandona il calcolo in corso senza pubblicare risultati parziali. Ogni modifica dei dati del foglio o della scheda cancella il risultato e chie…",
@@ -18525,7 +18525,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 147 (b)",
+      "percorso": "riga 148 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Azioni sceglie che cosa verificare. «Azione singola (N, M0Ed)» calcola la colonna sui campi N e M0Ed. «Combinazioni SLU» e «Combinazioni SLU e SLV» verificano tutte le combinazioni di quegli insiemi della scheda Combinazioni: ognuna è una colonna modello con il proprio N costante e con il mome…",
@@ -18533,7 +18533,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 148 (b)",
+      "percorso": "riga 149 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: M_\\theta = M_x\\cos\\theta + M_y\\sin\\theta",
@@ -18541,7 +18541,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 149 (b)",
+      "percorso": "riga 150 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "formula: M_\\theta",
@@ -18549,7 +18549,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 150 (b)",
+      "percorso": "riga 151 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Intervalli del dominio ridotto, nel gruppo Calcolo, fissa il numero dei punti del dominio ridotto fra 0 e la resistenza a compressione centrata  : 40 per default, da 4 a 200; gli N delle azioni si aggiungono ai punti. Durante il calcolo il testo mostra la combinazione e il punto del dominio in…",
@@ -18557,18 +18557,10 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 151 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: N_{Rd,c}",
-      "voce": "R-1162-MAT"
-    },
-    {
-      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
       "percorso": "riga 152 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: colonna-modello-risultati-csv-e-relazione",
+      "b": "formula: N_{Rd,c}",
       "voce": "R-1162-MAT"
     },
     {
@@ -18576,7 +18568,7 @@
       "percorso": "riga 153 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Il grafico M(χ) a N costante e momento esterno riporta la curva della sezione, la retta M2 = k·χ con k = NEd·l0²/c, la tangente al massimo M1Rd,max + k·χ e, se M0Ed è assegnato, la retta del momento esterno M0Ed,tot + k·χ; i punti segnano il massimo, l'equilibrio, il primo snervamento χy e la …",
+      "b": "text: colonna-modello-risultati-csv-e-relazione",
       "voce": "R-1162-MAT"
     },
     {
@@ -18584,7 +18576,7 @@
       "percorso": "riga 154 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: I riquadri riportano la snellezza λ = l0/i con λlim della norma, solo informativa perché il calcolo si esegue comunque; il momento del primo ordine M0Ed,tot con imperfezione ed eccentricità minima; la viscosità con le condizioni di 5.8.4(4); la capacità M1Rd,max con il modo di crisi, instabili…",
+      "b": "text: Il grafico M(χ) a N costante e momento esterno riporta la curva della sezione, la retta M2 = k·χ con k = NEd·l0²/c, la tangente al massimo M1Rd,max + k·χ e, se M0Ed è assegnato, la retta del momento esterno M0Ed,tot + k·χ; i punti segnano il massimo, l'equilibrio, il primo snervamento χy e la …",
       "voce": "R-1162-MAT"
     },
     {
@@ -18592,7 +18584,7 @@
       "percorso": "riga 155 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Esporta CSV… salva i punti del risultato pubblicato, con il nome proposto ANTHEA_Colonna_modello.csv: un punto per riga, colonne separate da punto e virgola, numeri con il punto decimale e fino a diciassette cifre significative, qualunque sia il separatore scelto nel menu Aspetto. Le colonne s…",
+      "b": "text: I riquadri riportano la snellezza λ = l0/i con λlim della norma, solo informativa perché il calcolo si esegue comunque; il momento del primo ordine M0Ed,tot con imperfezione ed eccentricità minima; la viscosità con le condizioni di 5.8.4(4); la capacità M1Rd,max con il modo di crisi, instabili…",
       "voce": "R-1162-MAT"
     },
     {
@@ -18600,7 +18592,7 @@
       "percorso": "riga 156 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Le opzioni della colonna entrano nel foglio alla prima modifica di un dato della scheda: un foglio che non le ha si apre con i valori iniziali, non risulta modificato e le sue relazioni restano quelle di prima. Per i fogli con le opzioni la relazione Word ha il capitolo Colonna modello dopo il…",
+      "b": "text: Esporta CSV… salva i punti del risultato pubblicato, con il nome proposto ANTHEA_Colonna_modello.csv: un punto per riga, colonne separate da punto e virgola, numeri con il punto decimale e fino a diciassette cifre significative, qualunque sia il separatore scelto nel menu Aspetto. Le colonne s…",
       "voce": "R-1162-MAT"
     },
     {
@@ -18608,7 +18600,7 @@
       "percorso": "riga 157 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Con le combinazioni il riquadro Inviluppo delle combinazioni dà il rapporto massimo   e la combinazione che governa, con il numero delle combinazioni verificate, non verificate e di trazione. Le combinazioni di trazione non sono pertinenti, perché la sezione si verifica con i domini; quelle co…",
+      "b": "text: Le opzioni della colonna entrano nel foglio alla prima modifica di un dato della scheda: un foglio che non le ha si apre con i valori iniziali, non risulta modificato e le sue relazioni restano quelle di prima. Per i fogli con le opzioni la relazione Word ha il capitolo Colonna modello dopo il…",
       "voce": "R-1162-MAT"
     },
     {
@@ -18616,7 +18608,7 @@
       "percorso": "riga 158 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: \\eta = M_{0Ed,tot}/M_{1Rd,max}",
+      "b": "text: Con le combinazioni il riquadro Inviluppo delle combinazioni dà il rapporto massimo   e la combinazione che governa, con il numero delle combinazioni verificate, non verificate e di trazione. Le combinazioni di trazione non sono pertinenti, perché la sezione si verifica con i domini; quelle co…",
       "voce": "R-1162-MAT"
     },
     {
@@ -18624,7 +18616,7 @@
       "percorso": "riga 159 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: |N|",
+      "b": "formula: \\eta = M_{0Ed,tot}/M_{1Rd,max}",
       "voce": "R-1162-MAT"
     },
     {
@@ -18632,7 +18624,7 @@
       "percorso": "riga 160 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: N_{Rd,c}",
+      "b": "formula: |N|",
       "voce": "R-1162-MAT"
     },
     {
@@ -18640,7 +18632,7 @@
       "percorso": "riga 161 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: La componente normale a θ,  , non è verificata: quando supera l'1 % di Mθ compare un avviso. In flessione deviata ripetere il calcolo con θ + 90° e combinare le due direzioni con EN 1992-1-1 5.8.9.",
+      "b": "formula: N_{Rd,c}",
       "voce": "R-1162-MAT"
     },
     {
@@ -18648,7 +18640,7 @@
       "percorso": "riga 162 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: M_\\perp = -M_x\\sin\\theta + M_y\\cos\\theta",
+      "b": "text: La componente normale a θ,  , non è verificata: quando supera l'1 % di Mθ compare un avviso. In flessione deviata ripetere il calcolo con θ + 90° e combinare le due direzioni con EN 1992-1-1 5.8.9.",
       "voce": "R-1162-MAT"
     },
     {
@@ -18656,7 +18648,7 @@
       "percorso": "riga 163 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Il terzo grafico, Dominio ridotto N–M1Rd,max, con Adatta, PNG ed Espandi, mostra in blu la capacità del primo ordine M1Rd,max al variare di N fra 0 e  , in grigio tratteggiato il momento resistente della sezione MRd(N) senza effetti del secondo ordine e in arancio la retta   dell'eccentricità …",
+      "b": "formula: M_\\perp = -M_x\\sin\\theta + M_y\\cos\\theta",
       "voce": "R-1162-MAT"
     },
     {
@@ -18664,7 +18656,7 @@
       "percorso": "riga 164 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: N_{Rd,c}",
+      "b": "text: Il terzo grafico, Dominio ridotto N–M1Rd,max, con Adatta, PNG ed Espandi, mostra in blu la capacità del primo ordine M1Rd,max al variare di N fra 0 e  , in grigio tratteggiato il momento resistente della sezione MRd(N) senza effetti del secondo ordine e in arancio la retta   dell'eccentricità …",
       "voce": "R-1162-MAT"
     },
     {
@@ -18672,7 +18664,7 @@
       "percorso": "riga 165 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "formula: N_{Ed}\\,e_0",
+      "b": "formula: N_{Rd,c}",
       "voce": "R-1162-MAT"
     },
     {
@@ -18680,12 +18672,20 @@
       "percorso": "riga 166 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Dominio ridotto N–M1Rd,max della colonna modello: capacità del primo ordine in blu, momento resistente della sezione in grigio, retta dell'eccentricità minima in arancio e punto dell'azione.",
+      "b": "formula: N_{Ed}\\,e_0",
       "voce": "R-1162-MAT"
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
       "percorso": "riga 167 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Dominio ridotto N–M1Rd,max della colonna modello: capacità del primo ordine in blu, momento resistente della sezione in grigio, retta dell'eccentricità minima in arancio e punto dell'azione.",
+      "voce": "R-1162-MAT"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 168 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Esporta CSV… scrive i punti della curva, poi, dopo una riga vuota, i punti del dominio ridotto e, con le combinazioni, una riga per combinazione. Nella relazione il capitolo «Colonna modello» comprende la tabella «Combinazioni», con la combinazione che governa, e il paragrafo «Dominio ridotto …",
@@ -23085,7 +23085,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 165 (b)",
+      "percorso": "riga 167 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Dopo il calcolo della curva la scheda riporta anche la duttilità in curvatura μφ della NTC 2018 §4.1.2.3.4.2: M'yd e φ'yd del primo snervamento convenzionale, cioè della barra più tesa a εyd o del calcestruzzo alla deformazione di picco εc2, quello che arriva prima; MRd e φyd = (MRd/M'yd)·φ'yd della…",
@@ -23093,7 +23093,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 166 (b)",
+      "percorso": "riga 168 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
@@ -23101,7 +23101,7 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 137 (b)",
+      "percorso": "riga 138 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Dopo il calcolo della curva la scheda riporta anche la duttilità in curvatura μφ della NTC 2018 §4.1.2.3.4.2: M'yd e φ'yd del primo snervamento convenzionale, cioè della barra più tesa a εyd o del calcestruzzo alla deformazione di picco εc2, quello che arriva prima; MRd e φyd = (MRd/M'yd)·φ'yd…",
@@ -25778,7 +25778,103 @@
       "a": null,
       "b": "\"/wiki/manuale/azioni/azioni-climatiche\"",
       "voce": "REOLOGIA-MODULO-20261102"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 95",
+      "classe": "testo",
+      "a": "Nei nuovi fogli scegliere separatamente lo Stato limite (SLU o SLV) e il Criterio resistente (Plastico o Elastico). Il criterio si imposta nella verifica, nelle schede dominio 3D e dominio 2D, e si applica alle combinazioni dei due stati limite. Cambiarlo aggiorna i domini e i risultati. Non vengono calcolati sempre entrambi i criteri. La ricerca della resistenza, ad esempio N costante, rimane una scelta distinta.",
+      "b": "Nei nuovi fogli lo Stato limite mostrato (SLU o SLV) sceglie il dominio e l'elenco delle combinazioni visualizzati nella scheda. Sotto, Criterio resistente SLU e Criterio resistente SLV (Plastico o Elastico) fissano il dominio di ciascuno stato limite; il valore predefinito è Plastico per SLU ed Elastico per SLV. I due criteri sono comuni alle schede dominio 3D e dominio 2D, ai report e a Calcola armature: cambiarli in una scheda li cambia anche nell'altra e aggiorna i domini e i risultati del solo stato limite interessato. La ricerca della resistenza, ad esempio N costante, rimane una scelta distinta.",
+      "voce": "CA-CRITERIO-STATI-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 141 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Fino alla versione 1.17.0 ogni scheda aveva un solo criterio, usato per entrambi gli stati limite. All'apertura dei fogli salvati prima, SLU e SLV prendono il criterio della scheda dominio 3D, così i risultati del dominio 3D, dei report e di Calcola armature non cambiano. Se la scheda dominio 2D usa…",
+      "voce": "CA-CRITERIO-STATI-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 210 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "CA-CRITERIO-STATI-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 137",
+      "classe": "testo",
+      "a": "I vecchi file Excel con Famiglia e i vecchi documenti restano leggibili. Nell’editor la colonna Origine precedente identifica Plastico, Elastico o Taglio: assegnare esplicitamente SLU o SLV alle rispettive righe e completare le componenti mancanti. Per la riga selezionata, Vuoti a zero è un’assegnazione esplicita da usare soltanto quando le componenti sono effettivamente nulle. Le righe storiche non vengono fuse dal nome e il criterio resistente rimane selezionabile nella verifica.",
+      "b": "I vecchi file Excel con Famiglia e i vecchi documenti restano leggibili. Nell’editor la colonna Origine precedente identifica Plastico, Elastico o Taglio: assegnare esplicitamente SLU o SLV alle rispettive righe e completare le componenti mancanti. Per la riga selezionata, Vuoti a zero è un’assegnazione esplicita da usare soltanto quando le componenti sono effettivamente nulle. Le righe storiche non vengono fuse dal nome e i criteri resistenti di SLU e di SLV restano selezionabili nelle schede dei domini.",
+      "voce": "CA-CRITERIO-STATI-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 81",
+      "classe": "testo",
+      "a": "text: Nei nuovi fogli scegliere separatamente lo Stato limite (SLU o SLV) e il Criterio resistente (Plastico o Elastico). Il criterio si imposta nella verifica, nelle schede dominio 3D e dominio 2D, e si applica alle combinazioni dei due stati limite. Cambiarlo aggiorna i domini e i risultati. Non vengono calcolati sempre entrambi i criteri. La ricerca della resistenza, ad esempio N costante, rimane una scelta distinta.",
+      "b": "text: Nei nuovi fogli lo Stato limite mostrato (SLU o SLV) sceglie il dominio e l'elenco delle combinazioni visualizzati nella scheda. Sotto, Criterio resistente SLU e Criterio resistente SLV (Plastico o Elastico) fissano il dominio di ciascuno stato limite; il valore predefinito è Plastico per SLU ed Elastico per SLV. I due criteri sono comuni alle schede dominio 3D e dominio 2D, ai report e a Calcola armature: cambiarli in una scheda li cambia anche nell'altra e aggiorna i domini e i risultati del solo stato limite interessato. La ricerca della resistenza, ad esempio N costante, rimane una scelta distinta.",
+      "voce": "CA-CRITERIO-STATI-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 125 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Fino alla versione 1.17.0 ogni scheda aveva un solo criterio, usato per entrambi gli stati limite. All'apertura dei fogli salvati prima, SLU e SLV prendono il criterio della scheda dominio 3D, così i risultati del dominio 3D, dei report e di Calcola armature non cambiano. Se la scheda dominio …",
+      "voce": "CA-CRITERIO-STATI-01"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 102",
+      "classe": "testo",
+      "a": "text: I vecchi file Excel con Famiglia e i vecchi documenti restano leggibili. Nell’editor la colonna Origine precedente identifica Plastico, Elastico o Taglio: assegnare esplicitamente SLU o SLV alle rispettive righe e completare le componenti mancanti. Per la riga selezionata, Vuoti a zero è un’assegnazione esplicita da usare soltanto quando le componenti sono effettivamente nulle. Le righe storiche non vengono fuse dal nome e il criterio resistente rimane selezionabile nella verifica.",
+      "b": "text: I vecchi file Excel con Famiglia e i vecchi documenti restano leggibili. Nell’editor la colonna Origine precedente identifica Plastico, Elastico o Taglio: assegnare esplicitamente SLU o SLV alle rispettive righe e completare le componenti mancanti. Per la riga selezionata, Vuoti a zero è un’assegnazione esplicita da usare soltanto quando le componenti sono effettivamente nulle. Le righe storiche non vengono fuse dal nome e i criteri resistenti di SLU e di SLV restano selezionabili nelle schede dei domini.",
+      "voce": "CA-CRITERIO-STATI-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo_profili-calcestruzzo.md",
+      "percorso": "riga 43",
+      "classe": "testo",
+      "a": "- Il criterio resistente Plastico o Elastico è scelto nella verifica,",
+      "b": "- Il criterio resistente Plastico o Elastico è scelto per ciascuno stato",
+      "voce": "CA-CRITERIO-STATI-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo_profili-calcestruzzo.md",
+      "percorso": "riga 44",
+      "classe": "testo",
+      "a": "  separatamente dallo stato limite e dal percorso di ricerca della resistenza.",
+      "b": "  limite, SLU e SLV, ed è comune ai domini 3D e 2D; resta separato dal",
+      "voce": "CA-CRITERIO-STATI-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo_profili-calcestruzzo.md",
+      "percorso": "riga 47 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "  percorso di ricerca della resistenza.",
+      "voce": "CA-CRITERIO-STATI-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo_profili-calcestruzzo.txt",
+      "percorso": "riga 33",
+      "classe": "testo",
+      "a": "text: - Il criterio resistente Plastico o Elastico è scelto nella verifica,",
+      "b": "text: - Il criterio resistente Plastico o Elastico è scelto per ciascuno stato",
+      "voce": "CA-CRITERIO-STATI-01"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo_profili-calcestruzzo.txt",
+      "percorso": "riga 34",
+      "classe": "testo",
+      "a": "text: separatamente dallo stato limite e dal percorso di ricerca della resistenza. L’etichetta SLV non attiva da sola gerarchie sismiche o altri controlli dell’elemento non rappresentati nel modulo.",
+      "b": "text: limite, SLU e SLV, ed è comune ai domini 3D e 2D; resta separato dal percorso di ricerca della resistenza. L’etichetta SLV non attiva da sola gerarchie sismiche o altri controlli dell’elemento non rappresentati nel modulo.",
+      "voce": "CA-CRITERIO-STATI-01"
     }
   ],
-  "descrizione": " Rev63: quattro articoli nuovi sulle Azioni climatiche e su carichi, combinazioni e traffico; aggiornamenti delle ricerche; conteggio 78 → 82. Voce AZIONI-01; nessun atteso ingegneristico modificato."
+  "descrizione": " Rev63: quattro articoli nuovi sulle Azioni climatiche e su carichi, combinazioni e traffico; aggiornamenti delle ricerche; conteggio 78 → 82. Voce AZIONI-01; nessun atteso ingegneristico modificato. Rev68 (1.17.1): criterio resistente per stato limite della sezione c.a.; aggiornamenti esatti di due articoli (sezione c.a. e profili del calcestruzzo): 12 transizioni nuove, 52 spostate dalle righe aggiunte, 0 tolte. Voce CA-CRITERIO-STATI-01; nessun atteso ingegneristico modificato."
 }

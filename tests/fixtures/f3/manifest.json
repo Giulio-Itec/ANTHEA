@@ -1855,5 +1855,20 @@
     "file": "tests/fixtures/f3/transitions-f5-wiki.json",
     "record": "REOLOGIA-MODULO-20261102",
     "note": "Exact text updates in three existing articles and report search positions; reologia search membership preserved with the explicit keyword. No expected files, engineering transitions or tolerances changed."
+  },
+  "editorial_transitions_rev68": {
+    "capture": "supporto/artefatti/ci/20261102-130609-rilascio-1171-ui/ui_f3-equivalence/cattura",
+    "before_sha256": "4659d7f3c95d94c87f239aa17cc4a16bcf840527ffeefab314b34ad928ea8d29",
+    "after_sha256": "aefd716b85bacfd3ee33b0b4c838753084de5a43b7e0ad0695c0d43c9a1eafe8",
+    "counts": {
+      "previous": 3222,
+      "current": 3234,
+      "added": 12,
+      "moved": 52,
+      "removed": 0
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "CA-CRITERIO-STATI-01",
+    "note": "Guides Rev68 (ANTHEA 1.17.1): exact text updates in two articles (RC section, concrete profiles) for the resistance model per limit state; 52 earlier editorial transitions of the same articles moved to the lines shifted by the added ones, same entries and values. No expected files, engineering transitions or tolerances changed."
   }
 }
