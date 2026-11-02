@@ -29,6 +29,14 @@
      <Button Style="{StaticResource Shell.Button}" Content="{x:Static proj:ModelTabViewModel.RenameLabel}" Command="{Binding RenameCommand}"/>
     </StackPanel>
    </Expander>
+   <!-- 2/11/2026: the previous saved copies of a model in the results archive, with «Ripristina». -->
+   <Expander Header="{x:Static proj:ModelTabViewModel.HistoryHeader}" IsExpanded="False" Margin="0,4,0,0" Visibility="{Binding ShowPreviousCopies, Converter={StaticResource WhenTrue}}">
+    <StackPanel Orientation="Horizontal">
+     <ComboBox ItemsSource="{Binding PreviousCopies}" SelectedItem="{Binding SelectedPreviousCopy}" DisplayMemberPath="Label" MinWidth="260" Margin="4"
+      AutomationProperties.Name="{x:Static proj:ModelTabViewModel.HistoryHeader}"/>
+     <Button Style="{StaticResource Shell.Button}" Content="{x:Static proj:ModelTabViewModel.RestoreLabel}" Command="{Binding RestoreCopyCommand}"/>
+    </StackPanel>
+   </Expander>
   </StackPanel>
   <ContentControl x:Name="Viewer" Focusable="False"/>
  </DockPanel>

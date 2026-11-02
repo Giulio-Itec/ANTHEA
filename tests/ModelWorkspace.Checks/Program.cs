@@ -19,6 +19,7 @@ static partial class Program
         if (args.Contains("--capture-midas")) return await CaptureLiveMidas(output, args);
         if (args.Contains("--combination-real")) return await CombinationReal(output, args);
         if (args.Contains("--combination-timing")) return await CombinationTiming(output, args);
+        if (args.Contains("--archive-timing")) return await ResultArchiveTiming(output, args);
         try
         {
             var model = Sample.Model(); model.Validate();
@@ -30,6 +31,7 @@ static partial class Program
             await CombinationBugChecks();
             await CombinationPrincipalChecks();
             LegacyRevisionChecks();
+            await ResultArchiveChecks(output);
             var clone = ModelSnapshot.FromJson(JsonSerializer.Serialize(model));
             Check(clone.Fingerprint() == model.Fingerprint(), "snapshot survives round trip, including offsets and per-element result values");
             Check(clone.Results[0].Values.Where(v => v.Node == 2).Select(v => v.Values[1]).SequenceEqual([20.0, -200.0]), "shared node retains the discontinuity between elements");

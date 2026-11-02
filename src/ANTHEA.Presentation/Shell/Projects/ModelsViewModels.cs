@@ -11,6 +11,9 @@ namespace Anthea.Presentation.Shell.Projects;
 /// <summary>A model of a section, or «+ Modello» (null identifier), on the page «Modelli».</summary>
 public sealed record ModelLink(JsonObject Container, string? Id, string Name);
 
+/// <summary>A previous saved copy of a model (2/11/2026, «Copie precedenti»): its revision and its label.</summary>
+public sealed record PreviousCopy(string Revision, string Label);
+
 /// <summary>A card of the page «Modelli»: a section of a project, its path, «N modelli · N fogli», its models and «+ Modello».</summary>
 public sealed record ModelContainerCard(JsonObject Container, string Path, string Summary, IReadOnlyList<ModelLink> Models, ModelLink NewModel);
 
@@ -139,11 +142,14 @@ public sealed class ModelTabViewModel : ViewModelBase
     public const string SaveLabel = "Salva progetto";
     public const string RenameHeader = "Nome del modello";
     public const string RenameLabel = "Rinomina";
+    public const string HistoryHeader = "Copie precedenti";
+    public const string RestoreLabel = "Ripristina";
 
     private readonly ProjectSession project;
     private string title;
     private string renameText;
     private bool readOnly;
+    private PreviousCopy? selectedPreviousCopy;
 
     /// <param name="project">The open project.</param>
     /// <param name="container">The section of the model, in the document on screen.</param>
@@ -159,15 +165,17 @@ public sealed class ModelTabViewModel : ViewModelBase
         readOnly = project.IsReadOnly;
         Container = container;
         ModelId = modelId;
-        Snapshot = modelId is null ? null : ProjectModelStore.Read(container, modelId);
+        Snapshot = modelId is null ? null : ProjectModelStore.Read(container, modelId, project.Results);
         title = renameText = modelId is null ? NewModelTitle : ProjectModelStore.Models(container).Single(m => m.S("id") == modelId).S("nome");
         Targets = ReadTargets(container);
+        PreviousCopies = ReadHistory(container, modelId);
         var guard = new CommandGuard(messages);
         BackCommand = GuardedCommands.Create(guard, () => BackRequested?.Invoke(this, EventArgs.Empty));
         OwnerCommand = GuardedCommands.Create(guard, () => OwnerRequested?.Invoke(this, Container));
         NewModelCommand = GuardedCommands.Create(guard, () => NewModelRequested?.Invoke(this, Container), () => !IsReadOnly);
         SaveCommand = GuardedCommands.Create(guard, () => SaveRequested?.Invoke(this, EventArgs.Empty));
         RenameCommand = GuardedCommands.Create(guard, () => Rename(RenameText));
+        RestoreCopyCommand = GuardedCommands.Create(guard, () => RestoreCopy(SelectedPreviousCopy?.Revision ?? ""), () => !IsReadOnly && SelectedPreviousCopy is not null);
     }
 
     /// <summary>The section of the model.</summary>
@@ -198,6 +206,20 @@ public sealed class ModelTabViewModel : ViewModelBase
     public IRelayCommand NewModelCommand { get; }
     public IRelayCommand SaveCommand { get; }
     public IRelayCommand RenameCommand { get; }
+    public IRelayCommand RestoreCopyCommand { get; }
+
+    /// <summary>The previous saved copies of the model in the results archive (2/11/2026), the most recent first; empty for a model in the document.</summary>
+    public IReadOnlyList<PreviousCopy> PreviousCopies { get; private set; }
+
+    /// <summary>«Copie precedenti» is shown: copies to restore, outside the preview of a revision.</summary>
+    public bool ShowPreviousCopies => PreviousCopies.Count > 0 && !IsReadOnly;
+
+    /// <summary>The copy chosen in «Copie precedenti».</summary>
+    public PreviousCopy? SelectedPreviousCopy
+    {
+        get => selectedPreviousCopy;
+        set { if (SetProperty(ref selectedPreviousCopy, value)) RestoreCopyCommand.NotifyCanExecuteChanged(); }
+    }
 
     /// <summary>«← Modelli».</summary>
     public event EventHandler? BackRequested;
@@ -232,12 +254,23 @@ public sealed class ModelTabViewModel : ViewModelBase
     {
         ArgumentNullException.ThrowIfNull(prepared);
         string? id = ModelId;
-        if (!project.ChangeData(() => { id = ProjectModelStore.Set(Container, prepared, id); return true; }, Container)) return;
+        if (!project.ChangeData(() => { id = ProjectModelStore.Set(Container, prepared, id, project.Results); return true; }, Container)) return;
         ModelId = id;
         Snapshot = prepared.Snapshot;
         Title = RenameText = ProjectModelStore.Models(Container).Single(m => m.S("id") == id).S("nome");
         Targets = ReadTargets(Container);
+        RefreshHistory();
         OnPropertyChanged(nameof(ModelId)); OnPropertyChanged(nameof(Targets));
+    }
+
+    /// <summary>«Ripristina» in «Copie precedenti» (2/11/2026): the copy saved before, read from the results archive, becomes the model of the
+    /// tab (the current copy enters the history when it was saved; «Annulla» brings it back); the view shows it.</summary>
+    /// <exception cref="InvalidDataException">The copy is not in the history or not in the archive any more.</exception>
+    public void RestoreCopy(string revision)
+    {
+        if (ModelId is not { } id) throw new InvalidOperationException(ImportFirst);
+        Imported(ModelDocumentEntry.Prepare(ProjectModelStore.ReadRevision(Container, id, revision, project.Results)));
+        OnPropertyChanged(nameof(Snapshot));
     }
 
     /// <summary>The viewer links a result of the model to a sheet of the section (refused before the import).</summary>
@@ -245,7 +278,7 @@ public sealed class ModelTabViewModel : ViewModelBase
     {
         if (ModelId is not { } id) throw new InvalidOperationException(ImportFirst);
         var sheet = ProjectModelStore.DescendantSheets(Container).Single(s => s.S("id") == sheetId);
-        if (!project.ChangeData(() => { ProjectModelStore.Link(Container, sheet, id, element, result, component); return true; }, sheet)) return;
+        if (!project.ChangeData(() => { ProjectModelStore.Link(Container, sheet, id, element, result, component, project.Results); return true; }, sheet)) return;
         Targets = ReadTargets(Container);
         OnPropertyChanged(nameof(Targets));
     }
@@ -260,8 +293,9 @@ public sealed class ModelTabViewModel : ViewModelBase
         if (project.Find(Container.S("id")) is not { } container) return false;
         if (ModelId is { } id && !ProjectModelStore.Models(container).Any(m => m.S("id") == id)) return false;
         Container = container;
-        Snapshot = ModelId is null ? null : ProjectModelStore.Read(container, ModelId);
+        Snapshot = ModelId is null ? null : ProjectModelStore.Read(container, ModelId, project.Results);
         Targets = ReadTargets(container);
+        RefreshHistory();
         Title = RenameText = ModelId is null ? NewModelTitle : ProjectModelStore.Models(container).Single(m => m.S("id") == ModelId).S("nome");
         OnPropertyChanged(nameof(Container)); OnPropertyChanged(nameof(Snapshot)); OnPropertyChanged(nameof(Targets));
         RaiseState();
@@ -275,9 +309,19 @@ public sealed class ModelTabViewModel : ViewModelBase
             readOnly = project.IsReadOnly;
             OnPropertyChanged(nameof(IsReadOnly));
             NewModelCommand.NotifyCanExecuteChanged();
+            RestoreCopyCommand.NotifyCanExecuteChanged(); OnPropertyChanged(nameof(ShowPreviousCopies));
         }
         OnPropertyChanged(nameof(PathText));
     }
+
+    private void RefreshHistory()
+    {
+        PreviousCopies = ReadHistory(Container, ModelId); SelectedPreviousCopy = null;
+        OnPropertyChanged(nameof(PreviousCopies)); OnPropertyChanged(nameof(ShowPreviousCopies));
+    }
+
+    private static IReadOnlyList<PreviousCopy> ReadHistory(JsonObject container, string? modelId) => modelId is null ? [] :
+        ProjectModelStore.History(container, modelId).Select(h => new PreviousCopy(h.Revision, ShellTexts.PreviousCopy(h.Date, h.ResultSets))).ToArray();
 
     private static IReadOnlyList<SheetTarget> ReadTargets(JsonObject container) => ProjectModelStore.DescendantSheets(container).Select(s => new SheetTarget(s.S("id"), s.S("nome"),
         s[ProjectModelStore.Binding] is null ? "Non collegato" : ProjectModelStore.FindOwner(s) is { } owner ? ProjectModelStore.LinkStatus(owner, s) : "Riferimento da aggiornare")).ToArray();

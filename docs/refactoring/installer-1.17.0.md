@@ -51,24 +51,30 @@ Le istruzioni dell'installer, con il PDF, sono aggiornate dall'agente delle guid
 - **Corsa rapida del ramo d'integrazione con AQ** (`supporto/artefatti/integrazione-aq/quick`): 57 suite passate e 2 fallimenti
   nuovi (Architecture.Tests, ANTHEA.ApiReuse.Checks), corretti in b71f4ad3 e ripassati (`integrazione-aq/mirate`).
 - **Campagna dei tempi su AQ, a macchina ferma** (`supporto/artefatti/combo-chiusura/tempi-20261101-aq*`): PASS, impronte dei valori uguali alla 1.16.0 sui modelli 100 × 50 e 500 × 100; prova completa sul 500 × 100 36,0 s (36,6 s con la 1.16.x), inviluppo SLU 3,3 s con le principali (2,0 s).
-- **Full di rilascio:** sul commit del setup, profilo full con `-Installer` e `GPC_STRAUS7_ELEMENTS=versioned`
-  (`supporto/artefatti/rilascio-1.17.0/full`).
-- **Setup:** costruito poi dallo stesso commit con `Crea-Installer.ps1` (`supporto/artefatti/rilascio-1.17.0/installer`) e controllato
-  con `Audit-Installer.py`.
+- **Full di rilascio:** sul commit del setup f2906bbd, albero pulito, profilo full con `-Installer` e
+  `GPC_STRAUS7_ELEMENTS=versioned` (`supporto/artefatti/rilascio-1.17.0/full`, log `full.log`): **PASS 163, KNOWN 0, NEW-FAIL 0**.
+  Non eseguite, come nelle full precedenti: ElasticPile.Checks, BridgeValidationCurrent ed ElasticPile.Performance.
+- **Setup:** costruito poi dallo stesso commit con `Crea-Installer.ps1` (`supporto/artefatti/rilascio-1.17.0/installer`):
+  - file `ANTHEA-1.17.0-Setup-x64.exe`, 72 952 306 byte;
+  - SHA-256 `AC27E69D59D0BDF9CB4AE527066398EDA7584C24A6FD13A67BDC70ED93FE4C44`;
+  - `7z t` senza errori: 413 file;
+  - `Audit-Installer.py` PASS (`audit.log`, `audit-payload.json`): 331 file dell'applicazione, 408 nel pacchetto, 72 documenti
+    e 25 moduli di esempio.
 
-Gli esiti della full e del setup (nome, dimensione e SHA-256) sono nell'annotazione del tag `v1.17.0`, sul commit del setup.
-`main` resta su quel commit, come chiesto dall'utente; il verbale con gli esiti entra nel commit successivo.
+Il tag annotato `v1.17.0` sta sul commit del setup f2906bbd e riporta le note di rilascio con questi esiti. `main` e
+`refactoring/f5` sono stati portati su quel commit e pubblicati con il tag, come chiesto dall'utente («porta master sul commit
+della versione e push su git»); questo verbale entra nel commit successivo.
 
 ## Lista di controllo
 
-| Controllo | Atteso |
-| --- | --- |
-| Commit del full = commit del setup, albero pulito | stesso SHA |
-| Full `rilascio-1.17.0/full` | PASS, NEW-FAIL 0 |
-| Suite installer | `installer/safety`, `installer/guides`, `installer/examples` PASS |
-| `7z t` del setup | nessun errore |
-| Versione del prodotto di `ANTHEA.exe` estratto | `1.17.0+<commit>` |
-| DLL GPC uguali a `lib/Checker/manifest.json` | tutte quelle del manifest, set AQ |
-| Processo Straus7 | `ANTHEA.Strand7Worker` accanto ad `ANTHEA.exe`, senza `St7api.dll` |
-| Guide | pratica e teorica Rev65 |
-| Gmsh, UnsafeEx, assembly di prova o legacy | nessuno |
+| Controllo | Atteso | Esito |
+| --- | --- | --- |
+| Commit del full = commit del setup, albero pulito | stesso SHA | f2906bbd per entrambi, albero pulito |
+| Full `rilascio-1.17.0/full` | PASS, NEW-FAIL 0 | PASS 163, NEW-FAIL 0 |
+| Suite installer | `installer/safety`, `installer/guides`, `installer/examples` PASS | PASS |
+| `7z t` del setup | nessun errore | nessun errore |
+| Versione del prodotto di `ANTHEA.exe` estratto | `1.17.0+<commit>` | `1.17.0+f2906bbd33f008ef650662692e8d743717ee5eeb` |
+| DLL GPC uguali a `lib/Checker/manifest.json` | tutte quelle del manifest, set AQ | 13 su 13, manifest `668CEA6D…53AF` |
+| Processo Straus7 | `ANTHEA.Strand7Worker` accanto ad `ANTHEA.exe`, senza `St7api.dll` | 4 file del processo, nessun `St7api.dll` |
+| Guide | pratica e teorica Rev65 | Rev65 |
+| Gmsh, UnsafeEx, assembly di prova o legacy | nessuno | nessuno |

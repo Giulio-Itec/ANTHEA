@@ -13,6 +13,9 @@
   «vista: scrittura nel documento sul thread dell'interfaccia» misura quello che resta sul thread dell'interfaccia (1/11/2026).
   -Baseline: cartella con ModelWorkspace.Checks.dll compilato dal codice della 1.16.0 (main 61dc4ff3, set AM; per esempio
   supporto\artefatti\combo-modelli\bin-1.16.0): le stesse corse in <Output>\prima, per il confronto prima/dopo.
+  -Archive: archivio dei risultati accanto al progetto (2/11/2026), modalità --archive-timing: dimensioni dei file, preparazione
+  della voce, Salva, apertura e primo accesso ai risultati, prima (copia nel documento, 1.17.0) e dopo (archivio), con l'impronta
+  dei valori; di solito -Models 500x100,1000x100. Scrive archivio.md.
 .EXAMPLE
   powershell -NoProfile -ExecutionPolicy Bypass -File tools\model-viewer\Measure-CombinationTimes.ps1 -Models 100x50,500x100 -Runs 7 -Warmup 2 -Baseline supporto\artefatti\combo-modelli\bin-1.16.0
 #>
@@ -23,6 +26,7 @@ param(
     [int] $Linear = 8,
     [string] $Output,
     [string] $Baseline,
+    [switch] $Archive,
     [switch] $NoBuild
 )
 $ErrorActionPreference = 'Stop'
@@ -39,6 +43,8 @@ if (-not $NoBuild) {
 }
 $dll = (& dotnet msbuild $project -getProperty:TargetPath -p:Configuration=Release -nologo | Select-Object -Last 1).Trim()
 $timing = @('--combination-timing', '--models', ($Models -join ','), '--runs', $Runs, '--warmup', $Warmup, '--linear', $Linear)
+# -Archive (2/11/2026): the results archive beside the project, before (copy in the document, 1.17.0) and after; writes archivio.md.
+if ($Archive) { $timing = @('--archive-timing', '--models', ($Models -join ','), '--runs', $Runs); $Baseline = $null }
 $watch = [Diagnostics.Stopwatch]::StartNew()
 # Windows PowerShell turns the lines of stderr into errors: the runs report their failures themselves (exit code, esito.txt).
 $ErrorActionPreference = 'Continue'

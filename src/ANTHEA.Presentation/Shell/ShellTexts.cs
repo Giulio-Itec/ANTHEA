@@ -72,4 +72,9 @@ public static class ShellTexts
         ArgumentNullException.ThrowIfNull(revision);
         return DateTime.TryParse(revision.S("data"), out var time) ? time.ToString("dd/MM/yyyy HH:mm") : revision.S("data");
     }
+
+    /// <summary>A previous copy of a model in «Copie precedenti» (2/11/2026): the moment it was prepared, as the dates of the revisions, and
+    /// its result sets.</summary>
+    public static string PreviousCopy(string date, int resultSets) =>
+        (DateTime.TryParse(date, out var time) ? time.ToString("dd/MM/yyyy HH:mm") : date) + " · " + resultSets + " insiemi di risultati";
 }

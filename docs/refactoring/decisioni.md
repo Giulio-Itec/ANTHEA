@@ -2223,3 +2223,17 @@ Domande degli agenti `modelli-8` e `ca-metodi` (secondo giro), tutte decise come
 7. **Nuova versione**: «fai nuova versione di anthea se tutto passa», poi «ricordati di fare merge dei vari branch e di
    pulire a fine lavoro. porta master sul commit della versione e push su git». Esce come ANTHEA 1.17.0: funzioni nuove,
    quindi sale il secondo numero. Contiene librerie AQ e guide Rev65; il tag `v1.17.0` va sul commit del setup.
+
+## 1 novembre (notte) — dati delle sovrapposizioni in Model
+
+L'agente `ca-metodi` (terzo giro) ha aggiunto in Model i campi decisi al punto 6 della sera. Domande:
+
+1. **Campo della percentuale e campi insieme.** `LappedPercent` va da 0 a 100 compreso e `LapLayers` vale almeno 1, da dare
+   insieme o nessuno dei due. Per coerenza la percentuale di `LapArrangementData` in GPCChecker.Concrete passa da (0; 100]
+   a [0; 100]: prima con lo 0 il verificatore del modello avrebbe dato «fuori dal campo del metodo».
+2. **Campi fuori dalla zona di sovrapposizione.** Sono accettati e ignorati, così la zona si può attivare dopo senza perdere
+   i dati; l'alternativa era rifiutarli in Model.
+
+Risposta dell'utente: «Sì, integra». Entrambe come raccomandato; rami portati su origin/master (Model 1a51dad5,
+Checker c2ee6cf0), poi set ufficiale AS (dopo AR delle azioni aggiuntive, entrato in `main` nella stessa notte),
+installazione e full.
