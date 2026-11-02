@@ -56,6 +56,7 @@ internal static class ShellPartCChecks
         Menu(expect);
         Shell(expect, folder);
         Models(expect);
+        PreviousCopies(expect, folder);
         return expect.Count;
     }
 
@@ -291,5 +292,31 @@ internal static class ShellPartCChecks
         while (project.CanUndo && ProjectModelStore.Models(project.Find(section.S("id")) ?? new JsonObject()).Any()) project.Restore(false);
         expect.That(!shell.Windows.Pages.Any() && model.IsDisposed, "Annulla dell'importazione: la scheda del modello si chiude");
         expect.That(!dirty || project.IsDirty, "Documento ancora da salvare");
+    }
+
+    /// <summary>2/11/2026: a model in the results archive beside the project: after «Salva con nome» a new copy puts the saved one in «Copie
+    /// precedenti», and «Ripristina» brings it back (read from the archive written beside the file).</summary>
+    private static void PreviousCopies(Expect expect, string folder)
+    {
+        string path = Path.Combine(folder, "Progetto con archivio.programma");
+        var bench = new ShellBench(dialogs: new ScriptedFileDialogs().Then(path));
+        using var shell = new ShellViewModel(bench.Services, bench.Factory, new DocumentFiles(Path.Combine(Path.GetTempPath(), "anthea-esempi-assenti")), new NoWindows(), new SheetFileExports());
+        shell.Models.NewProjectCommand.Execute(null);
+        var project = shell.Workspace.Project!;
+        var section = project.AddSection(shell.Tree.AddProject()!)!;
+        shell.Models.OpenModelCommand.Execute(shell.Models.Cards.Single(c => ReferenceEquals(c.Container, section)).NewModel);
+        var model = (ModelTabViewModel)shell.Windows.Pages.Single().Content!;
+        ModelSnapshot Copy(string name) => new() { Name = name, Nodes = [new ModelNode(1, 0, 0, 0)], Results = [new ModelResultSet("Caso " + name, false, [])] };
+        // The checks of the archive use a limit of one byte: the copies go to the archive as the large ones do.
+        model.Imported(ModelDocumentEntry.Prepare(Copy("A"), 1));
+        expect.That(model.PreviousCopies.Count == 0 && !model.ShowPreviousCopies && shell.Workspace.Save(project, true) && File.Exists(ModelResultArchive.PathFor(path)),
+            "Archivio dei risultati: «Salva con nome» scrive l'archivio accanto al progetto");
+        model.Imported(ModelDocumentEntry.Prepare(Copy("B"), 1));
+        expect.That(model.PreviousCopies.Count == 1 && model.ShowPreviousCopies && !model.RestoreCopyCommand.CanExecute(null), "«Copie precedenti»: la copia salvata");
+        model.SelectedPreviousCopy = model.PreviousCopies[0];
+        bool recreated = false; model.PropertyChanged += (_, e) => recreated |= e.PropertyName == nameof(ModelTabViewModel.Snapshot);
+        model.RestoreCopyCommand.Execute(null);
+        expect.That(model.Snapshot?.Name == "A" && recreated && bench.Messages.Failures.Count == 0 && ProjectModelStore.Models(section).Single().S("nome") == "A",
+            "«Ripristina»: la copia salvata torna il modello della scheda");
     }
 }
