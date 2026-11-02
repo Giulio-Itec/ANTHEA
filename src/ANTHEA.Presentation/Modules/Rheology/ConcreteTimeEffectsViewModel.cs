@@ -15,7 +15,8 @@ public sealed record CurveChoice(ConcreteTimeCurve Value, string Label);
 /// <summary>Presentation state only. All material properties and time effects are evaluated by Model.</summary>
 public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataErrorInfo
 {
-    private static readonly CultureInfo Italian = CultureInfo.GetCultureInfo("it-IT");
+    // The decimal separator chosen in «Aspetto» (the current culture), as in the other sheets; no thousands separator (review of 2/11/2026).
+    private static CultureInfo Culture => CultureInfo.CurrentCulture;
     private readonly Dictionary<string, string> errors = new();
     private RheologyEvaluation? calculation;
     // The input properties, in the order of their notifications (the insertion order of the former HashSet); immutable catalogue (F5.13 d, P3).
@@ -59,11 +60,11 @@ public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataE
     public string Error => string.Join(" · ", errors.Values);
     public string this[string columnName] => errors.GetValueOrDefault(columnName, "");
     public string InfinityText => Format(calculation?.CreepInfinity, "0.000");
-    public string E28Text => Format(calculation?.Ecm28Mpa, "N0") + (HasResults ? " MPa" : "");
+    public string E28Text => Format(calculation?.Ecm28Mpa, "0") + (HasResults ? " MPa" : "");
     public string QueryPhiText => Format(QueryPoint?.CreepCoefficient, "0.000");
-    public string QueryEText => Format(QueryPoint?.EcmMpa, "N0");
+    public string QueryEText => Format(QueryPoint?.EcmMpa, "0");
     public string QueryFactorText => Format(QueryPoint?.ModulusFactor, "0.000");
-    public string ReferenceText => calculation is null ? "" : $"φ riferito a Ec = 1,05 Ecm,28 = {calculation.CreepReferenceModulusMpa.ToString("N0", Italian)} MPa.";
+    public string ReferenceText => calculation is null ? "" : $"φ riferito a Ec = {1.05.ToString(Culture)} Ecm,28 = {calculation.CreepReferenceModulusMpa.ToString("0", Culture)} MPa.";
     public double? CreepInfinity => calculation?.CreepInfinity;
     public double? LoadingAgeDays => calculation?.LoadingAgeDays;
     public string GraphNote => SelectedCurve?.Value == ConcreteTimeCurve.Creep
@@ -75,10 +76,10 @@ public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataE
     public ConcreteTimeEffectsViewModel(double? fckMpa = null)
     {
         cement = Cements[1]; selectedCurve = Curves[0];
-        if (fckMpa is not null) fck = fckMpa.Value.ToString("0.###", Italian);
+        if (fckMpa is not null) fck = fckMpa.Value.ToString("0.###", Culture);
         Calculate();
     }
-    private static string Format(double? value, string format) => value?.ToString(format, Italian) ?? "—";
+    private static string Format(double? value, string format) => value?.ToString(format, Culture) ?? "—";
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
@@ -96,7 +97,7 @@ public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataE
     }
     partial void OnSelectedPointChanged(ConcreteTimePointView? value)
     {
-        if (value is not null) QueryAge = value.AgeDays.ToString("G17", Italian);
+        if (value is not null) QueryAge = value.AgeDays.ToString("G17", Culture);
     }
     private void ClearResults()
     {
@@ -167,6 +168,11 @@ public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataE
 
 public sealed record ConcreteTimePointView(double AgeDays, double CreepCoefficient, double EcmMpa, double ModulusFactor)
 {
+    // Cells of the table with the decimal separator chosen in «Aspetto»; the columns sort on the numbers.
+    public string AgeText => AgeDays.ToString("0.###", CultureInfo.CurrentCulture);
+    public string CreepText => CreepCoefficient.ToString("0.0000", CultureInfo.CurrentCulture);
+    public string EcmText => EcmMpa.ToString("0.0", CultureInfo.CurrentCulture);
+    public string ModulusFactorText => ModulusFactor.ToString("0.0000", CultureInfo.CurrentCulture);
     internal static ConcreteTimePointView Read(RheologyPoint value)
         => new(value.AgeDays, value.CreepCoefficient, value.EcmMpa, value.ModulusFactor);
 }

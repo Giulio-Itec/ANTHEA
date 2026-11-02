@@ -61,7 +61,8 @@ internal static partial class Program
         var original = model.Points; model.LogX = false; model.LogY = true; model.SelectedCurve = model.Curves[2];
         Check(ReferenceEquals(original, model.Points), "graph choices do not change calculated data");
         model.SelectedPoint = model.Points.First(p => p.AgeDays == 28);
-        Check(model.QueryPoint?.AgeDays == 28 && model.QueryFactorText == "1,000", "table selection updates precise reading and Italian display");
+        // The display follows the decimal separator of the application (the current culture), no longer a fixed it-IT (review of the Actions sheets, 2/11/2026).
+        Check(model.QueryPoint?.AgeDays == 28 && model.QueryFactorText == 1.0.ToString("0.000", CultureInfo.CurrentCulture), "table selection updates precise reading and display with the separator of the application");
         foreach (string bad in new[] { "", "NaN", "Infinity", "0", "-2", "abc", "1.2.3" })
         {
             model.QueryAge = bad; Check(model.QueryPoint is null && model.QueryError.Length > 0 && model.HasResults, "invalid reading does not erase curve: " + bad);

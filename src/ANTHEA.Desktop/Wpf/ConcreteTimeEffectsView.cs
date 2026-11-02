@@ -53,13 +53,14 @@ internal sealed partial class ConcreteTimeEffectsView : UserControl
         plot.YLabel = type switch { ConcreteTimeCurve.Modulus => "Ecm(t) [MPa]", ConcreteTimeCurve.ModulusFactor => "Ecm(t) / Ecm,28 [−]", _ => "φ(t, t₀) [−]" };
         if (model.LogY) plot.YLabel += " · scala logaritmica";
         plot.Note = model.GraphNote;
-        string Tick(double v) => Math.Pow(10, v).ToString(Math.Abs(v) > 5 ? "0.##E+0" : "0.###", CultureInfo.GetCultureInfo("it-IT"));
+        // The decimal separator chosen in «Aspetto», as the values of the sheet; no thousands separator (review of 2/11/2026).
+        var culture = CultureInfo.CurrentCulture;
+        string Tick(double v) => Math.Pow(10, v).ToString(Math.Abs(v) > 5 ? "0.##E+0" : "0.###", culture);
         plot.XMinimum = model.LogX && model.Points.Count > 0 ? Math.Floor(Math.Log10(model.Points[0].AgeDays)) : null;
         plot.XMaximum = model.LogX && model.Points.Count > 0 ? Math.Ceiling(Math.Log10(model.Points[^1].AgeDays)) : null;
         plot.XTickStep = model.LogX ? 1 : null;
-        var italian = CultureInfo.GetCultureInfo("it-IT");
-        plot.XTickFormat = model.LogX ? Tick : v => v.ToString("0.###", italian);
-        plot.YTickFormat = v => (model.LogY ? Math.Pow(10, v) : v).ToString(type == ConcreteTimeCurve.Modulus ? "N0" : "0.###", italian);
+        plot.XTickFormat = model.LogX ? Tick : v => v.ToString("0.###", culture);
+        plot.YTickFormat = v => (model.LogY ? Math.Pow(10, v) : v).ToString(type == ConcreteTimeCurve.Modulus ? "0" : "0.###", culture);
         plot.Series = [new(model.SelectedCurve.Label, model.Points.Where(p => Visible(Value(p))).Select(p => new[] { X(p.AgeDays), Y(Value(p)) }).ToList(), Appearance.Series(Ui.Blue), Highlighted: true)];
         if (type == ConcreteTimeCurve.Creep && model.CreepInfinity is double limit && model.Points.Count > 0 && Visible(limit))
             plot.Series.Add(new("φ∞ · limite analitico", [ [X(model.Points[0].AgeDays), Y(limit)], [X(model.Points[^1].AgeDays), Y(limit)] ], Appearance.Series(Ui.Brush("#B45309")), Dashed: true));

@@ -1,6 +1,6 @@
 <UserControl x:Class="X.Desktop.ConcreteTimeEffectsView" x:ClassModifier="internal"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
- xmlns:vm="clr-namespace:Anthea.Presentation.Modules.Rheology;assembly=ANTHEA.Presentation"
+ xmlns:vm="clr-namespace:Anthea.Presentation.Modules.Rheology;assembly=ANTHEA.Presentation" xmlns:shell="clr-namespace:X.Desktop.Views.Shell"
  Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}">
  <UserControl.Resources>
   <Style TargetType="TextBlock"><Setter Property="TextWrapping" Value="Wrap"/><Setter Property="FontSize" Value="{DynamicResource Font.Body}"/><Setter Property="Margin" Value="0,3"/></Style>
@@ -33,7 +33,9 @@
     <Button Content="Aggiorna le curve" Command="{Binding CalculateCommand}" Margin="0,10" MinHeight="38"/>
     <TextBlock Text="{x:Static vm:ConcreteTimeEffectsViewModel.Assumptions}" Foreground="{DynamicResource Token.Muted}"/>
    </StackPanel></Border></ScrollViewer>
-   <Grid Grid.Column="2">
+   <!-- On a low sheet (the minimum of the shell, 1120 × 600) the column scrolls instead of squeezing the plot (review of 2/11/2026). -->
+   <shell:MinimumSizeViewport Grid.Column="2" MinimumContentHeight="640">
+   <Grid>
     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*" MinHeight="260"/><RowDefinition Height="8"/><RowDefinition Height="0.5*" MinHeight="150"/></Grid.RowDefinitions>
     <UniformGrid Rows="1">
      <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="φ(∞, t₀)" FontWeight="Bold"/><TextBlock Text="{Binding InfinityText}" Style="{StaticResource Value}"/><TextBlock Text="Limite analitico della viscosità" Foreground="{DynamicResource Token.Muted}"/></StackPanel></Border>
@@ -63,15 +65,16 @@
      <TabItem Header="Tabella · seleziona un'età">
       <DataGrid ItemsSource="{Binding Points}" SelectedItem="{Binding SelectedPoint}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True" SelectionMode="Single" Margin="4" AutomationProperties.Name="Valori di viscosità e maturazione">
        <DataGrid.Columns>
-        <DataGridTextColumn Header="Età t [giorni]" Binding="{Binding AgeDays, StringFormat=0.###, ConverterCulture=it-IT}" Width="*"/>
-        <DataGridTextColumn Header="φ(t, t₀)" Binding="{Binding CreepCoefficient, StringFormat=0.0000, ConverterCulture=it-IT}" Width="*"/>
-        <DataGridTextColumn Header="Ecm(t) [MPa]" Binding="{Binding EcmMpa, StringFormat=N1, ConverterCulture=it-IT}" Width="*"/>
-        <DataGridTextColumn Header="Ecm(t) / Ecm,28" Binding="{Binding ModulusFactor, StringFormat=0.0000, ConverterCulture=it-IT}" Width="*"/>
+        <DataGridTextColumn Header="Età t [giorni]" Binding="{Binding AgeText}" SortMemberPath="AgeDays" Width="*"/>
+        <DataGridTextColumn Header="φ(t, t₀)" Binding="{Binding CreepText}" SortMemberPath="CreepCoefficient" Width="*"/>
+        <DataGridTextColumn Header="Ecm(t) [MPa]" Binding="{Binding EcmText}" SortMemberPath="EcmMpa" Width="*"/>
+        <DataGridTextColumn Header="Ecm(t) / Ecm,28" Binding="{Binding ModulusFactorText}" SortMemberPath="ModulusFactor" Width="*"/>
        </DataGrid.Columns>
       </DataGrid>
      </TabItem>
     </TabControl>
    </Grid>
+   </shell:MinimumSizeViewport>
   </Grid>
   <TextBlock Grid.Row="2" Text="{Binding Status}" Margin="0,12,0,0"/>
  </Grid>
