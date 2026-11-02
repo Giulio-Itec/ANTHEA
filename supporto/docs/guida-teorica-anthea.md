@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 2 novembre 2026 — revisione documentale 67
+Edizione 6 aggiornata il 2 novembre 2026 — revisione documentale 68
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -3089,8 +3089,9 @@ con i predefiniti e usare il ripristino per aggiornare un vecchio foglio.
   domini, taglio e torsione dalla stessa riga; i tre stati SLE alimentano i
   controlli pertinenti. Non si costruiscono stati concomitanti da estremi
   indipendenti e non si riapplicano coefficienti alle azioni.
-- Il criterio resistente Plastico o Elastico è scelto nella verifica,
-  separatamente dallo stato limite e dal percorso di ricerca della resistenza.
+- Il criterio resistente Plastico o Elastico è scelto per ciascuno stato
+  limite, SLU e SLV, ed è comune ai domini 3D e 2D; resta separato dal
+  percorso di ricerca della resistenza.
   L’etichetta SLV non attiva da sola gerarchie sismiche o altri controlli
   dell’elemento non rappresentati nel modulo.
 - Elemento identifica la provenienza delle azioni; non assegna una geometria
