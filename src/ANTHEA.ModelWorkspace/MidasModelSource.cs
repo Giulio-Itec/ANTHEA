@@ -132,8 +132,9 @@ public sealed partial class MidasModelSource : IMidasModelSource, IDisposable
             snapshot.Source = "MIDAS Civil NX · API · " + DateTimeOffset.UtcNow.ToString("u");
             snapshot.ImportMessages = [.. snapshot.ImportMessages ?? [],
                 new("MIDAS-LIVE", "info", "Importazione", "Lettura API completata; tabelle del modello ricontrollate. Casi statici selezionati: " + (results ? cases.Length : 0) + "; stati stage: " + snapshot.Results.Count(r => r.Stage != null) + "."),
-                new("MIDAS-CONVERTER-PENDING", "warning", "Geometria", "Le tabelle originali sono conservate. La normalizzazione GPC di terne locali, vincoli, rilasci e link richiede il convertitore nel set di librerie distribuito; i relativi simboli non sono ancora acquisiti da questo collegamento."),
                 new("MIDAS-RESULT-SCOPE", "info", "Risultati", "Sollecitazioni locali PLATE/BEAM e traslazioni nodali globali dei casi statici. Combinazioni conservate come definizioni; stage distinti per fase/passo, senza sovrapposizione statica né ricostruzione degli elementi attivi. Assenza di risultati non significa valore nullo. Reazioni e altre famiglie non acquisite dalla vista.")];
+            progress?.Report(new("Terne locali e vincoli con il convertitore GPC", completed, total));
+            MidasLiveNormalization.Apply(snapshot, request.Scope == ModelUpdateScope.Geometry, token);
             snapshot.Validate(); token.ThrowIfCancellationRequested();
             progress?.Report(new("Acquisizione completata", total, total));
             return snapshot;

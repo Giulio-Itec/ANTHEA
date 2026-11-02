@@ -27,17 +27,19 @@ public static class ModelSnapshotUpdate
             if(current==null)throw new InvalidDataException("Apri prima il modello al quale associare i risultati.");
             current.Validate();
             if(incoming.Results.Length==0)throw new InvalidDataException("La copia scelta non contiene risultati. Il modello aperto è stato conservato.");
-            EnsureCompatible(current,incoming,token);
+            EnsureCompatible(current,incoming,Normalizes(current,incoming),token);
         }
         var basis=scope==ModelUpdateScope.Results?current!:incoming;
         bool geometryOnly=scope==ModelUpdateScope.Geometry;
+        // Frames, symbols and messages of the normalization: those of the copy just read when it brings them to a copy without them.
+        var frames=scope==ModelUpdateScope.Results&&Normalizes(current!,incoming)?incoming:basis;
         var result=new ModelSnapshot
         {
             // 1.16.0: results for stage (Straus7 NLA) need the format 2 also when they update a copy of format 1.
             Version=scope==ModelUpdateScope.Results?Math.Max(basis.Version,incoming.Version):basis.Version,Name=basis.Name,Source=basis.Source,
             Nodes=basis.Nodes.ToArray(),Elements=basis.Elements.ToArray(),Plates=basis.Plates.ToArray(),Sections=basis.Sections.ToArray(),
-            LocalFrames=basis.LocalFrames?.ToArray(),NodeFrames=basis.NodeFrames?.ToArray(),
-            Boundaries=geometryOnly?null:basis.Boundaries?.ToArray(),
+            LocalFrames=frames.LocalFrames?.ToArray(),NodeFrames=frames.NodeFrames?.ToArray(),
+            Boundaries=geometryOnly?null:frames.Boundaries?.ToArray(),
             SourceTables=geometryOnly?null:basis.SourceTables?.ToDictionary(p=>p.Key,p=>p.Value),
             SourceCombinations=geometryOnly?null:basis.SourceCombinations,
             // 1.16.0: masses, temperatures and stages are attributes of the model, like the boundaries.
@@ -47,7 +49,7 @@ public static class ModelSnapshotUpdate
             CustomCombinations=(current?.CustomCombinations??incoming.CustomCombinations)?.ToArray(),
             ExcludedCombinationIds=(current?.ExcludedCombinationIds??incoming.ExcludedCombinationIds)?.ToArray(),
             GeneratorCases=(current?.GeneratorCases??incoming.GeneratorCases)?.ToArray(),
-            ImportMessages=(basis.ImportMessages??[]).Where(m=>m.Code!="UPDATE-SCOPE").Append(new("UPDATE-SCOPE","info","Importazione",Description(scope))).ToArray(),
+            ImportMessages=(frames.ImportMessages??[]).Where(m=>m.Code!="UPDATE-SCOPE").Append(new("UPDATE-SCOPE","info","Importazione",Description(scope))).ToArray(),
             UpdateInfo=new(scope,incoming.Source,scope==ModelUpdateScope.Results,scope==ModelUpdateScope.Results?0:current?.Results.Length??0)
         };
         token.ThrowIfCancellationRequested();result.Validate();return result;
@@ -61,7 +63,13 @@ public static class ModelSnapshotUpdate
         _=>"Tutto: sostituisce la copia del modello con geometria, attributi, carichi e risultati acquisiti dalla sorgente scelta."
     };
 
-    static void EnsureCompatible(ModelSnapshot current,ModelSnapshot incoming,CancellationToken token)
+    /// <summary>2/11/2026: a MIDAS API copy read before the GPC normalization (MidasLiveNormalization) and a new reading of the same source tables
+    /// that has it. The frames and symbols derive only from those tables, which must coincide, so «Solo risultati» adds them instead of refusing.</summary>
+    static bool Normalizes(ModelSnapshot current,ModelSnapshot incoming)=>
+        current.LocalFrames==null&&current.ImportMessages?.Any(m=>m.Code==MidasLiveNormalization.PendingCode)==true&&
+        incoming.LocalFrames!=null&&incoming.ImportMessages?.Any(m=>m.Code==MidasLiveNormalization.PendingCode)!=true;
+
+    static void EnsureCompatible(ModelSnapshot current,ModelSnapshot incoming,bool normalizes,CancellationToken token)
     {
         void Require(bool condition,string part)
         {token.ThrowIfCancellationRequested();if(!condition)throw new InvalidDataException("Solo risultati non applicabile: "+part+" non coincidono. Usa Tutto per aggiornare il modello e controllarne la revisione. La copia aperta è stata conservata.");}
@@ -69,9 +77,9 @@ public static class ModelSnapshotUpdate
         Require(current.Elements.Length==incoming.Elements.Length,"elementi");
         Require(current.Elements.OrderBy(e=>e.Id).Zip(incoming.Elements.OrderBy(e=>e.Id)).All(p=>p.First.Id==p.Second.Id && p.First.Type==p.Second.Type && p.First.Property==p.Second.Property && p.First.Angle==p.Second.Angle && p.First.Nodes.SequenceEqual(p.Second.Nodes)),"connettività, tipi e assegnazioni");
         Require(current.Plates.OrderBy(p=>p.Id).SequenceEqual(incoming.Plates.OrderBy(p=>p.Id)) && current.Sections.OrderBy(s=>s.Id).SequenceEqual(incoming.Sections.OrderBy(s=>s.Id)),"sezioni, spessori e offset");
-        Require((current.LocalFrames??[]).OrderBy(f=>f.Element).SequenceEqual((incoming.LocalFrames??[]).OrderBy(f=>f.Element)) && (current.NodeFrames??[]).OrderBy(f=>f.Node).SequenceEqual((incoming.NodeFrames??[]).OrderBy(f=>f.Node)),"terne locali");
+        Require(normalizes || (current.LocalFrames??[]).OrderBy(f=>f.Element).SequenceEqual((incoming.LocalFrames??[]).OrderBy(f=>f.Element)) && (current.NodeFrames??[]).OrderBy(f=>f.Node).SequenceEqual((incoming.NodeFrames??[]).OrderBy(f=>f.Node)),"terne locali");
         static object[] Boundaries(ModelSnapshot model)=>(model.Boundaries??[]).OrderBy(b=>b.SourceRecord,StringComparer.Ordinal).ThenBy(b=>b.Kind,StringComparer.Ordinal).ThenBy(b=>b.Element).ThenBy(b=>string.Join(",",b.Nodes),StringComparer.Ordinal).ThenBy(b=>b.Dofs,StringComparer.Ordinal).Cast<object>().ToArray();
-        Require(Equal(JsonSerializer.SerializeToElement(Boundaries(current)),JsonSerializer.SerializeToElement(Boundaries(incoming))),"vincoli, rilasci e collegamenti");
+        Require(normalizes || Equal(JsonSerializer.SerializeToElement(Boundaries(current)),JsonSerializer.SerializeToElement(Boundaries(incoming))),"vincoli, rilasci e collegamenti");
         Require(Equal(JsonSerializer.SerializeToElement(current.SourceCombinations),JsonSerializer.SerializeToElement(incoming.SourceCombinations)),"casi e combinazioni della sorgente");
         Require(Equal(JsonSerializer.SerializeToElement(current.Masses),JsonSerializer.SerializeToElement(incoming.Masses))&&
             Equal(JsonSerializer.SerializeToElement(current.Temperatures),JsonSerializer.SerializeToElement(incoming.Temperatures))&&

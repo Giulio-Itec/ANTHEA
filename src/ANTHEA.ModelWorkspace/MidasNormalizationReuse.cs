@@ -25,7 +25,7 @@ public static class MidasNormalizationReuse
         token.ThrowIfCancellationRequested();
         incoming.LocalFrames = previous.LocalFrames?.ToArray(); incoming.NodeFrames = previous.NodeFrames?.ToArray();
         incoming.Boundaries = previous.Boundaries?.Select(b => b with { Nodes = b.Nodes.ToArray() }).ToArray();
-        incoming.ImportMessages = (incoming.ImportMessages ?? []).Where(m => m.Code != "MIDAS-CONVERTER-PENDING").Append(new(
+        incoming.ImportMessages = (incoming.ImportMessages ?? []).Where(m => m.Code != MidasLiveNormalization.PendingCode).Append(new(
             "MIDAS-NORMALIZATION-REUSED", "info", "Geometria",
             "Tutte le tabelle sorgente e la geometria coincidono con la copia precedente: conservate le terne e le assegnazioni normalizzate già disponibili. Nessun orientamento o vincolo ricalcolato.")).ToArray();
         incoming.Validate(); return true;
