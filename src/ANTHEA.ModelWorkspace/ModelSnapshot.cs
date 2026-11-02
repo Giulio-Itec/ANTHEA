@@ -120,6 +120,9 @@ public sealed class ModelSnapshot
     // Refactoring of the combinations (29/10/2026): the revisions of the inputs of the combinations, kept with the references of the parts they
     // were computed from (ModelCombinations.Revisions). A field, so never serialized and never part of the fingerprints.
     internal ModelCombinations.Revisions? CombinationRevisions;
+    /// <summary>Results archive (2/11/2026): the result sets of the copy that the archive beside the project could not give back (archive
+    /// missing, block damaged), with the reason; empty otherwise. Never serialized and never part of the fingerprints.</summary>
+    [JsonIgnore] public IReadOnlyList<ModelUnavailableResult> UnavailableResults { get; internal set; } = [];
     public static string Unit(string component) => component.StartsWith('M') ? "kN·m/m" : "kN/m";
     public void Validate()
     {

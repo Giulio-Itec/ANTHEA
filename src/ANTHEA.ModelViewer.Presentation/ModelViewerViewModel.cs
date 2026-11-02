@@ -155,6 +155,11 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         finally { IsBusy = false; }
     }
 
+    /// <summary>The message of the result sets not read from the results archive.</summary>
+    internal static string UnreadResults(IReadOnlyList<ModelUnavailableResult> unread) =>
+        $"{unread.Count:N0} insiemi di risultati non letti dall'archivio dei risultati ({unread[0].Reason}). Le combinazioni coinvolte sono «Da calcolare»; " +
+        "i casi importati mancanti si riprendono aggiornando i risultati del modello. Il resto del modello è disponibile.";
+
     private void SetSnapshot(ModelSnapshot snapshot, bool validated = false)
     {
         combinationService.ClearCache();
@@ -174,6 +179,8 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         OnPropertyChanged(nameof(UpdateProvenance));
         OnPropertyChanged(nameof(UpdateScopeDescription));
         QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); RefreshScene(); InitializeReport(); RefreshCombinations();
+        // 2/11/2026: results the archive beside the project did not give back (ProjectModelStore.Read): the model opens, with the reason.
+        if (snapshot.UnavailableResults.Count > 0) Status = UnreadResults(snapshot.UnavailableResults);
     }
 
     private void RefreshScene()

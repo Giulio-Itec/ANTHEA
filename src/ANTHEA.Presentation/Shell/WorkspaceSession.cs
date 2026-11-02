@@ -228,7 +228,9 @@ public sealed class WorkspaceSession : IDisposable
         try
         {
             if (files.IsInExamples(target)) throw new InvalidOperationException(ExamplesFolderRefused);
-            files.Save(target, document.WorkingDocument);
+            // 2/11/2026: a project writes its results archive first, beside the file (ModelResultArchive.Save), then the document.
+            if (document is ProjectSession project) project.Results.Save(target, document.WorkingDocument, () => files.Save(target, document.WorkingDocument));
+            else files.Save(target, document.WorkingDocument);
             document.MarkSaved(target);
             foreach (var sheet in sheets.Where(s => ReferenceEquals(s.Owner, document))) sheet.MarkSaved();
             return true;

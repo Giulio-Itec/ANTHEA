@@ -159,7 +159,7 @@ public sealed class ModelTabViewModel : ViewModelBase
         readOnly = project.IsReadOnly;
         Container = container;
         ModelId = modelId;
-        Snapshot = modelId is null ? null : ProjectModelStore.Read(container, modelId);
+        Snapshot = modelId is null ? null : ProjectModelStore.Read(container, modelId, project.Results);
         title = renameText = modelId is null ? NewModelTitle : ProjectModelStore.Models(container).Single(m => m.S("id") == modelId).S("nome");
         Targets = ReadTargets(container);
         var guard = new CommandGuard(messages);
@@ -232,7 +232,7 @@ public sealed class ModelTabViewModel : ViewModelBase
     {
         ArgumentNullException.ThrowIfNull(prepared);
         string? id = ModelId;
-        if (!project.ChangeData(() => { id = ProjectModelStore.Set(Container, prepared, id); return true; }, Container)) return;
+        if (!project.ChangeData(() => { id = ProjectModelStore.Set(Container, prepared, id, project.Results); return true; }, Container)) return;
         ModelId = id;
         Snapshot = prepared.Snapshot;
         Title = RenameText = ProjectModelStore.Models(Container).Single(m => m.S("id") == id).S("nome");
@@ -245,7 +245,7 @@ public sealed class ModelTabViewModel : ViewModelBase
     {
         if (ModelId is not { } id) throw new InvalidOperationException(ImportFirst);
         var sheet = ProjectModelStore.DescendantSheets(Container).Single(s => s.S("id") == sheetId);
-        if (!project.ChangeData(() => { ProjectModelStore.Link(Container, sheet, id, element, result, component); return true; }, sheet)) return;
+        if (!project.ChangeData(() => { ProjectModelStore.Link(Container, sheet, id, element, result, component, project.Results); return true; }, sheet)) return;
         Targets = ReadTargets(Container);
         OnPropertyChanged(nameof(Targets));
     }
@@ -260,7 +260,7 @@ public sealed class ModelTabViewModel : ViewModelBase
         if (project.Find(Container.S("id")) is not { } container) return false;
         if (ModelId is { } id && !ProjectModelStore.Models(container).Any(m => m.S("id") == id)) return false;
         Container = container;
-        Snapshot = ModelId is null ? null : ProjectModelStore.Read(container, ModelId);
+        Snapshot = ModelId is null ? null : ProjectModelStore.Read(container, ModelId, project.Results);
         Targets = ReadTargets(container);
         Title = RenameText = ModelId is null ? NewModelTitle : ProjectModelStore.Models(container).Single(m => m.S("id") == ModelId).S("nome");
         OnPropertyChanged(nameof(Container)); OnPropertyChanged(nameof(Snapshot)); OnPropertyChanged(nameof(Targets));

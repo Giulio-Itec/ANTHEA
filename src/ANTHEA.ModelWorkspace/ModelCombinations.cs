@@ -82,6 +82,8 @@ public static class ModelCombinations
 
     public static ModelCombinationAvailability[] Inspect(ModelSnapshot snapshot)
     {
+        // 2/11/2026: the result sets the archive beside the project did not give back, with the reason (ProjectModelStore.Read).
+        var unread=snapshot.UnavailableResults;
         var definitions=Read(snapshot);var records=definitions.Select(ToGpc).ToArray();
         snapshot=Upgraded(snapshot,definitions); // results of 1.16.2 still current: «Calcolata» (decision of 1/11/2026 evening)
         var cases=snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&r.Stage==null).Select(r=>r.Name).ToHashSet(StringComparer.Ordinal);
@@ -102,17 +104,21 @@ public static class ModelCombinations
                 // 1/11/2026 (point 8): over the limit of the expansion the combination is calculated term by term (GpcModelCombinationService).
                 var expansion=AlternativeCount(byId,d.Id,counts);
                 var missing=required.Where(c=>!cases.Contains(c)).ToArray();
-                if(missing.Length>0)return new(d,"Casi mancanti","Risultati da importare: "+string.Join(", ",missing),required,false);
+                if(missing.Length>0)return new(d,"Casi mancanti","Risultati da importare: "+string.Join(", ",missing)+Unread(unread.FirstOrDefault(u=>u.Definition==null&&missing.Contains(u.Name))),required,false);
                 if(!GpcSnapshotModel.CanRebuild(snapshot))
                     return new(d,"Sorgente incompleta","Il collegamento GPC richiede le tabelle sorgente MIDAS oppure le terne locali e i casi della sorgente importata. La definizione può essere conservata.",required,false);
                 bool ready=calculated.Contains(d.Id);
-                return new(d,ready?"Calcolata":"Da calcolare",(ready?"Risultati locali disponibili nella copia del modello.":"Casi base disponibili; costruzione locale con GPC.")+
+                var lost=ready?null:unread.FirstOrDefault(u=>u.Definition==d.Id);
+                return new(d,ready?"Calcolata":"Da calcolare",(ready?"Risultati locali disponibili nella copia del modello.":lost is null?"Casi base disponibili; costruzione locale con GPC.":
+                    "Risultati non letti dall'archivio dei risultati ("+lost.Reason+"): calcola di nuovo la combinazione.")+
                     (expansion.Over?" "+ExpansionMessage(expansion.Count):""),required,true);
             }
             catch(Exception ex) when(ex is ArgumentException or InvalidOperationException or NotSupportedException)
             { return new(d,"Non disponibile",Explain(ex),[],false); }
         }).ToArray();
     }
+
+    static string Unread(ModelUnavailableResult? lost)=>lost is null?"":". Non letti dall'archivio dei risultati: "+lost.Reason;
 
     /// <summary>Alternative states a combination may have: the limit of the expansion of GPC (CombinationExpansion.Expand).</summary>
     public const int MaximumAlternatives=4096;
@@ -208,6 +214,8 @@ public static class ModelCombinations
         Masses=s.Masses,Temperatures=s.Temperatures,ConstructionStages=s.ConstructionStages,
         // 1/11/2026: the choices of the generator.
         GeneratorCases=s.GeneratorCases,
+        // 2/11/2026: the result sets the archive did not give back at the opening, for the catalogue.
+        UnavailableResults=s.UnavailableResults,
         // The copy shares the arrays of the original: its revisions hold while the parts are the same references (Revisions).
         CombinationRevisions=s.CombinationRevisions};
 
