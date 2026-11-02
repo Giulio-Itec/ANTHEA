@@ -206,7 +206,7 @@ static partial class Program
         model = times.Time("generazione: definizioni dell'utente (4 × Save)", () => AddUserCombinations(generated, source));
         var catalogue = times.Time("catalogo: Inspect", () => ModelCombinations.Inspect(model));
         digest.Add("catalogue", catalogue.Select(c => (c.Definition.Id, c.State, c.Message, c.RequiredCases, c.CanCalculate)));
-        var service = new GpcModelCombinationService();
+        var service = new GpcModelCombinationService { UseMatrix = !timingWithoutMatrix };
         var linear = catalogue.Where(c => c.Definition.Id.StartsWith(ModelCombinationGenerator.IdPrefix, StringComparison.Ordinal)).Select(c => c.Definition.Id).ToArray();
         var chosen = Enumerable.Range(0, Math.Min(linearCount, linear.Length)).Select(i => linear[(int)((long)i * linear.Length / Math.Min(linearCount, linear.Length))]).ToArray();
         async Task Calculate(string id, string phase)
@@ -326,11 +326,14 @@ static partial class Program
     /// --combination-timing [--models 100x50,500x100] [--runs N] [--warmup N] [--linear N]: times of every phase (median, minimum, maximum of the
     /// runs after the warm-up) in tempi.json and tempi.md of the output folder, with the digest of each model.
     /// </summary>
+    static bool timingWithoutMatrix;
     static async Task<int> CombinationTiming(string output, string[] args)
     {
         string Option(string name, string fallback) { int i = Array.IndexOf(args, name); return i >= 0 && i + 1 < args.Length ? args[i + 1] : fallback; }
         int runs = int.Parse(Option("--runs", "3"), CultureInfo.InvariantCulture), warmup = int.Parse(Option("--warmup", "1"), CultureInfo.InvariantCulture);
         int linearCount = int.Parse(Option("--linear", "8"), CultureInfo.InvariantCulture);
+        // 2/11/2026: --senza-matrice measures the samples of CombinationRebuild, the path before the matrix of GPC, in the same conditions.
+        timingWithoutMatrix = args.Contains("--senza-matrice");
         var sizes = Option("--models", "100x50").Split(',', StringSplitOptions.RemoveEmptyEntries);
         var report = new List<object>(); var markdown = new StringBuilder();
         markdown.AppendLine($"# Tempi delle combinazioni del modulo Modelli · {DateTime.Now:yyyy-MM-dd HH:mm}").AppendLine();

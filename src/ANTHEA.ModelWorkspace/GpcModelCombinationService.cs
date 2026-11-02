@@ -21,8 +21,21 @@ public sealed partial class GpcModelCombinationService
     // rotated at each location. The report is never attached and only its values, roles and concomitant states are displayed: its states
     // carry no fingerprint of their static sources, the walk of every source of every state that took most of the time of a combination.
     sealed record PreparedModel(string Revision,GPC.Model.Models.Model Model,GPC.Model.Combinations.Combination Output,string[] Warnings,Dictionary<ResultLocation,Element> Owners)
-    {public CombinationRebuildCache Cache {get;}=new(){SourceFingerprints=false,PlatePrincipals=true};}
+    {
+        public CombinationRebuildCache Cache {get;}=new(){SourceFingerprints=false,PlatePrincipals=true};
+        /// <summary>2/11/2026: the static samples of the prepared model matched, checked and rotated once for the matrix of GPC.</summary>
+        public CombinationMatrix? Matrix {get;set;}
+    }
     public void ClearCache()=>prepared=null;
+
+    /// <summary>
+    /// Request of the user of 2/11/2026 («spacchettando delle parti comuni»): the combinations within the limit of the expansion are evaluated
+    /// by the matrix of GPC (CombinationMatrix, GPCModel 5.38), which gives the values, governing roles and principal components of the samples
+    /// of CombinationRebuild bit for bit without registering them; the time of a combination was almost all in the samples, their states and
+    /// texts. False: the samples of CombinationRebuild, as before (the checks compare the two).
+    /// </summary>
+    public bool UseMatrix {get;set;}=true;
+    const string Dataset="anthea-static";
 
     /// <summary>
     /// Refactoring of the combinations (29/10/2026): the preparation of GPC (geometry and static cases of the copy, about 1 s for 100 elements
@@ -43,6 +56,7 @@ public sealed partial class GpcModelCombinationService
                     string revision=ModelCombinations.PreparationRevision(snapshot);
                     if(prepared?.Revision==revision)return; // already prepared: the catalogue opened again
                     snapshot.Validate();prepared=Prepare(snapshot,revision,null,token);
+                    if(UseMatrix)prepared.Matrix=CombinationMatrix.Prepare(prepared.Model,Dataset,prepared.Model.AllElements,token);
                 },token).ConfigureAwait(false);
             }
             finally {calculationGate.Release();}
@@ -88,27 +102,45 @@ public sealed partial class GpcModelCombinationService
         var model=context.Model;
         var output=context.Output;
         var warnings=context.Warnings.ToList();
+        bool matrix=tree==null&&UseMatrix;
+        // The static samples of every location matched once for all the following combinations (the work of the cache of the rebuild).
+        if(matrix)context.Matrix??=CombinationMatrix.Prepare(model,Dataset,model.AllElements,token);
         double preparationMs=watch.Elapsed.TotalMilliseconds;
         progress?.Report(new(tree==null?$"Calcolo GPC · {alternatives.Length:N0} stati alternativi…":$"Calcolo GPC · {tree.AlternativeCount():N0} stati alternativi, estremi per termini…"));
-        // Keep the prepared model immutable: derived states remain in the report and presentation snapshot.
-        var report=tree==null?CombinationRebuild.Rebuild(model,output,alternatives,"anthea-static",model.AllElements,false,token,context.Cache)
-            :CombinationRebuild.Rebuild(model,output,tree,"anthea-static",model.AllElements,false,token,context.Cache);
-        token.ThrowIfCancellationRequested();
-        if(report.IsRejected||report.Samples.Count==0)throw new InvalidDataException("Combinazione non costruita: "+Messages(report.Diagnostics));
-        warnings.AddRange(report.Diagnostics.Select(d=>d.Code+": "+d.Message));
+        CombinedState[] states;IReadOnlyList<PlatePrincipalResult> platePrincipals;
+        if(matrix)
+        {
+            var evaluated=context.Matrix!.Evaluate(output,alternatives,true,token);
+            token.ThrowIfCancellationRequested();
+            if(evaluated.IsRejected||evaluated.Results.Count==0)throw new InvalidDataException("Combinazione non costruita: "+Messages(evaluated.Diagnostics));
+            warnings.AddRange(evaluated.Diagnostics.Select(d=>d.Code+": "+d.Message));
+            states=evaluated.Results.SelectMany(l=>l.States.Select(s=>new CombinedState(l.Owner,l.Location,s.StateId,s.Roles,DisplayVector(l.Location,s.Values)))).ToArray();
+            platePrincipals=evaluated.PlatePrincipals;
+        }
+        else
+        {
+            // Keep the prepared model immutable: derived states remain in the report and presentation snapshot.
+            var report=tree==null?CombinationRebuild.Rebuild(model,output,alternatives,Dataset,model.AllElements,false,token,context.Cache)
+                :CombinationRebuild.Rebuild(model,output,tree,Dataset,model.AllElements,false,token,context.Cache);
+            token.ThrowIfCancellationRequested();
+            if(report.IsRejected||report.Samples.Count==0)throw new InvalidDataException("Combinazione non costruita: "+Messages(report.Diagnostics));
+            warnings.AddRange(report.Diagnostics.Select(d=>d.Code+": "+d.Message));
+            bool governed=tree!=null||alternatives.Length>1;
+            states=report.Samples.Select(s=>new CombinedState(context.Owners[s.State.DerivedFrom[0]],s,s.State.ConcomitantStateId,governed?Roles(s):[],DisplayVector(s))).ToArray();
+            platePrincipals=report.PlatePrincipals;
+        }
         double rebuildMs=watch.Elapsed.TotalMilliseconds-preparationMs;
         progress?.Report(new("Preparazione di contouring, diagrammi e governanti…"));
         bool envelope=tree!=null||alternatives.Length>1;
-        var samples=report.Samples.Select(s=>(Owner:context.Owners[s.State.DerivedFrom[0]],Sample:s)).ToArray();
         var sourceNodes=model.NodesElements.Values.ToDictionary(n=>n.Id,n=>int.Parse(n.Source.OriginalId,CultureInfo.InvariantCulture));
-        var labels=samples.Select(s=>s.Sample.State.ConcomitantStateId).Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
+        var labels=states.Select(s=>s.StateId).Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
         // 1/11/2026: the principal components of the plates computed by GPC for every combined state (PlatePrincipals), by location.
         var principals=new Dictionary<(Element,int?),PlatePrincipalResult>();
-        foreach(var p in report.PlatePrincipals)if(p.Location is PointResultPlateForces {SourceNodeId:not null} at)principals.TryAdd((p.Owner,at.SourceNodeId),p);
-        var principalLabels=report.PlatePrincipals.SelectMany(p=>p.Components).SelectMany(e=>new[]{e.MinimumStateId,e.MaximumStateId})
+        foreach(var p in platePrincipals)if(p.Location is PointResultPlateForces {SourceNodeId:not null} at)principals.TryAdd((p.Owner,at.SourceNodeId),p);
+        var principalLabels=platePrincipals.SelectMany(p=>p.Components).SelectMany(e=>new[]{e.MinimumStateId,e.MaximumStateId})
             .Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
         var results=(envelope?new[]{false,true}:new[]{false}).Select(max=>DisplayResult(snapshot,selected,required,revision,
-            samples,sourceNodes,labels,envelope,max,token,principals,principalLabels)).ToArray();
+            states,sourceNodes,labels,envelope,max,token,principals,principalLabels)).ToArray();
         if(results.All(r=>r.Values.Length==0&&(r.Fields?.Length??0)==0&&(r.Displacements?.Length??0)==0))
             throw new InvalidDataException("Nessun campo completo disponibile per la visualizzazione.");
         return new(results,warnings.Distinct().ToArray(),watch.Elapsed.TotalMilliseconds,preparationMs,rebuildMs,
@@ -180,8 +212,12 @@ public sealed partial class GpcModelCombinationService
         }
     }
 
+    /// <summary>A combined state for the display: its element and location, its state id and governing roles (empty for a linear combination)
+    /// and its vector as displayed. From the samples of CombinationRebuild or from the states of CombinationMatrix: the same values.</summary>
+    readonly record struct CombinedState(Element Owner,ResultLocation Location,string StateId,IReadOnlyList<string> Roles,double[] Vector);
+
     static ModelResultSet DisplayResult(ModelSnapshot snapshot,ModelCombinationDefinition definition,string[] required,string revision,
-        (Element Owner,ResultLocation Sample)[] samples,IReadOnlyDictionary<int,int> sourceNodes,string[] labels,bool envelope,bool maximum,CancellationToken token,
+        CombinedState[] states,IReadOnlyDictionary<int,int> sourceNodes,string[] labels,bool envelope,bool maximum,CancellationToken token,
         IReadOnlyDictionary<(Element,int?),PlatePrincipalResult> principals,string[] principalLabels)
     {
         var corners=new List<CornerResult>();var fields=new Dictionary<(string Family,string Component),List<ResultValue>>();
@@ -189,18 +225,14 @@ public sealed partial class GpcModelCombinationService
         var principalFields=PrincipalComponents.ToDictionary(c=>c,_=>new List<ResultValue>());var principalGoverning=new List<ModelCombinationGoverning>();
         var principalIndex=principalLabels.Select((label,i)=>(label,i)).ToDictionary(p=>p.label,p=>p.i,StringComparer.Ordinal);
         var elements=snapshot.Elements.ToDictionary(e=>e.Id);
-        // The roles of each governing state read once (not for every component of its location) and the position of each label in a lookup:
-        // the same choices and exceptions as reading them each time.
-        var roles=new Dictionary<ResultLocation,string[]>(ReferenceEqualityComparer.Instance);
-        string[] RolesOf(ResultLocation sample)=>roles.TryGetValue(sample,out var known)?known:roles[sample]=Roles(sample);
         var labelIndex=labels.Select((label,i)=>(label,i)).ToDictionary(p=>p.label,p=>p.i,StringComparer.Ordinal);
         // 1.16.0: displacements and reactions of a node are separate groups; members take the family of their document element (BEAM, TRUSS, CABLE).
-        foreach(var group in samples.GroupBy(p=>(p.Owner,p.Sample is PointResultPlateForces plate?plate.SourceNodeId:0,
-            p.Sample is StationResultBeamForces beam?(double?)beam.ParametricDistance:null,p.Sample is NodeResultForces)))
+        foreach(var group in states.GroupBy(p=>(p.Owner,p.Location is PointResultPlateForces plate?plate.SourceNodeId:0,
+            p.Location is StationResultBeamForces beam?(double?)beam.ParametricDistance:null,p.Location is NodeResultForces)))
         {
             token.ThrowIfCancellationRequested();
             int id=int.Parse(group.Key.Owner.Source.OriginalId,CultureInfo.InvariantCulture);
-            var first=group.First().Sample;
+            var firstState=group.First();var first=firstState.Location;
             string family=first is PointResultPlateForces?"PLATE":first is StationResultBeamForces?elements[id].Type:first is NodeResultForces?"REACTION":"NODE";
             // GPC's SourceNodeId is the node's internal Model ID after mapping. Resolve its source identity explicitly.
             int node=family=="PLATE"?sourceNodes[group.Key.Item2??throw new InvalidDataException("Risultato plate privo del nodo sorgente.")]:
@@ -213,10 +245,10 @@ public sealed partial class GpcModelCombinationService
             {
                 bool reverse=family=="PLATE"&&c<3||family=="BEAM"&&c==4;
                 string role=((maximum!=reverse)?"max ":"min ")+canonical[c];
-                var chosen=envelope?group.Select(p=>p.Sample).SingleOrDefault(s=>RolesOf(s).Contains(role)):first;
+                var chosen=envelope?group.Where(p=>p.Roles.Contains(role)).Select(p=>(CombinedState?)p).SingleOrDefault():firstState;
                 if(chosen==null)throw new InvalidDataException("GPC non ha restituito il governante completo per "+components[c]+".");
-                var vector=DisplayVector(chosen);values[c]=vector[c];
-                if(envelope)governing.Add(new(family,id,node,group.Key.Item3,components[c],"A"+((labelIndex.TryGetValue(chosen.State.ConcomitantStateId,out int index)?index:-1)+1),vector));
+                var vector=chosen.Value.Vector;values[c]=vector[c];
+                if(envelope)governing.Add(new(family,id,node,group.Key.Item3,components[c],"A"+((labelIndex.TryGetValue(chosen.Value.StateId,out int index)?index:-1)+1),vector));
             }
             if(family=="PLATE")
             {
@@ -231,7 +263,7 @@ public sealed partial class GpcModelCombinationService
             }
             else if(family=="NODE")
             {
-                var vector=DisplayVector(first);
+                var vector=firstState.Vector;
                 displacements.Add(new(id,values[0],values[1],values[2]){Rotation=envelope?null:new(vector[3],vector[4],vector[5])});
             }
             else if(family=="REACTION")reactions.Add(new(id,values[0],values[1],values[2],values[3],values[4],values[5]));

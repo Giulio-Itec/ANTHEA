@@ -49,6 +49,20 @@ internal static class MidasGpcDisplay
         }
     }
 
+    const double MetresPerMillimetre = 1e-3;
+
+    /// <summary>2/11/2026 (CombinationMatrix): a combined state of GPC at <paramref name="location"/>, in the order of its components (plates:
+    /// Nxx…Mxy; beams: N, V1, V2, T, M1, M2; nodes: Dx…Rz or Fx…Mz), as displayed: the same values as <see cref="DisplayVector(ResultLocation)"/>
+    /// of the sample GPC would register with those values.</summary>
+    internal static double[] DisplayVector(ResultLocation location, IReadOnlyList<double> v)=>location switch
+    {
+        PointResultPlateForces=>PlateDisplayVector(v),
+        StationResultBeamForces=>[v[0]*KilonewtonsPerNewton,v[1]*KilonewtonsPerNewton,v[2]*KilonewtonsPerNewton,v[3]*KilonewtonMetresPerNewtonMillimetre,-v[4]*KilonewtonMetresPerNewtonMillimetre,v[5]*KilonewtonMetresPerNewtonMillimetre],
+        NodeResultDisplacement=>[v[0]*MetresPerMillimetre,v[1]*MetresPerMillimetre,v[2]*MetresPerMillimetre,v[3],v[4],v[5]],
+        NodeResultForces=>[v[0]*KilonewtonsPerNewton,v[1]*KilonewtonsPerNewton,v[2]*KilonewtonsPerNewton,v[3]*KilonewtonMetresPerNewtonMillimetre,v[4]*KilonewtonMetresPerNewtonMillimetre,v[5]*KilonewtonMetresPerNewtonMillimetre],
+        _=>throw new InvalidDataException("Famiglia dei risultati GPC non gestita dalla vista.")
+    };
+
     internal static double[] DisplayVector(ResultLocation sample)=>sample switch
     {
         PointResultPlateForces p=>[-p.Forces.Mxx*.001,-p.Forces.Myy*.001,-p.Forces.Mxy*.001,p.Forces.Fxx,p.Forces.Fyy,p.Forces.Fxy,p.Forces.Fxz,p.Forces.Fyz],

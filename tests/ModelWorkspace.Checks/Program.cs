@@ -112,6 +112,7 @@ static partial class Program
             ClipVolumeChecks();
             MeasurementChecks();
             await RevisionViewChecks();
+            await CombinationMatrixChecks();
 
             if (args.Length > 1)
             {
