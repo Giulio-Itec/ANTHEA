@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -36,7 +35,7 @@ public static class ModelCombinations
 
     public static ModelCombinationDefinition[] Read(ModelSnapshot snapshot)
     {
-        var definitions = new List<ModelCombinationDefinition>(snapshot.SourceTables == null ? [] : TableDefinitions.GetValue(snapshot.SourceTables, ReadTables));
+        var definitions = new List<ModelCombinationDefinition>(TableDefinitions(snapshot));
         // Sources without MIDAS tables carry their definitions in the document (Straus7: LSA combinations).
         definitions.AddRange(snapshot.SourceCombinations?.Definitions??[]);
         var overrides=(snapshot.CustomCombinations??[]).Select(d=>d.Id).ToHashSet(StringComparer.Ordinal);
@@ -47,10 +46,17 @@ public static class ModelCombinations
         return definitions.ToArray();
     }
 
-    /// <summary>2/11/2026 (series of the combinations): the definitions of the MIDAS tables, read once for each dictionary of the tables (the copies
-    /// share it and never change it, <see cref="Revisions"/>). The same records at every reading, so their revisions are computed once
-    /// (<see cref="DefinitionRevisions"/>); a table that cannot be read throws at every reading, as before.</summary>
-    static readonly ConditionalWeakTable<Dictionary<string,JsonElement>,ModelCombinationDefinition[]> TableDefinitions=new();
+    /// <summary>2/11/2026 (series of the combinations): the definitions of the MIDAS tables, read once for each dictionary of the tables and kept by
+    /// the copy and the copies made from it (the copies share the dictionary and never change it, <see cref="Revisions"/>). The same records at
+    /// every reading, so their revisions are computed once (<see cref="DefinitionRevisions"/>); a table that cannot be read throws at every
+    /// reading, as before.</summary>
+    internal sealed record KnownTables(Dictionary<string,JsonElement> Tables,ModelCombinationDefinition[] Definitions);
+    static ModelCombinationDefinition[] TableDefinitions(ModelSnapshot snapshot)
+    {
+        if(snapshot.SourceTables is not {} tables)return [];
+        if(snapshot.CombinationTables is {} known&&ReferenceEquals(known.Tables,tables))return known.Definitions;
+        var read=ReadTables(tables);snapshot.CombinationTables=new(tables,read);return read;
+    }
     static ModelCombinationDefinition[] ReadTables(Dictionary<string,JsonElement> tables)
     {
         var definitions = new List<ModelCombinationDefinition>();
@@ -228,7 +234,9 @@ public static class ModelCombinations
         // 2/11/2026: the result sets the archive did not give back at the opening, for the catalogue.
         UnavailableResults=s.UnavailableResults,
         // The copy shares the arrays of the original: its revisions hold while the parts are the same references (Revisions).
-        CombinationRevisions=s.CombinationRevisions};
+        CombinationRevisions=s.CombinationRevisions,
+        // 2/11/2026 (series of the combinations): the checks, lengths, tables and revisions already known for the same references.
+        Checked=s.Checked,CombinationSizes=s.CombinationSizes,CombinationTables=s.CombinationTables,CombinationDefinitionRevisions=s.CombinationDefinitionRevisions};
 
     public static ModelSnapshot RestoreImported(ModelSnapshot snapshot)
     {
@@ -289,7 +297,7 @@ public static class ModelCombinations
     static Dictionary<string,string> DefinitionRevisions(ModelSnapshot snapshot,IReadOnlyList<ModelCombinationDefinition> definitions,IEnumerable<string> ids)
     {
         var byId=definitions.ToDictionary(d=>d.Id,StringComparer.Ordinal);var revisions=new Dictionary<string,string>(StringComparer.Ordinal);
-        string? preparation=null;
+        string? preparation=null;var known=snapshot.CombinationDefinitionRevisions;Dictionary<string,KnownRevision>? computed=null;
         foreach(string id in ids)
         {
             if(revisions.ContainsKey(id)||!byId.ContainsKey(id))continue;
@@ -303,23 +311,29 @@ public static class ModelCombinations
                 foreach(var term in nested.Terms)if(term.IsCombination)pending.Push(term.Reference);
             }
             var read=closure.ToArray();var records=read.Select(c=>byId.GetValueOrDefault(c)).ToArray();
-            if(KnownRevisions.TryGetValue(byId[id],out var known)&&known.Preparation==preparation&&known.Ids.SequenceEqual(read,StringComparer.Ordinal)&&
-                known.Records.SequenceEqual(records,ReferenceEqualityComparer.Instance)){revisions[id]=known.Revision;continue;}
+            if(known!=null&&known.TryGetValue(id,out var same)&&same.Preparation==preparation&&same.Ids.SequenceEqual(read,StringComparer.Ordinal)&&
+                same.Records.SequenceEqual(records,ReferenceEqualityComparer.Instance)){revisions[id]=same.Revision;continue;}
             var json=read.Select(c=>byId.TryGetValue(c,out var d)?(object)d:new {Missing=c}).ToArray();
             using var hash=IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
             hash.AppendData(Encoding.UTF8.GetBytes(RevisionFormat+"\n"+preparation+"\n"));hash.AppendData(JsonSerializer.SerializeToUtf8Bytes(json));
             revisions[id]=Convert.ToHexString(hash.GetHashAndReset());
-            KnownRevisions.AddOrUpdate(byId[id],new(preparation,read,records,revisions[id]));
+            (computed??=new(StringComparer.Ordinal))[id]=new(preparation,read,records,revisions[id]);
+        }
+        if(computed!=null)
+        {
+            // Kept by the copy and the copies made from it: the revisions known before with those computed now.
+            var all=known?.ToDictionary(p=>p.Key,p=>p.Value,StringComparer.Ordinal)??new(StringComparer.Ordinal);
+            foreach(var (id,revision) in computed)all[id]=revision;
+            snapshot.CombinationDefinitionRevisions=all;
         }
         return revisions;
     }
 
     /// <summary>2/11/2026 (series of the combinations): the revision of a definition with the preparation and the records it was computed from (the
-    /// definitions it reads, in the order of their identifiers; null for a missing one). The same records give the same JSON, hence the same
-    /// revision (records never changed in place, as for <see cref="Revisions"/>). Attach computed again the revision of every derived result
-    /// of the copy, twice, a time growing with the series.</summary>
-    sealed record KnownRevision(string Preparation,string[] Ids,ModelCombinationDefinition?[] Records,string Revision);
-    static readonly ConditionalWeakTable<ModelCombinationDefinition,KnownRevision> KnownRevisions=new();
+    /// definitions it reads, in the order of their identifiers; null for a missing one), kept by the copy. The same records give the same JSON,
+    /// hence the same revision (records never changed in place, as for <see cref="Revisions"/>). Attach computed again the revision of every
+    /// derived result of the copy, twice, a time growing with the series.</summary>
+    internal sealed record KnownRevision(string Preparation,string[] Ids,ModelCombinationDefinition?[] Records,string Revision);
 
     /// <summary>The definitions whose derived results in the copy are of their current revision.</summary>
     static HashSet<string> CurrentDefinitions(ModelSnapshot snapshot,IReadOnlyList<ModelCombinationDefinition> definitions)
@@ -422,19 +436,26 @@ public static class ModelCombinations
     internal static long SerializedSize(ModelSnapshot model)
     {
         var basis=Revisions.BasisOf(model);
-        if(basis.Length>0&&model.CombinationRevisions is {} known&&known.SameBase(model,basis))
-            return known.PreparationBytes+Property(nameof(ModelSnapshot.CustomCombinations),model.CustomCombinations)+
-                Property(nameof(ModelSnapshot.ExcludedCombinationIds),model.ExcludedCombinationIds)+Property(nameof(ModelSnapshot.GeneratorCases),model.GeneratorCases)+model.Results.Where(r=>r.Combination!=null).Sum(r=>SizeOnce(r)+1);
-        return Size(model);
-        static long Property<T>(string name,T? value) where T:class=>value==null?0:1+Encoding.UTF8.GetByteCount(JsonSerializer.Serialize(name))+1+SizeOnce(value);
+        if(basis.Length==0||model.CombinationRevisions is not {} known||!known.SameBase(model,basis))return Size(model);
+        var measured=model.CombinationSizes?.Lengths;var lengths=new Dictionary<object,long>(ReferenceEqualityComparer.Instance);
+        long total=known.PreparationBytes+Property(nameof(ModelSnapshot.CustomCombinations),model.CustomCombinations)+
+            Property(nameof(ModelSnapshot.ExcludedCombinationIds),model.ExcludedCombinationIds)+Property(nameof(ModelSnapshot.GeneratorCases),model.GeneratorCases)+
+            model.Results.Where(r=>r.Combination!=null).Sum(r=>Length(r)+1);
+        model.CombinationSizes=new(lengths);
+        return total;
+        long Property<T>(string name,T? value) where T:class=>value==null?0:1+Encoding.UTF8.GetByteCount(JsonSerializer.Serialize(name))+1+Length(value);
+        long Length<T>(T value) where T:class
+        {
+            if(measured==null||!measured.TryGetValue(value,out long length))length=Size(value);
+            return lengths[value]=length;
+        }
     }
 
-    /// <summary>2/11/2026 (series of the combinations): the length of the JSON of a derived result or of a list of the definitions, measured once
-    /// for each object (records and arrays never changed in place, as for <see cref="Revisions"/>). Each Attach measured again every derived
-    /// result of the copy, a time growing with the series: from 0.24 to 0.74 s for each Attach of a series of 120 combinations of the
-    /// 500 × 100 model.</summary>
-    static readonly ConditionalWeakTable<object,StrongBox<long>> Sizes=new();
-    static long SizeOnce<T>(T value) where T:class=>Sizes.GetValue(value,v=>new(Size((T)v))).Value;
+    /// <summary>2/11/2026 (series of the combinations): the lengths of the JSON of the derived results and of the lists of the definitions of a copy,
+    /// by reference, kept by the copy and the copies made from it (records and arrays never changed in place, as for <see cref="Revisions"/>).
+    /// Each Attach measured again every derived result of the copy, a time growing with the series: from 0.24 to 0.74 s for each Attach of a
+    /// series of 120 combinations of the 500 × 100 model.</summary>
+    internal sealed record KnownSizes(IReadOnlyDictionary<object,long> Lengths);
     static long Size<T>(T value)
     {using var counter=new ModelSnapshot.ByteCounter();JsonSerializer.Serialize(counter,value);return counter.Length;}
 }

@@ -120,7 +120,9 @@ circa 5 ms; il resto del tempo di una combinazione della serie era di ANTHEA, mi
 | Revisioni delle definizioni dei risultati derivati (due volte nell'Attach) | 2 × 16 ms, cresce con la serie | 2 × 1 ms |
 
 Nessun calcolo nuovo: ognuno di questi passi controllava, misurava o firmava di nuovo dati che non erano cambiati. Ora lo fa una volta per
-riferimento, con la stessa regola di `ModelCombinations.Revisions` (le copie condividono array e record e non li cambiano mai):
+riferimento, con la stessa regola di `ModelCombinations.Revisions` (le copie condividono array e record e non li cambiano mai). Ciò che
+è già noto sta nella copia, in campi non serializzati, e passa alle copie fatte da lei (`ModelCombinations.Copy`). Niente stato statico,
+per la regola P3 dell'architettura.
 
 - `ModelSnapshot.Validate` salta un risultato già controllato con gli stessi nodi ed elementi;
 - `ModelCombinations.SerializedSize` misura una volta ogni risultato derivato e ogni elenco di definizioni;
