@@ -1,5 +1,17 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Motore a matrici delle combinazioni — 2 novembre 2026
+
+Richiesta dell'utente («spacchettando delle parti comuni», poi «Sì, prepara il piano» e «Sì, parti»); piano in
+[modelli-motore-combinazioni](../sviluppo/modelli-motore-combinazioni.md), decisioni D1, D2, D3 e D6 approvate.
+
+- [x] F1: `CombinationMatrix` in GPCModel 5.38, uguale bit per bit a `CombinationRebuild` (Model 8677a78f, 2f934f9f).
+- [x] F3: Checker ricompilato (6156e4ce) e set ufficiale AU installato.
+- [x] F4: `GpcModelCombinationService` sulla matrice; le 373 definizioni del 24 × 12 e 78 del 100 × 50 danno lo stesso risultato
+  salvato byte per byte; sul 500 × 100 lineare 0,60 → 0,165 s, inviluppo SLU 5,4–5,9 → 0,71 s (macchina carica, giri alternati).
+- [ ] F2: inviluppi oltre il limite di espansione sulla matrice (oggi restano sull'albero della ricostruzione).
+- [ ] F5 e D4/D5: combinazioni calcolate solo quando servono; preparazione della chiamata e Attach una volta per la serie.
+
 ## ANTHEA 1.17.3 — 2 novembre 2026
 
 Correzioni dell'interfaccia dei fogli Azioni e della reologia ([revisione](azioni-ui-revisione-20261102.md)); versione chiesta dall'utente, «fallo. ma non fare il full».

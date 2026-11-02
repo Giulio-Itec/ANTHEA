@@ -1,5 +1,21 @@
 # DLL Checker
 
+**Release AU — matrice delle combinazioni (2 novembre 2026, sera).** Set ufficiale da Model `2f934f9f` e Checker `6156e4ce` su
+origin/master (richiesta dell'utente del 2/11, «spacchettando delle parti comuni»; piano `docs/sviluppo/modelli-motore-combinazioni.md`).
+Geometry `6734eee1` e Utilities `e57b440b` invariati. Contenuto rispetto ad AT:
+- GPCModel 5.38.0.0: `CombinationMatrix` dà i valori, i ruoli dei governanti, gli identificativi degli stati e le componenti principali
+  dei campioni di `CombinationRebuild` bit per bit, senza registrarli (la ricostruzione resta per gli stati tracciati); comprende anche
+  i doppi esatti degli archivi e delle copie su .NET Framework già su origin/master (5.37.0.1, 5.37.0.2). ModelData 0.3.0.26,
+  Persistence 3.4.0.16 e GPC.Converter 2.12.0.6 ricompilati;
+- Checker ricompilato contro GPCModel 5.38, senza modifiche ai sorgenti: Concrete 0.35.0.6, Steel 2.129.0.5, CompositeBridge
+  1.23.0.7, Geotechnics 0.27.0.16, GPCModelChecker 2.38.0.4, Masonry 0.10.0.31, GPC.Design 0.45.0.5.
+
+`Release-Set.ps1 -Previous` rispetto ad AT: Model Core 63, UnitTest 1628 (12 ignorati, 13 prove nuove di `CombinationMatrixTest` e
+della ricostruzione) e .NET Framework 4 PASS; Concrete 962 (contratto K0), Steel 122, CompositeBridge 420, Geotechnics 202,
+Calculation 175, ShallowFoundation 29, EmbeddedWalls 99, Steel.Members 7132, Design 274 net8 e 273 net472, ModelChecker 673.
+Zero fallimenti; API solo con aggiunte. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; set completo in
+`supporto/artefatti/librerie-20261102-au`.
+
 **Release AT — prestazioni di GPCModel (2 novembre 2026).** Set ufficiale da Model `5449e4d1` e Checker `a2acd3d2` su
 origin/master (regola dell'utente del 29/10; richiesta del 2/11 «aggiorna tutti i progetti che hanno quelle librerie»).
 Geometry `6734eee1` e Utilities `e57b440b` invariati. Contenuto rispetto ad AS:
