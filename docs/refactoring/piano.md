@@ -11,6 +11,15 @@ Decisioni in [decisioni](decisioni.md), «2 novembre — criterio resistente per
   ([verbale](installer-1.17.1.md)).
 - [ ] Full: rinviata dall'utente alla notte, con la correzione successiva.
 
+## Revisione dell'interfaccia Azioni — 2 novembre 2026
+
+Ramo `refactoring/f5-azioni-ui-revisione` da f9d0f354. [Rilievi corretti, esclusioni e corse](azioni-ui-revisione-20261102.md).
+
+- [x] Rilievi alti e medi della revisione dei fogli Azioni e della reologia: schede e stato della vista nel foglio, messaggio del calcolo, calcolo all'apertura, testo nei campi numerici, area minima, separatore, «?» della guida, focus.
+- [x] Test che vedono i difetti: traccia dei binding attiva, prove nella shell, area minima, reologia; suite UI 73 prima e dopo.
+- [x] Corse mirate PASS (`azioni-ui-mirata-1`, `azioni-ui-pulita-2`, `azioni-ui-pulita-3`).
+- [ ] Merge su main dopo l'approvazione dell'utente; full con la correzione successiva.
+
 ## Assistenza grafica Azioni — 2 novembre 2026
 
 - [x] Cattura precedente; pannello comune e schemi vettoriali per i sedici fogli Azioni, selezioni collegate e stile condiviso.
