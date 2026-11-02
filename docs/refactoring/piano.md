@@ -1451,6 +1451,8 @@ i report di calcolo restano aperti finché l'utente non porta il suo abbozzo. De
 - [x] Percentuale giuntata e numero di strati nei dati dei dettagli di Model, letti dal verificatore del modello per
   EN 8.7.2(4) (decisione del 1/11 sera; scelte dell'agente approvate con «Sì, integra»): `LappedPercent` e `LapLayers` in
   `ConcreteDetailingData` (GPCModel 5.36), GPCModelChecker 2.37, GPCChecker.Concrete 0.35.0.2; set ufficiale AS installato sopra AR delle azioni aggiuntive.
+- [x] Prestazioni di GPCModel (2/11, fase 1 del piano Arachne → GPCModel, che per il resto resta sospeso): costruzione senza
+  scansioni quadratiche, rinomine e copie in memoria (GPCModel 5.37); set ufficiale AT installato per le prove sui modelli MIDAS.
 - [ ] Norma di progetto unica per documento (punto 5): **in attesa** per decisione dell'utente del 1/11 («di base tante
   cose le facciamo solo con NTC2018»); nessun censimento né proposta finché l'utente non lo riapre.
 - [ ] Report di calcolo: dopo l'abbozzo dell'utente.
