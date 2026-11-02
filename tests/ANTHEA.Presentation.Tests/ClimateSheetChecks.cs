@@ -23,6 +23,7 @@ internal static class ClimateSheetChecks
             expect.That(ModuleDirectory.Get(scenario.Module).Area=="Azioni","Sottogruppo Azioni: "+scenario.Module);
             expect.That(await sheet.CalculateAsync()&&sheet.HasResults,"Calcolo "+scenario.Title+": "+sheet.CalculationMessage);
             expect.That(sheet.Cases.Count>0&&sheet.Parameters.Count>0&&sheet.CaseValues.Count>0,"Casi e parametri disponibili");
+            CheckAssistance(sheet,expect);
             var before=sheet.Data.DeepClone();foreach(var panel in sheet.Forms)panel.Form.Commit();expect.That(JsonNode.DeepEquals(before,sheet.Data),"La proiezione italiana non modifica il contratto GPC");
             sheet.IsReadOnly=true;var field=sheet.Forms.SelectMany(f=>f.Form.Fields).Concat(sheet.Tables.Where(t=>t.Editor is not null).SelectMany(t=>t.Editor!.Fields)).FirstOrDefault(f=>f.Kind==Anthea.Presentation.Forms.FieldKind.Text&&f.Spec.Write==Anthea.Presentation.Forms.FieldWriteRule.NumberOrText);
             expect.That(field is not null,"Campo numerico disponibile");field!.EditText="999";expect.That(JsonNode.DeepEquals(before,sheet.Data),"Sola lettura");sheet.IsReadOnly=false;
@@ -118,6 +119,30 @@ internal static class ClimateSheetChecks
         }
         return expect.Count;
     });
+    private static void CheckAssistance(ClimateSheetViewModel sheet,Expect expect)
+    {
+        var data=sheet.Data.DeepClone();var result=sheet.Result!.DeepClone();long revision=sheet.Revision;
+        expect.That(sheet.AssistanceSketch.Parts.Count>0&&sheet.AssistanceSketch.Note.Contains("non in scala"),"Assistenza vettoriale disponibile per ogni modulo");
+        var fields=sheet.Forms.SelectMany(f=>f.Form.Fields).Concat(sheet.Tables.Where(t=>t.Editor is not null).SelectMany(t=>t.Editor!.Fields)).ToArray();
+        var field=fields.First(f=>sheet.AssistanceSketch.Parts.Any(p=>p.Keys.Split(' ').Contains(f.Key)));
+        field.IsFocused=true;
+        expect.That(sheet.ActiveFieldKey==field.Key&&sheet.AssistanceTitle==field.Label&&sheet.AssistanceValue.Length>0,"Focus del campo collega schema, etichetta e valore");
+        field.IsFocused=false;
+        var table=sheet.Tables.FirstOrDefault(t=>t.Key==ActionAssistanceDocument.CaseTable(sheet.Data["input_type"]?.ToString() switch
+        {"HydraulicActionsInput"=>ClimateDocument.Hydraulics,"ConstructionActionsInput"=>ClimateDocument.Construction,"TimeEffectsInput"=>ClimateDocument.TimeEffects,"PrestressActionsInput"=>ClimateDocument.Prestressing,_=>""}));
+        if(table is not null&&table.Rows.Count>1)
+        {
+            table.Selected=table.Rows.Last();expect.That(sheet.SelectedCase==table.Rows.Count-1,"Riga scenario seleziona il caso corrispondente");
+            sheet.SelectedCase=0;expect.That(ReferenceEquals(table.Selected,table.Rows[0]),"Caso seleziona la riga di origine");
+            sheet.IsReadOnly=true;table.Selected=table.Rows.Last();expect.That(sheet.SelectedCase==table.Rows.Count-1,"Collegamento utilizzabile nelle revisioni in sola lettura");sheet.IsReadOnly=false;
+        }
+        if(sheet.IsFire)
+        {
+            var faces=sheet.Tables.Single(t=>t.Key=="FireFaces");faces.Selected=faces.Rows.Last();
+            expect.That(sheet.ActiveTableKey=="FireFaces"&&sheet.ActiveRow==faces.Rows.Count-1,"Faccia attiva identificata per indice, indipendente dal nome");
+        }
+        expect.That(sheet.Revision==revision&&JsonNode.DeepEquals(data,sheet.Data)&&JsonNode.DeepEquals(result,sheet.Result),"Consultazione grafica non modifica documento, revisione o risultati");
+    }
     private sealed class Host:ISheetHost
     {
         public void OpenModuleCopy(string module,JsonObject data,string name)=>throw new InvalidOperationException();

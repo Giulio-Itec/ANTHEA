@@ -30,6 +30,10 @@ internal static class ClimateViewChecks
                 {
                     window.Show();await editor.CalculateAsync();window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
                     Check(sheet.HasResults,"Calcolo "+scenario.Module+": "+sheet.CalculationMessage);
+                    var focusField=sheet.Forms.SelectMany(f=>f.Form.Fields).Concat(sheet.Tables.Where(t=>t.Editor is not null).SelectMany(t=>t.Editor!.Fields)).First(f=>sheet.AssistanceSketch.Parts.Any(p=>p.Keys.Split(' ').Contains(f.Key)));
+                    focusField.IsFocused=true;window.UpdateLayout();
+                    Check(Visual(editor.View).OfType<ActionInputSketch>().Any(c=>c.IsVisible&&c.HighlightedParts.Count>0),"Campo attivo evidenziato nello schema comune");
+                    focusField.IsFocused=false;
                     Check(Visual(editor.View).OfType<ClimateSheetView>().Count()==1,"Template XAML risolto");
                     var actionTabs=Visual(editor.View).OfType<TabControl>().First(t=>t.Items.OfType<TabItem>().Any(i=>Equals(i.Header,"Casi di carico")));
                     if(sheet.IsDistribution)
@@ -42,6 +46,7 @@ internal static class ClimateViewChecks
                     foreach(var theme in new[]{AppAppearance.Light,AppAppearance.Dark,AppAppearance.VeryDark})
                     {
                         Appearance.Set(theme,false);window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
+                        Check(Visual(editor.View).OfType<ActionInputSketch>().Any(c=>c.IsVisible&&c.ActualHeight>100&&c.Drawing?.Parts.Count>0),"Assistenza visibile: "+theme);
                         Check(Visual(editor.View).OfType<DataGrid>().Any(g=>g.IsVisible&&g.Items.Count>0),"Tabella visibile: "+theme);
                         var selector=Visual(editor.View).OfType<ComboBox>().Single(c=>c.IsVisible&&Equals(c.Tag,"ActionCases"));selector.SelectedIndex=sheet.Cases.Count-1;
                         window.UpdateLayout();Check(sheet.SelectedCase==sheet.Cases.Count-1&&sheet.CaseValues.Count>0,"Selezione caso");
@@ -117,6 +122,7 @@ internal static class ClimateViewChecks
                     }
                     var tabs=Visual(editor.View).OfType<TabControl>().First(t=>t.Items.OfType<TabItem>().Any(i=>Equals(i.Header,"Schemi")));
                     tabs.SelectedItem=tabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Schemi"));window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
+                    var reference=Visual(editor.View).OfType<Expander>().Single(e=>Equals(e.Header,"Convenzioni di riferimento"));reference.IsExpanded=true;window.UpdateLayout();
                     Check(Visual(editor.View).OfType<Image>().Count(i=>i.IsVisible&&i.Source is BitmapSource b&&b.PixelWidth>1000)==sheet.Schematics.Count,"Schemi incorporati risolti");
                     File.WriteAllBytes(Path.Combine(output,captureName+"-schemi.png"),Png(editor.View));tabs.SelectedItem=tabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Casi di carico"));
                     editor.InspectRevision();window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);

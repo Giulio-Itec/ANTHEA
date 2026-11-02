@@ -17,10 +17,10 @@ public sealed class HydraulicActionsChart:FrameworkElement
     protected override Size MeasureOverride(Size available)=>new(double.IsInfinity(available.Width)?700:Math.Max(420,available.Width),850);
     protected override void OnRender(DrawingContext dc)
     {
-        base.OnRender(dc);
+        base.OnRender(dc);ActionDrawingStyle.Surface(this,dc);
         var ink=ThemeTokens.Brush("Ink");var border=ThemeTokens.Brush("Border");var blue=ThemeTokens.Brush("Series.Blue");var orange=ThemeTokens.Brush("Series.Orange");var green=ThemeTokens.Brush("Series.Green");
         double w=Math.Max(420,ActualWidth),left=72,right=w-RightMargin;
-        void Text(string value,double x,double y,double size=12,Brush? colour=null)=>dc.DrawText(new FormattedText(value,CultureInfo.CurrentCulture,FlowDirection.LeftToRight,new Typeface("Segoe UI"),size,colour??ink,VisualTreeHelper.GetDpi(this).PixelsPerDip),new(x,y));
+        void Text(string value,double x,double y,double size=12,Brush? colour=null)=>ActionDrawingStyle.Text(this,dc,value,x,y,size,colour);
         void Line(double x0,double y0,double x1,double y1,Brush colour,double thickness=1)=>dc.DrawLine(new Pen(colour,thickness),new(x0,y0),new(x1,y1));
         void Arrow(double x0,double y0,double x1,double y1,Brush colour)
         {

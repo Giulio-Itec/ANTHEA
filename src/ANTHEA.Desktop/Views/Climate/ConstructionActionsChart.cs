@@ -16,10 +16,10 @@ public sealed class ConstructionActionsChart:FrameworkElement
     protected override Size MeasureOverride(Size available)=>new(double.IsInfinity(available.Width)?DefaultWidth:Math.Max(MinimumWidth,available.Width),TimelineTop+(Drawing?.Phases.Count??1)*PhaseRow+PlanGap+PlanHeight+LegendGap+(Drawing?.Loads.Sum(l=>l.Patches.Count+2)??1)*LegendRow);
     protected override void OnRender(DrawingContext dc)
     {
-        base.OnRender(dc);
-        var ink=ThemeTokens.Brush("Ink");var border=ThemeTokens.Brush("Border");Brush[] colours=[ThemeTokens.Brush("Series.Blue"),ThemeTokens.Brush("Series.Orange"),ThemeTokens.Brush("Series.Green"),ThemeTokens.Brush("Series.Magenta")];
+        base.OnRender(dc);ActionDrawingStyle.Surface(this,dc);
+        var ink=ThemeTokens.Brush("Ink");var border=ThemeTokens.Brush("Border");Brush[] colours=ActionDrawingStyle.Palette;
         double right=Math.Max(MinimumWidth,ActualWidth)-MarginRight,width=right-MarginLeft;
-        void Text(string value,double x,double y,double size=12,Brush? colour=null)=>dc.DrawText(new FormattedText(value,CultureInfo.CurrentCulture,FlowDirection.LeftToRight,new Typeface("Segoe UI"),size,colour??ink,VisualTreeHelper.GetDpi(this).PixelsPerDip),new(x,y));
+        void Text(string value,double x,double y,double size=12,Brush? colour=null)=>ActionDrawingStyle.Text(this,dc,value,x,y,size,colour);
         void Line(double x0,double y0,double x1,double y1,Brush colour,double thickness=1)=>dc.DrawLine(new Pen(colour,thickness),new(x0,y0),new(x1,y1));
         string N(double v)=>v.ToString("G5",CultureInfo.CurrentCulture);
         var d=Drawing;if(d is null){Text("Calcolare per visualizzare fasi e aree caricate.",MarginLeft,TextGap);return;}

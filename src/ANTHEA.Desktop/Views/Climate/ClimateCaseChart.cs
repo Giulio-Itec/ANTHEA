@@ -28,7 +28,7 @@ public sealed class ClimateCaseChart : Control
         double max=rows.Max(r=>Math.Abs(r.Value));if(max==0)max=1;
         var blue=TryFindResource("Token.Series.Blue") as Brush??Foreground;var orange=TryFindResource("Token.Series.Orange") as Brush??Foreground;
         void Text(string s,double x,double y,double width)
-        {var t=new FormattedText(s,CultureInfo.CurrentCulture,FlowDirection.LeftToRight,new Typeface("Segoe UI"),11,Foreground,VisualTreeHelper.GetDpi(this).PixelsPerDip){MaxTextWidth=Math.Max(1,width),MaxLineCount=1,Trimming=TextTrimming.CharacterEllipsis};dc.DrawText(t,new Point(x,y));}
+        {var t=new FormattedText(s,CultureInfo.CurrentCulture,FlowDirection.LeftToRight,new Typeface("Segoe UI"),ActionDrawingStyle.BodySize,Foreground,VisualTreeHelper.GetDpi(this).PixelsPerDip){MaxTextWidth=Math.Max(1,width),MaxLineCount=1,Trimming=TextTrimming.CharacterEllipsis};dc.DrawText(t,new Point(x,y));}
         Text("Valori del caso ["+rows[0].Unit+"]",8,4,ActualWidth-TitlePadding);Text("−",labelWidth,4,20);Text("+",labelWidth+plotWidth-LabelPadding,4,20);
         dc.DrawLine(new Pen(BorderBrush,1),new Point(zero,27),new Point(zero,ActualHeight-BottomPadding));
         for(int i=0;i<rows.Length;i++)

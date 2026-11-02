@@ -15,8 +15,8 @@ public sealed class CraneActionsChart:FrameworkElement
     protected override Size MeasureOverride(Size available)=>new(double.IsInfinity(available.Width)?DefaultWidth:Math.Max(MinimumWidth,available.Width),Legend+(Drawing?.Points.Count??1)*Row+Row);
     protected override void OnRender(DrawingContext dc)
     {
-        base.OnRender(dc);var ink=ThemeTokens.Brush("Ink");var blue=ThemeTokens.Brush("Series.Blue");var orange=ThemeTokens.Brush("Series.Orange");var border=ThemeTokens.Brush("Border");
-        void Text(string s,double x,double y,Brush? colour=null,double size=TextSize)=>dc.DrawText(new FormattedText(s,CultureInfo.CurrentCulture,FlowDirection.LeftToRight,new Typeface("Segoe UI"),size,colour??ink,VisualTreeHelper.GetDpi(this).PixelsPerDip),new(x,y));
+        base.OnRender(dc);ActionDrawingStyle.Surface(this,dc);var ink=ThemeTokens.Brush("Ink");var blue=ThemeTokens.Brush("Series.Blue");var orange=ThemeTokens.Brush("Series.Orange");var border=ThemeTokens.Brush("Border");
+        void Text(string s,double x,double y,Brush? colour=null,double size=TextSize)=>ActionDrawingStyle.Text(this,dc,s,x,y,size,colour);
         void Line(double x,double y,double xx,double yy,Brush c)=>dc.DrawLine(new Pen(c,1),new(x,y),new(xx,yy));
         string N(double v)=>v.ToString("G5",CultureInfo.CurrentCulture);
         var d=Drawing;if(d is null){Text("Calcolare per visualizzare le azioni sulle vie.",Left,Gap);return;}

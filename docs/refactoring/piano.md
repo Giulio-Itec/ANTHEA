@@ -1,5 +1,11 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Assistenza grafica Azioni — 2 novembre 2026
+
+- [x] Cattura precedente; pannello comune e schemi vettoriali per i sedici fogli Azioni, selezioni collegate e stile condiviso.
+- [x] Architecture, Climate.Tests e controlli WPF nei tre temi; 73 suite UI conservate.
+- [ ] Allineamento finale con main, guide Word/PDF e confronto numerico.
+
 ## Spettri NTC e isolamento — 19 ottobre 2026
 
 Attività richiesta dall'utente su `refactoring/f5-azioni-spettri`, derivato da `refactoring/f5` b9c2d4b1. [Dettaglio ed evidenze](spettri-ntc.md).

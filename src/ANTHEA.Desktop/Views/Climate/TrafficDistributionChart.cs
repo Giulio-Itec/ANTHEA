@@ -15,9 +15,9 @@ public sealed class TrafficDistributionChart:FrameworkElement
     protected override Size MeasureOverride(Size availableSize)=>new(double.IsInfinity(availableSize.Width)?DefaultWidth:Math.Max(MinimumWidth,availableSize.Width),DrawingHeight+Math.Max(0,(Drawing?.Girders.Count??0)-LegendColumns)/LegendColumns*LegendRow);
     protected override void OnRender(DrawingContext dc)
     {
-        base.OnRender(dc);Brush[] Colours=[ThemeTokens.Brush("Series.Blue"),ThemeTokens.Brush("Series.Red"),ThemeTokens.Brush("Series.Green"),ThemeTokens.Brush("Series.Orange"),ThemeTokens.Brush("Series.Magenta"),ThemeTokens.Brush("Series.Steel"),ThemeTokens.Brush("Series.Amber")];var d=Drawing;var ink=ThemeTokens.Brush("Ink");var border=ThemeTokens.Brush("Border");
+        base.OnRender(dc);ActionDrawingStyle.Surface(this,dc);Brush[] Colours=ActionDrawingStyle.Palette;var d=Drawing;var ink=ThemeTokens.Brush("Ink");var border=ThemeTokens.Brush("Border");
         void Text(string value,double x,double y,double size=LabelSize,Brush? brush=null)
-        {dc.DrawText(new FormattedText(value,CultureInfo.CurrentCulture,FlowDirection.LeftToRight,new Typeface("Segoe UI"),size,brush??ink,VisualTreeHelper.GetDpi(this).PixelsPerDip),new Point(x,y));}
+        {ActionDrawingStyle.Text(this,dc,value,x,y,size,brush);}
         bool Finite(double v)=>!double.IsNaN(v)&&!double.IsInfinity(v);
         if(d is null||!Finite(d.Left)||!Finite(d.Right)||!Finite(d.Span)||d.Right<=d.Left||d.Span<=0){Text("Completare geometria e carichi per visualizzare l’impalcato.",LeftMargin,PlanTop);return;}
         double width=Math.Max(MinimumWidth,ActualWidth)-LeftMargin-RightMargin;

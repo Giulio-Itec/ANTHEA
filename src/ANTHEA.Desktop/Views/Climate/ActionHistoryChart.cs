@@ -17,8 +17,8 @@ public sealed class ActionHistoryChart:FrameworkElement
     protected override Size MeasureOverride(Size available)=>new(double.IsInfinity(available.Width)?DefaultWidth:Math.Max(MinimumWidth,available.Width),LegendTop+(Drawing?.Series.Count??1)*RowHeight+TextGap);
     protected override void OnRender(DrawingContext dc)
     {
-        base.OnRender(dc);var ink=ThemeTokens.Brush("Ink");var grid=ThemeTokens.Brush("Border");Brush[] colours=[ThemeTokens.Brush("Series.Blue"),ThemeTokens.Brush("Series.Orange"),ThemeTokens.Brush("Series.Green"),ThemeTokens.Brush("Series.Magenta"),ThemeTokens.Brush("Series.Red")];
-        void Text(string s,double x,double y,double size=12,Brush? colour=null)=>dc.DrawText(new FormattedText(s,CultureInfo.CurrentCulture,FlowDirection.LeftToRight,new Typeface("Segoe UI"),size,colour??ink,VisualTreeHelper.GetDpi(this).PixelsPerDip),new(x,y));
+        base.OnRender(dc);ActionDrawingStyle.Surface(this,dc);var ink=ThemeTokens.Brush("Ink");var grid=ThemeTokens.Brush("Border");Brush[] colours=ActionDrawingStyle.Palette;
+        void Text(string s,double x,double y,double size=12,Brush? colour=null)=>ActionDrawingStyle.Text(this,dc,s,x,y,size,colour);
         void Line(double x,double y,double xx,double yy,Brush colour,double thickness=1)=>dc.DrawLine(new Pen(colour,thickness),new(x,y),new(xx,yy));
         string N(double x)=>Math.Abs(x)<LabelZeroTolerance?"0":x.ToString("G5",CultureInfo.CurrentCulture);
         var d=Drawing;if(d is null){Text("Calcolare per visualizzare la storia.",Left,TextGap);return;}
@@ -27,7 +27,7 @@ public sealed class ActionHistoryChart:FrameworkElement
         if(xmax<=xmin)xmax=xmin+UnitRange;if(ymax<=ymin)ymax=ymin+UnitRange;
         double right=Math.Max(MinimumWidth,ActualWidth)-Right,bottom=Top+PlotHeight,width=right-Left;
         double X(double x)=>Left+(x-xmin)/(xmax-xmin)*width;double Y(double y)=>bottom-(y-ymin)/(ymax-ymin)*PlotHeight;
-        Text(d.Name,Left,TextGap,16);Text(d.YLabel,Left,Top-TextGap);
+        Text(d.Name,Left,TextGap,ActionDrawingStyle.TitleSize);Text(d.YLabel,Left,Top-TextGap);
         for(int n=0;n<=Ticks;n++)
         {
             double x=xmin+(xmax-xmin)*n/Ticks,y=ymin+(ymax-ymin)*n/Ticks;
