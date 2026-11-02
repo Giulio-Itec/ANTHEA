@@ -14730,17 +14730,23 @@
       "famiglia": "azioni/interfaccia/grafica",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Pannello richiudibile comune, valore/unità del campo attivo, schemi vettoriali con associazioni ai dati e selezione marcata. Schemi qualitativi distinti dai grafici di risultato. Selezione bidirezionale scenari/fasi/età e casi; per i carriponte si conserva il gruppo della posizione quando disponibile. Facce incendio evidenziate anche nei risultati. Tipografia, superfici e ordine delle serie comuni. Nessun calcolo ingegneristico o formato di documento modificato.",
+      "descrizione": "Pannello richiudibile comune, valore/unità del campo attivo, schemi vettoriali con associazioni ai dati e selezione marcata. Schemi qualitativi distinti dai grafici di risultato. Selezione bidirezionale scenari/fasi/età e casi; per i carriponte si conserva il gruppo della posizione quando disponibile. Facce incendio evidenziate anche nei risultati. Tipografia, superfici e ordine delle serie comuni. Nessun calcolo ingegneristico o formato di documento modificato. Le figure originali SVG sono rese con lo stesso tema, senza immagini raster nell’assistenza; tavole di riferimento conservate integralmente. Colori originali associati ai token esistenti nel livello Themes.",
       "test": [
-        "Climate.Tests: 1243 controlli, inclusi selezione in sola lettura e invarianza di dati, revisione e risultati",
-        "ui/check-climate-view: 728 controlli, tutti i moduli nei tre temi",
-        "Architecture.Tests: PASS, nessuna nuova eccezione F4; suite UI 73 prima/dopo"
+        "Climate.Tests: 1249 controlli, inclusi gruppi/posizioni carriponte, selezione in sola lettura e invarianza di dati, revisione e risultati",
+        "ui/check-climate-view: 824 controlli, sedici moduli, figure vettoriali nei tre temi e formato stretto",
+        "Architecture.Tests e qa/no-test-code PASS; inventario UI invariato: 73 suite",
+        "41 CSV numerici identici byte per byte rispetto al main 1bce0729 con lo stesso set AS",
+        "F3: 119 fixture, 94 articoli, 30 ricerche; 1201 file e zero differenze non ammesse, senza nuove transizioni"
       ],
       "evidenze": [
         "supporto/artefatti/ci/20261102-094015-azioni-assistenza-before",
-        "supporto/artefatti/ci/20261102-100133-azioni-assistenza-layout"
+        "supporto/artefatti/ci/20261102-100133-azioni-assistenza-layout",
+        "supporto/artefatti/ci/20261102-102115-azioni-assistenza-candidate",
+        "supporto/artefatti/ci/20261102-101210-azioni-assistenza-vector/ui_f3-equivalence",
+        "supporto/artefatti/azioni-assistenza-20261102/numeric-comparison.json",
+        "supporto/artefatti/guide_anthea_itec_rev67"
       ],
-      "wiki": "Aggiornamento della procedura comune nella guida pratica in corso."
+      "wiki": "Procedura comune della guida pratica aggiornata; due guide globali Rev67 Word/PDF. 94 articoli, revisione precedente archiviata con SHA-256."
     }
   ]
 }

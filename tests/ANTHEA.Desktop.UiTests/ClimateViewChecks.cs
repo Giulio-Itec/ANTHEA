@@ -84,7 +84,7 @@ internal static class ClimateViewChecks
                         if(sheet.IsFire)
                         {
                             sheet.SelectedCase=sheet.Cases.Count-1;actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Incendio e facce"));window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
-                            Check(Visual(editor.View).OfType<FireBoundaryChart>().Any(c=>c.IsVisible&&c.Drawing?.Faces.Count>0),"Facce e condizioni termiche disegnate");
+                            Check(Visual(editor.View).OfType<FireBoundaryChart>().Any(c=>c.IsVisible&&c.Drawing?.Faces.Count>0&&c.SelectedFace==sheet.ActiveFaceIndex),"Facce e condizioni termiche disegnate");
                             Check(Visual(editor.View).OfType<ActionHistoryChart>().Any(c=>c.Drawing?.Series.Count>0),"Curva termica con dati calcolati");File.WriteAllBytes(Path.Combine(output,captureName+"-facce-"+theme+".png"),Png(editor.View));
                             var fireScroll=Visual(actionTabs.SelectedContent as DependencyObject??editor.View).OfType<ScrollViewer>().FirstOrDefault();if(fireScroll is not null){fireScroll.ScrollToBottom();window.UpdateLayout();File.WriteAllBytes(Path.Combine(output,captureName+"-flussi-"+theme+".png"),Png(editor.View));}
                             actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Casi di carico"));window.UpdateLayout();
@@ -123,7 +123,16 @@ internal static class ClimateViewChecks
                     var tabs=Visual(editor.View).OfType<TabControl>().First(t=>t.Items.OfType<TabItem>().Any(i=>Equals(i.Header,"Schemi")));
                     tabs.SelectedItem=tabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Schemi"));window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
                     var reference=Visual(editor.View).OfType<Expander>().Single(e=>Equals(e.Header,"Convenzioni di riferimento"));reference.IsExpanded=true;window.UpdateLayout();
-                    Check(Visual(editor.View).OfType<Image>().Count(i=>i.IsVisible&&i.Source is BitmapSource b&&b.PixelWidth>1000)==sheet.Schematics.Count,"Schemi incorporati risolti");
+                    Check(Visual(editor.View).OfType<ActionReferenceSketch>().Count(i=>i.IsVisible&&i.PrimitiveCount>10)==sheet.Schematics.Count,"Schemi vettoriali incorporati risolti");
+                    foreach(var theme in new[]{AppAppearance.Light,AppAppearance.Dark,AppAppearance.VeryDark})
+                    {
+                        Appearance.Set(theme,false);
+                        window.UpdateLayout();
+                        Check(Visual(editor.View).OfType<ActionReferenceSketch>().All(v=>v.PrimitiveCount>10),"Figure originali vettoriali nel tema "+theme);
+                        int number=0;
+                        foreach(var figure in Visual(editor.View).OfType<ActionReferenceSketch>())File.WriteAllBytes(Path.Combine(output,captureName+"-figura-"+(number++)+"-"+theme+".png"),Png(figure));
+                        File.WriteAllBytes(Path.Combine(output,captureName+"-riferimenti-"+theme+".png"),Png(editor.View));
+                    }
                     File.WriteAllBytes(Path.Combine(output,captureName+"-schemi.png"),Png(editor.View));tabs.SelectedItem=tabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Casi di carico"));
                     editor.InspectRevision();window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
                     Check(sheet.Forms.All(f=>f.Form.IsReadOnly),"Revisione blocca tutti i moduli di input");

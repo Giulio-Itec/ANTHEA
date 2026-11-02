@@ -4,7 +4,7 @@
 
 - [x] Cattura precedente; pannello comune e schemi vettoriali per i sedici fogli Azioni, selezioni collegate e stile condiviso.
 - [x] Architecture, Climate.Tests e controlli WPF nei tre temi; 73 suite UI conservate.
-- [ ] Allineamento finale con main, guide Word/PDF e confronto numerico.
+- [x] Allineato al main 1bce0729 (set AS), guide Word/PDF Rev67 e 41 CSV identici. [Esiti e perimetro](azioni-assistenza-20261102.md).
 
 ## Spettri NTC e isolamento — 19 ottobre 2026
 

@@ -1,17 +1,17 @@
 # Guide globali ANTHEA
 
-Edizione 6, 2 novembre 2026. Guide pratica e teorica Rev66, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 2 novembre 2026. Guide pratica e teorica Rev67, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev66.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev66.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev66.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev66.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev67.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev67.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev67.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev67.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
 
 | Articolo | Word | PDF | Sorgente |
 |---|---|---|---|
 | Capacità orizzontale del palo in terreno stratificato (metodo di G. Pacini), edizione 1 | [Word](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx) | [PDF](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf) | [Markdown](../../docs/articolo-palo-orizzontale-stratificato.md) |
 
-La Rev66 aggiunge i sei fogli Azioni idrauliche, Fasi costruttive, Ritiro e viscosità, Precompressione e perdite, Gru e carriponte e Incendio, conservando tutti gli aggiornamenti della Rev65 per ANTHEA 1.17.0. Comprende schemi originali, formule, esempi, edizioni normative e limiti. Entrambe le Rev65 di partenza sono conservate in `supporto/SUPERATI/azioni-estese-rev66-20261101/`, con manifest.
+La Rev67 aggiunge i sei fogli Azioni idrauliche, Fasi costruttive, Ritiro e viscosità, Precompressione e perdite, Gru e carriponte e Incendio, conservando tutti gli aggiornamenti della Rev65 per ANTHEA 1.17.0. Comprende schemi originali, formule, esempi, edizioni normative e limiti. Entrambe le Rev65 di partenza sono conservate in `supporto/SUPERATI/azioni-estese-rev66-20261101/`, con manifest.
 
 La Rev65 accompagna ANTHEA 1.17.0. Nel modulo Modelli: stati del catalogo delle combinazioni, alternative ±Q, preparazione e scrittura del risultato in background, risultati scartati solo per le definizioni cambiate, combinazioni oltre 4096 stati calcolate per termini, generatore NTC 2018 con categoria dei carichi variabili, regola 100/30 per i casi sismici con direzione e limiti, componenti principali dei plate. Nella Sezione in c.a.: duttilità in curvatura μφ nella scheda Momento–curvatura e regole EN delle sovrapposizioni della libreria. Le revisioni precedenti sono conservate in supporto/SUPERATI/rilascio-1170-rev65-20261101/.
 

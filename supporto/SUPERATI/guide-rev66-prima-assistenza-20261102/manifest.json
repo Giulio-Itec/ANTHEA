@@ -1,0 +1,98 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/docs/guida-pratica-anthea.md",
+    "sha256": "6f9e9b46eba277fb9afe502257662a0553ba304e56ee6a8a50e830a143cf4533",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/docs/guida-pratica-anthea.pdf",
+    "sha256": "2741023ad005ead1f63d828b057bddca7bb29d6d281ffa20ac36ecebfc3db7cb",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/docs/guida-teorica-anthea.md",
+    "sha256": "321539adcd06cf7d48a46c1eb9933adedaee97098b4e8f0e50a337789189443c",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/docs/guida-teorica-anthea.pdf",
+    "sha256": "4f5662918de935c99e50b4bbd136e9f9a672236cc05129bdc5ff1eb4caa2afa1",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev66.docx",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev66.docx",
+    "sha256": "e1cb8ad8d7843993517bc1d8624753a1e92b637415c9018ee6b222528bb9c923",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev66.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev66.pdf",
+    "sha256": "2741023ad005ead1f63d828b057bddca7bb29d6d281ffa20ac36ecebfc3db7cb",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev66.docx",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev66.docx",
+    "sha256": "0365d56d464802a45e4eca8d4a6dde72851b3129031eb14f160e60c1078e79c7",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev66.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev66.pdf",
+    "sha256": "4f5662918de935c99e50b4bbd136e9f9a672236cc05129bdc5ff1eb4caa2afa1",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/README.md",
+    "sha256": "ee7862ca027284a5af49be684c9fde8fb84242d1e1a09059d6952d80afc7874e",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/README.pdf",
+    "sha256": "3b0f36bcd1ad6c76b35df751a0e2db02565ae6033df507751f984e34f565137b",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/installer/README.md",
+    "sha256": "a52cc752e0c50f754e732addb90cf9556a8ad5015a7cd3b7f99a3503fb1b6fac",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/installer/README.pdf",
+    "sha256": "18ae2ee7ceb635c8d74066bfbc96c7d2fbd274232f38401a2dbe1876865ace2d",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/installer/Indice-guide.md",
+    "sha256": "81cad0e224c6f31f688897998a90fd8d1392ffde97729f6601c06fe9487a4dce",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/installer/Indice-guide.pdf",
+    "sha256": "5f177e3f204c57ac946d52a371c86912f9ffaeb8022b95697db878ce0cf1906f",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "f03aeabecd3f02af9ce4e3bb8295b4de1a1b5034670a0d3f075b4f7ed65b7aa9",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev66-prima-assistenza-20261102/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "7dc30031335358952968b6bc1ed9f35c820aa125b6b71becf3f5df57c3398a5d",
+    "motivo": "Sostituita dalla Rev67: assistenza grafica uniforme nei fogli Azioni"
+  }
+]

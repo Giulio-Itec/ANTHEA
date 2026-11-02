@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 2 novembre 2026 — revisione documentale 66
+Edizione 6 aggiornata il 2 novembre 2026 — revisione documentale 67
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1793,6 +1793,14 @@ Restano aperti: sezioni complesse e più file; effetto arco e cedimenti; interaz
 ## Azioni climatiche
 
 Moduli singoli → Azioni comprende cinque fogli: Neve sugli edifici, Vento sugli edifici, Temperatura negli edifici, Vento sui ponti e Temperatura nei ponti. Ogni foglio salva i dati del proprio modello GPC, può entrare in un progetto e produce una relazione Word/PDF con input, formule, riferimenti, schemi e tutti i casi di carico.
+
+### Assistenza grafica durante l’inserimento
+
+Nei sedici fogli delle azioni climatiche e aggiuntive, il pannello richiudibile **Assistenza al dato** mostra il campo attivo, il valore inserito e l’unità. Il contorno marcato e il simbolo ▸ individuano nello schema le quote o i componenti associati. Per i parametri generali privi di una rappresentazione geometrica il pannello indica esplicitamente questa condizione. Il disegno resta consultabile anche mentre un dato incompleto impedisce il calcolo.
+
+Gli schemi sono vettoriali e qualitativi: illustrano il significato degli ingressi e non sostituiscono la geometria e i diagrammi dei risultati. Copertura, vincolo assiale, profilo e lato di tiro del cavo, presenza del secondo impalcato e facce esposte seguono le scelte del foglio. La scheda **Schemi** ingrandisce la rappresentazione; **Convenzioni di riferimento** raccoglie le figure esplicative. Caratteri, superfici, selezione e ordine dei colori delle serie sono comuni nei tre temi.
+
+Scenari idraulici, fasi costruttive ed età di osservazione sono collegati al selettore **Caso** in entrambe le direzioni. Nei carriponte, cambiando posizione si conserva il gruppo di azioni se presente; altrimenti viene mostrato il primo gruppo della nuova posizione. Le altre tabelle contengono componenti: selezionare una faccia d’incendio, per esempio, la evidenzia senza cambiare l’istante del risultato. La riga **Dati / Risultati** esplicita sempre i due contesti. La consultazione e il cambio di selezione non modificano il documento, anche nelle revisioni in sola lettura.
 
 ### Procedura comune e lettura dei risultati
 

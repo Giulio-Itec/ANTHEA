@@ -29,7 +29,7 @@
   <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="{DynamicResource Token.Border}"/>
   <Grid Grid.Column="2" Margin="12,0,0,0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
    <StackPanel><TextBlock Text="{Binding Reference}" FontWeight="SemiBold" TextWrapping="Wrap"/><TextBlock Text="{Binding Scope}" TextWrapping="Wrap" Margin="0,6,0,12"/></StackPanel>
-   <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10"><Button Content="Esporta CSV" Command="{Binding ExportCommand}" Padding="12,5" Margin="0,0,8,0"/><Button Content="Copia risultati" Command="{Binding CopyCommand}" Padding="12,5"/><TextBlock Text="Caso" VerticalAlignment="Center" Margin="16,0,8,0"/><ComboBox Tag="ActionCases" ItemsSource="{Binding Cases}" ItemTemplate="{StaticResource ActionCaseName}" SelectedItem="{Binding SelectedCaseItem}" MinWidth="200" MaxWidth="480" VerticalAlignment="Center"/></StackPanel>
+   <WrapPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10"><Button Content="Esporta CSV" Command="{Binding ExportCommand}" Padding="12,5" Margin="0,0,8,0"/><Button Content="Copia risultati" Command="{Binding CopyCommand}" Padding="12,5"/><TextBlock Text="Caso" VerticalAlignment="Center" Margin="16,0,8,0"/><ComboBox Tag="ActionCases" ItemsSource="{Binding Cases}" ItemTemplate="{StaticResource ActionCaseName}" SelectedItem="{Binding SelectedCaseItem}" MinWidth="200" MaxWidth="480" VerticalAlignment="Center"/></WrapPanel>
    <Expander Grid.Row="2" Header="Assistenza al dato · schema e selezione" IsExpanded="True" Margin="0,0,0,8">
     <Border BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Background="{DynamicResource Token.Paper}" Padding="10">
      <StackPanel>
@@ -64,7 +64,7 @@
      <views:ActionInputSketch Drawing="{Binding AssistanceSketch}" ActiveKey="{Binding ActiveFieldKey}" ActiveTable="{Binding ActiveTableKey}" ActiveRow="{Binding ActiveRow}" Height="300"/>
      <TextBlock Text="{Binding AssistanceSketch.Note}" TextWrapping="Wrap" Margin="0,8"/>
      <TextBlock Text="{Binding CaseLinkNote}" TextWrapping="Wrap" Margin="0,8"/>
-     <Expander Header="Convenzioni di riferimento" IsExpanded="False"><ItemsControl ItemsSource="{Binding Schematics}"><ItemsControl.ItemTemplate><DataTemplate><Image Source="{Binding}" Stretch="Uniform" Margin="0,8,0,16"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></Expander>
+     <Expander Header="Convenzioni di riferimento" IsExpanded="False"><ItemsControl ItemsSource="{Binding Schematics}"><ItemsControl.ItemTemplate><DataTemplate><views:ActionReferenceSketch Source="{Binding}" Margin="0,8,0,16"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></Expander>
     </StackPanel></ScrollViewer></TabItem>
     <TabItem Header="Ipotesi e applicabilità"><ScrollViewer VerticalScrollBarVisibility="Auto"><TextBlock Text="{Binding Notes}" TextWrapping="Wrap" Margin="16" MaxWidth="950" HorizontalAlignment="Left"/></ScrollViewer></TabItem>
    </TabControl>

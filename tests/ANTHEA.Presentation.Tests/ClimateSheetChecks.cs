@@ -34,7 +34,7 @@ internal static class ClimateSheetChecks
             var changed=scenario.Module==ClimateDocument.Construction?sheet.Data["input"]!["ConstructionLoads"]![0]:scenario.Module==ClimateDocument.Combinations?sheet.Data["input"]!["Actions"]![0]:sheet.Data["input"];
             expect.That(!sheet.HasResults&&changed![key]!.GetValue<double>()==edited,"Modifica decimale e invalidazione");
             expect.That(await sheet.CalculateAsync(),"Ricalcolo dopo modifica");sheet.Reload(before.AsObject());expect.That(await sheet.CalculateAsync(),"Ripristino dei dati e ricalcolo");
-            (scenario.Module==ClimateDocument.Construction?sheet.Tables.Single(t=>t.Key=="ConstructionLoads").Editor!:scenario.Module==ClimateDocument.Combinations?sheet.Tables.Single().Editor!:sheet.Forms.Last().Form)[key].EditText="abc";await sheet.CalculateAsync();expect.That(!sheet.HasResults&&sheet.CalculationMessage.Length>0,"Errore di input non conserva risultati");sheet.Reload(before.AsObject());expect.That(await sheet.CalculateAsync()&&sheet.HasResults,"Recupero da errore");
+            (scenario.Module==ClimateDocument.Construction?sheet.Tables.Single(t=>t.Key=="ConstructionLoads").Editor!:scenario.Module==ClimateDocument.Combinations?sheet.Tables.Single().Editor!:sheet.Forms.Last().Form)[key].EditText="abc";await sheet.CalculateAsync();expect.That(!sheet.HasResults&&sheet.CalculationMessage.Length>0&&sheet.AssistanceSketch.Parts.Count>0,"Errore di input non conserva risultati e mantiene l’assistenza");sheet.Reload(before.AsObject());expect.That(await sheet.CalculateAsync()&&sheet.HasResults,"Recupero da errore");
             string folder=Path.Combine(output,scenario.Module);Directory.CreateDirectory(folder);string path=Path.Combine(folder,scenario.File+".anthea");
             var document=DocumentService.CreateDocument(scenario.Module);document["dati"]=sheet.Data.DeepClone();DocumentService.Save(path,document);var reopened=DocumentService.Open(path);
             expect.That(JsonNode.DeepEquals(reopened["dati"],sheet.Data),"Salvataggio e apertura del contratto GPC");
@@ -135,6 +135,20 @@ internal static class ClimateSheetChecks
             table.Selected=table.Rows.Last();expect.That(sheet.SelectedCase==table.Rows.Count-1,"Riga scenario seleziona il caso corrispondente");
             sheet.SelectedCase=0;expect.That(ReferenceEquals(table.Selected,table.Rows[0]),"Caso seleziona la riga di origine");
             sheet.IsReadOnly=true;table.Selected=table.Rows.Last();expect.That(sheet.SelectedCase==table.Rows.Count-1,"Collegamento utilizzabile nelle revisioni in sola lettura");sheet.IsReadOnly=false;
+        }
+        if(sheet.IsCranes)
+        {
+            var positions=sheet.Tables.Single(t=>t.Key=="CranePositions");
+            if(positions.Rows.Count>1)
+            {
+                sheet.SelectedCase=sheet.Cases.Count-1;
+                var group=sheet.Result!["CraneGroups"]![sheet.SelectedCase]!["Group"]!.ToString();
+                positions.Selected=positions.Rows[0];
+                expect.That(sheet.Result!["CraneGroups"]![sheet.SelectedCase]!["Position"]!.GetValue<int>()==1,"Cambio posizione mantiene un caso della posizione selezionata");
+                expect.That(sheet.Result!["CraneGroups"]![sheet.SelectedCase]!["Group"]!.ToString()==group,"Gruppo carriponte conservato al cambio di posizione");
+                sheet.SelectedCase=sheet.Cases.Count-1;
+                expect.That(ReferenceEquals(positions.Selected,positions.Rows.Last()),"Gruppo carriponte seleziona la posizione di origine");
+            }
         }
         if(sheet.IsFire)
         {

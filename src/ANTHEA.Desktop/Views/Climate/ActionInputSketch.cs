@@ -9,7 +9,7 @@ namespace X.Desktop.Views.Climate;
 /// <summary>Vector assistance common to every Actions sheet. Highlights data associations, never computes results.</summary>
 public sealed class ActionInputSketch:FrameworkElement
 {
-    private const double CanvasWidth=1000,CanvasHeight=320,Padding=24,VerticalPadding=12,Half=2,LabelDivisor=3,LabelGap=10,LabelRise=8,DimensionLabelGap=8,TextRise=24,LabelHeight=19,LabelStep=23,LabelPadding=4,LabelOffset=100,OverlapPenalty=100;
+    private const double CanvasWidth=1000,CanvasHeight=320,Padding=24,VerticalPadding=12,LabelDivisor=3,LabelGap=10,LabelRise=8,DimensionLabelGap=8,TextRise=24,LabelHeight=19,LabelStep=23,LabelPadding=4,LabelOffset=100,OverlapPenalty=100;
     public static readonly DependencyProperty DrawingProperty=Property(nameof(Drawing),typeof(ActionSketch));
     public static readonly DependencyProperty ActiveKeyProperty=Property(nameof(ActiveKey),typeof(string));
     public static readonly DependencyProperty ActiveTableProperty=Property(nameof(ActiveTable),typeof(string));
@@ -23,7 +23,6 @@ public sealed class ActionInputSketch:FrameworkElement
     private bool Selected(ActionSketchPart p)=>p.Id.StartsWith("FireFaces:",StringComparison.Ordinal)
         ?ActiveTable=="FireFaces"&&p.Id=="FireFaces:"+ActiveRow
         :p.Keys.Split(' ').Contains(ActiveKey??"")||p.Keys.Split(' ').Contains(ActiveTable??"");
-    public IReadOnlyList<Rect> LabelBounds{get;private set;}=[];
     protected override Size MeasureOverride(Size available)=>new(double.IsInfinity(available.Width)?700:available.Width,double.IsInfinity(available.Height)?250:available.Height);
     protected override void OnRender(DrawingContext dc)
     {
@@ -69,6 +68,5 @@ public sealed class ActionInputSketch:FrameworkElement
             bounds.Add(box);dc.DrawRectangle(ThemeTokens.Brush("Paper"),null,box);
             ActionDrawingStyle.Text(this,dc,label.Text,box.X,box.Y,ActionDrawingStyle.BodySize,label.Colour,box.Width);
         }
-        LabelBounds=bounds;
     }
 }
