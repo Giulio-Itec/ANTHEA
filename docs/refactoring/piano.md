@@ -5,8 +5,11 @@
 Decisioni in [decisioni](decisioni.md), «2 novembre — criterio resistente per stato limite e 1.17.1»; voce CA-CRITERIO-STATI-01.
 
 - [x] Dato `workspace_ca.modello_resistente` per SLU e SLV, migrazione «Conserva i numeri», due menu nelle schede dei domini, titoli e report.
-- [ ] Tracce e catture ricatturate dopo il confronto riga per riga, registro delle differenze.
-- [ ] Guide Rev68, set AT, versione 1.17.1, full sul commit del setup, installer, tag e push.
+- [x] Tracce e catture ricatturate dopo il confronto riga per riga, registro delle differenze.
+- [x] Guide Rev68 e set AT uniti; versione 1.17.1 e [note di rilascio](note-rilascio-1.17.1.md).
+- [x] Profilo standard, suite WPF toccate e suite dell'installer PASS; setup e controllo PASS, tag `v1.17.1` sul commit del setup cd4bd5d7
+  ([verbale](installer-1.17.1.md)).
+- [ ] Full: rinviata dall'utente alla notte, con la correzione successiva.
 
 ## Assistenza grafica Azioni — 2 novembre 2026
 
