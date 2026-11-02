@@ -1,5 +1,24 @@
 # DLL Checker
 
+**Release AT — prestazioni di GPCModel (2 novembre 2026).** Set ufficiale da Model `5449e4d1` e Checker `a2acd3d2` su
+origin/master (regola dell'utente del 29/10; richiesta del 2/11 «aggiorna tutti i progetti che hanno quelle librerie»).
+Geometry `6734eee1` e Utilities `e57b440b` invariati. Contenuto rispetto ad AS:
+- GPCModel 5.37.0.0: costruzione del modello senza le scansioni quadratiche dei contatori degli id e degli indici dei nomi;
+  copie in memoria con gli stessi contratti dati del giro XML (`ModelValues.Copy` e preparazione delle verifiche), con grafi,
+  impronte e risultati identici. Membrana di 10.201 nodi e 20.000 gusci: costruzione 8,4 → 0,2 s, copia 11–14 → 0,5–0,8 s;
+  `ModelMapper.Map` della copia di un modello MIDAS di 19.881 nodi, 19.600 piastre e 4.060 aste: 27–41 → 0,7–0,8 s.
+  ModelData 0.3.0.23, Persistence 3.4.0.13 e GPC.Converter 2.12.0.3 ricompilati;
+- Checker: i flussi delle membrature e dei terminali in acciaio pubblicati su origin/master dopo AS (Steel 2.129, GPCModelChecker
+  2.38) e le ricompilazioni all'ultimo componente: Steel 2.129.0.2, GPCModelChecker 2.38.0.1, Concrete 0.35.0.3, CompositeBridge
+  1.23.0.4, Geotechnics 0.27.0.13, Masonry 0.10.0.28, GPC.Design 0.45.0.2.
+
+`Release-Set.ps1 -Previous` rispetto ad AS: Model Core 63 e UnitTest 1620 PASS (12 ignorati); Concrete 962 (contratto K0), Steel
+122, CompositeBridge 420, Geotechnics 202, Calculation 175, ShallowFoundation 29, EmbeddedWalls 99, Steel.Members 7132, Design 274
+net8 e 273 net472, ModelChecker 673. Zero fallimenti; API solo con aggiunte. Le DLL sono identiche bit per bit al candidato
+`gpc-cand-20261102-perf`. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; set completo in
+`supporto/artefatti/librerie-20261102-at`. Full ANTHEA dopo l'installazione (`lib-at-full` sul commit `a393f84e`):
+161 voci PASS, nessun nuovo fallimento, 81 minuti; evidenze in `supporto/artefatti/integrazione-at/full`.
+
 **Release AS — dati delle sovrapposizioni nel verificatore del modello (2 novembre 2026, notte).** Set ufficiale da Model
 `1a51dad5` e Checker `c2ee6cf0` su origin/master (regola dell'utente del 29/10; decisione «Sì, integra» del 1/11 notte). Geometry
 `6734eee1` e Utilities `e57b440b` invariati. Segue la release AR delle azioni aggiuntive (sessione Codex, Model `07fb7618`,
