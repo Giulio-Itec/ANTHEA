@@ -152,6 +152,30 @@ static partial class Program
         await vm.RestoreImportedCombinationsCommand.ExecuteAsync(null);Check(vm.Combinations.Count==1,"restore imported definitions from retained source tables");
         vm.ShowCombinationGrid=true;
         Check(vm.CombinationGridRows?.Count==1&&vm.CombinationGridHeaders.Values.Contains("↓ G"),"combination matrix exposes coefficients from saved definitions");
+        // 2/11/2026: «Calcola selezionate» and «Calcola tutte», one series on the same base cases published to the document at the end.
+        int batchChanges=0;
+        using(var batch=new ModelViewerViewModel(imported,[],false,new FakeServices(),_=>batchChanges++,(_,_,_,_)=>{}))
+        {
+            batch.OpenCombinationManagerCommand.Execute(null);int initial=batch.PendingCombinationCount;
+            foreach(var (name,factor) in new[]{("Serie A","1"),("Serie B","3")})
+            {batch.NewCombinationCommand.Execute(null);batch.CombinationName=name;batch.CombinationTerms[0].Factor=factor;await batch.SaveCombinationCommand.ExecuteAsync(null);}
+            Check(batch.PendingCombinationCount==initial+2&&batch.CalculateAllLabel==$"Calcola tutte ({initial+2})"&&!batch.CalculateSelectedCombinationsCommand.CanExecute(null),
+                "the series counts the combinations still to calculate; with nothing selected there is no selection to calculate");
+            batch.SelectedCombinationIds=[batch.Combinations.Single(c=>c.Definition.Name=="Serie B").Definition.Id];
+            Check(batch.CalculateSelectedLabel=="Calcola selezionate (1)"&&batch.CalculateSelectedCombinationsCommand.CanExecute(null),"the selected rows enable «Calcola selezionate»");
+            await batch.CalculateSelectedCombinationsCommand.ExecuteAsync(null);
+            Check(batch.Combinations.Single(c=>c.Definition.Name=="Serie B").State=="Calcolata"&&batch.Combinations.Single(c=>c.Definition.Name=="Serie A").State!="Calcolata"&&
+                  batch.PendingCombinationCount==initial+1&&batch.CombinationMessage.StartsWith("1 di 1 combinazioni calcolate",StringComparison.Ordinal),"«Calcola selezionate» calculates only the selected combination");
+            int before=batchChanges;
+            await batch.CalculateAllCombinationsCommand.ExecuteAsync(null);
+            Check(batch.PendingCombinationCount==0&&batch.Combinations.Where(c=>c.CanCalculate).All(c=>c.State=="Calcolata")&&batchChanges==before+1&&!batch.IsBusy&&!batch.IsCombinationBatchBusy&&
+                  batch.CombinationMessage.StartsWith($"{initial+1} di {initial+1} combinazioni calcolate",StringComparison.Ordinal)&&!batch.CalculateAllCombinationsCommand.CanExecute(null),
+                "«Calcola tutte» calculates the others in one series and publishes the copy once at the end");
+            var serieB=batch.Snapshot!.Results.Single(r=>r.Combination?.DefinitionId==batch.Combinations.Single(c=>c.Definition.Name=="Serie B").Definition.Id);
+            var serieA=batch.Snapshot.Results.Single(r=>r.Combination?.DefinitionId==batch.Combinations.Single(c=>c.Definition.Name=="Serie A").Definition.Id);
+            Check(serieA.Values.Length>0&&serieA.Values.Zip(serieB.Values).All(p=>p.First.Values.Zip(p.Second.Values).All(v=>Math.Abs(3*v.First-v.Second)<=1e-9*Math.Max(1,Math.Abs(v.Second)))),
+                "the series gives the values of the single calculation (Serie B = 3 × Serie A)");
+        }
         using var readOnly=new ModelViewerViewModel(imported,[],true,new FakeServices(),_=>throw new Exception("readonly mutated"),(_,_,_,_)=>{});
         readOnly.OpenCombinationManagerCommand.Execute(null);
         Check(!readOnly.NewCombinationCommand.CanExecute(null)&&!readOnly.DeleteCombinationCommand.CanExecute(null)&&!readOnly.CalculateCombinationCommand.CanExecute(null),"historical revision permits catalogue inspection and blocks combination mutations");
