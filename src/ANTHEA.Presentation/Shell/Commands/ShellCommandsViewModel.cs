@@ -143,7 +143,7 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     }
 
     /// <summary>«Salva» and «Salva con nome…»: the document of the sheet with the focus, otherwise the project.</summary>
-    public bool Save(bool asNew) => workspace.CurrentDocument is { } document && workspace.Save(document, asNew);
+    public bool Save(bool asNew) => workspace.CurrentDocument is { } document && workspace.Save(document, asNew, background: true);
 
     /// <summary>«Esporta foglio selezionato…» (MainWindow.ExportSheet): the sheet with the focus as a single file «Foglio.programma».</summary>
     public void ExportSheet()

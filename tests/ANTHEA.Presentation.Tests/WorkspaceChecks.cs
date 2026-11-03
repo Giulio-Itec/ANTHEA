@@ -32,6 +32,7 @@ internal static class WorkspaceChecks
         SingleFiles(expect, folder);
         Projects(expect, folder);
         Locks(expect, folder);
+        BackgroundSave(expect, folder);
         SharedData(expect);
         UndoAndRevisions(expect);
         Requests(expect);
@@ -222,6 +223,46 @@ internal static class WorkspaceChecks
     }
 
     private static string[] Names(string path) => DocumentService.Open(path).Array("progetti").Select(p => p.S("nome")).ToArray();
+
+    /// <summary>
+    /// Step 2c of docs/sviluppo/progetto-sistema.md (3/11/2026): «Salva» of a project with many result sets to write runs in the background
+    /// on the document frozen when it starts, with its progress in the title; a change made meanwhile stays to be saved; closing waits for
+    /// the save; below the threshold the save stays on the thread of the interface.
+    /// </summary>
+    private static void BackgroundSave(Expect expect, string folder)
+    {
+        string root = AppContext.BaseDirectory;
+        while (!File.Exists(Path.Combine(root, "ANTHEA.sln"))) root = Path.GetDirectoryName(root)!;
+        var fixture = (JsonObject)JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests", "fixtures", "model-viewer-combinations-1.16.2", "progetto-1.16.2.json")))!;
+        var model = ProjectModelStore.Read(fixture, ProjectModelStore.Models(fixture).Single()["id"]!.GetValue<string>())!;
+        string path = Path.Combine(folder, "In background.programma");
+        var bench = new ShellBench(dialogs: new ScriptedFileDialogs().Then(path));
+        var workspace = bench.Workspace;
+        workspace.BackgroundThreshold = 0;
+        var project = workspace.NewProject()!;
+        project.AddProject();
+        string id = ProjectModelStore.Set(project.Projects.First(), ModelDocumentEntry.Prepare(model, 1), null, project.Results);
+        project.MarkDirty();
+
+        expect.That(workspace.Save(project, false, background: true) && project.IsSaving && project.Path is null
+            && project.Title == ShellTexts.WindowTitle(null, true, null) + ShellTexts.SavingSuffix(0) && project.Title.EndsWith(" · salvataggio 0%", StringComparison.Ordinal),
+            "Salvataggio in background avviato: " + project.Title);
+        project.AddProject();
+        workspace.WaitForSave(project);
+        var opened = ProjectFile.Open(path);
+        var read = ProjectModelStore.Read(opened.Document["progetti"]!.AsArray().OfType<JsonObject>().First(), id, opened.Results);
+        expect.That(!project.IsSaving && project.Path == path && project.IsDirty && project.Lock is not null && project.Stamp == FileStamp.Of(path)
+            && opened.Document.Array("progetti").Count == 1 && read?.Fingerprint() == model.Fingerprint() && read.UnavailableResults.Count == 0
+            && bench.Messages.Failures.Count == 0, "Salvataggio in background: lo stato congelato sul file, la modifica di intanto da salvare");
+        expect.That(workspace.Save(project, false, background: true) && project.IsSaving && workspace.CloseProject() && !project.IsDirty && !project.IsSaving
+            && workspace.Project is null && Names(path).Length == 2 && bench.Confirmations.Asked.Count == 0, "Chiusura durante il salvataggio: attende e chiude senza domande");
+
+        var small = (ProjectSession)workspace.OpenFile(path)!;
+        small.AddProject();
+        workspace.BackgroundThreshold = WorkspaceSession.BackgroundSaveBytes;
+        expect.That(workspace.Save(small, false, background: true) && !small.IsSaving && !small.IsDirty && Names(path).Length == 3, "Salvataggio piccolo sul thread dell'interfaccia");
+        workspace.Dispose();
+    }
 
     /// <summary>A project with a section of three linked sheets (as SharedDataCoordinatorChecks) open in the workspace.</summary>
     private static (ShellBench Bench, ProjectSession Project, JsonObject Section, JsonObject Material, JsonObject Second, JsonObject Concrete) Linked(ScriptedConfirmations confirmations)

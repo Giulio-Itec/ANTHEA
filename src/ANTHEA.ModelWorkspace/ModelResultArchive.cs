@@ -118,6 +118,10 @@ public sealed class ModelResultArchive
     /// <summary>The archive file of the project, null before the first save.</summary>
     public string? FilePath { get { lock (gate) return file; } }
 
+    /// <summary>Compressed bytes of the blocks prepared in this session and not in the file yet: what a «Salva» writes besides the blocks
+    /// already on disk (step 2c: a large amount goes to a save in the background).</summary>
+    public long UnsavedBytes { get { lock (gate) return memory.Values.Sum(block => block.Data.LongLength); } }
+
     /// <summary>The address of a JSON: SHA-256, upper-case hexadecimal.</summary>
     internal static string Address(ReadOnlySpan<byte> json) => Convert.ToHexString(SHA256.HashData(json));
 
@@ -200,8 +204,9 @@ public sealed class ModelResultArchive
     /// there before cites blocks), then the document through <paramref name="writeDocument"/>, then the state «saved». The thread of the
     /// caller; the blocks are already compressed.
     /// </summary>
+    /// <param name="progress">The share of the blocks written (0 to 1), for a save in the background (step 2c of docs/sviluppo/progetto-sistema.md).</param>
     /// <returns>The blocks cited by the document that the archive does not have (an archive missing at the opening), 0 normally.</returns>
-    public int Save(string documentPath, JsonObject document, Action writeDocument)
+    public int Save(string documentPath, JsonObject document, Action writeDocument, IProgress<double>? progress = null)
     {
         ArgumentNullException.ThrowIfNull(document);
         ArgumentNullException.ThrowIfNull(writeDocument);
@@ -214,7 +219,7 @@ public sealed class ModelResultArchive
             bool same = file is not null && string.Equals(file, target, StringComparison.OrdinalIgnoreCase);
             var keep = new SortedSet<string>(references, StringComparer.Ordinal);
             if (same) keep.UnionWith(savedReferences);
-            if (keep.Count > 0) { missing = Write(target, keep, same); written = true; }
+            if (keep.Count > 0) { missing = Write(target, keep, same, progress); written = true; }
         }
         writeDocument();
         lock (gate)
@@ -233,7 +238,7 @@ public sealed class ModelResultArchive
 
     /// <summary>Writes the archive <paramref name="target"/> with the blocks <paramref name="keep"/> (from memory or from the current file)
     /// in a temporary file beside it, then replaces it. Under the gate.</summary>
-    int Write(string target, SortedSet<string> keep, bool same)
+    int Write(string target, SortedSet<string> keep, bool same, IProgress<double>? progress)
     {
         string? source = file;
         if (source is not null && LoadIndex() is { } failure)
@@ -262,13 +267,19 @@ public sealed class ModelResultArchive
         {
             using (var input = source is null ? null : OpenRead(source))
             {
+                long total = progress is null ? 0 : keep.Sum(a => memory.TryGetValue(a, out var block) ? block.Data.LongLength
+                    : input is not null && index!.TryGetValue(a, out var entry) ? entry.Stored : 0);
+                long done = 0;
                 IEnumerable<(string Address, Block Block)> Blocks()
                 {
                     foreach (string address in keep)
                     {
                         if (memory.TryGetValue(address, out var block)) yield return (address, block);
                         else if (input is not null && index!.TryGetValue(address, out var entry)) yield return (address, new(entry.Kind, entry.Length, ReadAt(input, entry.Offset, entry.Stored)));
-                        else missing++;
+                        else { missing++; continue; }
+                        if (progress is null || total == 0) continue;
+                        done += memory.TryGetValue(address, out var written) ? written.Data.LongLength : index!.TryGetValue(address, out var copied) ? copied.Stored : 0;
+                        progress.Report((double)done / total);
                     }
                 }
                 (entries, digest) = WriteFile(temporary, Blocks());

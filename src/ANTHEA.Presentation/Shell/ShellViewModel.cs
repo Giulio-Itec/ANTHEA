@@ -471,7 +471,7 @@ public sealed class ShellViewModel : ViewModelBase
         model.BackRequested += (_, _) => Navigation.Select(ShellPage.Models);
         model.OwnerRequested += (_, section) => ShowOverview(section);
         model.NewModelRequested += (_, section) => ShowModel(section, null);
-        model.SaveRequested += (_, _) => Workspace.Save(project, false);
+        model.SaveRequested += (_, _) => Workspace.Save(project, false, background: true);
         Windows.ShowPage(tab);
         Tree.Refresh(container);
         Revisions?.Show(container);

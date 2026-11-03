@@ -22,6 +22,10 @@ public static class ShellTexts
         "ANTHEA — " + (path is null ? NewDocument : System.IO.Path.GetFileName(path)) + (dirty ? " *" : "") +
         (displayedRevision is int revision ? $" · Rev. {revision} · sola lettura" : "");
 
+    /// <summary>After the title while a save runs in the background (step 2c of docs/sviluppo/progetto-sistema.md): « · salvataggio 40%».</summary>
+    public static string SavingSuffix(double share) =>
+        " · salvataggio " + share.ToString("P0", System.Globalization.CultureInfo.GetCultureInfo("it-IT")).Replace(" ", "", StringComparison.Ordinal);
+
     /// <summary>Name of a module (MainWindow.ModuleName); an unknown module fails as ModuleDirectory.Get.</summary>
     public static string ModuleName(string module) => ModuleDirectory.Get(module).Name;
 

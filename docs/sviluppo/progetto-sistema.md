@@ -55,8 +55,12 @@ Ogni passo si distribuisce da solo, con le suite della shell e della presentazio
      `DocumentService` in un punto solo. I blocchi mancanti dell'archivio diventano un avviso e lo storico vi si sposta.
    - 2b. Apertura con diagnosi: ogni problema ha il suo percorso (progetto › sezione › foglio). Un foglio o una revisione che non si leggono
      si aprono in sola lettura, con il motivo, invece di rifiutare il progetto.
-   - 2c. Salvataggio in background su uno stato congelato (lo scheletro dello storico con le copie dei modelli), con avanzamento.
-     L'interfaccia resta usabile; le modifiche fatte durante il salvataggio restano da salvare.
+   - 2c. Salvataggio in background (fatto): «Salva» del menu e della pagina «Modelli» congela il progetto (`FrozenDocument`, lo stato
+     dello storico) e lo scrive su un thread del pool, con l'avanzamento dei risultati nel titolo («· salvataggio 40%»). L'interfaccia
+     resta usabile e le modifiche fatte intanto restano da salvare. Va in background solo un progetto con più di 64 MiB di risultati
+     nuovi da scrivere (`WorkspaceSession.BackgroundSaveBytes`): sotto, il salvataggio dura una frazione di secondo e resta sincrono.
+     Chiusura, «Annulla» delle domande e un nuovo «Salva» aspettano il salvataggio in corso. Limite: aprire un modello o prepararne una
+     copia durante la scrittura dell'archivio attende la fine della scrittura (l'archivio ha un solo lucchetto).
    - 2d. Blocco (fatto): il file nascosto `~$nome` accanto al documento, con utente, computer e ora (`DocumentLock`), come fa Office.
      Resta aperto finché il documento è aperto e Windows lo cancella alla chiusura, anche dopo un crash; un blocco che nessuno tiene aperto
      (mancanza di corrente, copia) viene ripreso. Un file aperto da un altro ANTHEA chiede «Apri una copia» (senza nome, i risultati letti

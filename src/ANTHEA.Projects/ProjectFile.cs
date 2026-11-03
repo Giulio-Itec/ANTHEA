@@ -22,15 +22,17 @@ public static class ProjectFile
     /// <summary>
     /// «Salva» and «Salva con nome…»: the archive of the results beside <paramref name="path"/>, then the document through
     /// <paramref name="writeDocument"/> (DocumentService.Save when null), so that the document on disk never cites a block the archive does not
-    /// have. The thread of the caller.
+    /// have. The thread of the caller: since step 2c also a thread of the pool, on a document thawed from a <see cref="FrozenDocument"/>;
+    /// <paramref name="progress"/> gets the share of the result sets written.
     /// </summary>
     /// <returns>What the user should know after the save: the result sets the archive could not find.</returns>
-    public static ProjectSaveReport Save(string path, JsonObject document, ModelResultArchive results, Action<string, JsonObject>? writeDocument = null)
+    public static ProjectSaveReport Save(string path, JsonObject document, ModelResultArchive results, Action<string, JsonObject>? writeDocument = null,
+        IProgress<double>? progress = null)
     {
         ArgumentNullException.ThrowIfNull(document);
         ArgumentNullException.ThrowIfNull(results);
         var write = writeDocument ?? DocumentService.Save;
-        return new(results.Save(path, document, () => write(path, document)));
+        return new(results.Save(path, document, () => write(path, document), progress));
     }
 }
 

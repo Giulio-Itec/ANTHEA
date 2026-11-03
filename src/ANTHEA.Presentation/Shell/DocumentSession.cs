@@ -59,8 +59,39 @@ public abstract class DocumentSession
     /// <summary>Number of the archived revision on screen, null for the current version.</summary>
     public virtual int? DisplayedRevision => null;
 
-    /// <summary>Title of the window for this document (<see cref="ShellTexts.WindowTitle"/>).</summary>
-    public string Title => ShellTexts.WindowTitle(Path, IsDirty, DisplayedRevision);
+    /// <summary>Title of the window for this document (<see cref="ShellTexts.WindowTitle"/>), with the progress of a save in the background.</summary>
+    public string Title => ShellTexts.WindowTitle(Path, IsDirty, DisplayedRevision) + (SaveProgress is { } share ? ShellTexts.SavingSuffix(share) : "");
+
+    /// <summary>
+    /// The share written of the save running in the background (docs/sviluppo/progetto-sistema.md, step 2c), null when none runs: the
+    /// document stays usable, the changes made meanwhile stay to be saved.
+    /// </summary>
+    public double? SaveProgress { get; private set; }
+
+    /// <summary>True while a save of the document runs in the background.</summary>
+    public bool IsSaving => SaveProgress is not null;
+
+    /// <summary>A save in the background starts (<paramref name="share"/> 0), goes on, or ends (null).</summary>
+    internal void SetSaveProgress(double? share)
+    {
+        if (SaveProgress == share) return;
+        SaveProgress = share;
+        RaiseStateChanged();
+    }
+
+    /// <summary>
+    /// A save that froze the document after <paramref name="changes"/> changes wrote it to <paramref name="path"/>: the document becomes that
+    /// file, and it is saved unless it changed meanwhile (a save in the background, step 2c).
+    /// </summary>
+    /// <returns>True when the document is saved, false when changes made during the save stay to be saved.</returns>
+    public bool MarkSaved(string path, long changes)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        Path = path;
+        IsDirty = Changes != changes;
+        RaiseStateChanged();
+        return !IsDirty;
+    }
 
     /// <summary>The file, the «not saved» state, the read-only state or the document on screen changed.</summary>
     public event EventHandler? StateChanged;
