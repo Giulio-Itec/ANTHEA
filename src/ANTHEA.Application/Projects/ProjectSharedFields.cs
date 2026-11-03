@@ -120,7 +120,10 @@ public static partial class ProjectSharedData
         return false;
     }
 
-    public static List<string> Limitations(JsonObject section)
+    public static List<string> Limitations(JsonObject section) => Limitations(section, Fields);
+
+    /// <summary>The limitations with the fields of the sheets from <paramref name="fields"/> (step 3: kept by content, ProjectCoherenceCache).</summary>
+    internal static List<string> Limitations(JsonObject section, Func<JsonObject, Dictionary<string, Field>> fields)
     {
         var sheets = ComparisonSheets(section); var result = new List<string>();
         var pairs = ComparisonPairs(section).ToArray();
@@ -132,23 +135,23 @@ public static partial class ProjectSharedData
             var related = pairs.Where(p => ReferenceEquals(p.First, sheet) || ReferenceEquals(p.Second, sheet))
                 .Select(p => ReferenceEquals(p.First, sheet) ? p.Second : p.First).ToArray();
             bool hasPile = related.Any(s => s.S("modulo_id") == PaloOrizzontale.Module);
-            string name = sheet.S("nome"); var fields = Fields(sheet);
+            string name = sheet.S("nome"); var sheetFields = fields(sheet);
             if (sheet.S("modulo_id") is RebarMaterial.Module or "str_palo" or PaloOrizzontale.Module || sheet.S("modulo_id") == RetainingWall.Module && sheet["dati"].S("family") == "cantilever")
             {
                 var steel = new JsonObject();
-                foreach (string key in RebarMaterial.Keys) if (fields.TryGetValue(key, out var field)) steel[key] = field.Value?.DeepClone();
+                foreach (string key in RebarMaterial.Keys) if (sheetFields.TryGetValue(key, out var field)) steel[key] = field.Value?.DeepClone();
                 if (RebarMaterial.Error(steel) is string error) result.Add(name + ": acciaio — " + error);
             }
             if (sheet.S("modulo_id") == "str_palo" && hasPile &&
-                (fields["shape"].Value?.ToString() != "Circolare" || (fields["barre_manuali"].Value as JsonArray)?.Count > 0 ||
-                 fields.Any(p => p.Key.StartsWith("second_") && p.Key.EndsWith("enabled") && p.Value.Value?.ToString() is "true" or "True" or "Sì")))
+                (sheetFields["shape"].Value?.ToString() != "Circolare" || (sheetFields["barre_manuali"].Value as JsonArray)?.Count > 0 ||
+                 sheetFields.Any(p => p.Key.StartsWith("second_") && p.Key.EndsWith("enabled") && p.Value.Value?.ToString() is "true" or "True" or "Sì")))
                 result.Add(name + ": forma o armatura avanzata non trasferibile al palo orizzontale; verificare separatamente la sezione resistente.");
             if (sheet.S("modulo_id") == MicropaloOrizzontale.Module && sheet["dati"]?["sezione"].S("modo_chs") == "Manuale" && related.Any(s => s.S("modulo_id") == "geo_micropalo_verticale"))
                 result.Add(name + ": CHS manuale non rappresentabile nel catalogo del micropalo verticale.");
             if (sheet.S("modulo_id") == "geo_micropalo_verticale" && sheet["dati"]?["generali"].D("inclinazione") != 0)
                 result.Add(name + ": lunghezza inclinata non collegata alla lunghezza del micropalo orizzontale.");
             if (sheet.S("modulo_id") is "str_palo" or PaloOrizzontale.Module && related.Any(s => s.S("modulo_id") == "mat_calcestruzzo") &&
-                !ConcreteMaterialCatalog.Concrete().Any(c => Equal(c["fck_mpa"], fields["CLS · fck [MPa]"].Value)))
+                !ConcreteMaterialCatalog.Concrete().Any(c => Equal(c["fck_mpa"], sheetFields["CLS · fck [MPa]"].Value)))
                 result.Add(name + ": resistenza CLS personalizzata non rappresentabile nel selettore delle classi di Materiali.");
         }
         foreach (var (first, second) in pairs.Where(p => SupportsSharedSoils(p.First) && SupportsSharedSoils(p.Second)))

@@ -94,7 +94,7 @@ public sealed class ProjectNodeViewModel : ViewModelBase
             CanReport = ProjectSharedData.SubtreeSheets(node!).Any();
             ReportToolTip = CanReport ? "Report Word della sezione, comprese tutte le sottosezioni" : "Aggiungi una scheda alla sezione o alle sue sottosezioni";
             ReportAutomationName = "Genera report " + node!.S("nome");
-            Badge = SharedDataCoordinator.Coherence(node!);
+            Badge = SharedDataCoordinator.Coherence(node!, tree.Coherence);
             ToolTip = readOnly ? "Apri il riepilogo" : (depth == 0 ? "Trascina per riordinare i progetti" : "Trascina sul bordo per riordinare, al centro per inserire in una sezione") + " · Doppio clic per rinominare · F2";
         }
         else if (kind == ProjectNodeKind.Sheet)
@@ -238,6 +238,10 @@ public sealed class ProjectTreeViewModel : ViewModelBase
     private readonly IMessageService messages;
     private readonly HashSet<string> collapsed = [];
     private ProjectSession? project;
+
+    /// <summary>The coherence of the sections kept by the content of the sheets (step 3 of docs/sviluppo/progetto-sistema.md): a refresh computes
+    /// again only the badges of the sections whose sheets changed. A new one for each project.</summary>
+    internal ProjectCoherenceCache Coherence { get; private set; } = new();
     private ProjectNodeViewModel? selected;
     private ProjectNodeViewModel? renaming;
     private string summary = "";
@@ -320,6 +324,7 @@ public sealed class ProjectTreeViewModel : ViewModelBase
     public void Refresh(JsonObject? selection = null)
     {
         if (renaming is not null) EndRename(renaming, true);
+        Coherence.NewReading();
         foreach (var root in Roots) Remember(root);
         selection ??= Selected?.Node is { } node && project?.Find(node.S("id")) is { } found ? found : workspace.Active?.Sheet;
         for (var parent = selection?.Parent?.Parent as JsonObject; parent is not null; parent = parent.Parent?.Parent as JsonObject) collapsed.Remove(parent.S("id"));
@@ -583,6 +588,7 @@ public sealed class ProjectTreeViewModel : ViewModelBase
         if (ReferenceEquals(project, workspace.Project)) return;
         if (project is not null) project.Changed -= OnProjectChanged;
         project = workspace.Project;
+        Coherence = new ProjectCoherenceCache();
         if (project is not null) project.Changed += OnProjectChanged;
         collapsed.Clear();
         Refresh();

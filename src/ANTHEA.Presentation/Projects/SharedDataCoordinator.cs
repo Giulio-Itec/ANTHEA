@@ -165,6 +165,29 @@ public sealed class SharedDataCoordinator
             "Apri il confronto e gli avvisi della sezione.\n\n" + string.Join("\n\n", warnings);
         return new(title, content, warning, toolTip);
     }
+
+    /// <summary>
+    /// <see cref="Coherence(JsonObject)"/> from <paramref name="cache"/> (docs/sviluppo/progetto-sistema.md, step 3, 4/11/2026): the same
+    /// badge, computed again only for the sections whose sheets changed.
+    /// </summary>
+    public static CoherenceBadge? Coherence(JsonObject section, ProjectCoherenceCache cache)
+    {
+        ArgumentNullException.ThrowIfNull(section);
+        ArgumentNullException.ThrowIfNull(cache);
+        var summary = cache.Of(section);
+        if (!summary.HasSheets) return null;
+        var warnings = summary.Warnings;
+        bool comparable = summary.Matches > 0;
+        if (!comparable && warnings.Length == 0) return null;
+        bool hasConflicts = summary.DifferenceKeys > 0 || summary.MissingLayers > 0;
+        string title = hasConflicts ? "⚠ Differenze tra fogli" : comparable ? "✓ Dati comuni coerenti" : "";
+        if (warnings.Length > 0) title += (title.Length > 0 ? " · " : "") + $"⚠ {warnings.Length} {(warnings.Length == 1 ? "avviso" : "avvisi")}";
+        bool warning = hasConflicts || warnings.Length > 0;
+        string content = warning ? (summary.DifferenceKeys + summary.MissingLayers + warnings.Length).ToString() : "✓";
+        string toolTip = warnings.Length == 0 ? "Apri il confronto dei dati comuni della sezione." :
+            "Apri il confronto e gli avvisi della sezione.\n\n" + string.Join("\n\n", warnings);
+        return new(title, content, warning, toolTip);
+    }
 }
 
 /// <summary>Badge of a section: automation name and tooltip of the button, its content (number or «✓») and its warning colour.</summary>

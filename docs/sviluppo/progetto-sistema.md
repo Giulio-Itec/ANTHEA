@@ -82,6 +82,21 @@ Ogni passo si distribuisce da solo, con le suite della shell e della presentazio
      cancella al salvataggio, alla chiusura e all'uscita.
 3. **Editor con transazioni ed eventi.** Ogni operazione sul progetto è un comando che produce una transazione: l'annulla lavora per
    transazioni e l'interfaccia aggiorna solo i nodi cambiati.
+   - 3a. Coerenza per contenuto (fatto, 4/11). Misura (`Presentation.Tests --banco-progetto`, 4 progetti con 576 fogli, 6 schede aperte):
+     ogni modifica ricostruiva l'albero ricalcolando la coerenza di tutte le sezioni, 640 ms di 660. Una stessa coppia di fogli veniva
+     confrontata una volta per ogni livello che la contiene. `ProjectCoherenceCache` tiene i campi di un foglio per l'impronta SHA-256
+     del suo JSON, il confronto di due fogli per le due impronte, il copriferro per il foglio e i suoi Materiali e il riepilogo di una
+     sezione per le impronte di tutti i fogli che vede. Il risultato è identico, perché sui mancati usa lo stesso codice (prova
+     `CoherenceCacheChecks`). Vale anche dopo un annulla, che ricrea gli oggetti.
+
+     | Operazione | Prima | Dopo |
+     | --- | ---: | ---: |
+     | Rinomina di un foglio | 752 ms | 74 ms |
+     | Nuovo foglio | 841 ms | 97 ms |
+     | Annulla | 919 ms | 128 ms |
+     | Riepilogo della sezione | 795 ms | 15 ms |
+     | Albero senza modifiche | 660 ms | 5 ms |
+   - 3b. Transazioni con nome per l'annulla ed eventi con i nodi cambiati: l'albero aggiorna sul posto nomi e badge.
 4. **Descrittori dei moduli e stato del progetto.** Ogni modulo dichiara dati comuni, etichette e stato di un foglio. Ogni foglio registra
    l'impronta dei dati con cui è stato calcolato; albero e panoramica mostrano verificato / non verificato / da ricalcolare / da calcolare.
 5. **Sollecitazioni dai modelli alle verifiche.** Il collegamento come sorgente di sollecitazioni, con l'impronta del modello, anteprima e
