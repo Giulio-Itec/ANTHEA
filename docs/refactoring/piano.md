@@ -1,5 +1,10 @@
 # Refactoring di ANTHEA: piano operativo
 
+## F3 del piano comune GPC - 3 novembre 2026
+
+- [x] Cattura preventiva, estrazione del contenitore e adattatore ANTHEA selezionabile in build di sviluppo; confronto delle suite di persistenza. [Dettaglio](gpc-archivio-f3.md).
+- [ ] F7/F8 comuni: adozione ordinaria, set coerente pubblicato, snapshot e full. Il codice precedente e lo snapshot corrente restano disponibili.
+
 ## ANTHEA 1.17.4 — 2 novembre 2026
 
 Motore a matrici delle combinazioni e set AU; versione chiesta dall'utente, «ricorda di fare la nuova versione» (decisione D3).

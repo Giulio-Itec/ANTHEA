@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-11-02",
+  "aggiornato": "2026-11-03",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -31,6 +31,27 @@
   "nota_f5_23_10": "Voci F5-03…F5-59, aggiunte il 23/10/2026 (ramo refactoring/f5-registro da refactoring/f5 532a3074) per la revisione F5.15 (docs/refactoring/f5-15-revisione.md). Comprendono: le differenze di comportamento delle viste MVVM rispetto alle viste storiche dichiarate, accettate o scelte in via provvisoria nei documenti F5.4–F5.12; i comportamenti della vista storica della sezione c.a. che il ViewModel conserva per avere tracce identiche (C5 di f5-10-sezione.md: «diventano voci del registro»). Stato «dichiarato»: differenza accettata dall'utente il 17/10 mattina («accetto tutte le proposte, continua col piano»). Stato «da-decidere»: scelta provvisoria o comportamento conservato, aperto per F5.15. C5 era senza proposta: vale la scelta del coordinatore «da ratificare» («i comportamenti storici si conservano e diventano voci del registro», decisioni.md, 17 ottobre mattina), che si rivede in F5.15 per la decisione dell'utente del 17/10 tarda mattina («dove diceva \"da decidere\" a fine refactoring rivediamo tutte le scelte»). Campi nuovi: documento (documento e sezione d'origine), modulo, revisione_f5_15 (gruppo e riga dell'elenco F5.15), opzioni (opzione presa e alternativa dell'elenco). Percorsi del codice su refactoring/f5 532a3074, senza numeri di riga. Non hanno una voce: le differenze di solo aspetto (corpi, colori, misure dei dialoghi); le scelte delle sole prove e dei riferimenti congelati (V-a, V-e, V-g, artefatti delle tracce); i comportamenti storici conservati negli altri moduli (T6: V5, O3, FN3; T7: S6, O4, E4, E5, MU5, MU6, E7, O5; SM5; BD10), perché la decisione non li destina al registro; le differenze senza effetto osservabile (E3, M19, S10); le differenze della shell rispetto a MainWindow (F5.13 non conclusa).",
   "nota_chiusura_f5_15": "Chiusura di F5.15 (26/10/2026): stato nuovo «rinviato» per le voci che la revisione F5.15 non ha potuto attuare perché servono testi normativi, una decisione o un lavoro grande (R4, R5, R6, R7, R8, R9, R11, R14, R16, R17, R18, R20). Restano aperte nella coda dopo il refactoring (piano.md); ogni voce ha il campo rinvio_26_10 con ciò che serve per riprenderla. Decisione dell'utente: «Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)",
   "voci": [
+    {
+      "id": "GPC-F3-01",
+      "data": "2026-11-03",
+      "fase": "F3 comune BridGHe/Arachne",
+      "titolo": "Contenitore risultati estratto e salvataggi interrotti protetti",
+      "famiglia": "Persistenza modelli",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Build di sviluppo GpcArchiveProject: GPC.Archive conserva il formato valido ANTHEA v1. Controlli più rigorosi rifiutano indici duplicati/sovrapposti/fuori limite. Save As conserva i blocchi della vecchia destinazione se il documento non viene scritto; la sessione cambia percorso soltanto dopo successo. Salvataggi serializzati per sessione. Policy JSON, soglia e cinque copie invariate. Default e snapshot pubblicato non modificati.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelResultArchive.Shared.cs",
+        "../Model/GPC.Archive/BlockArchive.cs"
+      ],
+      "effetto_quantificato": "Suite ModelWorkspace.Checks e Application.Tests prima/dopo PASS; fixture ANTHEA riscritta byte-identica su .NET e Framework. Nessuna differenza numerica ammessa.",
+      "documento": "docs/refactoring/gpc-archivio-f3.md",
+      "decisione": "Implementazione del piano comune autorizzato dall’utente, branch separato. Adozione ordinaria rinviata al set coerente F7/F8.",
+      "test": [
+        "tests/ModelWorkspace.Checks/ResultArchiveChecks.cs",
+        "../Model/tests/ExternalArchiveTest.cs"
+      ]
+    },
     {
       "id": "SPETTRI-01",
       "data": "2026-10-19",
