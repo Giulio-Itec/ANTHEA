@@ -20,7 +20,46 @@ internal static class ProjectHistoryChecks
         Capacity(expect);
         ReadOnly(expect);
         Documents(expect);
+        Models(expect);
         return expect.Count;
+    }
+
+    /// <summary>
+    /// «Annulla leggero» (3/11/2026): with a copy of a model in the project, every undo and redo gives back the very document of that step,
+    /// byte for byte the copy of the model too (readable with its fingerprint), also after the copy was replaced by another one and renamed;
+    /// a state recorded again is not a new copy; the copies no step uses leave the history.
+    /// </summary>
+    private static void Models(Expect expect)
+    {
+        string root = AppContext.BaseDirectory; while (!File.Exists(Path.Combine(root, "ANTHEA.sln"))) root = Path.GetDirectoryName(root)!;
+        var fixture = (JsonObject)JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests", "fixtures", "model-viewer-combinations-1.16.2", "progetto-1.16.2.json")))!;
+        string id = ANTHEA.ModelWorkspace.ProjectModelStore.Models(fixture).Single()["id"]!.GetValue<string>();
+        var document = ProjectDocuments.CreateArchive(); var project = ProjectDocuments.AddProject(document, "Ponte");
+        project[ANTHEA.ModelWorkspace.ProjectModelStore.Property] = new JsonArray(ANTHEA.ModelWorkspace.ProjectModelStore.Models(fixture).Single().DeepClone());
+        var history = new ProjectHistory(); history.Reset(document);
+        var states = new List<JsonObject> { (JsonObject)document.DeepClone() };
+        JsonObject Project(JsonObject d) => d["progetti"]!.AsArray().OfType<JsonObject>().Single();
+        void Record(string label) { expect.That(history.Record(document, false), "Copia della modifica con un modello: " + label); states.Add((JsonObject)document.DeepClone()); }
+        ProjectDocuments.Rename(project, "Ponte 1"); Record("nome del progetto");
+        var copy = ANTHEA.ModelWorkspace.ProjectModelStore.Read(project, id)!; copy.Name += " bis";
+        ANTHEA.ModelWorkspace.ProjectModelStore.Set(project, copy, id); Record("copia del modello sostituita");
+        ANTHEA.ModelWorkspace.ProjectModelStore.Rename(project, id, "Modello B"); Record("modello rinominato");
+        expect.That(!history.Record(document, false) && history.UndoCount == 3, "Stessa copia del modello registrata di nuovo");
+        bool Readable(JsonObject d) => ANTHEA.ModelWorkspace.ProjectModelStore.Read(Project(d), id) is not null;
+        for (int step = states.Count - 2; step >= 0; step--)
+        {
+            document = history.Restore(false, false, () => { }, () => document)!;
+            expect.That(document is not null && JsonNode.DeepEquals(document, states[step]) && Readable(document) && !history.Record(document, false),
+                $"Annulla con un modello: stato {step} identico, copia leggibile, nessuna nuova copia");
+        }
+        for (int step = 1; step < states.Count; step++)
+        {
+            document = history.Restore(true, false, () => { }, () => document)!;
+            expect.That(document is not null && JsonNode.DeepEquals(document, states[step]) && Readable(document), $"Ripristina con un modello: stato {step} identico");
+        }
+        ProjectDocuments.Rename(Project(document), "Ponte 2");
+        expect.That(history.Record(document, false) && history.RedoCount == 0 && JsonNode.DeepEquals(history.Restore(false, false, () => { }, () => document), states[^1]),
+            "Nuova modifica dopo il ripristino e annulla con un modello");
     }
 
     /// <summary>The window around the history: the current document and the commit of the open sheet (MainWindow.Commit → MarkDirty).</summary>

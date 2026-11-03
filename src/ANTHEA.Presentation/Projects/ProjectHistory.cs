@@ -17,8 +17,19 @@ public sealed class ProjectHistory
     /// <summary>Copies of the document kept for undo; the oldest is dropped beyond this number.</summary>
     public const int Capacity = 30;
 
-    private readonly List<JsonObject> undo = [], redo = [];
-    private JsonObject? baseline;
+    // «Annulla leggero» (request of the user of 3/11/2026, after the critical analysis of the project module): with a model 500 × 100 in the
+    // project, 30 whole copies took 1.1 GB and every recorded change compared the whole document (26–78 ms, up to 0.5 s). The copies of the
+    // models («snapshot» of the entries of «modelli_calcolo», also inside the revisions) are now kept once, as UTF-8 JSON keyed by the hash
+    // the entry already carries (ProjectModelStore: «copia» for schema 2, «revisione» for schema 1, checked whenever the copy is read), and
+    // a step keeps the rest of the document with a placeholder; the comparison takes the hash instead of the copy. The copies are never
+    // changed in place (ProjectModelStore.Set builds a new entry), so the same hash is the same copy.
+    private sealed record Step(JsonObject Skeleton, string[] Keys);
+    private const string FrozenProperty = "#copia-del-modello";
+    private const string SnapshotProperty = "snapshot";
+    private readonly Dictionary<string, byte[]> frozen = new(StringComparer.Ordinal);
+
+    private readonly List<Step> undo = [], redo = [];
+    private Step? baseline;
     private JsonObject? tracked;
 
     /// <summary>Copies available to undo.</summary>
@@ -40,8 +51,8 @@ public sealed class ProjectHistory
     public void Reset(JsonObject document)
     {
         ArgumentNullException.ThrowIfNull(document);
-        undo.Clear(); redo.Clear(); tracked = document;
-        ProjectRevisions.EnsureIds(document); baseline = (JsonObject)document.DeepClone();
+        undo.Clear(); redo.Clear(); frozen.Clear(); tracked = document;
+        ProjectRevisions.EnsureIds(document); baseline = Freeze(document);
     }
 
     /// <summary>
@@ -65,9 +76,9 @@ public sealed class ProjectHistory
         ArgumentNullException.ThrowIfNull(document);
         if (readOnly || document.S("tipo") != "progetti") return false;
         if (!Tracks(document)) { Reset(document); return true; }
-        if (baseline is null || JsonNode.DeepEquals(baseline, document)) return false;
+        if (baseline is null || Same(document, baseline.Skeleton, null, false)) return false;
         undo.Add(baseline); if (undo.Count > Capacity) undo.RemoveAt(0);
-        redo.Clear(); baseline = (JsonObject)document.DeepClone();
+        redo.Clear(); baseline = Freeze(document); Prune();
         return true;
     }
 
@@ -88,8 +99,100 @@ public sealed class ProjectHistory
         if (readOnly) return null;
         commit(); var source = redo ? this.redo : undo; var target = redo ? undo : this.redo;
         if (source.Count == 0) return null;
-        target.Add((JsonObject)current().DeepClone()); var restored = source[^1]; source.RemoveAt(source.Count - 1);
-        tracked = restored; baseline = (JsonObject)restored.DeepClone();
+        target.Add(Freeze(current())); var step = source[^1]; source.RemoveAt(source.Count - 1);
+        var restored = (JsonObject)Thaw(step.Skeleton)!;
+        tracked = restored; baseline = step; Prune();
         return restored;
+    }
+
+    /// <summary>The key of the copy of a model entry: the hash of its content the entry carries, null when it has none (then the copy stays in
+    /// the step like any other node).</summary>
+    private static string? CopyKey(JsonObject entry)
+    {
+        if (entry[SnapshotProperty] is not JsonObject) return null;
+        string field = ANTHEA.ModelWorkspace.ProjectModelStore.IsArchived(entry) ? "copia" : "revisione";
+        return entry[field] is JsonValue value && value.TryGetValue(out string? hash) && hash.Length > 0 ? field + ":" + hash : null;
+    }
+
+    /// <summary>A step of <paramref name="document"/>: a copy of the document whose copies of the models are placeholders with their key, each
+    /// copy written once in <see cref="frozen"/>.</summary>
+    private Step Freeze(JsonObject document)
+    {
+        var keys = new List<string>();
+        var skeleton = (JsonObject)Freeze(document, null, false, keys)!;
+        return new(skeleton, [.. keys.Distinct(StringComparer.Ordinal)]);
+    }
+
+    private JsonNode? Freeze(JsonNode? node, string? property, bool entry, List<string> keys)
+    {
+        switch (node)
+        {
+            case JsonObject value:
+                var copy = new JsonObject();
+                string? key = entry ? CopyKey(value) : null;
+                foreach (var (name, child) in value)
+                {
+                    if (key is not null && name == SnapshotProperty)
+                    {
+                        if (!frozen.ContainsKey(key)) frozen[key] = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(child);
+                        keys.Add(key); copy[name] = new JsonObject { [FrozenProperty] = key };
+                    }
+                    else copy[name] = Freeze(child, name, false, keys);
+                }
+                return copy;
+            case JsonArray items:
+                var array = new JsonArray();
+                foreach (var item in items) array.Add(Freeze(item, null, property == ANTHEA.ModelWorkspace.ProjectModelStore.Property, keys));
+                return array;
+            default:
+                return node?.DeepClone();
+        }
+    }
+
+    /// <summary>True when <paramref name="live"/> is the document of the step <paramref name="step"/>: the same nodes, and for the copies of the
+    /// models the same key (JsonNode.DeepEquals elsewhere: properties in any order, values as JSON).</summary>
+    private static bool Same(JsonNode? live, JsonNode? step, string? property, bool entry)
+    {
+        if (live is JsonObject value && step is JsonObject kept)
+        {
+            if (value.Count != kept.Count) return false;
+            string? key = entry ? CopyKey(value) : null;
+            foreach (var (name, child) in value)
+            {
+                if (!kept.TryGetPropertyValue(name, out var other)) return false;
+                if (key is not null && name == SnapshotProperty && Placeholder(other) is { } frozenKey) { if (frozenKey != key) return false; continue; }
+                if (!Same(child, other, name, false)) return false;
+            }
+            return true;
+        }
+        if (live is JsonArray items && step is JsonArray keptItems)
+        {
+            if (items.Count != keptItems.Count) return false;
+            bool entries = property == ANTHEA.ModelWorkspace.ProjectModelStore.Property;
+            for (int i = 0; i < items.Count; i++) if (!Same(items[i], keptItems[i], null, entries)) return false;
+            return true;
+        }
+        if (live is JsonObject or JsonArray || step is JsonObject or JsonArray) return false;
+        return JsonNode.DeepEquals(live, step);
+    }
+
+    /// <summary>The key of a placeholder, null for any other node.</summary>
+    private static string? Placeholder(JsonNode? node) =>
+        node is JsonObject { Count: 1 } value && value[FrozenProperty] is JsonValue key && key.TryGetValue(out string? text) ? text : null;
+
+    /// <summary>The document of a step: its nodes copied, the copies of the models read again from their JSON.</summary>
+    private JsonNode? Thaw(JsonNode? node) => node switch
+    {
+        JsonObject when Placeholder(node) is { } key && frozen.TryGetValue(key, out var json) => JsonNode.Parse(json),
+        JsonObject value => new JsonObject(value.Select(p => KeyValuePair.Create(p.Key, Thaw(p.Value)))),
+        JsonArray items => new JsonArray([.. items.Select(Thaw)]),
+        _ => node?.DeepClone()
+    };
+
+    /// <summary>The copies of the models no step uses any more leave the history.</summary>
+    private void Prune()
+    {
+        var used = undo.Concat(redo).Append(baseline).OfType<Step>().SelectMany(s => s.Keys).ToHashSet(StringComparer.Ordinal);
+        foreach (string key in frozen.Keys.Where(k => !used.Contains(k)).ToArray()) frozen.Remove(key);
     }
 }
