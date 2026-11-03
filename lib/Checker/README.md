@@ -1,5 +1,12 @@
 # DLL Checker
 
+**GPC.Archive candidato (3 novembre 2026, branch `claude/f6-L3`, non pubblicato).** Aggiunta la sola `GPC.Archive.dll` 1.1.0.0 (SHA-256
+`74E50BD5…3180`) da Model `62508fef` (branch `claude/f6-L3`, non pushato): il contenitore a blocchi che `ModelResultArchive` usa al posto
+della propria copia (revisione D1/D2, decisione dell'utente «per il salvataggio usa GPC.Archive»). Non ha dipendenze; le altre 13 DLL
+restano quelle del set AU. È anche la dipendenza di GPC.Model.Persistence 3.12 e successive, che il set AU non contiene. Finché non c'è
+un set coerente da origin/master con GPC.Archive, la prova di provenienza F4 (`ANTHEA.Architecture.Tests`) segnala la DLL come non
+pubblicata: è atteso su questo branch e va chiuso dal set ufficiale (F7/F8).
+
 **Release AU — matrice delle combinazioni (2 novembre 2026, sera).** Set ufficiale da Model `2f934f9f` e Checker `6156e4ce` su
 origin/master (richiesta dell'utente del 2/11, «spacchettando delle parti comuni»; piano `docs/sviluppo/modelli-motore-combinazioni.md`).
 Geometry `6734eee1` e Utilities `e57b440b` invariati. Contenuto rispetto ad AT:

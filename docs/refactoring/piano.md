@@ -3,7 +3,8 @@
 ## F3 del piano comune GPC - 3 novembre 2026
 
 - [x] Cattura preventiva, estrazione del contenitore e adattatore ANTHEA selezionabile in build di sviluppo; confronto delle suite di persistenza. [Dettaglio](gpc-archivio-f3.md).
-- [ ] F7/F8 comuni: adozione ordinaria, set coerente pubblicato, snapshot e full. Il codice precedente e lo snapshot corrente restano disponibili.
+- [x] F6, corsia L3 (branch `claude/f6-L3`): ANTHEA usa GPC.Archive al posto della propria copia; tolti `ModelResultArchive.Shared.cs` e il commutatore `GpcArchiveProject`; GPC.Archive.dll nello snapshot; archivi identici a 1.18.0 byte per byte ([dettaglio](gpc-archivio-f3.md#f6-corsia-l3-adozione-di-gpcarchive), GPC-F6-L3-01).
+- [ ] F7/F8 comuni: set coerente pubblicato con GPC.Archive da origin/master, snapshot ufficiale e full.
 
 ## ANTHEA 1.18.0 — 3 novembre 2026
 
