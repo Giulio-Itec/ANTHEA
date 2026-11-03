@@ -94,6 +94,9 @@ $libraries = @(
     @{ File = 'GPC.Converter.dll'; Repo = 'Model'; Project = 'GPC Converter\GPC Converter.csproj'; Output = 'GPC Converter\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     # Model 4: archives (ModelArchive) in their own assembly; only the capture tools reference it, never the application.
     @{ File = 'GPC.Model.Persistence.dll'; Repo = 'Model'; Project = 'GPC.Model.Persistence\GPC.Model.Persistence.csproj'; Output = 'GPC.Model.Persistence\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
+    # F6 (3/11/2026, review D1/D2): the block store of the results archive (ModelResultArchive), no dependencies; also needed at run
+    # time by GPC.Model.Persistence 3.12 and later. Listed in Checker/build/Release-Set.ps1 as well.
+    @{ File = 'GPC.Archive.dll'; Repo = 'Model'; Project = 'GPC.Archive\GPC.Archive.csproj'; Output = 'GPC.Archive\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     @{ File = 'GPCChecker.Concrete.dll'; Repo = 'Checker'; Project = 'GPCChecker.Concrete\GPCChecker.Concrete.csproj'; Output = 'GPCChecker.Concrete\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     @{ File = 'GPCChecker.Steel.dll'; Repo = 'Checker'; Project = 'GPCChecker.Steel\GPCChecker.Steel.csproj'; Output = 'GPCChecker.Steel\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     @{ File = 'GPCChecker.Geotechnics.dll'; Repo = 'Checker'; Project = 'GPCChecker.Geotechnics\GPCChecker.Geotechnics.csproj'; Output = 'GPCChecker.Geotechnics\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true; Doc = 'GPCChecker.Geotechnics.xml' },

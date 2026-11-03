@@ -1,11 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><GpcLibraries>GPCGeometry;GPCUtilities;GPCModel;GPCModelData;GPC.Converter</GpcLibraries></PropertyGroup>
-  <!-- Development extraction F3: opt-in source assembly with no Model/Checker dependencies.
-       Default build keeps the pinned release until the coordinated GPC snapshot is published (F7/F8). -->
-  <PropertyGroup Condition="'$(GpcArchiveProject)' != ''"><Version>1.1.0.0</Version></PropertyGroup>
-  <ItemGroup Condition="'$(GpcArchiveProject)' != ''">
-    <Compile Remove="ModelResultArchive.cs" />
-    <ProjectReference Include="$(GpcArchiveProject)" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(GpcArchiveProject)' == ''"><Compile Remove="ModelResultArchive.Shared.cs" /></ItemGroup>
+  <!-- GPC.Archive (3/11/2026, review D1): the block store of ModelResultArchive, from the snapshot like the other GPC libraries. -->
+  <PropertyGroup><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><GpcLibraries>GPCGeometry;GPCUtilities;GPCModel;GPCModelData;GPC.Converter;GPC.Archive</GpcLibraries></PropertyGroup>
 </Project>

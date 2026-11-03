@@ -94,6 +94,17 @@
                            "sdk":  "9.0.320"
                        },
                        {
+                           "file":  "GPC.Archive.dll",
+                           "source":  "Model/GPC.Archive/bin/Release/netstandard2.0",
+                           "assemblyVersion":  "1.1.0.0",
+                           "sha256":  "74E50BD549410E2E56FCB2A2EB979CEB73B2B5410BE9BE97043FFD57EC9F3180",
+                           "repository":  "Model",
+                           "branch":  "claude/f6-L3",
+                           "commit":  "62508fefe2b245d46c2c87a7152629b1c390c1fa",
+                           "pushed":  false,
+                           "sdk":  "9.0.320"
+                       },
+                       {
                            "file":  "GPCChecker.Concrete.dll",
                            "source":  "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
                            "assemblyVersion":  "0.35.0.6",
