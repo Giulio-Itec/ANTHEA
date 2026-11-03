@@ -60,6 +60,28 @@ static partial class Program
         string Results(ModelSnapshot s) => JsonSerializer.Serialize(s.Results.Where(r => r.Combination != null && rows.Contains(r.Combination.DefinitionId)).OrderBy(r => r.Name, StringComparer.Ordinal));
         Check(vm.CombinationMessage.StartsWith("3 di 3 combinazioni calcolate", StringComparison.Ordinal) && Results(vm.Snapshot!) == Results(single),
             "series: «Calcola selezionate» gives the results of the same combinations calculated and attached one by one");
+
+        // 3/11/2026 (panel of the space): the entry of an archived copy from the blocks kept by the copy equals the one written from nothing,
+        // and its revision is the fingerprint of the whole copy.
+        var scratch = ModelDocumentEntry.Prepare(ModelSnapshot.FromJson(JsonSerializer.Serialize(single)), 1);
+        var first = ModelDocumentEntry.Prepare(single, 1); var reused = ModelDocumentEntry.Prepare(ModelCombinations.DiscardResults(single, []), 1);
+        Check(first.IsArchived && reused.IsArchived && first.Revision == scratch.Revision && reused.Revision == scratch.Revision && scratch.Revision == single.Fingerprint(),
+            "space: the entry for the archive from the blocks kept by the copy equals the one written from nothing (fingerprint of the whole copy)");
+        // The limit chosen with the archive and «Libera»: the definitions stay, their results leave the copy.
+        using var spaced = new ModelViewerViewModel(vm.Snapshot!, [], false, new FakeServices(), _ => { }, (_, _, _, _) => { }) { CombinationArchive = true };
+        spaced.OpenCombinationManagerCommand.Execute(null);
+        long limits = spaced.CombinationLimits.Count; spaced.SelectedCombinationLimit = (int)limits - 1;
+        bool limitFollows = spaced.CombinationCopyBytes == spaced.CombinationLimits[^1] && spaced.CombinationLimits[0] == ModelResultArchive.ArchivedCopyBytes;
+        for (int wait = 0; wait < 200 && spaced.CombinationSpaceText.Length == 0; wait++) await Task.Delay(50);
+        string space = spaced.CombinationSpaceText;
+        spaced.SelectedCombinationIds = [rows[0]];
+        await spaced.FreeSelectedCombinationResultsCommand.ExecuteAsync(null);
+        int Saved(ModelSnapshot s) => rows.Count(id => s.Results.Any(r => r.Combination?.DefinitionId == id));
+        bool freedOne = Saved(spaced.Snapshot!) == 2 && spaced.Combinations.Single(c => c.Definition.Id == rows[0]).State == "Da calcolare";
+        await spaced.FreeAllCombinationResultsCommand.ExecuteAsync(null);
+        Check(limitFollows && space.Contains(" di " + ModelCombinations.CopyLimit(spaced.CombinationCopyBytes), StringComparison.Ordinal) && freedOne &&
+            !spaced.Snapshot!.Results.Any(r => r.Combination != null) && ModelCombinations.Read(spaced.Snapshot).Length == definitions.Length,
+            $"space: the limit chosen ({spaced.CombinationLimits.Count} offered) is the one of the copy; «Libera» removes the saved results and keeps the definitions ({space})");
     }
 
     static bool Throws(Action action)

@@ -63,23 +63,53 @@ public sealed class ModelDocumentEntry
     {
         ArgumentNullException.ThrowIfNull(snapshot);
         snapshot.Validate();
-        var sets = new byte[snapshot.Results.Length][];
-        Parallel.For(0, sets.Length, i => sets[i] = JsonSerializer.SerializeToUtf8Bytes(snapshot.Results[i]));
+        // 3/11/2026 (limit of the copy chosen by the user, copies of several GiB): every result set is written, addressed and compressed once,
+        // also for the copies made from this one (ModelSnapshot.ResultBlocks, records never changed in place), and the JSON of the sets is never
+        // all in memory: each thread holds one set. A series published every set again at every publication.
+        var results = snapshot.Results; var known = snapshot.ResultBlocks;
+        var prepared = new PreparedBlock[results.Length];
+        Parallel.For(0, results.Length, i =>
+        {
+            if (known != null && known.TryGetValue(results[i], out var block)) { prepared[i] = block; return; }
+            var json = JsonSerializer.SerializeToUtf8Bytes(results[i]);
+            prepared[i] = new(ModelResultArchive.Address(json), ModelResultArchive.Compress(ModelResultArchive.ResultBlock, json));
+        });
+        var blocks = new Dictionary<ModelResultSet, PreparedBlock>(ReferenceEqualityComparer.Instance);
+        for (int i = 0; i < results.Length; i++) blocks.TryAdd(results[i], prepared[i]);
+        snapshot.ResultBlocks = blocks;
         // Below the limit, the entry of ANTHEA 1.17.0, byte for byte.
-        if (sets.Sum(s => s.LongLength) < inlineResultBytes) return new(snapshot, JsonSerializer.SerializeToUtf8Bytes(snapshot));
+        if (prepared.Sum(p => p.Block.Length) < inlineResultBytes) return new(snapshot, JsonSerializer.SerializeToUtf8Bytes(snapshot));
         var bare = ModelCombinations.Copy(snapshot); bare.Results = [];
         var bareJson = JsonSerializer.SerializeToUtf8Bytes(bare);
-        var addresses = new string[sets.Length];
-        Parallel.For(0, sets.Length, i => addresses[i] = ModelResultArchive.Address(sets[i]));
-        var unique = Enumerable.Range(0, sets.Length).GroupBy(i => addresses[i], StringComparer.Ordinal).Select(g => g.First()).ToArray();
-        var compressed = new ModelResultArchive.Block[unique.Length];
-        Parallel.For(0, unique.Length, k => compressed[k] = ModelResultArchive.Compress(ModelResultArchive.ResultBlock, sets[unique[k]]));
-        var blocks = new Dictionary<string, ModelResultArchive.Block>(StringComparer.Ordinal);
-        for (int k = 0; k < unique.Length; k++) blocks[addresses[unique[k]]] = compressed[k];
+        var archived = new Dictionary<string, ModelResultArchive.Block>(StringComparer.Ordinal);
+        foreach (var block in prepared) archived.TryAdd(block.Address, block.Block);
         string copy = ModelResultArchive.Address(bareJson);
-        blocks.TryAdd(copy, ModelResultArchive.Compress(ModelResultArchive.CopyBlock, bareJson));
-        var references = snapshot.Results.Select((r, i) => new ResultReference(r.Name, r.Combination?.DefinitionId, addresses[i], sets[i].LongLength)).ToArray();
-        return new(snapshot, WholeRevision(bareJson, sets), new(bareJson, copy, references, blocks, DateTime.Now.ToString("O", CultureInfo.InvariantCulture)));
+        archived.TryAdd(copy, ModelResultArchive.Compress(ModelResultArchive.CopyBlock, bareJson));
+        var references = results.Select((r, i) => new ResultReference(r.Name, r.Combination?.DefinitionId, prepared[i].Address, prepared[i].Block.Length)).ToArray();
+        return new(snapshot, WholeRevision(bareJson, prepared.Select(p => p.Block).ToArray()), new(bareJson, copy, references, archived, DateTime.Now.ToString("O", CultureInfo.InvariantCulture)));
+    }
+
+    /// <summary>A result set prepared for the archive: the address of its JSON and its compressed block.</summary>
+    internal sealed record PreparedBlock(string Address, ModelResultArchive.Block Block);
+
+    /// <summary>Sets inflated at once by <see cref="WholeRevision(byte[], IReadOnlyList{ModelResultArchive.Block})"/>.</summary>
+    const int HashWindow = 8;
+
+    /// <summary>As <see cref="WholeRevision(byte[], IReadOnlyList{byte[]})"/> from the compressed blocks of the sets, inflated a few at a time.</summary>
+    internal static string WholeRevision(byte[] bareJson, IReadOnlyList<ModelResultArchive.Block> blocks)
+    {
+        int split = ResultsSplit(bareJson);
+        using var hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+        hash.AppendData(bareJson, 0, split);
+        for (int start = 0; start < blocks.Count; start += HashWindow)
+        {
+            int count = blocks.Count - start < HashWindow ? blocks.Count - start : HashWindow;
+            var window = new byte[count][];
+            Parallel.For(0, count, k => window[k] = ModelResultArchive.Inflate(blocks[start + k].Data, blocks[start + k].Length));
+            for (int k = 0; k < count; k++) { if (start + k > 0) hash.AppendData(","u8); hash.AppendData(window[k]); }
+        }
+        hash.AppendData(bareJson, split, bareJson.Length - split);
+        return Convert.ToHexString(hash.GetHashAndReset());
     }
 
     /// <summary>The fingerprint of the whole copy from the JSON of the copy without results and the JSON of its result sets: the canonical JSON

@@ -11,6 +11,9 @@ namespace ANTHEA.ModelViewer.Presentation;
 public sealed partial class ModelViewerViewModel
 {
     const double BatchPublishSeconds=20;
+    /// <summary>3/11/2026 (copies of several GiB): the series calculates at least this many times as long as the last publication took before
+    /// publishing again, so that the publications of a large copy do not take most of the time of the series.</summary>
+    const double BatchPublishRatio=4;
     CancellationTokenSource? batchCancellation;
     /// <summary>Definitions selected in the list of the combinations (several rows), set by the view.</summary>
     [ObservableProperty] IReadOnlyList<string> selectedCombinationIds=[];
@@ -31,6 +34,7 @@ public sealed partial class ModelViewerViewModel
     {
         foreach(string property in new[]{nameof(PendingCombinationCount),nameof(CalculateAllLabel),nameof(CalculateSelectedLabel)})OnPropertyChanged(property);
         CalculateAllCombinationsCommand.NotifyCanExecuteChanged();CalculateSelectedCombinationsCommand.NotifyCanExecuteChanged();
+        NotifyCombinationSpaceCommands();
     }
 
     [RelayCommand(CanExecute=nameof(CanCalculateAll))]
@@ -49,14 +53,15 @@ public sealed partial class ModelViewerViewModel
         int operation=++combinationOperation;
         var watch=Stopwatch.StartNew();var sincePublished=Stopwatch.StartNew();
         var working=Snapshot!;var calculated=new List<string>();var failed=new List<string>();
-        int unpublished=0,evicted=0;string? stopped=null;
+        int unpublished=0,evicted=0;string? stopped=null;double publishAfter=BatchPublishSeconds;
         async Task Publish()
         {
-            var copy=working;
+            var copy=working;var publishing=Stopwatch.StartNew();
             // Written off the thread of the interface, as a single combination; never cancelled, so the calculated results are kept.
             var entry=await Task.Run(()=>ModelDocumentEntry.Prepare(copy));
             if(disposed)return;
             PublishCombinationSnapshot(entry);unpublished=0;sincePublished.Restart();
+            double spaced=BatchPublishRatio*publishing.Elapsed.TotalSeconds;publishAfter=spaced>BatchPublishSeconds?spaced:BatchPublishSeconds;
         }
         try
         {
@@ -80,8 +85,9 @@ public sealed partial class ModelViewerViewModel
                 working=next;unpublished++;calculated.Add(definition.Id);
                 // The limit of the package evicts the oldest derived results: when they are of this series, going on would only replace them.
                 if(calculated.Any(id=>!kept.Contains(id)))
-                {stopped=$"Limite dello spazio per il modello ({ModelCombinations.CopyLimit(CombinationCopyBytes)}) raggiunto: le prime combinazioni di questa serie sono state rimosse dalla cache. Calcola meno combinazioni alla volta.";break;}
-                if(sincePublished.Elapsed.TotalSeconds>=BatchPublishSeconds)await Publish();
+                {stopped=$"Limite dello spazio per il modello ({ModelCombinations.CopyLimit(CombinationCopyBytes)}) raggiunto: le prime combinazioni di questa serie sono state rimosse dalla cache. "+
+                    (CombinationArchive?"Alza il limite in «Spazio delle combinazioni», libera i risultati che non servono o calcola meno combinazioni alla volta.":"Calcola meno combinazioni alla volta.");break;}
+                if(sincePublished.Elapsed.TotalSeconds>=publishAfter)await Publish();
             }
         }
         catch(OperationCanceledException){stopped="Calcolo annullato: le combinazioni già calcolate sono conservate.";}

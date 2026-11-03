@@ -46,6 +46,13 @@ Richiesta dell'utente («spacchettando delle parti comuni», poi «Sì, prepara 
 - [x] F4: `GpcModelCombinationService` sulla matrice; le 373 definizioni del 24 × 12 e 78 del 100 × 50 danno lo stesso risultato
   salvato byte per byte; sul 500 × 100 lineare 0,60 → 0,165 s, inviluppo SLU 5,4–5,9 → 0,71 s (macchina carica, giri alternati).
 - [ ] F2: inviluppi oltre il limite di espansione sulla matrice (oggi restano sull'albero della ricostruzione).
+- [x] Spazio delle combinazioni (richiesta dell'utente del 3/11, «pannello di gestione limite», dopo lo stop a 2 GiB della 1.17.6):
+  - limite scelto fra 2, 4, 8 e 16 GiB secondo la memoria del computer, ricordato;
+  - «Libera selezionate» e «Libera tutte»;
+  - salvataggio con i blocchi riusati e senza tutto il JSON in memoria;
+  - pubblicazioni della serie distanziate.
+
+  Sul modello sintetico da 3456 piastre e 49 casi, fino a 4 GiB: 581 combinazioni in 254 s, picco di 18 GB.
 - [x] Serie (richiesta dell'utente, «Sì, procedi»): controlli, lunghezza del pacchetto e revisioni una volta per riferimento; «Calcola
   selezionate» di 120 righe del 500 × 100 da 98,6 a 4,8 s, risultati uguali ([dettaglio](../sviluppo/modelli-motore-combinazioni.md));
   full su e642e23e PASS 161 (`supporto/artefatti/combo-serie/full`).

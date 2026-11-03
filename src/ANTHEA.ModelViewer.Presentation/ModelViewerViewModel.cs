@@ -31,6 +31,9 @@ public interface IModelViewerServices
     void RestoreCamera(ModelCameraState camera) { }
     IReadOnlyList<ModelViewPreset> LoadViews(string revision) => [];
     void SaveViews(string revision, IReadOnlyList<ModelViewPreset> views) { }
+    /// <summary>3/11/2026: the limit of the copy with its combinations chosen by the user on this computer, null when never chosen.</summary>
+    long? LoadCombinationLimit() => null;
+    void SaveCombinationLimit(long bytes) { }
 }
 
 /// <summary>Testable presentation state. No WPF, renderer, file dialogs or structural calculations.</summary>
@@ -50,6 +53,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         IModelViewerServices services, Action<ModelDocumentEntry> imported, Action<string, int, string, string> linked)
     {
         this.services = services; this.imported = imported; this.linked = linked; IsReadOnly = readOnly;
+        selectedCombinationLimit = SavedCombinationLimit();
         Sheets = sheets; selectedSheet = sheets.FirstOrDefault();
         if (snapshot != null) SetSnapshot(snapshot);
     }

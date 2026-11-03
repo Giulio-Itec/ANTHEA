@@ -48,8 +48,18 @@ public sealed class ModelResultArchive
     /// </summary>
     public const long ArchivedCopyBytes = 2_147_483_648;
 
-    /// <summary>The same limit as written in the messages.</summary>
-    public const string ArchivedCopyLimit = "2 GiB";
+    /// <summary>Bytes of memory of the computer for each byte of the limit of the copy, for the limits it may choose. Measured on a model of 3456
+    /// plates and 49 cases: a series of 581 combinations up to the limit of 4 GiB took 7.7 GB of managed memory and a peak of 18 GB of the
+    /// process, about 4.4 times the limit; 6 leaves the rest of the computer room. On 64 GB: 2, 4 and 8 GiB.</summary>
+    const long MemoryPerLimitByte = 6;
+
+    /// <summary>
+    /// 3/11/2026 (request of the user, «riesci a mettere un pannello di gestione limite?», after 1.17.6 stopped at 2 GiB): the limits of the copy
+    /// with its combinations the user may choose on a computer with <paramref name="memory"/> bytes, <see cref="ArchivedCopyBytes"/> always,
+    /// the larger ones when the memory is at least <see cref="MemoryPerLimitByte"/> times as much.
+    /// </summary>
+    public static long[] ArchivedCopyLimits(long memory) =>
+        [..new long[] { ArchivedCopyBytes, 4_294_967_296, 8_589_934_592, 17_179_869_184 }.Where(limit => limit == ArchivedCopyBytes || limit * MemoryPerLimitByte <= memory)];
 
     /// <summary>Copies kept for every model: the current one and the previous saved revisions (provisional choice 3 of 2/11/2026).</summary>
     public const int RetainedCopies = 5;

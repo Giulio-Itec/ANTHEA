@@ -236,7 +236,9 @@ public static class ModelCombinations
         // The copy shares the arrays of the original: its revisions hold while the parts are the same references (Revisions).
         CombinationRevisions=s.CombinationRevisions,
         // 2/11/2026 (series of the combinations): the checks, lengths, tables and revisions already known for the same references.
-        Checked=s.Checked,CombinationSizes=s.CombinationSizes,CombinationTables=s.CombinationTables,CombinationDefinitionRevisions=s.CombinationDefinitionRevisions};
+        Checked=s.Checked,CombinationSizes=s.CombinationSizes,CombinationTables=s.CombinationTables,CombinationDefinitionRevisions=s.CombinationDefinitionRevisions,
+        // 3/11/2026: the blocks of the archive already prepared for the same result sets (ModelDocumentEntry.Prepare).
+        ResultBlocks=s.ResultBlocks};
 
     public static ModelSnapshot RestoreImported(ModelSnapshot snapshot)
     {
@@ -441,8 +443,24 @@ public static class ModelCombinations
         return copy;
     }
 
-    /// <summary>The limit <paramref name="copyBytes"/> as written in the messages.</summary>
-    public static string CopyLimit(long copyBytes)=>copyBytes==ModelResultArchive.ArchivedCopyBytes?ModelResultArchive.ArchivedCopyLimit:"256 MiB";
+    const long Mebibyte=1_048_576;
+    const long Gibibyte=1_073_741_824;
+
+    /// <summary>A length in bytes as written in the messages and in the panel of the space: «256 MiB», «2 GiB», «1,4 GiB».</summary>
+    public static string CopyLimit(long bytes)=>bytes>=Gibibyte
+        ?((double)bytes/Gibibyte).ToString("0.#",System.Globalization.CultureInfo.CurrentCulture)+" GiB"
+        :((double)bytes/Mebibyte).ToString("0",System.Globalization.CultureInfo.CurrentCulture)+" MiB";
+
+    /// <summary>3/11/2026 (panel of the space of the combinations): the bytes of JSON the copy takes, the measure of <see cref="Attach(ModelSnapshot, string, ModelCombinationCalculation, long)"/>.</summary>
+    public static long CopyBytes(ModelSnapshot snapshot)=>SerializedSize(snapshot);
+
+    /// <summary>3/11/2026 (panel of the space of the combinations, «Libera»): the copy without the saved results of the definitions
+    /// <paramref name="ids"/>; the definitions stay and are calculated again when they are needed.</summary>
+    public static ModelSnapshot DiscardResults(ModelSnapshot snapshot,IReadOnlyCollection<string> ids)
+    {
+        var copy=Copy(snapshot);copy.Results=[..snapshot.Results.Where(r=>r.Combination is not {} c||!ids.Contains(c.DefinitionId))];
+        copy.Validate();return copy;
+    }
 
     /// <summary>The length of the JSON of a result set of a copy whose lengths were just measured (<see cref="SerializedSize"/>).</summary>
     static long ResultLength(ModelSnapshot copy,ModelResultSet result)=>

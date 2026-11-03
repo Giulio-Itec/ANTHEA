@@ -39,9 +39,8 @@ public partial class ModelTabView : UserControl
         if (model is null) return;
         var current = model;
         // 3/11/2026: the project of the shell has a results archive (ModelTabViewModel.Imported, ProjectSession.Results), so the copy of the
-        // model may take ModelResultArchive.ArchivedCopyBytes with its combinations.
-        viewer = new ModelViewerControl(current.Snapshot, current.Targets, current.IsReadOnly, current.Imported, current.Linked,
-            combinationCopyBytes: ANTHEA.ModelWorkspace.ModelResultArchive.ArchivedCopyBytes);
+        // model may take with its combinations the limit the user chooses in «Spazio delle combinazioni».
+        viewer = new ModelViewerControl(current.Snapshot, current.Targets, current.IsReadOnly, current.Imported, current.Linked, resultsArchive: true);
         viewer.SetDisplayName(current.Title);
         Viewer.Content = viewer;
     }

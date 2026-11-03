@@ -21,10 +21,6 @@ public sealed partial class CombinationTermEditor:ObservableObject
 public sealed partial class ModelViewerViewModel
 {
     readonly GpcModelCombinationService combinationService=new();
-    /// <summary>3/11/2026 (request of the user, «Sì, opzione 1»): the JSON bytes the copy may take with its combinations. The project of the
-    /// shell has a results archive (ProjectSession.Results) and gives <see cref="ModelResultArchive.ArchivedCopyBytes"/>; without it the whole
-    /// copy is in the document, within <see cref="ModelSnapshotFiles.MaximumPackageBytes"/>.</summary>
-    public long CombinationCopyBytes {get;init;}=ModelSnapshotFiles.MaximumPackageBytes;
     bool loadingCombination;
     int combinationOperation;
     string? editingCombinationId;
@@ -110,6 +106,7 @@ public sealed partial class ModelViewerViewModel
         loadingCombination=false;LoadCombination(SelectedCombination?.Definition);
         OnPropertyChanged(nameof(CombinationSummary));SelectedCombinationIds=SelectedCombinationIds.Where(id=>Combinations.Any(c=>c.Definition.Id==id)).ToArray();
         if(ShowCombinationGrid)BuildCombinationGrid();
+        RefreshCombinationSpace();
     }
     void NotifyCombinationCommands()
     {
