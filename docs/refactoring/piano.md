@@ -1,5 +1,16 @@
 # Refactoring di ANTHEA: piano operativo
 
+## ANTHEA 1.18.0 — 3 novembre 2026
+
+Pannello «Spazio delle combinazioni» (9aa5afcf), chiesto dall'utente dopo lo stop della 1.17.6 al tetto di 2 GiB («riesci a mettere un
+pannello di gestione limite? o qualcosa del genere»). Funzione nuova: 1.17.6 → 1.18.0.
+
+- [x] Suite del modulo Modelli, della shell, `Presentation.Tests` e architettura PASS, con le prove nuove del pannello.
+- [x] Versione 1.18.0 e [note di rilascio](note-rilascio-1.18.0.md); profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto
+  e audit PASS; tag `v1.18.0` sul commit del setup 2efb5ab0 ([verbale](installer-1.18.0.md)).
+- [ ] Full: dopo la prova dell'utente (anche per la 1.17.6).
+- [ ] Guide: pannello dello spazio, spessori, calcolo in serie e fogli Azioni nella prossima edizione (Rev68 invariata).
+
 ## ANTHEA 1.17.6 — 3 novembre 2026
 
 Segnalazione dell'utente: «Calcola tutte» si fermava a 7 combinazioni sul modello MIDAS aperto (3447 piastre, 49 casi). Scelta
