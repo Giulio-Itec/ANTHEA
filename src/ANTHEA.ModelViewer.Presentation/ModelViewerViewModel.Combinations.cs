@@ -106,6 +106,7 @@ public sealed partial class ModelViewerViewModel
         loadingCombination=false;LoadCombination(SelectedCombination?.Definition);
         OnPropertyChanged(nameof(CombinationSummary));SelectedCombinationIds=SelectedCombinationIds.Where(id=>Combinations.Any(c=>c.Definition.Id==id)).ToArray();
         if(ShowCombinationGrid)BuildCombinationGrid();
+        RefreshCombinationSpace();
     }
     void NotifyCombinationCommands()
     {
@@ -199,7 +200,7 @@ public sealed partial class ModelViewerViewModel
             var calculated=await combinationService.CalculateAsync(snapshot,id,progress,cancellation.Token);
             cancellation.Token.ThrowIfCancellationRequested();if(disposed)return;
             // Decision of 1/11/2026: the copy with the result and its document entry are written here, off the thread of the interface.
-            var entry=await Task.Run(()=>ModelDocumentEntry.Prepare(ModelCombinations.Attach(snapshot,id,calculated)),cancellation.Token);
+            var entry=await Task.Run(()=>ModelDocumentEntry.Prepare(ModelCombinations.Attach(snapshot,id,calculated,CombinationCopyBytes)),cancellation.Token);
             var next=entry.Snapshot;
             cancellation.Token.ThrowIfCancellationRequested();if(disposed)return;
             var kept=next.Results.Select(n=>n.Name).ToHashSet(StringComparer.Ordinal);

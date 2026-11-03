@@ -120,6 +120,15 @@ public sealed class ModelSnapshot
     // Refactoring of the combinations (29/10/2026): the revisions of the inputs of the combinations, kept with the references of the parts they
     // were computed from (ModelCombinations.Revisions). A field, so never serialized and never part of the fingerprints.
     internal ModelCombinations.Revisions? CombinationRevisions;
+    // 2/11/2026 (series of the combinations): what the checks of Validate, the lengths of the package, the reading of the MIDAS tables and the
+    // revisions of the definitions already did for the same references. Shared by the copies (ModelCombinations.Copy) and replaced, never changed;
+    // fields, so never serialized and never part of the fingerprints.
+    internal CheckedResults? Checked;
+    internal ModelCombinations.KnownSizes? CombinationSizes;
+    internal ModelCombinations.KnownTables? CombinationTables;
+    internal IReadOnlyDictionary<string, ModelCombinations.KnownRevision>? CombinationDefinitionRevisions;
+    // 3/11/2026 (limit of the copy chosen by the user): the address and compressed block of every result set already prepared for the archive.
+    internal IReadOnlyDictionary<ModelResultSet, ModelDocumentEntry.PreparedBlock>? ResultBlocks;
     /// <summary>Results archive (2/11/2026): the result sets of the copy that the archive beside the project could not give back (archive
     /// missing, block damaged), with the reason; empty otherwise. Never serialized and never part of the fingerprints.</summary>
     [JsonIgnore] public IReadOnlyList<ModelUnavailableResult> UnavailableResults { get; internal set; } = [];
@@ -205,8 +214,14 @@ public sealed class ModelSnapshot
             throw new InvalidDataException("Fasi del modello non valide o non associabili agli elementi.");
         if (Results.Select(r => r.Name).Distinct().Count() != Results.Length) throw new InvalidDataException("Casi di risultato duplicati.");
         ModelConstructionStages.ValidateResults(Results);
+        // 2/11/2026 (series of the combinations): the result sets this copy, or the one it was copied from, already checked against the same nodes
+        // and elements are not checked again. The copies share their arrays and records and never change them in place (ModelCombinations.Revisions):
+        // the same references pass the same checks. Each calculation and each Attach of a series checked the static cases and every result
+        // calculated before.
+        var known = Checked is { } previous && ReferenceEquals(previous.Nodes, Nodes) && ReferenceEquals(previous.Elements, Elements) ? previous.Results : null;
         foreach (var result in Results)
         {
+            if (known?.Contains(result) == true) continue;
             if(result.Combination is {} derivation && (string.IsNullOrWhiteSpace(derivation.DefinitionId)||derivation.InputRevision?.Length!=64||string.IsNullOrWhiteSpace(derivation.Engine)||
                 derivation.RequiredCases==null||derivation.RequiredCases.Any(string.IsNullOrWhiteSpace)||derivation.Governing==null||derivation.Governing.Any(g=>g==null||
                 string.IsNullOrWhiteSpace(g.Alternative)||g.ConcomitantValues==null||g.ConcomitantValues.Any(v=>!double.IsFinite(v))||
@@ -241,7 +256,10 @@ public sealed class ModelSnapshot
         catch (Exception ex) when (ex is KeyNotFoundException or InvalidOperationException or FormatException or OverflowException)
         { throw new InvalidDataException("Tabelle dei casi di carico o delle combinazioni non valide. La copia precedente è stata conservata.", ex); }
         if (ImportMessages?.Any(m => m == null || string.IsNullOrWhiteSpace(m.Code)) == true) throw new InvalidDataException("Rapporto di importazione non valido.");
+        Checked = new(Nodes, Elements, new HashSet<ModelResultSet>(Results, ReferenceEqualityComparer.Instance));
     }
+    /// <summary>The result sets that passed the checks of <see cref="Validate"/>, with the nodes and elements they were checked against.</summary>
+    internal sealed record CheckedResults(ModelNode[] Nodes, ModelElement[] Elements, IReadOnlySet<ModelResultSet> Results);
     public string Fingerprint() => FingerprintAndSize().Hash;
     /// <summary>The fingerprint and the length in bytes of the same canonical UTF-8 JSON, written once.</summary>
     internal (string Hash, long Bytes) FingerprintAndSize()

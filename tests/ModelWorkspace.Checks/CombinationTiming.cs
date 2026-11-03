@@ -274,6 +274,27 @@ static partial class Program
         vm.SelectedCombination = vm.Combinations.Single(c => c.Definition.Id == ModelCombinationGenerator.IdPrefix + "SLU 2");
         await times.TimeAsync("modifica: secondo calcolo dal view model (preparazione riusata)", async () => { await vm.CalculateCombinationCommand.ExecuteAsync(null); return 0; });
         if (!vm.CombinationMessage.Contains("Casi base riutilizzati", StringComparison.Ordinal)) throw new InvalidOperationException("Timing pipeline: second calculation: " + vm.CombinationMessage);
+        if (seriesCount > 0) await SeriesPhase(vm, times);
+    }
+
+    /// <summary>2/11/2026, the series of the user («Calcola selezionate»): --serie N generated definitions not calculated yet, in the order of the
+    /// catalogue, calculated by the view model with its publications. Outside the digests of the pipeline: the digest of the series results is
+    /// its own (<see cref="seriesDigest"/>), the before/after comparison of the changes to the series.</summary>
+    static async Task SeriesPhase(ModelViewerViewModel vm, TimingRecorder times)
+    {
+        var pending = vm.Combinations.Where(c => c.CanCalculate && c.State != "Calcolata" && c.Definition.Id.StartsWith(ModelCombinationGenerator.IdPrefix, StringComparison.Ordinal))
+            .Take(seriesCount).Select(c => c.Definition.Id).ToArray();
+        vm.SelectedCombinationIds = pending;
+        var watch = Stopwatch.StartNew();
+        await vm.CalculateSelectedCombinationsCommand.ExecuteAsync(null);
+        double total = watch.Elapsed.TotalMilliseconds;
+        if (!vm.CombinationMessage.StartsWith($"{pending.Length} di {pending.Length} combinazioni calcolate", StringComparison.Ordinal))
+            throw new InvalidOperationException("Timing pipeline: series: " + vm.CombinationMessage);
+        times.Add($"serie: Calcola selezionate, {pending.Length} combinazioni (totale)", total);
+        times.Add("serie: per combinazione", total / pending.Length);
+        var ids = pending.ToHashSet(StringComparer.Ordinal);
+        var results = vm.Snapshot!.Results.Where(r => r.Combination != null && ids.Contains(r.Combination.DefinitionId)).OrderBy(r => r.Name, StringComparer.Ordinal).ToArray();
+        seriesDigest = Convert.ToHexString(SHA256.HashData(JsonSerializer.SerializeToUtf8Bytes(results)));
     }
 
     /// <summary>Exact comparison of the optimisations on the reduced synthetic model and the hand fixture (fast suite).</summary>
@@ -327,11 +348,15 @@ static partial class Program
     /// runs after the warm-up) in tempi.json and tempi.md of the output folder, with the digest of each model.
     /// </summary>
     static bool timingWithoutMatrix;
+    static int seriesCount;
+    static string? seriesDigest;
     static async Task<int> CombinationTiming(string output, string[] args)
     {
         string Option(string name, string fallback) { int i = Array.IndexOf(args, name); return i >= 0 && i + 1 < args.Length ? args[i + 1] : fallback; }
         int runs = int.Parse(Option("--runs", "3"), CultureInfo.InvariantCulture), warmup = int.Parse(Option("--warmup", "1"), CultureInfo.InvariantCulture);
         int linearCount = int.Parse(Option("--linear", "8"), CultureInfo.InvariantCulture);
+        // 2/11/2026: --serie N adds the series of the view model on N generated definitions (SeriesPhase).
+        seriesCount = int.Parse(Option("--serie", "0"), CultureInfo.InvariantCulture);
         // 2/11/2026: --senza-matrice measures the samples of CombinationRebuild, the path before the matrix of GPC, in the same conditions.
         timingWithoutMatrix = args.Contains("--senza-matrice");
         var sizes = Option("--models", "100x50").Split(',', StringSplitOptions.RemoveEmptyEntries);
@@ -360,6 +385,7 @@ static partial class Program
             string equivalence = expected.Length == 0 ? "non registrata" : expected == valuesDigest ? "uguale a 1.16.0" : "DIVERSA da 1.16.0";
             markdown.AppendLine($"## {source.Label}: {source.Snapshot.Elements.Length} elementi, {source.Snapshot.Nodes.Length} nodi, {source.Natures.Length} casi, {definitions} definizioni ({linear} lineari generate calcolate)").AppendLine();
             markdown.AppendLine($"Impronta dei valori: `{valuesDigest}` ({equivalence}); impronta completa, con le revisioni: `{digest}`.").AppendLine();
+            if (seriesDigest != null) markdown.AppendLine($"Impronta dei risultati della serie di {seriesCount} combinazioni: `{seriesDigest}`.").AppendLine();
             markdown.AppendLine("| Fase | Mediana | Min | Max | n |").AppendLine("|---|---:|---:|---:|---:|");
             var phases = new List<object>();
             foreach (string phase in times.Order)

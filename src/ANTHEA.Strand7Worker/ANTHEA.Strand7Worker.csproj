@@ -8,7 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>ANTHEA.Strand7Worker</AssemblyName>
-    <GpcLibraries>GPCGeometry;GPCUtilities;GPCModel;GPCModelData;GPC.Converter</GpcLibraries>
+    <GpcLibraries>GPCGeometry;GPCUtilities;GPCModel;GPCModelData;GPC.Converter;GPC.Archive</GpcLibraries>
   </PropertyGroup>
   <ItemGroup><ProjectReference Include="../ANTHEA.ModelWorkspace/ANTHEA.ModelWorkspace.csproj" /></ItemGroup>
   <!-- GPCGeometry needs MathNet.Numerics at run time: the version of X.Calculations, so that the shared folder of ANTHEA.exe holds one copy. -->

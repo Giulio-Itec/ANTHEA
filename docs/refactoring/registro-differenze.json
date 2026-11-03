@@ -53,6 +53,29 @@
       ]
     },
     {
+      "id": "GPC-F6-L3-01",
+      "data": "2026-11-03",
+      "fase": "F6 comune BridGHe/Arachne, corsia L3",
+      "titolo": "Archivio dei risultati su GPC.Archive: errori per risultato, archivio danneggiato messo da parte",
+      "famiglia": "Persistenza modelli",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Decisione dell'utente del 3/11 («per il salvataggio usa GPC.Archive. però vediamo di ottimizzarlo a dovere»): ModelResultArchive usa GPC.Archive al posto della propria copia; il commutatore GpcArchiveProject e ModelResultArchive.Shared.cs sono tolti. Formato 1 invariato: gli stessi salvataggi scrivono lo stesso archivio di ANTHEA 1.18.0 byte per byte e ciascuna versione legge i file dell'altra. Differenze di comportamento: un riferimento «blocco»/«copia» assente o non testuale è un risultato non disponibile (in 1.18.0 il progetto non si apriva); un archivio con indice danneggiato o di formato sconosciuto viene rinominato «.danneggiato-<data>» e il progetto si salva (in 1.18.0 il salvataggio era rifiutato con l'invito a spostare il file); un archivio in uso da un altro programma ferma ancora il salvataggio; «Salva con nome» su un progetto esistente conserva fino al salvataggio successivo i blocchi del vecchio archivio di destinazione; i blocchi ricopiati sono verificati contro l'indirizzo una volta per sessione e un blocco danneggiato non viene più ricopiato; più processi sullo stesso archivio sono serializzati da un file .lock; i .tmp orfani più vecchi di 10 minuti si tolgono.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelResultArchive.cs",
+        "src/ANTHEA.ModelWorkspace/ProjectModelStore.cs",
+        "../Model/GPC.Archive/BlockArchive.cs"
+      ],
+      "effetto_quantificato": "Nessuna differenza nei file né nei valori: archivi identici byte per byte a 1.18.0 lungo uno storico di revisioni (ResultArchiveSharedChecks). Tempi in docs/refactoring/gpc-archivio-f3.md.",
+      "documento": "docs/refactoring/gpc-archivio-f3.md",
+      "decisione": "Utente, 3/11/2026 sera: GPC.Archive per il salvataggio anche in ANTHEA, ottimizzato; errori per blocco. Branch claude/f6-L3, nessun merge.",
+      "test": [
+        "tests/ModelWorkspace.Checks/ResultArchiveSharedChecks.cs",
+        "tests/ModelWorkspace.Checks/ResultArchiveChecks.cs",
+        "../Model/tests/ExternalArchiveTest.cs"
+      ]
+    },
+    {
       "id": "SPETTRI-01",
       "data": "2026-10-19",
       "fase": "F5 — nuovo modulo Azioni",

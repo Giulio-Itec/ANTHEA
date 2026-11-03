@@ -13,3 +13,23 @@ Confronto dopo: runner ufficiale `build/ci.ps1 -Stage build,fast -Only 'ModelWor
 Differenze intenzionali e correzioni registrate in `registro-differenze.json` (GPC-F3-01). Restano da fare F7/F8: adozione predefinita, rilascio del set coerente, snapshot e profilo full ANTHEA. Questa fase non attesta una verifica completa WPF o del nuovo installer.
 
 Corse finali: `20261103-005533-gpc-f3-shared-final` e `20261103-005637-gpc-f3-default-final`, entrambe PASS 4 (due build e due suite). Il manifest dello snapshot ha SHA F593B14ECA13A8AE7C6BB8A87A762F02C835A07B5FEEAFB1F4BD65A6CF4D151F in tutte le corse.
+
+## F6, corsia L3: adozione di GPC.Archive
+
+3 novembre 2026, sera, branch `claude/f6-L3`. Revisione di Claude, punti D1 e D2; decisione dell'utente: «per il salvataggio usa GPC.Archive. però vediamo di ottimizzarlo a dovere».
+
+- `ModelResultArchive` usa GPC.Archive (`BlockArchive`) al posto della propria copia: una sola implementazione per ANTHEA, BridGHe e Arachne. Restano in ANTHEA lo schema dei riferimenti nel documento, le revisioni, le soglie (`InlineResultBytes`, `ArchivedCopyBytes`, `ArchivedCopyLimits`) e le copie conservate. Tolti `ModelResultArchive.Shared.cs` e il commutatore `GpcArchiveProject`.
+- `GPC.Archive.dll` 1.1.0.0 (Model `62508fef`, non pubblicato) entra nello snapshot `lib/Checker` e in `tools/libs/Update-Snapshot.ps1`, come in `Checker/build/Release-Set.ps1`.
+- Formato 1 invariato. `tests/ModelWorkspace.Checks/LegacyResultArchive118.cs` conserva solo per le prove il codice di 1.18.0: gli stessi salvataggi, lungo uno storico di revisioni, scrivono lo stesso archivio byte per byte; 1.18.0 legge gli archivi nuovi e viceversa.
+- Differenze di comportamento (registro `GPC-F6-L3-01`): un riferimento danneggiato è un risultato non disponibile, non un progetto che non si apre; un archivio con indice danneggiato o di formato sconosciuto viene rinominato `.danneggiato-<data>` e il progetto si salva; un archivio in uso da un altro programma ferma ancora il salvataggio, come prima; «Salva con nome» su un progetto esistente conserva i blocchi del vecchio archivio fino al salvataggio successivo; i blocchi ricopiati sono verificati una volta per sessione; un file `.lock` serializza i processi sullo stesso archivio.
+
+Tempi (`ModelWorkspace.Checks --archive-timing`, Release, 24 processori, 3 corse, mediana in ms; nella stessa corsa GPC.Archive e il codice di 1.18.0 sullo stesso documento, archivi controllati identici a ogni passo):
+
+| Fase | 1000x100 GPC.Archive | 1000x100 1.18.0 | 2000x50 GPC.Archive | 2000x50 1.18.0 |
+|---|---:|---:|---:|---:|
+| Salva (archivio + documento) | 335 | 306 | 190 | 187 |
+| Salva senza modifiche | 255 | 261 | 173 | 178 |
+| Secondo Salva (una combinazione in più) | 281 | 309 | 213 | 223 |
+| Salva dopo la riapertura (copia cambiata) | 208 | 252 | | |
+
+Archivi: 40,2 MB (1000x100) e 51,1 MB (2000x50). Il modello 3500x50 non entra nel banco: la copia supera i 256 MiB di `ModelCombinations.Attach` senza limite esplicito. Le differenze stanno nel rumore di misura; nessun peggioramento.

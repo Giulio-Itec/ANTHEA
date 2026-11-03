@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using GPC.Persistence;
 
 namespace ANTHEA.ModelWorkspace;
 
@@ -27,7 +28,7 @@ public sealed class ModelDocumentEntry
 
     /// <summary>A copy prepared for the archive: the JSON of the copy without results and its address, the references of its result sets
     /// in their order, the compressed blocks, the moment of the preparation.</summary>
-    internal sealed record ArchivedCopy(byte[] Bare, string Copy, ResultReference[] Results, Dictionary<string, ModelResultArchive.Block> Blocks, string Date);
+    internal sealed record ArchivedCopy(byte[] Bare, string Copy, ResultReference[] Results, Dictionary<string, ArchiveBlock> Blocks, string Date);
 
     /// <summary>A result set of a copy in the archive: its name, the definition it was derived from (null for an imported case), the
     /// address of its block and the length of its JSON.</summary>
@@ -63,23 +64,54 @@ public sealed class ModelDocumentEntry
     {
         ArgumentNullException.ThrowIfNull(snapshot);
         snapshot.Validate();
-        var sets = new byte[snapshot.Results.Length][];
-        Parallel.For(0, sets.Length, i => sets[i] = JsonSerializer.SerializeToUtf8Bytes(snapshot.Results[i]));
+        // 3/11/2026 (limit of the copy chosen by the user, copies of several GiB): every result set is written, addressed and compressed once,
+        // also for the copies made from this one (ModelSnapshot.ResultBlocks, records never changed in place), and the JSON of the sets is never
+        // all in memory: each thread holds one set. A series published every set again at every publication.
+        var results = snapshot.Results; var known = snapshot.ResultBlocks;
+        var prepared = new PreparedBlock[results.Length];
+        Parallel.For(0, results.Length, i =>
+        {
+            if (known != null && known.TryGetValue(results[i], out var reused)) { prepared[i] = reused; return; }
+            var json = JsonSerializer.SerializeToUtf8Bytes(results[i]);
+            var block = ModelResultArchive.Compress(ModelResultArchive.ResultBlock, json); prepared[i] = new(block.Address, block);
+        });
+        var blocks = new Dictionary<ModelResultSet, PreparedBlock>(ReferenceEqualityComparer.Instance);
+        for (int i = 0; i < results.Length; i++) blocks.TryAdd(results[i], prepared[i]);
+        snapshot.ResultBlocks = blocks;
         // Below the limit, the entry of ANTHEA 1.17.0, byte for byte.
-        if (sets.Sum(s => s.LongLength) < inlineResultBytes) return new(snapshot, JsonSerializer.SerializeToUtf8Bytes(snapshot));
+        if (prepared.Sum(p => p.Block.Length) < inlineResultBytes) return new(snapshot, JsonSerializer.SerializeToUtf8Bytes(snapshot));
         var bare = ModelCombinations.Copy(snapshot); bare.Results = [];
         var bareJson = JsonSerializer.SerializeToUtf8Bytes(bare);
-        var addresses = new string[sets.Length];
-        Parallel.For(0, sets.Length, i => addresses[i] = ModelResultArchive.Address(sets[i]));
-        var unique = Enumerable.Range(0, sets.Length).GroupBy(i => addresses[i], StringComparer.Ordinal).Select(g => g.First()).ToArray();
-        var compressed = new ModelResultArchive.Block[unique.Length];
-        Parallel.For(0, unique.Length, k => compressed[k] = ModelResultArchive.Compress(ModelResultArchive.ResultBlock, sets[unique[k]]));
-        var blocks = new Dictionary<string, ModelResultArchive.Block>(StringComparer.Ordinal);
-        for (int k = 0; k < unique.Length; k++) blocks[addresses[unique[k]]] = compressed[k];
-        string copy = ModelResultArchive.Address(bareJson);
-        blocks.TryAdd(copy, ModelResultArchive.Compress(ModelResultArchive.CopyBlock, bareJson));
-        var references = snapshot.Results.Select((r, i) => new ResultReference(r.Name, r.Combination?.DefinitionId, addresses[i], sets[i].LongLength)).ToArray();
-        return new(snapshot, WholeRevision(bareJson, sets), new(bareJson, copy, references, blocks, DateTime.Now.ToString("O", CultureInfo.InvariantCulture)));
+        var archived = new Dictionary<string, ArchiveBlock>(StringComparer.Ordinal);
+        foreach (var block in prepared) archived.TryAdd(block.Address, block.Block);
+        var copyBlock = ModelResultArchive.Compress(ModelResultArchive.CopyBlock, bareJson); string copy = copyBlock.Address;
+        archived.TryAdd(copy, copyBlock);
+        var references = results.Select((r, i) => new ResultReference(r.Name, r.Combination?.DefinitionId, prepared[i].Address, prepared[i].Block.Length)).ToArray();
+        return new(snapshot, WholeRevision(bareJson, prepared.Select(p => p.Block).ToArray()), new(bareJson, copy, references, archived, DateTime.Now.ToString("O", CultureInfo.InvariantCulture)));
+    }
+
+    /// <summary>A result set prepared for the archive: the address of its JSON and its compressed block.</summary>
+    internal sealed record PreparedBlock(string Address, ArchiveBlock Block);
+
+    /// <summary>Sets inflated at once by <see cref="WholeRevision(byte[], IReadOnlyList{ArchiveBlock})"/>.</summary>
+    const int HashWindow = 8;
+
+    /// <summary>As <see cref="WholeRevision(byte[], IReadOnlyList{byte[]})"/> from the compressed blocks of the sets, inflated a few at a time.</summary>
+    internal static string WholeRevision(byte[] bareJson, IReadOnlyList<ArchiveBlock> blocks)
+    {
+        int split = ResultsSplit(bareJson);
+        using var hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+        hash.AppendData(bareJson, 0, split);
+        for (int start = 0; start < blocks.Count; start += HashWindow)
+        {
+            int count = blocks.Count - start < HashWindow ? blocks.Count - start : HashWindow;
+            var window = new byte[count][];
+            // Blocks prepared here from these bytes: inflated without a second SHA-256, the whole revision is the hash.
+            Parallel.For(0, count, k => window[k] = blocks[start + k].Decode(verify: false));
+            for (int k = 0; k < count; k++) { if (start + k > 0) hash.AppendData(","u8); hash.AppendData(window[k]); }
+        }
+        hash.AppendData(bareJson, split, bareJson.Length - split);
+        return Convert.ToHexString(hash.GetHashAndReset());
     }
 
     /// <summary>The fingerprint of the whole copy from the JSON of the copy without results and the JSON of its result sets: the canonical JSON
@@ -118,7 +150,7 @@ public sealed class ModelDocumentEntry
     internal JsonNode InlineTree()
     {
         if (archived is null) return TakeTree();
-        var sets = archived.Results.Select(r => ModelResultArchive.Inflate(archived.Blocks[r.Block].Data, archived.Blocks[r.Block].Length)).ToArray();
+        var sets = archived.Results.Select(r => archived.Blocks[r.Block].Decode(verify: false)).ToArray();
         int split = ResultsSplit(archived.Bare);
         using var whole = new MemoryStream();
         whole.Write(archived.Bare, 0, split);
@@ -175,7 +207,7 @@ public static class ProjectModelStore
     static ModelSnapshot ReadArchived(JsonObject model, ModelResultArchive? archive)
     {
         var bare = JsonSerializer.SerializeToUtf8Bytes(model["snapshot"] ?? throw new InvalidDataException("Modello mancante."));
-        if (ModelResultArchive.Address(bare) != model["copia"]?.GetValue<string>()) throw new InvalidDataException("Impronta del modello non corrispondente ai dati.");
+        if (ModelResultArchive.Address(bare) != ModelResultArchive.Text(model["copia"])) throw new InvalidDataException("Impronta del modello non corrispondente ai dati.");
         return Assemble(bare, References(model), archive, model["revisione"]?.GetValue<string>());
     }
 
@@ -210,9 +242,11 @@ public static class ProjectModelStore
         return snapshot;
     }
 
+    // 3/11/2026 (review D2): a damaged reference («blocco» absent or not a text) is one unavailable result set, as a damaged block;
+    // before, it made the whole model impossible to open.
     static ModelDocumentEntry.ResultReference[] References(JsonObject copy) => (copy["risultati"] as JsonArray ?? []).OfType<JsonObject>()
-        .Select(r => new ModelDocumentEntry.ResultReference(r["nome"]?.GetValue<string>() ?? "", r["definizione"]?.GetValue<string>(),
-            r["blocco"]?.GetValue<string>() ?? throw new InvalidDataException("Riferimento a un blocco dei risultati non valido."), r["byte"]?.GetValue<long>() ?? 0)).ToArray();
+        .Select(r => new ModelDocumentEntry.ResultReference(ModelResultArchive.Text(r["nome"]) ?? "", ModelResultArchive.Text(r["definizione"]),
+            ModelResultArchive.Text(r["blocco"]) ?? "", r["byte"] is JsonValue bytes && bytes.TryGetValue(out long length) ? length : 0)).ToArray();
 
     /// <summary>The previous saved revisions of a copy in the archive, the most recent first (storico).</summary>
     public static IReadOnlyList<ModelCopyRevision> History(JsonObject container, string id)
@@ -231,7 +265,7 @@ public static class ProjectModelStore
         var model = Models(container).SingleOrDefault(m => m["id"]?.GetValue<string>() == id) ?? throw new ArgumentException("Modello non trovato nel contenitore.");
         var item = (model["storico"] as JsonArray ?? []).OfType<JsonObject>().FirstOrDefault(h => h["revisione"]?.GetValue<string>() == revision)
             ?? throw new InvalidDataException("Copia precedente non presente nello storico del modello.");
-        var copy = archive.Read([item["copia"]?.GetValue<string>() ?? ""])[0];
+        var copy = archive.Read([ModelResultArchive.Text(item["copia"]) ?? ""])[0];
         if (copy.Json is null) throw new InvalidDataException("Copia precedente non disponibile: " + copy.Failure + ".");
         return Assemble(copy.Json, References(item), archive, revision);
     }

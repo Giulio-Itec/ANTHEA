@@ -57,16 +57,35 @@ static partial class Program
                 if (File.Exists(ModelResultArchive.PathFor(after))) File.Delete(ModelResultArchive.PathFor(after));
                 times.Time("dopo · Salva (archivio + documento)", () => archive.Save(after, doc, () => DocumentService.Save(after, doc)));
                 documentBytes = new FileInfo(after).Length; archiveBytes = new FileInfo(ModelResultArchive.PathFor(after)).Length;
+                // 3/11/2026 (review D1): the same saves with the archive of ANTHEA 1.18.0, before GPC.Archive; the files must be identical.
+                string released = Path.Combine(folder, $"1.18.0-{source.Label}.programma");
+                if (File.Exists(ModelResultArchive.PathFor(released))) File.Delete(ModelResultArchive.PathFor(released));
+                var legacy = new LegacyArchive.LegacyResultArchive118(null); legacy.Add(LegacyBlocks(ModelResultArchive.PathFor(after)));
+                times.Time("1.18.0 · Salva (archivio + documento)", () => legacy.Save(released, doc, () => DocumentService.Save(released, doc)));
+                SameArchive(after, released);
+                times.Time("dopo · Salva senza modifiche", () => archive.Save(after, doc, () => DocumentService.Save(after, doc)));
+                times.Time("1.18.0 · Salva senza modifiche", () => legacy.Save(released, doc, () => DocumentService.Save(released, doc)));
                 var second = await Task.Run(() => ModelDocumentEntry.Prepare(next));
                 ProjectModelStore.Set(section, second, id, archive);
                 times.Time("dopo · secondo Salva (una combinazione in più)", () => archive.Save(after, doc, () => DocumentService.Save(after, doc)));
                 archiveAfter = new FileInfo(ModelResultArchive.PathFor(after)).Length;
+                legacy.Add(LegacyBlocks(ModelResultArchive.PathFor(after)));
+                times.Time("1.18.0 · secondo Salva (una combinazione in più)", () => legacy.Save(released, doc, () => DocumentService.Save(released, doc)));
+                SameArchive(after, released);
                 reopened = times.Time("dopo · apertura del progetto", () => DocumentService.Open(after));
                 container = ArchiveSection(reopened);
                 var opened = new ModelResultArchive(after, reopened);
                 read = times.Time("dopo · primo accesso ai risultati (apertura del modello)", () => ProjectModelStore.Read(container, id, opened)!);
                 if (!entry.IsArchived || read.UnavailableResults.Count > 0 || ValuesDigest(read) != ValuesDigest(next) || read.Fingerprint() != next.Fingerprint())
                     throw new InvalidOperationException("Valori diversi dopo la riapertura (dopo).");
+                // The first save of a reopened project with a change: GPC.Archive checks once the blocks it copies from the file; 1.18.0 does not.
+                var third = await Task.Run(() => ModelDocumentEntry.Prepare(model));
+                var releasedDocument = DocumentService.Open(released); var releasedOpened = new LegacyArchive.LegacyResultArchive118(released, releasedDocument);
+                ProjectModelStore.Set(container, third, id, opened);
+                times.Time("dopo · Salva dopo la riapertura (copia cambiata)", () => opened.Save(after, reopened, () => DocumentService.Save(after, reopened)));
+                releasedOpened.Add(LegacyBlocks(ModelResultArchive.PathFor(after)));
+                times.Time("1.18.0 · Salva dopo la riapertura (copia cambiata)", () => releasedOpened.Save(released, reopened, () => DocumentService.Save(released, reopened)));
+                SameArchive(after, released);
                 Console.WriteLine($"{source.Label} corsa {run + 1}: prima {inlineBytes / 1e6:F1} MB, dopo {documentBytes / 1e6:F1} + {archiveBytes / 1e6:F1} MB");
             }
             markdown.AppendLine($"## {source.Label}: {model.Results.Length} insiemi di risultati ({model.Results.Count(r => r.Combination != null)} derivati)").AppendLine();
@@ -85,6 +104,12 @@ static partial class Program
         Console.WriteLine(markdown);
         File.WriteAllText(Path.Combine(output, "esito.txt"), "PASS tempi dell'archivio dei risultati");
         return 0;
+    }
+
+    static void SameArchive(string shared, string released)
+    {
+        if (!File.ReadAllBytes(ModelResultArchive.PathFor(shared)).AsSpan().SequenceEqual(File.ReadAllBytes(ModelResultArchive.PathFor(released))))
+            throw new InvalidOperationException("Archivio diverso da quello di ANTHEA 1.18.0.");
     }
 
     /// <summary>SHA-256 of the JSON of the result sets of a copy: the values, bit for bit, with their names, fields and governing states.</summary>

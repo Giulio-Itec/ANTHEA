@@ -65,6 +65,15 @@
         <WrapPanel Margin="0,8,0,0"><Button Content="{Binding CalculateAllLabel}" Command="{Binding CalculateAllCombinationsCommand}" ToolTip="Calcola in sequenza le combinazioni non ancora calcolate" AutomationProperties.Name="Calcola tutte le combinazioni"/><Button Content="{Binding CalculateSelectedLabel}" Command="{Binding CalculateSelectedCombinationsCommand}" Margin="6,0,0,0" ToolTip="Calcola in sequenza le combinazioni selezionate nell’elenco (Ctrl o Maiusc + clic)" AutomationProperties.Name="Calcola le combinazioni selezionate"/></WrapPanel>
         <ProgressBar IsIndeterminate="True" Height="4" Margin="0,10,0,4" Visibility="{Binding IsCombinationBusy,Converter={StaticResource Visible}}"/>
         <TextBox Text="{Binding CombinationMessage,Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" BorderThickness="0" Background="Transparent" MaxHeight="100" VerticalScrollBarVisibility="Auto" Margin="0,7,0,0" FontSize="11"/>
+        <!-- 3/11/2026: space of the copy with its combinations, limit chosen by the user, release of saved results (with the results archive). -->
+        <StackPanel Margin="0,10,0,0" Visibility="{Binding CombinationArchive,Converter={StaticResource Visible}}" AutomationProperties.Name="Spazio delle combinazioni" ToolTip="Con un limite più alto ANTHEA usa più memoria e il salvataggio dura di più. Le combinazioni liberate restano definite e si ricalcolano quando servono.">
+          <DockPanel><StackPanel DockPanel.Dock="Right" Orientation="Horizontal"><TextBlock Text="Limite" VerticalAlignment="Center" Margin="0,0,6,0" FontSize="11"/>
+              <ComboBox ItemsSource="{Binding CombinationLimitLabels}" SelectedIndex="{Binding SelectedCombinationLimit}" IsEnabled="{Binding CanChooseCombination}" MinWidth="80" AutomationProperties.Name="Limite dello spazio delle combinazioni" ToolTip="{Binding CombinationMemoryText}"/></StackPanel>
+            <TextBlock Text="SPAZIO DELLE COMBINAZIONI" Style="{StaticResource Caption}" VerticalAlignment="Center"/></DockPanel>
+          <ProgressBar Value="{Binding CombinationSpaceBytes,Mode=OneWay}" Maximum="{Binding CombinationCopyBytes,Mode=OneWay}" Height="6" Margin="0,6,0,4" AutomationProperties.Name="Spazio occupato"/>
+          <TextBlock Text="{Binding CombinationSpaceText}" FontSize="11" AutomationProperties.Name="Spazio occupato dalle combinazioni"/>
+          <WrapPanel Margin="0,6,0,0"><Button Content="Libera selezionate" Command="{Binding FreeSelectedCombinationResultsCommand}" ToolTip="Toglie dalla copia i risultati salvati delle combinazioni selezionate; le definizioni restano" AutomationProperties.Name="Libera i risultati selezionati"/><Button Content="Libera tutte" Command="{Binding FreeAllCombinationResultsCommand}" Margin="6,0,0,0" ToolTip="Toglie dalla copia tutti i risultati salvati delle combinazioni; le definizioni restano" AutomationProperties.Name="Libera tutti i risultati"/></WrapPanel>
+        </StackPanel>
       </StackPanel>
     </Border>
   </Grid>

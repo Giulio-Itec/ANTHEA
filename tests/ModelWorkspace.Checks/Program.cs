@@ -32,6 +32,7 @@ static partial class Program
             await CombinationPrincipalChecks();
             LegacyRevisionChecks();
             await ResultArchiveChecks(output);
+            await ResultArchiveSharedChecks(output);
             var clone = ModelSnapshot.FromJson(JsonSerializer.Serialize(model));
             Check(clone.Fingerprint() == model.Fingerprint(), "snapshot survives round trip, including offsets and per-element result values");
             Check(clone.Results[0].Values.Where(v => v.Node == 2).Select(v => v.Values[1]).SequenceEqual([20.0, -200.0]), "shared node retains the discontinuity between elements");
@@ -113,6 +114,7 @@ static partial class Program
             MeasurementChecks();
             await RevisionViewChecks();
             await CombinationMatrixChecks();
+            await CombinationSeriesChecks();
 
             if (args.Length > 1)
             {
