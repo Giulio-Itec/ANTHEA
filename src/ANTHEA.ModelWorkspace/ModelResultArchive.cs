@@ -39,6 +39,18 @@ public sealed class ModelResultArchive
     /// ANTHEA 1.17.0 (provisional choice 2 of 2/11/2026: 16 MiB per model).</summary>
     public const long InlineResultBytes = 16_777_216;
 
+    /// <summary>
+    /// JSON bytes a copy may take with its combinations when its results go to the archive (request of the user of 3/11/2026, «Sì, opzione 1»,
+    /// after «Calcola tutte» stopped at 7 combinations of a MIDAS model of 3447 plates and 49 cases). The limit of
+    /// <see cref="ModelSnapshotFiles.MaximumPackageBytes"/> holds for each block, that is for each result set and for the copy without results;
+    /// the whole copy stays in memory while the model is open, about half of this JSON. Provisional: the 73 combinations of that model take
+    /// about 1.6 GiB, 165 MiB of them the static cases.
+    /// </summary>
+    public const long ArchivedCopyBytes = 2_147_483_648;
+
+    /// <summary>The same limit as written in the messages.</summary>
+    public const string ArchivedCopyLimit = "2 GiB";
+
     /// <summary>Copies kept for every model: the current one and the previous saved revisions (provisional choice 3 of 2/11/2026).</summary>
     public const int RetainedCopies = 5;
 

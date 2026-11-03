@@ -38,7 +38,10 @@ public partial class ModelTabView : UserControl
         Viewer.Content = null;
         if (model is null) return;
         var current = model;
-        viewer = new ModelViewerControl(current.Snapshot, current.Targets, current.IsReadOnly, current.Imported, current.Linked);
+        // 3/11/2026: the project of the shell has a results archive (ModelTabViewModel.Imported, ProjectSession.Results), so the copy of the
+        // model may take ModelResultArchive.ArchivedCopyBytes with its combinations.
+        viewer = new ModelViewerControl(current.Snapshot, current.Targets, current.IsReadOnly, current.Imported, current.Linked,
+            combinationCopyBytes: ANTHEA.ModelWorkspace.ModelResultArchive.ArchivedCopyBytes);
         viewer.SetDisplayName(current.Title);
         Viewer.Content = viewer;
     }

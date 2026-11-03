@@ -45,6 +45,15 @@ static partial class Program
             sizes &= (long)size.Invoke(null, [single])! == JsonSerializer.SerializeToUtf8Bytes(single).LongLength;
         }
         Check(sizes, "series: the size kept for each derived result equals the complete serialization after every Attach");
+        // 3/11/2026 («Sì, opzione 1»): the copy keeps its combinations within the limit given; over it the oldest of other definitions leave first.
+        var recalculated = await service.CalculateAsync(single, rows[0]);
+        long whole = (long)size.Invoke(null, [single])!;
+        string Kept(ModelSnapshot s) => string.Join(",", rows.Select(id => s.Results.Any(r => r.Combination?.DefinitionId == id) ? "1" : "0"));
+        var tight = ModelCombinations.Attach(single, rows[0], recalculated, whole - 1);
+        var wide = ModelCombinations.Attach(single, rows[0], recalculated, ModelResultArchive.ArchivedCopyBytes);
+        Check(Kept(tight) == "1,0,1" && Kept(wide) == "1,1,1" && ModelCombinations.CopyLimit(ModelResultArchive.ArchivedCopyBytes) == "2 GiB" &&
+            ModelCombinations.CopyLimit(ModelSnapshotFiles.MaximumPackageBytes) == "256 MiB",
+            "series: over the limit of the copy the oldest combination of another definition leaves; with the results archive (2 GiB) every one stays");
         using var vm = new ModelViewerViewModel(model, [], false, new FakeServices(), _ => { }, (_, _, _, _) => { });
         vm.SelectedCombinationIds = rows;
         await vm.CalculateSelectedCombinationsCommand.ExecuteAsync(null);

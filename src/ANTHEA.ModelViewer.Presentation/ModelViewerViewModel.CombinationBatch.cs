@@ -72,7 +72,7 @@ public sealed partial class ModelViewerViewModel
                 {
                     var result=await combinationService.CalculateAsync(working,definition.Id,progress,cancellation.Token);
                     var before=working;
-                    next=await Task.Run(()=>ModelCombinations.Attach(before,definition.Id,result),cancellation.Token);
+                    next=await Task.Run(()=>ModelCombinations.Attach(before,definition.Id,result,CombinationCopyBytes),cancellation.Token);
                 }
                 catch(Exception ex) when(ex is not OperationCanceledException){failed.Add(definition.Name+": "+ex.Message);continue;}
                 var kept=next.Results.Select(r=>r.Combination?.DefinitionId).OfType<string>().ToHashSet(StringComparer.Ordinal);
@@ -80,7 +80,7 @@ public sealed partial class ModelViewerViewModel
                 working=next;unpublished++;calculated.Add(definition.Id);
                 // The limit of the package evicts the oldest derived results: when they are of this series, going on would only replace them.
                 if(calculated.Any(id=>!kept.Contains(id)))
-                {stopped="Limite del pacchetto del modello (256 MiB) raggiunto: le prime combinazioni di questa serie sono state rimosse dalla cache. Calcola meno combinazioni alla volta.";break;}
+                {stopped=$"Limite dello spazio per il modello ({ModelCombinations.CopyLimit(CombinationCopyBytes)}) raggiunto: le prime combinazioni di questa serie sono state rimosse dalla cache. Calcola meno combinazioni alla volta.";break;}
                 if(sincePublished.Elapsed.TotalSeconds>=BatchPublishSeconds)await Publish();
             }
         }

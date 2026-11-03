@@ -405,7 +405,15 @@ public static class ModelCombinations
         return copy.Fingerprint();
     }
 
-    public static ModelSnapshot Attach(ModelSnapshot snapshot,string definitionId,ModelCombinationCalculation calculated)
+    public static ModelSnapshot Attach(ModelSnapshot snapshot,string definitionId,ModelCombinationCalculation calculated)=>
+        Attach(snapshot,definitionId,calculated,ModelSnapshotFiles.MaximumPackageBytes);
+
+    /// <summary>The copy with the results of <paramref name="definitionId"/>, within <paramref name="copyBytes"/> of JSON: the oldest derived
+    /// results of other definitions leave the copy while it is over. 3/11/2026 (request of the user, «Sì, opzione 1»): the whole copy is in
+    /// the document within <see cref="ModelSnapshotFiles.MaximumPackageBytes"/>; with the results archive of the project the copy may take
+    /// <see cref="ModelResultArchive.ArchivedCopyBytes"/>, and every result set, one block of the archive, stays within the limit of a
+    /// package.</summary>
+    public static ModelSnapshot Attach(ModelSnapshot snapshot,string definitionId,ModelCombinationCalculation calculated,long copyBytes)
     {
         var definitions=Read(snapshot);
         snapshot=Upgraded(snapshot,definitions);
@@ -420,14 +428,25 @@ public static class ModelCombinations
         if(calculated.Results.Any(r=>names.Contains(r.Name)))throw new InvalidDataException("Il nome del risultato calcolato coincide con un risultato esistente.");
         copy.Results=[..original,..calculated.Results];copy.Validate();
         // Keep the document reopenable. Only derived caches may be evicted; static cases and definitions are retained.
-        while(SerializedSize(copy)>ModelSnapshotFiles.MaximumPackageBytes)
+        long total=SerializedSize(copy);
+        if(calculated.Results.Any(r=>ResultLength(copy,r)>ModelSnapshotFiles.MaximumPackageBytes))
+            throw new InvalidDataException("Un risultato della combinazione supera il limite di un blocco del modello (256 MiB). Riduci il numero di casi base nella copia.");
+        while(total>copyBytes)
         {
             string? oldest=copy.Results.FirstOrDefault(r=>r.Combination!=null&&r.Combination.DefinitionId!=definitionId)?.Combination?.DefinitionId;
-            if(oldest==null)throw new InvalidDataException("Il risultato supera lo spazio disponibile nel pacchetto del modello (256 MiB). Riduci il numero di casi base nella copia.");
+            if(oldest==null)throw new InvalidDataException($"Il risultato supera lo spazio disponibile per il modello ({CopyLimit(copyBytes)}). Riduci il numero di casi base nella copia.");
             copy.Results=copy.Results.Where(r=>r.Combination?.DefinitionId!=oldest).ToArray();
+            total=SerializedSize(copy);
         }
         return copy;
     }
+
+    /// <summary>The limit <paramref name="copyBytes"/> as written in the messages.</summary>
+    public static string CopyLimit(long copyBytes)=>copyBytes==ModelResultArchive.ArchivedCopyBytes?ModelResultArchive.ArchivedCopyLimit:"256 MiB";
+
+    /// <summary>The length of the JSON of a result set of a copy whose lengths were just measured (<see cref="SerializedSize"/>).</summary>
+    static long ResultLength(ModelSnapshot copy,ModelResultSet result)=>
+        copy.CombinationSizes?.Lengths.TryGetValue(result,out long length)==true?length:Size(result);
 
     /// <summary>Length of the canonical JSON of the copy. With the revision of the preparation of its parts known, the JSON is that of the
     /// preparation with the definitions of the user inserted (each property with its comma, after Results) and the derived results inserted in

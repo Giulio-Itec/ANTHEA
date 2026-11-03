@@ -21,6 +21,10 @@ public sealed partial class CombinationTermEditor:ObservableObject
 public sealed partial class ModelViewerViewModel
 {
     readonly GpcModelCombinationService combinationService=new();
+    /// <summary>3/11/2026 (request of the user, «Sì, opzione 1»): the JSON bytes the copy may take with its combinations. The project of the
+    /// shell has a results archive (ProjectSession.Results) and gives <see cref="ModelResultArchive.ArchivedCopyBytes"/>; without it the whole
+    /// copy is in the document, within <see cref="ModelSnapshotFiles.MaximumPackageBytes"/>.</summary>
+    public long CombinationCopyBytes {get;init;}=ModelSnapshotFiles.MaximumPackageBytes;
     bool loadingCombination;
     int combinationOperation;
     string? editingCombinationId;
@@ -199,7 +203,7 @@ public sealed partial class ModelViewerViewModel
             var calculated=await combinationService.CalculateAsync(snapshot,id,progress,cancellation.Token);
             cancellation.Token.ThrowIfCancellationRequested();if(disposed)return;
             // Decision of 1/11/2026: the copy with the result and its document entry are written here, off the thread of the interface.
-            var entry=await Task.Run(()=>ModelDocumentEntry.Prepare(ModelCombinations.Attach(snapshot,id,calculated)),cancellation.Token);
+            var entry=await Task.Run(()=>ModelDocumentEntry.Prepare(ModelCombinations.Attach(snapshot,id,calculated,CombinationCopyBytes)),cancellation.Token);
             var next=entry.Snapshot;
             cancellation.Token.ThrowIfCancellationRequested();if(disposed)return;
             var kept=next.Results.Select(n=>n.Name).ToHashSet(StringComparer.Ordinal);
