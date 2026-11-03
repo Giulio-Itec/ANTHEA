@@ -78,6 +78,14 @@ static partial class Program
                 read = times.Time("dopo · primo accesso ai risultati (apertura del modello)", () => ProjectModelStore.Read(container, id, opened)!);
                 if (!entry.IsArchived || read.UnavailableResults.Count > 0 || ValuesDigest(read) != ValuesDigest(next) || read.Fingerprint() != next.Fingerprint())
                     throw new InvalidOperationException("Valori diversi dopo la riapertura (dopo).");
+                // The first save of a reopened project with a change: GPC.Archive checks once the blocks it copies from the file; 1.18.0 does not.
+                var third = await Task.Run(() => ModelDocumentEntry.Prepare(model));
+                var releasedDocument = DocumentService.Open(released); var releasedOpened = new LegacyArchive.LegacyResultArchive118(released, releasedDocument);
+                ProjectModelStore.Set(container, third, id, opened);
+                times.Time("dopo · Salva dopo la riapertura (copia cambiata)", () => opened.Save(after, reopened, () => DocumentService.Save(after, reopened)));
+                releasedOpened.Add(LegacyBlocks(ModelResultArchive.PathFor(after)));
+                times.Time("1.18.0 · Salva dopo la riapertura (copia cambiata)", () => releasedOpened.Save(released, reopened, () => DocumentService.Save(released, reopened)));
+                SameArchive(after, released);
                 Console.WriteLine($"{source.Label} corsa {run + 1}: prima {inlineBytes / 1e6:F1} MB, dopo {documentBytes / 1e6:F1} + {archiveBytes / 1e6:F1} MB");
             }
             markdown.AppendLine($"## {source.Label}: {model.Results.Length} insiemi di risultati ({model.Results.Count(r => r.Combination != null)} derivati)").AppendLine();
