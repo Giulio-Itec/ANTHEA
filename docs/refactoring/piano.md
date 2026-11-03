@@ -22,7 +22,8 @@ Richiesta dell'utente («spacchettando delle parti comuni», poi «Sì, prepara 
   salvato byte per byte; sul 500 × 100 lineare 0,60 → 0,165 s, inviluppo SLU 5,4–5,9 → 0,71 s (macchina carica, giri alternati).
 - [ ] F2: inviluppi oltre il limite di espansione sulla matrice (oggi restano sull'albero della ricostruzione).
 - [x] Serie (richiesta dell'utente, «Sì, procedi»): controlli, lunghezza del pacchetto e revisioni una volta per riferimento; «Calcola
-  selezionate» di 120 righe del 500 × 100 da 98,6 a 4,8 s, risultati uguali ([dettaglio](../sviluppo/modelli-motore-combinazioni.md)).
+  selezionate» di 120 righe del 500 × 100 da 98,6 a 4,8 s, risultati uguali ([dettaglio](../sviluppo/modelli-motore-combinazioni.md));
+  full su e642e23e PASS 161 (`supporto/artefatti/combo-serie/full`).
 - [ ] F5 e D4/D5: combinazioni calcolate solo quando servono, invece di salvarle; il destino di «Calcola tutte».
 
 ## ANTHEA 1.17.3 — 2 novembre 2026
