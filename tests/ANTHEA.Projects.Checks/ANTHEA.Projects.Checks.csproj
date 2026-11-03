@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- 3/11/2026: checks of src/ANTHEA.Projects without WPF (docs/sviluppo/progetto-sistema.md): fast stage of build/ci.ps1. -->
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><RootNamespace>Anthea.Projects.Checks</RootNamespace></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../../src/ANTHEA.Projects/ANTHEA.Projects.csproj" /></ItemGroup>
+</Project>

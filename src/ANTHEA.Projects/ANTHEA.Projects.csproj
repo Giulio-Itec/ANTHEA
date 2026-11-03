@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- 3/11/2026: the project of ANTHEA without WPF (docs/sviluppo/progetto-sistema.md): its file, its undo history, then the editor and the state of its sheets. -->
+  <PropertyGroup><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><RootNamespace>Anthea.Projects</RootNamespace></PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="ANTHEA.Projects.Checks" />
+    <ProjectReference Include="../ANTHEA.Application/ANTHEA.Application.csproj" />
+    <ProjectReference Include="../ANTHEA.ModelWorkspace/ANTHEA.ModelWorkspace.csproj" />
+  </ItemGroup>
+</Project>

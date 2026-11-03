@@ -3,6 +3,7 @@ using Anthea.Application.Modules;
 using Anthea.Calculations;
 using Anthea.Presentation.Modules;
 using Anthea.Presentation.Projects;
+using Anthea.Projects;
 using Anthea.Presentation.Services;
 using X.Core;
 
@@ -62,6 +63,9 @@ public sealed class WorkspaceSession : IDisposable
 
     /// <summary>Title of the error of a save (MainWindow.Save).</summary>
     public const string SaveFailure = "Salvataggio non riuscito";
+
+    /// <summary>Title of the warning of a save that left out results the archive did not have (ProjectFile, 3/11/2026).</summary>
+    public const string SaveWarning = "Salvataggio con risultati mancanti";
 
     /// <summary>A copy of an example saved among the installed examples (MainWindow.Save).</summary>
     public const string ExamplesFolderRefused = "Salva la copia nella cartella dei tuoi lavori, fuori dagli esempi installati.";
@@ -228,11 +232,14 @@ public sealed class WorkspaceSession : IDisposable
         try
         {
             if (files.IsInExamples(target)) throw new InvalidOperationException(ExamplesFolderRefused);
-            // 2/11/2026: a project writes its results archive first, beside the file (ModelResultArchive.Save), then the document.
-            if (document is ProjectSession project) project.Results.Save(target, document.WorkingDocument, () => files.Save(target, document.WorkingDocument));
+            // 2/11/2026: a project writes its results archive first, beside the file, then the document (ProjectFile, 3/11/2026: the result sets
+            // the archive could not find are reported instead of ignored).
+            string? warning = null;
+            if (document is ProjectSession project) warning = ProjectFile.Save(target, document.WorkingDocument, project.Results, files.Save).Warning;
             else files.Save(target, document.WorkingDocument);
             document.MarkSaved(target);
             foreach (var sheet in sheets.Where(s => ReferenceEquals(s.Owner, document))) sheet.MarkSaved();
+            if (warning is not null) services.Messages.Warn(SaveWarning, warning);
             return true;
         }
         catch (Exception error)

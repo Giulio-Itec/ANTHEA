@@ -2,7 +2,7 @@ using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using X.Core;
 
-namespace Anthea.Presentation.Projects;
+namespace Anthea.Projects;
 
 /// <summary>
 /// Undo and redo of a project document (proposal F5, sections 2.1 and 3.7; step F5.2), moved without changes from

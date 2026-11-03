@@ -18,7 +18,7 @@ try
     bool f4Inventory = args.Contains("--f4-inventory", StringComparer.Ordinal);
     checks += F4DomainRules.Run(root, output, productionSources, f4Inventory);
     if (f4Inventory) return 0;
-    string[] modules = ["ANTHEA.Application", "ANTHEA.Reports", "ANTHEA.Wiki", "ANTHEA.Serialization"];
+    string[] modules = ["ANTHEA.Application", "ANTHEA.Reports", "ANTHEA.Wiki", "ANTHEA.Serialization", "ANTHEA.Projects"];
     foreach (string module in modules)
     {
         var project = XDocument.Load(Path.Combine(root, "src", module, module + ".csproj"));
