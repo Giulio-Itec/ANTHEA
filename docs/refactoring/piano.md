@@ -1,5 +1,16 @@
 # Refactoring di ANTHEA: piano operativo
 
+## ANTHEA 1.17.5 — 3 novembre 2026
+
+Serie delle combinazioni più veloce (8b9289ec..cbd0522a); versione chiesta dall'utente, «Sì, fai la 1.17.5».
+
+- [x] Full sul commit del contenuto e642e23e: PASS 161.
+- [x] Versione 1.17.5 e [note di rilascio](note-rilascio-1.17.5.md); istruzioni dell'installer e PDF, originali in
+  `supporto/SUPERATI/rilascio-1175-20261103`.
+- [x] Profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto e audit PASS; tag `v1.17.5` sul commit del setup 4b07b34a
+  ([verbale](installer-1.17.5.md)).
+- [ ] Guide: spessori, calcolo in serie e fogli Azioni nella prossima edizione (Rev68 invariata).
+
 ## ANTHEA 1.17.4 — 2 novembre 2026
 
 Motore a matrici delle combinazioni e set AU; versione chiesta dall'utente, «ricorda di fare la nuova versione» (decisione D3).
