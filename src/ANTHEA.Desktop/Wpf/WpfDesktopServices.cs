@@ -64,6 +64,43 @@ internal sealed class WpfConfirmationService(Func<Window?> owner) : IConfirmatio
     /// <summary>The question of SoilTransferDialog before the replacement of the soil: Yes and No, no icon, owned by the active window (the dialog).</summary>
     public bool ConfirmReplace(string title, string question)
         => WpfDesktopServices.Show(owner(), question, title, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+
+    /// <summary>The file is open in another ANTHEA (step 2d, 3/11/2026): «Apri una copia» (default), «Apri comunque», «Annulla» (Esc).</summary>
+    public LockedDocumentAnswer AskLockedDocument(string title, string question)
+    {
+        var answer = LockedDocumentAnswer.Cancel;
+        var content = Ui.Stack(Ui.Text(question, 14));
+        content.Margin = new Thickness(18);
+        var window = owner();
+        var dialog = window is null
+            ? new Window { Title = title, Content = content, Width = LockedDialogWidth, WindowStartupLocation = WindowStartupLocation.CenterScreen }
+            : Ui.Dialog(window, title, content, LockedDialogWidth);
+        dialog.SizeToContent = SizeToContent.Height;
+        dialog.ResizeMode = ResizeMode.NoResize;
+        var copy = Ui.Button("Apri una copia", () => { answer = LockedDocumentAnswer.OpenCopy; dialog.DialogResult = true; }, true);
+        copy.IsDefault = true;
+        var anyway = Ui.Button("Apri comunque", () => { answer = LockedDocumentAnswer.OpenAnyway; dialog.DialogResult = true; });
+        var cancel = Ui.Button("Annulla", () => dialog.DialogResult = false);
+        cancel.IsCancel = true;
+        var bar = Ui.Bar(copy, anyway, cancel);
+        bar.Margin = new Thickness(0, LockedDialogGap, 0, 0);
+        content.Children.Add(bar);
+        dialog.ShowDialog();
+        return answer;
+    }
+
+    /// <summary>The file changed on disk since it was opened or saved: Yes overwrites, No (default) stops the save.</summary>
+    public bool ConfirmOverwrite(string title, string question)
+    {
+        var window = owner();
+        var result = window is null
+            ? MessageBox.Show(question, title, MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No)
+            : MessageBox.Show(window, question, title, MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+        return result == MessageBoxResult.Yes;
+    }
+
+    private const double LockedDialogWidth = 580;
+    private const double LockedDialogGap = 14;
 }
 
 /// <summary>Message box formerly in MainWindow.Safe, and the plain notes and warnings of the views.</summary>

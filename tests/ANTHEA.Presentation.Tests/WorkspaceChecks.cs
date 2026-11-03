@@ -6,6 +6,8 @@ using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Modules;
 using Anthea.Presentation.Services;
 using Anthea.Presentation.Shell;
+using Anthea.Projects;
+using ANTHEA.ModelWorkspace;
 using X.Core;
 
 namespace Anthea.Presentation.Tests;
@@ -29,6 +31,7 @@ internal static class WorkspaceChecks
         Factory(expect);
         SingleFiles(expect, folder);
         Projects(expect, folder);
+        Locks(expect, folder);
         SharedData(expect);
         UndoAndRevisions(expect);
         Requests(expect);
@@ -164,6 +167,61 @@ internal static class WorkspaceChecks
         expect.That(workspace.CloseProject() && workspace.Project is null && workspace.CloseProject(), "Chiusura del progetto salvato");
         expect.That(bench.Confirmations.Asked.SequenceEqual(["Elimina: " + ProjectSession.DeleteQuestion, "salvataggio", "salvataggio"]), "Domande dei progetti: " + string.Join(" | ", bench.Confirmations.Asked));
     }
+
+    /// <summary>
+    /// Step 2d of docs/sviluppo/progetto-sistema.md (3/11/2026): the lock of the open files. A project open in another ANTHEA asks whether
+    /// to open a copy, the file anyway or nothing; the copy saves under another name only; a file changed on disk asks before «Salva»; the
+    /// lock is released when the document closes.
+    /// </summary>
+    private static void Locks(Expect expect, string folder)
+    {
+        string path = Path.Combine(folder, "Condiviso.programma");
+        string other = Path.Combine(folder, "Copia del condiviso.programma");
+        var archive = ProjectDocuments.CreateArchive(); ProjectDocuments.AddProject(archive, "Ponte condiviso");
+        DocumentService.Save(path, archive);
+        var rossi = new DocumentLockOwner("rossi", "PC-07", new DateTimeOffset(2026, 11, 3, 14, 32, 0, TimeSpan.Zero), 4242);
+        var held = DocumentLock.Acquire(path, rossi).Lock!;
+        var bench = new ShellBench(new ScriptedConfirmations().Then(LockedDocumentAnswer.Cancel).Then(LockedDocumentAnswer.OpenCopy)
+                .Then(LockedDocumentAnswer.OpenAnyway).Then(false).Then(true),
+            new ScriptedFileDialogs().Then(path).Then(other));
+        var workspace = bench.Workspace;
+
+        expect.That(workspace.OpenFile(path) is null && workspace.Project is null
+            && bench.Confirmations.Asked.Single() == WorkspaceSession.LockedTitle + ": " + WorkspaceSession.LockedQuestion("Condiviso.programma", rossi.Description),
+            "File bloccato: «Annulla» non apre nulla");
+        var copy = workspace.OpenFile(path) as ProjectSession;
+        expect.That(copy is not null && copy.Path is null && copy.IsDirty && copy.Lock is null && copy.Projects.Single().S("nome") == "Ponte condiviso"
+            && copy.Results.FilePath == ModelResultArchive.PathFor(path), "File bloccato: «Apri una copia», senza nome, risultati letti dal file");
+        expect.That(!workspace.Save(copy!, false) && copy!.Path is null && bench.Messages.Failures.Last().Error.Message == WorkspaceSession.LockedTarget("Condiviso.programma", rossi.Description),
+            "Copia salvata sul file bloccato");
+        expect.That(workspace.Save(copy, false) && copy.Path == other && copy.Lock is { } copyLock && File.Exists(copyLock.Path) && File.Exists(DocumentLock.PathFor(path)),
+            "Copia salvata con un altro nome, bloccata");
+        string copyLockPath = copy.Lock!.Path;
+        expect.That(workspace.CloseProject() && copy.Lock is null && !File.Exists(copyLockPath), "Blocco rilasciato alla chiusura");
+
+        // «Apri comunque»: the file itself, without the lock; a change written on disk by the other ANTHEA asks before «Salva».
+        var anyway = (ProjectSession)workspace.OpenFile(path)!;
+        expect.That(anyway.Path == path && anyway.Lock is null && anyway.Stamp == FileStamp.Of(path), "File bloccato: «Apri comunque»");
+        anyway.AddProject();
+        var theirs = DocumentService.Open(path); ProjectDocuments.AddProject(theirs, "Spalla dell'altro");
+        DocumentService.Save(path, theirs);
+        File.SetLastWriteTimeUtc(path, anyway.Stamp!.Value.WrittenUtc.AddMinutes(1));
+        expect.That(!workspace.Save(anyway, false) && anyway.IsDirty && Names(path).Contains("Spalla dell'altro")
+            && bench.Confirmations.Asked.Last() == WorkspaceSession.ChangedTitle + ": " + WorkspaceSession.ChangedQuestion("Condiviso.programma"), "File modificato su disco: «No»");
+        expect.That(workspace.Save(anyway, false) && !anyway.IsDirty && anyway.Stamp == FileStamp.Of(path) && !Names(path).Contains("Spalla dell'altro")
+            && workspace.Save(anyway, false) && bench.Confirmations.Asked.Count == 5, "File modificato su disco: «Sì», poi «Salva» senza domande");
+        expect.That(workspace.CloseProject() && File.Exists(DocumentLock.PathFor(path)), "Blocco dell'altro tenuto");
+
+        // The other ANTHEA closes: the file opens with its lock, held against a second opening, released with the workspace.
+        held.Dispose();
+        var mine = (ProjectSession)workspace.OpenFile(path)!;
+        string lockPath = DocumentLock.PathFor(path);
+        expect.That(mine.Lock is { } own && own.Path == lockPath && File.Exists(lockPath) && DocumentLock.Acquire(path).Holder is { IsSameUserHere: true }, "File aperto con il suo blocco");
+        workspace.Dispose();
+        expect.That(!File.Exists(lockPath) && bench.Confirmations.Asked.Count == 5, "Blocco rilasciato con lo spazio di lavoro");
+    }
+
+    private static string[] Names(string path) => DocumentService.Open(path).Array("progetti").Select(p => p.S("nome")).ToArray();
 
     /// <summary>A project with a section of three linked sheets (as SharedDataCoordinatorChecks) open in the workspace.</summary>
     private static (ShellBench Bench, ProjectSession Project, JsonObject Section, JsonObject Material, JsonObject Second, JsonObject Concrete) Linked(ScriptedConfirmations confirmations)

@@ -57,8 +57,12 @@ Ogni passo si distribuisce da solo, con le suite della shell e della presentazio
      si aprono in sola lettura, con il motivo, invece di rifiutare il progetto.
    - 2c. Salvataggio in background su uno stato congelato (lo scheletro dello storico con le copie dei modelli), con avanzamento.
      L'interfaccia resta usabile; le modifiche fatte durante il salvataggio restano da salvare.
-   - 2d. Blocco: un file accanto al progetto con utente, computer e ora. Un progetto bloccato si apre in sola lettura, oppure lo si apre
-     comunque dopo una domanda. Prima di salvare si controlla che il file su disco sia ancora quello aperto.
+   - 2d. Blocco (fatto): il file nascosto `~$nome` accanto al documento, con utente, computer e ora (`DocumentLock`), come fa Office.
+     Resta aperto finché il documento è aperto e Windows lo cancella alla chiusura, anche dopo un crash; un blocco che nessuno tiene aperto
+     (mancanza di corrente, copia) viene ripreso. Un file aperto da un altro ANTHEA chiede «Apri una copia» (senza nome, i risultati letti
+     dall'archivio del file, che non cambia), «Apri comunque» o «Annulla». «Salva con nome» su un file aperto altrove viene rifiutato.
+     Prima di «Salva» si confronta il file su disco con quello aperto o salvato (`FileStamp`): se è cambiato, ANTHEA chiede se
+     sovrascriverlo.
    - 2e. Copia di recupero (D2): documento e blocchi non salvati in `%LOCALAPPDATA%\ANTHEA\Recupero`, scritti in background dopo le
      modifiche. All'avvio ANTHEA propone di riprenderla; la copia si cancella al salvataggio o alla chiusura senza modifiche.
 3. **Editor con transazioni ed eventi.** Ogni operazione sul progetto è un comando che produce una transazione: l'annulla lavora per

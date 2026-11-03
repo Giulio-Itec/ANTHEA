@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using Anthea.Application.Documents;
 using Anthea.Calculations;
+using Anthea.Projects;
 using X.Core;
 
 namespace Anthea.Presentation.Shell;
@@ -20,6 +21,7 @@ public enum DocumentKind
 public abstract class DocumentSession
 {
     private JsonObject document;
+    private DocumentLock? fileLock;
 
     protected DocumentSession(JsonObject document, string? path, bool dirty)
     {
@@ -85,6 +87,31 @@ public abstract class DocumentSession
         Path = path;
         IsDirty = false;
         RaiseStateChanged();
+    }
+
+    /// <summary>
+    /// The lock of the file, held while the document is open (docs/sviluppo/progetto-sistema.md, step 2d); null for a document without a
+    /// file, a copy, a file opened while another ANTHEA held it, or a folder where the lock cannot be written.
+    /// </summary>
+    public DocumentLock? Lock => fileLock;
+
+    /// <summary>The file on disk when the document was opened or saved last (step 2d), null when unknown.</summary>
+    public FileStamp? Stamp { get; private set; }
+
+    /// <summary>The document holds <paramref name="newLock"/> for its file, which is <paramref name="stamp"/> on disk; the lock held before is
+    /// released.</summary>
+    public void AttachFile(DocumentLock? newLock, FileStamp? stamp)
+    {
+        if (!ReferenceEquals(fileLock, newLock)) fileLock?.Dispose();
+        fileLock = newLock;
+        Stamp = stamp;
+    }
+
+    /// <summary>The document closes: the lock of its file is released (Windows deletes the lock file).</summary>
+    public void ReleaseFile()
+    {
+        fileLock?.Dispose();
+        fileLock = null;
     }
 
     /// <summary>Sets the «not saved» state without recording a change (the restore of the history sets it as MainWindow does).</summary>

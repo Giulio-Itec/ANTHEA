@@ -37,6 +37,42 @@ int cited = entry["risultati"]!.AsArray().Select(r => r!["blocco"]!.GetValue<str
 Check(report.MissingBlocks == cited && report.Warning?.Contains(cited + " insiemi di risultati", StringComparison.Ordinal) == true,
     $"project file: a document without its archive is saved with the warning of the {report.MissingBlocks} result sets that are missing");
 
+// The lock of a document (step 2d): taken, held against a second opening, released (Windows deletes the file), a lock left over taken over.
+string locked = Path.Combine(folder, "bloccato.programma");
+File.WriteAllText(locked, "{}");
+var rossi = new DocumentLockOwner("rossi", "PC-07", new DateTimeOffset(2026, 11, 3, 14, 32, 0, TimeSpan.Zero), 4242);
+var first = DocumentLock.Acquire(locked, rossi);
+string lockFile = DocumentLock.PathFor(locked);
+Check(first.Lock is not null && first.Holder is null && first.Lock.Path == lockFile && Path.GetFileName(lockFile) == "~$bloccato.programma"
+    && File.Exists(lockFile) && File.GetAttributes(lockFile).HasFlag(FileAttributes.Hidden), "lock: taken, the hidden file «~$name» beside the document");
+var second = DocumentLock.Acquire(locked);
+Check(second.Lock is null && second.Holder == rossi && !second.Holder.IsSameUserHere && second.Holder.Description.StartsWith("da rossi sul computer PC-07 dalle ", StringComparison.Ordinal),
+    "lock: a second opening gets who holds it: " + second.Holder?.Description);
+first.Lock!.Dispose();
+Check(!File.Exists(lockFile), "lock: released, its file deleted");
+var mine = DocumentLock.Acquire(locked);
+var again = DocumentLock.Acquire(locked);
+Check(mine.Lock is not null && again.Holder is { IsSameUserHere: true } && again.Holder.Description.StartsWith("in un'altra finestra di ANTHEA su questo computer", StringComparison.Ordinal),
+    "lock: held by the same user on this computer: " + again.Holder?.Description);
+mine.Lock!.Dispose();
+File.WriteAllText(lockFile, "non è un blocco");
+var takenOver = DocumentLock.Acquire(locked);
+Check(takenOver.Lock is not null && DocumentLock.Read(lockFile)?.Process == Environment.ProcessId, "lock: a lock file nobody holds open (power cut, copy) taken over");
+File.Delete(locked);
+Check(DocumentLock.Acquire(locked).Holder?.Description == DocumentLock.Read(lockFile)?.Description, "lock: held while the document file is deleted");
+takenOver.Lock!.Dispose();
+var nowhere = DocumentLock.Acquire(Path.Combine(folder, "cartella-assente", "x.programma"));
+Check(nowhere.Lock is null && nowhere.Holder is null, "lock: a folder where the lock cannot be written gives no lock and no holder");
+
+// The stamp of a file: equal while the file does not change, different after a write.
+string stamped = Path.Combine(folder, "impronta.programma");
+File.WriteAllText(stamped, "{\"a\":1}");
+var before = FileStamp.Of(stamped);
+Check(before is not null && FileStamp.Of(stamped) == before && FileStamp.Of(Path.Combine(folder, "assente.programma")) is null, "stamp: the same file, no stamp for a missing file");
+File.WriteAllText(stamped, "{\"a\":2}");
+File.SetLastWriteTimeUtc(stamped, before!.Value.WrittenUtc.AddSeconds(2));
+Check(FileStamp.Of(stamped) != before, "stamp: a file written again has another stamp");
+
 File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} checks");
 Console.WriteLine($"PASS {checks} checks");
 return 0;

@@ -31,6 +31,11 @@ internal sealed class ScriptedConfirmations : IConfirmationService
     public SaveChangesAnswer AskSaveChanges() => SaveChanges?.Invoke() ?? throw new InvalidOperationException("Domanda di salvataggio non prevista dalla prova.");
 
     public bool ConfirmDelete(string title, string question) => Delete?.Invoke(title, question) ?? throw new InvalidOperationException("Domanda di eliminazione non prevista dalla prova: " + question);
+
+    /// <summary>The questions of the lock of the files (step 2d, 3/11/2026): no check opens a file open elsewhere, so they fail it.</summary>
+    public LockedDocumentAnswer AskLockedDocument(string title, string question) => throw new InvalidOperationException("Domanda sul file già aperto non prevista dalla prova: " + question);
+
+    public bool ConfirmOverwrite(string title, string question) => throw new InvalidOperationException("Domanda sul file modificato non prevista dalla prova: " + question);
 }
 
 /// <summary>Safe rethrows the original exception (same type, message and stack), so that the check fails.</summary>

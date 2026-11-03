@@ -64,7 +64,10 @@ public sealed class ProjectSession : DocumentSession
     /// <param name="dirty">True for an archive not saved yet (a copy of an example).</param>
     /// <param name="confirmations">Questions of the shared data, of the moves and of the removals.</param>
     /// <param name="commitOpenSheet">Confirms the open sheet into the document (MainWindow.Commit), before every operation.</param>
-    public ProjectSession(JsonObject document, string? path, bool dirty, IConfirmationService confirmations, Action commitOpenSheet) : base(document, path, dirty)
+    /// <param name="resultsFrom">For a copy without a file (step 2d, a file open in another ANTHEA): the file whose archive holds the results
+    /// of its models, read and never written; null reads the archive beside <paramref name="path"/>.</param>
+    public ProjectSession(JsonObject document, string? path, bool dirty, IConfirmationService confirmations, Action commitOpenSheet, string? resultsFrom = null)
+        : base(document, path, dirty)
     {
         ArgumentNullException.ThrowIfNull(confirmations);
         ArgumentNullException.ThrowIfNull(commitOpenSheet);
@@ -73,7 +76,7 @@ public sealed class ProjectSession : DocumentSession
         this.commitOpenSheet = commitOpenSheet;
         Shared = new SharedDataCoordinator(confirmations);
         // 2/11/2026: the results archive beside the file (the blocks the document cites; nothing is read before a model opens).
-        Results = new ModelResultArchive(path, document);
+        Results = new ModelResultArchive(path ?? resultsFrom, document);
         // As MainWindow.ShowProjectOverview at the opening of an archive: a new history on the document, ids completed.
         History.Reset(document);
     }

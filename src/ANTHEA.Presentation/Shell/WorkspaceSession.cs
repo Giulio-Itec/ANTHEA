@@ -70,6 +70,26 @@ public sealed class WorkspaceSession : IDisposable
     /// <summary>A copy of an example saved among the installed examples (MainWindow.Save).</summary>
     public const string ExamplesFolderRefused = "Salva la copia nella cartella dei tuoi lavori, fuori dagli esempi installati.";
 
+    /// <summary>Caption of the question when the file to open is open in another ANTHEA (step 2d, 3/11/2026).</summary>
+    public const string LockedTitle = "File già aperto";
+
+    /// <summary>Caption of the question when the file to save changed on disk after the opening or the last save.</summary>
+    public const string ChangedTitle = "File modificato su disco";
+
+    /// <summary>The question when <paramref name="file"/> is open <paramref name="holder"/> (<see cref="DocumentLockOwner.Description"/>).</summary>
+    public static string LockedQuestion(string file, string holder) =>
+        "«" + file + "» è già aperto " + holder + ".\n\n" +
+        "Apri una copia: lavori su una copia senza nome, da salvare con un altro nome; il file non cambia.\n" +
+        "Apri comunque: lavori sul file stesso; salvando puoi sovrascrivere le modifiche dell'altra apertura.";
+
+    /// <summary>The question when <paramref name="file"/> changed on disk after it was opened or saved.</summary>
+    public static string ChangedQuestion(string file) =>
+        "«" + file + "» è stato modificato su disco dopo l'apertura o l'ultimo salvataggio (da un altro programma o da un'altra apertura di ANTHEA).\n\n" +
+        "Sovrascriverlo con il documento di questa finestra? Con «No» il salvataggio si ferma e puoi salvare con un altro nome.";
+
+    /// <summary>The refusal of «Salva con nome…» on <paramref name="file"/>, open <paramref name="holder"/>.</summary>
+    public static string LockedTarget(string file, string holder) => "«" + file + "» è aperto " + holder + ": salva con un altro nome.";
+
     private readonly PresentationServices services;
     private readonly ISheetFactory factory;
     private readonly IDocumentFiles files;
@@ -165,15 +185,16 @@ public sealed class WorkspaceSession : IDisposable
     public ProjectSession? NewProject()
     {
         ThrowIfDisposed();
-        return OpenProject(ProjectDocuments.CreateArchive(), null, false);
+        return OpenProject(ProjectDocuments.CreateArchive(), null, false, null);
     }
 
     /// <summary>The open project, or a new archive when none is open (the «Progetti» page of MainWindow without a project).</summary>
     public ProjectSession? EnsureProject() => Project ?? NewProject();
 
     /// <summary>
-    /// «Apri…» (MainWindow.LoadFile): an installed example opens as an unsaved copy; a file already open is activated; otherwise the
-    /// document is read and validated first, then opened (a project closes the open one first). Null when the user cancels.
+    /// «Apri…» (MainWindow.LoadFile): an installed example opens as an unsaved copy; a file already open is activated; otherwise the lock of
+    /// the file is taken (step 2d: a file open in another ANTHEA asks whether to open a copy without a name, the file anyway or nothing),
+    /// then the document is read and validated, then opened (a project closes the open one first). Null when the user cancels.
     /// </summary>
     public DocumentSession? OpenFile(string path)
     {
@@ -185,14 +206,38 @@ public sealed class WorkspaceSession : IDisposable
             ActivateDocument(open);
             return open;
         }
-        return OpenDocument(files.Open(path), path, false);
+        var acquired = DocumentLock.Acquire(path);
+        bool copy = false;
+        if (acquired.Holder is { } holder)
+        {
+            var answer = services.Confirmations.AskLockedDocument(LockedTitle, LockedQuestion(System.IO.Path.GetFileName(path), holder.Description));
+            if (answer == LockedDocumentAnswer.Cancel) return null;
+            copy = answer == LockedDocumentAnswer.OpenCopy;
+        }
+        DocumentSession? opened = null;
+        try
+        {
+            // The file before it is read: a change written by another program while it is read is found by «Salva».
+            var stamp = FileStamp.Of(path);
+            var document = files.Open(path);
+            // A copy reads the results of its models from the archive beside the file, which it never writes.
+            opened = copy ? OpenDocument(document, null, true, path) : OpenDocument(document, path, false, null);
+            if (opened is not null && !copy) opened.AttachFile(acquired.Lock, stamp);
+            return opened;
+        }
+        finally
+        {
+            if (opened is null) acquired.Lock?.Dispose();
+        }
     }
 
     /// <summary>
     /// Opens a document read elsewhere (a copy of an example, the example of the Wiki): a calculation file in a new active tab, a project
     /// archive in place of the open project. Null when the user keeps the open project.
     /// </summary>
-    public DocumentSession? OpenDocument(JsonObject document, string? path, bool dirty)
+    public DocumentSession? OpenDocument(JsonObject document, string? path, bool dirty) => OpenDocument(document, path, dirty, null);
+
+    private DocumentSession? OpenDocument(JsonObject document, string? path, bool dirty, string? resultsFrom)
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(document);
@@ -202,7 +247,7 @@ public sealed class WorkspaceSession : IDisposable
             AddCalculation(calculation);
             return calculation;
         }
-        return OpenProject(document, path, dirty);
+        return OpenProject(document, path, dirty, resultsFrom);
     }
 
     /// <summary>Activates the sheet of a single file or the last opened sheet of the project, when one is open.</summary>
@@ -215,7 +260,8 @@ public sealed class WorkspaceSession : IDisposable
     /// <summary>
     /// «Salva» and «Salva con nome…» (MainWindow.Save): the active sheet is confirmed; a new document or «Salva con nome» asks the file
     /// («Calcolo.programma» or the current name); the installed examples are refused; the working document is written (never the snapshot
-    /// of a revision). An error is shown with the title «Salvataggio non riuscito».
+    /// of a revision). An error is shown with the title «Salvataggio non riuscito». Step 2d (3/11/2026): a new file is locked first and a
+    /// file open in another ANTHEA or in another tab is refused; the same file, changed on disk since it was opened or saved, asks first.
     /// </summary>
     /// <returns>True when the document was written.</returns>
     public bool Save(DocumentSession document, bool asNew)
@@ -229,15 +275,30 @@ public sealed class WorkspaceSession : IDisposable
             target = services.Files.SaveFile(new SaveFileRequest(SaveFilters, document.Path is null ? "Calcolo.programma" : System.IO.Path.GetFileName(document.Path)));
             if (target is null) return false;
         }
+        DocumentLock? taken = null;
         try
         {
             if (files.IsInExamples(target)) throw new InvalidOperationException(ExamplesFolderRefused);
+            string name = System.IO.Path.GetFileName(target);
+            bool same = document.IsFile(target);
+            if (!same)
+            {
+                if (Documents.Any(d => !ReferenceEquals(d, document) && d.IsFile(target))) throw new InvalidOperationException(LockedTarget(name, "in un'altra scheda di questa finestra"));
+                var acquired = DocumentLock.Acquire(target);
+                if (acquired.Holder is { } holder) throw new InvalidOperationException(LockedTarget(name, holder.Description));
+                taken = acquired.Lock;
+            }
+            else if (document.Stamp is { } stamp && FileStamp.Of(target) is { } now && now != stamp
+                && !services.Confirmations.ConfirmOverwrite(ChangedTitle, ChangedQuestion(name)))
+                return false;
             // 2/11/2026: a project writes its results archive first, beside the file, then the document (ProjectFile, 3/11/2026: the result sets
             // the archive could not find are reported instead of ignored).
             string? warning = null;
             if (document is ProjectSession project) warning = ProjectFile.Save(target, document.WorkingDocument, project.Results, files.Save).Warning;
             else files.Save(target, document.WorkingDocument);
             document.MarkSaved(target);
+            document.AttachFile(same ? document.Lock : taken, FileStamp.Of(target));
+            taken = null;
             foreach (var sheet in sheets.Where(s => ReferenceEquals(s.Owner, document))) sheet.MarkSaved();
             if (warning is not null) services.Messages.Warn(SaveWarning, warning);
             return true;
@@ -246,6 +307,10 @@ public sealed class WorkspaceSession : IDisposable
         {
             services.Messages.ReportFailure(SaveFailure, error);
             return false;
+        }
+        finally
+        {
+            taken?.Dispose();
         }
     }
 
@@ -272,6 +337,7 @@ public sealed class WorkspaceSession : IDisposable
         if (!ConfirmDiscard(project)) return false;
         foreach (var sheet in sheets.Where(s => ReferenceEquals(s.Owner, project)).ToArray()) Close(sheet, SheetCloseReason.DocumentClosed);
         project.Changed -= OnProjectChanged;
+        project.ReleaseFile();
         previewClosed.Clear();
         Project = null;
         DocumentsChanged?.Invoke(this, EventArgs.Empty);
@@ -292,6 +358,7 @@ public sealed class WorkspaceSession : IDisposable
             if (!ConfirmDiscard(calculation)) return false;
             Close(sheet, SheetCloseReason.DocumentClosed);
             calculations.Remove(calculation);
+            calculation.ReleaseFile();
             DocumentsChanged?.Invoke(this, EventArgs.Empty);
             return true;
         }
@@ -383,6 +450,7 @@ public sealed class WorkspaceSession : IDisposable
         foreach (var sheet in sheets) sheet.Dispose();
         sheets.Clear();
         if (Project is not null) Project.Changed -= OnProjectChanged;
+        foreach (var document in Documents) document.ReleaseFile();
     }
 
     // ---- Internals
@@ -395,10 +463,10 @@ public sealed class WorkspaceSession : IDisposable
         return Add(new SheetSession(calculation, calculation.Sheet, factory, s => new Host(this, s)));
     }
 
-    private ProjectSession? OpenProject(JsonObject document, string? path, bool dirty)
+    private ProjectSession? OpenProject(JsonObject document, string? path, bool dirty, string? resultsFrom)
     {
         if (!CloseProject()) return null;
-        var project = new ProjectSession(document, path, dirty, services.Confirmations, CommitActive);
+        var project = new ProjectSession(document, path, dirty, services.Confirmations, CommitActive, resultsFrom);
         project.Changed += OnProjectChanged;
         Project = project;
         DocumentsChanged?.Invoke(this, EventArgs.Empty);
