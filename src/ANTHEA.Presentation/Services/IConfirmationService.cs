@@ -48,6 +48,23 @@ public interface IConfirmationService
     /// it, false stops the save. The default is <see cref="ConfirmReplace"/> (additive member, 3/11/2026).
     /// </summary>
     bool ConfirmOverwrite(string title, string question) => ConfirmReplace(title, question);
+
+    /// <summary>
+    /// At the start, a recovery copy left over by an ANTHEA that ended badly (step 2e, decision D2 of 3/11/2026): take it up, discard it or
+    /// keep it for the next start. The services that do not ask it keep it (additive member, 3/11/2026).
+    /// </summary>
+    RecoveryAnswer AskRecovery(string title, string question) => RecoveryAnswer.Later;
+}
+
+/// <summary>Answer to <see cref="IConfirmationService.AskRecovery"/>.</summary>
+public enum RecoveryAnswer
+{
+    /// <summary>Open the document of the copy, with its changes not saved.</summary>
+    Resume,
+    /// <summary>Delete the copy.</summary>
+    Discard,
+    /// <summary>Keep the copy: it is offered again at the next start.</summary>
+    Later
 }
 
 /// <summary>Answer to <see cref="IConfirmationService.AskLockedDocument"/>.</summary>

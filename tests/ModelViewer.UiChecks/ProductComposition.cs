@@ -33,7 +33,8 @@ static partial class Program
         services = new PresentationServices(services.Messages, new QuietClose(services.Confirmations), services.Files, services.Dialogs, services.Clipboard, services.Links, services.Wiki);
         var examples = (string)shellComposition.GetProperty("ExamplesFolder", BindingFlags.Static | BindingFlags.NonPublic)!.GetValue(null)!;
         var parts = shellComposition.GetMethod("Create", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null,
-            [services, type.GetProperty("Modules", Flags)!.GetValue(composition), type.GetProperty("Limiter", Flags)!.GetValue(composition), examples, null, null])!;
+            // 3/11/2026: no folder of recovery copies (step 2e), the checks write none and are offered none.
+            [services, type.GetProperty("Modules", Flags)!.GetValue(composition), type.GetProperty("Limiter", Flags)!.GetValue(composition), examples, null, null, null])!;
         return ((Window)parts.GetType().GetProperty("Window")!.GetValue(parts)!, (ShellViewModel)parts.GetType().GetProperty("Shell")!.GetValue(parts)!);
     }
 

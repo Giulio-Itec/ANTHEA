@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using Anthea.Application.Documents;
 using ANTHEA.ModelWorkspace;
 using Anthea.Projects;
 using X.Core;
@@ -72,6 +73,55 @@ Check(before is not null && FileStamp.Of(stamped) == before && FileStamp.Of(Path
 File.WriteAllText(stamped, "{\"a\":2}");
 File.SetLastWriteTimeUtc(stamped, before!.Value.WrittenUtc.AddSeconds(2));
 Check(FileStamp.Of(stamped) != before, "stamp: a file written again has another stamp");
+
+// The frozen document (steps 2c and 2e): the history freezes the project with its archived model; thawed on another thread it is the same
+// document, and saved it gives the same file as the live one.
+var history = new ProjectHistory();
+history.Reset(document);
+var snapshot = history.Snapshot(document);
+var thawed = Task.Run(snapshot.Thaw).GetAwaiter().GetResult();
+Check(JsonNode.DeepEquals(thawed, document) && !ReferenceEquals(thawed, document), "frozen document: thawed on another thread, equal to the live one");
+string live = Path.Combine(folder, "vivo.programma"), frozenFile = Path.Combine(folder, "congelato.programma");
+DocumentService.Save(live, document); DocumentService.Save(frozenFile, thawed);
+Check(File.ReadAllBytes(live).AsSpan().SequenceEqual(File.ReadAllBytes(frozenFile)), "frozen document: saved, the same bytes as the live document");
+ProjectDocuments.AddProject(document, "Viadotto");
+Check(!JsonNode.DeepEquals(snapshot.Thaw(), document) && JsonNode.DeepEquals(history.Snapshot(document).Thaw(), document),
+    "frozen document: a change after the freeze is not in it, a new snapshot has it");
+
+// The recovery copy (step 2e): a project with a model whose results are not saved yet; the copy holds the document and those results; a
+// copy in use is not left over; abandoned (a crash), it is found at the next start and taken up with its results; deleted, it is gone.
+string recoveryRoot = Path.Combine(output, "recupero");
+if (Directory.Exists(recoveryRoot)) Directory.Delete(recoveryRoot, true);
+var store = new RecoveryStore(recoveryRoot);
+var unsaved = ProjectDocuments.CreateArchive(); var unsavedProject = ProjectDocuments.AddProject(unsaved, "Non salvato");
+var unsavedResults = new ModelResultArchive(null, unsaved);
+string unsavedId = ProjectModelStore.Set(unsavedProject, ModelDocumentEntry.Prepare(model, 1), null, unsavedResults);
+var unsavedHistory = new ProjectHistory(); unsavedHistory.Reset(unsaved);
+var info = new RecoveryInfo(null, "Nuovo progetto", DateTimeOffset.Now, null, true);
+var slot = store.Create()!;
+slot.Write(unsavedHistory.Snapshot(unsaved), info, unsavedResults);
+slot.Write(unsavedHistory.Snapshot(unsaved), info, unsavedResults);
+int blocks = ModelResultArchive.References(unsaved).Count;
+Check(slot.Writes == 2 && Directory.GetFiles(slot.Folder, "risultati-*").Length == 1 && store.LeftOver().Count == 0,
+    $"recovery: written twice, the {blocks} result sets once, a copy in use not left over");
+slot.Abandon();
+var left = store.LeftOver();
+Check(left.Count == 1 && left[0].Info == info && left[0].Folder == slot.Folder, "recovery: abandoned (a crash), found at the next start");
+left[0].Dispose();
+var again2 = store.LeftOver();
+var recovered = again2.Single().ReadDocument();
+var recoveredResults = new ModelResultArchive(null, recovered);
+var failures = again2.Single().ResultArchives.Select(recoveredResults.AddArchive).OfType<string>().ToArray();
+var recoveredModel = ProjectModelStore.Read(recovered["progetti"]!.AsArray().OfType<JsonObject>().Single(), unsavedId, recoveredResults)!;
+Check(failures.Length == 0 && JsonNode.DeepEquals(recovered, unsaved) && recoveredModel.Fingerprint() == model.Fingerprint() && recoveredModel.UnavailableResults.Count == 0,
+    "recovery: «Più tardi» keeps it; taken up, the document and every result set of its model");
+again2.Single().Delete();
+Check(!Directory.Exists(slot.Folder) && store.LeftOver().Count == 0, "recovery: deleted after it was taken up");
+var discarded = store.Create()!;
+discarded.Write(unsavedHistory.Snapshot(unsaved), info, unsavedResults);
+discarded.Delete();
+discarded.Write(unsavedHistory.Snapshot(unsaved), info, unsavedResults);
+Check(!Directory.Exists(discarded.Folder) && store.LeftOver().Count == 0, "recovery: a document saved or closed deletes its copy, a late write writes nothing");
 
 File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} checks");
 Console.WriteLine($"PASS {checks} checks");

@@ -51,6 +51,7 @@ internal sealed class ScriptedConfirmations : IConfirmationService
     public bool ConfirmDelete(string title, string question) => Next<bool>(title + ": " + question);
     public LockedDocumentAnswer AskLockedDocument(string title, string question) => Next<LockedDocumentAnswer>(title + ": " + question);
     public bool ConfirmOverwrite(string title, string question) => Next<bool>(title + ": " + question);
+    public RecoveryAnswer AskRecovery(string title, string question) => Next<RecoveryAnswer>(title + ": " + question);
 }
 
 internal sealed class ScriptedFileDialogs : IFileDialogService

@@ -24,7 +24,7 @@ public sealed class ProjectHistory
     // a step keeps the rest of the document with a placeholder; the comparison takes the hash instead of the copy. The copies are never
     // changed in place (ProjectModelStore.Set builds a new entry), so the same hash is the same copy.
     private sealed record Step(JsonObject Skeleton, string[] Keys);
-    private const string FrozenProperty = "#copia-del-modello";
+    private const string FrozenProperty = FrozenDocument.Placeholder;
     private const string SnapshotProperty = "snapshot";
     private readonly Dictionary<string, byte[]> frozen = new(StringComparer.Ordinal);
 
@@ -103,6 +103,22 @@ public sealed class ProjectHistory
         var restored = (JsonObject)Thaw(step.Skeleton)!;
         tracked = restored; baseline = step; Prune();
         return restored;
+    }
+
+    /// <summary>
+    /// <paramref name="document"/> frozen for a writer on another thread (docs/sviluppo/progetto-sistema.md, steps 2c and 2e): the baseline
+    /// when it is the tracked document unchanged since (the usual case, about a millisecond), otherwise a new freeze. The copies of the models
+    /// are shared with the history, not copied: they are never changed in place.
+    /// </summary>
+    public FrozenDocument Snapshot(JsonObject document)
+    {
+        ArgumentNullException.ThrowIfNull(document);
+        bool current = baseline is not null && Tracks(document) && Same(document, baseline.Skeleton, null, false);
+        var step = current ? baseline! : Freeze(document);
+        var models = step.Keys.ToDictionary(key => key, key => frozen[key], StringComparer.Ordinal);
+        var skeleton = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(step.Skeleton);
+        if (!current) Prune();
+        return new FrozenDocument(skeleton, models);
     }
 
     /// <summary>The key of the copy of a model entry: the hash of its content the entry carries, null when it has none (then the copy stays in

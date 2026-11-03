@@ -67,8 +67,18 @@ internal sealed class WpfConfirmationService(Func<Window?> owner) : IConfirmatio
 
     /// <summary>The file is open in another ANTHEA (step 2d, 3/11/2026): «Apri una copia» (default), «Apri comunque», «Annulla» (Esc).</summary>
     public LockedDocumentAnswer AskLockedDocument(string title, string question)
+        => Choose(title, question, LockedDocumentAnswer.Cancel, ("Apri una copia", LockedDocumentAnswer.OpenCopy), ("Apri comunque", LockedDocumentAnswer.OpenAnyway),
+            ("Annulla", LockedDocumentAnswer.Cancel));
+
+    /// <summary>A recovery copy at the start (step 2e): «Riprendi» (default), «Scarta», «Più tardi» (Esc).</summary>
+    public RecoveryAnswer AskRecovery(string title, string question)
+        => Choose(title, question, RecoveryAnswer.Later, ("Riprendi", RecoveryAnswer.Resume), ("Scarta", RecoveryAnswer.Discard), ("Più tardi", RecoveryAnswer.Later));
+
+    /// <summary>A question with its buttons in order: the first is the default (Enter), the last closes the dialog as Esc, which answers
+    /// <paramref name="cancel"/>.</summary>
+    private T Choose<T>(string title, string question, T cancel, params (string Label, T Answer)[] choices)
     {
-        var answer = LockedDocumentAnswer.Cancel;
+        var answer = cancel;
         var content = Ui.Stack(Ui.Text(question, 14));
         content.Margin = new Thickness(18);
         var window = owner();
@@ -77,12 +87,14 @@ internal sealed class WpfConfirmationService(Func<Window?> owner) : IConfirmatio
             : Ui.Dialog(window, title, content, LockedDialogWidth);
         dialog.SizeToContent = SizeToContent.Height;
         dialog.ResizeMode = ResizeMode.NoResize;
-        var copy = Ui.Button("Apri una copia", () => { answer = LockedDocumentAnswer.OpenCopy; dialog.DialogResult = true; }, true);
-        copy.IsDefault = true;
-        var anyway = Ui.Button("Apri comunque", () => { answer = LockedDocumentAnswer.OpenAnyway; dialog.DialogResult = true; });
-        var cancel = Ui.Button("Annulla", () => dialog.DialogResult = false);
-        cancel.IsCancel = true;
-        var bar = Ui.Bar(copy, anyway, cancel);
+        var buttons = choices.Select((choice, position) =>
+        {
+            var button = Ui.Button(choice.Label, () => { answer = choice.Answer; dialog.DialogResult = true; }, position == 0);
+            button.IsDefault = position == 0;
+            button.IsCancel = position == choices.Length - 1;
+            return (UIElement)button;
+        }).ToArray();
+        var bar = Ui.Bar(buttons);
         bar.Margin = new Thickness(0, LockedDialogGap, 0, 0);
         content.Children.Add(bar);
         dialog.ShowDialog();

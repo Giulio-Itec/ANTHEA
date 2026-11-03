@@ -49,6 +49,10 @@ public abstract class DocumentSession
     /// <summary>True when the document has changes not saved (the « *» of the title).</summary>
     public bool IsDirty { get; private set; }
 
+    /// <summary>Changes recorded since the document was opened (each <see cref="MarkDirty"/>, each undo or redo): the recovery copy (step 2e)
+    /// is written again when it grows.</summary>
+    public long Changes { get; private set; }
+
     /// <summary>True while the document cannot change (an archived revision of a project on screen).</summary>
     public virtual bool IsReadOnly => false;
 
@@ -69,6 +73,7 @@ public abstract class DocumentSession
     {
         if (IsReadOnly) return;
         IsDirty = true;
+        Changes++;
         OnMarkedDirty();
         RaiseStateChanged();
     }
@@ -118,6 +123,7 @@ public abstract class DocumentSession
     protected void SetDirty(bool dirty)
     {
         IsDirty = dirty;
+        if (dirty) Changes++;
         RaiseStateChanged();
     }
 

@@ -63,8 +63,13 @@ Ogni passo si distribuisce da solo, con le suite della shell e della presentazio
      dall'archivio del file, che non cambia), «Apri comunque» o «Annulla». «Salva con nome» su un file aperto altrove viene rifiutato.
      Prima di «Salva» si confronta il file su disco con quello aperto o salvato (`FileStamp`): se è cambiato, ANTHEA chiede se
      sovrascriverlo.
-   - 2e. Copia di recupero (D2): documento e blocchi non salvati in `%LOCALAPPDATA%\ANTHEA\Recupero`, scritti in background dopo le
-     modifiche. All'avvio ANTHEA propone di riprenderla; la copia si cancella al salvataggio o alla chiusura senza modifiche.
+   - 2e. Copia di recupero (D2, fatto): ogni minuto (`RecoveryWriter`) un documento cambiato dall'ultima copia viene congelato sul
+     thread dell'interfaccia (`FrozenDocument`; per un progetto è lo stato dello storico dell'annulla, circa 1 ms) e scritto in background
+     in `%LOCALAPPDATA%\ANTHEA\Recupero\<cartella>`. La cartella contiene il documento, i risultati dei modelli non ancora salvati (un
+     archivio per scrittura, solo i blocchi nuovi) e `recupero.json` (file, nome, ora, impronta del file). Una cartella in uso è bloccata;
+     dopo un crash Windows rilascia il blocco e all'avvio ANTHEA propone «Riprendi», «Scarta» o «Più tardi». «Riprendi» riapre il
+     documento sul suo file, da salvare, con i risultati non salvati; se il file è aperto altrove lo apre come copia senza nome. La copia si
+     cancella al salvataggio, alla chiusura e all'uscita.
 3. **Editor con transazioni ed eventi.** Ogni operazione sul progetto è un comando che produce una transazione: l'annulla lavora per
    transazioni e l'interfaccia aggiorna solo i nodi cambiati.
 4. **Descrittori dei moduli e stato del progetto.** Ogni modulo dichiara dati comuni, etichette e stato di un foglio. Ogni foglio registra

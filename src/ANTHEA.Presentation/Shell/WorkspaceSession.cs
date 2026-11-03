@@ -232,6 +232,58 @@ public sealed class WorkspaceSession : IDisposable
     }
 
     /// <summary>
+    /// «Riprendi» of a recovery copy at the start (step 2e): the document of the copy, not saved, on its file when the copy has one and no
+    /// other ANTHEA holds it (otherwise as a copy without a name), with the result sets of its models not saved yet; «Salva» asks before
+    /// overwriting a file changed after the copy was taken. The copy is deleted once the document is open. Null when the user keeps the open
+    /// project.
+    /// </summary>
+    public DocumentSession? Resume(RecoveryEntry entry)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(entry);
+        var document = entry.ReadDocument();
+        string? path = entry.Info.File;
+        DocumentLock? taken = null;
+        if (path is not null && Documents.Any(d => d.IsFile(path))) path = null;
+        bool copy = false;
+        if (path is not null)
+        {
+            var acquired = DocumentLock.Acquire(path);
+            copy = acquired.Holder is not null;
+            taken = acquired.Lock;
+        }
+        DocumentSession? opened = null;
+        try
+        {
+            opened = OpenDocument(document, copy ? null : path, true, copy ? path : null);
+            if (opened is null) return null;
+            if (!copy && path is not null) opened.AttachFile(taken, entry.Info.Stamp);
+            var failures = opened is ProjectSession project ? entry.ResultArchives.Select(project.Results.AddArchive).OfType<string>().ToArray() : [];
+            entry.Delete();
+            if (failures.Length > 0) services.Messages.Warn(RecoveryTitle, RecoveryResultsMissing(failures));
+            return opened;
+        }
+        finally
+        {
+            if (opened is null) taken?.Dispose();
+        }
+    }
+
+    /// <summary>Caption of the questions and messages of the recovery copies (step 2e).</summary>
+    public const string RecoveryTitle = "Recupero dei documenti";
+
+    /// <summary>The question at the start for a copy of <paramref name="title"/> written at <paramref name="written"/>.</summary>
+    public static string RecoveryQuestion(string title, DateTimeOffset written) =>
+        "ANTHEA non si è chiuso correttamente. Ci sono modifiche non salvate di «" + title + "», copiate alle " +
+        written.ToLocalTime().ToString("HH:mm 'del' dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) + ".\n\n" +
+        "Riprendi: riapre il documento con quelle modifiche, da salvare.\nScarta: elimina la copia.\nPiù tardi: la tiene per il prossimo avvio.";
+
+    /// <summary>The warning when the result sets of the copy could not be read: their combinations are to be calculated again.</summary>
+    public static string RecoveryResultsMissing(IReadOnlyList<string> failures) =>
+        "Documento ripreso, ma una parte dei risultati dei modelli della copia non si è potuta leggere (" + string.Join("; ", failures) +
+        "): le combinazioni interessate risultano da calcolare.";
+
+    /// <summary>
     /// Opens a document read elsewhere (a copy of an example, the example of the Wiki): a calculation file in a new active tab, a project
     /// archive in place of the open project. Null when the user keeps the open project.
     /// </summary>

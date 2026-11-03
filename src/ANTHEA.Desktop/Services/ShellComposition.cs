@@ -48,8 +48,10 @@ internal static class ShellComposition
     /// <param name="services">The services of the product (DesktopComposition, through <see cref="WithShellWiki"/>) or of a check.</param>
     /// <param name="detached">The detached window as the tracker sees it; by default the WPF window itself (<see cref="DetachedWindowHandle"/>).</param>
     /// <param name="implementations">The implementation of each module; by default the choice of the Release (<see cref="ModuleImplementations.Release"/>).</param>
+    /// <param name="recovery">The folder of the recovery copies (step 2e of docs/sviluppo/progetto-sistema.md): the product passes the folder of
+    /// the user; the checks none, so they write no copy and are offered none.</param>
     internal static ShellParts Create(PresentationServices services, ModuleRegistry modules, CalculationLimiter limiter, string examples,
-        Func<DetachedShellWindow, IShellWindow>? detached = null, ModuleImplementations? implementations = null)
+        Func<DetachedShellWindow, IShellWindow>? detached = null, ModuleImplementations? implementations = null, Anthea.Projects.RecoveryStore? recovery = null)
     {
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(modules);
@@ -60,7 +62,7 @@ internal static class ShellComposition
         var tracker = new ShellWindowTracker(host => detached(new DetachedShellWindow(host, shell!.Windows, shell)));
         shell = new ShellViewModel(services, new ReleaseSheetFactory(implementations ?? ModuleImplementations.Release, modules, services, limiter), new DocumentFiles(examples), tracker,
             new DesktopSheetExports(),
-            new ShellOptions(new WpfAppearanceService(), () => ExampleCatalog.Load(examples), new DesktopSectionReports(), new WpfNumberSeparatorService()));
+            new ShellOptions(new WpfAppearanceService(), () => ExampleCatalog.Load(examples), new DesktopSectionReports(), new WpfNumberSeparatorService(), recovery));
         tracker.Attach(shell.Windows);
         (services.Wiki as ShellWikiNavigator)?.Attach(shell);
         return new ShellParts(new ShellWindow(shell, tracker), shell, tracker);

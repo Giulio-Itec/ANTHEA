@@ -36,6 +36,8 @@ internal sealed class ScriptedConfirmations : IConfirmationService
     public LockedDocumentAnswer AskLockedDocument(string title, string question) => throw new InvalidOperationException("Domanda sul file già aperto non prevista dalla prova: " + question);
 
     public bool ConfirmOverwrite(string title, string question) => throw new InvalidOperationException("Domanda sul file modificato non prevista dalla prova: " + question);
+
+    public RecoveryAnswer AskRecovery(string title, string question) => throw new InvalidOperationException("Domanda sulla copia di recupero non prevista dalla prova: " + question);
 }
 
 /// <summary>Safe rethrows the original exception (same type, message and stack), so that the check fails.</summary>

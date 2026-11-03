@@ -40,7 +40,9 @@ public partial class App : Application
     internal void StartShell(IReadOnlyList<string> args, ModuleImplementations? implementations = null)
     {
         var services = ShellComposition.WithShellWiki(Composition!.Services);
-        var parts = ShellComposition.Create(services, Composition.Modules, Composition.Limiter, ShellComposition.ExamplesFolder, implementations: implementations);
+        // 3/11/2026 (step 2e of docs/sviluppo/progetto-sistema.md): the recovery copies of the user, offered at the start after a crash.
+        var parts = ShellComposition.Create(services, Composition.Modules, Composition.Limiter, ShellComposition.ExamplesFolder, implementations: implementations,
+            recovery: Anthea.Projects.RecoveryStore.ForUser());
         MainWindow = parts.Window;
         var request = Anthea.Presentation.Shell.StartupRequest.Parse(args);
         parts.Window.Loaded += (_, _) => parts.Shell.Start(request);

@@ -163,7 +163,7 @@ public sealed class ModelResultArchive
             for (int i = 0; i < addresses.Count; i++)
             {
                 if (memory.TryGetValue(addresses[i], out var block)) { stored[i] = (block.Data, block.Length); continue; }
-                if (!loaded) { failure = LoadIndex(reload: true); loaded = true; }
+                if (!loaded) { failure = LoadIndex(); loaded = true; }
                 if (failure is null && index!.TryGetValue(addresses[i], out var entry)) fromFile.Add((i, entry));
                 else contents[i] = new(null, failure ?? "blocco assente dall'archivio dei risultati " + Path.GetFileName(file));
             }
@@ -236,7 +236,7 @@ public sealed class ModelResultArchive
     int Write(string target, SortedSet<string> keep, bool same)
     {
         string? source = file;
-        if (source is not null && LoadIndex(reload: true) is { } failure)
+        if (source is not null && LoadIndex() is { } failure)
         {
             // An archive that exists but cannot be read is never replaced while it holds blocks the documents need: they would be lost.
             // A missing one has nothing to lose.
@@ -260,53 +260,25 @@ public sealed class ModelResultArchive
         byte[] digest;
         try
         {
-            using (var output = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None))
             using (var input = source is null ? null : OpenRead(source))
             {
-                output.Write(new byte[HeaderBytes]);
-                foreach (string address in keep)
+                IEnumerable<(string Address, Block Block)> Blocks()
                 {
-                    byte[] data; byte kind; long length;
-                    if (memory.TryGetValue(address, out var block)) { data = block.Data; kind = block.Kind; length = block.Length; }
-                    else if (input is not null && index!.TryGetValue(address, out var entry)) { data = ReadAt(input, entry.Offset, entry.Stored); kind = entry.Kind; length = entry.Length; }
-                    else { missing++; continue; }
-                    entries[address] = new(kind, output.Position, data.LongLength, length);
-                    output.Write(data);
+                    foreach (string address in keep)
+                    {
+                        if (memory.TryGetValue(address, out var block)) yield return (address, block);
+                        else if (input is not null && index!.TryGetValue(address, out var entry)) yield return (address, new(entry.Kind, entry.Length, ReadAt(input, entry.Offset, entry.Stored)));
+                        else missing++;
+                    }
                 }
+                (entries, digest) = WriteFile(temporary, Blocks());
                 // The blocks the new file drops stay in memory for the rest of the session: an undo may cite them again.
                 if (same && input is not null)
                     foreach (var (address, entry) in index!)
                         if (!keep.Contains(address) && !memory.ContainsKey(address))
                             retired[address] = new(entry.Kind, entry.Length, ReadAt(input, entry.Offset, entry.Stored));
-                long indexOffset = output.Position;
-                var table = new byte[entries.Count * EntryBytes];
-                int at = 0;
-                foreach (var (address, entry) in entries)
-                {
-                    var row = table.AsSpan(at, EntryBytes);
-                    Convert.FromHexString(address).CopyTo(row);
-                    row[KindAt] = entry.Kind;
-                    BinaryPrimitives.WriteInt64LittleEndian(row[OffsetAt..], entry.Offset);
-                    BinaryPrimitives.WriteInt64LittleEndian(row[StoredAt..], entry.Stored);
-                    BinaryPrimitives.WriteInt64LittleEndian(row[LengthAt..], entry.Length);
-                    at += EntryBytes;
-                }
-                output.Write(table);
-                digest = SHA256.HashData(table);
-                var header = new byte[HeaderBytes];
-                Encoding.ASCII.GetBytes(Mark).CopyTo(header, 0);
-                BinaryPrimitives.WriteInt32LittleEndian(header.AsSpan(FormatAt), FormatVersion);
-                BinaryPrimitives.WriteInt32LittleEndian(header.AsSpan(CountAt), entries.Count);
-                BinaryPrimitives.WriteInt64LittleEndian(header.AsSpan(IndexAt), indexOffset);
-                digest.CopyTo(header, DigestAt);
-                output.Position = 0; output.Write(header);
-                output.Flush(true);
             }
-            for (int attempt = 1; ; attempt++)
-            {
-                try { File.Move(temporary, target, true); break; }
-                catch (Exception error) when (attempt < Attempts && error is IOException or UnauthorizedAccessException) { Thread.Sleep(RetryMilliseconds * attempt); }
-            }
+            Replace(temporary, target);
         }
         finally
         {
@@ -318,42 +290,152 @@ public sealed class ModelResultArchive
         return missing;
     }
 
-    /// <summary>The index of the file, read once (again with <paramref name="reload"/> when the file changed since). Null when usable,
+    /// <summary>A new archive file at <paramref name="path"/> with <paramref name="blocks"/> in their order: header, blocks, index.</summary>
+    /// <returns>The index of the file and its SHA-256.</returns>
+    static (Dictionary<string, Entry> Entries, byte[] Digest) WriteFile(string path, IEnumerable<(string Address, Block Block)> blocks)
+    {
+        var entries = new Dictionary<string, Entry>(StringComparer.Ordinal);
+        using var output = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None);
+        output.Write(new byte[HeaderBytes]);
+        foreach (var (address, block) in blocks)
+        {
+            entries[address] = new(block.Kind, output.Position, block.Data.LongLength, block.Length);
+            output.Write(block.Data);
+        }
+        long indexOffset = output.Position;
+        var table = new byte[entries.Count * EntryBytes];
+        int at = 0;
+        foreach (var (address, entry) in entries)
+        {
+            var row = table.AsSpan(at, EntryBytes);
+            Convert.FromHexString(address).CopyTo(row);
+            row[KindAt] = entry.Kind;
+            BinaryPrimitives.WriteInt64LittleEndian(row[OffsetAt..], entry.Offset);
+            BinaryPrimitives.WriteInt64LittleEndian(row[StoredAt..], entry.Stored);
+            BinaryPrimitives.WriteInt64LittleEndian(row[LengthAt..], entry.Length);
+            at += EntryBytes;
+        }
+        output.Write(table);
+        var digest = SHA256.HashData(table);
+        var header = new byte[HeaderBytes];
+        Encoding.ASCII.GetBytes(Mark).CopyTo(header, 0);
+        BinaryPrimitives.WriteInt32LittleEndian(header.AsSpan(FormatAt), FormatVersion);
+        BinaryPrimitives.WriteInt32LittleEndian(header.AsSpan(CountAt), entries.Count);
+        BinaryPrimitives.WriteInt64LittleEndian(header.AsSpan(IndexAt), indexOffset);
+        digest.CopyTo(header, DigestAt);
+        output.Position = 0; output.Write(header);
+        output.Flush(true);
+        return (entries, digest);
+    }
+
+    /// <summary>The temporary file becomes <paramref name="target"/>, a few attempts while another program holds it.</summary>
+    static void Replace(string temporary, string target)
+    {
+        for (int attempt = 1; ; attempt++)
+        {
+            try { File.Move(temporary, target, true); break; }
+            catch (Exception error) when (attempt < Attempts && error is IOException or UnauthorizedAccessException) { Thread.Sleep(RetryMilliseconds * attempt); }
+        }
+    }
+
+    /// <summary>
+    /// The recovery copy of a project (docs/sviluppo/progetto-sistema.md, step 2e): the blocks of <paramref name="needed"/> that this session
+    /// prepared and did not save (they are only in memory), except <paramref name="written"/>, as a new archive at <paramref name="path"/>.
+    /// Any thread; the blocks are copied out of the gate.
+    /// </summary>
+    /// <returns>The addresses written; none, and no file, when nothing is new.</returns>
+    public IReadOnlyCollection<string> WriteUnsaved(string path, IReadOnlySet<string> needed, IReadOnlySet<string> written)
+    {
+        ArgumentNullException.ThrowIfNull(needed);
+        ArgumentNullException.ThrowIfNull(written);
+        List<(string Address, Block Block)> blocks;
+        lock (gate)
+            blocks = [.. memory.Where(p => needed.Contains(p.Key) && !written.Contains(p.Key)).OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => (p.Key, p.Value))];
+        if (blocks.Count == 0) return [];
+        string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+        try
+        {
+            WriteFile(temporary, blocks);
+            Replace(temporary, path);
+        }
+        finally
+        {
+            try { if (File.Exists(temporary)) File.Delete(temporary); } catch (Exception error) when (error is IOException or UnauthorizedAccessException) { }
+        }
+        return [.. blocks.Select(b => b.Address)];
+    }
+
+    /// <summary>
+    /// A recovery copy taken up again (step 2e): the blocks of the archive at <paramref name="path"/> join the blocks of this session not
+    /// saved yet, so that the next «Salva» writes them beside the project. Each block is checked against its address when it is read.
+    /// </summary>
+    /// <returns>Null when the blocks were added, otherwise why the archive could not be read.</returns>
+    public string? AddArchive(string path)
+    {
+        try
+        {
+            using var stream = OpenRead(path);
+            if (ReadIndex(stream, Path.GetFileName(path), out var entries, out _) is { } failure) return failure;
+            var blocks = entries!.Select(e => KeyValuePair.Create(e.Key, new Block(e.Value.Kind, e.Value.Length, ReadAt(stream, e.Value.Offset, e.Value.Stored)))).ToArray();
+            Add(blocks);
+            return null;
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or EndOfStreamException or InvalidDataException)
+        { return "archivio dei risultati della copia di recupero non leggibile: " + error.Message; }
+    }
+
+    /// <summary>The index of the file, read again when the file changed since it was read (another digest). Null when usable,
     /// otherwise the reason. Under the gate.</summary>
-    string? LoadIndex(bool reload = false)
+    string? LoadIndex()
     {
         if (file is null) return "progetto non ancora salvato: blocco non disponibile";
         if (!File.Exists(file)) { index = null; indexDigest = null; return "archivio dei risultati mancante: " + Path.GetFileName(file); }
         try
         {
             using var stream = OpenRead(file);
-            var header = new byte[HeaderBytes];
-            stream.ReadExactly(header);
-            if (Encoding.ASCII.GetString(header, 0, MarkBytes) != Mark || BinaryPrimitives.ReadInt32LittleEndian(header.AsSpan(FormatAt)) != FormatVersion)
-                return "archivio dei risultati di formato sconosciuto: " + Path.GetFileName(file);
-            var digest = header.AsSpan(DigestAt, HashBytes).ToArray();
-            if (index is not null && indexDigest is not null && (!reload || digest.AsSpan().SequenceEqual(indexDigest))) return null;
-            int count = BinaryPrimitives.ReadInt32LittleEndian(header.AsSpan(CountAt));
-            long indexOffset = BinaryPrimitives.ReadInt64LittleEndian(header.AsSpan(IndexAt));
-            if (count < 0 || indexOffset < HeaderBytes || indexOffset + (long)count * EntryBytes != stream.Length)
-                return "archivio dei risultati danneggiato (indice): " + Path.GetFileName(file);
-            var table = ReadAt(stream, indexOffset, (long)count * EntryBytes);
-            if (!SHA256.HashData(table).AsSpan().SequenceEqual(digest)) return "archivio dei risultati danneggiato (indice): " + Path.GetFileName(file);
-            var entries = new Dictionary<string, Entry>(count, StringComparer.Ordinal);
-            for (int i = 0; i < count; i++)
-            {
-                var row = table.AsSpan(i * EntryBytes, EntryBytes);
-                var entry = new Entry(row[KindAt], BinaryPrimitives.ReadInt64LittleEndian(row[OffsetAt..]), BinaryPrimitives.ReadInt64LittleEndian(row[StoredAt..]),
-                    BinaryPrimitives.ReadInt64LittleEndian(row[LengthAt..]));
-                if (entry.Offset < HeaderBytes || entry.Stored < 0 || entry.Offset + entry.Stored > indexOffset)
-                    return "archivio dei risultati danneggiato (indice): " + Path.GetFileName(file);
-                entries[Convert.ToHexString(row[..HashBytes])] = entry;
-            }
-            index = entries; indexDigest = digest;
+            // The index read before stays while the digest of the file is the same (every caller reloads: the file may have been replaced).
+            var known = index is not null ? indexDigest : null;
+            if (ReadIndex(stream, Path.GetFileName(file), out var entries, out var digest, known) is { } failure) return failure;
+            if (entries is not null) { index = entries; indexDigest = digest; }
             return null;
         }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or EndOfStreamException)
         { return "archivio dei risultati non leggibile: " + error.Message; }
+    }
+
+    /// <summary>
+    /// The index of the archive in <paramref name="stream"/> (named <paramref name="name"/> in the reasons), checked: null when usable,
+    /// otherwise the reason. When the digest of the file is <paramref name="known"/>, the index is not read again
+    /// (<paramref name="entries"/> null).
+    /// </summary>
+    static string? ReadIndex(FileStream stream, string name, out Dictionary<string, Entry>? entries, out byte[]? digest, byte[]? known = null)
+    {
+        entries = null; digest = null;
+        var header = new byte[HeaderBytes];
+        stream.Position = 0;
+        stream.ReadExactly(header);
+        if (Encoding.ASCII.GetString(header, 0, MarkBytes) != Mark || BinaryPrimitives.ReadInt32LittleEndian(header.AsSpan(FormatAt)) != FormatVersion)
+            return "archivio dei risultati di formato sconosciuto: " + name;
+        var read = header.AsSpan(DigestAt, HashBytes).ToArray();
+        if (known is not null && read.AsSpan().SequenceEqual(known)) return null;
+        int count = BinaryPrimitives.ReadInt32LittleEndian(header.AsSpan(CountAt));
+        long indexOffset = BinaryPrimitives.ReadInt64LittleEndian(header.AsSpan(IndexAt));
+        if (count < 0 || indexOffset < HeaderBytes || indexOffset + (long)count * EntryBytes != stream.Length)
+            return "archivio dei risultati danneggiato (indice): " + name;
+        var table = ReadAt(stream, indexOffset, (long)count * EntryBytes);
+        if (!SHA256.HashData(table).AsSpan().SequenceEqual(read)) return "archivio dei risultati danneggiato (indice): " + name;
+        var found = new Dictionary<string, Entry>(count, StringComparer.Ordinal);
+        for (int i = 0; i < count; i++)
+        {
+            var row = table.AsSpan(i * EntryBytes, EntryBytes);
+            var entry = new Entry(row[KindAt], BinaryPrimitives.ReadInt64LittleEndian(row[OffsetAt..]), BinaryPrimitives.ReadInt64LittleEndian(row[StoredAt..]),
+                BinaryPrimitives.ReadInt64LittleEndian(row[LengthAt..]));
+            if (entry.Offset < HeaderBytes || entry.Stored < 0 || entry.Offset + entry.Stored > indexOffset)
+                return "archivio dei risultati danneggiato (indice): " + name;
+            found[Convert.ToHexString(row[..HashBytes])] = entry;
+        }
+        entries = found; digest = read;
+        return null;
     }
 
     static FileStream OpenRead(string path) => new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
