@@ -1,5 +1,19 @@
 # Refactoring di ANTHEA: piano operativo
 
+## ANTHEA 1.17.6 — 3 novembre 2026
+
+Segnalazione dell'utente: «Calcola tutte» si fermava a 7 combinazioni sul modello MIDAS aperto (3447 piastre, 49 casi). Scelta
+dell'utente «Sì, opzione 1»; versione chiesta senza full («se funziona prepara direttamente la versione 1.17.6 … poi facciamo la full»).
+
+- [x] Con l'archivio dei risultati la copia arriva a 2 GiB, ogni risultato entro un blocco di 256 MiB (18e6b405); sul modello sintetico della
+  stessa taglia 61 combinazioni su 61 in 41 s; suite del modulo Modelli PASS.
+- [x] Versione 1.17.6 e [note di rilascio](note-rilascio-1.17.6.md); profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto
+  e audit PASS; tag `v1.17.6` sul commit del setup a998caf7 ([verbale](installer-1.17.6.md)).
+- [ ] Full: dopo la prova dell'utente.
+- [ ] Prova sul modello MIDAS vero: la lettura dal vivo si è interrotta più volte per il collegamento API di MIDAS (risposte sfasate dopo
+  una richiesta scaduta, «client does not exist»).
+- [ ] Lettura dal vivo: riconoscere la risposta di un'altra tabella (relè sfasato) e chiedere di ricollegare l'API.
+
 ## ANTHEA 1.17.5 — 3 novembre 2026
 
 Serie delle combinazioni più veloce (8b9289ec..cbd0522a); versione chiesta dall'utente, «Sì, fai la 1.17.5».
