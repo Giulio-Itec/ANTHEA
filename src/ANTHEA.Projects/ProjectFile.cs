@@ -11,12 +11,14 @@ namespace Anthea.Projects;
 /// </summary>
 public static class ProjectFile
 {
-    /// <summary>The project at <paramref name="path"/>, read and checked as DocumentService.Open does, with the archive of its results (nothing
+    /// <summary>The project at <paramref name="path"/>, read and checked as DocumentService.Open does (a sheet that cannot be read is kept
+    /// read-only with its problem, step 2b), with the archive of its results (nothing
     /// is read from the archive before a model opens).</summary>
     public static ProjectFileContent Open(string path)
     {
-        var document = DocumentService.Open(path);
-        return new(document, new ModelResultArchive(path, document));
+        var problems = new List<DocumentProblem>();
+        var document = DocumentService.Open(path, problems);
+        return new(document, new ModelResultArchive(path, document), problems);
     }
 
     /// <summary>
@@ -37,7 +39,8 @@ public static class ProjectFile
 }
 
 /// <summary>A project read from its file: the document and the archive of the results of its models.</summary>
-public sealed record ProjectFileContent(JsonObject Document, ModelResultArchive Results);
+/// <param name="Problems">The sheets and revisions that could not be read (step 2b): kept as they were, read-only.</param>
+public sealed record ProjectFileContent(JsonObject Document, ModelResultArchive Results, IReadOnlyList<DocumentProblem> Problems);
 
 /// <summary>The outcome of a save of a project.</summary>
 /// <param name="MissingBlocks">Result sets the document cites and the archive could not find (archive missing or damaged when the project was

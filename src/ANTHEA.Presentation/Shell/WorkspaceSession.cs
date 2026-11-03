@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using Anthea.Application.Documents;
 using Anthea.Application.Modules;
 using Anthea.Calculations;
 using Anthea.Presentation.Modules;
@@ -89,6 +90,14 @@ public sealed class WorkspaceSession : IDisposable
 
     /// <summary>The refusal of «Salva con nome…» on <paramref name="file"/>, open <paramref name="holder"/>.</summary>
     public static string LockedTarget(string file, string holder) => "«" + file + "» è aperto " + holder + ": salva con un altro nome.";
+
+    /// <summary>Caption of the warning after a project opened with sheets or revisions that cannot be read (step 2b, 3/11/2026).</summary>
+    public const string OpenProblemsTitle = "Progetto aperto con fogli non leggibili";
+
+    /// <summary>The warning: each sheet or revision with its place and its reason.</summary>
+    public static string OpenProblems(IReadOnlyList<DocumentProblem> problems) =>
+        "Questi fogli o revisioni non si possono leggere: si aprono in sola lettura e il salvataggio li riscrive come erano nel file.\n\n" +
+        string.Join("\n", problems.Select(p => "• " + p));
 
     private readonly PresentationServices services;
     private readonly ISheetFactory factory;
@@ -221,10 +230,13 @@ public sealed class WorkspaceSession : IDisposable
         {
             // The file before it is read: a change written by another program while it is read is found by «Salva».
             var stamp = FileStamp.Of(path);
-            var document = files.Open(path);
+            // Step 2b: a sheet or a revision that cannot be read opens read-only with its reason, the rest of the project as usual.
+            var problems = new List<DocumentProblem>();
+            var document = files.Open(path, problems);
             // A copy reads the results of its models from the archive beside the file, which it never writes.
             opened = copy ? OpenDocument(document, null, true, path) : OpenDocument(document, path, false, null);
             if (opened is not null && !copy) opened.AttachFile(acquired.Lock, stamp);
+            if (opened is not null && problems.Count > 0) services.Messages.Warn(OpenProblemsTitle, OpenProblems(problems));
             return opened;
         }
         finally
@@ -243,7 +255,8 @@ public sealed class WorkspaceSession : IDisposable
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(entry);
-        var document = entry.ReadDocument();
+        var problems = new List<DocumentProblem>();
+        var document = entry.ReadDocument(problems);
         string? path = entry.Info.File;
         DocumentLock? taken = null;
         if (path is not null && Documents.Any(d => d.IsFile(path))) path = null;
@@ -263,6 +276,7 @@ public sealed class WorkspaceSession : IDisposable
             var failures = opened is ProjectSession project ? entry.ResultArchives.Select(project.Results.AddArchive).OfType<string>().ToArray() : [];
             entry.Delete();
             if (failures.Length > 0) services.Messages.Warn(RecoveryTitle, RecoveryResultsMissing(failures));
+            if (problems.Count > 0) services.Messages.Warn(OpenProblemsTitle, OpenProblems(problems));
             return opened;
         }
         finally
@@ -605,9 +619,15 @@ public sealed class WorkspaceSession : IDisposable
             Activate(open);
             return open;
         }
+        // Step 2b: a sheet whose data could not be found in the file has nothing to show, not even read-only.
+        if (DocumentQuarantine.Reason(sheet) is { } reason && sheet["dati"] is not JsonObject)
+            throw new InvalidOperationException(UnreadableSheet(ShellTexts.SheetName(sheet), reason));
         CommitActive();
         return Add(new SheetSession(project, sheet, factory, s => new Host(this, s)));
     }
+
+    /// <summary>The refusal to open a sheet whose data could not be read (step 2b).</summary>
+    public static string UnreadableSheet(string name, string reason) => "Il foglio «" + name + "» non si può aprire: " + reason;
 
     /// <summary>The open sheet of <paramref name="node"/>, or null.</summary>
     public SheetSession? SheetOf(JsonObject node) => sheets.FirstOrDefault(s => ReferenceEquals(s.Sheet, node));

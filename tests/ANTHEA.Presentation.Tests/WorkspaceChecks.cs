@@ -33,6 +33,7 @@ internal static class WorkspaceChecks
         Projects(expect, folder);
         Locks(expect, folder);
         BackgroundSave(expect, folder);
+        Unreadable(expect, folder);
         SharedData(expect);
         UndoAndRevisions(expect);
         Requests(expect);
@@ -223,6 +224,39 @@ internal static class WorkspaceChecks
     }
 
     private static string[] Names(string path) => DocumentService.Open(path).Array("progetti").Select(p => p.S("nome")).ToArray();
+
+    /// <summary>
+    /// Step 2b of docs/sviluppo/progetto-sistema.md (3/11/2026): a project with a c.a. sheet whose GPC section no longer matches its parameters
+    /// opens with a warning naming the sheet; the sheet is read-only in its tab, marked in the tree, and written back unchanged by «Salva».
+    /// </summary>
+    private static void Unreadable(Expect expect, string folder)
+    {
+        string path = Path.Combine(folder, "Danneggiato.programma");
+        var sound = ProjectDocuments.CreateArchive();
+        var pila = ProjectDocuments.AddSection(ProjectDocuments.AddProject(sound, "Ponte"), "Pila P1");
+        ProjectDocuments.AddSheet(pila, "str_palo", "Verifica sezione");
+        DocumentService.Save(path, sound);
+        var file = (JsonObject)JsonNode.Parse(File.ReadAllText(path))!;
+        var input = ProjectSharedData.SubtreeSheets(file["progetti"]![0]!.AsObject()).Single()["dati"]!["input"]!.AsObject();
+        var field = input.First(p => p.Key != "sezione_gpc" && p.Value is JsonValue v && v.TryGetValue(out double _));
+        input[field.Key] = field.Value!.GetValue<double>() + 1;
+        File.WriteAllText(path, file.ToJsonString());
+        var before = ProjectSharedData.SubtreeSheets(file["progetti"]![0]!.AsObject()).Single()["dati"]!.ToJsonString();
+
+        var bench = new ShellBench();
+        var workspace = bench.Workspace;
+        var project = (ProjectSession)workspace.OpenFile(path)!;
+        var warning = bench.Messages.Shown.Single();
+        var sheet = ProjectSharedData.SubtreeSheets(project.Projects.Single()).Single();
+        var tab = workspace.OpenSheet(sheet);
+        expect.That(warning.Warning && warning.Title == WorkspaceSession.OpenProblemsTitle && warning.Message.Contains("• Ponte › Pila P1 › Verifica sezione: Sezione GPC", StringComparison.Ordinal)
+            && tab.IsReadOnly && tab.Unreadable is { Length: > 0 } && !project.IsDirty, "Foglio non leggibile: progetto aperto, foglio in sola lettura");
+        tab.Commit();
+        project.AddProject();
+        expect.That(workspace.Save(project, false) && ProjectSharedData.SubtreeSheets(((JsonObject)JsonNode.Parse(File.ReadAllText(path))!)["progetti"]![0]!.AsObject()).Single()["dati"]!.ToJsonString() == before
+            && !File.ReadAllText(path).Contains(DocumentQuarantine.Property, StringComparison.Ordinal), "Foglio non leggibile riscritto come era nel file");
+        workspace.Dispose();
+    }
 
     /// <summary>
     /// Step 2c of docs/sviluppo/progetto-sistema.md (3/11/2026): «Salva» of a project with many result sets to write runs in the background

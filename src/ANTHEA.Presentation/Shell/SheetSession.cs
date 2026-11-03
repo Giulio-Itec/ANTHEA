@@ -50,8 +50,12 @@ public sealed class SheetSession : IDisposable
     /// <summary>The ViewModel of the sheet; replaced when the sheet reopens (<see cref="ViewModelReplaced"/>).</summary>
     public ISheetViewModel ViewModel { get; private set; }
 
-    /// <summary>Read-only: the sheet of an archived revision.</summary>
-    public bool IsReadOnly => Owner.IsReadOnly;
+    /// <summary>Read-only: the sheet of an archived revision, or a sheet that could not be read when the project was opened (step 2b of
+    /// docs/sviluppo/progetto-sistema.md: its data stay as they were in the file).</summary>
+    public bool IsReadOnly => Owner.IsReadOnly || Unreadable is not null;
+
+    /// <summary>Why the sheet could not be read when the project was opened, null for a sheet read normally.</summary>
+    public string? Unreadable => DocumentQuarantine.Reason(Sheet);
 
     /// <summary>Heading of the tab and of the sheet bar (<see cref="ShellTexts.SheetHeading"/>).</summary>
     public string Heading => ShellTexts.SheetHeading(Sheet, Owner.DisplayedRevision);
@@ -165,7 +169,7 @@ public sealed class SheetSession : IDisposable
     private ISheetViewModel Create()
     {
         var data = Sheet["dati"] as JsonObject ?? DocumentService.CreateSheet(Module);
-        var sheet = factory.Open(Module, data, Owner.IsReadOnly, host);
+        var sheet = factory.Open(Module, data, IsReadOnly, host);
         sheet.Modified += (_, _) => Owner.MarkDirty();
         baseline = (JsonObject)Sheet.DeepClone(); baseline["dati"] = sheet.Data.DeepClone();
         loaded = Sheet["dati"]?.DeepClone();

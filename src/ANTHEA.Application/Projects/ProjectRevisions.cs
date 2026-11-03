@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
+using Anthea.Application.Documents;
 
 namespace X.Core;
 
@@ -27,18 +28,26 @@ public static class ProjectRevisions
     {
         foreach (var sheet in ProjectSharedData.SubtreeSheets(root))
         {
+            // Step 2b: a sheet whose data could not be read keeps its reference, never new data in its place.
+            if (sheet["dati"] is not JsonObject && sheet.ContainsKey("dati_ref") && DocumentQuarantine.IsQuarantined(sheet)) continue;
             var data = sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(sheet.S("modulo_id"));
             string key = Key(data); if (!pool.ContainsKey(key)) pool[key] = data.DeepClone();
             sheet.Remove("dati"); sheet["dati_ref"] = key;
         }
     }
-    private static void ExpandSheets(JsonObject root, JsonObject pool)
+    private static void ExpandSheets(JsonObject root, JsonObject pool, List<DocumentProblem>? problems = null)
     {
         foreach (var sheet in ProjectSharedData.SubtreeSheets(root))
         {
             if (!sheet.ContainsKey("dati_ref")) continue;
             string key = sheet.S("dati_ref");
-            if (pool[key] is not JsonObject data || Key(data) != key) throw new ArgumentException("Dati di revisione mancanti o danneggiati.");
+            if (pool[key] is not JsonObject data || Key(data) != key)
+            {
+                const string Reason = "Dati del foglio mancanti o danneggiati nell'archivio del progetto.";
+                if (problems is null) throw new ArgumentException("Dati di revisione mancanti o danneggiati.");
+                DocumentQuarantine.Mark(sheet, Reason, problems);
+                continue;
+            }
             sheet["dati"] = data.DeepClone(); sheet.Remove("dati_ref");
         }
     }
@@ -80,6 +89,8 @@ public static class ProjectRevisions
     {
         if (section.Array("revisioni").LastOrDefault() is not JsonObject previous)
             return [section["revisione"].D("numero") == 0 ? "Versione iniziale" : "Nessuna revisione precedente conservata"];
+        // Step 2b: a previous revision that could not be read is not compared.
+        if (DocumentQuarantine.Reason(previous) is { } unreadable) return ["Revisione precedente non leggibile: " + unreadable];
         var root = Snapshot(document, previous);
         var old = ProjectSharedData.Sections(root).First(s => s.S("id") == section.S("id"));
         return Compare(section, old);
@@ -163,6 +174,7 @@ public static class ProjectRevisions
         JsonObject? prior = null;
         foreach (var entry in section.Array("revisioni").OfType<JsonObject>())
         {
+            if (DocumentQuarantine.IsQuarantined(entry)) continue;
             var root = Snapshot(document, entry);
             var version = ProjectSharedData.Sections(root).Single(s => s.S("id") == sectionId);
             entry["modifiche"] = J.Node(prior is null ? new[] { entry.D("numero") == 0 ? "Versione iniziale" : "Prima revisione conservata" } : Compare(version, prior));
@@ -194,14 +206,18 @@ public static class ProjectRevisions
         foreach (string key in pool.Select(p => p.Key).Where(k => !used.Contains(k)).ToArray()) pool.Remove(key);
         packed["versione"] = 2; return packed;
     }
-    public static void Unpack(JsonObject document)
+    /// <param name="problems">Null: a sheet whose data cannot be found refuses the document. Otherwise the sheet is marked
+    /// (<see cref="DocumentQuarantine"/>, step 2b of docs/sviluppo/progetto-sistema.md) and the rest opens.</param>
+    public static void Unpack(JsonObject document, List<DocumentProblem>? problems = null)
     {
         if (document.D("versione") != 2) return;
         if (document.S("tipo") != "progetti" || document["archivio_revisioni"] is not JsonObject pool) throw new ArgumentException("Archivio revisioni mancante.");
-        foreach (var root in document.Array("progetti").OfType<JsonObject>()) ExpandSheets(root, pool);
+        foreach (var root in document.Array("progetti").OfType<JsonObject>()) ExpandSheets(root, pool, problems);
         document["versione"] = 1;
     }
-    public static void Validate(JsonObject document)
+    /// <param name="problems">Null: a revision that cannot be read refuses the document. Otherwise the revision is marked and skipped
+    /// (step 2b); a revision marked before is skipped.</param>
+    public static void Validate(JsonObject document, List<DocumentProblem>? problems = null)
     {
         foreach (var section in Nodes(document).Where(n => n.ContainsKey("revisioni")))
         {
@@ -209,10 +225,15 @@ public static class ProjectRevisions
             foreach (var entry in entries)
             {
                 if (entry is not JsonObject obj) throw new ArgumentException("Revisione non valida.");
-                var snapshot = Snapshot(document, obj);
-                if (!ProjectSharedData.Sections(snapshot).Any(s => s.S("id") == obj.S("sezione_id"))) throw new ArgumentException("Sezione della revisione mancante.");
-                var check = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "progetti"), ("progetti", new JsonArray(snapshot)));
-                Archivio.Valida(check);
+                if (DocumentQuarantine.IsQuarantined(obj)) continue;
+                try
+                {
+                    var snapshot = Snapshot(document, obj);
+                    if (!ProjectSharedData.Sections(snapshot).Any(s => s.S("id") == obj.S("sezione_id"))) throw new ArgumentException("Sezione della revisione mancante.");
+                    var check = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "progetti"), ("progetti", new JsonArray(snapshot)));
+                    Archivio.Valida(check);
+                }
+                catch (ArgumentException error) when (problems is not null) { DocumentQuarantine.Mark(obj, error.Message, problems); }
             }
         }
     }

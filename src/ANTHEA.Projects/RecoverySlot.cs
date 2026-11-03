@@ -99,8 +99,9 @@ public sealed class RecoveryEntry : IDisposable
     /// <summary>What the copy is: file, title, time of the copy, kind.</summary>
     public RecoveryInfo Info { get; }
 
-    /// <summary>The document of the copy, read and checked as a file (DocumentService.Open).</summary>
-    public JsonObject ReadDocument() => DocumentService.Open(RecoveryStore.DocumentPath(Folder));
+    /// <summary>The document of the copy, read and checked as a file (DocumentService.Open; with <paramref name="problems"/> the sheets that
+    /// cannot be read stay as they were, step 2b).</summary>
+    public JsonObject ReadDocument(List<DocumentProblem>? problems = null) => DocumentService.Open(RecoveryStore.DocumentPath(Folder), problems);
 
     /// <summary>The archives of the result sets the copy wrote, in order.</summary>
     public IReadOnlyList<string> ResultArchives => [.. RecoveryStore.ResultsPaths(Folder)];

@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Text.Json.Nodes;
+using Anthea.Application.Documents;
 using ANTHEA.ModelWorkspace;
 using Anthea.Calculations;
 using Anthea.Presentation.Mvvm;
@@ -61,6 +62,9 @@ public sealed record ProjectDrop(ProjectDropPlace Place, string Hint)
 /// </summary>
 public sealed class ProjectNodeViewModel : ViewModelBase
 {
+    /// <summary>Before the name of a sheet that could not be read when the project was opened (step 2b).</summary>
+    public const string UnreadablePrefix = "⚠  ";
+
     private readonly ProjectTreeViewModel tree;
     private bool isExpanded, isSelected, isRenaming, isUnsaved;
     private string renameText = "";
@@ -73,6 +77,8 @@ public sealed class ProjectNodeViewModel : ViewModelBase
         Name = kind switch
         {
             ProjectNodeKind.Model => "▧  " + modelName,
+            // Step 2b: a sheet that could not be read when the project was opened.
+            ProjectNodeKind.Sheet when DocumentQuarantine.IsQuarantined(node) => UnreadablePrefix + ShellTexts.SheetName(node!),
             ProjectNodeKind.Sheet => ShellTexts.SheetName(node!),
             ProjectNodeKind.Project => node!.S("nome", "Progetto"),
             _ => node!.S("nome", "Sezione")
@@ -93,7 +99,7 @@ public sealed class ProjectNodeViewModel : ViewModelBase
         }
         else if (kind == ProjectNodeKind.Sheet)
         {
-            ToolTip = "Doppio clic per rinominare · F2";
+            ToolTip = DocumentQuarantine.Reason(node) is { } unreadable ? "Non leggibile, in sola lettura: " + unreadable : "Doppio clic per rinominare · F2";
             OpenToolTip = "Apri scheda · " + Name;
             OpenAutomationName = "Apri scheda " + node!.S("nome");
         }

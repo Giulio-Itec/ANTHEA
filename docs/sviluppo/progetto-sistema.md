@@ -53,8 +53,14 @@ Ogni passo si distribuisce da solo, con le suite della shell e della presentazio
 2. **File di progetto in libreria.**
    - 2a. `ANTHEA.Projects` con `ProjectFile` (`Open`, `Save`): la sequenza archivio → documento di `WorkspaceSession.Save` e
      `DocumentService` in un punto solo. I blocchi mancanti dell'archivio diventano un avviso e lo storico vi si sposta.
-   - 2b. Apertura con diagnosi: ogni problema ha il suo percorso (progetto › sezione › foglio). Un foglio o una revisione che non si leggono
-     si aprono in sola lettura, con il motivo, invece di rifiutare il progetto.
+   - 2b. Apertura con diagnosi (fatto): `DocumentService.Open(path, problems)` legge foglio per foglio. Un foglio di c.a. con la sezione
+     GPC che non corrisponde più ai parametri, dati di un foglio mancanti nell'archivio del progetto, un foglio non valido o una revisione
+     non leggibile non rifiutano più il progetto. Il nodo resta com'era nel file, con il motivo nella proprietà `#non-leggibile`
+     (`DocumentQuarantine`, solo in memoria). All'apertura un avviso elenca i problemi con il percorso (Progetto › Sezione › Foglio).
+     Il foglio si apre in sola lettura, nell'albero ha «⚠» e il motivo nel suggerimento, e i dati comuni della sezione non lo aggiornano.
+     Il salvataggio lo riscrive come era, senza controlli né conversioni, quindi alla riapertura il problema viene ritrovato. Resta la
+     regola di `ConcreteSectionArchive`: una sezione danneggiata non viene mai sostituita da una ricostruzione. Il formato del file, la
+     versione e la struttura dei progetti devono restare leggibili.
    - 2c. Salvataggio in background (fatto): «Salva» del menu e della pagina «Modelli» congela il progetto (`FrozenDocument`, lo stato
      dello storico) e lo scrive su un thread del pool, con l'avanzamento dei risultati nel titolo («· salvataggio 40%»). L'interfaccia
      resta usabile e le modifiche fatte intanto restano da salvare. Va in background solo un progetto con più di 64 MiB di risultati

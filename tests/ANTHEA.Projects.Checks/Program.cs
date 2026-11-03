@@ -2,6 +2,7 @@ using System.Text.Json.Nodes;
 using Anthea.Application.Documents;
 using ANTHEA.ModelWorkspace;
 using Anthea.Projects;
+using Anthea.Calculations;
 using X.Core;
 
 // Checks of src/ANTHEA.Projects (docs/sviluppo/progetto-sistema.md, 3/11/2026): the file of a project with the archive of the results of its
@@ -122,6 +123,37 @@ discarded.Write(unsavedHistory.Snapshot(unsaved), info, unsavedResults);
 discarded.Delete();
 discarded.Write(unsavedHistory.Snapshot(unsaved), info, unsavedResults);
 Check(!Directory.Exists(discarded.Folder) && store.LeftOver().Count == 0, "recovery: a document saved or closed deletes its copy, a late write writes nothing");
+
+// The opening with diagnosis (step 2b): a c.a. sheet whose GPC section no longer matches its parameters refused the whole project; now the
+// sheet is kept as it was, read-only, with its place and its reason, the rest opens, and the save writes the sheet back unchanged.
+string damaged = Path.Combine(folder, "danneggiato.programma");
+var sound = ProjectDocuments.CreateArchive();
+var pila = ProjectDocuments.AddSection(ProjectDocuments.AddProject(sound, "Ponte"), "Pila P1");
+ProjectDocuments.AddSheet(pila, "str_palo", "Verifica sezione");
+ProjectDocuments.AddSheet(pila, "mat_calcestruzzo", "CLS");
+DocumentService.Save(damaged, sound);
+var file = (JsonObject)JsonNode.Parse(File.ReadAllText(damaged))!;
+JsonObject Concrete(JsonObject document) => ProjectSharedData.SubtreeSheets(document["progetti"]![0]!.AsObject()).Single(s => s.S("modulo_id") == "str_palo");
+var input = Concrete(file)["dati"]!["input"]!.AsObject();
+var field = input.First(p => p.Key != "sezione_gpc" && p.Value is JsonValue v && v.TryGetValue(out double _));
+input[field.Key] = field.Value!.GetValue<double>() + 1;
+File.WriteAllText(damaged, file.ToJsonString());
+string? refused = null;
+try { DocumentService.Open(damaged); } catch (ArgumentException error) { refused = error.Message; }
+var problems = new List<DocumentProblem>();
+var tolerant = DocumentService.Open(damaged, problems);
+var unreadable = Concrete(tolerant);
+Check(refused?.Contains("non corrispondono", StringComparison.Ordinal) == true && problems.Count == 1 && problems[0].Where == "Ponte › Pila P1 › Verifica sezione"
+    && problems[0].Reason == refused && DocumentQuarantine.Reason(unreadable) == refused && !DocumentQuarantine.IsQuarantined(ProjectSharedData.SubtreeSheets(tolerant["progetti"]![0]!.AsObject()).Single(s => s.S("modulo_id") == "mat_calcestruzzo")),
+    "diagnosis: the project opens, the sheet with the GPC section not matching marked with its place: " + problems.FirstOrDefault());
+string rewritten = Path.Combine(folder, "riscritto.programma");
+DocumentService.Save(rewritten, tolerant);
+var again3 = new List<DocumentProblem>();
+var reread = DocumentService.Open(rewritten, again3);
+Check(!File.ReadAllText(rewritten).Contains(DocumentQuarantine.Property, StringComparison.Ordinal) && DocumentQuarantine.IsQuarantined(unreadable)
+    && JsonNode.DeepEquals(((JsonObject)JsonNode.Parse(File.ReadAllText(rewritten))!) is var written2 ? Concrete(written2)["dati"] : null, Concrete(file)["dati"])
+    && again3.Count == 1 && again3[0] == problems[0] && DocumentQuarantine.IsQuarantined(Concrete(reread)),
+    "diagnosis: saved, the sheet written back as it was in the file, the mark only in memory, found again at the next opening");
 
 File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} checks");
 Console.WriteLine($"PASS {checks} checks");
