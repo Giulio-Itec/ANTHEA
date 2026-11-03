@@ -5,6 +5,42 @@
 - [x] Cattura preventiva, estrazione del contenitore e adattatore ANTHEA selezionabile in build di sviluppo; confronto delle suite di persistenza. [Dettaglio](gpc-archivio-f3.md).
 - [ ] F7/F8 comuni: adozione ordinaria, set coerente pubblicato, snapshot e full. Il codice precedente e lo snapshot corrente restano disponibili.
 
+## ANTHEA 1.18.0 — 3 novembre 2026
+
+Pannello «Spazio delle combinazioni» (9aa5afcf), chiesto dall'utente dopo lo stop della 1.17.6 al tetto di 2 GiB («riesci a mettere un
+pannello di gestione limite? o qualcosa del genere»). Funzione nuova: 1.17.6 → 1.18.0.
+
+- [x] Suite del modulo Modelli, della shell, `Presentation.Tests` e architettura PASS, con le prove nuove del pannello.
+- [x] Versione 1.18.0 e [note di rilascio](note-rilascio-1.18.0.md); profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto
+  e audit PASS; tag `v1.18.0` sul commit del setup 2efb5ab0 ([verbale](installer-1.18.0.md)).
+- [ ] Full: dopo la prova dell'utente (anche per la 1.17.6).
+- [ ] Guide: pannello dello spazio, spessori, calcolo in serie e fogli Azioni nella prossima edizione (Rev68 invariata).
+
+## ANTHEA 1.17.6 — 3 novembre 2026
+
+Segnalazione dell'utente: «Calcola tutte» si fermava a 7 combinazioni sul modello MIDAS aperto (3447 piastre, 49 casi). Scelta
+dell'utente «Sì, opzione 1»; versione chiesta senza full («se funziona prepara direttamente la versione 1.17.6 … poi facciamo la full»).
+
+- [x] Con l'archivio dei risultati la copia arriva a 2 GiB, ogni risultato entro un blocco di 256 MiB (18e6b405); sul modello sintetico della
+  stessa taglia 61 combinazioni su 61 in 41 s; suite del modulo Modelli PASS.
+- [x] Versione 1.17.6 e [note di rilascio](note-rilascio-1.17.6.md); profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto
+  e audit PASS; tag `v1.17.6` sul commit del setup a998caf7 ([verbale](installer-1.17.6.md)).
+- [ ] Full: dopo la prova dell'utente.
+- [ ] Prova sul modello MIDAS vero: la lettura dal vivo si è interrotta più volte per il collegamento API di MIDAS (risposte sfasate dopo
+  una richiesta scaduta, «client does not exist»).
+- [ ] Lettura dal vivo: riconoscere la risposta di un'altra tabella (relè sfasato) e chiedere di ricollegare l'API.
+
+## ANTHEA 1.17.5 — 3 novembre 2026
+
+Serie delle combinazioni più veloce (8b9289ec..cbd0522a); versione chiesta dall'utente, «Sì, fai la 1.17.5».
+
+- [x] Full sul commit del contenuto e642e23e: PASS 161.
+- [x] Versione 1.17.5 e [note di rilascio](note-rilascio-1.17.5.md); istruzioni dell'installer e PDF, originali in
+  `supporto/SUPERATI/rilascio-1175-20261103`.
+- [x] Profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto e audit PASS; tag `v1.17.5` sul commit del setup 4b07b34a
+  ([verbale](installer-1.17.5.md)).
+- [ ] Guide: spessori, calcolo in serie e fogli Azioni nella prossima edizione (Rev68 invariata).
+
 ## ANTHEA 1.17.4 — 2 novembre 2026
 
 Motore a matrici delle combinazioni e set AU; versione chiesta dall'utente, «ricorda di fare la nuova versione» (decisione D3).
@@ -26,7 +62,17 @@ Richiesta dell'utente («spacchettando delle parti comuni», poi «Sì, prepara 
 - [x] F4: `GpcModelCombinationService` sulla matrice; le 373 definizioni del 24 × 12 e 78 del 100 × 50 danno lo stesso risultato
   salvato byte per byte; sul 500 × 100 lineare 0,60 → 0,165 s, inviluppo SLU 5,4–5,9 → 0,71 s (macchina carica, giri alternati).
 - [ ] F2: inviluppi oltre il limite di espansione sulla matrice (oggi restano sull'albero della ricostruzione).
-- [ ] F5 e D4/D5: combinazioni calcolate solo quando servono; preparazione della chiamata e Attach una volta per la serie.
+- [x] Spazio delle combinazioni (richiesta dell'utente del 3/11, «pannello di gestione limite», dopo lo stop a 2 GiB della 1.17.6):
+  - limite scelto fra 2, 4, 8 e 16 GiB secondo la memoria del computer, ricordato;
+  - «Libera selezionate» e «Libera tutte»;
+  - salvataggio con i blocchi riusati e senza tutto il JSON in memoria;
+  - pubblicazioni della serie distanziate.
+
+  Sul modello sintetico da 3456 piastre e 49 casi, fino a 4 GiB: 581 combinazioni in 254 s, picco di 18 GB.
+- [x] Serie (richiesta dell'utente, «Sì, procedi»): controlli, lunghezza del pacchetto e revisioni una volta per riferimento; «Calcola
+  selezionate» di 120 righe del 500 × 100 da 98,6 a 4,8 s, risultati uguali ([dettaglio](../sviluppo/modelli-motore-combinazioni.md));
+  full su e642e23e PASS 161 (`supporto/artefatti/combo-serie/full`).
+- [ ] F5 e D4/D5: combinazioni calcolate solo quando servono, invece di salvarle; il destino di «Calcola tutte».
 
 ## ANTHEA 1.17.3 — 2 novembre 2026
 

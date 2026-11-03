@@ -17,6 +17,18 @@ internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Ac
     public void RestoreCamera(ModelCameraState camera)=>restoreCamera?.Invoke(camera);
     public IReadOnlyList<ModelViewPreset> LoadViews(string revision)=>views.Read(revision);
     public void SaveViews(string revision,IReadOnlyList<ModelViewPreset> presets)=>views.Write(revision,presets);
+    // 3/11/2026: the limit of the space of the combinations chosen by the user, for this computer (its memory decides the limits offered).
+    private static string LimitFile=>Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ANTHEA","combinazioni.json");
+    public long? LoadCombinationLimit()
+    {
+        try { using var document=System.Text.Json.JsonDocument.Parse(File.ReadAllText(LimitFile)); return document.RootElement.GetProperty("limite").GetInt64(); }
+        catch(Exception ex) when(ex is IOException or UnauthorizedAccessException or System.Text.Json.JsonException or KeyNotFoundException or InvalidOperationException or FormatException) { return null; }
+    }
+    public void SaveCombinationLimit(long bytes)
+    {
+        try { Directory.CreateDirectory(Path.GetDirectoryName(LimitFile)!); File.WriteAllText(LimitFile,System.Text.Json.JsonSerializer.Serialize(new { limite=bytes })); }
+        catch(Exception ex) when(ex is IOException or UnauthorizedAccessException) { }
+    }
     public ModelReportDocument? OpenReport(bool hasChanges)
     {
         if(hasChanges && MessageBox.Show(owner(),"Aprendo una composizione verrà sostituita quella in modifica. Continuare?","Apri composizione",MessageBoxButton.YesNo,MessageBoxImage.Question)!=MessageBoxResult.Yes) return null;

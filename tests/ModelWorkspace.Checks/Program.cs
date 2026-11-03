@@ -113,6 +113,7 @@ static partial class Program
             MeasurementChecks();
             await RevisionViewChecks();
             await CombinationMatrixChecks();
+            await CombinationSeriesChecks();
 
             if (args.Length > 1)
             {
