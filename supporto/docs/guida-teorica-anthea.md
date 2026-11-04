@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 2 novembre 2026 — revisione documentale 68
+Edizione 6 aggiornata il 4 novembre 2026 — revisione documentale 69
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 

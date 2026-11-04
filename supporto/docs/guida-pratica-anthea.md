@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 2 novembre 2026 — revisione documentale 68
+Edizione 6 aggiornata il 4 novembre 2026 — revisione documentale 69
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -14,7 +14,7 @@ Aprire Moduli singoli → Azioni → Spettri NTC. Il foglio determina la pericol
 
 Selezionare regione, provincia e comune, eventualmente filtrando il nome, oppure inserire longitudine e latitudine in gradi decimali. Il catalogo comunale appartiene all’edizione del riferimento: per il sito effettivo controllare le coordinate. La modifica manuale delle coordinate sostituisce l’etichetta del comune con Coordinate assegnate. Scegliere Superficie rigata oppure Distanza inversa per l’interpolazione spaziale. Un sito esterno al reticolo genera un errore e non produce spettri.
 
-Assegnare vita nominale VN e coefficiente d’uso CU; quindi categoria di sottosuolo A–E, categoria topografica T1–T4 e quota relativa h/H, compresa tra 0 e 1. Per lo spettro orizzontale scegliere Elastico, con smorzamento ξ in percentuale, oppure Progetto con q, con q0 e regolarità in altezza. Il fattore q verticale è indipendente. Premere Calcola; le modifiche successive aggiornano automaticamente il calcolo. Un ingresso non valido invalida i risultati e mostra il motivo.
+Assegnare vita nominale VN e coefficiente d’uso CU; quindi categoria di sottosuolo A–E, categoria topografica T1–T4 e quota relativa h/H, compresa tra 0 e 1. Per lo spettro orizzontale scegliere Elastico, con smorzamento ξ in percentuale, oppure Progetto con q, con q0 e regolarità in altezza. Il fattore q verticale è indipendente. Il foglio calcola gli spettri all'apertura e li aggiorna da solo dopo ogni modifica dei dati; non serve un comando Calcola. Un ingresso non valido invalida i risultati e mostra il motivo.
 
 Il selettore dei risultati presenta quattro fasi:
 
@@ -1609,21 +1609,21 @@ Il foglio **Moduli singoli → Materiali → Viscosità e maturazione** calcola 
 
 Inserisci fck in MPa, classe di cemento S, N o R, umidità relativa in percentuale, dimensione nominale h₀ in mm ed età di applicazione del carico t₀ in giorni. La dimensione nominale è h₀ = 2 Ac / u, dove Ac è l'area di calcestruzzo e u il solo perimetro esposto all'essiccamento. Il foglio non ricava automaticamente questo perimetro dalla sezione.
 
-L'età t è misurata dal getto, non dall'applicazione del carico. Scegli età iniziale, età finale e risoluzione del campionamento, poi premi **Aggiorna le curve**. Sono ammessi fck fra 12 e 90 MPa, umidità fra 40 e 100 %, h₀ positivo e t₀ almeno pari a 0,5 giorni. L'intervallo deve avere età positive crescenti; la risoluzione è un intero fra 20 e 1000. Sono accettati punto e virgola come separatore decimale, senza separatori delle migliaia.
+L'età t è misurata dal getto, non dall'applicazione del carico. Scegli età iniziale, età finale e risoluzione del campionamento: le curve si aggiornano da sole mezzo secondo dopo l'ultima modifica, mentre **Aggiorna le curve** le aggiorna subito. Sono ammessi fck fra 12 e 90 MPa, umidità fra 40 e 100 %, h₀ positivo e t₀ almeno pari a 0,5 giorni. L'intervallo deve avere età positive crescenti; la risoluzione è un intero fra 20 e 1000. Sono accettati punto e virgola come separatore decimale, senza separatori delle migliaia.
 
 ### Leggere grafico tabella e limite a infinito
 
-Le due schede superiori mostrano **φ(∞, t₀)**, limite analitico, ed **Ecm,28**, modulo secante a 28 giorni. La curva si sceglie fra viscosità φ(t, t₀), modulo Ecm(t) e fattore Ecm(t)/Ecm,28. L'asse del tempo e quello delle ordinate possono essere logaritmici. In scala logaritmica verticale φ = 0 non può essere disegnato; questi campioni restano nella tabella.
+Le due schede superiori mostrano **φ(∞, t₀)**, limite analitico, ed **Ecm,28**, modulo secante a 28 giorni. La curva si sceglie fra viscosità φ(t, t₀), modulo Ecm(t) e fattore Ecm(t)/Ecm,28. L'asse del tempo e quello delle ordinate possono essere logaritmici. In scala logaritmica verticale φ = 0 non può essere disegnato; questi campioni restano nella tabella. Grandezza e scale degli assi servono alla consultazione: cambiarle non modifica il foglio.
 
-La scheda **Lettura puntuale** valuta direttamente un'età positiva, anche se non coincide con un punto del grafico. Nella **Tabella** sono presenti età, φ, Ecm e fattore: selezionare una riga aggiorna la lettura. La risoluzione regola il campionamento grafico; sono aggiunti i punti di carico e a 28 giorni, quando interni all'intervallo. Non regola l'accuratezza delle formule.
+La scheda **Lettura puntuale** valuta direttamente un'età positiva, anche se non coincide con un punto del grafico. Nella **Tabella** sono presenti età, φ, Ecm e fattore: selezionare una riga porta la sua età, con le cifre della tabella, nella lettura puntuale. La risoluzione regola il campionamento grafico; sono aggiunti i punti di carico e a 28 giorni, quando interni all'intervallo. Non regola l'accuratezza delle formule.
 
 La rotella ingrandisce il grafico; trascinando lo si sposta; il doppio clic o **Adatta** ripristina l'inquadratura. **Esporta grafico…** salva una PNG con fondo chiaro, anche se la finestra usa l'aspetto scuro. Il separatore fra grafico e letture consente di ridimensionare i pannelli.
 
-Una modifica a materiale, ambiente, età o campionamento svuota i risultati precedenti finché non si aggiornano le curve. Un'età di lettura errata svuota soltanto la lettura puntuale. I messaggi indicano il campo da correggere; nessun valore non valido è trasformato implicitamente in zero.
+Una modifica a materiale, ambiente, età o campionamento svuota i risultati precedenti; durante l'attesa il grafico indica «Aggiornamento delle curve…». Un'età di lettura errata svuota soltanto la lettura puntuale. I messaggi indicano il campo da correggere; nessun valore non valido è trasformato implicitamente in zero.
 
 ### Salvare e riaprire il foglio
 
-Il salvataggio conserva materiale, ambiente, età, campionamento, grandezza del grafico, scale degli assi ed età di lettura. Alla riapertura le curve vengono ricostruite dagli stessi dati. Una bozza con un campo numerico incompleto resta salvabile; non produce risultati finché il campo non è corretto. Nelle revisioni in sola lettura gli ingressi sono protetti, mentre lettura puntuale, grafico ed esportazioni restano disponibili senza alterare la revisione.
+Il salvataggio conserva materiale, ambiente, età, campionamento ed età di lettura, che compare nella relazione. Grandezza del grafico e scale degli assi non vengono salvate: alla riapertura il grafico riprende quelle registrate nel documento, che in un foglio nuovo sono la viscosità con l'asse del tempo logaritmico. Alla riapertura le curve vengono ricostruite dagli stessi dati. Una bozza con un campo numerico incompleto resta salvabile; non produce risultati finché il campo non è corretto. Nelle revisioni in sola lettura gli ingressi sono protetti e **Aggiorna le curve** è disattivato, mentre lettura puntuale, grafico ed esportazioni restano disponibili senza alterare la revisione.
 
 **Report Word…** genera anche il PDF con ingressi, parametri, lettura puntuale e tabella sintetica delle curve; la tabella del foglio contiene tutti i campioni. In **Esempi → Materiali → Viscosità e maturazione** sono disponibili un caso C25 con cemento normale e un caso C35 con cemento rapido.
 
@@ -1807,10 +1807,10 @@ Scenari idraulici, fasi costruttive ed età di osservazione sono collegati al se
 ### Procedura comune e lettura dei risultati
 
 1. Scegliere il foglio e la normativa. Il selettore distingue Italia · NTC 2018 da Eurocodice 1 · prima generazione. Le edizioni EN implementate sono dichiarate nel risultato e nella guida teorica; il selettore non applica automaticamente un'appendice nazionale.
-2. Compilare i dati del sito e la geometria. Lunghezze in metri, angoli in gradi, temperature in gradi Celsius, pressioni in kN/m². Il campo della pavimentazione dei ponti usa millimetri. La virgola decimale è accettata.
+2. Compilare i dati del sito e la geometria. Lunghezze in metri, angoli in gradi, temperature in gradi Celsius, pressioni in kN/m². Il campo della pavimentazione dei ponti usa millimetri. Virgola e punto sono accettati come separatore decimale; i numeri sono mostrati con il separatore scelto in Aspetto. Il pulsante «?» accanto a ogni campo, o F1, apre la sezione del foglio in questa guida.
 3. In modalità EN assegnare i dati climatici richiesti e indicare paese, appendice nazionale e fonte. I valori proposti nei campi sono dati iniziali modificabili, da confermare per il progetto.
-4. Calcolare. Un dato incompatibile con il campo di applicazione produce un messaggio e rimuove i risultati precedenti. Modificare un dato invalida i risultati finché non termina il nuovo calcolo.
-5. In Casi di carico scegliere il caso; il diagramma riporta grandezze con una sola unità alla volta. Il selettore dell'unità permette di passare da pressioni a forze, momenti o movimenti, se presenti. Segni, descrizioni, formule e riferimenti sono nelle righe della tabella.
+4. Leggere i risultati. Il foglio calcola all'apertura, anche di un file, di una revisione o dopo Annulla, e di nuovo da solo mezzo secondo dopo ogni modifica dei dati: non c'è un comando Calcola. Quando il calcolo non è possibile il motivo compare sotto il titolo a destra: un dato mancante, una conferma richiesta o un valore fuori dal campo di applicazione. Modificare un dato invalida i risultati finché non termina il nuovo calcolo. Un testo in un campo numerico resta nel campo, che lo segnala sotto di sé; il messaggio del calcolo riporta l'etichetta del campo.
+5. In Casi di carico scegliere il caso; il diagramma riporta grandezze con una sola unità alla volta e parte da quella dei carichi o delle pressioni. Il selettore Unità permette di passare a forze, momenti o movimenti, se presenti; i coefficienti adimensionali, come μ e cpe, sono nella tabella. Segni, descrizioni, formule e riferimenti sono nelle righe della tabella.
 6. Consultare Parametri e formule, Schemi e Ipotesi e applicabilità. Gli schemi spiegano geometrie e convenzioni: non sono un disegno in scala della costruzione. Esporta CSV e Copia risultati comprendono tutti i casi, non soltanto quello selezionato.
 
 I valori sono azioni caratteristiche o componenti cinematiche. I fogli non costruiscono automaticamente le combinazioni SLU/SLE, non applicano un modello di vincolo e non sommano i massimi di casi incompatibili. Per ogni combinazione strutturale si conserva l'insieme di grandezze appartenente al medesimo caso.
