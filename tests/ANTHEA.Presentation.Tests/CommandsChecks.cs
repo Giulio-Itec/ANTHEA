@@ -82,6 +82,12 @@ internal static class CommandsChecks
         commands.ResultsCommand.Execute(null);
         var request = (SaveFileRequest)files.Requests.Last();
         expect.That(exports.Calls.Last() == "risultati geo_palo_verticale Risultati.json" && request.FileName == "Risultati.json" && FileFilter.Join(request.Filters) == "Risultati JSON|*.json", "Risultati del palo");
+        // 4/11/2026: the stratigraphy has no calculation, its message says how to keep it; no message asks for «Calcola», which the shell does not have.
+        workspace.NewCalculation("geo_stratigrafia");
+        commands.ResultsCommand.Execute(null);
+        expect.That(bench.Messages.Shown.Last() == ("", ShellCommandsViewModel.StratigraphyResults, false), "Risultati della stratigrafia");
+        expect.That(new[] { ShellCommandsViewModel.CalculateFirst, SheetFileExports.CalculateFirst, ShellCommandsViewModel.StratigraphyResults }.All(m => !m.Contains("Calcola")),
+            "Messaggi dei risultati senza il comando «Calcola» della finestra storica");
         var material = workspace.NewCalculation("mat_calcestruzzo");
         commands.ResultsCommand.Execute(null);
         expect.That(bench.Messages.Shown.Last() == ("", ShellCommandsViewModel.MaterialResults, false), "Risultati di un materiale");
