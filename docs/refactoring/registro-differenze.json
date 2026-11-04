@@ -14891,7 +14891,9 @@
         "Suite UI: 73 prima e dopo, nessuna rimossa"
       ],
       "evidenze": [
-        "supporto/artefatti/ci/20261104-155807-palo-titolo-prima"
+        "supporto/artefatti/ci/20261104-155807-palo-titolo-prima",
+        "supporto/artefatti/ci/20261104-212519-palo-titolo-pulita",
+        "supporto/artefatti/ci/20261104-215118-palo-titolo-dopo-main"
       ],
       "wiki": "Nessun cambiamento delle guide: il titolo non vi è citato."
     }

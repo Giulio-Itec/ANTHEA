@@ -8,7 +8,8 @@ Richiesta dell'utente: «Sì, toglilo». Ramo `refactoring/f5-palo-titolo` da 13
 - [x] Grafico della capacità del palo e del micropalo verticale con il titolo del modulo anche prima del primo risultato.
 - [x] `Plot` senza «Premere Calcola» come titolo e messaggio predefiniti: Spettri e «Nuovo materiale…» senza curve non lo mostrano più.
 - [x] Riferimenti congelati: 83 + 257 righe delle tracce, 24 + 19 stringhe delle figure F3; nient'altro cambia.
-- [x] Cattura prima; la corsa pulita parte dopo la full `pubblica-dopo-full`, su richiesta dell'utente.
+- [x] Cattura prima, corsa pulita dopo la full `pubblica-dopo-full` e corsa dopo l'unione di origin/main 4f38cffb: 12 PASS ciascuna; suite UI 73.
+- [ ] Full: non eseguita.
 
 ## Fogli: pubblicazione in un giro successivo — 4 novembre 2026
 

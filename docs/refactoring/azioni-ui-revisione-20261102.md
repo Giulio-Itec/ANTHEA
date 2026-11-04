@@ -190,3 +190,6 @@ Richiesta dell'utente: «Sì, toglilo». Ramo `refactoring/f5-palo-titolo`, da `
 - **`20261104-155807-palo-titolo-prima`**, 131f3738: 12 PASS, 0 NEW-FAIL. Suite:
   - Presentation.Tests, Architecture.Tests, Spettri.Tests;
   - ui/check-palo-verticale-view, ui/f3-figures, ui/check-spettri-view, ui/check-sezione-view, ui/f3-equivalence.
+- **`20261104-212519-palo-titolo-pulita`**, c5ecfaff, lanciata dopo la full `pubblica-dopo-full` come chiesto dall'utente: stesse suite, 12 PASS, 0 NEW-FAIL.
+- **`20261104-215118-palo-titolo-dopo-main`**, 32a4d622: il ramo con origin/main 4f38cffb unito (i fogli pubblicano in un giro successivo; conflitti solo in piano e registro). Stesse suite, 12 PASS, 0 NEW-FAIL.
+- Suite UI 73 prima e dopo, nessuna rimossa. Full non eseguita.
