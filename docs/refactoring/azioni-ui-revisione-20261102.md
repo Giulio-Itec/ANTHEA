@@ -133,3 +133,35 @@ Richiesta dell'utente: «correggi gli altri due punti aperti». Ramo `refactorin
 - **`20261104-135033-spettri-guide-pulita`**, commit 3f6b16a1, stesse suite della corsa «prima»: 20 PASS, 0 NEW-FAIL, uscita 0. Presentation.Tests e Spettri.Tests danno gli stessi attesi numerici (Agliè SLV), e f3-equivalence passa con le sole transizioni editoriali.
 
 Suite UI 73, nessuna rimossa. Full non eseguita: l'utente la lancia stanotte.
+
+## Messaggio dei risultati senza calcolo — 4 novembre 2026
+
+Richiesta dell'utente: «Sì, correggilo». Ramo `refactoring/f5-messaggio-calcola`, da `main` 397d5cfc. Voce `SHELL-RISULTATI-SENZA-CALCOLA-20261104` nel registro delle differenze.
+
+- **Il problema.** «Risultati JSON…» della shell rispondeva «Premere Calcola prima di esportare i risultati.», il testo della finestra storica. La shell non ha un comando «Calcola». La maggior parte dei fogli calcola da sola; pochi hanno un pulsante di calcolo proprio («Calcola» delle fondazioni superficiali, «Calcola tutti i casi» delle paratie, le curve).
+- **La correzione, nella shell:**
+  - `ShellCommandsViewModel.CalculateFirst` dice «Nessun risultato da esportare: attendere il calcolo del foglio, o avviarlo dal foglio se ha un comando di calcolo, e correggere i dati segnalati.»;
+  - lo stesso messaggio vale per un foglio che sta ricalcolando. Prima la shell apriva il dialogo e poi riceveva il rifiuto storico di `SheetFileExports.WriteResult`;
+  - la Stratigrafia, che non ha calcolo, spiega come conservare il foglio, come già i materiali;
+  - la sezione c.a. conserva il suo messaggio sull'aggiornamento automatico.
+- **Il testo storico resta dov'è congelato e dove l'utente non lo vede dalla shell:**
+  - il rifiuto di `SheetFileExports.WriteResult`, confrontato dalla traccia di Bridge Design e da cinque suite UI;
+  - il rifiuto interno dei report dei pali, che è il motivo di 15 `status.json` F3.
+
+  Una prima versione cambiava anche questi testi: la corsa `messaggio-calcola-pulita` l'ha mostrato con il confronto F3 del palo verticale, ed è stata ristretta (f414f2f1).
+- **Le prove:** `CommandsChecks` prova la Stratigrafia e che nessun messaggio dei risultati della shell chieda «Calcola».
+- **Non compreso:** il titolo «Premere Calcola» dei grafici del palo verticale prima del primo risultato (`VerticalPileViews.InitialTitle`), legato alle figure F3. Si vede solo finché il calcolo automatico non pubblica, o con dati non validi.
+
+### Verifiche
+
+- **`20261104-143636-messaggio-calcola-prima`**, 397d5cfc: 12 PASS e Presentation.Tests FAIL. Il fallimento è in `BridgeDesignSheetChecks`, scenario «ottimizzazione», passo «riapri»: la traccia attendeva il calcolo ancora occupato e senza risultato, mentre il risultato era già pubblicato. È una corsa critica sui tempi: avviene sul commit di partenza, con la macchina carica (palo orizzontale 400 s), e non riguarda questo messaggio. Mai vista prima nelle corse del checkout principale.
+- **`20261104-145940-messaggio-calcola-pulita`**, prima versione (1ef3e26e):
+  - Presentation.Tests FAIL, perché i 15 `status.json` F3 dei pali portano il testo storico;
+  - `ui/check-palo-verticale-view` FAIL;
+  - 11 PASS.
+
+  Da qui la correzione ristretta alla shell.
+- **`20261104-151530-messaggio-calcola-pulita-2`**: non eseguita. La corsa precedente era ancora in esecuzione e bloccava le DLL della configurazione UiTests.
+- **`20261104-151651-messaggio-calcola-pulita-3`**, commit f414f2f1, stesse suite più f3-equivalence: 14 PASS, 0 NEW-FAIL, uscita 0. Anche Presentation.Tests passa, compresa la traccia di Bridge Design.
+
+Suite UI 73, nessuna rimossa. Full non eseguita.

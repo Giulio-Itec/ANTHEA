@@ -14820,6 +14820,27 @@
         "supporto/SUPERATI/azioni-spettri-rev69-20261104/manifest.json"
       ],
       "wiki": "Guide globali Rev69 Word/PDF e Markdown; articoli Spettri NTC e reologia del calcestruzzo aggiornati; nessuna guida autonoma nuova."
+    },
+    {
+      "id": "SHELL-RISULTATI-SENZA-CALCOLA-20261104",
+      "fase": "Dopo il refactoring / shell",
+      "titolo": "Risultati senza calcolo: un messaggio senza il comando «Calcola» della finestra storica",
+      "famiglia": "shell/interfaccia/messaggi",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Richiesta dell'utente del 4/11/2026 («Sì, correggilo»), dopo la correzione dei fogli Azioni e di Spettri. «Risultati JSON…» della shell rispondeva «Premere Calcola prima di esportare i risultati.», il testo della finestra storica, mentre la shell non ha un comando «Calcola». Ora ShellCommandsViewModel.CalculateFirst dice «Nessun risultato da esportare: attendere il calcolo del foglio, o avviarlo dal foglio se ha un comando di calcolo, e correggere i dati segnalati.», anche per un foglio che sta ricalcolando (prima arrivava il rifiuto storico di SheetFileExports.WriteResult dopo il dialogo). La stratigrafia, che non ha calcolo, risponde come conservare il foglio, come i materiali; la sezione c.a. conserva il suo messaggio. Il testo storico resta nel rifiuto di SheetFileExports.WriteResult e in quello interno dei report dei pali, che la shell non mostra: sono congelati nei riferimenti della finestra storica (15 status.json F3 e la traccia di Bridge Design). Una prima versione li cambiava ed è stata ristretta dopo la corsa messaggio-calcola-pulita. Fuori perimetro: il titolo «Premere Calcola» dei grafici del palo verticale prima del primo risultato (figure F3).",
+      "effetto_quantificato": "Cambiano solo due messaggi della shell; riferimenti F3, tracce di Bridge Design, file esportati, risultati, report e attesi numerici invariati.",
+      "test": [
+        "Presentation.Tests/CommandsChecks: stratigrafia con il suo messaggio, nessun messaggio dei risultati della shell con «Calcola»",
+        "ui/f3-equivalence e i confronti F3 di Presentation.Tests: riferimenti invariati",
+        "Suite UI: 73 prima e dopo, nessuna rimossa"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261104-143636-messaggio-calcola-prima",
+        "supporto/artefatti/ci/20261104-145940-messaggio-calcola-pulita",
+        "supporto/artefatti/ci/20261104-151651-messaggio-calcola-pulita-3"
+      ],
+      "wiki": "Nessun cambiamento delle guide: il messaggio non vi è citato."
     }
   ]
 }

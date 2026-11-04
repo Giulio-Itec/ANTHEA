@@ -1,5 +1,16 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Messaggio dei risultati senza calcolo — 4 novembre 2026
+
+Richiesta dell'utente: «Sì, correggilo». Ramo `refactoring/f5-messaggio-calcola` da 397d5cfc;
+[verbale](azioni-ui-revisione-20261102.md#messaggio-dei-risultati-senza-calcolo--4-novembre-2026); registro `SHELL-RISULTATI-SENZA-CALCOLA-20261104`.
+
+- [x] «Risultati JSON…» della shell senza «Premere Calcola», anche per un foglio che ricalcola; la stratigrafia spiega come conservare il
+  foglio. Il testo storico resta nei rifiuti congelati nei riferimenti F3 e nella traccia di Bridge Design, che la shell non mostra.
+- [x] Cattura prima e corsa pulita delle suite che confrontano il messaggio; suite UI 73.
+- [ ] Titolo «Premere Calcola» dei grafici del palo verticale prima del primo risultato (figure F3): non compreso.
+- [ ] `BridgeDesignSheetChecks`, scenario «ottimizzazione»: corsa critica sui tempi vista il 4/11 sul commit di partenza, da rendere stabile.
+
 ## Spettri all'apertura e guide Rev69 — 4 novembre 2026
 
 Richiesta dell'utente: «correggi gli altri due punti aperti». Ramo `refactoring/f5-spettri-guide` da 6710cf59;
