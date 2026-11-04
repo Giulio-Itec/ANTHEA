@@ -1,5 +1,15 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Grafici senza «Premere Calcola» — 4 novembre 2026
+
+Richiesta dell'utente: «Sì, toglilo». Ramo `refactoring/f5-palo-titolo` da 131f3738, allineato a b222c9dc;
+[verbale](azioni-ui-revisione-20261102.md#grafici-senza-premere-calcola--4-novembre-2026); registro `PALO-TITOLO-SENZA-CALCOLA-20261104`.
+
+- [x] Grafico della capacità del palo e del micropalo verticale con il titolo del modulo anche prima del primo risultato.
+- [x] `Plot` senza «Premere Calcola» come titolo e messaggio predefiniti: Spettri e «Nuovo materiale…» senza curve non lo mostrano più.
+- [x] Riferimenti congelati: 83 + 257 righe delle tracce, 24 + 19 stringhe delle figure F3; nient'altro cambia.
+- [x] Cattura prima; la corsa pulita parte dopo la full `pubblica-dopo-full`, su richiesta dell'utente.
+
 ## Messaggio dei risultati senza calcolo — 4 novembre 2026
 
 Richiesta dell'utente: «Sì, correggilo». Ramo `refactoring/f5-messaggio-calcola` da 397d5cfc;
@@ -8,7 +18,7 @@ Richiesta dell'utente: «Sì, correggilo». Ramo `refactoring/f5-messaggio-calco
 - [x] «Risultati JSON…» della shell senza «Premere Calcola», anche per un foglio che ricalcola; la stratigrafia spiega come conservare il
   foglio. Il testo storico resta nei rifiuti congelati nei riferimenti F3 e nella traccia di Bridge Design, che la shell non mostra.
 - [x] Cattura prima e corsa pulita delle suite che confrontano il messaggio; suite UI 73.
-- [ ] Titolo «Premere Calcola» dei grafici del palo verticale prima del primo risultato (figure F3): non compreso.
+- [x] Titolo «Premere Calcola» dei grafici del palo verticale prima del primo risultato: fatto il 4/11 sera (`PALO-TITOLO-SENZA-CALCOLA-20261104`).
 - [ ] `BridgeDesignSheetChecks`, scenario «ottimizzazione»: corsa critica sui tempi vista il 4/11 sul commit di partenza, da rendere stabile.
 
 ## Spettri all'apertura e guide Rev69 — 4 novembre 2026

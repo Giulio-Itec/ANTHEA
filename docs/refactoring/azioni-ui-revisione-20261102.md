@@ -165,3 +165,28 @@ Richiesta dell'utente: «Sì, correggilo». Ramo `refactoring/f5-messaggio-calco
 - **`20261104-151651-messaggio-calcola-pulita-3`**, commit f414f2f1, stesse suite più f3-equivalence: 14 PASS, 0 NEW-FAIL, uscita 0. Anche Presentation.Tests passa, compresa la traccia di Bridge Design.
 
 Suite UI 73, nessuna rimossa. Full non eseguita.
+
+## Grafici senza «Premere Calcola» — 4 novembre 2026
+
+Richiesta dell'utente: «Sì, toglilo». Ramo `refactoring/f5-palo-titolo`, da `main` 131f3738 allineato a b222c9dc. Voce `PALO-TITOLO-SENZA-CALCOLA-20261104` nel registro delle differenze.
+
+- **Il problema.** Il palo e il micropalo verticale calcolano da soli, ma prima del primo risultato il grafico della capacità aveva il titolo «Premere Calcola» della vista storica. Si vedeva finché il calcolo automatico non pubblicava, e sempre con dati non validi. Lo stesso testo era il titolo e il messaggio predefinito di `Plot`. Così compariva anche negli Spettri senza curve e nel diagramma σ–ε di «Nuovo materiale…» senza curve. Il controllo di Spettri del pomeriggio cercava solo i `TextBlock`, mentre `Plot` disegna i suoi testi.
+- **La correzione:**
+  - il grafico della capacità ha il titolo del modulo (`VerticalPilePresentation.CapacityTitle`, «Capacità portante del palo» o «… del micropalo») dall'apertura. `VerticalPileCapacityChart.InitialTitle` è tolto e il titolo non cambia più con il risultato. Il messaggio senza curve resta quello del foglio;
+  - `Plot` ha il titolo predefinito vuoto e il messaggio senza curve `PlotData.NoCurves`, «Nessuna curva da mostrare»;
+  - gli Spettri hanno il titolo «Spettri» anche prima delle curve.
+- **I riferimenti congelati.** Cambiano solo queste stringhe, come per PO-TESTA-01:
+  - nelle 18 tracce di `tests/fixtures/f5-palo-verticale/storica`, 83 righe «grafico» con il titolo prima del primo risultato e 257 righe «riferimento» con il messaggio predefinito. Il grafico di riferimento ha sempre curve, quindi il messaggio non si vede;
+  - nelle 13 figure di `tests/fixtures/f3-figures`, 24 titoli e 19 messaggi.
+  
+  Serie, punti, assi, quote, risultati, dati, report e immagini esportate restano invariati.
+- **Le prove:**
+  - le tracce del ViewModel e della vista XAML non contengono «Premere Calcola»;
+  - i grafici degli Spettri non chiedono «Calcola».
+- **Resta storico:** il rifiuto interno «Premere Calcola prima di esportare.» di `SheetFileExports.WriteResult` e dei report dei pali. È congelato nei riferimenti F3 e la shell non lo mostra, come deciso per `SHELL-RISULTATI-SENZA-CALCOLA-20261104`.
+
+### Verifiche
+
+- **`20261104-155807-palo-titolo-prima`**, 131f3738: 12 PASS, 0 NEW-FAIL. Suite:
+  - Presentation.Tests, Architecture.Tests, Spettri.Tests;
+  - ui/check-palo-verticale-view, ui/f3-figures, ui/check-spettri-view, ui/check-sezione-view, ui/f3-equivalence.
