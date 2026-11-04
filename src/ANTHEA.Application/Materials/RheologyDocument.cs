@@ -60,6 +60,12 @@ public static class RheologyDocument
     public const string Module = "mat_reologia";
     public const string Assumptions = "EN 1992-1-1:2004 · allegato B e §3.1.3. Calcestruzzo ordinario, 20 °C, umidità costante e viscosità lineare. Ecm(t) descrive la maturazione: non è il modulo efficace ridotto per viscosità. Ritiro e storia termica esclusi.";
     public static readonly ImmutableArray<string> TextKeys = ["Fck", "Humidity", "NotionalSize", "LoadingAge", "Cement", "StartAge", "EndAge", "Samples", "QueryAge", "SelectedCurve"];
+    /// <summary>
+    /// Options of the plot: consultation, as the tab or the case chosen in the Actions sheets (review of 2/11/2026, finding 12). The sheet reads
+    /// them at opening and never writes them: changing them neither marks the document as modified nor adds a step to «Annulla». They are not
+    /// in the results or in the report. The reading age (QueryAge) is a datum instead: the report prints the reading at that age.
+    /// </summary>
+    public static readonly ImmutableArray<string> ViewKeys = ["SelectedCurve", "LogX", "LogY"];
     public static JsonObject Create() => new()
     {
         ["rheology_schema"] = 1, ["Fck"] = "35", ["Humidity"] = "70", ["NotionalSize"] = "560", ["LoadingAge"] = "10", ["Cement"] = "ClassN",
