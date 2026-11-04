@@ -26,4 +26,16 @@ dominio2d. Nei 13 file di `cattura-mainwindow/` (26 fogli) e nell'esempio Wiki `
 i file di `cattura-mainwindow/` sono identici byte per byte alla cattura della shell della corsa `20261102-111306-criterio-stati-ui-1`
 (senza gli scarti dell'ora), trasformati riga per riga per conservare la scrittura .NET.
 
+**4/11/2026, sezioni c.a. nel formato compatto (GPC-F7A-01, ANTHEA 1.19, branch `claude/f7-anthea`; aggiornamento autorizzato
+dall'utente, «aggiornala»).** La sezione GPC dei fogli c.a. si salva nel contratto 2 (archivio compatto di GPC in base64) e un file con
+sezioni ha la versione 5. Il base64 cambia a ogni corsa (la cattura ricostruisce la sezione con GUID nuovi) e nasconde i GUID alla
+normalizzazione: `ShellProjectCapture.DecodeCompactSections` scrive ogni archivio compatto come il documento GPC che contiene, nel testo
+che 1.18 memorizzava (`ModelArchive.SaveDocument`), con `"archivio_compatto_decodificato": true` davanti; lo stesso archivio dà lo stesso
+testo in tutta la corsa. Nei 13 file JSON di `cattura-mainwindow/` (23 sezioni) sono cambiati solo: `"versione": 1` → `2` di ogni sezione,
+la riga `"archivio_compatto_decodificato": true` in più, e nel file salvato `"versione": 3` → `5` con `"versione_senza_compatto": 3` (e la
+virgola dopo `"versione_base": 2`). Il testo di ogni `"archivio"` decodificato è identico byte per byte a quello XML registrato, e gli
+SHA-256 derivati (`editor_sha256`, `archivio_sha256`, `dati_ref`) hanno la stessa numerazione. I file sono la cattura della shell della
+corsa `20261104-144134-f7a-capture-3` del worktree `gpc-f6-claude/F7/ANTHEA`, con gli scarti dell'ora registrati conservati
+(`<istante>+02:00`); `esito.txt` non cambia. Nessun'altra fixture è stata toccata.
+
 Corsa da cui vengono i valori: `supporto/artefatti/ci/20261023-195541-f5-13-g-rif1` del worktree.

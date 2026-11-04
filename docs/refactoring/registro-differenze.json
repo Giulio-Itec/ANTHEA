@@ -115,13 +115,15 @@
         "src/ANTHEA.Application/Documents/DocumentService.cs",
         "lib/Checker"
       ],
-      "effetto_quantificato": "Nessuna differenza nei valori: sui 15 esempi distribuiti e su un progetto scritto dal vero 1.18.0 (revisione, sezione annidata, foglio del progetto) le sezioni rilette dal compatto hanno la stessa identità, le stesse proprietà, armature e tensioni SLE e lo stesso documento GPC dell'XML; il secondo salvataggio è uguale byte per byte. File da 5 a 27 volte più piccoli (esempi 70–427 kB → 9–23 kB, progetto 531 → 65 kB), apertura da 4–133 ms a 1,5–16 ms. Le versioni fino a 1.18.0 non aprono i file salvati dalla 1.19 che contengono sezioni c.a. La cattura congelata tests/fixtures/f5-shell/cattura-mainwindow (ui/shell-capture) registra l'XML di 1.18 e non è aggiornata: differenza attesa, da approvare.",
+      "effetto_quantificato": "Nessuna differenza nei valori: sui 15 esempi distribuiti e su un progetto scritto dal vero 1.18.0 (revisione, sezione annidata, foglio del progetto) le sezioni rilette dal compatto hanno la stessa identità, le stesse proprietà, armature e tensioni SLE e lo stesso documento GPC dell'XML; il secondo salvataggio è uguale byte per byte. File da 5 a 27 volte più piccoli (esempi 70–427 kB → 9–23 kB, progetto 531 → 65 kB), apertura da 4–133 ms a 1,5–16 ms. Le versioni fino a 1.18.0 non aprono i file salvati dalla 1.19 che contengono sezioni c.a. La cattura congelata tests/fixtures/f5-shell/cattura-mainwindow (ui/shell-capture) è aggiornata con l'autorizzazione dell'utente del 4/11 («aggiornala»): ShellProjectCapture decodifica gli archivi compatti nel documento GPC che contengono (lo stesso testo XML che 1.18 memorizzava, identico byte per byte a quello registrato); nei 13 file cambiano solo la versione 1 → 2 delle 23 sezioni con la riga «archivio_compatto_decodificato» e, nel file salvato, la versione 3 → 5 con «versione_senza_compatto» (tests/fixtures/f5-shell/README.md).",
       "documento": "tests/fixtures/f7a-sezioni-compatte/README.md",
       "decisione": "Utente, 4/11/2026: «Compatto dalla prossima»; le versioni vecchie devono mostrare un messaggio chiaro. Branch claude/f7-anthea, nessun merge, nessun rilascio.",
       "test": [
         "tests/ANTHEA.Application.Tests/ConcretePersistenceChecks.cs",
         "tests/ANTHEA.Presentation.Tests/ConcreteSectionSheetChecks.Wizard.cs",
-        "tests/fixtures/f7a-sezioni-compatte/progetto-1.18.0.programma"
+        "tests/fixtures/f7a-sezioni-compatte/progetto-1.18.0.programma",
+        "tests/ANTHEA.Desktop.UiTests/ShellProjectCapture.cs",
+        "tests/fixtures/f5-shell/cattura-mainwindow"
       ]
     },
     {

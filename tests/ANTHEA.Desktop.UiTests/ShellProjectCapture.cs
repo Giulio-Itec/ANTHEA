@@ -87,6 +87,7 @@ internal static class ShellProjectCapture
         var value = J.Obj(("passo", Steps[index]), ("titolo", state.Title), ("non_salvato", state.Dirty), ("sola_lettura", state.ReadOnly), ("revisione_mostrata", state.Revision),
             ("foglio", state.SheetId), ("dati_del_foglio", state.SheetData?.DeepClone()), ("riga_di_stato", state.Status),
             ("documento_di_lavoro", state.Working.DeepClone()), ("documento_mostrato", ReferenceEquals(state.Working, state.Displayed) ? null : state.Displayed.DeepClone()));
+        DecodeCompactSections(value);
         File.WriteAllText(Path.Combine(folder, $"{index + 1:00}-{Steps[index]}.json"), Normalize(value.ToJsonString(new JsonSerializerOptions { WriteIndented = true })), new UTF8Encoding(false));
     }
 
@@ -94,8 +95,57 @@ internal static class ShellProjectCapture
     internal static void Finish(string folder, string file)
     {
         var saved = JsonNode.Parse(File.ReadAllText(file))!;
+        DecodeCompactSections(saved);
         File.WriteAllText(Path.Combine(folder, $"{Steps.Length + 1:00}-file-salvato.json"), Normalize(saved.ToJsonString(new JsonSerializerOptions { WriteIndented = true })), new UTF8Encoding(false));
         File.WriteAllText(Path.Combine(folder, "esito.txt"), $"PASS cattura del progetto: {Steps.Length} passi e il file salvato\n", new UTF8Encoding(false));
+    }
+
+    /// <summary>
+    /// ANTHEA 1.19 (4/11/2026, «Compatto dalla prossima»): the RC sections of the contract 2 (ConcreteSectionArchive) hold the compact archive of GPC
+    /// in base64, whose bytes change at every run (the capture builds the section again, with new GUIDs) and hide the GUIDs from <see cref="Normalize"/>.
+    /// Each one is written as the GPC document it holds, in the text ANTHEA 1.18 stored (ModelArchive.SaveDocument, UTF-8 with its BOM), with
+    /// «archivio_compatto_decodificato» = true: the capture compares the content of the section (geometry, materials, rebars, identities numbered), not
+    /// the bytes of the base64. The hash of the stored text («archivio_sha256») stays, numbered like the others. GPC.Model.Persistence is not a
+    /// reference of the desktop project (only of ANTHEA.ConcreteWorkspace): its ModelArchive is reached by reflection.
+    /// </summary>
+    internal static void DecodeCompactSections(JsonNode? node)
+    {
+        if (node is JsonObject obj)
+        {
+            if (obj[Anthea.ConcreteWorkspace.ConcreteSectionArchive.Key] is JsonObject section && J.Number(section["versione"]) == Anthea.ConcreteWorkspace.ConcreteSectionArchive.CompactVersion
+                && section["archivio"] is JsonValue archive && archive.TryGetValue(out string? text))
+            {
+                // The mark goes before the archive, the last member, as in the contract of 1.18.
+                section.Remove("archivio");
+                section["archivio_compatto_decodificato"] = true;
+                section["archivio"] = CompactDocument(text);
+            }
+            foreach (var child in obj.Select(p => p.Value).ToList()) DecodeCompactSections(child);
+        }
+        else if (node is JsonArray array)
+            foreach (var child in array.ToList()) DecodeCompactSections(child);
+    }
+
+    private static readonly Lazy<(System.Reflection.MethodInfo Load, System.Reflection.MethodInfo SaveDocument)> ModelArchive = new(() =>
+    {
+        var type = Type.GetType("GPC.Model.Persistence.ModelArchive, GPC.Model.Persistence", throwOnError: true)!;
+        return (type.GetMethod("Load", [typeof(Stream)])!, type.GetMethod("SaveDocument")!);
+    });
+
+    /// <summary>The decoded archives of the run: GPC gives the geometry new GUIDs at every reading, so the same archive (a sheet and its copy in a
+    /// revision) must give the same text, as the same XML did in 1.18.</summary>
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, string> Decoded = new(StringComparer.Ordinal);
+
+    /// <summary>The GPC document of a compact archive (base64), as the text of ModelArchive.SaveDocument.</summary>
+    private static string CompactDocument(string base64) => Decoded.GetOrAdd(base64, ReadCompactDocument);
+
+    private static string ReadCompactDocument(string base64)
+    {
+        using var source = new MemoryStream(Convert.FromBase64String(base64), writable: false);
+        object model = ModelArchive.Value.Load.Invoke(null, [source])!;
+        using var written = new MemoryStream();
+        ModelArchive.Value.SaveDocument.Invoke(null, [model, written]);
+        return Encoding.UTF8.GetString(written.ToArray());
     }
 
     /// <summary>
