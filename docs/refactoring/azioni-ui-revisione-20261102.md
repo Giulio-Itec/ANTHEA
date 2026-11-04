@@ -193,3 +193,32 @@ Richiesta dell'utente: «Sì, toglilo». Ramo `refactoring/f5-palo-titolo`, da `
 - **`20261104-212519-palo-titolo-pulita`**, c5ecfaff, lanciata dopo la full `pubblica-dopo-full` come chiesto dall'utente: stesse suite, 12 PASS, 0 NEW-FAIL.
 - **`20261104-215118-palo-titolo-dopo-main`**, 32a4d622: il ramo con origin/main 4f38cffb unito (i fogli pubblicano in un giro successivo; conflitti solo in piano e registro). Stesse suite, 12 PASS, 0 NEW-FAIL.
 - Suite UI 73 prima e dopo, nessuna rimossa. Full non eseguita.
+
+## Guide Rev70 — 4 novembre 2026
+
+Richiesta dell'utente: «guide ok», per le voci del modulo Modelli rimaste dalla 1.17.2–1.18.0. La sessione del rilascio GPC/F8 ha chiesto una sola revisione con anche le voci della 1.19.0. Ramo `refactoring/f5-guide-modelli`, da `main` d0003492. Voce `MODELLI-GUIDE-REV70-20261104` nel registro delle differenze.
+
+- **Guida pratica, modulo Modelli:**
+  - «Calcola tutte (N)» e «Calcola selezionate (N)»: serie sui casi base preparati una volta, passaggi nel progetto circa ogni 20 s e alla fine, «Annulla calcolo», limite di spazio;
+  - riquadro Spazio delle combinazioni: spazio occupato, Limite da 2 a 16 GiB secondo la memoria del computer, «Libera selezionate» e «Libera tutte»;
+  - spessori delle piastre nella finestra Sezioni del modello.
+- **Guida pratica, file della 1.19** (testi dal ramo di rilascio):
+  - sezioni in c.a. nel formato compatto di GPC, che la 1.18 rifiuta con «Formato o versione del file non supportati.»;
+  - avviso «Salvataggio con avvisi» sull'archivio .anthea-risultati.
+
+  La verifica rifiutata per errori di dominio (GPCModelChecker 2.39) non è descritta: il testo dell'interfaccia non è stato visto.
+- **Guida teorica:** cambia solo la riga della revisione.
+- **Esito della costruzione:**
+  - pratica 134 pagine, 1374 frammenti, 9 formule;
+  - teorica 212 pagine, 2552 frammenti, 1566 formule;
+  - 26 parti ITEC identiche per documento, nessun glifo sostitutivo.
+- **Archivio:** le Rev69 (16 file) sono in `supporto/SUPERATI/modelli-rev70-20261104`, con manifest.
+- **Wiki e F3:**
+  - indice rigenerato (94 capitoli, 8411 termini);
+  - transizioni editoriali `editorial_transitions_rev70`: 60 nuove, 79 spostate dalle righe aggiunte, 2 aggiornate, 8 sostituite nella ricerca «sezioni». Lì l'articolo sul salvataggio entra al settimo posto, perché ora parla delle sezioni in c.a.
+
+### Verifiche
+
+- **`20261104-222550-guide-rev70-prima`**, d0003492: 12 PASS, 0 NEW-FAIL (Architecture.Tests, Wiki.Tests, Headless/help, wiki/indice, wiki/manuale, ui/f3-equivalence, ui/check-wiki-offscreen).
+- **`20261104-223706-guide-rev70-1`**, guide Rev70: 11 PASS; ui/f3-equivalence segnala soltanto le differenze editoriali dei quattro articoli e della ricerca «sezioni».
+- **`20261104-224500-guide-rev70-f3`**, con le transizioni nuove: ui/f3-equivalence PASS.

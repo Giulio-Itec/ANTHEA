@@ -1,5 +1,15 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Guide Rev70 — 4 novembre 2026
+
+Richiesta dell'utente: «guide ok»; con le voci della 1.19.0 chieste dalla sessione del rilascio. Ramo `refactoring/f5-guide-modelli` da d0003492;
+[verbale](azioni-ui-revisione-20261102.md#guide-rev70--4-novembre-2026); registro `MODELLI-GUIDE-REV70-20261104`.
+
+- [x] Modelli: calcolo in serie, spazio delle combinazioni, spessori delle piastre nella finestra delle sezioni.
+- [x] File della 1.19: sezioni in c.a. compatte, avvisi del salvataggio sull'archivio dei risultati.
+- [x] Word e PDF Rev70, Rev69 archiviate, indice della Wiki; transizioni editoriali F3 (60 nuove, 79 spostate, 2 aggiornate, 8 sostituite).
+- [ ] Verifica rifiutata per errori di dominio (GPCModelChecker 2.39): da descrivere quando il testo dell'interfaccia è visto.
+
 ## Grafici senza «Premere Calcola» — 4 novembre 2026
 
 Richiesta dell'utente: «Sì, toglilo». Ramo `refactoring/f5-palo-titolo` da 131f3738, allineato a b222c9dc;
@@ -46,7 +56,7 @@ Richiesta dell'utente: «correggi gli altri due punti aperti». Ramo `refactorin
   grafico non salvate; Rev68 in `supporto/SUPERATI/azioni-spettri-rev69-20261104`; indice della Wiki e transizioni F3 editoriali aggiornati.
 - [x] Cattura prima e corse mirate PASS; suite UI 73.
 - [ ] Full: stanotte, lanciata dall'utente.
-- [ ] Guide: pannello dello spazio, spessori e calcolo in serie del modulo Modelli (voci della 1.17.4–1.18.0) restano per un'edizione successiva.
+- [x] Guide: pannello dello spazio, spessori e calcolo in serie del modulo Modelli nella Rev70 del 4/11 sera.
 
 ## Rilievi bassi dell'interfaccia Azioni — 4 novembre 2026
 

@@ -14896,6 +14896,29 @@
         "supporto/artefatti/ci/20261104-215118-palo-titolo-dopo-main"
       ],
       "wiki": "Nessun cambiamento delle guide: il titolo non vi è citato."
+    },
+    {
+      "id": "MODELLI-GUIDE-REV70-20261104",
+      "fase": "Dopo il refactoring / guide globali",
+      "titolo": "Guide Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19",
+      "famiglia": "guide/modelli/salvataggio",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Richiesta dell'utente del 4/11/2026 sera («guide ok») per le voci del modulo Modelli rimaste dalla 1.17.2–1.18.0. La sessione del rilascio GPC/F8 («Tutto insieme») ha chiesto una sola revisione con anche le voci della 1.19.0; i testi sono presi dal codice del ramo di rilascio codex/gpc-unification-20261102 (DocumentService, WorkspaceSession.SaveWarning, ModelResultArchive.Notice). Guida pratica: «Calcola tutte (N)» e «Calcola selezionate (N)» in serie sui casi base preparati una volta, passaggi nel progetto circa ogni 20 s e alla fine (diradati con copie grandi), «Annulla calcolo», limite di spazio e risultati usciti dalla cache; riquadro Spazio delle combinazioni con Limite da 2 a 16 GiB secondo la memoria del computer, «Libera selezionate» e «Libera tutte»; spessori delle piastre nella finestra Sezioni del modello («Spessore N · nome», striscia larga 1 m, G sul piano medio e O sul piano dei nodi); file della 1.19 con le sezioni in c.a. nel formato compatto di GPC, che la 1.18 rifiuta con «Formato o versione del file non supportati.»; avviso «Salvataggio con avvisi» sull'archivio .anthea-risultati (archivio illeggibile messo da parte come .danneggiato-<data>, blocchi danneggiati o mancanti) e salvataggio fermato da un archivio aperto da un altro programma. Guida teorica: solo la riga della revisione. Non descritta la verifica rifiutata per errori di dominio (GPCModelChecker 2.39): il testo che mostra ANTHEA non è stato visto nell'interfaccia. Rev69 archiviate con manifest; indice della Wiki rigenerato. Nessun motore, contratto, formula o atteso numerico modificato.",
+      "effetto_quantificato": "Guide: pratica 132 → 134 pagine, 1374 frammenti e 9 formule; teorica 212 pagine, 2552 frammenti e 1566 formule; 26 parti ITEC identiche per documento; nessun glifo sostitutivo. Wiki: 94 capitoli e 8411 termini. f3-equivalence: 60 transizioni editoriali nuove, 79 spostate, 2 aggiornate e 8 sostituite (ricerca «sezioni», dove l'articolo sul salvataggio entra al settimo posto e i successivi scendono di uno), in 4 articoli e nell'indice delle ricerche.",
+      "test": [
+        "Wiki.Tests, Headless/help, wiki/indice, wiki/manuale, ui/check-wiki-offscreen e Architecture.Tests",
+        "ui/f3-equivalence con le transizioni editoriali della Rev70 (editorial_transitions_rev70)",
+        "Suite UI: 73 prima e dopo, nessuna rimossa"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261104-222550-guide-rev70-prima",
+        "supporto/artefatti/ci/20261104-223706-guide-rev70-1",
+        "supporto/artefatti/ci/20261104-224500-guide-rev70-f3",
+        "supporto/artefatti/guide_anthea_itec_rev70",
+        "supporto/SUPERATI/modelli-rev70-20261104/manifest.json"
+      ],
+      "wiki": "Guide globali Rev70 Word/PDF e Markdown; articoli modelli e importazione, salvataggio e report, sezione c.a. e dettaglio delle sezioni aggiornati."
     }
   ]
 }
