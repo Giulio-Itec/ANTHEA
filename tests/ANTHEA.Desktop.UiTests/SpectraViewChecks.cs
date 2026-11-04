@@ -26,7 +26,10 @@ internal static class SpectraViewChecks
         PresentationTraceSources.Refresh(); PresentationTraceSources.DataBindingSource.Listeners.Add(listener); PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
         try
         {
-            window.Show(); await editor.CalculateAsync(); window.UpdateLayout(); await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle);
+            // 4/11/2026: results at opening without «Calcola», which the shell does not have; no text asks for it.
+            window.Show(); await sheet.PendingCalculation; window.UpdateLayout(); await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle);
+            Check(sheet.HasResults && !Visual(editor.View).OfType<TextBlock>().Any(t => t.IsVisible && t.Text.Contains("Premere Calcola")), "Calcolo all'apertura senza «Calcola»");
+            await editor.CalculateAsync(); window.UpdateLayout(); await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle);
             Check(sheet.HasResults, "Calcolo del foglio aperto"); Check(Visual(editor.View).OfType<SpectraSheetView>().Count() == 1, "Vista XAML risolta dal template");
             var selector = Visual(editor.View).OfType<ComboBox>().Single(c => ReferenceEquals(c.ItemsSource, sheet.Stages));
             foreach (var mode in new[] { AppAppearance.Light, AppAppearance.Dark, AppAppearance.VeryDark })
