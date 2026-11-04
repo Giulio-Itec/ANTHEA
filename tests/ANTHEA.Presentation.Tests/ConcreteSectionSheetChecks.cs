@@ -25,7 +25,9 @@ namespace Anthea.Presentation.Tests;
 /// of docs/refactoring/f5-10-sezione.md). A step that belongs to a sub-step not migrated (the options of the domains, the stresses, the M–χ…)
 /// does nothing here: when the historic trace shows its effect, the comparison of that scenario stops there, at the place listed in
 /// <see cref="ExpectedStops"/> (any other stop is a failure).
-/// One "UI" thread (<see cref="SingleThreadContext"/>): the batches of the calculation publish there, as on the dispatcher.
+/// One "UI" thread (<see cref="SingleThreadContext"/>): the batches of the calculation publish there, as on the dispatcher. In lock step: a work
+/// that reports to the UI thread (the progress of the search of the reinforcement) goes on only after the UI thread has left the step that started
+/// it, so that «Ferma ricerca» pressed in the same step always finds the search running, whatever the load of the machine.
 /// </summary>
 internal static partial class ConcreteSectionSheetChecks
 {
@@ -44,7 +46,7 @@ internal static partial class ConcreteSectionSheetChecks
         "ingressi/wizard-tipologie.txt", "sle/fessurazione.txt", "taglio/circolare-senza-staffe.txt", "dettagli/soletta.txt", "ispezione/sezione-sigma-epsilon.txt", "armature/opzioni-ricerca.txt",
         "report/disponibilita.txt"];
 
-    internal static int Run(string root, string output, bool full) => SingleThreadContext.Run(_ => RunAsync(root, output, full));
+    internal static int Run(string root, string output, bool full) => SingleThreadContext.Run(_ => RunAsync(root, output, full), lockStep: true);
 
     private static async Task<int> RunAsync(string root, string output, bool full)
     {

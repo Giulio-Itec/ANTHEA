@@ -14843,6 +14843,27 @@
       "wiki": "Nessun cambiamento delle guide: il messaggio non vi è citato."
     },
     {
+      "id": "FOGLI-GIRO-SUCCESSIVO-20261104",
+      "fase": "Dopo il refactoring / fogli",
+      "titolo": "I fogli pubblicano i lavori di fondo sempre in un giro successivo del thread dell'interfaccia",
+      "famiglia": "fogli/calcolo sullo sfondo",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Decisione dell'utente del 4/11/2026 («Sì, modificali»). Un await Task.Run(...) nei fogli trovava a volte il lavoro già finito: il thread dell'interfaccia era sospeso subito dopo l'avvio sulla macchina carica, oppure il risultato veniva da una cache. In quel caso proseguiva nel passo stesso e il foglio pubblicava prima di ciò che il lavoro aveva messo in coda. Ne venivano stati che le viste storiche non mostrano. Bridge Design «occupato sì» con il risultato già pubblicato: Presentation.Tests, fallita una volta. Muri e sezione mista ancora occupati dopo l'attesa. Il palo verticale esportabile subito dopo «Calcola» su dati già calcolati. Le resistenze rapide della sezione c.a. già calcolate all'apertura. Ora i lavori di fondo dei fogli passano da BackgroundWork.RunAsync (ANTHEA.Application/Scheduling): Task.Run, poi la continuazione sempre in coda al contesto del chiamante (ConfigureAwaitOptions.ContinueOnCapturedContext | ForceYielding). Quando il lavoro è ancora in corso nulla cambia. Quando è già finito, il foglio pubblica nel giro successivo, dopo ciò che il lavoro aveva messo in coda, come le viste storiche. Punti convertiti: SheetCalculation.RunAsync (calcolo dei moduli) e CalculationGates.RunAsync (posti del limitatore: resistenze rapide, curvatura, armature, colonna modello, ispezione). Poi i lotti e la preparazione della sezione c.a., le proprietà e il taglio, la mesh del dominio; le query e la tabella dei parametri dei muri; le curve della sezione mista; la ricerca dell'ottimo di Bridge Design; la risposta elastica e le armature del palo; l'infissione delle paratie. Fuori: report, esportazioni della shell e modulo Modelli. Nelle prove resta SingleThreadContext al passo come seconda barriera: Bridge Design, muri, sezione mista, esportazioni della shell e sezione c.a., dove tiene la ricerca delle armature in corso finché «Ferma ricerca» non è premuto nello stesso passo.",
+      "codice": "src/ANTHEA.Application/Scheduling/BackgroundWork.cs; src/ANTHEA.Presentation/Calculation/SheetCalculation.cs:194; src/ANTHEA.Application/Scheduling/CalculationGate.cs:23",
+      "effetto_quantificato": "Nessun numero cambia: tracce congelate, riferimenti F3, risultati, report ed esportazioni invariati. Cambia solo l'ordine nel caso critico: la pubblicazione segue sempre ciò che il lavoro aveva messo in coda.",
+      "test": [
+        "Sonda temporanea, non registrata: il thread dell'interfaccia aspetta fino a 300 ms la fine del lavoro, il caso peggiore. Prima della modifica falliscono muri, sezione mista, shell, palo verticale e sezione c.a.; dopo, PASS 16 suite di tracce su 16, anche senza le prove al passo salvo «Ferma ricerca» della sezione c.a.",
+        "Corsa completa -Profile full -Stage build,fast,ui: PASS 138, NEW-FAIL 0, suite ui/ 59, nessuna rimossa"
+      ],
+      "evidenze": [
+        "supporto/artefatti/tracce-sonda-20261104",
+        "supporto/artefatti/pubblica-dopo-sonda-20261104",
+        "supporto/artefatti/ci/20261104-181946-pubblica-dopo-full"
+      ],
+      "wiki": "Nessun cambiamento delle guide: i fogli mostrano gli stessi stati e risultati."
+    },
+    {
       "id": "PALO-TITOLO-SENZA-CALCOLA-20261104",
       "fase": "Dopo il refactoring / palo verticale e grafici",
       "titolo": "Grafici senza «Premere Calcola»: titolo del modulo per la capacità del palo verticale e messaggio neutro del grafico senza curve",

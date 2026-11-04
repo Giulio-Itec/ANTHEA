@@ -20,6 +20,6 @@ public static class CalculationGates
     {
         ArgumentNullException.ThrowIfNull(calculate);
         using var place = gate is null ? null : await gate(cancellation);
-        return await Task.Run(calculate, cancellation);
+        return await BackgroundWork.RunAsync(calculate, cancellation);
     }
 }

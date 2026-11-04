@@ -260,7 +260,7 @@ public sealed class ConcreteCalculation : ObservableObject, IDisposable
         {
             try
             {
-                await Task.Run(() => ConcreteShearBatch.Calculate(request.Input, request.Settings, request.Rows,
+                await BackgroundWork.RunAsync(() => ConcreteShearBatch.Calculate(request.Input, request.Settings, request.Rows,
                     (index, calculated, error) => outcomes.Add(new(index, calculated, error)), token), token);
             }
             catch (Exception error) when (error is not OperationCanceledException) { failure = error; }

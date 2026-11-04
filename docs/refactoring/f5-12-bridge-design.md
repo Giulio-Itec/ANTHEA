@@ -160,7 +160,9 @@ risultato è pubblicato prima del ritorno del motore messo in coda. `BridgeDesig
 solo dopo che la traccia ha lasciato il passo; l'ordine dei lavori in coda non cambia. Verifica con una sonda non registrata, che
 sospende il thread dell'interfaccia per 200 ms dopo `Task.Run` nel calcolo o nella ricerca: senza il passo la traccia fallisce sempre
 (apertura di `percorso-alternativa-a-non-calcolabile`, primo «Avvia ottimizzazione»); con il passo le tracce restano uguali a quelle
-congelate. Il foglio e le tracce non cambiano.
+congelate. Il foglio e le tracce non cambiano. Poi, per decisione dell'utente dello stesso giorno, anche il foglio non prosegue più nel
+passo: il calcolo e la ricerca passano da `BackgroundWork.RunAsync`, che torna sempre in un giro successivo del thread dell'interfaccia.
+Il passo delle prove resta come seconda barriera ([decisioni](decisioni.md#4-novembre--i-fogli-pubblicano-in-un-giro-successivo-del-thread-dellinterfaccia)).
 
 L'adattatore della traccia guida il ViewModel come la vista e lo legge come lo vede l'utente; i passi che nella vista storica chiamano
 direttamente ciò che il controllo chiama («Avvia ottimizzazione», «Ponte casuale» con il seme, il clic su un punto della nuvola) sono gli

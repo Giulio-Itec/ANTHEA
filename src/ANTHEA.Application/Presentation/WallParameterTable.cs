@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text.Json.Nodes;
 using Anthea.Application.Modules;
+using Anthea.Application.Scheduling;
 namespace Anthea.Application.Presentation;
 
 /// <summary>Editable parameter projection over an owned wall snapshot. Applying values never
@@ -78,7 +79,7 @@ public sealed class WallParameterTable
     {
         if (service.ModuleId != RetainingWall.Module) throw new ArgumentException("Servizio del muro richiesto.");
         var snapshot = CreateSnapshot(); cancellation.ThrowIfCancellationRequested();
-        var calculation = await Task.Run(() => service.Calculate(snapshot, cancellation), cancellation);
+        var calculation = await BackgroundWork.RunAsync(() => service.Calculate(snapshot, cancellation), cancellation);
         cancellation.ThrowIfCancellationRequested();
         if (calculation.HasError) throw new ArgumentException(calculation.Values.S("errore"));
         if (calculation.NativeAs<RetainingWall.Result>().GlobalError is { } error) throw new ArgumentException(error);

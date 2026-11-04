@@ -13,7 +13,9 @@ namespace Anthea.Presentation.Tests;
 /// sheet then finds it completed and goes on synchronously, inside the step, and the trace reads a result that the historic view publishes
 /// only later (4/11/2026, «ottimizzazione», «riapri»: «occupato sì» with the result already published). In lock step that work posts before
 /// it completes (the end of the engine of the sheet, the first progress of the search) and stays there until the UI thread has left the step
-/// and gone back to the queue; the order of the callbacks does not change.
+/// and gone back to the queue; the order of the callbacks does not change. Since the same day the sheets themselves come back from their
+/// background work on a later turn (BackgroundWork of ANTHEA.Application); lock step stays as a second barrier, and it still keeps a search
+/// that reports its progress running until the step that started it ends (the RC section, «Ferma ricerca» right after «Calcola armature»).
 /// </para>
 /// </summary>
 internal sealed class SingleThreadContext : SynchronizationContext

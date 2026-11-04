@@ -191,7 +191,7 @@ public sealed class SheetCalculation<TResult> : ObservableObject, IDisposable wh
         {
             using var place = limiter is null ? null : await limiter.EnterAsync(token);
             if (current == request) State = CalculationState.Running;
-            return await Task.Run(() => calculate(snapshot, token), token);
+            return await BackgroundWork.RunAsync(() => calculate(snapshot, token), token);
         }, delay, cancellation);
         bool published = completed.TryPublish(c => Publish(c.Value, c.Error));
         if (!published && current == request && !disposed) State = CalculationState.Cancelled;
