@@ -44,9 +44,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
     {"terreno":"Sabbia media","spessore":"4","pressione_limite":"2","alpha":"1.4","laterale_attiva":true,"__strato":"A","__tau":"300,0"}
     {"terreno":"Ghiaia","spessore":"8","pressione_limite":"3","alpha":"1.8","laterale_attiva":true,"__strato":"B","__tau":"300,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
 tabelle "" · scelta -1
 json ""
@@ -96,9 +96,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
     {"terreno":"Sabbia media","spessore":"4","pressione_limite":"2","alpha":"1.4","laterale_attiva":true,"__strato":"A","__tau":"300,0"}
     {"terreno":"Ghiaia","spessore":"8","pressione_limite":"3","alpha":"1.8","laterale_attiva":true,"__strato":"B","__tau":"300,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
 tabelle "" · scelta -1
 json ""
@@ -158,7 +158,7 @@ curve "Valori a L=10.3 m [kN]"
   "T · progetto: 1.692,0" = sì
   "Ed compressione: 217,9" = sì
   "Ed trazione: 86,2" = sì
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
   punto 3 300 "SG2" #FF0B5CAD proiettato "pl=3" "s\n300" r 5
 tabelle "Capacità portante — riepilogo|Riepilogo alla quota disponibile|Sondaggio 1 — aderenza per strato|Sondaggio 1 — peso proprio assiale|Sondaggio 1 — compressione — resistenze calcolate|compressione — Minimo — componenti|compressione — Media — componenti|trazione — Minimo — componente laterale|trazione — Media — componente laterale|compressione — verifica a ogni quota|trazione — verifica a ogni quota" · scelta 0
@@ -225,7 +225,7 @@ curve "Valori a L=10.3 m [kN]"
   "T · progetto: 1.692,0" = sì
   "Ed compressione: 217,9" = sì
   "Ed trazione: 86,2" = sì
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
   punto 3 300 "SG2" #FF0B5CAD proiettato "pl=3" "s\n300" r 5
 tabelle "Capacità portante — riepilogo|Riepilogo alla quota disponibile|Sondaggio 1 — aderenza per strato|Sondaggio 1 — peso proprio assiale|Sondaggio 1 — compressione — resistenze calcolate|compressione — Minimo — componenti|compressione — Media — componenti|trazione — Minimo — componente laterale|trazione — Media — componente laterale|compressione — verifica a ogni quota|trazione — verifica a ogni quota" · scelta 0
@@ -282,9 +282,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
     {"terreno":"Sabbia media","spessore":"4","pressione_limite":"2","alpha":"1.4","laterale_attiva":true,"__strato":"A","__tau":"300,0"}
     {"terreno":"Ghiaia","spessore":"8","pressione_limite":"3","alpha":"1.8","laterale_attiva":true,"__strato":"B","__tau":"300,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
 tabelle "" · scelta -1
 json ""
@@ -334,9 +334,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
     {"terreno":"Sabbia media","spessore":"4","pressione_limite":"2","alpha":"1.4","laterale_attiva":true,"__strato":"A","__tau":"300,0"}
     {"terreno":"Ghiaia","spessore":"8","pressione_limite":"3","alpha":"1.8","laterale_attiva":true,"__strato":"B","__tau":"300,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
 tabelle "" · scelta -1
 json ""
@@ -396,7 +396,7 @@ curve "Valori a L=10.3 m [kN]"
   "T · progetto: 1.692,0" = sì
   "Ed compressione: 217,9" = sì
   "Ed trazione: 86,2" = sì
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
   punto 3 300 "SG2" #FF0B5CAD proiettato "pl=3" "s\n300" r 5
 tabelle "Capacità portante — riepilogo|Riepilogo alla quota disponibile|Sondaggio 1 — aderenza per strato|Sondaggio 1 — peso proprio assiale|Sondaggio 1 — compressione — resistenze calcolate|compressione — Minimo — componenti|compressione — Media — componenti|trazione — Minimo — componente laterale|trazione — Media — componente laterale|compressione — verifica a ogni quota|trazione — verifica a ogni quota" · scelta 0

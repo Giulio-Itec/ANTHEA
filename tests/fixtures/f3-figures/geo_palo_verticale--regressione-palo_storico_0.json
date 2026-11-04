@@ -14454,7 +14454,7 @@
     "XMinimum": 25,
     "XMaximum": null,
     "XTickStep": null,
-    "EmptyMessage": "Premere Calcola",
+    "EmptyMessage": "Nessuna curva da mostrare",
     "AxisNumberFormat": null,
     "ScaleX": 1,
     "ScaleY": 1,

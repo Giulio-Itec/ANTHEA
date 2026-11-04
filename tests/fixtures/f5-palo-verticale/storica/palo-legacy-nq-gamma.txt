@@ -43,9 +43,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"0","tipologia":"","addensamento":"","peso_specifico":"0","peso_specifico_saturo":"","angolo_attrito":"0","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":true,"__strato":"A","__k":"—","__mu":"0","__alfa":"—","__nq":"—"}
 viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
 tabelle "" · scelta -1
@@ -95,9 +95,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"0","tipologia":"","addensamento":"","peso_specifico":"0","peso_specifico_saturo":"","angolo_attrito":"0","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":true,"__strato":"A","__k":"—","__mu":"0","__alfa":"—","__nq":"—"}
 viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
 tabelle "" · scelta -1
@@ -147,9 +147,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"0","tipologia":"","addensamento":"","peso_specifico":"0","peso_specifico_saturo":"","angolo_attrito":"0","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":true,"__strato":"A","__k":"—","__mu":"0","__alfa":"—","__nq":"—"}
 viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
 tabelle "" · scelta -1
@@ -199,9 +199,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"0","tipologia":"","addensamento":"","peso_specifico":"0","peso_specifico_saturo":"","angolo_attrito":"0","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":true,"__strato":"A","__k":"—","__mu":"0","__alfa":"—","__nq":"—"}
 viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
 tabelle "" · scelta -1
@@ -251,9 +251,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"0","tipologia":"","addensamento":"","peso_specifico":"0","peso_specifico_saturo":"","angolo_attrito":"0","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":true,"__strato":"A","__k":"—","__mu":"0","__alfa":"—","__nq":"—"}
 viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
 tabelle "" · scelta -1
@@ -303,9 +303,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"0","tipologia":"","addensamento":"","peso_specifico":"0","peso_specifico_saturo":"","angolo_attrito":"0","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":true,"__strato":"A","__k":"—","__mu":"0","__alfa":"—","__nq":"—"}
 viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
 tabelle "" · scelta -1
@@ -355,9 +355,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"0","tipologia":"","addensamento":"","peso_specifico":"0","peso_specifico_saturo":"","angolo_attrito":"0","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":true,"__strato":"A","__k":"—","__mu":"0","__alfa":"—","__nq":"—"}
 viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Lunghezza: inserire un numero valido" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
 tabelle "" · scelta -1

@@ -29,6 +29,9 @@ internal static class SpectraViewChecks
             // 4/11/2026: results at opening without «Calcola», which the shell does not have; no text asks for it.
             window.Show(); await sheet.PendingCalculation; window.UpdateLayout(); await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle);
             Check(sheet.HasResults && !Visual(editor.View).OfType<TextBlock>().Any(t => t.IsVisible && t.Text.Contains("Premere Calcola")), "Calcolo all'apertura senza «Calcola»");
+            // The Plots draw their texts: without curves the spectra showed the «Premere Calcola» of the Plot (PALO-TITOLO-SENZA-CALCOLA-20261104).
+            var plots = Visual(editor.View).OfType<Plot>().ToArray();
+            Check(plots.Length > 0 && plots.All(p => !p.Title.Contains("Calcola") && !p.EmptyMessage.Contains("Calcola")), "Grafici degli spettri senza «Calcola» (" + plots.Length + ")");
             await editor.CalculateAsync(); window.UpdateLayout(); await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ContextIdle);
             Check(sheet.HasResults, "Calcolo del foglio aperto"); Check(Visual(editor.View).OfType<SpectraSheetView>().Count() == 1, "Vista XAML risolta dal template");
             var selector = Visual(editor.View).OfType<ComboBox>().Single(c => ReferenceEquals(c.ItemsSource, sheet.Stages));

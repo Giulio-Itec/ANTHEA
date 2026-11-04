@@ -14841,6 +14841,38 @@
         "supporto/artefatti/ci/20261104-151651-messaggio-calcola-pulita-3"
       ],
       "wiki": "Nessun cambiamento delle guide: il messaggio non vi è citato."
+    },
+    {
+      "id": "PALO-TITOLO-SENZA-CALCOLA-20261104",
+      "fase": "Dopo il refactoring / palo verticale e grafici",
+      "titolo": "Grafici senza «Premere Calcola»: titolo del modulo per la capacità del palo verticale e messaggio neutro del grafico senza curve",
+      "famiglia": "pali/interfaccia/grafici",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Richiesta dell'utente del 4/11/2026 («Sì, toglilo»), dopo SHELL-RISULTATI-SENZA-CALCOLA-20261104. Il palo e il micropalo verticale calcolano da soli (calcolo sullo sfondo), ma il grafico della capacità prima del primo risultato aveva il titolo «Premere Calcola» della vista storica: si vedeva finché il calcolo automatico non pubblicava, o sempre con dati non validi. Ora il titolo è quello del modulo (VerticalPilePresentation.CapacityTitle: «Capacità portante del palo» o «… del micropalo») dall'apertura; VerticalPileCapacityChart.InitialTitle è tolto e il titolo non cambia più con il risultato. Il messaggio senza curve resta quello del foglio («Lunghezza: inserire un numero valido», «Completare i dati · calcolo automatico»). Il Plot del desktop non ha più «Premere Calcola» come titolo e messaggio predefiniti: titolo vuoto e PlotData.NoCurves «Nessuna curva da mostrare». Il messaggio predefinito si vedeva negli Spettri senza curve e nel diagramma σ–ε di «Nuovo materiale…» senza curve; gli Spettri hanno il titolo «Spettri» anche prima delle curve. Il grafico di riferimento del palo (Nq, abachi) eredita il messaggio predefinito ma ha sempre curve, quindi non lo mostra. Restano storici i rifiuti interni «Premere Calcola prima di esportare.» (SheetFileExports.WriteResult, report dei pali), congelati nei riferimenti F3 e non mostrati dalla shell.",
+      "effetto_quantificato": "Cambiano solo titoli e messaggi dei grafici. Nelle 18 tracce di tests/fixtures/f5-palo-verticale/storica: 83 righe «grafico» (titolo prima del primo risultato) e 257 righe «riferimento» (messaggio predefinito, mai mostrato). Nelle 13 figure di tests/fixtures/f3-figures: 24 titoli e 19 messaggi. Serie, punti, quote, assi, risultati, dati, report, immagini esportate e riferimenti F3 delle schede invariati.",
+      "codice": [
+        "src/ANTHEA.Application/Presentation/VerticalPileCharts.cs",
+        "src/ANTHEA.Application/Presentation/VerticalPilePresentation.cs",
+        "src/ANTHEA.Presentation/Modules/VerticalPile/VerticalPileViews.cs",
+        "src/ANTHEA.Presentation/Modules/VerticalPile/VerticalPileSheetViewModel.cs",
+        "src/ANTHEA.Desktop/Wpf/Drawings.cs",
+        "src/ANTHEA.Desktop/Views/Spectra/SpectraPlot.cs",
+        "tests/fixtures/f5-palo-verticale/storica",
+        "tests/fixtures/f3-figures"
+      ],
+      "test": [
+        "Presentation.Tests/VerticalPileSheetChecks: tracce e figure con i riferimenti nuovi, nessuna riga con «Premere Calcola», Reload con il titolo del modulo",
+        "ui/check-palo-verticale-view: tracce della vista XAML, nessun grafico con «Premere Calcola»",
+        "ui/f3-figures: stato dei Plot della vista uguale alle figure aggiornate",
+        "ui/check-spettri-view: grafici degli spettri senza «Calcola»",
+        "ui/f3-equivalence: riferimenti F3 delle schede invariati",
+        "Suite UI: 73 prima e dopo, nessuna rimossa"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261104-155807-palo-titolo-prima"
+      ],
+      "wiki": "Nessun cambiamento delle guide: il titolo non vi è citato."
     }
   ]
 }

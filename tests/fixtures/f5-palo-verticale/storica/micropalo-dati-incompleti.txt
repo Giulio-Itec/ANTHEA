@@ -43,9 +43,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
 tabelle "" · scelta -1
 json ""
@@ -94,9 +94,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
 tabelle "" · scelta -1
 json ""
@@ -145,9 +145,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
 tabelle "" · scelta -1
 json ""
@@ -196,9 +196,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
 tabelle "" · scelta -1
 json ""
@@ -247,9 +247,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
 tabelle "" · scelta -1
 json ""
@@ -298,9 +298,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
 tabelle "" · scelta -1
 json ""
@@ -349,9 +349,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
   stratigrafia 1 · strati 1
     {"spessore":"12","terreno":"Sabbia ghiaiosa","alpha":"1.2","laterale_attiva":true,"__strato":"A","__tau":"200,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IGU · SG2 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG2" #FF0B5CAD punti 8 24F1D9A3F9311B9C
 tabelle "" · scelta -1
 json ""

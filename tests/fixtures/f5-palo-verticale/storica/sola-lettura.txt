@@ -45,9 +45,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
     {"spessore":"9","tipologia":"Coesivo","addensamento":"Sciolto","peso_specifico":"18","peso_specifico_saturo":"19","angolo_attrito":"22","coesione_efficace":"5","coesione_non_drenata":"45","nc":"9","laterale_attiva":true,"__strato":"B","__k":"0,7","__mu":"0,404","__alfa":"0,54","__nq":"7,232"}
     {"spessore":"12","tipologia":"Coesivo","addensamento":"Denso","peso_specifico":"19","peso_specifico_saturo":"20.5","angolo_attrito":"25","coesione_efficace":"15","coesione_non_drenata":"120","nc":"8","laterale_attiva":true,"__strato":"C","__k":"0,9","__mu":"0,466","__alfa":"0,35","__nq":"7,327"}
 viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 22,5 · punto disponibile con dati completi fino alla punta" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 22,5 · punto disponibile con dati completi fino alla punta" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -114,7 +114,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = sì
   "Non dren. T · progetto: 521,1" = sì
   "Ed compressione: 1.194,1" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -192,7 +192,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = sì
   "Non dren. T · progetto: 521,1" = sì
   "Ed compressione: 1.194,1" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -270,7 +270,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = sì
   "Non dren. T · progetto: 521,1" = sì
   "Ed compressione: 1.194,1" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -348,7 +348,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = sì
   "Non dren. T · progetto: 521,1" = sì
   "Ed compressione: 1.194,1" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -426,7 +426,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = sì
   "Non dren. T · progetto: 521,1" = sì
   "Ed compressione: 1.194,1" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -504,7 +504,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = sì
   "Non dren. T · progetto: 521,1" = sì
   "Ed compressione: 1.194,1" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -582,7 +582,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = sì
   "Non dren. T · progetto: 521,1" = sì
   "Ed compressione: 1.194,1" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -660,7 +660,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = sì
   "Non dren. T · progetto: 521,1" = sì
   "Ed compressione: 1.194,1" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -738,7 +738,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = sì
   "Non dren. T · progetto: 521,1" = sì
   "Ed compressione: 1.194,1" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -816,7 +816,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = sì
   "Non dren. T · progetto: 521,1" = sì
   "Ed compressione: 1.194,1" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -894,7 +894,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = sì
   "Non dren. T · progetto: 521,1" = sì
   "Ed compressione: 1.194,1" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -972,7 +972,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = sì
   "Non dren. T · progetto: 521,1" = sì
   "Ed compressione: 1.194,1" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -1049,7 +1049,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = sì
   "Non dren. T · progetto: 521,1" = sì
   "Ed compressione: 1.194,1" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -1122,7 +1122,7 @@ curve "Valori a L=18 m [kN]"
   "Non dren. C · progetto: 784,7" = no
   "Non dren. T · progetto: 521,1" = no
   "Ed compressione: 1.194,1" = no
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -1193,7 +1193,7 @@ curve "Valori a L=18 m [kN]"
   "Dren. T · progetto: 740,5" = no
   "Dren. T · media: 740,5" = no
   "Dren. T · minima: 856,8" = no
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -1264,7 +1264,7 @@ curve "Valori a L=18 m [kN]"
   "Dren. T · progetto: 740,5" = no
   "Dren. T · media: 740,5" = no
   "Dren. T · minima: 856,8" = no
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -1329,7 +1329,7 @@ curve "Valori a L=18 m [kN]"
   "Dren. T · progetto: 740,5" = no
   "Dren. T · media: 740,5" = no
   "Dren. T · minima: 856,8" = no
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C
@@ -1400,7 +1400,7 @@ curve "Valori a L=18 m [kN]"
   "Dren. T · progetto: 740,5" = no
   "Dren. T · media: 740,5" = no
   "Dren. T · minima: 856,8" = no
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=18 m · L/D=22,5" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=5" #FF0B5CAD punti 161 49ECBDA56DF08EEC
   serie "z/D=10" #FF2E8B57 punti 161 A7C451EDD37075C2
   serie "z/D=20" #FFFF8C00 punti 161 E16A6E8250C0541C

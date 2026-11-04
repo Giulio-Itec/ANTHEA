@@ -534,6 +534,8 @@ internal static class VerticalPileViewChecks
             string stored = Path.Combine(VerticalPileScenarios.Reference(root), scenario.Name + ".txt");
             string? difference = File.Exists(stored) ? VerticalPileTrace.FirstDifference(VerticalPileTrace.Read(stored), trace) : "traccia di riferimento assente";
             if (difference is not null) differences.Add(scenario.Name + ": " + difference);
+            // PALO-TITOLO-SENZA-CALCOLA-20261104: titles and empty messages of the Plots of the XAML view never ask for «Calcola».
+            if (trace.Any(l => l.Contains("Premere Calcola", StringComparison.Ordinal))) differences.Add(scenario.Name + ": grafico con «Premere Calcola»");
             scenarios++; lines += trace.Count;
         }
         if (differences.Count > 0) File.WriteAllLines(Path.Combine(folder, "differenze.txt"), differences, new UTF8Encoding(false));

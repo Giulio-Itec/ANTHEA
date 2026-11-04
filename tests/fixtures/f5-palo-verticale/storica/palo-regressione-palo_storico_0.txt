@@ -44,9 +44,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
     {"tipologia":"Granulare","addensamento":"Denso","spessore":"6","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"31","coesione_efficace":"2","coesione_non_drenata":"50","nc":"9","laterale_attiva":true,"__strato":"A","__k":"0,4","__mu":"0,601","__alfa":"—","__nq":"19,646"}
     {"tipologia":"Granulare","addensamento":"Sciolto","spessore":"10","peso_specifico":"20","peso_specifico_saturo":"22","angolo_attrito":"35","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":true,"__strato":"B","__k":"0,5","__mu":"0,7","__alfa":"—","__nq":"28,129"}
 viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 12,3 · punto disponibile con dati completi fino alla punta" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 12,3 · punto disponibile con dati completi fino alla punta" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
   serie "L/D effettivo = 12,3" #FFDC143C evidenza punti 201 5C762388EC690BF3
@@ -98,9 +98,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
     {"tipologia":"Granulare","addensamento":"Denso","spessore":"6","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"31","coesione_efficace":"2","coesione_non_drenata":"50","nc":"9","laterale_attiva":true,"__strato":"A","__k":"0,4","__mu":"0,601","__alfa":"—","__nq":"19,646"}
     {"tipologia":"Granulare","addensamento":"Sciolto","spessore":"10","peso_specifico":"20","peso_specifico_saturo":"22","angolo_attrito":"35","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":true,"__strato":"B","__k":"0,5","__mu":"0,7","__alfa":"—","__nq":"28,129"}
 viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 12,3 · punto disponibile con dati completi fino alla punta" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 12,3 · punto disponibile con dati completi fino alla punta" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
   serie "L/D effettivo = 12,3" #FFDC143C evidenza punti 201 5C762388EC690BF3
@@ -166,7 +166,7 @@ curve "Valori a L=12.3 m [kN]"
   "Non dren. T · progetto: 719,9" = sì
   "Ed compressione: 814,0" = sì
   "Ed trazione: 0,0" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=12,3 m · L/D=12,3" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=12,3 m · L/D=12,3" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
   serie "L/D effettivo = 12,3" #FFDC143C evidenza punti 201 5C762388EC690BF3
@@ -243,7 +243,7 @@ curve "Valori a L=12.3 m [kN]"
   "Non dren. T · progetto: 719,9" = sì
   "Ed compressione: 814,0" = sì
   "Ed trazione: 0,0" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=12,3 m · L/D=12,3" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=12,3 m · L/D=12,3" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
   serie "L/D effettivo = 12,3" #FFDC143C evidenza punti 201 5C762388EC690BF3
@@ -306,9 +306,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
     {"tipologia":"Granulare","addensamento":"Denso","spessore":"6","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"31","coesione_efficace":"2","coesione_non_drenata":"50","nc":"9","laterale_attiva":true,"__strato":"A","__k":"0,4","__mu":"0,601","__alfa":"—","__nq":"19,646"}
     {"tipologia":"Granulare","addensamento":"Sciolto","spessore":"10","peso_specifico":"20","peso_specifico_saturo":"22","angolo_attrito":"35","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":true,"__strato":"B","__k":"0,5","__mu":"0,7","__alfa":"—","__nq":"28,129"}
 viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 12,3 · punto disponibile con dati completi fino alla punta" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 12,3 · punto disponibile con dati completi fino alla punta" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
   serie "L/D effettivo = 12,3" #FFDC143C evidenza punti 201 5C762388EC690BF3
@@ -360,9 +360,9 @@ stratigrafie 1 · selezionata 0 · profilo 0
     {"tipologia":"Granulare","addensamento":"Denso","spessore":"6","peso_specifico":"19","peso_specifico_saturo":"21","angolo_attrito":"31","coesione_efficace":"2","coesione_non_drenata":"50","nc":"9","laterale_attiva":true,"__strato":"A","__k":"0,4","__mu":"0,601","__alfa":"—","__nq":"19,646"}
     {"tipologia":"Granulare","addensamento":"Sciolto","spessore":"10","peso_specifico":"20","peso_specifico_saturo":"22","angolo_attrito":"35","coesione_efficace":"0","coesione_non_drenata":"0","nc":"9","laterale_attiva":true,"__strato":"B","__k":"0,5","__mu":"0,7","__alfa":"—","__nq":"28,129"}
 viste "Tutte - progetto|Drenante · Compressione|Drenante · Trazione|Non drenante · Compressione|Non drenante · Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del palo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 12,3 · punto disponibile con dati completi fino alla punta" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "L/D effettivo = 12,3 · punto disponibile con dati completi fino alla punta" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
   serie "L/D effettivo = 12,3" #FFDC143C evidenza punti 201 5C762388EC690BF3
@@ -428,7 +428,7 @@ curve "Valori a L=12.3 m [kN]"
   "Non dren. T · progetto: 719,9" = sì
   "Ed compressione: 814,0" = sì
   "Ed trazione: 0,0" = sì
-riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=12,3 m · L/D=12,3" · vuoto "Premere Calcola" · quota 0 · xmin 25
+riferimento "Nq parametrizzato" · x "φ [°]" · y "Nq / Nq*" · nota "Stratigrafia 1 · punta L=12,3 m · L/D=12,3" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin 25
   serie "z/D=4" #FF0B5CAD punti 161 2C1D315C5C5FC195
   serie "z/D=32" #FF2E8B57 punti 161 4C496A0B530E4231
   serie "L/D effettivo = 12,3" #FFDC143C evidenza punti 201 5C762388EC690BF3

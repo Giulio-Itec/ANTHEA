@@ -48,9 +48,9 @@ stratigrafie 2 · selezionata 0 · profilo 0
     {"spessore":"5","terreno":"Ghiaia sabbiosa","alpha":"1.6","laterale_attiva":true,"__strato":"A","__tau":"300,0"}
     {"spessore":"12","terreno":"Sabbia grossa","alpha":"1.4","laterale_attiva":true,"__strato":"B","__tau":"300,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG1" #FF0B5CAD punti 8 9AF34F82D72F83C2
   serie "R1" #FF2E8B57 punti 10 A76A1BDE0C2FEC28
 tabelle "" · scelta -1
@@ -105,9 +105,9 @@ stratigrafie 2 · selezionata 0 · profilo 0
     {"spessore":"5","terreno":"Ghiaia sabbiosa","alpha":"1.6","laterale_attiva":true,"__strato":"A","__tau":"300,0"}
     {"spessore":"12","terreno":"Sabbia grossa","alpha":"1.4","laterale_attiva":true,"__strato":"B","__tau":"300,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG1" #FF0B5CAD punti 8 9AF34F82D72F83C2
   serie "R1" #FF2E8B57 punti 10 A76A1BDE0C2FEC28
 tabelle "" · scelta -1
@@ -172,7 +172,7 @@ curve "Valori a L=14 m [kN]"
   "T · progetto: 1.909,2" = sì
   "Ed compressione: 484,1" = sì
   "Ed trazione: 173,8" = sì
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG1" #FF0B5CAD punti 8 9AF34F82D72F83C2
   serie "R1" #FF2E8B57 punti 10 A76A1BDE0C2FEC28
   punto 2.5 300 "SG1" #FF0B5CAD proiettato "pl=2,5" "s\n300" r 5
@@ -245,7 +245,7 @@ curve "Valori a L=14 m [kN]"
   "T · progetto: 1.909,2" = sì
   "Ed compressione: 484,1" = sì
   "Ed trazione: 173,8" = sì
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG1" #FF0B5CAD punti 8 9AF34F82D72F83C2
   serie "R1" #FF2E8B57 punti 10 A76A1BDE0C2FEC28
   punto 2.5 300 "SG1" #FF0B5CAD proiettato "pl=2,5" "s\n300" r 5
@@ -308,9 +308,9 @@ stratigrafie 2 · selezionata 0 · profilo 0
     {"spessore":"5","terreno":"Ghiaia sabbiosa","alpha":"1.6","laterale_attiva":true,"__strato":"A","__tau":"300,0"}
     {"spessore":"12","terreno":"Sabbia grossa","alpha":"1.4","laterale_attiva":true,"__strato":"B","__tau":"300,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG1" #FF0B5CAD punti 8 9AF34F82D72F83C2
   serie "R1" #FF2E8B57 punti 10 A76A1BDE0C2FEC28
 tabelle "" · scelta -1
@@ -365,9 +365,9 @@ stratigrafie 2 · selezionata 0 · profilo 0
     {"spessore":"5","terreno":"Ghiaia sabbiosa","alpha":"1.6","laterale_attiva":true,"__strato":"A","__tau":"300,0"}
     {"spessore":"12","terreno":"Sabbia grossa","alpha":"1.4","laterale_attiva":true,"__strato":"B","__tau":"300,0"}
 viste "Tutte - progetto|Compressione|Trazione" · scelta 0
-grafico "Premere Calcola" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
+grafico "Capacità portante del micropalo" · x "Forza assiale [kN]" · y "Profondità z [m]" · nota "" · vuoto "Completare i dati · calcolo automatico" · quota 0 · xmin -
 curve "Valori a L non disponibili"
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i · punti disponibili dopo il calcolo" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG1" #FF0B5CAD punti 8 9AF34F82D72F83C2
   serie "R1" #FF2E8B57 punti 10 A76A1BDE0C2FEC28
 tabelle "" · scelta -1
@@ -432,7 +432,7 @@ curve "Valori a L=14 m [kN]"
   "T · progetto: 1.909,2" = sì
   "Ed compressione: 484,1" = sì
   "Ed trazione: 173,8" = sì
-riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i" · vuoto "Premere Calcola" · quota 0 · xmin -
+riferimento "Abachi Bustamante–Doix" · x "p_l [MPa]" · y "s [kPa]" · nota "Stratigrafia 1 · IRS · SG1, R1 · p_l = p_i" · vuoto "Nessuna curva da mostrare" · quota 0 · xmin -
   serie "SG1" #FF0B5CAD punti 8 9AF34F82D72F83C2
   serie "R1" #FF2E8B57 punti 10 A76A1BDE0C2FEC28
   punto 2.5 300 "SG1" #FF0B5CAD proiettato "pl=2,5" "s\n300" r 5
