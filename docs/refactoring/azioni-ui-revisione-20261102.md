@@ -222,3 +222,6 @@ Richiesta dell'utente: «guide ok», per le voci del modulo Modelli rimaste dall
 - **`20261104-222550-guide-rev70-prima`**, d0003492: 12 PASS, 0 NEW-FAIL (Architecture.Tests, Wiki.Tests, Headless/help, wiki/indice, wiki/manuale, ui/f3-equivalence, ui/check-wiki-offscreen).
 - **`20261104-223706-guide-rev70-1`**, guide Rev70: 11 PASS; ui/f3-equivalence segnala soltanto le differenze editoriali dei quattro articoli e della ricerca «sezioni».
 - **`20261104-224500-guide-rev70-f3`**, con le transizioni nuove: ui/f3-equivalence PASS.
+- **`20261104-224913-guide-rev70-pulita`**, 6ab7cc61, stesse suite della corsa «prima»: 12 PASS, 0 NEW-FAIL, uscita 0.
+
+Suite UI 73, nessuna rimossa. Full non eseguita.

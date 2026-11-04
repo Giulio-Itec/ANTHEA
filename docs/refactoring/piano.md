@@ -8,6 +8,7 @@ Richiesta dell'utente: «guide ok»; con le voci della 1.19.0 chieste dalla sess
 - [x] Modelli: calcolo in serie, spazio delle combinazioni, spessori delle piastre nella finestra delle sezioni.
 - [x] File della 1.19: sezioni in c.a. compatte, avvisi del salvataggio sull'archivio dei risultati.
 - [x] Word e PDF Rev70, Rev69 archiviate, indice della Wiki; transizioni editoriali F3 (60 nuove, 79 spostate, 2 aggiornate, 8 sostituite).
+- [x] Cattura prima e corsa pulita delle suite delle guide: 12 PASS ciascuna; suite UI 73. Full non eseguita.
 - [ ] Verifica rifiutata per errori di dominio (GPCModelChecker 2.39): da descrivere quando il testo dell'interfaccia è visto.
 
 ## Grafici senza «Premere Calcola» — 4 novembre 2026
