@@ -31,11 +31,12 @@ namespace Anthea.Presentation.Tests;
 /// <item>module and keys of interface state; the background calculation with barriers (thread, busy until the engine returns, only the
 /// current revision published, closing during a calculation and during the delay); read-only from the context; Reload; the exports.</item>
 /// </list>
-/// One "UI" thread (SingleThreadContext), as on the dispatcher.
+/// One "UI" thread (SingleThreadContext), as on the dispatcher, in lock step: the calculation and the search started by a step complete only
+/// after the UI thread has left the step, so that the state read right after it does not depend on the load of the machine.
 /// </summary>
 internal static class BridgeDesignSheetChecks
 {
-    internal static int Run(string root, string output) => SingleThreadContext.Run(_ => RunAsync(root, output));
+    internal static int Run(string root, string output) => SingleThreadContext.Run(_ => RunAsync(root, output), lockStep: true);
 
     private static readonly BridgeDesignSheetModule Module = new(new PlanFigures());
 

@@ -150,6 +150,18 @@ quindi la prova del «modulo senza implementazione MVVM» usa un registro ridott
 `--bridge-design` esegue solo questi controlli e quelli dei prezzari (189, circa 40 s), per lavorare sul modulo. Una prova di mutazione
 (una riga cambiata in una traccia congelata, poi ripristinata) fa fallire il confronto.
 
+**Thread dell'interfaccia al passo (4/11/2026).** Le tracce leggono lo stato subito dopo i passi che avviano lavoro su un thread di
+fondo: l'apertura, «riapri», «avvia-calcolo», «Avvia ottimizzazione». Sulla macchina carica la traccia `ottimizzazione` è fallita una
+volta al passo «riapri»: «occupato sì» con il risultato già pubblicato. Se il thread dell'interfaccia resta sospeso subito dopo `Task.Run`
+abbastanza a lungo, il lavoro finisce prima dell'`await` del foglio. L'`await` lo trova concluso e prosegue nel passo stesso: il
+risultato è pubblicato prima del ritorno del motore messo in coda. `BridgeDesignSheetChecks` usa quindi `SingleThreadContext` al passo
+(`lockStep: true`), come la vista storica usa la priorità di inattività. Un thread di fondo che accoda lavoro al thread dell'interfaccia
+(il ritorno del motore, il primo avanzamento della ricerca) aspetta che quel lavoro sia eseguito. Il calcolo e la ricerca finiscono così
+solo dopo che la traccia ha lasciato il passo; l'ordine dei lavori in coda non cambia. Verifica con una sonda non registrata, che
+sospende il thread dell'interfaccia per 200 ms dopo `Task.Run` nel calcolo o nella ricerca: senza il passo la traccia fallisce sempre
+(apertura di `percorso-alternativa-a-non-calcolabile`, primo «Avvia ottimizzazione»); con il passo le tracce restano uguali a quelle
+congelate. Il foglio e le tracce non cambiano.
+
 L'adattatore della traccia guida il ViewModel come la vista e lo legge come lo vede l'utente; i passi che nella vista storica chiamano
 direttamente ciò che il controllo chiama («Avvia ottimizzazione», «Ponte casuale» con il seme, il clic su un punto della nuvola) sono gli
 stessi sui due lati.
