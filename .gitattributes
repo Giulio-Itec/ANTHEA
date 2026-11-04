@@ -59,6 +59,7 @@ supporto/SUPERATI/paratie-pretensione-rev57-20261021/** -text
 supporto/SUPERATI/rilascio-1130-rev58-20261023/** -text
 # F5.13 g: the capture of MainWindow is compared byte for byte (tests/ANTHEA.Desktop.UiTests/ShellReferences.cs): the recorded bytes, LF, on every checkout.
 tests/fixtures/f5-shell/cattura-mainwindow/** -text
+tests/fixtures/f7a-sezioni-compatte/*.programma -text
 supporto/SUPERATI/rilascio-1140-rev59-20261024/** -text
 supporto/SUPERATI/rilascio-1144-rev60-20261028/** -text
 supporto/SUPERATI/rilascio-1150-rev61-20261028/** -text

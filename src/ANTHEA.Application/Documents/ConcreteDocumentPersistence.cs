@@ -7,19 +7,26 @@ namespace Anthea.Application.Documents;
 /// <summary>
 /// Wire version 3 adds native concrete sections to both live sheets and immutable revision data.
 /// The working document keeps version 1. Versions 1/2 remain readable and migrate only on save.
+/// From ANTHEA 1.19 the sections are saved in the compact contract (ConcreteSectionArchive version 2), the ones of 1.18 included, and
+/// the document gets the wire version 5 on top (<see cref="CompactSectionDocumentPersistence"/>).
 /// </summary>
 internal static class ConcreteDocumentPersistence
 {
-    internal static JsonObject Pack(JsonObject document)
+    /// <param name="compact">True when at least one section of the packed document is in the compact contract (ConcreteSectionArchive
+    /// version 2): the document then takes the wire version 5 (<see cref="CompactSectionDocumentPersistence"/>).</param>
+    internal static JsonObject Pack(JsonObject document, out bool compact)
     {
         var packed = ProjectRevisions.Pack(document);
+        bool anyCompact = false;
         bool found = Transform(packed, data =>
         {
             // Work only on the detached document. Save must not prepare the editor or alter its drafts.
             var input = data["input"]!.AsObject();
             var workspace = data["workspace_ca"] as JsonObject ?? new JsonObject();
-            var stored = ConcreteSectionArchive.Restore(input, workspace);
-            if (stored is null)
+            // ANTHEA 1.19 (decision of the user of 4/11/2026, «Compatto dalla prossima»): a current section still in the XML of 1.18 is
+            // written again in the compact form, the same GPC model read from its XML (ConcreteSectionArchive.CompactCopy).
+            if (ConcreteSectionArchive.CompactCopy(input, workspace) is { } compactCopy) input[ConcreteSectionArchive.Key] = compactCopy;
+            else if (ConcreteSectionArchive.Restore(input, workspace) is null)
             {
                 GPC.Model.Sections.Concrete.ReinforcedConcreteSection? section;
                 try { section = CheckerSection.PrepareModel(input, workspace).Section; }
@@ -30,12 +37,14 @@ internal static class ConcreteDocumentPersistence
                 }
                 input[ConcreteSectionArchive.Key] = ConcreteSectionArchive.Capture(input, workspace, section);
             }
+            if (ConcreteSectionArchive.IsCompact(input)) anyCompact = true;
         });
         if (found)
         {
             packed["versione_base"] = packed["versione"]!.DeepClone();
             packed["versione"] = 3;
         }
+        compact = anyCompact;
         return packed;
     }
 

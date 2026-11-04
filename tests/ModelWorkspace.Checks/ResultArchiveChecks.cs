@@ -54,6 +54,27 @@ static partial class Program
         Check(J.Number(raw["versione"]) == 4 && new FileInfo(archived).Length < new FileInfo(inline17).Length, "results archive: the project file has version 4 and is smaller");
         try { DocumentService.Validate(raw); throw new InvalidOperationException("Accepted: version 4 read as a project of 1.17.0"); }
         catch (ArgumentException error) { Check(error.Message == "Formato o versione del file non supportati.", "results archive: ANTHEA 1.17.0 refuses the file with «Formato o versione del file non supportati.»"); }
+        // ANTHEA 1.19 (4/11/2026, «Compatto dalla prossima»): the results archive and a concrete section in the compact form of GPC in one project.
+        // The document is of version 5 over 4 over 3, opens with the same copy and the same section, and ANTHEA up to 1.18 refuses it as a newer file.
+        {
+            var (mixedDoc, mixedSub) = ArchiveDocument(); var mixedArchive = new ModelResultArchive(null);
+            string mixedId = ProjectModelStore.Set(mixedSub, ModelDocumentEntry.Prepare(model, resultBytes), null, mixedArchive);
+            var concrete = ProjectDocuments.AddSheet(mixedSub, "str_palo"); concrete["dati"]!["input"]!["width_mm"] = "650";
+            string mixed = Path.Combine(folder, "archivio-e-sezione-compatta.programma");
+            Check(mixedArchive.Save(mixed, mixedDoc, () => DocumentService.Save(mixed, mixedDoc)) == 0 && File.Exists(ModelResultArchive.PathFor(mixed)),
+                "compact sections: a project with the results archive and a concrete section is saved with its archive");
+            var mixedRaw = (JsonObject)JsonNode.Parse(File.ReadAllText(mixed))!;
+            Check(J.Number(mixedRaw["versione"]) == 5 && J.Number(mixedRaw["versione_senza_compatto"]) == 4 && J.Number(mixedRaw["versione_senza_archivio"]) == 3,
+                "compact sections: the document has version 5 over the results archive (4) over the concrete sections (3)");
+            try { DocumentService.Validate(mixedRaw); throw new InvalidOperationException("Accepted: version 5 read as a project of 1.18"); }
+            catch (ArgumentException error) { Check(error.Message == "Formato o versione del file non supportati.", "compact sections: ANTHEA up to 1.18 refuses the file with «Formato o versione del file non supportati.»"); }
+            var (mixedRead, mixedReadSub) = Reopen(mixed);
+            Check(ProjectModelStore.Read(mixedReadSub, mixedId, mixedRead)!.Fingerprint() == fingerprint, "compact sections: the copy in the archive reads back with the same fingerprint");
+            var sheetData = mixedReadSub.Array("fogli").OfType<JsonObject>().Single(s => s.S("modulo_id") == "str_palo")["dati"]!.AsObject();
+            Check(Anthea.ConcreteWorkspace.ConcreteSectionArchive.IsCompact(sheetData["input"]!.AsObject()) &&
+                Anthea.ConcreteWorkspace.ConcreteSectionArchive.Restore(sheetData["input"]!.AsObject(), sheetData["workspace_ca"]!.AsObject(), requireCurrent: true)!.Area == 650d * 800,
+                "compact sections: the concrete section reads back from the compact form");
+        }
         var (read, readSub) = Reopen(archived);
         var back = ProjectModelStore.Read(readSub, id, read)!;
         Check(back.Fingerprint() == fingerprint && back.UnavailableResults.Count == 0 && JsonSerializer.Serialize(back.Results) == JsonSerializer.Serialize(model.Results),

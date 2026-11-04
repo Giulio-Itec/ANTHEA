@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+  <!-- «all» and GPC.Model.Persistence: ConcretePersistenceChecks compares the GPC documents of the sections in XML and in the compact form (1.19). -->
+  <PropertyGroup><GpcLibraries>GPCUtilities;GPCGeometry;DelaunayMesh;GPCModel;GPCModelData;GPCChecker.Concrete;GPCChecker.Steel;GPCChecker.Geotechnics;GPCChecker.CompositeBridge;GPCChecker.Masonry;GPC.Design;GPC.Archive;GPC.Model.Persistence</GpcLibraries></PropertyGroup>
   <ItemGroup><ProjectReference Include="../../src/ANTHEA.Application/ANTHEA.Application.csproj" /><ProjectReference Include="../ANTHEA.Legacy/ANTHEA.Legacy.csproj" /></ItemGroup>
   <ItemGroup><Compile Include="../Shared/ConcretePersistenceComparison.cs" Link="Shared/ConcretePersistenceComparison.cs" /></ItemGroup>
   <!-- Formato Excel storico delle azioni, solo per le prove della lettura (decisione D3 del 15/10/2026). -->

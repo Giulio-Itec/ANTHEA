@@ -100,6 +100,31 @@
       ]
     },
     {
+      "id": "GPC-F7A-01",
+      "data": "2026-11-04",
+      "fase": "F7a della migrazione GPC (set candidato delle librerie integrate)",
+      "titolo": "Sezioni c.a. salvate nel formato compatto di GPC e documenti di versione 5; set candidato F7a in lib/Checker",
+      "famiglia": "Persistenza modelli",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Decisione dell'utente del 4/11/2026 («Compatto dalla prossima» versione minore): dalla 1.19 la sezione GPC di ogni foglio c.a. (input.sezione_gpc) si salva nel contratto 2, l'archivio compatto di GPC.Model.Persistence 3.14 (ModelArchiveFormat.Compact, ModelArchive versione 6) in base64, al posto dell'XML di ModelArchive.SaveDocument (contratto 1). Una sezione di 1.18 ancora corrente si riscrive nel compatto al primo salvataggio leggendo il modello GPC dal suo XML (ConcreteSectionArchive.CompactCopy: stessa sezione, stessa identità, nulla ricostruito dall'editor); una bozza resta nel contratto 1. Un documento con almeno una sezione compatta ha la versione 5 (CompactSectionDocumentPersistence, «versione_senza_compatto» = 3 o 4), lo strato più esterno: ANTHEA fino a 1.18.0 non ne toglie nessuno strato e rifiuta il file con «Operazione non completata» / «Formato o versione del file non supportati.», il messaggio di un file più recente (verificato con il vero 1.18.0, payload del suo installer); senza lo strato 5 la 1.18.0 avrebbe mostrato «Contratto della sezione GPC non supportato.». I file di 1.18 (versioni 1–4, sezioni in XML) si leggono come prima. lib/Checker: set candidato gpc-candidate-20261104-f7a (Model claude/f7-set 4375e7a5, Checker claude/f7-set 5f6e4e44, non pushati): GPCModel 5.49.0.0, ModelData 0.3.0.27, Persistence 3.14.0.0, GPC.Archive 1.2.0.0, Converter 2.19.0.0, Concrete 0.35.0.7, Steel 2.129.0.6, CompositeBridge 1.27.0.0, Geotechnics 0.27.0.17, Masonry 0.10.0.32, GPC.Design 0.45.0.6; Utilities, Geometry e DelaunayMesh invariati.",
+      "codice": [
+        "src/ANTHEA.ConcreteWorkspace/ConcreteSectionArchive.cs",
+        "src/ANTHEA.Application/Documents/ConcreteDocumentPersistence.cs",
+        "src/ANTHEA.Application/Documents/CompactSectionDocumentPersistence.cs",
+        "src/ANTHEA.Application/Documents/DocumentService.cs",
+        "lib/Checker"
+      ],
+      "effetto_quantificato": "Nessuna differenza nei valori: sui 15 esempi distribuiti e su un progetto scritto dal vero 1.18.0 (revisione, sezione annidata, foglio del progetto) le sezioni rilette dal compatto hanno la stessa identità, le stesse proprietà, armature e tensioni SLE e lo stesso documento GPC dell'XML; il secondo salvataggio è uguale byte per byte. File da 5 a 27 volte più piccoli (esempi 70–427 kB → 9–23 kB, progetto 531 → 65 kB), apertura da 4–133 ms a 1,5–16 ms. Le versioni fino a 1.18.0 non aprono i file salvati dalla 1.19 che contengono sezioni c.a. La cattura congelata tests/fixtures/f5-shell/cattura-mainwindow (ui/shell-capture) registra l'XML di 1.18 e non è aggiornata: differenza attesa, da approvare.",
+      "documento": "tests/fixtures/f7a-sezioni-compatte/README.md",
+      "decisione": "Utente, 4/11/2026: «Compatto dalla prossima»; le versioni vecchie devono mostrare un messaggio chiaro. Branch claude/f7-anthea, nessun merge, nessun rilascio.",
+      "test": [
+        "tests/ANTHEA.Application.Tests/ConcretePersistenceChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/ConcreteSectionSheetChecks.Wizard.cs",
+        "tests/fixtures/f7a-sezioni-compatte/progetto-1.18.0.programma"
+      ]
+    },
+    {
       "id": "SPETTRI-01",
       "data": "2026-10-19",
       "fase": "F5 — nuovo modulo Azioni",

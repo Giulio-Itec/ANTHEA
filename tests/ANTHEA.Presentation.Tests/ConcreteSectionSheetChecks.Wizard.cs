@@ -90,8 +90,12 @@ internal static partial class ConcreteSectionSheetChecks
                 var reopened = DocumentService.Open(file)["dati"]!.AsObject();
                 string again = reopened["input"]![ConcreteSectionArchive.Key]!["archivio_sha256"]!.ToString();
                 bool restored = ConcreteSectionArchive.Restore(reopened["input"]!.AsObject(), reopened["workspace_ca"]!.AsObject()) is not null;
-                if (saved["versione"]?.ToString() != "3" || !restored || (again == archive) != same)
-                    failures.Add(id + ": salvataggio" + (restored ? "" : " senza sezione GPC corrente") + (again == archive ? " con l'archivio precedente" : " con un archivio nuovo"));
+                // ANTHEA 1.19 (4/11/2026, «Compatto dalla prossima»): the section of an example of 1.18 (XML) is written again in the compact form
+                // also with the same recipe (the same GPC model, ConcreteSectionArchive.CompactCopy); a compact section with the same recipe is kept.
+                bool xml = data["input"]![ConcreteSectionArchive.Key]!["versione"]?.ToString() == "1";
+                bool kept = again == archive, keep = same && !xml;
+                if (saved["versione"]?.ToString() != "5" || !restored || !ConcreteSectionArchive.IsCompact(reopened["input"]!.AsObject()) || kept != keep)
+                    failures.Add(id + ": salvataggio" + (restored ? "" : " senza sezione GPC corrente") + (kept ? " con l'archivio precedente" : " con un archivio nuovo"));
             }
         }
         finally { if (File.Exists(file)) File.Delete(file); }
