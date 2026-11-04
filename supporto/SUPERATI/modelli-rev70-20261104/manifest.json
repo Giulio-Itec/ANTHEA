@@ -1,0 +1,98 @@
+[
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/README.md",
+    "sha256": "8d1580241edabd261478a9065041c78479540b5296782063a17d9cc61d0a9eec",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/README.pdf",
+    "sha256": "84f349c6385eb5f3609592a753a5e64f627aae250f20575cdf3ff42934c8810c",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/docs/guida-pratica-anthea.md",
+    "sha256": "84ce6f8196f1b4b103f4d2c12bb66f5d07aab47577ca5b724d6203f57757536e",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/docs/guida-pratica-anthea.pdf",
+    "sha256": "7b3e2e3c8219125b0dcef7ef0735ad62b2eb740dc5bb5d0ecd40fe6da55eae04",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/docs/guida-teorica-anthea.md",
+    "sha256": "5905aac96fbdd401ded6669f97d71b7ebd392b775bf12cc6b4e31df810b4db8d",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/docs/guida-teorica-anthea.pdf",
+    "sha256": "abeeb92a6d7f748bfebccdaf30200b83cd9013eb49a9d5804702606f0f6b2a60",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "c65cc41e147705353b91e3a1645b97654277ed7d117420c7d074ea56dca9df0a",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "b0cd8390a700a1e229445d94b6c63199144df1834571e833b65b7047bf9a0070",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/installer/Indice-guide.md",
+    "sha256": "32615ed152b8cd963d63b2aa38c68fa1771e2617ca4a731d39695338e42a085a",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/installer/Indice-guide.pdf",
+    "sha256": "a8f308e0329c0c5695166a4bd35c1feac00a590f527224a2f85dd6d519d954be",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/installer/README.md",
+    "sha256": "dd6cf802b4968fc22d2d9bc48d9577bd9589266b26b1b64f32c602dfc1537378",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/installer/README.pdf",
+    "sha256": "eb400801eac2efc66392f085c70b5b2394cbb8df9528b5758252e5f82001b218",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev69.docx",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev69.docx",
+    "sha256": "b771afc6c888b9624feb324aba275331d441edc56c9fb778b5d3ef657b1422cd",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev69.pdf",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev69.pdf",
+    "sha256": "7b3e2e3c8219125b0dcef7ef0735ad62b2eb740dc5bb5d0ecd40fe6da55eae04",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev69.docx",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev69.docx",
+    "sha256": "239bad30c554ff21ba6b204d58c8bf613c3d140572a0b9f94e37a11043aca600",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev69.pdf",
+    "archivio": "supporto/SUPERATI/modelli-rev70-20261104/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev69.pdf",
+    "sha256": "abeeb92a6d7f748bfebccdaf30200b83cd9013eb49a9d5804702606f0f6b2a60",
+    "motivo": "Sostituita dalla Rev70: modulo Modelli (calcolo in serie, spazio delle combinazioni, spessori delle piastre) e file della 1.19 (sezioni in c.a. nel formato compatto, avvisi del salvataggio sull'archivio dei risultati)."
+  }
+]
