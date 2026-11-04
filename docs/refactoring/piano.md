@@ -1,5 +1,18 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Rilievi bassi dell'interfaccia Azioni — 4 novembre 2026
+
+Richiesta dell'utente: correggere anche i rilievi bassi della revisione del 2/11 («Tutti i 16»). Ramo `refactoring/f5-azioni-ui-bassi` da b05238fa;
+[rilievi, corse e confronti](azioni-ui-revisione-20261102.md#rilievi-bassi--4-novembre-2026); registro `AZIONI-UI-BASSI-20261104`.
+
+- [x] Reologia: opzioni del grafico in consultazione, età della tabella con le sue cifre, ricalcolo automatico, «Aggiorna le curve» spento in sola
+  lettura, esportazione da `IFileDialogService` (rilievi 12 e 14).
+- [x] Azioni: diagramma su un'unità dimensionale con l'etichetta «Unità», nomi di automazione, token `Font.*`, testi dell'assistenza e
+  legenda (rilievi 13, 15 e 16).
+- [x] Cattura prima e corse mirate PASS, contrasto completo compreso; suite UI 73 prima e dopo.
+- [ ] Full: non eseguita.
+- [ ] Guide: ricalcolo automatico e opzioni del grafico della reologia nella prossima edizione (Rev68 invariata).
+
 ## ANTHEA 1.18.0 — 3 novembre 2026
 
 Pannello «Spazio delle combinazioni» (9aa5afcf), chiesto dall'utente dopo lo stop della 1.17.6 al tetto di 2 GiB («riesci a mettere un
