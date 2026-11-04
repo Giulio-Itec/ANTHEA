@@ -99,6 +99,8 @@ Obiettivi di tempo sul 500 × 100, da confermare in F1: combinazione lineare sot
   più i risultati, tenendo solo quelle collegate alle verifiche. Cambia il documento (revisioni, collegamenti delle verifiche, report),
   quindi consiglio di decidere dopo F4, con le misure in mano.
 - **D5 · «Calcola tutte».** Resta, ma diventa un solo passaggio per gruppi; con D4 potrebbe sparire.
+- **F5, D4 e D5 (4/11).** Uniti al passo 5 del sistema di progetto: piano in [sollecitazioni-dai-modelli.md](sollecitazioni-dai-modelli.md),
+  da discutere con l'utente.
 - **D6 · Stato tracciato.** Consigliato su richiesta (per una verifica o un punto interrogato) invece che per tutto il modello: è lì che
   si perde oggi il 99% del tempo.
 

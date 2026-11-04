@@ -123,5 +123,6 @@ Ogni passo si distribuisce da solo, con le suite della shell e della presentazio
    stato calcolato.
 5. **Sollecitazioni dai modelli alle verifiche** (rimandato dall'utente il 4/11, «Rimandiamo il passo 5»). Il collegamento diventa sorgente
    di sollecitazioni, con l'impronta del modello, l'anteprima e «Aggiorna» per più fogli. Se si riprende, l'utente preferisce le
-   combinazioni scelte nel foglio: ognuna diventa una riga di azioni, con l'anteprima prima di «Aggiorna».
+   combinazioni scelte nel foglio: ognuna diventa una riga di azioni, con l'anteprima prima di «Aggiorna». Il 4/11 l'utente lo ha unito
+   alla fase F5 delle combinazioni: piano in [sollecitazioni-dai-modelli.md](sollecitazioni-dai-modelli.md), da discutere.
 6. **Dati comuni ereditati** (D1, dopo i passi 1–5).
