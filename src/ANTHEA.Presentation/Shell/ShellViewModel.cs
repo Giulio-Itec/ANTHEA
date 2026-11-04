@@ -532,7 +532,7 @@ public sealed class ShellViewModel : ViewModelBase
     {
         recovery?.Dispose();
         Watch(null);
-        if (attached is not null) { attached.StateChanged -= OnProjectState; attached.Changed -= OnProjectChanged; }
+        if (attached is not null) { attached.StateChanged -= OnProjectState; attached.Changed -= OnProjectChanged; attached.Calculations.Changed -= OnCalculated; }
         Navigation.PropertyChanged -= OnNavigationChanged;
         Commands.Dispose(); Windows.Dispose(); Tree.Dispose(); Navigation.Dispose(); Catalogue.Dispose();
         Models.Dispose(); ModelReference.Dispose(); SheetBar.Dispose(); Appearance?.Dispose(); examples?.Dispose();
@@ -608,11 +608,11 @@ public sealed class ShellViewModel : ViewModelBase
         var project = Workspace.Project;
         if (!ReferenceEquals(attached, project))
         {
-            if (attached is not null) { attached.StateChanged -= OnProjectState; attached.Changed -= OnProjectChanged; }
+            if (attached is not null) { attached.StateChanged -= OnProjectState; attached.Changed -= OnProjectChanged; attached.Calculations.Changed -= OnCalculated; }
             Revisions?.Dispose();
             attached = project;
             Revisions = project is null ? null : new RevisionBarViewModel(project, services);
-            if (project is not null) { project.StateChanged += OnProjectState; project.Changed += OnProjectChanged; }
+            if (project is not null) { project.StateChanged += OnProjectState; project.Changed += OnProjectChanged; project.Calculations.Changed += OnCalculated; }
             Overview = null;
             foreach (var model in Windows.Pages.Where(p => p.Content is ModelTabViewModel).ToArray()) Windows.Close(model);
             OnPropertyChanged(nameof(HasProject));
@@ -624,6 +624,12 @@ public sealed class ShellViewModel : ViewModelBase
     }
 
     private void OnProjectState(object? sender, EventArgs e) => UpdateTitle();
+
+    /// <summary>A sheet was calculated (step 4): the overview on screen counts the states again.</summary>
+    private void OnCalculated(object? sender, string id)
+    {
+        if (Overview is { Section: { } section } && attached is { } project) Overview = new SectionOverviewViewModel(project, project.Find(section.S("id")) ?? section);
+    }
 
     /// <summary>
     /// F5.13 e (ui/shell-smoke-project-workspace): the sheet with the focus closed because the document on screen has no node with its identifier (a revision,

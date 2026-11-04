@@ -105,6 +105,9 @@ public sealed class ProjectSession : DocumentSession
     /// <summary>Undo and redo of the project, 30 copies (F5.2).</summary>
     public ProjectHistory History { get; } = new();
 
+    /// <summary>The calculations of the sheets, in memory only (step 4 of docs/sviluppo/progetto-sistema.md, decision of 4/11/2026).</summary>
+    public ProjectCalculations Calculations { get; } = new();
+
     /// <summary>The results archive of the project (decision of 2/11/2026, «Blocchi accanto»): the result sets of the large models, in the file
     /// beside the project; written by «Salva» and «Salva con nome» before the document.</summary>
     public ModelResultArchive Results { get; }

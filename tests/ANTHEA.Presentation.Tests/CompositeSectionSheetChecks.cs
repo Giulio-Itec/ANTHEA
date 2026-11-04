@@ -639,6 +639,10 @@ internal static class CompositeSectionSheetChecks
             sheet.Commit(); Same("visited.json", Canonical(sheet.Data));
             sheet.Commit(); await Expect.Within(sheet.CalculateAsync()); sheet.Commit();
             Same("calculated-data.json", Canonical(sheet.Data)); Same("result.json", Canonical(sheet.Result));
+            // Step 4 of docs/sviluppo/progetto-sistema.md (4/11/2026): the outcome of the sheet for the state of the project, from the summaries of
+            // every situation; none without results.
+            bool? passed = ((ISheetOutcome)sheet).Passed;
+            expect.That(sheet.HasResults || passed is null, id + ": esito del foglio per lo stato del progetto " + (passed?.ToString() ?? "assente"));
             var status = new JsonObject { ["hasResults"] = sheet.HasResults };
             try
             {

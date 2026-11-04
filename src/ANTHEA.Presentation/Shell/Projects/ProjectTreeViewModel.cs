@@ -102,6 +102,7 @@ public sealed class ProjectNodeViewModel : ViewModelBase
             ToolTip = DocumentQuarantine.Reason(node) is { } unreadable ? "Non leggibile, in sola lettura: " + unreadable : "Doppio clic per rinominare · F2";
             OpenToolTip = "Apri scheda · " + Name;
             OpenAutomationName = "Apri scheda " + node!.S("nome");
+            Calculation = tree.CalculationOf(node!);
         }
         else ToolTip = "Apri mesh, volumi e risultati";
         OpenCommand = GuardedCommands.Create(tree.Guard, () => tree.Open(this));
@@ -229,6 +230,25 @@ public sealed class ProjectNodeViewModel : ViewModelBase
     }
 
     /// <summary>The coherence badge of a section computed again, in place (step 3b).</summary>
+    /// <summary>The state of the calculation of a sheet (step 4 of docs/sviluppo/progetto-sistema.md), null for the other nodes and during the preview
+    /// of a revision.</summary>
+    public SheetCalculationState? Calculation { get; private set; }
+
+    /// <summary>The sign of <see cref="Calculation"/> beside the name: «✓», «✗», «●», «↻»; none before the first calculation (every sheet is «da
+    /// calcolare» at the opening, decision «Solo in memoria» of 4/11/2026).</summary>
+    public string? CalculationGlyph => Calculation is { } state && state != SheetCalculationState.ToCalculate ? ProjectCalculations.Glyph(state) : null;
+
+    /// <summary>The words of <see cref="Calculation"/>, its tooltip and automation name.</summary>
+    public string? CalculationText => Calculation is { } state ? ProjectCalculations.Text(state) : null;
+
+    /// <summary>The state of the calculation shown again, in place.</summary>
+    internal void ShowCalculation(SheetCalculationState? state)
+    {
+        if (Calculation == state) return;
+        Calculation = state;
+        OnPropertyChanged(nameof(Calculation)); OnPropertyChanged(nameof(CalculationGlyph)); OnPropertyChanged(nameof(CalculationText));
+    }
+
     internal void ShowBadge(CoherenceBadge? badge)
     {
         if (Badge == badge) return;
@@ -270,6 +290,16 @@ public sealed class ProjectTreeViewModel : ViewModelBase
     /// <summary>The coherence of the sections kept by the content of the sheets (step 3 of docs/sviluppo/progetto-sistema.md): a refresh computes
     /// again only the badges of the sections whose sheets changed. A new one for each project.</summary>
     internal ProjectCoherenceCache Coherence { get; private set; } = new();
+
+    /// <summary>The state of the calculation of <paramref name="sheet"/> (step 4), null during the preview of a revision.</summary>
+    internal SheetCalculationState? CalculationOf(JsonObject sheet) => project is { IsReadOnly: false } open ? open.Calculations.State(sheet) : null;
+
+    /// <summary>A sheet was calculated or its results went: its sign beside the name, in place.</summary>
+    private void OnCalculated(object? sender, string id)
+    {
+        IEnumerable<ProjectNodeViewModel> All(IEnumerable<ProjectNodeViewModel> items) => items.SelectMany(i => new[] { i }.Concat(All(i.Children)));
+        foreach (var item in All(Roots).Where(i => i.IsSheet && i.Id == id)) item.ShowCalculation(item.Node is { } node ? CalculationOf(node) : null);
+    }
     private ProjectNodeViewModel? selected;
     private ProjectNodeViewModel? renaming;
     private string summary = "";
@@ -609,16 +639,16 @@ public sealed class ProjectTreeViewModel : ViewModelBase
         workspace.ActiveChanged -= OnActiveChanged;
         workspace.SheetOpened -= OnSheetOpened;
         workspace.SheetClosed -= OnSheetsChanged;
-        if (project is not null) project.Changed -= OnProjectChanged;
+        if (project is not null) { project.Changed -= OnProjectChanged; project.Calculations.Changed -= OnCalculated; }
     }
 
     private void Attach()
     {
         if (ReferenceEquals(project, workspace.Project)) return;
-        if (project is not null) project.Changed -= OnProjectChanged;
+        if (project is not null) { project.Changed -= OnProjectChanged; project.Calculations.Changed -= OnCalculated; }
         project = workspace.Project;
         Coherence = new ProjectCoherenceCache();
-        if (project is not null) project.Changed += OnProjectChanged;
+        if (project is not null) { project.Changed += OnProjectChanged; project.Calculations.Changed += OnCalculated; }
         collapsed.Clear();
         Refresh();
     }

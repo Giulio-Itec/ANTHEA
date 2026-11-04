@@ -699,6 +699,8 @@ public sealed class WorkspaceSession : IDisposable
     {
         if (!CloseProject()) return null;
         var project = new ProjectSession(document, path, dirty, services.Confirmations, CommitActive, resultsFrom);
+        // Step 4: the state of a sheet open in a tab compares the data of the tab, those the calculation saw.
+        project.Calculations.Live = sheet => SheetOf(sheet)?.ViewModel.Data;
         project.Changed += OnProjectChanged;
         Project = project;
         DocumentsChanged?.Invoke(this, EventArgs.Empty);

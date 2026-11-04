@@ -173,9 +173,22 @@ public sealed class SheetSession : IDisposable
         var data = Sheet["dati"] as JsonObject ?? DocumentService.CreateSheet(Module);
         var sheet = factory.Open(Module, data, IsReadOnly, host);
         sheet.Modified += (_, _) => Owner.MarkDirty();
+        if (sheet is System.ComponentModel.INotifyPropertyChanged notifying) notifying.PropertyChanged += OnResults;
         baseline = (JsonObject)Sheet.DeepClone(); baseline["dati"] = sheet.Data.DeepClone();
         loaded = Sheet["dati"]?.DeepClone();
         return sheet;
+    }
+
+    /// <summary>
+    /// Step 4 of docs/sviluppo/progetto-sistema.md (4/11/2026): a published calculation of a sheet of the project is recorded with the data it
+    /// was made with and its outcome, in memory only; results gone (data edited) let the tree read the state again. Not while read-only.
+    /// </summary>
+    private void OnResults(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is not (nameof(ISheetViewModel.Result) or nameof(ISheetViewModel.HasResults)) || !ReferenceEquals(sender, ViewModel)
+            || Project is not { } project || IsReadOnly) return;
+        if (ViewModel.HasResults) project.Calculations.Record(Id, ViewModel.Data, (ViewModel as ISheetOutcome)?.Passed);
+        else project.Calculations.Touch(Id);
     }
 
     private void UpdateUnsaved(bool force = false)

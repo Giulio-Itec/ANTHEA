@@ -109,8 +109,19 @@ Ogni passo si distribuisce da solo, con le suite della shell e della presentazio
 
    La ricostruzione dell'albero in WPF non è misurata qui. Il resto di una modifica è lo storico (2 confronti da 6 ms e un passo da 13
    ms), la coerenza delle sezioni toccate e il riepilogo.
-4. **Descrittori dei moduli e stato del progetto.** Ogni modulo dichiara dati comuni, etichette e stato di un foglio. Ogni foglio registra
-   l'impronta dei dati con cui è stato calcolato; albero e panoramica mostrano verificato / non verificato / da ricalcolare / da calcolare.
-5. **Sollecitazioni dai modelli alle verifiche.** Il collegamento come sorgente di sollecitazioni, con l'impronta del modello, anteprima e
-   «Aggiorna» per più fogli.
+4. **Stato dei calcoli del progetto** (fatto, 4/11). Decisioni dell'utente del 4/11:
+   - D4 «Solo in memoria»: calcolare un foglio non rende il progetto da salvare, non entra nell'annulla e non si scrive nel file. Alla
+     riapertura ogni foglio è «da calcolare».
+   - D5 «Calcolato per ora»: verificato o non verificato solo dove l'esito uniforme esiste già, cioè la sezione in c.a. (riepiloghi SLU,
+     SLV, SLE, taglio, torsione) e la sezione composta (riepiloghi di ogni situazione). Gli altri moduli mostrano «calcolato»; si
+     aggiungono uno alla volta, con le regole dell'utente.
+
+   Quando una scheda di progetto pubblica un risultato, `ProjectCalculations` registra l'impronta SHA-256 dei dati calcolati e l'esito
+   (`ISheetOutcome`). Lo stato confronta l'impronta con i dati della scheda aperta, oppure con quelli del documento. Nell'albero, dopo il
+   primo calcolo, accanto al nome compare ✓ verificato, ✗ non verificato, ● calcolato o ↻ da ricalcolare, con il colore dello stato. Nel
+   riepilogo della sezione una riga conta gli stati («Calcoli: 1 verificato · 2 da calcolare»), da quando un foglio della sezione è
+   stato calcolato.
+5. **Sollecitazioni dai modelli alle verifiche** (rimandato dall'utente il 4/11, «Rimandiamo il passo 5»). Il collegamento diventa sorgente
+   di sollecitazioni, con l'impronta del modello, l'anteprima e «Aggiorna» per più fogli. Se si riprende, l'utente preferisce le
+   combinazioni scelte nel foglio: ognuna diventa una riga di azioni, con l'anteprima prima di «Aggiorna».
 6. **Dati comuni ereditati** (D1, dopo i passi 1–5).

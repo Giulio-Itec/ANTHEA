@@ -16,4 +16,16 @@ public sealed record VerificationSummary(string Title, int Total, int Completed,
             numeric.Length > 0 ? numeric[0].Name : rows.FirstOrDefault(r => r.Passed == false).Name ?? "—",
             total == 0 ? "NESSUNA AZIONE" : passed == false ? "NON VERIFICATA" : passed is null ? "DA COMPLETARE" : "VERIFICATA");
     }
+
+    /// <summary>
+    /// The outcome of a sheet from its summaries (docs/sviluppo/progetto-sistema.md, step 4, 4/11/2026): false when one is not verified, true
+    /// when every summary with actions is verified, otherwise null (no actions, or some to complete).
+    /// </summary>
+    public static bool? Combine(IEnumerable<VerificationSummary> summaries)
+    {
+        var relevant = summaries.Where(s => s.Total > 0).ToArray();
+        if (relevant.Length == 0) return null;
+        if (relevant.Any(s => s.Passed == false)) return false;
+        return relevant.All(s => s.Passed == true) ? true : null;
+    }
 }
