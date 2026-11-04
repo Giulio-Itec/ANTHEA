@@ -14794,6 +14794,32 @@
         "supporto/artefatti/ci/20261104-122457-azioni-bassi-pulita"
       ],
       "wiki": "Guide Rev68 invariate: il ricalcolo automatico della reologia e le opzioni del grafico non salvate vanno nella prossima edizione, con il calcolo automatico e il «?» dei fogli Azioni."
+    },
+    {
+      "id": "SPETTRI-GUIDE-REV69-20261104",
+      "fase": "Dopo il refactoring / Spettri e guide globali",
+      "titolo": "Spettri calcolati all'apertura e guide Rev69 sul calcolo automatico dei fogli",
+      "famiglia": "spettri/guide/interfaccia",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Richiesta dell'utente del 4/11/2026 («correggi gli altri due punti aperti»), ultimi punti della revisione dell'interfaccia Azioni del 2/11. Spettri: il foglio avvia il calcolo alla creazione, come i fogli Azioni, perché né la shell né la vista hanno un comando «Calcola». Il testo «Premere Calcola per determinare gli spettri.» diventa lo stato del calcolo, e il testo dell'isolamento non invita più a calcolare. La Stratigrafia non cambia: è un foglio di dati senza calcolo (SheetCalculationMode.None), e il suo «risultati=False» del 2/11 era il comportamento previsto. Guide Rev69 (edizione 6, 4/11/2026): la guida pratica descrive Spettri senza Calcola; nella procedura comune dei fogli Azioni, il calcolo all'apertura e dopo le modifiche, il messaggio del calcolo, il testo nei campi numerici, il separatore, «?» e F1, l'unità iniziale del diagramma e il selettore Unità; nella reologia, ricalcolo automatico, opzioni del grafico non salvate, età della tabella e comando disattivato in sola lettura. La guida teorica cambia solo nella riga della revisione. Rev68 archiviate con manifest; indice della Wiki rigenerato. Nessun motore, contratto, formula o atteso numerico modificato.",
+      "effetto_quantificato": "Risultati degli spettri invariati: Spettri.Tests e Presentation.Tests PASS sugli stessi attesi (Agliè SLV ag = 0,04562261909287685). Guide: pratica 132 pagine, 1364 frammenti e 9 formule; teorica 212 pagine, 2552 frammenti e 1566 formule; 26 parti ITEC identiche; pagine cambiate 1, 7, 8, 101, 102 e 115–117 della pratica e 1 della teorica. Wiki: 94 capitoli e 8390 termini; f3-equivalence con 10 transizioni editoriali nuove e 2 aggiornate, nessuna tolta.",
+      "test": [
+        "Presentation.Tests/SpectraSheetChecks: calcolo in corso all'apertura, risultati senza «Calcola» e senza modifiche del foglio",
+        "ui/check-spettri-view: risultati all'apertura, nessun testo che chieda «Calcola»",
+        "Wiki.Tests, Headless/help, wiki/indice, wiki/manuale, ui/check-wiki-offscreen, ui/f3-equivalence (editorial_transitions_rev69)",
+        "Suite UI: 73 prima e dopo, nessuna rimossa"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261104-131705-spettri-guide-prima",
+        "supporto/artefatti/ci/20261104-133159-spettri-dopo-1",
+        "supporto/artefatti/ci/20261104-134003-guide-rev69-1",
+        "supporto/artefatti/ci/20261104-134644-guide-rev69-f3",
+        "supporto/artefatti/ci/20261104-135033-spettri-guide-pulita",
+        "supporto/artefatti/guide_anthea_itec_rev69",
+        "supporto/SUPERATI/azioni-spettri-rev69-20261104/manifest.json"
+      ],
+      "wiki": "Guide globali Rev69 Word/PDF e Markdown; articoli Spettri NTC e reologia del calcestruzzo aggiornati; nessuna guida autonoma nuova."
     }
   ]
 }

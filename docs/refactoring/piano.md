@@ -1,5 +1,17 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Spettri all'apertura e guide Rev69 — 4 novembre 2026
+
+Richiesta dell'utente: «correggi gli altri due punti aperti». Ramo `refactoring/f5-spettri-guide` da 6710cf59;
+[verbale](azioni-ui-revisione-20261102.md#punti-aperti-chiusi--4-novembre-2026); registro `SPETTRI-GUIDE-REV69-20261104`.
+
+- [x] Spettri calcola all'apertura, senza «Premere Calcola»; la Stratigrafia non ha calcolo e resta com'è.
+- [x] Guide Rev69 Word/PDF: calcolo automatico e «?» dei fogli Azioni, Spettri senza Calcola, reologia con ricalcolo automatico e opzioni del
+  grafico non salvate; Rev68 in `supporto/SUPERATI/azioni-spettri-rev69-20261104`; indice della Wiki e transizioni F3 editoriali aggiornati.
+- [x] Cattura prima e corse mirate PASS; suite UI 73.
+- [ ] Full: stanotte, lanciata dall'utente.
+- [ ] Guide: pannello dello spazio, spessori e calcolo in serie del modulo Modelli (voci della 1.17.4–1.18.0) restano per un'edizione successiva.
+
 ## Rilievi bassi dell'interfaccia Azioni — 4 novembre 2026
 
 Richiesta dell'utente: correggere anche i rilievi bassi della revisione del 2/11 («Tutti i 16»). Ramo `refactoring/f5-azioni-ui-bassi` da b05238fa;
@@ -11,7 +23,7 @@ Richiesta dell'utente: correggere anche i rilievi bassi della revisione del 2/11
   legenda (rilievi 13, 15 e 16).
 - [x] Cattura prima e corse mirate PASS, contrasto completo compreso; suite UI 73 prima e dopo.
 - [ ] Full: non eseguita.
-- [ ] Guide: ricalcolo automatico e opzioni del grafico della reologia nella prossima edizione (Rev68 invariata).
+- [x] Guide: ricalcolo automatico e opzioni del grafico della reologia nella Rev69 (sezione precedente).
 
 ## ANTHEA 1.18.0 — 3 novembre 2026
 
@@ -22,7 +34,7 @@ pannello di gestione limite? o qualcosa del genere»). Funzione nuova: 1.17.6 �
 - [x] Versione 1.18.0 e [note di rilascio](note-rilascio-1.18.0.md); profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto
   e audit PASS; tag `v1.18.0` sul commit del setup 2efb5ab0 ([verbale](installer-1.18.0.md)).
 - [ ] Full: dopo la prova dell'utente (anche per la 1.17.6).
-- [ ] Guide: pannello dello spazio, spessori, calcolo in serie e fogli Azioni nella prossima edizione (Rev68 invariata).
+- [ ] Guide: pannello dello spazio, spessori, calcolo in serie nella prossima edizione (i fogli Azioni sono nella Rev69 del 4/11).
 
 ## ANTHEA 1.17.6 — 3 novembre 2026
 
@@ -47,7 +59,7 @@ Serie delle combinazioni più veloce (8b9289ec..cbd0522a); versione chiesta dall
   `supporto/SUPERATI/rilascio-1175-20261103`.
 - [x] Profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto e audit PASS; tag `v1.17.5` sul commit del setup 4b07b34a
   ([verbale](installer-1.17.5.md)).
-- [ ] Guide: spessori, calcolo in serie e fogli Azioni nella prossima edizione (Rev68 invariata).
+- [ ] Guide: spessori, calcolo in serie nella prossima edizione (i fogli Azioni sono nella Rev69 del 4/11).
 
 ## ANTHEA 1.17.4 — 2 novembre 2026
 
@@ -58,7 +70,7 @@ Motore a matrici delle combinazioni e set AU; versione chiesta dall'utente, «ri
   `supporto/SUPERATI/rilascio-1174-20261102`.
 - [x] Profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto e audit PASS; tag `v1.17.4` sul commit del setup a2f90766
   ([verbale](installer-1.17.4.md)).
-- [ ] Guide: spessori, calcolo in serie e fogli Azioni nella prossima edizione (Rev68 invariata).
+- [ ] Guide: spessori, calcolo in serie nella prossima edizione (i fogli Azioni sono nella Rev69 del 4/11).
 
 ## Motore a matrici delle combinazioni — 2 novembre 2026
 
@@ -90,7 +102,7 @@ Correzioni dell'interfaccia dei fogli Azioni e della reologia ([revisione](azion
 - [x] Profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto e audit PASS; tag `v1.17.3` sul commit del setup 4707f776
   ([verbale](installer-1.17.3.md)).
 - [ ] Full: non eseguita su questo commit, per richiesta dell'utente.
-- [ ] Guide: calcolo automatico e «?» dei fogli Azioni nella prossima edizione (Rev68 invariata).
+- [x] Guide: calcolo automatico e «?» dei fogli Azioni nella Rev69 del 4/11.
 
 ## Modelli dopo le prove della 1.17.1 e 1.17.2 — 2 novembre 2026
 

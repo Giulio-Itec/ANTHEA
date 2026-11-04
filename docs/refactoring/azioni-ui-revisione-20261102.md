@@ -26,8 +26,8 @@ Nessun motore GPC, contratto, attesi numerici, formula o relazione modificati. L
 ## Non compresi
 
 - I rilievi di gravità bassa della revisione (12–16) sono rimasti aperti fino al 4/11, poi sono stati corretti (sezione «Rilievi bassi» qui sotto).
-- Spettri e Stratigrafia non calcolano all'apertura nella shell, come i fogli Azioni prima della correzione: fuori perimetro.
-- La guida pratica descrive già messaggio e invalidazione; una frase sul calcolo automatico e sul «?» dei fogli Azioni andrà nella prossima edizione Word/PDF delle guide.
+- Spettri e Stratigrafia non calcolano all'apertura nella shell, come i fogli Azioni prima della correzione: fuori perimetro. Chiuso il 4/11: Spettri calcola all'apertura; la Stratigrafia non ha calcolo (sezione «Punti aperti chiusi» qui sotto).
+- La guida pratica descrive già messaggio e invalidazione; una frase sul calcolo automatico e sul «?» dei fogli Azioni andrà nella prossima edizione Word/PDF delle guide. Chiuso il 4/11 con le guide Rev69.
 
 ## Verifiche
 
@@ -88,4 +88,48 @@ Confronto fra la corsa «prima» e quella pulita:
 - Le catture intere dei fogli Azioni cambiano tutte, per il titolo (22 invece di 21) e la legenda. In Neve e Vento edifici il diagramma parte da kN/m² invece che da «–», con l'etichetta «Unità».
 - Le catture della reologia cambiano solo nell'intestazione «Tabella · selezionare un'età»: valori, grafico e tabella sono identici.
 
-Suite UI: 73 prima e dopo, nessuna rimossa. Full non eseguita. Le guide Rev68 non descrivono ancora il ricalcolo automatico della reologia né le opzioni del grafico non salvate: vanno nella prossima edizione, insieme al calcolo automatico e al «?» dei fogli Azioni.
+Suite UI: 73 prima e dopo, nessuna rimossa. Full non eseguita. Le guide Rev68 non descrivono ancora il ricalcolo automatico della reologia né le opzioni del grafico non salvate: vanno nella prossima edizione, insieme al calcolo automatico e al «?» dei fogli Azioni (fatto: sezione seguente).
+
+## Punti aperti chiusi — 4 novembre 2026
+
+Richiesta dell'utente: «correggi gli altri due punti aperti». Ramo `refactoring/f5-spettri-guide`, da `main` 6710cf59. Voce `SPETTRI-GUIDE-REV69-20261104` nel registro delle differenze.
+
+1. **Spettri e Stratigrafia all'apertura.**
+   - **Spettri** aveva lo stesso difetto dei fogli Azioni: nessun calcolo all'apertura e il testo «Premere Calcola per determinare gli spettri.», mentre né la shell né la vista hanno un comando «Calcola». Ora il foglio avvia il calcolo alla creazione: nuovo foglio, file, revisione, copia ripristinata da Annulla. Il testo descrive lo stato del calcolo (in corso, dati da correggere, calcolo automatico), e il motivo resta nel messaggio del calcolo già mostrato dalla vista. Anche il testo dell'isolamento non invita più a «calcolare».
+   - **Stratigrafia:** nessuna correzione, perché è un foglio di dati senza calcolo (`SheetCalculationMode.None`), in cui «Calcola» conferma e valida soltanto. Il «risultati=False» della prova del 2/11 era il comportamento previsto, non un difetto.
+2. **Guide Rev69** (edizione 6, 4 novembre 2026), con la stessa procedura e lo stesso modello ITEC della Rev68.
+   - **Guida pratica:**
+     - Spettri senza «Calcola»;
+     - procedura comune dei fogli Azioni:
+       - calcolo all'apertura e dopo le modifiche;
+       - motivo del calcolo mancato;
+       - testo nei campi numerici;
+       - separatore decimale;
+       - «?» e F1;
+       - unità iniziale del diagramma e selettore Unità;
+     - reologia:
+       - ricalcolo automatico;
+       - «Aggiorna le curve» spento in sola lettura;
+       - opzioni del grafico non salvate;
+       - età della tabella.
+   - **Guida teorica:** cambia solo la riga della revisione.
+   - **Esito della costruzione:**
+     - pratica 132 pagine, 1364 frammenti, 9 formule;
+     - teorica 212 pagine, 2552 frammenti, 1566 formule;
+     - 26 parti ITEC identiche per documento, nessun glifo sostitutivo;
+     - frasi nuove alle pagine 8, 101, 102 e 115 della pratica.
+   - **Archivio:** le Rev68 (16 file) sono in `supporto/SUPERATI/azioni-spettri-rev69-20261104`, con manifest.
+   - **Wiki:**
+     - indice della Wiki rigenerato;
+     - 10 transizioni editoriali nuove della Wiki per gli articoli Spettri e reologia;
+     - 2 righe già elencate aggiornate al testo nuovo (`editorial_transitions_rev69`).
+
+### Verifiche
+
+- **`20261104-131705-spettri-guide-prima`**, 6710cf59: 20 PASS, 0 NEW-FAIL (Spettri, Wiki, guide, f3-equivalence, shell, Azioni WPF).
+- **`20261104-133159-spettri-dopo-1`**, Spettri modificato: 11 PASS, 0 NEW-FAIL; uscita 1 solo per le guide modificate durante la corsa.
+- **`20261104-134003-guide-rev69-1`**, guide Rev69: 11 PASS. f3-equivalence segnala soltanto le 14 differenze editoriali dei due articoli: 12 righe di testo e 2 transizioni con il testo vecchio.
+- **`20261104-134644-guide-rev69-f3`**, con le transizioni nuove: f3-equivalence PASS.
+- **`20261104-135033-spettri-guide-pulita`**, commit 3f6b16a1, stesse suite della corsa «prima»: 20 PASS, 0 NEW-FAIL, uscita 0. Presentation.Tests e Spettri.Tests danno gli stessi attesi numerici (Agliè SLV), e f3-equivalence passa con le sole transizioni editoriali.
+
+Suite UI 73, nessuna rimossa. Full non eseguita: l'utente la lancia stanotte.
