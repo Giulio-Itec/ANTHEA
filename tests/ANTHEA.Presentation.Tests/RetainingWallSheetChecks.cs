@@ -34,11 +34,13 @@ namespace Anthea.Presentation.Tests;
 /// <item>module and keys of interface state; the background calculation with barriers (thread, busy until the engine returns, only the
 /// current revision published, closing during a calculation); read-only from the context, also in the window of the values; Reload.</item>
 /// </list>
-/// One "UI" thread (SingleThreadContext), as on the dispatcher.
+/// One "UI" thread (SingleThreadContext), as on the dispatcher, in lock step: a calculation of the engine completes only after the UI thread
+/// has left the step that started it, so that the state read after it does not depend on the load of the machine. Not covered: the works that
+/// hand nothing to the UI thread before they end (the global calculation, the search of the reinforcement, the table of the parameters).
 /// </summary>
 internal static class RetainingWallSheetChecks
 {
-    internal static int Run(string root, string output) => SingleThreadContext.Run(_ => RunAsync(root, output));
+    internal static int Run(string root, string output) => SingleThreadContext.Run(_ => RunAsync(root, output), lockStep: true);
 
     private static readonly RetainingWallSheetModule Module = new(new PlanFigures());
 

@@ -36,10 +36,12 @@ namespace Anthea.Presentation.Tests;
 /// One "UI" thread (SingleThreadContext), as on the dispatcher. The adapter of the traces drives the ViewModel as the view would, and reads
 /// it as the user sees it; where the historic view showed something only because of WPF (the protection of a read-only revision reaches a
 /// control only once it is in the tree), the adapter models it and says so (<see cref="Side"/>).
+/// The "UI" thread (SingleThreadContext) runs in lock step: a calculation of the engine completes only after the UI thread has left the step
+/// that started it, so that the state read after it does not depend on the load of the machine.
 /// </summary>
 internal static class CompositeSectionSheetChecks
 {
-    internal static int Run(string root, string output, bool traces = true) => SingleThreadContext.Run(_ => RunAsync(root, output, traces));
+    internal static int Run(string root, string output, bool traces = true) => SingleThreadContext.Run(_ => RunAsync(root, output, traces), lockStep: true);
 
     private static readonly CompositeSectionSheetModule Module = new(new PlanFigures());
 
