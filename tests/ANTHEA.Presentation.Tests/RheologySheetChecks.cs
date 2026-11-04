@@ -30,16 +30,32 @@ internal static class RheologySheetChecks
         expect.That(!sheet.HasResults && sheet.Result is null && modified == 4, "Modifiche salvate una volta e risultati superati rimossi");
         expect.That(await sheet.CalculateAsync() && modified == 4, "Calcolo del foglio senza modifiche spurie");
         expect.That(Math.Abs(sheet.Model.CreepInfinity!.Value - 3.4427042104754673) < 1e-12, "Riferimento Python indipendente conservato");
-        sheet.Model.Cement = sheet.Model.Cements[2]; sheet.Model.Samples = "80";
-        sheet.Model.QueryAge = "28"; sheet.Model.SelectedCurve = sheet.Model.Curves[2]; sheet.Model.LogX = false; sheet.Model.LogY = true;
+        // Review of 2/11/2026, finding 14: after an edit the curves come back by themselves after the delay, without «Aggiorna le curve».
+        sheet.Model.Humidity = "60";
+        expect.That(!sheet.HasResults && sheet.Model.IsUpdating && sheet.Model.PlotMessage == "Aggiornamento delle curve…", "Modifica: curve in aggiornamento");
+        await sheet.Model.PendingCalculation;
+        expect.That(sheet.HasResults && !sheet.Model.IsUpdating && sheet.Result is not null, "Ricalcolo automatico dopo l'attesa, senza «Aggiorna le curve»");
+        sheet.Model.Humidity = "50"; await sheet.Model.PendingCalculation;
+        expect.That(Math.Abs(sheet.Model.CreepInfinity!.Value - 3.4427042104754673) < 1e-12, "Ricalcolo automatico: stesso riferimento Python");
+        sheet.Model.Cement = sheet.Model.Cements[2]; sheet.Model.Samples = "80"; sheet.Model.QueryAge = "28";
+        // Finding 12: the options of the plot are consultation: no edit, no new revision, the data and the document stay as they are.
+        int edits = modified; long revision = sheet.Revision; var beforeOptions = (JsonObject)sheet.Data.DeepClone();
+        sheet.Model.SelectedCurve = sheet.Model.Curves[2]; sheet.Model.LogX = false; sheet.Model.LogY = true;
+        expect.That(modified == edits && sheet.Revision == revision && JsonNode.DeepEquals(sheet.Data, beforeOptions), "Opzioni del grafico: consultazione senza modifiche del foglio");
         await sheet.CalculateAsync(); sheet.Commit();
+        expect.That(JsonNode.DeepEquals(sheet.Data, beforeOptions) && modified == edits, "Conferma: le opzioni del grafico non entrano nel documento");
         var saved = (JsonObject)sheet.Data.DeepClone();
         var document = DocumentService.CreateDocument(RheologyDocument.Module); document["dati"] = saved.DeepClone();
         string file = Path.Combine(folder, "reologia.anthea"); DocumentService.Save(file, document);
         using var reopened = Open(DocumentService.Open(file)["dati"]!.AsObject());
         expect.That(JsonNode.DeepEquals(reopened.Data, saved) && JsonNode.DeepEquals(reopened.Result, sheet.Result), "Salvataggio e riapertura esatti");
-        expect.That(reopened.Model.Cement.Value == "ClassR" && reopened.Model.QueryAge == "28" && reopened.Model.Samples == "80" && !reopened.Model.LogX && reopened.Model.LogY && reopened.Model.SelectedCurve.Value == ConcreteTimeCurve.ModulusFactor, "Opzioni e lettura ripristinate");
+        expect.That(reopened.Model.Cement.Value == "ClassR" && reopened.Model.QueryAge == "28" && reopened.Model.Samples == "80" && reopened.Model.LogX && !reopened.Model.LogY && reopened.Model.SelectedCurve.Value == ConcreteTimeCurve.Creep,
+            "Dati e lettura ripristinati, opzioni del grafico del documento");
+        var stored = RheologyDocument.Create(); stored["SelectedCurve"] = "ModulusFactor"; stored["LogX"] = false; stored["LogY"] = true;
+        using (var options = Open(stored))
+            expect.That(!options.Model.LogX && options.Model.LogY && options.Model.SelectedCurve.Value == ConcreteTimeCurve.ModulusFactor, "Opzioni del grafico lette dal documento all'apertura");
         sheet.IsReadOnly = true;
+        expect.That(!sheet.Model.CalculateCommand.CanExecute(null), "«Aggiorna le curve» disattivato in sola lettura");
         sheet.Model.Fck = "50"; sheet.Model.Cement = sheet.Model.Cements[0]; sheet.Model.Samples = "120";
         expect.That(JsonNode.DeepEquals(sheet.Data, saved) && sheet.Model.Fck == "25" && sheet.Model.Samples == "80" && !sheet.Model.CanEdit, "Revisione sola lettura protegge tutti gli ingressi");
         sheet.Model.QueryAge = "365"; sheet.Model.LogX = true;
@@ -52,6 +68,19 @@ internal static class RheologySheetChecks
         sheet.Commit(); expect.That(sheet.Data["Fck"]!.ToString() == "abc", "Bozza non numerica salvabile senza valori sostitutivi");
         sheet.Reload(saved);
         expect.That(sheet.HasResults && JsonNode.DeepEquals(sheet.Data, saved), "Ricarica ripristina i dati e le curve");
+        // Finding 12: a row of the table sets the reading age with the digits of the table, not the 17 of the double.
+        var odd = sheet.Model.Points.First(p => p.AgeDays != Math.Round(p.AgeDays, 3));
+        sheet.Model.SelectedPoint = odd;
+        expect.That(sheet.Model.QueryAge == odd.AgeText && sheet.Model.QueryPoint is not null, "Età letta dalla tabella con le cifre della tabella: " + sheet.Model.QueryAge);
+        // Finding 14: «Esporta grafico…» through the file service; a cancelled dialog writes nothing.
+        string png = Path.Combine(folder, "grafico.png"); if (File.Exists(png)) File.Delete(png);
+        var files = new ScriptedFileDialogs().Then(null).Then(png);
+        using (var exporting = new RheologySheetViewModel(new(RheologyDocument.Create(), false, new Host(), Scripted.Services(files: files), ModuleServices.Get(RheologyDocument.Module), new CalculationLimiter(1))))
+        {
+            exporting.Model.ExportPlot(() => [1]); bool cancelled = !File.Exists(png);
+            exporting.Model.ExportPlot(() => [137, 80, 78, 71]);
+            expect.That(cancelled && files.Requests.Count == 2 && File.ReadAllBytes(png).SequenceEqual(new byte[] { 137, 80, 78, 71 }), "Esportazione del grafico attraverso il servizio dei file");
+        }
         sheet.Model.QueryAge = "non valida";
         expect.That(sheet.HasResults && sheet.Model.QueryPoint is null && sheet.Result!["QueryPoint"] is null, "Lettura non valida conserva le curve e cancella il punto");
         sheet.Model.QueryAge = "28";

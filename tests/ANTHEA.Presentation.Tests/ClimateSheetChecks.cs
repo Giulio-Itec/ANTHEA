@@ -55,6 +55,11 @@ internal static class ClimateSheetChecks
             var recalculated=ModuleServices.Get(scenario.Module).Calculate(reopened["dati"]!.AsObject());expect.That(JsonNode.DeepEquals(recalculated.Values,sheet.Result),"Equivalenza dopo riapertura");
             string csv=ClimateDocument.Csv(sheet.Result!);expect.That(csv.Contains("Formula")&&!csv.Contains("NaN"),"CSV tracciabile");File.WriteAllText(Path.ChangeExtension(path,"csv"),csv);
             foreach(var unit in sheet.ChartUnits){sheet.ChartUnit=unit;expect.That(sheet.ChartValues.Count>0&&sheet.ChartValues.All(v=>v.Unit==unit),"Diagrammi con unità omogenee");}
+            // Review of 2/11/2026, finding 13: with quantities that have a unit, the diagram never opens on the coefficients (en dash, minus, hyphen).
+            static bool Dash(string unit)=>unit.Trim() is "" or "–" or "−" or "-" or "—";
+            sheet.ChartUnit=null;
+            expect.That(!sheet.CaseValues.Any(v=>!Dash(v.Unit))||sheet.ChartUnits.Count>0&&sheet.ChartUnits.All(u=>!Dash(u))&&sheet.ChartUnit is { } first&&!Dash(first),
+                "Diagramma su un'unità dimensionale: "+scenario.Module+" → "+sheet.ChartUnit);
             var inputRows=ClimateDocument.ReportInputs(scenario.Module,sheet.Data);expect.That(inputRows.Count>0&&inputRows.All(r=>r.Length==2),"Dati del report con etichette e unità");
             var report=ClimateReport.Create(scenario.Title,sheet.Data,sheet.Result!,inputRows);expect.That(report.Contains("word/media/climate1.png"),"Relazione con schema incorporato");File.WriteAllBytes(Path.ChangeExtension(path,"docx"),DocxWriter.Write(report));var pdf=DocxPdf.Render(report,scenario.Title);File.WriteAllBytes(Path.ChangeExtension(path,"pdf"),pdf.Bytes);expect.That(pdf.Pages>0,"PDF non vuoto");
             expect.That(Anthea.Application.Reporting.ModuleReportService.Supports(scenario.Module),"Capitolo nella relazione di progetto");
