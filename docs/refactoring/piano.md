@@ -1,5 +1,18 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Fogli: pubblicazione in un giro successivo — 4 novembre 2026
+
+Richiesta dell'utente: «Sì, modificali». Ramo `refactoring/f5-pubblica-dopo` da b222c9dc; [decisione](decisioni.md#4-novembre--i-fogli-pubblicano-in-un-giro-successivo-del-thread-dellinterfaccia);
+registro `FOGLI-GIRO-SUCCESSIVO-20261104`.
+
+- [x] Prove al passo (`SingleThreadContext`, `lockStep`): Bridge Design (`0c82e812`); muri, sezione mista ed esportazioni della shell
+  (`b222c9dc`); sezione c.a., per «Ferma ricerca» nello stesso passo di «Calcola armature».
+- [x] `BackgroundWork.RunAsync` nei lavori di fondo dei fogli: calcolo dei moduli, posti del limitatore, lotti, taglio e mesh della sezione
+  c.a., query e tabella dei parametri dei muri, curve della sezione mista, ricerca dell'ottimo di Bridge Design, risposta elastica e
+  armature del palo, infissione delle paratie.
+- [x] Sonda del caso peggiore, cioè il lavoro finito prima dell'`await`, su tutte le suite di tracce: PASS. Senza le prove al passo resta
+  solo «Ferma ricerca» della sezione c.a., che il passo chiude. Tracce congelate invariate.
+
 ## Messaggio dei risultati senza calcolo — 4 novembre 2026
 
 Richiesta dell'utente: «Sì, correggilo». Ramo `refactoring/f5-messaggio-calcola` da 397d5cfc;
@@ -9,7 +22,8 @@ Richiesta dell'utente: «Sì, correggilo». Ramo `refactoring/f5-messaggio-calco
   foglio. Il testo storico resta nei rifiuti congelati nei riferimenti F3 e nella traccia di Bridge Design, che la shell non mostra.
 - [x] Cattura prima e corsa pulita delle suite che confrontano il messaggio; suite UI 73.
 - [ ] Titolo «Premere Calcola» dei grafici del palo verticale prima del primo risultato (figure F3): non compreso.
-- [ ] `BridgeDesignSheetChecks`, scenario «ottimizzazione»: corsa critica sui tempi vista il 4/11 sul commit di partenza, da rendere stabile.
+- [x] `BridgeDesignSheetChecks`, scenario «ottimizzazione»: corsa critica sui tempi vista il 4/11 sul commit di partenza, resa stabile con
+  `0c82e812` (prove al passo) e poi con la pubblicazione in un giro successivo (voce sopra).
 
 ## Spettri all'apertura e guide Rev69 — 4 novembre 2026
 

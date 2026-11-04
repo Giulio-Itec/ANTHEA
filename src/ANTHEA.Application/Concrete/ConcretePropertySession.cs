@@ -21,7 +21,7 @@ public sealed class ConcretePropertySession : IDisposable
     public Task<ScheduledCalculation<ConcretePropertyPresentation>> CalculateAsync(JsonObject options, CancellationToken cancellation = default)
     {
         var snapshot = (JsonObject)options.DeepClone();
-        return scheduler.ScheduleAsync(token => Task.Run(() =>
+        return scheduler.ScheduleAsync(token => BackgroundWork.RunAsync(() =>
         {
             token.ThrowIfCancellationRequested();
             model ??= CheckerSection.PrepareModel(input, workspace);

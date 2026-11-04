@@ -201,7 +201,7 @@ public sealed partial class CompositeSectionSheetViewModel
         var completed = await responseRecalculation.ScheduleAsync(async currentToken =>
         {
             CurveBusy = true; CurveNotice = BridgeResponsePresentation.Running;
-            try { return await Task.Run(() => response(data, request, currentToken), currentToken); }
+            try { return await BackgroundWork.RunAsync(() => response(data, request, currentToken), currentToken); }
             finally { CurveBusy = false; }
         }, cancellation: token);
         if (completed.Cancelled && !IsDisposed && version == responseRevision) CurveNotice = BridgeResponsePresentation.Cancelled;

@@ -66,7 +66,7 @@ public sealed class PileSegmentDesignSession : IDisposable
         IProgress<PileProgress>? progress = null, CancellationToken cancellation = default)
     {
         var ns = counts.ToArray(); var ds = diameters.ToArray(); var ts = links.ToArray(); var ss = spacings.ToArray();
-        return scheduler.ScheduleAsync(token => Task.Run(() =>
+        return scheduler.ScheduleAsync(token => BackgroundWork.RunAsync(() =>
         {
             token.ThrowIfCancellationRequested();
             if (!ElasticPileAnalysisSession.Matches(result, source)) throw new ArgumentException("Risposta FEM obsoleta rispetto ai dati comuni.");

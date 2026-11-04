@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using Anthea.Application.Presentation;
+using Anthea.Application.Scheduling;
 using Anthea.Application.Walls;
 using Anthea.Calculations;
 using Anthea.Presentation.Forms;
@@ -400,7 +401,7 @@ public sealed partial class RetainingWallSheetViewModel
             try
             {
                 secondaryBusy = true; OnPropertyChanged(nameof(IsBusy)); started();
-                try { return await Task.Run(() => query(token), token); }
+                try { return await BackgroundWork.RunAsync(() => query(token), token); }
                 finally { secondaryBusy = false; OnPropertyChanged(nameof(IsBusy)); ended(); }
             }
             finally { engine.Serial.Release(); }

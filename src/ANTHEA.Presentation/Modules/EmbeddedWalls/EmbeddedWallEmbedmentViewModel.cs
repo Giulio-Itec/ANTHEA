@@ -1,5 +1,6 @@
 using System.Text;
 using Anthea.Application.EmbeddedWalls;
+using Anthea.Application.Scheduling;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Services;
 using Anthea.Reports;
@@ -40,7 +41,7 @@ public sealed partial class EmbeddedWallSheetViewModel
         try
         {
             using var place = await Context.Limiter.EnterAsync(linked.Token);
-            var result = await Task.Run(() => new EmbeddedWallModule().SearchEmbedment(input, linked.Token, uiProgress));
+            var result = await BackgroundWork.RunAsync(() => new EmbeddedWallModule().SearchEmbedment(input, linked.Token, uiProgress));
             // Explicit cancellation retains concluded candidates. A changed or closed document never receives them.
             if (IsDisposed || Revision != started) return false;
             current = result;

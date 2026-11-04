@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using Anthea.Application.Scheduling;
 namespace Anthea.Application.Modules;
 
 /// <summary>
@@ -49,7 +50,7 @@ public sealed class ElasticPileAnalysisSession : IElasticPileAnalysis
             var response = cached is null ? null : JsonNode.Parse(cached)!.AsObject();
             if (!Matches(response, snapshot))
             {
-                response = await Task.Run(() => ElasticHorizontalPile.CalculateResponse(snapshot, token), token);
+                response = await BackgroundWork.RunAsync(() => ElasticHorizontalPile.CalculateResponse(snapshot, token), token);
                 token.ThrowIfCancellationRequested();
                 responseJson = response.ToJsonString();
                 Interlocked.Increment(ref responseCalculations);
@@ -57,7 +58,7 @@ public sealed class ElasticPileAnalysisSession : IElasticPileAnalysis
             token.ThrowIfCancellationRequested();
             responseReady((JsonObject)response!.DeepClone());
             token.ThrowIfCancellationRequested();
-            var result = await Task.Run(() => ElasticHorizontalPile.CompleteReinforcement(snapshot, response,
+            var result = await BackgroundWork.RunAsync(() => ElasticHorizontalPile.CompleteReinforcement(snapshot, response,
                 resistanceCache, token, progress: PileProgress.Adapt(progress)), token);
             token.ThrowIfCancellationRequested();
             return result;

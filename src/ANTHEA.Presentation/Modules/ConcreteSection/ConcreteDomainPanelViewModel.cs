@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using Anthea.Application.Concrete;
 using Anthea.Application.Presentation;
+using Anthea.Application.Scheduling;
 using Anthea.Calculations;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Services;
@@ -414,7 +415,7 @@ public sealed class ConcreteDomainPanelViewModel : ObservableObject, IViewTabMem
         try
         {
             sheet.ShowStatus("Aggiornamento della sola mesh · verifiche conservate…");
-            var mesh = await Task.Run(() => domain.DisplayMesh(options));
+            var mesh = await BackgroundWork.RunAsync(() => domain.DisplayMesh(options));
             if (sheet.IsDisposed || requested != sheet.Calculation.Revision || key != Key || options.S("interpolazione") != Options.S("interpolazione")
                 || options.S("suddivisioni_n") != Options.S("suddivisioni_n")) return;
             meshes[key] = mesh; NeedsVisualRefresh = true; RefreshPanel();
