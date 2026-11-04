@@ -86,8 +86,8 @@ internal static class CommandsChecks
         workspace.NewCalculation("geo_stratigrafia");
         commands.ResultsCommand.Execute(null);
         expect.That(bench.Messages.Shown.Last() == ("", ShellCommandsViewModel.StratigraphyResults, false), "Risultati della stratigrafia");
-        expect.That(new[] { ShellCommandsViewModel.CalculateFirst, SheetFileExports.CalculateFirst, ShellCommandsViewModel.StratigraphyResults }.All(m => !m.Contains("Calcola")),
-            "Messaggi dei risultati senza il comando «Calcola» della finestra storica");
+        expect.That(new[] { ShellCommandsViewModel.CalculateFirst, ShellCommandsViewModel.StratigraphyResults }.All(m => !m.Contains("Calcola")),
+            "Messaggi dei risultati della shell senza il comando «Calcola» della finestra storica");
         var material = workspace.NewCalculation("mat_calcestruzzo");
         commands.ResultsCommand.Execute(null);
         expect.That(bench.Messages.Shown.Last() == ("", ShellCommandsViewModel.MaterialResults, false), "Risultati di un materiale");

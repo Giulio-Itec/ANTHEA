@@ -69,8 +69,7 @@ internal static class ShallowFoundationViewChecks
     // the release 1.13.0 (supporto/artefatti/ci/20261023-013037-full-fine-ca-1.13.0 of the main checkout).
 
     /// <summary>The messages of SheetEditor.ExportResult and ExportReport of the shallow foundations without a result.</summary>
-    // 4/11/2026: the historic window asked to press «Calcola», which the shell does not have; the refusal is the text common to all sheets.
-    private const string HistoricNoResult = Anthea.Presentation.Modules.SheetViewModelBase.NoResultsToExport, HistoricNoReport = "Calcolare prima di esportare.";
+    private const string HistoricNoResult = "Premere Calcola prima di esportare.", HistoricNoReport = "Calcolare prima di esportare.";
 
     /// <summary>
     /// What the historic view gave for each F3 fixture after the visit of the F3 capture (groups opened) and «Calcola»: the Modified events,

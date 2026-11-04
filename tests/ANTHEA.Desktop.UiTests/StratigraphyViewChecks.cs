@@ -73,8 +73,7 @@ internal static class StratigraphyViewChecks
     // the release 1.13.0 (supporto/artefatti/ci/20261023-013037-full-fine-ca-1.13.0 of the main checkout).
 
     /// <summary>The message of SheetEditor.ExportResult of the stratigraphy, which has no result.</summary>
-    // 4/11/2026: the historic window asked to press «Calcola», which the shell does not have; the refusal is the text common to all sheets.
-    private const string HistoricNoResult = Anthea.Presentation.Modules.SheetViewModelBase.NoResultsToExport;
+    private const string HistoricNoResult = "Premere Calcola prima di esportare.";
 
     /// <summary>The AutomationProperties.Name of the visible elements of the historic view, by fixture.</summary>
     private static readonly Dictionary<string, string[]> HistoricAutomationNames = new(StringComparer.Ordinal)

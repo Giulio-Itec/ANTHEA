@@ -739,7 +739,7 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
     {
         public byte[] BuildReport(string title, IReadOnlySet<string> options, bool projectReport = false)
         {
-            var result = sheet.Result ?? throw new InvalidOperationException(NoResultsToExport);
+            var result = sheet.Result ?? throw new InvalidOperationException("Premere Calcola prima di esportare.");
             var images = sheet.figures.Render(new VerticalPileFigureRequest(sheet.Data, result, sheet.IsMicro, sheet.CapacityChart, sheet.ReferenceChart));
             return DocxWriter.Write(ReportWord.CreateDocument(title, sheet.ModuleId, sheet.Data, result, options.ToHashSet(), images.Select(f => f.Image()).ToList(), !projectReport));
         }

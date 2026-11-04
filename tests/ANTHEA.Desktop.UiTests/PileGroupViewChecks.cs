@@ -75,8 +75,7 @@ internal static class PileGroupViewChecks
         + "testo angolo_custom bloccato testo bordo_d bloccato testo diametro bloccato testo interasse_parallelo bloccato testo interasse_trasversale bloccato";
 
     /// <summary>The message of SheetEditor.ExportResult without a result, for the historic view of the pile group.</summary>
-    // 4/11/2026: the historic window asked to press «Calcola», which the shell does not have; the refusal is the text common to all sheets.
-    private const string HistoricNoResult = Anthea.Presentation.Modules.SheetViewModelBase.NoResultsToExport;
+    private const string HistoricNoResult = "Premere Calcola prima di esportare.";
 
     /// <summary>The Wiki of the services of the check: it records the sections opened, in order.</summary>
     private sealed class RecordingWiki : IWikiNavigator

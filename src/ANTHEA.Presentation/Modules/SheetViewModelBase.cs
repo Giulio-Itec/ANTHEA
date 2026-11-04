@@ -44,12 +44,6 @@ public enum SheetCalculationMode
 /// </summary>
 public abstract class SheetViewModelBase : ViewModelBase, ISheetViewModel, IViewTabMemory
 {
-    /// <summary>
-    /// An export of the results asked without results or during a calculation. Until 4/11/2026 the text asked to press «Calcola», a command of
-    /// the historic window: the shell has none, most sheets calculate by themselves and a few have a calculate button of their own.
-    /// </summary>
-    public const string NoResultsToExport = "Nessun risultato da esportare: attendere il calcolo del foglio, o avviarlo dal foglio se ha un comando di calcolo, e correggere i dati segnalati.";
-
     private readonly ModuleCalculationSession session;
     private readonly SheetCalculation<ModuleCalculation> calculation;
     private ModuleCalculation? reviewed;

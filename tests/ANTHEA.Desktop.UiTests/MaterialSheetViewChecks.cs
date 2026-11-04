@@ -69,8 +69,7 @@ internal static class MaterialSheetViewChecks
     // with the values logged (supporto/artefatti/ci/20261023-120256-geo-cattura-mat of the worktree aw-f5-pass-geo).
 
     /// <summary>The message of SheetEditor.ExportResult of a material sheet, which never has a result.</summary>
-    // 4/11/2026: the historic window asked to press «Calcola», which the shell does not have; the refusal is the text common to all sheets.
-    private const string HistoricNoResult = Anthea.Presentation.Modules.SheetViewModelBase.NoResultsToExport;
+    private const string HistoricNoResult = "Premere Calcola prima di esportare.";
 
     private static readonly string[] SteelHelpLabels = ["Wiki: Coefficiente parziale γs", "Wiki: Deformazione ultima εu", "Wiki: Diagramma", "Wiki: Modulo elastico Es",
         "Wiki: Nome", "Wiki: Rottura fu", "Wiki: Snervamento fyk"];
