@@ -97,10 +97,10 @@
                            "file":  "GPC.Archive.dll",
                            "source":  "Model/GPC.Archive/bin/Release/netstandard2.0",
                            "assemblyVersion":  "1.1.0.0",
-                           "sha256":  "74E50BD549410E2E56FCB2A2EB979CEB73B2B5410BE9BE97043FFD57EC9F3180",
+                           "sha256":  "312E9B7F140FC44C87413EC2D4DDA94D795D4C42D136E34092DF8B2A773F7B53",
                            "repository":  "Model",
-                           "branch":  "claude/f6-L3",
-                           "commit":  "62508fefe2b245d46c2c87a7152629b1c390c1fa",
+                           "branch":  "claude/f6-L4",
+                           "commit":  "198b21e0ae51593e5bb7be30f2707f5f7f555d94",
                            "pushed":  false,
                            "sdk":  "9.0.320"
                        },

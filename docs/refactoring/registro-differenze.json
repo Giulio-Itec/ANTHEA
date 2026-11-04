@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-11-03",
+  "aggiornato": "2026-11-04",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -72,6 +72,30 @@
       "test": [
         "tests/ModelWorkspace.Checks/ResultArchiveSharedChecks.cs",
         "tests/ModelWorkspace.Checks/ResultArchiveChecks.cs",
+        "../Model/tests/ExternalArchiveTest.cs"
+      ]
+    },
+    {
+      "id": "GPC-F6-L4-01",
+      "data": "2026-11-04",
+      "fase": "F6 comune BridGHe/Arachne, corsia L4 (revisione delle correzioni P1)",
+      "titolo": "Avviso dopo il salvataggio quando l'archivio dei risultati non ha potuto tenere tutto; GPC.Archive non perde blocchi per un errore di lettura",
+      "famiglia": "Persistenza modelli",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Revisione L4 (4/11): ANTHEA non leggeva mai il resoconto del salvataggio di GPC.Archive (LastSave). Ora «Salva» e «Salva con nome…» di un progetto mostrano, dopo un salvataggio riuscito, un avviso «Salvataggio con avvisi» quando l'archivio danneggiato è stato conservato con un altro nome («.danneggiato-<data>», con il nome del file), quando blocchi danneggiati non sono stati ricopiati o quando blocchi citati dal progetto non sono nell'archivio; nessun avviso negli altri casi. GPC.Archive.dll ricompilata da Model claude/f6-L4 198b21e0 (stessa versione 1.1.0.0, stessa API, stesso formato 1): un errore di lettura durante il controllo dei blocchi ferma il salvataggio prima del documento invece di togliere i blocchi dall'archivio; «Salva con nome» blocca anche l'archivio di partenza e copia solo dal file che il suo indice descrive; un blocco danneggiato non torna dalla memoria della sessione al salvataggio dopo un annulla.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelResultArchive.cs",
+        "src/ANTHEA.Presentation/Shell/WorkspaceSession.cs",
+        "lib/Checker/GPC.Archive.dll",
+        "../Model/GPC.Archive/BlockArchive.cs"
+      ],
+      "effetto_quantificato": "Nessuna differenza nei file né nei valori: solo un messaggio in più dopo i salvataggi con problemi dell'archivio, e un salvataggio rifiutato (da ripetere) invece di blocchi persi quando la lettura dell'archivio fallisce.",
+      "documento": "docs/refactoring/gpc-archivio-f3.md",
+      "decisione": "Utente, 4/11/2026 notte: correggere tutti i punti della revisione indipendente delle correzioni P1. Branch claude/f6-L4, nessun merge.",
+      "test": [
+        "tests/ModelWorkspace.Checks/ResultArchiveSharedChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/WorkspaceChecks.cs",
         "../Model/tests/ExternalArchiveTest.cs"
       ]
     },

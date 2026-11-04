@@ -97,6 +97,34 @@ public sealed class ModelResultArchive
     /// <summary>What the last save did: unavailable result sets, a damaged archive set aside.</summary>
     public ArchiveSaveReport? LastSave => blocks.LastSave;
 
+    /// <summary>
+    /// What the user must know after the last save (review L4, 4/11/2026: 1.18.0 with GPC.Archive never read <see cref="LastSave"/>): a damaged
+    /// archive kept aside under another name, blocks left out because their bytes were damaged, blocks cited by the project that the archive does
+    /// not have. Null when there is nothing to say. Shown as a warning by «Salva» and «Salva con nome…» (WorkspaceSession.SaveWarning).
+    /// </summary>
+    public string? SaveNotice() => Notice(LastSave);
+
+    /// <summary>The text of <see cref="SaveNotice"/> for a report of GPC.Archive; null when it has nothing to report.</summary>
+    public static string? Notice(ArchiveSaveReport? report)
+    {
+        if (report is null) return null;
+        int damaged = report.Damaged.Count, missing = Math.Max(0, report.Unavailable - damaged);
+        var lines = new List<string>();
+        if (report.SetAside is { } aside)
+            lines.Add($"L'archivio dei risultati accanto al progetto non era leggibile: non è stato sovrascritto ma conservato come «{Path.GetFileName(aside)}», e il progetto ha ora un archivio nuovo.");
+        if (damaged > 0)
+            lines.Add(damaged == 1 ? "Un blocco dell'archivio dei risultati era danneggiato e non è stato ricopiato."
+                : $"{damaged} blocchi dell'archivio dei risultati erano danneggiati e non sono stati ricopiati.");
+        if (missing > 0)
+            lines.Add(missing == 1 ? "Un blocco citato dal progetto non è nell'archivio dei risultati."
+                : $"{missing} blocchi citati dal progetto non sono nell'archivio dei risultati.");
+        if (lines.Count == 0) return null;
+        lines.Add(report.Unavailable > 0
+            ? "Il progetto è stato salvato. I risultati che mancano sono indicati come non disponibili nei modelli: per riaverli, calcolali di nuovo."
+            : "Il progetto è stato salvato.");
+        return string.Join("\n", lines);
+    }
+
     /// <summary>The address of a JSON: SHA-256, upper-case hexadecimal (the address of GPC.Archive).</summary>
     internal static string Address(byte[] json) => ArchiveBlock.Digest(json);
 

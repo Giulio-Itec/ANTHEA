@@ -163,6 +163,28 @@ internal static class WorkspaceChecks
         expect.That(ReferenceEquals(workspace.OpenFile(path), opened), "Progetto aperto due volte");
         expect.That(workspace.CloseProject() && workspace.Project is null && workspace.CloseProject(), "Chiusura del progetto salvato");
         expect.That(bench.Confirmations.Asked.SequenceEqual(["Elimina: " + ProjectSession.DeleteQuestion, "salvataggio", "salvataggio"]), "Domande dei progetti: " + string.Join(" | ", bench.Confirmations.Asked));
+        ArchiveNotice(expect, folder);
+    }
+
+    /// <summary>
+    /// Review L4 (4/11/2026): «Salva» of a project whose results archive beside the file is not readable keeps that file aside and saves; the
+    /// user is told, with the title «Salvataggio con avvisi» and the name of the kept file (before, the report of GPC.Archive was never read).
+    /// </summary>
+    private static void ArchiveNotice(Expect expect, string folder)
+    {
+        var bench = new ShellBench(); var workspace = bench.Workspace;
+        string path = Path.Combine(folder, "Progetto con archivio danneggiato.programma"), archive = ANTHEA.ModelWorkspace.ModelResultArchive.PathFor(path);
+        var document = ProjectDocuments.CreateArchive(); ProjectDocuments.AddProject(document, "Ponte"); DocumentService.Save(path, document);
+        File.WriteAllText(archive, "non è un archivio");
+        var project = (ProjectSession)workspace.OpenFile(path)!;
+        expect.That(workspace.Save(project, false) && !project.IsDirty && bench.Messages.Failures.Count == 0, "Progetto salvato accanto a un archivio danneggiato");
+        var shown = bench.Messages.Shown.SingleOrDefault();
+        var aside = Directory.GetFiles(folder, Path.GetFileName(archive) + ".danneggiato-*").SingleOrDefault();
+        expect.That(aside is not null && File.ReadAllText(aside) == "non è un archivio", "Archivio danneggiato conservato accanto al progetto");
+        expect.That(shown.Warning && shown.Title == WorkspaceSession.SaveWarning && aside is not null
+            && shown.Message.Contains("«" + Path.GetFileName(aside) + "»", StringComparison.Ordinal), "Avviso del salvataggio con l'archivio conservato: " + shown.Message);
+        expect.That(workspace.Save(project, false) && bench.Messages.Shown.Count == 1, "Nessun avviso al salvataggio successivo");
+        workspace.Dispose();
     }
 
     /// <summary>A project with a section of three linked sheets (as SharedDataCoordinatorChecks) open in the workspace.</summary>
