@@ -64,7 +64,8 @@ public sealed class VerticalPileSurveyViewModel
 /// The capacity chart as the sheet shows it: texts, depth reached by the stratigraphies and the visible series of the chosen view.
 /// Plain data: the drawing stays in WPF (Plot), the report draws the same data.
 /// </summary>
-/// <param name="Title">Title: «Premere Calcola» before the first result, then the title of the module (kept after an edit).</param>
+/// <param name="Title">Title: the title of the module (VerticalPilePresentation.CapacityTitle), also before the first result
+/// (until 4/11/2026 «Premere Calcola», a command that the sheet, which calculates by itself, does not have).</param>
 /// <param name="XLabel">Horizontal axis.</param>
 /// <param name="YLabel">Vertical axis: depth or length along the axis (micropile, after the first result).</param>
 /// <param name="CapacityDepth">Depth of the chart, the available one of the last result (0 before the first result).</param>
@@ -72,9 +73,6 @@ public sealed class VerticalPileSurveyViewModel
 /// <param name="Series">Visible series of the chosen view.</param>
 public sealed record VerticalPileCapacityChart(string Title, string XLabel, string YLabel, double CapacityDepth, string EmptyMessage, IReadOnlyList<PlotSeriesData> Series)
 {
-    /// <summary>Title of the chart before the first result.</summary>
-    public const string InitialTitle = "Premere Calcola";
-
     /// <summary>Horizontal axis of the chart.</summary>
     public const string Axis = "Forza assiale [kN]";
 

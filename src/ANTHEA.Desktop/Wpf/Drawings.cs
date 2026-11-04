@@ -65,7 +65,7 @@ internal sealed class Plot : DrawingView
         double step = new[] { 1d, 2d, 5d, 10d }.First(v => desiredStep <= v * power) * power;
         return step * 2;
     }
-    internal string Title { get; set; } = "Premere Calcola";
+    internal string Title { get; set; } = "";
     internal string XLabel { get; set; } = "Forza assiale [kN]";
     internal string YLabel { get; set; } = "Profondità z [m]";
     internal string? AxisNumberFormat { get; set; }
@@ -79,7 +79,8 @@ internal sealed class Plot : DrawingView
     internal double? XMinimum { get; set; }
     internal double? XMaximum { get; set; }
     internal double? XTickStep { get; set; }
-    internal string EmptyMessage { get; set; } = "Premere Calcola";
+    // 4/11/2026: no «Premere Calcola» by default (the spectra and the σ–ε diagram of «Nuovo materiale…» showed it without curves).
+    internal string EmptyMessage { get; set; } = Anthea.Application.Presentation.PlotData.NoCurves;
     private double zoom = 1;
     private Vector offset;
     private Point? drag;

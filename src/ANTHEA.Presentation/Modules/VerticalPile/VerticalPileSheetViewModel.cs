@@ -65,7 +65,9 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
     private int selectedSurvey = -1, capacityView, selectedTable = -1;
     private string status = VerticalPilePresentation.StatusToVerify, warningText = "", efficiencyText = "", raw = "";
     private string endValues = "Valori a L non disponibili";
-    private string capacityTitle = VerticalPileCapacityChart.InitialTitle, capacityAxis = VerticalPileCapacityChart.InitialDepthAxis, emptyMessage = "";
+    // The title of the module also before the first result (4/11/2026: no more «Premere Calcola», the sheet calculates by itself).
+    private readonly string capacityTitle;
+    private string capacityAxis = VerticalPileCapacityChart.InitialDepthAxis, emptyMessage = "";
     private double capacityDepth;
     private IReadOnlyList<PlotSeriesData> capacitySeries = [];
     private VerticalPileCapacityChart capacityChart = null!;
@@ -88,6 +90,7 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
         ArgumentNullException.ThrowIfNull(figures);
         this.figures = figures;
         IsMicro = moduleId == MicropileModule;
+        capacityTitle = VerticalPilePresentation.CapacityTitle(IsMicro);
         Report = new VerticalPileReport(this);
         CapacityViews = VerticalPileFields.CapacityViews(IsMicro);
         ResetNormativeCommand = EditCommand(ResetNormative);
@@ -429,7 +432,7 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
             if (Data["stratigrafie"] is not JsonArray) Data["stratigrafie"] = new JsonArray();
             RebuildSurveys(null);
             ClearResults();
-            capacityTitle = VerticalPileCapacityChart.InitialTitle; capacityAxis = VerticalPileCapacityChart.InitialDepthAxis; capacityDepth = 0;
+            capacityAxis = VerticalPileCapacityChart.InitialDepthAxis; capacityDepth = 0;
             EndValues = VerticalPilePresentation.EndValues(Data, null);
             Verification = VerticalPilePresentation.Verification(null, IsMicro);
         }
@@ -651,7 +654,7 @@ public sealed class VerticalPileSheetViewModel : SheetViewModelBase
         visibility.Clear();
         foreach (var curve in curves) visibility[curve.Key] = curve.Visible;
         OnPropertyChanged(nameof(Curves));
-        capacityTitle = VerticalPilePresentation.CapacityTitle(IsMicro); capacityAxis = VerticalPilePresentation.CapacityAxis(IsMicro, result);
+        capacityAxis = VerticalPilePresentation.CapacityAxis(IsMicro, result);
         capacityDepth = VerticalPilePresentation.AvailableDepth(result);
         UpdateVisible();
         RebuildCurveChoices();

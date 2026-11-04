@@ -152,7 +152,7 @@ public static class VerticalPilePresentation
 
     // ------------------------------------------------------------------ charts
 
-    /// <summary>Title of the capacity chart with a result (before the first result the chart keeps its own).</summary>
+    /// <summary>Title of the capacity chart, before and after the first result.</summary>
     public static string CapacityTitle(bool micro) => micro ? "Capacità portante del micropalo" : "Capacità portante del palo";
 
     /// <summary>Depth of the pile head below the ground surface (m) of the general data or of a result, for drawings and charts; 0 when absent.</summary>
