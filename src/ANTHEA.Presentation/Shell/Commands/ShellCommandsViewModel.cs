@@ -51,6 +51,13 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     public const string RedoLabel = "↷ Ripristina";
     public const string UndoToolTip = "Annulla l’ultima operazione · Ctrl+Z";
     public const string RedoToolTip = "Ripristina · Ctrl+Y";
+
+    /// <summary>The tooltip of «↶ Annulla» with the name of the change it takes back (step 3b of docs/sviluppo/progetto-sistema.md, 4/11/2026):
+    /// «Annulla: Rinomina «Pila P1» in «Pila P2» · Ctrl+Z»; <see cref="UndoToolTip"/> when the change has no name.</summary>
+    public string UndoHint => workspace.Project?.UndoLabel is { } label ? "Annulla: " + label + " · Ctrl+Z" : UndoToolTip;
+
+    /// <summary>The tooltip of «↷ Ripristina» with the name of the change it makes again.</summary>
+    public string RedoHint => workspace.Project?.RedoLabel is { } label ? "Ripristina: " + label + " · Ctrl+Y" : RedoToolTip;
     public const string ShortToolTip = "Sezioni CLS · sette verifiche governanti · Word e PDF · massimo due pagine";
     /// <summary>Messages of the reports and results (MainWindow.ExportReport, ExportJson).</summary>
     public const string CompleteFirst = "Completare il calcolo prima di esportare il report.";
@@ -105,6 +112,7 @@ public sealed class ShellCommandsViewModel : ViewModelBase
         ];
         workspace.ActiveChanged += OnWorkspaceChanged;
         workspace.DocumentsChanged += OnWorkspaceChanged;
+        workspace.ActiveCommitted += OnCommitted;
         Attach();
     }
 
@@ -247,6 +255,7 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     {
         workspace.ActiveChanged -= OnWorkspaceChanged;
         workspace.DocumentsChanged -= OnWorkspaceChanged;
+        workspace.ActiveCommitted -= OnCommitted;
         if (project is not null) { project.Changed -= OnProjectChanged; project.StateChanged -= OnProjectChanged; }
     }
 
@@ -268,10 +277,14 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     {
         Attach();
         OnPropertyChanged(nameof(ShortReportVisible));
-        UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged();
+        UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged(); NotifyHints();
     }
 
-    private void OnProjectChanged(object? sender, EventArgs e) { UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged(); }
+    private void OnProjectChanged(object? sender, EventArgs e) { UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged(); NotifyHints(); }
+
+    private void NotifyHints() { OnPropertyChanged(nameof(UndoHint)); OnPropertyChanged(nameof(RedoHint)); }
+
+    private void OnCommitted(object? sender, SheetSession e) => NotifyHints();
 }
 
 /// <summary>A content of the report with its choice.</summary>

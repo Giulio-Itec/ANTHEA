@@ -11,6 +11,7 @@ internal static class ShellChecks
         checks += WorkspaceChecks.Run(output);
         checks += RecoveryChecks.Run(output);
         checks += CoherenceCacheChecks.Run();
+        checks += TransactionChecks.Run();
         checks += NavigationChecks.Run();
         checks += ProjectTreeChecks.Run();
         checks += RevisionBarChecks.Run();

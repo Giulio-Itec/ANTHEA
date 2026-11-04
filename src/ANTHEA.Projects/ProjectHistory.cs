@@ -23,9 +23,19 @@ public sealed class ProjectHistory
     // the entry already carries (ProjectModelStore: «copia» for schema 2, «revisione» for schema 1, checked whenever the copy is read), and
     // a step keeps the rest of the document with a placeholder; the comparison takes the hash instead of the copy. The copies are never
     // changed in place (ProjectModelStore.Set builds a new entry), so the same hash is the same copy.
-    private sealed record Step(JsonObject Skeleton, string[] Keys);
+    // Step 3b (4/11/2026): each copy carries the name of the change that left it (the transaction), shown by «Annulla» and «Ripristina».
+    private sealed record Step(JsonObject Skeleton, string[] Keys, string? Label = null);
     private const string FrozenProperty = FrozenDocument.Placeholder;
     private const string SnapshotProperty = "snapshot";
+    private const string ModuleProperty = "modulo_id";
+    private const string DataProperty = "dati";
+    private const string PoolProperty = "archivio_revisioni";
+
+    /// <summary>The key of the data of a sheet kept by the history: the SHA-256 of their JSON.</summary>
+    private static string DataKey(byte[] json) => "dati:" + Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(json));
+
+    /// <summary>The key of an entry of the archive of the revisions: its name, the hash of its content.</summary>
+    private static string PoolKey(string name) => "archivio:" + name;
     private readonly Dictionary<string, byte[]> frozen = new(StringComparer.Ordinal);
 
     private readonly List<Step> undo = [], redo = [];
@@ -37,6 +47,12 @@ public sealed class ProjectHistory
 
     /// <summary>Copies available to redo.</summary>
     public int RedoCount => redo.Count;
+
+    /// <summary>The name of the change «Annulla» takes back (step 3b), null when unnamed or when there is nothing to undo.</summary>
+    public string? UndoLabel => undo.Count > 0 ? undo[^1].Label : null;
+
+    /// <summary>The name of the change «Ripristina» makes again, null when unnamed or when there is nothing to redo.</summary>
+    public string? RedoLabel => redo.Count > 0 ? redo[^1].Label : null;
 
     /// <summary>State of the undo button: never while read-only.</summary>
     public bool CanUndo(bool readOnly) => !readOnly && undo.Count > 0;
@@ -71,13 +87,13 @@ public sealed class ProjectHistory
     /// the redo copies are cleared and the document becomes the baseline.
     /// </summary>
     /// <returns>True when the history changed (new history or new copy): the window refreshes the buttons.</returns>
-    public bool Record(JsonObject document, bool readOnly)
+    public bool Record(JsonObject document, bool readOnly, string? label = null)
     {
         ArgumentNullException.ThrowIfNull(document);
         if (readOnly || document.S("tipo") != "progetti") return false;
         if (!Tracks(document)) { Reset(document); return true; }
         if (baseline is null || Same(document, baseline.Skeleton, null, false)) return false;
-        undo.Add(baseline); if (undo.Count > Capacity) undo.RemoveAt(0);
+        undo.Add(baseline with { Label = label }); if (undo.Count > Capacity) undo.RemoveAt(0);
         redo.Clear(); baseline = Freeze(document); Prune();
         return true;
     }
@@ -99,7 +115,7 @@ public sealed class ProjectHistory
         if (readOnly) return null;
         commit(); var source = redo ? this.redo : undo; var target = redo ? undo : this.redo;
         if (source.Count == 0) return null;
-        target.Add(Freeze(current())); var step = source[^1]; source.RemoveAt(source.Count - 1);
+        var step = source[^1]; target.Add(Freeze(current()) with { Label = step.Label }); source.RemoveAt(source.Count - 1);
         var restored = (JsonObject)Thaw(step.Skeleton)!;
         tracked = restored; baseline = step; Prune();
         return restored;
@@ -146,12 +162,24 @@ public sealed class ProjectHistory
             case JsonObject value:
                 var copy = new JsonObject();
                 string? key = entry ? CopyKey(value) : null;
+                bool sheet = value.ContainsKey(ModuleProperty);
+                bool pool = property == PoolProperty;
                 foreach (var (name, child) in value)
                 {
                     if (key is not null && name == SnapshotProperty)
                     {
                         if (!frozen.ContainsKey(key)) frozen[key] = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(child);
                         keys.Add(key); copy[name] = new JsonObject { [FrozenProperty] = key };
+                    }
+                    // Step 3b (4/11/2026): the data of a sheet and the data of the archive of the revisions are kept once too, shared by the
+                    // steps (576 sheets, 1.5 MB of JSON: 30 steps took 241 MB). A sheet by the SHA-256 of its JSON, an entry of the archive by its
+                    // name, which is already the hash of its content (ProjectRevisions).
+                    else if (sheet && name == DataProperty && child is JsonObject || pool && child is JsonObject)
+                    {
+                        var json = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(child);
+                        string dataKey = pool ? PoolKey(name) : DataKey(json);
+                        if (!frozen.ContainsKey(dataKey)) frozen[dataKey] = json;
+                        keys.Add(dataKey); copy[name] = new JsonObject { [FrozenProperty] = dataKey };
                     }
                     else copy[name] = Freeze(child, name, false, keys);
                 }
@@ -167,16 +195,26 @@ public sealed class ProjectHistory
 
     /// <summary>True when <paramref name="live"/> is the document of the step <paramref name="step"/>: the same nodes, and for the copies of the
     /// models the same key (JsonNode.DeepEquals elsewhere: properties in any order, values as JSON).</summary>
-    private static bool Same(JsonNode? live, JsonNode? step, string? property, bool entry)
+    private bool Same(JsonNode? live, JsonNode? step, string? property, bool entry)
     {
         if (live is JsonObject value && step is JsonObject kept)
         {
             if (value.Count != kept.Count) return false;
             string? key = entry ? CopyKey(value) : null;
+            bool sheet = value.ContainsKey(ModuleProperty);
+            bool pool = property == PoolProperty;
             foreach (var (name, child) in value)
             {
                 if (!kept.TryGetPropertyValue(name, out var other)) return false;
                 if (key is not null && name == SnapshotProperty && Placeholder(other) is { } frozenKey) { if (frozenKey != key) return false; continue; }
+                if (pool && Placeholder(other) is { } poolKey) { if (poolKey != PoolKey(name)) return false; continue; }
+                if (sheet && name == DataProperty && Placeholder(other) is { } dataKey)
+                {
+                    // The same JSON is the same data; another JSON may differ only in the order of the properties, compared as before.
+                    if (child is JsonObject && DataKey(System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(child)) == dataKey) continue;
+                    if (!frozen.TryGetValue(dataKey, out var json) || !JsonNode.DeepEquals(child, JsonNode.Parse(json))) return false;
+                    continue;
+                }
                 if (!Same(child, other, name, false)) return false;
             }
             return true;

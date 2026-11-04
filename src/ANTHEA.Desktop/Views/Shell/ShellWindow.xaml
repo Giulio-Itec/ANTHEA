@@ -177,9 +177,9 @@
     <StackPanel DockPanel.Dock="Top" Visibility="{Binding HasProject, Converter={StaticResource WhenTrue}}">
      <DockPanel Background="{DynamicResource Token.CommandBar}" MinHeight="48">
       <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-       <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.UndoLabel}" ToolTip="{x:Static cmd:ShellCommandsViewModel.UndoToolTip}"
+       <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.UndoLabel}" ToolTip="{Binding Commands.UndoHint}"
         Command="{Binding Commands.UndoCommand}"/>
-       <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.RedoLabel}" ToolTip="{x:Static cmd:ShellCommandsViewModel.RedoToolTip}"
+       <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.RedoLabel}" ToolTip="{Binding Commands.RedoHint}"
         Command="{Binding Commands.RedoCommand}"/>
        <!-- F5.15, G11: the help of the projects, in place of «Guida progetti» of MainWindow. -->
        <Button Style="{StaticResource Shell.BarButton}" Content="?" ToolTip="Progetti e gestione del lavoro (Wiki)" AutomationProperties.Name="Aiuto sui progetti"

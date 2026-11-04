@@ -39,9 +39,9 @@
     Visibility="{Binding DataContext.Commands.ShortReportVisible, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource WhenTrue}}"/>
    <StackPanel Orientation="Horizontal" Visibility="{Binding CanConfirm, Converter={StaticResource WhenTrue}}">
     <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static nav:SheetBarViewModel.ConfirmLabel}" Command="{Binding ConfirmCommand}"/>
-    <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.UndoLabel}" ToolTip="{x:Static cmd:ShellCommandsViewModel.UndoToolTip}"
+    <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.UndoLabel}" ToolTip="{Binding DataContext.Commands.UndoHint, RelativeSource={RelativeSource AncestorType=Window}}"
      Command="{Binding DataContext.Commands.UndoCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
-    <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.RedoLabel}" ToolTip="{x:Static cmd:ShellCommandsViewModel.RedoToolTip}"
+    <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static cmd:ShellCommandsViewModel.RedoLabel}" ToolTip="{Binding DataContext.Commands.RedoHint, RelativeSource={RelativeSource AncestorType=Window}}"
      Command="{Binding DataContext.Commands.RedoCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
    </StackPanel>
    <Button Style="{StaticResource Shell.BarButton}" Content="{x:Static nav:SheetBarViewModel.GuideLabel}" ToolTip="{x:Static nav:SheetBarViewModel.GuideToolTip}"

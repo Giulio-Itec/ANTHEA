@@ -103,13 +103,15 @@ public sealed class SheetSession : IDisposable
         {
             var section = Sheet.Parent?.Parent as JsonObject;
             var before = section is null ? null : ProjectSharedData.SubtreeSheets(section).Select(s => (Sheet: s, Data: s["dati"]?.DeepClone())).ToArray();
-            try { project.Shared.ConfirmSharedChanges(project.Document, Sheet, baseline, proposed, project.MarkDirty); }
+            try { project.Shared.ConfirmSharedChanges(project.Document, Sheet, baseline, proposed, () => project.MarkDirty(ProjectSession.SharedEditLabel(ShellTexts.SheetName(Sheet)))); }
             catch
             {
                 foreach (var (sheet, data) in before ?? []) sheet["dati"] = data;
                 throw;
             }
         }
+        // Step 3b: the next step of the history is named after the confirmed sheet.
+        if (Project is { } edited && !JsonNode.DeepEquals(Sheet["dati"], ViewModel.Data)) edited.NoteSheetEdit(ShellTexts.SheetName(Sheet));
         Sheet["dati"] = ViewModel.Data.DeepClone();
         baseline = (JsonObject)proposed.DeepClone();
         loaded = Sheet["dati"]!.DeepClone();

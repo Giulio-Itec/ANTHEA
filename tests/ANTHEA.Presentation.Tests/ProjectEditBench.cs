@@ -6,6 +6,7 @@ using Anthea.Presentation.Projects;
 using Anthea.Presentation.Shell;
 using Anthea.Presentation.Shell.Commands;
 using Anthea.Presentation.Shell.Tabs;
+using Anthea.Projects;
 using X.Core;
 
 namespace Anthea.Presentation.Tests;
@@ -27,6 +28,9 @@ internal static class ProjectEditBench
 
     internal static int Run(string output) => SingleThreadContext.Run(_ => Task.FromResult(RunAll(output)));
 
+    /// <summary>A sheet with the data of its module, as after its first opening (an empty sheet would make the document unrealistically small).</summary>
+    private static void Fill(JsonObject sheet) => sheet["dati"] = Anthea.Application.Documents.DocumentService.CreateSheet(sheet.S("modulo_id"));
+
     private static int RunAll(string output)
     {
         var document = ProjectDocuments.CreateArchive();
@@ -37,11 +41,11 @@ internal static class ProjectEditBench
             for (int s = 0; s < Sections; s++)
             {
                 var section = ProjectDocuments.AddSection(project, "Sezione " + (s + 1));
-                for (int k = 0; k < SheetsPerSection; k++) ProjectDocuments.AddSheet(section, modules[k % modules.Length], "Foglio " + (k + 1));
+                for (int k = 0; k < SheetsPerSection; k++) Fill(ProjectDocuments.AddSheet(section, modules[k % modules.Length], "Foglio " + (k + 1)));
                 for (int u = 0; u < Subsections; u++)
                 {
                     var sub = ProjectDocuments.AddSection(section, "Sottosezione " + (u + 1));
-                    for (int k = 0; k < SheetsPerSection; k++) ProjectDocuments.AddSheet(sub, modules[k % modules.Length], "Foglio " + (k + 1));
+                    for (int k = 0; k < SheetsPerSection; k++) Fill(ProjectDocuments.AddSheet(sub, modules[k % modules.Length], "Foglio " + (k + 1)));
                 }
             }
         }
@@ -58,7 +62,9 @@ internal static class ProjectEditBench
         int total = session.Projects.Sum(p => ProjectSharedData.SubtreeSheets(p).Count());
 
         var report = new StringBuilder();
-        report.AppendLine($"Banco del progetto (passo 3), {DateTime.Now:yyyy-MM-dd HH:mm}: {Projects} progetti, {total} fogli, {OpenSheets} schede aperte, riepilogo aperto; mediana di {Rounds} prove, ms");
+        long bytes = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(document).LongLength;
+        report.AppendLine($"Banco del progetto (passo 3), {DateTime.Now:yyyy-MM-dd HH:mm}: {Projects} progetti, {total} fogli con i dati dei moduli ({bytes / 1048576.0:F1} MB di JSON), {OpenSheets} schede aperte, riepilogo aperto; mediana di {Rounds} prove, ms");
+        Console.WriteLine(report.ToString().TrimEnd());
         void Measure(string name, Action action)
         {
             var times = new double[Rounds];
@@ -77,6 +83,18 @@ internal static class ProjectEditBench
         var target = ProjectSharedData.SubtreeSheets(session.Projects.Last()).Last();
         int round = 0;
         Measure("Rinomina di un foglio (tutto)", () => session.Rename(target, "Rinominato " + round++));
+        var benchCache = new ProjectCoherenceCache();
+        benchCache.NewReading();
+        foreach (var p in session.Projects) foreach (var s in ProjectSharedData.Sections(p)) SharedDataCoordinator.Coherence(s, benchCache);
+        Measure("  di cui storico: confronto senza modifiche", () => session.Record());
+        Measure("  di cui storico: nuovo passo", () => { target["nome"] = "Diretto " + round++; session.Record(); });
+        Measure("  di cui coerenza delle sezioni sopra il foglio", () =>
+        {
+            target["nome"] = "Coerenza " + round++;
+            benchCache.NewReading();
+            foreach (var level in ProjectSharedData.Ancestors((JsonObject)target.Parent!.Parent!).Prepend((JsonObject)target.Parent!.Parent!))
+                SharedDataCoordinator.Coherence(level, benchCache);
+        });
         Measure("Albero ricostruito", () => shell.Tree.Refresh());
         Measure("Coerenza di tutte le sezioni", () => { foreach (var p in session.Projects) foreach (var s in ProjectSharedData.Sections(p)) SharedDataCoordinator.Coherence(s); });
         var all = session.Projects.SelectMany(ProjectSharedData.Sections).ToArray();
@@ -102,8 +120,21 @@ internal static class ProjectEditBench
             workspace.CommitActive();
         });
         Measure("Annulla (tutto)", () => session.Restore(false));
+        // The undo replaced the document: the nodes are found again in the one on screen.
+        firstSection = session.Find(firstSection.S("id"))!;
+        target = session.Find(target.S("id"))!;
         Measure("Riepilogo ricostruito", () => shell.ShowOverview(firstSection));
 
+        // The memory of the history: 30 named steps (a rename each) on top of the project.
+        session.History.Reset(session.Document);
+        GC.Collect(); GC.WaitForPendingFinalizers(); GC.Collect();
+        long before = GC.GetTotalMemory(true);
+        for (int i = 0; i < ProjectHistory.Capacity; i++) session.Rename(target, "Memoria " + i);
+        GC.Collect(); GC.WaitForPendingFinalizers(); GC.Collect();
+        long after = GC.GetTotalMemory(true);
+        string memory = $"Memoria dello storico pieno ({session.History.UndoCount} passi), MB {(after - before) / 1048576.0,8:F1} (prima {before / 1048576.0:F1}, dopo {after / 1048576.0:F1})";
+        report.AppendLine(memory);
+        Console.WriteLine(memory);
         File.WriteAllText(Path.Combine(output, "banco-progetto.txt"), report.ToString(), new UTF8Encoding(false));
         return 0;
     }

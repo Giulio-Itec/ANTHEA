@@ -26,12 +26,15 @@ public enum ProjectChange
 }
 
 /// <summary>A change of a project document, with the node to show next when the window shows one (the overview section).</summary>
-public sealed class ProjectChangedEventArgs(ProjectChange change, JsonObject? node = null) : EventArgs
+public sealed class ProjectChangedEventArgs(ProjectChange change, JsonObject? node = null, bool nameOnly = false) : EventArgs
 {
     public ProjectChange Change { get; } = change;
 
     /// <summary>The node concerned (new section, moved sheet…), or null.</summary>
     public JsonObject? Node { get; } = node;
+
+    /// <summary>Only the name of <see cref="Node"/> changed (step 3b): the tree shows it in place.</summary>
+    public bool NameOnly { get; } = nameOnly;
 }
 
 /// <summary>
@@ -58,6 +61,7 @@ public sealed class ProjectSession : DocumentSession
     private JsonObject? working;
     private bool readOnly;
     private int? displayedRevision;
+    private string? pendingLabel, editLabel;
 
     /// <param name="document">A project archive («tipo» = «progetti»).</param>
     /// <param name="path">Its file, null for a new archive or the copy of an example.</param>
@@ -125,9 +129,53 @@ public sealed class ProjectSession : DocumentSession
     public bool Contains(JsonObject node) => ReferenceEquals(node?.Root, Document);
 
     /// <summary>Records the current document in the history when it changed (MainWindow.RecordProjectHistory).</summary>
-    public bool Record() => History.Record(Document, readOnly);
+    public bool Record() => RecordStep(null);
 
-    protected override void OnMarkedDirty() => Record();
+    /// <summary>The name of the change «Annulla» takes back (step 3b): the edit of a sheet not recorded yet, otherwise the last change.</summary>
+    public string? UndoLabel => readOnly ? null : editLabel ?? History.UndoLabel;
+
+    /// <summary>The name of the change «Ripristina» makes again.</summary>
+    public string? RedoLabel => readOnly ? null : History.RedoLabel;
+
+    /// <summary>The name of the confirmation of a sheet in the history: «Modifica di «Verifica sezione»».</summary>
+    public static string EditLabel(string sheet) => "Modifica di «" + sheet + "»";
+
+    /// <summary>A sheet of the project was confirmed with new data (SheetSession.Commit): the change is recorded with the next step, with this name.</summary>
+    internal void NoteSheetEdit(string sheet) => editLabel = editLabel is null || editLabel == EditLabel(sheet) ? EditLabel(sheet) : MultipleEditsLabel;
+
+    /// <summary>The name of the confirmations of several sheets recorded together.</summary>
+    public const string MultipleEditsLabel = "Modifica dei fogli";
+
+    /// <summary>The name of the confirmation of a sheet that updated the linked sheets of its section.</summary>
+    public static string SharedEditLabel(string sheet) => "Modifica di «" + sheet + "» e dei fogli collegati";
+
+    private bool RecordStep(string? label)
+    {
+        bool recorded = History.Record(Document, readOnly, label ?? editLabel);
+        if (recorded) editLabel = null;
+        return recorded;
+    }
+
+    /// <summary>Before an operation: the changes made before it (a confirmed sheet) become their own step, so that «Annulla» takes back one
+    /// operation at a time (step 3b).</summary>
+    private void Begin() => RecordStep(null);
+
+    /// <summary>After an operation: the change is recorded with its name and the window follows it.</summary>
+    /// <summary>A change recorded with its name (step 3b): <see cref="DocumentSession.MarkDirty"/> with <paramref name="label"/> in the history.</summary>
+    public void MarkDirty(string label)
+    {
+        pendingLabel = label;
+        try { MarkDirty(); }
+        finally { pendingLabel = null; }
+    }
+
+    private void Done(string label, ProjectChange change, JsonObject? node, bool nameOnly = false)
+    {
+        MarkDirty(label);
+        Changed?.Invoke(this, new ProjectChangedEventArgs(change, node, nameOnly));
+    }
+
+    protected override void OnMarkedDirty() => RecordStep(pendingLabel);
 
     // ---- Structure (MainWindow, ProjectHierarchy, ProjectSectionReorder, ProjectMovePreview)
 
@@ -136,9 +184,9 @@ public sealed class ProjectSession : DocumentSession
     {
         if (readOnly) return null;
         string name = ProjectDocuments.NextName(Document.Array("progetti"), "Progetto");
-        commitOpenSheet();
+        commitOpenSheet(); Begin();
         var project = ProjectDocuments.AddProject(Document, name);
-        MarkDirty(); Raise(ProjectChange.Structure, project);
+        Done("Nuovo progetto «" + name + "»", ProjectChange.Structure, project);
         return project;
     }
 
@@ -148,9 +196,9 @@ public sealed class ProjectSession : DocumentSession
         ArgumentNullException.ThrowIfNull(parent);
         if (readOnly) return null;
         string name = ProjectDocuments.NextName(parent.Array("strutture"), "Sezione");
-        commitOpenSheet();
+        commitOpenSheet(); Begin();
         var section = ProjectDocuments.AddSection(parent, name);
-        MarkDirty(); Raise(ProjectChange.Structure, section);
+        Done("Nuova sezione «" + name + "»", ProjectChange.Structure, section);
         return section;
     }
 
@@ -164,9 +212,9 @@ public sealed class ProjectSession : DocumentSession
         ArgumentException.ThrowIfNullOrEmpty(module);
         if (readOnly) return null;
         if (!CanHoldSheets(section)) throw new ArgumentException("Selezionare una sezione nell'albero dei progetti.", nameof(section));
-        commitOpenSheet();
+        commitOpenSheet(); Begin();
         var sheet = ProjectDocuments.AddSheet(section, module);
-        MarkDirty(); Raise(ProjectChange.Structure, sheet);
+        Done("Nuovo foglio «" + ShellTexts.SheetName(sheet) + "»", ProjectChange.Structure, sheet);
         return sheet;
     }
 
@@ -179,10 +227,10 @@ public sealed class ProjectSession : DocumentSession
         ArgumentNullException.ThrowIfNull(section);
         ArgumentNullException.ThrowIfNull(data);
         if (readOnly) return null;
-        commitOpenSheet();
+        commitOpenSheet(); Begin();
         var sheet = ProjectDocuments.AddSheet(section, module, ProjectDocuments.NextName(section.Array("fogli"), name));
         sheet["dati"] = data.DeepClone();
-        MarkDirty(); Raise(ProjectChange.Structure, sheet);
+        Done("Copia in «" + sheet.S("nome") + "»", ProjectChange.Structure, sheet);
         return sheet;
     }
 
@@ -197,8 +245,10 @@ public sealed class ProjectSession : DocumentSession
         if (readOnly || name is null) return false;
         name = name.Trim();
         if (name.Length == 0 || name == node.S("nome")) return false;
+        string old = node.ContainsKey("modulo_id") ? ShellTexts.SheetName(node) : node.S("nome");
+        Begin();
         ProjectDocuments.Rename(node, name);
-        MarkDirty(); Raise(ProjectChange.Structure, node);
+        Done("Rinomina «" + old + "» in «" + name + "»", ProjectChange.Structure, node, nameOnly: true);
         return true;
     }
 
@@ -207,12 +257,12 @@ public sealed class ProjectSession : DocumentSession
     {
         ArgumentNullException.ThrowIfNull(section);
         if (readOnly || section.Parent is not JsonArray siblings) return null;
-        commitOpenSheet();
+        commitOpenSheet(); Begin();
         var copy = ProjectRevisions.Duplicate(section);
         copy["nome"] = ProjectDocuments.NextName(siblings, section.S("nome") + " copia");
         ProjectModelStore.ReidentifyCopy(copy);
         siblings.Insert(siblings.IndexOf(section) + 1, copy);
-        MarkDirty(); Raise(ProjectChange.Structure, copy);
+        Done("Duplica «" + section.S("nome") + "»", ProjectChange.Structure, copy);
         return copy;
     }
 
@@ -226,11 +276,12 @@ public sealed class ProjectSession : DocumentSession
         ArgumentNullException.ThrowIfNull(node);
         overview = null;
         if (readOnly || !confirmations.ConfirmDelete(DeleteTitle, DeleteQuestion)) return false;
-        commitOpenSheet();
+        commitOpenSheet(); Begin();
+        string deleted = node.ContainsKey("modulo_id") ? ShellTexts.SheetName(node) : node.S("nome");
         var parent = node.Parent?.Parent as JsonObject;
         if (node.Parent is JsonArray list) list.Remove(node);
         overview = parent?.ContainsKey("strutture") == true ? parent : null;
-        MarkDirty(); Raise(ProjectChange.Structure, overview);
+        Done("Elimina «" + deleted + "»", ProjectChange.Structure, overview);
         return true;
     }
 
@@ -270,7 +321,7 @@ public sealed class ProjectSession : DocumentSession
             if (previous < index) index--;
             if (previous == index) return false;
         }
-        commitOpenSheet();
+        commitOpenSheet(); Begin();
         JsonObject? proposal = null;
         if (!ReferenceEquals(source, target))
         {
@@ -279,7 +330,7 @@ public sealed class ProjectSession : DocumentSession
         }
         source.Remove(sheet); target.Insert(index, sheet);
         if (proposal is not null) sheet["dati"] = proposal["dati"]!.DeepClone();
-        MarkDirty(); Raise(ProjectChange.Structure, sheet);
+        Done("Sposta «" + ShellTexts.SheetName(sheet) + "»", ProjectChange.Structure, sheet);
         return true;
     }
 
@@ -299,8 +350,8 @@ public sealed class ProjectSession : DocumentSession
         int previous = siblings.IndexOf(section), index = siblings.IndexOf(anchor) + (after ? 1 : 0);
         if (previous < index) index--;
         if (previous == index) return false;
-        commitOpenSheet(); siblings.Remove(section); siblings.Insert(index, section);
-        MarkDirty(); Raise(ProjectChange.Structure, section);
+        commitOpenSheet(); Begin(); siblings.Remove(section); siblings.Insert(index, section);
+        Done("Riordina «" + section.S("nome") + "»", ProjectChange.Structure, section);
         return true;
     }
 
@@ -314,14 +365,14 @@ public sealed class ProjectSession : DocumentSession
     public bool NestSection(JsonObject source, JsonObject target)
     {
         if (!CanNestSection(source, target)) return false;
-        commitOpenSheet();
+        commitOpenSheet(); Begin();
         var preview = Shared.PreviewMove(Document, source, target);
         if (preview is null) return false;
         if (target["strutture"] is not JsonArray) target["strutture"] = new JsonArray();
         ((JsonArray)source.Parent!).Remove(source); target.Array("strutture").Add(source);
         var data = ProjectSharedData.SubtreeSheets(preview).ToDictionary(s => s.S("id"));
         foreach (var sheet in ProjectSharedData.SubtreeSheets(source)) sheet["dati"] = data[sheet.S("id")]["dati"]!.DeepClone();
-        MarkDirty(); Raise(ProjectChange.Structure, source);
+        Done("Sposta «" + source.S("nome") + "» in «" + target.S("nome") + "»", ProjectChange.Structure, source);
         return true;
     }
 
@@ -330,15 +381,19 @@ public sealed class ProjectSession : DocumentSession
     /// comparison, models): the open sheet is confirmed first, as at the opening of the comparison; when <paramref name="change"/> reports a
     /// change the document is modified and the open sheets reconcile. Nothing while read-only.
     /// </summary>
-    public bool ChangeData(Func<bool> change, JsonObject? node = null)
+    /// <param name="label">The name of the change in the history (step 3b), <see cref="DataLabel"/> by default.</param>
+    public bool ChangeData(Func<bool> change, JsonObject? node = null, string? label = null)
     {
         ArgumentNullException.ThrowIfNull(change);
         if (readOnly) return false;
-        commitOpenSheet();
+        commitOpenSheet(); Begin();
         if (!change()) return false;
-        MarkDirty(); Raise(ProjectChange.Data, node);
+        Done(label ?? DataLabel, ProjectChange.Data, node);
         return true;
     }
+
+    /// <summary>The name of a change of the data of sheets in the history when the caller gives none.</summary>
+    public const string DataLabel = "Modifica dei dati dei fogli";
 
     // ---- History (MainWindow.ProjectWorkspace)
 
@@ -348,7 +403,8 @@ public sealed class ProjectSession : DocumentSession
     /// </summary>
     public bool Restore(bool redo)
     {
-        if (History.Restore(redo, readOnly, commitOpenSheet, () => Document) is not JsonObject restored) return false;
+        // Step 3b: a confirmed sheet not recorded yet becomes its own step first, so that «Annulla» takes it back alone.
+        if (History.Restore(redo, readOnly, () => { commitOpenSheet(); Begin(); }, () => Document) is not JsonObject restored) return false;
         Document = restored;
         SetDirty(true);
         Raise(ProjectChange.Restored);
@@ -379,9 +435,9 @@ public sealed class ProjectSession : DocumentSession
     {
         ArgumentNullException.ThrowIfNull(section);
         if (readOnly) return false;
-        commitOpenSheet();
+        commitOpenSheet(); Begin();
         ProjectRevisions.NewRevision(Document, section, note ?? "");
-        MarkDirty(); Raise(ProjectChange.Structure, section);
+        Done("Nuova revisione di «" + section.S("nome") + "»", ProjectChange.Structure, section);
         return true;
     }
 

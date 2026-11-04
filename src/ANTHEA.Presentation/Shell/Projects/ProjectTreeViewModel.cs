@@ -132,7 +132,7 @@ public sealed class ProjectNodeViewModel : ViewModelBase
     /// <summary>Identifier of the project, section or sheet; empty for a model.</summary>
     public string Id => Node?.S("id") ?? "";
 
-    public string Name { get; }
+    public string Name { get; private set; }
 
     /// <summary>0 for a project, 1 for its sections, and so on (the size of the text in the view).</summary>
     public int Depth { get; }
@@ -166,16 +166,16 @@ public sealed class ProjectNodeViewModel : ViewModelBase
     public bool CanReport { get; }
     public string? ReportToolTip { get; }
     public string? ReportAutomationName { get; }
-    public CoherenceBadge? Badge { get; }
+    public CoherenceBadge? Badge { get; private set; }
 
     /// <summary>Tooltip of the label of the node.</summary>
     public string ToolTip { get; }
 
     /// <summary>Tooltip and automation name of the button with the icon of a sheet.</summary>
-    public string? OpenToolTip { get; }
+    public string? OpenToolTip { get; private set; }
 
     /// <inheritdoc cref="OpenToolTip"/>
-    public string? OpenAutomationName { get; }
+    public string? OpenAutomationName { get; private set; }
 
     /// <summary>The sheet is open in a tab with data not saved (proposal 3.6, the «•» of the tree; SH15).</summary>
     public bool IsUnsaved { get => isUnsaved; internal set => SetProperty(ref isUnsaved, value); }
@@ -208,6 +208,34 @@ public sealed class ProjectNodeViewModel : ViewModelBase
 
     /// <summary>Ends the rename in place: Enter, focus lost or a click outside save (true), Esc cancels (false).</summary>
     public void EndRename(bool save) => tree.EndRename(this, save);
+
+    /// <summary>The node was renamed (step 3b of docs/sviluppo/progetto-sistema.md): its name and the texts that carry it, in place.</summary>
+    internal void ShowName()
+    {
+        if (Node is null || Kind == ProjectNodeKind.Model) return;
+        Name = Kind switch
+        {
+            ProjectNodeKind.Sheet when DocumentQuarantine.IsQuarantined(Node) => UnreadablePrefix + ShellTexts.SheetName(Node),
+            ProjectNodeKind.Sheet => ShellTexts.SheetName(Node),
+            ProjectNodeKind.Project => Node.S("nome", "Progetto"),
+            _ => Node.S("nome", "Sezione")
+        };
+        OnPropertyChanged(nameof(Name));
+        if (Kind != ProjectNodeKind.Sheet) return;
+        OpenToolTip = "Apri scheda · " + Name;
+        OpenAutomationName = "Apri scheda " + Node.S("nome");
+        OnPropertyChanged(nameof(OpenToolTip));
+        OnPropertyChanged(nameof(OpenAutomationName));
+    }
+
+    /// <summary>The coherence badge of a section computed again, in place (step 3b).</summary>
+    internal void ShowBadge(CoherenceBadge? badge)
+    {
+        if (Badge == badge) return;
+        Badge = badge;
+        OnPropertyChanged(nameof(Badge));
+        CompareCommand.NotifyCanExecuteChanged();
+    }
 }
 
 /// <summary>
@@ -476,7 +504,8 @@ public sealed class ProjectTreeViewModel : ViewModelBase
         if (!item.IsRenaming) return;
         item.IsRenaming = false;
         if (ReferenceEquals(renaming, item)) renaming = null;
-        if (save && project is not null && project.Rename(item.Node!, item.RenameText)) Refresh(item.Node);
+        // Step 3b: the rename raises the change of the project, which shows the new name in place.
+        if (save && project is not null) project.Rename(item.Node!, item.RenameText);
     }
 
     /// <summary>Ends an open rename, saving it (before a revision switch, a deletion or a refresh, as finishProjectRename).</summary>
@@ -607,7 +636,26 @@ public sealed class ProjectTreeViewModel : ViewModelBase
     /// questo» and the links of the comparison, the models) keeps the selection, as MainWindow (F5.13 e, ui/shell-smoke-project-workspace: the comparison
     /// selected the sheet aligned).
     /// </summary>
-    private void OnProjectChanged(object? sender, ProjectChangedEventArgs e) => Refresh(e.Change == ProjectChange.Data ? null : e.Node);
+    private void OnProjectChanged(object? sender, ProjectChangedEventArgs e)
+    {
+        // Step 3b (4/11/2026): a rename changes the name of its node and the badges of the sections above it (their warnings name the
+        // sheets), in place; the tree is not rebuilt.
+        if (e.NameOnly && e.Node is { } node && renaming is null && Find(node) is { } item)
+        {
+            item.ShowName();
+            Coherence.NewReading();
+            var section = node.ContainsKey("modulo_id") ? node.Parent?.Parent as JsonObject : node;
+            if (section is not null)
+                foreach (var level in ProjectSharedData.Ancestors(section).Prepend(section))
+                    Find(level)?.ShowBadge(SharedDataCoordinator.Coherence(level, Coherence));
+            // As after a rebuild: the renamed node selected, its ancestors expanded.
+            for (var parent = node.Parent?.Parent as JsonObject; parent is not null; parent = parent.Parent?.Parent as JsonObject)
+                if (Find(parent) is { } above) above.IsExpanded = true;
+            Selected = item;
+            return;
+        }
+        Refresh(e.Change == ProjectChange.Data ? null : e.Node);
+    }
 
     private void OnActiveChanged(object? sender, EventArgs e)
     {

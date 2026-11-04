@@ -88,15 +88,27 @@ Ogni passo si distribuisce da solo, con le suite della shell e della presentazio
      del suo JSON, il confronto di due fogli per le due impronte, il copriferro per il foglio e i suoi Materiali e il riepilogo di una
      sezione per le impronte di tutti i fogli che vede. Il risultato è identico, perché sui mancati usa lo stesso codice (prova
      `CoherenceCacheChecks`). Vale anche dopo un annulla, che ricrea gli oggetti.
+   - 3b. Transazioni (fatto, 4/11). Ogni operazione di `ProjectSession` è un passo dello storico con il suo nome («Rinomina «Pila P1» in
+     «Pila P2»», «Nuovo foglio…», «Elimina…», «Modifica di «foglio»»…). Il suggerimento di «↶ Annulla» e «↷ Ripristina» dice quale
+     modifica toglie o rifà. Una scheda confermata prima di un'operazione diventa un passo a sé, quindi «Annulla» toglie una cosa alla
+     volta. Una rinomina aggiorna sul posto il nodo dell'albero e i badge delle sezioni sopra, senza ricostruire l'albero. Lo storico
+     tiene anche i dati dei fogli una volta sola, condivisi tra i passi (per l'SHA-256 del JSON; le voci dell'archivio delle revisioni
+     per il loro nome).
 
-     | Operazione | Prima | Dopo |
-     | --- | ---: | ---: |
-     | Rinomina di un foglio | 752 ms | 74 ms |
-     | Nuovo foglio | 841 ms | 97 ms |
-     | Annulla | 919 ms | 128 ms |
-     | Riepilogo della sezione | 795 ms | 15 ms |
-     | Albero senza modifiche | 660 ms | 5 ms |
-   - 3b. Transazioni con nome per l'annulla ed eventi con i nodi cambiati: l'albero aggiorna sul posto nomi e badge.
+   Misura sullo stesso banco (`Presentation.Tests --banco-progetto`): 4 progetti, 576 fogli con i dati dei loro moduli, 1,5 MB di JSON,
+   6 schede aperte, riepilogo aperto; mediane di 21 prove. «Prima» è main prima del passo 3 (7763b6a6).
+
+   | Operazione | Prima | Dopo 3a + 3b |
+   | --- | ---: | ---: |
+   | Rinomina di un foglio | 709 ms | 50 ms |
+   | Nuovo foglio | 781 ms | 79 ms |
+   | Annulla | 893 ms | 80 ms |
+   | Conferma di un foglio modificato | 68 ms | 39 ms |
+   | Albero ricostruito | 655 ms | 9 ms |
+   | Memoria dello storico pieno (30 passi) | 240 MB | 21 MB |
+
+   La ricostruzione dell'albero in WPF non è misurata qui. Il resto di una modifica è lo storico (2 confronti da 6 ms e un passo da 13
+   ms), la coerenza delle sezioni toccate e il riepilogo.
 4. **Descrittori dei moduli e stato del progetto.** Ogni modulo dichiara dati comuni, etichette e stato di un foglio. Ogni foglio registra
    l'impronta dei dati con cui è stato calcolato; albero e panoramica mostrano verificato / non verificato / da ricalcolare / da calcolare.
 5. **Sollecitazioni dai modelli alle verifiche.** Il collegamento come sorgente di sollecitazioni, con l'impronta del modello, anteprima e
