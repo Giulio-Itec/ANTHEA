@@ -1,5 +1,17 @@
 # DLL Checker
 
+**Set candidato F7a — librerie integrate della migrazione GPC (4 novembre 2026, branch `claude/f7-anthea`, non pubblicato).** Set
+`gpc-candidate-20261104-f7a` prodotto da `Checker/build/Release-Set.ps1 -Candidate` su Model `4375e7a5` e Checker `5f6e4e44` (branch
+`claude/f7-set` in `gpc-f6-claude/F7`, non pushati) e installato con `Update-Snapshot.ps1 -ReleaseSet ... -AllowCandidate -Install`:
+le correzioni delle corsie F6 L1–L6 (revisione Claude del 3/11), il vocabolario Arachne e il formato compatto di GPC.Model.Persistence.
+Versioni: GPCModel 5.49.0.0, GPCModelData 0.3.0.27, GPC.Model.Persistence 3.14.0.0, GPC.Archive 1.2.0.0, GPC.Converter 2.19.0.0,
+Concrete 0.35.0.7, Steel 2.129.0.6, CompositeBridge 1.27.0.0, Geotechnics 0.27.0.17, Masonry 0.10.0.32, GPC.Design 0.45.0.6;
+Utilities, Geometry e DelaunayMesh invariati. Suite del set: Model Core 63, UnitTest 1901 (7 ignorati; prove Straus7 native comprese,
+chiave inserita), .NET Framework 128; Checker 10.390 (Concrete 962 con il contratto K0), API senza rimozioni. Con questo set ANTHEA 1.19
+salva le sezioni c.a. nel formato compatto (registro `GPC-F7A-01`). Il set è candidato: la prova di provenienza F4 di
+`ANTHEA.Architecture.Tests` fallisce come previsto («Manifest GPC diverso dal rilascio F4 registrato») finché F8 non installa il set
+ufficiale da origin/master, riversionato dopo i commit di BridGHe (P2B) e L9.
+
 **GPC.Archive candidato, correzioni della revisione L4 (4 novembre 2026, branch `claude/f6-L4`, non pubblicato).** Sostituita la sola
 `GPC.Archive.dll` 1.1.0.0 (SHA-256 `312E9B7F…7B53`) con quella di Model `198b21e0` (branch `claude/f6-L4`, non pushato): un errore di lettura
 durante il controllo dei blocchi ferma il salvataggio invece di far perdere i blocchi, «Salva con nome» blocca anche l'archivio di
