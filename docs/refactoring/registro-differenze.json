@@ -100,6 +100,29 @@
       ]
     },
     {
+      "id": "GPC-F7A-02",
+      "data": "2026-11-04",
+      "fase": "F7a della migrazione GPC (merge di origin/main nel branch delle librerie integrate)",
+      "titolo": "Copie di recupero, salvataggio in background e quarantena dei fogli su GPC.Archive e con le sezioni compatte",
+      "famiglia": "Persistenza modelli",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Merge di origin/main (23 commit dopo 1.18.0, ANTHEA.Projects) nel branch claude/f7-anthea, richiesta dell'utente «unisci i vari rami, riportiamo tutto il lavoro ad un repo pulito». ModelResultArchive resta su GPC.Archive; l'API nuova di main è portata sopra: UnsavedBytes (blocchi preparati e non salvati), Save con l'avanzamento, WriteUnsaved (archivio della copia di recupero scritto da un BlockArchive proprio, formato 1) e AddArchive (i blocchi citati dal documento aperto, letti e controllati da GPC.Archive). Differenze rispetto a main: l'avanzamento del salvataggio in background va da 0 a 1 ad archivio scritto (GPC.Archive scrive l'archivio in una chiamata, main avanzava per blocco); AddArchive prende i blocchi che il documento recuperato cita, non tutti quelli del file; WriteUnsaved non comprende i blocchi tolti dall'archivio e tenuti in memoria per un annulla. DocumentService: lo strato 5 delle sezioni compatte si toglie per primo ed è del file; la versione 5 si decide anche sui fogli in quarantena (riscritti com'erano), così ANTHEA fino a 1.18 rifiuta come più recente anche un file con una sezione compatta in un foglio non leggibile. L'avviso dopo il salvataggio è quello di GPC.Archive (archivio messo da parte, blocchi danneggiati o mancanti) o, se manca, quello dei blocchi mancanti di ProjectFile, con il titolo «Salvataggio con avvisi».",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelResultArchive.cs",
+        "src/ANTHEA.Application/Documents/DocumentService.cs",
+        "src/ANTHEA.Application/Documents/ConcreteDocumentPersistence.cs",
+        "src/ANTHEA.Presentation/Shell/WorkspaceSession.cs"
+      ],
+      "effetto_quantificato": "Nessuna differenza nei file né nei valori: ANTHEA.Projects.Checks (copie di recupero, diagnosi, salvataggio) PASS 22 su GPC.Archive; solo la granularità dell'avanzamento del salvataggio in background.",
+      "documento": "docs/refactoring/piano.md",
+      "decisione": "Utente, 4/11/2026: «unisci i vari rami, riportiamo tutto il lavoro ad un repo pulito». Branch claude/f7-anthea, nessun push.",
+      "test": [
+        "tests/ANTHEA.Projects.Checks/Program.cs",
+        "tests/ANTHEA.Application.Tests/ConcretePersistenceChecks.cs"
+      ]
+    },
+    {
       "id": "GPC-F7A-01",
       "data": "2026-11-04",
       "fase": "F7a della migrazione GPC (set candidato delle librerie integrate)",
