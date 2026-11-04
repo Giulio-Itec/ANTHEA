@@ -68,3 +68,9 @@ quando il risultato non c'è (pressione vuota). Il difetto è riportato in `docs
   righe `campo profondita_testa "Profondità testa sotto il p.c." = "0"` (257), dalla vista XAML (`ui/check-palo-verticale-view`, corsa
   `supporto/artefatti/1143-teste/verticale-2`); nessun'altra riga cambia. `ui/check-palo-verticale-view` aggiunge l'etichetta «?» del
   campo a quelle registrate della vista storica.
+- 4/11/2026, voce PALO-TITOLO-SENZA-CALCOLA-20261104: il foglio calcola da solo e nessun grafico chiede più «Premere Calcola».
+  - Il grafico della capacità ha il titolo del modulo («Capacità portante del palo» o «… del micropalo») anche prima del primo risultato.
+  - Il messaggio predefinito del grafico senza curve è «Nessuna curva da mostrare». Il grafico di riferimento lo eredita, ma non lo mostra mai, perché ha sempre curve.
+
+  Nelle 18 tracce cambiano solo queste stringhe: 83 righe `grafico "Premere Calcola"` e 257 righe `riferimento … vuoto "Premere Calcola"`. Nelle 13 figure di
+  `tests/fixtures/f3-figures` cambiano 24 titoli e 19 messaggi. Nessun'altra riga cambia.

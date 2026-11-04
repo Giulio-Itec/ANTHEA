@@ -2252,3 +2252,23 @@ l'utente deve poter dire «SLU plastico e SLV elastico (che sarà il default)»;
 3. **Versione.** «finito tutto merge, commit, nuova versione di anthea», poi «usa 1.17.1». Funzione nuova, ma il numero è
    quello scelto dall'utente: esce come ANTHEA 1.17.1, con il set AT già pronto su `refactoring/lib-at` (full PASS 161) e
    le guide Rev68; il tag `v1.17.1` va sul commit del setup.
+
+## 4 novembre — i fogli pubblicano in un giro successivo del thread dell'interfaccia
+
+Contesto: `BridgeDesignSheetChecks` è fallita una volta sulla macchina carica. Il foglio riaperto mostrava «occupato sì»
+con il risultato già pubblicato. Un `await Task.Run(...)` trova il lavoro già finito se il thread dell'interfaccia resta
+sospeso subito dopo l'avvio, oppure se il risultato viene da una cache; allora prosegue nel passo stesso e pubblica prima di
+ciò che il lavoro aveva messo in coda.
+
+1. **Prove.** Prima correzione solo nelle prove: `SingleThreadContext` al passo (`0c82e812`, poi `b222c9dc` per muri,
+   sezione mista ed esportazioni della shell). Una sonda che fa finire il lavoro prima dell'`await` ha mostrato gli stessi
+   casi dove nessuna prova può sincronizzarsi: il palo verticale con «Calcola» su dati già calcolati, che risponde dalla
+   cache; le resistenze rapide della sezione c.a. all'apertura; le query dei muri.
+2. **Fogli.** Domanda: «Modifico i fogli perché pubblichino sempre in un giro successivo del thread UI?». Risposta: «Sì,
+   modificali». I lavori di fondo dei fogli passano da `BackgroundWork.RunAsync` (`src/ANTHEA.Application/Scheduling`):
+   `Task.Run`, poi la continuazione sempre in coda al contesto del chiamante
+   (`ConfigureAwaitOptions.ContinueOnCapturedContext | ForceYielding`). Quando il lavoro è ancora in corso il
+   comportamento non cambia. Quando è già finito, il foglio pubblica nel giro successivo, dopo ciò che il lavoro aveva messo
+   in coda, come le viste storiche. Restano fuori i report, le esportazioni della shell e il modulo Modelli, che non sono
+   fogli.
+3. **Versione.** Su main senza una versione nuova: il rilascio di ANTHEA resta una decisione dell'utente.

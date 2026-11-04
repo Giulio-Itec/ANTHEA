@@ -8,7 +8,7 @@ namespace X.Desktop.Views.Spectra;
 /// <summary>Graphics only. Engineering series and node coordinates are supplied by the ViewModel.</summary>
 public sealed class SpectraPlot : ContentControl
 {
-    private readonly Plot plot = new() { InvertY = false, XLabel = "Periodo T [s]", YLabel = "Accelerazione Sa [g]", FollowAppearance = true, XMinimum = 0, AxisNumberFormat = "0.###" };
+    private readonly Plot plot = new() { Title = "Spettri", InvertY = false, XLabel = "Periodo T [s]", YLabel = "Accelerazione Sa [g]", FollowAppearance = true, XMinimum = 0, AxisNumberFormat = "0.###" };
     public static readonly DependencyProperty CurvesProperty = DependencyProperty.Register(nameof(Curves), typeof(IReadOnlyList<SpectraCurve>), typeof(SpectraPlot), new PropertyMetadata(null, Changed));
     public static readonly DependencyProperty CaptionProperty = DependencyProperty.Register(nameof(Caption), typeof(string), typeof(SpectraPlot), new PropertyMetadata("Spettri", Changed));
     public IReadOnlyList<SpectraCurve>? Curves { get => (IReadOnlyList<SpectraCurve>?)GetValue(CurvesProperty); set => SetValue(CurvesProperty, value); }

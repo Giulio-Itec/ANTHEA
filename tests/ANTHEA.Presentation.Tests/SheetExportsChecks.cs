@@ -21,13 +21,14 @@ namespace Anthea.Presentation.Tests;
 /// WPF, on sheets opened by the coordinator: the JSON of the result (refused without results; the data of Bridge Design beside it, BD7), the
 /// three ways of the report (material chapter, PDF of the generator of the module, PDF rendered from the DOCX), the short report refused with the
 /// text of MvvmSheetEditor and its writing within two pages. The window of today runs the same members (MvvmSheetEditor), checked through the
-/// WPF suites of the views at night.
+/// WPF suites of the views at night. The "UI" thread (SingleThreadContext) runs in lock step: the end of the engine of Bridge Design is run
+/// before its result is published, so that «Calcola» awaited leaves the sheet no longer busy whatever the load of the machine.
 /// </summary>
 internal static class SheetExportsChecks
 {
     private const string PdfModule = "geo_fondazioni_superficiali";
 
-    internal static int Run(string output) => SingleThreadContext.Run(_ => RunAsync(output));
+    internal static int Run(string output) => SingleThreadContext.Run(_ => RunAsync(output), lockStep: true);
 
     private static async Task<int> RunAsync(string output)
     {

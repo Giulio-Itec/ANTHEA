@@ -65,6 +65,8 @@ internal static class VerticalPileSheetChecks
                 expect.That(File.Exists(stored), "Traccia della vista storica assente: " + stored);
                 string? difference = VerticalPileTrace.FirstDifference(VerticalPileTrace.Read(stored), lines);
                 expect.That(difference is null, "Palo verticale MVVM diverso dalla vista storica, scenario " + scenario.Name + ", " + difference);
+                // PALO-TITOLO-SENZA-CALCOLA-20261104: the sheet calculates by itself, no chart asks for «Calcola».
+                expect.That(!lines.Any(l => l.Contains("Premere Calcola", StringComparison.Ordinal)), "Grafici del palo verticale con «Premere Calcola»: " + scenario.Name);
             }
             var fixtures = new[] { Pile, Micro }.SelectMany(m => VerticalPileScenarios.Fixtures(root, m).Select(id => (Module: m, Id: id))).ToArray();
             expect.That(fixtures.Length == 13, "Fixture F3 dei pali verticali: " + fixtures.Length);
@@ -254,10 +256,13 @@ internal static class VerticalPileSheetChecks
         Series = c.Series.Select(Series).ToList(),
     };
 
-    /// <summary>The reference chart as the Plot of the view shows it: no message of its own («Premere Calcola», never shown with curves), no depth.</summary>
+    /// <summary>
+    /// The reference chart as the Plot of the view shows it: no message of its own (the default of the Plot, never shown with curves; «Premere
+    /// Calcola» until 4/11/2026), no depth.
+    /// </summary>
     private static VerticalPileChartState ReferenceState(PlotData p) => new()
     {
-        Title = p.Title, XLabel = p.XLabel, YLabel = p.YLabel, Note = p.Note, EmptyMessage = "Premere Calcola", CapacityDepth = 0, XMinimum = p.XMinimum,
+        Title = p.Title, XLabel = p.XLabel, YLabel = p.YLabel, Note = p.Note, EmptyMessage = PlotData.NoCurves, CapacityDepth = 0, XMinimum = p.XMinimum,
         Series = p.Series.Select(Series).ToList(),
         Markers = p.Markers.Select(m => new VerticalPileMarkerState(m.X, m.Y, m.Label, VerticalPileTrace.Colour(m.Color), m.ProjectToAxes, m.XCaption, m.YCaption, m.Radius)).ToList(),
     };
@@ -379,7 +384,7 @@ internal static class VerticalPileSheetChecks
         {
             sheet.SelectedSurveyIndex = i;
             var r = sheet.ReferenceChart;
-            states["reference-" + i] = PlotFigure(r.Title, r.XLabel, r.YLabel, r.Note, false, false, 0, r.XMinimum, "Premere Calcola", r.Series, r.Markers);
+            states["reference-" + i] = PlotFigure(r.Title, r.XLabel, r.YLabel, r.Note, false, false, 0, r.XMinimum, PlotData.NoCurves, r.Series, r.Markers);
         }
         string name = module + "--" + id + ".json";
         string actual = JsonSerializer.Serialize(states, new JsonSerializerOptions { WriteIndented = true });
@@ -593,7 +598,7 @@ internal static class VerticalPileSheetChecks
         sheet.Reload(legacy);
         expect.That(modified == 0 && !sheet.HasResults && sheet.Status == VerticalPilePresentation.StatusPending && sheet.Surveys.Count == 2
             && sheet.GeneralForm["tipo_palo"].SelectedChoice == "Battuto" && sheet.TableTitles.Count == 0 && sheet.CurveChoices.Count == 0
-            && sheet.CapacityChart.Title == VerticalPileCapacityChart.InitialTitle, "Reload: campi, stratigrafie o stato");
+            && sheet.CapacityChart.Title == VerticalPilePresentation.CapacityTitle(false), "Reload: campi, stratigrafie o stato");
         expect.That(await Expect.Within(sheet.PendingCalculation) && sheet.HasResults && sheet.TableTitles.Count > 0, "Reload: ricalcolo automatico");
         sheet.Commit();
         using var reopened = Open(Pile, legacy);

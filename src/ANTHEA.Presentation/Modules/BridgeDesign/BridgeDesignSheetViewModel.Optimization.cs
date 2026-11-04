@@ -2,6 +2,7 @@ using System.Text.Json.Nodes;
 using Anthea.Application.BridgeDesign;
 using Anthea.Application.Modules;
 using Anthea.Application.Presentation;
+using Anthea.Application.Scheduling;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Anthea.Presentation.Modules.BridgeDesign;
@@ -302,7 +303,7 @@ public sealed partial class BridgeDesignSheetViewModel
                     SearchBest = BridgeDesignOptimizationPresentation.ProvisionalBest(best);
                 }
             });
-            var result = await Task.Run(() => BridgeDesignAnalysis.Optimize(snapshot, options, token, progressReport), token);
+            var result = await BackgroundWork.RunAsync(() => BridgeDesignAnalysis.Optimize(snapshot, options, token, progressReport), token);
             token.ThrowIfCancellationRequested();
             if (IsDisposed || !ReferenceEquals(snapshot, optimizationSource) || !JsonNode.DeepEquals(snapshot, BridgeDesignAnalysis.OptimizationSnapshot(Data))) return;
             optimization = result; OnPropertyChanged(nameof(Optimization));

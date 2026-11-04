@@ -2,7 +2,7 @@
   "hasResults": false,
   "allSeries": [],
   "capacity-0": {
-    "Title": "Premere Calcola",
+    "Title": "Capacit\u00E0 portante del palo",
     "XLabel": "Forza assiale [kN]",
     "YLabel": "Profondit\u00E0 z [m]",
     "Note": "",
@@ -20,7 +20,7 @@
     "Markers": []
   },
   "capacity-1": {
-    "Title": "Premere Calcola",
+    "Title": "Capacit\u00E0 portante del palo",
     "XLabel": "Forza assiale [kN]",
     "YLabel": "Profondit\u00E0 z [m]",
     "Note": "",
@@ -38,7 +38,7 @@
     "Markers": []
   },
   "capacity-2": {
-    "Title": "Premere Calcola",
+    "Title": "Capacit\u00E0 portante del palo",
     "XLabel": "Forza assiale [kN]",
     "YLabel": "Profondit\u00E0 z [m]",
     "Note": "",
@@ -56,7 +56,7 @@
     "Markers": []
   },
   "capacity-3": {
-    "Title": "Premere Calcola",
+    "Title": "Capacit\u00E0 portante del palo",
     "XLabel": "Forza assiale [kN]",
     "YLabel": "Profondit\u00E0 z [m]",
     "Note": "",
@@ -74,7 +74,7 @@
     "Markers": []
   },
   "capacity-4": {
-    "Title": "Premere Calcola",
+    "Title": "Capacit\u00E0 portante del palo",
     "XLabel": "Forza assiale [kN]",
     "YLabel": "Profondit\u00E0 z [m]",
     "Note": "",
@@ -102,7 +102,7 @@
     "XMinimum": 25,
     "XMaximum": null,
     "XTickStep": null,
-    "EmptyMessage": "Premere Calcola",
+    "EmptyMessage": "Nessuna curva da mostrare",
     "AxisNumberFormat": null,
     "ScaleX": 1,
     "ScaleY": 1,

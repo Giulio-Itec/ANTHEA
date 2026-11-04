@@ -40,7 +40,7 @@ public sealed partial class ConcreteAnalysisSession
             else
             {
                 running?.Invoke(["preparazione unica della sezione"]);
-                prepared = await Task.Run(() => CheckerSection.PrepareModel(input, workspace), cancellation);
+                prepared = await BackgroundWork.RunAsync(() => CheckerSection.PrepareModel(input, workspace), cancellation);
                 cancellation.ThrowIfCancellationRequested();
                 preparedSection = (signature, prepared);
             }
@@ -51,7 +51,7 @@ public sealed partial class ConcreteAnalysisSession
                 cancellation.ThrowIfCancellationRequested();
                 lock (notifications) { active.Add(name); running?.Invoke(active.ToArray()); }
                 ConcreteAnalysisStep outcome;
-                try { outcome = await Task.Run(calculate, cancellation); }
+                try { outcome = await BackgroundWork.RunAsync(calculate, cancellation); }
                 catch (Exception error) when (error is not OperationCanceledException)
                 { outcome = new(name, Error: error.Message); }
                 finally { lock (notifications) { active.Remove(name); if (active.Count > 0 && !cancellation.IsCancellationRequested) running?.Invoke(active.ToArray()); } }

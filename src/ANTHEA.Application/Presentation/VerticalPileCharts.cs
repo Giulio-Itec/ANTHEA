@@ -6,6 +6,12 @@ public sealed record PlotSeriesData(string Name, List<double[]> Points, string C
 public sealed record PlotMarkerData(double X, double Y, string Label, string Color, bool ProjectToAxes = false, string? XCaption = null, string? YCaption = null, double Radius = 5);
 public sealed class PlotData
 {
+    /// <summary>
+    /// What a chart without curves shows when its sheet gives no message of its own (4/11/2026: no more «Premere Calcola», a command
+    /// that the sheets which calculate by themselves do not have).
+    /// </summary>
+    public const string NoCurves = "Nessuna curva da mostrare";
+
     public string Title { get; set; } = "";
     public string XLabel { get; set; } = "";
     public string YLabel { get; set; } = "";

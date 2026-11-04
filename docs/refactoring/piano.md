@@ -1,5 +1,29 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Grafici senza «Premere Calcola» — 4 novembre 2026
+
+Richiesta dell'utente: «Sì, toglilo». Ramo `refactoring/f5-palo-titolo` da 131f3738, allineato a b222c9dc;
+[verbale](azioni-ui-revisione-20261102.md#grafici-senza-premere-calcola--4-novembre-2026); registro `PALO-TITOLO-SENZA-CALCOLA-20261104`.
+
+- [x] Grafico della capacità del palo e del micropalo verticale con il titolo del modulo anche prima del primo risultato.
+- [x] `Plot` senza «Premere Calcola» come titolo e messaggio predefiniti: Spettri e «Nuovo materiale…» senza curve non lo mostrano più.
+- [x] Riferimenti congelati: 83 + 257 righe delle tracce, 24 + 19 stringhe delle figure F3; nient'altro cambia.
+- [x] Cattura prima, corsa pulita dopo la full `pubblica-dopo-full` e corsa dopo l'unione di origin/main 4f38cffb: 12 PASS ciascuna; suite UI 73.
+- [ ] Full: non eseguita.
+
+## Fogli: pubblicazione in un giro successivo — 4 novembre 2026
+
+Richiesta dell'utente: «Sì, modificali». Ramo `refactoring/f5-pubblica-dopo` da b222c9dc; [decisione](decisioni.md#4-novembre--i-fogli-pubblicano-in-un-giro-successivo-del-thread-dellinterfaccia);
+registro `FOGLI-GIRO-SUCCESSIVO-20261104`.
+
+- [x] Prove al passo (`SingleThreadContext`, `lockStep`): Bridge Design (`0c82e812`); muri, sezione mista ed esportazioni della shell
+  (`b222c9dc`); sezione c.a., per «Ferma ricerca» nello stesso passo di «Calcola armature».
+- [x] `BackgroundWork.RunAsync` nei lavori di fondo dei fogli: calcolo dei moduli, posti del limitatore, lotti, taglio e mesh della sezione
+  c.a., query e tabella dei parametri dei muri, curve della sezione mista, ricerca dell'ottimo di Bridge Design, risposta elastica e
+  armature del palo, infissione delle paratie.
+- [x] Sonda del caso peggiore, cioè il lavoro finito prima dell'`await`, su tutte le suite di tracce: PASS. Senza le prove al passo resta
+  solo «Ferma ricerca» della sezione c.a., che il passo chiude. Tracce congelate invariate.
+
 ## Messaggio dei risultati senza calcolo — 4 novembre 2026
 
 Richiesta dell'utente: «Sì, correggilo». Ramo `refactoring/f5-messaggio-calcola` da 397d5cfc;
@@ -8,8 +32,9 @@ Richiesta dell'utente: «Sì, correggilo». Ramo `refactoring/f5-messaggio-calco
 - [x] «Risultati JSON…» della shell senza «Premere Calcola», anche per un foglio che ricalcola; la stratigrafia spiega come conservare il
   foglio. Il testo storico resta nei rifiuti congelati nei riferimenti F3 e nella traccia di Bridge Design, che la shell non mostra.
 - [x] Cattura prima e corsa pulita delle suite che confrontano il messaggio; suite UI 73.
-- [ ] Titolo «Premere Calcola» dei grafici del palo verticale prima del primo risultato (figure F3): non compreso.
-- [ ] `BridgeDesignSheetChecks`, scenario «ottimizzazione»: corsa critica sui tempi vista il 4/11 sul commit di partenza, da rendere stabile.
+- [x] Titolo «Premere Calcola» dei grafici del palo verticale prima del primo risultato: fatto il 4/11 sera (`PALO-TITOLO-SENZA-CALCOLA-20261104`).
+- [x] `BridgeDesignSheetChecks`, scenario «ottimizzazione»: corsa critica sui tempi vista il 4/11 sul commit di partenza, resa stabile con
+  `0c82e812` (prove al passo) e poi con la pubblicazione in un giro successivo (voce sopra).
 
 ## Spettri all'apertura e guide Rev69 — 4 novembre 2026
 
