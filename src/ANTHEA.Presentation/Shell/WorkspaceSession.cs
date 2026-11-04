@@ -63,6 +63,10 @@ public sealed class WorkspaceSession : IDisposable
     /// <summary>Title of the error of a save (MainWindow.Save).</summary>
     public const string SaveFailure = "Salvataggio non riuscito";
 
+    /// <summary>Title of the warning of a save that went through with something to report about the results archive (review L4, 4/11/2026:
+    /// ModelResultArchive.SaveNotice).</summary>
+    public const string SaveWarning = "Salvataggio con avvisi";
+
     /// <summary>A copy of an example saved among the installed examples (MainWindow.Save).</summary>
     public const string ExamplesFolderRefused = "Salva la copia nella cartella dei tuoi lavori, fuori dagli esempi installati.";
 
@@ -233,6 +237,9 @@ public sealed class WorkspaceSession : IDisposable
             else files.Save(target, document.WorkingDocument);
             document.MarkSaved(target);
             foreach (var sheet in sheets.Where(s => ReferenceEquals(s.Owner, document))) sheet.MarkSaved();
+            // Review L4 (4/11/2026): what the results archive could not keep is said, not hidden (a damaged archive set aside, damaged or
+            // missing blocks); the project is saved.
+            if (document is ProjectSession saved && saved.Results.SaveNotice() is { } notice) services.Messages.Warn(SaveWarning, notice);
             return true;
         }
         catch (Exception error)

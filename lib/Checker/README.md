@@ -1,5 +1,11 @@
 # DLL Checker
 
+**GPC.Archive candidato, correzioni della revisione L4 (4 novembre 2026, branch `claude/f6-L4`, non pubblicato).** Sostituita la sola
+`GPC.Archive.dll` 1.1.0.0 (SHA-256 `312E9B7F…7B53`) con quella di Model `198b21e0` (branch `claude/f6-L4`, non pushato): un errore di lettura
+durante il controllo dei blocchi ferma il salvataggio invece di far perdere i blocchi, «Salva con nome» blocca anche l'archivio di
+partenza e copia solo dal file che il suo indice descrive, un blocco danneggiato non torna dalla memoria della sessione. Stessa API e
+stesso formato 1; le altre 13 DLL non cambiano. Vale la nota sulla prova di provenienza F4 qui sotto.
+
 **GPC.Archive candidato (3 novembre 2026, branch `claude/f6-L3`, non pubblicato).** Aggiunta la sola `GPC.Archive.dll` 1.1.0.0 (SHA-256
 `74E50BD5…3180`) da Model `62508fef` (branch `claude/f6-L3`, non pushato): il contenitore a blocchi che `ModelResultArchive` usa al posto
 della propria copia (revisione D1/D2, decisione dell'utente «per il salvataggio usa GPC.Archive»). Non ha dipendenze; le altre 13 DLL

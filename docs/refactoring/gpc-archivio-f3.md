@@ -33,3 +33,11 @@ Tempi (`ModelWorkspace.Checks --archive-timing`, Release, 24 processori, 3 corse
 | Salva dopo la riapertura (copia cambiata) | 208 | 252 | | |
 
 Archivi: 40,2 MB (1000x100) e 51,1 MB (2000x50). Il modello 3500x50 non entra nel banco: la copia supera i 256 MiB di `ModelCombinations.Attach` senza limite esplicito. Le differenze stanno nel rumore di misura; nessun peggioramento.
+
+## F6, corsia L4: avvisi del salvataggio e GPC.Archive corretto
+
+4 novembre 2026, notte, branch `claude/f6-L4`. Revisione indipendente delle correzioni P1 (registro `GPC-F6-L4-01`).
+
+- ANTHEA non leggeva mai il resoconto del salvataggio di GPC.Archive (`LastSave`). `ModelResultArchive.SaveNotice()` ne fa un testo in italiano e `WorkspaceSession.Save` lo mostra dopo un salvataggio riuscito, come avviso con il titolo «Salvataggio con avvisi» (accanto a «Salvataggio non riuscito» dei salvataggi rifiutati): l'archivio danneggiato conservato con un altro nome (con il nome del file), i blocchi danneggiati non ricopiati, i blocchi citati dal progetto che l'archivio non ha. Negli altri salvataggi nessun messaggio.
+- `GPC.Archive.dll` ricompilata da Model `198b21e0` (stessa versione 1.1.0.0, stessa API, formato 1): un errore di lettura durante il controllo dei blocchi ferma il salvataggio prima del documento (prima toglieva i blocchi dall'archivio); «Salva con nome» blocca anche l'archivio di partenza e copia solo dal file che il suo indice descrive; un blocco danneggiato non torna dalla memoria della sessione dopo un annulla.
+- Prove: `ResultArchiveSharedChecks` (riferimento danneggiato, blocco danneggiato con «Salva con nome», archivio messo da parte) e `WorkspaceChecks.ArchiveNotice` (avviso mostrato una volta, con il nome del file conservato).

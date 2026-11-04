@@ -59,6 +59,24 @@ static partial class Program
         bool written = false;
         withDamage.Save(damagedReference, reopened, () => { written = true; DocumentService.Save(damagedReference, reopened); });
         Check(written, "GPC.Archive: a project with damaged references is saved");
+        // Review L4 (4/11/2026): what the archive could not keep is told to the user (before, LastSave was never read).
+        Check(withDamage.SaveNotice() is { } unavailableNotice && unavailableNotice.Contains("Un blocco citato dal progetto non è nell'archivio dei risultati", StringComparison.Ordinal)
+            && unavailableNotice.Contains("calcolali di nuovo", StringComparison.Ordinal),
+            "GPC.Archive: the save of a project with a damaged reference tells the user that one block is not in the archive");
+        Check(archive.SaveNotice() is null, "GPC.Archive: a clean save has nothing to tell");
+
+        // A block whose bytes no longer match its address: left out of the new archive («Salva con nome…», which copies every block) and told
+        // to the user.
+        string damagedBlock = Path.Combine(folder, "blocco danneggiato.programma"), copied = Path.Combine(folder, "copia del blocco danneggiato.programma");
+        File.Copy(shared, damagedBlock); var archived = File.ReadAllBytes(ModelResultArchive.PathFor(shared));
+        long table = BinaryPrimitives.ReadInt64LittleEndian(archived.AsSpan(ArchiveIndexAt));
+        long first = BinaryPrimitives.ReadInt64LittleEndian(archived.AsSpan((int)table + ArchiveOffsetAt));
+        archived[first + 1] ^= 0x40; File.WriteAllBytes(ModelResultArchive.PathFor(damagedBlock), archived);
+        var withDamagedBlock = DocumentService.Open(damagedBlock); var blockArchive = new ModelResultArchive(damagedBlock, withDamagedBlock);
+        blockArchive.Save(copied, withDamagedBlock, () => DocumentService.Save(copied, withDamagedBlock));
+        Check(blockArchive.LastSave?.Damaged.Count == 1 && blockArchive.SaveNotice() is { } damagedNotice
+            && damagedNotice.Contains("Un blocco dell'archivio dei risultati era danneggiato e non è stato ricopiato", StringComparison.Ordinal),
+            "GPC.Archive: a damaged block left out of the archive is told to the user");
 
         // A damaged archive (index): the project is saved, the damaged file is set aside byte for byte, never overwritten.
         string damagedArchive = Path.Combine(folder, "archivio danneggiato.programma");
@@ -73,6 +91,9 @@ static partial class Program
         broken.Save(damagedArchive, reopened, () => { written = true; DocumentService.Save(damagedArchive, reopened); });
         Check(written && broken.LastSave?.SetAside is { } aside && File.ReadAllBytes(aside).AsSpan().SequenceEqual(bytes),
             "GPC.Archive: a damaged archive does not stop the save; it is kept aside, byte for byte, with another name");
+        Check(broken.LastSave?.SetAside is { } kept && broken.SaveNotice() is { } asideNotice && asideNotice.Contains("«" + Path.GetFileName(kept) + "»", StringComparison.Ordinal)
+            && asideNotice.Contains("non è stato sovrascritto", StringComparison.Ordinal),
+            "GPC.Archive: the user is told where the damaged archive was kept");
     }
 
     static bool Fails(Action action) { try { action(); return false; } catch (Exception error) when (error is InvalidOperationException or InvalidDataException or IOException) { return true; } }
