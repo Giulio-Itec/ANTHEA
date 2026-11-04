@@ -1885,5 +1885,21 @@
     "file": "tests/fixtures/f3/transitions-f5-wiki.json",
     "record": "SPETTRI-GUIDE-REV69-20261104",
     "note": "Guides Rev69 (4/11/2026): exact text updates in two articles (NTC spectra, concrete rheology) for the calculation at opening and the automatic recalculation; the two added lines on saving the rheology sheet, already listed with the Rev66 text, now carry the new text with their previous record kept. No expected files, engineering transitions or tolerances changed."
+  },
+  "editorial_transitions_rev70": {
+    "capture": "supporto/artefatti/ci/20261104-223706-guide-rev70-1/ui_f3-equivalence/cattura",
+    "before_sha256": "bf762fa25b0fbc80f30db861582b3d668f085b7330a75c111e13631872622871",
+    "after_sha256": "0b2ca2d728ce688fc93169d32c465d730cde1eca4dc6e104ba00893764f22749",
+    "counts": {
+      "previous": 3244,
+      "current": 3296,
+      "added": 60,
+      "updated": 2,
+      "moved": 79,
+      "removed": 8
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "MODELLI-GUIDE-REV70-20261104",
+    "note": "Guides Rev70 (4/11/2026): exact text updates in four articles (Models module: series calculation, space of the combinations, plate thicknesses in the section window; saving: 1.19 files with compact RC sections and the save warnings of the results archive; RC section saving). 79 earlier editorial transitions moved to the lines shifted by the added ones, same entries and values; 2 added lines carry the new text with their previous record kept. Search «sezioni»: the saving article enters at the seventh place and the following ones move down by one, so 8 superseded position transitions are replaced by 28 new ones, as for the «micropalo» search of Rev58. No expected files, engineering transitions or tolerances changed."
   }
 }
