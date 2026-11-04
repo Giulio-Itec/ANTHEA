@@ -28,8 +28,8 @@ namespace Anthea.Presentation.Shell.Commands;
 /// </summary>
 public sealed class SheetFileExports : ISheetExports
 {
-    /// <summary>A JSON of the results asked without results or during a calculation (MvvmSheetEditor.ExportResult).</summary>
-    public const string CalculateFirst = "Premere Calcola prima di esportare.";
+    /// <summary>A JSON of the results asked without results or during a calculation (MvvmSheetEditor.ExportResult); 4/11/2026: no «Premere Calcola».</summary>
+    public const string CalculateFirst = SheetViewModelBase.NoResultsToExport;
 
     /// <summary>The same refusal for the RC section, with the text of its historic sheet (F5.10 S9).</summary>
     public const string ConcreteUpdateFirst = "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare.";

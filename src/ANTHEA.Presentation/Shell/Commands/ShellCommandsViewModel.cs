@@ -1,5 +1,7 @@
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
+using Anthea.Presentation.Modules;
+using Anthea.Presentation.Modules.Stratigraphy;
 using Anthea.Presentation.Mvvm;
 using Anthea.Presentation.Services;
 using CommunityToolkit.Mvvm.Input;
@@ -63,10 +65,12 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     public const string CompleteFirst = "Completare il calcolo prima di esportare il report.";
     /// <inheritdoc cref="CompleteFirst"/>
     public const string WaitConcrete = "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi.";
-    /// <inheritdoc cref="CompleteFirst"/>
-    public const string CalculateFirst = "Premere Calcola prima di esportare i risultati.";
+    /// <summary>Results without results (4/11/2026): no «Premere Calcola», a command the shell does not have (<see cref="SheetViewModelBase.NoResultsToExport"/>).</summary>
+    public const string CalculateFirst = SheetViewModelBase.NoResultsToExport;
     /// <inheritdoc cref="CompleteFirst"/>
     public const string MaterialResults = "Per conservare la scheda materiali usa Salva o Esporta foglio selezionato.";
+    /// <summary>The stratigraphy is data without a calculation: it never has results to export (4/11/2026).</summary>
+    public const string StratigraphyResults = "La stratigrafia non ha risultati da esportare: per conservarla usare Salva o Esporta foglio selezionato.";
 
     private readonly WorkspaceSession workspace;
     private readonly PresentationServices services;
@@ -167,6 +171,7 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     public void ExportResults()
     {
         if (workspace.Active?.Module is "mat_calcestruzzo" or "mat_acciaio_armatura") { services.Messages.Inform("", MaterialResults); return; }
+        if (workspace.Active?.Module == StratigraphySheetViewModel.Module) { services.Messages.Inform("", StratigraphyResults); return; }
         workspace.CommitActive();
         if (workspace.Active is not { ViewModel.HasResults: true } sheet)
         {
