@@ -78,13 +78,19 @@ public sealed class ModelResultArchive
     readonly object gate = new();
     readonly BlockArchive blocks;
     HashSet<string> savedRevisions;
+    // The blocks cited by the document the archive was opened with (a recovery copy taken up again reads them from its archives, AddArchive).
+    readonly HashSet<string> openedReferences;
+    // Blocks prepared in this session and not written to the file of the project yet, with their compressed bytes (UnsavedBytes, the blocks of a
+    // recovery copy, WriteUnsaved); GPC.Archive keeps the blocks themselves, this is only what ANTHEA needs to know about them.
+    readonly Dictionary<string, (ArchiveBlock Block, long Stored)> unsaved = new(StringComparer.Ordinal);
 
     /// <param name="documentPath">The file of the project, null for a project not saved yet.</param>
     /// <param name="document">The document as read from that file (its blocks are in the archive beside it), null for a new project; without
     /// it the first save keeps every block already beside the file.</param>
     public ModelResultArchive(string? documentPath, JsonObject? document = null)
     {
-        blocks = new BlockArchive(documentPath is null ? null : PathFor(documentPath), document is null ? null : References(document), Mark);
+        openedReferences = document is null ? new(StringComparer.Ordinal) : References(document);
+        blocks = new BlockArchive(documentPath is null ? null : PathFor(documentPath), document is null ? null : openedReferences, Mark);
         savedRevisions = document is null ? new(StringComparer.Ordinal) : Revisions(document);
     }
 
@@ -96,6 +102,10 @@ public sealed class ModelResultArchive
 
     /// <summary>What the last save did: unavailable result sets, a damaged archive set aside.</summary>
     public ArchiveSaveReport? LastSave => blocks.LastSave;
+
+    /// <summary>Compressed bytes of the blocks prepared in this session and not in the file yet: what a «Salva» writes besides the blocks
+    /// already on disk (step 2c: a large amount goes to a save in the background).</summary>
+    public long UnsavedBytes { get { lock (gate) return unsaved.Values.Sum(block => block.Stored); } }
 
     /// <summary>
     /// What the user must know after the last save (review L4, 4/11/2026: 1.18.0 with GPC.Archive never read <see cref="LastSave"/>): a damaged
@@ -139,6 +149,8 @@ public sealed class ModelResultArchive
         {
             if (address != block.Address) throw new InvalidDataException("Indirizzo del blocco non coerente.");
             blocks.Add(block);
+            // GPC.Archive does not expose the compressed length: one copy of the bytes, once per block of the session.
+            lock (gate) if (!unsaved.ContainsKey(address)) unsaved[address] = (block, block.EncodedBytes().LongLength);
         }
     }
 
@@ -154,16 +166,69 @@ public sealed class ModelResultArchive
     /// there before cites blocks), then the document through <paramref name="writeDocument"/>, then the state «saved». The thread of the
     /// caller; the blocks are already compressed.
     /// </summary>
+    /// <param name="progress">The share of the work done (0 to 1), for a save in the background (step 2c of docs/sviluppo/progetto-sistema.md).
+    /// GPC.Archive writes the archive in one call: 0 at the start, 1 when the archive is written, before the document.</param>
     /// <returns>The blocks cited by the document that the archive does not have (an archive missing at the opening), 0 normally.</returns>
-    public int Save(string documentPath, JsonObject document, Action writeDocument)
+    public int Save(string documentPath, JsonObject document, Action writeDocument, IProgress<double>? progress = null)
     {
         ArgumentNullException.ThrowIfNull(document);
         ArgumentNullException.ThrowIfNull(writeDocument);
         var references = References(document);
         var revisions = Revisions(document);
-        int missing = blocks.Save(PathFor(documentPath), references, writeDocument);
-        lock (gate) savedRevisions = revisions;
+        progress?.Report(0);
+        int missing = blocks.Save(PathFor(documentPath), references, () => { progress?.Report(1); writeDocument(); });
+        lock (gate)
+        {
+            savedRevisions = revisions;
+            // The blocks of the saved document are in its archive now; the others stay unsaved (an undo may cite them again).
+            foreach (string address in references) unsaved.Remove(address);
+        }
         return missing;
+    }
+
+    /// <summary>
+    /// The recovery copy of a project (docs/sviluppo/progetto-sistema.md, step 2e): the blocks of <paramref name="needed"/> that this session
+    /// prepared and did not save (they are only in memory), except <paramref name="written"/>, as a new archive at <paramref name="path"/>
+    /// (GPC.Archive, format 1, as the archive beside the project). Any thread.
+    /// </summary>
+    /// <returns>The addresses written; none, and no file, when nothing is new.</returns>
+    public IReadOnlyCollection<string> WriteUnsaved(string path, IReadOnlySet<string> needed, IReadOnlySet<string> written)
+    {
+        ArgumentNullException.ThrowIfNull(needed);
+        ArgumentNullException.ThrowIfNull(written);
+        List<(string Address, ArchiveBlock Block)> chosen;
+        lock (gate)
+            chosen = [.. unsaved.Where(p => needed.Contains(p.Key) && !written.Contains(p.Key)).OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => (p.Key, p.Value.Block))];
+        if (chosen.Count == 0) return [];
+        // A store of its own with nothing saved before: the file holds exactly these blocks.
+        var copy = new BlockArchive(null, [], Mark);
+        foreach (var (_, block) in chosen) copy.Add(block);
+        copy.Save(path, chosen.Select(c => c.Address), () => { });
+        return [.. chosen.Select(c => c.Address)];
+    }
+
+    /// <summary>
+    /// A recovery copy taken up again (step 2e): the blocks of the archive at <paramref name="path"/> that the document opened with this archive
+    /// cites join the blocks of this session not saved yet, so that the next «Salva» writes them beside the project. Each block is checked
+    /// against its address when it is read (GPC.Archive).
+    /// </summary>
+    /// <returns>Null when the blocks were added (or the archive holds none the document cites), otherwise why the archive could not be read.</returns>
+    public string? AddArchive(string path)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+        if (!File.Exists(path)) return "archivio dei risultati della copia di recupero mancante: " + Path.GetFileName(path);
+        string[] wanted;
+        lock (gate) wanted = [.. openedReferences];
+        if (wanted.Length == 0) return null;
+        var contents = new BlockArchive(path, null, Mark).Read(wanted);
+        var found = new List<KeyValuePair<string, ArchiveBlock>>();
+        for (int i = 0; i < wanted.Length; i++)
+            if (contents[i].Bytes is { } json) found.Add(KeyValuePair.Create(wanted[i], ArchiveBlock.Create((byte)(contents[i].Kind & 127), json)));
+        // A file that cannot be read gives every block the same reason; blocks the copy simply does not hold are not a failure.
+        if (found.Count == 0 && contents.Select(c => c.Failure).FirstOrDefault(f => f is not null && !f.StartsWith("blocco assente", StringComparison.Ordinal)) is { } failure)
+            return "archivio dei risultati della copia di recupero non leggibile: " + failure;
+        Add(found);
+        return null;
     }
 
     /// <summary>The containers of models of a document: the projects, their sections and the sections of the revisions (contexts).</summary>

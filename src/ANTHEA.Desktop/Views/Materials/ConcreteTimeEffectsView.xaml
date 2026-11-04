@@ -30,6 +30,7 @@
      <TextBlock Text="Età finale [giorni]"/><TextBox AutomationProperties.Name="Età finale" Text="{Binding EndAge, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
      <TextBlock Text="Risoluzione del campionamento"/><TextBox AutomationProperties.Name="Campionamento" Text="{Binding Samples, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
     </StackPanel>
+    <!-- The curves follow the data by themselves after a short delay; the button updates them at once. Disabled in a read-only revision. -->
     <Button Content="Aggiorna le curve" Command="{Binding CalculateCommand}" Margin="0,10" MinHeight="38"/>
     <TextBlock Text="{x:Static vm:ConcreteTimeEffectsViewModel.Assumptions}" Foreground="{DynamicResource Token.Muted}"/>
    </StackPanel></Border></ScrollViewer>
@@ -44,6 +45,7 @@
     <Border Grid.Row="1" Style="{StaticResource Card}" Padding="8" Margin="0,10,0,0"><DockPanel>
      <WrapPanel DockPanel.Dock="Top">
       <StackPanel Width="250"><TextBlock Text="Grandezza"/><ComboBox ItemsSource="{Binding Curves}" SelectedItem="{Binding SelectedCurve}" DisplayMemberPath="Label" AutomationProperties.Name="Grandezza del grafico"/></StackPanel>
+      <!-- Options of the plot: consultation, never written into the document (review of 2/11/2026). -->
       <CheckBox Content="Asse X log" IsChecked="{Binding LogX}" Margin="8" VerticalAlignment="Center"/>
       <CheckBox Content="Asse Y log" IsChecked="{Binding LogY}" Margin="8" VerticalAlignment="Center"/>
       <Button Content="Adatta" Click="OnFit" Margin="4" VerticalAlignment="Center"/>
@@ -62,7 +64,7 @@
       </WrapPanel>
       <TextBlock Text="{Binding QueryError}"/><TextBlock Text="{Binding ReferenceText}" Foreground="{DynamicResource Token.Muted}"/>
      </StackPanel></ScrollViewer></TabItem>
-     <TabItem Header="Tabella · seleziona un'età">
+     <TabItem Header="Tabella · selezionare un'età">
       <DataGrid ItemsSource="{Binding Points}" SelectedItem="{Binding SelectedPoint}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True" SelectionMode="Single" Margin="4" AutomationProperties.Name="Valori di viscosità e maturazione">
        <DataGrid.Columns>
         <DataGridTextColumn Header="Età t [giorni]" Binding="{Binding AgeText}" SortMemberPath="AgeDays" Width="*"/>

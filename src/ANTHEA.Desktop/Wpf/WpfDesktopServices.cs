@@ -64,6 +64,55 @@ internal sealed class WpfConfirmationService(Func<Window?> owner) : IConfirmatio
     /// <summary>The question of SoilTransferDialog before the replacement of the soil: Yes and No, no icon, owned by the active window (the dialog).</summary>
     public bool ConfirmReplace(string title, string question)
         => WpfDesktopServices.Show(owner(), question, title, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+
+    /// <summary>The file is open in another ANTHEA (step 2d, 3/11/2026): «Apri una copia» (default), «Apri comunque», «Annulla» (Esc).</summary>
+    public LockedDocumentAnswer AskLockedDocument(string title, string question)
+        => Choose(title, question, LockedDocumentAnswer.Cancel, ("Apri una copia", LockedDocumentAnswer.OpenCopy), ("Apri comunque", LockedDocumentAnswer.OpenAnyway),
+            ("Annulla", LockedDocumentAnswer.Cancel));
+
+    /// <summary>A recovery copy at the start (step 2e): «Riprendi» (default), «Scarta», «Più tardi» (Esc).</summary>
+    public RecoveryAnswer AskRecovery(string title, string question)
+        => Choose(title, question, RecoveryAnswer.Later, ("Riprendi", RecoveryAnswer.Resume), ("Scarta", RecoveryAnswer.Discard), ("Più tardi", RecoveryAnswer.Later));
+
+    /// <summary>A question with its buttons in order: the first is the default (Enter), the last closes the dialog as Esc, which answers
+    /// <paramref name="cancel"/>.</summary>
+    private T Choose<T>(string title, string question, T cancel, params (string Label, T Answer)[] choices)
+    {
+        var answer = cancel;
+        var content = Ui.Stack(Ui.Text(question, 14));
+        content.Margin = new Thickness(18);
+        var window = owner();
+        var dialog = window is null
+            ? new Window { Title = title, Content = content, Width = LockedDialogWidth, WindowStartupLocation = WindowStartupLocation.CenterScreen }
+            : Ui.Dialog(window, title, content, LockedDialogWidth);
+        dialog.SizeToContent = SizeToContent.Height;
+        dialog.ResizeMode = ResizeMode.NoResize;
+        var buttons = choices.Select((choice, position) =>
+        {
+            var button = Ui.Button(choice.Label, () => { answer = choice.Answer; dialog.DialogResult = true; }, position == 0);
+            button.IsDefault = position == 0;
+            button.IsCancel = position == choices.Length - 1;
+            return (UIElement)button;
+        }).ToArray();
+        var bar = Ui.Bar(buttons);
+        bar.Margin = new Thickness(0, LockedDialogGap, 0, 0);
+        content.Children.Add(bar);
+        dialog.ShowDialog();
+        return answer;
+    }
+
+    /// <summary>The file changed on disk since it was opened or saved: Yes overwrites, No (default) stops the save.</summary>
+    public bool ConfirmOverwrite(string title, string question)
+    {
+        var window = owner();
+        var result = window is null
+            ? MessageBox.Show(question, title, MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No)
+            : MessageBox.Show(window, question, title, MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+        return result == MessageBoxResult.Yes;
+    }
+
+    private const double LockedDialogWidth = 580;
+    private const double LockedDialogGap = 14;
 }
 
 /// <summary>Message box formerly in MainWindow.Safe, and the plain notes and warnings of the views.</summary>

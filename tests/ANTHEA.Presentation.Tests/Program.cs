@@ -62,6 +62,8 @@ try
         string bridgeDesign = $"PASS {checks} controlli di Bridge Design (F5.12) senza WPF";
         File.WriteAllText(Path.Combine(output, "esito.txt"), bridgeDesign, new UTF8Encoding(false)); Console.WriteLine(bridgeDesign); return 0;
     }
+    // 4/11/2026 (docs/sviluppo/progetto-sistema.md, step 3): --banco-progetto measures the edits of a large project in the shell.
+    if (args.Contains("--banco-progetto")) return ProjectEditBench.Run(output);
     // F5.13: --shell runs only the checks of the sessions and ViewModels of the new shell (to work on the step).
     if (args.Contains("--shell"))
     {

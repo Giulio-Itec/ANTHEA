@@ -13,6 +13,12 @@ public interface IDocumentFiles
     /// <summary>Reads and validates a document (DocumentService.Open).</summary>
     JsonObject Open(string path);
 
+    /// <summary>
+    /// Reads a document as <see cref="Open(string)"/>, but a sheet or a revision that cannot be read is kept as it was, read-only, and its
+    /// problem added to <paramref name="problems"/> (step 2b of docs/sviluppo/progetto-sistema.md); by default as <see cref="Open(string)"/>.
+    /// </summary>
+    JsonObject Open(string path, List<DocumentProblem> problems) => Open(path);
+
     /// <summary>Validates and writes a document (DocumentService.Save).</summary>
     void Save(string path, JsonObject document);
 
@@ -36,6 +42,8 @@ public sealed class DocumentFiles(string examplesFolder) : IDocumentFiles
     public static DocumentFiles Installed() => new(System.IO.Path.Combine(AppContext.BaseDirectory, "Esempi"));
 
     public JsonObject Open(string path) => DocumentService.Open(path);
+
+    public JsonObject Open(string path, List<DocumentProblem> problems) => DocumentService.Open(path, problems);
 
     public void Save(string path, JsonObject document) => DocumentService.Save(path, document);
 

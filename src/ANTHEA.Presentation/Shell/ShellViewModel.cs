@@ -20,10 +20,11 @@ namespace Anthea.Presentation.Shell;
 /// <summary>
 /// What the composition root gives to the shell besides the services (F5.13 c): the appearance of the application (menu «Aspetto») and the
 /// catalogue of the installed examples (page «Esempi»); since part (e) the writer of the report of a section («Genera report», «Report Word della
-/// sezione»). Without them the menu, the page and the report of a section are absent (the checks of parts a and b).
+/// sezione»). Without them the menu, the page and the report of a section are absent (the checks of parts a and b). Since 3/11/2026 the folder of
+/// the recovery copies (docs/sviluppo/progetto-sistema.md, step 2e): without it no copy is written and none is offered at the start.
 /// </summary>
 public sealed record ShellOptions(IAppearanceService? Appearance = null, Func<ExampleCatalog>? Examples = null, ISectionReports? Reports = null,
-    INumberSeparatorService? Separators = null);
+    INumberSeparatorService? Separators = null, Anthea.Projects.RecoveryStore? Recovery = null);
 
 /// <summary>
 /// The shell as one ViewModel (F5.13 b, c): the coordinator of the documents and the ViewModels of navigation, tree, catalogue of the sheets,
@@ -55,6 +56,7 @@ public sealed class ShellViewModel : ViewModelBase
     private readonly ShellOptions options;
     private readonly CommandGuard guard;
     private readonly SectionReportRunner? sectionReports;
+    private readonly RecoveryWriter? recovery;
     private RevisionBarViewModel? revisions;
     private SectionOverviewViewModel? overview;
     private ISheetViewModel? watched;
@@ -74,6 +76,7 @@ public sealed class ShellViewModel : ViewModelBase
         this.options = options ?? new ShellOptions();
         guard = new CommandGuard(services.Messages);
         Workspace = new WorkspaceSession(services, sheets, files);
+        if (this.options.Recovery is { } store) recovery = new RecoveryWriter(store, Workspace, automatic: true);
         Navigation = new NavigationViewModel(Workspace, services.Messages);
         Tree = new ProjectTreeViewModel(Workspace, services.Messages);
         Catalogue = new ProjectCatalogViewModel();
@@ -468,7 +471,7 @@ public sealed class ShellViewModel : ViewModelBase
         model.BackRequested += (_, _) => Navigation.Select(ShellPage.Models);
         model.OwnerRequested += (_, section) => ShowOverview(section);
         model.NewModelRequested += (_, section) => ShowModel(section, null);
-        model.SaveRequested += (_, _) => Workspace.Save(project, false);
+        model.SaveRequested += (_, _) => Workspace.Save(project, false, background: true);
         Windows.ShowPage(tab);
         Tree.Refresh(container);
         Revisions?.Show(container);
@@ -479,6 +482,7 @@ public sealed class ShellViewModel : ViewModelBase
     public void Start(StartupRequest request)
     {
         ArgumentNullException.ThrowIfNull(request);
+        OfferRecovery();
         switch (request.Action)
         {
             case StartupAction.Wiki:
@@ -494,10 +498,41 @@ public sealed class ShellViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// At the start (step 2e, decision D2 of 3/11/2026): each recovery copy left over by an ANTHEA that ended badly is offered, the oldest
+    /// first: «Riprendi» opens its document, «Scarta» deletes it, «Più tardi» keeps it for the next start. Errors as messages.
+    /// </summary>
+    public void OfferRecovery()
+    {
+        if (options.Recovery is not { } store) return;
+        foreach (var entry in store.LeftOver())
+        {
+            var answer = RecoveryAnswer.Later;
+            guard.Run(() => answer = services.Confirmations.AskRecovery(WorkspaceSession.RecoveryTitle,
+                WorkspaceSession.RecoveryQuestion(entry.Info.Title, entry.Info.Written)));
+            switch (answer)
+            {
+                case RecoveryAnswer.Resume:
+                    // Not opened (the user kept the open project, or the copy cannot be read): the copy stays for the next start.
+                    DocumentSession? resumed = null;
+                    guard.Run(() => resumed = Workspace.Resume(entry));
+                    if (resumed is null) entry.Dispose();
+                    break;
+                case RecoveryAnswer.Discard:
+                    entry.Delete();
+                    break;
+                default:
+                    entry.Dispose();
+                    break;
+            }
+        }
+    }
+
     protected override void OnDisposed()
     {
+        recovery?.Dispose();
         Watch(null);
-        if (attached is not null) { attached.StateChanged -= OnProjectState; attached.Changed -= OnProjectChanged; }
+        if (attached is not null) { attached.StateChanged -= OnProjectState; attached.Changed -= OnProjectChanged; attached.Calculations.Changed -= OnCalculated; }
         Navigation.PropertyChanged -= OnNavigationChanged;
         Commands.Dispose(); Windows.Dispose(); Tree.Dispose(); Navigation.Dispose(); Catalogue.Dispose();
         Models.Dispose(); ModelReference.Dispose(); SheetBar.Dispose(); Appearance?.Dispose(); examples?.Dispose();
@@ -573,11 +608,11 @@ public sealed class ShellViewModel : ViewModelBase
         var project = Workspace.Project;
         if (!ReferenceEquals(attached, project))
         {
-            if (attached is not null) { attached.StateChanged -= OnProjectState; attached.Changed -= OnProjectChanged; }
+            if (attached is not null) { attached.StateChanged -= OnProjectState; attached.Changed -= OnProjectChanged; attached.Calculations.Changed -= OnCalculated; }
             Revisions?.Dispose();
             attached = project;
             Revisions = project is null ? null : new RevisionBarViewModel(project, services);
-            if (project is not null) { project.StateChanged += OnProjectState; project.Changed += OnProjectChanged; }
+            if (project is not null) { project.StateChanged += OnProjectState; project.Changed += OnProjectChanged; project.Calculations.Changed += OnCalculated; }
             Overview = null;
             foreach (var model in Windows.Pages.Where(p => p.Content is ModelTabViewModel).ToArray()) Windows.Close(model);
             OnPropertyChanged(nameof(HasProject));
@@ -589,6 +624,12 @@ public sealed class ShellViewModel : ViewModelBase
     }
 
     private void OnProjectState(object? sender, EventArgs e) => UpdateTitle();
+
+    /// <summary>A sheet was calculated (step 4): the overview on screen counts the states again.</summary>
+    private void OnCalculated(object? sender, string id)
+    {
+        if (Overview is { Section: { } section } && attached is { } project) Overview = new SectionOverviewViewModel(project, project.Find(section.S("id")) ?? section);
+    }
 
     /// <summary>
     /// F5.13 e (ui/shell-smoke-project-workspace): the sheet with the focus closed because the document on screen has no node with its identifier (a revision,

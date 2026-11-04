@@ -62,6 +62,12 @@ internal static partial class ConcreteSectionSheetChecks
         try { sheet.Report.BuildReport("Report", ReportSections()); } catch (InvalidOperationException error) { expect.That(error.Message == ConcreteSheetViewModel.ReportUnavailable, "Messaggio del report rifiutato"); }
         try { shortReport.BuildShortReport("Breve"); } catch (InvalidOperationException error) { expect.That(error.Message == ConcreteSheetViewModel.ShortReportUnavailable, "Messaggio del report breve rifiutato"); }
         await IdleAsync(sheet);
+        // Step 4 of docs/sviluppo/progetto-sistema.md (4/11/2026): the outcome of the sheet for the state of the project is the one of the summaries
+        // exported with the results (every summary with actions verified, one not verified, otherwise none).
+        var exported = sheet.Result!["riepilogo_verifiche"]!.AsObject().Select(p => p.Value!.AsObject()).Where(s => s["Total"]!.GetValue<int>() > 0)
+            .Select(s => s["Passed"]?.GetValue<bool>()).ToArray();
+        bool? expected = exported.Length == 0 ? null : exported.Any(p => p == false) ? false : exported.All(p => p == true) ? true : null;
+        expect.That(((ISheetOutcome)sheet).Passed == expected && exported.Length > 0, $"Esito del foglio per lo stato del progetto: {expected} su {exported.Length} riepiloghi");
         int modified = 0; sheet.Modified += (_, _) => modified++;
         expect.That(sheet.SelectedTab == 0 && sheet.Domain2D.Chart!.Segments.Count == 0, "Dominio 2D nascosto e non ancora disegnato");
         int requests = Figures.Requests.Count;

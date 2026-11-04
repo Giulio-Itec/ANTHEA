@@ -17,6 +17,9 @@ internal static class SpectraSheetChecks
         var expect = new Expect(); SpectraEdgeChecks.Run(expect, root); var data = SpectraDocument.Create(); var services = Scripted.Services();
         using var sheet = new SpectraSheetViewModel(new(data, false, new Host(), services, ModuleServices.Get(SpectraDocument.Module), new CalculationLimiter(1)));
         expect.That(ModuleDirectory.Get(SpectraDocument.Module).Area == "Azioni", "Spettri nel sottogruppo Azioni");
+        // As the Actions sheets (4/11/2026): the shell has no «Calcola», the sheet calculates at opening and says so while it waits.
+        expect.That(sheet.CalculationState == CalculationState.Pending && sheet.Source == "Calcolo degli spettri in corso…", "Spettri: calcolo in corso all'apertura");
+        expect.That(await sheet.PendingCalculation && sheet.HasResults && sheet.Revision == 0 && !sheet.Source.Contains("Calcola"), "Spettri: calcolo all'apertura senza «Calcola» e senza modifiche");
         expect.That(await sheet.CalculateAsync() && sheet.HasResults, "Spettri: pubblicazione risultato");
         expect.That(sheet.Curves.Count == 3 && sheet.Summary.Count == 4, "Spettri: componenti e quattro stati limite");
         sheet.Stage = 0; expect.That(sheet.Curves.Count == 10 && sheet.Nodes.Count == 4 && sheet.Summary.Count == 9, "Fase 1: nove curve, tabulato e reticolo");

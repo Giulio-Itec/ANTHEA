@@ -1,10 +1,9 @@
 using System.ComponentModel;
 using System.Globalization;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Anthea.Presentation.Modules.Rheology;
-using Microsoft.Win32;
+using X.Desktop.Services;
 
 namespace X.Desktop;
 
@@ -15,8 +14,11 @@ internal sealed partial class ConcreteTimeEffectsView : UserControl
     private readonly Plot plot = new() { InvertY = false, FollowAppearance = true, FitPadding = 0, FitIncludesMarkers = false };
     internal static Window CreateWindow(DependencyObject owner, double? fckMpa = null)
     {
-        var view = new ConcreteTimeEffectsView(new ConcreteTimeEffectsViewModel(fckMpa));
-        var window = Ui.Dialog(owner, "ANTHEA · Reologia del calcestruzzo", view, 1320, 880);
+        // As the sheet (review of 2/11/2026): the curves follow the data by themselves and the plot is exported through the file service.
+        Window? window = null;
+        var view = new ConcreteTimeEffectsView(new ConcreteTimeEffectsViewModel(fckMpa, ConcreteTimeEffectsViewModel.RecalculationDelay,
+            new WpfFileDialogService(() => window), new WpfMessageService(() => window)));
+        window = Ui.Dialog(owner, "ANTHEA · Reologia del calcestruzzo", view, 1320, 880);
         window.MinWidth = 1000; window.MinHeight = 680;
         return window;
     }
@@ -36,10 +38,11 @@ internal sealed partial class ConcreteTimeEffectsView : UserControl
         RefreshPlot();
     }
     private void OnFit(object sender, RoutedEventArgs e) => plot.ResetView();
-    private void OnExport(object sender, RoutedEventArgs e) => ExportPlot();
+    // The path and the writing belong to the ViewModel (IFileDialogService, finding 14 of the review of 2/11/2026); the view draws the image.
+    private void OnExport(object sender, RoutedEventArgs e) => model?.ExportPlot(() => plot.Png(1500, 950));
     private void OnModelChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName is nameof(model.Points) or nameof(model.SelectedCurve) or nameof(model.LogX) or nameof(model.LogY) or nameof(model.QueryPoint)) RefreshPlot();
+        if (e.PropertyName is nameof(model.Points) or nameof(model.SelectedCurve) or nameof(model.LogX) or nameof(model.LogY) or nameof(model.QueryPoint) or nameof(model.PlotMessage)) RefreshPlot();
     }
     private void RefreshPlot()
     {
@@ -66,15 +69,6 @@ internal sealed partial class ConcreteTimeEffectsView : UserControl
             plot.Series.Add(new("φ∞ · limite analitico", [ [X(model.Points[0].AgeDays), Y(limit)], [X(model.Points[^1].AgeDays), Y(limit)] ], Appearance.Series(Ui.Brush("#B45309")), Dashed: true));
         plot.Markers = model.QueryPoint is { } point && Visible(Value(point))
             ? [new(X(point.AgeDays), Y(Value(point)), "Lettura", Appearance.Series(Ui.Brush("#C02672")))] : [];
-        plot.EmptyMessage = "Aggiorna le curve con dati validi."; plot.ResetView();
-    }
-    private void ExportPlot()
-    {
-        if (model?.HasResults != true) return;
-        var dialog = new SaveFileDialog { Title = "Esporta grafico", Filter = "Immagine PNG|*.png", FileName = "Reologia-calcestruzzo.png" };
-        if (dialog.ShowDialog(Window.GetWindow(this)) != true) return;
-        try { File.WriteAllBytes(dialog.FileName, plot.Png(1500, 950)); }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-        { MessageBox.Show(Window.GetWindow(this), ex.Message, "Esportazione non completata", MessageBoxButton.OK, MessageBoxImage.Warning); }
+        plot.EmptyMessage = model.PlotMessage; plot.ResetView();
     }
 }

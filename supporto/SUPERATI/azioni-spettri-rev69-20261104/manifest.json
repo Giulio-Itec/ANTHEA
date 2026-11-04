@@ -1,0 +1,98 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/docs/guida-pratica-anthea.md",
+    "sha256": "acecf3a9690555ce587296c630d2e7f1b89d59310ffcc743ecb9a061dd141623",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/docs/guida-pratica-anthea.pdf",
+    "sha256": "c24379a53466ac16300a9195cd8b1b0f4f62f4504d6f79ad26c3971d0a59b228",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/docs/guida-teorica-anthea.md",
+    "sha256": "4828f1b6db0fdbe1ee467d2f668849f0d77fc32d2fd6acb7b70c2850b4b3b64a",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/docs/guida-teorica-anthea.pdf",
+    "sha256": "2ed03eac0d86055b3cb214984b022f7c7bd1d8684fd7acf31451bca76a2f87f2",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev68.docx",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev68.docx",
+    "sha256": "0c21354c6cf0b037347eb77b3a6803a6f43da71dc20e9e60343cb76a216754db",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev68.pdf",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev68.pdf",
+    "sha256": "c24379a53466ac16300a9195cd8b1b0f4f62f4504d6f79ad26c3971d0a59b228",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev68.docx",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev68.docx",
+    "sha256": "1839959aeb566898e48b6211d092c491859140a880553d970aa60fb81b47dafe",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev68.pdf",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev68.pdf",
+    "sha256": "2ed03eac0d86055b3cb214984b022f7c7bd1d8684fd7acf31451bca76a2f87f2",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "d6c93fc38d17c0530002d44e443f66572d359eb7e0700ada06a05bc6e0225d95",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "e937ea9cbb53f8c92a995054c2e4a14b3f6f3e13a5b24941a933a7339cb8885a",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/installer/Indice-guide.md",
+    "sha256": "9eba5ee982427ec7520e00e2d575ab60a7cce003fff0676e70955a5f99705530",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/installer/Indice-guide.pdf",
+    "sha256": "cacb6e707e75c4f5054f7a92eec69aa0e78a901a32b3d0f8041957da8f7c7f54",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/installer/README.md",
+    "sha256": "263ec2a7bcbac3f86d901a0c1b247566faf9206574564debd306c7b263617720",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/installer/README.pdf",
+    "sha256": "f4d399adda3d163e884a680d25dfd3b266966965026736639f2f8706996fae7a",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/README.md",
+    "sha256": "c499d8dbf3102ef18d773404357d61f4a53aa01cddaf6b162df4bb6cbc543284",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/azioni-spettri-rev69-20261104/README.pdf",
+    "sha256": "00d23589e31a89cfb986dd1a65f4f687efbf767fd5bc4208cae4b964c00d0643",
+    "motivo": "Sostituita dalla Rev69: calcolo automatico dei fogli Azioni e di Spettri, «?» dei campi, reologia con ricalcolo automatico e opzioni del grafico non salvate."
+  }
+]

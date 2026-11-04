@@ -1870,5 +1870,20 @@
     "file": "tests/fixtures/f3/transitions-f5-wiki.json",
     "record": "CA-CRITERIO-STATI-01",
     "note": "Guides Rev68 (ANTHEA 1.17.1): exact text updates in two articles (RC section, concrete profiles) for the resistance model per limit state; 52 earlier editorial transitions of the same articles moved to the lines shifted by the added ones, same entries and values. No expected files, engineering transitions or tolerances changed."
+  },
+  "editorial_transitions_rev69": {
+    "capture": "supporto/artefatti/ci/20261104-134003-guide-rev69-1/ui_f3-equivalence/cattura",
+    "before_sha256": "aefd716b85bacfd3ee33b0b4c838753084de5a43b7e0ad0695c0d43c9a1eafe8",
+    "after_sha256": "bf762fa25b0fbc80f30db861582b3d668f085b7330a75c111e13631872622871",
+    "counts": {
+      "previous": 3234,
+      "current": 3244,
+      "added": 10,
+      "updated": 2,
+      "removed": 0
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "SPETTRI-GUIDE-REV69-20261104",
+    "note": "Guides Rev69 (4/11/2026): exact text updates in two articles (NTC spectra, concrete rheology) for the calculation at opening and the automatic recalculation; the two added lines on saving the rheology sheet, already listed with the Rev66 text, now carry the new text with their previous record kept. No expected files, engineering transitions or tolerances changed."
   }
 }

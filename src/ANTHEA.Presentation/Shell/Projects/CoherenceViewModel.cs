@@ -372,6 +372,7 @@ public sealed class SectionOverviewViewModel : ViewModelBase
         ConflictsText = $"{conflicts} {(conflicts == 1 ? "conflitto" : "conflitti")}";
         HasConflicts = conflicts > 0;
         NoticesText = $"{Notices.Count} {(Notices.Count == 1 ? "avviso" : "avvisi")}";
+        if (!project.IsReadOnly) CalculationsText = project.Calculations.Summary(section);
         var fields = ProjectSharedData.ContextSheets(section).SelectMany(s => ProjectSharedData.Fields(s).Values)
             .Where(f => f.Group is "Materiali" or "Geometria" or "Armatura" or "Normativa" or "Coefficienti").GroupBy(f => f.Key)
             .Select(g => new CommonDataRow(g.Key, ProjectReportPlan.Label(g.Key), string.Join(" / ", g.Select(f => ProjectSharedData.Text(f.Value)).Distinct()))).ToArray();
@@ -415,6 +416,13 @@ public sealed class SectionOverviewViewModel : ViewModelBase
     public bool HasConflicts { get; }
     public IReadOnlyList<string> Notices { get; } = [];
     public string NoticesText { get; } = "";
+
+    /// <summary>The states of the calculations of the sheets of the section (step 4 of docs/sviluppo/progetto-sistema.md): «2 verificati · 3 da
+    /// calcolare»; empty without sheets and during the preview of a revision.</summary>
+    public string CalculationsText { get; } = "";
+
+    /// <inheritdoc cref="CalculationsText"/>
+    public bool HasCalculations => CalculationsText.Length > 0;
     public bool HasNotices => Notices.Count > 0;
     public string CompareLabel => "Confronto e avvisi";
 

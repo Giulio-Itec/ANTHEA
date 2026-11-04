@@ -17,7 +17,6 @@ internal static class ConcreteDocumentPersistence
     internal static JsonObject Pack(JsonObject document, out bool compact)
     {
         var packed = ProjectRevisions.Pack(document);
-        bool anyCompact = false;
         bool found = Transform(packed, data =>
         {
             // Work only on the detached document. Save must not prepare the editor or alter its drafts.
@@ -37,18 +36,35 @@ internal static class ConcreteDocumentPersistence
                 }
                 input[ConcreteSectionArchive.Key] = ConcreteSectionArchive.Capture(input, workspace, section);
             }
-            if (ConcreteSectionArchive.IsCompact(input)) anyCompact = true;
         });
         if (found)
         {
             packed["versione_base"] = packed["versione"]!.DeepClone();
             packed["versione"] = 3;
         }
-        compact = anyCompact;
+        compact = found && HasCompactSections(packed);
         return packed;
     }
 
-    internal static void Unpack(JsonObject document)
+    /// <summary>
+    /// True when a sheet of the packed document holds a compact section, the sheets that could not be read included: DocumentQuarantine writes
+    /// them back as they were, and a compact section kept that way needs the version 5 as much as a converted one (otherwise ANTHEA up to 1.18
+    /// would read the document and fail on the section). Only the sheets of the concrete module and the data of the pool they point to are read.
+    /// </summary>
+    private static bool HasCompactSections(JsonObject packed)
+    {
+        var pool = packed["archivio_revisioni"] as JsonObject;
+        foreach (var sheet in Sheets(packed).Where(s => s.S("modulo_id") == "str_palo"))
+        {
+            var data = sheet["dati"] as JsonObject ?? (sheet.S("dati_ref") is { Length: > 0 } key ? pool?[key] as JsonObject : null);
+            if (data?["input"] is JsonObject input && ConcreteSectionArchive.IsCompact(input)) return true;
+        }
+        return false;
+    }
+
+    /// <param name="problems">Null: a sheet that cannot be read refuses the document (as before 3/11/2026). Otherwise the sheet is marked
+    /// (<see cref="DocumentQuarantine"/>) and its problem added, and the rest of the document opens (step 2b of docs/sviluppo/progetto-sistema.md).</param>
+    internal static void Unpack(JsonObject document, List<DocumentProblem>? problems = null)
     {
         if (J.Number(document["versione"]) != 3) return;
         if (J.Number(document["versione_base"]) is not (1 or 2))
@@ -59,7 +75,7 @@ internal static class ConcreteDocumentPersistence
                 throw new ArgumentException("Sezione GPC mancante nel documento.");
             var workspace = data["workspace_ca"] as JsonObject ?? new JsonObject();
             _ = ConcreteSectionArchive.Restore(input, workspace, requireCurrent: true);
-        }, rewrite: false))
+        }, rewrite: false, problems))
             throw new ArgumentException("Documento GPC privo di sezioni in cemento armato.");
         document["versione"] = document["versione_base"]!.DeepClone();
         document.Remove("versione_base");
@@ -79,13 +95,31 @@ internal static class ConcreteDocumentPersistence
                 foreach (var sheet in Sheets(child)) yield return sheet;
     }
 
-    private static bool Transform(JsonObject document, Action<JsonObject> transform, bool rewrite = true)
+    private static bool Transform(JsonObject document, Action<JsonObject> transform, bool rewrite = true, List<DocumentProblem>? problems = null)
     {
         var sheets = Sheets(document).Where(s => s.S("modulo_id") == "str_palo").ToArray();
         if (sheets.Length == 0) return false;
         var pool = document["archivio_revisioni"] as JsonObject;
         var remapped = new Dictionary<string, string>(StringComparer.Ordinal);
         foreach (var sheet in sheets)
+        {
+            // Step 2b: a sheet that could not be read is written back as it was, never converted.
+            if (DocumentQuarantine.IsQuarantined(sheet)) continue;
+            if (problems is not null)
+            {
+                try { TransformSheet(sheet); }
+                catch (ArgumentException error) { DocumentQuarantine.Mark(sheet, error.Message, problems); }
+            }
+            else TransformSheet(sheet);
+        }
+        if (rewrite && pool is not null)
+        {
+            var used = Sheets(document).Select(s => s.S("dati_ref")).ToHashSet(StringComparer.Ordinal);
+            foreach (string key in remapped.Keys.Where(k => !used.Contains(k))) pool.Remove(key);
+        }
+        return true;
+
+        void TransformSheet(JsonObject sheet)
         {
             if (sheet.ContainsKey("dati_ref"))
             {
@@ -110,11 +144,5 @@ internal static class ConcreteDocumentPersistence
                 transform(data);
             }
         }
-        if (rewrite && pool is not null)
-        {
-            var used = Sheets(document).Select(s => s.S("dati_ref")).ToHashSet(StringComparer.Ordinal);
-            foreach (string key in remapped.Keys.Where(k => !used.Contains(k))) pool.Remove(key);
-        }
-        return true;
     }
 }

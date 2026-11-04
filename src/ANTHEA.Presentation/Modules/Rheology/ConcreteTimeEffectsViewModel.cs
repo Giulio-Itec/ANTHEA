@@ -4,7 +4,10 @@ using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Anthea.Application.Materials;
+using Anthea.Application.Scheduling;
 using Anthea.Presentation.Mvvm;
+using Anthea.Presentation.Services;
+using X.Core;
 
 namespace Anthea.Presentation.Modules.Rheology;
 
@@ -13,11 +16,21 @@ public enum ConcreteTimeCurve { Creep, Modulus, ModulusFactor }
 public sealed record CurveChoice(ConcreteTimeCurve Value, string Label);
 
 /// <summary>Presentation state only. All material properties and time effects are evaluated by Model.</summary>
+/// <remarks>
+/// Review of 2/11/2026 (finding 14): with an automatic delay the curves are calculated again by themselves after an edit, as in the Actions
+/// sheets; «Aggiorna le curve» stays for an immediate update and is disabled in a read-only revision; the plot is exported through
+/// <see cref="IFileDialogService"/>, so that the checks can drive it.
+/// </remarks>
 public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataErrorInfo
 {
+    /// <summary>Delay of the automatic recalculation after an edit, the one of the Actions sheets.</summary>
+    public static TimeSpan RecalculationDelay { get; } = TimeSpan.FromMilliseconds(500);
     // The decimal separator chosen in «Aspetto» (the current culture), as in the other sheets; no thousands separator (review of 2/11/2026).
     private static CultureInfo Culture => CultureInfo.CurrentCulture;
     private readonly Dictionary<string, string> errors = new();
+    private readonly RecalculationScheduler scheduler = new();
+    private readonly IFileDialogService? files;
+    private readonly IMessageService? messages;
     private RheologyEvaluation? calculation;
     // The input properties, in the order of their notifications (the insertion order of the former HashSet); immutable catalogue (F5.13 d, P3).
     private static readonly ImmutableArray<string> Inputs = [nameof(Fck), nameof(Humidity), nameof(NotionalSize),
@@ -51,12 +64,14 @@ public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataE
     [ObservableProperty] private IReadOnlyList<ConcreteTimePointView> points = [];
     [ObservableProperty] private ConcreteTimePointView? queryPoint;
     [ObservableProperty] private ConcreteTimePointView? selectedPoint;
-    [ObservableProperty] private string status = "Imposta i dati e aggiorna le curve.";
+    [ObservableProperty] private string status = "Curve non ancora calcolate.";
     [ObservableProperty] private string queryError = "";
     [ObservableProperty] private bool hasResults;
     [ObservableProperty] private bool isReadOnly;
+    /// <summary>True while an automatic recalculation waits for its delay.</summary>
+    [ObservableProperty] private bool isUpdating;
     public bool CanEdit => !IsReadOnly;
-    partial void OnIsReadOnlyChanged(bool value) => OnPropertyChanged(nameof(CanEdit));
+    partial void OnIsReadOnlyChanged(bool value) { OnPropertyChanged(nameof(CanEdit)); CalculateCommand.NotifyCanExecuteChanged(); }
     public string Error => string.Join(" · ", errors.Values);
     public string this[string columnName] => errors.GetValueOrDefault(columnName, "");
     public string InfinityText => Format(calculation?.CreepInfinity, "0.000");
@@ -71,14 +86,29 @@ public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataE
         ? LogY ? "Scala logaritmica: φ = 0 prima del carico non è rappresentabile. La tabella conserva tutti i valori."
             : "Età t dal getto. φ = 0 fino all'applicazione del carico t₀. Rotella: zoom · doppio clic: adatta."
         : "Maturazione del modulo secante; Ecm(t) / Ecm,28 = 1 a 28 giorni. Rotella: zoom · doppio clic: adatta.";
+    /// <summary>The message of the plot without curves: waiting for the automatic recalculation, data to correct, or curves to update.</summary>
+    public string PlotMessage => IsUpdating ? "Aggiornamento delle curve…"
+        : errors.Count > 0 ? "Nessuna curva: correggere i dati evidenziati." : "Aggiornare le curve per leggere i risultati.";
     public const string Assumptions = RheologyDocument.Assumptions;
 
-    public ConcreteTimeEffectsViewModel(double? fckMpa = null)
+    /// <param name="fckMpa">Strength proposed by the RC section that opens the window; null: the default.</param>
+    /// <param name="automaticDelay">Delay of the automatic recalculation after an edit (<see cref="RecalculationDelay"/>); null: only «Aggiorna le curve».</param>
+    /// <param name="files">Save dialog of «Esporta grafico…»; null: no export.</param>
+    /// <param name="messages">Where a failed export is reported; null: the error goes on.</param>
+    public ConcreteTimeEffectsViewModel(double? fckMpa = null, TimeSpan? automaticDelay = null, IFileDialogService? files = null, IMessageService? messages = null)
     {
-        cement = Cements[1]; selectedCurve = Curves[0];
+        if (automaticDelay < TimeSpan.Zero) throw new ArgumentOutOfRangeException(nameof(automaticDelay));
+        cement = Cements[1]; selectedCurve = Curves[0]; AutomaticDelay = automaticDelay; this.files = files; this.messages = messages;
         if (fckMpa is not null) fck = fckMpa.Value.ToString("0.###", Culture);
-        Calculate();
+        Recalculate();
     }
+
+    /// <summary>Delay of the automatic recalculation; null when the curves are updated only on request.</summary>
+    public TimeSpan? AutomaticDelay { get; }
+
+    /// <summary>The automatic recalculation started by the last edit (completed when none, or when it is superseded).</summary>
+    public Task PendingCalculation { get; private set; } = Task.CompletedTask;
+
     private static string Format(double? value, string format) => value?.ToString(format, Culture) ?? "—";
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
@@ -86,9 +116,10 @@ public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataE
         if (Inputs.Contains(e.PropertyName ?? ""))
         {
             errors.Clear(); ClearResults();
-            Status = "Dati modificati: aggiorna le curve per leggere i risultati.";
+            Status = ScheduleRecalculation() ? "Dati modificati: aggiornamento delle curve…" : "Dati modificati: aggiornare le curve per leggere i risultati.";
         }
         if (e.PropertyName is nameof(LogX) or nameof(LogY) or nameof(SelectedCurve)) OnPropertyChanged(nameof(GraphNote));
+        if (e.PropertyName is nameof(IsUpdating)) OnPropertyChanged(nameof(PlotMessage));
     }
     partial void OnQueryAgeChanged(string value) => ReadAge();
     partial void OnQueryPointChanged(ConcreteTimePointView? value)
@@ -97,7 +128,8 @@ public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataE
     }
     partial void OnSelectedPointChanged(ConcreteTimePointView? value)
     {
-        if (value is not null) QueryAge = value.AgeDays.ToString("G17", Culture);
+        // The age as the table shows it, not the 17 digits of the double (review of 2/11/2026, finding 12): the reading is at that age.
+        if (value is not null) QueryAge = value.AgeText;
     }
     private void ClearResults()
     {
@@ -106,8 +138,24 @@ public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataE
     }
     private void NotifySummary()
     {
-        foreach (string name in new[] { nameof(InfinityText), nameof(E28Text), nameof(ReferenceText), nameof(CreepInfinity), nameof(LoadingAgeDays), nameof(Error) }) OnPropertyChanged(name);
+        foreach (string name in new[] { nameof(InfinityText), nameof(E28Text), nameof(ReferenceText), nameof(CreepInfinity), nameof(LoadingAgeDays), nameof(Error), nameof(PlotMessage) }) OnPropertyChanged(name);
         ReadAgeCommand.NotifyCanExecuteChanged();
+    }
+    /// <summary>
+    /// After an edit, when the view has a thread of its own (a synchronization context) and the data can change: the curves are calculated
+    /// again after <see cref="AutomaticDelay"/>; a later edit, «Aggiorna le curve» or closing supersedes the request. False otherwise.
+    /// </summary>
+    private bool ScheduleRecalculation()
+    {
+        if (AutomaticDelay is not { } delay || IsReadOnly || IsDisposed || SynchronizationContext.Current is null) return false;
+        IsUpdating = true;
+        PendingCalculation = RecalculateLaterAsync(delay);
+        return true;
+    }
+    private async Task RecalculateLaterAsync(TimeSpan delay)
+    {
+        var completion = await scheduler.ScheduleAsync(_ => Task.FromResult(true), delay);
+        if (!IsDisposed) completion.TryPublish(_ => Recalculate());
     }
     private double Parse(string text, string property, string label)
     {
@@ -115,9 +163,14 @@ public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataE
         if (double.TryParse(text.Trim().Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double value) && double.IsFinite(value)) return value;
         errors[property] = $"{label}: inserire un numero finito."; return double.NaN;
     }
-    [RelayCommand]
-    private void Calculate()
+    /// <summary>«Aggiorna le curve»: refused in a read-only revision, where the data cannot change.</summary>
+    [RelayCommand(CanExecute = nameof(CanEdit))]
+    private void Calculate() => Recalculate();
+
+    /// <summary>The curves of the current data, now (opening of the sheet, «Aggiorna le curve», automatic recalculation); a pending automatic recalculation is superseded.</summary>
+    public void Recalculate()
     {
+        scheduler.Invalidate(); IsUpdating = false;
         ClearResults(); errors.Clear();
         double f = Parse(Fck, nameof(Fck), "fck"), rh = Parse(Humidity, nameof(Humidity), "Umidità"),
             h = Parse(NotionalSize, nameof(NotionalSize), "h₀"), t0 = Parse(LoadingAge, nameof(LoadingAge), "Età al carico"),
@@ -163,6 +216,21 @@ public sealed partial class ConcreteTimeEffectsViewModel : ViewModelBase, IDataE
         { QueryError = "Età di lettura: inserire un numero positivo e finito."; return; }
         QueryPoint = ConcreteTimePointView.Read(calculation.AtAge(age));
     }
+    /// <summary>
+    /// «Esporta grafico…» (finding 14): the file chosen through the file service, the image drawn by the view; nothing without curves, without
+    /// the service or when the dialog is cancelled. Allowed also in a read-only revision: it changes nothing. A failed write is reported.
+    /// </summary>
+    public void ExportPlot(Func<byte[]> png)
+    {
+        ArgumentNullException.ThrowIfNull(png);
+        if (!HasResults || files is null) return;
+        string? path = files.SaveFile(new SaveFileRequest([new FileFilter("Immagine PNG", "*.png")], "Reologia-calcestruzzo.png", "Esporta grafico"));
+        if (path is null) return;
+        try { Archivio.ScriviAtomico(path, png()); }
+        catch (Exception ex) when (messages is not null && ex is IOException or UnauthorizedAccessException)
+        { messages.ReportFailure("Esportazione non completata", ex); }
+    }
+    protected override void OnDisposed() => scheduler.Dispose();
 }
 
 

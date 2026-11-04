@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using Anthea.Application.Documents;
 using Anthea.Application.Modules;
 using Anthea.Calculations;
 using Anthea.Presentation.Services;
@@ -49,7 +50,8 @@ public sealed class SharedDataCoordinator
         var groups = ProjectSharedData.Fields(proposed).Values.Where(f => keys.Contains(f.Key)).Select(f => f.Group).ToHashSet();
         if (groups.Count == 0) return false;
         bool controlsDescendants = ProjectSharedData.Sections(section).Skip(1).Any(s => s.Array("fogli").Count > 0);
-        var targets = ProjectSharedData.SubtreeSheets(section).Where(s => !ReferenceEquals(s, sheet) &&
+        // Step 2b: a sheet that could not be read keeps its data as they were in the file.
+        var targets = ProjectSharedData.SubtreeSheets(section).Where(s => !ReferenceEquals(s, sheet) && !DocumentQuarantine.IsQuarantined(s) &&
             ProjectSharedData.Common(proposed, s).Any(p => keys.Contains(p.Source.Key) && !ProjectSharedData.Equal(p.Source.Value, p.Target.Value))).ToArray();
         if (targets.Length == 0) return false;
         // The prompt is built only when the question is asked, as before: naming a sheet may fail for an unknown module.
@@ -83,7 +85,7 @@ public sealed class SharedDataCoordinator
         ((JsonArray)proposed.Parent!).Remove(proposed);
         string list = node.ContainsKey("modulo_id") ? "fogli" : "strutture";
         if (target[list] is not JsonArray) target[list] = new JsonArray(); target.Array(list).Add(proposed);
-        var sheets = proposed.ContainsKey("modulo_id") ? new[] { proposed } : ProjectSharedData.SubtreeSheets(proposed).ToArray();
+        var sheets = (proposed.ContainsKey("modulo_id") ? new[] { proposed } : ProjectSharedData.SubtreeSheets(proposed)).Where(s => !DocumentQuarantine.IsQuarantined(s)).ToArray();
         var changes = new List<string>();
         foreach (var sheet in sheets)
         {
@@ -159,6 +161,29 @@ public sealed class SharedDataCoordinator
         if (warnings.Length > 0) title += (title.Length > 0 ? " · " : "") + $"⚠ {warnings.Length} {(warnings.Length == 1 ? "avviso" : "avvisi")}";
         bool warning = hasConflicts || warnings.Length > 0;
         string content = warning ? (differences.Select(d => d.Key).Distinct().Count() + missingLayers + warnings.Length).ToString() : "✓";
+        string toolTip = warnings.Length == 0 ? "Apri il confronto dei dati comuni della sezione." :
+            "Apri il confronto e gli avvisi della sezione.\n\n" + string.Join("\n\n", warnings);
+        return new(title, content, warning, toolTip);
+    }
+
+    /// <summary>
+    /// <see cref="Coherence(JsonObject)"/> from <paramref name="cache"/> (docs/sviluppo/progetto-sistema.md, step 3, 4/11/2026): the same
+    /// badge, computed again only for the sections whose sheets changed.
+    /// </summary>
+    public static CoherenceBadge? Coherence(JsonObject section, ProjectCoherenceCache cache)
+    {
+        ArgumentNullException.ThrowIfNull(section);
+        ArgumentNullException.ThrowIfNull(cache);
+        var summary = cache.Of(section);
+        if (!summary.HasSheets) return null;
+        var warnings = summary.Warnings;
+        bool comparable = summary.Matches > 0;
+        if (!comparable && warnings.Length == 0) return null;
+        bool hasConflicts = summary.DifferenceKeys > 0 || summary.MissingLayers > 0;
+        string title = hasConflicts ? "⚠ Differenze tra fogli" : comparable ? "✓ Dati comuni coerenti" : "";
+        if (warnings.Length > 0) title += (title.Length > 0 ? " · " : "") + $"⚠ {warnings.Length} {(warnings.Length == 1 ? "avviso" : "avvisi")}";
+        bool warning = hasConflicts || warnings.Length > 0;
+        string content = warning ? (summary.DifferenceKeys + summary.MissingLayers + warnings.Length).ToString() : "✓";
         string toolTip = warnings.Length == 0 ? "Apri il confronto dei dati comuni della sezione." :
             "Apri il confronto e gli avvisi della sezione.\n\n" + string.Join("\n\n", warnings);
         return new(title, content, warning, toolTip);

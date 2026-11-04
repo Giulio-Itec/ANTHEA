@@ -1,8 +1,10 @@
 using System.Text.Json.Nodes;
+using Anthea.Application.Documents;
 using Anthea.Application.Modules;
 using Anthea.Calculations;
 using Anthea.Presentation.Modules;
 using Anthea.Presentation.Projects;
+using Anthea.Projects;
 using Anthea.Presentation.Services;
 using X.Core;
 
@@ -63,12 +65,40 @@ public sealed class WorkspaceSession : IDisposable
     /// <summary>Title of the error of a save (MainWindow.Save).</summary>
     public const string SaveFailure = "Salvataggio non riuscito";
 
-    /// <summary>Title of the warning of a save that went through with something to report about the results archive (review L4, 4/11/2026:
-    /// ModelResultArchive.SaveNotice).</summary>
+    /// <summary>Title of the warning of a save that went through with something to report about the results archive: results the archive did
+    /// not have (ProjectFile, 3/11/2026), a damaged archive set aside or damaged blocks (review L4, 4/11/2026: ModelResultArchive.SaveNotice).</summary>
     public const string SaveWarning = "Salvataggio con avvisi";
 
     /// <summary>A copy of an example saved among the installed examples (MainWindow.Save).</summary>
     public const string ExamplesFolderRefused = "Salva la copia nella cartella dei tuoi lavori, fuori dagli esempi installati.";
+
+    /// <summary>Caption of the question when the file to open is open in another ANTHEA (step 2d, 3/11/2026).</summary>
+    public const string LockedTitle = "File già aperto";
+
+    /// <summary>Caption of the question when the file to save changed on disk after the opening or the last save.</summary>
+    public const string ChangedTitle = "File modificato su disco";
+
+    /// <summary>The question when <paramref name="file"/> is open <paramref name="holder"/> (<see cref="DocumentLockOwner.Description"/>).</summary>
+    public static string LockedQuestion(string file, string holder) =>
+        "«" + file + "» è già aperto " + holder + ".\n\n" +
+        "Apri una copia: lavori su una copia senza nome, da salvare con un altro nome; il file non cambia.\n" +
+        "Apri comunque: lavori sul file stesso; salvando puoi sovrascrivere le modifiche dell'altra apertura.";
+
+    /// <summary>The question when <paramref name="file"/> changed on disk after it was opened or saved.</summary>
+    public static string ChangedQuestion(string file) =>
+        "«" + file + "» è stato modificato su disco dopo l'apertura o l'ultimo salvataggio (da un altro programma o da un'altra apertura di ANTHEA).\n\n" +
+        "Sovrascriverlo con il documento di questa finestra? Con «No» il salvataggio si ferma e puoi salvare con un altro nome.";
+
+    /// <summary>The refusal of «Salva con nome…» on <paramref name="file"/>, open <paramref name="holder"/>.</summary>
+    public static string LockedTarget(string file, string holder) => "«" + file + "» è aperto " + holder + ": salva con un altro nome.";
+
+    /// <summary>Caption of the warning after a project opened with sheets or revisions that cannot be read (step 2b, 3/11/2026).</summary>
+    public const string OpenProblemsTitle = "Progetto aperto con fogli non leggibili";
+
+    /// <summary>The warning: each sheet or revision with its place and its reason.</summary>
+    public static string OpenProblems(IReadOnlyList<DocumentProblem> problems) =>
+        "Questi fogli o revisioni non si possono leggere: si aprono in sola lettura e il salvataggio li riscrive come erano nel file.\n\n" +
+        string.Join("\n", problems.Select(p => "• " + p));
 
     private readonly PresentationServices services;
     private readonly ISheetFactory factory;
@@ -77,6 +107,8 @@ public sealed class WorkspaceSession : IDisposable
     private readonly List<SheetSession> sheets = [];
     /// <summary>The sheets closed by the preview of an archived revision, with the focus they had (F5.13 e).</summary>
     private readonly List<(string Id, bool Active)> previewClosed = [];
+    // Step 2c: the save running in the background for each document.
+    private readonly Dictionary<DocumentSession, SaveJob> saving = [];
     private bool disposed;
 
     public WorkspaceSession(PresentationServices services, ISheetFactory factory, IDocumentFiles files)
@@ -165,15 +197,16 @@ public sealed class WorkspaceSession : IDisposable
     public ProjectSession? NewProject()
     {
         ThrowIfDisposed();
-        return OpenProject(ProjectDocuments.CreateArchive(), null, false);
+        return OpenProject(ProjectDocuments.CreateArchive(), null, false, null);
     }
 
     /// <summary>The open project, or a new archive when none is open (the «Progetti» page of MainWindow without a project).</summary>
     public ProjectSession? EnsureProject() => Project ?? NewProject();
 
     /// <summary>
-    /// «Apri…» (MainWindow.LoadFile): an installed example opens as an unsaved copy; a file already open is activated; otherwise the
-    /// document is read and validated first, then opened (a project closes the open one first). Null when the user cancels.
+    /// «Apri…» (MainWindow.LoadFile): an installed example opens as an unsaved copy; a file already open is activated; otherwise the lock of
+    /// the file is taken (step 2d: a file open in another ANTHEA asks whether to open a copy without a name, the file anyway or nothing),
+    /// then the document is read and validated, then opened (a project closes the open one first). Null when the user cancels.
     /// </summary>
     public DocumentSession? OpenFile(string path)
     {
@@ -185,14 +218,95 @@ public sealed class WorkspaceSession : IDisposable
             ActivateDocument(open);
             return open;
         }
-        return OpenDocument(files.Open(path), path, false);
+        var acquired = DocumentLock.Acquire(path);
+        bool copy = false;
+        if (acquired.Holder is { } holder)
+        {
+            var answer = services.Confirmations.AskLockedDocument(LockedTitle, LockedQuestion(System.IO.Path.GetFileName(path), holder.Description));
+            if (answer == LockedDocumentAnswer.Cancel) return null;
+            copy = answer == LockedDocumentAnswer.OpenCopy;
+        }
+        DocumentSession? opened = null;
+        try
+        {
+            // The file before it is read: a change written by another program while it is read is found by «Salva».
+            var stamp = FileStamp.Of(path);
+            // Step 2b: a sheet or a revision that cannot be read opens read-only with its reason, the rest of the project as usual.
+            var problems = new List<DocumentProblem>();
+            var document = files.Open(path, problems);
+            // A copy reads the results of its models from the archive beside the file, which it never writes.
+            opened = copy ? OpenDocument(document, null, true, path) : OpenDocument(document, path, false, null);
+            if (opened is not null && !copy) opened.AttachFile(acquired.Lock, stamp);
+            if (opened is not null && problems.Count > 0) services.Messages.Warn(OpenProblemsTitle, OpenProblems(problems));
+            return opened;
+        }
+        finally
+        {
+            if (opened is null) acquired.Lock?.Dispose();
+        }
     }
+
+    /// <summary>
+    /// «Riprendi» of a recovery copy at the start (step 2e): the document of the copy, not saved, on its file when the copy has one and no
+    /// other ANTHEA holds it (otherwise as a copy without a name), with the result sets of its models not saved yet; «Salva» asks before
+    /// overwriting a file changed after the copy was taken. The copy is deleted once the document is open. Null when the user keeps the open
+    /// project.
+    /// </summary>
+    public DocumentSession? Resume(RecoveryEntry entry)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(entry);
+        var problems = new List<DocumentProblem>();
+        var document = entry.ReadDocument(problems);
+        string? path = entry.Info.File;
+        DocumentLock? taken = null;
+        if (path is not null && Documents.Any(d => d.IsFile(path))) path = null;
+        bool copy = false;
+        if (path is not null)
+        {
+            var acquired = DocumentLock.Acquire(path);
+            copy = acquired.Holder is not null;
+            taken = acquired.Lock;
+        }
+        DocumentSession? opened = null;
+        try
+        {
+            opened = OpenDocument(document, copy ? null : path, true, copy ? path : null);
+            if (opened is null) return null;
+            if (!copy && path is not null) opened.AttachFile(taken, entry.Info.Stamp);
+            var failures = opened is ProjectSession project ? entry.ResultArchives.Select(project.Results.AddArchive).OfType<string>().ToArray() : [];
+            entry.Delete();
+            if (failures.Length > 0) services.Messages.Warn(RecoveryTitle, RecoveryResultsMissing(failures));
+            if (problems.Count > 0) services.Messages.Warn(OpenProblemsTitle, OpenProblems(problems));
+            return opened;
+        }
+        finally
+        {
+            if (opened is null) taken?.Dispose();
+        }
+    }
+
+    /// <summary>Caption of the questions and messages of the recovery copies (step 2e).</summary>
+    public const string RecoveryTitle = "Recupero dei documenti";
+
+    /// <summary>The question at the start for a copy of <paramref name="title"/> written at <paramref name="written"/>.</summary>
+    public static string RecoveryQuestion(string title, DateTimeOffset written) =>
+        "ANTHEA non si è chiuso correttamente. Ci sono modifiche non salvate di «" + title + "», copiate alle " +
+        written.ToLocalTime().ToString("HH:mm 'del' dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) + ".\n\n" +
+        "Riprendi: riapre il documento con quelle modifiche, da salvare.\nScarta: elimina la copia.\nPiù tardi: la tiene per il prossimo avvio.";
+
+    /// <summary>The warning when the result sets of the copy could not be read: their combinations are to be calculated again.</summary>
+    public static string RecoveryResultsMissing(IReadOnlyList<string> failures) =>
+        "Documento ripreso, ma una parte dei risultati dei modelli della copia non si è potuta leggere (" + string.Join("; ", failures) +
+        "): le combinazioni interessate risultano da calcolare.";
 
     /// <summary>
     /// Opens a document read elsewhere (a copy of an example, the example of the Wiki): a calculation file in a new active tab, a project
     /// archive in place of the open project. Null when the user keeps the open project.
     /// </summary>
-    public DocumentSession? OpenDocument(JsonObject document, string? path, bool dirty)
+    public DocumentSession? OpenDocument(JsonObject document, string? path, bool dirty) => OpenDocument(document, path, dirty, null);
+
+    private DocumentSession? OpenDocument(JsonObject document, string? path, bool dirty, string? resultsFrom)
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(document);
@@ -202,7 +316,7 @@ public sealed class WorkspaceSession : IDisposable
             AddCalculation(calculation);
             return calculation;
         }
-        return OpenProject(document, path, dirty);
+        return OpenProject(document, path, dirty, resultsFrom);
     }
 
     /// <summary>Activates the sheet of a single file or the last opened sheet of the project, when one is open.</summary>
@@ -213,50 +327,232 @@ public sealed class WorkspaceSession : IDisposable
     }
 
     /// <summary>
+    /// Compressed bytes of result sets to write above which «Salva» of the menu and of the page «Modelli» runs in the background
+    /// (docs/sviluppo/progetto-sistema.md, step 2c): below, a save takes a fraction of a second (317 ms measured on 3/11/2026 with 40 sheets
+    /// and a model 500 × 100) and stays on the thread of the interface.
+    /// </summary>
+    public const long BackgroundSaveBytes = 67_108_864;
+
+    /// <summary>The threshold of <see cref="BackgroundSaveBytes"/> for this workspace (the checks lower it to save every project in the background).</summary>
+    public long BackgroundThreshold { get; set; } = BackgroundSaveBytes;
+
+    /// <summary>
     /// «Salva» and «Salva con nome…» (MainWindow.Save): the active sheet is confirmed; a new document or «Salva con nome» asks the file
     /// («Calcolo.programma» or the current name); the installed examples are refused; the working document is written (never the snapshot
-    /// of a revision). An error is shown with the title «Salvataggio non riuscito».
+    /// of a revision). An error is shown with the title «Salvataggio non riuscito». Step 2d (3/11/2026): a new file is locked first and a
+    /// file open in another ANTHEA or in another tab is refused; the same file, changed on disk since it was opened or saved, asks first.
     /// </summary>
     /// <returns>True when the document was written.</returns>
-    public bool Save(DocumentSession document, bool asNew)
+    public bool Save(DocumentSession document, bool asNew) => Save(document, asNew, false);
+
+    /// <summary>
+    /// <see cref="Save(DocumentSession, bool)"/>; with <paramref name="background"/> (step 2c, «Salva» of the menu and of the page «Modelli»)
+    /// a project with more than <see cref="BackgroundThreshold"/> bytes of result sets to write is frozen now and written on a thread of the
+    /// pool, with its progress in the title: the document stays usable and the changes made meanwhile stay to be saved. A save already
+    /// running for the document ends first.
+    /// </summary>
+    /// <returns>True when the document was written or its save started in the background.</returns>
+    public bool Save(DocumentSession document, bool asNew, bool background)
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(document);
+        WaitForSave(document);
         CommitActive();
-        string? target = document.Path;
-        if (asNew || target is null)
-        {
-            target = services.Files.SaveFile(new SaveFileRequest(SaveFilters, document.Path is null ? "Calcolo.programma" : System.IO.Path.GetFileName(document.Path)));
-            if (target is null) return false;
-        }
+        SaveJob? job = null;
         try
         {
-            if (files.IsInExamples(target)) throw new InvalidOperationException(ExamplesFolderRefused);
-            // 2/11/2026: a project writes its results archive first, beside the file (ModelResultArchive.Save), then the document.
-            if (document is ProjectSession project) project.Results.Save(target, document.WorkingDocument, () => files.Save(target, document.WorkingDocument));
-            else files.Save(target, document.WorkingDocument);
-            document.MarkSaved(target);
-            foreach (var sheet in sheets.Where(s => ReferenceEquals(s.Owner, document))) sheet.MarkSaved();
-            // Review L4 (4/11/2026): what the results archive could not keep is said, not hidden (a damaged archive set aside, damaged or
-            // missing blocks); the project is saved.
-            if (document is ProjectSession saved && saved.Results.SaveNotice() is { } notice) services.Messages.Warn(SaveWarning, notice);
-            return true;
+            bool later = background && document is ProjectSession { Results.UnsavedBytes: var unsaved } && unsaved >= BackgroundThreshold;
+            job = Prepare(document, asNew, later);
+            if (job is null) return false;
+            if (later)
+            {
+                StartInBackground(job);
+                job = null;
+                return true;
+            }
+            Write(job, document.WorkingDocument, null);
+            return Complete(job);
         }
         catch (Exception error)
         {
             services.Messages.ReportFailure(SaveFailure, error);
             return false;
         }
+        finally
+        {
+            job?.Release();
+        }
+    }
+
+    /// <summary>
+    /// Waits for the save of <paramref name="document"/> running in the background, if any, and applies its outcome (before the document
+    /// closes or is saved again). The thread of the interface.
+    /// </summary>
+    public void WaitForSave(DocumentSession document)
+    {
+        ArgumentNullException.ThrowIfNull(document);
+        if (!saving.TryGetValue(document, out var job)) return;
+        lock (job.Gate)
+            while (!job.Done) Monitor.Wait(job.Gate);
+        Complete(job);
+    }
+
+    /// <summary>A save prepared on the thread of the interface: the target, its lock, the document frozen for a save in the background and the
+    /// changes it holds; then its outcome.</summary>
+    private sealed class SaveJob(DocumentSession document, string target, bool same, DocumentLock? taken, FrozenDocument? frozen)
+    {
+        public DocumentSession Document { get; } = document;
+        public string Target { get; } = target;
+        public bool Same { get; } = same;
+        public DocumentLock? Taken { get; set; } = taken;
+        public FrozenDocument? Frozen { get; } = frozen;
+        public long Changes { get; } = document.Changes;
+        public object Gate { get; } = new();
+        public bool Done { get; set; }
+        public bool Written { get; set; }
+        public bool Completed { get; set; }
+        public string? Warning { get; set; }
+        public Exception? Error { get; set; }
+
+        /// <summary>The lock of a new file not handed to the document is released.</summary>
+        public void Release()
+        {
+            Taken?.Dispose();
+            Taken = null;
+        }
+    }
+
+    /// <summary>The progress of a save in the background, posted to the thread of the interface at each new percent.</summary>
+    private sealed class ProgressToInterface(SynchronizationContext ui, SaveJob job) : IProgress<double>
+    {
+        private const double Percent = 100;
+        private int last = -1;
+
+        public void Report(double value)
+        {
+            int percent = (int)(value * Percent);
+            if (percent == last) return;
+            last = percent;
+            ui.Post(_ => { if (!job.Completed) job.Document.SetSaveProgress(percent / Percent); }, null);
+        }
+    }
+
+    /// <summary>
+    /// The target of the save, checked: the dialog for a new file, the examples refused, the lock of a new file (a file open elsewhere
+    /// refused), the question when the same file changed on disk. Null when the user cancels.
+    /// </summary>
+    private SaveJob? Prepare(DocumentSession document, bool asNew, bool freeze)
+    {
+        string? target = document.Path;
+        if (asNew || target is null)
+        {
+            target = services.Files.SaveFile(new SaveFileRequest(SaveFilters, document.Path is null ? "Calcolo.programma" : System.IO.Path.GetFileName(document.Path)));
+            if (target is null) return null;
+        }
+        if (files.IsInExamples(target)) throw new InvalidOperationException(ExamplesFolderRefused);
+        string name = System.IO.Path.GetFileName(target);
+        bool same = document.IsFile(target);
+        DocumentLock? taken = null;
+        if (!same)
+        {
+            if (Documents.Any(d => !ReferenceEquals(d, document) && d.IsFile(target))) throw new InvalidOperationException(LockedTarget(name, "in un'altra scheda di questa finestra"));
+            var acquired = DocumentLock.Acquire(target);
+            if (acquired.Holder is { } holder) throw new InvalidOperationException(LockedTarget(name, holder.Description));
+            taken = acquired.Lock;
+        }
+        else if (document.Stamp is { } stamp && FileStamp.Of(target) is { } now && now != stamp
+            && !services.Confirmations.ConfirmOverwrite(ChangedTitle, ChangedQuestion(name)))
+            return null;
+        try
+        {
+            var frozen = !freeze ? null : document is ProjectSession project ? project.History.Snapshot(document.WorkingDocument) : FrozenDocument.Of(document.WorkingDocument);
+            return new SaveJob(document, target, same, taken, frozen);
+        }
+        catch
+        {
+            taken?.Dispose();
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Writes <paramref name="content"/> to the target of <paramref name="job"/>: a project its results archive first, beside the file, then
+    /// the document (2/11/2026; ProjectFile, 3/11/2026: the result sets the archive could not find are reported instead of ignored). Any
+    /// thread: the content is the working document on the thread of the interface, the frozen one in the background.
+    /// </summary>
+    private void Write(SaveJob job, JsonObject content, IProgress<double>? progress)
+    {
+        if (job.Document is ProjectSession project)
+        {
+            var report = ProjectFile.Save(job.Target, content, project.Results, files.Save, progress);
+            // Review L4 (4/11/2026): what the results archive could not keep is said, not hidden: a damaged archive set aside, damaged or
+            // missing blocks (ModelResultArchive.SaveNotice, which counts the missing ones of the report too).
+            job.Warning = project.Results.SaveNotice() ?? report.Warning;
+        }
+        else files.Save(job.Target, content);
+        job.Written = true;
+    }
+
+    /// <summary>The save is written on a thread of the pool; its outcome is applied on the thread of the interface (or by <see cref="WaitForSave"/>).</summary>
+    private void StartInBackground(SaveJob job)
+    {
+        var document = job.Document;
+        saving[document] = job;
+        document.SetSaveProgress(0);
+        var ui = SynchronizationContext.Current;
+        var progress = ui is null ? null : new ProgressToInterface(ui, job);
+        _ = Task.Run(() =>
+        {
+            try { Write(job, job.Frozen!.Thaw(), progress); }
+            catch (Exception error) { job.Error = error; }
+            finally
+            {
+                lock (job.Gate)
+                {
+                    job.Done = true;
+                    Monitor.PulseAll(job.Gate);
+                }
+            }
+            ui?.Post(_ => Complete(job), null);
+        });
+    }
+
+    /// <summary>
+    /// The outcome of a save, once, on the thread of the interface: the document becomes its file, saved unless it changed meanwhile, with
+    /// the lock and the stamp of the file; the warning of the missing result sets; the error of a save in the background.
+    /// </summary>
+    /// <returns>True when the document was written.</returns>
+    private bool Complete(SaveJob job)
+    {
+        if (job.Completed) return job.Written;
+        job.Completed = true;
+        var document = job.Document;
+        if (saving.TryGetValue(document, out var running) && ReferenceEquals(running, job)) saving.Remove(document);
+        document.SetSaveProgress(null);
+        if (!job.Written)
+        {
+            job.Release();
+            if (job.Error is not null) services.Messages.ReportFailure(SaveFailure, job.Error);
+            return false;
+        }
+        bool unchanged = document.MarkSaved(job.Target, job.Changes);
+        document.AttachFile(job.Same ? document.Lock : job.Taken, FileStamp.Of(job.Target));
+        job.Taken = null;
+        if (unchanged) foreach (var sheet in sheets.Where(s => ReferenceEquals(s.Owner, document))) sheet.MarkSaved();
+        if (job.Warning is not null) services.Messages.Warn(SaveWarning, job.Warning);
+        return true;
     }
 
     /// <summary>
     /// The question before a document closes (MainWindow.ConfirmDiscard, through IConfirmationService.AskSaveChanges as planned since F5.2):
-    /// the active sheet is confirmed; a saved document closes; otherwise its sheet is activated and the user saves, discards or cancels.
+    /// a save running in the background ends first (step 2c); the active sheet is confirmed; a saved document closes; otherwise its sheet is
+    /// activated and the user saves, discards or cancels.
     /// </summary>
     /// <returns>False when the user cancels or the save fails.</returns>
     public bool ConfirmDiscard(DocumentSession document)
     {
         ArgumentNullException.ThrowIfNull(document);
+        WaitForSave(document);
         CommitActive();
         if (!document.IsDirty) return true;
         if (Active?.Owner != document) ActivateDocument(document);
@@ -272,6 +568,7 @@ public sealed class WorkspaceSession : IDisposable
         if (!ConfirmDiscard(project)) return false;
         foreach (var sheet in sheets.Where(s => ReferenceEquals(s.Owner, project)).ToArray()) Close(sheet, SheetCloseReason.DocumentClosed);
         project.Changed -= OnProjectChanged;
+        project.ReleaseFile();
         previewClosed.Clear();
         Project = null;
         DocumentsChanged?.Invoke(this, EventArgs.Empty);
@@ -292,6 +589,7 @@ public sealed class WorkspaceSession : IDisposable
             if (!ConfirmDiscard(calculation)) return false;
             Close(sheet, SheetCloseReason.DocumentClosed);
             calculations.Remove(calculation);
+            calculation.ReleaseFile();
             DocumentsChanged?.Invoke(this, EventArgs.Empty);
             return true;
         }
@@ -328,9 +626,15 @@ public sealed class WorkspaceSession : IDisposable
             Activate(open);
             return open;
         }
+        // Step 2b: a sheet whose data could not be found in the file has nothing to show, not even read-only.
+        if (DocumentQuarantine.Reason(sheet) is { } reason && sheet["dati"] is not JsonObject)
+            throw new InvalidOperationException(UnreadableSheet(ShellTexts.SheetName(sheet), reason));
         CommitActive();
         return Add(new SheetSession(project, sheet, factory, s => new Host(this, s)));
     }
+
+    /// <summary>The refusal to open a sheet whose data could not be read (step 2b).</summary>
+    public static string UnreadableSheet(string name, string reason) => "Il foglio «" + name + "» non si può aprire: " + reason;
 
     /// <summary>The open sheet of <paramref name="node"/>, or null.</summary>
     public SheetSession? SheetOf(JsonObject node) => sheets.FirstOrDefault(s => ReferenceEquals(s.Sheet, node));
@@ -380,9 +684,12 @@ public sealed class WorkspaceSession : IDisposable
     {
         if (disposed) return;
         disposed = true;
+        // A save running in the background ends before the locks go (the window closes after ConfirmClose, which already waited).
+        foreach (var job in saving.Values.ToArray()) WaitForSave(job.Document);
         foreach (var sheet in sheets) sheet.Dispose();
         sheets.Clear();
         if (Project is not null) Project.Changed -= OnProjectChanged;
+        foreach (var document in Documents) document.ReleaseFile();
     }
 
     // ---- Internals
@@ -395,10 +702,12 @@ public sealed class WorkspaceSession : IDisposable
         return Add(new SheetSession(calculation, calculation.Sheet, factory, s => new Host(this, s)));
     }
 
-    private ProjectSession? OpenProject(JsonObject document, string? path, bool dirty)
+    private ProjectSession? OpenProject(JsonObject document, string? path, bool dirty, string? resultsFrom)
     {
         if (!CloseProject()) return null;
-        var project = new ProjectSession(document, path, dirty, services.Confirmations, CommitActive);
+        var project = new ProjectSession(document, path, dirty, services.Confirmations, CommitActive, resultsFrom);
+        // Step 4: the state of a sheet open in a tab compares the data of the tab, those the calculation saw.
+        project.Calculations.Live = sheet => SheetOf(sheet)?.ViewModel.Data;
         project.Changed += OnProjectChanged;
         Project = project;
         DocumentsChanged?.Invoke(this, EventArgs.Empty);

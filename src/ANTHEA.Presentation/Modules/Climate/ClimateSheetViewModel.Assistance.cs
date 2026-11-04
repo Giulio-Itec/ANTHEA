@@ -19,12 +19,14 @@ public sealed partial class ClimateSheetViewModel
     public int ActiveFaceIndex=>activeTable?.Key=="FireFaces"?ActiveRow:-1;
     public string ActiveComponentName=>activeTable?.Selected?.Name??"";
     public string ActiveTableKey=>activeTable?.Key??"";
-    public string AssistanceTitle=>activeField?.Label??"Seleziona un dato o una riga per individuarlo nello schema";
+    // Instructions in the infinitive, as the other messages of the Actions sheets (review of 2/11/2026, finding 16).
+    public string AssistanceTitle=>activeField?.Label??"Selezionare un dato o una riga per individuarlo nello schema";
     public string AssistanceValue=>activeField is null?"":(activeField.Kind switch
     { FieldKind.Choice=>activeField.SelectedChoice??"—",FieldKind.Bool=>activeField.IsChecked?"Sì":"No",_=>activeField.EditText })+(activeField.HasUnit?" "+activeField.Unit:"");
-    public string AssistanceHelp=>activeField is null?"Seleziona un campo: lo schema evidenzia quote e componenti associate. Il pannello può essere richiuso."
+    public string AssistanceHelp=>activeField is null?"Selezionare un campo: lo schema evidenzia le quote e i componenti associati. Il pannello si può richiudere."
         :AssistanceSketch.Parts.Any(p=>p.Keys.Split(' ').Contains(activeField.Key))?"Il contorno marcato individua la parte associata al campo. Il valore inserito è riportato qui; lo schema è qualitativo."
-        :"Parametro generale del modello: non rappresenta una quota o un componente geometrico. Ipotesi e riferimenti sono nelle schede dedicate.";
+        // «Quota sul mare» is a general parameter too: «not a dimension of the sketch», not «not an altitude».
+        :"Parametro generale del modello: non è una dimensione dello schema né un suo componente. Ipotesi e riferimenti sono nelle schede dedicate.";
     public string AssistanceContext=>"Dati: "+(activeTable is null?"parametri generali":activeTable.Title+" · "+(activeTable.Selected?.Name??"nessuna riga"))+
         "   |   Risultati: "+(SelectedCaseItem?.Name??"in attesa di un calcolo valido");
     public string CaseLinkNote=>IsCranes?"La posizione e il caso sono collegati. Cambiando posizione si mantiene il gruppo di azioni, se disponibile; altrimenti si mostra il primo gruppo della posizione.":ActionAssistanceDocument.CaseTable(module) is not null

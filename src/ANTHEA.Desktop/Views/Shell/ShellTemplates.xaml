@@ -380,6 +380,9 @@
             Foreground="{DynamicResource Token.Status.Coherent}" Text="{Binding NoticesStatus}"/>
           </Border>
          </WrapPanel>
+         <!-- Step 4 (4/11/2026): the states of the calculations of the sheets of the section, once one of them is calculated. -->
+         <TextBlock Style="{StaticResource Shell.Text}" FontSize="{DynamicResource Font.Small}" Margin="0,0,0,10" TextWrapping="Wrap"
+          Text="{Binding CalculationsText, StringFormat='Calcoli: {0}'}" Visibility="{Binding HasCalculations, Converter={StaticResource WhenTrue}}"/>
          <Button x:Name="Compare" Style="{StaticResource Shell.Button}" HorizontalAlignment="Stretch" Content="{Binding CompareLabel}" AutomationProperties.Name="{Binding CompareLabel}"
           Command="{Binding DataContext.CompareCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding Section}"/>
         </StackPanel>
@@ -717,6 +720,10 @@
     Command="{Binding CompareCommand}"/>
    <TextBlock Style="{StaticResource Shell.Text}" Text=" •" FontWeight="Bold" Foreground="{DynamicResource Token.Accent}" DockPanel.Dock="Right"
     Visibility="{Binding IsUnsaved, Converter={StaticResource WhenTrue}}" ToolTip="Foglio non salvato"/>
+   <!-- Step 4 of docs/sviluppo/progetto-sistema.md (4/11/2026): the state of the calculation of a sheet, after its first calculation. -->
+   <TextBlock x:Name="Calculation" Style="{StaticResource Shell.Text}" DockPanel.Dock="Right" FontWeight="Bold" Margin="6,0,2,0" Text="{Binding CalculationGlyph}"
+    Foreground="{DynamicResource Token.Muted}" ToolTip="{Binding CalculationText}" AutomationProperties.Name="{Binding CalculationText, TargetNullValue=''}"
+    Visibility="{Binding CalculationGlyph, Converter={StaticResource WhenPresent}}"/>
    <!--
      After the checkpoint of 22/10 (ProjectHierarchy.ConfigureProjectNode): a sheet has the button with the icon of its module, which opens it; the
      double click on the name renames in place (F2 and «Rinomina» too; ProjectTreeKeys), a model opens; Enter on the node opens it.
@@ -774,6 +781,15 @@
    <DataTrigger Binding="{Binding Badge.Warning}" Value="True">
     <Setter TargetName="Badge" Property="Background" Value="{DynamicResource Token.Badge.Warn}"/>
     <Setter TargetName="Badge" Property="Foreground" Value="{DynamicResource Token.Warning.Foreground}"/>
+   </DataTrigger>
+   <DataTrigger Binding="{Binding Calculation}" Value="{x:Static shell:SheetCalculationState.Verified}">
+    <Setter TargetName="Calculation" Property="Foreground" Value="{DynamicResource Token.Status.Ok}"/>
+   </DataTrigger>
+   <DataTrigger Binding="{Binding Calculation}" Value="{x:Static shell:SheetCalculationState.NotVerified}">
+    <Setter TargetName="Calculation" Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/>
+   </DataTrigger>
+   <DataTrigger Binding="{Binding Calculation}" Value="{x:Static shell:SheetCalculationState.ToRecalculate}">
+    <Setter TargetName="Calculation" Property="Foreground" Value="{DynamicResource Token.Status.Caution}"/>
    </DataTrigger>
   </HierarchicalDataTemplate.Triggers>
  </HierarchicalDataTemplate>

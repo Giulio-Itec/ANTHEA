@@ -14,16 +14,31 @@ public static class ProjectValidation
     public static List<CoverStatus> CoverChecks(JsonObject section) => CoverChecks(section, null);
     public static List<CoverStatus> CoverChecks(JsonObject section, JsonObject? only)
     {
-        var sheets = ProjectSharedData.SubtreeSheets(section).ToArray();
         var result = new List<CoverStatus>();
-        foreach (var sheet in sheets.Where(s => (only is null || ReferenceEquals(s, only)) &&
-            (s.S("modulo_id") is "str_palo" or PaloOrizzontale.Module || s.S("modulo_id") == RetainingWall.Module && s["dati"].S("family") == "cantilever")))
+        foreach (var sheet in CoverSheets(section).Where(s => only is null || ReferenceEquals(s, only)))
+            CoverChecks(sheet, CoverMaterials(sheet, section), result);
+        return result;
+    }
+
+    /// <summary>The sheets of <paramref name="section"/> and its subsections whose cover is checked against Materiali.</summary>
+    internal static IEnumerable<JsonObject> CoverSheets(JsonObject section) => ProjectSharedData.SubtreeSheets(section).Where(s =>
+        s.S("modulo_id") is "str_palo" or PaloOrizzontale.Module || s.S("modulo_id") == RetainingWall.Module && s["dati"].S("family") == "cantilever");
+
+    /// <summary>The Materiali sheets of <paramref name="sheet"/>: those of the nearest level, from the project down to its section, that has any.</summary>
+    internal static JsonObject[] CoverMaterials(JsonObject sheet, JsonObject section)
+    {
+        var owner = sheet.Parent?.Parent as JsonObject ?? section;
+        return ProjectSharedData.Ancestors(owner).Reverse().Append(owner)
+            .Select(s => s.Array("fogli").OfType<JsonObject>().Where(f => f.S("modulo_id") == "mat_calcestruzzo").ToArray())
+            .FirstOrDefault(m => m.Length > 0) ?? [];
+    }
+
+    /// <summary>The checks of the cover of <paramref name="sheet"/> against <paramref name="materials"/>: they depend on these sheets only
+    /// (step 3 of docs/sviluppo/progetto-sistema.md keeps them by the content of the sheets, ProjectCoherenceCache).</summary>
+    internal static void CoverChecks(JsonObject sheet, JsonObject[] materials, List<CoverStatus> result)
+    {
         {
             string name = sheet.S("nome"); var fields = ProjectSharedData.Fields(sheet);
-            var owner = sheet.Parent?.Parent as JsonObject ?? section;
-            var materials = ProjectSharedData.Ancestors(owner).Reverse().Append(owner)
-                .Select(s => s.Array("fogli").OfType<JsonObject>().Where(f => f.S("modulo_id") == "mat_calcestruzzo").ToArray())
-                .FirstOrDefault(m => m.Length > 0) ?? [];
             if (materials.Length == 0) result.Add(new(name + ": minimo del copriferro non verificabile; aggiungere una scheda Materiali alla sezione o a un livello superiore.", null));
             foreach (var material in materials)
             {
@@ -62,7 +77,6 @@ public static class ProjectValidation
                 catch (ArgumentException ex) { result.Add(new(name + ": copriferro non verificabile — " + ex.Message + ".", null)); }
             }
         }
-        return result;
     }
 
 }

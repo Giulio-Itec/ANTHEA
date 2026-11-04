@@ -49,7 +49,18 @@ public sealed partial class ClimateSheetViewModel : SheetViewModelBase
     public bool IsDistribution=>module==ClimateDocument.Distribution;
     public TrafficDrawing? TrafficDrawing=>IsDistribution?ClimateDocument.Drawing(Data,Result):null;
     public IReadOnlyList<string> Schematics=>ClimateFigures.Names(Data).Select(n=>"pack://application:,,,/ANTHEA;component/Assets/Wiki/clima-"+n+".png").ToArray();
-    public IReadOnlyList<string> ChartUnits=>CaseValues.Select(v=>v.Unit).Where(u=>u.Length>0&&u!="−"&&u!="-").Distinct().ToArray();
+    // The quantities with a unit (loads, pressures, temperatures); coefficients such as μ and cpe only when the case has nothing else (review of
+    // 2/11/2026, finding 13: the en dash of Snow and Wind on buildings opened the diagram on the coefficients instead of the loads).
+    public IReadOnlyList<string> ChartUnits
+    {
+        get
+        {
+            var units=CaseValues.Select(v=>v.Unit).Where(u=>u.Length>0).Distinct().ToArray();
+            var dimensional=units.Where(u=>!Dimensionless(u)).ToArray();
+            return dimensional.Length>0?dimensional:units;
+        }
+    }
+    private static bool Dimensionless(string unit)=>unit.Trim() is "" or "–" or "−" or "-" or "—";
     private string? chartUnit;
     public string? ChartUnit{get=>ChartUnits.Contains(chartUnit??"")?chartUnit:ChartUnits.FirstOrDefault();set{if(SetProperty(ref chartUnit,value))OnPropertyChanged(nameof(ChartValues));}}
     public IReadOnlyList<ClimateQuantityRow> ChartValues=>CaseValues.Where(v=>v.Unit==ChartUnit).ToArray();

@@ -50,8 +50,12 @@ public sealed class SheetSession : IDisposable
     /// <summary>The ViewModel of the sheet; replaced when the sheet reopens (<see cref="ViewModelReplaced"/>).</summary>
     public ISheetViewModel ViewModel { get; private set; }
 
-    /// <summary>Read-only: the sheet of an archived revision.</summary>
-    public bool IsReadOnly => Owner.IsReadOnly;
+    /// <summary>Read-only: the sheet of an archived revision, or a sheet that could not be read when the project was opened (step 2b of
+    /// docs/sviluppo/progetto-sistema.md: its data stay as they were in the file).</summary>
+    public bool IsReadOnly => Owner.IsReadOnly || Unreadable is not null;
+
+    /// <summary>Why the sheet could not be read when the project was opened, null for a sheet read normally.</summary>
+    public string? Unreadable => DocumentQuarantine.Reason(Sheet);
 
     /// <summary>Heading of the tab and of the sheet bar (<see cref="ShellTexts.SheetHeading"/>).</summary>
     public string Heading => ShellTexts.SheetHeading(Sheet, Owner.DisplayedRevision);
@@ -99,13 +103,15 @@ public sealed class SheetSession : IDisposable
         {
             var section = Sheet.Parent?.Parent as JsonObject;
             var before = section is null ? null : ProjectSharedData.SubtreeSheets(section).Select(s => (Sheet: s, Data: s["dati"]?.DeepClone())).ToArray();
-            try { project.Shared.ConfirmSharedChanges(project.Document, Sheet, baseline, proposed, project.MarkDirty); }
+            try { project.Shared.ConfirmSharedChanges(project.Document, Sheet, baseline, proposed, () => project.MarkDirty(ProjectSession.SharedEditLabel(ShellTexts.SheetName(Sheet)))); }
             catch
             {
                 foreach (var (sheet, data) in before ?? []) sheet["dati"] = data;
                 throw;
             }
         }
+        // Step 3b: the next step of the history is named after the confirmed sheet.
+        if (Project is { } edited && !JsonNode.DeepEquals(Sheet["dati"], ViewModel.Data)) edited.NoteSheetEdit(ShellTexts.SheetName(Sheet));
         Sheet["dati"] = ViewModel.Data.DeepClone();
         baseline = (JsonObject)proposed.DeepClone();
         loaded = Sheet["dati"]!.DeepClone();
@@ -165,11 +171,24 @@ public sealed class SheetSession : IDisposable
     private ISheetViewModel Create()
     {
         var data = Sheet["dati"] as JsonObject ?? DocumentService.CreateSheet(Module);
-        var sheet = factory.Open(Module, data, Owner.IsReadOnly, host);
+        var sheet = factory.Open(Module, data, IsReadOnly, host);
         sheet.Modified += (_, _) => Owner.MarkDirty();
+        if (sheet is System.ComponentModel.INotifyPropertyChanged notifying) notifying.PropertyChanged += OnResults;
         baseline = (JsonObject)Sheet.DeepClone(); baseline["dati"] = sheet.Data.DeepClone();
         loaded = Sheet["dati"]?.DeepClone();
         return sheet;
+    }
+
+    /// <summary>
+    /// Step 4 of docs/sviluppo/progetto-sistema.md (4/11/2026): a published calculation of a sheet of the project is recorded with the data it
+    /// was made with and its outcome, in memory only; results gone (data edited) let the tree read the state again. Not while read-only.
+    /// </summary>
+    private void OnResults(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is not (nameof(ISheetViewModel.Result) or nameof(ISheetViewModel.HasResults)) || !ReferenceEquals(sender, ViewModel)
+            || Project is not { } project || IsReadOnly) return;
+        if (ViewModel.HasResults) project.Calculations.Record(Id, ViewModel.Data, (ViewModel as ISheetOutcome)?.Passed);
+        else project.Calculations.Touch(Id);
     }
 
     private void UpdateUnsaved(bool force = false)

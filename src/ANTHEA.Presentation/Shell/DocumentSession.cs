@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using Anthea.Application.Documents;
 using Anthea.Calculations;
+using Anthea.Projects;
 using X.Core;
 
 namespace Anthea.Presentation.Shell;
@@ -20,6 +21,7 @@ public enum DocumentKind
 public abstract class DocumentSession
 {
     private JsonObject document;
+    private DocumentLock? fileLock;
 
     protected DocumentSession(JsonObject document, string? path, bool dirty)
     {
@@ -47,14 +49,49 @@ public abstract class DocumentSession
     /// <summary>True when the document has changes not saved (the « *» of the title).</summary>
     public bool IsDirty { get; private set; }
 
+    /// <summary>Changes recorded since the document was opened (each <see cref="MarkDirty"/>, each undo or redo): the recovery copy (step 2e)
+    /// is written again when it grows.</summary>
+    public long Changes { get; private set; }
+
     /// <summary>True while the document cannot change (an archived revision of a project on screen).</summary>
     public virtual bool IsReadOnly => false;
 
     /// <summary>Number of the archived revision on screen, null for the current version.</summary>
     public virtual int? DisplayedRevision => null;
 
-    /// <summary>Title of the window for this document (<see cref="ShellTexts.WindowTitle"/>).</summary>
-    public string Title => ShellTexts.WindowTitle(Path, IsDirty, DisplayedRevision);
+    /// <summary>Title of the window for this document (<see cref="ShellTexts.WindowTitle"/>), with the progress of a save in the background.</summary>
+    public string Title => ShellTexts.WindowTitle(Path, IsDirty, DisplayedRevision) + (SaveProgress is { } share ? ShellTexts.SavingSuffix(share) : "");
+
+    /// <summary>
+    /// The share written of the save running in the background (docs/sviluppo/progetto-sistema.md, step 2c), null when none runs: the
+    /// document stays usable, the changes made meanwhile stay to be saved.
+    /// </summary>
+    public double? SaveProgress { get; private set; }
+
+    /// <summary>True while a save of the document runs in the background.</summary>
+    public bool IsSaving => SaveProgress is not null;
+
+    /// <summary>A save in the background starts (<paramref name="share"/> 0), goes on, or ends (null).</summary>
+    internal void SetSaveProgress(double? share)
+    {
+        if (SaveProgress == share) return;
+        SaveProgress = share;
+        RaiseStateChanged();
+    }
+
+    /// <summary>
+    /// A save that froze the document after <paramref name="changes"/> changes wrote it to <paramref name="path"/>: the document becomes that
+    /// file, and it is saved unless it changed meanwhile (a save in the background, step 2c).
+    /// </summary>
+    /// <returns>True when the document is saved, false when changes made during the save stay to be saved.</returns>
+    public bool MarkSaved(string path, long changes)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        Path = path;
+        IsDirty = Changes != changes;
+        RaiseStateChanged();
+        return !IsDirty;
+    }
 
     /// <summary>The file, the «not saved» state, the read-only state or the document on screen changed.</summary>
     public event EventHandler? StateChanged;
@@ -67,6 +104,7 @@ public abstract class DocumentSession
     {
         if (IsReadOnly) return;
         IsDirty = true;
+        Changes++;
         OnMarkedDirty();
         RaiseStateChanged();
     }
@@ -87,10 +125,36 @@ public abstract class DocumentSession
         RaiseStateChanged();
     }
 
+    /// <summary>
+    /// The lock of the file, held while the document is open (docs/sviluppo/progetto-sistema.md, step 2d); null for a document without a
+    /// file, a copy, a file opened while another ANTHEA held it, or a folder where the lock cannot be written.
+    /// </summary>
+    public DocumentLock? Lock => fileLock;
+
+    /// <summary>The file on disk when the document was opened or saved last (step 2d), null when unknown.</summary>
+    public FileStamp? Stamp { get; private set; }
+
+    /// <summary>The document holds <paramref name="newLock"/> for its file, which is <paramref name="stamp"/> on disk; the lock held before is
+    /// released.</summary>
+    public void AttachFile(DocumentLock? newLock, FileStamp? stamp)
+    {
+        if (!ReferenceEquals(fileLock, newLock)) fileLock?.Dispose();
+        fileLock = newLock;
+        Stamp = stamp;
+    }
+
+    /// <summary>The document closes: the lock of its file is released (Windows deletes the lock file).</summary>
+    public void ReleaseFile()
+    {
+        fileLock?.Dispose();
+        fileLock = null;
+    }
+
     /// <summary>Sets the «not saved» state without recording a change (the restore of the history sets it as MainWindow does).</summary>
     protected void SetDirty(bool dirty)
     {
         IsDirty = dirty;
+        if (dirty) Changes++;
         RaiseStateChanged();
     }
 

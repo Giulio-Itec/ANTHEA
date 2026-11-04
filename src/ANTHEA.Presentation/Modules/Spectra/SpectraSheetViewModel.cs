@@ -3,6 +3,7 @@ using System.Data;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using Anthea.Application.Actions;
+using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Mvvm;
 using Anthea.Reports;
@@ -27,6 +28,9 @@ public sealed class SpectraSheetViewModel : SheetViewModelBase
         ImportCommand = GuardedCommands.Create(Guard, Import, () => CanEdit);
         ApplyPendulumCommand = GuardedCommands.Create(Guard, ApplyPendulum, () => CanEdit && Result?["pendulum"] is JsonObject);
         BuildForms();
+        // As the Actions sheets (review of 2/11/2026): the shell has no «Calcola» of its own, so the sheet calculates at opening (also a file,
+        // a revision or a copy restored by «Annulla»); after an edit the automatic recalculation follows.
+        _ = ScheduleCalculationAsync();
     }
     public override IModuleReportSource Report { get; }
     public IRelayCommand ExportCommand { get; }
@@ -66,7 +70,13 @@ public sealed class SpectraSheetViewModel : SheetViewModelBase
     public int Period { get => period; set { if (value >= 0 && value < 9 && SetProperty(ref period, value)) RefreshResults(); } }
     public string Location => SpectraDocument.Text(Data, "location");
     public string Reference => Result?["reference"]?.ToString() ?? "Spettri NTC · compatibilità CSLP 1.0.3";
-    public string Source => Result?["hazard_source"]?.ToString() ?? "Premere Calcola per determinare gli spettri.";
+    /// <summary>The source of the hazard; without results, the state of the calculation (the reason is in the message of the calculation).</summary>
+    public string Source => Result?["hazard_source"]?.ToString() ?? CalculationState switch
+    {
+        CalculationState.Pending or CalculationState.Running => "Calcolo degli spettri in corso…",
+        CalculationState.Incomplete or CalculationState.Failed => "Spettri non calcolati: correggere i dati indicati nel messaggio.",
+        _ => "Gli spettri si calcolano da soli all’apertura e dopo ogni modifica dei dati."
+    };
     public string ImportSource => Data["import_source"] is JsonObject s ? $"Importato: {s["file"]} · valori salvati nel file" : "";
     public bool ShowGrid => Stage == 0;
     public bool ShowState => Stage >= 2;
@@ -110,7 +120,7 @@ public sealed class SpectraSheetViewModel : SheetViewModelBase
             return table.DefaultView;
         }
     }
-    public string IsolationDetails => Stage != 3 ? "" : SelectedIsolation?["BearingForces"] is JsonArray groups ? string.Join("\n", groups.Select(g => $"{g!["Name"]}: n = {g["Count"]}; forza per isolatore = {Format(g["ForcePerBearingKn"])} kN")) : "Attivare l’isolamento e calcolare per vedere i risultati.";
+    public string IsolationDetails => Stage != 3 ? "" : SelectedIsolation?["BearingForces"] is JsonArray groups ? string.Join("\n", groups.Select(g => $"{g!["Name"]}: n = {g["Count"]}; forza per isolatore = {Format(g["ForcePerBearingKn"])} kN")) : "Attivare l’isolamento per vedere i risultati.";
     public string PendulumDetails => Result?["pendulum"] is JsonObject p ? $"Pendolo: Fμ = {Format(p["FrictionForceKn"])} kN; Ke = {Format(p["EffectiveStiffnessKnPerMm"])} kN/mm; ξ = {Format(p["DampingPercent"])}%; T = {Format(p["PeriodSeconds"])} s." : "";
     private static string Format(JsonNode? n) => n?.ToString() == "NaN" ? "Non disponibile" : n is JsonValue v && v.TryGetValue<double>(out var d) ? d.ToString("G10", CultureInfo.CurrentCulture) : n?.ToString() ?? "";
     private static FieldSpec N(string key, string label, string unit = "") => new(key, label, unit, Write: FieldWriteRule.NumberOrText, ToolTip: label);
@@ -138,6 +148,7 @@ public sealed class SpectraSheetViewModel : SheetViewModelBase
         base.OnPropertyChanged(e);
         if (e.PropertyName == nameof(CanEdit)) { foreach (var f in Forms) f.IsReadOnly = !CanEdit; ImportCommand?.NotifyCanExecuteChanged(); ApplyPendulumCommand?.NotifyCanExecuteChanged(); }
         if (e.PropertyName == nameof(Result)) RefreshResults();
+        if (e.PropertyName == nameof(CalculationState)) OnPropertyChanged(nameof(Source));
     }
     private void RefreshResults() { foreach (string p in new[] { nameof(Reference), nameof(Source), nameof(ShowGrid), nameof(ShowState), nameof(PlotTitle), nameof(Note), nameof(Curves), nameof(Nodes), nameof(Summary), nameof(Ordinates), nameof(IsolationDetails), nameof(PendulumDetails) }) OnPropertyChanged(p); ExportCommand?.NotifyCanExecuteChanged(); CopyCommand?.NotifyCanExecuteChanged(); ApplyPendulumCommand?.NotifyCanExecuteChanged(); }
     private void Export() { if (Result is null) return; var path = Context.Services.Files.SaveFile(new([new("Spettri CSV", "*.csv")], "Spettri.csv")); if (path is not null) File.WriteAllText(path, SpectraDocument.Csv(Result), new System.Text.UTF8Encoding(true)); }

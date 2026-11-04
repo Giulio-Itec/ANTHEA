@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
+using Anthea.Presentation.Modules.Stratigraphy;
 using Anthea.Presentation.Mvvm;
 using Anthea.Presentation.Services;
 using CommunityToolkit.Mvvm.Input;
@@ -51,15 +52,28 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     public const string RedoLabel = "↷ Ripristina";
     public const string UndoToolTip = "Annulla l’ultima operazione · Ctrl+Z";
     public const string RedoToolTip = "Ripristina · Ctrl+Y";
+
+    /// <summary>The tooltip of «↶ Annulla» with the name of the change it takes back (step 3b of docs/sviluppo/progetto-sistema.md, 4/11/2026):
+    /// «Annulla: Rinomina «Pila P1» in «Pila P2» · Ctrl+Z»; <see cref="UndoToolTip"/> when the change has no name.</summary>
+    public string UndoHint => workspace.Project?.UndoLabel is { } label ? "Annulla: " + label + " · Ctrl+Z" : UndoToolTip;
+
+    /// <summary>The tooltip of «↷ Ripristina» with the name of the change it makes again.</summary>
+    public string RedoHint => workspace.Project?.RedoLabel is { } label ? "Ripristina: " + label + " · Ctrl+Y" : RedoToolTip;
     public const string ShortToolTip = "Sezioni CLS · sette verifiche governanti · Word e PDF · massimo due pagine";
     /// <summary>Messages of the reports and results (MainWindow.ExportReport, ExportJson).</summary>
     public const string CompleteFirst = "Completare il calcolo prima di esportare il report.";
     /// <inheritdoc cref="CompleteFirst"/>
     public const string WaitConcrete = "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi.";
-    /// <inheritdoc cref="CompleteFirst"/>
-    public const string CalculateFirst = "Premere Calcola prima di esportare i risultati.";
+    /// <summary>
+    /// «Risultati JSON…» without results or during a calculation. Until 4/11/2026 it asked to press «Calcola», the command of the historic window:
+    /// the shell has none, most sheets calculate by themselves and a few have a calculate button of their own. The refusal of
+    /// <see cref="SheetFileExports.WriteResult"/> keeps the historic text for the frozen F3 and Bridge Design traces; the shell never shows it.
+    /// </summary>
+    public const string CalculateFirst = "Nessun risultato da esportare: attendere il calcolo del foglio, o avviarlo dal foglio se ha un comando di calcolo, e correggere i dati segnalati.";
     /// <inheritdoc cref="CompleteFirst"/>
     public const string MaterialResults = "Per conservare la scheda materiali usa Salva o Esporta foglio selezionato.";
+    /// <summary>The stratigraphy is data without a calculation: it never has results to export (4/11/2026).</summary>
+    public const string StratigraphyResults = "La stratigrafia non ha risultati da esportare: per conservarla usare Salva o Esporta foglio selezionato.";
 
     private readonly WorkspaceSession workspace;
     private readonly PresentationServices services;
@@ -105,6 +119,7 @@ public sealed class ShellCommandsViewModel : ViewModelBase
         ];
         workspace.ActiveChanged += OnWorkspaceChanged;
         workspace.DocumentsChanged += OnWorkspaceChanged;
+        workspace.ActiveCommitted += OnCommitted;
         Attach();
     }
 
@@ -143,7 +158,7 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     }
 
     /// <summary>«Salva» and «Salva con nome…»: the document of the sheet with the focus, otherwise the project.</summary>
-    public bool Save(bool asNew) => workspace.CurrentDocument is { } document && workspace.Save(document, asNew);
+    public bool Save(bool asNew) => workspace.CurrentDocument is { } document && workspace.Save(document, asNew, background: true);
 
     /// <summary>«Esporta foglio selezionato…» (MainWindow.ExportSheet): the sheet with the focus as a single file «Foglio.programma».</summary>
     public void ExportSheet()
@@ -159,8 +174,10 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     public void ExportResults()
     {
         if (workspace.Active?.Module is "mat_calcestruzzo" or "mat_acciaio_armatura") { services.Messages.Inform("", MaterialResults); return; }
+        if (workspace.Active?.Module == StratigraphySheetViewModel.Module) { services.Messages.Inform("", StratigraphyResults); return; }
         workspace.CommitActive();
-        if (workspace.Active is not { ViewModel.HasResults: true } sheet)
+        // A sheet calculating again has results but cannot export them (SheetFileExports.WriteResult): the same message, before the dialog.
+        if (workspace.Active is not { ViewModel.HasResults: true } sheet || sheet.ViewModel.IsBusy)
         {
             services.Messages.Inform("", workspace.Active?.Module == "str_palo" ? WaitConcrete : CalculateFirst);
             return;
@@ -247,6 +264,7 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     {
         workspace.ActiveChanged -= OnWorkspaceChanged;
         workspace.DocumentsChanged -= OnWorkspaceChanged;
+        workspace.ActiveCommitted -= OnCommitted;
         if (project is not null) { project.Changed -= OnProjectChanged; project.StateChanged -= OnProjectChanged; }
     }
 
@@ -268,10 +286,14 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     {
         Attach();
         OnPropertyChanged(nameof(ShortReportVisible));
-        UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged();
+        UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged(); NotifyHints();
     }
 
-    private void OnProjectChanged(object? sender, EventArgs e) { UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged(); }
+    private void OnProjectChanged(object? sender, EventArgs e) { UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged(); NotifyHints(); }
+
+    private void NotifyHints() { OnPropertyChanged(nameof(UndoHint)); OnPropertyChanged(nameof(RedoHint)); }
+
+    private void OnCommitted(object? sender, SheetSession e) => NotifyHints();
 }
 
 /// <summary>A content of the report with its choice.</summary>

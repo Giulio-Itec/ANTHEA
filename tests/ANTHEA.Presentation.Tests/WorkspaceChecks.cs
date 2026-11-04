@@ -6,6 +6,8 @@ using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Modules;
 using Anthea.Presentation.Services;
 using Anthea.Presentation.Shell;
+using Anthea.Projects;
+using ANTHEA.ModelWorkspace;
 using X.Core;
 
 namespace Anthea.Presentation.Tests;
@@ -29,6 +31,9 @@ internal static class WorkspaceChecks
         Factory(expect);
         SingleFiles(expect, folder);
         Projects(expect, folder);
+        Locks(expect, folder);
+        BackgroundSave(expect, folder);
+        Unreadable(expect, folder);
         SharedData(expect);
         UndoAndRevisions(expect);
         Requests(expect);
@@ -184,6 +189,134 @@ internal static class WorkspaceChecks
         expect.That(shown.Warning && shown.Title == WorkspaceSession.SaveWarning && aside is not null
             && shown.Message.Contains("«" + Path.GetFileName(aside) + "»", StringComparison.Ordinal), "Avviso del salvataggio con l'archivio conservato: " + shown.Message);
         expect.That(workspace.Save(project, false) && bench.Messages.Shown.Count == 1, "Nessun avviso al salvataggio successivo");
+        workspace.Dispose();
+    }
+
+    /// <summary>
+    /// Step 2d of docs/sviluppo/progetto-sistema.md (3/11/2026): the lock of the open files. A project open in another ANTHEA asks whether
+    /// to open a copy, the file anyway or nothing; the copy saves under another name only; a file changed on disk asks before «Salva»; the
+    /// lock is released when the document closes.
+    /// </summary>
+    private static void Locks(Expect expect, string folder)
+    {
+        string path = Path.Combine(folder, "Condiviso.programma");
+        string other = Path.Combine(folder, "Copia del condiviso.programma");
+        var archive = ProjectDocuments.CreateArchive(); ProjectDocuments.AddProject(archive, "Ponte condiviso");
+        DocumentService.Save(path, archive);
+        var rossi = new DocumentLockOwner("rossi", "PC-07", new DateTimeOffset(2026, 11, 3, 14, 32, 0, TimeSpan.Zero), 4242);
+        var held = DocumentLock.Acquire(path, rossi).Lock!;
+        var bench = new ShellBench(new ScriptedConfirmations().Then(LockedDocumentAnswer.Cancel).Then(LockedDocumentAnswer.OpenCopy)
+                .Then(LockedDocumentAnswer.OpenAnyway).Then(false).Then(true),
+            new ScriptedFileDialogs().Then(path).Then(other));
+        var workspace = bench.Workspace;
+
+        expect.That(workspace.OpenFile(path) is null && workspace.Project is null
+            && bench.Confirmations.Asked.Single() == WorkspaceSession.LockedTitle + ": " + WorkspaceSession.LockedQuestion("Condiviso.programma", rossi.Description),
+            "File bloccato: «Annulla» non apre nulla");
+        var copy = workspace.OpenFile(path) as ProjectSession;
+        expect.That(copy is not null && copy.Path is null && copy.IsDirty && copy.Lock is null && copy.Projects.Single().S("nome") == "Ponte condiviso"
+            && copy.Results.FilePath == ModelResultArchive.PathFor(path), "File bloccato: «Apri una copia», senza nome, risultati letti dal file");
+        expect.That(!workspace.Save(copy!, false) && copy!.Path is null && bench.Messages.Failures.Last().Error.Message == WorkspaceSession.LockedTarget("Condiviso.programma", rossi.Description),
+            "Copia salvata sul file bloccato");
+        expect.That(workspace.Save(copy, false) && copy.Path == other && copy.Lock is { } copyLock && File.Exists(copyLock.Path) && File.Exists(DocumentLock.PathFor(path)),
+            "Copia salvata con un altro nome, bloccata");
+        string copyLockPath = copy.Lock!.Path;
+        expect.That(workspace.CloseProject() && copy.Lock is null && !File.Exists(copyLockPath), "Blocco rilasciato alla chiusura");
+
+        // «Apri comunque»: the file itself, without the lock; a change written on disk by the other ANTHEA asks before «Salva».
+        var anyway = (ProjectSession)workspace.OpenFile(path)!;
+        expect.That(anyway.Path == path && anyway.Lock is null && anyway.Stamp == FileStamp.Of(path), "File bloccato: «Apri comunque»");
+        anyway.AddProject();
+        var theirs = DocumentService.Open(path); ProjectDocuments.AddProject(theirs, "Spalla dell'altro");
+        DocumentService.Save(path, theirs);
+        File.SetLastWriteTimeUtc(path, anyway.Stamp!.Value.WrittenUtc.AddMinutes(1));
+        expect.That(!workspace.Save(anyway, false) && anyway.IsDirty && Names(path).Contains("Spalla dell'altro")
+            && bench.Confirmations.Asked.Last() == WorkspaceSession.ChangedTitle + ": " + WorkspaceSession.ChangedQuestion("Condiviso.programma"), "File modificato su disco: «No»");
+        expect.That(workspace.Save(anyway, false) && !anyway.IsDirty && anyway.Stamp == FileStamp.Of(path) && !Names(path).Contains("Spalla dell'altro")
+            && workspace.Save(anyway, false) && bench.Confirmations.Asked.Count == 5, "File modificato su disco: «Sì», poi «Salva» senza domande");
+        expect.That(workspace.CloseProject() && File.Exists(DocumentLock.PathFor(path)), "Blocco dell'altro tenuto");
+
+        // The other ANTHEA closes: the file opens with its lock, held against a second opening, released with the workspace.
+        held.Dispose();
+        var mine = (ProjectSession)workspace.OpenFile(path)!;
+        string lockPath = DocumentLock.PathFor(path);
+        expect.That(mine.Lock is { } own && own.Path == lockPath && File.Exists(lockPath) && DocumentLock.Acquire(path).Holder is { IsSameUserHere: true }, "File aperto con il suo blocco");
+        workspace.Dispose();
+        expect.That(!File.Exists(lockPath) && bench.Confirmations.Asked.Count == 5, "Blocco rilasciato con lo spazio di lavoro");
+    }
+
+    private static string[] Names(string path) => DocumentService.Open(path).Array("progetti").Select(p => p.S("nome")).ToArray();
+
+    /// <summary>
+    /// Step 2b of docs/sviluppo/progetto-sistema.md (3/11/2026): a project with a c.a. sheet whose GPC section no longer matches its parameters
+    /// opens with a warning naming the sheet; the sheet is read-only in its tab, marked in the tree, and written back unchanged by «Salva».
+    /// </summary>
+    private static void Unreadable(Expect expect, string folder)
+    {
+        string path = Path.Combine(folder, "Danneggiato.programma");
+        var sound = ProjectDocuments.CreateArchive();
+        var pila = ProjectDocuments.AddSection(ProjectDocuments.AddProject(sound, "Ponte"), "Pila P1");
+        ProjectDocuments.AddSheet(pila, "str_palo", "Verifica sezione");
+        DocumentService.Save(path, sound);
+        var file = (JsonObject)JsonNode.Parse(File.ReadAllText(path))!;
+        var input = ProjectSharedData.SubtreeSheets(file["progetti"]![0]!.AsObject()).Single()["dati"]!["input"]!.AsObject();
+        var field = input.First(p => p.Key != "sezione_gpc" && p.Value is JsonValue v && v.TryGetValue(out double _));
+        input[field.Key] = field.Value!.GetValue<double>() + 1;
+        File.WriteAllText(path, file.ToJsonString());
+        var before = ProjectSharedData.SubtreeSheets(file["progetti"]![0]!.AsObject()).Single()["dati"]!.ToJsonString();
+
+        var bench = new ShellBench();
+        var workspace = bench.Workspace;
+        var project = (ProjectSession)workspace.OpenFile(path)!;
+        var warning = bench.Messages.Shown.Single();
+        var sheet = ProjectSharedData.SubtreeSheets(project.Projects.Single()).Single();
+        var tab = workspace.OpenSheet(sheet);
+        expect.That(warning.Warning && warning.Title == WorkspaceSession.OpenProblemsTitle && warning.Message.Contains("• Ponte › Pila P1 › Verifica sezione: Sezione GPC", StringComparison.Ordinal)
+            && tab.IsReadOnly && tab.Unreadable is { Length: > 0 } && !project.IsDirty, "Foglio non leggibile: progetto aperto, foglio in sola lettura");
+        tab.Commit();
+        project.AddProject();
+        expect.That(workspace.Save(project, false) && ProjectSharedData.SubtreeSheets(((JsonObject)JsonNode.Parse(File.ReadAllText(path))!)["progetti"]![0]!.AsObject()).Single()["dati"]!.ToJsonString() == before
+            && !File.ReadAllText(path).Contains(DocumentQuarantine.Property, StringComparison.Ordinal), "Foglio non leggibile riscritto come era nel file");
+        workspace.Dispose();
+    }
+
+    /// <summary>
+    /// Step 2c of docs/sviluppo/progetto-sistema.md (3/11/2026): «Salva» of a project with many result sets to write runs in the background
+    /// on the document frozen when it starts, with its progress in the title; a change made meanwhile stays to be saved; closing waits for
+    /// the save; below the threshold the save stays on the thread of the interface.
+    /// </summary>
+    private static void BackgroundSave(Expect expect, string folder)
+    {
+        string root = AppContext.BaseDirectory;
+        while (!File.Exists(Path.Combine(root, "ANTHEA.sln"))) root = Path.GetDirectoryName(root)!;
+        var fixture = (JsonObject)JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests", "fixtures", "model-viewer-combinations-1.16.2", "progetto-1.16.2.json")))!;
+        var model = ProjectModelStore.Read(fixture, ProjectModelStore.Models(fixture).Single()["id"]!.GetValue<string>())!;
+        string path = Path.Combine(folder, "In background.programma");
+        var bench = new ShellBench(dialogs: new ScriptedFileDialogs().Then(path));
+        var workspace = bench.Workspace;
+        workspace.BackgroundThreshold = 0;
+        var project = workspace.NewProject()!;
+        project.AddProject();
+        string id = ProjectModelStore.Set(project.Projects.First(), ModelDocumentEntry.Prepare(model, 1), null, project.Results);
+        project.MarkDirty();
+
+        expect.That(workspace.Save(project, false, background: true) && project.IsSaving && project.Path is null
+            && project.Title == ShellTexts.WindowTitle(null, true, null) + ShellTexts.SavingSuffix(0) && project.Title.EndsWith(" · salvataggio 0%", StringComparison.Ordinal),
+            "Salvataggio in background avviato: " + project.Title);
+        project.AddProject();
+        workspace.WaitForSave(project);
+        var opened = ProjectFile.Open(path);
+        var read = ProjectModelStore.Read(opened.Document["progetti"]!.AsArray().OfType<JsonObject>().First(), id, opened.Results);
+        expect.That(!project.IsSaving && project.Path == path && project.IsDirty && project.Lock is not null && project.Stamp == FileStamp.Of(path)
+            && opened.Document.Array("progetti").Count == 1 && read?.Fingerprint() == model.Fingerprint() && read.UnavailableResults.Count == 0
+            && bench.Messages.Failures.Count == 0, "Salvataggio in background: lo stato congelato sul file, la modifica di intanto da salvare");
+        expect.That(workspace.Save(project, false, background: true) && project.IsSaving && workspace.CloseProject() && !project.IsDirty && !project.IsSaving
+            && workspace.Project is null && Names(path).Length == 2 && bench.Confirmations.Asked.Count == 0, "Chiusura durante il salvataggio: attende e chiude senza domande");
+
+        var small = (ProjectSession)workspace.OpenFile(path)!;
+        small.AddProject();
+        workspace.BackgroundThreshold = WorkspaceSession.BackgroundSaveBytes;
+        expect.That(workspace.Save(small, false, background: true) && !small.IsSaving && !small.IsDirty && Names(path).Length == 3, "Salvataggio piccolo sul thread dell'interfaccia");
         workspace.Dispose();
     }
 

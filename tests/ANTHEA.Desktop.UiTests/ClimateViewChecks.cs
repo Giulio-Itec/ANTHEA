@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -66,12 +67,13 @@ internal static class ClimateViewChecks
                         File.WriteAllBytes(Path.Combine(output,captureName+"-impalcato.png"),Png(editor.View));
                     }
                     actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Casi di carico"));window.UpdateLayout();
+                    var unnamed=Unnamed(editor.View);Check(unnamed.Count==0,"Nomi di automazione di selettori, liste e tabelle: "+scenario.Module+" "+string.Join(", ",unnamed));
                     foreach(var theme in new[]{AppAppearance.Light,AppAppearance.Dark,AppAppearance.VeryDark})
                     {
                         Appearance.Set(theme,false);window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
                         Check(Visual(editor.View).OfType<ActionInputSketch>().Any(c=>c.IsVisible&&c.ActualHeight>100&&c.Drawing?.Parts.Count>0),"Assistenza visibile: "+theme);
                         Check(Visual(editor.View).OfType<DataGrid>().Any(g=>g.IsVisible&&g.Items.Count>0),"Tabella visibile: "+theme+" "+scenario.File+" risultati="+sheet.HasResults+" casi="+sheet.Cases.Count+" caso="+sheet.SelectedCase+" "+sheet.CalculationMessage);
-                        var selector=Visual(editor.View).OfType<ComboBox>().Single(c=>c.IsVisible&&Equals(c.Tag,"ActionCases"));selector.SelectedIndex=sheet.Cases.Count-1;
+                        var selector=Visual(editor.View).OfType<ComboBox>().Single(c=>c.IsVisible&&AutomationProperties.GetAutomationId(c)=="ActionCases");selector.SelectedIndex=sheet.Cases.Count-1;
                         window.UpdateLayout();Check(sheet.SelectedCase==sheet.Cases.Count-1&&sheet.CaseValues.Count>0,"Selezione caso");
                         Check(Visual(editor.View).OfType<ClimateCaseChart>().Any(c=>c.IsVisible&&c.ActualHeight>50&&c.Values?.Count>0),"Diagramma con valori del caso");
                         File.WriteAllBytes(Path.Combine(output,captureName+"-"+theme+".png"),Png(editor.View));
@@ -79,7 +81,7 @@ internal static class ClimateViewChecks
                         {
                             actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Profilo e perdite"));window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
                             Check(Visual(editor.View).OfType<ActionHistoryChart>().Count(c=>c.Drawing?.Series.Count>0)==4,"Profilo e curve delle perdite");
-                            var stations=Visual(editor.View).OfType<ComboBox>().Single(c=>Equals(c.Tag,"PrestressStations"));stations.SelectedIndex=sheet.PrestressStations.Count/2;window.UpdateLayout();
+                            var stations=Visual(editor.View).OfType<ComboBox>().Single(c=>AutomationProperties.GetAutomationId(c)=="PrestressStations");stations.SelectedIndex=sheet.PrestressStations.Count/2;window.UpdateLayout();
                             Check(sheet.SelectedStation?.Index==sheet.PrestressStations.Count/2,"Selezione dell’ascissa dello stato efficace");
                             File.WriteAllBytes(Path.Combine(output,captureName+"-profilo-"+theme+".png"),Png(editor.View));
                             if(scenario.File=="precompressione-posteso")
@@ -90,7 +92,8 @@ internal static class ClimateViewChecks
                                 {
                                     modal.Show();modal.UpdateLayout();await modal.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);
                                     Check(Visual(content).OfType<PrestressTransferDialogView>().Count()==1,"Dialogo MVVM del trasferimento risolto");
-                                    var consent=Visual(content).OfType<CheckBox>().Single();consent.IsChecked=true;modal.UpdateLayout();Check(dialog.ConfirmCommand.CanExecute(null),"Associazione esplicita della sezione nel dialogo");
+                                    var consent=Visual(content).OfType<CheckBox>().Single(c=>AutomationProperties.GetAutomationId(c)=="PrestressConsent");consent.IsChecked=true;modal.UpdateLayout();Check(dialog.ConfirmCommand.CanExecute(null),"Associazione esplicita della sezione nel dialogo");
+                                    var unnamedDialog=Unnamed(content);Check(unnamedDialog.Count==0,"Nomi di automazione del dialogo di trasferimento: "+string.Join(", ",unnamedDialog));
                                     File.WriteAllBytes(Path.Combine(output,captureName+"-trasferimento-"+theme+".png"),Png(content));
                                 }
                                 finally{modal.Content=null;modal.Close();}
@@ -130,8 +133,8 @@ internal static class ClimateViewChecks
                         {
                             actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Schema e pressioni"));window.UpdateLayout();await window.Dispatcher.InvokeAsync(()=>{},DispatcherPriority.ContextIdle);window.UpdateLayout();
                             Check(Visual(editor.View).OfType<HydraulicActionsChart>().Any(c=>c.IsVisible&&c.Drawing?.Points.Count>1),"Schema e pressioni idrauliche");
-                            Check(Visual(editor.View).OfType<ComboBox>().Single(c=>c.IsVisible&&Equals(c.Tag,"ActionCases")).SelectedIndex==sheet.SelectedCase,"Il selettore dello schema conserva il caso visibile");
-                            var hydraulicSelector=Visual(editor.View).OfType<ComboBox>().Single(c=>c.IsVisible&&Equals(c.Tag,"ActionCases"));
+                            Check(Visual(editor.View).OfType<ComboBox>().Single(c=>c.IsVisible&&AutomationProperties.GetAutomationId(c)=="ActionCases").SelectedIndex==sheet.SelectedCase,"Il selettore dello schema conserva il caso visibile");
+                            var hydraulicSelector=Visual(editor.View).OfType<ComboBox>().Single(c=>c.IsVisible&&AutomationProperties.GetAutomationId(c)=="ActionCases");
                             Check(Visual(hydraulicSelector).OfType<TextBlock>().Any(t=>t.IsVisible&&t.Text==sheet.Cases[sheet.SelectedCase].Name),"Nome nel selettore: modulo="+scenario.File+", indice="+hydraulicSelector.SelectedIndex+", item="+hydraulicSelector.SelectedItem+", box="+hydraulicSelector.SelectionBoxItem+", text="+hydraulicSelector.Text+", visual="+string.Join(" | ",Visual(hydraulicSelector).OfType<TextBlock>().Select(t=>t.Text+"/"+t.IsVisible+"/"+t.DataContext)));
                             File.WriteAllBytes(Path.Combine(output,captureName+"-pressioni-"+theme+".png"),Png(editor.View));
                             actionTabs.SelectedItem=actionTabs.Items.OfType<TabItem>().Single(i=>Equals(i.Header,"Casi di carico"));window.UpdateLayout();
@@ -180,6 +183,15 @@ internal static class ClimateViewChecks
         }
         finally{PresentationTraceSources.DataBindingSource.Listeners.Remove(listener);listener.Dispose();Appearance.Set(AppAppearance.Light,false);}
     }
+    /// <summary>
+    /// Review of 2/11/2026, finding 15: the selectors, lists, tables, check boxes and text boxes on screen without a name for UI Automation (the
+    /// name a client reads through the peer: AutomationProperties.Name, otherwise the text of the content). The parts of the templates of the
+    /// controls are left out.
+    /// </summary>
+    private static IReadOnlyList<string> Unnamed(DependencyObject root)=>Visual(root).OfType<Control>()
+        .Where(c=>c.IsVisible&&c.TemplatedParent is not Control&&c is ComboBox or ListBox or DataGrid or CheckBox or TextBox)
+        .Where(c=>string.IsNullOrWhiteSpace(System.Windows.Automation.Peers.UIElementAutomationPeer.CreatePeerForElement(c)?.GetName()))
+        .Select(c=>c.GetType().Name+"("+(c.DataContext?.GetType().Name??"")+")").Distinct().ToArray();
     /// <summary>A binding to a missing property, to prove that the trace of the bindings hears the errors.</summary>
     private static async Task BrokenBinding()
     {
@@ -253,13 +265,16 @@ internal static class ClimateViewChecks
     }
     /// <summary>
     /// «Viscosità e maturazione» (review of 2/11/2026): on the minimum sheet of the shell the plot keeps its height (the column scrolls); the values
-    /// follow the separator of «Aspetto»; a revision makes every text box read-only.
+    /// follow the separator of «Aspetto»; a revision makes every text box read-only and disables «Aggiorna le curve». Findings 12 and 14: the
+    /// curves come back by themselves after an edit, the options of the plot do not modify the sheet, the plot is exported through the service.
     /// </summary>
     private static async Task RheologyChecks(string output,Action<bool,string> check)
     {
         string module=Anthea.Application.Materials.RheologyDocument.Module;
-        using var editor=ModuleHostBench.SheetEditors([]).Open(module,Anthea.Application.Modules.ModuleDirectory.CreateData(module));
+        var factory=ModuleHostBench.SheetEditors([]);var services=ModuleHostBench.ScriptedServices(factory)!;
+        using var editor=factory.Open(module,Anthea.Application.Modules.ModuleDirectory.CreateData(module));
         var sheet=(RheologySheetViewModel)((MvvmSheetEditor)editor).Sheet;
+        int modified=0;sheet.Modified+=(_,_)=>modified++;
         var window=new Window{Content=editor.View,Width=1120,Height=600,Left=-32000,Top=-32000,ShowActivated=false,ShowInTaskbar=false,WindowStyle=WindowStyle.None,WindowStartupLocation=WindowStartupLocation.Manual};Appearance.Watch(window);
         try
         {
@@ -277,8 +292,28 @@ internal static class ClimateViewChecks
             }
             finally{WpfNumberSeparatorService.Apply(DecimalSeparatorChoice.Comma);sheet.Model.CalculateCommand.Execute(null);await Idle(window);}
             check(sheet.Model.InfinityText.Contains(',')&&!sheet.Model.E28Text.Contains('.'),"Reologia con il separatore Virgola: "+sheet.Model.E28Text);
+            // Finding 12: «Asse Y log» and «Grandezza» change the plot only.
+            var logY=Visual(editor.View).OfType<CheckBox>().Single(c=>Equals(c.Content,"Asse Y log"));long revision=sheet.Revision;var data=sheet.Data.ToJsonString();
+            logY.IsChecked=true;sheet.Model.SelectedCurve=sheet.Model.Curves[1];await Idle(window);
+            check(sheet.Model.LogY&&modified==0&&sheet.Revision==revision&&sheet.Data.ToJsonString()==data,"Reologia: le opzioni del grafico non modificano il foglio");
+            logY.IsChecked=false;sheet.Model.SelectedCurve=sheet.Model.Curves[0];await Idle(window);
+            // Finding 14: an edit in the text box, and the curves are back after the delay without «Aggiorna le curve».
+            var fck=Visual(editor.View).OfType<TextBox>().Single(t=>BindingOperations.GetBinding(t,TextBox.TextProperty)?.Path.Path==nameof(sheet.Model.Fck));
+            fck.Text="30";await Idle(window);
+            check(!sheet.HasResults&&sheet.Model.IsUpdating&&modified==1,"Reologia: modifica registrata, curve in aggiornamento");
+            File.WriteAllBytes(Path.Combine(output,"reologia-aggiornamento.png"),Png(editor.View));
+            await sheet.Model.PendingCalculation;await Idle(window);
+            check(sheet.HasResults&&!sheet.Model.IsUpdating&&sheet.Model.Points.Count>0,"Reologia: curve ricalcolate da sole dopo la modifica");
+            var export=Visual(editor.View).OfType<Button>().Single(b=>Equals(b.Content,"Esporta grafico…"));
+            string png=Path.Combine(output,"reologia-esportata.png");Anthea.Presentation.Services.SaveFileRequest? asked=null;services.SaveFile=request=>{asked=request;return png;};
+            export.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            check(asked?.Filters.Single().Patterns.Single()=="*.png"&&File.Exists(png)&&File.ReadAllBytes(png).Take(4).SequenceEqual(new byte[]{137,80,78,71})&&new FileInfo(png).Length>10000,
+                "Reologia: grafico esportato attraverso il servizio dei file");
+            services.SaveFile=null;
             editor.InspectRevision();await Idle(window);
             check(Visual(editor.View).OfType<TextBox>().Where(t=>t.IsVisible).All(t=>t.IsReadOnly),"Reologia: caselle in sola lettura nella revisione");
+            var update=Visual(editor.View).OfType<Button>().Single(b=>Equals(b.Content,"Aggiorna le curve"));
+            check(!update.IsEnabled,"Reologia: «Aggiorna le curve» disattivato nella revisione");
         }
         finally{window.Content=null;window.Close();}
     }

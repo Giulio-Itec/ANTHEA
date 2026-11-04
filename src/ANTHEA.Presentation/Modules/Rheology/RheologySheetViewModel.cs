@@ -15,14 +15,19 @@ public sealed class RheologySheetModule : ISheetModule
     public ISheetViewModel CreateSheet(SheetContext context) => new RheologySheetViewModel(context);
 }
 
-/// <summary>Saved sheet around the existing rheology interaction. GPC is accessed only by the application adapter.</summary>
+/// <summary>
+/// Saved sheet around the existing rheology interaction. GPC is accessed only by the application adapter. Review of 2/11/2026: the options of
+/// the plot are consultation (<see cref="RheologyDocument.ViewKeys"/>, read at opening, never written), the reading age is a datum of the
+/// report; the curves are calculated again by themselves after an edit (<see cref="ConcreteTimeEffectsViewModel.RecalculationDelay"/>).
+/// </summary>
 public sealed class RheologySheetViewModel : SheetViewModelBase
 {
     private bool loading;
     private JsonObject? result;
-    public ConcreteTimeEffectsViewModel Model { get; } = new();
+    public ConcreteTimeEffectsViewModel Model { get; }
     public RheologySheetViewModel(SheetContext context) : base(RheologyDocument.Module, context, mode: SheetCalculationMode.None)
     {
+        Model = new(automaticDelay: ConcreteTimeEffectsViewModel.RecalculationDelay, files: context.Services.Files, messages: context.Services.Messages);
         Report = new ReportSource(this);
         Restore(); Model.PropertyChanged += ModelChanged;
     }
@@ -30,13 +35,13 @@ public sealed class RheologySheetViewModel : SheetViewModelBase
     public override JsonObject? Result => result;
     public override bool HasResults => result is not null;
     public override JsonObject PreviewData => CanEdit ? Capture() : (JsonObject)Data.DeepClone();
+    // The data with the inputs and the reading age on screen; the options of the plot stay as the document has them (finding 12).
     private JsonObject Capture()
     {
         var data = (JsonObject)Data.DeepClone();
         data["Fck"] = Model.Fck; data["Humidity"] = Model.Humidity; data["NotionalSize"] = Model.NotionalSize;
         data["LoadingAge"] = Model.LoadingAge; data["Cement"] = Model.Cement.Value; data["StartAge"] = Model.StartAge;
         data["EndAge"] = Model.EndAge; data["Samples"] = Model.Samples; data["QueryAge"] = Model.QueryAge;
-        data["SelectedCurve"] = Model.SelectedCurve.Value.ToString(); data["LogX"] = Model.LogX; data["LogY"] = Model.LogY;
         return data;
     }
     private void Write(JsonObject target)
@@ -54,7 +59,7 @@ public sealed class RheologySheetViewModel : SheetViewModelBase
             Model.StartAge = Text("StartAge"); Model.EndAge = Text("EndAge"); Model.Samples = Text("Samples");
             Model.QueryAge = Text("QueryAge"); Model.SelectedCurve = Model.Curves.Single(c => c.Value.ToString() == Text("SelectedCurve"));
             Model.LogX = Data["LogX"]!.GetValue<bool>(); Model.LogY = Data["LogY"]!.GetValue<bool>();
-            Model.CalculateCommand.Execute(null);
+            Model.Recalculate();
         }
         finally { loading = false; Model.IsReadOnly = !CanEdit; }
         RefreshResult();
@@ -62,7 +67,8 @@ public sealed class RheologySheetViewModel : SheetViewModelBase
     private void ModelChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (loading || IsDisposed) return;
-        bool input = RheologyDocument.TextKeys.Contains(e.PropertyName ?? "") || e.PropertyName is "LogX" or "LogY";
+        // The options of the plot change only the view: no edit, no step of «Annulla», the document stays saved (finding 12).
+        bool input = RheologyDocument.TextKeys.Contains(e.PropertyName ?? "") && !RheologyDocument.ViewKeys.Contains(e.PropertyName ?? "");
         if (input && CanEdit && !JsonNode.DeepEquals(Data, Capture())) Edit(Write);
         if (e.PropertyName is nameof(Model.Status) or nameof(Model.HasResults) or nameof(Model.QueryPoint)) RefreshResult();
     }
@@ -80,7 +86,7 @@ public sealed class RheologySheetViewModel : SheetViewModelBase
     protected override void OnReloaded() => Restore();
     public override Task<bool> CalculateAsync(CancellationToken cancellation = default)
     {
-        cancellation.ThrowIfCancellationRequested(); Model.CalculateCommand.Execute(null); RefreshResult(); return Task.FromResult(HasResults);
+        cancellation.ThrowIfCancellationRequested(); Model.Recalculate(); RefreshResult(); return Task.FromResult(HasResults);
     }
     protected override void OnDisposed()
     {

@@ -33,6 +33,49 @@ public interface IConfirmationService
     /// <see cref="ConfirmDelete"/>, which is the default (additive member, F5.6).
     /// </summary>
     bool ConfirmReplace(string title, string question) => ConfirmDelete(title, question);
+
+    /// <summary>
+    /// The file to open is open in another ANTHEA (its lock «~$name» beside it, docs/sviluppo/progetto-sistema.md, step 2d): a copy without a
+    /// name, the file itself anyway, or nothing. The services that do not ask it open the copy, which touches no file (additive member,
+    /// 3/11/2026).
+    /// </summary>
+    /// <param name="title">Caption of the question.</param>
+    /// <param name="question">The question, naming the file and who holds it.</param>
+    LockedDocumentAnswer AskLockedDocument(string title, string question) => LockedDocumentAnswer.OpenCopy;
+
+    /// <summary>
+    /// The file to save changed on disk after it was opened or saved (another program or another ANTHEA wrote it, step 2d): true overwrites
+    /// it, false stops the save. The default is <see cref="ConfirmReplace"/> (additive member, 3/11/2026).
+    /// </summary>
+    bool ConfirmOverwrite(string title, string question) => ConfirmReplace(title, question);
+
+    /// <summary>
+    /// At the start, a recovery copy left over by an ANTHEA that ended badly (step 2e, decision D2 of 3/11/2026): take it up, discard it or
+    /// keep it for the next start. The services that do not ask it keep it (additive member, 3/11/2026).
+    /// </summary>
+    RecoveryAnswer AskRecovery(string title, string question) => RecoveryAnswer.Later;
+}
+
+/// <summary>Answer to <see cref="IConfirmationService.AskRecovery"/>.</summary>
+public enum RecoveryAnswer
+{
+    /// <summary>Open the document of the copy, with its changes not saved.</summary>
+    Resume,
+    /// <summary>Delete the copy.</summary>
+    Discard,
+    /// <summary>Keep the copy: it is offered again at the next start.</summary>
+    Later
+}
+
+/// <summary>Answer to <see cref="IConfirmationService.AskLockedDocument"/>.</summary>
+public enum LockedDocumentAnswer
+{
+    /// <summary>Open a copy without a name: «Salva» asks a new file and the file of the other user is not touched.</summary>
+    OpenCopy,
+    /// <summary>Open the file itself: a save may overwrite the changes of the other user (it asks first when the file changed on disk).</summary>
+    OpenAnyway,
+    /// <summary>Open nothing.</summary>
+    Cancel
 }
 
 /// <summary>Answer to <see cref="IConfirmationService.AskSaveChanges"/>.</summary>

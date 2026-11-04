@@ -20,7 +20,7 @@
   <DataTemplate x:Key="NoModuleTab"/>
   <DataTemplate x:Key="FireTab"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel><views:FireBoundaryChart SelectedFace="{Binding ActiveFaceIndex}" Drawing="{Binding FireDrawing}" Margin="8"/><ItemsControl ItemsSource="{Binding FirePlots}"><ItemsControl.ItemTemplate><DataTemplate><views:ActionHistoryChart Drawing="{Binding}" Margin="8"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></StackPanel></ScrollViewer></DataTemplate>
   <DataTemplate x:Key="CranesTab"><ScrollViewer VerticalScrollBarVisibility="Auto"><views:CraneActionsChart Drawing="{Binding CraneDrawing}" Margin="8"/></ScrollViewer></DataTemplate>
-  <DataTemplate x:Key="PrestressTab"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel><StackPanel Orientation="Horizontal" Margin="12"><TextBlock Text="Ascissa per Concrete" VerticalAlignment="Center" Margin="0,0,8,0"/><ComboBox Tag="PrestressStations" ItemsSource="{Binding PrestressStations}" SelectedItem="{Binding SelectedStation}" DisplayMemberPath="Label" MinWidth="160" MaxHeight="35"/><Button Content="Stato efficace in una sezione…" Command="{Binding TransferPrestressCommand}" Margin="16,0,0,0" Padding="10,5"/></StackPanel><TextBlock Text="{Binding PrestressState}" TextWrapping="Wrap" Margin="12,0,12,12"/><ItemsControl ItemsSource="{Binding PrestressPlots}"><ItemsControl.ItemTemplate><DataTemplate><views:ActionHistoryChart Drawing="{Binding}" Margin="8"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></StackPanel></ScrollViewer></DataTemplate>
+  <DataTemplate x:Key="PrestressTab"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel><StackPanel Orientation="Horizontal" Margin="12"><TextBlock Text="Ascissa per Concrete" VerticalAlignment="Center" Margin="0,0,8,0"/><ComboBox AutomationProperties.AutomationId="PrestressStations" AutomationProperties.Name="Ascissa per Concrete" ItemsSource="{Binding PrestressStations}" SelectedItem="{Binding SelectedStation}" DisplayMemberPath="Label" MinWidth="160" MaxHeight="35"/><Button Content="Stato efficace in una sezione…" Command="{Binding TransferPrestressCommand}" Margin="16,0,0,0" Padding="10,5"/></StackPanel><TextBlock Text="{Binding PrestressState}" TextWrapping="Wrap" Margin="12,0,12,12"/><ItemsControl ItemsSource="{Binding PrestressPlots}"><ItemsControl.ItemTemplate><DataTemplate><views:ActionHistoryChart Drawing="{Binding}" Margin="8"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></StackPanel></ScrollViewer></DataTemplate>
   <DataTemplate x:Key="TimeTab"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel><TextBlock Text="Storia fino all’età del caso selezionato. Cambiare caso per modificare l’intervallo visualizzato." TextWrapping="Wrap" Margin="12"/><ItemsControl ItemsSource="{Binding TimePlots}"><ItemsControl.ItemTemplate><DataTemplate><views:ActionHistoryChart Drawing="{Binding}" Margin="8"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></StackPanel></ScrollViewer></DataTemplate>
   <DataTemplate x:Key="DistributionTab"><ScrollViewer VerticalScrollBarVisibility="Auto"><views:TrafficDistributionChart Drawing="{Binding TrafficDrawing}" Margin="8"/></ScrollViewer></DataTemplate>
   <DataTemplate x:Key="ConstructionTab"><ScrollViewer VerticalScrollBarVisibility="Auto"><views:ConstructionActionsChart Drawing="{Binding ConstructionDrawing}" Margin="8"/></ScrollViewer></DataTemplate>
@@ -28,7 +28,7 @@
  </UserControl.Resources>
  <Grid Margin="14"><Grid.ColumnDefinitions><ColumnDefinition Width="390" MinWidth="300"/><ColumnDefinition Width="7"/><ColumnDefinition Width="*" MinWidth="420"/></Grid.ColumnDefinitions>
   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="0,0,12,0">
-   <StackPanel><TextBlock Text="{Binding Title}" FontSize="21" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,12"/>
+   <StackPanel><TextBlock Text="{Binding Title}" FontSize="{DynamicResource Font.Title}" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,12"/>
     <ItemsControl ItemsSource="{Binding Forms}"><ItemsControl.ItemTemplate><DataTemplate>
      <!-- The errors of the fields are shown under each field (FieldForm); not as an error of the whole form around it. -->
      <Expander Header="{Binding Name}" IsExpanded="True" Margin="0,0,0,12"><ContentControl Content="{Binding Form, ValidatesOnNotifyDataErrors=False}" Margin="0,8,0,0"/></Expander>
@@ -36,7 +36,7 @@
     <ItemsControl ItemsSource="{Binding Tables}"><ItemsControl.ItemTemplate><DataTemplate>
      <Expander Header="{Binding Title}" IsExpanded="True" Margin="0,0,0,12"><StackPanel Margin="0,8,0,0">
       <StackPanel Orientation="Horizontal"><Button Content="Aggiungi" Command="{Binding AddCommand}" Margin="0,0,8,8" Padding="10,4"/><Button Content="Rimuovi" Command="{Binding RemoveCommand}" Margin="0,0,0,8" Padding="10,4"/></StackPanel>
-      <ListBox ItemsSource="{Binding Rows}" SelectedItem="{Binding Selected}" DisplayMemberPath="Name" MaxHeight="150" MinHeight="45" Margin="0,0,0,8"/>
+      <ListBox ItemsSource="{Binding Rows}" SelectedItem="{Binding Selected}" DisplayMemberPath="Name" MaxHeight="150" MinHeight="45" Margin="0,0,0,8" AutomationProperties.Name="{Binding Title, StringFormat=Righe · {0}}"/>
       <ContentControl Content="{Binding Editor, ValidatesOnNotifyDataErrors=False}"/>
      </StackPanel></Expander>
     </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
@@ -51,17 +51,18 @@
      <TextBlock Text="{Binding CalculationNotice}" Foreground="{DynamicResource Token.Warning.Foreground}" TextWrapping="Wrap" AutomationProperties.Name="Messaggio del calcolo"/>
     </Border>
    </StackPanel>
-   <WrapPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10"><Button Content="Esporta CSV" Command="{Binding ExportCommand}" Padding="12,5" Margin="0,0,8,0"/><Button Content="Copia risultati" Command="{Binding CopyCommand}" Padding="12,5"/><TextBlock Text="Caso" VerticalAlignment="Center" Margin="16,0,8,0"/><ComboBox Tag="ActionCases" ItemsSource="{Binding Cases}" ItemTemplate="{StaticResource ActionCaseName}" SelectedItem="{Binding SelectedCaseItem}" MinWidth="200" MaxWidth="480" VerticalAlignment="Center"/></WrapPanel>
+   <WrapPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10"><Button Content="Esporta CSV" Command="{Binding ExportCommand}" Padding="12,5" Margin="0,0,8,0"/><Button Content="Copia risultati" Command="{Binding CopyCommand}" Padding="12,5"/><TextBlock Text="Caso" VerticalAlignment="Center" Margin="16,0,8,0"/><ComboBox AutomationProperties.AutomationId="ActionCases" AutomationProperties.Name="Caso di carico" ItemsSource="{Binding Cases}" ItemTemplate="{StaticResource ActionCaseName}" SelectedItem="{Binding SelectedCaseItem}" MinWidth="200" MaxWidth="480" VerticalAlignment="Center"/></WrapPanel>
    <!-- The assistance takes its height up to 45 % of the column; the tabs keep the rest, also on the minimum sheet of the shell (1120 × 600). -->
    <common:CappedSplitPanel Grid.Row="2" FirstMaximumFraction="0.45">
     <Expander Header="Assistenza al dato · schema e selezione" IsExpanded="{Binding IsAssistanceExpanded}" Margin="0,0,0,8">
      <Border BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Background="{DynamicResource Token.Paper}" Padding="10">
       <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-       <TextBlock Text="{Binding AssistanceContext}" TextWrapping="Wrap" FontSize="12"/>
+       <TextBlock Text="{Binding AssistanceContext}" TextWrapping="Wrap" FontSize="{DynamicResource Font.Small}"/>
        <WrapPanel Grid.Row="1" Margin="0,5,0,0"><TextBlock Text="{Binding AssistanceTitle}" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,12,0"/><TextBlock Text="{Binding AssistanceValue}" FontWeight="SemiBold" Foreground="{DynamicResource Token.Series.Magenta}" TextWrapping="Wrap"/></WrapPanel>
        <TextBlock Grid.Row="2" Text="{Binding AssistanceHelp}" TextWrapping="Wrap" Margin="0,4,0,0"/>
-       <views:ActionInputSketch Grid.Row="3" Drawing="{Binding AssistanceSketch}" ActiveKey="{Binding ActiveFieldKey}" ActiveTable="{Binding ActiveTableKey}" ActiveRow="{Binding ActiveRow}" MinHeight="60" MaxHeight="200"/>
-       <TextBlock Grid.Row="4" Text="Schema qualitativo · contorno marcato: dato attivo · quote blu · azioni arancio · risultati nelle schede sotto." TextWrapping="Wrap" FontSize="11"/>
+       <views:ActionInputSketch Grid.Row="3" Drawing="{Binding AssistanceSketch}" ActiveKey="{Binding ActiveFieldKey}" ActiveTable="{Binding ActiveTableKey}" ActiveRow="{Binding ActiveRow}" MinHeight="60" MaxHeight="200" AutomationProperties.Name="Schema di assistenza al dato"/>
+       <!-- The legend names the shape of the strokes too, not only their colour: dimensions have two heads, actions one. -->
+       <TextBlock Grid.Row="4" Text="Schema qualitativo · contorno marcato: dato attivo · quote: linee blu a doppia freccia · azioni: frecce arancio · risultati nelle schede sotto." TextWrapping="Wrap" FontSize="{DynamicResource Font.Caption}"/>
       </Grid>
      </Border>
     </Expander>
@@ -90,18 +91,20 @@
       <TextBlock Text="{Binding CaseDescription}" TextWrapping="Wrap" Margin="0,0,0,6"><TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"><Style.Triggers><DataTrigger Binding="{Binding CaseDescription}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
       <!-- The diagram takes its height up to 35 % of the tab; the table of the case keeps the rest. -->
       <common:CappedSplitPanel Grid.Row="1" FirstMaximumFraction="0.35">
-       <Expander Header="Diagramma dei valori" IsExpanded="{Binding IsChartExpanded}" Margin="0,0,0,8"><DockPanel><ComboBox DockPanel.Dock="Top" ItemsSource="{Binding ChartUnits}" SelectedItem="{Binding ChartUnit}" HorizontalAlignment="Left" MinWidth="110" ToolTip="Unità delle grandezze da rappresentare"/><ScrollViewer VerticalScrollBarVisibility="Auto"><views:ClimateCaseChart Values="{Binding ChartValues}"/></ScrollViewer></DockPanel></Expander>
-       <DataGrid ItemsSource="{Binding CaseValues}" Style="{StaticResource Quantities}"><DataGrid.Columns>
+       <Expander Header="Diagramma dei valori" IsExpanded="{Binding IsChartExpanded}" Margin="0,0,0,8"><DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal"><TextBlock Text="Unità" VerticalAlignment="Center" Margin="0,0,8,0"/><ComboBox AutomationProperties.AutomationId="ActionChartUnit" AutomationProperties.Name="Unità del diagramma" ItemsSource="{Binding ChartUnits}" SelectedItem="{Binding ChartUnit}" MinWidth="110" ToolTip="Unità delle grandezze da rappresentare"/></StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto"><views:ClimateCaseChart Values="{Binding ChartValues}" AutomationProperties.Name="Diagramma dei valori del caso"/></ScrollViewer></DockPanel></Expander>
+       <DataGrid ItemsSource="{Binding CaseValues}" Style="{StaticResource Quantities}" AutomationProperties.Name="Valori del caso"><DataGrid.Columns>
         <DataGridTextColumn Header="Grandezza / zona" Binding="{Binding Symbol}" Width="200"/><DataGridTextColumn Header="Valore" Binding="{Binding DisplayValue}" Width="110"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}" Width="80"/><DataGridTextColumn Header="Descrizione" Binding="{Binding Description}" Width="220"/><DataGridTextColumn Header="Formula" Binding="{Binding Formula}" Width="300"/><DataGridTextColumn Header="Riferimento" Binding="{Binding Reference}" Width="260"/>
        </DataGrid.Columns></DataGrid>
       </common:CappedSplitPanel>
      </Grid></TabItem>
-     <TabItem Header="Parametri e formule"><DataGrid Margin="8" ItemsSource="{Binding Parameters}" Style="{StaticResource Quantities}"><DataGrid.Columns>
+     <TabItem Header="Parametri e formule"><DataGrid Margin="8" ItemsSource="{Binding Parameters}" Style="{StaticResource Quantities}" AutomationProperties.Name="Parametri e formule"><DataGrid.Columns>
       <DataGridTextColumn Header="Simbolo" Binding="{Binding Symbol}" Width="100"/><DataGridTextColumn Header="Valore" Binding="{Binding DisplayValue}" Width="110"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}" Width="80"/><DataGridTextColumn Header="Descrizione" Binding="{Binding Description}" Width="230"/><DataGridTextColumn Header="Formula" Binding="{Binding Formula}" Width="300"/><DataGridTextColumn Header="Riferimento" Binding="{Binding Reference}" Width="230"/>
      </DataGrid.Columns></DataGrid></TabItem>
      <TabItem Header="Schemi"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="12">
-      <TextBlock Text="{Binding AssistanceSketch.Title}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap"/>
-      <views:ActionInputSketch Drawing="{Binding AssistanceSketch}" ActiveKey="{Binding ActiveFieldKey}" ActiveTable="{Binding ActiveTableKey}" ActiveRow="{Binding ActiveRow}" Height="300"/>
+      <TextBlock Text="{Binding AssistanceSketch.Title}" FontSize="{DynamicResource Font.Subheading}" FontWeight="SemiBold" TextWrapping="Wrap"/>
+      <views:ActionInputSketch Drawing="{Binding AssistanceSketch}" ActiveKey="{Binding ActiveFieldKey}" ActiveTable="{Binding ActiveTableKey}" ActiveRow="{Binding ActiveRow}" Height="300" AutomationProperties.Name="Schema del foglio"/>
       <TextBlock Text="{Binding AssistanceSketch.Note}" TextWrapping="Wrap" Margin="0,8"/>
       <TextBlock Text="{Binding CaseLinkNote}" TextWrapping="Wrap" Margin="0,8"/>
       <Expander Header="Convenzioni di riferimento" IsExpanded="False"><ItemsControl ItemsSource="{Binding Schematics}"><ItemsControl.ItemTemplate><DataTemplate><views:ActionReferenceSketch Source="{Binding}" Margin="0,8,0,16"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></Expander>

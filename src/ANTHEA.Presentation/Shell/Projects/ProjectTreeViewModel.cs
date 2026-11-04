@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Text.Json.Nodes;
+using Anthea.Application.Documents;
 using ANTHEA.ModelWorkspace;
 using Anthea.Calculations;
 using Anthea.Presentation.Mvvm;
@@ -61,6 +62,9 @@ public sealed record ProjectDrop(ProjectDropPlace Place, string Hint)
 /// </summary>
 public sealed class ProjectNodeViewModel : ViewModelBase
 {
+    /// <summary>Before the name of a sheet that could not be read when the project was opened (step 2b).</summary>
+    public const string UnreadablePrefix = "⚠  ";
+
     private readonly ProjectTreeViewModel tree;
     private bool isExpanded, isSelected, isRenaming, isUnsaved;
     private string renameText = "";
@@ -73,6 +77,8 @@ public sealed class ProjectNodeViewModel : ViewModelBase
         Name = kind switch
         {
             ProjectNodeKind.Model => "▧  " + modelName,
+            // Step 2b: a sheet that could not be read when the project was opened.
+            ProjectNodeKind.Sheet when DocumentQuarantine.IsQuarantined(node) => UnreadablePrefix + ShellTexts.SheetName(node!),
             ProjectNodeKind.Sheet => ShellTexts.SheetName(node!),
             ProjectNodeKind.Project => node!.S("nome", "Progetto"),
             _ => node!.S("nome", "Sezione")
@@ -88,14 +94,15 @@ public sealed class ProjectNodeViewModel : ViewModelBase
             CanReport = ProjectSharedData.SubtreeSheets(node!).Any();
             ReportToolTip = CanReport ? "Report Word della sezione, comprese tutte le sottosezioni" : "Aggiungi una scheda alla sezione o alle sue sottosezioni";
             ReportAutomationName = "Genera report " + node!.S("nome");
-            Badge = SharedDataCoordinator.Coherence(node!);
+            Badge = SharedDataCoordinator.Coherence(node!, tree.Coherence);
             ToolTip = readOnly ? "Apri il riepilogo" : (depth == 0 ? "Trascina per riordinare i progetti" : "Trascina sul bordo per riordinare, al centro per inserire in una sezione") + " · Doppio clic per rinominare · F2";
         }
         else if (kind == ProjectNodeKind.Sheet)
         {
-            ToolTip = "Doppio clic per rinominare · F2";
+            ToolTip = DocumentQuarantine.Reason(node) is { } unreadable ? "Non leggibile, in sola lettura: " + unreadable : "Doppio clic per rinominare · F2";
             OpenToolTip = "Apri scheda · " + Name;
             OpenAutomationName = "Apri scheda " + node!.S("nome");
+            Calculation = tree.CalculationOf(node!);
         }
         else ToolTip = "Apri mesh, volumi e risultati";
         OpenCommand = GuardedCommands.Create(tree.Guard, () => tree.Open(this));
@@ -126,7 +133,7 @@ public sealed class ProjectNodeViewModel : ViewModelBase
     /// <summary>Identifier of the project, section or sheet; empty for a model.</summary>
     public string Id => Node?.S("id") ?? "";
 
-    public string Name { get; }
+    public string Name { get; private set; }
 
     /// <summary>0 for a project, 1 for its sections, and so on (the size of the text in the view).</summary>
     public int Depth { get; }
@@ -160,16 +167,16 @@ public sealed class ProjectNodeViewModel : ViewModelBase
     public bool CanReport { get; }
     public string? ReportToolTip { get; }
     public string? ReportAutomationName { get; }
-    public CoherenceBadge? Badge { get; }
+    public CoherenceBadge? Badge { get; private set; }
 
     /// <summary>Tooltip of the label of the node.</summary>
     public string ToolTip { get; }
 
     /// <summary>Tooltip and automation name of the button with the icon of a sheet.</summary>
-    public string? OpenToolTip { get; }
+    public string? OpenToolTip { get; private set; }
 
     /// <inheritdoc cref="OpenToolTip"/>
-    public string? OpenAutomationName { get; }
+    public string? OpenAutomationName { get; private set; }
 
     /// <summary>The sheet is open in a tab with data not saved (proposal 3.6, the «•» of the tree; SH15).</summary>
     public bool IsUnsaved { get => isUnsaved; internal set => SetProperty(ref isUnsaved, value); }
@@ -202,6 +209,53 @@ public sealed class ProjectNodeViewModel : ViewModelBase
 
     /// <summary>Ends the rename in place: Enter, focus lost or a click outside save (true), Esc cancels (false).</summary>
     public void EndRename(bool save) => tree.EndRename(this, save);
+
+    /// <summary>The node was renamed (step 3b of docs/sviluppo/progetto-sistema.md): its name and the texts that carry it, in place.</summary>
+    internal void ShowName()
+    {
+        if (Node is null || Kind == ProjectNodeKind.Model) return;
+        Name = Kind switch
+        {
+            ProjectNodeKind.Sheet when DocumentQuarantine.IsQuarantined(Node) => UnreadablePrefix + ShellTexts.SheetName(Node),
+            ProjectNodeKind.Sheet => ShellTexts.SheetName(Node),
+            ProjectNodeKind.Project => Node.S("nome", "Progetto"),
+            _ => Node.S("nome", "Sezione")
+        };
+        OnPropertyChanged(nameof(Name));
+        if (Kind != ProjectNodeKind.Sheet) return;
+        OpenToolTip = "Apri scheda · " + Name;
+        OpenAutomationName = "Apri scheda " + Node.S("nome");
+        OnPropertyChanged(nameof(OpenToolTip));
+        OnPropertyChanged(nameof(OpenAutomationName));
+    }
+
+    /// <summary>The coherence badge of a section computed again, in place (step 3b).</summary>
+    /// <summary>The state of the calculation of a sheet (step 4 of docs/sviluppo/progetto-sistema.md), null for the other nodes and during the preview
+    /// of a revision.</summary>
+    public SheetCalculationState? Calculation { get; private set; }
+
+    /// <summary>The sign of <see cref="Calculation"/> beside the name: «✓», «✗», «●», «↻»; none before the first calculation (every sheet is «da
+    /// calcolare» at the opening, decision «Solo in memoria» of 4/11/2026).</summary>
+    public string? CalculationGlyph => Calculation is { } state && state != SheetCalculationState.ToCalculate ? ProjectCalculations.Glyph(state) : null;
+
+    /// <summary>The words of <see cref="Calculation"/>, its tooltip and automation name.</summary>
+    public string? CalculationText => Calculation is { } state ? ProjectCalculations.Text(state) : null;
+
+    /// <summary>The state of the calculation shown again, in place.</summary>
+    internal void ShowCalculation(SheetCalculationState? state)
+    {
+        if (Calculation == state) return;
+        Calculation = state;
+        OnPropertyChanged(nameof(Calculation)); OnPropertyChanged(nameof(CalculationGlyph)); OnPropertyChanged(nameof(CalculationText));
+    }
+
+    internal void ShowBadge(CoherenceBadge? badge)
+    {
+        if (Badge == badge) return;
+        Badge = badge;
+        OnPropertyChanged(nameof(Badge));
+        CompareCommand.NotifyCanExecuteChanged();
+    }
 }
 
 /// <summary>
@@ -232,6 +286,20 @@ public sealed class ProjectTreeViewModel : ViewModelBase
     private readonly IMessageService messages;
     private readonly HashSet<string> collapsed = [];
     private ProjectSession? project;
+
+    /// <summary>The coherence of the sections kept by the content of the sheets (step 3 of docs/sviluppo/progetto-sistema.md): a refresh computes
+    /// again only the badges of the sections whose sheets changed. A new one for each project.</summary>
+    internal ProjectCoherenceCache Coherence { get; private set; } = new();
+
+    /// <summary>The state of the calculation of <paramref name="sheet"/> (step 4), null during the preview of a revision.</summary>
+    internal SheetCalculationState? CalculationOf(JsonObject sheet) => project is { IsReadOnly: false } open ? open.Calculations.State(sheet) : null;
+
+    /// <summary>A sheet was calculated or its results went: its sign beside the name, in place.</summary>
+    private void OnCalculated(object? sender, string id)
+    {
+        IEnumerable<ProjectNodeViewModel> All(IEnumerable<ProjectNodeViewModel> items) => items.SelectMany(i => new[] { i }.Concat(All(i.Children)));
+        foreach (var item in All(Roots).Where(i => i.IsSheet && i.Id == id)) item.ShowCalculation(item.Node is { } node ? CalculationOf(node) : null);
+    }
     private ProjectNodeViewModel? selected;
     private ProjectNodeViewModel? renaming;
     private string summary = "";
@@ -314,6 +382,7 @@ public sealed class ProjectTreeViewModel : ViewModelBase
     public void Refresh(JsonObject? selection = null)
     {
         if (renaming is not null) EndRename(renaming, true);
+        Coherence.NewReading();
         foreach (var root in Roots) Remember(root);
         selection ??= Selected?.Node is { } node && project?.Find(node.S("id")) is { } found ? found : workspace.Active?.Sheet;
         for (var parent = selection?.Parent?.Parent as JsonObject; parent is not null; parent = parent.Parent?.Parent as JsonObject) collapsed.Remove(parent.S("id"));
@@ -465,7 +534,8 @@ public sealed class ProjectTreeViewModel : ViewModelBase
         if (!item.IsRenaming) return;
         item.IsRenaming = false;
         if (ReferenceEquals(renaming, item)) renaming = null;
-        if (save && project is not null && project.Rename(item.Node!, item.RenameText)) Refresh(item.Node);
+        // Step 3b: the rename raises the change of the project, which shows the new name in place.
+        if (save && project is not null) project.Rename(item.Node!, item.RenameText);
     }
 
     /// <summary>Ends an open rename, saving it (before a revision switch, a deletion or a refresh, as finishProjectRename).</summary>
@@ -569,15 +639,16 @@ public sealed class ProjectTreeViewModel : ViewModelBase
         workspace.ActiveChanged -= OnActiveChanged;
         workspace.SheetOpened -= OnSheetOpened;
         workspace.SheetClosed -= OnSheetsChanged;
-        if (project is not null) project.Changed -= OnProjectChanged;
+        if (project is not null) { project.Changed -= OnProjectChanged; project.Calculations.Changed -= OnCalculated; }
     }
 
     private void Attach()
     {
         if (ReferenceEquals(project, workspace.Project)) return;
-        if (project is not null) project.Changed -= OnProjectChanged;
+        if (project is not null) { project.Changed -= OnProjectChanged; project.Calculations.Changed -= OnCalculated; }
         project = workspace.Project;
-        if (project is not null) project.Changed += OnProjectChanged;
+        Coherence = new ProjectCoherenceCache();
+        if (project is not null) { project.Changed += OnProjectChanged; project.Calculations.Changed += OnCalculated; }
         collapsed.Clear();
         Refresh();
     }
@@ -595,7 +666,26 @@ public sealed class ProjectTreeViewModel : ViewModelBase
     /// questo» and the links of the comparison, the models) keeps the selection, as MainWindow (F5.13 e, ui/shell-smoke-project-workspace: the comparison
     /// selected the sheet aligned).
     /// </summary>
-    private void OnProjectChanged(object? sender, ProjectChangedEventArgs e) => Refresh(e.Change == ProjectChange.Data ? null : e.Node);
+    private void OnProjectChanged(object? sender, ProjectChangedEventArgs e)
+    {
+        // Step 3b (4/11/2026): a rename changes the name of its node and the badges of the sections above it (their warnings name the
+        // sheets), in place; the tree is not rebuilt.
+        if (e.NameOnly && e.Node is { } node && renaming is null && Find(node) is { } item)
+        {
+            item.ShowName();
+            Coherence.NewReading();
+            var section = node.ContainsKey("modulo_id") ? node.Parent?.Parent as JsonObject : node;
+            if (section is not null)
+                foreach (var level in ProjectSharedData.Ancestors(section).Prepend(section))
+                    Find(level)?.ShowBadge(SharedDataCoordinator.Coherence(level, Coherence));
+            // As after a rebuild: the renamed node selected, its ancestors expanded.
+            for (var parent = node.Parent?.Parent as JsonObject; parent is not null; parent = parent.Parent?.Parent as JsonObject)
+                if (Find(parent) is { } above) above.IsExpanded = true;
+            Selected = item;
+            return;
+        }
+        Refresh(e.Change == ProjectChange.Data ? null : e.Node);
+    }
 
     private void OnActiveChanged(object? sender, EventArgs e)
     {

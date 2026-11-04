@@ -261,6 +261,24 @@ internal static class ConcretePersistenceChecks
                 ("apertura_xml_ms", Math.Round(openXml, 1)), ("salvataggio_ms", Math.Round(save, 1)), ("apertura_compatto_ms", Math.Round(openCompact, 1))));
         }
         File.WriteAllText(Path.Combine(output, "sezioni-compatte.json"), roundTrips.ToJsonString(J.Options));
+
+        // Merge of origin/main (step 2b, DocumentQuarantine): a sheet that cannot be read is written back as it was. When it holds a compact section
+        // the file keeps the version 5, so ANTHEA up to 1.18 still refuses it as a newer file instead of failing on the section.
+        {
+            var damaged = JsonNode.Parse(File.ReadAllText(Path.Combine(output, "compatto-circolare-cava.anthea")))!.AsObject();
+            damaged["dati"]!["input"]!["diameter_mm"] = "1111";
+            string quarantined = Path.Combine(output, "compatto-in-quarantena.anthea");
+            File.WriteAllText(quarantined, damaged.ToJsonString());
+            var problems = new List<DocumentProblem>();
+            var opened = DocumentService.Open(quarantined, problems);
+            Check(problems.Count == 1 && DocumentQuarantine.IsQuarantined(opened), "Foglio con la sezione compatta non corrispondente non messo in quarantena");
+            string again = Path.Combine(output, "compatto-in-quarantena-salvato.anthea");
+            DocumentService.Save(again, opened);
+            var wire = JsonNode.Parse(File.ReadAllText(again))!.AsObject();
+            Check(wire.D("versione") == 5 && CompactArchive(wire["dati"]!["input"]!.AsObject()) && !DocumentQuarantine.IsQuarantined(wire),
+                "Foglio in quarantena con la sezione compatta salvato senza la versione 5");
+            RefusedAsNewer(wire, "foglio in quarantena");
+        }
         File.WriteAllText(Path.Combine(output, "persistenza-sezioni.json"), evidence.ToJsonString(J.Options));
         return checks;
     }
