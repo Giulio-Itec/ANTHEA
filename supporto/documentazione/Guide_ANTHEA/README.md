@@ -1,17 +1,17 @@
 # Guide globali ANTHEA
 
-Edizione 6, 4 novembre 2026. Guide pratica e teorica Rev69, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 4 novembre 2026. Guide pratica e teorica Rev70, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev69.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev69.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev69.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev69.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev70.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev70.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev70.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev70.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
 
 | Articolo | Word | PDF | Sorgente |
 |---|---|---|---|
 | Capacità orizzontale del palo in terreno stratificato (metodo di G. Pacini), edizione 1 | [Word](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx) | [PDF](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf) | [Markdown](../../docs/articolo-palo-orizzontale-stratificato.md) |
 
-La Rev69 descrive il calcolo automatico dei fogli: i sedici fogli Azioni e Spettri calcolano all'apertura e dopo ogni modifica, senza un comando Calcola, e mostrano sotto il titolo il motivo di un calcolo mancato. Nei fogli Azioni ogni campo ha «?» e F1 verso la sezione della guida, e il diagramma dei valori parte dall'unità dei carichi con il selettore Unità. Nella reologia le curve si aggiornano da sole, grandezza e scale degli assi sono consultazione e non vengono salvate, e la tabella porta l'età con le sue cifre. La guida teorica cambia soltanto nella riga della revisione. Le Rev68 di partenza sono conservate in `supporto/SUPERATI/azioni-spettri-rev69-20261104/`, con manifest.
+La Rev70 completa il modulo Modelli: «Calcola tutte» e «Calcola selezionate» calcolano le combinazioni in serie, il riquadro Spazio delle combinazioni mostra lo spazio occupato con il limite scelto e i comandi «Libera selezionate» e «Libera tutte», e la finestra Sezioni del modello elenca anche gli spessori delle piastre. Descrive inoltre i file della 1.19: le sezioni in c.a. salvate nel formato compatto di GPC, che la 1.18 non apre, e gli avvisi del salvataggio sull'archivio dei risultati. La guida teorica cambia soltanto nella riga della revisione. Le Rev69 di partenza sono conservate in `supporto/SUPERATI/modelli-rev70-20261104/`, con manifest.
 
 La Rev68 accompagna ANTHEA 1.17.1: nella Sezione in c.a. lo Stato limite mostrato delle schede Dominio 3D e Dominio 2D sceglie soltanto dominio e combinazioni visualizzati, mentre il criterio resistente per stato limite (Criterio resistente SLU e Criterio resistente SLV, predefiniti Plastico ed Elastico) è comune ai domini 3D e 2D, ai report e a Calcola armature. I fogli salvati prima prendono per entrambi gli stati limite il criterio della scheda Dominio 3D. La guida teorica cambia soltanto nel punto sul criterio resistente. Le Rev67 di partenza sono conservate in `supporto/SUPERATI/criterio-stati-rev68-20261102/`, con manifest.
 

@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 4 novembre 2026 — revisione documentale 69
+Edizione 6 aggiornata il 4 novembre 2026 — revisione documentale 70
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -661,7 +661,11 @@ Prima di scegliere definitivamente verifica che la configurazione sia fisicament
 
 Usare il formato proposto dal modulo per il foglio singolo e .programma per il progetto. I formati dei fogli possono variare per modulo; Bridge Design usa l'archivio .anthea. Gli archivi mantengono input e impostazioni necessarie, mentre CSV, PNG, Word e PDF sono esportazioni destinate a lettura, controllo o presentazione.
 
-Utilizzare Salva con nome prima di una variante che si desidera mantenere indipendente. Per la storia interna di un progetto usare le revisioni. I file di progetto con revisioni utilizzano un formato aggiornato e richiedono una versione di ANTHEA compatibile; non risalvarli con un eseguibile precedente senza averne verificato il supporto.
+Utilizzare Salva con nome prima di una variante che si desidera mantenere indipendente. Per la storia interna di un progetto usare le revisioni. I file di progetto con revisioni utilizzano un formato aggiornato e richiedono una versione di ANTHEA compatibile; non risalvarli con un eseguibile precedente senza averne verificato il supporto. Un progetto con sezioni in c.a. salvato con la 1.19 non si apre con la 1.18 o con versioni precedenti, che lo rifiutano con «Formato o versione del file non supportati.» (vedi Salvataggio e riapertura della sezione).
+
+I risultati dei modelli acquisiti stanno in un archivio accanto al file del progetto, con estensione .anthea-risultati. Se al salvataggio qualcosa non va, alla fine compare l'avviso **Salvataggio con avvisi**, con una riga per ogni problema. Un archivio non leggibile non viene sovrascritto: resta accanto al progetto con il nome dell'archivio seguito da .danneggiato- e dalla data, e il progetto riceve un archivio nuovo; conserva il file messo da parte finché non hai controllato i risultati. Le altre righe indicano quanti blocchi dell'archivio erano danneggiati e non sono stati ricopiati, e quanti blocchi citati dal progetto l'archivio non contiene.
+
+L'avviso si chiude con «Il progetto è stato salvato.»; quando mancano risultati aggiunge che sono indicati come non disponibili nei modelli e che per riaverli bisogna calcolarli di nuovo. Un archivio aperto da un altro programma ferma invece il salvataggio: chiudi quel programma e salva di nuovo.
 
 ### Report del singolo foglio e del progetto
 
@@ -1113,7 +1117,7 @@ Usalo quando disponi delle terne N, Mx e My per le combinazioni rilevanti e vuoi
 
 Il documento conserva il modello della sezione con geometria, materiali, barre e trefoli, insieme ai parametri necessari a modificarlo. Le combinazioni e le impostazioni delle verifiche rimangono nel foglio; le mesh e i risultati temporanei vengono ricalcolati. Una modifica della ricetta geometrica o dei trefoli richiede l'aggiornamento del modello.
 
-I documenti precedenti restano apribili e vengono convertiti al nuovo formato al salvataggio. Conserva una copia se devi riaprirli con una versione precedente di ANTHEA. I dati incompleti si salvano come bozza: il foglio mantiene i valori digitati e il motivo per cui non può ancora costruire una sezione valida. Anche le revisioni storiche conservano la propria sezione.
+I documenti precedenti restano apribili e vengono convertiti al nuovo formato al salvataggio. Conserva una copia se devi riaprirli con una versione precedente di ANTHEA. Dalla versione 1.19 la sezione è salvata nel formato compatto della libreria GPC e il file è molto più piccolo. La 1.19 apre i file delle versioni precedenti e converte le sezioni al primo salvataggio. Un progetto con sezioni in c.a. salvato con la 1.19 non si apre con la 1.18 o con versioni precedenti, che lo rifiutano con «Formato o versione del file non supportati.». I dati incompleti si salvano come bozza: il foglio mantiene i valori digitati e il motivo per cui non può ancora costruire una sezione valida. Anche le revisioni storiche conservano la propria sezione.
 
 ### Wizard delle tipologie e delle armature
 
@@ -1505,6 +1509,20 @@ Salvare, eliminare, ripristinare o generare di nuovo le definizioni scarta solo 
 
 Una somma lineare di inviluppi ha come alternative tutte le scelte di un termine per ogni inviluppo, cioè il prodotto delle loro alternative. Fino a 4096 stati alternativi GPC li elenca tutti. Oltre questo numero la riga del catalogo lo segnala e GPC cerca gli estremi termine per termine, senza elencare gli stati: valori e stati governanti sono completi, con lo stato concomitante, ma le componenti principali dei plate non sono disponibili, perché richiedono ogni stato. Se servono, sostituisci la somma con un inviluppo delle combinazioni.
 
+### Calcolare più combinazioni in serie
+
+Sotto il comando della combinazione selezionata, **Calcola tutte (N)** calcola una dopo l'altra le combinazioni ancora da calcolare; **Calcola selezionate (N)** calcola quelle selezionate nell'elenco con Ctrl o Maiusc + clic. Il numero fra parentesi conta le combinazioni che il comando calcolerà, comprese quelle calcolate prima delle componenti principali dei plate. La serie usa i casi base preparati una sola volta dalla libreria GPC; il messaggio indica la combinazione in corso, per esempio «Combinazione 3 di 40 · SLU 03».
+
+I risultati entrano nella copia del modello e passano nel progetto circa ogni 20 secondi e alla fine della serie. Con una copia molto grande i passaggi si diradano: fra due passaggi la serie calcola almeno quattro volte la durata dell'ultimo. **Annulla calcolo** ferma la serie e conserva le combinazioni già calcolate. Una combinazione che non si può calcolare non ferma le altre: alla fine il messaggio riporta quante combinazioni sono state calcolate, il tempo impiegato e le combinazioni non calcolate con il motivo. Come per una singola combinazione, il progetto si scrive su disco solo con **Salva**.
+
+La copia del modello con i risultati delle combinazioni ha un limite di spazio. Quando lo supera, escono dalla cache i risultati delle combinazioni calcolate per prime: le definizioni restano e si ricalcolano quando servono, e il messaggio finale ne indica il numero. Se dovrebbero uscire risultati della serie stessa, la serie si ferma e suggerisce di alzare il limite in **Spazio delle combinazioni**, di liberare i risultati che non servono o di calcolare meno combinazioni alla volta.
+
+### Gestire lo spazio delle combinazioni
+
+Nei modelli di un progetto, sotto i comandi di calcolo, il riquadro **SPAZIO DELLE COMBINAZIONI** mostra lo spazio occupato dalla copia con i risultati delle combinazioni rispetto al limite, per esempio «850 MiB di 2 GiB · 37 combinazioni con risultati salvati». In **Limite** scegli lo spazio massimo: 2 GiB è sempre disponibile; 4, 8 e 16 GiB compaiono quando la memoria del computer è almeno sei volte il limite, per esempio fino a 8 GiB su un computer con 64 GB. Il suggerimento del campo riporta la memoria del computer e il limite più alto. La scelta vale per tutti i progetti e resta per le sessioni successive sullo stesso computer. Con un limite più alto ANTHEA usa più memoria e il salvataggio dura di più.
+
+**Libera selezionate** toglie dalla copia i risultati salvati delle combinazioni selezionate nell'elenco; **Libera tutte** toglie tutti i risultati salvati delle combinazioni. Le definizioni restano e si ricalcolano quando servono. Durante un calcolo i due comandi non sono disponibili.
+
 ### Generare le combinazioni NTC 2018
 
 Nel gestore delle combinazioni **Genera NTC 2018…** apre la tabella dei casi statici del modello, con le colonne **Caso**, **Natura**, **Categoria**, **Gruppo** e **Direzione**. Per ogni caso scegli la natura: **Permanente G1**, **Permanente G2**, **Variabile**, **Eccezionale**, **Sismica** oppure **Esclusa**. ANTHEA propone la natura dai tipi dei casi di MIDAS: D e DC permanenti G1, DW permanenti G2, W vento, S neve, T variazioni termiche, E sismici; gli altri tipi e i casi delle sorgenti senza tipi partono esclusi. I carichi variabili L e LR non hanno una categoria predefinita: scegli la categoria della Tab. 2.5.I (A–H, vento, neve, variazioni termiche), che dà i coefficienti ψ. Finché un carico variabile non ha la categoria, la generazione non parte e il pannello indica il caso da completare.
@@ -1640,6 +1658,8 @@ Nei verificatori SLE, φ e n errati sono segnalati e i valori derivati sono svuo
 ## Esaminare le sezioni del modello
 
 Nella scheda **Modello**, premi **Sezioni del modello…**. Puoi anche selezionare una sezione nell'albero o un'asta nella scena e premere **Dettaglio sezione…** nell'ispettore. La finestra si apre separatamente dal modello, è ridimensionabile e conserva il collegamento alla vista. L'elenco superiore permette di passare alle altre sezioni della copia salvata.
+
+L'elenco comprende anche gli spessori delle piastre, con la voce «Spessore N · nome». Ogni spessore è rappresentato come una striscia larga 1 m attraverso lo spessore, con spessore e offset della copia: G è sul piano medio e O sul piano dei nodi, come nella vista estrusa. Per gli spessori non sono calcolate proprietà di sezione. **Seleziona elementi** e **Isola elementi** agiscono sulle piastre associate. Se selezioni nella scena piastre di un solo spessore, l'ispettore mostra la striscia e **Dettaglio sezione…** apre quello spessore.
 
 ![Finestra di dettaglio con una sezione composta di esempio](../../src/ANTHEA.Desktop/Assets/Wiki/modelli-sezioni-dettaglio.png)
 
