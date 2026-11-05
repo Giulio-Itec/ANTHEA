@@ -140,12 +140,15 @@ static partial class Program
             ElasticHorizontalPile.SelectSoil(testLayer,"tipologia","Granulare");Check(testSoil.S("legge")==ElasticHorizontalPile.Laws[5]&&testSoil.D("A")==200&&testSoil.Array("storico_scelte").Count>0,"material change adopts compatible A mode with previous choices archived");
             // f5-pass-orizzontale: the tab of the elastic response (ElasticPileWorkspace inside HorizontalWorkspace in the historic view) is the XAML view of
             // ElasticPileViewModel in the sheet opened on the elastic tab (vista_orizzontale); the shared data change through the forms of the sheet.
-            using var pile=new PileHost(root);var el=pile.Elastic;var ui=pile.ElasticView;
+            // 5/11/2026: the results of the section checks are held (ScriptedAnalysis.HoldResult) from the opening, whose automatic calculation
+            // starts 300 ms after the sheet and may run while the window is laid out, until the first check has seen the FEM response.
+            var heldChecks=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var pile=new PileHost(root,holdResult:heldChecks.Task);var el=pile.Elastic;var ui=pile.ElasticView;
             JsonObject? Result()=>el.Result;
             JsonObject? Response()=>el.Response;
             int ResponseCalculations()=>el.ResponseCalculations;
             T Named<T>(string name)=>(T)PileHost.Get(ui,name);
-            var firstCalculation=el.CalculateAsync();Until(()=>Response()!=null);Check(Result()==null,"FEM becomes available before section verifications complete");Wait(firstCalculation);pile.Settle();Check(Result()!=null,"shared workspace response: "+Named<TextBlock>("StatusText").Text);Picture(ui,Path.Combine(dir,"ui.png"));
+            var firstCalculation=el.CalculateAsync();Until(()=>Response()!=null);Check(Result()==null,"FEM becomes available before section verifications complete");pile.Analysis.HoldResult=null;heldChecks.SetResult();Wait(firstCalculation);pile.Settle();Check(Result()!=null,"shared workspace response: "+Named<TextBlock>("StatusText").Text);Picture(ui,Path.Combine(dir,"ui.png"));
             var optionKeys=Descendants<Control>(Named<FrameworkElement>("Options")).Where(c=>c is TextBox or ComboBox or CheckBox&&c.TemplatedParent is not ComboBox&&c.DataContext is Anthea.Presentation.Forms.FieldViewModel).Select(c=>((Anthea.Presentation.Forms.FieldViewModel)c.DataContext).Key).Distinct().ToArray();
             Check(el.Options!.Fields.Count==2&&optionKeys.Length==2&&optionKeys.Contains("passo")&&optionKeys.Contains("punta"),"elastic tab only analysis options no repeated inputs");
             var drawing=Named<FrameworkElement>("Drawing");Picture(drawing,Path.Combine(dir,"diagrammi.png"));

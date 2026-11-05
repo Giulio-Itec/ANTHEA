@@ -26,8 +26,10 @@ sealed class PileHost : IDisposable
     readonly object editor;
     readonly Type editorType;
 
-    internal PileHost(JsonObject data, string module = "geo_palo_orizzontale", int width = 1500, int height = 1050)
+    /// <param name="holdResult">The first <see cref="ScriptedAnalysis.HoldResult"/>, already in place for the automatic calculation of the opening.</param>
+    internal PileHost(JsonObject data, string module = "geo_palo_orizzontale", int width = 1500, int height = 1050, Task? holdResult = null)
     {
+        Analysis.HoldResult = holdResult;
         var figures = (IHorizontalPileFigureRenderer)Activator.CreateInstance(Desktop.GetType("X.Desktop.HorizontalPileFigureRenderer")!, true)!;
         var sheetModule = new HorizontalPileSheetModule(module, figures, () => Analysis);
         var composition = Activator.CreateInstance(Desktop.GetType("X.Desktop.Services.DesktopComposition")!, Members, null, [(Func<Window?>)(() => null)], null)!;
@@ -119,18 +121,34 @@ sealed class PileHost : IDisposable
     }
 }
 
-/// <summary>The elastic analysis of the program (<see cref="ElasticPileAnalysisSession"/>); <see cref="Change"/> edits a result before it is published.</summary>
+/// <summary>
+/// The elastic analysis of the program (<see cref="ElasticPileAnalysisSession"/>); <see cref="Change"/> edits a result before it is published,
+/// <see cref="HoldResult"/> holds it.
+/// </summary>
 sealed class ScriptedAnalysis : IElasticPileAnalysis
 {
     readonly ElasticPileAnalysisSession session = new();
 
     internal Func<JsonObject, JsonObject>? Change { get; set; }
 
+    /// <summary>
+    /// While set, a calculation whose section checks are done waits for this task (at most 30 s, or until it is cancelled) before it returns
+    /// them: the FEM response is already published (responseReady), the result of the checks is not.
+    /// <para>
+    /// 5/11/2026: the check «FEM becomes available before section verifications complete» read the order by polling the dispatcher at
+    /// Background priority, below the progress of the MRd values (Normal). On a loaded machine the automatic calculation of the opening (300 ms
+    /// after the sheet) ran while the window was laid out, and its result, or that of «Calcola» on the cache it had filled, could be published
+    /// before the poll: the check failed with a sheet that behaves as it should. With the barrier the order is the only thing the check reads.
+    /// </para>
+    /// </summary>
+    internal Task? HoldResult { get; set; }
+
     public int ResponseCalculations => session.ResponseCalculations;
 
     public async Task<JsonObject> CalculateAsync(JsonObject source, Action<JsonObject> responseReady, IProgress<PileProgress>? progress = null, CancellationToken cancellation = default)
     {
         var result = await session.CalculateAsync(source, responseReady, progress, cancellation);
+        if (HoldResult is { } hold) await hold.WaitAsync(TimeSpan.FromSeconds(30), cancellation);
         return Change is { } change ? change(result) : result;
     }
 
