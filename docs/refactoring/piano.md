@@ -34,6 +34,10 @@ registro `FOGLI-GIRO-SUCCESSIVO-20261104`.
   armature del palo, infissione delle paratie.
 - [x] Sonda del caso peggiore, cioè il lavoro finito prima dell'`await`, su tutte le suite di tracce: PASS. Senza le prove al passo resta
   solo «Ferma ricerca» della sezione c.a., che il passo chiude. Tracce congelate invariate.
+- [x] 5/11: `ElasticPile.UiChecks`, «FEM becomes available before section verifications complete», fallita in 2 corse complete di F7. La
+  causa è nella prova, non nel foglio. Leggeva l'ordine con un `DispatcherTimer` a priorità Background, sotto gli avanzamenti degli MRd. Sotto
+  carico il calcolo automatico dell'apertura gira mentre la finestra si impagina e può pubblicare prima. Ora la prova trattiene il risultato
+  delle verifiche dall'apertura (`ScriptedAnalysis.HoldResult`) finché non ha visto la risposta FEM. Ramo `refactoring/f5-palo-elastico-ordine`.
 
 ## Messaggio dei risultati senza calcolo — 4 novembre 2026
 
