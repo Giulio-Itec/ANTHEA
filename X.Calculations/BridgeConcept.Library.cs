@@ -1,5 +1,7 @@
 using System.Text.Json.Nodes;
 using NativeBridge = GPC.Design.Bridges.BridgeConcept;
+// GPCChecker.CompositeBridge 1.28 (L12) has its own BridgeModel, imported by the global using of BridgeLibraryImports.cs.
+using BridgeModel = GPC.Design.Bridges.BridgeModel;
 using GPC.Design.Bridges;
 
 namespace Anthea.Calculations;
