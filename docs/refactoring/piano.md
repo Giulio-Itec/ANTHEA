@@ -1668,3 +1668,14 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - [x] Integrazione finale del branch ANTHEA su main, autorizzata dall’utente: fast-forward al commit 7f907040 del 02/11/2026, base 1.17.0 conservata.
 
 - [x] Reologia, richiesta del 02/11: foglio **Materiali → Viscosità e maturazione**, persistenza, sola lettura, report ed esempi; voce globale Strumenti rimossa. Cattura storica e confronto IEEE754 esatti, tre temi WPF PASS; collaudo integrato finale `20261102-004152-reologia-final`: 24 PASS, zero NEW-FAIL; F3, 1201 file senza differenze non ammesse (REOLOGIA-MODULO-20261102).
+
+
+## Correzione copertina — Materiali senza dati (6 novembre 2026)
+
+- [x] Ramo isolato `codex/anthea-copertina-materiali-vuoto`, da `origin/main` 8ef58180; checkout principali invariati.
+- [x] Riprodotta la NullReferenceException con la fixture congelata `13-file-salvato.json`, aperta con diagnosi.
+- [x] Dati Materiali mancanti: avviso di copriferro non verificabile, senza completare il foglio né interrompere gli altri controlli.
+- [x] 53 controlli mirati PASS: fixture, dati assenti/null, tre moduli, ereditarietà, ordine dei materiali, non mutazione e cache.
+- [x] Collaudo consentito: 53 controlli mirati di Application, 988 di project-audit e 853965 di ConcreteLibraryAdapter.Checks PASS; sette progetti di prova compilati con zero errori.
+- [ ] Collaudo integrale di Application.Tests, Projects.Checks, Presentation.Tests, Reports.Tests, RetainingWall.Checks e verifiche/project-calculations **non eseguito**: l'utente vieta anche le cancellazioni interne ai test. Queste suite cancellano file di prova o raggiungono il cleanup dei file temporanei del salvataggio. Nessuna suite o asserzione esistente è stata rimossa per aggirare il vincolo.
+- Voce `BUG-COPERTINA-MATERIALI-VUOTO` nel registro; nessuna versione, libreria o fixture cambiata. Nessun merge o push autorizzato per questo intervento.

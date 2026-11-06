@@ -18,6 +18,14 @@ try
     string root = directory?.FullName ?? throw new DirectoryNotFoundException("ANTHEA.sln non trovato.");
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f3/application") : Path.GetFullPath(args[0]);
     Directory.CreateDirectory(output);
+    checks += ProjectValidationChecks.Run(root);
+    if (args.Contains("--project-validation"))
+    {
+        string focused = $"PASS {checks} controlli validazione copertina";
+        File.WriteAllText(Path.Combine(output, "esito.txt"), focused);
+        Console.WriteLine(focused);
+        return 0;
+    }
     checks += StratigraphyChecks.Run(output);
     string path = Path.Combine(output, "documento.anth");
     foreach (string fixturePath in Directory.GetFiles(Path.Combine(root, "tests/fixtures/f3/inputs"), "*.json"))
