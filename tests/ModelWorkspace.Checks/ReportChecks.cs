@@ -59,6 +59,21 @@ static partial class Program
         try { await ModelReportExporter.ExportAsync(loaded, fingerprint, Path.Combine(output, "failure.pdf"), (_, _, _) => throw new IOException("Capture failed"), null, CancellationToken.None); }
         catch (IOException) { failed = true; }
         Check(failed && !Directory.EnumerateDirectories(output, ".failure-*.pending").Any() && !Directory.EnumerateDirectories(output, "failure-*").Any(), "failed figure leaves no misleading completed export");
+        string stylePath = Path.Combine(output, "model-styles.docx");
+        var styleDocument = new Anthea.Reports.DocxDocument();
+        styleDocument.SetXml("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"/>");
+        styleDocument.SetXml("word/document.xml", "<w:document xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:body/></w:document>");
+        styleDocument.SetXml("word/styles.xml", "<w:styles xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:style w:type=\"paragraph\" w:styleId=\"Normal\"><w:name w:val=\"Normal\"/><w:rPr><w:rFonts w:ascii=\"Arial\"/><w:sz w:val=\"22\"/></w:rPr></w:style></w:styles>");
+        File.WriteAllBytes(stylePath, Anthea.Reports.DocxWriter.Write(styleDocument));
+        var template = Anthea.Reports.ReportStyleTemplate.Read(stylePath);
+        ModelReportExporter.ConfigureFonts();
+        var textOnly = loaded with { Blocks = loaded.Blocks.Where(b => b.Kind == ReportBlockKind.Text).ToArray() };
+        var styled = await ModelReportExporter.ExportAsync(textOnly, fingerprint, Path.Combine(output, "styled.pdf"),
+            (_, _, _) => throw new Exception("Text-only recipe must not capture figures"), null, CancellationToken.None, template);
+        string styledFolder = Path.GetDirectoryName(styled.PdfPath)!;
+        string html = File.ReadAllText(Directory.GetFiles(styledFolder, "*.html").Single());
+        Check(File.Exists(styled.PdfPath) && html.Contains("font-family:\"Arial\"") && html.Contains("Seconda riga &amp; &lt;valore&gt;"),
+            "model PDF and HTML accept selected styles while preserving escaped author text");
         Check(model.Fingerprint() == fingerprint, "report composition and serialization never mutate engineering data");
     }
 }

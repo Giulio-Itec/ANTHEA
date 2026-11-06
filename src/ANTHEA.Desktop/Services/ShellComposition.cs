@@ -42,7 +42,7 @@ internal static class ShellComposition
     {
         ArgumentNullException.ThrowIfNull(services);
         return new PresentationServices(services.Messages, services.Confirmations, services.Files, services.Dialogs, services.Clipboard, services.Links,
-            new ShellWikiNavigator(services.Wiki));
+            new ShellWikiNavigator(services.Wiki), services.ReportTemplates);
     }
 
     /// <param name="services">The services of the product (DesktopComposition, through <see cref="WithShellWiki"/>) or of a check.</param>
@@ -61,8 +61,8 @@ internal static class ShellComposition
         ShellViewModel? shell = null;
         var tracker = new ShellWindowTracker(host => detached(new DetachedShellWindow(host, shell!.Windows, shell)));
         shell = new ShellViewModel(services, new ReleaseSheetFactory(implementations ?? ModuleImplementations.Release, modules, services, limiter), new DocumentFiles(examples), tracker,
-            new DesktopSheetExports(),
-            new ShellOptions(new WpfAppearanceService(), () => ExampleCatalog.Load(examples), new DesktopSectionReports(), new WpfNumberSeparatorService(), recovery));
+            new DesktopSheetExports(services.ReportTemplates),
+            new ShellOptions(new WpfAppearanceService(), () => ExampleCatalog.Load(examples), new DesktopSectionReports(services.ReportTemplates), new WpfNumberSeparatorService(), recovery));
         tracker.Attach(shell.Windows);
         (services.Wiki as ShellWikiNavigator)?.Attach(shell);
         return new ShellParts(new ShellWindow(shell, tracker), shell, tracker);

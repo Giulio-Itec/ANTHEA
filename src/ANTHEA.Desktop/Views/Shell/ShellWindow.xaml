@@ -61,6 +61,12 @@
     <Separator Style="{DynamicResource AppearanceMenuSeparator}" Visibility="{Binding Separators, Converter={StaticResource WhenPresent}}"/>
     <MenuItem Header="{x:Static cmd:DecimalSeparatorMenuViewModel.Title}" ItemsSource="{Binding Separators.Items}"
      ItemContainerStyle="{StaticResource Shell.AppearanceItem}" Visibility="{Binding Separators, Converter={StaticResource WhenPresent}}"/>
+    <MenuItem Header="{x:Static cmd:ReportTemplateMenuViewModel.Title}" Visibility="{Binding ReportTemplates, Converter={StaticResource WhenPresent}}"
+     ToolTip="{x:Static cmd:ReportTemplateMenuViewModel.Description}">
+     <MenuItem Header="{Binding ReportTemplates.Current}" IsEnabled="False"/>
+     <MenuItem Header="Scegli template Word…" Command="{Binding ReportTemplates.SelectCommand}" AutomationProperties.AutomationId="ReportTemplate.Select"/>
+     <MenuItem Header="Ripristina stile ANTHEA" Command="{Binding ReportTemplates.ResetCommand}" AutomationProperties.AutomationId="ReportTemplate.Reset"/>
+    </MenuItem>
    </MenuItem>
   </Menu>
 

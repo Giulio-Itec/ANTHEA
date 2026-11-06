@@ -48,9 +48,9 @@ internal sealed class ReleaseSheetFactory : ISheetFactory
 /// which writes the JSON, the report with its PDF and the short report, Word and PDF within two pages, away from the UI thread. Until F5.13 g the historic
 /// sheets (R5) wrote their files through their SheetEditor, archived with it.
 /// </summary>
-internal sealed class DesktopSheetExports : ISheetExports
+internal sealed class DesktopSheetExports(Anthea.Reports.ReportTemplateStore? templates = null) : ISheetExports
 {
-    private readonly SheetFileExports migrated = new();
+    private readonly SheetFileExports migrated = new(templates);
 
     public void ExportResult(SheetSession sheet, string path)
     {
@@ -78,9 +78,9 @@ internal sealed class DesktopSheetExports : ISheetExports
 /// The report of a section for the new shell (F5.13 e): the same call of MainWindow.GenerateSectionReport (ProjectReport.cs), the snapshot written by
 /// ProjectReportService with the chapters of ModuleReportService and the figures of the desktop. The code of the reports does not change (frozen on 8/10).
 /// </summary>
-internal sealed class DesktopSectionReports : ISectionReports
+internal sealed class DesktopSectionReports(Anthea.Reports.ReportTemplateStore? templates = null) : ISectionReports
 {
     public Task<int> WriteAsync(JsonObject snapshot, string path, Action<string> progress, CancellationToken cancellation) =>
         Anthea.Application.Reporting.ProjectReportService.WriteSnapshotAsync(snapshot, path,
-            new Anthea.Application.Reporting.ModuleReportService(new ModuleFigureRenderer()), progress, cancellation);
+            new Anthea.Application.Reporting.ModuleReportService(new ModuleFigureRenderer()), progress, cancellation, templates?.Current);
 }

@@ -11,7 +11,8 @@ public sealed record PresentationServices(
     IDialogService Dialogs,
     IClipboardService Clipboard,
     IExternalLinkService Links,
-    IWikiNavigator Wiki)
+    IWikiNavigator Wiki,
+    Anthea.Reports.ReportTemplateStore? ReportTemplates = null)
 {
     public IMessageService Messages { get; } = Messages ?? throw new ArgumentNullException(nameof(Messages));
     public IConfirmationService Confirmations { get; } = Confirmations ?? throw new ArgumentNullException(nameof(Confirmations));

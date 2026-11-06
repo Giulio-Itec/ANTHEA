@@ -50,10 +50,10 @@ internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Ac
     internal static async Task<ReportExportResult> ExportReportToAsync(ModelReportDocument document,ModelSnapshot snapshot,string path,IProgress<ReportProgress>? progress,CancellationToken cancellationToken)
     {
         ModelReportFiles.ValidateReferences(document,snapshot);
-        var fontDirectory=Environment.GetFolderPath(Environment.SpecialFolder.Fonts);
-        ModelReportExporter.ConfigureFonts(File.ReadAllBytes(Path.Combine(fontDirectory,"segoeui.ttf")),File.ReadAllBytes(Path.Combine(fontDirectory,"segoeuib.ttf")));
+        ModelReportExporter.ConfigureFonts();
         using var session=new ModelReportRenderSession(snapshot,document);
-        return await ModelReportExporter.ExportAsync(document with {ModelName=snapshot.Name},snapshot.Fingerprint(),path,session.CaptureAsync,progress,cancellationToken);
+        var template = new Anthea.Reports.ReportTemplateStore(Anthea.Reports.ReportTemplateStore.UserPath).Current;
+        return await ModelReportExporter.ExportAsync(document with {ModelName=snapshot.Name},snapshot.Fingerprint(),path,session.CaptureAsync,progress,cancellationToken,template);
     }
     public void OpenReportOutput(string path)
     {

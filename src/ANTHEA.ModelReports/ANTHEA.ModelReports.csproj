@@ -2,4 +2,5 @@
   <PropertyGroup><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><GpcLibraries>none</GpcLibraries></PropertyGroup>
   <ItemGroup><ProjectReference Include="../ANTHEA.ModelWorkspace/ANTHEA.ModelWorkspace.csproj"/><PackageReference Include="PDFsharp-MigraDoc" Version="6.2.4"/></ItemGroup>
   <ItemGroup><None Update="ThirdPartyNotices.txt" CopyToOutputDirectory="PreserveNewest" TargetPath="ANTHEA.ModelReports.ThirdPartyNotices.txt"/></ItemGroup>
+  <ItemGroup><ProjectReference Include="../ANTHEA.Reports/ANTHEA.Reports.csproj"/></ItemGroup>
 </Project>

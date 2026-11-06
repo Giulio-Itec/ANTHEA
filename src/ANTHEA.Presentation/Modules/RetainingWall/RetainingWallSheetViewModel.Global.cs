@@ -344,7 +344,7 @@ public sealed partial class RetainingWallSheetViewModel
         if (path is null) return;
         var input = independentInput ?? calculationResult!.Input;
         var figure = figures.RenderGlobal(input, result, GlobalCase);
-        Anthea.Reports.ReportFiles.Write(path, WallExports.CreateGlobal(input, result, new(figure.Caption, figure.Png, figure.AspectRatio)), "Stabilità globale");
+        Anthea.Reports.ReportFiles.Write(path, WallExports.CreateGlobal(input, result, new(figure.Caption, figure.Png, figure.AspectRatio)), "Stabilità globale", template: Context.Services.ReportTemplates?.Current);
     }
 
     // ---------------------------------------------------------------- the results of the global stability

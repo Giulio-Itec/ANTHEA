@@ -13,10 +13,12 @@ public static class ReportFiles
 
     public static string PdfPath(string docxPath) => Path.ChangeExtension(docxPath, ".pdf");
 
-    public static PdfOutput Write(string docxPath, byte[] docx, string title = "", int? maximumPages = null)
+    public static PdfOutput Write(string docxPath, byte[] docx, string title = "", int? maximumPages = null, ReportStyleTemplate? template = null)
     {
         ArgumentNullException.ThrowIfNull(docx);
-        var pdf = DocxPdf.Render(DocxWriter.Read(docx), title);
+        var document = DocxWriter.Read(docx);
+        if (template is not null) { document = template.Apply(document); docx = DocxWriter.Write(document); }
+        var pdf = DocxPdf.Render(document, title);
         if (maximumPages is int maximum && pdf.Pages > maximum)
             throw new InvalidOperationException($"Il contenuto richiede {pdf.Pages} pagine (ad esempio per armature libere o nomi molto lunghi). Nessun dato è stato tagliato e nessun report short è stato salvato. Usare il report completo oppure abbreviare titolo e nomi delle combinazioni.");
         DocumentFile.Write(docxPath, docx);

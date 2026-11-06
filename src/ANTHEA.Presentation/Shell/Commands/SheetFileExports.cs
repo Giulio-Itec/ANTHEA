@@ -26,7 +26,7 @@ namespace Anthea.Presentation.Shell.Commands;
 /// MainWindow.ExportShortReport.</item>
 /// </list>
 /// </summary>
-public sealed class SheetFileExports : ISheetExports
+public sealed class SheetFileExports(ReportTemplateStore? templates = null) : ISheetExports
 {
     /// <summary>A JSON of the results asked without results or during a calculation (MvvmSheetEditor.ExportResult).</summary>
     public const string CalculateFirst = "Premere Calcola prima di esportare.";
@@ -46,7 +46,7 @@ public sealed class SheetFileExports : ISheetExports
     public void ExportReport(SheetSession sheet, string path, string title, IReadOnlySet<string> options)
     {
         ArgumentNullException.ThrowIfNull(sheet);
-        WriteReport(sheet.ViewModel, path, title, options);
+        WriteReport(sheet.ViewModel, path, title, options, template: templates?.Current);
     }
 
     public byte[] BuildShortReport(SheetSession sheet, string title)
@@ -60,7 +60,8 @@ public sealed class SheetFileExports : ISheetExports
     {
         ArgumentException.ThrowIfNullOrEmpty(path);
         ArgumentNullException.ThrowIfNull(report);
-        return Task.Run(() => { ReportFiles.Write(path, report, title, ReportFiles.ShortReportPages); });
+        var template = templates?.Current;
+        return Task.Run(() => { ReportFiles.Write(path, report, title, ReportFiles.ShortReportPages, template); });
     }
 
     /// <summary>The JSON of the result of <paramref name="sheet"/> (MvvmSheetEditor.ExportResult), written atomically in UTF-8.</summary>
@@ -84,26 +85,26 @@ public sealed class SheetFileExports : ISheetExports
     /// shallow foundations) with that generator; the others with the PDF rendered from the DOCX.
     /// </summary>
     /// <param name="projectReport">True inside a project report.</param>
-    public static void WriteReport(ISheetViewModel sheet, string path, string title, IReadOnlySet<string> options, bool projectReport = false)
+    public static void WriteReport(ISheetViewModel sheet, string path, string title, IReadOnlySet<string> options, bool projectReport = false, ReportStyleTemplate? template = null)
     {
         ArgumentNullException.ThrowIfNull(sheet);
         ArgumentException.ThrowIfNullOrEmpty(path);
         ArgumentNullException.ThrowIfNull(options);
-        if (sheet is IMaterialSheetViewModel)
+        if (sheet is IMaterialSheetViewModel && template is null)
         {
             // T8: the report of a material sheet written as SheetEditor writes it, DOCX and PDF from the same document.
             sheet.Commit();
             Materiali.MaterialReportChapter.Write(path, sheet.ModuleId, title, sheet.Data);
             return;
         }
-        if (sheet.Report is IModuleReportPdf edition)
+        if (sheet.Report is IModuleReportPdf edition && template is null)
         {
             byte[] word = sheet.Report.BuildReport(title, options, projectReport), pdf = edition.BuildPdf(title, options, projectReport);
             Archivio.ScriviAtomico(path, word);
             Archivio.ScriviAtomico(ReportFiles.PdfPath(path), pdf);
             return;
         }
-        ReportFiles.Write(path, sheet.Report.BuildReport(title, options, projectReport), title);
+        ReportFiles.Write(path, sheet.Report.BuildReport(title, options, projectReport), title, template: template);
     }
 
     /// <summary>The short report of <paramref name="sheet"/> (MvvmSheetEditor.BuildShortReport), from a sheet that writes it (<see cref="IModuleShortReport"/>: the RC section, F5.10 S9).</summary>

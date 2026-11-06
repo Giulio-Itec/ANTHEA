@@ -30,7 +30,8 @@ internal sealed class DesktopComposition
             Dialogs: new WpfDialogService(activeWindow),
             Clipboard: new WpfClipboardService(),
             Links: new WpfExternalLinkService(),
-            Wiki: new WpfWikiNavigator(activeWindow));
+            Wiki: new WpfWikiNavigator(activeWindow),
+            ReportTemplates: new Anthea.Reports.ReportTemplateStore(Anthea.Reports.ReportTemplateStore.UserPath));
         Limiter = new CalculationLimiter(CalculationLimiter.DefaultMaximum);
         Modules = CreateModules();
         SheetEditors = new SheetEditorFactory(ModuleImplementations.Release, Modules, Services, Limiter);

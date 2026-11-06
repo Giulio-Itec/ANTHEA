@@ -37,9 +37,10 @@ public static class ReportProject
         return ProjectReportComposer.Compose(projection, content, warnings.Concat(ProjectValidation.Warnings(plan.Root)).Distinct().ToArray(), cancellation, materialSheet);
     }
     public static void Write(string path, ProjectReportPlan plan, IReadOnlyDictionary<JsonObject, SheetContent> reports,
-        IReadOnlyList<string> warnings, CancellationToken cancellation = default, bool materialSheet = false)
+        IReadOnlyList<string> warnings, CancellationToken cancellation = default, bool materialSheet = false, ReportStyleTemplate? template = null)
     {
         var document = Compose(plan, reports, warnings, cancellation, materialSheet);
+        if (template is not null) document = template.Apply(document);
         var bytes = DocxWriter.Write(document);
         cancellation.ThrowIfCancellationRequested();
         // DOCX and PDF of the same package (decision of 14/10/2026); a cancellation before writing keeps both previous files
