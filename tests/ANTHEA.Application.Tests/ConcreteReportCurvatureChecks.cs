@@ -32,12 +32,15 @@ internal static class ConcreteReportCurvatureChecks
             string tag = axial + (tension is null ? "" : "-cls-teso");
             string before = data.ToJsonString();
             // Existing library-backed path is the numerical reference; no expected fixture is overwritten.
-            var expected = ConcreteCurvatureAnalysis.Calculate(data["input"]!.AsObject(), settings, options);
+            var expected = ConcreteCurvatureAnalysis.Calculate(data["input"]!.AsObject(), settings, options, ductility: true);
             var chapter = await builder.BuildAsync(Sheet(data), default);
             var result = renderer.Request!.Calculation.Values;
             File.WriteAllText(Path.Combine(output, $"report-curvature-N{tag}.json"), result.ToJsonString());
             Check(result["momento_curvatura"] is JsonObject, "F3.4-U5: il report di progetto non calcola la curva M–χ");
-            Check(JsonNode.DeepEquals(result["momento_curvatura"], J.Node(expected)), "Curva del report diversa dal servizio condiviso");
+            var expectedJson = J.Node(expected)!.AsObject();
+            if (expected.Ductility is { } expectedDuctility) expectedJson["Ductility"] = J.Node(expectedDuctility);
+            if (expected.DuctilityMessage is { } expectedMessage) expectedJson["DuctilityMessage"] = expectedMessage;
+            Check(JsonNode.DeepEquals(result["momento_curvatura"], expectedJson), "Curva del report diversa dal servizio condiviso");
             Check(data.ToJsonString() == before, "Il report modifica gli input della scheda");
             Check(chapter.Error is null, "Report valido segnalato incompleto: " + chapter.Error);
             var xml = chapter.Document!.GetXml("word/document.xml");
@@ -52,10 +55,17 @@ internal static class ConcreteReportCurvatureChecks
                     .SequenceEqual(values.Select(v => EngineeringFormat.Number(v))), "Valori o unità M–χ alterati nel DOCX");
             }
             var texts = xml.Descendants(w + "t").Select(t => t.Value).ToList();
+            Check(expected.Ductility is { } d
+                ? string.Concat(texts).Contains("μφ = φu/φyd = " + EngineeringFormat.Number(d.CurvatureDuctility))
+                : string.Concat(texts).Contains("Duttilità in curvatura μφ non calcolata:"), "Duttilità o motivo di indisponibilità assente dal report");
             int row = texts.IndexOf("CLS teso nelle risposte");
             Check(tension is null ? row < 0 : row >= 0 && texts[row + 1] == tension, "Riga «CLS teso nelle risposte» dei parametri del M–χ: " + tension);
             Check(string.Concat(texts).Contains(ConcreteCurvatureAnalysis.ResponseConcreteTensionStatus) == (tension is not null), "Stato del tension stiffening nel capitolo M–χ");
             File.WriteAllBytes(Path.Combine(output, $"report-curvature-N{tag}.docx"), DocxWriter.Write(chapter.Document));
+            string styleReference = Path.Combine(root, "supporto/artefatti/report-template/reference/MODELLO-RELAZIONE-ITEC-AA.docx");
+            if (File.Exists(styleReference))
+                ReportFiles.Write(Path.Combine(output, $"report-curvature-N{tag}-ITEC.docx"), DocxWriter.Write(chapter.Document),
+                    "Sezione in c.a. — momento e curvatura", template: ReportStyleTemplate.Read(styleReference));
         }
         foreach (string failure in new[] { "passi", "trefoli", "N" })
         {

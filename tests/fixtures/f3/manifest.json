@@ -1901,5 +1901,35 @@
     "file": "tests/fixtures/f3/transitions-f5-wiki.json",
     "record": "MODELLI-GUIDE-REV70-20261104",
     "note": "Guides Rev70 (4/11/2026): exact text updates in four articles (Models module: series calculation, space of the combinations, plate thicknesses in the section window; saving: 1.19 files with compact RC sections and the save warnings of the results archive; RC section saving). 79 earlier editorial transitions moved to the lines shifted by the added ones, same entries and values; 2 added lines carry the new text with their previous record kept. Search «sezioni»: the saving article enters at the seventh place and the following ones move down by one, so 8 superseded position transitions are replaced by 28 new ones, as for the «micropalo» search of Rev58. No expected files, engineering transitions or tolerances changed."
+  },
+  "report_transitions_20261106": {
+    "capture": "supporto/artefatti/ci/20261106-155616-report-template-finale-cattura/ui_f3-equivalence/cattura",
+    "before_sha256": "82e347d9ca9ee5c16b18766bdda91deacc56b99aebeffb1a66e2ea253fc74b59",
+    "after_sha256": "fd23680d007042758049ede6c681b588688da411838bb67f5b1043dd1b5adbf9",
+    "counts": {
+      "previous": 78138,
+      "current": 78189,
+      "added": 51,
+      "moved": 329
+    },
+    "file": "tests/fixtures/f3/transitions-f4.json",
+    "record": "REPORT-TEMPLATE-20261106",
+    "note": "Only added warnings of vertical piles and the project report curvature ductility; earlier report lines moved with unchanged values. Independent expected files, inputs and numerical tolerances untouched."
+  },
+  "editorial_transitions_rev71": {
+    "capture": "supporto/artefatti/ci/20261106-155616-report-template-finale-cattura/ui_f3-equivalence/cattura",
+    "before_sha256": "0b2ca2d728ce688fc93169d32c465d730cde1eca4dc6e104ba00893764f22749",
+    "after_sha256": "f9f4e5e78079d8fdd69699f0c89d9e6630e32c1128d44eb455abf5b5009a67e6",
+    "counts": {
+      "previous": 3296,
+      "current": 3308,
+      "added": 14,
+      "moved": 21,
+      "updated": 4,
+      "superseded": 2
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "REPORT-TEMPLATE-20261106",
+    "note": "Exact additions and line shifts for the template setting and updated reports in three Wiki articles; micropalo search gains the reports article. No engineering transitions admitted here."
   }
 }

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-11-04",
+  "aggiornato": "2026-11-06",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -14920,6 +14920,41 @@
         "supporto/SUPERATI/modelli-rev70-20261104/manifest.json"
       ],
       "wiki": "Guide globali Rev70 Word/PDF e Markdown; articoli modelli e importazione, salvataggio e report, sezione c.a. e dettaglio delle sezioni aggiornati."
+    },
+    {
+      "id": "REPORT-TEMPLATE-20261106",
+      "data": "2026-11-06",
+      "fase": "Dopo il refactoring / report e impostazioni",
+      "titolo": "Template di stili selezionabile e allineamento delle relazioni ai risultati correnti",
+      "verifica_conclusiva": "100 PASS: 33 build e 67 suite, nessun fallimento o sorgente modificato durante la corsa finale. F3: 1201 file, zero differenze non ammesse; transizioni report 51 nuove e 329 spostate, Wiki 14 nuove, 21 spostate, 4 aggiornate e 2 sostituite. Profilo standard con 10 UI mirate; full WPF non eseguita.",
+      "famiglia": "report/interfaccia/documentazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Richiesta esplicita dell’utente: ramo proprio da main, revisione dei report e template configurabile come il separatore. Importazione dei soli stili .docx/.dotx senza cartiglio, sommario, campi, testo, immagini, intestazioni, piè di pagina, numerazioni o geometria. Preferenza locale autonoma dal file originale, applicata ai successivi report Word/PDF e PDF/HTML Modelli, con ripristino. Nei report verticali entrano gli avvisi già presenti nei risultati. La relazione completa c.a. riceve i valori della duttilità in curvatura dalla libreria, con motivo di indisponibilità, tramite copia di report separata dal JSON storico. Il progetto richiede la stessa analisi della scheda. Nessun nuovo calcolo o aggiornamento GPC. Guide globali Rev71 e archivio Rev70 con manifest.",
+      "decisione": "Richiesta del 6 novembre 2026; decisioni.md, «report correnti e template dei soli stili». Nessun merge o push richiesto.",
+      "effetto_quantificato": "217 report applicati con il riferimento ITEC senza variazioni del testo; 24 short entro due pagine. F3: confronto di 1201 file, variazioni limitate ai report e alla Wiki; aggiunte e spostamenti ammessi esattamente nelle transizioni, senza modificare attesi indipendenti, input o tolleranze. Guide: pratica 135 pagine, teorica 212. Suite UI 73 prima e dopo.",
+      "codice": [
+        "src/ANTHEA.Reports/ReportStyleTemplate.cs",
+        "src/ANTHEA.Reports/ReportTemplateStore.cs",
+        "src/ANTHEA.Reports/ReportTemplateTypography.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteReportCurvature.cs",
+        "src/ANTHEA.Presentation/Shell/Commands/ReportTemplateMenuViewModel.cs",
+        "src/ANTHEA.Desktop/Views/Shell/ShellWindow.xaml"
+      ],
+      "test": [
+        "Reports.Tests: esclusioni e invarianza del testo, stili, persistenza, preferenza non valida, DOCX/PDF e corpus ITEC",
+        "Application.Tests: curva e duttilità uguali alla libreria, casi non applicabili e annullamento",
+        "Presentation.Tests: menu, report separato dal JSON, confronti F3",
+        "ModelWorkspace.Checks: esportazione PDF/HTML con gli stili selezionati",
+        "ui/f3-equivalence, ui/f3-report-chapters, ui/check-shell-draft, Architecture.Tests"
+      ],
+      "evidenze": [
+        "docs/refactoring/report-template-20261106.md",
+        "supporto/artefatti/ci/20261106-161125-report-template-verifica",
+        "tests/fixtures/f3/manifest.json",
+        "supporto/artefatti/report-template",
+        "supporto/SUPERATI/report-template-rev71-20261106/manifest.json"
+      ]
     }
   ]
 }

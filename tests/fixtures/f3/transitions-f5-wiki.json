@@ -1013,7 +1013,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 39 (b)",
+      "percorso": "riga 43 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "### Esempi organizzati per modulo",
@@ -1029,7 +1029,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 41 (b)",
+      "percorso": "riga 45 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Aprire **Esempi** dalla barra laterale oppure **File → Apri esempio…**. La colonna sinistra raggruppa i file per modulo; quella destra mostra i casi disponibili. Selezionare un caso e leggere la descrizione prima di premere **Apri una copia**. Il catalogo comprende almeno due casi per ognuno dei qui…",
@@ -1037,7 +1037,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 40 (b)",
+      "percorso": "riga 22 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
@@ -1045,7 +1045,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 43 (b)",
+      "percorso": "riga 47 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Il documento aperto è una copia indipendente senza percorso di salvataggio. **Salva** richiede una destinazione nella cartella dei propri lavori. Anche il doppio clic su un esempio installato apre una copia; il programma impedisce di salvare dentro la cartella degli esempi distribuiti. Prima di sost…",
@@ -1053,7 +1053,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 42 (b)",
+      "percorso": "riga 24 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
@@ -1061,7 +1061,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 45 (b)",
+      "percorso": "riga 49 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Gli esempi di calcolo illustrano gli input e i risultati del relativo modulo: un controllo non soddisfatto resta visibile e non viene trasformato in un esito positivo. Le stratigrafie sono esempi di dati. I casi **Wizard** sono modelli geometrici con barre e staffe schematiche: completare le azioni,…",
@@ -1077,7 +1077,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 47 (b)",
+      "percorso": "riga 51 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "Nell’installer il componente **Esempi per tutti i moduli** è selezionato inizialmente e può essere escluso. I file sono raccolti nella cartella **Esempi**, suddivisi per modulo, accanto al programma; il menu Start contiene il collegamento alla cartella. Se il componente è assente, la pagina indica d…",
@@ -1093,7 +1093,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
-      "percorso": "riga 48 (b)",
+      "percorso": "riga 50 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: esempi-organizzati-per-modulo",
@@ -1101,7 +1101,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
-      "percorso": "riga 49 (b)",
+      "percorso": "riga 51 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Aprire Esempi dalla barra laterale oppure File → Apri esempio…. La colonna sinistra raggruppa i file per modulo; quella destra mostra i casi disponibili. Selezionare un caso e leggere la descrizione prima di premere Apri una copia. Il catalogo comprende almeno due casi per ognuno dei quindici …",
@@ -1109,7 +1109,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
-      "percorso": "riga 50 (b)",
+      "percorso": "riga 52 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Il documento aperto è una copia indipendente senza percorso di salvataggio. Salva richiede una destinazione nella cartella dei propri lavori. Anche il doppio clic su un esempio installato apre una copia; il programma impedisce di salvare dentro la cartella degli esempi distribuiti. Prima di so…",
@@ -1117,7 +1117,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
-      "percorso": "riga 51 (b)",
+      "percorso": "riga 53 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Gli esempi di calcolo illustrano gli input e i risultati del relativo modulo: un controllo non soddisfatto resta visibile e non viene trasformato in un esito positivo. Le stratigrafie sono esempi di dati. I casi Wizard sono modelli geometrici con barre e staffe schematiche: completare le azion…",
@@ -1125,7 +1125,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
-      "percorso": "riga 52 (b)",
+      "percorso": "riga 54 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Nell’installer il componente Esempi per tutti i moduli è selezionato inizialmente e può essere escluso. I file sono raccolti nella cartella Esempi, suddivisi per modulo, accanto al programma; il menu Start contiene il collegamento alla cartella. Se il componente è assente, la pagina indica di …",
@@ -1872,36 +1872,36 @@
       "percorso": "$.micropalo[6]",
       "classe": "testo",
       "a": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
-      "b": "/wiki/guide/palo-elastico",
-      "voce": "F5-REL-1130-01"
+      "b": "/wiki/guide/esportazione/salvataggio-e-report",
+      "voce": "F5-REL-1130-01 / REPORT-TEMPLATE-20261106"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.micropalo[7]",
       "classe": "testo",
       "a": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
-      "b": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
-      "voce": "F5-REL-1130-01"
+      "b": "/wiki/guide/palo-elastico",
+      "voce": "F5-REL-1130-01 / REPORT-TEMPLATE-20261106"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.micropalo[8]",
       "classe": "testo",
       "a": "/wiki/manuale/materiali/acciaio-armature",
-      "b": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
-      "voce": "F5-REL-1130-01"
+      "b": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
+      "voce": "F5-REL-1130-01 / REPORT-TEMPLATE-20261106"
     },
     {
       "file": "wiki/search.json",
       "percorso": "$.micropalo[9]",
       "classe": "testo",
       "a": "/wiki/guide/moduli/guida-stratigrafia",
-      "b": "/wiki/manuale/fondazioni-e-geotecnica/capacita-orizzontale-in-terreno-stratificato",
-      "voce": "F5-REL-1130-01 / F5-REL-1160-01"
+      "b": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+      "voce": "F5-REL-1130-01 / F5-REL-1160-01 / REPORT-TEMPLATE-20261106"
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.micropalo[10]",
+      "percorso": "$.micropalo[11]",
       "classe": "elemento-aggiunto",
       "a": null,
       "b": "\"/wiki/manuale/materiali/acciaio-armature\"",
@@ -2037,7 +2037,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 56 (b)",
+      "percorso": "riga 50 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
@@ -2045,7 +2045,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
-      "percorso": "riga 57 (b)",
+      "percorso": "riga 61 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "La finestra segue l'ingrandimento di Windows. Sotto 1120 × 680 la finestra scorre; i fogli che non si adattano alla larghezza tengono 1120 × 600 e scorrono nella loro scheda. Una pagina più alta della scheda scorre al suo interno: a 1920 × 1080 succede, per esempio, alla pagina principale del palo o…",
@@ -2069,7 +2069,7 @@
     },
     {
       "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
-      "percorso": "riga 57 (b)",
+      "percorso": "riga 59 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: La finestra segue l'ingrandimento di Windows. Sotto 1120 × 680 la finestra scorre; i fogli che non si adattano alla larghezza tengono 1120 × 600 e scorrono nella loro scheda. Una pagina più alta della scheda scorre al suo interno: a 1920 × 1080 succede, per esempio, alla pagina principale del …",
@@ -9885,7 +9885,7 @@
     },
     {
       "file": "wiki/search.json",
-      "percorso": "$.micropalo[11]",
+      "percorso": "$.micropalo[12]",
       "classe": "elemento-aggiunto",
       "a": null,
       "b": "\"/wiki/guide/moduli/guida-stratigrafia\"",
@@ -16637,7 +16637,7 @@
     },
     {
       "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.md",
-      "percorso": "riga 33 (b)",
+      "percorso": "riga 35 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "ANTHEA esegue insieme al più tanti calcoli quanti sono i processori del computer meno uno; gli altri aspettano il proprio turno, e intanto la finestra resta utilizzabile. Seguono questa regola anche la sezione in c.a., cioè verifiche, taglio, resistenze rapide, sezione σ/ε, curva M–χ, colonna modell…",
@@ -16653,7 +16653,7 @@
     },
     {
       "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.txt",
-      "percorso": "riga 16 (b)",
+      "percorso": "riga 17 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: ANTHEA esegue insieme al più tanti calcoli quanti sono i processori del computer meno uno; gli altri aspettano il proprio turno, e intanto la finestra resta utilizzabile. Seguono questa regola anche la sezione in c.a., cioè verifiche, taglio, resistenze rapide, sezione σ/ε, curva M–χ, colonna …",
@@ -23061,26 +23061,10 @@
     },
     {
       "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 167 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Dopo il calcolo della curva la scheda riporta anche la duttilità in curvatura μφ della NTC 2018 §4.1.2.3.4.2: M'yd e φ'yd del primo snervamento convenzionale, cioè della barra più tesa a εyd o del calcestruzzo alla deformazione di picco εc2, quello che arriva prima; MRd e φyd = (MRd/M'yd)·φ'yd della…",
-      "voce": "F5-REL-1170-01"
-    },
-    {
-      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
-      "percorso": "riga 168 (b)",
+      "percorso": "riga 170 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "F5-REL-1170-01"
-    },
-    {
-      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
-      "percorso": "riga 138 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Dopo il calcolo della curva la scheda riporta anche la duttilità in curvatura μφ della NTC 2018 §4.1.2.3.4.2: M'yd e φ'yd del primo snervamento convenzionale, cioè della barra più tesa a εyd o del calcestruzzo alla deformazione di picco εc2, quello che arriva prima; MRd e φyd = (MRd/M'yd)·φ'yd…",
       "voce": "F5-REL-1170-01"
     },
     {
@@ -26149,7 +26133,7 @@
     },
     {
       "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.md",
-      "percorso": "riga 32 (b)",
+      "percorso": "riga 22 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
@@ -26370,6 +26354,118 @@
       "a": null,
       "b": "text: L'elenco comprende anche gli spessori delle piastre, con la voce «Spessore N · nome». Ogni spessore è rappresentato come una striscia larga 1 m attraverso lo spessore, con spessore e offset della copia: G è sul piano medio e O sul piano dei nodi, come nella vista estrusa. Per gli spessori non …",
       "voce": "MODELLI-GUIDE-REV70-20261104"
+    },
+    {
+      "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.md",
+      "percorso": "riga 21 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le relazioni di palo e micropalo verticale includono sempre gli avvisi restituiti dal calcolo, anche quando si deselezionano i capitoli facoltativi: copertura delle indagini, ipotesi, coefficienti modificati e altri limiti restano leggibili insieme agli esiti.",
+      "voce": "REPORT-TEMPLATE-20261106"
+    },
+    {
+      "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.md",
+      "percorso": "riga 34 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "REPORT-TEMPLATE-20261106"
+    },
+    {
+      "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.txt",
+      "percorso": "riga 10 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le relazioni di palo e micropalo verticale includono sempre gli avvisi restituiti dal calcolo, anche quando si deselezionano i capitoli facoltativi: copertura delle indagini, ipotesi, coefficienti modificati e altri limiti restano leggibili insieme agli esiti.",
+      "voce": "REPORT-TEMPLATE-20261106"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 119",
+      "classe": "testo",
+      "a": "Nel report di progetto la curva viene ricalcolata automaticamente con N, direzione, passi e opzioni salvati nel foglio. Il capitolo comprende valori limite, tabella dei punti e grafico; non serve aprire la scheda né avviare prima il comando Calcola curva. La preparazione lavora su una copia dei dati. Se il percorso non è valido o contiene trefoli, la curva è segnalata come non disponibile con il motivo e le altre verifiche restano nel report. Interrompere la preparazione conserva il documento precedente. Il report del singolo foglio continua a usare la curva calcolata nella scheda.",
+      "b": "Dopo il calcolo della curva la scheda riporta anche la duttilità in curvatura μφ della NTC 2018 §4.1.2.3.4.2: M'yd e φ'yd del primo snervamento convenzionale, cioè della barra più tesa a εyd o del calcestruzzo alla deformazione di picco εc2, quello che arriva prima; MRd e φyd = (MRd/M'yd)·φ'yd della bilineare della Circolare 2019 (Fig. C4.1.12); il momento massimo del ramo; φu, dove il momento scende a 0,85 Mmax dopo il picco oppure al punto limite; infine μφ = φu/φyd. Il calcolo usa un ramo a curvatura controllata alla stessa N, che segue il momento anche dopo il picco. La riga μχ = χu/χy resta il rapporto delle curvature della curva e non è la μφ della norma. Con «CLS teso nelle risposte» = Tension stiffening, o con una «Frazione di MRd finale» minore di 1, μφ non è calcolata e la scheda ne indica il motivo. Il report completo riporta anche μφ, i valori della bilineare e il criterio della curvatura ultima, oppure il motivo di indisponibilità. Il CSV conserva la sola tabella dei punti.",
+      "voce": "REPORT-TEMPLATE-20261106"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.md",
+      "percorso": "riga 169 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nel report di progetto la curva viene ricalcolata automaticamente con N, direzione, passi e opzioni salvati nel foglio. Il capitolo comprende valori limite, duttilità in curvatura quando applicabile, tabella dei punti e grafico; non serve aprire la scheda né avviare prima il comando Calcola curva. L…",
+      "voce": "REPORT-TEMPLATE-20261106"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 93",
+      "classe": "testo",
+      "a": "text: Nel report di progetto la curva viene ricalcolata automaticamente con N, direzione, passi e opzioni salvati nel foglio. Il capitolo comprende valori limite, tabella dei punti e grafico; non serve aprire la scheda né avviare prima il comando Calcola curva. La preparazione lavora su una copia dei dati. Se il percorso non è valido o contiene trefoli, la curva è segnalata come non disponibile con il motivo e le altre verifiche restano nel report. Interrompere la preparazione conserva il documento precedente. Il report del singolo foglio continua a usare la curva calcolata nella scheda.",
+      "b": "text: Dopo il calcolo della curva la scheda riporta anche la duttilità in curvatura μφ della NTC 2018 §4.1.2.3.4.2: M'yd e φ'yd del primo snervamento convenzionale, cioè della barra più tesa a εyd o del calcestruzzo alla deformazione di picco εc2, quello che arriva prima; MRd e φyd = (MRd/M'yd)·φ'yd della bilineare della Circolare 2019 (Fig. C4.1.12); il momento massimo del ramo; φu, dove il momento scende a 0,85 Mmax dopo il picco oppure al punto limite; infine μφ = φu/φyd. Il calcolo usa un ramo a curvatura controllata alla stessa N, che segue il momento anche dopo il picco. La riga μχ = χu/χy resta il rapporto delle curvature della curva e non è la μφ della norma. Con «CLS teso nelle risposte» = Tension stiffening, o con una «Frazione di MRd finale» minore di 1, μφ non è calcolata e la scheda ne indica il motivo. Il report completo riporta anche μφ, i valori della bilineare e il criterio della curvatura ultima, oppure il motivo di indisponibilità. Il CSV conserva la sola tabella dei punti.",
+      "voce": "REPORT-TEMPLATE-20261106"
+    },
+    {
+      "file": "wiki/_wiki_guide_moduli_sezione-ca.txt",
+      "percorso": "riga 139 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nel report di progetto la curva viene ricalcolata automaticamente con N, direzione, passi e opzioni salvati nel foglio. Il capitolo comprende valori limite, duttilità in curvatura quando applicabile, tabella dei punti e grafico; non serve aprire la scheda né avviare prima il comando Calcola cu…",
+      "voce": "REPORT-TEMPLATE-20261106"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 21 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nel menu Aspetto, Template dei report → Scegli template Word permette di selezionare un file .docx o .dotx. ANTHEA conserva una copia locale dei soli stili, utilizzabile anche quando il file originale non è più raggiungibile. La scelta vale subito per i successivi report dei fogli e dei progetti, si…",
+      "voce": "REPORT-TEMPLATE-20261106"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 23 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il modello fornisce caratteri, dimensioni, gerarchia dei titoli, interlinea e spaziatura. Cartiglio, sommario, testo di esempio, intestazioni, piè di pagina, numerazione e geometria delle pagine del template non vengono importati. Tabelle, figure, valori, unità e struttura del report restano quelli …",
+      "voce": "REPORT-TEMPLATE-20261106"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 52 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "REPORT-TEMPLATE-20261106"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.md",
+      "percorso": "riga 60 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "REPORT-TEMPLATE-20261106"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
+      "percorso": "riga 10 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nel menu Aspetto, Template dei report → Scegli template Word permette di selezionare un file .docx o .dotx. ANTHEA conserva una copia locale dei soli stili, utilizzabile anche quando il file originale non è più raggiungibile. La scelta vale subito per i successivi report dei fogli e dei proget…",
+      "voce": "REPORT-TEMPLATE-20261106"
+    },
+    {
+      "file": "wiki/_wiki_guide_primi-passi_avvio-e-scelta-del-modulo.txt",
+      "percorso": "riga 11 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il modello fornisce caratteri, dimensioni, gerarchia dei titoli, interlinea e spaziatura. Cartiglio, sommario, testo di esempio, intestazioni, piè di pagina, numerazione e geometria delle pagine del template non vengono importati. Tabelle, figure, valori, unità e struttura del report restano q…",
+      "voce": "REPORT-TEMPLATE-20261106"
+    },
+    {
+      "file": "wiki/search.json",
+      "percorso": "$.micropalo[10]",
+      "classe": "elemento-aggiunto",
+      "a": null,
+      "b": "\"/wiki/manuale/fondazioni-e-geotecnica/capacita-orizzontale-in-terreno-stratificato\"",
+      "voce": "REPORT-TEMPLATE-20261106"
     }
   ],
   "descrizione": " Rev63: quattro articoli nuovi sulle Azioni climatiche e su carichi, combinazioni e traffico; aggiornamenti delle ricerche; conteggio 78 → 82. Voce AZIONI-01; nessun atteso ingegneristico modificato. Rev68 (1.17.1): criterio resistente per stato limite della sezione c.a.; aggiornamenti esatti di due articoli (sezione c.a. e profili del calcestruzzo): 12 transizioni nuove, 52 spostate dalle righe aggiunte, 0 tolte. Voce CA-CRITERIO-STATI-01; nessun atteso ingegneristico modificato."

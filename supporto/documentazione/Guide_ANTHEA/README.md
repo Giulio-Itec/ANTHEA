@@ -1,15 +1,17 @@
 # Guide globali ANTHEA
 
-Edizione 6, 4 novembre 2026. Guide pratica e teorica Rev70, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 6, 6 novembre 2026. Guide pratica e teorica Rev71, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev70.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev70.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev70.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev70.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev71.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev71.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev71.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev71.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
 
 | Articolo | Word | PDF | Sorgente |
 |---|---|---|---|
 | Capacità orizzontale del palo in terreno stratificato (metodo di G. Pacini), edizione 1 | [Word](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx) | [PDF](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf) | [Markdown](../../docs/articolo-palo-orizzontale-stratificato.md) |
+
+La Rev71 documenta la selezione del template di stili nel menu Aspetto, gli avvisi nei report dei pali verticali e la duttilità in curvatura nelle relazioni della sezione in c.a. Le Rev70 sono conservate con manifest in `supporto/SUPERATI/report-template-rev71-20261106/`.
 
 La Rev70 completa il modulo Modelli: «Calcola tutte» e «Calcola selezionate» calcolano le combinazioni in serie, il riquadro Spazio delle combinazioni mostra lo spazio occupato con il limite scelto e i comandi «Libera selezionate» e «Libera tutte», e la finestra Sezioni del modello elenca anche gli spessori delle piastre. Descrive inoltre i file della 1.19: le sezioni in c.a. salvate nel formato compatto di GPC, che la 1.18 non apre, e gli avvisi del salvataggio sull'archivio dei risultati. La guida teorica cambia soltanto nella riga della revisione. Le Rev69 di partenza sono conservate in `supporto/SUPERATI/modelli-rev70-20261104/`, con manifest.
 

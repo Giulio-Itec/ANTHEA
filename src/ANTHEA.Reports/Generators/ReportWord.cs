@@ -97,6 +97,11 @@ public static class ReportWord
             }
             Table(new("Resistenze di progetto",[micro?"Verifica (asse s)":"Verifica","Quota [m]","Rd [kN]","Ed [kN]","Esito"],rows,"risultati"),true);
         }
+        if (result["avvisi"] is JsonArray warnings && warnings.Count > 0)
+        {
+            body.Add(P("Avvisi del calcolo", true));
+            foreach (var warning in warnings) if (warning is not null) body.Add(P(warning.ToString()));
+        }
         if(options.Contains("dettagli")){body.Add(P("Dettagli ogni 0,50 m e quota finale",true));foreach(var t in Tabelle.Crea(result,micro))Table(t,true);}
         foreach(var item in (images??[]).Where(image=>image.SurveyIndex is null&&options.Contains(image.Categoria)))AddImage(item);
         void AddImage(ImmagineReport item)

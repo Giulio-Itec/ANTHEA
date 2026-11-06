@@ -340,7 +340,8 @@ internal static class VerticalPileSheetChecks
         comparer.Admit(transitions);
         var report = comparer.Compare(reference, candidate);
         File.WriteAllText(Path.Combine(capture, "..", "palo-verticale-f3-confronto.json"), report.ToJsonString(J.Options));
-        expect.That(transitions.Count == 4 && comparer.NotAdmitted == 0, "File con transizioni F4: " + comparer.NotAdmitted + " differenze non ammesse o transizioni assenti");
+        // Four historical transitions and 39 warning paragraphs now included in the seven vertical-pile reports (6/11/2026).
+        expect.That(transitions.Count == 43 && comparer.NotAdmitted == 0, "File con transizioni F4/report: " + comparer.NotAdmitted + " differenze non ammesse o transizioni assenti");
     }
 
     /// <summary>Tables, rows, cells, images and styles of the report, as F3EquivalenceCapture.CaptureReport counts them.</summary>

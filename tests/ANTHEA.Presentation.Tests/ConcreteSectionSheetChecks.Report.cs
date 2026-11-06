@@ -77,8 +77,9 @@ internal static partial class ConcreteSectionSheetChecks
         expect.That(report.Length > 0 && Figures.Requests.Count == requests + 1 && Figures.Requests[^1].Options.SetEquals(sections), "Report con i disegni chiesti una volta");
         expect.That(sheet.Settings["report_sezioni"]!.ToJsonString() == J.Node(sections.OrderBy(k => k).ToArray())!.ToJsonString() && modified == 1,
             "Sezioni del report salvate in ordine con Modified");
-        expect.That(ReferenceEquals(drawings.Result, sheet.Result) && JsonNode.DeepEquals(sheet.Result!["dati"], sheet.Data) && ReferenceEquals(drawings.Data, sheet.Data),
-            "Esportazione dei risultati con i dati del foglio");
+        expect.That(!ReferenceEquals(drawings.Result, sheet.Result) && JsonNode.DeepEquals(drawings.Result, sheet.Result)
+            && JsonNode.DeepEquals(sheet.Result!["dati"], sheet.Data) && ReferenceEquals(drawings.Data, sheet.Data),
+            "Copia del report separata dall'esportazione dei risultati, con gli stessi dati del foglio");
         expect.That(drawings.Domains.Count == 2 && drawings.Domains[0].ThreeD && !drawings.Domains[1].ThreeD && ReferenceEquals(drawings.Domains[1].Chart, sheet.Domain2D.Chart)
             && drawings.Domains[0].Rows.SequenceEqual(sheet.Domain3D.Table.Table.Shown.Select(r => r.Values)) && drawings.Domains[0].Selected == sheet.Domain3D.Table.Table.Selected?.Values.S("id")
             && drawings.Domains[0].Three is not null && drawings.Domains[1].Two is not null && drawings.Domains[0].Checks is not null,
@@ -98,6 +99,9 @@ internal static partial class ConcreteSectionSheetChecks
         await IdleAsync(sheet);
         sheet.Report.BuildReport("Report", new HashSet<string> { "curvatura", "grafici" });
         expect.That(sheet.Curvature.Result is not null && ReferenceEquals(Figures.Requests[^1].Drawings.Curvature, sheet.Curvature.Result), "Curva pubblicata nei disegni del report");
+        expect.That(sheet.Result!["momento_curvatura"]?["Ductility"] is null
+            && Figures.Requests[^1].Drawings.Result["momento_curvatura"]?["Ductility"] is not null,
+            "La duttilità entra solo nella copia del report e non nel contratto JSON dei risultati");
         // Read-only revision: the report is available; its sections stay in the copy of the sheet in memory, without Modified (rule T6, F5-17).
         sheet.IsReadOnly = true;
         sheet.Report.BuildReport("Report", new HashSet<string> { "geometria" });
