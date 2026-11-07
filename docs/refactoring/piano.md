@@ -1677,3 +1677,25 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - [x] Integrazione finale del branch ANTHEA su main, autorizzata dall’utente: fast-forward al commit 7f907040 del 02/11/2026, base 1.17.0 conservata.
 
 - [x] Reologia, richiesta del 02/11: foglio **Materiali → Viscosità e maturazione**, persistenza, sola lettura, report ed esempi; voce globale Strumenti rimossa. Cattura storica e confronto IEEE754 esatti, tre temi WPF PASS; collaudo integrato finale `20261102-004152-reologia-final`: 24 PASS, zero NEW-FAIL; F3, 1201 file senza differenze non ammesse (REOLOGIA-MODULO-20261102).
+
+
+## Correzione copertina — Materiali senza dati (6 novembre 2026)
+
+- [x] Ramo isolato `codex/anthea-copertina-materiali-vuoto`, da `origin/main` 8ef58180; checkout principali invariati.
+- [x] Riprodotta la NullReferenceException con la fixture congelata `13-file-salvato.json`, aperta con diagnosi.
+- [x] Dati Materiali mancanti: avviso di copriferro non verificabile, senza completare il foglio né interrompere gli altri controlli.
+- [x] 53 controlli mirati PASS: fixture, dati assenti/null, tre moduli, ereditarietà, ordine dei materiali, non mutazione e cache.
+- [x] Collaudo consentito: 53 controlli mirati di Application, 988 di project-audit e 853965 di ConcreteLibraryAdapter.Checks PASS; sette progetti di prova compilati con zero errori.
+- [ ] Collaudo integrale di Application.Tests, Projects.Checks, Presentation.Tests, Reports.Tests, RetainingWall.Checks e verifiche/project-calculations **non eseguito**: l'utente vieta anche le cancellazioni interne ai test. Queste suite cancellano file di prova o raggiungono il cleanup dei file temporanei del salvataggio. Nessuna suite o asserzione esistente è stata rimossa per aggirare il vincolo.
+- Voce `BUG-COPERTINA-MATERIALI-VUOTO` nel registro; nessuna versione, libreria o fixture cambiata. Nessun merge o push autorizzato per questo intervento.
+
+
+## Preparazione integrazione ANTHEA 1.19.0 (7 novembre 2026)
+
+- [x] Worktree isolato `chatgpt-anthea-1190`, ramo `codex/anthea-1190-integrazione`, base `94f48d20`.
+- [x] Fetch origin: `origin/main` resta `8ef58180`, già antenato della base tramite `187ea6f5`; merge di registrazione `04a4dfad` a due genitori, senza modifiche all’albero.
+- [x] Integrato `6b774b90` (copertina con Materiali senza dati), senza conflitti; librerie, manifest, versioni e riferimenti congelati invariati.
+- [x] Compilazioni del runner: 18/18 riuscite; Application.Tests compilata separatamente. Suite selezionate: 32/34 PASS; prova mirata copertina: 53/53 PASS.
+- [x] Due fallimenti della guida riprodotti anche sulla base `94f48d20`: indice e catalogo del manuale richiamano sei immagini sotto `supporto/artefatti` assenti nei nuovi worktree. Nessun atteso aggiornato; worktree di confronto rimosso con il solo `git worktree remove`.
+- [ ] Rimangono il set ufficiale delle librerie e il collaudo di rilascio. Escluse le suite native/UI e quelle che cancellano file, come richiesto dall’utente; nessuna asserzione rimossa.
+- Evidenze: `supporto/artefatti/ci/20261107-081518-integrazione-1190-consentite` e `supporto/artefatti/integrazione-1190`; resoconto esterno in `Repository/chatgpt-compiti/anthea-1190-integrazione-resoconto.md`. Nessun push, tag, cambio di versione o installer.

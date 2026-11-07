@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-11-04",
+  "aggiornato": "2026-11-06",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -15038,6 +15038,40 @@
         "supporto/SUPERATI/modelli-rev70-20261104/manifest.json"
       ],
       "wiki": "Guide globali Rev70 Word/PDF e Markdown; articoli modelli e importazione, salvataggio e report, sezione c.a. e dettaglio delle sezioni aggiornati."
+    },
+    {
+      "id": "BUG-COPERTINA-MATERIALI-VUOTO",
+      "data": "2026-11-06",
+      "fase": "correzione isolata dopo origin/main 8ef58180",
+      "titolo": "Copertina: Materiali senza dati non interrompe la validazione",
+      "famiglia": "progetti/copriferro",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "ProjectValidation.CoverChecks dereferenziava material[\"dati\"] senza verificarne la presenza. Il file congelato tests/fixtures/f5-shell/cattura-mainwindow/13-file-salvato.json, aperto con diagnosi, mantiene i fogli in quarantena per i riferimenti anonimizzati e riproduceva la NullReferenceException. La lettura richiede ora un JsonObject e segnala dati mancanti o non validi mediante l'ArgumentException già tradotta in avviso. Non vengono inizializzati dati sostitutivi e proseguono i controlli sugli altri materiali.",
+      "codice": [
+        "src/ANTHEA.Application/Projects/ProjectValidation.cs:54",
+        "tests/ANTHEA.Application.Tests/ProjectValidationChecks.cs"
+      ],
+      "segno": "Nessun valore di calcolo cambia. Una validazione che terminava con eccezione restituisce un avviso con Passed = null.",
+      "effetto_quantificato": "Test rosso con NullReferenceException alla riga 54 prima del fix; 53 controlli mirati PASS dopo il fix: fixture, dati assenti/null, sezione c.a., palo orizzontale, muro a mensola, ereditarietà, ordine dei materiali, non mutazione del documento e aggiornamento della cache.",
+      "decisione": {
+        "data": "2026-11-06",
+        "utente": "Correggere Materiali senza dati su un worktree dedicato, con test prima e dopo; nessun push, merge, cambio versione o riferimento congelato.",
+        "esito": "Stesso esito non verificabile già usato per gli input incompleti del copriferro; commit isolato sul ramo codex/anthea-copertina-materiali-vuoto."
+      },
+      "test": [
+        "Application.Tests / --project-validation: 53 controlli PASS; test integrato anche nell'esecuzione ordinaria",
+        "verifiche/project-audit: 988 controlli PASS",
+        "ConcreteLibraryAdapter.Checks completa: 853965 controlli PASS (175108 principali, 677559 SLE, 47 stato statico, 899 getti sottili, 352 pagine dei metodi)",
+        "Application.Tests integrale, Projects.Checks, Presentation.Tests e Reports.Tests non eseguite: cancellazioni interne vietate esplicitamente dall'utente, anche sui file generati dai test",
+        "RetainingWall.Checks e verifiche/project-calculations non avviate: percorsi di salvataggio con cleanup tramite DocumentFile; compilazione dei sette progetti di prova riuscita"
+      ],
+      "evidenze": [
+        "supporto/artefatti/copertina-materiali-vuoto/red-test.log",
+        "supporto/artefatti/copertina-materiali-vuoto/green2-test.log",
+        "supporto/artefatti/ci/20261106-232741-copertina-project-audit/summary.json",
+        "supporto/artefatti/ci/20261106-232921-copertina-adapter/summary.json"
+      ]
     }
   ]
 }

@@ -51,7 +51,7 @@ public static class ProjectValidation
                         !ProjectSharedData.Equal(p.Source.Value, p.Target.Value)).ToArray();
                     if (conflicts.Length > 0) issues.Add("Dati diversi da " + material.S("nome") + ": " +
                         string.Join(", ", conflicts.Select(p => ProjectReportPlan.Label(p.Source.Key))) + "; uniformare per completare la verifica");
-                    var state = material["dati"]!.AsObject();
+                    var state = material["dati"] as JsonObject ?? throw new ArgumentException("dati della scheda Materiali «" + material.S("nome") + "» mancanti o non validi");
                     double fck = J.Number(mf["CLS · fck [MPa]"].Value) ?? throw new ArgumentException("classe CLS di Materiali non valida");
                     bool wall = sheet.S("modulo_id") == RetainingWall.Module;
                     var input = wall ? RetainingWall.MaterialSectionInput(sheet["dati"]!.AsObject()) : (JsonObject)sheet["dati"]![sheet.S("modulo_id") == "str_palo" ? "input" : "sezione"]!.DeepClone();
