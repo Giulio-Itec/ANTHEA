@@ -33,7 +33,7 @@ public static class StructuralQueries
         JsonObject options, CancellationToken cancellation = default)
         => ConcreteCurvature(input, workspace, options, false, cancellation);
 
-    /// <summary>La curva M–χ e, con <paramref name="ductility"/> (la scheda «Momento–curvatura»), la duttilità in curvatura μφ; il report non la chiede.</summary>
+    /// <summary>La curva M–χ e, con <paramref name="ductility"/>, la duttilità in curvatura μφ della scheda e dei report.</summary>
     public static ConcreteResults.CurvatureResult ConcreteCurvature(JsonObject input, JsonObject workspace,
         JsonObject options, bool ductility, CancellationToken cancellation = default)
         => new(ConcreteCurvatureAnalysis.Calculate((JsonObject)input.DeepClone(), (JsonObject)workspace.DeepClone(),

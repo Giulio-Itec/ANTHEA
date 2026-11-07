@@ -37,6 +37,7 @@ namespace X.Desktop;
 internal sealed class MvvmSheetEditor : ISheetEditor
 {
     private readonly ContentControl view;
+    private readonly ReportTemplateStore? templates;
     private bool disposed;
 
     /// <param name="module">The migrated module.</param>
@@ -48,6 +49,7 @@ internal sealed class MvvmSheetEditor : ISheetEditor
     {
         ArgumentNullException.ThrowIfNull(module);
         ArgumentNullException.ThrowIfNull(data);
+        templates = services.ReportTemplates;
         Sheet = module.CreateSheet(new SheetContext((JsonObject)data.DeepClone(), false, new Host(this), services, calculation, limiter));
         try
         {
@@ -120,7 +122,7 @@ internal sealed class MvvmSheetEditor : ISheetEditor
     /// (<see cref="ReportFiles.Write"/>). The code is shared with the new shell (F5.13 c, <see cref="SheetFileExports.WriteReport"/>).
     /// </summary>
     public void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false) =>
-        SheetFileExports.WriteReport(Sheet, filename, title, options, projectReport);
+        SheetFileExports.WriteReport(Sheet, filename, title, options, projectReport, templates?.Current);
 
     public byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => Sheet.Report.BuildReport(title, options, projectReport);
 

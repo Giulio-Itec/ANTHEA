@@ -61,7 +61,7 @@ public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result, 
         try
         {
             curvature = await Task.Run(() => Modules.StructuralQueries.ConcreteCurvature(input, settings,
-                settings["momento_curvatura"]!.AsObject(), cancellation), cancellation);
+                settings["momento_curvatura"]!.AsObject(), true, cancellation), cancellation);
         }
         catch (Exception error) when (error is not OperationCanceledException && error is not IOException && error is not UnauthorizedAccessException)
         { errors["Momento–curvatura"] = error.Message; }
@@ -75,6 +75,7 @@ public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result, 
         var summary = ConcreteVerificationSummaries.Create(settings, actions, domains, stresses, shearRows, shear, torsion);
         var exported = ConcreteResultExport.Create(data, summary, domains, stresses, shear, torsion, details.Checks,
             details.DetailsText, details.Anchorage, details.AnchorageDetails.Text, curvature, errors, modelColumn);
+        ConcreteReportCurvature.Append(exported, curvature);
         var geometry = await Task.Run(() => ConcretePreview.PrepareGeometry(input), cancellation);
         cancellation.ThrowIfCancellationRequested();
         return new(data, exported, geometry, actions, three, two, domains, stresses) { Curvature = curvature, ModelColumn = modelColumn };

@@ -44,7 +44,7 @@ public static class PdfFonts
     }
 
     /// <summary>Known family, otherwise the default family (the PDF never fails on an unknown font name).</summary>
-    public static string Family(string? name) => name is not null && Families.ContainsKey(name) ? name : DefaultFamily;
+    public static string Family(string? name) => name is not null && (Families.ContainsKey(name) || InstalledFonts.Contains(name)) ? name : DefaultFamily;
 
     /// <summary>Text split into runs of characters that each font can draw: the requested family first, then the fallbacks.</summary>
     public static IEnumerable<(string Text, string Family)> Segments(string text, string family, bool bold)
@@ -72,6 +72,11 @@ public static class PdfFonts
 
     static (string File, bool SimulateBold, bool SimulateItalic) Face(string family, bool bold, bool italic)
     {
+        if (!Families.ContainsKey(family))
+        {
+            var face = InstalledFonts.Find(family, bold, italic);
+            return (face.Path, bold && !face.Bold, italic && !face.Italic);
+        }
         var files = Families[family];
         int index = (bold ? 1 : 0) + (italic ? 2 : 0);
         return index < files.Length ? (files[index], false, false) : (files[0], bold, italic);

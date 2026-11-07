@@ -1,0 +1,98 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/docs/guida-pratica-anthea.md",
+    "sha256": "806c6ed5af9e7ae8cff419824a28f243d8dd102555bd340a5db3584b34d01786",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/docs/guida-pratica-anthea.pdf",
+    "sha256": "bb17551ad3e1cb3ddfc375b8c2854e804df7ca3d645791aad8e324fb8fe86c8d",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/docs/guida-teorica-anthea.md",
+    "sha256": "76eebc8ffc419362e82def751ff40fa186c59ae0bbc05cf71adde4d12acbce7d",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/docs/guida-teorica-anthea.pdf",
+    "sha256": "deca9e25d6f45ff2cd0242616541bc66fc15db793626a376d73fe204d31e12b3",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev70.docx",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev70.docx",
+    "sha256": "967901d4c7e5eca64940a51ba941cef1bf54351fddccd7b3f6ce5ad00e9fc9fb",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev70.pdf",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev70.pdf",
+    "sha256": "bb17551ad3e1cb3ddfc375b8c2854e804df7ca3d645791aad8e324fb8fe86c8d",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev70.docx",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev70.docx",
+    "sha256": "542737d741f6c5d946092f8e70bce24a4ba06785159ead094371396d5cc50878",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev70.pdf",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev70.pdf",
+    "sha256": "deca9e25d6f45ff2cd0242616541bc66fc15db793626a376d73fe204d31e12b3",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/README.md",
+    "sha256": "94c8c746c4bff245d20b0db0195d16642ea6eab7c939ed952d8ba9c93d1f9055",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/README.pdf",
+    "sha256": "d18830fee0b96241ce4e6d3ae70b3e23fee9c7e500388c00aac00aab3a202433",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "31f6fd67d1f802c0d9b841f23145e13b570fa9311c9421278ae88daadfaf9e81",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "8f1c02e61ed59605724a67dc905de118335143e12d4e3bb432105c8e76dd373e",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/installer/README.md",
+    "sha256": "ebd925f8c7a487d9e35cb46f067a511052b8530313ccb0ce6613d4f43982c28b",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/installer/README.pdf",
+    "sha256": "077aec544a1a209a13e6b981147447f89f83559c60543568a9fc601b31b2880e",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/installer/Indice-guide.md",
+    "sha256": "6a9c9d6e119cd99ab3ddbc6523078929ca6b7dc943beddefdfa07b15e933bc65",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/report-template-rev71-20261106/installer/Indice-guide.pdf",
+    "sha256": "ea11354eb28eac508a3109bebcbef0b17f82c68421f214f49f6b4169c8a0417f",
+    "motivo": "Sostituita dalla Rev71: template di stili dei report, avvisi dei pali verticali e duttilità in curvatura nelle relazioni."
+  }
+]

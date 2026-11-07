@@ -38,17 +38,18 @@ public static class DocxPdf
     /// </summary>
     public static Document Translate(DocxDocument docx, string title = "") => new Translator(docx).Run(title);
 
-    sealed record RunProps(string? Font = null, double? Size = null, bool? Bold = null, bool? Italic = null, string? Color = null, string? Vertical = null)
+    sealed record RunProps(string? Font = null, double? Size = null, bool? Bold = null, bool? Italic = null, string? Color = null, string? Vertical = null,
+        bool? Caps = null, bool? SmallCaps = null, string? Underline = null)
     {
         public RunProps Over(RunProps? top) => top is null ? this : new(top.Font ?? Font, top.Size ?? Size, top.Bold ?? Bold, top.Italic ?? Italic,
-            top.Color ?? Color, top.Vertical ?? Vertical);
+            top.Color ?? Color, top.Vertical ?? Vertical, top.Caps ?? Caps, top.SmallCaps ?? SmallCaps, top.Underline ?? Underline);
     }
 
     sealed record ParaProps(double? Before = null, double? After = null, bool? KeepNext = null, bool? PageBreakBefore = null, string? Align = null,
-        double? Indent = null, bool? Widow = null)
+        double? Indent = null, bool? Widow = null, double? Line = null, string? LineRule = null)
     {
         public ParaProps Over(ParaProps? top) => top is null ? this : new(top.Before ?? Before, top.After ?? After, top.KeepNext ?? KeepNext,
-            top.PageBreakBefore ?? PageBreakBefore, top.Align ?? Align, top.Indent ?? Indent, top.Widow ?? Widow);
+            top.PageBreakBefore ?? PageBreakBefore, top.Align ?? Align, top.Indent ?? Indent, top.Widow ?? Widow, top.Line ?? Line, top.LineRule ?? LineRule);
     }
 
     sealed class Translator(DocxDocument docx)
@@ -63,6 +64,7 @@ public static class DocxPdf
         // Word values when the document does not state them: A4, margins of 1 inch, cell margins of 0,19 cm, 10 pt
         const double PageWidthTwips = 11906, PageHeightTwips = 16838, MarginTwips = 1440, CellMarginTwips = 108, DefaultSize = 10;
         const double MinimumColumnTwips = 567;
+        const double SmallCapsScale = 0.8, AutomaticLineUnits = 240;
 
         readonly Dictionary<string, (string? BasedOn, ParaProps Para, RunProps Run)> styles = new(StringComparer.Ordinal);
         readonly Dictionary<string, string> relations = new(StringComparer.Ordinal);
@@ -177,6 +179,19 @@ public static class DocxPdf
                     string text = node.Value.Replace('\r', ' ').Replace('\n', ' ');
                     if ((string?)node.Attribute(XNamespace.Xml + "space") != "preserve") text = text.Trim();
                     if (text.Length == 0) continue;
+                    if (props.Caps == true) text = text.ToUpperInvariant();
+                    if (props.SmallCaps == true && props.Caps != true)
+                    {
+                        // MigraDoc has no small-caps property: preserve the source case as full-size / reduced capitals.
+                        foreach (var group in System.Text.RegularExpressions.Regex.Matches(text, @"\p{Ll}+|[^\p{Ll}]+"))
+                        {
+                            string value = group.ToString()!;
+                            var small = props with { Size = char.IsLower(value[0]) ? (props.Size ?? DefaultSize) * SmallCapsScale : props.Size };
+                            foreach (var (segment, family) in PdfFonts.Segments(value.ToUpperInvariant(), props.Font ?? PdfFonts.DefaultFamily, props.Bold == true))
+                                Apply(link is null ? paragraph.AddFormattedText(segment) : link.AddFormattedText(segment), small with { Font = family });
+                        }
+                        content = true; continue;
+                    }
                     foreach (var (segment, family) in PdfFonts.Segments(text, props.Font ?? PdfFonts.DefaultFamily, props.Bold == true))
                         Apply(link is null ? paragraph.AddFormattedText(segment) : link.AddFormattedText(segment), props with { Font = family });
                     content = true;
@@ -296,6 +311,11 @@ public static class DocxPdf
             if (para.PageBreakBefore == true) format.PageBreakBefore = true;
             if (para.Widow is bool widow) format.WidowControl = widow;
             if (para.Indent is double indent) format.LeftIndent = Pt(indent);
+            if (para.Line is double line)
+            {
+                format.LineSpacingRule = para.LineRule switch { "exact" => LineSpacingRule.Exactly, "atLeast" => LineSpacingRule.AtLeast, _ => LineSpacingRule.Multiple };
+                format.LineSpacing = para.LineRule is "exact" or "atLeast" ? Pt(line) : Unit.FromPoint(line / AutomaticLineUnits);
+            }
             format.Alignment = para.Align switch
             {
                 "center" => ParagraphAlignment.Center, "right" or "end" => ParagraphAlignment.Right, "both" or "distribute" => ParagraphAlignment.Justify,
@@ -312,6 +332,7 @@ public static class DocxPdf
             if (props.Size is double size) font.Size = size;
             if (props.Bold is bool bold) font.Bold = bold;
             if (props.Italic is bool italic) font.Italic = italic;
+            if (props.Underline is { } underline) font.Underline = underline == "none" ? Underline.None : Underline.Single;
             if (ColorOf(props.Color) is Color color) font.Color = color;
             if (props.Vertical == "superscript") font.Superscript = true;
             if (props.Vertical == "subscript") font.Subscript = true;
@@ -356,7 +377,8 @@ public static class DocxPdf
             if (pPr is null) return null;
             var spacing = pPr.Element(W + "spacing"); var ind = pPr.Element(W + "ind");
             return new(Twips(spacing, "before"), Twips(spacing, "after"), Flag(pPr.Element(W + "keepNext")), Flag(pPr.Element(W + "pageBreakBefore")),
-                (string?)pPr.Element(W + "jc")?.Attribute(W + "val"), Twips(ind, "left") ?? Twips(ind, "start"), Flag(pPr.Element(W + "widowControl")));
+                (string?)pPr.Element(W + "jc")?.Attribute(W + "val"), Twips(ind, "left") ?? Twips(ind, "start"), Flag(pPr.Element(W + "widowControl")),
+                Twips(spacing, "line"), (string?)spacing?.Attribute(W + "lineRule"));
         }
 
         static RunProps? ReadRun(XElement? rPr)
@@ -365,7 +387,8 @@ public static class DocxPdf
             var fonts = rPr.Element(W + "rFonts");
             double? size = (double?)rPr.Element(W + "sz")?.Attribute(W + "val") / HalfPointsPerPoint;
             return new((string?)fonts?.Attribute(W + "ascii") ?? (string?)fonts?.Attribute(W + "hAnsi"), size, Flag(rPr.Element(W + "b")),
-                Flag(rPr.Element(W + "i")), (string?)rPr.Element(W + "color")?.Attribute(W + "val"), (string?)rPr.Element(W + "vertAlign")?.Attribute(W + "val"));
+                Flag(rPr.Element(W + "i")), (string?)rPr.Element(W + "color")?.Attribute(W + "val"), (string?)rPr.Element(W + "vertAlign")?.Attribute(W + "val"),
+                Flag(rPr.Element(W + "caps")), Flag(rPr.Element(W + "smallCaps")), (string?)rPr.Element(W + "u")?.Attribute(W + "val"));
         }
 
         // An on/off property: absent = not stated; present without value or with true/1/on = true

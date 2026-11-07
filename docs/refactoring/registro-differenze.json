@@ -15072,6 +15072,41 @@
         "supporto/artefatti/ci/20261106-232741-copertina-project-audit/summary.json",
         "supporto/artefatti/ci/20261106-232921-copertina-adapter/summary.json"
       ]
+    },
+    {
+      "id": "REPORT-TEMPLATE-20261106",
+      "data": "2026-11-06",
+      "fase": "Dopo il refactoring / report e impostazioni",
+      "titolo": "Template di stili selezionabile e allineamento delle relazioni ai risultati correnti",
+      "verifica_conclusiva": "100 PASS: 33 build e 67 suite, nessun fallimento o sorgente modificato durante la corsa finale. F3: 1201 file, zero differenze non ammesse; transizioni report 51 nuove e 329 spostate, Wiki 14 nuove, 21 spostate, 4 aggiornate e 2 sostituite. Profilo standard con 10 UI mirate; full WPF non eseguita.",
+      "famiglia": "report/interfaccia/documentazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Richiesta esplicita dell’utente: ramo proprio da main, revisione dei report e template configurabile come il separatore. Importazione dei soli stili .docx/.dotx senza cartiglio, sommario, campi, testo, immagini, intestazioni, piè di pagina, numerazioni o geometria. Preferenza locale autonoma dal file originale, applicata ai successivi report Word/PDF e PDF/HTML Modelli, con ripristino. Nei report verticali entrano gli avvisi già presenti nei risultati. La relazione completa c.a. riceve i valori della duttilità in curvatura dalla libreria, con motivo di indisponibilità, tramite copia di report separata dal JSON storico. Il progetto richiede la stessa analisi della scheda. Nessun nuovo calcolo o aggiornamento GPC. Guide globali Rev71 e archivio Rev70 con manifest.",
+      "decisione": "Richiesta del 6 novembre 2026; decisioni.md, «report correnti e template dei soli stili». Nessun merge o push richiesto.",
+      "effetto_quantificato": "217 report applicati con il riferimento ITEC senza variazioni del testo; 24 short entro due pagine. F3: confronto di 1201 file, variazioni limitate ai report e alla Wiki; aggiunte e spostamenti ammessi esattamente nelle transizioni, senza modificare attesi indipendenti, input o tolleranze. Guide: pratica 135 pagine, teorica 212. Suite UI 73 prima e dopo.",
+      "codice": [
+        "src/ANTHEA.Reports/ReportStyleTemplate.cs",
+        "src/ANTHEA.Reports/ReportTemplateStore.cs",
+        "src/ANTHEA.Reports/ReportTemplateTypography.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteReportCurvature.cs",
+        "src/ANTHEA.Presentation/Shell/Commands/ReportTemplateMenuViewModel.cs",
+        "src/ANTHEA.Desktop/Views/Shell/ShellWindow.xaml"
+      ],
+      "test": [
+        "Reports.Tests: esclusioni e invarianza del testo, stili, persistenza, preferenza non valida, DOCX/PDF e corpus ITEC",
+        "Application.Tests: curva e duttilità uguali alla libreria, casi non applicabili e annullamento",
+        "Presentation.Tests: menu, report separato dal JSON, confronti F3",
+        "ModelWorkspace.Checks: esportazione PDF/HTML con gli stili selezionati",
+        "ui/f3-equivalence, ui/f3-report-chapters, ui/check-shell-draft, Architecture.Tests"
+      ],
+      "evidenze": [
+        "docs/refactoring/report-template-20261106.md",
+        "supporto/artefatti/ci/20261106-161125-report-template-verifica",
+        "tests/fixtures/f3/manifest.json",
+        "supporto/artefatti/report-template",
+        "supporto/SUPERATI/report-template-rev71-20261106/manifest.json"
+      ]
     }
   ]
 }

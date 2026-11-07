@@ -1,5 +1,15 @@
 # Refactoring di ANTHEA: decisioni
 
+## 6 novembre — report correnti e template dei soli stili
+
+Richiesta dell'utente: «parti da main di anthea su un tuo branch», riallineare i report e permettere di scegliere un template
+nelle impostazioni, come il separatore. Il file ITEC fornito è un riferimento di stili: «togli cartiglio, sommario e simili».
+Questa richiesta riapre l'aggiornamento dei report precedentemente congelati, nel solo ambito descritto nel
+[verbale](report-template-20261106.md), registro `REPORT-TEMPLATE-20261106`.
+Scelte attuative: preferenza locale per utente con copia autonoma degli stili; applicazione dal prossimo export e ripristino;
+contenuti e geometria del modello esclusi. Gli avvisi dei pali e la duttilità già calcolata dalla libreria entrano nelle relazioni;
+il JSON storico dei risultati e gli attesi indipendenti restano invariati. Merge e push non richiesti.
+
 Registro delle decisioni prese con l'utente. Il piano operativo per fasi è in
 [piano.md](piano.md); le differenze numeriche e gli scostamenti tecnici vanno nel
 registro unico `registro-differenze.json` di questa cartella (creato alla prima voce).

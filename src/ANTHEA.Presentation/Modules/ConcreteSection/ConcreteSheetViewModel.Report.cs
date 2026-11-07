@@ -8,8 +8,8 @@ namespace Anthea.Presentation.Modules.ConcreteSection;
 
 /// <summary>
 /// The reports of the sheet (sub-step S9, ConcreteReport.cs of the historic view): the Word report with the figures of the drawings of the
-/// sheet and the short report. The generators (ReportConcrete, ReportConcreteShort, the figures of ModuleFigureRenderer) do not change: reports
-/// frozen on 8/10. The sheet gives them the same data as the historic view, in the same order: committed sheet, refused while busy, queued or
+/// sheet and the short report. Since 6/11 the full report also projects the current ductility result, without changing the JSON export contract.
+/// The sheet gives the generators the data in the same order as the historic view: committed sheet, refused while busy, queued or
 /// without results; the sections chosen saved in the data with Modified (not for the report of a project); the detailing refreshed, the export
 /// read again and given the data; the 2D domain drawn also when its tab is hidden.
 /// </summary>
@@ -32,8 +32,10 @@ public sealed partial class ConcreteSheetViewModel
         Commit();
         if (IsBusy || !HasResults || IsCalculationQueued) throw new InvalidOperationException(ReportUnavailable);
         if (!projectReport) { Settings["report_sezioni"] = J.Node(options.OrderBy(k => k).ToArray()); RaiseModified(); }
-        RefreshDetailing(); var result = Result!;
-        result["dati"] = Data.DeepClone();
+        RefreshDetailing(); var exported = Result!;
+        exported["dati"] = Data.DeepClone();
+        var result = (JsonObject)exported.DeepClone();
+        ConcreteReportCurvature.Append(result, Curvature.Result);
         var drawings = ReportDrawings(result, options);
         // Without «grafici» the report has no figure (ModuleFigureRenderer.ConcreteFigures draws none); a sheet without a renderer refuses the others.
         if (figures is null && options.Contains("grafici")) throw new InvalidOperationException(FiguresUnavailable);

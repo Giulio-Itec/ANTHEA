@@ -22,7 +22,8 @@ public static class ProjectReportService
     /// <summary>Writes an owned snapshot (created by Snapshot), preserving its ancestry for shared
     /// inputs. Updated per-sheet data remains in that snapshot for diagnostics; the original is untouched.</summary>
     public static async Task<int> WriteSnapshotAsync(JsonObject snapshot, string filename,
-        IProjectReportChapterBuilder chapters, Action<string>? progress = null, CancellationToken cancellation = default)
+        IProjectReportChapterBuilder chapters, Action<string>? progress = null, CancellationToken cancellation = default,
+        Anthea.Reports.ReportStyleTemplate? template = null)
     {
         ArgumentNullException.ThrowIfNull(chapters);
         var sheets = ProjectSharedData.SubtreeSheets(snapshot).ToArray();
@@ -46,7 +47,7 @@ public static class ProjectReportService
         progress?.Invoke("Unione dei dati comuni e impaginazione…");
         var plan = new ProjectReportPlan(snapshot);
         var warnings = ProjectValidation.Warnings(snapshot);
-        await Task.Run(() => { cancellation.ThrowIfCancellationRequested(); ReportProject.Write(filename, plan, reports, warnings, cancellation); }, cancellation);
+        await Task.Run(() => { cancellation.ThrowIfCancellationRequested(); ReportProject.Write(filename, plan, reports, warnings, cancellation, template: template); }, cancellation);
         return reports.Values.Count(r => r.Error is not null);
     }
 }

@@ -2,37 +2,17 @@ using System.Net;
 using System.Text;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
-using PdfSharp.Fonts;
 
 namespace ANTHEA.ModelReports;
 
 /// <summary>Document composition and file publication. No UI dependencies or structural calculations.</summary>
 public static class ModelReportExporter
 {
-    static readonly object FontLock = new();
-    public static void ConfigureFonts(byte[] regular, byte[] bold)
-    {
-        lock (FontLock)
-        {
-            if (GlobalFontSettings.FontResolver is ReportFonts) return;
-            // The application installs the shared resolver of the report PDFs at start-up: it resolves the "Anthea Report" family too
-            if (GlobalFontSettings.FontResolver is { } shared)
-            {
-                if (shared.ResolveTypeface("Anthea Report", false, false) is null) throw new InvalidOperationException("Configurazione dei caratteri PDF incompatibile.");
-                return;
-            }
-            GlobalFontSettings.FontResolver = new ReportFonts(regular, bold);
-        }
-    }
-    sealed class ReportFonts(byte[] regular, byte[] bold) : IFontResolver
-    {
-        public byte[] GetFont(string faceName) => faceName == "AntheaBold" ? bold : regular;
-        public FontResolverInfo ResolveTypeface(string familyName, bool isBold, bool isItalic) => new(isBold ? "AntheaBold" : "AntheaRegular", false, isItalic);
-    }
+    public static void ConfigureFonts() => Anthea.Reports.Pdf.PdfFonts.Ensure();
 
     public static async Task<ReportExportResult> ExportAsync(ModelReportDocument recipe, string revision, string target,
         Func<ModelReportBlock, string, CancellationToken, Task<ReportFigure>> capture,
-        IProgress<ReportProgress>? progress, CancellationToken cancellationToken)
+        IProgress<ReportProgress>? progress, CancellationToken cancellationToken, Anthea.Reports.ReportStyleTemplate? template = null)
     {
         ModelReportFiles.Validate(recipe);
         if(revision.Length!=64 || revision.Any(c=>!Uri.IsHexDigit(c)))throw new InvalidDataException("Revisione del report non valida.");
@@ -67,8 +47,8 @@ public static class ModelReportExporter
             await Task.Run(() =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                WritePdf(current, figures, created, Path.Combine(temporary, name + ".pdf"));
-                File.WriteAllText(Path.Combine(temporary, name + ".html"), Html(current, figures, created), Encoding.UTF8);
+                WritePdf(current, figures, created, Path.Combine(temporary, name + ".pdf"), template);
+                File.WriteAllText(Path.Combine(temporary, name + ".html"), Html(current, figures, created, template), Encoding.UTF8);
                 ModelReportFiles.Write(Path.Combine(temporary, name + ".antheareport"), current);
                 cancellationToken.ThrowIfCancellationRequested();
             }, cancellationToken);
@@ -93,7 +73,7 @@ public static class ModelReportExporter
         (string.IsNullOrWhiteSpace(b.SheetName) ? "Nessun foglio di verifica associato." : "Foglio: " + b.SheetName) +
         "\nQuesto capitolo non contiene esiti di verifica. Il collegamento ai risultati delle librerie GPC sarà implementato successivamente.";
 
-    static void WritePdf(ModelReportDocument recipe, IReadOnlyDictionary<Guid, ReportFigure> figures, DateTimeOffset created, string path)
+    static void WritePdf(ModelReportDocument recipe, IReadOnlyDictionary<Guid, ReportFigure> figures, DateTimeOffset created, string path, Anthea.Reports.ReportStyleTemplate? template)
     {
         var doc = new Document(); doc.Info.Title = recipe.Title; doc.Info.Author = recipe.Author;
         var normal = doc.Styles[StyleNames.Normal]!; normal.Font.Name = "Anthea Report"; normal.Font.Size = 10;
@@ -143,10 +123,11 @@ public static class ModelReportExporter
             if (b.Kind == ReportBlockKind.Verification) section.AddParagraph(Pending(b));
             foreach (string paragraph in b.Text.Replace("\r", "").Split('\n')) section.AddParagraph(paragraph.Length == 0 ? " " : paragraph);
         }
+        if (template is not null) Anthea.Reports.ReportTemplateTypography.Apply(template, doc);
         var renderer = new PdfDocumentRenderer { Document = doc }; renderer.RenderDocument(); renderer.PdfDocument.Save(path);
     }
 
-    static string Html(ModelReportDocument recipe, IReadOnlyDictionary<Guid, ReportFigure> figures, DateTimeOffset created)
+    static string Html(ModelReportDocument recipe, IReadOnlyDictionary<Guid, ReportFigure> figures, DateTimeOffset created, Anthea.Reports.ReportStyleTemplate? template)
     {
         static string E(string value) => WebUtility.HtmlEncode(value);
         var html = new StringBuilder("<!doctype html><html lang='it'><meta charset='utf-8'><title>").Append(E(recipe.Title))
@@ -167,6 +148,7 @@ public static class ModelReportExporter
             if (b.Kind == ReportBlockKind.Verification) html.Append("<p>").Append(E(Pending(b))).Append("</p>");
             html.Append("<p>").Append(E(b.Text)).Append("</p></section>");
         }
+        if (template is not null) html.Append("<style>").Append(Anthea.Reports.ReportTemplateTypography.Css(template)).Append("</style>");
         return html.Append("</main></html>").ToString();
     }
 }

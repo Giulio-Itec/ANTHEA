@@ -77,7 +77,8 @@ internal static class ShellDraftChecks
             // Since the checkpoint the shell comes from its composition root (ShellComposition), with these services, the Wiki of the services on the
             // tab of the shell, and detached windows wrapped so that they are never activated.
             var services = new DraftServices();
-            var presentation = ShellComposition.WithShellWiki(services.Create());
+            var presentation = ShellComposition.WithShellWiki(services.Create()) with
+            { ReportTemplates = new Anthea.Reports.ReportTemplateStore(Path.Combine(output, "report-template.json")) };
             var modules = DesktopComposition.CreateModules();
             var detached = new List<QuietWindow>();
             // Since the night of 22-23/10 (R5) the shell opens every module as the Release chooses it; the draft keeps every module on its MVVM view, the
@@ -97,6 +98,11 @@ internal static class ShellDraftChecks
             {
                 var workspace = shell.Workspace;
                 await Capture(main, output, "01-home.png", bindings);
+                var shellMenu = Descendants<Menu>(main).First();
+                var appearance = (MenuItem)shellMenu.Items[1];
+                var templateMenu = appearance.Items.OfType<MenuItem>().Single(m => Equals(m.Header, ReportTemplateMenuViewModel.Title));
+                Check(templateMenu.Visibility == Visibility.Visible && templateMenu.Items.OfType<MenuItem>().Any(m => ReferenceEquals(m.Command, shell.ReportTemplates!.SelectCommand)),
+                    "Template dei report nel menu Aspetto, comando collegato al ViewModel");
                 Check(shell.Center is NavigationViewModel && main.ActualWidth > 1000 && main.Title == "ANTHEA", "Home al centro, finestra principale");
 
                 shell.Navigation.Select(ShellPage.Modules);

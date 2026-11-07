@@ -297,7 +297,23 @@ public static class ReportConcrete
             Heading("Diagramma momento–curvatura");
             if(settings["momento_curvatura"] is JsonObject curveOptions)Parameters("Percorso di carico",curveOptions,[("N","N costante [kN]"),("theta","Direzione momento [°]"),("passi","Passi"),("frazione","Frazione di MRd"),("campionamento","Campionamento"),("trazione_cls","CLS a trazione"),("cls_teso_risposte","CLS teso nelle risposte")]);
             if(result["momento_curvatura"] is JsonObject curve)
-            {P(curve.S("Status"));P($"MRd = {F(curve["LimitMoment"])} kNm; χy = {F(curve["YieldCurvature"])} 1/m; χu = {F(curve["UltimateCurvature"])} 1/m.");Figures("curvatura");Table(["M [kNm]","χ [1/m]","ε0 [‰]","εc,comp [‰]","|εs|max [‰]"],curve.Array("Points").Select(p=>new[]{F(p?["Moment"]),F(p?["Curvature"]),F(p?["Epsilon0"]),F(p?["ConcreteCompressionStrain"]),F(p?["SteelStrain"])}));}
+            {
+                P(curve.S("Status"));P($"MRd = {F(curve["LimitMoment"])} kNm; χy = {F(curve["YieldCurvature"])} 1/m; χu = {F(curve["UltimateCurvature"])} 1/m.");
+                if (curve["Ductility"] is JsonObject ductility)
+                {
+                    string Curvature(string key) => J.Number(ductility[key]) is double value ? value.ToString("G6", System.Globalization.CultureInfo.CurrentCulture) : "—";
+                    Subheading("Duttilità in curvatura");
+                    P("Ramo a curvatura controllata a N costante; bilineare e valori del calcolo della sezione. Il momento resistente MRd e il massimo Mmax del ramo sono distinti.");
+                    P($"M′yd = {F(ductility["FirstYieldMoment"])} kNm; φ′yd = {Curvature("FirstYieldCurvature")} 1/m. "
+                        + (ductility.B("FirstYieldInSteel") ? "Primo snervamento della barra più tesa." : "Calcestruzzo alla deformazione di picco."));
+                    P($"MRd = {F(ductility["ResistingMoment"])} kNm; φyd = (MRd/M′yd)·φ′yd = {Curvature("YieldCurvature")} 1/m.");
+                    P($"Mmax = {F(ductility["MaximumMoment"])} kNm a χ = {Curvature("MaximumMomentCurvature")} 1/m.");
+                    P($"φu = {Curvature("UltimateCurvature")} 1/m; μφ = φu/φyd = {F(ductility["CurvatureDuctility"])}. "
+                        + (ductility.B("UltimateAfterPeak") ? "Momento sceso a 0,85 Mmax dopo il picco." : "Punto limite per deformazione ultima del calcestruzzo o dell’acciaio."));
+                }
+                else if (curve.S("DuctilityMessage") is { Length: > 0 } reason) P("Duttilità in curvatura μφ non calcolata: " + reason);
+                Figures("curvatura");Table(["M [kNm]","χ [1/m]","ε0 [‰]","εc,comp [‰]","|εs|max [‰]"],curve.Array("Points").Select(p=>new[]{F(p?["Moment"]),F(p?["Curvature"]),F(p?["Epsilon0"]),F(p?["ConcreteCompressionStrain"]),F(p?["SteelStrain"])}));
+            }
             else P(result["errori_calcolo"].S("Momento–curvatura") is { Length: > 0 } curveError
                 ? "Curva non disponibile: " + curveError : "Curva non calcolata con i dati correnti.");
             // The model column (1.15.0), only for the sheets with its options: the reports of the other sheets do not change.

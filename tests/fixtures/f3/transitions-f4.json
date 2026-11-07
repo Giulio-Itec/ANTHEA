@@ -90,7 +90,8 @@
   "R9": 2,
   "SPETTRI-04": 12,
   "AG-CA-01 / CA-CRITERIO-STATI-01": 17,
-  "CA-CRITERIO-STATI-01": 227
+  "CA-CRITERIO-STATI-01": 227,
+  "REPORT-TEMPLATE-20261106": 51
  },
  "voci": [
   {
@@ -2527,7 +2528,7 @@
   },
   {
    "file": "project/report-structure.json",
-   "percorso": "$.styles[3070]",
+   "percorso": "$.styles[3076]",
    "classe": "elemento-aggiunto",
    "a": null,
    "b": "\"Caption\"",
@@ -2535,66 +2536,18 @@
   },
   {
    "file": "project/report-structure.json",
-   "percorso": "$.styles[3071]",
-   "classe": "elemento-aggiunto",
-   "a": null,
-   "b": "\"TableHeader\"",
-   "voce": "F4-40"
-  },
-  {
-   "file": "project/report-structure.json",
-   "percorso": "$.styles[3072]",
-   "classe": "elemento-aggiunto",
-   "a": null,
-   "b": "\"TableHeader\"",
-   "voce": "F3-11"
-  },
-  {
-   "file": "project/report-structure.json",
-   "percorso": "$.styles[3073]",
-   "classe": "elemento-aggiunto",
-   "a": null,
-   "b": "\"TableHeader\"",
-   "voce": "F3-11"
-  },
-  {
-   "file": "project/report-structure.json",
-   "percorso": "$.styles[3074]",
-   "classe": "elemento-aggiunto",
-   "a": null,
-   "b": "\"TableHeader\"",
-   "voce": "F3-11"
-  },
-  {
-   "file": "project/report-structure.json",
-   "percorso": "$.styles[3075]",
-   "classe": "elemento-aggiunto",
-   "a": null,
-   "b": "\"TableHeader\"",
-   "voce": "F3-11"
-  },
-  {
-   "file": "project/report-structure.json",
-   "percorso": "$.styles[3076]",
-   "classe": "elemento-aggiunto",
-   "a": null,
-   "b": "\"TableText\"",
-   "voce": "F4-40"
-  },
-  {
-   "file": "project/report-structure.json",
    "percorso": "$.styles[3077]",
    "classe": "elemento-aggiunto",
    "a": null,
-   "b": "\"TableText\"",
-   "voce": "F3-11"
+   "b": "\"TableHeader\"",
+   "voce": "F4-40"
   },
   {
    "file": "project/report-structure.json",
    "percorso": "$.styles[3078]",
    "classe": "elemento-aggiunto",
    "a": null,
-   "b": "\"TableText\"",
+   "b": "\"TableHeader\"",
    "voce": "F3-11"
   },
   {
@@ -2602,7 +2555,7 @@
    "percorso": "$.styles[3079]",
    "classe": "elemento-aggiunto",
    "a": null,
-   "b": "\"TableText\"",
+   "b": "\"TableHeader\"",
    "voce": "F3-11"
   },
   {
@@ -2610,12 +2563,60 @@
    "percorso": "$.styles[3080]",
    "classe": "elemento-aggiunto",
    "a": null,
-   "b": "\"TableText\"",
+   "b": "\"TableHeader\"",
    "voce": "F3-11"
   },
   {
    "file": "project/report-structure.json",
    "percorso": "$.styles[3081]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"TableHeader\"",
+   "voce": "F3-11"
+  },
+  {
+   "file": "project/report-structure.json",
+   "percorso": "$.styles[3386]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"TableText\"",
+   "voce": "F4-40"
+  },
+  {
+   "file": "project/report-structure.json",
+   "percorso": "$.styles[3387]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"TableText\"",
+   "voce": "F3-11"
+  },
+  {
+   "file": "project/report-structure.json",
+   "percorso": "$.styles[3388]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"TableText\"",
+   "voce": "F3-11"
+  },
+  {
+   "file": "project/report-structure.json",
+   "percorso": "$.styles[3389]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"TableText\"",
+   "voce": "F3-11"
+  },
+  {
+   "file": "project/report-structure.json",
+   "percorso": "$.styles[3390]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"TableText\"",
+   "voce": "F3-11"
+  },
+  {
+   "file": "project/report-structure.json",
+   "percorso": "$.styles[3391]",
    "classe": "elemento-aggiunto",
    "a": null,
    "b": "\"TableText\"",
@@ -5055,7 +5056,7 @@
   },
   {
    "file": "project/report-structure.json",
-   "percorso": "$.styles[3386]",
+   "percorso": "$.styles[3071]",
    "classe": "elemento-aggiunto",
    "a": null,
    "b": "\"Normal\"",
@@ -36839,7 +36840,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4843 (b)",
+   "percorso": "riga 4849 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "¶ Momento–curvatura · percorso assegnato",
@@ -36847,7 +36848,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4844 (b)",
+   "percorso": "riga 4850 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r1 c1] M [kNm]",
@@ -36855,7 +36856,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4845 (b)",
+   "percorso": "riga 4851 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r1 c2] χ [1/m]",
@@ -36863,7 +36864,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4846 (b)",
+   "percorso": "riga 4852 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r1 c3] ε0 [‰]",
@@ -36871,7 +36872,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4847 (b)",
+   "percorso": "riga 4853 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r1 c4] εc,comp [‰]",
@@ -36879,7 +36880,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4848 (b)",
+   "percorso": "riga 4854 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r1 c5] |εs|max [‰]",
@@ -36887,7 +36888,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4849 (b)",
+   "percorso": "riga 4855 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r2 c1] 0,00",
@@ -36895,7 +36896,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4850 (b)",
+   "percorso": "riga 4856 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r2 c2] 0,00",
@@ -36903,7 +36904,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4851 (b)",
+   "percorso": "riga 4857 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r2 c3] 0,00",
@@ -36911,7 +36912,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4852 (b)",
+   "percorso": "riga 4858 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r2 c4] 0,00",
@@ -36919,7 +36920,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4853 (b)",
+   "percorso": "riga 4859 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r2 c5] 0,00",
@@ -36927,7 +36928,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4854 (b)",
+   "percorso": "riga 4860 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r3 c1] 0,22",
@@ -36935,7 +36936,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4855 (b)",
+   "percorso": "riga 4861 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r3 c2] 1,09E-6",
@@ -36943,7 +36944,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4856 (b)",
+   "percorso": "riga 4862 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r3 c3] 1,58E-4",
@@ -36951,7 +36952,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4857 (b)",
+   "percorso": "riga 4863 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r3 c4] 2,76E-4",
@@ -36959,7 +36960,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4858 (b)",
+   "percorso": "riga 4864 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r3 c5] 4,92E-4",
@@ -36967,7 +36968,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4859 (b)",
+   "percorso": "riga 4865 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r4 c1] 0,89",
@@ -36975,7 +36976,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4860 (b)",
+   "percorso": "riga 4866 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r4 c2] 4,87E-6",
@@ -36983,7 +36984,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4861 (b)",
+   "percorso": "riga 4867 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r4 c3] 8,98E-4",
@@ -36991,7 +36992,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4862 (b)",
+   "percorso": "riga 4868 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r4 c4] 1,05E-3",
@@ -36999,7 +37000,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4863 (b)",
+   "percorso": "riga 4869 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r4 c5] 2,40E-3",
@@ -37007,7 +37008,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4864 (b)",
+   "percorso": "riga 4870 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r5 c1] 2,00",
@@ -37015,7 +37016,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4865 (b)",
+   "percorso": "riga 4871 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r5 c2] 1,10E-5",
@@ -37023,7 +37024,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4866 (b)",
+   "percorso": "riga 4872 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r5 c3] 2,02E-3",
@@ -37031,7 +37032,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4867 (b)",
+   "percorso": "riga 4873 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r5 c4] 2,37E-3",
@@ -37039,7 +37040,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4868 (b)",
+   "percorso": "riga 4874 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r5 c5] 5,40E-3",
@@ -37047,7 +37048,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4869 (b)",
+   "percorso": "riga 4875 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r6 c1] 3,56",
@@ -37055,7 +37056,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4870 (b)",
+   "percorso": "riga 4876 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r6 c2] 1,95E-5",
@@ -37063,7 +37064,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4871 (b)",
+   "percorso": "riga 4877 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r6 c3] 3,64E-3",
@@ -37071,7 +37072,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4872 (b)",
+   "percorso": "riga 4878 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r6 c4] 4,17E-3",
@@ -37079,7 +37080,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4873 (b)",
+   "percorso": "riga 4879 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r6 c5] 9,66E-3",
@@ -37087,7 +37088,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4874 (b)",
+   "percorso": "riga 4880 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r7 c1] 5,56",
@@ -37095,7 +37096,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4875 (b)",
+   "percorso": "riga 4881 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r7 c2] 3,05E-5",
@@ -37103,7 +37104,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4876 (b)",
+   "percorso": "riga 4882 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r7 c3] 5,69E-3",
@@ -37111,7 +37112,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4877 (b)",
+   "percorso": "riga 4883 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r7 c4] 6,51E-3",
@@ -37119,7 +37120,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4878 (b)",
+   "percorso": "riga 4884 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r7 c5] 0,02",
@@ -37127,7 +37128,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4879 (b)",
+   "percorso": "riga 4885 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r8 c1] 8,00",
@@ -37135,7 +37136,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4880 (b)",
+   "percorso": "riga 4886 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r8 c2] 4,39E-5",
@@ -37143,7 +37144,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4881 (b)",
+   "percorso": "riga 4887 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r8 c3] 8,20E-3",
@@ -37151,7 +37152,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4882 (b)",
+   "percorso": "riga 4888 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r8 c4] 9,38E-3",
@@ -37159,7 +37160,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4883 (b)",
+   "percorso": "riga 4889 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r8 c5] 0,02",
@@ -37167,7 +37168,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4884 (b)",
+   "percorso": "riga 4890 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r9 c1] 10,89",
@@ -37175,7 +37176,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4885 (b)",
+   "percorso": "riga 4891 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r9 c2] 5,98E-5",
@@ -37183,7 +37184,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4886 (b)",
+   "percorso": "riga 4892 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r9 c3] 0,01",
@@ -37191,7 +37192,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4887 (b)",
+   "percorso": "riga 4893 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r9 c4] 0,01",
@@ -37199,7 +37200,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4888 (b)",
+   "percorso": "riga 4894 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r9 c5] 0,03",
@@ -37207,7 +37208,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4889 (b)",
+   "percorso": "riga 4895 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r10 c1] 14,23",
@@ -37215,7 +37216,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4890 (b)",
+   "percorso": "riga 4896 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r10 c2] 7,82E-5",
@@ -37223,7 +37224,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4891 (b)",
+   "percorso": "riga 4897 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r10 c3] 0,01",
@@ -37231,7 +37232,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4892 (b)",
+   "percorso": "riga 4898 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r10 c4] 0,02",
@@ -37239,7 +37240,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4893 (b)",
+   "percorso": "riga 4899 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r10 c5] 0,04",
@@ -37247,7 +37248,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4894 (b)",
+   "percorso": "riga 4900 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r11 c1] 18,00",
@@ -37255,7 +37256,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4895 (b)",
+   "percorso": "riga 4901 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r11 c2] 9,89E-5",
@@ -37263,7 +37264,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4896 (b)",
+   "percorso": "riga 4902 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r11 c3] 0,02",
@@ -37271,7 +37272,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4897 (b)",
+   "percorso": "riga 4903 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r11 c4] 0,02",
@@ -37279,7 +37280,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4898 (b)",
+   "percorso": "riga 4904 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r11 c5] 0,05",
@@ -37287,7 +37288,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4899 (b)",
+   "percorso": "riga 4905 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r12 c1] 22,23",
@@ -37295,7 +37296,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4900 (b)",
+   "percorso": "riga 4906 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r12 c2] 1,22E-4",
@@ -37303,7 +37304,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4901 (b)",
+   "percorso": "riga 4907 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r12 c3] 0,02",
@@ -37311,7 +37312,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4902 (b)",
+   "percorso": "riga 4908 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r12 c4] 0,03",
@@ -37319,7 +37320,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4903 (b)",
+   "percorso": "riga 4909 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r12 c5] 0,06",
@@ -37327,7 +37328,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4904 (b)",
+   "percorso": "riga 4910 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r13 c1] 26,89",
@@ -37335,7 +37336,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4905 (b)",
+   "percorso": "riga 4911 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r13 c2] 1,48E-4",
@@ -37343,7 +37344,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4906 (b)",
+   "percorso": "riga 4912 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r13 c3] 0,03",
@@ -37351,7 +37352,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4907 (b)",
+   "percorso": "riga 4913 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r13 c4] 0,03",
@@ -37359,7 +37360,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4908 (b)",
+   "percorso": "riga 4914 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r13 c5] 0,07",
@@ -37367,7 +37368,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4909 (b)",
+   "percorso": "riga 4915 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r14 c1] 32,01",
@@ -37375,7 +37376,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4910 (b)",
+   "percorso": "riga 4916 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r14 c2] 1,76E-4",
@@ -37383,7 +37384,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4911 (b)",
+   "percorso": "riga 4917 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r14 c3] 0,03",
@@ -37391,7 +37392,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4912 (b)",
+   "percorso": "riga 4918 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r14 c4] 0,04",
@@ -37399,7 +37400,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4913 (b)",
+   "percorso": "riga 4919 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r14 c5] 0,09",
@@ -37407,7 +37408,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4914 (b)",
+   "percorso": "riga 4920 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r15 c1] 37,56",
@@ -37415,7 +37416,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4915 (b)",
+   "percorso": "riga 4921 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r15 c2] 2,07E-4",
@@ -37423,7 +37424,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4916 (b)",
+   "percorso": "riga 4922 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r15 c3] 0,04",
@@ -37431,7 +37432,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4917 (b)",
+   "percorso": "riga 4923 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r15 c4] 0,04",
@@ -37439,7 +37440,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4918 (b)",
+   "percorso": "riga 4924 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r15 c5] 0,10",
@@ -37447,7 +37448,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4919 (b)",
+   "percorso": "riga 4925 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r16 c1] 43,56",
@@ -37455,7 +37456,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4920 (b)",
+   "percorso": "riga 4926 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r16 c2] 2,40E-4",
@@ -37463,7 +37464,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4921 (b)",
+   "percorso": "riga 4927 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r16 c3] 0,04",
@@ -37471,7 +37472,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4922 (b)",
+   "percorso": "riga 4928 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r16 c4] 0,05",
@@ -37479,7 +37480,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4923 (b)",
+   "percorso": "riga 4929 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r16 c5] 0,12",
@@ -37487,7 +37488,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4924 (b)",
+   "percorso": "riga 4930 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r17 c1] 50,01",
@@ -37495,7 +37496,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4925 (b)",
+   "percorso": "riga 4931 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r17 c2] 2,75E-4",
@@ -37503,7 +37504,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4926 (b)",
+   "percorso": "riga 4932 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r17 c3] 0,05",
@@ -37511,7 +37512,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4927 (b)",
+   "percorso": "riga 4933 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r17 c4] 0,06",
@@ -37519,7 +37520,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4928 (b)",
+   "percorso": "riga 4934 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r17 c5] 0,14",
@@ -37527,7 +37528,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4929 (b)",
+   "percorso": "riga 4935 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r18 c1] 56,90",
@@ -37535,7 +37536,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4930 (b)",
+   "percorso": "riga 4936 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r18 c2] 3,13E-4",
@@ -37543,7 +37544,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4931 (b)",
+   "percorso": "riga 4937 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r18 c3] 0,06",
@@ -37551,7 +37552,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4932 (b)",
+   "percorso": "riga 4938 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r18 c4] 0,07",
@@ -37559,7 +37560,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4933 (b)",
+   "percorso": "riga 4939 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r18 c5] 0,15",
@@ -37567,7 +37568,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4934 (b)",
+   "percorso": "riga 4940 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r19 c1] 64,24",
@@ -37575,7 +37576,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4935 (b)",
+   "percorso": "riga 4941 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r19 c2] 3,54E-4",
@@ -37583,7 +37584,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4936 (b)",
+   "percorso": "riga 4942 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r19 c3] 0,07",
@@ -37591,7 +37592,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4937 (b)",
+   "percorso": "riga 4943 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r19 c4] 0,08",
@@ -37599,7 +37600,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4938 (b)",
+   "percorso": "riga 4944 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r19 c5] 0,17",
@@ -37607,7 +37608,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4939 (b)",
+   "percorso": "riga 4945 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r20 c1] 72,02",
@@ -37615,7 +37616,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4940 (b)",
+   "percorso": "riga 4946 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r20 c2] 3,97E-4",
@@ -37623,7 +37624,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4941 (b)",
+   "percorso": "riga 4947 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r20 c3] 0,07",
@@ -37631,7 +37632,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4942 (b)",
+   "percorso": "riga 4948 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r20 c4] 0,09",
@@ -37639,7 +37640,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4943 (b)",
+   "percorso": "riga 4949 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r20 c5] 0,20",
@@ -37647,7 +37648,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4944 (b)",
+   "percorso": "riga 4950 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r21 c1] 80,24",
@@ -37655,7 +37656,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4945 (b)",
+   "percorso": "riga 4951 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r21 c2] 4,42E-4",
@@ -37663,7 +37664,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4946 (b)",
+   "percorso": "riga 4952 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r21 c3] 0,08",
@@ -37671,7 +37672,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4947 (b)",
+   "percorso": "riga 4953 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r21 c4] 0,09",
@@ -37679,7 +37680,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4948 (b)",
+   "percorso": "riga 4954 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r21 c5] 0,22",
@@ -37687,7 +37688,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4949 (b)",
+   "percorso": "riga 4955 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r22 c1] 88,91",
@@ -37695,7 +37696,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4950 (b)",
+   "percorso": "riga 4956 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r22 c2] 4,90E-4",
@@ -37703,7 +37704,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4951 (b)",
+   "percorso": "riga 4957 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r22 c3] 0,09",
@@ -37711,7 +37712,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4952 (b)",
+   "percorso": "riga 4958 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r22 c4] 0,11",
@@ -37719,7 +37720,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4953 (b)",
+   "percorso": "riga 4959 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r22 c5] 0,24",
@@ -37727,7 +37728,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4954 (b)",
+   "percorso": "riga 4960 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r23 c1] 98,02",
@@ -37735,7 +37736,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4955 (b)",
+   "percorso": "riga 4961 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r23 c2] 5,41E-4",
@@ -37743,7 +37744,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4956 (b)",
+   "percorso": "riga 4962 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r23 c3] 0,10",
@@ -37751,7 +37752,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4957 (b)",
+   "percorso": "riga 4963 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r23 c4] 0,12",
@@ -37759,7 +37760,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4958 (b)",
+   "percorso": "riga 4964 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r23 c5] 0,27",
@@ -37767,7 +37768,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4959 (b)",
+   "percorso": "riga 4965 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r24 c1] 107,58",
@@ -37775,7 +37776,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4960 (b)",
+   "percorso": "riga 4966 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r24 c2] 5,94E-4",
@@ -37783,7 +37784,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4961 (b)",
+   "percorso": "riga 4967 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r24 c3] 0,11",
@@ -37791,7 +37792,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4962 (b)",
+   "percorso": "riga 4968 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r24 c4] 0,13",
@@ -37799,7 +37800,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4963 (b)",
+   "percorso": "riga 4969 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r24 c5] 0,29",
@@ -37807,7 +37808,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4964 (b)",
+   "percorso": "riga 4970 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r25 c1] 117,58",
@@ -37815,7 +37816,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4965 (b)",
+   "percorso": "riga 4971 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r25 c2] 6,49E-4",
@@ -37823,7 +37824,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4966 (b)",
+   "percorso": "riga 4972 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r25 c3] 0,12",
@@ -37831,7 +37832,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4967 (b)",
+   "percorso": "riga 4973 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r25 c4] 0,14",
@@ -37839,7 +37840,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4968 (b)",
+   "percorso": "riga 4974 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r25 c5] 0,32",
@@ -37847,7 +37848,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4969 (b)",
+   "percorso": "riga 4975 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r26 c1] 128,03",
@@ -37855,7 +37856,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4970 (b)",
+   "percorso": "riga 4976 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r26 c2] 7,07E-4",
@@ -37863,7 +37864,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4971 (b)",
+   "percorso": "riga 4977 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r26 c3] 0,13",
@@ -37871,7 +37872,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4972 (b)",
+   "percorso": "riga 4978 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r26 c4] 0,15",
@@ -37879,7 +37880,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4973 (b)",
+   "percorso": "riga 4979 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r26 c5] 0,35",
@@ -37887,7 +37888,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4974 (b)",
+   "percorso": "riga 4980 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r27 c1] 138,92",
@@ -37895,7 +37896,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4975 (b)",
+   "percorso": "riga 4981 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r27 c2] 7,68E-4",
@@ -37903,7 +37904,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4976 (b)",
+   "percorso": "riga 4982 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r27 c3] 0,14",
@@ -37911,7 +37912,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4977 (b)",
+   "percorso": "riga 4983 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r27 c4] 0,17",
@@ -37919,7 +37920,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4978 (b)",
+   "percorso": "riga 4984 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r27 c5] 0,38",
@@ -37927,7 +37928,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4979 (b)",
+   "percorso": "riga 4985 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r28 c1] 150,25",
@@ -37935,7 +37936,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4980 (b)",
+   "percorso": "riga 4986 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r28 c2] 8,31E-4",
@@ -37943,7 +37944,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4981 (b)",
+   "percorso": "riga 4987 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r28 c3] 0,15",
@@ -37951,7 +37952,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4982 (b)",
+   "percorso": "riga 4988 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r28 c4] 0,18",
@@ -37959,7 +37960,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4983 (b)",
+   "percorso": "riga 4989 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r28 c5] 0,41",
@@ -37967,7 +37968,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4984 (b)",
+   "percorso": "riga 4990 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r29 c1] 162,03",
@@ -37975,7 +37976,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4985 (b)",
+   "percorso": "riga 4991 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r29 c2] 8,97E-4",
@@ -37983,7 +37984,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4986 (b)",
+   "percorso": "riga 4992 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r29 c3] 0,17",
@@ -37991,7 +37992,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4987 (b)",
+   "percorso": "riga 4993 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r29 c4] 0,19",
@@ -37999,7 +38000,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4988 (b)",
+   "percorso": "riga 4994 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r29 c5] 0,44",
@@ -38007,7 +38008,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4989 (b)",
+   "percorso": "riga 4995 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r30 c1] 174,26",
@@ -38015,7 +38016,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4990 (b)",
+   "percorso": "riga 4996 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r30 c2] 9,65E-4",
@@ -38023,7 +38024,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4991 (b)",
+   "percorso": "riga 4997 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r30 c3] 0,18",
@@ -38031,7 +38032,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4992 (b)",
+   "percorso": "riga 4998 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r30 c4] 0,21",
@@ -38039,7 +38040,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4993 (b)",
+   "percorso": "riga 4999 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r30 c5] 0,47",
@@ -38047,7 +38048,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4994 (b)",
+   "percorso": "riga 5000 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r31 c1] 186,93",
@@ -38055,7 +38056,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4995 (b)",
+   "percorso": "riga 5001 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r31 c2] 1,04E-3",
@@ -38063,7 +38064,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4996 (b)",
+   "percorso": "riga 5002 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r31 c3] 0,19",
@@ -38071,7 +38072,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4997 (b)",
+   "percorso": "riga 5003 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r31 c4] 0,22",
@@ -38079,7 +38080,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4998 (b)",
+   "percorso": "riga 5004 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r31 c5] 0,51",
@@ -38087,7 +38088,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 4999 (b)",
+   "percorso": "riga 5005 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r32 c1] 200,04",
@@ -38095,7 +38096,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5000 (b)",
+   "percorso": "riga 5006 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r32 c2] 1,11E-3",
@@ -38103,7 +38104,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5001 (b)",
+   "percorso": "riga 5007 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r32 c3] 0,20",
@@ -38111,7 +38112,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5002 (b)",
+   "percorso": "riga 5008 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r32 c4] 0,24",
@@ -38119,7 +38120,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5003 (b)",
+   "percorso": "riga 5009 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r32 c5] 0,55",
@@ -38127,7 +38128,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5004 (b)",
+   "percorso": "riga 5010 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r33 c1] 213,60",
@@ -38135,7 +38136,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5005 (b)",
+   "percorso": "riga 5011 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r33 c2] 1,19E-3",
@@ -38143,7 +38144,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5006 (b)",
+   "percorso": "riga 5012 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r33 c3] 0,22",
@@ -38151,7 +38152,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5007 (b)",
+   "percorso": "riga 5013 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r33 c4] 0,26",
@@ -38159,7 +38160,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5008 (b)",
+   "percorso": "riga 5014 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r33 c5] 0,58",
@@ -38167,7 +38168,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5009 (b)",
+   "percorso": "riga 5015 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r34 c1] 227,60",
@@ -38175,7 +38176,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5010 (b)",
+   "percorso": "riga 5016 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r34 c2] 1,26E-3",
@@ -38183,7 +38184,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5011 (b)",
+   "percorso": "riga 5017 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r34 c3] 0,23",
@@ -38191,7 +38192,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5012 (b)",
+   "percorso": "riga 5018 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r34 c4] 0,27",
@@ -38199,7 +38200,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5013 (b)",
+   "percorso": "riga 5019 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r34 c5] 0,62",
@@ -38207,7 +38208,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5014 (b)",
+   "percorso": "riga 5020 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r35 c1] 242,05",
@@ -38215,7 +38216,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5015 (b)",
+   "percorso": "riga 5021 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r35 c2] 1,34E-3",
@@ -38223,7 +38224,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5016 (b)",
+   "percorso": "riga 5022 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r35 c3] 0,25",
@@ -38231,7 +38232,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5017 (b)",
+   "percorso": "riga 5023 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r35 c4] 0,29",
@@ -38239,7 +38240,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5018 (b)",
+   "percorso": "riga 5024 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r35 c5] 0,66",
@@ -38247,7 +38248,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5019 (b)",
+   "percorso": "riga 5025 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r36 c1] 256,94",
@@ -38255,7 +38256,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5020 (b)",
+   "percorso": "riga 5026 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r36 c2] 1,43E-3",
@@ -38263,7 +38264,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5021 (b)",
+   "percorso": "riga 5027 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r36 c3] 0,26",
@@ -38271,7 +38272,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5022 (b)",
+   "percorso": "riga 5028 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r36 c4] 0,31",
@@ -38279,7 +38280,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5023 (b)",
+   "percorso": "riga 5029 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r36 c5] 0,70",
@@ -38287,7 +38288,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5024 (b)",
+   "percorso": "riga 5030 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r37 c1] 272,28",
@@ -38295,7 +38296,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5025 (b)",
+   "percorso": "riga 5031 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r37 c2] 1,52E-3",
@@ -38303,7 +38304,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5026 (b)",
+   "percorso": "riga 5032 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r37 c3] 0,28",
@@ -38311,7 +38312,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5027 (b)",
+   "percorso": "riga 5033 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r37 c4] 0,33",
@@ -38319,7 +38320,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5028 (b)",
+   "percorso": "riga 5034 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r37 c5] 0,74",
@@ -38327,7 +38328,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5029 (b)",
+   "percorso": "riga 5035 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r38 c1] 288,06",
@@ -38335,7 +38336,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5030 (b)",
+   "percorso": "riga 5036 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r38 c2] 1,60E-3",
@@ -38343,7 +38344,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5031 (b)",
+   "percorso": "riga 5037 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r38 c3] 0,29",
@@ -38351,7 +38352,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5032 (b)",
+   "percorso": "riga 5038 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r38 c4] 0,35",
@@ -38359,7 +38360,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5033 (b)",
+   "percorso": "riga 5039 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r38 c5] 0,79",
@@ -38367,7 +38368,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5034 (b)",
+   "percorso": "riga 5040 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r39 c1] 304,29",
@@ -38375,7 +38376,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5035 (b)",
+   "percorso": "riga 5041 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r39 c2] 1,70E-3",
@@ -38383,7 +38384,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5036 (b)",
+   "percorso": "riga 5042 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r39 c3] 0,31",
@@ -38391,7 +38392,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5037 (b)",
+   "percorso": "riga 5043 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r39 c4] 0,37",
@@ -38399,7 +38400,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5038 (b)",
+   "percorso": "riga 5044 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r39 c5] 0,83",
@@ -38407,7 +38408,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5039 (b)",
+   "percorso": "riga 5045 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r40 c1] 320,96",
@@ -38415,7 +38416,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5040 (b)",
+   "percorso": "riga 5046 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r40 c2] 1,79E-3",
@@ -38423,7 +38424,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5041 (b)",
+   "percorso": "riga 5047 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r40 c3] 0,32",
@@ -38431,7 +38432,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5042 (b)",
+   "percorso": "riga 5048 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r40 c4] 0,39",
@@ -38439,7 +38440,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5043 (b)",
+   "percorso": "riga 5049 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r40 c5] 0,88",
@@ -38447,7 +38448,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5044 (b)",
+   "percorso": "riga 5050 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r41 c1] 338,07",
@@ -38455,7 +38456,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5045 (b)",
+   "percorso": "riga 5051 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r41 c2] 1,89E-3",
@@ -38463,7 +38464,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5046 (b)",
+   "percorso": "riga 5052 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r41 c3] 0,34",
@@ -38471,7 +38472,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5047 (b)",
+   "percorso": "riga 5053 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r41 c4] 0,41",
@@ -38479,7 +38480,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5048 (b)",
+   "percorso": "riga 5054 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r41 c5] 0,92",
@@ -38487,7 +38488,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5049 (b)",
+   "percorso": "riga 5055 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r42 c1] 355,63",
@@ -38495,7 +38496,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5050 (b)",
+   "percorso": "riga 5056 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r42 c2] 1,99E-3",
@@ -38503,7 +38504,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5051 (b)",
+   "percorso": "riga 5057 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r42 c3] 0,36",
@@ -38511,7 +38512,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5052 (b)",
+   "percorso": "riga 5058 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r42 c4] 0,44",
@@ -38519,7 +38520,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5053 (b)",
+   "percorso": "riga 5059 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r42 c5] 0,97",
@@ -38527,7 +38528,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5054 (b)",
+   "percorso": "riga 5060 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r43 c1] 373,64",
@@ -38535,7 +38536,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5055 (b)",
+   "percorso": "riga 5061 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r43 c2] 2,09E-3",
@@ -38543,7 +38544,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5056 (b)",
+   "percorso": "riga 5062 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r43 c3] 0,38",
@@ -38551,7 +38552,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5057 (b)",
+   "percorso": "riga 5063 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r43 c4] 0,46",
@@ -38559,7 +38560,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5058 (b)",
+   "percorso": "riga 5064 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r43 c5] 1,02",
@@ -38567,7 +38568,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5059 (b)",
+   "percorso": "riga 5065 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r44 c1] 392,08",
@@ -38575,7 +38576,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5060 (b)",
+   "percorso": "riga 5066 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r44 c2] 2,20E-3",
@@ -38583,7 +38584,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5061 (b)",
+   "percorso": "riga 5067 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r44 c3] 0,40",
@@ -38591,7 +38592,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5062 (b)",
+   "percorso": "riga 5068 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r44 c4] 0,48",
@@ -38599,7 +38600,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5063 (b)",
+   "percorso": "riga 5069 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r44 c5] 1,07",
@@ -38607,7 +38608,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5064 (b)",
+   "percorso": "riga 5070 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r45 c1] 410,98",
@@ -38615,7 +38616,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5065 (b)",
+   "percorso": "riga 5071 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r45 c2] 2,30E-3",
@@ -38623,7 +38624,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5066 (b)",
+   "percorso": "riga 5072 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r45 c3] 0,41",
@@ -38631,7 +38632,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5067 (b)",
+   "percorso": "riga 5073 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r45 c4] 0,51",
@@ -38639,7 +38640,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5068 (b)",
+   "percorso": "riga 5074 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r45 c5] 1,12",
@@ -38647,7 +38648,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5069 (b)",
+   "percorso": "riga 5075 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r46 c1] 430,31",
@@ -38655,7 +38656,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5070 (b)",
+   "percorso": "riga 5076 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r46 c2] 2,42E-3",
@@ -38663,7 +38664,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5071 (b)",
+   "percorso": "riga 5077 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r46 c3] 0,43",
@@ -38671,7 +38672,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5072 (b)",
+   "percorso": "riga 5078 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r46 c4] 0,53",
@@ -38679,7 +38680,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5073 (b)",
+   "percorso": "riga 5079 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r46 c5] 1,18",
@@ -38687,7 +38688,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5074 (b)",
+   "percorso": "riga 5080 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r47 c1] 450,10",
@@ -38695,7 +38696,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5075 (b)",
+   "percorso": "riga 5081 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r47 c2] 2,53E-3",
@@ -38703,7 +38704,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5076 (b)",
+   "percorso": "riga 5082 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r47 c3] 0,45",
@@ -38711,7 +38712,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5077 (b)",
+   "percorso": "riga 5083 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r47 c4] 0,56",
@@ -38719,7 +38720,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5078 (b)",
+   "percorso": "riga 5084 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r47 c5] 1,23",
@@ -38727,7 +38728,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5079 (b)",
+   "percorso": "riga 5085 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r48 c1] 470,32",
@@ -38735,7 +38736,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5080 (b)",
+   "percorso": "riga 5086 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r48 c2] 2,65E-3",
@@ -38743,7 +38744,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5081 (b)",
+   "percorso": "riga 5087 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r48 c3] 0,47",
@@ -38751,7 +38752,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5082 (b)",
+   "percorso": "riga 5088 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r48 c4] 0,59",
@@ -38759,7 +38760,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5083 (b)",
+   "percorso": "riga 5089 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r48 c5] 1,29",
@@ -38767,7 +38768,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5084 (b)",
+   "percorso": "riga 5090 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r49 c1] 490,99",
@@ -38775,7 +38776,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5085 (b)",
+   "percorso": "riga 5091 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r49 c2] 2,77E-3",
@@ -38783,7 +38784,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5086 (b)",
+   "percorso": "riga 5092 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r49 c3] 0,49",
@@ -38791,7 +38792,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5087 (b)",
+   "percorso": "riga 5093 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r49 c4] 0,61",
@@ -38799,7 +38800,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5088 (b)",
+   "percorso": "riga 5094 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r49 c5] 1,35",
@@ -38807,7 +38808,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5089 (b)",
+   "percorso": "riga 5095 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r50 c1] 512,11",
@@ -38815,7 +38816,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5090 (b)",
+   "percorso": "riga 5096 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r50 c2] 2,89E-3",
@@ -38823,7 +38824,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5091 (b)",
+   "percorso": "riga 5097 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r50 c3] 0,51",
@@ -38831,7 +38832,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5092 (b)",
+   "percorso": "riga 5098 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r50 c4] 0,64",
@@ -38839,7 +38840,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5093 (b)",
+   "percorso": "riga 5099 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r50 c5] 1,40",
@@ -38847,7 +38848,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5094 (b)",
+   "percorso": "riga 5100 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r51 c1] 533,67",
@@ -38855,7 +38856,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5095 (b)",
+   "percorso": "riga 5101 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r51 c2] 3,02E-3",
@@ -38863,7 +38864,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5096 (b)",
+   "percorso": "riga 5102 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r51 c3] 0,54",
@@ -38871,7 +38872,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5097 (b)",
+   "percorso": "riga 5103 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r51 c4] 0,67",
@@ -38879,7 +38880,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5098 (b)",
+   "percorso": "riga 5104 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r51 c5] 1,46",
@@ -38887,7 +38888,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5099 (b)",
+   "percorso": "riga 5105 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r52 c1] 555,67",
@@ -38895,7 +38896,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5100 (b)",
+   "percorso": "riga 5106 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r52 c2] 3,14E-3",
@@ -38903,7 +38904,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5101 (b)",
+   "percorso": "riga 5107 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r52 c3] 0,56",
@@ -38911,7 +38912,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5102 (b)",
+   "percorso": "riga 5108 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r52 c4] 0,70",
@@ -38919,7 +38920,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5103 (b)",
+   "percorso": "riga 5109 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r52 c5] 1,52",
@@ -38927,7 +38928,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5104 (b)",
+   "percorso": "riga 5110 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r53 c1] 578,12",
@@ -38935,7 +38936,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5105 (b)",
+   "percorso": "riga 5111 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r53 c2] 3,28E-3",
@@ -38943,7 +38944,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5106 (b)",
+   "percorso": "riga 5112 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r53 c3] 0,58",
@@ -38951,7 +38952,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5107 (b)",
+   "percorso": "riga 5113 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r53 c4] 0,73",
@@ -38959,7 +38960,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5108 (b)",
+   "percorso": "riga 5114 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r53 c5] 1,59",
@@ -38967,7 +38968,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5109 (b)",
+   "percorso": "riga 5115 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r54 c1] 601,02",
@@ -38975,7 +38976,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5110 (b)",
+   "percorso": "riga 5116 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r54 c2] 3,41E-3",
@@ -38983,7 +38984,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5111 (b)",
+   "percorso": "riga 5117 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r54 c3] 0,60",
@@ -38991,7 +38992,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5112 (b)",
+   "percorso": "riga 5118 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r54 c4] 0,76",
@@ -38999,7 +39000,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5113 (b)",
+   "percorso": "riga 5119 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r54 c5] 1,65",
@@ -39007,7 +39008,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5114 (b)",
+   "percorso": "riga 5120 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r55 c1] 624,36",
@@ -39015,7 +39016,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5115 (b)",
+   "percorso": "riga 5121 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r55 c2] 3,55E-3",
@@ -39023,7 +39024,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5116 (b)",
+   "percorso": "riga 5122 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r55 c3] 0,62",
@@ -39031,7 +39032,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5117 (b)",
+   "percorso": "riga 5123 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r55 c4] 0,80",
@@ -39039,7 +39040,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5118 (b)",
+   "percorso": "riga 5124 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r55 c5] 1,72",
@@ -39047,7 +39048,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5119 (b)",
+   "percorso": "riga 5125 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r56 c1] 648,14",
@@ -39055,7 +39056,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5120 (b)",
+   "percorso": "riga 5126 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r56 c2] 3,69E-3",
@@ -39063,7 +39064,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5121 (b)",
+   "percorso": "riga 5127 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r56 c3] 0,65",
@@ -39071,7 +39072,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5122 (b)",
+   "percorso": "riga 5128 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r56 c4] 0,83",
@@ -39079,7 +39080,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5123 (b)",
+   "percorso": "riga 5129 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r56 c5] 1,78",
@@ -39087,7 +39088,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5124 (b)",
+   "percorso": "riga 5130 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r57 c1] 672,37",
@@ -39095,7 +39096,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5125 (b)",
+   "percorso": "riga 5131 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r57 c2] 3,83E-3",
@@ -39103,7 +39104,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5126 (b)",
+   "percorso": "riga 5132 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r57 c3] 0,67",
@@ -39111,7 +39112,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5127 (b)",
+   "percorso": "riga 5133 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r57 c4] 0,86",
@@ -39119,7 +39120,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5128 (b)",
+   "percorso": "riga 5134 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r57 c5] 1,85",
@@ -39127,7 +39128,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5129 (b)",
+   "percorso": "riga 5135 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r58 c1] 697,04",
@@ -39135,7 +39136,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5130 (b)",
+   "percorso": "riga 5136 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r58 c2] 3,98E-3",
@@ -39143,7 +39144,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5131 (b)",
+   "percorso": "riga 5137 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r58 c3] 0,69",
@@ -39151,7 +39152,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5132 (b)",
+   "percorso": "riga 5138 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r58 c4] 0,90",
@@ -39159,7 +39160,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5133 (b)",
+   "percorso": "riga 5139 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r58 c5] 1,92",
@@ -39167,7 +39168,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5134 (b)",
+   "percorso": "riga 5140 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r59 c1] 710,33",
@@ -39175,7 +39176,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5135 (b)",
+   "percorso": "riga 5141 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r59 c2] 4,06E-3",
@@ -39183,7 +39184,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5136 (b)",
+   "percorso": "riga 5142 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r59 c3] 0,71",
@@ -39191,7 +39192,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5137 (b)",
+   "percorso": "riga 5143 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r59 c4] 0,92",
@@ -39199,7 +39200,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5138 (b)",
+   "percorso": "riga 5144 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r59 c5] 1,96",
@@ -39207,7 +39208,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5139 (b)",
+   "percorso": "riga 5145 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r60 c1] 722,15",
@@ -39215,7 +39216,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5140 (b)",
+   "percorso": "riga 5146 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r60 c2] 4,61E-3",
@@ -39223,7 +39224,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5141 (b)",
+   "percorso": "riga 5147 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r60 c3] 0,85",
@@ -39231,7 +39232,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5142 (b)",
+   "percorso": "riga 5148 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r60 c4] 0,99",
@@ -39239,7 +39240,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5143 (b)",
+   "percorso": "riga 5149 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r60 c5] 2,27",
@@ -39247,7 +39248,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5144 (b)",
+   "percorso": "riga 5150 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r61 c1] 747,72",
@@ -39255,7 +39256,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5145 (b)",
+   "percorso": "riga 5151 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r61 c2] 5,87E-3",
@@ -39263,7 +39264,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5146 (b)",
+   "percorso": "riga 5152 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r61 c3] 1,18",
@@ -39271,7 +39272,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5147 (b)",
+   "percorso": "riga 5153 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r61 c4] 1,16",
@@ -39279,7 +39280,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5148 (b)",
+   "percorso": "riga 5154 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r61 c5] 2,99",
@@ -39287,7 +39288,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5149 (b)",
+   "percorso": "riga 5155 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r62 c1] 773,72",
@@ -39295,7 +39296,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5150 (b)",
+   "percorso": "riga 5156 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r62 c2] 9,07E-3",
@@ -39303,7 +39304,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5151 (b)",
+   "percorso": "riga 5157 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r62 c3] 2,10",
@@ -39311,7 +39312,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5152 (b)",
+   "percorso": "riga 5158 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r62 c4] 1,53",
@@ -39319,7 +39320,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5153 (b)",
+   "percorso": "riga 5159 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r62 c5] 4,89",
@@ -39327,7 +39328,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5154 (b)",
+   "percorso": "riga 5160 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r63 c1] 800,17",
@@ -39335,7 +39336,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5155 (b)",
+   "percorso": "riga 5161 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r63 c2] 0,03",
@@ -39343,7 +39344,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5156 (b)",
+   "percorso": "riga 5162 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r63 c3] 8,05",
@@ -39351,7 +39352,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5157 (b)",
+   "percorso": "riga 5163 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r63 c4] 3,50",
@@ -39359,7 +39360,7 @@
   },
   {
    "file": "project/report.txt",
-   "percorso": "riga 5158 (b)",
+   "percorso": "riga 5164 (b)",
    "classe": "riga-aggiunta",
    "a": null,
    "b": "[T167 r63 c5] 16,94",
@@ -625196,6 +625197,414 @@
    "a": null,
    "b": "{\"SLU\":\"Plastico\",\"SLV\":\"Plastico\"}",
    "voce": "CA-CRITERIO-STATI-01"
+  },
+  {
+   "file": "project/report-structure.json",
+   "percorso": "$.styles[3070]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"Heading4\"",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "project/report-structure.json",
+   "percorso": "$.styles[3072]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"Normal\"",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "project/report-structure.json",
+   "percorso": "$.styles[3073]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"Normal\"",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "project/report-structure.json",
+   "percorso": "$.styles[3074]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"Normal\"",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "project/report-structure.json",
+   "percorso": "$.styles[3075]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"Normal\"",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "project/report-structure.json",
+   "percorso": "$.styles[3392]",
+   "classe": "elemento-aggiunto",
+   "a": null,
+   "b": "\"Normal\"",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "project/report.txt",
+   "percorso": "riga 4843 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Duttilità in curvatura",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "project/report.txt",
+   "percorso": "riga 4844 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Ramo a curvatura controllata a N costante; bilineare e valori del calcolo della sezione. Il momento resistente MRd e il massimo Mmax del ramo sono distinti.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "project/report.txt",
+   "percorso": "riga 4845 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ M′yd = 710,32 kNm; φ′yd = 0,00406193 1/m. Primo snervamento della barra più tesa.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "project/report.txt",
+   "percorso": "riga 4846 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ MRd = 800,17 kNm; φyd = (MRd/M′yd)·φ′yd = 0,00457572 1/m.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "project/report.txt",
+   "percorso": "riga 4847 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Mmax = 800,17 kNm a χ = 0,0288742 1/m.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "project/report.txt",
+   "percorso": "riga 4848 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ φu = 0,0288742 1/m; μφ = φu/φyd = 6,31. Punto limite per deformazione ultima del calcestruzzo o dell’acciaio.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/igu-copertura-avvisi/report.txt",
+   "percorso": "riga 166 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Avvisi del calcolo",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/igu-copertura-avvisi/report.txt",
+   "percorso": "riga 167 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Scelta progettuale 2026-09-15: efficienza geometrica applicata sia a compressione sia a trazione.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/igu-copertura-avvisi/report.txt",
+   "percorso": "riga 168 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Strati orizzontali; θ dalla verticale. L, sb e coordinate delle curve sono lungo l'asse; z = s cos θ. Azioni inserite assiali; peso proprio proiettato sull'asse. Verifiche trasversali non comprese.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/igu-copertura-avvisi/report.txt",
+   "percorso": "riga 169 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ C. Viggiani, Fondazioni, §13.1.6, pp. 392–396; eq. 13.21, tab. 13.12–13.13, fig. 13.16–13.19. Abachi digitalizzati dalla scansione: letture approssimate, senza estrapolazione.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/igu-copertura-avvisi/report.txt",
+   "percorso": "riga 170 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Ipotesi progettuale autorizzata: p_l = p_i. La pressione di iniezione generale alimenta gli abachi di tutti gli strati; non è una misura Ménard del terreno.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/igu-copertura-avvisi/report.txt",
+   "percorso": "riga 171 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Verificare le condizioni esecutive di p. 392 e i volumi minimi di miscela della tabella 13.12; il programma non li certifica.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/irs-punta-inclinato/report.txt",
+   "percorso": "riga 171 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Avvisi del calcolo",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/irs-punta-inclinato/report.txt",
+   "percorso": "riga 172 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Scelta progettuale 2026-09-15: efficienza geometrica applicata sia a compressione sia a trazione.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/irs-punta-inclinato/report.txt",
+   "percorso": "riga 173 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Strati orizzontali; θ dalla verticale. L, sb e coordinate delle curve sono lungo l'asse; z = s cos θ. Azioni inserite assiali; peso proprio proiettato sull'asse. Verifiche trasversali non comprese.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/irs-punta-inclinato/report.txt",
+   "percorso": "riga 174 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ C. Viggiani, Fondazioni, §13.1.6, pp. 392–396; eq. 13.21, tab. 13.12–13.13, fig. 13.16–13.19. Abachi digitalizzati dalla scansione: letture approssimate, senza estrapolazione.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/irs-punta-inclinato/report.txt",
+   "percorso": "riga 175 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Ipotesi progettuale autorizzata: p_l = p_i. La pressione di iniezione generale alimenta gli abachi di tutti gli strati; non è una misura Ménard del terreno.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/irs-punta-inclinato/report.txt",
+   "percorso": "riga 176 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Verificare le condizioni esecutive di p. 392 e i volumi minimi di miscela della tabella 13.12; il programma non li certifica.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione/report.txt",
+   "percorso": "riga 133 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Avvisi del calcolo",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione/report.txt",
+   "percorso": "riga 134 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Strati orizzontali; θ dalla verticale. L, sb e coordinate delle curve sono lungo l'asse; z = s cos θ. Azioni inserite assiali; peso proprio proiettato sull'asse. Verifiche trasversali non comprese.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione/report.txt",
+   "percorso": "riga 135 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ C. Viggiani, Fondazioni, §13.1.6, pp. 392–396; eq. 13.21, tab. 13.12–13.13, fig. 13.16–13.19. Abachi digitalizzati dalla scansione: letture approssimate, senza estrapolazione.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione/report.txt",
+   "percorso": "riga 136 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Ipotesi progettuale autorizzata: p_l = p_i. La pressione di iniezione generale alimenta gli abachi di tutti gli strati; non è una misura Ménard del terreno.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione/report.txt",
+   "percorso": "riga 137 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Verificare le condizioni esecutive di p. 392 e i volumi minimi di miscela della tabella 13.12; il programma non li certifica.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/battuto-falda-sondaggi/report.txt",
+   "percorso": "riga 237 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Avvisi del calcolo",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/battuto-falda-sondaggi/report.txt",
+   "percorso": "riga 238 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Scelta progettuale 2026-09-15: efficienza geometrica applicata sia a compressione sia a trazione.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/battuto-falda-sondaggi/report.txt",
+   "percorso": "riga 239 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Ipotesi progettuale 2026-09-15: nella verifica non drenata la porzione sopra falda è drenata; senza falda le due verifiche coincidono.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/battuto-falda-sondaggi/report.txt",
+   "percorso": "riga 240 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Nq: Parametrizzata NQ-2026-09-09; Nq per D ≤ 0,80 m. φ non ridotto.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/battuto-falda-sondaggi/report.txt",
+   "percorso": "riga 241 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ ATTENZIONE Nq: φ fuori dal tratto visibile di almeno una curva; adottato il bordo. Vedere le φ adottate nel dettaglio export.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/battuto-falda-sondaggi/report.txt",
+   "percorso": "riga 242 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Nq: nel tratto superficiale con z/D < 5 (z < 3,00 m) adottata la curva z/D = 5, senza estrapolare: a favore di sicurezza (Nq cresce al diminuire di z/D).",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/copertura-insufficiente/report.txt",
+   "percorso": "riga 236 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Avvisi del calcolo",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/copertura-insufficiente/report.txt",
+   "percorso": "riga 237 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Ipotesi progettuale 2026-09-15: nella verifica non drenata la porzione sopra falda è drenata; senza falda le due verifiche coincidono.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/copertura-insufficiente/report.txt",
+   "percorso": "riga 238 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Nq: Parametrizzata NQ-2026-09-09; Nq* per D > 0,80 m. φ non ridotto.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/copertura-insufficiente/report.txt",
+   "percorso": "riga 239 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Nq: nel tratto superficiale con z/D < 4 (z < 4,80 m) adottata la curva z/D = 4, senza estrapolare: a favore di sicurezza (Nq cresce al diminuire di z/D).",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/elica-coesivo-avvisi/report.txt",
+   "percorso": "riga 188 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Avvisi del calcolo",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/elica-coesivo-avvisi/report.txt",
+   "percorso": "riga 189 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Scelta progettuale 2026-09-15: efficienza geometrica applicata sia a compressione sia a trazione.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/elica-coesivo-avvisi/report.txt",
+   "percorso": "riga 190 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Ipotesi progettuale 2026-09-15: nella verifica non drenata la porzione sopra falda è drenata; senza falda le due verifiche coincidono.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/elica-coesivo-avvisi/report.txt",
+   "percorso": "riga 191 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Nq: Parametrizzata NQ-2026-09-09; Nq per D ≤ 0,80 m. φ non ridotto.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/elica-coesivo-avvisi/report.txt",
+   "percorso": "riga 192 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ ATTENZIONE Nq: φ fuori dal tratto visibile di almeno una curva; adottato il bordo. Vedere le φ adottate nel dettaglio export.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/elica-coesivo-avvisi/report.txt",
+   "percorso": "riga 193 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Nq: nel tratto superficiale con z/D < 5 (z < 4,00 m) adottata la curva z/D = 5, senza estrapolare: a favore di sicurezza (Nq cresce al diminuire di z/D).",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/elica-coesivo-avvisi/report.txt",
+   "percorso": "riga 194 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ γb = 1,50 diverso dal valore della NTC 2018 Tab. 6.4.II per la tecnologia del palo (1,30): il calcolo usa il valore del foglio.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/regressione-palo_storico_0/report.txt",
+   "percorso": "riga 163 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Avvisi del calcolo",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/regressione-palo_storico_0/report.txt",
+   "percorso": "riga 164 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Foglio convertito da Nq Originale a Parametrizzata: i risultati precedenti possono cambiare.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/regressione-palo_storico_0/report.txt",
+   "percorso": "riga 165 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Ipotesi progettuale 2026-09-15: nella verifica non drenata la porzione sopra falda è drenata; senza falda le due verifiche coincidono.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/regressione-palo_storico_0/report.txt",
+   "percorso": "riga 166 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Nq: Parametrizzata NQ-2026-09-09; Nq* per D > 0,80 m. φ non ridotto.",
+   "voce": "REPORT-TEMPLATE-20261106"
+  },
+  {
+   "file": "sheets/geo_palo_verticale/regressione-palo_storico_0/report.txt",
+   "percorso": "riga 167 (b)",
+   "classe": "riga-aggiunta",
+   "a": null,
+   "b": "¶ Nq: nel tratto superficiale con z/D < 4 (z < 4,00 m) adottata la curva z/D = 4, senza estrapolare: a favore di sicurezza (Nq cresce al diminuire di z/D).",
+   "voce": "REPORT-TEMPLATE-20261106"
   }
  ],
  "aggiornamento_spettri": {

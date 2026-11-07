@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 4 novembre 2026 — revisione documentale 70
+Edizione 6 aggiornata il 6 novembre 2026 — revisione documentale 71
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -861,7 +861,7 @@ Nella curva momento–curvatura $\chi_u$ è la curvatura del punto limite e $\ch
 \mu_\varphi = \frac{\varphi_u}{\varphi_{yd}}
 ```
 
-Con la parabola-rettangolo e l'acciaio senza incrudimento il momento a N costante cresce di norma fino al punto limite e $\varphi_u = \chi_u$; con un legame del calcestruzzo con ramo decrescente il picco può precedere il punto limite e governare $\varphi_u$. Per esempio, in una sezione 300 × 500 mm in C30/37 con 3Ø20 tese e 2Ø16 compresse, acciaio con $f_{yk} = 450$ MPa senza incrudimento, a N = 0 governano le barre tese: $M'_{yd} = 147{,}54$ kNm e $\varphi'_{yd} = 6{,}507 \cdot 10^{-6}$ mm⁻¹; $M_{Rd} = 154{,}69$ kNm, quindi $\varphi_{yd} = 6{,}822 \cdot 10^{-6}$ mm⁻¹; il momento cresce fino al punto limite, $\varphi_u = \chi_u = 5{,}119 \cdot 10^{-5}$ mm⁻¹ e $\mu_\varphi = 7{,}50$. Con il tension stiffening nelle risposte, o con una frazione di $M_{Rd}$ finale minore di 1, $\mu_\varphi$ non è calcolata. La duttilità resta nella scheda: il report e l'esportazione CSV non la riportano.
+Con la parabola-rettangolo e l'acciaio senza incrudimento il momento a N costante cresce di norma fino al punto limite e $\varphi_u = \chi_u$; con un legame del calcestruzzo con ramo decrescente il picco può precedere il punto limite e governare $\varphi_u$. Per esempio, in una sezione 300 × 500 mm in C30/37 con 3Ø20 tese e 2Ø16 compresse, acciaio con $f_{yk} = 450$ MPa senza incrudimento, a N = 0 governano le barre tese: $M'_{yd} = 147{,}54$ kNm e $\varphi'_{yd} = 6{,}507 \cdot 10^{-6}$ mm⁻¹; $M_{Rd} = 154{,}69$ kNm, quindi $\varphi_{yd} = 6{,}822 \cdot 10^{-6}$ mm⁻¹; il momento cresce fino al punto limite, $\varphi_u = \chi_u = 5{,}119 \cdot 10^{-5}$ mm⁻¹ e $\mu_\varphi = 7{,}50$. Con il tension stiffening nelle risposte, o con una frazione di $M_{Rd}$ finale minore di 1, $\mu_\varphi$ non è calcolata. La duttilità è riportata anche nella relazione completa, insieme ai valori che definiscono la bilineare e al criterio della curvatura ultima. Il report di progetto la richiede alla stessa libreria del foglio; il report del singolo foglio usa il risultato corrente. L’esportazione CSV conserva la sola tabella dei punti.
 
 ### Colonna modello: metodo e campo di applicazione
 

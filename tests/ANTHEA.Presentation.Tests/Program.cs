@@ -90,6 +90,7 @@ try
     }
     checks += ViewModelBaseChecks.Run();
     checks += NumberSeparatorChecks.Run();
+    checks += ReportTemplateMenuChecks.Run(output);
     checks += EmbeddedWallChecks.Run(output);
     checks += await CommandGuardChecks.RunAsync();
     checks += await ServicesChecks.RunAsync();

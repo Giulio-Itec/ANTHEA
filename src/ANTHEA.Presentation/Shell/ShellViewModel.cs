@@ -87,6 +87,7 @@ public sealed class ShellViewModel : ViewModelBase
         SheetBar = new SheetBarViewModel(Workspace, services.Messages, Back, uri => ShowWiki(uri));
         Appearance = this.options.Appearance is { } appearance ? new AppearanceMenuViewModel(appearance, services.Messages) : null;
         Separators = this.options.Separators is { } separators ? new DecimalSeparatorMenuViewModel(separators, services.Messages) : null;
+        ReportTemplates = services.ReportTemplates is { } templates ? new ReportTemplateMenuViewModel(templates, services.Files, services.Messages) : null;
         ToggleTreeCommand = new RelayCommand(() => IsTreeOpen = !IsTreeOpen);
         ProjectsHelpCommand = new RelayCommand(() => guard.Run(() => ShowWiki(ProjectsHelpUri)));
         EnterFullPageCommand = new RelayCommand(() => EnterFullPage(), () => !IsFullPage && CanEnterFullPage);
@@ -150,6 +151,7 @@ public sealed class ShellViewModel : ViewModelBase
 
     /// <summary>«Separatore decimale» of the menu «Aspetto» (F5.15, V-a), null without the service of the separator.</summary>
     public DecimalSeparatorMenuViewModel? Separators { get; }
+    public ReportTemplateMenuViewModel? ReportTemplates { get; }
 
     /// <summary>The status line of the shared data above the sheet with the focus.</summary>
     public SharedStatusViewModel SharedStatus { get; } = new();

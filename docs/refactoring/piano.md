@@ -1,5 +1,14 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Report e template di stili — 6 novembre 2026
+
+Ramo `refactoring/report-template` da `main` af8009fb; [verbale e verifiche](report-template-20261106.md).
+Completati: preferenza nel menu Aspetto, importazione dei soli stili, applicazione ai fogli/progetti e ai PDF/HTML Modelli,
+avvisi dei pali verticali e duttilità nella relazione completa c.a., guide Rev71 Word/PDF e archivio Rev70.
+Completata la verifica finale: 33 build e 67 suite PASS (39 fast, 16 regression, 2 Wiki, 10 UI); zero fallimenti o modifiche ai sorgenti durante la corsa.
+F3: 1201 file confrontati, zero differenze non ammesse. Nessun atteso numerico o DLL GPC modificato; 73 suite UI prima e dopo.
+Profilo standard con UI mirate; full WPF non eseguita. Evidenze: `supporto/artefatti/ci/20261106-161125-report-template-verifica`.
+
 ## Guide Rev70 — 4 novembre 2026
 
 Richiesta dell'utente: «guide ok»; con le voci della 1.19.0 chieste dalla sessione del rilascio. Ramo `refactoring/f5-guide-modelli` da d0003492;
