@@ -1,5 +1,19 @@
 # DLL Checker
 
+**Set candidato F7d — librerie della 1.19.0 con il consolidamento dell'acciaio di Checker (8 novembre 2026, branch `claude/anthea-1190-rilascio`, non pubblicato).**
+Set `gpc-candidate-20261108-f7d` prodotto da `Checker/build/Release-Set.ps1 -Candidate -Previous <set F7c>` su Model `ff318f87` e
+Checker `9e513417` (branch `claude/f7d-set` in `gpc-f6-claude/F7`: Model codex `d28ce8c2` e Checker `codex/steel-consolidation-20261105`
+`3b40e2a0`, congelato e ammesso dall'utente l'8/11, con le sole versioni candidate; non pushati) e installato con
+`Update-Snapshot.ps1 -ReleaseSet ... -AllowCandidate -Install`. Rispetto a F7c: Steel 2.134 (classe 4, anime RHS, tagli concorrenti,
+ingobbamento), CompositeBridge 1.31 (solutore e lotti, coperture delle barre), Concrete 0.37 (fasi senza memoria, API nuova),
+Geotechnics 0.28 (Hansen inclinato: direzione di L′ solo con H_L > 0); Model ha lo stesso codice di F7c.
+Versioni: GPCModel 5.50.0.2, GPCModelData 0.3.0.30, GPC.Model.Persistence 3.15.0.2, GPC.Archive 1.2.0.3, GPC.Converter 2.20.0.2,
+Concrete 0.37.0.1, Steel 2.134.0.0, CompositeBridge 1.31.0.1, Geotechnics 0.28.0.0, Masonry 0.10.0.35, GPC.Design 0.45.0.9;
+Utilities, Geometry e DelaunayMesh invariati. Suite del set: Model Core 63, UnitTest 1950 (7 ignorati; 339 prove Straus7 native
+comprese, chiave inserita), .NET Framework 141; Checker 10.822 (Concrete 988 con il contratto K0, Steel 122, CompositeBridge 529,
+Steel.Members 7429, ModelChecker 702); API: 26 rimozioni approvate di GPCModel (L12), nessun'altra. Manifest del set `05005D29…86F5`.
+Set candidato: la prova di provenienza F4 di `ANTHEA.Architecture.Tests` fallisce come previsto finché F8 non installa il set ufficiale.
+
 **Set candidato F7a — librerie integrate della migrazione GPC (4 novembre 2026, branch `claude/f7-anthea`, non pubblicato).** Set
 `gpc-candidate-20261104-f7a` prodotto da `Checker/build/Release-Set.ps1 -Candidate` su Model `4375e7a5` e Checker `5f6e4e44` (branch
 `claude/f7-set` in `gpc-f6-claude/F7`, non pushati) e installato con `Update-Snapshot.ps1 -ReleaseSet ... -AllowCandidate -Install`:

@@ -152,15 +152,18 @@
         <member name="M:GPC.Checkers.Geotechnics.Foundations.ShallowFoundationBearing.HansenDrainedInclined(GPC.Checkers.Geotechnics.Foundations.ShallowFoundationInput,GPC.Checkers.Geotechnics.Foundations.ShallowFoundationResult,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Brinch Hansen (1970) with an inclined load, drained: reference manual (3.23)–(3.25), base and ground horizontal (η = 0). Failure in
-            the direction of B′ and, except for the strip, of L′, also when H_L = 0; the smaller pressure governs (§3.4.1). B′L′ of the manual is
-            the effective area. The direction of L′ does not tend to the normal-load expressions (3.19)–(3.20) as H → 0: declared in the warnings.
+            the direction of B′ and, except for the strip and only when H_L &gt; 0, of L′; the smaller pressure governs (§3.4.1). §3.4.2 ties the
+            two cases to the components present; with H_L = 0 (also a circle) only the direction of B′, which tends to the normal-load
+            expressions (3.19)–(3.20) as H → 0 (user decision of 5/11/2026). B′L′ of the manual is the effective area. The direction of L′ does
+            not tend to the value with H_L = 0 as H_L → 0⁺: declared in the warnings.
             </summary>
         </member>
         <member name="M:GPC.Checkers.Geotechnics.Foundations.ShallowFoundationBearing.HansenUndrainedInclined(GPC.Checkers.Geotechnics.Foundations.ShallowFoundationInput,GPC.Checkers.Geotechnics.Foundations.ShallowFoundationResult,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Brinch Hansen (1970) with an inclined load, undrained: reference manual (3.26), (3.27), (3.27′), (3.27″), additive corrections, in
-            the direction of B′ and, except for the strip, of L′; the smaller pressure governs. The manual's s′c = 0.2 i′c B′/L′ vanishes as H → 0
-            instead of tending to 0.2 B′/L′ of (3.28): kept literally (on the safe side) and declared in the warnings.
+            the direction of B′ and, except for the strip and only when H_L &gt; 0, of L′ (§3.4.2, user decision of 5/11/2026); the smaller
+            pressure governs. The manual's s′c = 0.2 i′c B′/L′ vanishes as H → 0 instead of tending to 0.2 B′/L′ of (3.28): kept literally (on
+            the safe side, user decision of 5/11/2026) and declared in the warnings.
             </summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Foundations.SeismicBearingStatus">
