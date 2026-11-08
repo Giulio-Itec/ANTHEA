@@ -3,12 +3,13 @@
 ## ANTHEA 1.19.0 — 8 novembre 2026
 
 Decisione dell'utente dell'8/11, «Sì, ANTHEA prima»: la 1.19.0 esce prima dei plug-in Rhino, con le librerie da origin/master. Ramo
-`claude/anthea-1190-rilascio` (corsie F7d, F7e e R119); [note di rilascio](note-rilascio-1.19.0.md), verbale `installer-1.19.0.md`.
+`claude/anthea-1190-rilascio` (corsie F7d, F7e e R119); [note di rilascio](note-rilascio-1.19.0.md), [verbale](installer-1.19.0.md).
 
 - [x] Set ufficiale AV da Model `ff318f87` e Checker `9e513417`, pubblicati l'8/11; le 15 DLL identiche al candidato F7d provato nella full.
 - [x] Snapshot AV in `lib/Checker` e provenienza F4 della release AV.
 - [x] Versione 1.19.0 (già nel progetto da 18d96c67), istruzioni dell'installer con il PDF e note di rilascio.
-- [ ] Full di rilascio, suite native Straus7, setup e tag `v1.19.0`.
+- [x] Full di rilascio sul commit del setup 12657b91: PASS 166, NEW-FAIL 0; suite native Straus7 29 + 113 controlli PASS.
+- [x] Setup `ANTHEA-1.19.0-Setup-x64.exe` (`9BE3AA84…C4B4`, audit PASS) e tag `v1.19.0` sul commit del setup.
 
 ## Report e template di stili — 6 novembre 2026
 
