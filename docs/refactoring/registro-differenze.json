@@ -15143,6 +15143,92 @@
       "voci_collegate": [
         "FON-HANSEN-01"
       ]
+    },
+    {
+      "id": "SM-CB131-ARROTONDAMENTI",
+      "data": "2026-11-08",
+      "fase": "Rilascio 1.19.0 (ramo claude/anthea-1190-rilascio, set candidato F7d)",
+      "titolo": "Sezione composta da ponte: arrotondamenti del solutore elastico diretto (CompositeBridge 1.31.0.1)",
+      "famiglia": "ponti/sezione mista",
+      "modulo": "str_mista_ponte (F5.11)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "GPCChecker.CompositeBridge 1.31.0.1 (Checker 1092c29f, 7b726fc8, 87985942, nel set candidato F7d da 3b40e2a0) risolve i campi elastici direttamente, prepara momenti e fibre e riusa i prefissi lineari. Tensioni, larghezze efficaci, inerzie, moduli, asse neutro e utilizzi cambiano solo nelle ultime cifre; il documento del consolidamento (Checker docs/bridge-performance-20261105.txt) dichiara uno scarto cumulativo massimo di 7,11e-13 / 9,10e-13 MPa/mm e il residuo di classe 4 entro 1e-7. Si vedono solo i numeri che sono già arrotondamenti: il residuo d'equilibrio dei contributi e la lunghezza dell'anima inefficace quando l'anima è tutta efficace (per questa, REPORT-LUNGHEZZE-MM-20261108).",
+      "codice": [
+        "lib/Checker/GPCChecker.CompositeBridge.dll",
+        "tests/fixtures/f3/expected/sheets/str_mista_ponte (12 file)",
+        "tests/fixtures/f3/transitions-f4.json (aggiornamento_f7e)",
+        "tests/fixtures/f3/manifest.json (expected_updates_20261108, library_transitions_20261108)",
+        "tests/fixtures/f5-sezione-mista/storica (15 tracce), disegni/elenco.txt, vista-storica.json"
+      ],
+      "segno": "Neutro: nessun valore mostrato con le cifre normali cambia, nessun esito cambia.",
+      "effetto_quantificato": "F3 (6 fixture str_mista_ponte): result.json 809 numeri con scarto relativo ≤ 3,1e-14 (asse neutro −435,8072682491506 → −435,8072682491507 mm, inerzia 109315140954,34612 → 109315140954,34616 mm⁴), residuo dell'iterazione di classe 4 di anima-inclinata-ec4-sle 4,454630545E-8 → 4,454630531E-8 (3,2e-9), valori quasi nulli ≤ 6e-12 → 0 (UniformStress dei contributi 2,8e-14…7,1e-14 MPa → 0); report.txt: celle «Residuo equilibrio» ≤ 1,005E-14 → 0E+0 o 1,589E-16; report del progetto: 3 celle 2,742E-15 → 0E+0, 2,503E-15 → 0E+0, 5,587E-15 → 1,589E-16. Tracce del ViewModel e della vista: 311 righe in 15 scenari (impronte del risultato e numeri), 2 righe «~» in più e 8 in meno che portavano solo il residuo. Disegni: 14 righe su 88 con la sola impronta (coordinate ≤ 4,5e-13 px, stessi primitivi). Valori registrati della vista: impronte del risultato e del CSV delle tensioni di 6 fixture; dati e Modified invariati.",
+      "decisione": {
+        "data": "2026-11-08",
+        "utente": "«aggiorna» alla domanda 3 di F7d («rinnovare i byte congelati o introdurre tolleranze»).",
+        "opzione": "aggiorna",
+        "esito": "byte congelati rinnovati, nessuna tolleranza nuova: 12 attesi F3 (nuovo atteso = cattura con le transizioni F4 del file annullate, così BUG-PON-2 resta uguale), 3 transizioni del progetto con il valore dopo nuovo e voce combinata, tracce dal ViewModel, disegni e valori registrati dalla vista XAML con una registrazione temporanea non committata. Cambio di comportamento nelle note 1.19.0."
+      },
+      "opzioni": [
+        {
+          "id": "aggiorna",
+          "descrizione": "rinnovare i byte congelati della sezione composta (attesi, tracce, disegni, valori registrati) e le 3 transizioni del progetto"
+        },
+        {
+          "id": "tolleranze",
+          "descrizione": "introdurre tolleranze per gli arrotondamenti della sezione composta (oggi tolleranza 0 nei confronti byte per byte)"
+        }
+      ],
+      "test": [
+        "ui/f3-equivalence: zero differenze non ammesse",
+        "Presentation.Tests (CompositeSectionSheetChecks): tracce, riferimenti F3 e file con transizioni",
+        "ui/check-sezione-mista-view: tracce, disegni, esportazioni"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261108-005411-f7d-full (NEW-FAIL di Presentation.Tests, ui/check-sezione-mista-view, ui/f3-equivalence)",
+        "supporto/artefatti/ci/20261108-075927-f7e-raccolta-1 (cattura ui/f3-equivalence usata per gli attesi)",
+        "supporto/artefatti/f7e/presentation-sezione-mista-1, supporto/artefatti/f7e/registra-sezione-mista-view",
+        "gpc-unification-20261102/revisione-claude-20261103/correzioni-F7d.md §6, §7.2"
+      ],
+      "voci_collegate": [
+        "AG-SM-01",
+        "BUG-PON-2",
+        "REPORT-LUNGHEZZE-MM-20261108"
+      ]
+    },
+    {
+      "id": "REPORT-LUNGHEZZE-MM-20261108",
+      "data": "2026-11-08",
+      "fase": "Rilascio 1.19.0 (ramo claude/anthea-1190-rilascio)",
+      "titolo": "Relazione della sezione composta: lunghezze della sezione efficace senza notazione E",
+      "famiglia": "report/sezione mista",
+      "modulo": "str_mista_ponte (F5.11)",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "EngineeringFormat.Number mostra in notazione E ogni valore non nullo minore di 0,01: un residuo di arrotondamento della lunghezza dell'anima inefficace (anima tutta efficace) compariva come «Anima inefficace: 4,55E-13 mm» (relazione di anima-inclinata-ec4-sle, già con le librerie precedenti) e, con CompositeBridge 1.31.0.1, «2,27E-13 mm» nel report del progetto. Decisione dell'utente dell'8/11/2026: «se quoti in mm già 0,0 può andare bene». ANTHEA 0b31758b aggiunge EngineeringFormat.Length (due decimali, mai notazione E, 0,00 senza segno per un valore che a quella precisione vale zero; uguale a Number da 0,01 in su e per +0) e la usa solo nella sezione efficace di classe 4 della relazione (b, t, bc, b1 eff, b2 eff, «Anima inefficace» e le sue quote y) e nelle larghezze efficaci dello storico. Nessun cambio in CompositeBridge né negli altri campi.",
+      "codice": [
+        "src/ANTHEA.Serialization/EngineeringFormat.cs (Length)",
+        "src/ANTHEA.Reports/Generators/ReportBridge.cs (sezione efficace di classe 4)",
+        "src/ANTHEA.Reports/Generators/ReportBridge.History.cs (larghezze efficaci)",
+        "tests/ANTHEA.Reports.Tests/Program.cs"
+      ],
+      "segno": "Neutro: solo presentazione.",
+      "effetto_quantificato": "Relazione di anima-inclinata-ec4-sle (atteso F3 rinnovato con SM-CB131-ARROTONDAMENTI): «Anima inefficace: 4,55E-13 mm.» → «0,00 mm.»; report del progetto: resta «0,00 mm» come nel riferimento F3 (con 1.31.0.1 senza il formato sarebbe stato «2,27E-13 mm»). Nessun altro report del corpus o dei riferimenti cambia.",
+      "decisione": {
+        "data": "2026-11-08",
+        "utente": "«si, se quoti in mm già 0,0 può andare bene. va bene come hai proposto» (domanda 2 di F7d; proposta: correggere il formato di ANTHEA, non la libreria).",
+        "esito": "corretto nel formato di ANTHEA (commit 0b31758b), ambito stretto."
+      },
+      "test": [
+        "Reports.Tests: Length(2,27E-13) = «0,00» (anche negativo, 4,55E-13, 0, −0, 0,004; 0,007 → «0,01»; NaN e null → «—»), uguale a Number da 0,01 in su, nessuna «Anima inefficace» in notazione E nei report del corpus (PASS 515)",
+        "ui/f3-equivalence e Presentation.Tests: relazione di anima-inclinata-ec4-sle e report del progetto"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261108-075927-f7e-raccolta-1 (Reports.Tests PASS 515; cattura F3 con «0,00 mm»)"
+      ],
+      "voci_collegate": [
+        "SM-CB131-ARROTONDAMENTI"
+      ]
     }
   ]
 }

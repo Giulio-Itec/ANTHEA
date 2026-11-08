@@ -1931,5 +1931,111 @@
     "file": "tests/fixtures/f3/transitions-f5-wiki.json",
     "record": "REPORT-TEMPLATE-20261106",
     "note": "Exact additions and line shifts for the template setting and updated reports in three Wiki articles; micropalo search gains the reports article. No engineering transitions admitted here."
+  },
+  "expected_updates_20261108": {
+    "capture": "supporto/artefatti/ci/20261108-075927-f7e-raccolta-1/ui_f3-equivalence/cattura",
+    "record": "SM-CB131-ARROTONDAMENTI / REPORT-LUNGHEZZE-MM-20261108",
+    "decision": "Utente, 8/11/2026: «aggiorna» (riferimenti congelati della sezione composta rinnovati, nessuna tolleranza nuova).",
+    "note": "Set candidato F7d, GPCChecker.CompositeBridge 1.31.0.1 (Checker 1092c29f, 7b726fc8, 87985942): arrotondamenti della sezione composta da ponte. Nuovo atteso = file della cattura con le transizioni F4 del file annullate (BUG-PON-2 di default e legacy-web-and-accessories: chiave cls_teso_nl tolta). result.json: numeri con scarto relativo ≤ 3,1e-14 (residuo dell'iterazione di classe 4 di anima-inclinata 3,2e-9), valori quasi nulli → 0. report.txt: celle «Residuo equilibrio» (≤ 1,005E-14 → 0E+0 o 1,589E-16) e, per il formato delle lunghezze (ANTHEA 0b31758b), «Anima inefficace: 4,55E-13 mm» → «0,00 mm» in anima-inclinata-ec4-sle. Nessun testo, campo o esito cambia. Impronte sulla forma LF.",
+    "files": [
+      {
+        "file": "sheets/str_mista_ponte/anima-inclinata-ec4-sle/report.txt",
+        "before_sha256": "6daa58352fc0bc2d52e81144ebb91294ae1ac9ccbcdc97faa7e92882f764ffd9",
+        "after_sha256": "6871adb443140530ea1ff20ccc1c034a84bf708a1d541c61e5a959a620089cce",
+        "lines": 6,
+        "numbers": 6
+      },
+      {
+        "file": "sheets/str_mista_ponte/anima-inclinata-ec4-sle/result.json",
+        "before_sha256": "b850f9628d14c5590bc368e736787936a9d450ec84bf926ae610c511c16ab064",
+        "after_sha256": "3ec6da6e2176b86bd822d197b287b0914028395628858827529e66a9ffbfb624",
+        "lines": 162,
+        "numbers": 184
+      },
+      {
+        "file": "sheets/str_mista_ponte/cassoncino-torsione-pioli/report.txt",
+        "before_sha256": "a11272d27653a5112cd4e2a489f8356c96810aa7d08dbaaff20518031410b8b3",
+        "after_sha256": "f144afe922e9902867ccdfa743e9323e082319f96e21e7b9acffc7eba3d1a3b1",
+        "lines": 3,
+        "numbers": 3
+      },
+      {
+        "file": "sheets/str_mista_ponte/cassoncino-torsione-pioli/result.json",
+        "before_sha256": "4fa76a9a2b18e8a5fc2d15c55780496ed1fac7c57192361389ee74f10ab72921",
+        "after_sha256": "1fcdc2ce7d20dc441c400a3556df6f69456cd06b3d3cd5a2bad7597380017f80",
+        "lines": 144,
+        "numbers": 148
+      },
+      {
+        "file": "sheets/str_mista_ponte/default/report.txt",
+        "before_sha256": "299b710c5385cdb54ede241f81313ca355a79329f1040927e3e05d33e07a7a32",
+        "after_sha256": "8077f2372c39bb02d5ebd1902a6643e9ceb82811accab9cbcef6bc6fc7a8fd1d",
+        "lines": 3,
+        "numbers": 3
+      },
+      {
+        "file": "sheets/str_mista_ponte/default/result.json",
+        "before_sha256": "da46a3c1c2d602e793eecf6bc01748944a09c6f9370988b30e58d7b8ef17cf50",
+        "after_sha256": "71234d18ccef169ab845ba005248607f42fbc75c1f1fba447969439775e3cf78",
+        "lines": 109,
+        "numbers": 121
+      },
+      {
+        "file": "sheets/str_mista_ponte/irrigidimenti-appoggio-piastra2/report.txt",
+        "before_sha256": "5422f62b80cfb43c092e4724191c910d90ee34c5ff37e012b5b65428aca2c2e1",
+        "after_sha256": "bf383ac515962852e594e733c40ad27b9bdad39b3435f705f6912134dc79f4eb",
+        "lines": 3,
+        "numbers": 3
+      },
+      {
+        "file": "sheets/str_mista_ponte/irrigidimenti-appoggio-piastra2/result.json",
+        "before_sha256": "9c518c1aa531bd6d546dc2f22ae553346d63abfb042938e456ec20e59a9ebaf3",
+        "after_sha256": "09507be5500b217cf9fcb468e5c2fc0cd8f612f5b97a191152b9b8d3d3ff27f7",
+        "lines": 105,
+        "numbers": 111
+      },
+      {
+        "file": "sheets/str_mista_ponte/legacy-viste-metodo/report.txt",
+        "before_sha256": "fe31023a4e5867a801c110474e0eb4672f13d71969a697060cb8cfa55062b7d9",
+        "after_sha256": "4a18438105eddb74dfcb39f16c51d04a4800eebdfd7aa5b764acabe2cd78e80c",
+        "lines": 3,
+        "numbers": 3
+      },
+      {
+        "file": "sheets/str_mista_ponte/legacy-viste-metodo/result.json",
+        "before_sha256": "92bf2c30f3b8045a4edede7479b3acdc834c708d52d205b3516df54ce80fa6fb",
+        "after_sha256": "63e216e0693f9b56ec6a1b9aa74d30a16b15c72a0b2113b08dae735d2016e330",
+        "lines": 109,
+        "numbers": 121
+      },
+      {
+        "file": "sheets/str_mista_ponte/legacy-web-and-accessories/report.txt",
+        "before_sha256": "707d74a94e6386054bf259f46389ed68859492f063caa71ff9e241b4abcbf28f",
+        "after_sha256": "d9ea808772efcd7c41398f4ce9f389c57d2f8ae563f18ece814d06e72a06a647",
+        "lines": 3,
+        "numbers": 3
+      },
+      {
+        "file": "sheets/str_mista_ponte/legacy-web-and-accessories/result.json",
+        "before_sha256": "6d6bef21928f8b7e4bd90c15f010c6feddd69f0bd1abd452e423dd14b216a1c9",
+        "after_sha256": "760c97a98c37080cbe8cdcc897524b136ff65d76e38ff5b8b0891a7100d81d86",
+        "lines": 109,
+        "numbers": 121
+      }
+    ]
+  },
+  "library_transitions_20261108": {
+    "capture": "supporto/artefatti/ci/20261108-075927-f7e-raccolta-1/ui_f3-equivalence/cattura",
+    "before_sha256": "fd23680d007042758049ede6c681b588688da411838bb67f5b1043dd1b5adbf9",
+    "after_sha256": "c61ffcdd8ebba8dd69acc7373fb3b9d2378fa32df71157515c51c3524c7c5e4d",
+    "counts": {
+      "previous": 78189,
+      "current": 78189,
+      "added": 0,
+      "replaced": 3
+    },
+    "file": "tests/fixtures/f3/transitions-f4.json",
+    "record": "SM-CB131-ARROTONDAMENTI",
+    "note": "Project report: the three «Residuo equilibrio» cells of the composite section chapter, already moved by BUG-MUR-1 + BUG-MUR-2 / R-MURI-09, take the new value after (2,742E-15 → 0E+0, 2,503E-15 → 0E+0, 5,587E-15 → 1,589E-16), entry «… / SM-CB131-ARROTONDAMENTI». Values before unchanged; key aggiornamento_f7e in the list."
   }
 }

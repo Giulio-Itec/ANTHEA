@@ -482,7 +482,7 @@ curva.grafico: "" "" · punti 0 4F53CDA18C2BAA0C · scelto 0
 curva.fibra: "" "" · punti 0 4F53CDA18C2BAA0C · scelto 0
 curva.tabella: 0 blocchi
 == attendi
-~ calcolo: occupato no · risultato 7FA63973311397F8 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 51D8D6AD71A644D7 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avvisi: "EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
 ~ panoramica: "|σa|max = 52,382 MPa\nσc,min = 0 MPa\n\nAnima inefficace: 376,378 mm\nAeff / Alorda = 0,91\nConvergenza: 9 iterazioni"
@@ -544,7 +544,7 @@ curva.tabella: 0 blocchi
 ~ curva: fasi "01 · Dopo G1 · getto e carpenteria|02 · Dopo G2 · permanenti portati|03 · Dopo Q · variabili" · scelta 0 · visibile no · calcola sì · esporta no · curva -
 == conferma
 == calcola
-~ calcolo: occupato no · risultato 3220EAD53E8C0E06 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 15A5B6B0C3BB3D77 · mostrato corrente · esportabile sì
 ~ disegno.ingresso: risultato 25E58BEAD3E99ABF
 == conferma
 == riapri
@@ -606,7 +606,7 @@ curva.tabella: 0 blocchi
 - pannello.torsione.0
 == conferma
 == attendi
-~ calcolo: occupato no · risultato 3220EAD53E8C0E06 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 15A5B6B0C3BB3D77 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avvisi: "EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
 ~ panoramica: "|σa|max = 52,382 MPa\nσc,min = 0 MPa\n\nAnima inefficace: 376,378 mm\nAeff / Alorda = 0,91\nConvergenza: 9 iterazioni"

@@ -123,3 +123,22 @@ scala dello schermo: gli elenchi valgono sulla macchina del banco, come le prove
     della curva. Dati e `Modified` (apertura, visita, calcolo, report) e numero dei punti della curva non cambiano; il risultato
     è uguale in ogni numero a quello del ViewModel già accettato con AG-SM-01; i CSV hanno le stesse righe e cambiano solo nei
     numeri (al più lo 0,7 % del massimo della colonna, 2,8 % per la deformazione plastica, piccola). Le altre 8 fixture non cambiano.
+
+## Aggiornamento per CompositeBridge 1.31.0.1 (8/11/2026, ANTHEA 1.19.0, registro SM-CB131-ARROTONDAMENTI)
+
+Set candidato F7d (Checker `3b40e2a0`, GPCChecker.CompositeBridge 1.31.0.1: solutore elastico diretto, momenti e fibre preparate,
+prefissi riusati, commit `1092c29f`, `7b726fc8`, `87985942`). Decisione dell'utente dell'8/11/2026 sui riferimenti congelati:
+«aggiorna», senza tolleranze nuove.
+- Tracce: 15 scenari su 20 ricatturati dal ViewModel (`Presentation.Tests --sezione-mista`, con una modifica temporanea non
+  committata che annota e prosegue; uscita `supporto/artefatti/f7e/presentation-sezione-mista-1`), confrontati riga per riga
+  (`difflib`): 311 righe cambiate, solo impronte del risultato e numeri, nessun numero con scarto relativo oltre 1e-9 fra quelli
+  maggiori di 1e-9 in modulo (i residui d'equilibrio quasi nulli passano a 0 o a 1,589E-16); 2 righe «~ convergenza» in più e 8
+  righe «~» in meno (convergenza e pannello dell'equilibrio), che portavano solo il residuo: prima cambiava fra due stati, ora resta
+  0. Non cambiano le 5 tracce `curve-sezione`, `percorso-dati-incompleti`, `percorso-storico-lineare-ritiro`, `percorso-storico-non-lineare-curve` e `risultati-storico`.
+- `disegni/elenco.txt`: 14 righe su 88 con la sola impronta cambiata (sezione e situazioni finali di 6 fixture), stessi primitivi;
+  F7d aveva misurato uno scarto massimo delle coordinate di 4,5·10⁻¹³ px.
+- `vista-storica.json`: per 6 fixture (`anima-inclinata-ec4-sle`, `cassoncino-torsione-pioli`, `default`,
+  `irrigidimenti-appoggio-piastra2`, `legacy-viste-metodo`, `legacy-web-and-accessories`) le impronte del risultato e del CSV delle
+  tensioni, da una registrazione temporanea non committata di `ui/check-sezione-mista-view` (uscita
+  `supporto/artefatti/f7e/registra-sezione-mista-view`); i dati e i `Modified` di apertura, visita, calcolo e report sono quelli
+  registrati, i report Word e PDF uguali alla ricetta, le altre 3 fixture invariate.

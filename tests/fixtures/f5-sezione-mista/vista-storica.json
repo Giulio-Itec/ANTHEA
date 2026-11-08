@@ -9,10 +9,10 @@
       "calcolo": "3db413e18fa0f80bade85a322595a184605b7916ff13f608109299871fa166d7",
       "calcolo_modified": 10,
       "risultati": true,
-      "risultato": "53eb2247c58849cbaec2f682717d6c0b994ec4e2a60884e7219619d8a23108c0",
+      "risultato": "0367d7c367f2a5b48b4fdf78e4df0361f191b3d75849c52c2bc2ab3057c240c4",
       "report": "6dc8aa5722e67ee001529fd3d92fe072872740696d7cab422ac3ab5e8d01d69e",
       "report_modified": 11,
-      "csv": "d4faf24970b25a7cdcbb7c1b96337a26bd919c8317c3084240b97768aea5b701"
+      "csv": "91a062864b66669666f95a172c16f0ad077302a5eab0a8a5a56d0509f5e99dcd"
     },
     "cassoncino-torsione-pioli": {
       "apertura": "7d932e39af3fd7813281f08ae33faed1f53779372fbfecbd207af5c7dc9208ba",
@@ -22,10 +22,10 @@
       "calcolo": "2d0731a63809b0fe684964170848be6e344fb8ef3b6d3e1fa703ce0efabd539d",
       "calcolo_modified": 9,
       "risultati": true,
-      "risultato": "7b8b63724500197a669ab47a55cf30b15504294822de73fe0c572b1ef246e4b6",
+      "risultato": "63586d84061c97a5f68763c729865b881a27fb02bc49b0a6f8a024af02e3e4df",
       "report": "344b99e225713ce2c37869f185e8335c9ead4f3d79f18bafed7ba21d98dbef2e",
       "report_modified": 10,
-      "csv": "5211d9224951c9faa16a9e2b000b6faa39b26b5f295d5bd4e22325975e915d1b"
+      "csv": "4a85524625b1f555fc3e98d5a2b5ae2dde0cca08c553a79e844407fb284f8030"
     },
     "dati-incompleti": {
       "apertura": "2d69e65b0741103978da06fcc4ed5b80ba4f0a746cc8a60f541502a5deb4139f",
@@ -45,10 +45,10 @@
       "calcolo": "d62e55df3c437b7fdd3fa878a16013c662ce1608961850d4e97dc78ddbfb87c0",
       "calcolo_modified": 9,
       "risultati": true,
-      "risultato": "e7000caeab48d1f80d25b6c75160881a22b99a013485335e0f03c713a25939d3",
+      "risultato": "49bb41cab5fcb99c4e685bd8f23db77678914b6c146b14c6be9f37206e8c800f",
       "report": "4c74fd3ab41ad7f9c76a788356e82f8fa9c3af4e4f81de2d3e66266aaf6a4d3d",
       "report_modified": 10,
-      "csv": "5da07d226cbe3e6d09e9b9c4834c7759b4b2782760f8ac81ca5f1a6c15d09f6e"
+      "csv": "db484cbf5617e3a919dd6dfd450a341dedfebe7c0ddb2c59fab893d8ec94e1fe"
     },
     "irrigidimenti-appoggio-piastra2": {
       "apertura": "0fe350ce045bb67cc57d45132f45c8a70a6b24dad63e5e75759e0dc1456c9969",
@@ -58,10 +58,10 @@
       "calcolo": "dd25a0df3c4a388e666fdbf17eb45925a5652e3a34ea0cc2a934c86850201119",
       "calcolo_modified": 9,
       "risultati": true,
-      "risultato": "fad08bee7016bc0f98ba3228f9c7b0d04674f4eef1398dee2c7edab34ef5e2bf",
+      "risultato": "bc8568ae50221cfde45ab4d5982847494c1715196b142444c8a550e98e9dadea",
       "report": "214005a7342ad9353055faaf0a92e8435727880b51a2cf081636928dffaa09f9",
       "report_modified": 10,
-      "csv": "29cac314fd070fb014882aef5eced1679626b537210838fef17b4e1eb0e4b621"
+      "csv": "bc673df826b1b00480aa7045b32d1680fe68df30ebcd606d93d6973fc8518149"
     },
     "legacy-viste-metodo": {
       "apertura": "597808a1a931832cc303694c877d0af1257ce990152d0a46a9ecbce59949a0c6",
@@ -71,10 +71,10 @@
       "calcolo": "4af0adbdf6581d3a47cd882edba1897552e12c23c02f692809f6d8458ebf3c38",
       "calcolo_modified": 10,
       "risultati": true,
-      "risultato": "957c40a41f55c661a8609d493ceb73c2880521889cb9fa658afc60e741a82c18",
+      "risultato": "351d5bad2a45c1c7ba81b0cf19d0929755bfbc0fb93f5699edf75c7d5815a15f",
       "report": "3e60052751327f1a7ccd2d0e5674da3e5e3c074ec2f2018503012cda9372f578",
       "report_modified": 11,
-      "csv": "5da07d226cbe3e6d09e9b9c4834c7759b4b2782760f8ac81ca5f1a6c15d09f6e"
+      "csv": "db484cbf5617e3a919dd6dfd450a341dedfebe7c0ddb2c59fab893d8ec94e1fe"
     },
     "legacy-web-and-accessories": {
       "apertura": "b4fe67ac5f44fc6cae4702e3bb9ad2284a82f6776e55f92c17b3aff3e83ae391",
@@ -84,10 +84,10 @@
       "calcolo": "d40a62420cfedebc22fcb7dde9792b4c1fc511ed58585b212cbb10898de00423",
       "calcolo_modified": 9,
       "risultati": true,
-      "risultato": "8d0b533c6b48130bc67030e7d617836d0e829c6ab0c7ac3342ba98821040f729",
+      "risultato": "7a256cd5443f9385b6d21633ac7eeaac550564f685be1dce062567a4b45f72f6",
       "report": "a8df45cc55831c69cff3c1400629cae9bd2c2613ebea47d1016ea308432d785f",
       "report_modified": 10,
-      "csv": "5da07d226cbe3e6d09e9b9c4834c7759b4b2782760f8ac81ca5f1a6c15d09f6e"
+      "csv": "db484cbf5617e3a919dd6dfd450a341dedfebe7c0ddb2c59fab893d8ec94e1fe"
     },
     "storico-lineare-ritiro": {
       "apertura": "053b855ed0eb72cd7da3e0fa731a2e4a9a262b29b0d118e79e3e8e0a9204fc3b",

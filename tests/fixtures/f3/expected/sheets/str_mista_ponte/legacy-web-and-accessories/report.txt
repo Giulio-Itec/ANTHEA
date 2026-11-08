@@ -484,7 +484,7 @@
 [T23 r3 c3] 53259933,40
 [T23 r3 c4] -545,86
 [T23 r3 c5] 1,37E-4
-[T23 r3 c6] 2,742E-15
+[T23 r3 c6] 0E+0
 ¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
 ¶ Tensioni totali
 [T24 r1 c1] Punto
@@ -760,13 +760,13 @@
 [T34 r3 c3] 53178532,46
 [T34 r3 c4] -542,83
 [T34 r3 c5] 1,36E-4
-[T34 r3 c6] 2,503E-15
+[T34 r3 c6] 0E+0
 [T34 r4 c1] 3
 [T34 r4 c2] 367708739,39
 [T34 r4 c3] 56439656,69
 [T34 r4 c4] -246,84
 [T34 r4 c5] 1,57E-4
-[T34 r4 c6] 5,587E-15
+[T34 r4 c6] 1,589E-16
 ¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
 ¶ Tensioni totali
 [T35 r1 c1] Punto

@@ -503,3 +503,24 @@ dall'utente (voce CA-CRITERIO-STATI-01). Chiave `aggiornamento_criterio_stati`, 
 - 17 voci AG-CA-01 dello stesso dominio 2D elencate con il valore dopo nuovo e la voce estesa con « / CA-CRITERIO-STATI-01».
 Confronto della cattura `supporto/artefatti/ci/20261102-111306-criterio-stati-ui-1`; domini 3D e altre fixture invariati. La figura del
 dominio 2D della stessa fixture in `tests/fixtures/f3-concrete-figures` è ricatturata (sezione `fixture_aggiunte_f5_10` del manifest).
+
+## Sezione composta da ponte con CompositeBridge 1.31.0.1 (8/11/2026, ANTHEA 1.19.0)
+
+Set candidato F7d (Checker `3b40e2a0`, GPCChecker.CompositeBridge 1.31.0.1, commit `1092c29f`, `7b726fc8`, `87985942`; registro
+SM-CB131-ARROTONDAMENTI) e formato delle lunghezze in mm della relazione (ANTHEA `0b31758b`, registro REPORT-LUNGHEZZE-MM-20261108).
+Decisione dell'utente dell'8/11/2026 sui riferimenti congelati: «aggiorna», senza tolleranze nuove.
+- **Attesi rinnovati** (12 file, eccezione alla regola delle transizioni decisa dall'utente): `result.json` e `report.txt` di
+  `anima-inclinata-ec4-sle`, `cassoncino-torsione-pioli`, `default`, `irrigidimenti-appoggio-piastra2`, `legacy-viste-metodo` e
+  `legacy-web-and-accessories`. Il nuovo atteso è il file della cattura `supporto/artefatti/ci/20261108-075927-f7e-raccolta-1`
+  con le transizioni F4 del file annullate (BUG-PON-2 di `default` e `legacy-web-and-accessories`: la chiave `cls_teso_nl` tolta),
+  così le transizioni esistenti restano uguali. Righe confrontate una per una: cambiano solo numeri (result.json: scarto relativo
+  ≤ 3,1e-14, residuo dell'iterazione di classe 4 di `anima-inclinata-ec4-sle` 4,454630545E-8 → 4,454630531E-8, valori quasi nulli →
+  0; report.txt: celle «Residuo equilibrio» ≤ 1,005E-14 → 0E+0 o 1,589E-16 e, in `anima-inclinata-ec4-sle`, «Anima inefficace:
+  4,55E-13 mm» → «0,00 mm»). Prima del rinnovo `Presentation.Tests` confrontava questi file byte per byte e falliva anche dove il
+  comparatore di `ui/f3-equivalence` restava nelle tolleranze. Impronte prima e dopo nel manifest, sezione `expected_updates_20261108`.
+- **Transizioni**: nel report del progetto le 3 celle «Residuo equilibrio» del capitolo della sezione composta, già spostate da
+  BUG-MUR-1 + BUG-MUR-2 / R-MURI-09, prendono il valore dopo nuovo (voce combinata «… / SM-CB131-ARROTONDAMENTI»), chiave
+  `aggiornamento_f7e` dell'elenco e sezione `library_transitions_20261108` del manifest; 78189 voci come prima. La riga «Anima
+  inefficace» del progetto resta «0,00 mm» come nel riferimento.
+- Confronto completo (`tools/qa/f3_confronto_completo.py`) della stessa cattura dopo l'aggiornamento: fuori dalla Wiki e da
+  `esito.txt` (ammesse dalle transizioni editoriali del manifest) nessuna differenza non ammessa.

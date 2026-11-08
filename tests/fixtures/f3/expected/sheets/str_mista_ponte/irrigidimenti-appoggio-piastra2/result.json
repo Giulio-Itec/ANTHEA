@@ -1343,16 +1343,16 @@
         },
         {
           "Area": 113175.3873069387,
-          "Centroid": -706.6149712211363,
+          "Centroid": -706.6149712211364,
           "ConcreteStressOffset": 0,
           "ConnectionFlowExtra": 0,
           "EffectivePhi": 2.2,
-          "EquilibriumResidual": 4.2821493011718455E-15,
+          "EquilibriumResidual": 0,
           "EquivalentMomentAtInterface": 0,
           "EquivalentN": 0,
           "HasConcrete": true,
           "HomogenizationN": 19.719961174917472,
-          "Inertia": 90808773123.81084,
+          "Inertia": 90808773123.81085,
           "IsShrinkage": false,
           "Kind": "Composta",
           "LoadReference": "Baricentro omogeneizzato lordo",
@@ -1362,16 +1362,16 @@
           "N": 0,
           "N0": 6.162487867161709,
           "Name": "G2 · permanenti portati",
-          "NeutralAxis": -706.6149712211347,
+          "NeutralAxis": -706.6149712211364,
           "Phi": 2,
           "RebarArea": 8042.477193189877,
           "RebarRatio": 0.9523809523809523,
           "ShrinkageStrain": 0,
-          "SolverInertia": 90805714909.62672,
-          "StressSlope": -0.02202504547197797,
-          "UniformStress": 3.552713678800501E-14,
+          "SolverInertia": 90805714909.62674,
+          "StressSlope": -0.022025045471978005,
+          "UniformStress": 0,
           "V": 500,
-          "WBottom": 77390431.01505658,
+          "WBottom": 77390431.0150566,
           "WTop": 128512382.02168247
         }
       ],
@@ -1409,26 +1409,26 @@
           "CompressedWidth": 243,
           "EffectiveAtEnd": 0,
           "EffectiveAtStart": 243,
-          "EndStress": -64.88840977858493,
+          "EndStress": -64.88840977858499,
           "KSigma": 0.43,
           "Lambda": 0.6414959848926287,
           "Psi": 1,
           "Rho": 1,
-          "StartStress": -64.88840977858493,
+          "StartStress": -64.88840977858499,
           "Thickness": 25,
           "Width": 243
         },
         "TopWidth": 500,
         "Web": {
-          "CompressedWidth": 1036.4595446899964,
-          "EffectiveAtEnd": 1190.0386819845119,
+          "CompressedWidth": 1036.4595446899968,
+          "EffectiveAtEnd": 1190.0386819845114,
           "EffectiveAtStart": 284.33215111633876,
           "EndStress": 46.67622632867522,
-          "KSigma": 17.751326708400445,
-          "Lambda": 1.3206598236863634,
-          "Psi": -0.7366813873457815,
-          "Rho": 0.6858254925940744,
-          "StartStress": -63.3601270921841,
+          "KSigma": 17.75132670840043,
+          "Lambda": 1.3206598236863638,
+          "Psi": -0.7366813873457808,
+          "Rho": 0.6858254925940742,
+          "StartStress": -63.360127092184165,
           "Thickness": 14,
           "Width": 1800
         },
@@ -1441,73 +1441,73 @@
         "Inertia": 38357028360.614044
       },
       "Iterations": 8,
-      "MaxUtilization": 0.19192346554229348,
+      "MaxUtilization": 0.19192346554229364,
       "Name": "G2 · permanenti portati",
       "Points": [
         {
           "Active": true,
-          "Contributions": [0,-1.0684345701004436
+          "Contributions": [0,-1.0684345701004472
           ],
           "Limit": 19.833333333333332,
           "Material": "CLS",
           "Name": "Soletta · estradosso",
-          "Stress": -1.0684345701004436,
-          "Utilization": 0.05387065059329968,
+          "Stress": -1.0684345701004472,
+          "Utilization": 0.05387065059329986,
           "Y": 250
         },
         {
           "Active": true,
-          "Contributions": [0,-0.7892118414574428
+          "Contributions": [0,-0.789211841457446
           ],
           "Limit": 19.833333333333332,
           "Material": "CLS",
           "Name": "Soletta · intradosso",
-          "Stress": -0.7892118414574428,
-          "Utilization": 0.03979219368692989,
+          "Stress": -0.789211841457446,
+          "Utilization": 0.03979219368693006,
           "Y": 0
         },
         {
           "Active": true,
-          "Contributions": [0,-19.122248756267982
+          "Contributions": [0,-19.12224875626805
           ],
           "Limit": 391.304347826087,
           "Material": "Armatura",
           "Name": "Armatura · y=205",
-          "Stress": -19.122248756267982,
-          "Utilization": 0.04886796904379595,
+          "Stress": -19.12224875626805,
+          "Utilization": 0.048867969043796124,
           "Y": 205
         },
         {
           "Active": true,
-          "Contributions": [0,-15.766051351014196
+          "Contributions": [0,-15.766051351014257
           ],
           "Limit": 391.304347826087,
           "Material": "Armatura",
           "Name": "Armatura · y=45",
-          "Stress": -15.766051351014196,
-          "Utilization": 0.040291020119258496,
+          "Stress": -15.766051351014257,
+          "Utilization": 0.040291020119258655,
           "Y": 45
         },
         {
           "Active": true,
-          "Contributions": [-49.32518290625903,-15.563226872325897
+          "Contributions": [-49.32518290625903,-15.56322687232596
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
           "Name": "Acciaio · estradosso",
-          "Stress": -64.88840977858493,
-          "Utilization": 0.19192346554229348,
+          "Stress": -64.88840977858499,
+          "Utilization": 0.19192346554229364,
           "Y": 0
         },
         {
           "Active": true,
-          "Contributions": [-48.34752635665765,-15.012600735526448
+          "Contributions": [-48.34752635665765,-15.01260073552651
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
           "Name": "Anima · sommità",
-          "Stress": -63.3601270921841,
-          "Utilization": 0.1874031928078685,
+          "Stress": -63.360127092184165,
+          "Utilization": 0.18740319280786866,
           "Y": -25
         },
         {
@@ -1523,13 +1523,13 @@
         },
         {
           "Active": true,
-          "Contributions": [24.194589623764344,25.843858614992687
+          "Contributions": [24.194589623764344,25.843858614992694
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
           "Name": "Acciaio · intradosso",
-          "Stress": 50.03844823875703,
-          "Utilization": 0.14800104408646444,
+          "Stress": 50.03844823875704,
+          "Utilization": 0.1480010440864645,
           "Y": -1880
         }
       ],
@@ -1879,10 +1879,10 @@
             "Unit": "—"
           },
           {
-            "Demand": 88.93125964709327,
+            "Demand": 88.93125964709333,
             "Name": "Anima · tensione equivalente elastica (inviluppo)",
             "Note": "√(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata",
-            "Ratio": 0.26303612008295196,
+            "Ratio": 0.26303612008295213,
             "Resistance": 338.0952380952381,
             "Status": "Entro limite",
             "Unit": "MPa"
@@ -2040,7 +2040,7 @@
             "Value": 26.368320673319136
           }
         ],
-        "EquivalentStressEnvelope": 88.93125964709327,
+        "EquivalentStressEnvelope": 88.93125964709333,
         "RigidEndPost": false,
         "Stiffener": null,
         "TauAverage": 35.714285714285715,
@@ -2059,7 +2059,7 @@
           "TauCritical": 80.2924654339335
         }
       },
-      "SteelNeutralAxis": -1061.4595446899964,
+      "SteelNeutralAxis": -1061.4595446899968,
       "Studs": {
         "Checks": [],
         "Contributions": [
@@ -2077,10 +2077,10 @@
             "AdditionalFlow": 0,
             "Basis": "NTC: proprietà della fase tensionale",
             "Flow": 207.3534025782122,
-            "Inertia": 90808773123.81084,
+            "Inertia": 90808773123.81085,
             "Kind": "Composta",
             "Phase": "G2 · permanenti portati",
-            "StaticMoment": 37659016.18235017,
+            "StaticMoment": 37659016.18235018,
             "V": 500
           }
         ],
@@ -2135,17 +2135,17 @@
           "WTop": 32606368.691233516
         },
         {
-          "Area": 116362.93395737809,
-          "Centroid": -701.5118990320392,
+          "Area": 116362.93395737812,
+          "Centroid": -701.5118990320394,
           "ConcreteStressOffset": 0,
           "ConnectionFlowExtra": 0,
           "EffectivePhi": 2.2,
-          "EquilibriumResidual": 4.843030052763752E-15,
+          "EquilibriumResidual": 0,
           "EquivalentMomentAtInterface": 0,
           "EquivalentN": 0,
           "HasConcrete": true,
           "HomogenizationN": 19.719961174917472,
-          "Inertia": 90930952579.54349,
+          "Inertia": 90930952579.54352,
           "IsShrinkage": false,
           "Kind": "Composta",
           "LoadReference": "Baricentro omogeneizzato lordo",
@@ -2155,30 +2155,30 @@
           "N": 0,
           "N0": 6.162487867161709,
           "Name": "G2 · permanenti portati",
-          "NeutralAxis": -701.5118990320374,
+          "NeutralAxis": -701.5118990320394,
           "Phi": 2,
           "RebarArea": 8042.477193189877,
           "RebarRatio": 0.9523809523809523,
           "ShrinkageStrain": 0,
-          "SolverInertia": 90927894365.35938,
-          "StressSlope": -0.021995450504591608,
-          "UniformStress": 3.907985046680551E-14,
+          "SolverInertia": 90927894365.3594,
+          "StressSlope": -0.021995450504591642,
+          "UniformStress": 0,
           "V": 500,
-          "WBottom": 77158990.83313325,
+          "WBottom": 77158990.83313328,
           "WTop": 129621397.30632071
         },
         {
-          "Area": 199137.26275530554,
-          "Centroid": -357.96008587920596,
+          "Area": 199137.26275530556,
+          "Centroid": -357.9600858792058,
           "ConcreteStressOffset": 0,
           "ConnectionFlowExtra": 0,
           "EffectivePhi": 0,
-          "EquilibriumResidual": 1.0046183018365223E-14,
+          "EquilibriumResidual": 0,
           "EquivalentMomentAtInterface": 0,
           "EquivalentN": 0,
           "HasConcrete": true,
           "HomogenizationN": 6.162487867161709,
-          "Inertia": 124402201022.8324,
+          "Inertia": 124402201022.83238,
           "IsShrinkage": false,
           "Kind": "Composta",
           "LoadReference": "Baricentro omogeneizzato lordo",
@@ -2188,17 +2188,17 @@
           "N": 0,
           "N0": 6.162487867161709,
           "Name": "Q · variabili",
-          "NeutralAxis": -357.960085879203,
+          "NeutralAxis": -357.9600858792058,
           "Phi": 0,
           "RebarArea": 8042.477193189877,
           "RebarRatio": 0.9523809523809523,
           "ShrinkageStrain": 0,
-          "SolverInertia": 124399157164.41678,
-          "StressSlope": -0.024115919017320454,
-          "UniformStress": 7.105427357601002E-14,
+          "SolverInertia": 124399157164.41676,
+          "StressSlope": -0.0241159190173205,
+          "UniformStress": 0,
           "V": 700,
-          "WBottom": 81733862.47540906,
-          "WTop": 347530928.531546
+          "WBottom": 81733862.47540905,
+          "WTop": 347530928.5315461
         }
       ],
       "Effective": {
@@ -2235,26 +2235,26 @@
           "CompressedWidth": 243,
           "EffectiveAtEnd": 0,
           "EffectiveAtStart": 243,
-          "EndStress": -70.06588949653153,
+          "EndStress": -70.06588949653167,
           "KSigma": 0.43,
           "Lambda": 0.6414959848926287,
           "Psi": 1,
           "Rho": 1,
-          "StartStress": -70.06588949653153,
+          "StartStress": -70.06588949653167,
           "Thickness": 25,
           "Width": 243
         },
         "TopWidth": 500,
         "Web": {
-          "CompressedWidth": 813.401272470925,
-          "EffectiveAtEnd": 1415.8710997078274,
-          "EffectiveAtStart": 286.1815814525016,
+          "CompressedWidth": 813.4012724709261,
+          "EffectiveAtEnd": 1415.8710997078265,
+          "EffectiveAtStart": 286.18158145250163,
           "EndStress": 82.45087369290465,
-          "KSigma": 29.28441139132863,
-          "Lambda": 1.0282249198803337,
-          "Psi": -1.2129299042427315,
-          "Rho": 0.8795830272773858,
-          "StartStress": -67.9766187679091,
+          "KSigma": 29.28441139132856,
+          "Lambda": 1.028224919880335,
+          "Psi": -1.2129299042427286,
+          "Rho": 0.8795830272773848,
+          "StartStress": -67.97661876790926,
           "Thickness": 14,
           "Width": 1800
         },
@@ -2272,68 +2272,68 @@
       "Points": [
         {
           "Active": true,
-          "Contributions": [0,-1.061307002283017,-2.3791553854334455
+          "Contributions": [0,-1.061307002283021,-2.3791553854334606
           ],
           "Limit": 19.833333333333332,
           "Material": "CLS",
           "Name": "Soletta · estradosso",
-          "Stress": -3.4404623877164626,
-          "Utilization": 0.17346869181763677,
+          "Stress": -3.4404623877164817,
+          "Utilization": 0.17346869181763774,
           "Y": 250
         },
         {
           "Active": true,
-          "Contributions": [0,-0.7824594641275108,-1.4008200305750653
+          "Contributions": [0,-0.7824594641275143,-1.4008200305750789
           ],
           "Limit": 19.833333333333332,
           "Material": "CLS",
           "Name": "Soletta · intradosso",
-          "Stress": -2.183279494702576,
-          "Utilization": 0.11008131906063409,
+          "Stress": -2.1832794947025933,
+          "Utilization": 0.11008131906063497,
           "Y": 0
         },
         {
           "Active": true,
-          "Contributions": [0,-18.98965486379288,-12.92980937242536
+          "Contributions": [0,-18.98965486379295,-12.929809372425446
           ],
           "Limit": 391.304347826087,
           "Material": "Armatura",
           "Name": "Armatura · y=205",
-          "Stress": -31.91946423621824,
-          "Utilization": 0.08157196415922438,
+          "Stress": -31.919464236218396,
+          "Utilization": 0.08157196415922478,
           "Y": 205
         },
         {
           "Active": true,
-          "Contributions": [0,-15.63796716785511,-9.255002665024149
+          "Contributions": [0,-15.637967167855177,-9.255002665024227
           ],
           "Limit": 391.304347826087,
           "Material": "Armatura",
           "Name": "Armatura · y=45",
-          "Stress": -24.89296983287926,
-          "Utilization": 0.06361536735069144,
+          "Stress": -24.892969832879402,
+          "Utilization": 0.0636153673506918,
           "Y": 45
         },
         {
           "Active": true,
-          "Contributions": [-46.00328280049434,-15.430070253541244,-8.632536442495935
+          "Contributions": [-46.00328280049434,-15.430070253541313,-8.632536442496018
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
           "Name": "Acciaio · estradosso",
-          "Stress": -70.06588949653153,
-          "Utilization": 0.20723713794748763,
+          "Stress": -70.06588949653167,
+          "Utilization": 0.20723713794748805,
           "Y": 0
         },
         {
           "Active": true,
-          "Contributions": [-45.066796309919724,-14.880183990926454,-8.029638467062924
+          "Contributions": [-45.066796309919724,-14.880183990926522,-8.029638467063005
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
           "Name": "Anima · sommità",
-          "Stress": -67.9766187679091,
-          "Utilization": 0.20105760480649174,
+          "Stress": -67.97661876790926,
+          "Utilization": 0.20105760480649218,
           "Y": -25
         },
         {
@@ -2349,7 +2349,7 @@
         },
         {
           "Active": true,
-          "Contributions": [24.420501290716455,25.921376695090977,36.70539131006652
+          "Contributions": [24.420501290716455,25.921376695090977,36.705391310066524
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
@@ -2390,10 +2390,10 @@
             "Unit": "MPa"
           },
           {
-            "Demand": 0.6481767489227904,
+            "Demand": 0.6481767489227905,
             "Name": "Intermedio · freccia fuori piano",
             "Note": "EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw",
-            "Ratio": 0.1080294581537984,
+            "Ratio": 0.10802945815379843,
             "Resistance": 6,
             "Status": "Entro limite",
             "Unit": "mm"
@@ -2624,10 +2624,10 @@
             "Unit": "MPa"
           },
           {
-            "Demand": 0.04329637621358031,
+            "Demand": 0.043296376213580325,
             "Name": "Seconda coppia terminale · freccia fuori piano",
             "Note": "EN 1993-1-5 §9.2.1: w ≤ b/300, b = hw",
-            "Ratio": 0.007216062702263385,
+            "Ratio": 0.007216062702263388,
             "Resistance": 6,
             "Status": "Entro limite",
             "Unit": "mm"
@@ -2894,7 +2894,7 @@
           "TauCritical": 80.2924654339335
         }
       },
-      "SteelNeutralAxis": -838.4012724709252,
+      "SteelNeutralAxis": -838.4012724709261,
       "Studs": {
         "Checks": [],
         "Contributions": [
@@ -2911,27 +2911,27 @@
           {
             "AdditionalFlow": 0,
             "Basis": "NTC: proprietà della fase tensionale",
-            "Flow": 205.80411067017545,
-            "Inertia": 90930952579.54349,
+            "Flow": 205.80411067017542,
+            "Inertia": 90930952579.54352,
             "Kind": "Composta",
             "Phase": "G2 · permanenti portati",
-            "StaticMoment": 37427927.65604968,
+            "StaticMoment": 37427927.6560497,
             "V": 500
           },
           {
             "AdditionalFlow": 0,
             "Basis": "NTC: proprietà della fase tensionale",
-            "Flow": 348.0083895208458,
-            "Inertia": 124402201022.8324,
+            "Flow": 348.00838952084575,
+            "Inertia": 124402201022.83238,
             "Kind": "Composta",
             "Phase": "Q · variabili",
-            "StaticMoment": 61847156.61543489,
+            "StaticMoment": 61847156.61543487,
             "V": 700
           }
         ],
         "Details": null,
         "Enabled": false,
-        "Flow": 553.8125001910213,
+        "Flow": 553.8125001910212,
         "ForcePerStud": 0,
         "Resistance": null,
         "ResistancePerLength": 0,

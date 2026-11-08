@@ -1,20 +1,20 @@
-anima-inclinata-ec4-sle vista 1000x640 · primitivi 282 5D099E54DDB1250F
+anima-inclinata-ec4-sle vista 1000x640 · primitivi 282 30FE19FBF11C3CC2
 anima-inclinata-ec4-sle geometria 1000x640 · primitivi 140 E9369D8076D76304
 anima-inclinata-ec4-sle situazione 1 vista 0 1000x640 · primitivi 220 8639A7A24979FE5D
 anima-inclinata-ec4-sle situazione 1 vista 1 1000x640 · primitivi 226 1589B44065EC06F7
-anima-inclinata-ec4-sle situazione 4 vista 0 1000x640 · primitivi 292 56811C7F28C75271
-anima-inclinata-ec4-sle situazione 4 vista 1 1000x640 · primitivi 318 B3F043CF3CD48A05
+anima-inclinata-ec4-sle situazione 4 vista 0 1000x640 · primitivi 292 BD31A7A954587D4A
+anima-inclinata-ec4-sle situazione 4 vista 1 1000x640 · primitivi 318 592FF827E07A9CFB
 anima-inclinata-ec4-sle figura geometria "Geometria della sezione e disposizione delle armature" · 1200x640 49E3300CAEDBCDD4
 anima-inclinata-ec4-sle figura fase_0 "Situazione 1 dopo G1 · acciaio. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×5 (manuale); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 CE97AB91E1D68616
 anima-inclinata-ec4-sle figura fase_1 "Situazione 2 dopo G2 · permanenti. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×5 (manuale); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 DB6DA6F78813516C
 anima-inclinata-ec4-sle figura fase_2 "Situazione 3 dopo Ritiro. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×5 (manuale); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 EEA9E279D1FCEDFA
 anima-inclinata-ec4-sle figura fase_3 "Situazione 4 dopo Q · fessurata. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×5 (manuale); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 4AD75B0A510DC967
-cassoncino-torsione-pioli vista 1000x640 · primitivi 256 D7FBB87CBFDCCC8C
+cassoncino-torsione-pioli vista 1000x640 · primitivi 256 4B8BEBD837448B11
 cassoncino-torsione-pioli geometria 1000x640 · primitivi 152 F1E96F92730015BB
 cassoncino-torsione-pioli situazione 1 vista 0 1000x640 · primitivi 215 9775867D315BD701
 cassoncino-torsione-pioli situazione 1 vista 1 1000x640 · primitivi 221 93C6AFA2D0E88688
-cassoncino-torsione-pioli situazione 3 vista 0 1000x640 · primitivi 256 D7FBB87CBFDCCC8C
-cassoncino-torsione-pioli situazione 3 vista 1 1000x640 · primitivi 276 B2DDF1A8B6A266B2
+cassoncino-torsione-pioli situazione 3 vista 0 1000x640 · primitivi 256 4B8BEBD837448B11
+cassoncino-torsione-pioli situazione 3 vista 1 1000x640 · primitivi 276 EC0E3A39A546E71F
 cassoncino-torsione-pioli figura geometria "Geometria della sezione e disposizione delle armature" · 1200x640 E7EC512F631CB2F3
 cassoncino-torsione-pioli figura fase_0 "Situazione 1 dopo G1 · getto. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · traffico); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 651A2245A374B2E0
 cassoncino-torsione-pioli figura fase_1 "Situazione 2 dopo G2 · permanenti. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · traffico); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 A010D225A510DEB9
@@ -24,8 +24,8 @@ default vista 1000x640 · primitivi 123 DBBE9DCD40DEC4E2
 default geometria 1000x640 · primitivi 123 DBBE9DCD40DEC4E2
 default situazione 1 vista 0 1000x640 · primitivi 198 36FA75F92F68BBAF
 default situazione 1 vista 1 1000x640 · primitivi 204 02CCCBA16540A438
-default situazione 3 vista 0 1000x640 · primitivi 240 7335FAFDDDD7D2B8
-default situazione 3 vista 1 1000x640 · primitivi 260 C2ECA58FE4EEB779
+default situazione 3 vista 0 1000x640 · primitivi 240 A9B966EF2D0B2744
+default situazione 3 vista 1 1000x640 · primitivi 260 A420ED7D8EFC3CAC
 default figura geometria "Geometria della sezione e disposizione delle armature" · 1200x640 44E78307E6273ECE
 default figura fase_0 "Situazione 1 dopo G1 · getto e carpenteria. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 6E8BBC709CCAB836
 default figura fase_1 "Situazione 2 dopo G2 · permanenti portati. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 2E12905687BF33CA
@@ -35,8 +35,8 @@ irrigidimenti-appoggio-piastra2 prospetto 800x165 · primitivi 38 3C597CD2FA7356
 irrigidimenti-appoggio-piastra2 geometria 1000x640 · primitivi 86 9379CFB5B5EE341B
 irrigidimenti-appoggio-piastra2 situazione 1 vista 0 1000x640 · primitivi 201 AAEE34705AA60CDD
 irrigidimenti-appoggio-piastra2 situazione 1 vista 1 1000x640 · primitivi 207 2FCB18DD8FF5749F
-irrigidimenti-appoggio-piastra2 situazione 3 vista 0 1000x640 · primitivi 253 98DFC6C6452A355B
-irrigidimenti-appoggio-piastra2 situazione 3 vista 1 1000x640 · primitivi 273 ACCB225FEAEFA241
+irrigidimenti-appoggio-piastra2 situazione 3 vista 0 1000x640 · primitivi 253 34FE6B704A4A2FAF
+irrigidimenti-appoggio-piastra2 situazione 3 vista 1 1000x640 · primitivi 273 8C6B7565CEC422DC
 irrigidimenti-appoggio-piastra2 figura dettagli "Irrigidimento intermedio e pannelli adiacenti schema locale" · 800x165 CF6EEA6DF1175B04
 irrigidimenti-appoggio-piastra2 figura dettagli "Appoggio e montante terminale schema locale" · 800x165 CAA369CD7EB25DFA
 irrigidimenti-appoggio-piastra2 figura geometria "Geometria della sezione e disposizione delle armature" · 1200x640 DDE3B42D93185B2D
@@ -47,8 +47,8 @@ legacy-viste-metodo vista 1000x640 · primitivi 204 02CCCBA16540A438
 legacy-viste-metodo geometria 1000x640 · primitivi 123 DBBE9DCD40DEC4E2
 legacy-viste-metodo situazione 1 vista 0 1000x640 · primitivi 198 36FA75F92F68BBAF
 legacy-viste-metodo situazione 1 vista 1 1000x640 · primitivi 204 02CCCBA16540A438
-legacy-viste-metodo situazione 3 vista 0 1000x640 · primitivi 240 7335FAFDDDD7D2B8
-legacy-viste-metodo situazione 3 vista 1 1000x640 · primitivi 260 C2ECA58FE4EEB779
+legacy-viste-metodo situazione 3 vista 0 1000x640 · primitivi 240 A9B966EF2D0B2744
+legacy-viste-metodo situazione 3 vista 1 1000x640 · primitivi 260 A420ED7D8EFC3CAC
 legacy-viste-metodo figura geometria "Geometria della sezione e disposizione delle armature" · 1200x640 44E78307E6273ECE
 legacy-viste-metodo figura fase_0 "Situazione 1 dopo G1 · getto e carpenteria. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 6E8BBC709CCAB836
 legacy-viste-metodo figura fase_1 "Situazione 2 dopo G2 · permanenti portati. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 2E12905687BF33CA
@@ -57,8 +57,8 @@ legacy-web-and-accessories vista 1000x640 · primitivi 123 DBBE9DCD40DEC4E2
 legacy-web-and-accessories geometria 1000x640 · primitivi 123 DBBE9DCD40DEC4E2
 legacy-web-and-accessories situazione 1 vista 0 1000x640 · primitivi 198 36FA75F92F68BBAF
 legacy-web-and-accessories situazione 1 vista 1 1000x640 · primitivi 204 02CCCBA16540A438
-legacy-web-and-accessories situazione 3 vista 0 1000x640 · primitivi 240 7335FAFDDDD7D2B8
-legacy-web-and-accessories situazione 3 vista 1 1000x640 · primitivi 260 C2ECA58FE4EEB779
+legacy-web-and-accessories situazione 3 vista 0 1000x640 · primitivi 240 A9B966EF2D0B2744
+legacy-web-and-accessories situazione 3 vista 1 1000x640 · primitivi 260 A420ED7D8EFC3CAC
 legacy-web-and-accessories figura geometria "Geometria della sezione e disposizione delle armature" · 1200x640 44E78307E6273ECE
 legacy-web-and-accessories figura fase_0 "Situazione 1 dopo G1 · getto e carpenteria. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 6E8BBC709CCAB836
 legacy-web-and-accessories figura fase_1 "Situazione 2 dopo G2 · permanenti portati. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace." · 1200x640 2E12905687BF33CA

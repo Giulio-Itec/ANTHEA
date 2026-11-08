@@ -1022,17 +1022,17 @@
           "WTop": 55505456.90657126
         },
         {
-          "Area": 158437.58940804636,
+          "Area": 158437.5894080464,
           "Centroid": -653.8052056336359,
           "ConcreteStressOffset": 0,
           "ConnectionFlowExtra": 15,
           "EffectivePhi": 2.2,
-          "EquilibriumResidual": 1.1848695383205324E-15,
+          "EquilibriumResidual": 0,
           "EquivalentMomentAtInterface": 0,
           "EquivalentN": 0,
           "HasConcrete": true,
           "HomogenizationN": 19.719961174917472,
-          "Inertia": 109315140954.34612,
+          "Inertia": 109315140954.34616,
           "IsShrinkage": false,
           "Kind": "Composta",
           "LoadReference": "Baricentro omogeneizzato lordo",
@@ -1042,17 +1042,17 @@
           "N": 0,
           "N0": 6.162487867161709,
           "Name": "G2 · permanenti",
-          "NeutralAxis": -653.8052056336355,
+          "NeutralAxis": -653.8052056336359,
           "Phi": 2,
           "RebarArea": 9650.972631827846,
           "RebarRatio": 0.9523809523809523,
           "ShrinkageStrain": 0,
-          "SolverInertia": 109312006930.65852,
-          "StressSlope": -0.01829625176737163,
-          "UniformStress": 7.105427357601002E-15,
+          "SolverInertia": 109312006930.65855,
+          "StressSlope": -0.018296251767371617,
+          "UniformStress": 0,
           "V": 600,
-          "WBottom": 91005340.23876649,
-          "WTop": 167198333.71226105
+          "WBottom": 91005340.23876654,
+          "WTop": 167198333.71226114
         }
       ],
       "Effective": {
@@ -1060,12 +1060,12 @@
           "CompressedWidth": 0,
           "EffectiveAtEnd": 642.9331770470492,
           "EffectiveAtStart": 642.9331770470492,
-          "EndStress": 41.13497185718713,
+          "EndStress": 41.13497185718711,
           "KSigma": 0,
           "Lambda": 0,
           "Psi": 0,
           "Rho": 1,
-          "StartStress": 41.13497185718713,
+          "StartStress": 41.13497185718711,
           "Thickness": 25,
           "Width": 1285.8663540940984
         },
@@ -1073,12 +1073,12 @@
           "CompressedWidth": 0,
           "EffectiveAtEnd": 0,
           "EffectiveAtStart": 42.933177047049156,
-          "EndStress": 41.13497185718713,
+          "EndStress": 41.13497185718711,
           "KSigma": 0.43,
           "Lambda": 0.1133393444212609,
           "Psi": 1,
           "Rho": 1,
-          "StartStress": 41.13497185718713,
+          "StartStress": 41.13497185718711,
           "Thickness": 25,
           "Width": 42.933177047049156
         },
@@ -1100,14 +1100,14 @@
         },
         "TopWidth": 900,
         "Web": {
-          "CompressedWidth": 873.7265925888875,
-          "EffectiveAtEnd": 1377.8992614827207,
+          "CompressedWidth": 873.7265925888876,
+          "EffectiveAtEnd": 1377.8992614827205,
           "EffectiveAtStart": 286.26338556428385,
-          "EndStress": 41.13497185718713,
-          "KSigma": 26.010986896397206,
-          "Lambda": 1.1044824812394654,
-          "Psi": -1.085584656781292,
-          "Rho": 0.8190874238933079,
+          "EndStress": 41.13497185718711,
+          "KSigma": 26.010986896397196,
+          "Lambda": 1.1044824812394656,
+          "Psi": -1.0855846567812915,
+          "Rho": 0.8190874238933078,
           "StartStress": -37.891998196760085,
           "Thickness": 14,
           "Width": 1822.2307757251824
@@ -1121,56 +1121,56 @@
         "Inertia": 58855835240.87146
       },
       "Iterations": 9,
-      "MaxUtilization": 0.12490423842417392,
+      "MaxUtilization": 0.12490423842417384,
       "Name": "G2 · permanenti",
       "Points": [
         {
           "Active": true,
-          "Contributions": [0,-0.8385537600331148
+          "Contributions": [0,-0.8385537600331143
           ],
           "Limit": 19.833333333333332,
           "Material": "CLS",
           "Name": "Soletta · estradosso",
-          "Stress": -0.8385537600331148,
-          "Utilization": 0.0422800215142747,
+          "Stress": -0.8385537600331143,
+          "Utilization": 0.04228002151427467,
           "Y": 250
         },
         {
           "Active": true,
-          "Contributions": [0,-0.6066028499237772
+          "Contributions": [0,-0.6066028499237771
           ],
           "Limit": 19.833333333333332,
           "Material": "CLS",
           "Name": "Soletta · intradosso",
-          "Stress": -0.6066028499237772,
-          "Utilization": 0.03058501764321566,
+          "Stress": -0.6066028499237771,
+          "Utilization": 0.030585017643215653,
           "Y": 0
         },
         {
           "Active": true,
-          "Contributions": [0,-14.96468215371653
+          "Contributions": [0,-14.964682153716529
           ],
           "Limit": 391.304347826087,
           "Material": "Armatura",
           "Name": "Armatura · y=205",
-          "Stress": -14.96468215371653,
+          "Stress": -14.964682153716529,
           "Utilization": 0.03824307661505335,
           "Y": 205
         },
         {
           "Active": true,
-          "Contributions": [0,-12.17668188440276
+          "Contributions": [0,-12.176681884402758
           ],
           "Limit": 391.304347826087,
           "Material": "Armatura",
           "Name": "Armatura · y=45",
-          "Stress": -12.17668188440276,
-          "Utilization": 0.03111818703791816,
+          "Stress": -12.176681884402758,
+          "Utilization": 0.031118187037918157,
           "Y": 45
         },
         {
           "Active": true,
-          "Contributions": [-27.024369919607235,-11.962184649091176
+          "Contributions": [-27.024369919607235,-11.962184649091174
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
@@ -1181,7 +1181,7 @@
         },
         {
           "Active": true,
-          "Contributions": [-26.3872198418532,-11.504778354906884
+          "Contributions": [-26.3872198418532,-11.504778354906882
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
@@ -1192,24 +1192,24 @@
         },
         {
           "Active": true,
-          "Contributions": [19.615015771988226,21.519956085198906
+          "Contributions": [19.615015771988226,21.519956085198885
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
           "Name": "Anima · piede",
-          "Stress": 41.13497185718713,
-          "Utilization": 0.12166681816914504,
+          "Stress": 41.13497185718711,
+          "Utilization": 0.12166681816914499,
           "Y": -1830
         },
         {
           "Active": true,
-          "Contributions": [20.252165849742262,21.977362379383198
+          "Contributions": [20.252165849742262,21.977362379383173
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
           "Name": "Acciaio · intradosso",
-          "Stress": 42.229528229125464,
-          "Utilization": 0.12490423842417392,
+          "Stress": 42.229528229125435,
+          "Utilization": 0.12490423842417384,
           "Y": -1855
         }
       ],
@@ -1226,17 +1226,17 @@
             "Unit": "kN"
           },
           {
-            "Demand": 59.002180211567385,
+            "Demand": 59.00218021156737,
             "Name": "Anima · tensione equivalente elastica (inviluppo)",
             "Note": "√(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata più q/tw della torsione",
-            "Ratio": 0.17451349076660777,
+            "Ratio": 0.17451349076660772,
             "Resistance": 338.0952380952381,
             "Status": "Entro limite",
             "Unit": "MPa"
           }
         ],
         "Details": [],
-        "EquivalentStressEnvelope": 59.002180211567385,
+        "EquivalentStressEnvelope": 59.00218021156737,
         "RigidEndPost": false,
         "Stiffener": null,
         "TauAverage": 17.80767708745548,
@@ -1255,14 +1255,14 @@
           "TauCritical": 59.82558799701024
         }
       },
-      "SteelNeutralAxis": -890.4647482810303,
+      "SteelNeutralAxis": -890.4647482810307,
       "Studs": {
         "Checks": [
           {
-            "Demand": 10.334017210025769,
+            "Demand": 10.334017210025767,
             "Name": "Piolo · taglio longitudinale",
             "Note": "EN 1994-2 §6.6.3.1 / NTC §4.3.4.3.1; piattabanda più caricata: metà del flusso di flessione + q di torsione = 48,59 kN/m",
-            "Ratio": 0.09439336093734609,
+            "Ratio": 0.09439336093734606,
             "Resistance": 109.47822079229711,
             "Status": "Entro limite",
             "Unit": "kN"
@@ -1349,16 +1349,16 @@
             "Unit": "mm"
           },
           {
-            "Demand": 282.16271515839253,
+            "Demand": 282.1627151583925,
             "Name": "Soletta a–a sinistra · armatura trasversale",
             "Note": "EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale",
-            "Ratio": 0.1337198735692962,
+            "Ratio": 0.13371987356929618,
             "Resistance": 2110.1030656611442,
             "Status": "Entro limite",
             "Unit": "mm²/m"
           },
           {
-            "Demand": 110.41149723589274,
+            "Demand": 110.41149723589272,
             "Name": "Soletta a–a sinistra · puntone CLS",
             "Note": "",
             "Ratio": 0.08630955421996696,
@@ -1367,16 +1367,16 @@
             "Unit": "kN/m"
           },
           {
-            "Demand": 282.16271515839253,
+            "Demand": 282.1627151583925,
             "Name": "Soletta a–a destra · armatura trasversale",
             "Note": "EN 1994-2 §6.6.6 / EN 1992-1-1 §6.2.4; inclusi minimo e combinazione con flessione trasversale",
-            "Ratio": 0.1337198735692962,
+            "Ratio": 0.13371987356929618,
             "Resistance": 2110.1030656611442,
             "Status": "Entro limite",
             "Unit": "mm²/m"
           },
           {
-            "Demand": 110.41149723589274,
+            "Demand": 110.41149723589272,
             "Name": "Soletta a–a destra · puntone CLS",
             "Note": "",
             "Ratio": 0.08630955421996696,
@@ -1394,10 +1394,10 @@
             "Unit": "mm²/m"
           },
           {
-            "Demand": 57.41120672236537,
+            "Demand": 57.411206722365364,
             "Name": "Soletta b–b · gruppo 1 · puntone CLS",
             "Note": "",
-            "Ratio": 0.029142078847115355,
+            "Ratio": 0.029142078847115352,
             "Resistance": 1970.045,
             "Status": "Entro limite",
             "Unit": "kN/m"
@@ -1412,10 +1412,10 @@
             "Unit": "mm²/m"
           },
           {
-            "Demand": 114.82241344473074,
+            "Demand": 114.82241344473073,
             "Name": "Soletta b–b · gruppo 2 · puntone CLS",
             "Note": "",
-            "Ratio": 0.04443445685599767,
+            "Ratio": 0.044434456855997666,
             "Resistance": 2584.085,
             "Status": "Entro limite",
             "Unit": "kN/m"
@@ -1430,10 +1430,10 @@
             "Unit": "mm²/m"
           },
           {
-            "Demand": 172.23362016709612,
+            "Demand": 172.2336201670961,
             "Name": "Soletta b–b · gruppo 3 · puntone CLS",
             "Note": "",
-            "Ratio": 0.05385456170946918,
+            "Ratio": 0.05385456170946917,
             "Resistance": 3198.125,
             "Status": "Entro limite",
             "Unit": "kN/m"
@@ -1498,8 +1498,8 @@
           {
             "AdditionalFlow": 15,
             "Basis": "NTC: proprietà della fase tensionale",
-            "Flow": 232.28849172481353,
-            "Inertia": 109315140954.34612,
+            "Flow": 232.28849172481344,
+            "Inertia": 109315140954.34616,
             "Kind": "Composta",
             "Phase": "G2 · permanenti",
             "StaticMoment": 42321082.02495076,
@@ -1515,7 +1515,7 @@
           {
             "Name": "Soletta a–a sinistra · qEd",
             "Unit": "kN/m",
-            "Value": 110.41149723589274
+            "Value": 110.41149723589272
           },
           {
             "Name": "Soletta a–a sinistra · As minimo",
@@ -1530,7 +1530,7 @@
           {
             "Name": "Soletta a–a destra · qEd",
             "Unit": "kN/m",
-            "Value": 110.41149723589274
+            "Value": 110.41149723589272
           },
           {
             "Name": "Soletta a–a destra · As minimo",
@@ -1550,7 +1550,7 @@
           {
             "Name": "Soletta b–b · gruppo 1 · qEd",
             "Unit": "kN/m",
-            "Value": 57.41120672236537
+            "Value": 57.411206722365364
           },
           {
             "Name": "Soletta b–b · gruppo 1 · As minimo",
@@ -1565,7 +1565,7 @@
           {
             "Name": "Soletta b–b · gruppo 2 · qEd",
             "Unit": "kN/m",
-            "Value": 114.82241344473074
+            "Value": 114.82241344473073
           },
           {
             "Name": "Soletta b–b · gruppo 2 · As minimo",
@@ -1580,7 +1580,7 @@
           {
             "Name": "Soletta b–b · gruppo 3 · qEd",
             "Unit": "kN/m",
-            "Value": 172.23362016709612
+            "Value": 172.2336201670961
           },
           {
             "Name": "Soletta b–b · gruppo 3 · As minimo",
@@ -1594,8 +1594,8 @@
           }
         ],
         "Enabled": true,
-        "Flow": 247.28849172481353,
-        "ForcePerStud": 10.334017210025769,
+        "Flow": 247.28849172481344,
+        "ForcePerStud": 10.334017210025767,
         "Resistance": {
           "Alpha": 1,
           "ConcreteResistance": 122630.6350980727,
@@ -1611,10 +1611,10 @@
         "BracingFlow": 35.25471531817381,
         "Checks": [
           {
-            "Demand": 66.85289590839137,
+            "Demand": 66.85289590839135,
             "Name": "Distorsione · nodo anima–fondo (σx, σz, τ)",
             "Note": "EN 1993-1-1 §6.2.1(5): σx con σdw, flessione trasversale σz = 6m/t² del telaio distorto (segno sfavorevole), τ di taglio e torsione; anima e fondo",
-            "Ratio": 0.1977339174755238,
+            "Ratio": 0.1977339174755237,
             "Resistance": 338.0952380952381,
             "Status": "Entro limite",
             "Unit": "MPa"
@@ -1638,10 +1638,10 @@
             "Unit": "kN"
           },
           {
-            "Demand": 60.58119120389298,
+            "Demand": 60.58119120389295,
             "Name": "Fondo · tensione equivalente (σ, τ torsione + taglio)",
             "Note": "√(σ² + 3τ²) al nodo con le anime: τ = q/tb + τ di taglio del fondo; σ con σdw",
-            "Ratio": 0.17918380496926092,
+            "Ratio": 0.17918380496926084,
             "Resistance": 338.0952380952381,
             "Status": "Entro limite",
             "Unit": "MPa"
@@ -1656,10 +1656,10 @@
             "Unit": "MPa"
           },
           {
-            "Demand": 0.17150303039758452,
+            "Demand": 0.17150303039758444,
             "Name": "Fondo · interazione σ–τ",
             "Note": "EN 1993-1-5 §7.1(5): η1 + (2η3 − 1)² con Mf,Rd = 0, η1 = σ/(fy/γM0) sulla sezione efficace",
-            "Ratio": 0.17150303039758452,
+            "Ratio": 0.17150303039758444,
             "Resistance": 1,
             "Status": "Entro limite",
             "Unit": "—"
@@ -1812,7 +1812,7 @@
           {
             "Name": "Distorsione · σdw / σ flessione fondo",
             "Unit": "—",
-            "Value": 0.373076146664947
+            "Value": 0.37307614666494726
           },
           {
             "Name": "Diaframma intermedio · N diagonale",
@@ -1832,7 +1832,7 @@
         ],
         "Distortion": {
           "Amplitude": 0.00046229629764796845,
-          "BendingRatio": 0.373076146664947,
+          "BendingRatio": 0.37307614666494726,
           "CornerMomentBottom": 72.40016779480887,
           "CornerMomentTop": 66.61090805564342,
           "DiaphragmAmplitude": 0.0003666805625635767,
@@ -1918,16 +1918,16 @@
         },
         {
           "Area": 162863.49811658642,
-          "Centroid": -646.5503621976044,
+          "Centroid": -646.5503621976046,
           "ConcreteStressOffset": 0,
           "ConnectionFlowExtra": 15,
           "EffectivePhi": 2.2,
-          "EquilibriumResidual": 1.2179685297134824E-15,
+          "EquilibriumResidual": 0,
           "EquivalentMomentAtInterface": 0,
           "EquivalentN": 0,
           "HasConcrete": true,
           "HomogenizationN": 19.719961174917472,
-          "Inertia": 109631039521.24893,
+          "Inertia": 109631039521.24898,
           "IsShrinkage": false,
           "Kind": "Composta",
           "LoadReference": "Baricentro omogeneizzato lordo",
@@ -1937,17 +1937,17 @@
           "N": 0,
           "N0": 6.162487867161709,
           "Name": "G2 · permanenti",
-          "NeutralAxis": -646.550362197604,
+          "NeutralAxis": -646.5503621976046,
           "Phi": 2,
           "RebarArea": 9650.972631827846,
           "RebarRatio": 0.9523809523809523,
           "ShrinkageStrain": 0,
-          "SolverInertia": 109627905497.56134,
-          "StressSlope": -0.018243530157059245,
-          "UniformStress": 7.105427357601002E-15,
+          "SolverInertia": 109627905497.56137,
+          "StressSlope": -0.018243530157059228,
+          "UniformStress": 0,
           "V": 600,
-          "WBottom": 90720404.13750009,
-          "WTop": 169563031.6385818
+          "WBottom": 90720404.13750014,
+          "WTop": 169563031.63858184
         },
         {
           "Area": 262192.69267409935,
@@ -1955,7 +1955,7 @@
           "ConcreteStressOffset": 0,
           "ConnectionFlowExtra": 0,
           "EffectivePhi": 0,
-          "EquilibriumResidual": 3.267996943154704E-15,
+          "EquilibriumResidual": 0,
           "EquivalentMomentAtInterface": 0,
           "EquivalentN": 0,
           "HasConcrete": true,
@@ -1970,14 +1970,14 @@
           "N": 0,
           "N0": 6.162487867161709,
           "Name": "Q · traffico",
-          "NeutralAxis": -354.2558849716331,
+          "NeutralAxis": -354.255884971634,
           "Phi": 0,
           "RebarArea": 9650.972631827846,
           "RebarRatio": 0.9523809523809523,
           "ShrinkageStrain": 0,
           "SolverInertia": 146872923406.15405,
-          "StressSlope": -0.020425820705590285,
-          "UniformStress": 1.7763568394002505E-14,
+          "StressSlope": -0.020425820705590302,
+          "UniformStress": 0,
           "V": 500,
           "WBottom": 97868809.700542,
           "WTop": 414604376.1973923
@@ -1988,12 +1988,12 @@
           "CompressedWidth": 0,
           "EffectiveAtEnd": 642.9331770470492,
           "EffectiveAtStart": 642.9331770470492,
-          "EndStress": 71.40206115867547,
+          "EndStress": 71.40206115867545,
           "KSigma": 0,
           "Lambda": 0,
           "Psi": 0,
           "Rho": 1,
-          "StartStress": 71.40206115867547,
+          "StartStress": 71.40206115867545,
           "Thickness": 25,
           "Width": 1285.8663540940984
         },
@@ -2001,12 +2001,12 @@
           "CompressedWidth": 0,
           "EffectiveAtEnd": 0,
           "EffectiveAtStart": 42.933177047049156,
-          "EndStress": 71.40206115867547,
+          "EndStress": 71.40206115867545,
           "KSigma": 0.43,
           "Lambda": 0.1133393444212609,
           "Psi": 1,
           "Rho": 1,
-          "StartStress": 71.40206115867547,
+          "StartStress": 71.40206115867545,
           "Thickness": 25,
           "Width": 42.933177047049156
         },
@@ -2017,26 +2017,26 @@
           "CompressedWidth": 217.93317704704916,
           "EffectiveAtEnd": 0,
           "EffectiveAtStart": 217.93317704704916,
-          "EndStress": -44.51778019832808,
+          "EndStress": -44.517780198328104,
           "KSigma": 0.43,
           "Lambda": 0.5753220495908495,
           "Psi": 1,
           "Rho": 1,
-          "StartStress": -44.51778019832808,
+          "StartStress": -44.517780198328104,
           "Thickness": 25,
           "Width": 217.93317704704916
         },
         "TopWidth": 900,
         "Web": {
-          "CompressedWidth": 684.2623000682565,
+          "CompressedWidth": 684.2623000682569,
           "EffectiveAtEnd": 1548.5258556978797,
-          "EffectiveAtStart": 273.70492002730265,
-          "EndStress": 71.40206115867547,
-          "KSigma": 42.40945706672126,
-          "Lambda": 0.8649796508524212,
-          "Psi": -1.6630588526408823,
+          "EffectiveAtStart": 273.70492002730276,
+          "EndStress": 71.40206115867545,
+          "KSigma": 42.40945706672122,
+          "Lambda": 0.8649796508524218,
+          "Psi": -1.663058852640881,
           "Rho": 1,
-          "StartStress": -42.93417580820508,
+          "StartStress": -42.934175808205104,
           "Thickness": 14,
           "Width": 1822.2307757251824
         },
@@ -2049,95 +2049,95 @@
         "Inertia": 60790705330.94203
       },
       "Iterations": 4,
-      "MaxUtilization": 0.21587309528517856,
+      "MaxUtilization": 0.21587309528517848,
       "Name": "Q · traffico",
       "Points": [
         {
           "Active": true,
-          "Contributions": [0,-0.8294257491175221,-2.0028311021102234
+          "Contributions": [0,-0.829425749117522,-2.002831102110228
           ],
           "Limit": 19.833333333333332,
           "Material": "CLS",
           "Name": "Soletta · estradosso",
-          "Stress": -2.8322568512277453,
-          "Utilization": 0.14280286644845774,
+          "Stress": -2.8322568512277497,
+          "Utilization": 0.14280286644845797,
           "Y": 250
         },
         {
           "Active": true,
-          "Contributions": [0,-0.5981432177367829,-1.1741957706544748
+          "Contributions": [0,-0.5981432177367829,-1.1741957706544786
           ],
           "Limit": 19.833333333333332,
           "Material": "CLS",
           "Name": "Soletta · intradosso",
-          "Stress": -1.7723389883912577,
-          "Utilization": 0.08936162966678611,
+          "Stress": -1.7723389883912615,
+          "Utilization": 0.0893616296667863,
           "Y": 0
         },
         {
           "Active": true,
-          "Contributions": [0,-14.795509250482581,-10.879295652358861
+          "Contributions": [0,-14.79550925048258,-10.879295652358886
           ],
           "Limit": 391.304347826087,
           "Material": "Armatura",
           "Name": "Armatura · y=205",
-          "Stress": -25.674804902841444,
-          "Utilization": 0.06561339030726146,
+          "Stress": -25.674804902841466,
+          "Utilization": 0.06561339030726152,
           "Y": 205
         },
         {
           "Active": true,
-          "Contributions": [0,-12.015542750359268,-7.766789640078435
+          "Contributions": [0,-12.015542750359268,-7.766789640078459
           ],
           "Limit": 391.304347826087,
           "Material": "Armatura",
           "Name": "Armatura · y=45",
-          "Stress": -19.782332390437702,
-          "Utilization": 0.050554849442229675,
+          "Stress": -19.782332390437727,
+          "Utilization": 0.05055484944222974,
           "Y": 45
         },
         {
           "Active": true,
-          "Contributions": [-25.486451977187723,-11.795361030809566,-7.235967190330793
+          "Contributions": [-25.486451977187723,-11.795361030809566,-7.235967190330817
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
           "Name": "Acciaio · estradosso",
-          "Stress": -44.51778019832808,
-          "Utilization": 0.13167230762885773,
+          "Stress": -44.517780198328104,
+          "Utilization": 0.1316723076288578,
           "Y": 0
         },
         {
           "Active": true,
-          "Contributions": [-24.869581358630963,-11.339272776883085,-6.725321672691036
+          "Contributions": [-24.869581358630963,-11.339272776883085,-6.72532167269106
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
           "Name": "Anima · sommità",
-          "Stress": -42.93417580820508,
-          "Utilization": 0.1269884073200432,
+          "Stress": -42.934175808205104,
+          "Utilization": 0.12698840732004327,
           "Y": -25
         },
         {
           "Active": true,
-          "Contributions": [19.668477301167183,21.59029915660885,30.143284700899425
+          "Contributions": [19.668477301167183,21.590299156608822,30.143284700899436
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
           "Name": "Anima · piede",
-          "Stress": 71.40206115867547,
-          "Utilization": 0.21118919497636407,
+          "Stress": 71.40206115867545,
+          "Utilization": 0.21118919497636401,
           "Y": -1830
         },
         {
           "Active": true,
-          "Contributions": [20.285347919723943,22.04638741053533,30.653930218539184
+          "Contributions": [20.285347919723943,22.046387410535303,30.65393021853919
           ],
           "Limit": 338.0952380952381,
           "Material": "Acciaio",
           "Name": "Acciaio · intradosso",
-          "Stress": 72.98566554879847,
-          "Utilization": 0.21587309528517856,
+          "Stress": 72.98566554879844,
+          "Utilization": 0.21587309528517848,
           "Y": -1855
         }
       ],
@@ -2154,10 +2154,10 @@
             "Unit": "kN"
           },
           {
-            "Demand": 106.6939973161734,
+            "Demand": 106.69399731617338,
             "Name": "Anima · tensione equivalente elastica (inviluppo)",
             "Note": "√(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata più q/tw della torsione",
-            "Ratio": 0.31557379487882276,
+            "Ratio": 0.3155737948788227,
             "Resistance": 338.0952380952381,
             "Status": "Entro limite",
             "Unit": "MPa"
@@ -2173,7 +2173,7 @@
           }
         ],
         "Details": [],
-        "EquivalentStressEnvelope": 106.6939973161734,
+        "EquivalentStressEnvelope": 106.69399731617338,
         "RigidEndPost": false,
         "Stiffener": null,
         "TauAverage": 27.700831024930746,
@@ -2192,7 +2192,7 @@
           "TauCritical": 59.82558799701024
         }
       },
-      "SteelNeutralAxis": -702.7920053137508,
+      "SteelNeutralAxis": -702.7920053137511,
       "Studs": {
         "Checks": [
           {
@@ -2435,11 +2435,11 @@
           {
             "AdditionalFlow": 15,
             "Basis": "NTC: proprietà della fase tensionale",
-            "Flow": 229.4615457273906,
-            "Inertia": 109631039521.24893,
+            "Flow": 229.46154572739056,
+            "Inertia": 109631039521.24898,
             "Kind": "Composta",
             "Phase": "G2 · permanenti",
-            "StaticMoment": 41926846.313744046,
+            "StaticMoment": 41926846.31374405,
             "V": 600
           },
           {
@@ -2541,7 +2541,7 @@
           }
         ],
         "Enabled": true,
-        "Flow": 495.1741957546077,
+        "Flow": 495.17419575460764,
         "ForcePerStud": 27.488463191857463,
         "Resistance": {
           "Alpha": 1,
@@ -2567,10 +2567,10 @@
             "Unit": "MPa"
           },
           {
-            "Demand": 86.75805785222875,
+            "Demand": 86.75805785222876,
             "Name": "Distorsione · nodo anima–piattabanda superiore",
             "Note": "Anima sotto la piattabanda superiore: σx con σdw, σz = 6m/tw² con il momento d'angolo al piano medio della soletta (cautelativo)",
-            "Ratio": 0.2566083401263104,
+            "Ratio": 0.25660834012631045,
             "Resistance": 338.0952380952381,
             "Status": "Entro limite",
             "Unit": "MPa"
@@ -2585,10 +2585,10 @@
             "Unit": "kN"
           },
           {
-            "Demand": 95.1783768251433,
+            "Demand": 95.17837682514327,
             "Name": "Fondo · tensione equivalente (σ, τ torsione + taglio)",
             "Note": "√(σ² + 3τ²) al nodo con le anime: τ = q/tb + τ di taglio del fondo; σ con σdw",
-            "Ratio": 0.28151350891943794,
+            "Ratio": 0.2815135089194379,
             "Resistance": 338.0952380952381,
             "Status": "Entro limite",
             "Unit": "MPa"
@@ -2603,10 +2603,10 @@
             "Unit": "MPa"
           },
           {
-            "Demand": 0.2624718872585892,
+            "Demand": 0.2624718872585891,
             "Name": "Fondo · interazione σ–τ",
             "Note": "EN 1993-1-5 §7.1(5): η1 + (2η3 − 1)² con Mf,Rd = 0, η1 = σ/(fy/γM0) sulla sezione efficace",
-            "Ratio": 0.2624718872585892,
+            "Ratio": 0.2624718872585891,
             "Resistance": 1,
             "Status": "Entro limite",
             "Unit": "—"
@@ -2615,8 +2615,8 @@
             "Demand": 210.55395532032057,
             "Name": "Soletta · armatura longitudinale per torsione",
             "Note": "EN 1992-1-1 §6.3.2(3): trazione q·cotθ (cotθ = 1,00) contro la compressione disponibile del CLS e la capacità residua delle barre oltre la flessione",
-            "Ratio": 0.1296041061733225,
-            "Resistance": 1624.5932442814892,
+            "Ratio": 0.1296041061733224,
+            "Resistance": 1624.5932442814901,
             "Status": "Entro limite",
             "Unit": "kN/m"
           },
@@ -2779,7 +2779,7 @@
           {
             "Name": "Distorsione · σdw / σ flessione fondo",
             "Unit": "—",
-            "Value": 0.21586197164519927
+            "Value": 0.21586197164519935
           },
           {
             "Name": "Diaframma intermedio · N diagonale",
@@ -2799,7 +2799,7 @@
         ],
         "Distortion": {
           "Amplitude": 0.00046229629764796845,
-          "BendingRatio": 0.21586197164519927,
+          "BendingRatio": 0.21586197164519935,
           "CornerMomentBottom": 72.40016779480887,
           "CornerMomentTop": 66.61090805564342,
           "DiaphragmAmplitude": 0.0003666805625635767,

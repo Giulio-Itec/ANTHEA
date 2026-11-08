@@ -546,12 +546,12 @@ curva.grafico: "" "" · punti 0 4F53CDA18C2BAA0C · scelto 0
 curva.fibra: "" "" · punti 0 4F53CDA18C2BAA0C · scelto 0
 curva.tabella: 0 blocchi
 == attendi
-~ calcolo: occupato no · risultato E512C6F1592F614F · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 22976CCDA7390F2E · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 4 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avvisi: "Anima inclinata di 10.7° dalla verticale: flessione retta attorno all'asse orizzontale (sezione vincolata lateralmente da soletta e controventi; il prodotto d'inerzia della sola carpenteria non è considerato). Per N–Mx l'anima è verticale equivalente di spessore tw/cos α; instabilità locale, taglio (V/cos α nel piano della lamiera), irrigidimenti e saldature sulla lamiera reale lunga hw/cos α.  EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
 ~ panoramica: "|σa|max = 64,587 MPa\nσc,min = -1,272 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,19\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,05\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,05\nGoverna: Armatura · y=235\n2/2 combinazioni\nTaglio e irrigidimenti\nDA COMPLETARE\nη = 0,18\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n1/2 verifiche mancanti / non applicabili\n"
-~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 3,579E-015 · limite 1E−5."
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 0,000E+000 · limite 1E−5."
 ~ situazioni: "01 · Dopo G1 · acciaio|02 · Dopo G2 · permanenti|03 · Dopo Ritiro|04 · Dopo Q · fessurata" · scelta 1 · visibile sì · attiva sì
 ~ interruttori: quote sì(nascosto) · armature no(nascosto) · asse neutro no "Zero delle tensioni cumulate nell’acciaio; non è lo zero delle tensioni nella soletta." · contorno sezione sì · contorno tensioni no · limiti sì · menu sì
 ~ contenitori: piastra no · nota piastra no · trasversale no · fatica no · cassoncino no · discretizzazione no · torsione risultati no
@@ -570,9 +570,9 @@ curva.tabella: 0 blocchi
 + pannello.omogeneizzazione.0.0: "G1 · acciaio" | "—" | "—" | "—" | "—" | "—" | "62138,87" | "-946,492" | "2,84162E+10" | "3,00226E+7" | "4,01071E+7" | "-946,492" | "2,01093E-4"
 + pannello.omogeneizzazione.0.1: "G2 · permanenti" | "5,962" | "16" | "1,53" | "1,683" | "13125" | "117141,117" | "-435,807" | "6,33073E+10" | "1,45264E+8" | "5,19256E+7" | "-435,807" | "1,35401E-4"
 ~ pannello.equilibrio: 1 blocchi
-+ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 2 076FB7FC3B896BD1
++ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 2 B8EBD8D1B12ADBC3
 + pannello.equilibrio.0.0: "G1 · acciaio" | "Solo acciaio" | "Baricentro omogeneizzato lordo" | "-946,492" | "0" | "1200" | "0" | "0" | "1200" | "0" | "—" | "—" | "—" | "—" | "0" | "2,84162E+10" | "0E+0"
-+ pannello.equilibrio.0.1: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-435,807" | "0" | "1800" | "0" | "0" | "3000" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,33038E+10" | "3,57905E-15"
++ pannello.equilibrio.0.1: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-435,807" | "0" | "1800" | "0" | "0" | "3000" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,33038E+10" | "0E+0"
 ~ pannello.classe4: 1 blocchi
 + pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 90402B8D87F6F8D5
 + pannello.classe4.0.0: "Anima · sup → inf" | "1618,054" | "16" | "-50,242" | "62,114" | "-1,236" | "29,906" | "0,789" | "1" | "723,543" | "289,417" | "1328,637"
@@ -615,12 +615,11 @@ curva.tabella: 0 blocchi
 ~ form.fase.1.Mx: campo "Momento Mx" = "1900"
 ~ disegno: modo 1 · da aggiornare sì · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
 == attendi
-~ calcolo: occupato no · risultato 9F5B6433B45205EC · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato A5F8BCF622C2ECE8 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 4 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ panoramica: "|σa|max = 66,513 MPa\nσc,min = -1,343 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,19\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,06\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,05\nGoverna: Armatura · y=235\n2/2 combinazioni\nTaglio e irrigidimenti\nDA COMPLETARE\nη = 0,19\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n1/2 verifiche mancanti / non applicabili\n"
-~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 3,575E-017 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 4,238E-015 · limite 1E−5."
 ~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Σσ [MPa]" · righe 8 DE2151DFDE34A160
 ~ pannello.tensioni.0.0: "Soletta · estradosso" | "280" | "0" | "-1,343" | "-1,343"
 ~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,818" | "-0,818"
@@ -631,8 +630,8 @@ curva.tabella: 0 blocchi
 ~ pannello.verifiche.0.2: "Armatura · y=235" | "SLE rara" | "-19,175" | "360" | "0,053" | "Entro limite locale" | "σ e limite in MPa"
 ~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 2 E0437AE604B0012E
 ~ pannello.omogeneizzazione.0.1: "G2 · permanenti" | "5,962" | "16" | "1,53" | "1,683" | "13125" | "117141,117" | "-435,807" | "6,33073E+10" | "1,45264E+8" | "5,19256E+7" | "-435,807" | "1,42924E-4"
-~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 2 59D39900B25B6200
-~ pannello.equilibrio.0.1: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-435,807" | "0" | "1900" | "0" | "0" | "3100" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,33038E+10" | "4,23835E-15"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 2 63B5AA9F28EB3617
+~ pannello.equilibrio.0.1: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-435,807" | "0" | "1900" | "0" | "0" | "3100" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,33038E+10" | "0E+0"
 ~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 01899F416C551BEE
 ~ pannello.classe4.0.0: "Anima · sup → inf" | "1618,054" | "16" | "-50,883" | "63,984" | "-1,257" | "30,475" | "0,782" | "1" | "716,752" | "286,701" | "1331,354"
 ~ pannello.classe4.0.1: "Sbalzo superiore" | "216,859" | "30" | "-53,05" | "-53,05" | "1" | "0,43" | "0,47" | "1" | "216,859" | "216,859" | "0"
@@ -651,7 +650,7 @@ curva.tabella: 0 blocchi
 ~ proprieta.fase.4.1: testo "Composta · attiva"
 ~ disegno: modo 1 · da aggiornare sì · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
 == attendi
-~ calcolo: occupato no · risultato 3985680227E72855 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 0E11980114B10508 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 5 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ situazioni: "01 · Dopo G1 · acciaio|02 · Dopo G2 · permanenti|03 · Dopo Ritiro|04 · Dopo Q · fessurata|05 · Dopo Q · esclusa dalla somma" · scelta 1 · visibile sì · attiva sì
@@ -672,12 +671,12 @@ curva.tabella: 0 blocchi
 ~ proprieta.fase.1.5.2: "yG" | "-403,608" | "mm"
 ~ disegno: modo 1 · da aggiornare sì · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
 == attendi
-~ calcolo: occupato no · risultato 21F7EFD01DA6E0CA · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 4DCF6521162DC6C3 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 5 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ panoramica: "|σa|max = 66,208 MPa\nσc,min = -1,416 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,19\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,06\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,05\nGoverna: Armatura · y=235\n2/2 combinazioni\nTaglio e irrigidimenti\nDA COMPLETARE\nη = 0,18\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n1/2 verifiche mancanti / non applicabili\n"
-~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 3,592E-015 · limite 1E−5."
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 1,073E-016 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 0,000E+000 · limite 1E−5."
 ~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Σσ [MPa]" · righe 8 92130450AE198E1B
 ~ pannello.tensioni.0.0: "Soletta · estradosso" | "280" | "0" | "-1,416" | "-1,416"
 ~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "0" | "-0,836" | "-0,836"
@@ -688,8 +687,8 @@ curva.tabella: 0 blocchi
 ~ pannello.verifiche.0.2: "Armatura · y=235" | "SLE rara" | "-17,637" | "360" | "0,049" | "Entro limite locale" | "σ e limite in MPa"
 ~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 2 36726FE37FAB8C5A
 ~ pannello.omogeneizzazione.0.1: "G2 · permanenti" | "5,962" | "14" | "1,225" | "1,348" | "15000" | "124080,894" | "-403,608" | "6,5524E+10" | "1,62346E+8" | "5,23609E+7" | "-403,608" | "1,38088E-4"
-~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 2 AF62CE0E7A8FC207
-~ pannello.equilibrio.0.1: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-403,608" | "0" | "1900" | "0" | "0" | "3100" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,55205E+10" | "3,59155E-15"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 2 1D56329CE08F803E
+~ pannello.equilibrio.0.1: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-403,608" | "0" | "1900" | "0" | "0" | "3100" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,55205E+10" | "0E+0"
 ~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 1D355F5CDD0F5E47
 ~ pannello.classe4.0.0: "Anima · sup → inf" | "1618,054" | "16" | "-49,537" | "63,715" | "-1,286" | "31,256" | "0,772" | "1" | "707,743" | "283,097" | "1334,957"
 ~ pannello.classe4.0.1: "Sbalzo superiore" | "216,859" | "30" | "-51,674" | "-51,674" | "1" | "0,43" | "0,47" | "1" | "216,859" | "216,859" | "0"
@@ -728,12 +727,12 @@ curva.tabella: 0 blocchi
 - proprieta.fase.0.4.1
 - proprieta.fase.0.4.2
 == attendi
-~ calcolo: occupato no · risultato ECBCC1C9D36B9D1F · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato D0293CE793F7F090 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 5 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ panoramica: "|σa|max = 58,182 MPa\nσc,min = -2,624 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 3 iterazioni"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,17\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,11\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,07\nGoverna: Armatura · y=235\n2/2 combinazioni\nTaglio e irrigidimenti\nDA COMPLETARE\nη = 0,16\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n1/2 verifiche mancanti / non applicabili\n"
-~ convergenza: "Convergenza: 3 iterazioni.\nVariazione relativa delle larghezze: 8,938E-018 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 3,592E-015 · limite 1E−5."
+~ convergenza: "Convergenza: 3 iterazioni.\nVariazione relativa delle larghezze: 1,788E-017 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 0,000E+000 · limite 1E−5."
 ~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Σσ [MPa]" · righe 8 227AEC02A4E25B1F
 ~ pannello.tensioni.0.0: "Soletta · estradosso" | "280" | "-1,208" | "-1,416" | "-2,624"
 ~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "-0,502" | "-0,836" | "-1,338"
@@ -744,8 +743,8 @@ curva.tabella: 0 blocchi
 ~ pannello.verifiche.0.2: "Armatura · y=235" | "SLE rara" | "-23,854" | "360" | "0,066" | "Entro limite locale" | "σ e limite in MPa"
 ~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 2 74B1A658D4A78CA5
 ~ pannello.omogeneizzazione.0.0: "G1 · acciaio" | "5,962" | "5,962" | "0" | "0" | "35220,462" | "198921,157" | "-199,12" | "7,98017E+10" | "4,00772E+8" | "5,48134E+7" | "-199,12" | "7,16091E-5"
-~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 2 8DF10629691F4160
-~ pannello.equilibrio.0.0: "G1 · acciaio" | "Composta" | "Baricentro omogeneizzato lordo" | "-199,12" | "0" | "1200" | "0" | "0" | "1200" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "7,97983E+10" | "3,41871E-15"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 2 D724CCF2B673CF8C
+~ pannello.equilibrio.0.0: "G1 · acciaio" | "Composta" | "Baricentro omogeneizzato lordo" | "-199,12" | "0" | "1200" | "0" | "0" | "1200" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "7,97983E+10" | "0E+0"
 ~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 91B4074C088E761D
 ~ pannello.classe4.0.0: "Anima · sup → inf" | "1618,054" | "16" | "-13,377" | "56,641" | "-4,234" | "95,68" | "0,441" | "1" | "309,138" | "123,655" | "1494,399"
 ~ pannello.classe4.0.1: "Sbalzo superiore" | "216,859" | "30" | "-14,698" | "-14,698" | "1" | "0,43" | "0,47" | "1" | "216,859" | "216,859" | "0"
@@ -771,12 +770,11 @@ curva.tabella: 0 blocchi
 ~ proprieta.fase.0.5.2: "yG" | "-364,346" | "mm"
 ~ disegno: modo 1 · da aggiornare sì · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
 == attendi
-~ calcolo: occupato no · risultato 41907233C45CD102 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 992AA0D974CB1AB4 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 5 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ panoramica: "|σa|max = 58,988 MPa\nσc,min = -2,366 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 3 iterazioni"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,17\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,10\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,08\nGoverna: Armatura · y=235\n2/2 combinazioni\nTaglio e irrigidimenti\nDA COMPLETARE\nη = 0,17\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n1/2 verifiche mancanti / non applicabili\n"
-~ convergenza: "Convergenza: 3 iterazioni.\nVariazione relativa delle larghezze: 1,430E-016 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 3,831E-015 · limite 1E−5."
 ~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Σσ [MPa]" · righe 8 253ED348649CCE6D
 ~ pannello.tensioni.0.0: "Soletta · estradosso" | "280" | "-0,95" | "-1,416" | "-2,366"
 ~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "-0,537" | "-0,836" | "-1,373"
@@ -787,8 +785,8 @@ curva.tabella: 0 blocchi
 ~ pannello.verifiche.0.2: "Armatura · y=235" | "SLE rara" | "-27,676" | "360" | "0,077" | "Entro limite locale" | "σ e limite in MPa"
 ~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 2 458A589D167B75E4
 ~ pannello.omogeneizzazione.0.0: "G1 · acciaio" | "5,962" | "11,925" | "1" | "1" | "17610,231" | "133741,918" | "-364,346" | "6,82346E+10" | "1,8728E+8" | "5,28683E+7" | "-364,346" | "8,37488E-5"
-~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 2 E672F7F738753E82
-~ pannello.equilibrio.0.0: "G1 · acciaio" | "Composta" | "Baricentro omogeneizzato lordo" | "-364,346" | "0" | "1200" | "0" | "0" | "1200" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,82312E+10" | "3,83087E-15"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 2 2C0E39262ACF472B
+~ pannello.equilibrio.0.0: "G1 · acciaio" | "Composta" | "Baricentro omogeneizzato lordo" | "-364,346" | "0" | "1200" | "0" | "0" | "1200" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,82312E+10" | "0E+0"
 ~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 2EBF3BE7ADF57CC5
 ~ pannello.classe4.0.0: "Anima · sup → inf" | "1618,054" | "16" | "-16,714" | "57,357" | "-3,432" | "95,68" | "0,441" | "1" | "365,116" | "146,046" | "1472,008"
 ~ pannello.classe4.0.1: "Sbalzo superiore" | "216,859" | "30" | "-18,112" | "-18,112" | "1" | "0,43" | "0,47" | "1" | "216,859" | "216,859" | "0"
@@ -809,7 +807,7 @@ curva.tabella: 0 blocchi
 ~ form.fase.3.riferimento_N: scelta "Punto di applicazione N e riferimento Mx" = "Baricentro efficace · iterativo" voci "Baricentro omogeneizzato lordo|Baricentro efficace · iterativo|Quota comune"
 ~ disegno: modo 1 · da aggiornare sì · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
 == attendi
-~ calcolo: occupato no · risultato 7915AF98F1B3D7D2 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 1299E8C4DE367DFC · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 5 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ disegno: modo 1 · da aggiornare no · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
@@ -824,7 +822,7 @@ curva.tabella: 0 blocchi
 ~ disegno: modo 1 · da aggiornare sì · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
 == cella Mx (2) «50»
 == attendi
-~ calcolo: occupato no · risultato 1442A687D6F716C5 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 5FC6A9ADEA5A8C67 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 5 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ disegno: modo 1 · da aggiornare no · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
@@ -862,7 +860,7 @@ curva.tabella: 0 blocchi
 - proprieta.fase.3.4.1
 - proprieta.fase.3.4.2
 == attendi
-~ calcolo: occupato no · risultato EECED171B1490B2F · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 23AC2E6F771F4725 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 5 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ disegno: modo 1 · da aggiornare no · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
@@ -917,13 +915,13 @@ curva.tabella: 0 blocchi
 ~ proprieta.fase.2.5.2: "yG" | "-403,608" | "mm"
 ~ disegno: modo 1 · da aggiornare sì · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
 == attendi
-~ calcolo: occupato no · risultato 9CEA228E760801BE · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato C9021A8BB7D43662 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 5 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ avvisi: "CLS teso nel modello non fessurato: valutare una situazione con soletta esclusa; non è attestata la verifica del CLS in trazione.  Ritiro uniforme imposto al solo CLS: effetti primari autoequilibrati. Eventuali azioni secondarie da vincoli esterni vanno inserite come fasi N–Mx separate.  Anima inclinata di 10.7° dalla verticale: flessione retta attorno all'asse orizzontale (sezione vincolata lateralmente da soletta e controventi; il prodotto d'inerzia della sola carpenteria non è considerato). Per N–Mx l'anima è verticale equivalente di spessore tw/cos α; instabilità locale, taglio (V/cos α nel piano della lamiera), irrigidimenti e saldature sulla lamiera reale lunga hw/cos α.  EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
 ~ panoramica: "|σa|max = 67,351 MPa\nσc,min = -1,296 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,20\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nDA COMPLETARE\nη = 0,05\nGoverna: Soletta · estradosso\n1/2 verifiche mancanti / non applicabili\nArmatura · tensioni\nVERIFICATA\nη = 0,20\nGoverna: Armatura · y=235\n2/2 combinazioni\nTaglio e irrigidimenti\nDA COMPLETARE\nη = 0,19\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n1/2 verifiche mancanti / non applicabili\n"
-~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 8,930E-015 · limite 1E−5."
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 0,000E+000 · limite 1E−5."
 ~ situazioni: "01 · Dopo G1 · acciaio|02 · Dopo Ritiro|03 · Dopo G2 · permanenti|04 · Dopo Q · fessurata|05 · Dopo Q · esclusa dalla somma" · scelta 2 · visibile sì · attiva sì
 ~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Σσ [MPa]" · righe 8 2059D2C9AC90ECB8
 ~ pannello.tensioni.0.0: "Soletta · estradosso" | "280" | "-0,95" | "1,071" | "-1,416" | "-1,296"
@@ -936,9 +934,9 @@ curva.tabella: 0 blocchi
 ~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 3 58C4446DC7B32E08
 ~ pannello.omogeneizzazione.0.1: "Ritiro" | "5,962" | "12,521" | "2" | "1,1" | "16771,649" | "130638,145" | "-376,326" | "6,74065E+10" | "1,79117E+8" | "5,27159E+7" | "-1375,778" | "1,4263E-4"
 + pannello.omogeneizzazione.0.2: "G2 · permanenti" | "5,962" | "14" | "1,225" | "1,348" | "15000" | "124080,894" | "-403,608" | "6,5524E+10" | "1,62346E+8" | "5,23609E+7" | "-403,608" | "1,38088E-4"
-~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 2D265CB42C4F3EF0
-~ pannello.equilibrio.0.1: "Ritiro" | "Ritiro" | "Ritiro · CLS netto" | "139,909" | "0" | "0" | "0" | "0" | "1200" | "0" | "-300" | "-3910,754" | "547,151" | "5,031" | "6744,999" | "6,74031E+10" | "8,9304E-15"
-+ pannello.equilibrio.0.2: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-403,608" | "0" | "1900" | "0" | "0" | "3100" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,55205E+10" | "3,59155E-15"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 58F6F8400B690F48
+~ pannello.equilibrio.0.1: "Ritiro" | "Ritiro" | "Ritiro · CLS netto" | "139,909" | "0" | "0" | "0" | "0" | "1200" | "0" | "-300" | "-3910,754" | "547,151" | "5,031" | "6744,999" | "6,74031E+10" | "0E+0"
++ pannello.equilibrio.0.2: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-403,608" | "0" | "1900" | "0" | "0" | "3100" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,55205E+10" | "0E+0"
 ~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 4CFD5F59770F09F1
 ~ pannello.classe4.0.0: "Anima · sup → inf" | "1618,054" | "16" | "-57,023" | "64,672" | "-1,134" | "27,236" | "0,827" | "1" | "758,178" | "303,271" | "1314,783"
 ~ pannello.classe4.0.1: "Sbalzo superiore" | "216,859" | "30" | "-59,319" | "-59,319" | "1" | "0,43" | "0,47" | "1" | "216,859" | "216,859" | "0"
@@ -999,13 +997,13 @@ curva.tabella: 0 blocchi
 ~ proprieta.fase.2.5.2: "yG" | "-376,326" | "mm"
 ~ disegno: modo 1 · da aggiornare sì · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
 == attendi
-~ calcolo: occupato no · risultato 6834EA7A866807F6 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato A7A09E621A7B7EE7 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 5 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ avvisi: "Anima inclinata di 10.7° dalla verticale: flessione retta attorno all'asse orizzontale (sezione vincolata lateralmente da soletta e controventi; il prodotto d'inerzia della sola carpenteria non è considerato). Per N–Mx l'anima è verticale equivalente di spessore tw/cos α; instabilità locale, taglio (V/cos α nel piano della lamiera), irrigidimenti e saldature sulla lamiera reale lunga hw/cos α.  EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
 ~ panoramica: "|σa|max = 58,988 MPa\nσc,min = -2,366 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 3 iterazioni"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,17\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,10\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,08\nGoverna: Armatura · y=235\n2/2 combinazioni\nTaglio e irrigidimenti\nDA COMPLETARE\nη = 0,17\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n1/2 verifiche mancanti / non applicabili\n"
-~ convergenza: "Convergenza: 3 iterazioni.\nVariazione relativa delle larghezze: 1,430E-016 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 3,831E-015 · limite 1E−5."
+~ convergenza: "Convergenza: 3 iterazioni.\nVariazione relativa delle larghezze: 1,788E-017 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 0,000E+000 · limite 1E−5."
 ~ situazioni: "01 · Dopo G1 · acciaio|02 · Dopo G2 · permanenti|03 · Dopo Ritiro|04 · Dopo Q · fessurata|05 · Dopo Q · esclusa dalla somma" · scelta 1 · visibile sì · attiva sì
 ~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Σσ [MPa]" · righe 8 253ED348649CCE6D
 ~ pannello.tensioni.0.0: "Soletta · estradosso" | "280" | "-0,95" | "-1,416" | "-2,366"
@@ -1017,8 +1015,8 @@ curva.tabella: 0 blocchi
 ~ pannello.verifiche.0.2: "Armatura · y=235" | "SLE rara" | "-27,676" | "360" | "0,077" | "Entro limite locale" | "σ e limite in MPa"
 ~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 2 458A589D167B75E4
 ~ pannello.omogeneizzazione.0.1: "G2 · permanenti" | "5,962" | "14" | "1,225" | "1,348" | "15000" | "124080,894" | "-403,608" | "6,5524E+10" | "1,62346E+8" | "5,23609E+7" | "-403,608" | "1,38088E-4"
-~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 2 E672F7F738753E82
-~ pannello.equilibrio.0.1: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-403,608" | "0" | "1900" | "0" | "0" | "3100" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,55205E+10" | "3,59155E-15"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 2 2C0E39262ACF472B
+~ pannello.equilibrio.0.1: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-403,608" | "0" | "1900" | "0" | "0" | "3100" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,55205E+10" | "0E+0"
 ~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 2EBF3BE7ADF57CC5
 ~ pannello.classe4.0.0: "Anima · sup → inf" | "1618,054" | "16" | "-16,714" | "57,357" | "-3,432" | "95,68" | "0,441" | "1" | "365,116" | "146,046" | "1472,008"
 ~ pannello.classe4.0.1: "Sbalzo superiore" | "216,859" | "30" | "-18,112" | "-18,112" | "1" | "0,43" | "0,47" | "1" | "216,859" | "216,859" | "0"
@@ -1073,13 +1071,13 @@ curva.tabella: 0 blocchi
 + proprieta.fase.5.5.2: "yG" | "-199,12" | "mm"
 ~ disegno: modo 1 · da aggiornare sì · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
 == attendi
-~ calcolo: occupato no · risultato 8544FFFA5AD41335 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 1144FDC6827BDA8D · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 6 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ avvisi: "Ritiro uniforme imposto al solo CLS: effetti primari autoequilibrati. Eventuali azioni secondarie da vincoli esterni vanno inserite come fasi N–Mx separate.  Anima inclinata di 10.7° dalla verticale: flessione retta attorno all'asse orizzontale (sezione vincolata lateralmente da soletta e controventi; il prodotto d'inerzia della sola carpenteria non è considerato). Per N–Mx l'anima è verticale equivalente di spessore tw/cos α; instabilità locale, taglio (V/cos α nel piano della lamiera), irrigidimenti e saldature sulla lamiera reale lunga hw/cos α.  EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
 ~ panoramica: "|σa|max = 83,771 MPa\nσc,min = -2,202 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 1 iterazioni"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,24\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,22\nGoverna: Armatura · y=235\n2/2 combinazioni\nTaglio e irrigidimenti\nDA COMPLETARE\nη = 0,23\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n1/2 verifiche mancanti / non applicabili\n"
-~ convergenza: "Convergenza: 1 iterazioni.\nVariazione relativa delle larghezze: 3,575E-017 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 8,692E-015 · limite 1E−5."
+~ convergenza: "Convergenza: 1 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 0,000E+000 · limite 1E−5."
 ~ situazioni: "01 · Dopo G1 · acciaio|02 · Dopo G2 · permanenti|03 · Dopo Ritiro|04 · Dopo Q · fessurata|05 · Dopo Q · esclusa dalla somma|06 · Dopo Nuova fase" · scelta 5 · visibile sì · attiva sì
 ~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Δσ 4 [MPa]|Δσ 5 [MPa]|Δσ 6 [MPa]|Σσ [MPa]" · righe 8 2449AB76CEBCB1C7
 ~ pannello.tensioni.0.0: "Soletta · estradosso" | "280" | "-0,95" | "-1,416" | "1,071" | "0" | "-0,906" | "0" | "-2,202"
@@ -1091,8 +1089,8 @@ curva.tabella: 0 blocchi
 ~ pannello.verifiche.0.2: "Armatura · y=235" | "SLE rara" | "-78,288" | "360" | "0,217" | "Entro limite locale" | "σ e limite in MPa"
 ~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 6 68E25FEE11310CC0
 + pannello.omogeneizzazione.0.2: "Ritiro" | "5,962" | "12,521" | "2" | "1,1" | "16771,649" | "130638,145" | "-376,326" | "6,74065E+10" | "1,79117E+8" | "5,27159E+7" | "-1375,778" | "1,4263E-4"
-~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 6 A9D9E3FCEAA93536
-+ pannello.equilibrio.0.2: "Ritiro" | "Ritiro" | "Ritiro · CLS netto" | "139,909" | "0" | "0" | "0" | "0" | "3100" | "0" | "-300" | "-3910,754" | "547,151" | "5,031" | "6744,999" | "6,74031E+10" | "8,69225E-15"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 6 AA938A41EF6A16C1
++ pannello.equilibrio.0.2: "Ritiro" | "Ritiro" | "Ritiro · CLS netto" | "139,909" | "0" | "0" | "0" | "0" | "3100" | "0" | "-300" | "-3910,754" | "547,151" | "5,031" | "6744,999" | "6,74031E+10" | "0E+0"
 ~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 C06C6A113FEA8FE4
 ~ pannello.classe4.0.0: "Anima · sup → inf" | "1618,054" | "16" | "-58,931" | "80,697" | "-1,369" | "33,571" | "0,745" | "1" | "682,908" | "273,163" | "1344,891"
 ~ pannello.classe4.0.1: "Sbalzo superiore" | "216,859" | "30" | "-61,565" | "-61,565" | "1" | "0,43" | "0,47" | "1" | "216,859" | "216,859" | "0"
@@ -1144,7 +1142,7 @@ curva.tabella: 0 blocchi
 + proprieta.fase.6.5.2: "yG" | "-376,326" | "mm"
 ~ disegno: modo 1 · da aggiornare sì · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
 == attendi
-~ calcolo: occupato no · risultato 2B2232DE1790FF21 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 1C34BB6815CBBFEF · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 7 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ situazioni: "01 · Dopo G1 · acciaio|02 · Dopo G2 · permanenti|03 · Dopo Ritiro|04 · Dopo Q · fessurata|05 · Dopo Q · esclusa dalla somma|06 · Dopo Nuova fase|07 · Dopo Ritiro soletta" · scelta 6 · visibile sì · attiva sì
@@ -1153,7 +1151,7 @@ curva.tabella: 0 blocchi
 ~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "-0,537" | "-0,836" | "1,74" | "0" | "-0,377" | "0" | "0" | "-0,01"
 ~ pannello.tensioni.0.2: "Armatura · y=235" | "235" | "-10,039" | "-17,637" | "-45,949" | "0" | "-4,663" | "0" | "0" | "-78,288"
 ~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 7 AA30575B9E505D07
-~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 7 CD7C95A2E4DFAA2F
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 7 DCE09A91F9BA28E3
 ~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 7 CFF09F6792D84AAA
 ~ disegno: modo 1 · da aggiornare no · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
 ~ disegno.ingresso: risultato AF9605F2ECAA9971
@@ -1219,7 +1217,7 @@ curva.tabella: 0 blocchi
 - proprieta.fase.6.5.1
 - proprieta.fase.6.5.2
 == attendi
-~ calcolo: occupato no · risultato 6EAE575C2FCC60C5 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 35E8BEBBFC164881 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 6 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ situazioni: "01 · Dopo G1 · acciaio|02 · Dopo G2 · permanenti|03 · Dopo Ritiro|04 · Dopo Q · fessurata|05 · Dopo Q · esclusa dalla somma|06 · Dopo Ritiro soletta" · scelta 5 · visibile sì · attiva sì
@@ -1228,7 +1226,7 @@ curva.tabella: 0 blocchi
 ~ pannello.tensioni.0.1: "Soletta · intradosso" | "0" | "-0,537" | "-0,836" | "1,74" | "0" | "-0,377" | "0" | "-0,01"
 ~ pannello.tensioni.0.2: "Armatura · y=235" | "235" | "-10,039" | "-17,637" | "-45,949" | "0" | "-4,663" | "0" | "-78,288"
 ~ pannello.omogeneizzazione.0: tabella "Fase|n₀|n = Ea/Ec,eff|φ|ψLφ|Ec,eff [MPa]|A* [mm²]|yG [mm]|Ix* [mm⁴]|Wsup* [mm³]|Winf* [mm³]|yσ=0 [mm]|κ [1/m]" · righe 6 1F555386FB73988E
-~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 6 A42F4C0F2E22DB40
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 6 7C26AA972174931D
 ~ pannello.pioli.2: tabella "Fase|V [kN]|S* [mm³]|I* [mm⁴]|q(V) [kN/m]|Δq [kN/m]|Proprietà adottate" · righe 6 F616FBE4DA6AD7C5
 ~ disegno: modo 1 · da aggiornare no · quote sì · armature no · asse neutro no · contorni sìno · limiti sì · CLS × 5 · appoggio no
 ~ disegno.ingresso: risultato 199259B7734EF986
@@ -1354,13 +1352,12 @@ curva.tabella: 0 blocchi
 - proprieta.fase.5.5.1
 - proprieta.fase.5.5.2
 == attendi
-~ calcolo: occupato no · risultato 6D3EA183667A04C2 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 98198FDA8641C0D4 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 5 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avviso: -
 ~ avvisi: "CLS teso nel modello non fessurato: valutare una situazione con soletta esclusa; non è attestata la verifica del CLS in trazione.  Ritiro uniforme imposto al solo CLS: effetti primari autoequilibrati. Eventuali azioni secondarie da vincoli esterni vanno inserite come fasi N–Mx separate.  Anima inclinata di 10.7° dalla verticale: flessione retta attorno all'asse orizzontale (sezione vincolata lateralmente da soletta e controventi; il prodotto d'inerzia della sola carpenteria non è considerato). Per N–Mx l'anima è verticale equivalente di spessore tw/cos α; instabilità locale, taglio (V/cos α nel piano della lamiera), irrigidimenti e saldature sulla lamiera reale lunga hw/cos α.  EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
 ~ panoramica: "|σa|max = 61,072 MPa\nσc,min = -1,252 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 1 iterazioni"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,18\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nDA COMPLETARE\nη = 0,05\nGoverna: Soletta · estradosso\n1/2 verifiche mancanti / non applicabili\nArmatura · tensioni\nVERIFICATA\nη = 0,19\nGoverna: Armatura · y=235\n2/2 combinazioni\nTaglio e irrigidimenti\nDA COMPLETARE\nη = 0,17\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n1/2 verifiche mancanti / non applicabili\n"
-~ convergenza: "Convergenza: 1 iterazioni.\nVariazione relativa delle larghezze: 1,430E-016 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 8,930E-015 · limite 1E−5."
 ~ situazioni: "01 · Dopo G2 · permanenti|02 · Dopo Ritiro|03 · Dopo Q · fessurata|04 · Dopo Q · esclusa dalla somma|05 · Dopo Ritiro soletta" · scelta 4 · visibile sì · attiva sì
 ~ pannello.tensioni.0: tabella "Punto|y [mm]|Δσ 1 [MPa]|Δσ 2 [MPa]|Δσ 3 [MPa]|Δσ 4 [MPa]|Δσ 5 [MPa]|Σσ [MPa]" · righe 8 ED3F4E74E43F4110
 ~ pannello.tensioni.0.0: "Soletta · estradosso" | "280" | "-1,416" | "1,071" | "0" | "-0,906" | "0" | "-1,252"
@@ -1374,9 +1371,9 @@ curva.tabella: 0 blocchi
 ~ pannello.omogeneizzazione.0.0: "G2 · permanenti" | "5,962" | "14" | "1,225" | "1,348" | "15000" | "124080,894" | "-403,608" | "6,5524E+10" | "1,62346E+8" | "5,23609E+7" | "-403,608" | "1,38088E-4"
 ~ pannello.omogeneizzazione.0.1: "Ritiro" | "5,962" | "12,521" | "2" | "1,1" | "16771,649" | "130638,145" | "-376,326" | "6,74065E+10" | "1,79117E+8" | "5,27159E+7" | "-1375,778" | "1,4263E-4"
 ~ pannello.omogeneizzazione.0.2: "Q · fessurata" | "5,962" | "5,962" | "0" | "0" | "35220,462" | "198921,157" | "-199,12" | "7,98017E+10" | "4,00772E+8" | "5,48134E+7" | "—" | "0E+0"
-~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 5 28464AC990BDFE16
-~ pannello.equilibrio.0.0: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-403,608" | "0" | "1900" | "0" | "0" | "1900" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,55205E+10" | "3,59155E-15"
-~ pannello.equilibrio.0.1: "Ritiro" | "Ritiro" | "Ritiro · CLS netto" | "139,909" | "0" | "0" | "0" | "0" | "1900" | "0" | "-300" | "-3910,754" | "547,151" | "5,031" | "6744,999" | "6,74031E+10" | "8,9304E-15"
+~ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 5 CAD215B2343D2604
+~ pannello.equilibrio.0.0: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-403,608" | "0" | "1900" | "0" | "0" | "1900" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,55205E+10" | "0E+0"
+~ pannello.equilibrio.0.1: "Ritiro" | "Ritiro" | "Ritiro · CLS netto" | "139,909" | "0" | "0" | "0" | "0" | "1900" | "0" | "-300" | "-3910,754" | "547,151" | "5,031" | "6744,999" | "6,74031E+10" | "0E+0"
 ~ pannello.equilibrio.0.2: "Q · fessurata" | "Ritiro" | "Ritiro · CLS netto" | "139,909" | "0" | "0" | "0" | "0" | "1900" | "0" | "0" | "0" | "-0" | "-0" | "6744,999" | "7,97983E+10" | "0E+0"
 ~ pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 35B49A8971CC5908
 ~ pannello.classe4.0.0: "Anima · sup → inf" | "1618,054" | "16" | "-53,051" | "58,614" | "-1,105" | "26,494" | "0,838" | "1" | "768,719" | "307,488" | "1310,567"
@@ -1393,7 +1390,7 @@ curva.tabella: 0 blocchi
 ~ disegno.carichi: 1 "G2 · permanenti" -403.6077496613765 0 | 4 "Q · esclusa dalla somma" -199.11987116269884 0
 == calcola
 ~ dati.ui_mista: {"layout_version":4,"tab":1,"vista_1":1,"risultato_1":0,"quote_1":true,"armature_1":false,"segui_ultima_fase":true,"fase":4,"asse_neutro":false,"contour_sezione":true,"limiti_tensioni":true,"amplificazione_cls_auto":false,"amplificazione_cls":5,"soletta_proprieta":{"phi":"0","psi":"1","n":"5.96244303317898","modo":"Da φ"},"dettaglio_sezione":0}
-~ calcolo: occupato no · risultato 64A5C0EB0D9BFB1A · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato E67F4E630454DA05 · mostrato corrente · esportabile sì
 ~ disegno.ingresso: risultato 3B252E3D7EF154A0
 == conferma
 == riapri
@@ -1458,12 +1455,12 @@ curva.tabella: 0 blocchi
 - pannello.torsione.0
 == conferma
 == attendi
-~ calcolo: occupato no · risultato 64A5C0EB0D9BFB1A · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato E67F4E630454DA05 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 5 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avvisi: "CLS teso nel modello non fessurato: valutare una situazione con soletta esclusa; non è attestata la verifica del CLS in trazione.  Ritiro uniforme imposto al solo CLS: effetti primari autoequilibrati. Eventuali azioni secondarie da vincoli esterni vanno inserite come fasi N–Mx separate.  Anima inclinata di 10.7° dalla verticale: flessione retta attorno all'asse orizzontale (sezione vincolata lateralmente da soletta e controventi; il prodotto d'inerzia della sola carpenteria non è considerato). Per N–Mx l'anima è verticale equivalente di spessore tw/cos α; instabilità locale, taglio (V/cos α nel piano della lamiera), irrigidimenti e saldature sulla lamiera reale lunga hw/cos α.  EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
 ~ panoramica: "|σa|max = 61,072 MPa\nσc,min = -1,252 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 1 iterazioni"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,18\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nDA COMPLETARE\nη = 0,05\nGoverna: Soletta · estradosso\n1/2 verifiche mancanti / non applicabili\nArmatura · tensioni\nVERIFICATA\nη = 0,19\nGoverna: Armatura · y=235\n2/2 combinazioni\nTaglio e irrigidimenti\nDA COMPLETARE\nη = 0,17\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n1/2 verifiche mancanti / non applicabili\n"
-~ convergenza: "Convergenza: 1 iterazioni.\nVariazione relativa delle larghezze: 1,430E-016 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 8,930E-015 · limite 1E−5."
+~ convergenza: "Convergenza: 1 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 0,000E+000 · limite 1E−5."
 ~ situazioni: "01 · Dopo G2 · permanenti|02 · Dopo Ritiro|03 · Dopo Q · fessurata|04 · Dopo Q · esclusa dalla somma|05 · Dopo Ritiro soletta" · scelta 4 · visibile sì · attiva sì
 ~ interruttori: quote sì(nascosto) · armature no(nascosto) · asse neutro no "Zero delle tensioni cumulate nell’acciaio; non è lo zero delle tensioni nella soletta." · contorno sezione sì · contorno tensioni no · limiti sì · menu sì
 ~ contenitori: piastra no · nota piastra no · trasversale no · fatica no · cassoncino no · discretizzazione no · torsione risultati no
@@ -1483,9 +1480,9 @@ curva.tabella: 0 blocchi
 + pannello.omogeneizzazione.0.1: "Ritiro" | "5,962" | "12,521" | "2" | "1,1" | "16771,649" | "130638,145" | "-376,326" | "6,74065E+10" | "1,79117E+8" | "5,27159E+7" | "-1375,778" | "1,4263E-4"
 + pannello.omogeneizzazione.0.2: "Q · fessurata" | "5,962" | "5,962" | "0" | "0" | "35220,462" | "198921,157" | "-199,12" | "7,98017E+10" | "4,00772E+8" | "5,48134E+7" | "—" | "0E+0"
 ~ pannello.equilibrio: 1 blocchi
-+ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 5 28464AC990BDFE16
-+ pannello.equilibrio.0.0: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-403,608" | "0" | "1900" | "0" | "0" | "1900" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,55205E+10" | "3,59155E-15"
-+ pannello.equilibrio.0.1: "Ritiro" | "Ritiro" | "Ritiro · CLS netto" | "139,909" | "0" | "0" | "0" | "0" | "1900" | "0" | "-300" | "-3910,754" | "547,151" | "5,031" | "6744,999" | "6,74031E+10" | "8,9304E-15"
++ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 5 CAD215B2343D2604
++ pannello.equilibrio.0.0: "G2 · permanenti" | "Composta" | "Baricentro omogeneizzato lordo" | "-403,608" | "0" | "1900" | "0" | "0" | "1900" | "0" | "—" | "—" | "—" | "—" | "6744,999" | "6,55205E+10" | "0E+0"
++ pannello.equilibrio.0.1: "Ritiro" | "Ritiro" | "Ritiro · CLS netto" | "139,909" | "0" | "0" | "0" | "0" | "1900" | "0" | "-300" | "-3910,754" | "547,151" | "5,031" | "6744,999" | "6,74031E+10" | "0E+0"
 + pannello.equilibrio.0.2: "Q · fessurata" | "Ritiro" | "Ritiro · CLS netto" | "139,909" | "0" | "0" | "0" | "0" | "1900" | "0" | "0" | "0" | "-0" | "-0" | "6744,999" | "7,97983E+10" | "0E+0"
 ~ pannello.classe4: 1 blocchi
 + pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 35B49A8971CC5908

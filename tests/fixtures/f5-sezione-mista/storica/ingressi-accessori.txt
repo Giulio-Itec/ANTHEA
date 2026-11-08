@@ -482,12 +482,12 @@ curva.grafico: "" "" · punti 0 4F53CDA18C2BAA0C · scelto 0
 curva.fibra: "" "" · punti 0 4F53CDA18C2BAA0C · scelto 0
 curva.tabella: 0 blocchi
 == attendi
-~ calcolo: occupato no · risultato E896A30951E7C06B · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 5478BF04361F1272 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avvisi: "EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi."
 ~ panoramica: "|σa|max = 126,179 MPa\nσc,min = -3,817 MPa\n\nAnima inefficace: 0 mm\nAeff / Alorda = 1\nConvergenza: 4 iterazioni"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,37\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,19\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Armatura · y=205\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,36\nGoverna: Anima · tensione equivalente elastica (inviluppo)\n2/2 combinazioni\n"
-~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 5,587E-015 · limite 1E−5."
+~ convergenza: "Convergenza: 4 iterazioni.\nVariazione relativa delle larghezze: 0,000E+000 · tolleranza 1E−7.\n\nResiduo massimo dell’equilibrio N–Mx: 1,589E-016 · limite 1E−5."
 ~ situazioni: "01 · Dopo G1 · getto e carpenteria|02 · Dopo G2 · permanenti portati|03 · Dopo Q · variabili" · scelta 2 · visibile no · attiva sì
 ~ interruttori: quote sì · armature sì · asse neutro sì(nascosto) "Zero delle tensioni cumulate nell’acciaio; non è lo zero delle tensioni nella soletta." · contorno sezione no · contorno tensioni no · limiti no · menu sì
 ~ scala: "6,162" · auto sì · visibile no · errore no · "Amplifica solo la larghezza del diagramma CLS; valori, verifiche e armature non cambiano. Auto n segue l’ultima fase composta attiva (Q nello schema standard). Modificare il numero passa alla scala manuale. Intervallo: 0,01–1000.\nRiferimento attuale: n · Q · variabili · ×6,162" · modificabile sì
@@ -508,10 +508,10 @@ curva.tabella: 0 blocchi
 + pannello.omogeneizzazione.0.1: "G2 · permanenti portati" | "6,162" | "19,72" | "2" | "2,2" | "10649,108" | "103984,197" | "-542,83" | "6,97793E+10" | "1,28547E+8" | "5,31785E+7" | "-542,83" | "1,36489E-4"
 + pannello.omogeneizzazione.0.2: "Q · variabili" | "6,162" | "6,162" | "0" | "0" | "34077,146" | "186758,526" | "-246,837" | "9,07642E+10" | "3,67709E+8" | "5,64397E+7" | "-246,837" | "1,57398E-4"
 ~ pannello.equilibrio: 1 blocchi
-+ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 6CAEFFCE83C09B3B
++ pannello.equilibrio.0: tabella "Fase|Sezione|Riferimento N|yN [mm]|ΔN [kN]|ΔMx al punto N [kNm]|ΔV [kN]|ΣN [kN]|ΣMx a y=0 [kNm]|ΣV [kN]|Δεcs [µε]|N eq. [kN]|M eq. a y=0 [kNm]|σc impedita [MPa]|As [mm²]|Ix* integrazione [mm⁴]|Residuo equilibrio" · righe 3 BF32C8A810200EB7
 + pannello.equilibrio.0.0: "G1 · getto e carpenteria" | "Solo acciaio" | "Baricentro omogeneizzato lordo" | "-1058,028" | "0" | "1500" | "0" | "0" | "1500" | "0" | "—" | "—" | "—" | "—" | "0" | "3,37574E+10" | "0E+0"
-+ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-542,83" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "6,97769E+10" | "2,5034E-15"
-+ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-246,837" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "9,07618E+10" | "5,58667E-15"
++ pannello.equilibrio.0.1: "G2 · permanenti portati" | "Composta" | "Baricentro omogeneizzato lordo" | "-542,83" | "0" | "2000" | "0" | "0" | "3500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "6,97769E+10" | "0E+0"
++ pannello.equilibrio.0.2: "Q · variabili" | "Composta" | "Baricentro omogeneizzato lordo" | "-246,837" | "0" | "3000" | "0" | "0" | "6500" | "0" | "—" | "—" | "—" | "—" | "8042,477" | "9,07618E+10" | "1,58946E-16"
 ~ pannello.classe4: 1 blocchi
 + pannello.classe4.0: tabella "Pannello|b [mm]|t [mm]|σ₁ [MPa]|σ₂ [MPa]|ψ|kσ|λp|ρ|bc [mm]|b₁ eff [mm]|b₂ eff [mm]" · righe 3 91A76125CE827CF7
 + pannello.classe4.0.0: "Anima · sup → inf" | "1800" | "14" | "-68,077" | "122,995" | "-1,807" | "47,108" | "0,811" | "1" | "641,325" | "256,53" | "1543,47"
@@ -557,7 +557,7 @@ curva.tabella: 0 blocchi
 ~ form.irrigidimenti.saldature_irr: opzione "Verifica saldature continue" = "no"
 ~ disegno.ingresso: anteprima FC2556CB8BA300B6
 == attendi
-~ calcolo: occupato no · risultato 2A2A3B216A54199B · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 0D2FE482CE43CDA1 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,37\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,19\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Armatura · y=205\n2/2 combinazioni\nTaglio e irrigidimenti\nDA COMPLETARE\nη = 0,96\nGoverna: Intermedio · rigidezza torsionale\n1/9 verifiche mancanti / non applicabili\n"
 ~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 17 ABC612BF398D1F3A
@@ -585,7 +585,7 @@ curva.tabella: 0 blocchi
 ~ form.irrigidimenti.a_irr_dx: campo "Pannello destro aR" = "3000"
 ~ disegno.ingresso: anteprima 4DDFCD526D187BD4
 == attendi
-~ calcolo: occupato no · risultato 5C5536129BD4B079 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato EAC8FB21D365A7CB · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 17 E08A774DDF4C1F01
 ~ pannello.taglio.0: tabella "Parametro|Valore|Unità" · righe 21 F41CCEC9D937F836
@@ -603,7 +603,7 @@ curva.tabella: 0 blocchi
 ~ form.irrigidimenti.aw_irr: campo "Gola dei cordoni" = "7"
 ~ disegno.ingresso: anteprima 49C73F3CA01C9B5F
 == attendi
-~ calcolo: occupato no · risultato 5ED7F6F980513FCC · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato D4DCB96DFB7B559A · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,37\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,19\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Armatura · y=205\n2/2 combinazioni\nTaglio e irrigidimenti\nVERIFICATA\nη = 0,96\nGoverna: Intermedio · rigidezza torsionale\n12/12 combinazioni\n"
 ~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 20 6B82161DDB8754A6
@@ -651,7 +651,7 @@ curva.tabella: 0 blocchi
 ~ form.appoggio.R_app: campo "Reazione R · inviluppo SLU" = "1800"
 ~ disegno.ingresso: anteprima BEE1C1526EF2AA3F
 == attendi
-~ calcolo: occupato no · risultato 074005EA0227DC32 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 77FD081FB4A45AC3 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avvisi: "Montante terminale non qualificato come rigido: resta adottata la curva non rigida a taglio.  Appoggio: R è l’inviluppo SLU assegnato, indipendente dalle fasi. Piatti continui senza intagli, vincolati lateralmente alle flange. Apparecchio d’appoggio e flessione della piastra di ripartizione esclusi."
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,37\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,19\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Armatura · y=205\n2/2 combinazioni\nTaglio e irrigidimenti\nNON VERIFICATA\nη = 1,92\nGoverna: Seconda coppia terminale · saldature alle flange\n39/39 combinazioni\n"
@@ -689,7 +689,7 @@ curva.tabella: 0 blocchi
 ~ form.fase.2.q_conn: campo "Scorrimento aggiuntivo Δq" = "0"
 ~ disegno.ingresso: anteprima 2EFD23FA0E67B88B
 == attendi
-~ calcolo: occupato no · risultato 356233FC20BC407C · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 59BA2C3F0E0D7F98 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ avvisi: "Montante terminale non qualificato come rigido: resta adottata la curva non rigida a taglio.  Appoggio: R è l’inviluppo SLU assegnato, indipendente dalle fasi. Piatti continui senza intagli, vincolati lateralmente alle flange. Apparecchio d’appoggio e flessione della piastra di ripartizione esclusi.  Connessione: soletta piena, pioli verticali standard. I controlli di armatura assumono barre effettivamente ancorate e superfici a–a/b–b. Sollevamento imposto, torsione e splitting attraverso lo spessore richiedono un modello dedicato."
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,37\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,19\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Armatura · y=205\n2/2 combinazioni\nTaglio e irrigidimenti\nNON VERIFICATA\nη = 1,92\nGoverna: Seconda coppia terminale · saldature alle flange\n39/39 combinazioni\nPioli · controlli locali\nDA COMPLETARE\nη = 0,94\nGoverna: Pioli · diametro testa\n2/12 verifiche mancanti / non applicabili\n"
@@ -705,7 +705,7 @@ curva.tabella: 0 blocchi
 ~ form.pioli.passo_trasv_pioli: campo "Passo trasversale" = "150" · nascosto
 ~ disegno.ingresso: anteprima EDF2FD8B3BD60CE7
 == attendi
-~ calcolo: occupato no · risultato B9F821B83C40E3DC · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato 0E864A2F37A82287 · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,37\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,19\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Armatura · y=205\n2/2 combinazioni\nTaglio e irrigidimenti\nNON VERIFICATA\nη = 1,92\nGoverna: Seconda coppia terminale · saldature alle flange\n39/39 combinazioni\nPioli · controlli locali\nDA COMPLETARE\nη = 0,94\nGoverna: Pioli · diametro testa\n2/11 verifiche mancanti / non applicabili\n"
 ~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 58 BB58800F67828833
@@ -742,7 +742,7 @@ curva.tabella: 0 blocchi
 ~ form.trasversale.s_trasv_inf: campo "Passo inferiore lungo la trave" = "150" · nascosto
 ~ disegno.ingresso: anteprima 2D55F994BDA4A86F
 == attendi
-~ calcolo: occupato no · risultato 61049B8321454D89 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato CFFC163971F7B3AA · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
 ~ riepilogo: "Acciaio · tensioni\nVERIFICATA\nη = 0,37\nGoverna: Acciaio · intradosso\n4/4 combinazioni\nCLS · tensioni\nVERIFICATA\nη = 0,19\nGoverna: Soletta · estradosso\n2/2 combinazioni\nArmatura · tensioni\nVERIFICATA\nη = 0,09\nGoverna: Armatura · y=205\n2/2 combinazioni\nTaglio e irrigidimenti\nNON VERIFICATA\nη = 1,92\nGoverna: Seconda coppia terminale · saldature alle flange\n39/39 combinazioni\nPioli · controlli locali\nDA COMPLETARE\nη = 0,94\nGoverna: Pioli · diametro testa\n4/22 verifiche mancanti / non applicabili\n"
 ~ pannello.verifiche.0: tabella "Controllo|Stato limite|Domanda|Limite|η|Esito|Note" · righe 69 1EED87F700E69DB6
@@ -760,7 +760,7 @@ curva.tabella: 0 blocchi
 ~ form.trasversale.d_forcine: campo "Diametro forcine" = "12"
 ~ disegno.ingresso: anteprima D655DB28A7818F7D
 == attendi
-~ calcolo: occupato no · risultato 47044D1F23057642 · mostrato corrente · esportabile sì
+~ calcolo: occupato no · risultato BB41B428127EE9EA · mostrato corrente · esportabile sì
 ~ stato: "Aggiornato · 3 situazioni · geometria e risultati coerenti con i dati correnti"
 == opzione fatica fatica_pioli
 ~ dati.fatica_pioli: true

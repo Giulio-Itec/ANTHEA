@@ -18,7 +18,7 @@
   "BUG-MUR-1 + BUG-MUR-2": 203,
   "BUG-MUR-1 + BUG-MUR-2 / AG-CA-01 / R-MURI-09": 8,
   "BUG-MUR-1 + BUG-MUR-2 / BUG-MUR-2b": 13,
-  "BUG-MUR-1 + BUG-MUR-2 / R-MURI-09": 3268,
+  "BUG-MUR-1 + BUG-MUR-2 / R-MURI-09": 3265,
   "BUG-MUR-1 / AG-MUR-01": 1299,
   "BUG-MUR-1 / AG-MUR-01 / R-MURI-09": 4,
   "BUG-MUR-1 / R-MURI-09": 1412,
@@ -91,7 +91,8 @@
   "SPETTRI-04": 12,
   "AG-CA-01 / CA-CRITERIO-STATI-01": 17,
   "CA-CRITERIO-STATI-01": 227,
-  "REPORT-TEMPLATE-20261106": 51
+  "REPORT-TEMPLATE-20261106": 51,
+  "BUG-MUR-1 + BUG-MUR-2 / R-MURI-09 / SM-CB131-ARROTONDAMENTI": 3
  },
  "voci": [
   {
@@ -28835,8 +28836,8 @@
    "percorso": "riga 3842",
    "classe": "testo",
    "a": "[T134 r3 c5] 2,20",
-   "b": "[T125 r3 c6] 2,742E-15",
-   "voce": "BUG-MUR-1 + BUG-MUR-2 / R-MURI-09"
+   "b": "[T125 r3 c6] 0E+0",
+   "voce": "BUG-MUR-1 + BUG-MUR-2 / R-MURI-09 / SM-CB131-ARROTONDAMENTI"
   },
   {
    "file": "project/report.txt",
@@ -31043,8 +31044,8 @@
    "percorso": "riga 4118",
    "classe": "testo",
    "a": "[T145 r8 c1] side bar diameter mm",
-   "b": "[T136 r3 c6] 2,503E-15",
-   "voce": "BUG-MUR-1 + BUG-MUR-2 / R-MURI-09"
+   "b": "[T136 r3 c6] 0E+0",
+   "voce": "BUG-MUR-1 + BUG-MUR-2 / R-MURI-09 / SM-CB131-ARROTONDAMENTI"
   },
   {
    "file": "project/report.txt",
@@ -31091,8 +31092,8 @@
    "percorso": "riga 4124",
    "classe": "testo",
    "a": "[T145 r11 c1] Staffe presenti",
-   "b": "[T136 r4 c6] 5,587E-15",
-   "voce": "BUG-MUR-1 + BUG-MUR-2 / R-MURI-09"
+   "b": "[T136 r4 c6] 1,589E-16",
+   "voce": "BUG-MUR-1 + BUG-MUR-2 / R-MURI-09 / SM-CB131-ARROTONDAMENTI"
   },
   {
    "file": "project/report.txt",
@@ -625837,5 +625838,13 @@
   "sostituite": 17,
   "aggiunte": 227,
   "nota": "1.17.1, criterio resistente per stato limite comune ai domini 3D e 2D, migrazione «Conserva i numeri» (decisione dell'utente del 2/11/2026). Cambia solo la fixture sezione-a-t-sollecitazioni-uniche, salvata con il dominio 3D plastico e il 2D elastico: SLU e SLV prendono il criterio plastico del 3D. I dati spostano modello_resistente dai pannelli a workspace_ca.modello_resistente e annotano migrazione_criterio; il dominio 2D SLV diventa plastico (risultato, report, riepilogo e struttura del report); il report breve riporta «SLV plastico» al posto della frase fissa «SLV elastico». I domini 3D e ogni altra fixture sono invariati. Le transizioni AG-CA-01 dello stesso dominio 2D prendono il nuovo valore dopo, con la voce combinata. Nessuna tolleranza nuova."
+ },
+ "aggiornamento_f7e": {
+  "data": "2026-11-08",
+  "cattura": "supporto/artefatti/ci/20261108-075927-f7e-raccolta-1/ui_f3-equivalence/cattura (dopo il rinnovo degli attesi str_mista_ponte; confronto completo tools/qa/f3_confronto_completo.py con le transizioni)",
+  "registro": "SM-CB131-ARROTONDAMENTI",
+  "sostituite": 3,
+  "aggiunte": 0,
+  "nota": "ANTHEA 1.19.0, set candidato F7d (Checker 3b40e2a0 + versioni 9e513417, GPCChecker.CompositeBridge 1.31.0.1: solutore elastico diretto, momenti e fibre preparate, prefissi riusati, commit 1092c29f, 7b726fc8, 87985942; voce SM-CB131-ARROTONDAMENTI). Decisione dell'utente dell'8/11/2026 «aggiorna»: i byte congelati di 12 attesi str_mista_ponte (6 result.json, 6 report.txt) sono rinnovati (manifest, expected_updates_20261108); nel report del progetto le 3 celle «Residuo equilibrio» del capitolo della sezione composta, già spostate da BUG-MUR-1 + BUG-MUR-2 / R-MURI-09, prendono il valore dopo nuovo (2,742E-15 → 0E+0, 2,503E-15 → 0E+0, 5,587E-15 → 1,589E-16), con la voce combinata. Con il formato delle lunghezze in mm (voce REPORT-LUNGHEZZE-MM-20261108) la riga «Anima inefficace» del progetto resta «0,00 mm» come nel riferimento. Valori prima del riferimento invariati, nessuna tolleranza nuova."
  }
 }
