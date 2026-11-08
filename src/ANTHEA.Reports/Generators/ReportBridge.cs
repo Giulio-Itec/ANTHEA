@@ -199,13 +199,15 @@ public static partial class ReportBridge
             if (options.Contains("classe4"))
             {
                 doc.Sub("Sezione efficace di classe 4");
+                // Lengths of the effective section in mm: never E-notation, a rounding residue shows 0,00 (EngineeringFormat.Length).
+                string L(double x) => EngineeringFormat.Length(x);
                 var panels = ClassFourPanels(g, s.Effective);
-                doc.Table(["Pannello", "b [mm]", "t [mm]", "ψ", "kσ", "λp", "ρ"], panels.Select(p => new[] { p.Item1, F(p.Item2.Width), F(p.Item2.Thickness), F(p.Item2.Psi), F(p.Item2.KSigma), F(p.Item2.Lambda), F(p.Item2.Rho) }), [2.2, .9, .7, .8, .8, .8, .8]);
-                doc.Table(["Pannello", "σ1 [MPa]", "σ2 [MPa]", "bc [mm]", "b1 eff [mm]", "b2 eff [mm]"], panels.Select(p => new[] { p.Item1, F(p.Item2.StartStress), F(p.Item2.EndStress), F(p.Item2.CompressedWidth), F(p.Item2.EffectiveAtStart), F(p.Item2.EffectiveAtEnd) }), [2.2, 1, 1, 1, 1, 1]);
+                doc.Table(["Pannello", "b [mm]", "t [mm]", "ψ", "kσ", "λp", "ρ"], panels.Select(p => new[] { p.Item1, L(p.Item2.Width), L(p.Item2.Thickness), F(p.Item2.Psi), F(p.Item2.KSigma), F(p.Item2.Lambda), F(p.Item2.Rho) }), [2.2, .9, .7, .8, .8, .8, .8]);
+                doc.Table(["Pannello", "σ1 [MPa]", "σ2 [MPa]", "bc [mm]", "b1 eff [mm]", "b2 eff [mm]"], panels.Select(p => new[] { p.Item1, F(p.Item2.StartStress), F(p.Item2.EndStress), L(p.Item2.CompressedWidth), L(p.Item2.EffectiveAtStart), L(p.Item2.EffectiveAtEnd) }), [2.2, 1, 1, 1, 1, 1]);
                 doc.Table(["Carpenteria", "Area [mm²]", "yG [mm]", "Ix [mm⁴]"], new[] {
                     new[] { "Lorda", F(g.SteelArea), F(g.SteelCentroid), F(g.SteelInertia) }, new[] { "Efficace", F(s.EffectiveSteel.Area), F(s.EffectiveSteel.Centroid), F(s.EffectiveSteel.Inertia) } }, [2, 1.3, 1.2, 1.5]);
                 double removed = Math.Max(0, g.WebHeight - s.Effective.WebTop - s.Effective.WebBottom);
-                doc.P("Anima inefficace: " + F(removed) + " mm" + (removed > .001 ? ", da y = " + F(-g.TopThickness - g.WebHeight + s.Effective.WebBottom) + " a y = " + F(-g.TopThickness - s.Effective.WebTop) + " mm." : ".") +
+                doc.P("Anima inefficace: " + L(removed) + " mm" + (removed > .001 ? ", da y = " + L(-g.TopThickness - g.WebHeight + s.Effective.WebBottom) + " a y = " + L(-g.TopThickness - s.Effective.WebTop) + " mm." : ".") +
                     " Aeff/Alorda = " + F(s.EffectiveSteel.Area / g.SteelArea) + "; Ieff/Ilorda = " + F(s.EffectiveSteel.Inertia / g.SteelInertia) + ".");
                 doc.P("Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. " +
                     "Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.");

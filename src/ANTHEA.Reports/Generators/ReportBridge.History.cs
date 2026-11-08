@@ -76,7 +76,7 @@ public static partial class ReportBridge
             if (options.Contains("classe4"))
             {
                 doc.P(h.Nonlinear ? "Sezione lorda. Instabilità locale e verifica plastica di classe 4 non incluse." : "Carpenteria efficace: A=" + F(stage.EffectiveSteel.Area) + " mm²; yG=" + F(stage.EffectiveSteel.Centroid) + " mm; Ix=" + E(stage.EffectiveSteel.Inertia) + " mm⁴.");
-                if (!h.Nonlinear) doc.Table(["Pannello", "ρ", "b1 eff [mm]", "b2 eff [mm]"], s.Panels.Select(p => new[] { p.Name, F(p.Reduction.Rho), F(p.Reduction.EffectiveAtStart), F(p.Reduction.EffectiveAtEnd) }), [2, 1, 1, 1]);
+                if (!h.Nonlinear) doc.Table(["Pannello", "ρ", "b1 eff [mm]", "b2 eff [mm]"], s.Panels.Select(p => new[] { p.Name, F(p.Reduction.Rho), EngineeringFormat.Length(p.Reduction.EffectiveAtStart), EngineeringFormat.Length(p.Reduction.EffectiveAtEnd) }), [2, 1, 1, 1]);
             }
             if (options.Contains("taglio")) doc.P("V registrato. Taglio, pioli, irrigidimenti e interazione N–M–V non verificati dal metodo con storico.");
             doc.Figures(images, options, "fase_" + index);

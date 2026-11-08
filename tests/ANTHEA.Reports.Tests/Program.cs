@@ -110,7 +110,29 @@ try
         File.WriteAllText(Path.Combine(output, "parts-comparison.json"), JsonSerializer.Serialize(new { documents, xmlParts, mediaParts, differences }, new JsonSerializerOptions { WriteIndented = true }));
         Check(documents > 0 && differences.Count == 0, "Differenze fra parti DOCX: " + string.Join("; ", differences.Take(10)));
     }
-    if (!args.Contains("--compare")) { checks += PdfChecks.Run(root, output); checks += ReportTemplateChecks.Run(root, output); }
+    // Lengths in mm of the composite section report (user decision of 8/11/2026, ANTHEA 1.19.0): a rounding residue such as the
+    // 2,27E-13 mm of «Anima inefficace» shows 0,00, never E-notation, without sign; other lengths keep the two decimals of Number.
+    var culture = System.Globalization.CultureInfo.CurrentCulture;
+    System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.GetCultureInfo("it-IT");
+    try
+    {
+        Check(Anthea.Calculations.EngineeringFormat.Number(2.27e-13) == "2,27E-13", "Number: valori piccoli in notazione E (invariato)");
+        foreach (var (value, shown) in new (double?, string)[] { (2.27e-13, "0,00"), (-2.27e-13, "0,00"), (4.55e-13, "0,00"), (0d, "0,00"), (-0d, "0,00"),
+            (.004, "0,00"), (.007, "0,01"), (152.41, "152,41"), (-496.8, "-496,80"), (null, "—"), (double.NaN, "—") })
+            Check(Anthea.Calculations.EngineeringFormat.Length(value) == shown, $"Length({value?.ToString("R", System.Globalization.CultureInfo.InvariantCulture) ?? "null"}) = «{Anthea.Calculations.EngineeringFormat.Length(value)}», atteso «{shown}»");
+        foreach (double value in new[] { .01, .5, 12.345, 1234.5, -.01, -98.765 })
+            Check(Anthea.Calculations.EngineeringFormat.Length(value) == Anthea.Calculations.EngineeringFormat.Number(value), "Length uguale a Number da 0,01 in su: " + value);
+    }
+    finally { System.Globalization.CultureInfo.CurrentCulture = culture; }
+    if (!args.Contains("--compare"))
+    {
+        checks += PdfChecks.Run(root, output);
+        // The reports of the corpus through ReportBridge: no length in mm of the effective section in E-notation.
+        var lengths = Directory.GetFiles(Path.Combine(output, "pdf-capture"), "*.txt", SearchOption.AllDirectories)
+            .SelectMany(File.ReadLines).Where(l => l.Contains("Anima inefficace: ")).ToArray();
+        Check(!lengths.Any(l => System.Text.RegularExpressions.Regex.IsMatch(l, @"Anima inefficace: [^ ]*E[+-]")), "Anima inefficace in notazione E: " + lengths.FirstOrDefault(l => l.Contains('E')));
+        checks += ReportTemplateChecks.Run(root, output);
+    }
     string result = $"PASS {checks} controlli Reports";
     File.WriteAllText(Path.Combine(output, "esito.txt"), result); Console.WriteLine(result); return 0;
 }
