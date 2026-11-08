@@ -7,7 +7,7 @@ Decisione dell'utente dell'8/11, «Sì, ANTHEA prima»: la 1.19.0 esce prima dei
 
 - [x] Set ufficiale AV da Model `ff318f87` e Checker `9e513417`, pubblicati l'8/11; le 15 DLL identiche al candidato F7d provato nella full.
 - [x] Snapshot AV in `lib/Checker` e provenienza F4 della release AV.
-- [ ] Versione 1.19.0, istruzioni dell'installer e note di rilascio.
+- [x] Versione 1.19.0 (già nel progetto da 18d96c67), istruzioni dell'installer con il PDF e note di rilascio.
 - [ ] Full di rilascio, suite native Straus7, setup e tag `v1.19.0`.
 
 ## Report e template di stili — 6 novembre 2026

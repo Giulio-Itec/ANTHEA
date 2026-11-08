@@ -1,17 +1,15 @@
 # ANTHEA 1.19.0 — note di rilascio
 
-Bozza dell'8 novembre 2026 (corsia F7d, aggiornata da F7e con le decisioni dell'utente della mattina), dal testo preparato da
-ChatGPT il 6–7/11 (`chatgpt-compiti/ANTHEA-1.19.0-note-bozza.md`).
-**Data di rilascio: da completare in F8.** **Librerie: set candidato F7d, solo prove; F8 le sostituisce con il set ufficiale da
-origin/master (versioni, commit e manifest da riscrivere).**
+Note dell'8 novembre 2026. La 1.19.0 migliora il salvataggio dei progetti e dei risultati dei modelli, introduce le sezioni c.a. in
+formato compatto, rende espliciti i problemi dell'archivio con **Salvataggio con avvisi** e permette di scegliere un **template di stili
+per i report**. Con le librerie nuove cambiano alcuni risultati delle verifiche: sono elencati in
+[Cambi di comportamento delle librerie](#cambi-di-comportamento-delle-librerie). È una versione con funzioni nuove, quindi aumenta il
+secondo componente del numero.
 
-La 1.19.0 migliora il salvataggio dei progetti e dei risultati dei modelli, introduce le sezioni c.a. in formato compatto, rende espliciti
-i problemi dell'archivio con **Salvataggio con avvisi** e permette di scegliere un **template di stili per i report**. Con le librerie
-nuove cambiano alcuni risultati delle verifiche: sono elencati in [Cambi di comportamento delle librerie](#cambi-di-comportamento-delle-librerie).
-È una versione con funzioni nuove, quindi aumenta il secondo componente del numero.
+Contiene le librerie GPC della release AV, le prime della migrazione comune GPC, e le guide Rev71.
 
-Il testo è scritto per chi usa ANTHEA; in F8 diventa anche l'annotazione del tag `v1.19.0`. Il verbale tecnico del rilascio sarà in
-`installer-1.19.0.md`.
+Il testo è scritto per chi usa ANTHEA ed è anche l'annotazione del tag `v1.19.0`, sul commit del setup. Il verbale tecnico del rilascio è
+in [installer-1.19.0.md](installer-1.19.0.md).
 
 ## Salvataggio e compatibilità dei file
 
@@ -110,9 +108,10 @@ Misure dello sviluppo, non garanzie su ogni progetto:
 
 ## Cambi di comportamento delle librerie
 
-Con Checker `codex/steel-consolidation-20261105` (`3b40e2a0`), ammesso nel rilascio dall'utente l'8/11, cambiano i risultati seguenti.
-Ognuno è spiegato dal commit indicato; nessun altro risultato di ANTHEA cambia (full della 1.19.0 sul set candidato F7d confrontata con
-quella della prova F7c, 8/11).
+Con le librerie della release AV, che comprendono il consolidamento dell'acciaio di Checker (`codex/steel-consolidation-20261105`,
+`3b40e2a0`, ammesso nel rilascio dall'utente l'8/11), cambiano i risultati seguenti. Ognuno è spiegato dal commit indicato; nessun altro
+risultato di ANTHEA cambia (full della 1.19.0 confrontata suite per suite con quella della prova precedente delle librerie, 8/11; le DLL
+della release AV sono identiche byte per byte a quelle provate).
 
 ### Fondazioni superficiali: Brinch Hansen con carico inclinato e H_L = 0 (Geotechnics 0.28.0.0, `f424383b`)
 
@@ -152,11 +151,16 @@ e il contratto K0 del calcestruzzo è invariato.
 
 ## Librerie
 
-**Set candidato F7d, solo prove** (`gpc-candidate-20261108-f7d`, manifest `05005D29…86F5`), da sostituire in F8 con il set ufficiale da
-origin/master: GPCModel 5.50.0.2, GPCModelData 0.3.0.30, GPC.Model.Persistence 3.15.0.2, GPC.Archive 1.2.0.3, GPC.Converter 2.20.0.2
-(Model `d28ce8c2` + versioni `ff318f87`); Concrete 0.37.0.1, Steel 2.134.0.0, CompositeBridge 1.31.0.1, Geotechnics 0.28.0.0, Masonry
-0.10.0.35, GPC.Design 0.45.0.9 (Checker `3b40e2a0` + versioni `9e513417`); GPCUtilities 3.0.0.0, GPCGeometry 2.3.0.0, DelaunayMesh 2.0.0.14
-invariati.
+**Release AV**, set ufficiale da origin/master (Model `ff318f87`, Checker `9e513417`, pubblicati l'8/11; Geometry `6734eee1` e
+Utilities `e57b440b` come nella 1.18.0):
+- GPCModel 5.50.0.2, GPCModelData 0.3.0.30, GPC.Model.Persistence 3.15.0.2, GPC.Archive 1.2.0.3 (nuova: il contenitore dei risultati),
+  GPC.Converter 2.20.0.2;
+- GPCChecker.Concrete 0.37.0.1, GPCChecker.Steel 2.134.0.0, GPCChecker.CompositeBridge 1.31.0.1, GPCChecker.Geotechnics 0.28.0.0,
+  GPCChecker.Masonry 0.10.0.35, GPC.Design 0.45.0.9;
+- GPCUtilities 3.0.0.0, GPCGeometry 2.3.0.0 e DelaunayMesh 2.0.0.14 invariati.
+
+La 1.18.0 aveva la release AU (GPCModel 5.38.0.0). Le DLL di AV sono identiche byte per byte al set candidato con cui la 1.19.0 è stata
+provata; tutte le suite delle librerie passano.
 
 ## Guide
 
@@ -188,4 +192,5 @@ elencati sopra, ognuno con la sua voce nel registro delle differenze:
 - Ramo di rilascio `claude/anthea-1190-rilascio`: `codex/anthea-1190-integrazione` `7bfb3a95` + merge di `refactoring/report-template`
   `dc1b8d24` (`95242989`); template dei report: `docs/refactoring/report-template-20261106.md`, voce `REPORT-TEMPLATE-20261106`.
 - Registro: `docs/refactoring/registro-differenze.json`, 433 voci (416 al tag 1.18.0).
-- Corsie F7d ed F7e: `gpc-unification-20261102/revisione-claude-20261103/correzioni-F7d.md` (F7e nella sua sezione).
+- Corsie F7d, F7e e R119 (rilascio): `gpc-unification-20261102/revisione-claude-20261103/correzioni-F7d.md` (F7e e R119 nelle loro
+  sezioni); verbale tecnico [installer-1.19.0.md](installer-1.19.0.md).
