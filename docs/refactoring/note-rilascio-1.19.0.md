@@ -1,6 +1,7 @@
 # ANTHEA 1.19.0 — note di rilascio
 
-Bozza dell'8 novembre 2026 (corsia F7d), dal testo preparato da ChatGPT il 6–7/11 (`chatgpt-compiti/ANTHEA-1.19.0-note-bozza.md`).
+Bozza dell'8 novembre 2026 (corsia F7d, aggiornata da F7e con le decisioni dell'utente della mattina), dal testo preparato da
+ChatGPT il 6–7/11 (`chatgpt-compiti/ANTHEA-1.19.0-note-bozza.md`).
 **Data di rilascio: da completare in F8.** **Librerie: set candidato F7d, solo prove; F8 le sostituisce con il set ufficiale da
 origin/master (versioni, commit e manifest da riscrivere).**
 
@@ -53,6 +54,9 @@ Contenuti dei report allineati ai risultati correnti:
 - **Sezione in c.a.**: la relazione completa riporta la duttilità in curvatura calcolata dalla libreria (primo snervamento, bilineare,
   momento resistente e massimo, curvatura ultima e μφ) o il motivo per cui non è disponibile; il progetto della sezione chiede la stessa
   analisi della scheda. JSON dei risultati, CSV dei punti e archivi non cambiano.
+- **Sezione composta da ponte**: nella sezione efficace di classe 4 della relazione le lunghezze in mm (larghezze e spessori dei
+  pannelli, bc, b1 eff, b2 eff, anima inefficace e sue quote) non si scrivono più in notazione esponenziale: un residuo di
+  arrotondamento come «Anima inefficace: 4,55E-13 mm» si legge «0,00 mm». Le altre grandezze e i valori da 0,01 mm in su non cambiano.
 
 Nessun calcolo nuovo: cambiano la forma e i capitoli dei report.
 
@@ -114,8 +118,8 @@ quella della prova F7c, 8/11).
 
 Con la forza orizzontale solo lungo B′ (H_L = 0, sempre così per una fondazione circolare) la rottura si calcola solo nella direzione di
 B′; prima si calcolava anche quella di L′ (senza inclinazione), che poteva governare e allontanava la capacità dal valore a carico normale
-quando H tende a zero. Decisione dell'utente del 5/11 (punto Q1 delle domande del 29/10). Con H_L > 0 non cambia nulla: si calcolano le due
-direzioni e si adotta la minore.
+quando H tende a zero. Decisione dell'utente del 5/11 (punto Q1 delle domande del 29/10), confermata nella 1.19.0 l'8/11 («ok»). Con
+H_L > 0 non cambia nulla: si calcolano le due direzioni e si adotta la minore.
 
 | Caso (B = 2 m, L = 3 m, D = 1 m, N = 600 kN, Hx = 60 kN) | Grandezza | 1.18 / F7c | 1.19.0 |
 |---|---|---|---|
@@ -136,8 +140,9 @@ dell'iterazione di classe 4, 4,454630545·10⁻⁸ → 4,454630531·10⁻⁸): n
 i numeri che sono già arrotondamenti:
 - colonna **Residuo equilibrio** e testo «Residuo massimo dell'equilibrio N–Mx» della scheda e della relazione: per esempio 3,579E-15 →
   0, 5,587E-15 → 1,589E-16;
-- nella relazione di un progetto con una sezione di classe 4: «Anima inefficace: 0,00 mm» diventa «Anima inefficace: 2,27E-13 mm»
-  (Aeff/Alorda e Ieff/Ilorda restano 1,00).
+- la lunghezza dell'anima inefficace di una sezione con l'anima tutta efficace è un residuo di arrotondamento (2,27·10⁻¹³ mm nella
+  relazione di un progetto di prova): con il formato nuovo delle lunghezze (sopra, «Template dei report») la relazione scrive sempre
+  «Anima inefficace: 0,00 mm» (Aeff/Alorda e Ieff/Ilorda 1,00), come prima.
 
 ### Nessun cambio
 
@@ -164,6 +169,17 @@ La Rev70 aveva aggiunto sezioni compatte, compatibilità dei file, «Salvataggio
   dell'archivio.
 - Restano quelli della 1.18.0.
 
+## Riferimenti delle prove rinnovati
+
+Decisione dell'utente dell'8/11 sui riferimenti congelati: «aggiorna» (byte rinnovati, nessuna tolleranza nuova). Solo quelli dei cambi
+elencati sopra, ognuno con la sua voce nel registro delle differenze:
+- **Fondazioni superficiali** (`FON-HANSEN-02`): attesi di Brinch Hansen inclinato con H_L = 0 in `FoundationWorkspace.Checks` e
+  `UiChecks`, dal riferimento indipendente rigenerato in Checker (caso 459 469,20 kPa).
+- **Sezione composta da ponte** (`SM-CB131-ARROTONDAMENTI`, `REPORT-LUNGHEZZE-MM-20261108`): 12 attesi F3 (risultati e relazioni di 6
+  fixture), 3 transizioni del report di progetto, 15 tracce della vista, 14 impronte dei disegni e i valori registrati di 6 fixture: solo
+  arrotondamenti e la riga «Anima inefficace» a 0,00 mm.
+- **Sezione in c.a.** (`REPORT-TEMPLATE-CURVA-20261108`): il report della curva M–χ registrato con la «Duttilità in curvatura» (11 fixture).
+
 ## Fonti
 
 - Bozza di ChatGPT con le fonti S0–S18 e R1–R12 (commit ANTHEA e Model di ogni novità):
@@ -171,5 +187,5 @@ La Rev70 aveva aggiunto sezioni compatte, compatibilità dei file, «Salvataggio
   `Repository/chatgpt-compiti/anthea-1190-integrazione-resoconto.md`.
 - Ramo di rilascio `claude/anthea-1190-rilascio`: `codex/anthea-1190-integrazione` `7bfb3a95` + merge di `refactoring/report-template`
   `dc1b8d24` (`95242989`); template dei report: `docs/refactoring/report-template-20261106.md`, voce `REPORT-TEMPLATE-20261106`.
-- Registro: `docs/refactoring/registro-differenze.json`, 429 voci (416 al tag 1.18.0).
-- Corsia F7d: `gpc-unification-20261102/revisione-claude-20261103/correzioni-F7d.md`.
+- Registro: `docs/refactoring/registro-differenze.json`, 433 voci (416 al tag 1.18.0).
+- Corsie F7d ed F7e: `gpc-unification-20261102/revisione-claude-20261103/correzioni-F7d.md` (F7e nella sua sezione).
