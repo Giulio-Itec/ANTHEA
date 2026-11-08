@@ -1,9 +1,9 @@
 {
     "snapshotDate":  "2026-11-08",
     "generator":  "tools/libs/Update-Snapshot.ps1 -ReleaseSet",
-    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\gpc-f6-claude\\F7\\sets\\gpc-candidate-20261108-f7d",
-    "releaseSetCreated":  "2026-11-08T00:51:11",
-    "candidate":  true,
+    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\gpc-f6-claude\\F7\\sets\\gpc-release-20261108-av",
+    "releaseSetCreated":  "2026-11-08T09:46:05",
+    "candidate":  false,
     "targetFramework":  "netstandard2.0",
     "nuget":  [
                   {
@@ -57,7 +57,7 @@
                            "repository":  "Model",
                            "branch":  "claude/f7d-set",
                            "commit":  "ff318f875b992ec5efdbde8e40479b52d38f6637",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.320"
                        },
                        {
@@ -68,7 +68,7 @@
                            "repository":  "Model",
                            "branch":  "claude/f7d-set",
                            "commit":  "ff318f875b992ec5efdbde8e40479b52d38f6637",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.320"
                        },
                        {
@@ -79,7 +79,7 @@
                            "repository":  "Model",
                            "branch":  "claude/f7d-set",
                            "commit":  "ff318f875b992ec5efdbde8e40479b52d38f6637",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.320"
                        },
                        {
@@ -90,7 +90,7 @@
                            "repository":  "Model",
                            "branch":  "claude/f7d-set",
                            "commit":  "ff318f875b992ec5efdbde8e40479b52d38f6637",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.320"
                        },
                        {
@@ -101,7 +101,7 @@
                            "repository":  "Model",
                            "branch":  "claude/f7d-set",
                            "commit":  "ff318f875b992ec5efdbde8e40479b52d38f6637",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.320"
                        },
                        {
@@ -112,7 +112,7 @@
                            "repository":  "Checker",
                            "branch":  "claude/f7d-set",
                            "commit":  "9e51341775377875f4214ccd4c1f4fe33d47c6a6",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.320"
                        },
                        {
@@ -123,7 +123,7 @@
                            "repository":  "Checker",
                            "branch":  "claude/f7d-set",
                            "commit":  "9e51341775377875f4214ccd4c1f4fe33d47c6a6",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.320"
                        },
                        {
@@ -134,7 +134,7 @@
                            "repository":  "Checker",
                            "branch":  "claude/f7d-set",
                            "commit":  "9e51341775377875f4214ccd4c1f4fe33d47c6a6",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.320"
                        },
                        {
@@ -145,7 +145,7 @@
                            "repository":  "Checker",
                            "branch":  "claude/f7d-set",
                            "commit":  "9e51341775377875f4214ccd4c1f4fe33d47c6a6",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.320"
                        },
                        {
@@ -156,7 +156,7 @@
                            "repository":  "Checker",
                            "branch":  "claude/f7d-set",
                            "commit":  "9e51341775377875f4214ccd4c1f4fe33d47c6a6",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.320"
                        },
                        {
@@ -167,7 +167,7 @@
                            "repository":  "Checker",
                            "branch":  "claude/f7d-set",
                            "commit":  "9e51341775377875f4214ccd4c1f4fe33d47c6a6",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.320"
                        }
                    ]

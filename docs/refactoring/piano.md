@@ -1,5 +1,15 @@
 # Refactoring di ANTHEA: piano operativo
 
+## ANTHEA 1.19.0 — 8 novembre 2026
+
+Decisione dell'utente dell'8/11, «Sì, ANTHEA prima»: la 1.19.0 esce prima dei plug-in Rhino, con le librerie da origin/master. Ramo
+`claude/anthea-1190-rilascio` (corsie F7d, F7e e R119); [note di rilascio](note-rilascio-1.19.0.md), verbale `installer-1.19.0.md`.
+
+- [x] Set ufficiale AV da Model `ff318f87` e Checker `9e513417`, pubblicati l'8/11; le 15 DLL identiche al candidato F7d provato nella full.
+- [x] Snapshot AV in `lib/Checker` e provenienza F4 della release AV.
+- [ ] Versione 1.19.0, istruzioni dell'installer e note di rilascio.
+- [ ] Full di rilascio, suite native Straus7, setup e tag `v1.19.0`.
+
 ## Report e template di stili — 6 novembre 2026
 
 Ramo `refactoring/report-template` da `main` af8009fb; [verbale e verifiche](report-template-20261106.md).
@@ -92,7 +102,8 @@ Richiesta dell'utente: correggere anche i rilievi bassi della revisione del 2/11
 - [x] F7a (branch `claude/f7-anthea`, 4/11/2026): set candidato delle librerie integrate in `lib/Checker`, sezioni c.a. nel formato compatto
   con i documenti di versione 5 (registro `GPC-F7A-01`), ANTHEA 1.19.0 sul branch, cattura `cattura-mainwindow` aggiornata con l'ok
   dell'utente, merge di origin/main (progetti: quarantena dei fogli, copie di recupero e salvataggio in background su GPC.Archive).
-- [ ] F7/F8 comuni: set coerente pubblicato con GPC.Archive da origin/master, snapshot ufficiale e full.
+- [x] F7/F8 comuni: set coerente pubblicato con GPC.Archive da origin/master (release AV, 8/11) e snapshot ufficiale; full nella
+  sezione «ANTHEA 1.19.0».
 
 ## ANTHEA 1.18.0 — 3 novembre 2026
 

@@ -1,9 +1,9 @@
 {
     "schema":  1,
     "generator":  "Checker/build/Release-Set.ps1",
-    "created":  "2026-11-08T00:51:11",
-    "candidate":  true,
-    "previous":  "C:\\Users\\g.pacini\\Documents\\Repository\\gpc-f6-claude\\F7\\sets\\gpc-candidate-20261105-f7c\\release-set.json",
+    "created":  "2026-11-08T09:46:05",
+    "candidate":  false,
+    "previous":  "C:\\Users\\g.pacini\\Documents\\Repository\\ANTHEA\\supporto\\artefatti\\librerie-20261102-au\\release-set.json",
     "repositories":  {
                          "Utilities":  {
                                            "commit":  "e57b440b16a0a311a7bf0af2f9cf4d2681b83491",
@@ -18,12 +18,12 @@
                          "Model":  {
                                        "commit":  "ff318f875b992ec5efdbde8e40479b52d38f6637",
                                        "branch":  "claude/f7d-set",
-                                       "onOriginMaster":  false
+                                       "onOriginMaster":  true
                                    },
                          "Checker":  {
                                          "commit":  "9e51341775377875f4214ccd4c1f4fe33d47c6a6",
                                          "branch":  "claude/f7d-set",
-                                         "onOriginMaster":  false
+                                         "onOriginMaster":  true
                                      }
                      },
     "files":  [

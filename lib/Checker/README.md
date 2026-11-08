@@ -1,18 +1,27 @@
 # DLL Checker
 
-**Set candidato F7d — librerie della 1.19.0 con il consolidamento dell'acciaio di Checker (8 novembre 2026, branch `claude/anthea-1190-rilascio`, non pubblicato).**
-Set `gpc-candidate-20261108-f7d` prodotto da `Checker/build/Release-Set.ps1 -Candidate -Previous <set F7c>` su Model `ff318f87` e
-Checker `9e513417` (branch `claude/f7d-set` in `gpc-f6-claude/F7`: Model codex `d28ce8c2` e Checker `codex/steel-consolidation-20261105`
-`3b40e2a0`, congelato e ammesso dall'utente l'8/11, con le sole versioni candidate; non pushati) e installato con
-`Update-Snapshot.ps1 -ReleaseSet ... -AllowCandidate -Install`. Rispetto a F7c: Steel 2.134 (classe 4, anime RHS, tagli concorrenti,
-ingobbamento), CompositeBridge 1.31 (solutore e lotti, coperture delle barre), Concrete 0.37 (fasi senza memoria, API nuova),
-Geotechnics 0.28 (Hansen inclinato: direzione di L′ solo con H_L > 0); Model ha lo stesso codice di F7c.
-Versioni: GPCModel 5.50.0.2, GPCModelData 0.3.0.30, GPC.Model.Persistence 3.15.0.2, GPC.Archive 1.2.0.3, GPC.Converter 2.20.0.2,
-Concrete 0.37.0.1, Steel 2.134.0.0, CompositeBridge 1.31.0.1, Geotechnics 0.28.0.0, Masonry 0.10.0.35, GPC.Design 0.45.0.9;
-Utilities, Geometry e DelaunayMesh invariati. Suite del set: Model Core 63, UnitTest 1950 (7 ignorati; 339 prove Straus7 native
-comprese, chiave inserita), .NET Framework 141; Checker 10.822 (Concrete 988 con il contratto K0, Steel 122, CompositeBridge 529,
-Steel.Members 7429, ModelChecker 702); API: 26 rimozioni approvate di GPCModel (L12), nessun'altra. Manifest del set `05005D29…86F5`.
-Set candidato: la prova di provenienza F4 di `ANTHEA.Architecture.Tests` fallisce come previsto finché F8 non installa il set ufficiale.
+**Release AV — librerie della 1.19.0: migrazione comune GPC e consolidamento dell'acciaio (8 novembre 2026).** Set ufficiale
+`gpc-release-20261108-av` da Model `ff318f87` e Checker `9e513417` su origin/master, pubblicati l'8/11 per la 1.19.0 (decisione
+dell'utente «Sì, ANTHEA prima»; regola del 29/10: ANTHEA esce solo con librerie da origin/master). Sono i commit del set candidato F7d
+(branch `claude/f7d-set` in `gpc-f6-claude/F7`: Model codex `d28ce8c2` e Checker `codex/steel-consolidation-20261105` `3b40e2a0`,
+congelato e ammesso dall'utente l'8/11, ciascuno con un commit di versioni). Geometry `6734eee1` e Utilities `e57b440b` invariati.
+Contenuto rispetto ad AU:
+- Model: la migrazione comune GPC (correzioni F6 L1–L6 della revisione del 3/11, vocabolario Arachne, formato compatto di
+  GPC.Model.Persistence, GPC.Archive come contenitore a blocchi dei risultati): GPCModel 5.50.0.2, GPCModelData 0.3.0.30,
+  GPC.Model.Persistence 3.15.0.2, GPC.Archive 1.2.0.3 (nuova in un set ufficiale), GPC.Converter 2.20.0.2;
+- Checker: Steel 2.134.0.0 e GPCModelChecker 2.43.0.0 (classe 4, anime RHS, tagli concorrenti, ingobbamento), CompositeBridge 1.31.0.1
+  (solutore diretto e lotti, coperture delle barre), Concrete 0.37.0.1 (fasi senza memoria, API nuova), Geotechnics 0.28.0.0 (Hansen
+  inclinato: direzione di L′ solo con H_L > 0), Masonry 0.10.0.35 e GPC.Design 0.45.0.9.
+
+`Release-Set.ps1 -Previous` rispetto ad AU: Model Core 63, UnitTest 1950 (7 ignorati; prove Straus7 native comprese, chiave inserita)
+e .NET Framework 141; Checker 10.822 (Concrete net472 988 con il contratto K0, Steel 122, CompositeBridge 529, Geotechnics 202,
+Calculation 175, ShallowFoundation 29, EmbeddedWalls 99, Steel.Members 7429, Design 274 net8 e 273 net472, ModelChecker 702). Zero
+fallimenti; API: le 26 rimozioni approvate di GPCModel (L12), nessun'altra. Le 15 DLL sono identiche bit per bit al candidato F7d
+(manifest `05005D29…86F5`) provato nella full di ANTHEA. Le differenze sono registrate come FON-HANSEN-02, SM-CB131-ARROTONDAMENTI e
+REPORT-LUNGHEZZE-MM-20261108 (attesi F3 della sezione composta rinnovati con l'ok dell'utente dell'8/11). Installato con
+`Update-Snapshot.ps1 -ReleaseSet ... -Install`; set completo in `gpc-f6-claude/F7/sets/gpc-release-20261108-av` (manifest
+`D004291C…30CE`), accanto al candidato. Rispetto al candidato cambiano solo `candidate`, la data, `previous` (il set AU) e
+`onOriginMaster`.
 
 **Set candidato F7a — librerie integrate della migrazione GPC (4 novembre 2026, branch `claude/f7-anthea`, non pubblicato).** Set
 `gpc-candidate-20261104-f7a` prodotto da `Checker/build/Release-Set.ps1 -Candidate` su Model `4375e7a5` e Checker `5f6e4e44` (branch
