@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-11-06",
+  "aggiornato": "2026-11-08",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -15106,6 +15106,42 @@
         "tests/fixtures/f3/manifest.json",
         "supporto/artefatti/report-template",
         "supporto/SUPERATI/report-template-rev71-20261106/manifest.json"
+      ]
+    },
+    {
+      "id": "FON-HANSEN-02",
+      "data": "2026-11-08",
+      "fase": "Rilascio 1.19.0 (ramo claude/anthea-1190-rilascio, set candidato F7d)",
+      "titolo": "Brinch Hansen con carico inclinato: con H_L = 0 solo la direzione di B′ (Geotechnics 0.28.0.0)",
+      "famiglia": "geotecnica/fondazioni superficiali/Brinch Hansen",
+      "modulo": "geo_fondazioni_superficiali",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "GPCChecker.Geotechnics 0.28.0.0 (Checker f424383b, unito nel consolidamento con f394e47e, nel set candidato F7d da 3b40e2a0): nel ramo del carico inclinato di Brinch Hansen la direzione di L′ si calcola solo con H_L > 0 (§3.4.2 del manuale di riferimento, le due componenti HB e HL). Con la forza orizzontale solo lungo B′ (H_L = 0, sempre così su una fondazione circolare) resta la sola direzione di B′ e, drenato, la capacità tende al carico normale (3.19–3.20) per H → 0; prima, dalla 1.16.0 (FON-HANSEN-01), la direzione di L′ senza inclinazione poteva governare subito. Punto Q1 delle domande del 29/10, deciso dall'utente il 5/11; Q2 e Q3 restano come il manuale. Riferimento e avvisi dicono quale caso si applica: «direzione di B′ (HL = 0)» o «direzioni di B′ e di L′, la minore».",
+      "codice": [
+        "lib/Checker/GPCChecker.Geotechnics.dll",
+        "tests/FoundationWorkspace.Checks/Program.cs (ContractChecks, Hansen con carico inclinato)"
+      ],
+      "segno": "A favore (capacità più alta) dove con H_L = 0 governava la direzione di L′: caso 459 del manuale (non drenato, Hx = 60 kN) qlim 455,04 → 469,20 kPa (+3,1 %); nel manuale anche 456 (drenato, D = 0, Hx = 6 kN) 162,75 → 194,47 kPa e 462 (non drenato, Hx = 6 kN) 455,04 → 479,63 kPa. Invariato dove governava già B′ (caso 426) e con H_L > 0.",
+      "effetto_quantificato": "FoundationWorkspace.Checks e FoundationWorkspace.UiChecks (B = 2 m, L = 3 m, D = 1 m, N = 600 kN, Hx = 60 kN): drenato (caso 426) qlim 522,6316 kPa invariato, relazione con «direzione di B′ (HL = 0)» e l'avviso «La direzione di L′ si calcola solo in presenza di HL (§3.4.2)» al posto di «direzioni di B′ e di L′ … si adotta la minore (B′)»; non drenato (caso 459) qlim 455,0354 → 469,2049 kPa, resistenza qlim·A′/2,3 1187,05 → 1224,01 kN, indice N/R 0,505 → 0,490, correzioni additive della coesione (forma, profondità, inclinazione, fattore) 0 · 0,133 · 0 · 1,133 (direzione di L′) → 0,005 · 0,2 · 0,035 · 1,17 (direzione di B′). Nessuna fixture F3 di fondazioni cambia (nessuna ha H_L = 0 con H > 0).",
+      "decisione": {
+        "data": "2026-11-08",
+        "utente": "«ok» alla domanda «Hansen Q1 nella 1.19.0» (domanda 1 di F7d); «aggiorna» per i riferimenti congelati (domanda 3).",
+        "opzione": "aggiorna",
+        "precedente": "Q1 deciso il 5/11/2026 («per i 3 punti segui le raccomandazioni»); la nota del 5/11 lo prevedeva dopo il tag v1.19.0, il consolidamento di Checker lo ha unito prima.",
+        "esito": "attesi di ANTHEA presi dal riferimento indipendente rigenerato da Checker (califfo_reference.py, tests/ShallowFoundation.Tests/califfo-reference.json, caso 459 qult 0,4692048512957612 MPa e correzioni additive 0,004603 · 0,2 · 0,034525), non dal risultato del codice; testi della relazione dagli avvisi della libreria. Cambio di comportamento nelle note 1.19.0."
+      },
+      "test": [
+        "FoundationWorkspace.Checks e FoundationWorkspace.UiChecks: atteso indipendente del caso 459, riga delle correzioni additive della direzione di B′, relazione con la sola direzione di B′ (drenato e non drenato) e assenza di «direzioni di B′ e di L′»; caso 426 invariato",
+        "Checker: ShallowFoundation.Tests (29 PASS sul set F7d), BearingTests.HansenWithAnInclinedLoad"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261108-005411-f7d-full (FoundationWorkspace.Checks e UiChecks NEW-FAIL sui 3 controlli di Hansen)",
+        "supporto/artefatti/ci/20261108-075927-f7e-raccolta-1 (FoundationWorkspace.Checks e UiChecks PASS con gli attesi nuovi)",
+        "gpc-unification-20261102/revisione-claude-20261103/correzioni-F7d.md §7.1"
+      ],
+      "voci_collegate": [
+        "FON-HANSEN-01"
       ]
     }
   ]
