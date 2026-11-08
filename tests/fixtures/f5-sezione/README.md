@@ -203,3 +203,13 @@ tracce prima della ricattura: 17 tracce dei fogli con azioni unificate, nessun'a
 - `vista-storica.json`: per la sola `sezione-a-t-sollecitazioni-uniche` i 17 valori della sequenza (i dati), `word/document.xml` e la figura
   del dominio 2D del report, `word/document.xml` del breve, da una registrazione temporanea di `ui/check-sezione-view`, non committata
   (corsa `supporto/artefatti/ci/20261102-123857-criterio-stati-registrazione`). Report della curva M–χ e le altre 10 fixture invariati.
+
+## Duttilità nel report della curva M–χ (8/11/2026, ANTHEA 1.19.0, registro REPORT-TEMPLATE-CURVA-20261108)
+
+`refactoring/report-template` (`dc1b8d24`, unito nel ramo di rilascio con `95242989`, voce REPORT-TEMPLATE-20261106) aggiunge alla
+relazione della curva M–χ il paragrafo «Duttilità in curvatura» (`ReportConcrete`, `ConcreteReportCurvature`); il suo profilo
+standard non eseguiva `ui/check-sezione-view`. Decisione dell'utente dell'8/11/2026 sui riferimenti congelati: «aggiorna».
+- `vista-storica.json`: `report_curva` → `word/document.xml` delle 11 fixture, da una registrazione temporanea non committata di
+  `ui/check-sezione-view` (uscita `supporto/artefatti/f7e/registra-sezione-view`, PASS 223 controlli con le sole 11 differenze
+  annotate). Ogni altra parte dei report della curva (figure comprese), i report Word e brevi, la sequenza dei dati e dei risultati,
+  sola lettura, nomi e finestre sono invariati.

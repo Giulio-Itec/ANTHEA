@@ -15229,6 +15229,41 @@
       "voci_collegate": [
         "SM-CB131-ARROTONDAMENTI"
       ]
+    },
+    {
+      "id": "REPORT-TEMPLATE-CURVA-20261108",
+      "data": "2026-11-08",
+      "fase": "Rilascio 1.19.0 (ramo claude/anthea-1190-rilascio)",
+      "titolo": "Sezione c.a.: valori registrati del report della curva M–χ con la «Duttilità in curvatura»",
+      "famiglia": "sezione-ca/report",
+      "modulo": "str_palo (F5.10)",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "refactoring/report-template (dc1b8d24, unito con 95242989, voce REPORT-TEMPLATE-20261106) aggiunge alla relazione della curva M–χ il paragrafo «Duttilità in curvatura» (μφ e grandezze della libreria, o il motivo per cui non è calcolata; ReportConcrete, ConcreteReportCurvature). Il profilo standard di report-template non eseguiva ui/check-sezione-view, quindi i valori registrati di tests/fixtures/f5-sezione/vista-storica.json non erano aggiornati: la full F7d si fermava su str_palo--circolare-cava, «report della curva M–χ … diversa word/document.xml».",
+      "codice": [
+        "src/ANTHEA.Reports/Generators/ReportConcrete.cs (Duttilità in curvatura)",
+        "tests/fixtures/f5-sezione/vista-storica.json (report_curva)"
+      ],
+      "segno": "Neutro: solo il testo del report; curva, figure, risultati e dati invariati.",
+      "effetto_quantificato": "vista-storica.json: report_curva → word/document.xml di 11 fixture su 11; le altre parti dei report della curva (figure comprese), i report Word e brevi, la sequenza dei dati e dei risultati, sola lettura, nomi e finestre invariati (registrazione temporanea: PASS 223 controlli, le sole 11 differenze annotate).",
+      "decisione": {
+        "data": "2026-11-08",
+        "utente": "«aggiorna» per i riferimenti congelati (domanda 3 e 4 di F7d); report-template nella 1.19.0 («Sì, nella 1.19.0», 8/11 00:15).",
+        "opzione": "aggiorna",
+        "esito": "11 impronte di word/document.xml da una registrazione temporanea non committata di ui/check-sezione-view (supporto/artefatti/f7e/registra-sezione-view)."
+      },
+      "test": [
+        "ui/check-sezione-view: report della curva M–χ delle 11 fixture uguale al registrato",
+        "Application.Tests: ConcreteReportCurvatureChecks (report-template)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261108-005411-f7d-full (ui/check-sezione-view NEW-FAIL)",
+        "supporto/artefatti/f7e/registra-sezione-view",
+        "tests/fixtures/f5-sezione/README.md (nota dell'8/11/2026)"
+      ],
+      "voci_collegate": [
+        "REPORT-TEMPLATE-20261106"
+      ]
     }
   ]
 }
