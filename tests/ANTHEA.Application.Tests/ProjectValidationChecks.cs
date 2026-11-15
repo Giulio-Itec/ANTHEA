@@ -80,6 +80,57 @@ internal static class ProjectValidationChecks
                 && !localCache.Of(section).Warnings.Contains(cover[1].Text),
                 module + ": completare Materiali rimuove l'avviso anche dalla cache");
         }
+
+        // The checked sheet without dati (a reference left unresolved, as in the quarantine of the captured file) with a valid
+        // Materiali: the cover is not verifiable, with the usual warning, and the complete sheet beside it keeps its outcome.
+        // First the captured file itself with its Materiali completed: only the pile section stays in quarantine.
+        var filled = DocumentService.Open(fixture, new List<DocumentProblem>());
+        var filledProject = filled.Array("progetti").OfType<JsonObject>().Single();
+        var validMaterial = ProjectDocuments.AddSheet(ProjectDocuments.AddProject(ProjectDocuments.CreateArchive(), "Origine"), "mat_calcestruzzo")["dati"]!;
+        foreach (var material in ProjectSharedData.SubtreeSheets(filledProject).Where(s => s.S("modulo_id") == "mat_calcestruzzo"))
+            material["dati"] = validMaterial.DeepClone();
+        var quarantined = ProjectSharedData.SubtreeSheets(filledProject).Where(s => s.S("modulo_id") == "str_palo" && s["dati"] is null).ToArray();
+        Check(quarantined.Length > 0, "La fixture deve contenere sezioni c.a. senza dati");
+        string filledBefore = filled.ToJsonString();
+        foreach (var section in ProjectSharedData.Sections(filledProject).Where(s => s.Array("fogli").OfType<JsonObject>().Any(f => quarantined.Contains(f))))
+        {
+            var cover = ProjectValidation.CoverChecks(section);
+            Check(cover.Count > 0 && cover.All(c => c.Passed is null && c.Text.Contains("copriferro non verificabile — dati della scheda mancanti", StringComparison.Ordinal)),
+                "Sezione c.a. senza dati: il copriferro resta non verificabile in " + section.S("nome"));
+            Check(cover.All(c => ProjectValidation.Warnings(section).Contains(c.Text)), "Avviso della sezione c.a. senza dati nella copertina");
+        }
+        Check(filled.ToJsonString() == filledBefore, "Validare la sezione c.a. in quarantena non deve riempirla");
+
+        foreach (string module in new[] { "str_palo", PaloOrizzontale.Module })
+        foreach (string variant in new[] { "dati assenti", "dati null", "sezione assente" })
+        {
+            var archive = ProjectDocuments.CreateArchive();
+            var owner = ProjectDocuments.AddProject(archive, "Prova copriferro");
+            ProjectDocuments.AddSheet(owner, "mat_calcestruzzo", "CLS valido");
+            var section = ProjectDocuments.AddSection(owner, "Elemento");
+            // A c.a. section beside it, not two soil sheets: their soil comparison is outside these checks.
+            var complete = ProjectDocuments.AddSheet(section, "str_palo", "Scheda completa");
+            var empty = ProjectDocuments.AddSheet(section, module, "Scheda senza dati");
+            var expected = ProjectValidation.CoverChecks(section, complete).Single();
+            if (variant == "dati assenti") empty.Remove("dati");
+            else if (variant == "dati null") empty["dati"] = null;
+            else empty["dati"]!.AsObject().Remove(module == "str_palo" ? "input" : "sezione");
+            string input = archive.ToJsonString();
+            string label = module + " (" + variant + ")";
+
+            var all = ProjectValidation.CoverChecks(section);
+            Check(all.Count == 2 && all[0] == expected, label + ": la scheda completa mantiene il proprio esito");
+            Check(all[1].Passed is null && all[1].Text.StartsWith("Scheda senza dati: copriferro non verificabile", StringComparison.Ordinal),
+                label + ": la scheda senza dati deve produrre l'avviso di copriferro non verificabile");
+            Check(ProjectValidation.CoverChecks(section, empty).SequenceEqual([all[1]]), label + ": stesso avviso per la sola scheda");
+            var warnings = ProjectValidation.Warnings(section);
+            Check(warnings.Contains(all[1].Text) && ProjectValidation.Warnings(owner).Contains(all[1].Text),
+                label + ": avviso nella sezione e nel contenitore superiore");
+            var localCache = new ProjectCoherenceCache();
+            localCache.NewReading();
+            Check(localCache.Of(section).Warnings.SequenceEqual(warnings), label + ": coerenza diretta e in cache");
+            Check(archive.ToJsonString() == input, label + ": validazione senza mutazioni");
+        }
         return checks;
     }
 }

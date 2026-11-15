@@ -1755,6 +1755,17 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - Evidenze: `supporto/artefatti/ci/20261107-081518-integrazione-1190-consentite` e `supporto/artefatti/integrazione-1190`; resoconto esterno in `Repository/chatgpt-compiti/anthea-1190-integrazione-resoconto.md`. Nessun push, tag, cambio di versione o installer.
 
 
+## Copertina — scheda controllata senza dati (15 novembre 2026)
+
+- [x] Clone isolato `gpc-f6-claude/CX/ANTHEA-copriferro`, ramo `claude/copriferro-materiali-vuoto` da main 6c7d03a7 (1.19.0), push disabilitato.
+- [x] Materiali senza dati: già corretto da `6b774b90` e presente nella 1.19.0; i suoi 53 controlli passano su main.
+- [x] Riprodotta la NullReferenceException rimasta: Materiali valido e scheda controllata (sezione c.a. o palo orizzontale) senza dati o senza blocco della sezione. Rossa anche con la fixture congelata `13-file-salvato.json` dopo aver completato Materiali in memoria.
+- [x] La scheda senza dati dà l'avviso già usato «copriferro non verificabile», con esito nullo. Nessun dato inventato, nessuna mutazione; le altre schede e gli altri materiali mantengono il proprio esito.
+- [x] 93 controlli mirati PASS (53 esistenti e 40 nuovi). Application.Tests 3613, Projects.Checks 22, Presentation.Tests 5143, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS (`supporto/artefatti/ci/20261115-213010-copriferro-verde2`).
+- [ ] Aperto, fuori da questa correzione: il confronto dei terreni fra due schede di terreno quando una è senza dati lancia la stessa eccezione in `Warnings` e nella coerenza (`ProjectSharedFields.cs:159-160`, `ProjectSharedSoils.cs:16-17`). Serve una scelta: saltare la coppia o segnalare i sondaggi assenti.
+- Voce `BUG-COPERTINA-SCHEDA-SENZA-DATI` nel registro. Nessuna versione, libreria, fixture o riferimento congelato cambiato. Nessun push, tag o installer.
+
+
 ## Candidata completa 1.19.1 — compito 208 (16 novembre 2026)
 
 - [x] Clone isolato da 84621b6f, versione 1.19.1 invariata; integrati nell'ordine P10 84c99d93 e strati 48cd276f/83e68e0a, senza conflitti. Vecchia riproduzione rimossa dal commit di correzione, prove ordinarie attive.

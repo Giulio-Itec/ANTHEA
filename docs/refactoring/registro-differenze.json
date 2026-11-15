@@ -15071,6 +15071,45 @@
         "supporto/artefatti/copertina-materiali-vuoto/green2-test.log",
         "supporto/artefatti/ci/20261106-232741-copertina-project-audit/summary.json",
         "supporto/artefatti/ci/20261106-232921-copertina-adapter/summary.json"
+      ],
+      "voci_collegate": [
+        "BUG-COPERTINA-SCHEDA-SENZA-DATI"
+      ]
+    },
+    {
+      "id": "BUG-COPERTINA-SCHEDA-SENZA-DATI",
+      "data": "2026-11-15",
+      "fase": "correzione isolata dopo main 6c7d03a7 (1.19.0)",
+      "titolo": "Copertina: la scheda controllata senza dati non interrompe la validazione del copriferro",
+      "famiglia": "progetti/copriferro",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Dopo BUG-COPERTINA-MATERIALI-VUOTO, ProjectValidation.CoverChecks dereferenziava ancora sheet[\"dati\"] della scheda controllata (sezione c.a. o palo orizzontale) e il suo blocco input/sezione senza verificarne la presenza. Con un Materiali valido e la scheda in quarantena per un riferimento non risolto, come nel file congelato tests/fixtures/f5-shell/cattura-mainwindow/13-file-salvato.json una volta completato Materiali, la validazione terminava con NullReferenceException. La lettura richiede ora un JsonObject e segnala dati mancanti con l'ArgumentException già tradotta nell'avviso «copriferro non verificabile». Nessun dato sostitutivo; le altre schede e gli altri materiali mantengono il proprio esito.",
+      "codice": [
+        "src/ANTHEA.Application/Projects/ProjectValidation.cs:57-66",
+        "tests/ANTHEA.Application.Tests/ProjectValidationChecks.cs"
+      ],
+      "segno": "Nessun valore di calcolo cambia. Una validazione che terminava con eccezione restituisce un avviso con Passed = null.",
+      "effetto_quantificato": "Test rosso con NullReferenceException alla riga 57 prima del fix, anche con la fixture congelata; 93 controlli mirati PASS dopo il fix (53 esistenti e 40 nuovi): fixture con Materiali completato, sezione c.a. e palo orizzontale con dati assenti, null o senza blocco della sezione, esito della scheda completa, avviso nella sezione e nel contenitore, cache e non mutazione del documento.",
+      "decisione": {
+        "data": "2026-11-15",
+        "utente": "Incarico della sessione coordinatrice del 15/11/2026: correzione minima su un clone isolato, test rosso prima; nessun push, tag, versione o riferimento congelato; merge dopo il rilascio sul set AW.",
+        "esito": "Stesso esito non verificabile di Materiali senza dati; commit sul ramo claude/copriferro-materiali-vuoto. Resta aperto il confronto dei terreni fra due schede di terreno quando una è senza dati (ProjectSharedFields.cs:159-160, ProjectSharedSoils.cs:16-17)."
+      },
+      "test": [
+        "Application.Tests / --project-validation: 93 controlli PASS; Application.Tests completa 3613 controlli PASS",
+        "Presentation.Tests: 5143 controlli PASS; Projects.Checks: 22 PASS",
+        "ConcreteLibraryAdapter.Checks completa: 175115 controlli di taglio e torsione, 677559 SLE, 47 della 5l, 906 della 7a e 352 della 13 PASS",
+        "verifiche/project-audit: 988 controlli PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261115-194106-copriferro-rosso2 (rosso, NullReferenceException)",
+        "supporto/artefatti/ci/20261115-195110-copriferro-rosso-fixture (rosso con la fixture congelata)",
+        "supporto/artefatti/ci/20261115-213010-copriferro-verde2/summary.json",
+        "supporto/artefatti/copriferro-nre/project-validation/esito.txt"
+      ],
+      "voci_collegate": [
+        "BUG-COPERTINA-MATERIALI-VUOTO"
       ]
     },
     {

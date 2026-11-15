@@ -91,13 +91,16 @@ public static class ProjectValidation
             var state = material["dati"] as JsonObject ?? throw new ArgumentException("dati della scheda Materiali «" + material.S("nome") + "» mancanti o non validi");
             double fck = J.Number(mf["CLS · fck [MPa]"].Value) ?? throw new ArgumentException("classe CLS di Materiali non valida");
             bool wall = sheet.S("modulo_id") == RetainingWall.Module;
-            var input = wall ? RetainingWall.MaterialSectionInput(sheet["dati"]!.AsObject()) : (JsonObject)sheet["dati"]![sheet.S("modulo_id") == "str_palo" ? "input" : "sezione"]!.DeepClone();
+            // A sheet left without dati (an unresolved reference opened with diagnosis) is not verifiable, like an empty Materiali.
+            var data = sheet["dati"] as JsonObject ?? throw new ArgumentException("dati della scheda mancanti o non validi");
+            var input = wall ? RetainingWall.MaterialSectionInput(data) : data[sheet.S("modulo_id") == "str_palo" ? "input" : "sezione"]?.DeepClone() as JsonObject
+                ?? throw new ArgumentException("dati della sezione mancanti o non validi");
             if (sheet.S("modulo_id") == PaloOrizzontale.Module)
-            { input["shape"] = "Circolare"; input["diameter_mm"] = sheet["dati"]!["generali"].D("diametro") * 1000; }
+            { input["shape"] = "Circolare"; input["diameter_mm"] = data["generali"].D("diametro") * 1000; }
             ConcreteCoverResult check;
             if (wall)
             {
-                var wallData = (JsonObject)sheet["dati"]!.DeepClone(); RetainingWall.Upgrade(wallData);
+                var wallData = (JsonObject)data.DeepClone(); RetainingWall.Upgrade(wallData);
                 check = ConcreteCoverAnalysis.CalculateForBars(input.Required("cover_mm"), state, fck,
                     RetainingWall.MaximumBarDiameter(wallData));
             }
