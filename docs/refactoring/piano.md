@@ -80,7 +80,9 @@ di lunedì 16/11**; registro `PARATIE-22`.
 - [x] Conferma «Storia delle fasi già di progetto per le verifiche SLU» per la storia principale e per ogni caso: senza conferma niente
   SLU di fasce, pali, tubi e sostegni metallici. Documento paratie alla versione 13, i file salvati aprono con la richiesta; avvertenza
   nella relazione.
-- [x] Presentation `--paratie` PASS 1661 (30 controlli nuovi fra A2 e A3); Examples.Tests PASS 472 (95 esempi; 04–06 con la richiesta).
+- [x] Presentation `--paratie` PASS con A2 da solo e con A3 (conteggi nel rapporto dell'agente,
+  `gpc-f6-claude/INT/rapporti/anthea-scheda-20261116.md`); Examples.Tests PASS (95 esempi; senza il commit «DA APPROVARE» 04–06 aprono
+  con la richiesta).
 - [ ] Esempi di distribuzione 04–06 confermati: commit «DA APPROVARE».
 - [ ] Suite WPF `ui/check-paratie-view` (stadio ui, non eseguita dall'agente).
 - [ ] Guide: la conferma in «Richiedere le verifiche» nella prossima edizione, con Word, PDF e transizioni della Wiki.
