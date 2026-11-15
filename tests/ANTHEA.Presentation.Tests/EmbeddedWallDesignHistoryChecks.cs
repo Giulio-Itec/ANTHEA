@@ -61,8 +61,14 @@ internal static partial class EmbeddedWallChecks
                 && r.Diagnostic.EndsWith(EmbeddedWallDocument.DesignHistoryRequest, StringComparison.Ordinal)), "A2: sostegno SLU verificato senza la conferma: " + kind);
         }
         var strip = Example(); strip["check_kind"] = "Ultimate"; strip["rc_sections"] = new JsonArray(EmbeddedWallDocument.NewRow("rc_sections"));
-        try { service.Calculate(strip); e.That(false, "A2: fascia c.a. SLU calcolata senza la conferma della storia."); }
-        catch (ArgumentException error) { e.That(error.Message == EmbeddedWallDocument.DesignHistoryRequest, "A2: messaggio della fascia SLU senza conferma: " + error.Message); }
+        // B2 (review of 15/11): without the confirmation the ULS strips are not verified, but the analysis and the other checks run (here the SLE
+        // of the piles of the same wall), and the scope gives the request.
+        var stripAndPiles = RcPileExample(); stripAndPiles[DesignKey] = false; stripAndPiles["rc_pile_check_kind"] = "Characteristic";
+        stripAndPiles["check_kind"] = "Ultimate"; stripAndPiles["rc_sections"] = new JsonArray(EmbeddedWallDocument.NewRow("rc_sections"));
+        var unconfirmedStrip = service.Calculate(stripAndPiles).NativeAs<EmbeddedWallReportData>();
+        e.That(unconfirmedStrip.Complete && unconfirmedStrip.Checks.Count == 0 && unconfirmedStrip.Scope.Contains("Sezioni in c.a.: " + EmbeddedWallDocument.DesignHistoryRequest)
+            && unconfirmedStrip.RcPiles!.Count > 0 && unconfirmedStrip.RcPiles.All(r => r.Outcome == EngineeringOutcome.Satisfied),
+            "A2 (B2): fascia c.a. SLU senza conferma verificata, oppure analisi e SLE dei pali fermate.");
         strip[DesignKey] = true;
         e.That(service.Calculate(strip).NativeAs<EmbeddedWallReportData>().Checks.Any(c => c.Outcome != EngineeringOutcome.NotEvaluated),
             "A2: fascia c.a. SLU confermata non verificata.");
