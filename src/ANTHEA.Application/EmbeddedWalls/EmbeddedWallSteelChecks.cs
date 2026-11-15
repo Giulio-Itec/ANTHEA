@@ -64,7 +64,7 @@ public static class EmbeddedWallSteelChecks
         return Array.AsReadOnly(results.Select(r => new EmbeddedWallSteelData(r.CaseId, r.StageId, r.SupportId, r.Kind.ToString(),
             r.NormalForce / NewtonsPerKilonewton, r.AnalysedAxialStiffness, r.AtModelCapacity, r.Verification?.CompressionClass, r.Outcome,
             basisMissing ? "Dichiarare provenienza e coefficienti delle azioni della combinazione; nessuna verifica su azioni non classificate."
-                : unconfirmed ? (diagnostics.TryGetValue(r.SupportId, out var invalid) ? invalid + " " : "") + EmbeddedWallDocument.DesignHistoryRequest
+                : unconfirmed ? (diagnostics.TryGetValue(r.SupportId, out var invalid) ? invalid + " " : "") + EmbeddedWallDocument.DesignHistoryRequest(r.CaseId)
                 : diagnostics.GetValueOrDefault(r.SupportId, r.Diagnostic),
             code + "; " + kind + (r.Verification is { } v ? "; " + v.Member.MaterialSource : ""),
             Array.AsReadOnly((r.Verification?.Checks ?? []).Select(c => new EmbeddedWallSteelCheckData(c.Method, c.Reference,

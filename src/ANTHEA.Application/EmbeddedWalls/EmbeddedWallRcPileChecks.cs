@@ -45,7 +45,7 @@ internal static class EmbeddedWallRcPileChecks
                 "Profilo o combinazione non supportati, oppure provenienza delle azioni non dichiarata. Nessuna verifica di sezione eseguita."))).ToArray();
         // A2 (sheet of 16/11/2026): the ULS needs the history confirmed as a design history; the SLE combinations do not.
         if (kind == EmbeddedWallSectionCheckKind.Ultimate && !EmbeddedWallDocument.DesignHistoryConfirmed(data))
-            return analysis.Stages.SelectMany(stage => ids.Select(id => Missing(id, stage.Id, EmbeddedWallDocument.DesignHistoryRequest))).ToArray();
+            return analysis.Stages.SelectMany(stage => ids.Select(id => Missing(id, stage.Id, EmbeddedWallDocument.DesignHistoryRequest(analysis.CaseId)))).ToArray();
         var definitions = new Dictionary<string, EmbeddedWallRcPile>(StringComparer.Ordinal);
         var diagnostics = new Dictionary<string, string>(StringComparer.Ordinal); var seen = new HashSet<string>(StringComparer.Ordinal);
         foreach (var row in EmbeddedWallDocument.Rows(data, "rc_piles"))

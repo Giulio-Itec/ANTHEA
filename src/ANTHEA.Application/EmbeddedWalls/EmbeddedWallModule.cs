@@ -78,7 +78,7 @@ public sealed partial class EmbeddedWallModule : IModuleService
             Text(data, "hydraulic_weight_mode") == "Pressioni FEM" ? "Pesi del terreno: γsat dove la pressione FEM è positiva, γ naturale altrove; nessun peso interpolato con il grado di saturazione né frangia capillare."
                 : "Pesi del terreno distinti dalla quota di falda assegnata, anche quando le pressioni provengono dal FEM.",
             hydraulicChecks.Count == 0 ? "Verifiche idrauliche UPL/HYD non richieste." : "UPL/HYD limitate ai corpi, punti e colonne esplicitamente assegnati. Azioni caratteristiche e coefficienti del profilo normativo dichiarato; Rd aggiuntiva già di progetto. Questi controlli non verificano erosione interna o instabilità non drenata del fondo. Le azioni variabili della combinazione devono essere definite dall'utente.",
-            stripsUnconfirmed ? "Sezioni in c.a.: " + EmbeddedWallDocument.DesignHistoryRequest
+            stripsUnconfirmed ? "Sezioni in c.a.: " + EmbeddedWallDocument.DesignHistoryRequest(model.CaseId)
             : kind.HasValue ? "Sezioni in c.a.: verifiche NTC 2018 su azioni della combinazione dichiarata; rettangolo senza staffe. Nessun coefficiente parziale aggiunto dal servizio. Progetto delle armature e dettagli non eseguiti."
                 : "Verifiche di resistenza ed esercizio delle fasce rettangolari in c.a. non richieste."
         };
