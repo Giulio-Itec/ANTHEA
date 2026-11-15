@@ -8968,6 +8968,28 @@
       ]
     },
     {
+      "id": "PARATIE-23",
+      "data": "2026-11-15",
+      "fase": "dopo la 1.19.0 / paratie",
+      "titolo": "Fase nuova con quote del terreno e falda della fase precedente",
+      "famiglia": "interfaccia/paratie",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Punto A3 della revisione delle paratie (21-22/10), scheda delle decisioni del 16/11 (punto 12). «Aggiungi» in «Fasi costruttive» creava una fase con il terreno a quota 0 sui due lati e la falda assente: dopo uno scavo si rischiava di «riempirlo» per errore. Ora la fase nuova continua terreno sinistra/destra e falda sinistra/destra dell'ultima fase dello stesso caso (la riga si aggiunge in fondo, quindi è la fase che la precede nella storia). Sovraccarichi, carico uniforme, moltiplicatore di EI, sostegni e carichi restano quelli di una riga nuova; un caso senza fasi parte dai valori iniziali del modulo.",
+      "codice": [
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallEditing.cs"
+      ],
+      "segno": "riduce il rischio di errore nei dati; nessun calcolo cambia e i documenti salvati non cambiano. L'aggiunta resta una sola modifica del foglio: nel progetto è un passo dello storico con il nome del foglio («Modifica di «…»»), che «Annulla» toglie per intero.",
+      "decisione": {
+        "data": "2026-11-15",
+        "utente": "«hai tanti punti in lista. possiamo farli» (15/11), sulla raccomandazione A3 della scheda del 16/11",
+        "esito": "attuato sul ramo claude/scheda-20261116, in attesa della scelta dell'utente di lunedì 16/11"
+      },
+      "test": [
+        "Presentation --paratie (EmbeddedWallNewStageChecks): quote e falda dalla fase precedente del caso principale e di un altro caso, senza sovraccarichi, carichi o rigidezza; caso senza fasi con i valori iniziali; nessun nodo condiviso con la fase precedente; righe nuove delle altre tabelle invariate; nel foglio una sola modifica; nel progetto un passo con il nome del foglio, «Annulla» e «Ripristina»"
+      ]
+    },
+    {
       "id": "F5-REL-1130-01",
       "data": "2026-10-23",
       "fase": "Rilascio F5",
