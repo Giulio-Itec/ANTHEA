@@ -64,6 +64,22 @@ internal static class EmbeddedWallStageEditingChecks
         Reject(() => EmbeddedWallDocument.InsertStage(data, EmbeddedWallDocument.NewRow("stages")), data.ToJsonString(), data.ToJsonString,
             "Inserisci: accettata una fase che non appartiene al documento.");
 
+        // R04 of the review G-208: what the insertion interrupts, before it happens. T1 is present in F1 (150 kN) and in F2 (empty: it keeps
+        // 150 kN); a phase inserted between them has no T1, so in F2 it is installed again and the empty prestress starts from 0 kN.
+        data = Sample(); stages = data["stages"]!.AsArray(); f2row = stages[1]!.AsObject();
+        var t1 = EmbeddedWallDocument.NewRow("activations"); t1["stage"] = "F1"; t1["prestress"] = 150; data["activations"]!.AsArray().Insert(0, t1);
+        stages[0]!["left_surcharge"] = 20;
+        string untouched = data.ToJsonString();
+        var effects = EmbeddedWallDocument.StageInsertionEffects(data, f2row);
+        Check(data.ToJsonString() == untouched && effects.Count == 2 && effects[0].Contains("«T1»") && effects[0].Contains("0 kN")
+            && effects[1].Contains("sovraccarico a sinistra") && effects[1].Contains("«F1»"), "R04: interruzioni dell'inserimento non elencate: " + string.Join(" | ", effects));
+        data["activations"]![1]!["prestress"] = 80;
+        Check(EmbeddedWallDocument.StageInsertionEffects(data, f2row)[0].Contains("80 kN"), "R04: pretensione assegnata dopo l'interruzione non indicata.");
+        Check(EmbeddedWallDocument.StageInsertionEffects(data, stages[0]!.AsObject()).Count == 0
+            && EmbeddedWallDocument.StageInsertionEffects(data, stages[2]!.AsObject()).Count == 0, "R04: effetti indicati per la prima fase di un caso.");
+        var homonym = EmbeddedWallDocument.NewRow("stages"); homonym["id"] = "F1"; stages.Add(homonym);
+        Check(EmbeddedWallDocument.StageInsertionEffects(data, f2row).Count == 0, "R04: effetti dedotti da identificativi ripetuti.");
+
         // Rename one phase: its references in its case follow, the homonym of another case and its rows do not.
         data = Sample(); stages = data["stages"]!.AsArray(); f2row = stages[1]!.AsObject();
         int moved = EmbeddedWallDocument.RenameStage(data, f2row, "  Scavo  ");

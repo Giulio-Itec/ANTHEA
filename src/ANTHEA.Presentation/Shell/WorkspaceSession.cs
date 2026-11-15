@@ -177,6 +177,21 @@ public sealed class WorkspaceSession : IDisposable
     }
 
     /// <summary>
+    /// A sheet closes one editing operation (ISheetHost.ConfirmEdit; organizzazione del modulo paratie, progetto del 16/11, contract R01 of the
+    /// review G-208): it is confirmed into its document as when it loses the focus, so that the operation is one step of the history. Nothing
+    /// for a read-only or closed sheet; without changes no step is recorded.
+    /// </summary>
+    public void ConfirmEdit(SheetSession sheet)
+    {
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(sheet);
+        if (sheet.IsDisposed || sheet.IsReadOnly || !sheets.Contains(sheet)) return;
+        if (ReferenceEquals(Active, sheet)) { CommitActive(); return; }
+        sheet.Commit();
+        Reconcile(null, sheet);
+    }
+
+    /// <summary>
     /// The sheet with the focus was confirmed into its document (F5.13 e): the window refreshes what it shows from the document, as MainWindow.Commit
     /// refreshes the status line of the shared data.
     /// </summary>
@@ -835,5 +850,7 @@ public sealed class WorkspaceSession : IDisposable
         public IReadOnlyList<SoilSource> SoilSources() => workspace.SoilSources(sheet);
 
         public void RequestReport() => workspace.ReportRequested?.Invoke(workspace, sheet);
+
+        public void ConfirmEdit() => workspace.ConfirmEdit(sheet);
     }
 }

@@ -93,23 +93,56 @@ internal static partial class EmbeddedWallChecks
             e.That(readOnly.Data.ToJsonString() == before, "Passo 2: le fasi di un foglio in sola lettura cambiano.");
         }
 
-        // In the project: «Elimina la fase» is one step of the history; «Annulla» gives back the phase with the rows that cited it.
-        var services = Scripted.Services(confirmations: new ScriptedConfirmations().Then(true));
+        // R04 of the review G-208: an insertion that interrupts a support asks first, naming it and the prestress that changes.
+        var chain = EmbeddedWallDocument.Create();
+        var second = EmbeddedWallDocument.NewRow("stages"); second["id"] = "F2"; chain["stages"]!.AsArray().Add(second);
+        chain["supports"]!.AsArray().Add(EmbeddedWallDocument.NewRow("supports"));
+        var installed = EmbeddedWallDocument.NewRow("activations"); installed["prestress"] = 150; chain["activations"]!.AsArray().Add(installed);
+        var kept = EmbeddedWallDocument.NewRow("activations"); kept["stage"] = "F2"; chain["activations"]!.AsArray().Add(kept);
+        var asked = new ScriptedConfirmations();
+        using (var interrupted = new EmbeddedWallSheetViewModel(new(chain.DeepClone().AsObject(), false, new Host(), Scripted.Services(confirmations: asked),
+            ModuleServices.Get(EmbeddedWallDocument.Module), new CalculationLimiter(1))))
+        {
+            string untouched = interrupted.Data.ToJsonString();
+            asked.Then(false); interrupted.InsertStageCommand.Execute(null);
+            e.That(interrupted.Data.ToJsonString() == untouched && asked.Asked.Count == 1 && asked.Asked[0].Contains("«T1»") && asked.Asked[0].Contains("0 kN"),
+                "R04: l'inserimento che interrompe un sostegno non lo dice prima o avviene dopo il rifiuto: " + string.Join(" | ", asked.Asked));
+            asked.Then(true); interrupted.InsertStageCommand.Execute(null);
+            e.That(string.Join(",", interrupted.InputStages.Select(s => s["id"])) == "F1,F3,F2" && interrupted.InputStage?["id"] == "F3",
+                "R04: l'inserimento confermato non avviene prima della fase corrente.");
+        }
+
+        // R01 of the review G-208, in the project: every command is one step of the history by itself, with no other confirmation of the sheet;
+        // what was typed before is a step of its own; a refused question records nothing; «Annulla» goes back one operation at a time.
+        var answers = new ScriptedConfirmations();
+        var services = Scripted.Services(confirmations: answers);
         using var workspace = new WorkspaceSession(services, new RegistrySheetFactory(new ModuleRegistry([new EmbeddedWallSheetModule()]), services, new CalculationLimiter(1)),
             new DocumentFiles(Path.Combine(Path.GetTempPath(), "anthea-esempi-assenti")));
         var project = workspace.NewProject()!; var section = project.AddSection(project.AddProject()!)!;
         var node = project.AddSheet(EmbeddedWallDocument.Module, section)!; string id = node["id"]!.ToString(), name = ShellTexts.SheetName(node);
         var opened = (EmbeddedWallSheetViewModel)workspace.OpenSheet(node).ViewModel;
-        opened.AddStageCommand.Execute(null); workspace.CommitActive();
-        opened.Tables.Single(t => t.Key == "activations").AddCommand.Execute(null); workspace.CommitActive();
-        string saved = project.Find(id)!["dati"]!.ToJsonString();
-        e.That(opened.InputStage?["id"] == "F2" && project.Find(id)!["dati"]!["activations"]![0]!["stage"]!.ToString() == "F2", "Passo 2: preparazione della cronologia errata.");
-        opened.DeleteStageCommand.Execute(null);
-        workspace.CommitActive();
-        var stored = project.Find(id)!["dati"]!.AsObject();
-        e.That(stored["stages"]!.AsArray().Count == 1 && stored["activations"]!.AsArray().Count == 0 && project.UndoLabel == ProjectSession.EditLabel(name),
-            "Passo 2: «Elimina la fase» non è un passo della cronologia con il nome del foglio: " + project.UndoLabel);
+        string Stored() => project.Find(id)!["dati"]!.ToJsonString();
+        JsonArray StoredRows(string table) => project.Find(id)!["dati"]![table]!.AsArray();
+        string initial = Stored();
+        opened.AddStageCommand.Execute(null);
+        string afterAdd = Stored();
+        e.That(afterAdd != initial && StoredRows("stages").Count == 2 && project.UndoLabel == ProjectSession.EditLabel(name),
+            "R01: «Aggiungi fase» non è da sola un passo della cronologia: " + project.UndoLabel);
+        opened.Tables.Single(t => t.Key == "activations").AddCommand.Execute(null);
+        e.That(Stored() == afterAdd, "R01: una riga digitata è entrata nel progetto prima della conferma.");
+        opened.InsertStageCommand.Execute(null);
+        string afterInsert = Stored();
+        e.That(StoredRows("stages").Count == 3 && StoredRows("activations").Count == 1, "R01: inserimento o riga digitata prima non confermati.");
+        answers.Then(false); opened.DeleteStageCommand.Execute(null);
+        e.That(Stored() == afterInsert, "R01: una domanda rifiutata ha modificato il progetto.");
+        answers.Then(true); opened.RenameAllStagesCommand.Execute(null);
+        e.That(Stored() != afterInsert && project.UndoLabel == ProjectSession.EditLabel(name), "R01: «Rinomina tutte» non è un passo della cronologia.");
         project.Restore(false);
-        e.That(project.Find(id)!["dati"]!.ToJsonString() == saved, "Passo 2: «Annulla» non riporta la fase con le righe che la citavano.");
-    }
+        e.That(Stored() == afterInsert, "R01: «Annulla» non toglie in un passo solo «Rinomina tutte».");
+        project.Restore(false);
+        e.That(StoredRows("stages").Count == 2 && StoredRows("activations").Count == 1, "R01: l'inserimento non è un passo distinto dalla riga digitata prima.");
+        project.Restore(false);
+        e.That(Stored() == afterAdd, "R01: la riga digitata prima dell'inserimento non è un passo distinto.");
+        project.Restore(true); project.Restore(true); project.Restore(true);
+        e.That(StoredRows("stages").Count == 3 && Stored() != afterInsert, "R01: «Ripristina» non riporta le tre operazioni.");    }
 }

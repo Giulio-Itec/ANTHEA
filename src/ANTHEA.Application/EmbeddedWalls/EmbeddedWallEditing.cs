@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using Anthea.Application.Stratigraphy;
 
 namespace Anthea.Application.EmbeddedWalls;
 
@@ -43,6 +44,44 @@ public static partial class EmbeddedWallDocument
         row["id"] = FreeIdentifier(data, "stages", row["id"]!.ToString());
         stages.Insert(index, row);
         return row;
+    }
+
+    /// <summary>
+    /// What «Inserisci fase prima della corrente» changes in the history (contract R04 of the review G-208), for the confirmation before the
+    /// insertion. The new phase takes from the phase before it only ground levels and water table (A3, D9). A support present in that phase
+    /// and in <paramref name="before"/> is missing in the new phase, so in <paramref name="before"/> it is installed again: an empty prestress
+    /// there no longer keeps the previous lock-off but starts from 0 kN (<see cref="LockOffs"/>). The surcharges, the uniform load and the EI
+    /// factor of the previous phase different from the defaults are not taken either. Nothing is listed for the first phase of a case or when
+    /// an identifier is repeated (the references are ambiguous, as for <see cref="StageReferences"/>).
+    /// </summary>
+    public static IReadOnlyList<string> StageInsertionEffects(JsonObject data, JsonObject before)
+    {
+        int index = IndexOf(data["stages"]!.AsArray(), before);
+        string caseId = StageCase(data, before);
+        if (Rows(data, "stages").Take(index).LastOrDefault(r => StageCase(data, r) == caseId) is not { } previous) return [];
+        string previousId = Value(previous, "id"), nextId = Value(before, "id");
+        var phases = CaseStages(data, caseId);
+        bool Unique(string id) => id.Length > 0 && phases.Count(r => Value(r, "id") == id) == 1;
+        if (!Unique(previousId) || !Unique(nextId)) return [];
+        var effects = new List<string>();
+        var activations = Rows(data, "activations").Where(r => StageCase(data, r) == caseId).ToArray();
+        foreach (var next in activations.Where(a => Value(a, "stage") == nextId))
+        {
+            string support = Value(next, "support");
+            if (!activations.Any(a => Value(a, "stage") == previousId && Value(a, "support") == support)) continue;
+            effects.Add(string.IsNullOrWhiteSpace(Value(next, "prestress"))
+                ? $"Il sostegno «{support}», presente in «{previousId}» e in «{nextId}», manca nella fase nuova: in «{nextId}» viene installato di nuovo e la sua pretensione vuota vale 0 kN invece di mantenere quella in vigore."
+                : $"Il sostegno «{support}», presente in «{previousId}» e in «{nextId}», manca nella fase nuova: in «{nextId}» viene installato di nuovo con la pretensione assegnata ({Value(next, "prestress")} kN).");
+        }
+        foreach (var (key, label, initial) in new[] { ("left_surcharge", "il sovraccarico a sinistra", 0d), ("right_surcharge", "il sovraccarico a destra", 0d),
+            ("distributed_load", "il carico uniforme sulla parete", 0d), ("stiffness_factor", "il moltiplicatore EI", 1d) })
+        {
+            double? value;
+            try { value = StratigraphyDocument.Number(previous[key], label); } catch (ArgumentException) { value = null; }
+            if (value is { } assigned && assigned != initial)
+                effects.Add($"La fase nuova non riprende {label} di «{previousId}» ({Value(previous, key)}): vale {initial.ToString(System.Globalization.CultureInfo.CurrentCulture)}.");
+        }
+        return effects.AsReadOnly();
     }
 
     /// <summary>
