@@ -11,7 +11,7 @@ Compiti 191 e 191b; pubblicazione dopo F8 e le decisioni dell'utente, a cura del
 - [x] Safety 26 PASS ed examples 206 PASS; fixture nel TEMP sotto CX.
 - [ ] Guide installer: FAIL nella rimozione dei PDF dopo il controllo degli hash; diagnosi documentata, nessuna asserzione eliminata e nessun PASS dichiarato.
 - [x] Versione 1.19.1, note e README con PDF verificati; originali del README conservati in SUPERATI.
-- [ ] Costruzione locale del setup e Audit-Installer: esiti da registrare nel verbale del 191b.
+- [x] Setup locale 1.19.1 costruito da `ddaf66c9`: 7z e Audit-Installer PASS; SHA e dimensione nel verbale.
 - [ ] Decisioni sui gate residui, conferma F8, tag, push e copia sulla condivisione: coordinatore.
 
 
