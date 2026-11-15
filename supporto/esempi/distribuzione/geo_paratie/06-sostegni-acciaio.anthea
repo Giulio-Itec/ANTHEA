@@ -8,6 +8,7 @@
     "name": "Sostegni metallici — prova sintetica",
     "case_id": "Caso 1",
     "action_basis": "Azioni assegnate senza coefficienti; esempio analitico di collaudo",
+    "design_history_confirmed": true,
     "top": 0,
     "bottom": -6,
     "width": 1.5,

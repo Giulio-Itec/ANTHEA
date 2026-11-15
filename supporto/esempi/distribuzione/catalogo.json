@@ -286,7 +286,7 @@
       "title": "Pali ca",
       "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
       "kind": "calcolo",
-      "sha256": "b49c7dca960c5fdab7f6301889e7e324773147f919ed5bc76a9cca314aef2bc3",
+      "sha256": "509179d7d2d8d0cb0a4273247d786800abdc235340f476737ff9f8867d5e02d0",
       "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/04-pali-ca.anthea"
     },
     {
@@ -295,7 +295,7 @@
       "title": "Tubolari acciaio",
       "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
       "kind": "calcolo",
-      "sha256": "05beecb23a91a79fa4b7f2904917031edcfb64a92e020b657cfe522a19e18436",
+      "sha256": "ea12523ab489cb1d65d9abb50d825f6f2b058f7f8b6454a63f33742576283bc7",
       "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/05-tubolari-acciaio.anthea"
     },
     {
@@ -304,7 +304,7 @@
       "title": "Sostegni acciaio",
       "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
       "kind": "calcolo",
-      "sha256": "db6fa2f4eb512b107c5eea6ac9586756a6c66e6df75dc5eb1f9375904d6940c2",
+      "sha256": "3f16ec0c83bfb589850228f8fe2517420485e43f2c6639a4f97860a1ba4ee608",
       "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/06-sostegni-acciaio.anthea"
     },
     {
