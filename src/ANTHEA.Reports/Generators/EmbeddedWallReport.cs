@@ -15,13 +15,25 @@ public static partial class EmbeddedWallReport
     private static string Compact(double value) => value != 0 && (Math.Abs(value) < .0001 || Math.Abs(value) >= 100000)
         ? value.ToString("0.##E+0", CultureInfo.GetCultureInfo("it-IT")) : F(value);
     public static string DisplayLabel(string key) => Labels.GetValueOrDefault(key, key);
-    /// <summary>Warning of A2 (paratie review, sheet of 16/11/2026), written under the actions of every history: the service adds no partial factor,
-    /// with the confirmation of the history as saved in the analysed input (a snapshot without the field reads as not confirmed).</summary>
+    /// <summary>Warning of A2 (paratie review, sheet of 16/11/2026), written under the actions of every history. It concerns only the checks that
+    /// take the actions of the history as they are (strips, circular piles, CHS tubes, steel supports): tie-rod pull-out, UPL/HYD and global
+    /// stability have factors and confirmations of their own. The state follows the analysed input: whether one of those ULS checks is requested
+    /// and whether the history is confirmed (a snapshot without the field reads as not confirmed).</summary>
     public static string PartialFactorsWarning(JsonObject input)
     {
+        string Text(string key) => input[key]?.ToString() ?? "";
+        bool Standard(string key) => Text(key) is not ("" or "Non richieste");
+        bool requested = Text("check_kind") == "Ultimate"
+            || Standard("rc_pile_standard") && Text("rc_pile_check_kind") == "Ultimate"
+            || Standard("tube_standard") && Text("tube_check_kind") is "StaticUltimate" or "SeismicUltimate"
+            || Standard("steel_standard") && Text("steel_check_kind") is "StaticUltimate" or "SeismicUltimate";
         bool confirmed = input["design_history_confirmed"] is JsonValue value && value.TryGetValue<bool>(out var flag) && flag;
-        return "Avvertenza: il servizio non aggiunge coefficienti parziali né alle azioni né agli effetti. Le verifiche SLU valgono solo se la storia delle fasi è già di progetto. "
-            + (confirmed ? "Storia delle fasi confermata come di progetto dall'utente." : "Storia delle fasi non confermata come di progetto: verifiche SLU non eseguite.");
+        return "Avvertenza: per fasce in c.a., pali circolari, tubi CHS e sostegni metallici il servizio non aggiunge coefficienti parziali né alle azioni "
+            + "né agli effetti; le loro verifiche SLU valgono solo su una storia delle fasi già di progetto. "
+            + (!requested ? "Nessuna di queste verifiche SLU è richiesta."
+                : confirmed ? "Storia delle fasi confermata come di progetto dall'utente."
+                : "Storia delle fasi non confermata come di progetto: queste verifiche SLU non sono eseguite.")
+            + " Sfilamento dei tiranti, UPL/HYD e stabilità globale hanno coefficienti e conferme propri, indicati nelle loro sezioni.";
     }
     public static string OutcomeText(EngineeringOutcome outcome) => outcome switch
     { EngineeringOutcome.Satisfied => "Soddisfatto", EngineeringOutcome.NotSatisfied => "Non soddisfatto", EngineeringOutcome.NotEvaluated => "Non valutato", _ => outcome.ToString() };

@@ -88,13 +88,24 @@ internal static partial class EmbeddedWallChecks
         // The report: the warning under the actions of every history, with the state of the confirmation, and the field among the data.
         string confirmedXml = EmbeddedWallReport.Create("A2 confermata", service.Calculate(RcPileExample()).NativeAs<EmbeddedWallReportData>()).GetXml("word/document.xml").ToString();
         string requestXml = EmbeddedWallReport.Create("A2 da confermare", service.Calculate(piles).NativeAs<EmbeddedWallReportData>()).GetXml("word/document.xml").ToString();
-        const string warning = "Avvertenza: il servizio non aggiunge coefficienti parziali né alle azioni né agli effetti.";
+        const string warning = "Avvertenza: per fasce in c.a., pali circolari, tubi CHS e sostegni metallici il servizio non aggiunge coefficienti parziali né alle azioni né agli effetti;";
+        const string unconfirmed = "Storia delle fasi non confermata come di progetto: queste verifiche SLU non sono eseguite.";
         e.That(confirmedXml.Contains(warning) && confirmedXml.Contains("Storia delle fasi confermata come di progetto dall'utente.")
-            && requestXml.Contains(warning) && requestXml.Contains("Storia delle fasi non confermata come di progetto: verifiche SLU non eseguite.")
+            && requestXml.Contains(warning) && requestXml.Contains(unconfirmed)
             && confirmedXml.Contains("Storia già di progetto per le verifiche SLU"), "A2: avvertenza o conferma assenti dalla relazione.");
         string multiXml = EmbeddedWallReport.Create("A2 casi", both).GetXml("word/document.xml").ToString();
         e.That(multiXml.Split(warning).Length - 1 == 2, "A2: l'avvertenza non è ripetuta per ogni storia.");
-        e.That(EmbeddedWallReport.PartialFactorsWarning(new JsonObject()).EndsWith("verifiche SLU non eseguite.", StringComparison.Ordinal),
-            "A2: un risultato salvato senza il campo risulta confermato.");
+        // M2 (review of 15/11): exact per history. Tie rods, UPL/HYD and global stability have their own factors; without one of the four ULS
+        // checks nothing is said to be missing, and a snapshot without the field reads as not confirmed.
+        foreach (var (name, input) in new[] { ("tiranti", AnchorExample()), ("UPL/HYD", SafetyExample()), ("solo analisi", Example()) })
+        {
+            input[DesignKey] = false;
+            string text = EmbeddedWallReport.PartialFactorsWarning(input);
+            e.That(text.Contains("Nessuna di queste verifiche SLU è richiesta.") && !text.Contains("non confermata")
+                && text.EndsWith("Sfilamento dei tiranti, UPL/HYD e stabilità globale hanno coefficienti e conferme propri, indicati nelle loro sezioni.", StringComparison.Ordinal),
+                "A2 (M2): avvertenza non esatta senza verifiche SLU di fasce, pali, tubi o sostegni: " + name);
+        }
+        var noField = RcPileExample(); noField.Remove(DesignKey);
+        e.That(EmbeddedWallReport.PartialFactorsWarning(noField).Contains(unconfirmed), "A2: un risultato salvato senza il campo risulta confermato.");
     }
 }
