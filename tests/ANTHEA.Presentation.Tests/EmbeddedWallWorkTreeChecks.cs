@@ -39,12 +39,13 @@ internal static partial class EmbeddedWallChecks
             && !WorkNodes(Node(stages.Rows[0]).Children).Any(n => n.Row == serviceLoad), "Fasi omonime di casi diversi mescolate nell'albero.");
         sheet.SelectWorkNodeCommand.Execute(Node(serviceLoad));
         e.That(sheet.InputCase == "Servizio" && sheet.InputStage == serviceStage && sheet.InspectorTable == loads
-            && loads.Selected == serviceLoad && sheet.WorkspaceTab == 0, "Il nodo carico non apre caso, fase e riga corrispondenti.");
+            && loads.Selected == serviceLoad && sheet.Documents.Active == EmbeddedWallDocuments.Section, "Il nodo carico non apre caso, fase e riga corrispondenti.");
         e.That(sheet.Sketch?.RightGround == -3, "La fase selezionata dall'albero non aggiorna il disegno.");
         sheet.SelectWorkNodeCommand.Execute(WorkNodes(sheet.WorkTree).Single(n => n.Title == "Falda e filtrazione"));
-        e.That(sheet.WorkspaceTab == 5, "Il nodo idraulico non apre i parametri di filtrazione.");
+        e.That(sheet.Documents.Active == EmbeddedWallDocuments.Hydraulics && sheet.Documents[EmbeddedWallDocuments.Hydraulics].IsOpen,
+            "Il nodo idraulico non apre i parametri di filtrazione.");
         sheet.SelectWorkNodeCommand.Execute(WorkNodes(sheet.WorkTree).Single(n => n.Title == "Ricerca dell'infissione"));
-        e.That(sheet.WorkspaceTab == 2, "Il nodo infissione non apre l'editor.");
+        e.That(sheet.Documents.Active == EmbeddedWallDocuments.Embedment, "Il nodo infissione non apre l'editor.");
         sheet.ToggleWorkTreeCommand.Execute(null);
         e.That(sheet.IsWorkTreeCollapsed, "Albero non richiudibile.");
         sheet.ToggleWorkTreeCommand.Execute(null);

@@ -39,6 +39,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     private string progress = "";
     public EmbeddedWallSheetViewModel(SheetContext context) : base(EmbeddedWallDocument.Module, context)
     {
+        Documents = new(Guard);
         Rebuild(); InitializeSketch(); InitializeWorkTree(); Report = new SheetReport(this);
         RunCommand = GuardedCommands.CreateAsync(Guard, async c => { await CalculateAsync(c); }, Lifetime, () => !IsBusy);
         CancelCommand = GuardedCommands.Create(Guard, () => { searchCancellation?.Cancel(); CancelCalculation(); }, () => IsBusy);

@@ -34,8 +34,8 @@ public sealed partial class EmbeddedWallSheetViewModel
             selectedWorkNode = node; node.IsSelected = true;
             if (node.CaseId is not null && InputCases.Contains(node.CaseId)) InputCase = node.CaseId;
             if (node.Stage is not null && InputStages.Contains(node.Stage)) InputStage = node.Stage;
-            if (node.Target == "hydraulics") { WorkspaceTab = 5; return; }
-            if (node.Target == "embedment") { WorkspaceTab = 2; return; }
+            if (node.Target == "hydraulics") { Documents.Show(EmbeddedWallDocuments.Hydraulics); return; }
+            if (node.Target == "embedment") { Documents.Show(EmbeddedWallDocuments.Embedment); return; }
             if (node.Target == "general") { EditModelCommand.Execute("general"); return; }
             if (node.TableKey is null) return;
             EditModelCommand.Execute(node.TableKey);
