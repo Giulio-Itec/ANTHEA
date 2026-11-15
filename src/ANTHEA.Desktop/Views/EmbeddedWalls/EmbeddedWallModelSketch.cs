@@ -26,6 +26,10 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
     public EmbeddedWallSketch? Model { get => (EmbeddedWallSketch?)GetValue(ModelProperty); set => SetValue(ModelProperty, value); }
     public ICommand? PickCommand { get => (ICommand?)GetValue(PickCommandProperty); set => SetValue(PickCommandProperty, value); }
     private readonly List<(Rect Bounds, WallSketchPick Pick)> hits = [];
+    /// <summary>Tints of the soil layers, in turn on each side: series tokens of the catalogue (ThemeTokens). The fourth was
+    /// «Token.Series.Purple», which the catalogue does not have, so the fourth layer fell back on the ink; now «Token.Series.Magenta»
+    /// (organizzazione del modulo paratie, progetto del 16/11, R09).</summary>
+    internal static IReadOnlyList<string> SoilPalette { get; } = Array.AsReadOnly(new[] { "Token.Series.Orange", "Token.Series.Blue", "Token.Series.Green", "Token.Series.Magenta" });
     public WallSketchPick? PickAt(Point point) => hits.LastOrDefault(h => h.Bounds.Contains(point)).Pick;
 
     protected override void OnMouseMove(MouseEventArgs e)
@@ -84,7 +88,6 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
         double ClippedY(double z) => Y(Math.Clamp(z, zmin, zmax));
         Label("SINISTRA", left + LabelInsets, 12); Label("DESTRA", middle + GroundHitOffset, 12);
         Label("z [m]", 9, 12, 55);
-        var palettes = new[] { "Token.Series.Orange", "Token.Series.Blue", "Token.Series.Green", "Token.Series.Purple" };
         foreach (string side in new[] { "left_soils", "right_soils" })
         {
             var ground = side == "left_soils" ? m.LeftGround : m.RightGround;
@@ -95,7 +98,7 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
             foreach (var band in m.Bands.Where(b => b.Table == side))
             {
                 double upper = Math.Min(band.Top, ground.Value), lower = band.Bottom;
-                var brush = Resource(palettes[color++ % palettes.Length]);
+                var brush = Resource(SoilPalette[color++ % SoilPalette.Count]);
                 if (upper <= lower || upper < zmin || lower > zmax) continue;
                 var rect = new Rect(x, ClippedY(upper), w, Math.Max(0, ClippedY(lower) - ClippedY(upper)));
                 dc.PushOpacity(.16); dc.DrawRectangle(brush, null, rect); dc.Pop();

@@ -52,6 +52,9 @@ internal static partial class EmbeddedWallViewChecks
         try
         {
             await Settle(); Check(Visual(editor.View).OfType<EmbeddedWallSheetView>().Count() == 1, "Vista XAML non risolta."); Capture("modello");
+            // R09 of the review G-208: the tints of the soil layers are tokens of the catalogue (the fourth was the missing Token.Series.Purple).
+            Check(EmbeddedWallModelSketch.SoilPalette.All(name => X.Desktop.Themes.ThemeTokens.Catalogue.Any(t => t.Key == name) && editor.View.TryFindResource(name) is System.Windows.Media.Brush),
+                "Tinta degli strati fuori dal catalogo dei token.");
             await CheckWorkTree(editor.View, sheet, Settle, Check, Capture);
             await CheckCommandBar(editor.View, sheet, Settle, Check, Capture);
             await CheckStageTabs(editor.View, sheet, Settle, Check, Capture);
