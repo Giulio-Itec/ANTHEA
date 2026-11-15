@@ -9,7 +9,7 @@ $Output = [IO.Path]::GetFullPath($Output)
 New-Item -ItemType Directory -Force -Path $Output | Out-Null
 # Junction fixtures are OUTSIDE the repository (AGENTS.md). Retain the small
 # fixtures for inspection; remove only the two links explicitly in finally.
-$fixture = Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) ('Temp\ANTHEA-InstallerTest-' + [guid]::NewGuid().ToString('N'))
+$fixture = Join-Path ([IO.Path]::GetTempPath()) ('ANTHEA-InstallerTest-' + [guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $fixture | Out-Null
 $checks = [Collections.Generic.List[string]]::new()
 function Check([bool]$Condition, [string]$Message) {
@@ -61,7 +61,7 @@ Check ((Run $setup (Join-Path $fixture 'fresh\ANTHEA')) -eq 0) 'Fresh installati
 $unrelated = Join-Path $fixture 'unrelated'
 New-Item -ItemType Directory $unrelated | Out-Null
 [IO.File]::WriteAllText("$unrelated\keep.txt", 'preserve')
-Remove-Item -LiteralPath $trace
+Move-Item -LiteralPath $trace -Destination ($trace + '.' + [guid]::NewGuid().ToString('N') + '.previous')
 Check ((Run $setup $unrelated) -eq 11) 'Populated unrelated directory is rejected'
 Check ((Test-Path "$unrelated\keep.txt") -and -not (Test-Path $trace)) 'Invalid destination is rejected before the previous uninstaller'
 foreach ($protected in @([IO.Path]::GetPathRoot($fixture), $env:SystemRoot, $env:USERPROFILE, ${env:ProgramFiles})) {
@@ -98,7 +98,7 @@ $probeExe = Join-Path $Output 'ANTHEA.exe'
 Compile $probeSource $probeExe
 $running = Seed 'running'
 $before = Get-FileHash "$running\user-added.txt"
-if (Test-Path $trace) { Remove-Item -LiteralPath $trace }
+if (Test-Path $trace) { Move-Item -LiteralPath $trace -Destination ($trace + '.' + [guid]::NewGuid().ToString('N') + '.previous') }
 $probe = Start-Process -FilePath $probeExe -WindowStyle Hidden -PassThru
 try {
     Check (-not $probe.HasExited) 'Owned ANTHEA process fixture is running'
@@ -116,7 +116,7 @@ $links = @("$linked\linked-data", (Join-Path $fixture 'parent-link'))
 try {
     New-Item -ItemType Junction -Path $links[0] -Target $external | Out-Null
     New-Item -ItemType Junction -Path $links[1] -Target (Split-Path $linked) | Out-Null
-    if (Test-Path $trace) { Remove-Item -LiteralPath $trace }
+    if (Test-Path $trace) { Move-Item -LiteralPath $trace -Destination ($trace + '.' + [guid]::NewGuid().ToString('N') + '.previous') }
     Check ((Run $setup $linked) -eq 11) 'Junction inside the application folder blocks cleanup'
     Check ((Run $setup (Join-Path $links[1] 'ANTHEA')) -eq 11) 'Junction in an ancestor blocks cleanup'
     Check (-not (Test-Path $trace) -and (Test-Path "$linked\user-added.txt")) 'Links are rejected before touching the previous installation'
@@ -126,8 +126,7 @@ try {
         # Exact, verified link only; no recursive deletion and no target traversal.
         $item = Get-Item -LiteralPath $link -Force -ErrorAction SilentlyContinue
         if ($item -and $item.LinkType -eq 'Junction' -and $item.FullName.StartsWith($fixture + '\', [StringComparison]::OrdinalIgnoreCase)) {
-            & $env:ComSpec /d /c "rmdir `"$($item.FullName)`""
-            if ($LASTEXITCODE -ne 0) { throw "Cannot remove fixture junction: $link" }
+            [IO.Directory]::Delete($item.FullName, $false)
         }
     }
 }

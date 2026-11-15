@@ -31,7 +31,7 @@ foreach ($entry in $catalog.Entries) {
 }
 
 # Independent fixture: no modifications to the repository's published documentation.
-$fixtureRoot = Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) ('Temp\ANTHEA-GuideTest-' + [guid]::NewGuid().ToString('N'))
+$fixtureRoot = Join-Path ([IO.Path]::GetTempPath()) ('ANTHEA-GuideTest-' + [guid]::NewGuid().ToString('N'))
 $fixture = Join-Path $fixtureRoot 'repository'
 $revisions = Join-Path $fixture 'supporto\documentazione\Guide_ANTHEA'
 $fixtureInstaller = Join-Path $fixture 'supporto\installer'
@@ -49,7 +49,7 @@ Check ($selected.Revision -eq '10') 'Selezione numerica Rev10 dopo Rev9'
 Fixture-Pdf (Join-Path $revisions 'ANTHEA_Guida_pratica_ITEC_Rev11.pdf')
 Expect-Failure { Get-InstallerGuides $fixture } 'Revisioni generali disallineate bloccano la build'
 Fixture-Pdf (Join-Path $revisions 'ANTHEA_Guida_teorica_ITEC_Rev11.pdf')
-Remove-Item -LiteralPath $module
+Move-Item -LiteralPath $module -Destination ($module + '.missing-fixture')
 Expect-Failure { Get-InstallerGuides $fixture } 'PDF di modulo mancante blocca la build'
 [IO.File]::WriteAllText($module, 'non e un PDF')
 Expect-Failure { Get-InstallerGuides $fixture } 'File senza intestazione PDF blocca la build'
@@ -112,9 +112,8 @@ $harnessPath = Join-Path $work 'test-guide.nsi'
 $setup = Join-Path $work 'test-guide.exe'
 & $MakeNsis /V3 /INPUTCHARSET UTF8 "/DSTAGE=$stage" "/DSETUP=$setup" "/DTRACE=$(Join-Path $work 'uninstall.log')" $harnessPath > (Join-Path $work 'makensis.log')
 Check ($LASTEXITCODE -eq 0) 'Compilazione NSIS della sezione documentazione'
-# Exercise removal outside the source checkout. On this machine the same NSIS
-# uninstaller stops while deleting fixture PDFs below Documents/Repository;
-# under LocalAppData/Temp it reaches the final marker. Logs remain in $work.
+# Exercise removal outside the source checkout, under the caller's TEMP.
+# The completion marker below verifies that the uninstaller finishes here too.
 $installed = Join-Path $fixtureRoot 'installazione con spazi'
 [IO.File]::WriteAllText((Join-Path $work 'fixture-path.txt'), $installed)
 $process = Start-Process -FilePath $setup -ArgumentList "/S /D=$installed" -WindowStyle Hidden -PassThru -Wait
