@@ -1,5 +1,20 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Preparazione ANTHEA 1.19.1 su AW - 15 novembre 2026
+
+Compiti 191 e 191b; pubblicazione dopo F8 e le decisioni dell'utente, a cura del coordinatore.
+[Note di rilascio](note-rilascio-1.19.1.md), con PDF, e [verbale tecnico](installer-1.19.1.md).
+
+- [x] Set ufficiale AW coerente, 14 DLL, senza aggiornare gli attesi.
+- [x] Full 191: 130 suite (73 UI), 129 PASS e un FAIL temporale PDF; correzione del solo test verificata separatamente.
+- [x] Dodici F4 conclusi: sei PASS e sei FAIL storici, con oggetti di confronto identici al 183; classificazione del 188 conservata.
+- [x] Safety 26 PASS ed examples 206 PASS; fixture nel TEMP sotto CX.
+- [ ] Guide installer: FAIL nella rimozione dei PDF dopo il controllo degli hash; diagnosi documentata, nessuna asserzione eliminata e nessun PASS dichiarato.
+- [x] Versione 1.19.1, note e README con PDF verificati; originali del README conservati in SUPERATI.
+- [ ] Costruzione locale del setup e Audit-Installer: esiti da registrare nel verbale del 191b.
+- [ ] Decisioni sui gate residui, conferma F8, tag, push e copia sulla condivisione: coordinatore.
+
+
 ## ANTHEA 1.19.0 — 8 novembre 2026
 
 Decisione dell'utente dell'8/11, «Sì, ANTHEA prima»: la 1.19.0 esce prima dei plug-in Rhino, con le librerie da origin/master. Ramo

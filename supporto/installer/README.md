@@ -9,7 +9,7 @@ non serve installare nulla oltre al setup (Windows 10 o 11 a 64 bit).
 Requisiti: SDK .NET 8 (come per `Compila.cmd`) e NSIS 3 (`winget install NSIS.NSIS`).
 
 - `Crea installer.cmd` oppure `powershell -File supporto/installer/Crea-Installer.ps1`
-- risultato: `supporto/installer/ANTHEA-<versione>-Setup-x64.exe`, in questa cartella; lo script stampa dimensione e SHA256. I setup sono esclusi da Git (`.gitignore`): circa 50 MB ciascuno. La pubblicazione e i file intermedi restano in `supporto/artefatti/installer`.
+- risultato: `supporto/installer/ANTHEA-<versione>-Setup-x64.exe`, in questa cartella; lo script stampa dimensione e SHA256. I setup sono esclusi da Git (`.gitignore`). La pubblicazione e i file intermedi restano in `supporto/artefatti/installer`.
 
 Lo script:
 
@@ -29,8 +29,8 @@ Opzioni: `-SkipPublish` riusa la pubblicazione già presente, aggiornando comunq
 ## Versione
 
 La versione è `<Version>` in `src/ANTHEA.Desktop/ANTHEA.Desktop.csproj`, formato `maggiore.minore.patch`
-(oggi `1.19.0`). Determina il nome del setup, le proprietà degli eseguibili e la voce in
-«App installate». ANTHEA.exe riporta versione file `1.19.0.0` e prodotto `1.19.0+<commit>`.
+(oggi `1.19.1`). Determina il nome del setup, le proprietà degli eseguibili e la voce in
+«App installate». ANTHEA.exe riporta versione file `1.19.1.0` e prodotto `1.19.1+<commit>`.
 
 A parità di versione il setup viene sovrascritto. Prima della distribuzione aumentare
 `patch` per correzioni, `minore` per funzioni, `maggiore` per cambi di formato degli archivi.
@@ -48,7 +48,7 @@ Il setup sostituisce anche una versione installata più recente, senza conferma.
 
 ## Esempi distribuiti
 
-Il componente **Esempi per tutti i moduli** installa 93 esempi nella cartella `Esempi`, suddivisi per modulo, e il collegamento Esempi nel menu Start. Dentro ANTHEA si consultano dalla pagina **Esempi** e si aprono come copie senza percorso; il primo salvataggio richiede una destinazione personale. Il componente è facoltativo, selezionato per impostazione iniziale.
+Il componente **Esempi per tutti i moduli** installa 95 esempi nella cartella `Esempi`, suddivisi per modulo, e il collegamento Esempi nel menu Start. Dentro ANTHEA si consultano dalla pagina **Esempi** e si aprono come copie senza percorso; il primo salvataggio richiede una destinazione personale. Il componente è facoltativo, selezionato per impostazione iniziale.
 
 La fonte unica è `supporto/esempi/distribuzione/catalogo.json`, con percorso, modulo, descrizione, provenienza e SHA-256 di ciascun file. `Esempi.ps1` verifica integrità e percorsi prima della build e genera elenchi espliciti per installazione e rimozione. I file sono versionati insieme al catalogo. I casi geometrici da wizard indicano nella descrizione le verifiche ancora da completare.
 
@@ -88,8 +88,8 @@ l'installazione reale, il registro o i collegamenti dell'utente. Richiede NSIS 3
 Riga di comando (installazioni silenziose o distribuite):
 
 ```bat
-ANTHEA-1.19.0-Setup-x64.exe /S /AllUsers
-ANTHEA-1.19.0-Setup-x64.exe /S /CurrentUser /D=C:\Programmi\ANTHEA
+ANTHEA-1.19.1-Setup-x64.exe /S /AllUsers
+ANTHEA-1.19.1-Setup-x64.exe /S /CurrentUser /D=C:\Programmi\ANTHEA
 "C:\Program Files\ANTHEA\Uninstall.exe" /S /AllUsers
 ```
 
