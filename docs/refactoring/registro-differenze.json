@@ -14176,6 +14176,7 @@
         "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallRcPileChecks.cs",
         "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallSteelChecks.cs",
         "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallTubeChecks.cs",
+        "src/ANTHEA.Application/Reporting/ModuleReportService.cs (relazione di progetto sul risultato corrente dei dati migrati, rilievo M1 della revisione del 15/11)",
         "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallFields.cs",
         "src/ANTHEA.Presentation/Help/HelpTopics.cs",
         "src/ANTHEA.Reports/Generators/EmbeddedWallReport.cs"
