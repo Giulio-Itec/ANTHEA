@@ -20,9 +20,10 @@ public static partial class EmbeddedWallDocument
     /// service adds no partial factor to actions or effects, so the ULS checks run only on a history the user declares already factored.
     /// Only a JSON true confirms; false, null or a missing value keep the request open.</summary>
     public const string DesignHistoryKey = "design_history_confirmed";
-    /// <summary>Diagnostic of a ULS check requested on a history not confirmed as a design history.</summary>
-    public const string DesignHistoryRequest = "Verifica SLU non eseguita: confermare «Storia delle fasi già di progetto per le verifiche SLU». "
-        + "Il servizio non aggiunge coefficienti parziali né alle azioni né agli effetti: la storia deve contenerli già.";
+    /// <summary>Diagnostic of a ULS check requested on a history not confirmed as a design history; it names the case, whose own row holds the
+    /// confirmation (review of 15/11, B1).</summary>
+    public static string DesignHistoryRequest(string caseId) => "Verifica SLU non eseguita nel caso «" + caseId + "»: confermare «Storia delle fasi già di progetto "
+        + "per le verifiche SLU» per questo caso. Il servizio non aggiunge coefficienti parziali né alle azioni né agli effetti: la storia deve contenerli già.";
     public static bool DesignHistoryConfirmed(JsonObject data)
         => data[DesignHistoryKey] is { } value && (value is JsonValue v && v.TryGetValue<bool>(out var confirmed)
             ? confirmed : throw new ArgumentException("Scelta non valida: " + DesignHistoryKey));

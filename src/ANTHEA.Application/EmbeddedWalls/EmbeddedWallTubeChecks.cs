@@ -66,7 +66,7 @@ internal static class EmbeddedWallTubeChecks
             return new EmbeddedWallTubeData(r.CaseId, r.StageId, r.SectionId, r.Elevation / SoilUnits.Metre, r.Side,
                 r.NormalForce / NewtonsPerKilonewton, r.Shear / NewtonsPerKilonewton, r.Moment / NmmPerKilonewtonMetre, r.StripToMemberFactor,
                 v?.SectionClass, v?.PartialFactor, v?.ShearReduction, v?.NeutralAxisDistance, v?.AxialEquilibriumResidual,
-                r.Outcome, unconfirmed ? (diagnostics.TryGetValue(r.SectionId, out var invalid) ? invalid + " " : "") + EmbeddedWallDocument.DesignHistoryRequest
+                r.Outcome, unconfirmed ? (diagnostics.TryGetValue(r.SectionId, out var invalid) ? invalid + " " : "") + EmbeddedWallDocument.DesignHistoryRequest(r.CaseId)
                     : diagnostics.GetValueOrDefault(r.SectionId, r.Diagnostic), code + "; " + kind, properties,
                 Array.AsReadOnly((v?.Checks ?? []).Select(c => new EmbeddedWallTubeCheckData(c.Method, c.Reference, c.Unit == "Nmm" ? "kNm" : c.Unit == "N" ? "kN" : c.Unit,
                     c.Demand / (c.Unit == "Nmm" ? NmmPerKilonewtonMetre : NewtonsPerKilonewton),

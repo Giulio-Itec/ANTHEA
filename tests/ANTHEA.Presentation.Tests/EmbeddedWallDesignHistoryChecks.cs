@@ -48,17 +48,17 @@ internal static partial class EmbeddedWallChecks
         var piles = RcPileExample(); piles[DesignKey] = false;
         var pileRows = service.Calculate(piles).NativeAs<EmbeddedWallReportData>().RcPiles!;
         e.That(pileRows.Count > 0 && pileRows.All(r => r.Outcome == EngineeringOutcome.NotEvaluated && r.Checks.Count == 0
-            && r.Diagnostic == EmbeddedWallDocument.DesignHistoryRequest), "A2: palo SLU verificato senza la conferma della storia.");
+            && r.Diagnostic == EmbeddedWallDocument.DesignHistoryRequest(r.CaseId)), "A2: palo SLU verificato senza la conferma della storia.");
         var tubes = TubeExample(); tubes[DesignKey] = false;
         var tubeRows = service.Calculate(tubes).NativeAs<EmbeddedWallReportData>().SteelTubes!;
         e.That(tubeRows.Count > 0 && tubeRows.All(r => r.Outcome == EngineeringOutcome.NotEvaluated
-            && r.Diagnostic.EndsWith(EmbeddedWallDocument.DesignHistoryRequest, StringComparison.Ordinal)), "A2: tubo SLU verificato senza la conferma.");
+            && r.Diagnostic.EndsWith(EmbeddedWallDocument.DesignHistoryRequest(r.CaseId), StringComparison.Ordinal)), "A2: tubo SLU verificato senza la conferma.");
         foreach (string kind in new[] { "StaticUltimate", "SeismicUltimate" })
         {
             var steel = SteelExample(); steel[DesignKey] = false; steel["steel_check_kind"] = kind;
             var steelRows = service.Calculate(steel).NativeAs<EmbeddedWallReportData>().SteelSupports!;
             e.That(steelRows.Count > 0 && steelRows.All(r => r.Outcome == EngineeringOutcome.NotEvaluated && r.Checks.Count == 0
-                && r.Diagnostic.EndsWith(EmbeddedWallDocument.DesignHistoryRequest, StringComparison.Ordinal)), "A2: sostegno SLU verificato senza la conferma: " + kind);
+                && r.Diagnostic.EndsWith(EmbeddedWallDocument.DesignHistoryRequest(r.CaseId), StringComparison.Ordinal)), "A2: sostegno SLU verificato senza la conferma: " + kind);
         }
         var strip = Example(); strip["check_kind"] = "Ultimate"; strip["rc_sections"] = new JsonArray(EmbeddedWallDocument.NewRow("rc_sections"));
         // B2 (review of 15/11): without the confirmation the ULS strips are not verified, but the analysis and the other checks run (here the SLE
@@ -66,7 +66,7 @@ internal static partial class EmbeddedWallChecks
         var stripAndPiles = RcPileExample(); stripAndPiles[DesignKey] = false; stripAndPiles["rc_pile_check_kind"] = "Characteristic";
         stripAndPiles["check_kind"] = "Ultimate"; stripAndPiles["rc_sections"] = new JsonArray(EmbeddedWallDocument.NewRow("rc_sections"));
         var unconfirmedStrip = service.Calculate(stripAndPiles).NativeAs<EmbeddedWallReportData>();
-        e.That(unconfirmedStrip.Complete && unconfirmedStrip.Checks.Count == 0 && unconfirmedStrip.Scope.Contains("Sezioni in c.a.: " + EmbeddedWallDocument.DesignHistoryRequest)
+        e.That(unconfirmedStrip.Complete && unconfirmedStrip.Checks.Count == 0 && unconfirmedStrip.Scope.Contains("Sezioni in c.a.: " + EmbeddedWallDocument.DesignHistoryRequest(unconfirmedStrip.CaseId))
             && unconfirmedStrip.RcPiles!.Count > 0 && unconfirmedStrip.RcPiles.All(r => r.Outcome == EngineeringOutcome.Satisfied),
             "A2 (B2): fascia c.a. SLU senza conferma verificata, oppure analisi e SLE dei pali fermate.");
         strip[DesignKey] = true;
@@ -87,9 +87,17 @@ internal static partial class EmbeddedWallChecks
         e.That(split[0][DesignKey]!.GetValue<bool>() && !split[1][DesignKey]!.GetValue<bool>(), "A2: il caso eredita la conferma della storia principale.");
         var both = service.Calculate(multi).NativeAs<EmbeddedWallReportData>();
         e.That(both.Cases![0].RcPiles!.Any(r => r.Outcome != EngineeringOutcome.NotEvaluated)
-            && both.Cases[0].RcPiles!.All(r => r.Diagnostic != EmbeddedWallDocument.DesignHistoryRequest)
-            && both.Cases[1].RcPiles!.Count > 0 && both.Cases[1].RcPiles!.All(r => r.Outcome == EngineeringOutcome.NotEvaluated && r.Diagnostic == EmbeddedWallDocument.DesignHistoryRequest),
+            && both.Cases[0].RcPiles!.All(r => r.Diagnostic != EmbeddedWallDocument.DesignHistoryRequest(r.CaseId))
+            && both.Cases[1].RcPiles!.Count > 0 && both.Cases[1].RcPiles!.All(r => r.Outcome == EngineeringOutcome.NotEvaluated && r.Diagnostic == EmbeddedWallDocument.DesignHistoryRequest(r.CaseId)),
             "A2: conferme dei casi mescolate.");
+        // B1 (review of 15/11): the message names the case without confirmation; a strip of that case does not stop the confirmed one.
+        e.That(both.Cases[1].RcPiles![0].Diagnostic.StartsWith("Verifica SLU non eseguita nel caso «C2»", StringComparison.Ordinal),
+            "A2 (B1): il messaggio non nomina il caso senza conferma.");
+        var multiStrip = RcPileExample(); multiStrip["case_id"] = "C1"; multiStrip["check_kind"] = "Ultimate";
+        var wideStrip = EmbeddedWallDocument.NewRow("rc_sections"); wideStrip["width"] = 1500; multiStrip["rc_sections"] = new JsonArray(wideStrip); var stripCase = AddHistory(multiStrip, "C2"); stripCase[DesignKey] = false;
+        var stripCases = service.Calculate(multiStrip).NativeAs<EmbeddedWallReportData>();
+        e.That(stripCases.Cases![0].Scope.All(s => !s.Contains("nel caso «C1»")) && stripCases.Cases[1].Scope.Contains("Sezioni in c.a.: " + EmbeddedWallDocument.DesignHistoryRequest("C2"))
+            && stripCases.Cases[0].RcPiles!.Any(r => r.Outcome != EngineeringOutcome.NotEvaluated), "A2 (B1): la fascia del caso senza conferma ferma o confonde il caso confermato.");
 
         // The report: the warning under the actions of every history, with the state of the confirmation, and the field among the data.
         string confirmedXml = EmbeddedWallReport.Create("A2 confermata", service.Calculate(RcPileExample()).NativeAs<EmbeddedWallReportData>()).GetXml("word/document.xml").ToString();
