@@ -19,7 +19,7 @@ internal static partial class EmbeddedWallChecks
     {
         var data = Example(); data["name"] = "Sostegni metallici — prova sintetica";
         data["fix_top_u"] = true; data["width"] = 1.5; data["loads"] = new JsonArray();
-        data["steel_standard"] = "NTC 2018"; data["steel_check_kind"] = "StaticUltimate";
+        data["steel_standard"] = "NTC 2018"; data["steel_check_kind"] = "StaticUltimate"; data[EmbeddedWallDocument.DesignHistoryKey] = true;
         foreach (var item in new[] { ("A", "Anchor", 30d, 2d), ("S", "Strut", 60d, 3d) })
         {
             var support = EmbeddedWallDocument.NewRow("supports"); support["id"] = item.Item1; support["kind"] = item.Item2;
@@ -46,7 +46,7 @@ internal static partial class EmbeddedWallChecks
     {
         var old = Example(); old["schema"] = 4; old.Remove("steel_members"); old.Remove("steel_standard"); old.Remove("steel_check_kind");
         string before = old.ToJsonString(); var upgraded = EmbeddedWallDocument.Snapshot(old);
-        e.That(old.ToJsonString() == before && upgraded["schema"]!.ToString() == "12" && upgraded["steel_standard"]!.ToString() == "Non richieste"
+        e.That(old.ToJsonString() == before && upgraded["schema"]!.ToString() == "13" && upgraded["steel_standard"]!.ToString() == "Non richieste"
             && upgraded["steel_members"]!.AsArray().Count == 0, "Migrazione 4→5 attiva verifiche o modifica gli input originali.");
         var data = SteelExample(); before = data.ToJsonString(); using var sheet = Open(data);
         e.That(await Expect.Within(sheet.CalculateAsync()), "Calcolo con sostegni metallici non pubblicato.");

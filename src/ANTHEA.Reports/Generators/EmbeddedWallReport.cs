@@ -15,6 +15,14 @@ public static partial class EmbeddedWallReport
     private static string Compact(double value) => value != 0 && (Math.Abs(value) < .0001 || Math.Abs(value) >= 100000)
         ? value.ToString("0.##E+0", CultureInfo.GetCultureInfo("it-IT")) : F(value);
     public static string DisplayLabel(string key) => Labels.GetValueOrDefault(key, key);
+    /// <summary>Warning of A2 (paratie review, sheet of 16/11/2026), written under the actions of every history: the service adds no partial factor,
+    /// with the confirmation of the history as saved in the analysed input (a snapshot without the field reads as not confirmed).</summary>
+    public static string PartialFactorsWarning(JsonObject input)
+    {
+        bool confirmed = input["design_history_confirmed"] is JsonValue value && value.TryGetValue<bool>(out var flag) && flag;
+        return "Avvertenza: il servizio non aggiunge coefficienti parziali né alle azioni né agli effetti. Le verifiche SLU valgono solo se la storia delle fasi è già di progetto. "
+            + (confirmed ? "Storia delle fasi confermata come di progetto dall'utente." : "Storia delle fasi non confermata come di progetto: verifiche SLU non eseguite.");
+    }
     public static string OutcomeText(EngineeringOutcome outcome) => outcome switch
     { EngineeringOutcome.Satisfied => "Soddisfatto", EngineeringOutcome.NotSatisfied => "Non soddisfatto", EngineeringOutcome.NotEvaluated => "Non valutato", _ => outcome.ToString() };
     public static DocxDocument Create(string title, EmbeddedWallReportData result, bool allStations = false)
@@ -39,6 +47,7 @@ public static partial class EmbeddedWallReport
         {
             P(currentTitle, true);
             P(currentResult.Name + " · Caso " + currentResult.CaseId); P("Azioni: " + currentResult.ActionBasis);
+            P(PartialFactorsWarning(string.IsNullOrWhiteSpace(currentResult.InputJson) ? new JsonObject() : JsonNode.Parse(currentResult.InputJson)!.AsObject()));
             P(currentResult.Complete ? "Storia completata. La convergenza non attesta tutte le verifiche dell'opera." : "ANALISI INCOMPLETA — sono riportate soltanto le fasi concluse.", true);
             if (!currentResult.Complete) P(currentResult.Diagnostic);
             foreach (string note in currentResult.Scope) P(note);
@@ -232,7 +241,7 @@ public static partial class EmbeddedWallReport
     }
     private static readonly FrozenDictionary<string, string> Labels = new Dictionary<string, string>()
     {
-        ["name"]="Nome", ["case_id"]="Caso", ["action_basis"]="Origine delle azioni", ["top"]="Quota superiore [m]", ["bottom"]="Quota inferiore [m]", ["width"]="Larghezza (m generale, mm sezione c.a.)",
+        ["name"]="Nome", ["case_id"]="Caso", ["action_basis"]="Origine delle azioni", ["design_history_confirmed"]="Storia già di progetto per le verifiche SLU", ["top"]="Quota superiore [m]", ["bottom"]="Quota inferiore [m]", ["width"]="Larghezza (m generale, mm sezione c.a.)",
         ["mesh"]="Lunghezza massima elemento [m]", ["check_kind"]="Combinazione fasce rettangolari c.a.", ["substeps"]="Incrementi", ["segments"]="Tratti e rigidezze", ["left_soils"]="Terreno a sinistra", ["right_soils"]="Terreno a destra",
         ["supports"]="Sostegni", ["stages"]="Fasi", ["activations"]="Attivazioni", ["loads"]="Carichi", ["rc_sections"]="Armature", ["section"]="Sezione", ["ei"]="EI [kNm²]", ["weight"]="Peso lineare [kN/m]",
         ["source"]="Fonte", ["gamma"]="γ [kN/m³]", ["gamma_sat"]="γsat [kN/m³]", ["phi"]="φ′ [°]", ["c"]="c′ [kPa]", ["cu"]="cu [kPa]", ["k0"]="K0", ["kh"]="kh [N/mm³]", ["drainage"]="Condizione", ["stiffness_source"]="Fonte kh",

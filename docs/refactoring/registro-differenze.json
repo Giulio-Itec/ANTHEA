@@ -14131,6 +14131,37 @@
       ]
     },
     {
+      "id": "PARATIE-22",
+      "data": "2026-11-15",
+      "fase": "dopo la 1.19.0 / paratie",
+      "titolo": "Verifiche SLU solo su una storia confermata come già di progetto",
+      "famiglia": "paratie/verifiche",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Punto A2 della revisione delle paratie (21-22/10, Checker/docs/verifiche/paratie-revisione-2026-10.md), opzione (a) della scheda delle decisioni del 16/11 (punto 12). Il servizio non applica coefficienti parziali né alle azioni né agli effetti: lo SLU dipendeva solo dal testo libero «Provenienza e coefficienti delle azioni», e una storia caratteristica marcata SLU dava azioni più basse del 23–33 %. Nuovo campo «Storia delle fasi già di progetto per le verifiche SLU» (design_history_confirmed), per la storia principale e per ogni caso. Senza conferma: la fascia rettangolare in c.a. SLU è rifiutata con la richiesta (come la provenienza mancante); pali circolari SLU, tubi CHS e sostegni metallici SLU statici o sismici restano «Non valutato» con la richiesta. Le combinazioni SLE e lo sfilamento dei tiranti (conferma A1+M1 propria) non cambiano. La relazione scrive sotto le azioni di ogni storia l'avvertenza «il servizio non aggiunge coefficienti parziali né alle azioni né agli effetti» con lo stato della conferma.",
+      "codice": [
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallDocument.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallHistories.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallModule.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallRcPileChecks.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallSteelChecks.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallTubeChecks.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallFields.cs",
+        "src/ANTHEA.Presentation/Help/HelpTopics.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallReport.cs"
+      ],
+      "segno": "a favore di sicurezza: nessuna verifica SLU su una storia non dichiarata di progetto. Documento paratie alla versione 13: i documenti nuovi e quelli salvati partono con la conferma a falso, anche se la provenienza dice «SLU» o «di progetto», e un caso non eredita la conferma della storia principale. Un documento salvato con verifiche SLU apre con la richiesta; ricalcolato senza conferma, la fascia c.a. SLU è rifiutata e le altre verifiche SLU restano «Non valutato». Con la conferma i risultati sono quelli di prima.",
+      "decisione": {
+        "data": "2026-11-15",
+        "utente": "«hai tanti punti in lista. possiamo farli» (15/11), sulla raccomandazione A2 (a) della scheda del 16/11",
+        "esito": "attuato sul ramo claude/scheda-20261116, in attesa della scelta dell'utente di lunedì 16/11; l'Approccio 1 completo (A2 b) resta un lavoro a sé"
+      },
+      "test": [
+        "Presentation --paratie (EmbeddedWallDesignHistoryChecks): documento e caso nuovi non confermati; migrazione 12 → 13 senza conferma per la storia principale e per i casi; campo nel gruppo «Verifiche e combinazioni», nella tabella dei casi e nell'aiuto; pali, tubi e sostegni SLU «Non valutato» con la richiesta; fascia c.a. SLU rifiutata, confermata verificata; SLE di pali e fasce senza conferma; caso senza conferma accanto a una storia principale confermata; avvertenza nella relazione per ogni storia",
+        "esempi di distribuzione 04, 05 e 06: con la richiesta finché non si approva il commit «DA APPROVARE» che li conferma"
+      ]
+    },
+    {
       "id": "COMBO-B1",
       "data": "2026-10-29",
       "fase": "dopo la 1.16.0 / combo-modelli",
