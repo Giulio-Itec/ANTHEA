@@ -1,5 +1,15 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Paratie: fase nuova con quote e falda della precedente (A3) — 15 novembre 2026
+
+Punto 12 della scheda delle decisioni del 16/11; ramo `claude/scheda-20261116`, **in attesa della scelta dell'utente di lunedì 16/11**;
+registro `PARATIE-23`.
+
+- [x] «Aggiungi» delle fasi continua terreno e falda dell'ultima fase dello stesso caso; sovraccarichi, carichi e rigidezza dai valori
+  iniziali. Un solo passo dello storico del progetto, che «Annulla» toglie per intero.
+- [x] Presentation `--paratie` PASS 1661 con A2 e A3.
+- [ ] Guide: la frase «La nuova fase parte dai valori iniziali del modulo» nella prossima edizione, con Word, PDF e transizioni della Wiki.
+
 ## Paratie: verifiche SLU su una storia di progetto confermata (A2) — 15 novembre 2026
 
 Punto 12 della scheda delle decisioni del 16/11, opzione (a) di A2; ramo `claude/scheda-20261116`, **in attesa della scelta dell'utente
