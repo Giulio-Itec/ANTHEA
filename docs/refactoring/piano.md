@@ -7,8 +7,11 @@ registro `PARATIE-23`.
 
 - [x] «Aggiungi» delle fasi continua terreno e falda dell'ultima fase dello stesso caso; sovraccarichi, carichi e rigidezza dai valori
   iniziali. Un solo passo dello storico del progetto, che «Annulla» toglie per intero.
-- [x] Presentation `--paratie` PASS 1661 con A2 e A3.
-- [ ] Guide: la frase «La nuova fase parte dai valori iniziali del modulo» nella prossima edizione, con Word, PDF e transizioni della Wiki.
+- [x] Presentation `--paratie` PASS (prove `EmbeddedWallNewStageChecks`; conteggi nel rapporto dell'agente).
+- [ ] Guide: la frase «La nuova fase parte dai valori iniziali del modulo» (`supporto/docs/guida-pratica-anthea.md`, «Definire il modello
+  e le unità») nella prossima edizione. La Wiki incorpora la guida con l'impronta SHA-256 e gli scostamenti dell'indice
+  (`src/ANTHEA.Wiki/Content/sources.props`, `build-wiki-index.py`), quindi il testo va cambiato con l'indice, Word, PDF e le transizioni
+  F3 della Wiki; testo proposto nel rapporto dell'agente.
 
 ## Paratie: verifiche SLU su una storia di progetto confermata (A2) — 15 novembre 2026
 
