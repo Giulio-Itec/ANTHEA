@@ -1,5 +1,18 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Paratie: verifiche SLU su una storia di progetto confermata (A2) — 15 novembre 2026
+
+Punto 12 della scheda delle decisioni del 16/11, opzione (a) di A2; ramo `claude/scheda-20261116`, **in attesa della scelta dell'utente
+di lunedì 16/11**; registro `PARATIE-22`.
+
+- [x] Conferma «Storia delle fasi già di progetto per le verifiche SLU» per la storia principale e per ogni caso: senza conferma niente
+  SLU di fasce, pali, tubi e sostegni metallici. Documento paratie alla versione 13, i file salvati aprono con la richiesta; avvertenza
+  nella relazione.
+- [x] Presentation `--paratie` PASS 1661 (30 controlli nuovi fra A2 e A3); Examples.Tests PASS 472 (95 esempi; 04–06 con la richiesta).
+- [ ] Esempi di distribuzione 04–06 confermati: commit «DA APPROVARE».
+- [ ] Suite WPF `ui/check-paratie-view` (stadio ui, non eseguita dall'agente).
+- [ ] Guide: la conferma in «Richiedere le verifiche» nella prossima edizione, con Word, PDF e transizioni della Wiki.
+
 ## ANTHEA 1.19.0 — 8 novembre 2026
 
 Decisione dell'utente dell'8/11, «Sì, ANTHEA prima»: la 1.19.0 esce prima dei plug-in Rhino, con le librerie da origin/master. Ramo

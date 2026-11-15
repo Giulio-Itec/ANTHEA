@@ -134,7 +134,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
         EmbeddedWallDocument.Upgrade(Data);
         General = new(Data, EmbeddedWallFields.General(), _ => Changed(), wikiModule: EmbeddedWallDocument.Module) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
         General.GroupFields("Discretizzazione e vincoli", ["mesh", "substeps", "fix_top_u", "fix_top_rotation", "fix_bottom_u", "fix_bottom_rotation"]);
-        General.GroupFields("Verifiche e combinazioni", ["action_basis", "check_kind", "steel_standard", "steel_check_kind",
+        General.GroupFields("Verifiche e combinazioni", ["action_basis", EmbeddedWallDocument.DesignHistoryKey, "check_kind", "steel_standard", "steel_check_kind",
             "anchor_standard", "anchor_situation", "tube_standard", "tube_check_kind", "rc_pile_standard", "rc_pile_check_kind", "anchor_a1m1"]);
         Hydraulics = new(Data, EmbeddedWallFields.Hydraulics(), _ => Changed(), wikiModule: EmbeddedWallDocument.Module) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };
         Embedment = new(Data, EmbeddedWallFields.Embedment(), _ => Changed(), wikiModule: EmbeddedWallDocument.Module) { IsReadOnly = !CanEdit, WikiNavigator = Context.Services.Wiki };

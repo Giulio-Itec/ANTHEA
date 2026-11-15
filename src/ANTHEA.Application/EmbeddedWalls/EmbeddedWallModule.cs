@@ -29,6 +29,9 @@ public sealed partial class EmbeddedWallModule : IModuleService
             ? choice : throw new ArgumentException("Tipo di verifica delle sezioni non supportato.");
         if (kind.HasValue && (string.IsNullOrWhiteSpace(basis) || basis == "Da definire"))
             throw new ArgumentException("Dichiarare combinazione e provenienza delle azioni: nessun coefficiente viene applicato implicitamente.");
+        // A2 (sheet of 16/11/2026): the ULS strips need the history confirmed as a design history, as the declared basis above.
+        if (kind == EmbeddedWallSectionCheckKind.Ultimate && !EmbeddedWallDocument.DesignHistoryConfirmed(data))
+            throw new ArgumentException(EmbeddedWallDocument.DesignHistoryRequest);
         var rc = kind.HasValue ? EmbeddedWallAdapter.ConcreteSections(data) : [];
         if (kind.HasValue && rc.Count == 0) throw new ArgumentException("Definire le sezioni in c.a. da verificare.");
         foreach (var section in rc) section.Validate();

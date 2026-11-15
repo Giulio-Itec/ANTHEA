@@ -175,7 +175,7 @@ internal static partial class EmbeddedWallViewChecks
             Check(sheet.HydraulicChecks.Count == 0 && sheet.SelectedHydraulicCheck is null && !sheet.HydraulicChecksCsvCommand.CanExecute(null), "Verifiche idrauliche superate ancora esportabili.");
             Check(globalPlot.Check is null && sheet.GlobalChecks.Count == 0 && !sheet.GlobalCsvCommand.CanExecute(null), "Risultato globale superato ancora visibile o esportabile.");
             var steelData = EmbeddedWallDocument.Create(); steelData["name"] = "Puntone metallico — collaudo grafico";
-            steelData["action_basis"] = "Forza di progetto sintetica, nessun coefficiente aggiuntivo";
+            steelData["action_basis"] = "Forza di progetto sintetica, nessun coefficiente aggiuntivo"; steelData[EmbeddedWallDocument.DesignHistoryKey] = true;
             steelData["steel_standard"] = "NTC 2018"; steelData["steel_check_kind"] = "StaticUltimate";
             steelData["left_soils"] = new JsonArray(); steelData["right_soils"] = new JsonArray();
             steelData["fix_top_u"] = true; steelData["fix_bottom_u"] = true; steelData["fix_bottom_rotation"] = true;
