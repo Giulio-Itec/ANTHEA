@@ -106,7 +106,7 @@ internal static partial class EmbeddedWallChecks
         const string unconfirmed = "Storia delle fasi non confermata come di progetto: queste verifiche SLU non sono eseguite.";
         e.That(confirmedXml.Contains(warning) && confirmedXml.Contains("Storia delle fasi confermata come di progetto dall'utente.")
             && requestXml.Contains(warning) && requestXml.Contains(unconfirmed)
-            && confirmedXml.Contains("Storia già di progetto per le verifiche SLU"), "A2: avvertenza o conferma assenti dalla relazione.");
+            && confirmedXml.Contains("Storia delle fasi già di progetto per le verifiche SLU"), "A2: avvertenza o conferma assenti dalla relazione.");
         string multiXml = EmbeddedWallReport.Create("A2 casi", both).GetXml("word/document.xml").ToString();
         e.That(multiXml.Split(warning).Length - 1 == 2, "A2: l'avvertenza non è ripetuta per ogni storia.");
         // M2 (review of 15/11): exact per history. Tie rods, UPL/HYD and global stability have their own factors; without one of the four ULS

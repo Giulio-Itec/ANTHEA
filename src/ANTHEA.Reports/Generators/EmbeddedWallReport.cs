@@ -253,7 +253,7 @@ public static partial class EmbeddedWallReport
     }
     private static readonly FrozenDictionary<string, string> Labels = new Dictionary<string, string>()
     {
-        ["name"]="Nome", ["case_id"]="Caso", ["action_basis"]="Origine delle azioni", ["design_history_confirmed"]="Storia già di progetto per le verifiche SLU", ["top"]="Quota superiore [m]", ["bottom"]="Quota inferiore [m]", ["width"]="Larghezza (m generale, mm sezione c.a.)",
+        ["name"]="Nome", ["case_id"]="Caso", ["action_basis"]="Origine delle azioni", ["design_history_confirmed"]="Storia delle fasi già di progetto per le verifiche SLU", ["top"]="Quota superiore [m]", ["bottom"]="Quota inferiore [m]", ["width"]="Larghezza (m generale, mm sezione c.a.)",
         ["mesh"]="Lunghezza massima elemento [m]", ["check_kind"]="Combinazione fasce rettangolari c.a.", ["substeps"]="Incrementi", ["segments"]="Tratti e rigidezze", ["left_soils"]="Terreno a sinistra", ["right_soils"]="Terreno a destra",
         ["supports"]="Sostegni", ["stages"]="Fasi", ["activations"]="Attivazioni", ["loads"]="Carichi", ["rc_sections"]="Armature", ["section"]="Sezione", ["ei"]="EI [kNm²]", ["weight"]="Peso lineare [kN/m]",
         ["source"]="Fonte", ["gamma"]="γ [kN/m³]", ["gamma_sat"]="γsat [kN/m³]", ["phi"]="φ′ [°]", ["c"]="c′ [kPa]", ["cu"]="cu [kPa]", ["k0"]="K0", ["kh"]="kh [N/mm³]", ["drainage"]="Condizione", ["stiffness_source"]="Fonte kh",
