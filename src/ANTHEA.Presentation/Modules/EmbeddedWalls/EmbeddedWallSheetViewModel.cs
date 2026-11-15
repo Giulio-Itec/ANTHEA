@@ -40,6 +40,8 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     public EmbeddedWallSheetViewModel(SheetContext context) : base(EmbeddedWallDocument.Module, context)
     {
         Documents = new(Guard);
+        StageLevels = new(() => CanEdit, () => Context.Host.ConfirmEdit(),
+            () => { Tables.Single(t => t.Key == "stages").Synchronize(); Context.Host.ConfirmEdit(); });
         Rebuild(); InitializeSketch(); InitializeStages(); InitializeWorkTree(); Report = new SheetReport(this);
         RunCommand = GuardedCommands.CreateAsync(Guard, async c => { await CalculateAsync(c); }, Lifetime, () => !IsBusy);
         CancelCommand = GuardedCommands.Create(Guard, () => { searchCancellation?.Cancel(); CancelCalculation(); }, () => IsBusy);
@@ -187,7 +189,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
             if (General is not null) General.IsReadOnly = !CanEdit;
             if (Hydraulics is not null) Hydraulics.IsReadOnly = !CanEdit;
             if (Embedment is not null) Embedment.IsReadOnly = !CanEdit;
-            foreach (var table in Tables) table.RefreshAccess(); ImportSoilCommand?.NotifyCanExecuteChanged(); NotifyStageCommands();
+            foreach (var table in Tables) table.RefreshAccess(); ImportSoilCommand?.NotifyCanExecuteChanged(); NotifyStageCommands(); StageLevels?.Show(InputStage);
         }
         if (e.PropertyName == nameof(IsBusy)) { RunCommand?.NotifyCanExecuteChanged(); CancelCommand?.NotifyCanExecuteChanged(); SearchEmbedmentCommand?.NotifyCanExecuteChanged(); }
     }

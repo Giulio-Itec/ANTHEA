@@ -51,6 +51,19 @@
    <Separator/>
    <MenuItem Header="Elimina la fase corrente" Command="{Binding DeleteStageCommand}" InputGestureText="Canc"/>
   </ContextMenu>
+  <!-- Boxes of the command bar (step 3): written when the box loses the focus or with Invio (BarBoxKeyDown), read-only without a phase. -->
+  <Style x:Key="BarBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+   <Setter Property="Width" Value="58"/>
+   <Setter Property="Margin" Value="2,3"/>
+   <Setter Property="TextAlignment" Value="Right"/>
+   <Setter Property="IsReadOnly" Value="{Binding StageLevels.IsReadOnly}"/>
+   <EventSetter Event="KeyDown" Handler="BarBoxKeyDown"/>
+  </Style>
+  <Style x:Key="BarLabel" TargetType="TextBlock">
+   <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+   <Setter Property="Margin" Value="6,0,2,0"/>
+  </Style>
  </UserControl.Resources>
  <DockPanel>
   <Grid DockPanel.Dock="Top" Background="{DynamicResource Token.CommandBar}">
@@ -114,6 +127,27 @@
         ToolTip="Aggiungi, inserisci, rinomina o elimina le fasi del caso" AutomationProperties.Name="Menu Fase"/>
        <Button Style="{StaticResource BarButton}" Content="Fasi e falda" Command="{Binding EditModelCommand}" CommandParameter="stages"/>
       </WrapPanel></HeaderedContentControl>
+      <!-- Step 3: the levels of the phase chosen in the tabs, written in its row of «Fasi costruttive» (empty water: none). -->
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Scavo [m]"><StackPanel Orientation="Horizontal">
+       <TextBlock Style="{StaticResource BarLabel}" Text="Sx"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.LeftGround}" ToolTip="Quota del terreno a sinistra nella fase scelta [m]" AutomationProperties.Name="Scavo a sinistra della fase"/>
+       <TextBlock Style="{StaticResource BarLabel}" Text="Dx"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.RightGround}" ToolTip="Quota del terreno a destra nella fase scelta [m]" AutomationProperties.Name="Scavo a destra della fase"/>
+      </StackPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Falda [m] · vuoto: assente"><StackPanel Orientation="Horizontal">
+       <TextBlock Style="{StaticResource BarLabel}" Text="Sx"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.LeftWater}" ToolTip="Quota della falda a sinistra nella fase scelta [m]; vuoto: assente" AutomationProperties.Name="Falda a sinistra della fase"/>
+       <TextBlock Style="{StaticResource BarLabel}" Text="Dx"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.RightWater}" ToolTip="Quota della falda a destra nella fase scelta [m]; vuoto: assente" AutomationProperties.Name="Falda a destra della fase"/>
+      </StackPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Sovraccarico [kPa] · parete [kN/m]"><StackPanel Orientation="Horizontal">
+       <TextBlock Style="{StaticResource BarLabel}" Text="Sx"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.LeftSurcharge}" ToolTip="Sovraccarico a sinistra nella fase scelta [kPa]" AutomationProperties.Name="Sovraccarico a sinistra della fase"/>
+       <TextBlock Style="{StaticResource BarLabel}" Text="Dx"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.RightSurcharge}" ToolTip="Sovraccarico a destra nella fase scelta [kPa]" AutomationProperties.Name="Sovraccarico a destra della fase"/>
+       <TextBlock Style="{StaticResource BarLabel}" Text="Parete"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.WallLoad}" ToolTip="Carico uniforme sull'intera fascia nella fase scelta [kN/m], positivo verso destra" AutomationProperties.Name="Carico uniforme sulla parete della fase"/>
+      </StackPanel></HeaderedContentControl>
       <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Terreni"><WrapPanel>
        <Button Style="{StaticResource BarButton}" Content="Terreno sx" Command="{Binding EditModelCommand}" CommandParameter="left_soils"/>
        <Button Style="{StaticResource BarButton}" Content="Terreno dx" Command="{Binding EditModelCommand}" CommandParameter="right_soils"/>

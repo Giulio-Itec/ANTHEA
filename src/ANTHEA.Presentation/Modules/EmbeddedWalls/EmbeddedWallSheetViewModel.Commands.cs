@@ -20,6 +20,9 @@ public sealed partial class EmbeddedWallSheetViewModel
         set { if (value is not null && CommandPages.Contains(value)) SetProperty(ref commandPage, value); }
     }
 
+    /// <summary>Boxes Scavo, Falda and Sovraccarico of the page Modello (step 3): the values of the phase of the tabs.</summary>
+    public EmbeddedWallStageLevels StageLevels { get; }
+
     /// <summary>The documents of the central area: the section of the phase and the views opened on request.</summary>
     public EmbeddedWallDocuments Documents { get; }
 }

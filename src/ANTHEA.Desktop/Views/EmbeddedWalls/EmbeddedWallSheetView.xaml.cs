@@ -16,6 +16,13 @@ public partial class EmbeddedWallSheetView : UserControl
         menu.DataContext = button.DataContext;
         menu.PlacementTarget = button; menu.Placement = PlacementMode.Bottom; menu.IsOpen = true;
     }
+    /// <summary>A box of the command bar (Scavo, Falda, Sovraccarico, step 3) confirms its value with Invio as when it loses the focus.</summary>
+    private void BarBoxKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.Enter || sender is not TextBox box) return;
+        box.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+        e.Handled = true;
+    }
     private void WorkTreeSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
         if (DataContext is EmbeddedWallSheetViewModel sheet && e.NewValue is EmbeddedWallWorkNode node)
