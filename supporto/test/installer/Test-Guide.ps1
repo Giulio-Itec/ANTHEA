@@ -90,21 +90,32 @@ FunctionEnd
 Section "-TestUninstaller"
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 SectionEnd
-Section "Uninstall"
+; Keep each trace write self-contained; no open trace handle across removal.
+Function un.WriteTrace
+  Exch $0
+  Push $9
   FileOpen $9 "${TRACE}" a
   FileSeek $9 0 END
-  FileWrite $9 'Removal started: $INSTDIR$\r$\n'
+  FileWrite $9 $0
+  FileClose $9
+  Pop $9
+  Pop $0
+FunctionEnd
+Section "Uninstall"
+  Push 'Removal started: $INSTDIR$\r$\n'
+  Call un.WriteTrace
   ClearErrors
   !include "${STAGE}\uninstall-guides.nsh"
   ${If} ${Errors}
-    FileWrite $9 'Removal reported errors$\r$\n'
+    Push 'Removal reported errors$\r$\n'
+    Call un.WriteTrace
   ${EndIf}
   !include "${STAGE}\uninstall-guide-shortcuts.nsh"
   RMDir "$INSTDIR\Start"
   Delete "$INSTDIR\Uninstall.exe"
   RMDir "$INSTDIR"
-  FileWrite $9 'Removal completed: $INSTDIR$\r$\n'
-  FileClose $9
+  Push 'Removal completed: $INSTDIR$\r$\n'
+  Call un.WriteTrace
 SectionEnd
 '@
 $harnessPath = Join-Path $work 'test-guide.nsi'
