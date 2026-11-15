@@ -287,7 +287,7 @@
       "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
       "kind": "calcolo",
       "sha256": "509179d7d2d8d0cb0a4273247d786800abdc235340f476737ff9f8867d5e02d0",
-      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/04-pali-ca.anthea"
+      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/04-pali-ca.anthea; esempio adattato il 15/11/2026: aggiunta la conferma della storia di progetto (A2, PARATIE-22)"
     },
     {
       "path": "geo_paratie/05-tubolari-acciaio.anthea",
@@ -296,7 +296,7 @@
       "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
       "kind": "calcolo",
       "sha256": "ea12523ab489cb1d65d9abb50d825f6f2b058f7f8b6454a63f33742576283bc7",
-      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/05-tubolari-acciaio.anthea"
+      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/05-tubolari-acciaio.anthea; esempio adattato il 15/11/2026: aggiunta la conferma della storia di progetto (A2, PARATIE-22)"
     },
     {
       "path": "geo_paratie/06-sostegni-acciaio.anthea",
@@ -305,7 +305,7 @@
       "description": "Analisi della paratia per fasi: confrontare deformata, sollecitazioni e verifiche dei sostegni.",
       "kind": "calcolo",
       "sha256": "3f16ec0c83bfb589850228f8fe2517420485e43f2c6639a4f97860a1ba4ee608",
-      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/06-sostegni-acciaio.anthea"
+      "origin": "supporto\\artefatti\\paratie\\rilascio-1.11.1\\installer\\ANTHEA-1.11.1-Esempi.zip!esempi/06-sostegni-acciaio.anthea; esempio adattato il 15/11/2026: aggiunta la conferma della storia di progetto (A2, PARATIE-22)"
     },
     {
       "path": "geo_paratie/07-sfilamento-tiranti.anthea",
