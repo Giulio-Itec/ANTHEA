@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-11-08",
+  "aggiornato": "2026-11-15",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -2464,6 +2464,14 @@
         "effetto_anthea": "Nessuno: ANTHEA usa la classe minima della UNI 11104, non quella del prospetto E.1N.",
         "evidenze": "librerie del ramo lib-1160/coordinatore (Checker c7395300…532fc1a4, 9f7ab415; Model 10ff0592, ba6721b5), set candidato di integrazione int-b"
       },
+      "riscontro_testi_20261101": {
+        "data": "2026-11-01",
+        "agente": "ca-metodi (ANTHEA-f5-ripresa/f5-agenti/ca-metodi/avanzamento.md:74-79)",
+        "testi": "UNI EN 1992-1-1:2015 (testo inglese ufficiale di EN 1992-1-1:2004 + AC:2010 + A1:2014), raccolta dell'ufficio X:\\ITEC-SGI-CONSULTAZIONE\\UNI; prospetto E.1N a p. 242 del PDF (p. 210 stampata)",
+        "esito": "Riscontrato sul testo il 1/11: XC3 e XC4 hanno una sola cella, C30/37; XC2 ha la sua, C25/30; le altre 17 celle coincidono con il codice. Il codice usa C30/37 (Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:70-71). La lettura della 1.16.0 da fonte secondaria è confermata.",
+        "effetto_anthea": "Nessuno: ANTHEA usa la classe della UNI 11104.",
+        "annotato": "15/11/2026 dalla scheda delle decisioni del 16/11 (gpc-f6-claude/INT/rapporti/scheda-decisioni-anthea-20261116.md, punto 8), in attesa dell'ok dell'utente a scrivere «riscontrato sul testo»; il «ti mando la norma» del 29/10 è superato."
+      },
       "rinvio_26_10": {
         "data": "2026-10-26",
         "utente": "«Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)",
@@ -2482,7 +2490,7 @@
         {
           "fonte": "EN 1992-1-1:2004 + AC:2010",
           "punto": "appendice E (informativa), prospetto E.1N",
-          "riscontro": "testo; impaginazione delle celle di XC2-XC4 da riscontrare"
+          "riscontro": "testo; riscontrato sul testo il 1/11: XC3 e XC4 in una cella con C30/37, XC2 C25/30 (UNI EN 1992-1-1:2015, testo inglese della EN, p. 242 del PDF)"
         }
       ],
       "codice": [

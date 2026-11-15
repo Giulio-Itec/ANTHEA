@@ -1,5 +1,28 @@
 # Refactoring di ANTHEA: decisioni
 
+## 15 novembre — Hansen chiuso e voci del piano superate (scheda del 16/11)
+
+Annotazioni preparate il 15/11 sera dalla scheda delle decisioni di lunedì 16/11 (`gpc-f6-claude/INT/rapporti/scheda-decisioni-anthea-20261116.md`,
+fuori dal repository, tabella «Voci superate da spuntare»), sul ramo `claude/scheda-20261116`. Sono **in attesa dell'ok dell'utente**:
+se lunedì una voce non va bene, la spunta si toglie.
+
+- **Hansen con carico inclinato** (29/10 mattina, punto 2): chiuso il 5/11. Q1 attuato in Checker `f424383b` (Geotechnics 0.28.0.0,
+  direzione di L′ solo con H_L > 0); Q2 e Q3 restano come nel manuale. Del punto 2 resta aperto solo il confronto dello Stratificato
+  con Broms (punto 7 della scheda).
+- **Spunte di `piano.md`**:
+  - full della 1.17.2, della 1.17.3, della 1.17.6 e della 1.18.0, dei Grafici senza «Premere Calcola», degli Spettri con le guide
+    Rev69 e dei rilievi bassi delle Azioni: coperte dalla full di rilascio della 1.19.0, PASS 166 su `12657b91`, che contiene `main` fino a `8ef58180`, quindi anche
+    `18e6b405` (1.17.6) e `9aa5afcf` (1.18.0). La prova sul modello MIDAS vero resta aperta;
+  - guide di spessori, calcolo in serie e pannello dello spazio: Rev70 del 4/11, ripresa nella Rev71;
+  - archivio dei risultati dei modelli grandi: «Blocchi accanto» del 2/11 (`9e46fa68`, `1a7b6018`, `1bce0729`). Resta da confermare se
+    «Copie precedenti» basta per lo storico completo delle copie;
+  - report di calcolo «dopo l'abbozzo dell'utente»: superata dalla richiesta del 6/11 (template dei soli stili). La revisione dei report
+    con la traccia del taglio NTC resta aperta finché l'utente non dice che il lavoro del 6/11 basta;
+  - R14: μφ calcolata (Concrete 0.33), nella scheda dalla 1.17.0 e nella relazione dalla 1.19.0; testo NTC da riscontrare;
+  - R17, anche nel registro: riscontrato sul testo il 1/11 (agente `ca-metodi`, UNI EN 1992-1-1:2015, prospetto E.1N). Il «ti mando la
+    norma» del 29/10 è superato.
+- Restano aperte la guida della verifica rifiutata per errori di dominio e la prova MIDAS dal vivo.
+
 ## 6 novembre — report correnti e template dei soli stili
 
 Richiesta dell'utente: «parti da main di anthea su un tuo branch», riallineare i report e permettere di scegliere un template
