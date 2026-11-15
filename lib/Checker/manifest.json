@@ -1,8 +1,8 @@
 {
-    "snapshotDate":  "2026-11-08",
+    "snapshotDate":  "2026-11-15",
     "generator":  "tools/libs/Update-Snapshot.ps1 -ReleaseSet",
-    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\gpc-f6-claude\\F7\\sets\\gpc-release-20261108-av",
-    "releaseSetCreated":  "2026-11-08T09:46:05",
+    "releaseSet":  "C:\\Users\\g.pacini\\Documents\\Repository\\gpc-f6-claude\\F7\\sets\\gpc-release-20261114-aw",
+    "releaseSetCreated":  "2026-11-14T22:27:53",
     "candidate":  false,
     "targetFramework":  "netstandard2.0",
     "nuget":  [
@@ -25,7 +25,7 @@
                            "branch":  "HEAD",
                            "commit":  "e57b440b16a0a311a7bf0af2f9cf4d2681b83491",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        },
                        {
                            "file":  "GPCGeometry.dll",
@@ -36,7 +36,7 @@
                            "branch":  "HEAD",
                            "commit":  "6734eee1004142576b96759e34c15dec48776e23",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        },
                        {
                            "file":  "DelaunayMesh.dll",
@@ -47,128 +47,128 @@
                            "branch":  "HEAD",
                            "commit":  "6734eee1004142576b96759e34c15dec48776e23",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        },
                        {
                            "file":  "GPCModel.dll",
                            "source":  "Model/Model/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "5.50.0.2",
-                           "sha256":  "4B4FF2EFAC07B2CEF81E91A50D0DAEE663EEF643D23B4FDF0E7ED6E204403FAB",
+                           "assemblyVersion":  "5.51.0.1",
+                           "sha256":  "EAEAAB7189550B7583C58F4BF4C13286D94D9D9997A74E4AA91FAA74CC2F4DA5",
                            "repository":  "Model",
-                           "branch":  "claude/f7d-set",
-                           "commit":  "ff318f875b992ec5efdbde8e40479b52d38f6637",
+                           "branch":  "claude/f8-set-model",
+                           "commit":  "c2abf2221262fcb38358609d45b4909d82d37d6b",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        },
                        {
                            "file":  "GPCModelData.dll",
                            "source":  "Model/ModelData/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.3.0.30",
-                           "sha256":  "0805D015316D23FC91A0EFC0EA7D4232C06CEA61A1CBF2D8F4B2B9C383D442FB",
+                           "assemblyVersion":  "0.3.0.31",
+                           "sha256":  "2BD76193A3174970EECAE89498F8C3C6F863CC68DA6A0444E8B522576A860886",
                            "repository":  "Model",
-                           "branch":  "claude/f7d-set",
-                           "commit":  "ff318f875b992ec5efdbde8e40479b52d38f6637",
+                           "branch":  "claude/f8-set-model",
+                           "commit":  "c2abf2221262fcb38358609d45b4909d82d37d6b",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        },
                        {
                            "file":  "GPC.Converter.dll",
                            "source":  "Model/GPC Converter/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "2.20.0.2",
-                           "sha256":  "D68E36FFA242EED1EF83B6A1C1A1C1BA000E065D0DCBC52D3EB974E8D398C031",
+                           "assemblyVersion":  "2.22.0.3",
+                           "sha256":  "85F8CB8BB3AFE17D91493C275D360237103D7D7483920BBD5498180BF0F2EBAF",
                            "repository":  "Model",
-                           "branch":  "claude/f7d-set",
-                           "commit":  "ff318f875b992ec5efdbde8e40479b52d38f6637",
+                           "branch":  "claude/f8-set-model",
+                           "commit":  "c2abf2221262fcb38358609d45b4909d82d37d6b",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        },
                        {
                            "file":  "GPC.Model.Persistence.dll",
                            "source":  "Model/GPC.Model.Persistence/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "3.15.0.2",
-                           "sha256":  "97AF74E0A474489FCD754DF30C5A40D669FF42A75D1A042B7604F572A441DE72",
+                           "assemblyVersion":  "3.15.0.3",
+                           "sha256":  "D6534674BE5CFDC4492E7DC951D6317DAF33B938DC8A1DE14F50DED644CD85AC",
                            "repository":  "Model",
-                           "branch":  "claude/f7d-set",
-                           "commit":  "ff318f875b992ec5efdbde8e40479b52d38f6637",
+                           "branch":  "claude/f8-set-model",
+                           "commit":  "c2abf2221262fcb38358609d45b4909d82d37d6b",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        },
                        {
                            "file":  "GPC.Archive.dll",
                            "source":  "Model/GPC.Archive/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "1.2.0.3",
-                           "sha256":  "BEDFA0BA6EB8AFF948B931CBAAE73F458F40FCB1C0F6187F0731C51AC9C435A8",
+                           "assemblyVersion":  "1.2.0.4",
+                           "sha256":  "CF1C6C36F76045F285590E959530281CB1FB68C59ADFB669705FF2F7FFF43DF8",
                            "repository":  "Model",
-                           "branch":  "claude/f7d-set",
-                           "commit":  "ff318f875b992ec5efdbde8e40479b52d38f6637",
+                           "branch":  "claude/f8-set-model",
+                           "commit":  "c2abf2221262fcb38358609d45b4909d82d37d6b",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        },
                        {
                            "file":  "GPCChecker.Concrete.dll",
                            "source":  "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.37.0.1",
-                           "sha256":  "1B67D64F786E5F452E232F46FEBF3628192653AC50BB9EF947C5E8EB417EDB74",
+                           "assemblyVersion":  "0.37.0.2",
+                           "sha256":  "AD9AABA9D660CB812F7C055041E274335D2D1B35E609C1056C2B263F8D84A290",
                            "repository":  "Checker",
-                           "branch":  "claude/f7d-set",
-                           "commit":  "9e51341775377875f4214ccd4c1f4fe33d47c6a6",
+                           "branch":  "claude/f8-set-checker",
+                           "commit":  "9c71ca658ed43d6211d901ead2bef29ee85b1506",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        },
                        {
                            "file":  "GPCChecker.Steel.dll",
                            "source":  "Checker/GPCChecker.Steel/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "2.134.0.0",
-                           "sha256":  "9C9D07110293D8A0FF3AECDA2E1C2333BA66425CEBA5965897ECAA6E3B7E24F7",
+                           "assemblyVersion":  "2.134.0.1",
+                           "sha256":  "6AAAE04996291CB13B46A9C61718A22D27D76EB25CBE5543448C30E3339A883B",
                            "repository":  "Checker",
-                           "branch":  "claude/f7d-set",
-                           "commit":  "9e51341775377875f4214ccd4c1f4fe33d47c6a6",
+                           "branch":  "claude/f8-set-checker",
+                           "commit":  "9c71ca658ed43d6211d901ead2bef29ee85b1506",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        },
                        {
                            "file":  "GPCChecker.Geotechnics.dll",
                            "source":  "Checker/GPCChecker.Geotechnics/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.28.0.0",
-                           "sha256":  "97E33D759E1CF9BAFCF9EEF60502DE8BAA54544F320179545DAEDE05B8A651C9",
+                           "assemblyVersion":  "0.28.0.1",
+                           "sha256":  "F664A502E8B7E43B6566D5722587CA2F92F4A6A9CE4E6600D67D5640114BB39A",
                            "repository":  "Checker",
-                           "branch":  "claude/f7d-set",
-                           "commit":  "9e51341775377875f4214ccd4c1f4fe33d47c6a6",
+                           "branch":  "claude/f8-set-checker",
+                           "commit":  "9c71ca658ed43d6211d901ead2bef29ee85b1506",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        },
                        {
                            "file":  "GPCChecker.Masonry.dll",
                            "source":  "Checker/src/GPCChecker.Masonry/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.10.0.35",
-                           "sha256":  "7A1D1F0E137788D62278EE8D0967AD3E08CF52C032D6DE520078FB9CFD7B6F9B",
+                           "assemblyVersion":  "0.10.0.36",
+                           "sha256":  "00D0BEAB38BEA9263C3FECA482BC46DA5BE9E193D4D3C8DF13F1EAB85668E083",
                            "repository":  "Checker",
-                           "branch":  "claude/f7d-set",
-                           "commit":  "9e51341775377875f4214ccd4c1f4fe33d47c6a6",
+                           "branch":  "claude/f8-set-checker",
+                           "commit":  "9c71ca658ed43d6211d901ead2bef29ee85b1506",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        },
                        {
                            "file":  "GPC.Design.dll",
                            "source":  "Checker/src/GPC.Design/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "0.45.0.9",
-                           "sha256":  "554CC516B8AA9E9BD987D480C337908A7F7245ED5D0C9C5A2D9E3472FE7B3654",
+                           "assemblyVersion":  "0.45.0.10",
+                           "sha256":  "16642A02D86AEC9EE1BCC7F948D5413E14025E2DA65E05A8A5EDD5267133A0A7",
                            "repository":  "Checker",
-                           "branch":  "claude/f7d-set",
-                           "commit":  "9e51341775377875f4214ccd4c1f4fe33d47c6a6",
+                           "branch":  "claude/f8-set-checker",
+                           "commit":  "9c71ca658ed43d6211d901ead2bef29ee85b1506",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        },
                        {
                            "file":  "GPCChecker.CompositeBridge.dll",
                            "source":  "Checker/GPCChecker.CompositeBridge/bin/Release/netstandard2.0",
-                           "assemblyVersion":  "1.31.0.1",
-                           "sha256":  "4D4E6C4873EEFA7A78995BD3AF6F4853CB0769E2D5B3BAAA386AD42A66326B57",
+                           "assemblyVersion":  "1.31.0.2",
+                           "sha256":  "D3C210E4D7E47F1ABB3409411B8094A38CBC17C2F7D9F386F57213CE1881E436",
                            "repository":  "Checker",
-                           "branch":  "claude/f7d-set",
-                           "commit":  "9e51341775377875f4214ccd4c1f4fe33d47c6a6",
+                           "branch":  "claude/f8-set-checker",
+                           "commit":  "9c71ca658ed43d6211d901ead2bef29ee85b1506",
                            "pushed":  true,
-                           "sdk":  "9.0.320"
+                           "sdk":  "9.0.321"
                        }
                    ]
 }
