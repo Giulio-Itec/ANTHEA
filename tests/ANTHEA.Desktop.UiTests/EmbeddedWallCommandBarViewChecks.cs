@@ -23,7 +23,7 @@ internal static partial class EmbeddedWallViewChecks
         {
             sheet.CommandPage = page; await settle();
             var buttons = Visual((DependencyObject)pages.SelectedContent).OfType<Button>().ToArray();
-            check(pages.SelectedValue as string == page && buttons.Length > 0 && buttons.All(b => b.Command is not null),
+            check(pages.SelectedValue as string == page && buttons.Length > 0 && buttons.All(b => b.Command is not null || b.ContextMenu is not null),
                 $"Passo 1: la pagina «{page}» non è mostrata o ha un pulsante senza comando.");
             capture("barra-" + page);
         }

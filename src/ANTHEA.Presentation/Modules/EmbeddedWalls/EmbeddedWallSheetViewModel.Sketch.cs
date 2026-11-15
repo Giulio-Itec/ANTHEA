@@ -127,7 +127,7 @@ public sealed partial class EmbeddedWallSheetViewModel
             OnPropertyChanged(nameof(InputCase));
             OnPropertyChanged(nameof(InputStage)); OnPropertyChanged(nameof(InputStagePosition));
             OnPropertyChanged(nameof(Sketch)); OnPropertyChanged(nameof(SketchStatus)); OnPropertyChanged(nameof(PhaseSummary));
-            PreviousInputStageCommand?.NotifyCanExecuteChanged(); NextInputStageCommand?.NotifyCanExecuteChanged();
+            PreviousInputStageCommand?.NotifyCanExecuteChanged(); NextInputStageCommand?.NotifyCanExecuteChanged(); NotifyStageCommands();
         }
         finally { refreshingSketch = false; }
     }

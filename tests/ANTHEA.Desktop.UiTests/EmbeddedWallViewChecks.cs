@@ -54,6 +54,7 @@ internal static partial class EmbeddedWallViewChecks
             await Settle(); Check(Visual(editor.View).OfType<EmbeddedWallSheetView>().Count() == 1, "Vista XAML non risolta."); Capture("modello");
             await CheckWorkTree(editor.View, sheet, Settle, Check, Capture);
             await CheckCommandBar(editor.View, sheet, Settle, Check, Capture);
+            await CheckStageTabs(editor.View, sheet, Settle, Check, Capture);
             var help = Visual(editor.View).OfType<Button>().First(b => b.IsVisible && b.Content as string == "?" && b.DataContext is FieldViewModel);
             var helpField = (FieldViewModel)help.DataContext; var originalNavigator = helpField.Form.WikiNavigator;
             var wiki = new CapturedWiki(); string beforeHelp = sheet.Data.ToJsonString();
@@ -98,9 +99,10 @@ internal static partial class EmbeddedWallViewChecks
             visualData["activations"]!.AsArray().Add(tiePhase);
             sheet.Reload(visualData); sheet.EditModelCommand.Execute("supports"); await Settle(); Capture("modello-tirante-falda");
             Check(sketch.Model?.Supports.Count == 1 && sketch.Model.LeftWater == -1, "Tirante e falda assenti dall'anteprima.");
-            var inputPhaseCombo = Visual(editor.View).OfType<ComboBox>().Single(c => c.Name == "InputStageSelector");
-            Check(inputPhaseCombo.SelectedIndex == sheet.InputStagePosition && inputPhaseCombo.SelectedItem is EmbeddedWallRow,
-                $"Il selettore della fase resta vuoto dopo Reload: righe={inputPhaseCombo.Items.Count}, indice={inputPhaseCombo.SelectedIndex}, VM={sheet.InputStagePosition}, selezione={inputPhaseCombo.SelectedItem?.GetType().FullName}/{inputPhaseCombo.SelectedItem}, elemento={inputPhaseCombo.Items[1]?.GetType().FullName}, binding={inputPhaseCombo.GetBindingExpression(Selector.SelectedIndexProperty)?.Status}.");
+            // Step 2 of the project of 16/11: the tabs of the phases replace the drop-down list; the same check after Reload.
+            var stageTabs = Visual(editor.View).OfType<ListBox>().Single(c => c.Name == "StageTabs");
+            Check(stageTabs.SelectedIndex == sheet.InputStagePosition && stageTabs.SelectedItem is EmbeddedWallRow && ReferenceEquals(stageTabs.SelectedItem, sheet.InputStage),
+                $"La scheda della fase resta vuota dopo Reload: righe={stageTabs.Items.Count}, indice={stageTabs.SelectedIndex}, VM={sheet.InputStagePosition}, selezione={stageTabs.SelectedItem?.GetType().FullName}/{stageTabs.SelectedItem}, binding={stageTabs.GetBindingExpression(Selector.SelectedItemProperty)?.Status}.");
             Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("modello-scuro");
             window.Width = 1100; window.Height = 760; await Settle(); Capture("modello-compatto");
             Check(sketch.ActualWidth > 310 && sketch.ActualHeight > 200, "Sezione illeggibile alla dimensione compatta.");

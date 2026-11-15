@@ -146,6 +146,8 @@ try
     checks += await PileSegmentOperationChecks.Run(root);
     checks += await ProjectReportServiceChecks.Run(output);
     checks += ContrastArchiveChecks.Run(root, output);
+    // Organizzazione del modulo paratie (progetto del 16/11), passo 2: regole del menu Fase.
+    checks += EmbeddedWallStageEditingChecks.Run();
     checks += await ConcreteReportCurvatureChecks.Run(root, output);
     // 1.15.0: la colonna modello (GPCChecker.Concrete 0.27), adattatore, testi e capitolo della relazione.
     checks += await ConcreteModelColumnChecks.Run(root, output);

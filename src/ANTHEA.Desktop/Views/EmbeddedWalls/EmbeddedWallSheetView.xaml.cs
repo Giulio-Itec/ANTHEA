@@ -8,6 +8,14 @@ namespace X.Desktop.Views.EmbeddedWalls;
 public partial class EmbeddedWallSheetView : UserControl
 {
     public EmbeddedWallSheetView() => InitializeComponent();
+    /// <summary>A button of the command bar with a menu (the menu Fase, step 2 of the project of 16/11): the click opens it below the button, on the
+    /// ViewModel of the sheet; its items are the commands of the sheet.</summary>
+    private void OpenMenu(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { ContextMenu: { } menu } button) return;
+        menu.DataContext = button.DataContext;
+        menu.PlacementTarget = button; menu.Placement = PlacementMode.Bottom; menu.IsOpen = true;
+    }
     private void WorkTreeSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
         if (DataContext is EmbeddedWallSheetViewModel sheet && e.NewValue is EmbeddedWallWorkNode node)

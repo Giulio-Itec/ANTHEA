@@ -41,6 +41,16 @@
      ToolTip="Chiudi il documento" AutomationProperties.Name="{Binding Title, StringFormat=Chiudi {0}}"/>
    </StackPanel>
   </DataTemplate>
+  <!-- The menu Fase (step 2): on the page Modello of the bar and on the tabs of the phases; one instance per use. -->
+  <ContextMenu x:Key="StageMenu" x:Shared="False">
+   <MenuItem Header="Aggiungi fase" Command="{Binding AddStageCommand}" InputGestureText="Ins"/>
+   <MenuItem Header="Inserisci fase prima della corrente" Command="{Binding InsertStageCommand}"/>
+   <Separator/>
+   <MenuItem Header="Rinomina la fase corrente…" Command="{Binding RenameStageCommand}" InputGestureText="F2"/>
+   <MenuItem Header="Rinomina tutte le fasi (F1…Fn)" Command="{Binding RenameAllStagesCommand}"/>
+   <Separator/>
+   <MenuItem Header="Elimina la fase corrente" Command="{Binding DeleteStageCommand}" InputGestureText="Canc"/>
+  </ContextMenu>
  </UserControl.Resources>
  <DockPanel>
   <Grid DockPanel.Dock="Top" Background="{DynamicResource Token.CommandBar}">
@@ -100,6 +110,8 @@
     <TabItem Header="Modello" Tag="modello">
      <WrapPanel>
       <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Fasi"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Fase ▾" ContextMenu="{StaticResource StageMenu}" Click="OpenMenu"
+        ToolTip="Aggiungi, inserisci, rinomina o elimina le fasi del caso" AutomationProperties.Name="Menu Fase"/>
        <Button Style="{StaticResource BarButton}" Content="Fasi e falda" Command="{Binding EditModelCommand}" CommandParameter="stages"/>
       </WrapPanel></HeaderedContentControl>
       <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Terreni"><WrapPanel>
@@ -321,23 +333,63 @@
    <TabItem Tag="sezione" Header="{Binding Documents[sezione]}" HeaderTemplate="{StaticResource DocumentHeader}">
     <DockPanel Margin="8">
      <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="380" MinWidth="320" MaxWidth="520"/></Grid.ColumnDefinitions>
-      <Grid Grid.Column="0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+      <Grid Grid.Column="0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+       <Grid.InputBindings>
+        <KeyBinding Key="PageUp" Command="{Binding PreviousInputStageCommand}"/>
+        <KeyBinding Key="PageDown" Command="{Binding NextInputStageCommand}"/>
+       </Grid.InputBindings>
        <StackPanel Margin="0,0,8,8">
         <TextBlock Text="Sezione della fase" FontSize="18" FontWeight="SemiBold"/>
         <TextBlock Text="Anteprima degli input · seleziona un elemento per modificarlo" TextWrapping="Wrap" Margin="0,2,0,8"/>
         <WrapPanel>
          <TextBlock Text="Caso" VerticalAlignment="Center" Margin="0,0,6,0"/>
          <ComboBox ItemsSource="{Binding InputCases}" SelectedItem="{Binding InputCase}" MinWidth="110" MaxWidth="220" Margin="0,0,12,4" AutomationProperties.Name="Caso dell'anteprima"/>
-         <Button Content="‹" Command="{Binding PreviousInputStageCommand}" ToolTip="Fase precedente" Margin="0,0,4,4"/>
-         <ComboBox x:Name="InputStageSelector" ItemsSource="{Binding InputStages}" SelectedIndex="{Binding InputStagePosition}" DisplayMemberPath="Label" MinWidth="180" MaxWidth="300" Margin="0,0,4,4" AutomationProperties.Name="Fase dell'anteprima"/>
-         <Button Content="›" Command="{Binding NextInputStageCommand}" ToolTip="Fase successiva" Margin="0,0,0,4"/>
         </WrapPanel>
         <TextBlock Text="{Binding PhaseSummary}" TextWrapping="Wrap"/>
        </StackPanel>
        <Border Grid.Row="1" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Margin="0,0,8,0">
         <local:EmbeddedWallModelSketch Model="{Binding Sketch}" PickCommand="{Binding PickModelCommand}" ClipToBounds="True" AutomationProperties.Name="Sezione grafica degli input della paratia"/>
        </Border>
-       <StackPanel Grid.Row="2" Margin="0,6,8,0">
+       <!-- Organizzazione del modulo paratie (progetto del 16/11), step 2: one tab per phase of the case along the lower edge of the drawing, «+» adds
+            one; the right button opens the menu Fase. Ins adds, F2 renames, Canc deletes the current phase. -->
+       <DockPanel Grid.Row="2" Margin="0,0,8,0">
+        <Button DockPanel.Dock="Right" Content="+" Command="{Binding AddStageCommand}" Padding="10,0" MinHeight="26" Margin="4,0,0,0"
+         ToolTip="Aggiungi fase (Ins)" AutomationProperties.Name="Aggiungi fase"/>
+        <ListBox x:Name="StageTabs" ItemsSource="{Binding InputStages}" SelectedItem="{Binding InputStage}" ContextMenu="{StaticResource StageMenu}"
+         Background="Transparent" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+         AutomationProperties.Name="Fasi del caso">
+         <ListBox.InputBindings>
+          <KeyBinding Key="Insert" Command="{Binding AddStageCommand}"/>
+          <KeyBinding Key="F2" Command="{Binding RenameStageCommand}"/>
+          <KeyBinding Key="Delete" Command="{Binding DeleteStageCommand}"/>
+         </ListBox.InputBindings>
+         <ListBox.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate></ListBox.ItemsPanel>
+         <ListBox.ItemContainerStyle>
+          <Style TargetType="ListBoxItem">
+           <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+           <Setter Property="ToolTip" Value="{Binding Label}"/>
+           <Setter Property="AutomationProperties.Name" Value="{Binding Label, StringFormat=Fase {0}}"/>
+           <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
+            <Border x:Name="Tab" Background="{DynamicResource Token.Surface}" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1,0,1,1"
+             CornerRadius="0,0,3,3" Padding="12,3,12,2" Margin="0,0,2,0" MinWidth="40" Cursor="Hand">
+             <ContentPresenter HorizontalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+             <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Tab" Property="Background" Value="{DynamicResource Token.Hover.Row}"/></Trigger>
+             <Trigger Property="IsSelected" Value="True">
+              <Setter TargetName="Tab" Property="Background" Value="{DynamicResource Token.Paper}"/>
+              <Setter TargetName="Tab" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/>
+              <Setter TargetName="Tab" Property="BorderThickness" Value="1,0,1,3"/>
+              <Setter Property="FontWeight" Value="SemiBold"/>
+             </Trigger>
+            </ControlTemplate.Triggers>
+           </ControlTemplate></Setter.Value></Setter>
+          </Style>
+         </ListBox.ItemContainerStyle>
+         <ListBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding [id]}"/></DataTemplate></ListBox.ItemTemplate>
+        </ListBox>
+       </DockPanel>
+       <StackPanel Grid.Row="3" Margin="0,6,8,0">
         <TextBlock Text="Quote in scala · spessore parete, lunghezze sostegni e frecce schematici" TextWrapping="Wrap" FontSize="11"/>
         <TextBlock Text="{Binding Sketch.WaterLabel, StringFormat=Linea blu tratteggiata: {0}}" TextWrapping="Wrap" FontSize="11"/>
         <ScrollViewer MaxHeight="90" VerticalScrollBarVisibility="Auto"><TextBlock Text="{Binding SketchStatus}" TextWrapping="Wrap" Margin="0,4" Foreground="{DynamicResource Token.Series.Orange}"/></ScrollViewer>
