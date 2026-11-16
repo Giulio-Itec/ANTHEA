@@ -29,6 +29,7 @@ internal static class ShellChecks
         // Rilievi del 16/11/2026 sul modello MIDAS vero.
         checks += ModelTabLoadingChecks.Run(output);
         checks += ModelUndoLabelChecks.Run();
+        checks += ModelFileOpenChecks.Run();
         // F5.13 c, after the checkpoint of 22/10: a sheet of the tree in a new window or at full page.
         checks += ShellPlacementChecks.Run();
         checks += ShellFinalViewsChecks.Run();

@@ -107,6 +107,8 @@ public sealed class ShellViewModel : ViewModelBase
         SectionReportCommand = new AsyncRelayCommand<JsonObject>(section => guard.RunAsync(_ => ExportSectionReportAsync(section!)),
             section => section is not null && sectionReports is not null && Workspace.Project is not null && ProjectSharedData.SubtreeSheets(section).Any());
         Commands.ExamplesRequested += (_, _) => Navigation.Select(ShellPage.Examples);
+        // R3 (16/11/2026): «Apri…» on a file of a calculation model: the page «Modelli», after the message that says where it opens.
+        Commands.ModelsRequested += (_, _) => Navigation.Select(ShellPage.Models);
         Tree.OverviewRequested += (_, section) => ShowOverview(section);
         Tree.CompareRequested += (_, section) => _ = CompareCommand.ExecuteAsync(section);
         Tree.ReportRequested += (_, section) => _ = SectionReportCommand.ExecuteAsync(section);
