@@ -4,6 +4,19 @@ using System.Windows.Data;
 
 namespace X.Desktop.Views.Stratigraphy;
 
+/// <summary>The editable colour swatch stays visible also while an incomplete colour is being typed.</summary>
+internal sealed class SoilColorConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        // This is a colour supplied by the document, not a UI palette colour. Let WPF convert the
+        // complete hex value; while it is being typed the binding uses the theme's fallback token.
+        return value is string { Length: 7 } text && text[0] == '#' && text.Skip(1).All(Uri.IsHexDigit)
+            ? text : DependencyProperty.UnsetValue;
+    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotSupportedException();
+}
+
 /// <summary>
 /// The width of the two columns of the stratigraphy (F5.6b): the width of the viewport less the margins of the layout, at least the minimum
 /// of the historic view («minimo|margini», 730 and 32), as the SizeChanged of the viewport of StratigraphyWorkspace set it. Below the minimum

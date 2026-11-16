@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using System.Collections.ObjectModel;
 using Anthea.Application.Stratigraphy;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Mvvm;
@@ -9,27 +10,10 @@ using CommunityToolkit.Mvvm.Input;
 namespace Anthea.Presentation.Modules.Stratigraphy;
 
 /// <summary>
-/// The editor of a stratigraphy document (F5.6b): the behaviour of the historic StratigraphyWorkspace without WPF, on the same document,
-/// with the same writes in the same order. The sheet (<see cref="StratigraphySheetViewModel"/>) and the preview of an AI draft
-/// (<see cref="StratigraphyImportDialogViewModel"/>) use it, as the historic view was used by the sheet and by the import window.
-/// <list type="bullet">
-/// <item>General data, the identity (name, family, behaviour), the description and colour, the thickness, the means, the minima and the
-/// notes of the selected layer: <see cref="FormViewModel"/> with the fields of <see cref="StratigraphyFields"/> and the rule of the view (the
-/// raw text into the document at every change; a choice writes the chosen item and shows its default while the key is missing), one form
-/// per visual block of the XAML view (D10, S8: the note on mixed soils between the behaviour and the description). The forms of the layer
-/// are built again at every change of layer, extent or minima, as the view built its controls again (ShowLayer). Every form opens the Wiki
-/// through the navigator of the services (<see cref="FormViewModel.WikiNavigator"/>).</item>
-/// <item>The layers: <see cref="Layers"/> (one row per layer object), the selection (<see cref="SelectedLayerIndex"/>, allowed also when
-/// read-only), the actions «+ Strato», «Duplica», «Elimina», «↑», «↓» on the selected layer (the first when none is selected), whose
-/// errors are shown with <see cref="IMessageService.Inform"/> as the message boxes of the view; the commands of the view go through the
-/// guard of the commands (Q19).</item>
-/// <item>«Ultimo strato esteso indefinitamente», only for the last layer; «Gestisci anche i valori minimi», whose removal asks
-/// <see cref="IConfirmationService.ConfirmDelete"/>: the answer «No» still reports a change, as the view does. After a click the two check
-/// boxes show again the state of the layer, as the controls built again by the view.</item>
-/// <item>After every change the status (<see cref="StratigraphyPresentation.Status"/>) and the profile again, then <c>changed</c>, the
-/// Modified of the view.</item>
-/// <item>Read-only (<see cref="IsReadOnly"/>, T2): the forms refuse the typing, the actions and the check boxes do nothing.</item>
-/// </list>
+/// Shared editor for the stratigraphy sheet and the reviewed import preview. Layer rows own their forms:
+/// the full-width table and the selected-layer details edit the same fields, with no duplicate writes.
+/// Commands preserve the document operations, optional minima, infinite last layer, validation and read-only
+/// rules of the historic editor. Every edit refreshes the status and profile, then notifies the sheet.
 /// </summary>
 public sealed class StratigraphyEditorViewModel : ObservableObject
 {
@@ -80,6 +64,7 @@ public sealed class StratigraphyEditorViewModel : ObservableObject
         {
             if (!SetProperty(ref readOnly, value)) return;
             foreach (var form in Forms) form.IsReadOnly = value;
+            foreach (var row in TableRows) row.SetReadOnly(value);
             OnPropertyChanged(nameof(CanEdit)); OnPropertyChanged(nameof(CanToggleInfinite));
             NotifyCommands();
         }
@@ -95,6 +80,9 @@ public sealed class StratigraphyEditorViewModel : ObservableObject
 
     /// <summary>The layers, from the top: one row on every layer object of the document (the list shows its name).</summary>
     public JsonRowCollection Layers { get; } = [];
+
+    /// <summary>All layer fields, shared by the full-width table and the selected-layer details.</summary>
+    public ObservableCollection<StratigraphyLayerRowViewModel> TableRows { get; } = [];
 
     /// <summary>
     /// The selected layer (−1 when none is selected: the actions use the first). Allowed also when read-only. While the list is built again
@@ -197,6 +185,7 @@ public sealed class StratigraphyEditorViewModel : ObservableObject
     {
         if (!CanToggleInfinite || SelectedLayer() is not { } layer) return;
         StratigraphyPresentation.SetInfinite(layer, !infinite);
+        TableRows[Selected].RefreshOptions();
         ShowLayer();
         Edited();
     }
@@ -210,6 +199,7 @@ public sealed class StratigraphyEditorViewModel : ObservableObject
         if (readOnly || SelectedLayer() is not { } layer) return;
         if (!hasMinimum) layer["minimum"] = StratigraphyDocument.NewMinimum();
         else if (services.Confirmations.ConfirmDelete(StratigraphyPresentation.MinimaCaption, StratigraphyPresentation.MinimaRemoval)) layer["minimum"] = null;
+        TableRows[Selected].RefreshOptions();
         ShowLayer();
         Edited();
     }
@@ -240,7 +230,14 @@ public sealed class StratigraphyEditorViewModel : ObservableObject
             using (Layers.DeferRefresh())
             {
                 Layers.Clear();
-                foreach (var layer in StratigraphyDocument.Layers(Data)) Layers.Add(new JsonRowViewModel(layer!.AsObject()));
+                TableRows.Clear();
+                foreach (var layer in StratigraphyDocument.Layers(Data))
+                {
+                    var values = layer!.AsObject();
+                    var item = new JsonRowViewModel(values);
+                    Layers.Add(item);
+                    TableRows.Add(new(values, services, () => { item.Refresh(); Edited(); }, readOnly));
+                }
             }
         }
         finally { rebuilding = false; }
@@ -274,27 +271,22 @@ public sealed class StratigraphyEditorViewModel : ObservableObject
         changed();
     }
 
-    /// <summary>The fields of the selected layer again (ShowLayer of the view).</summary>
+    /// <summary>Select the existing row forms; switching layers never writes or recreates their values.</summary>
     private void ShowLayer()
     {
         identity = description = thickness = means = minima = notes = null;
         if (SelectedLayer() is { } layer)
         {
-            var fields = StratigraphyFields.Layer();
-            identity = Form(layer, fields[..3], key =>
-            {
-                // The list shows the name of the selected layer as it is typed.
-                if (key == "name") Layers[Selected].Refresh();
-                Edited();
-            });
-            description = Form(layer, fields[3..], _ => Edited());
+            var row = TableRows[Selected];
+            identity = row.Identity;
+            description = row.Description;
             infinite = StratigraphyDocument.Infinite(layer);
             canToggleInfinite = Selected == Layers.Count - 1;
-            if (!infinite) thickness = Form(layer, StratigraphyFields.Thickness(), _ => Edited());
+            thickness = row.Thickness;
             hasMinimum = layer["minimum"] is JsonObject;
-            means = Form(layer, StratigraphyFields.Means(), _ => Edited());
-            if (layer["minimum"] is JsonObject minimum) minima = Form(minimum, StratigraphyFields.Minima(), _ => Edited());
-            notes = Form(layer, StratigraphyFields.Notes(), _ => Edited());
+            means = row.Means;
+            minima = row.Minima;
+            notes = row.Notes;
         }
         else canToggleInfinite = false;
         // Raised also when the state does not change: the check box clicked by the user shows again the state of the layer.

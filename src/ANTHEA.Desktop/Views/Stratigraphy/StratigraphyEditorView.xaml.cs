@@ -1,5 +1,8 @@
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Anthea.Presentation.Forms;
 using Anthea.Presentation.Modules.Stratigraphy;
 
 namespace X.Desktop.Views.Stratigraphy;
@@ -48,5 +51,20 @@ public partial class StratigraphyEditorView : UserControl
         Profile.Data = editor.Profile;
         Profile.Selection = editor.ProfileSelection;
         Profile.InvalidateVisual();
+    }
+
+    private void Field_Focus(object sender, KeyboardFocusChangedEventArgs e)
+    {
+        if (sender is FrameworkElement { DataContext: FieldViewModel field } element)
+            field.IsFocused = element.IsKeyboardFocusWithin;
+    }
+
+    private void Field_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.F1 || sender is not FrameworkElement { DataContext: FieldViewModel field }) return;
+        field.Form.InheritedWikiModule = GetValue(WikiContextHelp.ModuleProperty) as string;
+        if (field.HelpUri is not { } uri) return;
+        e.Handled = true;
+        if (!field.OpenContextHelp()) WikiContextHelp.Open((FrameworkElement)sender, uri);
     }
 }

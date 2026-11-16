@@ -15,7 +15,7 @@ namespace X.Desktop;
 internal sealed class StratigraphyProfileView : DrawingView
 {
     // Display dimensions only: pixels and proportions of the visible panel, not soil parameters.
-    private const double ProfileWidthRatio = .35, InfiniteTailRatio = .25;
+    private const double InfiniteTailRatio = .25, ProfileLabelWidthRatio = .22;
     private const double TopPixels = 30, LabelGapPixels = 8, TextInsetPixels = 3, EdgePixels = 4,
         LabelPaddingPixels = 12, WaterFooterPixels = 44, ExtentFooterPixels = 22;
     internal JsonObject? Data;
@@ -40,9 +40,10 @@ internal sealed class StratigraphyProfileView : DrawingView
         double shown = Math.Min(double.MaxValue, finite + (infinite ? Math.Max(2, finite * InfiniteTailRatio) : 0));
         double water = StratigraphyDocument.Number(Data["water_depth"], "Falda") ?? 0;
         if (infinite && Data["water_state"]!.ToString() == "Assegnata") shown = Math.Max(shown, water + 1);
-        double height = size.Height - 100, top = 0, left = 58, width = Math.Max(60, size.Width * ProfileWidthRatio);
+        double height = size.Height - 100, top = 0, left = 58;
+        double width = Math.Max(60, size.Width - left - Math.Clamp(size.Width * ProfileLabelWidthRatio, 160, 260));
         var ink = Appearance.Foreground(Ui.Muted);
-        Text(dc, "Piano campagna", left, 5, 12, ink);
+        Text(dc, "Piano campagna", left, 5, 14, ink);
         for (int i = 0; i < rows.Length; i++)
         {
             var row = rows[i]; bool endless = StratigraphyDocument.Infinite(row);
@@ -52,8 +53,8 @@ internal sealed class StratigraphyProfileView : DrawingView
             dc.DrawRectangle(fill, null, bounds);
             dc.DrawRectangle(SoilHatchBrush.Create(StratigraphyDocument.SoilType(row), fill.Color), null, bounds);
             dc.DrawRectangle(null, new Pen(i == Selection ? Brushes.DodgerBlue : Brushes.DimGray, i == Selection ? 3 : 1), bounds);
-            Text(dc, top.ToString("G4", CultureInfo.GetCultureInfo("it-IT")), 2, bounds.Top, 11, ink);
-            Text(dc, row["name"]!.ToString() + "\n" + StratigraphyDocument.SoilType(row) + (endless ? "\n↓ indefinito" : ""), bounds.Right + LabelGapPixels, bounds.Top + TextInsetPixels, 12, ink, width: Math.Max(30, size.Width - bounds.Right - LabelPaddingPixels));
+            Text(dc, top.ToString("G4", CultureInfo.GetCultureInfo("it-IT")), 2, bounds.Top, 13, ink);
+            Text(dc, row["name"]!.ToString() + (endless ? " · ↓ indefinito" : ""), bounds.Right + LabelGapPixels, bounds.Top + TextInsetPixels, 14, ink, width: Math.Max(30, size.Width - bounds.Right - LabelPaddingPixels));
             hits.Add((bounds, i)); top = bottom;
         }
         Text(dc, infinite ? "↓" : top.ToString("G4", CultureInfo.GetCultureInfo("it-IT")), 2, TopPixels + height * (top / shown), 11, ink);

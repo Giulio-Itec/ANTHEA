@@ -15511,6 +15511,30 @@
         "docs/refactoring/guide-rev72-208.md"
       ],
       "wiki": "Indice della Wiki rigenerato con le guide Rev72; nessuna guida autonoma nuova."
+    },
+    {
+      "id": "UI-STRATIGRAFIA-TABELLA-20261116",
+      "data": "2026-11-16",
+      "famiglia": "Stratigrafia standalone e anteprima importazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Tabella a tutta larghezza con denominazione, comportamento, spessore e cinque parametri medi. Profilo a fasce più largo sotto la tabella; dettagli dello strato in fondo, classificazione, fonti e minimi in un gruppo richiudibile inizialmente chiuso. Nelle finestre strette scorre lateralmente solo la tabella. Celle e dettagli condividono gli stessi FieldViewModel; restano vuoti, zeri, valori digitati, minimi, ultimo strato indefinito, sola lettura, riordino, importazione e trasferimento.",
+      "decisione": {
+        "utente": "Tabella dei parametri a tutta larghezza e immagine al di sotto; procedere con la modifica e committarla.",
+        "esito": "Release installata in app; precedente conservata nella cartella artefatti. Commit limitato alla modifica della stratigrafia e alle verifiche pertinenti."
+      },
+      "test": [
+        "ui/check-stratigrafia-view PASS 188: 15 tracce, modifiche e riapertura, sola lettura, F1, importazione simulata, trasferimenti e schermate",
+        "Stratigraphy.UiChecks PASS 26 nella Release; Architecture.Tests PASS 628; nessuna aggiunta alle baseline F4/F5",
+        "Suite UI prima/dopo: 74/74. Controllo visivo a 700, 1400 e 1700 DIP, temi chiaro/scuro/molto scuro; nessun errore di binding nei log",
+        "Pubblicazione Release sequenziale, qa/no-test-code PASS, sostituzione reversibile di app con SHA256 delle DLL installate"
+      ],
+      "nota_confronto": "La cattura iniziale falliva sul default del peso palo 1,30 storico contro 1,35 già richiesto e applicato. Solo il confronto della traccia UI riconduce quel preciso campo di trasferimento 1,35 al riferimento storico 1,30; fixture e tracce effettive non riscritte. Gli altri valori restano confrontati integralmente.",
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-172429-stratigrafia-prima",
+        "supporto/artefatti/ci/20261116-174327-stratigrafia-validata",
+        "supporto/artefatti/stratigrafia-tabella-2026-11-16"
+      ]
     }
   ]
 }
