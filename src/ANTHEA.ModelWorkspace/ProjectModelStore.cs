@@ -37,11 +37,14 @@ public sealed class ModelDocumentEntry
     ModelDocumentEntry(ModelSnapshot snapshot, byte[] json)
     {
         Snapshot = snapshot; this.json = json; Revision = Convert.ToHexString(SHA256.HashData(json)); tree = JsonNode.Parse(json);
+        // R5/R8 (16/11/2026): the revision is the fingerprint of the copy (ModelSnapshot.KnownFingerprint).
+        snapshot.knownFingerprint = Revision;
     }
 
     ModelDocumentEntry(ModelSnapshot snapshot, string revision, ArchivedCopy archived)
     {
         Snapshot = snapshot; Revision = revision; this.archived = archived; tree = JsonNode.Parse(archived.Bare);
+        snapshot.knownFingerprint = Revision;
     }
 
     /// <summary>The copy.</summary>
@@ -287,6 +290,7 @@ public static class ProjectModelStore
         {
             var snapshot = ModelSnapshot.FromJson(json);
             if (Convert.ToHexString(SHA256.HashData(json)) != revision && snapshot.Fingerprint() != revision) throw new InvalidDataException("Impronta del modello non corrispondente ai dati.");
+            snapshot.knownFingerprint = revision;
             return snapshot;
         });
     }
@@ -351,7 +355,7 @@ public static class ProjectModelStore
                 Append(bare.AsSpan(split));
                 string whole = Convert.ToHexString(resumed is not null ? resumed.Finish() : plain!.GetHashAndReset());
                 if (whole != revision) throw new InvalidDataException("Impronta del modello non corrispondente ai dati.");
-                snapshot.RevisionCheckpoint = checkpoint;
+                snapshot.RevisionCheckpoint = checkpoint; snapshot.knownFingerprint = whole;
             }
             snapshot.UnavailableResults = unavailable;
             return snapshot;

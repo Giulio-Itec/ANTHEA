@@ -19,6 +19,11 @@ static partial class Program
         string id = ProjectModelStore.Set(container, second, null, archive);
         var read = ProjectModelStore.Read(container, id, archive)!;
         Check(read.Fingerprint() == revision && Checkpoint(read) is not null, "R1/R8: the copy read from the archive keeps the state of its fingerprint");
+        // R5/R8: the viewer keys its saved views with the fingerprint known from the entry, the same value, without serializing the copy again.
+        var inline = new JsonObject(); string small = ProjectModelStore.Set(inline, second.Snapshot);
+        Check(read.KnownFingerprint() == read.Fingerprint() && second.Snapshot.KnownFingerprint() == second.Revision &&
+              ProjectModelStore.Read(inline, small)!.KnownFingerprint() == second.Revision && CombinationModel().KnownFingerprint() == CombinationModel().Fingerprint(),
+            "R5/R8: the known fingerprint of a copy prepared or read back equals its fingerprint, and a copy without it computes it");
         // R8: the governing records read back share their texts and equal vectors, as the calculation made them (same values, same fingerprint).
         foreach (var set in read.Results.Where(r => r.Combination is { Governing.Length: > 1 }))
         {

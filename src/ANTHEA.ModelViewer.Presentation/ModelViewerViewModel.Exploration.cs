@@ -161,7 +161,8 @@ public sealed partial class ModelViewerViewModel
         SetClipBoxBounds(false,false);
         visibilityHistory.Clear(); lastVisible = null; PinnedProbes.Clear(); HoverProbe = null;
         CompareCase = Snapshot!.Results.FirstOrDefault()?.Name; CompareComponent = "Myy";
-        SavedViews.Clear(); viewRevision = Snapshot.Fingerprint();
+        // R5/R8 (16/11/2026): the fingerprint known from the document entry, not computed again on the thread of the interface (24 s for 5.4 GB).
+        SavedViews.Clear(); viewRevision = Snapshot.KnownFingerprint();
         try { foreach (var view in services.LoadViews(viewRevision)) SavedViews.Add(view); }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Text.Json.JsonException) { ExplorationMessage = "Viste salvate non leggibili. Il modello resta disponibile."; }
         SelectedSavedView = SavedViews.FirstOrDefault();
