@@ -181,6 +181,53 @@ internal static class ProjectValidationChecks
             Check(DocxWriter.Write(ReportProject.Compose(plan, chapters, ProjectValidation.Warnings(snapshot))).Length > 0, label + ": il report della sezione si compone");
             Check(archive.ToJsonString() == input, label + ": copertina e report senza mutazioni");
         }
+
+        // A retaining wall without dati (the quarantine of an unresolved reference) beside a complete wall and a Materiali: it is not
+        // compared with the other sheets; coherence, cache, cover and report are built, and the other sheets keep their matches,
+        // differences and warnings. A new sheet can still be added beside it, without filling it.
+        foreach (bool explicitNull in new[] { false, true })
+        {
+            var archive = ProjectDocuments.CreateArchive();
+            var owner = ProjectDocuments.AddProject(archive, "Prova muri");
+            ProjectDocuments.AddSheet(owner, "mat_calcestruzzo", "CLS del progetto");
+            var section = ProjectDocuments.AddSection(owner, "Muri");
+            ProjectDocuments.AddSheet(section, RetainingWall.Module, "Muro completo");
+            var empty = ProjectDocuments.AddSheet(section, RetainingWall.Module, "Muro senza dati");
+            string name = empty.S("nome"), label = RetainingWall.Module + (explicitNull ? " (dati null)" : " (dati assenti)");
+            bool Involves(JsonObject first, JsonObject second) => ReferenceEquals(first, empty) || ReferenceEquals(second, empty);
+            var comparisonBefore = new ProjectComparison(section);
+            var matchesBefore = comparisonBefore.Matches.Where(m => !Involves(m.First, m.Second)).Select(m => (m.First, m.Second, m.Source.Key)).ToArray();
+            var differencesBefore = comparisonBefore.Differences.Where(d => !Involves(d.First, d.Second)).ToArray();
+            var warningsBefore = ProjectValidation.Warnings(section);
+            Check(matchesBefore.Length > 0, label + ": la prova deve partire con campi comuni fra il muro completo e Materiali");
+            if (explicitNull) empty["dati"] = null;
+            else empty.Remove("dati");
+            string input = archive.ToJsonString();
+
+            var comparison = new ProjectComparison(section);
+            Check(!comparison.Matches.Any(m => Involves(m.First, m.Second)) && !comparison.Differences.Any(d => Involves(d.First, d.Second)),
+                label + ": il muro senza dati non si confronta con le altre schede");
+            Check(comparison.Matches.Select(m => (m.First, m.Second, m.Source.Key)).SequenceEqual(matchesBefore) && comparison.Differences.SequenceEqual(differencesBefore)
+                && ProjectSharedData.Differences(section).SequenceEqual(differencesBefore), label + ": le altre schede mantengono campi comuni e differenze");
+            var warnings = ProjectValidation.Warnings(section);
+            Check(warnings.Where(w => !w.Contains(name, StringComparison.Ordinal)).SequenceEqual(warningsBefore.Where(w => !w.Contains(name, StringComparison.Ordinal))),
+                label + ": le altre schede mantengono i propri avvisi");
+            var localCache = new ProjectCoherenceCache();
+            localCache.NewReading();
+            var summary = localCache.Of(section);
+            Check(summary.Warnings.SequenceEqual(warnings) && summary.Matches == comparison.Matches.Count &&
+                summary.DifferenceKeys == comparison.Differences.Select(d => d.Key).Distinct().Count(), label + ": coerenza diretta e in cache");
+            var snapshot = ProjectReportService.Snapshot(section);
+            var plan = new ProjectReportPlan(snapshot);
+            var emptyCopy = plan.Sheets.Single(s => s.S("nome") == name);
+            Check(!plan.LocalInputs(emptyCopy).Any() && plan.Common.All(c => !c.Sheets.Contains(emptyCopy)),
+                label + ": nel report il muro senza dati non riporta valori sostitutivi");
+            var chapters = plan.Sheets.ToDictionary(s => s, s => new ReportProject.SheetContent(Error: "capitolo non preparato nella prova"));
+            Check(DocxWriter.Write(ReportProject.Compose(plan, chapters, ProjectValidation.Warnings(snapshot))).Length > 0, label + ": il report della sezione si compone");
+            Check(archive.ToJsonString() == input, label + ": copertina e report senza mutazioni");
+            ProjectDocuments.AddSheet(section, RetainingWall.Module, "Muro nuovo");
+            Check(empty["dati"] is null, label + ": una scheda nuova accanto al muro senza dati non lo riempie");
+        }
         return checks;
     }
 }

@@ -26,7 +26,9 @@ public static partial class ProjectSharedData
     }
     private static bool ActiveWallField(JsonObject sheet, string key)
     {
-        var data = sheet["dati"]!.AsObject();
+        // A wall left without dati (an unresolved reference opened with diagnosis) has no active fields: it is not compared with the
+        // other sheets, like the soils of such a sheet (ComparableSoils), and reports no values (ProjectReportPlan.Relevant).
+        if (sheet["dati"] is not JsonObject data) return false;
         bool rc = data.S("family") == "cantilever";
         if (key is "CLS · fck [MPa]" or "cls_diagramma" or "alpha_cc" or "gamma_c") return RetainingWall.UsesConcrete(data);
         return rc;

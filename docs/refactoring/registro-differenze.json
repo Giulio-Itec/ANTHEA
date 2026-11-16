@@ -15133,7 +15133,7 @@
       "decisione": {
         "data": "2026-11-15",
         "utente": "Incarico della sessione coordinatrice del 15/11/2026 sera: saltare la coppia di schede di terreno con una scheda senza dati in Limitations e MissingSoilLayers, dopo un test rosso; copertina e report senza eccezioni; commit separato sullo stesso ramo, nessun push.",
-        "esito": "Coppia saltata con un solo controllo comune (ComparableSoils). Nel piano del report la scheda senza dati non porta valori sostitutivi, secondo la regola di BUG-COPERTINA-MATERIALI-VUOTO; scelta da confermare all'integrazione. Restano fuori, perché sono comandi di modifica e non letture: CopyMissingSoilLayers (riga 36) e ApplySoils (righe 72-73) verso una scheda senza dati."
+        "esito": "Coppia saltata con un solo controllo comune (ComparableSoils). Nel piano del report la scheda senza dati non porta valori sostitutivi, secondo la regola di BUG-COPERTINA-MATERIALI-VUOTO; scelta da confermare all'integrazione. Restano fuori, perché sono comandi di modifica e non letture: CopyMissingSoilLayers (riga 36), LinkSoils (riga 78) e SetSoilType (riga 142) verso una scheda senza dati; vedi BUG-COPERTINA-MURO-SENZA-DATI."
       },
       "test": [
         "Application.Tests / ProjectValidationChecks: 129 controlli; Application.Tests completa 3649 controlli PASS",
@@ -15145,7 +15145,40 @@
         "supporto/artefatti/ci/20261116-022220-terreni-verde/summary.json"
       ],
       "voci_collegate": [
-        "BUG-COPERTINA-SCHEDA-SENZA-DATI"
+        "BUG-COPERTINA-SCHEDA-SENZA-DATI",
+        "BUG-COPERTINA-MURO-SENZA-DATI"
+      ]
+    },
+    {
+      "id": "BUG-COPERTINA-MURO-SENZA-DATI",
+      "data": "2026-11-16",
+      "fase": "correzione isolata dopo main 6c7d03a7 (1.19.0)",
+      "titolo": "Copertina, coerenza e report: un muro senza dati non interrompe i confronti",
+      "famiglia": "progetti/muri",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Un muro di sostegno in quarantena senza dati (riferimento non risolto aperto con diagnosi) in una coppia di confronto: ActiveWallField (ProjectWallFields.cs:29) faceva sheet[\"dati\"]!.AsObject() e lanciava NullReferenceException da CanCompare, quindi in ProjectComparison, Differences, coerenza e cache, piano del report e inserimento di una scheda nella stessa sezione (InheritHierarchy). Ora il muro senza dati non ha campi attivi: non si confronta con le altre schede, come la coppia di terreni con una scheda senza dati (ComparableSoils), e nel report non porta valori (ProjectReportPlan.Relevant). Le altre schede mantengono campi comuni, differenze e avvisi.",
+      "codice": [
+        "src/ANTHEA.Application/Projects/ProjectWallFields.cs:27-35",
+        "tests/ANTHEA.Application.Tests/ProjectValidationChecks.cs"
+      ],
+      "segno": "Nessun valore di calcolo cambia. Confronti, coerenza e report che terminavano con eccezione si compongono; il muro senza dati resta fuori dai confronti e dai valori del report.",
+      "effetto_quantificato": "Test rosso con NullReferenceException in ActiveWallField (riga 29) da ProjectComparison prima del fix. Dopo il fix 18 controlli nuovi PASS (147 della validazione mirata): muro senza dati, assenti o null, accanto a un muro completo e a Materiali. Campi comuni, differenze e avvisi delle altre schede invariati; cache, piano e composizione del report, non mutazione; una scheda nuova accanto al muro senza dati si inserisce senza riempirlo.",
+      "decisione": {
+        "data": "2026-11-16",
+        "utente": "Incarico della sessione coordinatrice del 16/11/2026: correggere il muro senza dati sullo stesso ramo, con test rosso prima e il controllo comune; nel report nessun dato sostitutivo (regola del 6/11); controllare senza correggerli i comandi di modifica.",
+        "esito": "Controllo in ActiveWallField, da cui passano CanCompare, Compatible e Relevant. Per mostrare i predefiniti nel report basterebbero due righe di ProjectReportPlan.cs (57 e 70) con Archivio.NuovoFoglio; per i muri il report resterebbe vuoto, perché il muro senza dati non ha campi attivi. Comandi di modifica verso una scheda senza dati, verificati con una sonda e non corretti: CopyMissingSoilLayers (ProjectSharedSoils.cs:36), LinkSoils (riga 78) e SetSoilType (riga 142) lanciano NullReferenceException; ApplyHierarchy da Materiali riempie con i predefiniti del modulo il muro o il palo in quarantena (ProjectSharedData.cs:149 e 198)."
+      },
+      "test": [
+        "Application.Tests / ProjectValidationChecks: 147 controlli; Application.Tests completa 3667 controlli PASS",
+        "Architecture.Tests 618, Reports.Tests 515, Presentation.Tests 5143, Projects.Checks 22, FoundationWorkspace.Checks 54, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-030755-muri-rosso (rosso e sonda dei comandi di modifica)",
+        "supporto/artefatti/ci/20261116-030816-muri-verde/summary.json"
+      ],
+      "voci_collegate": [
+        "BUG-COPERTINA-TERRENI-SENZA-DATI"
       ]
     },
     {
