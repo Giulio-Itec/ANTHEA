@@ -19,17 +19,17 @@ namespace X.Desktop.Views.EmbeddedWalls;
 public sealed class EmbeddedWallModelSketch : FrameworkElement
 {
     // All lengths here are device-independent pixels; none are dimensions of the engineering model.
-    private const double RightMargin = 18, Footer = 42, PlotTop = 104, PlotLeft = 72, MessageInset = 32;
+    private const double RightMargin = 18, Footer = 42, PlotTop = 124, PlotLeft = 72, MessageInset = 32;
     private const double TextPadding = 2, TickOffset = 8, SoilTextInset = 9, SoilLabelTopLimit = 32, SoilLabelHalfHeight = 7;
     private const double WallGap = 9, WallHalfWidth = 7, WallWidth = 14, SegmentLabelInset = 20;
     private const double GroundLabelOffset = 23, GroundHitOffset = 24, GroundHitHeight = 29, LabelInset = 6, LabelInsets = 12;
-    private const double SurchargeTextOffset = 65, SurchargeArrowStart = 46, SurchargeArrowEnd = 29, SurchargeIntervals = 5;
+    private const double SurchargeTextOffset = 59, SurchargeArrowStart = 42, SurchargeArrowEnd = 29, SurchargeIntervals = 5;
     private const double ArrowHeadLength = 6, ArrowHeadHalfWidth = 3, WaterLabelWidth = 90, WaterLabelOffset = 4, WaterHitOffset = 3, WaterHitHeight = 26;
     private const double ToeLabelLeft = 55, ToeLabelBelow = 12, SupportLabelOffset = 38, SupportLabelRight = 30, SupportLabelLeft = 5;
     private const double SymbolSpanFraction = .28, SymbolMaximum = 120, SupportEndHalfWidth = 4, SupportEndHalfHeight = 6, PickPadding = 8;
     private const double LoadArrowStart = 48, LoadArrowEnd = 10, DistributedOffset = 45, LoadTextOffset = 26;
     private const double VerticalLoadOffset = 18, VerticalArrowLength = 30, LoadHitLeft = 52, LoadHitAbove = 20, LoadHitHeight = 24;
-    private const double HeaderLeft = 12, HeaderTop = 8, HeaderLine = 18, HeaderBottom = 46, ZoneTop = 52, AxisLabelLeft = 9, AxisLabelWidth = 55;
+    private const double HeaderLeft = 12, HeaderTop = 8, HeaderLine = 18, HeaderBottom = 46, ZoneTop = 48, AxisLabelLeft = 9, AxisLabelWidth = 55;
     private const double TickLabelLeft = 7, TickLabelWidth = 57, TickIntervals = 4, HaloWidth = 7, HeadRadius = 4, BulbWidth = 7, FreeWidth = 1.5;
     private const double LegendMargin = 8, LegendPadding = 6, LegendRow = 17, LegendSwatch = 12, LegendGap = 6, LegendName = 118, LegendValue = 34;
     private const double LegendSides = 38, LegendGaps = 4, LegendMaximumFraction = .5, LegendTitleGap = 3, ZoomNoteHeight = 18, ToeLabelWidth = 160;
@@ -153,10 +153,19 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
         {
             if (width < 1) return;
             var ft = Text(text, width, color ?? ink);
-            var box = new Rect(x, y, Math.Min(width, ft.Width), ft.Height);
-            // Keep nearby water/support/stratum labels readable, without moving their geometric symbols.
-            for (int attempt = 0; attempt < LabelAttempts && (labels.Any(l => l.Bounds.IntersectsWith(box)) || blocked.Any(b => b.IntersectsWith(box))); attempt++)
-                box.Y += ft.Height + TextPadding;
+            var start = new Rect(x, y, Math.Min(width, ft.Width), ft.Height);
+            bool Free(Rect r) => !labels.Any(l => l.Bounds.IntersectsWith(r)) && !blocked.Any(b => b.IntersectsWith(r));
+            // Keep nearby water/support/stratum labels readable, without moving their geometric symbols: below, then above, inside the
+            // drawing; when no place is free the label stays where it was asked (never pushed out of sight).
+            var box = start;
+            for (int attempt = 1; attempt <= LabelAttempts && !Free(box); attempt++)
+            {
+                double step = attempt * (ft.Height + TextPadding);
+                var below = new Rect(start.X, start.Y + step, start.Width, start.Height);
+                var above = new Rect(start.X, start.Y - step, start.Width, start.Height);
+                if (below.Bottom <= ActualHeight && Free(below)) box = below;
+                else if (above.Top >= HeaderBottom && Free(above)) box = above;
+            }
             labels.Add((ft, box, backing));
         }
         if (Model is not { } m) return;
