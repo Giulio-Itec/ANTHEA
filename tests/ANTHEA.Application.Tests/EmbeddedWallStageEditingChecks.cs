@@ -61,7 +61,7 @@ internal static class EmbeddedWallStageEditingChecks
             "Inserisci: la fase di un altro caso riprende le quote del caso principale.");
         var appended = EmbeddedWallDocument.NewEditingRow(data, "stages", "Servizio", null);
         Check(J(appended["right_ground"]) == "-2", "A3 cambiata dall'estrazione della regola comune.");
-        Reject(() => EmbeddedWallDocument.InsertStage(data, EmbeddedWallDocument.NewRow("stages")), data.ToJsonString(), data.ToJsonString,
+        Reject(() => EmbeddedWallDocument.InsertStage(data, EmbeddedWallDocument.NewRow("stages")), data.ToJsonString(), () => data.ToJsonString(),
             "Inserisci: accettata una fase che non appartiene al documento.");
 
         // R04 of the review G-208: what the insertion interrupts, before it happens. T1 is present in F1 (150 kN) and in F2 (empty: it keeps
@@ -90,14 +90,14 @@ internal static class EmbeddedWallStageEditingChecks
             && data["global_checks"]![0]!["stage"]!.ToString() == "F1" && stages[2]!["id"]!.ToString() == "F2",
             "Rinomina: riferimenti del caso non aggiornati, o toccati quelli di un altro caso o di un'altra fase.");
         string renamed = data.ToJsonString();
-        Reject(() => EmbeddedWallDocument.RenameStage(data, f2row, "F1"), renamed, data.ToJsonString, "Rinomina: accettato un identificativo già usato nel caso.");
-        Reject(() => EmbeddedWallDocument.RenameStage(data, f2row, "   "), renamed, data.ToJsonString, "Rinomina: accettato un identificativo vuoto.");
+        Reject(() => EmbeddedWallDocument.RenameStage(data, f2row, "F1"), renamed, () => data.ToJsonString(), "Rinomina: accettato un identificativo già usato nel caso.");
+        Reject(() => EmbeddedWallDocument.RenameStage(data, f2row, "   "), renamed, () => data.ToJsonString(), "Rinomina: accettato un identificativo vuoto.");
         Check(EmbeddedWallDocument.RenameStage(data, f2row, "Scavo") == 0 && data.ToJsonString() == renamed, "Rinomina: lo stesso nome modifica il documento.");
         Check(EmbeddedWallDocument.RenameStage(data, stages[2]!.AsObject(), "F1") == 2 && stages[2]!["id"]!.ToString() == "F1",
             "Rinomina: un nome del caso principale è rifiutato in un altro caso.");
         var orphan = EmbeddedWallDocument.NewRow("loads"); orphan["stage"] = "F9"; data["loads"]!.AsArray().Add(orphan);
         renamed = data.ToJsonString();
-        Reject(() => EmbeddedWallDocument.RenameStage(data, f2row, "F9"), renamed, data.ToJsonString,
+        Reject(() => EmbeddedWallDocument.RenameStage(data, f2row, "F9"), renamed, () => data.ToJsonString(),
             "Rinomina: righe da completare collegate in silenzio alla fase rinominata.");
         var duplicate = EmbeddedWallDocument.NewRow("stages"); duplicate["id"] = "Scavo"; stages.Add(duplicate);
         Check(EmbeddedWallDocument.RenameStage(data, f2row, "Scavo bis") == 0 && data["activations"]![0]!["stage"]!.ToString() == "Scavo",
@@ -117,11 +117,11 @@ internal static class EmbeddedWallStageEditingChecks
             && data["loads"]![1]!["stage"]!.ToString() == "F1", "Rinomina tutte: il secondo caso non segue la sua storia.");
         var repeated = EmbeddedWallDocument.NewRow("stages"); repeated["id"] = "F1"; stages.Add(repeated);
         string before = data.ToJsonString();
-        Reject(() => EmbeddedWallDocument.RenameAllStages(data, data["case_id"]!.ToString()), before, data.ToJsonString,
+        Reject(() => EmbeddedWallDocument.RenameAllStages(data, data["case_id"]!.ToString()), before, () => data.ToJsonString(),
             "Rinomina tutte: accettati identificativi ripetuti.");
         // The global check cites «F1», which no longer exists once F1 is called «Iniziale»: F1 is a name of the new series.
         data = Sample(); data["stages"]![0]!["id"] = "Iniziale"; before = data.ToJsonString();
-        Reject(() => EmbeddedWallDocument.RenameAllStages(data, data["case_id"]!.ToString()), before, data.ToJsonString,
+        Reject(() => EmbeddedWallDocument.RenameAllStages(data, data["case_id"]!.ToString()), before, () => data.ToJsonString(),
             "Rinomina tutte: un riferimento da completare collegato in silenzio a una fase della nuova serie.");
         data = Sample(); data["global_checks"]![0]!["stage"] = "F9"; data["stages"]![0]!["id"] = "Iniziale";
         Check(EmbeddedWallDocument.RenameAllStages(data, data["case_id"]!.ToString()) == 0 && Ids(data).SequenceEqual(["F1", "F2"])
