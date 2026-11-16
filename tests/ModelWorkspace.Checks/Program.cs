@@ -115,6 +115,8 @@ static partial class Program
             await RevisionViewChecks();
             await CombinationMatrixChecks();
             await CombinationSeriesChecks();
+            // Rilievi of the test of the user of 16/11/2026 on the real MIDAS model.
+            await RevisionCheckpointChecks();
 
             if (args.Length > 1)
             {

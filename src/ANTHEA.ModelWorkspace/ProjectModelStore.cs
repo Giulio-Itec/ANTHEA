@@ -87,7 +87,54 @@ public sealed class ModelDocumentEntry
         var copyBlock = ModelResultArchive.Compress(ModelResultArchive.CopyBlock, bareJson); string copy = copyBlock.Address;
         archived.TryAdd(copy, copyBlock);
         var references = results.Select((r, i) => new ResultReference(r.Name, r.Combination?.DefinitionId, prepared[i].Address, prepared[i].Block.Length)).ToArray();
-        return new(snapshot, WholeRevision(bareJson, prepared.Select(p => p.Block).ToArray()), new(bareJson, copy, references, archived, DateTime.Now.ToString("O", CultureInfo.InvariantCulture)));
+        var (revision, checkpoint) = WholeRevision(bareJson, prepared, snapshot.RevisionCheckpoint);
+        snapshot.RevisionCheckpoint = checkpoint;
+        return new(snapshot, revision, new(bareJson, copy, references, archived, DateTime.Now.ToString("O", CultureInfo.InvariantCulture)));
+    }
+
+    /// <summary>
+    /// Rilievo R1 (16/11/2026): the state of the fingerprint of a copy after the JSON that precedes its result sets and the sets themselves,
+    /// with their addresses, kept by the copy and the copies made from it (ModelCombinations.Copy). A copy with the same JSON before its sets
+    /// and the same first sets (a series appends its results at the end) resumes from it and inflates only its new sets. Until 1.19.1 every
+    /// publication of «Calcola tutte» inflated and hashed every block of the copy again: on the MIDAS model of 16/11 (73 combinations, 5 GiB
+    /// of JSON at the end) tens of GB of arrays allocated and thrown away, which the process kept (24 GB with 7.7 GB of live data).
+    /// </summary>
+    internal sealed class RevisionCheckpoint(byte[] prefix, string[] addresses, ResumableSha256 state)
+    {
+        internal byte[] Prefix { get; } = prefix;
+        internal string[] Addresses { get; } = addresses;
+
+        /// <summary>A hash in the state of the checkpoint, its own (the checkpoint is shared by the copies and never changes).</summary>
+        internal ResumableSha256 Resume() { lock (state) return state.Duplicate(); }
+    }
+
+    /// <summary>As <see cref="WholeRevision(byte[], IReadOnlyList{ArchiveBlock})"/>, resumed from <paramref name="known"/> when the copy
+    /// begins as the one it was taken from; with the checkpoint of this copy. Without a resumable hash (not Windows) every block, as before.</summary>
+    internal static (string Revision, RevisionCheckpoint? Next) WholeRevision(byte[] bareJson, IReadOnlyList<PreparedBlock> blocks, RevisionCheckpoint? known)
+    {
+        if (!ResumableSha256.Supported) return (WholeRevision(bareJson, blocks.Select(b => b.Block).ToArray()), null);
+        int split = ResultsSplit(bareJson);
+        var prefix = bareJson.AsSpan(0, split);
+        bool resumed = known is not null && known.Addresses.Length <= blocks.Count && known.Prefix.AsSpan().SequenceEqual(prefix);
+        for (int i = 0; resumed && i < known!.Addresses.Length; i++) resumed = blocks[i].Address == known.Addresses[i];
+        var hash = resumed ? known!.Resume() : ResumableSha256.Create();
+        try
+        {
+            int start = resumed ? known!.Addresses.Length : 0;
+            if (!resumed) hash.Append(prefix);
+            for (int at = start; at < blocks.Count; at += HashWindow)
+            {
+                int count = blocks.Count - at < HashWindow ? blocks.Count - at : HashWindow;
+                var window = new byte[count][];
+                // Blocks prepared here from these bytes: inflated without a second SHA-256, the whole revision is the hash.
+                Parallel.For(0, count, k => window[k] = blocks[at + k].Block.Decode(verify: false));
+                for (int k = 0; k < count; k++) { if (at + k > 0) hash.Append(","u8); hash.Append(window[k]); }
+            }
+            var next = new RevisionCheckpoint(resumed ? known!.Prefix : prefix.ToArray(), blocks.Select(b => b.Address).ToArray(), hash.Duplicate());
+            hash.Append(bareJson.AsSpan(split));
+            return (Convert.ToHexString(hash.Finish()), next);
+        }
+        finally { hash.Dispose(); }
     }
 
     /// <summary>A result set prepared for the archive: the address of its JSON and its compressed block.</summary>

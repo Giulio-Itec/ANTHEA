@@ -95,6 +95,8 @@ public sealed partial class ModelViewerViewModel
         {
             try {if(unpublished>0&&!disposed)await Publish();}
             catch(Exception ex){stopped=(stopped==null?"":stopped+"\n")+"Pubblicazione non completata: "+ex.Message;}
+            // R1 (16/11/2026): the memory the series used and freed goes back to Windows, before the commands come back.
+            if(calculated.Count>0&&!disposed){CombinationMessage="Restituzione della memoria usata dalla serie…";await SystemMemory.ReleaseAsync();}
             batchCancellation=null;
             IsCombinationBusy=false;IsCombinationBatchBusy=false;IsBusy=false;NotifyCombinationCommands();
         }

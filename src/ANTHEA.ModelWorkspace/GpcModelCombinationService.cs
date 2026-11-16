@@ -114,7 +114,12 @@ public sealed partial class GpcModelCombinationService
             token.ThrowIfCancellationRequested();
             if(evaluated.IsRejected||evaluated.Results.Count==0)throw new InvalidDataException("Combinazione non costruita: "+Messages(evaluated.Diagnostics));
             warnings.AddRange(evaluated.Diagnostics.Select(d=>d.Code+": "+d.Message));
-            states=evaluated.Results.SelectMany(l=>l.States.Select(s=>new CombinedState(l.Owner,l.Location,s.StateId,s.Roles,DisplayVector(l.Location,s.Values)))).ToArray();
+            // Rilievo R1 (16/11/2026): in an envelope only the states with a governing role are read by DisplayResult (their vector is the
+            // concomitant one); the vector as displayed is made for them only, not for every alternative of every location, which was most of
+            // the memory thrown away by a combination of the series. Same values, same governing records.
+            bool governedOnly=alternatives.Length>1;
+            states=evaluated.Results.SelectMany(l=>l.States.Select(s=>new CombinedState(l.Owner,l.Location,s.StateId,s.Roles,
+                !governedOnly||s.Roles.Count>0?DisplayVector(l.Location,s.Values):null!))).ToArray();
             platePrincipals=evaluated.PlatePrincipals;
         }
         else
@@ -140,7 +145,7 @@ public sealed partial class GpcModelCombinationService
         var principalLabels=platePrincipals.SelectMany(p=>p.Components).SelectMany(e=>new[]{e.MinimumStateId,e.MaximumStateId})
             .Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
         var results=(envelope?new[]{false,true}:new[]{false}).Select(max=>DisplayResult(snapshot,selected,required,revision,
-            states,sourceNodes,labels,envelope,max,token,principals,principalLabels)).ToArray();
+            groups,sourceNodes,labels,envelope,max,token,principals,principalLabels)).ToArray();
         if(results.All(r=>r.Values.Length==0&&(r.Fields?.Length??0)==0&&(r.Displacements?.Length??0)==0))
             throw new InvalidDataException("Nessun campo completo disponibile per la visualizzazione.");
         return new(results,warnings.Distinct().ToArray(),watch.Elapsed.TotalMilliseconds,preparationMs,rebuildMs,
@@ -154,6 +159,8 @@ public sealed partial class GpcModelCombinationService
             // 1.15.0: sources without MIDAS tables (Straus7). The GPC model is rebuilt from the document copy itself.
             var basis=snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&r.Stage==null).ToArray();
             progress?.Report(new($"Preparazione iniziale · {basis.Length} casi base GPC dalla copia del documento. Saranno riutilizzati per le altre combinazioni…"));
+        // R1 (16/11/2026): the states grouped by location once for the minimum and the maximum (twice before), in the same order.
+        var groups=Locations(states);
             var (rebuilt,output,notes)=GpcSnapshotModel.Build(snapshot,revision,basis,token);
             var sampleOwners=new Dictionary<ResultLocation,Element>(ReferenceEqualityComparer.Instance);
             foreach(var owner in rebuilt.AllElements)foreach(var sample in owner.Results.SelectMany(r=>r.Results))sampleOwners.Add(sample,owner);
@@ -217,7 +224,7 @@ public sealed partial class GpcModelCombinationService
     readonly record struct CombinedState(Element Owner,ResultLocation Location,string StateId,IReadOnlyList<string> Roles,double[] Vector);
 
     static ModelResultSet DisplayResult(ModelSnapshot snapshot,ModelCombinationDefinition definition,string[] required,string revision,
-        CombinedState[] states,IReadOnlyDictionary<int,int> sourceNodes,string[] labels,bool envelope,bool maximum,CancellationToken token,
+        IGrouping<(Element Owner,int? Node,double? Station,bool Nodal),CombinedState>[] locations,IReadOnlyDictionary<int,int> sourceNodes,string[] labels,bool envelope,bool maximum,CancellationToken token,
         IReadOnlyDictionary<(Element,int?),PlatePrincipalResult> principals,string[] principalLabels)
     {
         var corners=new List<CornerResult>();var fields=new Dictionary<(string Family,string Component),List<ResultValue>>();
@@ -227,10 +234,14 @@ public sealed partial class GpcModelCombinationService
         var elements=snapshot.Elements.ToDictionary(e=>e.Id);
         var labelIndex=labels.Select((label,i)=>(label,i)).ToDictionary(p=>p.label,p=>p.i,StringComparer.Ordinal);
         // 1.16.0: displacements and reactions of a node are separate groups; members take the family of their document element (BEAM, TRUSS, CABLE).
-        foreach(var group in states.GroupBy(p=>(p.Owner,p.Location is PointResultPlateForces plate?plate.SourceNodeId:0,
-            p.Location is StationResultBeamForces beam?(double?)beam.ParametricDistance:null,p.Location is NodeResultForces)))
+        foreach(var group in locations)
         {
             token.ThrowIfCancellationRequested();
+    /// <summary>The combined states of each location (element, node of a plate, station of a member, node), in the order of the states.</summary>
+    static IGrouping<(Element Owner,int? Node,double? Station,bool Nodal),CombinedState>[] Locations(CombinedState[] states)=>
+        states.GroupBy(p=>(p.Owner,p.Location is PointResultPlateForces plate?plate.SourceNodeId:0,
+            p.Location is StationResultBeamForces beam?(double?)beam.ParametricDistance:null,p.Location is NodeResultForces)).ToArray();
+
             int id=int.Parse(group.Key.Owner.Source.OriginalId,CultureInfo.InvariantCulture);
             var firstState=group.First();var first=firstState.Location;
             string family=first is PointResultPlateForces?"PLATE":first is StationResultBeamForces?elements[id].Type:first is NodeResultForces?"REACTION":"NODE";
@@ -241,6 +252,10 @@ public sealed partial class GpcModelCombinationService
             string[] canonical=family switch {"PLATE"=>["Mxx","Myy","Mxy","Nxx","Nyy","Nxy","Qx","Qy"],"NODE"=>["Dx","Dy","Dz"],"REACTION"=>["Fx","Fy","Fz","Mx","My","Mz"],
                 "BEAM"=>["N","V1","V2","T","M1","M2"],_=>["N"]};
             var values=new double[components.Length];
+        // Rilievo R1 (16/11/2026): the names of the alternatives («A0», «A1»…, «P1»…) made once for each result instead of once for each governing
+        // record (21.5 million equal strings after «Calcola tutte» on the MIDAS model of 16/11). The same texts, so the same JSON and fingerprints.
+        var alternativeNames=Enumerable.Range(0,labels.Length+1).Select(i=>"A"+i.ToString(CultureInfo.InvariantCulture)).ToArray();
+        var principalNames=Enumerable.Range(1,principalLabels.Length).Select(i=>"P"+i.ToString(CultureInfo.InvariantCulture)).ToArray();
             for(int c=0;c<components.Length;c++)
             {
                 bool reverse=family=="PLATE"&&c<3||family=="BEAM"&&c==4;
@@ -248,7 +263,7 @@ public sealed partial class GpcModelCombinationService
                 var chosen=envelope?group.Where(p=>p.Roles.Contains(role)).Select(p=>(CombinedState?)p).SingleOrDefault():firstState;
                 if(chosen==null)throw new InvalidDataException("GPC non ha restituito il governante completo per "+components[c]+".");
                 var vector=chosen.Value.Vector;values[c]=vector[c];
-                if(envelope)governing.Add(new(family,id,node,group.Key.Item3,components[c],"A"+((labelIndex.TryGetValue(chosen.Value.StateId,out int index)?index:-1)+1),vector));
+                if(envelope)governing.Add(new(family,id,node,group.Key.Item3,components[c],alternativeNames[(labelIndex.TryGetValue(chosen.Value.StateId,out int index)?index:-1)+1],vector));
             }
             if(family=="PLATE")
             {
@@ -258,7 +273,7 @@ public sealed partial class GpcModelCombinationService
                     {
                         var (value,state,vector)=PrincipalExtreme(principal,c,maximum);
                         principalFields[PrincipalComponents[c]].Add(new(id,node,value));
-                        if(envelope)principalGoverning.Add(new("PLATE",id,node,null,PrincipalComponents[c],"P"+(principalIndex[state]+1).ToString(CultureInfo.InvariantCulture),vector));
+                        if(envelope)principalGoverning.Add(new("PLATE",id,node,null,PrincipalComponents[c],principalNames[principalIndex[state]],vector));
                     }
             }
             else if(family=="NODE")

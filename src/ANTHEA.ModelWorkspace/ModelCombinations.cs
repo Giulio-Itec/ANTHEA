@@ -238,7 +238,9 @@ public static class ModelCombinations
         // 2/11/2026 (series of the combinations): the checks, lengths, tables and revisions already known for the same references.
         Checked=s.Checked,CombinationSizes=s.CombinationSizes,CombinationTables=s.CombinationTables,CombinationDefinitionRevisions=s.CombinationDefinitionRevisions,
         // 3/11/2026: the blocks of the archive already prepared for the same result sets (ModelDocumentEntry.Prepare).
-        ResultBlocks=s.ResultBlocks};
+        ResultBlocks=s.ResultBlocks,
+        // Rilievo R1 (16/11/2026): the fingerprint resumed from the sets already hashed.
+        RevisionCheckpoint=s.RevisionCheckpoint};
 
     public static ModelSnapshot RestoreImported(ModelSnapshot snapshot)
     {

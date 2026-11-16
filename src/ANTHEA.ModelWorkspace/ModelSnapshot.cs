@@ -129,6 +129,8 @@ public sealed class ModelSnapshot
     internal IReadOnlyDictionary<string, ModelCombinations.KnownRevision>? CombinationDefinitionRevisions;
     // 3/11/2026 (limit of the copy chosen by the user): the address and compressed block of every result set already prepared for the archive.
     internal IReadOnlyDictionary<ModelResultSet, ModelDocumentEntry.PreparedBlock>? ResultBlocks;
+    // Rilievo R1 (16/11/2026): the state of the fingerprint of the copy up to its result sets (ModelDocumentEntry.Prepare).
+    internal ModelDocumentEntry.RevisionCheckpoint? RevisionCheckpoint;
     /// <summary>Results archive (2/11/2026): the result sets of the copy that the archive beside the project could not give back (archive
     /// missing, block damaged), with the reason; empty otherwise. Never serialized and never part of the fingerprints.</summary>
     [JsonIgnore] public IReadOnlyList<ModelUnavailableResult> UnavailableResults { get; internal set; } = [];
