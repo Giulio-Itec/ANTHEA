@@ -1,5 +1,78 @@
 {
   "schema": 1,
-  "note": "Fallimenti ammessi temporaneamente da build/ci.ps1. Ogni voce ha suite, tipo, motivo, fonte, data e fase che la chiude. 'match' (facoltativo) è un'espressione regolare sul primo messaggio d'errore: se non corrisponde l'esito è NEW-FAIL.",
-  "entries": []
+  "note": "Fallimenti ammessi da build/ci.ps1. Ogni voce ha suite, tipo, motivo, fonte, data e fase che la chiude. 'match' (facoltativo) è un'espressione regolare sul primo messaggio d'errore: se non corrisponde l'esito è NEW-FAIL. 'output' e 'sha256' (facoltativi) fissano un file d'uscita della suite: se cambia, l'esito è NEW-FAIL.",
+  "entries": [
+    {
+      "suite": "baseline/f4-last-adapters",
+      "tipo": "differenza dichiarata",
+      "motivo": "96 differenze nei 12 casi di taglio MC2010 (84 numeri e 12 espressioni): limite di cot θ con θmin = 20° + 10000 εx della decisione R4 del 26/10 (Checker fde43530), anteriore ad AV. Gli altri 32 casi sono uguali.",
+      "fonte": "Compito 188 (Repository/chatgpt-compiti/anthea-f4-188.md, §1); compiti 183 e 191 (oggetti identici AV/AW e fra 191 e 208).",
+      "data": "2026-11-16",
+      "decisione": "Utente, 16/11/2026, «Sì, tutti i consigli» (INT/rapporti/decisioni-utente-20261116.md, voce 4): i sei confronti storici F4 rossi, uguali con AV e AW, diventano differenze dichiarate. Nessun riferimento congelato o atteso rigenerato.",
+      "fase": "Aggiornamento circoscritto dei 12 casi MC2010 con prova della formula, dopo OK dell'utente (proposta del 188).",
+      "match": "^Model\\ Code\\ 2010/Rettangolare/40\\.Shear\\[0\\]\\.CotTheta:\\ 2,747477419454615\\ contro\\ 2,123107917701561$",
+      "output": "comparison.json",
+      "sha256": "8074A743DDE86A44F63D7B4B345ABAE7C9926C93A16A0756D68FB46957012641"
+    },
+    {
+      "suite": "baseline/f4-residual",
+      "tipo": "differenza dichiarata",
+      "motivo": "Una proprietà: coefficiente DIN di tensione dell'acciaio da precompressione in combinazione caratteristica 0,75 → 0,65 (Model 10ff0592, decisione R6 del 29/10, anteriore ad AV); fonte normativa originale da verificare.",
+      "fonte": "Compito 188 (Repository/chatgpt-compiti/anthea-f4-188.md, §2); compiti 183 e 191 (oggetti identici AV/AW e fra 191 e 208).",
+      "data": "2026-11-16",
+      "decisione": "Utente, 16/11/2026, «Sì, tutti i consigli» (INT/rapporti/decisioni-utente-20261116.md, voce 4): i sei confronti storici F4 rossi, uguali con AV e AW, diventano differenze dichiarate. Nessun riferimento congelato o atteso rigenerato.",
+      "fase": "Aggiornamento della sola proprietà DIN dopo la verifica della fonte (proposta del 188).",
+      "match": "^standard\\-DIN\\ EN\\ 1992\\-1\\-1\\.result\\.ServiceabilityStressPrestressSteelCoefficientForCharacteristicCombination:\\ \"0\\.75\"\\ contro\\ \"0\\.65\"$",
+      "output": "comparison.json",
+      "sha256": "6F91A2D3BB734C84DED39C36BE4F1FE81907BC84180152BE23D3AD331C1B72C0"
+    },
+    {
+      "suite": "baseline/f4-input-contracts",
+      "tipo": "differenza dichiarata",
+      "motivo": "Tre Actual dell'interasse longitudinale 284 → 484/3 mm (regola R12 sul perimetro dei pilastri, Checker 3545564c, anteriore ad AV); limite, NEd e verdetti invariati.",
+      "fonte": "Compito 188 (Repository/chatgpt-compiti/anthea-f4-188.md, §3); compiti 183 e 191 (oggetti identici AV/AW e fra 191 e 208).",
+      "data": "2026-11-16",
+      "decisione": "Utente, 16/11/2026, «Sì, tutti i consigli» (INT/rapporti/decisioni-utente-20261116.md, voce 4): i sei confronti storici F4 rossi, uguali con AV e AW, diventano differenze dichiarate. Nessun riferimento congelato o atteso rigenerato.",
+      "fase": "Aggiornamento dei tre Actual con la formula geometrica R12 (proposta del 188).",
+      "match": "^retained\\-legacy\\-input\\.Checks\\[4\\]\\.Actual:\\ 284\\ contro\\ 161,33333333333337$",
+      "output": "comparison.json",
+      "sha256": "F80ACE456309D5F96A5335B15D1F1AD5F0EFE2AAF7F7B24F7C89B4655363DCA4"
+    },
+    {
+      "suite": "baseline/f4-section-design",
+      "tipo": "differenza dichiarata",
+      "motivo": "82 scarti numerici (81 Ratio N–Mx–My dei candidati e un Ratio di esempio escluso), scarto relativo massimo 0,0257 %; deriva storica del calcolo della resistenza, non introdotta da AW e non ancora qualificata.",
+      "fonte": "Compito 188 (Repository/chatgpt-compiti/anthea-f4-188.md, §4); compiti 183 e 191 (oggetti identici AV/AW e fra 191 e 208).",
+      "data": "2026-11-16",
+      "decisione": "Utente, 16/11/2026, «Sì, tutti i consigli» (INT/rapporti/decisioni-utente-20261116.md, voce 4): i sei confronti storici F4 rossi, uguali con AV e AW, diventano differenze dichiarate. Nessun riferimento congelato o atteso rigenerato.",
+      "fase": "Qualificazione con equilibrio N/Mx/My, convergenza e discretizzazione; poi eventuale aggiornamento puntuale (188).",
+      "match": "^Circolare\\-workers\\-1\\.json\\.Candidates\\[0\\]\\.Checks\\[12\\]\\.Ratio:\\ 0,6666432610846432\\ contro\\ 0,6666018756589009$",
+      "output": "comparison.json",
+      "sha256": "5A5414422AF42FEB4819E43CB6E28295D443F2D52BF20294562B396A23727478"
+    },
+    {
+      "suite": "baseline/f4-pile-outcomes",
+      "tipo": "differenza dichiarata",
+      "motivo": "21.949 differenze in sei campi numerici: VRd e ShearRatio spiegati dalla correzione S2 (Checker aaa3a2cc), MRd ridotti dallo sviluppo PO-5b (Checker fde43530, ANTHEA 0b8bfd66), piccoli residui MRd non ancora qualificati; tutto anteriore ad AV.",
+      "fonte": "Compito 188 (Repository/chatgpt-compiti/anthea-f4-188.md, §5); compiti 183 e 191 (oggetti identici AV/AW e fra 191 e 208).",
+      "data": "2026-11-16",
+      "decisione": "Utente, 16/11/2026, «Sì, tutti i consigli» (INT/rapporti/decisioni-utente-20261116.md, voce 4): i sei confronti storici F4 rossi, uguali con AV e AW, diventano differenze dichiarate. Nessun riferimento congelato o atteso rigenerato.",
+      "fase": "Aggiornamento circoscritto S2, categoria PO-5b con benchmark, qualificazione dei residui MRd (188).",
+      "match": "^law\\-0\\-water\\-False\\.json:\\ numeric\\ MRdPositive$",
+      "output": "comparison.json",
+      "sha256": "1D914A23A0D53953F848EEC4BB56EF84F4B2CD0878F100AC44179926F3DECE3E"
+    },
+    {
+      "suite": "baseline/f4-structural-adapter",
+      "tipo": "differenza dichiarata",
+      "motivo": "26.248 differenze sui muri: 1.224 dettagli e distinta dalla correzione delle armature (Checker bcd75f84, 29/10) e 25.024 residui N–M non ancora qualificati; tutto anteriore ad AV.",
+      "fonte": "Compito 188 (Repository/chatgpt-compiti/anthea-f4-188.md, §6); compiti 183 e 191 (oggetti identici AV/AW e fra 191 e 208).",
+      "data": "2026-11-16",
+      "decisione": "Utente, 16/11/2026, «Sì, tutti i consigli» (INT/rapporti/decisioni-utente-20261116.md, voce 4): i sei confronti storici F4 rossi, uguali con AV e AW, diventano differenze dichiarate. Nessun riferimento congelato o atteso rigenerato.",
+      "fase": "Classificazione dei dettagli bcd75f84 e qualificazione indipendente dei residui N–M (188).",
+      "match": "^XC1\\-C25\\.json/Detailing:\\ object\\ keys$",
+      "output": "comparison.json",
+      "sha256": "59CF36CE4F39DF2CE7BC65C9DA3D0EB82C6BE0D8BCE8421580A375857F8DB536"
+    }
+  ]
 }
