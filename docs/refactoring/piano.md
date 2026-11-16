@@ -1801,3 +1801,22 @@ Attuata la disposizione approvata: dati generali compatti, tabella dei parametri
 Verifica finale in `supporto/artefatti/ci/20261116-174327-stratigrafia-validata`: 188 controlli della vista, 26 della stratigrafia Release e 628 di architettura superati; 74 suite UI prima e dopo, nessuna nuova eccezione F4/F5. Schermate controllate nei tre temi e a larghezze 700/1400/1700 DIP. Il confronto con le tracce congelate isola il solo default ponti 1,35 già autorizzato rispetto al precedente 1,30, senza riscrivere fixture o catture.
 
 Release pubblicata e verificata con `Assert-NoTestCode.ps1`, installata in `app`; precedente, log, schermata e hash in `supporto/artefatti/stratigrafia-tabella-2026-11-16`. Differenza registrata come `UI-STRATIGRAFIA-TABELLA-20261116`. Commit locale richiesto limitato a questa modifica.
+
+## Rilievi del modulo Modelli sul modello MIDAS vero — 16 novembre 2026
+
+Prova dell'utente del 16/11 (73 combinazioni LCOM, 48 casi, progetto salvato con 925 MB di archivio) e file Straus7 con due freedom case. Ramo `claude/modelli-rilievi`, rapporto `INT/rapporti/modelli-rilievi-20261116.md`, voci `MOD-RIL-*` nel registro. Banco senza WPF del percorso della shell: `ANTHEA.Presentation.Tests --banco-modelli`.
+
+- [x] R2 «Valore dell'elemento» al posto di «Importato» nel campione con la media ai vertici.
+- [x] R1 serie: impronta ripresa dai blocchi già letti, nomi delle alternative condivisi, vettori solo dei governanti, gruppi una volta, memoria restituita alla fine; risultati identici bit per bit (impronta della copia uguale).
+- [x] R8 e R5 lettura della copia in un altro thread oltre 64 MiB di risultati, a finestre di 12 insiemi, con avanzamento nella scheda; copia conservata per un Annulla di altre modifiche; governanti riletti con testi e vettori condivisi; impronta nota invece di quella ricalcolata dal visore.
+- [x] R4 «↶ Annulla Libera» accanto a «Libera» e nomi delle modifiche del modello nello storico.
+- [x] R6 memoria restituita dopo «Libera».
+- [x] R7 casi base GPC preparati in background quando la scena è pronta (solo con combinazioni da calcolare, almeno 8 GiB liberi, priorità bassa, annullata da una nuova copia).
+- [x] R3 File › Apri su un file di modello: messaggio con i passi e pagina «Modelli».
+- [x] R9 Straus7 senza casi di risultato selezionabili: motivo e avvisi del convertitore nel pannello; casi non associati nel catalogo del worker.
+- [x] R10 «Tutto» senza casi di risultato importa geometria, attributi e carichi (Straus7 e MIDAS).
+- [x] Unione di main a323af43 (stratigrafia) senza conflitti; prove veloci sopra l'unione: ModelWorkspace.Checks e Presentation.Tests PASS, Architecture.Tests corretta (fb3944d4, due letterali F4 R2).
+- [x] Prove sopra d9ddf63e (unione e correzioni comprese): veloci PASS 7 (`supporto/artefatti/ci/20261116-223355-modelli-r-fast2`), WPF del modulo Modelli e della stratigrafia PASS 10 (`supporto/artefatti/ci/20261116-220230-modelli-r-ui`), nessun nuovo fallimento; nativo sul file Straus7 dell'utente: 0 casi selezionabili, 15 non associati, importazione senza risultati 2563 nodi e 5238 elementi. Progetto salvato riaperto: finestra ferma al massimo 8,3 s invece di 63,7 s.
+- [ ] Domande D1–D5 del rapporto (caricamento pigro dei risultati, preparazione GPC dopo «Libera», apertura diretta dei file di modello, soglia di memoria, pausa della restituzione).
+- [ ] Guide: testi proposti nel rapporto, per la prossima edizione.
+- [ ] Libreria: mappatura dei risultati e dei vincoli con più freedom case (GPC.Converter, ramo `claude/st7-freedom-cases`); stati solo governanti da `CombinationMatrix.Evaluate` (GPCModel).
