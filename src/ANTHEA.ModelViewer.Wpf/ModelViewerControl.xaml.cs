@@ -18,11 +18,12 @@ public partial class ModelViewerControl : UserControl, IDisposable
 
     public ModelViewerControl(ModelSnapshot? snapshot, IReadOnlyList<SheetTarget> sheets, bool readOnly,
         Action<ModelDocumentEntry> imported, Action<string, int, string, string> linked, ModelViewPresetStore? viewStore=null,
-        bool resultsArchive=false)
+        bool resultsArchive=false, Func<string, bool>? undoChange=null)
     {
         InitializeComponent();
         var services = new WpfModelViewerServices(() => Window.GetWindow(this), () => {previousCamera=renderer?.CameraState();renderer?.Fit(viewModel?.IncludeHiddenInFit ?? false);}, SaveConfiguredImage,()=>renderer?.CameraState() is {} captured ? captured with { AspectRatio=Viewport.ActualWidth/Math.Max(1,Viewport.ActualHeight) } : null,camera=>{viewModel!.IsOrthographic=camera.Orthographic;renderer?.RestoreCamera(camera);},viewStore);
-        viewModel = new ModelViewerViewModel(snapshot, sheets, readOnly, services, imported, linked) { CombinationArchive = resultsArchive };
+        // R4 (16/11/2026): «↶ Annulla Libera» goes to the undo of the project of the tab (null outside a project).
+        viewModel = new ModelViewerViewModel(snapshot, sheets, readOnly, services, imported, linked) { CombinationArchive = resultsArchive, UndoProjectChange = undoChange };
         DataContext = viewModel;
         AttachInteraction();
         AttachAnimation();

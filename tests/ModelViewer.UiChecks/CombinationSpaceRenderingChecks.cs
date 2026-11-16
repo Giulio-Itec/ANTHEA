@@ -21,7 +21,9 @@ partial class Program
         string id = ProjectModelStore.Models(container).Single()["id"]!.GetValue<string>();
         var saved = ProjectModelStore.Read(container, id)!;
         var archive = new ModelResultArchive(null);
-        using var control = new ModelViewerControl(saved, [], false, entry => ProjectModelStore.Set(container, entry, id, archive), (_, _, _, _) => { }, resultsArchive: true);
+        string? undone = null;
+        using var control = new ModelViewerControl(saved, [], false, entry => ProjectModelStore.Set(container, entry, id, archive), (_, _, _, _) => { }, resultsArchive: true,
+            undoChange: label => { undone = label; return true; });
         var window = new Window { Title = "ANTHEA · Spazio delle combinazioni", Content = control, Width = 1400, Height = 900, ShowInTaskbar = false, ShowActivated = false };
         window.Show(); Wait(800);
         try
@@ -37,10 +39,18 @@ partial class Program
                 $"space of the combinations: panel with the space ({state.CombinationSpaceText}), the limit and «Libera tutte» enabled");
             foreach (string theme in new[] { "Light", "Dark" }) { SetAppearance(theme); Wait(250); CapturePage(control, Path.Combine(output, "combinazioni-spazio-" + theme + ".png")); }
             int definitions = state.Combinations.Count;
+            int freed = state.Snapshot!.Results.Select(r => r.Combination?.DefinitionId).OfType<string>().Distinct().Count();
             Run(() => state.FreeAllCombinationResultsCommand.ExecuteAsync(null)); Wait(200);
             Check(!state.Snapshot!.Results.Any(r => r.Combination != null) && !ProjectModelStore.Read(container, id, archive)!.Results.Any(r => r.Combination != null) &&
                 state.Combinations.Count == definitions && state.Combinations.All(c => c.State != "Calcolata") && !freeAll.IsEnabled,
                 "space of the combinations: «Libera tutte» removes the saved results from the copy and the document and keeps every definition");
+            // R4 (16/11/2026): the undo of «Libera» where «Libera» is, with the message that says where the undo of the project is.
+            var undo = Children<Button>(control).Single(b => ReferenceEquals(b.Command, state.UndoFreeCommand));
+            Check(undo.IsVisible && undo.IsEnabled && (string)undo.Content == "↶ Annulla Libera" && state.CombinationMessage.Contains("Ctrl+Z", StringComparison.Ordinal),
+                "space of the combinations: after «Libera tutte» the panel offers «↶ Annulla Libera» and says where the undo of the project is");
+            CapturePage(control, Path.Combine(output, "combinazioni-spazio-dopo-libera.png"));
+            undo.Command.Execute(null); Wait(100);
+            Check(undone == ModelViewerViewModel.FreeLabel(freed) && !undo.IsVisible, "space of the combinations: «↶ Annulla Libera» asks the project to undo «Libera» and disappears");
         }
         finally { window.Close(); }
         using var plain = new ModelViewerControl(saved, [], false, _ => { }, (_, _, _, _) => { });

@@ -349,7 +349,9 @@ public sealed class ModelTabViewModel : ViewModelBase
     {
         ArgumentNullException.ThrowIfNull(prepared);
         string? id = ModelId;
-        if (!project.ChangeData(() => { id = ProjectModelStore.Set(Container, prepared, id, project.Results); return true; }, Container)) return;
+        // R4 (16/11/2026): the change has its name in the history («↶ Annulla: Libera i risultati di 73 combinazioni»), not «Modifica dei dati dei fogli».
+        string label = prepared.ChangeLabel ?? (id is null ? "Importazione del modello" : "Modifica del modello «" + Title + "»");
+        if (!project.ChangeData(() => { id = ProjectModelStore.Set(Container, prepared, id, project.Results); return true; }, Container, label)) return;
         ModelId = id;
         Snapshot = prepared.Snapshot; shownRevision = prepared.Revision;
         Title = RenameText = ProjectModelStore.Models(Container).Single(m => m.S("id") == id).S("nome");
@@ -357,6 +359,12 @@ public sealed class ModelTabViewModel : ViewModelBase
         RefreshHistory();
         OnPropertyChanged(nameof(ModelId)); OnPropertyChanged(nameof(Targets));
     }
+
+    /// <summary>
+    /// Rilievo R4 (16/11/2026): «↶ Annulla Libera» of the viewer, the undo of the project when its last change is still the one named
+    /// <paramref name="label"/> (the viewer made it); false otherwise, nothing undone. The tab then reads the restored copy (Rebind).
+    /// </summary>
+    public bool UndoChange(string label) => !IsDisposed && project.UndoLabel == label && project.Restore(false);
 
     /// <summary>«Ripristina» in «Copie precedenti» (2/11/2026): the copy saved before, read from the results archive, becomes the model of the
     /// tab (the current copy enters the history when it was saved; «Annulla» brings it back); the view shows it.</summary>

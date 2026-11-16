@@ -205,7 +205,7 @@ public sealed partial class ModelViewerViewModel
             cancellation.Token.ThrowIfCancellationRequested();if(disposed)return;
             var kept=next.Results.Select(n=>n.Name).ToHashSet(StringComparer.Ordinal);
             int evicted=snapshot.Results.Count(r=>r.Combination!=null&&r.Combination.DefinitionId!=id&&!kept.Contains(r.Name));
-            PublishCombinationSnapshot(entry);RefreshCombinations(id);
+            PublishCombinationSnapshot(entry,"Calcolo di «"+(SelectedCombination?.Definition.Name??id)+"»");RefreshCombinations(id);
             ShowCombinationResult(calculated.Results[0].Name);
             CombinationMessage=$"{(calculated.PreparationReused?"Casi base riutilizzati":"Preparazione iniziale: "+(calculated.PreparationMilliseconds/1000).ToString("F2")+" s")} · calcolo {calculated.RebuildMilliseconds/1000:F2} s · campi {calculated.DisplayMilliseconds/1000:F2} s.\n"+string.Join("\n",calculated.Warnings.Take(6));
             if(evicted>0)CombinationMessage+=$"\n{evicted} campi derivati precedenti rimossi dalla cache per rispettare il limite del pacchetto. Le definizioni restano disponibili per il ricalcolo.";
@@ -218,7 +218,7 @@ public sealed partial class ModelViewerViewModel
     {SelectedCase=name;SelectedPanel=1;SelectedAxes=0;ShowResults=true;Status="Risultato della combinazione disponibile nella vista e nelle tabelle.";}
     /// <summary>Decision of the user of 1/11/2026: a change of the definitions made and written off the thread of the interface (the copy and its
     /// document entry, ModelDocumentEntry), busy meanwhile as during a calculation; false when the view closed meanwhile.</summary>
-    async Task<bool> PublishCombinationChangeAsync(Func<ModelSnapshot,ModelSnapshot> change,string working)
+    async Task<bool> PublishCombinationChangeAsync(Func<ModelSnapshot,ModelSnapshot> change,string working,string? label=null)
     {
         var snapshot=Snapshot!;
         IsCombinationBusy=true;IsBusy=true;NotifyCombinationCommands();CombinationMessage=working;
@@ -226,13 +226,17 @@ public sealed partial class ModelViewerViewModel
         {
             var entry=await Task.Run(()=>ModelDocumentEntry.Prepare(change(snapshot)),lifetime.Token);
             if(disposed)return false;
-            PublishCombinationSnapshot(entry);return true;
+            PublishCombinationSnapshot(entry,label);return true;
         }
         finally {IsCombinationBusy=false;IsBusy=false;NotifyCombinationCommands();}
     }
-    /// <summary>The copy in the document and on screen: on the thread of the interface only the insertion of the prepared entry and the view.</summary>
-    void PublishCombinationSnapshot(ModelDocumentEntry entry)
+    /// <summary>The copy in the document and on screen: on the thread of the interface only the insertion of the prepared entry and the view.
+    /// <paramref name="label"/>: the name of the change in the history of the project (R4, 16/11/2026), null for the name the tab gives.</summary>
+    void PublishCombinationSnapshot(ModelDocumentEntry entry,string? label=null)
     {
+        // R4: a change after «Libera» is the last one of the project now: «↶ Annulla Libera» would take back that one instead.
+        freedLabel=null;NotifyUndoFree();
+        entry.ChangeLabel=label;
         var snapshot=entry.Snapshot;imported(entry);Snapshot=snapshot;fields.Clear();tableState=null;
         bool previous=updating;updating=true;
         Cases=snapshot.Results.Select(r=>r.Name).ToArray();if(!Cases.Contains(SelectedCase))SelectedCase=Cases.FirstOrDefault();

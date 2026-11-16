@@ -72,7 +72,10 @@
             <TextBlock Text="SPAZIO DELLE COMBINAZIONI" Style="{StaticResource Caption}" VerticalAlignment="Center"/></DockPanel>
           <ProgressBar Value="{Binding CombinationSpaceBytes,Mode=OneWay}" Maximum="{Binding CombinationCopyBytes,Mode=OneWay}" Height="6" Margin="0,6,0,4" AutomationProperties.Name="Spazio occupato"/>
           <TextBlock Text="{Binding CombinationSpaceText}" FontSize="11" AutomationProperties.Name="Spazio occupato dalle combinazioni"/>
-          <WrapPanel Margin="0,6,0,0"><Button Content="Libera selezionate" Command="{Binding FreeSelectedCombinationResultsCommand}" ToolTip="Toglie dalla copia i risultati salvati delle combinazioni selezionate; le definizioni restano" AutomationProperties.Name="Libera i risultati selezionati"/><Button Content="Libera tutte" Command="{Binding FreeAllCombinationResultsCommand}" Margin="6,0,0,0" ToolTip="Toglie dalla copia tutti i risultati salvati delle combinazioni; le definizioni restano" AutomationProperties.Name="Libera tutti i risultati"/></WrapPanel>
+          <WrapPanel Margin="0,6,0,0"><Button Content="Libera selezionate" Command="{Binding FreeSelectedCombinationResultsCommand}" ToolTip="Toglie dalla copia i risultati salvati delle combinazioni selezionate; le definizioni restano" AutomationProperties.Name="Libera i risultati selezionati"/><Button Content="Libera tutte" Command="{Binding FreeAllCombinationResultsCommand}" Margin="6,0,0,0" ToolTip="Toglie dalla copia tutti i risultati salvati delle combinazioni; le definizioni restano" AutomationProperties.Name="Libera tutti i risultati"/>
+            <!-- R4 (16/11/2026): the undo of «Libera» where «Libera» is; until 1.19.1 only «↶ Annulla» of the main window. -->
+            <Button Content="↶ Annulla Libera" Command="{Binding UndoFreeCommand}" Margin="6,0,0,0" Visibility="{Binding CanUndoFree,Converter={StaticResource Visible}}"
+              ToolTip="Riporta i risultati appena liberati: annulla l’ultima modifica del progetto, come «↶ Annulla» della finestra principale (Ctrl+Z)" AutomationProperties.Name="Annulla Libera"/></WrapPanel>
         </StackPanel>
       </StackPanel>
     </Border>

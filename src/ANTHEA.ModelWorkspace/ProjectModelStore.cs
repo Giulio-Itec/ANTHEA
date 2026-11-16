@@ -53,6 +53,10 @@ public sealed class ModelDocumentEntry
     /// <summary>True when the copy goes to the results archive (its results reach <see cref="ModelResultArchive.InlineResultBytes"/>).</summary>
     public bool IsArchived => archived is not null;
 
+    /// <summary>Rilievo R4 (16/11/2026): the name of the change in the history of the project («↶ Annulla: …»), given by the viewer that
+    /// made it (for instance «Libera i risultati di 73 combinazioni»); null for the name the project gives.</summary>
+    public string? ChangeLabel { get; set; }
+
     internal ArchivedCopy? Archived => archived;
 
     /// <summary>Validates the copy and writes its entry: the work of <see cref="ProjectModelStore.Set(JsonObject, ModelSnapshot, string?)"/>
@@ -207,10 +211,6 @@ public sealed class ModelDocumentEntry
     }
 }
 
-public static class ProjectModelStore
-{
-    public const string Property = "modelli_calcolo";
-    public const string Binding = "riferimento_modello";
 /// <summary>
 /// Rilievi R5 and R8 (16/11/2026): a copy taken from the project document (<see cref="ProjectModelStore.Capture"/>), read on any thread: the
 /// document may change meanwhile, the bytes of the entry were copied. The reading of a copy with 5 GB of results in the archive took about a
@@ -230,6 +230,10 @@ public sealed class ModelCopyReader
     public ModelSnapshot Read(IProgress<double>? progress = null, CancellationToken token = default) => read(progress, token);
 }
 
+public static class ProjectModelStore
+{
+    public const string Property = "modelli_calcolo";
+    public const string Binding = "riferimento_modello";
 
     /// <summary>Schema of the entry of a copy with its results in the document (every version up to 1.17.0).</summary>
     const int InlineSchema = 1;

@@ -60,7 +60,7 @@ public sealed partial class ModelViewerViewModel
             // Written off the thread of the interface, as a single combination; never cancelled, so the calculated results are kept.
             var entry=await Task.Run(()=>ModelDocumentEntry.Prepare(copy));
             if(disposed)return;
-            PublishCombinationSnapshot(entry);unpublished=0;sincePublished.Restart();
+            PublishCombinationSnapshot(entry,"Calcolo delle combinazioni in serie");unpublished=0;sincePublished.Restart();
             double spaced=BatchPublishRatio*publishing.Elapsed.TotalSeconds;publishAfter=spaced>BatchPublishSeconds?spaced:BatchPublishSeconds;
         }
         try

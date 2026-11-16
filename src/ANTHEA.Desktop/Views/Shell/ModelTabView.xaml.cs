@@ -41,7 +41,7 @@ public partial class ModelTabView : UserControl
         var current = model;
         // 3/11/2026: the project of the shell has a results archive (ModelTabViewModel.Imported, ProjectSession.Results), so the copy of the
         // model may take with its combinations the limit the user chooses in «Spazio delle combinazioni».
-        viewer = new ModelViewerControl(current.Snapshot, current.Targets, current.IsReadOnly, current.Imported, current.Linked, resultsArchive: true);
+        viewer = new ModelViewerControl(current.Snapshot, current.Targets, current.IsReadOnly, current.Imported, current.Linked, resultsArchive: true, undoChange: current.UndoChange);
         viewer.SetDisplayName(current.Title);
         Viewer.Content = viewer;
     }
