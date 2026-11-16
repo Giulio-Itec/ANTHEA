@@ -2,6 +2,7 @@ using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Anthea.Application.Documents;
 using Anthea.Presentation.Projects;
 using Anthea.Presentation.Services;
@@ -28,6 +29,7 @@ internal static partial class ShellSmoke
         var shell = b.Shell; var workspace = b.Workspace;
         await CoverWarnings(b);
         ComparisonOrder(b);
+        await Unreadable(b);
         JsonObject Sheet(string module, string name) => J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));
         if (Environment.GetEnvironmentVariable("ANTHEA_SOIL_REGRESSION_FILE") is string regressionPath) await SoilRegression(b, regressionPath);
         if (Environment.GetEnvironmentVariable("ANTHEA_SOIL_MISSING_FILE") is string missingPath) await SoilMissing(b, missingPath);
@@ -184,6 +186,65 @@ internal static partial class ShellSmoke
         b.Services.SaveFile = null;
         b.Check(ConcretePersistenceComparison.Equivalent(b.Project.Document, DocumentService.Open(archive)), "Salvataggio della condivisione riuscito");
         File.WriteAllText(Path.Combine(directory, "smoke.txt"), "OK (shell nuova): scelta tutti/locale, nessuna richiesta ripetuta, CLS tra materiali e verifiche, mm/m in entrambe le direzioni, geometrie incompatibili, armatura e reset, carichi invariati, sezioni indipendenti, ereditarietà nuovi fogli, confronto e persistenza.");
+    }
+
+    /// <summary>
+    /// A sheet without dati (an unresolved reference opened with diagnosis), off screen and without the mouse: in the comparison its row shows
+    /// «Non leggibile», disabled, beside the «Uniforma a questo» of the readable sheets; the window of the shared data question, drawn as the product
+    /// builds it, has the line «Esclusi perché non leggibili…» only when sheets are excluded.
+    /// </summary>
+    private static async Task Unreadable(ShellSmokeBench b)
+    {
+        CloseTabs(b);
+        JsonObject Sheet(string module, string name) => J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));
+        var document = ProjectDocuments.CreateArchive();
+        var project = J.Obj(("nome", "Progetto con una scheda non leggibile"), ("strutture", new JsonArray())); document.Array("progetti").Add(project);
+        var section = ProjectDocuments.AddSection(project, "Spalla A");
+        var readable = Sheet("geo_palo_verticale", "Pali leggibili");
+        var other = Sheet("geo_palo_verticale", "Pali di confronto");
+        var unreadable = Sheet("geo_palo_verticale", "Pali senza dati");
+        foreach (var s in new[] { readable, other, unreadable }) section.Array("fogli").Add(s);
+        readable["dati"]!["generali"]!["diametro"] = "1.2";
+        unreadable.Remove("dati");
+        b.Services.Confirmations.SaveChanges = () => SaveChangesAnswer.Discard;
+        b.Workspace.OpenDocument(document, null, false);
+        b.Services.Confirmations.SaveChanges = null;
+        bool compared = false;
+        b.Services.DialogAsync = async d =>
+        {
+            var compare = (CoherenceViewModel)d;
+            await b.CaptureDialog(compare, compare.Title, "confronto-non-leggibile.png", window =>
+            {
+                var buttons = ShellSmokeBench.Descendants<Button>(window).Where(x => x.IsVisible).ToArray();
+                var unreadableButtons = buttons.Where(x => Equals(x.Content, ConflictSheetViewModel.UnreadableLabel)).ToArray();
+                b.Check(unreadableButtons.Length == 1 && !unreadableButtons[0].IsEnabled, "Confronto: «Non leggibile» disattivato per la scheda senza dati");
+                b.Check(buttons.Count(x => Equals(x.Content, "Uniforma a questo") && x.IsEnabled) == 2, "Confronto: le schede leggibili restano uniformabili");
+            });
+            compared = true;
+            return compare.Result;
+        };
+        try { await b.Shell.CompareCommand.ExecuteAsync(section); }
+        finally { b.Services.DialogAsync = null; }
+        b.Check(compared && unreadable["dati"] is null, "Confronto con una scheda senza dati aperto, scheda invariata");
+
+        var prompt = new SharedUpdatePrompt(["Geometria"], section.S("nome"), [new SharedUpdateTarget("Pali di confronto", ["Diametro [mm]: 600 → 1200"])], ["Pali senza dati"]);
+        foreach (var (question, name) in new[] { (prompt, "dati-condivisi-esclusi.png"), (prompt with { Excluded = null }, "dati-condivisi.png") })
+        {
+            var window = ShellSmokeBench.Offscreen(WpfConfirmationService.SharedUpdateDialog(b.Window, question));
+            window.Show();
+            try
+            {
+                window.UpdateLayout();
+                await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);
+                File.WriteAllBytes(Path.Combine(b.Output, name), Ui.Snapshot(window));
+                var lines = ShellSmokeBench.Descendants<TextBlock>(window).Where(t => t.Text.StartsWith("Esclusi perché non leggibili", StringComparison.Ordinal)).ToArray();
+                if (question.Excluded is null) b.Check(lines.Length == 0, "Dati condivisi senza esclusi: nessuna riga degli esclusi");
+                else b.Check(lines.Length == 1 && lines[0].IsVisible && lines[0].Text == "Esclusi perché non leggibili, restano come nel file: Pali senza dati.",
+                    "Dati condivisi: riga degli esclusi nella finestra");
+            }
+            finally { window.Close(); }
+        }
+        CloseTabs(b);
     }
 
     /// <summary>The status line of the shared data shown above the sheet (the view of SharedStatusViewModel), with its text.</summary>

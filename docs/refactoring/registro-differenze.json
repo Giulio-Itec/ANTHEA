@@ -15248,6 +15248,7 @@
         "esito": "Esclusione in ApplyTargets per tutti i comandi che lo usano. Anteprima: la riga degli esclusi nella domanda dei dati condivisi, che c'è solo quando la domanda si pone; con la propagazione automatica verso le sottosezioni, o senza fogli da aggiornare, non c'è domanda e gli esclusi restano solo come nel file. Le schede in quarantena con i dati sono escluse come quelle senza dati, come già la domanda e lo spostamento (passo 2b)."
       },
       "test": [
+        "ui/shell-smoke-sharing (Unreadable, fuori schermo): pulsante «Non leggibile» disattivato nel confronto e riga degli esclusi nella finestra «Dati condivisi della sezione», solo con esclusi; corsa supporto/artefatti/ci/20261116-070507-finale",
         "Application.Tests 3696, Presentation.Tests 5153 (SharedDataCoordinatorChecks.Unreadable, CoherenceChecks.Unreadable), Architecture.Tests 618, Reports.Tests 515, Projects.Checks 22, FoundationWorkspace.Checks 54, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS"
       ],
       "evidenze": [
