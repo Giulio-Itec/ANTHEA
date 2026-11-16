@@ -2037,5 +2037,20 @@
     "file": "tests/fixtures/f3/transitions-f4.json",
     "record": "SM-CB131-ARROTONDAMENTI",
     "note": "Project report: the three «Residuo equilibrio» cells of the composite section chapter, already moved by BUG-MUR-1 + BUG-MUR-2 / R-MURI-09, take the new value after (2,742E-15 → 0E+0, 2,503E-15 → 0E+0, 5,587E-15 → 1,589E-16), entry «… / SM-CB131-ARROTONDAMENTI». Values before unchanged; key aggiornamento_f7e in the list."
+  },
+  "editorial_transitions_rev72": {
+    "capture": "supporto/artefatti/ci/20261116-075927-c1191-ui/ui_f3-equivalence/cattura",
+    "before_sha256": "f9f4e5e78079d8fdd69699f0c89d9e6630e32c1128d44eb455abf5b5009a67e6",
+    "after_sha256": "eca067f26543fc381d699f395b87019727d95cca52aa3618d77475ea3897ccbc",
+    "counts": {
+      "previous": 3308,
+      "current": 3480,
+      "added": 629,
+      "removed": 457
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "GUIDE-REV72-20261116",
+    "decision": "Utente, 16/11/2026: «Sì, tutti i consigli» (scheda decisioni-utente-20261116, voce 6c a: OK alle transizioni della Wiki).",
+    "note": "Guides Rev72 (ANTHEA 1.19.1): the 1086 not-admitted differences of the capture, all in wiki/ (26 article files and the search index), are the proposal of task 208 applied unchanged: 629 exact editorial transitions added (riga-aggiunta 516, testo 86, elemento-aggiunto 27) and 457 earlier transitions superseded. Article count unchanged (94). The same 1086 differences, identical by file, path, class and values, appear in the capture of task 208 on 68192e18. No expected files, engineering transitions or tolerances changed."
   }
 }

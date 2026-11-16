@@ -15484,6 +15484,33 @@
       "voci_collegate": [
         "REPORT-TEMPLATE-20261106"
       ]
+    },
+    {
+      "id": "GUIDE-REV72-20261116",
+      "data": "2026-11-16",
+      "fase": "Dopo il refactoring / guide globali (ANTHEA 1.19.1)",
+      "titolo": "Guide Rev72 della 1.19.1: transizioni editoriali della Wiki",
+      "famiglia": "guide/wiki",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Guide pratica e teorica Rev72 (compiti 205, 207 e 208): allineamento ai comportamenti della 1.19.1 sul set AW (temi A1–A13), avviso P10 sui Materiali più vicini, protezione degli strati condivisi, esempio Hansen corretto e quattro figure offscreen. La Wiki deriva dalle due guide; il confronto F3 (ui/f3-equivalence) dava 1086 differenze non ammesse, tutte in wiki/, identiche fra la corsa del 208 su 68192e18 e la corsa c1191-ui su d468c625. La proposta del 208 è applicata senza modifiche in tests/fixtures/f3/transitions-f5-wiki.json. Nessun atteso, transizione ingegneristica o tolleranza cambiati.",
+      "decisione": {
+        "data": "2026-11-16",
+        "utente": "«Sì, tutti i consigli» (INT/rapporti/decisioni-utente-20261116.md, voce 6c a: OK alle transizioni della Wiki).",
+        "esito": "629 transizioni editoriali esatte aggiunte (riga-aggiunta 516, testo 86, elemento-aggiunto 27) e 457 precedenti superate; registro 3308 → 3480 voci; numero degli articoli invariato (94)."
+      },
+      "effetto_quantificato": "Guide: pratica 140 pagine, teorica 214. Wiki: 94 capitoli. F3: 1086 → 0 differenze non ammesse dopo l'applicazione.",
+      "test": [
+        "ui/f3-equivalence con il registro aggiornato (editorial_transitions_rev72 in tests/fixtures/f3/manifest.json)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-075927-c1191-ui/ui_f3-equivalence/cattura/confronto.json",
+        "Repository/chatgpt-compiti/evidenze-208/wiki-rev72-per-ok.md",
+        "Repository/chatgpt-compiti/evidenze-208/wiki-transizioni-rev72-proposte.json",
+        "docs/refactoring/guide-rev72-205.md",
+        "docs/refactoring/guide-rev72-208.md"
+      ],
+      "wiki": "Indice della Wiki rigenerato con le guide Rev72; nessuna guida autonoma nuova."
     }
   ]
 }
