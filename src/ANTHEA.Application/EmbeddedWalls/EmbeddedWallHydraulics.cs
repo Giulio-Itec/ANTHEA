@@ -48,7 +48,7 @@ internal static class EmbeddedWallHydraulics
                 LeftLayers = left, RightLayers = right
             };
             var result = SeepageAnalysis.Calculate(EmbeddedWallSeepageMesh.Create(domain), new SeepageOptions { MaximumIterations = Integer(data, "hydraulic_iterations") }, cancellation: cancellation,
-                progress: new ProgressRelay(p => progress(new("Filtrazione " + stage.Id, null, p.Iteration))));
+                progress: new ProgressRelay(p => progress(new("Filtrazione " + stage.Id, null, p.Iteration) { StageId = stage.Id })));
             results.Add(new(stage.Id, result.Status.ToString(), result.IsComplete, result.Diagnostic, result.Iterations,
                 result.Inflow * LitresPerSecondPerMetreFromSquareMillimetresPerSecond, result.Outflow * LitresPerSecondPerMetreFromSquareMillimetresPerSecond,
                 result.Balance * LitresPerSecondPerMetreFromSquareMillimetresPerSecond, result.MaximumResidual,

@@ -34,7 +34,7 @@ public sealed partial class EmbeddedWallSheetViewModel
         Commit(); long started = Revision; var input = EmbeddedWallDocument.Snapshot(Data);
         using var linked = CancellationTokenSource.CreateLinkedTokenSource(cancellation, Lifetime);
         searchCancellation = linked; searching = true; OnPropertyChanged(nameof(IsBusy)); Progress = "Preparazione della ricerca";
-        RequestStatus = $"Ricerca dell'infissione in corso sulla revisione {started}.";
+        StartRequest(started, $"Ricerca dell'infissione in corso sulla revisione {started}.");
         var uiProgress = new Progress<EmbeddedWallEmbedmentProgress>(p =>
         {
             if (!IsDisposed && started == Revision && searching) Progress = $"Candidati valutati: {p.Evaluated}/{p.Planned}";
@@ -52,18 +52,18 @@ public sealed partial class EmbeddedWallSheetViewModel
                 try { ChangedKeepingResults(); } finally { storingResult = false; }
             }
             SelectedStage = KeyedResultStage(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault(); NotifyResult();
-            RequestStatus = $"Ricerca dell'infissione terminata sulla revisione {started}.";
+            SetRequest(EmbeddedWallMessageLevel.Information, started, $"Ricerca dell'infissione terminata sulla revisione {started}.");
             return true;
         }
         catch (OperationCanceledException) when (linked.IsCancellationRequested)
         {
-            if (!IsDisposed) RequestStatus = $"Ricerca dell'infissione della revisione {started} annullata.";
+            if (!IsDisposed) SetRequest(EmbeddedWallMessageLevel.Warning, started, $"Ricerca dell'infissione della revisione {started} annullata.");
             return false;
         }
         finally
         {
             searchCancellation = null; searching = false;
-            if (!IsDisposed && RequestStatus.Contains("in corso")) RequestStatus = $"Ricerca dell'infissione della revisione {started} superata da una modifica dei dati o senza risultato.";
+            if (!IsDisposed && RequestStatus.Contains("in corso")) SetRequest(EmbeddedWallMessageLevel.Warning, started, $"Ricerca dell'infissione della revisione {started} superata da una modifica dei dati o senza risultato.");
             if (!IsDisposed) { Progress = ""; OnPropertyChanged(nameof(IsBusy)); }
         }
     }

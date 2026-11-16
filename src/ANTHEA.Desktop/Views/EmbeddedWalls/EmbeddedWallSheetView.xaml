@@ -64,6 +64,24 @@
    <Setter Property="VerticalAlignment" Value="Center"/>
    <Setter Property="Margin" Value="6,0,2,0"/>
   </Style>
+  <!-- A line of the panel Messaggi (step 11): a flat button that opens the element of the message; the same look enabled or not. -->
+  <Style x:Key="MessageRow" TargetType="Button">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="Background" Value="Transparent"/>
+   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+   <Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+    <Border x:Name="Row" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="3,0,0,0" Padding="6,2">
+     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+    </Border>
+    <ControlTemplate.Triggers>
+     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Hover.Row}"/></Trigger>
+     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/>
+      <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/></Trigger>
+    </ControlTemplate.Triggers>
+   </ControlTemplate></Setter.Value></Setter>
+   <Style.Triggers><DataTrigger Binding="{Binding CanOpen}" Value="False"><Setter Property="Cursor" Value="Arrow"/></DataTrigger></Style.Triggers>
+  </Style>
  </UserControl.Resources>
  <DockPanel>
   <Grid DockPanel.Dock="Top" Background="{DynamicResource Token.CommandBar}">
@@ -256,6 +274,7 @@
       </WrapPanel></HeaderedContentControl>
       <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Pannelli"><WrapPanel>
        <Button Style="{StaticResource BarButton}" Content="Albero di lavoro" Command="{Binding ToggleWorkTreeCommand}"/>
+       <Button Style="{StaticResource BarButton}" Content="Pannello messaggi" Command="{Binding Messages.ToggleCommand}" ToolTip="Mostra o nasconde l'elenco dei messaggi"/>
       </WrapPanel></HeaderedContentControl>
       <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Documenti"><WrapPanel>
        <Button Style="{StaticResource BarButton}" Content="Chiudi tutti i documenti" Command="{Binding Documents.CloseAllCommand}"/>
@@ -270,13 +289,8 @@
    </StackPanel>
   </Grid>
   <StackPanel DockPanel.Dock="Top" Margin="12,6,12,0">
+   <!-- Step 11: the error and the progress of the calculation are lines of the panel Messaggi at the bottom of the documents. -->
    <TextBlock Text="{Binding ResultStatus}" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,4"/>
-   <TextBlock Text="{Binding CalculationMessage}" TextWrapping="Wrap" Margin="0,2,0,8">
-    <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding CalculationMessage}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger><DataTrigger Binding="{Binding CalculationMessage}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
-   </TextBlock>
-   <TextBlock Text="{Binding Progress}" Margin="0,0,0,6">
-    <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding Progress}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
-   </TextBlock>
   </StackPanel>
   <Grid Margin="12,0,12,12">
    <Grid.ColumnDefinitions>
@@ -411,7 +425,53 @@
     </Style.Triggers></Style></GridSplitter.Style>
    </GridSplitter>
   <!-- The documents: the tab of a closed document is collapsed; the active one follows Documents.Active (its key is the Tag). -->
-  <TabControl x:Name="Documents" Grid.Column="2" SelectedValuePath="Tag" SelectedValue="{Binding Documents.Active}" AutomationProperties.Name="Documenti aperti della paratia">
+  <!-- Step 11 (S16): the panel Messaggi at the bottom of the documents. Its lines are the notices and errors already produced by ANTHEA and GPC
+       (data drawn, request, engine, results), with time, level in words, origin and element; a line with an element opens it. Filter,
+       «Pulisci» and «Nascondi» are state of the view. -->
+  <DockPanel Grid.Column="2">
+   <Border x:Name="MessagesPanel" DockPanel.Dock="Bottom" Margin="0,6,0,0" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1"
+    Background="{DynamicResource Token.Paper}" AutomationProperties.Name="Messaggi della paratia">
+    <DockPanel>
+     <DockPanel DockPanel.Dock="Top" Margin="8,3,4,3">
+      <Button DockPanel.Dock="Right" Content="{Binding Messages.ToggleText}" Command="{Binding Messages.ToggleCommand}" Padding="8,0" MinHeight="24" Margin="4,0,0,0"
+       ToolTip="Mostra o nasconde l'elenco dei messaggi" AutomationProperties.Name="Mostra o nascondi i messaggi"/>
+      <Button DockPanel.Dock="Right" Content="Pulisci" Command="{Binding Messages.ClearCommand}" Padding="8,0" MinHeight="24" Margin="4,0,0,0"
+       ToolTip="Toglie dalla vista i messaggi presenti; ricompaiono se vengono prodotti di nuovo" AutomationProperties.Name="Pulisci i messaggi"/>
+      <ComboBox x:Name="MessageFilter" DockPanel.Dock="Right" ItemsSource="{Binding Messages.Filters}" SelectedItem="{Binding Messages.Filter}" Width="140" Margin="4,0,0,0"
+       ToolTip="Livelli dei messaggi mostrati" AutomationProperties.Name="Livello dei messaggi mostrati"/>
+      <TextBlock Text="MESSAGGI" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+      <TextBlock Text="{Binding Messages.Summary}" FontSize="11" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource Token.Muted}" TextTrimming="CharacterEllipsis"/>
+     </DockPanel>
+     <ScrollViewer x:Name="MessageScroll" Height="110" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+      <ScrollViewer.Style><Style TargetType="ScrollViewer"><Style.Triggers>
+       <DataTrigger Binding="{Binding Messages.IsCollapsed}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+      </Style.Triggers></Style></ScrollViewer.Style>
+      <StackPanel>
+       <TextBlock Text="Nessun messaggio." Margin="9,4" Foreground="{DynamicResource Token.Muted}" Visibility="{Binding Messages.IsEmpty, Converter={StaticResource Shown}}"/>
+       <ItemsControl x:Name="MessageList" ItemsSource="{Binding Messages.Items}" Focusable="False" AutomationProperties.Name="Elenco dei messaggi">
+        <ItemsControl.ItemTemplate><DataTemplate>
+         <Button Command="{Binding DataContext.Messages.OpenCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}"
+          Style="{StaticResource MessageRow}" ToolTip="{Binding Hint}" AutomationProperties.Name="{Binding Text}">
+          <Grid>
+           <Grid.ColumnDefinitions><ColumnDefinition Width="62"/><ColumnDefinition Width="54"/><ColumnDefinition Width="52"/><ColumnDefinition Width="Auto" MaxWidth="240"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+           <TextBlock Text="{Binding TimeText}" Foreground="{DynamicResource Token.Muted}"/>
+           <TextBlock x:Name="Level" Grid.Column="1" Text="{Binding LevelText}" FontWeight="SemiBold" Foreground="{DynamicResource Token.Muted}"/>
+           <TextBlock Grid.Column="2" Text="{Binding Origin}" Foreground="{DynamicResource Token.Muted}"/>
+           <TextBlock Grid.Column="3" Text="{Binding Place}" Margin="0,0,10,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Token.Accent}"/>
+           <TextBlock Grid.Column="4" Text="{Binding Text}" TextWrapping="Wrap"/>
+          </Grid>
+         </Button>
+         <DataTemplate.Triggers>
+          <DataTrigger Binding="{Binding IsError}" Value="True"><Setter TargetName="Level" Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger>
+          <DataTrigger Binding="{Binding IsWarning}" Value="True"><Setter TargetName="Level" Property="Foreground" Value="{DynamicResource Token.Warning.Foreground}"/></DataTrigger>
+         </DataTemplate.Triggers>
+        </DataTemplate></ItemsControl.ItemTemplate>
+       </ItemsControl>
+      </StackPanel>
+     </ScrollViewer>
+    </DockPanel>
+   </Border>
+  <TabControl x:Name="Documents" SelectedValuePath="Tag" SelectedValue="{Binding Documents.Active}" AutomationProperties.Name="Documenti aperti della paratia">
    <TabItem Tag="sezione" Header="{Binding Documents[sezione]}" HeaderTemplate="{StaticResource DocumentHeader}">
     <DockPanel Margin="8">
      <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="380" MinWidth="320" MaxWidth="520"/></Grid.ColumnDefinitions>
@@ -471,7 +531,6 @@
        <StackPanel Grid.Row="3" Margin="0,6,8,0">
         <TextBlock Text="Quote in scala · spessore parete, puntoni e frecce schematici · tiranti in scala con tratto libero e cementato di «Sfilamento dei tiranti», altrimenti tratteggiati (schematici)" TextWrapping="Wrap" FontSize="11"/>
         <TextBlock Text="{Binding Sketch.WaterLabel, StringFormat=Linea blu tratteggiata: {0} · contorno tratteggiato: terreno scavato}" TextWrapping="Wrap" FontSize="11"/>
-        <ScrollViewer MaxHeight="90" VerticalScrollBarVisibility="Auto"><TextBlock Text="{Binding SketchStatus}" TextWrapping="Wrap" Margin="0,4" Foreground="{DynamicResource Token.Series.Orange}"/></ScrollViewer>
        </StackPanel>
       </Grid>
       <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
@@ -891,6 +950,7 @@
     </Grid>
    </TabItem>
   </TabControl>
+  </DockPanel>
   </Grid>
  </DockPanel>
 </UserControl>

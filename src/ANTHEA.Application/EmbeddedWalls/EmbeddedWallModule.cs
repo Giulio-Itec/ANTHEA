@@ -9,7 +9,14 @@ using static Anthea.Application.EmbeddedWalls.EmbeddedWallAdapter;
 
 namespace Anthea.Application.EmbeddedWalls;
 
-public sealed record EmbeddedWallProgress(string Stage, double? Fraction, int Iterations);
+/// <summary>Progress of a calculation. <see cref="Stage"/> is the text shown (with more cases «case / phase»); <see cref="CaseId"/> and
+/// <see cref="StageId"/> are the case and the phase it refers to as fields, null when not known: the panel Messaggi of the sheet leads to the
+/// phase through them and never reads the text back (organizzazione del modulo paratie, progetto del 16/11, step 11, R06).</summary>
+public sealed record EmbeddedWallProgress(string Stage, double? Fraction, int Iterations)
+{
+    public string? CaseId { get; init; }
+    public string? StageId { get; init; }
+}
 
 public sealed partial class EmbeddedWallModule : IModuleService
 {
@@ -35,10 +42,11 @@ public sealed partial class EmbeddedWallModule : IModuleService
         var rc = kind.HasValue ? EmbeddedWallAdapter.ConcreteSections(data) : [];
         if (kind.HasValue && rc.Count == 0) throw new ArgumentException("Definire le sezioni in c.a. da verificare.");
         foreach (var section in rc) section.Validate();
-        var hydraulicAnalysis = EmbeddedWallHydraulics.Calculate(data, model, cancellation, p => ProgressChanged?.Invoke(identifyCase ? p with { Stage = model.CaseId + " / " + p.Stage } : p));
+        // Step 11: the case of every progress as a field (the phase is set where the progress is produced).
+        var hydraulicAnalysis = EmbeddedWallHydraulics.Calculate(data, model, cancellation, p => ProgressChanged?.Invoke((identifyCase ? p with { Stage = model.CaseId + " / " + p.Stage } : p) with { CaseId = model.CaseId }));
         var hydraulics = hydraulicAnalysis.Reports;
         var hydraulicChecks = EmbeddedWallHydraulicChecks.Calculate(data, model, hydraulicAnalysis.Fields, cancellation);
-        var globalChecks = EmbeddedWallGlobalChecks.Calculate(data, model, hydraulicAnalysis.Fields, cancellation, p => ProgressChanged?.Invoke(identifyCase ? p with { Stage = model.CaseId + " / " + p.Stage } : p));
+        var globalChecks = EmbeddedWallGlobalChecks.Calculate(data, model, hydraulicAnalysis.Fields, cancellation, p => ProgressChanged?.Invoke((identifyCase ? p with { Stage = model.CaseId + " / " + p.Stage } : p) with { CaseId = model.CaseId }));
         var hydraulicFailure = hydraulics.FirstOrDefault(h => !h.Complete);
         if (hydraulicFailure is not null)
         {
@@ -49,7 +57,7 @@ public sealed partial class EmbeddedWallModule : IModuleService
             return new ModuleCalculation(ModuleId, data, EmbeddedWallDocument.ResultValues(failed), failed);
         }
         var analysis = EmbeddedWallAnalysis.Calculate(model, EmbeddedWallAdapter.Options(data), cancellation,
-            new ProgressRelay(p => { progress?.Report(p); ProgressChanged?.Invoke(new(identifyCase ? model.CaseId + " / " + p.StageId : p.StageId, p.Fraction, p.Iterations)); }));
+            new ProgressRelay(p => { progress?.Report(p); ProgressChanged?.Invoke(new(identifyCase ? model.CaseId + " / " + p.StageId : p.StageId, p.Fraction, p.Iterations) { CaseId = model.CaseId, StageId = p.StageId }); }));
         capture?.Invoke(analysis);
         var checks = analysis.IsComplete && kind.HasValue && !stripsUnconfirmed ? EmbeddedWallConcrete.Check(analysis, model.TributaryWidth, rc, kind.Value, cancellation) : [];
         var steel = EmbeddedWallSteelChecks.Calculate(data, analysis, cancellation);

@@ -28,7 +28,7 @@ internal static partial class EmbeddedWallChecks
     }
     private static async Task<int> CheckAsync(string output)
     {
-        var e = new Expect(); SketchChecks(e); SectionDrawingChecks(e); WorkTreeChecks(e); NewStageChecks(e); CommandBarChecks(e); await StageMenuChecks(e); StageLevelsChecks(e); await CaseKeyChecks(e); var input = Example(); string original = input.ToJsonString();
+        var e = new Expect(); SketchChecks(e); SectionDrawingChecks(e); WorkTreeChecks(e); NewStageChecks(e); CommandBarChecks(e); await StageMenuChecks(e); StageLevelsChecks(e); await CaseKeyChecks(e); await MessagesChecks(e); var input = Example(); string original = input.ToJsonString();
         var helpData = Example(); helpData["distributed_loads"]!.AsArray().Add(EmbeddedWallDocument.NewRow("distributed_loads"));
         var helpServices = Scripted.Services();
         using (var helpSheet = new EmbeddedWallSheetViewModel(new(helpData, false, new Host(), helpServices,
