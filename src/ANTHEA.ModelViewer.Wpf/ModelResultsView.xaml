@@ -48,7 +48,8 @@
         <CheckBox Content="Mostra modello deformato" IsChecked="{Binding ShowDeformation}" IsEnabled="{Binding CanDeform}" AutomationProperties.Name="Mostra modello deformato"/>
         <StackPanel IsEnabled="{Binding CanDeform}">
           <ComboBox ItemsSource="{Binding DeformationScaleModes}" SelectedIndex="{Binding SelectedDeformationScale}" AutomationProperties.Name="Scala della deformata"/>
-          <TextBox Text="{Binding DeformationScale, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}" Visibility="{Binding IsManualDeformationScale, Converter={StaticResource Visible}}" Margin="0,6,0,0" ToolTip="Fattore da 0,001 a 1.000.000"/>
+          <!-- 16/11/2026: le caselle numeriche del visore leggono e scrivono con il punto (en-US) come prima; la regola di ANTHEA (virgola o punto) è da approvare. -->
+          <TextBox Text="{Binding DeformationScale, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True, ConverterCulture=en-US}" Visibility="{Binding IsManualDeformationScale, Converter={StaticResource Visible}}" Margin="0,6,0,0" ToolTip="Fattore da 0,001 a 1.000.000"/>
           <TextBlock Text="{Binding DeformationScaleLabel}" FontSize="10" Margin="0,5"/>
           <CheckBox Content="Sagoma indeformata" IsChecked="{Binding ShowUndeformed}"/>
           <CheckBox Content="Anche mesh indeformata" IsChecked="{Binding ShowUndeformedMesh}" IsEnabled="{Binding ShowUndeformed}"/>

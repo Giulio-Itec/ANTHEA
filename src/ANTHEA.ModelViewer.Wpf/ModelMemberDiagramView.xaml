@@ -13,7 +13,8 @@
       <CheckBox Content="Riempimento" IsChecked="{Binding MemberDiagramFill}" Margin="12,0,0,0"/>
       <CheckBox Content="Blocca cursore" IsChecked="{Binding MemberDiagramCursorLocked}" Margin="12,0,0,0"/>
       <TextBlock Text="x/L" VerticalAlignment="Center" Margin="12,0,4,0"/>
-      <TextBox Text="{Binding MemberDiagramStation,UpdateSourceTrigger=LostFocus,ValidatesOnExceptions=True,StringFormat=0.####}" Width="62" VerticalContentAlignment="Center" ToolTip="Posizione da 0 a 1; frecce sul grafico per spostarsi"/>
+      <!-- 16/11/2026: le caselle numeriche del visore leggono e scrivono con il punto (en-US) come prima; la regola di ANTHEA (virgola o punto) è da approvare. -->
+      <TextBox Text="{Binding MemberDiagramStation,UpdateSourceTrigger=LostFocus,ValidatesOnExceptions=True,ConverterCulture=en-US,StringFormat=0.####}" Width="62" VerticalContentAlignment="Center" ToolTip="Posizione da 0 a 1; frecce sul grafico per spostarsi"/>
       <Button Content="CSV" Command="{Binding ExportMemberDiagramCommand}" Margin="8,0,0,0" Padding="8,3" IsEnabled="{Binding HasMemberDiagram}" ToolTip="Esporta i campioni importati di tutte le componenti"/>
       <Button Content="+ Report" Command="{Binding AddReportMemberDiagramCommand}" Margin="6,0,0,0" Padding="8,3" IsEnabled="{Binding HasMemberDiagram}"/>
     </WrapPanel>

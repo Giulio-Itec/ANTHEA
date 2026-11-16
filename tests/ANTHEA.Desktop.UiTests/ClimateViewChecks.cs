@@ -178,6 +178,8 @@ internal static class ClimateViewChecks
             }
             await ShellChecks(output,Check);
             await RheologyChecks(output,Check);
+            // 16/11/2026, item d: the numbers of the bindings of every view follow the separator, also when it changes during the session.
+            await ViewNumberChecks.Run(output,Check);
             listener.Flush();Check(!bindings.ToString().Contains("Error:"),"Errori binding: "+bindings);
             File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} controlli Azioni WPF, tutti i moduli registrati e tre temi");
         }

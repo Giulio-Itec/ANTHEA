@@ -49,6 +49,28 @@ public static class NumberSeparators
     };
 }
 
+/// <summary>
+/// The culture with which the views format their numbers (16/11/2026, item d of the digits: «in tutta ANTHEA»). WPF formats every binding
+/// (StringFormat, numbers without a format, ContentStringFormat, the cells of the tables) with the culture of <c>FrameworkElement.Language</c>,
+/// which ANTHEA never sets: en-US, the point, whatever the setting «Separatore decimale». An <c>XmlLanguage</c> carries only the name of a
+/// culture, not the separators of «Virgola» and «Punto» nor the customizations of Windows under «Sistema». This culture is en-US for everything
+/// but the numbers (dates, names and comparisons as before), which follow <see cref="CultureInfo.CurrentCulture"/> at every use: the culture of
+/// the setting applied at start-up (<see cref="NumberSeparators.Culture"/>) and any later change of the culture of the thread (the checks change it
+/// during a session). The desktop installs it as the culture of the bindings of the default language of the views.
+/// </summary>
+public sealed class ViewNumberCulture : CultureInfo
+{
+    /// <summary>The only instance, installed by the desktop.</summary>
+    public static ViewNumberCulture Instance { get; } = new();
+
+    private ViewNumberCulture() : base("en-US", false) { }
+
+    /// <summary>The numbers of the culture of the thread at the moment of the formatting (or of the reading).</summary>
+    public override NumberFormatInfo NumberFormat => CultureInfo.CurrentCulture is ViewNumberCulture ? base.NumberFormat : CultureInfo.CurrentCulture.NumberFormat;
+
+    public override object? GetFormat(Type? formatType) => formatType == typeof(NumberFormatInfo) ? NumberFormat : base.GetFormat(formatType);
+}
+
 /// <summary>The saved preference of the decimal separator; the desktop keeps it next to the appearance and applies it at start-up.</summary>
 public interface INumberSeparatorService
 {
