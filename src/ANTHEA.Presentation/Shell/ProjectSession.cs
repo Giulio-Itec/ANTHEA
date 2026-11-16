@@ -115,6 +115,16 @@ public sealed class ProjectSession : DocumentSession
     /// <summary>Confirmation of the shared data of the sheets (F5.2).</summary>
     public SharedDataCoordinator Shared { get; }
 
+    /// <summary>
+    /// Rilievi R5 and R8 (16/11/2026): bytes of JSON of the results of a model from which its tab reads the copy on another thread
+    /// (ModelTabViewModel.IsLoading), at the opening and after «Annulla» or «Ripristina»; below, the reading stays on the thread of the interface,
+    /// as before (a fraction of a second). The checks lower it to read every copy in the background.
+    /// </summary>
+    public long ModelReadThreshold { get; set; } = DefaultModelReadThreshold;
+
+    /// <summary>The default of <see cref="ModelReadThreshold"/>: 64 MiB, the size from which «Salva» goes to the background (WorkspaceSession.BackgroundSaveBytes).</summary>
+    public const long DefaultModelReadThreshold = 67_108_864;
+
     public bool CanUndo => History.CanUndo(readOnly);
 
     public bool CanRedo => History.CanRedo(readOnly);

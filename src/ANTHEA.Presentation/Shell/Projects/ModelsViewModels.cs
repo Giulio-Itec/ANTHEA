@@ -145,11 +145,23 @@ public sealed class ModelTabViewModel : ViewModelBase
     public const string HistoryHeader = "Copie precedenti";
     public const string RestoreLabel = "Ripristina";
 
+    /// <summary>Title of the message when the copy read in the background is not readable.</summary>
+    public const string LoadFailureTitle = "Modello non leggibile";
+
     private readonly ProjectSession project;
+    private readonly IMessageService messages;
     private string title;
     private string renameText;
     private bool readOnly;
     private PreviousCopy? selectedPreviousCopy;
+    // R5 and R8 (16/11/2026): the copy read on another thread, the reading in progress and the revision of the entry on screen.
+    private CancellationTokenSource? loading;
+    private int loadGeneration;
+    private bool isLoading;
+    private string loadingText = "";
+    private double loadingPercent;
+    private string? loadFailure;
+    private string? shownRevision;
 
     /// <param name="project">The open project.</param>
     /// <param name="container">The section of the model, in the document on screen.</param>
@@ -162,10 +174,11 @@ public sealed class ModelTabViewModel : ViewModelBase
         ArgumentNullException.ThrowIfNull(messages);
         if (!project.Contains(container)) throw new ArgumentException("Sezione non presente nel progetto aperto.", nameof(container));
         this.project = project;
+        this.messages = messages;
         readOnly = project.IsReadOnly;
         Container = container;
         ModelId = modelId;
-        Snapshot = modelId is null ? null : ProjectModelStore.Read(container, modelId, project.Results);
+        Snapshot = Load(container, modelId);
         title = renameText = modelId is null ? NewModelTitle : ProjectModelStore.Models(container).Single(m => m.S("id") == modelId).S("nome");
         Targets = ReadTargets(container);
         PreviousCopies = ReadHistory(container, modelId);
@@ -184,8 +197,90 @@ public sealed class ModelTabViewModel : ViewModelBase
     /// <summary>The model, null until a new model is imported.</summary>
     public string? ModelId { get; private set; }
 
-    /// <summary>The model read from the section, null for a new model.</summary>
+    /// <summary>The model read from the section, null for a new model and while <see cref="IsLoading"/>.</summary>
     public ModelSnapshot? Snapshot { get; private set; }
+
+    /// <summary>
+    /// Rilievi R5 and R8 (16/11/2026): the copy is being read on another thread (results of at least <see cref="ProjectSession.ModelReadThreshold"/>
+    /// bytes of JSON in the archive): the view shows <see cref="LoadingText"/> and <see cref="LoadingPercent"/> instead of the viewer, the
+    /// window stays usable. Until 1.19.1 the reading ran on the thread of the interface: about 40 s at the reopening and 90 s at «↶ Annulla»
+    /// after «Libera tutte» on the MIDAS model of 16/11 (73 combinations, 925 MB of archive). <see cref="Snapshot"/> is raised when it ends.
+    /// </summary>
+    public bool IsLoading => isLoading;
+
+    /// <summary>What the reading is doing, with the size of the results.</summary>
+    public string LoadingText => loadingText;
+
+    /// <summary>The share of the result sets read, 0 to 100.</summary>
+    public double LoadingPercent => loadingPercent;
+
+    /// <summary>Why the copy read in the background could not be shown, null otherwise.</summary>
+    public string? LoadFailure => loadFailure;
+
+    /// <summary>The text of <see cref="LoadingText"/> for <paramref name="bytes"/> bytes of JSON of results and a share read.</summary>
+    public static string LoadingMessage(long bytes, double share) =>
+        $"Lettura del modello e dei risultati salvati ({bytes / 1073741824.0:0.0} GiB di dati)… {share * 100:0} %. La finestra resta utilizzabile; il modello si apre al termine.";
+
+    /// <summary>
+    /// The copy of <paramref name="modelId"/>: read here when its results are small, as before; otherwise null and read on another thread
+    /// (<see cref="IsLoading"/>). The entry is taken from the document here (<see cref="ProjectModelStore.Capture"/>), so the document may change
+    /// meanwhile. A reading still in progress for another copy is abandoned.
+    /// </summary>
+    private ModelSnapshot? Load(JsonObject container, string? modelId)
+    {
+        loading?.Cancel(); loading = null; int generation = ++loadGeneration;
+        isLoading = false; loadFailure = null;
+        shownRevision = modelId is null ? null : ProjectModelStore.Models(container).SingleOrDefault(m => m.S("id") == modelId)?["revisione"]?.GetValue<string>();
+        if (modelId is null || ProjectModelStore.Capture(container, modelId, project.Results) is not { } reader) return null;
+        if (reader.ResultBytes < project.ModelReadThreshold) return reader.Read();
+        _ = LoadAsync(reader, generation);
+        return null;
+    }
+
+    private async Task LoadAsync(ModelCopyReader reader, int generation)
+    {
+        var cancellation = CancellationTokenSource.CreateLinkedTokenSource(Lifetime);
+        loading = cancellation;
+        isLoading = true; loadingPercent = 0; loadingText = LoadingMessage(reader.ResultBytes, 0);
+        OnPropertyChanged(nameof(IsLoading)); OnPropertyChanged(nameof(LoadingText)); OnPropertyChanged(nameof(LoadingPercent)); OnPropertyChanged(nameof(LoadFailure));
+        var progress = new Progress<double>(share =>
+        {
+            if (generation != loadGeneration || IsDisposed) return;
+            loadingPercent = share * 100; loadingText = LoadingMessage(reader.ResultBytes, share);
+            OnPropertyChanged(nameof(LoadingPercent)); OnPropertyChanged(nameof(LoadingText));
+        });
+        try
+        {
+            var snapshot = await Task.Run(() =>
+            {
+                var read = reader.Read(progress, cancellation.Token);
+                // What the viewer does first with the copy (ModelViewerViewModel.SetSnapshot), done here: the checks of the results and the
+                // revisions of the definitions, kept by the copy, so that the thread of the interface finds them done.
+                read.Validate(); _ = ModelCombinations.WithCurrentResults(read);
+                // R8: the JSON inflated to read the sets goes back to Windows before the copy is shown.
+                SystemMemory.Release();
+                return read;
+            }, cancellation.Token);
+            if (generation != loadGeneration || IsDisposed) return;
+            Snapshot = snapshot; isLoading = false;
+            OnPropertyChanged(nameof(IsLoading)); OnPropertyChanged(nameof(Snapshot));
+        }
+        catch (OperationCanceledException) when (cancellation.IsCancellationRequested) { }
+        catch (Exception error)
+        {
+            if (generation != loadGeneration || IsDisposed) return;
+            isLoading = false; loadFailure = "Modello non leggibile: " + error.Message;
+            OnPropertyChanged(nameof(IsLoading)); OnPropertyChanged(nameof(LoadFailure)); OnPropertyChanged(nameof(Snapshot));
+            messages.ReportFailure(LoadFailureTitle, error);
+        }
+        finally
+        {
+            if (ReferenceEquals(loading, cancellation)) loading = null;
+            cancellation.Dispose();
+        }
+    }
+
+    protected override void OnDisposed() { loading?.Cancel(); loading = null; }
 
     /// <summary>The sheets of the section and of the sections below it, with the state of their link to a model.</summary>
     public IReadOnlyList<SheetTarget> Targets { get; private set; }
@@ -256,7 +351,7 @@ public sealed class ModelTabViewModel : ViewModelBase
         string? id = ModelId;
         if (!project.ChangeData(() => { id = ProjectModelStore.Set(Container, prepared, id, project.Results); return true; }, Container)) return;
         ModelId = id;
-        Snapshot = prepared.Snapshot;
+        Snapshot = prepared.Snapshot; shownRevision = prepared.Revision;
         Title = RenameText = ProjectModelStore.Models(Container).Single(m => m.S("id") == id).S("nome");
         Targets = ReadTargets(Container);
         RefreshHistory();
@@ -293,11 +388,15 @@ public sealed class ModelTabViewModel : ViewModelBase
         if (project.Find(Container.S("id")) is not { } container) return false;
         if (ModelId is { } id && !ProjectModelStore.Models(container).Any(m => m.S("id") == id)) return false;
         Container = container;
-        Snapshot = ModelId is null ? null : ProjectModelStore.Read(container, ModelId, project.Results);
+        // R5 (16/11/2026): the copy on screen when the restored entry carries its revision (an undo of another change of the project), read
+        // again only when it changed, and on another thread when its results are large.
+        string? revision = ModelId is null ? null : ProjectModelStore.Models(container).Single(m => m.S("id") == ModelId)["revisione"]?.GetValue<string>();
+        bool same = ModelId is not null && Snapshot is not null && !isLoading && revision is not null && revision == shownRevision;
+        if (!same) Snapshot = Load(container, ModelId);
         Targets = ReadTargets(container);
         RefreshHistory();
         Title = RenameText = ModelId is null ? NewModelTitle : ProjectModelStore.Models(container).Single(m => m.S("id") == ModelId).S("nome");
-        OnPropertyChanged(nameof(Container)); OnPropertyChanged(nameof(Snapshot)); OnPropertyChanged(nameof(Targets));
+        OnPropertyChanged(nameof(Container)); if (!same) { OnPropertyChanged(nameof(Snapshot)); OnPropertyChanged(nameof(IsLoading)); } OnPropertyChanged(nameof(Targets));
         RaiseState();
         return true;
     }

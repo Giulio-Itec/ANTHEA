@@ -211,6 +211,25 @@ public static class ProjectModelStore
 {
     public const string Property = "modelli_calcolo";
     public const string Binding = "riferimento_modello";
+/// <summary>
+/// Rilievi R5 and R8 (16/11/2026): a copy taken from the project document (<see cref="ProjectModelStore.Capture"/>), read on any thread: the
+/// document may change meanwhile, the bytes of the entry were copied. The reading of a copy with 5 GB of results in the archive took about a
+/// minute on the thread of the interface («Annulla» after «Libera», reopening of the project).
+/// </summary>
+public sealed class ModelCopyReader
+{
+    private readonly Func<IProgress<double>?, CancellationToken, ModelSnapshot> read;
+
+    internal ModelCopyReader(long resultBytes, Func<IProgress<double>?, CancellationToken, ModelSnapshot> read) { ResultBytes = resultBytes; this.read = read; }
+
+    /// <summary>The bytes of JSON the reading inflates and reads back: the result sets in the archive, or the whole entry in the document.</summary>
+    public long ResultBytes { get; }
+
+    /// <summary>The copy, checked as <see cref="ProjectModelStore.Read(JsonObject, string, ModelResultArchive?)"/> does; <paramref name="progress"/>
+    /// receives the share of the result sets read (0 to 1).</summary>
+    public ModelSnapshot Read(IProgress<double>? progress = null, CancellationToken token = default) => read(progress, token);
+}
+
 
     /// <summary>Schema of the entry of a copy with its results in the document (every version up to 1.17.0).</summary>
     const int InlineSchema = 1;
@@ -235,58 +254,140 @@ public static class ProjectModelStore
     /// <summary>The copy <paramref name="id"/> of the container. A copy in the archive takes its results from <paramref name="archive"/>:
     /// a result set the archive cannot give back (archive missing, block damaged) is left out and listed with the reason in
     /// <see cref="ModelSnapshot.UnavailableResults"/>, so the model opens all the same.</summary>
-    public static ModelSnapshot? Read(JsonObject project, string id, ModelResultArchive? archive)
+    public static ModelSnapshot? Read(JsonObject project, string id, ModelResultArchive? archive) => Capture(project, id, archive)?.Read();
+
+    /// <summary>
+    /// Rilievi R5 and R8 (16/11/2026): the copy <paramref name="id"/> of the container taken from the document on the calling thread (the JSON
+    /// of its entry, the references of its result sets), to be read on another thread with <see cref="ModelCopyReader.Read"/>, which does what
+    /// <see cref="Read(JsonObject, string, ModelResultArchive?)"/> did on the thread of the interface. Null when the model is not there.
+    /// </summary>
+    /// <exception cref="InvalidDataException">The entry is not readable (schema, copy missing or not matching its address).</exception>
+    public static ModelCopyReader? Capture(JsonObject project, string id, ModelResultArchive? archive)
     {
         var model = Models(project).SingleOrDefault(m => m["id"]?.GetValue<string>() == id); if (model == null) return null;
         var schema = Schema(model);
-        if (schema == ArchivedSchema) return ReadArchived(model, archive);
+        string? revision = model["revisione"]?.GetValue<string>();
+        if (schema == ArchivedSchema)
+        {
+            var bare = JsonSerializer.SerializeToUtf8Bytes(model["snapshot"] ?? throw new InvalidDataException("Modello mancante."));
+            if (ModelResultArchive.Address(bare) != ModelResultArchive.Text(model["copia"])) throw new InvalidDataException("Impronta del modello non corrispondente ai dati.");
+            var references = References(model);
+            return new(references.Sum(r => r.Bytes), (progress, token) => Assemble(bare, references, archive, revision, progress, token));
+        }
         if (schema != InlineSchema) throw new InvalidDataException("Versione del collegamento al modello non supportata.");
         // Combinations of the Models module (1/11/2026): the copy read from its UTF-8 JSON (the text ToJsonString wrote, without the UTF-16 copy).
         // The entry written by Set holds the canonical bytes of the copy: when they hash to the revision they are the bytes the revision was
         // computed from, and the canonical serialization of the copy read from them is not written again; any other entry is checked as before.
         var json = JsonSerializer.SerializeToUtf8Bytes(model["snapshot"] ?? throw new InvalidDataException("Modello mancante."));
-        var snapshot = ModelSnapshot.FromJson(json);
-        string? revision = model["revisione"]?.GetValue<string>();
-        if (Convert.ToHexString(SHA256.HashData(json)) != revision && snapshot.Fingerprint() != revision) throw new InvalidDataException("Impronta del modello non corrispondente ai dati.");
-        return snapshot;
+        return new(json.LongLength, (_, _) =>
+        {
+            var snapshot = ModelSnapshot.FromJson(json);
+            if (Convert.ToHexString(SHA256.HashData(json)) != revision && snapshot.Fingerprint() != revision) throw new InvalidDataException("Impronta del modello non corrispondente ai dati.");
+            return snapshot;
+        });
     }
 
-    static ModelSnapshot ReadArchived(JsonObject model, ModelResultArchive? archive)
-    {
-        var bare = JsonSerializer.SerializeToUtf8Bytes(model["snapshot"] ?? throw new InvalidDataException("Modello mancante."));
-        if (ModelResultArchive.Address(bare) != ModelResultArchive.Text(model["copia"])) throw new InvalidDataException("Impronta del modello non corrispondente ai dati.");
-        return Assemble(bare, References(model), archive, model["revisione"]?.GetValue<string>());
-    }
+    /// <summary>Result sets inflated at once by <see cref="Assemble"/>: the JSON of a few sets in memory at a time, never the whole copy.</summary>
+    const int ReadWindow = 12;
 
     /// <summary>The copy without results <paramref name="bare"/> with the result sets <paramref name="references"/> from the archive; the
-    /// fingerprint of the whole copy is checked when every set is there.</summary>
-    static ModelSnapshot Assemble(byte[] bare, ModelDocumentEntry.ResultReference[] references, ModelResultArchive? archive, string? revision)
+    /// fingerprint of the whole copy is checked when every set is there. R8 (16/11/2026): the sets are read, inflated, read back and hashed
+    /// <see cref="ReadWindow"/> at a time (until 1.19.1 the JSON of every set was in memory at once, 5.4 GB on the MIDAS model of 16/11, with
+    /// the result sets themselves), and the copy keeps the state of its fingerprint (<see cref="ModelDocumentEntry.RevisionCheckpoint"/>), so
+    /// that its first publication does not inflate its sets again.</summary>
+    static ModelSnapshot Assemble(byte[] bare, ModelDocumentEntry.ResultReference[] references, ModelResultArchive? archive, string? revision,
+        IProgress<double>? progress = null, CancellationToken token = default)
     {
         var snapshot = ModelSnapshot.FromJson(bare);
-        var contents = archive?.Read(references.Select(r => r.Block).ToArray())
-            ?? references.Select(_ => new ModelResultArchive.Content(null, "archivio dei risultati non disponibile")).ToArray();
         var sets = new ModelResultSet?[references.Length];
         var failures = new string?[references.Length];
-        Parallel.For(0, references.Length, i =>
+        int split = ModelDocumentEntry.ResultsSplit(bare);
+        bool resumable = ResumableSha256.Supported;
+        var resumed = resumable ? ResumableSha256.Create() : null;
+        using var plain = resumable ? null : IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+        void Append(ReadOnlySpan<byte> bytes) { if (resumed is not null) resumed.Append(bytes); else plain!.AppendData(bytes); }
+        try
         {
-            if (contents[i].Json is not { } json) { failures[i] = contents[i].Failure; return; }
-            try { sets[i] = JsonSerializer.Deserialize<ModelResultSet>(json) ?? throw new JsonException("vuoto"); }
-            catch (JsonException error) { failures[i] = "blocco non leggibile (" + error.Message + ")"; }
-        });
-        var unavailable = references.Select((r, i) => failures[i] is { } failure ? new ModelUnavailableResult(r.Name, r.Definition, failure) : null)
-            .OfType<ModelUnavailableResult>().ToList();
-        snapshot.Results = sets.OfType<ModelResultSet>().ToArray();
-        try { snapshot.Validate(); }
-        catch (InvalidDataException) when (unavailable.Count > 0)
-        {
-            // The sets that remain do not make a valid copy on their own: the copy opens without results.
-            unavailable = references.Select(r => new ModelUnavailableResult(r.Name, r.Definition, unavailable[0].Reason)).ToList();
-            snapshot.Results = [];
+            Append(bare.AsSpan(0, split));
+            bool complete = true;
+            for (int at = 0; at < references.Length; at += ReadWindow)
+            {
+                token.ThrowIfCancellationRequested();
+                int count = Math.Min(ReadWindow, references.Length - at);
+                var contents = archive?.Read(references.Skip(at).Take(count).Select(r => r.Block).ToArray())
+                    ?? Enumerable.Repeat(new ModelResultArchive.Content(null, "archivio dei risultati non disponibile"), count).ToArray();
+                Parallel.For(0, count, k =>
+                {
+                    if (contents[k].Json is not { } json) { failures[at + k] = contents[k].Failure; return; }
+                    try { sets[at + k] = Shared(JsonSerializer.Deserialize<ModelResultSet>(json) ?? throw new JsonException("vuoto")); }
+                    catch (JsonException error) { failures[at + k] = "blocco non leggibile (" + error.Message + ")"; }
+                });
+                // The fingerprint of the whole copy, in the order of the sets: checked only when every set is there, as before.
+                for (int k = 0; complete && k < count; k++)
+                {
+                    if (contents[k].Json is not { } json) { complete = false; break; }
+                    if (at + k > 0) Append(","u8);
+                    Append(json);
+                }
+                progress?.Report((double)(at + count) / references.Length);
+            }
+            var unavailable = references.Select((r, i) => failures[i] is { } failure ? new ModelUnavailableResult(r.Name, r.Definition, failure) : null)
+                .OfType<ModelUnavailableResult>().ToList();
+            snapshot.Results = sets.OfType<ModelResultSet>().ToArray();
+            try { snapshot.Validate(); }
+            catch (InvalidDataException) when (unavailable.Count > 0)
+            {
+                // The sets that remain do not make a valid copy on their own: the copy opens without results.
+                unavailable = references.Select(r => new ModelUnavailableResult(r.Name, r.Definition, unavailable[0].Reason)).ToList();
+                snapshot.Results = [];
+            }
+            if (unavailable.Count == 0)
+            {
+                var checkpoint = resumed is null ? null : new ModelDocumentEntry.RevisionCheckpoint(bare[..split], references.Select(r => r.Block).ToArray(), resumed.Duplicate());
+                Append(bare.AsSpan(split));
+                string whole = Convert.ToHexString(resumed is not null ? resumed.Finish() : plain!.GetHashAndReset());
+                if (whole != revision) throw new InvalidDataException("Impronta del modello non corrispondente ai dati.");
+                snapshot.RevisionCheckpoint = checkpoint;
+            }
+            snapshot.UnavailableResults = unavailable;
+            return snapshot;
         }
-        if (unavailable.Count == 0 && ModelDocumentEntry.WholeRevision(bare, contents.Select(c => c.Json!).ToArray()) != revision)
-            throw new InvalidDataException("Impronta del modello non corrispondente ai dati.");
-        snapshot.UnavailableResults = unavailable;
-        return snapshot;
+        finally { resumed?.Dispose(); }
+    }
+
+    /// <summary>
+    /// R8 (16/11/2026): a result set read back from its JSON with the texts and the concomitant vectors of its governing records shared, as in
+    /// the set the calculation made (GpcModelCombinationService: one text for each family, component and alternative, one vector for each
+    /// governing state). Read back, every record had three texts and a vector of its own: on the MIDAS model of 16/11 21.5 million records,
+    /// about 3 GB more than the same results just calculated. The same values, so the same JSON and fingerprints; the vectors are never
+    /// changed in place (the calculation shares them already). A set without governing records is returned as it is.
+    /// </summary>
+    internal static ModelResultSet Shared(ModelResultSet set)
+    {
+        if (set.Combination is not { } combination || combination.Governing.Length == 0 && combination.PrincipalGoverning is not { Length: > 0 }) return set;
+        var texts = new Dictionary<string, string>(StringComparer.Ordinal);
+        var vectors = new Dictionary<double[], double[]>(VectorComparer.Instance);
+        string Text(string value) { if (texts.TryGetValue(value, out var shared)) return shared; texts.Add(value, value); return value; }
+        double[] Vector(double[] value) { if (vectors.TryGetValue(value, out var shared)) return shared; vectors.Add(value, value); return value; }
+        ModelCombinationGoverning[] Records(ModelCombinationGoverning[] records) =>
+            [.. records.Select(g => g with { Family = Text(g.Family), Component = Text(g.Component), Alternative = Text(g.Alternative), ConcomitantValues = Vector(g.ConcomitantValues) })];
+        return set with { Combination = combination with { Governing = Records(combination.Governing),
+            PrincipalGoverning = combination.PrincipalGoverning is { } principal ? Records(principal) : null } };
+    }
+
+    /// <summary>Vectors equal bit for bit (the same JSON).</summary>
+    sealed class VectorComparer : IEqualityComparer<double[]>
+    {
+        internal static readonly VectorComparer Instance = new();
+        // Bit for bit: 0 and -0 (or two NaN) are different JSON.
+        public bool Equals(double[]? x, double[]? y) => ReferenceEquals(x, y) || x is not null && y is not null &&
+            System.Runtime.InteropServices.MemoryMarshal.Cast<double, long>(x).SequenceEqual(System.Runtime.InteropServices.MemoryMarshal.Cast<double, long>(y));
+        public int GetHashCode(double[] vector)
+        {
+            var hash = new HashCode();
+            foreach (double value in vector) hash.Add(BitConverter.DoubleToInt64Bits(value));
+            return hash.ToHashCode();
+        }
     }
 
     // 3/11/2026 (review D2): a damaged reference («blocco» absent or not a text) is one unavailable result set, as a damaged block;

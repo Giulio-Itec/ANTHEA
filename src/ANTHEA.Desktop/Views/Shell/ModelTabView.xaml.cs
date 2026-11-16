@@ -36,7 +36,8 @@ public partial class ModelTabView : UserControl
     {
         viewer = null;
         Viewer.Content = null;
-        if (model is null) return;
+        // R5 and R8 (16/11/2026): no viewer while the copy is read on another thread (the XAML shows the reading); it comes with Snapshot.
+        if (model is null || model.IsLoading || model.LoadFailure is not null) return;
         var current = model;
         // 3/11/2026: the project of the shell has a results archive (ModelTabViewModel.Imported, ProjectSession.Results), so the copy of the
         // model may take with its combinations the limit the user chooses in «Spazio delle combinazioni».

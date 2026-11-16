@@ -33,5 +33,6 @@ static partial class Program
         var renamed = ModelCombinations.Save(second.Snapshot, linear with { Id = "ANTHEA/altra", Name = "Altra" });
         var defined = ModelDocumentEntry.Prepare(renamed, 1);
         Check(defined.Revision == defined.Snapshot.Fingerprint(), "R1: a new definition with the same results resumes the hash, the definitions after the results included");
+        ArchivedCopyReadingChecks(second);
     }
 }
