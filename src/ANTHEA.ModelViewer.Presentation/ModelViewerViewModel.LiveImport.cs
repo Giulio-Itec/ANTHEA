@@ -64,8 +64,22 @@ public sealed partial class ModelViewerViewModel
         ImportCommand.NotifyCanExecuteChanged(); InspectMidasCommand.NotifyCanExecuteChanged();
     }
     void ImportCaseSelectionChanged() { OnPropertyChanged(nameof(ImportCasesSummary)); ImportCommand.NotifyCanExecuteChanged(); }
-    bool HasLiveImportSelection => IsFileImport || IsStrand7Import && HasStrand7Selection || IsMidasImport && liveCatalog != null && (!ImportIncludesResults ||
+    bool HasLiveImportSelection => IsFileImport || IsStrand7Import && HasStrand7Selection || IsMidasImport && liveCatalog != null && (!ImportIncludesResults || ImportsWithoutResults ||
         (ImportCases.Any(c => c.IsSelected) || HasValidStageSelection) && (!ImportConstructionStages || HasValidStageSelection) && (ImportForces || ImportDisplacements));
+
+    /// <summary>
+    /// Rilievo R10 (16/11/2026, requirement of the user: «il file deve essere importato anche senza casi di carico»): «Tutto» from a source whose
+    /// catalogue offers no result case (a Straus7 file whose result cases the converter does not match, or without a results file; a MIDAS
+    /// model without static or stage cases) imports geometry, attributes and loads, without results, instead of staying disabled.
+    /// </summary>
+    public bool ImportsWithoutResults => SelectedUpdateScope == (int)ModelUpdateScope.Everything &&
+        (IsStrand7Import && strand7Catalog is { Cases.Count: 0 } || IsMidasImport && liveCatalog is { StaticCases.Count: 0, StageCases.Count: 0 });
+
+    /// <summary>The scope the import asks the source for: «Geometria + attributi + carichi» for <see cref="ImportsWithoutResults"/>.</summary>
+    ModelUpdateScope EffectiveImportScope => ImportsWithoutResults ? ModelUpdateScope.ModelWithoutResults : (ModelUpdateScope)SelectedUpdateScope;
+
+    /// <summary>Why <see cref="ImportsWithoutResults"/>, for the message at the end of the import.</summary>
+    string NoResultsReason => IsStrand7Import ? strand7Catalog?.NoResultsReason(!string.IsNullOrWhiteSpace(Strand7ResultsPath)) ?? "" : "il modello aperto in MIDAS non ha casi statici né casi stage";
     bool CanInspectMidas() => IsMidasImport && CanEditImport && !disposed && !IsVerificationRunning && !IsReportRunning && !IsRevisionBusy &&
         !string.IsNullOrWhiteSpace(MidasBaseUrl) && !string.IsNullOrWhiteSpace(MidasApiKey);
 

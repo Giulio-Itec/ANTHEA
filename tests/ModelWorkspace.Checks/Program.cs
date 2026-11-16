@@ -119,6 +119,7 @@ static partial class Program
             await RevisionCheckpointChecks();
             await UndoFreeChecks();
             await BackgroundPreparationChecks();
+            await NoResultCasesChecks(output);
 
             if (args.Length > 1)
             {

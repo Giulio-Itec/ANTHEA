@@ -128,12 +128,16 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         using var linkedCancellation=CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token,cancellationToken);
         var token=linkedCancellation.Token;
         var scope=(ModelUpdateScope)SelectedUpdateScope;
+        // R10 (16/11/2026): «Tutto» without result cases to import asks the source for geometry, attributes and loads; the copy is applied as
+        // «Tutto» (the definitions of the user kept, the previous results replaced by none).
+        bool withoutResults=(IsMidasImport||IsStrand7Import)&&ImportsWithoutResults;string reason=withoutResults?NoResultsReason:"";
+        var requested=withoutResults?EffectiveImportScope:scope;
         bool liveImport=IsMidasImport, strand7=IsStrand7Import;
         IsBusy = true; ImportFailure = null; Status = "Lettura e controllo del modello…";
         if(!liveImport&&!strand7){++importOperation;ImportProgressMessage=Status;ImportPercent=0;ImportProgressIndeterminate=true;}
         try
         {
-            var incoming = liveImport ? await ReadLiveModelAsync(scope,token) : strand7 ? await ReadStrand7ModelAsync(scope,token) : await services.ImportAsync(scope,token);
+            var incoming = liveImport ? await ReadLiveModelAsync(requested,token) : strand7 ? await ReadStrand7ModelAsync(requested,token) : await services.ImportAsync(scope,token);
             if (incoming == null || disposed) { if (!disposed) Status = "Importazione annullata"; return; }
             var current=Snapshot;
             var entry=await Task.Run(()=>
@@ -151,7 +155,9 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
             if(scope!=ModelUpdateScope.Results)services.FitView();
             ImportPercent=100;ImportProgressIndeterminate=false;ImportProgressMessage="Importazione completata";
             ShowImportOptions=false;
-            Status = UpdateScopeLabels[(int)scope]+" completato. Salva il progetto per conservare la copia e i riferimenti.";
+            Status = withoutResults
+                ? "Importati geometria, attributi e carichi, senza risultati: "+reason+". Salva il progetto per conservare la copia e i riferimenti."
+                : UpdateScopeLabels[(int)scope]+" completato. Salva il progetto per conservare la copia e i riferimenti.";
         }
         catch (TaskCanceledException) when (!token.IsCancellationRequested) { if (!disposed) { var failure = new ModelSourceException(ModelSourceFailureKind.Timeout); SetImportFailure(failure); Status = failure.Message; } }
         catch (OperationCanceledException) { if (!disposed) Status = "Importazione annullata"; }
@@ -166,14 +172,14 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
 
     private void SetSnapshot(ModelSnapshot snapshot, bool validated = false)
     {
+        // R7 (16/11/2026): the preparation of the previous copy stops; this one is prepared when its scene is ready (SceneReady).
+        ResetPreparation();
         combinationService.ClearCache();
         if (!validated) snapshot.Validate();
         // Decision of 1/11/2026 (a revision for each definition): the derived results of an older revision are not shown as valid.
         snapshot = ModelCombinations.WithCurrentResults(snapshot);
         updating = true; Snapshot = snapshot;
         categoryColors.Clear();
-        // R7 (16/11/2026): the preparation of the previous copy stops; this one is prepared when its scene is ready (SceneReady).
-        ResetPreparation();
         ResetRevision();
         Title = displayName ?? snapshot.Name; Summary = $"{snapshot.Nodes.Length:N0} nodi · {snapshot.Elements.Length:N0} elementi";
         InitializeWorkspace();
