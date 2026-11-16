@@ -15256,7 +15256,40 @@
         "supporto/artefatti/ci/20261116-051915-comandi-verde2/summary.json"
       ],
       "voci_collegate": [
-        "BUG-COMANDI-TERRENI-SENZA-DATI"
+        "BUG-COMANDI-TERRENI-SENZA-DATI",
+        "BUG-EREDITA-SENZA-DATI"
+      ]
+    },
+    {
+      "id": "BUG-EREDITA-SENZA-DATI",
+      "data": "2026-11-16",
+      "fase": "correzione isolata dopo main 6c7d03a7 (1.19.0)",
+      "titolo": "Scheda nuova: nessun riferimento da una scheda vicina senza dati o non leggibile",
+      "famiglia": "progetti/dati comuni",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "InheritHierarchy (inserimento di una scheda nuova in una sezione, anche nell'anteprima dello spostamento) prendeva come riferimento anche una scheda vicina senza dati, con i predefiniti del suo modulo, o una scheda in quarantena. Un valore diverso da quello delle schede leggibili rendeva il campo conteso e lo lasciava non risolto: la scheda nuova non ereditava, per esempio, il diametro dei pali. Ora i vicini sono solo le schede aggiornabili (ProjectSharedData.Updatable), lo stesso criterio dei comandi dei dati comuni; la scheda senza dati o in quarantena resta come nel file.",
+      "codice": [
+        "src/ANTHEA.Application/Projects/ProjectSharedHierarchy.cs (InheritHierarchy)",
+        "tests/ANTHEA.Application.Tests/ProjectSharedCommandChecks.cs"
+      ],
+      "segno": "Nessun valore di calcolo cambia. Con una scheda vicina senza dati o non leggibile la scheda nuova eredita i valori delle schede leggibili, come se quella non ci fosse.",
+      "effetto_quantificato": "Test rosso prima del fix: la scheda nuova accanto a pali senza dati aveva diametro 1 invece di 1,2 (corsa eredita-rosso). Dopo il fix 2 controlli nuovi PASS (vicino senza dati e vicino in quarantena con diametro 2,0).",
+      "decisione": {
+        "data": "2026-11-16",
+        "utente": "Incarico della sessione coordinatrice del 16/11/2026: InheritHierarchy non prende come riferimento i predefiniti di una scheda vicina senza dati; stesso criterio Updatable o equivalente per l'origine; test rosso prima, commit separato.",
+        "esito": "Filtro Updatable sui vicini di ogni livello, quindi anche sui riferimenti contesi."
+      },
+      "test": [
+        "Application.Tests 3698, Presentation.Tests 5153, Architecture.Tests 618, Reports.Tests 515, Projects.Checks 22, FoundationWorkspace.Checks 54, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS; ui/shell-smoke-hierarchy, -projects, -project-workspace, -sharing, -project-report, -display, ui/check-shell-draft e ui/shell-capture PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-070445-eredita-rosso (rosso di Application.Tests)",
+        "supporto/artefatti/ci/20261116-070507-finale/summary.json",
+        "supporto/artefatti/ci/20261116-072229-finale-progetti/summary.json"
+      ],
+      "voci_collegate": [
+        "BUG-APPLICA-SENZA-DATI"
       ]
     },
     {

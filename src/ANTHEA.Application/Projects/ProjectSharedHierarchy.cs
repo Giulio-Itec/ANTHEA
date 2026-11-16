@@ -85,7 +85,8 @@ public static partial class ProjectSharedData
             // that level remain unresolved instead of choosing one by tree/array order.
             foreach (var level in Ancestors(section).Reverse().Append(section))
             {
-                var peers = level.Array("fogli").OfType<JsonObject>().Where(s => !ReferenceEquals(s, sheet)).OrderBy(SheetOrder, StringComparer.Ordinal).ToArray();
+                // A sheet without dati or that could not be read is no reference (Updatable): its fields would be the defaults of its module.
+                var peers = level.Array("fogli").OfType<JsonObject>().Where(s => !ReferenceEquals(s, sheet) && Updatable(s)).OrderBy(SheetOrder, StringComparer.Ordinal).ToArray();
                 var fields = peers.ToDictionary(s => s, Fields);
                 var applicable = peers.ToDictionary(s => s, s => ComparableFields(s, sheet).Concat(Common(s, sheet)).Select(p => p.Source.Key).ToHashSet());
                 if (group == "Geometria" && !claimed.Contains("shape"))

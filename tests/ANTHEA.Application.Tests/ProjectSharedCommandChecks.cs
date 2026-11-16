@@ -90,6 +90,28 @@ internal static class ProjectSharedCommandChecks
             string message = Refusal(() => ProjectSharedData.ApplyHierarchy(emptyPile, new HashSet<string> { "Materiali" }), "Dati di un foglio senza dati applicati agli altri");
             Check(message.StartsWith("«Palo senza dati» non è leggibile", StringComparison.Ordinal) && archive.ToJsonString() == before, "Applica da un foglio senza dati: " + message);
         }
+
+        // A new sheet beside a sheet without dati or that could not be read (InheritHierarchy): it inherits from the readable sheet only,
+        // never the defaults of the module or the data of the other one, which stays as it was.
+        foreach (string variant in new[] { "senza dati", "non leggibili" })
+        {
+            var archive = ProjectDocuments.CreateArchive();
+            var owner = ProjectDocuments.AddProject(archive, "Prova eredità");
+            var section = ProjectDocuments.AddSection(owner, "Spalla");
+            var reference = ProjectDocuments.AddSheet(section, "geo_palo_verticale", "Pali di riferimento");
+            var unreadable = ProjectDocuments.AddSheet(section, "geo_palo_verticale", "Pali " + variant);
+            reference["dati"]!["generali"]!["diametro"] = "1.2";
+            if (variant == "senza dati") unreadable.Remove("dati");
+            else
+            {
+                unreadable["dati"]!["generali"]!["diametro"] = "2.0";
+                unreadable[DocumentQuarantine.Property] = "riferimento dei dati non risolto (prova)";
+            }
+            string unreadableBefore = unreadable.ToJsonString();
+            var added = ProjectDocuments.AddSheet(section, "geo_palo_verticale", "Pali nuovi");
+            Check(Math.Abs((J.Number(added["dati"]!["generali"]!["diametro"]) ?? 0) - 1.2) < 1e-9 && unreadable.ToJsonString() == unreadableBefore,
+                "Scheda nuova accanto a pali " + variant + ": diametro ereditato " + added["dati"]!["generali"]!["diametro"]);
+        }
         return checks;
     }
 }
