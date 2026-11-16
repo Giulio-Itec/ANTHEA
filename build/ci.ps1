@@ -155,6 +155,7 @@ Add-Suite @{ Name = 'Reports.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'te
 Add-Suite @{ Name = 'Application.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Application.Tests\ANTHEA.Application.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Examples.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Examples.Tests\ANTHEA.Examples.Tests.csproj'; Args = @('{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Wiki.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Wiki.Tests\ANTHEA.Wiki.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'GuideRev72.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\GuideRev72.Checks\GuideRev72.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # ViewModels, services and calculation scheduling of the MVVM interface without WPF (refactoring F5.1, proposal F5 section 7.1).
 # 3/11/2026: the project of ANTHEA without WPF (src/ANTHEA.Projects, docs/sviluppo/progetto-sistema.md): file, archive of the results, history.
 Add-Suite @{ Name = 'Projects.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Projects.Checks\ANTHEA.Projects.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }

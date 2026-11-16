@@ -1,5 +1,17 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Guide Rev72 — compito 205, 15–16 novembre 2026
+
+Base 191b `3120a64d`, ANTHEA 1.19.1 sul set AW; ramo `codex/205-guide-rev72`. [Verbale e riscontri](guide-rev72-205.md).
+
+- [x] A1–A13 verificati sul codice della consegna; esclusi i lavori successivi non decisi.
+- [x] Word/PDF Rev72: pratica 140 pagine, teorica 214; frammenti, formule e 26 parti del modello verificati.
+- [x] Archivio Rev71: 16 originali con manifest; 1.887 file protetti invariati; articolo Rev01 conservato.
+- [x] Quattro figure offscreen e sei esempi Hansen con confronto indipendente; Wiki aggiornata, 94 articoli.
+- [x] Tutte le 67 suite Rev71 più GuideRev72.Checks eseguite; correzione editoriale verificata con sei suite mirate. Esito finale 67 PASS e un FAIL F3 editoriale in attesa di OK; 73 suite UI generali conservate.
+- [x] Corpus con modello ITEC reale: 733 controlli Reports PASS, inclusi 238 sugli stili. Word/PDF e revisione visiva completati dopo le correzioni.
+- [ ] OK dell’utente su 561 nuove transizioni Wiki e 426 precedenti superate, poi applicazione puntuale e nuova F3. Registro congelato invariato; delta esatto in `chatgpt-compiti/evidenze-205`.
+
 ## Preparazione ANTHEA 1.19.1 su AW - 15 novembre 2026
 
 Compiti 191 e 191b; pubblicazione dopo F8 e le decisioni dell'utente, a cura del coordinatore.

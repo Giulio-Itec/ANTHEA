@@ -1,15 +1,17 @@
 # Guide globali ANTHEA
 
-Edizione 6, 6 novembre 2026. Guide pratica e teorica Rev71, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 7, 15 novembre 2026. Guide pratica e teorica Rev72, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev71.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev71.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev71.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev71.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev72.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev72.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev72.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev72.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
 
 | Articolo | Word | PDF | Sorgente |
 |---|---|---|---|
 | Capacità orizzontale del palo in terreno stratificato (metodo di G. Pacini), edizione 1 | [Word](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx) | [PDF](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf) | [Markdown](../../docs/articolo-palo-orizzontale-stratificato.md) |
+
+La Rev72 allinea i testi al comportamento della 1.19.1 sul set AW: normalizzazione MIDAS, limiti delle combinazioni, salvataggio e recupero, schede incomplete, formato delle lunghezze e scelta della direzione Hansen con H_L = 0. La Rev71 e i suoi indici sono conservati con manifest in `supporto/SUPERATI/guide-rev72-20261115/`.
 
 La Rev71 documenta la selezione del template di stili nel menu Aspetto, gli avvisi nei report dei pali verticali e la duttilità in curvatura nelle relazioni della sezione in c.a. Le Rev70 sono conservate con manifest in `supporto/SUPERATI/report-template-rev71-20261106/`.
 
