@@ -262,12 +262,6 @@
    </StackPanel>
   </Grid>
   <StackPanel DockPanel.Dock="Top" Margin="12,6,12,0">
-   <WrapPanel Margin="0,0,0,4">
-    <WrapPanel.Style><Style TargetType="WrapPanel"><Style.Triggers><DataTrigger Binding="{Binding ResultCases.Count}" Value="0"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></WrapPanel.Style>
-    <TextBlock Text="Caso nei diagrammi e nelle verifiche" VerticalAlignment="Center" Margin="0,0,8,0"/>
-    <ComboBox ItemsSource="{Binding ResultCases}" SelectedItem="{Binding SelectedResultCase}" DisplayMemberPath="CaseId" MinWidth="180" Margin="0,0,12,0"/>
-    <TextBlock Text="{Binding ResultCaseStatus}" VerticalAlignment="Center" TextWrapping="Wrap"/>
-   </WrapPanel>
    <TextBlock Text="{Binding ResultStatus}" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,4"/>
    <TextBlock Text="{Binding CalculationMessage}" TextWrapping="Wrap" Margin="0,2,0,8">
     <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding CalculationMessage}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger><DataTrigger Binding="{Binding CalculationMessage}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
@@ -294,54 +288,100 @@
     <Border.Style><Style TargetType="Border"><Style.Triggers>
      <DataTrigger Binding="{Binding IsWorkTreeCollapsed}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
     </Style.Triggers></Style></Border.Style>
+    <!-- Step 4 of the project of 16/11: the box Caso (in place of the design assumption, D3) above the tabs Albero and Analisi. -->
     <DockPanel>
-     <StackPanel DockPanel.Dock="Top" Margin="6,4,8,10">
+     <StackPanel DockPanel.Dock="Top" Margin="6,4,8,6">
       <DockPanel>
        <Button Content="‹" Command="{Binding ToggleWorkTreeCommand}" DockPanel.Dock="Right" Padding="9,1" MinHeight="26"
-        ToolTip="Richiudi l'albero di lavoro" AutomationProperties.Name="Richiudi albero di lavoro"/>
-       <TextBlock Text="ALBERO DI LAVORO" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+        ToolTip="Richiudi il pannello" AutomationProperties.Name="Richiudi albero di lavoro"/>
+       <TextBlock Text="CASO" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
       </DockPanel>
-      <TextBlock Text="{Binding WorkTreeSummary}" FontSize="11" Opacity="0.75" TextWrapping="Wrap" Margin="0,6,0,0"/>
+      <ComboBox x:Name="CaseSelector" ItemsSource="{Binding InputCases}" SelectedItem="{Binding InputCase}" Margin="0,4,0,3"
+       ToolTip="Caso mostrato nel disegno, nell'albero e nei risultati" AutomationProperties.Name="Caso dell'anteprima e dei risultati"/>
+      <TextBlock Text="{Binding ResultCaseStatus}" FontSize="11" Opacity="0.75" TextWrapping="Wrap"/>
      </StackPanel>
-     <TreeView x:Name="WorkTreeView" ItemsSource="{Binding WorkTree}" SelectedItemChanged="WorkTreeSelectionChanged"
-      PreviewMouseUp="WorkTreeItemClicked" PreviewKeyDown="WorkTreeKeyDown"
-      Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}" BorderThickness="0"
-      ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Albero di lavoro della paratia">
-      <TreeView.ItemContainerStyle>
-       <Style TargetType="TreeViewItem" BasedOn="{StaticResource ProjectTreeItem}">
-        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
-        <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
-        <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TreeViewItem">
-         <Grid>
-          <Grid.ColumnDefinitions><ColumnDefinition Width="16"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-          <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-          <Border x:Name="Row" Grid.ColumnSpan="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-           BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" MinHeight="30">
-           <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-            <ToggleButton x:Name="Expander" Style="{StaticResource ProjectChevron}"
-             IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"/>
-            <ContentPresenter x:Name="PART_Header" Grid.Column="1" ContentSource="Header" Margin="3,3,5,3" VerticalAlignment="Center"/>
-           </Grid>
-          </Border>
-          <Border x:Name="Guide" Grid.Row="1" Margin="9,0,0,0" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1,0,0,0"/>
-          <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1"/>
-         </Grid>
-         <ControlTemplate.Triggers>
-          <Trigger Property="HasItems" Value="False"><Setter TargetName="Expander" Property="Visibility" Value="Hidden"/><Setter TargetName="Guide" Property="Visibility" Value="Collapsed"/></Trigger>
-          <Trigger Property="IsExpanded" Value="False"><Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/><Setter TargetName="Guide" Property="Visibility" Value="Collapsed"/></Trigger>
-          <Trigger SourceName="Row" Property="IsMouseOver" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Hover.Row}"/></Trigger>
-          <Trigger Property="IsSelected" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/><Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/><Setter TargetName="Row" Property="BorderThickness" Value="3,0,0,0"/></Trigger>
-         </ControlTemplate.Triggers>
-        </ControlTemplate></Setter.Value></Setter>
-       </Style>
-      </TreeView.ItemContainerStyle>
-      <TreeView.ItemTemplate>
-       <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-        <TextBlock Text="{Binding Title}" ToolTip="{Binding Detail}" TextWrapping="Wrap" FontSize="12"/>
-       </HierarchicalDataTemplate>
-      </TreeView.ItemTemplate>
-     </TreeView>
+     <TabControl x:Name="LeftPanelTabs" TabStripPlacement="Bottom" Padding="0" BorderThickness="0,1,0,1" Background="{DynamicResource Token.Surface}"
+      BorderBrush="{DynamicResource Token.Border}" AutomationProperties.Name="Pannello del modello">
+      <TabItem Header="Albero">
+       <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="6,6,8,8">
+         <TextBlock Text="ALBERO DEL MODELLO" FontSize="11" FontWeight="SemiBold"/>
+         <TextBlock Text="{Binding WorkTreeSummary}" FontSize="11" Opacity="0.75" TextWrapping="Wrap" Margin="0,4,0,0"/>
+        </StackPanel>
+        <TreeView x:Name="WorkTreeView" ItemsSource="{Binding WorkTree}" SelectedItemChanged="WorkTreeSelectionChanged"
+         PreviewMouseUp="WorkTreeItemClicked" PreviewKeyDown="WorkTreeKeyDown"
+         Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}" BorderThickness="0"
+         ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Albero di lavoro della paratia">
+         <TreeView.ItemContainerStyle>
+          <Style TargetType="TreeViewItem" BasedOn="{StaticResource ProjectTreeItem}">
+           <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+           <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+           <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+           <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TreeViewItem">
+            <Grid>
+             <Grid.ColumnDefinitions><ColumnDefinition Width="16"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+             <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+             <Border x:Name="Row" Grid.ColumnSpan="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+              BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" MinHeight="30">
+              <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+               <ToggleButton x:Name="Expander" Style="{StaticResource ProjectChevron}"
+                IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"/>
+               <ContentPresenter x:Name="PART_Header" Grid.Column="1" ContentSource="Header" Margin="3,3,5,3" VerticalAlignment="Center"/>
+              </Grid>
+             </Border>
+             <Border x:Name="Guide" Grid.Row="1" Margin="9,0,0,0" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1,0,0,0"/>
+             <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+             <Trigger Property="HasItems" Value="False"><Setter TargetName="Expander" Property="Visibility" Value="Hidden"/><Setter TargetName="Guide" Property="Visibility" Value="Collapsed"/></Trigger>
+             <Trigger Property="IsExpanded" Value="False"><Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/><Setter TargetName="Guide" Property="Visibility" Value="Collapsed"/></Trigger>
+             <Trigger SourceName="Row" Property="IsMouseOver" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Hover.Row}"/></Trigger>
+             <Trigger Property="IsSelected" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/><Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/><Setter TargetName="Row" Property="BorderThickness" Value="3,0,0,0"/></Trigger>
+            </ControlTemplate.Triggers>
+           </ControlTemplate></Setter.Value></Setter>
+          </Style>
+         </TreeView.ItemContainerStyle>
+         <TreeView.ItemTemplate>
+          <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+           <TextBlock Text="{Binding Title}" ToolTip="{Binding Detail}" TextWrapping="Wrap" FontSize="12">
+           <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding IsCurrent}" Value="True"><Setter Property="FontWeight" Value="SemiBold"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+          </TextBlock>
+          </HierarchicalDataTemplate>
+         </TreeView.ItemTemplate>
+        </TreeView>
+       </DockPanel>
+      </TabItem>
+      <TabItem Header="Analisi">
+       <DockPanel>
+        <!-- Contract C5: the request and the snapshot are two states; the state of the sheet in the project is in the tree of the project. -->
+        <StackPanel DockPanel.Dock="Top" Margin="6,6,8,8">
+         <TextBlock Text="{Binding RequestStatus}" TextWrapping="Wrap" FontSize="11"/>
+         <TextBlock Text="{Binding SnapshotStatus}" TextWrapping="Wrap" FontSize="11" Margin="0,4,0,0"/>
+        </StackPanel>
+        <ListBox x:Name="AnalysisList" ItemsSource="{Binding AnalysisEntries}" SelectedItem="{Binding SelectedAnalysisEntry}" BorderThickness="0"
+         Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+         AutomationProperties.Name="Stato del calcolo per caso e fase">
+         <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem">
+          <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+          <Setter Property="ToolTip" Value="{Binding Detail}"/>
+          <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
+           <Border x:Name="Row" Background="Transparent" BorderBrush="Transparent" BorderThickness="3,0,0,0" CornerRadius="3" Padding="6,3"><ContentPresenter/></Border>
+           <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Hover.Row}"/></Trigger>
+            <Trigger Property="IsSelected" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/><Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/></Trigger>
+           </ControlTemplate.Triggers>
+          </ControlTemplate></Setter.Value></Setter>
+         </Style></ListBox.ItemContainerStyle>
+         <ListBox.ItemTemplate><DataTemplate>
+          <TextBlock x:Name="Title" Text="{Binding Title}" TextWrapping="Wrap" FontSize="12" Margin="14,0,0,0"/>
+          <DataTemplate.Triggers><DataTrigger Binding="{Binding IsCase}" Value="True">
+           <Setter TargetName="Title" Property="FontWeight" Value="SemiBold"/><Setter TargetName="Title" Property="Margin" Value="0,4,0,0"/>
+          </DataTrigger></DataTemplate.Triggers>
+         </DataTemplate></ListBox.ItemTemplate>
+        </ListBox>
+       </DockPanel>
+      </TabItem>
+     </TabControl>
     </DockPanel>
    </Border>
    <Border x:Name="WorkTreeRail" BorderBrush="{DynamicResource Token.Border}" BorderThickness="0,0,1,0">
@@ -375,10 +415,7 @@
        <StackPanel Margin="0,0,8,8">
         <TextBlock Text="Sezione della fase" FontSize="18" FontWeight="SemiBold"/>
         <TextBlock Text="Anteprima degli input · seleziona un elemento per modificarlo" TextWrapping="Wrap" Margin="0,2,0,8"/>
-        <WrapPanel>
-         <TextBlock Text="Caso" VerticalAlignment="Center" Margin="0,0,6,0"/>
-         <ComboBox ItemsSource="{Binding InputCases}" SelectedItem="{Binding InputCase}" MinWidth="110" MaxWidth="220" Margin="0,0,12,4" AutomationProperties.Name="Caso dell'anteprima"/>
-        </WrapPanel>
+        <TextBlock Margin="0,0,0,4"><Run Text="Caso "/><Run Text="{Binding InputCase, Mode=OneWay}" FontWeight="SemiBold"/><Run Text=" · fase "/><Run Text="{Binding Sketch.Phase, Mode=OneWay}" FontWeight="SemiBold"/></TextBlock>
         <TextBlock Text="{Binding PhaseSummary}" TextWrapping="Wrap"/>
        </StackPanel>
        <Border Grid.Row="1" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Margin="0,0,8,0">
@@ -526,6 +563,10 @@
    </TabItem>
    <TabItem Tag="diagrammi" Header="{Binding Documents[diagrammi]}" HeaderTemplate="{StaticResource DocumentHeader}" Visibility="{Binding Documents[diagrammi].IsOpen, Converter={StaticResource Shown}}">
     <DockPanel Margin="8">
+     <!-- Contract C2: results of the case and phase on screen only; otherwise this notice, never another case or phase. -->
+     <TextBlock DockPanel.Dock="Top" Text="{Binding StageResultStatus}" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,6">
+      <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding StageResultStatus}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+     </TextBlock>
      <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,8">
       <TextBlock Text="Fase" VerticalAlignment="Center"/><ComboBox ItemsSource="{Binding Stages}" SelectedItem="{Binding SelectedStage}" DisplayMemberPath="Id" Width="150" Margin="8,0,16,0"/>
       <TextBlock Text="Confronta" VerticalAlignment="Center"/><ComboBox ItemsSource="{Binding Stages}" SelectedItem="{Binding ComparisonStage}" DisplayMemberPath="Id" Width="150" Margin="8,0,16,0"/>

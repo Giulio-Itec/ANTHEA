@@ -120,7 +120,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     public EmbeddedWallStageData? SelectedStage
     {
         get => selectedStage;
-        set { if (SetProperty(ref selectedStage, value)) { OnPropertyChanged(nameof(Points)); OnPropertyChanged(nameof(Checks)); OnPropertyChanged(nameof(Supports)); } }
+        set { if (SetProperty(ref selectedStage, value)) { OnPropertyChanged(nameof(Points)); OnPropertyChanged(nameof(Checks)); OnPropertyChanged(nameof(Supports)); FollowResultStage(value); } }
     }
     public EmbeddedWallStageData? ComparisonStage { get => comparisonStage; set => SetProperty(ref comparisonStage, value); }
     public IReadOnlyList<EmbeddedWallPointData> Points => selectedStage?.Points ?? [];
@@ -164,8 +164,17 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
         var service = Context.Calculation as EmbeddedWallModule;
         if (service is not null) service.ProgressChanged += Show;
         Progress = "Preparazione del modello";
-        try { return await base.CalculateAsync(cancellation); }
-        finally { if (service is not null) service.ProgressChanged -= Show; Progress = ""; }
+        RequestStatus = $"Calcolo in corso sulla revisione {started}.";
+        bool published = false;
+        try { return published = await base.CalculateAsync(cancellation); }
+        finally
+        {
+            if (service is not null) service.ProgressChanged -= Show; Progress = "";
+            // C5: the request is distinct from the results it may have published.
+            if (!IsDisposed) RequestStatus = published ? $"Calcolo terminato sulla revisione {started}."
+                : Revision != started ? $"Calcolo della revisione {started} superato da una modifica dei dati."
+                : $"Calcolo della revisione {started} annullato o concluso senza risultati." + (string.IsNullOrWhiteSpace(CalculationMessage) ? "" : " " + CalculationMessage);
+        }
     }
     protected override void OnReloaded() => Rebuild();
     protected override void OnCommit() { General.Commit(); Hydraulics.Commit(); Embedment.Commit(); foreach (var table in Tables) table.Editor?.Commit(); EmbeddedWallDocument.Validate(Data); }
@@ -178,7 +187,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
             storingResult = true;
             try { ChangedKeepingResults(); } finally { storingResult = false; }
         }
-        SelectedStage = Stages.LastOrDefault(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault(); NotifyResult();
+        SelectedStage = KeyedResultStage(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault(); NotifyResult();
     }
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
@@ -195,9 +204,9 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     }
     private void NotifyResult()
     {
-        selectedResultCase = ResultCases.FirstOrDefault();
+        selectedResultCase = ResultCases.FirstOrDefault(r => r.CaseId == inputCase);
         OnPropertyChanged(nameof(ResultCases)); OnPropertyChanged(nameof(SelectedResultCase)); OnPropertyChanged(nameof(ResultCaseStatus));
-        SelectedStage = Stages.LastOrDefault(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault();
+        SelectedStage = KeyedResultStage(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault();
         OnPropertyChanged(nameof(Current)); OnPropertyChanged(nameof(Result)); OnPropertyChanged(nameof(HasResults)); OnPropertyChanged(nameof(Stages));
         OnPropertyChanged(nameof(HydraulicStages)); OnPropertyChanged(nameof(HydraulicChecks)); SelectedHydraulicCheck = HydraulicChecks.FirstOrDefault();
         OnPropertyChanged(nameof(GlobalChecks)); SelectedGlobalCheck = GlobalChecks.FirstOrDefault(); GlobalCsvCommand?.NotifyCanExecuteChanged();
@@ -210,10 +219,10 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
         OnPropertyChanged(nameof(EmbedmentCandidates)); OnPropertyChanged(nameof(EmbedmentStatus));
         SelectedEmbedment = EmbedmentCandidates.FirstOrDefault(c => c.Embedment == current?.EmbedmentSearch?.BestEmbedment) ?? EmbedmentCandidates.FirstOrDefault();
         EmbedmentCsvCommand?.NotifyCanExecuteChanged();
-        NotifyEnvelope();
+        NotifyEnvelope(); RefreshAnalysis();
     }
     private void RestoreResult()
-    { current = EmbeddedWallDocument.ReadCurrentResult(Data); SelectedStage = Stages.LastOrDefault(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault(); NotifyResult(); }
+    { current = EmbeddedWallDocument.ReadCurrentResult(Data); SelectedStage = KeyedResultStage(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault(); NotifyResult(); }
     private EmbeddedWallReportData RequireCurrent()
     {
         Commit();

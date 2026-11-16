@@ -4,6 +4,11 @@ using Anthea.Presentation.Modules.EmbeddedWalls;
 
 namespace Anthea.Presentation.Tests;
 
+/// <summary>
+/// The tree of the model (organizzazione del modulo paratie, progetto del 16/11, step 4): it shows the case of the box above it. Every row
+/// without a case, every row of the case on screen and every row of a case that is not defined appears exactly once; the rows of the other
+/// defined cases appear when their case is chosen. Navigation changes neither the data nor the revision.
+/// </summary>
 internal static partial class EmbeddedWallChecks
 {
     private static IEnumerable<EmbeddedWallWorkNode> WorkNodes(IEnumerable<EmbeddedWallWorkNode> nodes)
@@ -27,16 +32,40 @@ internal static partial class EmbeddedWallChecks
         data["loads"]!.AsArray().Add(orphan);
         using var sheet = Open(data);
         string original = sheet.Data.ToJsonString(); long revision = sheet.Revision;
+        string principal = data["case_id"]!.ToString();
         EmbeddedWallWorkNode Node(EmbeddedWallRow row) => WorkNodes(sheet.WorkTree).Single(n => ReferenceEquals(n.Row, row));
-        foreach (var table in sheet.Tables)
-        foreach (var row in table.Rows)
-            e.That(WorkNodes(sheet.WorkTree).Count(n => ReferenceEquals(n.Row, row)) == 1, $"Riga dell'albero persa o duplicata: {table.Key}.");
+        void EveryRowOnce(string label)
+        {
+            foreach (var table in sheet.Tables)
+            foreach (var row in table.Rows)
+            {
+                string owner = string.IsNullOrWhiteSpace(row["case"]) ? principal : row["case"];
+                bool history = EmbeddedWallDocument.HistoryTables.Contains(table.Key);
+                int expected = !history || owner == sheet.InputCase || owner is not ("Servizio" or "Caso 1") ? 1 : 0;
+                e.That(WorkNodes(sheet.WorkTree).Count(n => ReferenceEquals(n.Row, row)) == expected, $"Passo 4, {label}: riga dell'albero persa, duplicata o di un altro caso: {table.Key}.");
+            }
+        }
+        EveryRowOnce("caso principale");
+        e.That(sheet.WorkTree.Select(n => n.Title).SequenceEqual(["Impostazioni", "Fasi (1)", "Parete", "Elementi strutturali", "Terreni", "Carichi",
+            "Falda e filtrazione", "Verifiche", "Casi", "Ricerca dell'infissione"]), "Passo 4: gruppi dell'albero mancanti o fuori ordine: "
+            + string.Join(" | ", sheet.WorkTree.Select(n => n.Title)));
         var stages = sheet.Tables.Single(t => t.Key == "stages");
         var loads = sheet.Tables.Single(t => t.Key == "loads");
+        var mainStage = stages.Rows[0]; var mainLoad = loads.Rows[0];
+        e.That(Node(mainStage).IsCurrent && ReferenceEquals(Node(mainLoad).Stage, mainStage), "Passo 4: fase corrente non segnata o carico non associato alla fase.");
+        var support = sheet.Tables.Single(t => t.Key == "supports").Rows.Single();
+        e.That(Node(support).Children.Select(n => n.TableKey).SequenceEqual(["activations", "steel_members", "anchor_checks", "anchor_layers", "anchor_tests"]),
+            "Passo 4: il sostegno non riunisce presenza nelle fasi e dati di verifica.");
+
+        sheet.InputCase = "Servizio";
+        EveryRowOnce("caso Servizio");
         var serviceStage = stages.Rows.Single(r => r["case"] == "Servizio");
         var serviceLoad = loads.Rows.Single(r => r["case"] == "Servizio");
-        e.That(WorkNodes(Node(serviceStage).Children).Any(n => n.Row == serviceLoad)
-            && !WorkNodes(Node(stages.Rows[0]).Children).Any(n => n.Row == serviceLoad), "Fasi omonime di casi diversi mescolate nell'albero.");
+        e.That(ReferenceEquals(Node(serviceLoad).Stage, serviceStage) && Node(serviceLoad).CaseId == "Servizio" && Node(serviceStage).IsCurrent
+            && !WorkNodes(sheet.WorkTree).Any(n => ReferenceEquals(n.Row, mainLoad)), "Passo 4: fasi omonime di casi diversi mescolate nell'albero.");
+        sheet.InputCase = principal;
+        sheet.SelectWorkNodeCommand.Execute(WorkNodes(sheet.WorkTree).Single(n => n.Row is not null && n.Row["id"] == "Servizio" && n.TableKey == "cases"));
+        e.That(sheet.InputCase == "Servizio" && sheet.InspectorTable?.Key == "cases", "Passo 4: il nodo del caso non porta l'albero al caso.");
         sheet.SelectWorkNodeCommand.Execute(Node(serviceLoad));
         e.That(sheet.InputCase == "Servizio" && sheet.InputStage == serviceStage && sheet.InspectorTable == loads
             && loads.Selected == serviceLoad && sheet.Documents.Active == EmbeddedWallDocuments.Section, "Il nodo carico non apre caso, fase e riga corrispondenti.");
@@ -61,9 +90,9 @@ internal static partial class EmbeddedWallChecks
         soil["name"] = "Sabbia aggiornata";
         e.That(ReferenceEquals(Node(soil), soilNode) && soilNode.Title.StartsWith("Sabbia aggiornata") && !soilGroup.IsExpanded,
             "La modifica ricrea i nodi o perde la chiusura dei rami.");
-        var phaseNode = Node(serviceStage); phaseNode.IsExpanded = false;
+        var phaseNode = Node(serviceStage);
         stages.Selected = serviceStage; stages.UpCommand.Execute(null);
-        e.That(ReferenceEquals(Node(serviceStage), phaseNode) && !phaseNode.IsExpanded, "Il riordino delle fasi perde l'identità o l'espansione del nodo.");
+        e.That(ReferenceEquals(Node(serviceStage), phaseNode), "Il riordino delle fasi perde l'identità del nodo.");
         loads.Selected = orphanRow; var removed = Node(orphanRow); loads.RemoveCommand.Execute(null);
         e.That(!WorkNodes(sheet.WorkTree).Any(n => n.Row == orphanRow), "Nodo eliminato rimasto nell'albero.");
         string afterRemove = sheet.Data.ToJsonString();
@@ -72,15 +101,13 @@ internal static partial class EmbeddedWallChecks
         // Duplicate identifiers remain visible; their actions must not be shown under either arbitrary phase.
         var duplicate = EmbeddedWallDocument.NewRow("stages"); duplicate["case"] = "Servizio";
         var duplicateData = sheet.Data.DeepClone().AsObject(); duplicateData["stages"]!.AsArray().Add(duplicate);
-        sheet.Reload(duplicateData);
+        sheet.Reload(duplicateData); sheet.InputCase = "Servizio";
         var duplicateLoads = sheet.Tables.Single(t => t.Key == "loads").Rows.Single(r => r["case"] == "Servizio");
         e.That(Node(duplicateLoads).Stage is null
             && WorkNodes(sheet.WorkTree).Any(n => n.Title == "Riferimenti di fase da completare"), "Fase duplicata trattata come riferimento univoco.");
         sheet.IsWorkTreeCollapsed = true; sheet.Reload(data.DeepClone().AsObject());
         e.That(sheet.IsWorkTreeCollapsed && !WorkNodes(sheet.WorkTree).Contains(soilNode), "Reload perde lo stato del pannello o conserva righe disconnesse.");
-        foreach (var table in sheet.Tables)
-        foreach (var row in table.Rows)
-            e.That(WorkNodes(sheet.WorkTree).Count(n => ReferenceEquals(n.Row, row)) == 1, $"Reload: riga dell'albero persa o duplicata: {table.Key}.");
+        EveryRowOnce("dopo Reload");
         using var readOnly = Open(data, readOnly: true);
         var readonlyNode = WorkNodes(readOnly.WorkTree).First(n => n.TableKey == "supports" && n.Row is not null);
         var beforeReadOnly = readOnly.Data.ToJsonString();

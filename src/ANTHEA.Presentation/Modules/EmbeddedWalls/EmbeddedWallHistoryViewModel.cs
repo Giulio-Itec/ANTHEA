@@ -5,7 +5,8 @@ namespace Anthea.Presentation.Modules.EmbeddedWalls;
 public sealed partial class EmbeddedWallSheetViewModel
 {
     private EmbeddedWallReportData? selectedResultCase;
-    private EmbeddedWallReportData? DisplayedCase => selectedResultCase ?? current;
+    /// <summary>The results of the case on screen (contract C2 of the project of 16/11): never those of another case.</summary>
+    private EmbeddedWallReportData? DisplayedCase => selectedResultCase;
     public IReadOnlyList<EmbeddedWallReportData> ResultCases => current?.Cases ?? (current is null ? [] : new[] { current });
     public EmbeddedWallReportData? SelectedResultCase
     {
@@ -15,7 +16,7 @@ public sealed partial class EmbeddedWallSheetViewModel
             if (value is not null && !ResultCases.Any(r => ReferenceEquals(r, value))) return;
             if (ReferenceEquals(selectedResultCase, value)) return;
             selectedResultCase = value; OnPropertyChanged(nameof(SelectedResultCase));
-            SelectedStage = Stages.LastOrDefault(); ComparisonStage = null;
+            SelectedStage = KeyedResultStage(); ComparisonStage = null;
             SelectedHydraulicStage = HydraulicStages.LastOrDefault();
             OnPropertyChanged(nameof(Stages)); OnPropertyChanged(nameof(Points)); OnPropertyChanged(nameof(Checks)); OnPropertyChanged(nameof(Supports));
             OnPropertyChanged(nameof(HydraulicStages)); OnPropertyChanged(nameof(HydraulicChecks)); SelectedHydraulicCheck = HydraulicChecks.FirstOrDefault();
@@ -28,8 +29,11 @@ public sealed partial class EmbeddedWallSheetViewModel
             HydraulicCsvCommand.NotifyCanExecuteChanged(); HydraulicChecksCsvCommand.NotifyCanExecuteChanged();
             GlobalCsvCommand.NotifyCanExecuteChanged(); SteelCsvCommand.NotifyCanExecuteChanged(); AnchorCsvCommand.NotifyCanExecuteChanged();
             TubeCsvCommand.NotifyCanExecuteChanged(); RcPileCsvCommand.NotifyCanExecuteChanged();
+            OnPropertyChanged(nameof(StageResultStatus));
+            // Step 4 of the project of 16/11 (D3, C2): one case for input and results.
+            if (value is not null && InputCases.Contains(value.CaseId) && inputCase != value.CaseId) InputCase = value.CaseId;
         }
     }
-    public string ResultCaseStatus => DisplayedCase is null ? ""
+    public string ResultCaseStatus => DisplayedCase is null ? (current is null ? "" : "Risultato non disponibile per il caso «" + inputCase + "».")
         : DisplayedCase.CaseId + " · " + (DisplayedCase.Complete ? "storia convergente" : "storia incompleta") + " · " + DisplayedCase.ActionBasis;
 }

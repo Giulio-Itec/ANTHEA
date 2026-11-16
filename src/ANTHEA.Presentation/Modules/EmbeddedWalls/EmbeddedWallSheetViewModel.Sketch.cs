@@ -131,5 +131,8 @@ public sealed partial class EmbeddedWallSheetViewModel
             StageLevels?.Show(inputStage);
         }
         finally { refreshingSketch = false; }
+        // Step 4: the tree shows the case on screen and marks its phase; the results follow the pair (case, phase) (C2).
+        if (workTreeCase != inputCase) { workTreeCase = inputCase; RefreshWorkTree(); } else MarkCurrentStage();
+        SelectResultCase(); SelectResultStage();
     }
 }

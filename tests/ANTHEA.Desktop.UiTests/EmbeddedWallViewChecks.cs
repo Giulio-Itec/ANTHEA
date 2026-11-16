@@ -376,9 +376,11 @@ internal static partial class EmbeddedWallViewChecks
             await sheet.SearchEmbedmentCommand.ExecuteAsync(null); Show(EmbeddedWallDocuments.Diagrams); await Settle();
             Check(sheet.Current?.EmbedmentSearch is { MinimumCertified: true, BestEmbedment: 7.5 } && sheet.ResultCases.Count == 2,
                 "La ricerca grafica non considera entrambi i casi.");
-            var caseSelector = Visual(editor.View).OfType<ComboBox>().Single(c => c.DisplayMemberPath == "CaseId");
-            Check(caseSelector.Items.Count == 2 && ReferenceEquals(caseSelector.SelectedItem, sheet.SelectedResultCase), "Selettore dei casi scollegato.");
-            caseSelector.SelectedItem = sheet.ResultCases.Single(c => c.CaseId == "C2"); await Settle(); Capture("casi-diagramma");
+            await CheckLeftPanel(editor.View, sheet, Settle, Check, Capture); Show(EmbeddedWallDocuments.Diagrams); await Settle();
+            // Step 4 (D3): one box Caso for input and results, above the left panel.
+            var caseSelector = Visual(editor.View).OfType<ComboBox>().Single(c => c.Name == "CaseSelector");
+            Check(caseSelector.Items.Count == 2 && caseSelector.SelectedItem as string == sheet.SelectedResultCase?.CaseId, "Selettore dei casi scollegato.");
+            caseSelector.SelectedItem = "C2"; await Settle(); Capture("casi-diagramma");
             Check(sheet.SelectedResultCase?.CaseId == "C2" && ReferenceEquals(sheet.Stages, sheet.ResultCases[1].Stages)
                 && sheet.Points.Min(p => p.Elevation) == -7.5 && sheet.ResultCaseStatus.Contains("C2"), "Cambio caso conserva dati precedenti.");
             Show(EmbeddedWallDocuments.Envelopes);
