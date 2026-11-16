@@ -61,12 +61,13 @@ public static partial class ProjectSharedData
         return result;
     }
 
-    public static int ApplyHierarchy(JsonObject source, HashSet<string> groups, HashSet<string>? keys = null)
+    /// <param name="skip">Keys not written into a target (see ApplyTargets); null for none.</param>
+    public static int ApplyHierarchy(JsonObject source, HashSet<string> groups, HashSet<string>? keys = null, Func<JsonObject, string, bool>? skip = null)
     {
         if (source.Parent?.Parent is not JsonObject section) return 0;
         var allowed = ReferenceKeys(source, keys ?? Fields(source).Keys.ToHashSet());
         var authorities = Ancestors(section).SelectMany(s => s.Array("fogli").OfType<JsonObject>()).ToArray();
-        return ApplyTargets(source, SubtreeSheets(section), groups, allowed, authorities);
+        return ApplyTargets(source, SubtreeSheets(section), groups, allowed, authorities, skip);
     }
 
     public static void InheritHierarchy(JsonObject sheet, JsonObject section)

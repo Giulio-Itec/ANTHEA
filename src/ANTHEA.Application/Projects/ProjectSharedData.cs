@@ -140,7 +140,10 @@ public static partial class ProjectSharedData
     public static int Apply(JsonObject source, JsonObject section, HashSet<string> groups, JsonObject? onlyTarget = null, HashSet<string>? keys = null)
         => ApplyTargets(source, section.Array("fogli").OfType<JsonObject>().Where(s => onlyTarget is null || ReferenceEquals(s, onlyTarget)), groups, keys);
 
-    static int ApplyTargets(JsonObject source, IEnumerable<JsonObject> targets, HashSet<string> groups, HashSet<string>? keys, JsonObject[]? authorities = null)
+    /// <param name="skip">When given, the keys it returns true for are not written into that target (the confirmation of a sheet: the layers of
+    /// a survey with another number of layers in the target, ProjectSharedData.OtherSoilSubdivision).</param>
+    static int ApplyTargets(JsonObject source, IEnumerable<JsonObject> targets, HashSet<string> groups, HashSet<string>? keys, JsonObject[]? authorities = null,
+        Func<JsonObject, string, bool>? skip = null)
     {
         // Stage the entire operation, so unsupported conversions cannot partially update the project.
         var updates = new List<(JsonObject Sheet, JsonObject Data)>();
@@ -161,7 +164,8 @@ public static partial class ProjectSharedData
             if (groups.Contains("Materiali") && (keys is null || keys.Contains("Scheda CLS · scelte/deviationControl")) && source.S("modulo_id") == "mat_calcestruzzo" && target.S("modulo_id") == "mat_calcestruzzo")
                 Put(effectiveTarget["dati"]!.AsObject(), "scelte/deviationControl", source["dati"]?["scelte"]?["deviationControl"] ?? JsonValue.Create("Ordinario"));
             var governed = authorities?.SelectMany(s => ComparableFields(s, effectiveTarget).Concat(Common(s, effectiveTarget))).Select(p => p.Source.Key).ToHashSet() ?? [];
-            foreach (var (a, b) in Common(source, effectiveTarget).Where(p => groups.Contains(p.Source.Group) && (keys is null || keys.Contains(p.Source.Key)) && !governed.Contains(p.Source.Key)))
+            foreach (var (a, b) in Common(source, effectiveTarget).Where(p => groups.Contains(p.Source.Group) && (keys is null || keys.Contains(p.Source.Key)) && !governed.Contains(p.Source.Key)
+                && skip?.Invoke(target, p.Source.Key) != true))
             {
                 if (a.Key == "shape" && target.S("modulo_id") == PaloOrizzontale.Module) continue;
                 var original = Fields(target)[b.Key];

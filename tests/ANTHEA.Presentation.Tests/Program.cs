@@ -64,14 +64,6 @@ try
     }
     // 4/11/2026 (docs/sviluppo/progetto-sistema.md, step 3): --banco-progetto measures the edits of a large project in the shell.
     if (args.Contains("--banco-progetto")) return ProjectEditBench.Run(output);
-    // 16/11/2026 (note of step 6, §1.5 point 8): --riproduzione-strati runs only the reproduction of the layers moved by position. It fails
-    // today and stays out of the default run and of build/ci.ps1 (build/known-failures.json: a new failure only after telling the user).
-    if (args.Contains("--riproduzione-strati"))
-    {
-        checks = SoilLayerShiftReproduction.Run();
-        string reproduction = $"PASS {checks} controlli della riproduzione degli strati (§1.5 punto 8)";
-        File.WriteAllText(Path.Combine(output, "esito.txt"), reproduction, new UTF8Encoding(false)); Console.WriteLine(reproduction); return 0;
-    }
     // F5.13: --shell runs only the checks of the sessions and ViewModels of the new shell (to work on the step).
     if (args.Contains("--shell"))
     {
@@ -110,6 +102,8 @@ try
     checks += JsonRowChecks.Run();
     checks += FormViewModelChecks.Run();
     checks += SharedDataCoordinatorChecks.Run();
+    // 16/11/2026 (note of step 6, §1.5 point 8): the layers of a survey with another number of layers are not shared by position.
+    checks += SoilSubdivisionChecks.Run();
     checks += ProjectHistoryChecks.Run();
     // F5.13 (a, b): sessions and ViewModels of the new shell.
     checks += ShellChecks.Run(output);

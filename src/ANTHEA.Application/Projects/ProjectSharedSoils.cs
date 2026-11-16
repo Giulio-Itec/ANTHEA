@@ -53,6 +53,34 @@ public static partial class ProjectSharedData
         return updates.Count;
     }
 
+    /// <summary>
+    /// Removes from <paramref name="keys"/> the layers («Strato · s/l/…») of the surveys whose subdivision changed between two copies of a
+    /// sheet: another number of layers in survey s, or another number of surveys (then all of them). The layers are shared and written by
+    /// position, so after such a change the same position is another layer: its values must not reach the sheets that keep the old
+    /// subdivision (note of step 6, §1.5 point 8, 16/11/2026: the first layer removed moved the layers of the sheets below by one). The
+    /// other data of the sheet, and the surveys with the same subdivision, are shared as before.
+    /// </summary>
+    public static void ExceptChangedSoilSubdivisions(HashSet<string> keys, JsonObject before, JsonObject after)
+    {
+        ArgumentNullException.ThrowIfNull(keys);
+        var old = Surveys(before); var current = Surveys(after);
+        bool all = old.Count != current.Count;
+        keys.RemoveWhere(key => key.StartsWith("Strato · ", StringComparison.Ordinal) && (all || SoilSurvey(key) is int survey && (survey < 0 || Layers(old, survey) != Layers(current, survey))));
+    }
+
+    /// <summary>True when <paramref name="key"/> is a layer («Strato · s/l/…») of a survey that has another number of layers in
+    /// <paramref name="target"/> than in <paramref name="source"/>: by position it would be another layer there (16/11/2026, §1.5 point 8).</summary>
+    public static bool OtherSoilSubdivision(JsonObject source, JsonObject target, string key)
+    {
+        if (!key.StartsWith("Strato · ", StringComparison.Ordinal)) return false;
+        int survey = SoilSurvey(key);
+        return survey < 0 || Layers(Surveys(source), survey) != Layers(Surveys(target), survey);
+    }
+
+    static JsonArray Surveys(JsonObject sheet) => sheet["dati"].Array("stratigrafie");
+    static int Layers(JsonArray surveys, int survey) => survey < surveys.Count && surveys[survey] is JsonArray rows ? rows.Count : 0;
+    static int SoilSurvey(string key) => int.TryParse(key[9..].Split('/')[0], out int number) ? number - 1 : -1;
+
     public static bool SupportsSharedSoils(JsonObject sheet) => sheet.S("modulo_id") is "geo_palo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or Anthea.FoundationWorkspace.FoundationDocument.Module;
 
     // Compare the shared input schema, never the complete serialized row (which also contains
