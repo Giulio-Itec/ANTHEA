@@ -13,6 +13,9 @@
       </StackPanel>
       <WrapPanel><Button Content="Controlla file e casi" Command="{Binding CheckStrand7SetupCommand}"/><Button Content="Annulla controllo" Command="{Binding CheckStrand7SetupCancelCommand}" Margin="5,0,0,0"/></WrapPanel>
       <TextBlock Text="{Binding Strand7PreparationSummary}" TextWrapping="Wrap" FontSize="11" Margin="0,8,0,0"/>
+      <!-- R9 (16/11/2026): the warnings of the GPC converter before the import, not only their number. -->
+      <TextBox Text="{Binding Strand7Warnings, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" FontSize="10" MaxHeight="140" VerticalScrollBarVisibility="Auto" Margin="0,6,0,0"
+        BorderThickness="0" Background="Transparent" AutomationProperties.Name="Avvisi del convertitore GPC"/>
       <TextBlock Text="Il controllo apre il modello in Straus7, verifica la corrispondenza fra modello e risultati e legge l’elenco dei casi statici lineari. Gli stage non vengono trattati come casi statici." TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,8,0,0"/>
     </StackPanel>
     <StackPanel Visibility="{Binding IsMidasImport, Converter={StaticResource Visible}}" Margin="0,8,0,10">
