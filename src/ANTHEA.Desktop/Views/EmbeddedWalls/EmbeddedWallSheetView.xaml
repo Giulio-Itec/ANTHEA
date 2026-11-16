@@ -246,6 +246,14 @@
     </TabItem>
     <TabItem Header="Vista" Tag="vista">
      <WrapPanel>
+      <!-- Step 5: magnification and legend of the section (state of the view, not saved). -->
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Sezione"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Adatta" Command="{Binding FitSketchCommand}" ToolTip="Mostra tutta la sezione"/>
+       <Button Style="{StaticResource BarButton}" Content="Ingrandisci" Command="{Binding ZoomInSketchCommand}" ToolTip="Ingrandisci la sezione (anche con la rotellina)"/>
+       <Button Style="{StaticResource BarButton}" Content="Riduci" Command="{Binding ZoomOutSketchCommand}" ToolTip="Riduci la sezione (anche con la rotellina)"/>
+       <Button Style="{StaticResource BarButton}" Content="{Binding SoilLegendCommandText}" Command="{Binding ToggleSoilLegendCommand}" ToolTip="Legenda dei terreni nel disegno"
+        AutomationProperties.Name="Legenda dei terreni"/>
+      </WrapPanel></HeaderedContentControl>
       <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Pannelli"><WrapPanel>
        <Button Style="{StaticResource BarButton}" Content="Albero di lavoro" Command="{Binding ToggleWorkTreeCommand}"/>
       </WrapPanel></HeaderedContentControl>
@@ -412,14 +420,14 @@
         <KeyBinding Key="PageUp" Command="{Binding PreviousInputStageCommand}"/>
         <KeyBinding Key="PageDown" Command="{Binding NextInputStageCommand}"/>
        </Grid.InputBindings>
-       <StackPanel Margin="0,0,8,8">
-        <TextBlock Text="Sezione della fase" FontSize="18" FontWeight="SemiBold"/>
-        <TextBlock Text="Anteprima degli input · seleziona un elemento per modificarlo" TextWrapping="Wrap" Margin="0,2,0,8"/>
-        <TextBlock Margin="0,0,0,4"><Run Text="{Binding InputCase, Mode=OneWay}" FontWeight="SemiBold"/><Run Text=" · fase "/><Run Text="{Binding Sketch.Phase, Mode=OneWay}" FontWeight="SemiBold"/></TextBlock>
-        <TextBlock Text="{Binding PhaseSummary}" TextWrapping="Wrap"/>
+       <!-- Step 5: wall, case and phase are the header inside the drawing; above it only the title and the summary of the phase. -->
+       <StackPanel Margin="0,0,8,6">
+        <TextBlock Text="Sezione della fase" FontSize="16" FontWeight="SemiBold"/>
+        <TextBlock TextWrapping="Wrap" Margin="0,2,0,0"><Run Text="{Binding PhaseSummary, Mode=OneWay}"/><Run Text="  ·  clic: modifica · rotellina: ingrandisci"/></TextBlock>
        </StackPanel>
        <Border Grid.Row="1" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Margin="0,0,8,0">
-        <local:EmbeddedWallModelSketch Model="{Binding Sketch}" PickCommand="{Binding PickModelCommand}" ClipToBounds="True" AutomationProperties.Name="Sezione grafica degli input della paratia"/>
+        <local:EmbeddedWallModelSketch Model="{Binding Sketch}" PickCommand="{Binding PickModelCommand}" Zoom="{Binding SketchZoom}" ShowLegend="{Binding ShowSoilLegend}"
+         Selected="{Binding SketchSelection, Mode=OneWay}" ClipToBounds="True" AutomationProperties.Name="Sezione grafica degli input della paratia"/>
        </Border>
        <!-- Organizzazione del modulo paratie (progetto del 16/11), step 2: one tab per phase of the case along the lower edge of the drawing, «+» adds
             one; the right button opens the menu Fase. Ins adds, F2 renames, Canc deletes the current phase. -->
@@ -461,8 +469,8 @@
         </ListBox>
        </DockPanel>
        <StackPanel Grid.Row="3" Margin="0,6,8,0">
-        <TextBlock Text="Quote in scala · spessore parete, lunghezze sostegni e frecce schematici" TextWrapping="Wrap" FontSize="11"/>
-        <TextBlock Text="{Binding Sketch.WaterLabel, StringFormat=Linea blu tratteggiata: {0}}" TextWrapping="Wrap" FontSize="11"/>
+        <TextBlock Text="Quote in scala · spessore parete, puntoni e frecce schematici · tiranti in scala con tratto libero e cementato di «Sfilamento dei tiranti», altrimenti tratteggiati (schematici)" TextWrapping="Wrap" FontSize="11"/>
+        <TextBlock Text="{Binding Sketch.WaterLabel, StringFormat=Linea blu tratteggiata: {0} · contorno tratteggiato: terreno scavato}" TextWrapping="Wrap" FontSize="11"/>
         <ScrollViewer MaxHeight="90" VerticalScrollBarVisibility="Auto"><TextBlock Text="{Binding SketchStatus}" TextWrapping="Wrap" Margin="0,4" Foreground="{DynamicResource Token.Series.Orange}"/></ScrollViewer>
        </StackPanel>
       </Grid>

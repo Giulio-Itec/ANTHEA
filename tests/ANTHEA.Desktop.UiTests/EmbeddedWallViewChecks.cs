@@ -107,6 +107,8 @@ internal static partial class EmbeddedWallViewChecks
             var stageTabs = Visual(editor.View).OfType<ListBox>().Single(c => c.Name == "StageTabs");
             Check(stageTabs.SelectedIndex == sheet.InputStagePosition && stageTabs.SelectedItem is EmbeddedWallRow && ReferenceEquals(stageTabs.SelectedItem, sheet.InputStage),
                 $"La scheda della fase resta vuota dopo Reload: righe={stageTabs.Items.Count}, indice={stageTabs.SelectedIndex}, VM={sheet.InputStagePosition}, selezione={stageTabs.SelectedItem?.GetType().FullName}/{stageTabs.SelectedItem}, binding={stageTabs.GetBindingExpression(Selector.SelectedItemProperty)?.Status}.");
+            // Step 5 of the project of 16/11: legend, tints in the three appearances, magnification, selection, tie to scale.
+            await CheckSectionDrawing(editor.View, sheet, Settle, Check, Capture);
             Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("modello-scuro");
             window.Width = 1100; window.Height = 760; await Settle(); Capture("modello-compatto");
             Check(sketch.ActualWidth > 310 && sketch.ActualHeight > 200, "Sezione illeggibile alla dimensione compatta.");
