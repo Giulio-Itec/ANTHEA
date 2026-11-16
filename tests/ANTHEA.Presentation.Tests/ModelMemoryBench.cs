@@ -234,6 +234,30 @@ internal static class ModelMemoryBench
             }, s => s);
         notes.Add($"Modello: {viewer!.Summary}; {viewer.CombinationSummary}; limite {ModelCombinations.CopyLimit(viewer.CombinationCopyBytes)}.");
 
+        // «diagnosi»: what the creation of the viewer does on the thread of the interface, step by step, on the copy of the tab (reflection, only
+        // to find the costly step; never part of a check).
+        if (phases.Contains("diagnosi"))
+        {
+            var copy = tab.Snapshot!;
+            string Time(string step, Action action) { var w = Stopwatch.StartNew(); action(); return $"{step} {w.Elapsed.TotalSeconds:F2} s"; }
+            var steps = new List<string>
+            {
+                Time("Validate", copy.Validate),
+                Time("WithCurrentResults", () => ModelCombinations.WithCurrentResults(copy)),
+                Time("Inspect", () => ModelCombinations.Inspect(copy))
+            };
+            using var probe = new ModelViewerViewModel(null, [], false, services, _ => { }, (_, _, _, _) => { }) { CombinationArchive = true };
+            var type = typeof(ModelViewerViewModel);
+            void Call(string name, params object?[] arguments) =>
+                type.GetMethod(name, BindingFlags.NonPublic | BindingFlags.Instance, arguments.Select(a => a!.GetType()).ToArray())!.Invoke(probe, arguments);
+            type.GetProperty(nameof(ModelViewerViewModel.Snapshot))!.SetValue(probe, copy);
+            foreach (string step in new[] { "InitializeWorkspace", "RefreshScene", "InitializeReport", "RefreshCombinations" })
+                steps.Add(Time(step, () => type.GetMethod(step, BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(probe, step == "RefreshCombinations" ? [null] : [])));
+            steps.Add(Time("SetSnapshot intero", () => Call("SetSnapshot", copy, false)));
+            notes.Add("Diagnosi della creazione del visore: " + string.Join(" · ", steps) + ".");
+            Console.WriteLine(notes[^1]);
+        }
+
         if (phases.Contains("serie"))
         {
             // The catalogue: «Combinazioni», then the manager (the preparation of GPC starts in the background, R7).
