@@ -1,6 +1,8 @@
 using System.Text.Json.Nodes;
 using Anthea.Application.Documents;
+using Anthea.Application.Reporting;
 using Anthea.Calculations;
+using Anthea.Reports;
 using X.Core;
 
 internal static class ProjectValidationChecks
@@ -130,6 +132,54 @@ internal static class ProjectValidationChecks
             localCache.NewReading();
             Check(localCache.Of(section).Warnings.SequenceEqual(warnings), label + ": coerenza diretta e in cache");
             Check(archive.ToJsonString() == input, label + ": validazione senza mutazioni");
+        }
+
+        // Two sheets that share the soils, one of them without dati (the quarantine of an unresolved reference): their soil comparison
+        // is skipped, the cover and the report of the section are built, and the other sheets keep their warnings and missing layers.
+        foreach (string module in new[] { PaloOrizzontale.Module, "geo_palo_verticale" })
+        foreach (bool explicitNull in new[] { false, true })
+        {
+            var archive = ProjectDocuments.CreateArchive();
+            var owner = ProjectDocuments.AddProject(archive, "Prova terreni");
+            var section = ProjectDocuments.AddSection(owner, "Spalla");
+            var pile = ProjectDocuments.AddSheet(section, PaloOrizzontale.Module, "Palo completo");
+            var vertical = ProjectDocuments.AddSheet(section, "geo_palo_verticale", "Pali verticali");
+            var empty = ProjectDocuments.AddSheet(section, module, "Scheda senza terreno");
+            // One more layer in the complete pile: a missing layer between the two complete sheets, which must stay reported.
+            static JsonNode Row(JsonObject sheet) => ((sheet["dati"]!["stratigrafie"] as JsonArray)?.OfType<JsonArray>().FirstOrDefault()?.FirstOrDefault() ?? new JsonObject()).DeepClone();
+            pile["dati"]!["stratigrafie"] = new JsonArray(new JsonArray(Row(pile), Row(pile)));
+            vertical["dati"]!["stratigrafie"] = new JsonArray(new JsonArray(Row(vertical)));
+            string name = empty.S("nome"), label = module + (explicitNull ? " (dati null)" : " (dati assenti)");
+            bool Others(ProjectSharedData.MissingSoilLayer m) => !ReferenceEquals(m.Source, empty) && !ReferenceEquals(m.Target, empty);
+            var warningsBefore = ProjectValidation.Warnings(section);
+            var missingBefore = ProjectSharedData.MissingSoilLayers(section);
+            Check(warningsBefore.Any(w => w.Contains("assente in", StringComparison.Ordinal) && !w.Contains(name, StringComparison.Ordinal)) && missingBefore.Any(Others),
+                label + ": la prova deve partire con uno strato mancante fra le schede complete");
+            if (explicitNull) empty["dati"] = null;
+            else empty.Remove("dati");
+            string input = archive.ToJsonString();
+
+            var warnings = ProjectValidation.Warnings(section);
+            Check(warnings.Where(w => !w.Contains(name, StringComparison.Ordinal)).SequenceEqual(warningsBefore.Where(w => !w.Contains(name, StringComparison.Ordinal))),
+                label + ": le altre schede mantengono i propri avvisi");
+            Check(!warnings.Any(w => w.Contains(name, StringComparison.Ordinal) && w.Contains("sondaggio", StringComparison.Ordinal)),
+                label + ": nessun confronto dei terreni con la scheda senza dati");
+            var missing = ProjectSharedData.MissingSoilLayers(section);
+            Check(missing.SequenceEqual(missingBefore.Where(Others)), label + ": gli strati mancanti fra le altre schede restano, senza la scheda senza dati");
+            Check(ProjectValidation.Warnings(owner).Intersect(warnings).Any(), label + ": avvisi anche nel contenitore superiore");
+            var localCache = new ProjectCoherenceCache();
+            localCache.NewReading();
+            var summary = localCache.Of(section);
+            Check(summary.Warnings.SequenceEqual(warnings) && summary.MissingLayers == missing.Count, label + ": coerenza diretta e in cache");
+            // The report as ProjectReportService writes it, without the chapters of the modules: plan, warnings and composition.
+            var snapshot = ProjectReportService.Snapshot(section);
+            var plan = new ProjectReportPlan(snapshot);
+            var emptyCopy = plan.Sheets.Single(s => s.S("nome") == name);
+            Check(!plan.LocalInputs(emptyCopy).Any() && plan.Common.All(c => !c.Sheets.Contains(emptyCopy)),
+                label + ": nel report la scheda senza dati non riporta valori sostitutivi");
+            var chapters = plan.Sheets.ToDictionary(s => s, s => new ReportProject.SheetContent(Error: "capitolo non preparato nella prova"));
+            Check(DocxWriter.Write(ReportProject.Compose(plan, chapters, ProjectValidation.Warnings(snapshot))).Length > 0, label + ": il report della sezione si compone");
+            Check(archive.ToJsonString() == input, label + ": copertina e report senza mutazioni");
         }
         return checks;
     }

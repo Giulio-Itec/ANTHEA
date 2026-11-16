@@ -15094,7 +15094,7 @@
       "decisione": {
         "data": "2026-11-15",
         "utente": "Incarico della sessione coordinatrice del 15/11/2026: correzione minima su un clone isolato, test rosso prima; nessun push, tag, versione o riferimento congelato; merge dopo il rilascio sul set AW.",
-        "esito": "Stesso esito non verificabile di Materiali senza dati; commit sul ramo claude/copriferro-materiali-vuoto. Resta aperto il confronto dei terreni fra due schede di terreno quando una è senza dati (ProjectSharedFields.cs:159-160, ProjectSharedSoils.cs:16-17)."
+        "esito": "Stesso esito non verificabile di Materiali senza dati; commit sul ramo claude/copriferro-materiali-vuoto. Il confronto dei terreni fra due schede di terreno quando una è senza dati è corretto nella voce BUG-COPERTINA-TERRENI-SENZA-DATI."
       },
       "test": [
         "Application.Tests / --project-validation: 93 controlli PASS; Application.Tests completa 3613 controlli PASS",
@@ -15109,7 +15109,43 @@
         "supporto/artefatti/copriferro-nre/project-validation/esito.txt"
       ],
       "voci_collegate": [
-        "BUG-COPERTINA-MATERIALI-VUOTO"
+        "BUG-COPERTINA-MATERIALI-VUOTO",
+        "BUG-COPERTINA-TERRENI-SENZA-DATI"
+      ]
+    },
+    {
+      "id": "BUG-COPERTINA-TERRENI-SENZA-DATI",
+      "data": "2026-11-16",
+      "fase": "correzione isolata dopo main 6c7d03a7 (1.19.0)",
+      "titolo": "Copertina e report: due schede di terreno, una senza dati, non interrompono avvisi e report",
+      "famiglia": "progetti/terreni",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Con due schede che condividono i terreni (palo verticale, palo orizzontale, micropalo, fondazione) nella stessa sezione, e una delle due in quarantena senza dati, ProjectSharedData.Limitations (ProjectSharedFields.cs:159-160) e MissingSoilLayers (ProjectSharedSoils.cs:16-17) dereferenziavano dati[\"stratigrafie\"] senza verificarne la presenza: NullReferenceException in ProjectValidation.Warnings, nella coerenza e nella cache, quindi in copertina e report. Anche il piano del report (ProjectReportPlan.Relevant, riga 58, e LocalInputs, riga 67) dereferenziava i dati della scheda. Ora la coppia di terreni con una scheda senza dati non si confronta (ComparableSoils), come il suo copriferro non è verificabile; nel report la scheda senza dati non riporta valori, perché i suoi campi sarebbero i predefiniti del modulo. Le altre schede mantengono avvisi, strati mancanti e dati del report.",
+      "codice": [
+        "src/ANTHEA.Application/Projects/ProjectSharedSoils.cs:12,58-61",
+        "src/ANTHEA.Application/Projects/ProjectSharedFields.cs:157",
+        "src/ANTHEA.Application/Projects/ProjectReportPlan.cs:55-57,70",
+        "tests/ANTHEA.Application.Tests/ProjectValidationChecks.cs"
+      ],
+      "segno": "Nessun valore di calcolo cambia. Avvisi, coerenza e report che terminavano con eccezione si compongono; la scheda senza dati resta fuori dal confronto dei terreni e dai valori del report.",
+      "effetto_quantificato": "Test rosso con NullReferenceException in Limitations (riga 159) prima del fix; la sonda della stessa corsa conferma MissingSoilLayers (riga 16) e ProjectReportPlan.Relevant (riga 58). Dopo il fix 36 controlli nuovi PASS (129 della validazione mirata): palo orizzontale e palo verticale senza dati, assenti o null, accanto a un palo orizzontale e a un palo verticale completi con uno strato mancante fra loro; avvisi e strati mancanti delle altre schede invariati, cache, contenitore superiore, piano e composizione del report, non mutazione.",
+      "decisione": {
+        "data": "2026-11-15",
+        "utente": "Incarico della sessione coordinatrice del 15/11/2026 sera: saltare la coppia di schede di terreno con una scheda senza dati in Limitations e MissingSoilLayers, dopo un test rosso; copertina e report senza eccezioni; commit separato sullo stesso ramo, nessun push.",
+        "esito": "Coppia saltata con un solo controllo comune (ComparableSoils). Nel piano del report la scheda senza dati non porta valori sostitutivi, secondo la regola di BUG-COPERTINA-MATERIALI-VUOTO; scelta da confermare all'integrazione. Restano fuori, perché sono comandi di modifica e non letture: CopyMissingSoilLayers (riga 36) e ApplySoils (righe 72-73) verso una scheda senza dati."
+      },
+      "test": [
+        "Application.Tests / ProjectValidationChecks: 129 controlli; Application.Tests completa 3649 controlli PASS",
+        "Architecture.Tests 618, Reports.Tests 515, Presentation.Tests 5143, Projects.Checks 22, FoundationWorkspace.Checks 54 PASS",
+        "ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-001126-terreni-rosso2 (rosso e sonda)",
+        "supporto/artefatti/ci/20261116-022220-terreni-verde/summary.json"
+      ],
+      "voci_collegate": [
+        "BUG-COPERTINA-SCHEDA-SENZA-DATI"
       ]
     },
     {

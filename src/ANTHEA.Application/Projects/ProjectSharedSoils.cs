@@ -9,7 +9,7 @@ public static partial class ProjectSharedData
     public static List<MissingSoilLayer> MissingSoilLayers(JsonObject section)
     {
         var result = new List<MissingSoilLayer>();
-        var pairs = ComparisonPairs(section).Where(p => SupportsSharedSoils(p.First) && SupportsSharedSoils(p.Second))
+        var pairs = ComparisonPairs(section).Where(p => ComparableSoils(p.First, p.Second))
             .SelectMany(p => ReferenceEquals(p.First.Parent, p.Second.Parent) ? new[] { p, (First: p.Second, Second: p.First) } : new[] { p });
         foreach (var (source, target) in pairs)
         {
@@ -82,6 +82,11 @@ public static partial class ProjectSharedData
     static int SoilSurvey(string key) => int.TryParse(key[9..].Split('/')[0], out int number) ? number - 1 : -1;
 
     public static bool SupportsSharedSoils(JsonObject sheet) => sheet.S("modulo_id") is "geo_palo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or Anthea.FoundationWorkspace.FoundationDocument.Module;
+
+    /// <summary>Two sheets whose soils are compared: both share the soils and both have their dati. A sheet left without dati (an
+    /// unresolved reference opened with diagnosis) has no soils to compare: its pairs are skipped, as its cover check is not verifiable.</summary>
+    static bool ComparableSoils(JsonObject first, JsonObject second) =>
+        SupportsSharedSoils(first) && SupportsSharedSoils(second) && first["dati"] is JsonObject && second["dati"] is JsonObject;
 
     // Compare the shared input schema, never the complete serialized row (which also contains
     // method-specific inputs, calculated columns and internal linking identifiers).

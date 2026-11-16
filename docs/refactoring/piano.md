@@ -1755,17 +1755,6 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - Evidenze: `supporto/artefatti/ci/20261107-081518-integrazione-1190-consentite` e `supporto/artefatti/integrazione-1190`; resoconto esterno in `Repository/chatgpt-compiti/anthea-1190-integrazione-resoconto.md`. Nessun push, tag, cambio di versione o installer.
 
 
-## Copertina — scheda controllata senza dati (15 novembre 2026)
-
-- [x] Clone isolato `gpc-f6-claude/CX/ANTHEA-copriferro`, ramo `claude/copriferro-materiali-vuoto` da main 6c7d03a7 (1.19.0), push disabilitato.
-- [x] Materiali senza dati: già corretto da `6b774b90` e presente nella 1.19.0; i suoi 53 controlli passano su main.
-- [x] Riprodotta la NullReferenceException rimasta: Materiali valido e scheda controllata (sezione c.a. o palo orizzontale) senza dati o senza blocco della sezione. Rossa anche con la fixture congelata `13-file-salvato.json` dopo aver completato Materiali in memoria.
-- [x] La scheda senza dati dà l'avviso già usato «copriferro non verificabile», con esito nullo. Nessun dato inventato, nessuna mutazione; le altre schede e gli altri materiali mantengono il proprio esito.
-- [x] 93 controlli mirati PASS (53 esistenti e 40 nuovi). Application.Tests 3613, Projects.Checks 22, Presentation.Tests 5143, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS (`supporto/artefatti/ci/20261115-213010-copriferro-verde2`).
-- [ ] Aperto, fuori da questa correzione: il confronto dei terreni fra due schede di terreno quando una è senza dati lancia la stessa eccezione in `Warnings` e nella coerenza (`ProjectSharedFields.cs:159-160`, `ProjectSharedSoils.cs:16-17`). Serve una scelta: saltare la coppia o segnalare i sondaggi assenti.
-- Voce `BUG-COPERTINA-SCHEDA-SENZA-DATI` nel registro. Nessuna versione, libreria, fixture o riferimento congelato cambiato. Nessun push, tag o installer.
-
-
 ## Candidata completa 1.19.1 — compito 208 (16 novembre 2026)
 
 - [x] Clone isolato da 84621b6f, versione 1.19.1 invariata; integrati nell'ordine P10 84c99d93 e strati 48cd276f/83e68e0a, senza conflitti. Vecchia riproduzione rimossa dal commit di correzione, prove ordinarie attive.
@@ -1776,3 +1765,17 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - [ ] Correzioni delle schede senza dati dal ramo `claude/copriferro-materiali-vuoto` (otto commit), note di rilascio e prove mirate.
 - [ ] Pacchetto dal commit di prodotto pulito, audit e collaudi installer con TEMP in `%LOCALAPPDATA%\Temp`; esiti nel verbale [installer-1.19.1.md](installer-1.19.1.md).
 - [ ] Scelta dell'utente fra candidata 191b e completa; OK transizioni Wiki e gestione formale dei sei F4. Nessun push o tag in questa attività.
+
+
+## Copertina — scheda controllata senza dati (15 novembre 2026)
+
+- [x] Clone isolato `gpc-f6-claude/CX/ANTHEA-copriferro`, ramo `claude/copriferro-materiali-vuoto` da main 6c7d03a7 (1.19.0), push disabilitato.
+- [x] Materiali senza dati: già corretto da `6b774b90` e presente nella 1.19.0; i suoi 53 controlli passano su main.
+- [x] Riprodotta la NullReferenceException rimasta: Materiali valido e scheda controllata (sezione c.a. o palo orizzontale) senza dati o senza blocco della sezione. Rossa anche con la fixture congelata `13-file-salvato.json` dopo aver completato Materiali in memoria.
+- [x] La scheda senza dati dà l'avviso già usato «copriferro non verificabile», con esito nullo. Nessun dato inventato, nessuna mutazione; le altre schede e gli altri materiali mantengono il proprio esito.
+- [x] 93 controlli mirati PASS (53 esistenti e 40 nuovi). Application.Tests 3613, Projects.Checks 22, Presentation.Tests 5143, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS (`supporto/artefatti/ci/20261115-213010-copriferro-verde2`).
+- [x] Terreni, incarico del 15/11 sera: due schede che condividono i terreni, una senza dati, lanciavano la stessa eccezione in `Warnings`, nella coerenza e nel report (`ProjectSharedFields.cs:159`, `ProjectSharedSoils.cs:16`, `ProjectReportPlan.cs:58` e 67). La coppia ora si salta (`ComparableSoils`); nel report la scheda senza dati non porta valori sostitutivi. Rosso in `supporto/artefatti/ci/20261116-001126-terreni-rosso2`.
+- [x] Espressione del diametro in `CoverChecks` riportata al testo del residuo F4 (`f4-domain-baseline.json`), che il primo commit aveva cambiato.
+- [x] 129 controlli mirati PASS; Application.Tests 3649, Architecture.Tests 618, Reports.Tests 515, Presentation.Tests 5143, Projects.Checks 22, FoundationWorkspace.Checks 54, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS (`supporto/artefatti/ci/20261116-022220-terreni-verde`).
+- [ ] Da confermare all'integrazione: nel report la scheda senza dati non mostra i predefiniti del modulo. Restano fuori i comandi di modifica verso una scheda senza dati (`CopyMissingSoilLayers` riga 36, `ApplySoils` righe 72-73); la tabella dei conflitti e la coerenza confrontano ancora la scheda in quarantena con i predefiniti del modulo, come prima.
+- Voci `BUG-COPERTINA-SCHEDA-SENZA-DATI` e `BUG-COPERTINA-TERRENI-SENZA-DATI` nel registro. Nessuna versione, libreria, fixture o riferimento congelato cambiato. Nessun push, tag o installer.
