@@ -28,6 +28,7 @@ try
         Console.WriteLine(focused);
         return 0;
     }
+    checks += ProjectSharedCommandChecks.Run();
     checks += StratigraphyChecks.Run(output);
     string path = Path.Combine(output, "documento.anth");
     foreach (string fixturePath in Directory.GetFiles(Path.Combine(root, "tests/fixtures/f3/inputs"), "*.json"))

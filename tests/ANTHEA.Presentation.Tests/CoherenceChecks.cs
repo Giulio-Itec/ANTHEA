@@ -109,6 +109,34 @@ internal static class CoherenceChecks
         var fresh = new SectionOverviewViewModel(project, project.AddSection(root)!);
         expect.That(fresh.RevisionTitle == "Versione corrente" && !fresh.HasRevisionSummary && !fresh.CanReport && fresh.ConflictsText == "0 conflitti"
             && fresh.NoticesText == "0 avvisi" && fresh.CommonData.Count == 0, "Riepilogo di una sezione nuova");
+        Unreadable(expect);
         return expect.Count;
+    }
+
+    /// <summary>
+    /// A sheet of soils without dati (an unresolved reference opened with diagnosis): «Uniforma a questo» on a missing layer skips it, and the
+    /// missing layer names it among its sheets; the layer reaches the readable sheets only.
+    /// </summary>
+    private static void Unreadable(Expect expect)
+    {
+        static JsonNode Row(JsonObject sheet) => ((sheet["dati"]!["stratigrafie"] as JsonArray)?.OfType<JsonArray>().FirstOrDefault()?.FirstOrDefault() ?? new JsonObject()).DeepClone();
+        var bench = new ShellBench();
+        var project = bench.Workspace.NewProject()!;
+        var section = project.AddSection(project.AddProject()!)!;
+        var source = project.AddSheet("geo_palo_verticale", section)!;
+        var readable = project.AddSheet("geo_palo_verticale", section)!;
+        var unreadable = project.AddSheet("geo_palo_verticale", section)!;
+        source["dati"]!["stratigrafie"] = new JsonArray(new JsonArray(Row(source), Row(source)));
+        readable["dati"]!["stratigrafie"] = new JsonArray(new JsonArray(Row(readable)));
+        unreadable.Remove("dati");
+        var compare = new CoherenceViewModel(project, section, bench.Services);
+        var layer = compare.MissingLayers.Single();
+        expect.That(layer.Targets.SequenceEqual([readable.S("nome") + ": strato assente", unreadable.S("nome") + ": " + CoherenceViewModel.UnreadableLayer]),
+            "Strato mancante con una scheda senza dati: " + string.Join(" | ", layer.Targets));
+        var layerSource = layer.Sources.Single();
+        layerSource.SoilType = "Granulare"; // the soil type chosen in the dialog, required by the copy
+        compare.CopyLayers(layerSource);
+        expect.That(readable["dati"]!["stratigrafie"]![0]!.AsArray().Count == 2 && unreadable["dati"] is null && compare.MissingLayers.Count == 0,
+            "Uniforma a questo con una scheda senza dati");
     }
 }

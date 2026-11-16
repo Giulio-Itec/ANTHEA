@@ -16,6 +16,10 @@ public static partial class ProjectSharedData
         key.StartsWith("steel_") || key == "materiale_acciaio_nome";
     public static string Text(JsonNode? value) => value is null ? "non definito" : value is JsonArray or JsonObject ? value.ToJsonString() : value.ToString();
     public static bool Equal(JsonNode? a, JsonNode? b) => J.Equivalent(a, b);
+    /// <summary>A sheet whose data the shared commands may change: it has its dati and was read. A sheet that could not be read keeps its
+    /// data as in the file (DocumentQuarantine, step 2b of docs/sviluppo/progetto-sistema.md) and a sheet without dati is never filled with
+    /// the defaults of its module: the commands skip both and say so.</summary>
+    public static bool Updatable(JsonObject sheet) => sheet["dati"] is JsonObject && !Anthea.Application.Documents.DocumentQuarantine.IsQuarantined(sheet);
     public static Dictionary<string, Field> Fields(JsonObject sheet)
     {
         string module = sheet.S("modulo_id");

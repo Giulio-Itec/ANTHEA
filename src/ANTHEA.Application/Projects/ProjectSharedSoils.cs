@@ -31,7 +31,8 @@ public static partial class ProjectSharedData
             survey < 0 || survey >= surveys.Count || surveys[survey] is not JsonArray rows || layer < 0 || layer >= rows.Count)
             throw new ArgumentException("Strato di riferimento non presente.");
         var updates = new List<(JsonObject Target, JsonObject Data)>();
-        foreach (var target in SubtreeSheets(section).Where(s => !ReferenceEquals(s, source) && SupportsSharedSoils(s)))
+        // A sheet without dati or that could not be read is skipped (Updatable); the comparison names it among the sheets of the layer.
+        foreach (var target in SubtreeSheets(section).Where(s => !ReferenceEquals(s, source) && SupportsSharedSoils(s) && Updatable(s)))
         {
             var data = (JsonObject)target["dati"]!.DeepClone();
             if (data["stratigrafie"] is not JsonArray) data["stratigrafie"] = new JsonArray();
@@ -103,6 +104,8 @@ public static partial class ProjectSharedData
     public static void LinkSoils(JsonObject source, JsonObject target)
     {
         if (!SupportsSharedSoils(source) || !SupportsSharedSoils(target)) throw new ArgumentException("Il modello Bustamante mantiene i propri terreni e parametri.");
+        if (source["dati"] is not JsonObject || !Updatable(target))
+            throw new ArgumentException("«" + (source["dati"] is JsonObject ? target : source).S("nome") + "» non è leggibile: collegamento non eseguito. Nessun dato è stato sostituito.");
         var sd = (JsonObject)source["dati"]!.DeepClone(); var td = (JsonObject)target["dati"]!.DeepClone();
         var sa = sd.Array("stratigrafie"); var ta = td.Array("stratigrafie");
         bool empty = ta.All(a => a is JsonArray rows && rows.Count == 0);
@@ -166,6 +169,7 @@ public static partial class ProjectSharedData
     {
         if (!SupportsSharedSoils(sheet) || !key.StartsWith("Strato · ") || !key.EndsWith("/tipologia") || value is not ("Granulare" or "Coesivo"))
             throw new ArgumentException("Tipologia del terreno non valida.");
+        if (!Updatable(sheet)) throw new ArgumentException("«" + sheet.S("nome") + "» non è leggibile: tipologia del terreno non modificata.");
         if (!Fields(sheet).ContainsKey(key)) throw new ArgumentException("Strato non presente nel foglio.");
         ApplySoilField(new Field(key, "Terreno", key, JsonValue.Create(value)), sheet["dati"]!.AsObject());
     }

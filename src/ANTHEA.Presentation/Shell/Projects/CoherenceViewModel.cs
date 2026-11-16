@@ -157,6 +157,9 @@ public sealed record SoilLinkSheet(JsonObject Sheet)
 public sealed class CoherenceViewModel : ViewModelBase, IDialogViewModel<bool>
 {
     public const string Heading = "Confronto tra fogli";
+
+    /// <summary>After the name of a sheet of soils without dati or that could not be read, among the sheets of a missing layer.</summary>
+    public const string UnreadableLayer = "non leggibile, non viene aggiornato";
     public const string Intro = "Confronta i valori presenti nei fogli e scegli quale mantenere. Le proprietà compatibili saranno uniformate.";
     public const string TheoryTitle = "Come funzionano dati comuni e incongruenze";
     public const string NoConflicts = "Nessun conflitto tra i dati comuni dei fogli.";
@@ -256,10 +259,13 @@ public sealed class CoherenceViewModel : ViewModelBase, IDialogViewModel<bool>
                 .Select(sheet => new ConflictSheetViewModel(sheet, conflict.Key, label, conflict.First().Group, readOnly, align)).ToArray()));
         }
         Conflicts = conflicts;
+        // «Uniforma a questo» skips the sheets without dati or that could not be read (ProjectSharedData.Updatable): each layer names them.
+        var skipped = ProjectSharedData.SubtreeSheets(Section).Where(s => ProjectSharedData.SupportsSharedSoils(s) && !ProjectSharedData.Updatable(s))
+            .Select(s => s.S("nome") + ": " + UnreadableLayer).ToArray();
         MissingLayers = missing.GroupBy(m => (m.Survey, m.Layer)).Select(group => new MissingLayerViewModel(
             $"Conflitto {++number}: Sondaggio {group.Key.Survey + 1} · Strato {group.Key.Layer + 1} assente",
             group.Select(m => m.Source).Distinct().Select(sheet => new MissingLayerSourceViewModel(sheet, group.Key.Survey, group.Key.Layer, readOnly, copy)).ToArray(),
-            group.Select(m => m.Target).Distinct().Select(target => target.S("nome") + ": strato assente").ToArray())).ToArray();
+            group.Select(m => m.Target).Distinct().Select(target => target.S("nome") + ": strato assente").Concat(skipped).ToArray())).ToArray();
         Notices = ProjectSharedData.Limitations(Section).Select(l => new CoherenceNotice("• " + l, true))
             .Concat(ProjectValidation.CoverChecks(Section).Select(c => new CoherenceNotice("• " + c.Text, c.Passed != true))).ToArray();
         LinkSheets = Section.Array("fogli").OfType<JsonObject>().Where(ProjectSharedData.SupportsSharedSoils).Select(s => new SoilLinkSheet(s)).ToArray();

@@ -15178,7 +15178,45 @@
         "supporto/artefatti/ci/20261116-030816-muri-verde/summary.json"
       ],
       "voci_collegate": [
-        "BUG-COPERTINA-TERRENI-SENZA-DATI"
+        "BUG-COPERTINA-TERRENI-SENZA-DATI",
+        "BUG-COMANDI-TERRENI-SENZA-DATI"
+      ]
+    },
+    {
+      "id": "BUG-COMANDI-TERRENI-SENZA-DATI",
+      "data": "2026-11-16",
+      "fase": "correzione isolata dopo main 6c7d03a7 (1.19.0)",
+      "titolo": "Comandi dei terreni: una scheda senza dati o non leggibile si salta o si rifiuta, senza NullReferenceException",
+      "famiglia": "progetti/terreni",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "«Uniforma a questo» su uno strato mancante (CopyMissingSoilLayers), «Collega» (LinkSoils) e la tipologia del terreno (SetSoilType) dereferenziavano i dati di una scheda senza dati (riferimento non risolto aperto con diagnosi): NullReferenceException alle righe 36, 78 e 142 di ProjectSharedSoils.cs, mostrata come «Operazione non completata» con il testo .NET. Nuovo ProjectSharedData.Updatable: una scheda si aggiorna solo se ha i dati e non è in quarantena (passo 2b di docs/sviluppo/progetto-sistema.md: la scheda non leggibile resta come nel file). CopyMissingSoilLayers salta le schede non aggiornabili e il confronto le nomina fra le schede dello strato mancante («non leggibile, non viene aggiornato»); LinkSoils e SetSoilType le rifiutano con un messaggio che nomina la scheda, nello stile dei rifiuti già esistenti di questi comandi. Nessun dato cambia.",
+      "codice": [
+        "src/ANTHEA.Application/Projects/ProjectSharedData.cs:19-22",
+        "src/ANTHEA.Application/Projects/ProjectSharedSoils.cs:34-35,79-80,144",
+        "src/ANTHEA.Presentation/Shell/Projects/CoherenceViewModel.cs (UnreadableLayer, Rebuild)",
+        "tests/ANTHEA.Application.Tests/ProjectSharedCommandChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/CoherenceChecks.cs (Unreadable)"
+      ],
+      "segno": "Nessun valore di calcolo cambia. I comandi che terminavano con NullReferenceException saltano la scheda o la rifiutano con un messaggio; la scheda resta come nel file.",
+      "effetto_quantificato": "Test rossi prima del fix: NullReferenceException in CopyMissingSoilLayers (Application.Tests) e strato mancante senza la scheda non leggibile (Presentation.Tests --shell). Dopo il fix 26 controlli nuovi in Application.Tests (palo verticale senza dati, assenti o null, e palo verticale in quarantena con i suoi dati: copia dello strato, collegamento nei due versi, tipologia, nessuna modifica) e 2 in CoherenceChecks.",
+      "decisione": {
+        "data": "2026-11-16",
+        "utente": "Incarico della sessione coordinatrice del 16/11/2026: nessuna NullReferenceException; il comando salta la scheda senza dati e lo dice nel messaggio che l'utente già vede (stato o anteprima, secondo lo stile del comando); commit separato, test rosso prima.",
+        "esito": "Copia dello strato: la scheda si salta e lo stato del confronto la nomina. Collegamento e tipologia: rifiuto con il messaggio dei comandi (CommandGuard, «Operazione non completata»), come i loro rifiuti già esistenti. Le schede in quarantena con i dati restano escluse come quelle senza dati (passo 2b)."
+      },
+      "test": [
+        "Application.Tests / ProjectSharedCommandChecks e Presentation.Tests / CoherenceChecks.Unreadable",
+        "Corsa sulla punta del ramo, con anche BUG-APPLICA-SENZA-DATI: Application.Tests 3696, Presentation.Tests 5153, Architecture.Tests 618, Reports.Tests 515, Projects.Checks 22, FoundationWorkspace.Checks 54, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-050039-comandi-rosso (rosso di Application.Tests)",
+        "supporto/artefatti/copriferro-nre/comandi-rosso-shell (rosso di Presentation.Tests --shell)",
+        "supporto/artefatti/ci/20261116-050135-comandi-verde/summary.json",
+        "supporto/artefatti/ci/20261116-051915-comandi-verde2/summary.json"
+      ],
+      "voci_collegate": [
+        "BUG-COPERTINA-MURO-SENZA-DATI"
       ]
     },
     {
