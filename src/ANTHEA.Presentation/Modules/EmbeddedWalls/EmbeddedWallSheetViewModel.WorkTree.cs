@@ -7,7 +7,7 @@ namespace Anthea.Presentation.Modules.EmbeddedWalls;
 
 /// <summary>
 /// The tree of the model in the left panel (organizzazione del modulo paratie, progetto del 16/11, step 4). It shows the case chosen in the
-/// box above it (D3: the case takes the place of the design assumption): Impostazioni, Fasi, Parete, Elementi strutturali (each support with
+/// box above it (D3: one choice of the case for input and results): Impostazioni, Fasi, Parete, Elementi strutturali (each support with
 /// its presence in the phases and its check data), Terreni, Carichi, Falda e filtrazione, Verifiche, Casi, Ricerca dell'infissione. The rows of
 /// the other defined cases appear when their case is chosen; those of a case that is not defined stay under «Casi», and references to
 /// complete in their own group, so that every row of the case on screen and every row without a case appears exactly once.

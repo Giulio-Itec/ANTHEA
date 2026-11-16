@@ -288,7 +288,7 @@
     <Border.Style><Style TargetType="Border"><Style.Triggers>
      <DataTrigger Binding="{Binding IsWorkTreeCollapsed}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
     </Style.Triggers></Style></Border.Style>
-    <!-- Step 4 of the project of 16/11: the box Caso (in place of the design assumption, D3) above the tabs Albero and Analisi. -->
+    <!-- Step 4 of the project of 16/11: the box Caso (one choice of the case for input and results, D3) above the tabs Albero and Analisi. -->
     <DockPanel>
      <StackPanel DockPanel.Dock="Top" Margin="6,4,8,6">
       <DockPanel>

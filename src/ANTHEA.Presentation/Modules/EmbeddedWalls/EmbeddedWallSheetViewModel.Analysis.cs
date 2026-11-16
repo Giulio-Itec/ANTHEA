@@ -10,7 +10,7 @@ public sealed record EmbeddedWallAnalysisEntry(string CaseId, string? Stage, str
 
 /// <summary>
 /// The left panel (organizzazione del modulo paratie, progetto del 16/11, step 4).
-/// <para>Contract C2: the selection is the pair (case, phase). The box «Caso» (in place of the design assumption, D3) and the tabs of the phases
+/// <para>Contract C2: the selection is the pair (case, phase). The box «Caso» (one choice of the case for input and results, D3) and the tabs of the phases
 /// choose input and results together; the results are those of the same case and of the phase with the same identifier, never of another case
 /// or of the last phase that succeeded: without them «risultato non disponibile» (<see cref="StageResultStatus"/>). Choosing the results of a
 /// case or a phase in a document chooses the same pair.</para>
