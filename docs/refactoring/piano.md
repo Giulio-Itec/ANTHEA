@@ -1767,7 +1767,12 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - [x] Note di rilascio con le schede senza dati, PDF controllato (4 pagine).
 - [x] `ui/check-contrast` sul commit di prodotto 5c52a799: PASS, zero difetti nei tre temi.
 - [x] Setup dal commit di prodotto pulito: 74.814.011 byte, SHA-256 AD8A32F5BDE18669F33A0F9B4AE1513CEF49AF0C2ADF392E7EBB268C99FDAA6E, ProductVersion 1.19.1+5c52a799; `7z t` e Audit-Installer PASS (14 DLL AW, Rev72, 95 esempi). Collaudi con TEMP in `%LOCALAPPDATA%\Temp`: safety 26, guides 35, examples 206 PASS. Dettagli nel verbale [installer-1.19.1.md](installer-1.19.1.md).
-- [ ] Scelta dell'utente fra candidata 191b e completa; OK transizioni Wiki e gestione formale dei sei F4. Nessun push o tag in questa attività.
+- [x] Scelta dell'utente (16/11/2026): la candidata completa, versione 1.19.1, «Sì, tutti i consigli» (scheda decisioni-utente-20261116, voci 3, 4, 5, 6b a, 6c a, 9).
+- [x] F3: transizioni Wiki Rev72 della proposta 208 applicate (7673630d, voce GUIDE-REV72-20261116, 629 nuove e 457 superate); `ui/f3-equivalence` PASS.
+- [x] F4: i sei storici come differenze dichiarate in `build/known-failures.json`, con primo messaggio e impronta del `comparison.json` (a88fe7c5, `build/ci.ps1` più stretto); 12 F4: 6 PASS e 6 KNOWN, NEW-FAIL 0; prova contraria con impronta alterata: NEW-FAIL.
+- [x] Straus7 nativo su a88fe7c5 (stesso codice del prodotto): `Straus7Native.Checks` 29 controlli nativi PASS, `ModelViewer.Importers.UiChecks` 17 PASS. MIDAS dal vivo non eseguito (chiave assente).
+- [x] Note di rilascio finali (F3 applicato, F4 dichiarati, Straus7 nativo) e verbale di chiusura; payload invariato, setup AD8A32F5… da 5c52a799. Pubblicazione, tag e push al coordinatore.
+- [ ] Guide: «Non leggibile» ed «Esclusi perché non leggibili…» nella prossima edizione.
 
 
 ## Copertina — scheda controllata senza dati (15 novembre 2026)

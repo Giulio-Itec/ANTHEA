@@ -2,10 +2,10 @@
 
 Verbale tecnico della seconda candidata della 1.19.1, preparata il 16 novembre 2026 nel clone `CX/ANTHEA-1191c`,
 ramo `codex/208-1191-completa` (compito 208, completato da Claude). La candidata del 191b (`3120a64d`, setup
-`CB0FE61A…`) resta separata e invariata nel clone `CX/ANTHEA-aw`. L'utente sceglie fra le due. Se sceglie la
-191b, questa preparazione diventa la 1.19.2: vanno cambiati versione e documenti, ricostruito il setup e
-ripetuto l'audit; rinominare il file non basta. [Note di rilascio](note-rilascio-1.19.1.md), anche in
-[PDF](note-rilascio-1.19.1.pdf). Nessun tag, push o copia sulla condivisione fa parte della preparazione.
+`CB0FE61A…`) resta separata e invariata nel clone `CX/ANTHEA-aw`. **Il 16/11/2026 l'utente ha scelto questa
+candidata** («La completa») e ha approvato i consigli sulla versione, su F3 e su F4 (sezione «Decisioni dell'utente
+e chiusura» in fondo). [Note di rilascio](note-rilascio-1.19.1.md), anche in [PDF](note-rilascio-1.19.1.pdf).
+Tag, push e copia sulla condivisione li fa il coordinatore.
 
 ## Contenuto e provenienza
 
@@ -19,7 +19,10 @@ ripetuto l'audit; rinominare il file non basta. [Note di rilascio](note-rilascio
 | Note e verbale | `283815e3` | documenti della candidata ripresi dopo l'interruzione di Codex |
 | Schede senza dati | da `e50dd72e` a `d468c6254e71b80f6cdce233b69d0659cf856afc` | otto commit del ramo `claude/copriferro-materiali-vuoto` (clone `CX/ANTHEA-copriferro`, da main `6c7d03a7`), tabella sotto |
 | Note di rilascio complete | **`5c52a79902d9cb3d3f440c30550bfeae6123fdcb`**, commit di prodotto | note con le schede senza dati, PDF, piano e verbale; da qui il setup |
-| Verbale finale | commit figlio del prodotto | solo questo verbale e il piano, nessuna modifica al prodotto |
+| Verbale del pacchetto | `367db5fa` | installer, audit e collaudi; solo documenti |
+| Transizioni F3 della Wiki Rev72 | `7673630d` | proposta del 208 applicata, voce `GUIDE-REV72-20261116` |
+| F4 storici dichiarati | `a88fe7c5` | `build/known-failures.json` con impronta, estensione stretta di `build/ci.ps1` |
+| Chiusura | commit figlio di `a88fe7c5` | note di rilascio e PDF finali, questo verbale e il piano; solo documenti |
 
 Correzioni delle schede senza dati, prese con cherry-pick nell'ordine del ramo:
 
@@ -155,11 +158,93 @@ Nessun file versionato toccato. Il FAIL di `installer/guides` del 191b (rimozion
 Documents/CX) non si ripresenta con TEMP in `%LOCALAPPDATA%\Temp`, come già indicato dal sorgente del test;
 la causa del comportamento sotto Documents resta non determinata.
 
-## Cosa resta all'utente
+## Decisioni dell'utente e chiusura
 
-- Scegliere fra questa candidata e quella del 191b. Se sceglie questa, il tag `v1.19.1` va sul commit di prodotto
-  `5c52a799`; `main` e `refactoring/f5` sul commit figlio di questo verbale, come per la 1.19.0. Lo script di
-  pubblicazione del 191b controlla l'HEAD `3120a64d`: per questa candidata va adattato agli SHA di qui.
-- Decidere sui sei confronti storici F4: oggi sono FAIL dichiarati, non voci di `build/known-failures.json`.
-- Approvare o no le transizioni F3 della Wiki Rev72 (`chatgpt-compiti/evidenze-208/wiki-rev72-per-ok.md`).
-- Le prove native Straus7 e MIDAS non fanno parte di questa preparazione.
+Risposte dell'utente del 16/11/2026 mattina, riportate dal coordinatore (`INT/rapporti/decisioni-utente-20261116.md`):
+«La completa» alla scelta della candidata; «Sì, tutti i consigli» per le voci 3, 4, 5, 6b a, 6c a e 9: versione
+1.19.1, i sei F4 storici come differenze dichiarate, correzione della prova dei tempi del PDF accettata,
+RISPETTATO più l'avviso P10, OK alle transizioni della Wiki, nessun valore nel report per una scheda senza dati.
+
+### F3: transizioni della Wiki Rev72 (`7673630d`)
+
+La proposta del 208 (`chatgpt-compiti/evidenze-208/wiki-transizioni-rev72-proposte.json`, «non approvata») è
+ricalcolata dalla cattura `20261116-075927-c1191-ui` con la stessa regola e trovata identica voce per voce, nello
+stesso ordine: le 1086 differenze non ammesse sono tutte in `wiki/`. Applicata in
+`tests/fixtures/f3/transitions-f5-wiki.json` con il meccanismo esistente (`Transition.WithEditorialUpdate`): 629
+transizioni editoriali esatte aggiunte (riga-aggiunta 516, testo 86, elemento-aggiunto 27), 457 precedenti superate,
+registro 3308 → 3480 voci, numero degli articoli invariato (94). Voce del registro `GUIDE-REV72-20261116`;
+impronte prima e dopo (forma LF) nel manifest F3, `editorial_transitions_rev72`
+(`f9f4e5e7…` → `eca067f2…`). Nessuna classe nuova, nessun criterio cambiato, niente known failures per F3.
+
+### F4: sei confronti storici come differenze dichiarate (`a88fe7c5`)
+
+`build/known-failures.json` ha una voce per `last-adapters`, `residual`, `input-contracts`, `section-design`,
+`pile-outcomes` e `structural-adapter`. Ogni voce ha motivo, fonte (compito 188, §1–6), data, decisione e fase che la
+chiude. La forma è la più stretta possibile:
+- `match`: il primo messaggio d'errore esatto;
+- `output` e `sha256`: l'impronta dell'intero `comparison.json` della suite.
+
+I sei `comparison.json` sono identici byte per byte nelle corse del 191 (15/11), del 208 e di questa chiusura.
+`build/ci.ps1` ammette il fallimento solo se l'impronta coincide; altrimenti l'esito torna NEW-FAIL, con la nota
+«impronta di comparison.json diversa». Senza `sha256` la classificazione è quella di prima, quindi
+l'estensione può solo rendere il controllo più stretto. Nessun riferimento congelato o atteso rigenerato. I residui
+restano qualificati come nel 188: dichiarati, non superati.
+
+### Corse della chiusura (sotto `INT/pesante.lock`)
+
+| Corsa | Commit | Esito |
+|---|---|---|
+| `20261116-091545-c1191-f3f4` | `a88fe7c5` | 4 build; Architecture.Tests PASS; `ui/f3-equivalence` **PASS** (119 fixture, 94 articoli, 30 ricerche, zero differenze non ammesse); 12 F4: **6 PASS e 6 KNOWN**, impronte uguali alle voci; **NEW-FAIL 0**, uscita 0 |
+| `20261116-093703-c1191-f4-negativa` | `a88fe7c5` | prova contraria: impronta di `f4-residual` alterata solo per la corsa, file ripristinato. Esito **NEW-FAIL** con la nota sull'impronta: il meccanismo rimette in rosso la suite |
+| `20261116-093246-c1191-nativo-straus7` | `a88fe7c5` | anche sotto `INT/straus7.lock`, TEMP in `%LOCALAPPDATA%\Temp`, `GPC_STRAUS7_ELEMENTS=versioned`; vedi sotto |
+
+Le 12 F4 usano gli input storici ripristinati nel 208 (`chatgpt-compiti/evidenze-208/f4-additional-inputs.json`),
+ricontrollati per SHA-256 prima della corsa. Il codice di `a88fe7c5` coincide con quello del commit di prodotto
+`5c52a799`: nel tratto cambiano solo `build/`, `tests/fixtures/f3/` e `docs/`.
+
+### Straus7 nativo
+
+Prima esecuzione nativa sulla 1.19.1, con il comando del 191b (`Straus7Native.Checks` e
+`ModelViewer.Importers.UiChecks`), Straus7 R31 x64 installato (`St7api.dll` in `C:\Program Files\Straus7 R31\Bin64`),
+processo di lettura reale:
+- `Straus7Native.Checks` **PASS, 29 controlli nativi** su 1 modello, il versionato `native-elements-r31`. Copia del
+  processo con 22 nodi, 4 aste e 2 piastre. Stesso modello e stessi risultati del convertitore GPC, scarto 0. 16
+  spigoli di piastra uguali ai campioni GPC. Equilibrio dei casi Dead (−10.000 N) e Live. Combinazione ULS
+  ricostruita da GPC: piastre, asta TRUSS, asta CABLE, 16 reazioni. 32 reazioni in kN e kN·m. Equilibrio
+  controllato dal processo per ogni caso.
+- `ModelViewer.Importers.UiChecks` **PASS, 17 controlli**. Pannello Straus7 con il catalogo letto dal processo reale,
+  importazione nel visualizzatore con casi e combinazione LSA, momenti delle piastre in kN·m/m, reazioni con il
+  controllo di equilibrio GPC. Poi i file MIDAS di testo e le immagini.
+
+Cattura MIDAS dal vivo non eseguita: la chiave non è disponibile. Le fixture `GPC_STRAUS7_PLATES`, `_BRIDGHE` e
+`_STAGES` non fanno parte del comando del 191b e non sono state eseguite.
+
+### Payload invariato
+
+Fra il commit di prodotto `5c52a799` e la chiusura cambiano solo:
+- `build/ci.ps1`, `build/known-failures.json`;
+- `tests/fixtures/f3/manifest.json`, `tests/fixtures/f3/transitions-f5-wiki.json`;
+- `docs/refactoring/registro-differenze.json`, `note-rilascio-1.19.1.md` e `.pdf`, `installer-1.19.1.md`, `piano.md`.
+
+Nessuno è un ingresso della pubblicazione o dell'installer. Ingressi: `src/`, `X.Core/`, `X.Calculations/`, `lib/`,
+i file di `tests/` compilati nella Release, `supporto/installer`, `supporto/documentazione`, `supporto/esempi`,
+`Directory.Build.*`, `global.json`, `build/analyzers`, `tools/qa`. Su questi il diff è vuoto. Nessun nome di questi
+file compare fra i 432 file del payload dell'audit (`audit-payload.json`). In particolare le note di rilascio, `.md` e
+`.pdf`, non entrano nell'installer. Il setup resta **`AD8A32F5BDE18669F33A0F9B4AE1513CEF49AF0C2ADF392E7EBB268C99FDAA6E`**,
+74.814.011 byte, costruito da `5c52a799`.
+
+### Tag e note
+
+Il tag `v1.19.1` va sul commit di prodotto `5c52a799`, da cui è costruito il setup; `main` e `refactoring/f5` sul
+commit di chiusura. Lo script di pubblicazione crea l'annotazione con
+`git tag -a --cleanup=verbatim -F docs/refactoring/note-rilascio-1.19.1.md`, leggendo il file dal clone alla HEAD
+finale. L'albero del commit taggato contiene quindi le note della sera del 16/11 (F3 e F4 ancora aperti). Le note
+finali, con F3 applicato, F4 dichiarati e Straus7 nativo, stanno nell'annotazione del tag e su `main`.
+
+### Limiti noti di questa edizione
+
+- Le guide Rev72 non descrivono il pulsante **Non leggibile** del confronto né la riga «Esclusi perché non leggibili,
+  restano come nel file: …» della domanda «Dati condivisi della sezione», venuti con le correzioni delle schede senza
+  dati. Il comportamento è coerente con «Fogli non leggibili» della guida pratica. Il testo entrerà nella prossima
+  edizione delle guide, senza ricostruire ora guide o installer.
+- I residui F4 restano da qualificare come nel 188. La lettura MIDAS dal vivo non è provata.

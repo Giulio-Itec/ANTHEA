@@ -77,16 +77,18 @@ Restano distribuiti l'indice e l'articolo sul palo orizzontale in terreno strati
 ## Prove
 
 - **Set AW (compito 191).** La full ha eseguito 130 suite, comprese 73 UI: 129 PASS e un FAIL dovuto all'ora stampata in due PDF generati a cavallo del cambio di minuto. La correzione del solo test materiali, inclusa anche in questa versione, ripete al massimo due volte la coppia di esportazioni con lo stesso confronto finale; le verifiche mirate successive sono PASS. Non modifica il calcolo.
-- **Avviso sul copriferro, strati e guide Rev72.** Sul codice con l'avviso e la correzione degli strati (`68192e18`, guide Rev72 in `69e9f2d2`) sono state eseguite, in corse seriali, tutte le 131 suite del profilo full, comprese 73 UI; la suite nuova è GuideRev72.Checks, con sei esempi Hansen verificati con espressioni indipendenti. Esito: 130 PASS e il FAIL del confronto F3, dovuto soltanto alle differenze editoriali della Wiki Rev72. Le transizioni proposte attendono l'approvazione e non sono applicate.
-- **Confronti F4.** Sei PASS e i sei FAIL storici, con oggetti di confronto identici al compito 191 e quindi alle evidenze AV/AW già classificate. Attesi e tolleranze non sono modificati.
+- **Avviso sul copriferro, strati e guide Rev72.** Sul codice con l'avviso e la correzione degli strati (`68192e18`, guide Rev72 in `69e9f2d2`) sono state eseguite, in corse seriali, tutte le 131 suite del profilo full, comprese 73 UI; la suite nuova è GuideRev72.Checks, con sei esempi Hansen verificati con espressioni indipendenti. Esito: 130 PASS e il confronto F3 con le sole differenze editoriali della Wiki Rev72. Le 1086 transizioni sono state approvate dall'utente il 16/11/2026 e applicate: `ui/f3-equivalence` PASS.
+- **Confronti F4.** Sei PASS e i sei FAIL storici, con oggetti di confronto identici al compito 191 e quindi alle evidenze AV/AW già classificate. Su decisione dell'utente del 16/11/2026 i sei sono registrati come differenze dichiarate in `build/known-failures.json`, con il primo messaggio e l'impronta SHA-256 dell'intero confronto: la corsa finale dà 6 PASS e 6 noti, e ogni scarto in più rimette la suite in rosso. Attesi e tolleranze non sono modificati.
 - **Schede senza dati.** Dopo l'integrazione delle correzioni sono state ripetute le suite dei progetti e dei report: nove build e dieci suite PASS (Architecture, Application, Presentation, Projects, Reports, FoundationWorkspace, ConcreteLibraryAdapter nelle tre parti e l'audit dei progetti), poi dieci suite UI dei progetti PASS, fra cui la condivisione e la gerarchia. Il confronto F3 dà le stesse 1086 differenze della Wiki, nessuna in più. Le correzioni toccano soltanto il codice dei progetti, dei report e della finestra dei dati condivisi: per questo non è stata ripetuta l'intera full. La prova del contrasto e il collaudo dell'installer sono nel verbale.
-- La suite di accesso nativo ha verificato soltanto la disattivazione delle prove: zero controlli nativi Straus7 o MIDAS.
+- **Straus7 nativo.** Nella full la suite di accesso nativo verificava soltanto la disattivazione delle prove. Il 16/11/2026 la prova nativa è stata eseguita sul codice della 1.19.1, con Straus7 R31 installato e il processo di lettura reale: `Straus7Native.Checks` PASS con 29 controlli nativi sul modello versionato degli elementi (nodi, aste, piastre, casi, reazioni, equilibrio e combinazione ricostruita da GPC) e `ModelViewer.Importers.UiChecks` PASS con 17 controlli, fra cui l'importazione nel visualizzatore attraverso il processo reale. Non è stata eseguita la lettura MIDAS dal vivo.
 
 ## Limiti noti
 
-Restano aperti i confronti F4 relativi agli ultimi adattatori, ai dati residui, ai contratti
-di ingresso, al progetto della sezione, ai risultati dei pali e all'adattatore strutturale
-dei muri. Non sono dichiarati superati.
+I confronti F4 relativi agli ultimi adattatori, ai dati residui, ai contratti di ingresso, al
+progetto della sezione, ai risultati dei pali e all'adattatore strutturale dei muri restano
+qualificati come prima: non sono dichiarati superati. Su decisione dell'utente del 16/11/2026
+sono registrati come differenze dichiarate in `build/known-failures.json`, con l'impronta del
+confronto.
 
 Una parte delle differenze è ricondotta a modifiche precedenti ad AV: criterio di taglio
 MC2010, default DIN, interassi delle armature, taglio dei pali e dettagli delle armature
@@ -99,9 +101,8 @@ e discretizzazione. Non vengono accettati aggiornando automaticamente i riferime
 o allargando le tolleranze. Le variazioni dovute allo sviluppo dell'armatura dei pali
 restano distinte dai residui numerici non spiegati.
 
-Questa preparazione non comprende nuove prove native Straus7 o MIDAS. La gestione formale
-dei sei FAIL nel gate di rilascio e le eventuali prove native restano esplicite nel verbale;
-la decisione di passare ad AW non autorizza a sostituire gli attesi.
+Questa preparazione non comprende la lettura MIDAS dal vivo. La decisione di passare ad AW
+non autorizza a sostituire gli attesi.
 
 ## Aggiornamento
 
