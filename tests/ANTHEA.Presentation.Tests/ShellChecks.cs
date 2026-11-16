@@ -17,6 +17,8 @@ internal static class ShellChecks
         checks += ProjectTreeChecks.Run();
         checks += RevisionBarChecks.Run();
         checks += CoherenceChecks.Run();
+        // P10 (16/11/2026): the notice of the Materiali of a nearer level that the check of the cover ignores.
+        checks += CoverNoticeChecks.Run();
         checks += TabsChecks.Run();
         checks += CommandsChecks.Run(output);
         checks += ShellViewModelChecks.Run();

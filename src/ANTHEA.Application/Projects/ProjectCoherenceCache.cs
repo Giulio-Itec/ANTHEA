@@ -75,7 +75,7 @@ public sealed class ProjectCoherenceCache
             differences.UnionWith(pair.Differences);
         }
         var cover = new List<ProjectValidation.CoverStatus>();
-        foreach (var sheet in ProjectValidation.CoverSheets(section)) cover.AddRange(CoverOf(sheet, ProjectValidation.CoverMaterials(sheet, section)));
+        foreach (var sheet in ProjectValidation.CoverSheets(section)) cover.AddRange(CoverOf(sheet, ProjectValidation.CoverLevels(sheet, section)));
         var warnings = ProjectSharedData.Limitations(section, FieldsOf).Concat(cover.Where(c => c.Passed != true).Select(c => c.Text)).Distinct().ToArray();
         return new(hasSheets, matches, differences.Count, warnings, ProjectSharedData.MissingSoilLayers(section).Count);
     }
@@ -97,12 +97,14 @@ public sealed class ProjectCoherenceCache
         return pair;
     }
 
-    private ProjectValidation.CoverStatus[] CoverOf(JsonObject sheet, JsonObject[] materials)
+    /// <summary>The checks of the cover of a sheet, kept by its hash and, for every level with Materiali, the name of the level (the notice
+    /// of the Materiali ignored names it) and the hashes of its Materiali.</summary>
+    private ProjectValidation.CoverStatus[] CoverOf(JsonObject sheet, ProjectValidation.CoverLevel[] levels)
     {
-        string key = Print(sheet) + "|" + string.Join("|", materials.Select(Print));
+        string key = Print(sheet) + string.Concat(levels.Select(level => "|" + JsonSerializer.Serialize(ProjectValidation.LevelLabel(level.Level)) + ":" + string.Join(",", level.Materials.Select(Print))));
         if (Keep(covers, oldCovers, key) is { } known) return known;
         var result = new List<ProjectValidation.CoverStatus>();
-        ProjectValidation.CoverChecks(sheet, materials, result);
+        ProjectValidation.CoverChecks(sheet, levels, result);
         var statuses = result.ToArray();
         covers[key] = statuses;
         return statuses;
@@ -119,20 +121,20 @@ public sealed class ProjectCoherenceCache
 
     /// <summary>
     /// The key of what <paramref name="section"/> sees: the sheets of its ancestors, level by level from the project, then its sections in
-    /// order, each with its sheets and then its subsections inside it.
+    /// order, each with its sheets and then its subsections inside it. Every level adds its name, which the notice of the cover names.
     /// </summary>
     private string ScopeKey(JsonObject section)
     {
         var text = new StringBuilder();
         foreach (var ancestor in ProjectSharedData.Ancestors(section).Reverse())
         {
-            text.Append("A[");
+            text.Append('A').Append(JsonSerializer.Serialize(ancestor.S("nome"))).Append('[');
             foreach (var sheet in ancestor.Array("fogli").OfType<JsonObject>()) text.Append(Print(sheet)).Append(',');
             text.Append(']');
         }
         void Walk(JsonObject node)
         {
-            text.Append("S[");
+            text.Append('S').Append(JsonSerializer.Serialize(node.S("nome"))).Append('[');
             foreach (var sheet in node.Array("fogli").OfType<JsonObject>()) text.Append(Print(sheet)).Append(',');
             text.Append(']');
             foreach (var child in node.Array("strutture").OfType<JsonObject>()) Walk(child);
