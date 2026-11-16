@@ -31,6 +31,7 @@ internal sealed class WpfConfirmationService(Func<Window?> owner) : IConfirmatio
         var content = Ui.Stack(Ui.Text("Hai modificato: " + string.Join(", ", prompt.ChangedGroups), 17, true),
             Ui.Text("Sezione: " + prompt.SectionName + "\nAggiorna i parametri compatibili nei seguenti fogli, oppure mantieni la modifica solo qui. Carichi e combinazioni restano specifici di ciascun foglio.", 14),
             Ui.Text(string.Join("\n\n", prompt.Targets.Select(t => t.SheetName + "\n" + string.Join("\n", t.Changes.Select(c => "• " + c)))), 14));
+        if (prompt.ExcludedText.Length > 0) content.Children.Add(Ui.Text(prompt.ExcludedText, 14));
         content.Margin = new Thickness(18);
         var dialog = Ui.Dialog(Owner, "Dati condivisi della sezione", new ScrollViewer { Background = Appearance.Surface, Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 670, 440);
         var all = Ui.Button("Aggiorna tutti i fogli collegati", () => dialog.DialogResult = true, true);

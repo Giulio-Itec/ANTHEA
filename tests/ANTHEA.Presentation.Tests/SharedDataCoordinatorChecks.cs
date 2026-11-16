@@ -19,6 +19,7 @@ internal static class SharedDataCoordinatorChecks
         var expect = new Expect();
         expect.Throws<ArgumentNullException>(() => _ = new SharedDataCoordinator(null!), "Coordinatore senza servizio delle conferme");
         Answers(expect);
+        Unreadable(expect);
         Unchanged(expect);
         Descendants(expect);
         Rollback(expect);
@@ -98,6 +99,35 @@ internal static class SharedDataCoordinatorChecks
         // Back to the value of the linked sheets: shared keys changed, but no linked sheet differs, so no question.
         expect.That(!open.Commit(open.Edit(d => d["classe"] = "C40/50")) && confirmations.SharedPrompts.Count == 2, "Domanda senza fogli da aggiornare");
         expect.That(confirmations.Inner.Asked.SequenceEqual(["dati condivisi: Pila P1", "dati condivisi: Pila P1"]), "Domande registrate");
+    }
+
+    /// <summary>
+    /// «Aggiorna tutti i fogli collegati» with linked sheets that cannot be updated: a wall and a pile without dati (unresolved references
+    /// opened with diagnosis) and a sheet that could not be read (quarantine, with its dati). The question names them as excluded, the
+    /// update leaves them as they were and reaches the other sheets; a sheet without dati cannot be the source of «Uniforma a questo».
+    /// </summary>
+    private static void Unreadable(Expect expect)
+    {
+        var project = new Project();
+        var wall = ProjectDocuments.AddSheet(project.Section, RetainingWall.Module, "Muro senza dati");
+        var pile = ProjectDocuments.AddSheet(project.Section, PaloOrizzontale.Module, "Palo senza dati");
+        wall.Remove("dati");
+        pile["dati"] = null;
+        project.Second[Anthea.Application.Documents.DocumentQuarantine.Property] = "riferimento dei dati non risolto (prova)";
+        string secondBefore = project.Second.ToJsonString();
+        var confirmations = new ProjectPromptRecorder(new ScriptedConfirmations().Then(true));
+        var open = new OpenSheet(new SharedDataCoordinator(confirmations), project.Document, project.Material);
+
+        expect.That(open.Commit(open.Edit(d => d["classe"] = "C40/50")), "Aggiornamento dei fogli collegati non applicato con fogli non leggibili");
+        var prompt = confirmations.SharedPrompts.Single();
+        expect.That(prompt.Targets.Select(t => t.SheetName).SequenceEqual(["Verifica sezione"]), "Fogli aggiornati: " + string.Join(", ", prompt.Targets.Select(t => t.SheetName)));
+        expect.That(prompt.Excluded is { } excluded && excluded.SequenceEqual(["CLS seconda verifica", "Muro senza dati", "Palo senza dati"])
+            && prompt.ExcludedText == "Esclusi perché non leggibili, restano come nel file: CLS seconda verifica, Muro senza dati, Palo senza dati.",
+            "Fogli esclusi nella domanda: " + prompt.ExcludedText);
+        expect.That(Fck(project.Concrete) == 40 && wall["dati"] is null && pile["dati"] is null && project.Second.ToJsonString() == secondBefore,
+            "Fogli non leggibili riempiti o modificati dall'aggiornamento");
+        expect.Throws<ArgumentException>(() => SharedDataCoordinator.Align(pile, "CLS · fck [MPa]", "Materiali", null), "Uniforma a questo da un foglio senza dati");
+        expect.That(Fck(project.Concrete) == 40 && project.Material["dati"].S("classe") == "C40/50", "Uniforma a questo rifiutato ha cambiato i fogli");
     }
 
     /// <summary>Nothing to confirm outside a project, without an open sheet in a section or without its baseline.</summary>

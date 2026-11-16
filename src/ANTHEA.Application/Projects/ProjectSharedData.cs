@@ -151,7 +151,8 @@ public static partial class ProjectSharedData
     {
         // Stage the entire operation, so unsupported conversions cannot partially update the project.
         var updates = new List<(JsonObject Sheet, JsonObject Data)>();
-        foreach (var target in targets.Where(s => !ReferenceEquals(s, source)).Distinct())
+        // A sheet without dati or that could not be read is never a target (Updatable): it is not filled with the defaults of its module.
+        foreach (var target in targets.Where(s => !ReferenceEquals(s, source) && Updatable(s)).Distinct())
         {
             var data = (JsonObject)(target["dati"] as JsonObject ?? Archivio.NuovoFoglio(target.S("modulo_id"))).DeepClone();
             if (target.S("modulo_id") == RetainingWall.Module) RetainingWall.Upgrade(data);

@@ -138,5 +138,16 @@ internal static class CoherenceChecks
         compare.CopyLayers(layerSource);
         expect.That(readable["dati"]!["stratigrafie"]![0]!.AsArray().Count == 2 && unreadable["dati"] is null && compare.MissingLayers.Count == 0,
             "Uniforma a questo con una scheda senza dati");
+
+        // A conflict with the sheet without dati: its row cannot align and says why; «Uniforma a questo» from another sheet skips it.
+        readable["dati"]!["generali"]!["diametro"] = "1.2";
+        compare.Rebuild();
+        var rows = compare.Conflicts.Single(c => c.Label == SharedDataCoordinator.FieldLabel("diameter_mm")).Sheets;
+        var unreadableRow = rows.Single(s => ReferenceEquals(s.Sheet, unreadable));
+        expect.That(!unreadableRow.CanAlign && unreadableRow.AlignLabel == ConflictSheetViewModel.UnreadableLabel && unreadableRow.AlignToolTip == ConflictSheetViewModel.UnreadableToolTip,
+            "Conflitto con una scheda senza dati: " + unreadableRow.AlignLabel);
+        compare.Align(rows.Single(s => ReferenceEquals(s.Sheet, readable)));
+        expect.That(Math.Abs((J.Number(source["dati"]!["generali"]!["diametro"]) ?? 0) - 1.2) < 1e-9 && unreadable["dati"] is null,
+            "Uniforma a questo: diametro " + source["dati"]!["generali"]!["diametro"] + ", scheda senza dati " + (unreadable["dati"] is null ? "vuota" : "riempita"));
     }
 }

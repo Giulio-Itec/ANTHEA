@@ -56,6 +56,11 @@ public sealed class SharedStatusViewModel : ViewModelBase
 /// <summary>A sheet in a conflict of the comparison: name, location, value and the button «Uniforma a questo» or «Dato collegato».</summary>
 public sealed class ConflictSheetViewModel
 {
+    /// <summary>The button of a sheet without dati or that could not be read: it keeps its data as in the file.</summary>
+    public const string UnreadableLabel = "Non leggibile";
+
+    public const string UnreadableToolTip = "Il foglio non è leggibile: resta come nel file e non viene uniformato.";
+
     internal ConflictSheetViewModel(JsonObject sheet, string key, string label, string group, bool readOnly, IRelayCommand<ConflictSheetViewModel> align)
     {
         Sheet = sheet; Key = key; Group = group;
@@ -69,9 +74,11 @@ public sealed class ConflictSheetViewModel
             SoilType = ProjectSharedData.Fields(sheet)[key].Value?.ToString();
             SoilTypeAutomationName = "Tipologia del terreno · " + sheet.S("nome");
         }
-        CanAlign = !readOnly && !linked;
-        AlignLabel = linked ? "Dato collegato" : "Uniforma a questo";
-        AlignToolTip = !linked ? "Uniforma " + label + " nella sezione di questo foglio e nelle sue sottosezioni." : "Questo dato è guidato dal livello superiore. Usa il pulsante sul foglio di riferimento.";
+        // A sheet without dati or that could not be read is neither a source nor a target of «Uniforma a questo» (ProjectSharedData.Updatable).
+        bool unreadable = !ProjectSharedData.Updatable(sheet);
+        CanAlign = !readOnly && !linked && !unreadable;
+        AlignLabel = unreadable ? UnreadableLabel : linked ? "Dato collegato" : "Uniforma a questo";
+        AlignToolTip = unreadable ? UnreadableToolTip : !linked ? "Uniforma " + label + " nella sezione di questo foglio e nelle sue sottosezioni." : "Questo dato è guidato dal livello superiore. Usa il pulsante sul foglio di riferimento.";
         AlignCommand = align;
     }
 

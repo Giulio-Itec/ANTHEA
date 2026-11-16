@@ -66,6 +66,30 @@ internal static class ProjectSharedCommandChecks
             }
             Check(archive.ToJsonString() == before, "Collega e tipologia rifiutati senza modifiche" + label);
         }
+
+        // «Applica ai fogli collegati» from Materiali: a wall and a pile without dati and a pile that could not be read are not targets
+        // (never filled with the defaults of the module), the complete wall is updated; a sheet without dati cannot be the source.
+        {
+            var archive = ProjectDocuments.CreateArchive();
+            var owner = ProjectDocuments.AddProject(archive, "Prova applica");
+            var material = ProjectDocuments.AddSheet(owner, "mat_calcestruzzo", "CLS del progetto");
+            var section = ProjectDocuments.AddSection(owner, "Elemento");
+            var wall = ProjectDocuments.AddSheet(section, RetainingWall.Module, "Muro completo");
+            var emptyWall = ProjectDocuments.AddSheet(section, RetainingWall.Module, "Muro senza dati");
+            var emptyPile = ProjectDocuments.AddSheet(section, PaloOrizzontale.Module, "Palo senza dati");
+            var quarantined = ProjectDocuments.AddSheet(section, PaloOrizzontale.Module, "Palo non leggibile");
+            emptyWall.Remove("dati");
+            emptyPile["dati"] = null;
+            quarantined[DocumentQuarantine.Property] = "riferimento dei dati non risolto (prova)";
+            string wallBefore = wall.ToJsonString(), quarantinedBefore = quarantined.ToJsonString();
+            material["dati"]!["classe"] = material["dati"].S("classe") == "C45/55" ? "C30/37" : "C45/55";
+            int updated = ProjectSharedData.ApplyHierarchy(material, new HashSet<string> { "Materiali" });
+            Check(updated == 1 && wall.ToJsonString() != wallBefore && emptyWall["dati"] is null && emptyPile["dati"] is null && quarantined.ToJsonString() == quarantinedBefore,
+                "Applica ai fogli collegati: aggiornati " + updated + ", fogli senza dati o non leggibili lasciati come nel file");
+            string before = archive.ToJsonString();
+            string message = Refusal(() => ProjectSharedData.ApplyHierarchy(emptyPile, new HashSet<string> { "Materiali" }), "Dati di un foglio senza dati applicati agli altri");
+            Check(message.StartsWith("«Palo senza dati» non è leggibile", StringComparison.Ordinal) && archive.ToJsonString() == before, "Applica da un foglio senza dati: " + message);
+        }
         return checks;
     }
 }

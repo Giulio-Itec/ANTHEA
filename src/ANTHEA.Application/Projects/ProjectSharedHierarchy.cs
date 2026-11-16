@@ -65,6 +65,8 @@ public static partial class ProjectSharedData
     public static int ApplyHierarchy(JsonObject source, HashSet<string> groups, HashSet<string>? keys = null, Func<JsonObject, string, bool>? skip = null)
     {
         if (source.Parent?.Parent is not JsonObject section) return 0;
+        // Without dati the fields of the source would be the defaults of its module: they are not applied to the other sheets.
+        if (source["dati"] is not JsonObject) throw new ArgumentException("«" + source.S("nome") + "» non è leggibile: i suoi dati non vengono applicati agli altri fogli.");
         var allowed = ReferenceKeys(source, keys ?? Fields(source).Keys.ToHashSet());
         var authorities = Ancestors(section).SelectMany(s => s.Array("fogli").OfType<JsonObject>()).ToArray();
         return ApplyTargets(source, SubtreeSheets(section), groups, allowed, authorities, skip);

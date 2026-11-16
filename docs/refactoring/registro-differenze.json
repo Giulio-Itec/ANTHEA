@@ -15216,7 +15216,47 @@
         "supporto/artefatti/ci/20261116-051915-comandi-verde2/summary.json"
       ],
       "voci_collegate": [
-        "BUG-COPERTINA-MURO-SENZA-DATI"
+        "BUG-COPERTINA-MURO-SENZA-DATI",
+        "BUG-APPLICA-SENZA-DATI"
+      ]
+    },
+    {
+      "id": "BUG-APPLICA-SENZA-DATI",
+      "data": "2026-11-16",
+      "fase": "correzione isolata dopo main 6c7d03a7 (1.19.0)",
+      "titolo": "Dati comuni: «Aggiorna tutti i fogli collegati» e «Uniforma a questo» non riempiono una scheda senza dati o non leggibile",
+      "famiglia": "progetti/dati comuni",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "ApplyHierarchy e ApplyTargets (ProjectSharedData.cs:149 e 198) prendevano come bersaglio anche una scheda senza dati e la riempivano con i predefiniti del modulo più il valore applicato: la quarantena si perdeva senza avviso e il foglio sarebbe stato salvato con dati inventati. Aggiornavano anche una scheda in quarantena con i suoi dati, che la domanda dei dati condivisi già escludeva (passo 2b). Ora ApplyTargets esclude le schede non aggiornabili (ProjectSharedData.Updatable). La domanda le nomina: SharedUpdatePrompt.Excluded, con la riga «Esclusi perché non leggibili, restano come nel file: …» nella finestra «Dati condivisi della sezione». Nel confronto il pulsante di una scheda non aggiornabile diventa «Non leggibile», disattivato. ApplyHierarchy rifiuta come origine una scheda senza dati, perché i suoi campi sarebbero i predefiniti del modulo.",
+      "codice": [
+        "src/ANTHEA.Application/Projects/ProjectSharedData.cs:151-152",
+        "src/ANTHEA.Application/Projects/ProjectSharedHierarchy.cs (ApplyHierarchy)",
+        "src/ANTHEA.Presentation/Services/IConfirmationService.cs (SharedUpdatePrompt.Excluded, ExcludedText)",
+        "src/ANTHEA.Presentation/Projects/SharedDataCoordinator.cs (ConfirmSharedChanges, Prompt)",
+        "src/ANTHEA.Desktop/Wpf/WpfDesktopServices.cs (ConfirmSharedUpdate)",
+        "src/ANTHEA.Presentation/Shell/Projects/CoherenceViewModel.cs (ConflictSheetViewModel)",
+        "tests/ANTHEA.Application.Tests/ProjectSharedCommandChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/SharedDataCoordinatorChecks.cs (Unreadable)",
+        "tests/ANTHEA.Presentation.Tests/CoherenceChecks.cs (Unreadable)"
+      ],
+      "segno": "Nessun valore di calcolo cambia. Le schede senza dati o non leggibili restano come nel file e la domanda le nomina; le altre schede ricevono i dati comuni come prima.",
+      "effetto_quantificato": "Test rosso prima del fix: la domanda proponeva di aggiornare «Palo senza dati» (Presentation.Tests, SharedDataCoordinatorChecks). Dopo il fix 3 controlli nuovi in Application.Tests (Applica da Materiali con muro e palo senza dati e palo in quarantena; rifiuto dell'origine senza dati), 6 in SharedDataCoordinatorChecks (destinatari, esclusi e testo della domanda, fogli invariati, rifiuto di «Uniforma a questo» da un foglio senza dati) e 2 in CoherenceChecks (pulsante «Non leggibile», «Uniforma a questo» che salta la scheda).",
+      "decisione": {
+        "data": "2026-11-16",
+        "utente": "Incarico della sessione coordinatrice del 16/11/2026: escludere dai bersagli le schede senza dati e scrivere nell'anteprima del comando che sono state escluse; commit separato, test rosso prima.",
+        "esito": "Esclusione in ApplyTargets per tutti i comandi che lo usano. Anteprima: la riga degli esclusi nella domanda dei dati condivisi, che c'è solo quando la domanda si pone; con la propagazione automatica verso le sottosezioni, o senza fogli da aggiornare, non c'è domanda e gli esclusi restano solo come nel file. Le schede in quarantena con i dati sono escluse come quelle senza dati, come già la domanda e lo spostamento (passo 2b)."
+      },
+      "test": [
+        "Application.Tests 3696, Presentation.Tests 5153 (SharedDataCoordinatorChecks.Unreadable, CoherenceChecks.Unreadable), Architecture.Tests 618, Reports.Tests 515, Projects.Checks 22, FoundationWorkspace.Checks 54, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-050039-comandi-rosso (rosso di Presentation.Tests)",
+        "supporto/artefatti/ci/20261116-050135-comandi-verde/summary.json",
+        "supporto/artefatti/ci/20261116-051915-comandi-verde2/summary.json"
+      ],
+      "voci_collegate": [
+        "BUG-COMANDI-TERRENI-SENZA-DATI"
       ]
     },
     {
