@@ -1,9 +1,10 @@
 # ANTHEA 1.19.1 - note di rilascio
 
-Note del 15 novembre 2026, preparate per la distribuzione dopo F8 e le decisioni dell'utente.
-La 1.19.1 sostituisce il set di librerie GPC AV della 1.19.0 con il set ufficiale **AW**.
-Il cambiamento riguarda le librerie di calcolo e dei dati: non aggiunge comandi all'interfaccia
-e non introduce un nuovo formato dei documenti. Per questo l'incremento è di tipo patch.
+Note del 16 novembre 2026, predisposte per la distribuzione dopo l'approvazione dell'utente.
+La 1.19.1 sostituisce il set di librerie GPC AV della 1.19.0 con il set ufficiale **AW**. Comprende
+anche l'avviso sui Materiali più vicini nel controllo del copriferro, la protezione degli strati del
+terreno condivisi quando cambia la suddivisione e le guide Rev72. Non aggiunge comandi all'interfaccia
+e non introduce un nuovo formato dei documenti: l'incremento resta di tipo patch.
 
 Il testo è anche l'annotazione prevista del tag `v1.19.1`. Il verbale tecnico è in
 [installer-1.19.1.md](installer-1.19.1.md).
@@ -29,6 +30,38 @@ Nei sei confronti storici ancora differenti, gli scarti osservati con AW erano g
 con AV. Non sono quindi presentati come nuove correzioni introdotte dalla 1.19.1. Questa
 prova non dimostra, da sola, che ogni modello dell'utente dia risultati identici.
 
+## Copriferro e dati condivisi nel progetto
+
+- **Materiali più vicini e copriferro.** Il controllo del copriferro usa, come prima, i Materiali del
+  livello più alto che ne contiene, dal progetto alla sezione del foglio. Dopo ogni controllo un avviso
+  segnala i Materiali di un livello più vicino al foglio che darebbero un esito o un minimo diverso. L'avviso
+  nomina il foglio, i due Materiali e i loro livelli e riporta minimo ed esito di ciascuno; se il Materiali
+  più vicino non è valutabile, ne indica il motivo. Materiali con lo stesso minimo, al centesimo di mm, e lo
+  stesso esito non danno avviso. L'esito del controllo resta quello dei Materiali del livello più alto:
+  **RISPETTATO** non vale automaticamente per un requisito locale più severo. L'avviso compare nella riga di
+  stato del foglio, nel confronto, nel riepilogo e negli avvisi del report, e conta fra le segnalazioni del
+  controllo prima di generare il report. Dopo la rinomina di una sezione o di un Materiali l'avviso usa il
+  nome nuovo.
+- **Strati del terreno condivisi tra i fogli.** Togliere o inserire uno strato in un foglio e confermare
+  non sposta più gli strati degli altri fogli. Nelle versioni precedenti gli strati si copiavano per
+  posizione: in un foglio di una sezione con sottosezioni, togliendo il primo strato i fogli sotto
+  ricevevano, senza domanda, i valori dello strato successivo, spessori compresi, e tenevano il loro ultimo
+  strato (per esempio 2 m coesivo · 5 m · 10 m diventava 5 m · 10 m · 10 m). Ora un sondaggio di cui cambia
+  il numero di strati non si copia negli altri fogli; se cambia il numero di sondaggi, non si copia lo
+  strato di nessun sondaggio. Un sondaggio si copia solo nei fogli che hanno lo stesso numero di strati. Gli altri fogli restano
+  come sono e la differenza si vede nella riga sopra il foglio e nel confronto della sezione; per allinearli
+  togliere o aggiungere lo stesso strato anche in quei fogli. Le modifiche che non cambiano il numero di
+  strati (spessori, tipologie, parametri) si condividono come prima.
+- **Limiti degli strati condivisi.** «Uniforma a questo», «Collega stratigrafie», la copia degli strati
+  mancanti, i fogli nuovi e gli spostamenti seguono le regole di prima. I sondaggi e gli strati si
+  corrispondono ancora per posizione: togliere uno strato e aggiungerne un altro nella stessa conferma lascia
+  lo stesso numero di strati e li sposta ancora. Togliere l'ultimo strato non lascia conflitti visibili,
+  perché gli strati rimasti sono uguali, e i fogli sotto tengono uno strato in più: controllare i profili.
+  Se nella stessa conferma cambia il numero di strati e si modifica uno strato esistente, anche la modifica
+  resta nel solo foglio e si vede come conflitto. Nei progetti in cui è stato tolto uno strato con una
+  versione precedente, controllare il confronto delle sezioni con pali e fondazioni: gli strati dei fogli
+  sotto possono essere già stati spostati.
+
 ## Salvataggio e compatibilità
 
 Restano le regole della 1.19.0. I progetti salvati con sezioni c.a. compatte non si aprono
@@ -41,29 +74,30 @@ o ricalcolo; il salvataggio del progetto non equivale al recupero del calcolo.
 
 ## Guide
 
-Guide pratica e teorica **Rev71**, come nella 1.19.0. Restano distribuiti l'indice e
-l'articolo sul palo orizzontale in terreno stratificato. Questo allineamento delle librerie
-non introduce nuove procedure operative.
+Guide pratica e teorica **Rev72**, in Word, PDF e nella Wiki. Rispetto alla Rev71 descrivono il
+comportamento attuale dei metodi già disponibili e i loro limiti: importazione dei modelli e dei carichi,
+planarità delle piastre e classe del calcestruzzo, combinazioni, archivio dei risultati, template dei
+report, formato delle lunghezze nei report, Hansen con carico inclinato, fogli delle Azioni e della
+Reologia, pali verticali e verifiche del modello. Descrivono inoltre la scelta dei Materiali nel controllo
+del copriferro, il nuovo avviso sui Materiali più vicini e la protezione degli strati condivisi. È corretto
+l'esempio numerico di Hansen non drenato con carico orizzontale molto piccolo. Nessuna formula nuova.
+Restano distribuiti l'indice e l'articolo sul palo orizzontale in terreno stratificato, che non cambia.
 
-## Prove e correzioni dei test
+## Prove
 
-La full ANTHEA sul set AW ha eseguito tutte le **130 suite**, comprese le **73 UI**:
-129 PASS e un FAIL dovuto all'ora stampata in due PDF generati a cavallo del cambio di minuto.
-La correzione riguarda il solo test materiali: la coppia di esportazioni può essere
-ripetuta al massimo due volte, mantenendo lo stesso confronto finale. La verifica mirata
-successiva ha superato due build e due suite, con 229 controlli materiali su 15 fixture.
-Non si dichiara una seconda full completamente verde, né una correzione dei calcoli.
-
-I dodici confronti F4 sono conclusi: **sei PASS e sei FAIL storici**. Gli oggetti di confronto
-dei sei FAIL coincidono con quelli AW già confrontati con AV. Gli attesi e le tolleranze
-non sono stati modificati. Il test di conservazione degli artefatti CI usa il TEMP
-configurato; anche le fixture dei collaudi installer usano cartelle temporanee dedicate sotto CX.
-Queste correzioni delle prove non cambiano il comportamento del programma distribuito.
-
-Collaudi installer: safety 26 PASS ed esempi 206 PASS. Il collaudo completo delle guide
-resta FAIL nella destinazione temporanea sotto CX: la rimozione dei PDF non termina dopo
-la verifica degli hash. Il problema va chiarito prima della distribuzione; il controllo
-di disinstallazione e i confronti dei contenuti restano attivi.
+- **Set AW (compito 191).** La full ha eseguito 130 suite, comprese 73 UI: 129 PASS e un FAIL dovuto
+  all'ora stampata in due PDF generati a cavallo del cambio di minuto. La correzione del solo test
+  materiali, inclusa anche in questa versione, ripete al massimo due volte la coppia di esportazioni con lo
+  stesso confronto finale; le verifiche mirate successive sono PASS. Non modifica il calcolo.
+- **Avviso sul copriferro, strati e guide Rev72.** Sul codice con l'avviso e la correzione degli strati
+  (`68192e18`, guide Rev72 in `69e9f2d2`) sono state eseguite, in corse seriali, tutte le 131 suite del
+  profilo full, comprese 73 UI; la suite nuova è GuideRev72.Checks, con sei esempi Hansen verificati con
+  espressioni indipendenti. Esito: 130 PASS e il FAIL del confronto F3, dovuto soltanto alle differenze
+  editoriali della Wiki Rev72. Le transizioni proposte attendono l'approvazione e non sono applicate.
+- **Confronti F4.** Sei PASS e i sei FAIL storici, con oggetti di confronto identici al compito 191 e quindi
+  alle evidenze AV/AW già classificate. Attesi e tolleranze non sono modificati.
+- La suite di accesso nativo ha verificato soltanto la disattivazione delle prove: zero controlli nativi
+  Straus7 o MIDAS.
 
 ## Limiti noti
 
@@ -94,8 +128,9 @@ l'installazione sostituendo singole DLL.
 
 ## Provenienza delle verifiche
 
-I compiti 183 e 188 documentano il confronto AV/AW e la classificazione delle differenze.
-La full e i confronti F4 completati sono nel rapporto del compito 191, `anthea-aw-191.md`;
-la costruzione e il collaudo del pacchetto sono documentati nel verbale
-[installer-1.19.1.md](installer-1.19.1.md). Le note derivano dalla bozza G-201 aggiornata
-con questi esiti, senza attribuire alla 1.19.1 le funzioni già pubblicate nella 1.19.0.
+I compiti 183 e 188 documentano il confronto AV/AW e la classificazione delle differenze; la full e i
+confronti F4 sul set AW sono nel rapporto del compito 191, `anthea-aw-191.md`. L'avviso sul copriferro e la
+correzione degli strati vengono dai rapporti `anthea-p10-avviso-materiali-20261116.md`; le guide Rev72 dai
+compiti 205, 207 e 208 ([guide-rev72-205.md](guide-rev72-205.md), [guide-rev72-208.md](guide-rev72-208.md)).
+La costruzione e il collaudo del pacchetto sono nel verbale [installer-1.19.1.md](installer-1.19.1.md). Le
+note non attribuiscono alla 1.19.1 le funzioni già pubblicate nella 1.19.0.

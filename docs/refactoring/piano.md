@@ -1760,5 +1760,8 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - [x] Clone isolato da 84621b6f, versione 1.19.1 invariata; integrati nell'ordine P10 84c99d93 e strati 48cd276f/83e68e0a, senza conflitti. Vecchia riproduzione rimossa dal commit di correzione, prove ordinarie attive.
 - [x] Guide Rev72 e Wiki aggiornate al comportamento presente, senza duplicare R1/R2; Word/PDF, audit ITEC e controllo delle 354 pagine conclusi. Dettagli in [guide-rev72-208.md](guide-rev72-208.md).
 - [x] Sette build, sei suite funzionali e UI mirate PASS. F4: sei PASS e sei FAIL storici identici al 191. F3: sole differenze Wiki, proposta separata per l'OK; nessun riferimento congelato modificato.
-- [ ] Completamento del profilo full e preparazione/collaudo locale del pacchetto nella fase conclusiva del compito 208.
+- [x] Copertura delle 131 suite full su 68192e18/69e9f2d2 (stesso codice): 130 PASS e F3 con sole differenze Wiki; 73 UI conservate.
+- [x] Note di rilascio e verbale riletti dopo l'interruzione di Codex: tenute le parti verificate, tolte le ripetizioni e le promesse di esiti non ancora registrati.
+- [ ] Correzioni delle schede senza dati dal ramo `claude/copriferro-materiali-vuoto` (otto commit), note di rilascio e prove mirate.
+- [ ] Pacchetto dal commit di prodotto pulito, audit e collaudi installer con TEMP in `%LOCALAPPDATA%\Temp`; esiti nel verbale [installer-1.19.1.md](installer-1.19.1.md).
 - [ ] Scelta dell'utente fra candidata 191b e completa; OK transizioni Wiki e gestione formale dei sei F4. Nessun push o tag in questa attività.
