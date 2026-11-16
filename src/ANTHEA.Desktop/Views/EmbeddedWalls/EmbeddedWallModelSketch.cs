@@ -221,8 +221,8 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
             double x = side == "left_soils" ? left : middle + WallGap;
             double w = (right - left) / 2 - WallGap;
             // The name of a layer never under the dashed line of the water of its side (cifre significative, 16/11, capture of step 5).
-            var water = side == "left_soils" ? m.LeftWater : m.RightWater;
-            Rect? waterLine = water is { } level ? new Rect(x, Y(level) - TextPadding, w, TextPadding * 2) : null;
+            var waterLevel = side == "left_soils" ? m.LeftWater : m.RightWater;
+            Rect? waterLine = waterLevel is { } level ? new Rect(x, Y(level) - TextPadding, w, TextPadding * 2) : null;
             if (waterLine is { } line) waterLines.Add(line);
             foreach (var band in m.Bands.Where(b => b.Table == side))
             {
