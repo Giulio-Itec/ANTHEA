@@ -442,7 +442,8 @@
       <TextBlock Text="MESSAGGI" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
       <TextBlock Text="{Binding Messages.Summary}" FontSize="11" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource Token.Muted}" TextTrimming="CharacterEllipsis"/>
      </DockPanel>
-     <ScrollViewer x:Name="MessageScroll" Height="110" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+     <!-- 96 px (about four lines) instead of the 110 of the project: at 1100×760 the drawing keeps more than 200 px (R10). -->
+     <ScrollViewer x:Name="MessageScroll" Height="96" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
       <ScrollViewer.Style><Style TargetType="ScrollViewer"><Style.Triggers>
        <DataTrigger Binding="{Binding Messages.IsCollapsed}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
       </Style.Triggers></Style></ScrollViewer.Style>
@@ -480,11 +481,11 @@
         <KeyBinding Key="PageUp" Command="{Binding PreviousInputStageCommand}"/>
         <KeyBinding Key="PageDown" Command="{Binding NextInputStageCommand}"/>
        </Grid.InputBindings>
-       <!-- Step 5: wall, case and phase are the header inside the drawing; above it only the title and the summary of the phase. -->
-       <StackPanel Margin="0,0,8,6">
-        <TextBlock Text="Sezione della fase" FontSize="16" FontWeight="SemiBold"/>
-        <TextBlock TextWrapping="Wrap" Margin="0,2,0,0"><Run Text="{Binding PhaseSummary, Mode=OneWay}"/><Run Text="  ·  clic: modifica · rotellina: ingrandisci"/></TextBlock>
-       </StackPanel>
+       <!-- Step 5: wall, case and phase are the header inside the drawing; above it one line with the summary of the phase (step 11: the
+            panel Messaggi takes room at the bottom, R10: the drawing stays usable at 1100×760). -->
+       <TextBlock Margin="0,0,8,4" TextTrimming="CharacterEllipsis" ToolTip="Clic su un elemento: modifica · rotellina: ingrandisci · trascinamento: sposta il disegno ingrandito">
+        <Run Text="{Binding PhaseSummary, Mode=OneWay}"/><Run Text="  ·  clic: modifica · rotellina: ingrandisci"/>
+       </TextBlock>
        <Border Grid.Row="1" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Margin="0,0,8,0">
         <local:EmbeddedWallModelSketch Model="{Binding Sketch}" PickCommand="{Binding PickModelCommand}" Zoom="{Binding SketchZoom}" ShowLegend="{Binding ShowSoilLegend}"
          Selected="{Binding SketchSelection, Mode=OneWay}" ClipToBounds="True" AutomationProperties.Name="Sezione grafica degli input della paratia"/>
@@ -528,10 +529,8 @@
          <ListBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding [id]}"/></DataTemplate></ListBox.ItemTemplate>
         </ListBox>
        </DockPanel>
-       <StackPanel Grid.Row="3" Margin="0,6,8,0">
-        <TextBlock Text="Quote in scala · spessore parete, puntoni e frecce schematici · tiranti in scala con tratto libero e cementato di «Sfilamento dei tiranti», altrimenti tratteggiati (schematici)" TextWrapping="Wrap" FontSize="11"/>
-        <TextBlock Text="{Binding Sketch.WaterLabel, StringFormat=Linea blu tratteggiata: {0} · contorno tratteggiato: terreno scavato}" TextWrapping="Wrap" FontSize="11"/>
-       </StackPanel>
+       <TextBlock Grid.Row="3" Margin="0,4,8,0" TextWrapping="Wrap" FontSize="11"
+        Text="{Binding Sketch.WaterLabel, StringFormat=Quote in scala; spessori\, puntoni e frecce schematici; tiranti in scala con i tratti di «Sfilamento dei tiranti»\, altrimenti tratteggiati. Blu tratteggiato: {0}; contorno tratteggiato: terreno scavato.}"/>
       </Grid>
       <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
       <DockPanel Grid.Column="2" Margin="10,0,0,0">

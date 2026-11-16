@@ -72,8 +72,8 @@ internal static partial class EmbeddedWallViewChecks
         check(sketch.Model?.Supports.Single() is { FreeLength: 6d, BondLength: 5d, AnchorCheck: not null }, "Passo 5: il tirante non usa le lunghezze di «Sfilamento dei tiranti».");
         capture("sezione-tirante-in-scala");
         OwnerWindow(view).Width = 1100; OwnerWindow(view).Height = 760; await settle();
-        check(sketch.ActualWidth > 310 && !sketch.LegendBounds.IsEmpty && sketch.LegendBounds.Width <= sketch.ActualWidth / 2 + 1,
-            "Passo 5: legenda più larga di metà disegno alla misura minima.");
+        check(sketch.ActualWidth > 310 && sketch.ActualHeight > 200 && !sketch.LegendBounds.IsEmpty && sketch.LegendBounds.Width <= sketch.ActualWidth / 2 + 1,
+            $"Passo 5: alla misura minima disegno troppo piccolo o legenda assente o più larga di metà disegno (disegno {sketch.ActualWidth:0}×{sketch.ActualHeight:0}, legenda {sketch.LegendBounds}).");
         capture("sezione-compatta");
         OwnerWindow(view).Width = 1450; OwnerWindow(view).Height = 950;
         sheet.Reload(before); await settle();

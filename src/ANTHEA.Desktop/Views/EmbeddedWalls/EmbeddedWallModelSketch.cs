@@ -32,7 +32,7 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
     private const double HeaderLeft = 12, HeaderTop = 8, HeaderLine = 18, HeaderBottom = 46, ZoneTop = 48, AxisLabelLeft = 9, AxisLabelWidth = 55;
     private const double TickLabelLeft = 7, TickLabelWidth = 57, TickIntervals = 4, HaloWidth = 7, HeadRadius = 4, BulbWidth = 7, FreeWidth = 1.5;
     private const double LegendMargin = 8, LegendPadding = 6, LegendRow = 17, LegendSwatch = 12, LegendGap = 6, LegendName = 118, LegendValue = 34;
-    private const double LegendSides = 38, LegendGaps = 4, LegendMaximumFraction = .5, LegendTitleGap = 3, ZoomNoteHeight = 18, ToeLabelWidth = 160;
+    private const double LegendSides = 38, LegendGaps = 4, LegendMaximumFraction = .5, LegendTitleGap = 3, ZoomNoteHeight = 18, ToeLabelWidth = 160, LegendMinimumName = 40;
     private const double FontSize = 12, SmallFontSize = 11, HeaderFontSize = 13, LabelWidth = 200, MinimumWidth = 310, MinimumHeight = 200;
     private const int LabelAttempts = 8;
 
@@ -195,10 +195,13 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
         // Legend of the soils at the top right (outside the magnification), measured first so that the labels keep clear of it.
         Rect legend = Rect.Empty;
         double nameWidth = LegendName;
-        if (ShowLegend && m.Soils.Count > 0)
+        // At most half the drawing: in a narrow drawing the column of the sides goes first (it stays in the hint of the line).
+        double room = ActualWidth * LegendMaximumFraction, fixedWidth = LegendPadding * 2 + LegendSwatch + LegendGap * LegendGaps + LegendValue * 2 + LegendSides;
+        bool sides = room - fixedWidth >= LegendMinimumName;
+        if (!sides) fixedWidth -= LegendSides + LegendGap;
+        nameWidth = Math.Min(LegendName, room - fixedWidth);
+        if (ShowLegend && m.Soils.Count > 0 && nameWidth >= LegendSwatch)
         {
-            double fixedWidth = LegendPadding * 2 + LegendSwatch + LegendGap * LegendGaps + LegendValue * 2 + LegendSides;
-            nameWidth = Math.Max(LegendSwatch, Math.Min(LegendName, ActualWidth * LegendMaximumFraction - fixedWidth));
             double width = fixedWidth + nameWidth, rows = m.Soils.Count + 2;
             legend = new Rect(ActualWidth - RightMargin - width, LegendMargin, width, LegendPadding * 2 + LegendRow * rows + LegendTitleGap);
             blocked.Add(legend);
@@ -359,23 +362,23 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
             var note = Text($"Ingrandimento {zoom.ToString("0.0", CultureInfo.CurrentCulture)}× · «Adatta» nella pagina Vista", ActualWidth / 2, muted, SmallFontSize, false, 1);
             dc.DrawText(note, new Point(ActualWidth - RightMargin - note.Width, ActualHeight - ZoomNoteHeight));
         }
-        if (!legend.IsEmpty) DrawLegend(dc, m, legend, nameWidth, ink, muted, guide, paper, Text, Resource);
+        if (!legend.IsEmpty) DrawLegend(dc, m, legend, nameWidth, sides, ink, muted, guide, paper, Text, Resource);
     }
 
     /// <summary>The legend of the soils: tint, name, γ [kN/m³] and φ′ [°] as written in the tables (units in the title), and the sides. A line opens its soil.</summary>
-    private void DrawLegend(DrawingContext dc, EmbeddedWallSketch m, Rect legend, double nameWidth, Brush ink, Brush muted, Brush guide, Brush paper,
+    private void DrawLegend(DrawingContext dc, EmbeddedWallSketch m, Rect legend, double nameWidth, bool sides, Brush ink, Brush muted, Brush guide, Brush paper,
         Func<string, double, Brush, double, bool, int, FormattedText> text, Func<string, Brush> resource)
     {
         LegendBounds = legend;
         dc.DrawRectangle(paper, new Pen(guide, 1), legend);
         double x = legend.X + LegendPadding, y = legend.Y + LegendPadding;
-        double name = x + LegendSwatch + LegendGap, gamma = name + nameWidth + LegendGap, phi = gamma + LegendValue + LegendGap, sides = phi + LegendValue + LegendGap;
+        double name = x + LegendSwatch + LegendGap, gamma = name + nameWidth + LegendGap, phi = gamma + LegendValue + LegendGap, side = phi + LegendValue + LegendGap;
         var heading = text("Terreni", legend.Width, ink, SmallFontSize, true, 1); dc.DrawText(heading, new Point(x, y));
         y += LegendRow + LegendTitleGap;
         dc.DrawText(text("Strato", nameWidth, muted, SmallFontSize, false, 1), new Point(name, y));
         dc.DrawText(text("γ", LegendValue, muted, SmallFontSize, false, 1), new Point(gamma, y));
         dc.DrawText(text("φ′", LegendValue, muted, SmallFontSize, false, 1), new Point(phi, y));
-        dc.DrawText(text("Lato", LegendSides, muted, SmallFontSize, false, 1), new Point(sides, y));
+        if (sides) dc.DrawText(text("Lato", LegendSides, muted, SmallFontSize, false, 1), new Point(side, y));
         foreach (var soil in m.Soils)
         {
             y += LegendRow;
@@ -383,7 +386,7 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
             dc.DrawText(text(string.IsNullOrWhiteSpace(soil.Name) ? "—" : soil.Name, nameWidth, ink, SmallFontSize, false, 1), new Point(name, y));
             dc.DrawText(text(soil.Gamma, LegendValue, ink, SmallFontSize, false, 1), new Point(gamma, y));
             dc.DrawText(text(soil.Phi, LegendValue, ink, SmallFontSize, false, 1), new Point(phi, y));
-            dc.DrawText(text(soil.Sides, LegendSides, ink, SmallFontSize, false, 1), new Point(sides, y));
+            if (sides) dc.DrawText(text(soil.Sides, LegendSides, ink, SmallFontSize, false, 1), new Point(side, y));
             var first = soil.Bands[0];
             hits.Add((new Rect(legend.X, y, legend.Width, LegendRow), new(first.Table, first.Row, first.Detail)));
         }
