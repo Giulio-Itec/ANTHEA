@@ -40,7 +40,8 @@ static partial class Program
         {
             host.Show(); Wait(150);
             Check(Children<TextBlock>(editor).Any(t => t.Text == "Stratigrafia del terreno"), "Standalone stratigraphy editor opened");
-            var list = Children<ListBox>(editor).Single();
+            Children<Expander>(editor).Single(e => e.Name == "Advanced").IsExpanded = true; Wait(50);
+            var list = Children<DataGrid>(editor).Single();
             Check(list.Items.Count == 2, "Two soil layers shown");
             Check(Children<ComboBox>(editor).Any(c => c.SelectedItem?.ToString() == "Entrambi"), "Scenario selection shown");
             Check(Children<TextBlock>(editor).Any(t => t.Text == "Valori minimi · opzionali"), "Minimum fields shown");
@@ -110,7 +111,7 @@ static partial class Program
             for (int i = 0; i < 200 && !extraction.IsCompleted; i++) Wait(20);
             Wait(50);
             Check(extraction.IsCompletedSuccessfully && importDialog.File == pdf && importDialog.Profiles.Count == 1 && importDialog.SelectedProfileIndex == 0, "Scripted draft extracted from the chosen file");
-            Check(Children<ListBox>(dialog).Single().Items.Count == 2, "AI draft preview uses actual editor");
+            Check(Children<DataGrid>(dialog).Single().Items.Count == 2, "AI draft preview uses actual editor");
             Check(data["import_source"] is null, "Draft changed source before applying");
             CapturePage(dialog, Path.Combine(output, "stratigrafia-anteprima.png"));
             var review = Children<CheckBox>(dialog).Single(c => c.Content?.ToString()?.StartsWith("Ho confrontato") == true);
