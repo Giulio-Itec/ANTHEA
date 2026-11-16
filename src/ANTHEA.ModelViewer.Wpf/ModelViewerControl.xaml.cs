@@ -111,6 +111,8 @@ public partial class ModelViewerControl : UserControl, IDisposable
             if (statistics.IncompleteDeformations > 0) viewModel.Status += $" · {statistics.IncompleteDeformations} elementi con spostamenti incompleti";
             if (viewModel.ShowLocalAxes && viewModel.Snapshot.LocalFrames == null) viewModel.Status += " · terne locali non importate";
             if (viewModel.ShowNodeAxes && viewModel.Snapshot.NodeFrames == null) viewModel.Status += " · terne nodali non importate";
+            // R7 (16/11/2026): the scene of the copy is on screen; the base cases of GPC may be prepared in the background now.
+            viewModel.SceneReady();
         }
         catch (Exception ex) { viewModel.Status = "Vista non disponibile: " + ex.Message; }
     }

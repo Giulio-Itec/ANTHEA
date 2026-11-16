@@ -172,6 +172,8 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         snapshot = ModelCombinations.WithCurrentResults(snapshot);
         updating = true; Snapshot = snapshot;
         categoryColors.Clear();
+        // R7 (16/11/2026): the preparation of the previous copy stops; this one is prepared when its scene is ready (SceneReady).
+        ResetPreparation();
         ResetRevision();
         Title = displayName ?? snapshot.Name; Summary = $"{snapshot.Nodes.Length:N0} nodi · {snapshot.Elements.Length:N0} elementi";
         InitializeWorkspace();

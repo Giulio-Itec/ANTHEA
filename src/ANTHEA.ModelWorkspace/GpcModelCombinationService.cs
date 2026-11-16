@@ -43,26 +43,41 @@ public sealed partial class GpcModelCombinationService
     /// does not wait for it. The same preparation and the same gate as <see cref="CalculateAsync"/>: a calculation started meanwhile waits for
     /// it and reuses it. Nothing is reported: a copy that cannot be prepared is explained by the calculation, as before.
     /// </summary>
-    public async Task PrepareAsync(ModelSnapshot snapshot,CancellationToken token=default)
+    public Task PrepareAsync(ModelSnapshot snapshot,CancellationToken token=default)=>PrepareAsync(snapshot,false,token);
+
+    /// <summary>
+    /// As <see cref="PrepareAsync(ModelSnapshot, CancellationToken)"/>; with <paramref name="lowPriority"/> (rilievo R7, 16/11/2026: the preparation
+    /// started when the model opens, approved by the user) the thread that prepares runs below normal priority, so that the window and the other
+    /// programs go first. The same preparation and the same gate: a calculation or the catalogue started meanwhile waits for it and reuses it.
+    /// True when the copy is prepared at the end (now or before).
+    /// </summary>
+    public async Task<bool> PrepareAsync(ModelSnapshot snapshot,bool lowPriority,CancellationToken token)
     {
         try
         {
             await calculationGate.WaitAsync(token).ConfigureAwait(false);
             try
             {
-                await Task.Run(()=>
+                return await Task.Run(()=>
                 {
-                    if(!GpcSnapshotModel.CanRebuild(snapshot))return;
+                    if(!GpcSnapshotModel.CanRebuild(snapshot))return false;
                     string revision=ModelCombinations.PreparationRevision(snapshot);
-                    if(prepared?.Revision==revision)return; // already prepared: the catalogue opened again
-                    snapshot.Validate();prepared=Prepare(snapshot,revision,null,token);
-                    if(UseMatrix)prepared.Matrix=CombinationMatrix.Prepare(prepared.Model,Dataset,prepared.Model.AllElements,token);
+                    if(prepared?.Revision==revision)return true; // already prepared: the catalogue opened again
+                    var thread=Thread.CurrentThread;var priority=thread.Priority;
+                    if(lowPriority)thread.Priority=ThreadPriority.BelowNormal;
+                    try
+                    {
+                        snapshot.Validate();prepared=Prepare(snapshot,revision,null,token);
+                        if(UseMatrix)prepared.Matrix=CombinationMatrix.Prepare(prepared.Model,Dataset,prepared.Model.AllElements,token);
+                        return true;
+                    }
+                    finally {thread.Priority=priority;}
                 },token).ConfigureAwait(false);
             }
             finally {calculationGate.Release();}
         }
         catch(Exception ex) when(ex is OperationCanceledException or InvalidDataException or ArgumentException or InvalidOperationException
-            or NotSupportedException or FormatException or KeyNotFoundException or System.Text.Json.JsonException) {}
+            or NotSupportedException or FormatException or KeyNotFoundException or System.Text.Json.JsonException) {return false;}
     }
 
     public async Task<ModelCombinationCalculation> CalculateAsync(ModelSnapshot snapshot,string definitionId,
@@ -144,6 +159,8 @@ public sealed partial class GpcModelCombinationService
         foreach(var p in platePrincipals)if(p.Location is PointResultPlateForces {SourceNodeId:not null} at)principals.TryAdd((p.Owner,at.SourceNodeId),p);
         var principalLabels=platePrincipals.SelectMany(p=>p.Components).SelectMany(e=>new[]{e.MinimumStateId,e.MaximumStateId})
             .Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
+        // R1 (16/11/2026): the states grouped by location once for the minimum and the maximum (twice before), in the same order.
+        var groups=Locations(states);
         var results=(envelope?new[]{false,true}:new[]{false}).Select(max=>DisplayResult(snapshot,selected,required,revision,
             groups,sourceNodes,labels,envelope,max,token,principals,principalLabels)).ToArray();
         if(results.All(r=>r.Values.Length==0&&(r.Fields?.Length??0)==0&&(r.Displacements?.Length??0)==0))
@@ -159,8 +176,6 @@ public sealed partial class GpcModelCombinationService
             // 1.15.0: sources without MIDAS tables (Straus7). The GPC model is rebuilt from the document copy itself.
             var basis=snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&r.Stage==null).ToArray();
             progress?.Report(new($"Preparazione iniziale · {basis.Length} casi base GPC dalla copia del documento. Saranno riutilizzati per le altre combinazioni…"));
-        // R1 (16/11/2026): the states grouped by location once for the minimum and the maximum (twice before), in the same order.
-        var groups=Locations(states);
             var (rebuilt,output,notes)=GpcSnapshotModel.Build(snapshot,revision,basis,token);
             var sampleOwners=new Dictionary<ResultLocation,Element>(ReferenceEqualityComparer.Instance);
             foreach(var owner in rebuilt.AllElements)foreach(var sample in owner.Results.SelectMany(r=>r.Results))sampleOwners.Add(sample,owner);
@@ -223,6 +238,11 @@ public sealed partial class GpcModelCombinationService
     /// and its vector as displayed. From the samples of CombinationRebuild or from the states of CombinationMatrix: the same values.</summary>
     readonly record struct CombinedState(Element Owner,ResultLocation Location,string StateId,IReadOnlyList<string> Roles,double[] Vector);
 
+    /// <summary>The combined states of each location (element, node of a plate, station of a member, node), in the order of the states.</summary>
+    static IGrouping<(Element Owner,int? Node,double? Station,bool Nodal),CombinedState>[] Locations(CombinedState[] states)=>
+        states.GroupBy(p=>(p.Owner,p.Location is PointResultPlateForces plate?plate.SourceNodeId:0,
+            p.Location is StationResultBeamForces beam?(double?)beam.ParametricDistance:null,p.Location is NodeResultForces)).ToArray();
+
     static ModelResultSet DisplayResult(ModelSnapshot snapshot,ModelCombinationDefinition definition,string[] required,string revision,
         IGrouping<(Element Owner,int? Node,double? Station,bool Nodal),CombinedState>[] locations,IReadOnlyDictionary<int,int> sourceNodes,string[] labels,bool envelope,bool maximum,CancellationToken token,
         IReadOnlyDictionary<(Element,int?),PlatePrincipalResult> principals,string[] principalLabels)
@@ -233,15 +253,14 @@ public sealed partial class GpcModelCombinationService
         var principalIndex=principalLabels.Select((label,i)=>(label,i)).ToDictionary(p=>p.label,p=>p.i,StringComparer.Ordinal);
         var elements=snapshot.Elements.ToDictionary(e=>e.Id);
         var labelIndex=labels.Select((label,i)=>(label,i)).ToDictionary(p=>p.label,p=>p.i,StringComparer.Ordinal);
+        // Rilievo R1 (16/11/2026): the names of the alternatives («A0», «A1»…, «P1»…) made once for each result instead of once for each governing
+        // record (21.5 million equal strings after «Calcola tutte» on the MIDAS model of 16/11). The same texts, so the same JSON and fingerprints.
+        var alternativeNames=Enumerable.Range(0,labels.Length+1).Select(i=>"A"+i.ToString(CultureInfo.InvariantCulture)).ToArray();
+        var principalNames=Enumerable.Range(1,principalLabels.Length).Select(i=>"P"+i.ToString(CultureInfo.InvariantCulture)).ToArray();
         // 1.16.0: displacements and reactions of a node are separate groups; members take the family of their document element (BEAM, TRUSS, CABLE).
         foreach(var group in locations)
         {
             token.ThrowIfCancellationRequested();
-    /// <summary>The combined states of each location (element, node of a plate, station of a member, node), in the order of the states.</summary>
-    static IGrouping<(Element Owner,int? Node,double? Station,bool Nodal),CombinedState>[] Locations(CombinedState[] states)=>
-        states.GroupBy(p=>(p.Owner,p.Location is PointResultPlateForces plate?plate.SourceNodeId:0,
-            p.Location is StationResultBeamForces beam?(double?)beam.ParametricDistance:null,p.Location is NodeResultForces)).ToArray();
-
             int id=int.Parse(group.Key.Owner.Source.OriginalId,CultureInfo.InvariantCulture);
             var firstState=group.First();var first=firstState.Location;
             string family=first is PointResultPlateForces?"PLATE":first is StationResultBeamForces?elements[id].Type:first is NodeResultForces?"REACTION":"NODE";
@@ -252,10 +271,6 @@ public sealed partial class GpcModelCombinationService
             string[] canonical=family switch {"PLATE"=>["Mxx","Myy","Mxy","Nxx","Nyy","Nxy","Qx","Qy"],"NODE"=>["Dx","Dy","Dz"],"REACTION"=>["Fx","Fy","Fz","Mx","My","Mz"],
                 "BEAM"=>["N","V1","V2","T","M1","M2"],_=>["N"]};
             var values=new double[components.Length];
-        // Rilievo R1 (16/11/2026): the names of the alternatives («A0», «A1»…, «P1»…) made once for each result instead of once for each governing
-        // record (21.5 million equal strings after «Calcola tutte» on the MIDAS model of 16/11). The same texts, so the same JSON and fingerprints.
-        var alternativeNames=Enumerable.Range(0,labels.Length+1).Select(i=>"A"+i.ToString(CultureInfo.InvariantCulture)).ToArray();
-        var principalNames=Enumerable.Range(1,principalLabels.Length).Select(i=>"P"+i.ToString(CultureInfo.InvariantCulture)).ToArray();
             for(int c=0;c<components.Length;c++)
             {
                 bool reverse=family=="PLATE"&&c<3||family=="BEAM"&&c==4;
