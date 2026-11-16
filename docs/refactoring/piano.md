@@ -1765,7 +1765,8 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - [x] Correzioni delle schede senza dati dal ramo `claude/copriferro-materiali-vuoto`: otto commit con cherry-pick (e50dd72e…d468c625), conflitti in `ProjectValidation.cs`, `SharedDataCoordinator.cs` e in questo piano risolti unendo le regole (verbale [installer-1.19.1.md](installer-1.19.1.md)).
 - [x] Prove su d468c625: 9 build e 10 suite dei progetti e dei report PASS; 10 UI dei progetti PASS e F3 con le stesse 1086 differenze della Wiki. Full non ripetuta: le correzioni toccano solo progetti, report e la finestra dei dati condivisi.
 - [x] Note di rilascio con le schede senza dati, PDF controllato (4 pagine).
-- [ ] `ui/check-contrast`, pacchetto dal commit di prodotto pulito, audit e collaudi installer con TEMP in `%LOCALAPPDATA%\Temp`; esiti nel verbale.
+- [x] `ui/check-contrast` sul commit di prodotto 5c52a799: PASS, zero difetti nei tre temi.
+- [x] Setup dal commit di prodotto pulito: 74.814.011 byte, SHA-256 AD8A32F5BDE18669F33A0F9B4AE1513CEF49AF0C2ADF392E7EBB268C99FDAA6E, ProductVersion 1.19.1+5c52a799; `7z t` e Audit-Installer PASS (14 DLL AW, Rev72, 95 esempi). Collaudi con TEMP in `%LOCALAPPDATA%\Temp`: safety 26, guides 35, examples 206 PASS. Dettagli nel verbale [installer-1.19.1.md](installer-1.19.1.md).
 - [ ] Scelta dell'utente fra candidata 191b e completa; OK transizioni Wiki e gestione formale dei sei F4. Nessun push o tag in questa attività.
 
 

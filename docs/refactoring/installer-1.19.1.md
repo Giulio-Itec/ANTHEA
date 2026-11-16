@@ -18,7 +18,8 @@ ripetuto l'audit; rinominare il file non basta. [Note di rilascio](note-rilascio
 | Guide con P10 e strati | `69e9f2d2f6c6460c0b32b477e2c900d184a99f03` | paragrafo P10 e protezione degli strati nelle guide Rev72, Word/PDF e Wiki |
 | Note e verbale | `283815e3` | documenti della candidata ripresi dopo l'interruzione di Codex |
 | Schede senza dati | da `e50dd72e` a `d468c6254e71b80f6cdce233b69d0659cf856afc` | otto commit del ramo `claude/copriferro-materiali-vuoto` (clone `CX/ANTHEA-copriferro`, da main `6c7d03a7`), tabella sotto |
-| Note di rilascio complete | commit di prodotto | note con le schede senza dati, PDF, piano e questo verbale |
+| Note di rilascio complete | **`5c52a79902d9cb3d3f440c30550bfeae6123fdcb`**, commit di prodotto | note con le schede senza dati, PDF, piano e verbale; da qui il setup |
+| Verbale finale | commit figlio del prodotto | solo questo verbale e il piano, nessuna modifica al prodotto |
 
 Correzioni delle schede senza dati, prese con cherry-pick nell'ordine del ramo:
 
@@ -94,9 +95,71 @@ tutte nelle due corse sopra; la full del 208 copre il resto, che non cambia.
 
 ## Pacchetto
 
-Da costruire dal commit di prodotto pulito con `supporto/installer/Crea-Installer.ps1`, poi `7z t`, estrazione
-e `tools/qa/Audit-Installer.py --version 1.19.1 --guide-revision 72 --library-set AW`. Collaudi
-`installer/safety`, `installer/guides` e `installer/examples` con TEMP e TMP in `%LOCALAPPDATA%\Temp`.
-Prima del pacchetto, in una tenuta del lock a parte, `ui/check-contrast`, perché `23287e44` cambia il modo in
-cui si costruisce la finestra «Dati condivisi della sezione», che la prova del contrasto apre.
-Gli esiti si registrano in questo verbale, nel commit successivo a quello di prodotto.
+### Contrasto
+
+`ui/check-contrast` sul commit di prodotto `5c52a799`, in una tenuta del lock a parte (corsa
+`20261116-080852-c1191-contrast`, 08:08–08:38): build UiTests e prova PASS in 1739 s, «Scuro 0, Molto scuro 0;
+Chiara 0 difetti in 0 voci (baseline 0)». Serviva perché `23287e44` cambia il modo in cui si costruisce la
+finestra «Dati condivisi della sezione», che la prova del contrasto apre. Nessun file versionato toccato.
+
+### Costruzione e audit
+
+Dal commit di prodotto `5c52a79902d9cb3d3f440c30550bfeae6123fdcb`, albero pulito, sotto `INT/pesante.lock`
+(08:39–08:48), TEMP e TMP in `%LOCALAPPDATA%\Temp`, `dotnet build/publish` con `-m:1 -p:UseSharedCompilation=false`:
+
+```powershell
+& .\supporto\installer\Crea-Installer.ps1 `
+  -OutputDirectory .\supporto\artefatti\rilascio-1.19.1-completa\installer `
+  -MakeNsis 'C:\Program Files (x86)\NSIS\makensis.exe'
+& 'C:\Program Files\7-Zip\7z.exe' t .\supporto\artefatti\rilascio-1.19.1-completa\installer\ANTHEA-1.19.1-Setup-x64.exe
+& 'C:\Program Files\7-Zip\7z.exe' x .\supporto\artefatti\rilascio-1.19.1-completa\installer\ANTHEA-1.19.1-Setup-x64.exe `
+  '-o.\supporto\artefatti\rilascio-1.19.1-completa\installer\estratto' -y
+py -3 -X utf8 -I .\tools\qa\Audit-Installer.py `
+  --setup .\supporto\artefatti\rilascio-1.19.1-completa\installer\ANTHEA-1.19.1-Setup-x64.exe `
+  --extract .\supporto\artefatti\rilascio-1.19.1-completa\installer\estratto `
+  --version 1.19.1 --guide-revision 72 --library-set AW `
+  --out .\supporto\artefatti\rilascio-1.19.1-completa\installer\audit-payload.json
+```
+
+| Controllo | Risultato |
+|---|---|
+| Setup | `supporto/artefatti/rilascio-1.19.1-completa/installer/ANTHEA-1.19.1-Setup-x64.exe` nel clone `CX/ANTHEA-1191c` |
+| Dimensione | **74.814.011 byte** (191b: 74.290.636; +523.375, soprattutto le guide Rev72) |
+| SHA-256 | **`AD8A32F5BDE18669F33A0F9B4AE1513CEF49AF0C2ADF392E7EBB268C99FDAA6E`** |
+| ProductVersion di ANTHEA.exe estratto | `1.19.1+5c52a79902d9cb3d3f440c30550bfeae6123fdcb` |
+| Integrità | `7z t` «Everything is Ok»; estrazione con `7z x` |
+| Audit-Installer | PASS: 332 file applicazione, 432 file payload uguali allo staging, sorgente pulito |
+| DLL GPC | 14/14 uguali al manifest AW (`4E43D466…CA3D0`) |
+| Guide ed esempi | Rev72 (pratica e teorica uguali ai PDF Rev72 del repository), indice, articolo, 95 esempi in 32 moduli |
+| Worker Straus7 | quattro file presenti; `St7api.dll` assente |
+| File vietati | nessuno (anche nessun Gmsh, GMesh, UnsafeEx, GPCModelChecker nell'estrazione) |
+| Codice di prova | `Assert-NoTestCode.ps1` PASS durante la costruzione |
+
+La compilazione registra gli stessi warning del 191b: 15 occorrenze, 11 messaggi distinti, negli stessi file e
+nelle stesse righe (per esempio CS8618 in `WallModel.Data.cs`), nessuno nei file toccati qui; non sono corretti. Non è stata eseguita l'installazione completa sul profilo
+dell'utente né una prova nativa del worker.
+
+### Collaudi dell'installer
+
+Corsa `20261116-084732-c1191-installer` sul commit di prodotto, `build/ci-208.ps1 -Stage fast -Installer -NoBuild
+-Only '^installer/(safety|guides|examples)$'`, TEMP e TMP in `%LOCALAPPDATA%\Temp`, NSIS 3 di
+`C:\Program Files (x86)\NSIS`:
+
+| Suite | Esito |
+|---|---|
+| `installer/safety` | PASS, 26 controlli |
+| `installer/guides` | PASS, 35 controlli: installazione, hash dei quattro PDF, collegamenti, disinstallatore fino alla fine della sezione di rimozione, PDF rimossi, documenti personali conservati |
+| `installer/examples` | PASS, 206 controlli |
+
+Nessun file versionato toccato. Il FAIL di `installer/guides` del 191b (rimozione non completata con TEMP sotto
+Documents/CX) non si ripresenta con TEMP in `%LOCALAPPDATA%\Temp`, come già indicato dal sorgente del test;
+la causa del comportamento sotto Documents resta non determinata.
+
+## Cosa resta all'utente
+
+- Scegliere fra questa candidata e quella del 191b. Se sceglie questa, il tag `v1.19.1` va sul commit di prodotto
+  `5c52a799`; `main` e `refactoring/f5` sul commit figlio di questo verbale, come per la 1.19.0. Lo script di
+  pubblicazione del 191b controlla l'HEAD `3120a64d`: per questa candidata va adattato agli SHA di qui.
+- Decidere sui sei confronti storici F4: oggi sono FAIL dichiarati, non voci di `build/known-failures.json`.
+- Approvare o no le transizioni F3 della Wiki Rev72 (`chatgpt-compiti/evidenze-208/wiki-rev72-per-ok.md`).
+- Le prove native Straus7 e MIDAS non fanno parte di questa preparazione.
