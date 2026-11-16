@@ -1753,3 +1753,12 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - [x] Due fallimenti della guida riprodotti anche sulla base `94f48d20`: indice e catalogo del manuale richiamano sei immagini sotto `supporto/artefatti` assenti nei nuovi worktree. Nessun atteso aggiornato; worktree di confronto rimosso con il solo `git worktree remove`.
 - [ ] Rimangono il set ufficiale delle librerie e il collaudo di rilascio. Escluse le suite native/UI e quelle che cancellano file, come richiesto dall’utente; nessuna asserzione rimossa.
 - Evidenze: `supporto/artefatti/ci/20261107-081518-integrazione-1190-consentite` e `supporto/artefatti/integrazione-1190`; resoconto esterno in `Repository/chatgpt-compiti/anthea-1190-integrazione-resoconto.md`. Nessun push, tag, cambio di versione o installer.
+
+
+## Candidata completa 1.19.1 — compito 208 (16 novembre 2026)
+
+- [x] Clone isolato da 84621b6f, versione 1.19.1 invariata; integrati nell'ordine P10 84c99d93 e strati 48cd276f/83e68e0a, senza conflitti. Vecchia riproduzione rimossa dal commit di correzione, prove ordinarie attive.
+- [x] Guide Rev72 e Wiki aggiornate al comportamento presente, senza duplicare R1/R2; Word/PDF, audit ITEC e controllo delle 354 pagine conclusi. Dettagli in [guide-rev72-208.md](guide-rev72-208.md).
+- [x] Sette build, sei suite funzionali e UI mirate PASS. F4: sei PASS e sei FAIL storici identici al 191. F3: sole differenze Wiki, proposta separata per l'OK; nessun riferimento congelato modificato.
+- [ ] Completamento del profilo full e preparazione/collaudo locale del pacchetto nella fase conclusiva del compito 208.
+- [ ] Scelta dell'utente fra candidata 191b e completa; OK transizioni Wiki e gestione formale dei sei F4. Nessun push o tag in questa attività.

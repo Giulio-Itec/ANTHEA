@@ -185,11 +185,15 @@ Per esempio, un materiale CLS definito nel progetto può governare i fogli compa
 
 Quando si confermano o si salvano modifiche a un riferimento, le proprietà compatibili possono propagarsi ai discendenti. In assenza di un riferimento superiore, resta la scelta fra aggiornare i fogli dello stesso livello e mantenere il dato locale. I fogli nuovi ereditano ciò che è definito senza ambiguità. Se due riferimenti dello stesso livello sono discordanti, ANTHEA non sceglie silenziosamente uno dei due.
 
+Il controllo del copriferro segue la stessa regola: usa tutte le schede Materiali del livello più alto che ne ha, dal progetto fino alla sezione del foglio. Una scheda Materiali messa più in basso, per esempio nella sezione dei pali, non governa il controllo. Se con quella scheda l'esito o il minimo sarebbero diversi, compare un avviso che nomina le due schede, i loro livelli e il minimo che darebbe la scheda più vicina; l'esito del controllo resta quello della scheda del livello più alto. L'avviso si vede nella riga sopra il foglio, nel confronto, nel riquadro Controlli del riepilogo e nel report. Per usare in un ramo un calcestruzzo diverso, togliere la scheda Materiali dal livello più alto e metterne una in ogni ramo, oppure portare i dati della scheda più vicina in quella del livello più alto.
+
+**RISPETTATO** vale per il Materiali indicato nel messaggio e le barre effettive considerate: non garantisce il rispetto di un requisito locale più severo. Controllare il riferimento usato e la sua posizione nel progetto e confrontare il copriferro adottato anche con gli eventuali minimi locali più severi.
+
+Quando una modifica cambia il numero di strati di un sondaggio o il numero di sondaggi, la conferma non propaga automaticamente i dati del sondaggio interessato agli altri fogli; anche le modifiche successive si propagano solo dove il numero di strati coincide. Per riallineare i fogli occorre rendere coerente la loro suddivisione: la sola assenza di conflitti visibili non garantisce che il numero di strati sia uguale.
+
 Prima di produrre un report di progetto aprire il riepilogo Controlli e Dati comuni. Un avviso sul copriferro o un conflitto non è necessariamente un errore numerico, ma richiede una decisione esplicita. La condivisione non deve essere confusa con una sincronizzazione universale di ogni campo: gli adattatori dei moduli preservano unità, forme ammesse e significato delle proprietà.
 
-Nel controllo del copriferro ANTHEA cerca dal progetto verso la sezione del foglio e usa tutte le schede Materiali del primo livello che ne contiene, senza includere quelle dei livelli inferiori. **RISPETTATO** vale per il Materiali indicato nel messaggio e le barre effettive considerate: non garantisce il rispetto di un requisito locale più severo. Controllare il riferimento usato e la sua posizione nel progetto; se le condizioni locali differiscono, confrontare anche il copriferro adottato con il minimo richiesto per quelle condizioni.
-
-Se una scheda del livello selezionato è vuota o priva dei dati necessari, il controllo del copriferro riporta **non verificabile** e prosegue con le altre schede Materiali dello stesso livello. Non cerca un riferimento valido nei livelli inferiori: completare la scheda e ricontrollare.
+Se una scheda del livello selezionato è vuota o priva dei dati necessari, il controllo del copriferro riporta **non verificabile** e prosegue con le altre schede Materiali dello stesso livello. Non sostituisce il riferimento con una scheda valida dei livelli inferiori; il confronto diagnostico con queste schede può comunque produrre un avviso. Completare la scheda e ricontrollare.
 
 ### Spostare duplicare e annullare
 

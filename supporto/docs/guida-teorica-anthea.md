@@ -341,6 +341,8 @@ Come esempio del ramo NTC, XF2, fck = 30 MPa, elemento non a piastra, vita 50 an
 
 Il controllo di progetto del copriferro applica questi requisiti alle schede Materiali del primo livello che ne contiene, percorrendo la gerarchia dal progetto alla sezione del foglio. La selezione riguarda l'intero gruppo, prima della validazione dei dati; non combina i requisiti dei livelli successivi. Un esito **RISPETTATO** riguarda il riferimento selezionato e le barre effettive controllate, non eventuali condizioni locali più severe, da verificare separatamente. Un Materiali senza dati produce **non verificabile**; il controllo continua sulle altre schede del gruppo scelto, senza passare a un livello inferiore.
 
+Un avviso nell'interfaccia e nel report richiama le schede Materiali locali escluse dal controllo quando darebbero un esito o un minimo diverso da quello del riferimento selezionato. Il messaggio non estende l'esito **RISPETTATO** a quei riferimenti: confrontare separatamente il copriferro adottato con gli eventuali minimi locali più severi. Il minimo è confrontato alla precisione di 0,01 mm esposta nel messaggio; schede con lo stesso minimo e lo stesso esito non producono questo avviso.
+
 ## Palo verticale
 
 ### Geometria e tensioni geostatiche
