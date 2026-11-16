@@ -44,7 +44,7 @@ try
     if (versionAudit) { Console.WriteLine("PASS " + ShallowFoundationSheetChecks.AuditLibraryVersion(root, output) + " confronto versione fondazioni"); return 0; }
     if (embeddedWalls)
     {
-        checks = EmbeddedWallChecks.Run(output);
+        checks = UnitNumberFormatChecks.Run(output) + EmbeddedWallChecks.Run(output);
         string result = $"PASS {checks} controlli paratie, applicazione e MVVM";
         File.WriteAllText(Path.Combine(output, "esito.txt"), result, new UTF8Encoding(false)); Console.WriteLine(result); return 0;
     }
@@ -92,6 +92,7 @@ try
     }
     checks += ViewModelBaseChecks.Run();
     checks += NumberSeparatorChecks.Run();
+    checks += UnitNumberFormatChecks.Run(output);
     checks += ReportTemplateMenuChecks.Run(output);
     checks += EmbeddedWallChecks.Run(output);
     checks += await CommandGuardChecks.RunAsync();

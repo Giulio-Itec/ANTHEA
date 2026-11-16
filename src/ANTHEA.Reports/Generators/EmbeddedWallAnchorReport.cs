@@ -14,8 +14,8 @@ public static partial class EmbeddedWallReport
         foreach (var c in result.AnchorChecks ?? [])
         {
             paragraph($"{c.Stage} · {c.Support} · {c.OutcomeText}", true);
-            paragraph($"Ed={F(c.Demand)} kN; Rad={F(c.Capacity)} kN; utilizzo={F(c.Ratio)}. Forze per singolo tirante.", false);
-            paragraph($"Media={F(c.Mean)} kN; minimo={F(c.Minimum)} kN; Rak={F(c.Characteristic)} kN; ξ medio/minimo={F(c.MeanFactor)}/{F(c.MinimumFactor)}; γR={F(c.ResistanceFactor)}.", false);
+            paragraph($"Ed={F(c.Demand, "kN")} kN; Rad={F(c.Capacity, "kN")} kN; utilizzo={F(c.Ratio, "")}. Forze per singolo tirante.", false);
+            paragraph($"Media={F(c.Mean, "kN")} kN; minimo={F(c.Minimum, "kN")} kN; Rak={F(c.Characteristic, "kN")} kN; ξ medio/minimo={F(c.MeanFactor, "")}/{F(c.MinimumFactor, "")}; γR={F(c.ResistanceFactor, "")}.", false);
             if (notes.Add(c.Reference + c.Source)) paragraph(c.Reference + ". " + c.Source, false);
             if (notes.Add(c.Diagnostic)) paragraph(c.Diagnostic, false);
             if (evidence.TryGetValue((c.CaseId, c.Support), out var previous)
@@ -25,13 +25,13 @@ public static partial class EmbeddedWallReport
                 continue;
             }
             evidence[(c.CaseId, c.Support)] = c;
-            table(["Profilo / prova", "Ra [kN]", "Campo applicabile", "Fonte"], c.Samples.Select(s => new[] { s.Id, F(s.Resistance), s.Applicable ? "sì" : "no", s.Source }));
+            table(["Profilo / prova", "Ra [kN]", "Campo applicabile", "Fonte"], c.Samples.Select(s => new[] { s.Id, T(s.Resistance, "kN"), s.Applicable ? "sì" : "no", s.Source }));
             foreach (var s in c.Samples.Where(s => !string.IsNullOrWhiteSpace(s.Diagnostic))) paragraph(s.Id + ": " + s.Diagnostic, false);
             if (c.Segments.Count > 0)
             {
                 table(["Profilo / strato", "Asse da/a [m]", "pl / pi [MPa]", "α / Ds [mm]", "Curva / qs [MPa]", "Ra [kN]"],
-                    c.Segments.Select(s => new[] { s.Profile + "/" + s.Layer, F(s.Start) + "/" + F(s.End), F(s.LimitPressure) + "/" + F(s.InjectionPressure),
-                        F(s.DiameterFactor) + "/" + F(s.BulbDiameter), s.Curve + "/" + F(s.UnitResistance), F(s.Resistance) }));
+                    c.Segments.Select(s => new[] { s.Profile + "/" + s.Layer, T(s.Start, "m") + "/" + T(s.End, "m"), T(s.LimitPressure, "MPa") + "/" + T(s.InjectionPressure, "MPa"),
+                        T(s.DiameterFactor, "") + "/" + T(s.BulbDiameter, "mm"), s.Curve + "/" + T(s.UnitResistance, "MPa"), T(s.Resistance, "kN") }));
                 foreach (string source in c.Segments.Select(s => s.Source).Distinct(StringComparer.Ordinal))
                     if (notes.Add(source)) paragraph("Fonte pressiometrica: " + source, false);
             }

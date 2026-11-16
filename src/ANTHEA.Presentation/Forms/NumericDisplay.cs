@@ -20,4 +20,11 @@ public static class NumericDisplay
         if (strain && n != 0 && Math.Abs(n) < .01) return EngineeringFormat.Number(n);
         return (Math.Round(n, 2) == 0 ? 0 : n).ToString("0.##", CultureInfo.CurrentCulture);
     }
+
+    /// <summary>
+    /// A computed number with the decimals of its unit (<see cref="UnitNumberFormat"/>, rule approved on 16/11/2026) in the culture of the application,
+    /// that is with the decimal separator chosen in «Aspetto»: fixed decimals with the final zeros in a table (<paramref name="table"/>), «—» without
+    /// a value, a power of ten for m/s. For results, diagrams and tables; the fields keep <see cref="Format"/>.
+    /// </summary>
+    public static string Unit(double? value, string? unit, bool table = false) => UnitNumberFormat.Format(value, unit, CultureInfo.CurrentCulture, table);
 }
