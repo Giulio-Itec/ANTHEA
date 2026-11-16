@@ -1,6 +1,7 @@
 <UserControl x:Class="X.Desktop.Views.EmbeddedWalls.EmbeddedWallSheetView"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:common="clr-namespace:X.Desktop.Views.Common"
- xmlns:local="clr-namespace:X.Desktop.Views.EmbeddedWalls" Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}">
+ xmlns:local="clr-namespace:X.Desktop.Views.EmbeddedWalls" Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}"
+ common:FieldForm.ChoiceLabels="{Binding ChoiceLabels}">
  <!--
   Organizzazione del modulo paratie (progetto del 16/11, step 1): a Navy command bar with pages of commands grouped by subject above the work
   area, and the documents opened in the centre (the section of the phase always open; tables, results and checks opened on request and closed
@@ -8,6 +9,9 @@
  -->
  <UserControl.Resources>
   <BooleanToVisibilityConverter x:Key="Shown"/>
+  <!-- Cifre significative (16/11): numbers with the decimals of their unit in the culture of ANTHEA, English terms of the results in Italian. -->
+  <local:EmbeddedWallNumberConverter x:Key="Number"/>
+  <local:EmbeddedWallTermConverter x:Key="Term"/>
   <!-- Commands on the bar: the colours of Shell.BarButton (ShellTemplates.xaml, not merged in a module view), a little lower. -->
   <Style x:Key="BarButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
    <Setter Property="Background" Value="{DynamicResource Token.CommandBar}"/>
@@ -613,15 +617,15 @@
      <Grid Grid.Column="1" Margin="20,0,0,0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
       <TextBlock Text="{Binding EmbedmentStatus}" TextWrapping="Wrap" Margin="0,0,0,12"/>
       <DataGrid Grid.Row="1" ItemsSource="{Binding EmbedmentCandidates}" SelectedItem="{Binding SelectedEmbedment}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
-       <DataGrid.Columns><DataGridTextColumn Header="Infissione [m]" Binding="{Binding Embedment, StringFormat=G6}"/>
-        <DataGridTextColumn Header="Piede [m]" Binding="{Binding ToeElevation, StringFormat=G6}"/>
+       <DataGrid.Columns><DataGridTextColumn Header="Infissione [m]" Binding="{Binding Embedment, Converter={StaticResource Number}, ConverterParameter=m}"/>
+        <DataGridTextColumn Header="Piede [m]" Binding="{Binding ToeElevation, Converter={StaticResource Number}, ConverterParameter=m}"/>
         <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/></DataGrid.Columns>
       </DataGrid>
       <TextBlock Grid.Row="2" Text="{Binding EmbedmentCandidateDiagnostic}" TextWrapping="Wrap" Margin="0,12"/>
       <DataGrid Grid.Row="3" ItemsSource="{Binding EmbedmentCriteria}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
        <DataGrid.Columns><DataGridTextColumn Header="Criterio" Binding="{Binding Label}"/><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/>
-        <DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G6}"/><DataGridTextColumn Header="Limite" Binding="{Binding Limit, StringFormat=G6}"/>
-        <DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/>
+        <DataGridTextColumn Header="Domanda" SortMemberPath="Demand"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Demand"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Limite" SortMemberPath="Limit"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Limit"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
+        <DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource Number}, ConverterParameter=-}"/>
         <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Metodo / fonte" Binding="{Binding Method}"/></DataGrid.Columns>
       </DataGrid>
      </Grid>
@@ -642,12 +646,12 @@
       <local:EmbeddedWallDiagram Points="{Binding Points}" Comparison="{Binding ComparisonStage.Points}" Quantity="{Binding Diagram}" MinHeight="240"/>
       <DataGrid Grid.Row="1" ItemsSource="{Binding Points}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True">
        <DataGrid.Columns>
-        <DataGridTextColumn Header="Quota [m]" Binding="{Binding Elevation, StringFormat=G6}"/><DataGridTextColumn Header="Lato nodo" Binding="{Binding Side}"/>
-        <DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/><DataGridTextColumn Header="u [mm]" Binding="{Binding Displacement, StringFormat=G6}"/>
-        <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, StringFormat=G6}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, StringFormat=G6}"/>
-        <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, StringFormat=G6}"/><DataGridTextColumn Header="p sx [kPa]" Binding="{Binding LeftPressure, StringFormat=G6}"/>
-        <DataGridTextColumn Header="p dx [kPa]" Binding="{Binding RightPressure, StringFormat=G6}"/>
-        <DataGridTextColumn Header="q netto [kN/m]" Binding="{Binding NetDistributedLoad, StringFormat=G6}"/>
+        <DataGridTextColumn Header="Quota [m]" Binding="{Binding Elevation, Converter={StaticResource Number}, ConverterParameter=m}"/><DataGridTextColumn Header="Lato nodo" Binding="{Binding Side, Converter={StaticResource Term}, ConverterParameter=side}"/>
+        <DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/><DataGridTextColumn Header="u [mm]" Binding="{Binding Displacement, Converter={StaticResource Number}, ConverterParameter=mm}"/>
+        <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, Converter={StaticResource Number}, ConverterParameter=kN}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, Converter={StaticResource Number}, ConverterParameter=kN}"/>
+        <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, Converter={StaticResource Number}, ConverterParameter=kNm}"/><DataGridTextColumn Header="p sx [kPa]" Binding="{Binding LeftPressure, Converter={StaticResource Number}, ConverterParameter=kPa}"/>
+        <DataGridTextColumn Header="p dx [kPa]" Binding="{Binding RightPressure, Converter={StaticResource Number}, ConverterParameter=kPa}"/>
+        <DataGridTextColumn Header="q netto [kN/m]" Binding="{Binding NetDistributedLoad, Converter={StaticResource Number}, ConverterParameter=kN/m}"/>
        </DataGrid.Columns>
       </DataGrid>
      </Grid>
@@ -659,15 +663,15 @@
      <DataGrid Grid.Row="1" ItemsSource="{Binding Checks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns>
        <DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/>
-       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, StringFormat=G5}"/><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/>
-       <DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G6}"/><DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G6}"/>
-       <DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F3}"/>
+       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, Converter={StaticResource Number}, ConverterParameter=m}"/><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/>
+       <DataGridTextColumn Header="Domanda" SortMemberPath="Demand"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Demand"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Capacità" SortMemberPath="Capacity"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Capacity"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
+       <DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource Number}, ConverterParameter=-}"/>
        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/>
       </DataGrid.Columns>
      </DataGrid>
      <DataGrid Grid.Row="2" ItemsSource="{Binding Supports}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,12,0,0">
-      <DataGrid.Columns><DataGridTextColumn Header="Sostegno" Binding="{Binding Id}"/><DataGridTextColumn Header="Forza elemento [kN]" Binding="{Binding AxialForce, StringFormat=G6}"/>
-       <DataGridTextColumn Header="Reazione fascia [kN]" Binding="{Binding HorizontalReaction, StringFormat=G6}"/><DataGridTextColumn Header="Riferimento [mm]" Binding="{Binding ReferenceDisplacement, StringFormat=G6}"/>
+      <DataGrid.Columns><DataGridTextColumn Header="Sostegno" Binding="{Binding Id}"/><DataGridTextColumn Header="Forza elemento [kN]" Binding="{Binding AxialForce, Converter={StaticResource Number}, ConverterParameter=kN}"/>
+       <DataGridTextColumn Header="Reazione fascia [kN]" Binding="{Binding HorizontalReaction, Converter={StaticResource Number}, ConverterParameter=kN}"/><DataGridTextColumn Header="Riferimento [mm]" Binding="{Binding ReferenceDisplacement, Converter={StaticResource Number}, ConverterParameter=mm}"/>
        <DataGridCheckBoxColumn Header="Capacità raggiunta" Binding="{Binding AtCapacity}"/></DataGrid.Columns>
      </DataGrid>
     </Grid>
@@ -684,25 +688,25 @@
       <StackPanel DockPanel.Dock="Top">
        <WrapPanel><ComboBox ItemsSource="{Binding HydraulicStages}" SelectedItem="{Binding SelectedHydraulicStage}" DisplayMemberPath="Stage" Width="140" Margin="0,0,8,0"/>
         <ComboBox ItemsSource="{Binding HydraulicDiagrams}" SelectedItem="{Binding HydraulicDiagram}" Width="235"/></WrapPanel>
-       <WrapPanel Margin="0,6"><TextBlock Text="{Binding SelectedHydraulicStage.Status}" FontWeight="SemiBold" Margin="0,0,12,0"/>
-        <TextBlock Text="{Binding SelectedHydraulicStage.InflowLitresPerSecondPerMetre, StringFormat='Entrante {0:G5} L/s/m'}" Margin="0,0,12,0"/>
-        <TextBlock Text="{Binding SelectedHydraulicStage.OutflowLitresPerSecondPerMetre, StringFormat='Uscente {0:G5} L/s/m'}" Margin="0,0,12,0"/>
-        <TextBlock Text="{Binding SelectedHydraulicStage.BalanceLitresPerSecondPerMetre, StringFormat='Bilancio {0:G3} L/s/m'}"/></WrapPanel>
+       <WrapPanel Margin="0,6"><TextBlock Text="{Binding SelectedHydraulicStage.Status, Converter={StaticResource Term}, ConverterParameter=seepage}" FontWeight="SemiBold" Margin="0,0,12,0"/>
+        <TextBlock Text="{Binding SelectedHydraulicStage.InflowLitresPerSecondPerMetre, Converter={StaticResource Number}, ConverterParameter=L/s/m, StringFormat='Entrante {0} L/s/m'}" Margin="0,0,12,0"/>
+        <TextBlock Text="{Binding SelectedHydraulicStage.OutflowLitresPerSecondPerMetre, Converter={StaticResource Number}, ConverterParameter=L/s/m, StringFormat='Uscente {0} L/s/m'}" Margin="0,0,12,0"/>
+        <TextBlock Text="{Binding SelectedHydraulicStage.BalanceLitresPerSecondPerMetre, Converter={StaticResource Number}, ConverterParameter=L/s/m, StringFormat='Bilancio {0} L/s/m'}"/></WrapPanel>
        <TextBlock Text="{Binding SelectedHydraulicStage.Diagnostic}" TextWrapping="Wrap"/>
       </StackPanel>
       <Grid><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="190"/></Grid.RowDefinitions>
        <local:SeepageDiagram Field="{Binding SelectedHydraulicStage}" Quantity="{Binding HydraulicDiagram}" MinHeight="240"/>
        <TabControl common:TabMemory.Key="filtrazione" Grid.Row="1">
         <TabItem Header="Nodi"><DataGrid ItemsSource="{Binding HydraulicNodes}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True">
-         <DataGrid.Columns><DataGridTextColumn Header="Nodo" Binding="{Binding Index}"/><DataGridTextColumn Header="x [m]" Binding="{Binding X, StringFormat=G5}"/>
-          <DataGridTextColumn Header="z [m]" Binding="{Binding Z, StringFormat=G5}"/><DataGridTextColumn Header="h [m]" Binding="{Binding Head, StringFormat=G6}"/>
-          <DataGridTextColumn Header="u [kPa]" Binding="{Binding Pressure, StringFormat=G6}"/><DataGridCheckBoxColumn Header="Drenante" Binding="{Binding Draining}"/></DataGrid.Columns>
+         <DataGrid.Columns><DataGridTextColumn Header="Nodo" Binding="{Binding Index}"/><DataGridTextColumn Header="x [m]" Binding="{Binding X, Converter={StaticResource Number}, ConverterParameter=m}"/>
+          <DataGridTextColumn Header="z [m]" Binding="{Binding Z, Converter={StaticResource Number}, ConverterParameter=m}"/><DataGridTextColumn Header="h [m]" Binding="{Binding Head, Converter={StaticResource Number}, ConverterParameter=m}"/>
+          <DataGridTextColumn Header="u [kPa]" Binding="{Binding Pressure, Converter={StaticResource Number}, ConverterParameter=kPa}"/><DataGridCheckBoxColumn Header="Drenante" Binding="{Binding Draining}"/></DataGrid.Columns>
         </DataGrid></TabItem>
         <TabItem Header="Flussi"><DataGrid ItemsSource="{Binding HydraulicElements}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True">
          <DataGrid.Columns><DataGridTextColumn Header="A" Binding="{Binding A}"/><DataGridTextColumn Header="B" Binding="{Binding B}"/><DataGridTextColumn Header="C" Binding="{Binding C}"/>
-          <DataGridTextColumn Header="∂h/∂x" Binding="{Binding GradientX, StringFormat=G6}"/><DataGridTextColumn Header="∂h/∂z" Binding="{Binding GradientZ, StringFormat=G6}"/>
-          <DataGridTextColumn Header="qx [m/s]" Binding="{Binding FluxX, StringFormat=G6}"/><DataGridTextColumn Header="qz [m/s]" Binding="{Binding FluxZ, StringFormat=G6}"/>
-          <DataGridTextColumn Header="k relativa" Binding="{Binding RelativeConductivity, StringFormat=G5}"/></DataGrid.Columns>
+          <DataGridTextColumn Header="∂h/∂x" Binding="{Binding GradientX, Converter={StaticResource Number}, ConverterParameter=-}"/><DataGridTextColumn Header="∂h/∂z" Binding="{Binding GradientZ, Converter={StaticResource Number}, ConverterParameter=-}"/>
+          <DataGridTextColumn Header="qx [m/s]" Binding="{Binding FluxX, Converter={StaticResource Number}, ConverterParameter=m/s}"/><DataGridTextColumn Header="qz [m/s]" Binding="{Binding FluxZ, Converter={StaticResource Number}, ConverterParameter=m/s}"/>
+          <DataGridTextColumn Header="k relativa" Binding="{Binding RelativeConductivity, Converter={StaticResource Number}, ConverterParameter=-}"/></DataGrid.Columns>
         </DataGrid></TabItem>
        </TabControl>
       </Grid>
@@ -718,9 +722,9 @@
      <DataGrid Grid.Row="1" ItemsSource="{Binding HydraulicChecks}" SelectedItem="{Binding SelectedHydraulicCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns>
        <DataGridTextColumn Header="Caso" Binding="{Binding CaseId}"/><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Corpo / punto" Binding="{Binding Element}"/>
-       <DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G7}"/>
-       <DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
-       <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/>
+       <DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" SortMemberPath="Demand"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Demand"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
+       <DataGridTextColumn Header="Capacità" SortMemberPath="Capacity"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Capacity"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+       <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource Number}, ConverterParameter=-}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/>
       </DataGrid.Columns>
      </DataGrid>
      <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="0,12,0,0"><StackPanel>
@@ -728,16 +732,16 @@
       <TextBlock Text="{Binding SelectedHydraulicCheck.Source}" TextWrapping="Wrap" Margin="0,6"/>
       <TextBlock Text="{Binding SelectedHydraulicCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
       <DataGrid ItemsSource="{Binding SelectedHydraulicCheck.Values}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="150">
-       <DataGrid.Columns><DataGridTextColumn Header="Dato utilizzato" Binding="{Binding Name}"/><DataGridTextColumn Header="Valore" Binding="{Binding Value, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/></DataGrid.Columns>
+       <DataGrid.Columns><DataGridTextColumn Header="Dato utilizzato" Binding="{Binding Name}"/><DataGridTextColumn Header="Valore" SortMemberPath="Value"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Value"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/></DataGrid.Columns>
       </DataGrid>
       <TextBlock Text="Azioni UPL positive in alto; pesi totali negativi. Rd è già di progetto." TextWrapping="Wrap" Margin="0,8"/>
       <DataGrid ItemsSource="{Binding SelectedHydraulicCheck.Actions}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="180">
        <DataGrid.Columns><DataGridTextColumn Header="Azione" Binding="{Binding Id}"/><DataGridTextColumn Header="Categoria" Binding="{Binding CategoryText}"/>
-        <DataGridTextColumn Header="Fk [kN]" Binding="{Binding CharacteristicUpwardForce, StringFormat=G7}"/><DataGridTextColumn Header="γ" Binding="{Binding Factor, StringFormat=G4}"/>
-        <DataGridTextColumn Header="Fd [kN]" Binding="{Binding DesignUpwardForce, StringFormat=G7}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/></DataGrid.Columns>
+        <DataGridTextColumn Header="Fk [kN]" Binding="{Binding CharacteristicUpwardForce, Converter={StaticResource Number}, ConverterParameter=kN}"/><DataGridTextColumn Header="γ" Binding="{Binding Factor, Converter={StaticResource Number}, ConverterParameter=-}"/>
+        <DataGridTextColumn Header="Fd [kN]" Binding="{Binding DesignUpwardForce, Converter={StaticResource Number}, ConverterParameter=kN}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/></DataGrid.Columns>
       </DataGrid>
       <ItemsControl ItemsSource="{Binding HydraulicCoefficients}" Margin="0,8"><ItemsControl.ItemTemplate><DataTemplate>
-       <WrapPanel><TextBlock Text="{Binding Key}" Margin="0,0,8,0"/><TextBlock Text="{Binding Value, StringFormat=G7}"/></WrapPanel>
+       <WrapPanel><TextBlock Text="{Binding Key}" Margin="0,0,8,0"/><TextBlock Text="{Binding Value, Converter={StaticResource Number}, ConverterParameter=-}"/></WrapPanel>
       </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
      </StackPanel></ScrollViewer>
     </Grid>
@@ -750,9 +754,9 @@
      </StackPanel>
      <DataGrid Grid.Row="1" ItemsSource="{Binding GlobalChecks}" SelectedItem="{Binding SelectedGlobalCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Verifica" Binding="{Binding Id}"/>
-       <DataGridTextColumn Header="Combinazione" Binding="{Binding Combination}"/><DataGridTextColumn Header="Ricerca" Binding="{Binding SearchStatus}"/>
-       <DataGridTextColumn Header="γR" Binding="{Binding Demand, StringFormat=G5}"/><DataGridTextColumn Header="F" Binding="{Binding Capacity, StringFormat=G6}"/>
-       <DataGridTextColumn Header="Utilizzo conclusivo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/>
+       <DataGridTextColumn Header="Combinazione" Binding="{Binding Combination}"/><DataGridTextColumn Header="Ricerca" Binding="{Binding SearchStatus, Converter={StaticResource Term}, ConverterParameter=search}"/>
+       <DataGridTextColumn Header="γR" Binding="{Binding Demand, Converter={StaticResource Number}, ConverterParameter=-}"/><DataGridTextColumn Header="F" Binding="{Binding Capacity, Converter={StaticResource Number}, ConverterParameter=-}"/>
+       <DataGridTextColumn Header="Utilizzo conclusivo" Binding="{Binding Ratio, Converter={StaticResource Number}, ConverterParameter=-}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/>
       </DataGrid.Columns>
      </DataGrid>
      <TabControl common:TabMemory.Key="stabilita" Grid.Row="2" Margin="0,8,0,0">
@@ -763,20 +767,20 @@
        <TextBlock Text="{Binding SelectedGlobalCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
        <WrapPanel><TextBlock Text="Superfici provate / risolte / fallimenti: " /><TextBlock Text="{Binding SelectedGlobalCheck.Tried}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedGlobalCheck.Solved}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedGlobalCheck.Failures}"/></WrapPanel>
        <ItemsControl ItemsSource="{Binding SelectedGlobalCheck.Coefficients}" Margin="0,8"><ItemsControl.ItemTemplate><DataTemplate>
-        <WrapPanel><TextBlock Text="{Binding Key}" Margin="0,0,8,0"/><TextBlock Text="{Binding Value, StringFormat=G7}"/></WrapPanel>
+        <WrapPanel><TextBlock Text="{Binding Key}" Margin="0,0,8,0"/><TextBlock Text="{Binding Value, Converter={StaticResource Number}, ConverterParameter=-}"/></WrapPanel>
        </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
        <DataGrid ItemsSource="{Binding SelectedGlobalCheck.Actions}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="200">
-        <DataGrid.Columns><DataGridTextColumn Header="Azione" Binding="{Binding Id}"/><DataGridTextColumn Header="Categoria" Binding="{Binding Category}"/>
-         <DataGridCheckBoxColumn Header="Sfavorevole" Binding="{Binding Unfavourable}"/><DataGridTextColumn Header="γ" Binding="{Binding PartialFactor}"/>
-         <DataGridTextColumn Header="ψ" Binding="{Binding Psi}"/><DataGridTextColumn Header="γ·ψ" Binding="{Binding CombinedFactor}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/></DataGrid.Columns>
+        <DataGrid.Columns><DataGridTextColumn Header="Azione" Binding="{Binding Id}"/><DataGridTextColumn Header="Categoria" Binding="{Binding Category, Converter={StaticResource Term}, ConverterParameter=category}"/>
+         <DataGridCheckBoxColumn Header="Sfavorevole" Binding="{Binding Unfavourable}"/><DataGridTextColumn Header="γ" Binding="{Binding PartialFactor, Converter={StaticResource Number}, ConverterParameter=-}"/>
+         <DataGridTextColumn Header="ψ" Binding="{Binding Psi, Converter={StaticResource Number}, ConverterParameter=-}"/><DataGridTextColumn Header="γ·ψ" Binding="{Binding CombinedFactor, Converter={StaticResource Number}, ConverterParameter=-}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/></DataGrid.Columns>
        </DataGrid>
       </StackPanel></ScrollViewer></TabItem>
       <TabItem Header="Conci"><DataGrid ItemsSource="{Binding SelectedGlobalCheck.Slices}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
-       <DataGrid.Columns><DataGridTextColumn Header="Concio" Binding="{Binding Index}"/><DataGridTextColumn Header="x sx [m]" Binding="{Binding Left, StringFormat=G6}"/>
-        <DataGridTextColumn Header="x dx [m]" Binding="{Binding Right, StringFormat=G6}"/><DataGridTextColumn Header="z base [m]" Binding="{Binding BaseY, StringFormat=G6}"/>
-        <DataGridTextColumn Header="u [kPa]" Binding="{Binding Pressure, StringFormat=G6}"/><DataGridTextColumn Header="W terreno [kN/m]" Binding="{Binding SoilWeight, StringFormat=G6}"/>
-        <DataGridTextColumn Header="W parete [kN/m]" Binding="{Binding BodyWeight, StringFormat=G6}"/><DataGridTextColumn Header="N′ [kN/m]" Binding="{Binding NormalEffective, StringFormat=G6}"/>
-        <DataGridTextColumn Header="R [kN/m]" Binding="{Binding Resistance, StringFormat=G6}"/><DataGridTextColumn Header="Mobilitata [kN/m]" Binding="{Binding Mobilized, StringFormat=G6}"/></DataGrid.Columns>
+       <DataGrid.Columns><DataGridTextColumn Header="Concio" Binding="{Binding Index}"/><DataGridTextColumn Header="x sx [m]" Binding="{Binding Left, Converter={StaticResource Number}, ConverterParameter=m}"/>
+        <DataGridTextColumn Header="x dx [m]" Binding="{Binding Right, Converter={StaticResource Number}, ConverterParameter=m}"/><DataGridTextColumn Header="z base [m]" Binding="{Binding BaseY, Converter={StaticResource Number}, ConverterParameter=m}"/>
+        <DataGridTextColumn Header="u [kPa]" Binding="{Binding Pressure, Converter={StaticResource Number}, ConverterParameter=kPa}"/><DataGridTextColumn Header="W terreno [kN/m]" Binding="{Binding SoilWeight, Converter={StaticResource Number}, ConverterParameter=kN/m}"/>
+        <DataGridTextColumn Header="W parete [kN/m]" Binding="{Binding BodyWeight, Converter={StaticResource Number}, ConverterParameter=kN/m}"/><DataGridTextColumn Header="N′ [kN/m]" Binding="{Binding NormalEffective, Converter={StaticResource Number}, ConverterParameter=kN/m}"/>
+        <DataGridTextColumn Header="R [kN/m]" Binding="{Binding Resistance, Converter={StaticResource Number}, ConverterParameter=kN}"/><DataGridTextColumn Header="Mobilitata [kN/m]" Binding="{Binding Mobilized, Converter={StaticResource Number}, ConverterParameter=kN/m}"/></DataGrid.Columns>
       </DataGrid></TabItem>
      </TabControl>
     </Grid>
@@ -787,8 +791,8 @@
       <TextBlock Text="Forze per singolo elemento, N positivo a trazione. Verifiche delle aste: collegamenti, ancoraggi e bulbi sono distinti." TextWrapping="Wrap"/></DockPanel>
      <DataGrid Grid.Row="1" ItemsSource="{Binding SteelSupports}" SelectedItem="{Binding SelectedSteelSupport}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sostegno" Binding="{Binding Support}"/>
-       <DataGridTextColumn Header="Tipo" Binding="{Binding Kind}"/><DataGridTextColumn Header="N [kN]" Binding="{Binding NormalForce, StringFormat=G7}"/>
-       <DataGridTextColumn Header="EA/L assegnato [kN/m]" Binding="{Binding AnalysedAxialStiffness, StringFormat=G7}"/>
+       <DataGridTextColumn Header="Tipo" Binding="{Binding Kind, Converter={StaticResource Term}, ConverterParameter=kind}"/><DataGridTextColumn Header="N [kN]" Binding="{Binding NormalForce, Converter={StaticResource Number}, ConverterParameter=kN}"/>
+       <DataGridTextColumn Header="EA/L assegnato [kN/m]" Binding="{Binding AnalysedAxialStiffness, Converter={StaticResource Number}, ConverterParameter=kN/m}"/>
        <DataGridTextColumn Header="Classe" Binding="{Binding CompressionClass}"/><DataGridTextColumn Header="Esito asta" Binding="{Binding OutcomeText}"/>
        <DataGridCheckBoxColumn Header="Limite costitutivo" Binding="{Binding AtModelCapacity}"/></DataGrid.Columns>
      </DataGrid>
@@ -796,11 +800,11 @@
       <TextBlock Text="{Binding SelectedSteelSupport.Source}" TextWrapping="Wrap" FontWeight="SemiBold"/>
       <TextBlock Text="{Binding SelectedSteelSupport.Diagnostic}" TextWrapping="Wrap" Margin="0,8"/>
       <DataGrid ItemsSource="{Binding SteelChecks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="230">
-       <DataGrid.Columns><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda [kN]" Binding="{Binding Demand, StringFormat=G7}"/>
-        <DataGridTextColumn Header="Capacità [kN]" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/>
-        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="γM" Binding="{Binding PartialFactor}"/>
-        <DataGridTextColumn Header="Ncr [kN]" Binding="{Binding CriticalForce, StringFormat=G7}"/><DataGridTextColumn Header="λbar" Binding="{Binding NormalizedSlenderness, StringFormat=F4}"/>
-        <DataGridTextColumn Header="Snellezza" Binding="{Binding GeometricSlenderness, StringFormat=F2}"/><DataGridTextColumn Header="χ" Binding="{Binding Reduction, StringFormat=F4}"/>
+       <DataGrid.Columns><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda [kN]" Binding="{Binding Demand, Converter={StaticResource Number}, ConverterParameter=kN}"/>
+        <DataGridTextColumn Header="Capacità [kN]" Binding="{Binding Capacity, Converter={StaticResource Number}, ConverterParameter=kN}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource Number}, ConverterParameter=-}"/>
+        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="γM" Binding="{Binding PartialFactor, Converter={StaticResource Number}, ConverterParameter=-}"/>
+        <DataGridTextColumn Header="Ncr [kN]" Binding="{Binding CriticalForce, Converter={StaticResource Number}, ConverterParameter=kN}"/><DataGridTextColumn Header="λbar" Binding="{Binding NormalizedSlenderness, Converter={StaticResource Number}, ConverterParameter=-}"/>
+        <DataGridTextColumn Header="Snellezza" Binding="{Binding GeometricSlenderness, Converter={StaticResource Number}, ConverterParameter=-}"/><DataGridTextColumn Header="χ" Binding="{Binding Reduction, Converter={StaticResource Number}, ConverterParameter=-}"/>
         <DataGridTextColumn Header="Curva" Binding="{Binding Curve}"/></DataGrid.Columns>
       </DataGrid>
       <ItemsControl ItemsSource="{Binding SteelChecks}"><ItemsControl.ItemTemplate><DataTemplate><StackPanel Margin="0,8">
@@ -815,27 +819,27 @@
       <TextBlock Text="Capacità del singolo bulbo. pl è la pressione limite pressiometrica; pi è la pressione d'iniezione. La predizione empirica richiede conferma in sito." TextWrapping="Wrap"/></DockPanel>
      <DataGrid Grid.Row="1" ItemsSource="{Binding AnchorChecks}" SelectedItem="{Binding SelectedAnchorCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Tirante" Binding="{Binding Support}"/>
-       <DataGridTextColumn Header="Ed [kN]" Binding="{Binding Demand, StringFormat=G7}"/><DataGridTextColumn Header="Rak [kN]" Binding="{Binding Characteristic, StringFormat=G7}"/>
-       <DataGridTextColumn Header="Rad [kN]" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/>
-       <DataGridTextColumn Header="ξ media" Binding="{Binding MeanFactor}"/><DataGridTextColumn Header="ξ minimo" Binding="{Binding MinimumFactor}"/>
-       <DataGridTextColumn Header="γR" Binding="{Binding ResistanceFactor}"/><DataGridTextColumn Header="Esito sfilamento" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+       <DataGridTextColumn Header="Ed [kN]" Binding="{Binding Demand, Converter={StaticResource Number}, ConverterParameter=kN}"/><DataGridTextColumn Header="Rak [kN]" Binding="{Binding Characteristic, Converter={StaticResource Number}, ConverterParameter=kN}"/>
+       <DataGridTextColumn Header="Rad [kN]" Binding="{Binding Capacity, Converter={StaticResource Number}, ConverterParameter=kN}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource Number}, ConverterParameter=-}"/>
+       <DataGridTextColumn Header="ξ media" Binding="{Binding MeanFactor, Converter={StaticResource Number}, ConverterParameter=-}"/><DataGridTextColumn Header="ξ minimo" Binding="{Binding MinimumFactor, Converter={StaticResource Number}, ConverterParameter=-}"/>
+       <DataGridTextColumn Header="γR" Binding="{Binding ResistanceFactor, Converter={StaticResource Number}, ConverterParameter=-}"/><DataGridTextColumn Header="Esito sfilamento" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
      </DataGrid>
      <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
       <TextBlock Text="{Binding SelectedAnchorCheck.Reference}" TextWrapping="Wrap" FontWeight="SemiBold"/>
       <TextBlock Text="{Binding SelectedAnchorCheck.Source}" TextWrapping="Wrap" Margin="0,8"/>
       <TextBlock Text="{Binding SelectedAnchorCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
       <DataGrid ItemsSource="{Binding SelectedAnchorCheck.Samples}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="150">
-       <DataGrid.Columns><DataGridTextColumn Header="Profilo / prova" Binding="{Binding Id}"/><DataGridTextColumn Header="Ra [kN]" Binding="{Binding Resistance, StringFormat=G7}"/>
+       <DataGrid.Columns><DataGridTextColumn Header="Profilo / prova" Binding="{Binding Id}"/><DataGridTextColumn Header="Ra [kN]" Binding="{Binding Resistance, Converter={StaticResource Number}, ConverterParameter=kN}"/>
         <DataGridCheckBoxColumn Header="Campo applicabile" Binding="{Binding Applicable}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/>
         <DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/></DataGrid.Columns>
       </DataGrid>
       <DataGrid ItemsSource="{Binding SelectedAnchorCheck.Segments}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="200" Margin="0,8,0,0">
        <DataGrid.Columns><DataGridTextColumn Header="Indagine" Binding="{Binding Profile}"/><DataGridTextColumn Header="Strato" Binding="{Binding Layer}"/>
-        <DataGridTextColumn Header="Da [m]" Binding="{Binding Start}"/><DataGridTextColumn Header="A [m]" Binding="{Binding End}"/>
-        <DataGridTextColumn Header="pl [MPa]" Binding="{Binding LimitPressure}"/><DataGridTextColumn Header="pi [MPa]" Binding="{Binding InjectionPressure}"/>
-        <DataGridTextColumn Header="α" Binding="{Binding DiameterFactor}"/><DataGridTextColumn Header="Ds [mm]" Binding="{Binding BulbDiameter}"/>
-        <DataGridTextColumn Header="Curva" Binding="{Binding Curve}"/><DataGridTextColumn Header="qs [MPa]" Binding="{Binding UnitResistance}"/>
-        <DataGridTextColumn Header="Ra [kN]" Binding="{Binding Resistance, StringFormat=G7}"/></DataGrid.Columns>
+        <DataGridTextColumn Header="Da [m]" Binding="{Binding Start, Converter={StaticResource Number}, ConverterParameter=m}"/><DataGridTextColumn Header="A [m]" Binding="{Binding End, Converter={StaticResource Number}, ConverterParameter=m}"/>
+        <DataGridTextColumn Header="pl [MPa]" Binding="{Binding LimitPressure, Converter={StaticResource Number}, ConverterParameter=MPa}"/><DataGridTextColumn Header="pi [MPa]" Binding="{Binding InjectionPressure, Converter={StaticResource Number}, ConverterParameter=MPa}"/>
+        <DataGridTextColumn Header="α" Binding="{Binding DiameterFactor, Converter={StaticResource Number}, ConverterParameter=-}"/><DataGridTextColumn Header="Ds [mm]" Binding="{Binding BulbDiameter, Converter={StaticResource Number}, ConverterParameter=mm}"/>
+        <DataGridTextColumn Header="Curva" Binding="{Binding Curve}"/><DataGridTextColumn Header="qs [MPa]" Binding="{Binding UnitResistance, Converter={StaticResource Number}, ConverterParameter=MPa}"/>
+        <DataGridTextColumn Header="Ra [kN]" Binding="{Binding Resistance, Converter={StaticResource Number}, ConverterParameter=kN}"/></DataGrid.Columns>
       </DataGrid>
      </StackPanel></ScrollViewer>
     </Grid>
@@ -846,27 +850,27 @@
       <TextBlock Text="Resistenza locale CHS classe 1–2. Azioni concomitanti per singolo tubo; N positivo a trazione. Stabilità della membratura e del terreno separate." TextWrapping="Wrap"/></DockPanel>
      <DataGrid Grid.Row="1" ItemsSource="{Binding SteelTubes}" SelectedItem="{Binding SelectedTubeCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/>
-       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, StringFormat=G6}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side}"/>
-       <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, StringFormat=G7}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, StringFormat=G7}"/>
-       <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, StringFormat=G7}"/><DataGridTextColumn Header="Fattore fascia→tubo" Binding="{Binding StripToMemberFactor, StringFormat=G6}"/>
-       <DataGridTextColumn Header="Classe" Binding="{Binding SectionClass}"/><DataGridTextColumn Header="γM0" Binding="{Binding PartialFactor}"/>
-       <DataGridTextColumn Header="ρ" Binding="{Binding ShearReduction, StringFormat=G6}"/><DataGridTextColumn Header="Esito locale" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, Converter={StaticResource Number}, ConverterParameter=m}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side, Converter={StaticResource Term}, ConverterParameter=side}"/>
+       <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, Converter={StaticResource Number}, ConverterParameter=kN}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, Converter={StaticResource Number}, ConverterParameter=kN}"/>
+       <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, Converter={StaticResource Number}, ConverterParameter=kNm}"/><DataGridTextColumn Header="Fattore fascia→tubo" Binding="{Binding StripToMemberFactor, Converter={StaticResource Number}, ConverterParameter=-}"/>
+       <DataGridTextColumn Header="Classe" Binding="{Binding SectionClass}"/><DataGridTextColumn Header="γM0" Binding="{Binding PartialFactor, Converter={StaticResource Number}, ConverterParameter=-}"/>
+       <DataGridTextColumn Header="ρ" Binding="{Binding ShearReduction, Converter={StaticResource Number}, ConverterParameter=-}"/><DataGridTextColumn Header="Esito locale" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
      </DataGrid>
      <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
       <TextBlock Text="{Binding SelectedTubeCheck.Reference}" TextWrapping="Wrap" FontWeight="SemiBold"/>
       <TextBlock TextWrapping="Wrap" Margin="0,5"><Run Text="Taglio selezionato: "/><Run Text="{Binding SelectedTubeCheck.Stage}"/>
-       <Run Text=" · "/><Run Text="{Binding SelectedTubeCheck.Section}"/><Run Text=" · z="/><Run Text="{Binding SelectedTubeCheck.Elevation, StringFormat=G6}"/>
-       <Run Text=" m, "/><Run Text="{Binding SelectedTubeCheck.Side}"/><Run Text=" · N="/><Run Text="{Binding SelectedTubeCheck.Normal, StringFormat=G7}"/>
-       <Run Text=" kN, V="/><Run Text="{Binding SelectedTubeCheck.Shear, StringFormat=G7}"/><Run Text=" kN, M="/><Run Text="{Binding SelectedTubeCheck.Moment, StringFormat=G7}"/><Run Text=" kNm"/></TextBlock>
+       <Run Text=" · "/><Run Text="{Binding SelectedTubeCheck.Section}"/><Run Text=" · z="/><Run Text="{Binding SelectedTubeCheck.Elevation, Converter={StaticResource Number}, ConverterParameter=m}"/>
+       <Run Text=" m, "/><Run Text="{Binding SelectedTubeCheck.Side}"/><Run Text=" · N="/><Run Text="{Binding SelectedTubeCheck.Normal, Converter={StaticResource Number}, ConverterParameter=kN}"/>
+       <Run Text=" kN, V="/><Run Text="{Binding SelectedTubeCheck.Shear, Converter={StaticResource Number}, ConverterParameter=kN}"/><Run Text=" kN, M="/><Run Text="{Binding SelectedTubeCheck.Moment, Converter={StaticResource Number}, ConverterParameter=kNm}"/><Run Text=" kNm"/></TextBlock>
       <TextBlock Text="{Binding SelectedTubeCheck.Properties.Source}" TextWrapping="Wrap" Margin="0,8"/>
       <TextBlock Text="{Binding SelectedTubeCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
-      <WrapPanel><TextBlock Text="EI lordo della fascia [kNm²]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.EquivalentRigidity, StringFormat=G7}"/>
-       <TextBlock Text="    D / t [mm]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Diameter}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Thickness}"/>
-       <TextBlock Text="    interasse [m]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Spacing}"/></WrapPanel>
+      <WrapPanel><TextBlock Text="EI lordo della fascia [kNm²]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.EquivalentRigidity, Converter={StaticResource Number}, ConverterParameter=kNm²}"/>
+       <TextBlock Text="    D / t [mm]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Diameter, Converter={StaticResource Number}, ConverterParameter=mm}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Thickness, Converter={StaticResource Number}, ConverterParameter=mm}"/>
+       <TextBlock Text="    interasse [m]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Spacing, Converter={StaticResource Number}, ConverterParameter=m}"/></WrapPanel>
       <DataGrid ItemsSource="{Binding SelectedTubeCheck.Checks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="200" Margin="0,8">
-       <DataGrid.Columns><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G7}"/>
-        <DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
-        <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+       <DataGrid.Columns><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" SortMemberPath="Demand"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Demand"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
+        <DataGridTextColumn Header="Capacità" SortMemberPath="Capacity"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Capacity"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+        <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource Number}, ConverterParameter=-}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
       </DataGrid>
       <ItemsControl ItemsSource="{Binding SelectedTubeCheck.Checks}"><ItemsControl.ItemTemplate><DataTemplate><StackPanel Margin="0,5">
        <TextBlock Text="{Binding Reference}" TextWrapping="Wrap"/><TextBlock Text="{Binding Diagnostic}" TextWrapping="Wrap"/>
@@ -881,36 +885,36 @@
      </DockPanel>
      <DataGrid Grid.Row="1" ItemsSource="{Binding RcPiles}" SelectedItem="{Binding SelectedRcPileCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/>
-       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, StringFormat=G7}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side}"/>
-       <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, StringFormat=G7}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, StringFormat=G7}"/>
-       <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, StringFormat=G7}"/><DataGridTextColumn Header="Fattore fascia→palo" Binding="{Binding StripToMemberFactor, StringFormat=G7}"/>
+       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, Converter={StaticResource Number}, ConverterParameter=m}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side, Converter={StaticResource Term}, ConverterParameter=side}"/>
+       <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, Converter={StaticResource Number}, ConverterParameter=kN}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, Converter={StaticResource Number}, ConverterParameter=kN}"/>
+       <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, Converter={StaticResource Number}, ConverterParameter=kNm}"/><DataGridTextColumn Header="Fattore fascia→palo" Binding="{Binding StripToMemberFactor, Converter={StaticResource Number}, ConverterParameter=-}"/>
        <DataGridTextColumn Header="Esito locale" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
      </DataGrid>
      <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
       <TextBlock Text="{Binding SelectedRcPileCheck.Reference}" FontWeight="SemiBold"/>
       <TextBlock Margin="0,5" TextWrapping="Wrap"><Run Text="Taglio selezionato: "/><Run Text="{Binding SelectedRcPileCheck.Stage}"/><Run Text=" · "/><Run Text="{Binding SelectedRcPileCheck.Section}"/>
-       <Run Text=" · z="/><Run Text="{Binding SelectedRcPileCheck.Elevation, StringFormat=G7}"/><Run Text=" m, "/><Run Text="{Binding SelectedRcPileCheck.Side}"/>
-       <Run Text=" · N="/><Run Text="{Binding SelectedRcPileCheck.Normal, StringFormat=G7}"/><Run Text=" kN; V="/><Run Text="{Binding SelectedRcPileCheck.Shear, StringFormat=G7}"/>
-       <Run Text=" kN; M="/><Run Text="{Binding SelectedRcPileCheck.Moment, StringFormat=G7}"/><Run Text=" kNm"/></TextBlock>
+       <Run Text=" · z="/><Run Text="{Binding SelectedRcPileCheck.Elevation, Converter={StaticResource Number}, ConverterParameter=m}"/><Run Text=" m, "/><Run Text="{Binding SelectedRcPileCheck.Side}"/>
+       <Run Text=" · N="/><Run Text="{Binding SelectedRcPileCheck.Normal, Converter={StaticResource Number}, ConverterParameter=kN}"/><Run Text=" kN; V="/><Run Text="{Binding SelectedRcPileCheck.Shear, Converter={StaticResource Number}, ConverterParameter=kN}"/>
+       <Run Text=" kN; M="/><Run Text="{Binding SelectedRcPileCheck.Moment, Converter={StaticResource Number}, ConverterParameter=kNm}"/><Run Text=" kNm"/></TextBlock>
       <TextBlock Text="{Binding SelectedRcPileCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,4"/>
-      <TextBlock TextWrapping="Wrap" Margin="0,4"><Run Text="D [mm]: "/><Run Text="{Binding SelectedRcPileCheck.Properties.Diameter}"/>
-       <Run Text="; barre: "/><Run Text="{Binding SelectedRcPileCheck.Properties.BarCount}"/><Run Text="φ"/><Run Text="{Binding SelectedRcPileCheck.Properties.BarDiameter}"/>
-       <Run Text="; staffe φ"/><Run Text="{Binding SelectedRcPileCheck.Properties.LinkDiameter}"/><Run Text="/"/><Run Text="{Binding SelectedRcPileCheck.Properties.LinkSpacing}"/>
-       <Run Text=" mm; EI lordo fascia [kNm²]: "/><Run Text="{Binding SelectedRcPileCheck.Properties.EquivalentRigidity, StringFormat=G7}"/></TextBlock>
-      <TextBlock TextWrapping="Wrap" Margin="0,4"><Run Text="Coefficienti SLU del profilo: γc="/><Run Text="{Binding SelectedRcPileCheck.Properties.GammaC}"/>
-       <Run Text="; γs="/><Run Text="{Binding SelectedRcPileCheck.Properties.GammaS}"/><Run Text="; αcc="/><Run Text="{Binding SelectedRcPileCheck.Properties.AlphaCC}"/></TextBlock>
+      <TextBlock TextWrapping="Wrap" Margin="0,4"><Run Text="D [mm]: "/><Run Text="{Binding SelectedRcPileCheck.Properties.Diameter, Converter={StaticResource Number}, ConverterParameter=mm}"/>
+       <Run Text="; barre: "/><Run Text="{Binding SelectedRcPileCheck.Properties.BarCount}"/><Run Text="φ"/><Run Text="{Binding SelectedRcPileCheck.Properties.BarDiameter, Converter={StaticResource Number}, ConverterParameter=mm}"/>
+       <Run Text="; staffe φ"/><Run Text="{Binding SelectedRcPileCheck.Properties.LinkDiameter, Converter={StaticResource Number}, ConverterParameter=mm}"/><Run Text="/"/><Run Text="{Binding SelectedRcPileCheck.Properties.LinkSpacing, Converter={StaticResource Number}, ConverterParameter=mm}"/>
+       <Run Text=" mm; EI lordo fascia [kNm²]: "/><Run Text="{Binding SelectedRcPileCheck.Properties.EquivalentRigidity, Converter={StaticResource Number}, ConverterParameter=kNm²}"/></TextBlock>
+      <TextBlock TextWrapping="Wrap" Margin="0,4"><Run Text="Coefficienti SLU del profilo: γc="/><Run Text="{Binding SelectedRcPileCheck.Properties.GammaC, Converter={StaticResource Number}, ConverterParameter=-}"/>
+       <Run Text="; γs="/><Run Text="{Binding SelectedRcPileCheck.Properties.GammaS, Converter={StaticResource Number}, ConverterParameter=-}"/><Run Text="; αcc="/><Run Text="{Binding SelectedRcPileCheck.Properties.AlphaCC, Converter={StaticResource Number}, ConverterParameter=-}"/></TextBlock>
       <DataGrid ItemsSource="{Binding SelectedRcPileCheck.Checks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
-       <DataGrid.Columns><DataGridTextColumn Header="Controllo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G7}"/>
-        <DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
-        <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+       <DataGrid.Columns><DataGridTextColumn Header="Controllo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" SortMemberPath="Demand"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Demand"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
+        <DataGridTextColumn Header="Capacità" SortMemberPath="Capacity"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Capacity"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+        <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource Number}, ConverterParameter=-}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
       </DataGrid>
       <ItemsControl ItemsSource="{Binding SelectedRcPileCheck.Checks}"><ItemsControl.ItemTemplate><DataTemplate>
        <TextBlock Text="{Binding Diagnostic}" TextWrapping="Wrap" Margin="0,4"/>
       </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
       <TextBlock Text="Dettagli costruttivi — esiti separati" FontWeight="SemiBold" Margin="0,8"/>
       <DataGrid ItemsSource="{Binding SelectedRcPileCheck.Details}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
-       <DataGrid.Columns><DataGridTextColumn Header="Regola" Binding="{Binding Label}"/><DataGridTextColumn Header="Valore" Binding="{Binding Actual, StringFormat=G7}"/>
-        <DataGridTextColumn Header="Limite" Binding="{Binding Limit, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+       <DataGrid.Columns><DataGridTextColumn Header="Regola" Binding="{Binding Label}"/><DataGridTextColumn Header="Valore" SortMemberPath="Actual"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Actual"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
+        <DataGridTextColumn Header="Limite" SortMemberPath="Limit"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Limit"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
         <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Criterio" Binding="{Binding Diagnostic}"/></DataGrid.Columns>
       </DataGrid>
       <TextBlock Text="{Binding SelectedRcPileCheck.Properties.Source}" TextWrapping="Wrap" Margin="0,8"/>
@@ -931,18 +935,18 @@
       <local:EmbeddedWallDiagram Points="{Binding EnvelopeMinimum}" Comparison="{Binding EnvelopeMaximum}" Quantity="{Binding SelectedEnvelopeSeries.Diagram, TargetNullValue='Spostamento [mm]'}" PrimaryLabel="minimo" ComparisonLabel="massimo"/>
       <Grid Grid.Column="1" Margin="10,0,0,0"><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="210"/></Grid.RowDefinitions>
        <DataGrid ItemsSource="{Binding EnvelopeStations}" SelectedItem="{Binding SelectedEnvelopeStation}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
-        <DataGrid.Columns><DataGridTextColumn Header="Quota [m]" Binding="{Binding Elevation, StringFormat=G7}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side}"/>
-         <DataGridTextColumn Header="Minimo" Binding="{Binding Minimum.Value, StringFormat=G7}"/><DataGridTextColumn Header="Caso min" Binding="{Binding Minimum.CaseId}"/>
-         <DataGridTextColumn Header="Fase min" Binding="{Binding Minimum.Stage}"/><DataGridTextColumn Header="Massimo" Binding="{Binding Maximum.Value, StringFormat=G7}"/>
+        <DataGrid.Columns><DataGridTextColumn Header="Quota [m]" Binding="{Binding Elevation, Converter={StaticResource Number}, ConverterParameter=m}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side, Converter={StaticResource Term}, ConverterParameter=side}"/>
+         <DataGridTextColumn Header="Minimo" SortMemberPath="Minimum.Value"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Minimum.Value"/><Binding Path="DataContext.SelectedEnvelopeSeries.Unit" RelativeSource="{RelativeSource AncestorType=DataGrid}"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Caso min" Binding="{Binding Minimum.CaseId}"/>
+         <DataGridTextColumn Header="Fase min" Binding="{Binding Minimum.Stage}"/><DataGridTextColumn Header="Massimo" SortMemberPath="Maximum.Value"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource Number}"><Binding Path="Maximum.Value"/><Binding Path="DataContext.SelectedEnvelopeSeries.Unit" RelativeSource="{RelativeSource AncestorType=DataGrid}"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
          <DataGridTextColumn Header="Caso max" Binding="{Binding Maximum.CaseId}"/><DataGridTextColumn Header="Fase max" Binding="{Binding Maximum.Stage}"/></DataGrid.Columns>
        </DataGrid>
        <TextBlock Grid.Row="1" Text="Osservazioni concomitanti alla quota selezionata — azioni dell'intera fascia" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,8"/>
        <DataGrid Grid.Row="2" ItemsSource="{Binding EnvelopeConcomitant}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
         <DataGrid.Columns><DataGridTextColumn Header="Estremo" Binding="{Binding Key}"/><DataGridTextColumn Header="Caso" Binding="{Binding Value.CaseId}"/>
          <DataGridTextColumn Header="Fase" Binding="{Binding Value.Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Value.Point.Section}"/>
-         <DataGridTextColumn Header="N [kN]" Binding="{Binding Value.Point.Normal, StringFormat=G7}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Value.Point.Shear, StringFormat=G7}"/>
-         <DataGridTextColumn Header="M [kNm]" Binding="{Binding Value.Point.Moment, StringFormat=G7}"/><DataGridTextColumn Header="u [mm]" Binding="{Binding Value.Point.Displacement, StringFormat=G7}"/>
-         <DataGridTextColumn Header="Rotazione [rad]" Binding="{Binding Value.Point.Rotation, StringFormat=G7}"/></DataGrid.Columns>
+         <DataGridTextColumn Header="N [kN]" Binding="{Binding Value.Point.Normal, Converter={StaticResource Number}, ConverterParameter=kN}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Value.Point.Shear, Converter={StaticResource Number}, ConverterParameter=kN}"/>
+         <DataGridTextColumn Header="M [kNm]" Binding="{Binding Value.Point.Moment, Converter={StaticResource Number}, ConverterParameter=kNm}"/><DataGridTextColumn Header="u [mm]" Binding="{Binding Value.Point.Displacement, Converter={StaticResource Number}, ConverterParameter=mm}"/>
+         <DataGridTextColumn Header="Rotazione [rad]" Binding="{Binding Value.Point.Rotation, Converter={StaticResource Number}, ConverterParameter=rad}"/></DataGrid.Columns>
        </DataGrid>
       </Grid>
      </Grid>

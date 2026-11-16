@@ -1,4 +1,3 @@
-using System.Globalization;
 using Anthea.Presentation.Mvvm;
 using Anthea.Reports;
 using CommunityToolkit.Mvvm.Input;
@@ -84,13 +83,12 @@ public sealed partial class EmbeddedWallSheetViewModel
         if (current is not null && Tables.Count > 0)
         {
             string principal = Data["case_id"]?.ToString() ?? "";
-            static string Number(double value) => value.ToString("G4", CultureInfo.CurrentCulture);
             foreach (var result in ResultCases)
             {
                 entries.Add(new(result.CaseId, null, result.CaseId + (result.Complete ? " · storia completa" : " · storia incompleta"), result.Diagnostic, true));
                 foreach (var stage in result.Stages)
                     entries.Add(new(result.CaseId, stage.Id, $"{stage.Id} · {stage.Iterations} iterazioni · {stage.Increments} incrementi",
-                        $"Residui finali pubblicati dal calcolo: forza {Number(stage.ForceResidualN)} N, momento {Number(stage.MomentResidualNmm)} Nmm.", false));
+                        $"Residui finali pubblicati dal calcolo: forza {EmbeddedWallDisplay.Number(stage.ForceResidualN, "N")} N, momento {EmbeddedWallDisplay.Number(stage.MomentResidualNmm, "Nmm")} Nmm.", false));
                 var calculated = result.Stages.Select(s => s.Id).ToHashSet(StringComparer.Ordinal);
                 foreach (var missing in Tables.Single(t => t.Key == "stages").Rows
                     .Where(r => (string.IsNullOrWhiteSpace(r["case"]) ? principal : r["case"]) == result.CaseId && !calculated.Contains(r["id"])))

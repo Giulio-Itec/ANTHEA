@@ -39,8 +39,8 @@ internal static partial class EmbeddedWallChecks
             "Passo 5: intestazione del disegno (paratia, caso, fase) o dati della fase assenti.");
         // Legend: Sabbia identical on both sides (one line, both sides); Argilla with two weights (two lines, same tint: same name).
         var soils = sketch.Soils;
-        e.That(soils.Count == 3 && soils[0] is { Name: "Sabbia", Sides: "sx · dx", Tint: 0 } && soils[0].Gamma == EmbeddedWallSketch.Format(18) && soils[0].Phi == "32"
-            && soils[1] is { Name: "Argilla", Sides: "sx", Tint: 1 } && soils[1].Gamma == EmbeddedWallSketch.Format(19.5) && soils[2] is { Name: "Argilla", Sides: "dx", Tint: 1 },
+        e.That(soils.Count == 3 && soils[0] is { Name: "Sabbia", Sides: "sx · dx", Tint: 0 } && soils[0].Gamma == EmbeddedWallSketch.Format(18, "kN/m³") && soils[0].Phi == "32"
+            && soils[1] is { Name: "Argilla", Sides: "sx", Tint: 1 } && soils[1].Gamma == EmbeddedWallSketch.Format(19.5, "kN/m³") && soils[2] is { Name: "Argilla", Sides: "dx", Tint: 1 },
             "Passo 5: legenda dei terreni non come le tabelle: " + string.Join(" | ", soils.Select(s => $"{s.Name} {s.Gamma} {s.Phi} {s.Sides} {s.Tint}")));
         e.That(sketch.Bands.Where(b => b.Name == "Sabbia").All(b => b.Tint == 0) && sketch.Bands.Where(b => b.Table == "segments").All(b => b.Tint == -1),
             "Passo 5: una tinta per terreno sui due lati non rispettata.");

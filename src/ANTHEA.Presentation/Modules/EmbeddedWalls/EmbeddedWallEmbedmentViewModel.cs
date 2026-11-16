@@ -26,7 +26,7 @@ public sealed partial class EmbeddedWallSheetViewModel
     public IReadOnlyList<EmbeddedWallEmbedmentCriterion> EmbedmentCriteria => selectedEmbedment?.Criteria ?? [];
     public string EmbedmentCandidateDiagnostic => selectedEmbedment is null ? "" : selectedEmbedment.Diagnostic + Environment.NewLine + selectedEmbedment.Result?.Diagnostic;
     public string EmbedmentStatus => current?.EmbedmentSearch is not { } s ? "Ricerca non eseguita sui dati correnti."
-        : s.Diagnostic + (s.BestToe.HasValue ? $" Candidato accettabile: infissione {s.BestEmbedment:G6} m; quota piede {s.BestToe:G6} m. Diagrammi e verifiche principali riferiti a questa quota." : " Nessun candidato accettato.");
+        : s.Diagnostic + (s.BestToe.HasValue ? $" Candidato accettabile: infissione {EmbeddedWallDisplay.Number(s.BestEmbedment, "m")} m; quota piede {EmbeddedWallDisplay.Number(s.BestToe, "m")} m. Diagrammi e verifiche principali riferiti a questa quota." : " Nessun candidato accettato.");
 
     public async Task<bool> SearchEmbedmentAsync(CancellationToken cancellation = default)
     {

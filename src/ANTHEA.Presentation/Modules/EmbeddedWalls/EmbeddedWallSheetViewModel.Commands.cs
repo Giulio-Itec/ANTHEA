@@ -25,4 +25,7 @@ public sealed partial class EmbeddedWallSheetViewModel
 
     /// <summary>The documents of the central area: the section of the phase and the views opened on request.</summary>
     public EmbeddedWallDocuments Documents { get; }
+
+    /// <summary>Italian labels of the choices written in English (cifre significative, 16/11): the forms show them, the document keeps the values.</summary>
+    public IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> ChoiceLabels => EmbeddedWallDisplay.ChoiceLabels;
 }

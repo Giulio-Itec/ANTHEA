@@ -67,6 +67,10 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
     /// <summary>The bounds of the legend drawn last, empty when it is hidden (for the checks off screen).</summary>
     internal Rect LegendBounds { get; private set; } = Rect.Empty;
 
+    /// <summary>The labels drawn last and the lines of the water they keep clear of (for the checks off screen).</summary>
+    internal IReadOnlyList<(string Text, Rect Bounds)> LabelPlacements { get; private set; } = [];
+    internal IReadOnlyList<Rect> WaterLines { get; private set; } = [];
+
     private Rect BaseRect() => new(PlotLeft, PlotTop, Math.Max(1, ActualWidth - RightMargin - PlotLeft), Math.Max(1, ActualHeight - Footer - PlotTop));
 
     /// <summary>Keeps the point under the pointer (wheel) or the centre (buttons) where it is when the magnification changes.</summary>
@@ -128,7 +132,7 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
 
     protected override void OnRender(DrawingContext dc)
     {
-        base.OnRender(dc); hits.Clear(); LegendBounds = Rect.Empty;
+        base.OnRender(dc); hits.Clear(); LegendBounds = Rect.Empty; var waterLines = new List<Rect>(); WaterLines = waterLines;
         Brush Resource(string name) => TryFindResource(name) as Brush ?? (Brush)FindResource("Token.Ink");
         var ink = Resource("Token.Drawing.Ink"); var paper = Resource("Token.Drawing.Paper"); var muted = Resource("Token.Drawing.Muted");
         var accent = Resource("Token.Drawing.Accent"); var guide = Resource("Token.Drawing.Guide"); var grid = Resource("Token.Drawing.Grid");
@@ -143,18 +147,19 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
         var blocked = new List<Rect>();
         void PaintLabels()
         {
+            LabelPlacements = labels.Select(l => (l.Text.Text, l.Bounds)).ToArray();
             foreach (var label in labels)
             {
                 if (label.Backing) { var box = label.Bounds; box.Inflate(TextPadding, 1); dc.DrawRectangle(paper, null, box); }
                 dc.DrawText(label.Text, label.Bounds.TopLeft);
             }
         }
-        void Label(string text, double x, double y, double width = LabelWidth, Brush? color = null, bool backing = false)
+        void Label(string text, double x, double y, double width = LabelWidth, Brush? color = null, bool backing = false, Rect? avoid = null)
         {
             if (width < 1) return;
             var ft = Text(text, width, color ?? ink);
             var start = new Rect(x, y, Math.Min(width, ft.Width), ft.Height);
-            bool Free(Rect r) => !labels.Any(l => l.Bounds.IntersectsWith(r)) && !blocked.Any(b => b.IntersectsWith(r));
+            bool Free(Rect r) => !labels.Any(l => l.Bounds.IntersectsWith(r)) && !blocked.Any(b => b.IntersectsWith(r)) && avoid?.IntersectsWith(r) != true;
             // Keep nearby water/support/stratum labels readable, without moving their geometric symbols: below, then above, inside the
             // drawing; when no place is free the label stays where it was asked (never pushed out of sight).
             var box = start;
@@ -215,6 +220,10 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
             if (ground is null) continue;
             double x = side == "left_soils" ? left : middle + WallGap;
             double w = (right - left) / 2 - WallGap;
+            // The name of a layer never under the dashed line of the water of its side (cifre significative, 16/11, capture of step 5).
+            var water = side == "left_soils" ? m.LeftWater : m.RightWater;
+            Rect? waterLine = water is { } level ? new Rect(x, Y(level) - TextPadding, w, TextPadding * 2) : null;
+            if (waterLine is { } line) waterLines.Add(line);
             foreach (var band in m.Bands.Where(b => b.Table == side))
             {
                 double upper = Math.Min(band.Top, ground.Value), lower = band.Bottom;
@@ -229,7 +238,7 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
                 var rect = new Rect(x, ClippedY(upper), w, Math.Max(0, ClippedY(lower) - ClippedY(upper)));
                 dc.DrawRectangle(brush, null, rect);
                 dc.PushOpacity(.35); dc.DrawLine(new Pen(ink, 1), rect.BottomLeft, rect.BottomRight); dc.Pop();
-                if (rect.Height >= HeaderLine + TextPadding) Label(band.Name, x + SoilTextInset, rect.Top + Math.Min(rect.Height / 2 - SoilLabelHalfHeight, SoilLabelTopLimit), w - 2 * SoilTextInset);
+                if (rect.Height >= HeaderLine + TextPadding) Label(band.Name, x + SoilTextInset, rect.Top + Math.Min(rect.Height / 2 - SoilLabelHalfHeight, SoilLabelTopLimit), w - 2 * SoilTextInset, avoid: waterLine);
                 if (IsSelected(band.Row)) Halo(rect);
                 Hit(rect, new(side, band.Row, band.Detail));
             }
@@ -239,7 +248,7 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
         for (int i = 0; i <= TickIntervals; i++)
         {
             double z = zTop - (zTop - zBottom) * i / TickIntervals, y = Y(z);
-            Label(EmbeddedWallSketch.Format(z), TickLabelLeft, y - TickOffset, TickLabelWidth, muted);
+            Label(EmbeddedWallSketch.Format(z, "m"), TickLabelLeft, y - TickOffset, TickLabelWidth, muted);
             dc.PushOpacity(.18); dc.DrawLine(new Pen(ink, .6), new(left, y), new(right, y)); dc.Pop();
         }
         void Arrow(Point a, Point b, Brush color)
@@ -255,7 +264,7 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
             if (elevation is not { } z) return;
             double x1 = isLeft ? left : middle + WallGap, x2 = isLeft ? middle - WallGap : right, y = Y(z);
             dc.DrawLine(new Pen(ink, 2), new(x1, y), new(x2, y));
-            Label("Terreno " + EmbeddedWallSketch.Format(z) + " m", x1 + LabelInset, y - GroundLabelOffset, x2 - x1 - LabelInsets, backing: true);
+            Label("Terreno " + EmbeddedWallSketch.Format(z, "m") + " m", x1 + LabelInset, y - GroundLabelOffset, x2 - x1 - LabelInsets, backing: true);
             Hit(new Rect(x1, y - GroundHitOffset, x2 - x1, GroundHitHeight), new("stages", m.StageRow, m.StageDetail));
             if (q is { } surcharge && surcharge != 0)
             {
@@ -264,7 +273,7 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
                     double x = x1 + (x2 - x1) * i / SurchargeIntervals;
                     Arrow(new(x, y - SurchargeArrowStart), new(x, y - SurchargeArrowEnd), ink);
                 }
-                Label("q = " + EmbeddedWallSketch.Format(q) + " kPa", x1 + LabelInset, y - SurchargeTextOffset, x2 - x1 - LabelInsets, ink, true);
+                Label("q = " + EmbeddedWallSketch.Format(q, "kPa") + " kPa", x1 + LabelInset, y - SurchargeTextOffset, x2 - x1 - LabelInsets, ink, true);
             }
         }
         Surface(m.LeftGround, m.LeftSurcharge, true); Surface(m.RightGround, m.RightSurcharge, false);
@@ -273,7 +282,7 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
             if (elevation is not { } z) return;
             double x1 = isLeft ? left : middle + WallGap, x2 = isLeft ? middle - WallGap : right, y = Y(z);
             dc.DrawLine(new Pen(water, FreeWidth + TextPadding / 2) { DashStyle = DashStyles.Dash }, new(x1, y), new(x2, y));
-            Label("▽ " + EmbeddedWallSketch.Format(z) + " m", x2 - WaterLabelWidth, y + WaterLabelOffset, WaterLabelWidth - LabelInset + 1, water, true);
+            Label("▽ " + EmbeddedWallSketch.Format(z, "m") + " m", x2 - WaterLabelWidth, y + WaterLabelOffset, WaterLabelWidth - LabelInset + 1, water, true);
             Hit(new Rect(x1, y - WaterHitOffset, x2 - x1, WaterHitHeight), new("stages", m.StageRow, m.StageDetail));
         }
         Water(m.LeftWater, true); Water(m.RightWater, false);
@@ -295,7 +304,7 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
                 Label(segment.Name, middle + SegmentLabelInset, rect.Top + rect.Height / 2, AxisLabelWidth + LabelInsets + TextPadding + 1, backing: true);
             }
             dc.DrawLine(new Pen(ink, FreeWidth + TextPadding / 2), wall.TopLeft, wall.BottomLeft); dc.DrawLine(new Pen(ink, FreeWidth + TextPadding / 2), wall.TopRight, wall.BottomRight);
-            Label("Piede " + EmbeddedWallSketch.Format(wallBottom) + " m", middle - ToeLabelLeft, Y(wallBottom) + ToeLabelBelow, ToeLabelWidth, backing: true);
+            Label("Piede " + EmbeddedWallSketch.Format(wallBottom, "m") + " m", middle - ToeLabelLeft, Y(wallBottom) + ToeLabelBelow, ToeLabelWidth, backing: true);
         }
         foreach (var s in m.Supports)
         {
@@ -327,9 +336,9 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
             var hit = new Rect(a, b); hit.Inflate(PickPadding, PickPadding);
             if (IsSelected(s.Row, s.Activation, s.AnchorCheck)) Halo(hit);
             string kind = s.Kind == "Strut" ? "Puntone" : s.Kind == "Anchor" ? scaled ? "Tirante" : "Tirante · schematico" : "Bilaterale";
-            string lengths = scaled ? $" · L {EmbeddedWallSketch.Format(s.FreeLength)} + {EmbeddedWallSketch.Format(s.BondLength)} m" : "";
+            string lengths = scaled ? $" · L {EmbeddedWallSketch.Format(s.FreeLength, "m")} + {EmbeddedWallSketch.Format(s.BondLength, "m")} m" : "";
             double x = side < 0 ? left + SupportLabelLeft : middle + SupportLabelRight;
-            Label($"{s.Id} · {kind}\nP₀ {EmbeddedWallSketch.Format(s.Prestress)} kN{lengths}", x, a.Y - SupportLabelOffset, (right - left) / 2 - SupportLabelOffset, ink, true);
+            Label($"{s.Id} · {kind}\nP₀ {EmbeddedWallSketch.Format(s.Prestress, "kN")} kN{lengths}", x, a.Y - SupportLabelOffset, (right - left) / 2 - SupportLabelOffset, ink, true);
             Hit(hit, new("supports", s.Row, s.Detail));
             if (s.AnchorCheck is not null && scaled) { var bulb = new Rect(Along(s.FreeLength!.Value * scale), b); bulb.Inflate(PickPadding, PickPadding); Hit(bulb, new("anchor_checks", s.AnchorCheck, s.Detail)); }
         }
@@ -342,13 +351,13 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
             {
                 double from = middle - Math.Sign(h) * LoadArrowStart;
                 Arrow(new(from, y), new(middle - Math.Sign(h) * LoadArrowEnd, y), ink);
-                values.Add(distributed ? $"q {EmbeddedWallSketch.Format(h)} → {EmbeddedWallSketch.Format(load.HorizontalBottom)} kN/m" : $"H {EmbeddedWallSketch.Format(h)} kN");
+                values.Add(distributed ? $"q {EmbeddedWallSketch.Format(h, "kN/m")} → {EmbeddedWallSketch.Format(load.HorizontalBottom, "kN/m")} kN/m" : $"H {EmbeddedWallSketch.Format(h, "kN")} kN");
             }
-            else if (distributed) values.Add($"q {EmbeddedWallSketch.Format(load.HorizontalTop)} → {EmbeddedWallSketch.Format(load.HorizontalBottom)} kN/m");
+            else if (distributed) values.Add($"q {EmbeddedWallSketch.Format(load.HorizontalTop, "kN/m")} → {EmbeddedWallSketch.Format(load.HorizontalBottom, "kN/m")} kN/m");
             if (distributed) dc.DrawLine(new Pen(ink, 2) { DashStyle = DashStyles.Dot }, new(middle - DistributedOffset, y), new(middle - DistributedOffset, Y(load.Bottom)));
             if (load.Downward is { } v && v != 0)
-            { Arrow(new(middle + VerticalLoadOffset, y - Math.Sign(v) * VerticalArrowLength), new(middle + VerticalLoadOffset, y), ink); values.Add($"F↓ {EmbeddedWallSketch.Format(v)} kN"); }
-            if (load.Moment is { } moment && moment != 0) values.Add($"M {EmbeddedWallSketch.Format(moment)} kNm");
+            { Arrow(new(middle + VerticalLoadOffset, y - Math.Sign(v) * VerticalArrowLength), new(middle + VerticalLoadOffset, y), ink); values.Add($"F↓ {EmbeddedWallSketch.Format(v, "kN")} kN"); }
+            if (load.Moment is { } moment && moment != 0) values.Add($"M {EmbeddedWallSketch.Format(moment, "kNm")} kNm");
             if (values.Count == 0) continue;
             Label(string.Join(" · ", values), middle + LoadTextOffset, y - VerticalLoadOffset, right - middle - SupportLabelRight, ink, true);
             var area = new Rect(middle - LoadHitLeft, y - LoadHitAbove, right - middle + LoadHitLeft, Math.Max(LoadHitHeight, Y(load.Bottom) - y + LoadHitHeight));

@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text.Json.Nodes;
 using Anthea.Application.EmbeddedWalls;
 using Anthea.Application.Stratigraphy;
@@ -111,10 +110,10 @@ public sealed record EmbeddedWallSketch(
                 string origin = !string.IsNullOrWhiteSpace(activation["prestress"]) ? "assegnata nella fase"
                     : lockOff?.Previous is not null ? "cella vuota: mantenuta dalla fase precedente" : "cella vuota: 0 kN all'installazione";
                 string lengths = row["kind"] != "Anchor" ? ""
-                    : check is not null ? $"{Environment.NewLine}Tratto libero {Format(free)} m e cementato {Format(bond)} m lungo l'asse («{EmbeddedWallFields.Title("anchor_checks")}»): disegnati in scala."
+                    : check is not null ? $"{Environment.NewLine}Tratto libero {Format(free, "m")} m e cementato {Format(bond, "m")} m lungo l'asse («{EmbeddedWallFields.Title("anchor_checks")}»): disegnati in scala."
                     : $"{Environment.NewLine}Simbolo schematico: tratto libero e cementato non assegnati in «{EmbeddedWallFields.Title("anchor_checks")}».";
                 string detail = Detail(Table("supports"), row) + Environment.NewLine
-                    + $"Fase {stage["id"]} («{EmbeddedWallFields.Title("activations")}»): pretensione {Format(value)} kN, {origin}." + lengths;
+                    + $"Fase {stage["id"]} («{EmbeddedWallFields.Title("activations")}»): pretensione {Format(value, "kN")} kN, {origin}." + lengths;
                 supports.Add(new(row, activation, row["id"], row["kind"], z.Value, angle.Value, (int)direction, value)
                     { FreeLength = check is null ? null : free, BondLength = check is null ? null : bond, AnchorCheck = check, Detail = detail });
             }
@@ -146,7 +145,7 @@ public sealed record EmbeddedWallSketch(
             subject = ("stages", stage);
             var uniform = Number(stage.Data, "distributed_load", "Carico uniforme sulla parete");
             if (uniform is not null && uniform != 0)
-                Notice("Carico uniforme sulla parete: " + Format(uniform) + " kN/m (intera altezza).", EmbeddedWallMessageLevel.Information);
+                Notice("Carico uniforme sulla parete: " + Format(uniform, "kN/m") + " kN/m (intera altezza).", EmbeddedWallMessageLevel.Information);
         }
         else { subject = ("stages", null); Notice("Aggiungere una fase a questo caso per vedere terreno, falda e sostegni.", EmbeddedWallMessageLevel.Warning); }
         subject = (EmbeddedWallMessages.GeneralTarget, null);
@@ -162,12 +161,15 @@ public sealed record EmbeddedWallSketch(
         };
     }
 
-    public static string Format(double? value) => value?.ToString("0.###", CultureInfo.CurrentCulture) ?? "—";
+    /// <summary>A number of the drawing with the decimals of its unit (cifre significative, 16/11: <see cref="EmbeddedWallDisplay"/>).</summary>
+    public static string Format(double? value, string unit) => EmbeddedWallDisplay.Number(value, unit);
 
-    /// <summary>The data of a row as its table shows them: title of the table, then every assigned field with its unit (contract C7).</summary>
+    /// <summary>The data of a row as its table shows them: title of the table, then every assigned field with its unit (contract C7). The numbers
+    /// as typed; a choice written in English with its Italian label (the row keeps the value).</summary>
     public static string Detail(EmbeddedWallTable table, EmbeddedWallRow row) => "«" + table.Title + "»" + Environment.NewLine + string.Join(Environment.NewLine,
         table.Columns.Where(f => !string.IsNullOrWhiteSpace(row[f.Key])).Select(f => f.Label + ": "
-            + (f.Bool ? (row[f.Key] == "true" ? "sì" : row[f.Key] == "false" ? "no" : row[f.Key]) : row[f.Key]) + (string.IsNullOrEmpty(f.Unit) ? "" : " " + f.Unit)));
+            + (f.Bool ? (row[f.Key] == "true" ? "sì" : row[f.Key] == "false" ? "no" : row[f.Key]) : f.Choices is null ? row[f.Key] : EmbeddedWallDisplay.Choice(f.Key, row[f.Key]))
+            + (string.IsNullOrEmpty(f.Unit) ? "" : " " + f.Unit)));
 
     /// <summary>A length of «Sfilamento dei tiranti», null when missing or not a number (the checks report their own data).</summary>
     private static double? Length(EmbeddedWallRow row, string key)
@@ -179,13 +181,13 @@ public sealed record EmbeddedWallSketch(
     /// <summary>One line per soil: name, γ and φ′ as written in the tables (unread numbers as written), the sides where it lies, its tint.</summary>
     private static IReadOnlyList<WallSketchSoil> Legend(IReadOnlyList<WallSketchBand> bands)
     {
-        static string Value(EmbeddedWallRow row, string key)
+        static string Value(EmbeddedWallRow row, string key, string unit)
         {
-            try { return Format(StratigraphyDocument.Number(row.Data[key], key)); }
+            try { return Format(StratigraphyDocument.Number(row.Data[key], key), unit); }
             catch (ArgumentException) { return row[key].Trim(); }
         }
         return bands.Where(b => b.Table != "segments")
-            .GroupBy(b => (Name: b.Name.Trim(), Gamma: Value(b.Row, "gamma"), Phi: Value(b.Row, "phi")))
+            .GroupBy(b => (Name: b.Name.Trim(), Gamma: Value(b.Row, "gamma", "kN/m³"), Phi: Value(b.Row, "phi", "°")))
             .Select(g => new WallSketchSoil(g.Key.Name, g.Key.Gamma, g.Key.Phi,
                 string.Join(" · ", g.Select(b => b.Table == "left_soils" ? "sx" : "dx").Distinct()), g.First().Tint, g.ToArray()))
             .ToArray();

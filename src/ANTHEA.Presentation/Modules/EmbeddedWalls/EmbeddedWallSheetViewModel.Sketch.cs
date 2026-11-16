@@ -92,7 +92,7 @@ public sealed partial class EmbeddedWallSheetViewModel
     };
     public string SketchStatus => Sketch is null ? "" : string.Join(Environment.NewLine, Sketch.Notices);
     public string PhaseSummary => Sketch is null ? "" :
-        $"Terreno sx {EmbeddedWallSketch.Format(Sketch.LeftGround)} m  ·  dx {EmbeddedWallSketch.Format(Sketch.RightGround)} m  ·  {Sketch.Supports.Count} sostegni presenti";
+        $"Terreno sx {EmbeddedWallSketch.Format(Sketch.LeftGround, "m")} m  ·  dx {EmbeddedWallSketch.Format(Sketch.RightGround, "m")} m  ·  {Sketch.Supports.Count} sostegni presenti";
 
     private void InitializeSketch()
     {

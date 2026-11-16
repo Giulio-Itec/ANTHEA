@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using Anthea.Reports;
+using Anthea.Presentation.Modules.EmbeddedWalls;
 
 namespace X.Desktop.Views.EmbeddedWalls;
 
@@ -45,6 +45,6 @@ public sealed class EmbeddedWallGlobalDiagram : FrameworkElement
         }
         Line(slip, new Pen(accent, 3));
         Text(result.Stage + " · " + result.Id + " · " + result.OutcomeText, 16, 12);
-        Text($"Valle ← · x = {xmin:G4} … {xmax:G4} m · y = {ymin:G4} … {ymax:G4} m · testa y=0", 16, Math.Max(top, ActualHeight - BottomTextMargin));
+        Text($"Valle ← · x = {EmbeddedWallDisplay.Number(xmin, "m")} … {EmbeddedWallDisplay.Number(xmax, "m")} m · y = {EmbeddedWallDisplay.Number(ymin, "m")} … {EmbeddedWallDisplay.Number(ymax, "m")} m · testa y=0", 16, Math.Max(top, ActualHeight - BottomTextMargin));
     }
 }

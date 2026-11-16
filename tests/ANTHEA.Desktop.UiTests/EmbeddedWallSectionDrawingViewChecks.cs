@@ -63,6 +63,8 @@ internal static partial class EmbeddedWallViewChecks
         sketch.PickCommand!.Execute(new WallSketchPick("supports", tie.Row, tie.Detail)); await settle();
         check(ReferenceEquals(sketch.Selected, tie.Row) && sheet.InspectorTable?.Key == "supports", "Passo 5: il sostegno scelto non è evidenziato.");
         capture("sezione-selezione");
+        // Cifre significative (16/11): «Tipo» in Italian, the names of the layers off the water lines.
+        await CheckSectionTerms(view, sheet, settle, check, capture);
         // R08: the tie to scale only with free and bonded lengths of «Sfilamento dei tiranti».
         check(tie.FreeLength is null && tie.Detail.Contains("Simbolo schematico"), "Passo 5: tirante in scala senza le lunghezze.");
         var scaled = before.DeepClone().AsObject();

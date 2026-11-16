@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using Anthea.Reports;
+using Anthea.Presentation.Modules.EmbeddedWalls;
 
 namespace X.Desktop.Views.EmbeddedWalls;
 
@@ -39,9 +39,9 @@ public sealed class EmbeddedWallDiagram : FrameworkElement
         Point Pixel(EmbeddedWallPointData p) => new(centre + Value(p) / max * (right - left) / 2, PlotTop + (top - p.Elevation) / Math.Max(1e-10, top - bottom) * h);
         dc.DrawLine(new Pen(ink, 1), new Point(centre, 35), new Point(centre, PlotTop + h));
         for (int i = 0; i <= TickIntervals; i++)
-        { double y = PlotTop + h * i / TickIntervals; Text((top - (top - bottom) * i / TickIntervals).ToString("G5") + " m", 5, y - TickTextOffset); dc.DrawLine(new Pen(ink, .2), new Point(left, y), new Point(right, y)); }
+        { double y = PlotTop + h * i / TickIntervals; Text(EmbeddedWallDisplay.Number(top - (top - bottom) * i / TickIntervals, "m") + " m", 5, y - TickTextOffset); dc.DrawLine(new Pen(ink, .2), new Point(left, y), new Point(right, y)); }
         Text(Quantity + " — blu: " + PrimaryLabel + "; arancio: " + ComparisonLabel, left, 8);
-        Text((-max).ToString("G5"), left, BottomLabelOffset + h); Text("0", centre, BottomLabelOffset + h); Text(max.ToString("G5"), right - RightLabelWidth, BottomLabelOffset + h);
+        // Cifre significative (16/11): the scale of the drawing with the decimals of the quantity, «0» when the curve is all zero (no 1E-10).
         void Curve(IReadOnlyList<EmbeddedWallPointData>? points, Brush brush)
         {
             if (points is null || points.Count < 2) return;

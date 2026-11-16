@@ -137,6 +137,8 @@ internal static partial class EmbeddedWallViewChecks
             Check(ReferenceEquals(plot.Points, sheet.Points) && ReferenceEquals(plot.Comparison, sheet.Stages[0].Points), "Grafico non associato al risultato corrente.");
             Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("momenti-scuro");
             Appearance.Set(AppAppearance.Light, false);
+            // Cifre significative (16/11): numbers of the results and envelopes with the decimals of their unit and the separator of ANTHEA.
+            await CheckDisplayDigits(editor.View, sheet, Settle, Check, Capture);
             sheet.Tables.First(t => t.Key == "stages").Rows[1]["right_ground"] = "-3"; await Settle();
             Check(plot.Points?.Count == 0 && sheet.Current is null, "Grafico superato rimasto visibile.");
             var hydraulic = sheet.Data.DeepClone().AsObject(); hydraulic["hydraulic_mode"] = "FEM 2D";

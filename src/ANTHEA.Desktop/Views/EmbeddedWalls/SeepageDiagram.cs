@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using Anthea.Reports;
+using Anthea.Presentation.Modules.EmbeddedWalls;
 
 namespace X.Desktop.Views.EmbeddedWalls;
 
@@ -44,15 +44,15 @@ public sealed class SeepageDiagram : FrameworkElement
         for (int i = 0; i <= TickCount; i++)
         {
             double fraction = (double)i / TickCount;
-            Text((maxZ - (maxZ - minZ) * fraction).ToString("G4") + " m", 0, MarginTop + (maxZ - minZ) * fraction * scale);
-            Text((minX + (maxX - minX) * fraction).ToString("G4") + " m", MarginLeft + (maxX - minX) * fraction * scale, plotBottom + AxisLabelGap);
+            Text(EmbeddedWallDisplay.Number(maxZ - (maxZ - minZ) * fraction, "m") + " m", 0, MarginTop + (maxZ - minZ) * fraction * scale);
+            Text(EmbeddedWallDisplay.Number(minX + (maxX - minX) * fraction, "m") + " m", MarginLeft + (maxX - minX) * fraction * scale, plotBottom + AxisLabelGap);
         }
         for (int i = 0; i < palette.Length; i++)
         {
             double x = MarginLeft + i * LegendSlot, y = plotBottom + LabelGap + LabelGap;
             dc.DrawRectangle(palette[i], null, new Rect(x, y, LegendSwatch, LegendSwatch));
-            Text((low + range * i / palette.Length).ToString("G4"), x + LabelGap, y);
+            Text(EmbeddedWallDisplay.Number(low + range * i / palette.Length, EmbeddedWallDisplay.UnitOf(Quantity)), x + LabelGap, y);
         }
-        Text("max " + high.ToString("G4"), MarginLeft + palette.Length * LegendSlot, plotBottom + LabelGap + LabelGap);
+        Text("max " + EmbeddedWallDisplay.Number(high, EmbeddedWallDisplay.UnitOf(Quantity)), MarginLeft + palette.Length * LegendSlot, plotBottom + LabelGap + LabelGap);
     }
 }
