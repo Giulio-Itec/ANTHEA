@@ -49,13 +49,15 @@ public sealed record Strand7ModelCatalog(int Nodes, int Elements, IReadOnlyList<
     /// </summary>
     public string? NoResultsReason(bool resultsFile)
     {
+        const int ListedCases = 8; // the cases named in the reason, the others counted
         if (Cases.Count > 0) return null;
         if (!resultsFile) return "nessun file dei risultati (.lsa o .nla) scelto";
         if (UnmappedResultCases.Count > 0)
             return (UnmappedResultCases.Count == 1 ? "l’unico caso di risultato del file non corrisponde" : $"nessuno dei {UnmappedResultCases.Count} casi di risultato del file corrisponde") +
                 " a un caso di carico del modello" +
                 (SeveralFreedomCases ? ": il modello ha più casi di vincolo (freedom case) e il convertitore GPC non associa ancora ai casi di carico i risultati né i vincoli di questi modelli" : "") +
-                ". Casi non importabili: " + string.Join(", ", UnmappedResultCases.Take(8)) + (UnmappedResultCases.Count > 8 ? $" e altri {UnmappedResultCases.Count - 8}" : "");
+                ". Casi non importabili: " + string.Join(", ", UnmappedResultCases.Take(ListedCases)) +
+                (UnmappedResultCases.Count > ListedCases ? $" e altri {UnmappedResultCases.Count - ListedCases}" : "");
         if (LoadCases.Count == 0) return "il modello non ha casi di carico";
         return "il file dei risultati non contiene casi leggibili";
     }
