@@ -415,7 +415,7 @@
        <StackPanel Margin="0,0,8,8">
         <TextBlock Text="Sezione della fase" FontSize="18" FontWeight="SemiBold"/>
         <TextBlock Text="Anteprima degli input · seleziona un elemento per modificarlo" TextWrapping="Wrap" Margin="0,2,0,8"/>
-        <TextBlock Margin="0,0,0,4"><Run Text="Caso "/><Run Text="{Binding InputCase, Mode=OneWay}" FontWeight="SemiBold"/><Run Text=" · fase "/><Run Text="{Binding Sketch.Phase, Mode=OneWay}" FontWeight="SemiBold"/></TextBlock>
+        <TextBlock Margin="0,0,0,4"><Run Text="{Binding InputCase, Mode=OneWay}" FontWeight="SemiBold"/><Run Text=" · fase "/><Run Text="{Binding Sketch.Phase, Mode=OneWay}" FontWeight="SemiBold"/></TextBlock>
         <TextBlock Text="{Binding PhaseSummary}" TextWrapping="Wrap"/>
        </StackPanel>
        <Border Grid.Row="1" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Margin="0,0,8,0">

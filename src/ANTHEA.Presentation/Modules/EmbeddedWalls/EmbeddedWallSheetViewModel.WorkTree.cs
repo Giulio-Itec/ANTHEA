@@ -113,7 +113,7 @@ public sealed partial class EmbeddedWallSheetViewModel
                 SynchronizeWorkNodes(node.Children, children ?? []);
                 return node;
             }
-            string HistoryTitle(string key, EmbeddedWallRow row) => key == "stages" ? WorkRowTitle(key, row)
+            string HistoryTitle(string key, EmbeddedWallRow row) => key == "stages" || !EmbeddedWallDocument.HistoryTables.Contains(key) ? WorkRowTitle(key, row)
                 : (string.IsNullOrWhiteSpace(row["stage"]) ? "fase ?" : row["stage"]) + " · " + WorkRowTitle(key, row);
             EmbeddedWallWorkNode? TableGroup(string key, IEnumerable<EmbeddedWallRow>? rows = null, string scope = "", string? title = null)
             {
