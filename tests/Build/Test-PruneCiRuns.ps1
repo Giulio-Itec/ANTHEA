@@ -1,13 +1,13 @@
 param([string]$Output)
 # Checks of build\Prune-CiRuns.ps1 on a fixture of runs OUTSIDE the repository (AGENTS.md: the junction fixture too).
-# The junction is removed with rmdir in finally, then the fixture with rmdir /s, which does not follow links.
+# Respect TEMP; remove the junction without recursion before removing the validated fixture tree.
 $ErrorActionPreference = 'Stop'
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 if (-not $Output) { $Output = Join-Path $repo ('supporto\artefatti\prune-ci-runs\' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff')) }
 $Output = [IO.Path]::GetFullPath($Output)
 New-Item -ItemType Directory -Force -Path $Output | Out-Null
 $prune = Join-Path $repo 'build\Prune-CiRuns.ps1'
-$fixture = Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) ('Temp\ANTHEA-PruneTest-' + [guid]::NewGuid().ToString('N'))
+$fixture = Join-Path ([IO.Path]::GetTempPath()) ('ANTHEA-PruneTest-' + [guid]::NewGuid().ToString('N'))
 $ci = Join-Path $fixture 'ci'
 $external = Join-Path $fixture 'external'
 $checks = [Collections.Generic.List[string]]::new()
@@ -96,9 +96,11 @@ try {
     $link = Join-Path $fixture 'ci\20260907-000000-con-giunzione\collegamento'
     $item = Get-Item -LiteralPath $link -Force -ErrorAction SilentlyContinue
     if ($item -and $item.LinkType -eq 'Junction' -and $item.FullName.StartsWith($fixture + '\', [StringComparison]::OrdinalIgnoreCase)) {
-        & $env:ComSpec /d /c "rmdir `"$($item.FullName)`""
-        if ($LASTEXITCODE -ne 0) { throw "Cannot remove fixture junction: $link" }
+        [IO.Directory]::Delete($item.FullName, $false)
     }
-    if ((Test-Path -LiteralPath $fixture) -and -not (Test-Path -LiteralPath $link)) { & $env:ComSpec /d /c "rmdir /s /q `"$fixture`"" }
+    $tempRoot = [IO.Path]::GetFullPath([IO.Path]::GetTempPath()).TrimEnd('\') + '\'
+    $resolvedFixture = [IO.Path]::GetFullPath($fixture)
+    if (-not $resolvedFixture.StartsWith($tempRoot, [StringComparison]::OrdinalIgnoreCase)) { throw "Fixture outside TEMP: $resolvedFixture" }
+    if ((Test-Path -LiteralPath $resolvedFixture) -and -not (Test-Path -LiteralPath $link)) { Remove-Item -LiteralPath $resolvedFixture -Recurse -Force }
 }
 [IO.File]::WriteAllText((Join-Path $Output 'esito.txt'), "PASS $($checks.Count) prune checks`r`n" + ($checks -join "`r`n"))

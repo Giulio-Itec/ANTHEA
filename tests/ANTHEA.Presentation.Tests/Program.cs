@@ -102,6 +102,8 @@ try
     checks += JsonRowChecks.Run();
     checks += FormViewModelChecks.Run();
     checks += SharedDataCoordinatorChecks.Run();
+    // 16/11/2026 (note of step 6, §1.5 point 8): the layers of a survey with another number of layers are not shared by position.
+    checks += SoilSubdivisionChecks.Run();
     checks += ProjectHistoryChecks.Run();
     // F5.13 (a, b): sessions and ViewModels of the new shell.
     checks += ShellChecks.Run(output);

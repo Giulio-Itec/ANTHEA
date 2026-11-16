@@ -61,12 +61,15 @@ public static partial class ProjectSharedData
         return result;
     }
 
-    public static int ApplyHierarchy(JsonObject source, HashSet<string> groups, HashSet<string>? keys = null)
+    /// <param name="skip">Keys not written into a target (see ApplyTargets); null for none.</param>
+    public static int ApplyHierarchy(JsonObject source, HashSet<string> groups, HashSet<string>? keys = null, Func<JsonObject, string, bool>? skip = null)
     {
         if (source.Parent?.Parent is not JsonObject section) return 0;
+        // Without dati the fields of the source would be the defaults of its module: they are not applied to the other sheets.
+        if (source["dati"] is not JsonObject) throw new ArgumentException("«" + source.S("nome") + "» non è leggibile: i suoi dati non vengono applicati agli altri fogli.");
         var allowed = ReferenceKeys(source, keys ?? Fields(source).Keys.ToHashSet());
         var authorities = Ancestors(section).SelectMany(s => s.Array("fogli").OfType<JsonObject>()).ToArray();
-        return ApplyTargets(source, SubtreeSheets(section), groups, allowed, authorities);
+        return ApplyTargets(source, SubtreeSheets(section), groups, allowed, authorities, skip);
     }
 
     public static void InheritHierarchy(JsonObject sheet, JsonObject section)
@@ -82,7 +85,8 @@ public static partial class ProjectSharedData
             // that level remain unresolved instead of choosing one by tree/array order.
             foreach (var level in Ancestors(section).Reverse().Append(section))
             {
-                var peers = level.Array("fogli").OfType<JsonObject>().Where(s => !ReferenceEquals(s, sheet)).OrderBy(SheetOrder, StringComparer.Ordinal).ToArray();
+                // A sheet without dati or that could not be read is no reference (Updatable): its fields would be the defaults of its module.
+                var peers = level.Array("fogli").OfType<JsonObject>().Where(s => !ReferenceEquals(s, sheet) && Updatable(s)).OrderBy(SheetOrder, StringComparer.Ordinal).ToArray();
                 var fields = peers.ToDictionary(s => s, Fields);
                 var applicable = peers.ToDictionary(s => s, s => ComparableFields(s, sheet).Concat(Common(s, sheet)).Select(p => p.Source.Key).ToHashSet());
                 if (group == "Geometria" && !claimed.Contains("shape"))

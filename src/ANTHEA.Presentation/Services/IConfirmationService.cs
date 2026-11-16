@@ -89,8 +89,15 @@ public enum SaveChangesAnswer
     Cancel
 }
 
-/// <summary>Content of the shared data question: changed groups, section and, for each linked sheet, the changes ("field: before → after").</summary>
-public sealed record SharedUpdatePrompt(IReadOnlyList<string> ChangedGroups, string SectionName, IReadOnlyList<SharedUpdateTarget> Targets);
+/// <summary>Content of the shared data question: changed groups, section and, for each linked sheet, the changes ("field: before → after").
+/// <paramref name="Excluded"/> names the linked sheets left out because they have no dati or could not be read (ProjectSharedData.Updatable).</summary>
+public sealed record SharedUpdatePrompt(IReadOnlyList<string> ChangedGroups, string SectionName, IReadOnlyList<SharedUpdateTarget> Targets,
+    IReadOnlyList<string>? Excluded = null)
+{
+    /// <summary>The line of the question about the excluded sheets; empty without them.</summary>
+    public string ExcludedText => Excluded is { Count: > 0 } names
+        ? "Esclusi perché non leggibili, restano come nel file: " + string.Join(", ", names) + "." : "";
+}
 
 /// <summary>A linked sheet that the shared data question would update.</summary>
 public sealed record SharedUpdateTarget(string SheetName, IReadOnlyList<string> Changes);

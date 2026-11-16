@@ -516,13 +516,25 @@ internal static class MaterialSheetViewChecks
                     && expected.Document is null && actual.Document is null,
                     name + ": capitolo del materiale (MaterialReportContent) uguale a quello della vista storica" + (actual.Error is null ? "" : ", con l'errore «" + actual.Error + "»"));
                 string title = "Fixture F3 · " + module + " · " + id;
-                mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, []);
-                Materiali.MaterialReportChapter.Write(Path.Combine(folder, name + "-attesa.docx"), module, title, (JsonObject)mvvm.Editor.Data.DeepClone());
+                void Export()
+                {
+                    mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, []);
+                    Materiali.MaterialReportChapter.Write(Path.Combine(folder, name + "-attesa.docx"), module, title, (JsonObject)mvvm.Editor.Data.DeepClone());
+                }
+                Export();
+                // As in the other view checks, repeat the pair if its renderings straddle a minute boundary:
+                // the report time is inside a compressed PDF page. Keep SamePdf and every document comparison unchanged.
+                int attempts = 1;
+                while (!SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.pdf"))) && attempts < 3)
+                {
+                    attempts++;
+                    Export();
+                }
                 byte[] word = File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx"));
                 string? part = DifferentPart(word, File.ReadAllBytes(Path.Combine(folder, name + "-attesa.docx")), normalizer);
                 Check(part is null, name + ": report Word uguale in ogni parte a quello della vista storica (date del documento normalizzate)" + (part is null ? "" : ", diversa " + part));
                 Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.pdf"))),
-                    name + ": PDF affiancato uguale a quello della vista storica, scritto come oggi da MaterialReportChapter.Write (T8; date del documento normalizzate)");
+                    name + ": PDF affiancato uguale a quello della vista storica, scritto come oggi da MaterialReportChapter.Write (T8; date del documento normalizzate" + (attempts > 1 ? $", {attempts} esportazioni" : "") + ")");
                 part = DifferentPart(mvvm.Editor.BuildReport(title, []), word, normalizer);
                 Check(part is null, name + ": il report del foglio (Report.BuildReport) è il Word esportato" + (part is null ? "" : ", diversa " + part));
                 Check("dati " + MaterialTrace.Compact(mvvm.Editor.Data) == committed && Modified(historic[3]) == mvvm.Modified,

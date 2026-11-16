@@ -16,6 +16,10 @@ public static partial class ProjectSharedData
         key.StartsWith("steel_") || key == "materiale_acciaio_nome";
     public static string Text(JsonNode? value) => value is null ? "non definito" : value is JsonArray or JsonObject ? value.ToJsonString() : value.ToString();
     public static bool Equal(JsonNode? a, JsonNode? b) => J.Equivalent(a, b);
+    /// <summary>A sheet whose data the shared commands may change: it has its dati and was read. A sheet that could not be read keeps its
+    /// data as in the file (DocumentQuarantine, step 2b of docs/sviluppo/progetto-sistema.md) and a sheet without dati is never filled with
+    /// the defaults of its module: the commands skip both and say so.</summary>
+    public static bool Updatable(JsonObject sheet) => sheet["dati"] is JsonObject && !Anthea.Application.Documents.DocumentQuarantine.IsQuarantined(sheet);
     public static Dictionary<string, Field> Fields(JsonObject sheet)
     {
         string module = sheet.S("modulo_id");
@@ -140,11 +144,15 @@ public static partial class ProjectSharedData
     public static int Apply(JsonObject source, JsonObject section, HashSet<string> groups, JsonObject? onlyTarget = null, HashSet<string>? keys = null)
         => ApplyTargets(source, section.Array("fogli").OfType<JsonObject>().Where(s => onlyTarget is null || ReferenceEquals(s, onlyTarget)), groups, keys);
 
-    static int ApplyTargets(JsonObject source, IEnumerable<JsonObject> targets, HashSet<string> groups, HashSet<string>? keys, JsonObject[]? authorities = null)
+    /// <param name="skip">When given, the keys it returns true for are not written into that target (the confirmation of a sheet: the layers of
+    /// a survey with another number of layers in the target, ProjectSharedData.OtherSoilSubdivision).</param>
+    static int ApplyTargets(JsonObject source, IEnumerable<JsonObject> targets, HashSet<string> groups, HashSet<string>? keys, JsonObject[]? authorities = null,
+        Func<JsonObject, string, bool>? skip = null)
     {
         // Stage the entire operation, so unsupported conversions cannot partially update the project.
         var updates = new List<(JsonObject Sheet, JsonObject Data)>();
-        foreach (var target in targets.Where(s => !ReferenceEquals(s, source)).Distinct())
+        // A sheet without dati or that could not be read is never a target (Updatable): it is not filled with the defaults of its module.
+        foreach (var target in targets.Where(s => !ReferenceEquals(s, source) && Updatable(s)).Distinct())
         {
             var data = (JsonObject)(target["dati"] as JsonObject ?? Archivio.NuovoFoglio(target.S("modulo_id"))).DeepClone();
             if (target.S("modulo_id") == RetainingWall.Module) RetainingWall.Upgrade(data);
@@ -161,7 +169,8 @@ public static partial class ProjectSharedData
             if (groups.Contains("Materiali") && (keys is null || keys.Contains("Scheda CLS · scelte/deviationControl")) && source.S("modulo_id") == "mat_calcestruzzo" && target.S("modulo_id") == "mat_calcestruzzo")
                 Put(effectiveTarget["dati"]!.AsObject(), "scelte/deviationControl", source["dati"]?["scelte"]?["deviationControl"] ?? JsonValue.Create("Ordinario"));
             var governed = authorities?.SelectMany(s => ComparableFields(s, effectiveTarget).Concat(Common(s, effectiveTarget))).Select(p => p.Source.Key).ToHashSet() ?? [];
-            foreach (var (a, b) in Common(source, effectiveTarget).Where(p => groups.Contains(p.Source.Group) && (keys is null || keys.Contains(p.Source.Key)) && !governed.Contains(p.Source.Key)))
+            foreach (var (a, b) in Common(source, effectiveTarget).Where(p => groups.Contains(p.Source.Group) && (keys is null || keys.Contains(p.Source.Key)) && !governed.Contains(p.Source.Key)
+                && skip?.Invoke(target, p.Source.Key) != true))
             {
                 if (a.Key == "shape" && target.S("modulo_id") == PaloOrizzontale.Module) continue;
                 var original = Fields(target)[b.Key];

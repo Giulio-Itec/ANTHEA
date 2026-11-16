@@ -26,17 +26,21 @@ internal sealed class WpfConfirmationService(Func<Window?> owner) : IConfirmatio
 
     private Window Owner => owner() ?? throw new InvalidOperationException("Nessuna finestra di ANTHEA aperta per la domanda.");
 
-    public bool ConfirmSharedUpdate(SharedUpdatePrompt prompt)
+    public bool ConfirmSharedUpdate(SharedUpdatePrompt prompt) => SharedUpdateDialog(Owner, prompt).ShowDialog() == true;
+
+    /// <summary>The window of the shared data question; ui/shell-smoke-sharing draws it off screen without showing it as a dialog.</summary>
+    internal static Window SharedUpdateDialog(Window owner, SharedUpdatePrompt prompt)
     {
         var content = Ui.Stack(Ui.Text("Hai modificato: " + string.Join(", ", prompt.ChangedGroups), 17, true),
             Ui.Text("Sezione: " + prompt.SectionName + "\nAggiorna i parametri compatibili nei seguenti fogli, oppure mantieni la modifica solo qui. Carichi e combinazioni restano specifici di ciascun foglio.", 14),
             Ui.Text(string.Join("\n\n", prompt.Targets.Select(t => t.SheetName + "\n" + string.Join("\n", t.Changes.Select(c => "• " + c)))), 14));
+        if (prompt.ExcludedText.Length > 0) content.Children.Add(Ui.Text(prompt.ExcludedText, 14));
         content.Margin = new Thickness(18);
-        var dialog = Ui.Dialog(Owner, "Dati condivisi della sezione", new ScrollViewer { Background = Appearance.Surface, Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 670, 440);
+        var dialog = Ui.Dialog(owner, "Dati condivisi della sezione", new ScrollViewer { Background = Appearance.Surface, Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 670, 440);
         var all = Ui.Button("Aggiorna tutti i fogli collegati", () => dialog.DialogResult = true, true);
         var local = Ui.Button("Solo questo foglio", () => dialog.DialogResult = false); local.IsCancel = true;
         content.Children.Add(Ui.Bar(all, local));
-        return dialog.ShowDialog() == true;
+        return dialog;
     }
 
     public bool ConfirmProjectMove(string destination, IReadOnlyList<string> changes)

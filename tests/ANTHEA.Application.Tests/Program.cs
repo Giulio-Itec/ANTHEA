@@ -19,6 +19,8 @@ try
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f3/application") : Path.GetFullPath(args[0]);
     Directory.CreateDirectory(output);
     checks += ProjectValidationChecks.Run(root);
+    // P10 (16/11/2026): the notice of the Materiali of a nearer level that the check of the cover ignores.
+    checks += await CoverMaterialLevelChecks.Run(output);
     if (args.Contains("--project-validation"))
     {
         string focused = $"PASS {checks} controlli validazione copertina";
@@ -26,6 +28,7 @@ try
         Console.WriteLine(focused);
         return 0;
     }
+    checks += ProjectSharedCommandChecks.Run();
     checks += StratigraphyChecks.Run(output);
     string path = Path.Combine(output, "documento.anth");
     foreach (string fixturePath in Directory.GetFiles(Path.Combine(root, "tests/fixtures/f3/inputs"), "*.json"))

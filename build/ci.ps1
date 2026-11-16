@@ -27,6 +27,8 @@ compiles the desktop project ($Desktop, src\ANTHEA.Desktop) with -c UiTests and 
 With -List the runner prints the suites of the selected stages (stage, kind, name) and their count per stage, and builds
 and runs nothing: the count of the suites before and after a change (F5.14).
 Every outcome is classified against build/known-failures.json: PASS, KNOWN, NEW-FAIL, FIXED, BLOCKED, NOT-RUN.
+An entry may also pin one output file of the suite ('output', relative to the folder of the suite, and its 'sha256'):
+the failure is KNOWN only if that file is byte-identical, so any difference beyond the registered ones is NEW-FAIL.
 Exit code 0 only without NEW-FAIL and without tracked files modified by the suites.
 Outputs: supporto/artefatti/ci/<yyyyMMdd-HHmmss>-<Tag>/ (summary.json, summary.txt, one folder and log per suite).
 At the end of a run the old runs of supporto/artefatti/ci are slimmed by build/Prune-CiRuns.ps1 (summaries, logs and
@@ -155,6 +157,7 @@ Add-Suite @{ Name = 'Reports.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'te
 Add-Suite @{ Name = 'Application.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Application.Tests\ANTHEA.Application.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Examples.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Examples.Tests\ANTHEA.Examples.Tests.csproj'; Args = @('{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Wiki.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Wiki.Tests\ANTHEA.Wiki.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'GuideRev72.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\GuideRev72.Checks\GuideRev72.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # ViewModels, services and calculation scheduling of the MVVM interface without WPF (refactoring F5.1, proposal F5 section 7.1).
 # 3/11/2026: the project of ANTHEA without WPF (src/ANTHEA.Projects, docs/sviluppo/progetto-sistema.md): file, archive of the results, history.
 Add-Suite @{ Name = 'Projects.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Projects.Checks\ANTHEA.Projects.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
@@ -540,6 +543,16 @@ $knownPath = Join-Path $Root 'build\known-failures.json'
 $Known = @()
 if (Test-Path -LiteralPath $knownPath) { $Known = @((Get-Content -LiteralPath $knownPath -Raw -Encoding UTF8 | ConvertFrom-Json).entries) }
 function Known-Entry([string] $suite) { $Known | Where-Object { $_.suite -eq $suite } | Select-Object -First 1 }
+# Declared differences (F4 storici, 16/11/2026): an entry with 'sha256' admits the failure only with exactly the registered output
+# file of the suite ('output', e.g. comparison.json), so the suite turns NEW-FAIL again as soon as anything else changes.
+# It can only make the classification stricter: without 'sha256' nothing changes.
+function Known-Output($result, $entry) {
+    if (-not $entry.sha256) { return $true }
+    $file = Join-Path (Join-Path $Output ($result.Suite -replace '[\\/:]', '_')) ([string] $entry.output)
+    if ((Test-Path -LiteralPath $file) -and (Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash -eq ([string] $entry.sha256).ToUpperInvariant()) { return $true }
+    $result.Note = ([string] $result.Note + ' [impronta di ' + [string] $entry.output + ' diversa da build/known-failures.json]').Trim()
+    return $false
+}
 
 # ---------------------------------------------------------------- run
 $selected = @($Suites | Where-Object { $Stage -contains $_.Stage -and (-not $Only -or $_.Name -match $Only) })
@@ -677,7 +690,7 @@ $final = foreach ($r in $results) {
         'PASS' { if ($entry) { 'FIXED' } else { 'PASS' } }
         'BLOCKED' { 'BLOCKED' }
         default {
-            if ($entry -and (-not $entry.match -or $r.Note -match $entry.match)) { 'KNOWN' } else { 'NEW-FAIL' }
+            if ($entry -and (-not $entry.match -or $r.Note -match $entry.match) -and (Known-Output $r $entry)) { 'KNOWN' } else { 'NEW-FAIL' }
         }
     }
     $r | Add-Member -NotePropertyName Status -NotePropertyValue $status -PassThru

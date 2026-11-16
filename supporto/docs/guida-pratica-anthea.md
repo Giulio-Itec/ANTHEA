@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 6 novembre 2026 — revisione documentale 71
+Edizione 15 novembre 2026 · revisione documentale 72 · comportamento ANTHEA 1.19.1 (set AW)
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -127,6 +127,8 @@ Nel menu Aspetto, Template dei report → Scegli template Word permette di selez
 
 Il modello fornisce caratteri, dimensioni, gerarchia dei titoli, interlinea e spaziatura. Cartiglio, sommario, testo di esempio, intestazioni, piè di pagina, numerazione e geometria delle pagine del template non vengono importati. Tabelle, figure, valori, unità e struttura del report restano quelli di ANTHEA. Se non ci sono stili dedicati alle tabelle, il testo usa il carattere del modello fino a 10 pt; le intestazioni sono in grassetto. Per la stessa resa nel PDF installare i font del modello sul PC; i caratteri non disponibili usano il font sostitutivo. Il report short conserva il limite di due pagine: se gli stili scelti lo fanno superare, usare il report completo o ripristinare lo stile ANTHEA.
 
+Se il template scelto non è valido, la selezione fallisce e resta in uso il precedente. Se la copia dei template salvata nelle impostazioni non è leggibile, il menu segnala il problema: scegliere nuovamente un template valido oppure ripristinare lo stile ANTHEA prima di produrre i report.
+
 ### Scegliere il foglio adatto
 
 | Foglio disponibile | Domanda alla quale risponde | Informazione da preparare |
@@ -183,7 +185,15 @@ Per esempio, un materiale CLS definito nel progetto può governare i fogli compa
 
 Quando si confermano o si salvano modifiche a un riferimento, le proprietà compatibili possono propagarsi ai discendenti. In assenza di un riferimento superiore, resta la scelta fra aggiornare i fogli dello stesso livello e mantenere il dato locale. I fogli nuovi ereditano ciò che è definito senza ambiguità. Se due riferimenti dello stesso livello sono discordanti, ANTHEA non sceglie silenziosamente uno dei due.
 
+Il controllo del copriferro segue la stessa regola: usa tutte le schede Materiali del livello più alto che ne ha, dal progetto fino alla sezione del foglio. Una scheda Materiali messa più in basso, per esempio nella sezione dei pali, non governa il controllo. Se con quella scheda l'esito o il minimo sarebbero diversi, compare un avviso che nomina le due schede, i loro livelli e il minimo che darebbe la scheda più vicina; l'esito del controllo resta quello della scheda del livello più alto. L'avviso si vede nella riga sopra il foglio, nel confronto, nel riquadro Controlli del riepilogo e nel report. Per usare in un ramo un calcestruzzo diverso, togliere la scheda Materiali dal livello più alto e metterne una in ogni ramo, oppure portare i dati della scheda più vicina in quella del livello più alto.
+
+**RISPETTATO** vale per il Materiali indicato nel messaggio e le barre effettive considerate: non garantisce il rispetto di un requisito locale più severo. Controllare il riferimento usato e la sua posizione nel progetto e confrontare il copriferro adottato anche con gli eventuali minimi locali più severi.
+
+Quando una modifica cambia il numero di strati di un sondaggio o il numero di sondaggi, la conferma non propaga automaticamente i dati del sondaggio interessato agli altri fogli; anche le modifiche successive si propagano solo dove il numero di strati coincide. Per riallineare i fogli occorre rendere coerente la loro suddivisione: la sola assenza di conflitti visibili non garantisce che il numero di strati sia uguale.
+
 Prima di produrre un report di progetto aprire il riepilogo Controlli e Dati comuni. Un avviso sul copriferro o un conflitto non è necessariamente un errore numerico, ma richiede una decisione esplicita. La condivisione non deve essere confusa con una sincronizzazione universale di ogni campo: gli adattatori dei moduli preservano unità, forme ammesse e significato delle proprietà.
+
+Se una scheda del livello selezionato è vuota o priva dei dati necessari, il controllo del copriferro riporta **non verificabile** e prosegue con le altre schede Materiali dello stesso livello. Non sostituisce il riferimento con una scheda valida dei livelli inferiori; il confronto diagnostico con queste schede può comunque produrre un avviso. Completare la scheda e ricontrollare.
 
 ### Spostare duplicare e annullare
 
@@ -261,6 +271,8 @@ Selezionare nessuna riduzione, Converse Labarre, Feld oppure efficienze definite
 
 Le curve drenate sono verdi e quelle non drenate viola; compressione e trazione si distinguono anche per tono e tratteggio. Le azioni sono rappresentate separatamente. Alla lunghezza di progetto leggere contributo laterale, punta, resistenza in compressione, resistenza in trazione e relativi coefficienti. La trazione non utilizza automaticamente gli stessi fattori del ramo di compressione.
 
+Nel palo e nel micropalo verticale il grafico della capacità mostra il nome del modulo fin dall'apertura. Il foglio avvia automaticamente il calcolo: non occorre premere **Calcola**; un esito valido richiede comunque dati completi e ammissibili.
+
 La punta e il laterale minimo possono provenire da sondaggi diversi. La curva costruita con i minimi delle componenti non rappresenta necessariamente un unico sondaggio reale. Confrontare anche le curve delle singole stratigrafie prima di interpretare il motivo della riduzione.
 
 Se una stratigrafia non raggiunge la quota richiesta, il calcolo non inventa gli strati mancanti. Integrare l'indagine o rivedere la lunghezza. La casella che disattiva il laterale elimina il contributo resistente di quel tratto, ma ne conserva il peso e l'effetto sulle tensioni negli strati sottostanti. È utile per escludere un tratto non affidabile, non per modellare automaticamente l'attrito negativo.
@@ -286,6 +298,8 @@ Inserire l'inclinazione rispetto alla verticale e verificare la lunghezza lungo 
 Le dimensioni del tubo servono al calcolo dell'area di acciaio, del volume di boiacca e del peso. Nel modulo verticale non equivalgono a una verifica automatica di instabilità del tubo, della sezione composta acciaio boiacca o del collegamento in testa. Diametro esterno del tubo, diametro di perforazione e diametro espanso del bulbo sono tre misure diverse.
 
 Verificare che p_l rientri nel campo della curva selezionata: il motore rifiuta l'estrapolazione. Un messaggio di fuori abaco va risolto cambiando la base di calcolo o il dato, non forzando il valore al bordo senza motivazione. Nel report conservare curva, tipo di iniezione, α, pressione e tratte: sono le informazioni che consentono di ricostruire la stima.
+
+Per l'avvio automatico del calcolo e il titolo iniziale del grafico valgono le indicazioni del palo verticale, nel paragrafo **Leggere i risultati**.
 
 ## Pali e micropali caricati orizzontalmente
 
@@ -445,6 +459,8 @@ La terza scheda permette curve M κ a N fissato oppure N ε a curvatura fissata.
 Controllare la variabile mantenuta costante, direzione dei passi, grandezza degli incrementi e criterio di arresto. Una curva interrotta per mancata convergenza non va completata idealmente a mano per dichiarare una resistenza. Le curve sono caratteristiche e su sezione lorda; non costituiscono da sole una capacità di progetto con instabilità locale inclusa.
 
 La vista separata segue la fase selezionata. F11 la porta a schermo intero ed Esc esce da quella modalità. CSV ed esportazioni delle fibre consentono un controllo numerico dei dati; la precisione del file non è limitata ai decimali mostrati a video.
+
+Nel report della sezione composta, le lunghezze della sezione efficace di classe 4 sono espresse in mm con due decimali, senza notazione esponenziale. Un residuo come **Anima inefficace: 4,55E-13 mm** è quindi mostrato come **0,00 mm**. Il formato di stampa non modifica i valori numerici usati dal calcolo.
 
 ## Bridge Design
 
@@ -670,6 +686,26 @@ Utilizzare Salva con nome prima di una variante che si desidera mantenere indipe
 I risultati dei modelli acquisiti stanno in un archivio accanto al file del progetto, con estensione .anthea-risultati. Se al salvataggio qualcosa non va, alla fine compare l'avviso **Salvataggio con avvisi**, con una riga per ogni problema. Un archivio non leggibile non viene sovrascritto: resta accanto al progetto con il nome dell'archivio seguito da .danneggiato- e dalla data, e il progetto riceve un archivio nuovo; conserva il file messo da parte finché non hai controllato i risultati. Le altre righe indicano quanti blocchi dell'archivio erano danneggiati e non sono stati ricopiati, e quanti blocchi citati dal progetto l'archivio non contiene.
 
 L'avviso si chiude con «Il progetto è stato salvato.»; quando mancano risultati aggiunge che sono indicati come non disponibili nei modelli e che per riaverli bisogna calcolarli di nuovo. Un archivio aperto da un altro programma ferma invece il salvataggio: chiudi quel programma e salva di nuovo.
+
+### Compatibilità e salvataggio dei risultati
+
+L'archivio **.anthea-risultati** mantiene il formato 1, compatibile con gli archivi validi delle versioni 1.18 e 1.19. Questa compatibilità riguarda l'archivio dei risultati, non il file di progetto con sezioni in c.a. compatte.
+
+Un errore di accesso o di lettura durante il controllo dei blocchi dell'archivio può interrompere il salvataggio. **Salvataggio non riuscito** indica un esito diverso da **Salvataggio con avvisi**, che accompagna un progetto salvato. Un blocco danneggiato riconosciuto come tale può invece essere segnalato come risultato non disponibile: controllare l'esito indicato dal messaggio.
+
+Quando ci sono molti risultati nuovi, il salvataggio del progetto può proseguire in background e il documento resta utilizzabile. Le modifiche fatte durante la scrittura restano da salvare. La chiusura attende il salvataggio in corso; anche l'apertura di un modello o la preparazione della sua copia può attendere la fine della scrittura dell'archivio.
+
+### File già aperto o modificato altrove
+
+**File già aperto** compare quando il documento è aperto in un'altra istanza di ANTHEA. **Apri una copia** apre una copia senza nome da salvare separatamente; **Apri comunque** lavora sul file originale e può sovrascrivere le modifiche dell'altra apertura; **Annulla** interrompe l'apertura. Se il file è cambiato sul disco dopo l'apertura o l'ultimo salvataggio, **File modificato su disco** chiede se sovrascriverlo: con **No** il salvataggio si ferma e puoi scegliere un altro nome. **Salva con nome** rifiuta una destinazione già aperta altrove.
+
+### Recuperare il lavoro dopo un'interruzione
+
+ANTHEA prepara copie periodiche dei documenti modificati e dei risultati nuovi. Dopo una chiusura non corretta, **Recupero dei documenti** indica il documento e l'ora della copia disponibile. **Riprendi** riapre quella copia, che resta da salvare; **Scarta** la elimina; **Più tardi** la conserva per il prossimo avvio. Il recupero riguarda i dati della copia all'ora indicata, non le modifiche successive.
+
+### Fogli non leggibili
+
+**Progetto aperto con fogli non leggibili** elenca i fogli o le revisioni interessati, con percorso e motivo. Il progetto si apre; quei contenuti restano in sola lettura e il salvataggio li riscrive come erano nel file. Una sezione danneggiata non viene ricostruita.
 
 ### Report del singolo foglio e del progetto
 
@@ -1392,11 +1428,13 @@ La pagina mantiene insieme dati, tabella degli strati ed esito. Le schede cambia
 
 Scegliere geometria, drenaggio, metodo e profilo. Eurocodice 7 indica le espressioni dell'allegato D della EN 1997-1:2004/AC:2009. Il profilo NTC 2018 applica M1 e R3 alla portanza; richiede azioni A1 già combinate. La modalità Confronto caratteristico non produce un esito di conformità normativa. Non confrontare la resistenza caratteristica con azioni di progetto attribuendo al rapporto il significato di una verifica SLU.
 
-Le formulazioni disponibili hanno campi differenti. Terzaghi accetta carichi verticali centrati e una striscia, un quadrato o un cerchio con D/B non maggiore di 1. Brinch Hansen accetta anche azioni orizzontali, con il calcolo nelle due direzioni descritto sotto. Meyerhof accetta carichi inclinati soltanto sulla striscia. Eurocodice 7 e Vesić trattano l'inclinazione delle azioni nei due assi. Il cerchio deve essere centrato; la sua larghezza è il diametro. Queste restrizioni sono controllate dal calcolo.
+Le formulazioni disponibili hanno campi differenti. Terzaghi accetta carichi verticali centrati e una striscia, un quadrato o un cerchio con D/B non maggiore di 1. Brinch Hansen accetta anche azioni orizzontali, con la scelta della direzione di rottura descritta sotto. Meyerhof accetta carichi inclinati soltanto sulla striscia. Eurocodice 7 e Vesić trattano l'inclinazione delle azioni nei due assi. Il cerchio deve essere centrato; la sua larghezza è il diametro. Queste restrizioni sono controllate dal calcolo.
 
-**Brinch Hansen con azioni orizzontali.** Il metodo «Brinch Hansen» accetta anche Hx, parallela a B, e Hy, parallela a L. Con un'azione orizzontale la verifica calcola la pressione limite per rottura nella direzione di B′ e in quella di L′ e adotta la minore; nella fondazione nastriforme c'è solo la direzione di B′, nel cerchio l'azione orizzontale si considera diretta come B′. Gli avvisi della verifica riportano le due pressioni, la direzione che governa e la pressione limite che si avrebbe con H = 0. Nel non drenato la tabella «Hansen non drenato · correzioni additive» mostra s′, d′ e i′ della direzione che governa.
+**Brinch Hansen con azioni orizzontali.** Il metodo «Brinch Hansen» accetta anche Hx, parallela a B, e Hy, parallela a L. Nel ramo con azione orizzontale, se la componente H_L lungo L′ è nulla si calcola soltanto la rottura nella direzione di B′; nel cerchio l'azione orizzontale è considerata lungo B′. Se H_L è diversa da zero si valutano entrambe le direzioni e si adotta la pressione limite minore. La fondazione nastriforme usa soltanto B′. H_L indica il modulo della componente riferita agli assi efficaci ordinati. Gli avvisi indicano la direzione o le due pressioni considerate e il confronto con il carico verticale. Nel non drenato la tabella «Hansen non drenato · correzioni additive» mostra s′, d′ e i′ della direzione che governa.
 
-Anche un'azione orizzontale molto piccola può ridurre la pressione limite rispetto al solo carico verticale: nel non drenato fino a circa il 15 % per una pianta 2 × 3 m, nel drenato soprattutto per fondazioni poco profonde su terreni granulari. È un effetto del metodo, a favore di sicurezza, descritto nella guida teorica. Se l'azione orizzontale è trascurabile per il progetto, conviene valutarlo esplicitamente invece di inserire valori minimi.
+Un'azione orizzontale molto piccola può ancora produrre una discontinuità rispetto al solo carico verticale: nel non drenato resta quella della correzione di forma; quando H_L è diversa da zero entra anche la direzione L′. La guida teorica descrive i rami e un esempio numerico completo. Se l'azione orizzontale è trascurabile per il progetto, valutarlo esplicitamente invece di inserire valori minimi.
+
+![Brinch Hansen non drenato, H_L = 0: esempio della guida con B = 2 m, L = 3 m, D = 1 m, N = 600 kN, H_B = 60 kN, c_u = 75 kPa e γ = 18 kN/m³, senza falda o momenti. Pressione limite 469,20 kPa.](../../src/ANTHEA.Desktop/Assets/Wiki/fondazioni-hansen-hl0.png)
 
 ### Geometria terreno falda e azioni
 
@@ -1450,7 +1488,7 @@ Una risultante esterna alla base o azioni oltre il dominio resistente del metodo
 
 ## Modelli e importazione da MIDAS
 
-Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.15.0. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.
+Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.19.1. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.
 
 ### Entrare nel modulo
 
@@ -1499,9 +1537,19 @@ Per collaudare il collegamento puoi iniziare con **Tutto**, il solo caso **G1** 
 
 Le schede laterali seguono l'ordine **Vista**, **Modello**, **Combinazioni**, **Risultati**, **Verifiche**, **Report**. In **Vista** scegli rappresentazione e visibilità; in **Modello** esplora le proprietà e controlla i dati acquisiti. Le informazioni presenti nelle tabelle originali possono essere più complete dei simboli già disponibili nella scena.
 
+La scheda **Verifiche** permette di collegare il riferimento dell'elemento a un **Foglio di verifica** con **Collega riferimento**. Mostra «Dal modello al foglio» e avvisa che le impostazioni di verifica verranno definite nel prossimo passaggio.
+
+![Riquadro Verifiche del modulo Modelli, senza un modello caricato. Il collegamento al foglio è disponibile quando esiste un riferimento; Esegui verifiche resta disabilitato.](../../src/ANTHEA.Desktop/Assets/Wiki/modelli-verifiche-perimetro.png)
+
+In **Modello → Carichi sul modello**, attivare **Mostra carichi importati** e scegliere il caso. Per le pressioni sulle piastre MIDAS sono rappresentate le distribuzioni uniformi, anche se descritte da valori uguali ai vertici o da una direzione vettoriale. Le pressioni variabili o proiettate non sono disegnate; l'assenza delle frecce non dimostra che il carico sia assente dalle tabelle.
+
 In **Risultati** seleziona caso, famiglia di elementi, componente e unità. Per controllare un plate scegli, ad esempio, G1, la famiglia plate e Mxx negli assi locali. Confronta un elemento noto, tenendo conto della posizione di lettura e dell'eventuale media ai vertici: un colore mediato non è il valore grezzo di ogni campione. Attiva **Mostra modello deformato** per la deformata; controlla il fattore applicato, perché la scala automatica amplifica gli spostamenti per renderli leggibili.
 
 Le combinazioni vengono acquisite come definizioni. La loro presenza nella scheda **Combinazioni** non significa che tutti i relativi campi di risultato siano già stati scaricati o calcolati. Il calcolo locale richiede i risultati dei casi base richiamati e un tipo di combinazione supportato. Puoi quindi acquisire i casi base e gestire successivamente le combinazioni in ANTHEA.
+
+La planarità delle piastre a quattro nodi usa una tolleranza pari al maggiore fra 0,0001 mm e 10⁻⁵ volte la massima distanza fra due vertici. Si confronta lo scostamento massimo dal piano medio passante per il baricentro dei vertici; le coordinate non vengono spostate. Lo stesso criterio vale per l'area delle pressioni non uniformi. Un'area oltre la tolleranza non diventa piana per effetto dell'importazione.
+
+Se il materiale non dichiara una classe riconoscibile, il convertitore può ricavarla da una resistenza cilindrica caratteristica esplicitata nel nome: per esempio **Concrete: Compressive Strength fc = 32 MPa** dà C32/40, con la diagnostica **MaterialGradeFromStrength** che dichiara l'interpretazione come fck. Una classe esplicita riconosciuta ha precedenza. Il riconoscimento accetta fc, f'c o fck espressi in MPa o N/mm² e solo i valori presenti nel catalogo implementato; non deduce la classe da fcm, da altre unità o da una resistenza senza corrispondenza, né applica questa deduzione a un materiale dichiarato acciaio. Verificare che l'interpretazione corrisponda al materiale del modello sorgente.
 
 ### Calcolare le combinazioni del modello
 
@@ -1515,6 +1563,8 @@ Salvare, eliminare, ripristinare o generare di nuovo le definizioni scarta solo 
 
 Una somma lineare di inviluppi ha come alternative tutte le scelte di un termine per ogni inviluppo, cioè il prodotto delle loro alternative. Fino a 4096 stati alternativi GPC li elenca tutti. Oltre questo numero la riga del catalogo lo segnala e GPC cerca gli estremi termine per termine, senza elencare gli stati: valori e stati governanti sono completi, con lo stato concomitante, ma le componenti principali dei plate non sono disponibili, perché richiedono ogni stato. Se servono, sostituisci la somma con un inviluppo delle combinazioni.
 
+Un inviluppo viene ricostruito dai casi base anche quando le combinazioni che contiene sono già calcolate.
+
 ### Calcolare più combinazioni in serie
 
 Sotto il comando della combinazione selezionata, **Calcola tutte (N)** calcola una dopo l'altra le combinazioni ancora da calcolare; **Calcola selezionate (N)** calcola quelle selezionate nell'elenco con Ctrl o Maiusc + clic. Il numero fra parentesi conta le combinazioni che il comando calcolerà, comprese quelle calcolate prima delle componenti principali dei plate. La serie usa i casi base preparati una sola volta dalla libreria GPC; il messaggio indica la combinazione in corso, per esempio «Combinazione 3 di 40 · SLU 03».
@@ -1523,11 +1573,15 @@ I risultati entrano nella copia del modello e passano nel progetto circa ogni 20
 
 La copia del modello con i risultati delle combinazioni ha un limite di spazio. Quando lo supera, escono dalla cache i risultati delle combinazioni calcolate per prime: le definizioni restano e si ricalcolano quando servono, e il messaggio finale ne indica il numero. Se dovrebbero uscire risultati della serie stessa, la serie si ferma e suggerisce di alzare il limite in **Spazio delle combinazioni**, di liberare i risultati che non servono o di calcolare meno combinazioni alla volta.
 
+Il limite di 256 MiB riguarda i dati JSON non compressi del singolo blocco di risultato nell'archivio; il limite complessivo della copia si sceglie nel pannello **Spazio delle combinazioni**.
+
 ### Gestire lo spazio delle combinazioni
 
 Nei modelli di un progetto, sotto i comandi di calcolo, il riquadro **SPAZIO DELLE COMBINAZIONI** mostra lo spazio occupato dalla copia con i risultati delle combinazioni rispetto al limite, per esempio «850 MiB di 2 GiB · 37 combinazioni con risultati salvati». In **Limite** scegli lo spazio massimo: 2 GiB è sempre disponibile; 4, 8 e 16 GiB compaiono quando la memoria del computer è almeno sei volte il limite, per esempio fino a 8 GiB su un computer con 64 GB. Il suggerimento del campo riporta la memoria del computer e il limite più alto. La scelta vale per tutti i progetti e resta per le sessioni successive sullo stesso computer. Con un limite più alto ANTHEA usa più memoria e il salvataggio dura di più.
 
 **Libera selezionate** toglie dalla copia i risultati salvati delle combinazioni selezionate nell'elenco; **Libera tutte** toglie tutti i risultati salvati delle combinazioni. Le definizioni restano e si ricalcolano quando servono. Durante un calcolo i due comandi non sono disponibili.
+
+Il comando **Annulla** del progetto ripristina i risultati rimossi con **Libera selezionate** o **Libera tutte**.
 
 ### Generare le combinazioni NTC 2018
 
@@ -1621,7 +1675,9 @@ La lettura riguarda l'analisi statica lineare dei casi primari, anche su una fas
 
 Quando una lettura fallisce, ANTHEA mantiene l'ultima copia valida e indica il recupero possibile. Dopo aver ripristinato la sessione ripeti il controllo e avvia nuovamente l'importazione. Un'operazione annullata o fallita non produce una copia parzialmente aggiornata.
 
-**Limiti della versione di prova.** Il collegamento al modello aperto in MIDAS acquisisce casi statici e stati costruttivi esplicitamente selezionati, le sollecitazioni locali beam e plate e gli spostamenti globali disponibili. Non costituisce un importatore completo di ogni famiglia di risultato. Nel primo import diretto la trasformazione delle tabelle in terne locali, vincoli, rilasci e link del visualizzatore è ancora incompleta: i dati originali vengono conservati, ma i relativi simboli possono non essere presenti. Le informazioni già normalizzate di una copia precedente vengono riutilizzate soltanto quando i dati confrontati coincidono. Leggi gli avvisi prima di interpretare l'assenza di un simbolo come assenza del relativo attributo nel modello. Dai file di testo MIDAS e da Straus7, invece, terne, vincoli, molle, link e rilasci sono normalizzati dalla libreria GPC durante l'importazione.
+**Normalizzazione della copia MIDAS e limiti dei risultati.** Il collegamento al modello aperto in MIDAS acquisisce casi statici e stati costruttivi esplicitamente selezionati, le sollecitazioni locali beam e plate e gli spostamenti globali disponibili. Non costituisce un importatore completo di ogni famiglia di risultato. Le tabelle lette passano attraverso il convertitore GPC: la copia riceve terne locali di aste e piastre, riferimenti nodali e simboli di vincoli, molle, link e rilasci. Con **Solo geometria** sono disponibili le terne; vincoli e link non sono acquisiti.
+
+Per una copia acquisita con una versione fino alla 1.17.1, rileggere il modello: **Solo risultati** può aggiungere le terne quando le tabelle necessarie sono disponibili e coincidono geometria, attributi e tabelle della sorgente; **Tutto** acquisisce nuovamente anche gli altri dati previsti dalla lettura. Se mancano le tabelle necessarie o il convertitore non riesce a leggerle, l'avviso **MIDAS-CONVERTER-PENDING** spiega il motivo: le tabelle originali restano nella copia, ma la normalizzazione non fornisce terne e simboli; pressioni in assi locali e media ai vertici non sono disponibili. Leggere gli avvisi prima di interpretare l'assenza di un simbolo come assenza dell'attributo nel modello. Dai file di testo MIDAS e da Straus7 terne, vincoli, molle, link e rilasci vengono normalizzati dalla libreria GPC durante l'importazione.
 
 Per aprire una copia già acquisita scegli **File · .antheamodel, MIDAS .mct/.mgt o copia acquisita**: sono previsti il pacchetto **.antheamodel** oppure **NODE.json** della cartella di acquisizione MIDAS completa. La stessa scelta apre i file di testo MIDAS descritti sopra. Il file nativo del modello MIDAS non si apre direttamente: esporta il modello come testo .mct o .mgt, oppure usa il collegamento al modello aperto.
 
@@ -1642,6 +1698,10 @@ Le due schede superiori mostrano **φ(∞, t₀)**, limite analitico, ed **Ecm,2
 La scheda **Lettura puntuale** valuta direttamente un'età positiva, anche se non coincide con un punto del grafico. Nella **Tabella** sono presenti età, φ, Ecm e fattore: selezionare una riga porta la sua età, con le cifre della tabella, nella lettura puntuale. La risoluzione regola il campionamento grafico; sono aggiunti i punti di carico e a 28 giorni, quando interni all'intervallo. Non regola l'accuratezza delle formule.
 
 La rotella ingrandisce il grafico; trascinando lo si sposta; il doppio clic o **Adatta** ripristina l'inquadratura. **Esporta grafico…** salva una PNG con fondo chiaro, anche se la finestra usa l'aspetto scuro. Il separatore fra grafico e letture consente di ridimensionare i pannelli.
+
+Valori, tabella e assi del grafico seguono il separatore decimale scelto in **Aspetto**, dal successivo avvio dell'applicazione. In una finestra bassa la colonna del grafico scorre, mantenendo il grafico leggibile.
+
+![Reologia in una finestra bassa: la colonna destra scorre e i numeri usano la virgola decimale della sessione.](../../src/ANTHEA.Desktop/Assets/Wiki/reologia-finestra-bassa.png)
 
 Una modifica a materiale, ambiente, età o campionamento svuota i risultati precedenti; durante l'attesa il grafico indica «Aggiornamento delle curve…». Un'età di lettura errata svuota soltanto la lettura puntuale. I messaggi indicano il campo da correggere; nessun valore non valido è trasformato implicitamente in zero.
 
@@ -1838,6 +1898,10 @@ Scenari idraulici, fasi costruttive ed età di osservazione sono collegati al se
 4. Leggere i risultati. Il foglio calcola all'apertura, anche di un file, di una revisione o dopo Annulla, e di nuovo da solo mezzo secondo dopo ogni modifica dei dati: non c'è un comando Calcola. Quando il calcolo non è possibile il motivo compare sotto il titolo a destra: un dato mancante, una conferma richiesta o un valore fuori dal campo di applicazione. Modificare un dato invalida i risultati finché non termina il nuovo calcolo. Un testo in un campo numerico resta nel campo, che lo segnala sotto di sé; il messaggio del calcolo riporta l'etichetta del campo.
 5. In Casi di carico scegliere il caso; il diagramma riporta grandezze con una sola unità alla volta e parte da quella dei carichi o delle pressioni. Il selettore Unità permette di passare a forze, momenti o movimenti, se presenti; i coefficienti adimensionali, come μ e cpe, sono nella tabella. Segni, descrizioni, formule e riferimenti sono nelle righe della tabella.
 6. Consultare Parametri e formule, Schemi e Ipotesi e applicabilità. Gli schemi spiegano geometrie e convenzioni: non sono un disegno in scala della costruzione. Esporta CSV e Copia risultati comprendono tutti i casi, non soltanto quello selezionato.
+
+Se un campo numerico contiene testo non valido, il foglio resta confermabile, salvabile e riapribile; il dato rimane da correggere prima di ottenere un calcolo valido. Nelle tabelle il messaggio identifica anche la riga. Durante la sessione ogni foglio conserva la scheda scelta e lo stato aperto o chiuso dell'assistenza e del diagramma anche passando a un altro foglio; questo stato di consultazione non viene salvato nel documento. In una finestra bassa assistenza e diagramma si riducono per lasciare leggibile la tabella. Dopo una scelta che cambia i campi visibili, il focus ritorna sulla scelta.
+
+![Neve sugli edifici in una finestra bassa: la quota contiene abc e il campo mostra il messaggio di errore. Correggere il dato prima di ottenere risultati validi.](../../src/ANTHEA.Desktop/Assets/Wiki/azioni-neve-finestra-bassa.png)
 
 I valori sono azioni caratteristiche o componenti cinematiche. I fogli non costruiscono automaticamente le combinazioni SLU/SLE, non applicano un modello di vincolo e non sommano i massimi di casi incompatibili. Per ogni combinazione strutturale si conserva l'insieme di grandezze appartenente al medesimo caso.
 

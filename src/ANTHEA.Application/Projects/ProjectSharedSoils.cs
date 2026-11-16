@@ -9,7 +9,7 @@ public static partial class ProjectSharedData
     public static List<MissingSoilLayer> MissingSoilLayers(JsonObject section)
     {
         var result = new List<MissingSoilLayer>();
-        var pairs = ComparisonPairs(section).Where(p => SupportsSharedSoils(p.First) && SupportsSharedSoils(p.Second))
+        var pairs = ComparisonPairs(section).Where(p => ComparableSoils(p.First, p.Second))
             .SelectMany(p => ReferenceEquals(p.First.Parent, p.Second.Parent) ? new[] { p, (First: p.Second, Second: p.First) } : new[] { p });
         foreach (var (source, target) in pairs)
         {
@@ -31,7 +31,8 @@ public static partial class ProjectSharedData
             survey < 0 || survey >= surveys.Count || surveys[survey] is not JsonArray rows || layer < 0 || layer >= rows.Count)
             throw new ArgumentException("Strato di riferimento non presente.");
         var updates = new List<(JsonObject Target, JsonObject Data)>();
-        foreach (var target in SubtreeSheets(section).Where(s => !ReferenceEquals(s, source) && SupportsSharedSoils(s)))
+        // A sheet without dati or that could not be read is skipped (Updatable); the comparison names it among the sheets of the layer.
+        foreach (var target in SubtreeSheets(section).Where(s => !ReferenceEquals(s, source) && SupportsSharedSoils(s) && Updatable(s)))
         {
             var data = (JsonObject)target["dati"]!.DeepClone();
             if (data["stratigrafie"] is not JsonArray) data["stratigrafie"] = new JsonArray();
@@ -53,7 +54,40 @@ public static partial class ProjectSharedData
         return updates.Count;
     }
 
+    /// <summary>
+    /// Removes from <paramref name="keys"/> the layers («Strato · s/l/…») of the surveys whose subdivision changed between two copies of a
+    /// sheet: another number of layers in survey s, or another number of surveys (then all of them). The layers are shared and written by
+    /// position, so after such a change the same position is another layer: its values must not reach the sheets that keep the old
+    /// subdivision (note of step 6, §1.5 point 8, 16/11/2026: the first layer removed moved the layers of the sheets below by one). The
+    /// other data of the sheet, and the surveys with the same subdivision, are shared as before.
+    /// </summary>
+    public static void ExceptChangedSoilSubdivisions(HashSet<string> keys, JsonObject before, JsonObject after)
+    {
+        ArgumentNullException.ThrowIfNull(keys);
+        var old = Surveys(before); var current = Surveys(after);
+        bool all = old.Count != current.Count;
+        keys.RemoveWhere(key => key.StartsWith("Strato · ", StringComparison.Ordinal) && (all || SoilSurvey(key) is int survey && (survey < 0 || Layers(old, survey) != Layers(current, survey))));
+    }
+
+    /// <summary>True when <paramref name="key"/> is a layer («Strato · s/l/…») of a survey that has another number of layers in
+    /// <paramref name="target"/> than in <paramref name="source"/>: by position it would be another layer there (16/11/2026, §1.5 point 8).</summary>
+    public static bool OtherSoilSubdivision(JsonObject source, JsonObject target, string key)
+    {
+        if (!key.StartsWith("Strato · ", StringComparison.Ordinal)) return false;
+        int survey = SoilSurvey(key);
+        return survey < 0 || Layers(Surveys(source), survey) != Layers(Surveys(target), survey);
+    }
+
+    static JsonArray Surveys(JsonObject sheet) => sheet["dati"].Array("stratigrafie");
+    static int Layers(JsonArray surveys, int survey) => survey < surveys.Count && surveys[survey] is JsonArray rows ? rows.Count : 0;
+    static int SoilSurvey(string key) => int.TryParse(key[9..].Split('/')[0], out int number) ? number - 1 : -1;
+
     public static bool SupportsSharedSoils(JsonObject sheet) => sheet.S("modulo_id") is "geo_palo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or Anthea.FoundationWorkspace.FoundationDocument.Module;
+
+    /// <summary>Two sheets whose soils are compared: both share the soils and both have their dati. A sheet left without dati (an
+    /// unresolved reference opened with diagnosis) has no soils to compare: its pairs are skipped, as its cover check is not verifiable.</summary>
+    static bool ComparableSoils(JsonObject first, JsonObject second) =>
+        SupportsSharedSoils(first) && SupportsSharedSoils(second) && first["dati"] is JsonObject && second["dati"] is JsonObject;
 
     // Compare the shared input schema, never the complete serialized row (which also contains
     // method-specific inputs, calculated columns and internal linking identifiers).
@@ -70,6 +104,8 @@ public static partial class ProjectSharedData
     public static void LinkSoils(JsonObject source, JsonObject target)
     {
         if (!SupportsSharedSoils(source) || !SupportsSharedSoils(target)) throw new ArgumentException("Il modello Bustamante mantiene i propri terreni e parametri.");
+        if (source["dati"] is not JsonObject || !Updatable(target))
+            throw new ArgumentException("«" + (source["dati"] is JsonObject ? target : source).S("nome") + "» non è leggibile: collegamento non eseguito. Nessun dato è stato sostituito.");
         var sd = (JsonObject)source["dati"]!.DeepClone(); var td = (JsonObject)target["dati"]!.DeepClone();
         var sa = sd.Array("stratigrafie"); var ta = td.Array("stratigrafie");
         bool empty = ta.All(a => a is JsonArray rows && rows.Count == 0);
@@ -133,6 +169,7 @@ public static partial class ProjectSharedData
     {
         if (!SupportsSharedSoils(sheet) || !key.StartsWith("Strato · ") || !key.EndsWith("/tipologia") || value is not ("Granulare" or "Coesivo"))
             throw new ArgumentException("Tipologia del terreno non valida.");
+        if (!Updatable(sheet)) throw new ArgumentException("«" + sheet.S("nome") + "» non è leggibile: tipologia del terreno non modificata.");
         if (!Fields(sheet).ContainsKey(key)) throw new ArgumentException("Strato non presente nel foglio.");
         ApplySoilField(new Field(key, "Terreno", key, JsonValue.Create(value)), sheet["dati"]!.AsObject());
     }

@@ -15134,6 +15134,226 @@
         "supporto/artefatti/copertina-materiali-vuoto/green2-test.log",
         "supporto/artefatti/ci/20261106-232741-copertina-project-audit/summary.json",
         "supporto/artefatti/ci/20261106-232921-copertina-adapter/summary.json"
+      ],
+      "voci_collegate": [
+        "BUG-COPERTINA-SCHEDA-SENZA-DATI"
+      ]
+    },
+    {
+      "id": "BUG-COPERTINA-SCHEDA-SENZA-DATI",
+      "data": "2026-11-15",
+      "fase": "correzione isolata dopo main 6c7d03a7 (1.19.0)",
+      "titolo": "Copertina: la scheda controllata senza dati non interrompe la validazione del copriferro",
+      "famiglia": "progetti/copriferro",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Dopo BUG-COPERTINA-MATERIALI-VUOTO, ProjectValidation.CoverChecks dereferenziava ancora sheet[\"dati\"] della scheda controllata (sezione c.a. o palo orizzontale) e il suo blocco input/sezione senza verificarne la presenza. Con un Materiali valido e la scheda in quarantena per un riferimento non risolto, come nel file congelato tests/fixtures/f5-shell/cattura-mainwindow/13-file-salvato.json una volta completato Materiali, la validazione terminava con NullReferenceException. La lettura richiede ora un JsonObject e segnala dati mancanti con l'ArgumentException già tradotta nell'avviso «copriferro non verificabile». Nessun dato sostitutivo; le altre schede e gli altri materiali mantengono il proprio esito.",
+      "codice": [
+        "src/ANTHEA.Application/Projects/ProjectValidation.cs:57-66",
+        "tests/ANTHEA.Application.Tests/ProjectValidationChecks.cs"
+      ],
+      "segno": "Nessun valore di calcolo cambia. Una validazione che terminava con eccezione restituisce un avviso con Passed = null.",
+      "effetto_quantificato": "Test rosso con NullReferenceException alla riga 57 prima del fix, anche con la fixture congelata; 93 controlli mirati PASS dopo il fix (53 esistenti e 40 nuovi): fixture con Materiali completato, sezione c.a. e palo orizzontale con dati assenti, null o senza blocco della sezione, esito della scheda completa, avviso nella sezione e nel contenitore, cache e non mutazione del documento.",
+      "decisione": {
+        "data": "2026-11-15",
+        "utente": "Incarico della sessione coordinatrice del 15/11/2026: correzione minima su un clone isolato, test rosso prima; nessun push, tag, versione o riferimento congelato; merge dopo il rilascio sul set AW.",
+        "esito": "Stesso esito non verificabile di Materiali senza dati; commit sul ramo claude/copriferro-materiali-vuoto. Il confronto dei terreni fra due schede di terreno quando una è senza dati è corretto nella voce BUG-COPERTINA-TERRENI-SENZA-DATI."
+      },
+      "test": [
+        "Application.Tests / --project-validation: 93 controlli PASS; Application.Tests completa 3613 controlli PASS",
+        "Presentation.Tests: 5143 controlli PASS; Projects.Checks: 22 PASS",
+        "ConcreteLibraryAdapter.Checks completa: 175115 controlli di taglio e torsione, 677559 SLE, 47 della 5l, 906 della 7a e 352 della 13 PASS",
+        "verifiche/project-audit: 988 controlli PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261115-194106-copriferro-rosso2 (rosso, NullReferenceException)",
+        "supporto/artefatti/ci/20261115-195110-copriferro-rosso-fixture (rosso con la fixture congelata)",
+        "supporto/artefatti/ci/20261115-213010-copriferro-verde2/summary.json",
+        "supporto/artefatti/copriferro-nre/project-validation/esito.txt"
+      ],
+      "voci_collegate": [
+        "BUG-COPERTINA-MATERIALI-VUOTO",
+        "BUG-COPERTINA-TERRENI-SENZA-DATI"
+      ]
+    },
+    {
+      "id": "BUG-COPERTINA-TERRENI-SENZA-DATI",
+      "data": "2026-11-16",
+      "fase": "correzione isolata dopo main 6c7d03a7 (1.19.0)",
+      "titolo": "Copertina e report: due schede di terreno, una senza dati, non interrompono avvisi e report",
+      "famiglia": "progetti/terreni",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Con due schede che condividono i terreni (palo verticale, palo orizzontale, micropalo, fondazione) nella stessa sezione, e una delle due in quarantena senza dati, ProjectSharedData.Limitations (ProjectSharedFields.cs:159-160) e MissingSoilLayers (ProjectSharedSoils.cs:16-17) dereferenziavano dati[\"stratigrafie\"] senza verificarne la presenza: NullReferenceException in ProjectValidation.Warnings, nella coerenza e nella cache, quindi in copertina e report. Anche il piano del report (ProjectReportPlan.Relevant, riga 58, e LocalInputs, riga 67) dereferenziava i dati della scheda. Ora la coppia di terreni con una scheda senza dati non si confronta (ComparableSoils), come il suo copriferro non è verificabile; nel report la scheda senza dati non riporta valori, perché i suoi campi sarebbero i predefiniti del modulo. Le altre schede mantengono avvisi, strati mancanti e dati del report.",
+      "codice": [
+        "src/ANTHEA.Application/Projects/ProjectSharedSoils.cs:12,58-61",
+        "src/ANTHEA.Application/Projects/ProjectSharedFields.cs:157",
+        "src/ANTHEA.Application/Projects/ProjectReportPlan.cs:55-57,70",
+        "tests/ANTHEA.Application.Tests/ProjectValidationChecks.cs"
+      ],
+      "segno": "Nessun valore di calcolo cambia. Avvisi, coerenza e report che terminavano con eccezione si compongono; la scheda senza dati resta fuori dal confronto dei terreni e dai valori del report.",
+      "effetto_quantificato": "Test rosso con NullReferenceException in Limitations (riga 159) prima del fix; la sonda della stessa corsa conferma MissingSoilLayers (riga 16) e ProjectReportPlan.Relevant (riga 58). Dopo il fix 36 controlli nuovi PASS (129 della validazione mirata): palo orizzontale e palo verticale senza dati, assenti o null, accanto a un palo orizzontale e a un palo verticale completi con uno strato mancante fra loro; avvisi e strati mancanti delle altre schede invariati, cache, contenitore superiore, piano e composizione del report, non mutazione.",
+      "decisione": {
+        "data": "2026-11-15",
+        "utente": "Incarico della sessione coordinatrice del 15/11/2026 sera: saltare la coppia di schede di terreno con una scheda senza dati in Limitations e MissingSoilLayers, dopo un test rosso; copertina e report senza eccezioni; commit separato sullo stesso ramo, nessun push.",
+        "esito": "Coppia saltata con un solo controllo comune (ComparableSoils). Nel piano del report la scheda senza dati non porta valori sostitutivi, secondo la regola di BUG-COPERTINA-MATERIALI-VUOTO; scelta da confermare all'integrazione. Restano fuori, perché sono comandi di modifica e non letture: CopyMissingSoilLayers (riga 36), LinkSoils (riga 78) e SetSoilType (riga 142) verso una scheda senza dati; vedi BUG-COPERTINA-MURO-SENZA-DATI."
+      },
+      "test": [
+        "Application.Tests / ProjectValidationChecks: 129 controlli; Application.Tests completa 3649 controlli PASS",
+        "Architecture.Tests 618, Reports.Tests 515, Presentation.Tests 5143, Projects.Checks 22, FoundationWorkspace.Checks 54 PASS",
+        "ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-001126-terreni-rosso2 (rosso e sonda)",
+        "supporto/artefatti/ci/20261116-022220-terreni-verde/summary.json"
+      ],
+      "voci_collegate": [
+        "BUG-COPERTINA-SCHEDA-SENZA-DATI",
+        "BUG-COPERTINA-MURO-SENZA-DATI"
+      ]
+    },
+    {
+      "id": "BUG-COPERTINA-MURO-SENZA-DATI",
+      "data": "2026-11-16",
+      "fase": "correzione isolata dopo main 6c7d03a7 (1.19.0)",
+      "titolo": "Copertina, coerenza e report: un muro senza dati non interrompe i confronti",
+      "famiglia": "progetti/muri",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Un muro di sostegno in quarantena senza dati (riferimento non risolto aperto con diagnosi) in una coppia di confronto: ActiveWallField (ProjectWallFields.cs:29) faceva sheet[\"dati\"]!.AsObject() e lanciava NullReferenceException da CanCompare, quindi in ProjectComparison, Differences, coerenza e cache, piano del report e inserimento di una scheda nella stessa sezione (InheritHierarchy). Ora il muro senza dati non ha campi attivi: non si confronta con le altre schede, come la coppia di terreni con una scheda senza dati (ComparableSoils), e nel report non porta valori (ProjectReportPlan.Relevant). Le altre schede mantengono campi comuni, differenze e avvisi.",
+      "codice": [
+        "src/ANTHEA.Application/Projects/ProjectWallFields.cs:27-35",
+        "tests/ANTHEA.Application.Tests/ProjectValidationChecks.cs"
+      ],
+      "segno": "Nessun valore di calcolo cambia. Confronti, coerenza e report che terminavano con eccezione si compongono; il muro senza dati resta fuori dai confronti e dai valori del report.",
+      "effetto_quantificato": "Test rosso con NullReferenceException in ActiveWallField (riga 29) da ProjectComparison prima del fix. Dopo il fix 18 controlli nuovi PASS (147 della validazione mirata): muro senza dati, assenti o null, accanto a un muro completo e a Materiali. Campi comuni, differenze e avvisi delle altre schede invariati; cache, piano e composizione del report, non mutazione; una scheda nuova accanto al muro senza dati si inserisce senza riempirlo.",
+      "decisione": {
+        "data": "2026-11-16",
+        "utente": "Incarico della sessione coordinatrice del 16/11/2026: correggere il muro senza dati sullo stesso ramo, con test rosso prima e il controllo comune; nel report nessun dato sostitutivo (regola del 6/11); controllare senza correggerli i comandi di modifica.",
+        "esito": "Controllo in ActiveWallField, da cui passano CanCompare, Compatible e Relevant. Per mostrare i predefiniti nel report basterebbero due righe di ProjectReportPlan.cs (57 e 70) con Archivio.NuovoFoglio; per i muri il report resterebbe vuoto, perché il muro senza dati non ha campi attivi. Comandi di modifica verso una scheda senza dati, verificati con una sonda e non corretti: CopyMissingSoilLayers (ProjectSharedSoils.cs:36), LinkSoils (riga 78) e SetSoilType (riga 142) lanciano NullReferenceException; ApplyHierarchy da Materiali riempie con i predefiniti del modulo il muro o il palo in quarantena (ProjectSharedData.cs:149 e 198)."
+      },
+      "test": [
+        "Application.Tests / ProjectValidationChecks: 147 controlli; Application.Tests completa 3667 controlli PASS",
+        "Architecture.Tests 618, Reports.Tests 515, Presentation.Tests 5143, Projects.Checks 22, FoundationWorkspace.Checks 54, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-030755-muri-rosso (rosso e sonda dei comandi di modifica)",
+        "supporto/artefatti/ci/20261116-030816-muri-verde/summary.json"
+      ],
+      "voci_collegate": [
+        "BUG-COPERTINA-TERRENI-SENZA-DATI",
+        "BUG-COMANDI-TERRENI-SENZA-DATI"
+      ]
+    },
+    {
+      "id": "BUG-COMANDI-TERRENI-SENZA-DATI",
+      "data": "2026-11-16",
+      "fase": "correzione isolata dopo main 6c7d03a7 (1.19.0)",
+      "titolo": "Comandi dei terreni: una scheda senza dati o non leggibile si salta o si rifiuta, senza NullReferenceException",
+      "famiglia": "progetti/terreni",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "«Uniforma a questo» su uno strato mancante (CopyMissingSoilLayers), «Collega» (LinkSoils) e la tipologia del terreno (SetSoilType) dereferenziavano i dati di una scheda senza dati (riferimento non risolto aperto con diagnosi): NullReferenceException alle righe 36, 78 e 142 di ProjectSharedSoils.cs, mostrata come «Operazione non completata» con il testo .NET. Nuovo ProjectSharedData.Updatable: una scheda si aggiorna solo se ha i dati e non è in quarantena (passo 2b di docs/sviluppo/progetto-sistema.md: la scheda non leggibile resta come nel file). CopyMissingSoilLayers salta le schede non aggiornabili e il confronto le nomina fra le schede dello strato mancante («non leggibile, non viene aggiornato»); LinkSoils e SetSoilType le rifiutano con un messaggio che nomina la scheda, nello stile dei rifiuti già esistenti di questi comandi. Nessun dato cambia.",
+      "codice": [
+        "src/ANTHEA.Application/Projects/ProjectSharedData.cs:19-22",
+        "src/ANTHEA.Application/Projects/ProjectSharedSoils.cs:34-35,79-80,144",
+        "src/ANTHEA.Presentation/Shell/Projects/CoherenceViewModel.cs (UnreadableLayer, Rebuild)",
+        "tests/ANTHEA.Application.Tests/ProjectSharedCommandChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/CoherenceChecks.cs (Unreadable)"
+      ],
+      "segno": "Nessun valore di calcolo cambia. I comandi che terminavano con NullReferenceException saltano la scheda o la rifiutano con un messaggio; la scheda resta come nel file.",
+      "effetto_quantificato": "Test rossi prima del fix: NullReferenceException in CopyMissingSoilLayers (Application.Tests) e strato mancante senza la scheda non leggibile (Presentation.Tests --shell). Dopo il fix 26 controlli nuovi in Application.Tests (palo verticale senza dati, assenti o null, e palo verticale in quarantena con i suoi dati: copia dello strato, collegamento nei due versi, tipologia, nessuna modifica) e 2 in CoherenceChecks.",
+      "decisione": {
+        "data": "2026-11-16",
+        "utente": "Incarico della sessione coordinatrice del 16/11/2026: nessuna NullReferenceException; il comando salta la scheda senza dati e lo dice nel messaggio che l'utente già vede (stato o anteprima, secondo lo stile del comando); commit separato, test rosso prima.",
+        "esito": "Copia dello strato: la scheda si salta e lo stato del confronto la nomina. Collegamento e tipologia: rifiuto con il messaggio dei comandi (CommandGuard, «Operazione non completata»), come i loro rifiuti già esistenti. Le schede in quarantena con i dati restano escluse come quelle senza dati (passo 2b)."
+      },
+      "test": [
+        "Application.Tests / ProjectSharedCommandChecks e Presentation.Tests / CoherenceChecks.Unreadable",
+        "Corsa sulla punta del ramo, con anche BUG-APPLICA-SENZA-DATI: Application.Tests 3696, Presentation.Tests 5153, Architecture.Tests 618, Reports.Tests 515, Projects.Checks 22, FoundationWorkspace.Checks 54, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-050039-comandi-rosso (rosso di Application.Tests)",
+        "supporto/artefatti/copriferro-nre/comandi-rosso-shell (rosso di Presentation.Tests --shell)",
+        "supporto/artefatti/ci/20261116-050135-comandi-verde/summary.json",
+        "supporto/artefatti/ci/20261116-051915-comandi-verde2/summary.json"
+      ],
+      "voci_collegate": [
+        "BUG-COPERTINA-MURO-SENZA-DATI",
+        "BUG-APPLICA-SENZA-DATI"
+      ]
+    },
+    {
+      "id": "BUG-APPLICA-SENZA-DATI",
+      "data": "2026-11-16",
+      "fase": "correzione isolata dopo main 6c7d03a7 (1.19.0)",
+      "titolo": "Dati comuni: «Aggiorna tutti i fogli collegati» e «Uniforma a questo» non riempiono una scheda senza dati o non leggibile",
+      "famiglia": "progetti/dati comuni",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "ApplyHierarchy e ApplyTargets (ProjectSharedData.cs:149 e 198) prendevano come bersaglio anche una scheda senza dati e la riempivano con i predefiniti del modulo più il valore applicato: la quarantena si perdeva senza avviso e il foglio sarebbe stato salvato con dati inventati. Aggiornavano anche una scheda in quarantena con i suoi dati, che la domanda dei dati condivisi già escludeva (passo 2b). Ora ApplyTargets esclude le schede non aggiornabili (ProjectSharedData.Updatable). La domanda le nomina: SharedUpdatePrompt.Excluded, con la riga «Esclusi perché non leggibili, restano come nel file: …» nella finestra «Dati condivisi della sezione». Nel confronto il pulsante di una scheda non aggiornabile diventa «Non leggibile», disattivato. ApplyHierarchy rifiuta come origine una scheda senza dati, perché i suoi campi sarebbero i predefiniti del modulo.",
+      "codice": [
+        "src/ANTHEA.Application/Projects/ProjectSharedData.cs:151-152",
+        "src/ANTHEA.Application/Projects/ProjectSharedHierarchy.cs (ApplyHierarchy)",
+        "src/ANTHEA.Presentation/Services/IConfirmationService.cs (SharedUpdatePrompt.Excluded, ExcludedText)",
+        "src/ANTHEA.Presentation/Projects/SharedDataCoordinator.cs (ConfirmSharedChanges, Prompt)",
+        "src/ANTHEA.Desktop/Wpf/WpfDesktopServices.cs (ConfirmSharedUpdate)",
+        "src/ANTHEA.Presentation/Shell/Projects/CoherenceViewModel.cs (ConflictSheetViewModel)",
+        "tests/ANTHEA.Application.Tests/ProjectSharedCommandChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/SharedDataCoordinatorChecks.cs (Unreadable)",
+        "tests/ANTHEA.Presentation.Tests/CoherenceChecks.cs (Unreadable)"
+      ],
+      "segno": "Nessun valore di calcolo cambia. Le schede senza dati o non leggibili restano come nel file e la domanda le nomina; le altre schede ricevono i dati comuni come prima.",
+      "effetto_quantificato": "Test rosso prima del fix: la domanda proponeva di aggiornare «Palo senza dati» (Presentation.Tests, SharedDataCoordinatorChecks). Dopo il fix 3 controlli nuovi in Application.Tests (Applica da Materiali con muro e palo senza dati e palo in quarantena; rifiuto dell'origine senza dati), 6 in SharedDataCoordinatorChecks (destinatari, esclusi e testo della domanda, fogli invariati, rifiuto di «Uniforma a questo» da un foglio senza dati) e 2 in CoherenceChecks (pulsante «Non leggibile», «Uniforma a questo» che salta la scheda).",
+      "decisione": {
+        "data": "2026-11-16",
+        "utente": "Incarico della sessione coordinatrice del 16/11/2026: escludere dai bersagli le schede senza dati e scrivere nell'anteprima del comando che sono state escluse; commit separato, test rosso prima.",
+        "esito": "Esclusione in ApplyTargets per tutti i comandi che lo usano. Anteprima: la riga degli esclusi nella domanda dei dati condivisi, che c'è solo quando la domanda si pone; con la propagazione automatica verso le sottosezioni, o senza fogli da aggiornare, non c'è domanda e gli esclusi restano solo come nel file. Le schede in quarantena con i dati sono escluse come quelle senza dati, come già la domanda e lo spostamento (passo 2b)."
+      },
+      "test": [
+        "ui/shell-smoke-sharing (Unreadable, fuori schermo): pulsante «Non leggibile» disattivato nel confronto e riga degli esclusi nella finestra «Dati condivisi della sezione», solo con esclusi; corsa supporto/artefatti/ci/20261116-070507-finale",
+        "Application.Tests 3696, Presentation.Tests 5153 (SharedDataCoordinatorChecks.Unreadable, CoherenceChecks.Unreadable), Architecture.Tests 618, Reports.Tests 515, Projects.Checks 22, FoundationWorkspace.Checks 54, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-050039-comandi-rosso (rosso di Presentation.Tests)",
+        "supporto/artefatti/ci/20261116-050135-comandi-verde/summary.json",
+        "supporto/artefatti/ci/20261116-051915-comandi-verde2/summary.json"
+      ],
+      "voci_collegate": [
+        "BUG-COMANDI-TERRENI-SENZA-DATI",
+        "BUG-EREDITA-SENZA-DATI"
+      ]
+    },
+    {
+      "id": "BUG-EREDITA-SENZA-DATI",
+      "data": "2026-11-16",
+      "fase": "correzione isolata dopo main 6c7d03a7 (1.19.0)",
+      "titolo": "Scheda nuova: nessun riferimento da una scheda vicina senza dati o non leggibile",
+      "famiglia": "progetti/dati comuni",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "InheritHierarchy (inserimento di una scheda nuova in una sezione, anche nell'anteprima dello spostamento) prendeva come riferimento anche una scheda vicina senza dati, con i predefiniti del suo modulo, o una scheda in quarantena. Un valore diverso da quello delle schede leggibili rendeva il campo conteso e lo lasciava non risolto: la scheda nuova non ereditava, per esempio, il diametro dei pali. Ora i vicini sono solo le schede aggiornabili (ProjectSharedData.Updatable), lo stesso criterio dei comandi dei dati comuni; la scheda senza dati o in quarantena resta come nel file.",
+      "codice": [
+        "src/ANTHEA.Application/Projects/ProjectSharedHierarchy.cs (InheritHierarchy)",
+        "tests/ANTHEA.Application.Tests/ProjectSharedCommandChecks.cs"
+      ],
+      "segno": "Nessun valore di calcolo cambia. Con una scheda vicina senza dati o non leggibile la scheda nuova eredita i valori delle schede leggibili, come se quella non ci fosse.",
+      "effetto_quantificato": "Test rosso prima del fix: la scheda nuova accanto a pali senza dati aveva diametro 1 invece di 1,2 (corsa eredita-rosso). Dopo il fix 2 controlli nuovi PASS (vicino senza dati e vicino in quarantena con diametro 2,0).",
+      "decisione": {
+        "data": "2026-11-16",
+        "utente": "Incarico della sessione coordinatrice del 16/11/2026: InheritHierarchy non prende come riferimento i predefiniti di una scheda vicina senza dati; stesso criterio Updatable o equivalente per l'origine; test rosso prima, commit separato.",
+        "esito": "Filtro Updatable sui vicini di ogni livello, quindi anche sui riferimenti contesi."
+      },
+      "test": [
+        "Application.Tests 3698, Presentation.Tests 5153, Architecture.Tests 618, Reports.Tests 515, Projects.Checks 22, FoundationWorkspace.Checks 54, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS; ui/shell-smoke-hierarchy, -projects, -project-workspace, -sharing, -project-report, -display, ui/check-shell-draft e ui/shell-capture PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-070445-eredita-rosso (rosso di Application.Tests)",
+        "supporto/artefatti/ci/20261116-070507-finale/summary.json",
+        "supporto/artefatti/ci/20261116-072229-finale-progetti/summary.json"
+      ],
+      "voci_collegate": [
+        "BUG-APPLICA-SENZA-DATI"
       ]
     },
     {
@@ -15327,6 +15547,33 @@
       "voci_collegate": [
         "REPORT-TEMPLATE-20261106"
       ]
+    },
+    {
+      "id": "GUIDE-REV72-20261116",
+      "data": "2026-11-16",
+      "fase": "Dopo il refactoring / guide globali (ANTHEA 1.19.1)",
+      "titolo": "Guide Rev72 della 1.19.1: transizioni editoriali della Wiki",
+      "famiglia": "guide/wiki",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Guide pratica e teorica Rev72 (compiti 205, 207 e 208): allineamento ai comportamenti della 1.19.1 sul set AW (temi A1–A13), avviso P10 sui Materiali più vicini, protezione degli strati condivisi, esempio Hansen corretto e quattro figure offscreen. La Wiki deriva dalle due guide; il confronto F3 (ui/f3-equivalence) dava 1086 differenze non ammesse, tutte in wiki/, identiche fra la corsa del 208 su 68192e18 e la corsa c1191-ui su d468c625. La proposta del 208 è applicata senza modifiche in tests/fixtures/f3/transitions-f5-wiki.json. Nessun atteso, transizione ingegneristica o tolleranza cambiati.",
+      "decisione": {
+        "data": "2026-11-16",
+        "utente": "«Sì, tutti i consigli» (INT/rapporti/decisioni-utente-20261116.md, voce 6c a: OK alle transizioni della Wiki).",
+        "esito": "629 transizioni editoriali esatte aggiunte (riga-aggiunta 516, testo 86, elemento-aggiunto 27) e 457 precedenti superate; registro 3308 → 3480 voci; numero degli articoli invariato (94)."
+      },
+      "effetto_quantificato": "Guide: pratica 140 pagine, teorica 214. Wiki: 94 capitoli. F3: 1086 → 0 differenze non ammesse dopo l'applicazione.",
+      "test": [
+        "ui/f3-equivalence con il registro aggiornato (editorial_transitions_rev72 in tests/fixtures/f3/manifest.json)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-075927-c1191-ui/ui_f3-equivalence/cattura/confronto.json",
+        "Repository/chatgpt-compiti/evidenze-208/wiki-rev72-per-ok.md",
+        "Repository/chatgpt-compiti/evidenze-208/wiki-transizioni-rev72-proposte.json",
+        "docs/refactoring/guide-rev72-205.md",
+        "docs/refactoring/guide-rev72-208.md"
+      ],
+      "wiki": "Indice della Wiki rigenerato con le guide Rev72; nessuna guida autonoma nuova."
     }
   ]
 }

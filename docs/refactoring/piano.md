@@ -28,6 +28,38 @@ di lunedì 16/11**; registro `PARATIE-22`.
 - [ ] Suite WPF `ui/check-paratie-view` (stadio ui, non eseguita dall'agente).
 - [ ] Guide: la conferma in «Richiedere le verifiche» nella prossima edizione, con Word, PDF e transizioni della Wiki.
 
+## Guide Rev72 — compito 207, 16 novembre 2026
+
+- [x] R1/R2 sul controllo del copriferro recepite in pratica, teoria, Word/PDF e Wiki; nessun avviso P10 anticipato.
+- [x] Pipeline ITEC, audit e revisione visiva ripetuti; controlli mirati completati. [Esiti](guide-rev72-205.md#compito-207--chiarimenti-sul-copriferro-16-novembre-2026).
+- [ ] Transizioni F3 aggiornate ancora da approvare: 567 nuove voci e 426 precedenti superate; riferimenti congelati invariati.
+
+## Guide Rev72 — compito 205, 15–16 novembre 2026
+
+Base 191b `3120a64d`, ANTHEA 1.19.1 sul set AW; ramo `codex/205-guide-rev72`. [Verbale e riscontri](guide-rev72-205.md).
+
+- [x] A1–A13 verificati sul codice della consegna; esclusi i lavori successivi non decisi.
+- [x] Word/PDF Rev72: pratica 140 pagine, teorica 214; frammenti, formule e 26 parti del modello verificati.
+- [x] Archivio Rev71: 16 originali con manifest; 1.887 file protetti invariati; articolo Rev01 conservato.
+- [x] Quattro figure offscreen e sei esempi Hansen con confronto indipendente; Wiki aggiornata, 94 articoli.
+- [x] Tutte le 67 suite Rev71 più GuideRev72.Checks eseguite; correzione editoriale verificata con sei suite mirate. Esito finale 67 PASS e un FAIL F3 editoriale in attesa di OK; 73 suite UI generali conservate.
+- [x] Corpus con modello ITEC reale: 733 controlli Reports PASS, inclusi 238 sugli stili. Word/PDF e revisione visiva completati dopo le correzioni.
+- [ ] OK dell’utente su 561 nuove transizioni Wiki e 426 precedenti superate, poi applicazione puntuale e nuova F3. Registro congelato invariato; delta esatto in `chatgpt-compiti/evidenze-205`.
+
+## Preparazione ANTHEA 1.19.1 su AW - 15 novembre 2026
+
+Compiti 191 e 191b; pubblicazione dopo F8 e le decisioni dell'utente, a cura del coordinatore.
+[Note di rilascio](note-rilascio-1.19.1.md), con PDF, e [verbale tecnico](installer-1.19.1.md).
+
+- [x] Set ufficiale AW coerente, 14 DLL, senza aggiornare gli attesi.
+- [x] Full 191: 130 suite (73 UI), 129 PASS e un FAIL temporale PDF; correzione del solo test verificata separatamente.
+- [x] Dodici F4 conclusi: sei PASS e sei FAIL storici, con oggetti di confronto identici al 183; classificazione del 188 conservata.
+- [x] Safety 26 PASS ed examples 206 PASS; fixture nel TEMP sotto CX.
+- [ ] Guide installer: FAIL nella rimozione dei PDF dopo il controllo degli hash; diagnosi documentata, nessuna asserzione eliminata e nessun PASS dichiarato.
+- [x] Versione 1.19.1, note e README con PDF verificati; originali del README conservati in SUPERATI.
+- [x] Setup locale 1.19.1 costruito da `ddaf66c9`: 7z e Audit-Installer PASS; SHA e dimensione nel verbale.
+- [ ] Decisioni sui gate residui, conferma F8, tag, push e copia sulla condivisione: coordinatore.
+
 ## ANTHEA 1.19.0 — 8 novembre 2026
 
 Decisione dell'utente dell'8/11, «Sì, ANTHEA prima»: la 1.19.0 esce prima dei plug-in Rhino, con le librerie da origin/master. Ramo
@@ -1757,3 +1789,43 @@ Dettagli e fonti: [azioni-estese-20261101.md](azioni-estese-20261101.md). Branch
 - [x] Due fallimenti della guida riprodotti anche sulla base `94f48d20`: indice e catalogo del manuale richiamano sei immagini sotto `supporto/artefatti` assenti nei nuovi worktree. Nessun atteso aggiornato; worktree di confronto rimosso con il solo `git worktree remove`.
 - [ ] Rimangono il set ufficiale delle librerie e il collaudo di rilascio. Escluse le suite native/UI e quelle che cancellano file, come richiesto dall’utente; nessuna asserzione rimossa.
 - Evidenze: `supporto/artefatti/ci/20261107-081518-integrazione-1190-consentite` e `supporto/artefatti/integrazione-1190`; resoconto esterno in `Repository/chatgpt-compiti/anthea-1190-integrazione-resoconto.md`. Nessun push, tag, cambio di versione o installer.
+
+
+## Candidata completa 1.19.1 — compito 208 (16 novembre 2026)
+
+- [x] Clone isolato da 84621b6f, versione 1.19.1 invariata; integrati nell'ordine P10 84c99d93 e strati 48cd276f/83e68e0a, senza conflitti. Vecchia riproduzione rimossa dal commit di correzione, prove ordinarie attive.
+- [x] Guide Rev72 e Wiki aggiornate al comportamento presente, senza duplicare R1/R2; Word/PDF, audit ITEC e controllo delle 354 pagine conclusi. Dettagli in [guide-rev72-208.md](guide-rev72-208.md).
+- [x] Sette build, sei suite funzionali e UI mirate PASS. F4: sei PASS e sei FAIL storici identici al 191. F3: sole differenze Wiki, proposta separata per l'OK; nessun riferimento congelato modificato.
+- [x] Copertura delle 131 suite full su 68192e18/69e9f2d2 (stesso codice): 130 PASS e F3 con sole differenze Wiki; 73 UI conservate.
+- [x] Note di rilascio e verbale riletti dopo l'interruzione di Codex: tenute le parti verificate, tolte le ripetizioni e le promesse di esiti non ancora registrati.
+- [x] Correzioni delle schede senza dati dal ramo `claude/copriferro-materiali-vuoto`: otto commit con cherry-pick (e50dd72e…d468c625), conflitti in `ProjectValidation.cs`, `SharedDataCoordinator.cs` e in questo piano risolti unendo le regole (verbale [installer-1.19.1.md](installer-1.19.1.md)).
+- [x] Prove su d468c625: 9 build e 10 suite dei progetti e dei report PASS; 10 UI dei progetti PASS e F3 con le stesse 1086 differenze della Wiki. Full non ripetuta: le correzioni toccano solo progetti, report e la finestra dei dati condivisi.
+- [x] Note di rilascio con le schede senza dati, PDF controllato (4 pagine).
+- [x] `ui/check-contrast` sul commit di prodotto 5c52a799: PASS, zero difetti nei tre temi.
+- [x] Setup dal commit di prodotto pulito: 74.814.011 byte, SHA-256 AD8A32F5BDE18669F33A0F9B4AE1513CEF49AF0C2ADF392E7EBB268C99FDAA6E, ProductVersion 1.19.1+5c52a799; `7z t` e Audit-Installer PASS (14 DLL AW, Rev72, 95 esempi). Collaudi con TEMP in `%LOCALAPPDATA%\Temp`: safety 26, guides 35, examples 206 PASS. Dettagli nel verbale [installer-1.19.1.md](installer-1.19.1.md).
+- [x] Scelta dell'utente (16/11/2026): la candidata completa, versione 1.19.1, «Sì, tutti i consigli» (scheda decisioni-utente-20261116, voci 3, 4, 5, 6b a, 6c a, 9).
+- [x] F3: transizioni Wiki Rev72 della proposta 208 applicate (7673630d, voce GUIDE-REV72-20261116, 629 nuove e 457 superate); `ui/f3-equivalence` PASS.
+- [x] F4: i sei storici come differenze dichiarate in `build/known-failures.json`, con primo messaggio e impronta del `comparison.json` (a88fe7c5, `build/ci.ps1` più stretto); 12 F4: 6 PASS e 6 KNOWN, NEW-FAIL 0; prova contraria con impronta alterata: NEW-FAIL.
+- [x] Straus7 nativo su a88fe7c5 (stesso codice del prodotto): `Straus7Native.Checks` 29 controlli nativi PASS, `ModelViewer.Importers.UiChecks` 17 PASS. MIDAS dal vivo non eseguito (chiave assente).
+- [x] Note di rilascio finali (F3 applicato, F4 dichiarati, Straus7 nativo) e verbale di chiusura; payload invariato, setup AD8A32F5… da 5c52a799. Pubblicazione, tag e push al coordinatore.
+- [ ] Guide: «Non leggibile» ed «Esclusi perché non leggibili…» nella prossima edizione.
+
+
+## Copertina — scheda controllata senza dati (15 novembre 2026)
+
+- [x] Clone isolato `gpc-f6-claude/CX/ANTHEA-copriferro`, ramo `claude/copriferro-materiali-vuoto` da main 6c7d03a7 (1.19.0), push disabilitato.
+- [x] Materiali senza dati: già corretto da `6b774b90` e presente nella 1.19.0; i suoi 53 controlli passano su main.
+- [x] Riprodotta la NullReferenceException rimasta: Materiali valido e scheda controllata (sezione c.a. o palo orizzontale) senza dati o senza blocco della sezione. Rossa anche con la fixture congelata `13-file-salvato.json` dopo aver completato Materiali in memoria.
+- [x] La scheda senza dati dà l'avviso già usato «copriferro non verificabile», con esito nullo. Nessun dato inventato, nessuna mutazione; le altre schede e gli altri materiali mantengono il proprio esito.
+- [x] 93 controlli mirati PASS (53 esistenti e 40 nuovi). Application.Tests 3613, Projects.Checks 22, Presentation.Tests 5143, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS (`supporto/artefatti/ci/20261115-213010-copriferro-verde2`).
+- [x] Terreni, incarico del 15/11 sera: due schede che condividono i terreni, una senza dati, lanciavano la stessa eccezione in `Warnings`, nella coerenza e nel report (`ProjectSharedFields.cs:159`, `ProjectSharedSoils.cs:16`, `ProjectReportPlan.cs:58` e 67). La coppia ora si salta (`ComparableSoils`); nel report la scheda senza dati non porta valori sostitutivi. Rosso in `supporto/artefatti/ci/20261116-001126-terreni-rosso2`.
+- [x] Espressione del diametro in `CoverChecks` riportata al testo del residuo F4 (`f4-domain-baseline.json`), che il primo commit aveva cambiato.
+- [x] 129 controlli mirati PASS; Application.Tests 3649, Architecture.Tests 618, Reports.Tests 515, Presentation.Tests 5143, Projects.Checks 22, FoundationWorkspace.Checks 54, ConcreteLibraryAdapter.Checks completa e verifiche/project-audit 988 PASS (`supporto/artefatti/ci/20261116-022220-terreni-verde`).
+- [x] Muri, incarico del 16/11: un muro senza dati in una coppia di confronto lanciava NullReferenceException in `ActiveWallField` (`ProjectWallFields.cs:29`), quindi in confronto, Differences, coerenza, cache, piano del report e inserimento di una scheda nella stessa sezione. Ora il muro senza dati non ha campi attivi e non si confronta; nel report non porta valori. Rosso in `supporto/artefatti/ci/20261116-030755-muri-rosso`, verde in `20261116-030816-muri-verde` (PASS 17, Application.Tests 3667).
+- [ ] Da confermare all'integrazione: nel report la scheda senza dati non mostra i predefiniti del modulo. Per mostrarli bastano due righe di `ProjectReportPlan.cs` (57 e 70), che userebbero `Archivio.NuovoFoglio`; per i muri resterebbe comunque vuoto, perché il muro senza dati non ha campi attivi.
+- [x] Comandi dei terreni, incarico del 16/11: `CopyMissingSoilLayers` («Uniforma a questo» su uno strato mancante), `LinkSoils` («Collega») e `SetSoilType` non lanciano più NullReferenceException con una scheda senza dati. Una scheda si aggiorna solo se ha i dati e non è in quarantena (`ProjectSharedData.Updatable`). La copia la salta e il confronto la nomina fra le schede dello strato; collegamento e tipologia la rifiutano con un messaggio che la nomina. Rosso in `supporto/artefatti/ci/20261116-050039-comandi-rosso` e `supporto/artefatti/copriferro-nre/comandi-rosso-shell`.
+- [x] Dati comuni, incarico del 16/11: `ApplyHierarchy` e `ApplyTargets` («Aggiorna tutti i fogli collegati», «Uniforma a questo») non riempiono più con i predefiniti del modulo una scheda senza dati, e non aggiornano una scheda in quarantena. La domanda dei dati condivisi nomina gli esclusi («Esclusi perché non leggibili, restano come nel file: …»). Nel confronto il pulsante della scheda diventa «Non leggibile». Una scheda senza dati non può essere l'origine. Rosso in `supporto/artefatti/ci/20261116-050039-comandi-rosso`; verde in `20261116-050135-comandi-verde` e `20261116-051915-comandi-verde2` (otto suite, Application.Tests 3696, Presentation.Tests 5153).
+- [x] Scheda nuova, incarico del 16/11: `InheritHierarchy` prende come riferimento solo le schede aggiornabili (`Updatable`). Prima una scheda vicina senza dati (predefiniti del modulo) o in quarantena lasciava il campo non risolto, e la scheda nuova non ereditava il diametro dei pali. Rosso in `supporto/artefatti/ci/20261116-070445-eredita-rosso`.
+- [x] Prova WPF fuori schermo, senza mouse, in `ui/shell-smoke-sharing`. Nel confronto la riga della scheda senza dati ha «Non leggibile» disattivato, accanto ai due «Uniforma a questo». La finestra «Dati condivisi della sezione» ha la riga degli esclusi solo quando ci sono esclusi. `WpfConfirmationService.SharedUpdateDialog` costruisce ora la finestra che `ConfirmSharedUpdate` mostra come prima. Immagini nuove per la revisione: `confronto-non-leggibile.png`, `dati-condivisi-esclusi.png` e `dati-condivisi.png`; nessuna cattura approvata cambiata. Corsa `supporto/artefatti/ci/20261116-070507-finale`, otto suite e nove ui PASS; `ui/shell-smoke-projects` era fallita una volta sul clic simulato a tempo («Clic singolo non apre il riepilogo»), che non tocca questi cambi, ed è PASS nella ripetizione `20261116-072229-finale-progetti`. Non eseguita `ui/check-contrast` (24 minuti), i cui scenari non hanno schede senza dati.
+- Come prima, non è un'eccezione: la tabella dei conflitti e la coerenza confrontano le schede non muro in quarantena con i predefiniti del modulo, e la riga della scheda mostra quei valori (si vede in `confronto-non-leggibile.png`).
+- Voci `BUG-COPERTINA-SCHEDA-SENZA-DATI`, `BUG-COPERTINA-TERRENI-SENZA-DATI`, `BUG-COPERTINA-MURO-SENZA-DATI`, `BUG-COMANDI-TERRENI-SENZA-DATI`, `BUG-APPLICA-SENZA-DATI` e `BUG-EREDITA-SENZA-DATI` nel registro. Nessuna versione, libreria, fixture o riferimento congelato cambiato. Nessun push, tag o installer.

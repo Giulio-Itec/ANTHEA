@@ -154,7 +154,7 @@ public static partial class ProjectSharedData
                 !ConcreteMaterialCatalog.Concrete().Any(c => Equal(c["fck_mpa"], sheetFields["CLS · fck [MPa]"].Value)))
                 result.Add(name + ": resistenza CLS personalizzata non rappresentabile nel selettore delle classi di Materiali.");
         }
-        foreach (var (first, second) in pairs.Where(p => SupportsSharedSoils(p.First) && SupportsSharedSoils(p.Second)))
+        foreach (var (first, second) in pairs.Where(p => ComparableSoils(p.First, p.Second)))
         {
             var a = first["dati"]!.AsObject().Array("stratigrafie");
             var b = second["dati"]!.AsObject().Array("stratigrafie");

@@ -1,5 +1,16 @@
 # DLL Checker
 
+**Proposta post F8, 15 novembre 2026 — set ufficiale AW.**
+Model c2abf2221262fcb38358609d45b4909d82d37d6b, Checker 9c71ca658ed43d6211d901ead2bef29ee85b1506;
+Geometry 6734eee1004142576b96759e34c15dec48776e23, Utilities e57b440b16a0a311a7bf0af2f9cf4d2681b83491.
+Il manifest originale di AW è conservato: candidate=false, sorgenti su origin/master, 14 suite senza falliti.
+Restano i 14 assembly già usati da ANTHEA: GPCModelChecker non si aggiunge al prodotto.
+Preparazione isolata nel clone CX: build e prove registrate nel compito 170; nessuna distribuzione o attestazione di full.
+La verifica nel clone del compito170 ha il proprio rapporto, anthea-aw-prova.md; un rilascio richiede il full previsto da AGENTS.md.
+Nessuna baseline, fixture numerica o cattura viene rigenerata. La registrazione F4 viene aggiornata deliberatamente ai due hash del manifest AW; resta identico previous_manifest_sha256 e nessun atteso numerico cambia.
+Le funzioni nuove del writer Straus7 non sono attivate nell'importatore ANTHEA dal cambio dello snapshot.
+
+
 **Release AV — librerie della 1.19.0: migrazione comune GPC e consolidamento dell'acciaio (8 novembre 2026).** Set ufficiale
 `gpc-release-20261108-av` da Model `ff318f87` e Checker `9e513417` su origin/master, pubblicati l'8/11 per la 1.19.0 (decisione
 dell'utente «Sì, ANTHEA prima»; regola del 29/10: ANTHEA esce solo con librerie da origin/master). Sono i commit del set candidato F7d

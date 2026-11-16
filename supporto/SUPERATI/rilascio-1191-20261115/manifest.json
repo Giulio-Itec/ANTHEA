@@ -1,0 +1,9 @@
+{
+  "sourceCommit": "fd1e2811d3e2c1359f2b0f9ad713531d99eaa00f",
+  "reason": "README installer 1.19.0 sostituito dalla preparazione 1.19.1; numero esempi allineato al catalogo, nessun PDF delle guide cambiato.",
+  "replacedBy": "supporto/installer/README.md e README.pdf",
+  "files": {
+    "supporto/installer/README.md": "7eab5d5cdf6e2eb9e72145d8db8b78f0ac43eaa36303963e51f153ac617bcb10",
+    "supporto/installer/README.pdf": "083afcf4e4f63cf4de7d2be635203c2fae87578a97656e50f555778b6fe85a1b"
+  }
+}

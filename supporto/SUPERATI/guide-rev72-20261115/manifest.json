@@ -1,0 +1,114 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/docs/guida-pratica-anthea.md",
+    "sha256": "aa1b4a5c0940b45ca5bae37b9623484c63f3a84edd97af8bd91db42a6b0ad07c",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/docs/guida-teorica-anthea.md",
+    "sha256": "975b83005b4917bd0fbb072bdc7cb24b5100fd2f23f95330f44a8e9a6e4bc918",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/docs/guida-pratica-anthea.pdf",
+    "sha256": "1cf4f6497ae6c1f2f421b92e61683a81916b54ac7538b7dd5ac51632e1236dab",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/docs/guida-teorica-anthea.pdf",
+    "sha256": "db972895a6894a5c31826411ff659e918b444365c53047215baee16653f4cd8e",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/README.md",
+    "sha256": "977931fdc94879e114e9d222ac01def6b579c75252b3855aeb708a0f08af4032",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/README.pdf",
+    "sha256": "a8901cdaaba0c9ce78adcbc6be5536b2390c56e5c93a2f28c99737254672bfb4",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/installer/Indice-guide.md",
+    "sha256": "223f3b4b5d679da4c63cd792f36a8190e2102b4503ead8054280a5a6104a94f0",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/installer/Indice-guide.pdf",
+    "sha256": "db0eff31ccb24d89f734737f1d2ba44d334f190d0a3ff8346eb62fad5feed9de",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/installer/README.md",
+    "sha256": "99c4dd0b5f4957b3b7e7656b89136d53bdddfe3da78acf43effbb4992494af80",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/installer/README.pdf",
+    "sha256": "79599d449b2843e43f98cded63bd3c78ba3dc0e983c2ad8abbad9cd4957b009c",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "38a47b25277fff6001f3f992d90b54610e8a1ca68f406d73a2a4ea0c8af858cc",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "c11148636f63f6ccc8e08d2dd059e5e37c6166d686412730ecf5bf0d180ef8ef",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev71.docx",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev71.docx",
+    "sha256": "92b8aa08e74c936aff1e6bb0de05c7e5e819115ad53a28f78519615ab0594cba",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev71.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev71.pdf",
+    "sha256": "1cf4f6497ae6c1f2f421b92e61683a81916b54ac7538b7dd5ac51632e1236dab",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev71.docx",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev71.docx",
+    "sha256": "01b04b76c49e0c7f15624f3e35402af9fd16a32e04069165244eda719993adc1",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev71.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev72-20261115/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev71.pdf",
+    "sha256": "db972895a6894a5c31826411ff659e918b444365c53047215baee16653f4cd8e",
+    "motivo": "Revisione superata dalla Rev72: comportamento ANTHEA 1.19.1 / set AW",
+    "sostituzione": "Guide Rev72, compito 205"
+  }
+]

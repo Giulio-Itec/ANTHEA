@@ -52,9 +52,12 @@ public sealed class ProjectReportPlan
 
     private static bool Relevant(JsonObject sheet, ProjectSharedData.Field field)
     {
+        // A sheet left without dati (an unresolved reference opened with diagnosis) reports no inputs: its fields would be the
+        // defaults of the module, and no substitute data is shown (as for its cover check).
+        if (sheet["dati"] is not JsonObject data) return false;
         if (field.Value is null || field.Value is JsonArray { Count: 0 } || field.Value.ToString() == "") return false;
         if (!ProjectSharedData.ActiveField(sheet, field.Key)) return false;
-        var data = sheet["dati"]!; string key = field.Key;
+        string key = field.Key;
         if (key == "profondita_falda" && !data["generali"].B("presenza_falda")) return false;
         return true;
     }
@@ -64,7 +67,8 @@ public sealed class ProjectReportPlan
         var all = ProjectSharedData.Fields(sheet); var consumed = all.Values.Select(f => Path(f)).ToHashSet();
         foreach (var field in Fields[sheet].Values.Where(f => !SharedKeys[sheet].Contains(f.Key)))
             yield return new(field.Group, Label(field.Key), field.Value);
-        string module = sheet.S("modulo_id"); var data = sheet["dati"]!.AsObject();
+        if (sheet["dati"] is not JsonObject data) yield break; // no inputs for a sheet without dati (Relevant)
+        string module = sheet.S("modulo_id");
         string[] roots = module == Anthea.FoundationWorkspace.FoundationDocument.Module ? ["input","generali","sezione","stratigrafie"] : module == "str_palo" ? ["input"] : module == "mat_calcestruzzo" ? ["classe", "numeri", "scelte", "opzioni"] :
             module == RebarMaterial.Module ? ["input", "riferimento"] : module == RetainingWall.Module ? [] : module == BridgeConcept.Module ? [] : ["generali", "sezione", "verifica", "efficienza", "stratigrafie"];
         foreach (string root in roots) foreach (var row in Walk(data[root], root))

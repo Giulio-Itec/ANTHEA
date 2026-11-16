@@ -47,19 +47,27 @@ public sealed class SharedDataCoordinator
         if (document.S("tipo") != "progetti" || sheet?.Parent?.Parent is not JsonObject section || baseline is null) return false;
         var preview = ProjectSharedData.PreviewSection(section, sheet, proposed["dati"]!.AsObject());
         var keys = ProjectSharedData.ReferenceKeys(preview.Sheet, ProjectSharedData.ChangedKeys(baseline, proposed));
+        // The layers go by position (16/11/2026, §1.5 point 8 of the note of step 6): a survey whose number of layers changed is not written
+        // into the other sheets, and a survey goes only to the sheets with its number of layers. Those sheets keep their layers, without a
+        // question; the difference stays visible in the status line and in the comparison.
+        ProjectSharedData.ExceptChangedSoilSubdivisions(keys, baseline, proposed);
+        bool Shares(JsonObject target, string key) => keys.Contains(key) && !ProjectSharedData.OtherSoilSubdivision(proposed, target, key);
         var groups = ProjectSharedData.Fields(proposed).Values.Where(f => keys.Contains(f.Key)).Select(f => f.Group).ToHashSet();
         if (groups.Count == 0) return false;
         bool controlsDescendants = ProjectSharedData.Sections(section).Skip(1).Any(s => s.Array("fogli").Count > 0);
-        // Step 2b: a sheet that could not be read keeps its data as they were in the file.
-        var targets = ProjectSharedData.SubtreeSheets(section).Where(s => !ReferenceEquals(s, sheet) && !DocumentQuarantine.IsQuarantined(s) &&
-            ProjectSharedData.Common(proposed, s).Any(p => keys.Contains(p.Source.Key) && !ProjectSharedData.Equal(p.Source.Value, p.Target.Value))).ToArray();
+        // Step 2b: a sheet that could not be read keeps its data as they were in the file, and a sheet without dati is not filled with the
+        // defaults of its module (ProjectSharedData.Updatable): ApplyTargets skips both, and the question names those sharing a changed field.
+        var targets = ProjectSharedData.SubtreeSheets(section).Where(s => !ReferenceEquals(s, sheet) && ProjectSharedData.Updatable(s) &&
+            ProjectSharedData.Common(proposed, s).Any(p => Shares(s, p.Source.Key) && !ProjectSharedData.Equal(p.Source.Value, p.Target.Value))).ToArray();
         if (targets.Length == 0) return false;
+        var excluded = ProjectSharedData.SubtreeSheets(section).Where(s => !ReferenceEquals(s, sheet) && !ProjectSharedData.Updatable(s) &&
+            ProjectSharedData.Fields(s).Keys.Any(keys.Contains)).ToArray();
         // The prompt is built only when the question is asked, as before: naming a sheet may fail for an unknown module.
-        bool update = controlsDescendants || confirmations.ConfirmSharedUpdate(Prompt(groups, section, targets, proposed, keys));
+        bool update = controlsDescendants || confirmations.ConfirmSharedUpdate(Prompt(groups, section, targets, excluded, proposed, Shares));
         if (!update) return false;
         var before = sheet["dati"]?.DeepClone();
         sheet["dati"] = proposed["dati"]!.DeepClone();
-        try { ProjectSharedData.ApplyHierarchy(sheet, groups, keys); updated(); }
+        try { ProjectSharedData.ApplyHierarchy(sheet, groups, keys, (target, key) => ProjectSharedData.OtherSoilSubdivision(proposed, target, key)); updated(); }
         catch { sheet["dati"] = before; throw; }
         return true;
     }
@@ -99,12 +107,16 @@ public sealed class SharedDataCoordinator
         return proposed;
     }
 
-    /// <summary>The question about the linked sheets: groups in order of the fields, then each target with "label: before → after".</summary>
-    private static SharedUpdatePrompt Prompt(HashSet<string> groups, JsonObject section, JsonObject[] targets, JsonObject proposed, HashSet<string> keys)
+    /// <summary>The question about the linked sheets: groups in order of the fields, then each target with "label: before → after", and the
+    /// linked sheets left out because they have no dati or could not be read.</summary>
+    private static SharedUpdatePrompt Prompt(HashSet<string> groups, JsonObject section, JsonObject[] targets, JsonObject[] excluded, JsonObject proposed, Func<JsonObject, string, bool> shares)
         => new(groups.ToList(), section.S("nome"),
-            targets.Select(s => new SharedUpdateTarget(s.S("nome", ModuleDirectory.Get(s.S("modulo_id")).Name), ProjectSharedData.Common(proposed, s)
-                .Where(p => keys.Contains(p.Source.Key) && !ProjectSharedData.Equal(p.Source.Value, p.Target.Value))
-                .Select(p => FieldLabel(p.Source.Key) + ": " + ProjectSharedData.Text(p.Target.Value) + " → " + ProjectSharedData.Text(p.Source.Value)).ToList())).ToList());
+            targets.Select(s => new SharedUpdateTarget(SheetName(s), ProjectSharedData.Common(proposed, s)
+                .Where(p => shares(s, p.Source.Key) && !ProjectSharedData.Equal(p.Source.Value, p.Target.Value))
+                .Select(p => FieldLabel(p.Source.Key) + ": " + ProjectSharedData.Text(p.Target.Value) + " → " + ProjectSharedData.Text(p.Source.Value)).ToList())).ToList(),
+            excluded.Select(SheetName).ToList());
+
+    private static string SheetName(JsonObject sheet) => sheet.S("nome", ModuleDirectory.Get(sheet.S("modulo_id")).Name);
 
     /// <summary>Label of a shared field in the questions and in the comparison (formerly MainWindow.SharedFieldLabel).</summary>
     public static string FieldLabel(string key) => ProjectReportPlan.Label(key);

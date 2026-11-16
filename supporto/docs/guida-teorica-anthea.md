@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 6 novembre 2026 — revisione documentale 71
+Edizione teorica del 15 novembre 2026 · revisione documentale 72 · comportamento ANTHEA 1.19.1 (set AW)
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -208,7 +208,11 @@ Il modulo Modelli conserva una copia del modello di calcolo: non esegue analisi,
 
 Dai file di testo .mct e .mgt la libreria GPC traduce i comandi nelle stesse tabelle della copia acquisita dal modello aperto, con le unità dichiarate nelle tabelle (N e mm). Il file descrive il modello e non contiene risultati. Gli elementi senza un equivalente nella vista, come pareti, elementi piani e solidi, restano fuori dalla copia; un modello che la libreria GPC non accetta, per esempio per piastre quadrangolari non piane oltre la sua tolleranza, non viene importato.
 
+La piastra a quattro nodi è accettata come piana quando la massima distanza dei vertici dal piano medio passante per il loro baricentro non supera la maggiore fra 0,0001 mm e 10⁻⁵ volte la massima distanza fra due vertici. È un criterio di ammissibilità geometrica: le coordinate restano quelle importate e non sono proiettate sul piano. La stessa condizione vale per l'area delle pressioni non uniformi; superare la tolleranza rende l'area non piana.
+
 Dai modelli .st7 con i risultati statici lineari .lsa la libreria GPC legge il modello in sola lettura, in un processo separato, e la copia riporta i risultati dei casi primari scelti: per le piastre i valori ai nodi di ogni elemento, come li estrapola il solutore, senza medie fra elementi adiacenti; per le aste i valori alle stazioni del solutore; per i nodi spostamenti e rotazioni globali. Il modello della libreria è in N, mm e rad. La copia usa m per coordinate e spostamenti, kN e kN·m per le aste, kN/m per forze di membrana e tagli delle piastre e kN·m/m per i loro momenti; le rotazioni restano in radianti. I fattori sono esatti: 1 N/mm = 1 kN/m, 1 N·mm/mm = 10⁻³ kN·m/m, 1 N·mm = 10⁻⁶ kN·m.
+
+**Conversione dei carichi nel formato .st7.** Il convertitore GPC distribuito con ANTHEA 1.19.1 può scrivere le pressioni non uniformi su piastre a tre o quattro nodi come forze nodali equivalenti, conservando risultante e momento. I vertici dell'area caricata devono coincidere con gli angoli della piastra; le forze equivalenti si sommano a quelle già presenti sullo stesso nodo e caso. Rileggendo il file .st7, questi carichi compaiono come forze nodali. È una capacità della libreria: il modulo Modelli di ANTHEA non espone un comando per esportare un modello .st7.
 
 Lo stesso stato fisico si legge con lo stesso segno qualunque sia la sorgente: la convenzione è quella della copia acquisita dal modello aperto. Mxx, Myy e Mxy positivi tendono la faccia −z della piastra e My delle aste è l'opposto del momento M1 della libreria GPC. Nella libreria GPC i momenti delle piastre sono invece positivi con la faccia +z tesa, come nel programma di origine dei file .st7: per quei modelli Mxx, Myy, Mxy e My hanno nella copia il segno opposto a quello della sorgente. Le altre componenti conservano il segno della libreria GPC.
 
@@ -334,6 +338,10 @@ Il ramo EC2 determina la classe strutturale secondo esposizione, vita e opzioni 
 Il ramo NTC utilizza tre livelli di severità. Il valore tabellare di base è (15 mm per elemento a piastra, 20 mm negli altri casi) più 10 mm per livello di severità; si aggiungono 5 mm se fck è inferiore a C0 = 35 + 5 × severità. La vita di 100 anni aggiunge 10 mm, una resistenza sotto il minimo pertinente aggiunge 5 mm e l'opzione di qualità del copriferro riduce di 5 mm. Il minimo pertinente può essere assegnato nel campo ammesso dal motore e non coincide necessariamente con tutte le prescrizioni di composizione. Se non è assegnato, il minimo pertinente è la classe minima UNI 11104 delle esposizioni, la stessa della tabella precedente, e non più il valore 25 + 5 × severità: il nominale può cambiare di 5 mm. Con Δcdev = 10 mm e vita 50 anni, XF2 con C25/30 dà 45 mm invece di 50 e XC3 con C28/35 dà 40 mm invece di 35.
 
 Come esempio del ramo NTC, XF2, fck = 30 MPa, elemento non a piastra, vita 50 anni, barra 16 mm, aggregato 20 mm e Δcdev = 10 mm danno 45 mm nominali senza riduzione di qualità. Se si passa a vita 100 anni, lo stesso caso dà 55 mm. I valori sono esempi riproducibili del codice NtcCover, utili per controllare l'input.
+
+Il controllo di progetto del copriferro applica questi requisiti alle schede Materiali del primo livello che ne contiene, percorrendo la gerarchia dal progetto alla sezione del foglio. La selezione riguarda l'intero gruppo, prima della validazione dei dati; non combina i requisiti dei livelli successivi. Un esito **RISPETTATO** riguarda il riferimento selezionato e le barre effettive controllate, non eventuali condizioni locali più severe, da verificare separatamente. Un Materiali senza dati produce **non verificabile**; il controllo continua sulle altre schede del gruppo scelto, senza passare a un livello inferiore.
+
+Un avviso nell'interfaccia e nel report richiama le schede Materiali locali escluse dal controllo quando darebbero un esito o un minimo diverso da quello del riferimento selezionato. Il messaggio non estende l'esito **RISPETTATO** a quei riferimenti: confrontare separatamente il copriferro adottato con gli eventuali minimi locali più severi. Il minimo è confrontato alla precisione di 0,01 mm esposta nel messaggio; schede con lo stesso minimo e lo stesso esito non producono questo avviso.
 
 ## Palo verticale
 
@@ -1189,6 +1197,8 @@ Per le piastre compresse si valuta il rapporto di tensione ψ, il coefficiente d
 Il significato di ρ è una riduzione della porzione resistente nella verifica elastica della piastra snella. Non è una riduzione fisica del peso e non comporta rimozione di acciaio dal disegno costruttivo. La sezione lorda continua a governare i quantitativi e alcune altre grandezze.
 
 L'iterazione utilizza una tolleranza dell'ordine di 10⁻⁷ e massimo 120 passi, con rilassamento e accelerazione secondo la procedura corrente. Il rilassamento iniziale è 0,55, limitato nel campo ammesso. Si controlla anche un residuo di equilibrio relativo dell'ordine di 10⁻⁵. Un arresto al numero massimo di iterazioni non è una convergenza positiva.
+
+I residui di equilibrio sono grandezze numeriche del procedimento iterativo. Nelle letture **Residuo equilibrio** e **Residuo massimo dell'equilibrio N–Mx**, le ultime cifre e i valori prossimi allo zero possono risentire degli arrotondamenti del solutore; uno zero visualizzato non sostituisce il controllo della convergenza e delle tolleranze sopra indicate.
 
 ### Limiti di tensione e interpretazione delle curve
 
@@ -3751,7 +3761,7 @@ I valori s′ e d′ della tabella additiva sono gli incrementi 0,2r e 0,4k, men
 
 ### Brinch Hansen con carico inclinato
 
-Con un'azione orizzontale il metodo di Brinch Hansen calcola la pressione limite per rottura nella direzione di $B'$ e in quella di $L'$ e adotta la minore; nella fondazione nastriforme c'è solo la direzione di $B'$, nel cerchio l'azione orizzontale si considera diretta come $B'$. $H$ è la componente considerata, $H_B$ parallela a $B'$ oppure $H_L$ parallela a $L'$, $A' = B'L'$ è l'area efficace e base e piano campagna sono orizzontali. In condizioni drenate i fattori di inclinazione sono:
+Con un'azione orizzontale il metodo di Brinch Hansen calcola la rottura nella sola direzione di $B'$ quando $H_L = 0$; con $H_L > 0$ valuta anche la direzione di $L'$ e adotta la pressione limite minore. La fondazione nastriforme usa soltanto $B'$; nel cerchio l'azione orizzontale è considerata lungo $B'$. $H_B$ e $H_L$ sono i moduli delle componenti parallele ai lati efficaci ordinati, rispettivamente $B'$ e $L'$. $H$ è la componente considerata nella singola direzione, $A' = B'L'$ è l'area efficace e base e piano campagna sono orizzontali. In condizioni drenate i fattori di inclinazione sono:
 
 ```math
 x = \frac{H}{N + A' c' \cot\varphi'}
@@ -3771,13 +3781,13 @@ d_c = d_q - \frac{1 - d_q}{N_q - 1}
 d_\gamma = 1
 ```
 
-Per la rottura nella direzione di $L'$ valgono le stesse espressioni con $B'$ e $L'$ scambiati e i fattori di inclinazione di $H_L$; la profondità usa $D/L'$ e il termine di peso resta $0{,}5\,\gamma B' N_\gamma$. In ciascuna direzione si calcola la pressione limite e si adotta la minore:
+Solo quando $H_L > 0$, per la rottura nella direzione di $L'$ valgono le stesse espressioni con $B'$ e $L'$ scambiati e i fattori di inclinazione di $H_L$; la profondità usa $D/L'$ e il termine di peso resta $0{,}5\,\gamma B' N_\gamma$. In ogni direzione attiva si calcola la pressione limite; con $H_L = 0$ vale il risultato lungo $B'$, con entrambe le direzioni attive si adotta il minore:
 
 ```math
 q_{lim} = c' N_c s_c d_c i_c + q N_q s_q d_q i_q + 0{,}5\,\gamma B' N_\gamma s_\gamma d_\gamma i_\gamma
 ```
 
-In condizioni non drenate la forma è additiva; le espressioni seguenti valgono nella direzione di $B'$, mentre nella direzione di $L'$ si usano $i'_c$ con $H_L$, $s'_c = 0{,}2\,i'_c\,L'/B'$ e $d'_c$ con $D/L'$, e si adotta il minore dei due valori:
+In condizioni non drenate la forma è additiva; le espressioni seguenti valgono nella direzione di $B'$. Solo quando $H_L > 0$ si calcola anche la direzione di $L'$, con $i'_c$ riferito a $H_L$, $s'_c = 0{,}2\,i'_c\,L'/B'$ e $d'_c$ riferito a $D/L'$: in questo caso si adotta il minore dei due valori.
 
 ```math
 q_{lim} = (\pi + 2)\,c_u\,(1 + s'_c + d'_c - i'_c) + q
@@ -3790,13 +3800,16 @@ Un fattore di inclinazione negativo nel drenato, o una componente orizzontale ma
 
 > Limite del metodo · Discontinuità con il carico verticale
 > Metodo: con $H = 0$ valgono le espressioni del carico verticale, $s'_c = 0{,}2\,B'/L'$ nel non drenato e fattori di forma senza inclinazione nel drenato.
-> Programma: per $H \rightarrow 0$ il calcolo inclinato non tende sempre a quei valori; nel non drenato la correzione di forma $0{,}2\,i'_c\,B'/L'$ si annulla con $i'_c$, e la rottura nella direzione di $L'$ si calcola anche con $H_L = 0$, con forma $L'/B'$ e profondità $D/L'$.
+> Programma: nel drenato con $H_L = 0$ il risultato lungo $B'$ tende al carico verticale per $H_B \rightarrow 0$. Nel non drenato resta la discontinuità della correzione di forma: $0{,}2\,i'_c\,B'/L'$ si annulla con $i'_c$. La direzione $L'$ entra solo con $H_L > 0$; quando governa, il suo limite per $H_L \rightarrow 0$ può differire dal ramo con $H_L = 0$.
 > Effetto: con un'azione orizzontale piccola la pressione limite può essere sensibilmente minore di quella del carico verticale, a favore di sicurezza; ANTHEA applica il metodo così com'è e riporta negli avvisi il valore con $H = 0$.
 
-Esempi con $B = 2$ m, $L = 3$ m, $D = 1$ m, $N = 600$ kN e $\gamma = 18$ kN/m³. Drenato con $\varphi' = 30$° e $c' = 0$: 704,29 kPa con $H = 0$ e 522,63 kPa con $H = 60$ kN lungo B, nella direzione di $B'$ (798,16 kPa nella direzione di $L'$). Non drenato con $c_u = 75$ kPa: 532,16 kPa con $H = 0$ e 455,04 kPa con $H = 60$ kN lungo B e anche con un'azione orizzontale di pochi newton, nella direzione di $L'$:
+Esempi con $B = 2$ m, $L = 3$ m, $D = 1$ m, $N = 600$ kN e $\gamma = 18$ kN/m³, senza falda, sovraccarico aggiuntivo o momenti, con terreno omogeneo e fattori di profondità attivi; confronto caratteristico. Drenato con $\varphi' = 30$° e $c' = 0$: 704,29 kPa con $H = 0$ e 522,63 kPa con $H_B = 60$ kN e $H_L = 0$, nella sola direzione di $B'$. Non drenato con $c_u = 75$ kPa: 532,16 kPa con $H = 0$ e 469,20 kPa con $H_B = 60$ kN e $H_L = 0$. Per $H_B \rightarrow 0^+$, mantenendo $H_L = 0$, il ramo non drenato inclinato tende invece a 480,74 kPa. Per il caso con 60 kN, le unità delle espressioni seguenti sono m, kN e kPa:
 
 ```math
-q_{lim} = (\pi + 2) \cdot 75 \cdot (1 + 0{,}4/3) + 18 = 455{,}04
+i'_c = 0{,}5 - 0{,}5\sqrt{1 - \frac{60}{2\cdot3\cdot75}} = 0{,}03452533
+s'_c = 0{,}2\,i'_c\,\frac{2}{3}
+d'_c = 0{,}4\,\frac{1}{2} = 0{,}2
+q_{lim} = (\pi + 2) \cdot 75 \cdot (1 + s'_c + d'_c - i'_c) + 18 = 469{,}20
 ```
 
 Bibliografia del metodo: J. Brinch Hansen, A revised and extended formula for bearing capacity, Danish Geotechnical Institute, Bulletin 28, 1970; U.S. Army Corps of Engineers, EM 1110-1-1905, Bearing Capacity of Soils, 1992, tabella 4-5.
