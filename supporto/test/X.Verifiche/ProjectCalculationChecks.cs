@@ -68,9 +68,12 @@ internal static class ProjectCalculationChecks
             var invalid = ProjectDocuments.CreateArchive();
             var broken = ProjectDocuments.AddProject(invalid);
             broken.Array("fogli").Add(J.Obj(("nome", "Foglio non supportato"), ("modulo_id", "inesistente")));
-            before = invalid.ToJsonString();
-            Reject(() => ProjectDocuments.AddSheet(broken, "str_palo"), "Eredità da modulo sconosciuto accettata");
-            Check(before == invalid.ToJsonString(), "Creazione fallita lascia un foglio inserito");
+            // A sheet without dati is no reference for a new sheet (BUG-EREDITA-SENZA-DATI): creation succeeds, inherits nothing and leaves it as in the file.
+            var unsupported = broken.Array("fogli")[0]!.ToJsonString();
+            var created = ProjectDocuments.AddSheet(broken, "str_palo");
+            Check(broken.Array("fogli").Count == 2 && ReferenceEquals(broken.Array("fogli")[1], created), "Scheda nuova accanto a una scheda senza dati non inserita");
+            Check(broken.Array("fogli")[0]!.ToJsonString() == unsupported, "Scheda senza dati di un modulo sconosciuto modificata");
+            Check(created["dati"]!.ToJsonString() == Anthea.Application.Modules.ModuleDirectory.CreateData("str_palo").ToJsonString(), "Scheda nuova eredita da una scheda senza dati");
         });
 
         log.Group("Ponte nel progetto", () =>
