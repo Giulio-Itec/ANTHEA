@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
 using Anthea.Presentation.Modules.EmbeddedWalls;
+using Anthea.Reports;
 
 namespace X.Desktop.Views.EmbeddedWalls;
 

@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
 using Anthea.Presentation.Modules.EmbeddedWalls;
+using Anthea.Reports;
 
 namespace X.Desktop.Views.EmbeddedWalls;
 
@@ -42,6 +43,8 @@ public sealed class EmbeddedWallDiagram : FrameworkElement
         { double y = PlotTop + h * i / TickIntervals; Text(EmbeddedWallDisplay.Number(top - (top - bottom) * i / TickIntervals, "m") + " m", 5, y - TickTextOffset); dc.DrawLine(new Pen(ink, .2), new Point(left, y), new Point(right, y)); }
         Text(Quantity + " — blu: " + PrimaryLabel + "; arancio: " + ComparisonLabel, left, 8);
         // Cifre significative (16/11): the scale of the drawing with the decimals of the quantity, «0» when the curve is all zero (no 1E-10).
+        string unit = EmbeddedWallDisplay.UnitOf(Quantity);
+        Text(EmbeddedWallDisplay.Number(-max, unit), left, BottomLabelOffset + h); Text("0", centre, BottomLabelOffset + h); Text(EmbeddedWallDisplay.Number(max, unit), right - RightLabelWidth, BottomLabelOffset + h);
         void Curve(IReadOnlyList<EmbeddedWallPointData>? points, Brush brush)
         {
             if (points is null || points.Count < 2) return;

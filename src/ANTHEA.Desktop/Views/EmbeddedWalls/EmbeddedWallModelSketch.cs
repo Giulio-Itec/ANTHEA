@@ -383,6 +383,8 @@ public sealed class EmbeddedWallModelSketch : FrameworkElement
         double x = legend.X + LegendPadding, y = legend.Y + LegendPadding;
         double name = x + LegendSwatch + LegendGap, gamma = name + nameWidth + LegendGap, phi = gamma + LegendValue + LegendGap, side = phi + LegendValue + LegendGap;
         var heading = text("Terreni", legend.Width, ink, SmallFontSize, true, 1); dc.DrawText(heading, new Point(x, y));
+        // C7: the units of the columns γ and φ′ in the title of the legend.
+        dc.DrawText(text("γ in kN/m³, φ′ in °", legend.Right - LegendPadding - (x + heading.Width + LegendGap), muted, SmallFontSize, false, 1), new Point(x + heading.Width + LegendGap, y));
         y += LegendRow + LegendTitleGap;
         dc.DrawText(text("Strato", nameWidth, muted, SmallFontSize, false, 1), new Point(name, y));
         dc.DrawText(text("γ", LegendValue, muted, SmallFontSize, false, 1), new Point(gamma, y));
