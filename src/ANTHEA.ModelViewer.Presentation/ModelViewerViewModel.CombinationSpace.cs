@@ -73,6 +73,9 @@ public sealed partial class ModelViewerViewModel
             if(!await PublishCombinationChangeAsync(s=>ModelCombinations.DiscardResults(s,ids),"Liberazione dei risultati salvati…",label))return;
         }
         catch(Exception ex) when(ex is InvalidDataException or InvalidOperationException){CombinationMessage="Risultati non liberati: "+ex.Message;return;}
+        // R6 (16/11/2026): the memory of the results freed goes back to Windows (18 GB stayed with the process after «Libera tutte»).
+        if(!disposed)await SystemMemory.ReleaseAsync();
+        if(disposed)return;
         RefreshCombinations(selected);
         freedLabel=UndoProjectChange is null?null:label;NotifyUndoFree();
         // R4 (16/11/2026): where the undo is, right after «Libera» (the user did not find it in the main window).
